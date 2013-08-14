@@ -1,0 +1,66 @@
+Reference:
+    http://www.lavrsen.dk/foswiki/bin/view/Motion/ConfigFileOptions
+v4l2:
+    * list devices: v4l2-ctl --list-devices
+    * list resolutions: v4l2-ctl -d device --list-formats-ext
+    * set brightness: v4l2-ctl -d device --set-ctrl brightess=0-100
+    
+
+General
+----------------
+target_dir                  path
+
+Video Device
+------------
+videodevice                 combo
+auto_brightness             boolean
+lightswitch                 0, 1..100 (%)
+brightness                  byte
+contrast                    byte
+hue                         byte
+saturation                  byte
+norm                        0 (PAL), 1 (NTSC), 2 (SECAM), 3 (PAL NoColor)
+width                       int (pixels)
+height                      int (pixels)
+rotate                      degrees
+framerate                   2 - 100
+
+Webcam Streaming
+---------------
+webcam_framerate            1 - 100
+webcam_motion               boolean
+webcam_quality              1 - 100
+
+Still Images
+--------------
+jpeg_filename               string
+quality                     1 - 100
+output_normal               off|first|best
+output_all                  boolean
+snapshot_interval           int (seconds)
+snapshot_filename           string
+
+Motion Movies
+-------------
+ffmpeg_cap_new              boolean
+movie_filename              string
+ffmpeg_variable_bitrate     0, 2..31
+ffmpeg_video_codec          mpeg4, msmpeg4, swf, flv, ffv1, mov
+
+Motion Detection
+----------------
+text_changes                boolean
+locate                      boolean
+minimum_motion_frames       1 - 1000
+noise_level                 byte
+noise_tune                  boolean
+threshold                   int (pixels)
+gap                         int (seconds)
+pre_capture                 0 - 100 (frames)
+post_capture                int (frames)
+
+Text Overlay
+------------
+text_double                 boolean
+text_left                   string
+text_right                  string

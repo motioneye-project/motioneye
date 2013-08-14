@@ -1,0 +1,16 @@
+{% extends "base-site.html" %}
+{% import "macros.html" as macros %}
+
+{% block style %}
+    {{super()}}
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/home.css" />
+{% endblock %}
+
+{% block page_content %}
+    <div class="video-list">
+        {{macros.video("/static/img/video1.jpg")}}
+        {{macros.video("/static/img/video2.jpg")}}
+        {{macros.video("/static/img/video1.jpg")}}
+        {{macros.video("/static/img/video2.jpg")}}
+    </div>
+{% endblock %}

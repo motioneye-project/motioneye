@@ -1,0 +1,305 @@
+{% extends "base.html" %}
+
+{% block style %}
+    {{super()}}
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base-site.css" />
+    <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/ui.css" />
+{% endblock %}
+
+{% block script %}
+    {{super()}}
+    <script type="text/javascript" src="{{STATIC_URL}}js/ui.js"></script>
+{% endblock %}
+
+{% block body %}
+    <div class="header">
+        <div class="header-container">
+            <img class="settings-button" src="{{STATIC_URL}}img/settings.png">
+            <div class="logo">
+                <a href="/">
+                    <span class="logo">motionEye</span>
+                    <img class="logo" src="{{STATIC_URL}}img/motioneye.png">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="page">
+        <div class="settings">
+            <div class="settings-container">
+                <div class="settings-section-title">General Settings</div>
+                <table class="settings">
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Enable motionEye</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Target Directory</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                </table>
+                
+                <div class="settings-section-title">
+                    <select class="video-device styled">
+                        <option>USB Camera 2.0</option>
+                        <option>A4Tech Camera</option>
+                    </select>
+                    Video Device
+                </div>
+                <table class="settings">
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Enable Video Device</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Camera Name</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value styled" name="device-name" id="device-name" placeholder="camera name..."></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Light Switch Detection</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Automatic Brightness</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Brightness</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value range styled" name="device-brightness" id="device-brightness"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Contrast</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value range styled" name="device-contrast" id="device-contrast"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Saturation</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value range styled" name="device-saturation" id="device-saturation"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Hue</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value range styled" name="device-hue" id="device-hue"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Video Resolution</span></td>
+                        <td class="settings-item-value">
+                            <select class="video-resolution styled">
+                                <option>640 x 480</option>
+                                <option>1024 x 768</option>
+                            </select>
+                        </td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Video Rotation</span></td>
+                        <td class="settings-item-value">
+                            <select class="video-resolution styled">
+                                <option>0&deg;</option>
+                                <option>90&deg;</option>
+                                <option>180&deg;</option>
+                                <option>270&deg;</option>
+                            </select>
+                            <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Frame Rate</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value range styled" name="device-framerate" id="device-framerate"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                </table>
+
+                <div class="settings-section-title">Video Streaming</div>
+                <table class="settings">
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Enable Video Streaming</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Streaming Frame Rate</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value range styled" name="streaming-framerate" id="streaming-framerate"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Streaming Quality</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value range styled" name="streaming-quality" id="streaming-quality"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Motion Optimization</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                </table>
+                
+                <div class="settings-section-title">Still Images</div>
+                <table class="settings">
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Enable Still Images</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Image File Name</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value styled" placeholder="file name pattern..."></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Image Quality</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value range styled" name="image-quality" id="image-quality"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Capture Mode</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled">
+                                <option>Motion Triggered</option>
+                                <option>Automated Snapshots</option>
+                                <option>All Frames</option>
+                            </select>
+                        </td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Snapshot Interval</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value styled number" name="image-snapshot-interval" id="image-snapshot-interval"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                </table>
+                
+                <div class="settings-section-title">Motion Movies</div>
+                <table class="settings">
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Enable Motion Movies</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Movie File Name</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value styled" placeholder="file name pattern..."></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Movie Quality</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value range styled" name="movie-quality" id="movie-quality"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                </table>
+                
+                <div class="settings-section-title">Motion Detection</div>
+                <table class="settings">
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Show Frame Changes</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Frame Change Threshold</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value range styled" name="motion-frame-change-threshold" id="motion-frame-change-threshold"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Automatic Noise Detection</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Noise Level</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value range styled" name="motion-noise-level" id="motion-noise-level"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Motion Gap</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value number styled" name="motion-gap" id="motion-gap"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Frames Captured Before</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value number styled" name="motion-pre-capture" id="motion-pre-capture"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Frames Captured After</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value number styled" name="motion-post-capture" id="motion-post-capture"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                </table>
+                
+                <div class="settings-section-title">Motion Notifications</div>
+                <table class="settings">
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Enable Email Notifications</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Email Address</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value styled" placeholder="email address..."></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Enable SMS Notifications</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="settings-item-value styled"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Phone Number</span></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value styled" placeholder="phone number..."></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                </table>
+
+                <div class="settings-section-title">Text Overlay</div>
+                <table class="settings">
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Left Text</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled">
+                                <option>Camera Name</option>
+                                <option>Timestamp</option>
+                                <option>Custom Text</option>
+                            </select>
+                        </td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value styled" placeholder="custom text..."></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Right Text</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled">
+                                <option>Camera Name</option>
+                                <option>Timestamp</option>
+                                <option>Custom Text</option>
+                            </select>
+                        </td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"></td>
+                        <td class="settings-item-value"><input type="text" class="settings-item-value styled" placeholder="custom text..."></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="page-container">
+            {% block page_content %}{% endblock %}
+        </div>
+        <div class="footer">
+            copyright &copy; Calin Crisan 2013
+        </div> 
+    </div>
+{% endblock %}

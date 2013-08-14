@@ -1,0 +1,5 @@
+*.log
+*.pyc
+*.bak
+.project
+.pydevproject

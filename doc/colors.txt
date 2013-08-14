@@ -1,0 +1,11 @@
+
+background: #212121 (13%)
+panel: #313131 (19%)
+panel-highlight: #414141 (25%)
+disabled-text: #aaaaaa (66%)
+normal-text: #dddddd (86%)
+focused-text: #ffffff (100%)
+
+action-text: #3498db
+action-border-unfocused: #2A6C96
+action-border-focused: #3498db

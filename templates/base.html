@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block meta %}
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+        {% endblock %}
+        <title>{% block title %}{% endblock %}</title>
+        {% block style %}
+            <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css" />
+        {% endblock %}
+        {% block script %}
+            <script type="text/javascript" src="{{STATIC_URL}}js/jquery.min.js"></script>
+            <script type="text/javascript" src="{{STATIC_URL}}js/base.js"></script>
+            <script type="text/javascript">
+                var staticUrl = '{{STATIC_URL}}';
+                $(document).ready(handleDocumentReady);
+            </script>
+        {% endblock %}
+    </head>
+    
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>

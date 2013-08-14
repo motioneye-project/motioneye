@@ -1,0 +1,45 @@
+
+div.video-list {
+    text-align: center;
+}
+
+div.video-frame {
+    width: 48%;
+    text-align: left;
+    background-color: #313131;
+    display: inline-block;
+    padding: 0px 5px;
+    border-radius: 3px;
+    transition: all 0.2s;
+    margin-bottom: 10px;
+}
+
+div.video-frame:HOVER {
+    background-color: #414141;
+}
+
+div.video-top-bar,
+div.video-bottom-bar {
+    padding: 3px;
+    font-size: 0.75em;
+}
+
+div.video-container {
+    padding: 0px;
+}
+
+img.video {
+    width: 100%;
+    display: block;
+}
+
+
+    /* media queries */
+
+@media all and (max-width: 1600px) {
+    /* smaller screens */
+    
+    div.video-frame {
+        width: 98%;
+    }
+}
