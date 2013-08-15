@@ -17,7 +17,13 @@ function makeCheckBox($input) {
     buttonDiv.append(text);
     mainDiv.append(buttonDiv);
     
-    $input.parent().append(mainDiv);
+    /* transfer the CSS classes */
+    mainDiv[0].className += ' ' + $input[0].className;
+    
+    /* add the element */
+    $input.after(mainDiv);
+    
+    /* add event handers */
     $input.change(function () {
         if (this.checked) {
             setOn();
@@ -187,11 +193,14 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         slider.attr('title', '' + $input.val() + unit);
     }
     
+    /* transfer the CSS classes */
+    slider[0].className += ' ' + $input[0].className;
+    
     /* handle input events */
     $input.change(input2slider).change();
     
     /* add the slider to the parent of the input */
-    $input.parent().append(slider);
+    $input.after(slider);
     
     /* make the slider focusable */
     slider[0].tabIndex = 0;

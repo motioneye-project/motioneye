@@ -43,8 +43,8 @@ div.check-box:HOVER {
 }
 
 div.check-box-button {
-    width: 1.25em;
-    height: 1em;
+    width: 50%;
+    height: 100%;
     left: 0px;
     background-color: #414141;
     color: #aaaaaa;
@@ -55,14 +55,13 @@ div.check-box-button {
 }
 
 span.check-box-text {
-    line-height: 1em;
     font-size: 0.5em;
     font-weight: bold;
-    vertical-align: middle;
+    vertical-align: top;
 }
 
 div.check-box.on div.check-box-button {
-    left: 1.25em;
+    left: 50%;
     background-color: #3498db;
     color: white;
 }

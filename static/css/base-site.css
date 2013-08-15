@@ -48,7 +48,6 @@ div.header {
     background-color: rgba(64, 64, 64, 0.5);
     height: 50px;
     position: relative;
-    z-index: 10;
 }
 
 div.header-container {
@@ -93,13 +92,18 @@ div.settings.open {
 }
 
 div.settings-container {
-    padding-top: 60px;
+    padding-top: 10px;
     display: none;
     white-space: nowrap;
 }
 
 div.settings.open div.settings-container {
     display: block;
+}
+
+div.settings-top-bar {
+    height: 50px;
+    background-color: #414141;
 }
 
 div.settings-section-title {
@@ -130,14 +134,40 @@ span.settings-item-label {
     font-size: 0.9em;
 }
 
-input.settings-item-value {
-    
+select.video-device {
+    padding: 4px 1.5em 4px 4px;
+    vertical-align: middle;
+    font-size: 20px;
 }
 
-select.video-device {
-    position: absolute;
-    left: 2px;
-    top: 2px;
+div.check-box.section {
+    margin: 0px;
+    float: left;
+}
+
+div.check-box.top-bar {
+    margin: 10px;
+    float: right;
+    width: 90px;
+    height: 30px;
+}
+
+div.check-box.top-bar div.check-box-button {
+    line-height: 30px;
+}
+
+div.check-box.top-bar div.check-box-button span.check-box-text {
+    font-size: 20px;
+}
+
+div.check-box.section div.check-box-button,
+div.check-box.top-bar div.check-box-button {
+    background-color: #515151;
+}
+
+div.check-box.on.section div.check-box-button,
+div.check-box.on.top-bar div.check-box-button {
+    background-color: #3498db;
 }
 
 
@@ -193,6 +223,7 @@ a {
 img.settings-button {
     margin: 2px;
     cursor: pointer;
+    vertical-align: middle;
 }
 
 div.logo {

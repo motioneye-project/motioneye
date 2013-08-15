@@ -4,15 +4,11 @@ function initUI() {
         makeCheckBox($(this));
     });
 
-//    $('select.styled').each(function () {
-//        makeComboBox($(this));
-//    });
-    
-    makeSlider($('#device-brightness'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#device-contrast'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#device-saturation'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#device-hue'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#device-framerate'), 1, 30, 0, [
+    makeSlider($('#brightnessSlider'), 0, 100, 0, null, 5, 0, '%');
+    makeSlider($('#contrastSlider'), 0, 100, 0, null, 5, 0, '%');
+    makeSlider($('#saturationSlider'), 0, 100, 0, null, 5, 0, '%');
+    makeSlider($('#hueSlider'), 0, 100, 0, null, 5, 0, '%');
+    makeSlider($('#framerateSlider'), 1, 30, 0, [
         {value: 1, label: '1'},
         {value: 5, label: '5'},
         {value: 10, label: '10'},
@@ -21,7 +17,7 @@ function initUI() {
         {value: 25, label: '25'},
         {value: 30, label: '30'}
     ], null, 0);
-    makeSlider($('#streaming-framerate'), 1, 30, 0, [
+    makeSlider($('#streamingFramerateSlider'), 1, 30, 0, [
         {value: 1, label: '1'},
         {value: 5, label: '5'},
         {value: 10, label: '10'},
@@ -30,11 +26,11 @@ function initUI() {
         {value: 25, label: '25'},
         {value: 30, label: '30'}
     ], null, 0);
-    makeSlider($('#streaming-quality'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#image-quality'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#movie-quality'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#motion-frame-change-threshold'), 0, 10000, 0, null, 3, 0, 'px');
-    makeSlider($('#motion-noise-level'), 0, 100, 0, null, 5, 0, '%');
+    makeSlider($('#streamingQualitySlider'), 0, 100, 0, null, 5, 0, '%');
+    makeSlider($('#imageQualitySlider'), 0, 100, 0, null, 5, 0, '%');
+    makeSlider($('#movieQualitySlider'), 0, 100, 0, null, 5, 0, '%');
+    makeSlider($('#frameChangeThresholdSlider'), 0, 10000, 0, null, 3, 0, 'px');
+    makeSlider($('#noiseLevelSlider'), 0, 100, 0, null, 5, 0, '%');
 }
 
 function handleDocumentReady() {
