@@ -16,7 +16,7 @@
     <div class="header">
         <div class="header-container">
             <div class="settings-top-bar">
-                <img class="settings-button" src="{{STATIC_URL}}img/settings.png">
+                <img class="settings-button" src="{{STATIC_URL}}img/settings.png" title="settings">
                 <select class="video-device styled" id="videoDeviceSelect">
                     <option>USB Camera 2.0</option>
                     <option>A4Tech Camera</option>
@@ -38,17 +38,17 @@
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Show Advanced Settings</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled general" id="showAdvancedSwitch"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="enable this to be able to access all the advanced settings">?</span></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">motionEye Username</span></td>
                         <td class="settings-item-value"><input type="text" class="styled general" id="motionEyeUsernameEntry"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="the username supplied when accessing motionEye">?</span></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">motionEye Password</span></td>
                         <td class="settings-item-value"><input type="password" class="styled general" id="motionEyePasswordEntry"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="the password that protects the access to motionEye">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
@@ -61,32 +61,32 @@
                                 <option>Network Share</option>
                             </select>
                         </td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="indicates the storage device where the image and video files will be saved">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Network Server</span></td>
                         <td class="settings-item-value"><input type="text" class="styled general" id="networkServerEntry"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="the address of the network server (IP address or hostname)">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Share Username</span></td>
                         <td class="settings-item-value"><input type="text" class="styled general" id="networkUsernameEntry"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="the username to be supplied when accessing the network share (leave empty if no username is required)">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Share Password</span></td>
                         <td class="settings-item-value"><input type="text" class="styled general" id="networkPasswordEntry"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="the password required by the network share (leave empty if no password is required)">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Share Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled general" id="networkShareNameEntry"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="the name of the network share">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Root Directory</span></td>
                         <td class="settings-item-value"><input type="text" class="styled general" id="rootDirectoryEntry"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="the root path (on the selected storage device) where the files will be saved">?</span></td>
                     </tr>
                 </table>
                 
@@ -95,7 +95,7 @@
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Camera Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled device" id="deviceNameEntry" placeholder="camera name..."></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="an alias for this camera device">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
@@ -103,32 +103,32 @@
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Light Switch Detection</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled device" id="lightSwitchDetectSwitch"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="enable this if you want sudden changes in light to not be treated as motion">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Automatic Brightness</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled device" id="autoBrightnessSwitch"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="enables software automatic brightness (not needed for most cameras)">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Brightness</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled device" id="brightnessSlider"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets a desired brightness level for this camera">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Contrast</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled device" id="contrastSlider"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets a desired contrast level for this camera">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Saturation</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled device" id="saturationSlider"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets a desired saturation (color) level for this camera">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Hue</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled device" id="hueSlider"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets a desired hue (color) for this camera">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
@@ -141,7 +141,7 @@
                                 <option>1024 x 768</option>
                             </select>
                         </td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="the video resolution (larger values yield better quality but require larger storage space and bandwidth)">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Video Rotation</span></td>
@@ -152,19 +152,19 @@
                                 <option>180&deg;</option>
                                 <option>270&deg;</option>
                             </select>
-                            <td><span class="help-mark">?</span></td>
+                            <td><span class="help-mark" title="use this to rotate the captured image, if your camera is not positioned correctly">?</span></td>
                         </td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Frame Rate</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled device" id="framerateSlider"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the number of frames captured by the camera every second (higher values yield smoother videos but require larger storage space and bandwidth)">?</span></td>
                     </tr>
                 </table>
 
                 <div class="settings-section-title"><input type="checkbox" class="styled section">Text Overlay</div>
                 <table class="settings">
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Left Text</span></td>
                         <td class="settings-item-value">
                             <select class="styled text-overlay" id="leftTextSelect">
@@ -173,14 +173,14 @@
                                 <option>Custom Text</option>
                             </select>
                         </td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the text displayed on the movies and images, on the lower left corner">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"></td>
                         <td class="settings-item-value"><input type="text" class="styled text-overlay" id="leftTextEntry" placeholder="custom text..."></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets a custom left text; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %T = HH:MM:SS, %q = frame number, \n = new line">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Right Text</span></td>
                         <td class="settings-item-value">
                             <select class="styled text-overlay" id="rightTextSelect">
@@ -189,12 +189,12 @@
                                 <option>Custom Text</option>
                             </select>
                         </td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the text displayed on the movies and images, on the lower right corner">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"></td>
                         <td class="settings-item-value"><input type="text" class="styled text-overlay" id="rightTextEntry" placeholder="custom text..."></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets a custom right text; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %T = HH:MM:SS, %q = frame number, \n = new line">?</span></td>
                     </tr>
                 </table>
 
@@ -203,17 +203,17 @@
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Streaming Frame Rate</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled streaming" id="streamingFramerateSlider"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the number of frames transmitted every second on the live streaming">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Streaming Quality</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled streaming" id="streamingQualitySlider"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the live streaming quality (higher values yield a better video quality but require more bandwidth)">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Motion Optimization</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled streaming" id="motionOptimizationSwitch"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="enable this if you want a lower frame rate for the live streaming while no motion is detected">?</span></td>
                     </tr>
                 </table>
                 
@@ -222,12 +222,12 @@
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Image File Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled still-images" id="imageFileNameEntry" placeholder="file name pattern..."></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the name pattern for the image (JPEG) files; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number, / = subfolder">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Image Quality</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled still-images" id="imageQualitySlider"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the JPEG image quality (higher values yield a better image quality but require more storage space)">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Capture Mode</span></td>
@@ -238,12 +238,25 @@
                                 <option>All Frames</option>
                             </select>
                         </td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the image capture mode: Motion Triggered = an image captured whenever motion is detected, Automated Snapshots = an image captured every x seconds, All Frames = saves each frame into an image file">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Snapshot Interval</span></td>
                         <td class="settings-item-value"><input type="text" class="styled number still-images" id="snapshotIntervalEntry"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the interval (in seconds) for the automated snapshots">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Preserve Images</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled still-images" id="preserveImagesSelect">
+                                <option>For One Day</option>
+                                <option>For One Week</option>
+                                <option>For One Month</option>
+                                <option>For One Year</option>
+                                <option>Forever</option>
+                            </select>
+                        </td>
+                        <td><span class="help-mark" title="images older than the specified duration are automatically deleted to free storage space">?</span></td>
                     </tr>
                 </table>
                 
@@ -252,17 +265,17 @@
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Movie File Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled motion-movies" id="movieFileNameEntry" placeholder="file name pattern..."></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the name pattern for the movie (MPEG) files; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number, / = subfolder">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Movie Quality</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled motion-movies" id="movieQualitySlider"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the MPEG video quality (higher values yield a better video quality but require more storage space)">?</span></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Preserve Movies</span></td>
                         <td class="settings-item-value">
-                            <select class="styled motion-movies" id="preserveSelect">
+                            <select class="styled motion-movies" id="preserveMoviesSelect">
                                 <option>For One Day</option>
                                 <option>For One Week</option>
                                 <option>For One Month</option>
@@ -270,7 +283,7 @@
                                 <option>Forever</option>
                             </select>
                         </td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="movies older than the specified duration are automatically deleted to free storage space">?</span></td>
                     </tr>
                 </table>
                 
@@ -279,22 +292,22 @@
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Show Frame Changes</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled motion-detection" id="showFrameChangesSwitch"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="if this is enabled, frame changes (number of pixels as well as the changed area) are shown on the video; temporarily enable this option to help adjust the motion detection parameters">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Frame Change Threshold</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled motion-detection" id="frameChangeThresholdSlider"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="indicates the minimal number of pixels that must change between to frames in order for motion to be detected (smaller values give a more sensitive detection, but are prone to false positives)">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Automatic Noise Detection</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled motion-detection" id="autoNoiseDetectSwitch"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="enable this to automatically adjust the noise level">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Noise Level</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled motion-detection" id="noiseLevelSlider"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="manually sets the noise level to a fixed value">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
@@ -302,17 +315,17 @@
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Motion Gap</span></td>
                         <td class="settings-item-value"><input type="text" class="number styled motion-detection" id="gapEntry"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the number of seconds of silence (i.e. no motion) that mark the end of a motion event">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Frames Captured Before</span></td>
                         <td class="settings-item-value"><input type="text" class="number styled motion-detection" id="preCaptureEntry"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the number of frames to be captured (and included in the movie) before a motion event is detected">?</span></td>
                     </tr>
                     <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Frames Captured After</span></td>
                         <td class="settings-item-value"><input type="text" class="number styled motion-detection" id="postCaptureEntry"></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="sets the number of frames to be captured (and included in the movie) after a motion event is detected">?</span></td>
                     </tr>
                 </table>
                 
@@ -321,12 +334,12 @@
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Email Address</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications" id="emailAddressEntry" placeholder="email address..."></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="email addresses (separated by comma) that are added here will receive notifications whenever a motion event is detected (leave empty to disable email notifications)">?</span></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Phone Number</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications" id="phoneNumberEntry" placeholder="phone number..."></td>
-                        <td><span class="help-mark">?</span></td>
+                        <td><span class="help-mark" title="phone numbers (separated by comma) that are added here will receive SMS notifications whenever a motion event is detected (leave empty to disable SMS notifications)">?</span></td>
                     </tr>
                 </table>
             </div>
