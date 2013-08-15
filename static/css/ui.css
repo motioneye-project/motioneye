@@ -105,7 +105,6 @@ input[type=text].number {
 
 select.styled {
     -webkit-appearance: none;
-    -moz-appearance: none;
     appearance: none;
     width: 90%;
     border: 1px solid #2A6C96;
@@ -126,12 +125,18 @@ select.styled {
 
 select.styled:FOCUS {
     background-color: #414141;
+    appearance: auto;
 }
 
 select.styled:HOVER,
 select.styled:FOCUS {
     border-color: #3498db;
     color: white;
+}
+
+.ff select.styled {
+    background-image: none;
+    padding-right: 1px;
 }
 
 

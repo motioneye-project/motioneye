@@ -38,7 +38,6 @@ div.header-container {
 }
 
 div.page {
-    min-height: 2000px;
     padding-bottom: 20px;
     font-size: 1em;
     transition: all 0.5s;
@@ -79,10 +78,10 @@ div.page-container.stretched {
 div.settings {
     background-color: #313131;
     position: absolute;
-    top: -50px;
+    top: 0px;
     left: 0px;
-    bottom: 0px;
     width: 0px;
+    min-height: 100%;
     transition: all 0.2s;
     overflow: hidden;
 }
@@ -102,7 +101,12 @@ div.settings.open div.settings-container {
 }
 
 div.settings-top-bar {
+    display: inline-block;
+    width: 40%;
     height: 50px;
+}
+
+div.settings-top-bar.open {
     background-color: #414141;
 }
 
@@ -115,7 +119,7 @@ div.settings-section-title {
 
 table.settings {
     width: 100%;
-    padding: 0.5em 0.5em 2em 0.5em;
+    padding: 0.5em 0.5em 1em 0.5em;
 }
 
 td.settings-item-label {
@@ -141,10 +145,15 @@ div.settings-item-separator {
 }
 
 select.video-device {
+    display: none;
     padding: 4px 1.5em 4px 4px;
     vertical-align: middle;
     font-size: 20px;
     width: auto;
+}
+
+div.settings-top-bar.open select.video-device {
+    display: inline;
 }
 
 div.check-box.section {
@@ -152,29 +161,16 @@ div.check-box.section {
     float: left;
 }
 
-div.check-box.top-bar {
-    margin: 10px;
-    float: right;
-    width: 90px;
-    height: 30px;
-}
-
-div.check-box.top-bar div.check-box-button {
-    line-height: 30px;
-}
-
-div.check-box.top-bar div.check-box-button span.check-box-text {
-    font-size: 20px;
-}
-
-div.check-box.section div.check-box-button,
-div.check-box.top-bar div.check-box-button {
+div.check-box.section div.check-box-button {
     background-color: #515151;
 }
 
-div.check-box.on.section div.check-box-button,
-div.check-box.on.top-bar div.check-box-button {
+div.check-box.on.section div.check-box-button {
     background-color: #3498db;
+}
+
+tr.advanced-setting {
+    display: none;
 }
 
 
@@ -192,13 +188,13 @@ div.check-box.on.top-bar div.check-box-button {
     /* mobile devices */
     
     body {
-        font-size: 25px;
+        font-size: 17px;
     }
     
     div.page,
     div.header-container {
         width: 100%;
-        min-width: 480px;
+        min-width: 320px;
     }
     
     div.header {
@@ -209,10 +205,14 @@ div.check-box.on.top-bar div.check-box-button {
         margin-left: 0px;
     }
     
+    div.settings-top-bar,
+    div.settings-top-bar.open {
+        width: auto;
+        background-color: transparent;
+    }
+    
     div.settings.open {
-        width: 80%;
-        box-shadow: 0px 0px 30px rgba(0,0,0,0.8);
-        background-color: rgba(48, 48, 48, 0.9);
+        width: 100%;
     }
 }
 
@@ -235,6 +235,7 @@ img.settings-button {
 
 div.logo {
     float: right;
+    display: inline-block;
     white-space: nowrap;
     opacity: 0.86;
 }

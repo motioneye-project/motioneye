@@ -8,13 +8,20 @@
 
 {% block script %}
     {{super()}}
+    <script type="text/javascript" src="{{STATIC_URL}}js/css-browser-selector.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/ui.js"></script>
 {% endblock %}
 
 {% block body %}
     <div class="header">
         <div class="header-container">
-            <img class="settings-button" src="{{STATIC_URL}}img/settings.png">
+            <div class="settings-top-bar">
+                <img class="settings-button" src="{{STATIC_URL}}img/settings.png">
+                <select class="video-device styled" id="videoDeviceSelect">
+                    <option>USB Camera 2.0</option>
+                    <option>A4Tech Camera</option>
+                </select>
+            </div>
             <div class="logo">
                 <a href="/">
                     <span class="logo">motionEye</span>
@@ -25,36 +32,28 @@
     </div>
     <div class="page">
         <div class="settings">
-            <div class="settings-top-bar">
-                <img class="settings-button" src="{{STATIC_URL}}img/settings.png">
-                <select class="video-device styled" id="videoDeviceSelect">
-                    <option>USB Camera 2.0</option>
-                    <option>A4Tech Camera</option>
-                </select>
-                <input type="checkbox" class="styled top-bar" id="generalSwitch">
-            </div>
             <div class="settings-container">
-                <div class="settings-section-title">General Settings</div>
+                <div class="settings-section-title"><input type="checkbox" class="styled section" id="motionEyeSwitch">General Settings</div>
                 <table class="settings">
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Show Advanced Settings</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled general" id="showAdvancedSwitch"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">motionEye Username</span></td>
                         <td class="settings-item-value"><input type="text" class="styled general" id="motionEyeUsernameEntry"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">motionEye Password</span></td>
                         <td class="settings-item-value"><input type="password" class="styled general" id="motionEyePasswordEntry"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Storage Device</span></td>
                         <td class="settings-item-value">
                             <select class="styled general" id="storageDeviceSelect">
@@ -62,32 +61,32 @@
                                 <option>Network Share</option>
                             </select>
                         </td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Network Server</span></td>
                         <td class="settings-item-value"><input type="text" class="styled general" id="networkServerEntry"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Share Username</span></td>
                         <td class="settings-item-value"><input type="text" class="styled general" id="networkUsernameEntry"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Share Password</span></td>
                         <td class="settings-item-value"><input type="text" class="styled general" id="networkPasswordEntry"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Share Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled general" id="networkShareNameEntry"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Root Directory</span></td>
                         <td class="settings-item-value"><input type="text" class="styled general" id="rootDirectoryEntry"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                 </table>
                 
@@ -96,45 +95,45 @@
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Camera Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled device" id="deviceNameEntry" placeholder="camera name..."></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Light Switch Detection</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled device" id="lightSwitchDetectSwitch"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Automatic Brightness</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled device" id="autoBrightnessSwitch"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Brightness</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled device" id="brightnessSlider"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Contrast</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled device" id="contrastSlider"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Saturation</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled device" id="saturationSlider"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Hue</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled device" id="hueSlider"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Video Resolution</span></td>
                         <td class="settings-item-value">
                             <select class="video-resolution styled device" id="resolutionSelect">
@@ -142,9 +141,9 @@
                                 <option>1024 x 768</option>
                             </select>
                         </td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Video Rotation</span></td>
                         <td class="settings-item-value">
                             <select class="video-resolution styled device" id="rotationSelect">
@@ -153,13 +152,13 @@
                                 <option>180&deg;</option>
                                 <option>270&deg;</option>
                             </select>
-                            <td class="settings-item-value"><span class="help-mark">?</span></td>
+                            <td><span class="help-mark">?</span></td>
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Frame Rate</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled device" id="framerateSlider"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                 </table>
 
@@ -174,12 +173,12 @@
                                 <option>Custom Text</option>
                             </select>
                         </td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"></td>
                         <td class="settings-item-value"><input type="text" class="styled text-overlay" id="leftTextEntry" placeholder="custom text..."></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Right Text</span></td>
@@ -190,47 +189,47 @@
                                 <option>Custom Text</option>
                             </select>
                         </td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"></td>
                         <td class="settings-item-value"><input type="text" class="styled text-overlay" id="rightTextEntry" placeholder="custom text..."></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                 </table>
 
                 <div class="settings-section-title"><input type="checkbox" class="styled section">Video Streaming</div>
                 <table class="settings">
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Streaming Frame Rate</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled streaming" id="streamingFramerateSlider"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Streaming Quality</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled streaming" id="streamingQualitySlider"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Motion Optimization</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled streaming" id="motionOptimizationSwitch"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                 </table>
                 
                 <div class="settings-section-title"><input type="checkbox" class="styled section">Still Images</div>
                 <table class="settings">
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Image File Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled still-images" id="imageFileNameEntry" placeholder="file name pattern..."></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Image Quality</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled still-images" id="imageQualitySlider"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Capture Mode</span></td>
                         <td class="settings-item-value">
                             <select class="styled still-images" id="captureModeSelect">
@@ -239,26 +238,26 @@
                                 <option>All Frames</option>
                             </select>
                         </td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Snapshot Interval</span></td>
                         <td class="settings-item-value"><input type="text" class="styled number still-images" id="snapshotIntervalEntry"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                 </table>
                 
                 <div class="settings-section-title"><input type="checkbox" class="styled section">Motion Movies</div>
                 <table class="settings">
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Movie File Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled motion-movies" id="movieFileNameEntry" placeholder="file name pattern..."></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Movie Quality</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled motion-movies" id="movieQualitySlider"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Preserve Movies</span></td>
@@ -271,49 +270,49 @@
                                 <option>Forever</option>
                             </select>
                         </td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                 </table>
                 
                 <div class="settings-section-title">Motion Detection</div>
                 <table class="settings">
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Show Frame Changes</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled motion-detection" id="showFrameChangesSwitch"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Frame Change Threshold</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled motion-detection" id="frameChangeThresholdSlider"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Automatic Noise Detection</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled motion-detection" id="autoNoiseDetectSwitch"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Noise Level</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled motion-detection" id="noiseLevelSlider"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Motion Gap</span></td>
                         <td class="settings-item-value"><input type="text" class="number styled motion-detection" id="gapEntry"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Frames Captured Before</span></td>
                         <td class="settings-item-value"><input type="text" class="number styled motion-detection" id="preCaptureEntry"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
-                    <tr>
+                    <tr class="advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Frames Captured After</span></td>
                         <td class="settings-item-value"><input type="text" class="number styled motion-detection" id="postCaptureEntry"></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                 </table>
                 
@@ -322,12 +321,12 @@
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Email Address</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications" id="emailAddressEntry" placeholder="email address..."></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Phone Number</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications" id="phoneNumberEntry" placeholder="phone number..."></td>
-                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                        <td><span class="help-mark">?</span></td>
                     </tr>
                 </table>
             </div>

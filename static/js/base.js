@@ -34,18 +34,18 @@ function initUI() {
 }
 
 function handleDocumentReady() {
-//    $('body').click(function () {
-//        if ($('div.settings').hasClass('open')) {
-//            $('div.settings').removeClass('open');
-//            $('div.page-container').removeClass('stretched');
-//        }
-//        else {
-//        }
-//    });
-//    
-    $('div.settings').addClass('open');
-    $('div.page-container').addClass('stretched');
-    $('div.page').css('min-height', $('div.settings').height() + 100);
+    $('img.settings-button').click(function () {
+        if ($('div.settings').hasClass('open')) {
+            $('div.settings').removeClass('open');
+            $('div.page-container').removeClass('stretched');
+            $('div.settings-top-bar').removeClass('open');
+        }
+        else {
+            $('div.settings').addClass('open');
+            $('div.page-container').addClass('stretched');
+            $('div.settings-top-bar').addClass('open');
+        }
+    });
     
     initUI();
 }
