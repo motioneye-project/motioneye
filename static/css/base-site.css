@@ -134,10 +134,17 @@ span.settings-item-label {
     font-size: 0.9em;
 }
 
+div.settings-item-separator {
+    height: 1px;
+    border-top: 1px solid #414141;
+    margin: 5px 0px;
+}
+
 select.video-device {
     padding: 4px 1.5em 4px 4px;
     vertical-align: middle;
     font-size: 20px;
+    width: auto;
 }
 
 div.check-box.section {

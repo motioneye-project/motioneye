@@ -42,8 +42,51 @@
                         <td class="settings-item-value"><span class="help-mark">?</span></td>
                     </tr>
                     <tr>
-                        <td class="settings-item-label"><span class="settings-item-label">Target Directory</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general" id="targetDirectoryEntry"></td>
+                        <td class="settings-item-label"><span class="settings-item-label">motionEye Username</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled general" id="motionEyeUsernameEntry"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">motionEye Password</span></td>
+                        <td class="settings-item-value"><input type="password" class="styled general" id="motionEyePasswordEntry"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Storage Device</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled general" id="storageDeviceSelect">
+                                <option>Local Disk</option>
+                                <option>Network Share</option>
+                            </select>
+                        </td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Network Server</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled general" id="networkServerEntry"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Share Username</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled general" id="networkUsernameEntry"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Share Password</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled general" id="networkPasswordEntry"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Share Name</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled general" id="networkShareNameEntry"></td>
+                        <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Root Directory</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled general" id="rootDirectoryEntry"></td>
                         <td class="settings-item-value"><span class="help-mark">?</span></td>
                     </tr>
                 </table>
@@ -54,6 +97,9 @@
                         <td class="settings-item-label"><span class="settings-item-label">Camera Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled device" id="deviceNameEntry" placeholder="camera name..."></td>
                         <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Light Switch Detection</span></td>
@@ -84,6 +130,9 @@
                         <td class="settings-item-label"><span class="settings-item-label">Hue</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled device" id="hueSlider"></td>
                         <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Video Resolution</span></td>
@@ -247,6 +296,9 @@
                         <td class="settings-item-label"><span class="settings-item-label">Noise Level</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled motion-detection" id="noiseLevelSlider"></td>
                         <td class="settings-item-value"><span class="help-mark">?</span></td>
+                    </tr>
+                    <tr>
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
                     <tr>
                         <td class="settings-item-label"><span class="settings-item-label">Motion Gap</span></td>

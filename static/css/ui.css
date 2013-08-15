@@ -69,6 +69,7 @@ div.check-box.on div.check-box-button {
 
     /* input box */
 
+input[type=password].styled,
 input[type=text].styled {
     width: 90%;
     border: 1px solid #2A6C96;
@@ -82,10 +83,13 @@ input[type=text].styled {
     transition: all 0.1s;
 }
 
+input[type=password].styled:FOCUS,
 input[type=text].styled:FOCUS {
     background-color: #414141;
 }
 
+input[type=password].styled:HOVER,
+input[type=password].styled:FOCUS,
 input[type=text].styled:HOVER,
 input[type=text].styled:FOCUS {
     border-color: #3498db;
@@ -103,6 +107,7 @@ select.styled {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    width: 90%;
     border: 1px solid #2A6C96;
     border-radius: 2px;
     background-color: transparent;
