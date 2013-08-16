@@ -6,3 +6,4 @@ ffmpeg
 motion
 nginx
 v4l-utils
+smbclient

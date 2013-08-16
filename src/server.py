@@ -8,7 +8,7 @@ import template
 
 application = Application(
     [
-        (r'^/$', handlers.HomeHandler),
+        (r'^/$', handlers.MainHandler),
     ],
     debug=settings.DEBUG,
     static_path=settings.STATIC_PATH,

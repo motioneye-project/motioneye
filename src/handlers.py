@@ -12,6 +12,6 @@ class BaseHandler(RequestHandler):
         self.finish(content)
 
 
-class HomeHandler(BaseHandler):
+class MainHandler(BaseHandler):
     def get(self):
-        self.render('home.html')
+        self.render('main.html')
