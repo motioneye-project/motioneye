@@ -36,6 +36,21 @@ function initUI() {
     makeNumberValidator($('#gapEntry'), 1, 86400, false, false);
     makeNumberValidator($('#preCaptureEntry'), 0, 100, false, false);
     makeNumberValidator($('#postCaptureEntry'), 0, 100, false, false);
+    
+    makeTimeValidator($('#mondayFrom'));
+    makeTimeValidator($('#mondayTo'))
+    makeTimeValidator($('#tuesdayFrom'));
+    makeTimeValidator($('#tuesdayTo'))
+    makeTimeValidator($('#wednesdayFrom'));
+    makeTimeValidator($('#wednesdayTo'))
+    makeTimeValidator($('#thursdayFrom'));
+    makeTimeValidator($('#thursdayTo'))
+    makeTimeValidator($('#fridayFrom'));
+    makeTimeValidator($('#fridayTo'))
+    makeTimeValidator($('#saturdayFrom'));
+    makeTimeValidator($('#saturdayTo'))
+    makeTimeValidator($('#sundayFrom'));
+    makeTimeValidator($('#sundayTo'))
 }
 
 $(document).ready(function () {
@@ -50,7 +65,7 @@ $(document).ready(function () {
             $('div.page-container').addClass('stretched');
             $('div.settings-top-bar').addClass('open');
         }
-    });
+    }).click();
     
     initUI();
 });

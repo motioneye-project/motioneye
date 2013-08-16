@@ -27,9 +27,12 @@
  
     /* layout */
 
+html {
+    font-family: 'Maven Pro';
+}
+
 div.page,
 div.header-container {
-    font-family: 'Maven Pro';
     position: relative;
     min-width: 1000px;
     max-width: 1580px;
@@ -78,6 +81,7 @@ div.page-container.stretched {
 div.settings {
     background-color: #313131;
     position: absolute;
+    z-index: 1;
     top: 0px;
     left: 0px;
     width: 0px;
@@ -140,7 +144,7 @@ span.settings-item-label {
 
 span.settings-item-unit {
     font-size: 0.6em;
-    padding-left: 5px;
+    padding: 0px 0.2em;
 }
 
 div.settings-item-separator {
@@ -172,6 +176,10 @@ div.check-box.section div.check-box-button {
 
 div.check-box.on.section div.check-box-button {
     background-color: #3498db;
+}
+
+input[type=text].working-schedule.number {
+    width: 50px;
 }
 
 

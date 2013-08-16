@@ -8,11 +8,15 @@
         {% endblock %}
         <title>{% block title %}{% endblock %}</title>
         {% block style %}
+            <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/jquery.timepicker.css" />
             <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/base.css" />
         {% endblock %}
         {% block script %}
+            <script type="text/javascript" src="{{STATIC_URL}}js/css-browser-selector.js"></script>
             <script type="text/javascript" src="{{STATIC_URL}}js/jquery.min.js"></script>
+            <script type="text/javascript" src="{{STATIC_URL}}js/jquery.timepicker.min.js"></script>
             <script type="text/javascript" src="{{STATIC_URL}}js/base.js"></script>
+            
             <script type="text/javascript">
                 var staticUrl = '{{STATIC_URL}}';
             </script>

@@ -293,5 +293,33 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     }
     
     $input.keyup(validate);
-    $input.change(validate);
+    $input.change(validate).change();
+}
+
+function makeTimeValidator($input) {
+    function isValid(strVal) {
+        return strVal.match('^[0-2][0-9]:[0-5][0-9]$') != null;
+    }
+    
+    var msg = 'enter a valid time in the following format: HH:MM';
+    
+    function validate() {
+        var strVal = $input.val();
+        if (isValid(strVal)) {
+            $input.attr('title', '');
+            $input.removeClass('error');
+        }
+        else {
+            $input.attr('title', msg);
+            $input.addClass('error');
+        }
+    }
+    
+    $input.keyup(validate);
+    $input.change(validate).change();
+    $input.timepicker({
+        closeOnWindowScroll: true,
+        selectOnBlur: true,
+        timeFormat: 'H:i',
+    });
 }

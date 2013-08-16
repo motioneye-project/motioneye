@@ -8,7 +8,6 @@
 
 {% block script %}
     {{super()}}
-    <script type="text/javascript" src="{{STATIC_URL}}js/css-browser-selector.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/ui.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/base-site.js"></script>
 {% endblock %}
@@ -341,6 +340,66 @@
                         <td class="settings-item-label"><span class="settings-item-label">Phone Number</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications" id="phoneNumberEntry" placeholder="phone number..."></td>
                         <td><span class="help-mark" title="phone numbers (separated by comma) that are added here will receive SMS notifications whenever a motion event is detected (leave empty to disable SMS notifications)">?</span></td>
+                    </tr>
+                </table>
+
+                <div class="settings-section-title"><input type="checkbox" class="styled section">Working Schedule</div>
+                <table class="settings">
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Monday</span></td>
+                        <td class="settings-item-value">
+                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="mondayFrom">
+                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="mondayTo">
+                        </td>
+                        <td><span class="help-mark" title="sets the working schedule time interval for Mondays">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Tuesday</span></td>
+                        <td class="settings-item-value">
+                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="tuesdayFrom">
+                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="tuesdayTo">
+                        </td>
+                        <td><span class="help-mark" title="sets the working schedule time interval for Tuesdays">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Wednesday</span></td>
+                        <td class="settings-item-value">
+                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="wednesdayFrom">
+                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="wednesdayTo">
+                        </td>
+                        <td><span class="help-mark" title="sets the working schedule time interval for Wednesdays">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Thursday</span></td>
+                        <td class="settings-item-value">
+                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="thursdayFrom">
+                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="thursdayTo">
+                        </td>
+                        <td><span class="help-mark" title="sets the working schedule time interval for Thursdays">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Friday</span></td>
+                        <td class="settings-item-value">
+                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="fridayFrom">
+                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="fridayTo">
+                        </td>
+                        <td><span class="help-mark" title="sets the working schedule time interval for Friday">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Saturday</span></td>
+                        <td class="settings-item-value">
+                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="saturdayFrom">
+                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="saturdayTo">
+                        </td>
+                        <td><span class="help-mark" title="sets the working schedule time interval for Saturday">?</span></td>
+                    </tr>
+                    <tr>
+                        <td class="settings-item-label"><span class="settings-item-label">Sunday</span></td>
+                        <td class="settings-item-value">
+                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="sundayFrom">
+                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="sundayTo">
+                        </td>
+                        <td><span class="help-mark" title="sets the working schedule time interval for Sunday">?</span></td>
                     </tr>
                 </table>
             </div>

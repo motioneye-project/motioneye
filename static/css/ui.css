@@ -107,6 +107,10 @@ input[type=password].error {
     background-repeat: no-repeat;
 }
 
+input[type=text].time {
+    width: 75px;
+}
+
 
     /* combo box */
 
