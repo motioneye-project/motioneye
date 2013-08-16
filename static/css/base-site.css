@@ -138,6 +138,11 @@ span.settings-item-label {
     font-size: 0.9em;
 }
 
+span.settings-item-unit {
+    font-size: 0.6em;
+    padding-left: 5px;
+}
+
 div.settings-item-separator {
     height: 1px;
     border-top: 1px solid #414141;

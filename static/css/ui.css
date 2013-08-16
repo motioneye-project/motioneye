@@ -97,7 +97,14 @@ input[type=text].styled:FOCUS {
 }
 
 input[type=text].number {
-    width: 50px;
+    width: 100px;
+}
+
+input[type=text].error,
+input[type=password].error {
+    background-image: url(../img/validation-error.png);
+    background-position: center right;
+    background-repeat: no-repeat;
 }
 
 

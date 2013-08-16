@@ -31,6 +31,11 @@ function initUI() {
     makeSlider($('#movieQualitySlider'), 0, 100, 0, null, 5, 0, '%');
     makeSlider($('#frameChangeThresholdSlider'), 0, 10000, 0, null, 3, 0, 'px');
     makeSlider($('#noiseLevelSlider'), 0, 100, 0, null, 5, 0, '%');
+    
+    makeNumberValidator($('#snapshotIntervalEntry'), 1, 86400, false, false);
+    makeNumberValidator($('#gapEntry'), 1, 86400, false, false);
+    makeNumberValidator($('#preCaptureEntry'), 0, 100, false, false);
+    makeNumberValidator($('#postCaptureEntry'), 0, 100, false, false);
 }
 
 function handleDocumentReady() {

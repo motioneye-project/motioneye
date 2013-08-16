@@ -215,255 +215,83 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     return slider;
 }
 
-//function makeComboBox($select) {
-//    var container = $('<div class="combo-box-container"></div>');
-//    var buttonDiv = $('<div class="combo-box"></div>');
-//    var opened = false;
-//    var fading = false;
-//    var defaultCaption = null;
-//    var searchStr = '';
-//    
-//    container.append(buttonDiv);
-//
-//    var captionSpan = $('<span></span>');
-//    buttonDiv.append(captionSpan);
-//    buttonDiv.css('text-align', 'left');
-//    
-//    var arrowSpan = $('<span class="combo-box-arrow">&#x25BC;</span>');
-//    buttonDiv.append(arrowSpan);
-//    
-//    var itemContainer = $('<div class="combo-box-item-container"</div>');
-//    container.append(itemContainer);
-//    itemContainer.mousedown(function () {
-//        return false;
-//    });
-//    
-//    itemContainer[0].tabIndex = 0;
-//    
-//    var itemDivs = [];
-//    var captions = {};
-//    $select.find('option').each(function () {
-//        var option = $(this);
-//        var caption = option.html();
-//        var value = option.val();
-//        
-//        if (value == '') {
-//            defaultCaption = caption;
-//        }
-//        
-//        var itemDiv = $('<div class="combo-box-item">' + caption + '<div>');
-//        itemContainer.append(itemDiv);
-//        
-//        itemDiv.click(function () {
-//            setSelectedValue(value);
-//            close();
-//        });
-//        itemDiv.mouseover(function () {
-//            selectItemDiv(itemDiv);
-//        });
-//        
-//        itemDiv[0]._value = value;
-//        
-//        itemDivs.push(itemDiv);
-//        captions[value] = caption;
-//    });
-//    
-//    $select.after(container);
-//    buttonDiv.width(itemContainer.width() - 12);
-//    
-//    $select.change(function () {
-//        setSelectedValue($select.val(), true);
-//    }).change();
-//    
-//    function setSelectedValue(value, skipSelect) {
-//        var caption = captions[value];
-//        if (caption == null) {
-//            if (defaultCaption == null) {
-//                return;
-//            }
-//            caption = defaultCaption;
-//        }
-//        captionSpan.html(caption);
-//        if (!skipSelect) {
-//            $select.val(value);
-//        }
-//        
-//        var itemDiv = getItemDivByValue(value);
-//        if (itemDiv) {
-//            selectItemDiv(itemDiv);
-//        }
-//    }
-//    
-//    function handleKeyDown(e) {
-//        if (e.which == 13) { /* enter */
-//            var itemDiv = itemContainer.find('div.combo-box-item-selected');
-//            if (!itemDiv.length) {
-//                return;
-//            }
-//            
-//            var value = getValueByItemDiv(itemDiv);
-//            setSelectedValue(value);
-//            close();
-//        }
-//        else if (e.which == 8) { /* backspace */
-//            if (searchStr.length) {
-//                searchStr = searchStr.substring(0, searchStr.length - 1);
-//            }
-//        }
-//        else if (e.which == 27) { /* escape */
-//            close();
-//        }
-//        else if (e.which == 38) { /* up */
-//            selectPrev();
-//            return false;
-//        }
-//        else if (e.which == 40) { /* down */
-//            selectNext();
-//            return false;
-//        }
-//    }
-//    
-//    function handleKeyPress(e) {
-//        searchStr += String.fromCharCode(e.which).toLowerCase();
-//        
-//        itemContainer.find('div.combo-box-item').each(function () {
-//            var itemDiv = $(this);
-//            if (itemDiv.text().toLowerCase().startsWith(searchStr)) {
-//                selectItemDiv(itemDiv, true);
-//                return false;
-//            }
-//        });
-//    }
-//    
-//    function getValueByItemDiv(itemDiv) {
-//        return itemDiv[0]._value;
-//    }
-//    
-//    function getItemDivByValue(value) {
-//        for (var i = 0; i < itemDivs.length; i++) {
-//            var itemDiv = itemDivs[i];
-//            if (itemDiv[0]._value == value) {
-//                return itemDiv;
-//            }
-//        }
-//        
-//        return null;
-//    }
-//    
-//    function selectPrev() {
-//        var prevItemDiv = null;
-//        var itemDiv = itemContainer.find('div.combo-box-item-selected');
-//        if (!itemDiv.length) {
-//            prevItemDiv = itemDivs.slice(-1)[0];
-//        }
-//        else {
-//            for (var i = 0; i < itemDivs.length; i++) {
-//                if (i > 0 && itemDiv[0] == itemDivs[i][0]) {
-//                    prevItemDiv = itemDivs[i - 1];
-//                    break;
-//                }
-//            }
-//        }
-//        
-//        if (prevItemDiv) {
-//            selectItemDiv(prevItemDiv, true);
-//        }
-//        
-//        searchStr = '';
-//    }
-//    
-//    function selectNext() {
-//        var nextItemDiv = null;
-//        var itemDiv = itemContainer.find('div.combo-box-item-selected');
-//        if (!itemDiv.length) {
-//            nextItemDiv = itemDivs[0];
-//        }
-//        else {
-//            for (var i = 0; i < itemDivs.length; i++) {
-//                if (i < itemDivs.length - 1 && itemDiv[0] == itemDivs[i][0]) {
-//                    nextItemDiv = itemDivs[i + 1];
-//                    break;
-//                }
-//            }
-//        }
-//        
-//        if (nextItemDiv) {
-//            selectItemDiv(nextItemDiv, true);
-//        }
-//        
-//        searchStr = '';
-//    }
-//    
-//    function selectItemDiv(itemDiv, scroll) {
-//        var oldItemDiv = itemContainer.find('div.combo-box-item-selected');
-//        if (oldItemDiv.length == 0 || oldItemDiv[0] !== itemDiv[0]) {
-//            oldItemDiv.removeClass('combo-box-item-selected');
-//            itemDiv.addClass('combo-box-item-selected');
-//        }
-//        
-//        if (scroll) {
-//            var scrollTop = itemDiv.offset().top - itemContainer.offset().top + itemContainer.scrollTop();
-//            itemContainer.scrollTop(scrollTop);
-//        }
-//    }
-//    
-//    function open() {
-//        buttonDiv.unlock();
-//        buttonDiv.setActive();
-//        buttonDiv.lock();
-//        opened = true;
-//        itemContainer.css('opacity', '0');
-//        itemContainer.css('left', '0px');
-//        fading = true;
-//        itemContainer.animate({'opacity': '1'}, Reshaped.Forms.ANIM_DELAY, function () {
-//            fading = false;
-//        });
-//        //arrowSpan.html('&#x25B2;');
-//        
-//        $('html').mousedown(close);
-//        $('html').keydown(handleKeyDown);
-//        $('html').keypress(handleKeyPress);
-//        
-//        itemContainer.focus();
-//        searchStr = '';
-//
-//        var itemDiv = getItemDivByValue(select.val());
-//        if (itemDiv) {
-//            selectItemDiv(itemDiv, true);
-//        }
-//    }
-//    
-//    function close() {
-//        buttonDiv.unlock();
-//        buttonDiv.setNormal();
-//        //arrowSpan.html('&#x25BC;');
-//        opened = false;
-//        fading = true;
-//        itemContainer.animate({'opacity': '0'}, Reshaped.Forms.ANIM_DELAY, function () {
-//            itemContainer.css('left', '-9999px');
-//            fading = false;
-//        });
-//        
-//        $('html').unbind('mousedown', close);
-//        $('html').unbind('keydown', handleKeyDown);
-//        $('html').unbind('keypress', handleKeyPress);
-//        searchStr = '';
-//    }
-//    
-//    buttonDiv.click(function () {
-//        if (fading) {
-//            return;
-//        }
-//        
-//        if (opened) {
-//            close();
-//        }
-//        else {
-//            open();
-//        }
-//        
-//        return false;
-//    });
-//    
-//    return container;
-//}
+function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
+    if (minVal == null) {
+        minVal = -Infinity;
+    }
+    if (maxVal == null) {
+        maxVal = Infinity;
+    }
+    if (floating == null) {
+        floating = false;
+    }
+    if (sign == null) {
+        sign = false;
+    }
+    if (required == null) {
+        required = true;
+    }
+    
+    function isValid(strVal) {
+        if (strVal.length === 0 && !required) {
+            return true;
+        }
+        
+        var numVal = parseInt(strVal);
+        if ('' + numVal != strVal) {
+            return false;
+        }
+        
+        if (numVal < minVal || numVal > maxVal) {
+            return false;
+        }
+        
+        if (!sign && numVal < 0) {
+            return false;
+        }
+        
+        return true;
+    }
+    
+    var msg = '';
+    if (!sign) {
+        msg = 'enter a positive';
+    }
+    else {
+        msg = 'enter a'
+    }
+    if (floating) {
+        msg += ' number';
+    }
+    else {
+        msg += ' integer number';
+    }
+    if (isFinite(minVal)) {
+        if (isFinite(maxVal)) {
+            msg += ' between ' + minVal + ' and ' + maxVal;
+        }
+        else {
+            msg += ' greater than ' + minVal;
+        }
+    }
+    else {
+        if (isFinite(maxVal)) {
+            msg += ' smaller than ' + maxVal;
+        }
+    }
+    
+    function validate() {
+        var strVal = $input.val();
+        if (isValid(strVal)) {
+            $input.attr('title', '');
+            $input.removeClass('error');
+        }
+        else {
+            $input.attr('title', msg);
+            $input.addClass('error');
+        }
+    }
+    
+    $input.keyup(validate);
+    $input.change(validate);
+}
