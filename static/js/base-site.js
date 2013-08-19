@@ -50,7 +50,124 @@ function initUI() {
     makeTimeValidator($('#saturdayFrom'));
     makeTimeValidator($('#saturdayTo'))
     makeTimeValidator($('#sundayFrom'));
-    makeTimeValidator($('#sundayTo'))
+    makeTimeValidator($('#sundayTo'));
+    
+    $('#motionEyeSwitch').change(updateSettingsUI);
+    $('#showAdvancedSwitch').change(updateSettingsUI);
+    $('#storageDeviceSelect').change(updateSettingsUI);
+    $('#autoBrightnessSwitch').change(updateSettingsUI);
+    $('#leftTextSelect').change(updateSettingsUI);
+    $('#rightTextSelect').change(updateSettingsUI);
+    $('#captureModeSelect').change(updateSettingsUI);
+    $('#autoNoiseDetectSwitch').change(updateSettingsUI);
+    $('#videoDeviceSwitch').change(updateSettingsUI);
+    $('#textOverlaySwitch').change(updateSettingsUI);
+    $('#videoStreamingSwitch').change(updateSettingsUI);
+    $('#stillImagesSwitch').change(updateSettingsUI);
+    $('#motionMoviesSwitch').change(updateSettingsUI);
+    $('#motionNotificationsSwitch').change(updateSettingsUI);
+    $('#workingScheduleSwitch').change(updateSettingsUI);
+}
+
+function updateSettingsUI() {
+    var objs = $('tr.settings-item, div.advanced-setting, table.advanced-setting, div.settings-section-title, table.settings');
+    
+    function markHide() {
+        this._hide = true;
+    }
+    
+    function unmarkHide() {
+        this._hide = false;
+    }
+    
+    objs.each(unmarkHide);
+    
+    /* general enable switch */
+    var motionEyeEnabled = $('#motionEyeSwitch').get(0).checked;
+    if (!motionEyeEnabled) {
+        objs.not($('#motionEyeSwitch').parents('div').get(0)).each(markHide);
+    }
+    
+    /* advanced settings */
+    var showAdvanced = $('#showAdvancedSwitch').get(0).checked;
+    if (!showAdvanced) {
+        $('tr.advanced-setting, div.advanced-setting, table.advanced-setting').each(markHide);
+    }
+    
+    /* storage device */
+    if ($('#storageDeviceSelect').val() === 'local-disk') {
+        $('#networkServerEntry').parents('tr:eq(0)').each(markHide);
+        $('#networkUsernameEntry').parents('tr:eq(0)').each(markHide);
+        $('#networkPasswordEntry').parents('tr:eq(0)').each(markHide);
+        $('#networkShareNameEntry').parents('tr:eq(0)').each(markHide);
+    }
+    
+    /* auto brightness */
+    if ($('#autoBrightnessSwitch').get(0).checked) {
+        $('#brightnessSlider').parents('tr:eq(0)').each(markHide);
+    }
+    
+    /* text */
+    if ($('#leftTextSelect').val() !== 'custom-text') {
+        $('#leftTextEntry').parents('tr:eq(0)').each(markHide);
+    }
+    if ($('#rightTextSelect').val() !== 'custom-text') {
+        $('#rightTextEntry').parents('tr:eq(0)').each(markHide);
+    }
+    
+    /* still images capture mode */
+    if ($('#captureModeSelect').val() !== 'interval-snapshots') {
+        $('#snapshotIntervalEntry').parents('tr:eq(0)').each(markHide);
+    }
+    
+    /* auto noise level */
+    if ($('#autoNoiseDetectSwitch').get(0).checked) {
+        $('#noiseLevelSlider').parents('tr:eq(0)').each(markHide);
+    }
+    
+    /* video device switch */
+    if (!$('#videoDeviceSwitch').get(0).checked) {
+        $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHide);
+    }
+    
+    /* text overlay switch */
+    if (!$('#textOverlaySwitch').get(0).checked) {
+        $('#textOverlaySwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+    }
+    
+    /* video streaming switch */
+    if (!$('#videoStreamingSwitch').get(0).checked) {
+        $('#videoStreamingSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+    }
+    
+    /* still images switch */
+    if (!$('#stillImagesSwitch').get(0).checked) {
+        $('#stillImagesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+    }
+    
+    /* motion movies switch */
+    if (!$('#motionMoviesSwitch').get(0).checked) {
+        $('#motionMoviesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+    }
+    
+    /* motion notifications switch */
+    if (!$('#motionNotificationsSwitch').get(0).checked) {
+        $('#motionNotificationsSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+    }
+    
+    /* working schedule switch */
+    if (!$('#workingScheduleSwitch').get(0).checked) {
+        $('#workingScheduleSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+    }
+    
+    objs.each(function () {
+        if (this._hide) {
+            $(this).hide(200);
+        }
+        else {
+            $(this).show(200);
+        }
+    });
 }
 
 $(document).ready(function () {
@@ -68,4 +185,5 @@ $(document).ready(function () {
     }).click();
     
     initUI();
+    updateSettingsUI();
 });
