@@ -3,3 +3,5 @@
 *.bak
 .project
 .pydevproject
+*.conf
+*.json

@@ -1,3 +1,5 @@
+-> config.py functions should make use of exceptions rather than returning None
+
 -> browser compatibility test
 -> authentication
 -> proxy for slave motioneyes

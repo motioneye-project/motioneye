@@ -11,6 +11,7 @@ application = Application(
         (r'^/$', handlers.MainHandler),
         (r'^/config/(?P<camera_id>\w+)/(?P<op>get|set|rem)/?$', handlers.ConfigHandler),
         (r'^/config/(?P<op>add)/?$', handlers.ConfigHandler),
+        (r'^/config/general/(?P<op>set|get)/?$', handlers.ConfigHandler),
         (r'^/snapshot/(?P<camera_id>\w+)/(?P<op>current|list)/?$', handlers.SnapshotHandler),
         (r'^/snapshot/(?P<camera_id>\w+)/(?P<op>download)/(?P<filename>.+)/?$', handlers.SnapshotHandler),
         (r'^/movie/(?P<camera_id>\w+)/(?P<op>list)/?$', handlers.MovieHandler),

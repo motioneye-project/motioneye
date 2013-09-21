@@ -46,10 +46,18 @@ class ConfigHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
     
     def get_config(self, camera_id):
-        logging.debug('getting config for camera %(id)s' % {'camera': camera_id})
+        if camera_id:
+            logging.debug('getting config for camera %(id)s' % {'camera': camera_id})
+            
+        else:
+            logging.debug('getting general config')
     
     def set_config(self, camera_id):
-        logging.debug('setting config for camera %(id)s' % {'camera': camera_id})
+        if camera_id:
+            logging.debug('setting config for camera %(id)s' % {'camera': camera_id})
+            
+        else:
+            logging.debug('setting general config')
     
     def add_camera(self):
         logging.debug('adding new camera')
