@@ -171,6 +171,7 @@ function updateSettingsUI() {
 }
 
 $(document).ready(function () {
+    /* open/close settings */
     $('img.settings-button').click(function () {
         if ($('div.settings').hasClass('open')) {
             $('div.settings').removeClass('open');
@@ -182,7 +183,18 @@ $(document).ready(function () {
             $('div.page-container').addClass('stretched');
             $('div.settings-top-bar').addClass('open');
         }
-    }).click();
+    });
+    
+    /* prevent scroll events on settings div from propagating */
+    $('div.settings').mousewheel(function (e, d) {
+        var t = $(this);
+        if (d > 0 && t.scrollTop() === 0) {
+            e.preventDefault();
+        }
+        else if (d < 0 && (t.scrollTop() === t.get(0).scrollHeight - t.innerHeight())) {
+            e.preventDefault();
+        }
+    });
     
     initUI();
     updateSettingsUI();

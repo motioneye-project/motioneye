@@ -4,24 +4,59 @@ div.video-list {
 }
 
 div.video-frame {
-    width: 48%;
+    width: 32%;
     text-align: left;
     background-color: #313131;
     display: inline-block;
-    padding: 0px 5px;
+    padding: 0px 5px 5px 5px;
     border-radius: 3px;
     transition: all 0.2s;
-    margin-bottom: 10px;
+    margin-top: 3px;
 }
 
 div.video-frame:HOVER {
     background-color: #414141;
 }
 
-div.video-top-bar,
-div.video-bottom-bar {
-    padding: 3px;
-    font-size: 0.75em;
+div.video-top-bar {
+    padding: 3px 0px;
+    font-size: 17px;
+    height: 17px;
+}
+
+span.video-name {
+    float: left;
+}
+
+div.video-buttons {
+    float: right;
+}
+
+div.video-button {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-image: url(../img/video-buttons.png);
+    margin-left: 3px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: all 0.1s linear;
+}
+
+div.video-button:HOVER {
+    opacity: 1;
+}
+
+div.video-button:ACTIVE {
+    opacity: 0.5;
+}
+
+div.video-button.close {
+    background-position: 0px 0px;
+}
+
+div.video-button.configure {
+    background-position: -16px 0px;
 }
 
 div.video-container {
@@ -36,8 +71,16 @@ img.video {
 
     /* media queries */
 
-@media all and (max-width: 1600px) {
-    /* smaller screens */
+@media all and (max-width: 1900px) {
+    /* a bit smaller screens */
+    
+    div.video-frame {
+        width: 48%;
+    }
+}
+
+@media all and (max-width: 1150px) {
+    /* even smaller screens */
     
     div.video-frame {
         width: 98%;
