@@ -1,0 +1,7 @@
+-> browser compatibility test
+-> authentication
+-> proxy for slave motioneyes
+-> add a view log functionality
+-> click to zoom on cameras
+-> add a previewer for movies
+-> add a previewer for snapshots

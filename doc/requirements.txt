@@ -4,6 +4,5 @@ jinja2
 
 ffmpeg
 motion
-nginx
 v4l-utils
 smbclient
