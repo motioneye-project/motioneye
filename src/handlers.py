@@ -4,6 +4,7 @@ import logging
 
 from tornado.web import RequestHandler, HTTPError
 
+import config
 import template
 
 
@@ -46,24 +47,61 @@ class ConfigHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
     
     def get_config(self, camera_id):
+        general_config = config.get_general()
+        
         if camera_id:
-            logging.debug('getting config for camera %(id)s' % {'camera': camera_id})
+            logging.debug('getting config for camera %(id)s' % {'id': camera_id})
+            
+            cameras = general_config.get('cameras', {})
+            if camera_id not in cameras:
+                raise HTTPError(404, 'no such camera')
+            
+            self.finish_json(config.get_camera(camera_id))
             
         else:
             logging.debug('getting general config')
+            
+            self.finish_json(general_config)
     
     def set_config(self, camera_id):
-        if camera_id:
-            logging.debug('setting config for camera %(id)s' % {'camera': camera_id})
+        general_config = config.get_general()
+        
+        try:
+            data = json.loads(self.request.body)
             
+        except Exception as e:
+            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+            
+            raise
+        
+        if camera_id:
+            logging.debug('setting config for camera %(id)s' % {'id': camera_id})
+            
+            cameras = general_config.get('cameras', {})
+            if camera_id not in cameras:
+                raise HTTPError(404, 'no such camera')
+            
+            config.set_camera(camera_id, data)
+
         else:
             logging.debug('setting general config')
+            
+            try:
+                data = json.loads(self.request.body)
+                
+            except Exception as e:
+                logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+                
+                raise
+            
+            general_config.update(data)
+            config.set_general(general_config)
     
     def add_camera(self):
         logging.debug('adding new camera')
     
     def rem_camera(self, camera_id):
-        logging.debug('removing camera %(id)s' % {'camera': camera_id})
+        logging.debug('removing camera %(id)s' % {'id': camera_id})
 
 
 class SnapshotHandler(BaseHandler):
@@ -84,11 +122,11 @@ class SnapshotHandler(BaseHandler):
         pass
     
     def list(self, camera_id):
-        logging.debug('listing snapshots for camera %(id)s' % {'camera': camera_id})
+        logging.debug('listing snapshots for camera %(id)s' % {'id': camera_id})
     
     def download(self, camera_id, filename):
         logging.debug('downloading snapshot %(filename)s of camera %(id)s' % {
-                'filename': filename, 'camera': camera_id})
+                'filename': filename, 'id': camera_id})
 
 
 class MovieHandler(BaseHandler):
@@ -103,8 +141,8 @@ class MovieHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
     
     def list(self, camera_id):
-        logging.debug('listing movies for camera %(id)s' % {'camera': camera_id})
+        logging.debug('listing movies for camera %(id)s' % {'id': camera_id})
     
     def download(self, camera_id, filename):
         logging.debug('downloading movie %(filename)s of camera %(id)s' % {
-                'filename': filename, 'camera': camera_id})
+                'filename': filename, 'id': camera_id})

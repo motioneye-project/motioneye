@@ -1,9 +1,9 @@
--> config.py functions should make use of exceptions rather than returning None
-
 -> browser compatibility test
+-> hint text next to section titles
 -> authentication
 -> proxy for slave motioneyes
 -> add a view log functionality
 -> click to zoom on cameras
 -> add a previewer for movies
 -> add a previewer for snapshots
+-> other todos
