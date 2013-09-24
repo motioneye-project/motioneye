@@ -84,11 +84,101 @@ def set_general(data):
     return data
 
 
+def get_motion():
+    # TODO use a cache
+    
+    logging.info('reading camera config from %(path)s...' % {'path': _MOTION_CONFIG_FILE_PATH})
+    
+    try:
+        file = open(_MOTION_CONFIG_FILE_PATH, 'r')
+    
+    except Exception as e:
+        logging.error('could not open motion config file: %(msg)s' % {'msg': unicode(e)})
+        
+        raise
+    
+    try:
+        lines = [l[:-1] for l in file.readlines()]
+    
+    except Exception as e:
+        logging.error('could not read motion config file %(path)s: %(msg)s' % {
+                'path': _MOTION_CONFIG_FILE_PATH, 'msg': unicode(e)})
+        
+        raise
+    
+    finally:
+        file.close()
+    
+    data = _conf_to_dict(lines)
+    _set_default_motion(data)
+    
+    return data
+
+
+def set_motion(data):
+    # TODO use a cache
+    
+    data = _set_default_motion(data)
+    
+    # read the actual configuration from file
+    
+    logging.info('reading motion config from %(path)s...' % {'path': _MOTION_CONFIG_FILE_PATH})
+    
+    try:
+        file = open(_MOTION_CONFIG_FILE_PATH, 'r')
+    
+    except Exception as e:
+        logging.error('could not open motion config file %(path)s: %(msg)s' % {
+                'path': _MOTION_CONFIG_FILE_PATH, 'msg': unicode(e)})
+        
+        raise
+    
+    try:
+        lines = [l[:-1] for l in file.readlines()]
+    
+    except Exception as e:
+        logging.error('could not read motion config file %(path)s: %(msg)s' % {
+                'path': _MOTION_CONFIG_FILE_PATH, 'msg': unicode(e)})
+        
+        raise
+    
+    finally:
+        file.close()
+    
+    # write the configuration to file
+    
+    logging.info('writing motion config to %(path)s...' % {'path': _MOTION_CONFIG_FILE_PATH})
+    
+    try:
+        file = open(_MOTION_CONFIG_FILE_PATH, 'w')
+    
+    except Exception as e:
+        logging.error('could not open motion config file %(path)s for writing: %(msg)s' % {
+                'path': _MOTION_CONFIG_FILE_PATH, 'msg': unicode(e)})
+        
+        raise
+    
+    lines = _dict_to_conf(lines, data)
+    
+    try:
+        file.writelines([l + '\n' for l in lines])
+    
+    except Exception as e:
+        logging.error('could not write motion config file %(path)s: %(msg)s' % {
+                'path': _MOTION_CONFIG_FILE_PATH, 'msg': unicode(e)})
+        
+        raise
+    
+    finally:
+        file.close()
+    
+    return data
+
+
 def get_camera(camera_id):
     # TODO use a cache
     
-    config_path = os.path.join(settings.PROJECT_PATH, _CONFIG_DIR)
-    camera_config_path = os.path.join(config_path, _CAMERA_CONFIG_FILE_NAME % {'id': camera_id})
+    camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
     
     logging.info('reading camera config from %(path)s...' % {'path': camera_config_path})
     
@@ -112,14 +202,18 @@ def get_camera(camera_id):
     finally:
         file.close()
     
-    return _conf_to_dict(lines)
+    data = _conf_to_dict(lines)
+    _set_default_motion_camera(data)
+    
+    return data
 
 
 def set_camera(camera_id, data):
     # TODO use a cache
     
-    config_path = os.path.join(settings.PROJECT_PATH, _CONFIG_DIR)
-    camera_config_path = os.path.join(config_path, _CAMERA_CONFIG_FILE_NAME % {'id': camera_id})
+    _set_default_motion_camera(data)
+    
+    camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
     
     # read the actual configuration from file
     
@@ -180,8 +274,8 @@ def add_camera(device):
     # TODO use a cache
     
     # determine the last camera id
-    
-    cameras = get_general().get('cameras', {})
+    general_config = get_general()
+    cameras = general_config.get('cameras', {})
     camera_ids = [int(k) for k in cameras.iterkeys()]
 
     last_camera_id = max(camera_ids or [0])
@@ -190,9 +284,7 @@ def add_camera(device):
     logging.info('adding new camera with id %(id)s...' % {'id': camera_id})
         
     # write the configuration to file
-    
-    config_path = os.path.join(settings.PROJECT_PATH, _CONFIG_DIR)
-    camera_config_path = os.path.join(config_path, _CAMERA_CONFIG_FILE_NAME % {'id': camera_id})
+    camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
     logging.info('writing camera config to %(path)s...' % {'path': camera_config_path})
     
     try:
@@ -205,8 +297,10 @@ def add_camera(device):
         raise
     
     # add the default camera config
-    ui = camera_dict_to_ui(camera_id, {})
-    data = camera_ui_to_dict(camera_id, ui)
+    data = {
+        'videodevice': device
+    }
+    _set_default_motion_camera(data)
     
     lines = _dict_to_conf([], data)
     
@@ -223,28 +317,37 @@ def add_camera(device):
         file.close()
     
     # add the camera to the general config
-    
     cameras[camera_id] = {
         'name': 'camera' + str(camera_id),
         'device': device,
         'enabled': True
     }
     
-    general_config = get_general()
     general_config['cameras'] = cameras
     
     set_general(general_config)
+    
+    # add the camera to the main motion config
+    motion_config = get_motion()
+    threads = motion_config.setdefault('thread', [])
+    threads.append(camera_config_path)
+    set_motion(data)
     
     return camera_id, cameras[camera_id]['name'], data
 
 
 def rem_camera(camera_id):
     # TODO use a cache
+
+    # remove the camera from general config
+    general_config = get_general()
+    cameras = general_config.get('cameras', {})
+    del cameras[camera_id]
     
-    # TODO remove the camera from general config as well
+    general_config['cameras'] = cameras
+    set_general(general_config)
     
-    config_path = os.path.join(settings.PROJECT_PATH, _CONFIG_DIR)
-    camera_config_path = os.path.join(config_path, _CAMERA_CONFIG_FILE_NAME % {'id': camera_id})
+    camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
     
     logging.info('removing camera config file %(path)s...' % {'path': camera_config_path})
     
@@ -257,14 +360,26 @@ def rem_camera(camera_id):
         
         raise
 
+    # remove the camera from the main motion config
+    motion_config = get_motion()
+    threads = motion_config.setdefault('thread', [])
+    threads = [t for t in threads if t != camera_config_path]
+    motion_config['thread'] = threads
+    set_motion(motion_config)
+    
 
 def camera_ui_to_dict(camera_id, ui):
     cameras = get_general().get('cameras', {})
     camera_info = cameras.get(camera_id, {})
     camera_name = camera_info.get('name', '(unknown)')
+    
+    video_device = ui.get('device', '')
+    if video_device.count('://'):
+        video_device = video_device.split('://')[-1]
 
     data = {
         # device
+        'videodevice': video_device,
         'lightswitch': int(ui.get('light_switch_detect', False) * 5),
         'auto_brightness': ui.get('auto_brightness', False),
         'brightness': int(int(ui.get('brightness', 0)) * 2.55),
@@ -274,6 +389,7 @@ def camera_ui_to_dict(camera_id, ui):
         'width': int(ui.get('resolution', '352x288').split('x')[0]),
         'height': int(ui.get('resolution', '352x288').split('x')[1]),
         'framerate': int(ui.get('framerate', 1)),
+        # TODO target_dir
         
         # text overlay
         'text_left': '',
@@ -359,7 +475,8 @@ def camera_ui_to_dict(camera_id, ui):
     
 
 def camera_dict_to_ui(camera_id, data):
-    # this is where the default values come from
+    # set the default options if not present
+    _set_default_motion_camera(data)
     
     cameras = get_general().get('cameras', {})
     camera_info = cameras.get(camera_id, {})
@@ -367,14 +484,16 @@ def camera_dict_to_ui(camera_id, data):
     
     ui = {
         # device
-        'light_switch_detect': data.get('lightswitch', 0) > 0,
-        'auto_brightness': data.get('auto_brightness', False),
-        'brightness': int(int(data.get('brightness', 0)) / 2.55),
-        'contrast': int(int(data.get('contrast', 0)) / 2.55),
-        'saturation': int(int(data.get('saturation', 0)) / 2.55),
-        'hue': int(int(data.get('hue', 0))),
-        'resolution': str(data.get('width', 352)) + 'x' + str(data.get('height', 288)),
-        'framerate': int(data.get('framerate', 1)),
+        'device': 'v4l2://' + data['videodevice'],
+        'light_switch_detect': data['lightswitch'] > 0,
+        'auto_brightness': data['auto_brightness'],
+        'brightness': int(int(data['brightness']) / 2.55),
+        'contrast': int(int(data['contrast']) / 2.55),
+        'saturation': int(int(data['saturation']) / 2.55),
+        'hue': int(int(data['hue'])),
+        'resolution': str(data['width']) + 'x' + str(data['height']),
+        'framerate': int(data['framerate']),
+        # TODO target_dir
         
         # text overlay
         'text_overlay': False,
@@ -382,10 +501,10 @@ def camera_dict_to_ui(camera_id, data):
         'right_text': 'timestamp',
         
         # streaming
-        'vudeo_streaming': not data.get('webcam_localhost', False),
-        'streaming_port': int(data.get('webcam_port', 8080)),
-        'streaming_framerate': int(data.get('webcam_maxrate', 1)),
-        'streaming_quality': int(data.get('webcam_quality', 50)),
+        'vudeo_streaming': not data['webcam_localhost'],
+        'streaming_port': int(data['webcam_port']),
+        'streaming_framerate': int(data['webcam_maxrate']),
+        'streaming_quality': int(data['webcam_quality']),
         
         # still images
         'still_images': False,
@@ -402,18 +521,18 @@ def camera_dict_to_ui(camera_id, data):
         
         # motion detection
         'show_frame_changes': data.get('text_changes') or data.get('locate'),
-        'frame_change_threshold': data.get('threshold', 1500),
-        'auto_noise_detect': data.get('noise_tune', True),
-        'noise_level': int(int(data.get('noise_level', 32)) / 2.55),
-        'gap': int(data.get('gap', 60)),
-        'pre_capture': int(data.get('pre_capture', 0)),
-        'post_capture': int(data.get('post_capture', 0)),
+        'frame_change_threshold': data['threshold'],
+        'auto_noise_detect': data['noise_tune'],
+        'noise_level': int(int(data['noise_level']) / 2.55),
+        'gap': int(data['gap']),
+        'pre_capture': int(data['pre_capture']),
+        'post_capture': int(data['post_capture']),
         
         # TODO notifications
     }
     
-    text_left = data.get('text_left', '')
-    text_right = data.get('text_right', '') 
+    text_left = data['text_left']
+    text_right = data['text_right'] 
     if text_left or text_right:
         ui['text_overlay'] = True
         
@@ -465,7 +584,7 @@ def camera_dict_to_ui(camera_id, data):
     movie_filename = data.get('movie_filename')
     if movie_filename:
         ui['motion_movies'] = True
-        ui['movie_quality'] = int((max(2, data.get('ffmpeg_variable_bitrate', 14)) - 2) / 0.29)
+        ui['movie_quality'] = int((max(2, data['ffmpeg_variable_bitrate']) - 2) / 0.29)
         ui['movie_file_name'] = movie_filename
     
     return data
@@ -521,8 +640,17 @@ def _conf_to_dict(lines):
         
         (name, value) = parts
         value = value.strip()
+        value = _value_to_python(value)
         
-        value = data[name] = _value_to_python(value)
+        existing_value = data.get(name)
+        if isinstance(existing_value, list):
+            existing_value.append(value)
+        
+        elif existing_value is not None:
+            data[name] = [existing_value, value]
+        
+        else: # new value
+            data[name] = value
     
     return data
 
@@ -532,6 +660,8 @@ def _dict_to_conf(lines, data):
     data_copy = dict(data)
     
     # parse existing lines and replace the values
+    
+    list_names = {}
     
     for line in lines:
         line = line.strip()
@@ -549,13 +679,26 @@ def _dict_to_conf(lines, data):
             continue
         
         (name, value) = parts
+        if name in list_names:
+            continue # name already processed
         
         new_value = data.get(name)
         if new_value is not None:
-            value = _python_to_value(new_value)
-            
-        line = name + ' ' + value
-        conf_lines.append(line)
+            if isinstance(value, list):
+                list_names[name] = True
+                
+                for v in value:
+                    v = _python_to_value(v)
+                
+                    line = name + ' ' + v
+                    conf_lines.append(line)
+
+            else:
+                value = _python_to_value(new_value)
+        
+        else: # value not specified, using the existing one
+            line = name + ' ' + value
+            conf_lines.append(line)
         
         del data_copy[name]
     
@@ -569,6 +712,7 @@ def _dict_to_conf(lines, data):
 
 
 def _set_default_general(data):
+    # TODO set these in motion.conf
     data.setdefault('general_enabled', True)
     data.setdefault('show_advanced', False)
     data.setdefault('admin_username', 'admin')
@@ -582,3 +726,43 @@ def _set_default_general(data):
 def _set_default_motion(data):
     pass # TODO
 
+
+def _set_default_motion_camera(data):
+    data.setdefault('device', '')
+    data.setdefault('lightswitch', 0)
+    data.setdefault('auto_brightness', False)
+    data.setdefault('brightness', 0)
+    data.setdefault('contrast', 0)
+    data.setdefault('saturation', 0)
+    data.setdefault('hue', 0)
+    data.setdefault('width', 352)
+    data.setdefault('height', 288)
+    data.setdefault('framerate', 1)
+    
+    data.setdefault('webcam_localhost', False)
+    data.setdefault('webcam_port', 8080)
+    data.setdefault('webcam_maxrate', 1)
+    data.setdefault('webcam_quality', 50)
+    
+    data.setdefault('text_left', '')
+    data.setdefault('text_right', '')
+
+    data.setdefault('text_changes', False)
+    data.setdefault('locate', False)
+    data.setdefault('threshold', 1500)
+    data.setdefault('noise_tune', True)
+    data.setdefault('noise_level', 32)
+    
+    data.setdefault('gap', 60)
+    data.setdefault('pre_capture', 0)
+    data.setdefault('post_capture', 0)
+    
+    data.setdefault('output_all', False)
+    data.setdefault('output_normal', False)
+    data.setdefault('jpeg_filename', '')
+    data.setdefault('snapshot_interval', 0)
+    data.setdefault('snapshpt_filename', '')
+    data.setdefault('quality', 75)
+    
+    data.setdefault('movie_filename', '')
+    data.setdefault('ffmpeg_variable_bitrate', 14)
