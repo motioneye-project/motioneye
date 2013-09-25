@@ -1,4 +1,22 @@
 
+
+    /* Ajax */
+
+function ajax(method, url, data, success) {
+    $.ajax({
+        type: method,
+        url: url,
+        data: data,
+        success: success,
+        failure: function (request, options, error) {
+            alert('Request failed with code: ' + request.status);
+        }
+    });
+}
+
+
+    /* UI */
+
 function initUI() {
     $('input[type=checkbox].styled').each(function () {
         makeCheckBox($(this));
@@ -67,6 +85,8 @@ function initUI() {
     $('#motionMoviesSwitch').change(updateSettingsUI);
     $('#motionNotificationsSwitch').change(updateSettingsUI);
     $('#workingScheduleSwitch').change(updateSettingsUI);
+    
+    $('#videoDeviceSwitch').change(fetchCameraSettings);
 }
 
 function updateSettingsUI() {
@@ -170,6 +190,43 @@ function updateSettingsUI() {
     });
 }
 
+function cameraUi2Dict() {
+    
+}
+
+function dict2CameraUi(dict) {
+    
+}
+
+function fetchCurrentConfig() {
+    ajax('GET', '/config/list/', null, function (data) {
+        var i, cameras = data.cameras;
+        var videoDeviceSelect = $('#videoDeviceSelect');
+        videoDeviceSelect.html('');
+        for (i = 0; i < cameras.length; i++) {
+            var camera = cameras[i];
+            videoDeviceSelect.append('<option value="' + camera['@id'] + '">' + camera['@name'] + '</option>');
+        }
+        
+        if (cameras.length) {
+            videoDeviceSelect[0].selectedIndex = 0;
+            fetchCameraSettings();
+        }
+    });
+}
+
+function fetchCameraSettings() {
+    var cameraId = $('#videoDeviceSelect').val();
+    if (cameraId != null) {
+        ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
+            dict2CameraUi(data);
+        });
+    }
+    else {
+        dict2CameraUi({});
+    }
+}
+
 $(document).ready(function () {
     /* open/close settings */
     $('img.settings-button').click(function () {
@@ -198,4 +255,5 @@ $(document).ready(function () {
     
     initUI();
     updateSettingsUI();
+    fetchCurrentConfig();
 });
