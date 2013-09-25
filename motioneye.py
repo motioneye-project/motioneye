@@ -40,17 +40,15 @@ def _start_server():
 
 
 if __name__ == '__main__':
-    #_configure_signals()
+    _configure_signals()
     _configure_logging()
-    #_start_server()
-    import config
+    _start_server()
     
-    main_config = config.get_main()
-    #config.add_camera('v4l2:///dev/video0')
-    #data = config.get_camera(1)
-    #data['@enabled'] = True
-    #config.set_camera(1, data)
-    config.rem_camera(1)
-    
-    a = 10
+#     import config
+#     main_config = config.get_main()
+#     #config.add_camera('v4l2:///dev/video0')
+#     #data = config.get_camera(1)
+#     #data['@enabled'] = True
+#     #config.set_camera(1, data)
+#     config.rem_camera(1)
     

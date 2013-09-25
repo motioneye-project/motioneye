@@ -60,44 +60,6 @@
                         <td class="settings-item-value"><input type="password" class="styled general" id="normalPasswordEntry"></td>
                         <td><span class="help-mark" title="the password for the surveillance user">?</span></td>
                     </tr>
-                    <tr class="settings-item advanced-setting">
-                        <td colspan="100"><div class="settings-item-separator"></div></td>
-                    </tr>
-                    <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Storage Device</span></td>
-                        <td class="settings-item-value">
-                            <select class="styled general" id="storageDeviceSelect">
-                                <option value="local-disk">Local Disk</option>
-                                <option value="network-share">Network Share</option>
-                            </select>
-                        </td>
-                        <td><span class="help-mark" title="indicates the storage device where the image and video files will be saved">?</span></td>
-                    </tr>
-                    <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Network Server</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general" id="networkServerEntry"></td>
-                        <td><span class="help-mark" title="the address of the network server (IP address or hostname)">?</span></td>
-                    </tr>
-                    <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Share Username</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general" id="networkUsernameEntry"></td>
-                        <td><span class="help-mark" title="the username to be supplied when accessing the network share (leave empty if no username is required)">?</span></td>
-                    </tr>
-                    <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Share Password</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general" id="networkPasswordEntry"></td>
-                        <td><span class="help-mark" title="the password required by the network share (leave empty if no password is required)">?</span></td>
-                    </tr>
-                    <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Share Name</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general" id="networkShareNameEntry"></td>
-                        <td><span class="help-mark" title="the name of the network share">?</span></td>
-                    </tr>
-                    <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Root Directory</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general" id="rootDirectoryEntry"></td>
-                        <td><span class="help-mark" title="the root path (on the selected storage device) where the files will be saved">?</span></td>
-                    </tr>
                 </table>
                 
                 <div class="settings-section-title"><input type="checkbox" class="styled section" id="videoDeviceSwitch">Video Device</div>
@@ -171,7 +133,46 @@
                         <td><span class="help-mark" title="sets the number of frames captured by the camera every second (higher values yield smoother videos but require larger storage space and bandwidth)">?</span></td>
                     </tr>
                 </table>
-
+                
+                <div class="settings-section-title advanced-setting">File Storage</div>
+                <table class="settings advanced-setting">
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Storage Device</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled general" id="storageDeviceSelect">
+                                <option value="local-disk">Local Disk</option>
+                                <option value="network-share">Network Share</option>
+                            </select>
+                        </td>
+                        <td><span class="help-mark" title="indicates the storage device where the image and video files will be saved">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Network Server</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled general" id="networkServerEntry"></td>
+                        <td><span class="help-mark" title="the address of the network server (IP address or hostname)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Share Name</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled general" id="networkShareNameEntry"></td>
+                        <td><span class="help-mark" title="the name of the network share">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Share Username</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled general" id="networkUsernameEntry"></td>
+                        <td><span class="help-mark" title="the username to be supplied when accessing the network share (leave empty if no username is required)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Share Password</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled general" id="networkPasswordEntry"></td>
+                        <td><span class="help-mark" title="the password required by the network share (leave empty if no password is required)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Root Directory</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled general" id="rootDirectoryEntry"></td>
+                        <td><span class="help-mark" title="the root path (on the selected storage device) where the files will be saved">?</span></td>
+                    </tr>
+                </table>
+                
                 <div class="settings-section-title advanced-setting"><input type="checkbox" class="styled section" id="textOverlaySwitch">Text Overlay</div>
                 <table class="settings advanced-setting">
                     <tr class="settings-item advanced-setting">

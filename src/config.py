@@ -314,7 +314,14 @@ def camera_ui_to_dict(camera_id, ui):
         'width': int(ui.get('resolution', '352x288').split('x')[0]),
         'height': int(ui.get('resolution', '352x288').split('x')[1]),
         'framerate': int(ui.get('framerate', 1)),
-        # TODO target_dir
+        
+        # file storage
+        '@storage_device': ui.get('storage_device', 'local-disk'),
+        '@network_server': ui.get('network_server', ''),
+        '@network_share_name': ui.get('network_share_name', ''),
+        '@network_username': ui.get('network_username', ''),
+        '@network_password': ui.get('network_password', ''),
+        'target_dir': ui.get('root_directory', '/'),
         
         # text overlay
         'text_left': '',
@@ -416,7 +423,14 @@ def camera_dict_to_ui(camera_id, data):
         'hue': int(int(data['hue'])),
         'resolution': str(data['width']) + 'x' + str(data['height']),
         'framerate': int(data['framerate']),
-        # TODO target_dir
+        
+        # file storage
+        'storage_device': data['@storage_device'],
+        'network_server': data['@network_server'],
+        'network_share_name': data['@network_share_name'],
+        'network_username': data['@network_username'],
+        'network_password': data['@network_password'],
+        'root_directory': data['target_dir'],
         
         # text overlay
         'text_overlay': False,
@@ -690,6 +704,13 @@ def _set_default_motion_camera(data):
     data.setdefault('width', 352)
     data.setdefault('height', 288)
     data.setdefault('framerate', 1)
+    
+    data.setdefault('@storage_device', 'local-disk')
+    data.setdefault('@network_server', '')
+    data.setdefault('@network_share_name', '')
+    data.setdefault('@network_username', '')
+    data.setdefault('@network_password', '')
+    data.setdefault('target_dir', '.')
     
     data.setdefault('webcam_localhost', False)
     data.setdefault('webcam_port', 8080)
