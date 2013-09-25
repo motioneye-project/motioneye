@@ -1,3 +1,4 @@
+-> move target dir to device config
 -> browser compatibility test
 -> hint text next to section titles
 -> authentication

@@ -47,7 +47,7 @@ class ConfigHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
     
     def get_config(self, camera_id):
-        general_config = config.get_general()
+        general_config = config.get_main()
         
         if camera_id:
             logging.debug('getting config for camera %(id)s' % {'id': camera_id})
@@ -64,7 +64,7 @@ class ConfigHandler(BaseHandler):
             self.finish_json(general_config)
     
     def set_config(self, camera_id):
-        general_config = config.get_general()
+        general_config = config.get_main()
         
         try:
             data = json.loads(self.request.body)
@@ -95,7 +95,7 @@ class ConfigHandler(BaseHandler):
                 raise
             
             general_config.update(data)
-            config.set_general(general_config)
+            config.set_main(general_config)
     
     def add_camera(self):
         logging.debug('adding new camera')

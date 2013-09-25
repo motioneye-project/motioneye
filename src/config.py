@@ -1,8 +1,10 @@
 
 import errno
-import json
 import logging
 import os.path
+import re
+
+from collections import OrderedDict
 
 import settings
 
@@ -10,162 +12,83 @@ import settings
 _CONFIG_DIR = 'conf'
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 
-_GENERAL_CONFIG_FILE_PATH = os.path.join(_CONFIG_DIR, 'motion-eye.json')
-_MOTION_CONFIG_FILE_PATH = os.path.join(_CONFIG_DIR, 'motion.conf')
+_MAIN_CONFIG_FILE_PATH = os.path.join(_CONFIG_DIR, 'motion.conf')
 _CAMERA_CONFIG_FILE_PATH = os.path.join(_CONFIG_DIR, _CAMERA_CONFIG_FILE_NAME)
 
 
-def get_general():
+def get_main(as_lines=False):
     # TODO use a cache
     
-    config_file_path = os.path.join(settings.PROJECT_PATH, _GENERAL_CONFIG_FILE_PATH)
+    config_file_path = os.path.join(settings.PROJECT_PATH, _MAIN_CONFIG_FILE_PATH)
     
-    logging.info('reading general config from file %(path)s...' % {'path': config_file_path})
+    logging.debug('reading main config from file %(path)s...' % {'path': config_file_path})
     
+    lines = None
     try:
         file = open(config_file_path, 'r')
     
     except IOError as e:
         if e.errno == errno.ENOENT:  # file does not exist
-            logging.info('config file %(path)s does not exist, creating a new default one...' % {'path': config_file_path})
+            logging.info('main config file %(path)s does not exist, using default values' % {'path': config_file_path})
             
-            return set_general({})
+            lines = []
         
         else:
-            logging.error('could not open config file %(path)s: %(msg)s' % {
+            logging.error('could not open main config file %(path)s: %(msg)s' % {
                     'path': config_file_path, 'msg': unicode(e)})
             
             raise
     
-    try:
-        data = json.load(file)
-        _set_default_general(data)
+    if lines is None:
+        try:
+            lines = [l[:-1] for l in file.readlines()]
         
-        return data
-    
-    except Exception as e:
-        logging.error('could not read config file %(path)s: %(msg)s' % {
-                'path': config_file_path, 'msg': unicode(e)})
+        except Exception as e:
+            logging.error('could not read main config file %(path)s: %(msg)s' % {
+                    'path': _MAIN_CONFIG_FILE_PATH, 'msg': unicode(e)})
+            
+            raise
         
-        raise
-        
-    finally:
-        file.close()
-        
-
-def set_general(data):
-    # TODO use a cache
+        finally:
+            file.close()
     
-    _set_default_general(data)
-
-    config_file_path = os.path.join(settings.PROJECT_PATH, _GENERAL_CONFIG_FILE_PATH)
+    if as_lines:
+        return lines
     
-    logging.info('writing general config to file %(path)s...' % {'path': config_file_path})
-    
-    try:
-        file = open(config_file_path, 'w')
-    
-    except Exception as e:
-        logging.error('could not open config file %(path)s for writing: %(msg)s' % {
-                'path': config_file_path, 'msg': unicode(e)})
-        
-        raise
-    
-    try:
-        json.dump(data, file)
-    
-    except Exception as e:
-        logging.error('could not write config file %(path)s: %(msg)s' % {
-                'path': config_file_path, 'msg': unicode(e)})
-        
-    finally:
-        file.close()
-
-    return data
-
-
-def get_motion():
-    # TODO use a cache
-    
-    logging.info('reading camera config from %(path)s...' % {'path': _MOTION_CONFIG_FILE_PATH})
-    
-    try:
-        file = open(_MOTION_CONFIG_FILE_PATH, 'r')
-    
-    except Exception as e:
-        logging.error('could not open motion config file: %(msg)s' % {'msg': unicode(e)})
-        
-        raise
-    
-    try:
-        lines = [l[:-1] for l in file.readlines()]
-    
-    except Exception as e:
-        logging.error('could not read motion config file %(path)s: %(msg)s' % {
-                'path': _MOTION_CONFIG_FILE_PATH, 'msg': unicode(e)})
-        
-        raise
-    
-    finally:
-        file.close()
-    
-    data = _conf_to_dict(lines)
+    data = _conf_to_dict(lines, list_names=['thread'])
     _set_default_motion(data)
     
     return data
+        
 
-
-def set_motion(data):
+def set_main(data):
     # TODO use a cache
     
-    data = _set_default_motion(data)
+    _set_default_motion(data)
     
     # read the actual configuration from file
-    
-    logging.info('reading motion config from %(path)s...' % {'path': _MOTION_CONFIG_FILE_PATH})
-    
-    try:
-        file = open(_MOTION_CONFIG_FILE_PATH, 'r')
-    
-    except Exception as e:
-        logging.error('could not open motion config file %(path)s: %(msg)s' % {
-                'path': _MOTION_CONFIG_FILE_PATH, 'msg': unicode(e)})
-        
-        raise
-    
-    try:
-        lines = [l[:-1] for l in file.readlines()]
-    
-    except Exception as e:
-        logging.error('could not read motion config file %(path)s: %(msg)s' % {
-                'path': _MOTION_CONFIG_FILE_PATH, 'msg': unicode(e)})
-        
-        raise
-    
-    finally:
-        file.close()
+    lines = get_main(as_lines=True)
     
     # write the configuration to file
-    
-    logging.info('writing motion config to %(path)s...' % {'path': _MOTION_CONFIG_FILE_PATH})
+    logging.debug('writing main config to %(path)s...' % {'path': _MAIN_CONFIG_FILE_PATH})
     
     try:
-        file = open(_MOTION_CONFIG_FILE_PATH, 'w')
+        file = open(_MAIN_CONFIG_FILE_PATH, 'w')
     
     except Exception as e:
-        logging.error('could not open motion config file %(path)s for writing: %(msg)s' % {
-                'path': _MOTION_CONFIG_FILE_PATH, 'msg': unicode(e)})
+        logging.error('could not open main config file %(path)s for writing: %(msg)s' % {
+                'path': _MAIN_CONFIG_FILE_PATH, 'msg': unicode(e)})
         
         raise
     
-    lines = _dict_to_conf(lines, data)
+    lines = _dict_to_conf(lines, data, list_names=['thread'])
     
     try:
         file.writelines([l + '\n' for l in lines])
     
     except Exception as e:
-        logging.error('could not write motion config file %(path)s: %(msg)s' % {
-                'path': _MOTION_CONFIG_FILE_PATH, 'msg': unicode(e)})
+        logging.error('could not write main config file %(path)s: %(msg)s' % {
+                'path': _MAIN_CONFIG_FILE_PATH, 'msg': unicode(e)})
         
         raise
     
@@ -175,12 +98,43 @@ def set_motion(data):
     return data
 
 
-def get_camera(camera_id):
+def get_camera_ids():
+    config_path = os.path.join(settings.PROJECT_PATH, _CONFIG_DIR)
+    
+    logging.debug('listing config dir %(path)s...' % {'path': config_path})
+    
+    try:
+        ls = os.listdir(config_path)
+    
+    except Exception as e:
+        logging.error('failed to list config dir %(path)s: %(msg)s', {
+                'path': config_path, 'msg': unicode(e)})
+        
+        raise
+    
+    camera_ids = []
+    
+    pattern = _CAMERA_CONFIG_FILE_NAME.replace('%(id)s', '(\d+)')
+    for name in ls:
+        match = re.match(pattern, name)
+        if match:
+            camera_id = int(match.groups()[0])
+            logging.debug('found camera with id %(id)s' % {
+                    'id': camera_id})
+            
+            camera_ids.append(camera_id)
+        
+    camera_ids.sort()
+    
+    return camera_ids
+
+
+def get_camera(camera_id, as_lines=False):
     # TODO use a cache
     
     camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
     
-    logging.info('reading camera config from %(path)s...' % {'path': camera_config_path})
+    logging.debug('reading camera config from %(path)s...' % {'path': camera_config_path})
     
     try:
         file = open(camera_config_path, 'r')
@@ -202,7 +156,16 @@ def get_camera(camera_id):
     finally:
         file.close()
     
+    if as_lines:
+        return lines
+        
     data = _conf_to_dict(lines)
+    
+    # determine the enabled status
+    main_config = get_main()
+    threads = main_config.get('thread', [])
+    data['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
+    
     _set_default_motion_camera(data)
     
     return data
@@ -213,36 +176,37 @@ def set_camera(camera_id, data):
     
     _set_default_motion_camera(data)
     
-    camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
+    # set the enabled status in main config
+    main_config = get_main()
+    threads = main_config.setdefault('thread', [])
+    config_file_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
+    if data['@enabled'] and config_file_name not in threads:
+        threads.append(config_file_name)
+            
+    elif not data['@enabled']:
+        threads = [t for t in threads if t != config_file_name]
+
+    if len(threads):
+        main_config['thread'] = threads
+    
+    elif 'thread' in main_config:
+        del main_config['thread']
+    
+    set_main(main_config)
+
+    del data['@enabled']
     
     # read the actual configuration from file
+    config_file_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
+    if os.path.isfile(config_file_path):
+        lines = get_camera(camera_id, as_lines=True)
     
-    logging.info('reading camera config from %(path)s...' % {'path': camera_config_path})
-    
-    try:
-        file = open(camera_config_path, 'r')
-    
-    except Exception as e:
-        logging.error('could not open camera config file %(path)s: %(msg)s' % {
-                'path': camera_config_path, 'msg': unicode(e)})
-        
-        raise
-    
-    try:
-        lines = [l[:-1] for l in file.readlines()]
-    
-    except Exception as e:
-        logging.error('could not read camera config file %(path)s: %(msg)s' % {
-                'path': camera_config_path, 'msg': unicode(e)})
-        
-        raise
-    
-    finally:
-        file.close()
+    else:
+        lines = []
     
     # write the configuration to file
-    
-    logging.info('writing camera config to %(path)s...' % {'path': camera_config_path})
+    camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
+    logging.debug('writing camera config to %(path)s...' % {'path': camera_config_path})
     
     try:
         file = open(camera_config_path, 'w')
@@ -274,80 +238,50 @@ def add_camera(device):
     # TODO use a cache
     
     # determine the last camera id
-    general_config = get_general()
-    cameras = general_config.get('cameras', {})
-    camera_ids = [int(k) for k in cameras.iterkeys()]
+    camera_ids = get_camera_ids()
 
-    last_camera_id = max(camera_ids or [0])
-    camera_id = last_camera_id + 1
+    camera_id = 1
+    while camera_id in camera_ids:
+        camera_id += 1
     
     logging.info('adding new camera with id %(id)s...' % {'id': camera_id})
-        
-    # write the configuration to file
-    camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
-    logging.info('writing camera config to %(path)s...' % {'path': camera_config_path})
     
-    try:
-        file = open(camera_config_path, 'w')
-    
-    except Exception as e:
-        logging.error('could not open camera config file %(path)s for writing: %(msg)s' % {
-                'path': camera_config_path, 'msg': unicode(e)})
-        
-        raise
-    
+    # get device type
+    proto = None
+    if device.count('://'):
+        proto, device = device.split('://', 1)
+
     # add the default camera config
-    data = {
-        'videodevice': device
-    }
-    _set_default_motion_camera(data)
+    data = OrderedDict()
+    name = 'Camera' + str(camera_id)
+    data['@name'] = name
+    data['@proto'] = proto
+    data['videodevice'] = device
     
-    lines = _dict_to_conf([], data)
+    # write the configuration to file
+    set_camera(camera_id, data)
     
-    try:
-        file.writelines([l + '\n' for l in lines])
-    
-    except Exception as e:
-        logging.error('could not write camera config file %(path)s: %(msg)s' % {
-                'path': camera_config_path, 'msg': unicode(e)})
-        
-        raise
-    
-    finally:
-        file.close()
-    
-    # add the camera to the general config
-    cameras[camera_id] = {
-        'name': 'camera' + str(camera_id),
-        'device': device,
-        'enabled': True
-    }
-    
-    general_config['cameras'] = cameras
-    
-    set_general(general_config)
-    
-    # add the camera to the main motion config
-    motion_config = get_motion()
-    threads = motion_config.setdefault('thread', [])
-    threads.append(camera_config_path)
-    set_motion(data)
-    
-    return camera_id, cameras[camera_id]['name'], data
+    return camera_id, name, data
 
 
 def rem_camera(camera_id):
     # TODO use a cache
 
-    # remove the camera from general config
-    general_config = get_general()
-    cameras = general_config.get('cameras', {})
-    del cameras[camera_id]
-    
-    general_config['cameras'] = cameras
-    set_general(general_config)
-    
+    camera_config_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
     camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
+    
+    # remove the camera from the main config
+    main_config = get_main()
+    threads = main_config.setdefault('thread', [])
+    threads = [t for t in threads if t != camera_config_name]
+    
+    if len(threads):
+        main_config['thread'] = threads
+    
+    elif 'thread' in main_config:
+        del main_config['thread']
+
+    set_main(main_config)
     
     logging.info('removing camera config file %(path)s...' % {'path': camera_config_path})
     
@@ -360,25 +294,16 @@ def rem_camera(camera_id):
         
         raise
 
-    # remove the camera from the main motion config
-    motion_config = get_motion()
-    threads = motion_config.setdefault('thread', [])
-    threads = [t for t in threads if t != camera_config_path]
-    motion_config['thread'] = threads
-    set_motion(motion_config)
-    
 
 def camera_ui_to_dict(camera_id, ui):
-    cameras = get_general().get('cameras', {})
-    camera_info = cameras.get(camera_id, {})
-    camera_name = camera_info.get('name', '(unknown)')
-    
     video_device = ui.get('device', '')
     if video_device.count('://'):
         video_device = video_device.split('://')[-1]
 
     data = {
         # device
+        '@name': ui.get('name', ''),
+        '@enabled': ui.get('enabled', False),
         'videodevice': video_device,
         'lightswitch': int(ui.get('light_switch_detect', False) * 5),
         'auto_brightness': ui.get('auto_brightness', False),
@@ -433,7 +358,7 @@ def camera_ui_to_dict(camera_id, ui):
     if ui.get('text_overlay', False):
         left_text = ui.get('left_text', 'camera-name')
         if left_text == 'camera-name':
-            data['text_left'] = camera_name
+            data['text_left'] = ui.get('name')
             
         elif left_text == 'timestamp':
             data['text_left'] = '%Y-%m-%d\n%T'
@@ -443,7 +368,7 @@ def camera_ui_to_dict(camera_id, ui):
         
         right_text = ui.get('right_text', 'timestamp')
         if right_text == 'camera-name':
-            data['text_right'] = camera_name
+            data['text_right'] = ui.get('name')
             
         elif right_text == 'timestamp':
             data['text_right'] = '%Y-%m-%d\n%T'
@@ -478,12 +403,10 @@ def camera_dict_to_ui(camera_id, data):
     # set the default options if not present
     _set_default_motion_camera(data)
     
-    cameras = get_general().get('cameras', {})
-    camera_info = cameras.get(camera_id, {})
-    camera_name = camera_info.get('name', '(unknown)')
-    
     ui = {
         # device
+        'name': data['@name'],
+        'enabled': data['@enabled'],
         'device': 'v4l2://' + data['videodevice'],
         'light_switch_detect': data['lightswitch'] > 0,
         'auto_brightness': data['auto_brightness'],
@@ -536,7 +459,7 @@ def camera_dict_to_ui(camera_id, data):
     if text_left or text_right:
         ui['text_overlay'] = True
         
-        if text_left == camera_name:
+        if text_left == data['@name']:
             ui['left_text'] = 'camera-name'
             
         elif text_left == '%Y-%m-%d\n%T':
@@ -546,7 +469,7 @@ def camera_dict_to_ui(camera_id, data):
             ui['left_text'] = 'custom-text'
             ui['custom_left_text'] = text_left
 
-        if text_right == camera_name:
+        if text_right == data['@name']:
             ui['right_text'] = 'camera-name'
             
         elif text_right == '%Y-%m-%d\n%T':
@@ -560,7 +483,7 @@ def camera_dict_to_ui(camera_id, data):
     output_normal = data.get('output_normal')
     jpeg_filename = data.get('jpeg_filename')
     snapshot_interval = data.get('snapshot_interval')
-    snapshot_filename = data.get('snapshpt_filename')
+    snapshot_filename = data.get('snapshot_filename')
     
     if (((output_all or output_normal) and jpeg_filename) or
         (snapshot_interval and snapshot_filename)):
@@ -623,80 +546,95 @@ def _python_to_value(value):
         return value
 
 
-def _conf_to_dict(lines):
-    data = {}
+def _conf_to_dict(lines, list_names=[]):
+    data = OrderedDict()
     
     for line in lines:
         line = line.strip()
         if len(line) == 0:  # empty line
             continue
         
-        if line.startswith('#') or line.startswith(';'):  # comment line
+        if line.startswith(';'):  # comment line
             continue
         
-        parts = line.split(None, 1)
-        if len(parts) != 2:  # invalid line format
-            continue
+        match = re.match('^\#\s*(\@\w+)\s*([^\#]*)', line)
+        if match:
+            name, value = match.groups()[:2]
         
-        (name, value) = parts
-        value = value.strip()
+        elif line.startswith('#'): # comment line
+            continue
+
+        else:
+            line = line.split('#')[0] # everything up to the first #
+            
+            parts = line.split(None, 1)
+            if len(parts) != 2:  # invalid line format
+                continue
+
+            (name, value) = parts
+            value = value.strip()
+        
         value = _value_to_python(value)
         
-        existing_value = data.get(name)
-        if isinstance(existing_value, list):
-            existing_value.append(value)
+        if name in list_names:
+            data.setdefault(name, []).append(value)
         
-        elif existing_value is not None:
-            data[name] = [existing_value, value]
-        
-        else: # new value
+        else:
             data[name] = value
-    
+
     return data
 
 
-def _dict_to_conf(lines, data):
+def _dict_to_conf(lines, data, list_names=[]):
     conf_lines = []
-    data_copy = dict(data)
+    data_copy = OrderedDict(data)
     
     # parse existing lines and replace the values
-    
-    list_names = {}
     
     for line in lines:
         line = line.strip()
         if len(line) == 0:  # empty line
             conf_lines.append(line)
             continue
+
+        if line.startswith(';'):  # comment line
+            continue
         
-        if line.startswith('#') or line.startswith(';'):  # comment line
+        match = re.match('^\#\s*(\@\w+)\s*([^\#]*)', line)
+        if match: # @line
+            (name, value) = match.groups()[:2]
+        
+        elif line.startswith('#'):  # comment line
             conf_lines.append(line)
             continue
         
-        parts = line.split(None, 1)
-        if len(parts) != 2:  # invalid line format
-            conf_lines.append(line)
-            continue
+        else:
+            parts = line.split(None, 1)
+            if len(parts) == 2:
+                (name, value) = parts
+            
+            else:
+                (name, value) = parts[0], ''
         
-        (name, value) = parts
-        if name in list_names:
+        if name not in data_copy:
             continue # name already processed
         
-        new_value = data.get(name)
-        if new_value is not None:
-            if isinstance(value, list):
-                list_names[name] = True
-                
-                for v in value:
-                    v = _python_to_value(v)
-                
-                    line = name + ' ' + v
+        if name in list_names:
+            new_value = data.get(name)
+            if new_value is not None:
+                for v in new_value:
+                    line = name + ' ' + _python_to_value(v)
                     conf_lines.append(line)
-
+            
             else:
+                line = name + ' ' + value
+                conf_lines.append(line)
+
+        else:
+            new_value = data.get(name)
+            if new_value is not None:
                 value = _python_to_value(new_value)
-        
-        else: # value not specified, using the existing one
+            
             line = name + ' ' + value
             conf_lines.append(line)
         
@@ -704,31 +642,45 @@ def _dict_to_conf(lines, data):
     
     # add the remaining config values not covered by existing lines
     
-    for (name, value) in data_copy:
-        line = name + ' ' + value
-        conf_lines.append(line)
+    if len(data_copy) and len(lines):
+        conf_lines.append('') # add a blank line
+    
+    for (name, value) in data_copy.iteritems():
+        if name in list_names:
+            for v in value:
+                line = name + ' ' + _python_to_value(v)
+                conf_lines.append(line)
+
+        else:
+            line = name + ' ' + _python_to_value(value)
+            conf_lines.append(line)
+    
+    lines = []
+    for i, line in enumerate(conf_lines):
+        if i > 0 and len(conf_lines[i].strip()) == 0 and len(conf_lines[i - 1].strip()) == 0:
+            continue
         
-    return conf_lines
-
-
-def _set_default_general(data):
-    # TODO set these in motion.conf
-    data.setdefault('general_enabled', True)
-    data.setdefault('show_advanced', False)
-    data.setdefault('admin_username', 'admin')
-    data.setdefault('admin_password', '')
-    data.setdefault('normal_username', 'user')
-    data.setdefault('storage_device', 'local-disk')
-    data.setdefault('root_directory', '/')
-    data.setdefault('cameras', {})
+        if line.startswith('@'):
+            line = '# ' + line
+        
+        lines.append(line)
+        
+    return lines
 
 
 def _set_default_motion(data):
-    pass # TODO
+    data.setdefault('@general_enabled', True)
+    data.setdefault('@show_advanced', False)
+    data.setdefault('@admin_username', 'admin')
+    data.setdefault('@admin_password', '')
+    data.setdefault('@normal_username', 'user')
+    data.setdefault('@normal_password', '')
 
 
 def _set_default_motion_camera(data):
-    data.setdefault('device', '')
+    data.setdefault('@name', '')
+    data.setdefault('@enabled', False)
+    data.setdefault('videodevice', '')
     data.setdefault('lightswitch', 0)
     data.setdefault('auto_brightness', False)
     data.setdefault('brightness', 0)
@@ -761,7 +713,7 @@ def _set_default_motion_camera(data):
     data.setdefault('output_normal', False)
     data.setdefault('jpeg_filename', '')
     data.setdefault('snapshot_interval', 0)
-    data.setdefault('snapshpt_filename', '')
+    data.setdefault('snapshot_filename', '')
     data.setdefault('quality', 75)
     
     data.setdefault('movie_filename', '')
