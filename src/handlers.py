@@ -27,13 +27,22 @@ class MainHandler(BaseHandler):
 
 class ConfigHandler(BaseHandler):
     def get(self, camera_id=None, op=None):
+        if camera_id is not None:
+            camera_id = int(camera_id)
+        
         if op == 'get':
             self.get_config(camera_id)
+            
+        elif op == 'list':
+            self.list_cameras()
         
         else:
             raise HTTPError(400, 'unknown operation')
     
     def post(self, camera_id=None, op=None):
+        if camera_id is not None:
+            camera_id = int(camera_id)
+        
         if op == 'set':
             self.set_config(camera_id)
         
@@ -47,25 +56,21 @@ class ConfigHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
     
     def get_config(self, camera_id):
-        general_config = config.get_main()
-        
         if camera_id:
             logging.debug('getting config for camera %(id)s' % {'id': camera_id})
             
-            cameras = general_config.get('cameras', {})
-            if camera_id not in cameras:
+            camera_ids = config.get_camera_ids()
+            if camera_id not in camera_ids:
                 raise HTTPError(404, 'no such camera')
             
             self.finish_json(config.get_camera(camera_id))
             
         else:
-            logging.debug('getting general config')
+            logging.debug('getting main config')
             
-            self.finish_json(general_config)
+            self.finish_json(config.get_main())
     
     def set_config(self, camera_id):
-        general_config = config.get_main()
-        
         try:
             data = json.loads(self.request.body)
             
@@ -77,14 +82,14 @@ class ConfigHandler(BaseHandler):
         if camera_id:
             logging.debug('setting config for camera %(id)s' % {'id': camera_id})
             
-            cameras = general_config.get('cameras', {})
-            if camera_id not in cameras:
+            camera_ids = config.get_camera_ids()
+            if camera_id not in camera_ids:
                 raise HTTPError(404, 'no such camera')
             
             config.set_camera(camera_id, data)
 
         else:
-            logging.debug('setting general config')
+            logging.debug('setting main config')
             
             try:
                 data = json.loads(self.request.body)
@@ -94,14 +99,33 @@ class ConfigHandler(BaseHandler):
                 
                 raise
             
-            general_config.update(data)
-            config.set_main(general_config)
+            config.set_main(data)
+    
+    def list_cameras(self):
+        logging.debug('listing cameras')
+        
+        cameras = []
+        for camera_id in config.get_camera_ids():
+            data = config.get_camera(camera_id)
+            data['@id'] = camera_id
+            cameras.append(data)
+
+        self.finish_json({'cameras': cameras})
     
     def add_camera(self):
         logging.debug('adding new camera')
+        
+        device = self.get_argument('device')
+        camera_id, data = config.add_camera(device)
+        
+        data['@id'] = camera_id
+        
+        self.finish_json(data)
     
     def rem_camera(self, camera_id):
         logging.debug('removing camera %(id)s' % {'id': camera_id})
+        
+        config.rem_camera(camera_id)
 
 
 class SnapshotHandler(BaseHandler):

@@ -253,15 +253,14 @@ def add_camera(device):
 
     # add the default camera config
     data = OrderedDict()
-    name = 'Camera' + str(camera_id)
-    data['@name'] = name
+    data['@name'] = 'Camera' + str(camera_id)
     data['@proto'] = proto
     data['videodevice'] = device
     
     # write the configuration to file
     set_camera(camera_id, data)
     
-    return camera_id, name, data
+    return camera_id, data
 
 
 def rem_camera(camera_id):
@@ -683,7 +682,7 @@ def _dict_to_conf(lines, data, list_names=[]):
 
 
 def _set_default_motion(data):
-    data.setdefault('@general_enabled', True)
+    data.setdefault('@enabled', True)
     data.setdefault('@show_advanced', False)
     data.setdefault('@admin_username', 'admin')
     data.setdefault('@admin_password', '')

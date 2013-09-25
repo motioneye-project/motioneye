@@ -9,9 +9,9 @@ import template
 application = Application(
     [
         (r'^/$', handlers.MainHandler),
-        (r'^/config/general/(?P<op>set|get)/?$', handlers.ConfigHandler),
+        (r'^/config/main/(?P<op>set|get)/?$', handlers.ConfigHandler),
         (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem)/?$', handlers.ConfigHandler),
-        (r'^/config/(?P<op>add)/?$', handlers.ConfigHandler),
+        (r'^/config/(?P<op>add|list)/?$', handlers.ConfigHandler),
         (r'^/snapshot/(?P<camera_id>\d+)/(?P<op>current|list)/?$', handlers.SnapshotHandler),
         (r'^/snapshot/(?P<camera_id>\d+)/(?P<op>download)/(?P<filename>.+)/?$', handlers.SnapshotHandler),
         (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', handlers.MovieHandler),
