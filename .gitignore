@@ -5,3 +5,4 @@
 .pydevproject
 *.conf
 *.json
+.settings

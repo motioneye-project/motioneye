@@ -100,6 +100,7 @@ div.settings.open {
 
 div.settings-container {
     padding-top: 10px;
+    padding-bottom: 60px;
     display: none;
     white-space: nowrap;
 }

@@ -1,17 +1,28 @@
 
 
+var noPushLock = 0;
+
+
     /* Ajax */
 
 function ajax(method, url, data, success) {
-    $.ajax({
+    var options = {
         type: method,
         url: url,
         data: data,
+        cache: false,
         success: success,
         failure: function (request, options, error) {
             alert('Request failed with code: ' + request.status);
         }
-    });
+    };
+    
+    if (data && typeof data === 'object') {
+        options['contentType'] = 'application/json';
+        options['data'] = JSON.stringify(options['data']);
+    }
+    
+    $.ajax(options);
 }
 
 
@@ -56,40 +67,43 @@ function initUI() {
     makeNumberValidator($('#postCaptureEntry'), 0, 100, false, false);
     
     makeTimeValidator($('#mondayFrom'));
-    makeTimeValidator($('#mondayTo'))
+    makeTimeValidator($('#mondayTo'));
     makeTimeValidator($('#tuesdayFrom'));
-    makeTimeValidator($('#tuesdayTo'))
+    makeTimeValidator($('#tuesdayTo'));
     makeTimeValidator($('#wednesdayFrom'));
-    makeTimeValidator($('#wednesdayTo'))
+    makeTimeValidator($('#wednesdayTo'));
     makeTimeValidator($('#thursdayFrom'));
-    makeTimeValidator($('#thursdayTo'))
+    makeTimeValidator($('#thursdayTo'));
     makeTimeValidator($('#fridayFrom'));
-    makeTimeValidator($('#fridayTo'))
+    makeTimeValidator($('#fridayTo'));
     makeTimeValidator($('#saturdayFrom'));
-    makeTimeValidator($('#saturdayTo'))
+    makeTimeValidator($('#saturdayTo'));
     makeTimeValidator($('#sundayFrom'));
     makeTimeValidator($('#sundayTo'));
     
-    $('#motionEyeSwitch').change(updateSettingsUI);
-    $('#showAdvancedSwitch').change(updateSettingsUI);
-    $('#storageDeviceSelect').change(updateSettingsUI);
-    $('#autoBrightnessSwitch').change(updateSettingsUI);
-    $('#leftTextSelect').change(updateSettingsUI);
-    $('#rightTextSelect').change(updateSettingsUI);
-    $('#captureModeSelect').change(updateSettingsUI);
-    $('#autoNoiseDetectSwitch').change(updateSettingsUI);
-    $('#videoDeviceSwitch').change(updateSettingsUI);
-    $('#textOverlaySwitch').change(updateSettingsUI);
-    $('#videoStreamingSwitch').change(updateSettingsUI);
-    $('#stillImagesSwitch').change(updateSettingsUI);
-    $('#motionMoviesSwitch').change(updateSettingsUI);
-    $('#motionNotificationsSwitch').change(updateSettingsUI);
-    $('#workingScheduleSwitch').change(updateSettingsUI);
+    $('#motionEyeSwitch').change(updateConfigUI);
+    $('#showAdvancedSwitch').change(updateConfigUI);
+    $('#storageDeviceSelect').change(updateConfigUI);
+    $('#autoBrightnessSwitch').change(updateConfigUI);
+    $('#leftTextSelect').change(updateConfigUI);
+    $('#rightTextSelect').change(updateConfigUI);
+    $('#captureModeSelect').change(updateConfigUI);
+    $('#autoNoiseDetectSwitch').change(updateConfigUI);
+    $('#videoDeviceSwitch').change(updateConfigUI);
+    $('#textOverlaySwitch').change(updateConfigUI);
+    $('#videoStreamingSwitch').change(updateConfigUI);
+    $('#stillImagesSwitch').change(updateConfigUI);
+    $('#motionMoviesSwitch').change(updateConfigUI);
+    $('#motionNotificationsSwitch').change(updateConfigUI);
+    $('#workingScheduleSwitch').change(updateConfigUI);
     
-    $('#videoDeviceSwitch').change(fetchCameraSettings);
+    $('#videoDeviceSwitch').change(fetchCameraConfig);
+    $('input.general').change(pushMainConfig);
 }
 
-function updateSettingsUI() {
+function updateConfigUI() {
+    noPushLock++;
+    
     var objs = $('tr.settings-item, div.advanced-setting, table.advanced-setting, div.settings-section-title, table.settings');
     
     function markHide() {
@@ -188,17 +202,136 @@ function updateSettingsUI() {
             $(this).show(200);
         }
     });
+    
+    noPushLock--;
+}
+
+function mainUi2Dict() {
+    return {
+        '@enabled': $('#motionEyeSwitch')[0].checked,
+        '@show_advanced': $('#showAdvancedSwitch')[0].checked,
+        '@admin_username': $('#adminUsernameEntry').val(),
+        '@admin_password': $('#adminPasswordEntry').val(),
+        '@normal_username': $('#normalUsernameEntry').val(),
+        '@normal_password': $('#normalPasswordEntry').val()
+    };
+}
+
+function dict2MainUi(dict) {
+    noPushLock++;
+    
+    $('#motionEyeSwitch')[0].checked = dict['@enabled'];
+    $('#motionEyeSwitch').change();
+    
+    $('#showAdvancedSwitch')[0].checked = dict['@show_advanced'];
+    $('#showAdvancedSwitch').change();
+    
+    $('#adminUsernameEntry').val(dict['@admin_username']);
+    $('#adminPasswordEntry').val(dict['@admin_password']);
+    $('#normalUsernameEntry').val(dict['@normal_username']);
+    $('#normalPasswordEntry').val(dict['@normal_password']);
+    
+    noPushLock--;
 }
 
 function cameraUi2Dict() {
-    
+    return {
+        
+    };
 }
 
 function dict2CameraUi(dict) {
+    noPushLock++;
     
+    /* video device */
+    $('#videoDeviceSwitch');
+    $('#deviceNameEntry');
+    $('#lightSwitchDetectSwitch');
+    $('#autoBrightnessSwitch');
+    $('#brightnessSlider');
+    $('#constrastSlider');
+    $('#saturationSlider');
+    $('#hueSlider');
+    $('#resolutionSelect');
+    $('#rotationSelect');
+    $('#framerateSlider');
+    
+    /* file storage */
+    $('#storageDeviceSelect');
+    $('#networkServerEntry');
+    $('#networkShareNameEntry');
+    $('#networkUsernameEntry');
+    $('#networkPasswordEntry');
+    $('#rootDirectoryEntry');
+    
+    /* text overlay */
+    $('#textOverlaySwitch');
+    $('#leftTextSelect');
+    $('#leftTextEntry');
+    $('#rightTextSelect');
+    $('#rightTextEntry');
+    
+    /* video streaming */
+    $('#videoStreamingSwitch');
+    $('#streamingFramerateSlider');
+    $('#streamingQualitySlider');
+    $('#motionOptimizationSwitch');
+    
+    /* still images */
+    $('#stillImagesSwitch');
+    $('#imageFileNameEntry');
+    $('#imageQualitySlider');
+    $('#captureModeSelect');
+    $('#snapshotIntervalEntry');
+    $('#preserveImagesSelect');
+    
+    /* motion movies */
+    $('#motionMoviesSwitch');
+    $('#movieFileNameEntry');
+    $('#movieQualitySlider');
+    $('#preserveMoviesSelect');
+    
+    /* motion detection */
+    $('#showFrameChangesSwitch');
+    $('#frameChangeThresholdSlider');
+    $('#autoNoiseDetectSwitch');
+    $('#noiseLevelSlider');
+    $('#gapEntry');
+    $('#preCaptureEntry');
+    $('#postCaptureEntry');
+    
+    /* motion notifications */
+    $('#motionNotificationsSwitch');
+    $('#emailAddressEntry');
+    $('#phoneNumberEntry');
+    
+    /* working schedule */
+    $('#workingScheduleSwitch');
+    $('#mondayFrom');
+    $('#mondayTo');
+    $('#tuesdayFrom');
+    $('#tuesdayTo');
+    $('#wednesdayFrom');
+    $('#wednesdayTo');
+    $('#thursdayFrom');
+    $('#thursdayTo');
+    $('#fridayFrom');
+    $('#fridayTo');
+    $('#saturdayFrom');
+    $('#saturdayTo');
+    $('#sundayFrom');
+    $('#sundayTo');
+    
+    noPushLock--;
 }
 
 function fetchCurrentConfig() {
+    /* fetch the main configuration */
+    ajax('GET', '/config/main/get/', null, function (data) {
+        dict2MainUi(data);
+    });
+    
+    /* fetch the camera list */
     ajax('GET', '/config/list/', null, function (data) {
         var i, cameras = data.cameras;
         var videoDeviceSelect = $('#videoDeviceSelect');
@@ -210,12 +343,12 @@ function fetchCurrentConfig() {
         
         if (cameras.length) {
             videoDeviceSelect[0].selectedIndex = 0;
-            fetchCameraSettings();
+            fetchCameraConfig();
         }
     });
 }
 
-function fetchCameraSettings() {
+function fetchCameraConfig() {
     var cameraId = $('#videoDeviceSelect').val();
     if (cameraId != null) {
         ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
@@ -225,6 +358,18 @@ function fetchCameraSettings() {
     else {
         dict2CameraUi({});
     }
+}
+
+function pushMainConfig() {
+    if (noPushLock) {
+        return;
+    }
+    
+    var mainConfig = mainUi2Dict();
+    
+    ajax('POST', '/config/main/set/', mainConfig, function () {
+        
+    });
 }
 
 $(document).ready(function () {
@@ -254,6 +399,6 @@ $(document).ready(function () {
     });
     
     initUI();
-    updateSettingsUI();
+    updateConfigUI();
     fetchCurrentConfig();
 });

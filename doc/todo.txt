@@ -1,4 +1,6 @@
 -> group @config rules to top
+-> notification: multiple email addresses and phone numbers
+-> what do we do with working schedule
 -> browser compatibility test
 -> hint text next to section titles
 -> authentication

@@ -31,7 +31,7 @@
     <div class="page">
         <div class="settings">
             <div class="settings-container">
-                <div class="settings-section-title"><input type="checkbox" class="styled section" id="motionEyeSwitch">General Settings</div>
+                <div class="settings-section-title"><input type="checkbox" class="styled section general" id="motionEyeSwitch">General Settings</div>
                 <table class="settings">
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Show Advanced Settings</span></td>
@@ -60,7 +60,7 @@
                     </tr>
                 </table>
                 
-                <div class="settings-section-title"><input type="checkbox" class="styled section" id="videoDeviceSwitch">Video Device</div>
+                <div class="settings-section-title"><input type="checkbox" class="styled section device" id="videoDeviceSwitch">Video Device</div>
                 <table class="settings">
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Camera Name</span></td>
@@ -135,7 +135,7 @@
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Storage Device</span></td>
                         <td class="settings-item-value">
-                            <select class="styled general" id="storageDeviceSelect">
+                            <select class="styled storage" id="storageDeviceSelect">
                                 <option value="local-disk">Local Disk</option>
                                 <option value="network-share">Network Share</option>
                             </select>
@@ -144,32 +144,32 @@
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Network Server</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general" id="networkServerEntry"></td>
+                        <td class="settings-item-value"><input type="text" class="styled storage" id="networkServerEntry"></td>
                         <td><span class="help-mark" title="the address of the network server (IP address or hostname)">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Share Name</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general" id="networkShareNameEntry"></td>
+                        <td class="settings-item-value"><input type="text" class="styled storage" id="networkShareNameEntry"></td>
                         <td><span class="help-mark" title="the name of the network share">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Share Username</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general" id="networkUsernameEntry"></td>
+                        <td class="settings-item-value"><input type="text" class="styled storage" id="networkUsernameEntry"></td>
                         <td><span class="help-mark" title="the username to be supplied when accessing the network share (leave empty if no username is required)">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Share Password</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general" id="networkPasswordEntry"></td>
+                        <td class="settings-item-value"><input type="text" class="styled storage" id="networkPasswordEntry"></td>
                         <td><span class="help-mark" title="the password required by the network share (leave empty if no password is required)">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Root Directory</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general" id="rootDirectoryEntry"></td>
+                        <td class="settings-item-value"><input type="text" class="styled storage" id="rootDirectoryEntry"></td>
                         <td><span class="help-mark" title="the root path (on the selected storage device) where the files will be saved">?</span></td>
                     </tr>
                 </table>
                 
-                <div class="settings-section-title advanced-setting"><input type="checkbox" class="styled section" id="textOverlaySwitch">Text Overlay</div>
+                <div class="settings-section-title advanced-setting"><input type="checkbox" class="styled section text-overlay" id="textOverlaySwitch">Text Overlay</div>
                 <table class="settings advanced-setting">
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Left Text</span></td>
@@ -205,7 +205,7 @@
                     </tr>
                 </table>
 
-                <div class="settings-section-title"><input type="checkbox" class="styled section" id="videoStreamingSwitch">Video Streaming</div>
+                <div class="settings-section-title"><input type="checkbox" class="styled section streaming" id="videoStreamingSwitch">Video Streaming</div>
                 <table class="settings">
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Streaming Frame Rate</span></td>
@@ -224,7 +224,7 @@
                     </tr>
                 </table>
                 
-                <div class="settings-section-title"><input type="checkbox" class="styled section" id="stillImagesSwitch">Still Images</div>
+                <div class="settings-section-title"><input type="checkbox" class="styled section still-images" id="stillImagesSwitch">Still Images</div>
                 <table class="settings">
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Image File Name</span></td>
@@ -267,7 +267,7 @@
                     </tr>
                 </table>
                 
-                <div class="settings-section-title"><input type="checkbox" class="styled section" id="motionMoviesSwitch">Motion Movies</div>
+                <div class="settings-section-title"><input type="checkbox" class="styled section motion-movies" id="motionMoviesSwitch">Motion Movies</div>
                 <table class="settings">
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Movie File Name</span></td>
@@ -336,7 +336,7 @@
                     </tr>
                 </table>
                 
-                <div class="settings-section-title"><input type="checkbox" class="styled section" id="motionNotificationsSwitch">Motion Notifications</div>
+                <div class="settings-section-title"><input type="checkbox" class="styled section notifications" id="motionNotificationsSwitch">Motion Notifications</div>
                 <table class="settings">
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Email Address</span></td>
@@ -350,7 +350,7 @@
                     </tr>
                 </table>
 
-                <div class="settings-section-title"><input type="checkbox" class="styled section" id="workingScheduleSwitch">Working Schedule</div>
+                <div class="settings-section-title"><input type="checkbox" class="styled section working-schedule" id="workingScheduleSwitch">Working Schedule</div>
                 <table class="settings">
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Monday</span></td>
