@@ -17,8 +17,8 @@
         <div class="header-container">
             <div class="settings-top-bar">
                 <img class="settings-button" src="{{STATIC_URL}}img/settings.png" title="settings">
-                <select class="video-device styled" id="videoDeviceSelect">
-                </select>
+                <select class="video-device styled" id="videoDeviceSelect"></select>
+                <div class="button apply-button" id="applyButton">Apply</div>
             </div>
             <div class="logo">
                 <a href="/">
@@ -163,7 +163,7 @@
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Share Password</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled storage" id="networkPasswordEntry"></td>
+                        <td class="settings-item-value"><input type="password" class="styled storage" id="networkPasswordEntry"></td>
                         <td><span class="help-mark" title="the password required by the network share (leave empty if no password is required)">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">

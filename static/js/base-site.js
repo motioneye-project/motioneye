@@ -1,6 +1,5 @@
 
-
-var noPushLock = 0;
+var pushConfigs = {};
 
 
     /* Ajax */
@@ -66,6 +65,23 @@ function initUI() {
     makeSlider($('#frameChangeThresholdSlider'), 0, 10000, 0, null, 3, 0, 'px');
     makeSlider($('#noiseLevelSlider'), 0, 100, 0, null, 5, 0, '%');
     
+    /* text validators */
+    makeTextValidator($('#adminUsernameEntry'), true);
+    makeTextValidator($('#adminPasswordEntry'), true);
+    makeTextValidator($('#normalUsernameEntry'), true);
+    makeTextValidator($('#normalPasswordEntry'), true);
+    makeTextValidator($('#deviceNameEntry'), true);
+    makeTextValidator($('#networkServerEntry'), true);
+    makeTextValidator($('#networkShareNameEntry'), true);
+    makeTextValidator($('#networkUsernameEntry'), false);
+    makeTextValidator($('#networkPasswordEntry'), false);
+    makeTextValidator($('#rootDirectoryEntry'), true);
+    makeTextValidator($('#leftTextEntry'), true);
+    makeTextValidator($('#rightTextEntry'), true);
+    makeTextValidator($('#imageFileNameEntry'), true);
+    makeTextValidator($('#movieFileNameEntry'), true);
+    makeTextValidator($('#emailAddressesEntry'), true);
+    
     /* number validators */
     makeNumberValidator($('#streamingPortEntry'), 1024, 65535, false, false, true);
     makeNumberValidator($('#snapshotIntervalEntry'), 1, 86400, false, false, true);
@@ -90,21 +106,21 @@ function initUI() {
     makeTimeValidator($('#sundayTo'));
     
     /* ui elements that enable/disable other ui elements */
-    $('#motionEyeSwitch').change(updateConfigUI);
-    $('#showAdvancedSwitch').change(updateConfigUI);
-    $('#storageDeviceSelect').change(updateConfigUI);
-    $('#autoBrightnessSwitch').change(updateConfigUI);
-    $('#leftTextSelect').change(updateConfigUI);
-    $('#rightTextSelect').change(updateConfigUI);
-    $('#captureModeSelect').change(updateConfigUI);
-    $('#autoNoiseDetectSwitch').change(updateConfigUI);
-    $('#videoDeviceSwitch').change(updateConfigUI);
-    $('#textOverlaySwitch').change(updateConfigUI);
-    $('#videoStreamingSwitch').change(updateConfigUI);
-    $('#stillImagesSwitch').change(updateConfigUI);
-    $('#motionMoviesSwitch').change(updateConfigUI);
-    $('#motionNotificationsSwitch').change(updateConfigUI);
-    $('#workingScheduleSwitch').change(updateConfigUI);
+    $('#motionEyeSwitch').change(updateConfigUi);
+    $('#showAdvancedSwitch').change(updateConfigUi);
+    $('#storageDeviceSelect').change(updateConfigUi);
+    $('#autoBrightnessSwitch').change(updateConfigUi);
+    $('#leftTextSelect').change(updateConfigUi);
+    $('#rightTextSelect').change(updateConfigUi);
+    $('#captureModeSelect').change(updateConfigUi);
+    $('#autoNoiseDetectSwitch').change(updateConfigUi);
+    $('#videoDeviceSwitch').change(updateConfigUi);
+    $('#textOverlaySwitch').change(updateConfigUi);
+    $('#videoStreamingSwitch').change(updateConfigUi);
+    $('#stillImagesSwitch').change(updateConfigUi);
+    $('#motionMoviesSwitch').change(updateConfigUi);
+    $('#motionNotificationsSwitch').change(updateConfigUi);
+    $('#workingScheduleSwitch').change(updateConfigUi);
     
     /* fetch & push handlers */
     $('#videoDeviceSelect').change(fetchCameraConfig);
@@ -118,11 +134,18 @@ function initUI() {
       'input.motion-detection, select.motion-detection, ' +
       'input.notifications, select.notifications, ' +
       'input.working-schedule, select.working-schedule').change(pushCameraConfig);
+    
+    /* apply button */
+    $('#applyButton').click(function () {
+        if ($(this).hasClass('progress')) {
+            return; /* in progress */
+        }
+        
+        doApply();
+    });
 }
 
-function updateConfigUI() {
-    noPushLock++;
-    
+function updateConfigUi() {
     var objs = $('tr.settings-item, div.advanced-setting, table.advanced-setting, div.settings-section-title, table.settings');
     
     function markHide() {
@@ -223,7 +246,7 @@ function updateConfigUI() {
     });
     
     /* re-validate all the input validators */
-    $('div.settings').find('input.number-validator, input.time-validator').each(function () {
+    $('div.settings').find('input.text-validator, input.number-validator, input.time-validator').each(function () {
         this.validate();
     });
     
@@ -238,34 +261,40 @@ function updateConfigUI() {
             this.selectedIndex = 0;
         }
     });
+}
+
+function configUiValid() {
+    var valid = true;
+    $('div.settings input, select').each(function () {
+        if (this.invalid) {
+            valid = false;
+            return false;
+        }
+    });
     
-    noPushLock--;
+    return valid;
 }
 
 function mainUi2Dict() {
     return {
-        '@enabled': $('#motionEyeSwitch')[0].checked,
-        '@show_advanced': $('#showAdvancedSwitch')[0].checked,
-        '@admin_username': $('#adminUsernameEntry').val(),
-        '@admin_password': $('#adminPasswordEntry').val(),
-        '@normal_username': $('#normalUsernameEntry').val(),
-        '@normal_password': $('#normalPasswordEntry').val()
+        'enabled': $('#motionEyeSwitch')[0].checked,
+        'show_advanced': $('#showAdvancedSwitch')[0].checked,
+        'admin_username': $('#adminUsernameEntry').val(),
+        'admin_password': $('#adminPasswordEntry').val(),
+        'normal_username': $('#normalUsernameEntry').val(),
+        'normal_password': $('#normalPasswordEntry').val()
     };
 }
 
 function dict2MainUi(dict) {
-    noPushLock++;
+    $('#motionEyeSwitch')[0].checked = dict['enabled'];
+    $('#showAdvancedSwitch')[0].checked = dict['show_advanced'];
+    $('#adminUsernameEntry').val(dict['admin_username']);
+    $('#adminPasswordEntry').val(dict['admin_password']);
+    $('#normalUsernameEntry').val(dict['normal_username']);
+    $('#normalPasswordEntry').val(dict['normal_password']);
     
-    $('#motionEyeSwitch')[0].checked = dict['@enabled'];
-    $('#showAdvancedSwitch')[0].checked = dict['@show_advanced'];
-    $('#adminUsernameEntry').val(dict['@admin_username']);
-    $('#adminPasswordEntry').val(dict['@admin_password']);
-    $('#normalUsernameEntry').val(dict['@normal_username']);
-    $('#normalPasswordEntry').val(dict['@normal_password']);
-    
-    updateConfigUI();
-    
-    noPushLock--;
+    updateConfigUi();
 }
 
 function cameraUi2Dict() {
@@ -353,8 +382,6 @@ function cameraUi2Dict() {
 }
 
 function dict2CameraUi(dict) {
-    noPushLock++;
-    
     /* video device */
     $('#videoDeviceSwitch')[0].checked = dict['enabled'];
     $('#deviceNameEntry').val(dict['name']);
@@ -435,9 +462,98 @@ function dict2CameraUi(dict) {
     $('#sundayFrom').val(dict['sunday_from']);
     $('#sundayTo').val(dict['sunday_to']);
     
-    updateConfigUI();
+    updateConfigUi();
+}
+
     
-    noPushLock--;
+    /* apply button */
+
+function showApply() {
+    if (!$('div.settings-container').is(':visible')) {
+        return; /* settings panel is not open */
+    }
+
+    var applyButton = $('#applyButton');
+    
+    applyButton.html('Apply');
+    applyButton.css('display', 'inline-block');
+    applyButton.animate({'opacity': '1'}, 100);
+    applyButton.removeClass('inactive');
+}
+
+function showProgress() {
+    if (!$('div.settings-container').is(':visible')) {
+        return; /* settings panel is not open */
+    }
+
+    var applyButton = $('#applyButton');
+    
+    if (applyButton.hasClass('progress')) {
+        return; /* progress already visible */
+    }
+    
+    applyButton.html('<img src="' + staticUrl + 'img/progress.gif">');
+    applyButton.css('display', 'inline-block');
+    applyButton.animate({'opacity': '1'}, 100);
+    applyButton.addClass('progress');
+}
+
+function hideApply() {
+    if (!$('div.settings-container').is(':visible')) {
+        return; /* settings panel is not open */
+    }
+
+    var applyButton = $('#applyButton');
+    
+    applyButton.animate({'opacity': '0'}, 200, function () {
+        applyButton.removeClass('progress');
+        applyButton.css('display', 'none');
+    });
+}
+
+function isProgress() {
+    var applyButton = $('#applyButton');
+    
+    return applyButton.hasClass('progress');
+}
+
+function isApplyVisible() {
+    var applyButton = $('#applyButton');
+    
+    return applyButton.is(':visible');
+}
+
+function doApply() {
+    var finishedCount = 0;
+    var configs = [];
+    
+    function testReady() {
+        if (finishedCount >= configs.length) {
+            hideApply();
+        }
+    }
+    
+    for (var key in pushConfigs) {
+        if (pushConfigs.hasOwnProperty(key)) {
+            configs.push({key: key, config: pushConfigs[key]});
+        }
+    }
+    
+    if (configs.length === 0) {
+        return;
+    }
+    
+    showProgress();
+    
+    for (var i = 0; i < configs.length; i++) {
+        var config = configs[i];
+        ajax('POST', '/config/' + config.key + '/set/', config.config, function () {
+            finishedCount++;
+            testReady();
+        });
+    }
+    
+    pushConfigs = {};
 }
 
 function fetchCurrentConfig() {
@@ -476,32 +592,22 @@ function fetchCameraConfig() {
 }
 
 function pushMainConfig() {
-    if (noPushLock) {
-        return;
-    }
-    
-    noPushLock++;
-    
     var mainConfig = mainUi2Dict();
     
-    ajax('POST', '/config/main/set/', mainConfig, function () {
-        noPushLock--;
-    });
+    pushConfigs['main'] = mainConfig;
+    if (!isApplyVisible()) {
+        showApply();
+    }
 }
 
 function pushCameraConfig() {
-    if (noPushLock) {
-        return;
-    }
-    
-    noPushLock++;
-    
     var cameraConfig = cameraUi2Dict();
     var cameraId = $('#videoDeviceSelect').val();
-    
-    ajax('POST', '/config/' + cameraId + '/set/', cameraConfig, function () {
-        noPushLock--;
-    });
+
+    pushConfigs[cameraId] = cameraConfig;
+    if (!isApplyVisible()) {
+        showApply();
+    }
 }
 
 $(document).ready(function () {
@@ -516,6 +622,8 @@ $(document).ready(function () {
             $('div.settings').addClass('open');
             $('div.page-container').addClass('stretched');
             $('div.settings-top-bar').addClass('open');
+
+            updateConfigUi();
         }
     });
     
@@ -531,6 +639,5 @@ $(document).ready(function () {
     });
     
     initUI();
-    updateConfigUI();
     fetchCurrentConfig();
 });

@@ -42,7 +42,7 @@ div.page {
     margin-top: 50px;
     padding-bottom: 20px;
     font-size: 1em;
-    transition: all 0.5s;
+    transition: all 0.5s linear;
 }
 
 div.header {
@@ -56,7 +56,7 @@ div.header {
 }
 
 div.header-container {
-    transition: all 0.5s;
+    transition: all 0.5s linear;
 }
 
 div.footer {
@@ -70,7 +70,7 @@ div.footer {
 }
 
 div.page-container {
-    transition: all 0.2s;
+    transition: all 0.2s linear;
     padding: 5px;
 }
 
@@ -89,7 +89,7 @@ div.settings {
     left: 0px;
     width: 0px;
     height: 100%;
-    transition: all 0.2s;
+    transition: all 0.2s linear;
     overflow: auto;
 }
 
@@ -110,6 +110,7 @@ div.settings.open div.settings-container {
 }
 
 div.settings-top-bar {
+    position: relative;
     display: inline-block;
     width: 40%;
     height: 50px;
@@ -165,6 +166,37 @@ select.video-device {
     vertical-align: middle;
     font-size: 20px;
     width: auto;
+    max-width: 40%;
+}
+
+div.apply-button {
+    position: relative;
+    display: none;
+    opacity: 0;
+    float: right;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
+    background-color: #FF6F00;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+}
+
+div.apply-button:HOVER {
+    background-color: #FF7D19;
+}
+
+div.apply-button:ACTIVE {
+    background-color: #F06800;
+}
+
+div.apply-button.progress {
+    background-color: #FF9340;
 }
 
 div.settings-top-bar.open select.video-device {

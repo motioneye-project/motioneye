@@ -69,8 +69,8 @@ class ConfigHandler(BaseHandler):
         else:
             logging.debug('getting main config')
             
-            # TODO _main_dict_to_ui
-            self.finish_json(config.get_main())
+            ui_config = self._main_dict_to_ui(config.get_main())
+            self.finish_json(ui_config)
     
     def set_config(self, camera_id):
         try:
@@ -102,7 +102,7 @@ class ConfigHandler(BaseHandler):
                 
                 raise
             
-            # TODO _main_ui_to_dict
+            data = self._main_ui_to_dict(data)
             config.set_main(data)
     
     def list_cameras(self):
@@ -130,6 +130,26 @@ class ConfigHandler(BaseHandler):
         logging.debug('removing camera %(id)s' % {'id': camera_id})
         
         config.rem_camera(camera_id)
+        
+    def _main_ui_to_dict(self, ui):
+        return {
+            '@enabled': ui.get('enabled', True),
+            '@show_advanced': ui.get('show_advanced', False),
+            '@admin_username': ui.get('admin_username', ''),
+            '@admin_password': ui.get('admin_password', ''),
+            '@normal_username': ui.get('normal_username', ''),
+            '@normal_password': ui.get('normal_password', '')
+        }
+
+    def _main_dict_to_ui(self, data):
+        return {
+            'enabled': data.get('@enabled', True),
+            'show_advanced': data.get('@show_advanced', False),
+            'admin_username': data.get('@admin_username', ''),
+            'admin_password': data.get('@admin_password', ''),
+            'normal_username': data.get('@normal_username', ''),
+            'normal_password': data.get('@normal_password', '')
+        }
 
     def _camera_ui_to_dict(self, ui):
         video_device = ui.get('device', '')

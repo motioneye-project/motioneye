@@ -18,6 +18,16 @@ input[type=checkbox].styled {
 }
 
 
+    /* button */
+
+div.button {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    cursor: pointer;    
+}
+
+
     /* check box */
 
 div.check-box {

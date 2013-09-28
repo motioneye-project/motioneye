@@ -69,6 +69,14 @@ def set_main(data):
     # read the actual configuration from file
     lines = get_main(as_lines=True)
     
+    # preserve the threads
+    if 'thread' not in data:
+        threads = data.setdefault('thread', [])
+        for line in lines:
+            match = re.match('^\s*thread\s+([a-zA-Z0-9.\-]+)', line)
+            if match:
+                threads.append(match.groups()[0])
+    
     # write the configuration to file
     logging.debug('writing main config to %(path)s...' % {'path': _MAIN_CONFIG_FILE_PATH})
     
@@ -186,11 +194,7 @@ def set_camera(camera_id, data):
     elif not data['@enabled']:
         threads = [t for t in threads if t != config_file_name]
 
-    if len(threads):
-        main_config['thread'] = threads
-    
-    elif 'thread' in main_config:
-        del main_config['thread']
+    main_config['thread'] = threads
     
     set_main(main_config)
 
@@ -274,11 +278,7 @@ def rem_camera(camera_id):
     threads = main_config.setdefault('thread', [])
     threads = [t for t in threads if t != camera_config_name]
     
-    if len(threads):
-        main_config['thread'] = threads
-    
-    elif 'thread' in main_config:
-        del main_config['thread']
+    main_config['thread'] = threads
 
     set_main(main_config)
     

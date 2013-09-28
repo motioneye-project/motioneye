@@ -223,6 +223,47 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     return slider;
 }
 
+function makeTextValidator($input, required) {
+    if (required == null) {
+        required = true;
+    }
+    
+    function isValid(strVal) {
+        if (!$input.parents('tr:eq(0)').is(':visible')) {
+            return true; /* an invisible element is considered always valid */
+        }
+        
+        if (strVal.length === 0 && required) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    var msg = 'this field is required';
+    
+    function validate() {
+        var strVal = $input.val();
+        if (isValid(strVal)) {
+            $input.attr('title', '');
+            $input.removeClass('error');
+            $input[0].invalid = false;
+        }
+        else {
+            $input.attr('title', msg);
+            $input.addClass('error');
+            $input[0].invalid = true;
+        }
+    }
+    
+    $input.keyup(validate);
+    $input.blur(validate);
+    $input.change(validate).change();
+    
+    $input.addClass('text-validator');
+    $input[0].validate = validate;
+}
+
 function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     if (minVal == null) {
         minVal = -Infinity;
@@ -241,6 +282,10 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     }
     
     function isValid(strVal) {
+        if (!$input.parents('tr:eq(0)').is(':visible')) {
+            return true; /* an invisible element is considered always valid */
+        }
+
         if (strVal.length === 0 && !required) {
             return true;
         }
@@ -293,14 +338,17 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
         if (isValid(strVal)) {
             $input.attr('title', '');
             $input.removeClass('error');
+            $input[0].invalid = false;
         }
         else {
             $input.attr('title', msg);
             $input.addClass('error');
+            $input[0].invalid = true;
         }
     }
     
     $input.keyup(validate);
+    $input.blur(validate);
     $input.change(validate).change();
     
     $input.addClass('number-validator');
@@ -315,18 +363,25 @@ function makeTimeValidator($input) {
     var msg = 'enter a valid time in the following format: HH:MM';
     
     function validate() {
+        if (!$input.parents('tr:eq(0)').is(':visible')) {
+            return true; /* an invisible element is considered always valid */
+        }
+        
         var strVal = $input.val();
         if (isValid(strVal)) {
             $input.attr('title', '');
             $input.removeClass('error');
+            $input[0].invalid = false;
         }
         else {
             $input.attr('title', msg);
             $input.addClass('error');
+            $input[0].invalid = true;
         }
     }
     
     $input.keyup(validate);
+    $input.blur(validate);
     $input.change(validate).change();
     $input.timepicker({
         closeOnWindowScroll: true,
