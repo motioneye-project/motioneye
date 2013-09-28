@@ -11,7 +11,7 @@ function ajax(method, url, data, callback) {
         data: data,
         cache: false,
         success: callback,
-        failure: function (request, options, error) {
+        error: function (request, options, error) {
             alert('Request failed with code: ' + request.status);
             if (callback) {
                 callback();
@@ -492,7 +492,7 @@ function showProgress() {
         return; /* progress already visible */
     }
     
-    applyButton.html('<img src="' + staticUrl + 'img/progress.gif">');
+    applyButton.html('<img class="apply-progress" src="' + staticUrl + 'img/progress.gif">');
     applyButton.css('display', 'inline-block');
     applyButton.animate({'opacity': '1'}, 100);
     applyButton.addClass('progress');
@@ -551,6 +551,11 @@ function doApply() {
             finishedCount++;
             testReady();
         });
+        
+        /* update the camera name in the device select */
+        if (config.key !== 'main') {
+            $('#videoDeviceSelect').find('option[value=' + config.key + ']').html(config.config.name);
+        }
     }
     
     pushConfigs = {};

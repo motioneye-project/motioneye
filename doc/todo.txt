@@ -1,8 +1,9 @@
 -> group @config rules to top
--> what do we do with working schedule
 -> browser compatibility test
 -> hint text next to section titles
+-> clickable hints
 -> authentication
+-> better ajax error handling
 -> proxy for slave motioneyes
 -> add a view log functionality
 -> click to zoom on cameras

@@ -196,7 +196,11 @@ div.apply-button:ACTIVE {
 }
 
 div.apply-button.progress {
-    background-color: #FF9340;
+    background-color: #FF6F00;
+}
+
+img.apply-progress {
+    margin-top: 3px;
 }
 
 div.settings-top-bar.open select.video-device {
