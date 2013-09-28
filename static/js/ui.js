@@ -23,15 +23,17 @@ function makeCheckBox($input) {
     /* add the element */
     $input.after(mainDiv);
     
-    /* add event handers */
-    $input.change(function () {
-        if (this.checked) {
+    function update() {
+        if ($input[0].checked) {
             setOn();
         }
         else {
             setOff();
         }
-    }).change();
+    }
+    
+    /* add event handers */
+    $input.change(update).change();
     
     mainDiv.click(function () {
         $input[0].checked = !$input[0].checked;
@@ -50,6 +52,8 @@ function makeCheckBox($input) {
             return false;
         }
     });
+    
+    $input[0].update = update;
     
     return mainDiv;
 }
@@ -134,6 +138,8 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
 
         $('body').unbind('mousemove', bodyMouseMove);
         $('body').unbind('mouseup', bodyMouseUp);
+        
+        $input.change();
     }
     
     bar.mousedown(function (e) {
@@ -212,6 +218,8 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         }
     });
     
+    $input[0].update = input2slider;
+    
     return slider;
 }
 
@@ -258,7 +266,7 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
         msg = 'enter a positive';
     }
     else {
-        msg = 'enter a'
+        msg = 'enter a';
     }
     if (floating) {
         msg += ' number';
@@ -294,6 +302,9 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     
     $input.keyup(validate);
     $input.change(validate).change();
+    
+    $input.addClass('number-validator');
+    $input[0].validate = validate;
 }
 
 function makeTimeValidator($input) {
@@ -322,4 +333,7 @@ function makeTimeValidator($input) {
         selectOnBlur: true,
         timeFormat: 'H:i',
     });
+    
+    $input.addClass('time-validator');
+    $input[0].validate = validate;
 }

@@ -68,6 +68,10 @@
                         <td><span class="help-mark" title="an alias for this camera device">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Camera Device</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled device" id="deviceEntry" disabled="disabled"></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
@@ -218,9 +222,14 @@
                         <td><span class="help-mark" title="sets the live streaming quality (higher values yield a better video quality but require more bandwidth)">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Streaming Port</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled streaming" id="streamingPortEntry"></td>
+                        <td><span class="help-mark" title="sets the TCP port on which the webcam streaming server listens">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Motion Optimization</span></td>
-                        <td class="settings-item-value"><input type="checkbox" class="styled streaming" id="motionOptimizationSwitch"></td>
-                        <td><span class="help-mark" title="enable this if you want a lower frame rate for the live streaming while no motion is detected">?</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled streaming" id="streamingMotion"></td>
+                        <td><span class="help-mark" title="enable this if you want a lower frame rate for the live streaming when no motion is detected">?</span></td>
                     </tr>
                 </table>
                 
@@ -256,11 +265,11 @@
                         <td class="settings-item-label"><span class="settings-item-label">Preserve Images</span></td>
                         <td class="settings-item-value">
                             <select class="styled still-images" id="preserveImagesSelect">
-                                <option>For One Day</option>
-                                <option>For One Week</option>
-                                <option>For One Month</option>
-                                <option>For One Year</option>
-                                <option>Forever</option>
+                                <option value="1">For One Day</option>
+                                <option value="7">For One Week</option>
+                                <option value="30">For One Month</option>
+                                <option value="365">For One Year</option>
+                                <option value="0">Forever</option>
                             </select>
                         </td>
                         <td><span class="help-mark" title="images older than the specified duration are automatically deleted to free storage space">?</span></td>
@@ -283,11 +292,11 @@
                         <td class="settings-item-label"><span class="settings-item-label">Preserve Movies</span></td>
                         <td class="settings-item-value">
                             <select class="styled motion-movies" id="preserveMoviesSelect">
-                                <option>For One Day</option>
-                                <option>For One Week</option>
-                                <option>For One Month</option>
-                                <option>For One Year</option>
-                                <option>Forever</option>
+                                <option value="1">For One Day</option>
+                                <option value="7">For One Week</option>
+                                <option value="30">For One Month</option>
+                                <option value="365">For One Year</option>
+                                <option value="0">Forever</option>
                             </select>
                         </td>
                         <td><span class="help-mark" title="movies older than the specified duration are automatically deleted to free storage space">?</span></td>
@@ -339,14 +348,9 @@
                 <div class="settings-section-title"><input type="checkbox" class="styled section notifications" id="motionNotificationsSwitch">Motion Notifications</div>
                 <table class="settings">
                     <tr class="settings-item">
-                        <td class="settings-item-label"><span class="settings-item-label">Email Address</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled notifications" id="emailAddressEntry" placeholder="email address..."></td>
+                        <td class="settings-item-label"><span class="settings-item-label">Email Addresses</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled notifications" id="emailAddressesEntry" placeholder="email addresses..."></td>
                         <td><span class="help-mark" title="email addresses (separated by comma) that are added here will receive notifications whenever a motion event is detected (leave empty to disable email notifications)">?</span></td>
-                    </tr>
-                    <tr class="settings-item">
-                        <td class="settings-item-label"><span class="settings-item-label">Phone Number</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled notifications" id="phoneNumberEntry" placeholder="phone number..."></td>
-                        <td><span class="help-mark" title="phone numbers (separated by comma) that are added here will receive SMS notifications whenever a motion event is detected (leave empty to disable SMS notifications)">?</span></td>
                     </tr>
                 </table>
 

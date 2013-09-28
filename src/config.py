@@ -294,238 +294,6 @@ def rem_camera(camera_id):
         raise
 
 
-def camera_ui_to_dict(camera_id, ui):
-    video_device = ui.get('device', '')
-    if video_device.count('://'):
-        video_device = video_device.split('://')[-1]
-
-    data = {
-        # device
-        '@name': ui.get('name', ''),
-        '@enabled': ui.get('enabled', False),
-        'videodevice': video_device,
-        'lightswitch': int(ui.get('light_switch_detect', False) * 5),
-        'auto_brightness': ui.get('auto_brightness', False),
-        'brightness': int(int(ui.get('brightness', 0)) * 2.55),
-        'contrast': int(int(ui.get('contrast', 0)) * 2.55),
-        'saturation': int(int(ui.get('saturation', 0)) * 2.55),
-        'hue': int(int(ui.get('hue', 0))),
-        'width': int(ui.get('resolution', '352x288').split('x')[0]),
-        'height': int(ui.get('resolution', '352x288').split('x')[1]),
-        'framerate': int(ui.get('framerate', 1)),
-        
-        # file storage
-        '@storage_device': ui.get('storage_device', 'local-disk'),
-        '@network_server': ui.get('network_server', ''),
-        '@network_share_name': ui.get('network_share_name', ''),
-        '@network_username': ui.get('network_username', ''),
-        '@network_password': ui.get('network_password', ''),
-        'target_dir': ui.get('root_directory', '/'),
-        
-        # text overlay
-        'text_left': '',
-        'text_right': '',
-        
-        # streaming
-        'webcam_localhost': not ui.get('video_streaming', True),
-        'webcam_port': int(ui.get('streaming_port', 8080)),
-        'webcam_maxrate': int(ui.get('streaming_framerate', 1)),
-        'webcam_quality': max(1, int(ui.get('streaming_quality', 50))),
-        
-        # still images
-        'output_normal': False,
-        'output_all': False,
-        'output_motion': False,
-        'snapshot_interval': 0,
-        'jpeg_filename': '',
-        'snapshot_filename': '',
-        # TODO preserve images
-        
-        # movies
-        'ffmpeg_variable_bitrate': 0,
-        'ffmpeg_video_codec': 'mpeg4',
-        'ffmpeg_cap_new': True,
-        'movie_filename': '',
-        # TODO preserve movies
-    
-        # motion detection
-        'text_changes': ui.get('show_frame_changes', False),
-        'locate': ui.get('show_frame_changes', False),
-        'threshold': ui.get('frame_change_threshold', 1500),
-        'noise_tune': ui.get('auto_noise_detect', True),
-        'noise_level': max(1, int(int(ui.get('noise_level', 8)) * 2.55)),
-        'gap': int(ui.get('gap', 60)),
-        'pre_capture': int(ui.get('pre_capture', 0)),
-        'post_capture': int(ui.get('post_capture', 0)),
-        
-        # TODO notifications
-    }
-    
-    if ui.get('text_overlay', False):
-        left_text = ui.get('left_text', 'camera-name')
-        if left_text == 'camera-name':
-            data['text_left'] = ui.get('name')
-            
-        elif left_text == 'timestamp':
-            data['text_left'] = '%Y-%m-%d\n%T'
-            
-        else:
-            data['text_left'] = ui.get('custom_left_text', '')
-        
-        right_text = ui.get('right_text', 'timestamp')
-        if right_text == 'camera-name':
-            data['text_right'] = ui.get('name')
-            
-        elif right_text == 'timestamp':
-            data['text_right'] = '%Y-%m-%d\n%T'
-            
-        else:
-            data['text_right'] = ui.get('custom_right_text', '')
-
-    if ui.get('still_images', False):
-        capture_mode = ui.get('capture_mode', 'motion-triggered')
-        if capture_mode == 'motion-triggered':
-            data['output_normal'] = True
-            data['jpeg_filename'] = ui.get('image_file_name', '%Y-%m-%d-%H-%M-%S-%q')  
-            
-        elif capture_mode == 'interval-snapshots':
-            data['snapshot_interval'] = int(ui.get('snapshot_interval'), 300)
-            data['snapshot_filename'] = ui.get('image_file_name', '%Y-%m-%d-%H-%M-%S-%q')
-            
-        elif capture_mode == 'all-frames':
-            data['output_all'] = True
-            data['jpeg_filename'] = ui.get('image_file_name', '%Y-%m-%d-%H-%M-%S')
-            
-        data['quality'] = max(1, int(ui.get('image_quality', 75)))
-        
-    if ui.get('motion_movies', False):
-        data['ffmpeg_variable_bitrate'] = 2 + int((100 - int(ui.get('movie_quality', 50))) * 0.29)
-        data['movie_filename'] = ui.get('movie_file_name', '%Y-%m-%d-%H-%M-%S-%q')
-
-    return data
-    
-
-def camera_dict_to_ui(camera_id, data):
-    # set the default options if not present
-    _set_default_motion_camera(data)
-    
-    ui = {
-        # device
-        'name': data['@name'],
-        'enabled': data['@enabled'],
-        'device': 'v4l2://' + data['videodevice'],
-        'light_switch_detect': data['lightswitch'] > 0,
-        'auto_brightness': data['auto_brightness'],
-        'brightness': int(int(data['brightness']) / 2.55),
-        'contrast': int(int(data['contrast']) / 2.55),
-        'saturation': int(int(data['saturation']) / 2.55),
-        'hue': int(int(data['hue'])),
-        'resolution': str(data['width']) + 'x' + str(data['height']),
-        'framerate': int(data['framerate']),
-        
-        # file storage
-        'storage_device': data['@storage_device'],
-        'network_server': data['@network_server'],
-        'network_share_name': data['@network_share_name'],
-        'network_username': data['@network_username'],
-        'network_password': data['@network_password'],
-        'root_directory': data['target_dir'],
-        
-        # text overlay
-        'text_overlay': False,
-        'left_text': 'camera-name',
-        'right_text': 'timestamp',
-        
-        # streaming
-        'vudeo_streaming': not data['webcam_localhost'],
-        'streaming_port': int(data['webcam_port']),
-        'streaming_framerate': int(data['webcam_maxrate']),
-        'streaming_quality': int(data['webcam_quality']),
-        
-        # still images
-        'still_images': False,
-        'capture_mode': 'motion-triggered',
-        'image_file_name': '%Y-%m-%d-%H-%M-%S',
-        'image_quality': 75,
-        # TODO preserve images
-        
-        # motion movies
-        'motion_movies': False,
-        'movie_quality': 50,
-        'movie_file_name': '%Y-%m-%d-%H-%M-%S-%q',
-        # TODO preserve movies
-        
-        # motion detection
-        'show_frame_changes': data.get('text_changes') or data.get('locate'),
-        'frame_change_threshold': data['threshold'],
-        'auto_noise_detect': data['noise_tune'],
-        'noise_level': int(int(data['noise_level']) / 2.55),
-        'gap': int(data['gap']),
-        'pre_capture': int(data['pre_capture']),
-        'post_capture': int(data['post_capture']),
-        
-        # TODO notifications
-    }
-    
-    text_left = data['text_left']
-    text_right = data['text_right'] 
-    if text_left or text_right:
-        ui['text_overlay'] = True
-        
-        if text_left == data['@name']:
-            ui['left_text'] = 'camera-name'
-            
-        elif text_left == '%Y-%m-%d\n%T':
-            ui['left_text'] = 'timestamp'
-            
-        else:
-            ui['left_text'] = 'custom-text'
-            ui['custom_left_text'] = text_left
-
-        if text_right == data['@name']:
-            ui['right_text'] = 'camera-name'
-            
-        elif text_right == '%Y-%m-%d\n%T':
-            ui['right_text'] = 'timestamp'
-            
-        else:
-            ui['right_text'] = 'custom-text'
-            ui['custom_right_text'] = text_right
-
-    output_all = data.get('output_all')
-    output_normal = data.get('output_normal')
-    jpeg_filename = data.get('jpeg_filename')
-    snapshot_interval = data.get('snapshot_interval')
-    snapshot_filename = data.get('snapshot_filename')
-    
-    if (((output_all or output_normal) and jpeg_filename) or
-        (snapshot_interval and snapshot_filename)):
-        
-        ui['still_images'] = True
-        
-        if output_all:
-            ui['capture_mode'] = 'all-frames'
-            ui['image_file_name'] = jpeg_filename
-            
-        elif data.get('snapshot_interval'):
-            ui['capture-mode'] = 'interval-snapshots'
-            ui['image_file_name'] = snapshot_filename
-            
-        elif data.get('output_normal'):
-            ui['capture-mode'] = 'motion-triggered'
-            ui['image_file_name'] = jpeg_filename  
-            
-        ui['image_quality'] = ui.get('quality', 75)
-    
-    movie_filename = data.get('movie_filename')
-    if movie_filename:
-        ui['motion_movies'] = True
-        ui['movie_quality'] = int((max(2, data['ffmpeg_variable_bitrate']) - 2) / 0.29)
-        ui['movie_file_name'] = movie_filename
-    
-    return data
-    
-
 def _value_to_python(value):
     value_lower = value.lower()
     if value_lower == 'off':
@@ -693,6 +461,7 @@ def _set_default_motion(data):
 def _set_default_motion_camera(data):
     data.setdefault('@name', '')
     data.setdefault('@enabled', False)
+    data.setdefault('@proto', 'v4l2')
     data.setdefault('videodevice', '')
     data.setdefault('lightswitch', 0)
     data.setdefault('auto_brightness', False)
@@ -715,6 +484,7 @@ def _set_default_motion_camera(data):
     data.setdefault('webcam_port', 8080)
     data.setdefault('webcam_maxrate', 1)
     data.setdefault('webcam_quality', 50)
+    data.setdefault('webcam_motion', False)
     
     data.setdefault('text_left', '')
     data.setdefault('text_right', '')
@@ -735,6 +505,14 @@ def _set_default_motion_camera(data):
     data.setdefault('snapshot_interval', 0)
     data.setdefault('snapshot_filename', '')
     data.setdefault('quality', 75)
+    data.setdefault('@preserve_images', 0)
     
     data.setdefault('movie_filename', '')
     data.setdefault('ffmpeg_variable_bitrate', 14)
+    data.setdefault('@preserve_movies', 0)
+    
+    data.setdefault('@motion_notifications', False)
+    data.setdefault('@motion_notifications_emails', '')
+    
+    data.setdefault('@working_schedule', '')
+

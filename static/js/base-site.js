@@ -5,15 +5,18 @@ var noPushLock = 0;
 
     /* Ajax */
 
-function ajax(method, url, data, success) {
+function ajax(method, url, data, callback) {
     var options = {
         type: method,
         url: url,
         data: data,
         cache: false,
-        success: success,
+        success: callback,
         failure: function (request, options, error) {
             alert('Request failed with code: ' + request.status);
+            if (callback) {
+                callback();
+            }
         }
     };
     
@@ -29,10 +32,12 @@ function ajax(method, url, data, success) {
     /* UI */
 
 function initUI() {
+    /* checkboxes */
     $('input[type=checkbox].styled').each(function () {
         makeCheckBox($(this));
     });
 
+    /* sliders */
     makeSlider($('#brightnessSlider'), 0, 100, 0, null, 5, 0, '%');
     makeSlider($('#contrastSlider'), 0, 100, 0, null, 5, 0, '%');
     makeSlider($('#saturationSlider'), 0, 100, 0, null, 5, 0, '%');
@@ -61,11 +66,14 @@ function initUI() {
     makeSlider($('#frameChangeThresholdSlider'), 0, 10000, 0, null, 3, 0, 'px');
     makeSlider($('#noiseLevelSlider'), 0, 100, 0, null, 5, 0, '%');
     
-    makeNumberValidator($('#snapshotIntervalEntry'), 1, 86400, false, false);
-    makeNumberValidator($('#gapEntry'), 1, 86400, false, false);
-    makeNumberValidator($('#preCaptureEntry'), 0, 100, false, false);
-    makeNumberValidator($('#postCaptureEntry'), 0, 100, false, false);
+    /* number validators */
+    makeNumberValidator($('#streamingPortEntry'), 1024, 65535, false, false, true);
+    makeNumberValidator($('#snapshotIntervalEntry'), 1, 86400, false, false, true);
+    makeNumberValidator($('#gapEntry'), 1, 86400, false, false, true);
+    makeNumberValidator($('#preCaptureEntry'), 0, 100, false, false, true);
+    makeNumberValidator($('#postCaptureEntry'), 0, 100, false, false, true);
     
+    /* time validators */
     makeTimeValidator($('#mondayFrom'));
     makeTimeValidator($('#mondayTo'));
     makeTimeValidator($('#tuesdayFrom'));
@@ -81,6 +89,7 @@ function initUI() {
     makeTimeValidator($('#sundayFrom'));
     makeTimeValidator($('#sundayTo'));
     
+    /* ui elements that enable/disable other ui elements */
     $('#motionEyeSwitch').change(updateConfigUI);
     $('#showAdvancedSwitch').change(updateConfigUI);
     $('#storageDeviceSelect').change(updateConfigUI);
@@ -97,8 +106,18 @@ function initUI() {
     $('#motionNotificationsSwitch').change(updateConfigUI);
     $('#workingScheduleSwitch').change(updateConfigUI);
     
-    $('#videoDeviceSwitch').change(fetchCameraConfig);
+    /* fetch & push handlers */
+    $('#videoDeviceSelect').change(fetchCameraConfig);
     $('input.general').change(pushMainConfig);
+    $('input.device, select.device, ' +
+      'input.storage, select.storage, ' +
+      'input.text-overlay, select.text-overlay, ' + 
+      'input.streaming, select.streaming, ' +
+      'input.still-images, select.still-images, ' +
+      'input.motion-movies, select.motion-movies, ' +
+      'input.motion-detection, select.motion-detection, ' +
+      'input.notifications, select.notifications, ' +
+      'input.working-schedule, select.working-schedule').change(pushCameraConfig);
 }
 
 function updateConfigUI() {
@@ -203,6 +222,23 @@ function updateConfigUI() {
         }
     });
     
+    /* re-validate all the input validators */
+    $('div.settings').find('input.number-validator, input.time-validator').each(function () {
+        this.validate();
+    });
+    
+    /* update all checkboxes and sliders */
+    $('div.settings').find('input[type=checkbox], input.range').each(function () {
+        this.update();
+    });
+    
+    /* select the first option for the selects with no current selection */
+    $('div.settings').find('select').each(function () {
+        if (this.selectedIndex === -1) {
+            this.selectedIndex = 0;
+        }
+    });
+    
     noPushLock--;
 }
 
@@ -221,22 +257,98 @@ function dict2MainUi(dict) {
     noPushLock++;
     
     $('#motionEyeSwitch')[0].checked = dict['@enabled'];
-    $('#motionEyeSwitch').change();
-    
     $('#showAdvancedSwitch')[0].checked = dict['@show_advanced'];
-    $('#showAdvancedSwitch').change();
-    
     $('#adminUsernameEntry').val(dict['@admin_username']);
     $('#adminPasswordEntry').val(dict['@admin_password']);
     $('#normalUsernameEntry').val(dict['@normal_username']);
     $('#normalPasswordEntry').val(dict['@normal_password']);
+    
+    updateConfigUI();
     
     noPushLock--;
 }
 
 function cameraUi2Dict() {
     return {
+        /* video device */
+        'enabled': $('#videoDeviceSwitch')[0].checked,
+        'name': $('#deviceNameEntry').val(),
+        'device': $('#deviceEntry').val(),
+        'light_switch_detect': $('#lightSwitchDetectSwitch')[0].checked,
+        'auto_brightness': $('#autoBrightnessSwitch')[0].checked,
+        'brightness': $('#brightnessSlider').val(),
+        'contrast': $('#contrastSlider').val(),
+        'saturation': $('#saturationSlider').val(),
+        'hue': $('#hueSlider').val(),
+        'resolution': $('#resolutionSelect').val(),
+        'rotation': $('#rotationSelect').val(),
+        'framerate': $('#framerateSlider').val(),
         
+        /* file storage */
+        'storage_device': $('#storageDeviceSelect').val(),
+        'network_server': $('#networkServerEntry').val(),
+        'network_share_name': $('#networkShareNameEntry').val(),
+        'network_username': $('#networkUsernameEntry').val(),
+        'network_password': $('#networkPasswordEntry').val(),
+        'root_directory': $('#rootDirectoryEntry').val(),
+        
+        /* text overlay */
+        'text_overlay': $('#textOverlaySwitch')[0].checked,
+        'left_text': $('#leftTextSelect').val(),
+        'custom_left_text': $('#leftTextEntry').val(),
+        'right_text': $('#rightTextSelect').val(),
+        'custom_right_text': $('#rightTextEntry').val(),
+        
+        /* video streaming */
+        'video_streaming': $('#videoStreamingSwitch')[0].checked,
+        'streaming_port': $('#streamingPortEntry').val(),
+        'streaming_framerate': $('#streamingFramerateSlider').val(),
+        'streaming_quality': $('#streamingQualitySlider').val(),
+        'streaming_motion': $('#streamingMotion')[0].checked,
+        
+        /* still images */
+        'still_images': $('#stillImagesSwitch')[0].checked,
+        'image_file_name': $('#imageFileNameEntry').val(),
+        'image_quality': $('#imageQualitySlider').val(),
+        'capture_mode': $('#captureModeSelect').val(),
+        'snapshot_interval': $('#snapshotIntervalEntry').val(),
+        'preserve_images': $('#preserveImagesSelect').val(),
+        
+        /* motion movies */
+        'motion_movies': $('#motionMoviesSwitch')[0].checked,
+        'movie_file_name': $('#movieFileNameEntry').val(),
+        'movie_quality': $('#movieQualitySlider').val(),
+        'preserve_movies': $('#preserveMoviesSelect').val(),
+        
+        /* motion detection */
+        'show_frame_changes': $('#showFrameChangesSwitch')[0].checked,
+        'frame_change_threshold': $('#frameChangeThresholdSlider').val(),
+        'auto_noise_detect': $('#autoNoiseDetectSwitch')[0].checked,
+        'noise_level': $('#noiseLevelSlider').val(),
+        'gap': $('#gapEntry').val(),
+        'pre_capture': $('#preCaptureEntry').val(),
+        'post_capture': $('#postCaptureEntry').val(),
+        
+        /* motion notifications */
+        'motion_notifications': $('#motionNotificationsSwitch')[0].checked,
+        'motion_notifications_emails': $('#emailAddressesEntry').val(),
+        
+        /* working schedule */
+        'working_schedule': $('#workingScheduleSwitch')[0].checked,
+        'monday_from': $('#mondayFrom').val(),
+        'monday_to':$('#mondayTo').val(),
+        'tuesday_from': $('#tuesdayFrom').val(),
+        'tuesday_to': $('#tuesdayTo').val(),
+        'wednesday_from': $('#wednesdayFrom').val(),
+        'wednesday_to': $('#wednesdayTo').val(),
+        'thursday_from': $('#thursdayFrom').val(),
+        'thursday_to': $('#thursdayTo').val(),
+        'friday_from':$('#fridayFrom').val(),
+        'friday_to': $('#fridayTo').val(),
+        'saturday_from':$('#saturdayFrom').val(),
+        'saturday_to': $('#saturdayTo').val(),
+        'sunday_from': $('#sundayFrom').val(),
+        'sunday_to': $('#sundayTo').val(),
     };
 }
 
@@ -244,83 +356,86 @@ function dict2CameraUi(dict) {
     noPushLock++;
     
     /* video device */
-    $('#videoDeviceSwitch');
-    $('#deviceNameEntry');
-    $('#lightSwitchDetectSwitch');
-    $('#autoBrightnessSwitch');
-    $('#brightnessSlider');
-    $('#constrastSlider');
-    $('#saturationSlider');
-    $('#hueSlider');
-    $('#resolutionSelect');
-    $('#rotationSelect');
-    $('#framerateSlider');
+    $('#videoDeviceSwitch')[0].checked = dict['enabled'];
+    $('#deviceNameEntry').val(dict['name']);
+    $('#deviceEntry').val(dict['device']);
+    $('#lightSwitchDetectSwitch')[0].checked = dict['light_switch_detect'];
+    $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness'];
+    $('#brightnessSlider').val(dict['brightness']);
+    $('#contrastSlider').val(dict['contrast']);
+    $('#saturationSlider').val(dict['saturation']);
+    $('#hueSlider').val(dict['hue']);
+    $('#resolutionSelect').val(dict['resolution']);
+    $('#rotationSelect').val(dict['rotation']);
+    $('#framerateSlider').val(dict['framerate']);
     
     /* file storage */
-    $('#storageDeviceSelect');
-    $('#networkServerEntry');
-    $('#networkShareNameEntry');
-    $('#networkUsernameEntry');
-    $('#networkPasswordEntry');
-    $('#rootDirectoryEntry');
+    $('#storageDeviceSelect').val(dict['storage_device']);
+    $('#networkServerEntry').val(dict['network_server']);
+    $('#networkShareNameEntry').val(dict['network_share_name']);
+    $('#networkUsernameEntry').val(dict['network_username']);
+    $('#networkPasswordEntry').val(dict['network_password']);
+    $('#rootDirectoryEntry').val(dict['root_directory']);
     
     /* text overlay */
-    $('#textOverlaySwitch');
-    $('#leftTextSelect');
-    $('#leftTextEntry');
-    $('#rightTextSelect');
-    $('#rightTextEntry');
+    $('#textOverlaySwitch')[0].checked = dict['text_overlay'];
+    $('#leftTextSelect').val(dict['left_text']);
+    $('#leftTextEntry').val(dict['custom_left_text']);
+    $('#rightTextSelect').val(dict['right_text']);
+    $('#rightTextEntry').val(dict['custom_right_text']);
     
     /* video streaming */
-    $('#videoStreamingSwitch');
-    $('#streamingFramerateSlider');
-    $('#streamingQualitySlider');
-    $('#motionOptimizationSwitch');
+    $('#videoStreamingSwitch')[0].checked = dict['video_streaming'];
+    $('#streamingPortEntry').val(dict['streaming_port']);
+    $('#streamingFramerateSlider').val(dict['streaming_framerate']);
+    $('#streamingQualitySlider').val(dict['streaming_quality']);
+    $('#streamingMotion')[0].checked = dict['streaming_motion'];
     
     /* still images */
-    $('#stillImagesSwitch');
-    $('#imageFileNameEntry');
-    $('#imageQualitySlider');
-    $('#captureModeSelect');
-    $('#snapshotIntervalEntry');
-    $('#preserveImagesSelect');
+    $('#stillImagesSwitch')[0].checked = dict['still_images'];
+    $('#imageFileNameEntry').val(dict['image_file_name']);
+    $('#imageQualitySlider').val(dict['image_quality']);
+    $('#captureModeSelect').val(dict['capture_mode']);
+    $('#snapshotIntervalEntry').val(dict['snapshot_interval']);
+    $('#preserveImagesSelect').val(dict['preserve_images']);
     
     /* motion movies */
-    $('#motionMoviesSwitch');
-    $('#movieFileNameEntry');
-    $('#movieQualitySlider');
-    $('#preserveMoviesSelect');
+    $('#motionMoviesSwitch')[0].checked = dict['motion_movies'];
+    $('#movieFileNameEntry').val(dict['movie_file_name']);
+    $('#movieQualitySlider').val(dict['movie_quality']);
+    $('#preserveMoviesSelect').val(dict['preserve_movies']);
     
     /* motion detection */
-    $('#showFrameChangesSwitch');
-    $('#frameChangeThresholdSlider');
-    $('#autoNoiseDetectSwitch');
-    $('#noiseLevelSlider');
-    $('#gapEntry');
-    $('#preCaptureEntry');
-    $('#postCaptureEntry');
+    $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes'];
+    $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']);
+    $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect'];
+    $('#noiseLevelSlider').val(dict['noise_level']);
+    $('#gapEntry').val(dict['gap']);
+    $('#preCaptureEntry').val(dict['pre_capture']);
+    $('#postCaptureEntry').val(dict['post_capture']);
     
     /* motion notifications */
-    $('#motionNotificationsSwitch');
-    $('#emailAddressEntry');
-    $('#phoneNumberEntry');
+    $('#motionNotificationsSwitch')[0].checked = dict['motion_notifications'];
+    $('#emailAddressesEntry').val(dict['motion_notifications_emails']);
     
     /* working schedule */
-    $('#workingScheduleSwitch');
-    $('#mondayFrom');
-    $('#mondayTo');
-    $('#tuesdayFrom');
-    $('#tuesdayTo');
-    $('#wednesdayFrom');
-    $('#wednesdayTo');
-    $('#thursdayFrom');
-    $('#thursdayTo');
-    $('#fridayFrom');
-    $('#fridayTo');
-    $('#saturdayFrom');
-    $('#saturdayTo');
-    $('#sundayFrom');
-    $('#sundayTo');
+    $('#workingScheduleSwitch')[0].checked = dict['working_schedule'];
+    $('#mondayFrom').val(dict['monday_from']);
+    $('#mondayTo').val(dict['monday_to']);
+    $('#tuesdayFrom').val(dict['tuesday_from']);
+    $('#tuesdayTo').val(dict['tuesday_to']);
+    $('#wednesdayFrom').val(dict['wednesday_from']);
+    $('#wednesdayTo').val(dict['wednesday_to']);
+    $('#thursdayFrom').val(dict['thursday_from']);
+    $('#thursdayTo').val(dict['thursday_to']);
+    $('#fridayFrom').val(dict['friday_from']);
+    $('#fridayTo').val(dict['friday_to']);
+    $('#saturdayFrom').val(dict['saturday_from']);
+    $('#saturdayTo').val(dict['saturday_to']);
+    $('#sundayFrom').val(dict['sunday_from']);
+    $('#sundayTo').val(dict['sunday_to']);
+    
+    updateConfigUI();
     
     noPushLock--;
 }
@@ -365,10 +480,27 @@ function pushMainConfig() {
         return;
     }
     
+    noPushLock++;
+    
     var mainConfig = mainUi2Dict();
     
     ajax('POST', '/config/main/set/', mainConfig, function () {
-        
+        noPushLock--;
+    });
+}
+
+function pushCameraConfig() {
+    if (noPushLock) {
+        return;
+    }
+    
+    noPushLock++;
+    
+    var cameraConfig = cameraUi2Dict();
+    var cameraId = $('#videoDeviceSelect').val();
+    
+    ajax('POST', '/config/' + cameraId + '/set/', cameraConfig, function () {
+        noPushLock--;
     });
 }
 

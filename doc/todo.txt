@@ -1,5 +1,6 @@
+-> add complete js validation
 -> group @config rules to top
--> notification: multiple email addresses and phone numbers
+-> notification: multiple email addresses
 -> what do we do with working schedule
 -> browser compatibility test
 -> hint text next to section titles
