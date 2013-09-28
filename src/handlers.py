@@ -6,6 +6,7 @@ from tornado.web import RequestHandler, HTTPError
 
 import config
 import template
+import v4l2ctl
 
 
 class BaseHandler(RequestHandler):
@@ -35,6 +36,9 @@ class ConfigHandler(BaseHandler):
             
         elif op == 'list':
             self.list_cameras()
+        
+        elif op == 'list_devices':
+            self.list_devices()
         
         else:
             raise HTTPError(400, 'unknown operation')
@@ -115,6 +119,11 @@ class ConfigHandler(BaseHandler):
             cameras.append(data)
 
         self.finish_json({'cameras': cameras})
+    
+    def list_devices(self):
+        logging.debug('listing devices')
+        
+        self.finish_json({'devices': v4l2ctl.list_devices()})
     
     def add_camera(self):
         logging.debug('adding new camera')

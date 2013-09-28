@@ -1,5 +1,6 @@
 -> group @config rules to top
 -> browser compatibility test
+-> requirements test
 -> hint text next to section titles
 -> clickable hints
 -> authentication
