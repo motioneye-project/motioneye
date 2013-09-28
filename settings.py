@@ -5,6 +5,8 @@ import sys
 
 
 PROJECT_PATH = os.path.dirname(sys.argv[0])
+CONF_PATH = os.path.join(PROJECT_PATH, 'conf') # TODO use this
+RUN_PATH = PROJECT_PATH
 
 DEBUG = True
 LOG_LEVEL = logging.DEBUG

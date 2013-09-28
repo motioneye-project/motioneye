@@ -1,4 +1,5 @@
 -> group @config rules to top
+-> motion conf and run dirs should be configurable in settings
 -> browser compatibility test
 -> requirements test
 -> hint text next to section titles
