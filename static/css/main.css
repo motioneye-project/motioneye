@@ -353,6 +353,23 @@ div.camera-placeholder {
     background-color: #555;
 }
 
+div.camera-progress {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0;
+    transition: all 0.2s linear;
+    text-align: center;
+}
+
+img.camera-progress {
+    margin-top: 28%;
+    border: 10px solid white;
+    border-radius: 10px;
+}
+
 
     /* media queries */
 

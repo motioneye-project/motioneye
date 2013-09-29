@@ -6,6 +6,7 @@ from tornado.web import RequestHandler, HTTPError
 
 import config
 import mjpgclient
+import motionctl
 import template
 import v4l2ctl
 
@@ -111,30 +112,42 @@ class ConfigHandler(BaseHandler):
             
             raise
         
-        if camera_id:
-            logging.debug('setting config for camera %(id)s' % {'id': camera_id})
-            
-            camera_ids = config.get_camera_ids()
-            if camera_id not in camera_ids:
-                raise HTTPError(404, 'no such camera')
-
-            data = self._camera_ui_to_dict(data)    
-            config.set_camera(camera_id, data)
-
-        else:
-            logging.debug('setting main config')
-            
-            try:
-                data = json.loads(self.request.body)
+        restart = bool(data.get('restart'))
+        if restart and motionctl.running():
+            motionctl.stop()
+        
+        try:
+            if camera_id:
+                logging.debug('setting config for camera %(id)s' % {'id': camera_id})
                 
-            except Exception as e:
-                logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
-                
-                raise
-            
-            data = self._main_ui_to_dict(data)
-            config.set_main(data)
+                camera_ids = config.get_camera_ids()
+                if camera_id not in camera_ids:
+                    raise HTTPError(404, 'no such camera')
     
+                data = self._camera_ui_to_dict(data)
+                config.set_camera(camera_id, data)
+    
+            else:
+                logging.debug('setting main config')
+                
+                try:
+                    data = json.loads(self.request.body)
+                    
+                except Exception as e:
+                    logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+                    
+                    raise
+                
+                data = self._main_ui_to_dict(data)
+                config.set_main(data)
+
+        except:
+            raise
+        
+        finally:
+            if restart:
+                motionctl.start()
+
     def set_preview(self, camera_id):
         try:
             controls = json.loads(self.request.body)
@@ -276,10 +289,9 @@ class ConfigHandler(BaseHandler):
             '@preserve_images': int(ui.get('preserve_images', 0)),
             
             # movies
-            'ffmpeg_variable_bitrate': 0,
-            'ffmpeg_video_codec': 'mpeg4',
-            'ffmpeg_cap_new': True,
-            'movie_filename': '',
+            'ffmpeg_variable_bitrate': 2 + int((100 - int(ui.get('movie_quality', 75))) * 0.29),
+            'ffmpeg_cap_new': ui.get('motion_movies', False),
+            'movie_filename': ui.get('movie_file_name', '%Y-%m-%d-%H-%M-%S-%q'),
             '@preserve_movies': int(ui.get('preserve_movies', 0)),
         
             # motion detection
@@ -340,10 +352,6 @@ class ConfigHandler(BaseHandler):
                 data['jpeg_filename'] = ui.get('image_file_name', '%Y-%m-%d-%H-%M-%S')
                 
             data['quality'] = max(1, int(ui.get('image_quality', 75)))
-            
-        if ui.get('motion_movies', False):
-            data['ffmpeg_variable_bitrate'] = 2 + int((100 - int(ui.get('movie_quality', 75))) * 0.29)
-            data['movie_filename'] = ui.get('movie_file_name', '%Y-%m-%d-%H-%M-%S-%q')
             
         if ui.get('working_schedule', False):
             data['@working_schedule'] = (

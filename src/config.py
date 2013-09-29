@@ -509,8 +509,9 @@ def _set_default_motion_camera(data):
     data.setdefault('quality', 75)
     data.setdefault('@preserve_images', 0)
     
-    data.setdefault('movie_filename', '')
     data.setdefault('ffmpeg_variable_bitrate', 14)
+    data.setdefault('movie_filename', '')
+    data.setdefault('ffmpeg_cap_new', False)
     data.setdefault('@preserve_movies', 0)
     
     data.setdefault('@motion_notifications', False)

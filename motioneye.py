@@ -1,6 +1,7 @@
 #!/usr/bin/env python2
 
 import logging
+import motionctl
 import os.path
 import signal
 import sys
@@ -22,6 +23,10 @@ def _configure_signals():
             ioloop.stop()
         
         logging.info('server stopped')
+        
+        if motionctl.running():
+            motionctl.stop()
+            logging.info('motion stopped')
 
     signal.signal(signal.SIGINT, bye_handler)
     signal.signal(signal.SIGTERM, bye_handler)
@@ -40,18 +45,14 @@ def _start_server():
     tornado.ioloop.IOLoop.instance().start()
 
 
+def _start_motion():
+    if not motionctl.running():
+        motionctl.start()
+        logging.info('motion started')
+
+
 if __name__ == '__main__':
     _configure_signals()
     _configure_logging()
+    _start_motion()
     _start_server()
-    
-#     import config # TODO remove this
-#     main_config = config.get_main()
-#     config.add_camera('v4l2:///dev/video0')
-#     #data = config.get_camera(1)
-#     #data['@enabled'] = True
-#     #config.set_camera(1, data)
-#     config.rem_camera(1)
-    
-#     import motionctl
-#     motionctl.start()

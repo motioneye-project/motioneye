@@ -618,6 +618,9 @@ function showProgress() {
     applyButton.css('display', 'inline-block');
     applyButton.animate({'opacity': '1'}, 100);
     applyButton.addClass('progress');
+    
+    $('img.camera').css('opacity', '0.3');
+    $('div.camera-progress').css('opacity', '0.5');
 }
 
 function hideApply() {
@@ -640,6 +643,9 @@ function endProgress() {
     else {
         showApply();
     }
+    
+    $('div.camera-progress').css('opacity', '0');
+    $('img.camera').css('opacity', '1');
 }
 
 function isProgress() {
@@ -679,6 +685,9 @@ function doApply() {
     
     for (var i = 0; i < configs.length; i++) {
         var config = configs[i];
+        if (i === configs.length - 1) {
+            config.config['restart'] = true;
+        }
         ajax('POST', '/config/' + config.key + '/set/', config.config, function () {
             finishedCount++;
             testReady();
@@ -785,6 +794,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
                 '<div class="camera-container">' +
                     '<div class="camera-placeholder"></div>' +
                     '<img class="camera">' +
+                    '<div class="camera-progress"><img class="camera-progress"></div>' +
                 '</div>' +
             '</div>');
     
@@ -792,11 +802,13 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     var configureButton = cameraFrameDiv.find('div.camera-button.configure');
     var closeButton = cameraFrameDiv.find('div.camera-button.close');
     var cameraImg = cameraFrameDiv.find('img.camera');
+    var progressImg = cameraFrameDiv.find('img.camera-progress');
     
     cameraFrameDiv.attr('id', 'camera' + cameraId);
     cameraFrameDiv[0].framerate = framerate;
     cameraFrameDiv[0].refreshDivider = 0;
     nameSpan.html(cameraName);
+    progressImg.attr('src', staticUrl + 'img/camera-progress.gif');
     
     /* insert the new camera frame at the right position,
      * with respect to the camera id */
