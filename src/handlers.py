@@ -146,7 +146,8 @@ class ConfigHandler(BaseHandler):
         
         finally:
             if restart:
-                motionctl.start()
+                if len(config.get_enabled_cameras()) > 0:
+                    motionctl.start()
 
     def set_preview(self, camera_id):
         try:
@@ -271,6 +272,7 @@ class ConfigHandler(BaseHandler):
             # text overlay
             'text_left': '',
             'text_right': '',
+            'text_double': False,
             
             # streaming
             'webcam_localhost': not ui.get('video_streaming', True),
@@ -332,6 +334,9 @@ class ConfigHandler(BaseHandler):
                 
             else:
                 data['text_right'] = ui.get('custom_right_text', '')
+            
+            if data['width'] > 320:
+                data['text_double'] = True
         
         if not ui.get('video_streaming', True):
             data['webcam_maxrate'] = 5
@@ -344,7 +349,7 @@ class ConfigHandler(BaseHandler):
                 data['jpeg_filename'] = ui.get('image_file_name', '%Y-%m-%d-%H-%M-%S-%q')  
                 
             elif capture_mode == 'interval-snapshots':
-                data['snapshot_interval'] = int(ui.get('snapshot_interval'), 300)
+                data['snapshot_interval'] = int(ui.get('snapshot_interval', 300))
                 data['snapshot_filename'] = ui.get('image_file_name', '%Y-%m-%d-%H-%M-%S-%q')
                 
             elif capture_mode == 'all-frames':
@@ -413,11 +418,11 @@ class ConfigHandler(BaseHandler):
             'preserve_images': data['@preserve_images'],
             
             # motion movies
-            'motion_movies': False,
-            'movie_quality': 75,
-            'movie_file_name': '%Y-%m-%d-%H-%M-%S-%q',
+            'motion_movies': data['motion_movies'],
+            'movie_quality': int((max(2, data['ffmpeg_variable_bitrate']) - 2) / 0.29),
+            'movie_file_name': data['movie_filename'],
             'preserve_movies': data['@preserve_movies'],
-            
+
             # motion detection
             'show_frame_changes': data.get('text_changes') or data.get('locate'),
             'frame_change_threshold': data['threshold'],
@@ -493,12 +498,6 @@ class ConfigHandler(BaseHandler):
                 
             ui['image_quality'] = ui.get('quality', 75)
         
-        movie_filename = data.get('movie_filename')
-        if movie_filename:
-            ui['motion_movies'] = True
-            ui['movie_quality'] = int((max(2, data['ffmpeg_variable_bitrate']) - 2) / 0.29)
-            ui['movie_file_name'] = movie_filename
-            
         working_schedule = data.get('@working_schedule')
         if working_schedule:
             days = working_schedule.split('|')

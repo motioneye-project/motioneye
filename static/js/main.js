@@ -252,6 +252,8 @@ function openSettings(cameraId) {
 }
 
 function closeSettings() {
+    hideApply();
+    
     $('div.settings').removeClass('open');
     $('div.page-container').removeClass('stretched');
     $('div.settings-top-bar').removeClass('open');
@@ -889,7 +891,6 @@ function recreateCameraFrames(cameras) {
             else { /* existing, update params */
                 cameraFrame[0].framerate = camera.streaming_framerate;
             }
-            
         }
     }
     

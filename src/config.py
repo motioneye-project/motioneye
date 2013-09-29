@@ -136,6 +136,12 @@ def get_camera_ids():
     return camera_ids
 
 
+def get_enabled_cameras():
+    camera_ids = get_camera_ids()
+    cameras = [get_camera(camera_id) for camera_id in camera_ids]
+    return [c for c in cameras if c['@enabled']]
+
+
 def get_camera(camera_id, as_lines=False):
     # TODO use a cache
     
@@ -489,7 +495,7 @@ def _set_default_motion_camera(data):
     
     data.setdefault('text_left', '')
     data.setdefault('text_right', '')
-    data.setdefault('text_double', True)
+    data.setdefault('text_double', False)
 
     data.setdefault('text_changes', False)
     data.setdefault('locate', False)

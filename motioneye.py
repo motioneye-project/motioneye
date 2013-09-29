@@ -8,8 +8,10 @@ import sys
 import tornado.ioloop
 
 import settings
+
 sys.path.append(os.path.join(settings.PROJECT_PATH, 'src'))
 
+import config
 import server
 
 
@@ -46,7 +48,7 @@ def _start_server():
 
 
 def _start_motion():
-    if not motionctl.running():
+    if not motionctl.running() and len(config.get_enabled_cameras()) > 0:
         motionctl.start()
         logging.info('motion started')
 

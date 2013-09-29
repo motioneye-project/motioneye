@@ -1,11 +1,11 @@
 -> camera not available background and icon design
 -> remove current snapshot GET logs
--> a nice shadow behind the header
 -> add a motion running status indicator (and maybe a start/stop button)
-
+-> add a timeout checker to check the running status of motion
 -> group @config rules to top
 -> browser compatibility test
 -> requirements test
+-> style scroll bars
 -> hint text next to section titles
 -> clickable hints
 -> authentication
@@ -16,3 +16,4 @@
 -> add a previewer for movies
 -> add a previewer for snapshots
 -> other todos
+-> use svg instead of pngs for icons

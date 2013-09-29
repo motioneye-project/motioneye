@@ -19,7 +19,7 @@ def find_program():
 def start():
     if running():
         raise Exception('motion is already running')
-
+ 
     program = find_program()
     if not program:
         raise Exception('motion executable could not be found')
