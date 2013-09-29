@@ -9,11 +9,10 @@ from collections import OrderedDict
 import settings
 
 
-_CONFIG_DIR = 'conf'
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 
-_MAIN_CONFIG_FILE_PATH = os.path.join(_CONFIG_DIR, 'motion.conf')
-_CAMERA_CONFIG_FILE_PATH = os.path.join(_CONFIG_DIR, _CAMERA_CONFIG_FILE_NAME)
+_MAIN_CONFIG_FILE_PATH = os.path.join(settings.CONF_PATH, 'motion.conf')
+_CAMERA_CONFIG_FILE_PATH = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME)
 
 
 def get_main(as_lines=False):
@@ -107,7 +106,7 @@ def set_main(data):
 
 
 def get_camera_ids():
-    config_path = os.path.join(settings.PROJECT_PATH, _CONFIG_DIR)
+    config_path = settings.CONF_PATH
     
     logging.debug('listing config dir %(path)s...' % {'path': config_path})
     

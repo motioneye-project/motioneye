@@ -18,7 +18,7 @@ def start():
     if not program:
         raise Exception('motion executable could not be found')
     
-    motion_config_path = os.path.join(settings.PROJECT_PATH, 'conf', 'motion.conf') # TODO conf path should be configurable
+    motion_config_path = os.path.join(settings.CONF_PATH, 'motion.conf')
     motion_log_path = os.path.join(settings.RUN_PATH, 'motion.log')
     motion_pid_path = os.path.join(settings.RUN_PATH, 'motion.pid')
     

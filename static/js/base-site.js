@@ -2,7 +2,7 @@
 var pushConfigs = {};
 
 
-    /* Ajax */
+    /* utils */
 
 function ajax(method, url, data, callback) {
     var options = {
@@ -26,6 +26,44 @@ function ajax(method, url, data, callback) {
     
     $.ajax(options);
 }
+
+Object.keys = Object.keys || (function () {
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
+    var hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString');
+    var dontEnums = [
+        'toString',
+        'toLocaleString',
+        'valueOf',
+        'hasOwnProperty',
+        'isPrototypeOf',
+        'propertyIsEnumerable',
+        'constructor'
+    ];
+    var dontEnumsLength = dontEnums.length;
+
+    return function (obj) {
+        if (typeof obj !== 'object' && typeof obj !== 'function' || obj === null) {
+            return [];
+        }
+
+        var result = [];
+        for (var prop in obj) {
+            if (hasOwnProperty.call(obj, prop)) {
+                result.push(prop);
+            }
+        }
+
+        if (hasDontEnumBug) {
+            for (var i = 0; i < dontEnumsLength; i++) {
+                if (hasOwnProperty.call(obj, dontEnums[i])) {
+                    result.push(dontEnums[i]);
+                }
+            }
+        }
+        
+        return result;
+    };
+})();
 
 
     /* UI */
@@ -478,7 +516,7 @@ function showApply() {
     applyButton.html('Apply');
     applyButton.css('display', 'inline-block');
     applyButton.animate({'opacity': '1'}, 100);
-    applyButton.removeClass('inactive');
+    applyButton.removeClass('progress');
 }
 
 function showProgress() {
@@ -529,7 +567,12 @@ function doApply() {
     
     function testReady() {
         if (finishedCount >= configs.length) {
-            hideApply();
+            if (Object.keys(pushConfigs).length === 0) {
+                hideApply();
+            }
+            else {
+                showApply();
+            }
         }
     }
     
