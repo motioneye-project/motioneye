@@ -65,6 +65,53 @@ Object.keys = Object.keys || (function () {
     };
 })();
 
+Array.prototype.indexOf = Array.prototype.indexOf || function (obj) {
+    for (var i = 0; i < this.length; i++) {
+        if (this[i] === obj) {
+            return i;
+        }
+    }
+    
+    return -1;
+};
+
+Array.prototype.forEach = Array.prototype.forEach || function (callback, thisArg) {
+    for (var i = 0; i < this.length; i++) {
+        callback.call(thisArg, this[i], i, this);
+    }
+};
+
+Array.prototype.unique = function (callback, thisArg) {
+    var uniqueElements = [];
+    this.forEach(function (element) {
+        if (uniqueElements.indexOf(element, Utils.equals) === -1) {
+            uniqueElements.push(element);
+        }
+    });
+    
+    return uniqueElements;
+};
+
+Array.prototype.filter = function (func, thisArg) {
+    var filtered = [];
+    for (var i = 0; i < this.length; i++) {
+        if (func.call(thisArg, this[i], i, this)) {
+            filtered.push(this[i]);
+        }
+    }
+    
+    return filtered;
+};
+
+Array.prototype.map = function (func, thisArg) {
+    var mapped = [];
+    for (var i = 0; i < this.length; i++) {
+        mapped.push(func.call(thisArg, this[i], i, this));
+    }
+    
+    return mapped;
+};
+
 
     /* UI */
 
@@ -161,7 +208,7 @@ function initUI() {
     $('#workingScheduleSwitch').change(updateConfigUi);
     
     /* fetch & push handlers */
-    $('#videoDeviceSelect').change(fetchCameraConfig);
+    $('#videoDeviceSelect').change(fetchCurrentCameraConfig);
     $('input.general').change(pushMainConfig);
     $('input.device, select.device, ' +
       'input.storage, select.storage, ' +
@@ -181,6 +228,31 @@ function initUI() {
         
         doApply();
     });
+}
+
+
+    /* settings */
+
+function openSettings(cameraId) {
+    if (cameraId != null) {
+        $('#videoDeviceSelect').val(cameraId).change();
+    }
+    
+    $('div.settings').addClass('open');
+    $('div.page-container').addClass('stretched');
+    $('div.settings-top-bar').addClass('open');
+    
+    updateConfigUi();
+}
+
+function closeSettings() {
+    $('div.settings').removeClass('open');
+    $('div.page-container').removeClass('stretched');
+    $('div.settings-top-bar').removeClass('open');
+}
+
+function isSettingsOpen() {
+    return $('div.settings').hasClass('open');   
 }
 
 function updateConfigUi() {
@@ -543,10 +615,19 @@ function hideApply() {
 
     var applyButton = $('#applyButton');
     
-    applyButton.animate({'opacity': '0'}, 200, function () {
+    applyButton.animate({'opacity': '0'}, 100, function () {
         applyButton.removeClass('progress');
         applyButton.css('display', 'none');
     });
+}
+
+function endProgress() {
+    if (Object.keys(pushConfigs).length === 0) {
+        hideApply();
+    }
+    else {
+        showApply();
+    }
 }
 
 function isProgress() {
@@ -567,12 +648,8 @@ function doApply() {
     
     function testReady() {
         if (finishedCount >= configs.length) {
-            if (Object.keys(pushConfigs).length === 0) {
-                hideApply();
-            }
-            else {
-                showApply();
-            }
+            endProgress();
+            recreateCameraFrames();
         }
     }
     
@@ -604,6 +681,9 @@ function doApply() {
     pushConfigs = {};
 }
 
+
+    /* fetch & push */
+
 function fetchCurrentConfig() {
     /* fetch the main configuration */
     ajax('GET', '/config/main/get/', null, function (data) {
@@ -617,17 +697,19 @@ function fetchCurrentConfig() {
         videoDeviceSelect.html('');
         for (i = 0; i < cameras.length; i++) {
             var camera = cameras[i];
-            videoDeviceSelect.append('<option value="' + camera['@id'] + '">' + camera['@name'] + '</option>');
+            videoDeviceSelect.append('<option value="' + camera['id'] + '">' + camera['name'] + '</option>');
         }
         
         if (cameras.length) {
             videoDeviceSelect[0].selectedIndex = 0;
-            fetchCameraConfig();
+            fetchCurrentCameraConfig();
         }
+        
+        recreateCameraFrames(cameras);
     });
 }
 
-function fetchCameraConfig() {
+function fetchCurrentCameraConfig() {
     var cameraId = $('#videoDeviceSelect').val();
     if (cameraId != null) {
         ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
@@ -658,24 +740,147 @@ function pushCameraConfig() {
     }
 }
 
+
+    /* camera frames */
+
+function addCameraFrameUi(cameraId, cameraName) {
+    var cameraFrameDiv = $(
+            '<div class="camera-frame">' +
+                '<div class="camera-top-bar">' +
+                    '<span class="camera-name"></span>' +
+                    '<div class="camera-buttons">' +
+                        '<div class="camera-button configure" title="configure"></div>' +
+                        '<div class="camera-button close" title="close"></div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="camera-container">' +
+                    '<img class="camera">' +
+                '</div>' +
+            '</div>');
+    
+    var nameSpan = cameraFrameDiv.find('span.camera-name');
+    var configureButton = cameraFrameDiv.find('div.camera-button.configure');
+    var closeButton = cameraFrameDiv.find('div.camera-button.close');
+    var cameraImg = cameraFrameDiv.find('img.camera');
+    
+    cameraFrameDiv.attr('id', 'camera' + cameraId);
+    nameSpan.html(cameraName);
+    
+    /* insert the new camera frame at the right position,
+     * with respect to the camera id */
+    var pageContainer = $('div.page-container');
+    var cameraFrames = pageContainer.find('div.camera-frame');
+    var cameraIds = cameraFrames.map(function () {return parseInt(this.id.substring(6));});
+    cameraIds.sort();
+    
+    var index = 0; /* find the first position that is greater than the current camera id */
+    while (index < cameraIds.length && cameraIds[index] < cameraId) {
+        index++;
+    }
+    
+    if (index < cameraIds.length) {
+        var beforeCameraFrame = pageContainer.find('div.camera-frame#camera' + cameraIds[index]);
+        cameraFrameDiv.insertAfter(beforeCameraFrame);
+    }
+    else  {
+        pageContainer.append(cameraFrameDiv);
+    }
+
+    /* fade in */
+    cameraFrameDiv.animate({'opacity': 1}, 100);
+    
+    /* add the button handlers */
+    configureButton.click(function () {
+        doConfigureCamera(cameraId);
+    });
+
+    closeButton.click(function () {
+        doCloseCamera(cameraId);
+    });
+    
+    /* add content to the frame */
+    cameraImg.attr('src', staticUrl + 'img/video1.jpg');
+}
+
+function remCameraFrameUi(cameraId) {
+    var pageContainer = $('div.page-container');
+    var cameraFrameDiv = pageContainer.find('div.camera-frame#camera' + cameraId);
+    cameraFrameDiv.animate({'opacity': 0}, 100, function () {
+        cameraFrameDiv.remove();
+    });
+}
+
+function recreateCameraFrames(cameras) {
+    var pageContainer = $('div.page-container');
+    
+    function updateCameras(cameras) {
+        cameras = cameras.filter(function (camera) {return camera.enabled;});
+        var i, camera, cameraId;
+        
+        /* remove no longer existing camera frames */
+        var addedCameraFrames = pageContainer.find('div.camera-frame');
+        for (i = 0; i < addedCameraFrames.length; i++) {
+            cameraId = parseInt(addedCameraFrames[i].id.substring(6));
+            if (cameras.filter(function (camera) {return camera.id === cameraId;}).length === 0) {
+                remCameraFrameUi(cameraId);
+            }
+        }
+        
+        /* add new camera frames */
+        for (i = 0; i < cameras.length; i++) {
+            camera = cameras[i];
+            if (pageContainer.find('div.camera-frame#camera' + camera.id).length === 0) {
+                addCameraFrameUi(camera.id);
+            }
+        }
+    }
+    
+    if (cameras != null) {
+        updateCameras(cameras);
+    }
+    else {
+        ajax('GET', '/config/list/', null, function (data) {
+            updateCameras(data.cameras);
+        });
+    }
+}
+
+function doConfigureCamera(cameraId) {
+    openSettings(cameraId);
+}
+
+function doCloseCamera(cameraId) {
+    remCameraFrameUi(cameraId);
+    showProgress();
+    ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
+        data['enabled'] = false;
+        ajax('POST', '/config/' + cameraId + '/set/', data, function () {
+            endProgress();
+            
+            /* if the current camera in the settings panel is the closed camera,
+             * we refresh its settings and update the UI */
+            if (isSettingsOpen() && ($('#videoDeviceSelect').val() === '' + cameraId)) {
+                fetchCurrentCameraConfig();
+            }
+        });
+    });
+}
+
+
+    /* startup function */
+
 $(document).ready(function () {
     /* open/close settings */
     $('img.settings-button').click(function () {
-        if ($('div.settings').hasClass('open')) {
-            $('div.settings').removeClass('open');
-            $('div.page-container').removeClass('stretched');
-            $('div.settings-top-bar').removeClass('open');
+        if (isSettingsOpen()) {
+             closeSettings();
         }
         else {
-            $('div.settings').addClass('open');
-            $('div.page-container').addClass('stretched');
-            $('div.settings-top-bar').addClass('open');
-
-            updateConfigUi();
+            openSettings();
         }
     });
     
-    /* prevent scroll events on settings div from propagating */
+    /* prevent scroll events on settings div from propagating TODO this does not work */
     $('div.settings').mousewheel(function (e, d) {
         var t = $(this);
         if (d > 0 && t.scrollTop() === 0) {

@@ -25,6 +25,14 @@
 }
 
  
+    /* links */
+    
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+
     /* layout */
 
 html {
@@ -64,7 +72,7 @@ div.footer {
     bottom: 0px;
     width: 100%;
     height: 20px;
-    font-size: 0.5em;
+    font-size: 0.7em;
     color: #aaa;
     text-align: center;
 }
@@ -76,6 +84,36 @@ div.page-container {
 
 div.page-container.stretched {
     margin-left: 40%;
+}
+
+
+    /* icons */
+
+img.settings-button {
+    margin: 2px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+div.logo {
+    float: right;
+    display: inline-block;
+    white-space: nowrap;
+    opacity: 0.86;
+}
+
+span.logo {
+    vertical-align: middle;
+    font-size: 27px;
+    font-weight: bold;
+    position: relative;
+    top: 3px;
+}
+
+img.logo {
+    width: 48px;
+    height: 48px;
+    vertical-align: middle;
 }
 
 
@@ -185,6 +223,7 @@ div.apply-button {
     background-color: #FF6F00;
     border-radius: 3px;
     transition: all 0.1s linear;
+    transition: opacity 0s;
 }
 
 div.apply-button:HOVER {
@@ -227,11 +266,11 @@ input[type=text].working-schedule.number {
 
     /* camera frames */
 
-div.video-list {
+div.camera-list {
     text-align: center;
 }
 
-div.video-frame {
+div.camera-frame {
     width: 32%;
     text-align: left;
     background-color: #313131;
@@ -239,28 +278,30 @@ div.video-frame {
     padding: 0px 5px 5px 5px;
     border-radius: 3px;
     transition: all 0.2s;
-    margin-top: 3px;
+    transition: opacity 0s;
+    margin: 2px;
+    opacity: 0;
 }
 
-div.video-frame:HOVER {
+div.camera-frame:HOVER {
     background-color: #414141;
 }
 
-div.video-top-bar {
+div.camera-top-bar {
     padding: 3px 0px;
     font-size: 17px;
     height: 17px;
 }
 
-span.video-name {
+span.camera-name {
     float: left;
 }
 
-div.video-buttons {
+div.camera-buttons {
     float: right;
 }
 
-div.video-button {
+div.camera-button {
     display: inline-block;
     width: 16px;
     height: 16px;
@@ -271,27 +312,27 @@ div.video-button {
     transition: all 0.1s linear;
 }
 
-div.video-button:HOVER {
+div.camera-button:HOVER {
     opacity: 1;
 }
 
-div.video-button:ACTIVE {
+div.camera-button:ACTIVE {
     opacity: 0.5;
 }
 
-div.video-button.close {
+div.camera-button.close {
     background-position: 0px 0px;
 }
 
-div.video-button.configure {
+div.camera-button.configure {
     background-position: -16px 0px;
 }
 
-div.video-container {
+div.camera-container {
     padding: 0px;
 }
 
-img.video {
+img.camera {
     width: 100%;
     display: block;
 }
@@ -342,42 +383,4 @@ img.video {
     div.video-frame {
         width: 98%;
     }
-}
-
-
-    /* links */
-    
-a {
-    color: inherit;
-    text-decoration: inherit;
-}
-
-
-    /* icons */
-
-img.settings-button {
-    margin: 2px;
-    cursor: pointer;
-    vertical-align: middle;
-}
-
-div.logo {
-    float: right;
-    display: inline-block;
-    white-space: nowrap;
-    opacity: 0.86;
-}
-
-span.logo {
-    vertical-align: middle;
-    font-size: 27px;
-    font-weight: bold;
-    position: relative;
-    top: 3px;
-}
-
-img.logo {
-    width: 48px;
-    height: 48px;
-    vertical-align: middle;
 }

@@ -115,7 +115,8 @@ class ConfigHandler(BaseHandler):
         cameras = []
         for camera_id in config.get_camera_ids():
             data = config.get_camera(camera_id)
-            data['@id'] = camera_id
+            data = self._camera_dict_to_ui(data)
+            data['id'] = camera_id
             cameras.append(data)
 
         self.finish_json({'cameras': cameras})
