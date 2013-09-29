@@ -277,8 +277,7 @@ div.camera-frame {
     display: inline-block;
     padding: 0px 5px 5px 5px;
     border-radius: 3px;
-    transition: all 0.2s;
-    transition: opacity 0s;
+    transition: all 0.2s, opacity 0s;
     margin: 2px;
     opacity: 0;
 }

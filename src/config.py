@@ -172,6 +172,7 @@ def get_camera(camera_id, as_lines=False):
     main_config = get_main()
     threads = main_config.get('thread', [])
     data['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
+    data['@id'] = camera_id
     
     _set_default_motion_camera(data)
     

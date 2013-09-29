@@ -5,6 +5,7 @@ import logging
 from tornado.web import RequestHandler, HTTPError
 
 import config
+import mjpgclient
 import template
 import v4l2ctl
 
@@ -295,6 +296,7 @@ class ConfigHandler(BaseHandler):
             # device
             'name': data['@name'],
             'enabled': data['@enabled'],
+            'id': data['@id'],
             'device': data['@proto'] + '://' + data['videodevice'],
             'light_switch_detect': data['lightswitch'] > 0,
             'auto_brightness': data['auto_brightness'],
@@ -440,19 +442,24 @@ class ConfigHandler(BaseHandler):
 class SnapshotHandler(BaseHandler):
     def get(self, camera_id, op, filename=None):
         if op == 'current':
-            self.current()
+            self.current(camera_id)
             
         elif op == 'list':
             self.list(camera_id)
             
         elif op == 'download':
-            self.download(filename)
+            self.download(camera_id, filename)
         
         else:
             raise HTTPError(400, 'unknown operation')
     
-    def current(self):
-        pass
+    def current(self, camera_id):
+        jpg = mjpgclient.get_jpg(camera_id)
+        if jpg is None:
+            return self.finish()
+        
+        self.set_header('Content-Type', 'image/jpeg')
+        self.finish(jpg)
     
     def list(self, camera_id):
         logging.debug('listing snapshots for camera %(id)s' % {'id': camera_id})
