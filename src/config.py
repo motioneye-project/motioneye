@@ -477,7 +477,7 @@ def _set_default_motion_camera(data):
     data.setdefault('@network_share_name', '')
     data.setdefault('@network_username', '')
     data.setdefault('@network_password', '')
-    data.setdefault('target_dir', '.')
+    data.setdefault('target_dir', settings.RUN_PATH)
     
     data.setdefault('webcam_localhost', False)
     data.setdefault('webcam_port', 8080)

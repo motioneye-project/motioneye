@@ -35,7 +35,7 @@ def start():
     log_file = open(motion_log_path, 'w')
     
     process = subprocess.Popen(args, stdout=log_file, stderr=log_file, close_fds=True,
-            cwd=settings.RUN_PATH)
+            cwd=settings.CONF_PATH)
     
     # wait 2 seconds to see that the process has successfully started
     for i in xrange(20):  # @UnusedVariable

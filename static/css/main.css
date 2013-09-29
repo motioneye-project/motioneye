@@ -1,4 +1,232 @@
 
+
+    /* fonts */
+
+@font-face {
+    font-family: 'Maven Pro';
+    src: url('../fnt/mavenpro-regular-webfont.eot');
+    src: url('../fnt/mavenpro-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fnt/mavenpro-regular-webfont.woff') format('woff'),
+         url('../fnt/mavenpro-regular-webfont.ttf') format('truetype'),
+         url('../fnt/mavenpro-regular-webfont.svg#maven_proregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+ 
+@font-face {
+    font-family: 'Maven Pro';
+    src: url('../fnt/mavenpro-bold-webfont.eot');
+    src: url('../fnt/mavenpro-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fnt/mavenpro-bold-webfont.woff') format('woff'),
+         url('../fnt/mavenpro-bold-webfont.ttf') format('truetype'),
+         url('../fnt/mavenpro-bold-webfont.svg#maven_probold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+ 
+    /* layout */
+
+html {
+    font-family: 'Maven Pro';
+}
+
+div.page,
+div.header-container {
+    position: relative;
+    min-width: 320px;
+    width: 100%;
+}
+
+div.page {
+    margin-top: 50px;
+    padding-bottom: 20px;
+    font-size: 1em;
+    transition: all 0.5s linear;
+}
+
+div.header {
+    background-color: rgba(64, 64, 64, 0.5);
+    top: 0px;
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    overflow: hidden;
+    z-index: 10000;
+}
+
+div.header-container {
+    transition: all 0.5s linear;
+}
+
+div.footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    height: 20px;
+    font-size: 0.5em;
+    color: #aaa;
+    text-align: center;
+}
+
+div.page-container {
+    transition: all 0.2s linear;
+    padding: 5px;
+}
+
+div.page-container.stretched {
+    margin-left: 40%;
+}
+
+
+    /* settings */
+
+div.settings {
+    background-color: #313131;
+    position: fixed;
+    z-index: 1;
+    top: 50px;
+    left: 0px;
+    width: 0px;
+    height: 100%;
+    transition: all 0.2s linear;
+    overflow: auto;
+}
+
+div.settings.open {
+    width: 40%;
+    min-width: 320px;
+}
+
+div.settings-container {
+    padding-top: 10px;
+    padding-bottom: 60px;
+    display: none;
+    white-space: nowrap;
+}
+
+div.settings.open div.settings-container {
+    display: block;
+}
+
+div.settings-top-bar {
+    position: relative;
+    display: inline-block;
+    width: 40%;
+    height: 50px;
+}
+
+div.settings-top-bar.open {
+    background-color: #414141;
+    min-width: 320px;
+}
+
+div.settings-section-title {
+    position: relative;
+    text-align: right;
+    background-color: rgba(100, 100, 100, 0.3);
+    padding: 5px;
+}
+
+table.settings {
+    width: 100%;
+    padding: 0.5em 0.5em 1em 0.5em;
+}
+
+td.settings-item-label {
+    width: 50%;
+    text-align: right;
+    padding-right: 5px;
+}
+
+td.settings-item-value {
+    width: 50%;
+    text-align: left;
+    padding-left: 5px;
+}
+
+span.settings-item-label {
+    font-size: 0.9em;
+}
+
+span.settings-item-unit {
+    font-size: 0.6em;
+    padding: 0px 0.2em;
+}
+
+div.settings-item-separator {
+    height: 1px;
+    border-top: 1px solid #414141;
+    margin: 5px 0px;
+}
+
+select.video-device {
+    display: none;
+    padding: 4px 1.5em 4px 4px;
+    vertical-align: middle;
+    font-size: 20px;
+    width: auto;
+    max-width: 40%;
+}
+
+div.apply-button {
+    position: relative;
+    display: none;
+    opacity: 0;
+    float: right;
+    width: 80px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 17px;
+    background-color: #FF6F00;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+}
+
+div.apply-button:HOVER {
+    background-color: #FF7D19;
+}
+
+div.apply-button:ACTIVE {
+    background-color: #F06800;
+}
+
+div.apply-button.progress {
+    background-color: #FF6F00;
+}
+
+img.apply-progress {
+    margin-top: 3px;
+}
+
+div.settings-top-bar.open select.video-device {
+    display: inline;
+}
+
+div.check-box.section {
+    margin: 0px;
+    float: left;
+}
+
+div.check-box.section div.check-box-button {
+    background-color: #515151;
+}
+
+div.check-box.on.section div.check-box-button {
+    background-color: #3498db;
+}
+
+input[type=text].working-schedule.number {
+    width: 50px;
+}
+
+
+    /* camera frames */
+
 div.video-list {
     text-align: center;
 }
@@ -71,6 +299,35 @@ img.video {
 
     /* media queries */
 
+@media all and (max-width: 1440px) {
+    /* smaller screens */
+    
+    body {
+        font-size: 17px;
+    }
+}
+
+@media all and (max-width: 1000px) {
+    /* small screens (mobile devices) */
+    
+    div.page-container.stretched {
+        margin-left: 0px;
+    }
+    
+    div.settings.open {
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+        background-color: rgba(40, 40, 40, 0.9);
+    }
+}
+
+@media all and (max-width: 400px) {
+    /* very small screens */
+    
+    body {
+        font-size: 13px;
+    }
+}
+
 @media all and (max-width: 1900px) {
     /* a bit smaller screens */
     
@@ -85,4 +342,42 @@ img.video {
     div.video-frame {
         width: 98%;
     }
+}
+
+
+    /* links */
+    
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+
+    /* icons */
+
+img.settings-button {
+    margin: 2px;
+    cursor: pointer;
+    vertical-align: middle;
+}
+
+div.logo {
+    float: right;
+    display: inline-block;
+    white-space: nowrap;
+    opacity: 0.86;
+}
+
+span.logo {
+    vertical-align: middle;
+    font-size: 27px;
+    font-weight: bold;
+    position: relative;
+    top: 3px;
+}
+
+img.logo {
+    width: 48px;
+    height: 48px;
+    vertical-align: middle;
 }

@@ -41,9 +41,9 @@ def _start_server():
 
 
 if __name__ == '__main__':
-#     _configure_signals()
-#     _configure_logging()
-#     _start_server()
+    _configure_signals()
+    _configure_logging()
+    _start_server()
     
 #     import config
 #     main_config = config.get_main()
@@ -53,6 +53,5 @@ if __name__ == '__main__':
 #     #config.set_camera(1, data)
 #     config.rem_camera(1)
     
-    import motionctl
-    
-    motionctl.start()
+#     import motionctl
+#     motionctl.start()
