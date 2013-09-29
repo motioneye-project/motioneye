@@ -328,12 +328,29 @@ div.camera-button.configure {
 }
 
 div.camera-container {
+    position: relative;
     padding: 0px;
 }
 
 img.camera {
+    position: relative;
     width: 100%;
     display: block;
+    transition: opacity 0.2s linear;
+    opacity: 1;
+}
+
+img.camera.error {
+    opacity: 0;
+}
+
+div.camera-placeholder {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: #555;
 }
 
 
@@ -371,7 +388,7 @@ img.camera {
 @media all and (max-width: 1900px) {
     /* a bit smaller screens */
     
-    div.video-frame {
+    div.camera-frame {
         width: 48%;
     }
 }
@@ -379,7 +396,7 @@ img.camera {
 @media all and (max-width: 1150px) {
     /* even smaller screens */
     
-    div.video-frame {
+    div.camera-frame {
         width: 98%;
     }
 }

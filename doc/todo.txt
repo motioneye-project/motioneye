@@ -1,3 +1,7 @@
+-> camera not available background and icon design
+-> remove current snapshot GET logs
+-> a nice shadow behind the header
+
 -> group @config rules to top
 -> browser compatibility test
 -> requirements test

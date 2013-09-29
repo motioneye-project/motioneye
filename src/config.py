@@ -472,6 +472,7 @@ def _set_default_motion_camera(data):
     data.setdefault('width', 352)
     data.setdefault('height', 288)
     data.setdefault('framerate', 1)
+    data.setdefault('rotate', 0)
     
     data.setdefault('@storage_device', 'local-disk')
     data.setdefault('@network_server', '')

@@ -157,19 +157,19 @@ class ConfigHandler(BaseHandler):
             value = int(controls['contrast'])
             logging.debug('setting contrast to %(value)s...' % {'value': value})
 
-            v4l2ctl.set_brightness(device, value)
+            v4l2ctl.set_contrast(device, value)
 
         if 'saturation' in controls:
             value = int(controls['saturation'])
             logging.debug('setting saturation to %(value)s...' % {'value': value})
 
-            v4l2ctl.set_brightness(device, value)
+            v4l2ctl.set_saturation(device, value)
 
         if 'hue' in controls:
             value = int(controls['hue'])
             logging.debug('setting hue to %(value)s...' % {'value': value})
 
-            v4l2ctl.set_brightness(device, value)
+            v4l2ctl.set_hue(device, value)
 
     def list_cameras(self):
         logging.debug('listing cameras')
@@ -245,6 +245,7 @@ class ConfigHandler(BaseHandler):
             'width': int(ui['resolution'].split('x')[0]),
             'height': int(ui['resolution'].split('x')[1]),
             'framerate': int(ui.get('framerate', 1)),
+            'rotate': int(ui.get('rotation', 0)),
             
             # file storage
             '@storage_device': ui.get('storage_device', 'local-disk'),
@@ -371,6 +372,7 @@ class ConfigHandler(BaseHandler):
             'hue': int(round(int(data['hue']) / 2.55)),
             'resolution': str(data['width']) + 'x' + str(data['height']),
             'framerate': int(data['framerate']),
+            'rotation': int(data['rotate']),
             
             # file storage
             'storage_device': data['@storage_device'],

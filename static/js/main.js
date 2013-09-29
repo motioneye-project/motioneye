@@ -755,9 +755,9 @@ function pushCameraConfig() {
 function pushPreview() {
     var cameraId = $('#videoDeviceSelect').val();
     var brightness = $('#brightnessSlider').val();
-    var contrast= $('#brightnessSlider').val();
-    var saturation = $('#brightnessSlider').val();
-    var hue = $('#brightnessSlider').val();
+    var contrast= $('#contrastSlider').val();
+    var saturation = $('#saturationSlider').val();
+    var hue = $('#hueSlider').val();
     
     var data = {
         'brightness': brightness,
@@ -772,7 +772,7 @@ function pushPreview() {
 
     /* camera frames */
 
-function addCameraFrameUi(cameraId, cameraName) {
+function addCameraFrameUi(cameraId, cameraName, framerate) {
     var cameraFrameDiv = $(
             '<div class="camera-frame">' +
                 '<div class="camera-top-bar">' +
@@ -783,6 +783,7 @@ function addCameraFrameUi(cameraId, cameraName) {
                     '</div>' +
                 '</div>' +
                 '<div class="camera-container">' +
+                    '<div class="camera-placeholder"></div>' +
                     '<img class="camera">' +
                 '</div>' +
             '</div>');
@@ -793,6 +794,8 @@ function addCameraFrameUi(cameraId, cameraName) {
     var cameraImg = cameraFrameDiv.find('img.camera');
     
     cameraFrameDiv.attr('id', 'camera' + cameraId);
+    cameraFrameDiv[0].framerate = framerate;
+    cameraFrameDiv[0].refreshDivider = 0;
     nameSpan.html(cameraName);
     
     /* insert the new camera frame at the right position,
@@ -827,8 +830,17 @@ function addCameraFrameUi(cameraId, cameraName) {
         doCloseCamera(cameraId);
     });
     
-    /* add content to the frame */
-    cameraImg.attr('src', staticUrl + 'img/video1.jpg');
+    /* error and load handlers */
+    cameraImg.error(function () {
+        this.error = true;
+        cameraImg.addClass('error');
+        cameraImg.height(Math.round(cameraImg.width() * 0.75));
+    });
+    cameraImg.load(function () {
+        this.error = false;
+        cameraImg.removeClass('error');
+        cameraImg.css('height', '');
+    });
 }
 
 function remCameraFrameUi(cameraId) {
@@ -855,12 +867,17 @@ function recreateCameraFrames(cameras) {
             }
         }
         
-        /* add new camera frames */
+        /* add new camera frames and update existing camera params */
         for (i = 0; i < cameras.length; i++) {
             camera = cameras[i];
-            if (pageContainer.find('div.camera-frame#camera' + camera.id).length === 0) {
-                addCameraFrameUi(camera.id);
+            var cameraFrame = pageContainer.find('div.camera-frame#camera' + camera.id);
+            if (cameraFrame.length === 0) { /* not existing, add a new one */
+                addCameraFrameUi(camera.id, camera.name, camera.streaming_framerate);
             }
+            else { /* existing, update params */
+                cameraFrame[0].framerate = camera.streaming_framerate;
+            }
+            
         }
     }
     
@@ -895,6 +912,36 @@ function doCloseCamera(cameraId) {
     });
 }
 
+function refreshCameraFrames() {
+    function refreshCameraFrame(cameraId, img) {
+        img.src = '/snapshot/' + cameraId + '/current/?_=' + new Date().getTime();
+    }
+    
+    var cameraFrames = $('div.page-container').find('div.camera-frame');
+    cameraFrames.each(function () {
+        /* limit the refresh rate to 10 fps */
+        var count = Math.max(1, 10 / this.framerate);
+        var img = $(this).find('img.camera')[0];
+        
+        if (img.error) {
+            /* in case of error, decrease the refresh rate to 1 fps */
+            count = 10;
+        }
+        
+        if (this.refreshDivider < count) {
+            this.refreshDivider++;
+        }
+        else {
+            var cameraId = this.id.substring(6);
+            refreshCameraFrame(cameraId, img);
+            
+            this.refreshDivider = 0;
+        }
+    });
+    
+    setTimeout(refreshCameraFrames, 100);
+}
+
 
     /* startup function */
 
@@ -922,4 +969,5 @@ $(document).ready(function () {
     
     initUI();
     fetchCurrentConfig();
+    refreshCameraFrames();
 });
