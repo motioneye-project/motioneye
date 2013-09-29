@@ -10,7 +10,7 @@ application = Application(
     [
         (r'^/$', handlers.MainHandler),
         (r'^/config/main/(?P<op>set|get)/?$', handlers.ConfigHandler),
-        (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem)/?$', handlers.ConfigHandler),
+        (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|set_preview)/?$', handlers.ConfigHandler),
         (r'^/config/(?P<op>add|list|list_devices)/?$', handlers.ConfigHandler),
         (r'^/snapshot/(?P<camera_id>\d+)/(?P<op>current|list)/?$', handlers.SnapshotHandler),
         (r'^/snapshot/(?P<camera_id>\d+)/(?P<op>download)/(?P<filename>.+)/?$', handlers.SnapshotHandler),

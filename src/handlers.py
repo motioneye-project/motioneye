@@ -11,6 +11,23 @@ import v4l2ctl
 
 
 class BaseHandler(RequestHandler):
+    def get_data(self):
+        keys = self.request.arguments.keys()
+        data = dict([(key, self.get_argument(key)) for key in keys])
+
+        for key in self.request.files:
+            files = self.request.files[key]
+            if len(files) > 1:
+                data[key] = files
+
+            elif len(files) > 0:
+                data[key] = files[0]
+
+            else:
+                continue
+
+        return data
+    
     def render(self, template_name, content_type='text/html', **context):
         self.set_header('Content-Type', content_type)
         
@@ -51,6 +68,9 @@ class ConfigHandler(BaseHandler):
         if op == 'set':
             self.set_config(camera_id)
         
+        elif op == 'set_preview':
+            self.set_preview(camera_id)
+        
         elif op == 'add':
             self.add_camera()
         
@@ -68,7 +88,12 @@ class ConfigHandler(BaseHandler):
             if camera_id not in camera_ids:
                 raise HTTPError(404, 'no such camera')
             
-            ui_config = self._camera_dict_to_ui(config.get_camera(camera_id))
+            camera_config = config.get_camera(camera_id)
+            ui_config = self._camera_dict_to_ui(camera_config)
+            resolutions = v4l2ctl.list_resolutions(camera_config['videodevice'])
+            resolutions = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
+            
+            ui_config['available_resolutions'] = resolutions
             self.finish_json(ui_config)
             
         else:
@@ -110,6 +135,42 @@ class ConfigHandler(BaseHandler):
             data = self._main_ui_to_dict(data)
             config.set_main(data)
     
+    def set_preview(self, camera_id):
+        try:
+            controls = json.loads(self.request.body)
+            
+        except Exception as e:
+            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+            
+            raise
+
+        camera_config = config.get_camera(camera_id)
+        device = camera_config['videodevice']
+        
+        if 'brightness' in controls:
+            value = int(controls['brightness'])
+            logging.debug('setting brightness to %(value)s...' % {'value': value})
+
+            v4l2ctl.set_brightness(device, value)
+
+        if 'contrast' in controls:
+            value = int(controls['contrast'])
+            logging.debug('setting contrast to %(value)s...' % {'value': value})
+
+            v4l2ctl.set_brightness(device, value)
+
+        if 'saturation' in controls:
+            value = int(controls['saturation'])
+            logging.debug('setting saturation to %(value)s...' % {'value': value})
+
+            v4l2ctl.set_brightness(device, value)
+
+        if 'hue' in controls:
+            value = int(controls['hue'])
+            logging.debug('setting hue to %(value)s...' % {'value': value})
+
+            v4l2ctl.set_brightness(device, value)
+
     def list_cameras(self):
         logging.debug('listing cameras')
         
@@ -177,10 +238,10 @@ class ConfigHandler(BaseHandler):
             'videodevice': video_device,
             'lightswitch': int(ui.get('light_switch_detect', False) * 5),
             'auto_brightness': ui.get('auto_brightness', False),
-            'brightness': int(int(ui.get('brightness', 0)) * 2.55),
-            'contrast': int(int(ui.get('contrast', 0)) * 2.55),
-            'saturation': int(int(ui.get('saturation', 0)) * 2.55),
-            'hue': int(int(ui.get('hue', 0))),
+            'brightness': max(1, int(round(int(ui.get('brightness', 0)) * 2.55))),
+            'contrast': max(1, int(round(int(ui.get('contrast', 0)) * 2.55))),
+            'saturation': max(1, int(round(int(ui.get('saturation', 0)) * 2.55))),
+            'hue': max(1, int(round(int(ui.get('hue', 0)) * 2.55))),
             'width': int(ui['resolution'].split('x')[0]),
             'height': int(ui['resolution'].split('x')[1]),
             'framerate': int(ui.get('framerate', 1)),
@@ -201,7 +262,7 @@ class ConfigHandler(BaseHandler):
             'webcam_localhost': not ui.get('video_streaming', True),
             'webcam_port': int(ui.get('streaming_port', 8080)),
             'webcam_maxrate': int(ui.get('streaming_framerate', 1)),
-            'webcam_quality': max(1, int(ui.get('streaming_quality', 50))),
+            'webcam_quality': max(1, int(ui.get('streaming_quality', 75))),
             'webcam_motion': ui.get('streaming_motion', False),
             
             # still images
@@ -244,7 +305,7 @@ class ConfigHandler(BaseHandler):
                 data['text_left'] = ui.get('name')
                 
             elif left_text == 'timestamp':
-                data['text_left'] = '%Y-%m-%d\n%T'
+                data['text_left'] = '%Y-%m-%d\\n%T'
                 
             else:
                 data['text_left'] = ui.get('custom_left_text', '')
@@ -254,10 +315,14 @@ class ConfigHandler(BaseHandler):
                 data['text_right'] = ui.get('name')
                 
             elif right_text == 'timestamp':
-                data['text_right'] = '%Y-%m-%d\n%T'
+                data['text_right'] = '%Y-%m-%d\\n%T'
                 
             else:
                 data['text_right'] = ui.get('custom_right_text', '')
+        
+        if not ui.get('video_streaming', True):
+            data['webcam_maxrate'] = 5
+            data['webcam_quality'] = 75
     
         if ui.get('still_images', False):
             capture_mode = ui.get('capture_mode', 'motion-triggered')
@@ -276,7 +341,7 @@ class ConfigHandler(BaseHandler):
             data['quality'] = max(1, int(ui.get('image_quality', 75)))
             
         if ui.get('motion_movies', False):
-            data['ffmpeg_variable_bitrate'] = 2 + int((100 - int(ui.get('movie_quality', 50))) * 0.29)
+            data['ffmpeg_variable_bitrate'] = 2 + int((100 - int(ui.get('movie_quality', 75))) * 0.29)
             data['movie_filename'] = ui.get('movie_file_name', '%Y-%m-%d-%H-%M-%S-%q')
             
         if ui.get('working_schedule', False):
@@ -300,10 +365,10 @@ class ConfigHandler(BaseHandler):
             'device': data['@proto'] + '://' + data['videodevice'],
             'light_switch_detect': data['lightswitch'] > 0,
             'auto_brightness': data['auto_brightness'],
-            'brightness': int(int(data['brightness']) / 2.55),
-            'contrast': int(int(data['contrast']) / 2.55),
-            'saturation': int(int(data['saturation']) / 2.55),
-            'hue': int(int(data['hue'])),
+            'brightness': int(round(int(data['brightness']) / 2.55)),
+            'contrast': int(round(int(data['contrast']) / 2.55)),
+            'saturation': int(round(int(data['saturation']) / 2.55)),
+            'hue': int(round(int(data['hue']) / 2.55)),
             'resolution': str(data['width']) + 'x' + str(data['height']),
             'framerate': int(data['framerate']),
             
@@ -339,7 +404,7 @@ class ConfigHandler(BaseHandler):
             
             # motion movies
             'motion_movies': False,
-            'movie_quality': 50,
+            'movie_quality': 75,
             'movie_file_name': '%Y-%m-%d-%H-%M-%S-%q',
             'preserve_movies': data['@preserve_movies'],
             
@@ -375,7 +440,7 @@ class ConfigHandler(BaseHandler):
             if text_left == data['@name']:
                 ui['left_text'] = 'camera-name'
                 
-            elif text_left == '%Y-%m-%d\n%T':
+            elif text_left == '%Y-%m-%d\\n%T':
                 ui['left_text'] = 'timestamp'
                 
             else:
@@ -385,7 +450,7 @@ class ConfigHandler(BaseHandler):
             if text_right == data['@name']:
                 ui['right_text'] = 'camera-name'
                 
-            elif text_right == '%Y-%m-%d\n%T':
+            elif text_right == '%Y-%m-%d\\n%T':
                 ui['right_text'] = 'timestamp'
                 
             else:

@@ -483,11 +483,12 @@ def _set_default_motion_camera(data):
     data.setdefault('webcam_localhost', False)
     data.setdefault('webcam_port', 8080)
     data.setdefault('webcam_maxrate', 1)
-    data.setdefault('webcam_quality', 50)
+    data.setdefault('webcam_quality', 75)
     data.setdefault('webcam_motion', False)
     
     data.setdefault('text_left', '')
     data.setdefault('text_right', '')
+    data.setdefault('text_double', True)
 
     data.setdefault('text_changes', False)
     data.setdefault('locate', False)

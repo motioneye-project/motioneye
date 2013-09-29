@@ -220,6 +220,12 @@ function initUI() {
       'input.notifications, select.notifications, ' +
       'input.working-schedule, select.working-schedule').change(pushCameraConfig);
     
+    /* preview controls */
+    $('#brightnessSlider').change(pushPreview);
+    $('#contrastSlider').change(pushPreview);
+    $('#saturationSlider').change(pushPreview);
+    $('#hueSlider').change(pushPreview);
+    
     /* apply button */
     $('#applyButton').click(function () {
         if ($(this).hasClass('progress')) {
@@ -502,7 +508,13 @@ function dict2CameraUi(dict) {
     $('#contrastSlider').val(dict['contrast']);
     $('#saturationSlider').val(dict['saturation']);
     $('#hueSlider').val(dict['hue']);
+    
+    $('#resolutionSelect').html('');
+    dict['available_resolutions'].forEach(function (resolution) {
+        $('#resolutionSelect').append('<option value="' + resolution + '">' + resolution + '</option>');
+    });
     $('#resolutionSelect').val(dict['resolution']);
+    
     $('#rotationSelect').val(dict['rotation']);
     $('#framerateSlider').val(dict['framerate']);
     
@@ -738,6 +750,23 @@ function pushCameraConfig() {
     if (!isApplyVisible()) {
         showApply();
     }
+}
+
+function pushPreview() {
+    var cameraId = $('#videoDeviceSelect').val();
+    var brightness = $('#brightnessSlider').val();
+    var contrast= $('#brightnessSlider').val();
+    var saturation = $('#brightnessSlider').val();
+    var hue = $('#brightnessSlider').val();
+    
+    var data = {
+        'brightness': brightness,
+        'contrast': contrast,
+        'saturation': saturation,
+        'hue': hue
+    };
+    
+    ajax('POST', '/config/' + cameraId + '/set_preview/', data);
 }
 
 

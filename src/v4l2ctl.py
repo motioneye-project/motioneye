@@ -80,7 +80,7 @@ def _set_ctrl(device, control, value):
         min_value = int(properties['min'])
         max_value = int(properties['max'])
         
-        value = min_value + value * float(max_value - min_value) / 255
+        value = min_value + value * float(max_value - min_value) / 100
     
     else:
         logging.warn('min and max values not found for control %(control)s of device %(device)s' % {
@@ -94,11 +94,11 @@ def _set_ctrl(device, control, value):
 
 
 def _list_ctrls(device):
-    output = subprocess.call('v4l2-ctl -d %(device)s --list-ctrls' % {
+    output = subprocess.check_output('v4l2-ctl -d %(device)s --list-ctrls' % {
             'device': device}, shell=True)
 
     controls = {}
-    for line in output:
+    for line in output.split('\n'):
         if not line:
             continue
         
