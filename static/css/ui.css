@@ -24,11 +24,11 @@ div.button {
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
-    cursor: pointer;    
+    cursor: pointer;
+    display: inline-block;    
 }
 
 div.button.dialog {
-    display: inline-block;
     background-color: #414141;
     min-width: 60px;
     height: 1.2em;
@@ -41,27 +41,21 @@ div.button.dialog {
     transition: all 0.1s linear;
 }
 
-div.button.dialog:FOCUS,
-div.button.dialog:HOVER {
-    border: 1px solid #3498db;
-    background-color: #515151;
-}
-
-div.button.dialog:ACTIVE {
-    background-color: #414141;
-}
-
 div.button.dialog.default {
     background-color: #317CAD;
 }
 
-div.button.dialog.default:FOCUS,
-div.button.dialog.default:HOVER {
-    background-color: #3498db;
+div.button.mouse-effect {
+    opacity: 0.9;
+    transition: opacity 0.1s linear;
 }
 
-div.button.dialog.default:ACTIVE {
-    background-color: #317CAD;
+div.button.mouse-effect:HOVER {
+    opacity: 1;
+}
+
+div.button.mouse-effect:ACTIVE {
+    opacity: 0.6;
 }
 
 
@@ -312,16 +306,12 @@ div.modal-close-button {
     height: 16px;
     background-image: url(../img/top-bar-buttons.svg);
     opacity: 1;
-    transition: all 0.1s linear;
     cursor: pointer;
-}
-
-div.modal-close-button:ACTIVE {
-    opacity: 0.6;
 }
 
 table.modal-buttons-container {
     width: 100%;
+    margin: auto;
     text-align: center;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -334,6 +324,27 @@ table.modal-buttons-container td:not(:FIRST-CHILD) {
 
 table.modal-buttons-container div.button.dialog {
     display: block;
+}
+
+div.modal-progress {
+    border-radius: 10px;
+    background-image: url(../img/modal-progress.gif);
+    width: 64px;
+    height: 64px;
+}
+
+td.dialog-item-label {
+    text-align: right;
+    padding-right: 5px;
+}
+
+td.dialog-item-value {
+    text-align: left;
+    padding-left: 5px;
+}
+
+span.dialog-item-label {
+    font-size: 0.9em;    
 }
 
 

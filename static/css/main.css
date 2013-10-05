@@ -42,7 +42,7 @@ html {
 div.page,
 div.header-container {
     position: relative;
-    min-width: 320px;
+    min-width: 360px;
     min-height: 60px;
     width: 100%;
 }
@@ -89,12 +89,28 @@ div.page-container.stretched {
 }
 
 
-    /* icons */
+    /* icons & icon buttons */
 
-img.settings-button {
-    margin: 2px;
-    cursor: pointer;
+div.button.settings-button {
+    margin: 1px;
     vertical-align: middle;
+    background-image: url(../img/settings.svg);
+    width: 48px;
+    height: 48px;
+}
+
+div.button.rem-camera-button {
+    display: none;
+    margin: 1px;
+    vertical-align: middle;
+    background-image: url(../img/settings.svg);
+    width: 48px;
+    height: 48px;
+    background-position: -48px 0px;
+}
+
+div.settings-top-bar.open div.button.rem-camera-button {
+    display: inline-block;
 }
 
 div.logo {
@@ -135,7 +151,7 @@ div.settings {
 
 div.settings.open {
     width: 40%;
-    min-width: 320px;
+    min-width: 360px;
 }
 
 div.settings-container {
@@ -158,7 +174,7 @@ div.settings-top-bar {
 
 div.settings-top-bar.open {
     background-color: #414141;
-    min-width: 320px;
+    min-width: 360px;
 }
 
 div.settings-section-title {
@@ -204,9 +220,9 @@ select.video-device {
     display: none;
     padding: 4px 1.5em 4px 4px;
     vertical-align: middle;
-    font-size: 20px;
+    font-size: 1.1em;
     width: auto;
-    max-width: 40%;
+    max-width: 35%;
 }
 
 div.apply-button {
@@ -271,6 +287,15 @@ input[type=text].working-schedule.number {
 }
 
 
+    /* dialogs */
+
+table.add-camera-dialog select,
+table.add-camera-dialog input[type=text],
+table.add-camera-dialog input[type=password] {
+    width: 10em;
+}
+
+
     /* camera frames */
 
 div.camera-list {
@@ -316,10 +341,6 @@ div.camera-button {
     cursor: pointer;
     opacity: 1;
     transition: all 0.1s linear;
-}
-
-div.camera-button:ACTIVE {
-    opacity: 0.6;
 }
 
 div.camera-button.close {

@@ -266,6 +266,7 @@ function makeTextValidator($input, required) {
     $input.blur(validate);
     $input.change(validate).change();
     
+    $input.addClass('validator');
     $input.addClass('text-validator');
     $input[0].validate = validate;
 }
@@ -357,6 +358,7 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     $input.blur(validate);
     $input.change(validate).change();
     
+    $input.addClass('validator');
     $input.addClass('number-validator');
     $input[0].validate = validate;
 }
@@ -395,7 +397,50 @@ function makeTimeValidator($input) {
         timeFormat: 'H:i',
     });
     
+    $input.addClass('validator');
     $input.addClass('time-validator');
+    $input[0].validate = validate;
+}
+
+function makeRegexValidator($input, regex, required) {
+    if (required == null) {
+        required = true;
+    }
+    
+    function isValid(strVal) {
+        if (!$input.parents('tr:eq(0)').is(':visible')) {
+            return true; /* an invisible element is considered always valid */
+        }
+
+        if (strVal.length === 0 && !required) {
+            return true;
+        }
+        
+        return strVal.match(new RegExp(regex)) != null;
+    }
+    
+    var msg = 'enter a valid value';
+    
+    function validate() {
+        var strVal = $input.val();
+        if (isValid(strVal)) {
+            $input.attr('title', '');
+            $input.removeClass('error');
+            $input[0].invalid = false;
+        }
+        else {
+            $input.attr('title', msg);
+            $input.addClass('error');
+            $input[0].invalid = true;
+        }
+    }
+    
+    $input.keyup(validate);
+    $input.blur(validate);
+    $input.change(validate).change();
+    
+    $input.addClass('validator');
+    $input.addClass('regex-validator');
     $input[0].validate = validate;
 }
 
@@ -405,6 +450,21 @@ function makeTimeValidator($input) {
 function showModalDialog(content, onClose) {
     var glass = $('div.modal-glass');
     var container = $('div.modal-container');
+    
+    if (container.is(':visible')) {
+        /* the modal dialog is already visible,
+         * we just replace the content */
+        
+        if (container[0]._onClose) {
+            container[0]._onClose();
+        }
+        
+        container[0]._onClose = onClose; /* remember the onClose handler */
+        container.html(content);
+        updateModalDialogPosition();
+        
+        return;
+    }
     
     glass.css('display', 'block');
     glass.animate({'opacity': '0.7'}, 200);
@@ -445,7 +505,7 @@ function updateModalDialogPosition() {
     var windowWidth = $(window).width();
     var windowHeight = $(window).height();
     var modalWidth = container.width();
-    var modalHeight = container.width();
+    var modalHeight = container.height();
     
     container.css('left', (windowWidth - modalWidth) / 2);
     container.css('top', (windowHeight - modalHeight) / 2);
@@ -462,7 +522,7 @@ function makeModalDialogButtons(buttonsInfo) {
     var tr = buttonsContainer.find('tr');
     
     buttonsInfo.forEach(function (info) {
-        var buttonDiv = $('<div class="button dialog"></div>');
+        var buttonDiv = $('<div class="button dialog mouse-effect"></div>');
         
         buttonDiv.click(hideModalDialog); /* every button closes the dialog */
         buttonDiv.attr('tabIndex', '0'); /* make button focusable */
@@ -481,6 +541,9 @@ function makeModalDialogButtons(buttonsInfo) {
         tr.append(td);
     });
     
+    /* limit the size of the buttons container */
+    buttonsContainer.css('max-width', (buttonsInfo.length * 10) + 'em');
+    
     return buttonsContainer;
 }
 
@@ -498,7 +561,7 @@ function makeModalDialogTitleBar(options) {
     titleBar.append(titleSpan);
     
     if (options.closeButton) {
-        var closeButton = $('<div class="modal-close-button" title="close"></div>');
+        var closeButton = $('<div class="button modal-close-button mouse-effect" title="close"></div>');
         closeButton.click(hideModalDialog);
         titleBar.append(closeButton);
     }
@@ -511,7 +574,7 @@ function runModalDialog(options) {
      * * title: String
      * * closeButton: Boolean
      * * content: any
-     * * buttons: 'yesno'|'okcancel'|Array
+     * * buttons: 'ok'|'yesno'|'okcancel'|Array
      * * onYes: Function
      * * onNo: Function
      * * onOk: Function
@@ -532,7 +595,9 @@ function runModalDialog(options) {
     
     /* add supplied content */
     if (options.content) {
-        content.append(options.content);
+        var contentWrapper = $('<div style="padding: 10px;"></div>');
+        contentWrapper.append(options.content);
+        content.append(contentWrapper);
     }
     
     /* add buttons */
@@ -542,9 +607,21 @@ function runModalDialog(options) {
             {caption: 'Yes', isDefault: true, click: options.onYes}
         ];
     }
+    if (options.buttons === 'yesnocancel') {
+        options.buttons = [
+            {caption: 'Cancel', click: options.onCancel},
+            {caption: 'No', click: options.onNo},
+            {caption: 'Yes', isDefault: true, click: options.onYes}
+        ];
+    }
     else if (options.buttons === 'okcancel') {
         options.buttons = [
             {caption: 'Cancel', click: options.onCancel},
+            {caption: 'OK', isDefault: true, click: options.onOk}
+        ];
+    }
+    else if (options.buttons === 'ok') {
+        options.buttons = [
             {caption: 'OK', isDefault: true, click: options.onOk}
         ];
     }
@@ -560,8 +637,13 @@ function runModalDialog(options) {
         });
     }
     
+    /* add some margins */
     if ((buttonsDiv || options.content) && titleBar) {
         titleBar.css('margin-bottom', '5px');
+    }
+    
+    if (buttonsDiv && options.content) {
+        buttonsDiv.css('margin-top', '5px');
     }
     
     var handleKeyUp = function (e) {

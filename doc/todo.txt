@@ -19,6 +19,5 @@
 -> click to zoom on cameras
 -> add a previewer for movies
 -> add a previewer for snapshots
--> other todos
--> use svg instead of pngs for icons
 -> add a motioneye.svg icon
+-> other todos

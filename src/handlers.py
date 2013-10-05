@@ -200,7 +200,15 @@ class ConfigHandler(BaseHandler):
     def list_devices(self):
         logging.debug('listing devices')
         
-        self.finish_json({'devices': v4l2ctl.list_devices()})
+        configured_devices = {}
+        for camera_id in config.get_camera_ids():
+            data = config.get_camera(camera_id)
+            configured_devices[data['videodevice']] = True
+            
+        devices = [{'device': d[0], 'name': d[1], 'configured': d[0] in configured_devices}
+                for d in v4l2ctl.list_devices()]
+        
+        self.finish_json({'devices': devices})
     
     def add_camera(self):
         logging.debug('adding new camera')
