@@ -217,7 +217,8 @@ function initUI() {
             else {
                 $('#videoDeviceSelect')[0].selectedIndex = -1;
             }
-            $('#videoDeviceSelect').change();
+            
+            updateConfigUi();
         }
         else {
             fetchCurrentCameraConfig();
@@ -252,6 +253,25 @@ function initUI() {
     /* whenever the window is resized,
      * if a modal dialog is visible, it should be repositioned */
     $(window).resize(updateModalDialogPosition);
+    
+    /* remove camera button */
+    $('div.button.rem-camera-button').click(function () {
+        var cameraId = $('#videoDeviceSelect').val();
+        if (cameraId == null || cameraId === 'add') {
+            runAlertDialog('No camera to remove!');
+            return;
+        }
+
+        var deviceName = $('#videoDeviceSelect').find('option[value=' + cameraId + ']').text();
+        
+        runConfirmDialog('Remove device ' + deviceName + '?', function () {
+            showProgress();
+            ajax('POST', '/config/' + cameraId + '/rem/', null, function () {
+                hideApply();
+                fetchCurrentConfig();
+            });
+        });
+    });
 }
 
 
@@ -298,6 +318,11 @@ function updateConfigUi() {
     var motionEyeEnabled = $('#motionEyeSwitch').get(0).checked;
     if (!motionEyeEnabled) {
         objs.not($('#motionEyeSwitch').parents('div').get(0)).each(markHide);
+    }
+    
+    if ($('#videoDeviceSelect').find('option').length < 2) { /* no camera configured */
+        $('#videoDeviceSwitch').parent().each(markHide);
+        $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHide);
     }
     
     /* advanced settings */
@@ -747,15 +772,17 @@ function fetchCurrentConfig() {
             }
             videoDeviceSelect.append('<option value="add">add camera...</option>');
             
-            if (cameras.length > 1) {
+            if (cameras.length > 0) {
                 videoDeviceSelect[0].selectedIndex = 0;
                 fetchCurrentCameraConfig();
             }
             else {
                 videoDeviceSelect[0].selectedIndex = -1;
+                // TODO if admin, set a message saying that the user should add a camera
             }
             
             recreateCameraFrames(cameras);
+            updateConfigUi();
         });
     });
 }
@@ -815,7 +842,11 @@ function runAlertDialog(message) {
     runModalDialog({title: message, buttons: 'ok'});
 }
 
-function runAddCameraDialog(devices) {
+function runConfirmDialog(message, onYes) {
+    runModalDialog({title: message, buttons: 'yesno', onYes: onYes});
+}
+
+function runAddCameraDialog() {
     var content = 
             $('<table class="add-camera-dialog">' +
                 '<tr>' +
@@ -891,7 +922,23 @@ function runAddCameraDialog(devices) {
             buttons: 'okcancel',
             content: content,
             onOk: function () {
+                var fullDevice;
+                if (deviceSelect.val() == 'remote') {
+                    fullDevice = 'http://' + usernameEntry.val() + ':' + passwordEntry.val() + '@' + hostEntry + ':' + portEntry;
+                }
+                else {
+                    fullDevice = 'v4l2://' + deviceSelect.val();
+                }
+                    
+                showProgress();
                 
+                ajax('POST', '/config/add/?device=' + fullDevice, null, function (data) {
+                    hideApply();
+                    var addCameraOption = $('#videoDeviceSelect').find('option[value=add]');
+                    addCameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
+                    $('#videoDeviceSelect').val(data.id).change();
+                    recreateCameraFrames();
+                });
             }
         });
     });
@@ -1035,12 +1082,13 @@ function doCloseCamera(cameraId) {
     showProgress();
     ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
         data['enabled'] = false;
+        data['restart'] = true;
         ajax('POST', '/config/' + cameraId + '/set/', data, function () {
             endProgress();
             
             /* if the current camera in the settings panel is the closed camera,
              * we refresh its settings and update the UI */
-            if (isSettingsOpen() && ($('#videoDeviceSelect').val() === '' + cameraId)) {
+            if ($('#videoDeviceSelect').val() === '' + cameraId) {
                 fetchCurrentCameraConfig();
             }
         });

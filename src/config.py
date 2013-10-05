@@ -7,6 +7,7 @@ import re
 from collections import OrderedDict
 
 import settings
+import v4l2ctl
 
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
@@ -268,7 +269,15 @@ def add_camera(device):
     data = OrderedDict()
     data['@name'] = 'Camera' + str(camera_id)
     data['@proto'] = proto
+    data['@enabled'] = True
     data['videodevice'] = device
+    
+    # find a suitable resolution
+    for (w, h) in v4l2ctl.list_resolutions(device):
+        if w > 300:
+            data['width'] = w
+            data['height'] = h
+            break
     
     # write the configuration to file
     set_camera(camera_id, data)
@@ -473,14 +482,14 @@ def _set_default_motion_camera(data):
     data.setdefault('@proto', 'v4l2')
     data.setdefault('videodevice', '')
     data.setdefault('lightswitch', 0)
-    data.setdefault('auto_brightness', False)
-    data.setdefault('brightness', 0)
-    data.setdefault('contrast', 0)
-    data.setdefault('saturation', 0)
-    data.setdefault('hue', 0)
+    data.setdefault('auto_brightness', True)
+    data.setdefault('brightness', 127)
+    data.setdefault('contrast', 127)
+    data.setdefault('saturation', 127)
+    data.setdefault('hue', 127)
     data.setdefault('width', 352)
     data.setdefault('height', 288)
-    data.setdefault('framerate', 1)
+    data.setdefault('framerate', 5)
     data.setdefault('rotate', 0)
     
     data.setdefault('@storage_device', 'local-disk')
@@ -492,12 +501,12 @@ def _set_default_motion_camera(data):
     
     data.setdefault('webcam_localhost', False)
     data.setdefault('webcam_port', 8080)
-    data.setdefault('webcam_maxrate', 1)
+    data.setdefault('webcam_maxrate', 5)
     data.setdefault('webcam_quality', 75)
     data.setdefault('webcam_motion', False)
     
-    data.setdefault('text_left', '')
-    data.setdefault('text_right', '')
+    data.setdefault('text_left', data['@name'])
+    data.setdefault('text_right', '%Y-%m-%d\\n%T')
     data.setdefault('text_double', False)
 
     data.setdefault('text_changes', False)
@@ -507,8 +516,8 @@ def _set_default_motion_camera(data):
     data.setdefault('noise_level', 32)
     
     data.setdefault('gap', 60)
-    data.setdefault('pre_capture', 0)
-    data.setdefault('post_capture', 0)
+    data.setdefault('pre_capture', 5)
+    data.setdefault('post_capture', 5)
     
     data.setdefault('output_all', False)
     data.setdefault('output_normal', False)
@@ -520,7 +529,7 @@ def _set_default_motion_camera(data):
     
     data.setdefault('motion_movies', False)
     data.setdefault('ffmpeg_variable_bitrate', 14)
-    data.setdefault('movie_filename', '')
+    data.setdefault('movie_filename', '%Y-%m-%d-%H-%M-%S')
     data.setdefault('ffmpeg_cap_new', False)
     data.setdefault('@preserve_movies', 0)
     

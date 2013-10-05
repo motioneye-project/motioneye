@@ -217,13 +217,26 @@ class ConfigHandler(BaseHandler):
         camera_id, data = config.add_camera(device)
         
         data['@id'] = camera_id
+        data['@enabled'] = True
         
-        self.finish_json(data)
+        if motionctl.running():
+            motionctl.stop()
+        
+        if config.has_enabled_cameras():
+            motionctl.start()
+        
+        self.finish_json(self._camera_dict_to_ui(data))
     
     def rem_camera(self, camera_id):
         logging.debug('removing camera %(id)s' % {'id': camera_id})
         
         config.rem_camera(camera_id)
+        
+        if motionctl.running():
+            motionctl.stop()
+        
+        if config.has_enabled_cameras():
+            motionctl.start()
         
     def _main_ui_to_dict(self, ui):
         return {
@@ -523,6 +536,11 @@ class ConfigHandler(BaseHandler):
 
 class SnapshotHandler(BaseHandler):
     def get(self, camera_id, op, filename=None):
+        if camera_id is not None:
+            camera_id = int(camera_id)
+            if camera_id not in config.get_camera_ids():
+                raise HTTPError(404, 'no such camera')
+        
         if op == 'current':
             self.current(camera_id)
             
@@ -545,10 +563,14 @@ class SnapshotHandler(BaseHandler):
     
     def list(self, camera_id):
         logging.debug('listing snapshots for camera %(id)s' % {'id': camera_id})
+        
+        # TODO implement me
     
     def download(self, camera_id, filename):
         logging.debug('downloading snapshot %(filename)s of camera %(id)s' % {
                 'filename': filename, 'id': camera_id})
+        
+        # TODO implement me
 
 
 class MovieHandler(BaseHandler):

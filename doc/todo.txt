@@ -21,3 +21,4 @@
 -> add a previewer for snapshots
 -> add a motioneye.svg icon
 -> other todos
+-> add a messaging mechanism
