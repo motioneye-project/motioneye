@@ -154,7 +154,7 @@ input[type=text].number {
 
 input[type=text].error,
 input[type=password].error {
-    background-image: url(../img/validation-error.png);
+    background-image: url(../img/validation-error.svg);
     background-position: center right;
     background-repeat: no-repeat;
 }
@@ -178,7 +178,7 @@ select.styled {
     font-family: inherit;
     font-size: 0.8em;
     margin: 2px;
-    background-image: url(../img/combo-box-arrow.png);
+    background-image: url(../img/combo-box-arrow.svg);
     background-repeat: no-repeat;
     background-position: right center;
     cursor: pointer;
@@ -258,7 +258,7 @@ div.slider:FOCUS div.slider-bar-inside {
 }
 
 div.slider-cursor {
-    background-image: url(../img/slider-arrow.png);
+    background-image: url(../img/slider-arrow.svg);
     width: 11px;
     height: 18px;
     position: absolute;
@@ -310,7 +310,7 @@ div.modal-close-button {
     right: 0.3em;
     width: 16px;
     height: 16px;
-    background-image: url(../img/top-bar-buttons.png);
+    background-image: url(../img/top-bar-buttons.svg);
     opacity: 1;
     transition: all 0.1s linear;
     cursor: pointer;
