@@ -18,13 +18,50 @@ input[type=checkbox].styled {
 }
 
 
-    /* button */
+    /* buttons */
 
 div.button {
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
     cursor: pointer;    
+}
+
+div.button.dialog {
+    display: inline-block;
+    background-color: #414141;
+    min-width: 60px;
+    height: 1.2em;
+    line-height: 1.2em;
+    text-align: center;
+    padding: 0.2em 0.4em;
+    border: 1px solid #317CAD;
+    border-radius: 2px;
+    color: white;
+    transition: all 0.1s linear;
+}
+
+div.button.dialog:FOCUS,
+div.button.dialog:HOVER {
+    border: 1px solid #3498db;
+    background-color: #515151;
+}
+
+div.button.dialog:ACTIVE {
+    background-color: #414141;
+}
+
+div.button.dialog.default {
+    background-color: #317CAD;
+}
+
+div.button.dialog.default:FOCUS,
+div.button.dialog.default:HOVER {
+    background-color: #3498db;
+}
+
+div.button.dialog.default:ACTIVE {
+    background-color: #317CAD;
 }
 
 
@@ -35,7 +72,7 @@ div.check-box {
     position: relative;
     width: 2.5em;
     height: 1em;
-    border: 1px solid #2A6C96;
+    border: 1px solid #317CAD;
     border-radius: 2px;
     color: #aaaaaa;
     vertical-align: middle;
@@ -72,8 +109,13 @@ span.check-box-text {
 
 div.check-box.on div.check-box-button {
     left: 50%;
-    background-color: #3498db;
+    background-color: #317CAD;
     color: white;
+}
+
+div.check-box.on:FOCUS div.check-box-button,
+div.check-box.on:HOVER div.check-box-button {
+    background-color: #3498db;
 }
 
 
@@ -82,7 +124,7 @@ div.check-box.on div.check-box-button {
 input[type=password].styled,
 input[type=text].styled {
     width: 90%;
-    border: 1px solid #2A6C96;
+    border: 1px solid #317CAD;
     border-radius: 2px;
     background-color: transparent;
     padding: 1px;
@@ -128,7 +170,7 @@ select.styled {
     -webkit-appearance: none;
     appearance: none;
     width: 90%;
-    border: 1px solid #2A6C96;
+    border: 1px solid #317CAD;
     border-radius: 2px;
     background-color: transparent;
     padding: 1px 1.25em 1px 1px;
@@ -198,7 +240,7 @@ div.slider-bar {
 }
 
 div.slider-bar-inside {
-    border: 1px solid #2A6C96;
+    border: 1px solid #317CAD;
     height: 3px;
     position: relative;
     top: 3px;
@@ -223,6 +265,75 @@ div.slider-cursor {
     left: 0px;
     top: -5px;
     cursor: pointer;
+}
+
+
+    /* modal dialogs */
+    
+div.modal-glass {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: black;
+    opacity: 0;
+}
+
+div.modal-container {
+    position: fixed;
+    display: none;
+    z-index: 10001;
+    background-color: #313131;
+    border-radius: 3px;
+    opacity: 0;
+    padding: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+div.modal-title-bar {
+    height: 1.5em;
+    line-height: 1.5em;
+    text-align: center;
+    position: relative;
+}
+
+span.modal-title {
+    color: white;
+}
+
+div.modal-close-button {
+    position: absolute;
+    top: 0.3em;
+    right: 0.3em;
+    width: 16px;
+    height: 16px;
+    background-image: url(../img/top-bar-buttons.png);
+    opacity: 1;
+    transition: all 0.1s linear;
+    cursor: pointer;
+}
+
+div.modal-close-button:ACTIVE {
+    opacity: 0.6;
+}
+
+table.modal-buttons-container {
+    width: 100%;
+    text-align: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+table.modal-buttons-container td:not(:FIRST-CHILD) {
+    padding-left: 5px;
+}
+
+table.modal-buttons-container div.button.dialog {
+    display: block;
 }
 
 

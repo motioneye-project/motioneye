@@ -43,6 +43,7 @@ div.page,
 div.header-container {
     position: relative;
     min-width: 320px;
+    min-height: 60px;
     width: 100%;
 }
 
@@ -252,14 +253,6 @@ div.check-box.section {
     float: left;
 }
 
-div.check-box.section div.check-box-button {
-    background-color: #515151;
-}
-
-div.check-box.on.section div.check-box-button {
-    background-color: #3498db;
-}
-
 input[type=text].working-schedule.number {
     width: 50px;
 }
@@ -305,19 +298,15 @@ div.camera-button {
     display: inline-block;
     width: 16px;
     height: 16px;
-    background-image: url(../img/video-buttons.png);
+    background-image: url(../img/top-bar-buttons.png);
     margin-left: 3px;
     cursor: pointer;
-    opacity: 0.7;
+    opacity: 1;
     transition: all 0.1s linear;
 }
 
-div.camera-button:HOVER {
-    opacity: 1;
-}
-
 div.camera-button:ACTIVE {
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 div.camera-button.close {

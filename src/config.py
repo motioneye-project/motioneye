@@ -136,10 +136,13 @@ def get_camera_ids():
     return camera_ids
 
 
-def get_enabled_cameras():
+def has_enabled_cameras():
+    if not get_main().get('@enabled'):
+        return False
+    
     camera_ids = get_camera_ids()
     cameras = [get_camera(camera_id) for camera_id in camera_ids]
-    return [c for c in cameras if c['@enabled']]
+    return bool([c for c in cameras if c['@enabled']])
 
 
 def get_camera(camera_id, as_lines=False):
@@ -515,6 +518,7 @@ def _set_default_motion_camera(data):
     data.setdefault('quality', 75)
     data.setdefault('@preserve_images', 0)
     
+    data.setdefault('motion_movies', False)
     data.setdefault('ffmpeg_variable_bitrate', 14)
     data.setdefault('movie_filename', '')
     data.setdefault('ffmpeg_cap_new', False)

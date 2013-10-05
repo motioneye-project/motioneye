@@ -146,7 +146,7 @@ class ConfigHandler(BaseHandler):
         
         finally:
             if restart:
-                if len(config.get_enabled_cameras()) > 0:
+                if config.has_enabled_cameras():
                     motionctl.start()
 
     def set_preview(self, camera_id):

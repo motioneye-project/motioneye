@@ -7,5 +7,5 @@ normal-text: #dddddd (86%)
 focused-text: #ffffff (100%)
 
 action-text: #3498db
-action-border-unfocused: #2A6C96
+action-border-unfocused: #317CAD
 action-border-focused: #3498db

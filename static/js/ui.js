@@ -1,4 +1,7 @@
 
+
+    /* UI widgets */
+
 function makeCheckBox($input) {
     var mainDiv = $('<div class="check-box"></div>');
     var buttonDiv = $('<div class="check-box-button"></div>');
@@ -223,6 +226,9 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     return slider;
 }
 
+
+    /* validators */
+
 function makeTextValidator($input, required) {
     if (required == null) {
         required = true;
@@ -391,4 +397,204 @@ function makeTimeValidator($input) {
     
     $input.addClass('time-validator');
     $input[0].validate = validate;
+}
+
+
+    /* modal dialog */
+
+function showModalDialog(content, onClose) {
+    var glass = $('div.modal-glass');
+    var container = $('div.modal-container');
+    
+    glass.css('display', 'block');
+    glass.animate({'opacity': '0.7'}, 200);
+    
+    container[0]._onClose = onClose; /* remember the onClose handler */
+    container.html(content);
+    
+    container.css('display', 'block');
+    updateModalDialogPosition();
+    container.animate({'opacity': '1'}, 200);
+}
+
+function hideModalDialog() {
+    var glass = $('div.modal-glass');
+    var container = $('div.modal-container');
+    
+    glass.animate({'opacity': '0'}, 200, function () {
+        glass.css('display', 'none');
+    });
+    
+    container.animate({'opacity': '0'}, 200, function () {
+        container.css('display', 'none');
+        container.html('');
+    });
+    
+    /* run the onClose handler, if supplied */
+    if (container[0]._onClose) {
+        container[0]._onClose();
+    }
+}
+
+function updateModalDialogPosition() {
+    var container = $('div.modal-container');
+    if (!container.is(':visible')) {
+        return;
+    }
+    
+    var windowWidth = $(window).width();
+    var windowHeight = $(window).height();
+    var modalWidth = container.width();
+    var modalHeight = container.width();
+    
+    container.css('left', (windowWidth - modalWidth) / 2);
+    container.css('top', (windowHeight - modalHeight) / 2);
+}
+
+function makeModalDialogButtons(buttonsInfo) {
+    /* buttonsInfo is an array of:
+     * * caption: String
+     * * isDefault: Boolean
+     * * click: Function
+     */
+    
+    var buttonsContainer = $('<table class="modal-buttons-container"><tr></tr></table>');
+    var tr = buttonsContainer.find('tr');
+    
+    buttonsInfo.forEach(function (info) {
+        var buttonDiv = $('<div class="button dialog"></div>');
+        
+        buttonDiv.click(hideModalDialog); /* every button closes the dialog */
+        buttonDiv.attr('tabIndex', '0'); /* make button focusable */
+        buttonDiv.html(info.caption);
+        
+        if (info.isDefault) {
+            buttonDiv.addClass('default');
+        }
+        
+        if (info.click) {
+            buttonDiv.click(info.click);
+        }
+        
+        var td = $('<td></td>');
+        td.append(buttonDiv);
+        tr.append(td);
+    });
+    
+    return buttonsContainer;
+}
+
+function makeModalDialogTitleBar(options) {
+    /* available options:
+     * * title: String
+     * * closeButton: Boolean
+     */
+    
+    var titleBar = $('<div class="modal-title-bar"></div>');
+    
+    var titleSpan = $('<span class="modal-title"></span>');
+    titleSpan.html(options.title || '');
+    
+    titleBar.append(titleSpan);
+    
+    if (options.closeButton) {
+        var closeButton = $('<div class="modal-close-button" title="close"></div>');
+        closeButton.click(hideModalDialog);
+        titleBar.append(closeButton);
+    }
+    
+    return titleBar;
+}
+
+function runModalDialog(options) {
+    /* available options:
+     * * title: String
+     * * closeButton: Boolean
+     * * content: any
+     * * buttons: 'yesno'|'okcancel'|Array
+     * * onYes: Function
+     * * onNo: Function
+     * * onOk: Function
+     * * onCancel: Function
+     * * onClose: Function
+     */
+    
+    var content = $('<div></div>');
+    var titleBar = null;
+    var buttonsDiv = null;
+    var defaultClick = null;
+    
+    /* add title bar */
+    if (options.title) {
+        titleBar = makeModalDialogTitleBar({title: options.title, closeButton: options.closeButton});
+        content.append(titleBar);
+    }
+    
+    /* add supplied content */
+    if (options.content) {
+        content.append(options.content);
+    }
+    
+    /* add buttons */
+    if (options.buttons === 'yesno') {
+        options.buttons = [
+            {caption: 'No', click: options.onNo},
+            {caption: 'Yes', isDefault: true, click: options.onYes}
+        ];
+    }
+    else if (options.buttons === 'okcancel') {
+        options.buttons = [
+            {caption: 'Cancel', click: options.onCancel},
+            {caption: 'OK', isDefault: true, click: options.onOk}
+        ];
+    }
+    
+    if (options.buttons) {
+        buttonsDiv = makeModalDialogButtons(options.buttons);
+        content.append(buttonsDiv);
+        
+        options.buttons.forEach(function (info) {
+            if (info.isDefault) {
+                defaultClick = info.click;
+            }
+        });
+    }
+    
+    if ((buttonsDiv || options.content) && titleBar) {
+        titleBar.css('margin-bottom', '5px');
+    }
+    
+    var handleKeyUp = function (e) {
+        switch (e.which) {
+            case 13:
+                if (defaultClick) {
+                    defaultClick();
+                }
+                /* intentionally no break */
+           
+            case 27:
+                hideModalDialog();
+        }
+    };
+    
+    var onClose = function () {
+        if (options.onClose) {
+            options.onClose();
+        }
+        
+        /* unbind html handlers */
+        
+        $('html').unbind('keyup', handleKeyUp);
+    };
+    
+    /* bind key handlers */
+    $('html').bind('keyup', handleKeyUp);
+    
+    /* and finally, show the dialog */
+    showModalDialog(content, onClose);
+    
+    /* focus the default button if nothing else is focused */
+    if (content.find('*:focus').length === 0) {
+        content.find('div.button.default').focus();
+    }
 }

@@ -48,7 +48,7 @@ def _start_server():
 
 
 def _start_motion():
-    if not motionctl.running() and len(config.get_enabled_cameras()) > 0:
+    if not motionctl.running() and config.has_enabled_cameras():
         motionctl.start()
         logging.info('motion started')
 

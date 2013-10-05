@@ -113,7 +113,7 @@ Array.prototype.map = function (func, thisArg) {
 };
 
 
-    /* UI */
+    /* UI initialization */
 
 function initUI() {
     /* checkboxes */
@@ -234,6 +234,10 @@ function initUI() {
         
         doApply();
     });
+    
+    /* whenever the window is resized,
+     * if a modal dialog is visible, it should be repositioned */
+    $(window).resize(updateModalDialogPosition);
 }
 
 
@@ -711,24 +715,24 @@ function fetchCurrentConfig() {
     /* fetch the main configuration */
     ajax('GET', '/config/main/get/', null, function (data) {
         dict2MainUi(data);
-    });
-    
-    /* fetch the camera list */
-    ajax('GET', '/config/list/', null, function (data) {
-        var i, cameras = data.cameras;
-        var videoDeviceSelect = $('#videoDeviceSelect');
-        videoDeviceSelect.html('');
-        for (i = 0; i < cameras.length; i++) {
-            var camera = cameras[i];
-            videoDeviceSelect.append('<option value="' + camera['id'] + '">' + camera['name'] + '</option>');
-        }
-        
-        if (cameras.length) {
-            videoDeviceSelect[0].selectedIndex = 0;
-            fetchCurrentCameraConfig();
-        }
-        
-        recreateCameraFrames(cameras);
+
+        /* fetch the camera list */
+        ajax('GET', '/config/list/', null, function (data) {
+            var i, cameras = data.cameras;
+            var videoDeviceSelect = $('#videoDeviceSelect');
+            videoDeviceSelect.html('');
+            for (i = 0; i < cameras.length; i++) {
+                var camera = cameras[i];
+                videoDeviceSelect.append('<option value="' + camera['id'] + '">' + camera['name'] + '</option>');
+            }
+            
+            if (cameras.length) {
+                videoDeviceSelect[0].selectedIndex = 0;
+                fetchCurrentCameraConfig();
+            }
+            
+            recreateCameraFrames(cameras);
+        });
     });
 }
 
@@ -866,6 +870,11 @@ function remCameraFrameUi(cameraId) {
 }
 
 function recreateCameraFrames(cameras) {
+    /* if motioneye is globally disabled, we remove all the camera frames */;
+    if (!$('#motionEyeSwitch')[0].checked) {
+        cameras = [];
+    }
+    
     var pageContainer = $('div.page-container');
     
     function updateCameras(cameras) {
