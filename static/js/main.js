@@ -302,7 +302,7 @@ function isSettingsOpen() {
 }
 
 function updateConfigUi() {
-    var objs = $('tr.settings-item, div.advanced-setting, table.advanced-setting, div.settings-section-title, table.settings');
+    var objs = $('tr.settings-item, div.advanced-setting, table.advanced-setting, div.settings-section-title, table.settings').not('.rpi');
     
     function markHide() {
         this._hide = true;

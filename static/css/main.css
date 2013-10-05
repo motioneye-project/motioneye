@@ -286,6 +286,11 @@ input[type=text].working-schedule.number {
     width: 50px;
 }
 
+div.rpi,
+tr.rpi {
+    display: none;
+}
+
 
     /* dialogs */
 

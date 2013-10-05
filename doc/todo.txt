@@ -1,7 +1,6 @@
 -> make camera frames positions configurable
 -> hide horrible 404 image on cameras
 -> prevent Request closed errors by stopping mjpg clients before stopping motion
--> network server storage should only be enabled on special devices (rpi)
 -> camera not available background and icon design
 -> remove current snapshot GET logs
 -> add a motion running status indicator (and maybe a start/stop button)
@@ -22,3 +21,4 @@
 -> add a motioneye.svg icon
 -> other todos
 -> add a messaging mechanism
+-> add other options applicable only to special devices (rpi): wifi settings, notifications
