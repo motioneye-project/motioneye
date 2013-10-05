@@ -179,12 +179,13 @@ def get_camera(camera_id, as_lines=False):
     data = _conf_to_dict(lines)
     
     # determine the enabled status
-    main_config = get_main()
-    threads = main_config.get('thread', [])
-    data['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
-    data['@id'] = camera_id
-    
-    _set_default_motion_camera(data)
+    if data['@proto'] == 'v4l2':
+        main_config = get_main()
+        threads = main_config.get('thread', [])
+        data['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
+        data['@id'] = camera_id
+
+        _set_default_motion_camera(data)
     
     return data
 
@@ -192,24 +193,23 @@ def get_camera(camera_id, as_lines=False):
 def set_camera(camera_id, data):
     # TODO use a cache
     
-    _set_default_motion_camera(data)
+    if data.get('@proto') == 'v4l2':
+        _set_default_motion_camera(data)
+        
+        # set the enabled status in main config
+        main_config = get_main()
+        threads = main_config.setdefault('thread', [])
+        config_file_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
+        if data['@enabled'] and config_file_name not in threads:
+            threads.append(config_file_name)
+                
+        elif not data['@enabled']:
+            threads = [t for t in threads if t != config_file_name]
     
-    # set the enabled status in main config
-    main_config = get_main()
-    threads = main_config.setdefault('thread', [])
-    config_file_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
-    if data['@enabled'] and config_file_name not in threads:
-        threads.append(config_file_name)
-            
-    elif not data['@enabled']:
-        threads = [t for t in threads if t != config_file_name]
+        main_config['thread'] = threads
+        
+        set_main(main_config)
 
-    main_config['thread'] = threads
-    
-    set_main(main_config)
-
-    del data['@enabled']
-    
     # read the actual configuration from file
     config_file_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
     if os.path.isfile(config_file_path):
@@ -248,9 +248,12 @@ def set_camera(camera_id, data):
     return data
 
 
-def add_camera(device):
+def add_camera(device_details):
     # TODO use a cache
     
+    device = device_details.get('device')
+    proto = device_details.get('proto')
+        
     # determine the last camera id
     camera_ids = get_camera_ids()
 
@@ -260,25 +263,24 @@ def add_camera(device):
     
     logging.info('adding new camera with id %(id)s...' % {'id': camera_id})
     
-    # get device type
-    proto = None
-    if device.count('://'):
-        proto, device = device.split('://', 1)
-
     # add the default camera config
     data = OrderedDict()
     data['@name'] = 'Camera' + str(camera_id)
     data['@proto'] = proto
     data['@enabled'] = True
-    data['videodevice'] = device
     
-    # find a suitable resolution
-    for (w, h) in v4l2ctl.list_resolutions(device):
-        if w > 300:
-            data['width'] = w
-            data['height'] = h
-            break
+    for k, v in device_details.items():
+        data['@' + k] = v
     
+    if proto == 'v4l2':
+        data['videodevice'] = device
+        # find a suitable resolution
+        for (w, h) in v4l2ctl.list_resolutions(device): # TODO move/copy this code to handler/get_config
+            if w > 300:
+                data['width'] = w
+                data['height'] = h
+                break
+            
     # write the configuration to file
     set_camera(camera_id, data)
     
@@ -527,7 +529,6 @@ def _set_default_motion_camera(data):
     data.setdefault('quality', 75)
     data.setdefault('@preserve_images', 0)
     
-    data.setdefault('motion_movies', False)
     data.setdefault('ffmpeg_variable_bitrate', 14)
     data.setdefault('movie_filename', '%Y-%m-%d-%H-%M-%S')
     data.setdefault('ffmpeg_cap_new', False)
@@ -537,4 +538,3 @@ def _set_default_motion_camera(data):
     data.setdefault('@motion_notifications_emails', '')
     
     data.setdefault('@working_schedule', '')
-

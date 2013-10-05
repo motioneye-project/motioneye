@@ -7,6 +7,7 @@ from tornado.web import RequestHandler, HTTPError
 import config
 import mjpgclient
 import motionctl
+import remote
 import template
 import v4l2ctl
 
@@ -90,11 +91,29 @@ class ConfigHandler(BaseHandler):
                 raise HTTPError(404, 'no such camera')
             
             camera_config = config.get_camera(camera_id)
-            ui_config = self._camera_dict_to_ui(camera_config)
-            resolutions = v4l2ctl.list_resolutions(camera_config['videodevice'])
-            resolutions = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
+            if camera_config['@proto'] != 'v4l2':
+                try:
+                    remote_data = remote.get_config(
+                            camera_config.get('@host'),
+                            camera_config.get('@port'),
+                            camera_config.get('@username'),
+                            camera_config.get('@password'),
+                            camera_config.get('@remote_camera_id'))
+                    
+                except Exception as e:
+                    return self.finish_json({'error': unicode(e)})       
+        
+                remote_data = self._camera_ui_to_dict(remote_data)
+                
+                camera_config.update(remote_data) 
             
-            ui_config['available_resolutions'] = resolutions
+            ui_config = self._camera_dict_to_ui(camera_config)
+            
+            if camera_config['@proto'] == 'v4l2':
+                resolutions = v4l2ctl.list_resolutions(camera_config['videodevice'])
+                resolutions = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
+                ui_config['available_resolutions'] = resolutions
+                
             self.finish_json(ui_config)
             
         else:
@@ -112,7 +131,7 @@ class ConfigHandler(BaseHandler):
             
             raise
         
-        restart = bool(data.get('restart'))
+        restart = bool(data.get('last'))
         if restart and motionctl.running():
             motionctl.stop()
         
@@ -123,9 +142,20 @@ class ConfigHandler(BaseHandler):
                 camera_ids = config.get_camera_ids()
                 if camera_id not in camera_ids:
                     raise HTTPError(404, 'no such camera')
-    
-                data = self._camera_ui_to_dict(data)
-                config.set_camera(camera_id, data)
+                
+                camera_config = config.get_camera(camera_id)
+                if camera_config['@proto'] == 'v4l2':
+                    data = self._camera_ui_to_dict(data)
+                    config.set_camera(camera_id, data)
+                    
+                else:
+                    remote.set_config(
+                            camera_config.get('@host'),
+                            camera_config.get('@port'),
+                            camera_config.get('@username'),
+                            camera_config.get('@password'),
+                            camera_config.get('@remote_camera_id'),
+                            data)
     
             else:
                 logging.debug('setting main config')
@@ -187,13 +217,33 @@ class ConfigHandler(BaseHandler):
 
     def list_cameras(self):
         logging.debug('listing cameras')
+
+        host = self.get_argument('host', None)
+        port = self.get_argument('port', None)
+        username = self.get_argument('username', None)
+        password = self.get_argument('password', None)
         
-        cameras = []
-        for camera_id in config.get_camera_ids():
-            data = config.get_camera(camera_id)
-            data = self._camera_dict_to_ui(data)
-            data['id'] = camera_id
-            cameras.append(data)
+        if host: # remote
+            try:
+                cameras = remote.list_cameras(host, port, username, password)
+                
+            except Exception as e:
+                return self.finish_json({'error': unicode(e)})       
+        
+        else:
+            cameras = []
+            for camera_id in config.get_camera_ids():
+                data = config.get_camera(camera_id)
+                if data['@proto'] == 'v4l2':
+                    data = self._camera_dict_to_ui(data)
+                    
+                else:
+                    data = {
+                        'name': data['@name']
+                    }
+                    
+                data['id'] = camera_id
+                cameras.append(data)
 
         self.finish_json({'cameras': cameras})
     
@@ -213,29 +263,50 @@ class ConfigHandler(BaseHandler):
     def add_camera(self):
         logging.debug('adding new camera')
         
-        device = self.get_argument('device')
-        camera_id, data = config.add_camera(device)
+        try:
+            device_details = json.loads(self.request.body)
+            
+        except Exception as e:
+            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+            
+            raise
+
+        camera_id, data = config.add_camera(device_details)
         
         data['@id'] = camera_id
-        data['@enabled'] = True
         
-        if motionctl.running():
+        if motionctl.running() and data['@proto'] == 'v4l2':
             motionctl.stop()
         
-        if config.has_enabled_cameras():
+        if config.has_enabled_cameras() and data['@proto'] == 'v4l2':
             motionctl.start()
+            
+        try:
+            remote_data = remote.get_config(
+                    device_details.get('host'),
+                    device_details.get('port'),
+                    device_details.get('username'),
+                    device_details.get('password'),
+                    device_details.get('remote_camera_id'))
+            
+        except Exception as e:
+            return self.finish_json({'error': unicode(e)})       
+
+        remote_data = self._camera_ui_to_dict(remote_data)
+        remote_data.update(data)
         
-        self.finish_json(self._camera_dict_to_ui(data))
+        self.finish_json(self._camera_dict_to_ui(remote_data))
     
     def rem_camera(self, camera_id):
         logging.debug('removing camera %(id)s' % {'id': camera_id})
         
+        local = config.get_camera(camera_id).get('@proto') == 'v4l2'
         config.rem_camera(camera_id)
         
-        if motionctl.running():
+        if motionctl.running() and local:
             motionctl.stop()
         
-        if config.has_enabled_cameras():
+        if config.has_enabled_cameras() and local:
             motionctl.start()
         
     def _main_ui_to_dict(self, ui):
@@ -259,10 +330,6 @@ class ConfigHandler(BaseHandler):
         }
 
     def _camera_ui_to_dict(self, ui):
-        video_device = ui.get('device', '')
-        if video_device.count('://'):
-            video_device = video_device.split('://')[-1]
-            
         if not ui.get('resolution'): # avoid errors for empty resolution setting
             ui['resolution'] = '352x288'
     
@@ -270,7 +337,6 @@ class ConfigHandler(BaseHandler):
             # device
             '@name': ui.get('name', ''),
             '@enabled': ui.get('enabled', False),
-            'videodevice': video_device,
             'lightswitch': int(ui.get('light_switch_detect', False) * 5),
             'auto_brightness': ui.get('auto_brightness', False),
             'brightness': max(1, int(round(int(ui.get('brightness', 0)) * 2.55))),
@@ -396,17 +462,17 @@ class ConfigHandler(BaseHandler):
             # device
             'name': data['@name'],
             'enabled': data['@enabled'],
-            'id': data['@id'],
-            'device': data['@proto'] + '://' + data['videodevice'],
-            'light_switch_detect': data['lightswitch'] > 0,
-            'auto_brightness': data['auto_brightness'],
-            'brightness': int(round(int(data['brightness']) / 2.55)),
-            'contrast': int(round(int(data['contrast']) / 2.55)),
-            'saturation': int(round(int(data['saturation']) / 2.55)),
-            'hue': int(round(int(data['hue']) / 2.55)),
-            'resolution': str(data['width']) + 'x' + str(data['height']),
-            'framerate': int(data['framerate']),
-            'rotation': int(data['rotate']),
+            'id': data.get('@id'),
+            'proto': data['@proto'],
+            'light_switch_detect': data.get('lightswitch') > 0,
+            'auto_brightness': data.get('auto_brightness'),
+            'brightness': int(round(int(data.get('brightness')) / 2.55)),
+            'contrast': int(round(int(data.get('contrast')) / 2.55)),
+            'saturation': int(round(int(data.get('saturation')) / 2.55)),
+            'hue': int(round(int(data.get('hue')) / 2.55)),
+            'resolution': str(data.get('width')) + 'x' + str(data.get('height')),
+            'framerate': int(data.get('framerate')),
+            'rotation': int(data.get('rotate')),
             
             # file storage
             'storage_device': data['@storage_device'],
@@ -414,7 +480,7 @@ class ConfigHandler(BaseHandler):
             'network_share_name': data['@network_share_name'],
             'network_username': data['@network_username'],
             'network_password': data['@network_password'],
-            'root_directory': data['target_dir'],
+            'root_directory': data.get('target_dir'),
             
             # text overlay
             'text_overlay': False,
@@ -424,11 +490,11 @@ class ConfigHandler(BaseHandler):
             'custom_right_text': '',
             
             # streaming
-            'vudeo_streaming': not data['webcam_localhost'],
-            'streaming_port': int(data['webcam_port']),
-            'streaming_framerate': int(data['webcam_maxrate']),
-            'streaming_quality': int(data['webcam_quality']),
-            'streaming_motion': int(data['webcam_motion']),
+            'vudeo_streaming': not data.get('webcam_localhost'),
+            'streaming_port': int(data.get('webcam_port')),
+            'streaming_framerate': int(data.get('webcam_maxrate')),
+            'streaming_quality': int(data.get('webcam_quality')),
+            'streaming_motion': int(data.get('webcam_motion')),
             
             # still images
             'still_images': False,
@@ -439,19 +505,19 @@ class ConfigHandler(BaseHandler):
             'preserve_images': data['@preserve_images'],
             
             # motion movies
-            'motion_movies': data['motion_movies'],
-            'movie_quality': int((max(2, data['ffmpeg_variable_bitrate']) - 2) / 0.29),
-            'movie_file_name': data['movie_filename'],
+            'motion_movies': data.get('ffmpeg_cap_new'),
+            'movie_quality': int((max(2, data.get('ffmpeg_variable_bitrate')) - 2) / 0.29),
+            'movie_file_name': data.get('movie_filename'),
             'preserve_movies': data['@preserve_movies'],
 
             # motion detection
             'show_frame_changes': data.get('text_changes') or data.get('locate'),
-            'frame_change_threshold': data['threshold'],
-            'auto_noise_detect': data['noise_tune'],
-            'noise_level': int(int(data['noise_level']) / 2.55),
-            'gap': int(data['gap']),
-            'pre_capture': int(data['pre_capture']),
-            'post_capture': int(data['post_capture']),
+            'frame_change_threshold': data.get('threshold'),
+            'auto_noise_detect': data.get('noise_tune'),
+            'noise_level': int(int(data.get('noise_level')) / 2.55),
+            'gap': int(data.get('gap')),
+            'pre_capture': int(data.get('pre_capture')),
+            'post_capture': int(data.get('post_capture')),
             
             # motion notifications
             'motion_notifications': data['@motion_notifications'],
@@ -468,8 +534,8 @@ class ConfigHandler(BaseHandler):
             'sunday_from': '09:00', 'sunday_to': '17:00'
         }
         
-        text_left = data['text_left']
-        text_right = data['text_right'] 
+        text_left = data.get('text_left')
+        text_right = data.get('text_right') 
         if text_left or text_right:
             ui['text_overlay'] = True
             

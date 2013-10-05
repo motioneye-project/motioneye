@@ -19,7 +19,7 @@ function ajax(method, url, data, callback) {
         }
     };
     
-    if (data && typeof data === 'object') {
+    if (data && method === 'POST' && typeof data === 'object') {
         options['contentType'] = 'application/json';
         options['data'] = JSON.stringify(options['data']);
     }
@@ -266,7 +266,11 @@ function initUI() {
         
         runConfirmDialog('Remove device ' + deviceName + '?', function () {
             showProgress();
-            ajax('POST', '/config/' + cameraId + '/rem/', null, function () {
+            ajax('POST', '/config/' + cameraId + '/rem/', null, function (data) {
+                if (data == null || data.error) {
+                    return; // TODO handle error
+                }
+                
                 hideApply();
                 fetchCurrentConfig();
             });
@@ -406,8 +410,8 @@ function updateConfigUi() {
         }
     });
     
-    /* re-validate all the input validators */
-    $('div.settings').find('input.validator').each(function () {
+    /* re-validate all the validators */
+    $('div.settings').find('.validator').each(function () {
         this.validate();
     });
     
@@ -425,6 +429,11 @@ function updateConfigUi() {
 }
 
 function configUiValid() {
+    /* re-validate all the validators */
+    $('div.settings').find('.validator').each(function () {
+        this.validate();
+    });
+    
     var valid = true;
     $('div.settings input, select').each(function () {
         if (this.invalid) {
@@ -659,7 +668,7 @@ function showProgress() {
         return; /* progress already visible */
     }
     
-    applyButton.html('<img class="apply-progress" src="' + staticUrl + 'img/progress.gif">');
+    applyButton.html('<img class="apply-progress" src="' + staticUrl + 'img/apply-progress.gif">');
     applyButton.css('display', 'inline-block');
     applyButton.animate({'opacity': '1'}, 100);
     applyButton.addClass('progress');
@@ -737,9 +746,13 @@ function doApply() {
     for (var i = 0; i < configs.length; i++) {
         var config = configs[i];
         if (i === configs.length - 1) {
-            config.config['restart'] = true;
+            config.config['last'] = true;
         }
-        ajax('POST', '/config/' + config.key + '/set/', config.config, function () {
+        ajax('POST', '/config/' + config.key + '/set/', config.config, function (data) {
+            if (data == null || data.error) {
+                return; // TODO handle error
+            }
+            
             finishedCount++;
             testReady();
         });
@@ -759,10 +772,18 @@ function doApply() {
 function fetchCurrentConfig() {
     /* fetch the main configuration */
     ajax('GET', '/config/main/get/', null, function (data) {
+        if (data == null || data.error) {
+            return; // TODO handle error
+        }
+        
         dict2MainUi(data);
 
         /* fetch the camera list */
         ajax('GET', '/config/list/', null, function (data) {
+            if (data == null || data.error) {
+                return; // TODO handle error
+            }
+            
             var i, cameras = data.cameras;
             var videoDeviceSelect = $('#videoDeviceSelect');
             videoDeviceSelect.html('');
@@ -791,6 +812,10 @@ function fetchCurrentCameraConfig() {
     var cameraId = $('#videoDeviceSelect').val();
     if (cameraId != null) {
         ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
+            if (data == null || data.error) {
+                return; // TODO handle error
+            }
+            
             dict2CameraUi(data);
         });
     }
@@ -832,7 +857,11 @@ function pushPreview() {
         'hue': hue
     };
     
-    ajax('POST', '/config/' + cameraId + '/set_preview/', data);
+    ajax('POST', '/config/' + cameraId + '/set_preview/', data, function (data) {
+        if (data == null || data.error) {
+            return; // TODO handle error
+        }
+    });
 }
 
 
@@ -874,6 +903,11 @@ function runAddCameraDialog() {
                     '<td class="dialog-item-value"><input type="password" class="styled" id="passwordEntry" placeholder="password..."></td>' +
                     '<td><span class="help-mark" title="the remote administrator\'s password">?</span></td>' +
                 '</tr>' +
+                '<tr class="remote">' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">Camera</span></td>' +
+                    '<td class="dialog-item-value"><select class="styled" id="cameraSelect"></select></td>' +
+                    '<td><span class="help-mark" title="the remote camera you wish to add to motionEye">?</span></td>' +
+                '</tr>' +
             '</table>');
     
     /* collect ui widgets */
@@ -882,15 +916,19 @@ function runAddCameraDialog() {
     var portEntry = content.find('#portEntry');
     var usernameEntry = content.find('#usernameEntry');
     var passwordEntry = content.find('#passwordEntry');
+    var cameraSelect = content.find('#cameraSelect');
     
     /* make validators */
     makeTextValidator(hostEntry, true);
     makeNumberValidator(portEntry, 1, 65535, false, false, true);
     makeTextValidator(usernameEntry, true);
+    makeTextValidator(deviceSelect, true);
+    makeComboValidator(cameraSelect, true);
     
     /* ui interaction */
     content.find('tr.remote').css('display', 'none');
-    var updateUi = function () {
+    
+    function updateUi() {
         if (deviceSelect.val() === 'remote') {
             content.find('tr.remote').css('display', 'table-row');
         }
@@ -899,14 +937,88 @@ function runAddCameraDialog() {
         }
         
         updateModalDialogPosition();
-    };
+        cameraSelect.html('');
+
+        /* re-validate all the validators */
+        content.find('.validator').each(function () {
+            this.validate();
+        });
+        
+        if (uiValid() && deviceSelect.val() == 'remote') {
+            fetchRemoteCameras();
+        }
+    }
     
-    deviceSelect.change(updateUi).change();
+    function uiValid(includeCameraSelect) {
+        /* re-validate all the validators */
+        content.find('.validator').each(function () {
+            this.validate();
+        });
+        
+        var valid = true;
+        var query = content.find('input, select');
+        if (!includeCameraSelect) {
+            query = query.not('#cameraSelect');
+        }
+        query.each(function () {
+            if (this.invalid) {
+                valid = false;
+                return false;
+            }
+        });
+        
+        return valid;
+    }
+    
+    function fetchRemoteCameras() {
+        var progress = $('<div style="text-align: center; margin: 2px;"><img src="' + staticUrl + 'img/small-progress.gif"></div>');
+        
+        cameraSelect.hide();
+        cameraSelect.before(progress);
+        cameraSelect.parent().find('div').remove(); /* remove any previous progress div */
+        
+        var data = {
+            host: hostEntry.val(),
+            port: portEntry.val(),
+            username: usernameEntry.val(),
+            password: passwordEntry.val()
+        };
+        
+        ajax('GET', '/config/list/', data, function (data) {
+            if (data == null || data.error) {
+                return; // TODO handle error
+            }
+            
+            cameraSelect.html('');
+            progress.remove();
+            
+            if (data.error || !data.cameras) {
+                return;
+            }
+
+            data.cameras.forEach(function (info) {
+                cameraSelect.append('<option value="' + info.id + '">' + info.name + '</option>');
+            });
+            
+            cameraSelect.show();
+        });
+    }
+    
+    deviceSelect.change(updateUi);
+    hostEntry.change(updateUi);
+    portEntry.change(updateUi);
+    usernameEntry.change(updateUi);
+    passwordEntry.change(updateUi);
+    updateUi();
     
     showModalDialog('<div class="modal-progress"></div>');
 
     /* fetch the available devices */
     ajax('GET', '/config/list_devices/', null, function (data) {
+        if (data == null || data.error) {
+            return; // TODO handle error
+        }
+        
         /* add available devices */
         data.devices.forEach(function (device) {
             if (!device.configured) {
@@ -916,23 +1028,39 @@ function runAddCameraDialog() {
         
         deviceSelect.append('<option value="remote">Remote device...</option>');
         
+        updateUi();
+        
         runModalDialog({
             title: 'Add Camera...',
             closeButton: true,
             buttons: 'okcancel',
             content: content,
             onOk: function () {
-                var fullDevice;
+                if (!uiValid(true)) {
+                    return false;
+                }
+                
+                var data = {};
                 if (deviceSelect.val() == 'remote') {
-                    fullDevice = 'http://' + usernameEntry.val() + ':' + passwordEntry.val() + '@' + hostEntry + ':' + portEntry;
+                    data.proto = 'http';
+                    data.host = hostEntry.val();
+                    data.port = portEntry.val();
+                    data.username = usernameEntry.val();
+                    data.password = passwordEntry.val();
+                    data.remote_camera_id = cameraSelect.val();
                 }
                 else {
-                    fullDevice = 'v4l2://' + deviceSelect.val();
+                    data.proto = 'v4l2';
+                    data.device = deviceSelect.val();
                 }
-                    
+
                 showProgress();
-                
-                ajax('POST', '/config/add/?device=' + fullDevice, null, function (data) {
+
+                ajax('POST', '/config/add/', data, function (data) {
+                    if (data == null || data.error) {
+                        return; // TODO handle error
+                    }
+                    
                     hideApply();
                     var addCameraOption = $('#videoDeviceSelect').find('option[value=add]');
                     addCameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
@@ -1068,6 +1196,10 @@ function recreateCameraFrames(cameras) {
     }
     else {
         ajax('GET', '/config/list/', null, function (data) {
+            if (data == null || data.error) {
+                return; // TODO handle error
+            }
+            
             updateCameras(data.cameras);
         });
     }
@@ -1081,9 +1213,17 @@ function doCloseCamera(cameraId) {
     remCameraFrameUi(cameraId);
     showProgress();
     ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
+        if (data == null || data.error) {
+            return; // TODO handle error
+        }
+        
         data['enabled'] = false;
-        data['restart'] = true;
-        ajax('POST', '/config/' + cameraId + '/set/', data, function () {
+        data['last'] = true;
+        ajax('POST', '/config/' + cameraId + '/set/', data, function (data) {
+            if (data == null || data.error) {
+                return; // TODO handle error
+            }
+            
             endProgress();
             
             /* if the current camera in the settings panel is the closed camera,

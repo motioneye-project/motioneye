@@ -271,6 +271,48 @@ function makeTextValidator($input, required) {
     $input[0].validate = validate;
 }
 
+function makeComboValidator($select, required) {
+    if (required == null) {
+        required = true;
+    }
+    
+    function isValid(strVal) {
+        if (!$select.parents('tr:eq(0)').is(':visible')) {
+            return true; /* an invisible element is considered always valid */
+        }
+        
+        if (strVal.length === 0 && required) {
+            return false;
+        }
+
+        return true;
+    }
+    
+    var msg = 'this field is required';
+    
+    function validate() {
+        var strVal = $select.val() || '';
+        if (isValid(strVal)) {
+            $select.attr('title', '');
+            $select.removeClass('error');
+            $select[0].invalid = false;
+        }
+        else {
+            $select.attr('title', msg);
+            $select.addClass('error');
+            $select[0].invalid = true;
+        }
+    }
+    
+    $select.keyup(validate);
+    $select.blur(validate);
+    $select.change(validate).change();
+    
+    $select.addClass('validator');
+    $select.addClass('combo-validator');
+    $select[0].validate = validate;
+}
+
 function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     if (minVal == null) {
         minVal = -Infinity;
@@ -524,7 +566,6 @@ function makeModalDialogButtons(buttonsInfo) {
     buttonsInfo.forEach(function (info) {
         var buttonDiv = $('<div class="button dialog mouse-effect"></div>');
         
-        buttonDiv.click(hideModalDialog); /* every button closes the dialog */
         buttonDiv.attr('tabIndex', '0'); /* make button focusable */
         buttonDiv.html(info.caption);
         
@@ -533,9 +574,21 @@ function makeModalDialogButtons(buttonsInfo) {
         }
         
         if (info.click) {
-            buttonDiv.click(info.click);
+            var oldClick = info.click;
+            info.click = function () {
+                if (oldClick() == false) {
+                    return;
+                }
+                
+                hideModalDialog();
+            };
+        }
+        else {
+            info.click = hideModalDialog; /* every button closes the dialog */
         }
         
+        buttonDiv.click(info.click);
+
         var td = $('<td></td>');
         td.append(buttonDiv);
         tr.append(td);
@@ -650,7 +703,9 @@ function runModalDialog(options) {
         switch (e.which) {
             case 13:
                 if (defaultClick) {
-                    defaultClick();
+                    if (defaultClick() == false) {
+                        return;
+                    };
                 }
                 /* intentionally no break */
            

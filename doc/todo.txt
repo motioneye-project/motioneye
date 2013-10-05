@@ -1,3 +1,7 @@
+-> move/copy list available resolutions code to get_config
+-> bug: adding a remote device does not provide the available resolutions
+ 
+-> bug: if updating a remote camera config, local motion will get restarted
 -> make camera frames positions configurable
 -> hide horrible 404 image on cameras
 -> prevent Request closed errors by stopping mjpg clients before stopping motion
