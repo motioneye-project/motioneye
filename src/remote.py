@@ -1,7 +1,8 @@
 
 import json
 import logging
-import urllib2
+
+from tornado.httpclient import AsyncHTTPClient, HTTPClient, HTTPRequest
 
 
 def _compose_url(host, port, username, password, uri, query=None):
@@ -17,73 +18,73 @@ def _compose_url(host, port, username, password, uri, query=None):
     return url
 
 
-def list_cameras(host, port, username, password):
+def list_cameras(host, port, username, password, callback):
     logging.debug('listing remote cameras on %(host)s:%(port)s' % {
             'host': host,
             'port': port})
     
     url = _compose_url(host, port, username, password, '/config/list/')
-    request = urllib2.Request(url)
     
-    try:
-        response = urllib2.urlopen(request)
-    
-    except Exception as e:
-        logging.error('failed to list remote cameras on %(host)s:%(port)s: %(msg)s' % {
-                'host': host,
-                'port': port,
-                'msg': unicode(e)})
+    def on_response(response):
+        if response.error:
+            logging.error('failed to list remote cameras on %(host)s:%(port)s: %(msg)s' % {
+                    'host': host,
+                    'port': port,
+                    'msg': unicode(response.error)})
+            
+            return callback(None)
         
-        raise
-    
-    try:
-        response = json.load(response)
-    
-    except Exception as e:
-        logging.error('failed to decode json answer from %(host)s:%(port)s: %(msg)s' % {
-                'host': host,
-                'port': port,
-                'msg': unicode(e)})
+        try:
+            response = json.loads(response.body)
+            
+        except Exception as e:
+            logging.error('failed to decode json answer from %(host)s:%(port)s: %(msg)s' % {
+                    'host': host,
+                    'port': port,
+                    'msg': unicode(e)})
+            
+            return callback(None)
         
-        raise
+        return callback(response['cameras'])
     
-    return response['cameras']
+    http_client = AsyncHTTPClient()
+    http_client.fetch(url, on_response)
+    
 
-
-def get_config(host, port, username, password, camera_id):
+def get_config(host, port, username, password, camera_id, callback):
     logging.debug('getting config for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
             'port': port})
     
     url = _compose_url(host, port, username, password, '/config/%(id)s/get/' % {'id': camera_id})
-    request = urllib2.Request(url)
     
-    try:
-        response = urllib2.urlopen(request)
+    def on_response(response):
+        if response.error:
+            logging.error('failed to get config for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+                    'id': camera_id,
+                    'host': host,
+                    'port': port,
+                    'msg': unicode(response.error)})
+            
+            return callback(None)
     
-    except Exception as e:
-        logging.error('failed to get config for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
-                'id': camera_id,
-                'host': host,
-                'port': port,
-                'msg': unicode(e)})
+        try:
+            response = json.loads(response.body)
         
-        raise
+        except Exception as e:
+            logging.error('failed to decode json answer from %(host)s:%(port)s: %(msg)s' % {
+                    'host': host,
+                    'port': port,
+                    'msg': unicode(e)})
+            
+            return callback(None)
+            
+        callback(response)
     
-    try:
-        response = json.load(response)
+    http_client = AsyncHTTPClient()
+    http_client.fetch(url, on_response)
     
-    except Exception as e:
-        logging.error('failed to decode json answer from %(host)s:%(port)s: %(msg)s' % {
-                'host': host,
-                'port': port,
-                'msg': unicode(e)})
-        
-        raise
-    
-    return response
-
 
 def set_config(host, port, username, password, camera_id, data):
     logging.debug('setting config for remote camera %(id)s on %(host)s:%(port)s' % {
@@ -94,10 +95,13 @@ def set_config(host, port, username, password, camera_id, data):
     data = json.dumps(data)
     
     url = _compose_url(host, port, username, password, '/config/%(id)s/set/' % {'id': camera_id})
-    request = urllib2.Request(url, data=data)
+    request = HTTPRequest(url, method='POST', body=data)
     
     try:
-        urllib2.urlopen(request)
+        http_client = HTTPClient()
+        response = http_client.fetch(request)
+        if response.error:
+            raise Exception(unicode(response.error)) 
     
     except Exception as e:
         logging.error('failed to set config for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
@@ -109,7 +113,7 @@ def set_config(host, port, username, password, camera_id, data):
         raise
 
 
-def set_preview(host, port, username, password, camera_id, controls):
+def set_preview(host, port, username, password, camera_id, controls, callback):
     logging.debug('setting preview for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
@@ -118,40 +122,42 @@ def set_preview(host, port, username, password, camera_id, controls):
     controls = json.dumps(controls)
     
     url = _compose_url(host, port, username, password, '/config/%(id)s/set_preview/' % {'id': camera_id})
-    request = urllib2.Request(url, data=controls)
-    
-    try:
-        urllib2.urlopen(request)
-    
-    except Exception as e:
-        logging.error('failed to set preview for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
-                'id': camera_id,
-                'host': host,
-                'port': port,
-                'msg': unicode(e)})
+
+    def on_response(response):
+        if response.error:
+            logging.error('failed to set preview for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+                    'id': camera_id,
+                    'host': host,
+                    'port': port,
+                    'msg': unicode(response.error)})
         
-        raise
+            return callback(None)
+        
+        callback('')
+
+    http_client = AsyncHTTPClient()
+    http_client.fetch(url, on_response)
 
 
-def current_snapshot(host, port, username, password, camera_id):
+def current_snapshot(host, port, username, password, camera_id, callback):
     logging.debug('getting current snapshot for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
             'port': port})
     
     url = _compose_url(host, port, username, password, '/snapshot/%(id)s/current/' % {'id': camera_id})
-    request = urllib2.Request(url)
     
-    try:
-        response = urllib2.urlopen(request)
-    
-    except Exception as e:
-        logging.error('failed to get current snapshot for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
-                'id': camera_id,
-                'host': host,
-                'port': port,
-                'msg': unicode(e)})
+    def on_response(response):
+        if response.error:
+            logging.error('failed to get current snapshot for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+                    'id': camera_id,
+                    'host': host,
+                    'port': port,
+                    'msg': unicode(response.error)})
+            
+            return callback(None)
         
-        raise
+        callback(response.body)
     
-    return response.read()
+    http_client = AsyncHTTPClient()
+    http_client.fetch(url, on_response)

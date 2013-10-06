@@ -2,7 +2,7 @@
 import json
 import logging
 
-from tornado.web import RequestHandler, HTTPError
+from tornado.web import RequestHandler, HTTPError, asynchronous
 
 import config
 import mjpgclient
@@ -82,6 +82,7 @@ class ConfigHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
     
+    @asynchronous
     def get_config(self, camera_id):
         if camera_id:
             logging.debug('getting config for camera %(id)s' % {'id': camera_id})
@@ -91,32 +92,32 @@ class ConfigHandler(BaseHandler):
             
             camera_config = config.get_camera(camera_id)
             if camera_config['@proto'] != 'v4l2':
-                try:
-                    remote_ui_config = remote.get_config(
-                            camera_config.get('@host'),
-                            camera_config.get('@port'),
-                            camera_config.get('@username'),
-                            camera_config.get('@password'),
-                            camera_config.get('@remote_camera_id'))
+                def on_response(remote_ui_config):
+                    if remote_ui_config is None:
+                        return self.finish_json({'error': True})
                     
-                except Exception as e:
-                    return self.finish_json({'error': unicode(e)})       
-
-                local_data = camera_config        
-                camera_config = self._camera_ui_to_dict(remote_ui_config)
-                camera_config.update(local_data)
+                    tmp_config = self._camera_ui_to_dict(remote_ui_config)
+                    tmp_config.update(camera_config)
+                    ui_config = self._camera_dict_to_ui(tmp_config)
+                    ui_config['available_resolutions'] = remote_ui_config['available_resolutions']
+                    
+                    self.finish_json(ui_config)
                 
-            ui_config = self._camera_dict_to_ui(camera_config)
+                remote.get_config(
+                        camera_config.get('@host'),
+                        camera_config.get('@port'),
+                        camera_config.get('@username'),
+                        camera_config.get('@password'),
+                        camera_config.get('@remote_camera_id'), on_response)
             
-            if camera_config['@proto'] == 'v4l2':
+            else:
+                ui_config = self._camera_dict_to_ui(camera_config)
+                
                 resolutions = v4l2ctl.list_resolutions(camera_config['videodevice'])
                 resolutions = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
                 ui_config['available_resolutions'] = resolutions
-            
-            else:
-                ui_config['available_resolutions'] = remote_ui_config['available_resolutions']
-                
-            self.finish_json(ui_config)
+                    
+                self.finish_json(ui_config)
             
         else:
             logging.debug('getting main config')
@@ -192,6 +193,7 @@ class ConfigHandler(BaseHandler):
 
         motionctl.restart()
 
+    @asynchronous
     def set_preview(self, camera_id):
         try:
             controls = json.loads(self.request.body)
@@ -228,20 +230,26 @@ class ConfigHandler(BaseHandler):
                 logging.debug('setting hue to %(value)s...' % {'value': value})
     
                 v4l2ctl.set_hue(device, value)
+            
+            self.finish_json({})
 
         else:
-            try:
-                remote.set_preview(
-                        camera_config['@host'],
-                        camera_config['@port'],
-                        camera_config['@username'],
-                        camera_config['@password'],
-                        camera_config['@remote_camera_id'],
-                        controls)
-                
-            except Exception as e:
-                self.finish_json({'error': unicode(e)})
+            def on_response(response):
+                if response is None:
+                    self.finish_json({'error': True})
+                    
+                else:
+                    self.finish_json({})
+            
+            remote.set_preview(
+                    camera_config['@host'],
+                    camera_config['@port'],
+                    camera_config['@username'],
+                    camera_config['@password'],
+                    camera_config['@remote_camera_id'],
+                    controls, on_response)
 
+    @asynchronous
     def list_cameras(self):
         logging.debug('listing cameras')
 
@@ -251,39 +259,55 @@ class ConfigHandler(BaseHandler):
         password = self.get_argument('password', None)
         
         if host:  # remote listing
-            try:
-                cameras = remote.list_cameras(host, port, username, password)
+            def on_response(cameras):
+                if cameras is None:
+                    self.finish_json({'error': True})
+                    
+                else:
+                    self.finish_json({'cameras': cameras})
+            
+            cameras = remote.list_cameras(host, port, username, password, on_response)
                 
-            except Exception as e:
-                return self.finish_json({'error': unicode(e)})       
-        
-        else:
+        else:  # local listing
             cameras = []
+            
+            length = [len(config.get_camera_ids())]
+            def check_finished():
+                if len(cameras) == length[0]:
+                    self.finish_json({'cameras': cameras})
+                    
+            def on_response_builder(camera_id, camera_config):
+                def on_response(remote_ui_config):
+                    if remote_ui_config is None:
+                        length[0] -= 1
+                    
+                    else:
+                        remote_ui_config['id'] = camera_id
+                        remote_ui_config['enabled'] = camera_config['@enabled']  # override the enabled status
+                        cameras.append(remote_ui_config)
+                        
+                    check_finished()
+                    
+                return on_response
+                    
             for camera_id in config.get_camera_ids():
                 camera_config = config.get_camera(camera_id)
                 if camera_config['@proto'] == 'v4l2':
                     ui_config = self._camera_dict_to_ui(camera_config)
+                    cameras.append(ui_config)
+                    check_finished()
 
                 else:  # remote camera
-                    try:
-                        remote_ui_config = remote.get_config(
-                                camera_config.get('@host'),
-                                camera_config.get('@port'),
-                                camera_config.get('@username'),
-                                camera_config.get('@password'),
-                                camera_config.get('@remote_camera_id'))
-                        
-                    except:
-                        continue
-                    
-                    ui_config = remote_ui_config
-                    ui_config['id'] = camera_id
-                    ui_config['enabled'] = camera_config['@enabled']  # override the enabled status
+                    remote.get_config(
+                            camera_config.get('@host'),
+                            camera_config.get('@port'),
+                            camera_config.get('@username'),
+                            camera_config.get('@password'),
+                            camera_config.get('@remote_camera_id'), on_response_builder(camera_id, camera_config))
+            
+            if length[0] == 0:        
+                self.finish_json({'cameras': []})
 
-                cameras.append(ui_config)
-
-        self.finish_json({'cameras': cameras})
-    
     def list_devices(self):
         logging.debug('listing devices')
         
@@ -298,6 +322,7 @@ class ConfigHandler(BaseHandler):
         
         self.finish_json({'devices': devices})
     
+    @asynchronous
     def add_camera(self):
         logging.debug('adding new camera')
         
@@ -319,40 +344,37 @@ class ConfigHandler(BaseHandler):
                     break
 
         camera_id, camera_config = config.add_camera(device_details)
+        camera_config['@id'] = camera_id
 
         if proto == 'v4l2':
             motionctl.restart()
-        
-        else:
-            try:
-                remote_ui_config = remote.get_config(
-                        device_details.get('host'),
-                        device_details.get('port'),
-                        device_details.get('username'),
-                        device_details.get('password'),
-                        device_details.get('remote_camera_id'))
-                
-            except Exception as e:
-                return self.finish_json({'error': unicode(e)})       
-
-            local_data = camera_config
-            camera_config = self._camera_ui_to_dict(remote_ui_config)
-            camera_config.update(local_data)
-        
-        camera_config['@id'] = camera_id
-        
-        ui_config = self._camera_dict_to_ui(camera_config)
-        
-        if camera_config['@proto'] == 'v4l2':
+            
+            ui_config = self._camera_dict_to_ui(camera_config)
             resolutions = v4l2ctl.list_resolutions(camera_config['videodevice'])
             resolutions = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
             ui_config['available_resolutions'] = resolutions
             
-        else:
-            ui_config['available_resolutions'] = remote_ui_config['available_resolutions']
+            self.finish_json(ui_config)
         
-        self.finish_json(ui_config)
-    
+        else:
+            def on_response(remote_ui_config):
+                if remote_ui_config is None:
+                    self.finish_json({'error': True})
+                
+                tmp_config = self._camera_ui_to_dict(remote_ui_config)
+                tmp_config.update(camera_config)
+                ui_config = self._camera_dict_to_ui(tmp_config)
+                ui_config['available_resolutions'] = remote_ui_config['available_resolutions']
+                
+                self.finish_json(ui_config)
+                
+            remote.get_config(
+                    device_details.get('host'),
+                    device_details.get('port'),
+                    device_details.get('username'),
+                    device_details.get('password'),
+                    device_details.get('remote_camera_id'), on_response)
+        
     def rem_camera(self, camera_id):
         logging.debug('removing camera %(id)s' % {'id': camera_id})
         
@@ -686,6 +708,7 @@ class SnapshotHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
     
+    @asynchronous
     def current(self, camera_id):
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] == 'v4l2':
@@ -697,20 +720,21 @@ class SnapshotHandler(BaseHandler):
             self.finish(jpg)
         
         else:
-            try:
-                jpg = remote.current_snapshot(
-                        camera_config['@host'],
-                        camera_config['@port'],
-                        camera_config['@username'],
-                        camera_config['@password'],
-                        camera_config['@remote_camera_id'])
+            def on_response(jpg):
+                if jpg is None:
+                    self.finish({})
+                    
+                else:
+                    self.set_header('Content-Type', 'image/jpeg')
+                    self.finish(jpg)
+            
+            remote.current_snapshot(
+                    camera_config['@host'],
+                    camera_config['@port'],
+                    camera_config['@username'],
+                    camera_config['@password'],
+                    camera_config['@remote_camera_id'], on_response)
                 
-            except:
-                return self.finish()       
-
-            self.set_header('Content-Type', 'image/jpeg')
-            self.finish(jpg)
-    
     def list(self, camera_id):
         logging.debug('listing snapshots for camera %(id)s' % {'id': camera_id})
         

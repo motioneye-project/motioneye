@@ -1,10 +1,7 @@
 
 -> authentication
 
--> hide horrible 404 image on cameras
-
 -> prevent Request closed errors by stopping mjpg clients before stopping motion
--> make all the server http requests async
 
 -> style scroll bars
 -> hint text next to section titles

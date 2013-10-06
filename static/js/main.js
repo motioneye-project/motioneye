@@ -28,7 +28,10 @@ function ajax(method, url, data, callback) {
 }
 
 function showErrorMessage(message) {
-    message = message || 'An error occurred. Refreshing is recommended.';
+    if (message == null || message == true) {
+        message = 'An error occurred. Refreshing is recommended.';
+    }
+    
     showPopupMessage(message, 'error');
 }
 
@@ -657,7 +660,7 @@ function showProgress() {
     applyButton.html('<img class="apply-progress" src="' + staticUrl + 'img/apply-progress.gif">');
     applyButton.css('display', 'inline-block');
     applyButton.animate({'opacity': '1'}, 100);
-    applyButton.addClass('progress');
+    applyButton.addClass('progress');   
     
     $('div.camera-progress').css('opacity', '0.5');
 }
@@ -770,7 +773,7 @@ function fetchCurrentConfig() {
         ajax('GET', '/config/list/', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
-                return;
+                data = {cameras: []};
             }
             
             var i, cameras = data.cameras;
@@ -1141,6 +1144,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
         this.error = false;
         cameraImg.removeClass('error');
         cameraImg.css('height', '');
+        $('div.camera-progress').css('opacity', '0');
     });
 }
 
