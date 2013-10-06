@@ -735,3 +735,34 @@ function runModalDialog(options) {
         content.find('div.button.default').focus();
     }
 }
+
+
+    /* popup message */
+
+function showPopupMessage(message, type) {
+    var container = $('div.popup-message-container');
+    var content = $('<span class="popup-message"></span>');
+    
+    if (window._popupMessageTimeout) {
+        clearTimeout(window._popupMessageTimeout);
+    }
+    
+    content.html(message);
+    content.addClass(type);
+    container.html(content);
+    
+    var windowWidth = $(window).width();
+    var messageWidth = container.width();
+    
+    container.css('display', 'block');
+    container.css('left', (windowWidth - messageWidth) / 2);
+
+    container.animate({'opacity': '1'}, 200);
+    
+    window._popupMessageTimeout = setTimeout(function () {
+        window._popupMessageTimeout = null;
+        container.animate({'opacity': '0'}, 200, function () {
+            container.css('display', 'none');
+        });
+    }, 5000);
+}

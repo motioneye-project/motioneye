@@ -1,7 +1,5 @@
--> add a motion running status indicator (and maybe a start/stop button)
 
 -> better ajax error handling
--> add a messaging mechanism
 
 -> authentication
 
@@ -29,4 +27,5 @@
 -> browser compatibility test
 -> requirements test
 
+-> add a motion running status indicator (and maybe a start/stop button)
 -> other todos

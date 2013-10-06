@@ -347,6 +347,33 @@ span.dialog-item-label {
     font-size: 0.9em;    
 }
 
+   
+    /* popup message */
+
+div.popup-message-container {
+    position: fixed;
+    display: none;
+    z-index: 9999;
+    background-color: #313131;
+    border-radius: 3px;
+    opacity: 0;
+    padding: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    top: 60px;
+}
+
+span.popup-message {
+    
+}
+
+span.popup-message.info {
+    color: white;
+}
+
+span.popup-message.error {
+    color: #FF6D55;
+}
+
 
     /* misc */
 
