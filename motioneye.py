@@ -1,5 +1,6 @@
 #!/usr/bin/env python2
 
+import datetime
 import inspect
 import logging
 import os.path
@@ -126,9 +127,16 @@ def _start_motion():
     import config
     import motionctl
 
-    if not motionctl.running() and config.has_enabled_cameras():
-        motionctl.start()
-        logging.info('motion started')
+    # add a motion running checker
+    def checker():
+        if not motionctl.running() and config.has_enabled_cameras():
+            motionctl.start()
+            logging.info('motion started')
+
+        ioloop = tornado.ioloop.IOLoop.instance()
+        ioloop.add_timeout(datetime.timedelta(seconds=10), checker)
+    
+    checker()
 
 
 if __name__ == '__main__':

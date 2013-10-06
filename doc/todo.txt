@@ -1,5 +1,4 @@
 -> add a motion running status indicator (and maybe a start/stop button)
--> add a timeout checker to check the running status of motion
 
 -> better ajax error handling
 -> add a messaging mechanism
