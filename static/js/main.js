@@ -659,7 +659,6 @@ function showProgress() {
     applyButton.animate({'opacity': '1'}, 100);
     applyButton.addClass('progress');
     
-    $('img.camera').css('opacity', '0.3');
     $('div.camera-progress').css('opacity', '0.5');
 }
 
@@ -685,7 +684,6 @@ function endProgress() {
     }
     
     $('div.camera-progress').css('opacity', '0');
-    $('img.camera').css('opacity', '1');
 }
 
 function isProgress() {
@@ -1083,7 +1081,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
                     '</div>' +
                 '</div>' +
                 '<div class="camera-container">' +
-                    '<div class="camera-placeholder"></div>' +
+                    '<div class="camera-placeholder"><img class="no-camera" src="' + staticUrl + 'img/no-camera.svg"></div>' +
                     '<img class="camera">' +
                     '<div class="camera-progress"><img class="camera-progress"></div>' +
                 '</div>' +

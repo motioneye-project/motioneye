@@ -373,6 +373,13 @@ div.camera-placeholder {
     bottom: 0px;
     left: 0px;
     background-color: #555;
+    text-align: center;
+}
+
+img.no-camera {
+    margin-top: 20%;
+    width: 30%;
+    opacity: 0.8;
 }
 
 div.camera-progress {
@@ -384,6 +391,7 @@ div.camera-progress {
     opacity: 0;
     transition: all 0.2s linear;
     text-align: center;
+    background-color: rgba(0, 0, 0, 1);
 }
 
 img.camera-progress {
