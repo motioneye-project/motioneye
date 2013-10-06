@@ -53,8 +53,12 @@ def start():
 
 
 def stop():
+    import mjpgclient
+    
     if not running():
         raise Exception('motion is not running')
+
+    mjpgclient.close_all()
     
     pid = _get_pid()
     if pid is not None:

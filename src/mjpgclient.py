@@ -6,7 +6,7 @@ import socket
 from tornado import iostream
 
 import config
-
+import motionctl
 
 
 class MjpgClient(iostream.IOStream):
@@ -94,6 +94,9 @@ class MjpgClient(iostream.IOStream):
 
 
 def get_jpg(camera_id):
+    if not motionctl.running():
+        return None
+    
     if camera_id not in MjpgClient.clients:
         # TODO implement some kind of timeout before retry here
         logging.debug('creating mjpg client for camera id %(camera_id)s' % {
@@ -113,3 +116,8 @@ def get_jpg(camera_id):
         return None
 
     return MjpgClient.last_jpgs.get(camera_id)
+
+
+def close_all():
+    for client in MjpgClient.clients.values():
+        client.close()
