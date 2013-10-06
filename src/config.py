@@ -7,7 +7,6 @@ import re
 from collections import OrderedDict
 
 import settings
-import v4l2ctl
 
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
@@ -143,7 +142,7 @@ def has_enabled_cameras():
     
     camera_ids = get_camera_ids()
     cameras = [get_camera(camera_id) for camera_id in camera_ids]
-    return bool([c for c in cameras if c['@enabled']])
+    return bool([c for c in cameras if c['@enabled'] and c['@proto'] == 'v4l2'])
 
 
 def get_camera(camera_id, as_lines=False):
@@ -193,7 +192,7 @@ def get_camera(camera_id, as_lines=False):
 def set_camera(camera_id, data):
     # TODO use a cache
     
-    if data.get('@proto') == 'v4l2':
+    if data['@proto'] == 'v4l2':
         _set_default_motion_camera(data)
         
         # set the enabled status in main config
@@ -207,6 +206,10 @@ def set_camera(camera_id, data):
             threads = [t for t in threads if t != config_file_name]
     
         main_config['thread'] = threads
+        
+        del data['@enabled']
+        if '@id' in data:
+            del data['@id']
         
         set_main(main_config)
 
@@ -251,9 +254,6 @@ def set_camera(camera_id, data):
 def add_camera(device_details):
     # TODO use a cache
     
-    device = device_details.get('device')
-    proto = device_details.get('proto')
-        
     # determine the last camera id
     camera_ids = get_camera_ids()
 
@@ -264,23 +264,27 @@ def add_camera(device_details):
     logging.info('adding new camera with id %(id)s...' % {'id': camera_id})
     
     # add the default camera config
+    proto = device_details['proto']
+        
     data = OrderedDict()
-    data['@name'] = 'Camera' + str(camera_id)
     data['@proto'] = proto
-    data['@enabled'] = True
-    
-    for k, v in device_details.items():
-        data['@' + k] = v
+    data['@enabled'] = device_details.get('enabled', True)
     
     if proto == 'v4l2':
-        data['videodevice'] = device
-        # find a suitable resolution
-        for (w, h) in v4l2ctl.list_resolutions(device): # TODO move/copy this code to handler/get_config
-            if w > 300:
-                data['width'] = w
-                data['height'] = h
-                break
-            
+        data['@name'] = 'Camera' + str(camera_id)
+        data['videodevice'] = device_details['device']
+        if 'width' in device_details:
+            data['width'] = device_details['width']
+            data['height'] = device_details['height']
+        
+    else:
+        data['@host'] = device_details['host']
+        data['@port'] = device_details['port']
+        data['@username'] = device_details['username']
+        data['@password'] = device_details['password']
+        data['@remote_camera_id'] = device_details['remote_camera_id']
+        data['@enabled'] = device_details.get('enabled', True)
+
     # write the configuration to file
     set_camera(camera_id, data)
     

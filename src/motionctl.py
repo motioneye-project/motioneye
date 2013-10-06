@@ -5,6 +5,7 @@ import signal
 import subprocess
 import time
 
+import config
 import settings
 
 
@@ -98,6 +99,14 @@ def running():
             raise
 
     return False
+
+
+def restart():
+    if running():
+        stop()
+    
+    if config.has_enabled_cameras():
+        start()
 
 
 def _get_pid():

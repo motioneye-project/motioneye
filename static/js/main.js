@@ -746,7 +746,7 @@ function doApply() {
     for (var i = 0; i < configs.length; i++) {
         var config = configs[i];
         if (i === configs.length - 1) {
-            config.config['last'] = true;
+            config.config['last'] = true; // TODO not used, to be replaced by norestart
         }
         ajax('POST', '/config/' + config.key + '/set/', config.config, function (data) {
             if (data == null || data.error) {
@@ -1218,7 +1218,7 @@ function doCloseCamera(cameraId) {
         }
         
         data['enabled'] = false;
-        data['last'] = true;
+        data['last'] = true;// TODO not used, to be replaced by norestart
         ajax('POST', '/config/' + cameraId + '/set/', data, function (data) {
             if (data == null || data.error) {
                 return; // TODO handle error

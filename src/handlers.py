@@ -86,14 +86,13 @@ class ConfigHandler(BaseHandler):
         if camera_id:
             logging.debug('getting config for camera %(id)s' % {'id': camera_id})
             
-            camera_ids = config.get_camera_ids()
-            if camera_id not in camera_ids:
+            if camera_id not in config.get_camera_ids():
                 raise HTTPError(404, 'no such camera')
             
             camera_config = config.get_camera(camera_id)
             if camera_config['@proto'] != 'v4l2':
                 try:
-                    remote_data = remote.get_config(
+                    remote_ui_config = remote.get_config(
                             camera_config.get('@host'),
                             camera_config.get('@port'),
                             camera_config.get('@username'),
@@ -102,17 +101,21 @@ class ConfigHandler(BaseHandler):
                     
                 except Exception as e:
                     return self.finish_json({'error': unicode(e)})       
-        
-                remote_data = self._camera_ui_to_dict(remote_data)
+
+                local_data = camera_config        
+                camera_config = self._camera_ui_to_dict(remote_ui_config)
+                camera_config['@proto'] = local_data['@proto']
+                camera_config['@enabled'] = local_data['@enabled']
                 
-                camera_config.update(remote_data) 
-            
             ui_config = self._camera_dict_to_ui(camera_config)
             
             if camera_config['@proto'] == 'v4l2':
                 resolutions = v4l2ctl.list_resolutions(camera_config['videodevice'])
                 resolutions = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
                 ui_config['available_resolutions'] = resolutions
+            
+            else:
+                ui_config['available_resolutions'] = remote_ui_config['available_resolutions']
                 
             self.finish_json(ui_config)
             
@@ -124,60 +127,43 @@ class ConfigHandler(BaseHandler):
     
     def set_config(self, camera_id):
         try:
-            data = json.loads(self.request.body)
+            ui_config = json.loads(self.request.body)
             
         except Exception as e:
             logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
             
             raise
         
-        restart = bool(data.get('last'))
-        if restart and motionctl.running():
-            motionctl.stop()
-        
-        try:
-            if camera_id:
-                logging.debug('setting config for camera %(id)s' % {'id': camera_id})
+        if camera_id:
+            logging.debug('setting config for camera %(id)s' % {'id': camera_id})
+            
+            camera_ids = config.get_camera_ids()
+            if camera_id not in camera_ids:
+                raise HTTPError(404, 'no such camera')
+            
+            camera_config = config.get_camera(camera_id)
+            if camera_config['@proto'] == 'v4l2':
+                camera_config = self._camera_ui_to_dict(ui_config)
+                camera_config['@proto'] = 'v4l2'
+                config.set_camera(camera_id, camera_config)
                 
-                camera_ids = config.get_camera_ids()
-                if camera_id not in camera_ids:
-                    raise HTTPError(404, 'no such camera')
-                
-                camera_config = config.get_camera(camera_id)
-                if camera_config['@proto'] == 'v4l2':
-                    data = self._camera_ui_to_dict(data)
-                    config.set_camera(camera_id, data)
-                    
-                else:
-                    remote.set_config(
-                            camera_config.get('@host'),
-                            camera_config.get('@port'),
-                            camera_config.get('@username'),
-                            camera_config.get('@password'),
-                            camera_config.get('@remote_camera_id'),
-                            data)
-    
             else:
-                logging.debug('setting main config')
-                
-                try:
-                    data = json.loads(self.request.body)
-                    
-                except Exception as e:
-                    logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
-                    
-                    raise
-                
-                data = self._main_ui_to_dict(data)
-                config.set_main(data)
+                remote.set_config(
+                        camera_config.get('@host'),
+                        camera_config.get('@port'),
+                        camera_config.get('@username'),
+                        camera_config.get('@password'),
+                        camera_config.get('@remote_camera_id'),
+                        ui_config)
 
-        except:
-            raise
-        
-        finally:
-            if restart:
-                if config.has_enabled_cameras():
-                    motionctl.start()
+        else:
+            logging.debug('setting main config')
+            
+            main_config = self._main_ui_to_dict(ui_config)
+            config.set_main(main_config)
+
+        if not ui_config.get('norestart'):
+            motionctl.restart()
 
     def set_preview(self, camera_id):
         try:
@@ -223,7 +209,7 @@ class ConfigHandler(BaseHandler):
         username = self.get_argument('username', None)
         password = self.get_argument('password', None)
         
-        if host: # remote
+        if host: # remote listing
             try:
                 cameras = remote.list_cameras(host, port, username, password)
                 
@@ -233,17 +219,25 @@ class ConfigHandler(BaseHandler):
         else:
             cameras = []
             for camera_id in config.get_camera_ids():
-                data = config.get_camera(camera_id)
-                if data['@proto'] == 'v4l2':
-                    data = self._camera_dict_to_ui(data)
+                camera_config = config.get_camera(camera_id)
+                if camera_config['@proto'] == 'v4l2':
+                    name = camera_config['@name']
                     
-                else:
-                    data = {
-                        'name': data['@name']
-                    }
+                else: # remote camera
+                    try:
+                        remote_camera_config = remote.get_config(
+                                camera_config.get('@host'),
+                                camera_config.get('@port'),
+                                camera_config.get('@username'),
+                                camera_config.get('@password'),
+                                camera_config.get('@remote_camera_id'))
+                        
+                    except:
+                        continue
                     
-                data['id'] = camera_id
-                cameras.append(data)
+                    name = remote_camera_config['name']
+
+                cameras.append({'name': name, 'id': camera_id})
 
         self.finish_json({'cameras': cameras})
     
@@ -271,31 +265,50 @@ class ConfigHandler(BaseHandler):
             
             raise
 
-        camera_id, data = config.add_camera(device_details)
-        
-        data['@id'] = camera_id
-        
-        if motionctl.running() and data['@proto'] == 'v4l2':
-            motionctl.stop()
-        
-        if config.has_enabled_cameras() and data['@proto'] == 'v4l2':
-            motionctl.start()
-            
-        try:
-            remote_data = remote.get_config(
-                    device_details.get('host'),
-                    device_details.get('port'),
-                    device_details.get('username'),
-                    device_details.get('password'),
-                    device_details.get('remote_camera_id'))
-            
-        except Exception as e:
-            return self.finish_json({'error': unicode(e)})       
+        proto = device_details['proto']
+        if proto == 'v4l2':
+            # find a suitable resolution
+            for (w, h) in v4l2ctl.list_resolutions(device_details['device']):
+                if w > 300:
+                    device_details['width'] = w
+                    device_details['height'] = h
+                    break
 
-        remote_data = self._camera_ui_to_dict(remote_data)
-        remote_data.update(data)
+        camera_id, camera_config = config.add_camera(device_details)
+
+        if proto == 'v4l2':
+            motionctl.restart()
         
-        self.finish_json(self._camera_dict_to_ui(remote_data))
+        else:
+            try:
+                remote_ui_config = remote.get_config(
+                        device_details.get('host'),
+                        device_details.get('port'),
+                        device_details.get('username'),
+                        device_details.get('password'),
+                        device_details.get('remote_camera_id'))
+                
+            except Exception as e:
+                return self.finish_json({'error': unicode(e)})       
+
+            local_data = camera_config
+            camera_config = self._camera_ui_to_dict(remote_ui_config)
+            camera_config['@enabled'] = local_data['@enabled']
+            camera_config['@proto'] = local_data['@proto']
+        
+        camera_config['@id'] = camera_id
+        
+        ui_config = self._camera_dict_to_ui(camera_config)
+        
+        if camera_config['@proto'] == 'v4l2':
+            resolutions = v4l2ctl.list_resolutions(camera_config['videodevice'])
+            resolutions = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
+            ui_config['available_resolutions'] = resolutions
+            
+        else:
+            ui_config['available_resolutions'] = remote_ui_config['available_resolutions']
+        
+        self.finish_json(ui_config)
     
     def rem_camera(self, camera_id):
         logging.debug('removing camera %(id)s' % {'id': camera_id})
@@ -303,11 +316,8 @@ class ConfigHandler(BaseHandler):
         local = config.get_camera(camera_id).get('@proto') == 'v4l2'
         config.rem_camera(camera_id)
         
-        if motionctl.running() and local:
-            motionctl.stop()
-        
-        if config.has_enabled_cameras() and local:
-            motionctl.start()
+        if local:
+            motionctl.restart()
         
     def _main_ui_to_dict(self, ui):
         return {
