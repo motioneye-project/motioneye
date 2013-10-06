@@ -104,8 +104,7 @@ class ConfigHandler(BaseHandler):
 
                 local_data = camera_config        
                 camera_config = self._camera_ui_to_dict(remote_ui_config)
-                camera_config['@proto'] = local_data['@proto']
-                camera_config['@enabled'] = local_data['@enabled']
+                camera_config.update(local_data)
                 
             ui_config = self._camera_dict_to_ui(camera_config)
             
@@ -125,16 +124,29 @@ class ConfigHandler(BaseHandler):
             ui_config = self._main_dict_to_ui(config.get_main())
             self.finish_json(ui_config)
     
-    def set_config(self, camera_id):
-        try:
-            ui_config = json.loads(self.request.body)
-            
-        except Exception as e:
-            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
-            
-            raise
+    def set_config(self, camera_id, ui_config=None):
+        if ui_config is None:
+            try:
+                ui_config = json.loads(self.request.body)
+                
+            except Exception as e:
+                logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+                
+                raise
         
-        if camera_id:
+        if camera_id is not None:
+            if camera_id == 0:
+                logging.debug('setting multiple configs')
+                
+                for key, cfg in ui_config.items():
+                    if key == 'main':
+                        self.set_config(None, cfg)
+                        
+                    else:
+                        self.set_config(int(key), cfg)
+
+                return
+                 
             logging.debug('setting config for camera %(id)s' % {'id': camera_id})
             
             camera_ids = config.get_camera_ids()
@@ -143,18 +155,34 @@ class ConfigHandler(BaseHandler):
             
             camera_config = config.get_camera(camera_id)
             if camera_config['@proto'] == 'v4l2':
+                ui_config.setdefault('device', camera_config.get('videodevice', ''))
+                ui_config.setdefault('proto', camera_config['@proto'])
+                ui_config.setdefault('enabled', camera_config['@enabled'])
+                
                 camera_config = self._camera_ui_to_dict(ui_config)
-                camera_config['@proto'] = 'v4l2'
                 config.set_camera(camera_id, camera_config)
                 
-            else:
-                remote.set_config(
-                        camera_config.get('@host'),
-                        camera_config.get('@port'),
-                        camera_config.get('@username'),
-                        camera_config.get('@password'),
-                        camera_config.get('@remote_camera_id'),
-                        ui_config)
+            else:  # remote camera
+                # update the camera locally
+                camera_config['@enabled'] = ui_config['enabled']
+                config.set_camera(camera_id, camera_config)
+                
+                # remove the fields that should not get to the remote side
+                del ui_config['device']
+                del ui_config['proto']
+                del ui_config['enabled']
+                
+                try:
+                    remote.set_config(
+                            camera_config.get('@host'),
+                            camera_config.get('@port'),
+                            camera_config.get('@username'),
+                            camera_config.get('@password'),
+                            camera_config.get('@remote_camera_id'),
+                            ui_config)
+                    
+                except Exception as e:
+                    return self.finish_json({'error': unicode(e)})       
 
         else:
             logging.debug('setting main config')
@@ -162,8 +190,7 @@ class ConfigHandler(BaseHandler):
             main_config = self._main_ui_to_dict(ui_config)
             config.set_main(main_config)
 
-        if not ui_config.get('norestart'):
-            motionctl.restart()
+        motionctl.restart()
 
     def set_preview(self, camera_id):
         try:
@@ -175,31 +202,45 @@ class ConfigHandler(BaseHandler):
             raise
 
         camera_config = config.get_camera(camera_id)
-        device = camera_config['videodevice']
-        
-        if 'brightness' in controls:
-            value = int(controls['brightness'])
-            logging.debug('setting brightness to %(value)s...' % {'value': value})
+        if camera_config['@proto'] == 'v4l2': 
+            device = camera_config['videodevice']
+            
+            if 'brightness' in controls:
+                value = int(controls['brightness'])
+                logging.debug('setting brightness to %(value)s...' % {'value': value})
+    
+                v4l2ctl.set_brightness(device, value)
+    
+            if 'contrast' in controls:
+                value = int(controls['contrast'])
+                logging.debug('setting contrast to %(value)s...' % {'value': value})
+    
+                v4l2ctl.set_contrast(device, value)
+    
+            if 'saturation' in controls:
+                value = int(controls['saturation'])
+                logging.debug('setting saturation to %(value)s...' % {'value': value})
+    
+                v4l2ctl.set_saturation(device, value)
+    
+            if 'hue' in controls:
+                value = int(controls['hue'])
+                logging.debug('setting hue to %(value)s...' % {'value': value})
+    
+                v4l2ctl.set_hue(device, value)
 
-            v4l2ctl.set_brightness(device, value)
-
-        if 'contrast' in controls:
-            value = int(controls['contrast'])
-            logging.debug('setting contrast to %(value)s...' % {'value': value})
-
-            v4l2ctl.set_contrast(device, value)
-
-        if 'saturation' in controls:
-            value = int(controls['saturation'])
-            logging.debug('setting saturation to %(value)s...' % {'value': value})
-
-            v4l2ctl.set_saturation(device, value)
-
-        if 'hue' in controls:
-            value = int(controls['hue'])
-            logging.debug('setting hue to %(value)s...' % {'value': value})
-
-            v4l2ctl.set_hue(device, value)
+        else:
+            try:
+                remote.set_preview(
+                        camera_config['@host'],
+                        camera_config['@port'],
+                        camera_config['@username'],
+                        camera_config['@password'],
+                        camera_config['@remote_camera_id'],
+                        controls)
+                
+            except Exception as e:
+                self.finish_json({'error': unicode(e)})
 
     def list_cameras(self):
         logging.debug('listing cameras')
@@ -209,7 +250,7 @@ class ConfigHandler(BaseHandler):
         username = self.get_argument('username', None)
         password = self.get_argument('password', None)
         
-        if host: # remote listing
+        if host:  # remote listing
             try:
                 cameras = remote.list_cameras(host, port, username, password)
                 
@@ -221,11 +262,11 @@ class ConfigHandler(BaseHandler):
             for camera_id in config.get_camera_ids():
                 camera_config = config.get_camera(camera_id)
                 if camera_config['@proto'] == 'v4l2':
-                    name = camera_config['@name']
-                    
-                else: # remote camera
+                    ui_config = self._camera_dict_to_ui(camera_config)
+
+                else:  # remote camera
                     try:
-                        remote_camera_config = remote.get_config(
+                        remote_ui_config = remote.get_config(
                                 camera_config.get('@host'),
                                 camera_config.get('@port'),
                                 camera_config.get('@username'),
@@ -235,9 +276,11 @@ class ConfigHandler(BaseHandler):
                     except:
                         continue
                     
-                    name = remote_camera_config['name']
+                    ui_config = remote_ui_config
+                    ui_config['id'] = camera_id
+                    ui_config['enabled'] = camera_config['@enabled']  # override the enabled status
 
-                cameras.append({'name': name, 'id': camera_id})
+                cameras.append(ui_config)
 
         self.finish_json({'cameras': cameras})
     
@@ -247,8 +290,9 @@ class ConfigHandler(BaseHandler):
         configured_devices = {}
         for camera_id in config.get_camera_ids():
             data = config.get_camera(camera_id)
-            configured_devices[data['videodevice']] = True
-            
+            if data['@proto'] == 'v4l2':
+                configured_devices[data['videodevice']] = True
+
         devices = [{'device': d[0], 'name': d[1], 'configured': d[0] in configured_devices}
                 for d in v4l2ctl.list_devices()]
         
@@ -293,8 +337,7 @@ class ConfigHandler(BaseHandler):
 
             local_data = camera_config
             camera_config = self._camera_ui_to_dict(remote_ui_config)
-            camera_config['@enabled'] = local_data['@enabled']
-            camera_config['@proto'] = local_data['@proto']
+            camera_config.update(local_data)
         
         camera_config['@id'] = camera_id
         
@@ -340,14 +383,16 @@ class ConfigHandler(BaseHandler):
         }
 
     def _camera_ui_to_dict(self, ui):
-        if not ui.get('resolution'): # avoid errors for empty resolution setting
+        if not ui.get('resolution'):  # avoid errors for empty resolution setting
             ui['resolution'] = '352x288'
     
         data = {
             # device
             '@name': ui.get('name', ''),
             '@enabled': ui.get('enabled', False),
-            'lightswitch': int(ui.get('light_switch_detect', False) * 5),
+            '@proto': ui.get('proto', 'v4l2'),
+            'videodevice': ui.get('device', ''),
+            'lightswitch': int(ui.get('light_switch_detect', False)) * 5,
             'auto_brightness': ui.get('auto_brightness', False),
             'brightness': max(1, int(round(int(ui.get('brightness', 0)) * 2.55))),
             'contrast': max(1, int(round(int(ui.get('contrast', 0)) * 2.55))),
@@ -457,23 +502,35 @@ class ConfigHandler(BaseHandler):
             
         if ui.get('working_schedule', False):
             data['@working_schedule'] = (
-                    ui.get('monday_from', '') + '-' + ui.get('monday_to') + '|' +
-                    ui.get('tuesday_from', '') + '-' + ui.get('tuesday_to') + '|' +
-                    ui.get('wednesday_from', '') + '-' + ui.get('wednesday_to') + '|' +
-                    ui.get('thursday_from', '') + '-' + ui.get('thursday_to') + '|' +
-                    ui.get('friday_from', '') + '-' + ui.get('friday_to') + '|' +
-                    ui.get('saturday_from', '') + '-' + ui.get('saturday_to') + '|' +
+                    ui.get('monday_from', '') + '-' + ui.get('monday_to') + '|' + 
+                    ui.get('tuesday_from', '') + '-' + ui.get('tuesday_to') + '|' + 
+                    ui.get('wednesday_from', '') + '-' + ui.get('wednesday_to') + '|' + 
+                    ui.get('thursday_from', '') + '-' + ui.get('thursday_to') + '|' + 
+                    ui.get('friday_from', '') + '-' + ui.get('friday_to') + '|' + 
+                    ui.get('saturday_from', '') + '-' + ui.get('saturday_to') + '|' + 
                     ui.get('sunday_from', '') + '-' + ui.get('sunday_to'))
     
         return data
         
     def _camera_dict_to_ui(self, data):
+        if data['@proto'] == 'v4l2':
+            device_uri = data['videodevice']
+        
+        else:
+            device_uri = '%(host)s:%(port)s/config/%(camera_id)s' % {
+                    'username': data['@username'],
+                    'password': '***',
+                    'host': data['@host'],
+                    'port': data['@port'],
+                    'camera_id': data['@remote_camera_id']}
+        
         ui = {
             # device
             'name': data['@name'],
             'enabled': data['@enabled'],
             'id': data.get('@id'),
             'proto': data['@proto'],
+            'device': device_uri,
             'light_switch_detect': data.get('lightswitch') > 0,
             'auto_brightness': data.get('auto_brightness'),
             'brightness': int(round(int(data.get('brightness')) / 2.55)),
@@ -630,12 +687,29 @@ class SnapshotHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
     
     def current(self, camera_id):
-        jpg = mjpgclient.get_jpg(camera_id)
-        if jpg is None:
-            return self.finish()
+        camera_config = config.get_camera(camera_id)
+        if camera_config['@proto'] == 'v4l2':
+            jpg = mjpgclient.get_jpg(camera_id)
+            if jpg is None:
+                return self.finish()
         
-        self.set_header('Content-Type', 'image/jpeg')
-        self.finish(jpg)
+            self.set_header('Content-Type', 'image/jpeg')
+            self.finish(jpg)
+        
+        else:
+            try:
+                jpg = remote.current_snapshot(
+                        camera_config['@host'],
+                        camera_config['@port'],
+                        camera_config['@username'],
+                        camera_config['@password'],
+                        camera_config['@remote_camera_id'])
+                
+            except:
+                return self.finish()       
+
+            self.set_header('Content-Type', 'image/jpeg')
+            self.finish(jpg)
     
     def list(self, camera_id):
         logging.debug('listing snapshots for camera %(id)s' % {'id': camera_id})

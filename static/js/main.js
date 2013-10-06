@@ -255,27 +255,7 @@ function initUI() {
     $(window).resize(updateModalDialogPosition);
     
     /* remove camera button */
-    $('div.button.rem-camera-button').click(function () {
-        var cameraId = $('#videoDeviceSelect').val();
-        if (cameraId == null || cameraId === 'add') {
-            runAlertDialog('No camera to remove!');
-            return;
-        }
-
-        var deviceName = $('#videoDeviceSelect').find('option[value=' + cameraId + ']').text();
-        
-        runConfirmDialog('Remove device ' + deviceName + '?', function () {
-            showProgress();
-            ajax('POST', '/config/' + cameraId + '/rem/', null, function (data) {
-                if (data == null || data.error) {
-                    return; // TODO handle error
-                }
-                
-                hideApply();
-                fetchCurrentConfig();
-            });
-        });
-    });
+    $('div.button.rem-camera-button').click(doRemCamera);
 }
 
 
@@ -472,7 +452,8 @@ function cameraUi2Dict() {
         /* video device */
         'enabled': $('#videoDeviceSwitch')[0].checked,
         'name': $('#deviceNameEntry').val(),
-        'device': $('#deviceEntry').val(),
+        'proto': $('#deviceEntry').val().split('://')[0],
+        'device': $('#deviceEntry').val().split('://')[1],
         'light_switch_detect': $('#lightSwitchDetectSwitch')[0].checked,
         'auto_brightness': $('#autoBrightnessSwitch')[0].checked,
         'brightness': $('#brightnessSlider').val(),
@@ -555,7 +536,7 @@ function dict2CameraUi(dict) {
     /* video device */
     $('#videoDeviceSwitch')[0].checked = dict['enabled'];
     $('#deviceNameEntry').val(dict['name']);
-    $('#deviceEntry').val(dict['device']);
+    $('#deviceEntry').val(dict['proto'] + '://' + dict['device']);
     $('#lightSwitchDetectSwitch')[0].checked = dict['light_switch_detect'];
     $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness'];
     $('#brightnessSlider').val(dict['brightness']);
@@ -715,26 +696,6 @@ function isApplyVisible() {
 }
 
 function doApply() {
-    var finishedCount = 0;
-    var configs = [];
-    
-    function testReady() {
-        if (finishedCount >= configs.length) {
-            endProgress();
-            recreateCameraFrames();
-        }
-    }
-    
-    for (var key in pushConfigs) {
-        if (pushConfigs.hasOwnProperty(key)) {
-            configs.push({key: key, config: pushConfigs[key]});
-        }
-    }
-    
-    if (configs.length === 0) {
-        return;
-    }
-    
     if (!configUiValid()) {
         runAlertDialog('Make sure all the configuration options are valid!');
         
@@ -743,27 +704,46 @@ function doApply() {
     
     showProgress();
     
-    for (var i = 0; i < configs.length; i++) {
-        var config = configs[i];
-        if (i === configs.length - 1) {
-            config.config['last'] = true; // TODO not used, to be replaced by norestart
+    ajax('POST', '/config/0/set/', pushConfigs, function (data) {
+        if (data == null || data.error) {
+            return; // TODO handle error
         }
-        ajax('POST', '/config/' + config.key + '/set/', config.config, function (data) {
+        
+        /* update the camera name in the device select */
+        Object.keys(pushConfigs).forEach(function (key) {
+            var config = pushConfigs[key];
+            if (config.key !== 'main') {
+                $('#videoDeviceSelect').find('option[value=' + key + ']').html(config.name);
+            }
+        });
+
+        pushConfigs = {};
+        endProgress();
+        
+        recreateCameraFrames();
+    });
+}
+
+function doRemCamera() {
+    var cameraId = $('#videoDeviceSelect').val();
+    if (cameraId == null || cameraId === 'add') {
+        runAlertDialog('No camera to remove!');
+        return;
+    }
+
+    var deviceName = $('#videoDeviceSelect').find('option[value=' + cameraId + ']').text();
+    
+    runConfirmDialog('Remove device ' + deviceName + '?', function () {
+        showProgress();
+        ajax('POST', '/config/' + cameraId + '/rem/', null, function (data) {
             if (data == null || data.error) {
                 return; // TODO handle error
             }
             
-            finishedCount++;
-            testReady();
+            hideApply();
+            fetchCurrentConfig();
         });
-        
-        /* update the camera name in the device select */
-        if (config.key !== 'main') {
-            $('#videoDeviceSelect').find('option[value=' + config.key + ']').html(config.config.name);
-        }
-    }
-    
-    pushConfigs = {};
+    });
 }
 
 
@@ -1218,7 +1198,6 @@ function doCloseCamera(cameraId) {
         }
         
         data['enabled'] = false;
-        data['last'] = true;// TODO not used, to be replaced by norestart
         ajax('POST', '/config/' + cameraId + '/set/', data, function (data) {
             if (data == null || data.error) {
                 return; // TODO handle error

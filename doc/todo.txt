@@ -1,29 +1,33 @@
--> move/copy list available resolutions code to get_config
--> bug: adding a remote device does not provide the available resolutions
- 
--> bug: if updating a remote camera config, local motion will get restarted
--> bug: when renaming the camera, the left/right texts set "Camera" should also change
--> make camera frames positions configurable
--> hide horrible 404 image on cameras
--> prevent Request closed errors by stopping mjpg clients before stopping motion
--> camera not available background and icon design
--> remove current snapshot GET logs
 -> add a motion running status indicator (and maybe a start/stop button)
 -> add a timeout checker to check the running status of motion
--> group @config rules to top
--> browser compatibility test
--> requirements test
+
+-> better ajax error handling
+-> add a messaging mechanism
+
+-> authentication
+
+-> hide horrible 404 image on cameras
+-> camera not available background and icon design
+
+-> prevent Request closed errors by stopping mjpg clients before stopping motion
+-> make all the server http requests async
+-> remove current snapshot GET logs
+
 -> style scroll bars
 -> hint text next to section titles
 -> clickable hints
--> authentication
--> better ajax error handling
--> proxy for slave motioneyes
+
+-> make camera frames positions configurable
 -> add a view log functionality
 -> click to zoom on cameras
 -> add a previewer for movies
 -> add a previewer for snapshots
 -> add a motioneye.svg icon
--> other todos
--> add a messaging mechanism
+
 -> add other options applicable only to special devices (rpi): wifi settings, notifications
+-> group @config rules to top
+
+-> browser compatibility test
+-> requirements test
+
+-> other todos

@@ -207,7 +207,6 @@ def set_camera(camera_id, data):
     
         main_config['thread'] = threads
         
-        del data['@enabled']
         if '@id' in data:
             del data['@id']
         

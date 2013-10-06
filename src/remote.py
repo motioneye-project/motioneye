@@ -108,3 +108,50 @@ def set_config(host, port, username, password, camera_id, data):
         
         raise
 
+
+def set_preview(host, port, username, password, camera_id, controls):
+    logging.debug('setting preview for remote camera %(id)s on %(host)s:%(port)s' % {
+            'id': camera_id,
+            'host': host,
+            'port': port})
+    
+    controls = json.dumps(controls)
+    
+    url = _compose_url(host, port, username, password, '/config/%(id)s/set_preview/' % {'id': camera_id})
+    request = urllib2.Request(url, data=controls)
+    
+    try:
+        urllib2.urlopen(request)
+    
+    except Exception as e:
+        logging.error('failed to set preview for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+                'id': camera_id,
+                'host': host,
+                'port': port,
+                'msg': unicode(e)})
+        
+        raise
+
+
+def current_snapshot(host, port, username, password, camera_id):
+    logging.debug('getting current snapshot for remote camera %(id)s on %(host)s:%(port)s' % {
+            'id': camera_id,
+            'host': host,
+            'port': port})
+    
+    url = _compose_url(host, port, username, password, '/snapshot/%(id)s/current/' % {'id': camera_id})
+    request = urllib2.Request(url)
+    
+    try:
+        response = urllib2.urlopen(request)
+    
+    except Exception as e:
+        logging.error('failed to get current snapshot for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+                'id': camera_id,
+                'host': host,
+                'port': port,
+                'msg': unicode(e)})
+        
+        raise
+    
+    return response.read()
