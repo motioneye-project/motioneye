@@ -2,6 +2,7 @@
 from tornado.web import Application
 
 import handlers
+import logging
 import settings
 import template
 
@@ -18,6 +19,7 @@ application = Application(
         (r'^/movie/(?P<camera_id>\d+)/(?P<op>download)/(?P<filename>.+)/?$', handlers.MovieHandler),
     ],
     debug=settings.DEBUG,
+    log_function=logging.debug,
     static_path=settings.STATIC_PATH,
     static_url_prefix=settings.STATIC_URL
 )

@@ -6,7 +6,6 @@
 
 -> prevent Request closed errors by stopping mjpg clients before stopping motion
 -> make all the server http requests async
--> remove current snapshot GET logs
 
 -> style scroll bars
 -> hint text next to section titles
@@ -19,6 +18,7 @@
 -> add a previewer for snapshots
 -> add a motioneye.svg icon
 
+-> implement file preserving
 -> add other options applicable only to special devices (rpi): wifi settings, notifications
 -> group @config rules to top
 
