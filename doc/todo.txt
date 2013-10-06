@@ -1,6 +1,4 @@
 
--> better ajax error handling
-
 -> authentication
 
 -> hide horrible 404 image on cameras

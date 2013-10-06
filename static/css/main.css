@@ -25,14 +25,6 @@
 }
 
  
-    /* links */
-    
-a {
-    color: inherit;
-    text-decoration: inherit;
-}
-
-
     /* layout */
 
 html {
@@ -43,12 +35,12 @@ div.page,
 div.header-container {
     position: relative;
     min-width: 360px;
-    min-height: 60px;
+    min-height: 90%;
     width: 100%;
 }
 
 div.page {
-    margin-top: 50px;
+    padding-top: 50px;
     padding-bottom: 20px;
     font-size: 1em;
     transition: all 0.5s linear;
@@ -121,6 +113,7 @@ div.logo {
 }
 
 span.logo {
+    color: white;
     vertical-align: middle;
     font-size: 27px;
     font-weight: bold;

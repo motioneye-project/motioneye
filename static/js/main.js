@@ -12,7 +12,7 @@ function ajax(method, url, data, callback) {
         cache: false,
         success: callback,
         error: function (request, options, error) {
-            alert('Request failed with code: ' + request.status);
+            showErrorMessage();
             if (callback) {
                 callback();
             }
@@ -25,6 +25,11 @@ function ajax(method, url, data, callback) {
     }
     
     $.ajax(options);
+}
+
+function showErrorMessage(message) {
+    message = message || 'An error occurred. Refreshing is recommended.';
+    showPopupMessage(message, 'error');
 }
 
 Object.keys = Object.keys || (function () {
@@ -706,7 +711,9 @@ function doApply() {
     
     ajax('POST', '/config/0/set/', pushConfigs, function (data) {
         if (data == null || data.error) {
-            return; // TODO handle error
+            endProgress();
+            showErrorMessage(data && data.error);
+            return;
         }
         
         /* update the camera name in the device select */
@@ -737,7 +744,9 @@ function doRemCamera() {
         showProgress();
         ajax('POST', '/config/' + cameraId + '/rem/', null, function (data) {
             if (data == null || data.error) {
-                return; // TODO handle error
+                endProgress();
+                showErrorMessage(data && data.error);
+                return;
             }
             
             hideApply();
@@ -753,7 +762,8 @@ function fetchCurrentConfig() {
     /* fetch the main configuration */
     ajax('GET', '/config/main/get/', null, function (data) {
         if (data == null || data.error) {
-            return; // TODO handle error
+            showErrorMessage(data && data.error);
+            return;
         }
         
         dict2MainUi(data);
@@ -761,7 +771,8 @@ function fetchCurrentConfig() {
         /* fetch the camera list */
         ajax('GET', '/config/list/', null, function (data) {
             if (data == null || data.error) {
-                return; // TODO handle error
+                showErrorMessage(data && data.error);
+                return;
             }
             
             var i, cameras = data.cameras;
@@ -779,7 +790,6 @@ function fetchCurrentConfig() {
             }
             else {
                 videoDeviceSelect[0].selectedIndex = -1;
-                // TODO if admin, set a message saying that the user should add a camera
             }
             
             recreateCameraFrames(cameras);
@@ -793,7 +803,8 @@ function fetchCurrentCameraConfig() {
     if (cameraId != null) {
         ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
             if (data == null || data.error) {
-                return; // TODO handle error
+                showErrorMessage(data && data.error);
+                return;
             }
             
             dict2CameraUi(data);
@@ -839,7 +850,8 @@ function pushPreview() {
     
     ajax('POST', '/config/' + cameraId + '/set_preview/', data, function (data) {
         if (data == null || data.error) {
-            return; // TODO handle error
+            showErrorMessage(data && data.error);
+            return;
         }
     });
 }
@@ -966,7 +978,9 @@ function runAddCameraDialog() {
         
         ajax('GET', '/config/list/', data, function (data) {
             if (data == null || data.error) {
-                return; // TODO handle error
+                progress.remove();
+                showErrorMessage(data && data.error);
+                return;
             }
             
             cameraSelect.html('');
@@ -996,7 +1010,9 @@ function runAddCameraDialog() {
     /* fetch the available devices */
     ajax('GET', '/config/list_devices/', null, function (data) {
         if (data == null || data.error) {
-            return; // TODO handle error
+            hideModalDialog();
+            showErrorMessage(data && data.error);
+            return;
         }
         
         /* add available devices */
@@ -1035,10 +1051,11 @@ function runAddCameraDialog() {
                 }
 
                 showProgress();
-
                 ajax('POST', '/config/add/', data, function (data) {
                     if (data == null || data.error) {
-                        return; // TODO handle error
+                        endProgress();
+                        showErrorMessage(data && data.error);
+                        return;
                     }
                     
                     hideApply();
@@ -1149,6 +1166,9 @@ function recreateCameraFrames(cameras) {
         cameras = cameras.filter(function (camera) {return camera.enabled;});
         var i, camera, cameraId;
         
+        /* remove everything that is not a camera frame from the page */
+        pageContainer.children().not('div.camera-frame').remove();
+        
         /* remove no longer existing camera frames */
         var addedCameraFrames = pageContainer.find('div.camera-frame');
         for (i = 0; i < addedCameraFrames.length; i++) {
@@ -1169,6 +1189,13 @@ function recreateCameraFrames(cameras) {
                 cameraFrame[0].framerate = camera.streaming_framerate;
             }
         }
+        
+        if ($('#videoDeviceSelect').find('option').length < 2) {
+            /* invite the user to add a camera */
+            var addCameraLink = $('<div style="text-align: center; margin-top: 30px;">' + 
+                    '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');
+            pageContainer.append(addCameraLink);
+        }
     }
     
     if (cameras != null) {
@@ -1177,7 +1204,8 @@ function recreateCameraFrames(cameras) {
     else {
         ajax('GET', '/config/list/', null, function (data) {
             if (data == null || data.error) {
-                return; // TODO handle error
+                showErrorMessage(data && data.error);
+                return;
             }
             
             updateCameras(data.cameras);
@@ -1194,13 +1222,16 @@ function doCloseCamera(cameraId) {
     showProgress();
     ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
         if (data == null || data.error) {
-            return; // TODO handle error
+            endProgress();
+            showErrorMessage(data && data.error);
+            return;
         }
         
         data['enabled'] = false;
         ajax('POST', '/config/' + cameraId + '/set/', data, function (data) {
             if (data == null || data.error) {
-                return; // TODO handle error
+                showErrorMessage(data && data.error);
+                return;
             }
             
             endProgress();

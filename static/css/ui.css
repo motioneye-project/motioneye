@@ -17,6 +17,20 @@ input[type=checkbox].styled {
     display: none;
 }
 
+a {
+    color: #317CAD;
+    text-decoration: inherit;
+    transition: color 0.1s linear;
+}
+
+a:HOVER {
+    color: #3498db;
+}
+
+a:ACTIVE {
+    color: #317CAD;
+}
+
 
     /* buttons */
 
