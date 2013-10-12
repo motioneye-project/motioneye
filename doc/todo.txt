@@ -1,5 +1,4 @@
 
--> authentication
 -> cache configuration
 
 -> prevent Request closed errors by stopping mjpg clients before stopping motion

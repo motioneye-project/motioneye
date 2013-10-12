@@ -14,9 +14,16 @@ _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 _MAIN_CONFIG_FILE_PATH = os.path.join(settings.CONF_PATH, 'motion.conf')
 _CAMERA_CONFIG_FILE_PATH = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME)
 
+_main_config_cache = None
+_camera_config_cache = None
+_camera_ids_cache = None
+
 
 def get_main(as_lines=False):
-    # TODO use a cache
+    global _main_config_cache
+    
+    if not as_lines and _main_config_cache:
+        return _main_config_cache
     
     config_file_path = os.path.join(settings.PROJECT_PATH, _MAIN_CONFIG_FILE_PATH)
     
@@ -57,11 +64,13 @@ def get_main(as_lines=False):
     data = _conf_to_dict(lines, list_names=['thread'])
     _set_default_motion(data)
     
+    _main_config_cache = data
+    
     return data
         
 
 def set_main(data):
-    # TODO use a cache
+    global _main_config_cache
     
     _set_default_motion(data)
     
@@ -101,11 +110,18 @@ def set_main(data):
     
     finally:
         file.close()
-    
+
+    _main_config_cache = data
+
     return data
 
 
 def get_camera_ids():
+    global _camera_ids_cache
+    
+    if _camera_ids_cache:
+        return _camera_ids_cache
+
     config_path = settings.CONF_PATH
     
     logging.debug('listing config dir %(path)s...' % {'path': config_path})
@@ -133,6 +149,8 @@ def get_camera_ids():
         
     camera_ids.sort()
     
+    _camera_ids_cache = camera_ids
+    
     return camera_ids
 
 
@@ -146,7 +164,10 @@ def has_enabled_cameras():
 
 
 def get_camera(camera_id, as_lines=False):
-    # TODO use a cache
+    global _camera_config_cache
+    
+    if not as_lines and _camera_config_cache and camera_id in _camera_config_cache:
+        return _camera_config_cache[camera_id]
     
     camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
     
@@ -186,11 +207,16 @@ def get_camera(camera_id, as_lines=False):
 
         _set_default_motion_camera(data)
     
+    if _camera_config_cache is None:
+        _camera_config_cache = {}
+    
+    _camera_config_cache[camera_id] = data
+    
     return data
 
 
 def set_camera(camera_id, data):
-    # TODO use a cache
+    global _camera_config_cache
     
     if data['@proto'] == 'v4l2':
         _set_default_motion_camera(data)
@@ -246,12 +272,19 @@ def set_camera(camera_id, data):
     
     finally:
         file.close()
+        
+    if _camera_config_cache is None:
+        _camera_config_cache = {}
+    
+    _camera_config_cache[camera_id] = data
     
     return data
 
 
 def add_camera(device_details):
-    # TODO use a cache
+    global _camera_ids
+    
+    _camera_ids = None
     
     # determine the last camera id
     camera_ids = get_camera_ids()
@@ -291,8 +324,10 @@ def add_camera(device_details):
 
 
 def rem_camera(camera_id):
-    # TODO use a cache
-
+    global _camera_ids
+    
+    _camera_ids = None
+    
     camera_config_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
     camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
     
