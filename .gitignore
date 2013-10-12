@@ -7,3 +7,4 @@
 *.conf
 *.json
 .settings
+settings.py
