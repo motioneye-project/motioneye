@@ -160,9 +160,7 @@ function initUI() {
     
     /* text validators */
     makeTextValidator($('#adminUsernameEntry'), true);
-    makeTextValidator($('#adminPasswordEntry'), true);
     makeTextValidator($('#normalUsernameEntry'), true);
-    makeTextValidator($('#normalPasswordEntry'), true);
     makeTextValidator($('#deviceNameEntry'), true);
     makeTextValidator($('#networkServerEntry'), true);
     makeTextValidator($('#networkShareNameEntry'), true);

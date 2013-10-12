@@ -757,7 +757,7 @@ class ConfigHandler(BaseHandler):
 
 
 class SnapshotHandler(BaseHandler):
-    #@asynchronous TODO don't forget about me
+    @asynchronous
     def get(self, camera_id, op, filename=None):
         if camera_id is not None:
             camera_id = int(camera_id)

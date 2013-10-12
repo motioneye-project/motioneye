@@ -1,4 +1,6 @@
 
+-> implement file preserving
+
 -> style scroll bars
 -> hint text next to section titles
 -> clickable hints
@@ -10,12 +12,10 @@
 -> add a previewer for snapshots
 -> add a motioneye.svg icon
 
--> implement file preserving
 -> add other options applicable only to special devices (rpi): wifi settings, notifications
 -> group @config rules to top
 
 -> browser compatibility test
 -> requirements test
 
--> add a motion running status indicator (and maybe a start/stop button)
 -> other todos

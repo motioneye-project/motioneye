@@ -22,7 +22,7 @@ _camera_ids_cache = None
 def get_main(as_lines=False):
     global _main_config_cache
     
-    if not as_lines and _main_config_cache:
+    if not as_lines and _main_config_cache is not None:
         return _main_config_cache
     
     config_file_path = os.path.join(settings.PROJECT_PATH, _MAIN_CONFIG_FILE_PATH)
@@ -119,7 +119,7 @@ def set_main(data):
 def get_camera_ids():
     global _camera_ids_cache
     
-    if _camera_ids_cache:
+    if _camera_ids_cache is not None:
         return _camera_ids_cache
 
     config_path = settings.CONF_PATH
@@ -166,7 +166,7 @@ def has_enabled_cameras():
 def get_camera(camera_id, as_lines=False):
     global _camera_config_cache
     
-    if not as_lines and _camera_config_cache and camera_id in _camera_config_cache:
+    if not as_lines and _camera_config_cache is not None and camera_id in _camera_config_cache:
         return _camera_config_cache[camera_id]
     
     camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}

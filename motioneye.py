@@ -134,9 +134,22 @@ def _start_motion():
             logging.info('motion started')
 
         ioloop = tornado.ioloop.IOLoop.instance()
-        ioloop.add_timeout(datetime.timedelta(seconds=10), checker)
+        ioloop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
     
     checker()
+
+
+def _start_cleanup():
+    import cleanup
+
+    def do_cleanup():
+        cleanup.cleanup_images()
+        cleanup.cleanup_movies()
+        
+        ioloop = tornado.ioloop.IOLoop.instance()
+        ioloop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), do_cleanup)
+
+    do_cleanup()
 
 
 if __name__ == '__main__':
@@ -144,4 +157,5 @@ if __name__ == '__main__':
     _configure_signals()
     _configure_logging()
     _start_motion()
+    _start_cleanup()
     _start_server()
