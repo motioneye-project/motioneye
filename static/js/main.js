@@ -760,15 +760,7 @@ function doRemCamera() {
     /* fetch & push */
 
 function fetchCurrentConfig() {
-    /* fetch the main configuration */
-    ajax('GET', '/config/main/get/', null, function (data) {
-        if (data == null || data.error) {
-            showErrorMessage(data && data.error);
-            return;
-        }
-        
-        dict2MainUi(data);
-
+    function fetchCameraList() {
         /* fetch the camera list */
         ajax('GET', '/config/list/', null, function (data) {
             if (data == null || data.error) {
@@ -777,26 +769,46 @@ function fetchCurrentConfig() {
             }
             
             var i, cameras = data.cameras;
-            var videoDeviceSelect = $('#videoDeviceSelect');
-            videoDeviceSelect.html('');
-            for (i = 0; i < cameras.length; i++) {
-                var camera = cameras[i];
-                videoDeviceSelect.append('<option value="' + camera['id'] + '">' + camera['name'] + '</option>');
-            }
-            videoDeviceSelect.append('<option value="add">add camera...</option>');
             
-            if (cameras.length > 0) {
-                videoDeviceSelect[0].selectedIndex = 0;
-                fetchCurrentCameraConfig();
-            }
-            else {
-                videoDeviceSelect[0].selectedIndex = -1;
+            if (user === 'admin') {
+                var videoDeviceSelect = $('#videoDeviceSelect');
+                videoDeviceSelect.html('');
+                for (i = 0; i < cameras.length; i++) {
+                    var camera = cameras[i];
+                    videoDeviceSelect.append('<option value="' + camera['id'] + '">' + camera['name'] + '</option>');
+                }
+                videoDeviceSelect.append('<option value="add">add camera...</option>');
+                
+                if (cameras.length > 0) {
+                    videoDeviceSelect[0].selectedIndex = 0;
+                    fetchCurrentCameraConfig();
+                }
+                else {
+                    videoDeviceSelect[0].selectedIndex = -1;
+                }
+            
+                updateConfigUi();
             }
             
             recreateCameraFrames(cameras);
-            updateConfigUi();
         });
-    });
+    }
+    
+    if (user === 'admin') {
+        /* fetch the main configuration */
+        ajax('GET', '/config/main/get/', null, function (data) {
+            if (data == null || data.error) {
+                showErrorMessage(data && data.error);
+                return;
+            }
+            
+            dict2MainUi(data);
+            fetchCameraList();
+        });
+    }
+    else {
+        fetchCameraList();
+    }
 }
 
 function fetchCurrentCameraConfig() {
@@ -1096,6 +1108,12 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     var cameraImg = cameraFrameDiv.find('img.camera');
     var progressImg = cameraFrameDiv.find('img.camera-progress');
     
+    /* no camera buttons if not admin */
+    if (user !== 'admin') {
+        configureButton.hide();
+        closeButton.hide();
+    }
+    
     cameraFrameDiv.attr('id', 'camera' + cameraId);
     cameraFrameDiv[0].framerate = framerate;
     cameraFrameDiv[0].refreshDivider = 0;
@@ -1157,11 +1175,6 @@ function remCameraFrameUi(cameraId) {
 }
 
 function recreateCameraFrames(cameras) {
-    /* if motioneye is globally disabled, we remove all the camera frames */;
-    if (!$('#motionEyeSwitch')[0].checked) {
-        cameras = [];
-    }
-    
     var pageContainer = $('div.page-container');
     
     function updateCameras(cameras) {
@@ -1192,7 +1205,7 @@ function recreateCameraFrames(cameras) {
             }
         }
         
-        if ($('#videoDeviceSelect').find('option').length < 2) {
+        if ($('#videoDeviceSelect').find('option').length < 2 && user === 'admin') {
             /* invite the user to add a camera */
             var addCameraLink = $('<div style="text-align: center; margin-top: 30px;">' + 
                     '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');

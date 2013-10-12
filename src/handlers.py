@@ -1,4 +1,5 @@
 
+import base64
 import json
 import logging
 
@@ -33,6 +34,8 @@ class BaseHandler(RequestHandler):
     def render(self, template_name, content_type='text/html', **context):
         self.set_header('Content-Type', content_type)
         
+        context['USER'] = self.current_user
+        
         content = template.render(template_name, **context)
         self.finish(content)
     
@@ -40,13 +43,52 @@ class BaseHandler(RequestHandler):
         self.set_header('Content-Type', 'application/json')
         self.finish(json.dumps(data))
 
+    def get_current_user(self):
+        try:
+            scheme, token = self.request.headers.get('Authorization', '').split()
+            if scheme.lower() == 'basic':
+                user, pwd = base64.decodestring(token).split(':')
+                main_config = config.get_main()
+                
+                if user == main_config.get('@admin_username') and pwd == main_config.get('@admin_password'):
+                    return 'admin'
+                
+                elif user == main_config.get('@normal_username') and pwd == main_config.get('@normal_password'):
+                    return 'normal'
+                
+        except:
+            pass
+
+        return None
+    
+    @staticmethod
+    def auth(admin=False):
+        def decorator(func):
+            def wrapper(self, *args, **kwargs):
+                user = self.current_user
+                if (user is None) or (user != 'admin' and admin):
+                    realm = 'motionEye admin authentication' if admin else 'motionEye authentication'
+                    
+                    self.set_status(401)
+                    self.set_header('WWW-Authenticate', 'basic realm="%(realm)s"' % {
+                            'realm': realm})
+                    return self.finish('Authentication required.')
+                
+                return func(self, *args, **kwargs)
+            
+            return wrapper
+        
+        return decorator
+
 
 class MainHandler(BaseHandler):
+    @BaseHandler.auth()
     def get(self):
         self.render('main.html')
 
 
 class ConfigHandler(BaseHandler):
+    @asynchronous
     def get(self, camera_id=None, op=None):
         if camera_id is not None:
             camera_id = int(camera_id)
@@ -63,6 +105,7 @@ class ConfigHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
     
+    @asynchronous
     def post(self, camera_id=None, op=None):
         if camera_id is not None:
             camera_id = int(camera_id)
@@ -82,7 +125,7 @@ class ConfigHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
     
-    @asynchronous
+    @BaseHandler.auth(admin=True)
     def get_config(self, camera_id):
         if camera_id:
             logging.debug('getting config for camera %(id)s' % {'id': camera_id})
@@ -125,7 +168,8 @@ class ConfigHandler(BaseHandler):
             ui_config = self._main_dict_to_ui(config.get_main())
             self.finish_json(ui_config)
     
-    def set_config(self, camera_id, ui_config=None):
+    @BaseHandler.auth(admin=True)
+    def set_config(self, camera_id, ui_config=None, no_finish=False):
         if ui_config is None:
             try:
                 ui_config = json.loads(self.request.body)
@@ -141,12 +185,12 @@ class ConfigHandler(BaseHandler):
                 
                 for key, cfg in ui_config.items():
                     if key == 'main':
-                        self.set_config(None, cfg)
+                        self.set_config(None, cfg, no_finish=True)
                         
                     else:
-                        self.set_config(int(key), cfg)
+                        self.set_config(int(key), cfg, no_finish=True)
 
-                return
+                return self.finish_json()
                  
             logging.debug('setting config for camera %(id)s' % {'id': camera_id})
             
@@ -192,8 +236,10 @@ class ConfigHandler(BaseHandler):
             config.set_main(main_config)
 
         motionctl.restart()
+        
+        self.finish_json()
 
-    @asynchronous
+    @BaseHandler.auth(admin=True)
     def set_preview(self, camera_id):
         try:
             controls = json.loads(self.request.body)
@@ -239,7 +285,7 @@ class ConfigHandler(BaseHandler):
                     self.finish_json({'error': True})
                     
                 else:
-                    self.finish_json({})
+                    self.finish_json()
             
             remote.set_preview(
                     camera_config['@host'],
@@ -249,7 +295,7 @@ class ConfigHandler(BaseHandler):
                     camera_config['@remote_camera_id'],
                     controls, on_response)
 
-    @asynchronous
+    @BaseHandler.auth()
     def list_cameras(self):
         logging.debug('listing cameras')
 
@@ -270,8 +316,11 @@ class ConfigHandler(BaseHandler):
                 
         else:  # local listing
             cameras = []
-            
-            length = [len(config.get_camera_ids())]
+            camera_ids = config.get_camera_ids()
+            if not config.get_main().get('@enabled'):
+                camera_ids = []
+                
+            length = [len(camera_ids)]
             def check_finished():
                 if len(cameras) == length[0]:
                     self.finish_json({'cameras': cameras})
@@ -289,8 +338,8 @@ class ConfigHandler(BaseHandler):
                     check_finished()
                     
                 return on_response
-                    
-            for camera_id in config.get_camera_ids():
+            
+            for camera_id in camera_ids:
                 camera_config = config.get_camera(camera_id)
                 if camera_config['@proto'] == 'v4l2':
                     ui_config = self._camera_dict_to_ui(camera_config)
@@ -308,6 +357,7 @@ class ConfigHandler(BaseHandler):
             if length[0] == 0:        
                 self.finish_json({'cameras': []})
 
+    @BaseHandler.auth(admin=True)
     def list_devices(self):
         logging.debug('listing devices')
         
@@ -322,7 +372,7 @@ class ConfigHandler(BaseHandler):
         
         self.finish_json({'devices': devices})
     
-    @asynchronous
+    @BaseHandler.auth(admin=True)
     def add_camera(self):
         logging.debug('adding new camera')
         
@@ -374,7 +424,8 @@ class ConfigHandler(BaseHandler):
                     device_details.get('username'),
                     device_details.get('password'),
                     device_details.get('remote_camera_id'), on_response)
-        
+    
+    @BaseHandler.auth(admin=True)
     def rem_camera(self, camera_id):
         logging.debug('removing camera %(id)s' % {'id': camera_id})
         
@@ -383,6 +434,8 @@ class ConfigHandler(BaseHandler):
         
         if local:
             motionctl.restart()
+            
+        self.finish_json()
         
     def _main_ui_to_dict(self, ui):
         return {
@@ -687,9 +740,10 @@ class ConfigHandler(BaseHandler):
             ui['working_schedule'] = True
         
         return ui
-        
+
 
 class SnapshotHandler(BaseHandler):
+    @asynchronous
     def get(self, camera_id, op, filename=None):
         if camera_id is not None:
             camera_id = int(camera_id)
@@ -708,7 +762,7 @@ class SnapshotHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
     
-    @asynchronous
+    @BaseHandler.auth()
     def current(self, camera_id):
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] == 'v4l2':
@@ -735,19 +789,26 @@ class SnapshotHandler(BaseHandler):
                     camera_config['@password'],
                     camera_config['@remote_camera_id'], on_response)
                 
+    @BaseHandler.auth()
     def list(self, camera_id):
         logging.debug('listing snapshots for camera %(id)s' % {'id': camera_id})
         
         # TODO implement me
+        
+        self.finish_json()
     
+    @BaseHandler.auth()
     def download(self, camera_id, filename):
         logging.debug('downloading snapshot %(filename)s of camera %(id)s' % {
                 'filename': filename, 'id': camera_id})
         
         # TODO implement me
+        
+        self.finish_json()
 
 
 class MovieHandler(BaseHandler):
+    @asynchronous
     def get(self, camera_id, op, filename=None):
         if op == 'list':
             self.list(camera_id)
@@ -757,10 +818,20 @@ class MovieHandler(BaseHandler):
         
         else:
             raise HTTPError(400, 'unknown operation')
-    
+
+    @BaseHandler.auth()    
     def list(self, camera_id):
         logging.debug('listing movies for camera %(id)s' % {'id': camera_id})
+
+        # TODO implement me
+        
+        self.finish_json()
     
+    @BaseHandler.auth()
     def download(self, camera_id, filename):
         logging.debug('downloading movie %(filename)s of camera %(id)s' % {
                 'filename': filename, 'id': camera_id})
+
+        # TODO implement me
+        
+        self.finish_json()
