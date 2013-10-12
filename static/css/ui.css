@@ -367,7 +367,7 @@ span.dialog-item-label {
 div.popup-message-container {
     position: fixed;
     display: none;
-    z-index: 9999;
+    z-index: 10002;
     background-color: #313131;
     border-radius: 3px;
     opacity: 0;

@@ -142,7 +142,7 @@ class ConfigHandler(BaseHandler):
             if camera_config['@proto'] != 'v4l2':
                 def on_response(remote_ui_config):
                     if remote_ui_config is None:
-                        return self.finish_json({'error': True})
+                        return self.finish_json({'error': 'Failed to get remote camera configuration.'})
                     
                     tmp_config = self._camera_ui_to_dict(remote_ui_config)
                     tmp_config.update(camera_config)
@@ -312,7 +312,7 @@ class ConfigHandler(BaseHandler):
         if host:  # remote listing
             def on_response(cameras):
                 if cameras is None:
-                    self.finish_json({'error': True})
+                    self.finish_json({'error': 'Failed to list remote cameras.'})
                     
                 else:
                     self.finish_json({'cameras': cameras})
@@ -333,7 +333,13 @@ class ConfigHandler(BaseHandler):
             def on_response_builder(camera_id, camera_config):
                 def on_response(remote_ui_config):
                     if remote_ui_config is None:
-                        length[0] -= 1
+                        #length[0] -= 1
+                        cameras.append({
+                            'id': camera_id,
+                            'name': '&lt;error&gt;',
+                            'enabled': False,
+                            'streaming_framerate': 1
+                        })
                     
                     else:
                         remote_ui_config['id'] = camera_id
