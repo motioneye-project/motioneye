@@ -67,7 +67,7 @@ def get_main(as_lines=False):
     _main_config_cache = data
     
     return data
-        
+
 
 def set_main(data):
     global _main_config_cache
@@ -197,6 +197,8 @@ def get_camera(camera_id, as_lines=False):
         return lines
         
     data = _conf_to_dict(lines)
+    
+    data.setdefault('@proto', 'v4l2')
     
     # determine the enabled status
     if data['@proto'] == 'v4l2':

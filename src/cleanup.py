@@ -7,21 +7,22 @@ import config
 
 
 def _remove_older_files(dir, moment, exts):
-    for name in os.listdir(dir):
-        full_path = os.path.join(dir, name)
-        if not os.path.isfile(full_path):
-            continue
-        
-        full_path_lower = full_path.lower()
-        if not [e for e in exts if full_path_lower.endswith(e)]:
-            continue
-        
-        file_moment = datetime.datetime.fromtimestamp(os.path.getmtime(full_path))
-        if file_moment < moment:
-            logging.debug('removing file %(path)s...' % {
-                    'path': full_path})
+    for root, dirs, files in os.walk(dir):  # @UnusedVariable
+        for name in files:
+            full_path = os.path.join(root, name)
+            if not os.path.isfile(full_path):
+                continue
             
-            os.remove(full_path)
+            full_path_lower = full_path.lower()
+            if not [e for e in exts if full_path_lower.endswith(e)]:
+                continue
+            
+            file_moment = datetime.datetime.fromtimestamp(os.path.getmtime(full_path))
+            if file_moment < moment:
+                logging.debug('removing file %(path)s...' % {
+                        'path': full_path})
+                
+                os.remove(full_path)
 
 
 def cleanup_images():
@@ -39,18 +40,7 @@ def cleanup_images():
         preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_images)
             
         target_dir = camera_config.get('target_dir')
-        snapshot_filename = camera_config.get('snapshot_filename')
-        jpeg_filename = camera_config.get('snapshot_jpeg')
-        
-        if snapshot_filename:
-            snapshot_path = os.path.join(target_dir, snapshot_filename)
-            snapshot_path = os.path.dirname(snapshot_path)
-            _remove_older_files(dir, preserve_moment)
-    
-        if jpeg_filename:
-            snapshot_path = os.path.join(target_dir, jpeg_filename)
-            snapshot_path = os.path.dirname(snapshot_path)
-            _remove_older_files(snapshot_path, preserve_moment, exts=['.jpg', '.png'])
+        _remove_older_files(target_dir, preserve_moment, exts=['.jpg', '.png'])
 
 
 def cleanup_movies():
@@ -68,9 +58,4 @@ def cleanup_movies():
         preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_movies)
             
         target_dir = camera_config.get('target_dir')
-        movie_filename = camera_config.get('movie_filename')
-        
-        if movie_filename:
-            snapshot_path = os.path.join(target_dir, movie_filename)
-            snapshot_path = os.path.dirname(snapshot_path)
-            _remove_older_files(snapshot_path, preserve_moment, exts=['.avi'])
+        _remove_older_files(target_dir, preserve_moment, exts=['.avi'])
