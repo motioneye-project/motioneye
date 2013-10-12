@@ -51,10 +51,17 @@ class BaseHandler(RequestHandler):
                 main_config = config.get_main()
                 
                 if user == main_config.get('@admin_username') and pwd == main_config.get('@admin_password'):
+                    logging.debug('authenticated as admin')
+                    
                     return 'admin'
                 
                 elif user == main_config.get('@normal_username') and pwd == main_config.get('@normal_password'):
+                    logging.debug('authenticated as normal user')
+                    
                     return 'normal'
+                
+                else:
+                    logging.error('authentication failed for user %(user)s' % {'user': user})
                 
         except:
             pass
