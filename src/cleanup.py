@@ -6,18 +6,22 @@ import os
 import config
 
 
-def _remove_older_files(dir, moment):
+def _remove_older_files(dir, moment, exts):
     for name in os.listdir(dir):
         full_path = os.path.join(dir, name)
         if not os.path.isfile(full_path):
             continue
         
-        file_moment = datetime.datetime.fromtimestamp(os.path.getmtime(file))
+        full_path_lower = full_path.lower()
+        if not [e for e in exts if full_path_lower.endswith(e)]:
+            continue
+        
+        file_moment = datetime.datetime.fromtimestamp(os.path.getmtime(full_path))
         if file_moment < moment:
             logging.debug('removing file %(path)s...' % {
                     'path': full_path})
             
-            #os.remove(full_path)
+            os.remove(full_path)
 
 
 def cleanup_images():
@@ -46,7 +50,7 @@ def cleanup_images():
         if jpeg_filename:
             snapshot_path = os.path.join(target_dir, jpeg_filename)
             snapshot_path = os.path.dirname(snapshot_path)
-            _remove_older_files(dir, preserve_moment)
+            _remove_older_files(snapshot_path, preserve_moment, exts=['.jpg', '.png'])
 
 
 def cleanup_movies():
@@ -69,4 +73,4 @@ def cleanup_movies():
         if movie_filename:
             snapshot_path = os.path.join(target_dir, movie_filename)
             snapshot_path = os.path.dirname(snapshot_path)
-            _remove_older_files(dir, preserve_moment)
+            _remove_older_files(snapshot_path, preserve_moment, exts=['.avi'])

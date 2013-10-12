@@ -1,6 +1,4 @@
 
--> implement file preserving
-
 -> style scroll bars
 -> hint text next to section titles
 -> clickable hints

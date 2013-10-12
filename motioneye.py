@@ -143,9 +143,14 @@ def _start_cleanup():
     import cleanup
 
     def do_cleanup():
-        cleanup.cleanup_images()
-        cleanup.cleanup_movies()
-        
+        try:
+            cleanup.cleanup_images()
+            cleanup.cleanup_movies()
+            
+        except Exception as e:
+            logging.error('failed to cleanup media files: %(msg)s' % {
+                    'msg': unicode(e)})
+
         ioloop = tornado.ioloop.IOLoop.instance()
         ioloop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), do_cleanup)
 
