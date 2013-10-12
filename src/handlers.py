@@ -333,7 +333,6 @@ class ConfigHandler(BaseHandler):
             def on_response_builder(camera_id, camera_config):
                 def on_response(remote_ui_config):
                     if remote_ui_config is None:
-                        #length[0] -= 1
                         cameras.append({
                             'id': camera_id,
                             'name': '&lt;error&gt;',

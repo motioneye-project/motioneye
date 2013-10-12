@@ -282,9 +282,8 @@ def set_camera(camera_id, data):
 
 
 def add_camera(device_details):
-    global _camera_ids
-    
-    _camera_ids = None
+    global _camera_ids_cache
+    global _camera_config_cache
     
     # determine the last camera id
     camera_ids = get_camera_ids()
@@ -320,13 +319,15 @@ def add_camera(device_details):
     # write the configuration to file
     set_camera(camera_id, data)
     
+    _camera_ids_cache = None
+    _camera_config_cache = None
+    
     return camera_id, data
 
 
 def rem_camera(camera_id):
-    global _camera_ids
-    
-    _camera_ids = None
+    global _camera_ids_cache
+    global _camera_config_cache
     
     camera_config_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
     camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
@@ -341,6 +342,9 @@ def rem_camera(camera_id):
     set_main(main_config)
     
     logging.info('removing camera config file %(path)s...' % {'path': camera_config_path})
+    
+    _camera_ids_cache = None
+    _camera_config_cache = None
     
     try:
         os.remove(camera_config_path)
