@@ -1261,6 +1261,14 @@ function doCloseCamera(cameraId) {
 }
 
 function refreshCameraFrames() {
+    if (isProgress()) {
+        /* no camera refreshing while in progress */
+        
+        setTimeout(refreshCameraFrames, 1000);
+
+        return;
+    }
+    
     function refreshCameraFrame(cameraId, img) {
         img.src = '/snapshot/' + cameraId + '/current/?_=' + new Date().getTime();
     }

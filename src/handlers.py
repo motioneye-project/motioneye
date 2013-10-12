@@ -232,7 +232,10 @@ class ConfigHandler(BaseHandler):
                             ui_config)
                     
                 except Exception as e:
-                    return self.finish_json({'error': unicode(e)})       
+                    logging.error('failed to set remote camera config: %(msg)s' % {'msg': unicode(e)})
+                    
+                    if not no_finish:
+                        return self.finish_json({'error': unicode(e)})       
 
         else:
             logging.debug('setting main config')
@@ -242,7 +245,8 @@ class ConfigHandler(BaseHandler):
 
         motionctl.restart()
         
-        self.finish_json()
+        if not no_finish:
+            self.finish_json()
 
     @BaseHandler.auth(admin=True)
     def set_preview(self, camera_id):
@@ -753,7 +757,7 @@ class ConfigHandler(BaseHandler):
 
 
 class SnapshotHandler(BaseHandler):
-    @asynchronous
+    #@asynchronous TODO don't forget about me
     def get(self, camera_id, op, filename=None):
         if camera_id is not None:
             camera_id = int(camera_id)

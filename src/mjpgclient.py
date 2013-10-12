@@ -113,8 +113,6 @@ def get_jpg(camera_id):
         client = MjpgClient(camera_id, port)
         client.connect()
         
-        return None
-
     return MjpgClient.last_jpgs.get(camera_id)
 
 
