@@ -6,10 +6,10 @@ import sys
 
 PROJECT_PATH = os.path.dirname(sys.argv[0])
 CONF_PATH = os.path.join(PROJECT_PATH, 'conf')
-RUN_PATH = PROJECT_PATH
+RUN_PATH = os.path.join(PROJECT_PATH, 'run')
 
-DEBUG = True
 LOG_LEVEL = logging.DEBUG
+DEBUG = (LOG_LEVEL == logging.DEBUG)
 
 TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
 

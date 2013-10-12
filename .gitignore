@@ -8,3 +8,5 @@
 *.json
 .settings
 settings.py
+conf
+run

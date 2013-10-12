@@ -95,6 +95,18 @@ def _configure_settings():
             print('unknown command line option: ' + arg)
             _print_help()
             sys.exit(-1)
+    
+    try:
+        os.makedirs(settings.CONF_PATH)
+        
+    except:
+        pass
+    
+    try:
+        os.makedirs(settings.RUN_PATH)
+
+    except:
+        pass
 
 
 def _print_help():
@@ -161,6 +173,7 @@ if __name__ == '__main__':
     _configure_settings()
     _configure_signals()
     _configure_logging()
+    
     _start_motion()
     _start_cleanup()
     _start_server()
