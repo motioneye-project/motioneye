@@ -1,5 +1,6 @@
 
 var pushConfigs = {};
+var refreshDisabled = 0;
 
 
     /* utils */
@@ -661,6 +662,8 @@ function showProgress() {
     applyButton.addClass('progress');   
     
     $('div.camera-progress').css('opacity', '0.5');
+    
+    refreshDisabled++;
 }
 
 function hideApply() {
@@ -685,6 +688,8 @@ function endProgress() {
     }
     
     $('div.camera-progress').css('opacity', '0');
+    
+    refreshDisabled--;
 }
 
 function isProgress() {
@@ -859,7 +864,11 @@ function pushPreview() {
         'hue': hue
     };
     
+    refreshDisabled++;
+    
     ajax('POST', '/config/' + cameraId + '/set_preview/', data, function (data) {
+        refreshDisabled--;
+        
         if (data == null || data.error) {
             showErrorMessage(data && data.error);
             return;
@@ -1259,8 +1268,8 @@ function doCloseCamera(cameraId) {
 }
 
 function refreshCameraFrames() {
-    if (isProgress()) {
-        /* no camera refreshing while in progress */
+    if (refreshDisabled) {
+        /* camera refreshing disabled, retry later */
         
         setTimeout(refreshCameraFrames, 1000);
 

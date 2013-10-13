@@ -1,5 +1,3 @@
--> default sat/contrast/hue... for existing conf file is somehow 0
--> request closed while setting the preview params
 -> applying progress sometimes does not appear on frame
 
 -> style scroll bars
