@@ -355,7 +355,8 @@ class ConfigHandler(BaseHandler):
                             'id': camera_id,
                             'name': '&lt;error&gt;',
                             'enabled': False,
-                            'streaming_framerate': 1
+                            'streaming_framerate': 1,
+                            'framerate': 1
                         })
                     
                     else:

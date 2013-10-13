@@ -1249,10 +1249,10 @@ function recreateCameraFrames(cameras) {
             camera = cameras[i];
             var cameraFrame = pageContainer.find('div.camera-frame#camera' + camera.id);
             if (cameraFrame.length === 0) { /* not existing, add a new one */
-                addCameraFrameUi(camera.id, camera.name, camera.streaming_framerate);
+                addCameraFrameUi(camera.id, camera.name, Math.min(camera.streaming_framerate, camera.framerate));
             }
             else { /* existing, update params */
-                cameraFrame[0].framerate = camera.streaming_framerate;
+                cameraFrame[0].framerate = Math.min(camera.streaming_framerate, camera.framerate);
             }
         }
         

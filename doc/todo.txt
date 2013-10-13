@@ -1,5 +1,3 @@
--> js framerate should be the minimum between the two framerates 
-
 -> style scroll bars
 -> hint text next to section titles
 -> clickable hints
