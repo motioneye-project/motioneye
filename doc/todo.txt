@@ -1,6 +1,6 @@
--> picam2 : nu avem hue si da eroare
 -> picam2: zeroconf refreshEnabled == 1
--> change password: refresh asks for auth 
+-> change password: refresh asks for auth
+-> js framerate should be the minimum between the two framerates 
 
 -> style scroll bars
 -> hint text next to section titles

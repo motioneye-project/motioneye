@@ -305,6 +305,13 @@ function updateConfigUi() {
     
     objs.each(unmarkHide);
     
+    /* sliders */
+    $('input.range').each(function () {
+        if  (this.value === '' || this.value == null) {
+            $(this).parents('tr:eq(0)').each(markHide);
+        }
+    });
+    
     /* general enable switch */
     var motionEyeEnabled = $('#motionEyeSwitch').get(0).checked;
     if (!motionEyeEnabled) {
@@ -455,7 +462,7 @@ function dict2MainUi(dict) {
 }
 
 function cameraUi2Dict() {
-    return {
+    var dict = {
         /* video device */
         'enabled': $('#videoDeviceSwitch')[0].checked,
         'name': $('#deviceNameEntry').val(),
@@ -463,10 +470,6 @@ function cameraUi2Dict() {
         'device': $('#deviceEntry').val().split('://')[1],
         'light_switch_detect': $('#lightSwitchDetectSwitch')[0].checked,
         'auto_brightness': $('#autoBrightnessSwitch')[0].checked,
-        'brightness': $('#brightnessSlider').val(),
-        'contrast': $('#contrastSlider').val(),
-        'saturation': $('#saturationSlider').val(),
-        'hue': $('#hueSlider').val(),
         'resolution': $('#resolutionSelect').val(),
         'rotation': $('#rotationSelect').val(),
         'framerate': $('#framerateSlider').val(),
@@ -537,6 +540,24 @@ function cameraUi2Dict() {
         'sunday_from': $('#sundayFrom').val(),
         'sunday_to': $('#sundayTo').val(),
     };
+
+    if ($('#brightnessSlider').val() !== '') {
+        dict.brightness = $('#brightnessSlider').val();
+    }
+
+    if ($('#contrastSlider').val() !== '') {
+        dict.contrast = $('#contrastSlider').val();
+    }
+    
+    if ($('#saturationSlider').val() !== '') {
+        dict.saturation = $('#saturationSlider').val();
+    }
+    
+    if ($('#hueSlider').val() !== '') {
+        dict.hue = $('#hueSlider').val();
+    }
+    
+    return dict;
 }
 
 function dict2CameraUi(dict) {
@@ -546,11 +567,12 @@ function dict2CameraUi(dict) {
     $('#deviceEntry').val(dict['proto'] + '://' + dict['device']);
     $('#lightSwitchDetectSwitch')[0].checked = dict['light_switch_detect'];
     $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness'];
+    
     $('#brightnessSlider').val(dict['brightness']);
     $('#contrastSlider').val(dict['contrast']);
     $('#saturationSlider').val(dict['saturation']);
     $('#hueSlider').val(dict['hue']);
-    
+
     $('#resolutionSelect').html('');
     dict['available_resolutions'].forEach(function (resolution) {
         $('#resolutionSelect').append('<option value="' + resolution + '">' + resolution + '</option>');
@@ -857,12 +879,23 @@ function pushPreview() {
     var saturation = $('#saturationSlider').val();
     var hue = $('#hueSlider').val();
     
-    var data = {
-        'brightness': brightness,
-        'contrast': contrast,
-        'saturation': saturation,
-        'hue': hue
-    };
+    var data = {};
+    
+    if (brightness !== '') {
+        data.brightness = brightness;
+    }
+    
+    if (contrast !== '') {
+        data.contrast = contrast;
+    }
+    
+    if (saturation !== '') {
+        data.saturation = saturation;
+    }
+    
+    if (hue !== '') {
+        data.hue = hue;
+    }
     
     refreshDisabled++;
     

@@ -120,9 +120,9 @@ def set_preview(host, port, username, password, camera_id, controls, callback):
             'host': host,
             'port': port})
     
-    controls = json.dumps(controls)
+    data = json.dumps(controls)
     
-    request = _make_request(host, port, username, password, '/config/%(id)s/set_preview/' % {'id': camera_id})
+    request = _make_request(host, port, username, password, '/config/%(id)s/set_preview/' % {'id': camera_id}, method='POST', data=data)
 
     def on_response(response):
         if response.error:

@@ -144,12 +144,10 @@ class ConfigHandler(BaseHandler):
                     if remote_ui_config is None:
                         return self.finish_json({'error': 'Failed to get remote camera configuration.'})
                     
-                    tmp_config = self._camera_ui_to_dict(remote_ui_config)
-                    tmp_config.update(camera_config)
-                    ui_config = self._camera_dict_to_ui(tmp_config)
-                    ui_config['available_resolutions'] = remote_ui_config['available_resolutions']
+                    for key, value in camera_config.items():
+                        remote_ui_config[key.replace('@', '')] = value
                     
-                    self.finish_json(ui_config)
+                    self.finish_json(remote_ui_config)
                 
                 remote.get_config(
                         camera_config.get('@host'),
@@ -483,10 +481,6 @@ class ConfigHandler(BaseHandler):
             'videodevice': ui.get('device', ''),
             'lightswitch': int(ui.get('light_switch_detect', False)) * 5,
             'auto_brightness': ui.get('auto_brightness', False),
-            'brightness': max(1, int(round(int(ui.get('brightness', 0)) * 2.55))),
-            'contrast': max(1, int(round(int(ui.get('contrast', 0)) * 2.55))),
-            'saturation': max(1, int(round(int(ui.get('saturation', 0)) * 2.55))),
-            'hue': max(1, int(round(int(ui.get('hue', 0)) * 2.55))),
             'width': int(ui['resolution'].split('x')[0]),
             'height': int(ui['resolution'].split('x')[1]),
             'framerate': int(ui.get('framerate', 1)),
@@ -545,6 +539,18 @@ class ConfigHandler(BaseHandler):
             '@working_schedule': ''
         }
         
+        if 'brightness' in ui:
+            data['brightness'] = max(1, int(round(int(ui.get('brightness', 0)) * 2.55)))
+        
+        if 'contrast' in ui:
+            data['contrast'] = max(1, int(round(int(ui.get('contrast', 0)) * 2.55)))
+        
+        if 'saturation' in ui:
+            data['saturation'] = max(1, int(round(int(ui.get('saturation', 0)) * 2.55)))
+        
+        if 'hue' in ui:
+            data['hue'] = max(1, int(round(int(ui.get('hue', 0)) * 2.55)))
+
         if ui.get('text_overlay', False):
             left_text = ui.get('left_text', 'camera-name')
             if left_text == 'camera-name':
@@ -622,10 +628,6 @@ class ConfigHandler(BaseHandler):
             'device': device_uri,
             'light_switch_detect': data.get('lightswitch') > 0,
             'auto_brightness': data.get('auto_brightness'),
-            'brightness': int(round(int(data.get('brightness')) / 2.55)),
-            'contrast': int(round(int(data.get('contrast')) / 2.55)),
-            'saturation': int(round(int(data.get('saturation')) / 2.55)),
-            'hue': int(round(int(data.get('hue')) / 2.55)),
             'resolution': str(data.get('width')) + 'x' + str(data.get('height')),
             'framerate': int(data.get('framerate')),
             'rotation': int(data.get('rotate')),
@@ -690,20 +692,36 @@ class ConfigHandler(BaseHandler):
             'sunday_from': '09:00', 'sunday_to': '17:00'
         }
         
-        # null values for brightness & co. mean current values
         if ui['proto'] == 'v4l2':
-            if ui['brightness'] == 0:
-                ui['brightness'] = v4l2ctl.get_brightness(ui['device'])
+            brightness = v4l2ctl.get_brightness(ui['device'])
+            if brightness is not None:
+                ui['brightness'] = brightness
                 
-            if ui['contrast'] == 0:
-                ui['contrast'] = v4l2ctl.get_contrast(ui['device'])
+            contrast = v4l2ctl.get_contrast(ui['device'])
+            if contrast is not None:
+                ui['contrast'] = contrast
                 
-            if ui['saturation'] == 0:
-                ui['saturation'] = v4l2ctl.get_saturation(ui['device'])
+            saturation = v4l2ctl.get_saturation(ui['device'])
+            if saturation is not None:
+                ui['saturation'] = saturation
                 
-            if ui['hue'] == 0:
-                ui['hue'] = v4l2ctl.get_hue(ui['device'])
-                
+            hue = v4l2ctl.get_hue(ui['device'])
+            if hue is not None:
+                ui['hue'] = hue
+            
+        else:
+            if 'brightness' in data:
+                ui['brightness'] = data['brightness']
+
+            if 'contrast' in data:
+                ui['contrast'] = data['contrast']
+
+            if 'saturation' in data:
+                ui['saturation'] = data['saturation']
+
+            if 'hue' in data:
+                ui['hue'] = data['hue']
+
         text_left = data.get('text_left')
         text_right = data.get('text_right') 
         if text_left or text_right:
