@@ -1112,6 +1112,8 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     var nameSpan = cameraFrameDiv.find('span.camera-name');
     var configureButton = cameraFrameDiv.find('div.camera-button.configure');
     var closeButton = cameraFrameDiv.find('div.camera-button.close');
+    var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
+    var cameraProgress = cameraFrameDiv.find('div.camera-progress');
     var cameraImg = cameraFrameDiv.find('img.camera');
     var progressImg = cameraFrameDiv.find('img.camera-progress');
     
@@ -1164,13 +1166,17 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
         this.error = true;
         cameraImg.addClass('error');
         cameraImg.height(Math.round(cameraImg.width() * 0.75));
+        cameraPlaceholder.css('opacity', 1);
     });
     cameraImg.load(function () {
         this.error = false;
         cameraImg.removeClass('error');
         cameraImg.css('height', '');
-        $('div.camera-progress').css('opacity', '0');
+        cameraPlaceholder.css('opacity', 0);
+        cameraProgress.css('opacity', 0);
     });
+    
+    cameraImg.error();
 }
 
 function remCameraFrameUi(cameraId) {

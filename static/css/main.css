@@ -374,6 +374,7 @@ div.camera-placeholder {
     left: 0px;
     background-color: #555;
     text-align: center;
+    transition: opacity 0.2s linear;
 }
 
 img.no-camera {
