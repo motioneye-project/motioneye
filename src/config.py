@@ -522,16 +522,16 @@ def _set_default_motion(data):
 
 
 def _set_default_motion_camera(data):
-    data.setdefault('@name', '')
+    data.setdefault('@name', 'My Camera')
     data.setdefault('@enabled', False)
     data.setdefault('@proto', 'v4l2')
-    data.setdefault('videodevice', '')
+    data.setdefault('videodevice', '/dev/video0')
     data.setdefault('lightswitch', 0)
     data.setdefault('auto_brightness', True)
-    data.setdefault('brightness', 127)
-    data.setdefault('contrast', 127)
-    data.setdefault('saturation', 127)
-    data.setdefault('hue', 127)
+    data.setdefault('brightness', 0)
+    data.setdefault('contrast', 0)
+    data.setdefault('saturation', 0)
+    data.setdefault('hue', 0)
     data.setdefault('width', 352)
     data.setdefault('height', 288)
     data.setdefault('framerate', 5)

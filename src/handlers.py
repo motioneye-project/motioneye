@@ -690,6 +690,20 @@ class ConfigHandler(BaseHandler):
             'sunday_from': '09:00', 'sunday_to': '17:00'
         }
         
+        # null values for brightness & co. mean current values
+        if ui['proto'] == 'v4l2':
+            if ui['brightness'] == 0:
+                ui['brightness'] = v4l2ctl.get_brightness(ui['device'])
+                
+            if ui['contrast'] == 0:
+                ui['contrast'] = v4l2ctl.get_contrast(ui['device'])
+                
+            if ui['saturation'] == 0:
+                ui['saturation'] = v4l2ctl.get_saturation(ui['device'])
+                
+            if ui['hue'] == 0:
+                ui['hue'] = v4l2ctl.get_hue(ui['device'])
+                
         text_left = data.get('text_left')
         text_right = data.get('text_right') 
         if text_left or text_right:

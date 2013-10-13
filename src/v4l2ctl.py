@@ -50,20 +50,64 @@ def list_resolutions(device):
     return list(sorted(resolutions, key=lambda r: (r[0], r[1])))
 
 
+def get_brightness(device):
+    return _get_ctrl(device, 'brightness')
+
+
 def set_brightness(device, value):
     _set_ctrl(device, 'brightness', value)
+
+
+def get_contrast(device):
+    return _get_ctrl(device, 'contrast')
 
 
 def set_contrast(device, value):
     _set_ctrl(device, 'contrast', value)
 
 
+def get_saturation(device):
+    return _get_ctrl(device, 'saturation')
+
+
 def set_saturation(device, value):
     _set_ctrl(device, 'saturation', value)
 
 
+def get_hue(device):
+    return _get_ctrl(device, 'hue')
+
+
 def set_hue(device, value):
     _set_ctrl(device, 'hue', value)
+
+
+def _get_ctrl(device, control):
+    controls = _list_ctrls(device)
+    properties = controls.get(control)
+    if properties is None:
+        logging.warn('control %(control)s not found for device %(device)s' % {
+                'control': control, 'device': device})
+        
+        return None
+    
+    value = int(properties['value'])
+    
+    # adjust the value range
+    if 'min' in properties and 'max' in properties:
+        min_value = int(properties['min'])
+        max_value = int(properties['max'])
+        
+        value = int((value - min_value) * 100.0 / (max_value - min_value))
+    
+    else:
+        logging.warn('min and max values not found for control %(control)s of device %(device)s' % {
+                'control': control, 'device': device})
+    
+    logging.debug('control %(control)s of device %(device)s is %(value)s%%' % {
+            'control': control, 'device': device, 'value': value})
+    
+    return value
 
 
 def _set_ctrl(device, control, value):
