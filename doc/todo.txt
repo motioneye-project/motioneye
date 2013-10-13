@@ -1,5 +1,3 @@
--> picam2: zeroconf refreshEnabled == 1
--> change password: refresh asks for auth
 -> js framerate should be the minimum between the two framerates 
 
 -> style scroll bars

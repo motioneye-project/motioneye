@@ -67,7 +67,7 @@ class BaseHandler(RequestHandler):
         return None
     
     @staticmethod
-    def auth(admin=False):
+    def auth(admin=False, prompt=True):
         def decorator(func):
             def wrapper(self, *args, **kwargs):
                 user = self.current_user
@@ -75,8 +75,10 @@ class BaseHandler(RequestHandler):
                     realm = 'motionEye admin authentication' if admin else 'motionEye authentication'
                     
                     self.set_status(401)
-                    self.set_header('WWW-Authenticate', 'basic realm="%(realm)s"' % {
-                            'realm': realm})
+                    if prompt:
+                        self.set_header('WWW-Authenticate', 'basic realm="%(realm)s"' % {
+                                'realm': realm})
+                        
                     return self.finish('Authentication required.')
                 
                 return func(self, *args, **kwargs)
@@ -181,6 +183,8 @@ class ConfigHandler(BaseHandler):
                 logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
                 
                 raise
+            
+        reload = False
         
         if camera_id is not None:
             if camera_id == 0:
@@ -188,12 +192,12 @@ class ConfigHandler(BaseHandler):
                 
                 for key, cfg in ui_config.items():
                     if key == 'main':
-                        self.set_config(None, cfg, no_finish=True)
+                        reload = self.set_config(None, cfg, no_finish=True) or reload
                         
                     else:
-                        self.set_config(int(key), cfg, no_finish=True)
+                        reload = self.set_config(int(key), cfg, no_finish=True) or reload
 
-                return self.finish_json()
+                return self.finish_json({'reload': reload})
                  
             logging.debug('setting config for camera %(id)s' % {'id': camera_id})
             
@@ -238,13 +242,25 @@ class ConfigHandler(BaseHandler):
         else:
             logging.debug('setting main config')
             
+            old_main_config = config.get_main()
+            old_admin_credentials = old_main_config.get('@admin_username', '') + ':' + old_main_config.get('@admin_password', '')
+            
             main_config = self._main_ui_to_dict(ui_config)
+            admin_credentials = main_config.get('@admin_username', '') + ':' + main_config.get('@admin_password', '')
+            
             config.set_main(main_config)
+            
+            if admin_credentials != old_admin_credentials:
+                logging.debug('admin credentials changed, reload needed')
+                
+                reload = True 
 
         motionctl.restart()
         
         if not no_finish:
             self.finish_json()
+        
+        return reload
 
     @BaseHandler.auth(admin=True)
     def set_preview(self, camera_id):
@@ -808,7 +824,7 @@ class SnapshotHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
     
-    @BaseHandler.auth()
+    @BaseHandler.auth(prompt=False)
     def current(self, camera_id):
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] == 'v4l2':

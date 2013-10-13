@@ -742,6 +742,11 @@ function doApply() {
             return;
         }
         
+        if (data.reload) {
+            window.location.reload();
+            return;
+        }
+        
         /* update the camera name in the device select */
         Object.keys(pushConfigs).forEach(function (key) {
             var config = pushConfigs[key];
