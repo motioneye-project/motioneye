@@ -1,3 +1,7 @@
+-> picam2 : nu avem hue si da eroare
+-> picam2: zeroconf refreshEnabled == 1
+-> change password: refresh asks for auth 
+
 -> style scroll bars
 -> hint text next to section titles
 -> clickable hints

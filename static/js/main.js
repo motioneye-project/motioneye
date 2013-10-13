@@ -753,7 +753,7 @@ function doRemCamera() {
                 return;
             }
             
-            hideApply();
+            endProgress();
             fetchCurrentConfig();
         });
     });
@@ -1078,7 +1078,7 @@ function runAddCameraDialog() {
                         return;
                     }
                     
-                    hideApply();
+                    endProgress();
                     var addCameraOption = $('#videoDeviceSelect').find('option[value=add]');
                     addCameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
                     $('#videoDeviceSelect').val(data.id).change();

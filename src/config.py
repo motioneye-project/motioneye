@@ -137,7 +137,7 @@ def get_camera_ids():
     
     camera_ids = []
     
-    pattern = _CAMERA_CONFIG_FILE_NAME.replace('%(id)s', '(\d+)')
+    pattern = '^' + _CAMERA_CONFIG_FILE_NAME.replace('%(id)s', '(\d+)') + '$'
     for name in ls:
         match = re.match(pattern, name)
         if match:
