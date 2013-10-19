@@ -693,7 +693,7 @@ class ConfigHandler(BaseHandler):
             'custom_right_text': '',
             
             # streaming
-            'vudeo_streaming': not data.get('webcam_localhost'),
+            'video_streaming': not data.get('webcam_localhost'),
             'streaming_port': int(data.get('webcam_port')),
             'streaming_framerate': int(data.get('webcam_maxrate')),
             'streaming_quality': int(data.get('webcam_quality')),
