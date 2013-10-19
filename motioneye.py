@@ -141,11 +141,14 @@ def _start_motion():
 
     # add a motion running checker
     def checker():
+        ioloop = tornado.ioloop.IOLoop.instance()
+        if not ioloop.running(): # just stopped
+            return
+        
         if not motionctl.running() and config.has_enabled_cameras():
             motionctl.start()
             logging.info('motion started')
 
-        ioloop = tornado.ioloop.IOLoop.instance()
         ioloop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
     
     checker()
@@ -155,6 +158,10 @@ def _start_cleanup():
     import cleanup
 
     def do_cleanup():
+        ioloop = tornado.ioloop.IOLoop.instance()
+        if not ioloop.running(): # just stopped
+            return
+
         try:
             cleanup.cleanup_images()
             cleanup.cleanup_movies()
@@ -163,7 +170,6 @@ def _start_cleanup():
             logging.error('failed to cleanup media files: %(msg)s' % {
                     'msg': unicode(e)})
 
-        ioloop = tornado.ioloop.IOLoop.instance()
         ioloop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), do_cleanup)
 
     do_cleanup()
