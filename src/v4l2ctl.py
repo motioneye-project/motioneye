@@ -98,7 +98,7 @@ def _get_ctrl(device, control):
         min_value = int(properties['min'])
         max_value = int(properties['max'])
         
-        value = int((value - min_value) * 100.0 / (max_value - min_value))
+        value = int(round((value - min_value) * 100.0 / (max_value - min_value)))
     
     else:
         logging.warn('min and max values not found for control %(control)s of device %(device)s' % {
@@ -124,7 +124,7 @@ def _set_ctrl(device, control, value):
         min_value = int(properties['min'])
         max_value = int(properties['max'])
         
-        value = min_value + value * float(max_value - min_value) / 100
+        value = int(round(min_value + value * (max_value - min_value) / 100.0))
     
     else:
         logging.warn('min and max values not found for control %(control)s of device %(device)s' % {
