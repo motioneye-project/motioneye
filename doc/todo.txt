@@ -1,5 +1,3 @@
--> http clients don't die: max_clients limit reached, request queued. 10 active, 217 queued requests. 
-
 -> add an autoupdate mechanism
 
 -> style scroll bars
