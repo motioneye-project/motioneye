@@ -142,12 +142,17 @@ def _start_motion():
     # add a motion running checker
     def checker():
         ioloop = tornado.ioloop.IOLoop.instance()
-        if not ioloop.running(): # just stopped
+        if ioloop._stopped:
             return
-        
+            
         if not motionctl.running() and config.has_enabled_cameras():
-            motionctl.start()
-            logging.info('motion started')
+            try:
+                motionctl.start()
+                logging.info('motion started')
+            
+            except Exception as e:
+                logging.error('failed to start motion: %(msg)s' % {
+                        'msg': unicode(e)})
 
         ioloop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
     
@@ -159,9 +164,9 @@ def _start_cleanup():
 
     def do_cleanup():
         ioloop = tornado.ioloop.IOLoop.instance()
-        if not ioloop.running(): # just stopped
+        if ioloop._stopped:
             return
-
+        
         try:
             cleanup.cleanup_images()
             cleanup.cleanup_movies()

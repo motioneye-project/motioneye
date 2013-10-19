@@ -45,6 +45,7 @@ Motion Movies
 ffmpeg_cap_new              boolean
 movie_filename              string
 ffmpeg_variable_bitrate     0, 2..31
+ffmpeg_bps                  0 - 9999999
 ffmpeg_video_codec          mpeg4, msmpeg4, swf, flv, ffv1, mov
 
 Motion Detection

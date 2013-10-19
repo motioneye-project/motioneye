@@ -308,8 +308,9 @@ def add_camera(device_details):
         if 'width' in device_details:
             data['width'] = device_details['width']
             data['height'] = device_details['height']
+            data['ffmpeg_bps'] = device_details['ffmpeg_bps']
         
-    else:
+    else: # remote
         data['@host'] = device_details['host']
         data['@port'] = device_details['port']
         data['@username'] = device_details['username']
@@ -573,7 +574,8 @@ def _set_default_motion_camera(data):
     data.setdefault('quality', 75)
     data.setdefault('@preserve_images', 0)
     
-    data.setdefault('ffmpeg_variable_bitrate', 14)
+    data.setdefault('ffmpeg_variable_bitrate', 0)
+    data.setdefault('ffmpeg_bps', 400000)
     data.setdefault('movie_filename', '%Y-%m-%d-%H-%M-%S')
     data.setdefault('ffmpeg_cap_new', False)
     data.setdefault('@preserve_movies', 0)

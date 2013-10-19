@@ -420,6 +420,13 @@ class ConfigHandler(BaseHandler):
                 if w > 300:
                     device_details['width'] = w
                     device_details['height'] = h
+                    # compute the ffmpeg bps
+                    
+                    max_val = w * h * 2 / 3
+                    max_val = min(max_val, 9999999)
+                    val = max_val * 75 / 100
+                    device_details['ffmpeg_bps'] = val
+
                     break
 
         camera_id, camera_config = config.add_camera(device_details)
@@ -533,7 +540,6 @@ class ConfigHandler(BaseHandler):
             '@preserve_images': int(ui.get('preserve_images', 0)),
             
             # movies
-            'ffmpeg_variable_bitrate': 2 + int((100 - int(ui.get('movie_quality', 75))) * 0.29),
             'ffmpeg_cap_new': ui.get('motion_movies', False),
             'movie_filename': ui.get('movie_file_name', '%Y-%m-%d-%H-%M-%S-%q'),
             '@preserve_movies': int(ui.get('preserve_movies', 0)),
@@ -627,7 +633,13 @@ class ConfigHandler(BaseHandler):
                 data['jpeg_filename'] = ui.get('image_file_name', '%Y-%m-%d-%H-%M-%S')
                 
             data['quality'] = max(1, int(ui.get('image_quality', 75)))
+        
+        if ui.get('motion_movies'):
+            max_val = data['width'] * data['height'] * data['framerate'] / 3
+            max_val = min(max_val, 9999999)
             
+            data['ffmpeg_bps'] = int(ui.get('movie_quality', 75)) * max_val / 100
+
         if ui.get('working_schedule', False):
             data['@working_schedule'] = (
                     ui.get('monday_from', '') + '-' + ui.get('monday_to') + '|' + 
@@ -697,7 +709,6 @@ class ConfigHandler(BaseHandler):
             
             # motion movies
             'motion_movies': data.get('ffmpeg_cap_new'),
-            'movie_quality': int((max(2, data.get('ffmpeg_variable_bitrate')) - 2) / 0.29),
             'movie_file_name': data.get('movie_filename'),
             'preserve_movies': data['@preserve_movies'],
 
@@ -821,6 +832,13 @@ class ConfigHandler(BaseHandler):
                 ui['image_file_name'] = jpeg_filename  
                 
             ui['image_quality'] = ui.get('quality', 75)
+
+        ffmpeg_bps = data.get('ffmpeg_bps')
+        if ffmpeg_bps is not None: 
+            max_val = data['width'] * data['height'] * data['framerate'] / 3
+            max_val = min(max_val, 9999999)
+            
+            ui['movie_quality'] = min(100, int(round(ffmpeg_bps * 100.0 / max_val))) 
         
         working_schedule = data.get('@working_schedule')
         if working_schedule:

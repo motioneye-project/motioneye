@@ -1,6 +1,5 @@
--> gunoiul de ffmpeg_variable_bitrate nu merge decat in motion.conf
+-> add/remove camera: apply button still there
 
--> brightness/contrast/hue/sat on picam1 issue when applying
 -> http clients don't die: max_clients limit reached, request queued. 10 active, 217 queued requests. 
 -> remote adding ui could be improved (cleanup fields on ok/on load, no error message until everything is ok)
 
@@ -17,6 +16,7 @@
 -> add a previewer for snapshots
 -> add a motioneye.svg icon
 
+-> implement working schedule (add another combo deciding what to do during working schedule)
 -> add other options applicable only to special devices (rpi): wifi settings, notifications
 -> group @config rules to top
 
