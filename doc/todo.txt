@@ -4,6 +4,7 @@
 -> http clients don't die: max_clients limit reached, request queued. 10 active, 217 queued requests. 
 -> remote adding ui could be improved (cleanup fields on ok/on load, no error message until everything is ok)
 
+-> kill the motion respawning mechanism on sigint
 -> add an autoupdate mechanism
 
 -> style scroll bars

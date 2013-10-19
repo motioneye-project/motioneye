@@ -543,7 +543,7 @@ class ConfigHandler(BaseHandler):
             'locate': ui.get('show_frame_changes', False),
             'threshold': ui.get('frame_change_threshold', 1500),
             'noise_tune': ui.get('auto_noise_detect', True),
-            'noise_level': max(1, int(int(ui.get('noise_level', 8)) * 2.55)),
+            'noise_level': max(1, int(round(int(ui.get('noise_level', 8)) * 2.55))),
             'gap': int(ui.get('gap', 60)),
             'pre_capture': int(ui.get('pre_capture', 0)),
             'post_capture': int(ui.get('post_capture', 0)),
@@ -557,16 +557,32 @@ class ConfigHandler(BaseHandler):
         }
         
         if 'brightness' in ui:
-            data['brightness'] = max(1, int(round(int(ui.get('brightness', 0)) * 2.55)))
+            if int(ui['brightness']) == 50:
+                data['brightness'] = 0
+                
+            else:
+                data['brightness'] = max(1, int(round(int(ui['brightness']) * 2.55)))
         
         if 'contrast' in ui:
-            data['contrast'] = max(1, int(round(int(ui.get('contrast', 0)) * 2.55)))
+            if int(ui['contrast']) == 50:
+                data['contrast'] = 0
+                
+            else:
+                data['contrast'] = max(1, int(round(int(ui['contrast']) * 2.55)))
         
         if 'saturation' in ui:
-            data['saturation'] = max(1, int(round(int(ui.get('saturation', 0)) * 2.55)))
-        
+            if int(ui['saturation']) == 50:
+                data['saturation'] = 0
+                
+            else:
+                data['saturation'] = max(1, int(round(int(ui['saturation']) * 2.55)))
+            
         if 'hue' in ui:
-            data['hue'] = max(1, int(round(int(ui.get('hue', 0)) * 2.55)))
+            if int(ui['hue']) == 50:
+                data['hue'] = 0
+                
+            else:
+                data['hue'] = max(1, int(round(int(ui['hue']) * 2.55)))
 
         if ui.get('text_overlay', False):
             left_text = ui.get('left_text', 'camera-name')
@@ -711,22 +727,38 @@ class ConfigHandler(BaseHandler):
         
         if ui['proto'] == 'v4l2':
             brightness = v4l2ctl.get_brightness(ui['device'])
-            if brightness is not None:
-                ui['brightness'] = brightness
+            if brightness is not None: # has brightness control
+                if data.get('brightness') != 0:
+                    ui['brightness'] = brightness
+                        
+                else:
+                    ui['brightness'] = 50
                 
             contrast = v4l2ctl.get_contrast(ui['device'])
-            if contrast is not None:
-                ui['contrast'] = contrast
+            if contrast is not None: # has contrast control
+                if data.get('contrast') != 0:
+                    ui['contrast'] = contrast
+                
+                else:
+                    ui['contrast'] = 50
                 
             saturation = v4l2ctl.get_saturation(ui['device'])
-            if saturation is not None:
-                ui['saturation'] = saturation
+            if saturation is not None: # has saturation control
+                if data.get('saturation') != 0:
+                    ui['saturation'] = saturation
+                
+                else:
+                    ui['saturation'] = 50
                 
             hue = v4l2ctl.get_hue(ui['device'])
-            if hue is not None:
-                ui['hue'] = hue
-            
-        else:
+            if hue is not None: # has hue control
+                if data.get('hue') != 0:
+                    ui['hue'] = hue
+                
+                else:
+                    ui['hue'] = 50
+                
+        else: # remote
             if 'brightness' in data:
                 ui['brightness'] = data['brightness']
 
