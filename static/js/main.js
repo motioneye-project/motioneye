@@ -668,6 +668,8 @@ function showApply() {
 }
 
 function showProgress() {
+    refreshDisabled++;
+    
     if (!$('div.settings-container').is(':visible')) {
         return; /* settings panel is not open */
     }
@@ -684,8 +686,6 @@ function showProgress() {
     applyButton.addClass('progress');   
     
     $('div.camera-progress').css('opacity', '0.5');
-    
-    refreshDisabled++;
 }
 
 function hideApply() {
@@ -702,6 +702,8 @@ function hideApply() {
 }
 
 function endProgress() {
+    refreshDisabled--;
+    
     if (Object.keys(pushConfigs).length === 0) {
         hideApply();
     }
@@ -710,8 +712,6 @@ function endProgress() {
     }
     
     $('div.camera-progress').css('opacity', '0');
-    
-    refreshDisabled--;
 }
 
 function isProgress() {
@@ -994,7 +994,7 @@ function runAddCameraDialog() {
             this.validate();
         });
         
-        if (uiValid() && deviceSelect.val() == 'remote') {
+        if (content.is(':visible') && uiValid() && deviceSelect.val() == 'remote') {
             fetchRemoteCameras();
         }
     }
@@ -1037,7 +1037,10 @@ function runAddCameraDialog() {
         ajax('GET', '/config/list/', data, function (data) {
             if (data == null || data.error) {
                 progress.remove();
-                showErrorMessage(data && data.error);
+                if (passwordEntry.val()) { /* only show an error message when a password is supplied */
+                    showErrorMessage(data && data.error);
+                }
+                
                 return;
             }
             
@@ -1064,7 +1067,7 @@ function runAddCameraDialog() {
     updateUi();
     
     showModalDialog('<div class="modal-progress"></div>');
-
+    
     /* fetch the available devices */
     ajax('GET', '/config/list_devices/', null, function (data) {
         if (data == null || data.error) {
