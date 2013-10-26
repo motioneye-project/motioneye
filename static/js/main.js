@@ -318,7 +318,9 @@ function updateConfigUi() {
         objs.not($('#motionEyeSwitch').parents('div').get(0)).each(markHide);
     }
     
-    if ($('#videoDeviceSelect').find('option').length < 2) { /* no camera configured */
+    if (($('#videoDeviceSelect').find('option').length < 2) /* no camera configured */ || 
+        $('#videoDeviceSwitch')[0].disabled /* device disabled for some reason (config error) */) {
+        
         $('#videoDeviceSwitch').parent().each(markHide);
         $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHide);
     }
@@ -561,6 +563,16 @@ function cameraUi2Dict() {
 }
 
 function dict2CameraUi(dict) {
+    if (dict == null) {
+        $('#videoDeviceSwitch')[0].disabled = true;
+        updateConfigUi();
+        
+        return;
+    }
+    else {
+        $('#videoDeviceSwitch')[0].disabled = false;
+    }
+    
     /* video device */
     $('#videoDeviceSwitch')[0].checked = dict['enabled'];
     $('#deviceNameEntry').val(dict['name']);
@@ -574,9 +586,11 @@ function dict2CameraUi(dict) {
     $('#hueSlider').val(dict['hue']);
 
     $('#resolutionSelect').html('');
-    dict['available_resolutions'].forEach(function (resolution) {
-        $('#resolutionSelect').append('<option value="' + resolution + '">' + resolution + '</option>');
-    });
+    if (dict['available_resolutions']) {
+        dict['available_resolutions'].forEach(function (resolution) {
+            $('#resolutionSelect').append('<option value="' + resolution + '">' + resolution + '</option>');
+        });
+    }
     $('#resolutionSelect').val(dict['resolution']);
     
     $('#rotationSelect').val(dict['rotation']);
@@ -847,6 +861,7 @@ function fetchCurrentCameraConfig() {
         ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
+                dict2CameraUi(null);
                 return;
             }
             
