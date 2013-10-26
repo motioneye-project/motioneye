@@ -762,13 +762,17 @@ function doApply() {
             return;
         }
         
-        /* update the camera name in the device select */
+        /* update the camera name in the device select
+         * and frame title bar */
         Object.keys(pushConfigs).forEach(function (key) {
             var config = pushConfigs[key];
             if (config.key !== 'main') {
                 $('#videoDeviceSelect').find('option[value=' + key + ']').html(config.name);
             }
+            
+            $('#camera' + key).find('span.camera-name').html(config.name);
         });
+        
 
         pushConfigs = {};
         endProgress();
@@ -1230,6 +1234,11 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
         cameraImg.css('height', '');
         cameraPlaceholder.css('opacity', 0);
         cameraProgress.css('opacity', 0);
+        
+        if (fullScreenCameraId) {
+            /* update the modal dialog position when image is loaded */
+            updateModalDialogPosition();
+        }
     });
     
     cameraImg.error();

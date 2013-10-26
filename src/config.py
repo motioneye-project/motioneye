@@ -415,7 +415,7 @@ def camera_ui_to_dict(ui):
         'webcam_localhost': not ui.get('video_streaming', True),
         'webcam_port': int(ui.get('streaming_port', 8080)),
         'webcam_maxrate': int(ui.get('streaming_framerate', 1)),
-        'webcam_quality': max(1, int(ui.get('streaming_quality', 75))),
+        'webcam_quality': max(1, int(ui.get('streaming_quality', 85))),
         'webcam_motion': ui.get('streaming_motion', False),
         
         # still images
@@ -504,7 +504,7 @@ def camera_ui_to_dict(ui):
     
     if not ui.get('video_streaming', True):
         data['webcam_maxrate'] = 5
-        data['webcam_quality'] = 75
+        data['webcam_quality'] = 85
 
     if ui.get('still_images', False):
         capture_mode = ui.get('capture_mode', 'motion-triggered')
@@ -520,13 +520,13 @@ def camera_ui_to_dict(ui):
             data['output_all'] = True
             data['jpeg_filename'] = ui.get('image_file_name', '%Y-%m-%d-%H-%M-%S')
             
-        data['quality'] = max(1, int(ui.get('image_quality', 75)))
+        data['quality'] = max(1, int(ui.get('image_quality', 85)))
     
     if ui.get('motion_movies'):
         max_val = data['width'] * data['height'] * data['framerate'] / 3
         max_val = min(max_val, 9999999)
         
-        data['ffmpeg_bps'] = int(ui.get('movie_quality', 75)) * max_val / 100
+        data['ffmpeg_bps'] = int(ui.get('movie_quality', 85)) * max_val / 100
 
     if ui.get('working_schedule', False):
         data['@working_schedule'] = (
@@ -591,7 +591,7 @@ def camera_dict_to_ui(data):
         'still_images': False,
         'capture_mode': 'motion-triggered',
         'image_file_name': '%Y-%m-%d-%H-%M-%S',
-        'image_quality': 75,
+        'image_quality': 85,
         'snapshot_interval': 0,
         'preserve_images': data['@preserve_images'],
         
@@ -722,7 +722,7 @@ def camera_dict_to_ui(data):
             ui['capture-mode'] = 'motion-triggered'
             ui['image_file_name'] = jpeg_filename  
             
-        ui['image_quality'] = ui.get('quality', 75)
+        ui['image_quality'] = ui.get('quality', 85)
 
     ffmpeg_bps = data.get('ffmpeg_bps')
     if ffmpeg_bps is not None: 
@@ -936,7 +936,7 @@ def _set_default_motion_camera(data):
     data.setdefault('webcam_localhost', False)
     data.setdefault('webcam_port', 8080)
     data.setdefault('webcam_maxrate', 5)
-    data.setdefault('webcam_quality', 75)
+    data.setdefault('webcam_quality', 85)
     data.setdefault('webcam_motion', False)
     
     data.setdefault('text_left', data['@name'])
@@ -959,7 +959,7 @@ def _set_default_motion_camera(data):
     data.setdefault('jpeg_filename', '')
     data.setdefault('snapshot_interval', 0)
     data.setdefault('snapshot_filename', '')
-    data.setdefault('quality', 75)
+    data.setdefault('quality', 85)
     data.setdefault('@preserve_images', 0)
     
     data.setdefault('ffmpeg_variable_bitrate', 0)
