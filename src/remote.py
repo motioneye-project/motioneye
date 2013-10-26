@@ -25,11 +25,15 @@ def _make_request(host, port, username, password, uri, method='GET', data=None, 
     return request
 
 
-def make_remote_camera_url(host, port, camera_id):
-    return '%(host)s:%(port)s/config/%(camera_id)s' % {
+def make_remote_camera_url(host, port, camera_id, proto=''):
+    if proto:
+        proto += '://'
+        
+    return '%(proto)s%(host)s:%(port)s/config/%(camera_id)s' % {
         'host': host,
         'port': port,
-        'camera_id': camera_id
+        'camera_id': camera_id,
+        'proto': proto
     }
 
 
