@@ -1,6 +1,7 @@
 
 var pushConfigs = {};
 var refreshDisabled = 0;
+var fullScreenCameraId = null;
 
 
     /* utils */
@@ -1155,7 +1156,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
                     '<span class="camera-name"></span>' +
                     '<div class="camera-buttons">' +
                         '<div class="button camera-button mouse-effect configure" title="configure"></div>' +
-                        '<div class="button camera-button mouse-effect close" title="close"></div>' +
+                        '<div class="button camera-button mouse-effect full-screen" title="full screen"></div>' +
                     '</div>' +
                 '</div>' +
                 '<div class="camera-container">' +
@@ -1167,7 +1168,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     
     var nameSpan = cameraFrameDiv.find('span.camera-name');
     var configureButton = cameraFrameDiv.find('div.camera-button.configure');
-    var closeButton = cameraFrameDiv.find('div.camera-button.close');
+    var fullScreenButton = cameraFrameDiv.find('div.camera-button.full-screen');
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
     var cameraProgress = cameraFrameDiv.find('div.camera-progress');
     var cameraImg = cameraFrameDiv.find('img.camera');
@@ -1176,7 +1177,6 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     /* no camera buttons if not admin */
     if (user !== 'admin') {
         configureButton.hide();
-        closeButton.hide();
     }
     
     cameraFrameDiv.attr('id', 'camera' + cameraId);
@@ -1213,8 +1213,8 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
         doConfigureCamera(cameraId);
     });
 
-    closeButton.click(function () {
-        doCloseCamera(cameraId);
+    fullScreenButton.click(function () {
+        doFullScreenCamera(cameraId);
     });
     
     /* error and load handlers */
@@ -1297,10 +1297,12 @@ function recreateCameraFrames(cameras) {
     }
 }
 
+
 function doConfigureCamera(cameraId) {
     openSettings(cameraId);
 }
 
+    /* not used anymore */
 function doCloseCamera(cameraId) {
     remCameraFrameUi(cameraId);
     showProgress();
@@ -1329,6 +1331,51 @@ function doCloseCamera(cameraId) {
     });
 }
 
+function doFullScreenCamera(cameraId) {
+    if (fullScreenCameraId != null) {
+        return; /* a camera is already in full screen */
+    }
+    
+    var cameraFrameDiv = $('#camera' + cameraId);
+    var cameraName = cameraFrameDiv.find('span.camera-name').text();
+    var frameImg = cameraFrameDiv.find('img.camera');
+    var aspectRatio = frameImg.width() / frameImg.height();
+    var windowWidth = $(window).width();
+    var windowHeight = $(window).height();
+    var windowAspectRatio = windowWidth / windowHeight;
+    var frameIndex = cameraFrameDiv.index();
+    var pageContainer = $('div.page-container');
+
+    fullScreenCameraId = cameraId;
+
+    var width;
+    if (windowAspectRatio > aspectRatio) {
+        width = aspectRatio * Math.round(0.8 * windowHeight);
+    }
+    else {
+        width = Math.round(0.9 * windowWidth);
+    }
+    cameraFrameDiv.css('width', width);
+    
+    runModalDialog({
+        title: cameraName,
+        closeButton: true,
+        //buttons: null,
+        content: cameraFrameDiv,
+        onClose: function () {
+            fullScreenCameraId = null;
+            cameraFrameDiv.css('width', '');
+            var nextFrame = pageContainer.find('div.camera-frame:eq(' + frameIndex + ')');
+            if (nextFrame.length) {
+                nextFrame.before(cameraFrameDiv);
+            }
+            else {
+                pageContainer.append(cameraFrameDiv);
+            }
+        }
+    });
+}
+
 function refreshCameraFrames() {
     if (refreshDisabled) {
         /* camera refreshing disabled, retry later */
@@ -1347,7 +1394,14 @@ function refreshCameraFrames() {
         img.src = '/snapshot/' + cameraId + '/current/?_=' + timestamp;
     }
     
-    var cameraFrames = $('div.page-container').find('div.camera-frame');
+    var cameraFrames;
+    if (fullScreenCameraId != null) {
+        cameraFrames = $('#camera' + fullScreenCameraId);
+    }
+    else {
+        cameraFrames = $('div.page-container').find('div.camera-frame');
+    }
+    
     cameraFrames.each(function () {
         /* limit the refresh rate to 10 fps */
         var count = Math.max(1, 10 / this.framerate);

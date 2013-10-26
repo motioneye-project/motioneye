@@ -301,6 +301,7 @@ div.camera-list {
 }
 
 div.camera-frame {
+    position: relative;
     width: 32%;
     text-align: left;
     background-color: #313131;
@@ -312,6 +313,13 @@ div.camera-frame {
     opacity: 0;
 }
 
+div.modal-container div.camera-frame {
+    width: auto;
+    padding: 5px;
+    margin: -10px;
+    background-color: #414141;
+}
+
 div.camera-frame:HOVER {
     background-color: #414141;
 }
@@ -320,6 +328,10 @@ div.camera-top-bar {
     padding: 3px 0px;
     font-size: 17px;
     height: 17px;
+}
+
+div.modal-container div.camera-top-bar {
+    display: none;
 }
 
 span.camera-name {
@@ -343,6 +355,10 @@ div.camera-button {
 
 div.camera-button.close {
     background-position: 0px 0px;
+}
+
+div.camera-button.full-screen {
+    background-position: -32px 0px;
 }
 
 div.camera-button.configure {

@@ -1,5 +1,4 @@
 -> add an autoupdate mechanism
--> click to zoom on cameras
 -> make camera frames positions configurable
 -> add a view log functionality
 -> add a previewer for movies
