@@ -149,6 +149,11 @@ class ConfigHandler(BaseHandler):
                     for key, value in camera_config.items():
                         remote_ui_config[key.replace('@', '')] = value
                     
+                    remote_ui_config['device'] = remote.make_remote_camera_url(
+                            camera_config.get('@host'),
+                            camera_config.get('@port'),
+                            camera_config.get('@remote_camera_id'))
+                    
                     self.finish_json(remote_ui_config)
                 
                 remote.get_config(
@@ -351,9 +356,14 @@ class ConfigHandler(BaseHandler):
             def on_response_builder(camera_id, camera_config):
                 def on_response(remote_ui_config):
                     if remote_ui_config is None:
+                        camera_url = remote.make_remote_camera_url(
+                                camera_config.get('@host'),
+                                camera_config.get('@port'),
+                                camera_config.get('@remote_camera_id'))
+                        
                         cameras.append({
                             'id': camera_id,
-                            'name': '&lt;error&gt;', # TODO add the camera url here
+                            'name': '&lt;' + camera_url + '&gt;',
                             'enabled': False,
                             'streaming_framerate': 1,
                             'framerate': 1

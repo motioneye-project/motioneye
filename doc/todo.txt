@@ -1,8 +1,6 @@
 -> add an autoupdate mechanism
--> the camera is not available on page load, it is never shown afterwards - increase the timeout
 -> click to zoom on cameras
 -> make camera frames positions configurable
--> remote cameras are presented as http:///dev/video0
 -> add a view log functionality
 -> add a previewer for movies
 -> add a previewer for snapshots
