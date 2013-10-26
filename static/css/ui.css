@@ -407,3 +407,24 @@ span.help-mark {
 tr:HOVER span.help-mark {
     visibility: visible;
 }
+
+
+    /* media queries */
+
+@media all and (max-width: 400px) {
+    span.modal-title {
+        font-size: 1.5em;
+        
+    }
+    
+    div.modal-title-bar {
+        height: 2em;
+        line-height: 2em;
+    }
+    
+    div.modal-close-button {
+        background-size: cover;
+        width: 24px;
+        height: 24px;
+    }
+}

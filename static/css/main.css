@@ -358,11 +358,11 @@ div.camera-button.close {
 }
 
 div.camera-button.full-screen {
-    background-position: -32px 0px;
+    background-position: -200% 0px;
 }
 
 div.camera-button.configure {
-    background-position: -16px 0px;
+    background-position: -100% 0px;
 }
 
 div.camera-container {
@@ -446,6 +446,17 @@ img.camera-progress {
     
     body {
         font-size: 13px;
+    }
+    
+    div.camera-button {
+        background-size: cover;
+        width: 24px;
+        height: 24px;
+    }
+    
+    div.camera-top-bar {
+        font-size: 20px;
+        height: 25px;
     }
 }
 
