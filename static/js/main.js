@@ -1308,11 +1308,19 @@ function recreateCameraFrames(cameras) {
 
 
 function doConfigureCamera(cameraId) {
+    if (isProgress()) {
+        return;
+    }
+    
     openSettings(cameraId);
 }
 
     /* not used anymore */
 function doCloseCamera(cameraId) {
+    if (isProgress()) {
+        return;
+    }
+    
     remCameraFrameUi(cameraId);
     showProgress();
     ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
@@ -1341,6 +1349,10 @@ function doCloseCamera(cameraId) {
 }
 
 function doFullScreenCamera(cameraId) {
+    if (isProgress()) {
+        return;
+    }
+    
     if (fullScreenCameraId != null) {
         return; /* a camera is already in full screen */
     }
