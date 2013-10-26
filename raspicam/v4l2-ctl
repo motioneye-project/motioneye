@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# this is a wrapper for v4l2-ctl that lists some custom resolutions
+# when called with --list-formats-ext for the raspi camera module
+
+V4L2_CTL_BIN=/usr/bin/v4l2-ctl
+
+if echo $* | grep -- '--list-formats-ext' > /dev/null; then
+    echo "ioctl: VIDIOC_ENUM_FMT"
+    echo -e "\tIndex       : 0"
+    echo -e "\tType        : Video Capture"
+    echo -e "\tPixel Format: 'YUYV'"
+    echo -e "\tName        : YUV 4:2:2 (YUYV)"
+    echo -e "\t\tSize: Discrete 320x240"
+    echo -e "\t\tSize: Discrete 640x480"
+    echo -e "\t\tSize: Discrete 1024x768"
+    echo -e "\t\tSize: Discrete 1280x1024"
+
+    exit
+fi
+
+${V4L2_CTL_BIN} $*
