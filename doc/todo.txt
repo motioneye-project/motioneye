@@ -8,7 +8,6 @@
 -> hint text next to section titles
 -> clickable hints
 
-
 -> implement working schedule (add another combo deciding what to do during working schedule)
 -> add other options applicable only to special devices (rpi): wifi settings, notifications
 -> group @config rules to top
