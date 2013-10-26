@@ -4,7 +4,14 @@ import re
 import subprocess
 
 
+_resolutions_cache = {}
+_ctrls_cache = {}
+_ctrl_values_cache = {}
+
+
 def list_devices():
+    global _resolutions_cache
+    
     logging.debug('listing v4l devices...')
     
     devices = []
@@ -22,11 +29,21 @@ def list_devices():
             
         else:
             name = line.split('(')[0].strip()
+    
+    # clear the cache
+    _resolutions_cache = {}
+    _ctrls_cache = {}
+    _ctrl_values_cache = {}
 
     return devices
 
 
 def list_resolutions(device):
+    global _resolutions_cache
+    
+    if device in _resolutions_cache:
+        return _resolutions_cache[device]
+    
     logging.debug('listing resolutions of device %(device)s...' % {'device': device})
     
     resolutions = set()
@@ -47,7 +64,10 @@ def list_resolutions(device):
         logging.debug('found resolution %(width)sx%(height)s for device %(device)s' % {
                 'device': device, 'width': width, 'height': height})
     
-    return list(sorted(resolutions, key=lambda r: (r[0], r[1])))
+    resolutions = list(sorted(resolutions, key=lambda r: (r[0], r[1])))
+    _resolutions_cache[device] = resolutions
+    
+    return resolutions
 
 
 def get_brightness(device):
@@ -83,6 +103,11 @@ def set_hue(device, value):
 
 
 def _get_ctrl(device, control):
+    global _ctrl_values_cache
+    
+    if device in _ctrl_values_cache and control in _ctrl_values_cache[device]:
+        return _ctrl_values_cache[device][control]
+    
     controls = _list_ctrls(device)
     properties = controls.get(control)
     if properties is None:
@@ -111,6 +136,8 @@ def _get_ctrl(device, control):
 
 
 def _set_ctrl(device, control, value):
+    global _ctrl_values_cache
+    
     controls = _list_ctrls(device)
     properties = controls.get(control)
     if properties is None:
@@ -119,6 +146,8 @@ def _set_ctrl(device, control, value):
         
         return
     
+    _ctrl_values_cache.setdefault(device, {})[control] = value
+
     # adjust the value range
     if 'min' in properties and 'max' in properties:
         min_value = int(properties['min'])
@@ -138,6 +167,11 @@ def _set_ctrl(device, control, value):
 
 
 def _list_ctrls(device):
+    global _ctrls_cache
+    
+    if device in _ctrls_cache:
+        return _ctrls_cache[device]
+    
     output = subprocess.check_output('v4l2-ctl -d %(device)s --list-ctrls' % {
             'device': device}, shell=True)
 
@@ -153,5 +187,7 @@ def _list_ctrls(device):
         (control, properties) = match.groups()
         properties = dict([v.split('=') for v in properties.split(' ')])
         controls[control] = properties
+    
+    _ctrls_cache[device] = controls
     
     return controls

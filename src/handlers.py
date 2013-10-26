@@ -353,7 +353,7 @@ class ConfigHandler(BaseHandler):
                     if remote_ui_config is None:
                         cameras.append({
                             'id': camera_id,
-                            'name': '&lt;error&gt;',
+                            'name': '&lt;error&gt;', # TODO add the camera url here
                             'enabled': False,
                             'streaming_framerate': 1,
                             'framerate': 1
