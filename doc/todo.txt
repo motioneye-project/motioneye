@@ -1,6 +1,4 @@
 -> add an autoupdate mechanism
--> cache jpegs from remote cameras locally
--> cache prevention query arg should be according to the refresh rate
 -> the camera is not available on page load, it is never shown afterwards - increase the timeout
 -> click to zoom on cameras
 -> make camera frames positions configurable

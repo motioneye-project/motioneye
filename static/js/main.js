@@ -1323,8 +1323,13 @@ function refreshCameraFrames() {
         return;
     }
     
-    function refreshCameraFrame(cameraId, img) {
-        img.src = '/snapshot/' + cameraId + '/current/?_=' + new Date().getTime();
+    function refreshCameraFrame(cameraId, img, fast) {
+        var timestamp = new Date().getTime();
+        if (!fast) {
+            timestamp /= 500;
+        }
+        timestamp = Math.round(timestamp);
+        img.src = '/snapshot/' + cameraId + '/current/?_=' + timestamp;
     }
     
     var cameraFrames = $('div.page-container').find('div.camera-frame');
@@ -1343,7 +1348,7 @@ function refreshCameraFrames() {
         }
         else {
             var cameraId = this.id.substring(6);
-            refreshCameraFrame(cameraId, img);
+            refreshCameraFrame(cameraId, img, count <= 2); /* count <= 2 means at least 5 fps */
             
             this.refreshDivider = 0;
         }
