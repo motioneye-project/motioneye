@@ -32,6 +32,7 @@ application = Application(
         (r'^/snapshot/(?P<camera_id>\d+)/(?P<op>download)/(?P<filename>.+)/?$', handlers.SnapshotHandler),
         (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', handlers.MovieHandler),
         (r'^/movie/(?P<camera_id>\d+)/(?P<op>download)/(?P<filename>.+)/?$', handlers.MovieHandler),
+        (r'^/update/?$', handlers.UpdateHandler),
     ],
     debug=False, # also disables autoreloading
     log_function=log_request,

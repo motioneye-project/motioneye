@@ -10,6 +10,7 @@ import mjpgclient
 import motionctl
 import remote
 import template
+import update
 import v4l2ctl
 
 
@@ -582,3 +583,25 @@ class MovieHandler(BaseHandler):
         # TODO implement me
         
         self.finish_json()
+
+
+class UpdateHandler(BaseHandler):
+    @BaseHandler.auth(admin=True)
+    def get(self):
+        logging.debug('listing versions')
+        
+        stable = self.get_argument('stable', default='false') == 'true'
+        
+        versions = update.get_all_versions(stable=stable)
+        
+        self.finish_json(versions)
+
+    @BaseHandler.auth(admin=True)
+    def post(self):
+        version = self.get_argument('version')
+        
+        logging.debug('performing update to version %(version)s' % {'version': version})
+        
+        result = update.perform_update(version)
+
+        return self.finish_json(result)

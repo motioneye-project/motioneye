@@ -40,6 +40,9 @@ def get_all_versions(stable=False):
         if stable:
             versions = [v for v in versions if v.count('.') == 1]
 
+        versions.sort()
+        
+        return ['master'] # TODO
         return versions
 
     except Exception as e:
@@ -85,6 +88,8 @@ def download(version):
             'version': version}
     
     try:
+        logging.debug('downloading %(url)s...' % {'url': url})
+        
         response = urllib2.urlopen(url, timeout=settings.REMOTE_REQUEST_TIMEOUT)
         data = response.read()
 
@@ -95,6 +100,8 @@ def download(version):
     
     path = tempfile.mkdtemp()
     path = os.path.join(path, version + '.tar.gz')
+    
+    logging.debug('writing archive to %(path)s...' % {'path': path})
     
     try:
         with open(path, 'w') as f:
@@ -110,7 +117,7 @@ def download(version):
 
 def cleanup(path):
     try:
-        os.remove(path)
+        shutil.rmtree(path)
     
     except Exception as e:
         logging.error('could cleanup update directory: %(msg)s' % {'msg': unicode(e)})
@@ -126,31 +133,42 @@ def is_updatable():
 
 
 def perform_update(version):
+    logging.info('updating to version %(version)s...' % {'version': version})
+    
     try:
         # download the archive
         archive = download(version)
         temp_path = os.path.dirname(archive)
         
         # extract the archive
-        if os.system('tar zxf %(archive)s -C %(path)s' % {
-                'archive': archive, 'path': temp_path}):
+        logging.debug('extracting archive %(archive)s...' % {'archive': archive})
+        os.system('tar zxf %(archive)s -C %(path)s' % {
+                'archive': archive, 'path': temp_path})
             
-            raise Exception('archive extraction failed')
-        
         # determine the root path of the extracted archive
-        root_path = [f for f in os.listdir(temp_path) if os.path.isdir(f)][0]
+        root_name = [f for f in os.listdir(temp_path) if os.path.isdir(os.path.join(temp_path, f))][0]
+        root_path = os.path.join(temp_path, root_name)
         
         for p in _UPDATE_PATHS:
             src = os.path.join(root_path, p)
             dst = os.path.join(settings.PROJECT_PATH, p)
             
-            if os.path.isdir(dst):
-                os.remove(dst)
+            logging.debug('copying %(src)s over %(dst)s...' % {'src': src, 'dst':  dst})
             
-            shutil.copytree(src, dst)
+            if os.path.isdir(dst):
+                shutil.rmtree(dst)
+            
+            if os.path.isdir(src):
+                shutil.copytree(src, dst)
+            
+            else:
+                shutil.copy(src, dst)
 
         # remove the temporary update directory
+        logging.debug('removing %(path)s...' % {'path': temp_path})
         cleanup(temp_path)
+        
+        logging.info('updating done')
         
         return True
     
