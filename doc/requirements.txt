@@ -5,4 +5,3 @@ jinja2
 ffmpeg
 motion
 v4l-utils
-smbclient
