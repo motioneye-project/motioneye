@@ -20,6 +20,7 @@ import logging
 import os.path
 import shutil
 import tempfile
+import time
 import urllib2
 
 import settings
@@ -45,6 +46,8 @@ def get_all_versions():
             'root': _BITBUCKET_ROOT_URL,
             'owner': settings.REPO[0],
             'repo': settings.REPO[1]}
+    
+    url += '?_=' + str(int(time.time())) # prevents caching
     
     try:
         logging.debug('fetching %(url)s...' % {'url': url})
@@ -99,6 +102,8 @@ def download(version):
             'owner': settings.REPO[0],
             'repo': settings.REPO[1],
             'version': version}
+    
+    url += '?_=' + str(int(time.time())) # prevents caching
     
     try:
         logging.debug('downloading %(url)s...' % {'url': url})
