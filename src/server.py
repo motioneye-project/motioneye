@@ -33,7 +33,7 @@ application = Application(
         (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', handlers.MovieHandler),
         (r'^/movie/(?P<camera_id>\d+)/(?P<op>download)/(?P<filename>.+)/?$', handlers.MovieHandler),
     ],
-    debug=settings.DEBUG,
+    debug=False, # also disables autoreloading
     log_function=log_request,
     static_path=settings.STATIC_PATH,
     static_url_prefix=settings.STATIC_URL

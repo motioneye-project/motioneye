@@ -13,6 +13,8 @@ import settings
 
 sys.path.append(os.path.join(settings.PROJECT_PATH, 'src'))
 
+VERSION = '0.1'
+
 
 def _configure_signals():
     def bye_handler(signal, frame):
