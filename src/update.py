@@ -31,9 +31,14 @@ def get_all_versions(stable=False):
             'repo': settings.REPO[1]}
     
     try:
+        logging.debug('fetching %(url)s...' % {'url': url})
+        
         response = urllib2.urlopen(url, timeout=settings.REMOTE_REQUEST_TIMEOUT)
         response = json.load(response)
         versions = response.keys()
+        
+        logging.debug('available versions: %(versions)s' % {
+                'versions': ', '.join(versions)})
         
         # stable versions are those of form x.y
         # unstable versions are of form x.y.z

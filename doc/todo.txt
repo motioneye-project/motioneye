@@ -1,4 +1,3 @@
--> add an autoupdate mechanism
 -> make camera frames positions configurable
 -> add a view log functionality
 -> add a previewer for movies

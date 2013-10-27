@@ -2,7 +2,10 @@
 import base64
 import json
 import logging
+import os
+import sys
 
+from tornado import ioloop
 from tornado.web import RequestHandler, HTTPError, asynchronous
 
 import config
@@ -614,4 +617,4 @@ class UpdateHandler(BaseHandler):
         
         result = update.perform_update(version)
         
-        return self.finish_json(result)
+        self.finish_json(result)
