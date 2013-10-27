@@ -1215,7 +1215,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     nameSpan.html(cameraName);
     progressImg.attr('src', staticUrl + 'img/camera-progress.gif');
     
-    cameraFrameDiv.click(function () {
+    cameraProgress.click(function () {
         doFullScreenCamera(cameraId);
     });
     

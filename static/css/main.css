@@ -333,7 +333,6 @@ div.camera-frame {
     transition: all 0.2s, opacity 0s;
     margin: 2px;
     opacity: 0;
-    cursor: pointer;
 }
 
 div.modal-container div.camera-frame {
@@ -432,6 +431,7 @@ div.camera-progress {
     transition: all 0.2s linear;
     text-align: center;
     background-color: rgba(0, 0, 0, 1);
+    cursor: pointer;
 }
 
 img.camera-progress {

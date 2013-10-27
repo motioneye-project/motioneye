@@ -18,7 +18,7 @@ On a debian-based system you could run:
 
 ## Browser Compatibility ##
 
-motionEye works fine with most modern browsers, including IE8+.
+motionEye works fine with most modern browsers, including IE9+.
 Being designed with responsiveness in mind, it will also work nicely on mobile devices and tablets.
 
 ## Installation ##
@@ -43,6 +43,6 @@ Being designed with responsiveness in mind, it will also work nicely on mobile d
 
 ## Raspberry PI ##
 
-If running motionEye on a Raspberry PI with a *CSI camera board*, see `raspicam/readme.txt`.
+If running motionEye on a Raspberry PI with a *CSI camera board*, see `raspicam/README.md`.
 Also note that only one camera is supported when using this configuration.
 
