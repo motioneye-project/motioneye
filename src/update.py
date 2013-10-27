@@ -40,7 +40,7 @@ def get_version():
     return motioneye.VERSION
 
 
-def get_all_versions(stable=False):
+def get_all_versions():
     url = _BITBUCKET_LIST_TAGS_URL % {
             'root': _BITBUCKET_ROOT_URL,
             'owner': settings.REPO[0],
@@ -56,11 +56,6 @@ def get_all_versions(stable=False):
         logging.debug('available versions: %(versions)s' % {
                 'versions': ', '.join(versions)})
         
-        # stable versions are those of form x.y
-        # unstable versions are of form x.y.z
-        if stable:
-            versions = [v for v in versions if v.count('.') == 1]
-
         return sorted(versions, cmp=compare_versions)
 
     except Exception as e:

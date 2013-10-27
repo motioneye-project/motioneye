@@ -609,9 +609,7 @@ class UpdateHandler(BaseHandler):
     def get(self):
         logging.debug('listing versions')
         
-        stable = self.get_argument('stable', default='false') == 'true'
-        
-        versions = update.get_all_versions(stable=stable)
+        versions = update.get_all_versions()
         current_version = update.get_version()
         update_version = None
         if versions and update.compare_versions(versions[-1], current_version) > 0:

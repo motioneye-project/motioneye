@@ -807,7 +807,7 @@ function doRemCamera() {
 
 function doUpdate() {
     showModalDialog('<div class="modal-progress"></div>');
-    ajax('GET', '/update/?stable=true', null, function (data) {
+    ajax('GET', '/update/', null, function (data) {
         if (data.update_version == null) {
             runAlertDialog('motionEye is up to date (current version: ' + data.current_version + ')');
         }
@@ -1215,6 +1215,10 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     nameSpan.html(cameraName);
     progressImg.attr('src', staticUrl + 'img/camera-progress.gif');
     
+    cameraFrameDiv.click(function () {
+        doFullScreenCamera(cameraId);
+    });
+    
     /* insert the new camera frame at the right position,
      * with respect to the camera id */
     var pageContainer = $('div.page-container');
@@ -1243,9 +1247,11 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
         doConfigureCamera(cameraId);
     });
 
-    fullScreenButton.click(function () {
-        doFullScreenCamera(cameraId);
-    });
+    fullScreenButton.click(function (cameraId) {
+        return function () {
+            doFullScreenCamera(cameraId);
+        };
+    }(cameraId));
     
     /* error and load handlers */
     cameraImg.error(function () {
