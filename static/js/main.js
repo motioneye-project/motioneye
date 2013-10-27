@@ -758,7 +758,7 @@ function doApply() {
         }
         
         if (data.reload) {
-            window.location.reload();
+            window.location.reload(true);
             return;
         }
         
@@ -802,6 +802,32 @@ function doRemCamera() {
             endProgress();
             fetchCurrentConfig();
         });
+    });
+}
+
+function doUpdate() {
+    showModalDialog('<div class="modal-progress"></div>');
+    ajax('GET', '/update/?stable=true', null, function (data) {
+        if (data.update_version == null) {
+            runAlertDialog('motionEye is up to date (current version: ' + data.current_version + ')');
+        }
+        else {
+            runConfirmDialog('New version available: ' + data.update_version + '. Update?', function () {
+                showModalDialog('<div class="modal-progress"></div>');
+                ajax('POST', '/update/?version=' + data.update_version, null, function (result) {
+                    if (result) {
+                        runAlertDialog('motionEye was successfully updated!', function () {
+                            window.location.reload(true);
+                        });
+                    }
+                    else {
+                        runAlertDialog('Update failed!', function () {
+                            window.location.reload(true);
+                        });
+                    }
+                });
+            });
+        }
     });
 }
 
@@ -937,8 +963,8 @@ function pushPreview() {
 
     /* dialogs */
 
-function runAlertDialog(message) {
-    runModalDialog({title: message, buttons: 'ok'});
+function runAlertDialog(message, onOk) {
+    runModalDialog({title: message, buttons: 'ok', onOk: onOk});
 }
 
 function runConfirmDialog(message, onYes) {
@@ -1460,6 +1486,9 @@ $(document).ready(function () {
             openSettings();
         }
     });
+    
+    /* software update button */
+    $('div#updateButton').click(doUpdate);
     
     /* prevent scroll events on settings div from propagating TODO this does not work */
     $('div.settings').mousewheel(function (e, d) {

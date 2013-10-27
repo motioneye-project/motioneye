@@ -302,7 +302,7 @@ div.modal-container {
 }
 
 div.modal-title-bar {
-    height: 1.5em;
+    min-height: 1.5em;
     line-height: 1.5em;
     text-align: center;
     position: relative;
@@ -418,7 +418,7 @@ tr:HOVER span.help-mark {
     }
     
     div.modal-title-bar {
-        height: 2em;
+        min-height: 2em;
         line-height: 2em;
     }
     

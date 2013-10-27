@@ -32,6 +32,7 @@
         </div>
     </div>
     <div class="page">
+        {% if USER == 'admin' %}
         <div class="settings">
             <div class="settings-container">
                 <div class="settings-section-title"><input type="checkbox" class="styled section general" id="motionEyeSwitch">General Settings</div>
@@ -60,6 +61,19 @@
                         <td class="settings-item-label"><span class="settings-item-label">Surveillance Password</span></td>
                         <td class="settings-item-value"><input type="password" class="styled general" id="normalPasswordEntry"></td>
                         <td><span class="help-mark" title="the password for the surveillance user">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Current Version</span></td>
+                        <td class="settings-item-value"><span class="settings-item-label">{{VERSION}}</span></td>
+                        <td><span class="help-mark" title="checks for new versions and performs updates">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Software Update</span></td>
+                        <td class="settings-item-value"><div class="button update-button" id="updateButton">Check</div></td>
+                        <td><span class="help-mark" title="checks for new versions and performs updates">?</span></td>
                     </tr>
                 </table>
                 
@@ -418,6 +432,7 @@
                 </table>
             </div>
         </div>
+        {% endif %}
         <div class="page-container">
         </div>
         <div class="footer">

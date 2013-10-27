@@ -40,10 +40,7 @@ def get_all_versions(stable=False):
         if stable:
             versions = [v for v in versions if v.count('.') == 1]
 
-        versions.sort()
-        
-        return ['master'] # TODO
-        return versions
+        return sorted(versions, cmp=compare_versions)
 
     except Exception as e:
         logging.error('could not get versions: %(msg)s' % {'msg': unicode(e)})

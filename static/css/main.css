@@ -253,6 +253,28 @@ img.apply-progress {
     margin-top: 3px;
 }
 
+div.update-button {
+    position: relative;
+    width: 4em;
+    height: 1.5em;
+    line-height: 1.5em;
+    text-align: center;
+    margin: 2px 0px;
+    color: white;
+    font-size: 1em;
+    background-color: #317CAD;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+}
+
+div.update-button:HOVER {
+    background-color: #3498db;
+}
+
+div.update-button:ACTIVE {
+    background-color: #317CAD;
+}
+
 div.settings-top-bar.open select.video-device {
     display: inline;
 }

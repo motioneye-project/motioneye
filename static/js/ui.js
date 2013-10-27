@@ -493,6 +493,12 @@ function showModalDialog(content, onClose) {
     var glass = $('div.modal-glass');
     var container = $('div.modal-container');
     
+    if (container.is(':animated')) {
+        return setTimeout(function () {
+            showModalDialog(content, onClose);
+        }, 100);
+    }
+    
     if (container.is(':visible')) {
         /* the modal dialog is already visible,
          * we just replace the content */
@@ -522,6 +528,12 @@ function showModalDialog(content, onClose) {
 function hideModalDialog() {
     var glass = $('div.modal-glass');
     var container = $('div.modal-container');
+    
+    if (container.is(':animated')) {
+        return setTimeout(function () {
+            hideModalDialog();
+        }, 100);
+    }
     
     glass.animate({'opacity': '0'}, 200, function () {
         glass.css('display', 'none');
@@ -576,11 +588,11 @@ function makeModalDialogButtons(buttonsInfo) {
         if (info.click) {
             var oldClick = info.click;
             info.click = function () {
+                hideModalDialog();
+                
                 if (oldClick() == false) {
                     return;
                 }
-                
-                hideModalDialog();
             };
         }
         else {

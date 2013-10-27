@@ -33,9 +33,12 @@ class BaseHandler(RequestHandler):
         return data
     
     def render(self, template_name, content_type='text/html', **context):
+        import motioneye
+        
         self.set_header('Content-Type', content_type)
         
         context['USER'] = self.current_user
+        context['VERSION'] = motioneye.VERSION
         
         content = template.render(template_name, **context)
         self.finish(content)
@@ -512,13 +515,14 @@ class SnapshotHandler(BaseHandler):
     
     @BaseHandler.auth(prompt=False)
     def current(self, camera_id):
+        self.set_header('Content-Type', 'image/jpeg')
+        
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] == 'v4l2':
             jpg = mjpgclient.get_jpg(camera_id)
             if jpg is None:
                 return self.finish()
         
-            self.set_header('Content-Type', 'image/jpeg')
             self.finish(jpg)
         
         else:
@@ -527,7 +531,6 @@ class SnapshotHandler(BaseHandler):
                     self.finish({})
                     
                 else:
-                    self.set_header('Content-Type', 'image/jpeg')
                     self.finish(jpg)
             
             remote.current_snapshot(
@@ -593,8 +596,15 @@ class UpdateHandler(BaseHandler):
         stable = self.get_argument('stable', default='false') == 'true'
         
         versions = update.get_all_versions(stable=stable)
-        
-        self.finish_json(versions)
+        current_version = update.get_version()
+        update_version = None
+        if versions and update.compare_versions(versions[-1], current_version) > 0:
+            update_version = versions[-1]
+
+        self.finish_json({
+            'update_version': update_version,
+            'current_version': current_version
+        })
 
     @BaseHandler.auth(admin=True)
     def post(self):
@@ -603,5 +613,5 @@ class UpdateHandler(BaseHandler):
         logging.debug('performing update to version %(version)s' % {'version': version})
         
         result = update.perform_update(version)
-
+        
         return self.finish_json(result)
