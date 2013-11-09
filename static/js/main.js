@@ -865,7 +865,16 @@ function fetchCurrentConfig() {
                 updateConfigUi();
             }
             
-            recreateCameraFrames(cameras);
+            var mainLoadingProgressImg = $('img.main-loading-progress');
+            if (mainLoadingProgressImg.length) {
+                mainLoadingProgressImg.animate({'opacity': 0}, 200, function () {
+                    recreateCameraFrames(cameras);
+                    mainLoadingProgressImg.remove();
+                });
+            }
+            else {
+                recreateCameraFrames(cameras);
+            }
         });
     }
     

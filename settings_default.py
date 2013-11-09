@@ -37,3 +37,6 @@ CLEANUP_INTERVAL = 43200
 
 # timeout in seconds to wait for responses when contacting a remote server
 REMOTE_REQUEST_TIMEOUT = 10
+
+# timeout in seconds to wait for an access to a mjpg client before removing it
+MJPG_CLIENT_TIMEOUT = 10

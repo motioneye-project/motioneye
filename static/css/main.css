@@ -127,6 +127,12 @@ img.logo {
     vertical-align: middle;
 }
 
+img.main-loading-progress {
+    display: block;
+    margin: auto;
+    margin-top: 50px;
+}
+
 
     /* settings */
 
