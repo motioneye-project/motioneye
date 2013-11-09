@@ -1,4 +1,3 @@
--> disk usage at bottom
 -> make camera frames positions configurable
 -> add a view log functionality
 -> add a previewer for snapshots

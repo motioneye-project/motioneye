@@ -16,6 +16,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import datetime
+import logging
+import os
 
 
 def pretty_date_time(date_time, tzinfo=None):
@@ -165,3 +167,26 @@ def pretty_duration(duration):
         format = '-' + format
 
     return format.format(d=days, h=hours, m=minutes, s=seconds)
+
+
+def get_disk_usage(path):
+    logging.debug('getting disk usage for path %(path)s...' % {
+            'path': path})
+
+    try:    
+        result = os.statvfs(path)
+    
+    except OSError as e:
+        logging.error('failed to execute statvfs: %(msg)s' % {'msg': unicode(e)})
+        
+        return None
+
+    block_size = result.f_frsize
+    free_blocks = result.f_bfree
+    total_blocks = result.f_blocks
+    
+    free_size = free_blocks * block_size
+    total_size = total_blocks * block_size
+    used_size = total_size - free_size
+    
+    return (used_size, total_size)

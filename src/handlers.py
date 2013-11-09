@@ -486,6 +486,8 @@ class ConfigHandler(BaseHandler):
                 
                 tmp_config = config.camera_ui_to_dict(remote_ui_config)
                 tmp_config.update(camera_config)
+                tmp_config['disk_used'] = remote_ui_config['disk_used']
+                tmp_config['disk_total'] = remote_ui_config['disk_total']
                 ui_config = config.camera_dict_to_ui(tmp_config)
                 ui_config['available_resolutions'] = remote_ui_config['available_resolutions']
                 
@@ -509,7 +511,8 @@ class ConfigHandler(BaseHandler):
             motionctl.restart()
             
         self.finish_json()
-        
+
+
 class SnapshotHandler(BaseHandler):
     @asynchronous
     def get(self, camera_id, op, filename=None):

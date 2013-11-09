@@ -561,8 +561,8 @@ function updateModalDialogPosition() {
     var modalWidth = container.width();
     var modalHeight = container.height();
     
-    container.css('left', (windowWidth - modalWidth) / 2);
-    container.css('top', (windowHeight - modalHeight) / 2);
+    container.css('left', Math.floor((windowWidth - modalWidth) / 2));
+    container.css('top', Math.floor((windowHeight - modalHeight) / 2));
 }
 
 function makeModalDialogButtons(buttonsInfo) {

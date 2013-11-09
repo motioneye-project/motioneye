@@ -187,6 +187,19 @@
                         <td class="settings-item-value"><input type="text" class="styled storage" id="rootDirectoryEntry"></td>
                         <td><span class="help-mark" title="the root path (on the selected storage device) where the files will be saved">?</span></td>
                     </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Disk Usage</span></td>
+                        <td class="settings-item-value">
+                            <div class="disk-usage-bar-container">
+                                <div class="disk-usage-bar-fill" id="diskUsageBarFill"></div>
+                                <span class="disk-usage-percent" id="diskUsageText"></span>
+                            </div>
+                        </td>
+                        <td><span class="help-mark" title="the used/total size of the disk where the root directory resides">?</span></td>
+                    </tr>
                 </table>
                 
                 <div class="settings-section-title advanced-setting"><input type="checkbox" class="styled section text-overlay" id="textOverlaySwitch">Text Overlay</div>
@@ -436,7 +449,6 @@
             <img class="main-loading-progress" src="{{STATIC_URL}}img/main-loading-progress.gif">
         </div>
         <div class="footer">
-            <div class="system-info">free space: 100MB/300MB</div>
             <div class="copyright-note">copyright &copy; Calin Crisan 2013</div>
         </div> 
     </div>

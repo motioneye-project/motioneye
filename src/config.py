@@ -23,6 +23,7 @@ import re
 from collections import OrderedDict
 
 import settings
+import utils
 import v4l2ctl
 
 
@@ -556,9 +557,11 @@ def camera_ui_to_dict(ui):
 
     return data
     
+
 def camera_dict_to_ui(data):
     if data['@proto'] == 'v4l2':
         device_uri = data['videodevice']
+        disk_used, disk_total = utils.get_disk_usage(data['target_dir'])
     
     else:
         device_uri = '%(host)s:%(port)s/config/%(camera_id)s' % {
@@ -567,6 +570,8 @@ def camera_dict_to_ui(data):
                 'host': data['@host'],
                 'port': data['@port'],
                 'camera_id': data['@remote_camera_id']}
+        
+        disk_used, disk_total = data['disk_used'], data['disk_total']
     
     ui = {
         # device
@@ -588,6 +593,8 @@ def camera_dict_to_ui(data):
         'network_username': data['@network_username'],
         'network_password': data['@network_password'],
         'root_directory': data.get('target_dir'),
+        'disk_used': disk_used,
+        'disk_total': disk_total,
         
         # text overlay
         'text_overlay': False,
