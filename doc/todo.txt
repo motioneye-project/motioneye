@@ -1,4 +1,3 @@
--> order of the cams is a bit random
 -> disk usage at bottom
 -> make camera frames positions configurable
 -> add a view log functionality

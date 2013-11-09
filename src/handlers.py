@@ -376,6 +376,7 @@ class ConfigHandler(BaseHandler):
             length = [len(camera_ids)]
             def check_finished():
                 if len(cameras) == length[0]:
+                    cameras.sort(key=lambda c: c['id'])
                     self.finish_json({'cameras': cameras})
                     
             def on_response_builder(camera_id, camera_config):
