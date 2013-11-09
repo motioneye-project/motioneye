@@ -1209,6 +1209,15 @@ function runAddCameraDialog() {
     /* camera frames */
 
 function addCameraFrameUi(cameraId, cameraName, framerate) {
+    var pageContainer = $('div.page-container');
+    
+    if (cameraId == null) {
+        var cameraFrameDivPlaceHolder = $('<div class="camera-frame-place-holder"></div>');
+        pageContainer.append(cameraFrameDivPlaceHolder);
+        
+        return;
+    }
+    
     var cameraFrameDiv = $(
             '<div class="camera-frame">' +
                 '<div class="camera-top-bar">' +
@@ -1250,7 +1259,6 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     
     /* insert the new camera frame at the right position,
      * with respect to the camera id */
-    var pageContainer = $('div.page-container');
     var cameraFrames = pageContainer.find('div.camera-frame');
     var cameraIds = cameraFrames.map(function () {return parseInt(this.id.substring(6));});
     cameraIds.sort();
@@ -1318,30 +1326,15 @@ function recreateCameraFrames(cameras) {
     
     function updateCameras(cameras) {
         cameras = cameras.filter(function (camera) {return camera.enabled;});
-        var i, camera, cameraId;
+        var i, camera;
+
+        /* remove everything on the page */
+        pageContainer.children().remove();
         
-        /* remove everything that is not a camera frame from the page */
-        pageContainer.children().not('div.camera-frame').remove();
-        
-        /* remove no longer existing camera frames */
-        var addedCameraFrames = pageContainer.find('div.camera-frame');
-        for (i = 0; i < addedCameraFrames.length; i++) {
-            cameraId = parseInt(addedCameraFrames[i].id.substring(6));
-            if (cameras.filter(function (camera) {return camera.id === cameraId;}).length === 0) {
-                remCameraFrameUi(cameraId);
-            }
-        }
-        
-        /* add new camera frames and update existing camera params */
+        /* add camera frames */
         for (i = 0; i < cameras.length; i++) {
             camera = cameras[i];
-            var cameraFrame = pageContainer.find('div.camera-frame#camera' + camera.id);
-            if (cameraFrame.length === 0) { /* not existing, add a new one */
-                addCameraFrameUi(camera.id, camera.name, Math.min(camera.streaming_framerate, camera.framerate));
-            }
-            else { /* existing, update params */
-                cameraFrame[0].framerate = Math.min(camera.streaming_framerate, camera.framerate);
-            }
+            addCameraFrameUi(camera.id, camera.name, Math.min(camera.streaming_framerate, camera.framerate));
         }
         
         if ($('#videoDeviceSelect').find('option').length < 2 && user === 'admin' && $('#motionEyeSwitch')[0].checked) {
@@ -1447,7 +1440,7 @@ function doFullScreenCamera(cameraId) {
         onClose: function () {
             fullScreenCameraId = null;
             cameraFrameDiv.css('width', '');
-            var nextFrame = pageContainer.find('div.camera-frame:eq(' + frameIndex + ')');
+            var nextFrame = pageContainer.children('div:eq(' + frameIndex + ')');
             if (nextFrame.length) {
                 nextFrame.before(cameraFrameDiv);
             }

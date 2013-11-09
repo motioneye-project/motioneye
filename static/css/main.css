@@ -77,12 +77,12 @@ div.copyright-note {
 
 div.page-container {
     transition: all 0.2s linear;
-    padding: 55px 5px 3em 5px;
-    text-align: center;
+    padding: 55px 5px 3em 2%;
 }
 
 div.page-container.stretched {
     margin-left: 40%;
+    padding-left: 5px;
 }
 
 
@@ -361,7 +361,8 @@ div.camera-list {
     text-align: center;
 }
 
-div.camera-frame {
+div.camera-frame,
+div.camera-frame-place-holder {
     position: relative;
     width: 32%;
     text-align: left;
@@ -372,6 +373,11 @@ div.camera-frame {
     transition: all 0.2s, opacity 0s;
     margin: 2px;
     opacity: 0;
+    vertical-align: top;
+}
+
+div.camera-frame-place-holder {
+    visibility: hidden;
 }
 
 div.modal-container div.camera-frame {
@@ -523,17 +529,19 @@ img.camera-progress {
 }
 
 @media all and (max-width: 1900px) {
-    /* a bit smaller screens */
-    
-    div.camera-frame {
+    div.camera-frame, 
+    div.camera-frame-place-holder {
         width: 48%;
     }
 }
 
-@media all and (max-width: 1150px) {
-    /* even smaller screens */
-    
-    div.camera-frame {
+@media all and (max-width: 1200px) {
+    div.page-container {
+        padding-left: 1%;
+    }
+
+    div.camera-frame,
+    div.camera-frame-place-holder {
         width: 98%;
     }
 }
