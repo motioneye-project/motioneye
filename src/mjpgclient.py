@@ -15,19 +15,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
+import datetime
 import logging
 import re
 import socket
 
-from tornado import iostream
+from tornado import iostream, ioloop
 
 import config
 import motionctl
+import settings
 
 
 class MjpgClient(iostream.IOStream):
     clients = {} # dictionary of clients indexed by camera id
     last_jpgs = {} # dictionary of jpg contents indexed by camera id
+    last_access = {} # dictionary of access moments indexed by camera id
     
     def __init__(self, camera_id, port):
         self._camera_id = camera_id
@@ -46,7 +49,7 @@ class MjpgClient(iostream.IOStream):
         try:
             del MjpgClient.clients[self._camera_id]
             
-            logging.debug('mjpg client on port %(port)s removed' % {'port': self._port})
+            logging.debug('mjpg client for camera %(camera_id)s removed' % {'camera_id': self._camera_id})
             
         except KeyError:
             pass
@@ -109,12 +112,34 @@ class MjpgClient(iostream.IOStream):
         self._seek_content_length()
 
 
+def _garbage_collector():
+    logging.debug('running garbage collector for mjpg clients...')
+    
+    now = datetime.datetime.utcnow()
+    for client in MjpgClient.clients.values():
+        camera_id = client._camera_id
+        last_access = MjpgClient.last_access.get(camera_id)
+        if last_access is None:
+            continue
+        
+        delta = now - last_access
+        delta = delta.days * 86400 + delta.seconds
+        
+        if delta > settings.MJPG_CLIENT_TIMEOUT:
+            logging.debug('mjpg client for camera %(camera_id)s timed out' % {'camera_id': camera_id})
+            client.close()
+
+    io_loop = ioloop.IOLoop.instance()
+    io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
+
+
 def get_jpg(camera_id):
     if not motionctl.running():
         return None
     
     if camera_id not in MjpgClient.clients:
-        # TODO implement some kind of timeout before retry here
+        # mjpg client not started yet for this camera
+        
         logging.debug('creating mjpg client for camera id %(camera_id)s' % {
                 'camera_id': camera_id})
         
@@ -128,10 +153,17 @@ def get_jpg(camera_id):
         port = camera_config['webcam_port']
         client = MjpgClient(camera_id, port)
         client.connect()
-        
+
+    MjpgClient.last_access[camera_id] = datetime.datetime.utcnow()
+    
     return MjpgClient.last_jpgs.get(camera_id)
 
 
 def close_all():
     for client in MjpgClient.clients.values():
         client.close()
+
+
+# run the garbage collector for the first time;
+# this will start the timeout mechanism
+_garbage_collector()
