@@ -78,6 +78,7 @@ div.copyright-note {
 div.page-container {
     transition: all 0.2s linear;
     padding: 55px 5px 3em 5px;
+    text-align: center;
 }
 
 div.page-container.stretched {

@@ -786,6 +786,10 @@ function doApply() {
 }
 
 function doRemCamera() {
+    if (Object.keys(pushConfigs).length) {
+        return runAlertDialog('Please apply the modified settings first!');
+    }
+    
     var cameraId = $('#videoDeviceSelect').val();
     if (cameraId == null || cameraId === 'add') {
         runAlertDialog('No camera to remove!');
@@ -810,6 +814,10 @@ function doRemCamera() {
 }
 
 function doUpdate() {
+    if (Object.keys(pushConfigs).length) {
+        return runAlertDialog('Please apply the modified settings first!');
+    }
+    
     showModalDialog('<div class="modal-progress"></div>');
     ajax('GET', '/update/', null, function (data) {
         if (data.update_version == null) {
@@ -985,6 +993,14 @@ function runConfirmDialog(message, onYes) {
 }
 
 function runAddCameraDialog() {
+    if (!$('#motionEyeSwitch')[0].checked) {
+        return runAlertDialog('Please enable motionEye first!');
+    }
+    
+    if (Object.keys(pushConfigs).length) {
+        return runAlertDialog('Please apply the modified settings first!');
+    }
+    
     var content = 
             $('<table class="add-camera-dialog">' +
                 '<tr>' +
@@ -1328,7 +1344,7 @@ function recreateCameraFrames(cameras) {
             }
         }
         
-        if ($('#videoDeviceSelect').find('option').length < 2 && user === 'admin') {
+        if ($('#videoDeviceSelect').find('option').length < 2 && user === 'admin' && $('#motionEyeSwitch')[0].checked) {
             /* invite the user to add a camera */
             var addCameraLink = $('<div style="text-align: center; margin-top: 30px;">' + 
                     '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');
