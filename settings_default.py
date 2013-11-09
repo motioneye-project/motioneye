@@ -32,7 +32,7 @@ PORT = 8765
 # interval in seconds at which motionEye checks if motion is running
 MOTION_CHECK_INTERVAL = 10
 
-# interval in seconds at which the janitor is called to remove old images and movies
+# interval in seconds at which the janitor is called to remove old pictures and movies
 CLEANUP_INTERVAL = 43200
 
 # timeout in seconds to wait for responses when contacting a remote server

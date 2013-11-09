@@ -178,7 +178,7 @@ def _start_motion():
 
 
 def _start_cleanup():
-    import cleanup
+    import mediafiles
 
     def do_cleanup():
         ioloop = tornado.ioloop.IOLoop.instance()
@@ -186,8 +186,8 @@ def _start_cleanup():
             return
         
         try:
-            cleanup.cleanup_images()
-            cleanup.cleanup_movies()
+            mediafiles.cleanup_pictures()
+            mediafiles.cleanup_movies()
             
         except Exception as e:
             logging.error('failed to cleanup media files: %(msg)s' % {

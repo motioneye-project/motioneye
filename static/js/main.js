@@ -505,7 +505,7 @@ function cameraUi2Dict() {
         'image_quality': $('#imageQualitySlider').val(),
         'capture_mode': $('#captureModeSelect').val(),
         'snapshot_interval': $('#snapshotIntervalEntry').val(),
-        'preserve_images': $('#preserveImagesSelect').val(),
+        'preserve_pictures': $('#preservePicturesSelect').val(),
         
         /* motion movies */
         'motion_movies': $('#motionMoviesSwitch')[0].checked,
@@ -629,7 +629,7 @@ function dict2CameraUi(dict) {
     $('#imageQualitySlider').val(dict['image_quality']);
     $('#captureModeSelect').val(dict['capture_mode']);
     $('#snapshotIntervalEntry').val(dict['snapshot_interval']);
-    $('#preserveImagesSelect').val(dict['preserve_images']);
+    $('#preservePicturesSelect').val(dict['preserve_pictures']);
     
     /* motion movies */
     $('#motionMoviesSwitch')[0].checked = dict['motion_movies'];
@@ -1466,7 +1466,7 @@ function refreshCameraFrames() {
             timestamp /= 500;
         }
         timestamp = Math.round(timestamp);
-        img.src = '/snapshot/' + cameraId + '/current/?_=' + timestamp;
+        img.src = '/picture/' + cameraId + '/current/?_=' + timestamp;
     }
     
     var cameraFrames;

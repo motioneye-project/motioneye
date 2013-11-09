@@ -442,7 +442,7 @@ def camera_ui_to_dict(ui):
         'snapshot_interval': 0,
         'jpeg_filename': '',
         'snapshot_filename': '',
-        '@preserve_images': int(ui.get('preserve_images', 0)),
+        '@preserve_pictures': int(ui.get('preserve_pictures', 0)),
         
         # movies
         'ffmpeg_cap_new': ui.get('motion_movies', False),
@@ -616,7 +616,7 @@ def camera_dict_to_ui(data):
         'image_file_name': '%Y-%m-%d-%H-%M-%S',
         'image_quality': 85,
         'snapshot_interval': 0,
-        'preserve_images': data['@preserve_images'],
+        'preserve_pictures': data['@preserve_pictures'],
         
         # motion movies
         'motion_movies': data.get('ffmpeg_cap_new'),
@@ -983,7 +983,7 @@ def _set_default_motion_camera(data):
     data.setdefault('snapshot_interval', 0)
     data.setdefault('snapshot_filename', '')
     data.setdefault('quality', 85)
-    data.setdefault('@preserve_images', 0)
+    data.setdefault('@preserve_pictures', 0)
     
     data.setdefault('ffmpeg_variable_bitrate', 0)
     data.setdefault('ffmpeg_bps', 400000)

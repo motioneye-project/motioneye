@@ -41,19 +41,19 @@ def _remove_older_files(dir, moment, exts):
                 os.remove(full_path)
 
 
-def cleanup_images():
-    logging.debug('cleaning up images...')
+def cleanup_pictures():
+    logging.debug('cleaning up pictures...')
     
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
         if camera_config.get('@proto') != 'v4l2':
             continue
         
-        preserve_images = camera_config.get('@preserve_images')
-        if preserve_images == 0:
+        preserve_pictures = camera_config.get('@preserve_pictures')
+        if preserve_pictures == 0:
             return # preserve forever
         
-        preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_images)
+        preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_pictures)
             
         target_dir = camera_config.get('target_dir')
         _remove_older_files(target_dir, preserve_moment, exts=['.jpg', '.png'])
@@ -75,3 +75,7 @@ def cleanup_movies():
             
         target_dir = camera_config.get('target_dir')
         _remove_older_files(target_dir, preserve_moment, exts=['.avi'])
+
+
+def list_pictures(config):
+    pass

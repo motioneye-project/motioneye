@@ -6,6 +6,7 @@
 -> style scroll bars
 -> hint text next to section titles
 -> clickable hints
+-> update mechanism should not say "ok" until the server reloads
 
 -> implement working schedule (add another combo deciding what to do during working schedule)
 -> implement notifications

@@ -513,7 +513,7 @@ class ConfigHandler(BaseHandler):
         self.finish_json()
 
 
-class SnapshotHandler(BaseHandler):
+class PictureHandler(BaseHandler):
     @asynchronous
     def get(self, camera_id, op, filename=None):
         if camera_id is not None:
@@ -553,7 +553,7 @@ class SnapshotHandler(BaseHandler):
                 else:
                     self.finish(jpg)
             
-            remote.current_snapshot(
+            remote.current_picture(
                     camera_config['@host'],
                     camera_config['@port'],
                     camera_config['@username'],
@@ -562,15 +562,46 @@ class SnapshotHandler(BaseHandler):
                 
     @BaseHandler.auth()
     def list(self, camera_id):
-        logging.debug('listing snapshots for camera %(id)s' % {'id': camera_id})
+        logging.debug('listing pictures for camera %(id)s' % {'id': camera_id})
         
-        # TODO implement me
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
+        
+        camera_config = config.get_camera(camera_id)
+        if camera_config['@proto'] != 'v4l2':
+            def on_response(remote_list):
+                camera_url = remote.make_remote_camera_url(
+                        camera_config.get('@host'),
+                        camera_config.get('@port'),
+                        camera_config.get('@remote_camera_id'))
+                
+                camera_full_url = camera_config['@proto'] + '://' + camera_url
+                
+                if remote_list is None:
+                    return self.finish_json({'error': 'Failed to get picture list for %(url)s.' % {
+                            'url': camera_full_url}})
+
+                self.finish_json(remote_list)
+            
+            remote.list_pictures(
+                    camera_config.get('@host'),
+                    camera_config.get('@port'),
+                    camera_config.get('@username'),
+                    camera_config.get('@password'),
+                    camera_config.get('@remote_camera_id'), on_response)
+        
+        else:
+            pictures = []
+            
+            #for 
+                
+            self.finish_json({'pictures': pictures})
         
         self.finish_json()
     
     @BaseHandler.auth()
     def download(self, camera_id, filename):
-        logging.debug('downloading snapshot %(filename)s of camera %(id)s' % {
+        logging.debug('downloading picture %(filename)s of camera %(id)s' % {
                 'filename': filename, 'id': camera_id})
         
         # TODO implement me

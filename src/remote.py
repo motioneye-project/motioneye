@@ -173,15 +173,15 @@ def set_preview(host, port, username, password, camera_id, controls, callback):
     http_client.fetch(request, on_response)
 
 
-def current_snapshot(host, port, username, password, camera_id, callback):
+def current_picture(host, port, username, password, camera_id, callback):
     global _snapshot_cache
     
-    logging.debug('getting current snapshot for remote camera %(id)s on %(host)s:%(port)s' % {
+    logging.debug('getting current picture for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
             'port': port})
     
-    request = _make_request(host, port, username, password, '/snapshot/%(id)s/current/' % {'id': camera_id})
+    request = _make_request(host, port, username, password, '/picture/%(id)s/current/' % {'id': camera_id})
     
     cached = _snapshot_cache.setdefault(request.url, {'pending': 0, 'jpg': None})
     if cached['pending'] > 0: # a pending request for this snapshot exists
@@ -192,7 +192,7 @@ def current_snapshot(host, port, username, password, camera_id, callback):
         cached['jpg'] = response.body
         
         if response.error:
-            logging.error('failed to get current snapshot for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+            logging.error('failed to get current picture for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
                     'id': camera_id,
                     'host': host,
                     'port': port,
@@ -203,6 +203,41 @@ def current_snapshot(host, port, username, password, camera_id, callback):
         callback(response.body)
     
     cached['pending'] += 1
+    
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, on_response)
+
+
+def list_pictures(host, port, username, password, camera_id, callback):
+    logging.debug('getting picture list for remote camera %(id)s on %(host)s:%(port)s' % {
+            'id': camera_id,
+            'host': host,
+            'port': port})
+    
+    request = _make_request(host, port, username, password, '/picture/%(id)s/list/' % {'id': camera_id})
+    
+    def on_response(response):
+        if response.error:
+            logging.error('failed to get picture list for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+                    'id': camera_id,
+                    'host': host,
+                    'port': port,
+                    'msg': unicode(response.error)})
+            
+            return callback(None)
+        
+        try:
+            response = json.loads(response.body)
+            
+        except Exception as e:
+            logging.error('failed to decode json answer from %(host)s:%(port)s: %(msg)s' % {
+                    'host': host,
+                    'port': port,
+                    'msg': unicode(e)})
+            
+            return callback(None)
+        
+        return callback(response['pictures'])
     
     http_client = AsyncHTTPClient()
     http_client.fetch(request, on_response)
