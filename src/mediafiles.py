@@ -17,28 +17,42 @@
 
 import datetime
 import logging
-import os
+import os.path
 
 import config
 
 
-def _remove_older_files(dir, moment, exts):
+_PICTURE_EXTS = ['.jpg']
+_MOVIE_EXTS = ['.avi', '.mp4']
+
+
+def _list_media_files(dir, exts):
+    full_paths = []
     for root, dirs, files in os.walk(dir):  # @UnusedVariable
         for name in files:
             full_path = os.path.join(root, name)
             if not os.path.isfile(full_path):
                 continue
-            
+             
             full_path_lower = full_path.lower()
             if not [e for e in exts if full_path_lower.endswith(e)]:
                 continue
             
-            file_moment = datetime.datetime.fromtimestamp(os.path.getmtime(full_path))
-            if file_moment < moment:
-                logging.debug('removing file %(path)s...' % {
-                        'path': full_path})
-                
-                os.remove(full_path)
+            full_paths.append(full_path)
+    
+    return full_paths
+
+
+def _remove_older_files(dir, moment, exts):
+    for full_path in _list_media_files(dir, exts):
+        # TODO files listed here may not belong to the given camera
+        
+        file_moment = datetime.datetime.fromtimestamp(os.path.getmtime(full_path))
+        if file_moment < moment:
+            logging.debug('removing file %(path)s...' % {
+                    'path': full_path})
+            
+            os.remove(full_path)
 
 
 def cleanup_pictures():
@@ -56,7 +70,7 @@ def cleanup_pictures():
         preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_pictures)
             
         target_dir = camera_config.get('target_dir')
-        _remove_older_files(target_dir, preserve_moment, exts=['.jpg', '.png'])
+        _remove_older_files(target_dir, preserve_moment, exts=_PICTURE_EXTS)
 
 
 def cleanup_movies():
@@ -74,8 +88,40 @@ def cleanup_movies():
         preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_movies)
             
         target_dir = camera_config.get('target_dir')
-        _remove_older_files(target_dir, preserve_moment, exts=['.avi'])
+        _remove_older_files(target_dir, preserve_moment, exts=_MOVIE_EXTS)
 
 
-def list_pictures(config):
-    pass
+def list_pictures(camera_config):
+    target_dir = camera_config.get('target_dir')
+#     output_all = camera_config.get('output_all')
+#     output_normal = camera_config.get('output_normal')
+#     jpeg_filename = camera_config.get('jpeg_filename')
+#     snapshot_interval = camera_config.get('snapshot_interval')
+#     snapshot_filename = camera_config.get('snapshot_filename')
+#     
+#     if (output_all or output_normal) and jpeg_filename:
+#         filename = jpeg_filename
+#     
+#     elif snapshot_interval and snapshot_filename:
+#         filename = snapshot_filename
+#     
+#     else:
+#         return []
+
+    full_paths = _list_media_files(target_dir, exts=_PICTURE_EXTS)
+    picture_files = [p[len(target_dir):] for p in full_paths]
+    
+    # TODO files listed here may not belong to the given camera
+    
+    return picture_files
+
+
+def list_movies(camera_config):
+    target_dir = camera_config.get('target_dir')
+
+    full_paths = _list_media_files(target_dir, exts=_MOVIE_EXTS)
+    movie_files = [p[len(target_dir):] for p in full_paths]
+    
+    # TODO files listed here may not belong to the given camera
+    
+    return movie_files

@@ -22,6 +22,7 @@ import logging
 from tornado.web import RequestHandler, HTTPError, asynchronous
 
 import config
+import mediafiles
 import mjpgclient
 import motionctl
 import remote
@@ -591,14 +592,10 @@ class PictureHandler(BaseHandler):
                     camera_config.get('@remote_camera_id'), on_response)
         
         else:
-            pictures = []
+            pictures = mediafiles.list_pictures(camera_config)
             
-            #for 
-                
             self.finish_json({'pictures': pictures})
         
-        self.finish_json()
-    
     @BaseHandler.auth()
     def download(self, camera_id, filename):
         logging.debug('downloading picture %(filename)s of camera %(id)s' % {
