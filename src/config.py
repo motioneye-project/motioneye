@@ -729,13 +729,13 @@ def camera_dict_to_ui(data):
             ui['capture_mode'] = 'all-frames'
             ui['image_file_name'] = jpeg_filename
             
-        elif data.get('snapshot_interval'):
-            ui['capture-mode'] = 'interval-snapshots'
+        elif snapshot_interval:
+            ui['capture_mode'] = 'interval-snapshots'
             ui['image_file_name'] = snapshot_filename
             ui['snapshot_interval'] = snapshot_interval
             
-        elif data.get('output_normal'):
-            ui['capture-mode'] = 'motion-triggered'
+        elif output_normal:
+            ui['capture_mode'] = 'motion-triggered'
             ui['image_file_name'] = jpeg_filename  
             
         ui['image_quality'] = ui.get('quality', 85)

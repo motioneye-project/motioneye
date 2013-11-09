@@ -18,7 +18,7 @@
 4. the `uv4l` daemon must be started at boot; add the following line to `/etc/rc.local`,
    *before* the line that starts motionEye:
 
-        test -x /usr/local/bin/motion && /usr/local/bin/motion -h > /dev/null 2>&1
+        test -x /usr/local/bin/motion && sudo -u pi /usr/local/bin/motion -h > /dev/null 2>&1 || false
 
 5. if you wish to start motionEye at boot, add this to `/etc/rc.local` (assuming motionEye lives in pi's home directory):
 

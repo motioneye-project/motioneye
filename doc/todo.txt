@@ -1,7 +1,12 @@
+-> kill mjpgclients when not used
+-> add a loading progress when page loads
+-> order of the cams is a bit random
+-> disk usage at bottom
 -> make camera frames positions configurable
 -> add a view log functionality
 -> add a previewer for snapshots
 -> add a previewer for movies
+-> increase the maximal number of threshold pixels (maybe express it in % as well)
 
 -> style scroll bars
 -> hint text next to section titles
@@ -11,6 +16,7 @@
 -> implement notifications
 -> implement functionalities specific to raspberry pi: network settings, smb control
 -> group @config rules at top
+-> chaining two or more remote motionEye cameras breaks updating configuration
 
 -> browser compatibility test
 -> requirements test
