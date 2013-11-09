@@ -2,7 +2,6 @@
 -> add a view log functionality
 -> add a previewer for snapshots
 -> add a previewer for movies
--> increase the maximal number of threshold pixels (maybe express it in % as well)
 
 -> style scroll bars
 -> hint text next to section titles

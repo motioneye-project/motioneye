@@ -107,7 +107,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     }
     
     function getPos() {
-        return parseInt(cursor.css('left'));
+        return parseInt(cursor.position().left * 100 / bar.width());
     }
     
     function valToPos(val) {
@@ -217,7 +217,43 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     /* handle key events */
     slider.keydown(function (e) {
         switch (e.which) {
-            // TODO
+            case 37: /* left */
+                if (snapMode == 1) { /* strict snapping */
+                    // TODO implement me
+                }
+                else {
+                    var step = (maxVal - minVal) / 200;
+                    var val = Math.max(minVal, parseFloat($input.val()) - step);
+                    if (decimals == 0) {
+                        val = Math.floor(val);
+                    }
+                    
+                    var origSnapMode = snapMode;
+                    snapMode = 0;
+                    $input.val(val).change();
+                    snapMode = origSnapMode;
+                }
+                
+                break;
+                
+            case 39: /* right */
+                if (snapMode == 1) { /* strict snapping */
+                    // TODO implement me
+                }
+                else {
+                    var step = (maxVal - minVal) / 200;
+                    var val = Math.min(maxVal, parseFloat($input.val()) + step);
+                    if (decimals == 0) {
+                        val = Math.ceil(val);
+                    }
+
+                    var origSnapMode = snapMode;
+                    snapMode = 0;
+                    $input.val(val).change();
+                    snapMode = origSnapMode;
+                }
+                
+                break;
         }
     });
     

@@ -132,10 +132,10 @@ function initUI() {
     });
 
     /* sliders */
-    makeSlider($('#brightnessSlider'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#contrastSlider'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#saturationSlider'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#hueSlider'), 0, 100, 0, null, 5, 0, '%');
+    makeSlider($('#brightnessSlider'), 0, 100, 2, null, 5, 0, '%');
+    makeSlider($('#contrastSlider'), 0, 100, 2, null, 5, 0, '%');
+    makeSlider($('#saturationSlider'), 0, 100, 2, null, 5, 0, '%');
+    makeSlider($('#hueSlider'), 0, 100, 2, null, 5, 0, '%');
     makeSlider($('#framerateSlider'), 1, 30, 0, [
         {value: 1, label: '1'},
         {value: 5, label: '5'},
@@ -157,7 +157,7 @@ function initUI() {
     makeSlider($('#streamingQualitySlider'), 0, 100, 0, null, 5, 0, '%');
     makeSlider($('#imageQualitySlider'), 0, 100, 0, null, 5, 0, '%');
     makeSlider($('#movieQualitySlider'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#frameChangeThresholdSlider'), 0, 10000, 0, null, 3, 0, 'px');
+    makeSlider($('#frameChangeThresholdSlider'), 0, 20000, 0, null, 3, 0, 'px');
     makeSlider($('#noiseLevelSlider'), 0, 100, 0, null, 5, 0, '%');
     
     /* text validators */
