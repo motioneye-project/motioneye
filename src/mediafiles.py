@@ -20,6 +20,7 @@ import logging
 import os.path
 
 import config
+import utils
 
 
 _PICTURE_EXTS = ['.jpg']
@@ -109,7 +110,18 @@ def list_pictures(camera_config):
 #         return []
 
     full_paths = _list_media_files(target_dir, exts=_PICTURE_EXTS)
-    picture_files = [p[len(target_dir):] for p in full_paths]
+    picture_files = []
+    
+    for p in full_paths:
+        path = p[len(target_dir):]
+        if not path.startswith('/'):
+            path = '/' + path
+        
+        picture_files.append({
+            'path': path,
+            'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(os.path.getmtime(p))),
+            'timestamp': os.path.getmtime(p)
+        })
     
     # TODO files listed here may not belong to the given camera
     
@@ -120,8 +132,28 @@ def list_movies(camera_config):
     target_dir = camera_config.get('target_dir')
 
     full_paths = _list_media_files(target_dir, exts=_MOVIE_EXTS)
-    movie_files = [p[len(target_dir):] for p in full_paths]
+    movie_files = [{
+        'path': p[len(target_dir):],
+        'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(os.path.getmtime(p))),
+        'timestamp': os.path.getmtime(p)
+    } for p in full_paths]
     
     # TODO files listed here may not belong to the given camera
     
     return movie_files
+
+
+def get_media_content(camera_config, path):
+    target_dir = camera_config.get('target_dir')
+
+    full_path = os.path.join(target_dir, path)
+    
+    try:
+        with open(full_path) as f:
+            return f.read()
+    
+    except Exception as e:
+        logging.error('failed to read file %(path)s: %(msg)s' % {
+                'path': full_path, 'msg': unicode(e)})
+        
+        return None

@@ -29,7 +29,7 @@ def pretty_date_time(date_time, tzinfo=None):
 
     text = u'{day} {month} {year}, {hm}'.format(
         day=date_time.day,
-        month=_(date_time.strftime('%B')),
+        month=date_time.strftime('%B'),
         year=date_time.year,
         hm=date_time.strftime('%H:%M')
     )

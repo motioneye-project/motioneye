@@ -60,7 +60,7 @@ div.button.dialog.default {
 }
 
 div.button.mouse-effect {
-    opacity: 0.9;
+    opacity: 0.7;
     transition: opacity 0.1s linear;
 }
 
@@ -69,7 +69,7 @@ div.button.mouse-effect:HOVER {
 }
 
 div.button.mouse-effect:ACTIVE {
-    opacity: 0.6;
+    opacity: 0.7;
 }
 
 
@@ -310,16 +310,18 @@ div.modal-title-bar {
 
 span.modal-title {
     color: white;
+    font-size: 1.2em;
+    line-height: 1.2em;
 }
 
 div.modal-close-button {
     position: absolute;
-    top: 0.3em;
+    top: 0.2em;
     right: 0.3em;
-    width: 16px;
-    height: 16px;
+    width: 1.1em;
+    height: 1.1em;
     background-image: url(../img/top-bar-buttons.svg);
-    opacity: 1;
+    background-size: cover;
     cursor: pointer;
 }
 
@@ -327,6 +329,7 @@ table.modal-buttons-container {
     width: 100%;
     margin: auto;
     text-align: center;
+    table-layout: fixed;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;

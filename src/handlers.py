@@ -18,6 +18,7 @@
 import base64
 import json
 import logging
+import os
 
 from tornado.web import RequestHandler, HTTPError, asynchronous
 
@@ -531,6 +532,9 @@ class PictureHandler(BaseHandler):
         elif op == 'download':
             self.download(camera_id, filename)
         
+        elif op == 'preview':
+            self.preview(camera_id, filename)
+        
         else:
             raise HTTPError(400, 'unknown operation')
     
@@ -575,9 +579,9 @@ class PictureHandler(BaseHandler):
                         camera_config.get('@host'),
                         camera_config.get('@port'),
                         camera_config.get('@remote_camera_id'))
-                
+
                 camera_full_url = camera_config['@proto'] + '://' + camera_url
-                
+
                 if remote_list is None:
                     return self.finish_json({'error': 'Failed to get picture list for %(url)s.' % {
                             'url': camera_full_url}})
@@ -594,16 +598,95 @@ class PictureHandler(BaseHandler):
         else:
             pictures = mediafiles.list_pictures(camera_config)
             
-            self.finish_json({'pictures': pictures})
+            self.finish_json({
+                'mediaList': pictures,
+                'cameraName': camera_config['@name']
+            })
         
     @BaseHandler.auth()
     def download(self, camera_id, filename):
         logging.debug('downloading picture %(filename)s of camera %(id)s' % {
                 'filename': filename, 'id': camera_id})
         
-        # TODO implement me
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
         
-        self.finish_json()
+        camera_config = config.get_camera(camera_id)
+        if camera_config['@proto'] != 'v4l2':
+            def on_response(remote_list):
+                camera_url = remote.make_remote_camera_url(
+                        camera_config.get('@host'),
+                        camera_config.get('@port'),
+                        camera_config.get('@remote_camera_id'))
+                
+                camera_full_url = camera_config['@proto'] + '://' + camera_url
+                
+                if remote_list is None:
+                    return self.finish_json({'error': 'Failed to get picture list for %(url)s.' % {
+                            'url': camera_full_url}})
+
+                self.finish_json(remote_list)
+            
+            remote.download_picture(
+                    camera_config.get('@host'),
+                    camera_config.get('@port'),
+                    camera_config.get('@username'),
+                    camera_config.get('@password'),
+                    camera_config.get('@remote_camera_id'), on_response)
+        
+        else:
+            content = mediafiles.get_media_content(camera_config, filename)
+            
+            pretty_filename = camera_config['@name'] + '_' + os.path.basename(filename)
+            self.set_header('Content-Type', 'image/jpeg')
+            self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
+            
+            self.finish(content)
+
+
+    @BaseHandler.auth()
+    def preview(self, camera_id, filename):
+        logging.debug('previewing picture %(filename)s of camera %(id)s' % {
+                'filename': filename, 'id': camera_id})
+        
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
+        
+        camera_config = config.get_camera(camera_id)
+        if camera_config['@proto'] != 'v4l2':
+            def on_response(response):
+                camera_url = remote.make_remote_camera_url(
+                        camera_config.get('@host'),
+                        camera_config.get('@port'),
+                        camera_config.get('@remote_camera_id'))
+                
+                camera_full_url = camera_config['@proto'] + '://' + camera_url
+                
+                if response is None:
+                    return self.finish_json({'error': 'Failed to get picture list for %(url)s.' % {
+                            'url': camera_full_url}})
+
+                self.set_header('Content-Type', 'image/jpeg')
+                self.finish(response)
+            
+            remote.preview_picture(
+                    camera_config.get('@host'),
+                    camera_config.get('@port'),
+                    camera_config.get('@username'),
+                    camera_config.get('@password'),
+                    camera_config.get('@remote_camera_id'),
+                    filename,
+                    width=self.get_argument('width', None),
+                    height=self.get_argument('height', None),
+                    callback=on_response)
+        
+        else:
+            content = mediafiles.get_media_content(camera_config, filename)
+            
+            # TODO add support for ?width=, ?height=
+        
+            self.set_header('Content-Type', 'image/jpeg')
+            self.finish(content)
 
 
 class MovieHandler(BaseHandler):

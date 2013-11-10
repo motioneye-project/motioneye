@@ -1,4 +1,6 @@
 
+var _modalDialogContexts = [];
+
 
     /* UI widgets */
 
@@ -525,27 +527,35 @@ function makeRegexValidator($input, regex, required) {
 
     /* modal dialog */
 
-function showModalDialog(content, onClose) {
+function showModalDialog(content, onClose, onShow, stack) {
     var glass = $('div.modal-glass');
     var container = $('div.modal-container');
     
     if (container.is(':animated')) {
         return setTimeout(function () {
-            showModalDialog(content, onClose);
+            showModalDialog(content, onClose, onShow, stack);
         }, 100);
     }
     
-    if (container.is(':visible')) {
+    if (container.is(':visible') && stack) {
         /* the modal dialog is already visible,
          * we just replace the content */
         
-        if (container[0]._onClose) {
-            container[0]._onClose();
-        }
+        var children = container.children(':visible');
+        _modalDialogContexts.push({
+            children: children,
+            onClose: container[0]._onClose,
+        });
         
-        container[0]._onClose = onClose; /* remember the onClose handler */
-        container.html(content);
+        children.css('display', 'none');
+        
+        container[0]._onClose = onClose; /* set the new onClose handler */
+        container.append(content);
         updateModalDialogPosition();
+        
+        if (onShow) {
+            onShow();
+        }
         
         return;
     }
@@ -559,6 +569,10 @@ function showModalDialog(content, onClose) {
     container.css('display', 'block');
     updateModalDialogPosition();
     container.animate({'opacity': '1'}, 200);
+    
+    if (onShow) {
+        onShow();
+    }
 }
 
 function hideModalDialog() {
@@ -569,6 +583,21 @@ function hideModalDialog() {
         return setTimeout(function () {
             hideModalDialog();
         }, 100);
+    }
+    
+    if (_modalDialogContexts.length) {
+        if (container[0]._onClose) {
+            container[0]._onClose();
+        }
+        
+        container.children(':visible').remove();
+        
+        var context = _modalDialogContexts.pop();
+        context.children.css('display', '');
+        container[0]._onClose = context.onClose;
+        updateModalDialogPosition();
+        
+        return;
     }
     
     glass.animate({'opacity': '0'}, 200, function () {
@@ -594,8 +623,8 @@ function updateModalDialogPosition() {
     
     var windowWidth = $(window).width();
     var windowHeight = $(window).height();
-    var modalWidth = container.width();
-    var modalHeight = container.height();
+    var modalWidth = container.width() + 10 /* the margins */;
+    var modalHeight = container.height() + 10 /* the margins */;
     
     container.css('left', Math.floor((windowWidth - modalWidth) / 2));
     container.css('top', Math.floor((windowHeight - modalHeight) / 2));
@@ -624,11 +653,11 @@ function makeModalDialogButtons(buttonsInfo) {
         if (info.click) {
             var oldClick = info.click;
             info.click = function () {
-                hideModalDialog();
-                
                 if (oldClick() == false) {
                     return;
                 }
+                
+                hideModalDialog();
             };
         }
         else {
@@ -681,6 +710,8 @@ function runModalDialog(options) {
      * * onOk: Function
      * * onCancel: Function
      * * onClose: Function
+     * * onShow: Function
+     * * stack: Boolean
      */
     
     var content = $('<div></div>');
@@ -748,12 +779,14 @@ function runModalDialog(options) {
     }
     
     var handleKeyUp = function (e) {
+        if (!content.is(':visible')) {
+            return;
+        }
+        
         switch (e.which) {
             case 13:
-                if (defaultClick) {
-                    if (defaultClick() == false) {
-                        return;
-                    };
+                if (defaultClick && defaultClick() == false) {
+                    return;
                 }
                 /* intentionally no break */
            
@@ -776,7 +809,8 @@ function runModalDialog(options) {
     $('html').bind('keyup', handleKeyUp);
     
     /* and finally, show the dialog */
-    showModalDialog(content, onClose);
+
+    showModalDialog(content, onClose, options.onShow, options.stack);
     
     /* focus the default button if nothing else is focused */
     if (content.find('*:focus').length === 0) {

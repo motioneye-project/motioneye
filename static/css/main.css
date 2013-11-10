@@ -355,6 +355,89 @@ table.add-camera-dialog input[type=password] {
 }
 
 
+div.media-dialog {
+    overflow: auto;
+}
+
+div.media-list-group-title {
+    background-color: #313131;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-align: center;
+    padding: 1em 0px 0.2em 0px;
+}
+
+div.media-list-entry {
+    height: 4em;
+    background-color: #414141;
+    border-bottom: 1px solid #313131;
+    cursor: pointer;
+    transition: background-color 0.1s linear;
+}
+
+div.media-list-entry:HOVER {
+    background-color: #494949;
+}
+
+div.media-list-entry:ACTIVE {
+    background-color: #3b3b3b;
+}
+
+img.media-list-preview {
+    float: left;
+    height: 3em;
+    margin: 0.45em;
+    border: 1px solid #212121;
+    box-shadow: 1px 1px 6px rgba(0,0,0,0.3);
+}
+
+div.media-list-entry-name {
+    font-size: 1.3em;
+    padding: 0.4em 0em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+div.media-list-entry-moment {
+    font-size: 1em;
+    text-align: center;
+    white-space: nowrap;
+}
+
+div.picture-dialog-content {
+    position: relative;
+}
+
+div.picture-dialog-prev-arrow,
+div.picture-dialog-next-arrow {
+    position: absolute;
+    top: 45%;
+    background-color: rgba(0, 0, 0, 0.3);
+    background-image: url(../img/arrows.svg);
+    background-size: cover;
+    width: 3em;
+    height: 3em;
+    border-radius: 0.3em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+div.picture-dialog-prev-arrow {
+    left: 1em;
+}
+
+div.picture-dialog-next-arrow {
+    right: 1em;
+    background-position: -100% 0%;
+}
+
+img.picture-dialog-content {
+    border: 1px solid #292929;
+}
+
+
     /* camera frames */
 
 div.camera-list {
@@ -393,8 +476,8 @@ div.camera-frame:HOVER {
 
 div.camera-top-bar {
     padding: 3px 0px;
-    font-size: 17px;
-    height: 17px;
+    font-size: 20px;
+    height: 25px;
 }
 
 div.modal-container div.camera-top-bar {
@@ -403,6 +486,7 @@ div.modal-container div.camera-top-bar {
 
 span.camera-name {
     float: left;
+    line-height: 25px;
 }
 
 div.camera-buttons {
@@ -411,12 +495,12 @@ div.camera-buttons {
 
 div.camera-button {
     display: inline-block;
-    width: 16px;
-    height: 16px;
+    width: 24px;
+    height: 24px;
     background-image: url(../img/top-bar-buttons.svg);
+    background-size: cover;
     margin-left: 3px;
     cursor: pointer;
-    opacity: 1;
     transition: all 0.1s linear;
 }
 
@@ -430,6 +514,14 @@ div.camera-button.full-screen {
 
 div.camera-button.configure {
     background-position: -100% 0px;
+}
+
+div.camera-button.media-pictures {
+    background-position: -300% 0px;
+}
+
+div.camera-button.media-movies {
+    background-position: -400% 0px;
 }
 
 div.camera-container {
@@ -520,11 +612,6 @@ img.camera-progress {
         background-size: cover;
         width: 24px;
         height: 24px;
-    }
-    
-    div.camera-top-bar {
-        font-size: 20px;
-        height: 25px;
     }
 }
 

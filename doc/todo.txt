@@ -1,7 +1,8 @@
+-> fix remote picture previewer
+-> add a download option in media list
+-> add a previewer for movies
 -> make camera frames positions configurable
 -> add a view log functionality
--> add a previewer for snapshots
--> add a previewer for movies
 
 -> style scroll bars
 -> hint text next to section titles

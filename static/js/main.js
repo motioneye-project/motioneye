@@ -122,6 +122,23 @@ Array.prototype.map = function (func, thisArg) {
     return mapped;
 };
 
+Array.prototype.sortKey = function (keyFunc) {
+    this.sort(function (e1, e2) {
+        var k1 = keyFunc(e1);
+        var k2 = keyFunc(e2);
+        
+        if (k1 < k2) {
+            return -1;
+        }
+        else if (k1 > k2) {
+            return 1;
+        }
+        else {
+            return 0;
+        }
+    });
+};
+
 
     /* UI initialization */
 
@@ -992,6 +1009,74 @@ function runConfirmDialog(message, onYes) {
     runModalDialog({title: message, buttons: 'yesno', onYes: onYes});
 }
 
+function runPictureDialog(entries, pos) {
+    var content = $('<div class="picture-dialog-content"></div>');
+    
+    var img = $('<img class="picture-dialog-content">');
+    content.append(img);
+    
+    var prevArrow = $('<div class="picture-dialog-prev-arrow button mouse-effect" title="previous picture"></div>');
+    content.append(prevArrow);
+    
+    var nextArrow = $('<div class="picture-dialog-next-arrow button mouse-effect" title="next picture"></div>');
+    content.append(nextArrow);
+    
+    var windowWidth = $(window).width();
+    
+    function updatePicture() {
+        var entry = entries[pos];
+        var width; 
+        if (windowWidth <= 1000) {
+            width = parseInt(windowWidth * 0.9);
+        }
+        else {
+            width = parseInt(windowWidth * 0.5);
+        }
+        
+        img.width(width);
+        img.attr('src', '/picture/' + entry.cameraId + '/preview' + entry.path + '?width=' + width);
+        
+        prevArrow.css('display', pos > 0 ? '' : 'none');
+        nextArrow.css('display', pos < entries.length - 1 ? '' : 'none');
+        
+        $('div.modal-container').find('span.modal-title:last').html(entry.name);
+    }
+    
+    prevArrow.click(function () {
+        if (pos > 0) {
+            pos--;
+        }
+        
+        updatePicture();
+    });
+    
+    nextArrow.click(function () {
+        if (pos < entries.length - 1) {
+            pos++;
+        }
+        
+        updatePicture();
+    });
+    
+    img.load(updateModalDialogPosition);
+    
+    runModalDialog({
+        title: ' ',
+        closeButton: true,
+        buttons: [
+            {caption: 'Close'},
+            {caption: 'Download', isDefault: true, click: function () {
+                window.location.href = img.attr('src').replace('preview', 'download'); 
+                
+                return false;
+            }}
+        ],
+        content: content,
+        stack: true,
+        onShow: updatePicture
+    });
+}
+
 function runAddCameraDialog() {
     if (!$('#motionEyeSwitch')[0].checked) {
         return runAlertDialog('Please enable motionEye first!');
@@ -1206,6 +1291,149 @@ function runAddCameraDialog() {
 }
 
 
+function runMediaDialog(cameraId, mediaType) {
+    var dialogDiv = $(
+            '<div class="media-dialog">' +
+            '</div>');
+    
+    var windowWidth = $(window).width();
+    
+    if (windowWidth <= 1000) {
+        dialogDiv.width(parseInt(windowWidth * 0.9));
+        dialogDiv.height(parseInt(windowWidth * 0.9 * 480 / 640));
+    }
+    else {
+        dialogDiv.width(parseInt(windowWidth * 0.5));
+        dialogDiv.height(parseInt(windowWidth * 0.5 * 480 / 640));
+    }
+    
+    function fetchMedia() {
+        var progress = $('<div style="text-align: center; margin: 2px;"><img src="' + staticUrl + 'img/small-progress.gif"></div>');
+        
+        cameraSelect.hide();
+        cameraSelect.before(progress);
+        cameraSelect.parent().find('div').remove(); /* remove any previous progress div */
+        
+        var data = {
+            host: hostEntry.val(),
+            port: portEntry.val(),
+            username: usernameEntry.val(),
+            password: passwordEntry.val()
+        };
+        
+        ajax('GET', '/config/list/', data, function (data) {
+            if (data == null || data.error) {
+                progress.remove();
+                if (passwordEntry.val()) { /* only show an error message when a password is supplied */
+                    showErrorMessage(data && data.error);
+                }
+                
+                return;
+            }
+            
+            cameraSelect.html('');
+            progress.remove();
+            
+            if (data.error || !data.cameras) {
+                return;
+            }
+
+            data.cameras.forEach(function (info) {
+                cameraSelect.append('<option value="' + info.id + '">' + info.name + '</option>');
+            });
+            
+            cameraSelect.show();
+        });
+    }
+    
+    showModalDialog('<div class="modal-progress"></div>');
+    
+    /* fetch the media list */
+    ajax('GET', '/' + mediaType + '/' + cameraId + '/list/', null, function (data) {
+        if (data == null || data.error) {
+            hideModalDialog();
+            showErrorMessage(data && data.error);
+            return;
+        }
+        
+        /* sort and group the media */
+        var groups = {};
+        data.mediaList.forEach(function (media) {
+            var path = media.path;
+            var parts = path.split('/');
+            var keyParts = parts.splice(0, parts.length - 1);
+            var key = keyParts.join('/');
+            var list = (groups[key] = groups[key] || []);
+            
+            list.push({
+                'path': path,
+                'group': key,
+                'name': parts[parts.length - 1],
+                'cameraId': cameraId,
+                'momentStr': media.momentStr,
+                'timestamp': media.timestamp
+            });
+        });
+        
+        var keys = Object.keys(groups);
+        keys.sort();
+        
+        keys.forEach(function (key) {
+            if (key) {
+                var groupDiv = $('<div class="media-list-group-title">' + key + '</div>');
+                dialogDiv.append(groupDiv);
+            }
+            
+            var entries = groups[key];
+            entries.sortKey(function (e) {return e.timestamp;});
+            
+            entries.forEach(function (entry, pos) {
+                var entryDiv = $('<div class="media-list-entry"></div>');
+                
+                var previewImg = $('<img class="media-list-preview" src="/' + mediaType + '/' + cameraId + '/preview' + entry.path + '"/>');
+                entryDiv.append(previewImg);
+                
+                var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
+                entryDiv.append(nameDiv);
+                
+                var momentDiv = $('<div class="media-list-entry-moment">' + entry.momentStr + '</div>');
+                entryDiv.append(momentDiv);
+                entryDiv.click(function () {
+                    if (mediaType === 'picture') {
+                        runPictureDialog(entries, pos);
+                    }
+                });
+                
+                dialogDiv.append(entryDiv);
+            });
+        });
+        
+        /* scroll to bottom */
+        dialogDiv.find('img.media-list-preview:last').load(function () {
+            dialogDiv.scrollTop(dialogDiv.prop('scrollHeight'));
+        });
+        
+        var title;
+        if (mediaType === 'picture') {
+            title = 'Pictures taken by ' + data.cameraName;
+        }
+        else {
+            title = 'Movies recored by ' + data.cameraName;
+        }
+        
+        runModalDialog({
+            title: title,
+            closeButton: true,
+            buttons: '',
+            content: dialogDiv,
+            onShow: function () {
+                dialogDiv.scrollTop(dialogDiv.prop('scrollHeight'));
+            }
+        });
+    });
+}
+
+
     /* camera frames */
 
 function addCameraFrameUi(cameraId, cameraName, framerate) {
@@ -1223,8 +1451,10 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
                 '<div class="camera-top-bar">' +
                     '<span class="camera-name"></span>' +
                     '<div class="camera-buttons">' +
+                        '<div class="button camera-button mouse-effect media-pictures" title="pictures"></div>' +
+                        '<div class="button camera-button mouse-effect media-movies" title="movies"></div>' +
                         '<div class="button camera-button mouse-effect configure" title="configure"></div>' +
-                        '<div class="button camera-button mouse-effect full-screen" title="full screen"></div>' +
+//                        '<div class="button camera-button mouse-effect full-screen" title="full screen"></div>' +
                     '</div>' +
                 '</div>' +
                 '<div class="camera-container">' +
@@ -1237,6 +1467,8 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     var nameSpan = cameraFrameDiv.find('span.camera-name');
     var configureButton = cameraFrameDiv.find('div.camera-button.configure');
     var fullScreenButton = cameraFrameDiv.find('div.camera-button.full-screen');
+    var picturesButton = cameraFrameDiv.find('div.camera-button.media-pictures');
+    var moviesButton = cameraFrameDiv.find('div.camera-button.media-movies');
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
     var cameraProgress = cameraFrameDiv.find('div.camera-progress');
     var cameraImg = cameraFrameDiv.find('img.camera');
@@ -1287,6 +1519,18 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     fullScreenButton.click(function (cameraId) {
         return function () {
             doFullScreenCamera(cameraId);
+        };
+    }(cameraId));
+    
+    picturesButton.click(function (cameraId) {
+        return function () {
+            runMediaDialog(cameraId, 'picture');
+        };
+    }(cameraId));
+    
+    moviesButton.click(function (cameraId) {
+        return function () {
+            runMediaDialog(cameraId, 'movie');
         };
     }(cameraId));
     
@@ -1420,6 +1664,10 @@ function doFullScreenCamera(cameraId) {
     var windowAspectRatio = windowWidth / windowHeight;
     var frameIndex = cameraFrameDiv.index();
     var pageContainer = $('div.page-container');
+    
+    if (frameImg.hasClass('error')) {
+        return; /* no full screen for erroneous cameras */
+    }
 
     fullScreenCameraId = cameraId;
 

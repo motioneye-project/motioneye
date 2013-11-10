@@ -237,7 +237,42 @@ def list_pictures(host, port, username, password, camera_id, callback):
             
             return callback(None)
         
-        return callback(response['pictures'])
+        return callback(response)
     
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, on_response)
+
+
+def preview_picture(host, port, username, password, camera_id, filename, width, height, callback):
+    logging.debug('getting preview for file %(filename)s of remote camera %(id)s on %(host)s:%(port)s' % {
+            'filename': filename,
+            'id': camera_id,
+            'host': host,
+            'port': port})
+    
+    uri = '/picture/%(id)s/preview/%(filename)s/?' % {
+            'id': camera_id,
+            'filename': filename}
+    
+    if width:
+        uri += 'width=' + str(width)
+    if height:
+        uri += 'height=' + str(height)
+    
+    request = _make_request(host, port, username, password, uri)
+    
+    def on_response(response):
+        if response.error:
+            logging.error('failed to get preview for file %(filename)s of remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+                    'filename': filename,
+                    'id': camera_id,
+                    'host': host,
+                    'port': port,
+                    'msg': unicode(response.error)})
+            
+            return callback(None)
+        
+        return callback(response.body)
+
     http_client = AsyncHTTPClient()
     http_client.fetch(request, on_response)
