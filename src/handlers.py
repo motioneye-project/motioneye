@@ -613,7 +613,7 @@ class PictureHandler(BaseHandler):
         
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] != 'v4l2':
-            def on_response(remote_list):
+            def on_response(response):
                 camera_url = remote.make_remote_camera_url(
                         camera_config.get('@host'),
                         camera_config.get('@port'),
@@ -621,19 +621,26 @@ class PictureHandler(BaseHandler):
                 
                 camera_full_url = camera_config['@proto'] + '://' + camera_url
                 
-                if remote_list is None:
-                    return self.finish_json({'error': 'Failed to get picture list for %(url)s.' % {
+                if response is None:
+                    return self.finish_json({'error': 'Failed to download picture from %(url)s.' % {
                             'url': camera_full_url}})
 
-                self.finish_json(remote_list)
-            
-            remote.download_picture(
+                pretty_filename = os.path.basename(filename) # no camera name available w/o additional request
+                self.set_header('Content-Type', 'image/jpeg')
+                self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
+                
+                self.finish(response)
+
+            remote.get_media(
                     camera_config.get('@host'),
                     camera_config.get('@port'),
                     camera_config.get('@username'),
                     camera_config.get('@password'),
-                    camera_config.get('@remote_camera_id'), on_response)
-        
+                    camera_config.get('@remote_camera_id'),
+                    on_response,
+                    filename=filename,
+                    media_type='picture')
+            
         else:
             content = mediafiles.get_media_content(camera_config, filename)
             
@@ -663,22 +670,23 @@ class PictureHandler(BaseHandler):
                 camera_full_url = camera_config['@proto'] + '://' + camera_url
                 
                 if response is None:
-                    return self.finish_json({'error': 'Failed to get picture list for %(url)s.' % {
+                    return self.finish_json({'error': 'Failed to get picture preview for %(url)s.' % {
                             'url': camera_full_url}})
 
                 self.set_header('Content-Type', 'image/jpeg')
                 self.finish(response)
             
-            remote.preview_picture(
+            remote.get_media(
                     camera_config.get('@host'),
                     camera_config.get('@port'),
                     camera_config.get('@username'),
                     camera_config.get('@password'),
                     camera_config.get('@remote_camera_id'),
-                    filename,
+                    on_response,
+                    filename=filename,
+                    media_type='picture',
                     width=self.get_argument('width', None),
-                    height=self.get_argument('height', None),
-                    callback=on_response)
+                    height=self.get_argument('height', None))
         
         else:
             content = mediafiles.get_media_content(camera_config, filename)

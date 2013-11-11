@@ -1393,11 +1393,21 @@ function runMediaDialog(cameraId, mediaType) {
                 var previewImg = $('<img class="media-list-preview" src="/' + mediaType + '/' + cameraId + '/preview' + entry.path + '"/>');
                 entryDiv.append(previewImg);
                 
+                var downloadButton = $('<div class="media-list-download-button button">download</div>');
+                entryDiv.append(downloadButton);
+                
                 var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
                 entryDiv.append(nameDiv);
                 
                 var momentDiv = $('<div class="media-list-entry-moment">' + entry.momentStr + '</div>');
                 entryDiv.append(momentDiv);
+                
+                downloadButton.click(function () {
+                    window.location.href = '/picture/' + cameraId + '/download' + entry.path;
+                    
+                    return false;
+                });
+                
                 entryDiv.click(function () {
                     if (mediaType === 'picture') {
                         runPictureDialog(entries, pos);
@@ -1452,7 +1462,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
                     '<span class="camera-name"></span>' +
                     '<div class="camera-buttons">' +
                         '<div class="button camera-button mouse-effect media-pictures" title="pictures"></div>' +
-                        '<div class="button camera-button mouse-effect media-movies" title="movies"></div>' +
+//                        '<div class="button camera-button mouse-effect media-movies" title="movies"></div>' +
                         '<div class="button camera-button mouse-effect configure" title="configure"></div>' +
 //                        '<div class="button camera-button mouse-effect full-screen" title="full screen"></div>' +
                     '</div>' +

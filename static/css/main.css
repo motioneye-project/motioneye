@@ -404,6 +404,27 @@ div.media-list-entry-moment {
     white-space: nowrap;
 }
 
+div.media-list-download-button {
+    float: right;
+    height: 1.5em;
+    line-height: 1.5em;
+    text-align: center;
+    margin: 1.2em 0.5em;
+    padding: 0px 0.5em;
+    color: white;
+    background-color: #317CAD;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+}
+
+div.media-list-download-button:HOVER {
+    background-color: #3498db;
+}
+
+div.media-list-download-button:ACTIVE {
+    background-color: #317CAD;
+}
+
 div.picture-dialog-content {
     position: relative;
 }

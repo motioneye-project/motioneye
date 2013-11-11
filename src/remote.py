@@ -243,19 +243,22 @@ def list_pictures(host, port, username, password, camera_id, callback):
     http_client.fetch(request, on_response)
 
 
-def preview_picture(host, port, username, password, camera_id, filename, width, height, callback):
-    logging.debug('getting preview for file %(filename)s of remote camera %(id)s on %(host)s:%(port)s' % {
+def get_media(host, port, username, password, camera_id, callback, filename, media_type, width=None, height=None):
+    logging.debug('getting file %(filename)s of remote camera %(id)s on %(host)s:%(port)s' % {
             'filename': filename,
             'id': camera_id,
             'host': host,
             'port': port})
     
-    uri = '/picture/%(id)s/preview/%(filename)s/?' % {
+    uri = '/%(media_type)s/%(id)s/%(op)s/%(filename)s?' % {
+            'media_type': media_type,
+            'op': 'preview' if (width or height) else 'download',
             'id': camera_id,
             'filename': filename}
     
     if width:
         uri += 'width=' + str(width)
+        
     if height:
         uri += 'height=' + str(height)
     
@@ -263,7 +266,7 @@ def preview_picture(host, port, username, password, camera_id, filename, width, 
     
     def on_response(response):
         if response.error:
-            logging.error('failed to get preview for file %(filename)s of remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+            logging.error('failed to get media file %(filename)s of remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
                     'filename': filename,
                     'id': camera_id,
                     'host': host,
