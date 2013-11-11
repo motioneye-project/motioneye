@@ -29,7 +29,7 @@ import settings
 
 sys.path.append(os.path.join(settings.PROJECT_PATH, 'src'))
 
-VERSION = '0.3'
+VERSION = '0.4'
 
 
 def _configure_signals():
