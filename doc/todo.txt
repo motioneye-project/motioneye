@@ -1,4 +1,6 @@
 -> add support for picture resizing
+-> add a loading progress for media previews
+-> add a pager for media files
 -> add a download option in media list
 -> add a previewer for movies
 -> make camera frames positions configurable

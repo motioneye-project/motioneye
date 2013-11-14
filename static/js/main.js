@@ -621,7 +621,10 @@ function dict2CameraUi(dict) {
     $('#networkUsernameEntry').val(dict['network_username']);
     $('#networkPasswordEntry').val(dict['network_password']);
     $('#rootDirectoryEntry').val(dict['root_directory']);
-    var percent = parseInt(dict['disk_used'] * 100 / dict['disk_total']);
+    var percent = 0;
+    if (dict['disk_total'] != 0) {
+        percent = parseInt(dict['disk_used'] * 100 / dict['disk_total']);
+    }
     $('#diskUsageBarFill').css('width', percent + '%');
     $('#diskUsageText').html(
             (dict['disk_used'] / 1073741824).toFixed(1)  + '/' + (dict['disk_total'] / 1073741824).toFixed(1) + ' GB (' + percent + '%)');

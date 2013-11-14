@@ -250,12 +250,19 @@ def set_camera(camera_id, data):
                 
         elif not data['@enabled']:
             threads = [t for t in threads if t != config_file_name]
-    
+
         main_config['thread'] = threads
         
         data['@id'] = camera_id
         
         set_main(main_config)
+        
+        # try to create the target_dir
+        try:
+            os.makedirs(data['target_dir'])
+        
+        except Exception as e:
+            logging.warn('failed to create target directory: %(msg)s' % {'msg': unicode(e)})
 
     # read the actual configuration from file
     config_file_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
@@ -561,7 +568,12 @@ def camera_ui_to_dict(ui):
 def camera_dict_to_ui(data):
     if data['@proto'] == 'v4l2':
         device_uri = data['videodevice']
-        disk_used, disk_total = utils.get_disk_usage(data['target_dir'])
+        usage = utils.get_disk_usage(data['target_dir'])
+        if usage:
+            disk_used, disk_total = usage
+        
+        else:
+            disk_used, disk_total = 0, 0
     
     else:
         device_uri = '%(host)s:%(port)s/config/%(camera_id)s' % {
