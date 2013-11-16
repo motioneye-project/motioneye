@@ -95,7 +95,7 @@ def make_movie_preview(camera_config, full_path):
             'path': full_path, 'offs': offs}
     
     try:
-        subprocess.check_call(cmd, shell=True)
+        subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
     
     except subprocess.CalledProcessError as e:
         logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
@@ -105,6 +105,33 @@ def make_movie_preview(camera_config, full_path):
     
     return full_path + '.thumb'
 
+
+def make_next_movie_preview():
+    logging.debug('making preview for the next movie...')
+    
+    for camera_id in config.get_camera_ids():
+        camera_config = config.get_camera(camera_id)
+        if camera_config.get('@proto') != 'v4l2':
+            continue
+        
+        target_dir = camera_config['target_dir']
+        
+        for full_path in _list_media_files(target_dir, _MOVIE_EXTS):
+            # TODO files listed here may not belong to the given camera
+        
+            if os.path.exists(full_path + '.thumb'):
+                continue
+            
+            logging.debug('found a movie without preview: %(path)s' % {
+                    'path': full_path})
+                
+            make_movie_preview(camera_config, full_path)
+            
+            break
+        
+        else:
+            logging.debug('all movies have preview')
+            
 
 def list_media(camera_config, media_type):
     target_dir = camera_config.get('target_dir')

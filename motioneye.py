@@ -198,6 +198,26 @@ def _start_cleanup():
     do_cleanup()
 
 
+def _start_movie_thumbnailer():
+    import mediafiles
+
+    def do_next_movie_thumbail():
+        ioloop = tornado.ioloop.IOLoop.instance()
+        if ioloop._stopped:
+            return
+        
+        try:
+            mediafiles.make_next_movie_preview()
+            
+        except Exception as e:
+            logging.error('failed to make movie thumbnail: %(msg)s' % {
+                    'msg': unicode(e)})
+
+        ioloop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), do_next_movie_thumbail)
+
+    do_next_movie_thumbail()
+
+
 if __name__ == '__main__':
     _configure_settings()
     _configure_signals()
@@ -205,4 +225,5 @@ if __name__ == '__main__':
     
     _start_motion()
     _start_cleanup()
+    _start_movie_thumbnailer()
     _start_server()
