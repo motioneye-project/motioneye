@@ -477,7 +477,7 @@ div.picture-dialog-prev-arrow,
 div.picture-dialog-next-arrow {
     position: absolute;
     top: 45%;
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
     background-image: url(../img/arrows.svg);
     background-size: cover;
     width: 3em;

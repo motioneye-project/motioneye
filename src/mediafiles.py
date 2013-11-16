@@ -18,6 +18,10 @@
 import datetime
 import logging
 import os.path
+import StringIO
+import subprocess
+
+from PIL import Image
 
 import config
 import utils
@@ -56,68 +60,70 @@ def _remove_older_files(dir, moment, exts):
             os.remove(full_path)
 
 
-def cleanup_pictures():
-    logging.debug('cleaning up pictures...')
+def cleanup_media(media_type):
+    logging.debug('cleaning up %(media_type)ss...' % {'media_type': media_type})
     
+    if media_type == 'picture':
+        exts = _PICTURE_EXTS
+        
+    elif media_type == 'movie':
+        exts = _MOVIE_EXTS
+        
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
         if camera_config.get('@proto') != 'v4l2':
             continue
         
-        preserve_pictures = camera_config.get('@preserve_pictures')
-        if preserve_pictures == 0:
+        preserve_media = camera_config.get('@preserve_%(media_type)ss' % {'media_type': media_type}, 0)
+        if preserve_media == 0:
             return # preserve forever
         
-        preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_pictures)
+        preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_media)
             
         target_dir = camera_config.get('target_dir')
-        _remove_older_files(target_dir, preserve_moment, exts=_PICTURE_EXTS)
+        _remove_older_files(target_dir, preserve_moment, exts=exts)
 
 
-def cleanup_movies():
-    logging.debug('cleaning up movies...')
+def make_movie_preview(camera_config, full_path):
+    logging.debug('creating movie preview for %(path)s...' % {'path': full_path})
     
-    for camera_id in config.get_camera_ids():
-        camera_config = config.get_camera(camera_id)
-        if camera_config.get('@proto') != 'v4l2':
-            continue
+    framerate = camera_config['framerate']
+    pre_capture = camera_config['pre_capture']
+    offs = pre_capture / framerate
+    
+    cmd = 'ffmpeg -i "%(path)s" -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb' % {
+            'path': full_path, 'offs': offs}
+    
+    try:
+        subprocess.check_call(cmd, shell=True)
+    
+    except subprocess.CalledProcessError as e:
+        logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
+                'path': full_path, 'msg': unicode(e)})
         
-        preserve_movies = camera_config.get('@preserve_movies')
-        if preserve_movies == 0:
-            return # preserve forever
-        
-        preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_movies)
-            
-        target_dir = camera_config.get('target_dir')
-        _remove_older_files(target_dir, preserve_moment, exts=_MOVIE_EXTS)
+        return None
+    
+    return full_path + '.thumb'
 
 
-def list_pictures(camera_config):
+def list_media(camera_config, media_type):
     target_dir = camera_config.get('target_dir')
-#     output_all = camera_config.get('output_all')
-#     output_normal = camera_config.get('output_normal')
-#     jpeg_filename = camera_config.get('jpeg_filename')
-#     snapshot_interval = camera_config.get('snapshot_interval')
-#     snapshot_filename = camera_config.get('snapshot_filename')
-#     
-#     if (output_all or output_normal) and jpeg_filename:
-#         filename = jpeg_filename
-#     
-#     elif snapshot_interval and snapshot_filename:
-#         filename = snapshot_filename
-#     
-#     else:
-#         return []
 
-    full_paths = _list_media_files(target_dir, exts=_PICTURE_EXTS)
-    picture_files = []
+    if media_type == 'picture':
+        exts = _PICTURE_EXTS
+        
+    elif media_type == 'movie':
+        exts = _MOVIE_EXTS
+        
+    full_paths = _list_media_files(target_dir, exts=exts)
+    media_files = []
     
     for p in full_paths:
         path = p[len(target_dir):]
         if not path.startswith('/'):
             path = '/' + path
         
-        picture_files.append({
+        media_files.append({
             'path': path,
             'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(os.path.getmtime(p))),
             'sizeStr': utils.pretty_size(os.path.getsize(p)),
@@ -126,26 +132,10 @@ def list_pictures(camera_config):
     
     # TODO files listed here may not belong to the given camera
     
-    return picture_files
+    return media_files
 
 
-def list_movies(camera_config):
-    target_dir = camera_config.get('target_dir')
-
-    full_paths = _list_media_files(target_dir, exts=_MOVIE_EXTS)
-    movie_files = [{
-        'path': p[len(target_dir):],
-        'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(os.path.getmtime(p))),
-        'sizeStr': utils.pretty_size(os.path.getsize(p)),
-        'timestamp': os.path.getmtime(p)
-    } for p in full_paths]
-    
-    # TODO files listed here may not belong to the given camera
-    
-    return movie_files
-
-
-def get_media_content(camera_config, path):
+def get_media_content(camera_config, path, media_type):
     target_dir = camera_config.get('target_dir')
 
     full_path = os.path.join(target_dir, path)
@@ -159,3 +149,40 @@ def get_media_content(camera_config, path):
                 'path': full_path, 'msg': unicode(e)})
         
         return None
+
+
+def get_media_preview(camera_config, path, media_type, width, height):
+    target_dir = camera_config.get('target_dir')
+    full_path = os.path.join(target_dir, path)
+    
+    if media_type == 'movie':
+        if not os.path.exists(full_path + '.thumb'):
+            if not make_movie_preview(camera_config, full_path):
+                return None
+        
+        full_path += '.thumb'
+    
+    try:
+        with open(full_path) as f:
+            content = f.read()
+    
+    except Exception as e:
+        logging.error('failed to read file %(path)s: %(msg)s' % {
+                'path': full_path, 'msg': unicode(e)})
+        
+        return None
+    
+    if width is height is None:
+        return content
+    
+    sio = StringIO.StringIO(content)
+    image = Image.open(sio)
+    width = width and int(width) or image.size[0]
+    height = height and int(height) or image.size[1]
+    
+    image.thumbnail((width, height), Image.LINEAR)
+
+    sio = StringIO.StringIO()
+    image.save(sio, format='JPEG')
+
+    return sio.getvalue()

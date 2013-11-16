@@ -208,17 +208,18 @@ def current_picture(host, port, username, password, camera_id, callback):
     http_client.fetch(request, on_response)
 
 
-def list_pictures(host, port, username, password, camera_id, callback):
-    logging.debug('getting picture list for remote camera %(id)s on %(host)s:%(port)s' % {
+def list_media(host, port, username, password, camera_id, callback, media_type):
+    logging.debug('getting media list for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
             'port': port})
     
-    request = _make_request(host, port, username, password, '/picture/%(id)s/list/' % {'id': camera_id})
+    request = _make_request(host, port, username, password, '/%(media_type)s/%(id)s/list/' % {
+            'id': camera_id, 'media_type': media_type})
     
     def on_response(response):
         if response.error:
-            logging.error('failed to get picture list for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+            logging.error('failed to get media list for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
                     'id': camera_id,
                     'host': host,
                     'port': port,
@@ -243,16 +244,46 @@ def list_pictures(host, port, username, password, camera_id, callback):
     http_client.fetch(request, on_response)
 
 
-def get_media(host, port, username, password, camera_id, callback, filename, media_type, width=None, height=None):
-    logging.debug('getting file %(filename)s of remote camera %(id)s on %(host)s:%(port)s' % {
+def get_media_content(host, port, username, password, camera_id, callback, filename, media_type):
+    logging.debug('downloading file %(filename)s of remote camera %(id)s on %(host)s:%(port)s' % {
             'filename': filename,
             'id': camera_id,
             'host': host,
             'port': port})
     
-    uri = '/%(media_type)s/%(id)s/%(op)s/%(filename)s?' % {
+    uri = '/%(media_type)s/%(id)s/download/%(filename)s?' % {
             'media_type': media_type,
-            'op': 'preview' if (width or height) else 'download',
+            'id': camera_id,
+            'filename': filename}
+    
+    request = _make_request(host, port, username, password, uri)
+    
+    def on_response(response):
+        if response.error:
+            logging.error('failed to download file %(filename)s of remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+                    'filename': filename,
+                    'id': camera_id,
+                    'host': host,
+                    'port': port,
+                    'msg': unicode(response.error)})
+            
+            return callback(None)
+        
+        return callback(response.body)
+
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, on_response)
+
+
+def get_media_preview(host, port, username, password, camera_id, callback, filename, media_type, width, height):
+    logging.debug('getting file preview for %(filename)s of remote camera %(id)s on %(host)s:%(port)s' % {
+            'filename': filename,
+            'id': camera_id,
+            'host': host,
+            'port': port})
+    
+    uri = '/%(media_type)s/%(id)s/preview/%(filename)s?' % {
+            'media_type': media_type,
             'id': camera_id,
             'filename': filename}
     
@@ -266,7 +297,7 @@ def get_media(host, port, username, password, camera_id, callback, filename, med
     
     def on_response(response):
         if response.error:
-            logging.error('failed to get media file %(filename)s of remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+            logging.error('failed to get file preview for %(filename)s of remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
                     'filename': filename,
                     'id': camera_id,
                     'host': host,

@@ -1012,7 +1012,7 @@ function runConfirmDialog(message, onYes) {
     runModalDialog({title: message, buttons: 'yesno', onYes: onYes});
 }
 
-function runPictureDialog(entries, pos) {
+function runPictureDialog(entries, pos, mediaType) {
     var content = $('<div class="picture-dialog-content"></div>');
     
     var img = $('<img class="picture-dialog-content">');
@@ -1045,7 +1045,7 @@ function runPictureDialog(entries, pos) {
         progressImg.css('left', (img.parent().width() - progressImg.width()) / 2);
         progressImg.css('top', (img.parent().height() - progressImg.height()) / 2);
         
-        img.attr('src', '/picture/' + entry.cameraId + '/preview' + entry.path);
+        img.attr('src', '/' + mediaType + '/' + entry.cameraId + '/preview' + entry.path);
         img.load(function () {
             img.width(width);
             updateModalDialogPosition();
@@ -1082,7 +1082,8 @@ function runPictureDialog(entries, pos) {
         buttons: [
             {caption: 'Close'},
             {caption: 'Download', isDefault: true, click: function () {
-                window.location.href = img.attr('src').replace('preview', 'download'); 
+                var entry = entries[pos];
+                window.location.href = '/' + mediaType + '/' + entry.cameraId + '/download' + entry.path; 
                 
                 return false;
             }}
@@ -1396,9 +1397,7 @@ function runMediaDialog(cameraId, mediaType) {
                 };
                 
                 entryDiv[0]._onClick = function () {
-                    if (mediaType === 'picture') {
-                        runPictureDialog(entries, pos);
-                    }
+                    runPictureDialog(entries, pos, mediaType);
                 };
                 
                 entry.div = entryDiv;
@@ -1500,7 +1499,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
                     '<span class="camera-name"></span>' +
                     '<div class="camera-buttons">' +
                         '<div class="button camera-button mouse-effect media-pictures" title="pictures"></div>' +
-//                        '<div class="button camera-button mouse-effect media-movies" title="movies"></div>' +
+                        '<div class="button camera-button mouse-effect media-movies" title="movies"></div>' +
                         '<div class="button camera-button mouse-effect configure" title="configure"></div>' +
 //                        '<div class="button camera-button mouse-effect full-screen" title="full screen"></div>' +
                     '</div>' +

@@ -47,7 +47,7 @@ application = Application(
         (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list)/?$', handlers.PictureHandler),
         (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview)/(?P<filename>.+)/?$', handlers.PictureHandler),
         (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', handlers.MovieHandler),
-        (r'^/movie/(?P<camera_id>\d+)/(?P<op>download)/(?P<filename>.+)/?$', handlers.MovieHandler),
+        (r'^/movie/(?P<camera_id>\d+)/(?P<op>download|preview)/(?P<filename>.+)/?$', handlers.MovieHandler),
         (r'^/update/?$', handlers.UpdateHandler),
     ],
     debug=True, # enables autoreload
