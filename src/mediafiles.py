@@ -24,7 +24,6 @@ import subprocess
 from PIL import Image
 
 import config
-import utils
 
 
 _PICTURE_EXTS = ['.jpg']
@@ -90,7 +89,8 @@ def make_movie_preview(camera_config, full_path):
     framerate = camera_config['framerate']
     pre_capture = camera_config['pre_capture']
     offs = pre_capture / framerate
-    offs *= 2
+    offs = min(4, offs * 2)
+    
 
     cmd = 'ffmpeg -i "%(path)s" -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb' % {
             'path': full_path, 'offs': offs}

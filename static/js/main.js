@@ -1380,7 +1380,7 @@ function runMediaDialog(cameraId, mediaType) {
         /* prepare the entries within each group */
         keys.forEach(function (key) {
             var entries = groups[key];
-            entries.sortKey(function (e) {return e.timestamp;});
+            entries.sortKey(function (e) {return e.timestamp || e.name;});
             
             entries.forEach(function (entry, pos) {
                 var entryDiv = $('<div class="media-list-entry"></div>');
