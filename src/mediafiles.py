@@ -120,6 +120,7 @@ def list_pictures(camera_config):
         picture_files.append({
             'path': path,
             'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(os.path.getmtime(p))),
+            'sizeStr': utils.pretty_size(os.path.getsize(p)),
             'timestamp': os.path.getmtime(p)
         })
     
@@ -135,6 +136,7 @@ def list_movies(camera_config):
     movie_files = [{
         'path': p[len(target_dir):],
         'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(os.path.getmtime(p))),
+        'sizeStr': utils.pretty_size(os.path.getsize(p)),
         'timestamp': os.path.getmtime(p)
     } for p in full_paths]
     

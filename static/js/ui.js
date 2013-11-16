@@ -687,6 +687,9 @@ function makeModalDialogTitleBar(options) {
     
     var titleSpan = $('<span class="modal-title"></span>');
     titleSpan.html(options.title || '');
+    if (options.closeButton) {
+        titleSpan.css('margin', '0px 1.5em');
+    }
     
     titleBar.append(titleSpan);
     

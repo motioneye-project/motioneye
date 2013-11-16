@@ -1,7 +1,4 @@
--> add support for picture resizing
--> add a loading progress for media previews
--> add a pager for media files
--> add a download option in media list
+-> layout seems to be too wide for a modern mobile phone
 -> add a previewer for movies
 -> make camera frames positions configurable
 -> add a view log functionality

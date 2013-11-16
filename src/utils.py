@@ -169,6 +169,22 @@ def pretty_duration(duration):
     return format.format(d=days, h=hours, m=minutes, s=seconds)
 
 
+def pretty_size(size):
+    if size < 1024: # less than 1kB
+        size, unit = size, 'B'
+    
+    elif size < 1024 * 1024: # less than 1MB
+        size, unit = size / 1024.0, 'kB'
+        
+    elif size < 1024 * 1024 * 1024: # less than 1GB
+        size, unit = size / 1024.0 / 1024, 'MB'
+    
+    else: # greater than or equal to 1GB
+        size, unit = size / 1024.0 / 1024 / 1024, 'GB'
+    
+    return '%.1f %s' % (size, unit)
+    
+
 def get_disk_usage(path):
     logging.debug('getting disk usage for path %(path)s...' % {
             'path': path})

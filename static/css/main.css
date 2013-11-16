@@ -356,6 +356,48 @@ table.add-camera-dialog input[type=password] {
 
 
 div.media-dialog {
+}
+
+div.media-dialog-groups {
+    text-align: center;
+}
+
+div.media-dialog-group-button {
+    display: inline-block;
+    height: 1.5em;
+    line-height: 1.5em;
+    text-align: center;
+    margin: 0em 0.2em 0.3em 0.2em;
+    padding: 0px 0.5em;
+    background-color: #414141;
+    color: #3498db;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+    cursor: pointer;
+}
+
+div.media-dialog-group-button:HOVER {
+    background-color: #515151;
+}
+
+div.media-dialog-group-button:ACTIVE {
+    background-color: #414141;
+}
+
+div.media-dialog-group-button.current {
+    background-color: #317CAD;
+    color: white;
+}
+
+div.media-dialog-group-button.current:HOVER {
+    background-color: #3498db;
+}
+
+div.media-dialog-group-button.current:ACTIVE {
+    background-color: #317CAD;
+}
+
+div.media-dialog-list {
     overflow: auto;
 }
 
@@ -398,7 +440,7 @@ div.media-list-entry-name {
     white-space: nowrap;
 }
 
-div.media-list-entry-moment {
+div.media-list-entry-details {
     font-size: 1em;
     text-align: center;
     white-space: nowrap;

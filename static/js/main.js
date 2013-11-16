@@ -1043,6 +1043,7 @@ function runPictureDialog(entries, pos) {
         nextArrow.css('display', pos < entries.length - 1 ? '' : 'none');
         
         $('div.modal-container').find('span.modal-title:last').html(entry.name);
+        updateModalDialogPosition();
     }
     
     prevArrow.click(function () {
@@ -1295,58 +1296,24 @@ function runAddCameraDialog() {
 
 
 function runMediaDialog(cameraId, mediaType) {
-    var dialogDiv = $(
-            '<div class="media-dialog">' +
-            '</div>');
+    var dialogDiv = $('<div class="media-dialog"></div>');
+    var mediaListDiv = $('<div class="media-dialog-list"></div>');
+    var groupsDiv = $('<div class="media-dialog-groups"></div>');
+    
+    dialogDiv.append(groupsDiv);
+    dialogDiv.append(mediaListDiv);
     
     var windowWidth = $(window).width();
     
     if (windowWidth <= 1000) {
-        dialogDiv.width(parseInt(windowWidth * 0.9));
-        dialogDiv.height(parseInt(windowWidth * 0.9 * 480 / 640));
+        mediaListDiv.width(parseInt(windowWidth * 0.9));
+        groupsDiv.width(parseInt(windowWidth * 0.9));
+        mediaListDiv.height(parseInt(windowWidth * 0.9 * 480 / 640));
     }
     else {
-        dialogDiv.width(parseInt(windowWidth * 0.5));
-        dialogDiv.height(parseInt(windowWidth * 0.5 * 480 / 640));
-    }
-    
-    function fetchMedia() {
-        var progress = $('<div style="text-align: center; margin: 2px;"><img src="' + staticUrl + 'img/small-progress.gif"></div>');
-        
-        cameraSelect.hide();
-        cameraSelect.before(progress);
-        cameraSelect.parent().find('div').remove(); /* remove any previous progress div */
-        
-        var data = {
-            host: hostEntry.val(),
-            port: portEntry.val(),
-            username: usernameEntry.val(),
-            password: passwordEntry.val()
-        };
-        
-        ajax('GET', '/config/list/', data, function (data) {
-            if (data == null || data.error) {
-                progress.remove();
-                if (passwordEntry.val()) { /* only show an error message when a password is supplied */
-                    showErrorMessage(data && data.error);
-                }
-                
-                return;
-            }
-            
-            cameraSelect.html('');
-            progress.remove();
-            
-            if (data.error || !data.cameras) {
-                return;
-            }
-
-            data.cameras.forEach(function (info) {
-                cameraSelect.append('<option value="' + info.id + '">' + info.name + '</option>');
-            });
-            
-            cameraSelect.show();
-        });
+        mediaListDiv.width(parseInt(windowWidth * 0.5));
+        groupsDiv.width(parseInt(windowWidth * 0.5));
+        mediaListDiv.height(parseInt(windowWidth * 0.45 * 480 / 640));
     }
     
     showModalDialog('<div class="modal-progress"></div>');
@@ -1374,6 +1341,7 @@ function runMediaDialog(cameraId, mediaType) {
                 'name': parts[parts.length - 1],
                 'cameraId': cameraId,
                 'momentStr': media.momentStr,
+                'sizeStr': media.sizeStr,
                 'timestamp': media.timestamp
             });
         });
@@ -1387,20 +1355,17 @@ function runMediaDialog(cameraId, mediaType) {
         var height = tempDiv.height();
         tempDiv.remove();
         
+        /* prepare the entries within each group */
         keys.forEach(function (key) {
-            if (key) {
-                var groupDiv = $('<div class="media-list-group-title">' + key + '</div>');
-                dialogDiv.append(groupDiv);
-            }
-            
             var entries = groups[key];
             entries.sortKey(function (e) {return e.timestamp;});
             
             entries.forEach(function (entry, pos) {
                 var entryDiv = $('<div class="media-list-entry"></div>');
                 
-                var previewImg = $('<img class="media-list-preview" src="/' + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height + '"/>');
+                var previewImg = $('<img class="media-list-preview" src="' + staticUrl + 'img/modal-progress.gif"/>');
                 entryDiv.append(previewImg);
+                previewImg[0]._src = '/' + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height;
                 
                 var downloadButton = $('<div class="media-list-download-button button">download</div>');
                 entryDiv.append(downloadButton);
@@ -1408,29 +1373,81 @@ function runMediaDialog(cameraId, mediaType) {
                 var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
                 entryDiv.append(nameDiv);
                 
-                var momentDiv = $('<div class="media-list-entry-moment">' + entry.momentStr + '</div>');
-                entryDiv.append(momentDiv);
+                var detailsDiv = $('<div class="media-list-entry-details"></div>');
+                detailsDiv.html(entry.momentStr + ' | ' + entry.sizeStr);
+                entryDiv.append(detailsDiv);
                 
-                downloadButton.click(function () {
+                downloadButton[0]._onClick = function () {
                     window.location.href = '/picture/' + cameraId + '/download' + entry.path;
                     
                     return false;
-                });
+                };
                 
-                entryDiv.click(function () {
+                entryDiv[0]._onClick = function () {
                     if (mediaType === 'picture') {
                         runPictureDialog(entries, pos);
                     }
-                });
+                };
                 
-                dialogDiv.append(entryDiv);
+                entry.div = entryDiv;
             });
         });
         
-        /* scroll to bottom */
-        dialogDiv.find('img.media-list-preview:last').load(function () {
-            dialogDiv.scrollTop(dialogDiv.prop('scrollHeight'));
-        });
+        function showGroup(key) {
+            groupsDiv.find('div.media-dialog-group-button').each(function () {
+                var $this = $(this);
+                if (this.key == key) {
+                    $this.addClass('current');
+                }
+                else {
+                    $this.removeClass('current');
+                }
+            });
+            
+            mediaListDiv.html('');
+
+//            var groupDiv = $('<div class="media-list-group-title">' + (key || '(ungrouped)') + '</div>');
+//            dialogDiv.append(groupDiv);
+            
+            var entries = groups[key];
+            entries.forEach(function (entry) {
+                mediaListDiv.append(entry.div);
+                entry.div.click(entry.div[0]._onClick);
+                
+                var downloadButton = entry.div.find('div.media-list-download-button');
+                downloadButton.click(downloadButton[0]._onClick);
+            });
+            
+            setTimeout(function () {
+                mediaListDiv.find('img.media-list-preview').each(function () {
+                    if (this._src) {
+                        this.src = this._src;
+                    }
+                    
+                    delete this._src;
+                });
+            }, 1000);
+        }
+        
+        if (keys.length) {
+            keys.forEach(function (key) {
+                var groupButton = $('<div class="media-dialog-group-button"></div>');
+                groupButton.text(key || '(ungrouped)');
+                groupButton[0].key = key;
+                
+                groupButton.click(function () {
+                    showGroup(key);
+                });
+                
+                groupsDiv.append(groupButton);
+            });
+            
+            showGroup(keys[0]);
+        }
+        else {
+            groupsDiv.html('(no media files)');
+            mediaListDiv.remove();
+        }
         
         var title;
         if (mediaType === 'picture') {
