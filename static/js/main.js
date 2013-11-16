@@ -1026,6 +1026,8 @@ function runPictureDialog(entries, pos) {
     
     var windowWidth = $(window).width();
     
+    var progressImg = $('<img class="picture-dialog-progress" src="' + staticUrl + 'img/modal-progress.gif">');
+    
     function updatePicture() {
         var entry = entries[pos];
         var width; 
@@ -1036,11 +1038,21 @@ function runPictureDialog(entries, pos) {
             width = parseInt(windowWidth * 0.5);
         }
         
-        img.width(width);
-        img.attr('src', '/picture/' + entry.cameraId + '/preview' + entry.path + '?width=' + width);
+        prevArrow.css('display', 'none');
+        nextArrow.css('display', 'none');
+        img.parent().append(progressImg);
+        updateModalDialogPosition();
+        progressImg.css('left', (img.parent().width() - progressImg.width()) / 2);
+        progressImg.css('top', (img.parent().height() - progressImg.height()) / 2);
         
-        prevArrow.css('display', pos > 0 ? '' : 'none');
-        nextArrow.css('display', pos < entries.length - 1 ? '' : 'none');
+        img.attr('src', '/picture/' + entry.cameraId + '/preview' + entry.path);
+        img.load(function () {
+            img.width(width);
+            updateModalDialogPosition();
+            prevArrow.css('display', pos > 0 ? '' : 'none');
+            nextArrow.css('display', pos < entries.length - 1 ? '' : 'none');
+            progressImg.remove();
+        });
         
         $('div.modal-container').find('span.modal-title:last').html(entry.name);
         updateModalDialogPosition();

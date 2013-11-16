@@ -261,8 +261,9 @@ def set_camera(camera_id, data):
         try:
             os.makedirs(data['target_dir'])
         
-        except Exception as e:
-            logging.warn('failed to create target directory: %(msg)s' % {'msg': unicode(e)})
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                logging.warn('failed to create target directory: %(msg)s' % {'msg': unicode(e)})
 
     # read the actual configuration from file
     config_file_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}

@@ -469,6 +469,8 @@ div.media-list-download-button:ACTIVE {
 
 div.picture-dialog-content {
     position: relative;
+    text-align: center;
+    min-height: 100px;
 }
 
 div.picture-dialog-prev-arrow,
@@ -498,6 +500,14 @@ div.picture-dialog-next-arrow {
 
 img.picture-dialog-content {
     border: 1px solid #292929;
+}
+
+img.picture-dialog-progress {
+    position: absolute;
+    background-color: #313131;
+    padding: 10px;
+    border-radius: 10px;
+    opacity: 0.7;
 }
 
 
