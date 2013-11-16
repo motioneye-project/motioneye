@@ -848,9 +848,11 @@ function doUpdate() {
                 showModalDialog('<div class="modal-progress"></div>');
                 ajax('POST', '/update/?version=' + data.update_version, null, function (result) {
                     if (result) {
-                        runAlertDialog('motionEye was successfully updated!', function () {
-                            window.location.reload(true);
-                        });
+                        setTimeout(function () {
+                            runAlertDialog('motionEye was successfully updated!', function () {
+                                window.location.reload(true);
+                            });
+                        }, 2000);
                     }
                     else {
                         runAlertDialog('Update failed!', function () {
@@ -858,6 +860,8 @@ function doUpdate() {
                         });
                     }
                 });
+                
+                return false; /* prevents hiding the modal container */
             });
         }
     });
@@ -1828,3 +1832,4 @@ $(document).ready(function () {
     fetchCurrentConfig();
     refreshCameraFrames();
 });
+
