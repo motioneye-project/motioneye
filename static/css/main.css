@@ -347,6 +347,10 @@ tr.rpi {
 
 
     /* dialogs */
+    
+table.add-camera-dialog {
+    margin: auto;
+}
 
 table.add-camera-dialog select,
 table.add-camera-dialog input[type=text],
@@ -360,6 +364,8 @@ div.media-dialog {
 
 div.media-dialog-groups {
     text-align: center;
+    overflow: auto;
+    white-space: nowrap;
 }
 
 div.media-dialog-group-button {

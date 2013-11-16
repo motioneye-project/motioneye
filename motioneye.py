@@ -180,8 +180,9 @@ def _start_motion():
 def _start_cleanup():
     import mediafiles
 
+    ioloop = tornado.ioloop.IOLoop.instance()
+    
     def do_cleanup():
-        ioloop = tornado.ioloop.IOLoop.instance()
         if ioloop._stopped:
             return
         
@@ -195,14 +196,15 @@ def _start_cleanup():
 
         ioloop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), do_cleanup)
 
-    do_cleanup()
+    ioloop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), do_cleanup)
 
 
 def _start_movie_thumbnailer():
     import mediafiles
 
+    ioloop = tornado.ioloop.IOLoop.instance()
+    
     def do_next_movie_thumbail():
-        ioloop = tornado.ioloop.IOLoop.instance()
         if ioloop._stopped:
             return
         
@@ -214,8 +216,8 @@ def _start_movie_thumbnailer():
                     'msg': unicode(e)})
 
         ioloop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), do_next_movie_thumbail)
-
-    do_next_movie_thumbail()
+    
+    ioloop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), do_next_movie_thumbail)
 
 
 if __name__ == '__main__':

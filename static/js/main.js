@@ -852,7 +852,7 @@ function doUpdate() {
                             runAlertDialog('motionEye was successfully updated!', function () {
                                 window.location.reload(true);
                             });
-                        }, 2000);
+                        }, 10000);
                     }
                     else {
                         runAlertDialog('Update failed!', function () {
@@ -1350,6 +1350,11 @@ function runMediaDialog(cameraId, mediaType) {
             var parts = path.split('/');
             var keyParts = parts.splice(0, parts.length - 1);
             var key = keyParts.join('/');
+            
+            if (key.indexOf('/') === 0) {
+                key = key.substring(1);
+            }
+            
             var list = (groups[key] = groups[key] || []);
             
             list.push({
@@ -1421,9 +1426,6 @@ function runMediaDialog(cameraId, mediaType) {
             
             mediaListDiv.html('');
 
-//            var groupDiv = $('<div class="media-list-group-title">' + (key || '(ungrouped)') + '</div>');
-//            dialogDiv.append(groupDiv);
-            
             var entries = groups[key];
             entries.forEach(function (entry) {
                 mediaListDiv.append(entry.div);
