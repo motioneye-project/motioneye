@@ -19,8 +19,10 @@ import base64
 import json
 import logging
 import os
+import StringIO
 
 from tornado.web import RequestHandler, HTTPError, asynchronous
+from PIL import Image
 
 import config
 import mediafiles
@@ -690,11 +692,24 @@ class PictureHandler(BaseHandler):
         
         else:
             content = mediafiles.get_media_content(camera_config, filename)
-            
-            # TODO add support for ?width=, ?height=
-        
             self.set_header('Content-Type', 'image/jpeg')
-            self.finish(content)
+            
+            width = self.get_argument('width', None)
+            height = self.get_argument('height', None)
+            
+            if width is None and height is None:
+                return self.finish(content)
+            
+            sio = StringIO.StringIO(content)
+            image = Image.open(sio)
+            
+            width = width and int(width) or image.size[0]
+            height = height and int(height) or image.size[1]
+
+            image.thumbnail((width, height), Image.ANTIALIAS)
+
+            image.save(self, format='JPEG')
+            self.finish()
 
 
 class MovieHandler(BaseHandler):

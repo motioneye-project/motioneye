@@ -1381,6 +1381,12 @@ function runMediaDialog(cameraId, mediaType) {
         var keys = Object.keys(groups);
         keys.sort();
         
+        /* add a temporary div to compute 3em in px */
+        var tempDiv = $('<div style="width: 3em; height: 3em;"></div>');
+        $('div.modal-container').append(tempDiv);
+        var height = tempDiv.height();
+        tempDiv.remove();
+        
         keys.forEach(function (key) {
             if (key) {
                 var groupDiv = $('<div class="media-list-group-title">' + key + '</div>');
@@ -1393,7 +1399,7 @@ function runMediaDialog(cameraId, mediaType) {
             entries.forEach(function (entry, pos) {
                 var entryDiv = $('<div class="media-list-entry"></div>');
                 
-                var previewImg = $('<img class="media-list-preview" src="/' + mediaType + '/' + cameraId + '/preview' + entry.path + '"/>');
+                var previewImg = $('<img class="media-list-preview" src="/' + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height + '"/>');
                 entryDiv.append(previewImg);
                 
                 var downloadButton = $('<div class="media-list-download-button button">download</div>');
