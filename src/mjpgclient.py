@@ -164,6 +164,6 @@ def close_all():
         client.close()
 
 
-# run the garbage collector for the first time;
-# this will start the timeout mechanism
-_garbage_collector()
+# schedule the garbage collector
+io_loop = ioloop.IOLoop.instance()
+io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)

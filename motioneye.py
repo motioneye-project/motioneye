@@ -215,9 +215,9 @@ def _start_movie_thumbnailer():
             logging.error('failed to make movie thumbnail: %(msg)s' % {
                     'msg': unicode(e)})
 
-        ioloop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), do_next_movie_thumbail)
+        ioloop.add_timeout(datetime.timedelta(seconds=settings.THUMBNAILER_INTERVAL), do_next_movie_thumbail)
     
-    ioloop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), do_next_movie_thumbail)
+    ioloop.add_timeout(datetime.timedelta(seconds=settings.THUMBNAILER_INTERVAL), do_next_movie_thumbail)
 
 
 if __name__ == '__main__':

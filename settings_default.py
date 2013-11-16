@@ -35,6 +35,9 @@ MOTION_CHECK_INTERVAL = 10
 # interval in seconds at which the janitor is called to remove old pictures and movies
 CLEANUP_INTERVAL = 43200
 
+# interval in seconds at which the thumbnail mechanism runs 
+THUMBNAILER_INTERVAL = 60
+
 # timeout in seconds to wait for responses when contacting a remote server
 REMOTE_REQUEST_TIMEOUT = 10
 
