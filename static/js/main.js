@@ -1395,9 +1395,14 @@ function runMediaDialog(cameraId, mediaType) {
                 var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
                 entryDiv.append(nameDiv);
                 
-                var detailsDiv = $('<div class="media-list-entry-details"></div>');
-                detailsDiv.html(entry.momentStr + ' | ' + entry.sizeStr);
-                entryDiv.append(detailsDiv);
+                if (entry.momentStr && entry.sizeStr) {
+                    var detailsDiv = $('<div class="media-list-entry-details"></div>');
+                    detailsDiv.html(entry.momentStr + ' | ' + entry.sizeStr);
+                    entryDiv.append(detailsDiv);
+                }
+                else {
+                    nameDiv.css('line-height', '2.3em');
+                }
                 
                 downloadButton[0]._onClick = function () {
                     window.location.href = '/picture/' + cameraId + '/download' + entry.path;

@@ -90,7 +90,8 @@ def make_movie_preview(camera_config, full_path):
     framerate = camera_config['framerate']
     pre_capture = camera_config['pre_capture']
     offs = pre_capture / framerate
-    
+    offs *= 2
+
     cmd = 'ffmpeg -i "%(path)s" -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb' % {
             'path': full_path, 'offs': offs}
     
@@ -149,12 +150,24 @@ def list_media(camera_config, media_type):
         path = p[len(target_dir):]
         if not path.startswith('/'):
             path = '/' + path
+            
+#         try:
+#             stat = os.stat(p)
+#         
+#         except Exception as e:
+#             logging.error('stat call failed for file %(path)s: %(msg)s' % {
+#                     'path': path, 'msg': unicode(e)})
+#             
+#             continue
+#         
+#         timestamp = stat.st_mtime
+#         size = stat.st_size
         
         media_files.append({
             'path': path,
-            'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(os.path.getmtime(p))),
-            'sizeStr': utils.pretty_size(os.path.getsize(p)),
-            'timestamp': os.path.getmtime(p)
+            #'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
+            #'sizeStr': utils.pretty_size(size),
+            #'timestamp': timestamp
         })
     
     # TODO files listed here may not belong to the given camera

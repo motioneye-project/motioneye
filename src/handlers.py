@@ -553,7 +553,7 @@ class PictureHandler(BaseHandler):
         else:
             def on_response(jpg):
                 if jpg is None:
-                    self.finish({})
+                    self.finish()
                     
                 else:
                     self.finish(jpg)
