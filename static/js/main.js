@@ -1413,6 +1413,8 @@ function runMediaDialog(cameraId, mediaType) {
                 return; /* already in progress of loading */
             }
             
+            mediaListDiv.children('div.media-list-entry').detach();
+            
             var previewImg = $('<img class="media-list-progress" src="' + staticUrl + 'img/modal-progress.gif"/>');
             mediaListDiv.append(previewImg);
             
@@ -1461,7 +1463,6 @@ function runMediaDialog(cameraId, mediaType) {
                 entries.sortKey(function (e) {return e.timestamp || e.name;});
                 
                 /* add the entries to the media list */
-                mediaListDiv.children('div.media-list-entry').detach();
                 mediaListDiv.html('');
                 entries.forEach(function (entry) {
                     var entryDiv = entry.div;
