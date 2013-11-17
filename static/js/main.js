@@ -1377,7 +1377,6 @@ function runMediaDialog(cameraId, mediaType) {
         /* prepare the entries within each group */
         keys.forEach(function (key) {
             var entries = groups[key];
-            entries.sortKey(function (e) {return e.timestamp || e.name;});
             
             entries.forEach(function (entry, pos) {
                 var entryDiv = $('<div class="media-list-entry"></div>');
@@ -1391,6 +1390,9 @@ function runMediaDialog(cameraId, mediaType) {
                 
                 var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
                 entryDiv.append(nameDiv);
+                
+                var detailsDiv = $('<div class="media-list-entry-details"></div>');
+                entryDiv.append(detailsDiv);
                 
                 downloadButton[0]._onClick = function () {
                     window.location.href = '/picture/' + cameraId + '/download' + entry.path;
@@ -1444,29 +1446,29 @@ function runMediaDialog(cameraId, mediaType) {
                         $this.removeClass('current');
                     }
                 });
+                
+                /* assign details to entries */
+                entries.forEach(function (entry) {
+                    var media = mediaListByName[entry.name];
+                    if (media) {
+                        entry.momentStr = media.momentStr;
+                        entry.sizeStr = media.sizeStr;
+                        entry.timestamp = media.timestamp;
+                    }
+                });
  
+                /* sort the entries by timestamp */
+                entries.sortKey(function (e) {return e.timestamp || e.name;});
+                
                 /* add the entries to the media list */
                 mediaListDiv.children('div.media-list-entry').detach();
                 mediaListDiv.html('');
                 entries.forEach(function (entry) {
                     var entryDiv = entry.div;
-                    var nameDiv = entryDiv.find('div.media-list-entry-name');
                     var detailsDiv = entryDiv.find('div.media-list-entry-details');
                     var downloadButton = entryDiv.find('div.media-list-download-button');
                     
-                    var media = mediaListByName[entry.name];
-                    if (media) { /* if details are available, show them */
-                        if (detailsDiv.length === 0) {
-                            detailsDiv = $('<div class="media-list-entry-details"></div>');
-                            entryDiv.append(detailsDiv);
-                        }
-                        
-                        detailsDiv.html(media.momentStr + ' | ' + media.sizeStr);
-                    }
-                    else {
-                        nameDiv.css('line-height', '2.3em');
-                    }
-                    
+                    detailsDiv.html(entry.momentStr + ' | ' + entry.sizeStr);
                     entryDiv.click(entryDiv[0]._onClick);
                     downloadButton.click(downloadButton[0]._onClick);
 

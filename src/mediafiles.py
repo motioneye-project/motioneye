@@ -40,6 +40,9 @@ def _list_media_files(dir, exts, prefix=None):
         
         root = os.path.join(dir, prefix)
         for name in os.listdir(root):
+            if name == 'lastsnap.jpg': # ignore the lastsnap.jpg file
+                continue
+                
             full_path = os.path.join(root, name)
             if not os.path.isfile(full_path):
                 continue
@@ -53,6 +56,9 @@ def _list_media_files(dir, exts, prefix=None):
     else:    
         for root, dirs, files in os.walk(dir):  # @UnusedVariable
             for name in files:
+                if name == 'lastsnap.jpg': # ignore the lastsnap.jpg file
+                    continue
+                
                 full_path = os.path.join(root, name)
                 if not os.path.isfile(full_path):
                     continue

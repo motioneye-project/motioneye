@@ -34,7 +34,7 @@ html {
 div.page,
 div.header-container {
     position: relative;
-    min-width: 400px;
+    min-width: 360px;
     width: 100%;
 }
 
@@ -155,7 +155,7 @@ div.settings {
 
 div.settings.open {
     width: 40%;
-    min-width: 400px;
+    min-width: 360px;
 }
 
 div.settings-container {
@@ -177,7 +177,7 @@ div.settings-top-bar {
 
 div.settings-top-bar.open {
     background-color: #414141;
-    min-width: 400px;
+    min-width: 360px;
 }
 
 div.settings-section-title {
@@ -451,12 +451,16 @@ div.media-list-entry-name {
     padding: 0.4em 0em;
     text-align: center;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 div.media-list-entry-details {
     font-size: 1em;
     text-align: center;
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 div.media-list-download-button {
@@ -537,7 +541,7 @@ div.camera-frame-place-holder {
     text-align: left;
     background-color: #313131;
     display: inline-block;
-    padding: 0px 5px 5px 5px;
+    padding: 0px 3px 3px 3px;
     border-radius: 3px;
     transition: all 0.2s, opacity 0s;
     margin: 2px;
@@ -551,7 +555,7 @@ div.camera-frame-place-holder {
 
 div.modal-container div.camera-frame {
     width: auto;
-    padding: 5px;
+    padding: 3px;
     margin: -10px;
     background-color: #414141;
 }

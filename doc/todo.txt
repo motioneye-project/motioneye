@@ -1,7 +1,4 @@
--> test IE
--> layout seems to be too wide for a modern mobile phone
 -> add a mgmt command for generating thumbnails
--> implement media files paging - find a solution for the many files
 -> make camera frames positions configurable
 -> add a view log functionality
 
