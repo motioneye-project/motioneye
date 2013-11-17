@@ -1475,15 +1475,7 @@ function runMediaDialog(cameraId, mediaType) {
                     mediaListDiv.append(entryDiv);
                 });
                 
-                setTimeout(function () {
-                    mediaListDiv.find('img.media-list-preview').each(function () {
-                        if (this._src) {
-                            this.src = this._src;
-                        }
-                        
-                        delete this._src;
-                    });
-                }, 1000);
+                mediaListDiv.scroll();
             });
         }
         
@@ -1499,8 +1491,6 @@ function runMediaDialog(cameraId, mediaType) {
                 
                 groupsDiv.append(groupButton);
             });
-            
-            showGroup(keys[0]);
         }
         else {
             groupsDiv.html('(no media files)');
@@ -1521,7 +1511,37 @@ function runMediaDialog(cameraId, mediaType) {
             buttons: '',
             content: dialogDiv,
             onShow: function () {
-                dialogDiv.scrollTop(dialogDiv.prop('scrollHeight'));
+                //dialogDiv.scrollTop(dialogDiv.prop('scrollHeight'));
+                if (keys.length) {
+                    showGroup(keys[0]);
+                }
+            }
+        });
+    });
+    
+    /* install the media list scroll event handler */
+    mediaListDiv.scroll(function () {
+        var height = mediaListDiv.height();
+        
+        mediaListDiv.find('img.media-list-preview').each(function () {
+            if (!this._src) {
+                return;
+            }
+            
+            var $this = $(this);
+            var entryDiv = $this.parent();
+            if (!entryDiv.is(':visible')) {
+                return;
+            }
+            
+            var top1 = entryDiv.position().top;
+            var top2 = top1 + entryDiv.height();
+            
+            if ((top1 >= 0 && top1 <= height) ||
+                (top2 >= 0 && top2 <= height)) {
+                
+                this.src = this._src;
+                delete this._src;
             }
         });
     });

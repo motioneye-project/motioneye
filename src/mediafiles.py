@@ -122,20 +122,32 @@ def make_movie_preview(camera_config, full_path):
     offs = pre_capture / framerate
     offs = max(4, offs * 2)
     
-    logging.debug('creating movie preview for %(path)s with an offset of %(offs)s seconds ...' % {
+    logging.debug('creating movie preview for %(path)s with an offset of %(offs)s seconds...' % {
             'path': full_path, 'offs': offs})
 
-    cmd = 'ffmpeg -i "%(path)s" -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb' % {
-            'path': full_path, 'offs': offs}
+    cmd = 'ffmpeg -i "%(path)s" -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb'
     
     try:
-        subprocess.check_output(cmd, shell=True, stderr=subprocess.STDOUT)
+        subprocess.check_output(cmd % {'path': full_path, 'offs': offs}, shell=True, stderr=subprocess.STDOUT)
     
     except subprocess.CalledProcessError as e:
         logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
                 'path': full_path, 'msg': unicode(e)})
         
         return None
+    
+    if os.path.getsize(full_path + '.thumb') == 0:
+        logging.debug('movie was too short, grabbing first frame from %(path)s...' % {'path': full_path})
+        
+        # try again, this time grabbing the very first frame
+        try:
+            subprocess.check_output(cmd % {'path': full_path, 'offs': 0}, shell=True, stderr=subprocess.STDOUT)
+        
+        except subprocess.CalledProcessError as e:
+            logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
+                    'path': full_path, 'msg': unicode(e)})
+            
+            return None
     
     return full_path + '.thumb'
 

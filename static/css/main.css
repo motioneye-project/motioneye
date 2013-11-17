@@ -405,6 +405,7 @@ div.media-dialog-group-button.current:ACTIVE {
 
 div.media-dialog-list {
     overflow: auto;
+    position: relative;
 }
 
 div.media-list-group-title {
