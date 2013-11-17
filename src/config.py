@@ -416,7 +416,7 @@ def camera_ui_to_dict(ui):
         '@enabled': ui.get('enabled', False),
         '@proto': ui.get('proto', 'v4l2'),
         'videodevice': ui.get('device', ''),
-        'lightswitch': int(ui.get('light_switch_detect', False)) * 5,
+        'lightswitch': int(ui.get('light_switch_detect', True)) * 5,
         'auto_brightness': ui.get('auto_brightness', False),
         'width': int(ui['resolution'].split('x')[0]),
         'height': int(ui['resolution'].split('x')[1]),
@@ -951,7 +951,7 @@ def _set_default_motion_camera(data):
     data.setdefault('@enabled', False)
     data.setdefault('@proto', 'v4l2')
     data.setdefault('videodevice', '/dev/video0')
-    data.setdefault('lightswitch', 0)
+    data.setdefault('lightswitch', 5)
     data.setdefault('auto_brightness', False)
     data.setdefault('brightness', 0)
     data.setdefault('contrast', 0)

@@ -1361,10 +1361,7 @@ function runMediaDialog(cameraId, mediaType) {
                 'path': path,
                 'group': key,
                 'name': parts[parts.length - 1],
-                'cameraId': cameraId,
-                'momentStr': media.momentStr,
-                'sizeStr': media.sizeStr,
-                'timestamp': media.timestamp
+                'cameraId': cameraId
             });
         });
         
@@ -1395,15 +1392,6 @@ function runMediaDialog(cameraId, mediaType) {
                 var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
                 entryDiv.append(nameDiv);
                 
-                if (entry.momentStr && entry.sizeStr) {
-                    var detailsDiv = $('<div class="media-list-entry-details"></div>');
-                    detailsDiv.html(entry.momentStr + ' | ' + entry.sizeStr);
-                    entryDiv.append(detailsDiv);
-                }
-                else {
-                    nameDiv.css('line-height', '2.3em');
-                }
-                
                 downloadButton[0]._onClick = function () {
                     window.location.href = '/picture/' + cameraId + '/download' + entry.path;
                     
@@ -1419,36 +1407,82 @@ function runMediaDialog(cameraId, mediaType) {
         });
         
         function showGroup(key) {
-            groupsDiv.find('div.media-dialog-group-button').each(function () {
-                var $this = $(this);
-                if (this.key == key) {
-                    $this.addClass('current');
-                }
-                else {
-                    $this.removeClass('current');
-                }
-            });
+            if (mediaListDiv.find('img.media-list-progress').length) {
+                return; /* already in progress of loading */
+            }
             
-            mediaListDiv.html('');
-
-            var entries = groups[key];
-            entries.forEach(function (entry) {
-                mediaListDiv.append(entry.div);
-                entry.div.click(entry.div[0]._onClick);
+            var previewImg = $('<img class="media-list-progress" src="' + staticUrl + 'img/modal-progress.gif"/>');
+            mediaListDiv.append(previewImg);
+            
+            var url = '/' + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped')+ '&stat=true';
+            ajax('GET', url, null, function (data) {
+                if (data == null || data.error) {
+                    hideModalDialog();
+                    showErrorMessage(data && data.error);
+                    return;
+                }
                 
-                var downloadButton = entry.div.find('div.media-list-download-button');
-                downloadButton.click(downloadButton[0]._onClick);
-            });
-            
-            setTimeout(function () {
-                mediaListDiv.find('img.media-list-preview').each(function () {
-                    if (this._src) {
-                        this.src = this._src;
+                var entries = groups[key];
+                
+                /* index the media list by name */
+                var mediaListByName = {};
+                data.mediaList.forEach(function (media) {
+                    var path = media.path;
+                    var parts = path.split('/');
+                    var name = parts[parts.length - 1];
+                    
+                    mediaListByName[name] = media;
+                });
+                
+                /* (re)set the current state of the group buttons */
+                groupsDiv.find('div.media-dialog-group-button').each(function () {
+                    var $this = $(this);
+                    if (this.key == key) {
+                        $this.addClass('current');
+                    }
+                    else {
+                        $this.removeClass('current');
+                    }
+                });
+ 
+                /* add the entries to the media list */
+                mediaListDiv.children('div.media-list-entry').detach();
+                mediaListDiv.html('');
+                entries.forEach(function (entry) {
+                    var entryDiv = entry.div;
+                    var nameDiv = entryDiv.find('div.media-list-entry-name');
+                    var detailsDiv = entryDiv.find('div.media-list-entry-details');
+                    var downloadButton = entryDiv.find('div.media-list-download-button');
+                    
+                    var media = mediaListByName[entry.name];
+                    if (media) { /* if details are available, show them */
+                        if (detailsDiv.length === 0) {
+                            detailsDiv = $('<div class="media-list-entry-details"></div>');
+                            entryDiv.append(detailsDiv);
+                        }
+                        
+                        detailsDiv.html(media.momentStr + ' | ' + media.sizeStr);
+                    }
+                    else {
+                        nameDiv.css('line-height', '2.3em');
                     }
                     
-                    delete this._src;
+                    entryDiv.click(entryDiv[0]._onClick);
+                    downloadButton.click(downloadButton[0]._onClick);
+
+                    mediaListDiv.append(entryDiv);
                 });
-            }, 1000);
+                
+                setTimeout(function () {
+                    mediaListDiv.find('img.media-list-preview').each(function () {
+                        if (this._src) {
+                            this.src = this._src;
+                        }
+                        
+                        delete this._src;
+                    });
+                }, 1000);
+            });
         }
         
         if (keys.length) {

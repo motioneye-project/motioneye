@@ -24,16 +24,22 @@ import subprocess
 from PIL import Image
 
 import config
+import utils
 
 
 _PICTURE_EXTS = ['.jpg']
 _MOVIE_EXTS = ['.avi', '.mp4']
 
 
-def _list_media_files(dir, exts):
+def _list_media_files(dir, exts, prefix=None):
     full_paths = []
-    for root, dirs, files in os.walk(dir):  # @UnusedVariable
-        for name in files:
+    
+    if prefix is not None:
+        if prefix == 'ungrouped':
+            prefix = ''
+        
+        root = os.path.join(dir, prefix)
+        for name in os.listdir(root):
             full_path = os.path.join(root, name)
             if not os.path.isfile(full_path):
                 continue
@@ -43,6 +49,19 @@ def _list_media_files(dir, exts):
                 continue
             
             full_paths.append(full_path)
+    
+    else:    
+        for root, dirs, files in os.walk(dir):  # @UnusedVariable
+            for name in files:
+                full_path = os.path.join(root, name)
+                if not os.path.isfile(full_path):
+                    continue
+                 
+                full_path_lower = full_path.lower()
+                if not [e for e in exts if full_path_lower.endswith(e)]:
+                    continue
+                
+                full_paths.append(full_path)
     
     return full_paths
 
@@ -134,7 +153,7 @@ def make_next_movie_preview():
             logging.debug('all movies have preview')
             
 
-def list_media(camera_config, media_type):
+def list_media(camera_config, media_type, prefix=None, stat=False):
     target_dir = camera_config.get('target_dir')
 
     if media_type == 'picture':
@@ -143,31 +162,35 @@ def list_media(camera_config, media_type):
     elif media_type == 'movie':
         exts = _MOVIE_EXTS
         
-    full_paths = _list_media_files(target_dir, exts=exts)
+    full_paths = _list_media_files(target_dir, exts=exts, prefix=prefix)
     media_files = []
     
     for p in full_paths:
         path = p[len(target_dir):]
         if not path.startswith('/'):
             path = '/' + path
-            
-#         try:
-#             stat = os.stat(p)
-#         
-#         except Exception as e:
-#             logging.error('stat call failed for file %(path)s: %(msg)s' % {
-#                     'path': path, 'msg': unicode(e)})
-#             
-#             continue
-#         
-#         timestamp = stat.st_mtime
-#         size = stat.st_size
+
+        timestamp = None
+        size = None
+        
+        if stat:
+            try:
+                stat = os.stat(p)
+             
+            except Exception as e:
+                logging.error('stat call failed for file %(path)s: %(msg)s' % {
+                        'path': path, 'msg': unicode(e)})
+                 
+                continue
+ 
+            timestamp = stat.st_mtime
+            size = stat.st_size
         
         media_files.append({
             'path': path,
-            #'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
-            #'sizeStr': utils.pretty_size(size),
-            #'timestamp': timestamp
+            'momentStr': timestamp and utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
+            'sizeStr': size and utils.pretty_size(size),
+            'timestamp': timestamp
         })
     
     # TODO files listed here may not belong to the given camera

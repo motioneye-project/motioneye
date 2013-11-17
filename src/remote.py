@@ -208,14 +208,21 @@ def current_picture(host, port, username, password, camera_id, callback):
     http_client.fetch(request, on_response)
 
 
-def list_media(host, port, username, password, camera_id, callback, media_type):
+def list_media(host, port, username, password, camera_id, callback, media_type, prefix=None, stat=False):
     logging.debug('getting media list for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
             'port': port})
     
+    query = {}
+    if prefix is not None:
+        query['prefix'] = prefix
+    
+    if stat:
+        query['stat'] = 'true'
+    
     request = _make_request(host, port, username, password, '/%(media_type)s/%(id)s/list/' % {
-            'id': camera_id, 'media_type': media_type})
+            'id': camera_id, 'media_type': media_type}, query=query)
     
     def on_response(response):
         if response.error:
@@ -251,7 +258,7 @@ def get_media_content(host, port, username, password, camera_id, callback, filen
             'host': host,
             'port': port})
     
-    uri = '/%(media_type)s/%(id)s/download/%(filename)s?' % {
+    uri = '/%(media_type)s/%(id)s/download/%(filename)s' % {
             'media_type': media_type,
             'id': camera_id,
             'filename': filename}
@@ -282,18 +289,20 @@ def get_media_preview(host, port, username, password, camera_id, callback, filen
             'host': host,
             'port': port})
     
-    uri = '/%(media_type)s/%(id)s/preview/%(filename)s?' % {
+    uri = '/%(media_type)s/%(id)s/preview/%(filename)s' % {
             'media_type': media_type,
             'id': camera_id,
             'filename': filename}
     
+    query = {}
+    
     if width:
-        uri += 'width=' + str(width)
+        query['width'] = str(width)
         
     if height:
-        uri += 'height=' + str(height)
+        query['height'] = str(height)
     
-    request = _make_request(host, port, username, password, uri)
+    request = _make_request(host, port, username, password, uri, query=query)
     
     def on_response(response):
         if response.error:

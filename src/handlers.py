@@ -594,10 +594,14 @@ class PictureHandler(BaseHandler):
                     camera_config.get('@username'),
                     camera_config.get('@password'),
                     camera_config.get('@remote_camera_id'), on_response,
-                    media_type='picture')
+                    media_type='picture',
+                    prefix=self.get_argument('prefix', None),
+                    stat=self.get_argument('stat', None))
         
         else:
-            pictures = mediafiles.list_media(camera_config, media_type='picture')
+            pictures = mediafiles.list_media(camera_config, media_type='picture',
+                    prefix=self.get_argument('prefix', None),
+                    stat=self.get_argument('stat', None))
             
             self.finish_json({
                 'mediaList': pictures,
@@ -747,10 +751,14 @@ class MovieHandler(BaseHandler):
                     camera_config.get('@username'),
                     camera_config.get('@password'),
                     camera_config.get('@remote_camera_id'), on_response,
-                    media_type='movie')
+                    media_type='movie',
+                    prefix=self.get_argument('prefix', None),
+                    stat=self.get_argument('stat', None))
         
         else:
-            movies = mediafiles.list_media(camera_config, media_type='movie')
+            movies = mediafiles.list_media(camera_config, media_type='movie',
+                    prefix=self.get_argument('prefix', None),
+                    stat=self.get_argument('stat', None))
             
             self.finish_json({
                 'mediaList': movies,

@@ -415,6 +415,13 @@ div.media-list-group-title {
     padding: 1em 0px 0.2em 0px;
 }
 
+img.media-list-progress {
+    position: relative;
+    top: 35%;
+    display: block;
+    margin: auto;
+}
+
 div.media-list-entry {
     height: 4em;
     background-color: #414141;

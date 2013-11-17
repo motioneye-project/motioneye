@@ -548,6 +548,7 @@ function showModalDialog(content, onClose, onShow, stack) {
         });
         
         children.css('display', 'none');
+        updateModalDialogPosition();
         
         container[0]._onClose = onClose; /* set the new onClose handler */
         container.append(content);
