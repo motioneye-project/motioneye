@@ -33,7 +33,7 @@ def _make_request(host, port, username, password, uri, method='GET', data=None, 
             'uri': uri}
     
     if query:
-        url += '?' + '='.join(query.items())
+        url += '?' + '&'.join([(n + '=' + v) for (n, v) in query.iteritems()])
         
     request = HTTPRequest(url, method, body=data, auth_username=username, auth_password=password,
             request_timeout=settings.REMOTE_REQUEST_TIMEOUT)
