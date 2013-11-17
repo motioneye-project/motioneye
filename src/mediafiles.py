@@ -84,6 +84,14 @@ def _remove_older_files(dir, moment, exts):
             os.remove(full_path)
 
 
+def find_ffmpeg():
+    try:
+        return subprocess.check_output('which ffmpeg', shell=True).strip()
+    
+    except subprocess.CalledProcessError: # not found
+        return None
+
+
 def cleanup_media(media_type):
     logging.debug('cleaning up %(media_type)ss...' % {'media_type': media_type})
     

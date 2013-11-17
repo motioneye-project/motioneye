@@ -12,5 +12,3 @@
 -> chaining two or more remote motionEye cameras breaks updating configuration
 
 -> browser compatibility test
--> requirements test
-   

@@ -23,7 +23,6 @@ import os.path
 import re
 import signal
 import sys
-import tornado.ioloop
 
 import settings
 
@@ -32,8 +31,67 @@ sys.path.append(os.path.join(settings.PROJECT_PATH, 'src'))
 VERSION = '0.5'
 
 
+def _test_requirements():
+    import mediafiles
+    import motionctl
+    import v4l2ctl
+    
+    try:
+        import tornado  # @UnusedImport
+        tornado = True
+    
+    except ImportError:
+        tornado = False
+
+    try:
+        import jinja2  # @UnusedImport
+        jinja2 = True
+    
+    except ImportError:
+        jinja2 = False
+
+    try:
+        import PIL.Image  # @UnusedImport
+        pil = True
+    
+    except ImportError:
+        pil = False
+
+    ffmpeg = mediafiles.find_ffmpeg() is not None
+    motion = motionctl.find_motion() is not None
+    v4lutils = v4l2ctl.find_v4l2_ctl() is not None
+    
+    ok = True
+    if not tornado:
+        print('please install tornado (python-tornado)')
+        ok = False
+    
+    if not jinja2:
+        print('please install jinja2 (python-jinja2)')
+        ok = False
+
+    if not pil:
+        print('please install PIL (python-imaging)')
+        ok = False
+
+    if not ffmpeg:
+        print('please install ffmpeg')
+        ok = False
+
+    if not motion:
+        print('please install motion')
+        ok = False
+
+    if not v4lutils:
+        print('please install v4l-utils')
+        ok = False
+
+    return ok
+
+        
 def _configure_signals():
     def bye_handler(signal, frame):
+        import tornado.ioloop
         import motionctl
         
         logging.info('interrupt signal received, shutting down...')
@@ -174,6 +232,7 @@ def _do_thumbnails():
 
 
 def _start_server():
+    import tornado.ioloop
     import server
 
     server.application.listen(settings.PORT, settings.LISTEN)
@@ -183,6 +242,7 @@ def _start_server():
 
 
 def _start_motion():
+    import tornado.ioloop
     import config
     import motionctl
 
@@ -207,6 +267,7 @@ def _start_motion():
 
 
 def _start_cleanup():
+    import tornado.ioloop
     import mediafiles
 
     ioloop = tornado.ioloop.IOLoop.instance()
@@ -229,6 +290,7 @@ def _start_cleanup():
 
 
 def _start_movie_thumbnailer():
+    import tornado.ioloop
     import mediafiles
 
     ioloop = tornado.ioloop.IOLoop.instance()
@@ -250,6 +312,9 @@ def _start_movie_thumbnailer():
 
 
 if __name__ == '__main__':
+    if not _test_requirements():
+        sys.exit(01)
+    
     cmd = _configure_settings()
     _configure_signals()
     _configure_logging()

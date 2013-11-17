@@ -25,7 +25,7 @@ import config
 import settings
 
 
-def find_program():
+def find_motion():
     try:
         return subprocess.check_output('which motion', shell=True).strip()
     
@@ -37,7 +37,7 @@ def start():
     if running():
         raise Exception('motion is already running')
  
-    program = find_program()
+    program = find_motion()
     if not program:
         raise Exception('motion executable could not be found')
     

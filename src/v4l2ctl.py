@@ -25,6 +25,14 @@ _ctrls_cache = {}
 _ctrl_values_cache = {}
 
 
+def find_v4l2_ctl():
+    try:
+        return subprocess.check_output('which v4l2-ctl', shell=True).strip()
+    
+    except subprocess.CalledProcessError: # not found
+        return None
+
+
 def list_devices():
     global _resolutions_cache
     
