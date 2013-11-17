@@ -1427,11 +1427,11 @@ function runMediaDialog(cameraId, mediaType) {
             var mediaListByName = {};
             var entries = groups[key];
             
-            function addEntries() {
-                /* cleanup the media list */
-                mediaListDiv.children('div.media-list-entry').detach();
-                mediaListDiv.html('');
+            /* cleanup the media list */
+            mediaListDiv.children('div.media-list-entry').detach();
+            mediaListDiv.html('');
             
+            function addEntries() {
                 /* add the entries to the media list */
                 entries.forEach(function (entry) {
                     var entryDiv = entry.div;
@@ -1444,7 +1444,7 @@ function runMediaDialog(cameraId, mediaType) {
 
                     mediaListDiv.append(entryDiv);
                 });
-                
+
                 /* trigger a scroll event */
                 mediaListDiv.scroll();
             }
@@ -1459,6 +1459,8 @@ function runMediaDialog(cameraId, mediaType) {
             
             var url = '/' + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped')+ '&stat=true';
             ajax('GET', url, null, function (data) {
+                previewImg.remove();
+                
                 if (data == null || data.error) {
                     hideModalDialog();
                     showErrorMessage(data && data.error);

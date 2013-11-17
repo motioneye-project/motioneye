@@ -599,6 +599,10 @@ class PictureHandler(BaseHandler):
                     stat=self.get_argument('stat', None))
         
         else:
+            if self.get_argument('prefix', None):
+                import time
+                time.sleep(2)
+            
             pictures = mediafiles.list_media(camera_config, media_type='picture',
                     prefix=self.get_argument('prefix', None),
                     stat=self.get_argument('stat', None))
