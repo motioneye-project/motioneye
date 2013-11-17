@@ -1,4 +1,3 @@
--> add a mgmt command for generating thumbnails
 -> make camera frames positions configurable
 -> add a view log functionality
 

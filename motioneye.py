@@ -110,9 +110,7 @@ def _configure_settings():
             setattr(settings, name, next_arg)
         
         else:
-            print('unknown command line option: ' + arg)
-            _print_help()
-            sys.exit(-1)
+            return arg[2:]
     
     try:
         os.makedirs(settings.CONF_PATH)
@@ -131,7 +129,10 @@ def _print_help():
     print('Usage: ' + sys.argv[0] + ' [option1 value1] ...')
     print('available options: ')
     
-    for (name, value) in sorted(inspect.getmembers(settings)):  # @UnusedVariable
+    options = list(inspect.getmembers(settings))
+    options.append(('THUMBNAILS', None))
+    
+    for (name, value) in sorted(options):
         if name.upper() != name:
             continue
         
@@ -139,10 +140,38 @@ def _print_help():
             continue
         
         name = '--' + name.lower().replace('_', '-')
-        print('    ' + name)
+        if value is not None:
+            value = type(value).__name__
+        
+        line = '    ' + name
+        if value:
+            line += ' <' + value + '>'
+        print(line)
     
     print('')
+
+
+def _do_thumbnails():
+    import config
+    import mediafiles
     
+    logging.info('recreating thumbnails for all video files...')
+    
+    for camera_id in config.get_camera_ids():
+        camera_config = config.get_camera(camera_id)
+        if camera_config.get('@proto') != 'v4l2':
+            continue
+        
+        logging.info('listing movie files for camera %(name)s' % {
+                'name': camera_config['@name']})
+        
+        target_dir = camera_config['target_dir']
+        
+        for full_path in mediafiles._list_media_files(target_dir, mediafiles._MOVIE_EXTS):
+            mediafiles.make_movie_preview(camera_config, full_path)
+    
+    logging.info('done.')
+
 
 def _start_server():
     import server
@@ -221,9 +250,19 @@ def _start_movie_thumbnailer():
 
 
 if __name__ == '__main__':
-    _configure_settings()
+    cmd = _configure_settings()
     _configure_signals()
     _configure_logging()
+    
+    if cmd:
+        if cmd == 'thumbnails':
+            _do_thumbnails()
+        
+        else:
+            print('unknown command line option: ' + cmd)
+            sys.exit(-1)
+        
+        sys.exit(0)
     
     _start_motion()
     _start_cleanup()

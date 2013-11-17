@@ -109,13 +109,13 @@ def cleanup_media(media_type):
 
 
 def make_movie_preview(camera_config, full_path):
-    logging.debug('creating movie preview for %(path)s...' % {'path': full_path})
-    
     framerate = camera_config['framerate']
     pre_capture = camera_config['pre_capture']
     offs = pre_capture / framerate
-    offs = min(4, offs * 2)
+    offs = max(4, offs * 2)
     
+    logging.debug('creating movie preview for %(path)s with an offset of %(offs)s seconds ...' % {
+            'path': full_path, 'offs': offs})
 
     cmd = 'ffmpeg -i "%(path)s" -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb' % {
             'path': full_path, 'offs': offs}
