@@ -1413,7 +1413,46 @@ function runMediaDialog(cameraId, mediaType) {
                 return; /* already in progress of loading */
             }
             
-            mediaListDiv.children('div.media-list-entry').detach();
+            /* (re)set the current state of the group buttons */
+            groupsDiv.find('div.media-dialog-group-button').each(function () {
+                var $this = $(this);
+                if (this.key == key) {
+                    $this.addClass('current');
+                }
+                else {
+                    $this.removeClass('current');
+                }
+            });
+            
+            var mediaListByName = {};
+            var entries = groups[key];
+            
+            function addEntries() {
+                /* cleanup the media list */
+                mediaListDiv.children('div.media-list-entry').detach();
+                mediaListDiv.html('');
+            
+                /* add the entries to the media list */
+                entries.forEach(function (entry) {
+                    var entryDiv = entry.div;
+                    var detailsDiv = entryDiv.find('div.media-list-entry-details');
+                    var downloadButton = entryDiv.find('div.media-list-download-button');
+                    
+                    detailsDiv.html(entry.momentStr + ' | ' + entry.sizeStr);
+                    entryDiv.unbind('click').click(entryDiv[0]._onClick);
+                    downloadButton.click(downloadButton[0]._onClick);
+
+                    mediaListDiv.append(entryDiv);
+                });
+                
+                /* trigger a scroll event */
+                mediaListDiv.scroll();
+            }
+            
+            /* if details are already fetched, simply add the entries and return */
+            if (entries[0].timestamp) {
+                return addEntries();
+            }
             
             var previewImg = $('<img class="media-list-progress" src="' + staticUrl + 'img/modal-progress.gif"/>');
             mediaListDiv.append(previewImg);
@@ -1426,27 +1465,13 @@ function runMediaDialog(cameraId, mediaType) {
                     return;
                 }
                 
-                var entries = groups[key];
-                
                 /* index the media list by name */
-                var mediaListByName = {};
                 data.mediaList.forEach(function (media) {
                     var path = media.path;
                     var parts = path.split('/');
                     var name = parts[parts.length - 1];
                     
                     mediaListByName[name] = media;
-                });
-                
-                /* (re)set the current state of the group buttons */
-                groupsDiv.find('div.media-dialog-group-button').each(function () {
-                    var $this = $(this);
-                    if (this.key == key) {
-                        $this.addClass('current');
-                    }
-                    else {
-                        $this.removeClass('current');
-                    }
                 });
                 
                 /* assign details to entries */
@@ -1462,21 +1487,7 @@ function runMediaDialog(cameraId, mediaType) {
                 /* sort the entries by timestamp */
                 entries.sortKey(function (e) {return e.timestamp || e.name;});
                 
-                /* add the entries to the media list */
-                mediaListDiv.html('');
-                entries.forEach(function (entry) {
-                    var entryDiv = entry.div;
-                    var detailsDiv = entryDiv.find('div.media-list-entry-details');
-                    var downloadButton = entryDiv.find('div.media-list-download-button');
-                    
-                    detailsDiv.html(entry.momentStr + ' | ' + entry.sizeStr);
-                    entryDiv.click(entryDiv[0]._onClick);
-                    downloadButton.click(downloadButton[0]._onClick);
-
-                    mediaListDiv.append(entryDiv);
-                });
-                
-                mediaListDiv.scroll();
+                addEntries();
             });
         }
         
