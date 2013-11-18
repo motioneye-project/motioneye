@@ -1378,7 +1378,7 @@ function runMediaDialog(cameraId, mediaType) {
         keys.forEach(function (key) {
             var entries = groups[key];
             
-            entries.forEach(function (entry, pos) {
+            entries.forEach(function (entry) {
                 var entryDiv = $('<div class="media-list-entry"></div>');
                 
                 var previewImg = $('<img class="media-list-preview" src="' + staticUrl + 'img/modal-progress.gif"/>');
@@ -1401,6 +1401,7 @@ function runMediaDialog(cameraId, mediaType) {
                 };
                 
                 entryDiv[0]._onClick = function () {
+                    var pos = entries.indexOf(entry);
                     runPictureDialog(entries, pos, mediaType);
                 };
                 
