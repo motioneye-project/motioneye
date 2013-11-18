@@ -127,8 +127,9 @@ span.logo {
 }
 
 img.logo {
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
+    padding: 7px 3px;
     vertical-align: middle;
 }
 

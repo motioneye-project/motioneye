@@ -1,6 +1,9 @@
 -> make camera frames positions configurable
 -> add a view log functionality
 
+-> optimize the media list js code:
+    * loading many media groups (directories) is painfully slow
+    * scroll event could also be optimized for speed
 -> style scroll bars
 -> hint text next to section titles
 -> clickable hints

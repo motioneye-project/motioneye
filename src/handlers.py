@@ -27,6 +27,7 @@ import mediafiles
 import mjpgclient
 import motionctl
 import remote
+import settings
 import template
 import update
 import v4l2ctl
