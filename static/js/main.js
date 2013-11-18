@@ -1545,9 +1545,6 @@ function runMediaDialog(cameraId, mediaType) {
             
             var $this = $(this);
             var entryDiv = $this.parent();
-            if (!entryDiv.is(':visible')) {
-                return;
-            }
             
             var top1 = entryDiv.position().top;
             var top2 = top1 + entryDiv.height();
