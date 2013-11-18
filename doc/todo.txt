@@ -1,6 +1,3 @@
--> optimize the media list js code:
-    * loading many media groups (directories) is painfully slow
-    * scroll event could also be optimized for speed
 -> make camera frames positions configurable
 -> add a view log functionality
 

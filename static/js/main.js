@@ -1343,7 +1343,7 @@ function runMediaDialog(cameraId, mediaType) {
             return;
         }
         
-        /* sort and group the media */
+        /* group the media */
         var groups = {};
         data.mediaList.forEach(function (media) {
             var path = media.path;
@@ -1373,42 +1373,7 @@ function runMediaDialog(cameraId, mediaType) {
         $('div.modal-container').append(tempDiv);
         var height = tempDiv.height();
         tempDiv.remove();
-        
-        /* prepare the entries within each group */
-        keys.forEach(function (key) {
-            var entries = groups[key];
-            
-            entries.forEach(function (entry) {
-                var entryDiv = $('<div class="media-list-entry"></div>');
-                
-                var previewImg = $('<img class="media-list-preview" src="' + staticUrl + 'img/modal-progress.gif"/>');
-                entryDiv.append(previewImg);
-                previewImg[0]._src = '/' + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height;
-                
-                var downloadButton = $('<div class="media-list-download-button button">download</div>');
-                entryDiv.append(downloadButton);
-                
-                var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
-                entryDiv.append(nameDiv);
-                
-                var detailsDiv = $('<div class="media-list-entry-details"></div>');
-                entryDiv.append(detailsDiv);
-                
-                downloadButton[0]._onClick = function () {
-                    window.location.href = '/picture/' + cameraId + '/download' + entry.path;
-                    
-                    return false;
-                };
-                
-                entryDiv[0]._onClick = function () {
-                    var pos = entries.indexOf(entry);
-                    runPictureDialog(entries, pos, mediaType);
-                };
-                
-                entry.div = entryDiv;
-            });
-        });
-        
+
         function showGroup(key) {
             if (mediaListDiv.find('img.media-list-progress').length) {
                 return; /* already in progress of loading */
@@ -1436,13 +1401,42 @@ function runMediaDialog(cameraId, mediaType) {
                 /* add the entries to the media list */
                 entries.forEach(function (entry) {
                     var entryDiv = entry.div;
-                    var detailsDiv = entryDiv.find('div.media-list-entry-details');
-                    var downloadButton = entryDiv.find('div.media-list-download-button');
+                    var detailsDiv = null;
+                    
+                    if (!entryDiv) {
+                        entryDiv = $('<div class="media-list-entry"></div>');
+                        
+                        var previewImg = $('<img class="media-list-preview" src="' + staticUrl + 'img/modal-progress.gif"/>');
+                        entryDiv.append(previewImg);
+                        previewImg[0]._src = '/' + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height;
+                        
+                        var downloadButton = $('<div class="media-list-download-button button">download</div>');
+                        entryDiv.append(downloadButton);
+                        
+                        var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
+                        entryDiv.append(nameDiv);
+                        
+                        detailsDiv = $('<div class="media-list-entry-details"></div>');
+                        entryDiv.append(detailsDiv);
+                        
+                        downloadButton.click(function () {
+                            window.location.href = '/picture/' + cameraId + '/download' + entry.path;
+                            
+                            return false;
+                        });
+                        
+                        entryDiv.click(function () {
+                            var pos = entries.indexOf(entry);
+                            runPictureDialog(entries, pos, mediaType);
+                        });
+                        
+                        entry.div = entryDiv;
+                    }
+                    else {
+                        detailsDiv = entry.div.find('div.media-list-entry-details');
+                    }                    
                     
                     detailsDiv.html(entry.momentStr + ' | ' + entry.sizeStr);
-                    entryDiv.unbind('click').click(entryDiv[0]._onClick);
-                    downloadButton.click(downloadButton[0]._onClick);
-
                     mediaListDiv.append(entryDiv);
                 });
 
