@@ -133,6 +133,17 @@ img.logo {
     vertical-align: middle;
 }
 
+img.background-logo {
+    position: absolute;
+    width: 30%;
+    left: 35%;
+    top: 10em;
+    opacity: 0.03;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
 img.main-loading-progress {
     display: block;
     margin: auto;
