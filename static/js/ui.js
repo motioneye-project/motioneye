@@ -120,7 +120,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         return minVal + pos * (maxVal - minVal) / 100;
     }
     
-    function sliderChange(val, percent) {
+    function sliderChange(val) {
         $input.val(val.toFixed(decimals));
         slider.attr('title', '' + val.toFixed(decimals) + unit);
     }
@@ -134,7 +134,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             var val = posToVal(pos);
             
             cursor.css('left', pos + '%');
-            sliderChange(val, pos / 100);
+            sliderChange(val);
         }
     }
     
@@ -164,12 +164,16 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     });
     
     /* ticks */
-    var i;
-    if (ticks == null) {
+    var autoTicks = (ticks == null);
+    
+    function makeTicks() {
         if (ticksNumber == null) {
             ticksNumber = 11; 
         }
-        ticks = [];
+
+        labels.html('');
+        
+        var i, ticks = [];
         for (i = 0; i < ticksNumber; i++) {
             var val = minVal + i * (maxVal - minVal) / (ticksNumber - 1);
             var valStr;
@@ -181,17 +185,23 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             }
             ticks.push({value: val, label: valStr + unit});
         }
-    }
-    
-    for (i = 0; i < ticks.length; i++) {
-        var tick = ticks[i];
-        var pos = valToPos(tick.value);
-        var span = $('<span class="slider-label" style="left: -9999px;">' + tick.label + '</span>');
         
-        labels.append(span);
-        span.css('left', (pos - 10) + '%');
+        for (i = 0; i < ticks.length; i++) {
+            var tick = ticks[i];
+            var pos = valToPos(tick.value);
+            var span = $('<span class="slider-label" style="left: -9999px;">' + tick.label + '</span>');
+            
+            labels.append(span);
+            span.css('left', (pos - 10) + '%');
+        }
+        
+        return ticks;
     }
     
+    if (autoTicks) {
+        ticks = makeTicks();
+    }
+
     function input2slider() {
         var value = parseFloat($input.val());
         if (isNaN(value)) {
@@ -260,6 +270,24 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     });
     
     $input[0].update = input2slider;
+    
+    slider.setMinVal = function (mv) {
+        minVal = mv;
+
+        if (autoTicks) {
+            ticks = makeTicks();
+        }
+    };
+    
+    slider.setMaxVal = function (mv) {
+        maxVal = mv;
+
+        if (autoTicks) {
+            ticks = makeTicks();
+        }
+        
+        input2slider();
+    };
     
     return slider;
 }

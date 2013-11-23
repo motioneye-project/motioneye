@@ -2,6 +2,7 @@
 var pushConfigs = {};
 var refreshDisabled = 0;
 var fullScreenCameraId = null;
+var thresholdSlider = null;
 
 
     /* utils */
@@ -174,7 +175,8 @@ function initUI() {
     makeSlider($('#streamingQualitySlider'), 0, 100, 0, null, 5, 0, '%');
     makeSlider($('#imageQualitySlider'), 0, 100, 0, null, 5, 0, '%');
     makeSlider($('#movieQualitySlider'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#frameChangeThresholdSlider'), 0, 20000, 0, null, 3, 0, 'px');
+    thresholdSlider = makeSlider($('#frameChangeThresholdSlider'), 0, 20000, 0, null, 3, 0, 'px');
+    
     makeSlider($('#noiseLevelSlider'), 0, 100, 0, null, 5, 0, '%');
     
     /* text validators */
@@ -220,6 +222,7 @@ function initUI() {
     $('#showAdvancedSwitch').change(updateConfigUi);
     $('#storageDeviceSelect').change(updateConfigUi);
     $('#autoBrightnessSwitch').change(updateConfigUi);
+    $('#resolutionSelect').change(updateConfigUi);
     $('#leftTextSelect').change(updateConfigUi);
     $('#rightTextSelect').change(updateConfigUi);
     $('#captureModeSelect').change(updateConfigUi);
@@ -440,6 +443,18 @@ function updateConfigUi() {
             this.selectedIndex = 0;
         }
     });
+    
+    /* update change threshold max limit */
+    var resolution = $('#resolutionSelect').val();
+    if (resolution) {
+        resolution = resolution.split('x');
+        
+        var width = parseInt(resolution[0]);
+        var height = parseInt(resolution[1]);
+        var valStr = '' + (width * height * 0.5); /* up to 50% */
+        var maxVal = parseInt(valStr[0] + new Array(valStr.length).join('0'));
+        thresholdSlider.setMaxVal(maxVal);
+    }
 }
 
 function configUiValid() {
