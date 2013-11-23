@@ -11,11 +11,11 @@
  * PIL
  * motion
  * ffmpeg
- * v4l2-utils
+ * v4l-utils
 
 On a debian-based system you could run:
 
-    apt-get install python-tornado python-jinja2 python-imaging motion ffmpeg v4l2-utils
+    apt-get install python-tornado python-jinja2 python-imaging motion ffmpeg v4l-utils
 
 ## Browser Compatibility ##
 

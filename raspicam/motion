@@ -6,6 +6,16 @@
 MOTION_BIN=/usr/bin/motion
 UV4L_BIN=/usr/bin/uv4l
 JPEG_QUALITY=85
+ARGS="$*"
+
+function config_full_path() {
+    dir="$1"
+    read file
+    if [ "${file:0:1}" != "/" ]; then
+        file="$dir/$file"
+    fi
+    echo "$file"
+}
 
 function list_config_files() {
     prev_arg=""
@@ -20,7 +30,7 @@ function list_config_files() {
 
     if [ -r "$config_file" ];then
         echo "$config_file"
-        cat motion.conf | grep thread | cut -d ' ' -f 2
+        cat motion.conf | grep thread | cut -d ' ' -f 2 | config_full_path $(dirname "$config_file")
     fi
 }
 
@@ -32,6 +42,9 @@ function find_resolution() {
         w=$(cat "$file" | grep width | cut -d ' ' -f 2)
         h=$(cat "$file" | grep height | cut -d ' ' -f 2)
         if [ -n "$w" ] && [ -n "$h" ]; then
+            width=$w
+            height=$h
+
             break
         fi
     done
@@ -50,3 +63,4 @@ ${UV4L_BIN} --driver raspicam --auto-video_nr --extension-presence 1 --sched-rr 
 # start motion binary with preloaded .so
 export LD_PRELOAD=/usr/lib/uv4l/uv4lext/armv6l/libuv4lext.so
 exec ${MOTION_BIN} $*
+

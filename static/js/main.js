@@ -1657,12 +1657,16 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     /* error and load handlers */
     cameraImg.error(function () {
         this.error = true;
+        this.loading = false;
+        
         cameraImg.addClass('error');
         cameraImg.height(Math.round(cameraImg.width() * 0.75));
         cameraPlaceholder.css('opacity', 1);
     });
     cameraImg.load(function () {
         this.error = false;
+        this.loading = false;
+        
         cameraImg.removeClass('error');
         cameraImg.css('height', '');
         cameraPlaceholder.css('opacity', 0);
@@ -1829,12 +1833,17 @@ function refreshCameraFrames() {
     }
     
     function refreshCameraFrame(cameraId, img, fast) {
+        if (img.loading) {
+            return; /* still loading the previous image */
+        }
+        
         var timestamp = new Date().getTime();
         if (!fast) {
             timestamp /= 500;
         }
         timestamp = Math.round(timestamp);
         img.src = '/picture/' + cameraId + '/current/?_=' + timestamp;
+        img.loading = true;
     }
     
     var cameraFrames;
