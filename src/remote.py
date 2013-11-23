@@ -173,7 +173,7 @@ def set_preview(host, port, username, password, camera_id, controls, callback):
     http_client.fetch(request, on_response)
 
 
-def current_picture(host, port, username, password, camera_id, callback):
+def get_current_picture(host, port, username, password, camera_id, callback, width, height):
     global _snapshot_cache
     
     logging.debug('getting current picture for remote camera %(id)s on %(host)s:%(port)s' % {
@@ -181,15 +181,24 @@ def current_picture(host, port, username, password, camera_id, callback):
             'host': host,
             'port': port})
     
-    request = _make_request(host, port, username, password, '/picture/%(id)s/current/' % {'id': camera_id})
+    query = {}
     
-    cached = _snapshot_cache.setdefault(request.url, {'pending': 0, 'jpg': None})
+    if width:
+        query['width'] = str(width)
+        
+    if height:
+        query['height'] = str(height)
+    
+    request = _make_request(host, port, username, password, '/picture/%(id)s/current/' % {'id': camera_id}, query=query)
+    
+    cache_key = (host, port, camera_id)
+    cached = _snapshot_cache.setdefault(cache_key, {'pending': 0, 'jpg': None})
     if cached['pending'] > 0: # a pending request for this snapshot exists
         return callback(cached['jpg'])
     
     def on_response(response):
         cached['pending'] -= 1
-        cached['jpg'] = response.body
+        cached['picture'] = response.body
         
         if response.error:
             logging.error('failed to get current picture for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {

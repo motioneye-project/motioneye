@@ -24,6 +24,7 @@ import subprocess
 from PIL import Image
 
 import config
+import mjpgclient
 import utils
 
 
@@ -270,6 +271,32 @@ def get_media_preview(camera_config, path, media_type, width, height):
     height = height and int(height) or image.size[1]
     
     image.thumbnail((width, height), Image.LINEAR)
+
+    sio = StringIO.StringIO()
+    image.save(sio, format='JPEG')
+
+    return sio.getvalue()
+
+
+def get_current_picture(camera_config, width, height):
+    jpg = mjpgclient.get_jpg(camera_config['@id'])
+    
+    if jpg is None:
+        return None
+    
+    if width is height is None:
+        return jpg
+
+    sio = StringIO.StringIO(jpg)
+    image = Image.open(sio)
+    
+    width = width and int(width) or image.size[0]
+    height = height and int(height) or image.size[1]
+    
+    if width >= image.size[0] and height >= image.size[1]:
+        return jpg # no enlarging of the picture on the server side
+    
+    image.thumbnail((width, height), Image.ANTIALIAS)
 
     sio = StringIO.StringIO()
     image.save(sio, format='JPEG')

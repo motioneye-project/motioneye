@@ -54,7 +54,11 @@ class MjpgClient(iostream.IOStream):
         except KeyError:
             pass
         
-        iostream.IOStream.close(self)
+        try:
+            iostream.IOStream.close(self)
+        
+        except:
+            pass # already closed, nevermind
     
     def _check_error(self):
         if self.error is None:

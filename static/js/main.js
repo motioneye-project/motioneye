@@ -1842,7 +1842,7 @@ function refreshCameraFrames() {
             timestamp /= 500;
         }
         timestamp = Math.round(timestamp);
-        img.src = '/picture/' + cameraId + '/current/?_=' + timestamp;
+        img.src = '/picture/' + cameraId + '/current/?_=' + timestamp + '&width=' + img.width;
         img.loading = true;
     }
     

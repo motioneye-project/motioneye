@@ -24,10 +24,8 @@ from tornado.web import RequestHandler, HTTPError, asynchronous
 
 import config
 import mediafiles
-import mjpgclient
 import motionctl
 import remote
-import settings
 import template
 import update
 import v4l2ctl
@@ -545,27 +543,26 @@ class PictureHandler(BaseHandler):
         
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] == 'v4l2':
-            jpg = mjpgclient.get_jpg(camera_id)
-            if jpg is None:
-                return self.finish()
-        
-            self.finish(jpg)
+            picture = mediafiles.get_current_picture(camera_config,
+                    width=self.get_argument('width', None),
+                    height=self.get_argument('height', None))
+
+            self.finish(picture)
         
         else:
-            def on_response(jpg):
-                if jpg is None:
-                    self.finish()
-                    
-                else:
-                    self.finish(jpg)
+            def on_response(picture):
+                self.finish(picture)
             
-            remote.current_picture(
+            remote.get_current_picture(
                     camera_config['@host'],
                     camera_config['@port'],
                     camera_config['@username'],
                     camera_config['@password'],
-                    camera_config['@remote_camera_id'], on_response)
-                
+                    camera_config['@remote_camera_id'],
+                    on_response,
+                    width=self.get_argument('width', None),
+                    height=self.get_argument('height', None))
+
     @BaseHandler.auth()
     def list(self, camera_id):
         logging.debug('listing pictures for camera %(id)s' % {'id': camera_id})
