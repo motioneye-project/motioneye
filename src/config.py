@@ -225,7 +225,7 @@ def get_camera(camera_id, as_lines=False):
         data['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
         data['@id'] = camera_id
 
-        _set_default_motion_camera(data)
+        _set_default_motion_camera(camera_id, data)
     
     if _camera_config_cache is None:
         _camera_config_cache = {}
@@ -239,7 +239,7 @@ def set_camera(camera_id, data):
     global _camera_config_cache
     
     if data['@proto'] == 'v4l2':
-        _set_default_motion_camera(data)
+        _set_default_motion_camera(camera_id, data)
         
         # set the enabled status in main config
         main_config = get_main()
@@ -942,8 +942,8 @@ def _set_default_motion(data):
     data.setdefault('@normal_password', '')
 
 
-def _set_default_motion_camera(data):
-    data.setdefault('@name', 'My Camera')
+def _set_default_motion_camera(camera_id, data):
+    data.setdefault('@name', 'Camera' + str(camera_id))
     data.setdefault('@enabled', False)
     data.setdefault('@proto', 'v4l2')
     data.setdefault('videodevice', '/dev/video0')
@@ -966,7 +966,7 @@ def _set_default_motion_camera(data):
     data.setdefault('target_dir', settings.RUN_PATH)
     
     data.setdefault('webcam_localhost', False)
-    data.setdefault('webcam_port', 8080)
+    data.setdefault('webcam_port', int('808' + str(camera_id)))
     data.setdefault('webcam_maxrate', 5)
     data.setdefault('webcam_quality', 85)
     data.setdefault('webcam_motion', False)
