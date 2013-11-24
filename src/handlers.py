@@ -541,16 +541,31 @@ class PictureHandler(BaseHandler):
     def current(self, camera_id):
         self.set_header('Content-Type', 'image/jpeg')
         
+        sequence = self.get_argument('seq', None)
+        if sequence:
+            sequence = int(sequence)
+            
+        picture = sequence and mediafiles.get_picture_cache(camera_id, sequence) or None
+        
+        if picture is not None:
+            return self.finish(picture)
+        
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] == 'v4l2':
             picture = mediafiles.get_current_picture(camera_config,
                     width=self.get_argument('width', None),
                     height=self.get_argument('height', None))
+            
+            if sequence and picture:
+                mediafiles.set_picture_cache(camera_id, sequence, picture)
 
             self.finish(picture)
         
         else:
             def on_response(picture):
+                if sequence and picture:
+                    mediafiles.set_picture_cache(camera_id, sequence, picture)
+                
                 self.finish(picture)
             
             remote.get_current_picture(

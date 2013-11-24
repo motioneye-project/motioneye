@@ -43,3 +43,6 @@ REMOTE_REQUEST_TIMEOUT = 10
 
 # timeout in seconds to wait for an access to a mjpg client before removing it
 MJPG_CLIENT_TIMEOUT = 10
+
+# the maximal number of entries per camera in the current pictures cache
+PICTURE_CACHE_SIZE = 8

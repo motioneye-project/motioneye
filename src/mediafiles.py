@@ -25,11 +25,16 @@ from PIL import Image
 
 import config
 import mjpgclient
+import settings
 import utils
 
 
 _PICTURE_EXTS = ['.jpg']
 _MOVIE_EXTS = ['.avi', '.mp4']
+
+# a dictionary indexed by camera_id containing
+# tuples of (sequence, content)
+_current_pictures_cache = {}
 
 
 def _list_media_files(dir, exts, prefix=None):
@@ -302,3 +307,29 @@ def get_current_picture(camera_config, width, height):
     image.save(sio, format='JPEG')
 
     return sio.getvalue()
+
+
+def set_picture_cache(camera_id, sequence, content):
+    global _current_pictures_cache
+    
+    if not content:
+        return
+    
+    cache = _current_pictures_cache.setdefault(camera_id, [])
+    
+    if len(cache) >= settings.PICTURE_CACHE_SIZE:
+        cache.pop(0) # drop the first item
+    
+    cache.append((sequence, content))
+
+
+def get_picture_cache(camera_id, sequence):
+    global _current_pictures_cache
+    
+    cache = _current_pictures_cache.setdefault(camera_id, [])
+
+    for (seq, content) in cache:
+        if seq >= sequence:
+            return content
+        
+    return None
