@@ -456,6 +456,7 @@ def camera_ui_to_dict(ui):
         # movies
         'ffmpeg_cap_new': ui['motion_movies'],
         'movie_filename': ui['movie_file_name'],
+        'ffmpeg_bps': 400000,
         '@preserve_movies': int(ui['preserve_movies']),
     
         # motion detection
@@ -664,7 +665,7 @@ def camera_dict_to_ui(data):
     if ui['proto'] == 'v4l2':
         brightness = v4l2ctl.get_brightness(ui['device'])
         if brightness is not None: # has brightness control
-            if data['brightness'] != 0:
+            if data.get('brightness', 0) != 0:
                 ui['brightness'] = brightness
                     
             else:
@@ -672,7 +673,7 @@ def camera_dict_to_ui(data):
             
         contrast = v4l2ctl.get_contrast(ui['device'])
         if contrast is not None: # has contrast control
-            if data['contrast'] != 0:
+            if data.get('contrast', 0) != 0:
                 ui['contrast'] = contrast
             
             else:
@@ -680,7 +681,7 @@ def camera_dict_to_ui(data):
             
         saturation = v4l2ctl.get_saturation(ui['device'])
         if saturation is not None: # has saturation control
-            if data['saturation'] != 0:
+            if data.get('saturation', 0) != 0:
                 ui['saturation'] = saturation
             
             else:
@@ -688,7 +689,7 @@ def camera_dict_to_ui(data):
             
         hue = v4l2ctl.get_hue(ui['device'])
         if hue is not None: # has hue control
-            if data['hue'] != 0:
+            if data.get('hue', 0) != 0:
                 ui['hue'] = hue
             
             else:
