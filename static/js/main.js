@@ -1686,6 +1686,10 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
         cameraPlaceholder.css('opacity', 1);
     });
     cameraImg.load(function () {
+        if (refreshDisabled) {
+            return; /* refresh temporarily disabled for updating */
+        }
+        
         this.error = false;
         this.loading = false;
         
