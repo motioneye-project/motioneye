@@ -32,9 +32,6 @@ VERSION = '0.7'
 
 
 def _test_requirements():
-    import mediafiles
-    import motionctl
-    import v4l2ctl
     
     try:
         import tornado  # @UnusedImport
@@ -57,8 +54,13 @@ def _test_requirements():
     except ImportError:
         pil = False
 
+    import mediafiles
     ffmpeg = mediafiles.find_ffmpeg() is not None
+    
+    import motionctl
     motion = motionctl.find_motion() is not None
+    
+    import v4l2ctl
     v4lutils = v4l2ctl.find_v4l2_ctl() is not None
     
     ok = True
