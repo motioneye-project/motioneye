@@ -308,7 +308,7 @@ def get_current_picture(camera_config, width, height):
     if width >= image.size[0] and height >= image.size[1]:
         return jpg # no enlarging of the picture on the server side
     
-    image.thumbnail((width, height), Image.ANTIALIAS)
+    image.thumbnail((width, height), Image.CUBIC)
 
     sio = StringIO.StringIO()
     image.save(sio, format='JPEG')
