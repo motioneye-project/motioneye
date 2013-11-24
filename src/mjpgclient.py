@@ -43,13 +43,15 @@ class MjpgClient(iostream.IOStream):
         iostream.IOStream.connect(self, ('localhost', self._port), self._on_connect)
         MjpgClient.clients[self._camera_id] = self
         
-        logging.debug('mjpg client connecting on port %(port)s...' % {'port': self._port})
+        logging.debug('mjpg client for camera %(camera_id)s connecting on port %(port)s...' % {
+                'port': self._port, 'camera_id': self._camera_id})
     
     def close(self):
         try:
             del MjpgClient.clients[self._camera_id]
             
-            logging.debug('mjpg client for camera %(camera_id)s removed' % {'camera_id': self._camera_id})
+            logging.debug('mjpg client for camera %(camera_id)s on port %(port)s removed' % {
+                    'port': self._port, 'camera_id': self._camera_id})
             
         except KeyError:
             pass
@@ -61,6 +63,14 @@ class MjpgClient(iostream.IOStream):
             pass # already closed, nevermind
     
     def _check_error(self):
+        if self.socket is None:
+            logging.warning('mjpg client connection for camera %(camera_id)s on port %(port)s is closed' % {
+                    'port': self._port, 'camera_id': self._camera_id})
+            
+            self.close()
+            
+            return True
+            
         if self.error is None:
             return False
         
@@ -69,8 +79,8 @@ class MjpgClient(iostream.IOStream):
         return True
      
     def _error(self, error):
-        logging.error('mjpg client error: %(msg)s' % {
-                'msg': unicode(error)})
+        logging.error('mjpg client for camera %(camera_id)s on port %(port)s error: %(msg)s' % {
+                'port': self._port, 'camera_id': self._camera_id, 'msg': unicode(error)})
         
         try:
             self.close()
@@ -79,7 +89,8 @@ class MjpgClient(iostream.IOStream):
             pass
     
     def _on_connect(self):
-        logging.debug('mjpg client connected on port %(port)s...' % {'port': self._port})
+        logging.debug('mjpg client for camera %(camera_id)s connected on port %(port)s' % {
+                'port': self._port, 'camera_id': self._camera_id})
         
         self.write(b"GET / HTTP/1.0\r\n\r\n")
         self._seek_content_length()
@@ -122,6 +133,7 @@ def _garbage_collector():
     now = datetime.datetime.utcnow()
     for client in MjpgClient.clients.values():
         camera_id = client._camera_id
+        port = client._port
         last_access = MjpgClient.last_access.get(camera_id)
         if last_access is None:
             continue
@@ -130,7 +142,9 @@ def _garbage_collector():
         delta = delta.days * 86400 + delta.seconds
         
         if delta > settings.MJPG_CLIENT_TIMEOUT:
-            logging.debug('mjpg client for camera %(camera_id)s timed out' % {'camera_id': camera_id})
+            logging.debug('mjpg client for camera %(camera_id)s on port %(port)s timed out' % {
+                    'camera_id': camera_id, 'port': port})
+            
             client.close()
 
     io_loop = ioloop.IOLoop.instance()
@@ -144,7 +158,7 @@ def get_jpg(camera_id):
     if camera_id not in MjpgClient.clients:
         # mjpg client not started yet for this camera
         
-        logging.debug('creating mjpg client for camera id %(camera_id)s' % {
+        logging.debug('creating mjpg client for camera %(camera_id)s' % {
                 'camera_id': camera_id})
         
         camera_config = config.get_camera(camera_id)
