@@ -439,7 +439,7 @@ def camera_ui_to_dict(ui):
         # streaming
         'webcam_localhost': not ui['video_streaming'],
         'webcam_port': int(ui['streaming_port']),
-        'webcam_maxrate': int(['streaming_framerate']),
+        'webcam_maxrate': int(ui['streaming_framerate']),
         'webcam_quality': max(1, int(ui['streaming_quality'])),
         '@webcam_resolution': max(1, int(ui['streaming_resolution'])),
         'webcam_motion': ui['streaming_motion'],

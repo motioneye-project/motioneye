@@ -172,13 +172,13 @@ function initUI() {
         {value: 25, label: '25'},
         {value: 30, label: '30'}
     ], null, 0);
-    makeSlider($('#streamingQualitySlider'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#streamingResolutionSlider'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#imageQualitySlider'), 0, 100, 0, null, 5, 0, '%');
-    makeSlider($('#movieQualitySlider'), 0, 100, 0, null, 5, 0, '%');
+    makeSlider($('#streamingQualitySlider'), 0, 100, 2, null, 5, 0, '%');
+    makeSlider($('#streamingResolutionSlider'), 0, 100, 2, null, 5, 0, '%');
+    makeSlider($('#imageQualitySlider'), 0, 100, 2, null, 5, 0, '%');
+    makeSlider($('#movieQualitySlider'), 0, 100, 2, null, 5, 0, '%');
     thresholdSlider = makeSlider($('#frameChangeThresholdSlider'), 0, 20000, 0, null, 3, 0, 'px');
     
-    makeSlider($('#noiseLevelSlider'), 0, 100, 0, null, 5, 0, '%');
+    makeSlider($('#noiseLevelSlider'), 0, 100, 2, null, 5, 0, '%');
     
     /* text validators */
     makeTextValidator($('#adminUsernameEntry'), true);
@@ -727,6 +727,9 @@ function showApply() {
 function showProgress() {
     refreshDisabled++;
     
+    /* replace the main page message with a progress indicator */
+    $('div.add-camera-message').html('<img class="main-loading-progress" src="' + staticUrl + 'img/main-loading-progress.gif">');
+    
     if (!$('div.settings-container').is(':visible')) {
         return; /* settings panel is not open */
     }
@@ -743,7 +746,6 @@ function showProgress() {
     applyButton.addClass('progress');
     
     $('div.camera-progress').css('opacity', '0.5');
-    $('div.add-camera-message').html('<img class="main-loading-progress" src="' + staticUrl + 'img/main-loading-progress.gif">');
 }
 
 function hideApply() {
@@ -761,6 +763,7 @@ function hideApply() {
 
 function endProgress() {
     refreshDisabled--;
+    $('div.add-camera-message').remove(); /* remove any existing message on the main page */
     
     if (Object.keys(pushConfigs).length === 0) {
         hideApply();
@@ -770,7 +773,6 @@ function endProgress() {
     }
     
     $('div.camera-progress').css('opacity', '0');
-    $('div.add-camera-message').remove(); /* in case the message exists */
 }
 
 function isProgress() {

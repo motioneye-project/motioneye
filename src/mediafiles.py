@@ -298,6 +298,13 @@ def get_current_picture(camera_config, width, height):
     width = width and int(width) or image.size[0]
     height = height and int(height) or image.size[1]
     
+    webcam_resolution = camera_config['@webcam_resolution']
+    max_width = image.size[0] * webcam_resolution / 100
+    max_height = image.size[1] * webcam_resolution / 100
+    
+    width = min(max_width, width)
+    height = min(max_height, height)
+    
     if width >= image.size[0] and height >= image.size[1]:
         return jpg # no enlarging of the picture on the server side
     

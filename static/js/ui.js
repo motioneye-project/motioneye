@@ -173,17 +173,20 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
 
         labels.html('');
         
-        var i, ticks = [];
-        for (i = 0; i < ticksNumber; i++) {
-            var val = minVal + i * (maxVal - minVal) / (ticksNumber - 1);
-            var valStr;
-            if (Math.round(val) == val) {
-                valStr = '' + val;
+        if (autoTicks) {
+            ticks = [];
+            var i;
+            for (i = 0; i < ticksNumber; i++) {
+                var val = minVal + i * (maxVal - minVal) / (ticksNumber - 1);
+                var valStr;
+                if (Math.round(val) == val) {
+                    valStr = '' + val;
+                }
+                else {
+                    valStr = val.toFixed(decimals);
+                }
+                ticks.push({value: val, label: valStr + unit});
             }
-            else {
-                valStr = val.toFixed(decimals);
-            }
-            ticks.push({value: val, label: valStr + unit});
         }
         
         for (i = 0; i < ticks.length; i++) {
@@ -198,9 +201,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         return ticks;
     }
     
-    if (autoTicks) {
-        ticks = makeTicks();
-    }
+    makeTicks();
 
     function input2slider() {
         var value = parseFloat($input.val());
@@ -274,17 +275,13 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     slider.setMinVal = function (mv) {
         minVal = mv;
 
-        if (autoTicks) {
-            ticks = makeTicks();
-        }
+        makeTicks();
     };
     
     slider.setMaxVal = function (mv) {
         maxVal = mv;
 
-        if (autoTicks) {
-            ticks = makeTicks();
-        }
+        makeTicks();
         
         input2slider();
     };
