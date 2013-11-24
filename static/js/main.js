@@ -737,9 +737,10 @@ function showProgress() {
     applyButton.html('<img class="apply-progress" src="' + staticUrl + 'img/apply-progress.gif">');
     applyButton.css('display', 'inline-block');
     applyButton.animate({'opacity': '1'}, 100);
-    applyButton.addClass('progress');   
+    applyButton.addClass('progress');
     
     $('div.camera-progress').css('opacity', '0.5');
+    $('div.add-camera-message').html('<img class="main-loading-progress" src="' + staticUrl + 'img/main-loading-progress.gif">');
 }
 
 function hideApply() {
@@ -766,6 +767,7 @@ function endProgress() {
     }
     
     $('div.camera-progress').css('opacity', '0');
+    $('div.add-camera-message').remove(); /* in case the message exists */
 }
 
 function isProgress() {
@@ -1722,7 +1724,7 @@ function recreateCameraFrames(cameras) {
         
         if ($('#videoDeviceSelect').find('option').length < 2 && user === 'admin' && $('#motionEyeSwitch')[0].checked) {
             /* invite the user to add a camera */
-            var addCameraLink = $('<div style="text-align: center; margin-top: 30px;">' + 
+            var addCameraLink = $('<div class="add-camera-message">' + 
                     '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');
             pageContainer.append(addCameraLink);
         }
