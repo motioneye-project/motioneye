@@ -454,7 +454,7 @@ def camera_ui_to_dict(ui):
         
         # movies
         'ffmpeg_cap_new': ui.get('motion_movies', False),
-        'movie_filename': ui.get('movie_file_name', '%Y-%m-%d-%H-%M-%S-%q'),
+        'movie_filename': ui.get('movie_file_name', ''),
         '@preserve_movies': int(ui.get('preserve_movies', 0)),
     
         # motion detection
@@ -535,15 +535,15 @@ def camera_ui_to_dict(ui):
         capture_mode = ui.get('capture_mode', 'motion-triggered')
         if capture_mode == 'motion-triggered':
             data['output_normal'] = True
-            data['jpeg_filename'] = ui.get('image_file_name', '%Y-%m-%d-%H-%M-%S-%q')  
+            data['jpeg_filename'] = ui.get('image_file_name', '')  
             
         elif capture_mode == 'interval-snapshots':
             data['snapshot_interval'] = int(ui.get('snapshot_interval', 300))
-            data['snapshot_filename'] = ui.get('image_file_name', '%Y-%m-%d-%H-%M-%S-%q')
+            data['snapshot_filename'] = ui.get('image_file_name', '')
             
         elif capture_mode == 'all-frames':
             data['output_all'] = True
-            data['jpeg_filename'] = ui.get('image_file_name', '%Y-%m-%d-%H-%M-%S')
+            data['jpeg_filename'] = ui.get('image_file_name', '')
             
         data['quality'] = max(1, int(ui.get('image_quality', 85)))
     
@@ -626,7 +626,7 @@ def camera_dict_to_ui(data):
         # still images
         'still_images': False,
         'capture_mode': 'motion-triggered',
-        'image_file_name': '%Y-%m-%d-%H-%M-%S',
+        'image_file_name': '%Y-%m-%d/%H-%M-%S',
         'image_quality': 85,
         'snapshot_interval': 0,
         'preserve_pictures': data['@preserve_pictures'],
@@ -1000,7 +1000,7 @@ def _set_default_motion_camera(data):
     
     data.setdefault('ffmpeg_variable_bitrate', 0)
     data.setdefault('ffmpeg_bps', 400000)
-    data.setdefault('movie_filename', '%Y-%m-%d-%H-%M-%S')
+    data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     data.setdefault('ffmpeg_cap_new', False)
     data.setdefault('@preserve_movies', 0)
     
