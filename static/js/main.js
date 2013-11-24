@@ -173,6 +173,7 @@ function initUI() {
         {value: 30, label: '30'}
     ], null, 0);
     makeSlider($('#streamingQualitySlider'), 0, 100, 0, null, 5, 0, '%');
+    makeSlider($('#streamingResolutionSlider'), 0, 100, 0, null, 5, 0, '%');
     makeSlider($('#imageQualitySlider'), 0, 100, 0, null, 5, 0, '%');
     makeSlider($('#movieQualitySlider'), 0, 100, 0, null, 5, 0, '%');
     thresholdSlider = makeSlider($('#frameChangeThresholdSlider'), 0, 20000, 0, null, 3, 0, 'px');
@@ -526,9 +527,10 @@ function cameraUi2Dict() {
         
         /* video streaming */
         'video_streaming': $('#videoStreamingSwitch')[0].checked,
-        'streaming_port': $('#streamingPortEntry').val(),
         'streaming_framerate': $('#streamingFramerateSlider').val(),
         'streaming_quality': $('#streamingQualitySlider').val(),
+        'streaming_resolution': $('#streamingResolutionSlider').val(),
+        'streaming_port': $('#streamingPortEntry').val(),
         'streaming_motion': $('#streamingMotion')[0].checked,
         
         /* still images */
@@ -653,9 +655,10 @@ function dict2CameraUi(dict) {
     
     /* video streaming */
     $('#videoStreamingSwitch')[0].checked = dict['video_streaming'];
-    $('#streamingPortEntry').val(dict['streaming_port']);
     $('#streamingFramerateSlider').val(dict['streaming_framerate']);
     $('#streamingQualitySlider').val(dict['streaming_quality']);
+    $('#streamingResolutionSlider').val(dict['streaming_resolution']);
+    $('#streamingPortEntry').val(dict['streaming_port']);
     $('#streamingMotion')[0].checked = dict['streaming_motion'];
     
     /* still images */

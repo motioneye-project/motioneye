@@ -386,50 +386,50 @@ def rem_camera(camera_id):
 
 def main_ui_to_dict(ui):
     return {
-        '@enabled': ui.get('enabled', True),
-        '@show_advanced': ui.get('show_advanced', False),
-        '@admin_username': ui.get('admin_username', ''),
-        '@admin_password': ui.get('admin_password', ''),
-        '@normal_username': ui.get('normal_username', ''),
-        '@normal_password': ui.get('normal_password', '')
+        '@enabled': ui['enabled'],
+        '@show_advanced': ui['show_advanced'],
+        '@admin_username': ui['admin_username'],
+        '@admin_password': ui['admin_password'],
+        '@normal_username': ui['normal_username'],
+        '@normal_password': ui['normal_password']
     }
 
 
 def main_dict_to_ui(data):
     return {
-        'enabled': data.get('@enabled', True),
-        'show_advanced': data.get('@show_advanced', False),
-        'admin_username': data.get('@admin_username', ''),
-        'admin_password': data.get('@admin_password', ''),
-        'normal_username': data.get('@normal_username', ''),
-        'normal_password': data.get('@normal_password', '')
+        'enabled': data['@enabled'],
+        'show_advanced': data['@show_advanced'],
+        'admin_username': data['@admin_username'],
+        'admin_password': data['@admin_password'],
+        'normal_username': data['@normal_username'],
+        'normal_password': data['@normal_password']
     }
 
 
 def camera_ui_to_dict(ui):
-    if not ui.get('resolution'):  # avoid errors for empty resolution setting
+    if not ui['resolution']:  # avoid errors for empty resolution setting
         ui['resolution'] = '352x288'
 
     data = {
         # device
-        '@name': ui.get('name', ''),
-        '@enabled': ui.get('enabled', False),
-        '@proto': ui.get('proto', 'v4l2'),
-        'videodevice': ui.get('device', ''),
-        'lightswitch': int(ui.get('light_switch_detect', True)) * 5,
-        'auto_brightness': ui.get('auto_brightness', False),
+        '@name': ui['name'],
+        '@enabled': ui['enabled'],
+        '@proto': ui['proto'],
+        'videodevice': ui['device'],
+        'lightswitch': int(ui['light_switch_detect']) * 5,
+        'auto_brightness': ui['auto_brightness'],
         'width': int(ui['resolution'].split('x')[0]),
         'height': int(ui['resolution'].split('x')[1]),
-        'framerate': int(ui.get('framerate', 1)),
-        'rotate': int(ui.get('rotation', 0)),
+        'framerate': int(ui['framerate']),
+        'rotate': int(ui['rotation']),
         
         # file storage
-        '@storage_device': ui.get('storage_device', 'local-disk'),
-        '@network_server': ui.get('network_server', ''),
-        '@network_share_name': ui.get('network_share_name', ''),
-        '@network_username': ui.get('network_username', ''),
-        '@network_password': ui.get('network_password', ''),
-        'target_dir': ui.get('root_directory', '/'),
+        '@storage_device': ui['storage_device'],
+        '@network_server': ui['network_server'],
+        '@network_share_name': ui['network_share_name'],
+        '@network_username': ui['network_username'],
+        '@network_password': ui['network_password'],
+        'target_dir': ui['root_directory'],
         
         # text overlay
         'text_left': '',
@@ -437,11 +437,12 @@ def camera_ui_to_dict(ui):
         'text_double': False,
         
         # streaming
-        'webcam_localhost': not ui.get('video_streaming', True),
-        'webcam_port': int(ui.get('streaming_port', 8080)),
-        'webcam_maxrate': int(ui.get('streaming_framerate', 1)),
-        'webcam_quality': max(1, int(ui.get('streaming_quality', 85))),
-        'webcam_motion': ui.get('streaming_motion', False),
+        'webcam_localhost': not ui['video_streaming'],
+        'webcam_port': int(ui['streaming_port']),
+        'webcam_maxrate': int(['streaming_framerate']),
+        'webcam_quality': max(1, int(ui['streaming_quality'])),
+        '@webcam_resolution': max(1, int(ui['streaming_resolution'])),
+        'webcam_motion': ui['streaming_motion'],
         
         # still images
         'output_normal': False,
@@ -450,26 +451,26 @@ def camera_ui_to_dict(ui):
         'snapshot_interval': 0,
         'jpeg_filename': '',
         'snapshot_filename': '',
-        '@preserve_pictures': int(ui.get('preserve_pictures', 0)),
+        '@preserve_pictures': int(ui['preserve_pictures']),
         
         # movies
-        'ffmpeg_cap_new': ui.get('motion_movies', False),
-        'movie_filename': ui.get('movie_file_name', ''),
-        '@preserve_movies': int(ui.get('preserve_movies', 0)),
+        'ffmpeg_cap_new': ui['motion_movies'],
+        'movie_filename': ui['movie_file_name'],
+        '@preserve_movies': int(ui['preserve_movies']),
     
         # motion detection
-        'text_changes': ui.get('show_frame_changes', False),
-        'locate': ui.get('show_frame_changes', False),
-        'threshold': ui.get('frame_change_threshold', 1500),
-        'noise_tune': ui.get('auto_noise_detect', True),
-        'noise_level': max(1, int(round(int(ui.get('noise_level', 8)) * 2.55))),
-        'gap': int(ui.get('gap', 60)),
-        'pre_capture': int(ui.get('pre_capture', 0)),
-        'post_capture': int(ui.get('post_capture', 0)),
+        'text_changes': ui['show_frame_changes'],
+        'locate': ui['show_frame_changes'],
+        'threshold': ui['frame_change_threshold'],
+        'noise_tune': ui['auto_noise_detect'],
+        'noise_level': max(1, int(round(int(ui['noise_level']) * 2.55))),
+        'gap': int(ui['gap']),
+        'pre_capture': int(ui['pre_capture']),
+        'post_capture': int(ui['post_capture']),
         
         # motion notifications
-        '@motion_notifications': ui.get('motion_notifications', False),
-        '@motion_notifications_emails': ui.get('motion_notifications_emails', ''),
+        '@motion_notifications': ui['motion_notifications'],
+        '@motion_notifications_emails': ui['motion_notifications_emails'],
         
         # working schedule
         '@working_schedule': ''
@@ -503,61 +504,61 @@ def camera_ui_to_dict(ui):
         else:
             data['hue'] = max(1, int(round(int(ui['hue']) * 2.55)))
 
-    if ui.get('text_overlay', False):
-        left_text = ui.get('left_text', 'camera-name')
+    if ui['text_overlay']:
+        left_text = ui['left_text']
         if left_text == 'camera-name':
-            data['text_left'] = ui.get('name')
+            data['text_left'] = ui['name']
             
         elif left_text == 'timestamp':
             data['text_left'] = '%Y-%m-%d\\n%T'
             
         else:
-            data['text_left'] = ui.get('custom_left_text', '')
+            data['text_left'] = ui['custom_left_text']
         
-        right_text = ui.get('right_text', 'timestamp')
+        right_text = ui['right_text']
         if right_text == 'camera-name':
-            data['text_right'] = ui.get('name')
+            data['text_right'] = ui['name']
             
         elif right_text == 'timestamp':
             data['text_right'] = '%Y-%m-%d\\n%T'
             
         else:
-            data['text_right'] = ui.get('custom_right_text', '')
+            data['text_right'] = ui['custom_right_text']
         
         if data['width'] > 320:
             data['text_double'] = True
     
-    if ui.get('still_images', False):
-        capture_mode = ui.get('capture_mode', 'motion-triggered')
+    if ui['still_images']:
+        capture_mode = ui['capture_mode']
         if capture_mode == 'motion-triggered':
             data['output_normal'] = True
-            data['jpeg_filename'] = ui.get('image_file_name', '')  
+            data['jpeg_filename'] = ui['image_file_name']  
             
         elif capture_mode == 'interval-snapshots':
-            data['snapshot_interval'] = int(ui.get('snapshot_interval', 300))
-            data['snapshot_filename'] = ui.get('image_file_name', '')
+            data['snapshot_interval'] = int(ui['snapshot_interval'])
+            data['snapshot_filename'] = ui['image_file_name']
             
         elif capture_mode == 'all-frames':
             data['output_all'] = True
-            data['jpeg_filename'] = ui.get('image_file_name', '')
+            data['jpeg_filename'] = ui['image_file_name']
             
-        data['quality'] = max(1, int(ui.get('image_quality', 85)))
+        data['quality'] = max(1, int(ui['image_quality']))
     
-    if ui.get('motion_movies'):
+    if ui['motion_movies']:
         max_val = data['width'] * data['height'] * data['framerate'] / 3
         max_val = min(max_val, 9999999)
         
-        data['ffmpeg_bps'] = int(ui.get('movie_quality', 85)) * max_val / 100
+        data['ffmpeg_bps'] = int(ui['movie_quality']) * max_val / 100
 
-    if ui.get('working_schedule', False):
+    if ui['working_schedule']:
         data['@working_schedule'] = (
-                ui.get('monday_from', '') + '-' + ui.get('monday_to') + '|' + 
-                ui.get('tuesday_from', '') + '-' + ui.get('tuesday_to') + '|' + 
-                ui.get('wednesday_from', '') + '-' + ui.get('wednesday_to') + '|' + 
-                ui.get('thursday_from', '') + '-' + ui.get('thursday_to') + '|' + 
-                ui.get('friday_from', '') + '-' + ui.get('friday_to') + '|' + 
-                ui.get('saturday_from', '') + '-' + ui.get('saturday_to') + '|' + 
-                ui.get('sunday_from', '') + '-' + ui.get('sunday_to'))
+                ui['monday_from'] + '-' + ui['monday_to'] + '|' + 
+                ui['tuesday_from'] + '-' + ui['tuesday_to'] + '|' + 
+                ui['wednesday_from'] + '-' + ui['wednesday_to'] + '|' + 
+                ui['thursday_from'] + '-' + ui['thursday_to'] + '|' + 
+                ui['friday_from'] + '-' + ui['friday_to'] + '|' + 
+                ui['saturday_from'] + '-' + ui['saturday_to'] + '|' + 
+                ui['sunday_from'] + '-' + ui['sunday_to'])
 
     return data
     
@@ -586,14 +587,14 @@ def camera_dict_to_ui(data):
         # device
         'name': data['@name'],
         'enabled': data['@enabled'],
-        'id': data.get('@id'),
+        'id': data['@id'],
         'proto': data['@proto'],
         'device': device_uri,
-        'light_switch_detect': data.get('lightswitch') > 0,
-        'auto_brightness': data.get('auto_brightness'),
-        'resolution': str(data.get('width')) + 'x' + str(data.get('height')),
-        'framerate': int(data.get('framerate')),
-        'rotation': int(data.get('rotate')),
+        'light_switch_detect': data['lightswitch'] > 0,
+        'auto_brightness': data['auto_brightness'],
+        'resolution': str(data['width']) + 'x' + str(data['height']),
+        'framerate': int(data['framerate']),
+        'rotation': int(data['rotate']),
         
         # file storage
         'storage_device': data['@storage_device'],
@@ -601,7 +602,7 @@ def camera_dict_to_ui(data):
         'network_share_name': data['@network_share_name'],
         'network_username': data['@network_username'],
         'network_password': data['@network_password'],
-        'root_directory': data.get('target_dir'),
+        'root_directory': data['target_dir'],
         'disk_used': disk_used,
         'disk_total': disk_total,
         
@@ -613,11 +614,12 @@ def camera_dict_to_ui(data):
         'custom_right_text': '',
         
         # streaming
-        'video_streaming': not data.get('webcam_localhost'),
-        'streaming_port': int(data.get('webcam_port')),
-        'streaming_framerate': int(data.get('webcam_maxrate')),
-        'streaming_quality': int(data.get('webcam_quality')),
-        'streaming_motion': int(data.get('webcam_motion')),
+        'video_streaming': not data['webcam_localhost'],
+        'streaming_framerate': int(data['webcam_maxrate']),
+        'streaming_quality': int(data['webcam_quality']),
+        'streaming_resolution': int(data['@webcam_resolution']),
+        'streaming_port': int(data['webcam_port']),
+        'streaming_motion': int(data['webcam_motion']),
         
         # still images
         'still_images': False,
@@ -628,18 +630,18 @@ def camera_dict_to_ui(data):
         'preserve_pictures': data['@preserve_pictures'],
         
         # motion movies
-        'motion_movies': data.get('ffmpeg_cap_new'),
-        'movie_file_name': data.get('movie_filename'),
+        'motion_movies': data['ffmpeg_cap_new'],
+        'movie_file_name': data['movie_filename'],
         'preserve_movies': data['@preserve_movies'],
 
         # motion detection
-        'show_frame_changes': data.get('text_changes') or data.get('locate'),
-        'frame_change_threshold': data.get('threshold'),
-        'auto_noise_detect': data.get('noise_tune'),
-        'noise_level': int(int(data.get('noise_level')) / 2.55),
-        'gap': int(data.get('gap')),
-        'pre_capture': int(data.get('pre_capture')),
-        'post_capture': int(data.get('post_capture')),
+        'show_frame_changes': data['text_changes'] or data['locate'],
+        'frame_change_threshold': data['threshold'],
+        'auto_noise_detect': data['noise_tune'],
+        'noise_level': int(int(data['noise_level']) / 2.55),
+        'gap': int(data['gap']),
+        'pre_capture': int(data['pre_capture']),
+        'post_capture': int(data['post_capture']),
         
         # motion notifications
         'motion_notifications': data['@motion_notifications'],
@@ -662,7 +664,7 @@ def camera_dict_to_ui(data):
     if ui['proto'] == 'v4l2':
         brightness = v4l2ctl.get_brightness(ui['device'])
         if brightness is not None: # has brightness control
-            if data.get('brightness') != 0:
+            if data['brightness'] != 0:
                 ui['brightness'] = brightness
                     
             else:
@@ -670,7 +672,7 @@ def camera_dict_to_ui(data):
             
         contrast = v4l2ctl.get_contrast(ui['device'])
         if contrast is not None: # has contrast control
-            if data.get('contrast') != 0:
+            if data['contrast'] != 0:
                 ui['contrast'] = contrast
             
             else:
@@ -678,7 +680,7 @@ def camera_dict_to_ui(data):
             
         saturation = v4l2ctl.get_saturation(ui['device'])
         if saturation is not None: # has saturation control
-            if data.get('saturation') != 0:
+            if data['saturation'] != 0:
                 ui['saturation'] = saturation
             
             else:
@@ -686,7 +688,7 @@ def camera_dict_to_ui(data):
             
         hue = v4l2ctl.get_hue(ui['device'])
         if hue is not None: # has hue control
-            if data.get('hue') != 0:
+            if data['hue'] != 0:
                 ui['hue'] = hue
             
             else:
@@ -705,8 +707,8 @@ def camera_dict_to_ui(data):
         if 'hue' in data:
             ui['hue'] = data['hue']
 
-    text_left = data.get('text_left')
-    text_right = data.get('text_right') 
+    text_left = data['text_left']
+    text_right = data['text_right'] 
     if text_left or text_right:
         ui['text_overlay'] = True
         
@@ -730,11 +732,11 @@ def camera_dict_to_ui(data):
             ui['right_text'] = 'custom-text'
             ui['custom_right_text'] = text_right
 
-    output_all = data.get('output_all')
-    output_normal = data.get('output_normal')
-    jpeg_filename = data.get('jpeg_filename')
-    snapshot_interval = data.get('snapshot_interval')
-    snapshot_filename = data.get('snapshot_filename')
+    output_all = data['output_all']
+    output_normal = data['output_normal']
+    jpeg_filename = data['jpeg_filename']
+    snapshot_interval = data['snapshot_interval']
+    snapshot_filename = data['snapshot_filename']
     
     if (((output_all or output_normal) and jpeg_filename) or
         (snapshot_interval and snapshot_filename)):
@@ -754,16 +756,16 @@ def camera_dict_to_ui(data):
             ui['capture_mode'] = 'motion-triggered'
             ui['image_file_name'] = jpeg_filename  
             
-        ui['image_quality'] = ui.get('quality', 85)
+        ui['image_quality'] = data['quality']
 
-    ffmpeg_bps = data.get('ffmpeg_bps')
+    ffmpeg_bps = data['ffmpeg_bps']
     if ffmpeg_bps is not None: 
         max_val = data['width'] * data['height'] * data['framerate'] / 3
         max_val = min(max_val, 9999999)
         
         ui['movie_quality'] = min(100, int(round(ffmpeg_bps * 100.0 / max_val))) 
     
-    working_schedule = data.get('@working_schedule')
+    working_schedule = data['@working_schedule']
     if working_schedule:
         days = working_schedule.split('|')
         ui['monday_from'], ui['monday_to'] = days[0].split('-')
@@ -969,6 +971,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('webcam_port', int('808' + str(camera_id)))
     data.setdefault('webcam_maxrate', 5)
     data.setdefault('webcam_quality', 85)
+    data.setdefault('@webcam_resolution', 100)
     data.setdefault('webcam_motion', False)
     
     data.setdefault('text_left', data['@name'])
