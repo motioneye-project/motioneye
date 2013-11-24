@@ -527,10 +527,6 @@ def camera_ui_to_dict(ui):
         if data['width'] > 320:
             data['text_double'] = True
     
-    if not ui.get('video_streaming', True):
-        data['webcam_maxrate'] = 5
-        data['webcam_quality'] = 85
-
     if ui.get('still_images', False):
         capture_mode = ui.get('capture_mode', 'motion-triggered')
         if capture_mode == 'motion-triggered':

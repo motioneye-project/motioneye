@@ -395,7 +395,7 @@ function updateConfigUi() {
     
     /* video streaming switch */
     if (!$('#videoStreamingSwitch').get(0).checked) {
-        $('#videoStreamingSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+        $('#videoStreamingSwitch').parent().next('table.settings').find('tr.settings-item').not('.local-streaming').each(markHide);
     }
     
     /* still images switch */
