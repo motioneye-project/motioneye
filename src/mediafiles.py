@@ -18,6 +18,7 @@
 import datetime
 import logging
 import os.path
+import stat
 import StringIO
 import subprocess
 
@@ -36,9 +37,11 @@ _MOVIE_EXTS = ['.avi', '.mp4']
 # tuples of (sequence, width, content)
 _current_pictures_cache = {}
 
+_previewless_movie_files = []
+
 
 def _list_media_files(dir, exts, prefix=None):
-    full_paths = []
+    media_files = []
     
     if prefix is not None:
         if prefix == 'ungrouped':
@@ -50,15 +53,16 @@ def _list_media_files(dir, exts, prefix=None):
                 continue
                 
             full_path = os.path.join(root, name)
-            if not os.path.isfile(full_path):
+            st = os.stat(full_path)
+            if not stat.S_ISREG(st.st_mode): # not a regular file
                 continue
-             
+
             full_path_lower = full_path.lower()
             if not [e for e in exts if full_path_lower.endswith(e)]:
                 continue
             
-            full_paths.append(full_path)
-    
+            media_files.append((full_path, st))
+
     else:    
         for root, dirs, files in os.walk(dir):  # @UnusedVariable
             for name in files:
@@ -66,23 +70,25 @@ def _list_media_files(dir, exts, prefix=None):
                     continue
                 
                 full_path = os.path.join(root, name)
-                if not os.path.isfile(full_path):
+                st = os.stat(full_path)
+                
+                if not stat.S_ISREG(st.st_mode): # not a regular file
                     continue
                  
                 full_path_lower = full_path.lower()
                 if not [e for e in exts if full_path_lower.endswith(e)]:
                     continue
                 
-                full_paths.append(full_path)
+                media_files.append((full_path, st))
     
-    return full_paths
+    return media_files
 
 
 def _remove_older_files(dir, moment, exts):
-    for full_path in _list_media_files(dir, exts):
+    for (full_path, st) in _list_media_files(dir, exts):
         # TODO files listed here may not belong to the given camera
         
-        file_moment = datetime.datetime.fromtimestamp(os.path.getmtime(full_path))
+        file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
         if file_moment < moment:
             logging.debug('removing file %(path)s...' % {
                     'path': full_path})
@@ -159,33 +165,45 @@ def make_movie_preview(camera_config, full_path):
 
 
 def make_next_movie_preview():
+    global _previewless_movie_files
+    
     logging.debug('making preview for the next movie...')
     
-    for camera_id in config.get_camera_ids():
-        camera_config = config.get_camera(camera_id)
-        if camera_config.get('@proto') != 'v4l2':
-            continue
+    if _previewless_movie_files:
+        (camera_config, path) = _previewless_movie_files.pop(0)
         
-        target_dir = camera_config['target_dir']
+        make_movie_preview(camera_config, path)
+    
+    else:
+        logging.debug('gathering movies without preview...')
         
-        for full_path in _list_media_files(target_dir, _MOVIE_EXTS):
-            # TODO files listed here may not belong to the given camera
-        
-            if os.path.exists(full_path + '.thumb'):
+        count = 0
+        for camera_id in config.get_camera_ids():
+            camera_config = config.get_camera(camera_id)
+            if camera_config.get('@proto') != 'v4l2':
                 continue
             
-            logging.debug('found a movie without preview: %(path)s' % {
-                    'path': full_path})
+            target_dir = camera_config['target_dir']
+            
+            for (full_path, st) in _list_media_files(target_dir, _MOVIE_EXTS):  # @UnusedVariable
+                # TODO files listed here may not belong to the given camera
+            
+                if os.path.exists(full_path + '.thumb'):
+                    continue
                 
-            make_movie_preview(camera_config, full_path)
-            
-            break
+                logging.debug('found a movie without preview: %(path)s' % {
+                        'path': full_path})
+                
+                _previewless_movie_files.append((camera_config, full_path))
+                count += 1
         
-        else:
-            logging.debug('all movies have preview')
-            
+        logging.debug('found %(count)d movies without preview' % {'count': count})    
+        
+        if count:
+            make_next_movie_preview()
 
-def list_media(camera_config, media_type, prefix=None, stat=False):
+
+def list_media(camera_config, media_type, prefix=None):
     target_dir = camera_config.get('target_dir')
 
     if media_type == 'picture':
@@ -194,34 +212,20 @@ def list_media(camera_config, media_type, prefix=None, stat=False):
     elif media_type == 'movie':
         exts = _MOVIE_EXTS
         
-    full_paths = _list_media_files(target_dir, exts=exts, prefix=prefix)
     media_files = []
     
-    for p in full_paths:
+    for (p, st) in _list_media_files(target_dir, exts=exts, prefix=prefix):
         path = p[len(target_dir):]
         if not path.startswith('/'):
             path = '/' + path
 
-        timestamp = None
-        size = None
-        
-        if stat:
-            try:
-                stat = os.stat(p)
-             
-            except Exception as e:
-                logging.error('stat call failed for file %(path)s: %(msg)s' % {
-                        'path': path, 'msg': unicode(e)})
-                 
-                continue
- 
-            timestamp = stat.st_mtime
-            size = stat.st_size
+        timestamp = st.st_mtime
+        size = st.st_size
         
         media_files.append({
             'path': path,
-            'momentStr': timestamp and utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
-            'sizeStr': size and utils.pretty_size(size),
+            'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
+            'sizeStr': utils.pretty_size(size),
             'timestamp': timestamp
         })
     

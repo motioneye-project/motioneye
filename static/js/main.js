@@ -1474,7 +1474,7 @@ function runMediaDialog(cameraId, mediaType) {
             var previewImg = $('<img class="media-list-progress" src="' + staticUrl + 'img/modal-progress.gif"/>');
             mediaListDiv.append(previewImg);
             
-            var url = '/' + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped')+ '&stat=true';
+            var url = '/' + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped');
             ajax('GET', url, null, function (data) {
                 previewImg.remove();
                 

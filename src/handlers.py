@@ -611,13 +611,11 @@ class PictureHandler(BaseHandler):
                     camera_config.get('@password'),
                     camera_config.get('@remote_camera_id'), on_response,
                     media_type='picture',
-                    prefix=self.get_argument('prefix', None),
-                    stat=self.get_argument('stat', None))
+                    prefix=self.get_argument('prefix', None))
         
         else:
             pictures = mediafiles.list_media(camera_config, media_type='picture',
-                    prefix=self.get_argument('prefix', None),
-                    stat=self.get_argument('stat', None))
+                    prefix=self.get_argument('prefix', None))
             
             self.finish_json({
                 'mediaList': pictures,
@@ -631,9 +629,6 @@ class PictureHandler(BaseHandler):
         
         if camera_id not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
-        
-        import time
-        time.sleep(100)
         
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] != 'v4l2':
@@ -771,13 +766,11 @@ class MovieHandler(BaseHandler):
                     camera_config.get('@password'),
                     camera_config.get('@remote_camera_id'), on_response,
                     media_type='movie',
-                    prefix=self.get_argument('prefix', None),
-                    stat=self.get_argument('stat', None))
+                    prefix=self.get_argument('prefix', None))
         
         else:
             movies = mediafiles.list_media(camera_config, media_type='movie',
-                    prefix=self.get_argument('prefix', None),
-                    stat=self.get_argument('stat', None))
+                    prefix=self.get_argument('prefix', None))
             
             self.finish_json({
                 'mediaList': movies,

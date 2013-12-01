@@ -227,7 +227,7 @@ def _do_thumbnails():
         
         target_dir = camera_config['target_dir']
         
-        for full_path in mediafiles._list_media_files(target_dir, mediafiles._MOVIE_EXTS):
+        for (full_path, st) in mediafiles._list_media_files(target_dir, mediafiles._MOVIE_EXTS):  # @UnusedVariable
             mediafiles.make_movie_preview(camera_config, full_path)
     
     logging.info('done.')

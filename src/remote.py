@@ -203,7 +203,7 @@ def get_current_picture(host, port, username, password, camera_id, callback, wid
     http_client.fetch(request, on_response)
 
 
-def list_media(host, port, username, password, camera_id, callback, media_type, prefix=None, stat=False):
+def list_media(host, port, username, password, camera_id, callback, media_type, prefix=None):
     logging.debug('getting media list for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
@@ -212,9 +212,6 @@ def list_media(host, port, username, password, camera_id, callback, media_type, 
     query = {}
     if prefix is not None:
         query['prefix'] = prefix
-    
-    if stat:
-        query['stat'] = 'true'
     
     request = _make_request(host, port, username, password, '/%(media_type)s/%(id)s/list/' % {
             'id': camera_id, 'media_type': media_type}, query=query)
