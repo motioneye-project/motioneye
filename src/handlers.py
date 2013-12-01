@@ -544,8 +544,11 @@ class PictureHandler(BaseHandler):
         sequence = self.get_argument('seq', None)
         if sequence:
             sequence = int(sequence)
-            
-        picture = sequence and mediafiles.get_picture_cache(camera_id, sequence) or None
+        
+        width = self.get_argument('width', None)
+        height = self.get_argument('height', None)
+        
+        picture = sequence and mediafiles.get_picture_cache(camera_id, sequence, width) or None
         
         if picture is not None:
             return self.finish(picture)
@@ -553,18 +556,18 @@ class PictureHandler(BaseHandler):
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] == 'v4l2':
             picture = mediafiles.get_current_picture(camera_config,
-                    width=self.get_argument('width', None),
-                    height=self.get_argument('height', None))
+                    width=width,
+                    height=height)
             
             if sequence and picture:
-                mediafiles.set_picture_cache(camera_id, sequence, picture)
+                mediafiles.set_picture_cache(camera_id, sequence, width, picture)
 
             self.finish(picture)
         
         else:
             def on_response(picture):
                 if sequence and picture:
-                    mediafiles.set_picture_cache(camera_id, sequence, picture)
+                    mediafiles.set_picture_cache(camera_id, sequence, width, picture)
                 
                 self.finish(picture)
             
@@ -575,8 +578,8 @@ class PictureHandler(BaseHandler):
                     camera_config['@password'],
                     camera_config['@remote_camera_id'],
                     on_response,
-                    width=self.get_argument('width', None),
-                    height=self.get_argument('height', None))
+                    width=width,
+                    height=height)
 
     @BaseHandler.auth()
     def list(self, camera_id):

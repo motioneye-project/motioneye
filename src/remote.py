@@ -23,9 +23,6 @@ from tornado.httpclient import AsyncHTTPClient, HTTPClient, HTTPRequest
 import settings
 
 
-_snapshot_cache = {}
-
-
 def _make_request(host, port, username, password, uri, method='GET', data=None, query=None):
     url = '%(scheme)s://%(host)s:%(port)s%(uri)s' % {
             'scheme': 'http',
@@ -175,8 +172,6 @@ def set_preview(host, port, username, password, camera_id, controls, callback):
 
 
 def get_current_picture(host, port, username, password, camera_id, callback, width, height):
-    global _snapshot_cache
-    
     logging.debug('getting current picture for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
@@ -192,15 +187,7 @@ def get_current_picture(host, port, username, password, camera_id, callback, wid
     
     request = _make_request(host, port, username, password, '/picture/%(id)s/current/' % {'id': camera_id}, query=query)
     
-    cache_key = (host, port, camera_id)
-    cached = _snapshot_cache.setdefault(cache_key, {'pending': 0, 'jpg': None})
-    if cached['pending'] > 0: # a pending request for this snapshot exists
-        return callback(cached['jpg'])
-    
     def on_response(response):
-        cached['pending'] -= 1
-        cached['picture'] = response.body
-        
         if response.error:
             logging.error('failed to get current picture for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
                     'id': camera_id,
@@ -211,8 +198,6 @@ def get_current_picture(host, port, username, password, camera_id, callback, wid
             return callback(None)
         
         callback(response.body)
-    
-    cached['pending'] += 1
     
     http_client = AsyncHTTPClient()
     http_client.fetch(request, on_response)

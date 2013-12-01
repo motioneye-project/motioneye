@@ -33,7 +33,7 @@ _PICTURE_EXTS = ['.jpg']
 _MOVIE_EXTS = ['.avi', '.mp4']
 
 # a dictionary indexed by camera_id containing
-# tuples of (sequence, content)
+# tuples of (sequence, width, content)
 _current_pictures_cache = {}
 
 
@@ -316,7 +316,7 @@ def get_current_picture(camera_config, width, height):
     return sio.getvalue()
 
 
-def set_picture_cache(camera_id, sequence, content):
+def set_picture_cache(camera_id, sequence, width, content):
     global _current_pictures_cache
     
     if not content:
@@ -327,16 +327,16 @@ def set_picture_cache(camera_id, sequence, content):
     if len(cache) >= settings.PICTURE_CACHE_SIZE:
         cache.pop(0) # drop the first item
     
-    cache.append((sequence, content))
+    cache.append((sequence, width, content))
 
 
-def get_picture_cache(camera_id, sequence):
+def get_picture_cache(camera_id, sequence, width):
     global _current_pictures_cache
     
     cache = _current_pictures_cache.setdefault(camera_id, [])
 
-    for (seq, content) in cache:
-        if seq >= sequence:
+    for (seq, w, content) in cache:
+        if (seq >= sequence) and (width >= w):
             return content
         
     return None

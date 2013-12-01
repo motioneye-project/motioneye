@@ -377,7 +377,7 @@ function makeComboValidator($select, required) {
     
     $select.addClass('validator');
     $select.addClass('combo-validator');
-    $input.each(function () {
+    $select.each(function () {
         this.validate = validate;
     });
 }
