@@ -1904,6 +1904,20 @@ function refreshCameraFrames() {
     setTimeout(refreshCameraFrames, 100);
 }
 
+function checkCameraErrors() {
+    /* properly triggers the onerror event on the cameras whose imgs were not successfully loaded,
+     * but the onerror event hasn't been triggered, for some reason (seems to happen in Chrome) */
+    var cameraFrames = $('div.page-container').find('img.camera');
+    
+    cameraFrames.each(function () {
+        if (this.complete === true && this.naturalWidth === 0 && !this.error) {
+            $(this).error();
+        }
+    });
+    
+    setTimeout(checkCameraErrors, 500);
+}
+
 
     /* startup function */
 
@@ -1935,5 +1949,6 @@ $(document).ready(function () {
     initUI();
     fetchCurrentConfig();
     refreshCameraFrames();
+    checkCameraErrors();
 });
 

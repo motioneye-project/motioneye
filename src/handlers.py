@@ -629,6 +629,9 @@ class PictureHandler(BaseHandler):
         if camera_id not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
         
+        import time
+        time.sleep(100)
+        
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] != 'v4l2':
             def on_response(response):
