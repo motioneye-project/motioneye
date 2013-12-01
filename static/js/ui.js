@@ -216,7 +216,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     }
     
     /* transfer the CSS classes */
-    slider[0].className += ' ' + $input[0].className;
+    slider.addClass($input.attr('class'));
     
     /* handle input events */
     $input.change(input2slider).change();
@@ -225,7 +225,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     $input.after(slider);
     
     /* make the slider focusable */
-    slider[0].tabIndex = 0;
+    slider.attr('tabIndex', 0);
     
     /* handle key events */
     slider.keydown(function (e) {
@@ -270,7 +270,9 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         }
     });
     
-    $input[0].update = input2slider;
+    $input.each(function () {
+        this.update = input2slider;
+    });
     
     slider.setMinVal = function (mv) {
         minVal = mv;
@@ -331,7 +333,9 @@ function makeTextValidator($input, required) {
     
     $input.addClass('validator');
     $input.addClass('text-validator');
-    $input[0].validate = validate;
+    $input.each(function () {
+        this.validate = validate;
+    });
 }
 
 function makeComboValidator($select, required) {
@@ -373,7 +377,9 @@ function makeComboValidator($select, required) {
     
     $select.addClass('validator');
     $select.addClass('combo-validator');
-    $select[0].validate = validate;
+    $input.each(function () {
+        this.validate = validate;
+    });
 }
 
 function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
@@ -465,7 +471,9 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     
     $input.addClass('validator');
     $input.addClass('number-validator');
-    $input[0].validate = validate;
+    $input.each(function () {
+        this.validate = validate;
+    });
 }
 
 function makeTimeValidator($input) {
@@ -504,7 +512,9 @@ function makeTimeValidator($input) {
     
     $input.addClass('validator');
     $input.addClass('time-validator');
-    $input[0].validate = validate;
+    $input.each(function () {
+        this.validate = validate;
+    });
 }
 
 function makeRegexValidator($input, regex, required) {
@@ -546,7 +556,9 @@ function makeRegexValidator($input, regex, required) {
     
     $input.addClass('validator');
     $input.addClass('regex-validator');
-    $input[0].validate = validate;
+    $input.each(function () {
+        this.validate = validate;
+    });
 }
 
 
