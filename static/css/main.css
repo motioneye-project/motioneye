@@ -683,7 +683,8 @@ img.camera {
     opacity: 1;
 }
 
-img.camera.error {
+img.camera.error,
+img.camera.loading {
     opacity: 0;
 }
 
@@ -693,7 +694,6 @@ div.camera-placeholder {
     right: 0px;
     bottom: 0px;
     left: 0px;
-    background-color: #555;
     text-align: center;
     transition: opacity 0.2s linear;
 }
@@ -713,12 +713,11 @@ div.camera-progress {
     opacity: 0;
     transition: all 0.2s linear;
     text-align: center;
-    background-color: rgba(0, 0, 0, 1);
     cursor: pointer;
 }
 
 img.camera-progress {
-    margin-top: 28%;
+    margin-top: 20%;
     border: 10px solid white;
     border-radius: 10px;
 }

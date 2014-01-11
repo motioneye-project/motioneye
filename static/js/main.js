@@ -1661,6 +1661,11 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
         doFullScreenCamera(cameraId);
     });
     
+    //if (inProgress) { TODO
+        cameraProgress.css('opacity', '0.5');
+        cameraPlaceholder.css('opacity', '0');
+//    }
+    
     /* insert the new camera frame at the right position,
      * with respect to the camera id */
     var cameraFrames = pageContainer.find('div.camera-frame');
@@ -1711,7 +1716,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
         this.error = true;
         this.loading = false;
         
-        cameraImg.addClass('error');
+        cameraImg.addClass('error').removeClass('loading');
         cameraImg.height(Math.round(cameraImg.width() * 0.75));
         cameraPlaceholder.css('opacity', 1);
     });
@@ -1723,7 +1728,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
         this.error = false;
         this.loading = false;
         
-        cameraImg.removeClass('error');
+        cameraImg.removeClass('error').removeClass('loading');
         cameraImg.css('height', '');
         cameraPlaceholder.css('opacity', 0);
         cameraProgress.css('opacity', 0);
@@ -1734,7 +1739,8 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
         }
     });
     
-    cameraImg.error();
+    cameraImg.addClass('loading');
+    cameraImg.height(Math.round(cameraImg.width() * 0.75));
 }
 
 function remCameraFrameUi(cameraId) {
@@ -1907,7 +1913,7 @@ function checkCameraErrors() {
     var cameraFrames = $('div.page-container').find('img.camera');
     
     cameraFrames.each(function () {
-        if (this.complete === true && this.naturalWidth === 0 && !this.error) {
+        if (this.complete === true && this.naturalWidth === 0 && !this.error && this.src) {
             $(this).error();
         }
     });
