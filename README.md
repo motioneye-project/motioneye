@@ -42,8 +42,3 @@ Being designed with responsiveness in mind, it will also work nicely on mobile d
  
  5. point your favourite browser to <http://localhost:8765>
 
-## Raspberry PI ##
-
-If running motionEye on a Raspberry PI with a *CSI camera board*, see `raspicam/README.md`.
-Also note that only one camera is supported when using this configuration.
-
