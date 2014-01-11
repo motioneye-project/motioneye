@@ -342,13 +342,15 @@ function updateConfigUi() {
         objs.not($('#motionEyeSwitch').parents('div').get(0)).each(markHide);
     }
     
-    if (($('#videoDeviceSelect').find('option').length < 2) /* no camera configured */ || 
-        $('#videoDeviceSwitch')[0].disabled /* device disabled for some reason (config error) */) {
-        
+    if ($('#videoDeviceSelect').find('option').length < 2) { /* no camera configured */
         $('#videoDeviceSwitch').parent().each(markHide);
         $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHide);
     }
     
+    if ($('#videoDeviceSwitch')[0].error) { /* config error */
+        $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHide);
+    }
+        
     /* advanced settings */
     var showAdvanced = $('#showAdvancedSwitch').get(0).checked;
     if (!showAdvanced) {
@@ -500,6 +502,12 @@ function dict2MainUi(dict) {
 }
 
 function cameraUi2Dict() {
+    if ($('#videoDeviceSwitch')[0].error) { /* config error */
+        return {
+            'enabled': $('#videoDeviceSwitch')[0].checked,
+        };
+    }
+    
     var dict = {
         /* video device */
         'enabled': $('#videoDeviceSwitch')[0].checked,
@@ -601,13 +609,16 @@ function cameraUi2Dict() {
 
 function dict2CameraUi(dict) {
     if (dict == null) {
-        $('#videoDeviceSwitch')[0].disabled = true;
+        /* errors while getting the configuration */
+        
+        $('#videoDeviceSwitch')[0].error = true;
+        $('#videoDeviceSwitch')[0].checked = true;
         updateConfigUi();
         
         return;
     }
     else {
-        $('#videoDeviceSwitch')[0].disabled = false;
+        $('#videoDeviceSwitch')[0].error = false;
     }
     
     /* video device */
@@ -919,8 +930,9 @@ function fetchCurrentConfig(onFetch) {
                 }
                 videoDeviceSelect.append('<option value="add">add camera...</option>');
                 
-                if (cameras.length > 0) {
-                    videoDeviceSelect[0].selectedIndex = 0;
+                var enabledCameras = cameras.filter(function (camera) {return camera['enabled'];});
+                if (enabledCameras.length > 0) {
+                    videoDeviceSelect[0].selectedIndex = cameras.indexOf(enabledCameras[0]);
                     fetchCurrentCameraConfig();
                 }
                 else {

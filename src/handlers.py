@@ -251,25 +251,32 @@ class ConfigHandler(BaseHandler):
                 camera_config['@enabled'] = ui_config['enabled']
                 config.set_camera(camera_id, camera_config)
                 
-                # remove the fields that should not get to the remote side
-                del ui_config['device']
-                del ui_config['proto']
-                del ui_config['enabled']
+                # when the camera_config supplied has only the enabled state,
+                # the camera was probably disabled due to errors
+
+                if camera_config.has_key('device'):
+                    # remove the fields that should not get to the remote side
+                    del ui_config['device']
+                    del ui_config['proto']
+                    del ui_config['enabled']
+                    
+                    try:
+                        remote.set_config(
+                                camera_config.get('@host'),
+                                camera_config.get('@port'),
+                                camera_config.get('@username'),
+                                camera_config.get('@password'),
+                                camera_config.get('@remote_camera_id'),
+                                ui_config)
+                        
+                    except Exception as e:
+                        logging.error('failed to set remote camera config: %(msg)s' % {'msg': unicode(e)})
+                        
+                        if not no_finish:
+                            return self.finish_json({'error': unicode(e)})
                 
-                try:
-                    remote.set_config(
-                            camera_config.get('@host'),
-                            camera_config.get('@port'),
-                            camera_config.get('@username'),
-                            camera_config.get('@password'),
-                            camera_config.get('@remote_camera_id'),
-                            ui_config)
-                    
-                except Exception as e:
-                    logging.error('failed to set remote camera config: %(msg)s' % {'msg': unicode(e)})
-                    
-                    if not no_finish:
-                        return self.finish_json({'error': unicode(e)})       
+                elif not no_finish:
+                    return self.finish_json({'error': unicode(e)})       
 
         else:
             logging.debug('setting main config')
