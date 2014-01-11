@@ -51,8 +51,7 @@ def start():
 
     log_file = open(motion_log_path, 'w')
     
-    process = subprocess.Popen(args, stdout=log_file, stderr=log_file, close_fds=True,
-            cwd=settings.CONF_PATH)
+    process = subprocess.Popen(args, stdout=log_file, stderr=log_file, close_fds=True, cwd=settings.CONF_PATH)
     
     # wait 2 seconds to see that the process has successfully started
     for i in xrange(20):  # @UnusedVariable
@@ -84,22 +83,22 @@ def stop():
             
             # wait 5 seconds for the process to exit
             for i in xrange(50):  # @UnusedVariable
+                os.waitpid(pid, os.WNOHANG)
                 time.sleep(0.1)
-                os.kill(pid, 0)
-            
+
             # send the KILL signal once
             os.kill(pid, signal.SIGKILL)
             
             # wait 2 seconds for the process to exit
             for i in xrange(20):  # @UnusedVariable
                 time.sleep(0.1)
-                os.kill(pid, 0)
+                os.waitpid(pid, os.WNOHANG)
                 
             # the process still did not exit
             raise Exception('could not terminate the motion process')
         
         except OSError as e:
-            if e.errno != errno.ESRCH:
+            if e.errno != errno.ECHILD:
                 raise
     
 

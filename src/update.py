@@ -62,7 +62,7 @@ def get_all_versions():
         return sorted(versions, cmp=compare_versions)
 
     except Exception as e:
-        logging.error('could not get versions: %(msg)s' % {'msg': unicode(e)})
+        logging.error('could not get versions: %(msg)s' % {'msg': unicode(e)}, exc_info=True)
         
     return []
 
@@ -191,6 +191,6 @@ def perform_update(version):
         return True
     
     except Exception as e:
-        logging.error('could not perform update: %(msg)s' % {'msg': unicode(e)})
+        logging.error('could not perform update: %(msg)s' % {'msg': unicode(e)}, exc_info=True)
         
         return False

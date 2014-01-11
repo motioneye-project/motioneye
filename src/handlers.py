@@ -615,14 +615,18 @@ class PictureHandler(BaseHandler):
                     prefix=self.get_argument('prefix', None))
         
         else:
-            pictures = mediafiles.list_media(camera_config, media_type='picture',
-                    prefix=self.get_argument('prefix', None))
+            def on_media_list(media_list):
+                if media_list is None:
+                    return self.finish_json({'error': 'Failed to get pictures list.'})
+
+                self.finish_json({
+                    'mediaList': media_list,
+                    'cameraName': camera_config['@name']
+                })
             
-            self.finish_json({
-                'mediaList': pictures,
-                'cameraName': camera_config['@name']
-            })
-        
+            mediafiles.list_media(camera_config, media_type='picture',
+                    callback=on_media_list, prefix=self.get_argument('prefix', None))
+
     @BaseHandler.auth()
     def download(self, camera_id, filename):
         logging.debug('downloading picture %(filename)s of camera %(id)s' % {
@@ -771,14 +775,18 @@ class MovieHandler(BaseHandler):
                     prefix=self.get_argument('prefix', None))
         
         else:
-            movies = mediafiles.list_media(camera_config, media_type='movie',
-                    prefix=self.get_argument('prefix', None))
+            def on_media_list(media_list):
+                if media_list is None:
+                    return self.finish_json({'error': 'Failed to get movies list.'})
+
+                self.finish_json({
+                    'mediaList': media_list,
+                    'cameraName': camera_config['@name']
+                })
             
-            self.finish_json({
-                'mediaList': movies,
-                'cameraName': camera_config['@name']
-            })
-        
+            mediafiles.list_media(camera_config, media_type='movie',
+                    callback=on_media_list, prefix=self.get_argument('prefix', None))
+            
     @BaseHandler.auth()
     def download(self, camera_id, filename):
         logging.debug('downloading movie %(filename)s of camera %(id)s' % {

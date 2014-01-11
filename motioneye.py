@@ -19,6 +19,7 @@
 import datetime
 import inspect
 import logging
+import multiprocessing
 import os.path
 import re
 import signal
@@ -93,8 +94,10 @@ def _test_requirements():
         
 def _configure_signals():
     def bye_handler(signal, frame):
-        import tornado.ioloop
+        import cleanup
         import motionctl
+        import thumbnailer
+        import tornado.ioloop
         
         logging.info('interrupt signal received, shutting down...')
 
@@ -102,16 +105,27 @@ def _configure_signals():
         ioloop = tornado.ioloop.IOLoop.instance()
         if ioloop.running():
             ioloop.stop()
+            logging.info('server stopped')
         
-        logging.info('server stopped')
-        
+        if thumbnailer.running():
+            thumbnailer.stop()
+            logging.info('thumbnailer stopped')
+    
+        if cleanup.running():
+            cleanup.stop()
+            logging.info('cleanup stopped')
+
         if motionctl.running():
             motionctl.stop()
             logging.info('motion stopped')
+        
+    def child_handler(signal, frame):
+        # this is required for the multiprocessing mechanism to work
+        multiprocessing.active_children()
 
     signal.signal(signal.SIGINT, bye_handler)
     signal.signal(signal.SIGTERM, bye_handler)
-    signal.signal(signal.SIGCHLD, signal.SIG_IGN)
+    signal.signal(signal.SIGCHLD, child_handler)
 
 
 def _configure_logging():
@@ -190,7 +204,6 @@ def _print_help():
     print('available options: ')
     
     options = list(inspect.getmembers(settings))
-    options.append(('THUMBNAILS', None))
     
     for (name, value) in sorted(options):
         if name.upper() != name:
@@ -209,28 +222,6 @@ def _print_help():
         print(line)
     
     print('')
-
-
-def _do_thumbnails():
-    import config
-    import mediafiles
-    
-    logging.info('recreating thumbnails for all video files...')
-    
-    for camera_id in config.get_camera_ids():
-        camera_config = config.get_camera(camera_id)
-        if camera_config.get('@proto') != 'v4l2':
-            continue
-        
-        logging.info('listing movie files for camera %(name)s' % {
-                'name': camera_config['@name']})
-        
-        target_dir = camera_config['target_dir']
-        
-        for (full_path, st) in mediafiles._list_media_files(target_dir, mediafiles._MOVIE_EXTS):  # @UnusedVariable
-            mediafiles.make_movie_preview(camera_config, full_path)
-    
-    logging.info('done.')
 
 
 def _start_server():
@@ -261,7 +252,7 @@ def _start_motion():
             
             except Exception as e:
                 logging.error('failed to start motion: %(msg)s' % {
-                        'msg': unicode(e)})
+                        'msg': unicode(e)}, exc_info=True)
 
         ioloop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
     
@@ -269,69 +260,31 @@ def _start_motion():
 
 
 def _start_cleanup():
-    import tornado.ioloop
-    import mediafiles
+    import cleanup
 
-    ioloop = tornado.ioloop.IOLoop.instance()
-    
-    def do_cleanup():
-        if ioloop._stopped:
-            return
-        
-        try:
-            mediafiles.cleanup_media('picture')
-            mediafiles.cleanup_media('movie')
-            
-        except Exception as e:
-            logging.error('failed to cleanup media files: %(msg)s' % {
-                    'msg': unicode(e)})
-
-        ioloop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), do_cleanup)
-
-    ioloop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), do_cleanup)
+    cleanup.start()
+    logging.info('cleanup started')
 
 
-def _start_movie_thumbnailer():
-    import tornado.ioloop
-    import mediafiles
+def _start_thumbnailer():
+    import thumbnailer
 
-    ioloop = tornado.ioloop.IOLoop.instance()
-    
-    def do_next_movie_thumbail():
-        if ioloop._stopped:
-            return
-        
-        try:
-            mediafiles.make_next_movie_preview()
-            
-        except Exception as e:
-            logging.error('failed to make movie thumbnail: %(msg)s' % {
-                    'msg': unicode(e)})
-
-        ioloop.add_timeout(datetime.timedelta(seconds=settings.THUMBNAILER_INTERVAL), do_next_movie_thumbail)
-    
-    ioloop.add_timeout(datetime.timedelta(seconds=settings.THUMBNAILER_INTERVAL), do_next_movie_thumbail)
+    thumbnailer.start()
+    logging.info('thumbnailer started')
 
 
 if __name__ == '__main__':
     if not _test_requirements():
-        sys.exit(01)
+        sys.exit(-1)
     
     cmd = _configure_settings()
     _configure_signals()
     _configure_logging()
     
-    if cmd:
-        if cmd == 'thumbnails':
-            _do_thumbnails()
-        
-        else:
-            print('unknown command line option: ' + cmd)
-            sys.exit(-1)
-        
-        sys.exit(0)
-    
     _start_motion()
     _start_cleanup()
-    _start_movie_thumbnailer()
+    
+    if settings.THUMBNAILER_INTERVAL:
+        _start_thumbnailer()
+    
     _start_server()

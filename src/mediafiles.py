@@ -17,10 +17,12 @@
 
 import datetime
 import logging
+import multiprocessing
 import os.path
 import stat
 import StringIO
 import subprocess
+import tornado
 
 from PIL import Image
 
@@ -37,6 +39,7 @@ _MOVIE_EXTS = ['.avi', '.mp4']
 # tuples of (sequence, width, content)
 _current_pictures_cache = {}
 
+# a cache list of paths to movies without preview
 _previewless_movie_files = []
 
 
@@ -86,8 +89,6 @@ def _list_media_files(dir, exts, prefix=None):
 
 def _remove_older_files(dir, moment, exts):
     for (full_path, st) in _list_media_files(dir, exts):
-        # TODO files listed here may not belong to the given camera
-        
         file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
         if file_moment < moment:
             logging.debug('removing file %(path)s...' % {
@@ -195,8 +196,6 @@ def make_next_movie_preview():
             target_dir = camera_config['target_dir']
             
             for (full_path, st) in _list_media_files(target_dir, _MOVIE_EXTS):  # @UnusedVariable
-                # TODO files listed here may not belong to the given camera
-            
                 if os.path.exists(full_path + '.thumb'):
                     continue
                 
@@ -212,7 +211,7 @@ def make_next_movie_preview():
             make_next_movie_preview()
 
 
-def list_media(camera_config, media_type, prefix=None):
+def list_media(camera_config, media_type, callback, prefix=None):
     target_dir = camera_config.get('target_dir')
 
     if media_type == 'picture':
@@ -220,28 +219,58 @@ def list_media(camera_config, media_type, prefix=None):
         
     elif media_type == 'movie':
         exts = _MOVIE_EXTS
-        
-    media_files = []
-    
-    for (p, st) in _list_media_files(target_dir, exts=exts, prefix=prefix):
-        path = p[len(target_dir):]
-        if not path.startswith('/'):
-            path = '/' + path
 
-        timestamp = st.st_mtime
-        size = st.st_size
+    # create a subprocess to retrieve media files
+    def do_list_media(pipe):
+        for (p, st) in _list_media_files(target_dir, exts=exts, prefix=prefix):
+            path = p[len(target_dir):]
+            if not path.startswith('/'):
+                path = '/' + path
+    
+            timestamp = st.st_mtime
+            size = st.st_size
+            
+            pipe.send({
+                'path': path,
+                'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
+                'sizeStr': utils.pretty_size(size),
+                'timestamp': timestamp
+            })
         
-        media_files.append({
-            'path': path,
-            'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
-            'sizeStr': utils.pretty_size(size),
-            'timestamp': timestamp
-        })
+        pipe.close()
     
-    # TODO files listed here may not belong to the given camera
+    logging.debug('starting media listing process...')
     
-    return media_files
+    (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
+    process = multiprocessing.Process(target=do_list_media, args=(child_pipe, ))
+    process.start()
+    
+    # poll the subprocess to see when it has finished
+    started = datetime.datetime.now()
+    def poll_process():
+        ioloop = tornado.ioloop.IOLoop.instance()
+        if process.is_alive(): # not finished yet
+            now = datetime.datetime.now()
+            delta = now - started
+            if delta.seconds < 120:
+                ioloop.add_timeout(datetime.timedelta(seconds=0.1), poll_process)
+            
+            else: # process did not finish within 2 minutes
+                logging.error('timeout waiting for the media listing process to finish')
+                
+                callback(None)
 
+        else: # finished
+            media_list = []
+            while parent_pipe.poll():
+                media_list.append(parent_pipe.recv())
+            
+            logging.debug('media listing process has returned %(count)s files' % {'count': len(media_list)})
+
+            callback(media_list)
+    
+    poll_process()
+    
 
 def get_media_content(camera_config, path, media_type):
     target_dir = camera_config.get('target_dir')
