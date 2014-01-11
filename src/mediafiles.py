@@ -112,7 +112,7 @@ def cleanup_media(media_type):
         exts = _PICTURE_EXTS
         
     elif media_type == 'movie':
-        exts = _MOVIE_EXTS
+        exts = _MOVIE_EXTS + ['.thumb']
         
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)

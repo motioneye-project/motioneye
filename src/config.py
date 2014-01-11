@@ -1002,6 +1002,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('ffmpeg_bps', 400000)
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     data.setdefault('ffmpeg_cap_new', False)
+    data.setdefault('ffmpeg_video_codec', 'msmpeg4')
     data.setdefault('@preserve_movies', 0)
     
     data.setdefault('@motion_notifications', False)

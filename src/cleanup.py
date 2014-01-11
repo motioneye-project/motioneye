@@ -42,8 +42,8 @@ def stop():
     if not running():
         raise Exception('cleanup is not running')
     
-    _process.join(timeout=10)
     if _process.is_alive():
+        _process.join(timeout=10)
         logging.error('cleanup process did not finish in time, killing it...')
         os.kill(_process.pid, signal.SIGKILL)
     

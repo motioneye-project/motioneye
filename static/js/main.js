@@ -1719,6 +1719,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
         cameraImg.addClass('error').removeClass('loading');
         cameraImg.height(Math.round(cameraImg.width() * 0.75));
         cameraPlaceholder.css('opacity', 1);
+        cameraProgress.css('opacity', 0);
     });
     cameraImg.load(function () {
         if (refreshDisabled) {
