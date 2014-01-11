@@ -1,16 +1,16 @@
 
     /* general */
 
-::selection {
-    background: #3498db;
-}
-
-::-moz-selection {
-    background: #3498db;
-}
-
+::selection,
+::-moz-selection,
 ::-webkit-selection {
     background: #3498db;
+}
+
+option::selection,
+option::-moz-selection,
+option::-webkit-selection {
+    background: transparent;
 }
 
 input[type=checkbox].styled {

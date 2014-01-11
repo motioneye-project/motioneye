@@ -28,9 +28,7 @@ import v4l2ctl
 
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
-
-_MAIN_CONFIG_FILE_PATH = os.path.join(settings.CONF_PATH, 'motion.conf')
-_CAMERA_CONFIG_FILE_PATH = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME)
+_MAIN_CONFIG_FILE_NAME = 'motion.conf'
 
 _main_config_cache = None
 _camera_config_cache = None
@@ -43,7 +41,7 @@ def get_main(as_lines=False):
     if not as_lines and _main_config_cache is not None:
         return _main_config_cache
     
-    config_file_path = os.path.join(settings.PROJECT_PATH, _MAIN_CONFIG_FILE_PATH)
+    config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
     
     logging.debug('reading main config from file %(path)s...' % {'path': config_file_path})
     
@@ -69,7 +67,7 @@ def get_main(as_lines=False):
         
         except Exception as e:
             logging.error('could not read main config file %(path)s: %(msg)s' % {
-                    'path': _MAIN_CONFIG_FILE_PATH, 'msg': unicode(e)})
+                    'path': config_file_path, 'msg': unicode(e)})
             
             raise
         
@@ -92,6 +90,8 @@ def set_main(data):
     
     _set_default_motion(data)
     
+    config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
+    
     # read the actual configuration from file
     lines = get_main(as_lines=True)
     
@@ -104,14 +104,14 @@ def set_main(data):
                 threads.append(match.groups()[0])
     
     # write the configuration to file
-    logging.debug('writing main config to %(path)s...' % {'path': _MAIN_CONFIG_FILE_PATH})
+    logging.debug('writing main config to %(path)s...' % {'path': config_file_path})
     
     try:
-        file = open(_MAIN_CONFIG_FILE_PATH, 'w')
+        file = open(config_file_path, 'w')
     
     except Exception as e:
         logging.error('could not open main config file %(path)s for writing: %(msg)s' % {
-                'path': _MAIN_CONFIG_FILE_PATH, 'msg': unicode(e)})
+                'path': config_file_path, 'msg': unicode(e)})
         
         raise
     
@@ -122,7 +122,7 @@ def set_main(data):
     
     except Exception as e:
         logging.error('could not write main config file %(path)s: %(msg)s' % {
-                'path': _MAIN_CONFIG_FILE_PATH, 'msg': unicode(e)})
+                'path': config_file_path, 'msg': unicode(e)})
         
         raise
     
@@ -187,7 +187,7 @@ def get_camera(camera_id, as_lines=False):
     if not as_lines and _camera_config_cache is not None and camera_id in _camera_config_cache:
         return _camera_config_cache[camera_id]
     
-    camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
+    camera_config_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
     
     logging.debug('reading camera config from %(path)s...' % {'path': camera_config_path})
     
@@ -266,7 +266,7 @@ def set_camera(camera_id, data):
                 logging.warn('failed to create target directory: %(msg)s' % {'msg': unicode(e)})
 
     # read the actual configuration from file
-    config_file_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
+    config_file_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
     if os.path.isfile(config_file_path):
         lines = get_camera(camera_id, as_lines=True)
     
@@ -274,7 +274,7 @@ def set_camera(camera_id, data):
         lines = []
     
     # write the configuration to file
-    camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
+    camera_config_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
     logging.debug('writing camera config to %(path)s...' % {'path': camera_config_path})
     
     try:
@@ -358,7 +358,7 @@ def rem_camera(camera_id):
     global _camera_config_cache
     
     camera_config_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
-    camera_config_path = _CAMERA_CONFIG_FILE_PATH % {'id': camera_id}
+    camera_config_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
     
     # remove the camera from the main config
     main_config = get_main()

@@ -16,7 +16,7 @@
     <div class="header">
         <div class="header-container">
             {% if USER == 'admin' %}
-            <div class="settings-top-bar">
+            <div class="settings-top-bar closed">
                 <div class="button settings-button mouse-effect" title="settings"></div>
                 <select class="video-device styled" id="videoDeviceSelect"></select>
                 <div class="button rem-camera-button mouse-effect" id="remCameraButton" title="remove camera"></div>
@@ -33,7 +33,7 @@
     </div>
     <div class="page">
         {% if USER == 'admin' %}
-        <div class="settings">
+        <div class="settings closed">
             <div class="settings-container">
                 <div class="settings-section-title"><input type="checkbox" class="styled section general" id="motionEyeSwitch">General Settings</div>
                 <table class="settings">
@@ -447,6 +447,7 @@
                         <td><span class="help-mark" title="sets the working schedule time interval for Sunday">?</span></td>
                     </tr>
                 </table>
+                <div class="settings-progress"></div>
             </div>
         </div>
         <img class="background-logo" src="{{STATIC_URL}}img/motioneye-logo.svg" onmousedown="return false;">

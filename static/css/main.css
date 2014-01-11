@@ -176,6 +176,7 @@ div.settings.open {
 }
 
 div.settings-container {
+    position: relative;
     padding-top: 10px;
     display: none;
     white-space: nowrap;
@@ -183,6 +184,17 @@ div.settings-container {
 
 div.settings.open div.settings-container {
     display: block;
+}
+
+div.settings-progress {
+    position: absolute;
+    top: 0px;
+    width: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: #313131;
+    opacity: 0;
+    transition: opacity 0.1s linear;
 }
 
 div.settings-top-bar {
@@ -195,6 +207,10 @@ div.settings-top-bar {
 div.settings-top-bar.open {
     background-color: #414141;
     min-width: 360px;
+}
+
+div.settings-top-bar.closed div.apply-button {
+    display: none !important;
 }
 
 div.settings-section-title {
@@ -261,7 +277,6 @@ div.apply-button {
     background-color: #FF6F00;
     border-radius: 3px;
     transition: all 0.1s linear;
-    transition: opacity 0s;
 }
 
 div.apply-button:HOVER {
