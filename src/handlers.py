@@ -26,6 +26,7 @@ import config
 import mediafiles
 import motionctl
 import remote
+import settings
 import template
 import update
 import v4l2ctl
@@ -680,20 +681,15 @@ class PictureHandler(BaseHandler):
         
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] != 'v4l2':
-            def on_response(response):
-                camera_url = remote.make_remote_camera_url(
-                        camera_config.get('@host'),
-                        camera_config.get('@port'),
-                        camera_config.get('@remote_camera_id'))
+            def on_response(content):
+                if content:
+                    self.set_header('Content-Type', 'image/jpeg')
+                    
+                else:
+                    self.set_header('Content-Type', 'image/svg+xml')
+                    content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read()
                 
-                camera_full_url = camera_config['@proto'] + '://' + camera_url
-                
-                if response is None:
-                    return self.finish_json({'error': 'Failed to get picture preview for %(url)s.' % {
-                            'url': camera_full_url}})
-
-                self.set_header('Content-Type', 'image/jpeg')
-                self.finish(response)
+                self.finish(content)
             
             remote.get_media_preview(
                     camera_config.get('@host'),
@@ -712,7 +708,13 @@ class PictureHandler(BaseHandler):
                     width=self.get_argument('width', None),
                     height=self.get_argument('height', None))
             
-            self.set_header('Content-Type', 'image/jpeg')
+            if content:
+                self.set_header('Content-Type', 'image/jpeg')
+                
+            else:
+                self.set_header('Content-Type', 'image/svg+xml')
+                content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read()
+                
             self.finish(content)
 
 
@@ -834,20 +836,15 @@ class MovieHandler(BaseHandler):
         
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] != 'v4l2':
-            def on_response(response):
-                camera_url = remote.make_remote_camera_url(
-                        camera_config.get('@host'),
-                        camera_config.get('@port'),
-                        camera_config.get('@remote_camera_id'))
-                
-                camera_full_url = camera_config['@proto'] + '://' + camera_url
-                
-                if response is None:
-                    return self.finish_json({'error': 'Failed to get movie preview for %(url)s.' % {
-                            'url': camera_full_url}})
+            def on_response(content):
+                if content:
+                    self.set_header('Content-Type', 'image/jpeg')
+                    
+                else:
+                    self.set_header('Content-Type', 'image/svg+xml')
+                    content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read()
 
-                self.set_header('Content-Type', 'image/jpeg')
-                self.finish(response)
+                self.finish(content)
             
             remote.get_media_preview(
                     camera_config.get('@host'),
@@ -866,7 +863,13 @@ class MovieHandler(BaseHandler):
                     width=self.get_argument('width', None),
                     height=self.get_argument('height', None))
             
-            self.set_header('Content-Type', 'image/jpeg')
+            if content:
+                self.set_header('Content-Type', 'image/jpeg')
+                
+            else:
+                self.set_header('Content-Type', 'image/svg+xml')
+                content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read()
+            
             self.finish(content)
 
 

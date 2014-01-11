@@ -148,8 +148,17 @@ def make_movie_preview(camera_config, full_path):
         
         return None
     
-    if os.path.getsize(full_path + '.thumb') == 0:
-        logging.debug('movie was too short, grabbing first frame from %(path)s...' % {'path': full_path})
+    try:
+        st = os.stat(full_path + '.thumb')
+    
+    except os.error:
+        logging.error('failed to create movie preview for %(path)s: ffmpeg error' % {
+                'path': full_path})
+
+        return None
+
+    if st.st_size == 0:
+        logging.debug('movie is too short, grabbing first frame from %(path)s...' % {'path': full_path})
         
         # try again, this time grabbing the very first frame
         try:
