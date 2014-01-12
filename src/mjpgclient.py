@@ -30,6 +30,7 @@ import settings
 class MjpgClient(iostream.IOStream):
     clients = {} # dictionary of clients indexed by camera id
     last_jpgs = {} # dictionary of jpg contents indexed by camera id
+    last_jpg_moment = {} # dictionary of moments of the last received jpeg indexed by camera id
     last_access = {} # dictionary of access moments indexed by camera id
     
     def __init__(self, camera_id, port):
@@ -47,21 +48,19 @@ class MjpgClient(iostream.IOStream):
                 'port': self._port, 'camera_id': self._camera_id})
     
     def close(self):
-        try:
-            del MjpgClient.clients[self._camera_id]
+        if MjpgClient.clients.pop(self._camera_id, None):
+            MjpgClient.last_access.pop(self._camera_id, None)
+            MjpgClient.last_jpg_moment.pop(self._camera_id, None)
             
             logging.debug('mjpg client for camera %(camera_id)s on port %(port)s removed' % {
                     'port': self._port, 'camera_id': self._camera_id})
-            
-        except KeyError:
-            pass
-        
+
         try:
             iostream.IOStream.close(self)
         
         except:
             pass # already closed, nevermind
-    
+
     def _check_error(self):
         if self.socket is None:
             logging.warning('mjpg client connection for camera %(camera_id)s on port %(port)s is closed' % {
@@ -124,6 +123,7 @@ class MjpgClient(iostream.IOStream):
     
     def _on_jpg(self, data):
         MjpgClient.last_jpgs[self._camera_id] = data
+        MjpgClient.last_jpg_moment[self._camera_id] = datetime.datetime.utcnow()
         self._seek_content_length()
 
 
@@ -134,6 +134,26 @@ def _garbage_collector():
     for client in MjpgClient.clients.values():
         camera_id = client._camera_id
         port = client._port
+        
+        # check for last jpg moment timeout
+        last_jpg_moment = MjpgClient.last_jpg_moment.get(camera_id)
+        if last_jpg_moment is None:
+            MjpgClient.last_jpg_moment[camera_id] = now
+            
+            continue
+
+        delta = now - last_jpg_moment
+        delta = delta.days * 86400 + delta.seconds
+        
+        if delta > settings.MJPG_CLIENT_TIMEOUT:
+            logging.debug('mjpg client timed out receiving data for camera %(camera_id)s on port %(port)s' % {
+                    'camera_id': camera_id, 'port': port})
+            
+            motionctl.restart() # this will close all the mjpg clients
+            
+            break
+
+        # check for last access timeout
         last_access = MjpgClient.last_access.get(camera_id)
         if last_access is None:
             continue
@@ -147,6 +167,8 @@ def _garbage_collector():
             
             client.close()
 
+            continue
+        
     io_loop = ioloop.IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
 
