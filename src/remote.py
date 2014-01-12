@@ -39,19 +39,16 @@ def _make_request(host, port, username, password, uri, method='GET', data=None, 
     return request
 
 
-def make_remote_camera_url(host, port, camera_id, proto=''):
-    if proto:
-        proto += '://'
-        
-    return '%(proto)s%(host)s:%(port)s/config/%(camera_id)s' % {
-        'host': host,
-        'port': port,
-        'camera_id': camera_id,
-        'proto': proto
-    }
+def make_camera_uri(camera_id):
+    return '/config/%(camera_id)s' % {'camera_id': camera_id}
 
 
-def list_cameras(host, port, username, password, callback):
+def list_cameras(local_config, callback):
+    host = local_config.get('@host', local_config.get('host')) 
+    port = local_config.get('@port', local_config.get('port'))
+    username = local_config.get('@username', local_config.get('username'))
+    password = local_config.get('@password', local_config.get('password'))
+    
     logging.debug('listing remote cameras on %(host)s:%(port)s' % {
             'host': host,
             'port': port})
@@ -84,7 +81,13 @@ def list_cameras(host, port, username, password, callback):
     http_client.fetch(request, on_response)
     
 
-def get_config(host, port, username, password, camera_id, callback):
+def get_config(local_config, callback):
+    host = local_config.get('@host', local_config.get('host')) 
+    port = local_config.get('@port', local_config.get('port'))
+    username = local_config.get('@username', local_config.get('username'))
+    password = local_config.get('@password', local_config.get('password'))
+    camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
+     
     logging.debug('getting config for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
@@ -112,6 +115,10 @@ def get_config(host, port, username, password, camera_id, callback):
                     'msg': unicode(e)})
             
             return callback(None)
+        
+        response['host'] = host
+        response['port'] = port
+        response['device_uri'] = make_camera_uri(camera_id)
             
         callback(response)
     
@@ -119,15 +126,21 @@ def get_config(host, port, username, password, camera_id, callback):
     http_client.fetch(request, on_response)
     
 
-def set_config(host, port, username, password, camera_id, data):
+def set_config(local_config, camera_config):
+    host = local_config.get('@host', local_config.get('host')) 
+    port = local_config.get('@port', local_config.get('port'))
+    username = local_config.get('@username', local_config.get('username'))
+    password = local_config.get('@password', local_config.get('password'))
+    camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
+    
     logging.debug('setting config for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
             'port': port})
     
-    data = json.dumps(data)
+    camera_config = json.dumps(camera_config)
     
-    request = _make_request(host, port, username, password, '/config/%(id)s/set/' % {'id': camera_id}, method='POST', data=data)
+    request = _make_request(host, port, username, password, '/config/%(id)s/set/' % {'id': camera_id}, method='POST', data=camera_config)
     
     try:
         http_client = HTTPClient()
@@ -145,7 +158,13 @@ def set_config(host, port, username, password, camera_id, data):
         raise
 
 
-def set_preview(host, port, username, password, camera_id, controls, callback):
+def set_preview(local_config, controls, callback):
+    host = local_config.get('@host', local_config.get('host')) 
+    port = local_config.get('@port', local_config.get('port'))
+    username = local_config.get('@username', local_config.get('username'))
+    password = local_config.get('@password', local_config.get('password'))
+    camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
+    
     logging.debug('setting preview for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
@@ -171,7 +190,13 @@ def set_preview(host, port, username, password, camera_id, controls, callback):
     http_client.fetch(request, on_response)
 
 
-def get_current_picture(host, port, username, password, camera_id, callback, width, height):
+def get_current_picture(local_config, callback, width, height):
+    host = local_config.get('@host', local_config.get('host')) 
+    port = local_config.get('@port', local_config.get('port'))
+    username = local_config.get('@username', local_config.get('username'))
+    password = local_config.get('@password', local_config.get('password'))
+    camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
+    
     logging.debug('getting current picture for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
@@ -203,7 +228,13 @@ def get_current_picture(host, port, username, password, camera_id, callback, wid
     http_client.fetch(request, on_response)
 
 
-def list_media(host, port, username, password, camera_id, callback, media_type, prefix=None):
+def list_media(local_config, callback, media_type, prefix=None):
+    host = local_config.get('@host', local_config.get('host')) 
+    port = local_config.get('@port', local_config.get('port'))
+    username = local_config.get('@username', local_config.get('username'))
+    password = local_config.get('@password', local_config.get('password'))
+    camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
+    
     logging.debug('getting media list for remote camera %(id)s on %(host)s:%(port)s' % {
             'id': camera_id,
             'host': host,
@@ -243,7 +274,13 @@ def list_media(host, port, username, password, camera_id, callback, media_type, 
     http_client.fetch(request, on_response)
 
 
-def get_media_content(host, port, username, password, camera_id, callback, filename, media_type):
+def get_media_content(local_config, callback, filename, media_type):
+    host = local_config.get('@host', local_config.get('host'))
+    port = local_config.get('@port', local_config.get('port'))
+    username = local_config.get('@username', local_config.get('username'))
+    password = local_config.get('@password', local_config.get('password'))
+    camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
+    
     logging.debug('downloading file %(filename)s of remote camera %(id)s on %(host)s:%(port)s' % {
             'filename': filename,
             'id': camera_id,
@@ -274,7 +311,13 @@ def get_media_content(host, port, username, password, camera_id, callback, filen
     http_client.fetch(request, on_response)
 
 
-def get_media_preview(host, port, username, password, camera_id, callback, filename, media_type, width, height):
+def get_media_preview(local_config, callback, filename, media_type, width, height):
+    host = local_config.get('@host', local_config.get('host'))
+    port = local_config.get('@port', local_config.get('port'))
+    username = local_config.get('@username', local_config.get('username'))
+    password = local_config.get('@password', local_config.get('password'))
+    camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
+    
     logging.debug('getting file preview for %(filename)s of remote camera %(id)s on %(host)s:%(port)s' % {
             'filename': filename,
             'id': camera_id,

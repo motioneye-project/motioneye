@@ -77,18 +77,18 @@ def get_main(as_lines=False):
     if as_lines:
         return lines
     
-    data = _conf_to_dict(lines, list_names=['thread'])
-    _set_default_motion(data)
+    main_config = _conf_to_dict(lines, list_names=['thread'])
+    _set_default_motion(main_config)
     
-    _main_config_cache = data
+    _main_config_cache = main_config
     
-    return data
+    return main_config
 
 
-def set_main(data):
+def set_main(main_config):
     global _main_config_cache
     
-    _set_default_motion(data)
+    _set_default_motion(main_config)
     
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
     
@@ -96,8 +96,8 @@ def set_main(data):
     lines = get_main(as_lines=True)
     
     # preserve the threads
-    if 'thread' not in data:
-        threads = data.setdefault('thread', [])
+    if 'thread' not in main_config:
+        threads = main_config.setdefault('thread', [])
         for line in lines:
             match = re.match('^\s*thread\s+([a-zA-Z0-9.\-]+)', line)
             if match:
@@ -115,7 +115,7 @@ def set_main(data):
         
         raise
     
-    lines = _dict_to_conf(lines, data, list_names=['thread'])
+    lines = _dict_to_conf(lines, main_config, list_names=['thread'])
     
     try:
         file.writelines([l + '\n' for l in lines])
@@ -129,9 +129,9 @@ def set_main(data):
     finally:
         file.close()
 
-    _main_config_cache = data
+    _main_config_cache = main_config
 
-    return data
+    return main_config
 
 
 def get_camera_ids():
@@ -214,52 +214,52 @@ def get_camera(camera_id, as_lines=False):
     if as_lines:
         return lines
         
-    data = _conf_to_dict(lines)
+    camera_config = _conf_to_dict(lines)
     
-    data.setdefault('@proto', 'v4l2')
+    camera_config.setdefault('@proto', 'v4l2')
     
     # determine the enabled status
-    if data['@proto'] == 'v4l2':
+    if camera_config['@proto'] == 'v4l2':
         main_config = get_main()
         threads = main_config.get('thread', [])
-        data['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
-        data['@id'] = camera_id
+        camera_config['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
+        camera_config['@id'] = camera_id
 
-        _set_default_motion_camera(camera_id, data)
+        _set_default_motion_camera(camera_id, camera_config)
     
     if _camera_config_cache is None:
         _camera_config_cache = {}
     
-    _camera_config_cache[camera_id] = data
+    _camera_config_cache[camera_id] = camera_config
     
-    return data
+    return camera_config
 
 
-def set_camera(camera_id, data):
+def set_camera(camera_id, camera_config):
     global _camera_config_cache
     
-    if data['@proto'] == 'v4l2':
-        _set_default_motion_camera(camera_id, data)
+    if camera_config['@proto'] == 'v4l2':
+        _set_default_motion_camera(camera_id, camera_config)
         
         # set the enabled status in main config
         main_config = get_main()
         threads = main_config.setdefault('thread', [])
         config_file_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
-        if data['@enabled'] and config_file_name not in threads:
+        if camera_config['@enabled'] and config_file_name not in threads:
             threads.append(config_file_name)
                 
-        elif not data['@enabled']:
+        elif not camera_config['@enabled']:
             threads = [t for t in threads if t != config_file_name]
 
         main_config['thread'] = threads
         
-        data['@id'] = camera_id
+        camera_config['@id'] = camera_id
         
         set_main(main_config)
         
         # try to create the target_dir
         try:
-            os.makedirs(data['target_dir'])
+            os.makedirs(camera_config['target_dir'])
         
         except OSError as e:
             if e.errno != errno.EEXIST:
@@ -286,7 +286,7 @@ def set_camera(camera_id, data):
         
         raise
     
-    lines = _dict_to_conf(lines, data)
+    lines = _dict_to_conf(lines, camera_config)
     
     try:
         file.writelines([l + '\n' for l in lines])
@@ -303,9 +303,9 @@ def set_camera(camera_id, data):
     if _camera_config_cache is None:
         _camera_config_cache = {}
     
-    _camera_config_cache[camera_id] = data
+    _camera_config_cache[camera_id] = camera_config
     
-    return data
+    return camera_config
 
 
 def add_camera(device_details):
@@ -330,7 +330,7 @@ def add_camera(device_details):
     
     if proto == 'v4l2':
         data['@name'] = 'Camera' + str(camera_id)
-        data['videodevice'] = device_details['device']
+        data['videodevice'] = device_details['device_uri']
         if 'width' in device_details:
             data['width'] = device_details['width']
             data['height'] = device_details['height']
@@ -415,7 +415,7 @@ def camera_ui_to_dict(ui):
         '@name': ui['name'],
         '@enabled': ui['enabled'],
         '@proto': ui['proto'],
-        'videodevice': ui['device'],
+        'videodevice': ui['device_uri'],
         'lightswitch': int(ui['light_switch_detect']) * 5,
         'auto_brightness': ui['auto_brightness'],
         'width': int(ui['resolution'].split('x')[0]),
@@ -565,24 +565,15 @@ def camera_ui_to_dict(ui):
     
 
 def camera_dict_to_ui(data):
-    if data['@proto'] == 'v4l2':
-        device_uri = data['videodevice']
-        usage = utils.get_disk_usage(data['target_dir'])
-        if usage:
-            disk_used, disk_total = usage
-        
-        else:
-            disk_used, disk_total = 0, 0
+    usage = utils.get_disk_usage(data['target_dir'])
+    if usage:
+        disk_used, disk_total = usage
     
     else:
-        device_uri = '%(host)s:%(port)s/config/%(camera_id)s' % {
-                'username': data['@username'],
-                'password': '***',
-                'host': data['@host'],
-                'port': data['@port'],
-                'camera_id': data['@remote_camera_id']}
-        
-        disk_used, disk_total = data['disk_used'], data['disk_total']
+        disk_used, disk_total = 0, 0
+    
+    resolutions = v4l2ctl.list_resolutions(data['videodevice'])
+    resolutions = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
     
     ui = {
         # device
@@ -590,10 +581,13 @@ def camera_dict_to_ui(data):
         'enabled': data['@enabled'],
         'id': data['@id'],
         'proto': data['@proto'],
-        'device': device_uri,
+        'host': data.get('@host', ''),
+        'port': data.get('@port', ''),
+        'device_uri': data['videodevice'],
         'light_switch_detect': data['lightswitch'] > 0,
         'auto_brightness': data['auto_brightness'],
         'resolution': str(data['width']) + 'x' + str(data['height']),
+        'available_resolutions': resolutions,
         'framerate': int(data['framerate']),
         'rotation': int(data['rotate']),
         
@@ -662,51 +656,37 @@ def camera_dict_to_ui(data):
     # the brightness & co. keys in the ui dictionary
     # indicate the presence of these controls
     # we must call v4l2ctl functions to determine the available controls    
-    if ui['proto'] == 'v4l2':
-        brightness = v4l2ctl.get_brightness(ui['device'])
-        if brightness is not None: # has brightness control
-            if data.get('brightness', 0) != 0:
-                ui['brightness'] = brightness
-                    
-            else:
-                ui['brightness'] = 50
-            
-        contrast = v4l2ctl.get_contrast(ui['device'])
-        if contrast is not None: # has contrast control
-            if data.get('contrast', 0) != 0:
-                ui['contrast'] = contrast
-            
-            else:
-                ui['contrast'] = 50
-            
-        saturation = v4l2ctl.get_saturation(ui['device'])
-        if saturation is not None: # has saturation control
-            if data.get('saturation', 0) != 0:
-                ui['saturation'] = saturation
-            
-            else:
-                ui['saturation'] = 50
-            
-        hue = v4l2ctl.get_hue(ui['device'])
-        if hue is not None: # has hue control
-            if data.get('hue', 0) != 0:
-                ui['hue'] = hue
-            
-            else:
-                ui['hue'] = 50
-            
-    else: # remote
-        if 'brightness' in data:
-            ui['brightness'] = data['brightness']
-
-        if 'contrast' in data:
-            ui['contrast'] = data['contrast']
-
-        if 'saturation' in data:
-            ui['saturation'] = data['saturation']
-
-        if 'hue' in data:
-            ui['hue'] = data['hue']
+    brightness = v4l2ctl.get_brightness(ui['device_uri'])
+    if brightness is not None: # has brightness control
+        if data.get('brightness', 0) != 0:
+            ui['brightness'] = brightness
+                
+        else:
+            ui['brightness'] = 50
+        
+    contrast = v4l2ctl.get_contrast(ui['device_uri'])
+    if contrast is not None: # has contrast control
+        if data.get('contrast', 0) != 0:
+            ui['contrast'] = contrast
+        
+        else:
+            ui['contrast'] = 50
+        
+    saturation = v4l2ctl.get_saturation(ui['device_uri'])
+    if saturation is not None: # has saturation control
+        if data.get('saturation', 0) != 0:
+            ui['saturation'] = saturation
+        
+        else:
+            ui['saturation'] = 50
+        
+    hue = v4l2ctl.get_hue(ui['device_uri'])
+    if hue is not None: # has hue control
+        if data.get('hue', 0) != 0:
+            ui['hue'] = hue
+        
+        else:
+            ui['hue'] = 50
 
     text_left = data['text_left']
     text_right = data['text_right'] 

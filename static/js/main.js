@@ -251,7 +251,7 @@ function initUI() {
             updateConfigUi();
         }
         else {
-            showProgress();
+            beginProgress();
             fetchCurrentCameraConfig(endProgress);
         }
     });
@@ -508,12 +508,24 @@ function cameraUi2Dict() {
         };
     }
     
+    var deviceUrl = $('#deviceEntry').val();
+    var parts = deviceUrl.split('://');
+    var proto = parts[0];
+    parts = parts[1].split('/');
+    var hostPort = parts[0];
+    var deviceUri = '/' + parts.slice(1).join('/');
+    parts = hostPort.split(':');
+    var host = parts[0];
+    var port = parts[1] || '';
+    
     var dict = {
         /* video device */
         'enabled': $('#videoDeviceSwitch')[0].checked,
         'name': $('#deviceNameEntry').val(),
-        'proto': $('#deviceEntry').val().split('://')[0],
-        'device': $('#deviceEntry').val().split('://')[1],
+        'proto': proto,
+        'host': host,
+        'port': port,
+        'device_uri': deviceUri,
         'light_switch_detect': $('#lightSwitchDetectSwitch')[0].checked,
         'auto_brightness': $('#autoBrightnessSwitch')[0].checked,
         'resolution': $('#resolutionSelect').val(),
@@ -624,7 +636,7 @@ function dict2CameraUi(dict) {
     /* video device */
     $('#videoDeviceSwitch')[0].checked = dict['enabled'];
     $('#deviceNameEntry').val(dict['name']);
-    $('#deviceEntry').val(dict['proto'] + '://' + dict['device']);
+    $('#deviceEntry').val(dict['proto'] + '://' + dict['host'] + (dict['port'] ? ':' + dict['port'] : '') + dict['device_uri']);
     $('#lightSwitchDetectSwitch')[0].checked = dict['light_switch_detect'];
     $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness'];
     
@@ -722,26 +734,14 @@ function dict2CameraUi(dict) {
 }
 
     
-    /* apply button */
+    /* progress */
 
-function showApply() {
-    var applyButton = $('#applyButton');
-    
-    applyButton.html('Apply');
-    applyButton.css('display', 'inline-block');
-    applyButton.removeClass('progress');
-    setTimeout(function () {
-        applyButton.css('opacity', '1');
-    }, 10);
-}
-
-function showProgress() {
+function beginProgress(cameraIds) {
     if (inProgress) {
         return; /* already in progress */
     }
 
     inProgress = true;
-    refreshDisabled++;
     
     /* replace the main page message with a progress indicator */
     $('div.add-camera-message').html('<img class="main-loading-progress" src="' + staticUrl + 'img/main-loading-progress.gif">');
@@ -750,21 +750,17 @@ function showProgress() {
     $('#applyButton').html('<img class="apply-progress" src="' + staticUrl + 'img/apply-progress.gif">');
     
     /* show the camera progress indicators */
-    $('div.camera-progress').css('opacity', '0.5');
+    if (cameraIds) {
+        cameraIds.forEach(function (cameraId) {
+            $('div.camera-frame#' + cameraId + ' div.camera-progress').css('opacity', '0.5');
+        });
+    }
+    else {
+        $('div.camera-progress').css('opacity', '0.5');
+    }
     
     /* remove the settings progress lock */
     $('div.settings-progress').css('width', '100%').css('opacity', '0.9');
-}
-
-function hideApply() {
-    var applyButton = $('#applyButton');
-    
-    applyButton.css('opacity', '0');
-    applyButton.removeClass('progress');
-    
-    setTimeout(function () {
-        applyButton.css('display', 'none');
-    }, 500);
 }
 
 function endProgress() {
@@ -773,7 +769,6 @@ function endProgress() {
     }
     
     inProgress = false;
-    refreshDisabled--;
     
     /* remove any existing message on the main page */
     $('div.add-camera-message').remove();
@@ -797,6 +792,31 @@ function endProgress() {
     }, 500);
 }
 
+
+    /* apply button */
+
+function showApply() {
+    var applyButton = $('#applyButton');
+    
+    applyButton.html('Apply');
+    applyButton.css('display', 'inline-block');
+    applyButton.removeClass('progress');
+    setTimeout(function () {
+        applyButton.css('opacity', '1');
+    }, 10);
+}
+
+function hideApply() {
+    var applyButton = $('#applyButton');
+    
+    applyButton.css('opacity', '0');
+    applyButton.removeClass('progress');
+    
+    setTimeout(function () {
+        applyButton.css('display', 'none');
+    }, 500);
+}
+
 function isApplyVisible() {
     var applyButton = $('#applyButton');
     
@@ -810,7 +830,7 @@ function doApply() {
         return;
     }
     
-    showProgress();
+    beginProgress();
     
     ajax('POST', '/config/0/set/', pushConfigs, function (data) {
         if (data == null || data.error) {
@@ -857,7 +877,7 @@ function doRemCamera() {
     var deviceName = $('#videoDeviceSelect').find('option[value=' + cameraId + ']').text();
     
     runConfirmDialog('Remove camera ' + deviceName + '?', function () {
-        showProgress();
+        beginProgress();
         ajax('POST', '/config/' + cameraId + '/rem/', null, function (data) {
             if (data == null || data.error) {
                 endProgress();
@@ -1055,6 +1075,10 @@ function pushPreview(control) {
             return;
         }
     });
+}
+
+function getCameraIdsByInstance() {
+    
 }
 
 
@@ -1312,7 +1336,7 @@ function runAddCameraDialog() {
         /* add available devices */
         data.devices.forEach(function (device) {
             if (!device.configured) {
-                deviceSelect.append('<option value="' + device.device + '">' + device.name + '</option>');
+                deviceSelect.append('<option value="' + device.device_uri + '">' + device.name + '</option>');
             }
         });
         
@@ -1341,10 +1365,10 @@ function runAddCameraDialog() {
                 }
                 else {
                     data.proto = 'v4l2';
-                    data.device = deviceSelect.val();
+                    data.device_uri = deviceSelect.val();
                 }
 
-                showProgress();
+                beginProgress();
                 ajax('POST', '/config/add/', data, function (data) {
                     if (data == null || data.error) {
                         endProgress();
@@ -1714,7 +1738,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     /* error and load handlers */
     cameraImg.error(function () {
         this.error = true;
-        this.loading = false;
+        this.loading = 0;
         
         cameraImg.addClass('error').removeClass('loading');
         cameraImg.height(Math.round(cameraImg.width() * 0.75));
@@ -1727,7 +1751,7 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
         }
         
         this.error = false;
-        this.loading = false;
+        this.loading = 0;
         
         cameraImg.removeClass('error').removeClass('loading');
         cameraImg.css('height', '');
@@ -1864,7 +1888,14 @@ function refreshCameraFrames() {
     
     function refreshCameraFrame(cameraId, img, fast) {
         if (img.loading) {
-            return; /* still loading the previous image */
+            img.loading++; /* increases each time the camera would refresh but is still loading */
+            
+            if (img.loading > 5) {
+                img.loading = 0;
+            }
+            else {
+                return; /* wait for the previous frame to finish loading */
+            }
         }
         
         var timestamp = new Date().getTime();
@@ -1873,7 +1904,7 @@ function refreshCameraFrames() {
         }
         timestamp = Math.round(timestamp);
         img.src = '/picture/' + cameraId + '/current/?seq=' + timestamp + '&width=' + img.width;
-        img.loading = true;
+        img.loading = 1;
     }
     
     var cameraFrames;
@@ -1951,7 +1982,7 @@ $(document).ready(function () {
     });
     
     initUI();
-    showProgress();
+    beginProgress();
     fetchCurrentConfig(endProgress);
     refreshCameraFrames();
     checkCameraErrors();

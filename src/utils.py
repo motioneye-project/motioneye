@@ -19,6 +19,8 @@ import datetime
 import logging
 import os
 
+import remote
+
 
 def pretty_date_time(date_time, tzinfo=None):
     if date_time is None:
@@ -206,3 +208,12 @@ def get_disk_usage(path):
     used_size = total_size - free_size
     
     return (used_size, total_size)
+
+
+def make_camera_url(config):
+    proto = config.get('proto', config.get('@proto', ''))
+    host = config.get('host', config.get('@host', ''))
+    port = config.get('port', config.get('@port', ''))
+    device_uri = config.get('device_uri', config.get('videodevice', remote.make_camera_uri(config.get('@remote_camera_id'))))
+    
+    return proto + '://' + host + (str(port) + ':' if port else '') + device_uri
