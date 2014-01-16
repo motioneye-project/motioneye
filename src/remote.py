@@ -18,7 +18,7 @@
 import json
 import logging
 
-from tornado.httpclient import AsyncHTTPClient, HTTPClient, HTTPRequest
+from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 
 import settings
 
@@ -126,7 +126,7 @@ def get_config(local_config, callback):
     http_client.fetch(request, on_response)
     
 
-def set_config(local_config, camera_config):
+def set_config(local_config, ui_config, callback):
     host = local_config.get('@host', local_config.get('host')) 
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
@@ -138,24 +138,24 @@ def set_config(local_config, camera_config):
             'host': host,
             'port': port})
     
-    camera_config = json.dumps(camera_config)
+    ui_config = json.dumps(ui_config)
     
-    request = _make_request(host, port, username, password, '/config/%(id)s/set/' % {'id': camera_id}, method='POST', data=camera_config)
+    request = _make_request(host, port, username, password, '/config/%(id)s/set/' % {'id': camera_id}, method='POST', data=ui_config)
     
-    try:
-        http_client = HTTPClient()
-        response = http_client.fetch(request)
+    def on_response(response):
         if response.error:
-            raise Exception(unicode(response.error)) 
+            logging.error('failed to set config for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+                    'id': camera_id,
+                    'host': host,
+                    'port': port,
+                    'msg': unicode(response.error)})
+            
+            return callback(response.error)
     
-    except Exception as e:
-        logging.error('failed to set config for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
-                'id': camera_id,
-                'host': host,
-                'port': port,
-                'msg': unicode(e)})
-        
-        raise
+        callback(None)
+
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, on_response)
 
 
 def set_preview(local_config, controls, callback):

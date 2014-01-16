@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import base64
+import functools
 import json
 import logging
 import os
@@ -189,47 +190,38 @@ class ConfigHandler(BaseHandler):
             self.finish_json(ui_config)
     
     @BaseHandler.auth(admin=True)
-    def set_config(self, camera_id, ui_config=None, no_finish=False):
-        if ui_config is None:
-            try:
-                ui_config = json.loads(self.request.body)
-                
-            except Exception as e:
-                logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
-                
-                raise
+    def set_config(self, camera_id):
+        try:
+            ui_config = json.loads(self.request.body)
             
-        reload = False
+        except Exception as e:
+            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+            
+            raise
         
-        if camera_id is not None:
-            if camera_id == 0:
-                logging.debug('setting multiple configs')
-                
-                for key, cfg in ui_config.items():
-                    if key == 'main':
-                        reload = self.set_config(None, cfg, no_finish=True) or reload
-                        
-                    else:
-                        reload = self.set_config(int(key), cfg, no_finish=True) or reload
-
-                return self.finish_json({'reload': reload})
-                 
-            logging.debug('setting config for camera %(id)s' % {'id': camera_id})
+        camera_ids = config.get_camera_ids()
+        
+        def set_camera_config(camera_id, ui_config, on_finish):
+            logging.debug('setting config for camera %(id)s...' % {'id': camera_id})
             
-            camera_ids = config.get_camera_ids()
             if camera_id not in camera_ids:
                 raise HTTPError(404, 'no such camera')
             
             local_config = config.get_camera(camera_id)
             if local_config['@proto'] == 'v4l2':
-#                 ui_config.setdefault('device', local_config.get('videodevice', '')) TODO needed?
-#                 ui_config.setdefault('proto', local_config['@proto'])
-#                 ui_config.setdefault('enabled', local_config['@enabled'])
+                # overwrite some fields whose values should not be changed this way
+                ui_config['device_uri'] = local_config['videodevice']
+                ui_config['proto'] = 'v4l2'
+                ui_config['host'] = ''
+                ui_config['port'] = ''
+                ui_config.setdefault('enabled', True)
                 
                 local_config = config.camera_ui_to_dict(ui_config)
                 config.set_camera(camera_id, local_config)
-                
-            else:  # remote camera
+            
+                on_finish(None, True) # (no error, motion needs restart)
+        
+            else:
                 # update the camera locally
                 local_config['@enabled'] = ui_config['enabled']
                 config.set_camera(camera_id, local_config)
@@ -238,27 +230,20 @@ class ConfigHandler(BaseHandler):
                 # the camera was probably disabled due to errors
 
                 if ui_config.has_key('device_uri'):
-                    # remove the fields that should not get to the remote side
+                    # delete some fields that should not get to the remote side as they are
                     del ui_config['device_uri']
                     del ui_config['proto']
                     del ui_config['host']
                     del ui_config['port']
                     del ui_config['enabled']
                     
-                    try:
-                        remote.set_config(local_config, ui_config)
-                        
-                    except Exception as e:
-                        logging.error('failed to set remote camera config: %(msg)s' % {'msg': unicode(e)})
-                        
-                        if not no_finish:
-                            return self.finish_json({'error': unicode(e)})
-                
-                elif not no_finish:
-                    return self.finish_json({'error': unicode(e)})       
+                    def on_finish_wrapper(error):
+                        return on_finish(error, False)
+                    
+                    remote.set_config(local_config, ui_config, on_finish_wrapper)
 
-        else:
-            logging.debug('setting main config')
+        def set_main_config(ui_config):
+            logging.debug('setting main config...')
             
             old_main_config = config.get_main()
             old_admin_credentials = old_main_config.get('@admin_username', '') + ':' + old_main_config.get('@admin_password', '')
@@ -271,14 +256,51 @@ class ConfigHandler(BaseHandler):
             if admin_credentials != old_admin_credentials:
                 logging.debug('admin credentials changed, reload needed')
                 
-                reload = True 
+                return True # needs browser reload
+                
+            return False
+        
+        reload = False # indicates that browser should reload the page
+        restart = [False]  # indicates that the local motion instance was modified and needs to be restarted
+        error = [None]
+        
+        def finish():
+            if restart[0]:
+                logging.debug('motion needs to be restarted')
+                motionctl.restart()
 
-        motionctl.restart() # TODO should not be restarted unless a local camera was changed
+            self.finish({'reload': reload, 'error': error[0]})
         
-        if not no_finish:
-            self.finish_json()
+        if camera_id is not None:
+            if camera_id == 0: # multiple camera configs
+                logging.debug('setting multiple configs')
+                
+                so_far = [0]
+                def check_finished(e, r):
+                    restart[0] = restart[0] or r
+                    error[0] = error[0] or e
+                    so_far[0] += 1
+                    
+                    if so_far[0] >= len(ui_config): # finished
+                        finish()
         
-        return reload
+                for key, cfg in ui_config.items():
+                    if key == 'main':
+                        reload = set_main_config(cfg) or reload
+                        
+                    else:
+                        set_camera_config(int(key), cfg, check_finished)
+            
+            else: # single camera config
+                def on_finish(e, r):
+                    error[0] = e
+                    restart[0] = r
+                    finish()
+
+                set_camera_config(camera_id, ui_config, on_finish)
+
+        else: # main config
+            reload = set_main_config(ui_config)
 
     @BaseHandler.auth(admin=True)
     def set_preview(self, camera_id):

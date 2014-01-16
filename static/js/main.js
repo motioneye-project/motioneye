@@ -752,7 +752,7 @@ function beginProgress(cameraIds) {
     /* show the camera progress indicators */
     if (cameraIds) {
         cameraIds.forEach(function (cameraId) {
-            $('div.camera-frame#' + cameraId + ' div.camera-progress').css('opacity', '0.5');
+            $('div.camera-frame#camera' + cameraId + ' div.camera-progress').css('opacity', '0.5');
         });
     }
     else {
@@ -830,7 +830,32 @@ function doApply() {
         return;
     }
     
-    beginProgress();
+    /* gather the affected motion instances */
+    var affectedInstances = {};
+    Object.keys(pushConfigs).forEach(function (key) {
+        var config = pushConfigs[key];
+        if (key === 'main') {
+            return;
+        }
+        
+        var instance = config.host || '';
+        if (config.port) {
+            instance += ':' + config.port;
+        }
+        
+        affectedInstances[instance] = true;
+    });
+    affectedInstances = Object.keys(affectedInstances);
+    
+    /* compute the affected camera ids */ 
+    var cameraIdsByInstance = getCameraIdsByInstance();
+    var affectedCameraIds = [];
+    
+    affectedInstances.forEach(function (instance) {
+        affectedCameraIds = affectedCameraIds.concat(cameraIdsByInstance[instance] || []);
+    });
+    
+    beginProgress(affectedCameraIds);
     
     ajax('POST', '/config/0/set/', pushConfigs, function (data) {
         if (data == null || data.error) {
@@ -1078,7 +1103,20 @@ function pushPreview(control) {
 }
 
 function getCameraIdsByInstance() {
+    /* a motion instance is identified by the (host, port) pair;
+     * the local instance has both the host and the port set to empty string */
     
+    var cameraIdsByInstance = {};
+    $('div.camera-frame').each(function () {
+        var instance = this.config.host || '';
+        if (this.config.port) {
+            instance += ':' + this.config.port;
+        }
+        
+        (cameraIdsByInstance[instance] = cameraIdsByInstance[instance] || []).push(this.config.id);
+    });
+    
+    return cameraIdsByInstance;
 }
 
 
@@ -1632,15 +1670,17 @@ function runMediaDialog(cameraId, mediaType) {
 
     /* camera frames */
 
-function addCameraFrameUi(cameraId, cameraName, framerate) {
+function addCameraFrameUi(cameraConfig, framerate) {
     var pageContainer = $('div.page-container');
     
-    if (cameraId == null) {
+    if (cameraConfig == null) {
         var cameraFrameDivPlaceHolder = $('<div class="camera-frame-place-holder"></div>');
         pageContainer.append(cameraFrameDivPlaceHolder);
         
         return;
     }
+    
+    var cameraId = cameraConfig.id;
     
     var cameraFrameDiv = $(
             '<div class="camera-frame">' +
@@ -1650,7 +1690,6 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
                         '<div class="button camera-button mouse-effect media-pictures" title="pictures"></div>' +
                         '<div class="button camera-button mouse-effect media-movies" title="movies"></div>' +
                         '<div class="button camera-button mouse-effect configure" title="configure"></div>' +
-//                        '<div class="button camera-button mouse-effect full-screen" title="full screen"></div>' +
                     '</div>' +
                 '</div>' +
                 '<div class="camera-container">' +
@@ -1678,7 +1717,8 @@ function addCameraFrameUi(cameraId, cameraName, framerate) {
     cameraFrameDiv.attr('id', 'camera' + cameraId);
     cameraFrameDiv[0].framerate = framerate;
     cameraFrameDiv[0].refreshDivider = 0;
-    nameSpan.html(cameraName);
+    cameraFrameDiv[0].config = cameraConfig;
+    nameSpan.html(cameraConfig.name);
     progressImg.attr('src', staticUrl + 'img/camera-progress.gif');
     
     cameraProgress.click(function () {
@@ -1789,7 +1829,7 @@ function recreateCameraFrames(cameras) {
         /* add camera frames */
         for (i = 0; i < cameras.length; i++) {
             camera = cameras[i];
-            addCameraFrameUi(camera.id, camera.name, Math.min(camera.streaming_framerate, camera.framerate));
+            addCameraFrameUi(camera, Math.min(camera.streaming_framerate, camera.framerate));
         }
         
         if ($('#videoDeviceSelect').find('option').length < 2 && user === 'admin' && $('#motionEyeSwitch')[0].checked) {

@@ -70,10 +70,11 @@ class MjpgClient(iostream.IOStream):
             
             return True
             
-        if self.error is None:
+        error = getattr(self, 'error', None)
+        if error is None:
             return False
         
-        self._error(self.error)
+        self._error(error)
         
         return True
      
