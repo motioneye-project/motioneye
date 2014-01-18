@@ -124,15 +124,15 @@ Array.prototype.map = function (func, thisArg) {
     return mapped;
 };
 
-Array.prototype.sortKey = function (keyFunc) {
+Array.prototype.sortKey = function (keyFunc, reverse) {
     this.sort(function (e1, e2) {
         var k1 = keyFunc(e1);
         var k2 = keyFunc(e2);
         
-        if (k1 < k2) {
+        if ((k1 < k2 && !reverse) || (k1 > k2 && reverse)) {
             return -1;
         }
-        else if (k1 > k2) {
+        else if ((k1 > k2 && !reverse) || (k1 < k2 && reverse)) {
             return 1;
         }
         else {
@@ -1601,7 +1601,7 @@ function runMediaDialog(cameraId, mediaType) {
                 });
  
                 /* sort the entries by timestamp */
-                entries.sortKey(function (e) {return e.timestamp || e.name;});
+                entries.sortKey(function (e) {return e.timestamp || e.name;}, true);
                 
                 addEntries();
             });
