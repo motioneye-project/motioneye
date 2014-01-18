@@ -1142,19 +1142,18 @@ function runPictureDialog(entries, pos, mediaType) {
     var nextArrow = $('<div class="picture-dialog-next-arrow button mouse-effect" title="next picture"></div>');
     content.append(nextArrow);
     
-    var windowWidth = $(window).width();
-    
     var progressImg = $('<img class="picture-dialog-progress" src="' + staticUrl + 'img/modal-progress.gif">');
     
     function updatePicture() {
         var entry = entries[pos];
-        var width; 
-        if (windowWidth <= 1000) {
-            width = parseInt(windowWidth * 0.9);
-        }
-        else {
-            width = parseInt(windowWidth * 0.5);
-        }
+
+        var windowWidth = $(window).width();
+        var windowHeight = $(window).height();
+        var widthCoef = windowWidth < 1000 ? 0.8 : 0.5;
+        var heightCoef = 0.75;
+        
+        var width = parseInt(windowWidth * widthCoef);
+        var height = parseInt(windowHeight * heightCoef);        
         
         prevArrow.css('display', 'none');
         nextArrow.css('display', 'none');
@@ -1165,7 +1164,16 @@ function runPictureDialog(entries, pos, mediaType) {
         
         img.attr('src', '/' + mediaType + '/' + entry.cameraId + '/preview' + entry.path);
         img.load(function () {
-            img.width(width);
+            var aspectRatio = this.naturalWidth / this.naturalHeight;
+            var sizeWidth = width * width / aspectRatio;
+            var sizeHeight = height * aspectRatio * height;
+            
+            if (sizeWidth < sizeHeight) {
+                img.width(width);
+            }
+            else {
+                img.height(height);
+            }
             updateModalDialogPosition();
             prevArrow.css('display', pos > 0 ? '' : 'none');
             nextArrow.css('display', pos < entries.length - 1 ? '' : 'none');
@@ -1435,17 +1443,13 @@ function runMediaDialog(cameraId, mediaType) {
     dialogDiv.append(mediaListDiv);
     
     var windowWidth = $(window).width();
+    var windowHeight = $(window).height();
+    var widthCoef = windowWidth < 1000 ? 0.8 : 0.5;
+    var heightCoef = 0.75;
     
-    if (windowWidth <= 1000) {
-        mediaListDiv.width(parseInt(windowWidth * 0.9));
-        groupsDiv.width(parseInt(windowWidth * 0.9));
-        mediaListDiv.height(parseInt(windowWidth * 0.9 * 480 / 640));
-    }
-    else {
-        mediaListDiv.width(parseInt(windowWidth * 0.5));
-        groupsDiv.width(parseInt(windowWidth * 0.5));
-        mediaListDiv.height(parseInt(windowWidth * 0.45 * 480 / 640));
-    }
+    mediaListDiv.width(parseInt(windowWidth * widthCoef));
+    groupsDiv.width(parseInt(windowWidth * widthCoef));
+    mediaListDiv.height(parseInt(windowHeight * heightCoef));
     
     showModalDialog('<div class="modal-progress"></div>');
     
