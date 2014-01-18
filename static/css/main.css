@@ -681,6 +681,7 @@ img.camera {
     display: block;
     transition: opacity 0.2s linear;
     opacity: 1;
+    min-height: 160px;
 }
 
 img.camera.error,
@@ -705,6 +706,7 @@ img.no-camera {
 }
 
 div.camera-progress {
+    background: rgba(0, 0, 0, 0.001); /* otherwise IE would not extend this as expected */
     position: absolute;
     top: 0px;
     right: 0px;

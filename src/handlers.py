@@ -553,7 +553,11 @@ class PictureHandler(BaseHandler):
                 if sequence and picture:
                     mediafiles.set_picture_cache(camera_id, sequence, width, picture)
                 
-                self.finish(picture)
+                try:
+                    self.finish(picture)
+                
+                except IOError as e:
+                    logging.warning('could not write picture as response: %(msg)s' % {'msg': unicode(e)})
             
             remote.get_current_picture(camera_config, on_response, width=width, height=height)
 

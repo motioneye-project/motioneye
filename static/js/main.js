@@ -1706,7 +1706,6 @@ function addCameraFrameUi(cameraConfig, framerate) {
     
     var nameSpan = cameraFrameDiv.find('span.camera-name');
     var configureButton = cameraFrameDiv.find('div.camera-button.configure');
-    var fullScreenButton = cameraFrameDiv.find('div.camera-button.full-screen');
     var picturesButton = cameraFrameDiv.find('div.camera-button.media-pictures');
     var moviesButton = cameraFrameDiv.find('div.camera-button.media-movies');
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
@@ -1760,12 +1759,6 @@ function addCameraFrameUi(cameraConfig, framerate) {
         doConfigureCamera(cameraId);
     });
 
-    fullScreenButton.click(function (cameraId) {
-        return function () {
-            doFullScreenCamera(cameraId);
-        };
-    }(cameraId));
-    
     picturesButton.click(function (cameraId) {
         return function () {
             runMediaDialog(cameraId, 'picture');
@@ -1899,24 +1892,32 @@ function doFullScreenCamera(cameraId) {
     else {
         width = Math.round(0.9 * windowWidth);
     }
-    cameraFrameDiv.css('width', width);
+
+    cameraFrameDiv.find('div.camera-progress').addClass('visible');
     
-    runModalDialog({
-        title: cameraName,
-        closeButton: true,
-        //buttons: null,
-        content: cameraFrameDiv,
-        onClose: function () {
-            fullScreenCameraId = null;
-            cameraFrameDiv.css('width', '');
-            var nextFrame = pageContainer.children('div:eq(' + frameIndex + ')');
-            if (nextFrame.length) {
-                nextFrame.before(cameraFrameDiv);
+    var cameraImg = cameraFrameDiv.find('img.camera');
+    cameraImg.load(function showFullScreenCamera() {
+        cameraFrameDiv.css('width', width);
+        
+        runModalDialog({
+            title: cameraName,
+            closeButton: true,
+            content: cameraFrameDiv,
+            onShow: function () {
+                cameraImg.unbind('load', showFullScreenCamera);
+            },
+            onClose: function () {
+                fullScreenCameraId = null;
+                cameraFrameDiv.css('width', '');
+                var nextFrame = pageContainer.children('div:eq(' + frameIndex + ')');
+                if (nextFrame.length) {
+                    nextFrame.before(cameraFrameDiv);
+                }
+                else {
+                    pageContainer.append(cameraFrameDiv);
+                }
             }
-            else {
-                pageContainer.append(cameraFrameDiv);
-            }
-        }
+        });
     });
 }
 
