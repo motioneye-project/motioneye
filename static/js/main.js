@@ -251,7 +251,7 @@ function initUI() {
             updateConfigUi();
         }
         else {
-            beginProgress();
+            beginProgress([$(this).val()]);
             fetchCurrentCameraConfig(endProgress);
         }
     });
@@ -752,11 +752,11 @@ function beginProgress(cameraIds) {
     /* show the camera progress indicators */
     if (cameraIds) {
         cameraIds.forEach(function (cameraId) {
-            $('div.camera-frame#camera' + cameraId + ' div.camera-progress').css('opacity', '0.5');
+            $('div.camera-frame#camera' + cameraId + ' div.camera-progress').addClass('visible');
         });
     }
     else {
-        $('div.camera-progress').css('opacity', '0.5');
+        $('div.camera-progress').addClass('visible');
     }
     
     /* remove the settings progress lock */
@@ -785,7 +785,7 @@ function endProgress() {
     $('div.settings-progress').css('opacity', '0');
     
     /* hide the camera progress indicator */
-    $('div.camera-progress').css('opacity', '0');
+    $('div.camera-progress').removeClass('visible');
 
     setTimeout(function () {
         $('div.settings-progress').css('width', '0px');
@@ -884,7 +884,7 @@ function doApply() {
         pushConfigs = {};
         endProgress();
         
-        recreateCameraFrames();
+        //recreateCameraFrames();
     });
 }
 
@@ -1730,10 +1730,8 @@ function addCameraFrameUi(cameraConfig, framerate) {
         doFullScreenCamera(cameraId);
     });
     
-    //if (inProgress) { TODO
-        cameraProgress.css('opacity', '0.5');
-        cameraPlaceholder.css('opacity', '0');
-//    }
+    cameraProgress.addClass('visible');
+    cameraPlaceholder.css('opacity', '0');
     
     /* insert the new camera frame at the right position,
      * with respect to the camera id */
@@ -1788,7 +1786,7 @@ function addCameraFrameUi(cameraConfig, framerate) {
         cameraImg.addClass('error').removeClass('loading');
         cameraImg.height(Math.round(cameraImg.width() * 0.75));
         cameraPlaceholder.css('opacity', 1);
-        cameraProgress.css('opacity', 0);
+        cameraProgress.removeClass('visible');
     });
     cameraImg.load(function () {
         if (refreshDisabled) {
@@ -1801,7 +1799,7 @@ function addCameraFrameUi(cameraConfig, framerate) {
         cameraImg.removeClass('error').removeClass('loading');
         cameraImg.css('height', '');
         cameraPlaceholder.css('opacity', 0);
-        cameraProgress.css('opacity', 0);
+        cameraProgress.removeClass('visible');
         
         if (fullScreenCameraId) {
             /* update the modal dialog position when image is loaded */

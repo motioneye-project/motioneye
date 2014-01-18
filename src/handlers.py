@@ -286,6 +286,7 @@ class ConfigHandler(BaseHandler):
                 for key, cfg in ui_config.items():
                     if key == 'main':
                         reload = set_main_config(cfg) or reload
+                        check_finished(None, reload)
                         
                     else:
                         set_camera_config(int(key), cfg, check_finished)

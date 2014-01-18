@@ -716,10 +716,19 @@ div.camera-progress {
     cursor: pointer;
 }
 
+div.camera-progress.visible {
+    opacity: 0.4;
+}
+
 img.camera-progress {
-    margin-top: 20%;
     border: 10px solid white;
     border-radius: 10px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    margin: auto;
 }
 
 
