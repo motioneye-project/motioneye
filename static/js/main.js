@@ -1485,6 +1485,7 @@ function runMediaDialog(cameraId, mediaType) {
         
         var keys = Object.keys(groups);
         keys.sort();
+        keys.reverse();
         
         /* add a temporary div to compute 3em in px */
         var tempDiv = $('<div style="width: 3em; height: 3em;"></div>');

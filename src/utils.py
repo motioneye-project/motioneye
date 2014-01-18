@@ -216,4 +216,4 @@ def make_camera_url(config):
     port = config.get('port', config.get('@port', ''))
     device_uri = config.get('device_uri', config.get('videodevice', remote.make_camera_uri(config.get('@remote_camera_id'))))
     
-    return proto + '://' + host + (str(port) + ':' if port else '') + device_uri
+    return proto + '://' + host + (':' + str(port) if port else '') + device_uri
