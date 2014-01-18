@@ -361,9 +361,10 @@ class ConfigHandler(BaseHandler):
                     self.finish_json({'error': 'Failed to list remote cameras.'})
                     
                 else:
+                    cameras = [c for c in cameras if c.get('enabled')]
                     self.finish_json({'cameras': cameras})
             
-            cameras = remote.list_cameras(self.get_data(), on_response)
+            remote.list_cameras(self.get_data(), on_response)
                 
         else:  # local listing
             cameras = []
@@ -390,7 +391,15 @@ class ConfigHandler(BaseHandler):
                     
                     else:
                         remote_ui_config['id'] = camera_id
-                        remote_ui_config['enabled'] = local_config['@enabled']  # override the enabled status
+                        if not remote_ui_config['enabled'] and local_config['@enabled']:
+                            # if a remote camera is disabled, make sure it's disabled locally as well
+                            local_config['@enabled'] = False
+                            config.set_camera(camera_id, local_config)
+                        
+                        elif remote_ui_config['enabled'] and not local_config['@enabled']:
+                            # if a remote camera is locally disabled, make sure the remote config says the same thing
+                            remote_ui_config['enabled'] = False
+                            
                         cameras.append(remote_ui_config)
                         
                     check_finished()
