@@ -23,7 +23,7 @@ from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 import settings
 
 
-def _make_request(host, port, username, password, uri, method='GET', data=None, query=None):
+def _make_request(host, port, username, password, uri, method='GET', data=None, query=None, timeout=None):
     url = '%(scheme)s://%(host)s:%(port)s%(uri)s' % {
             'scheme': 'http',
             'host': host,
@@ -32,9 +32,12 @@ def _make_request(host, port, username, password, uri, method='GET', data=None, 
     
     if query:
         url += '?' + '&'.join([(n + '=' + v) for (n, v) in query.iteritems()])
+    
+    if timeout is None:
+        timeout = settings.REMOTE_REQUEST_TIMEOUT
         
     request = HTTPRequest(url, method, body=data, auth_username=username, auth_password=password,
-            request_timeout=settings.REMOTE_REQUEST_TIMEOUT)
+            request_timeout=timeout)
     
     return request
 
@@ -244,8 +247,9 @@ def list_media(local_config, callback, media_type, prefix=None):
     if prefix is not None:
         query['prefix'] = prefix
     
+    # timeout here is 10 times larger than usual - we expect a big delay when fetching the media list
     request = _make_request(host, port, username, password, '/%(media_type)s/%(id)s/list/' % {
-            'id': camera_id, 'media_type': media_type}, query=query)
+            'id': camera_id, 'media_type': media_type}, query=query, timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
     
     def on_response(response):
         if response.error:
@@ -292,7 +296,8 @@ def get_media_content(local_config, callback, filename, media_type):
             'id': camera_id,
             'filename': filename}
     
-    request = _make_request(host, port, username, password, uri)
+    # timeout here is 10 times larger than usual - we expect a big delay when fetching the media list
+    request = _make_request(host, port, username, password, uri, timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
     
     def on_response(response):
         if response.error:
