@@ -1703,7 +1703,7 @@ function runMediaDialog(cameraId, mediaType) {
 
     /* camera frames */
 
-function addCameraFrameUi(cameraConfig, framerate) {
+function addCameraFrameUi(cameraConfig) {
     var pageContainer = $('div.page-container');
     
     if (cameraConfig == null) {
@@ -1747,7 +1747,6 @@ function addCameraFrameUi(cameraConfig, framerate) {
     }
     
     cameraFrameDiv.attr('id', 'camera' + cameraId);
-    cameraFrameDiv[0].framerate = framerate;
     cameraFrameDiv[0].refreshDivider = 0;
     cameraFrameDiv[0].config = cameraConfig;
     nameSpan.html(cameraConfig.name);
@@ -1853,7 +1852,7 @@ function recreateCameraFrames(cameras) {
         /* add camera frames */
         for (i = 0; i < cameras.length; i++) {
             camera = cameras[i];
-            addCameraFrameUi(camera, Math.min(camera.streaming_framerate, camera.framerate));
+            addCameraFrameUi(camera);
         }
         
         if ($('#videoDeviceSelect').find('option').length < 2 && user === 'admin' && $('#motionEyeSwitch')[0].checked) {
@@ -1950,7 +1949,7 @@ function doFullScreenCamera(cameraId) {
 }
 
 function refreshCameraFrames() {
-    function refreshCameraFrame(cameraId, img, fast, serverSideResize) {
+    function refreshCameraFrame(cameraId, img, serverSideResize) {
         if (refreshDisabled[cameraId]) {
             /* camera refreshing disabled, retry later */
             
@@ -1968,11 +1967,7 @@ function refreshCameraFrames() {
             }
         }
         
-        var timestamp = new Date().getTime();
-        if (!fast) {
-            timestamp /= 500;
-        }
-        timestamp = Math.round(timestamp);
+        var timestamp = Math.round(new Date().getTime());
         
         var uri = '/picture/' + cameraId + '/current/?seq=' + timestamp;
         if (serverSideResize) {
@@ -1982,7 +1977,7 @@ function refreshCameraFrames() {
         img.src = uri;
         img.loading = 1;
     }
-    
+
     var cameraFrames;
     if (fullScreenCameraId != null) {
         cameraFrames = $('#camera' + fullScreenCameraId);
@@ -1991,9 +1986,11 @@ function refreshCameraFrames() {
         cameraFrames = $('div.page-container').find('div.camera-frame');
     }
     
+    var refreshInterval = 50;
+    
     cameraFrames.each(function () {
-        /* limit the refresh rate to 10 fps */
-        var count = Math.max(1, 10 / this.framerate);
+        /* limit the refresh rate to 20 fps */
+        var count = Math.max(1 / this.config['streaming_framerate'] * 1000 / refreshInterval);
         var serverSideResize = this.config['streaming_server_resize'];
         var img = $(this).find('img.camera')[0];
         
@@ -2007,13 +2004,13 @@ function refreshCameraFrames() {
         }
         else {
             var cameraId = this.id.substring(6);
-            refreshCameraFrame(cameraId, img, count <= 2, serverSideResize); /* count <= 2 means at least 5 fps */
+            refreshCameraFrame(cameraId, img, serverSideResize); /* count <= 2 means at least 5 fps */
             
             this.refreshDivider = 0;
         }
     });
     
-    setTimeout(refreshCameraFrames, 100);
+    setTimeout(refreshCameraFrames, refreshInterval);
 }
 
 function checkCameraErrors() {
