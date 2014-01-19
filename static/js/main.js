@@ -1897,6 +1897,8 @@ function doFullScreenCamera(cameraId) {
         return; /* a camera is already in full screen */
     }
     
+    fullScreenCameraId = -1; /* aviods successive fast toggles of fullscreen */
+    
     var cameraFrameDiv = $('#camera' + cameraId);
     var cameraName = cameraFrameDiv.find('span.camera-name').text();
     var frameImg = cameraFrameDiv.find('img.camera');
@@ -1979,7 +1981,7 @@ function refreshCameraFrames() {
     }
 
     var cameraFrames;
-    if (fullScreenCameraId != null) {
+    if (fullScreenCameraId != null && fullScreenCameraId >= 0) {
         cameraFrames = $('#camera' + fullScreenCameraId);
     }
     else {
