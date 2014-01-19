@@ -294,7 +294,8 @@ class ConfigHandler(BaseHandler):
         
         if camera_id is not None:
             if camera_id == 0: # multiple camera configs
-                logging.debug('setting multiple configs')
+                if len(ui_config) > 1:
+                    logging.debug('setting multiple configs')
                 
                 so_far = [0]
                 def check_finished(e, r):

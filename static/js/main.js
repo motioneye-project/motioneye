@@ -77,6 +77,16 @@ Object.keys = Object.keys || (function () {
     };
 })();
 
+Object.update = function (dest, source) {
+    for (var key in source) {
+        if (!source.hasOwnProperty(key)) {
+            continue;
+        }
+        
+        dest[key] = source[key];
+    }
+};
+
 Array.prototype.indexOf = Array.prototype.indexOf || function (obj) {
     for (var i = 0; i < this.length; i++) {
         if (this[i] === obj) {
@@ -232,6 +242,7 @@ function initUI() {
     $('#videoDeviceSwitch').change(updateConfigUi);
     $('#textOverlaySwitch').change(updateConfigUi);
     $('#videoStreamingSwitch').change(updateConfigUi);
+    $('#streamingServerResizeSwitch').change(updateConfigUi);
     $('#stillImagesSwitch').change(updateConfigUi);
     $('#motionMoviesSwitch').change(updateConfigUi);
     $('#motionNotificationsSwitch').change(updateConfigUi);
@@ -403,6 +414,11 @@ function updateConfigUi() {
         $('#videoStreamingSwitch').parent().next('table.settings').find('tr.settings-item').not('.local-streaming').each(markHide);
     }
     
+    /* streaming server resize switch */
+    if (!$('#streamingServerResizeSwitch').get(0).checked) {
+        $('#streamingResolutionSlider').parents('tr:eq(0)').each(markHide);
+    }
+    
     /* still images switch */
     if (!$('#stillImagesSwitch').get(0).checked) {
         $('#stillImagesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
@@ -552,6 +568,7 @@ function cameraUi2Dict() {
         'streaming_framerate': $('#streamingFramerateSlider').val(),
         'streaming_quality': $('#streamingQualitySlider').val(),
         'streaming_resolution': $('#streamingResolutionSlider').val(),
+        'streaming_server_resize': $('#streamingServerResizeSwitch')[0].checked,
         'streaming_port': $('#streamingPortEntry').val(),
         'streaming_motion': $('#streamingMotion')[0].checked,
         
@@ -683,6 +700,7 @@ function dict2CameraUi(dict) {
     $('#streamingFramerateSlider').val(dict['streaming_framerate']);
     $('#streamingQualitySlider').val(dict['streaming_quality']);
     $('#streamingResolutionSlider').val(dict['streaming_resolution']);
+    $('#streamingServerResizeSwitch')[0].checked = dict['streaming_server_resize'];
     $('#streamingPortEntry').val(dict['streaming_port']);
     $('#streamingMotion')[0].checked = dict['streaming_motion'];
     
@@ -1068,6 +1086,9 @@ function pushCameraConfig() {
     if (!isApplyVisible()) {
         showApply();
     }
+    
+    /* also update the config stored in the camera frame div */
+    Object.update($('div.camera-frame#camera' + cameraId)[0].config, cameraConfig);
 }
 
 function pushPreview(control) {
@@ -1929,7 +1950,7 @@ function doFullScreenCamera(cameraId) {
 }
 
 function refreshCameraFrames() {
-    function refreshCameraFrame(cameraId, img, fast) {
+    function refreshCameraFrame(cameraId, img, fast, serverSideResize) {
         if (refreshDisabled[cameraId]) {
             /* camera refreshing disabled, retry later */
             
@@ -1952,7 +1973,13 @@ function refreshCameraFrames() {
             timestamp /= 500;
         }
         timestamp = Math.round(timestamp);
-        img.src = '/picture/' + cameraId + '/current/?seq=' + timestamp + '&width=' + img.width;
+        
+        var uri = '/picture/' + cameraId + '/current/?seq=' + timestamp;
+        if (serverSideResize) {
+            uri += '&width=' + img.width;
+        }
+        
+        img.src = uri;
         img.loading = 1;
     }
     
@@ -1967,6 +1994,7 @@ function refreshCameraFrames() {
     cameraFrames.each(function () {
         /* limit the refresh rate to 10 fps */
         var count = Math.max(1, 10 / this.framerate);
+        var serverSideResize = this.config['streaming_server_resize'];
         var img = $(this).find('img.camera')[0];
         
         if (img.error) {
@@ -1979,7 +2007,7 @@ function refreshCameraFrames() {
         }
         else {
             var cameraId = this.id.substring(6);
-            refreshCameraFrame(cameraId, img, count <= 2); /* count <= 2 means at least 5 fps */
+            refreshCameraFrame(cameraId, img, count <= 2, serverSideResize); /* count <= 2 means at least 5 fps */
             
             this.refreshDivider = 0;
         }

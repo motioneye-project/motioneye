@@ -378,7 +378,7 @@ def get_picture_cache(camera_id, sequence, width):
     cache = _current_pictures_cache.setdefault(camera_id, [])
 
     for (seq, w, content) in cache:
-        if (seq >= sequence) and (width >= w):
+        if (seq >= sequence) and ((width is w is None) or (width >= w)):
             return content
         
     return None

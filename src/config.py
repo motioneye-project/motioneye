@@ -442,6 +442,7 @@ def camera_ui_to_dict(ui):
         'webcam_maxrate': int(ui['streaming_framerate']),
         'webcam_quality': max(1, int(ui['streaming_quality'])),
         '@webcam_resolution': max(1, int(ui['streaming_resolution'])),
+        '@webcam_server_resize': ui['streaming_server_resize'],
         'webcam_motion': ui['streaming_motion'],
         
         # still images
@@ -613,6 +614,7 @@ def camera_dict_to_ui(data):
         'streaming_framerate': int(data['webcam_maxrate']),
         'streaming_quality': int(data['webcam_quality']),
         'streaming_resolution': int(data['@webcam_resolution']),
+        'streaming_server_resize': int(data['@webcam_server_resize']),
         'streaming_port': int(data['webcam_port']),
         'streaming_motion': int(data['webcam_motion']),
         
@@ -953,6 +955,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('webcam_maxrate', 5)
     data.setdefault('webcam_quality', 85)
     data.setdefault('@webcam_resolution', 100)
+    data.setdefault('@webcam_server_resize', True)
     data.setdefault('webcam_motion', False)
     
     data.setdefault('text_left', data['@name'])
