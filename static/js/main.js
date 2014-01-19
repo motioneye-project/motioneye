@@ -4,6 +4,7 @@ var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is
 var fullScreenCameraId = null;
 var thresholdSlider = null;
 var inProgress = false;
+var refreshInterval = 50; /* milliseconds */
 
 
     /* utils */
@@ -1910,8 +1911,6 @@ function doFullScreenCamera(cameraId) {
         return; /* no full screen for erroneous cameras */
     }
 
-    fullScreenCameraId = cameraId;
-
     var width;
     if (windowAspectRatio > aspectRatio) {
         width = aspectRatio * Math.round(0.8 * windowHeight);
@@ -1925,6 +1924,7 @@ function doFullScreenCamera(cameraId) {
     var cameraImg = cameraFrameDiv.find('img.camera');
     cameraImg.load(function showFullScreenCamera() {
         cameraFrameDiv.css('width', width);
+        fullScreenCameraId = cameraId;
         
         runModalDialog({
             title: cameraName,
@@ -1955,11 +1955,11 @@ function refreshCameraFrames() {
             
             return;
         }
-
+        
         if (img.loading) {
             img.loading++; /* increases each time the camera would refresh but is still loading */
             
-            if (img.loading > 5) {
+            if (img.loading > 2 * 1000 / refreshInterval) { /* limits the retry at one every two seconds */
                 img.loading = 0;
             }
             else {
@@ -1986,17 +1986,15 @@ function refreshCameraFrames() {
         cameraFrames = $('div.page-container').find('div.camera-frame');
     }
     
-    var refreshInterval = 50;
-    
     cameraFrames.each(function () {
         /* limit the refresh rate to 20 fps */
-        var count = Math.max(1 / this.config['streaming_framerate'] * 1000 / refreshInterval);
+        var count = Math.max(1, 1 / this.config['streaming_framerate'] * 1000 / refreshInterval);
         var serverSideResize = this.config['streaming_server_resize'];
         var img = $(this).find('img.camera')[0];
         
         if (img.error) {
             /* in case of error, decrease the refresh rate to 1 fps */
-            count = 10;
+            count = 1000 / refreshInterval;
         }
         
         if (this.refreshDivider < count) {
