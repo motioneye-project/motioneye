@@ -103,9 +103,8 @@ def _configure_signals():
 
         # shut down the IO loop if it has been started
         ioloop = tornado.ioloop.IOLoop.instance()
-        if ioloop.running():
-            ioloop.stop()
-            logging.info('server stopped')
+        ioloop.stop()
+        logging.info('server stopped')
         
         if thumbnailer.running():
             thumbnailer.stop()
