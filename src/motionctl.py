@@ -17,6 +17,7 @@
 
 import errno
 import os.path
+import re
 import signal
 import subprocess
 import time
@@ -27,10 +28,21 @@ import settings
 
 def find_motion():
     try:
-        return subprocess.check_output('which motion', shell=True).strip()
+        binary = subprocess.check_output('which motion', shell=True).strip()
     
     except subprocess.CalledProcessError: # not found
         return None
+
+    try:
+        help = subprocess.check_output(binary + ' -h || true', shell=True)
+    
+    except subprocess.CalledProcessError: # not found
+        return None
+    
+    result = re.findall('^motion Version ([^,]+)', help)
+    version = result and result[0] or ''
+    
+    return (binary, version)
 
 
 def start():
@@ -40,6 +52,8 @@ def start():
     program = find_motion()
     if not program:
         raise Exception('motion executable could not be found')
+    
+    program, version = program  # @UnusedVariable
     
     motion_config_path = os.path.join(settings.CONF_PATH, 'motion.conf')
     motion_log_path = os.path.join(settings.RUN_PATH, 'motion.log')
@@ -107,14 +121,16 @@ def running():
     if pid is None:
         return False
     
+    
     try:
+        os.waitpid(pid, os.WNOHANG)
         os.kill(pid, 0)
         
         # the process is running
         return True
     
     except OSError as e:
-        if e.errno != errno.ESRCH:
+        if e.errno not in (errno.ESRCH, errno.ECHILD):
             raise
 
     return False

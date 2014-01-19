@@ -47,7 +47,7 @@ class MjpgClient(iostream.IOStream):
         logging.debug('mjpg client for camera %(camera_id)s connecting on port %(port)s...' % {
                 'port': self._port, 'camera_id': self._camera_id})
     
-    def close(self):
+    def close(self, exc_info=False):
         if MjpgClient.clients.pop(self._camera_id, None):
             MjpgClient.last_access.pop(self._camera_id, None)
             MjpgClient.last_jpg_moment.pop(self._camera_id, None)
@@ -56,7 +56,7 @@ class MjpgClient(iostream.IOStream):
                     'port': self._port, 'camera_id': self._camera_id})
 
         try:
-            iostream.IOStream.close(self)
+            iostream.IOStream.close(self, exc_info=exc_info)
         
         except:
             pass # already closed, nevermind
@@ -191,7 +191,7 @@ def get_jpg(camera_id):
             
             return None
         
-        port = camera_config['webcam_port']
+        port = camera_config['stream_port']
         client = MjpgClient(camera_id, port)
         client.connect()
 

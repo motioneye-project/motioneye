@@ -22,7 +22,9 @@ import re
 
 from collections import OrderedDict
 
+import motionctl
 import settings
+import update
 import utils
 import v4l2ctl
 
@@ -31,8 +33,11 @@ _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
 
 _main_config_cache = None
-_camera_config_cache = None
+_camera_config_cache = {}
 _camera_ids_cache = None
+
+# starting with r490 motion config directives have changed a bit 
+_LAST_OLD_CONFIG_VERSIONS = (490, '3.2.12')
 
 
 def get_main(as_lines=False):
@@ -184,7 +189,7 @@ def has_enabled_cameras():
 def get_camera(camera_id, as_lines=False):
     global _camera_config_cache
     
-    if not as_lines and _camera_config_cache is not None and camera_id in _camera_config_cache:
+    if not as_lines and camera_id in _camera_config_cache:
         return _camera_config_cache[camera_id]
     
     camera_config_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
@@ -224,22 +229,72 @@ def get_camera(camera_id, as_lines=False):
         threads = main_config.get('thread', [])
         camera_config['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
         camera_config['@id'] = camera_id
-
-        _set_default_motion_camera(camera_id, camera_config)
+        
+        old_motion = _is_old_motion()
+        
+        # adapt directives from old configuration, if needed
+        if old_motion:
+            logging.debug('using old motion config directives')
+            
+            if 'output_normal' in camera_config:
+                camera_config['output_pictures'] = camera_config.pop('output_normal')
+            if 'ffmpeg_cap_new' in camera_config:
+                camera_config['ffmpeg_output_movies'] = camera_config.pop('ffmpeg_cap_new')
+            if 'locate' in camera_config:
+                camera_config['locate_motion_mode'] = camera_config.pop('locate')
+            if 'jpeg_filename' in camera_config:
+                camera_config['picture_filename'] = camera_config.pop('jpeg_filename')
+            if 'webcam_port' in camera_config:
+                camera_config['stream_port'] = camera_config.pop('webcam_port')
+            if 'webcam_quality' in camera_config:
+                camera_config['stream_quality'] = camera_config.pop('webcam_quality')
+            if 'webcam_motion' in camera_config:
+                camera_config['stream_motion'] = camera_config.pop('webcam_motion')
+            if 'webcam_maxrate' in camera_config:
+                camera_config['stream_maxrate'] = camera_config.pop('webcam_maxrate')
+            if 'webcam_localhost' in camera_config:
+                camera_config['stream_localhost'] = camera_config.pop('webcam_localhost')
+        
+        _set_default_motion_camera(camera_id, camera_config, False)
     
-    if _camera_config_cache is None:
-        _camera_config_cache = {}
-    
-    _camera_config_cache[camera_id] = camera_config
+    _camera_config_cache[camera_id] = dict(camera_config)
     
     return camera_config
 
 
 def set_camera(camera_id, camera_config):
     global _camera_config_cache
+
+    camera_config['@id'] = camera_id
+    _camera_config_cache[camera_id] = dict(camera_config)
     
     if camera_config['@proto'] == 'v4l2':
-        _set_default_motion_camera(camera_id, camera_config)
+        old_motion = _is_old_motion()
+        
+        # adapt directives to old configuration, if needed
+        if old_motion:
+            logging.debug('using old motion config directives')
+            
+            if 'output_pictures' in camera_config:
+                camera_config['output_normal'] = camera_config.pop('output_pictures')
+            if 'ffmpeg_output_movies' in camera_config:
+                camera_config['ffmpeg_cap_new'] = camera_config.pop('ffmpeg_output_movies')
+            if 'locate_motion_mode' in camera_config:
+                camera_config['locate'] = camera_config.pop('locate_motion_mode')
+            if 'picture_filename' in camera_config:
+                camera_config['jpeg_filename'] = camera_config.pop('picture_filename')
+            if 'stream_port' in camera_config:
+                camera_config['webcam_port'] = camera_config.pop('stream_port')
+            if 'stream_quality' in camera_config:
+                camera_config['webcam_quality'] = camera_config.pop('stream_quality')
+            if 'stream_motion' in camera_config:
+                camera_config['webcam_motion'] = camera_config.pop('stream_motion')
+            if 'stream_maxrate' in camera_config:
+                camera_config['webcam_maxrate'] = camera_config.pop('stream_maxrate')
+            if 'stream_localhost' in camera_config:
+                camera_config['webcam_localhost'] = camera_config.pop('stream_localhost')
+        
+        _set_default_motion_camera(camera_id, camera_config, old_motion)
         
         # set the enabled status in main config
         main_config = get_main()
@@ -252,8 +307,6 @@ def set_camera(camera_id, camera_config):
             threads = [t for t in threads if t != config_file_name]
 
         main_config['thread'] = threads
-        
-        camera_config['@id'] = camera_id
         
         set_main(main_config)
         
@@ -300,11 +353,6 @@ def set_camera(camera_id, camera_config):
     finally:
         file.close()
         
-    if _camera_config_cache is None:
-        _camera_config_cache = {}
-    
-    _camera_config_cache[camera_id] = camera_config
-    
     return camera_config
 
 
@@ -348,7 +396,9 @@ def add_camera(device_details):
     set_camera(camera_id, data)
     
     _camera_ids_cache = None
-    _camera_config_cache = None
+    _camera_config_cache = {}
+    
+    data = get_camera(camera_id)
     
     return camera_id, data
 
@@ -372,7 +422,7 @@ def rem_camera(camera_id):
     logging.info('removing camera config file %(path)s...' % {'path': camera_config_path})
     
     _camera_ids_cache = None
-    _camera_config_cache = None
+    _camera_config_cache = {}
     
     try:
         os.remove(camera_config_path)
@@ -416,7 +466,7 @@ def camera_ui_to_dict(ui):
         '@enabled': ui['enabled'],
         '@proto': ui['proto'],
         'videodevice': ui['device_uri'],
-        'lightswitch': int(ui['light_switch_detect']) * 5,
+        'lightswitch': int(ui['light_switch_detect']) * 50,
         'auto_brightness': ui['auto_brightness'],
         'width': int(ui['resolution'].split('x')[0]),
         'height': int(ui['resolution'].split('x')[1]),
@@ -437,32 +487,32 @@ def camera_ui_to_dict(ui):
         'text_double': False,
         
         # streaming
-        'webcam_localhost': not ui['video_streaming'],
-        'webcam_port': int(ui['streaming_port']),
-        'webcam_maxrate': int(ui['streaming_framerate']),
-        'webcam_quality': max(1, int(ui['streaming_quality'])),
+        'stream_localhost': not ui['video_streaming'],
+        'stream_port': int(ui['streaming_port']),
+        'stream_maxrate': int(ui['streaming_framerate']),
+        'stream_quality': max(1, int(ui['streaming_quality'])),
         '@webcam_resolution': max(1, int(ui['streaming_resolution'])),
         '@webcam_server_resize': ui['streaming_server_resize'],
-        'webcam_motion': ui['streaming_motion'],
+        'stream_motion': ui['streaming_motion'],
         
         # still images
-        'output_normal': False,
+        'output_pictures': False,
         'output_all': False,
         'output_motion': False,
         'snapshot_interval': 0,
-        'jpeg_filename': '',
+        'picture_filename': '',
         'snapshot_filename': '',
         '@preserve_pictures': int(ui['preserve_pictures']),
         
         # movies
-        'ffmpeg_cap_new': ui['motion_movies'],
+        'ffmpeg_output_movies': ui['motion_movies'],
         'movie_filename': ui['movie_file_name'],
         'ffmpeg_bps': 400000,
         '@preserve_movies': int(ui['preserve_movies']),
     
         # motion detection
         'text_changes': ui['show_frame_changes'],
-        'locate': ui['show_frame_changes'],
+        'locate_motion_mode': ui['show_frame_changes'],
         'threshold': ui['frame_change_threshold'],
         'noise_tune': ui['auto_noise_detect'],
         'noise_level': max(1, int(round(int(ui['noise_level']) * 2.55))),
@@ -533,8 +583,8 @@ def camera_ui_to_dict(ui):
     if ui['still_images']:
         capture_mode = ui['capture_mode']
         if capture_mode == 'motion-triggered':
-            data['output_normal'] = True
-            data['jpeg_filename'] = ui['image_file_name']  
+            data['output_pictures'] = True
+            data['picture_filename'] = ui['image_file_name']  
             
         elif capture_mode == 'interval-snapshots':
             data['snapshot_interval'] = int(ui['snapshot_interval'])
@@ -542,7 +592,7 @@ def camera_ui_to_dict(ui):
             
         elif capture_mode == 'all-frames':
             data['output_all'] = True
-            data['jpeg_filename'] = ui['image_file_name']
+            data['picture_filename'] = ui['image_file_name']
             
         data['quality'] = max(1, int(ui['image_quality']))
     
@@ -610,13 +660,13 @@ def camera_dict_to_ui(data):
         'custom_right_text': '',
         
         # streaming
-        'video_streaming': not data['webcam_localhost'],
-        'streaming_framerate': int(data['webcam_maxrate']),
-        'streaming_quality': int(data['webcam_quality']),
+        'video_streaming': not data['stream_localhost'],
+        'streaming_framerate': int(data['stream_maxrate']),
+        'streaming_quality': int(data['stream_quality']),
         'streaming_resolution': int(data['@webcam_resolution']),
         'streaming_server_resize': int(data['@webcam_server_resize']),
-        'streaming_port': int(data['webcam_port']),
-        'streaming_motion': int(data['webcam_motion']),
+        'streaming_port': int(data['stream_port']),
+        'streaming_motion': int(data['stream_motion']),
         
         # still images
         'still_images': False,
@@ -627,12 +677,12 @@ def camera_dict_to_ui(data):
         'preserve_pictures': data['@preserve_pictures'],
         
         # motion movies
-        'motion_movies': data['ffmpeg_cap_new'],
+        'motion_movies': data['ffmpeg_output_movies'],
         'movie_file_name': data['movie_filename'],
         'preserve_movies': data['@preserve_movies'],
 
         # motion detection
-        'show_frame_changes': data['text_changes'] or data['locate'],
+        'show_frame_changes': data['text_changes'] or data['locate_motion_mode'],
         'frame_change_threshold': data['threshold'],
         'auto_noise_detect': data['noise_tune'],
         'noise_level': int(int(data['noise_level']) / 2.55),
@@ -716,28 +766,28 @@ def camera_dict_to_ui(data):
             ui['custom_right_text'] = text_right
 
     output_all = data['output_all']
-    output_normal = data['output_normal']
-    jpeg_filename = data['jpeg_filename']
+    output_pictures = data['output_pictures']
+    picture_filename = data['picture_filename']
     snapshot_interval = data['snapshot_interval']
     snapshot_filename = data['snapshot_filename']
     
-    if (((output_all or output_normal) and jpeg_filename) or
+    if (((output_all or output_pictures) and picture_filename) or
         (snapshot_interval and snapshot_filename)):
         
         ui['still_images'] = True
         
         if output_all:
             ui['capture_mode'] = 'all-frames'
-            ui['image_file_name'] = jpeg_filename
+            ui['image_file_name'] = picture_filename
             
         elif snapshot_interval:
             ui['capture_mode'] = 'interval-snapshots'
             ui['image_file_name'] = snapshot_filename
             ui['snapshot_interval'] = snapshot_interval
             
-        elif output_normal:
+        elif output_pictures:
             ui['capture_mode'] = 'motion-triggered'
-            ui['image_file_name'] = jpeg_filename  
+            ui['image_file_name'] = picture_filename  
             
         ui['image_quality'] = data['quality']
 
@@ -918,6 +968,21 @@ def _dict_to_conf(lines, data, list_names=[]):
     return lines
 
 
+def _is_old_motion():
+    try:
+        binary, version = motionctl.find_motion()  # @UnusedVariable
+        
+        if version.startswith('trunkREV'): # e.g. trunkREV599
+            version = int(version[8:])
+            return version < _LAST_OLD_CONFIG_VERSIONS[0]
+        
+        else: # stable release, should be in the format x.y.z
+            return update.compare_versions(version, _LAST_OLD_CONFIG_VERSIONS[1]) <= 0
+
+    except:
+        return False
+
+
 def _set_default_motion(data):
     data.setdefault('@enabled', True)
     data.setdefault('@show_advanced', False)
@@ -927,12 +992,12 @@ def _set_default_motion(data):
     data.setdefault('@normal_password', '')
 
 
-def _set_default_motion_camera(camera_id, data):
+def _set_default_motion_camera(camera_id, data, old_motion):
     data.setdefault('@name', 'Camera' + str(camera_id))
     data.setdefault('@enabled', False)
     data.setdefault('@proto', 'v4l2')
     data.setdefault('videodevice', '/dev/video0')
-    data.setdefault('lightswitch', 5)
+    data.setdefault('lightswitch', 50)
     data.setdefault('auto_brightness', False)
     data.setdefault('brightness', 0)
     data.setdefault('contrast', 0)
@@ -950,32 +1015,50 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@network_password', '')
     data.setdefault('target_dir', settings.RUN_PATH)
     
-    data.setdefault('webcam_localhost', False)
-    data.setdefault('webcam_port', int('808' + str(camera_id)))
-    data.setdefault('webcam_maxrate', 5)
-    data.setdefault('webcam_quality', 85)
+    if old_motion:
+        data.setdefault('webcam_localhost', False)
+        data.setdefault('webcam_port', int('808' + str(camera_id)))
+        data.setdefault('webcam_maxrate', 5)
+        data.setdefault('webcam_quality', 85)
+        data.setdefault('webcam_motion', False)
+    
+    else:
+        data.setdefault('stream_localhost', False)
+        data.setdefault('stream_port', int('808' + str(camera_id)))
+        data.setdefault('stream_maxrate', 5)
+        data.setdefault('stream_quality', 85)
+        data.setdefault('stream_motion', False)
     data.setdefault('@webcam_resolution', 100)
     data.setdefault('@webcam_server_resize', True)
-    data.setdefault('webcam_motion', False)
     
     data.setdefault('text_left', data['@name'])
     data.setdefault('text_right', '%Y-%m-%d\\n%T')
     data.setdefault('text_double', False)
 
     data.setdefault('text_changes', False)
-    data.setdefault('locate', False)
+    if old_motion:
+        data.setdefault('locate', False)
+    
+    else:
+        data.setdefault('locate_motion_mode', False)
+        data.setdefault('locate_motion_style', 'redbox')
     data.setdefault('threshold', 1500)
     data.setdefault('noise_tune', True)
     data.setdefault('noise_level', 32)
-    data.setdefault('minimum_motion_frames', 5)
+    data.setdefault('minimum_motion_frames', 1)
     
     data.setdefault('gap', 30)
     data.setdefault('pre_capture', 2)
     data.setdefault('post_capture', 4)
     
     data.setdefault('output_all', False)
-    data.setdefault('output_normal', False)
-    data.setdefault('jpeg_filename', '')
+    if old_motion:
+        data.setdefault('output_normal', False)
+        data.setdefault('jpeg_filename', '')
+    
+    else:
+        data.setdefault('output_pictures', False)
+        data.setdefault('picture_filename', '')
     data.setdefault('snapshot_interval', 0)
     data.setdefault('snapshot_filename', '')
     data.setdefault('quality', 85)
@@ -984,7 +1067,11 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('ffmpeg_variable_bitrate', 0)
     data.setdefault('ffmpeg_bps', 400000)
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
-    data.setdefault('ffmpeg_cap_new', False)
+    if old_motion:
+        data.setdefault('ffmpeg_cap_new', False)
+    
+    else:
+        data.setdefault('ffmpeg_output_movies', False)
     data.setdefault('ffmpeg_video_codec', 'msmpeg4')
     data.setdefault('@preserve_movies', 0)
     
