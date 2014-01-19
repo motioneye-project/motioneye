@@ -19,6 +19,7 @@ import base64
 import json
 import logging
 import os
+import sys
 
 from tornado.web import RequestHandler, HTTPError, asynchronous
 
@@ -89,6 +90,27 @@ class BaseHandler(RequestHandler):
 
         return None
     
+    def _handle_request_exception(self, e):
+        # don't send a traceback to the client
+        if isinstance(e, HTTPError):
+            if e.log_message:
+                format = "%d %s: " + e.log_message
+                args = [e.status_code, self._request_summary()] + list(e.args)
+                logging.warning(format, *args)
+            
+            status_code = e.status_code
+
+        else:
+            logging.error('Uncaught exception %s\n%r', self._request_summary(), self.request, exc_info=True)
+            
+            status_code = 500
+            
+        try:
+            self.send_error(status_code, exc_info=sys.exc_info())
+        
+        except Exception as e:
+            logging.warning('could not send error to client: %(msg)s' % {'msg': unicode(e)})
+        
     @staticmethod
     def auth(admin=False, prompt=True):
         def decorator(func):
@@ -535,7 +557,7 @@ class PictureHandler(BaseHandler):
         picture = sequence and mediafiles.get_picture_cache(camera_id, sequence, width) or None
         
         if picture is not None:
-            return self.finish(picture)
+            return self.try_finish(picture)
         
         camera_config = config.get_camera(camera_id)
         if camera_config['@proto'] == 'v4l2':
@@ -546,22 +568,14 @@ class PictureHandler(BaseHandler):
             if sequence and picture:
                 mediafiles.set_picture_cache(camera_id, sequence, width, picture)
 
-            try:
-                self.finish(picture)
-        
-            except IOError as e:
-                logging.warning('could not write picture as response: %(msg)s' % {'msg': unicode(e)})
+            self.try_finish(picture)
                 
         else:
             def on_response(picture):
                 if sequence and picture:
                     mediafiles.set_picture_cache(camera_id, sequence, width, picture)
                 
-                try:
-                    self.finish(picture)
-                
-                except IOError as e:
-                    logging.warning('could not write picture as response: %(msg)s' % {'msg': unicode(e)})
+                self.try_finish(picture)
             
             remote.get_current_picture(camera_config, on_response, width=width, height=height)
 
@@ -666,6 +680,13 @@ class PictureHandler(BaseHandler):
                 content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read()
                 
             self.finish(content)
+    
+    def try_finish(self, content):
+        try:
+            self.finish(content)
+            
+        except IOError as e:
+            logging.warning('could not write response: %(msg)s' % {'msg': unicode(e)})
 
 
 class MovieHandler(BaseHandler):
