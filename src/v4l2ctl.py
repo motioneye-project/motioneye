@@ -102,6 +102,7 @@ def list_resolutions(device):
         resolutions.add((1280, 720))
         resolutions.add((1280, 800))
         resolutions.add((1280, 960))
+        resolutions.add((1280, 1024))
         resolutions.add((1366, 768))
         resolutions.add((1440, 900))
         resolutions.add((1680, 1050))

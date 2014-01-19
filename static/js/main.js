@@ -1,6 +1,6 @@
 
 var pushConfigs = {};
-var refreshDisabled = 0;
+var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var fullScreenCameraId = null;
 var thresholdSlider = null;
 var inProgress = false;
@@ -856,8 +856,16 @@ function doApply() {
     });
     
     beginProgress(affectedCameraIds);
+    affectedCameraIds.forEach(function (cameraId) {
+        refreshDisabled[cameraId] |= 0;
+        refreshDisabled[cameraId]++;
+    });
     
     ajax('POST', '/config/0/set/', pushConfigs, function (data) {
+        affectedCameraIds.forEach(function (cameraId) {
+            refreshDisabled[cameraId]--;
+        });
+        
         if (data == null || data.error) {
             endProgress();
             showErrorMessage(data && data.error);
@@ -883,8 +891,6 @@ function doApply() {
 
         pushConfigs = {};
         endProgress();
-        
-        //recreateCameraFrames();
     });
 }
 
@@ -1090,10 +1096,11 @@ function pushPreview(control) {
         data.hue = hue;
     }
     
-    refreshDisabled++;
+    refreshDisabled[cameraId] |= 0;
+    refreshDisabled[cameraId]++;
     
     ajax('POST', '/config/' + cameraId + '/set_preview/', data, function (data) {
-        refreshDisabled--;
+        refreshDisabled[cameraId]--;
         
         if (data == null || data.error) {
             showErrorMessage(data && data.error);
@@ -1782,7 +1789,7 @@ function addCameraFrameUi(cameraConfig, framerate) {
         cameraProgress.removeClass('visible');
     });
     cameraImg.load(function () {
-        if (refreshDisabled) {
+        if (refreshDisabled[cameraId]) {
             return; /* refresh temporarily disabled for updating */
         }
         
@@ -1861,7 +1868,7 @@ function doConfigureCamera(cameraId) {
 }
 
 function doFullScreenCamera(cameraId) {
-    if (inProgress) {
+    if (inProgress || refreshCameraFrames[cameraId]) {
         return;
     }
     
@@ -1922,15 +1929,13 @@ function doFullScreenCamera(cameraId) {
 }
 
 function refreshCameraFrames() {
-    if (refreshDisabled) {
-        /* camera refreshing disabled, retry later */
-        
-        setTimeout(refreshCameraFrames, 1000);
-
-        return;
-    }
-    
     function refreshCameraFrame(cameraId, img, fast) {
+        if (refreshDisabled[cameraId]) {
+            /* camera refreshing disabled, retry later */
+            
+            return;
+        }
+
         if (img.loading) {
             img.loading++; /* increases each time the camera would refresh but is still loading */
             
@@ -2014,7 +2019,7 @@ $(document).ready(function () {
     /* software update button */
     $('div#updateButton').click(doUpdate);
     
-    /* prevent scroll events on settings div from propagating TODO this does not work */
+    /* prevent scroll events on settings div from propagating TODO this does not actually work */
     $('div.settings').mousewheel(function (e, d) {
         var t = $(this);
         if (d > 0 && t.scrollTop() === 0) {

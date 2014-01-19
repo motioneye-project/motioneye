@@ -611,8 +611,8 @@ div.camera-frame-place-holder {
 
 div.modal-container div.camera-frame {
     width: auto;
-    padding: 3px;
-    margin: -10px;
+    padding: 0px;
+    margin: -7px;
     background-color: #414141;
 }
 
