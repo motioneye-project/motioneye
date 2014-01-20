@@ -40,6 +40,8 @@ class MjpgClient(iostream.IOStream):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         iostream.IOStream.__init__(self, s)
         
+        self.set_close_callback(self.on_close)
+        
     def connect(self):
         iostream.IOStream.connect(self, ('localhost', self._port), self._on_connect)
         MjpgClient.clients[self._camera_id] = self
@@ -47,19 +49,16 @@ class MjpgClient(iostream.IOStream):
         logging.debug('mjpg client for camera %(camera_id)s connecting on port %(port)s...' % {
                 'port': self._port, 'camera_id': self._camera_id})
     
-    def close(self, exc_info=False):
+    def on_close(self):
+        logging.debug('connection closed for mjpg client for camera %(camera_id)s on port %(port)s' % {
+                'port': self._port, 'camera_id': self._camera_id})
+        
         if MjpgClient.clients.pop(self._camera_id, None):
             MjpgClient.last_access.pop(self._camera_id, None)
             MjpgClient.last_jpg_moment.pop(self._camera_id, None)
             
             logging.debug('mjpg client for camera %(camera_id)s on port %(port)s removed' % {
                     'port': self._port, 'camera_id': self._camera_id})
-
-        try:
-            iostream.IOStream.close(self, exc_info=exc_info)
-        
-        except:
-            pass # already closed, nevermind
 
     def _check_error(self):
         if self.socket is None:
@@ -71,7 +70,7 @@ class MjpgClient(iostream.IOStream):
             return True
             
         error = getattr(self, 'error', None)
-        if error is None:
+        if (error is None) or (getattr(error, 'errno', None) == 0): # error could also be ESUCCESS for some reason
             return False
         
         self._error(error)
