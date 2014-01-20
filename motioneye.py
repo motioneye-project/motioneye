@@ -29,7 +29,7 @@ import settings
 
 sys.path.append(os.path.join(settings.PROJECT_PATH, 'src'))
 
-VERSION = '0.9'
+VERSION = '0.10'
 
 
 def _test_requirements():
