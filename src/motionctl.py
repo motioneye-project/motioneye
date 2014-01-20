@@ -152,5 +152,5 @@ def _get_pid():
         with open(motion_pid_path, 'r') as f:
             return int(f.readline().strip())
         
-    except IOError, ValueError:
+    except (IOError, ValueError):
         return None
