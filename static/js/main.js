@@ -811,6 +811,17 @@ function endProgress() {
     }, 500);
 }
 
+function downloadMediaFile(uri) {
+    var url = window.location.href;
+    var parts = url.split('/');
+    url = parts.slice(0, 3).join('/') + uri;
+    
+    /* download the file by creating a temporary iframe */
+    var frame = $('<iframe style="display: none;"></iframe>');
+    frame.attr('src', url);
+    $('body').append(frame);
+}
+
 
     /* apply button */
 
@@ -1238,7 +1249,7 @@ function runPictureDialog(entries, pos, mediaType) {
             {caption: 'Close'},
             {caption: 'Download', isDefault: true, click: function () {
                 var entry = entries[pos];
-                window.location.href = '/' + mediaType + '/' + entry.cameraId + '/download' + entry.path; 
+                downloadMediaFile('/' + mediaType + '/' + entry.cameraId + '/download' + entry.path);
                 
                 return false;
             }}
@@ -1568,8 +1579,7 @@ function runMediaDialog(cameraId, mediaType) {
                         entryDiv.append(detailsDiv);
                         
                         downloadButton.click(function () {
-                            window.location.href = '/picture/' + cameraId + '/download' + entry.path;
-                            
+                            downloadMediaFile('/picture/' + cameraId + '/download' + entry.path);
                             return false;
                         });
                         
