@@ -56,7 +56,13 @@ def _list_media_files(dir, exts, prefix=None):
                 continue
                 
             full_path = os.path.join(root, name)
-            st = os.stat(full_path)
+            try:
+                st = os.stat(full_path)
+            
+            except Exception as e:
+                logging.error('stat failed: ' + unicode(e))
+                continue
+                
             if not stat.S_ISREG(st.st_mode): # not a regular file
                 continue
 
@@ -67,13 +73,18 @@ def _list_media_files(dir, exts, prefix=None):
             media_files.append((full_path, st))
 
     else:    
-        for root, dirs, files in os.walk(dir):  # @UnusedVariable
+        for root, dirs, files in os.walk(dir):  # @UnusedVariable # TODO os.walk can be rewritten to return stat info
             for name in files:
                 if name == 'lastsnap.jpg': # ignore the lastsnap.jpg file
                     continue
                 
                 full_path = os.path.join(root, name)
-                st = os.stat(full_path)
+                try:
+                    st = os.stat(full_path)
+                
+                except Exception as e:
+                    logging.error('stat failed: ' + unicode(e))
+                    continue
                 
                 if not stat.S_ISREG(st.st_mode): # not a regular file
                     continue
@@ -83,7 +94,7 @@ def _list_media_files(dir, exts, prefix=None):
                     continue
                 
                 media_files.append((full_path, st))
-    
+        
     return media_files
 
 
@@ -222,7 +233,8 @@ def list_media(camera_config, media_type, callback, prefix=None):
 
     # create a subprocess to retrieve media files
     def do_list_media(pipe):
-        for (p, st) in _list_media_files(target_dir, exts=exts, prefix=prefix):
+        mf = _list_media_files(target_dir, exts=exts, prefix=prefix)
+        for (p, st) in mf:
             path = p[len(target_dir):]
             if not path.startswith('/'):
                 path = '/' + path
@@ -247,6 +259,12 @@ def list_media(camera_config, media_type, callback, prefix=None):
     
     # poll the subprocess to see when it has finished
     started = datetime.datetime.now()
+    media_list = []
+    
+    def read_media_list():
+        while parent_pipe.poll():
+            media_list.append(parent_pipe.recv())
+    
     def poll_process():
         ioloop = tornado.ioloop.IOLoop.instance()
         if process.is_alive(): # not finished yet
@@ -254,6 +272,7 @@ def list_media(camera_config, media_type, callback, prefix=None):
             delta = now - started
             if delta.seconds < 120:
                 ioloop.add_timeout(datetime.timedelta(seconds=0.1), poll_process)
+                read_media_list()
             
             else: # process did not finish within 2 minutes
                 logging.error('timeout waiting for the media listing process to finish')
@@ -261,12 +280,8 @@ def list_media(camera_config, media_type, callback, prefix=None):
                 callback(None)
 
         else: # finished
-            media_list = []
-            while parent_pipe.poll():
-                media_list.append(parent_pipe.recv())
-            
+            read_media_list()
             logging.debug('media listing process has returned %(count)s files' % {'count': len(media_list)})
-
             callback(media_list)
     
     poll_process()
