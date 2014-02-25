@@ -226,7 +226,7 @@ def _list_ctrls(device):
             continue
         
         (control, properties) = match.groups()
-        properties = dict([v.split('=') for v in properties.split(' ')])
+        properties = dict([v.split('=', 1) for v in properties.split(' ') if v.count('=')])
         controls[control] = properties
     
     _ctrls_cache[device] = controls

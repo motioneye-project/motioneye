@@ -94,7 +94,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
                 var tick = ticks[i];
                 var p = valToPos(tick.value);
                 var dif = Math.abs(p - pos);
-                if ((dif < minDif) && (snapMode == 1 || dif < slider.width() / 65)) {
+                if ((dif < minDif) && (snapMode == 1 || dif < 5)) {
                     minDif = dif;
                     bestPos = p;
                 }
