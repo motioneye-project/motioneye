@@ -459,6 +459,10 @@ def main_dict_to_ui(data):
 def camera_ui_to_dict(ui):
     if not ui['resolution']:  # avoid errors for empty resolution setting
         ui['resolution'] = '352x288'
+        
+    width = int(ui['resolution'].split('x')[0])
+    height = int(ui['resolution'].split('x')[1])
+    threshold = int(ui['frame_change_threshold']) * width * height / 100
 
     data = {
         # device
@@ -468,8 +472,8 @@ def camera_ui_to_dict(ui):
         'videodevice': ui['device_uri'],
         'lightswitch': int(ui['light_switch_detect']) * 50,
         'auto_brightness': ui['auto_brightness'],
-        'width': int(ui['resolution'].split('x')[0]),
-        'height': int(ui['resolution'].split('x')[1]),
+        'width': width,
+        'height': height,
         'framerate': int(ui['framerate']),
         'rotate': int(ui['rotation']),
         
@@ -513,7 +517,7 @@ def camera_ui_to_dict(ui):
         # motion detection
         'text_changes': ui['show_frame_changes'],
         'locate_motion_mode': ui['show_frame_changes'],
-        'threshold': ui['frame_change_threshold'],
+        'threshold': threshold,
         'noise_tune': ui['auto_noise_detect'],
         'noise_level': max(1, int(round(int(ui['noise_level']) * 2.55))),
         'gap': int(ui['gap']),
@@ -626,6 +630,8 @@ def camera_dict_to_ui(data):
     resolutions = v4l2ctl.list_resolutions(data['videodevice'])
     resolutions = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
     
+    threshold = data['threshold'] * 100 / (data['width'] * data['height'])
+    
     ui = {
         # device
         'name': data['@name'],
@@ -683,7 +689,7 @@ def camera_dict_to_ui(data):
 
         # motion detection
         'show_frame_changes': data['text_changes'] or data['locate_motion_mode'],
-        'frame_change_threshold': data['threshold'],
+        'frame_change_threshold': threshold,
         'auto_noise_detect': data['noise_tune'],
         'noise_level': int(int(data['noise_level']) / 2.55),
         'gap': int(data['gap']),

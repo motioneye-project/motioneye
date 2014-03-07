@@ -2,7 +2,6 @@
 var pushConfigs = {};
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var fullScreenCameraId = null;
-var thresholdSlider = null;
 var inProgress = false;
 var refreshInterval = 50; /* milliseconds */
 
@@ -188,7 +187,7 @@ function initUI() {
     makeSlider($('#streamingResolutionSlider'), 0, 100, 2, null, 5, 0, '%');
     makeSlider($('#imageQualitySlider'), 0, 100, 2, null, 5, 0, '%');
     makeSlider($('#movieQualitySlider'), 0, 100, 2, null, 5, 0, '%');
-    thresholdSlider = makeSlider($('#frameChangeThresholdSlider'), 0, 20000, 0, null, 3, 0, 'px');
+    makeSlider($('#frameChangeThresholdSlider'), 0, 10, 0, null, 6, 1, '%');
     
     makeSlider($('#noiseLevelSlider'), 0, 100, 2, null, 5, 0, '%');
     
@@ -465,18 +464,6 @@ function updateConfigUi() {
             this.selectedIndex = 0;
         }
     });
-    
-    /* update change threshold max limit */
-    var resolution = $('#resolutionSelect').val();
-    if (resolution) {
-        resolution = resolution.split('x');
-        
-        var width = parseInt(resolution[0]);
-        var height = parseInt(resolution[1]);
-        var valStr = '' + (width * height * 0.5); /* up to 50% */
-        var maxVal = parseInt(valStr[0] + new Array(valStr.length).join('0'));
-        thresholdSlider.setMaxVal(maxVal);
-    }
 }
 
 function configUiValid() {
