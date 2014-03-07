@@ -102,10 +102,13 @@ def _remove_older_files(dir, moment, exts):
     for (full_path, st) in _list_media_files(dir, exts):
         file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
         if file_moment < moment:
-            logging.debug('removing file %(path)s...' % {
-                    'path': full_path})
+            logging.debug('removing file %(path)s...' % {'path': full_path})
             
             os.remove(full_path)
+            dir_path = os.path.dirname(full_path)
+            if not os.listdir(dir_path):
+                logging.debug('removing directory %(path)s...' % {'path': dir_path})
+                os.removedirs(dir_path)
 
 
 def find_ffmpeg():
