@@ -209,6 +209,8 @@ function initUI() {
     /* number validators */
     makeNumberValidator($('#streamingPortEntry'), 1024, 65535, false, false, true);
     makeNumberValidator($('#snapshotIntervalEntry'), 1, 86400, false, false, true);
+    makeNumberValidator($('#picturesLifetime'), 1, 3650, false, false, true);
+    makeNumberValidator($('#moviesLifetime'), 1, 3650, false, false, true);
     makeNumberValidator($('#gapEntry'), 1, 86400, false, false, true);
     makeNumberValidator($('#preCaptureEntry'), 0, 100, false, false, true);
     makeNumberValidator($('#postCaptureEntry'), 0, 100, false, false, true);
@@ -244,7 +246,9 @@ function initUI() {
     $('#videoStreamingSwitch').change(updateConfigUi);
     $('#streamingServerResizeSwitch').change(updateConfigUi);
     $('#stillImagesSwitch').change(updateConfigUi);
+    $('#preservePicturesSelect').change(updateConfigUi);
     $('#motionMoviesSwitch').change(updateConfigUi);
+    $('#preserveMoviesSelect').change(updateConfigUi);
     $('#motionNotificationsSwitch').change(updateConfigUi);
     $('#workingScheduleSwitch').change(updateConfigUi);
     
@@ -424,9 +428,19 @@ function updateConfigUi() {
         $('#stillImagesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
     }
     
+    /* preserve pictures */
+    if ($('#preservePicturesSelect').val() != '-1') {
+        $('#picturesLifetime').parents('tr:eq(0)').each(markHide);
+    }
+    
     /* motion movies switch */
     if (!$('#motionMoviesSwitch').get(0).checked) {
         $('#motionMoviesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+    }
+    
+    /* preserve movies */
+    if ($('#preserveMoviesSelect').val() != '-1') {
+        $('#moviesLifetime').parents('tr:eq(0)').each(markHide);
     }
     
     /* motion notifications switch */
@@ -566,13 +580,13 @@ function cameraUi2Dict() {
         'image_quality': $('#imageQualitySlider').val(),
         'capture_mode': $('#captureModeSelect').val(),
         'snapshot_interval': $('#snapshotIntervalEntry').val(),
-        'preserve_pictures': $('#preservePicturesSelect').val(),
+        'preserve_pictures': $('#preservePicturesSelect').val() >= 0 ? $('#preservePicturesSelect').val() : $('#picturesLifetime').val(),
         
         /* motion movies */
         'motion_movies': $('#motionMoviesSwitch')[0].checked,
         'movie_file_name': $('#movieFileNameEntry').val(),
         'movie_quality': $('#movieQualitySlider').val(),
-        'preserve_movies': $('#preserveMoviesSelect').val(),
+        'preserve_movies': $('#preserveMoviesSelect').val() >= 0 ? $('#preserveMoviesSelect').val() : $('#moviesLifetime').val(),
         
         /* motion detection */
         'show_frame_changes': $('#showFrameChangesSwitch')[0].checked,
@@ -699,12 +713,20 @@ function dict2CameraUi(dict) {
     $('#captureModeSelect').val(dict['capture_mode']);
     $('#snapshotIntervalEntry').val(dict['snapshot_interval']);
     $('#preservePicturesSelect').val(dict['preserve_pictures']);
+    if ($('#preservePicturesSelect').val() == null) {
+        $('#preservePicturesSelect').val('-1');
+    }
+    $('#picturesLifetime').val(dict['preserve_pictures']);
     
     /* motion movies */
     $('#motionMoviesSwitch')[0].checked = dict['motion_movies'];
     $('#movieFileNameEntry').val(dict['movie_file_name']);
     $('#movieQualitySlider').val(dict['movie_quality']);
     $('#preserveMoviesSelect').val(dict['preserve_movies']);
+    if ($('#preserveMoviesSelect').val() == null) {
+        $('#preserveMoviesSelect').val('-1');
+    }
+    $('#moviesLifetime').val(dict['preserve_movies']);
     
     /* motion detection */
     $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes'];
