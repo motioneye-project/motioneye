@@ -79,6 +79,9 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     var cursor = $('<div class="slider-cursor"></div>');
     bar.append(cursor);
     
+    var cursorLabel = $('<div class="slider-cursor-label"></div>');
+    cursor.append(cursorLabel);
+    
     function bestPos(pos) {
         if (pos < 0) {
             pos = 0;
@@ -122,7 +125,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     
     function sliderChange(val) {
         $input.val(val.toFixed(decimals));
-        slider.attr('title', '' + val.toFixed(decimals) + unit);
+        cursorLabel.html('' + val.toFixed(decimals) + unit);
     }
     
     function bodyMouseMove(e) {
@@ -144,6 +147,8 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         $('body').unbind('mousemove', bodyMouseMove);
         $('body').unbind('mouseup', bodyMouseUp);
         
+        cursorLabel.css('display', 'none');
+        
         $input.change();
     }
     
@@ -159,6 +164,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         $('body').mouseup(bodyMouseUp);
         
         slider.focus();
+        cursorLabel.css('display', 'inline-block');
         
         return false;
     });
@@ -212,7 +218,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         var pos = valToPos(value);
         pos = bestPos(pos);
         cursor.css('left', pos + '%');
-        slider.attr('title', '' + $input.val() + unit);
+        cursorLabel.html($input.val() + unit);
     }
     
     /* transfer the CSS classes */

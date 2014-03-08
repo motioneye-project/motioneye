@@ -1035,7 +1035,7 @@ def _set_default_motion_camera(camera_id, data, old_motion):
         data.setdefault('stream_quality', 85)
         data.setdefault('stream_motion', False)
     data.setdefault('@webcam_resolution', 100)
-    data.setdefault('@webcam_server_resize', True)
+    data.setdefault('@webcam_server_resize', False)
     
     data.setdefault('text_left', data['@name'])
     data.setdefault('text_right', '%Y-%m-%d\\n%T')
