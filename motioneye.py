@@ -27,9 +27,97 @@ import sys
 
 import settings
 
-sys.path.append(os.path.join(settings.PROJECT_PATH, 'src'))
+sys.path.append(os.path.join(getattr(settings, 'PROJECT_PATH', os.path.dirname(sys.argv[0])), 'src'))
 
 VERSION = '0.10'
+
+
+def _configure_settings():
+    def set_default_setting(name, value):
+        if not hasattr(settings, name):
+            setattr(settings, name, value)
+    
+    set_default_setting('PROJECT_PATH', os.path.dirname(sys.argv[0]))
+    set_default_setting('TEMPLATE_PATH', os.path.join(settings.PROJECT_PATH, 'templates'))  # @UndefinedVariable
+    set_default_setting('STATIC_PATH', os.path.join(settings.PROJECT_PATH, 'static'))  # @UndefinedVariable
+    set_default_setting('STATIC_URL', '/static/')
+    set_default_setting('CONF_PATH', os.path.join(settings.PROJECT_PATH, 'conf'))  # @UndefinedVariable
+    set_default_setting('RUN_PATH', os.path.join(settings.PROJECT_PATH, 'run'))  # @UndefinedVariable
+    set_default_setting('REPO', ('ccrisan', 'motioneye'))
+    set_default_setting('LOG_LEVEL', logging.INFO)
+    set_default_setting('LISTEN', '0.0.0.0')
+    set_default_setting('PORT', 8765)
+    set_default_setting('MOTION_CHECK_INTERVAL', 10)
+    set_default_setting('CLEANUP_INTERVAL', 43200)
+    set_default_setting('THUMBNAILER_INTERVAL', 60)
+    set_default_setting('REMOTE_REQUEST_TIMEOUT', 10)
+    set_default_setting('MJPG_CLIENT_TIMEOUT', 10)
+    set_default_setting('PICTURE_CACHE_SIZE', 8)
+    set_default_setting('PICTURE_CACHE_LIFETIME', 60)
+    
+    length = len(sys.argv) - 1
+    for i in xrange(length):
+        arg = sys.argv[i + 1]
+        
+        if not arg.startswith('--'):
+            continue
+        
+        next_arg = None
+        if i < length - 1:
+            next_arg = sys.argv[i + 2]
+        
+        name = arg[2:].upper().replace('-', '_')
+        
+        if name == 'HELP':
+            _print_help()
+            sys.exit(0)
+        
+        if hasattr(settings, name):
+            curr_value = getattr(settings, name)
+            
+            if next_arg.lower() == 'debug':
+                next_arg = logging.DEBUG
+            
+            elif next_arg.lower() == 'info':
+                next_arg = logging.INFO
+            
+            elif next_arg.lower() == 'warn':
+                next_arg = logging.WARN
+            
+            elif next_arg.lower() == 'error':
+                next_arg = logging.ERROR
+            
+            elif next_arg.lower() == 'fatal':
+                next_arg = logging.FATAL
+            
+            elif next_arg.lower() == 'true':
+                next_arg = True
+            
+            elif next_arg.lower() == 'false':
+                next_arg = False
+            
+            elif isinstance(curr_value, int):
+                next_arg = int(next_arg)
+            
+            elif isinstance(curr_value, float):
+                next_arg = float(next_arg)
+
+            setattr(settings, name, next_arg)
+        
+        else:
+            return arg[2:]
+    
+    try:
+        os.makedirs(settings.CONF_PATH)
+        
+    except:
+        pass
+    
+    try:
+        os.makedirs(settings.RUN_PATH)
+
+    except:
+        pass
 
 
 def _test_requirements():
@@ -132,72 +220,6 @@ def _configure_logging():
             format='%(asctime)s: %(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
 
-def _configure_settings():
-    length = len(sys.argv) - 1
-    for i in xrange(length):
-        arg = sys.argv[i + 1]
-        
-        if not arg.startswith('--'):
-            continue
-        
-        next_arg = None
-        if i < length - 1:
-            next_arg = sys.argv[i + 2]
-        
-        name = arg[2:].upper().replace('-', '_')
-        
-        if name == 'HELP':
-            _print_help()
-            sys.exit(0)
-        
-        if hasattr(settings, name):
-            curr_value = getattr(settings, name)
-            
-            if next_arg.lower() == 'debug':
-                next_arg = logging.DEBUG
-            
-            elif next_arg.lower() == 'info':
-                next_arg = logging.INFO
-            
-            elif next_arg.lower() == 'warn':
-                next_arg = logging.WARN
-            
-            elif next_arg.lower() == 'error':
-                next_arg = logging.ERROR
-            
-            elif next_arg.lower() == 'fatal':
-                next_arg = logging.FATAL
-            
-            elif next_arg.lower() == 'true':
-                next_arg = True
-            
-            elif next_arg.lower() == 'false':
-                next_arg = False
-            
-            elif isinstance(curr_value, int):
-                next_arg = int(next_arg)
-            
-            elif isinstance(curr_value, float):
-                next_arg = float(next_arg)
-
-            setattr(settings, name, next_arg)
-        
-        else:
-            return arg[2:]
-    
-    try:
-        os.makedirs(settings.CONF_PATH)
-        
-    except:
-        pass
-    
-    try:
-        os.makedirs(settings.RUN_PATH)
-
-    except:
-        pass
-
-
 def _print_help():
     print('Usage: ' + sys.argv[0] + ' [option1 value1] ...')
     print('available options: ')
@@ -273,10 +295,11 @@ def _start_thumbnailer():
 
 
 if __name__ == '__main__':
+    cmd = _configure_settings()
+    
     if not _test_requirements():
         sys.exit(-1)
     
-    cmd = _configure_settings()
     _configure_signals()
     _configure_logging()
     

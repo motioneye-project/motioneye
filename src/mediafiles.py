@@ -36,7 +36,7 @@ _PICTURE_EXTS = ['.jpg']
 _MOVIE_EXTS = ['.avi', '.mp4']
 
 # a dictionary indexed by camera_id containing
-# tuples of (sequence, width, content)
+# tuples of (moment, sequence, width, content)
 _current_pictures_cache = {}
 
 # a cache list of paths to movies without preview
@@ -387,15 +387,20 @@ def set_picture_cache(camera_id, sequence, width, content):
     if len(cache) >= settings.PICTURE_CACHE_SIZE:
         cache.pop(0) # drop the first item
     
-    cache.append((sequence, width, content))
+    cache.append((datetime.datetime.utcnow(), sequence, width, content))
 
 
 def get_picture_cache(camera_id, sequence, width):
     global _current_pictures_cache
     
     cache = _current_pictures_cache.setdefault(camera_id, [])
+    now = datetime.datetime.utcnow()
 
-    for (seq, w, content) in cache:
+    for (moment, seq, w, content) in cache:
+        delta = now - moment
+        if delta.days * 86400 + delta.seconds > settings.PICTURE_CACHE_LIFETIME:
+            continue
+        
         if (seq >= sequence) and ((width is w is None) or (width >= w)):
             return content
         

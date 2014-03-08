@@ -46,3 +46,6 @@ MJPG_CLIENT_TIMEOUT = 10
 
 # the maximal number of entries per camera in the current pictures cache
 PICTURE_CACHE_SIZE = 8
+
+# the number of seconds that a cached picture is valid
+PICTURE_CACHE_LIFETIME = 60
