@@ -462,7 +462,7 @@ def camera_ui_to_dict(ui):
         
     width = int(ui['resolution'].split('x')[0])
     height = int(ui['resolution'].split('x')[1])
-    threshold = int(ui['frame_change_threshold']) * width * height / 100
+    threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
 
     data = {
         # device

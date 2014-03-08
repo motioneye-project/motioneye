@@ -165,7 +165,7 @@ function initUI() {
     makeSlider($('#contrastSlider'), 0, 100, 2, null, 5, 0, '%');
     makeSlider($('#saturationSlider'), 0, 100, 2, null, 5, 0, '%');
     makeSlider($('#hueSlider'), 0, 100, 2, null, 5, 0, '%');
-    makeSlider($('#framerateSlider'), 1, 30, 0, [
+    makeSlider($('#framerateSlider'), 2, 30, 0, [
         {value: 1, label: '1'},
         {value: 5, label: '5'},
         {value: 10, label: '10'},
