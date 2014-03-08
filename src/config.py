@@ -205,7 +205,7 @@ def get_camera(camera_id, as_lines=False):
         raise
     
     try:
-        lines = [l[:-1] for l in file.readlines()]
+        lines = [l.strip() for l in file.readlines()]
     
     except Exception as e:
         logging.error('could not read camera config file %(path)s: %(msg)s' % {
@@ -893,7 +893,8 @@ def _conf_to_dict(lines, list_names=[]):
 
 def _dict_to_conf(lines, data, list_names=[]):
     conf_lines = []
-    data_copy = OrderedDict(data)
+    remaining = OrderedDict(data)
+    processed = set()
     
     # parse existing lines and replace the values
     
@@ -903,14 +904,15 @@ def _dict_to_conf(lines, data, list_names=[]):
             conf_lines.append(line)
             continue
 
-        if line.startswith(';'):  # comment line
+        if line.startswith(';'):  # simple comment line
+            conf_lines.append(line)
             continue
         
         match = re.match('^\#\s*(\@\w+)\s*([^\#]*)', line)
         if match: # @line
             (name, value) = match.groups()[:2]
         
-        elif line.startswith('#'):  # comment line
+        elif line.startswith('#'):  # simple comment line
             conf_lines.append(line)
             continue
         
@@ -922,8 +924,10 @@ def _dict_to_conf(lines, data, list_names=[]):
             else:
                 (name, value) = parts[0], ''
         
-        if name not in data_copy:
+        if name in processed:
             continue # name already processed
+        
+        processed.add(name)
         
         if name in list_names:
             new_value = data.get(name)
@@ -944,14 +948,14 @@ def _dict_to_conf(lines, data, list_names=[]):
             line = name + ' ' + value
             conf_lines.append(line)
         
-        del data_copy[name]
+        remaining.pop(name, None)
     
     # add the remaining config values not covered by existing lines
     
-    if len(data_copy) and len(lines):
+    if len(remaining) and len(lines):
         conf_lines.append('') # add a blank line
     
-    for (name, value) in data_copy.iteritems():
+    for (name, value) in remaining.iteritems():
         if name in list_names:
             for v in value:
                 line = name + ' ' + _python_to_value(v)
@@ -960,14 +964,21 @@ def _dict_to_conf(lines, data, list_names=[]):
         else:
             line = name + ' ' + _python_to_value(value)
             conf_lines.append(line)
+            
+    # build the final config lines
+    conf_lines.sort(key=lambda l: not l.startswith('@'))
     
     lines = []
     for i, line in enumerate(conf_lines):
-        if i > 0 and len(conf_lines[i].strip()) == 0 and len(conf_lines[i - 1].strip()) == 0:
+        # squeeze successive blank lines
+        if i > 0 and len(line.strip()) == 0 and len(conf_lines[i - 1].strip()) == 0:
             continue
         
         if line.startswith('@'):
             line = '# ' + line
+        
+        elif i > 0 and conf_lines[i - 1].startswith('@'):
+            lines.append('') # add a blank line between @lines and the rest
         
         lines.append(line)
         
