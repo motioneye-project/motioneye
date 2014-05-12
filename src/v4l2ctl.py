@@ -71,7 +71,7 @@ def list_resolutions(device):
     logging.debug('listing resolutions of device %(device)s...' % {'device': device})
     
     resolutions = set()
-    output = subprocess.check_output('v4l2-ctl -d %(device)s --list-formats-ext | grep -oE "[0-9]+x[0-9]+" || true' % {
+    output = subprocess.check_output('v4l2-ctl -d %(device)s --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true' % {
             'device': device}, shell=True)
 
     for pair in output.split('\n'):
@@ -82,6 +82,9 @@ def list_resolutions(device):
         width, height = pair.split('x')
         width = int(width)
         height = int(height)
+        
+        if width < 96 or height < 96: # some reasonable minimal values
+            continue
         
         resolutions.add((width, height))
         

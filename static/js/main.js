@@ -1109,7 +1109,10 @@ function pushCameraConfig() {
     }
     
     /* also update the config stored in the camera frame div */
-    Object.update($('div.camera-frame#camera' + cameraId)[0].config, cameraConfig);
+    var cameraFrame = $('div.camera-frame#camera' + cameraId);
+    if (cameraFrame.length) {
+        Object.update(cameraFrame[0].config, cameraConfig);
+    }
 }
 
 function pushPreview(control) {
