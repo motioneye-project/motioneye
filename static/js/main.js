@@ -1,4 +1,3 @@
-
 var pushConfigs = {};
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var fullScreenCameraId = null;
@@ -1681,7 +1680,7 @@ function runMediaDialog(cameraId, mediaType) {
             title = 'Pictures taken by ' + data.cameraName;
         }
         else {
-            title = 'Movies recored by ' + data.cameraName;
+            title = 'Movies recorded by ' + data.cameraName;
         }
         
         runModalDialog({
