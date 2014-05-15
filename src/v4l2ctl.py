@@ -34,15 +34,19 @@ def find_v4l2_ctl():
 
 
 def list_devices():
-    global _resolutions_cache
+    global _resolutions_cache, _ctrls_cache, _ctrl_values_cache
     
     logging.debug('listing v4l devices...')
     
-    devices = []
+    try:
+        output = subprocess.check_output('v4l2-ctl --list-devices', shell=True)
     
-    output = subprocess.check_output('v4l2-ctl --list-devices', shell=True)
+    except subprocess.CalledProcessError:
+        logging.debug('failed to list devices (probably no devices installed)')
+        return []
     
     name = None
+    devices = []
     for line in output.split('\n'):
         if line.startswith('\t'):
             device = line.strip()
