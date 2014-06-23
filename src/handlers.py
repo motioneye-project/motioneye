@@ -143,7 +143,7 @@ class NotFoundHandler(BaseHandler):
 class MainHandler(BaseHandler):
     @BaseHandler.auth()
     def get(self):
-        self.render('main.html')
+        self.render('main.html', sys_settings=getattr(settings, 'SYS_SETTINGS', False))
 
 
 class ConfigHandler(BaseHandler):

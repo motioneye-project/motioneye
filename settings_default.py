@@ -29,6 +29,9 @@ LISTEN = '0.0.0.0'
 # change the port according to your requirements/restrictions
 PORT = 8765
 
+# enable system settings that require root (SMB shares, WiFI setup) 
+SYS_SETTINGS = False
+
 # interval in seconds at which motionEye checks if motion is running
 MOTION_CHECK_INTERVAL = 10
 

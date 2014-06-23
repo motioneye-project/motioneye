@@ -152,7 +152,7 @@
                 
                 <div class="settings-section-title advanced-setting">File Storage</div>
                 <table class="settings advanced-setting">
-                    <tr class="settings-item advanced-setting rpi">
+                    <tr class="settings-item advanced-setting {% if not sys_settings %}hidden{% endif %}">
                         <td class="settings-item-label"><span class="settings-item-label">Storage Device</span></td>
                         <td class="settings-item-value">
                             <select class="styled storage" id="storageDeviceSelect">
@@ -162,22 +162,22 @@
                         </td>
                         <td><span class="help-mark" title="indicates the storage device where the image and video files will be saved">?</span></td>
                     </tr>
-                    <tr class="settings-item advanced-setting rpi">
+                    <tr class="settings-item advanced-setting {% if not sys_settings %}hidden{% endif %}">
                         <td class="settings-item-label"><span class="settings-item-label">Network Server</span></td>
                         <td class="settings-item-value"><input type="text" class="styled storage" id="networkServerEntry"></td>
                         <td><span class="help-mark" title="the address of the network server (IP address or hostname)">?</span></td>
                     </tr>
-                    <tr class="settings-item advanced-setting rpi">
+                    <tr class="settings-item advanced-setting {% if not sys_settings %}hidden{% endif %}">
                         <td class="settings-item-label"><span class="settings-item-label">Share Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled storage" id="networkShareNameEntry"></td>
                         <td><span class="help-mark" title="the name of the network share">?</span></td>
                     </tr>
-                    <tr class="settings-item advanced-setting rpi">
+                    <tr class="settings-item advanced-setting {% if not sys_settings %}hidden{% endif %}">
                         <td class="settings-item-label"><span class="settings-item-label">Share Username</span></td>
                         <td class="settings-item-value"><input type="text" class="styled storage" id="networkUsernameEntry"></td>
                         <td><span class="help-mark" title="the username to be supplied when accessing the network share (leave empty if no username is required)">?</span></td>
                     </tr>
-                    <tr class="settings-item advanced-setting rpi">
+                    <tr class="settings-item advanced-setting {% if not sys_settings %}hidden{% endif %}">
                         <td class="settings-item-label"><span class="settings-item-label">Share Password</span></td>
                         <td class="settings-item-value"><input type="password" class="styled storage" id="networkPasswordEntry"></td>
                         <td><span class="help-mark" title="the password required by the network share (leave empty if no password is required)">?</span></td>
@@ -396,17 +396,17 @@
                     </tr>
                 </table>
                 
-                <div class="settings-section-title rpi"><input type="checkbox" class="styled section notifications" id="motionNotificationsSwitch">Motion Notifications</div>
+                <div class="settings-section-title hidden"><input type="checkbox" class="styled section notifications" id="motionNotificationsSwitch">Motion Notifications</div>
                 <table class="settings">
-                    <tr class="settings-item rpi">
+                    <tr class="settings-item hidden">
                         <td class="settings-item-label"><span class="settings-item-label">Email Addresses</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications" id="emailAddressesEntry" placeholder="email addresses..."></td>
                         <td><span class="help-mark" title="email addresses (separated by comma) that are added here will receive notifications whenever a motion event is detected (leave empty to disable email notifications)">?</span></td>
                     </tr>
                 </table>
 
-                <div class="settings-section-title rpi"><input type="checkbox" class="styled section working-schedule" id="workingScheduleSwitch">Working Schedule</div>
-                <table class="settings rpi">
+                <div class="settings-section-title hidden"><input type="checkbox" class="styled section working-schedule" id="workingScheduleSwitch">Working Schedule</div>
+                <table class="settings hidden">
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Monday</span></td>
                         <td class="settings-item-value">

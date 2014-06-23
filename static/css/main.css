@@ -395,8 +395,8 @@ span.disk-usage-percent {
     position: relative;
 }
 
-div.rpi,
-tr.rpi {
+div.hidden,
+tr.hidden {
     display: none;
 }
 

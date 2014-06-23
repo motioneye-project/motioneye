@@ -47,6 +47,7 @@ def _configure_settings():
     set_default_setting('LOG_LEVEL', logging.INFO)
     set_default_setting('LISTEN', '0.0.0.0')
     set_default_setting('PORT', 8765)
+    set_default_setting('SYS_SETTINGS', False)
     set_default_setting('MOTION_CHECK_INTERVAL', 10)
     set_default_setting('CLEANUP_INTERVAL', 43200)
     set_default_setting('THUMBNAILER_INTERVAL', 60)
@@ -121,6 +122,9 @@ def _configure_settings():
 
 
 def _test_requirements():
+    if settings.SYS_SETTINGS and os.geteuid() != 0:
+        print('SYS_SETTINGS require root privileges')
+        return False
     
     try:
         import tornado  # @UnusedImport
@@ -152,6 +156,9 @@ def _test_requirements():
     import v4l2ctl
     v4lutils = v4l2ctl.find_v4l2_ctl() is not None
     
+    import smbctl
+    mount_cifs = smbctl.find_mount_cifs() is not None
+    
     ok = True
     if not tornado:
         print('please install tornado (python-tornado)')
@@ -175,6 +182,10 @@ def _test_requirements():
 
     if not v4lutils:
         print('please install v4l-utils')
+        ok = False
+
+    if settings.SYS_SETTINGS and not mount_cifs:
+        print('please install cifs-utils')
         ok = False
 
     return ok
