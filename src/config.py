@@ -24,6 +24,7 @@ from collections import OrderedDict
 
 import motionctl
 import settings
+import smbctl
 import update
 import utils
 import v4l2ctl
@@ -483,7 +484,6 @@ def camera_ui_to_dict(ui):
         '@network_share_name': ui['network_share_name'],
         '@network_username': ui['network_username'],
         '@network_password': ui['network_password'],
-        'target_dir': ui['root_directory'],
         
         # text overlay
         'text_left': '',
@@ -560,6 +560,15 @@ def camera_ui_to_dict(ui):
         else:
             data['hue'] = max(1, int(round(int(ui['hue']) * 2.55)))
 
+    if ui['storage_device'] == 'network-share':
+        mount_point = smbctl.make_mount_point(ui['network_server'], ui['network_share_name'], ui['network_username'])
+        if ui['root_directory'].startswith('/'):
+            ui['root_directory'] = ui['root_directory'][1:]
+        data['target_dir'] = os.path.join(mount_point, ui['root_directory'])
+
+    else:
+        data['target_dir'] = ui['root_directory']
+
     if ui['text_overlay']:
         left_text = ui['left_text']
         if left_text == 'camera-name':
@@ -617,7 +626,7 @@ def camera_ui_to_dict(ui):
                 ui['sunday_from'] + '-' + ui['sunday_to'])
 
     return data
-    
+
 
 def camera_dict_to_ui(data):
     usage = utils.get_disk_usage(data['target_dir'])
@@ -654,7 +663,6 @@ def camera_dict_to_ui(data):
         'network_share_name': data['@network_share_name'],
         'network_username': data['@network_username'],
         'network_password': data['@network_password'],
-        'root_directory': data['target_dir'],
         'disk_used': disk_used,
         'disk_total': disk_total,
         
@@ -745,6 +753,13 @@ def camera_dict_to_ui(data):
         
         else:
             ui['hue'] = 50
+    
+    if data['@storage_device'] == 'network-share':
+        mount_point = smbctl.make_mount_point(data['@network_server'], data['@network_share_name'], data['@network_username'])
+        ui['root_directory'] = data['target_dir'][len(mount_point):]
+    
+    else:
+        ui['root_directory'] = data['target_dir']
 
     text_left = data['text_left']
     text_right = data['text_right'] 

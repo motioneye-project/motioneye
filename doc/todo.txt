@@ -1,0 +1,4 @@
+-> in continuare o camera remote moarta blocheaza intreg sistemul la load
+-> use minimum_frame_time
+-> implement custom camera frame sizes
+-> add a separate full-screen camera link

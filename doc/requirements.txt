@@ -6,3 +6,4 @@ pil
 ffmpeg
 motion
 v4l-utils
+cifs-utils

@@ -74,11 +74,9 @@ class BaseHandler(RequestHandler):
                 main_config = config.get_main()
                 
                 if user == main_config.get('@admin_username') and pwd == main_config.get('@admin_password'):
-                    
                     return 'admin'
                 
                 elif user == main_config.get('@normal_username') and pwd == main_config.get('@normal_password'):
-                    
                     return 'normal'
                 
                 else:

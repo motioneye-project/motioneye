@@ -19,6 +19,7 @@ import logging
 import os
 import re
 import subprocess
+import time
 
 
 def find_mount_cifs():
@@ -29,7 +30,7 @@ def find_mount_cifs():
         return None
 
 
-def _make_mount_point(server, share, username):
+def make_mount_point(server, share, username):
     server = re.sub('[^a-zA-Z0-9]', '_', server).lower()
     share = re.sub('[^a-zA-Z0-9]', '_', share).lower()
     
@@ -39,10 +40,11 @@ def _make_mount_point(server, share, username):
     else:
         mount_point = '/media/motioneye_%s_%s' % (server, share)
 
-    logging.debug('making sure mount point "%s" exists' % mount_point)    
-    os.makedirs(mount_point)
-    
     return mount_point
+
+
+def _is_motioneye_mount(mount_point):
+    return bool(re.match('^/media/motioneye_\w+$', mount_point))
 
 
 def list_mounts():
@@ -67,6 +69,9 @@ def list_mounts():
             if fstype != 'cifs':
                 continue
             
+            if not _is_motioneye_mount(mount_point):
+                continue
+            
             match = re.match('//([^/]+)/(.+)', target)
             if not match:
                 continue
@@ -82,7 +87,7 @@ def list_mounts():
             
             else:
                 username = None
-            
+                
             logging.debug('found smb mount "//%s/%s" at "%s"' % (server, share, mount_point))
             
             mounts.append({
@@ -91,17 +96,16 @@ def list_mounts():
                 'username': username,
                 'mount_point': mount_point
             })
-            
+
     return mounts
 
 
-def is_motioneye_mount(mount_point):
-    return bool(re.match('^/media/motioneye_\w+$', mount_point))
-
-
 def mount(server, share, username, password):
-    mount_point = _make_mount_point(server, share, username)
+    mount_point = make_mount_point(server, share, username)
     logging.debug('mounting "//%s/%s" at "%s"' % (server, share, mount_point))
+    
+    logging.debug('making sure mount point "%s" exists' % mount_point)    
+    os.makedirs(mount_point)
     
     if username:
         opts = 'username=%s,password=%s' % (username, password)
@@ -112,16 +116,28 @@ def mount(server, share, username, password):
     try:
         subprocess.check_call('mount.cifs //%s/%s %s -o %s' % (server, share, mount_point, opts), shell=True)
         
-        return mount_point
-
     except subprocess.CalledProcessError:
         logging.error('failed to mount smb share "//%s/%s" at "%s"' % (server, share, mount_point))
         
         return False
+    
+    # test to see if mount point is writable
+    try:
+        path = os.path.join(mount_point, '.motioneye_' + str(int(time.time())))
+        os.mkdir(path)
+        os.rmdir(path)
+        logging.debug('directory at "%s" is writable' % mount_point)
+    
+    except:
+        logging.error('directory at "%s" is not writable' % mount_point)
+        
+        return False
+    
+    return mount_point
 
 
 def umount(server, share, username):
-    mount_point = _make_mount_point(server, share, username)
+    mount_point = make_mount_point(server, share, username)
     logging.debug('unmounting "//%s/%s" from "%s"' % (server, share, mount_point))
     
     try:
