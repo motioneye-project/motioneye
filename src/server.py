@@ -49,6 +49,7 @@ application = Application(
         (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', handlers.MovieHandler),
         (r'^/movie/(?P<camera_id>\d+)/(?P<op>download|preview)/(?P<filename>.+)/?$', handlers.MovieHandler),
         (r'^/update/?$', handlers.UpdateHandler),
+        (r'^.*$', handlers.NotFoundHandler),
     ],
     debug=True, # enables autoreload
     log_function=log_request,

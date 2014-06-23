@@ -19,7 +19,6 @@ import base64
 import json
 import logging
 import os
-import sys
 
 from tornado.web import RequestHandler, HTTPError, asynchronous
 
@@ -90,26 +89,20 @@ class BaseHandler(RequestHandler):
 
         return None
     
-    def _handle_request_exception(self, e):
-        # don't send a traceback to the client
-        if isinstance(e, HTTPError):
-            if e.log_message:
-                format = "%d %s: " + e.log_message
-                args = [e.status_code, self._request_summary()] + list(e.args)
-                logging.warning(format, *args)
-            
-            status_code = e.status_code
-
-        else:
-            logging.error('Uncaught exception %s\n%r', self._request_summary(), self.request, exc_info=True)
-            
-            status_code = 500
-            
+    def _handle_request_exception(self, exception):
         try:
-            self.send_error(status_code, exc_info=sys.exc_info())
-        
-        except Exception as e:
-            logging.warning('could not send error to client: %(msg)s' % {'msg': unicode(e)})
+            if isinstance(exception, HTTPError):
+                logging.error(str(exception))
+                self.set_status(exception.status_code)
+                self.finish_json({'error': exception.log_message or getattr(exception, 'reason', None) or str(exception)})
+            
+            else:
+                logging.error(str(exception), exc_info=True)
+                self.set_status(500)
+                self.finish_json({'error':  'internal server error'})
+                
+        except RuntimeError:
+            pass # nevermind
         
     @staticmethod
     def auth(admin=False, prompt=True):
@@ -131,6 +124,20 @@ class BaseHandler(RequestHandler):
             return wrapper
         
         return decorator
+
+    def get(self, *args, **kwargs):
+        raise HTTPError(400, 'method not allowed')
+
+    def post(self, *args, **kwargs):
+        raise HTTPError(400, 'method not allowed')
+
+
+class NotFoundHandler(BaseHandler):
+    def get(self):
+        raise HTTPError(404, 'not found')
+
+    def post(self):
+        raise HTTPError(404, 'not found')
 
 
 class MainHandler(BaseHandler):
