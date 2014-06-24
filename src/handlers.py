@@ -27,6 +27,7 @@ import mediafiles
 import motionctl
 import remote
 import settings
+import smbctl
 import template
 import update
 import utils
@@ -141,7 +142,7 @@ class NotFoundHandler(BaseHandler):
 class MainHandler(BaseHandler):
     @BaseHandler.auth()
     def get(self):
-        self.render('main.html', sys_settings=getattr(settings, 'SYS_SETTINGS', False))
+        self.render('main.html', smb_shares=settings.SMB_SHARES)
 
 
 class ConfigHandler(BaseHandler):
@@ -292,6 +293,10 @@ class ConfigHandler(BaseHandler):
         
         def finish():
             if restart[0]:
+                if settings.SMB_SHARES:
+                    logging.debug('updating SMB mounts')
+                    smbctl.update_mounts()
+
                 logging.debug('motion needs to be restarted')
                 motionctl.restart()
 
@@ -495,6 +500,9 @@ class ConfigHandler(BaseHandler):
         camera_config['@id'] = camera_id
 
         if proto == 'v4l2':
+            if settings.SMB_SHARES:
+                smbctl.update_mounts()
+
             motionctl.restart()
             
             ui_config = config.camera_dict_to_ui(camera_config)

@@ -187,6 +187,29 @@ def has_enabled_cameras():
     return bool([c for c in cameras if c['@enabled'] and c['@proto'] == 'v4l2'])
 
 
+def get_network_shares():
+    if not get_main().get('@enabled'):
+        return []
+
+    camera_ids = get_camera_ids()
+    cameras = [get_camera(camera_id) for camera_id in camera_ids]
+    
+    mounts = []
+    for camera in cameras:
+        if camera['@storage_device'] != 'network-share':
+            continue
+        
+        mounts.append({
+            'server': camera['@network_server'],
+            'share': camera['@network_share_name'],
+            'username': camera['@network_username'],
+            'password': camera['@network_password'],
+            
+        })
+        
+    return mounts
+
+
 def get_camera(camera_id, as_lines=False):
     global _camera_config_cache
     
@@ -560,7 +583,7 @@ def camera_ui_to_dict(ui):
         else:
             data['hue'] = max(1, int(round(int(ui['hue']) * 2.55)))
 
-    if ui['storage_device'] == 'network-share':
+    if (ui['storage_device'] == 'network-share') and settings.SMB_SHARES:
         mount_point = smbctl.make_mount_point(ui['network_server'], ui['network_share_name'], ui['network_username'])
         if ui['root_directory'].startswith('/'):
             ui['root_directory'] = ui['root_directory'][1:]
@@ -754,7 +777,7 @@ def camera_dict_to_ui(data):
         else:
             ui['hue'] = 50
     
-    if data['@storage_device'] == 'network-share':
+    if (data['@storage_device'] == 'network-share') and settings.SMB_SHARES:
         mount_point = smbctl.make_mount_point(data['@network_server'], data['@network_share_name'], data['@network_username'])
         ui['root_directory'] = data['target_dir'][len(mount_point):]
     

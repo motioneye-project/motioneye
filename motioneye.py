@@ -29,6 +29,8 @@ import settings
 
 sys.path.append(os.path.join(getattr(settings, 'PROJECT_PATH', os.path.dirname(sys.argv[0])), 'src'))
 
+import smbctl
+
 VERSION = '0.12'
 
 
@@ -47,7 +49,8 @@ def _configure_settings():
     set_default_setting('LOG_LEVEL', logging.INFO)
     set_default_setting('LISTEN', '0.0.0.0')
     set_default_setting('PORT', 8765)
-    set_default_setting('SYS_SETTINGS', False)
+    set_default_setting('SMB_SHARES', False)
+    set_default_setting('MOUNT_CHECK_INTERVAL', 300)
     set_default_setting('MOTION_CHECK_INTERVAL', 10)
     set_default_setting('CLEANUP_INTERVAL', 43200)
     set_default_setting('THUMBNAILER_INTERVAL', 60)
@@ -122,10 +125,11 @@ def _configure_settings():
 
 
 def _test_requirements():
-    if settings.SYS_SETTINGS and os.geteuid() != 0:
-        print('SYS_SETTINGS require root privileges')
-        return False
-    
+    if os.geteuid() != 0:
+        if settings.SMB_SHARES:
+            print('SMB_SHARES require root privileges')
+            return False
+
     try:
         import tornado  # @UnusedImport
         tornado = True
@@ -156,7 +160,6 @@ def _test_requirements():
     import v4l2ctl
     v4lutils = v4l2ctl.find_v4l2_ctl() is not None
     
-    import smbctl
     mount_cifs = smbctl.find_mount_cifs() is not None
     
     ok = True
@@ -184,7 +187,7 @@ def _test_requirements():
         print('please install v4l-utils')
         ok = False
 
-    if settings.SYS_SETTINGS and not mount_cifs:
+    if settings.SMB_SHARES and not mount_cifs:
         print('please install cifs-utils')
         ok = False
 
@@ -193,9 +196,6 @@ def _test_requirements():
         
 def _configure_signals():
     def bye_handler(signal, frame):
-        import cleanup
-        import motionctl
-        import thumbnailer
         import tornado.ioloop
         
         logging.info('interrupt signal received, shutting down...')
@@ -203,19 +203,6 @@ def _configure_signals():
         # shut down the IO loop if it has been started
         ioloop = tornado.ioloop.IOLoop.instance()
         ioloop.stop()
-        logging.info('server stopped')
-        
-        if thumbnailer.running():
-            thumbnailer.stop()
-            logging.info('thumbnailer stopped')
-    
-        if cleanup.running():
-            cleanup.stop()
-            logging.info('cleanup stopped')
-
-        if motionctl.running():
-            motionctl.stop()
-            logging.info('motion stopped')
         
     def child_handler(signal, frame):
         # this is required for the multiprocessing mechanism to work
@@ -256,7 +243,10 @@ def _print_help():
     print('')
 
 
-def _start_server():
+def _run_server():
+    import cleanup
+    import motionctl
+    import thumbnailer
     import tornado.ioloop
     import server
 
@@ -264,6 +254,24 @@ def _start_server():
     logging.info('server started')
     
     tornado.ioloop.IOLoop.instance().start()
+
+    logging.info('server stopped')
+    
+    if thumbnailer.running():
+        thumbnailer.stop()
+        logging.info('thumbnailer stopped')
+
+    if cleanup.running():
+        cleanup.stop()
+        logging.info('cleanup stopped')
+
+    if motionctl.running():
+        motionctl.stop()
+        logging.info('motion stopped')
+    
+    if settings.SMB_SHARES:
+        smbctl.umount_all()
+        logging.info('SMB shares unmounted')
 
 
 def _start_motion():
@@ -314,10 +322,13 @@ if __name__ == '__main__':
     _configure_signals()
     _configure_logging()
     
+    if settings.SMB_SHARES:
+        smbctl.update_mounts()
+
     _start_motion()
     _start_cleanup()
     
     if settings.THUMBNAILER_INTERVAL:
         _start_thumbnailer()
     
-    _start_server()
+    _run_server()

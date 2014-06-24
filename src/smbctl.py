@@ -15,11 +15,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
+import datetime
 import logging
 import os
 import re
 import subprocess
 import time
+
+import config
+import settings
+
+from tornado import ioloop
 
 
 def find_mount_cifs():
@@ -56,7 +62,6 @@ def list_mounts():
             line = line.strip()
             if not line:
                 continue
-            
             parts = line.split()
             if len(parts) < 4:
                 continue
@@ -104,8 +109,10 @@ def mount(server, share, username, password):
     mount_point = make_mount_point(server, share, username)
     logging.debug('mounting "//%s/%s" at "%s"' % (server, share, mount_point))
     
-    logging.debug('making sure mount point "%s" exists' % mount_point)    
-    os.makedirs(mount_point)
+    logging.debug('making sure mount point "%s" exists' % mount_point)
+    
+    if not os.path.exists(mount_point):    
+        os.makedirs(mount_point)
     
     if username:
         opts = 'username=%s,password=%s' % (username, password)
@@ -149,3 +156,43 @@ def umount(server, share, username):
         logging.error('failed to unmount smb share "//%s/%s" from "%s"' % (server, share, mount_point))
         
         return False
+
+
+def update_mounts():
+    network_shares = config.get_network_shares()
+    
+    mounts = list_mounts()
+    mounts = dict(((m['server'], m['share'], m['username'] or ''), False) for m in mounts)
+    
+    for network_share in network_shares:
+        key = (network_share['server'], network_share['share'], network_share['username'] or '')
+        if key in mounts: # found
+            mounts[key] = True
+        
+        else: # needs to be mounted
+            mount(network_share['server'], network_share['share'], network_share['username'], network_share['password'])
+    
+    # unmount the no longer necessary mounts
+    for (network_share['server'], network_share['share'], network_share['username']), required in mounts.items():
+        if not required:
+            umount(network_share['server'], network_share['share'], network_share['username'])
+
+
+def umount_all():
+    for mount in list_mounts():
+        umount(mount['server'], mount['share'], mount['username'])
+
+
+def _check_mounts():
+    logging.debug('checking SMB mounts...')
+    
+    update_mounts()
+
+    io_loop = ioloop.IOLoop.instance()
+    io_loop.add_timeout(datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts)
+
+
+if settings.SMB_SHARES:
+    # schedule the mount checker
+    io_loop = ioloop.IOLoop.instance()
+    io_loop.add_timeout(datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts)
