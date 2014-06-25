@@ -397,7 +397,7 @@ span.disk-usage-percent {
 
 div.hidden,
 tr.hidden {
-    display: none;
+    display: none !important;
 }
 
 

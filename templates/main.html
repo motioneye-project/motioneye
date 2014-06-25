@@ -76,6 +76,20 @@
                     </tr>
                 </table>
                 
+                <div class="settings-section-title advanced-setting"><input type="checkbox" class="styled section wifi" id="wifiSwitch">Wireless Network</div>
+                <table class="settings advanced-setting">
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Network Name</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled wifi" id="wifiNameEntry" placeholder="name..."></td>
+                        <td><span class="help-mark" title="the name (SSID) of your wireless network">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Network Key</span></td>
+                        <td class="settings-item-value"><input type="password" class="styled wifi" id="wifiKeyEntry" placeholder="key..."></td>
+                        <td><span class="help-mark" title="the key (PSK) required to connect to your wireless network">?</span></td>
+                    </tr>
+                </table>
+
                 <div class="settings-section-title"><input type="checkbox" class="styled section device" id="videoDeviceSwitch">Video Device</div>
                 <table class="settings">
                     <tr class="settings-item">
@@ -464,6 +478,7 @@
                         <td><span class="help-mark" title="sets the working schedule time interval for Sunday">?</span></td>
                     </tr>
                 </table>
+
                 <div class="settings-progress"></div>
             </div>
         </div>

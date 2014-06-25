@@ -193,6 +193,7 @@ function initUI() {
     /* text validators */
     makeTextValidator($('#adminUsernameEntry'), true);
     makeTextValidator($('#normalUsernameEntry'), true);
+    makeTextValidator($('#wifiNameEntry'), true);
     makeTextValidator($('#deviceNameEntry'), true);
     makeTextValidator($('#networkServerEntry'), true);
     makeTextValidator($('#networkShareNameEntry'), true);
@@ -250,6 +251,7 @@ function initUI() {
     $('#preserveMoviesSelect').change(updateConfigUi);
     $('#motionNotificationsSwitch').change(updateConfigUi);
     $('#workingScheduleSwitch').change(updateConfigUi);
+    $('#wifiSwitch').change(updateConfigUi);
     
     /* fetch & push handlers */
     $('#videoDeviceSelect').change(function () {
@@ -278,7 +280,8 @@ function initUI() {
       'input.motion-movies, select.motion-movies, ' +
       'input.motion-detection, select.motion-detection, ' +
       'input.notifications, select.notifications, ' +
-      'input.working-schedule, select.working-schedule').change(pushCameraConfig);
+      'input.working-schedule, select.working-schedule, ' +
+      'input.wifi, select.wifi').change(pushCameraConfig);
     
     /* preview controls */
     $('#brightnessSlider').change(function () {pushPreview('brightness');});
@@ -354,6 +357,11 @@ function updateConfigUi() {
     var motionEyeEnabled = $('#motionEyeSwitch').get(0).checked;
     if (!motionEyeEnabled) {
         objs.not($('#motionEyeSwitch').parents('div').get(0)).each(markHide);
+    }
+    
+    /* wifi switch */
+    if (!$('#wifiSwitch').get(0).checked) {
+        $('#wifiSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
     }
     
     if ($('#videoDeviceSelect').find('option').length < 2) { /* no camera configured */
@@ -503,21 +511,31 @@ function configUiValid() {
 function mainUi2Dict() {
     return {
         'enabled': $('#motionEyeSwitch')[0].checked,
+        
         'show_advanced': $('#showAdvancedSwitch')[0].checked,
         'admin_username': $('#adminUsernameEntry').val(),
         'admin_password': $('#adminPasswordEntry').val(),
         'normal_username': $('#normalUsernameEntry').val(),
-        'normal_password': $('#normalPasswordEntry').val()
+        'normal_password': $('#normalPasswordEntry').val(),
+        
+        'wifi_enabled': $('#wifiSwitch')[0].checked,
+        'wifi_name': $('#wifiNameEntry').val(),
+        'wifi_key': $('#wifiKeyEntry').val()
     };
 }
 
 function dict2MainUi(dict) {
     $('#motionEyeSwitch')[0].checked = dict['enabled'];
+    
     $('#showAdvancedSwitch')[0].checked = dict['show_advanced'];
     $('#adminUsernameEntry').val(dict['admin_username']);
     $('#adminPasswordEntry').val(dict['admin_password']);
     $('#normalUsernameEntry').val(dict['normal_username']);
     $('#normalPasswordEntry').val(dict['normal_password']);
+    
+    $('#wifiSwitch')[0].checked = dict['wifi_enabled'];
+    $('#wifiNameEntry').val(dict['wifi_name']);
+    $('#wifiKeyEntry').val(dict['wifi_key']);
     
     updateConfigUi();
 }

@@ -84,6 +84,10 @@ def get_main(as_lines=False):
         return lines
     
     main_config = _conf_to_dict(lines, list_names=['thread'])
+    
+    if settings.WPA_SUPPLICANT_CONF:
+        _get_wifi_settings(main_config)
+        
     _set_default_motion(main_config)
     
     _main_config_cache = main_config
@@ -95,7 +99,11 @@ def set_main(main_config):
     global _main_config_cache
     
     _set_default_motion(main_config)
-    
+    _main_config_cache = dict(main_config)
+
+    if settings.WPA_SUPPLICANT_CONF:
+        _set_wifi_settings(main_config)
+        
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
     
     # read the actual configuration from file
@@ -134,10 +142,6 @@ def set_main(main_config):
     
     finally:
         file.close()
-
-    _main_config_cache = main_config
-
-    return main_config
 
 
 def get_camera_ids():
@@ -377,8 +381,6 @@ def set_camera(camera_id, camera_config):
     finally:
         file.close()
         
-    return camera_config
-
 
 def add_camera(device_details):
     global _camera_ids_cache
@@ -461,29 +463,39 @@ def rem_camera(camera_id):
 def main_ui_to_dict(ui):
     return {
         '@enabled': ui['enabled'],
+        
         '@show_advanced': ui['show_advanced'],
         '@admin_username': ui['admin_username'],
         '@admin_password': ui['admin_password'],
         '@normal_username': ui['normal_username'],
-        '@normal_password': ui['normal_password']
+        '@normal_password': ui['normal_password'],
+        
+        '@wifi_enabled': ui['wifi_enabled'],
+        '@wifi_name': ui['wifi_name'],
+        '@wifi_key': ui['wifi_key'],
     }
 
 
 def main_dict_to_ui(data):
     return {
         'enabled': data['@enabled'],
+        
         'show_advanced': data['@show_advanced'],
         'admin_username': data['@admin_username'],
         'admin_password': data['@admin_password'],
         'normal_username': data['@normal_username'],
-        'normal_password': data['@normal_password']
+        'normal_password': data['@normal_password'],
+    
+        'wifi_enabled': data['@wifi_enabled'],
+        'wifi_name': data['@wifi_name'],
+        'wifi_key': data['@wifi_key'],
     }
 
 
 def camera_ui_to_dict(ui):
     if not ui['resolution']:  # avoid errors for empty resolution setting
         ui['resolution'] = '352x288'
-        
+
     width = int(ui['resolution'].split('x')[0])
     height = int(ui['resolution'].split('x')[1])
     threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
@@ -1041,11 +1053,16 @@ def _is_old_motion():
 
 def _set_default_motion(data):
     data.setdefault('@enabled', True)
+    
     data.setdefault('@show_advanced', False)
     data.setdefault('@admin_username', 'admin')
     data.setdefault('@admin_password', '')
     data.setdefault('@normal_username', 'user')
     data.setdefault('@normal_password', '')
+
+    data.setdefault('@wifi_enabled', False)
+    data.setdefault('@wifi_name', '')
+    data.setdefault('@wifi_key', '')
 
 
 def _set_default_motion_camera(camera_id, data, old_motion):
@@ -1135,3 +1152,37 @@ def _set_default_motion_camera(camera_id, data, old_motion):
     data.setdefault('@motion_notifications_emails', '')
     
     data.setdefault('@working_schedule', '')
+
+
+def _get_wifi_settings(data):
+    try:
+        conf_file = open(settings.WPA_SUPPLICANT_CONF, 'r')
+    
+    except Exception as e:
+        logging.error('could open wifi settings file %(path)s: %(msg)s' % {
+                'path': settings.WPA_SUPPLICANT_CONF, 'msg': unicode(e)})
+        
+        return
+    
+    # TODO read settings from file
+    
+    conf_file.close()
+    
+
+def _set_wifi_settings(data):
+    wifi_enabled = data.pop('@wifi_enabled', False)
+    wifi_name = data.pop('@wifi_name', None)
+    wifi_key = data.pop('@wifi_key', None)
+    
+    try:
+        conf_file = open(settings.WPA_SUPPLICANT_CONF, 'w')
+    
+    except Exception as e:
+        logging.error('could open wifi settings file %(path)s: %(msg)s' % {
+                'path': settings.WPA_SUPPLICANT_CONF, 'msg': unicode(e)})
+
+        return
+    
+    # TODO write settings to file
+
+    conf_file.close()

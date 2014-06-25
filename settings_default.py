@@ -29,6 +29,9 @@ LISTEN = '0.0.0.0'
 # change the port according to your requirements/restrictions
 PORT = 8765
 
+# path to a wpa_supplicant.conf file if wifi settings UI is desired (requires root) 
+WPA_SUPPLICANT_CONF = None
+
 # enable SMB shares (requires root) 
 SMB_SHARES = False
 
