@@ -548,14 +548,27 @@ function cameraUi2Dict() {
     }
     
     var deviceUrl = $('#deviceEntry').val();
-    var parts = deviceUrl.split('://');
-    var proto = parts[0];
-    parts = parts[1].split('/');
-    var hostPort = parts[0];
-    var deviceUri = '/' + parts.slice(1).join('/');
-    parts = hostPort.split(':');
-    var host = parts[0];
-    var port = parts[1] || '';
+    var proto = '';
+    var hostPort = '';
+    var deviceUri = '';
+    var host = '';
+    var port = '';
+    
+    var parts;
+    if (deviceUrl) {
+        parts = deviceUrl.split('://');
+        proto = parts[0];
+        if (parts.length > 1) {
+            parts = parts[1].split('/');
+            hostPort = parts[0];
+            deviceUri = '/' + parts.slice(1).join('/');
+            parts = hostPort.split(':');
+            host = parts[0];
+            if (parts.length > 1) {
+                port = parts[1] || '';
+            }
+        }
+    }
     
     var dict = {
         /* video device */
