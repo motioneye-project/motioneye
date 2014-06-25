@@ -681,6 +681,7 @@ def camera_dict_to_ui(data):
         'rotation': int(data['rotate']),
         
         # file storage
+        'smb_shares': settings.SMB_SHARES,
         'storage_device': data['@storage_device'],
         'network_server': data['@network_server'],
         'network_share_name': data['@network_share_name'],

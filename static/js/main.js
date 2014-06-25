@@ -372,11 +372,15 @@ function updateConfigUi() {
     }
     
     /* storage device */
-    if ($('#storageDeviceSelect').val() === 'local-disk') {
+    var smbShares = $('#storageDeviceSelect').data('smb_shares');
+    if ($('#storageDeviceSelect').val() === 'local-disk' || !smbShares) {
         $('#networkServerEntry').parents('tr:eq(0)').each(markHide);
         $('#networkUsernameEntry').parents('tr:eq(0)').each(markHide);
         $('#networkPasswordEntry').parents('tr:eq(0)').each(markHide);
         $('#networkShareNameEntry').parents('tr:eq(0)').each(markHide);
+    }
+    if (!smbShares) {
+        $('#storageDeviceSelect').parents('tr:eq(0)').each(markHide);
     }
     
     /* auto brightness */
@@ -675,6 +679,7 @@ function dict2CameraUi(dict) {
     $('#framerateSlider').val(dict['framerate']);
     
     /* file storage */
+    $('#storageDeviceSelect').data('smb_shares', dict['smb_shares']);
     $('#storageDeviceSelect').val(dict['storage_device']);
     $('#networkServerEntry').val(dict['network_server']);
     $('#networkShareNameEntry').val(dict['network_share_name']);
