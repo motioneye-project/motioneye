@@ -41,16 +41,17 @@ def make_mount_point(server, share, username):
     share = re.sub('[^a-zA-Z0-9]', '_', share).lower()
     
     if username:
-        mount_point = '/media/motioneye_%s_%s_%s' % (server, share, username) 
+        mount_point = os.path.join(settings.SMB_MOUNT_ROOT, 'motioneye_%s_%s_%s' % (server, share, username))
     
     else:
-        mount_point = '/media/motioneye_%s_%s' % (server, share)
+        mount_point = os.path.join(settings.SMB_MOUNT_ROOT, 'motioneye_%s_%s' % (server, share))
 
     return mount_point
 
 
 def _is_motioneye_mount(mount_point):
-    return bool(re.match('^/media/motioneye_\w+$', mount_point))
+    mount_point_root = os.path.join(settings.SMB_MOUNT_ROOT, 'motioneye_')
+    return bool(re.match('^' + mount_point_root + '\w+$', mount_point))
 
 
 def list_mounts():

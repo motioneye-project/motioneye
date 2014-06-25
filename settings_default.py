@@ -35,6 +35,9 @@ WPA_SUPPLICANT_CONF = None
 # enable SMB shares (requires root) 
 SMB_SHARES = False
 
+# the directory where the SMB mounts will be created
+SMB_MOUNT_ROOT = '/media'
+
 # interval in seconds at which motionEye checks the SMB mounts
 MOUNT_CHECK_INTERVAL = 300
 
