@@ -150,13 +150,21 @@ def umount(server, share, username):
     
     try:
         subprocess.check_call('umount %s' % mount_point, shell=True)
-        
-        return True
 
     except subprocess.CalledProcessError:
         logging.error('failed to unmount smb share "//%s/%s" from "%s"' % (server, share, mount_point))
         
         return False
+    
+    try:
+        os.remove(mount_point)
+    
+    except Exception as e:
+        logging.error('failed to remove smb mount point "%s": %s' % (mount_point, e))
+        
+        return False
+        
+    return True
 
 
 def update_mounts():
