@@ -982,6 +982,10 @@ function doRemCamera() {
     var deviceName = $('#videoDeviceSelect').find('option[value=' + cameraId + ']').text();
     
     runConfirmDialog('Remove camera ' + deviceName + '?', function () {
+        /* disable further refreshing of this camera */
+        var img = $('div.camera-frame#camera' + cameraId).find('img.camera')[0];
+        img.loading = 1;
+        
         beginProgress();
         ajax('POST', '/config/' + cameraId + '/rem/', null, function (data) {
             if (data == null || data.error) {
