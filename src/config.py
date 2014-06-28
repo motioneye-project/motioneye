@@ -1160,6 +1160,8 @@ def _set_default_motion_camera(camera_id, data, old_motion):
 def _get_wifi_settings(data):
     # will return the first configured network
     
+    logging.debug('reading wifi settings from %s' % settings.WPA_SUPPLICANT_CONF)
+    
     try:
         conf_file = open(settings.WPA_SUPPLICANT_CONF, 'r')
     
@@ -1199,9 +1201,17 @@ def _get_wifi_settings(data):
     data['@wifi_name'] = ssid
     data['@wifi_key'] = psk
     
+    if ssid:
+        logging.debug('wifi is enabled (name = "%s")' % ssid)
+    
+    else:
+        logging.debug('wifi is disabled')
+    
 
 def _set_wifi_settings(data):
     # will update the first configured network
+    
+    logging.debug('writing wifi settings to %s' % settings.WPA_SUPPLICANT_CONF)
     
     wifi_enabled = data.pop('@wifi_enabled', False)
     wifi_name = data.pop('@wifi_name', '')
@@ -1246,12 +1256,12 @@ def _set_wifi_settings(data):
         elif in_section:
             if wifi_enabled:
                 if re.match('ssid\s*=\s*".*?"', line):
-                    line = re.sub('(ssid\s*=\s*)".*?"', '\\1"' + wifi_name + '"', line)
+                    lines[i] = '    ssid="' + wifi_name + '"\n'
                     found_ssid = True
                 
                 elif re.match('psk\s*=\s*".*?"', line):
                     if wifi_key:
-                        re.sub('(psk\s*=\s*)".*?"', '\\1"' + wifi_key + '"', line)
+                        lines[i] = '    psk="' + wifi_key + '"\n'
                         found_psk = True
                 
                     else:
