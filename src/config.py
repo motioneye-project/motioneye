@@ -410,6 +410,9 @@ def add_camera(device_details):
             data['height'] = device_details['height']
             data['ffmpeg_bps'] = device_details['ffmpeg_bps']
         
+        if 'root_directory' in device_details:
+            data['target_dir'] = device_details.get('root_directory')
+        
     else: # remote
         data['@host'] = device_details['host']
         data['@port'] = device_details['port']
