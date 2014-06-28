@@ -563,6 +563,9 @@ class PictureHandler(BaseHandler):
         elif op == 'list':
             self.list(camera_id)
             
+        elif op == 'frame':
+            self.frame(camera_id)
+            
         elif op == 'download':
             self.download(camera_id, filename)
         
@@ -638,6 +641,14 @@ class PictureHandler(BaseHandler):
             
             mediafiles.list_media(camera_config, media_type='picture',
                     callback=on_media_list, prefix=self.get_argument('prefix', None))
+
+    @BaseHandler.auth()
+    def frame(self, camera_id):
+        camera_config = config.get_camera(camera_id)
+        
+        self.render('frame.html',
+                camera_id=camera_id,
+                camera_config=camera_config)
 
     @BaseHandler.auth()
     def download(self, camera_id, filename):
