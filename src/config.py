@@ -1155,6 +1155,8 @@ def _set_default_motion_camera(camera_id, data, old_motion):
 
 
 def _get_wifi_settings(data):
+    # will return the first configured network
+    
     try:
         conf_file = open(settings.WPA_SUPPLICANT_CONF, 'r')
     
@@ -1164,16 +1166,108 @@ def _get_wifi_settings(data):
         
         return
     
-    # TODO read settings from file
-    
+    lines = conf_file.readlines()
     conf_file.close()
+    
+    ssid = psk = ''
+    in_section = False
+    for line in lines:
+        line = line.strip()
+        if line.startswith('#'):
+            continue
+        
+        if '{' in line:
+            in_section = True
+            
+        elif '}' in line:
+            in_section = False
+            break
+            
+        elif in_section:
+            m = re.search('ssid\s*=\s*"(.*?)"', line)
+            if m:
+                ssid = m.group(1)
+    
+            m = re.search('psk\s*=\s*"(.*?)"', line)
+            if m:
+                psk = m.group(1)
+
+    data['@wifi_enabled'] = bool(ssid)
+    data['@wifi_name'] = ssid
+    data['@wifi_key'] = psk
     
 
 def _set_wifi_settings(data):
-    wifi_enabled = data.pop('@wifi_enabled', False)
-    wifi_name = data.pop('@wifi_name', None)
-    wifi_key = data.pop('@wifi_key', None)
+    # will update the first configured network
     
+    wifi_enabled = data.pop('@wifi_enabled', False)
+    wifi_name = data.pop('@wifi_name', '')
+    wifi_key = data.pop('@wifi_key', '')
+    
+    try:
+        conf_file = open(settings.WPA_SUPPLICANT_CONF, 'r')
+    
+    except Exception as e:
+        logging.error('could open wifi settings file %(path)s: %(msg)s' % {
+                'path': settings.WPA_SUPPLICANT_CONF, 'msg': unicode(e)})
+
+        return
+    
+    lines = conf_file.readlines()
+    conf_file.close()
+    
+    in_section = False
+    found_ssid = False
+    found_psk = False
+    i = 0
+    while i < len(lines):
+        line = lines[i].strip()
+        if line.startswith('#'):
+            i += 1
+            continue
+        
+        if '{' in line:
+            in_section = True
+            
+        elif '}' in line:
+            in_section = False
+            if wifi_enabled and wifi_name and not found_ssid:
+                lines.insert(i, '    ssid="' + wifi_name + '"\n')
+            if wifi_enabled and wifi_key and not found_psk:
+                lines.insert(i, '    psk="' + wifi_key + '"\n')
+            
+            found_psk = found_ssid = True
+            
+            break
+            
+        elif in_section:
+            if wifi_enabled:
+                if re.match('ssid\s*=\s*".*?"', line):
+                    line = re.sub('(ssid\s*=\s*)".*?"', '\\1"' + wifi_name + '"', line)
+                    found_ssid = True
+                
+                elif re.match('psk\s*=\s*".*?"', line):
+                    if wifi_key:
+                        re.sub('(psk\s*=\s*)".*?"', '\\1"' + wifi_key + '"', line)
+                        found_psk = True
+                
+                    else:
+                        lines.pop(i)
+                        i -= 1
+        
+            else: # wifi disabled
+                if re.match('ssid\s*=\s*".*?"', line) or re.match('psk\s*=\s*".*?"', line):
+                    lines.pop(i)
+                    i -= 1
+        
+        i += 1
+
+    if wifi_enabled and not found_ssid:
+        lines.append('network={\n')
+        lines.append('    ssid="' + wifi_name + '"\n')
+        lines.append('    psk="' + wifi_key + '"\n')
+        lines.append('}\n\n')
+
     try:
         conf_file = open(settings.WPA_SUPPLICANT_CONF, 'w')
     
@@ -1183,6 +1277,7 @@ def _set_wifi_settings(data):
 
         return
     
-    # TODO write settings to file
+    for line in lines:
+        conf_file.write(line)
 
     conf_file.close()

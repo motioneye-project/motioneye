@@ -272,6 +272,7 @@ function initUI() {
         }
     });
     $('input.general').change(pushMainConfig);
+    $('input.wifi').change(pushMainConfig);
     $('input.device, select.device, ' +
       'input.storage, select.storage, ' +
       'input.text-overlay, select.text-overlay, ' + 
@@ -280,8 +281,7 @@ function initUI() {
       'input.motion-movies, select.motion-movies, ' +
       'input.motion-detection, select.motion-detection, ' +
       'input.notifications, select.notifications, ' +
-      'input.working-schedule, select.working-schedule, ' +
-      'input.wifi, select.wifi').change(pushCameraConfig);
+      'input.working-schedule, select.working-schedule').change(pushCameraConfig);
     
     /* preview controls */
     $('#brightnessSlider').change(function () {pushPreview('brightness');});
