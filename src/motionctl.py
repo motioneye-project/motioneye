@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import errno
+import logging
 import os.path
 import re
 import signal
@@ -24,6 +25,9 @@ import time
 
 import config
 import settings
+
+
+_started = False
 
 
 def find_motion():
@@ -46,8 +50,14 @@ def find_motion():
 
 
 def start():
+    global _started
+    
+    _started = True
+    
     if running():
-        raise Exception('motion is already running')
+        return
+    
+    logging.debug('starting motion')
  
     program = find_motion()
     if not program:
@@ -84,8 +94,14 @@ def start():
 def stop():
     import mjpgclient
     
+    global _started
+    
+    _started = False
+    
     if not running():
-        raise Exception('motion is not running')
+        return
+    
+    logging.debug('stopping motion')
 
     mjpgclient.close_all()
     
@@ -121,7 +137,6 @@ def running():
     if pid is None:
         return False
     
-    
     try:
         os.waitpid(pid, os.WNOHANG)
         os.kill(pid, 0)
@@ -136,12 +151,8 @@ def running():
     return False
 
 
-def restart():
-    if running():
-        stop()
-    
-    if config.has_enabled_cameras():
-        start()
+def started():
+    return _started
 
 
 def _get_pid():

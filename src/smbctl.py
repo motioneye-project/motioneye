@@ -22,10 +22,11 @@ import re
 import subprocess
 import time
 
-import config
-import settings
-
 from tornado import ioloop
+
+import config
+import motionctl
+import settings
 
 
 def find_mount_cifs():
@@ -127,7 +128,7 @@ def mount(server, share, username, password):
     except subprocess.CalledProcessError:
         logging.error('failed to mount smb share "//%s/%s" at "%s"' % (server, share, mount_point))
         
-        return False
+        return None
     
     # test to see if mount point is writable
     try:
@@ -139,7 +140,7 @@ def mount(server, share, username, password):
     except:
         logging.error('directory at "%s" is not writable' % mount_point)
         
-        return False
+        return None
     
     return mount_point
 
@@ -157,7 +158,7 @@ def umount(server, share, username):
         return False
     
     try:
-        os.remove(mount_point)
+        os.rmdir(mount_point)
     
     except Exception as e:
         logging.error('failed to remove smb mount point "%s": %s' % (mount_point, e))
@@ -173,18 +174,25 @@ def update_mounts():
     mounts = list_mounts()
     mounts = dict(((m['server'], m['share'], m['username'] or ''), False) for m in mounts)
     
+    should_stop = False # indicates that motion should be stopped immediately
+    should_start = True # indicates that motion can be started afterwards
     for network_share in network_shares:
         key = (network_share['server'], network_share['share'], network_share['username'] or '')
         if key in mounts: # found
             mounts[key] = True
         
         else: # needs to be mounted
-            mount(network_share['server'], network_share['share'], network_share['username'], network_share['password'])
+            should_stop = True
+            if not mount(network_share['server'], network_share['share'], network_share['username'], network_share['password']):
+                should_start = False
     
     # unmount the no longer necessary mounts
     for (network_share['server'], network_share['share'], network_share['username']), required in mounts.items():
         if not required:
             umount(network_share['server'], network_share['share'], network_share['username'])
+            should_stop = True
+    
+    return (should_stop, should_start)
 
 
 def umount_all():
@@ -195,8 +203,13 @@ def umount_all():
 def _check_mounts():
     logging.debug('checking SMB mounts...')
     
-    update_mounts()
+    stop, start = update_mounts()
+    if stop:
+        motionctl.stop()
 
+    if start:
+        motionctl.start()
+        
     io_loop = ioloop.IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts)
 

@@ -293,12 +293,19 @@ class ConfigHandler(BaseHandler):
         
         def finish():
             if restart[0]:
+                logging.debug('motion needs to be restarted')
+                
+                motionctl.stop()
+                
                 if settings.SMB_SHARES:
                     logging.debug('updating SMB mounts')
-                    smbctl.update_mounts()
+                    stop, start = smbctl.update_mounts()  # @UnusedVariable
 
-                logging.debug('motion needs to be restarted')
-                motionctl.restart()
+                    if start:
+                        motionctl.start()
+                
+                else:
+                    motionctl.start()
 
             self.finish({'reload': reload, 'error': error[0]})
         
@@ -500,10 +507,16 @@ class ConfigHandler(BaseHandler):
         camera_config['@id'] = camera_id
 
         if proto == 'v4l2':
+            motionctl.stop()
+            
             if settings.SMB_SHARES:
-                smbctl.update_mounts()
+                stop, start = smbctl.update_mounts()  # @UnusedVariable
 
-            motionctl.restart()
+                if start:
+                    motionctl.start()
+            
+            else:
+                motionctl.start()
             
             ui_config = config.camera_dict_to_ui(camera_config)
             
@@ -529,7 +542,9 @@ class ConfigHandler(BaseHandler):
         config.rem_camera(camera_id)
         
         if local:
-            motionctl.restart()
+            motionctl.stop()
+            if config.has_enabled_cameras():
+                motionctl.start()
             
         self.finish_json()
 

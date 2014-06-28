@@ -279,16 +279,17 @@ def _start_motion():
     import config
     import motionctl
 
+    ioloop = tornado.ioloop.IOLoop.instance()
+    
     # add a motion running checker
     def checker():
-        ioloop = tornado.ioloop.IOLoop.instance()
         if ioloop._stopped:
             return
             
-        if not motionctl.running() and config.has_enabled_cameras():
+        if not motionctl.running() and motionctl.started() and config.has_enabled_cameras():
             try:
+                logging.error('motion not running, starting it')
                 motionctl.start()
-                logging.info('motion started')
             
             except Exception as e:
                 logging.error('failed to start motion: %(msg)s' % {
@@ -296,7 +297,10 @@ def _start_motion():
 
         ioloop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
     
-    checker()
+    if config.has_enabled_cameras():
+        motionctl.start()
+        
+    ioloop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
 
 
 def _start_cleanup():
@@ -321,11 +325,14 @@ if __name__ == '__main__':
     
     _configure_signals()
     _configure_logging()
-    
     if settings.SMB_SHARES:
-        smbctl.update_mounts()
+        stop, start = smbctl.update_mounts()
+        if start:
+            _start_motion()
 
-    _start_motion()
+    else:
+        _start_motion()
+        
     _start_cleanup()
     
     if settings.THUMBNAILER_INTERVAL:
