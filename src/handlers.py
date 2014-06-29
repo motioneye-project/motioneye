@@ -19,6 +19,7 @@ import base64
 import json
 import logging
 import os
+import socket
 
 from tornado.web import RequestHandler, HTTPError, asynchronous
 
@@ -142,7 +143,8 @@ class NotFoundHandler(BaseHandler):
 class MainHandler(BaseHandler):
     @BaseHandler.auth()
     def get(self):
-        self.render('main.html')
+        self.render('main.html',
+                hostname=socket.gethostname())
 
 
 class ConfigHandler(BaseHandler):
