@@ -545,8 +545,7 @@ class ConfigHandler(BaseHandler):
         
         if local:
             motionctl.stop()
-            if config.has_enabled_cameras():
-                motionctl.start()
+            motionctl.start()
             
         self.finish_json()
 

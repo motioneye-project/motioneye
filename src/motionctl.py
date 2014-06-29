@@ -54,7 +54,7 @@ def start():
     
     _started = True
     
-    if running():
+    if running() or not config.has_enabled_cameras():
         return
     
     logging.debug('starting motion')

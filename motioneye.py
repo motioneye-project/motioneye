@@ -297,8 +297,7 @@ def _start_motion():
 
         ioloop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
     
-    if config.has_enabled_cameras():
-        motionctl.start()
+    motionctl.start()
         
     ioloop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
 
