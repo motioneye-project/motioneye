@@ -1782,6 +1782,7 @@ function addCameraFrameUi(cameraConfig) {
                 '<div class="camera-top-bar">' +
                     '<span class="camera-name"></span>' +
                     '<div class="camera-buttons">' +
+                        '<div class="button camera-button mouse-effect full-screen" title="full-screen window"></div>' +
                         '<div class="button camera-button mouse-effect media-pictures" title="pictures"></div>' +
                         '<div class="button camera-button mouse-effect media-movies" title="movies"></div>' +
                         '<div class="button camera-button mouse-effect configure" title="configure"></div>' +
@@ -1798,6 +1799,7 @@ function addCameraFrameUi(cameraConfig) {
     var configureButton = cameraFrameDiv.find('div.camera-button.configure');
     var picturesButton = cameraFrameDiv.find('div.camera-button.media-pictures');
     var moviesButton = cameraFrameDiv.find('div.camera-button.media-movies');
+    var fullScreenButton = cameraFrameDiv.find('div.camera-button.full-screen');
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
     var cameraProgress = cameraFrameDiv.find('div.camera-progress');
     var cameraImg = cameraFrameDiv.find('img.camera');
@@ -1857,6 +1859,12 @@ function addCameraFrameUi(cameraConfig) {
     moviesButton.click(function (cameraId) {
         return function () {
             runMediaDialog(cameraId, 'movie');
+        };
+    }(cameraId));
+    
+    fullScreenButton.click(function (cameraId) {
+        return function () {
+            window.open(window.location.href + 'picture/' + cameraId + '/frame/', '_blank');
         };
     }(cameraId));
     

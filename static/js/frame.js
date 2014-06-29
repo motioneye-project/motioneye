@@ -37,6 +37,7 @@ function setupCameraFrame() {
     var cameraProgress = cameraFrameDiv.find('div.camera-progress');
     var cameraImg = cameraFrameDiv.find('img.camera');
     var progressImg = cameraFrameDiv.find('img.camera-progress');
+    var body = $('body');
     
     cameraFrameDiv[0].refreshDivider = 0;
     cameraFrameDiv[0].streamingFramerate = parseInt(cameraFrameDiv.attr('streaming_framerate')) || 1;
@@ -67,9 +68,17 @@ function setupCameraFrame() {
         this.loading = 0;
         
         cameraImg.removeClass('error').removeClass('loading');
-        cameraImg.css('height', '');
         cameraPlaceholder.css('opacity', 0);
         cameraProgress.removeClass('visible');
+        
+        if (this.naturalWidth / this.naturalHeight > body.width() / body.height()) {
+            cameraImg.css('width', '100%');
+            cameraImg.css('height', 'auto');
+        }
+        else {
+            cameraImg.css('width', 'auto');
+            cameraImg.css('height', '100%');
+        }
     });
     
     cameraImg.addClass('loading');

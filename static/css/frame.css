@@ -49,12 +49,13 @@ div.camera-frame {
 
 div.camera-container {
     height: 100%;
+    text-align: center;
+    overflow: hidden;
 }
 
 img.camera {
     width: 100%;
     height: auto;
-    display: block;
     transition: opacity 0.2s linear;
     opacity: 1;
 }
@@ -62,7 +63,7 @@ img.camera {
 img.camera.error,
 img.camera.loading {
     opacity: 0;
-    height: 100%;
+    height: 100% !important;
 }
 
 div.camera-placeholder {
@@ -73,10 +74,11 @@ div.camera-placeholder {
     left: 0px;
     text-align: center;
     transition: opacity 0.2s linear;
+    overflow: hidden;
 }
 
 img.no-camera {
-    margin-top: 20%;
+    padding-top: 20%;
     width: 30%;
     opacity: 0.8;
 }
