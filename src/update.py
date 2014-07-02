@@ -15,13 +15,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
+import datetime
 import json
 import logging
 import os.path
 import shutil
+import subprocess
 import tempfile
 import time
 import urllib2
+
+from tornado.ioloop import IOLoop
 
 import settings
 
@@ -141,19 +145,25 @@ def cleanup(path):
         logging.error('could cleanup update directory: %(msg)s' % {'msg': unicode(e)})
 
 
-def is_updatable():
-    # the parent directory of the project directory
-    # needs to be writable in order for the updating to be possible
-    
-    parent = os.path.dirname(settings.PROJECT_PATH)
-
-    return os.access(parent, os.W_OK)
-
-
 def perform_update(version):
     logging.info('updating to version %(version)s...' % {'version': version})
     
     try:
+        # make sure the partition where motionEye resides is writable
+        if settings.ENABLE_REBOOT:
+            try:
+                df_lines = subprocess.check_output('df %s' % settings.PROJECT_PATH, shell=True).split('\n')
+                last_line = [l for l in df_lines if l.strip()][-1]
+                mount_point = last_line.split()[-1]
+                
+                os.system('mount -o remount,rw %s' % mount_point)
+            
+            except Exception as e:
+                logging.error('failed to remount root partition rw: %s' % e, exc_info=True)
+        
+        if not os.access(settings.PROJECT_PATH, os.W_OK):
+            raise Exception('path "%s" is not writable' % settings.PROJECT_PATH)
+        
         # download the archive
         archive = download(version)
         temp_path = os.path.dirname(archive)
@@ -187,6 +197,13 @@ def perform_update(version):
         cleanup(temp_path)
         
         logging.info('updating done')
+        
+        if settings.ENABLE_REBOOT:
+            def call_reboot():
+                logging.info('rebooting')
+                os.system('reboot')
+                
+            IOLoop.instance().add_timeout(datetime.timedelta(seconds=2), call_reboot)
         
         return True
     

@@ -310,6 +310,7 @@ class ConfigHandler(BaseHandler):
             if reboot[0]:
                 if settings.ENABLE_REBOOT:
                     def call_reboot():
+                        logging.info('rebooting')
                         os.system('reboot')
                     
                     ioloop = IOLoop.instance()

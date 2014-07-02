@@ -1039,11 +1039,29 @@ function doUpdate() {
                 showModalDialog('<div class="modal-progress"></div>');
                 ajax('POST', '/update/?version=' + data.update_version, null, function (result) {
                     if (result) {
-                        setTimeout(function () {
-                            runAlertDialog('motionEye was successfully updated!', function () {
-                                window.location.reload(true);
+                        var count = 0;
+                        function checkServer() {
+                            $.ajax({
+                                type: 'GET',
+                                url: '/config/0/get/',
+                                success: function () {
+                                    runAlertDialog('motionEye was successfully updated!', function () {
+                                        window.location.reload(true);
+                                    });
+                                },
+                                error: function () {
+                                    if (count < 25) {
+                                        count += 1;
+                                        setTimeout(checkServer, 2000);
+                                    }
+                                    else {
+                                        window.location.reload(true);
+                                    }
+                                }
                             });
-                        }, 10000);
+                        }
+                        
+                        setTimeout(checkServer, 15000);
                     }
                     else {
                         runAlertDialog('Update failed!', function () {
