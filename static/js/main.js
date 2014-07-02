@@ -946,6 +946,32 @@ function doApply() {
             return;
         }
         
+        if (data.reboot) {
+            var count = 0;
+            function checkServer() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/config/0/get/',
+                    success: function () {
+                        window.location.reload(true);
+                    },
+                    error: function () {
+                        if (count < 25) {
+                            count += 1;
+                            setTimeout(checkServer, 2000);
+                        }
+                        else {
+                            window.location.reload(true);
+                        }
+                    }
+                });
+            }
+            
+            setTimeout(checkServer, 15000);
+            
+            return;
+        }
+        
         if (data.reload) {
             window.location.reload(true);
             return;
@@ -961,7 +987,6 @@ function doApply() {
             
             $('#camera' + key).find('span.camera-name').html(config.name);
         });
-        
 
         pushConfigs = {};
         endProgress();

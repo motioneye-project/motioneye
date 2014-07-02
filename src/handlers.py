@@ -16,12 +16,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import base64
+import datetime
 import json
 import logging
 import os
 import socket
 
 from tornado.web import RequestHandler, HTTPError, asynchronous
+from tornado.ioloop import IOLoop
 
 import config
 import mediafiles
@@ -280,20 +282,43 @@ class ConfigHandler(BaseHandler):
             main_config = config.main_ui_to_dict(ui_config)
             admin_credentials = main_config.get('@admin_username', '') + ':' + main_config.get('@admin_password', '')
             
+            wifi_changed = bool([k for k in ['@wifi_enabled', '@wifi_name', '@wifi_key'] if old_main_config.get(k) != main_config.get(k)])
+            
             config.set_main(main_config)
+            
+            reboot = False
+            reload = False
             
             if admin_credentials != old_admin_credentials:
                 logging.debug('admin credentials changed, reload needed')
                 
-                return True # needs browser reload
+                reload = True
+            
+            if wifi_changed:
+                logging.debug('wifi settings changed, reboot needed')
                 
-            return False
+                reboot = True
+                
+            return {'reload': reload, 'reboot': reboot}
         
         reload = False # indicates that browser should reload the page
+        reboot = [False] # indicates that the server will reboot immediately
         restart = [False]  # indicates that the local motion instance was modified and needs to be restarted
         error = [None]
         
         def finish():
+            if reboot[0]:
+                if settings.ENABLE_REBOOT:
+                    def call_reboot():
+                        os.system('reboot')
+                    
+                    ioloop = IOLoop.instance()
+                    ioloop.add_timeout(datetime.timedelta(seconds=2), call_reboot)
+                    return self.finish({'reload': False, 'reboot': True, 'error': None})
+                
+                else:
+                    reboot[0] = False
+
             if restart[0]:
                 logging.debug('motion needs to be restarted')
                 
@@ -309,7 +334,7 @@ class ConfigHandler(BaseHandler):
                 else:
                     motionctl.start()
 
-            self.finish({'reload': reload, 'error': error[0]})
+            self.finish({'reload': reload, 'reboot': reboot[0], 'error': error[0]})
         
         if camera_id is not None:
             if camera_id == 0: # multiple camera configs
@@ -327,7 +352,9 @@ class ConfigHandler(BaseHandler):
         
                 for key, cfg in ui_config.items():
                     if key == 'main':
-                        reload = set_main_config(cfg) or reload
+                        result = set_main_config(cfg)
+                        reload = result['reload'] or reload
+                        reboot[0] = result['reboot'] or reboot[0]
                         check_finished(None, reload)
                         
                     else:
@@ -342,7 +369,9 @@ class ConfigHandler(BaseHandler):
                 set_camera_config(camera_id, ui_config, on_finish)
 
         else: # main config
-            reload = set_main_config(ui_config)
+            result = set_main_config(ui_config)
+            reload = result['reload']
+            reboot[0] = result['reboot']
 
     @BaseHandler.auth(admin=True)
     def set_preview(self, camera_id):

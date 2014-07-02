@@ -49,7 +49,10 @@ def _configure_settings():
     set_default_setting('LOG_LEVEL', logging.INFO)
     set_default_setting('LISTEN', '0.0.0.0')
     set_default_setting('PORT', 8765)
+    set_default_setting('WPA_SUPPLICANT_CONF', None)
     set_default_setting('SMB_SHARES', False)
+    set_default_setting('SMB_MOUNT_ROOT', '/media')
+    set_default_setting('ENABLE_REBOOT', False)
     set_default_setting('MOUNT_CHECK_INTERVAL', 300)
     set_default_setting('MOTION_CHECK_INTERVAL', 10)
     set_default_setting('CLEANUP_INTERVAL', 43200)
@@ -128,6 +131,10 @@ def _test_requirements():
     if os.geteuid() != 0:
         if settings.SMB_SHARES:
             print('SMB_SHARES require root privileges')
+            return False
+
+        if settings.ENABLE_REBOOT:
+            print('reboot requires root privileges')
             return False
 
     try:
