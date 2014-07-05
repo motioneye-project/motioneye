@@ -22,6 +22,7 @@ import re
 
 from collections import OrderedDict
 
+import diskctl
 import motionctl
 import settings
 import smbctl
@@ -282,7 +283,7 @@ def get_camera(camera_id, as_lines=False):
                 camera_config['stream_maxrate'] = camera_config.pop('webcam_maxrate')
             if 'webcam_localhost' in camera_config:
                 camera_config['stream_localhost'] = camera_config.pop('webcam_localhost')
-        
+                
         _set_default_motion_camera(camera_id, camera_config, False)
     
     _camera_config_cache[camera_id] = dict(camera_config)
@@ -704,7 +705,8 @@ def camera_dict_to_ui(data):
         'network_password': data['@network_password'],
         'disk_used': disk_used,
         'disk_total': disk_total,
-        
+        'available_disks': diskctl.list_mounted_disks(),
+
         # text overlay
         'text_overlay': False,
         'left_text': 'camera-name',

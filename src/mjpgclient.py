@@ -149,7 +149,8 @@ def _garbage_collector():
             logging.debug('mjpg client timed out receiving data for camera %(camera_id)s on port %(port)s' % {
                     'camera_id': camera_id, 'port': port})
             
-            motionctl.restart() # this will close all the mjpg clients
+            motionctl.stop() # this will close all the mjpg clients
+            motionctl.start() # this will close all the mjpg clients
             
             break
 
