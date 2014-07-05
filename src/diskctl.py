@@ -37,10 +37,13 @@ def _list_mounts():
             mount_point = parts[1]
             fstype = parts[2]
             opts = parts[3]
+            
+            if not os.access(mount_point, os.W_OK):
+                continue
 
             if fstype == 'fuseblk':
                 fstype = 'ntfs' # most likely'
-
+                
             logging.debug('found mount "%s" at "%s"' % (target, mount_point))
             
             mounts.append({
