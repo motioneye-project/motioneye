@@ -152,3 +152,23 @@ def list_mounted_disks():
         logging.error('failed to list mounted disks: %s' % e, exc_info=True)
         
     return mounted_disks
+
+
+def list_mounted_partitions():
+    mounted_partitions = {}
+
+    try:
+        disks = _list_disks()
+        mounts_by_target = dict((m['target'], m) for m in _list_mounts())
+        
+        for disk in disks:
+            for partition in disk['partitions']:
+                mount = mounts_by_target.get(partition['target'])
+                if mount:
+                    partition.update(mount)
+                    mounted_partitions[partition['target']] = partition 
+        
+    except Exception as e:
+        logging.error('failed to list mounted partitions: %s' % e, exc_info=True)
+        
+    return mounted_partitions

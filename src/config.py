@@ -209,7 +209,6 @@ def get_network_shares():
             'share': camera['@network_share_name'],
             'username': camera['@network_username'],
             'password': camera['@network_password'],
-            
         })
         
     return mounts
@@ -604,6 +603,16 @@ def camera_ui_to_dict(ui):
         if ui['root_directory'].startswith('/'):
             ui['root_directory'] = ui['root_directory'][1:]
         data['target_dir'] = os.path.join(mount_point, ui['root_directory'])
+    
+    elif ui['storage_device'].startswith('local-disk'):
+        target_dev = ui['storage_device'][10:].replace('-', '/')
+        mounted_partitions = diskctl.list_mounted_partitions()
+        partition = mounted_partitions[target_dev]
+        mount_point = partition['mount_point']
+        
+        if ui['root_directory'].startswith('/'):
+            ui['root_directory'] = ui['root_directory'][1:]
+        data['target_dir'] = os.path.normpath(os.path.join(mount_point, ui['root_directory']))
 
     else:
         data['target_dir'] = ui['root_directory']
@@ -799,6 +808,18 @@ def camera_dict_to_ui(data):
         mount_point = smbctl.make_mount_point(data['@network_server'], data['@network_share_name'], data['@network_username'])
         ui['root_directory'] = data['target_dir'][len(mount_point):]
     
+    elif data['@storage_device'].startswith('local-disk'):
+        target_dev = data['@storage_device'][10:].replace('-', '/')
+        mounted_partitions = diskctl.list_mounted_partitions()
+        for partition in mounted_partitions.values():
+            if partition['target'] == target_dev and data['target_dir'].startswith(partition['mount_point']):
+                ui['root_directory'] = data['target_dir'][len(partition['mount_point']):] or '/'
+                break
+
+        else: # not found for some reason
+            logging.error('could not find mounted partition for device "%s" and target dir "%s"' % (target_dev, data['target_dir']))
+            ui['root_directory'] = data['target_dir']
+
     else:
         ui['root_directory'] = data['target_dir']
 
@@ -1086,7 +1107,7 @@ def _set_default_motion_camera(camera_id, data, old_motion):
     data.setdefault('framerate', 2)
     data.setdefault('rotate', 0)
     
-    data.setdefault('@storage_device', 'local-disk')
+    data.setdefault('@storage_device', 'custom-path')
     data.setdefault('@network_server', '')
     data.setdefault('@network_share_name', '')
     data.setdefault('@network_username', '')

@@ -150,6 +150,15 @@ Array.prototype.sortKey = function (keyFunc, reverse) {
     });
 };
 
+String.prototype.replaceAll = String.prototype.replaceAll || function (oldStr, newStr) {
+    var p, s = this;
+    while ((p = s.indexOf(oldStr)) >= 0) {
+        s = s.substring(0, p) + newStr + s.substring(p + oldStr.length, s.length);
+    }
+    
+    return s.toString();
+};
+
 
     /* UI initialization */
 
@@ -252,6 +261,16 @@ function initUI() {
     $('#motionNotificationsSwitch').change(updateConfigUi);
     $('#workingScheduleSwitch').change(updateConfigUi);
     $('#wifiSwitch').change(updateConfigUi);
+    
+    $('#storageDeviceSelect').change(function () {
+        $('#rootDirectoryEntry').val('/');
+    });
+    
+    $('#rootDirectoryEntry').change(function () {
+        if (this.value.charAt(0) !== '/') {
+            this.value = '/' + this.value;
+        }
+    });
     
     /* fetch & push handlers */
     $('#videoDeviceSelect').change(function () {
@@ -380,15 +399,11 @@ function updateConfigUi() {
     }
     
     /* storage device */
-    var smbShares = $('#storageDeviceSelect').data('smb_shares');
-    if ($('#storageDeviceSelect').val() === 'local-disk' || !smbShares) {
+    if ($('#storageDeviceSelect').val() !== 'network-share') {
         $('#networkServerEntry').parents('tr:eq(0)').each(markHide);
         $('#networkUsernameEntry').parents('tr:eq(0)').each(markHide);
         $('#networkPasswordEntry').parents('tr:eq(0)').each(markHide);
         $('#networkShareNameEntry').parents('tr:eq(0)').each(markHide);
-    }
-    if (!smbShares) {
-        $('#storageDeviceSelect').parents('tr:eq(0)').each(markHide);
     }
     
     /* auto brightness */
@@ -710,8 +725,38 @@ function dict2CameraUi(dict) {
     $('#framerateSlider').val(dict['framerate']);
     
     /* file storage */
-    $('#storageDeviceSelect').data('smb_shares', dict['smb_shares']);
-    $('#storageDeviceSelect').val(dict['storage_device']);
+    $('#storageDeviceSelect').empty();
+    dict['available_disks'] = dict['available_disks'] || [];
+    var storageDeviceOptions = {};
+    dict['available_disks'].forEach(function (disk) {
+        disk.partitions.forEach(function (partition) {
+            var target = partition.target.replaceAll('/', '-');
+            var option = 'local-disk' + target;
+            var label = partition.vendor;
+            if (partition.model) {
+                label += ' ' + partition.model;
+            }
+            if (disk.partitions.length > 1) {
+                label += '/part' + partition.part_no;
+            }
+            label += ' (' + partition.target + ')';
+            
+            storageDeviceOptions[option] = true;
+            
+            $('#storageDeviceSelect').append('<option value="' + option + '">' + label + '</option>');
+        });
+    });
+    $('#storageDeviceSelect').append('<option value="custom-path">Custom Path</option>');
+    if (dict['smb_shares']) {
+        $('#storageDeviceSelect').append('<option value="network-share">Network Share</option>');
+    }
+
+    if (storageDeviceOptions[dict['storage_device']]) {
+        $('#storageDeviceSelect').val(dict['storage_device']);
+    }
+    else {
+        $('#storageDeviceSelect').val('custom-path');
+    }
     $('#networkServerEntry').val(dict['network_server']);
     $('#networkShareNameEntry').val(dict['network_share_name']);
     $('#networkUsernameEntry').val(dict['network_username']);
