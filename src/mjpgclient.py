@@ -141,6 +141,9 @@ def _garbage_collector():
             MjpgClient.last_jpg_moment[camera_id] = now
             
             continue
+        
+        if client.closed():
+            continue
 
         delta = now - last_jpg_moment
         delta = delta.days * 86400 + delta.seconds
