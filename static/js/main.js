@@ -727,7 +727,7 @@ function dict2CameraUi(dict) {
     /* file storage */
     $('#storageDeviceSelect').empty();
     dict['available_disks'] = dict['available_disks'] || [];
-    var storageDeviceOptions = {};
+    var storageDeviceOptions = {'network-share': true};
     dict['available_disks'].forEach(function (disk) {
         disk.partitions.forEach(function (partition) {
             var target = partition.target.replaceAll('/', '-');

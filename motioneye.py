@@ -29,8 +29,6 @@ import settings
 
 sys.path.append(os.path.join(getattr(settings, 'PROJECT_PATH', os.path.dirname(sys.argv[0])), 'src'))
 
-import smbctl
-
 VERSION = '0.12'
 
 
@@ -326,6 +324,8 @@ def _start_thumbnailer():
 if __name__ == '__main__':
     cmd = _configure_settings()
     
+    import smbctl
+
     if not _test_requirements():
         sys.exit(-1)
     

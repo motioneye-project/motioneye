@@ -201,7 +201,7 @@ def get_network_shares():
     
     mounts = []
     for camera in cameras:
-        if camera['@storage_device'] != 'network-share':
+        if camera.get('@storage_device') != 'network-share':
             continue
         
         mounts.append({
@@ -338,14 +338,6 @@ def set_camera(camera_id, camera_config):
         
         set_main(main_config)
         
-        # try to create the target_dir
-        try:
-            os.makedirs(camera_config['target_dir'])
-        
-        except OSError as e:
-            if e.errno != errno.EEXIST:
-                logging.warn('failed to create target directory: %(msg)s' % {'msg': unicode(e)})
-
     # read the actual configuration from file
     config_file_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
     if os.path.isfile(config_file_path):

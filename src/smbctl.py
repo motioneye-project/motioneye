@@ -187,9 +187,9 @@ def update_mounts():
                 should_start = False
     
     # unmount the no longer necessary mounts
-    for (network_share['server'], network_share['share'], network_share['username']), required in mounts.items():
+    for (server, share, username), required in mounts.items():
         if not required:
-            umount(network_share['server'], network_share['share'], network_share['username'])
+            umount(server, share, username)
             should_stop = True
     
     return (should_stop, should_start)
