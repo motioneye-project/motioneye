@@ -1035,6 +1035,7 @@ function doApply() {
 
         pushConfigs = {};
         endProgress();
+        recreateCameraFrames(); /* a camera could have been disabled */
     });
 }
 
@@ -1053,9 +1054,11 @@ function doRemCamera() {
     
     runConfirmDialog('Remove camera ' + deviceName + '?', function () {
         /* disable further refreshing of this camera */
-        var img = $('div.camera-frame#camera' + cameraId).find('img.camera')[0];
-        img.loading = 1;
-        
+        var img = $('div.camera-frame#camera' + cameraId).find('img.camera');
+        if (img.length) {
+            img[0].loading = 1;
+        }
+
         beginProgress();
         ajax('POST', '/config/' + cameraId + '/rem/', null, function (data) {
             if (data == null || data.error) {
@@ -1147,12 +1150,11 @@ function fetchCurrentConfig(onFetch) {
                 }
                 videoDeviceSelect.append('<option value="add">add camera...</option>');
                 
-                var enabledCameras = cameras.filter(function (camera) {return camera['enabled'];});
-                if (enabledCameras.length > 0) {
-                    videoDeviceSelect[0].selectedIndex = cameras.indexOf(enabledCameras[0]);
+                if (cameras.length) { /* at least one camera */
+                    videoDeviceSelect[0].selectedIndex = 0;
                     fetchCurrentCameraConfig();
                 }
-                else {
+                else { /* no camera at all */
                     videoDeviceSelect[0].selectedIndex = -1;
                 }
             
