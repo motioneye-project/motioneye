@@ -44,6 +44,8 @@ def stop():
     
     if _process.is_alive():
         _process.join(timeout=10)
+    
+    if _process.is_alive():
         logging.error('cleanup process did not finish in time, killing it...')
         os.kill(_process.pid, signal.SIGKILL)
     

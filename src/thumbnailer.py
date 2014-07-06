@@ -44,9 +44,11 @@ def stop():
     
     if _process.is_alive():
         _process.join(timeout=10)
+    
+    if _process.is_alive():
         logging.error('thumbnailer process did not finish in time, killing it...')
         os.kill(_process.pid, signal.SIGKILL)
-    
+
     _process = None
 
 

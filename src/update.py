@@ -20,6 +20,7 @@ import json
 import logging
 import os.path
 import shutil
+import signal
 import subprocess
 import tempfile
 import time
@@ -150,9 +151,10 @@ def perform_update(version):
     
     try:
         # make sure the partition where motionEye resides is writable
+        path = os.path.abspath(settings.PROJECT_PATH)
         if settings.ENABLE_REBOOT:
             try:
-                df_lines = subprocess.check_output('df %s' % settings.PROJECT_PATH, shell=True).split('\n')
+                df_lines = subprocess.check_output('df %s' % path, shell=True).split('\n')
                 last_line = [l for l in df_lines if l.strip()][-1]
                 mount_point = last_line.split()[-1]
                 
@@ -161,8 +163,8 @@ def perform_update(version):
             except Exception as e:
                 logging.error('failed to remount root partition rw: %s' % e, exc_info=True)
         
-        if not os.access(settings.PROJECT_PATH, os.W_OK):
-            raise Exception('path "%s" is not writable' % settings.PROJECT_PATH)
+        if not os.access(path, os.W_OK):
+            raise Exception('path "%s" is not writable' % path)
         
         # download the archive
         archive = download(version)
@@ -172,7 +174,25 @@ def perform_update(version):
         logging.debug('extracting archive %(archive)s...' % {'archive': archive})
         os.system('tar zxf %(archive)s -C %(path)s' % {
                 'archive': archive, 'path': temp_path})
-            
+        
+        # kill all the subprocesses
+        try:
+            children_pids = [int(p) for p in subprocess.check_output('ps -o pid --no-headers --ppid %s' % os.getpid(), shell=True).split() if p]
+            for pid in children_pids:
+                try:
+                    os.kill(pid, signal.SIGKILL)
+                    logging.debug('killed process %d' % pid)
+                
+                except Exception as e:
+                    if getattr(e, 'errno', None) == 3: # no such process
+                        continue
+                    
+                    else:
+                        logging.error('failed to kill process %d: %s' % (pid, e))
+
+        except Exception as e:
+            logging.error('failed to kill children processes: %s' % e)
+        
         # determine the root path of the extracted archive
         root_name = [f for f in os.listdir(temp_path) if os.path.isdir(os.path.join(temp_path, f))][0]
         root_path = os.path.join(temp_path, root_name)
