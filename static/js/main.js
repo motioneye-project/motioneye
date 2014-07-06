@@ -1083,39 +1083,34 @@ function doUpdate() {
         else {
             runConfirmDialog('New version available: ' + data.update_version + '. Update?', function () {
                 showModalDialog('<div style="text-align: center;"><span>This may take a few minutes.</span><div class="modal-progress"></div></div>');
-                ajax('POST', '/update/?version=' + data.update_version, null, function (result) {
-                    if (result) {
-                        var count = 0;
-                        function checkServerUpdate() {
-                            $.ajax({
-                                type: 'GET',
-                                url: '/config/0/get/',
-                                success: function () {
-                                    runAlertDialog('motionEye was successfully updated!', function () {
+                ajax('POST', '/update/?version=' + data.update_version, null, function () {
+                    var count = 0;
+                    function checkServerUpdate() {
+                        $.ajax({
+                            type: 'GET',
+                            url: '/config/0/get/',
+                            success: function () {
+                                runAlertDialog('motionEye was successfully updated!', function () {
+                                    window.location.reload(true);
+                                });
+                            },
+                            error: function () {
+                                if (count < 25) {
+                                    count += 1;
+                                    setTimeout(checkServerUpdate, 2000);
+                                }
+                                else {
+                                    runAlertDialog('Update failed!', function () {
                                         window.location.reload(true);
                                     });
-                                },
-                                error: function () {
-                                    if (count < 25) {
-                                        count += 1;
-                                        setTimeout(checkServerUpdate, 2000);
-                                    }
-                                    else {
-                                        window.location.reload(true);
-                                    }
                                 }
-                            });
-                        }
-                        
-                        setTimeout(checkServerUpdate, 10000);
-                    }
-                    else {
-                        runAlertDialog('Update failed!', function () {
-                            window.location.reload(true);
+                            }
                         });
                     }
+                    
+                    setTimeout(checkServerUpdate, 10000);
                 });
-                
+
                 return false; /* prevents hiding the modal container */
             });
         }
