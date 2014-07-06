@@ -359,6 +359,7 @@ div.modal-progress {
     background-image: url(../img/modal-progress.gif);
     width: 64px;
     height: 64px;
+    margin: auto;
 }
 
 td.dialog-item-label {

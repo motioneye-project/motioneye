@@ -991,7 +991,7 @@ function doApply() {
         
         if (data.reboot) {
             var count = 0;
-            function checkServer() {
+            function checkServerReboot() {
                 $.ajax({
                     type: 'GET',
                     url: '/config/0/get/',
@@ -1001,7 +1001,7 @@ function doApply() {
                     error: function () {
                         if (count < 25) {
                             count += 1;
-                            setTimeout(checkServer, 2000);
+                            setTimeout(checkServerReboot, 2000);
                         }
                         else {
                             window.location.reload(true);
@@ -1010,7 +1010,7 @@ function doApply() {
                 });
             }
             
-            setTimeout(checkServer, 15000);
+            setTimeout(checkServerReboot, 15000);
             
             return;
         }
@@ -1082,11 +1082,11 @@ function doUpdate() {
         }
         else {
             runConfirmDialog('New version available: ' + data.update_version + '. Update?', function () {
-                showModalDialog('<div class="modal-progress"></div>');
+                showModalDialog('<div style="text-align: center;"><span>This may take a few minutes.</span><div class="modal-progress"></div></div>');
                 ajax('POST', '/update/?version=' + data.update_version, null, function (result) {
                     if (result) {
                         var count = 0;
-                        function checkServer() {
+                        function checkServerUpdate() {
                             $.ajax({
                                 type: 'GET',
                                 url: '/config/0/get/',
@@ -1098,7 +1098,7 @@ function doUpdate() {
                                 error: function () {
                                     if (count < 25) {
                                         count += 1;
-                                        setTimeout(checkServer, 2000);
+                                        setTimeout(checkServerUpdate, 2000);
                                     }
                                     else {
                                         window.location.reload(true);
@@ -1107,7 +1107,7 @@ function doUpdate() {
                             });
                         }
                         
-                        setTimeout(checkServer, 15000);
+                        setTimeout(checkServerUpdate, 10000);
                     }
                     else {
                         runAlertDialog('Update failed!', function () {
