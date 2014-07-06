@@ -51,7 +51,7 @@ application = Application(
         (r'^/update/?$', handlers.UpdateHandler),
         (r'^.*$', handlers.NotFoundHandler),
     ],
-    debug=not settings.ENABLE_REBOOT, # enables autoreload when reboot is disabled
+    debug=False,
     log_function=log_request,
     static_path=settings.STATIC_PATH,
     static_url_prefix=settings.STATIC_URL

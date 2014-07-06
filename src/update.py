@@ -225,6 +225,13 @@ def perform_update(version):
                 
             IOLoop.instance().add_timeout(datetime.timedelta(seconds=2), call_reboot)
         
+        else:
+            from tornado import autoreload
+            
+            # this will reload the interpreter
+            logging.info('reloading python interpreter...')
+            autoreload._reload()
+        
         return True
     
     except Exception as e:
