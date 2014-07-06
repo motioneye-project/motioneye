@@ -273,6 +273,9 @@ class ConfigHandler(BaseHandler):
                         return on_finish(error, False)
                     
                     remote.set_config(local_config, ui_config, on_finish_wrapper)
+                
+                else:
+                    on_finish(None, False)
 
         def set_main_config(ui_config):
             logging.debug('setting main config...')
