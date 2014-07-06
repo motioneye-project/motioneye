@@ -117,7 +117,7 @@ def download(version):
         data = response.read()
 
     except Exception as e:
-        logging.error('could download update: %(msg)s' % {'msg': unicode(e)})
+        logging.error('could not download update: %(msg)s' % {'msg': unicode(e)})
         
         raise
     
@@ -131,7 +131,7 @@ def download(version):
             f.write(data)
         
     except Exception as e:
-        logging.error('could download update: %(msg)s' % {'msg': unicode(e)})
+        logging.error('could not download update: %(msg)s' % {'msg': unicode(e)})
         
         raise
     
