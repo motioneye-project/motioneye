@@ -146,6 +146,7 @@ class MainHandler(BaseHandler):
     @BaseHandler.auth()
     def get(self):
         self.render('main.html',
+                wpa_supplicant=settings.WPA_SUPPLICANT_CONF,
                 hostname=socket.gethostname())
 
 

@@ -37,7 +37,7 @@ def _make_request(host, port, username, password, uri, method='GET', data=None, 
         timeout = settings.REMOTE_REQUEST_TIMEOUT
         
     request = HTTPRequest(url, method, body=data, auth_username=username, auth_password=password,
-            request_timeout=timeout)
+            connect_timeout=timeout, request_timeout=timeout)
     
     return request
 
