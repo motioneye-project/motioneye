@@ -402,9 +402,34 @@ def add_camera(device_details):
             data['height'] = device_details['height']
             data['ffmpeg_bps'] = device_details['ffmpeg_bps']
         
-        if 'root_directory' in device_details:
-            data['target_dir'] = device_details.get('root_directory')
-        
+        if ('root_directory' in device_details) and ('storage_device' in device_details): 
+            if ((device_details['storage_device'] == 'network-share') and settings.SMB_SHARES and
+                ('network_server' in device_details) and ('network_share_name' in device_details) and
+                ('network_username' in device_details)):
+                
+                mount_point = smbctl.make_mount_point(
+                        device_details['network_server'], device_details['network_share_name'], device_details['network_username'])
+                
+                if device_details['root_directory'].startswith('/'):
+                    device_details['root_directory'] = device_details['root_directory'][1:]
+                data['target_dir'] = os.path.normpath(os.path.join(mount_point, device_details['root_directory']))
+                data['@storage_device'] = 'network-share'
+
+            elif device_details['storage_device'].startswith('local-disk'):
+                target_dev = device_details['storage_device'][10:].replace('-', '/')
+                mounted_partitions = diskctl.list_mounted_partitions()
+                partition = mounted_partitions[target_dev]
+                mount_point = partition['mount_point']
+                
+                if device_details['root_directory'].startswith('/'):
+                    device_details['root_directory'] = device_details['root_directory'][1:]
+                data['target_dir'] = os.path.normpath(os.path.join(mount_point, device_details['root_directory']))
+                data['@storage_device'] = device_details['storage_device']
+
+            else:
+                data['target_dir'] = device_details['root_directory']
+                data['@storage_device'] = 'custom-path'
+
     else: # remote
         data['@host'] = device_details['host']
         data['@port'] = device_details['port']
@@ -594,7 +619,7 @@ def camera_ui_to_dict(ui):
         mount_point = smbctl.make_mount_point(ui['network_server'], ui['network_share_name'], ui['network_username'])
         if ui['root_directory'].startswith('/'):
             ui['root_directory'] = ui['root_directory'][1:]
-        data['target_dir'] = os.path.join(mount_point, ui['root_directory'])
+        data['target_dir'] = os.path.normpath(os.path.join(mount_point, ui['root_directory']))
     
     elif ui['storage_device'].startswith('local-disk'):
         target_dev = ui['storage_device'][10:].replace('-', '/')
