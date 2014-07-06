@@ -273,19 +273,17 @@ function initUI() {
     });
     
     /* fetch & push handlers */
-    $('#videoDeviceSelect').change(function () {
+    $('#videoDeviceSelect').focus(function () {
+        /* remember the previously selected index */
+        this._prevSelectedIndex = this.selectedIndex;
+    
+    }).change(function () {
         if ($('#videoDeviceSelect').val() === 'add') {
             runAddCameraDialog();
-            if ($('#videoDeviceSelect').find('option').length > 1) {
-                $('#videoDeviceSelect')[0].selectedIndex = 0;
-            }
-            else {
-                $('#videoDeviceSelect')[0].selectedIndex = -1;
-            }
-            
-            updateConfigUi();
+            this.selectedIndex = this._prevSelectedIndex;
         }
         else {
+            this._prevSelectedIndex = this.selectedIndex;
             beginProgress([$(this).val()]);
             fetchCurrentCameraConfig(endProgress);
         }
@@ -692,7 +690,7 @@ function dict2CameraUi(dict) {
         /* errors while getting the configuration */
         
         $('#videoDeviceSwitch')[0].error = true;
-        $('#videoDeviceSwitch')[0].checked = true;
+        $('#videoDeviceSwitch')[0].checked = false;
         updateConfigUi();
         
         return;
@@ -1150,14 +1148,19 @@ function fetchCurrentConfig(onFetch) {
                 }
                 videoDeviceSelect.append('<option value="add">add camera...</option>');
                 
-                if (cameras.length) { /* at least one camera */
+                var enabledCameras = cameras.filter(function (camera) {return camera['enabled'];});
+                if (enabledCameras.length > 0) { /* prefer the first enabled camera */
+                    videoDeviceSelect[0].selectedIndex = cameras.indexOf(enabledCameras[0]);
+                    fetchCurrentCameraConfig();
+                }
+                else if (cameras.length) { /* a disabled camera */
                     videoDeviceSelect[0].selectedIndex = 0;
                     fetchCurrentCameraConfig();
                 }
                 else { /* no camera at all */
                     videoDeviceSelect[0].selectedIndex = -1;
                 }
-            
+
                 updateConfigUi();
             }
             
@@ -1567,7 +1570,7 @@ function runAddCameraDialog() {
             }
         });
         
-        deviceSelect.append('<option value="remote">Remote device...</option>');
+        deviceSelect.append('<option value="remote">Remote motionEye camera...</option>');
         
         updateUi();
         

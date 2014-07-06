@@ -22,6 +22,12 @@ body {
     background-color: #212121;
 }
 
+select,
+input[type=text],
+input[type=password] {
+    box-sizing: border-box;
+}
+
 
     /* fonts */
 
@@ -416,7 +422,7 @@ table.add-camera-dialog {
 table.add-camera-dialog select,
 table.add-camera-dialog input[type=text],
 table.add-camera-dialog input[type=password] {
-    width: 10em;
+    width: 17em;
 }
 
 

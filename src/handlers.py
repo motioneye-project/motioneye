@@ -487,7 +487,11 @@ class ConfigHandler(BaseHandler):
                     check_finished()
 
                 else:  # remote camera
-                    remote.get_config(local_config, on_response_builder(camera_id, local_config))
+                    if local_config['@enabled']:
+                        remote.get_config(local_config, on_response_builder(camera_id, local_config))
+                    
+                    else: # don't try to reach the remote of the camera is disabled
+                        on_response_builder(camera_id, local_config)(None)
             
             if length[0] == 0:        
                 self.finish_json({'cameras': []})
