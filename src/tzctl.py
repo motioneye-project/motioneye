@@ -33,7 +33,7 @@ def _get_time_zone_symlink():
             break
     
     if file and file.startswith('/usr/share/zoneinfo/'):
-        file = file[21:]
+        file = file[20:]
     
     else:
         file = None

@@ -288,7 +288,7 @@ function initUI() {
             fetchCurrentCameraConfig(endProgress);
         }
     });
-    $('input.general').change(pushMainConfig);
+    $('input.general, select.general').change(pushMainConfig);
     $('input.wifi').change(pushMainConfig);
     $('input.device, select.device, ' +
       'input.storage, select.storage, ' +
@@ -530,6 +530,7 @@ function mainUi2Dict() {
         'admin_password': $('#adminPasswordEntry').val(),
         'normal_username': $('#normalUsernameEntry').val(),
         'normal_password': $('#normalPasswordEntry').val(),
+        'time_zone': $('#timeZoneSelect').val(),
         
         'wifi_enabled': $('#wifiSwitch')[0].checked,
         'wifi_name': $('#wifiNameEntry').val(),
@@ -545,6 +546,7 @@ function dict2MainUi(dict) {
     $('#adminPasswordEntry').val(dict['admin_password']);
     $('#normalUsernameEntry').val(dict['normal_username']);
     $('#normalPasswordEntry').val(dict['normal_password']);
+    $('#timeZoneSelect').val(dict['time_zone']);
     
     $('#wifiSwitch')[0].checked = dict['wifi_enabled'];
     $('#wifiNameEntry').val(dict['wifi_name']);

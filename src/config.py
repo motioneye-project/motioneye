@@ -30,6 +30,7 @@ import tzctl
 import update
 import utils
 import v4l2ctl
+import wifictl
 
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
@@ -106,11 +107,8 @@ def set_main(main_config):
     _set_default_motion(main_config)
     _main_config_cache = dict(main_config)
 
-    if settings.WPA_SUPPLICANT_CONF:
-        _set_wifi_settings(main_config)
-        
-    if settings.LOCAL_TIME_FILE:
-        _set_localtime_settings(main_config)
+    _set_wifi_settings(main_config)
+    _set_localtime_settings(main_config)
         
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
     
@@ -496,6 +494,7 @@ def main_ui_to_dict(ui):
         '@admin_password': ui['admin_password'],
         '@normal_username': ui['normal_username'],
         '@normal_password': ui['normal_password'],
+        '@time_zone': ui['time_zone'],
         
         '@wifi_enabled': ui['wifi_enabled'],
         '@wifi_name': ui['wifi_name'],
@@ -512,6 +511,7 @@ def main_dict_to_ui(data):
         'admin_password': data['@admin_password'],
         'normal_username': data['@normal_username'],
         'normal_password': data['@normal_password'],
+        'time_zone': data['@time_zone'],
     
         'wifi_enabled': data['@wifi_enabled'],
         'wifi_name': data['@wifi_name'],
@@ -1109,7 +1109,7 @@ def _set_default_motion(data):
     data.setdefault('@admin_password', '')
     data.setdefault('@normal_username', 'user')
     data.setdefault('@normal_password', '')
-    data.setdefault('@timezone', 'UTC')
+    data.setdefault('@time_zone', 'UTC')
 
     data.setdefault('@wifi_enabled', False)
     data.setdefault('@wifi_name', '')
@@ -1206,142 +1206,25 @@ def _set_default_motion_camera(camera_id, data, old_motion):
 
 
 def _get_wifi_settings(data):
-    # will return the first configured network
-    
-    logging.debug('reading wifi settings from %s' % settings.WPA_SUPPLICANT_CONF)
-    
-    try:
-        conf_file = open(settings.WPA_SUPPLICANT_CONF, 'r')
-    
-    except Exception as e:
-        logging.error('could open wifi settings file %(path)s: %(msg)s' % {
-                'path': settings.WPA_SUPPLICANT_CONF, 'msg': unicode(e)})
-        
-        return
-    
-    lines = conf_file.readlines()
-    conf_file.close()
-    
-    ssid = psk = ''
-    in_section = False
-    for line in lines:
-        line = line.strip()
-        if line.startswith('#'):
-            continue
-        
-        if '{' in line:
-            in_section = True
-            
-        elif '}' in line:
-            in_section = False
-            break
-            
-        elif in_section:
-            m = re.search('ssid\s*=\s*"(.*?)"', line)
-            if m:
-                ssid = m.group(1)
-    
-            m = re.search('psk\s*=\s*"(.*?)"', line)
-            if m:
-                psk = m.group(1)
+    wifi_settings = wifictl.get_wifi_settings()
 
-    data['@wifi_enabled'] = bool(ssid)
-    data['@wifi_name'] = ssid
-    data['@wifi_key'] = psk
-    
-    if ssid:
-        logging.debug('wifi is enabled (name = "%s")' % ssid)
-    
-    else:
-        logging.debug('wifi is disabled')
+    data['@wifi_enabled'] = bool(wifi_settings['ssid'])
+    data['@wifi_name'] = wifi_settings['ssid']
+    data['@wifi_key'] = wifi_settings['psk']
     
 
 def _set_wifi_settings(data):
-    # will update the first configured network
-    
-    logging.debug('writing wifi settings to %s' % settings.WPA_SUPPLICANT_CONF)
-    
     wifi_enabled = data.pop('@wifi_enabled', False)
     wifi_name = data.pop('@wifi_name', '')
     wifi_key = data.pop('@wifi_key', '')
     
-    try:
-        conf_file = open(settings.WPA_SUPPLICANT_CONF, 'r')
-    
-    except Exception as e:
-        logging.error('could open wifi settings file %(path)s: %(msg)s' % {
-                'path': settings.WPA_SUPPLICANT_CONF, 'msg': unicode(e)})
-
-        return
-    
-    lines = conf_file.readlines()
-    conf_file.close()
-    
-    in_section = False
-    found_ssid = False
-    found_psk = False
-    i = 0
-    while i < len(lines):
-        line = lines[i].strip()
-        if line.startswith('#'):
-            i += 1
-            continue
+    if settings.WPA_SUPPLICANT_CONF:
+        s = {
+            'ssid': wifi_enabled and wifi_name,
+            'psk': wifi_key
+        }
         
-        if '{' in line:
-            in_section = True
-            
-        elif '}' in line:
-            in_section = False
-            if wifi_enabled and wifi_name and not found_ssid:
-                lines.insert(i, '    ssid="' + wifi_name + '"\n')
-            if wifi_enabled and wifi_key and not found_psk:
-                lines.insert(i, '    psk="' + wifi_key + '"\n')
-            
-            found_psk = found_ssid = True
-            
-            break
-            
-        elif in_section:
-            if wifi_enabled:
-                if re.match('ssid\s*=\s*".*?"', line):
-                    lines[i] = '    ssid="' + wifi_name + '"\n'
-                    found_ssid = True
-                
-                elif re.match('psk\s*=\s*".*?"', line):
-                    if wifi_key:
-                        lines[i] = '    psk="' + wifi_key + '"\n'
-                        found_psk = True
-                
-                    else:
-                        lines.pop(i)
-                        i -= 1
-        
-            else: # wifi disabled
-                if re.match('ssid\s*=\s*".*?"', line) or re.match('psk\s*=\s*".*?"', line):
-                    lines.pop(i)
-                    i -= 1
-        
-        i += 1
-
-    if wifi_enabled and not found_ssid:
-        lines.append('network={\n')
-        lines.append('    ssid="' + wifi_name + '"\n')
-        lines.append('    psk="' + wifi_key + '"\n')
-        lines.append('}\n\n')
-
-    try:
-        conf_file = open(settings.WPA_SUPPLICANT_CONF, 'w')
-    
-    except Exception as e:
-        logging.error('could open wifi settings file %(path)s: %(msg)s' % {
-                'path': settings.WPA_SUPPLICANT_CONF, 'msg': unicode(e)})
-
-        return
-    
-    for line in lines:
-        conf_file.write(line)
-
-    conf_file.close()
+        wifictl.set_wifi_settings(s)
 
 
 def _get_localtime_settings(data):
@@ -1351,5 +1234,5 @@ def _get_localtime_settings(data):
 
 def _set_localtime_settings(data):
     time_zone = data.pop('@time_zone')
-    if time_zone:
+    if time_zone and settings.LOCAL_TIME_FILE:
         tzctl.set_time_zone(time_zone)

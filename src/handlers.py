@@ -352,6 +352,11 @@ class ConfigHandler(BaseHandler):
                 if len(ui_config) > 1:
                     logging.debug('setting multiple configs')
                 
+                elif len(ui_config) == 0:
+                    logging.warn('no configuration to set')
+                    
+                    self.finish()
+                
                 so_far = [0]
                 def check_finished(e, r):
                     restart[0] = restart[0] or r
