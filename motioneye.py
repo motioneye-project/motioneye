@@ -47,10 +47,6 @@ def _configure_settings():
     set_default_setting('LOG_LEVEL', logging.INFO)
     set_default_setting('LISTEN', '0.0.0.0')
     set_default_setting('PORT', 8765)
-    set_default_setting('WPA_SUPPLICANT_CONF', None)
-    set_default_setting('SMB_SHARES', False)
-    set_default_setting('SMB_MOUNT_ROOT', '/media')
-    set_default_setting('ENABLE_REBOOT', False)
     set_default_setting('MOUNT_CHECK_INTERVAL', 300)
     set_default_setting('MOTION_CHECK_INTERVAL', 10)
     set_default_setting('CLEANUP_INTERVAL', 43200)
@@ -59,6 +55,11 @@ def _configure_settings():
     set_default_setting('MJPG_CLIENT_TIMEOUT', 10)
     set_default_setting('PICTURE_CACHE_SIZE', 8)
     set_default_setting('PICTURE_CACHE_LIFETIME', 60)
+    set_default_setting('SMB_SHARES', False)
+    set_default_setting('SMB_MOUNT_ROOT', '/media')
+    set_default_setting('WPA_SUPPLICANT_CONF', None)
+    set_default_setting('LOCAL_TIME_FILE', None)
+    set_default_setting('ENABLE_REBOOT', False)
     
     length = len(sys.argv) - 1
     for i in xrange(length):

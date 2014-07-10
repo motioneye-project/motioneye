@@ -20,6 +20,7 @@ import datetime
 import json
 import logging
 import os
+import pytz
 import socket
 
 from tornado.web import RequestHandler, HTTPError, asynchronous
@@ -145,8 +146,13 @@ class NotFoundHandler(BaseHandler):
 class MainHandler(BaseHandler):
     @BaseHandler.auth()
     def get(self):
+        timezones = []
+        if settings.LOCAL_TIME_FILE:
+            timezones = pytz.common_timezones
+
         self.render('main.html',
                 wpa_supplicant=settings.WPA_SUPPLICANT_CONF,
+                timezones=timezones,
                 hostname=socket.gethostname())
 
 

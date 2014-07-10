@@ -26,6 +26,7 @@ import diskctl
 import motionctl
 import settings
 import smbctl
+import tzctl
 import update
 import utils
 import v4l2ctl
@@ -89,6 +90,9 @@ def get_main(as_lines=False):
     if settings.WPA_SUPPLICANT_CONF:
         _get_wifi_settings(main_config)
         
+    if settings.LOCAL_TIME_FILE:
+        _get_localtime_settings(main_config)
+        
     _set_default_motion(main_config)
     
     _main_config_cache = main_config
@@ -104,6 +108,9 @@ def set_main(main_config):
 
     if settings.WPA_SUPPLICANT_CONF:
         _set_wifi_settings(main_config)
+        
+    if settings.LOCAL_TIME_FILE:
+        _set_localtime_settings(main_config)
         
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
     
@@ -1102,6 +1109,7 @@ def _set_default_motion(data):
     data.setdefault('@admin_password', '')
     data.setdefault('@normal_username', 'user')
     data.setdefault('@normal_password', '')
+    data.setdefault('@timezone', 'UTC')
 
     data.setdefault('@wifi_enabled', False)
     data.setdefault('@wifi_name', '')
@@ -1334,3 +1342,14 @@ def _set_wifi_settings(data):
         conf_file.write(line)
 
     conf_file.close()
+
+
+def _get_localtime_settings(data):
+    time_zone = tzctl.get_time_zone()
+    data['@time_zone'] = time_zone
+
+
+def _set_localtime_settings(data):
+    time_zone = data.pop('@time_zone')
+    if time_zone:
+        tzctl.set_time_zone(time_zone)

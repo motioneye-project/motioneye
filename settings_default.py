@@ -29,18 +29,6 @@ LISTEN = '0.0.0.0'
 # change the port according to your requirements/restrictions
 PORT = 8765
 
-# path to a wpa_supplicant.conf file if wifi settings UI is desired (requires root) 
-WPA_SUPPLICANT_CONF = None
-
-# enable SMB shares (requires root) 
-SMB_SHARES = False
-
-# the directory where the SMB mounts will be created
-SMB_MOUNT_ROOT = '/media'
-
-# enables rebooting after changing system settings (such as wifi settings or system updates)
-ENABLE_REBOOT = False
-
 # interval in seconds at which motionEye checks the SMB mounts
 MOUNT_CHECK_INTERVAL = 300
 
@@ -64,3 +52,18 @@ PICTURE_CACHE_SIZE = 8
 
 # the number of seconds that a cached picture is valid
 PICTURE_CACHE_LIFETIME = 60
+
+# enable SMB shares (requires root) 
+SMB_SHARES = False
+
+# the directory where the SMB mounts will be created
+SMB_MOUNT_ROOT = '/media'
+
+# path to a wpa_supplicant.conf file if wifi settings UI is desired
+WPA_SUPPLICANT_CONF = None
+
+# path to a localtime file if time zone settings UI is desired
+LOCAL_TIME_FILE = None
+
+# enables rebooting after changing system settings (such as wifi settings or system updates)
+ENABLE_REBOOT = False
