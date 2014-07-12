@@ -20,7 +20,6 @@ import datetime
 import json
 import logging
 import os
-import pytz
 import socket
 
 from tornado.web import RequestHandler, HTTPError, asynchronous
@@ -148,6 +147,7 @@ class MainHandler(BaseHandler):
     def get(self):
         timezones = []
         if settings.LOCAL_TIME_FILE:
+            import pytz
             timezones = pytz.common_timezones
 
         self.render('main.html',
