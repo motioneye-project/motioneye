@@ -617,6 +617,11 @@ div.camera-frame-place-holder {
     vertical-align: top;
 }
 
+div.camera-frame:only-child,
+div.camera-frame-place-holder:only-child {
+    width: 48%;
+}
+
 div.camera-frame-place-holder {
     visibility: hidden;
 }
@@ -799,8 +804,8 @@ img.camera-progress {
         padding-left: 1%;
     }
 
-    div.camera-frame,
-    div.camera-frame-place-holder {
+    div.camera-frame:only-child,
+    div.camera-frame-place-holder:only-child {
         width: 98%;
     }
 }
