@@ -711,7 +711,7 @@ def camera_dict_to_ui(data):
     resolutions = v4l2ctl.list_resolutions(data['videodevice'])
     resolutions = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
     
-    threshold = data['threshold'] * 100 / (data['width'] * data['height'])
+    threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
     
     ui = {
         # device
@@ -1166,7 +1166,7 @@ def _set_default_motion_camera(camera_id, data, old_motion):
     else:
         data.setdefault('locate_motion_mode', False)
         data.setdefault('locate_motion_style', 'redbox')
-    data.setdefault('threshold', 1500)
+    data.setdefault('threshold', 2000)
     data.setdefault('noise_tune', True)
     data.setdefault('noise_level', 32)
     data.setdefault('minimum_motion_frames', 1)
