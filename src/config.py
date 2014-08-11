@@ -271,6 +271,8 @@ def get_camera(camera_id, as_lines=False):
             
             if 'output_normal' in camera_config:
                 camera_config['output_pictures'] = camera_config.pop('output_normal')
+            if 'output_all' in camera_config:
+                camera_config['emulate_motion'] = camera_config.pop('output_all')
             if 'ffmpeg_cap_new' in camera_config:
                 camera_config['ffmpeg_output_movies'] = camera_config.pop('ffmpeg_cap_new')
             if 'locate' in camera_config:
@@ -287,6 +289,8 @@ def get_camera(camera_id, as_lines=False):
                 camera_config['stream_maxrate'] = camera_config.pop('webcam_maxrate')
             if 'webcam_localhost' in camera_config:
                 camera_config['stream_localhost'] = camera_config.pop('webcam_localhost')
+            if 'gap' in camera_config:
+                camera_config['event_gap'] = camera_config.pop('gap')
                 
         _set_default_motion_camera(camera_id, camera_config, False)
     
@@ -310,6 +314,8 @@ def set_camera(camera_id, camera_config):
             
             if 'output_pictures' in camera_config:
                 camera_config['output_normal'] = camera_config.pop('output_pictures')
+            if 'emulate_motion' in camera_config:
+                camera_config['output_all'] = camera_config.pop('emulate_motion')
             if 'ffmpeg_output_movies' in camera_config:
                 camera_config['ffmpeg_cap_new'] = camera_config.pop('ffmpeg_output_movies')
             if 'locate_motion_mode' in camera_config:
@@ -326,6 +332,8 @@ def set_camera(camera_id, camera_config):
                 camera_config['webcam_maxrate'] = camera_config.pop('stream_maxrate')
             if 'stream_localhost' in camera_config:
                 camera_config['webcam_localhost'] = camera_config.pop('stream_localhost')
+            if 'event_gap' in camera_config:
+                camera_config['gap'] = camera_config.pop('event_gap')
         
         _set_default_motion_camera(camera_id, camera_config, old_motion)
         
@@ -563,8 +571,7 @@ def camera_ui_to_dict(ui):
         
         # still images
         'output_pictures': False,
-        'output_all': False,
-        'output_motion': False,
+        'emulate_motion': False,
         'snapshot_interval': 0,
         'picture_filename': '',
         'snapshot_filename': '',
@@ -582,7 +589,7 @@ def camera_ui_to_dict(ui):
         'threshold': threshold,
         'noise_tune': ui['auto_noise_detect'],
         'noise_level': max(1, int(round(int(ui['noise_level']) * 2.55))),
-        'gap': int(ui['gap']),
+        'event_gap': int(ui['event_gap']),
         'pre_capture': int(ui['pre_capture']),
         'post_capture': int(ui['post_capture']),
         
@@ -676,7 +683,7 @@ def camera_ui_to_dict(ui):
             data['snapshot_filename'] = ui['image_file_name']
             
         elif capture_mode == 'all-frames':
-            data['output_all'] = True
+            data['emulate_motion'] = True
             data['picture_filename'] = ui['image_file_name']
             
         data['quality'] = max(1, int(ui['image_quality']))
@@ -774,7 +781,7 @@ def camera_dict_to_ui(data):
         'frame_change_threshold': threshold,
         'auto_noise_detect': data['noise_tune'],
         'noise_level': int(int(data['noise_level']) / 2.55),
-        'gap': int(data['gap']),
+        'event_gap': int(data['event_gap']),
         'pre_capture': int(data['pre_capture']),
         'post_capture': int(data['post_capture']),
         
@@ -872,18 +879,18 @@ def camera_dict_to_ui(data):
             ui['right_text'] = 'custom-text'
             ui['custom_right_text'] = text_right
 
-    output_all = data['output_all']
+    emulate_motion = data['emulate_motion']
     output_pictures = data['output_pictures']
     picture_filename = data['picture_filename']
     snapshot_interval = data['snapshot_interval']
     snapshot_filename = data['snapshot_filename']
     
-    if (((output_all or output_pictures) and picture_filename) or
+    if (((emulate_motion or output_pictures) and picture_filename) or
         (snapshot_interval and snapshot_filename)):
         
         ui['still_images'] = True
         
-        if output_all:
+        if emulate_motion:
             ui['capture_mode'] = 'all-frames'
             ui['image_file_name'] = picture_filename
             
@@ -1166,23 +1173,27 @@ def _set_default_motion_camera(camera_id, data, old_motion):
     else:
         data.setdefault('locate_motion_mode', False)
         data.setdefault('locate_motion_style', 'redbox')
+    
     data.setdefault('threshold', 2000)
     data.setdefault('noise_tune', True)
     data.setdefault('noise_level', 32)
     data.setdefault('minimum_motion_frames', 1)
     
-    data.setdefault('gap', 30)
     data.setdefault('pre_capture', 2)
     data.setdefault('post_capture', 4)
     
-    data.setdefault('output_all', False)
     if old_motion:
         data.setdefault('output_normal', False)
         data.setdefault('jpeg_filename', '')
-    
+        data.setdefault('output_all', False)
+        data.setdefault('gap', 30)
+
     else:
         data.setdefault('output_pictures', False)
         data.setdefault('picture_filename', '')
+        data.setdefault('emulate_motion', False)
+        data.setdefault('event_gap', 30)
+    
     data.setdefault('snapshot_interval', 0)
     data.setdefault('snapshot_filename', '')
     data.setdefault('quality', 85)

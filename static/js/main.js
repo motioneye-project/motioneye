@@ -220,7 +220,7 @@ function initUI() {
     makeNumberValidator($('#snapshotIntervalEntry'), 1, 86400, false, false, true);
     makeNumberValidator($('#picturesLifetime'), 1, 3650, false, false, true);
     makeNumberValidator($('#moviesLifetime'), 1, 3650, false, false, true);
-    makeNumberValidator($('#gapEntry'), 1, 86400, false, false, true);
+    makeNumberValidator($('#eventGapEntry'), 1, 86400, false, false, true);
     makeNumberValidator($('#preCaptureEntry'), 0, 100, false, false, true);
     makeNumberValidator($('#postCaptureEntry'), 0, 100, false, false, true);
     
@@ -642,7 +642,7 @@ function cameraUi2Dict() {
         'frame_change_threshold': $('#frameChangeThresholdSlider').val(),
         'auto_noise_detect': $('#autoNoiseDetectSwitch')[0].checked,
         'noise_level': $('#noiseLevelSlider').val(),
-        'gap': $('#gapEntry').val(),
+        'event_gap': $('#eventGapEntry').val(),
         'pre_capture': $('#preCaptureEntry').val(),
         'post_capture': $('#postCaptureEntry').val(),
         
@@ -813,7 +813,7 @@ function dict2CameraUi(dict) {
     $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']);
     $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect'];
     $('#noiseLevelSlider').val(dict['noise_level']);
-    $('#gapEntry').val(dict['gap']);
+    $('#eventGapEntry').val(dict['event_gap']);
     $('#preCaptureEntry').val(dict['pre_capture']);
     $('#postCaptureEntry').val(dict['post_capture']);
     
