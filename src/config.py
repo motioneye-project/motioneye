@@ -837,7 +837,7 @@ def camera_dict_to_ui(data):
     
     if (data['@storage_device'] == 'network-share') and settings.SMB_SHARES:
         mount_point = smbctl.make_mount_point(data['@network_server'], data['@network_share_name'], data['@network_username'])
-        ui['root_directory'] = data['target_dir'][len(mount_point):]
+        ui['root_directory'] = data['target_dir'][len(mount_point):] or '/'
     
     elif data['@storage_device'].startswith('local-disk'):
         target_dev = data['@storage_device'][10:].replace('-', '/')
