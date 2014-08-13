@@ -24,6 +24,8 @@ import subprocess
 
 def _get_time_zone_symlink():
     file = settings.LOCAL_TIME_FILE
+    if not file:
+        return None
     
     for i in xrange(8): # recursively follow the symlinks @UnusedVariable
         try:
@@ -46,6 +48,9 @@ def _get_time_zone_symlink():
 
 
 def _get_time_zone_md5():
+    if settings.LOCAL_TIME_FILE:
+        return None
+
     try:
         output = subprocess.check_output('cd /usr/share/zoneinfo; find * -type f | xargs md5sum', shell=True)
 

@@ -67,3 +67,6 @@ LOCAL_TIME_FILE = None
 
 # enables rebooting after changing system settings (such as wifi settings or system updates)
 ENABLE_REBOOT = False
+
+# the timeout in seconds to use when talking to a SMTP server
+SMTP_TIMEOUT = 60

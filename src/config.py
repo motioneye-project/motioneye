@@ -593,13 +593,14 @@ def camera_ui_to_dict(ui):
         'pre_capture': int(ui['pre_capture']),
         'post_capture': int(ui['post_capture']),
         
-        # motion notifications
-        '@motion_notifications': ui['motion_notifications'],
-        '@motion_notifications_emails': ui['motion_notifications_emails'],
-        
         # working schedule
-        '@working_schedule': ''
+        '@working_schedule': '',
+    
+        # events
+        'on_event_start': ''
     }
+    
+    on_event_start = []
     
     if 'brightness' in ui:
         if int(ui['brightness']) == 50:
@@ -693,6 +694,21 @@ def camera_ui_to_dict(ui):
         max_val = min(max_val, 9999999)
         
         data['ffmpeg_bps'] = int(ui['movie_quality']) * max_val / 100
+    
+    if ui['motion_notifications']:
+        send_mail_path = os.path.join(settings.PROJECT_PATH, 'sendmail.py')
+        send_mail_path = os.path.abspath(send_mail_path)
+        
+        emails = re.sub('\\s', '', ui['motion_notifications_emails'])
+        
+        on_event_start.append('%(script)s %(server)s %(port)s %(account)s %(password)s %(tls)s %(to)s motion_start %%t %%Y-%%m-%%dT%%H:%%M:%%S' % {
+                'script': send_mail_path,
+                'server': ui['smtp_server'],
+                'port': ui['smtp_port'],
+                'account': ui['smtp_account'],
+                'password': ui['smtp_password'],
+                'tls': ui['smtp_tls'],
+                'to': emails})
 
     if ui['working_schedule']:
         data['@working_schedule'] = (
@@ -703,6 +719,9 @@ def camera_ui_to_dict(ui):
                 ui['friday_from'] + '-' + ui['friday_to'] + '|' + 
                 ui['saturday_from'] + '-' + ui['saturday_to'] + '|' + 
                 ui['sunday_from'] + '-' + ui['sunday_to'])
+    
+    if on_event_start:
+        data['on_event_start'] = '; '.join(on_event_start)
 
     return data
 
@@ -785,10 +804,6 @@ def camera_dict_to_ui(data):
         'pre_capture': int(data['pre_capture']),
         'post_capture': int(data['post_capture']),
         
-        # motion notifications
-        'motion_notifications': data['@motion_notifications'],
-        'motion_notifications_emails': data['@motion_notifications_emails'],
-        
         # working schedule
         'working_schedule': False,
         'monday_from': '09:00', 'monday_to': '17:00',
@@ -799,6 +814,10 @@ def camera_dict_to_ui(data):
         'saturday_from': '09:00', 'saturday_to': '17:00',
         'sunday_from': '09:00', 'sunday_to': '17:00'
     }
+
+    on_event_start = data.get('on_event_start') or []
+    if on_event_start:
+        on_event_start = [e.strip() for e in on_event_start.split(';')]
 
     # the brightness & co. keys in the ui dictionary
     # indicate the presence of these controls
@@ -910,8 +929,24 @@ def camera_dict_to_ui(data):
         max_val = data['width'] * data['height'] * data['framerate'] / 3
         max_val = min(max_val, 9999999)
         
-        ui['movie_quality'] = min(100, int(round(ffmpeg_bps * 100.0 / max_val))) 
+        ui['movie_quality'] = min(100, int(round(ffmpeg_bps * 100.0 / max_val)))
     
+    for e in on_event_start:
+        if e.count('sendmail.py') and e.count('motion_start'):
+            e = e.split(' ')
+            if len(e) != 10:
+                continue
+
+            ui['motion_notifications'] = True 
+            ui['smtp_server'] = e[1]
+            ui['smtp_port'] = e[2]
+            ui['smtp_account'] = e[3]
+            ui['smtp_password'] = e[4]
+            ui['smtp_tls'] = e[5].lower() == 'true'
+            ui['motion_notifications_emails'] = e[6]
+
+            break
+
     working_schedule = data['@working_schedule']
     if working_schedule:
         days = working_schedule.split('|')
@@ -1210,10 +1245,9 @@ def _set_default_motion_camera(camera_id, data, old_motion):
     data.setdefault('ffmpeg_video_codec', 'msmpeg4')
     data.setdefault('@preserve_movies', 0)
     
-    data.setdefault('@motion_notifications', False)
-    data.setdefault('@motion_notifications_emails', '')
-    
     data.setdefault('@working_schedule', '')
+
+    data.setdefault('on_event_start', '')
 
 
 def _get_wifi_settings(data):

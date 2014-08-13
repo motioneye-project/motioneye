@@ -214,6 +214,9 @@ function initUI() {
     makeTextValidator($('#imageFileNameEntry'), true);
     makeTextValidator($('#movieFileNameEntry'), true);
     makeTextValidator($('#emailAddressesEntry'), true);
+    makeTextValidator($('#smtpServerEntry'), true);
+    makeTextValidator($('#smtpAccountEntry'), true);
+    makeTextValidator($('#smtpPasswordEntry'), true);
     
     /* number validators */
     makeNumberValidator($('#streamingPortEntry'), 1024, 65535, false, false, true);
@@ -223,6 +226,7 @@ function initUI() {
     makeNumberValidator($('#eventGapEntry'), 1, 86400, false, false, true);
     makeNumberValidator($('#preCaptureEntry'), 0, 100, false, false, true);
     makeNumberValidator($('#postCaptureEntry'), 0, 100, false, false, true);
+    makeNumberValidator($('#smtpPortEntry'), 1, 65535, false, false, true);
     
     /* time validators */
     makeTimeValidator($('#mondayFrom'));
@@ -243,6 +247,7 @@ function initUI() {
     /* ui elements that enable/disable other ui elements */
     $('#motionEyeSwitch').change(updateConfigUi);
     $('#showAdvancedSwitch').change(updateConfigUi);
+    $('#wifiSwitch').change(updateConfigUi);
     $('#storageDeviceSelect').change(updateConfigUi);
     $('#autoBrightnessSwitch').change(updateConfigUi);
     $('#resolutionSelect').change(updateConfigUi);
@@ -260,7 +265,6 @@ function initUI() {
     $('#preserveMoviesSelect').change(updateConfigUi);
     $('#motionNotificationsSwitch').change(updateConfigUi);
     $('#workingScheduleSwitch').change(updateConfigUi);
-    $('#wifiSwitch').change(updateConfigUi);
     
     $('#storageDeviceSelect').change(function () {
         $('#rootDirectoryEntry').val('/');
@@ -649,6 +653,11 @@ function cameraUi2Dict() {
         /* motion notifications */
         'motion_notifications': $('#motionNotificationsSwitch')[0].checked,
         'motion_notifications_emails': $('#emailAddressesEntry').val(),
+        'smtp_server': $('#smtpServerEntry').val(),
+        'smtp_port': $('#smtpPortEntry').val(),
+        'smtp_account': $('#smtpAccountEntry').val(),
+        'smtp_password': $('#smtpPasswordEntry').val(),
+        'smtp_tls': $('#smtpTlsSwitch')[0].checked,
         
         /* working schedule */
         'working_schedule': $('#workingScheduleSwitch')[0].checked,
@@ -820,7 +829,12 @@ function dict2CameraUi(dict) {
     /* motion notifications */
     $('#motionNotificationsSwitch')[0].checked = dict['motion_notifications'];
     $('#emailAddressesEntry').val(dict['motion_notifications_emails']);
-    
+    $('#smtpServerEntry').val(dict['smtp_server']);
+    $('#smtpPortEntry').val(dict['smtp_port']);
+    $('#smtpAccountEntry').val(dict['smtp_account']);
+    $('#smtpPasswordEntry').val(dict['smtp_password']);
+    $('#smtpTlsSwitch')[0].checked = dict['smtp_tls'];
+
     /* working schedule */
     $('#workingScheduleSwitch')[0].checked = dict['working_schedule'];
     $('#mondayFrom').val(dict['monday_from']);

@@ -420,12 +420,40 @@
                     </tr>
                 </table>
                 
-                <div class="settings-section-title hidden"><input type="checkbox" class="styled section notifications" id="motionNotificationsSwitch">Motion Notifications</div>
+                <div class="settings-section-title advanced-setting"><input type="checkbox" class="styled section notifications" id="motionNotificationsSwitch">Motion Notifications</div>
                 <table class="settings">
-                    <tr class="settings-item hidden">
+                    <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Email Addresses</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications" id="emailAddressesEntry" placeholder="email addresses..."></td>
-                        <td><span class="help-mark" title="email addresses (separated by comma) that are added here will receive notifications whenever a motion event is detected (leave empty to disable email notifications)">?</span></td>
+                        <td><span class="help-mark" title="email addresses (separated by comma) that are added here will receive notifications whenever a motion event is detected">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">SMTP Server</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled notifications" id="smtpServerEntry" placeholder="e.g. smtp.gmail.com"></td>
+                        <td><span class="help-mark" title="enter the hostname or IP address of your SMTP server (for Gmail use smtp.gmail.com)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">SMTP Port</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled number notifications" id="smtpPortEntry" placeholder="e.g. 587"></td>
+                        <td><span class="help-mark" title="enter the port used by your SMTP server (usually 465 for non-TLS connections and 587 for TLS connections)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">SMTP Account</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled notifications" id="smtpAccountEntry" placeholder="account@gmail.com..."></td>
+                        <td><span class="help-mark" title="enter your SMTP account (normally your email address)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">SMTP Password</span></td>
+                        <td class="settings-item-value"><input type="password" class="styled notifications" id="smtpPasswordEntry"></td>
+                        <td><span class="help-mark" title="enter your SMTP account password (for Gmail use your Google password or an app-specific generated password)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Use TLS</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled notifications" id="smtpTlsSwitch"></td>
+                        <td><span class="help-mark" title="enable this if your SMTP server requires TLS (Gmail works either way)">?</span></td>
                     </tr>
                 </table>
 
