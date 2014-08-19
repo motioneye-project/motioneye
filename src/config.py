@@ -700,8 +700,8 @@ def camera_ui_to_dict(ui):
         send_mail_path = os.path.abspath(send_mail_path)
         
         emails = re.sub('\\s', '', ui['motion_notifications_emails'])
-        
-        on_event_start.append('%(script)s %(server)s %(port)s %(account)s %(password)s %(tls)s %(to)s motion_start %%t %%Y-%%m-%%dT%%H:%%M:%%S' % {
+
+        on_event_start.append('%(script)s "%(server)s" "%(port)s" "%(account)s" "%(password)s" "%(tls)s" "%(to)s" "motion_start" "%%t" "%%Y-%%m-%%dT%%H:%%M:%%S"' % {
                 'script': send_mail_path,
                 'server': ui['smtp_server'],
                 'port': ui['smtp_port'],
@@ -933,7 +933,7 @@ def camera_dict_to_ui(data):
     
     for e in on_event_start:
         if e.count('sendmail.py') and e.count('motion_start'):
-            e = e.split(' ')
+            e = e.replace('"', '').split(' ')
             if len(e) != 10:
                 continue
 

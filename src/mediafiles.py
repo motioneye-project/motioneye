@@ -27,7 +27,6 @@ import tornado
 from PIL import Image
 
 import config
-import mjpgclient
 import settings
 import utils
 
@@ -94,7 +93,7 @@ def _list_media_files(dir, exts, prefix=None):
                     continue
                 
                 media_files.append((full_path, st))
-        
+
     return media_files
 
 
@@ -288,7 +287,7 @@ def list_media(camera_config, media_type, callback, prefix=None):
             callback(media_list)
     
     poll_process()
-    
+
 
 def get_media_content(camera_config, path, media_type):
     target_dir = camera_config.get('target_dir')
@@ -344,6 +343,8 @@ def get_media_preview(camera_config, path, media_type, width, height):
 
 
 def get_current_picture(camera_config, width, height):
+    import mjpgclient
+
     jpg = mjpgclient.get_jpg(camera_config['@id'])
     
     if jpg is None:
