@@ -695,20 +695,29 @@ def camera_ui_to_dict(ui):
         
         data['ffmpeg_bps'] = int(ui['movie_quality']) * max_val / 100
     
-    if ui['motion_notifications']:
+    if ui['email_notifications_enabled']:
         send_mail_path = os.path.join(settings.PROJECT_PATH, 'sendmail.py')
         send_mail_path = os.path.abspath(send_mail_path)
+        emails = re.sub('\\s', '', ui['email_notifications_addresses'])
         
-        emails = re.sub('\\s', '', ui['motion_notifications_emails'])
-
         on_event_start.append('%(script)s "%(server)s" "%(port)s" "%(account)s" "%(password)s" "%(tls)s" "%(to)s" "motion_start" "%%t" "%%Y-%%m-%%dT%%H:%%M:%%S"' % {
                 'script': send_mail_path,
-                'server': ui['smtp_server'],
-                'port': ui['smtp_port'],
-                'account': ui['smtp_account'],
-                'password': ui['smtp_password'],
-                'tls': ui['smtp_tls'],
+                'server': ui['email_notifications_smtp_server'],
+                'port': ui['email_notifications_smtp_port'],
+                'account': ui['email_notifications_smtp_account'],
+                'password': ui['email_notifications_smtp_password'],
+                'tls': ui['email_notifications_smtp_tls'],
                 'to': emails})
+        
+    if ui['web_hook_notifications_enabled']:
+        web_hook_path = os.path.join(settings.PROJECT_PATH, 'webhook.py')
+        web_hook_path = os.path.abspath(web_hook_path)
+        url = re.sub('\\s', '+', ui['web_hook_notifications_url'])
+
+        on_event_start.append('%(script)s "%(method)s" "%(url)s"' % {
+                'script': web_hook_path,
+                'method': ui['web_hook_notifications_http_method'],
+                'url': url})
 
     if ui['working_schedule']:
         data['@working_schedule'] = (
@@ -937,15 +946,22 @@ def camera_dict_to_ui(data):
             if len(e) != 10:
                 continue
 
-            ui['motion_notifications'] = True 
-            ui['smtp_server'] = e[1]
-            ui['smtp_port'] = e[2]
-            ui['smtp_account'] = e[3]
-            ui['smtp_password'] = e[4]
-            ui['smtp_tls'] = e[5].lower() == 'true'
-            ui['motion_notifications_emails'] = e[6]
+            ui['email_notifications_enabled'] = True 
+            ui['email_notifications_smtp_server'] = e[1]
+            ui['email_notifications_smtp_port'] = e[2]
+            ui['email_notifications_smtp_account'] = e[3]
+            ui['email_notifications_smtp_password'] = e[4]
+            ui['email_notifications_smtp_tls'] = e[5].lower() == 'true'
+            ui['email_notifications_addresses'] = e[6]
 
-            break
+        elif e.count('webhook.py'):
+            e = e.replace('"', '').split(' ')
+            if len(e) != 3:
+                continue
+
+            ui['web_hook_notifications_enabled'] = True 
+            ui['web_hook_notifications_method'] = e[1]
+            ui['web_hook_notifications_url'] = e[2]
 
     working_schedule = data['@working_schedule']
     if working_schedule:

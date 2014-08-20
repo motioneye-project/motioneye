@@ -217,6 +217,7 @@ function initUI() {
     makeTextValidator($('#smtpServerEntry'), true);
     makeTextValidator($('#smtpAccountEntry'), true);
     makeTextValidator($('#smtpPasswordEntry'), true);
+    makeTextValidator($('#webHookUrlEntry'), true);
     
     /* number validators */
     makeNumberValidator($('#streamingPortEntry'), 1024, 65535, false, false, true);
@@ -263,7 +264,8 @@ function initUI() {
     $('#preservePicturesSelect').change(updateConfigUi);
     $('#motionMoviesSwitch').change(updateConfigUi);
     $('#preserveMoviesSelect').change(updateConfigUi);
-    $('#motionNotificationsSwitch').change(updateConfigUi);
+    $('#emailNotificationsSwitch').change(updateConfigUi);
+    $('#webHookNotificationsSwitch').change(updateConfigUi);
     $('#workingScheduleSwitch').change(updateConfigUi);
     
     $('#storageDeviceSelect').change(function () {
@@ -471,11 +473,21 @@ function updateConfigUi() {
         $('#moviesLifetime').parents('tr:eq(0)').each(markHide);
     }
     
-    /* motion notifications switch */
-    if (!$('#motionNotificationsSwitch').get(0).checked) {
-        $('#motionNotificationsSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+    /* email notifications switch */
+    if (!$('#emailNotificationsSwitch').get(0).checked) {
+        $('#emailAddressesEntry').parents('tr:eq(0)').each(markHide);
+        $('#smtpServerEntry').parents('tr:eq(0)').each(markHide);
+        $('#smtpPortEntry').parents('tr:eq(0)').each(markHide);
+        $('#smtpAccountEntry').parents('tr:eq(0)').each(markHide);
+        $('#smtpPasswordEntry').parents('tr:eq(0)').each(markHide);
+        $('#smtpTlsSwitch').parents('tr:eq(0)').each(markHide);
     }
     
+    if (!$('#webHookNotificationsSwitch').get(0).checked) {
+        $('#webHookUrlEntry').parents('tr:eq(0)').each(markHide);
+        $('#webHookHttpMethod').parents('tr:eq(0)').each(markHide);
+    }
+
     /* working schedule switch */
     if (!$('#workingScheduleSwitch').get(0).checked) {
         $('#workingScheduleSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
@@ -651,13 +663,16 @@ function cameraUi2Dict() {
         'post_capture': $('#postCaptureEntry').val(),
         
         /* motion notifications */
-        'motion_notifications': $('#motionNotificationsSwitch')[0].checked,
-        'motion_notifications_emails': $('#emailAddressesEntry').val(),
-        'smtp_server': $('#smtpServerEntry').val(),
-        'smtp_port': $('#smtpPortEntry').val(),
-        'smtp_account': $('#smtpAccountEntry').val(),
-        'smtp_password': $('#smtpPasswordEntry').val(),
-        'smtp_tls': $('#smtpTlsSwitch')[0].checked,
+        'email_notifications_enabled': $('#emailNotificationsSwitch')[0].checked,
+        'email_notifications_addresses': $('#emailAddressesEntry').val(),
+        'email_notifications_smtp_server': $('#smtpServerEntry').val(),
+        'email_notifications_smtp_port': $('#smtpPortEntry').val(),
+        'email_notifications_smtp_account': $('#smtpAccountEntry').val(),
+        'email_notifications_smtp_password': $('#smtpPasswordEntry').val(),
+        'email_notifications_smtp_tls': $('#smtpTlsSwitch')[0].checked,
+        'web_hook_notifications_enabled': $('#webHookNotificationsSwitch')[0].checked,
+        'web_hook_notifications_url': $('#webHookUrlEntry').val(),
+        'web_hook_notifications_http_method': $('#webHookHttpMethod').val(),
         
         /* working schedule */
         'working_schedule': $('#workingScheduleSwitch')[0].checked,
@@ -827,13 +842,16 @@ function dict2CameraUi(dict) {
     $('#postCaptureEntry').val(dict['post_capture']);
     
     /* motion notifications */
-    $('#motionNotificationsSwitch')[0].checked = dict['motion_notifications'];
-    $('#emailAddressesEntry').val(dict['motion_notifications_emails']);
-    $('#smtpServerEntry').val(dict['smtp_server']);
-    $('#smtpPortEntry').val(dict['smtp_port']);
-    $('#smtpAccountEntry').val(dict['smtp_account']);
-    $('#smtpPasswordEntry').val(dict['smtp_password']);
-    $('#smtpTlsSwitch')[0].checked = dict['smtp_tls'];
+    $('#emailNotificationsSwitch')[0].checked = dict['email_notifications_enabled'];
+    $('#emailAddressesEntry').val(dict['email_notifications_addresses']);
+    $('#smtpServerEntry').val(dict['email_notifications_smtp_server']);
+    $('#smtpPortEntry').val(dict['email_notifications_smtp_port']);
+    $('#smtpAccountEntry').val(dict['email_notifications_smtp_account']);
+    $('#smtpPasswordEntry').val(dict['email_notifications_smtp_password']);
+    $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls'];
+    $('#webHookNotificationsSwitch')[0].checked = dict['web_hook_notifications_enabled'];
+    $('#webHookUrlEntry').val(dict['web_hook_notifications_url']);
+    $('#webHookHttpMethod').val(dict['web_hook_notifications_http_method']);
 
     /* working schedule */
     $('#workingScheduleSwitch')[0].checked = dict['working_schedule'];

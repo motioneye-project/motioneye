@@ -159,6 +159,10 @@ if __name__ == '__main__':
     logging.debug('moment = %s' % moment.strftime('%Y-%m-%d %H:%M:%S'))
     logging.debug('smtp timeout = %d' % settings.SMTP_TIMEOUT)
     
+    if not to:
+        logging.info('no email address specified')
+        sys.exit(0)
+
     io_loop = IOLoop.instance()
     
     def on_message(subject, message, files):

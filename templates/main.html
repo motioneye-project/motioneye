@@ -420,15 +420,17 @@
                     </tr>
                 </table>
                 
-                <div class="settings-section-title advanced-setting"><input type="checkbox" class="styled section notifications" id="motionNotificationsSwitch">Motion Notifications</div>
+                <div class="settings-section-title advanced-setting">Motion Notifications</div>
                 <table class="settings">
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Email Notifications</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled notifications" id="emailNotificationsSwitch"></td>
+                        <td><span class="help-mark" title="enable this if you want to receive email notifications whenever a motion event is detected">?</span></td>
+                    </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Email Addresses</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications" id="emailAddressesEntry" placeholder="email addresses..."></td>
                         <td><span class="help-mark" title="email addresses (separated by comma) that are added here will receive notifications whenever a motion event is detected">?</span></td>
-                    </tr>
-                    <tr class="settings-item advanced-setting">
-                        <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">SMTP Server</span></td>
@@ -454,6 +456,29 @@
                         <td class="settings-item-label"><span class="settings-item-label">Use TLS</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled notifications" id="smtpTlsSwitch"></td>
                         <td><span class="help-mark" title="enable this if your SMTP server requires TLS (Gmail needs this to be enabled)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Web Hook Notifications</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled notifications" id="webHookNotificationsSwitch"></td>
+                        <td><span class="help-mark" title="enable this if you want a URL to be requested whenever a motion event is detected">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Web Hook URL</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled notifications" id="webHookUrlEntry" placeholder="e.g. http://www.example.com/notify/"></td>
+                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">HTTP Method</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled notifications" id="webHookHttpMethod">
+                                <option value="GET">GET</option>
+                                <option value="POST">POST</option>
+                            </select>
+                        </td>
+                        <td><span class="help-mark" title="the HTTP method to use when requesting the web hook URL">?</span></td>
                     </tr>
                 </table>
 
