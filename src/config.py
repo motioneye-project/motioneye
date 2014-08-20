@@ -719,6 +719,10 @@ def camera_ui_to_dict(ui):
                 'method': ui['web_hook_notifications_http_method'],
                 'url': url})
 
+    if ui['command_notifications_enabled']:
+        commands = ui['command_notifications_exec'].split(';')
+        on_event_start += [c.strip() for c in commands]
+
     if ui['working_schedule']:
         data['@working_schedule'] = (
                 ui['monday_from'] + '-' + ui['monday_to'] + '|' + 
@@ -940,6 +944,7 @@ def camera_dict_to_ui(data):
         
         ui['movie_quality'] = min(100, int(round(ffmpeg_bps * 100.0 / max_val)))
     
+    command_notifications = []
     for e in on_event_start:
         if e.count('sendmail.py') and e.count('motion_start'):
             e = e.replace('"', '').split(' ')
@@ -960,8 +965,15 @@ def camera_dict_to_ui(data):
                 continue
 
             ui['web_hook_notifications_enabled'] = True 
-            ui['web_hook_notifications_method'] = e[1]
+            ui['web_hook_notifications_http_method'] = e[1]
             ui['web_hook_notifications_url'] = e[2]
+
+        else: # custom command
+            command_notifications.append(e)
+    
+    if command_notifications: 
+        ui['command_notifications_enabled'] = True
+        ui['command_notifications_exec'] = '; '.join(command_notifications)
 
     working_schedule = data['@working_schedule']
     if working_schedule:

@@ -480,6 +480,19 @@
                         </td>
                         <td><span class="help-mark" title="the HTTP method to use when requesting the web hook URL">?</span></td>
                     </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Run A Command</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled notifications" id="commandNotificationsSwitch"></td>
+                        <td><span class="help-mark" title="enable this if you want to execute a command whenever a motion event is detected">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled notifications" id="commandNotificationsEntry" placeholder="command..."></td>
+                        <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
+                    </tr>
                 </table>
 
                 <div class="settings-section-title hidden"><input type="checkbox" class="styled section working-schedule" id="workingScheduleSwitch">Working Schedule</div>

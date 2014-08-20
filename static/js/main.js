@@ -218,6 +218,7 @@ function initUI() {
     makeTextValidator($('#smtpAccountEntry'), true);
     makeTextValidator($('#smtpPasswordEntry'), true);
     makeTextValidator($('#webHookUrlEntry'), true);
+    makeTextValidator($('#commandNotificationsEntry'), true);
     
     /* number validators */
     makeNumberValidator($('#streamingPortEntry'), 1024, 65535, false, false, true);
@@ -266,6 +267,7 @@ function initUI() {
     $('#preserveMoviesSelect').change(updateConfigUi);
     $('#emailNotificationsSwitch').change(updateConfigUi);
     $('#webHookNotificationsSwitch').change(updateConfigUi);
+    $('#commandNotificationsSwitch').change(updateConfigUi);
     $('#workingScheduleSwitch').change(updateConfigUi);
     
     $('#storageDeviceSelect').change(function () {
@@ -488,6 +490,10 @@ function updateConfigUi() {
         $('#webHookHttpMethod').parents('tr:eq(0)').each(markHide);
     }
 
+    if (!$('#commandNotificationsSwitch').get(0).checked) {
+        $('#commandNotificationsEntry').parents('tr:eq(0)').each(markHide);
+    }
+
     /* working schedule switch */
     if (!$('#workingScheduleSwitch').get(0).checked) {
         $('#workingScheduleSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
@@ -673,6 +679,8 @@ function cameraUi2Dict() {
         'web_hook_notifications_enabled': $('#webHookNotificationsSwitch')[0].checked,
         'web_hook_notifications_url': $('#webHookUrlEntry').val(),
         'web_hook_notifications_http_method': $('#webHookHttpMethod').val(),
+        'command_notifications_enabled': $('#commandNotificationsSwitch')[0].checked,
+        'command_notifications_exec': $('#commandNotificationsEntry').val(),
         
         /* working schedule */
         'working_schedule': $('#workingScheduleSwitch')[0].checked,
@@ -852,6 +860,8 @@ function dict2CameraUi(dict) {
     $('#webHookNotificationsSwitch')[0].checked = dict['web_hook_notifications_enabled'];
     $('#webHookUrlEntry').val(dict['web_hook_notifications_url']);
     $('#webHookHttpMethod').val(dict['web_hook_notifications_http_method']);
+    $('#commandNotificationsSwitch')[0].checked = dict['command_notifications_enabled'];
+    $('#commandNotificationsEntry').val(dict['command_notifications_exec']);
 
     /* working schedule */
     $('#workingScheduleSwitch')[0].checked = dict['working_schedule'];
