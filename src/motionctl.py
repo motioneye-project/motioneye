@@ -71,7 +71,14 @@ def start():
     
     args = [program,
             '-c', motion_config_path,
-            '-n']
+            '-n',
+            '-d']
+    
+    if settings.LOG_LEVEL == logging.DEBUG:
+        args.append('9')
+    
+    else:
+        args.append('1')
 
     log_file = open(motion_log_path, 'w')
     
