@@ -38,11 +38,12 @@ def _configure_settings():
             setattr(settings, name, value)
     
     set_default_setting('PROJECT_PATH', os.path.dirname(sys.argv[0]))
-    set_default_setting('TEMPLATE_PATH', os.path.join(settings.PROJECT_PATH, 'templates'))  # @UndefinedVariable
-    set_default_setting('STATIC_PATH', os.path.join(settings.PROJECT_PATH, 'static'))  # @UndefinedVariable
+    set_default_setting('TEMPLATE_PATH', os.path.join(settings.PROJECT_PATH, 'templates'))
+    set_default_setting('STATIC_PATH', os.path.join(settings.PROJECT_PATH, 'static'))
     set_default_setting('STATIC_URL', '/static/')
-    set_default_setting('CONF_PATH', os.path.join(settings.PROJECT_PATH, 'conf'))  # @UndefinedVariable
-    set_default_setting('RUN_PATH', os.path.join(settings.PROJECT_PATH, 'run'))  # @UndefinedVariable
+    set_default_setting('CONF_PATH', os.path.join(settings.PROJECT_PATH, 'conf'))
+    set_default_setting('RUN_PATH', os.path.join(settings.PROJECT_PATH, 'run'))
+    set_default_setting('MEDIA_PATH', os.path.join(settings.PROJECT_PATH, 'media'))
     set_default_setting('REPO', ('ccrisan', 'motioneye'))
     set_default_setting('LOG_LEVEL', logging.INFO)
     set_default_setting('LISTEN', '0.0.0.0')
@@ -123,6 +124,12 @@ def _configure_settings():
     
     try:
         os.makedirs(settings.RUN_PATH)
+
+    except:
+        pass
+
+    try:
+        os.makedirs(settings.MEDIA_PATH)
 
     except:
         pass

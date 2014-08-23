@@ -1259,7 +1259,7 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('@network_share_name', '')
     data.setdefault('@network_username', '')
     data.setdefault('@network_password', '')
-    data.setdefault('target_dir', settings.RUN_PATH)
+    data.setdefault('target_dir', settings.MEDIA_PATH)
     
     if old_motion:
         data.setdefault('webcam_localhost', False)

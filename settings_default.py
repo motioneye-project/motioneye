@@ -14,8 +14,11 @@ STATIC_URL = '/static/'
 # path to the config directory; must be writable
 CONF_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'conf'))
 
-# logs, pid files and other output files go here
+# log and pid files go here
 RUN_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'run'))
+
+# default output path for media files
+MEDIA_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'media'))
 
 # repository details for software updating
 REPO = ('ccrisan', 'motioneye')
