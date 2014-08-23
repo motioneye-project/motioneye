@@ -194,7 +194,7 @@ def has_enabled_cameras():
     
     camera_ids = get_camera_ids()
     cameras = [get_camera(camera_id) for camera_id in camera_ids]
-    return bool([c for c in cameras if c['@enabled'] and c['@proto'] == 'v4l2'])
+    return bool([c for c in cameras if c.get('@enabled') and utils.local_camera(c)])
 
 
 def get_network_shares():
@@ -254,10 +254,8 @@ def get_camera(camera_id, as_lines=False):
         
     camera_config = _conf_to_dict(lines)
     
-    camera_config.setdefault('@proto', 'v4l2')
-    
-    # determine the enabled status
-    if camera_config['@proto'] == 'v4l2':
+    if utils.local_camera(camera_config):
+        # determine the enabled status
         main_config = get_main()
         threads = main_config.get('thread', [])
         camera_config['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
@@ -292,7 +290,7 @@ def get_camera(camera_id, as_lines=False):
             if 'gap' in camera_config:
                 camera_config['event_gap'] = camera_config.pop('gap')
                 
-        _set_default_motion_camera(camera_id, camera_config, False)
+        _set_default_motion_camera(camera_id, camera_config)
     
     _camera_config_cache[camera_id] = dict(camera_config)
     
@@ -302,10 +300,11 @@ def get_camera(camera_id, as_lines=False):
 def set_camera(camera_id, camera_config):
     global _camera_config_cache
 
+    camera_config = dict(camera_config)
     camera_config['@id'] = camera_id
-    _camera_config_cache[camera_id] = dict(camera_config)
+    _camera_config_cache[camera_id] = camera_config
     
-    if camera_config['@proto'] == 'v4l2':
+    if utils.local_camera(camera_config):
         old_motion = _is_old_motion()
         
         # adapt directives to old configuration, if needed
@@ -334,6 +333,8 @@ def set_camera(camera_id, camera_config):
                 camera_config['webcam_localhost'] = camera_config.pop('stream_localhost')
             if 'event_gap' in camera_config:
                 camera_config['gap'] = camera_config.pop('event_gap')
+            
+            camera_config['netcam_tolerant_check'] = True
         
         _set_default_motion_camera(camera_id, camera_config, old_motion)
         
@@ -400,66 +401,39 @@ def add_camera(device_details):
     
     logging.info('adding new camera with id %(id)s...' % {'id': camera_id})
     
-    # add the default camera config
-    proto = device_details['proto']
-        
-    data = OrderedDict()
-    data['@proto'] = proto
-    data['@enabled'] = device_details.get('enabled', True)
+    # prepare a default camera config
+    camera_config = {'@enabled': True}
+    if device_details['proto'] == 'v4l2':
+        _set_default_motion_camera(camera_id, camera_config)
+        camera_config_ui = camera_dict_to_ui(camera_config)
+        camera_config_ui.update(device_details)
+        camera_config = camera_ui_to_dict(camera_config_ui)
     
-    if proto == 'v4l2':
-        data['@name'] = 'Camera' + str(camera_id)
-        data['videodevice'] = device_details['device_uri']
-        if 'width' in device_details:
-            data['width'] = device_details['width']
-            data['height'] = device_details['height']
-            data['ffmpeg_bps'] = device_details['ffmpeg_bps']
-        
-        if ('root_directory' in device_details) and ('storage_device' in device_details): 
-            if ((device_details['storage_device'] == 'network-share') and settings.SMB_SHARES and
-                ('network_server' in device_details) and ('network_share_name' in device_details) and
-                ('network_username' in device_details)):
-                
-                mount_point = smbctl.make_mount_point(
-                        device_details['network_server'], device_details['network_share_name'], device_details['network_username'])
-                
-                if device_details['root_directory'].startswith('/'):
-                    device_details['root_directory'] = device_details['root_directory'][1:]
-                data['target_dir'] = os.path.normpath(os.path.join(mount_point, device_details['root_directory']))
-                data['@storage_device'] = 'network-share'
+    elif device_details['proto'] == 'motioneye':
+        camera_config['@proto'] = 'motioneye'
+        camera_config['@host'] = device_details['host']
+        camera_config['@port'] = device_details['port']
+        camera_config['@uri'] = device_details['uri']
+        camera_config['@username'] = device_details['username']
+        camera_config['@password'] = device_details['password']
+        camera_config['@remote_camera_id'] = device_details['remote_camera_id']
 
-            elif device_details['storage_device'].startswith('local-disk'):
-                target_dev = device_details['storage_device'][10:].replace('-', '/')
-                mounted_partitions = diskctl.list_mounted_partitions()
-                partition = mounted_partitions[target_dev]
-                mount_point = partition['mount_point']
-                
-                if device_details['root_directory'].startswith('/'):
-                    device_details['root_directory'] = device_details['root_directory'][1:]
-                data['target_dir'] = os.path.normpath(os.path.join(mount_point, device_details['root_directory']))
-                data['@storage_device'] = device_details['storage_device']
-
-            else:
-                data['target_dir'] = device_details['root_directory']
-                data['@storage_device'] = 'custom-path'
-
-    else: # remote
-        data['@host'] = device_details['host']
-        data['@port'] = device_details['port']
-        data['@username'] = device_details['username']
-        data['@password'] = device_details['password']
-        data['@remote_camera_id'] = device_details['remote_camera_id']
-        data['@enabled'] = device_details.get('enabled', True)
+    else: # assuming netcam
+        camera_config['netcam_url'] = 'http://dummy' # used only to identify it as a netcam
+        _set_default_motion_camera(camera_id, camera_config)
+        camera_config_ui = camera_dict_to_ui(camera_config)
+        camera_config_ui.update(device_details)
+        camera_config = camera_ui_to_dict(camera_config_ui)
 
     # write the configuration to file
-    set_camera(camera_id, data)
+    set_camera(camera_id, camera_config)
     
     _camera_ids_cache = None
     _camera_config_cache = {}
     
-    data = get_camera(camera_id)
+    camera_config = get_camera(camera_id)
     
-    return camera_id, data
+    return camera_id, camera_config
 
 
 def rem_camera(camera_id):
@@ -528,23 +502,11 @@ def main_dict_to_ui(data):
 
 
 def camera_ui_to_dict(ui):
-    if not ui['resolution']:  # avoid errors for empty resolution setting
-        ui['resolution'] = '352x288'
-
-    width = int(ui['resolution'].split('x')[0])
-    height = int(ui['resolution'].split('x')[1])
-    threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
-
     data = {
         # device
         '@name': ui['name'],
         '@enabled': ui['enabled'],
-        '@proto': ui['proto'],
-        'videodevice': ui['device_uri'],
         'lightswitch': int(ui['light_switch_detect']) * 50,
-        'auto_brightness': ui['auto_brightness'],
-        'width': width,
-        'height': height,
         'framerate': int(ui['framerate']),
         'rotate': int(ui['rotation']),
         
@@ -586,7 +548,6 @@ def camera_ui_to_dict(ui):
         # motion detection
         'text_changes': ui['show_frame_changes'],
         'locate_motion_mode': ui['show_frame_changes'],
-        'threshold': threshold,
         'noise_tune': ui['auto_noise_detect'],
         'noise_level': max(1, int(round(int(ui['noise_level']) * 2.55))),
         'event_gap': int(ui['event_gap']),
@@ -600,35 +561,65 @@ def camera_ui_to_dict(ui):
         'on_event_start': ''
     }
     
-    on_event_start = []
-    
-    if 'brightness' in ui:
-        if int(ui['brightness']) == 50:
-            data['brightness'] = 0
-            
-        else:
-            data['brightness'] = max(1, int(round(int(ui['brightness']) * 2.55)))
-    
-    if 'contrast' in ui:
-        if int(ui['contrast']) == 50:
-            data['contrast'] = 0
-            
-        else:
-            data['contrast'] = max(1, int(round(int(ui['contrast']) * 2.55)))
-    
-    if 'saturation' in ui:
-        if int(ui['saturation']) == 50:
-            data['saturation'] = 0
-            
-        else:
-            data['saturation'] = max(1, int(round(int(ui['saturation']) * 2.55)))
+    if ui['proto'] == 'v4l2':
+        # device
+        data['videodevice'] = ui['uri']
         
-    if 'hue' in ui:
-        if int(ui['hue']) == 50:
-            data['hue'] = 0
+        # resolution
+        if not ui['resolution']:
+            ui['resolution'] = '320x240'
+
+        width = int(ui['resolution'].split('x')[0])
+        height = int(ui['resolution'].split('x')[1])
+        data['width'] = width
+        data['height'] = height
+        
+        threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
+
+        if 'brightness' in ui:
+            if int(ui['brightness']) == 50:
+                data['brightness'] = 0
+                
+            else:
+                data['brightness'] = max(1, int(round(int(ui['brightness']) * 2.55)))
+        
+        if 'contrast' in ui:
+            if int(ui['contrast']) == 50:
+                data['contrast'] = 0
+                
+            else:
+                data['contrast'] = max(1, int(round(int(ui['contrast']) * 2.55)))
+        
+        if 'saturation' in ui:
+            if int(ui['saturation']) == 50:
+                data['saturation'] = 0
+                
+            else:
+                data['saturation'] = max(1, int(round(int(ui['saturation']) * 2.55)))
             
-        else:
-            data['hue'] = max(1, int(round(int(ui['hue']) * 2.55)))
+        if 'hue' in ui:
+            if int(ui['hue']) == 50:
+                data['hue'] = 0
+                
+            else:
+                data['hue'] = max(1, int(round(int(ui['hue']) * 2.55)))
+    
+    else: # assuming http/netcam
+        # device
+        data['netcam_url'] = ui['proto'] + '://' + ui['host']
+        if ui['port']:
+            data['netcam_url'] += ':' + ui['port']
+        
+        data['netcam_url'] += ui['uri']
+        
+        if ui['username'] or ui['password']:
+            data['necam_userpass'] = (ui['username'] or '') + ':' + (ui['password'] or '')
+
+        data['netcam_http'] = '1.1'
+        
+        threshold = int(float(ui['frame_change_threshold']) * 640 * 480 / 100)
+
+    data['threshold'] = threshold
 
     if (ui['storage_device'] == 'network-share') and settings.SMB_SHARES:
         mount_point = smbctl.make_mount_point(ui['network_server'], ui['network_share_name'], ui['network_username'])
@@ -670,7 +661,7 @@ def camera_ui_to_dict(ui):
         else:
             data['text_right'] = ui['custom_right_text']
         
-        if data['width'] > 320:
+        if ui['proto'] != 'v4l2' or data['width'] > 320:
             data['text_double'] = True
     
     if ui['still_images']:
@@ -690,11 +681,29 @@ def camera_ui_to_dict(ui):
         data['quality'] = max(1, int(ui['image_quality']))
     
     if ui['motion_movies']:
-        max_val = data['width'] * data['height'] * data['framerate'] / 3
+        if ui['proto'] == 'v4l2':
+            max_val = data['width'] * data['height'] * data['framerate'] / 3
+        
+        else:
+            max_val = 640 * 480 * data['framerate'] / 3
+            
         max_val = min(max_val, 9999999)
         
         data['ffmpeg_bps'] = int(ui['movie_quality']) * max_val / 100
     
+    # working schedule
+    if ui['working_schedule']:
+        data['@working_schedule'] = (
+                ui['monday_from'] + '-' + ui['monday_to'] + '|' + 
+                ui['tuesday_from'] + '-' + ui['tuesday_to'] + '|' + 
+                ui['wednesday_from'] + '-' + ui['wednesday_to'] + '|' + 
+                ui['thursday_from'] + '-' + ui['thursday_to'] + '|' + 
+                ui['friday_from'] + '-' + ui['friday_to'] + '|' + 
+                ui['saturday_from'] + '-' + ui['saturday_to'] + '|' + 
+                ui['sunday_from'] + '-' + ui['sunday_to'])
+    
+    # event start notifications
+    on_event_start = []
     if ui['email_notifications_enabled']:
         send_mail_path = os.path.join(settings.PROJECT_PATH, 'sendmail.py')
         send_mail_path = os.path.abspath(send_mail_path)
@@ -708,7 +717,7 @@ def camera_ui_to_dict(ui):
                 'password': ui['email_notifications_smtp_password'],
                 'tls': ui['email_notifications_smtp_tls'],
                 'to': emails})
-        
+
     if ui['web_hook_notifications_enabled']:
         web_hook_path = os.path.join(settings.PROJECT_PATH, 'webhook.py')
         web_hook_path = os.path.abspath(web_hook_path)
@@ -723,16 +732,6 @@ def camera_ui_to_dict(ui):
         commands = ui['command_notifications_exec'].split(';')
         on_event_start += [c.strip() for c in commands]
 
-    if ui['working_schedule']:
-        data['@working_schedule'] = (
-                ui['monday_from'] + '-' + ui['monday_to'] + '|' + 
-                ui['tuesday_from'] + '-' + ui['tuesday_to'] + '|' + 
-                ui['wednesday_from'] + '-' + ui['wednesday_to'] + '|' + 
-                ui['thursday_from'] + '-' + ui['thursday_to'] + '|' + 
-                ui['friday_from'] + '-' + ui['friday_to'] + '|' + 
-                ui['saturday_from'] + '-' + ui['saturday_to'] + '|' + 
-                ui['sunday_from'] + '-' + ui['sunday_to'])
-    
     if on_event_start:
         data['on_event_start'] = '; '.join(on_event_start)
 
@@ -740,31 +739,12 @@ def camera_ui_to_dict(ui):
 
 
 def camera_dict_to_ui(data):
-    usage = utils.get_disk_usage(data['target_dir'])
-    if usage:
-        disk_used, disk_total = usage
-    
-    else:
-        disk_used, disk_total = 0, 0
-    
-    resolutions = v4l2ctl.list_resolutions(data['videodevice'])
-    resolutions = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
-    
-    threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
-    
     ui = {
         # device
         'name': data['@name'],
         'enabled': data['@enabled'],
         'id': data['@id'],
-        'proto': data['@proto'],
-        'host': data.get('@host', ''),
-        'port': data.get('@port', ''),
-        'device_uri': data['videodevice'],
         'light_switch_detect': data['lightswitch'] > 0,
-        'auto_brightness': data['auto_brightness'],
-        'resolution': str(data['width']) + 'x' + str(data['height']),
-        'available_resolutions': resolutions,
         'framerate': int(data['framerate']),
         'rotation': int(data['rotate']),
         
@@ -775,8 +755,8 @@ def camera_dict_to_ui(data):
         'network_share_name': data['@network_share_name'],
         'network_username': data['@network_username'],
         'network_password': data['@network_password'],
-        'disk_used': disk_used,
-        'disk_total': disk_total,
+        'disk_used': 0,
+        'disk_total': 0,
         'available_disks': diskctl.list_mounted_disks(),
 
         # text overlay
@@ -810,12 +790,16 @@ def camera_dict_to_ui(data):
 
         # motion detection
         'show_frame_changes': data['text_changes'] or data['locate_motion_mode'],
-        'frame_change_threshold': threshold,
         'auto_noise_detect': data['noise_tune'],
         'noise_level': int(int(data['noise_level']) / 2.55),
         'event_gap': int(data['event_gap']),
         'pre_capture': int(data['pre_capture']),
         'post_capture': int(data['post_capture']),
+        
+        # motion notifications
+        'email_notifications_enabled': False,
+        'web_hook_notifications_enabled': False,
+        'command_notifications_enabled': False,
         
         # working schedule
         'working_schedule': False,
@@ -827,45 +811,89 @@ def camera_dict_to_ui(data):
         'saturday_from': '09:00', 'saturday_to': '17:00',
         'sunday_from': '09:00', 'sunday_to': '17:00'
     }
+    
+    if utils.net_camera(data):
+        netcam_url = data.get('netcam_url')
+        proto, rest = netcam_url.split('://')
+        parts = rest.split('/', 1)
+        if len(parts) > 1:
+            host_port, uri = parts[:2]
+        
+        else:
+            host_port, uri = rest, ''
+        
+        parts = host_port.split(':')
+        if len(parts) > 1:
+            host, port = parts[:2]
+        
+        else:
+            host, port = host_port, ''
 
-    on_event_start = data.get('on_event_start') or []
-    if on_event_start:
-        on_event_start = [e.strip() for e in on_event_start.split(';')]
+        ui['proto'] = proto
+        ui['host'] = host
+        ui['port'] = port
+        ui['uri'] = uri
+        
+        userpass = data.get('netcam_userpass')
+        if userpass:
+            ui['username'], ui['password'] = userpass.split(':', 1)
+        
+        else:
+            ui['username'], ui['password'] = '', ''
+        
+        # width & height are not available for netcams,
+        # we have no other choice but use something like 640x480 as reference
+        threshold = data['threshold'] * 100.0 / (640 * 480)
+    
+    else: # assuming v4l2
+        ui['proto'] = 'v4l2'
+        ui['host'], ui['port'] = None, None
+        ui['uri'] = data['videodevice']
+        ui['username'], ui['password'] = None, None
 
-    # the brightness & co. keys in the ui dictionary
-    # indicate the presence of these controls
-    # we must call v4l2ctl functions to determine the available controls    
-    brightness = v4l2ctl.get_brightness(ui['device_uri'])
-    if brightness is not None: # has brightness control
-        if data.get('brightness', 0) != 0:
-            ui['brightness'] = brightness
-                
-        else:
-            ui['brightness'] = 50
+        # resolutions
+        resolutions = v4l2ctl.list_resolutions(data['videodevice'])
+        ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
+        ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
+    
+        # the brightness & co. keys in the ui dictionary
+        # indicate the presence of these controls
+        # we must call v4l2ctl functions to determine the available controls    
+        brightness = v4l2ctl.get_brightness(ui['uri'])
+        if brightness is not None: # has brightness control
+            if data.get('brightness', 0) != 0:
+                ui['brightness'] = brightness
+                    
+            else:
+                ui['brightness'] = 50
+
+        contrast = v4l2ctl.get_contrast(ui['uri'])
+        if contrast is not None: # has contrast control
+            if data.get('contrast', 0) != 0:
+                ui['contrast'] = contrast
+            
+            else:
+                ui['contrast'] = 50
+            
+        saturation = v4l2ctl.get_saturation(ui['uri'])
+        if saturation is not None: # has saturation control
+            if data.get('saturation', 0) != 0:
+                ui['saturation'] = saturation
+            
+            else:
+                ui['saturation'] = 50
+            
+        hue = v4l2ctl.get_hue(ui['uri'])
+        if hue is not None: # has hue control
+            if data.get('hue', 0) != 0:
+                ui['hue'] = hue
+            
+            else:
+                ui['hue'] = 50
         
-    contrast = v4l2ctl.get_contrast(ui['device_uri'])
-    if contrast is not None: # has contrast control
-        if data.get('contrast', 0) != 0:
-            ui['contrast'] = contrast
+        threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
         
-        else:
-            ui['contrast'] = 50
-        
-    saturation = v4l2ctl.get_saturation(ui['device_uri'])
-    if saturation is not None: # has saturation control
-        if data.get('saturation', 0) != 0:
-            ui['saturation'] = saturation
-        
-        else:
-            ui['saturation'] = 50
-        
-    hue = v4l2ctl.get_hue(ui['device_uri'])
-    if hue is not None: # has hue control
-        if data.get('hue', 0) != 0:
-            ui['hue'] = hue
-        
-        else:
-            ui['hue'] = 50
+    ui['frame_change_threshold'] = threshold
     
     if (data['@storage_device'] == 'network-share') and settings.SMB_SHARES:
         mount_point = smbctl.make_mount_point(data['@network_server'], data['@network_share_name'], data['@network_username'])
@@ -886,6 +914,11 @@ def camera_dict_to_ui(data):
     else:
         ui['root_directory'] = data['target_dir']
 
+    # disk usage
+    usage = utils.get_disk_usage(data['target_dir'])
+    if usage:
+        ui['disk_used'], ui['disk_total'] = usage
+    
     text_left = data['text_left']
     text_right = data['text_right'] 
     if text_left or text_right:
@@ -938,12 +971,35 @@ def camera_dict_to_ui(data):
         ui['image_quality'] = data['quality']
 
     ffmpeg_bps = data['ffmpeg_bps']
-    if ffmpeg_bps is not None: 
-        max_val = data['width'] * data['height'] * data['framerate'] / 3
+    if ffmpeg_bps is not None:
+        if utils.v4l2_camera(data):
+            max_val = data['width'] * data['height'] * data['framerate'] / 3
+        
+        else:
+            max_val = 640 * 480 * data['framerate'] / 3
+            
         max_val = min(max_val, 9999999)
         
         ui['movie_quality'] = min(100, int(round(ffmpeg_bps * 100.0 / max_val)))
+
+    # working schedule
+    working_schedule = data['@working_schedule']
+    if working_schedule:
+        days = working_schedule.split('|')
+        ui['monday_from'], ui['monday_to'] = days[0].split('-')
+        ui['tuesday_from'], ui['tuesday_to'] = days[1].split('-')
+        ui['wednesday_from'], ui['wednesday_to'] = days[2].split('-')
+        ui['thursday_from'], ui['thursday_to'] = days[3].split('-')
+        ui['friday_from'], ui['friday_to'] = days[4].split('-')
+        ui['saturday_from'], ui['saturday_to'] = days[5].split('-')
+        ui['sunday_from'], ui['sunday_to'] = days[6].split('-')
+        ui['working_schedule'] = True
     
+    # event start notifications    
+    on_event_start = data.get('on_event_start') or []
+    if on_event_start:
+        on_event_start = [e.strip() for e in on_event_start.split(';')]
+
     command_notifications = []
     for e in on_event_start:
         if e.count('sendmail.py') and e.count('motion_start'):
@@ -975,18 +1031,6 @@ def camera_dict_to_ui(data):
         ui['command_notifications_enabled'] = True
         ui['command_notifications_exec'] = '; '.join(command_notifications)
 
-    working_schedule = data['@working_schedule']
-    if working_schedule:
-        days = working_schedule.split('|')
-        ui['monday_from'], ui['monday_to'] = days[0].split('-')
-        ui['tuesday_from'], ui['tuesday_to'] = days[1].split('-')
-        ui['wednesday_from'], ui['wednesday_to'] = days[2].split('-')
-        ui['thursday_from'], ui['thursday_to'] = days[3].split('-')
-        ui['friday_from'], ui['friday_to'] = days[4].split('-')
-        ui['saturday_from'], ui['saturday_to'] = days[5].split('-')
-        ui['sunday_from'], ui['sunday_to'] = days[6].split('-')
-        ui['working_schedule'] = True
-    
     return ui
 
 
@@ -1186,19 +1230,21 @@ def _set_default_motion(data):
     data.setdefault('@wifi_key', '')
 
 
-def _set_default_motion_camera(camera_id, data, old_motion):
+def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('@name', 'Camera' + str(camera_id))
     data.setdefault('@enabled', False)
-    data.setdefault('@proto', 'v4l2')
-    data.setdefault('videodevice', '/dev/video0')
+    data.setdefault('@id', camera_id)
+    
+    if not utils.net_camera(data):
+        data.setdefault('videodevice', '/dev/video0')
+        data.setdefault('brightness', 0)
+        data.setdefault('contrast', 0)
+        data.setdefault('saturation', 0)
+        data.setdefault('hue', 0)
+        data.setdefault('width', 352)
+        data.setdefault('height', 288)
+
     data.setdefault('lightswitch', 50)
-    data.setdefault('auto_brightness', False)
-    data.setdefault('brightness', 0)
-    data.setdefault('contrast', 0)
-    data.setdefault('saturation', 0)
-    data.setdefault('hue', 0)
-    data.setdefault('width', 352)
-    data.setdefault('height', 288)
     data.setdefault('framerate', 2)
     data.setdefault('rotate', 0)
     
@@ -1222,6 +1268,7 @@ def _set_default_motion_camera(camera_id, data, old_motion):
         data.setdefault('stream_maxrate', 5)
         data.setdefault('stream_quality', 85)
         data.setdefault('stream_motion', False)
+
     data.setdefault('@webcam_resolution', 100)
     data.setdefault('@webcam_server_resize', False)
     

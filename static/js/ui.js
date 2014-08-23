@@ -484,7 +484,7 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
 
 function makeTimeValidator($input) {
     function isValid(strVal) {
-        return strVal.match('^[0-2][0-9]:[0-5][0-9]$') != null;
+        return strVal.match(new RegExp('^[0-2][0-9]:[0-5][0-9]$')) != null;
     }
     
     var msg = 'enter a valid time in the following format: HH:MM';
@@ -518,6 +518,42 @@ function makeTimeValidator($input) {
     
     $input.addClass('validator');
     $input.addClass('time-validator');
+    $input.each(function () {
+        this.validate = validate;
+    });
+}
+
+function makeUrlValidator($input) {
+    function isValid(strVal) {
+        return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w\-.]+)(:\\d+)?(/.*)?$')) != null;
+    }
+    
+    var msg = 'enter a valid URL (e.g. http://example.com:8080/cams/)';
+    
+    function validate() {
+        if (!$input.parents('tr:eq(0)').is(':visible')) {
+            return true; /* an invisible element is considered always valid */
+        }
+        
+        var strVal = $input.val();
+        if (isValid(strVal)) {
+            $input.attr('title', '');
+            $input.removeClass('error');
+            $input[0].invalid = false;
+        }
+        else {
+            $input.attr('title', msg);
+            $input.addClass('error');
+            $input[0].invalid = true;
+        }
+    }
+    
+    $input.keyup(validate);
+    $input.blur(validate);
+    $input.change(validate).change();
+    
+    $input.addClass('validator');
+    $input.addClass('url-validator');
     $input.each(function () {
         this.validate = validate;
     });

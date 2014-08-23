@@ -19,8 +19,6 @@ import datetime
 import logging
 import os
 
-import remote
-
 
 def pretty_date_time(date_time, tzinfo=None):
     if date_time is None:
@@ -210,10 +208,37 @@ def get_disk_usage(path):
     return (used_size, total_size)
 
 
-def make_camera_url(config):
-    proto = config.get('proto', config.get('@proto', ''))
-    host = config.get('host', config.get('@host', ''))
-    port = config.get('port', config.get('@port', ''))
-    device_uri = config.get('device_uri', config.get('videodevice', remote.make_camera_uri(config.get('@remote_camera_id'))))
+def local_camera(config):
+    return bool(config.get('videodevice') or config.get('netcam_url'))
+
+
+def remote_camera(config):
+    return config.get('@proto') == 'motioneye'
+
+
+def v4l2_camera(config):
+    return bool(config.get('videodevice'))
+
+
+def net_camera(config):
+    return bool(config.get('netcam_url'))
+
+
+def test_netcam_url(data, callback):
+    url = '%(proto)s://%(host)s%(port)s%(uri)s' % {
+            'proto': data['proto'],
+            'host': data['host'],
+            'port': ':' + str(data['port']) if data['port'] else '',
+            'uri': data['uri'] or ''}
     
-    return proto + '://' + host + (':' + str(port) if port else '') + device_uri
+    logging.debug('testing netcam at %s' % url)
+    
+    import time
+    time.sleep(1)
+    
+    username = data['username']
+    password = data['password']
+
+    # TODO implement me
+    #callback(error='General failure')
+    callback([{'id': 1, 'name': 'Network Camera'}])

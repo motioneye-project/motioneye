@@ -203,11 +203,16 @@ class ConfigHandler(BaseHandler):
                 raise HTTPError(404, 'no such camera')
             
             local_config = config.get_camera(camera_id)
-            if local_config['@proto'] != 'v4l2':
-                def on_response(remote_ui_config):
-                    if remote_ui_config is None:
-                        return self.finish_json({'error': 'Failed to get remote camera configuration for %(url)s.' % {
-                                'url': utils.make_camera_url(local_config)}})
+            if utils.local_camera(local_config):
+                ui_config = config.camera_dict_to_ui(local_config)
+                    
+                self.finish_json(ui_config)
+            
+            else:
+                def on_response(remote_ui_config=None, error=None):
+                    if error:
+                        return self.finish_json({'error': 'Failed to get remote camera configuration for %(url)s: %(msg)s.' % {
+                                'url': remote.make_camera_url(local_config)}, 'msg': error})
                     
                     for key, value in local_config.items():
                         remote_ui_config[key.replace('@', '')] = value
@@ -215,11 +220,6 @@ class ConfigHandler(BaseHandler):
                     self.finish_json(remote_ui_config)
                 
                 remote.get_config(local_config, on_response)
-            
-            else:
-                ui_config = config.camera_dict_to_ui(local_config)
-                    
-                self.finish_json(ui_config)
             
         else:
             logging.debug('getting main config')
@@ -246,20 +246,13 @@ class ConfigHandler(BaseHandler):
                 raise HTTPError(404, 'no such camera')
             
             local_config = config.get_camera(camera_id)
-            if local_config['@proto'] == 'v4l2':
-                # overwrite some fields whose values should not be changed this way
-                ui_config['device_uri'] = local_config['videodevice']
-                ui_config['proto'] = 'v4l2'
-                ui_config['host'] = ''
-                ui_config['port'] = ''
-                ui_config.setdefault('enabled', True)
-                
+            if utils.local_camera(local_config):
                 local_config = config.camera_ui_to_dict(ui_config)
                 config.set_camera(camera_id, local_config)
             
                 on_finish(None, True) # (no error, motion needs restart)
         
-            else:
+            else: # remote camera
                 # update the camera locally
                 local_config['@enabled'] = ui_config['enabled']
                 config.set_camera(camera_id, local_config)
@@ -267,15 +260,11 @@ class ConfigHandler(BaseHandler):
                 # when the local_config supplied has only the enabled state,
                 # the camera was probably disabled due to errors
 
-                if ui_config.has_key('device_uri'):
-                    # delete some fields that should not get to the remote side as they are
-                    del ui_config['device_uri']
-                    del ui_config['proto']
-                    del ui_config['host']
-                    del ui_config['port']
+                if ui_config.has_key('name'):
+                    # never disable a remote camera on the remote host itself
                     del ui_config['enabled']
                     
-                    def on_finish_wrapper(error):
+                    def on_finish_wrapper(error=None):
                         return on_finish(error, False)
                     
                     remote.set_config(local_config, ui_config, on_finish_wrapper)
@@ -400,7 +389,7 @@ class ConfigHandler(BaseHandler):
             raise
 
         camera_config = config.get_camera(camera_id)
-        if camera_config['@proto'] == 'v4l2': 
+        if utils.v4l2_camera(camera_config): 
             device = camera_config['videodevice']
             
             if 'brightness' in controls:
@@ -429,32 +418,46 @@ class ConfigHandler(BaseHandler):
             
             self.finish_json({})
 
-        else:
-            def on_response(response):
-                if response is None:
-                    self.finish_json({'error': True})
+        elif utils.remote_camera(camera_config):
+            def on_response(error=None):
+                if error:
+                    self.finish_json({'error': error})
                     
                 else:
                     self.finish_json()
             
             remote.set_preview(camera_config, controls, on_response)
+        
+        else:
+            self.finish_json({'error': True})
 
     @BaseHandler.auth()
     def list_cameras(self):
         logging.debug('listing cameras')
-        
-        if 'host' in self.get_data():  # remote listing
-            def on_response(cameras):
-                if cameras is None:
-                    self.finish_json({'error': 'Failed to list remote cameras.'})
+
+        type = self.get_data().get('type')        
+        if type == 'motioneye':  # remote listing
+            def on_response(cameras=None, error=None):
+                if error:
+                    self.finish_json({'error': error})
                     
                 else:
                     cameras = [c for c in cameras if c.get('enabled')]
                     self.finish_json({'cameras': cameras})
             
             remote.list_cameras(self.get_data(), on_response)
+        
+        elif type == 'netcam':
+            def on_response(cameras=None, error=None):
+                if error:
+                    self.finish_json({'error': error})
+                    
+                else:
+                    self.finish_json({'cameras': cameras})
+            
+            utils.test_netcam_url(self.get_data(), on_response)
                 
-        else:  # local listing
+        else:  # assuming local v4l2 listing
             cameras = []
             camera_ids = config.get_camera_ids()
             if not config.get_main().get('@enabled'):
@@ -467,11 +470,11 @@ class ConfigHandler(BaseHandler):
                     self.finish_json({'cameras': cameras})
                     
             def on_response_builder(camera_id, local_config):
-                def on_response(remote_ui_config):
-                    if remote_ui_config is None:
+                def on_response(remote_ui_config=None, error=None):
+                    if error:
                         cameras.append({
                             'id': camera_id,
-                            'name': '&lt;' + utils.make_camera_url(local_config) + '&gt;',
+                            'name': '&lt;' + remote.make_camera_url(local_config) + '&gt;',
                             'enabled': False,
                             'streaming_framerate': 1,
                             'framerate': 1
@@ -496,13 +499,13 @@ class ConfigHandler(BaseHandler):
             
             for camera_id in camera_ids:
                 local_config = config.get_camera(camera_id)
-                if local_config['@proto'] == 'v4l2':
+                if utils.local_camera(local_config):
                     ui_config = config.camera_dict_to_ui(local_config)
                     cameras.append(ui_config)
                     check_finished()
 
                 else:  # remote camera
-                    if local_config['@enabled']:
+                    if local_config.get('@enabled'):
                         remote.get_config(local_config, on_response_builder(camera_id, local_config))
                     
                     else: # don't try to reach the remote of the camera is disabled
@@ -518,10 +521,10 @@ class ConfigHandler(BaseHandler):
         configured_devices = {}
         for camera_id in config.get_camera_ids():
             data = config.get_camera(camera_id)
-            if data['@proto'] == 'v4l2':
+            if utils.v4l2_camera(data):
                 configured_devices[data['videodevice']] = True
 
-        devices = [{'device_uri': d[0], 'name': d[1], 'configured': d[0] in configured_devices}
+        devices = [{'uri': d[0], 'name': d[1], 'configured': d[0] in configured_devices}
                 for d in v4l2ctl.list_devices()]
         
         self.finish_json({'devices': devices})
@@ -541,23 +544,22 @@ class ConfigHandler(BaseHandler):
         proto = device_details['proto']
         if proto == 'v4l2':
             # find a suitable resolution
-            for (w, h) in v4l2ctl.list_resolutions(device_details['device_uri']):
+            for (w, h) in v4l2ctl.list_resolutions(device_details['uri']):
                 if w > 300:
-                    device_details['width'] = w
-                    device_details['height'] = h
-                    # compute the ffmpeg bps
-                    
-                    max_val = w * h * 2 / 3
-                    max_val = min(max_val, 9999999)
-                    val = max_val * 75 / 100
-                    device_details['ffmpeg_bps'] = val
-
+                    device_details.setdefault('resolution', str(w) + 'x' + str(h))
                     break
+                
+        else:
+            # adjust uri format
+            if device_details['uri'] and device_details['uri'].startswith('/'):
+                device_details['uri'] = '/' + device_details['uri']
+            while device_details['uri'] and device_details['uri'].endswith('/'):
+                device_details['uri'] = device_details['uri'][:-1]
 
         camera_id, camera_config = config.add_camera(device_details)
         camera_config['@id'] = camera_id
 
-        if proto == 'v4l2':
+        if utils.local_camera(camera_config):
             motionctl.stop()
             
             if settings.SMB_SHARES:
@@ -573,10 +575,10 @@ class ConfigHandler(BaseHandler):
             
             self.finish_json(ui_config)
         
-        else:
-            def on_response(remote_ui_config):
-                if remote_ui_config is None:
-                    self.finish_json({'error': True})
+        else: # remote camera
+            def on_response(remote_ui_config=None, error=None):
+                if error:
+                    self.finish_json({'error': error})
 
                 for key, value in camera_config.items():
                     remote_ui_config[key.replace('@', '')] = value
@@ -589,7 +591,7 @@ class ConfigHandler(BaseHandler):
     def rem_camera(self, camera_id):
         logging.debug('removing camera %(id)s' % {'id': camera_id})
         
-        local = config.get_camera(camera_id).get('@proto') == 'v4l2'
+        local = utils.local_camera(config.get_camera(camera_id))
         config.rem_camera(camera_id)
         
         if local:
@@ -642,7 +644,7 @@ class PictureHandler(BaseHandler):
             return self.try_finish(picture)
         
         camera_config = config.get_camera(camera_id)
-        if camera_config['@proto'] == 'v4l2':
+        if utils.local_camera(camera_config):
             picture = mediafiles.get_current_picture(camera_config,
                     width=width,
                     height=height)
@@ -652,8 +654,8 @@ class PictureHandler(BaseHandler):
 
             self.try_finish(picture)
                 
-        else:
-            def on_response(picture):
+        else: # remote camera
+            def on_response(picture=None, error=None):
                 if sequence and picture:
                     mediafiles.set_picture_cache(camera_id, sequence, width, picture)
                 
@@ -669,17 +671,7 @@ class PictureHandler(BaseHandler):
             raise HTTPError(404, 'no such camera')
         
         camera_config = config.get_camera(camera_id)
-        if camera_config['@proto'] != 'v4l2':
-            def on_response(remote_list):
-                if remote_list is None:
-                    return self.finish_json({'error': 'Failed to get picture list for %(url)s.' % {
-                            'url': utils.make_camera_url(camera_config)}})
-
-                self.finish_json(remote_list)
-            
-            remote.list_media(camera_config, on_response, media_type='picture', prefix=self.get_argument('prefix', None))
-        
-        else:
+        if utils.local_camera(camera_config):
             def on_media_list(media_list):
                 if media_list is None:
                     return self.finish_json({'error': 'Failed to get pictures list.'})
@@ -691,6 +683,16 @@ class PictureHandler(BaseHandler):
             
             mediafiles.list_media(camera_config, media_type='picture',
                     callback=on_media_list, prefix=self.get_argument('prefix', None))
+
+        else: # remote camera
+            def on_response(remote_list=None, error=None):
+                if error:
+                    return self.finish_json({'error': 'Failed to get picture list for %(url)s: %(msg)s.' % {
+                            'url': remote.make_camera_url(camera_config)}, 'msg': error})
+
+                self.finish_json(remote_list)
+            
+            remote.list_media(camera_config, on_response, media_type='picture', prefix=self.get_argument('prefix', None))
 
     @BaseHandler.auth()
     def frame(self, camera_id):
@@ -709,11 +711,20 @@ class PictureHandler(BaseHandler):
             raise HTTPError(404, 'no such camera')
         
         camera_config = config.get_camera(camera_id)
-        if camera_config['@proto'] != 'v4l2':
-            def on_response(response):
-                if response is None:
-                    return self.finish_json({'error': 'Failed to download picture from %(url)s.' % {
-                            'url': utils.make_camera_url(camera_config)}})
+        if utils.local_camera(camera_config):
+            content = mediafiles.get_media_content(camera_config, filename, 'picture')
+            
+            pretty_filename = camera_config['@name'] + '_' + os.path.basename(filename)
+            self.set_header('Content-Type', 'image/jpeg')
+            self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
+            
+            self.finish(content)
+        
+        else: # remote camera
+            def on_response(response=None, error=None):
+                if error:
+                    return self.finish_json({'error': 'Failed to download picture from %(url)s: %(msg)s.' % {
+                            'url': remote.make_camera_url(camera_config)}, 'msg': error})
 
                 pretty_filename = os.path.basename(filename) # no camera name available w/o additional request
                 self.set_header('Content-Type', 'image/jpeg')
@@ -722,16 +733,6 @@ class PictureHandler(BaseHandler):
                 self.finish(response)
 
             remote.get_media_content(camera_config, on_response, filename=filename, media_type='picture')
-            
-        else:
-            content = mediafiles.get_media_content(camera_config, filename, 'picture')
-            
-            pretty_filename = camera_config['@name'] + '_' + os.path.basename(filename)
-            self.set_header('Content-Type', 'image/jpeg')
-            self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
-            
-            self.finish(content)
-
 
     @BaseHandler.auth()
     def preview(self, camera_id, filename):
@@ -742,22 +743,7 @@ class PictureHandler(BaseHandler):
             raise HTTPError(404, 'no such camera')
         
         camera_config = config.get_camera(camera_id)
-        if camera_config['@proto'] != 'v4l2':
-            def on_response(content):
-                if content:
-                    self.set_header('Content-Type', 'image/jpeg')
-                    
-                else:
-                    self.set_header('Content-Type', 'image/svg+xml')
-                    content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read()
-                
-                self.finish(content)
-            
-            remote.get_media_preview(camera_config, on_response, filename=filename, media_type='picture',
-                    width=self.get_argument('width', None),
-                    height=self.get_argument('height', None))
-        
-        else:
+        if utils.local_camera(camera_config):
             content = mediafiles.get_media_preview(camera_config, filename, 'picture',
                     width=self.get_argument('width', None),
                     height=self.get_argument('height', None))
@@ -770,6 +756,21 @@ class PictureHandler(BaseHandler):
                 content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read()
                 
             self.finish(content)
+        
+        else:
+            def on_response(content=None, error=None):
+                if content:
+                    self.set_header('Content-Type', 'image/jpeg')
+                    
+                else:
+                    self.set_header('Content-Type', 'image/svg+xml')
+                    content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read()
+                
+                self.finish(content)
+            
+            remote.get_media_preview(camera_config, on_response, filename=filename, media_type='picture',
+                    width=self.get_argument('width', None),
+                    height=self.get_argument('height', None))
     
     def try_finish(self, content):
         try:
@@ -807,17 +808,7 @@ class MovieHandler(BaseHandler):
             raise HTTPError(404, 'no such camera')
         
         camera_config = config.get_camera(camera_id)
-        if camera_config['@proto'] != 'v4l2':
-            def on_response(remote_list):
-                if remote_list is None:
-                    return self.finish_json({'error': 'Failed to get movie list for %(url)s.' % {
-                            'url': utils.make_camera_url(camera_config)}})
-
-                self.finish_json(remote_list)
-            
-            remote.list_media(camera_config, on_response, media_type='movie', prefix=self.get_argument('prefix', None))
-        
-        else:
+        if utils.local_camera(camera_config):
             def on_media_list(media_list):
                 if media_list is None:
                     return self.finish_json({'error': 'Failed to get movies list.'})
@@ -829,7 +820,17 @@ class MovieHandler(BaseHandler):
             
             mediafiles.list_media(camera_config, media_type='movie',
                     callback=on_media_list, prefix=self.get_argument('prefix', None))
+        
+        else:
+            def on_response(remote_list=None, error=None):
+                if error:
+                    return self.finish_json({'error': 'Failed to get movie list for %(url)s: %(msg)s.' % {
+                            'url': remote.make_camera_url(camera_config)}, 'msg': error})
+
+                self.finish_json(remote_list)
             
+            remote.list_media(camera_config, on_response, media_type='movie', prefix=self.get_argument('prefix', None))
+    
     @BaseHandler.auth()
     def download(self, camera_id, filename):
         logging.debug('downloading movie %(filename)s of camera %(id)s' % {
@@ -839,11 +840,20 @@ class MovieHandler(BaseHandler):
             raise HTTPError(404, 'no such camera')
         
         camera_config = config.get_camera(camera_id)
-        if camera_config['@proto'] != 'v4l2':
-            def on_response(response):
-                if response is None:
-                    return self.finish_json({'error': 'Failed to download movie from %(url)s.' % {
-                            'url': utils.make_camera_url(camera_config)}})
+        if utils.local_camera(camera_config):
+            content = mediafiles.get_media_content(camera_config, filename, 'movie')
+            
+            pretty_filename = camera_config['@name'] + '_' + os.path.basename(filename)
+            self.set_header('Content-Type', 'video/mpeg')
+            self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
+            
+            self.finish(content)
+        
+        else:
+            def on_response(response=None, error=None):
+                if error:
+                    return self.finish_json({'error': 'Failed to download movie from %(url)s: %(msg)s.' % {
+                            'url': remote.make_camera_url(camera_config)}, 'msg': error})
 
                 pretty_filename = os.path.basename(filename) # no camera name available w/o additional request
                 self.set_header('Content-Type', 'video/mpeg')
@@ -852,15 +862,6 @@ class MovieHandler(BaseHandler):
                 self.finish(response)
 
             remote.get_media_content(camera_config, on_response, filename=filename, media_type='movie')
-            
-        else:
-            content = mediafiles.get_media_content(camera_config, filename, 'movie')
-            
-            pretty_filename = camera_config['@name'] + '_' + os.path.basename(filename)
-            self.set_header('Content-Type', 'video/mpeg')
-            self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
-            
-            self.finish(content)
 
     @BaseHandler.auth()
     def preview(self, camera_id, filename):
@@ -871,22 +872,7 @@ class MovieHandler(BaseHandler):
             raise HTTPError(404, 'no such camera')
         
         camera_config = config.get_camera(camera_id)
-        if camera_config['@proto'] != 'v4l2':
-            def on_response(content):
-                if content:
-                    self.set_header('Content-Type', 'image/jpeg')
-                    
-                else:
-                    self.set_header('Content-Type', 'image/svg+xml')
-                    content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read()
-
-                self.finish(content)
-            
-            remote.get_media_preview(camera_config, on_response, filename=filename, media_type='movie',
-                    width=self.get_argument('width', None),
-                    height=self.get_argument('height', None))
-        
-        else:
+        if utils.local_camera(camera_config):
             content = mediafiles.get_media_preview(camera_config, filename, 'movie',
                     width=self.get_argument('width', None),
                     height=self.get_argument('height', None))
@@ -899,6 +885,21 @@ class MovieHandler(BaseHandler):
                 content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read()
             
             self.finish(content)
+        
+        else:
+            def on_response(content=None, error=None):
+                if content:
+                    self.set_header('Content-Type', 'image/jpeg')
+                    
+                else:
+                    self.set_header('Content-Type', 'image/svg+xml')
+                    content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read()
+
+                self.finish(content)
+            
+            remote.get_media_preview(camera_config, on_response, filename=filename, media_type='movie',
+                    width=self.get_argument('width', None),
+                    height=self.get_argument('height', None))
 
 
 class UpdateHandler(BaseHandler):

@@ -24,11 +24,11 @@ import settings
 
 
 def _make_request(host, port, username, password, uri, method='GET', data=None, query=None, timeout=None):
-    url = '%(scheme)s://%(host)s:%(port)s%(uri)s' % {
+    url = '%(scheme)s://%(host)s%(port)s%(uri)s' % {
             'scheme': 'http',
             'host': host,
-            'port': port,
-            'uri': uri}
+            'port': ':' + str(port) if port else '',
+            'uri': uri or ''}
     
     if query:
         url += '?' + '&'.join([(n + '=' + v) for (n, v) in query.iteritems()])
@@ -42,8 +42,27 @@ def _make_request(host, port, username, password, uri, method='GET', data=None, 
     return request
 
 
-def make_camera_uri(camera_id):
-    return '/config/%(camera_id)s' % {'camera_id': camera_id}
+def make_camera_url(local_config, camera=True):
+    host = local_config.get('@host', local_config.get('host')) 
+    port = local_config.get('@port', local_config.get('port'))
+    username = local_config.get('@username', local_config.get('username'))
+    uri = local_config.get('@uri', local_config.get('uri')) or ''
+
+    url = 'motioneye://' + username + '@' + host
+    if port:
+        url += ':' + str(port)
+    
+    if uri:
+        url += uri
+    
+    if camera:
+        if camera is True:
+            url += '/config/' + str(local_config.get('@remote_camera_id', local_config.get('remote_camera_id')))
+        
+        else:
+            url += '/config/' + str(camera)
+
+    return url
 
 
 def list_cameras(local_config, callback):
@@ -51,32 +70,30 @@ def list_cameras(local_config, callback):
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
     password = local_config.get('@password', local_config.get('password'))
+    uri = local_config.get('@uri', local_config.get('uri')) or ''
     
-    logging.debug('listing remote cameras on %(host)s:%(port)s' % {
-            'host': host,
-            'port': port})
+    logging.debug('listing remote cameras on %(url)s' % {
+            'url': make_camera_url(local_config, camera=False)})
     
-    request = _make_request(host, port, username, password, '/config/list/')
+    request = _make_request(host, port, username, password, uri + '/config/list/')
     
     def on_response(response):
         if response.error:
-            logging.error('failed to list remote cameras on %(host)s:%(port)s: %(msg)s' % {
-                    'host': host,
-                    'port': port,
+            logging.error('failed to list remote cameras on %(url)s: %(msg)s' % {
+                    'url': make_camera_url(local_config, camera=False),
                     'msg': unicode(response.error)})
             
-            return callback(None)
+            return callback(error=unicode(response.error))
         
         try:
             response = json.loads(response.body)
             
         except Exception as e:
-            logging.error('failed to decode json answer from %(host)s:%(port)s: %(msg)s' % {
-                    'host': host,
-                    'port': port,
+            logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
+                    'url': make_camera_url(local_config, camera=False),
                     'msg': unicode(e)})
             
-            return callback(None)
+            return callback(error=unicode(e))
         
         return callback(response['cameras'])
     
@@ -89,39 +106,36 @@ def get_config(local_config, callback):
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
     password = local_config.get('@password', local_config.get('password'))
+    uri = local_config.get('@uri', local_config.get('uri')) or ''
     camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
      
-    logging.debug('getting config for remote camera %(id)s on %(host)s:%(port)s' % {
+    logging.debug('getting config for remote camera %(id)s on %(url)s' % {
             'id': camera_id,
-            'host': host,
-            'port': port})
+            'url': make_camera_url(local_config)})
     
-    request = _make_request(host, port, username, password, '/config/%(id)s/get/' % {'id': camera_id})
+    request = _make_request(host, port, username, password, uri + '/config/%(id)s/get/' % {'id': camera_id})
     
     def on_response(response):
         if response.error:
-            logging.error('failed to get config for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+            logging.error('failed to get config for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
-                    'host': host,
-                    'port': port,
+                    'url': make_camera_url(local_config),
                     'msg': unicode(response.error)})
             
-            return callback(None)
+            return callback(error=unicode(response.error))
     
         try:
             response = json.loads(response.body)
         
         except Exception as e:
-            logging.error('failed to decode json answer from %(host)s:%(port)s: %(msg)s' % {
-                    'host': host,
-                    'port': port,
+            logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
+                    'url': make_camera_url(local_config),
                     'msg': unicode(e)})
             
-            return callback(None)
+            return callback(error=unicode(e))
         
         response['host'] = host
         response['port'] = port
-        response['device_uri'] = make_camera_uri(camera_id)
             
         callback(response)
     
@@ -134,28 +148,27 @@ def set_config(local_config, ui_config, callback):
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
     password = local_config.get('@password', local_config.get('password'))
+    uri = local_config.get('@uri', local_config.get('uri')) or ''
     camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
     
-    logging.debug('setting config for remote camera %(id)s on %(host)s:%(port)s' % {
+    logging.debug('setting config for remote camera %(id)s on %(url)s' % {
             'id': camera_id,
-            'host': host,
-            'port': port})
+            'url': make_camera_url(local_config)})
     
     ui_config = json.dumps(ui_config)
     
-    request = _make_request(host, port, username, password, '/config/%(id)s/set/' % {'id': camera_id}, method='POST', data=ui_config)
+    request = _make_request(host, port, username, password, uri + '/config/%(id)s/set/' % {'id': camera_id}, method='POST', data=ui_config)
     
     def on_response(response):
         if response.error:
-            logging.error('failed to set config for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+            logging.error('failed to set config for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
-                    'host': host,
-                    'port': port,
+                    'url': make_camera_url(local_config),
                     'msg': unicode(response.error)})
             
-            return callback(response.error)
+            return callback(error=unicode(response.error))
     
-        callback(None)
+        callback()
 
     http_client = AsyncHTTPClient()
     http_client.fetch(request, on_response)
@@ -166,28 +179,27 @@ def set_preview(local_config, controls, callback):
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
     password = local_config.get('@password', local_config.get('password'))
+    uri = local_config.get('@uri', local_config.get('uri')) or ''
     camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
     
-    logging.debug('setting preview for remote camera %(id)s on %(host)s:%(port)s' % {
+    logging.debug('setting preview for remote camera %(id)s on %(url)s' % {
             'id': camera_id,
-            'host': host,
-            'port': port})
+            'url': make_camera_url(local_config)})
     
     data = json.dumps(controls)
     
-    request = _make_request(host, port, username, password, '/config/%(id)s/set_preview/' % {'id': camera_id}, method='POST', data=data)
+    request = _make_request(host, port, username, password, uri + '/config/%(id)s/set_preview/' % {'id': camera_id}, method='POST', data=data)
 
     def on_response(response):
         if response.error:
-            logging.error('failed to set preview for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+            logging.error('failed to set preview for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
-                    'host': host,
-                    'port': port,
+                    'url': make_camera_url(local_config),
                     'msg': unicode(response.error)})
         
-            return callback(None)
+            return callback(error=unicode(response.error))
         
-        callback('')
+        callback()
 
     http_client = AsyncHTTPClient()
     http_client.fetch(request, on_response)
@@ -198,12 +210,12 @@ def get_current_picture(local_config, callback, width, height):
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
     password = local_config.get('@password', local_config.get('password'))
+    uri = local_config.get('@uri', local_config.get('uri')) or ''
     camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
     
-    logging.debug('getting current picture for remote camera %(id)s on %(host)s:%(port)s' % {
+    logging.debug('getting current picture for remote camera %(id)s on %(url)s' % {
             'id': camera_id,
-            'host': host,
-            'port': port})
+            'url': make_camera_url(local_config)})
     
     query = {}
     
@@ -213,17 +225,16 @@ def get_current_picture(local_config, callback, width, height):
     if height:
         query['height'] = str(height)
     
-    request = _make_request(host, port, username, password, '/picture/%(id)s/current/' % {'id': camera_id}, query=query)
+    request = _make_request(host, port, username, password, uri + '/picture/%(id)s/current/' % {'id': camera_id}, query=query)
     
     def on_response(response):
         if response.error:
-            logging.error('failed to get current picture for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+            logging.error('failed to get current picture for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
-                    'host': host,
-                    'port': port,
+                    'url': make_camera_url(local_config),
                     'msg': unicode(response.error)})
             
-            return callback(None)
+            return callback(error=unicode(response.error))
         
         callback(response.body)
     
@@ -236,41 +247,39 @@ def list_media(local_config, callback, media_type, prefix=None):
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
     password = local_config.get('@password', local_config.get('password'))
+    uri = local_config.get('@uri', local_config.get('uri')) or ''
     camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
     
-    logging.debug('getting media list for remote camera %(id)s on %(host)s:%(port)s' % {
+    logging.debug('getting media list for remote camera %(id)s on %(url)s' % {
             'id': camera_id,
-            'host': host,
-            'port': port})
+            'url': make_camera_url(local_config)})
     
     query = {}
     if prefix is not None:
         query['prefix'] = prefix
     
     # timeout here is 10 times larger than usual - we expect a big delay when fetching the media list
-    request = _make_request(host, port, username, password, '/%(media_type)s/%(id)s/list/' % {
+    request = _make_request(host, port, username, password, uri + '/%(media_type)s/%(id)s/list/' % {
             'id': camera_id, 'media_type': media_type}, query=query, timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
     
     def on_response(response):
         if response.error:
-            logging.error('failed to get media list for remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+            logging.error('failed to get media list for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
-                    'host': host,
-                    'port': port,
+                    'url': make_camera_url(local_config),
                     'msg': unicode(response.error)})
             
-            return callback(None)
+            return callback(error=unicode(response.error))
         
         try:
             response = json.loads(response.body)
             
         except Exception as e:
-            logging.error('failed to decode json answer from %(host)s:%(port)s: %(msg)s' % {
-                    'host': host,
-                    'port': port,
+            logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
+                    'url': make_camera_url(local_config),
                     'msg': unicode(e)})
             
-            return callback(None)
+            return callback(error=unicode(e))
         
         return callback(response)
     
@@ -283,15 +292,15 @@ def get_media_content(local_config, callback, filename, media_type):
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
     password = local_config.get('@password', local_config.get('password'))
+    uri = local_config.get('@uri', local_config.get('uri')) or ''
     camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
     
-    logging.debug('downloading file %(filename)s of remote camera %(id)s on %(host)s:%(port)s' % {
+    logging.debug('downloading file %(filename)s of remote camera %(id)s on %(url)s' % {
             'filename': filename,
             'id': camera_id,
-            'host': host,
-            'port': port})
+            'url': make_camera_url(local_config)})
     
-    uri = '/%(media_type)s/%(id)s/download/%(filename)s' % {
+    uri += '/%(media_type)s/%(id)s/download/%(filename)s' % {
             'media_type': media_type,
             'id': camera_id,
             'filename': filename}
@@ -301,14 +310,13 @@ def get_media_content(local_config, callback, filename, media_type):
     
     def on_response(response):
         if response.error:
-            logging.error('failed to download file %(filename)s of remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+            logging.error('failed to download file %(filename)s of remote camera %(id)s on %(url)s: %(msg)s' % {
                     'filename': filename,
                     'id': camera_id,
-                    'host': host,
-                    'port': port,
+                    'url': make_camera_url(local_config),
                     'msg': unicode(response.error)})
             
-            return callback(None)
+            return callback(error=unicode(response.error))
         
         return callback(response.body)
 
@@ -321,15 +329,15 @@ def get_media_preview(local_config, callback, filename, media_type, width, heigh
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
     password = local_config.get('@password', local_config.get('password'))
+    uri = local_config.get('@uri', local_config.get('uri')) or ''
     camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
     
-    logging.debug('getting file preview for %(filename)s of remote camera %(id)s on %(host)s:%(port)s' % {
+    logging.debug('getting file preview for %(filename)s of remote camera %(id)s on %(url)s' % {
             'filename': filename,
             'id': camera_id,
-            'host': host,
-            'port': port})
+            'url': make_camera_url(local_config)})
     
-    uri = '/%(media_type)s/%(id)s/preview/%(filename)s' % {
+    uri += '/%(media_type)s/%(id)s/preview/%(filename)s' % {
             'media_type': media_type,
             'id': camera_id,
             'filename': filename}
@@ -346,14 +354,13 @@ def get_media_preview(local_config, callback, filename, media_type, width, heigh
     
     def on_response(response):
         if response.error:
-            logging.error('failed to get file preview for %(filename)s of remote camera %(id)s on %(host)s:%(port)s: %(msg)s' % {
+            logging.error('failed to get file preview for %(filename)s of remote camera %(id)s on %(url)s: %(msg)s' % {
                     'filename': filename,
                     'id': camera_id,
-                    'host': host,
-                    'port': port,
+                    'url': make_camera_url(local_config),
                     'msg': unicode(response.error)})
             
-            return callback(None)
+            return callback(error=unicode(response.error))
         
         return callback(response.body)
 

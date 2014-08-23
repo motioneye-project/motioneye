@@ -25,6 +25,7 @@ from tornado import iostream, ioloop
 import config
 import motionctl
 import settings
+import utils
 
 
 class MjpgClient(iostream.IOStream):
@@ -188,7 +189,7 @@ def get_jpg(camera_id):
                 'camera_id': camera_id})
         
         camera_config = config.get_camera(camera_id)
-        if not camera_config['@enabled'] or camera_config['@proto'] != 'v4l2':
+        if not camera_config['@enabled'] or not utils.local_camera(camera_config):
             logging.error('could not start mjpg client for camera id %(camera_id)s: not enabled or not local' % {
                     'camera_id': camera_id})
             

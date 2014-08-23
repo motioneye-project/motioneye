@@ -135,7 +135,7 @@ def stop():
             raise Exception('could not terminate the motion process')
         
         except OSError as e:
-            if e.errno != errno.ECHILD:
+            if e.errno not in (errno.ESRCH, errno.ECHILD):
                 raise
     
 

@@ -425,6 +425,11 @@ table.add-camera-dialog input[type=password] {
     width: 17em;
 }
 
+span#cameraMsgLabel {
+    color: red;
+    font-size: 0.7em;
+}
+
 
 div.media-dialog {
 }

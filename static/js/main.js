@@ -159,6 +159,19 @@ String.prototype.replaceAll = String.prototype.replaceAll || function (oldStr, n
     return s.toString();
 };
 
+function makeDeviceUrl(dict) {
+    switch (dict.proto) {
+        case 'v4l2':
+            return dict.proto + '://' + dict.uri;
+            
+        case 'motioneye':
+            return dict.proto + '://' + dict.host + (dict.port ? ':' + dict.port : '') + dict.uri + '/config/' + dict.remote_camera_id;
+            
+        default: /* assuming netcam */
+            return dict.proto + '://' + dict.host + (dict.port ? ':' + dict.port : '') + dict.uri;
+    }
+}
+
 
     /* UI initialization */
 
@@ -251,7 +264,6 @@ function initUI() {
     $('#showAdvancedSwitch').change(updateConfigUi);
     $('#wifiSwitch').change(updateConfigUi);
     $('#storageDeviceSelect').change(updateConfigUi);
-    $('#autoBrightnessSwitch').change(updateConfigUi);
     $('#resolutionSelect').change(updateConfigUi);
     $('#leftTextSelect').change(updateConfigUi);
     $('#rightTextSelect').change(updateConfigUi);
@@ -404,17 +416,32 @@ function updateConfigUi() {
         $('tr.advanced-setting, div.advanced-setting, table.advanced-setting').each(markHide);
     }
     
+    /* video device */
+    if ($('#brightnessSlider').val() == '') {
+        $('#brightnessSlider').parents('tr:eq(0)').each(markHide);
+    }
+    if ($('#contrastSlider').val() == '') {
+        $('#contrastSlider').parents('tr:eq(0)').each(markHide);
+    }
+    if ($('#saturationSlider').val() == '') {
+        $('#saturationSlider').parents('tr:eq(0)').each(markHide);
+    }
+    if ($('#hueSlider').val() == '') {
+        $('#hueSlider').parents('tr:eq(0)').each(markHide);
+    }
+    if ($('#contrastSlider').val() == '') {
+        $('#contrastSlider').parents('tr:eq(0)').each(markHide);
+    }
+    if ($('#resolutionSelect')[0].selectedIndex == -1) {
+        $('#resolutionSelect').parents('tr:eq(0)').each(markHide);
+    }
+
     /* storage device */
     if ($('#storageDeviceSelect').val() !== 'network-share') {
         $('#networkServerEntry').parents('tr:eq(0)').each(markHide);
         $('#networkUsernameEntry').parents('tr:eq(0)').each(markHide);
         $('#networkPasswordEntry').parents('tr:eq(0)').each(markHide);
         $('#networkShareNameEntry').parents('tr:eq(0)').each(markHide);
-    }
-    
-    /* auto brightness */
-    if ($('#autoBrightnessSwitch').get(0).checked) {
-        $('#brightnessSlider').parents('tr:eq(0)').each(markHide);
     }
     
     /* text */
@@ -584,42 +611,19 @@ function cameraUi2Dict() {
         };
     }
     
-    var deviceUrl = $('#deviceEntry').val();
-    var proto = '';
-    var hostPort = '';
-    var deviceUri = '';
-    var host = '';
-    var port = '';
-    
-    var parts;
-    if (deviceUrl) {
-        parts = deviceUrl.split('://');
-        proto = parts[0];
-        if (parts.length > 1) {
-            parts = parts[1].split('/');
-            hostPort = parts[0];
-            deviceUri = '/' + parts.slice(1).join('/');
-            parts = hostPort.split(':');
-            host = parts[0];
-            if (parts.length > 1) {
-                port = parts[1] || '';
-            }
-        }
-    }
-    
     var dict = {
         /* video device */
         'enabled': $('#videoDeviceSwitch')[0].checked,
         'name': $('#deviceNameEntry').val(),
-        'proto': proto,
-        'host': host,
-        'port': port,
-        'device_uri': deviceUri,
         'light_switch_detect': $('#lightSwitchDetectSwitch')[0].checked,
-        'auto_brightness': $('#autoBrightnessSwitch')[0].checked,
-        'resolution': $('#resolutionSelect').val(),
         'rotation': $('#rotationSelect').val(),
         'framerate': $('#framerateSlider').val(),
+        'proto': $('#deviceEntry')[0].proto,
+        'host': $('#deviceEntry')[0].host,
+        'port': $('#deviceEntry')[0].port,
+        'uri': $('#deviceEntry')[0].uri,
+        'username': $('#deviceEntry')[0].username,
+        'password': $('#deviceEntry')[0].password,
         
         /* file storage */
         'storage_device': $('#storageDeviceSelect').val(),
@@ -700,6 +704,10 @@ function cameraUi2Dict() {
         'sunday_to': $('#sundayTo').val(),
     };
 
+    if ($('#resolutionSelect')[0].selectedIndex != -1) {
+        dict.resolution = $('#resolutionSelect').val();
+    }
+
     if ($('#brightnessSlider').val() !== '') {
         dict.brightness = $('#brightnessSlider').val();
     }
@@ -736,14 +744,42 @@ function dict2CameraUi(dict) {
     /* video device */
     $('#videoDeviceSwitch')[0].checked = dict['enabled'];
     $('#deviceNameEntry').val(dict['name']);
-    $('#deviceEntry').val(dict['proto'] + '://' + dict['host'] + (dict['port'] ? ':' + dict['port'] : '') + dict['device_uri']);
+    $('#deviceEntry').val(makeDeviceUrl(dict));
+    $('#deviceEntry')[0].proto = dict['proto'];
+    $('#deviceEntry')[0].host = dict['host'];
+    $('#deviceEntry')[0].port = dict['port'];
+    $('#deviceEntry')[0].uri= dict['uri'];
+    $('#deviceEntry')[0].username = dict['username'];
+    $('#deviceEntry')[0].password = dict['password'];
     $('#lightSwitchDetectSwitch')[0].checked = dict['light_switch_detect'];
-    $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness'];
     
-    $('#brightnessSlider').val(dict['brightness']);
-    $('#contrastSlider').val(dict['contrast']);
-    $('#saturationSlider').val(dict['saturation']);
-    $('#hueSlider').val(dict['hue']);
+    if (dict['brightness'] != null) {
+        $('#brightnessSlider').val(dict['brightness']);
+    }
+    else {
+        $('#brightnessSlider').val('');
+    }
+    
+    if (dict['contrast'] != null) {
+        $('#contrastSlider').val(dict['contrast']);
+    }
+    else {
+        $('#contrastSlider').val('');
+    }
+    
+    if (dict['saturation'] != null) {
+        $('#saturationSlider').val(dict['saturation']);
+    }
+    else {
+        $('#saturationSlider').val('');
+    }
+    
+    if (dict['hue'] != null) {
+        $('#hueSlider').val(dict['hue']);
+    }
+    else {
+        $('#hueSlider').val('');
+    }
 
     $('#resolutionSelect').html('');
     if (dict['available_resolutions']) {
@@ -1459,68 +1495,65 @@ function runAddCameraDialog() {
                     '<td class="dialog-item-value"><select class="styled" id="deviceSelect"></select></td>' +
                     '<td><span class="help-mark" title="the device you wish to add to motionEye">?</span></td>' +
                 '</tr>' +
-                '<tr class="remote">' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Host</span></td>' +
-                    '<td class="dialog-item-value"><input type="text" class="styled" id="hostEntry" placeholder="e.g. 192.168.1.2"></td>' +
-                    '<td><span class="help-mark" title="the remote motionEye host (e.g. 192.168.1.2)">?</span></td>' +
+                '<tr class="motioneye netcam">' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">URL</span></td>' +
+                    '<td class="dialog-item-value"><input type="text" class="styled" id="urlEntry" placeholder="http://example.com:8080/cams/..."></td>' +
+                    '<td><span class="help-mark" title="the camera URL (e.g. http://example.com:8080/cams/)">?</span></td>' +
                 '</tr>' +
-                '<tr class="remote">' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Port</span></td>' +
-                    '<td class="dialog-item-value"><input type="text" class="styled" id="portEntry" placeholder="e.g. 80"></td>' +
-                    '<td><span class="help-mark" title="the remote motionEye port (e.g. 80)">?</span></td>' +
-                '</tr>' +
-                '<tr class="remote">' +
+                '<tr class="motioneye netcam">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Username</span></td>' +
                     '<td class="dialog-item-value"><input type="text" class="styled" id="usernameEntry" placeholder="username..."></td>' +
-                    '<td><span class="help-mark" title="the remote administrator\'s username">?</span></td>' +
+                    '<td><span class="help-mark" title="the username for the URL, if required (e.g. admin)">?</span></td>' +
                 '</tr>' +
-                '<tr class="remote">' +
+                '<tr class="motioneye netcam">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Password</span></td>' +
                     '<td class="dialog-item-value"><input type="password" class="styled" id="passwordEntry" placeholder="password..."></td>' +
-                    '<td><span class="help-mark" title="the remote administrator\'s password">?</span></td>' +
+                    '<td><span class="help-mark" title="the password for the URL, if required">?</span></td>' +
                 '</tr>' +
-                '<tr class="remote">' +
+                '<tr class="motioneye netcam">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Camera</span></td>' +
-                    '<td class="dialog-item-value"><select class="styled" id="cameraSelect"></select></td>' +
-                    '<td><span class="help-mark" title="the remote camera you wish to add to motionEye">?</span></td>' +
+                    '<td class="dialog-item-value"><select class="styled" id="cameraSelect"></select><span id="cameraMsgLabel"></span></td>' +
+                    '<td><span class="help-mark" title="the camera you wish to add to motionEye">?</span></td>' +
                 '</tr>' +
             '</table>');
     
     /* collect ui widgets */
     var deviceSelect = content.find('#deviceSelect');
-    var hostEntry = content.find('#hostEntry');
-    var portEntry = content.find('#portEntry');
+    var urlEntry = content.find('#urlEntry');
     var usernameEntry = content.find('#usernameEntry');
     var passwordEntry = content.find('#passwordEntry');
     var cameraSelect = content.find('#cameraSelect');
+    var cameraMsgLabel = content.find('#cameraMsgLabel');
     
     /* make validators */
-    makeTextValidator(hostEntry, true);
-    makeNumberValidator(portEntry, 1, 65535, false, false, true);
-    makeTextValidator(usernameEntry, true);
-    makeTextValidator(deviceSelect, true);
+    makeUrlValidator(urlEntry, true);
+    makeTextValidator(usernameEntry, false);
+    makeTextValidator(deviceSelect, false);
     makeComboValidator(cameraSelect, true);
     
     /* ui interaction */
-    content.find('tr.remote').css('display', 'none');
+    content.find('tr.motioneye, tr.netcam').css('display', 'none');
     
     function updateUi() {
-        if (deviceSelect.val() === 'remote') {
-            content.find('tr.remote').css('display', 'table-row');
+        content.find('tr.motioneye, tr.netcam').css('display', 'none');
+        if (deviceSelect.val() == 'motioneye') {
+            content.find('tr.motioneye').css('display', 'table-row');
+            cameraSelect.hide();
         }
-        else {
-            content.find('tr.remote').css('display', 'none');
+        else if (deviceSelect.val() == 'netcam') {
+            content.find('tr.netcam').css('display', 'table-row');
+            cameraSelect.hide();
         }
         
         updateModalDialogPosition();
         cameraSelect.html('');
-
+        
         /* re-validate all the validators */
         content.find('.validator').each(function () {
             this.validate();
         });
         
-        if (content.is(':visible') && uiValid() && deviceSelect.val() == 'remote') {
+        if (content.is(':visible') && uiValid() && (deviceSelect.val() == 'motioneye' || deviceSelect.val() == 'netcam')) {
             fetchRemoteCameras();
         }
     }
@@ -1546,32 +1579,64 @@ function runAddCameraDialog() {
         return valid;
     }
     
+    function splitUrl(url) {
+        var parts = url.split('://');
+        var proto = parts[0];
+        var index = parts[1].indexOf('/');
+        var host = null;
+        var uri = '';
+        if (index >= 0) {
+            host = parts[1].substring(0, index);
+            uri = parts[1].substring(index);
+        }
+        else {
+            host = parts[1];
+        }
+        
+        var port = '';
+        parts = host.split(':');
+        if (parts.length >= 2) {
+            host = parts[0];
+            port = parts[1];
+        }
+        
+        if (uri == '/') {
+            uri = '';
+        }
+        
+        return {
+            proto: proto,
+            host: host,
+            port: port,
+            uri: uri
+        };
+    }
+    
     function fetchRemoteCameras() {
         var progress = $('<div style="text-align: center; margin: 2px;"><img src="' + staticUrl + 'img/small-progress.gif"></div>');
         
         cameraSelect.hide();
-        cameraSelect.before(progress);
         cameraSelect.parent().find('div').remove(); /* remove any previous progress div */
+        cameraSelect.before(progress);
         
-        var data = {
-            host: hostEntry.val(),
-            port: portEntry.val(),
-            username: usernameEntry.val(),
-            password: passwordEntry.val()
-        };
+        var data = splitUrl(urlEntry.val());
+        data.username = usernameEntry.val();
+        data.password = passwordEntry.val();
+        data.type = deviceSelect.val();
+        
+        cameraMsgLabel.html('');
         
         ajax('GET', '/config/list/', data, function (data) {
+            progress.remove();
+            
             if (data == null || data.error) {
-                progress.remove();
-                if (passwordEntry.val()) { /* only show an error message when a password is supplied */
-                    showErrorMessage(data && data.error);
-                }
+                //showErrorMessage(data && data.error);
+                cameraMsgLabel.html(data && data.error);
                 
                 return;
             }
             
             cameraSelect.html('');
-            progress.remove();
             
             if (data.error || !data.cameras) {
                 return;
@@ -1586,8 +1651,7 @@ function runAddCameraDialog() {
     }
     
     deviceSelect.change(updateUi);
-    hostEntry.change(updateUi);
-    portEntry.change(updateUi);
+    urlEntry.change(updateUi);
     usernameEntry.change(updateUi);
     passwordEntry.change(updateUi);
     updateUi();
@@ -1605,11 +1669,12 @@ function runAddCameraDialog() {
         /* add available devices */
         data.devices.forEach(function (device) {
             if (!device.configured) {
-                deviceSelect.append('<option value="' + device.device_uri + '">' + device.name + '</option>');
+                deviceSelect.append('<option value="' + device.uri + '">' + device.name + '</option>');
             }
         });
         
-        deviceSelect.append('<option value="remote">Remote motionEye camera...</option>');
+        deviceSelect.append('<option value="netcam">Network camera...</option>');
+        deviceSelect.append('<option value="motioneye">Remote motionEye camera...</option>');
         
         updateUi();
         
@@ -1622,19 +1687,24 @@ function runAddCameraDialog() {
                 if (!uiValid(true)) {
                     return false;
                 }
-                
+
                 var data = {};
-                if (deviceSelect.val() == 'remote') {
-                    data.proto = 'http';
-                    data.host = hostEntry.val();
-                    data.port = portEntry.val();
+                
+                if (deviceSelect.val() == 'motioneye') {
+                    data = splitUrl(urlEntry.val());
+                    data.proto = 'motioneye';
                     data.username = usernameEntry.val();
                     data.password = passwordEntry.val();
                     data.remote_camera_id = cameraSelect.val();
                 }
-                else {
+                else if (deviceSelect.val() == 'netcam') {
+                    data = splitUrl(urlEntry.val());
+                    data.username = usernameEntry.val();
+                    data.password = passwordEntry.val();
+                }
+                else { /* assuming v4l2 */
                     data.proto = 'v4l2';
-                    data.device_uri = deviceSelect.val();
+                    data.uri = deviceSelect.val();
                 }
 
                 beginProgress();
