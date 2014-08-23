@@ -1035,9 +1035,15 @@ function doApply() {
             return;
         }
         
-        var instance = config.host || '';
-        if (config.port) {
-            instance += ':' + config.port;
+        var instance;
+        if (config.proto == 'http' || config.proto == 'v4l2') {
+            instance = '';
+        }
+        else { /* motioneye */
+            instance = config.host || '';
+            if (config.port) {
+                instance += ':' + config.port;
+            }
         }
         
         affectedInstances[instance] = true;
@@ -1367,9 +1373,15 @@ function getCameraIdsByInstance() {
     
     var cameraIdsByInstance = {};
     $('div.camera-frame').each(function () {
-        var instance = this.config.host || '';
-        if (this.config.port) {
-            instance += ':' + this.config.port;
+        var instance;
+        if (this.config.proto == 'http' || this.config.proto == 'v4l2') {
+            instance = '';
+        }
+        else { /* motioneye */
+            instance = this.config.host || '';
+            if (this.config.port) {
+                instance += ':' + this.config.port;
+            }
         }
         
         (cameraIdsByInstance[instance] = cameraIdsByInstance[instance] || []).push(this.config.id);

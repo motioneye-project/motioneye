@@ -483,6 +483,7 @@ class ConfigHandler(BaseHandler):
                     
                     else:
                         remote_ui_config['id'] = camera_id
+                        
                         if not remote_ui_config['enabled'] and local_config['@enabled']:
                             # if a remote camera is disabled, make sure it's disabled locally as well
                             local_config['@enabled'] = False
@@ -492,6 +493,9 @@ class ConfigHandler(BaseHandler):
                             # if a remote camera is locally disabled, make sure the remote config says the same thing
                             remote_ui_config['enabled'] = False
                             
+                        for key, value in local_config.items():
+                            remote_ui_config[key.replace('@', '')] = value
+
                         cameras.append(remote_ui_config)
                         
                     check_finished()
