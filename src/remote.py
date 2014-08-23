@@ -43,9 +43,9 @@ def _make_request(host, port, username, password, uri, method='GET', data=None, 
 
 
 def make_camera_url(local_config, camera=True):
-    host = local_config.get('@host', local_config.get('host')) 
+    host = local_config.get('@host', local_config.get('host'))
     port = local_config.get('@port', local_config.get('port'))
-    username = local_config.get('@username', local_config.get('username'))
+    username = local_config.get('@username', local_config.get('username')) or ''
     uri = local_config.get('@uri', local_config.get('uri')) or ''
 
     url = 'motioneye://' + username + '@' + host

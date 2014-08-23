@@ -279,6 +279,7 @@ class ConfigHandler(BaseHandler):
             old_admin_credentials = old_main_config.get('@admin_username', '') + ':' + old_main_config.get('@admin_password', '')
             
             main_config = config.main_ui_to_dict(ui_config)
+            main_config.setdefault('thread', old_main_config.get('thread', [])) 
             admin_credentials = main_config.get('@admin_username', '') + ':' + main_config.get('@admin_password', '')
             
             wifi_changed = bool([k for k in ['@wifi_enabled', '@wifi_name', '@wifi_key'] if old_main_config.get(k) != main_config.get(k)])
@@ -457,7 +458,7 @@ class ConfigHandler(BaseHandler):
             
             utils.test_netcam_url(self.get_data(), on_response)
                 
-        else:  # assuming local v4l2 listing
+        else:  # assuming local listing
             cameras = []
             camera_ids = config.get_camera_ids()
             if not config.get_main().get('@enabled'):
@@ -499,6 +500,9 @@ class ConfigHandler(BaseHandler):
             
             for camera_id in camera_ids:
                 local_config = config.get_camera(camera_id)
+                if local_config is None:
+                    continue
+                
                 if utils.local_camera(local_config):
                     ui_config = config.camera_dict_to_ui(local_config)
                     cameras.append(ui_config)

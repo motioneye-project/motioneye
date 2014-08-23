@@ -115,14 +115,6 @@ def set_main(main_config):
     # read the actual configuration from file
     lines = get_main(as_lines=True)
     
-    # preserve the threads
-    if 'thread' not in main_config:
-        threads = main_config.setdefault('thread', [])
-        for line in lines:
-            match = re.match('^\s*thread\s+([a-zA-Z0-9.\-]+)', line)
-            if match:
-                threads.append(match.groups()[0])
-    
     # write the configuration to file
     logging.debug('writing main config to %(path)s...' % {'path': config_file_path})
     
@@ -183,9 +175,14 @@ def get_camera_ids():
         
     camera_ids.sort()
     
-    _camera_ids_cache = camera_ids
+    filtered_camera_ids = []
+    for camera_id in camera_ids:
+        if get_camera(camera_id):
+            filtered_camera_ids.append(camera_id)
     
-    return camera_ids
+    _camera_ids_cache = filtered_camera_ids
+    
+    return filtered_camera_ids
 
 
 def has_enabled_cameras():
@@ -291,6 +288,14 @@ def get_camera(camera_id, as_lines=False):
                 camera_config['event_gap'] = camera_config.pop('gap')
                 
         _set_default_motion_camera(camera_id, camera_config)
+    
+    elif utils.remote_camera(camera_config):
+        pass
+    
+    else: # incomplete configuration
+        logging.warn('camera config file at %s is incomplete, ignoring' % camera_config_path)
+        
+        return None
     
     _camera_config_cache[camera_id] = dict(camera_config)
     
