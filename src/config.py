@@ -613,7 +613,7 @@ def camera_ui_to_dict(ui):
         data['netcam_url'] += ui['uri']
         
         if ui['username'] or ui['password']:
-            data['necam_userpass'] = (ui['username'] or '') + ':' + (ui['password'] or '')
+            data['netcam_userpass'] = (ui['username'] or '') + ':' + (ui['password'] or '')
 
         data['netcam_http'] = '1.1'
         
@@ -818,6 +818,7 @@ def camera_dict_to_ui(data):
         parts = rest.split('/', 1)
         if len(parts) > 1:
             host_port, uri = parts[:2]
+            uri = '/' + uri
         
         else:
             host_port, uri = rest, ''

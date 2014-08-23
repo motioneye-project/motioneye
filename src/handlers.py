@@ -551,7 +551,7 @@ class ConfigHandler(BaseHandler):
                 
         else:
             # adjust uri format
-            if device_details['uri'] and device_details['uri'].startswith('/'):
+            if device_details['uri'] and not device_details['uri'].startswith('/'):
                 device_details['uri'] = '/' + device_details['uri']
             while device_details['uri'] and device_details['uri'].endswith('/'):
                 device_details['uri'] = device_details['uri'][:-1]

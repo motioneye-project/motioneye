@@ -19,6 +19,10 @@ import datetime
 import logging
 import os
 
+from tornado.httpclient import AsyncHTTPClient, HTTPRequest
+
+import settings
+
 
 def pretty_date_time(date_time, tzinfo=None):
     if date_time is None:
@@ -233,12 +237,35 @@ def test_netcam_url(data, callback):
     
     logging.debug('testing netcam at %s' % url)
     
-    import time
-    time.sleep(1)
+    http_client = AsyncHTTPClient()
     
-    username = data['username']
-    password = data['password']
+    called = [False]
+    
+    def on_header(header):
+        header = header.lower()
+        if header.startswith('content-type'):
+            content_type = header.split(':')[1].strip()
+            if content_type in ['image/jpg', 'image/jpeg', 'image/pjpg']:
+                callback([{'id': 1, 'name': 'JPEG Network Camera'}])
+            
+            elif content_type.startswith('multipart/x-mixed-replace'):
+                callback([{'id': 1, 'name': 'MJPEG Network Camera'}])
+            
+            else:
+                callback(error='not a network camera')
+            
+            called[0] = True
 
-    # TODO implement me
-    #callback(error='General failure')
-    callback([{'id': 1, 'name': 'Network Camera'}])
+    def on_response(response):
+        if not called[0]:
+            called[0] = True
+            callback(error=unicode(response.error) if response.error else 'not a network camera')
+    
+    username = data['username'] or None
+    password = data['password'] or None
+    
+    request = HTTPRequest(url, auth_username=username, auth_password=password,
+            connect_timeout=settings.REMOTE_REQUEST_TIMEOUT, request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
+            header_callback=on_header)
+    
+    http_client.fetch(request, on_response)
