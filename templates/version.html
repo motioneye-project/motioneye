@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block script %}
+    {{super()}}
+    <script type="text/javascript">
+        var hostname = '{{hostname}}';
+        var version = '{{version}}';
+    </script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/version.js"></script>
+{% endblock %}
+
+{% block body %}
+hostname = "{{hostname}}"<br>
+version = "{{version}}"
+{% endblock %}
