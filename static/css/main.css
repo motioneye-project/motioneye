@@ -813,4 +813,9 @@ img.camera-progress {
     div.camera-frame-place-holder {
         width: 98%;
     }
+
+    div.camera-frame:only-child,
+    div.camera-frame-place-holder:only-child {
+        width: 98%;
+    }
 }
