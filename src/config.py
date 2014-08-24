@@ -307,9 +307,9 @@ def get_camera(camera_id, as_lines=False):
 def set_camera(camera_id, camera_config):
     global _camera_config_cache
 
-    camera_config = dict(camera_config)
     camera_config['@id'] = camera_id
     _camera_config_cache[camera_id] = camera_config
+    camera_config = dict(camera_config)
     
     if utils.local_camera(camera_config):
         old_motion = _is_old_motion()
