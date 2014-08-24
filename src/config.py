@@ -104,7 +104,9 @@ def get_main(as_lines=False):
 def set_main(main_config):
     global _main_config_cache
     
-    _set_default_motion(main_config)
+    old_motion = _is_old_motion()
+    
+    _set_default_motion(main_config, old_motion)
     _main_config_cache = dict(main_config)
 
     _set_wifi_settings(main_config)
@@ -1221,9 +1223,9 @@ def _is_old_motion():
         return False
 
 
-def _set_default_motion(data):
+def _set_default_motion(data, old_motion=False):
     data.setdefault('@enabled', True)
-    
+
     data.setdefault('@show_advanced', False)
     data.setdefault('@admin_username', 'admin')
     data.setdefault('@admin_password', '')
@@ -1234,6 +1236,12 @@ def _set_default_motion(data):
     data.setdefault('@wifi_enabled', False)
     data.setdefault('@wifi_name', '')
     data.setdefault('@wifi_key', '')
+    
+    if old_motion:
+        data.setdefault('control_port', 7999)
+    
+    else:
+        data.setdefault('webcontrol_port', 7999)
 
 
 def _set_default_motion_camera(camera_id, data, old_motion=False):

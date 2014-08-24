@@ -28,9 +28,14 @@ import settings
 
 
 _started = False
+_motion_binary_cache = None
 
 
 def find_motion():
+    global _motion_binary_cache
+    if _motion_binary_cache:
+        return _motion_binary_cache
+
     try:
         binary = subprocess.check_output('which motion', shell=True).strip()
     
@@ -46,7 +51,9 @@ def find_motion():
     result = re.findall('^motion Version ([^,]+)', help)
     version = result and result[0] or ''
     
-    return (binary, version)
+    _motion_binary_cache = (binary, version)
+    
+    return _motion_binary_cache
 
 
 def start():
