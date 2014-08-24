@@ -301,7 +301,7 @@ def _start_motion():
         if ioloop._stopped:
             return
             
-        if not motionctl.running() and motionctl.started() and config.has_enabled_cameras():
+        if not motionctl.running() and motionctl.started() and config.has_local_enabled_cameras():
             try:
                 logging.error('motion not running, starting it')
                 motionctl.start()
@@ -324,6 +324,13 @@ def _start_cleanup():
     logging.info('cleanup started')
 
 
+def _start_wsswitch():
+    import wsswitch
+
+    wsswitch.start()
+    logging.info('wsswitch started')
+
+
 def _start_thumbnailer():
     import thumbnailer
 
@@ -341,6 +348,7 @@ if __name__ == '__main__':
     
     _configure_signals()
     _configure_logging()
+    
     if settings.SMB_SHARES:
         stop, start = smbctl.update_mounts()
         if start:
@@ -350,6 +358,7 @@ if __name__ == '__main__':
         _start_motion()
         
     _start_cleanup()
+    _start_wsswitch()
     
     if settings.THUMBNAILER_INTERVAL:
         _start_thumbnailer()

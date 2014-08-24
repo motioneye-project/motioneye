@@ -187,7 +187,7 @@ def get_camera_ids():
     return filtered_camera_ids
 
 
-def has_enabled_cameras():
+def has_local_enabled_cameras():
     if not get_main().get('@enabled'):
         return False
     
@@ -810,13 +810,13 @@ def camera_dict_to_ui(data):
         
         # working schedule
         'working_schedule': False,
-        'monday_from': '09:00', 'monday_to': '17:00',
-        'tuesday_from': '09:00', 'tuesday_to': '17:00',
-        'wednesday_from': '09:00', 'wednesday_to': '17:00',
-        'thursday_from': '09:00', 'thursday_to': '17:00',
-        'friday_from': '09:00', 'friday_to': '17:00',
-        'saturday_from': '09:00', 'saturday_to': '17:00',
-        'sunday_from': '09:00', 'sunday_to': '17:00'
+        'monday_from': '', 'monday_to': '',
+        'tuesday_from': '', 'tuesday_to': '',
+        'wednesday_from': '', 'wednesday_to': '',
+        'thursday_from': '', 'thursday_to': '',
+        'friday_from': '', 'friday_to': '',
+        'saturday_from': '', 'saturday_to': '',
+        'sunday_from': '', 'sunday_to': ''
     }
     
     if utils.net_camera(data):

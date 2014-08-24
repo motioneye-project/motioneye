@@ -386,7 +386,7 @@
                         <td><span class="help-mark" title="indicates the minimal percent of the image that must change between two successive frames in order for motion to be detected (smaller values give a more sensitive detection, but are prone to false positives)">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Automatic Noise Detection</span></td>
+                        <td class="settings-item-label"><span class="settings-item-label">Auto Noise Detection</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled motion-detection" id="autoNoiseDetectSwitch"></td>
                         <td><span class="help-mark" title="enable this to automatically adjust the noise level">?</span></td>
                     </tr>
@@ -490,61 +490,68 @@
                     </tr>
                 </table>
 
-                <div class="settings-section-title hidden"><input type="checkbox" class="styled section working-schedule" id="workingScheduleSwitch">Working Schedule</div>
-                <table class="settings hidden">
+                <div class="settings-section-title"><input type="checkbox" class="styled section working-schedule" id="workingScheduleSwitch">Working Schedule</div>
+                <table class="settings">
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Monday</span></td>
                         <td class="settings-item-value">
-                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="mondayFrom">
-                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="mondayTo">
+                            <input type="checkbox" class="styled working-schedule" id="mondayEnabledSwitch">
+                            <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time" id="mondayFromEntry">
+                            <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time" id="mondayToEntry">
                         </td>
                         <td><span class="help-mark" title="sets the working schedule time interval for Mondays">?</span></td>
                     </tr>
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Tuesday</span></td>
                         <td class="settings-item-value">
-                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="tuesdayFrom">
-                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="tuesdayTo">
+                            <input type="checkbox" class="styled working-schedule" id="tuesdayEnabledSwitch">
+                            <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time" id="tuesdayFromEntry">
+                            <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time" id="tuesdayToEntry">
                         </td>
                         <td><span class="help-mark" title="sets the working schedule time interval for Tuesdays">?</span></td>
                     </tr>
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Wednesday</span></td>
                         <td class="settings-item-value">
-                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="wednesdayFrom">
-                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="wednesdayTo">
+                            <input type="checkbox" class="styled working-schedule" id="wednesdayEnabledSwitch">
+                            <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time" id="wednesdayFromEntry">
+                            <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time" id="wednesdayToEntry">
                         </td>
                         <td><span class="help-mark" title="sets the working schedule time interval for Wednesdays">?</span></td>
                     </tr>
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Thursday</span></td>
                         <td class="settings-item-value">
-                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="thursdayFrom">
-                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="thursdayTo">
+                            <input type="checkbox" class="styled working-schedule" id="thursdayEnabledSwitch">
+                            <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time" id="thursdayFromEntry">
+                            <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time" id="thursdayToEntry">
                         </td>
                         <td><span class="help-mark" title="sets the working schedule time interval for Thursdays">?</span></td>
                     </tr>
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Friday</span></td>
                         <td class="settings-item-value">
-                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="fridayFrom">
-                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="fridayTo">
+                            <input type="checkbox" class="styled working-schedule" id="fridayEnabledSwitch">
+                            <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time" id="fridayFromEntry">
+                            <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time" id="fridayToEntry">
                         </td>
                         <td><span class="help-mark" title="sets the working schedule time interval for Friday">?</span></td>
                     </tr>
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Saturday</span></td>
                         <td class="settings-item-value">
-                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="saturdayFrom">
-                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="saturdayTo">
+                            <input type="checkbox" class="styled working-schedule" id="saturdayEnabledSwitch">
+                            <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time" id="saturdayFromEntry">
+                            <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time" id="saturdayToEntry">
                         </td>
                         <td><span class="help-mark" title="sets the working schedule time interval for Saturday">?</span></td>
                     </tr>
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Sunday</span></td>
                         <td class="settings-item-value">
-                            <span class="settings-item-unit">from</span><input type="text" class="styled working-schedule time" id="sundayFrom">
-                            <span class="settings-item-unit">to</span><input type="text" class="styled working-schedule time" id="sundayTo">
+                            <input type="checkbox" class="styled working-schedule" id="sundayEnabledSwitch">
+                            <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time" id="sundayFromEntry">
+                            <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time" id="sundayToEntry">
                         </td>
                         <td><span class="help-mark" title="sets the working schedule time interval for Sunday">?</span></td>
                     </tr>

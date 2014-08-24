@@ -306,7 +306,7 @@ function makeTextValidator($input, required) {
     }
     
     function isValid(strVal) {
-        if (!$input.parents('tr:eq(0)').is(':visible')) {
+        if (!$input.is(':visible')) {
             return true; /* an invisible element is considered always valid */
         }
         
@@ -350,7 +350,7 @@ function makeComboValidator($select, required) {
     }
     
     function isValid(strVal) {
-        if (!$select.parents('tr:eq(0)').is(':visible')) {
+        if (!$select.is(':visible')) {
             return true; /* an invisible element is considered always valid */
         }
         
@@ -406,7 +406,7 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     }
     
     function isValid(strVal) {
-        if (!$input.parents('tr:eq(0)').is(':visible')) {
+        if (!$input.is(':visible')) {
             return true; /* an invisible element is considered always valid */
         }
 
@@ -484,16 +484,16 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
 
 function makeTimeValidator($input) {
     function isValid(strVal) {
+        if (!$input.is(':visible')) {
+            return true; /* an invisible element is considered always valid */
+        }
+
         return strVal.match(new RegExp('^[0-2][0-9]:[0-5][0-9]$')) != null;
     }
     
     var msg = 'enter a valid time in the following format: HH:MM';
     
     function validate() {
-        if (!$input.parents('tr:eq(0)').is(':visible')) {
-            return true; /* an invisible element is considered always valid */
-        }
-        
         var strVal = $input.val();
         if (isValid(strVal)) {
             $input.attr('title', '');
@@ -525,16 +525,16 @@ function makeTimeValidator($input) {
 
 function makeUrlValidator($input) {
     function isValid(strVal) {
+        if (!$input.is(':visible')) {
+            return true; /* an invisible element is considered always valid */
+        }
+
         return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w\-.]+)(:\\d+)?(/.*)?$')) != null;
     }
     
     var msg = 'enter a valid URL (e.g. http://example.com:8080/cams/)';
     
     function validate() {
-        if (!$input.parents('tr:eq(0)').is(':visible')) {
-            return true; /* an invisible element is considered always valid */
-        }
-        
         var strVal = $input.val();
         if (isValid(strVal)) {
             $input.attr('title', '');
@@ -554,50 +554,6 @@ function makeUrlValidator($input) {
     
     $input.addClass('validator');
     $input.addClass('url-validator');
-    $input.each(function () {
-        this.validate = validate;
-    });
-}
-
-function makeRegexValidator($input, regex, required) {
-    if (required == null) {
-        required = true;
-    }
-    
-    function isValid(strVal) {
-        if (!$input.parents('tr:eq(0)').is(':visible')) {
-            return true; /* an invisible element is considered always valid */
-        }
-
-        if (strVal.length === 0 && !required) {
-            return true;
-        }
-        
-        return strVal.match(new RegExp(regex)) != null;
-    }
-    
-    var msg = 'enter a valid value';
-    
-    function validate() {
-        var strVal = $input.val();
-        if (isValid(strVal)) {
-            $input.attr('title', '');
-            $input.removeClass('error');
-            $input[0].invalid = false;
-        }
-        else {
-            $input.attr('title', msg);
-            $input.addClass('error');
-            $input[0].invalid = true;
-        }
-    }
-    
-    $input.keyup(validate);
-    $input.blur(validate);
-    $input.change(validate).change();
-    
-    $input.addClass('validator');
-    $input.addClass('regex-validator');
     $input.each(function () {
         this.validate = validate;
     });

@@ -30,9 +30,6 @@ _process = None
 
 
 def start():
-    if running():
-        raise Exception('cleanup is already running')
-
     _run_process()
 
 
@@ -40,7 +37,8 @@ def stop():
     global _process
     
     if not running():
-        raise Exception('cleanup is not running')
+        _process = None
+        return
     
     if _process.is_alive():
         _process.join(timeout=10)
@@ -59,15 +57,15 @@ def running():
 def _run_process():
     global _process
     
+    # schedule the next call
+    ioloop = tornado.ioloop.IOLoop.instance()
+    ioloop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), _run_process)
+
     if not _process or not _process.is_alive(): # check that the previous process has finished
         logging.debug('running cleanup process...')
 
         _process = multiprocessing.Process(target=_do_cleanup)
         _process.start()
-
-    # schedule the next call
-    ioloop = tornado.ioloop.IOLoop.instance()
-    ioloop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), _run_process)
 
 
 def _do_cleanup():

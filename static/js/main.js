@@ -244,20 +244,20 @@ function initUI() {
     makeNumberValidator($('#smtpPortEntry'), 1, 65535, false, false, true);
     
     /* time validators */
-    makeTimeValidator($('#mondayFrom'));
-    makeTimeValidator($('#mondayTo'));
-    makeTimeValidator($('#tuesdayFrom'));
-    makeTimeValidator($('#tuesdayTo'));
-    makeTimeValidator($('#wednesdayFrom'));
-    makeTimeValidator($('#wednesdayTo'));
-    makeTimeValidator($('#thursdayFrom'));
-    makeTimeValidator($('#thursdayTo'));
-    makeTimeValidator($('#fridayFrom'));
-    makeTimeValidator($('#fridayTo'));
-    makeTimeValidator($('#saturdayFrom'));
-    makeTimeValidator($('#saturdayTo'));
-    makeTimeValidator($('#sundayFrom'));
-    makeTimeValidator($('#sundayTo'));
+    makeTimeValidator($('#mondayFromEntry'));
+    makeTimeValidator($('#mondayToEntry'));
+    makeTimeValidator($('#tuesdayFromEntry'));
+    makeTimeValidator($('#tuesdayToEntry'));
+    makeTimeValidator($('#wednesdayFromEntry'));
+    makeTimeValidator($('#wednesdayToEntry'));
+    makeTimeValidator($('#thursdayFromEntry'));
+    makeTimeValidator($('#thursdayToEntry'));
+    makeTimeValidator($('#fridayFromEntry'));
+    makeTimeValidator($('#fridayToEntry'));
+    makeTimeValidator($('#saturdayFromEntry'));
+    makeTimeValidator($('#saturdayToEntry'));
+    makeTimeValidator($('#sundayFromEntry'));
+    makeTimeValidator($('#sundayToEntry'));
     
     /* ui elements that enable/disable other ui elements */
     $('#motionEyeSwitch').change(updateConfigUi);
@@ -281,6 +281,14 @@ function initUI() {
     $('#webHookNotificationsSwitch').change(updateConfigUi);
     $('#commandNotificationsSwitch').change(updateConfigUi);
     $('#workingScheduleSwitch').change(updateConfigUi);
+    
+    $('#mondayEnabledSwitch').change(updateConfigUi);
+    $('#tuesdayEnabledSwitch').change(updateConfigUi);
+    $('#wednesdayEnabledSwitch').change(updateConfigUi);
+    $('#thursdayEnabledSwitch').change(updateConfigUi);
+    $('#fridayEnabledSwitch').change(updateConfigUi);
+    $('#saturdayEnabledSwitch').change(updateConfigUi);
+    $('#sundayEnabledSwitch').change(updateConfigUi);
     
     $('#storageDeviceSelect').change(function () {
         $('#rootDirectoryEntry').val('/');
@@ -502,7 +510,7 @@ function updateConfigUi() {
         $('#moviesLifetime').parents('tr:eq(0)').each(markHide);
     }
     
-    /* email notifications switch */
+    /* event notifications */
     if (!$('#emailNotificationsSwitch').get(0).checked) {
         $('#emailAddressesEntry').parents('tr:eq(0)').each(markHide);
         $('#smtpServerEntry').parents('tr:eq(0)').each(markHide);
@@ -521,10 +529,21 @@ function updateConfigUi() {
         $('#commandNotificationsEntry').parents('tr:eq(0)').each(markHide);
     }
 
-    /* working schedule switch */
+    /* working schedule */
     if (!$('#workingScheduleSwitch').get(0).checked) {
         $('#workingScheduleSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
     }
+    
+    var weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
+    weekDays.forEach(function (weekDay) {
+        var check = $('#' + weekDay + 'EnabledSwitch');
+        if (check.get(0).checked) {
+            check.parent().find('.time').show();
+        }
+        else {
+            check.parent().find('.time').hide();
+        }
+    });
     
     objs.each(function () {
         if (this._hide) {
@@ -688,20 +707,20 @@ function cameraUi2Dict() {
         
         /* working schedule */
         'working_schedule': $('#workingScheduleSwitch')[0].checked,
-        'monday_from': $('#mondayFrom').val(),
-        'monday_to':$('#mondayTo').val(),
-        'tuesday_from': $('#tuesdayFrom').val(),
-        'tuesday_to': $('#tuesdayTo').val(),
-        'wednesday_from': $('#wednesdayFrom').val(),
-        'wednesday_to': $('#wednesdayTo').val(),
-        'thursday_from': $('#thursdayFrom').val(),
-        'thursday_to': $('#thursdayTo').val(),
-        'friday_from':$('#fridayFrom').val(),
-        'friday_to': $('#fridayTo').val(),
-        'saturday_from':$('#saturdayFrom').val(),
-        'saturday_to': $('#saturdayTo').val(),
-        'sunday_from': $('#sundayFrom').val(),
-        'sunday_to': $('#sundayTo').val(),
+        'monday_from': $('#mondayEnabledSwitch')[0].checked ? $('#mondayFromEntry').val() : '',
+        'monday_to':$('#mondayEnabledSwitch')[0].checked ? $('#mondayToEntry').val() : '',
+        'tuesday_from': $('#tuesdayEnabledSwitch')[0].checked ? $('#tuesdayFromEntry').val() : '',
+        'tuesday_to': $('#tuesdayEnabledSwitch')[0].checked ? $('#tuesdayToEntry').val() : '',
+        'wednesday_from': $('#wednesdayEnabledSwitch')[0].checked ? $('#wednesdayFromEntry').val() : '',
+        'wednesday_to': $('#wednesdayEnabledSwitch')[0].checked ? $('#wednesdayToEntry').val() : '',
+        'thursday_from': $('#thursdayEnabledSwitch')[0].checked ? $('#thursdayFromEntry').val() : '',
+        'thursday_to': $('#thursdayEnabledSwitch')[0].checked ? $('#thursdayToEntry').val() : '',
+        'friday_from': $('#fridayEnabledSwitch')[0].checked ? $('#fridayFromEntry').val() : '',
+        'friday_to': $('#fridayEnabledSwitch')[0].checked ? $('#fridayToEntry').val() :'',
+        'saturday_from': $('#saturdayEnabledSwitch')[0].checked ? $('#saturdayFromEntry').val() : '',
+        'saturday_to': $('#saturdayEnabledSwitch')[0].checked ? $('#saturdayToEntry').val() : '',
+        'sunday_from': $('#sundayEnabledSwitch')[0].checked ? $('#sundayFromEntry').val() : '',
+        'sunday_to': $('#sundayEnabledSwitch')[0].checked ? $('#sundayToEntry').val() : '',
     };
 
     if ($('#resolutionSelect')[0].selectedIndex != -1) {
@@ -901,20 +920,27 @@ function dict2CameraUi(dict) {
 
     /* working schedule */
     $('#workingScheduleSwitch')[0].checked = dict['working_schedule'];
-    $('#mondayFrom').val(dict['monday_from']);
-    $('#mondayTo').val(dict['monday_to']);
-    $('#tuesdayFrom').val(dict['tuesday_from']);
-    $('#tuesdayTo').val(dict['tuesday_to']);
-    $('#wednesdayFrom').val(dict['wednesday_from']);
-    $('#wednesdayTo').val(dict['wednesday_to']);
-    $('#thursdayFrom').val(dict['thursday_from']);
-    $('#thursdayTo').val(dict['thursday_to']);
-    $('#fridayFrom').val(dict['friday_from']);
-    $('#fridayTo').val(dict['friday_to']);
-    $('#saturdayFrom').val(dict['saturday_from']);
-    $('#saturdayTo').val(dict['saturday_to']);
-    $('#sundayFrom').val(dict['sunday_from']);
-    $('#sundayTo').val(dict['sunday_to']);
+    $('#mondayEnabledSwitch')[0].checked = Boolean(dict['monday_from'] && dict['monday_to']);
+    $('#mondayFromEntry').val(dict['monday_from']);
+    $('#mondayToEntry').val(dict['monday_to']);
+    $('#tuesdayEnabledSwitch')[0].checked = Boolean(dict['tuesday_from'] && dict['tuesday_to']);
+    $('#tuesdayFromEntry').val(dict['tuesday_from']);
+    $('#tuesdayToEntry').val(dict['tuesday_to']);
+    $('#wednesdayEnabledSwitch')[0].checked = Boolean(dict['wednesday_from'] && dict['wednesday_to']);
+    $('#wednesdayFromEntry').val(dict['wednesday_from']);
+    $('#wednesdayToEntry').val(dict['wednesday_to']);
+    $('#thursdayEnabledSwitch')[0].checked = Boolean(dict['thursday_from'] && dict['thursday_to']);
+    $('#thursdayFromEntry').val(dict['thursday_from']);
+    $('#thursdayToEntry').val(dict['thursday_to']);
+    $('#fridayEnabledSwitch')[0].checked = Boolean(dict['friday_from'] && dict['friday_to']);
+    $('#fridayFromEntry').val(dict['friday_from']);
+    $('#fridayToEntry').val(dict['friday_to']);
+    $('#saturdayEnabledSwitch')[0].checked = Boolean(dict['saturday_from'] && dict['saturday_to']);
+    $('#saturdayFromEntry').val(dict['saturday_from']);
+    $('#saturdayToEntry').val(dict['saturday_to']);
+    $('#sundayEnabledSwitch')[0].checked = Boolean(dict['sunday_from'] && dict['sunday_to']);
+    $('#sundayFromEntry').val(dict['sunday_from']);
+    $('#sundayToEntry').val(dict['sunday_to']);
     
     updateConfigUi();
 }

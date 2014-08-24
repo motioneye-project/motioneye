@@ -157,7 +157,7 @@ input[type=text].styled:FOCUS {
 }
 
 input[type=text].number {
-    width: 100px;
+    width: 5em;
 }
 
 input[type=text].error,
@@ -168,7 +168,7 @@ input[type=password].error {
 }
 
 input[type=text].time {
-    width: 75px;
+    width: 3.5em;
 }
 
 
