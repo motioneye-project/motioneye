@@ -30,7 +30,9 @@ _process = None
 
 
 def start():
-    _run_process()
+    # schedule the first call a bit later to improve performance at startup
+    ioloop = tornado.ioloop.IOLoop.instance()
+    ioloop.add_timeout(datetime.timedelta(seconds=60), _run_process)
 
 
 def stop():
