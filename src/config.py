@@ -94,7 +94,7 @@ def get_main(as_lines=False):
     if settings.LOCAL_TIME_FILE:
         _get_localtime_settings(main_config)
         
-    _set_default_motion(main_config)
+    _set_default_motion(main_config, old_motion=_is_old_motion())
     
     _main_config_cache = main_config
     
@@ -104,14 +104,14 @@ def get_main(as_lines=False):
 def set_main(main_config):
     global _main_config_cache
     
-    old_motion = _is_old_motion()
+    main_config = dict(main_config)
+    _set_default_motion(main_config, old_motion=_is_old_motion())
+    _main_config_cache = main_config
     
-    _set_default_motion(main_config, old_motion)
-    _main_config_cache = dict(main_config)
-
+    main_config = dict(main_config)
     _set_wifi_settings(main_config)
     _set_localtime_settings(main_config)
-        
+    
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
     
     # read the actual configuration from file
@@ -1226,7 +1226,7 @@ def _is_old_motion():
         return False
 
 
-def _set_default_motion(data, old_motion=False):
+def _set_default_motion(data, old_motion):
     data.setdefault('@enabled', True)
 
     data.setdefault('@show_advanced', False)
