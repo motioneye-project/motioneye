@@ -144,12 +144,21 @@ def get_config(local_config, callback):
     
 
 def set_config(local_config, ui_config, callback):
-    host = local_config.get('@host', local_config.get('host')) 
-    port = local_config.get('@port', local_config.get('port'))
-    username = local_config.get('@username', local_config.get('username'))
-    password = local_config.get('@password', local_config.get('password'))
-    uri = local_config.get('@uri', local_config.get('uri')) or ''
-    camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
+    host = local_config.get('@host') 
+    port = local_config.get('@port')
+    username = local_config.get('@username')
+    password = local_config.get('@password')
+    uri = local_config.get('@uri') or ''
+    camera_id = local_config.get('@remote_camera_id')
+    
+    # make sure these values never get to the remote instance
+    local_config.pop('enabled', None)
+    local_config.pop('proto', None)
+    local_config.pop('host', None)
+    local_config.pop('port', None)
+    local_config.pop('uri', None)
+    local_config.pop('username', None)
+    local_config.pop('password', None)
     
     logging.debug('setting config for remote camera %(id)s on %(url)s' % {
             'id': camera_id,

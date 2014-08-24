@@ -247,11 +247,22 @@ class ConfigHandler(BaseHandler):
             
             local_config = config.get_camera(camera_id)
             if utils.local_camera(local_config):
+                # certain parameters cannot be changed via ui_config;
+                # we must preserve existing values for those params
+                local_ui_config = config.camera_dict_to_ui(local_config)
+                ui_config.setdefault('enabled', local_ui_config['enabled'])
+                ui_config['proto'] = local_ui_config['proto']
+                ui_config['host'] = local_ui_config['host']
+                ui_config['port'] = local_ui_config['port']
+                ui_config['uri'] = local_ui_config['uri']
+                ui_config['username'] = local_ui_config['username']
+                ui_config['password'] = local_ui_config['password']
+                
                 local_config = config.camera_ui_to_dict(ui_config)
                 config.set_camera(camera_id, local_config)
             
                 on_finish(None, True) # (no error, motion needs restart)
-        
+
             else: # remote camera
                 # update the camera locally
                 local_config['@enabled'] = ui_config['enabled']
@@ -262,7 +273,6 @@ class ConfigHandler(BaseHandler):
 
                 if ui_config.has_key('name'):
                     # never disable a remote camera on the remote host itself
-                    del ui_config['enabled']
                     
                     def on_finish_wrapper(error=None):
                         return on_finish(error, False)
@@ -935,3 +945,10 @@ class UpdateHandler(BaseHandler):
         result = update.perform_update(version)
         
         self.finish_json(result)
+
+
+class VersionHandler(BaseHandler):
+    def get(self):
+        self.render('version.html',
+                version=update.get_version(),
+                hostname=socket.gethostname())

@@ -615,7 +615,7 @@ def camera_ui_to_dict(ui):
         # device
         data['netcam_url'] = ui['proto'] + '://' + ui['host']
         if ui['port']:
-            data['netcam_url'] += ':' + ui['port']
+            data['netcam_url'] += ':' + str(ui['port'])
         
         data['netcam_url'] += ui['uri']
         

@@ -229,6 +229,14 @@ def net_camera(config):
 
 
 def test_netcam_url(data, callback):
+    data = dict(data)
+    data.setdefault('proto', 'http')
+    data.setdefault('host', '127.0.0.1')
+    data.setdefault('port', '80')
+    data.setdefault('uri', '')
+    data.setdefault('username', None)
+    data.setdefault('password', None)
+
     url = '%(proto)s://%(host)s%(port)s%(uri)s' % {
             'proto': data['proto'],
             'host': data['host'],
