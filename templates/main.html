@@ -468,7 +468,7 @@
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">HTTP Method</span></td>
                         <td class="settings-item-value">
-                            <select class="styled notifications" id="webHookHttpMethod">
+                            <select class="styled notifications" id="webHookHttpMethodSelect">
                                 <option value="GET">GET</option>
                                 <option value="POST">POST</option>
                             </select>
@@ -554,6 +554,16 @@
                             <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time" id="sundayToEntry">
                         </td>
                         <td><span class="help-mark" title="sets the working schedule time interval for Sunday">?</span></td>
+                    </tr>
+                    <tr class="settings-item">
+                        <td class="settings-item-label"><span class="settings-item-label">Detect Motion</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled working-schedule" id="workingScheduleTypeSelect">
+                                <option value="during">During Working Schedule</option>
+                                <option value="outside">Outside Working Schedule</option>
+                            </select>
+                        </td>
+                        <td><span class="help-mark" title="sets whether motion detection should be active during or outside the working schedule">?</span></td>
                     </tr>
                 </table>
 

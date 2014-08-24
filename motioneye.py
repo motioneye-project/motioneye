@@ -362,5 +362,5 @@ if __name__ == '__main__':
     
     if settings.THUMBNAILER_INTERVAL:
         _start_thumbnailer()
-    
+
     _run_server()

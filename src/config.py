@@ -708,6 +708,8 @@ def camera_ui_to_dict(ui):
                 ui['friday_from'] + '-' + ui['friday_to'] + '|' + 
                 ui['saturday_from'] + '-' + ui['saturday_to'] + '|' + 
                 ui['sunday_from'] + '-' + ui['sunday_to'])
+        
+        data['@working_schedule_type'] = ui['working_schedule_type']
     
     # event start notifications
     on_event_start = []
@@ -994,6 +996,7 @@ def camera_dict_to_ui(data):
     working_schedule = data['@working_schedule']
     if working_schedule:
         days = working_schedule.split('|')
+        ui['working_schedule'] = True
         ui['monday_from'], ui['monday_to'] = days[0].split('-')
         ui['tuesday_from'], ui['tuesday_to'] = days[1].split('-')
         ui['wednesday_from'], ui['wednesday_to'] = days[2].split('-')
@@ -1001,7 +1004,7 @@ def camera_dict_to_ui(data):
         ui['friday_from'], ui['friday_to'] = days[4].split('-')
         ui['saturday_from'], ui['saturday_to'] = days[5].split('-')
         ui['sunday_from'], ui['sunday_to'] = days[6].split('-')
-        ui['working_schedule'] = True
+        ui['working_schedule_type'] = data['@working_schedule_type']
     
     # event start notifications    
     on_event_start = data.get('on_event_start') or []
@@ -1335,6 +1338,7 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('@preserve_movies', 0)
     
     data.setdefault('@working_schedule', '')
+    data.setdefault('@working_schedule_type', 'outside')
 
     data.setdefault('on_event_start', '')
 

@@ -23,8 +23,11 @@ import signal
 import subprocess
 import time
 
+from tornado.httpclient import HTTPClient, AsyncHTTPClient, HTTPRequest
+
 import config
 import settings
+import utils
 
 
 _started = False
@@ -167,6 +170,85 @@ def running():
 
 def started():
     return _started
+
+
+def get_motion_detection(camera_id):
+    thread_id = _get_thread_id(camera_id)
+    if thread_id is None:
+        return logging.error('could not find thread id for camera with id %s' % camera_id)
+    
+    url = 'http://127.0.0.1:7999/%(id)s/detection/status' % {'id': thread_id}
+    
+    request = HTTPRequest(url, connect_timeout=2, request_timeout=2)
+    http_client = HTTPClient()
+    response = http_client.fetch(request)
+
+    if response.error:
+        logging.error('failed to get motion detection status for camera with id %(id)s: %(msg)s' % {
+                'id': camera_id,
+                'msg': unicode(response.error)})
+        
+        return None
+    
+    enabled = bool(response.body.lower().count('active'))
+    
+    logging.debug('motion detection is %(what)s for camera with id %(id)s' % {
+            'what': ['disabled', 'enabled'][enabled],
+            'id': camera_id})
+    
+    return enabled
+
+
+def set_motion_detection(camera_id, enabled):
+    thread_id = _get_thread_id(camera_id)
+    if thread_id is None:
+        return logging.error('could not find thread id for camera with id %s' % camera_id)
+    
+    logging.debug('%(what)s motion detection for camera with id %(id)s' % {
+            'what': ['disabling', 'enabling'][enabled],
+            'id': camera_id})
+    
+    url = 'http://127.0.0.1:7999/%(id)s/detection/%(enabled)s' % {
+            'id': thread_id,
+            'enabled': ['pause', 'start'][enabled]}
+    
+    def on_response(response):
+        if response.error:
+            logging.error('failed to %(what)s motion detection for camera with id %(id)s: %(msg)s' % {
+                    'what': ['disable', 'enable'][enabled],
+                    'id': camera_id,
+                    'msg': unicode(response.error)})
+        
+        else:
+            logging.debug('successfully %(what)s motion detection for camera with id %(id)s' % {
+                    'what': ['disabled', 'enabled'][enabled],
+                    'id': camera_id})
+
+    request = HTTPRequest(url, connect_timeout=4, request_timeout=4)
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, on_response)
+
+
+def _get_thread_id(camera_id):
+    # find the corresponding thread_id
+    # (which can be different from camera_id)
+    camera_ids = config.get_camera_ids()
+    thread_id = 0
+    for cid in camera_ids:
+        camera_config = config.get_camera(cid)
+        if utils.local_camera(camera_config):
+            thread_id += 1
+        
+        if cid == camera_id:
+            break
+    
+    else:
+        return None
+    
+    if thread_id == 0:
+        return None
+    
+    return thread_id
 
 
 def _get_pid():

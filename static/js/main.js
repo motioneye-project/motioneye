@@ -522,7 +522,7 @@ function updateConfigUi() {
     
     if (!$('#webHookNotificationsSwitch').get(0).checked) {
         $('#webHookUrlEntry').parents('tr:eq(0)').each(markHide);
-        $('#webHookHttpMethod').parents('tr:eq(0)').each(markHide);
+        $('#webHookHttpMethodSelect').parents('tr:eq(0)').each(markHide);
     }
 
     if (!$('#commandNotificationsSwitch').get(0).checked) {
@@ -701,7 +701,7 @@ function cameraUi2Dict() {
         'email_notifications_smtp_tls': $('#smtpTlsSwitch')[0].checked,
         'web_hook_notifications_enabled': $('#webHookNotificationsSwitch')[0].checked,
         'web_hook_notifications_url': $('#webHookUrlEntry').val(),
-        'web_hook_notifications_http_method': $('#webHookHttpMethod').val(),
+        'web_hook_notifications_http_method': $('#webHookHttpMethodSelect').val(),
         'command_notifications_enabled': $('#commandNotificationsSwitch')[0].checked,
         'command_notifications_exec': $('#commandNotificationsEntry').val(),
         
@@ -721,6 +721,7 @@ function cameraUi2Dict() {
         'saturday_to': $('#saturdayEnabledSwitch')[0].checked ? $('#saturdayToEntry').val() : '',
         'sunday_from': $('#sundayEnabledSwitch')[0].checked ? $('#sundayFromEntry').val() : '',
         'sunday_to': $('#sundayEnabledSwitch')[0].checked ? $('#sundayToEntry').val() : '',
+        'working_schedule_type': $('#workingScheduleTypeSelect').val(),
     };
 
     if ($('#resolutionSelect')[0].selectedIndex != -1) {
@@ -914,7 +915,7 @@ function dict2CameraUi(dict) {
     $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls'];
     $('#webHookNotificationsSwitch')[0].checked = dict['web_hook_notifications_enabled'];
     $('#webHookUrlEntry').val(dict['web_hook_notifications_url']);
-    $('#webHookHttpMethod').val(dict['web_hook_notifications_http_method']);
+    $('#webHookHttpMethodSelect').val(dict['web_hook_notifications_http_method']);
     $('#commandNotificationsSwitch')[0].checked = dict['command_notifications_enabled'];
     $('#commandNotificationsEntry').val(dict['command_notifications_exec']);
 
@@ -941,6 +942,7 @@ function dict2CameraUi(dict) {
     $('#sundayEnabledSwitch')[0].checked = Boolean(dict['sunday_from'] && dict['sunday_to']);
     $('#sundayFromEntry').val(dict['sunday_from']);
     $('#sundayToEntry').val(dict['sunday_to']);
+    $('#workingScheduleTypeSelect').val(dict['working_schedule_type']);
     
     updateConfigUi();
 }

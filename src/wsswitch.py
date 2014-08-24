@@ -21,10 +21,52 @@ import tornado
 
 import config
 import motionctl
+import utils
 
 
 def start():
-    pass
+    ioloop = tornado.ioloop.IOLoop.instance()
+    ioloop.add_timeout(datetime.timedelta(seconds=10), _check_ws)
+
+
+def _during_working_schedule(now, working_schedule):
+    parts = working_schedule.split('|')
+    if len(parts) < 7:
+        return False # invalid ws
+
+    ws_day = parts[now.weekday()]
+    parts = ws_day.split('-')
+    if len(parts) != 2:
+        return False # invalid ws
+    
+    _from, to = parts
+    if not _from or not to:
+        return False # ws disabled for this day
+    
+    _from = _from.split(':')
+    to = to.split(':')
+    if len(_from) != 2 or len(to) != 2:
+        return False # invalid ws
+    
+    try:
+        from_h = int(_from[0])
+        from_m = int(_from[1])
+        to_h = int(to[0])
+        to_m = int(to[1])
+    
+    except ValueError:
+        return False # invalid ws
+    
+    if now.hour < from_h or now.hour > to_h:
+        return False
+
+    if now.hour == from_h and now.minute < from_m:
+        return False
+
+    if now.hour == to_h and now.minute > to_m:
+        return False
+    
+    return True
 
 
 def _check_ws():
@@ -34,3 +76,35 @@ def _check_ws():
 
     if not motionctl.running():
         return
+
+    now = datetime.datetime.now()
+    for camera_id in config.get_camera_ids():
+        camera_config = config.get_camera(camera_id)
+        if not utils.local_camera(camera_config):
+            continue
+        
+        working_schedule = camera_config.get('@working_schedule')
+        working_schedule_type = camera_config.get('@working_schedule_type') or 'outside'
+        
+        must_be_enabled = False
+        if not working_schedule: # working schedule disabled, motion detection always on
+            must_be_enabled = True
+        
+        else:
+            now_during = _during_working_schedule(now, working_schedule)
+            must_be_enabled = (now_during and working_schedule_type == 'during') or (not now_during and working_schedule_type == 'outside')
+        
+        currently_enabled = motionctl.get_motion_detection(camera_id)
+        if currently_enabled and not must_be_enabled:
+            logging.debug('must disable motion detection for camera with id %(id)s (%(what)s working schedule)' % {
+                    'id': camera_id,
+                    'what': working_schedule_type})
+            
+            motionctl.set_motion_detection(camera_id, False)
+
+        elif not  currently_enabled and must_be_enabled:
+            logging.debug('must enable motion detection for camera with id %(id)s (%(what)s working schedule)' % {
+                    'id': camera_id,
+                    'what': working_schedule_type})
+            
+            motionctl.set_motion_detection(camera_id, True)
