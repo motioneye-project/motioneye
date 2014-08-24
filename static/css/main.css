@@ -809,8 +809,8 @@ img.camera-progress {
         padding-left: 1%;
     }
 
-    div.camera-frame:only-child,
-    div.camera-frame-place-holder:only-child {
+    div.camera-frame,
+    div.camera-frame-place-holder {
         width: 98%;
     }
 }
