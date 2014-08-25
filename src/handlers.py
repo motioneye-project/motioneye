@@ -272,8 +272,6 @@ class ConfigHandler(BaseHandler):
                 # the camera was probably disabled due to errors
 
                 if ui_config.has_key('name'):
-                    # never disable a remote camera on the remote host itself
-                    
                     def on_finish_wrapper(error=None):
                         return on_finish(error, False)
                     
