@@ -87,8 +87,8 @@ def _check_ws():
         working_schedule_type = camera_config.get('@working_schedule_type') or 'outside'
         
         must_be_enabled = False
-        if not working_schedule: # working schedule disabled, motion detection always on
-            must_be_enabled = True
+        if not working_schedule: # working schedule disabled, motion detection left untouched
+            continue
         
         else:
             now_during = _during_working_schedule(now, working_schedule)
@@ -102,7 +102,7 @@ def _check_ws():
             
             motionctl.set_motion_detection(camera_id, False)
 
-        elif not  currently_enabled and must_be_enabled:
+        elif not currently_enabled and must_be_enabled:
             logging.debug('must enable motion detection for camera with id %(id)s (%(what)s working schedule)' % {
                     'id': camera_id,
                     'what': working_schedule_type})
