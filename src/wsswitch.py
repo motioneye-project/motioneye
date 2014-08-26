@@ -84,15 +84,17 @@ def _check_ws():
             continue
         
         working_schedule = camera_config.get('@working_schedule')
+        motion_detection = camera_config.get('@motion_detection')
         working_schedule_type = camera_config.get('@working_schedule_type') or 'outside'
         
-        must_be_enabled = False
         if not working_schedule: # working schedule disabled, motion detection left untouched
             continue
         
-        else:
-            now_during = _during_working_schedule(now, working_schedule)
-            must_be_enabled = (now_during and working_schedule_type == 'during') or (not now_during and working_schedule_type == 'outside')
+        if not motion_detection: # motion detection explicitly disabled
+            continue
+        
+        now_during = _during_working_schedule(now, working_schedule)
+        must_be_enabled = (now_during and working_schedule_type == 'during') or (not now_during and working_schedule_type == 'outside')
         
         currently_enabled = motionctl.get_motion_detection(camera_id)
         if currently_enabled and not must_be_enabled:

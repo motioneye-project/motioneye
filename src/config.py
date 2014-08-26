@@ -546,13 +546,8 @@ def camera_ui_to_dict(ui):
         'snapshot_filename': '',
         '@preserve_pictures': int(ui['preserve_pictures']),
         
-        # movies
-        'ffmpeg_output_movies': ui['motion_movies'],
-        'movie_filename': ui['movie_file_name'],
-        'ffmpeg_bps': 400000,
-        '@preserve_movies': int(ui['preserve_movies']),
-    
         # motion detection
+        '@motion_detection': ui['motion_detection'],
         'text_changes': ui['show_frame_changes'],
         'locate_motion_mode': ui['show_frame_changes'],
         'noise_tune': ui['auto_noise_detect'],
@@ -561,6 +556,12 @@ def camera_ui_to_dict(ui):
         'pre_capture': int(ui['pre_capture']),
         'post_capture': int(ui['post_capture']),
         
+        # movies
+        'ffmpeg_output_movies': ui['motion_movies'],
+        'movie_filename': ui['movie_file_name'],
+        'ffmpeg_bps': 400000,
+        '@preserve_movies': int(ui['preserve_movies']),
+    
         # working schedule
         '@working_schedule': '',
     
@@ -792,12 +793,8 @@ def camera_dict_to_ui(data):
         'snapshot_interval': 0,
         'preserve_pictures': data['@preserve_pictures'],
         
-        # motion movies
-        'motion_movies': data['ffmpeg_output_movies'],
-        'movie_file_name': data['movie_filename'],
-        'preserve_movies': data['@preserve_movies'],
-
         # motion detection
+        'motion_detection': data['@motion_detection'],
         'show_frame_changes': data['text_changes'] or data['locate_motion_mode'],
         'auto_noise_detect': data['noise_tune'],
         'noise_level': int(int(data['noise_level']) / 2.55),
@@ -805,6 +802,11 @@ def camera_dict_to_ui(data):
         'pre_capture': int(data['pre_capture']),
         'post_capture': int(data['post_capture']),
         
+        # motion movies
+        'motion_movies': data['ffmpeg_output_movies'],
+        'movie_file_name': data['movie_filename'],
+        'preserve_movies': data['@preserve_movies'],
+
         # motion notifications
         'email_notifications_enabled': False,
         'web_hook_notifications_enabled': False,
@@ -1293,6 +1295,7 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('text_right', '%Y-%m-%d\\n%T')
     data.setdefault('text_double', False)
 
+    data.setdefault('@motion_detection', True)
     data.setdefault('text_changes', False)
     if old_motion:
         data.setdefault('locate', False)

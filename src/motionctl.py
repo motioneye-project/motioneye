@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
+import datetime
 import errno
 import logging
 import os.path
@@ -24,6 +25,7 @@ import subprocess
 import time
 
 from tornado.httpclient import HTTPClient, AsyncHTTPClient, HTTPRequest
+from tornado.ioloop import IOLoop
 
 import config
 import settings
@@ -57,6 +59,14 @@ def find_motion():
     _motion_binary_cache = (binary, version)
     
     return _motion_binary_cache
+
+
+def _disable_motion_detection():
+    for camera_id in config.get_camera_ids():
+        camera_config = config.get_camera(camera_id)
+        if not camera_config['@motion_detection']:
+            logging.debug('motion detection disabled by config for camera with id %s' % camera_id)
+            set_motion_detection(camera_id, False)
 
 
 def start():
@@ -106,6 +116,8 @@ def start():
     # write the pid to file
     with open(motion_pid_path, 'w') as f:
         f.write(str(pid) + '\n')
+    
+    IOLoop.instance().add_timeout(datetime.timedelta(seconds=5), _disable_motion_detection)
 
 
 def stop():

@@ -212,7 +212,7 @@ class ConfigHandler(BaseHandler):
                 def on_response(remote_ui_config=None, error=None):
                     if error:
                         return self.finish_json({'error': 'Failed to get remote camera configuration for %(url)s: %(msg)s.' % {
-                                'url': remote.make_camera_url(local_config)}, 'msg': error})
+                                'url': remote.make_camera_url(local_config), 'msg': error}})
                     
                     for key, value in local_config.items():
                         remote_ui_config[key.replace('@', '')] = value

@@ -275,6 +275,7 @@ function initUI() {
     $('#streamingServerResizeSwitch').change(updateConfigUi);
     $('#stillImagesSwitch').change(updateConfigUi);
     $('#preservePicturesSelect').change(updateConfigUi);
+    $('#motionDetectionSwitch').change(updateConfigUi);
     $('#motionMoviesSwitch').change(updateConfigUi);
     $('#preserveMoviesSelect').change(updateConfigUi);
     $('#emailNotificationsSwitch').change(updateConfigUi);
@@ -323,8 +324,8 @@ function initUI() {
       'input.text-overlay, select.text-overlay, ' + 
       'input.streaming, select.streaming, ' +
       'input.still-images, select.still-images, ' +
-      'input.motion-movies, select.motion-movies, ' +
       'input.motion-detection, select.motion-detection, ' +
+      'input.motion-movies, select.motion-movies, ' +
       'input.notifications, select.notifications, ' +
       'input.working-schedule, select.working-schedule').change(pushCameraConfig);
     
@@ -498,6 +499,17 @@ function updateConfigUi() {
     /* preserve pictures */
     if ($('#preservePicturesSelect').val() != '-1') {
         $('#picturesLifetime').parents('tr:eq(0)').each(markHide);
+    }
+    
+    /* motion detection switch */
+    if (!$('#motionDetectionSwitch').get(0).checked) {
+        $('#motionDetectionSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+        $('#motionMoviesSwitch').parent().each(markHide);
+        $('#motionMoviesSwitch').parent().next('table.settings').each(markHide);
+        $('#emailNotificationsSwitch').parents('table.settings:eq(0)').each(markHide);
+        $('#emailNotificationsSwitch').parents('table.settings:eq(0)').prev().each(markHide);
+        $('#workingScheduleSwitch').parent().each(markHide);
+        $('#workingScheduleSwitch').parent().next('table.settings').each(markHide);
     }
     
     /* motion movies switch */
@@ -676,13 +688,8 @@ function cameraUi2Dict() {
         'snapshot_interval': $('#snapshotIntervalEntry').val(),
         'preserve_pictures': $('#preservePicturesSelect').val() >= 0 ? $('#preservePicturesSelect').val() : $('#picturesLifetime').val(),
         
-        /* motion movies */
-        'motion_movies': $('#motionMoviesSwitch')[0].checked,
-        'movie_file_name': $('#movieFileNameEntry').val(),
-        'movie_quality': $('#movieQualitySlider').val(),
-        'preserve_movies': $('#preserveMoviesSelect').val() >= 0 ? $('#preserveMoviesSelect').val() : $('#moviesLifetime').val(),
-        
         /* motion detection */
+        'motion_detection': $('#motionDetectionSwitch')[0].checked,
         'show_frame_changes': $('#showFrameChangesSwitch')[0].checked,
         'frame_change_threshold': $('#frameChangeThresholdSlider').val(),
         'auto_noise_detect': $('#autoNoiseDetectSwitch')[0].checked,
@@ -690,6 +697,12 @@ function cameraUi2Dict() {
         'event_gap': $('#eventGapEntry').val(),
         'pre_capture': $('#preCaptureEntry').val(),
         'post_capture': $('#postCaptureEntry').val(),
+        
+        /* motion movies */
+        'motion_movies': $('#motionMoviesSwitch')[0].checked,
+        'movie_file_name': $('#movieFileNameEntry').val(),
+        'movie_quality': $('#movieQualitySlider').val(),
+        'preserve_movies': $('#preserveMoviesSelect').val() >= 0 ? $('#preserveMoviesSelect').val() : $('#moviesLifetime').val(),
         
         /* motion notifications */
         'email_notifications_enabled': $('#emailNotificationsSwitch')[0].checked,
@@ -886,6 +899,16 @@ function dict2CameraUi(dict) {
     }
     $('#picturesLifetime').val(dict['preserve_pictures']);
     
+    /* motion detection */
+    $('#motionDetectionSwitch')[0].checked = dict['motion_detection'];
+    $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes'];
+    $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']);
+    $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect'];
+    $('#noiseLevelSlider').val(dict['noise_level']);
+    $('#eventGapEntry').val(dict['event_gap']);
+    $('#preCaptureEntry').val(dict['pre_capture']);
+    $('#postCaptureEntry').val(dict['post_capture']);
+    
     /* motion movies */
     $('#motionMoviesSwitch')[0].checked = dict['motion_movies'];
     $('#movieFileNameEntry').val(dict['movie_file_name']);
@@ -895,15 +918,6 @@ function dict2CameraUi(dict) {
         $('#preserveMoviesSelect').val('-1');
     }
     $('#moviesLifetime').val(dict['preserve_movies']);
-    
-    /* motion detection */
-    $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes'];
-    $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']);
-    $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect'];
-    $('#noiseLevelSlider').val(dict['noise_level']);
-    $('#eventGapEntry').val(dict['event_gap']);
-    $('#preCaptureEntry').val(dict['pre_capture']);
-    $('#postCaptureEntry').val(dict['post_capture']);
     
     /* motion notifications */
     $('#emailNotificationsSwitch')[0].checked = dict['email_notifications_enabled'];
