@@ -29,7 +29,7 @@ import settings
 
 sys.path.append(os.path.join(getattr(settings, 'PROJECT_PATH', os.path.dirname(sys.argv[0])), 'src'))
 
-VERSION = '0.16'
+VERSION = '0.17'
 
 
 def _configure_settings():
