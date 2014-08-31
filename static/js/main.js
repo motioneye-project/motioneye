@@ -39,24 +39,24 @@ function showErrorMessage(message) {
 }
 
 function doLogout() {
-    $.ajax({
-        url: '/',
-        username: ' ',
-        password: 'logout' + new Date().getTime(),
-        complete: function () {
+    /* IE is always a breed apart */
+    if (window.ActiveXObject && document.execCommand) {
+        if (document.execCommand('ClearAuthenticationCache')) {
             window.location.href = '/?logout=true';
         }
-    });
+    }
+    else {
+        var username = ' ';
+        var password = 'logout' + new Date().getTime();
     
-    /* IE is always a breed apart */
-    if (document.execCommand) {
-        try {
-            document.execCommand('ClearAuthenticationCache');
-        }
-        catch (e) {
-        }
-
-        window.location.href = '/?logout=true';
+        $.ajax({
+            url: '/?logout=true',
+            username: username,
+            password: password,
+            complete: function () {
+                window.location.href = '/?logout=true';
+            }
+        });
     }
 }
 
@@ -375,6 +375,11 @@ function initUI() {
     
     /* logout button */
     $('div.button.logout-button').click(doLogout);
+    
+    /* read-only entries */
+    $('#streamingSnapshotUrlEntry:text, #streamingMjpgUrlEntry:text, #streamingEmbedUrlEntry:text').click(function () {
+        this.select();
+    });
 }
 
 
@@ -506,12 +511,19 @@ function updateConfigUi() {
         $('#textOverlaySwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
     }
     
-    /* video streaming switch */
+    /* video streaming */
     if (!$('#videoStreamingSwitch').get(0).checked) {
         $('#videoStreamingSwitch').parent().next('table.settings').find('tr.settings-item').not('.local-streaming').each(markHide);
     }
-    
-    /* streaming server resize switch */
+    if (!$('#streamingSnapshotUrlEntry').val()) {
+        $('#streamingSnapshotUrlEntry').parents('tr:eq(0)').each(markHide);
+    }
+    if (!$('#streamingMjpgUrlEntry').val()) {
+        $('#streamingMjpgUrlEntry').parents('tr:eq(0)').each(markHide);
+    }
+    if (!$('#streamingEmbedUrlEntry').val()) {
+        $('#streamingEmbedUrlEntry').parents('tr:eq(0)').each(markHide);
+    }
     if (!$('#streamingServerResizeSwitch').get(0).checked) {
         $('#streamingResolutionSlider').parents('tr:eq(0)').each(markHide);
     }
@@ -911,6 +923,16 @@ function dict2CameraUi(dict) {
     $('#streamingServerResizeSwitch')[0].checked = dict['streaming_server_resize'];
     $('#streamingPortEntry').val(dict['streaming_port']);
     $('#streamingMotion')[0].checked = dict['streaming_motion'];
+    
+    var cameraUrl = location.protocol + '//' + location.host + '/picture/' + dict.id + '/';
+    $('#streamingSnapshotUrlEntry').val(cameraUrl + 'current/');
+    if (dict.proto == 'motioneye') {
+        $('#streamingMjpgUrlEntry').val('');
+    }
+    else {
+        $('#streamingMjpgUrlEntry').val(location.protocol + '//' + location.host.split(':')[0] + ':' + dict.streaming_port);
+    }
+    $('#streamingEmbedUrlEntry').val(cameraUrl + 'frame/');
     
     /* still images */
     $('#stillImagesSwitch')[0].checked = dict['still_images'];
@@ -1795,9 +1817,9 @@ function runAddCameraDialog() {
                     }
                     
                     endProgress();
-                    var addCameraOption = $('#addCameraSelect').find('option[value=add]');
-                    addCameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
-                    $('#addCameraSelect').val(data.id).change();
+                    var cameraOption = $('#cameraSelect').find('option[value=add]');
+                    cameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
+                    $('#cameraSelect').val(data.id).change();
                     recreateCameraFrames();
                 });
             }

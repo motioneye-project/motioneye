@@ -65,7 +65,7 @@
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Surveillance Password</span></td>
                         <td class="settings-item-value"><input type="password" class="styled general" id="normalPasswordEntry"></td>
-                        <td><span class="help-mark" title="the password for the surveillance user">?</span></td>
+                        <td><span class="help-mark" title="the password for the surveillance user (leave empty for passwordless surveillance)">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting{% if not timezones %} hidden{% endif %}">
                         <td class="settings-item-label"><span class="settings-item-label">Time Zone</span></td>
@@ -292,6 +292,21 @@
                         <td class="settings-item-label"><span class="settings-item-label">Motion Optimization</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled streaming" id="streamingMotion"></td>
                         <td><span class="help-mark" title="enable this if you want a lower frame rate for the live streaming when no motion is detected">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting local-streaming">
+                        <td class="settings-item-label"><span class="settings-item-label">Snapshot URL</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled streaming" id="streamingSnapshotUrlEntry" readonly="readonly"></td>
+                        <td><span class="help-mark" title="a URL that provides a JPEG image with the most recent snapshot of the camera">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Streaming URL</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled streaming" id="streamingMjpgUrlEntry" readonly="readonly"></td>
+                        <td><span class="help-mark" title="a URL that provides a MJPEG stream of the camera (there is no password protection for this URL!)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting local-streaming">
+                        <td class="settings-item-label"><span class="settings-item-label">Embed URL</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled streaming" id="streamingEmbedUrlEntry" readonly="readonly"></td>
+                        <td><span class="help-mark" title="a URL that provides a minimal HTML document containing the camera frame, ready to be embedded">?</span></td>
                     </tr>
                 </table>
                 

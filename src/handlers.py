@@ -71,11 +71,12 @@ class BaseHandler(RequestHandler):
         self.finish(json.dumps(data))
 
     def get_current_user(self):
+        main_config = config.get_main()
+        
         try:
             scheme, token = self.request.headers.get('Authorization', '').split()
             if scheme.lower() == 'basic':
                 user, pwd = base64.decodestring(token).split(':')
-                main_config = config.get_main()
                 
                 if user == main_config.get('@admin_username') and pwd == main_config.get('@admin_password'):
                     return 'admin'
@@ -86,8 +87,9 @@ class BaseHandler(RequestHandler):
                 else:
                     logging.error('authentication failed for user %(user)s' % {'user': user})
                 
-        except:
-            pass
+        except: # no authentication info provided
+            if not main_config.get('@normal_password') and not self.get_argument('logout', None):
+                return 'normal'
 
         return None
     
