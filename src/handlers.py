@@ -112,12 +112,10 @@ class BaseHandler(RequestHandler):
             def wrapper(self, *args, **kwargs):
                 user = self.current_user
                 if (user is None) or (user != 'admin' and admin):
-                    realm = 'motionEye admin authentication' if admin else 'motionEye authentication'
-                    
                     self.set_status(401)
                     if prompt:
                         self.set_header('WWW-Authenticate', 'basic realm="%(realm)s"' % {
-                                'realm': realm})
+                                'realm': 'motionEye authentication'})
                         
                     return self.finish('Authentication required.')
                 
@@ -145,6 +143,9 @@ class NotFoundHandler(BaseHandler):
 class MainHandler(BaseHandler):
     @BaseHandler.auth()
     def get(self):
+        if self.get_argument('logout', None):
+            return self.redirect('/')
+        
         timezones = []
         if settings.LOCAL_TIME_FILE:
             import pytz

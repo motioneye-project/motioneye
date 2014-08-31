@@ -38,6 +38,28 @@ function showErrorMessage(message) {
     showPopupMessage(message, 'error');
 }
 
+function doLogout() {
+    $.ajax({
+        url: '/',
+        username: ' ',
+        password: 'logout' + new Date().getTime(),
+        complete: function () {
+            window.location.href = '/?logout=true';
+        }
+    });
+    
+    /* IE is always a breed apart */
+    if (document.execCommand) {
+        try {
+            document.execCommand('ClearAuthenticationCache');
+        }
+        catch (e) {
+        }
+
+        window.location.href = '/?logout=true';
+    }
+}
+
 Object.keys = Object.keys || (function () {
     var hasOwnProperty = Object.prototype.hasOwnProperty;
     var hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString');
@@ -302,12 +324,12 @@ function initUI() {
     });
     
     /* fetch & push handlers */
-    $('#videoDeviceSelect').focus(function () {
+    $('#cameraSelect').focus(function () {
         /* remember the previously selected index */
         this._prevSelectedIndex = this.selectedIndex;
     
     }).change(function () {
-        if ($('#videoDeviceSelect').val() === 'add') {
+        if ($('#cameraSelect').val() === 'add') {
             runAddCameraDialog();
             this.selectedIndex = this._prevSelectedIndex;
         }
@@ -350,6 +372,9 @@ function initUI() {
     
     /* remove camera button */
     $('div.button.rem-camera-button').click(doRemCamera);
+    
+    /* logout button */
+    $('div.button.logout-button').click(doLogout);
 }
 
 
@@ -357,7 +382,7 @@ function initUI() {
 
 function openSettings(cameraId) {
     if (cameraId != null) {
-        $('#videoDeviceSelect').val(cameraId).change();
+        $('#cameraSelect').val(cameraId).change();
     }
     
     $('div.settings').addClass('open').removeClass('closed');
@@ -380,7 +405,7 @@ function isSettingsOpen() {
 }
 
 function updateConfigUi() {
-    var objs = $('tr.settings-item, div.advanced-setting, table.advanced-setting, div.settings-section-title, table.settings').not('.rpi');
+    var objs = $('tr.settings-item, div.advanced-setting, table.advanced-setting, div.settings-section-title, table.settings');
     
     function markHide() {
         this._hide = true;
@@ -410,7 +435,7 @@ function updateConfigUi() {
         $('#wifiSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
     }
     
-    if ($('#videoDeviceSelect').find('option').length < 2) { /* no camera configured */
+    if ($('#cameraSelect').find('option').length < 2) { /* no camera configured */
         $('#videoDeviceSwitch').parent().each(markHide);
         $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHide);
     }
@@ -577,7 +602,7 @@ function updateConfigUi() {
     });
     
     /* select the first option for the selects with no current selection */
-    $('div.settings').find('select').each(function () {
+    $('div.settings').find('select').not('#cameraSelect').each(function () {
         if (this.selectedIndex === -1) {
             this.selectedIndex = 0;
         }
@@ -1153,7 +1178,7 @@ function doApply() {
         Object.keys(pushConfigs).forEach(function (key) {
             var config = pushConfigs[key];
             if (config.key !== 'main') {
-                $('#videoDeviceSelect').find('option[value=' + key + ']').html(config.name);
+                $('#cameraSelect').find('option[value=' + key + ']').html(config.name);
             }
             
             $('#camera' + key).find('span.camera-name').html(config.name);
@@ -1170,13 +1195,13 @@ function doRemCamera() {
         return runAlertDialog('Please apply the modified settings first!');
     }
     
-    var cameraId = $('#videoDeviceSelect').val();
+    var cameraId = $('#cameraSelect').val();
     if (cameraId == null || cameraId === 'add') {
         runAlertDialog('No camera to remove!');
         return;
     }
 
-    var deviceName = $('#videoDeviceSelect').find('option[value=' + cameraId + ']').text();
+    var deviceName = $('#cameraSelect').find('option[value=' + cameraId + ']').text();
     
     runConfirmDialog('Remove camera ' + deviceName + '?', function () {
         /* disable further refreshing of this camera */
@@ -1263,25 +1288,25 @@ function fetchCurrentConfig(onFetch) {
             var i, cameras = data.cameras;
             
             if (user === 'admin') {
-                var videoDeviceSelect = $('#videoDeviceSelect');
-                videoDeviceSelect.html('');
+                var cameraSelect = $('#cameraSelect');
+                cameraSelect.html('');
                 for (i = 0; i < cameras.length; i++) {
                     var camera = cameras[i];
-                    videoDeviceSelect.append('<option value="' + camera['id'] + '">' + camera['name'] + '</option>');
+                    cameraSelect.append('<option value="' + camera['id'] + '">' + camera['name'] + '</option>');
                 }
-                videoDeviceSelect.append('<option value="add">add camera...</option>');
+                cameraSelect.append('<option value="add">add camera...</option>');
                 
                 var enabledCameras = cameras.filter(function (camera) {return camera['enabled'];});
                 if (enabledCameras.length > 0) { /* prefer the first enabled camera */
-                    videoDeviceSelect[0].selectedIndex = cameras.indexOf(enabledCameras[0]);
+                    cameraSelect[0].selectedIndex = cameras.indexOf(enabledCameras[0]);
                     fetchCurrentCameraConfig();
                 }
                 else if (cameras.length) { /* a disabled camera */
-                    videoDeviceSelect[0].selectedIndex = 0;
+                    cameraSelect[0].selectedIndex = 0;
                     fetchCurrentCameraConfig();
                 }
                 else { /* no camera at all */
-                    videoDeviceSelect[0].selectedIndex = -1;
+                    cameraSelect[0].selectedIndex = -1;
                 }
 
                 updateConfigUi();
@@ -1322,7 +1347,7 @@ function fetchCurrentConfig(onFetch) {
 }
 
 function fetchCurrentCameraConfig(onFetch) {
-    var cameraId = $('#videoDeviceSelect').val();
+    var cameraId = $('#cameraSelect').val();
     if (cameraId != null) {
         ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
             if (data == null || data.error) {
@@ -1356,7 +1381,7 @@ function pushMainConfig() {
 
 function pushCameraConfig() {
     var cameraConfig = cameraUi2Dict();
-    var cameraId = $('#videoDeviceSelect').val();
+    var cameraId = $('#cameraSelect').val();
 
     pushConfigs[cameraId] = cameraConfig;
     if (!isApplyVisible()) {
@@ -1371,7 +1396,7 @@ function pushCameraConfig() {
 }
 
 function pushPreview(control) {
-    var cameraId = $('#videoDeviceSelect').val();
+    var cameraId = $('#cameraSelect').val();
     
     var brightness = $('#brightnessSlider').val();
     var contrast= $('#contrastSlider').val();
@@ -1566,7 +1591,7 @@ function runAddCameraDialog() {
                 '</tr>' +
                 '<tr class="motioneye netcam">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Camera</span></td>' +
-                    '<td class="dialog-item-value"><select class="styled" id="cameraSelect"></select><span id="cameraMsgLabel"></span></td>' +
+                    '<td class="dialog-item-value"><select class="styled" id="addCameraSelect"></select><span id="cameraMsgLabel"></span></td>' +
                     '<td><span class="help-mark" title="the camera you wish to add to motionEye">?</span></td>' +
                 '</tr>' +
             '</table>');
@@ -1576,14 +1601,14 @@ function runAddCameraDialog() {
     var urlEntry = content.find('#urlEntry');
     var usernameEntry = content.find('#usernameEntry');
     var passwordEntry = content.find('#passwordEntry');
-    var cameraSelect = content.find('#cameraSelect');
+    var addCameraSelect = content.find('#addCameraSelect');
     var cameraMsgLabel = content.find('#cameraMsgLabel');
     
     /* make validators */
     makeUrlValidator(urlEntry, true);
     makeTextValidator(usernameEntry, false);
     makeTextValidator(deviceSelect, false);
-    makeComboValidator(cameraSelect, true);
+    makeComboValidator(addCameraSelect, true);
     
     /* ui interaction */
     content.find('tr.motioneye, tr.netcam').css('display', 'none');
@@ -1592,15 +1617,15 @@ function runAddCameraDialog() {
         content.find('tr.motioneye, tr.netcam').css('display', 'none');
         if (deviceSelect.val() == 'motioneye') {
             content.find('tr.motioneye').css('display', 'table-row');
-            cameraSelect.hide();
+            addCameraSelect.hide();
         }
         else if (deviceSelect.val() == 'netcam') {
             content.find('tr.netcam').css('display', 'table-row');
-            cameraSelect.hide();
+            addCameraSelect.hide();
         }
         
         updateModalDialogPosition();
-        cameraSelect.html('');
+        addCameraSelect.html('');
         
         /* re-validate all the validators */
         content.find('.validator').each(function () {
@@ -1621,7 +1646,7 @@ function runAddCameraDialog() {
         var valid = true;
         var query = content.find('input, select');
         if (!includeCameraSelect) {
-            query = query.not('#cameraSelect');
+            query = query.not('#addCameraSelect');
         }
         query.each(function () {
             if (this.invalid) {
@@ -1669,9 +1694,9 @@ function runAddCameraDialog() {
     function fetchRemoteCameras() {
         var progress = $('<div style="text-align: center; margin: 2px;"><img src="' + staticUrl + 'img/small-progress.gif"></div>');
         
-        cameraSelect.hide();
-        cameraSelect.parent().find('div').remove(); /* remove any previous progress div */
-        cameraSelect.before(progress);
+        addCameraSelect.hide();
+        addCameraSelect.parent().find('div').remove(); /* remove any previous progress div */
+        addCameraSelect.before(progress);
         
         var data = splitUrl(urlEntry.val());
         data.username = usernameEntry.val();
@@ -1690,17 +1715,17 @@ function runAddCameraDialog() {
                 return;
             }
             
-            cameraSelect.html('');
+            addCameraSelect.html('');
             
             if (data.error || !data.cameras) {
                 return;
             }
 
             data.cameras.forEach(function (info) {
-                cameraSelect.append('<option value="' + info.id + '">' + info.name + '</option>');
+                addCameraSelect.append('<option value="' + info.id + '">' + info.name + '</option>');
             });
             
-            cameraSelect.show();
+            addCameraSelect.show();
         });
     }
     
@@ -1749,7 +1774,7 @@ function runAddCameraDialog() {
                     data.proto = 'motioneye';
                     data.username = usernameEntry.val();
                     data.password = passwordEntry.val();
-                    data.remote_camera_id = cameraSelect.val();
+                    data.remote_camera_id = addCameraSelect.val();
                 }
                 else if (deviceSelect.val() == 'netcam') {
                     data = splitUrl(urlEntry.val());
@@ -1770,9 +1795,9 @@ function runAddCameraDialog() {
                     }
                     
                     endProgress();
-                    var addCameraOption = $('#videoDeviceSelect').find('option[value=add]');
+                    var addCameraOption = $('#addCameraSelect').find('option[value=add]');
                     addCameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
-                    $('#videoDeviceSelect').val(data.id).change();
+                    $('#addCameraSelect').val(data.id).change();
                     recreateCameraFrames();
                 });
             }
@@ -2181,7 +2206,7 @@ function recreateCameraFrames(cameras) {
             addCameraFrameUi(camera);
         }
         
-        if ($('#videoDeviceSelect').find('option').length < 2 && user === 'admin' && $('#motionEyeSwitch')[0].checked) {
+        if ($('#cameraSelect').find('option').length < 2 && user === 'admin' && $('#motionEyeSwitch')[0].checked) {
             /* invite the user to add a camera */
             var addCameraLink = $('<div class="add-camera-message">' + 
                     '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');

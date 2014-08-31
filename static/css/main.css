@@ -125,6 +125,14 @@ div.button.settings-button {
     height: 48px;
 }
 
+div.button.logout-button {
+    margin: 1px;
+    vertical-align: middle;
+    background-image: url(../img/logout.svg);
+    width: 48px;
+    height: 48px;
+}
+
 div.button.rem-camera-button {
     display: none;
     margin: 1px;
@@ -287,7 +295,7 @@ div.settings-item-separator {
     margin: 5px 0px;
 }
 
-select.video-device {
+#cameraSelect {
     display: none;
     padding: 4px 1.5em 4px 4px;
     vertical-align: middle;
@@ -352,8 +360,12 @@ div.update-button:ACTIVE {
     background-color: #317CAD;
 }
 
-div.settings-top-bar.open select.video-device {
+div.settings-top-bar.open #cameraSelect {
     display: inline;
+}
+
+div.settings-top-bar.open div.logout-button {
+    display: none;
 }
 
 div.check-box.section {
