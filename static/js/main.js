@@ -399,6 +399,7 @@ function openSettings(cameraId) {
 
 function closeSettings() {
     hideApply();
+    pushConfigs = {};
     
     $('div.settings').removeClass('open').addClass('closed');
     $('div.page-container').removeClass('stretched');
