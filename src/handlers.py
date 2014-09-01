@@ -719,7 +719,8 @@ class PictureHandler(BaseHandler):
         
         self.render('frame.html',
                 camera_id=camera_id,
-                camera_config=camera_config)
+                camera_config=camera_config,
+                title=self.get_argument('title', camera_config['@name']))
 
     @BaseHandler.auth()
     def download(self, camera_id, filename):

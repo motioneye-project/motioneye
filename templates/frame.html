@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}{{title}}{% endblock %}
+
 {% block style %}
     {{super()}}
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/frame.css" />
