@@ -191,15 +191,18 @@ def get_motion_detection(camera_id):
     
     url = 'http://127.0.0.1:7999/%(id)s/detection/status' % {'id': thread_id}
     
-    request = HTTPRequest(url, connect_timeout=2, request_timeout=2)
+    request = HTTPRequest(url, connect_timeout=5, request_timeout=5)
     http_client = HTTPClient()
-    response = http_client.fetch(request)
-
-    if response.error:
+    try:
+        response = http_client.fetch(request)
+        if response.error:
+            raise response.error 
+    
+    except Exception as e:
         logging.error('failed to get motion detection status for camera with id %(id)s: %(msg)s' % {
                 'id': camera_id,
-                'msg': unicode(response.error)})
-        
+                'msg': unicode(e)})
+
         return None
     
     enabled = bool(response.body.lower().count('active'))

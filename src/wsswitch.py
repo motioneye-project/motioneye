@@ -97,6 +97,10 @@ def _check_ws():
         must_be_enabled = (now_during and working_schedule_type == 'during') or (not now_during and working_schedule_type == 'outside')
         
         currently_enabled = motionctl.get_motion_detection(camera_id)
+        if currently_enabled is None: # could not detect current status
+            logging.warn('skipping motion detection status update for camera with id %(id)s' % {'id': camera_id})
+            continue
+            
         if currently_enabled and not must_be_enabled:
             logging.debug('must disable motion detection for camera with id %(id)s (%(what)s working schedule)' % {
                     'id': camera_id,
