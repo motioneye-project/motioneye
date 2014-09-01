@@ -20,14 +20,14 @@
             {% if USER == 'admin' %}
             <div class="settings-top-bar closed">
                 <div class="button settings-button mouse-effect" title="settings"></div>
-                <div class="button logout-button mouse-effect" title="logout"></div>
+                <div class="button logout-button mouse-effect" title="switch user"></div>
                 <select class="styled" id="cameraSelect"></select>
                 <div class="button rem-camera-button mouse-effect" id="remCameraButton" title="remove camera"></div>
                 <div class="button apply-button" id="applyButton">Apply</div>
                 {% if hostname %}<div class="hostname">{{hostname}}</div>{% endif %}
             </div>
             {% else %}
-                <div class="button logout-button mouse-effect" title="logout"></div>
+                <div class="button logout-button mouse-effect" title="switch user"></div>
                 {% if hostname %}<div class="hostname">{{hostname}}</div>{% endif %}
             {% endif %}
             <div class="logo">
