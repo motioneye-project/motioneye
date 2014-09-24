@@ -144,6 +144,7 @@ def set_wifi_settings(s):
 
     if enabled and not found_ssid:
         lines.append('network={\n')
+        lines.append('    scan_ssid=1\n')
         lines.append('    ssid="' + ssid + '"\n')
         lines.append('    psk="' + psk + '"\n')
         lines.append('}\n\n')
