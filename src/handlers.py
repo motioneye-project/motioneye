@@ -28,6 +28,7 @@ from tornado.ioloop import IOLoop
 import config
 import mediafiles
 import motionctl
+import powerctl
 import remote
 import settings
 import smbctl
@@ -155,6 +156,7 @@ class MainHandler(BaseHandler):
 
         self.render('main.html',
                 wpa_supplicant=settings.WPA_SUPPLICANT_CONF,
+                enable_reboot=settings.ENABLE_REBOOT,
                 timezones=timezones,
                 hostname=socket.gethostname())
 
@@ -947,6 +949,16 @@ class UpdateHandler(BaseHandler):
         result = update.perform_update(version)
         
         self.finish_json(result)
+
+
+class PowerHandler(BaseHandler):
+    @BaseHandler.auth(admin=True)
+    def post(self, op):
+        if op == 'shutdown':
+            powerctl.shut_down()
+            
+        elif op == 'reboot':
+            powerctl.reboot()
 
 
 class VersionHandler(BaseHandler):

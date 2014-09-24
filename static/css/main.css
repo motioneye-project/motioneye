@@ -338,26 +338,57 @@ img.apply-progress {
     margin-top: 3px;
 }
 
-div.update-button {
+div.update-button,
+div.shut-down-button,
+div.reboot-button {
     position: relative;
-    width: 4em;
     height: 1.5em;
     line-height: 1.5em;
     text-align: center;
     margin: 2px 0px;
     color: white;
     font-size: 1em;
-    background-color: #317CAD;
     border-radius: 3px;
     transition: all 0.1s linear;
 }
 
+div.update-button {
+    width: 4em;
+    background: #317CAD;
+}
+
+div.shut-down-button {
+    width: 8em;
+    background: #c0392b;
+}
+
+div.reboot-button {
+    width: 8em;
+    background: #c0392b;
+}
+
 div.update-button:HOVER {
-    background-color: #3498db;
+    background: #3498db;
+}
+
+div.shut-down-button:HOVER {
+    background: #D43F2F;
+}
+
+div.reboot-button:HOVER {
+    background: #D43F2F;
 }
 
 div.update-button:ACTIVE {
-    background-color: #317CAD;
+    background: #317CAD;
+}
+
+div.shut-down-button:ACTIVE {
+    background: #B03427;
+}
+
+div.reboot-button:ACTIVE {
+    background: #B03427;
 }
 
 div.settings-top-bar.open #cameraSelect {

@@ -68,7 +68,7 @@ WPA_SUPPLICANT_CONF = None
 # path to a localtime file if time zone settings UI is desired
 LOCAL_TIME_FILE = None
 
-# enables rebooting after changing system settings (such as wifi settings or system updates)
+# enables shutdown and rebooting after changing system settings (such as wifi settings or system updates)
 ENABLE_REBOOT = False
 
 # the timeout in seconds to use when talking to a SMTP server
