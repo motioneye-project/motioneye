@@ -43,6 +43,7 @@ def _configure_settings():
     set_default_setting('STATIC_URL', '/static/')
     set_default_setting('CONF_PATH', os.path.join(settings.PROJECT_PATH, 'conf'))
     set_default_setting('RUN_PATH', os.path.join(settings.PROJECT_PATH, 'run'))
+    set_default_setting('LOG_PATH', os.path.join(settings.PROJECT_PATH, 'log'))
     set_default_setting('MEDIA_PATH', os.path.join(settings.PROJECT_PATH, 'media'))
     set_default_setting('REPO', ('ccrisan', 'motioneye'))
     set_default_setting('LOG_LEVEL', logging.INFO)
@@ -124,6 +125,12 @@ def _configure_settings():
     
     try:
         os.makedirs(settings.RUN_PATH)
+
+    except:
+        pass
+
+    try:
+        os.makedirs(settings.LOG_PATH)
 
     except:
         pass

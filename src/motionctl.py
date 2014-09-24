@@ -86,7 +86,7 @@ def start():
     program, version = program  # @UnusedVariable
     
     motion_config_path = os.path.join(settings.CONF_PATH, 'motion.conf')
-    motion_log_path = os.path.join(settings.RUN_PATH, 'motion.log')
+    motion_log_path = os.path.join(settings.LOG_PATH, 'motion.log')
     motion_pid_path = os.path.join(settings.RUN_PATH, 'motion.pid')
     
     args = [program,

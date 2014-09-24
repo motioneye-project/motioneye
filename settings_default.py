@@ -14,8 +14,11 @@ STATIC_URL = '/static/'
 # path to the config directory; must be writable
 CONF_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'conf'))
 
-# log and pid files go here
+# pid files go here
 RUN_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'run'))
+
+# log files go here
+LOG_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'log'))
 
 # default output path for media files
 MEDIA_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'media'))
