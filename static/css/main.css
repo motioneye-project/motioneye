@@ -339,31 +339,24 @@ img.apply-progress {
 }
 
 div.update-button,
-div.shut-down-button,
-div.reboot-button {
+div.shut-down-button {
     position: relative;
     height: 1.5em;
     line-height: 1.5em;
     text-align: center;
     margin: 2px 0px;
     color: white;
-    font-size: 1em;
+    font-size: 0.9em;
     border-radius: 3px;
     transition: all 0.1s linear;
+    width: 7em;
 }
 
 div.update-button {
-    width: 4em;
     background: #317CAD;
 }
 
 div.shut-down-button {
-    width: 8em;
-    background: #c0392b;
-}
-
-div.reboot-button {
-    width: 8em;
     background: #c0392b;
 }
 
@@ -375,19 +368,11 @@ div.shut-down-button:HOVER {
     background: #D43F2F;
 }
 
-div.reboot-button:HOVER {
-    background: #D43F2F;
-}
-
 div.update-button:ACTIVE {
     background: #317CAD;
 }
 
 div.shut-down-button:ACTIVE {
-    background: #B03427;
-}
-
-div.reboot-button:ACTIVE {
     background: #B03427;
 }
 

@@ -371,11 +371,6 @@ function initUI() {
         doShutDown();
     });
     
-    /* reboot button */
-    $('#rebootButton').click(function () {
-        doReboot();
-    });
-    
     /* whenever the window is resized,
      * if a modal dialog is visible, it should be repositioned */
     $(window).resize(updateModalDialogPosition);
@@ -1226,12 +1221,6 @@ function doApply() {
 function doShutDown() {
     runConfirmDialog('Really shut down?', function () {
         ajax('POST', '/power/shutdown/');    
-    });
-}
-
-function doReboot() {
-    runConfirmDialog('Really reboot?', function () {
-        ajax('POST', '/power/reboot/');
     });
 }
 

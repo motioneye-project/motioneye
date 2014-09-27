@@ -956,9 +956,6 @@ class PowerHandler(BaseHandler):
     def post(self, op):
         if op == 'shutdown':
             powerctl.shut_down()
-            
-        elif op == 'reboot':
-            powerctl.reboot()
 
 
 class VersionHandler(BaseHandler):
