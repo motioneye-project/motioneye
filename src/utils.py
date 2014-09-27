@@ -24,19 +24,27 @@ from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 import settings
 
 
-def pretty_date_time(date_time, tzinfo=None):
+def pretty_date_time(date_time, tzinfo=None, short=False):
     if date_time is None:
         return '('+  _('never') + ')'
 
     if isinstance(date_time, int):
         return pretty_date_time(datetime.datetime.fromtimestamp(date_time))
 
-    text = u'{day} {month} {year}, {hm}'.format(
-        day=date_time.day,
-        month=date_time.strftime('%B'),
-        year=date_time.year,
-        hm=date_time.strftime('%H:%M')
-    )
+    if short:
+        text = u'{day} {month}, {hm}'.format(
+            day=date_time.day,
+            month=date_time.strftime('%b'),
+            hm=date_time.strftime('%H:%M')
+        )
+    
+    else:
+        text = u'{day} {month} {year}, {hm}'.format(
+            day=date_time.day,
+            month=date_time.strftime('%B'),
+            year=date_time.year,
+            hm=date_time.strftime('%H:%M')
+        )
     
     if tzinfo:
         offset = tzinfo.utcoffset(datetime.datetime.utcnow()).seconds

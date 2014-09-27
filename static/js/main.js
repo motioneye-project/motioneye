@@ -1848,14 +1848,34 @@ function runMediaDialog(cameraId, mediaType) {
     dialogDiv.append(groupsDiv);
     dialogDiv.append(mediaListDiv);
     
-    var windowWidth = $(window).width();
-    var windowHeight = $(window).height();
-    var widthCoef = windowWidth < 1000 ? 0.8 : 0.5;
-    var heightCoef = 0.75;
+    function setDialogSize() {
+        var windowWidth = $(window).width();
+        var windowHeight = $(window).height();
+        
+        if (windowWidth < 1000) {
+            groupsDiv.width(parseInt(windowWidth * 0.8));
+            groupsDiv.height('');
+            groupsDiv.addClass('small-screen');
+            mediaListDiv.width(parseInt(windowWidth * 0.8));
+            mediaListDiv.height(parseInt(windowHeight * 0.7));
+        }
+        else {
+            mediaListDiv.width(parseInt(windowWidth * 0.7));
+            mediaListDiv.height(parseInt(windowHeight * 0.7));
+            groupsDiv.height(parseInt(windowHeight * 0.7));
+            groupsDiv.width('');
+            groupsDiv.removeClass('small-screen');
+        }
+    }
     
-    mediaListDiv.width(parseInt(windowWidth * widthCoef));
-    groupsDiv.width(parseInt(windowWidth * widthCoef));
-    mediaListDiv.height(parseInt(windowHeight * heightCoef));
+    function onResize() {
+        setDialogSize();
+        updateModalDialogPosition();
+    }
+    
+    $(window).resize(onResize);
+    
+    setDialogSize();
     
     showModalDialog('<div class="modal-progress"></div>');
     
@@ -1960,7 +1980,12 @@ function runMediaDialog(cameraId, mediaType) {
                         detailsDiv = entry.div.find('div.media-list-entry-details');
                     }                    
                     
-                    detailsDiv.html(entry.momentStr + ' | ' + entry.sizeStr);
+                    var momentSpan = $('<span class="details-moment">' + entry.momentStr + ', </span>');
+                    var momentShortSpan = $('<span class="details-moment-short">' + entry.momentStrShort + '</span>');
+                    var sizeSpan = $('<span class="details-size">' + entry.sizeStr + '</span>');
+                    detailsDiv.append(momentSpan);
+                    detailsDiv.append(momentShortSpan);
+                    detailsDiv.append(sizeSpan);
                     mediaListDiv.append(entryDiv);
                 });
 
@@ -2000,6 +2025,7 @@ function runMediaDialog(cameraId, mediaType) {
                     var media = mediaListByName[entry.name];
                     if (media) {
                         entry.momentStr = media.momentStr;
+                        entry.momentStrShort = media.momentStrShort;
                         entry.sizeStr = media.sizeStr;
                         entry.timestamp = media.timestamp;
                     }
@@ -2048,6 +2074,9 @@ function runMediaDialog(cameraId, mediaType) {
                 if (keys.length) {
                     showGroup(keys[0]);
                 }
+            },
+            onClose: function () {
+                $(window).unbind('resize', onResize);
             }
         });
     });

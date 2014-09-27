@@ -659,11 +659,16 @@ function updateModalDialogPosition() {
     
     var windowWidth = $(window).width();
     var windowHeight = $(window).height();
-    var modalWidth = container.width() + 10 /* the margins */;
-    var modalHeight = container.height() + 10 /* the margins */;
+    var modalWidth, modalHeight, i;
     
-    container.css('left', Math.floor((windowWidth - modalWidth) / 2));
-    container.css('top', Math.floor((windowHeight - modalHeight) / 2));
+    /* repeat the operation multiple times, the size might change */
+    for (i = 0; i < 3; i++) {
+        modalWidth = container.outerWidth() + 10 /* the margins */;
+        modalHeight = container.outerHeight() + 10 /* the margins */;
+        
+        container.css('left', Math.floor((windowWidth - modalWidth) / 2));
+        container.css('top', Math.floor((windowHeight - modalHeight) / 2));
+    }
 }
 
 function makeModalDialogButtons(buttonsInfo) {

@@ -463,23 +463,34 @@ div.media-dialog {
 }
 
 div.media-dialog-groups {
+    float: left;
+    width: 10em;
     text-align: center;
     overflow: auto;
     white-space: nowrap;
 }
 
+div.media-dialog-groups.small-screen {
+    float: none;
+}
+
 div.media-dialog-group-button {
-    display: inline-block;
     height: 1.5em;
     line-height: 1.5em;
     text-align: center;
-    margin: 0em 0.2em 0.3em 0.2em;
+    margin: 0em 0.2em 0.2em 0.2em;
     padding: 0px 0.5em;
     background-color: #414141;
     color: #3498db;
     border-radius: 3px;
     transition: all 0.1s linear;
     cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+div.media-dialog-groups.small-screen div.media-dialog-group-button {
+    display: inline-block;
 }
 
 div.media-dialog-group-button:HOVER {
@@ -548,6 +559,7 @@ img.media-list-preview {
 }
 
 div.media-list-entry-name {
+    font-weight: bold;
     font-size: 1.3em;
     padding: 0.4em 0em;
     text-align: center;
@@ -562,6 +574,10 @@ div.media-list-entry-details {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+div.media-list-entry-details span.details-moment-short {
+    display: none;
 }
 
 div.media-list-download-button {
@@ -808,6 +824,26 @@ img.camera-progress {
     
     div.hostname {
         display: none;
+    }
+
+    div.media-list-entry-name {
+        font-size: 1em;
+        padding: 0.2em 0em 0em 0em;
+    }
+
+    div.media-list-entry-details {
+        padding-top: 0.2em;
+        font-size: 1em;
+        text-align: center;
+        white-space: normal;
+    }
+
+    div.media-list-entry-details span.details-moment {
+        display: none;
+    }
+
+    div.media-list-entry-details span.details-moment-short {
+        display: block;
     }
 }
 

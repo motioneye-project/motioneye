@@ -247,6 +247,7 @@ def list_media(camera_config, media_type, callback, prefix=None):
             pipe.send({
                 'path': path,
                 'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
+                'momentStrShort': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp), short=True),
                 'sizeStr': utils.pretty_size(size),
                 'timestamp': timestamp
             })
