@@ -1073,7 +1073,7 @@ function endProgress() {
     }, 500);
 }
 
-function downloadMediaFile(uri) {
+function downloadFile(uri) {
     var url = window.location.href;
     var parts = url.split('/');
     url = parts.slice(0, 3).join('/') + uri;
@@ -1301,6 +1301,14 @@ function doUpdate() {
                 return false; /* prevents hiding the modal container */
             });
         }
+    });
+}
+
+function doDownloadZipped(cameraId, groupKey) {
+    showModalDialog('<div class="modal-progress"></div>', null, null, true);
+    ajax('GET', '/picture/' + cameraId + '/zipped/' + groupKey + '/', null, function (data) {
+        hideModalDialog(); /* progress */
+        downloadFile('/picture/' + cameraId + '/zipped/' + groupKey + '/?key=' + data.key);
     });
 }
 
@@ -1581,7 +1589,7 @@ function runPictureDialog(entries, pos, mediaType) {
             {caption: 'Close'},
             {caption: 'Download', isDefault: true, click: function () {
                 var entry = entries[pos];
-                downloadMediaFile('/' + mediaType + '/' + entry.cameraId + '/download' + entry.path);
+                downloadFile('/' + mediaType + '/' + entry.cameraId + '/download' + entry.path);
                 
                 return false;
             }}
@@ -1839,14 +1847,86 @@ function runAddCameraDialog() {
     });
 }
 
+function runTimelapseDialog(cameraId, groupKey, group) {
+    var content = 
+            $('<table class="timelapse-dialog">' +
+                '<tr>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">Group</span></td>' +
+                    '<td class="dialog-item-value">' + groupKey + '</td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">Include a picture every</span></td>' +
+                    '<td class="dialog-item-value">' +
+                        '<select class="styled timelapse" id="intervalSelect">' + 
+                            '<option value="1">second</option>' +
+                            '<option value="10">5 seconds</option>' +
+                            '<option value="10">10 seconds</option>' +
+                            '<option value="30">30 seconds</option>' +
+                            '<option value="60">minute</option>' +
+                            '<option value="300">5 minutes</option>' +
+                            '<option value="600">10 minutes</option>' +
+                            '<option value="1800">30 minutes</option>' +
+                            '<option value="3600">hour</option>' +
+                        '</select>' +
+                    '</td>' +
+                    '<td><span class="help-mark" title="select the interval of time between each two successive pictures included in the movie">?</span></td>' +
+                '</tr>' +
+            '</table>');
+
+    var intervalSelect = content.find('#intervalSelect');
+    
+    runModalDialog({
+        title: 'Create Timelapse Movie',
+        closeButton: true,
+        buttons: 'okcancel',
+        content: content,
+        onOk: function () {
+            showModalDialog('<div class="modal-progress"></div>', null, null, true);
+            ajax('GET', '/picture/' + cameraId + '/timelapse/' + groupKey + '/', {interval: intervalSelect.val()}, function (data) {
+                hideModalDialog(); /* progress */
+                hideModalDialog(); /* timelapse dialog */
+                downloadFile('/picture/' + cameraId + '/timelapse/' + groupKey + '/key=' + data.key);
+            });
+
+            return false;
+        },
+        stack: true
+    });
+}
 
 function runMediaDialog(cameraId, mediaType) {
     var dialogDiv = $('<div class="media-dialog"></div>');
     var mediaListDiv = $('<div class="media-dialog-list"></div>');
     var groupsDiv = $('<div class="media-dialog-groups"></div>');
     
+    var groups = {};
+    var groupKey = null;
+    
     dialogDiv.append(groupsDiv);
     dialogDiv.append(mediaListDiv);
+    
+    if (mediaType == 'picture') {
+        var buttonsDiv = $('<div class="media-dialog-buttons"></div>');
+        dialogDiv.append(buttonsDiv);
+        
+        var zippedButton = $('<div class="media-dialog-button">Zipped Pictures</div>');
+        buttonsDiv.append(zippedButton);
+        
+        zippedButton.click(function () {
+            if (groupKey) {
+                doDownloadZipped(cameraId, groupKey);
+            }
+        });
+        
+        var timelapseButton = $('<div class="media-dialog-button">Timelapse Movie</div>');
+        buttonsDiv.append(timelapseButton);
+        
+        timelapseButton.click(function () {
+            if (groupKey) {
+                runTimelapseDialog(cameraId, groupKey, groups[groupKey]);
+            }
+        });
+    }
     
     function setDialogSize() {
         var windowWidth = $(window).width();
@@ -1888,7 +1968,6 @@ function runMediaDialog(cameraId, mediaType) {
         }
         
         /* group the media */
-        var groups = {};
         data.mediaList.forEach(function (media) {
             var path = media.path;
             var parts = path.split('/');
@@ -1920,6 +1999,8 @@ function runMediaDialog(cameraId, mediaType) {
         tempDiv.remove();
 
         function showGroup(key) {
+            groupKey = key;
+            
             if (mediaListDiv.find('img.media-list-progress').length) {
                 return; /* already in progress of loading */
             }
@@ -1955,7 +2036,7 @@ function runMediaDialog(cameraId, mediaType) {
                         entryDiv.append(previewImg);
                         previewImg[0]._src = '/' + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height;
                         
-                        var downloadButton = $('<div class="media-list-download-button button">download</div>');
+                        var downloadButton = $('<div class="media-list-download-button button">Download</div>');
                         entryDiv.append(downloadButton);
                         
                         var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
@@ -1965,7 +2046,7 @@ function runMediaDialog(cameraId, mediaType) {
                         entryDiv.append(detailsDiv);
                         
                         downloadButton.click(function () {
-                            downloadMediaFile('/picture/' + cameraId + '/download' + entry.path);
+                            downloadFile('/picture/' + cameraId + '/download' + entry.path);
                             return false;
                         });
                         

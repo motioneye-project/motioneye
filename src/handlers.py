@@ -20,6 +20,7 @@ import datetime
 import json
 import logging
 import os
+import re
 import socket
 
 from tornado.web import RequestHandler, HTTPError, asynchronous
@@ -624,7 +625,7 @@ class ConfigHandler(BaseHandler):
 
 class PictureHandler(BaseHandler):
     @asynchronous
-    def get(self, camera_id, op, filename=None):
+    def get(self, camera_id, op, filename=None, group=None):
         if camera_id is not None:
             camera_id = int(camera_id)
             if camera_id not in config.get_camera_ids():
@@ -644,6 +645,12 @@ class PictureHandler(BaseHandler):
         
         elif op == 'preview':
             self.preview(camera_id, filename)
+        
+        elif op == 'zipped':
+            self.zipped(camera_id, group)
+        
+        elif op == 'timelapse':
+            self.timelapse(camera_id, group)
         
         else:
             raise HTTPError(400, 'unknown operation')
@@ -794,6 +801,124 @@ class PictureHandler(BaseHandler):
                     width=self.get_argument('width', None),
                     height=self.get_argument('height', None))
     
+    @BaseHandler.auth()
+    def zipped(self, camera_id, group):
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
+
+        key = self.get_argument('key', None)
+        if key:
+            logging.debug('serving zip file for group %(group)s of camera %(id)s with key %(key)s' % {
+                    'group': group, 'id': camera_id, 'key': key})
+            
+            data = mediafiles.get_prepared_cache(key)
+            if not data:
+                logging.error('prepared cache data for key "%s" does not exist' % key)
+                
+                raise HTTPError(404, 'no such key')
+
+            camera_config = config.get_camera(camera_id)
+            if utils.local_camera(camera_config):
+                pretty_filename = camera_config['@name'] + '_' + group
+                pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
+     
+            else: # remote camera
+                pretty_filename = re.sub('[^a-zA-Z0-9]', '_', group)
+
+            self.set_header('Content-Type', 'application/zip')
+            self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + '.zip;')
+            self.finish(data)
+
+        else:
+            logging.debug('preparing zip file for group %(group)s of camera %(id)s' % {
+                    'group': group, 'id': camera_id})
+
+            camera_config = config.get_camera(camera_id)
+            if utils.local_camera(camera_config):
+                def on_zip(data):
+                    if data is None:
+                        return self.finish_json({'error': 'Failed to create zip file.'})
+    
+                    key = mediafiles.set_prepared_cache(data)
+                    logging.debug('prepared zip file for group %(group)s of camera %(id)s with key %(key)s' % {
+                            'group': group, 'id': camera_id, 'key': key})
+                    self.finish_json({'key': key})
+    
+                mediafiles.get_zipped_content(camera_config, media_type='picture', callback=on_zip, prefix=group)
+    
+            else: # remote camera
+                def on_response(response=None, error=None):
+                    if error:
+                        return self.finish_json({'error': 'Failed to download zip file from %(url)s: %(msg)s.' % {
+                                'url': remote.make_camera_url(camera_config)}, 'msg': error})
+     
+                    key = mediafiles.set_prepared_cache(response)
+                    logging.debug('prepared zip file for group %(group)s of camera %(id)s with key %(key)s' % {
+                            'group': group, 'id': camera_id, 'key': key})
+                    self.finish_json({'key': key})
+    
+                remote.get_zipped_content(camera_config, media_type='picture', callback=on_response, group=group)
+
+    @BaseHandler.auth()
+    def timelapse(self, camera_id, group):
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
+
+        key = self.get_argument('key', None)
+        if key:
+            logging.debug('serving timelapse movie for group %(group)s of camera %(id)s with key %(key)s' % {
+                    'group': group, 'id': camera_id, 'key': key})
+            
+            data = mediafiles.get_prepared_cache(key)
+            if not data:
+                logging.error('prepared cache data for key "%s" does not exist' % key)
+                
+                raise HTTPError(404, 'no such key')
+
+            camera_config = config.get_camera(camera_id)
+            if utils.local_camera(camera_config):
+                pretty_filename = camera_config['@name'] + '_' + group
+                pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
+
+            else: # remote camera
+                pretty_filename = re.sub('[^a-zA-Z0-9]', '_', group)
+
+            self.set_header('Content-Type', 'video/x-msvideo')
+            self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + '.avi;')
+            self.finish(data)
+
+        else:
+            interval = int(self.get_argument('interval'))
+
+            logging.debug('preparing timelapse movie for group %(group)s of camera %(id)s with interval %(int)s' % {
+                    'group': group, 'id': camera_id, 'int': interval})
+
+            camera_config = config.get_camera(camera_id)
+            if utils.local_camera(camera_config):
+                def on_timelapse(data):
+                    if data is None:
+                        return self.finish_json({'error': 'Failed to create timelapse movie file.'})
+
+                    key = mediafiles.set_prepared_cache(data)
+                    logging.debug('prepared timelapse movie for group %(group)s of camera %(id)s with key %(key)s' % {
+                            'group': group, 'id': camera_id, 'key': key})
+                    self.finish_json({'key': key})
+
+                mediafiles.get_timelapse_movie(camera_config, interval, callback=on_timelapse, group=group)
+
+            else: # remote camera
+                def on_response(response=None, error=None):
+                    if error:
+                        return self.finish_json({'error': 'Failed to download timelapse movie from %(url)s: %(msg)s.' % {
+                                'url': remote.make_camera_url(camera_config)}, 'msg': error})
+
+                    key = mediafiles.set_prepared_cache(response)
+                    logging.debug('prepared timelapse movie for group %(group)s of camera %(id)s with key %(key)s' % {
+                            'group': group, 'id': camera_id, 'key': key})
+                    self.finish_json({'key': key})
+    
+                remote.get_timelapse_movie(camera_config, interval, callback=on_response, group=group)
+
     def try_finish(self, content):
         try:
             self.finish(content)

@@ -333,6 +333,145 @@ def get_media_content(local_config, callback, filename, media_type):
     http_client.fetch(request, on_response)
 
 
+def get_zipped_content(local_config, callback, group, media_type):
+    host = local_config.get('@host', local_config.get('host'))
+    port = local_config.get('@port', local_config.get('port'))
+    username = local_config.get('@username', local_config.get('username'))
+    password = local_config.get('@password', local_config.get('password'))
+    uri = local_config.get('@uri', local_config.get('uri')) or ''
+    camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
+    
+    logging.debug('downloading zip file for group %(group)s of remote camera %(id)s on %(url)s' % {
+            'group': group,
+            'id': camera_id,
+            'url': make_camera_url(local_config)})
+
+    prepare_uri = uri + '/%(media_type)s/%(id)s/zipped/%(group)s/' % {
+            'media_type': media_type,
+            'id': camera_id,
+            'group': group}
+ 
+    # timeout here is 100 times larger than usual - we expect a big delay
+    request = _make_request(host, port, username, password, prepare_uri, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
+
+    def on_prepare(response):
+        if response.error:
+            logging.error('failed to download zip file for group %(group)s of remote camera %(id)s on %(url)s: %(msg)s' % {
+                    'group': group,
+                    'id': camera_id,
+                    'url': make_camera_url(local_config),
+                    'msg': unicode(response.error)})
+
+            return callback(error=unicode(response.error))
+        
+        try:
+            key = json.loads(response.body)['key']
+            
+        except Exception as e:
+            logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
+                    'url': make_camera_url(local_config),
+                    'msg': unicode(e)})
+
+            return callback(error=unicode(e))
+
+        download_uri = uri + '/%(media_type)s/%(id)s/zipped/%(group)s/?key=%(key)s' % {
+                'media_type': media_type,
+                'id': camera_id,
+                'group': group,
+                'key': key}
+
+        request = _make_request(host, port, username, password, download_uri, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
+
+        def on_download(response):
+            if response.error:
+                logging.error('failed to download zip file for group %(group)s of remote camera %(id)s on %(url)s: %(msg)s' % {
+                        'group': group,
+                        'id': camera_id,
+                        'url': make_camera_url(local_config),
+                        'msg': unicode(response.error)})
+    
+                return callback(error=unicode(response.error))
+
+            callback(response.body)
+
+        http_client = AsyncHTTPClient()
+        http_client.fetch(request, on_download)
+
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, on_prepare)
+
+
+def get_timelapse_movie(local_config, interval, callback, group):
+    host = local_config.get('@host', local_config.get('host'))
+    port = local_config.get('@port', local_config.get('port'))
+    username = local_config.get('@username', local_config.get('username'))
+    password = local_config.get('@password', local_config.get('password'))
+    uri = local_config.get('@uri', local_config.get('uri')) or ''
+    camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
+
+    logging.debug('downloading timelapse movie for group %(group)s of remote camera %(id)s with interval %(int)s on %(url)s' % {
+            'group': group,
+            'id': camera_id,
+            'int': interval,
+            'url': make_camera_url(local_config)})
+
+    prepare_uri = uri + '/picture/%(id)s/timelapse/%(group)s/?interval=%(int)s' % {
+            'id': camera_id,
+            'int': interval,
+            'group': group}
+
+    # timeout here is 100 times larger than usual - we expect a big delay
+    request = _make_request(host, port, username, password, prepare_uri, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
+
+    def on_prepare(response):
+        if response.error:
+            logging.error('failed to download timelapse movie for group %(group)s of remote camera %(id)s with interval %(int)s on %(url)s: %(msg)s' % {
+                    'group': group,
+                    'id': camera_id,
+                    'url': make_camera_url(local_config),
+                    'int': interval,
+                    'msg': unicode(response.error)})
+
+            return callback(error=unicode(response.error))
+        
+        try:
+            key = json.loads(response.body)['key']
+            
+        except Exception as e:
+            logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
+                    'url': make_camera_url(local_config),
+                    'msg': unicode(e)})
+
+            return callback(error=unicode(e))
+
+        download_uri = uri + '/picture/%(id)s/timelapse/%(group)s/?key=%(key)s' % {
+                'id': camera_id,
+                'group': group,
+                'int': interval,
+                'key': key}
+
+        request = _make_request(host, port, username, password, download_uri, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
+
+        def on_download(response):
+            if response.error:
+                logging.error('failed to download timelapse movie for group %(group)s of remote camera %(id)s with interval %(int)s on %(url)s: %(msg)s' % {
+                        'group': group,
+                        'id': camera_id,
+                        'url': make_camera_url(local_config),
+                        'int': interval,
+                        'msg': unicode(response.error)})
+    
+                return callback(error=unicode(response.error))
+
+            callback(response.body)
+
+        http_client = AsyncHTTPClient()
+        http_client.fetch(request, on_download)
+
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, on_prepare)
+
+
 def get_media_preview(local_config, callback, filename, media_type, width, height):
     host = local_config.get('@host', local_config.get('host'))
     port = local_config.get('@port', local_config.get('port'))

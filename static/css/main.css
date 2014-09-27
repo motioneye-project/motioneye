@@ -601,6 +601,33 @@ div.media-list-download-button:ACTIVE {
     background-color: #317CAD;
 }
 
+div.media-dialog-buttons {
+    margin: 0.5em 0px 0px 0px;
+    text-align: center;
+}
+
+div.media-dialog-button {
+    cursor: pointer;
+    display: inline-block;
+    height: 1.5em;
+    line-height: 1.5em;
+    text-align: center;
+    padding: 0px 0.5em;
+    margin: 0px 5px 0px 0px;
+    color: white;
+    background-color: #317CAD;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+}
+
+div.media-dialog-button:HOVER {
+    background-color: #3498db;
+}
+
+div.media-dialog-button:ACTIVE {
+    background-color: #317CAD;
+}
+
 div.picture-dialog-content {
     position: relative;
     text-align: center;
@@ -642,6 +669,10 @@ img.picture-dialog-progress {
     padding: 10px;
     border-radius: 10px;
     opacity: 0.7;
+}
+
+table.timelapse-dialog select#intervalSelect {
+    width: 10em;
 }
 
 
