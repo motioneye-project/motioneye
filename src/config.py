@@ -683,6 +683,7 @@ def camera_ui_to_dict(ui):
             data['snapshot_filename'] = ui['image_file_name']
             
         elif capture_mode == 'all-frames':
+            data['output_pictures'] = True
             data['emulate_motion'] = True
             data['picture_filename'] = ui['image_file_name']
             
