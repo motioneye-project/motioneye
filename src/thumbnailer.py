@@ -22,6 +22,7 @@ import os
 import signal
 import tornado
 
+import cleanup
 import mediafiles
 import settings
 
@@ -53,7 +54,7 @@ def stop():
 
 
 def running():
-    return _process is not None
+    return _process is not None and _process.is_alive()
 
 
 def _run_process():
@@ -63,7 +64,7 @@ def _run_process():
     ioloop = tornado.ioloop.IOLoop.instance()
     ioloop.add_timeout(datetime.timedelta(seconds=settings.THUMBNAILER_INTERVAL), _run_process)
 
-    if not _process or not _process.is_alive(): # check that the previous process has finished
+    if not running() and not cleanup.running(): # check that the previous process has finished and that cleanup is not running
         logging.debug('running thumbnailer process...')
 
         _process = multiprocessing.Process(target=_do_next_movie_thumbail)

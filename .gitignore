@@ -11,3 +11,4 @@ settings.py
 conf
 run
 media
+log
