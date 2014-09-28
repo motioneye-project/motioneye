@@ -1855,11 +1855,11 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                     '<td class="dialog-item-value">' + groupKey + '</td>' +
                 '</tr>' +
                 '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Include a picture every</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">Include a picture taken every</span></td>' +
                     '<td class="dialog-item-value">' +
                         '<select class="styled timelapse" id="intervalSelect">' + 
                             '<option value="1">second</option>' +
-                            '<option value="10">5 seconds</option>' +
+                            '<option value="5">5 seconds</option>' +
                             '<option value="10">10 seconds</option>' +
                             '<option value="30">30 seconds</option>' +
                             '<option value="60">minute</option>' +
@@ -1869,11 +1869,26 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                             '<option value="3600">hour</option>' +
                         '</select>' +
                     '</td>' +
-                    '<td><span class="help-mark" title="select the interval of time between each two successive pictures included in the movie">?</span></td>' +
+                    '<td><span class="help-mark" title="choose the interval of time between two selected pictures">?</span></td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">Timelapse speed factor</span></td>' +
+                    '<td class="dialog-item-value">' +
+                        '<select class="styled timelapse" id="speedSelect">' + 
+                            '<option value="1">1x</option>' +
+                            '<option value="10">10x</option>' +
+                            '<option value="100">100x</option>' +
+                            '<option value="1000">1000x</option>' +
+                            '<option value="10000">10000x</option>' +
+                            '<option value="100000">100000x</option>' +
+                        '</select>' +
+                    '</td>' +
+                    '<td><span class="help-mark" title="choose how fast you want the timelapse playback to be">?</span></td>' +
                 '</tr>' +
             '</table>');
 
     var intervalSelect = content.find('#intervalSelect');
+    var speedSelect = content.find('#speedSelect');
     
     runModalDialog({
         title: 'Create Timelapse Movie',
@@ -1882,10 +1897,12 @@ function runTimelapseDialog(cameraId, groupKey, group) {
         content: content,
         onOk: function () {
             showModalDialog('<div class="modal-progress"></div>', null, null, true);
-            ajax('GET', '/picture/' + cameraId + '/timelapse/' + groupKey + '/', {interval: intervalSelect.val()}, function (data) {
+            ajax('GET', '/picture/' + cameraId + '/timelapse/' + groupKey + '/',
+                    {interval: intervalSelect.val(), speed: speedSelect.val()}, function (data) {
+
                 hideModalDialog(); /* progress */
                 hideModalDialog(); /* timelapse dialog */
-                downloadFile('/picture/' + cameraId + '/timelapse/' + groupKey + '/key=' + data.key);
+                downloadFile('/picture/' + cameraId + '/timelapse/' + groupKey + '/?key=' + data.key);
             });
 
             return false;
@@ -1898,6 +1915,7 @@ function runMediaDialog(cameraId, mediaType) {
     var dialogDiv = $('<div class="media-dialog"></div>');
     var mediaListDiv = $('<div class="media-dialog-list"></div>');
     var groupsDiv = $('<div class="media-dialog-groups"></div>');
+    var buttonsDiv = $('<div class="media-dialog-buttons"></div>');
     
     var groups = {};
     var groupKey = null;
@@ -1906,7 +1924,6 @@ function runMediaDialog(cameraId, mediaType) {
     dialogDiv.append(mediaListDiv);
     
     if (mediaType == 'picture') {
-        var buttonsDiv = $('<div class="media-dialog-buttons"></div>');
         dialogDiv.append(buttonsDiv);
         
         var zippedButton = $('<div class="media-dialog-button">Zipped Pictures</div>');
@@ -1928,9 +1945,22 @@ function runMediaDialog(cameraId, mediaType) {
         });
     }
     
-    function setDialogSize() {
+    function updateDialogSize() {
         var windowWidth = $(window).width();
         var windowHeight = $(window).height();
+        
+        if (Object.keys(groups).length == 0) {
+            groupsDiv.width('auto');
+            groupsDiv.height('auto');
+            groupsDiv.addClass('small-screen');
+            mediaListDiv.width('auto');
+            mediaListDiv.height('auto');
+            buttonsDiv.hide();
+
+            return;
+        }
+        
+        buttonsDiv.show();
         
         if (windowWidth < 1000) {
             groupsDiv.width(parseInt(windowWidth * 0.8));
@@ -1949,13 +1979,13 @@ function runMediaDialog(cameraId, mediaType) {
     }
     
     function onResize() {
-        setDialogSize();
+        updateDialogSize();
         updateModalDialogPosition();
     }
     
     $(window).resize(onResize);
     
-    setDialogSize();
+    updateDialogSize();
     
     showModalDialog('<div class="modal-progress"></div>');
     
@@ -1987,6 +2017,8 @@ function runMediaDialog(cameraId, mediaType) {
                 'cameraId': cameraId
             });
         });
+        
+        updateDialogSize();
         
         var keys = Object.keys(groups);
         keys.sort();
@@ -2064,6 +2096,7 @@ function runMediaDialog(cameraId, mediaType) {
                     var momentSpan = $('<span class="details-moment">' + entry.momentStr + ', </span>');
                     var momentShortSpan = $('<span class="details-moment-short">' + entry.momentStrShort + '</span>');
                     var sizeSpan = $('<span class="details-size">' + entry.sizeStr + '</span>');
+                    detailsDiv.empty();
                     detailsDiv.append(momentSpan);
                     detailsDiv.append(momentShortSpan);
                     detailsDiv.append(sizeSpan);

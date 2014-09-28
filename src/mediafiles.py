@@ -281,7 +281,7 @@ def list_media(camera_config, media_type, callback, prefix=None):
             now = datetime.datetime.now()
             delta = now - started
             if delta.seconds < 120:
-                ioloop.add_timeout(datetime.timedelta(seconds=0.1), poll_process)
+                ioloop.add_timeout(datetime.timedelta(seconds=0.5), poll_process)
                 read_media_list()
             
             else: # process did not finish within 2 minutes
@@ -313,7 +313,7 @@ def get_media_content(camera_config, path, media_type):
         return None
 
 
-def get_zipped_content(camera_config, media_type, callback, prefix):
+def get_zipped_content(camera_config, media_type, callback, group):
     target_dir = camera_config.get('target_dir')
 
     if media_type == 'picture':
@@ -327,7 +327,7 @@ def get_zipped_content(camera_config, media_type, callback, prefix):
 
     # create a subprocess to add files to zip
     def do_zip(pipe):
-        mf = _list_media_files(target_dir, exts=exts, prefix=prefix)
+        mf = _list_media_files(target_dir, exts=exts, prefix=group)
         paths = []
         for (p, st) in mf:  # @UnusedVariable
             path = p[len(target_dir):]
@@ -405,90 +405,134 @@ def get_zipped_content(camera_config, media_type, callback, prefix):
     poll_process()
 
 
-def get_timelapse_movie(camera_config, interval, callback, prefix):
+def get_timelapse_movie(camera_config, speed, interval, callback, group):
     target_dir = camera_config.get('target_dir')
+    
+    # create a subprocess to retrieve media files
+    def do_list_media(pipe):
+        mf = _list_media_files(target_dir, exts=_PICTURE_EXTS, prefix=group)
+        for (p, st) in mf:
+            timestamp = st.st_mtime
 
-#     working = multiprocessing.Value('b')
-#     working.value = True
+            pipe.send({
+                'path': p,
+                'timestamp': timestamp
+            })
 
-#     # create a subprocess to create the files
-#     def do_zip(pipe):
-#         mf = _list_media_files(target_dir, exts=exts, prefix=prefix)
-#         paths = []
-#         for (p, st) in mf:  # @UnusedVariable
-#             path = p[len(target_dir):]
-#             if path.startswith('/'):
-#                 path = path[1:]
-# 
-#             paths.append(path)
-#             
-#         zip_filename = os.path.join(settings.MEDIA_PATH, '.zip-%s' % int(time.time()))
-#         logging.debug('adding %d files to zip file "%s"' % (len(paths), zip_filename))
-# 
-#         try:
-#             with zipfile.ZipFile(zip_filename, mode='w') as f:
-#                 for path in paths:
-#                     full_path = os.path.join(target_dir, path)
-#                     f.write(full_path, path)
-# 
-#         except Exception as e:
-#             logging.error('failed to create zip file "%s": %s' % (zip_filename, e))
-# 
-#             working.value = False
-#             pipe.close()
-#             return
-# 
-#         logging.debug('reading zip file "%s" into memory' % zip_filename)
-# 
-#         try:
-#             with open(zip_filename, mode='r') as f:
-#                 data = f.read()
-# 
-#             working.value = False
-#             pipe.send(data)
-#             logging.debug('zip data ready')
-# 
-#         except Exception as e:
-#             logging.error('failed to read zip file "%s": %s' % (zip_filename, e))
-#             working.value = False
-# 
-#         finally:
-#             os.remove(zip_filename)
-#             pipe.close()
-# 
-#     logging.debug('starting zip process...')
-# 
-#     (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
-#     process = multiprocessing.Process(target=do_zip, args=(child_pipe, ))
-#     process.start()
-# 
-#     # poll the subprocess to see when it has finished
-#     started = datetime.datetime.now()
-# 
-#     def poll_process():
-#         ioloop = tornado.ioloop.IOLoop.instance()
-#         if working.value:
-#             now = datetime.datetime.now()
-#             delta = now - started
-#             if delta.seconds < settings.ZIP_TIMEOUT:
-#                 ioloop.add_timeout(datetime.timedelta(seconds=0.5), poll_process)
-# 
-#             else: # process did not finish within 2 minutes
-#                 logging.error('timeout waiting for the zip process to finish')
-# 
-#                 callback(None)
-# 
-#         else: # finished
-#             try:
-#                 data = parent_pipe.recv()
-#                 logging.debug('zip process has returned %d bytes' % len(data))
-#                 
-#             except:
-#                 data = None
-#             
-#             callback(data)
-# 
-#     poll_process()
+        pipe.close()
+
+    logging.debug('starting media listing process...')
+    
+    (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
+    process = [multiprocessing.Process(target=do_list_media, args=(child_pipe, ))]
+    process[0].start()
+
+    started = [datetime.datetime.now()]
+    media_list = []
+    
+    tmp_filename = os.path.join(settings.MEDIA_PATH, '.%s.avi' % int(time.time()))
+
+    def read_media_list():
+        while parent_pipe.poll():
+            media_list.append(parent_pipe.recv())
+        
+    def poll_media_list_process():
+        ioloop = tornado.ioloop.IOLoop.instance()
+        if process[0].is_alive(): # not finished yet
+            now = datetime.datetime.now()
+            delta = now - started[0]
+            if delta.seconds < 120:
+                ioloop.add_timeout(datetime.timedelta(seconds=0.5), poll_media_list_process)
+                read_media_list()
+
+            else: # process did not finish within 2 minutes
+                logging.error('timeout waiting for the media listing process to finish')
+                
+                callback(None)
+
+        else: # finished
+            read_media_list()
+            logging.debug('media listing process has returned %(count)s files' % {'count': len(media_list)})
+            
+            if not media_list:
+                return callback(None)
+
+            pictures = select_pictures(media_list)
+            make_movie(pictures)
+
+    def select_pictures(media_list):
+        media_list.sort(key=lambda e: e['timestamp'])
+        start = media_list[0]['timestamp']
+        slices = {}
+        max_idx = 0
+        for m in media_list:
+            offs = m['timestamp'] - start
+            pos = float(offs) / interval - 0.5
+            idx = int(round(pos))
+            max_idx = idx
+            m['delta'] = abs(pos - idx)
+            slices.setdefault(idx, []).append(m)
+
+        selected = []
+        for i in xrange(max_idx + 1):
+            slice = slices.get(i)
+            if not slice:
+                continue
+
+            selected.append(min(slice, key=lambda m: m['delta']))
+
+        return selected
+
+    def make_movie(pictures):
+        cmd =  'rm -f %(tmp_filename)s;'
+        cmd += 'cat %(jpegs)s | ffmpeg -framerate %(speed)s/%(interval)s -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -b %(bitrate)s -f avi %(tmp_filename)s'
+        
+        bitrate = 9999990
+
+        cmd = cmd % {
+            'tmp_filename': tmp_filename,
+            'jpegs': ' '.join((p['path'] for p in pictures)),
+            'interval': interval,
+            'speed': speed,
+            'bitrate': bitrate
+        }
+        process[0] = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+        started[0] = datetime.datetime.now()
+
+        poll_movie_process()
+
+    def poll_movie_process():
+        ioloop = tornado.ioloop.IOLoop.instance()
+        if process[0].poll() is None: # not finished yet
+            now = datetime.datetime.now()
+            delta = now - started[0]
+            if delta.seconds < 120:
+                ioloop.add_timeout(datetime.timedelta(seconds=0.5), poll_movie_process)
+
+            else: # process did not finish within 2 minutes
+                logging.error('timeout waiting for the timelapse movie process to finish')
+                
+                callback(None)
+
+        else: # finished
+            logging.debug('reading timelapse movie file "%s" into memory' % tmp_filename)
+
+            try:
+                with open(tmp_filename, mode='r') as f:
+                    data = f.read()
+
+                logging.debug('timelapse movie process has returned %d bytes' % len(data))
+    
+            except Exception as e:
+                logging.error('failed to read timelapse movie file "%s": %s' % (tmp_filename, e))
+                return callback(None)
+
+            finally:
+                os.remove(tmp_filename)
+
+            callback(data)
+
+    poll_media_list_process()
 
 
 def get_media_preview(camera_config, path, media_type, width, height):
@@ -591,7 +635,7 @@ def get_picture_cache(camera_id, sequence, width):
 
 
 def get_prepared_cache(key):
-    return _prepared_files.get(key)
+    return _prepared_files.pop(key, None)
 
 
 def set_prepared_cache(data):

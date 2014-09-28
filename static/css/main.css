@@ -671,7 +671,7 @@ img.picture-dialog-progress {
     opacity: 0.7;
 }
 
-table.timelapse-dialog select#intervalSelect {
+table.timelapse-dialog select {
     width: 10em;
 }
 

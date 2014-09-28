@@ -844,7 +844,7 @@ class PictureHandler(BaseHandler):
                             'group': group, 'id': camera_id, 'key': key})
                     self.finish_json({'key': key})
     
-                mediafiles.get_zipped_content(camera_config, media_type='picture', callback=on_zip, prefix=group)
+                mediafiles.get_zipped_content(camera_config, media_type='picture', callback=on_zip, group=group)
     
             else: # remote camera
                 def on_response(response=None, error=None):
@@ -856,7 +856,7 @@ class PictureHandler(BaseHandler):
                     logging.debug('prepared zip file for group %(group)s of camera %(id)s with key %(key)s' % {
                             'group': group, 'id': camera_id, 'key': key})
                     self.finish_json({'key': key})
-    
+
                 remote.get_zipped_content(camera_config, media_type='picture', callback=on_response, group=group)
 
     @BaseHandler.auth()
@@ -889,9 +889,10 @@ class PictureHandler(BaseHandler):
 
         else:
             interval = int(self.get_argument('interval'))
+            speed = int(self.get_argument('speed'))
 
-            logging.debug('preparing timelapse movie for group %(group)s of camera %(id)s with interval %(int)s' % {
-                    'group': group, 'id': camera_id, 'int': interval})
+            logging.debug('preparing timelapse movie for group %(group)s of camera %(id)s with rate %(speed)s/%(int)s' % {
+                    'group': group, 'id': camera_id, 'speed': speed, 'int': interval})
 
             camera_config = config.get_camera(camera_id)
             if utils.local_camera(camera_config):
@@ -904,7 +905,7 @@ class PictureHandler(BaseHandler):
                             'group': group, 'id': camera_id, 'key': key})
                     self.finish_json({'key': key})
 
-                mediafiles.get_timelapse_movie(camera_config, interval, callback=on_timelapse, group=group)
+                mediafiles.get_timelapse_movie(camera_config, speed, interval, callback=on_timelapse, group=group)
 
             else: # remote camera
                 def on_response(response=None, error=None):
@@ -917,7 +918,7 @@ class PictureHandler(BaseHandler):
                             'group': group, 'id': camera_id, 'key': key})
                     self.finish_json({'key': key})
     
-                remote.get_timelapse_movie(camera_config, interval, callback=on_response, group=group)
+                remote.get_timelapse_movie(camera_config, speed, interval, callback=on_response, group=group)
 
     def try_finish(self, content):
         try:
