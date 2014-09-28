@@ -64,6 +64,9 @@ def find_motion():
 def _disable_motion_detection():
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
+        if not utils.local_camera(camera_config):
+            continue
+
         if not camera_config['@motion_detection']:
             logging.debug('motion detection disabled by config for camera with id %s' % camera_id)
             set_motion_detection(camera_id, False)
