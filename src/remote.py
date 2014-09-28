@@ -517,3 +517,39 @@ def get_media_preview(local_config, callback, filename, media_type, width, heigh
 
     http_client = AsyncHTTPClient()
     http_client.fetch(request, on_response)
+
+
+def del_media_content(local_config, callback, filename, media_type):
+    host = local_config.get('@host', local_config.get('host'))
+    port = local_config.get('@port', local_config.get('port'))
+    username = local_config.get('@username', local_config.get('username'))
+    password = local_config.get('@password', local_config.get('password'))
+    uri = local_config.get('@uri', local_config.get('uri')) or ''
+    camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
+    
+    logging.debug('deleting file %(filename)s of remote camera %(id)s on %(url)s' % {
+            'filename': filename,
+            'id': camera_id,
+            'url': make_camera_url(local_config)})
+    
+    uri += '/%(media_type)s/%(id)s/delete/%(filename)s' % {
+            'media_type': media_type,
+            'id': camera_id,
+            'filename': filename}
+
+    request = _make_request(host, port, username, password, uri, method='POST', timeout=settings.REMOTE_REQUEST_TIMEOUT)
+
+    def on_response(response):
+        if response.error:
+            logging.error('failed to delete file %(filename)s of remote camera %(id)s on %(url)s: %(msg)s' % {
+                    'filename': filename,
+                    'id': camera_id,
+                    'url': make_camera_url(local_config),
+                    'msg': unicode(response.error)})
+            
+            return callback(error=unicode(response.error))
+        
+        return callback()
+
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, on_response)

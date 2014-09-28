@@ -655,6 +655,19 @@ class PictureHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
     
+    @asynchronous
+    def post(self, camera_id, op, filename=None, group=None):
+        if camera_id is not None:
+            camera_id = int(camera_id)
+            if camera_id not in config.get_camera_ids():
+                raise HTTPError(404, 'no such camera')
+        
+        if op == 'delete':
+            self.delete(camera_id, filename)
+
+        else:
+            raise HTTPError(400, 'unknown operation')
+    
     @BaseHandler.auth(prompt=False)
     def current(self, camera_id):
         self.set_header('Content-Type', 'image/jpeg')
@@ -695,9 +708,6 @@ class PictureHandler(BaseHandler):
     def list(self, camera_id):
         logging.debug('listing pictures for camera %(id)s' % {'id': camera_id})
         
-        if camera_id not in config.get_camera_ids():
-            raise HTTPError(404, 'no such camera')
-        
         camera_config = config.get_camera(camera_id)
         if utils.local_camera(camera_config):
             def on_media_list(media_list):
@@ -736,9 +746,6 @@ class PictureHandler(BaseHandler):
         logging.debug('downloading picture %(filename)s of camera %(id)s' % {
                 'filename': filename, 'id': camera_id})
         
-        if camera_id not in config.get_camera_ids():
-            raise HTTPError(404, 'no such camera')
-        
         camera_config = config.get_camera(camera_id)
         if utils.local_camera(camera_config):
             content = mediafiles.get_media_content(camera_config, filename, 'picture')
@@ -767,9 +774,6 @@ class PictureHandler(BaseHandler):
     def preview(self, camera_id, filename):
         logging.debug('previewing picture %(filename)s of camera %(id)s' % {
                 'filename': filename, 'id': camera_id})
-        
-        if camera_id not in config.get_camera_ids():
-            raise HTTPError(404, 'no such camera')
         
         camera_config = config.get_camera(camera_id)
         if utils.local_camera(camera_config):
@@ -802,10 +806,31 @@ class PictureHandler(BaseHandler):
                     height=self.get_argument('height', None))
     
     @BaseHandler.auth()
-    def zipped(self, camera_id, group):
-        if camera_id not in config.get_camera_ids():
-            raise HTTPError(404, 'no such camera')
+    def delete(self, camera_id, filename):
+        logging.debug('deleting picture %(filename)s of camera %(id)s' % {
+                'filename': filename, 'id': camera_id})
+        
+        camera_config = config.get_camera(camera_id)
+        if utils.local_camera(camera_config):
+            try:
+                mediafiles.del_media_content(camera_config, filename, 'picture')
+                self.finish_json()
+                
+            except Exception as e:
+                self.finish_json({'error': unicode(e)})
 
+        else: # remote camera
+            def on_response(response=None, error=None):
+                if error:
+                    return self.finish_json({'error': 'Failed to delete picture from %(url)s: %(msg)s.' % {
+                            'url': remote.make_camera_url(camera_config)}, 'msg': error})
+
+                self.finish_json()
+
+            remote.del_media_content(camera_config, on_response, filename=filename, media_type='picture')
+
+    @BaseHandler.auth()
+    def zipped(self, camera_id, group):
         key = self.get_argument('key', None)
         if key:
             logging.debug('serving zip file for group %(group)s of camera %(id)s with key %(key)s' % {
@@ -861,9 +886,6 @@ class PictureHandler(BaseHandler):
 
     @BaseHandler.auth()
     def timelapse(self, camera_id, group):
-        if camera_id not in config.get_camera_ids():
-            raise HTTPError(404, 'no such camera')
-
         key = self.get_argument('key', None)
         if key:
             logging.debug('serving timelapse movie for group %(group)s of camera %(id)s with key %(key)s' % {
@@ -948,12 +970,22 @@ class MovieHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
     
+    @asynchronous
+    def post(self, camera_id, op, filename=None):
+        if camera_id is not None:
+            camera_id = int(camera_id)
+            if camera_id not in config.get_camera_ids():
+                raise HTTPError(404, 'no such camera')
+        
+        if op == 'delete':
+            self.delete(camera_id, filename)
+        
+        else:
+            raise HTTPError(400, 'unknown operation')
+    
     @BaseHandler.auth()
     def list(self, camera_id):
         logging.debug('listing movies for camera %(id)s' % {'id': camera_id})
-        
-        if camera_id not in config.get_camera_ids():
-            raise HTTPError(404, 'no such camera')
         
         camera_config = config.get_camera(camera_id)
         if utils.local_camera(camera_config):
@@ -984,9 +1016,6 @@ class MovieHandler(BaseHandler):
         logging.debug('downloading movie %(filename)s of camera %(id)s' % {
                 'filename': filename, 'id': camera_id})
         
-        if camera_id not in config.get_camera_ids():
-            raise HTTPError(404, 'no such camera')
-        
         camera_config = config.get_camera(camera_id)
         if utils.local_camera(camera_config):
             content = mediafiles.get_media_content(camera_config, filename, 'movie')
@@ -1015,9 +1044,6 @@ class MovieHandler(BaseHandler):
     def preview(self, camera_id, filename):
         logging.debug('previewing movie %(filename)s of camera %(id)s' % {
                 'filename': filename, 'id': camera_id})
-        
-        if camera_id not in config.get_camera_ids():
-            raise HTTPError(404, 'no such camera')
         
         camera_config = config.get_camera(camera_id)
         if utils.local_camera(camera_config):
@@ -1048,6 +1074,29 @@ class MovieHandler(BaseHandler):
             remote.get_media_preview(camera_config, on_response, filename=filename, media_type='movie',
                     width=self.get_argument('width', None),
                     height=self.get_argument('height', None))
+
+    def delete(self, camera_id, filename):
+        logging.debug('deleting movie %(filename)s of camera %(id)s' % {
+                'filename': filename, 'id': camera_id})
+        
+        camera_config = config.get_camera(camera_id)
+        if utils.local_camera(camera_config):
+            try:
+                mediafiles.del_media_content(camera_config, filename, 'movie')
+                self.finish_json()
+                
+            except Exception as e:
+                self.finish_json({'error': unicode(e)})
+
+        else: # remote camera
+            def on_response(response=None, error=None):
+                if error:
+                    return self.finish_json({'error': 'Failed to delete movie from %(url)s: %(msg)s.' % {
+                            'url': remote.make_camera_url(camera_config)}, 'msg': error})
+
+                self.finish_json()
+
+            remote.del_media_content(camera_config, on_response, filename=filename, media_type='movie')
 
 
 class UpdateHandler(BaseHandler):

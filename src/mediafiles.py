@@ -574,6 +574,21 @@ def get_media_preview(camera_config, path, media_type, width, height):
     return sio.getvalue()
 
 
+def del_media_content(camera_config, path, media_type):
+    target_dir = camera_config.get('target_dir')
+
+    full_path = os.path.join(target_dir, path)
+    
+    try:
+        os.remove(full_path)
+    
+    except Exception as e:
+        logging.error('failed to read file %(path)s: %(msg)s' % {
+                'path': full_path, 'msg': unicode(e)})
+        
+        raise
+
+
 def get_current_picture(camera_config, width, height):
     import mjpgclient
 

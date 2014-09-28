@@ -580,17 +580,25 @@ div.media-list-entry-details span.details-moment-short {
     display: none;
 }
 
-div.media-list-download-button {
+div.media-list-download-button,
+div.media-list-delete-button {
     float: right;
+    clear: right;
     height: 1.5em;
+    width: 5em;
     line-height: 1.5em;
     text-align: center;
-    margin: 1.2em 0.5em;
+    margin: 0px 0.5em;
     padding: 0px 0.5em;
     color: white;
-    background-color: #317CAD;
     border-radius: 3px;
     transition: all 0.1s linear;
+}
+
+div.media-list-download-button {
+    margin-top: 0.4em;
+    margin-bottom: 0.1em;
+    background: #317CAD;
 }
 
 div.media-list-download-button:HOVER {
@@ -599,6 +607,20 @@ div.media-list-download-button:HOVER {
 
 div.media-list-download-button:ACTIVE {
     background-color: #317CAD;
+}
+
+div.media-list-delete-button {
+    margin-top: 0.1em;
+    margin-bottom: 0.4em;
+    background: #c0392b;
+}
+
+div.media-list-delete-button:HOVER {
+    background-color: #D43F2F;
+}
+
+div.media-list-delete-button:ACTIVE {
+    background-color: #B03427;
 }
 
 div.media-dialog-buttons {

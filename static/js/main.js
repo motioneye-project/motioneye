@@ -1312,6 +1312,21 @@ function doDownloadZipped(cameraId, groupKey) {
     });
 }
 
+function doDeleteFile(uri, callback) {
+    var url = window.location.href;
+    var parts = url.split('/');
+    url = parts.slice(0, 3).join('/') + uri;
+    
+    runConfirmDialog('Really delete this file?', function () {
+        ajax('POST', url, null, function () {
+            if (callback) {
+                callback();
+            }
+        });
+    }, {stack: true});
+}
+
+
 
     /* fetch & push */
 
@@ -1502,12 +1517,32 @@ function getCameraIdsByInstance() {
 
     /* dialogs */
 
-function runAlertDialog(message, onOk) {
-    runModalDialog({title: message, buttons: 'ok', onOk: onOk});
+function runAlertDialog(message, onOk, options) {
+    var params = {
+        title: message,
+        buttons: 'ok',
+        onOk: onOk
+    };
+    
+    if (options) {
+        Object.update(params, options);
+    }
+    
+    runModalDialog(params);
 }
 
-function runConfirmDialog(message, onYes) {
-    runModalDialog({title: message, buttons: 'yesno', onYes: onYes});
+function runConfirmDialog(message, onYes, options) {
+    var params = {
+        title: message,
+        buttons: 'yesno',
+        onYes: onYes
+    };
+    
+    if (options) {
+        Object.update(params, options);
+    }
+    
+    runModalDialog(params);
 }
 
 function runPictureDialog(entries, pos, mediaType) {
@@ -2074,6 +2109,12 @@ function runMediaDialog(cameraId, mediaType) {
                         var downloadButton = $('<div class="media-list-download-button button">Download</div>');
                         entryDiv.append(downloadButton);
                         
+                        var deleteButton = $('<div class="media-list-delete-button button">Delete</div>');
+                        
+                        if (user === 'admin') {
+                            entryDiv.append(deleteButton);
+                        }
+
                         var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
                         entryDiv.append(nameDiv);
                         
@@ -2081,10 +2122,18 @@ function runMediaDialog(cameraId, mediaType) {
                         entryDiv.append(detailsDiv);
                         
                         downloadButton.click(function () {
-                            downloadFile('/picture/' + cameraId + '/download' + entry.path);
+                            downloadFile('/' + mediaType + '/' + cameraId + '/download' + entry.path);
                             return false;
                         });
                         
+                        deleteButton.click(function () {
+                            doDeleteFile('/' + mediaType + '/' + cameraId + '/delete' + entry.path, function () {
+                                entryDiv.remove();
+                            });
+                            
+                            return false;
+                        });
+
                         entryDiv.click(function () {
                             var pos = entries.indexOf(entry);
                             runPictureDialog(entries, pos, mediaType);
