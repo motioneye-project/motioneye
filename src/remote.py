@@ -537,7 +537,7 @@ def del_media_content(local_config, callback, filename, media_type):
             'id': camera_id,
             'filename': filename}
 
-    request = _make_request(host, port, username, password, uri, method='POST', timeout=settings.REMOTE_REQUEST_TIMEOUT)
+    request = _make_request(host, port, username, password, uri, method='POST', data='{}', timeout=settings.REMOTE_REQUEST_TIMEOUT)
 
     def on_response(response):
         if response.error:

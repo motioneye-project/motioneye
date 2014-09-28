@@ -726,7 +726,7 @@ class PictureHandler(BaseHandler):
             def on_response(remote_list=None, error=None):
                 if error:
                     return self.finish_json({'error': 'Failed to get picture list for %(url)s: %(msg)s.' % {
-                            'url': remote.make_camera_url(camera_config)}, 'msg': error})
+                            'url': remote.make_camera_url(camera_config), 'msg': error}})
 
                 self.finish_json(remote_list)
             
@@ -760,7 +760,7 @@ class PictureHandler(BaseHandler):
             def on_response(response=None, error=None):
                 if error:
                     return self.finish_json({'error': 'Failed to download picture from %(url)s: %(msg)s.' % {
-                            'url': remote.make_camera_url(camera_config)}, 'msg': error})
+                            'url': remote.make_camera_url(camera_config), 'msg': error}})
 
                 pretty_filename = os.path.basename(filename) # no camera name available w/o additional request
                 self.set_header('Content-Type', 'image/jpeg')
@@ -823,7 +823,7 @@ class PictureHandler(BaseHandler):
             def on_response(response=None, error=None):
                 if error:
                     return self.finish_json({'error': 'Failed to delete picture from %(url)s: %(msg)s.' % {
-                            'url': remote.make_camera_url(camera_config)}, 'msg': error})
+                            'url': remote.make_camera_url(camera_config), 'msg': error}})
 
                 self.finish_json()
 
@@ -875,7 +875,7 @@ class PictureHandler(BaseHandler):
                 def on_response(response=None, error=None):
                     if error:
                         return self.finish_json({'error': 'Failed to download zip file from %(url)s: %(msg)s.' % {
-                                'url': remote.make_camera_url(camera_config)}, 'msg': error})
+                                'url': remote.make_camera_url(camera_config), 'msg': error}})
      
                     key = mediafiles.set_prepared_cache(response)
                     logging.debug('prepared zip file for group %(group)s of camera %(id)s with key %(key)s' % {
@@ -933,7 +933,7 @@ class PictureHandler(BaseHandler):
                 def on_response(response=None, error=None):
                     if error:
                         return self.finish_json({'error': 'Failed to download timelapse movie from %(url)s: %(msg)s.' % {
-                                'url': remote.make_camera_url(camera_config)}, 'msg': error})
+                                'url': remote.make_camera_url(camera_config), 'msg': error}})
 
                     key = mediafiles.set_prepared_cache(response)
                     logging.debug('prepared timelapse movie for group %(group)s of camera %(id)s with key %(key)s' % {
@@ -1005,7 +1005,7 @@ class MovieHandler(BaseHandler):
             def on_response(remote_list=None, error=None):
                 if error:
                     return self.finish_json({'error': 'Failed to get movie list for %(url)s: %(msg)s.' % {
-                            'url': remote.make_camera_url(camera_config)}, 'msg': error})
+                            'url': remote.make_camera_url(camera_config), 'msg': error}})
 
                 self.finish_json(remote_list)
             
@@ -1030,7 +1030,7 @@ class MovieHandler(BaseHandler):
             def on_response(response=None, error=None):
                 if error:
                     return self.finish_json({'error': 'Failed to download movie from %(url)s: %(msg)s.' % {
-                            'url': remote.make_camera_url(camera_config)}, 'msg': error})
+                            'url': remote.make_camera_url(camera_config), 'msg': error}})
 
                 pretty_filename = os.path.basename(filename) # no camera name available w/o additional request
                 self.set_header('Content-Type', 'video/mpeg')
@@ -1092,7 +1092,7 @@ class MovieHandler(BaseHandler):
             def on_response(response=None, error=None):
                 if error:
                     return self.finish_json({'error': 'Failed to delete movie from %(url)s: %(msg)s.' % {
-                            'url': remote.make_camera_url(camera_config)}, 'msg': error})
+                            'url': remote.make_camera_url(camera_config), 'msg': error}})
 
                 self.finish_json()
 

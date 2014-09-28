@@ -1318,7 +1318,12 @@ function doDeleteFile(uri, callback) {
     url = parts.slice(0, 3).join('/') + uri;
     
     runConfirmDialog('Really delete this file?', function () {
-        ajax('POST', url, null, function () {
+        ajax('POST', url, null, function (data) {
+            if (data == null || data.error) {
+                showErrorMessage(data && data.error);
+                return;
+            }
+
             if (callback) {
                 callback();
             }
