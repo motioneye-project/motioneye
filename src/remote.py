@@ -401,7 +401,7 @@ def get_zipped_content(local_config, media_type, callback, group):
     http_client.fetch(request, on_prepare)
 
 
-def get_timelapse_movie(local_config, speed, interval, callback, group):
+def get_timelapse_movie(local_config, framerate, interval, callback, group):
     host = local_config.get('@host', local_config.get('host'))
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
@@ -409,17 +409,17 @@ def get_timelapse_movie(local_config, speed, interval, callback, group):
     uri = local_config.get('@uri', local_config.get('uri')) or ''
     camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
 
-    logging.debug('downloading timelapse movie for group %(group)s of remote camera %(id)s with rate %(speed)s/%(int)s on %(url)s' % {
+    logging.debug('downloading timelapse movie for group %(group)s of remote camera %(id)s with rate %(framerate)s/%(int)s on %(url)s' % {
             'group': group,
             'id': camera_id,
-            'speed': speed,
+            'framerate': framerate,
             'int': interval,
             'url': make_camera_url(local_config)})
 
-    prepare_uri = uri + '/picture/%(id)s/timelapse/%(group)s/?interval=%(int)s&speed=%(speed)s' % {
+    prepare_uri = uri + '/picture/%(id)s/timelapse/%(group)s/?interval=%(int)s&framerate=%(framerate)s' % {
             'id': camera_id,
             'int': interval,
-            'speed': speed,
+            'framerate': framerate,
             'group': group}
 
     # timeout here is 100 times larger than usual - we expect a big delay
@@ -427,12 +427,12 @@ def get_timelapse_movie(local_config, speed, interval, callback, group):
 
     def on_prepare(response):
         if response.error:
-            logging.error('failed to download timelapse movie for group %(group)s of remote camera %(id)s with rate %(speed)s/%(int)s on %(url)s: %(msg)s' % {
+            logging.error('failed to download timelapse movie for group %(group)s of remote camera %(id)s with rate %(framerate)s/%(int)s on %(url)s: %(msg)s' % {
                     'group': group,
                     'id': camera_id,
                     'url': make_camera_url(local_config),
                     'int': interval,
-                    'speed': speed,
+                    'framerate': framerate,
                     'msg': unicode(response.error)})
 
             return callback(error=unicode(response.error))
@@ -456,12 +456,12 @@ def get_timelapse_movie(local_config, speed, interval, callback, group):
 
         def on_download(response):
             if response.error:
-                logging.error('failed to download timelapse movie for group %(group)s of remote camera %(id)s with rate %(speed)s/%(int)s on %(url)s: %(msg)s' % {
+                logging.error('failed to download timelapse movie for group %(group)s of remote camera %(id)s with rate %(framerate)s/%(int)s on %(url)s: %(msg)s' % {
                         'group': group,
                         'id': camera_id,
                         'url': make_camera_url(local_config),
                         'int': interval,
-                        'speed': speed,
+                        'framerate': framerate,
                         'msg': unicode(response.error)})
     
                 return callback(error=unicode(response.error))

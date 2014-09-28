@@ -58,7 +58,7 @@ def _list_media_files(dir, exts, prefix=None):
         
         root = os.path.join(dir, prefix)
         for name in os.listdir(root):
-            if name == 'lastsnap.jpg': # ignore the lastsnap.jpg file
+            if name == 'lastsnap.jpg' or name.startswith('.'): # ignore the lastsnap.jpg and hidden files
                 continue
                 
             full_path = os.path.join(root, name)
@@ -81,7 +81,7 @@ def _list_media_files(dir, exts, prefix=None):
     else:    
         for root, dirs, files in os.walk(dir):  # @UnusedVariable # TODO os.walk can be rewritten to return stat info
             for name in files:
-                if name == 'lastsnap.jpg': # ignore the lastsnap.jpg file
+                if name == 'lastsnap.jpg' or name.startswith('.'): # ignore the lastsnap.jpg and hidden files
                     continue
                 
                 full_path = os.path.join(root, name)
@@ -405,7 +405,7 @@ def get_zipped_content(camera_config, media_type, callback, group):
     poll_process()
 
 
-def get_timelapse_movie(camera_config, speed, interval, callback, group):
+def get_timelapse_movie(camera_config, framerate, interval, callback, group):
     target_dir = camera_config.get('target_dir')
     
     # create a subprocess to retrieve media files
@@ -485,18 +485,20 @@ def get_timelapse_movie(camera_config, speed, interval, callback, group):
 
     def make_movie(pictures):
         cmd =  'rm -f %(tmp_filename)s;'
-        cmd += 'cat %(jpegs)s | ffmpeg -framerate %(speed)s/%(interval)s -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -b %(bitrate)s -f avi %(tmp_filename)s'
+        cmd += 'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -b:v %(bitrate)s -q:v 0 -f avi %(tmp_filename)s'
         
-        bitrate = 9999990
+        bitrate = 9999999
 
         cmd = cmd % {
             'tmp_filename': tmp_filename,
             'jpegs': ' '.join((p['path'] for p in pictures)),
-            'interval': interval,
-            'speed': speed,
+            'framerate': framerate,
             'bitrate': bitrate
         }
-        process[0] = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+        
+        logging.debug('executing "%s"' % cmd)
+        
+        process[0] = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=None, shell=True)
         started[0] = datetime.datetime.now()
 
         poll_movie_process()

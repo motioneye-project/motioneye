@@ -1872,24 +1872,27 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                     '<td><span class="help-mark" title="choose the interval of time between two selected pictures">?</span></td>' +
                 '</tr>' +
                 '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Timelapse speed factor</span></td>' +
-                    '<td class="dialog-item-value">' +
-                        '<select class="styled timelapse" id="speedSelect">' + 
-                            '<option value="1">1x</option>' +
-                            '<option value="10">10x</option>' +
-                            '<option value="100">100x</option>' +
-                            '<option value="1000">1000x</option>' +
-                            '<option value="10000">10000x</option>' +
-                            '<option value="100000">100000x</option>' +
-                        '</select>' +
-                    '</td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">Movie framerate</span></td>' +
+                    '<td class="dialog-item-value"><input type="text" class="styled range" id="framerateSlider"></td>' +
                     '<td><span class="help-mark" title="choose how fast you want the timelapse playback to be">?</span></td>' +
                 '</tr>' +
             '</table>');
 
     var intervalSelect = content.find('#intervalSelect');
-    var speedSelect = content.find('#speedSelect');
+    var framerateSlider = content.find('#framerateSlider');
     
+    makeSlider(framerateSlider, 1, 100, 0, [
+        {value: 1, label: '1'},
+        {value: 20, label: '20'},
+        {value: 40, label: '40'},
+        {value: 60, label: '60'},
+        {value: 80, label: '80'},
+        {value: 100, label: '100'}
+    ], null, 0);
+    
+    intervalSelect.val(60);
+    framerateSlider.val(20).each(function () {this.update()});
+
     runModalDialog({
         title: 'Create Timelapse Movie',
         closeButton: true,
@@ -1898,7 +1901,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
         onOk: function () {
             showModalDialog('<div class="modal-progress"></div>', null, null, true);
             ajax('GET', '/picture/' + cameraId + '/timelapse/' + groupKey + '/',
-                    {interval: intervalSelect.val(), speed: speedSelect.val()}, function (data) {
+                    {interval: intervalSelect.val(), framerate: framerateSlider.val()}, function (data) {
 
                 hideModalDialog(); /* progress */
                 hideModalDialog(); /* timelapse dialog */
