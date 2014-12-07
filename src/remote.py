@@ -244,7 +244,7 @@ def get_current_picture(local_config, callback, width, height):
             cookies = cookies.split(';')
             cookies = [[i.strip() for i in c.split('=')] for c in cookies]
             cookies = dict([c for c in cookies if len(c) == 2])
-            motion_detected = cookies.get('motion_detected_' + camera_id) == 'true'
+            motion_detected = cookies.get('motion_detected_' + str(camera_id)) == 'true'
         
         if response.error:
             logging.error('failed to get current picture for remote camera %(id)s on %(url)s: %(msg)s' % {

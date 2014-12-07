@@ -1328,13 +1328,13 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
         data.setdefault('output_normal', False)
         data.setdefault('jpeg_filename', '')
         data.setdefault('output_all', False)
-        data.setdefault('gap', 30)
+        data.setdefault('gap', 10)
 
     else:
         data.setdefault('output_pictures', False)
         data.setdefault('picture_filename', '')
         data.setdefault('emulate_motion', False)
-        data.setdefault('event_gap', 30)
+        data.setdefault('event_gap', 10)
     
     data.setdefault('snapshot_interval', 0)
     data.setdefault('snapshot_filename', '')
