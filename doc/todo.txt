@@ -1,2 +1,1 @@
--> use minimum_frame_time
 -> implement custom camera frame sizes

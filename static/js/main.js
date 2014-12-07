@@ -249,7 +249,7 @@ function initUI() {
     makeSlider($('#streamingResolutionSlider'), 0, 100, 2, null, 5, 0, '%');
     makeSlider($('#imageQualitySlider'), 0, 100, 2, null, 5, 0, '%');
     makeSlider($('#movieQualitySlider'), 0, 100, 2, null, 5, 0, '%');
-    makeSlider($('#frameChangeThresholdSlider'), 0, 10, 0, null, 6, 1, '%');
+    makeSlider($('#frameChangeThresholdSlider'), 0, 20, 0, null, 5, 1, '%');
     
     makeSlider($('#noiseLevelSlider'), 0, 25, 0, null, 6, 0, '%');
     
