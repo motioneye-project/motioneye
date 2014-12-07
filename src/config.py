@@ -559,7 +559,7 @@ def camera_ui_to_dict(ui):
         # movies
         'ffmpeg_output_movies': ui['motion_movies'],
         'movie_filename': ui['movie_file_name'],
-        'ffmpeg_bps': 400000,
+        'ffmpeg_bps': 44000, # a quality of about 85% for 320x240x2fps
         '@preserve_movies': int(ui['preserve_movies']),
     
         # working schedule
@@ -1331,7 +1331,7 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('@preserve_pictures', 0)
     
     data.setdefault('ffmpeg_variable_bitrate', 0)
-    data.setdefault('ffmpeg_bps', 400000)
+    data.setdefault('ffmpeg_bps', 44000) # a quality of about 85% 
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     if old_motion:
         data.setdefault('ffmpeg_cap_new', False)
