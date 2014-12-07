@@ -1169,7 +1169,10 @@ class PowerHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
     def post(self, op):
         if op == 'shutdown':
-            powerctl.shut_down()
+            self.shut_down()
+    
+    def shut_down(self):
+        IOLoop.instance().add_timeout(datetime.timedelta(seconds=2), powerctl.shut_down)
 
 
 class VersionHandler(BaseHandler):

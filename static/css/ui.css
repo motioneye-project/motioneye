@@ -20,7 +20,7 @@ input[type=checkbox].styled {
 a {
     color: #317CAD;
     text-decoration: inherit;
-    transition: color 0.1s linear;
+    transition: color 0.1s ease;
 }
 
 a:HOVER {
@@ -52,7 +52,7 @@ div.button.dialog {
     border: 1px solid #317CAD;
     border-radius: 2px;
     color: white;
-    transition: all 0.1s linear;
+    transition: all 0.1s ease;
 }
 
 div.button.dialog.default {
@@ -61,7 +61,7 @@ div.button.dialog.default {
 
 div.button.mouse-effect {
     opacity: 0.7;
-    transition: opacity 0.1s linear;
+    transition: opacity 0.1s ease;
 }
 
 div.button.mouse-effect:HOVER {
@@ -89,7 +89,7 @@ div.check-box {
     -moz-user-select: none;
     user-select: none;
     margin: 2px;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
 }
 
 div.check-box:FOCUS,
@@ -106,7 +106,7 @@ div.check-box-button {
     position: absolute;
     text-align: center;
     line-height: 1em;
-    transition: all 0.1s;
+    transition: all 0.1s ease;
 }
 
 span.check-box-text {
@@ -140,7 +140,7 @@ input[type=text].styled {
     font-family: inherit;
     font-size: 0.8em;
     margin: 2px;
-    transition: all 0.1s;
+    transition: all 0.1s ease;
 }
 
 input[type=password].styled:FOCUS,
@@ -191,7 +191,7 @@ select.styled {
     background-position: right center;
     cursor: pointer;
     vertical-align: middle;
-    transition: all 0.1s;
+    transition: all 0.1s ease;
 }
 
 select.styled:FOCUS {
@@ -253,7 +253,7 @@ div.slider-bar-inside {
     position: relative;
     top: 3px;
     left: 7px;
-    transition: all 0.1s;
+    transition: all 0.1s ease;
 }
 
 div.slider:HOVER div.slider-bar-inside,

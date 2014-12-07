@@ -1242,7 +1242,30 @@ function doApply() {
 
 function doShutDown() {
     runConfirmDialog('Really shut down?', function () {
-        ajax('POST', '/power/shutdown/');    
+        ajax('POST', '/power/shutdown/');
+        setTimeout(function () {
+            refreshInterval = 1000000;
+            showModalDialog('<div class="modal-progress"></div>');
+            
+            function checkServer() {
+                $.ajax({
+                    type: 'GET',
+                    url: '/',
+                    cache: false,
+                    success: function () {
+                        setTimeout(checkServer, 1000);
+                    },
+                    error: function () {
+                        showModalDialog('Powered Off');
+                        setTimeout(function () {
+                            $('div.modal-glass').animate({'opacity': '1', 'background-color': '#212121'}, 200);
+                        },100);
+                    }
+                });
+            }
+            
+            checkServer();
+        }, 10);
     });
 }
 
