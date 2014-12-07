@@ -3,6 +3,28 @@ var refreshDisabled = false;
 var inProgress = false;
 var refreshInterval = 50; /* milliseconds */
 
+
+    /* utils */
+
+function getCookie(name) {
+    if (document.cookie.length <= 0) {
+        return null;
+    }
+
+    var start = document.cookie.indexOf(name + '=');
+    if (start == -1) {
+        return null;
+    }
+     
+    var start = start + name.length + 1;
+    var end = document.cookie.indexOf(';', start);
+    if (end == -1) {
+        end = document.cookie.length;
+    }
+    
+    return unescape(document.cookie.substring(start, end));
+}
+
     
     /* progress */
 
@@ -36,6 +58,7 @@ function setupCameraFrame() {
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
     var cameraProgress = cameraFrameDiv.find('div.camera-progress');
     var cameraImg = cameraFrameDiv.find('img.camera');
+    var cameraId = cameraFrameDiv.attr('id').substring(6);
     var progressImg = cameraFrameDiv.find('img.camera-progress');
     var body = $('body');
     
@@ -58,6 +81,7 @@ function setupCameraFrame() {
         cameraImg.addClass('error').removeClass('loading');
         cameraPlaceholder.css('opacity', 1);
         cameraProgress.removeClass('visible');
+        cameraFrameDiv.removeClass('motion-detected');
     });
     cameraImg.load(function () {
         if (refreshDisabled) {
@@ -71,6 +95,13 @@ function setupCameraFrame() {
         cameraPlaceholder.css('opacity', 0);
         cameraProgress.removeClass('visible');
         
+        if (getCookie('motion_detected_' + cameraId) == 'true') {
+            cameraFrameDiv.addClass('motion-detected');
+        }
+        else {
+            cameraFrameDiv.removeClass('motion-detected');
+        }
+
         if (this.naturalWidth / this.naturalHeight > body.width() / body.height()) {
             cameraImg.css('width', '100%');
             cameraImg.css('height', 'auto');

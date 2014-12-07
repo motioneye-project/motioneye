@@ -47,6 +47,10 @@ div.camera-frame {
     vertical-align: top;
 }
 
+div.camera-frame.motion-detected {
+    background-color: #712727;
+}
+
 div.camera-container {
     height: 100%;
     text-align: center;

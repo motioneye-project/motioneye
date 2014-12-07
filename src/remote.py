@@ -237,6 +237,15 @@ def get_current_picture(local_config, callback, width, height):
     request = _make_request(host, port, username, password, uri + '/picture/%(id)s/current/' % {'id': camera_id}, query=query)
     
     def on_response(response):
+        motion_detected = False
+        
+        cookies = response.headers.get('Set-Cookie')
+        if cookies:
+            cookies = cookies.split(';')
+            cookies = [[i.strip() for i in c.split('=')] for c in cookies]
+            cookies = dict([c for c in cookies if len(c) == 2])
+            motion_detected = cookies.get('motion_detected_' + camera_id) == 'true'
+        
         if response.error:
             logging.error('failed to get current picture for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
@@ -244,8 +253,8 @@ def get_current_picture(local_config, callback, width, height):
                     'msg': unicode(response.error)})
             
             return callback(error=unicode(response.error))
-        
-        callback(response.body)
+
+        callback(motion_detected, response.body)
     
     http_client = AsyncHTTPClient()
     http_client.fetch(request, on_response)

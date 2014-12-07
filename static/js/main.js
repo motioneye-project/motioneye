@@ -194,8 +194,27 @@ function makeDeviceUrl(dict) {
     }
 }
 
+function getCookie(name) {
+    if (document.cookie.length <= 0) {
+        return null;
+    }
 
-    /* UI initialization */
+    var start = document.cookie.indexOf(name + '=');
+    if (start == -1) {
+        return null;
+    }
+     
+    var start = start + name.length + 1;
+    var end = document.cookie.indexOf(';', start);
+    if (end == -1) {
+        end = document.cookie.length;
+    }
+    
+    return unescape(document.cookie.substring(start, end));
+}
+ 
+
+/* UI initialization */
 
 function initUI() {
     /* checkboxes */
@@ -2392,6 +2411,7 @@ function addCameraFrameUi(cameraConfig) {
         cameraImg.height(Math.round(cameraImg.width() * 0.75));
         cameraPlaceholder.css('opacity', 1);
         cameraProgress.removeClass('visible');
+        cameraFrameDiv.removeClass('motion-detected');
     });
     cameraImg.load(function () {
         if (refreshDisabled[cameraId]) {
@@ -2406,6 +2426,13 @@ function addCameraFrameUi(cameraConfig) {
         cameraPlaceholder.css('opacity', 0);
         cameraProgress.removeClass('visible');
         
+        if (getCookie('motion_detected_' + cameraId) == 'true') {
+            cameraFrameDiv.addClass('motion-detected');
+        }
+        else {
+            cameraFrameDiv.removeClass('motion-detected');
+        }
+
         if (fullScreenCameraId) {
             /* update the modal dialog position when image is loaded */
             updateModalDialogPosition();

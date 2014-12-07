@@ -566,7 +566,8 @@ def camera_ui_to_dict(ui):
         '@working_schedule': '',
     
         # events
-        'on_event_start': ''
+        'on_event_start': '',
+        'on_event_end': ''
     }
     
     if ui['proto'] == 'v4l2':
@@ -713,8 +714,11 @@ def camera_ui_to_dict(ui):
         
         data['@working_schedule_type'] = ui['working_schedule_type']
     
-    # event start notifications
-    on_event_start = []
+    # event start
+    event_relay_path = os.path.join(settings.PROJECT_PATH, 'eventrelay.py')
+    event_relay_path = os.path.abspath(event_relay_path)
+        
+    on_event_start = ['%(script)s start %%t' % {'script': event_relay_path}]
     if ui['email_notifications_enabled']:
         send_mail_path = os.path.join(settings.PROJECT_PATH, 'sendmail.py')
         send_mail_path = os.path.abspath(send_mail_path)
@@ -743,8 +747,12 @@ def camera_ui_to_dict(ui):
         commands = ui['command_notifications_exec'].split(';')
         on_event_start += [c.strip() for c in commands]
 
-    if on_event_start:
-        data['on_event_start'] = '; '.join(on_event_start)
+    data['on_event_start'] = '; '.join(on_event_start)
+
+    # event end
+    on_event_end = ['%(script)s stop %%t' % {'script': event_relay_path}]
+    
+    data['on_event_end'] = '; '.join(on_event_end)
 
     return data
 
@@ -1009,7 +1017,7 @@ def camera_dict_to_ui(data):
         ui['sunday_from'], ui['sunday_to'] = days[6].split('-')
         ui['working_schedule_type'] = data['@working_schedule_type']
     
-    # event start notifications    
+    # event start    
     on_event_start = data.get('on_event_start') or []
     if on_event_start:
         on_event_start = [e.strip() for e in on_event_start.split(';')]
@@ -1037,6 +1045,9 @@ def camera_dict_to_ui(data):
             ui['web_hook_notifications_enabled'] = True 
             ui['web_hook_notifications_http_method'] = e[1]
             ui['web_hook_notifications_url'] = e[2]
+        
+        elif e.count('eventrelay.py'):
+            continue # ignore internal relay script
 
         else: # custom command
             command_notifications.append(e)
@@ -1345,6 +1356,7 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('@working_schedule_type', 'outside')
 
     data.setdefault('on_event_start', '')
+    data.setdefault('on_event_end', '')
 
 
 def _get_wifi_settings(data):

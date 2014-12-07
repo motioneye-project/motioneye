@@ -197,6 +197,9 @@ class ConfigHandler(BaseHandler):
         elif op == 'rem':
             self.rem_camera(camera_id)
         
+        elif op == '_relay_event':
+            self._relay_event(camera_id)
+        
         else:
             raise HTTPError(400, 'unknown operation')
     
@@ -622,6 +625,22 @@ class ConfigHandler(BaseHandler):
             
         self.finish_json()
 
+    @BaseHandler.auth(admin=True)
+    def _relay_event(self, camera_id):
+        event = self.get_argument('event')
+        logging.debug('event %(event)s relayed for camera %(id)s' % {'event': event, 'id': camera_id})
+        
+        if event == 'start':
+            motionctl._motion_detected[camera_id] = True
+            
+        elif event == 'stop':
+            motionctl._motion_detected[camera_id] = False
+            
+        else:
+            logging.warn('unknown event %s' % event)
+
+        self.finish_json()
+
 
 class PictureHandler(BaseHandler):
     @asynchronous
@@ -680,10 +699,10 @@ class PictureHandler(BaseHandler):
         height = self.get_argument('height', None)
         
         picture = sequence and mediafiles.get_picture_cache(camera_id, sequence, width) or None
-        
+
         if picture is not None:
             return self.try_finish(picture)
-        
+
         camera_config = config.get_camera(camera_id)
         if utils.local_camera(camera_config):
             picture = mediafiles.get_current_picture(camera_config,
@@ -693,13 +712,15 @@ class PictureHandler(BaseHandler):
             if sequence and picture:
                 mediafiles.set_picture_cache(camera_id, sequence, width, picture)
 
+            self.set_cookie('motion_detected_' + str(camera_id), str(motionctl.is_motion_detected(camera_id)).lower())
             self.try_finish(picture)
                 
         else: # remote camera
-            def on_response(picture=None, error=None):
+            def on_response(motion_detected=False, picture=None, error=None):
                 if sequence and picture:
                     mediafiles.set_picture_cache(camera_id, sequence, width, picture)
                 
+                self.set_cookie('motion_detected_' + str(camera_id), str(motion_detected).lower())
                 self.try_finish(picture)
             
             remote.get_current_picture(camera_config, on_response, width=width, height=height)

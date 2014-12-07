@@ -728,6 +728,10 @@ div.camera-frame-place-holder {
     visibility: hidden;
 }
 
+div.camera-frame.motion-detected {
+    background-color: #712727;
+}
+
 div.modal-container div.camera-frame {
     width: auto;
     padding: 0px;
@@ -737,6 +741,10 @@ div.modal-container div.camera-frame {
 
 div.camera-frame:HOVER {
     background-color: #414141;
+}
+
+div.camera-frame.motion-detected:HOVER {
+    background-color: #8B3636;
 }
 
 div.camera-top-bar {

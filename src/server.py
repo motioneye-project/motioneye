@@ -42,7 +42,7 @@ application = Application(
     [
         (r'^/$', handlers.MainHandler),
         (r'^/config/main/(?P<op>set|get)/?$', handlers.ConfigHandler),
-        (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|set_preview)/?$', handlers.ConfigHandler),
+        (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|set_preview|_relay_event)/?$', handlers.ConfigHandler),
         (r'^/config/(?P<op>add|list|list_devices)/?$', handlers.ConfigHandler),
         (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', handlers.PictureHandler),
         (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.PictureHandler),

@@ -34,6 +34,7 @@ import utils
 
 _started = False
 _motion_binary_cache = None
+_motion_detected = {}
 
 
 def find_motion():
@@ -162,7 +163,7 @@ def stop():
         except OSError as e:
             if e.errno not in (errno.ESRCH, errno.ECHILD):
                 raise
-    
+
 
 def running():
     pid = _get_pid()
@@ -245,6 +246,10 @@ def set_motion_detection(camera_id, enabled):
     request = HTTPRequest(url, connect_timeout=4, request_timeout=4)
     http_client = AsyncHTTPClient()
     http_client.fetch(request, on_response)
+
+
+def is_motion_detected(camera_id):
+    return _motion_detected.get(camera_id, False)
 
 
 def _get_thread_id(camera_id):
