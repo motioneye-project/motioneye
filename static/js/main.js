@@ -282,6 +282,7 @@ function initUI() {
     makeNumberValidator($('#eventGapEntry'), 1, 86400, false, false, true);
     makeNumberValidator($('#preCaptureEntry'), 0, 100, false, false, true);
     makeNumberValidator($('#postCaptureEntry'), 0, 100, false, false, true);
+    makeNumberValidator($('#minimumMotionFramesEntry'), 1, 1000, false, false, true);
     makeNumberValidator($('#smtpPortEntry'), 1, 65535, false, false, true);
     
     /* time validators */
@@ -759,6 +760,7 @@ function cameraUi2Dict() {
         'event_gap': $('#eventGapEntry').val(),
         'pre_capture': $('#preCaptureEntry').val(),
         'post_capture': $('#postCaptureEntry').val(),
+        'minimum_motion_frames': $('#minimumMotionFramesEntry').val(),
         
         /* motion movies */
         'motion_movies': $('#motionMoviesSwitch')[0].checked,
@@ -980,6 +982,7 @@ function dict2CameraUi(dict) {
     $('#eventGapEntry').val(dict['event_gap']);
     $('#preCaptureEntry').val(dict['pre_capture']);
     $('#postCaptureEntry').val(dict['post_capture']);
+    $('#minimumMotionFramesEntry').val(dict['minimum_motion_frames']);
     
     /* motion movies */
     $('#motionMoviesSwitch')[0].checked = dict['motion_movies'];

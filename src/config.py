@@ -555,6 +555,7 @@ def camera_ui_to_dict(ui):
         'event_gap': int(ui['event_gap']),
         'pre_capture': int(ui['pre_capture']),
         'post_capture': int(ui['post_capture']),
+        'minimum_motion_frames': int(ui['minimum_motion_frames']),
         
         # movies
         'ffmpeg_output_movies': ui['motion_movies'],
@@ -810,6 +811,7 @@ def camera_dict_to_ui(data):
         'event_gap': int(data['event_gap']),
         'pre_capture': int(data['pre_capture']),
         'post_capture': int(data['post_capture']),
+        'minimum_motion_frames': int(data['minimum_motion_frames']),
         
         # motion movies
         'motion_movies': data['ffmpeg_output_movies'],
@@ -1323,6 +1325,7 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     
     data.setdefault('pre_capture', 2)
     data.setdefault('post_capture', 4)
+    data.setdefault('minimum_motion_frames', 1)
     
     if old_motion:
         data.setdefault('output_normal', False)
