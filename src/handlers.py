@@ -736,10 +736,28 @@ class PictureHandler(BaseHandler):
     def frame(self, camera_id):
         camera_config = config.get_camera(camera_id)
         
-        self.render('frame.html',
-                camera_id=camera_id,
-                camera_config=camera_config,
-                title=self.get_argument('title', camera_config['@name']))
+        if utils.local_camera(camera_config) or self.get_argument('title', None) is not None:
+            self.render('frame.html',
+                    camera_id=camera_id,
+                    camera_config=camera_config,
+                    title=self.get_argument('title', camera_config.get('@name', '')))
+
+        else: # remote camera, we need to fetch remote config
+            def on_response(remote_ui_config=None, error=None):
+                if error:
+                    return self.render('frame.html',
+                            camera_id=camera_id,
+                            camera_config=camera_config,
+                            title=self.get_argument('title', ''))
+
+                remote_config = config.camera_ui_to_dict(remote_ui_config)
+                self.render('frame.html',
+                        camera_id=camera_id,
+                        camera_config=remote_config,
+                        title=self.get_argument('title', remote_config['@name']))
+
+            remote.get_config(camera_config, on_response)
+
 
     @BaseHandler.auth()
     def download(self, camera_id, filename):

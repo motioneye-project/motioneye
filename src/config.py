@@ -782,7 +782,7 @@ def camera_dict_to_ui(data):
         'streaming_framerate': int(data['stream_maxrate']),
         'streaming_quality': int(data['stream_quality']),
         'streaming_resolution': int(data['@webcam_resolution']),
-        'streaming_server_resize': int(data['@webcam_server_resize']),
+        'streaming_server_resize': data['@webcam_server_resize'],
         'streaming_port': int(data['stream_port']),
         'streaming_motion': int(data['stream_motion']),
         
