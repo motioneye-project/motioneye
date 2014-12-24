@@ -1,20 +1,220 @@
+
 var pushConfigs = {};
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var fullScreenCameraId = null;
 var inProgress = false;
 var refreshInterval = 50; /* milliseconds */
+var username = null;
+var password = null;
 
 
     /* utils */
 
-function ajax(method, url, data, callback) {
+var sha1 = (function () {
+    function hash(msg) {
+        var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
+
+        msg += String.fromCharCode(0x80);
+
+        var l = msg.length / 4 + 2;
+        var N = Math.ceil(l / 16);
+        var M = new Array(N);
+
+        for (var i = 0; i < N; i++) {
+            M[i] = new Array(16);
+            for (var j = 0; j < 16; j++) {
+                M[i][j] = (msg.charCodeAt(i * 64 + j * 4) << 24) | (msg.charCodeAt(i * 64 + j * 4 + 1) << 16) | 
+                (msg.charCodeAt(i * 64 + j * 4 + 2) << 8) | (msg.charCodeAt(i * 64 + j * 4 + 3));
+            }
+        }
+        M[N-1][14] = ((msg.length-1) * 8) / Math.pow(2, 32);
+        M[N-1][14] = Math.floor(M[N-1][14]);
+        M[N-1][15] = ((msg.length-1) * 8) & 0xffffffff;
+
+        var H0 = 0x67452301;
+        var H1 = 0xefcdab89;
+        var H2 = 0x98badcfe;
+        var H3 = 0x10325476;
+        var H4 = 0xc3d2e1f0;
+
+        var W = new Array(80);
+        var a, b, c, d, e;
+        for (var i = 0; i < N; i++) {
+            for (var t = 0; t < 16; t++) W[t] = M[i][t];
+            for (var t = 16; t < 80; t++) W[t] = ROTL(W[t-3] ^ W[t-8] ^ W[t-14] ^ W[t-16], 1);
+
+            a = H0; b = H1; c = H2; d = H3; e = H4;
+
+            for (var t = 0; t < 80; t++) {
+                var s = Math.floor(t / 20);
+                var T = (ROTL(a, 5) + f(s, b, c, d) + e + K[s] + W[t]) & 0xffffffff;
+                e = d;
+                d = c;
+                c = ROTL(b, 30);
+                b = a;
+                a = T;
+            }
+
+            H0 = (H0 + a) & 0xffffffff;
+            H1 = (H1 + b) & 0xffffffff; 
+            H2 = (H2 + c) & 0xffffffff; 
+            H3 = (H3 + d) & 0xffffffff; 
+            H4 = (H4 + e) & 0xffffffff;
+        }
+
+        return toHexStr(H0) + toHexStr(H1) + toHexStr(H2) + toHexStr(H3) + toHexStr(H4);
+    }
+
+    function f(s, x, y, z)  {
+        switch (s) {
+            case 0: return (x & y) ^ (~x & z);
+            case 1: return x ^ y ^ z;
+            case 2: return (x & y) ^ (x & z) ^ (y & z);
+            case 3: return x ^ y ^ z;
+        }
+    }
+
+    function ROTL(x, n) {
+        return (x << n) | (x >>> (32 - n));
+    }
+
+    function toHexStr(n) {
+        var s = "", v;
+        for (var i = 7; i >= 0; i--) {
+            v = (n >>> (i * 4)) & 0xf;
+            s += v.toString(16);
+        }
+        return s;
+    }
+    
+    return hash;
+}());
+
+function splitUrl(url) {
+    if (!url) {
+        url = window.location.href;
+    }
+    
+    var parts = url.split('?');
+    if (parts.length < 2 || parts[1].length === 0) {
+        return {baseUrl: parts[0], params: {}};
+    }
+    
+    var baseUrl = parts[0];
+    var paramStr = parts[1];
+    
+    parts = paramStr.split('&');
+    var params = {};
+    
+    for (var i = 0; i < parts.length; i++) {
+        var pair = parts[i].split('=');
+        params[pair[0]] = pair[1];
+    }
+    
+    return {baseUrl: baseUrl, params: params};
+}
+
+function qualifyUrl(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    return a.href;
+}
+
+function qualifyUri(uri) {
+    var url = qualifyUrl(uri);
+    var pos = url.indexOf('//');
+    if (pos === -1) { /* not a full url */
+        return url;
+    }
+    
+    url = url.substring(pos + 2);
+    pos = url.indexOf('/');
+    if (pos === -1) { /* root with no trailing slash */
+        return '';
+    }
+    
+    return url.substring(pos);
+}
+        
+function computeSignature(method, uri, body) {
+    uri = qualifyUri(uri);
+    
+    var parts = splitUrl(uri);
+    var query = parts.params;
+    var baseUrl = parts.baseUrl;
+    
+    query = Object.keys(query).map(function (key) {return {key: key, value: query[key]};});
+    query = query.filter(function (q) {return q.key !== 'signature';});
+    query.sortKey(function (q) {return q.key;});
+    query = query.map(function (q) {return q.key + '=' + q.value;}).join('&');
+    uri = baseUrl + '?' + query; 
+    
+    return sha1(method + ':' + uri + ':' + (body || '') + ':' + window.password).toLowerCase();
+}
+
+function addAuthParams(method, url, body) {
+    if (url.indexOf('?') < 0) {
+        url += '?';
+    }
+    else {
+        url += '&';;
+    }
+    
+    url += 'username=' + window.username;
+    var signature = computeSignature(method, url, body);
+    url += '&signature=' + signature;
+    
+    return url;
+}
+
+function ajax(method, url, data, callback, error) {
+    var origUrl = url;
+    var origData = data;
+    
+    if (url.indexOf('?') < 0) {
+        url += '?';
+    }
+    else {
+        url += '&';
+    }
+    
+    url += '_=' + new Date().getTime();
+
+    var json = false;
+    if (method == 'POST') {
+        if (typeof data == 'object') {
+            data = JSON.stringify(data);
+            json = true;
+        }
+    }
+    else { /* assuming GET */
+        if (data) {
+            url += $.param(data);
+            data = null;
+        }
+    }
+    
+    url = addAuthParams(method, url, data);
+    
     var options = {
         type: method,
         url: url,
         data: data,
-        cache: false,
-        success: callback,
-        error: function (request, options, error) {
+        success: function (data) {
+            if (data && data.error == 'unauthorized') {
+                if (data.prompt) {
+                    runLoginDialog(function () {
+                        ajax(method, origUrl, origData, callback, error);
+                    });
+                }
+            }
+            else if (callback) {
+                $('body').toggleClass('admin', username === adminUsername);
+                callback(data);
+            }
+        },
+        contentType: json ? 'application/json' : null,
+        error: error || function (request, options, error) {
             showErrorMessage();
             if (callback) {
                 callback();
@@ -22,42 +222,7 @@ function ajax(method, url, data, callback) {
         }
     };
     
-    if (data && method === 'POST' && typeof data === 'object') {
-        options['contentType'] = 'application/json';
-        options['data'] = JSON.stringify(options['data']);
-    }
-    
     $.ajax(options);
-}
-
-function showErrorMessage(message) {
-    if (message == null || message == true) {
-        message = 'An error occurred. Refreshing is recommended.';
-    }
-    
-    showPopupMessage(message, 'error');
-}
-
-function doLogout() {
-    /* IE is always a breed apart */
-    if (window.ActiveXObject && document.execCommand) {
-        if (document.execCommand('ClearAuthenticationCache')) {
-            window.location.href = '/?logout=true';
-        }
-    }
-    else {
-        var username = ' ';
-        var password = 'logout' + new Date().getTime();
-    
-        $.ajax({
-            url: '/?logout=true',
-            username: username,
-            password: password,
-            complete: function () {
-                window.location.href = '/?logout=true';
-            }
-        });
-    }
 }
 
 Object.keys = Object.keys || (function () {
@@ -212,7 +377,38 @@ function getCookie(name) {
     
     return unescape(document.cookie.substring(start, end));
 }
- 
+
+function setCookie(name, value, days) {
+    var date, expires;
+    if (days) {
+        date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = '; expires=' + date.toGMTString();
+    }
+    else {
+        expires = '';
+    }
+
+    document.cookie = name + '=' + value + expires + '; path=/';
+}
+
+function remCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function showErrorMessage(message) {
+    if (message == null || message == true) {
+        message = 'An error occurred. Refreshing is recommended.';
+    }
+    
+    showPopupMessage(message, 'error');
+}
+
+function doLogout() {
+    remCookie('username');
+    window.location.reload(true);
+}
+
 
 /* UI initialization */
 
@@ -1047,7 +1243,7 @@ function beginProgress(cameraIds) {
     inProgress = true;
     
     /* replace the main page message with a progress indicator */
-    $('div.add-camera-message').html('<img class="main-loading-progress" src="' + staticUrl + 'img/main-loading-progress.gif">');
+    $('div.add-camera-message').replaceWith('<img class="main-loading-progress" src="' + staticUrl + 'img/main-loading-progress.gif">');
     
     /* show the apply button progress indicator */
     $('#applyButton').html('<img class="apply-progress" src="' + staticUrl + 'img/apply-progress.gif">');
@@ -1073,9 +1269,6 @@ function endProgress() {
     
     inProgress = false;
     
-    /* remove any existing message on the main page */
-    $('div.add-camera-message').remove();
-    
     /* deal with the apply button */
     if (Object.keys(pushConfigs).length === 0) {
         hideApply();
@@ -1099,6 +1292,7 @@ function downloadFile(uri) {
     var url = window.location.href;
     var parts = url.split('/');
     url = parts.slice(0, 3).join('/') + uri;
+    url = addAuthParams('GET', url);
     
     /* download the file by creating a temporary iframe */
     var frame = $('<iframe style="display: none;"></iframe>');
@@ -1195,13 +1389,11 @@ function doApply() {
         if (data.reboot) {
             var count = 0;
             function checkServerReboot() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/config/0/get/',
-                    success: function () {
+                ajax('GET', '/config/0/get/', null, 
+                    function () {
                         window.location.reload(true);
                     },
-                    error: function () {
+                    function () {
                         if (count < 25) {
                             count += 1;
                             setTimeout(checkServerReboot, 2000);
@@ -1210,7 +1402,7 @@ function doApply() {
                             window.location.reload(true);
                         }
                     }
-                });
+                );
             }
             
             setTimeout(checkServerReboot, 15000);
@@ -1248,20 +1440,17 @@ function doShutDown() {
             showModalDialog('<div class="modal-progress"></div>');
             
             function checkServer() {
-                $.ajax({
-                    type: 'GET',
-                    url: '/',
-                    cache: false,
-                    success: function () {
+                ajax('GET', '/', null, 
+                    function () {
                         setTimeout(checkServer, 1000);
                     },
-                    error: function () {
+                    function () {
                         showModalDialog('Powered Off');
                         setTimeout(function () {
                             $('div.modal-glass').animate({'opacity': '1', 'background-color': '#212121'}, 200);
                         },100);
                     }
-                });
+                );
             }
             
             checkServer();
@@ -1318,15 +1507,13 @@ function doUpdate() {
                 ajax('POST', '/update/?version=' + data.update_version, null, function () {
                     var count = 0;
                     function checkServerUpdate() {
-                        $.ajax({
-                            type: 'GET',
-                            url: '/config/0/get/',
-                            success: function () {
+                        ajax('GET', '/config/0/get/', null,
+                            function () {
                                 runAlertDialog('motionEye was successfully updated!', function () {
                                     window.location.reload(true);
                                 });
                             },
-                            error: function () {
+                            function () {
                                 if (count < 25) {
                                     count += 1;
                                     setTimeout(checkServerUpdate, 2000);
@@ -1337,7 +1524,7 @@ function doUpdate() {
                                     });
                                 }
                             }
-                        });
+                        );
                     }
                     
                     setTimeout(checkServerUpdate, 10000);
@@ -1394,7 +1581,7 @@ function fetchCurrentConfig(onFetch) {
             
             var i, cameras = data.cameras;
             
-            if (user === 'admin') {
+            if (username === adminUsername) {
                 var cameraSelect = $('#cameraSelect');
                 cameraSelect.html('');
                 for (i = 0; i < cameras.length; i++) {
@@ -1435,8 +1622,11 @@ function fetchCurrentConfig(onFetch) {
             }
         });
     }
-    
-    if (user === 'admin') {
+ 
+    /* add a progress indicator */
+    $('div.page-container').append('<img class="main-loading-progress" src="' + staticUrl + 'img/main-loading-progress.gif">');
+
+    if (username === adminUsername) {
         /* fetch the main configuration */
         ajax('GET', '/config/main/get/', null, function (data) {
             if (data == null || data.error) {
@@ -1595,6 +1785,65 @@ function runConfirmDialog(message, onYes, options) {
     runModalDialog(params);
 }
 
+function runLoginDialog(retry) {
+    /* a workaround so that browsers will remember the credentials */
+    var tempFrame = $('<iframe name="temp" id="temp" style="display: none;"></iframe>');
+    $('body').append(tempFrame);
+    
+    var form = 
+            $('<form action="version/" target="temp" method="POST"><table class="login-dialog">' +
+                '<tr>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">Username</span></td>' +
+                    '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry"></td>' +
+                '</tr>' +
+                '<tr>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">Password</span></td>' +
+                    '<td class="dialog-item-value"><input type="password" name="password" class="styled" id="passwordEntry"></td>' +
+                    '<input type="submit" style="display: none;" name="login" value="login">' +
+                '</tr>' +
+            '</table></form>');
+
+    var usernameEntry = form.find('#usernameEntry');
+    var passwordEntry = form.find('#passwordEntry');
+
+    var params = {
+        title: 'Login',
+        content: form,
+        buttons: [
+            {caption: 'Cancel', isCancel: true, click: function () {
+                setTimeout(function () {
+                    tempFrame.remove();
+                }, 5000);
+                
+                if (retry) {
+                    retry();
+                }
+                
+                //return false;
+            }},
+            {caption: 'Login', isDefault: true, click: function () {
+                window.username = usernameEntry.val();
+                window.password = passwordEntry.val();
+                
+                setCookie('username', window.username);
+                
+                form.submit();
+                setTimeout(function () {
+                    tempFrame.remove();
+                }, 5000);
+                
+                if (retry) {
+                    retry();
+                }
+                
+                //return false;
+            }}
+        ],
+    };
+    
+    runModalDialog(params);
+}
+
 function runPictureDialog(entries, pos, mediaType) {
     var content = $('<div class="picture-dialog-content"></div>');
     
@@ -1627,7 +1876,7 @@ function runPictureDialog(entries, pos, mediaType) {
         progressImg.css('left', (img.parent().width() - progressImg.width()) / 2);
         progressImg.css('top', (img.parent().height() - progressImg.height()) / 2);
         
-        img.attr('src', '/' + mediaType + '/' + entry.cameraId + '/preview' + entry.path);
+        img.attr('src', addAuthParams('GET', '/' + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
         img.load(function () {
             var aspectRatio = this.naturalWidth / this.naturalHeight;
             var sizeWidth = width * width / aspectRatio;
@@ -2154,14 +2403,14 @@ function runMediaDialog(cameraId, mediaType) {
                         
                         var previewImg = $('<img class="media-list-preview" src="' + staticUrl + 'img/modal-progress.gif"/>');
                         entryDiv.append(previewImg);
-                        previewImg[0]._src = '/' + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height;
+                        previewImg[0]._src = addAuthParams('GET', '/' + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height);
                         
                         var downloadButton = $('<div class="media-list-download-button button">Download</div>');
                         entryDiv.append(downloadButton);
                         
                         var deleteButton = $('<div class="media-list-delete-button button">Delete</div>');
                         
-                        if (user === 'admin') {
+                        if (username === adminUsername) {
                             entryDiv.append(deleteButton);
                         }
 
@@ -2366,7 +2615,7 @@ function addCameraFrameUi(cameraConfig) {
     var progressImg = cameraFrameDiv.find('img.camera-progress');
     
     /* no camera buttons if not admin */
-    if (user !== 'admin') {
+    if (username !== adminUsername) {
         configureButton.hide();
     }
     
@@ -2493,7 +2742,7 @@ function recreateCameraFrames(cameras) {
             addCameraFrameUi(camera);
         }
         
-        if ($('#cameraSelect').find('option').length < 2 && user === 'admin' && $('#motionEyeSwitch')[0].checked) {
+        if ($('#cameraSelect').find('option').length < 2 && username === adminUsername && $('#motionEyeSwitch')[0].checked) {
             /* invite the user to add a camera */
             var addCameraLink = $('<div class="add-camera-message">' + 
                     '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');
@@ -2613,6 +2862,8 @@ function refreshCameraFrames() {
             uri += '&width=' + img.width;
         }
         
+        uri = addAuthParams('GET', uri);
+        
         img.src = uri;
         img.loading = 1;
     }
@@ -2692,9 +2943,16 @@ $(document).ready(function () {
         }
     });
     
+    /* restore the username from cookie */
+    window.username = getCookie('username');
+    
     initUI();
     beginProgress();
-    fetchCurrentConfig(endProgress);
+    
+    ajax('GET', 'login/', null, function () {
+        fetchCurrentConfig(endProgress);
+    });
+    
     refreshCameraFrames();
     checkCameraErrors();
 });

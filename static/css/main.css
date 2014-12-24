@@ -133,6 +133,18 @@ div.button.logout-button {
     height: 48px;
 }
 
+body.admin div.logout-button {
+    display: none;
+}
+
+body.admin div.settings-top-bar div.logout-button {
+    display: inline-block;
+}
+
+body:not(.admin) div.settings-top-bar div.logout-button {
+    display: none;
+}
+
 div.button.rem-camera-button {
     display: none;
     margin: 1px;
@@ -218,6 +230,10 @@ div.settings.open {
     min-width: 360px;
 }
 
+body:not(.admin) div.settings {
+    display: none !important;
+}
+
 div.settings-container {
     position: relative;
     padding-top: 10px;
@@ -250,6 +266,10 @@ div.settings-top-bar {
 div.settings-top-bar.open {
     background-color: #414141;
     min-width: 360px;
+}
+
+body:not(.admin) div.settings-top-bar {
+    display: none !important;
 }
 
 div.settings-top-bar.closed div.apply-button {
@@ -443,6 +463,10 @@ tr.hidden {
 
     /* dialogs */
     
+table.login-dialog {
+    margin: auto;
+}
+
 table.add-camera-dialog {
     margin: auto;
 }

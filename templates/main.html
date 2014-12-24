@@ -12,12 +12,15 @@
     {{super()}}
     <script type="text/javascript" src="{{STATIC_URL}}js/ui.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/main.js"></script>
+
+    <script type="text/javascript">
+        var adminUsername = '{{admin_username}}';
+    </script>
 {% endblock %}
 
 {% block body %}
     <div class="header">
         <div class="header-container">
-            {% if USER == 'admin' %}
             <div class="settings-top-bar closed">
                 <div class="button settings-button mouse-effect" title="settings"></div>
                 <div class="button logout-button mouse-effect" title="switch user"></div>
@@ -26,10 +29,7 @@
                 <div class="button apply-button" id="applyButton">Apply</div>
                 {% if hostname %}<div class="hostname">{{hostname}}</div>{% endif %}
             </div>
-            {% else %}
-                <div class="button logout-button mouse-effect" title="switch user"></div>
-                {% if hostname %}<div class="hostname">{{hostname}}</div>{% endif %}
-            {% endif %}
+            <div class="button logout-button mouse-effect" title="switch user"></div>
             <div class="logo">
                 <a href="/">
                     <span class="logo">motionEye</span>
@@ -39,7 +39,6 @@
         </div>
     </div>
     <div class="page">
-        {% if USER == 'admin' %}
         <div class="settings closed">
             <div class="settings-container">
                 <div class="settings-section-title"><input type="checkbox" class="styled section general" id="motionEyeSwitch">General Settings</div>
@@ -85,7 +84,7 @@
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Current Version</span></td>
-                        <td class="settings-item-value"><span class="settings-item-label">{{VERSION}}</span></td>
+                        <td class="settings-item-value"><span class="settings-item-label">{{version}}</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Software Update</span></td>
@@ -602,10 +601,7 @@
             </div>
         </div>
         <img class="background-logo" src="{{STATIC_URL}}img/motioneye-logo.svg" onmousedown="return false;">
-        {% endif %}
-        <div class="page-container">
-            <img class="main-loading-progress" src="{{STATIC_URL}}img/main-loading-progress.gif">
-        </div>
+        <div class="page-container"></div>
         <div class="footer">
             <div class="copyright-note">copyright &copy; Calin Crisan</div>
         </div> 

@@ -52,6 +52,7 @@ application = Application(
         (r'^/update/?$', handlers.UpdateHandler),
         (r'^/power/(?P<op>shutdown)/?$', handlers.PowerHandler),
         (r'^/version/?$', handlers.VersionHandler),
+        (r'^/login/?$', handlers.LoginHandler),
         (r'^.*$', handlers.NotFoundHandler),
     ],
     debug=False,

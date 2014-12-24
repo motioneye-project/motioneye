@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
-import base64
 import datetime
 import json
 import logging
@@ -58,12 +57,7 @@ class BaseHandler(RequestHandler):
         return data
     
     def render(self, template_name, content_type='text/html', **context):
-        import motioneye
-        
         self.set_header('Content-Type', content_type)
-        
-        context['USER'] = self.current_user
-        context['VERSION'] = motioneye.VERSION
         
         content = template.render(template_name, **context)
         self.finish(content)
@@ -75,26 +69,26 @@ class BaseHandler(RequestHandler):
     def get_current_user(self):
         main_config = config.get_main()
         
-        try:
-            scheme, token = self.request.headers.get('Authorization', '').split()
-            if scheme.lower() == 'basic':
-                user, pwd = base64.decodestring(token).split(':')
-                
-                if user == main_config.get('@admin_username') and pwd == main_config.get('@admin_password'):
-                    return 'admin'
-                
-                elif user == main_config.get('@normal_username') and pwd == main_config.get('@normal_password'):
-                    return 'normal'
-                
-                else:
-                    logging.error('authentication failed for user %(user)s' % {'user': user})
-                
-        except: # no authentication info provided
-            if not main_config.get('@normal_password') and not self.get_argument('logout', None):
-                return 'normal'
-
+        username = self.get_argument('username', None)
+        signature = self.get_argument('signature', None)
+        if (username == main_config.get('@admin_username') and
+            signature == utils.compute_signature(self.request.method, self.request.uri, self.request.body, main_config.get('@admin_password'))):
+            
+            return 'admin'
+        
+        elif not username and not main_config.get('@normal_password'): # no authentication required for normal user
+            return 'normal'
+        
+        elif (username == main_config.get('@normal_username') and
+            signature == utils.compute_signature(self.request.method, self.request.uri, self.request.body, main_config.get('@normal_password'))):
+            
+            return 'normal'
+        
+        elif username:
+            logging.error('authentication failed for user %(user)s' % {'user': username})
+            
         return None
-    
+        
     def _handle_request_exception(self, exception):
         try:
             if isinstance(exception, HTTPError):
@@ -116,13 +110,9 @@ class BaseHandler(RequestHandler):
             def wrapper(self, *args, **kwargs):
                 user = self.current_user
                 if (user is None) or (user != 'admin' and admin):
-                    self.set_status(401)
-                    if prompt:
-                        self.set_header('WWW-Authenticate', 'basic realm="%(realm)s"' % {
-                                'realm': 'motionEye authentication'})
-                        
-                    return self.finish('Authentication required.')
-                
+                    self.set_header('Content-Type', 'application/json')
+                    return self.finish_json({'error': 'unauthorized', 'prompt': prompt})
+
                 return func(self, *args, **kwargs)
             
             return wrapper
@@ -145,10 +135,8 @@ class NotFoundHandler(BaseHandler):
 
 
 class MainHandler(BaseHandler):
-    @BaseHandler.auth()
     def get(self):
-        if self.get_argument('logout', None):
-            return self.redirect('/')
+        import motioneye
         
         timezones = []
         if settings.LOCAL_TIME_FILE:
@@ -156,10 +144,12 @@ class MainHandler(BaseHandler):
             timezones = pytz.common_timezones
 
         self.render('main.html',
+                version=motioneye.VERSION,
                 wpa_supplicant=settings.WPA_SUPPLICANT_CONF,
                 enable_reboot=settings.ENABLE_REBOOT,
                 timezones=timezones,
-                hostname=socket.gethostname())
+                hostname=socket.gethostname(),
+                admin_username=config.get_main().get('@admin_username'))
 
 
 class ConfigHandler(BaseHandler):
@@ -1180,3 +1170,14 @@ class VersionHandler(BaseHandler):
         self.render('version.html',
                 version=update.get_version(),
                 hostname=socket.gethostname())
+
+    post = get
+
+
+# this will only trigger the login mechanism on the client side, if required 
+class LoginHandler(BaseHandler):
+    @BaseHandler.auth()
+    def get(self):
+        self.finish_json()
+
+    post = get

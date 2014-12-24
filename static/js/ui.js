@@ -699,6 +699,8 @@ function makeModalDialogButtons(buttonsInfo) {
                 }
                 
                 hideModalDialog();
+                
+                return false;
             };
         }
         else {
@@ -762,6 +764,7 @@ function runModalDialog(options) {
     var titleBar = null;
     var buttonsDiv = null;
     var defaultClick = null;
+    var cancelClick = null;
     
     /* add title bar */
     if (options.title) {
@@ -785,14 +788,14 @@ function runModalDialog(options) {
     }
     if (options.buttons === 'yesnocancel') {
         options.buttons = [
-            {caption: 'Cancel', click: options.onCancel},
+            {caption: 'Cancel', isCancel: true, click: options.onCancel},
             {caption: 'No', click: options.onNo},
             {caption: 'Yes', isDefault: true, click: options.onYes}
         ];
     }
     else if (options.buttons === 'okcancel') {
         options.buttons = [
-            {caption: 'Cancel', click: options.onCancel},
+            {caption: 'Cancel', isCancel:true, click: options.onCancel},
             {caption: 'OK', isDefault: true, click: options.onOk}
         ];
     }
@@ -809,6 +812,9 @@ function runModalDialog(options) {
         options.buttons.forEach(function (info) {
             if (info.isDefault) {
                 defaultClick = info.click;
+            }
+            else if (info.isCancel) {
+                cancelClick = info.click;
             }
         });
     }
@@ -832,10 +838,19 @@ function runModalDialog(options) {
                 if (defaultClick && defaultClick() == false) {
                     return;
                 }
-                /* intentionally no break */
+                
+                hideModalDialog();
+                
+                break;
            
             case 27:
+                if (cancelClick && cancelClick() == false) {
+                    return;
+                }
+
                 hideModalDialog();
+
+                break;
         }
     };
     

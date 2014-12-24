@@ -16,8 +16,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import datetime
+import hashlib
 import logging
 import os
+import urllib
+import urlparse
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 
@@ -285,3 +288,15 @@ def test_netcam_url(data, callback):
             header_callback=on_header)
     
     http_client.fetch(request, on_response)
+
+
+def compute_signature(method, uri, body, key):
+    parts = list(urlparse.urlsplit(uri))
+    query = [q for q in urlparse.parse_qsl(parts[3]) if (q[0] != 'signature')]
+    query.sort(key=lambda q: q[0])
+    query = urllib.urlencode(query)
+    parts[0] = parts[1] = ''
+    parts[3] = query
+    uri = urlparse.urlunsplit(parts)
+    
+    return hashlib.sha1('%s:%s:%s:%s' % (method, uri, body or '', key)).hexdigest().lower()
