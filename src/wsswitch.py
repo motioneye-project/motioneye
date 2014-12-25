@@ -72,7 +72,7 @@ def _during_working_schedule(now, working_schedule):
 def _check_ws():
     # schedule the next call
     ioloop = tornado.ioloop.IOLoop.instance()
-    ioloop.add_timeout(datetime.timedelta(seconds=60), _check_ws)
+    ioloop.add_timeout(datetime.timedelta(seconds=10), _check_ws)
 
     if not motionctl.running():
         return

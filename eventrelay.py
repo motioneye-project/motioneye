@@ -16,16 +16,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
-import base64
+import errno
 import logging
 import os.path
 import sys
-import urllib2
+import urllib
 
 sys.path.append(os.path.join(os.path.dirname(sys.argv[0]),'src'))
 
-import config
 import settings
+import utils
 
 from motioneye import _configure_settings, _configure_logging
 
@@ -38,6 +38,64 @@ def print_usage():
     print 'Usage: eventrelay.py <event> <camera_id>'
 
 
+def get_admin_credentials():
+    # this shortcut function is a bit faster than using the config module functions
+    config_file_path = os.path.join(settings.CONF_PATH, 'motion.conf')
+    
+    logging.debug('reading main config from file %(path)s...' % {'path': config_file_path}) 
+
+    lines = None
+    try:
+        file = open(config_file_path, 'r')
+    
+    except IOError as e:
+        if e.errno == errno.ENOENT:  # file does not exist
+            logging.info('main config file %(path)s does not exist, using default values' % {'path': config_file_path})
+            
+            lines = []
+        
+        else:
+            logging.error('could not open main config file %(path)s: %(msg)s' % {
+                    'path': config_file_path, 'msg': unicode(e)})
+            
+            raise
+
+    if lines is None:
+        try:
+            lines = [l[:-1] for l in file.readlines()]
+        
+        except Exception as e:
+            logging.error('could not read main config file %(path)s: %(msg)s' % {
+                    'path': config_file_path, 'msg': unicode(e)})
+            
+            raise
+        
+        finally:
+            file.close()
+    
+    admin_username = 'admin'
+    admin_password = ''
+    for line in lines:
+        line = line.strip()
+        if not line.startswith('#'):
+            continue
+        
+        line = line[1:].strip()
+        if line.startswith('@admin_username'):
+            parts = line.split(' ', 1)
+            admin_username = parts[1]
+            
+            continue
+        
+        if line.startswith('@admin_password'):
+            parts = line.split(' ', 1)
+            admin_password = parts[1]
+
+            continue
+    
+    return admin_username, admin_password
+
+
 if __name__ == '__main__':
     if len(sys.argv) < 3:
         print_usage()
@@ -48,22 +106,21 @@ if __name__ == '__main__':
 
     logging.debug('event = %s' % event)
     logging.debug('camera_id = %s' % camera_id)
+    
+    admin_username, admin_password = get_admin_credentials()
 
-    url = 'http://127.0.0.1:%(port)s/config/%(camera_id)s/_relay_event/?event=%(event)s' % {
-            'port': settings.PORT,
+    uri = '/config/%(camera_id)s/_relay_event/?event=%(event)s&username=%(username)s' % {
+            'username': admin_username,
             'camera_id': camera_id,
             'event': event}
-
-    main_config = config.get_main()
     
-    username = main_config.get('@admin_username', '')
-    password = main_config.get('@admin_password', '')
+    signature = utils.compute_signature('POST', uri, '', admin_password)
     
-    request = urllib2.Request(url, '')
-    request.add_header('Authorization', 'Basic %s' % base64.encodestring('%s:%s' % (username, password)).replace('\n', ''))
+    url = 'http://127.0.0.1:%(port)s' + uri + '&signature=' + signature
+    url = url % {'port': settings.PORT}
     
     try:
-        urllib2.urlopen(request, timeout=settings.REMOTE_REQUEST_TIMEOUT)
+        urllib.urlopen(url, data='')
         logging.debug('event successfully relayed')
     
     except Exception as e:

@@ -223,6 +223,9 @@ def set_motion_detection(camera_id, enabled):
     if thread_id is None:
         return logging.error('could not find thread id for camera with id %s' % camera_id)
     
+    if not enabled:
+        _motion_detected[camera_id] = False
+    
     logging.debug('%(what)s motion detection for camera with id %(id)s' % {
             'what': ['disabling', 'enabling'][enabled],
             'id': camera_id})

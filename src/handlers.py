@@ -618,9 +618,18 @@ class ConfigHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
     def _relay_event(self, camera_id):
         event = self.get_argument('event')
-        logging.debug('event %(event)s relayed for camera %(id)s' % {'event': event, 'id': camera_id})
+        logging.debug('event %(event)s relayed for camera with id %(id)s' % {'event': event, 'id': camera_id})
+        
+        camera_config = config.get_camera(camera_id)
+        if not utils.local_camera(camera_config):
+            logging.warn('ignoring event for remote camera with id %s' % camera_id)
+            return self.finish_json()
         
         if event == 'start':
+            if not camera_config['@motion_detection']:
+                logging.debug('ignoring start event for camera with id %s and motion detection disabled' % camera_id)
+                return self.finish_json()
+
             motionctl._motion_detected[camera_id] = True
             
         elif event == 'stop':
