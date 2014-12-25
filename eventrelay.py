@@ -17,15 +17,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import errno
+import hashlib
 import logging
 import os.path
 import sys
 import urllib
+import urlparse
 
 sys.path.append(os.path.join(os.path.dirname(sys.argv[0]),'src'))
 
 import settings
-import utils
 
 from motioneye import _configure_settings, _configure_logging
 
@@ -83,17 +84,29 @@ def get_admin_credentials():
         line = line[1:].strip()
         if line.startswith('@admin_username'):
             parts = line.split(' ', 1)
-            admin_username = parts[1]
+            admin_username = parts[1] if len(parts) > 1 else ''
             
             continue
         
         if line.startswith('@admin_password'):
             parts = line.split(' ', 1)
-            admin_password = parts[1]
+            admin_password = parts[1] if len(parts) > 1 else ''
 
             continue
     
     return admin_username, admin_password
+
+
+def compute_signature(method, uri, body, key):
+    parts = list(urlparse.urlsplit(uri))
+    query = [q for q in urlparse.parse_qsl(parts[3]) if (q[0] != 'signature')]
+    query.sort(key=lambda q: q[0])
+    query = urllib.urlencode(query)
+    parts[0] = parts[1] = ''
+    parts[3] = query
+    uri = urlparse.urlunsplit(parts)
+    
+    return hashlib.sha1('%s:%s:%s:%s' % (method, uri, body or '', key)).hexdigest().lower()
 
 
 if __name__ == '__main__':
@@ -114,7 +127,7 @@ if __name__ == '__main__':
             'camera_id': camera_id,
             'event': event}
     
-    signature = utils.compute_signature('POST', uri, '', admin_password)
+    signature = compute_signature('POST', uri, '', admin_password)
     
     url = 'http://127.0.0.1:%(port)s' + uri + '&signature=' + signature
     url = url % {'port': settings.PORT}
