@@ -359,7 +359,8 @@ img.apply-progress {
 }
 
 div.update-button,
-div.shut-down-button {
+div.shut-down-button,
+div.reboot-button {
     position: relative;
     height: 1.5em;
     line-height: 1.5em;
@@ -376,7 +377,8 @@ div.update-button {
     background: #317CAD;
 }
 
-div.shut-down-button {
+div.shut-down-button,
+div.reboot-button {
     background: #c0392b;
 }
 
@@ -384,7 +386,8 @@ div.update-button:HOVER {
     background: #3498db;
 }
 
-div.shut-down-button:HOVER {
+div.shut-down-button:HOVER,
+div.reboot-button:HOVER {
     background: #D43F2F;
 }
 
@@ -392,7 +395,8 @@ div.update-button:ACTIVE {
     background: #317CAD;
 }
 
-div.shut-down-button:ACTIVE {
+div.shut-down-button:ACTIVE,
+div.reboot-button:ACTIVE {
     background: #B03427;
 }
 

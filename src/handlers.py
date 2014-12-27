@@ -1224,9 +1224,15 @@ class PowerHandler(BaseHandler):
     def post(self, op):
         if op == 'shutdown':
             self.shut_down()
+            
+        elif op == 'reboot':
+            self.reboot()
     
     def shut_down(self):
         IOLoop.instance().add_timeout(datetime.timedelta(seconds=2), powerctl.shut_down)
+
+    def reboot(self):
+        IOLoop.instance().add_timeout(datetime.timedelta(seconds=2), powerctl.reboot)
 
 
 class VersionHandler(BaseHandler):

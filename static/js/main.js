@@ -587,6 +587,11 @@ function initUI() {
         doShutDown();
     });
     
+    /* reboot button */
+    $('#rebootButton').click(function () {
+        doReboot();
+    });
+    
     /* whenever the window is resized,
      * if a modal dialog is visible, it should be repositioned */
     $(window).resize(updateModalDialogPosition);
@@ -1449,6 +1454,37 @@ function doShutDown() {
                         setTimeout(function () {
                             $('div.modal-glass').animate({'opacity': '1', 'background-color': '#212121'}, 200);
                         },100);
+                    }
+                );
+            }
+            
+            checkServer();
+        }, 10);
+    });
+}
+
+function doReboot() {
+    runConfirmDialog('Really reboot?', function () {
+        ajax('POST', '/power/reboot/');
+        setTimeout(function () {
+            refreshInterval = 1000000;
+            showModalDialog('<div class="modal-progress"></div>');
+            var shutDown = false;
+            
+            function checkServer() {
+                ajax('GET', '/', null, 
+                    function () {
+                        if (!shutDown) {
+                            setTimeout(checkServer, 1000);
+                        }
+                        else {
+                            runAlertDialog('The system has been rebooted!', function () {
+                                window.location.reload(true);
+                            });
+                        }
+                    },
+                    function () {
+                        shutDown = true; /* the first error indicates the system was shut down */
                     }
                 );
             }

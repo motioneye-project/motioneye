@@ -96,6 +96,11 @@
                         <td class="settings-item-value"><div class="button shut-down-button" id="shutDownButton">Shut Down</div></td>
                         <td><span class="help-mark" title="shuts down the system">?</span></td>
                     </tr>
+                    <tr class="settings-item advanced-setting{% if not enable_reboot %} hidden{% endif %}">
+                        <td class="settings-item-label"><span class="settings-item-label"></span></td>
+                        <td class="settings-item-value"><div class="button reboot-button" id="rebootButton">Reboot</div></td>
+                        <td><span class="help-mark" title="reboots the system">?</span></td>
+                    </tr>
                 </table>
                 
                 <div class="settings-section-title advanced-setting{% if not wpa_supplicant %} hidden{% endif %}"><input type="checkbox" class="styled section wifi" id="wifiSwitch">Wireless Network</div>
