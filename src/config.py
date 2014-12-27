@@ -514,6 +514,7 @@ def camera_ui_to_dict(ui):
         '@name': ui['name'],
         '@enabled': ui['enabled'],
         'lightswitch': int(ui['light_switch_detect']) * 50,
+        'auto_brightness': ui['auto_brightness'],
         'framerate': int(ui['framerate']),
         'rotate': int(ui['rotation']),
         
@@ -765,6 +766,7 @@ def camera_dict_to_ui(data):
         'enabled': data['@enabled'],
         'id': data['@id'],
         'light_switch_detect': data['lightswitch'] > 0,
+        'auto_brightness': data['auto_brightness'],
         'framerate': int(data['framerate']),
         'rotation': int(data['rotate']),
         
@@ -1278,6 +1280,7 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
         data.setdefault('height', 288)
 
     data.setdefault('lightswitch', 50)
+    data.setdefault('auto_brightness', False)
     data.setdefault('framerate', 2)
     data.setdefault('rotate', 0)
     

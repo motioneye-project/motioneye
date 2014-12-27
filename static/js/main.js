@@ -911,6 +911,7 @@ function cameraUi2Dict() {
         'enabled': $('#videoDeviceSwitch')[0].checked,
         'name': $('#deviceNameEntry').val(),
         'light_switch_detect': $('#lightSwitchDetectSwitch')[0].checked,
+        'auto_brightness': $('#autoBrightnessSwitch')[0].checked,
         'rotation': $('#rotationSelect').val(),
         'framerate': $('#framerateSlider').val(),
         'proto': $('#deviceEntry')[0].proto,
@@ -1050,6 +1051,7 @@ function dict2CameraUi(dict) {
     $('#deviceEntry')[0].username = dict['username'];
     $('#deviceEntry')[0].password = dict['password'];
     $('#lightSwitchDetectSwitch')[0].checked = dict['light_switch_detect'];
+    $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness'];
     
     if (dict['brightness'] != null) {
         $('#brightnessSlider').val(dict['brightness']);
