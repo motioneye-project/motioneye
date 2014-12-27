@@ -1487,6 +1487,7 @@ function doReboot() {
                     },
                     function () {
                         shutDown = true; /* the first error indicates the system was shut down */
+                        setTimeout(checkServer, 1000);
                     }
                 );
             }
