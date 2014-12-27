@@ -2561,7 +2561,7 @@ function runMediaDialog(cameraId, mediaType) {
         if (keys.length) {
             keys.forEach(function (key) {
                 var groupButton = $('<div class="media-dialog-group-button"></div>');
-                groupButton.text(key || '(ungrouped)');
+                groupButton.text((key || '(ungrouped)') + ' (' + groups[key].length + ')');
                 groupButton[0].key = key;
                 
                 groupButton.click(function () {
@@ -2570,6 +2570,15 @@ function runMediaDialog(cameraId, mediaType) {
                 
                 groupsDiv.append(groupButton);
             });
+            
+            /* add tooltips to larger group buttons */
+            setTimeout(function () {
+                groupsDiv.find('div.media-dialog-group-button').each(function () {
+                    if (this.scrollWidth > this.offsetWidth) {
+                        this.title = this.innerHTML;
+                    }
+                });
+            }, 10);
         }
         else {
             groupsDiv.html('(no media files)');

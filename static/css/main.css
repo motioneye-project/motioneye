@@ -488,7 +488,7 @@ div.media-dialog {
 
 div.media-dialog-groups {
     float: left;
-    width: 10em;
+    width: 11em;
     text-align: center;
     overflow: auto;
     white-space: nowrap;
@@ -500,7 +500,7 @@ div.media-dialog-groups.small-screen {
 
 div.media-dialog-group-button {
     height: 1.5em;
-    width: 9.5em;
+    width: 10.5em;
     box-sizing: border-box;
     line-height: 1.5em;
     text-align: center;
