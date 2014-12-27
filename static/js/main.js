@@ -189,7 +189,7 @@ function ajax(method, url, data, callback, error) {
     }
     else { /* assuming GET */
         if (data) {
-            url += $.param(data);
+            url += '&' + $.param(data);
             data = null;
         }
     }
