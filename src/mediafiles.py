@@ -583,10 +583,32 @@ def del_media_content(camera_config, path, media_type):
         os.remove(full_path)
     
     except Exception as e:
-        logging.error('failed to read file %(path)s: %(msg)s' % {
+        logging.error('failed to remove file %(path)s: %(msg)s' % {
                 'path': full_path, 'msg': unicode(e)})
         
         raise
+
+
+def del_media_group(camera_config, group, media_type):
+    if media_type == 'picture':
+        exts = _PICTURE_EXTS
+        
+    elif media_type == 'movie':
+        exts = _MOVIE_EXTS
+        
+    target_dir = camera_config.get('target_dir')
+    full_path = os.path.join(target_dir, group)
+
+    mf = _list_media_files(target_dir, exts=exts, prefix=group)
+    for (path, st) in mf:  # @UnusedVariable
+        try:
+            os.remove(path)
+    
+        except Exception as e:
+            logging.error('failed to remove file %(path)s: %(msg)s' % {
+                    'path': full_path, 'msg': unicode(e)})
+
+            raise
 
 
 def get_current_picture(camera_config, width, height):

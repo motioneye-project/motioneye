@@ -500,6 +500,8 @@ div.media-dialog-groups.small-screen {
 
 div.media-dialog-group-button {
     height: 1.5em;
+    width: 9.5em;
+    box-sizing: border-box;
     line-height: 1.5em;
     text-align: center;
     margin: 0em 0.2em 0.2em 0.2em;
@@ -719,6 +721,20 @@ img.picture-dialog-progress {
 
 table.timelapse-dialog select {
     width: 10em;
+}
+
+div.media-dialog-delete-all-button {
+    margin-top: 0.1em;
+    margin-bottom: 0.4em;
+    background: #c0392b;
+}
+
+div.media-dialog-delete-all-button:HOVER {
+    background-color: #D43F2F;
+}
+
+div.media-dialog-delete-all-button:ACTIVE {
+    background-color: #B03427;
 }
 
 

@@ -683,6 +683,9 @@ class PictureHandler(BaseHandler):
         if op == 'delete':
             self.delete(camera_id, filename)
 
+        elif op == 'delete_all':
+            self.delete_all(camera_id, group)
+        
         else:
             raise HTTPError(400, 'unknown operation')
     
@@ -843,7 +846,7 @@ class PictureHandler(BaseHandler):
                     width=self.get_argument('width', None),
                     height=self.get_argument('height', None))
     
-    @BaseHandler.auth()
+    @BaseHandler.auth(admin=True)
     def delete(self, camera_id, filename):
         logging.debug('deleting picture %(filename)s of camera %(id)s' % {
                 'filename': filename, 'id': camera_id})
@@ -980,6 +983,30 @@ class PictureHandler(BaseHandler):
     
                 remote.get_timelapse_movie(camera_config, framerate, interval, callback=on_response, group=group)
 
+    @BaseHandler.auth(admin=True)
+    def delete_all(self, camera_id, group):
+        logging.debug('deleting picture group %(group)s of camera %(id)s' % {
+                'group': group, 'id': camera_id})
+
+        camera_config = config.get_camera(camera_id)
+        if utils.local_camera(camera_config):
+            try:
+                mediafiles.del_media_group(camera_config, group, 'picture')
+                self.finish_json()
+                
+            except Exception as e:
+                self.finish_json({'error': unicode(e)})
+
+        else: # remote camera
+            def on_response(response=None, error=None):
+                if error:
+                    return self.finish_json({'error': 'Failed to delete picture group from %(url)s: %(msg)s.' % {
+                            'url': remote.make_camera_url(camera_config), 'msg': error}})
+
+                self.finish_json()
+
+            remote.del_media_group(camera_config, on_response, group=group, media_type='picture')
+
     def try_finish(self, content):
         try:
             self.finish(content)
@@ -1009,7 +1036,7 @@ class MovieHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
     
     @asynchronous
-    def post(self, camera_id, op, filename=None):
+    def post(self, camera_id, op, filename=None, group=None):
         if camera_id is not None:
             camera_id = int(camera_id)
             if camera_id not in config.get_camera_ids():
@@ -1017,6 +1044,9 @@ class MovieHandler(BaseHandler):
         
         if op == 'delete':
             self.delete(camera_id, filename)
+        
+        elif op == 'delete_all':
+            self.delete_all(camera_id, group)
         
         else:
             raise HTTPError(400, 'unknown operation')
@@ -1113,6 +1143,7 @@ class MovieHandler(BaseHandler):
                     width=self.get_argument('width', None),
                     height=self.get_argument('height', None))
 
+    @BaseHandler.auth(admin=True)
     def delete(self, camera_id, filename):
         logging.debug('deleting movie %(filename)s of camera %(id)s' % {
                 'filename': filename, 'id': camera_id})
@@ -1135,6 +1166,30 @@ class MovieHandler(BaseHandler):
                 self.finish_json()
 
             remote.del_media_content(camera_config, on_response, filename=filename, media_type='movie')
+
+    @BaseHandler.auth(admin=True)
+    def delete_all(self, camera_id, group):
+        logging.debug('deleting movie group %(group)s of camera %(id)s' % {
+                'group': group, 'id': camera_id})
+
+        camera_config = config.get_camera(camera_id)
+        if utils.local_camera(camera_config):
+            try:
+                mediafiles.del_media_group(camera_config, group, 'movie')
+                self.finish_json()
+                
+            except Exception as e:
+                self.finish_json({'error': unicode(e)})
+
+        else: # remote camera
+            def on_response(response=None, error=None):
+                if error:
+                    return self.finish_json({'error': 'Failed to delete movie group from %(url)s: %(msg)s.' % {
+                            'url': remote.make_camera_url(camera_config), 'msg': error}})
+
+                self.finish_json()
+
+            remote.del_media_group(camera_config, on_response, group=group, media_type='movie')
 
 
 class UpdateHandler(BaseHandler):

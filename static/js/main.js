@@ -1550,7 +1550,11 @@ function doDeleteFile(uri, callback) {
     url = parts.slice(0, 3).join('/') + uri;
     
     runConfirmDialog('Really delete this file?', function () {
+        showModalDialog('<div class="modal-progress"></div>', null, null, true);
         ajax('POST', url, null, function (data) {
+            hideModalDialog(); /* progress */
+            hideModalDialog(); /* confirm */
+            
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 return;
@@ -1560,9 +1564,31 @@ function doDeleteFile(uri, callback) {
                 callback();
             }
         });
+        
+        return false;
     }, {stack: true});
 }
 
+function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
+    runConfirmDialog('Really delete all ' + mediaType + 's in ' + groupKey + '?', function () {
+        showModalDialog('<div class="modal-progress"></div>', null, null, true);
+        ajax('POST', '/' + mediaType + '/' + cameraId + '/delete_all/' + groupKey + '/', null, function (data) {
+            hideModalDialog(); /* progress */
+            hideModalDialog(); /* confirm */
+            
+            if (data == null || data.error) {
+                showErrorMessage(data && data.error);
+                return;
+            }
+
+            if (callback) {
+                callback();
+            }
+        });
+        
+        return false;
+    }, {stack: true});
+}
 
 
     /* fetch & push */
@@ -2259,28 +2285,199 @@ function runMediaDialog(cameraId, mediaType) {
     
     dialogDiv.append(groupsDiv);
     dialogDiv.append(mediaListDiv);
+    dialogDiv.append(buttonsDiv);
+    
+    /* add a temporary div to compute 3em in px */
+    var tempDiv = $('<div style="width: 3em; height: 3em;"></div>');
+    $('div.modal-container').append(tempDiv);
+    var height = tempDiv.height();
+    tempDiv.remove();
+
+    function showGroup(key) {
+        groupKey = key;
+        
+        if (mediaListDiv.find('img.media-list-progress').length) {
+            return; /* already in progress of loading */
+        }
+        
+        /* (re)set the current state of the group buttons */
+        groupsDiv.find('div.media-dialog-group-button').each(function () {
+            var $this = $(this);
+            if (this.key == key) {
+                $this.addClass('current');
+            }
+            else {
+                $this.removeClass('current');
+            }
+        });
+        
+        var mediaListByName = {};
+        var entries = groups[key];
+        
+        /* cleanup the media list */
+        mediaListDiv.children('div.media-list-entry').detach();
+        mediaListDiv.html('');
+        
+        function addEntries() {
+            /* add the entries to the media list */
+            entries.forEach(function (entry) {
+                var entryDiv = entry.div;
+                var detailsDiv = null;
+                
+                if (!entryDiv) {
+                    entryDiv = $('<div class="media-list-entry"></div>');
+                    
+                    var previewImg = $('<img class="media-list-preview" src="' + staticUrl + 'img/modal-progress.gif"/>');
+                    entryDiv.append(previewImg);
+                    previewImg[0]._src = addAuthParams('GET', '/' + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height);
+                    
+                    var downloadButton = $('<div class="media-list-download-button button">Download</div>');
+                    entryDiv.append(downloadButton);
+                    
+                    var deleteButton = $('<div class="media-list-delete-button button">Delete</div>');
+                    
+                    if (username === adminUsername) {
+                        entryDiv.append(deleteButton);
+                    }
+
+                    var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
+                    entryDiv.append(nameDiv);
+                    
+                    detailsDiv = $('<div class="media-list-entry-details"></div>');
+                    entryDiv.append(detailsDiv);
+                    
+                    downloadButton.click(function () {
+                        downloadFile('/' + mediaType + '/' + cameraId + '/download' + entry.path);
+                        return false;
+                    });
+                    
+                    deleteButton.click(function () {
+                        doDeleteFile('/' + mediaType + '/' + cameraId + '/delete' + entry.path, function () {
+                            entryDiv.remove();
+                        });
+                        
+                        return false;
+                    });
+
+                    entryDiv.click(function () {
+                        var pos = entries.indexOf(entry);
+                        runPictureDialog(entries, pos, mediaType);
+                    });
+                    
+                    entry.div = entryDiv;
+                }
+                else {
+                    detailsDiv = entry.div.find('div.media-list-entry-details');
+                }                    
+                
+                var momentSpan = $('<span class="details-moment">' + entry.momentStr + ', </span>');
+                var momentShortSpan = $('<span class="details-moment-short">' + entry.momentStrShort + '</span>');
+                var sizeSpan = $('<span class="details-size">' + entry.sizeStr + '</span>');
+                detailsDiv.empty();
+                detailsDiv.append(momentSpan);
+                detailsDiv.append(momentShortSpan);
+                detailsDiv.append(sizeSpan);
+                mediaListDiv.append(entryDiv);
+            });
+
+            /* trigger a scroll event */
+            mediaListDiv.scroll();
+        }
+        
+        /* if details are already fetched, simply add the entries and return */
+        if (entries[0].timestamp) {
+            return addEntries();
+        }
+        
+        var previewImg = $('<img class="media-list-progress" src="' + staticUrl + 'img/modal-progress.gif"/>');
+        mediaListDiv.append(previewImg);
+        
+        var url = '/' + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped');
+        ajax('GET', url, null, function (data) {
+            previewImg.remove();
+            
+            if (data == null || data.error) {
+                hideModalDialog();
+                showErrorMessage(data && data.error);
+                return;
+            }
+            
+            /* index the media list by name */
+            data.mediaList.forEach(function (media) {
+                var path = media.path;
+                var parts = path.split('/');
+                var name = parts[parts.length - 1];
+                
+                mediaListByName[name] = media;
+            });
+            
+            /* assign details to entries */
+                entries.forEach(function (entry) {
+                    var media = mediaListByName[entry.name];
+                    if (media) {
+                        entry.momentStr = media.momentStr;
+                        entry.momentStrShort = media.momentStrShort;
+                        entry.sizeStr = media.sizeStr;
+                        entry.timestamp = media.timestamp;
+                    }
+                });
+ 
+                /* sort the entries by timestamp */
+            entries.sortKey(function (e) {return e.timestamp || e.name;}, true);
+            
+            addEntries();
+        });
+    }
     
     if (mediaType == 'picture') {
-        dialogDiv.append(buttonsDiv);
         
-        var zippedButton = $('<div class="media-dialog-button">Zipped Pictures</div>');
+        var zippedButton = $('<div class="media-dialog-button">Zipped</div>');
         buttonsDiv.append(zippedButton);
         
         zippedButton.click(function () {
-            if (groupKey) {
+            if (groupKey != null) {
                 doDownloadZipped(cameraId, groupKey);
             }
         });
         
-        var timelapseButton = $('<div class="media-dialog-button">Timelapse Movie</div>');
+        var timelapseButton = $('<div class="media-dialog-button">Timelapse</div>');
         buttonsDiv.append(timelapseButton);
         
         timelapseButton.click(function () {
-            if (groupKey) {
+            if (groupKey != null) {
                 runTimelapseDialog(cameraId, groupKey, groups[groupKey]);
             }
         });
     }
+
+    var deleteAllButton = $('<div class="media-dialog-button media-dialog-delete-all-button">Delete</div>');
+    buttonsDiv.append(deleteAllButton);
+    
+    deleteAllButton.click(function () {
+        if (groupKey != null) {
+            doDeleteAllFiles(mediaType, cameraId, groupKey, function () {
+                /* delete th group button */
+                groupsDiv.find('div.media-dialog-group-button').each(function () {
+                    var $this = $(this);
+                    if (this.key == groupKey) {
+                        $this.remove();
+                    }
+                });
+                
+                /* delete the group itself */
+                delete groups[groupKey];
+                
+                /* show the first existing group, if any */
+                var keys = Object.keys(groups);
+                if (keys.length) {
+                    showGroup(keys[0]);
+                }
+                else {
+                    hideModalDialog();
+                }
+            });
+        }
+    });
     
     function updateDialogSize() {
         var windowWidth = $(window).width();
@@ -2360,148 +2557,6 @@ function runMediaDialog(cameraId, mediaType) {
         var keys = Object.keys(groups);
         keys.sort();
         keys.reverse();
-        
-        /* add a temporary div to compute 3em in px */
-        var tempDiv = $('<div style="width: 3em; height: 3em;"></div>');
-        $('div.modal-container').append(tempDiv);
-        var height = tempDiv.height();
-        tempDiv.remove();
-
-        function showGroup(key) {
-            groupKey = key;
-            
-            if (mediaListDiv.find('img.media-list-progress').length) {
-                return; /* already in progress of loading */
-            }
-            
-            /* (re)set the current state of the group buttons */
-            groupsDiv.find('div.media-dialog-group-button').each(function () {
-                var $this = $(this);
-                if (this.key == key) {
-                    $this.addClass('current');
-                }
-                else {
-                    $this.removeClass('current');
-                }
-            });
-            
-            var mediaListByName = {};
-            var entries = groups[key];
-            
-            /* cleanup the media list */
-            mediaListDiv.children('div.media-list-entry').detach();
-            mediaListDiv.html('');
-            
-            function addEntries() {
-                /* add the entries to the media list */
-                entries.forEach(function (entry) {
-                    var entryDiv = entry.div;
-                    var detailsDiv = null;
-                    
-                    if (!entryDiv) {
-                        entryDiv = $('<div class="media-list-entry"></div>');
-                        
-                        var previewImg = $('<img class="media-list-preview" src="' + staticUrl + 'img/modal-progress.gif"/>');
-                        entryDiv.append(previewImg);
-                        previewImg[0]._src = addAuthParams('GET', '/' + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height);
-                        
-                        var downloadButton = $('<div class="media-list-download-button button">Download</div>');
-                        entryDiv.append(downloadButton);
-                        
-                        var deleteButton = $('<div class="media-list-delete-button button">Delete</div>');
-                        
-                        if (username === adminUsername) {
-                            entryDiv.append(deleteButton);
-                        }
-
-                        var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
-                        entryDiv.append(nameDiv);
-                        
-                        detailsDiv = $('<div class="media-list-entry-details"></div>');
-                        entryDiv.append(detailsDiv);
-                        
-                        downloadButton.click(function () {
-                            downloadFile('/' + mediaType + '/' + cameraId + '/download' + entry.path);
-                            return false;
-                        });
-                        
-                        deleteButton.click(function () {
-                            doDeleteFile('/' + mediaType + '/' + cameraId + '/delete' + entry.path, function () {
-                                entryDiv.remove();
-                            });
-                            
-                            return false;
-                        });
-
-                        entryDiv.click(function () {
-                            var pos = entries.indexOf(entry);
-                            runPictureDialog(entries, pos, mediaType);
-                        });
-                        
-                        entry.div = entryDiv;
-                    }
-                    else {
-                        detailsDiv = entry.div.find('div.media-list-entry-details');
-                    }                    
-                    
-                    var momentSpan = $('<span class="details-moment">' + entry.momentStr + ', </span>');
-                    var momentShortSpan = $('<span class="details-moment-short">' + entry.momentStrShort + '</span>');
-                    var sizeSpan = $('<span class="details-size">' + entry.sizeStr + '</span>');
-                    detailsDiv.empty();
-                    detailsDiv.append(momentSpan);
-                    detailsDiv.append(momentShortSpan);
-                    detailsDiv.append(sizeSpan);
-                    mediaListDiv.append(entryDiv);
-                });
-
-                /* trigger a scroll event */
-                mediaListDiv.scroll();
-            }
-            
-            /* if details are already fetched, simply add the entries and return */
-            if (entries[0].timestamp) {
-                return addEntries();
-            }
-            
-            var previewImg = $('<img class="media-list-progress" src="' + staticUrl + 'img/modal-progress.gif"/>');
-            mediaListDiv.append(previewImg);
-            
-            var url = '/' + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped');
-            ajax('GET', url, null, function (data) {
-                previewImg.remove();
-                
-                if (data == null || data.error) {
-                    hideModalDialog();
-                    showErrorMessage(data && data.error);
-                    return;
-                }
-                
-                /* index the media list by name */
-                data.mediaList.forEach(function (media) {
-                    var path = media.path;
-                    var parts = path.split('/');
-                    var name = parts[parts.length - 1];
-                    
-                    mediaListByName[name] = media;
-                });
-                
-                /* assign details to entries */
-                entries.forEach(function (entry) {
-                    var media = mediaListByName[entry.name];
-                    if (media) {
-                        entry.momentStr = media.momentStr;
-                        entry.momentStrShort = media.momentStrShort;
-                        entry.sizeStr = media.sizeStr;
-                        entry.timestamp = media.timestamp;
-                    }
-                });
- 
-                /* sort the entries by timestamp */
-                entries.sortKey(function (e) {return e.timestamp || e.name;}, true);
-                
-                addEntries();
-            });
-        }
         
         if (keys.length) {
             keys.forEach(function (key) {
