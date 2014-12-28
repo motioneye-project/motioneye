@@ -160,9 +160,9 @@ function addAuthParams(method, url, body) {
         url += '&';;
     }
     
-    url += 'username=' + window.username;
+    url += '_username=' + window.username;
     var signature = computeSignature(method, url, body);
-    url += '&signature=' + signature;
+    url += '&_signature=' + signature;
     
     return url;
 }
@@ -496,6 +496,9 @@ function initUI() {
     makeTimeValidator($('#saturdayToEntry'));
     makeTimeValidator($('#sundayFromEntry'));
     makeTimeValidator($('#sundayToEntry'));
+    
+    /* progress bars */
+    makeProgressBar($('#diskUsageProgressBar'));
     
     /* ui elements that enable/disable other ui elements */
     $('#motionEyeSwitch').change(updateConfigUi);
@@ -1134,9 +1137,11 @@ function dict2CameraUi(dict) {
     if (dict['disk_total'] != 0) {
         percent = parseInt(dict['disk_used'] * 100 / dict['disk_total']);
     }
-    $('#diskUsageBarFill').css('width', percent + '%');
-    $('#diskUsageText').html(
-            (dict['disk_used'] / 1073741824).toFixed(1)  + '/' + (dict['disk_total'] / 1073741824).toFixed(1) + ' GB (' + percent + '%)');
+    
+    $('#diskUsageProgressBar').each(function () {
+        this.setProgress(percent);
+        this.setText((dict['disk_used'] / 1073741824).toFixed(1)  + '/' + (dict['disk_total'] / 1073741824).toFixed(1) + ' GB (' + percent + '%)');
+    });
     
     /* text overlay */
     $('#textOverlaySwitch')[0].checked = dict['text_overlay'];
@@ -1883,8 +1888,6 @@ function runLoginDialog(retry) {
                 if (retry) {
                     retry();
                 }
-                
-                //return false;
             }},
             {caption: 'Login', isDefault: true, click: function () {
                 window.username = usernameEntry.val();
@@ -1900,8 +1903,6 @@ function runLoginDialog(retry) {
                 if (retry) {
                     retry();
                 }
-                
-                //return false;
             }}
         ],
     };
@@ -2249,6 +2250,7 @@ function runAddCameraDialog() {
 function runTimelapseDialog(cameraId, groupKey, group) {
     var content = 
             $('<table class="timelapse-dialog">' +
+                '<tr><td colspan="2" class="timelapse-warning"></td></tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Group</span></td>' +
                     '<td class="dialog-item-value">' + groupKey + '</td>' +
@@ -2279,6 +2281,12 @@ function runTimelapseDialog(cameraId, groupKey, group) {
 
     var intervalSelect = content.find('#intervalSelect');
     var framerateSlider = content.find('#framerateSlider');
+    var timelapseWarning = content.find('td.timelapse-warning');
+    
+    if (group.length > 1440) { /* one day worth of pictures, taken 1 minute apart */
+        timelapseWarning.html('Given the large number of pictures, creating your timelapse might take a while!');
+        timelapseWarning.css('display', 'table-cell');
+    }
     
     makeSlider(framerateSlider, 1, 100, 0, [
         {value: 1, label: '1'},
@@ -2298,14 +2306,68 @@ function runTimelapseDialog(cameraId, groupKey, group) {
         buttons: 'okcancel',
         content: content,
         onOk: function () {
-            showModalDialog('<div class="modal-progress"></div>', null, null, true);
-            ajax('GET', '/picture/' + cameraId + '/timelapse/' + groupKey + '/',
-                    {interval: intervalSelect.val(), framerate: framerateSlider.val()}, function (data) {
-
-                hideModalDialog(); /* progress */
-                hideModalDialog(); /* timelapse dialog */
-                downloadFile('/picture/' + cameraId + '/timelapse/' + groupKey + '/?key=' + data.key);
+            var progressBar = $('<div style=""></div>');
+            makeProgressBar(progressBar);
+            
+            runModalDialog({
+                title: 'Creating Timelapse Movie...',
+                content: progressBar,
+                stack: true,
+                noKeys: true
             });
+            
+            var url = '/picture/' + cameraId + '/timelapse/' + groupKey + '/';
+            var data = {interval: intervalSelect.val(), framerate: framerateSlider.val()};
+            var first = true;
+            
+            function checkTimelapse() {
+                var actualUrl = url;
+                if (!first) {
+                    actualUrl += '?check=true';
+                }
+
+                ajax('GET', actualUrl, data, function (data) {
+                    if (data == null || data.error) {
+                        hideModalDialog(); /* progress */
+                        hideModalDialog(); /* timelapse dialog */
+                        showErrorMessage(data && data.error);
+                        return;
+                    }
+                    
+                    if (data.progress != -1 && first) {
+                        hideModalDialog(); /* progress */
+                        hideModalDialog(); /* timelapse dialog */
+                        showErrorMessage('A timelapse movie is already being created.');
+                        return;
+                    }
+                    
+                    if (data.progress == -1 && !first && !data.key) {
+                        hideModalDialog(); /* progress */
+                        hideModalDialog(); /* timelapse dialog */
+                        showErrorMessage('The timelapse movie could not be created.');
+                        return;
+                    }
+                    
+                    if (data.progress == -1) {
+                        data.progress = 0;
+                    }
+
+                    if (data.key) {
+                        hideModalDialog(); /* progress */
+                        hideModalDialog(); /* timelapse dialog */
+                        downloadFile('/picture/' + cameraId + '/timelapse/' + groupKey + '/?key=' + data.key);
+                    }
+                    else {
+                        progressBar[0].setProgress(data.progress * 100);
+                        progressBar[0].setText(parseInt(data.progress * 100) + '%');
+                        setTimeout(checkTimelapse, 1000);
+                    }
+
+                    first = false;
+                });
+            }
+            
+            checkTimelapse();
 
             return false;
         },
@@ -2359,7 +2421,7 @@ function runMediaDialog(cameraId, mediaType) {
         
         function addEntries() {
             /* add the entries to the media list */
-            entries.forEach(function (entry) {
+            entries.forEach(function (entry, i) {
                 var entryDiv = entry.div;
                 var detailsDiv = null;
                 
@@ -2393,6 +2455,18 @@ function runMediaDialog(cameraId, mediaType) {
                     deleteButton.click(function () {
                         doDeleteFile('/' + mediaType + '/' + cameraId + '/delete' + entry.path, function () {
                             entryDiv.remove();
+                            entries.splice(i, 1); /* remove entry from group */
+
+                            /* update text on group button */
+                            groupsDiv.find('div.media-dialog-group-button').each(function () {
+                                var $this = $(this);
+                                if (this.key == groupKey) {
+                                    var text = this.innerHTML;
+                                    text = text.substring(0, text.lastIndexOf(' '));
+                                    text += ' (' + entries.length + ')';
+                                    this.innerHTML = text;
+                                }
+                            });
                         });
                         
                         return false;
@@ -2469,7 +2543,6 @@ function runMediaDialog(cameraId, mediaType) {
     }
     
     if (mediaType == 'picture') {
-        
         var zippedButton = $('<div class="media-dialog-button">Zipped</div>');
         buttonsDiv.append(zippedButton);
         

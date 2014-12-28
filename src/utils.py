@@ -292,7 +292,7 @@ def test_netcam_url(data, callback):
 
 def compute_signature(method, uri, body, key):
     parts = list(urlparse.urlsplit(uri))
-    query = [q for q in urlparse.parse_qsl(parts[3]) if (q[0] != 'signature')]
+    query = [q for q in urlparse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
     query.sort(key=lambda q: q[0])
     query = urllib.urlencode(query)
     parts[0] = parts[1] = ''

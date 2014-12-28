@@ -280,13 +280,13 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         this.update = input2slider;
     });
     
-    slider.setMinVal = function (mv) {
+    slider[0].setMinVal = function (mv) {
         minVal = mv;
 
         makeTicks();
     };
     
-    slider.setMaxVal = function (mv) {
+    slider[0].setMaxVal = function (mv) {
         maxVal = mv;
 
         makeTicks();
@@ -559,6 +559,26 @@ function makeUrlValidator($input) {
     });
 }
 
+function makeProgressBar($div) {
+    $div.addClass('progress-bar-container');
+    var fillDiv = $('<div class="progress-bar-fill"></div>');
+    var textSpan = $('<span class="progress-bar-text"></span>');
+
+    $div.append(fillDiv);
+    $div.append(textSpan);
+    
+    $div[0].setProgress = function (progress) {
+        $div.progress = progress;
+        fillDiv.width(progress + '%');
+    };
+    
+    $div[0].setText = function (text) {
+        textSpan.html(text);
+    };
+
+    return $div;
+}
+
 
     /* modal dialog */
 
@@ -758,6 +778,7 @@ function runModalDialog(options) {
      * * onClose: Function
      * * onShow: Function
      * * stack: Boolean
+     * * noKeys: Boolean
      */
     
     var content = $('<div></div>');
@@ -828,7 +849,7 @@ function runModalDialog(options) {
         buttonsDiv.css('margin-top', '5px');
     }
     
-    var handleKeyUp = function (e) {
+    var handleKeyUp = !options.noKeys && function (e) {
         if (!content.is(':visible')) {
             return;
         }

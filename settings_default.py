@@ -82,6 +82,3 @@ NOTIFY_MEDIA_TIMESPAN = 5
 
 # the time to wait for zip file creation
 ZIP_TIMEOUT = 500
-
-# the time to wait for timelapse movie file creation
-TIMELAPSE_TIMEOUT = 500

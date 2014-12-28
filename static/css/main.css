@@ -430,33 +430,8 @@ input[type=text].working-schedule.number {
     width: 50px;
 }
 
-span.disk-usage-text {
-    vertical-align: middle;
-}
-
-div.disk-usage-bar-container {
-    position: relative;
+#diskUsageProgressBar {
     width: 90%;
-    height: 1em;
-    border: 1px solid #555;
-    vertical-align: middle;
-    margin: 0px 0.2em;
-    text-align: center;
-    line-height: 1em;
-}
-
-div.disk-usage-bar-fill {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    bottom: 0px;
-    width: 0%;
-    background-color: #555;
-}
-
-span.disk-usage-percent {
-    font-size: 0.8em;
-    position: relative;
 }
 
 div.hidden,
@@ -725,6 +700,16 @@ img.picture-dialog-progress {
 
 table.timelapse-dialog select {
     width: 10em;
+}
+
+td.timelapse-warning {
+    font-size: 80%;
+    display: none;
+    color: red;
+    max-width: 20em;
+    text-align: center;
+    white-space: normal;
+    padding-bottom: 1em;
 }
 
 div.media-dialog-delete-all-button {

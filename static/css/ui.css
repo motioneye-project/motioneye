@@ -287,6 +287,35 @@ div.slider-cursor-label {
 }
 
 
+    /* progress bar */
+
+div.progress-bar-container {
+    position: relative;
+    height: 1em;
+    border: 1px solid #555;
+    vertical-align: middle;
+    margin: 0px 0.2em;
+    text-align: center;
+    line-height: 1em;
+}
+
+div.progress-bar-fill {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    bottom: 0px;
+    width: 0%;
+    background-color: #555;
+    transition: width 0.1s ease;
+}
+
+span.progress-bar-text {
+    vertical-align: middle;
+    font-size: 0.8em;
+    position: relative;
+}
+
+
     /* modal dialogs */
     
 div.modal-glass {

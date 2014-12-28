@@ -65,7 +65,6 @@ def _configure_settings():
     set_default_setting('SMTP_TIMEOUT', 60)
     set_default_setting('NOTIFY_MEDIA_TIMESPAN', 5)
     set_default_setting('ZIP_TIMEOUT', 500)
-    set_default_setting('TIMELAPSE_TIMEOUT', 500)
 
     length = len(sys.argv) - 1
     for i in xrange(length):
@@ -150,9 +149,9 @@ def _test_requirements():
             print('SMB_SHARES require root privileges')
             return False
 
-#         if settings.ENABLE_REBOOT:
-#             print('reboot requires root privileges')
-#             return False
+        if settings.ENABLE_REBOOT:
+            print('reboot requires root privileges')
+            return False
 
     try:
         import tornado  # @UnusedImport

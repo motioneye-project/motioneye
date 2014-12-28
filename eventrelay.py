@@ -18,6 +18,7 @@
 
 import errno
 import hashlib
+import json
 import logging
 import os.path
 import sys
@@ -122,18 +123,22 @@ if __name__ == '__main__':
     
     admin_username, admin_password = get_admin_credentials()
 
-    uri = '/config/%(camera_id)s/_relay_event/?event=%(event)s&username=%(username)s' % {
+    uri = '/config/%(camera_id)s/_relay_event/?event=%(event)s&_username=%(username)s' % {
             'username': admin_username,
             'camera_id': camera_id,
             'event': event}
     
     signature = compute_signature('POST', uri, '', admin_password)
     
-    url = 'http://127.0.0.1:%(port)s' + uri + '&signature=' + signature
+    url = 'http://127.0.0.1:%(port)s' + uri + '&_signature=' + signature
     url = url % {'port': settings.PORT}
     
     try:
-        urllib.urlopen(url, data='')
+        response = urllib.urlopen(url, data='')
+        response = json.load(response)
+        if response.get('error'):
+            raise Exception(response['error'])
+        
         logging.debug('event successfully relayed')
     
     except Exception as e:

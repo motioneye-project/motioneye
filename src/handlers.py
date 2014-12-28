@@ -69,8 +69,8 @@ class BaseHandler(RequestHandler):
     def get_current_user(self):
         main_config = config.get_main()
         
-        username = self.get_argument('username', None)
-        signature = self.get_argument('signature', None)
+        username = self.get_argument('_username', None)
+        signature = self.get_argument('_signature', None)
         if (username == main_config.get('@admin_username') and
             signature == utils.compute_signature(self.request.method, self.request.uri, self.request.body, main_config.get('@admin_password'))):
             
@@ -108,8 +108,10 @@ class BaseHandler(RequestHandler):
     def auth(admin=False, prompt=True):
         def decorator(func):
             def wrapper(self, *args, **kwargs):
+                _admin = self.get_argument('_admin', None) == 'true'
+                
                 user = self.current_user
-                if (user is None) or (user != 'admin' and admin):
+                if (user is None) or (user != 'admin' and (admin or _admin)):
                     self.set_header('Content-Type', 'application/json')
                     return self.finish_json({'error': 'unauthorized', 'prompt': prompt})
 
@@ -593,7 +595,7 @@ class ConfigHandler(BaseHandler):
         else: # remote camera
             def on_response(remote_ui_config=None, error=None):
                 if error:
-                    self.finish_json({'error': error})
+                    return self.finish_json({'error': error})
 
                 for key, value in camera_config.items():
                     remote_ui_config[key.replace('@', '')] = value
@@ -725,7 +727,7 @@ class PictureHandler(BaseHandler):
                 self.set_cookie('motion_detected_' + str(camera_id), str(motion_detected).lower())
                 self.try_finish(picture)
             
-            remote.get_current_picture(camera_config, on_response, width=width, height=height)
+            remote.get_current_picture(camera_config, width=width, height=height, callback=on_response)
 
     @BaseHandler.auth()
     def list(self, camera_id):
@@ -753,7 +755,7 @@ class PictureHandler(BaseHandler):
 
                 self.finish_json(remote_list)
             
-            remote.list_media(camera_config, on_response, media_type='picture', prefix=self.get_argument('prefix', None))
+            remote.list_media(camera_config, media_type='picture', prefix=self.get_argument('prefix', None), callback=on_response)
 
     @BaseHandler.auth()
     def frame(self, camera_id):
@@ -809,7 +811,7 @@ class PictureHandler(BaseHandler):
                 
                 self.finish(response)
 
-            remote.get_media_content(camera_config, on_response, filename=filename, media_type='picture')
+            remote.get_media_content(camera_config, filename=filename, media_type='picture', callback=on_response)
 
     @BaseHandler.auth()
     def preview(self, camera_id, filename):
@@ -842,9 +844,10 @@ class PictureHandler(BaseHandler):
                 
                 self.finish(content)
             
-            remote.get_media_preview(camera_config, on_response, filename=filename, media_type='picture',
+            remote.get_media_preview(camera_config, filename=filename, media_type='picture',
                     width=self.get_argument('width', None),
-                    height=self.get_argument('height', None))
+                    height=self.get_argument('height', None),
+                    callback=on_response)
     
     @BaseHandler.auth(admin=True)
     def delete(self, camera_id, filename):
@@ -868,38 +871,52 @@ class PictureHandler(BaseHandler):
 
                 self.finish_json()
 
-            remote.del_media_content(camera_config, on_response, filename=filename, media_type='picture')
+            remote.del_media_content(camera_config, filename=filename, media_type='picture', callback=on_response)
 
     @BaseHandler.auth()
     def zipped(self, camera_id, group):
         key = self.get_argument('key', None)
+        camera_config = config.get_camera(camera_id)
+        
         if key:
             logging.debug('serving zip file for group %(group)s of camera %(id)s with key %(key)s' % {
                     'group': group, 'id': camera_id, 'key': key})
             
-            data = mediafiles.get_prepared_cache(key)
-            if not data:
-                logging.error('prepared cache data for key "%s" does not exist' % key)
-                
-                raise HTTPError(404, 'no such key')
-
-            camera_config = config.get_camera(camera_id)
             if utils.local_camera(camera_config):
-                pretty_filename = camera_config['@name'] + '_' + group
-                pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
-     
+                data = mediafiles.get_prepared_cache(key)
+                if not data:
+                    logging.error('prepared cache data for key "%s" does not exist' % key)
+                    
+                    raise HTTPError(404, 'no such key')
+    
+                camera_config = config.get_camera(camera_id)
+                if utils.local_camera(camera_config):
+                    pretty_filename = camera_config['@name'] + '_' + group
+                    pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
+         
+                else: # remote camera
+                    pretty_filename = re.sub('[^a-zA-Z0-9]', '_', group)
+    
+                self.set_header('Content-Type', 'application/zip')
+                self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + '.zip;')
+                self.finish(data)
+                
             else: # remote camera
-                pretty_filename = re.sub('[^a-zA-Z0-9]', '_', group)
+                def on_response(response=None, error=None):
+                    if error:
+                        return self.finish_json({'error': 'Failed to download zip file from %(url)s: %(msg)s.' % {
+                                'url': remote.make_camera_url(camera_config), 'msg': error}})
 
-            self.set_header('Content-Type', 'application/zip')
-            self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + '.zip;')
-            self.finish(data)
+                    self.set_header('Content-Type', response['content_type'])
+                    self.set_header('Content-Disposition', response['content_disposition'])
+                    self.finish(response['data'])
 
-        else:
+                remote.get_zipped_content(camera_config, media_type='picture', key=key, callback=on_response)
+
+        else: # prepare
             logging.debug('preparing zip file for group %(group)s of camera %(id)s' % {
                     'group': group, 'id': camera_id})
 
-            camera_config = config.get_camera(camera_id)
             if utils.local_camera(camera_config):
                 def on_zip(data):
                     if data is None:
@@ -910,65 +927,46 @@ class PictureHandler(BaseHandler):
                             'group': group, 'id': camera_id, 'key': key})
                     self.finish_json({'key': key})
     
-                mediafiles.get_zipped_content(camera_config, media_type='picture', callback=on_zip, group=group)
+                mediafiles.get_zipped_content(camera_config, media_type='picture', group=group, callback=on_zip)
     
             else: # remote camera
                 def on_response(response=None, error=None):
                     if error:
-                        return self.finish_json({'error': 'Failed to download zip file from %(url)s: %(msg)s.' % {
+                        return self.finish_json({'error': 'Failed to make zip file at %(url)s: %(msg)s.' % {
                                 'url': remote.make_camera_url(camera_config), 'msg': error}})
-     
-                    key = mediafiles.set_prepared_cache(response)
-                    logging.debug('prepared zip file for group %(group)s of camera %(id)s with key %(key)s' % {
-                            'group': group, 'id': camera_id, 'key': key})
-                    self.finish_json({'key': key})
 
-                remote.get_zipped_content(camera_config, media_type='picture', callback=on_response, group=group)
+                    self.finish_json({'key': response['key']})
+
+                remote.make_zipped_content(camera_config, media_type='picture', group=group, callback=on_response)
 
     @BaseHandler.auth()
     def timelapse(self, camera_id, group):
         key = self.get_argument('key', None)
-        if key:
+        check = self.get_argument('check', False)
+        camera_config = config.get_camera(camera_id)
+
+        if key: # download
             logging.debug('serving timelapse movie for group %(group)s of camera %(id)s with key %(key)s' % {
                     'group': group, 'id': camera_id, 'key': key})
             
-            data = mediafiles.get_prepared_cache(key)
-            if not data:
-                logging.error('prepared cache data for key "%s" does not exist' % key)
-                
-                raise HTTPError(404, 'no such key')
-
-            camera_config = config.get_camera(camera_id)
             if utils.local_camera(camera_config):
-                pretty_filename = camera_config['@name'] + '_' + group
-                pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
+                data = mediafiles.get_prepared_cache(key)
+                if data is None:
+                    logging.error('prepared cache data for key "%s" does not exist' % key)
 
-            else: # remote camera
-                pretty_filename = re.sub('[^a-zA-Z0-9]', '_', group)
+                    raise HTTPError(404, 'no such key')
 
-            self.set_header('Content-Type', 'video/x-msvideo')
-            self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + '.avi;')
-            self.finish(data)
+                camera_config = config.get_camera(camera_id)
+                if utils.local_camera(camera_config):
+                    pretty_filename = camera_config['@name'] + '_' + group
+                    pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
+    
+                else: # remote camera
+                    pretty_filename = re.sub('[^a-zA-Z0-9]', '_', group)
 
-        else:
-            interval = int(self.get_argument('interval'))
-            framerate = int(self.get_argument('framerate'))
-
-            logging.debug('preparing timelapse movie for group %(group)s of camera %(id)s with rate %(framerate)s/%(int)s' % {
-                    'group': group, 'id': camera_id, 'framerate': framerate, 'int': interval})
-
-            camera_config = config.get_camera(camera_id)
-            if utils.local_camera(camera_config):
-                def on_timelapse(data):
-                    if data is None:
-                        return self.finish_json({'error': 'Failed to create timelapse movie file.'})
-
-                    key = mediafiles.set_prepared_cache(data)
-                    logging.debug('prepared timelapse movie for group %(group)s of camera %(id)s with key %(key)s' % {
-                            'group': group, 'id': camera_id, 'key': key})
-                    self.finish_json({'key': key})
-
-                mediafiles.get_timelapse_movie(camera_config, framerate, interval, callback=on_timelapse, group=group)
+                self.set_header('Content-Type', 'video/x-msvideo')
+                self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + '.avi;')
+                self.finish(data)
 
             else: # remote camera
                 def on_response(response=None, error=None):
@@ -976,12 +974,77 @@ class PictureHandler(BaseHandler):
                         return self.finish_json({'error': 'Failed to download timelapse movie from %(url)s: %(msg)s.' % {
                                 'url': remote.make_camera_url(camera_config), 'msg': error}})
 
-                    key = mediafiles.set_prepared_cache(response)
+                    self.set_header('Content-Type', response['content_type'])
+                    self.set_header('Content-Disposition', response['content_disposition'])
+                    self.finish(response['data'])
+
+                remote.get_timelapse_movie(camera_config, key, callback=on_response)
+
+        elif check:
+            logging.debug('checking timelapse movie status for group %(group)s of camera %(id)s' % {
+                    'group': group, 'id': camera_id})
+
+            if utils.local_camera(camera_config):
+                status = mediafiles.check_timelapse_movie()
+                if status['progress'] == -1 and status['data']:
+                    key = mediafiles.set_prepared_cache(status['data'])
                     logging.debug('prepared timelapse movie for group %(group)s of camera %(id)s with key %(key)s' % {
                             'group': group, 'id': camera_id, 'key': key})
-                    self.finish_json({'key': key})
+                    self.finish_json({'key': key, 'progress': -1})
+
+                else:
+                    self.finish_json(status)
+
+            else: # remote camera
+                def on_response(response=None, error=None):
+                    if error:
+                        return self.finish_json({'error': 'Failed to check timelapse movie progress at %(url)s: %(msg)s.' % {
+                                'url': remote.make_camera_url(camera_config), 'msg': error}})
+
+                    if response['progress'] == -1 and response.get('key'):
+                        self.finish_json({'key': response['key'], 'progress': -1})
+                    
+                    else:
+                        self.finish_json(response)
+
+                remote.check_timelapse_movie(camera_config, callback=on_response)
+
+        else: # start timelapse
+            interval = int(self.get_argument('interval'))
+            framerate = int(self.get_argument('framerate'))
+
+            logging.debug('preparing timelapse movie for group %(group)s of camera %(id)s with rate %(framerate)s/%(int)s' % {
+                    'group': group, 'id': camera_id, 'framerate': framerate, 'int': interval})
+
+            if utils.local_camera(camera_config):
+                status = mediafiles.check_timelapse_movie()
+                if status['progress'] != -1:
+                    self.finish_json({'progress': status['progress']}) # timelapse already active
+
+                else:
+                    mediafiles.make_timelapse_movie(camera_config, framerate, interval, group=group)
+                    self.finish_json({'progress': -1})
+
+            else: # remote camera
+                def on_status(response=None, error=None):
+                    if error:
+                        return self.finish_json({'error': 'Failed to make timelapse movie at %(url)s: %(msg)s.' % {
+                                'url': remote.make_camera_url(camera_config), 'msg': error}})
+                    
+                    if response['progress'] != -1:
+                        return self.finish_json({'progress': response['progress']}) # timelapse already active
     
-                remote.get_timelapse_movie(camera_config, framerate, interval, callback=on_response, group=group)
+                    def on_make(response=None, error=None):
+                        if error:
+                            return self.finish_json({'error': 'Failed to make timelapse movie at %(url)s: %(msg)s.' % {
+                                    'url': remote.make_camera_url(camera_config), 'msg': error}})
+    
+                        self.finish_json({'progress': -1})
+                    
+                    remote.make_timelapse_movie(camera_config, framerate, interval, group=group, callback=on_make)
+
+                remote.check_timelapse_movie(camera_config, callback=on_status)
+
 
     @BaseHandler.auth(admin=True)
     def delete_all(self, camera_id, group):
@@ -1005,7 +1068,7 @@ class PictureHandler(BaseHandler):
 
                 self.finish_json()
 
-            remote.del_media_group(camera_config, on_response, group=group, media_type='picture')
+            remote.del_media_group(camera_config, group=group, media_type='picture', callback=on_response)
 
     def try_finish(self, content):
         try:
@@ -1077,7 +1140,7 @@ class MovieHandler(BaseHandler):
 
                 self.finish_json(remote_list)
             
-            remote.list_media(camera_config, on_response, media_type='movie', prefix=self.get_argument('prefix', None))
+            remote.list_media(camera_config, media_type='movie', prefix=self.get_argument('prefix', None), callback=on_response)
     
     @BaseHandler.auth()
     def download(self, camera_id, filename):
@@ -1106,7 +1169,7 @@ class MovieHandler(BaseHandler):
                 
                 self.finish(response)
 
-            remote.get_media_content(camera_config, on_response, filename=filename, media_type='movie')
+            remote.get_media_content(camera_config, filename=filename, media_type='movie', callback=on_response)
 
     @BaseHandler.auth()
     def preview(self, camera_id, filename):
@@ -1139,9 +1202,10 @@ class MovieHandler(BaseHandler):
 
                 self.finish(content)
             
-            remote.get_media_preview(camera_config, on_response, filename=filename, media_type='movie',
+            remote.get_media_preview(camera_config, filename=filename, media_type='movie',
                     width=self.get_argument('width', None),
-                    height=self.get_argument('height', None))
+                    height=self.get_argument('height', None),
+                    callback=on_response)
 
     @BaseHandler.auth(admin=True)
     def delete(self, camera_id, filename):
@@ -1165,7 +1229,7 @@ class MovieHandler(BaseHandler):
 
                 self.finish_json()
 
-            remote.del_media_content(camera_config, on_response, filename=filename, media_type='movie')
+            remote.del_media_content(camera_config, filename=filename, media_type='movie', callback=on_response)
 
     @BaseHandler.auth(admin=True)
     def delete_all(self, camera_id, group):
@@ -1189,7 +1253,7 @@ class MovieHandler(BaseHandler):
 
                 self.finish_json()
 
-            remote.del_media_group(camera_config, on_response, group=group, media_type='movie')
+            remote.del_media_group(camera_config, group=group, media_type='movie', callback=on_response)
 
 
 class UpdateHandler(BaseHandler):

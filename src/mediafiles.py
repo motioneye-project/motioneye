@@ -16,10 +16,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import datetime
+import errno
+import fcntl
+import functools
 import hashlib
 import logging
 import multiprocessing
 import os.path
+import re
 import stat
 import StringIO
 import subprocess
@@ -47,6 +51,9 @@ _previewless_movie_files = []
 
 # a cache of prepared files (whose preparing time is significant)
 _prepared_files = {}
+
+_timelapse_process = None
+_timelapse_data = None
 
 
 def _list_media_files(dir, exts, prefix=None):
@@ -313,7 +320,7 @@ def get_media_content(camera_config, path, media_type):
         return None
 
 
-def get_zipped_content(camera_config, media_type, callback, group):
+def get_zipped_content(camera_config, media_type, group, callback):
     target_dir = camera_config.get('target_dir')
 
     if media_type == 'picture':
@@ -405,7 +412,10 @@ def get_zipped_content(camera_config, media_type, callback, group):
     poll_process()
 
 
-def get_timelapse_movie(camera_config, framerate, interval, callback, group):
+def make_timelapse_movie(camera_config, framerate, interval, group):
+    global _timelapse_process
+    global _timelapse_data
+    
     target_dir = camera_config.get('target_dir')
     
     # create a subprocess to retrieve media files
@@ -424,8 +434,9 @@ def get_timelapse_movie(camera_config, framerate, interval, callback, group):
     logging.debug('starting media listing process...')
     
     (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
-    process = [multiprocessing.Process(target=do_list_media, args=(child_pipe, ))]
-    process[0].start()
+    _timelapse_process = multiprocessing.Process(target=do_list_media, args=(child_pipe, ))
+    _timelapse_process.progress = 0
+    _timelapse_process.start()
 
     started = [datetime.datetime.now()]
     media_list = []
@@ -438,24 +449,26 @@ def get_timelapse_movie(camera_config, framerate, interval, callback, group):
         
     def poll_media_list_process():
         ioloop = tornado.ioloop.IOLoop.instance()
-        if process[0].is_alive(): # not finished yet
+        if _timelapse_process.is_alive(): # not finished yet
             now = datetime.datetime.now()
             delta = now - started[0]
-            if delta.seconds < 120:
+            if delta.seconds < 300: # the subprocess has 5 minutes to complete its job
                 ioloop.add_timeout(datetime.timedelta(seconds=0.5), poll_media_list_process)
                 read_media_list()
 
             else: # process did not finish within 2 minutes
                 logging.error('timeout waiting for the media listing process to finish')
                 
-                callback(None)
+                _timelapse_process.progress = -1
 
         else: # finished
             read_media_list()
             logging.debug('media listing process has returned %(count)s files' % {'count': len(media_list)})
             
             if not media_list:
-                return callback(None)
+                _timelapse_process.progress = -1
+                
+                return
 
             pictures = select_pictures(media_list)
             make_movie(pictures)
@@ -484,57 +497,87 @@ def get_timelapse_movie(camera_config, framerate, interval, callback, group):
         return selected
 
     def make_movie(pictures):
+        global _timelapse_process
+
         cmd =  'rm -f %(tmp_filename)s;'
         cmd += 'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -b:v %(bitrate)s -q:v 0 -f avi %(tmp_filename)s'
-        
+
         bitrate = 9999999
 
         cmd = cmd % {
             'tmp_filename': tmp_filename,
-            'jpegs': ' '.join((p['path'] for p in pictures)),
+            'jpegs': ' '.join((('"' + p['path'] + '"') for p in pictures)),
             'framerate': framerate,
             'bitrate': bitrate
         }
         
         logging.debug('executing "%s"' % cmd)
         
-        process[0] = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=None, shell=True)
-        started[0] = datetime.datetime.now()
+        _timelapse_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+        _timelapse_process.progress = 0.01 # 1%
+        
+        # make subprocess stdout pipe non-blocking
+        fd = _timelapse_process.stdout.fileno()
+        fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+        fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
-        poll_movie_process()
+        poll_movie_process(pictures)
 
-    def poll_movie_process():
+    def poll_movie_process(pictures):
+        global _timelapse_process
+        global _timelapse_data
+        
         ioloop = tornado.ioloop.IOLoop.instance()
-        if process[0].poll() is None: # not finished yet
-            now = datetime.datetime.now()
-            delta = now - started[0]
-            if delta.seconds < 120:
-                ioloop.add_timeout(datetime.timedelta(seconds=0.5), poll_movie_process)
+        if _timelapse_process.poll() is None: # not finished yet
+            ioloop.add_timeout(datetime.timedelta(seconds=0.5), functools.partial(poll_movie_process, pictures))
 
-            else: # process did not finish within 2 minutes
-                logging.error('timeout waiting for the timelapse movie process to finish')
+            try:
+                output = _timelapse_process.stdout.read()
+            
+            except IOError as e:
+                if e.errno == errno.EAGAIN:
+                    output = ''
                 
-                callback(None)
+                else:
+                    raise
+                
+            frame_index = re.findall('frame=\s*(\d+)', output)
+            try:
+                frame_index = int(frame_index[-1])
+            
+            except (IndexError, ValueError):
+                return
+
+            _timelapse_process.progress = max(0.01, float(frame_index) / len(pictures))
+            
+            logging.debug('timelapse progress: %s' % int(100 * _timelapse_process.progress))
 
         else: # finished
+            _timelapse_process = None
+
             logging.debug('reading timelapse movie file "%s" into memory' % tmp_filename)
 
             try:
                 with open(tmp_filename, mode='r') as f:
-                    data = f.read()
+                    _timelapse_data = f.read()
 
-                logging.debug('timelapse movie process has returned %d bytes' % len(data))
-    
+                logging.debug('timelapse movie process has returned %d bytes' % len(_timelapse_data))
+
             except Exception as e:
                 logging.error('failed to read timelapse movie file "%s": %s' % (tmp_filename, e))
-                return callback(None)
 
             finally:
                 os.remove(tmp_filename)
 
-            callback(data)
-
     poll_media_list_process()
+
+
+def check_timelapse_movie():
+    if _timelapse_process and _timelapse_process.poll() is None:
+        return {'progress': _timelapse_process.progress, 'data': None}
+
+    else:
+        return {'progress': -1, 'data': _timelapse_data}
 
 
 def get_media_preview(camera_config, path, media_type, width, height):
@@ -689,7 +732,7 @@ def set_prepared_cache(data):
         if _prepared_files.pop(key, None) is not None:
             logging.warn('key "%s" was still present in the prepared cache, removed' % key)
 
-    timeout = max(settings.ZIP_TIMEOUT, settings.TIMELAPSE_TIMEOUT)
+    timeout = 3600 # the user has 1 hour to download the file after creation
     ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=timeout), clear)
 
     return key
