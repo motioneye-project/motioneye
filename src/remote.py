@@ -417,7 +417,7 @@ def make_zipped_content(local_config, media_type, group, callback):
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
-def get_zipped_content(local_config, media_type, key, callback):
+def get_zipped_content(local_config, media_type, key, group, callback):
     host = local_config.get('@host', local_config.get('host')) 
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
@@ -429,8 +429,9 @@ def get_zipped_content(local_config, media_type, key, callback):
             'id': camera_id,
             'url': make_camera_url(local_config)})
     
-    request = _make_request(host, port, username, password, uri + '/%(media_type)s/%(id)s/zipped/nevermind/?key=%(key)s' % {
+    request = _make_request(host, port, username, password, uri + '/%(media_type)s/%(id)s/zipped/%(group)s/?key=%(key)s' % {
             'media_type': media_type,
+            'group': group,
             'id': camera_id,
             'key': key})
 
@@ -504,7 +505,7 @@ def make_timelapse_movie(local_config, framerate, interval, group, callback):
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
-def check_timelapse_movie(local_config, callback):
+def check_timelapse_movie(local_config, group, callback):
     host = local_config.get('@host', local_config.get('host')) 
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
@@ -516,7 +517,9 @@ def check_timelapse_movie(local_config, callback):
             'id': camera_id,
             'url': make_camera_url(local_config)})
     
-    request = _make_request(host, port, username, password, uri + '/picture/%(id)s/timelapse/nevermind/?check=true' % {'id': camera_id})
+    request = _make_request(host, port, username, password, uri + '/picture/%(id)s/timelapse/%(group)s/?check=true' % {
+            'id': camera_id,
+            'group': group})
     
     def on_response(response):
         if response.error:
@@ -543,7 +546,7 @@ def check_timelapse_movie(local_config, callback):
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
-def get_timelapse_movie(local_config, key, callback):
+def get_timelapse_movie(local_config, key, group, callback):
     host = local_config.get('@host', local_config.get('host')) 
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
@@ -555,8 +558,9 @@ def get_timelapse_movie(local_config, key, callback):
             'id': camera_id,
             'url': make_camera_url(local_config)})
     
-    request = _make_request(host, port, username, password, uri + '/picture/%(id)s/timelapse/nevermind/?key=%(key)s' % {
+    request = _make_request(host, port, username, password, uri + '/picture/%(id)s/timelapse/%(group)s/?key=%(key)s' % {
             'id': camera_id,
+            'group': group,
             'key': key})
 
     def on_response(response):

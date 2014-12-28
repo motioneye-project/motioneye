@@ -911,7 +911,7 @@ class PictureHandler(BaseHandler):
                     self.set_header('Content-Disposition', response['content_disposition'])
                     self.finish(response['data'])
 
-                remote.get_zipped_content(camera_config, media_type='picture', key=key, callback=on_response)
+                remote.get_zipped_content(camera_config, media_type='picture', key=key, group=group, callback=on_response)
 
         else: # prepare
             logging.debug('preparing zip file for group %(group)s of camera %(id)s' % {
@@ -978,7 +978,7 @@ class PictureHandler(BaseHandler):
                     self.set_header('Content-Disposition', response['content_disposition'])
                     self.finish(response['data'])
 
-                remote.get_timelapse_movie(camera_config, key, callback=on_response)
+                remote.get_timelapse_movie(camera_config, key, group=group, callback=on_response)
 
         elif check:
             logging.debug('checking timelapse movie status for group %(group)s of camera %(id)s' % {
@@ -1007,7 +1007,7 @@ class PictureHandler(BaseHandler):
                     else:
                         self.finish_json(response)
 
-                remote.check_timelapse_movie(camera_config, callback=on_response)
+                remote.check_timelapse_movie(camera_config, group=group, callback=on_response)
 
         else: # start timelapse
             interval = int(self.get_argument('interval'))
@@ -1043,7 +1043,7 @@ class PictureHandler(BaseHandler):
                     
                     remote.make_timelapse_movie(camera_config, framerate, interval, group=group, callback=on_make)
 
-                remote.check_timelapse_movie(camera_config, callback=on_status)
+                remote.check_timelapse_movie(camera_config, group=group, callback=on_status)
 
 
     @BaseHandler.auth(admin=True)

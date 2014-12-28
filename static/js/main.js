@@ -2353,9 +2353,14 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                     }
 
                     if (data.key) {
-                        hideModalDialog(); /* progress */
-                        hideModalDialog(); /* timelapse dialog */
-                        downloadFile('/picture/' + cameraId + '/timelapse/' + groupKey + '/?key=' + data.key);
+                        progressBar[0].setProgress(100);
+                        progressBar[0].setText('100%');
+                        
+                        setTimeout(function () {
+                            hideModalDialog(); /* progress */
+                            hideModalDialog(); /* timelapse dialog */
+                            downloadFile('/picture/' + cameraId + '/timelapse/' + groupKey + '/?key=' + data.key);
+                        }, 500);
                     }
                     else {
                         progressBar[0].setProgress(data.progress * 100);
