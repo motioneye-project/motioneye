@@ -2,37 +2,9 @@
 
     /* basic */
 
-* {
-    padding: 0px;
-    border: 0px solid black;
-    margin: 0px;
-    outline: 0px;
-    border-spacing: 0px;
-    border-collapse: separate;
-}
-
-html {
-    height: 100%;
-}
-
 body {
-    height: 100%;
     color: #dddddd;
     background-color: #212121;
-}
-
-
-    /* layout */
-
-img.main-loading-progress {
-    display: block;
-    margin: auto;
-    margin-top: 50px;
-}
-
-div.add-camera-message {
-    text-align: center;
-    margin-top: 30px;
 }
 
 
@@ -40,15 +12,10 @@ div.add-camera-message {
 
 div.camera-frame {
     position: relative;
+    padding: 0px;
+    margin: 0px;
     width: 100%;
     height: 100%;
-    transition: all 0.2s, opacity 0s;
-    opacity: 0;
-    vertical-align: top;
-}
-
-div.camera-frame.motion-detected {
-    background-color: #712727;
 }
 
 div.camera-container {
@@ -58,58 +25,19 @@ div.camera-container {
 }
 
 img.camera {
-    width: 100%;
     height: auto;
-    transition: opacity 0.2s linear;
-    opacity: 1;
+    margin: auto;
 }
 
 img.camera.error,
 img.camera.loading {
-    opacity: 0;
     height: 100% !important;
 }
 
 div.camera-placeholder {
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    text-align: center;
-    transition: opacity 0.2s linear;
     overflow: hidden;
 }
 
-img.no-camera {
-    padding-top: 20%;
-    width: 30%;
-    opacity: 0.8;
-}
-
 div.camera-progress {
-    background: rgba(0, 0, 0, 0.001); /* otherwise IE would not extend this as expected */
-    position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
-    opacity: 0;
-    transition: all 0.2s linear;
-    text-align: center;
-}
-
-div.camera-progress.visible {
-    opacity: 0.4;
-}
-
-img.camera-progress {
-    border: 10px solid white;
-    border-radius: 10px;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-    margin: auto;
+    cursor: default;
 }

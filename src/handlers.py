@@ -146,6 +146,7 @@ class MainHandler(BaseHandler):
             timezones = pytz.common_timezones
 
         self.render('main.html',
+                frame=False,
                 version=motioneye.VERSION,
                 wpa_supplicant=settings.WPA_SUPPLICANT_CONF,
                 enable_reboot=settings.ENABLE_REBOOT,
@@ -757,29 +758,33 @@ class PictureHandler(BaseHandler):
             
             remote.list_media(camera_config, media_type='picture', prefix=self.get_argument('prefix', None), callback=on_response)
 
-    @BaseHandler.auth()
     def frame(self, camera_id):
         camera_config = config.get_camera(camera_id)
         
         if utils.local_camera(camera_config) or self.get_argument('title', None) is not None:
-            self.render('frame.html',
+            self.render('main.html',
+                    frame=True,
                     camera_id=camera_id,
                     camera_config=camera_config,
-                    title=self.get_argument('title', camera_config.get('@name', '')))
+                    title=self.get_argument('title', camera_config.get('@name', '')),
+                    admin_username=config.get_main().get('@admin_username'))
 
         else: # remote camera, we need to fetch remote config
             def on_response(remote_ui_config=None, error=None):
                 if error:
-                    return self.render('frame.html',
+                    return self.render('main.html',
+                            frame=True,
                             camera_id=camera_id,
                             camera_config=camera_config,
                             title=self.get_argument('title', ''))
 
                 remote_config = config.camera_ui_to_dict(remote_ui_config)
-                self.render('frame.html',
+                self.render('main.html',
+                        frame=True,
                         camera_id=camera_id,
                         camera_config=remote_config,
-                        title=self.get_argument('title', remote_config['@name']))
+                        title=self.get_argument('title', remote_config['@name']),
+                        admin_username=config.get_main().get('@admin_username'))
 
             remote.get_config(camera_config, on_response)
 

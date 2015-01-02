@@ -1,54 +1,5 @@
 
 var refreshDisabled = false;
-var inProgress = false;
-var refreshInterval = 50; /* milliseconds */
-
-
-    /* utils */
-
-function getCookie(name) {
-    if (document.cookie.length <= 0) {
-        return null;
-    }
-
-    var start = document.cookie.indexOf(name + '=');
-    if (start == -1) {
-        return null;
-    }
-     
-    var start = start + name.length + 1;
-    var end = document.cookie.indexOf(';', start);
-    if (end == -1) {
-        end = document.cookie.length;
-    }
-    
-    return unescape(document.cookie.substring(start, end));
-}
-
-    
-    /* progress */
-
-function beginProgress() {
-    if (inProgress) {
-        return; /* already in progress */
-    }
-
-    inProgress = true;
-    
-    /* show the camera progress indicator */
-    $('div.camera-progress').addClass('visible');
-}
-
-function endProgress() {
-    if (!inProgress) {
-        return; /* not in progress */
-    }
-    
-    inProgress = false;
-    
-    /* hide the camera progress indicator */
-    $('div.camera-progress').removeClass('visible');
-}
 
 
     /* camera frame */
@@ -158,6 +109,7 @@ function refreshCameraFrame() {
                 uri += '&width=' + img.width;
             }
             
+            uri = addAuthParams('GET', uri);
             img.src = uri;
             img.loading = 1;
             
@@ -168,27 +120,11 @@ function refreshCameraFrame() {
     setTimeout(refreshCameraFrame, refreshInterval);
 }
 
-function checkCameraErrors() {
-    /* properly triggers the onerror event on the cameras whose imgs were not successfully loaded,
-     * but the onerror event hasn't been triggered, for some reason (seems to happen in Chrome) */
-    var cameraFrame = $('div.camera-frame').find('img.camera');
-    
-    cameraFrame.each(function () {
-        if (this.complete === true && this.naturalWidth === 0 && !this.error && this.src) {
-            $(this).error();
-        }
-    });
-    
-    setTimeout(checkCameraErrors, 500);
-}
-
 
     /* startup function */
 
 $(document).ready(function () {
-    beginProgress();
     setupCameraFrame();
     refreshCameraFrame();
-    checkCameraErrors();
 });
 

@@ -4,8 +4,8 @@ var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is
 var fullScreenCameraId = null;
 var inProgress = false;
 var refreshInterval = 50; /* milliseconds */
-var username = null;
-var password = null;
+var username = '';
+var password = '';
 
 
     /* utils */
@@ -1861,7 +1861,7 @@ function runLoginDialog(retry) {
     $('body').append(tempFrame);
     
     var form = 
-            $('<form action="version/" target="temp" method="POST"><table class="login-dialog">' +
+            $('<form action="' + baseUri + 'login/" target="temp" method="POST"><table class="login-dialog">' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Username</span></td>' +
                     '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry"></td>' +
@@ -2854,7 +2854,8 @@ function addCameraFrameUi(cameraConfig) {
     
     fullScreenButton.click(function (cameraId) {
         return function () {
-            window.open(window.location.href + 'picture/' + cameraId + '/frame/', '_blank');
+            var url = window.location.href + 'picture/' + cameraId + '/frame/';
+            window.open(url, '_blank');
         };
     }(cameraId));
     
@@ -3100,10 +3101,22 @@ function checkCameraErrors() {
     /* startup function */
 
 $(document).ready(function () {
+    /* detect base uri */
+    if (frame) {
+        baseUri = qualifyUri('../../../');
+
+    }
+    else {
+        baseUri = qualifyUri('');
+
+        /* restore the username from cookie */
+        window.username = getCookie('username');
+    }
+    
     /* open/close settings */
     $('div.settings-button').click(function () {
         if (isSettingsOpen()) {
-             closeSettings();
+            closeSettings();
         }
         else {
             openSettings();
@@ -3124,14 +3137,13 @@ $(document).ready(function () {
         }
     });
     
-    /* restore the username from cookie */
-    window.username = getCookie('username');
-    
     initUI();
     beginProgress();
     
-    ajax('GET', 'login/', null, function () {
-        fetchCurrentConfig(endProgress);
+    ajax('GET', baseUri + 'login/', null, function () {
+        if (!frame) {
+            fetchCurrentConfig(endProgress);
+        }
     });
     
     refreshCameraFrames();

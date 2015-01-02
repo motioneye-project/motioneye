@@ -5,6 +5,10 @@ var _modalDialogContexts = [];
     /* UI widgets */
 
 function makeCheckBox($input) {
+    if (!$input.length) {
+        return;
+    }
+    
     var mainDiv = $('<div class="check-box"></div>');
     var buttonDiv = $('<div class="check-box-button"></div>');
     var text = $('<span class="check-box-text"><span>');
@@ -64,6 +68,10 @@ function makeCheckBox($input) {
 }
 
 function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decimals, unit) {
+    if (!$input.length) {
+        return;
+    }
+
     unit = unit || '';
     
     var slider = $('<div class="slider"></div>');
@@ -301,6 +309,10 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     /* validators */
 
 function makeTextValidator($input, required) {
+    if (!$input.length) {
+        return;
+    }
+    
     if (required == null) {
         required = true;
     }
@@ -345,6 +357,10 @@ function makeTextValidator($input, required) {
 }
 
 function makeComboValidator($select, required) {
+    if (!$select.length) {
+        return;
+    }
+    
     if (required == null) {
         required = true;
     }
@@ -389,6 +405,10 @@ function makeComboValidator($select, required) {
 }
 
 function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
+    if (!$input.length) {
+        return;
+    }
+    
     if (minVal == null) {
         minVal = -Infinity;
     }
@@ -483,6 +503,10 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
 }
 
 function makeTimeValidator($input) {
+    if (!$input.length) {
+        return;
+    }
+    
     function isValid(strVal) {
         if (!$input.is(':visible')) {
             return true; /* an invisible element is considered always valid */
@@ -524,6 +548,10 @@ function makeTimeValidator($input) {
 }
 
 function makeUrlValidator($input) {
+    if (!$input.length) {
+        return;
+    }
+    
     function isValid(strVal) {
         if (!$input.is(':visible')) {
             return true; /* an invisible element is considered always valid */
@@ -560,6 +588,10 @@ function makeUrlValidator($input) {
 }
 
 function makeProgressBar($div) {
+    if (!$div.length) {
+        return;
+    }
+    
     $div.addClass('progress-bar-container');
     var fillDiv = $('<div class="progress-bar-fill"></div>');
     var textSpan = $('<span class="progress-bar-text"></span>');

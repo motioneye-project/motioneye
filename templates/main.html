@@ -1,24 +1,32 @@
 {% extends "base.html" %}
 
-{% block title %}motionEye{% endblock %}
+{% block title %}{% if title %}{{title}}{% else %}motionEye{% endif %}{% endblock %}
 
 {% block style %}
     {{super()}}
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/ui.css" />
     <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/main.css" />
+    {% if frame %}
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/frame.css" />
+    {% endif %}
 {% endblock %}
 
 {% block script %}
     {{super()}}
     <script type="text/javascript" src="{{STATIC_URL}}js/ui.js"></script>
     <script type="text/javascript" src="{{STATIC_URL}}js/main.js"></script>
-
+    {% if frame %}
+        <script type="text/javascript" src="{{STATIC_URL}}js/frame.js"></script>
+    {% endif %}
     <script type="text/javascript">
         var adminUsername = '{{admin_username}}';
+        var frame = {% if frame %}true{% else %}false{% endif %};
+        var baseUri = null;
     </script>
 {% endblock %}
 
 {% block body %}
+    {% if not frame %}
     <div class="header">
         <div class="header-container">
             <div class="settings-top-bar closed">
@@ -38,6 +46,8 @@
             </div>
         </div>
     </div>
+    {% endif %}
+    {% if not frame %}
     <div class="page">
         <div class="settings closed">
             <div class="settings-container">
@@ -613,6 +623,16 @@
             <div class="copyright-note">copyright &copy; Calin Crisan</div>
         </div> 
     </div>
+    {% else %}
+        <div class="camera-frame" id="camera{{camera_id}}"
+                streaming_framerate="{{camera_config['stream_maxrate']}}" streaming_server_resize="{{camera_config['@webcam_server_resize']}}">
+            
+            <div class="camera-container">
+                <div class="camera-placeholder"><img class="no-camera" src="{{STATIC_URL}}img/no-camera.svg"></div><img
+                    class="camera"><div class="camera-progress"><img class="camera-progress"></div>
+            </div>
+        </div>
+    {% endif %}
     <div class="modal-glass"></div>
     <div class="modal-container"></div>
     <div class="popup-message-container"></div>
