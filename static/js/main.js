@@ -1391,7 +1391,7 @@ function doApply() {
         refreshDisabled[cameraId]++;
     });
     
-    ajax('POST', '/config/0/set/', pushConfigs, function (data) {
+    ajax('POST', baseUri + 'config/0/set/', pushConfigs, function (data) {
         affectedCameraIds.forEach(function (cameraId) {
             refreshDisabled[cameraId]--;
         });
@@ -1405,7 +1405,7 @@ function doApply() {
         if (data.reboot) {
             var count = 0;
             function checkServerReboot() {
-                ajax('GET', '/config/0/get/', null, 
+                ajax('GET', baseUri + 'config/0/get/', null, 
                     function () {
                         window.location.reload(true);
                     },
@@ -1450,13 +1450,13 @@ function doApply() {
 
 function doShutDown() {
     runConfirmDialog('Really shut down?', function () {
-        ajax('POST', '/power/shutdown/');
+        ajax('POST', baseUri + 'power/shutdown/');
         setTimeout(function () {
             refreshInterval = 1000000;
             showModalDialog('<div class="modal-progress"></div>');
             
             function checkServer() {
-                ajax('GET', '/', null, 
+                ajax('GET', baseUri, null, 
                     function () {
                         setTimeout(checkServer, 1000);
                     },
@@ -1476,14 +1476,14 @@ function doShutDown() {
 
 function doReboot() {
     runConfirmDialog('Really reboot?', function () {
-        ajax('POST', '/power/reboot/');
+        ajax('POST', baseUri + 'power/reboot/');
         setTimeout(function () {
             refreshInterval = 1000000;
             showModalDialog('<div class="modal-progress"></div>');
             var shutDown = false;
             
             function checkServer() {
-                ajax('GET', '/', null, 
+                ajax('GET', baseUri, null, 
                     function () {
                         if (!shutDown) {
                             setTimeout(checkServer, 1000);
@@ -1527,7 +1527,7 @@ function doRemCamera() {
         }
 
         beginProgress();
-        ajax('POST', '/config/' + cameraId + '/rem/', null, function (data) {
+        ajax('POST', baseUri + 'config/' + cameraId + '/rem/', null, function (data) {
             if (data == null || data.error) {
                 endProgress();
                 showErrorMessage(data && data.error);
@@ -1545,17 +1545,17 @@ function doUpdate() {
     }
     
     showModalDialog('<div class="modal-progress"></div>');
-    ajax('GET', '/update/', null, function (data) {
+    ajax('GET', baseUri + 'update/', null, function (data) {
         if (data.update_version == null) {
             runAlertDialog('motionEye is up to date (current version: ' + data.current_version + ')');
         }
         else {
             runConfirmDialog('New version available: ' + data.update_version + '. Update?', function () {
                 showModalDialog('<div style="text-align: center;"><span>This may take a few minutes.</span><div class="modal-progress"></div></div>');
-                ajax('POST', '/update/?version=' + data.update_version, null, function () {
+                ajax('POST', baseUri + 'update/?version=' + data.update_version, null, function () {
                     var count = 0;
                     function checkServerUpdate() {
-                        ajax('GET', '/config/0/get/', null,
+                        ajax('GET', baseUri + 'config/0/get/', null,
                             function () {
                                 runAlertDialog('motionEye was successfully updated!', function () {
                                     window.location.reload(true);
@@ -1586,9 +1586,9 @@ function doUpdate() {
 
 function doDownloadZipped(cameraId, groupKey) {
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
-    ajax('GET', '/picture/' + cameraId + '/zipped/' + groupKey + '/', null, function (data) {
+    ajax('GET', baseUri + 'picture/' + cameraId + '/zipped/' + groupKey + '/', null, function (data) {
         hideModalDialog(); /* progress */
-        downloadFile('/picture/' + cameraId + '/zipped/' + groupKey + '/?key=' + data.key);
+        downloadFile(baseUri + 'picture/' + cameraId + '/zipped/' + groupKey + '/?key=' + data.key);
     });
 }
 
@@ -1620,7 +1620,7 @@ function doDeleteFile(uri, callback) {
 function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
     runConfirmDialog('Really delete all ' + mediaType + 's in ' + groupKey + '?', function () {
         showModalDialog('<div class="modal-progress"></div>', null, null, true);
-        ajax('POST', '/' + mediaType + '/' + cameraId + '/delete_all/' + groupKey + '/', null, function (data) {
+        ajax('POST', baseUri + mediaType + '/' + cameraId + '/delete_all/' + groupKey + '/', null, function (data) {
             hideModalDialog(); /* progress */
             hideModalDialog(); /* confirm */
             
@@ -1644,7 +1644,7 @@ function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
 function fetchCurrentConfig(onFetch) {
     function fetchCameraList() {
         /* fetch the camera list */
-        ajax('GET', '/config/list/', null, function (data) {
+        ajax('GET', baseUri + 'config/list/', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 data = {cameras: []};
@@ -1702,7 +1702,7 @@ function fetchCurrentConfig(onFetch) {
 
     if (isAdmin()) {
         /* fetch the main configuration */
-        ajax('GET', '/config/main/get/', null, function (data) {
+        ajax('GET', baseUri + 'config/main/get/', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 return;
@@ -1720,7 +1720,7 @@ function fetchCurrentConfig(onFetch) {
 function fetchCurrentCameraConfig(onFetch) {
     var cameraId = $('#cameraSelect').val();
     if (cameraId != null) {
-        ajax('GET', '/config/' + cameraId + '/get/', null, function (data) {
+        ajax('GET', baseUri + 'config/' + cameraId + '/get/', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 dict2CameraUi(null);
@@ -1795,7 +1795,7 @@ function pushPreview(control) {
     refreshDisabled[cameraId] |= 0;
     refreshDisabled[cameraId]++;
     
-    ajax('POST', '/config/' + cameraId + '/set_preview/', data, function (data) {
+    ajax('POST', baseUri + 'config/' + cameraId + '/set_preview/', data, function (data) {
         refreshDisabled[cameraId]--;
         
         if (data == null || data.error) {
@@ -1946,7 +1946,7 @@ function runPictureDialog(entries, pos, mediaType) {
         progressImg.css('left', (img.parent().width() - progressImg.width()) / 2);
         progressImg.css('top', (img.parent().height() - progressImg.height()) / 2);
         
-        img.attr('src', addAuthParams('GET', '/' + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
+        img.attr('src', addAuthParams('GET', baseUri + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
         img.load(function () {
             var aspectRatio = this.naturalWidth / this.naturalHeight;
             var sizeWidth = width * width / aspectRatio;
@@ -1993,7 +1993,7 @@ function runPictureDialog(entries, pos, mediaType) {
             {caption: 'Close'},
             {caption: 'Download', isDefault: true, click: function () {
                 var entry = entries[pos];
-                downloadFile('/' + mediaType + '/' + entry.cameraId + '/download' + entry.path);
+                downloadFile(baseUri + mediaType + '/' + entry.cameraId + '/download' + entry.path);
                 
                 return false;
             }}
@@ -2151,11 +2151,10 @@ function runAddCameraDialog() {
         
         cameraMsgLabel.html('');
         
-        ajax('GET', '/config/list/', data, function (data) {
+        ajax('GET', baseUri + 'config/list/', data, function (data) {
             progress.remove();
             
             if (data == null || data.error) {
-                //showErrorMessage(data && data.error);
                 cameraMsgLabel.html(data && data.error);
                 
                 return;
@@ -2184,7 +2183,7 @@ function runAddCameraDialog() {
     showModalDialog('<div class="modal-progress"></div>');
     
     /* fetch the available devices */
-    ajax('GET', '/config/list_devices/', null, function (data) {
+    ajax('GET', baseUri + 'config/list_devices/', null, function (data) {
         if (data == null || data.error) {
             hideModalDialog();
             showErrorMessage(data && data.error);
@@ -2233,7 +2232,7 @@ function runAddCameraDialog() {
                 }
 
                 beginProgress();
-                ajax('POST', '/config/add/', data, function (data) {
+                ajax('POST', baseUri + 'config/add/', data, function (data) {
                     if (data == null || data.error) {
                         endProgress();
                         showErrorMessage(data && data.error);
@@ -2320,7 +2319,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                 noKeys: true
             });
             
-            var url = '/picture/' + cameraId + '/timelapse/' + groupKey + '/';
+            var url = baseUri + 'picture/' + cameraId + '/timelapse/' + groupKey + '/';
             var data = {interval: intervalSelect.val(), framerate: framerateSlider.val()};
             var first = true;
             
@@ -2363,7 +2362,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                         setTimeout(function () {
                             hideModalDialog(); /* progress */
                             hideModalDialog(); /* timelapse dialog */
-                            downloadFile('/picture/' + cameraId + '/timelapse/' + groupKey + '/?key=' + data.key);
+                            downloadFile(baseUri + 'picture/' + cameraId + '/timelapse/' + groupKey + '/?key=' + data.key);
                         }, 500);
                     }
                     else {
@@ -2439,7 +2438,7 @@ function runMediaDialog(cameraId, mediaType) {
                     
                     var previewImg = $('<img class="media-list-preview" src="' + staticUrl + 'img/modal-progress.gif"/>');
                     entryDiv.append(previewImg);
-                    previewImg[0]._src = addAuthParams('GET', '/' + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height);
+                    previewImg[0]._src = addAuthParams('GET', baseUri + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height);
                     
                     var downloadButton = $('<div class="media-list-download-button button">Download</div>');
                     entryDiv.append(downloadButton);
@@ -2456,12 +2455,12 @@ function runMediaDialog(cameraId, mediaType) {
                     entryDiv.append(detailsDiv);
                     
                     downloadButton.click(function () {
-                        downloadFile('/' + mediaType + '/' + cameraId + '/download' + entry.path);
+                        downloadFile(baseUri + mediaType + '/' + cameraId + '/download' + entry.path);
                         return false;
                     });
                     
                     deleteButton.click(function () {
-                        doDeleteFile('/' + mediaType + '/' + cameraId + '/delete' + entry.path, function () {
+                        doDeleteFile(baseUri + mediaType + '/' + cameraId + '/delete' + entry.path, function () {
                             entryDiv.remove();
                             entries.splice(i, 1); /* remove entry from group */
 
@@ -2513,7 +2512,7 @@ function runMediaDialog(cameraId, mediaType) {
         var previewImg = $('<img class="media-list-progress" src="' + staticUrl + 'img/modal-progress.gif"/>');
         mediaListDiv.append(previewImg);
         
-        var url = '/' + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped');
+        var url = baseUri + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped');
         ajax('GET', url, null, function (data) {
             previewImg.remove();
             
@@ -2646,7 +2645,7 @@ function runMediaDialog(cameraId, mediaType) {
     showModalDialog('<div class="modal-progress"></div>');
     
     /* fetch the media list */
-    ajax('GET', '/' + mediaType + '/' + cameraId + '/list/', null, function (data) {
+    ajax('GET', baseUri + mediaType + '/' + cameraId + '/list/', null, function (data) {
         if (data == null || data.error) {
             hideModalDialog();
             showErrorMessage(data && data.error);
@@ -2859,7 +2858,7 @@ function addCameraFrameUi(cameraConfig) {
     
     fullScreenButton.click(function (cameraId) {
         return function () {
-            var url = window.location.href + 'picture/' + cameraId + '/frame/';
+            var url = baseUri + 'picture/' + cameraId + '/frame/';
             window.open(url, '_blank');
         };
     }(cameraId));
@@ -2941,7 +2940,7 @@ function recreateCameraFrames(cameras) {
         updateCameras(cameras);
     }
     else {
-        ajax('GET', '/config/list/', null, function (data) {
+        ajax('GET', baseUri + 'config/list/', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 return;
@@ -3044,7 +3043,7 @@ function refreshCameraFrames() {
         
         var timestamp = Math.round(new Date().getTime());
         
-        var uri = '/picture/' + cameraId + '/current/?seq=' + timestamp;
+        var uri = baseUri + 'picture/' + cameraId + '/current/?seq=' + timestamp;
         if (serverSideResize) {
             uri += '&width=' + img.width;
         }

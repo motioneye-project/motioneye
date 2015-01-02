@@ -104,7 +104,7 @@ function refreshCameraFrame() {
             
             var timestamp = Math.round(new Date().getTime());
             
-            var uri = '/picture/' + cameraId + '/current/?seq=' + timestamp;
+            var uri = baseUri + 'picture/' + cameraId + '/current/?seq=' + timestamp;
             if (cameraFrame.serverSideResize) {
                 uri += '&width=' + img.width;
             }
