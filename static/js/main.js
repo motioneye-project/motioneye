@@ -1164,14 +1164,25 @@ function dict2CameraUi(dict) {
     $('#streamingMotion')[0].checked = dict['streaming_motion'];
     
     var cameraUrl = location.protocol + '//' + location.host + '/picture/' + dict.id + '/';
-    $('#streamingSnapshotUrlEntry').val(cameraUrl + 'current/');
+    var snapshotUrl = cameraUrl + 'current/';
+    var mjpgUrl = location.protocol + '//' + location.host.split(':')[0] + ':' + dict.streaming_port;
+    var embedUrl = cameraUrl + 'frame/';
+
     if (dict.proto == 'motioneye') {
-        $('#streamingMjpgUrlEntry').val('');
+        /* cannot tell the mjpg streaming url for a remote motionEye camera */
+        mjpgUrl = '';
     }
-    else {
-        $('#streamingMjpgUrlEntry').val(location.protocol + '//' + location.host.split(':')[0] + ':' + dict.streaming_port);
+    
+    if ($('#normalPasswordEntry').val()) { /* anonymous access is disabled */ 
+        snapshotUrl = addAuthParams('GET', snapshotUrl);
+        if (mjpgUrl) {
+            mjpgUrl = addAuthParams('GET', mjpgUrl);
+        }
     }
-    $('#streamingEmbedUrlEntry').val(cameraUrl + 'frame/');
+    
+    $('#streamingSnapshotUrlEntry').val(snapshotUrl);
+    $('#streamingMjpgUrlEntry').val(mjpgUrl);
+    $('#streamingEmbedUrlEntry').val(embedUrl);
     
     /* still images */
     $('#stillImagesSwitch')[0].checked = dict['still_images'];
@@ -2104,7 +2115,7 @@ function runAddCameraDialog() {
         return valid;
     }
     
-    function splitUrl(url) {
+    function splitCameraUrl(url) {
         var parts = url.split('://');
         var proto = parts[0];
         var index = parts[1].indexOf('/');
@@ -2144,7 +2155,7 @@ function runAddCameraDialog() {
         addCameraSelect.parent().find('div').remove(); /* remove any previous progress div */
         addCameraSelect.before(progress);
         
-        var data = splitUrl(urlEntry.val());
+        var data = splitCameraUrl(urlEntry.val());
         data.username = usernameEntry.val();
         data.password = passwordEntry.val();
         data.type = deviceSelect.val();
@@ -2215,14 +2226,14 @@ function runAddCameraDialog() {
                 var data = {};
                 
                 if (deviceSelect.val() == 'motioneye') {
-                    data = splitUrl(urlEntry.val());
+                    data = splitCameraUrl(urlEntry.val());
                     data.proto = 'motioneye';
                     data.username = usernameEntry.val();
                     data.password = passwordEntry.val();
                     data.remote_camera_id = addCameraSelect.val();
                 }
                 else if (deviceSelect.val() == 'netcam') {
-                    data = splitUrl(urlEntry.val());
+                    data = splitCameraUrl(urlEntry.val());
                     data.username = usernameEntry.val();
                     data.password = passwordEntry.val();
                 }
