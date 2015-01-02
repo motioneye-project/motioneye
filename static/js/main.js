@@ -167,6 +167,10 @@ function addAuthParams(method, url, body) {
     return url;
 }
 
+function isAdmin() {
+    return username === adminUsername;
+}
+
 function ajax(method, url, data, callback, error) {
     var origUrl = url;
     var origData = data;
@@ -209,7 +213,7 @@ function ajax(method, url, data, callback, error) {
                 }
             }
             else if (callback) {
-                $('body').toggleClass('admin', username === adminUsername);
+                $('body').toggleClass('admin', isAdmin());
                 callback(data);
             }
         },
@@ -1651,7 +1655,7 @@ function fetchCurrentConfig(onFetch) {
             
             var i, cameras = data.cameras;
             
-            if (username === adminUsername) {
+            if (isAdmin()) {
                 var cameraSelect = $('#cameraSelect');
                 cameraSelect.html('');
                 for (i = 0; i < cameras.length; i++) {
@@ -1696,7 +1700,7 @@ function fetchCurrentConfig(onFetch) {
     /* add a progress indicator */
     $('div.page-container').append('<img class="main-loading-progress" src="' + staticUrl + 'img/main-loading-progress.gif">');
 
-    if (username === adminUsername) {
+    if (isAdmin()) {
         /* fetch the main configuration */
         ajax('GET', '/config/main/get/', null, function (data) {
             if (data == null || data.error) {
@@ -2441,8 +2445,7 @@ function runMediaDialog(cameraId, mediaType) {
                     entryDiv.append(downloadButton);
                     
                     var deleteButton = $('<div class="media-list-delete-button button">Delete</div>');
-                    
-                    if (username === adminUsername) {
+                    if (isAdmin()) {
                         entryDiv.append(deleteButton);
                     }
 
@@ -2567,34 +2570,36 @@ function runMediaDialog(cameraId, mediaType) {
         });
     }
 
-    var deleteAllButton = $('<div class="media-dialog-button media-dialog-delete-all-button">Delete</div>');
-    buttonsDiv.append(deleteAllButton);
-    
-    deleteAllButton.click(function () {
-        if (groupKey != null) {
-            doDeleteAllFiles(mediaType, cameraId, groupKey, function () {
-                /* delete th group button */
-                groupsDiv.find('div.media-dialog-group-button').each(function () {
-                    var $this = $(this);
-                    if (this.key == groupKey) {
-                        $this.remove();
+    if (isAdmin()) {
+        var deleteAllButton = $('<div class="media-dialog-button media-dialog-delete-all-button">Delete All</div>');
+        buttonsDiv.append(deleteAllButton);
+        
+        deleteAllButton.click(function () {
+            if (groupKey != null) {
+                doDeleteAllFiles(mediaType, cameraId, groupKey, function () {
+                    /* delete th group button */
+                    groupsDiv.find('div.media-dialog-group-button').each(function () {
+                        var $this = $(this);
+                        if (this.key == groupKey) {
+                            $this.remove();
+                        }
+                    });
+                    
+                    /* delete the group itself */
+                    delete groups[groupKey];
+                    
+                    /* show the first existing group, if any */
+                    var keys = Object.keys(groups);
+                    if (keys.length) {
+                        showGroup(keys[0]);
+                    }
+                    else {
+                        hideModalDialog();
                     }
                 });
-                
-                /* delete the group itself */
-                delete groups[groupKey];
-                
-                /* show the first existing group, if any */
-                var keys = Object.keys(groups);
-                if (keys.length) {
-                    showGroup(keys[0]);
-                }
-                else {
-                    hideModalDialog();
-                }
-            });
-        }
-    });
+            }
+        });
+    }
     
     function updateDialogSize() {
         var windowWidth = $(window).width();
@@ -2796,7 +2801,7 @@ function addCameraFrameUi(cameraConfig) {
     var progressImg = cameraFrameDiv.find('img.camera-progress');
     
     /* no camera buttons if not admin */
-    if (username !== adminUsername) {
+    if (!isAdmin()) {
         configureButton.hide();
     }
     
@@ -2924,7 +2929,7 @@ function recreateCameraFrames(cameras) {
             addCameraFrameUi(camera);
         }
         
-        if ($('#cameraSelect').find('option').length < 2 && username === adminUsername && $('#motionEyeSwitch')[0].checked) {
+        if ($('#cameraSelect').find('option').length < 2 && isAdmin() && $('#motionEyeSwitch')[0].checked) {
             /* invite the user to add a camera */
             var addCameraLink = $('<div class="add-camera-message">' + 
                     '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');
