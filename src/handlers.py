@@ -286,11 +286,11 @@ class ConfigHandler(BaseHandler):
             logging.debug('setting main config...')
             
             old_main_config = config.get_main()
-            old_admin_credentials = old_main_config.get('@admin_username', '') + ':' + old_main_config.get('@admin_password', '')
+            old_admin_credentials = '%s:%s' % (old_main_config.get('@admin_username', ''), old_main_config.get('@admin_password', ''))
             
             main_config = config.main_ui_to_dict(ui_config)
             main_config.setdefault('thread', old_main_config.get('thread', [])) 
-            admin_credentials = main_config.get('@admin_username', '') + ':' + main_config.get('@admin_password', '')
+            admin_credentials = '%s:%s' % (main_config.get('@admin_username', ''), main_config.get('@admin_password', ''))
             
             wifi_changed = bool([k for k in ['@wifi_enabled', '@wifi_name', '@wifi_key'] if old_main_config.get(k) != main_config.get(k)])
             

@@ -86,7 +86,9 @@ def get_main(as_lines=False):
     if as_lines:
         return lines
     
-    main_config = _conf_to_dict(lines, list_names=['thread'])
+    main_config = _conf_to_dict(lines,
+            list_names=['thread'],
+            no_convert=['@admin_username', '@admin_password', '@normal_username', '@normal_password'])
     
     if settings.WPA_SUPPLICANT_CONF:
         _get_wifi_settings(main_config)
@@ -251,7 +253,9 @@ def get_camera(camera_id, as_lines=False):
     if as_lines:
         return lines
         
-    camera_config = _conf_to_dict(lines)
+    camera_config = _conf_to_dict(lines,
+            no_convert=['@name', '@network_share_name', '@network_server',
+                        '@network_username', '@network_password', '@storage_device'])
     
     if utils.local_camera(camera_config):
         # determine the enabled status
@@ -1096,7 +1100,7 @@ def _python_to_value(value):
         return value
 
 
-def _conf_to_dict(lines, list_names=[]):
+def _conf_to_dict(lines, list_names=[], no_convert=[]):
     data = OrderedDict()
     
     for line in lines:
@@ -1124,7 +1128,8 @@ def _conf_to_dict(lines, list_names=[]):
             (name, value) = parts
             value = value.strip()
         
-        value = _value_to_python(value)
+        if name not in no_convert:
+            value = _value_to_python(value)
         
         if name in list_names:
             data.setdefault(name, []).append(value)
