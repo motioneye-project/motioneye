@@ -143,16 +143,21 @@ function computeSignature(method, uri, body) {
     var query = parts.params;
     var baseUrl = parts.baseUrl;
     
+    /* sort query arguments alphabetically */
     query = Object.keys(query).map(function (key) {return {key: key, value: query[key]};});
-    query = query.filter(function (q) {return q.key !== 'signature';});
+    query = query.filter(function (q) {return q.key !== '_signature';});
     query.sortKey(function (q) {return q.key;});
-    query = query.map(function (q) {return q.key + '=' + q.value;}).join('&');
+    query = query.map(function (q) {return q.key + '=' + encodeURIComponent(q.value);}).join('&');
     uri = baseUrl + '?' + query; 
     
     return sha1(method + ':' + uri + ':' + (body || '') + ':' + window.password).toLowerCase();
 }
 
 function addAuthParams(method, url, body) {
+    if (!window.username) {
+        return url;
+    }
+
     if (url.indexOf('?') < 0) {
         url += '?';
     }
