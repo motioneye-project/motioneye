@@ -117,10 +117,20 @@ def _remove_older_files(dir, moment, exts):
         if file_moment < moment:
             logging.debug('removing file %(path)s...' % {'path': full_path})
             
+            # remove the file itself
             os.remove(full_path)
+
+            # remove the parent directories if empty or contains only thumb files
             dir_path = os.path.dirname(full_path)
-            if not os.listdir(dir_path):
-                logging.debug('removing directory %(path)s...' % {'path': dir_path})
+            listing = os.listdir(dir_path)
+            thumbs = [l for l in listing if l.endswith('.thumb')]
+            
+            if len(listing) == len(thumbs): # only thumbs
+                for p in thumbs:
+                    os.remove(os.path.join(dir_path, p))
+
+            if not listing or len(listing) == len(thumbs):
+                logging.debug('removing empty directory %(path)s...' % {'path': dir_path})
                 os.removedirs(dir_path)
 
 
@@ -150,6 +160,18 @@ def cleanup_media(media_type):
         if preserve_media == 0:
             return # preserve forever
         
+        still_images_enabled = bool(
+                ((camera_config['emulate_motion'] or camera_config['output_pictures']) and camera_config['picture_filename']) or
+                (camera_config['snapshot_interval'] and camera_config['snapshot_filename']))
+        
+        movies_enabled = camera_config['ffmpeg_output_movies']
+
+        if media_type == 'picture' and not still_images_enabled:
+            continue # only cleanup pictures for cameras with still images enabled
+        
+        elif media_type == 'movie' and not movies_enabled:
+            continue # only cleanup movies for cameras with movies enabled
+
         preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_media)
             
         target_dir = camera_config.get('target_dir')
@@ -623,7 +645,21 @@ def del_media_content(camera_config, path, media_type):
     full_path = os.path.join(target_dir, path)
     
     try:
+        # remove the file itself
         os.remove(full_path)
+
+        # remove the parent directories if empty or contains only thumb files
+        dir_path = os.path.dirname(full_path)
+        listing = os.listdir(dir_path)
+        thumbs = [l for l in listing if l.endswith('.thumb')]
+        
+        if len(listing) == len(thumbs): # only thumbs
+            for p in thumbs:
+                os.remove(os.path.join(dir_path, p))
+
+        if not listing or len(listing) == len(thumbs):
+            logging.debug('removing empty directory %(path)s...' % {'path': dir_path})
+            os.removedirs(dir_path)
     
     except Exception as e:
         logging.error('failed to remove file %(path)s: %(msg)s' % {
@@ -652,6 +688,18 @@ def del_media_group(camera_config, group, media_type):
                     'path': full_path, 'msg': unicode(e)})
 
             raise
+
+    # remove the group directory if empty or contains only thumb files
+    listing = os.listdir(full_path)
+    thumbs = [l for l in listing if l.endswith('.thumb')]
+
+    if len(listing) == len(thumbs): # only thumbs
+        for p in thumbs:
+            os.remove(os.path.join(full_path, p))
+
+    if not listing or len(listing) == len(thumbs):
+        logging.debug('removing empty directory %(path)s...' % {'path': full_path})
+        os.removedirs(full_path)
 
 
 def get_current_picture(camera_config, width, height):
