@@ -23,6 +23,8 @@ import re
 def _list_mounts():
     logging.debug('listing mounts...')
     
+    seen_targets = set()
+    
     mounts = []
     with open('/proc/mounts', 'r') as f:
         for line in f:
@@ -40,10 +42,15 @@ def _list_mounts():
             
             if not os.access(mount_point, os.W_OK):
                 continue
+            
+            if target in seen_targets:
+                continue # probably a bind mount
+            
+            seen_targets.add(target)
 
             if fstype == 'fuseblk':
-                fstype = 'ntfs' # most likely'
-                
+                fstype = 'ntfs' # most likely
+            
             logging.debug('found mount "%s" at "%s"' % (target, mount_point))
             
             mounts.append({
