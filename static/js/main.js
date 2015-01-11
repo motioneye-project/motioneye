@@ -2655,10 +2655,8 @@ function runMediaDialog(cameraId, mediaType) {
         buttonsDiv.show();
         
         if (windowWidth < 1000) {
-            groupsDiv.width(parseInt(windowWidth * 0.8));
             groupsDiv.height('');
             groupsDiv.addClass('small-screen');
-            mediaListDiv.width(parseInt(windowWidth * 0.8));
             mediaListDiv.height(parseInt(windowHeight * 0.7));
         }
         else {
