@@ -137,7 +137,7 @@ body.admin div.logout-button {
     display: none;
 }
 
-body.admin div.settings-top-bar div.logout-button {
+body.admin div.settings-top-bar.closed div.logout-button {
     display: inline-block;
 }
 
