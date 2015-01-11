@@ -42,6 +42,7 @@ def make_mount_point(server, share, username):
     share = re.sub('[^a-zA-Z0-9]', '_', share).lower()
     
     if username:
+        username = re.sub('[^a-zA-Z0-9]', '_', username).lower()
         mount_point = os.path.join(settings.SMB_MOUNT_ROOT, 'motioneye_%s_%s_%s' % (server, share, username))
     
     else:
@@ -71,7 +72,7 @@ def list_mounts():
             target = parts[0]
             mount_point = parts[1]
             fstype = parts[2]
-            opts = parts[3]
+            opts = ' '.join(parts[3:])
             
             if fstype != 'cifs':
                 continue
@@ -87,8 +88,9 @@ def list_mounts():
                 continue
             
             server, share = match.groups()
+            share = share.replace('\\040', ' ') # spaces are reported oddly by /proc/mounts
             
-            match = re.search('username=(\w+)', opts)
+            match = re.search('username=([\w\s]+)', opts)
             if match:
                 username = match.group(1)
             
@@ -123,7 +125,7 @@ def mount(server, share, username, password):
         opts = 'guest'
 
     try:
-        subprocess.check_call('mount.cifs //%s/%s %s -o %s' % (server, share, mount_point, opts), shell=True)
+        subprocess.check_call('mount.cifs "//%s/%s" "%s" -o "%s"' % (server, share, mount_point, opts), shell=True)
         
     except subprocess.CalledProcessError:
         logging.error('failed to mount smb share "//%s/%s" at "%s"' % (server, share, mount_point))
@@ -150,7 +152,7 @@ def umount(server, share, username):
     logging.debug('unmounting "//%s/%s" from "%s"' % (server, share, mount_point))
     
     try:
-        subprocess.check_call('umount %s' % mount_point, shell=True)
+        subprocess.check_call('umount "%s"' % mount_point, shell=True)
 
     except subprocess.CalledProcessError:
         logging.error('failed to unmount smb share "//%s/%s" from "%s"' % (server, share, mount_point))
