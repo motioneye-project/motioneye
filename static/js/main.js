@@ -2000,6 +2000,24 @@ function runPictureDialog(entries, pos, mediaType) {
         updatePicture();
     });
     
+    function bodyKeyDown(e) {
+        switch (e.which) {
+            case 37:
+                if (prevArrow.is(':visible')) {
+                    prevArrow.click();
+                }
+                break;
+                
+            case 39:
+                if (nextArrow.is(':visible')) {
+                    nextArrow.click();
+                }
+                break;
+        }
+    }
+    
+    $('body').on('keydown', bodyKeyDown);
+    
     img.load(updateModalDialogPosition);
     
     runModalDialog({
@@ -2016,7 +2034,10 @@ function runPictureDialog(entries, pos, mediaType) {
         ],
         content: content,
         stack: true,
-        onShow: updatePicture
+        onShow: updatePicture,
+        onClose: function () {
+            $('body').off('keydown', bodyKeyDown);
+        }
     });
 }
 
