@@ -444,6 +444,7 @@ tr.hidden {
     
 table.login-dialog {
     margin: auto;
+    font-size: 22px; /* always bigger, regardless of screen size */
 }
 
 table.add-camera-dialog {
@@ -724,6 +725,11 @@ div.media-dialog-delete-all-button:HOVER {
 
 div.media-dialog-delete-all-button:ACTIVE {
     background-color: #B03427;
+}
+
+td.login-dialog-error {
+    color: red;
+    display: none;
 }
 
 

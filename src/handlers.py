@@ -83,10 +83,10 @@ class BaseHandler(RequestHandler):
             signature == utils.compute_signature(self.request.method, self.request.uri, self.request.body, main_config.get('@normal_password'))):
             
             return 'normal'
-        
-        elif username:
+
+        elif username and username != '_':
             logging.error('authentication failed for user %(user)s' % {'user': username})
-            
+
         return None
         
     def _handle_request_exception(self, exception):
@@ -113,6 +113,7 @@ class BaseHandler(RequestHandler):
                 user = self.current_user
                 if (user is None) or (user != 'admin' and (admin or _admin)):
                     self.set_header('Content-Type', 'application/json')
+
                     return self.finish_json({'error': 'unauthorized', 'prompt': prompt})
 
                 return func(self, *args, **kwargs)

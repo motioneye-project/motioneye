@@ -216,10 +216,15 @@ function ajax(method, url, data, callback, error) {
                         ajax(method, origUrl, origData, callback, error);
                     });
                 }
+                
+                window._loginRetry = true;
             }
-            else if (callback) {
-                $('body').toggleClass('admin', isAdmin());
-                callback(data);
+            else {
+                delete window._loginRetry;
+                if (callback) {
+                    $('body').toggleClass('admin', isAdmin());
+                    callback(data);
+                }
             }
         },
         contentType: json ? 'application/json' : null,
@@ -392,13 +397,13 @@ function setCookie(name, value, days) {
     if (days) {
         date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = '; expires=' + date.toGMTString();
+        expires = 'expires=' + date.toGMTString();
     }
     else {
         expires = '';
     }
 
-    document.cookie = name + '=' + value + expires + '; path=/';
+    document.cookie = name + '=' + value + '; ' + expires + '; path=/';
 }
 
 function remCookie(name) {
@@ -414,7 +419,7 @@ function showErrorMessage(message) {
 }
 
 function doLogout() {
-    remCookie('username');
+    setCookie('username', '_');
     window.location.reload(true);
 }
 
@@ -1695,6 +1700,12 @@ function fetchCurrentConfig(onFetch) {
 
                 updateConfigUi();
             }
+            else { /* normal user */
+                if (!cameras.length) {
+                    /* normal user with no cameras doesn't make too much sense - force login */
+                    doLogout();
+                }
+            }
             
             var mainLoadingProgressImg = $('img.main-loading-progress');
             if (mainLoadingProgressImg.length) {
@@ -1883,6 +1894,9 @@ function runLoginDialog(retry) {
     var form = 
             $('<form action="' + baseUri + 'login/" target="temp" method="POST"><table class="login-dialog">' +
                 '<tr>' +
+                    '<td class="login-dialog-error" colspan="100"></td>' +
+                '</tr>' +
+                '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Username</span></td>' +
                     '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry"></td>' +
                 '</tr>' +
@@ -1895,19 +1909,19 @@ function runLoginDialog(retry) {
 
     var usernameEntry = form.find('#usernameEntry');
     var passwordEntry = form.find('#passwordEntry');
+    var errorTd = form.find('td.login-dialog-error');
+    
+    if (window._loginRetry) {
+        errorTd.css('display', 'table-cell');
+        errorTd.html('Invalid credentials.');
+    }
 
     var params = {
         title: 'Login',
         content: form,
         buttons: [
             {caption: 'Cancel', isCancel: true, click: function () {
-                setTimeout(function () {
-                    tempFrame.remove();
-                }, 5000);
-                
-                if (retry) {
-                    retry();
-                }
+                tempFrame.remove();
             }},
             {caption: 'Login', isDefault: true, click: function () {
                 window.username = usernameEntry.val();
