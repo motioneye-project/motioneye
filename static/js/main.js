@@ -2669,9 +2669,11 @@ function runMediaDialog(cameraId, mediaType) {
         buttonsDiv.show();
         
         if (windowWidth < 1000) {
+            mediaListDiv.width(parseInt(windowWidth * 0.8));
+            mediaListDiv.height(parseInt(windowHeight * 0.7));
+            groupsDiv.width(parseInt(windowWidth * 0.8));
             groupsDiv.height('');
             groupsDiv.addClass('small-screen');
-            mediaListDiv.height(parseInt(windowHeight * 0.7));
         }
         else {
             mediaListDiv.width(parseInt(windowWidth * 0.7));
@@ -2756,7 +2758,10 @@ function runMediaDialog(cameraId, mediaType) {
         }
         
         var title;
-        if (mediaType === 'picture') {
+        if ($(window).width() < 1000) {
+            title = data.cameraName;
+        }
+        else if (mediaType === 'picture') {
             title = 'Pictures taken by ' + data.cameraName;
         }
         else {
