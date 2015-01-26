@@ -162,7 +162,7 @@ function addAuthParams(method, url, body) {
         url += '?';
     }
     else {
-        url += '&';;
+        url += '&';
     }
     
     url += '_username=' + window.username;
@@ -3118,7 +3118,7 @@ function refreshCameraFrames() {
     
     cameraFrames.each(function () {
         /* limit the refresh rate to 20 fps */
-        var count = Math.max(1, 1 / this.config['streaming_framerate'] * 1000 / refreshInterval);
+        var count = Math.max(0, 1 / this.config['streaming_framerate'] * 1000 / refreshInterval);
         var serverSideResize = this.config['streaming_server_resize'];
         var img = $(this).find('img.camera')[0];
         
@@ -3132,7 +3132,7 @@ function refreshCameraFrames() {
         }
         else {
             var cameraId = this.id.substring(6);
-            refreshCameraFrame(cameraId, img, serverSideResize); /* count <= 2 means at least 5 fps */
+            refreshCameraFrame(cameraId, img, serverSideResize);
             
             this.refreshDivider = 0;
         }
