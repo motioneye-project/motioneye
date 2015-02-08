@@ -664,6 +664,9 @@ def camera_ui_to_dict(ui):
         elif left_text == 'timestamp':
             data['text_left'] = '%Y-%m-%d\\n%T'
             
+        elif left_text == 'disabled':
+            data['text_left'] = ''
+            
         else:
             data['text_left'] = ui['custom_left_text']
         
@@ -673,6 +676,9 @@ def camera_ui_to_dict(ui):
             
         elif right_text == 'timestamp':
             data['text_right'] = '%Y-%m-%d\\n%T'
+            
+        elif right_text == 'disabled':
+            data['text_right'] = ''
             
         else:
             data['text_right'] = ui['custom_right_text']
@@ -960,6 +966,9 @@ def camera_dict_to_ui(data):
             
         elif text_left == '%Y-%m-%d\\n%T':
             ui['left_text'] = 'timestamp'
+
+        elif text_left == '':
+            ui['left_text'] = 'disabled'
             
         else:
             ui['left_text'] = 'custom-text'
@@ -971,6 +980,9 @@ def camera_dict_to_ui(data):
         elif text_right == '%Y-%m-%d\\n%T':
             ui['right_text'] = 'timestamp'
             
+        elif text_right == '':
+            ui['right_text'] = 'disabled'
+
         else:
             ui['right_text'] = 'custom-text'
             ui['custom_right_text'] = text_right
@@ -1129,8 +1141,8 @@ def _conf_to_dict(lines, list_names=[], no_convert=[]):
             line = line.split('#')[0] # everything up to the first #
             
             parts = line.split(None, 1)
-            if len(parts) != 2:  # invalid line format
-                continue
+            if len(parts) == 1: # empty value
+                parts.append('')
 
             (name, value) = parts
             value = value.strip()
