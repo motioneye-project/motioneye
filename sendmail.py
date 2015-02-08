@@ -66,7 +66,7 @@ def send_mail(server, port, account, password, tls, to, subject, message, files)
     email = MIMEMultipart()
     email['Subject'] = subject
     email['From'] = _from
-    email['To'] = to
+    email['To'] = ', '.join(to)
     email.attach(MIMEText(message))
     
     for file in reversed(files):
@@ -138,7 +138,7 @@ if __name__ == '__main__':
     msg_id = sys.argv[7]
     camera_id = sys.argv[8]
     moment = sys.argv[9]
-    
+
     message = messages.get(msg_id)
     subject = subjects.get(msg_id)
     if not message or not subject:
@@ -162,6 +162,9 @@ if __name__ == '__main__':
     if not to:
         logging.info('no email address specified')
         sys.exit(0)
+
+    to = [t.strip() for t in re.split('[,;| ]', to)]
+    to = [t for t in to if t]
 
     io_loop = IOLoop.instance()
     
