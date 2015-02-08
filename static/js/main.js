@@ -144,7 +144,7 @@ function computeSignature(method, uri, body) {
     var baseUrl = parts.baseUrl;
     
     /* sort query arguments alphabetically */
-    query = Object.keys(query).map(function (key) {return {key: key, value: query[key]};});
+    query = Object.keys(query).map(function (key) {return {key: key, value: decodeURIComponent(query[key])};});
     query = query.filter(function (q) {return q.key !== '_signature';});
     query.sortKey(function (q) {return q.key;});
     query = query.map(function (q) {return q.key + '=' + encodeURIComponent(q.value);}).join('&');
