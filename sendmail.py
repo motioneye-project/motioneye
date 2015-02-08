@@ -70,7 +70,7 @@ def send_mail(server, port, account, password, tls, to, subject, message, files)
     email.attach(MIMEText(message))
     
     for file in reversed(files):
-        part = MIMEBase('application', 'image/jpg')
+        part = MIMEBase('image', 'jpeg')
         with open(file, 'rb') as f:
             part.set_payload(f.read())
         
