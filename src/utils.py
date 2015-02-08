@@ -294,7 +294,9 @@ def compute_signature(method, uri, body, key):
     parts = list(urlparse.urlsplit(uri))
     query = [q for q in urlparse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
     query.sort(key=lambda q: q[0])
-    query = urllib.urlencode(query)
+    # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
+    query = [(n, urllib.quote(v, safe="!'()*~")) for (n, v) in query]
+    query = '&'.join([(q[0] + '=' + q[1]) for q in query])
     parts[0] = parts[1] = ''
     parts[3] = query
     uri = urlparse.urlunsplit(parts)
