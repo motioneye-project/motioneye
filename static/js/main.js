@@ -494,6 +494,7 @@ function initUI() {
     makeNumberValidator($('#postCaptureEntry'), 0, 100, false, false, true);
     makeNumberValidator($('#minimumMotionFramesEntry'), 1, 1000, false, false, true);
     makeNumberValidator($('#smtpPortEntry'), 1, 65535, false, false, true);
+    makeNumberValidator($('#emailPictureTimeSpan'), 0, 60, false, false, true);
     
     /* time validators */
     makeTimeValidator($('#mondayFromEntry'));
@@ -811,6 +812,7 @@ function updateConfigUi() {
         $('#smtpAccountEntry').parents('tr:eq(0)').each(markHide);
         $('#smtpPasswordEntry').parents('tr:eq(0)').each(markHide);
         $('#smtpTlsSwitch').parents('tr:eq(0)').each(markHide);
+        $('#emailPictureTimeSpan').parents('tr:eq(0)').each(markHide);
     }
     
     if (!$('#webHookNotificationsSwitch').get(0).checked) {
@@ -995,6 +997,7 @@ function cameraUi2Dict() {
         'email_notifications_smtp_account': $('#smtpAccountEntry').val(),
         'email_notifications_smtp_password': $('#smtpPasswordEntry').val(),
         'email_notifications_smtp_tls': $('#smtpTlsSwitch')[0].checked,
+        'email_notifications_picture_time_span': $('#emailPictureTimeSpan').val(),
         'web_hook_notifications_enabled': $('#webHookNotificationsSwitch')[0].checked,
         'web_hook_notifications_url': $('#webHookUrlEntry').val(),
         'web_hook_notifications_http_method': $('#webHookHttpMethodSelect').val(),
@@ -1235,6 +1238,7 @@ function dict2CameraUi(dict) {
     $('#smtpAccountEntry').val(dict['email_notifications_smtp_account']);
     $('#smtpPasswordEntry').val(dict['email_notifications_smtp_password']);
     $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls'];
+    $('#emailPictureTimeSpan').val(dict['email_notifications_picture_time_span']);
     $('#webHookNotificationsSwitch')[0].checked = dict['web_hook_notifications_enabled'];
     $('#webHookUrlEntry').val(dict['web_hook_notifications_url']);
     $('#webHookHttpMethodSelect').val(dict['web_hook_notifications_http_method']);

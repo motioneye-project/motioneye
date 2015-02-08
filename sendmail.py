@@ -85,13 +85,13 @@ def send_mail(server, port, account, password, tls, to, subject, message, files)
     conn.quit()
 
 
-def make_message(subject, message, camera_id, moment, callback):
+def make_message(subject, message, camera_id, moment, timespan, callback):
     camera_config = config.get_camera(camera_id)
     
     def on_media_files(media_files):
         timestamp = time.mktime(moment.timetuple())
 
-        media_files = [m for m in media_files if abs(m['timestamp'] - timestamp) < settings.NOTIFY_MEDIA_TIMESPAN] # filter out non-recent media files
+        media_files = [m for m in media_files if abs(m['timestamp'] - timestamp) < timespan] # filter out non-recent media files
         media_files.sort(key=lambda m: m['timestamp'], reverse=True)
         media_files = [os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path'])) for m in media_files]
 
@@ -116,12 +116,15 @@ def make_message(subject, message, camera_id, moment, callback):
         
         callback(s, m, media_files)
 
-    time.sleep(settings.NOTIFY_MEDIA_TIMESPAN)
+    if not timespan:
+        return on_media_files([])
+        
+    time.sleep(timespan) # give motion some time to create motion pictures
     mediafiles.list_media(camera_config, media_type='picture', callback=on_media_files)
 
 
 def print_usage():
-    print 'Usage: sendmail.py <server> <port> <account> <password> <tls> <to> <msg_id> <camera_id> <moment> <frames>'
+    print 'Usage: sendmail.py <server> <port> <account> <password> <tls> <to> <msg_id> <camera_id> <moment> <frames> [timespan]'
 
 
 if __name__ == '__main__':
@@ -138,6 +141,11 @@ if __name__ == '__main__':
     msg_id = sys.argv[7]
     camera_id = sys.argv[8]
     moment = sys.argv[9]
+    try:
+        timespan = int(sys.argv[10])
+
+    except:
+        timespan = 5
 
     message = messages.get(msg_id)
     subject = subjects.get(msg_id)
@@ -158,6 +166,7 @@ if __name__ == '__main__':
     logging.debug('camera_id = %s' % camera_id)
     logging.debug('moment = %s' % moment.strftime('%Y-%m-%d %H:%M:%S'))
     logging.debug('smtp timeout = %d' % settings.SMTP_TIMEOUT)
+    logging.debug('timespan = %d' % timespan)
     
     if not to:
         logging.info('no email address specified')
@@ -181,7 +190,7 @@ if __name__ == '__main__':
     def ioloop_timeout():
         io_loop.stop()
     
-    make_message(subject, message, camera_id, moment, on_message)
+    make_message(subject, message, camera_id, moment, timespan, on_message)
 
     io_loop.add_timeout(datetime.timedelta(seconds=settings.SMTP_TIMEOUT), ioloop_timeout)
     io_loop.start()

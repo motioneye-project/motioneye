@@ -77,8 +77,5 @@ ENABLE_REBOOT = False
 # the timeout in seconds to use when talking to a SMTP server
 SMTP_TIMEOUT = 60
 
-# the interval in seconds to consider around the moment of the event when attaching media files to notifications 
-NOTIFY_MEDIA_TIMESPAN = 5
-
 # the time to wait for zip file creation
 ZIP_TIMEOUT = 500

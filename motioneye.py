@@ -63,7 +63,6 @@ def _configure_settings():
     set_default_setting('LOCAL_TIME_FILE', None)
     set_default_setting('ENABLE_REBOOT', False)
     set_default_setting('SMTP_TIMEOUT', 60)
-    set_default_setting('NOTIFY_MEDIA_TIMESPAN', 5)
     set_default_setting('ZIP_TIMEOUT', 500)
 
     length = len(sys.argv) - 1

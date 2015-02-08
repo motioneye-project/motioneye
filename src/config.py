@@ -19,6 +19,7 @@ import errno
 import logging
 import os.path
 import re
+import shlex
 
 from collections import OrderedDict
 
@@ -730,14 +731,15 @@ def camera_ui_to_dict(ui):
         send_mail_path = os.path.abspath(send_mail_path)
         emails = re.sub('\\s', '', ui['email_notifications_addresses'])
         
-        on_event_start.append('%(script)s "%(server)s" "%(port)s" "%(account)s" "%(password)s" "%(tls)s" "%(to)s" "motion_start" "%%t" "%%Y-%%m-%%dT%%H:%%M:%%S"' % {
+        on_event_start.append('%(script)s "%(server)s" "%(port)s" "%(account)s" "%(password)s" "%(tls)s" "%(to)s" "motion_start" "%%t" "%%Y-%%m-%%dT%%H:%%M:%%S" "%(timespan)s"' % {
                 'script': send_mail_path,
                 'server': ui['email_notifications_smtp_server'],
                 'port': ui['email_notifications_smtp_port'],
                 'account': ui['email_notifications_smtp_account'],
                 'password': ui['email_notifications_smtp_password'],
                 'tls': ui['email_notifications_smtp_tls'],
-                'to': emails})
+                'to': emails,
+                'timespan': ui['email_notifications_picture_time_span']})
 
     if ui['web_hook_notifications_enabled']:
         web_hook_path = os.path.join(settings.PROJECT_PATH, 'webhook.py')
@@ -1033,8 +1035,8 @@ def camera_dict_to_ui(data):
     command_notifications = []
     for e in on_event_start:
         if e.count('sendmail.py') and e.count('motion_start'):
-            e = e.replace('"', '').split(' ')
-            if len(e) != 10:
+            e = shlex.split(e)
+            if len(e) < 10:
                 continue
 
             ui['email_notifications_enabled'] = True 
@@ -1044,9 +1046,14 @@ def camera_dict_to_ui(data):
             ui['email_notifications_smtp_password'] = e[4]
             ui['email_notifications_smtp_tls'] = e[5].lower() == 'true'
             ui['email_notifications_addresses'] = e[6]
+            try:
+                ui['email_notifications_picture_time_span'] = int(e[10])
+                
+            except:
+                ui['email_notifications_picture_time_span'] = 5
 
         elif e.count('webhook.py'):
-            e = e.replace('"', '').split(' ')
+            e = shlex.split(e)
             if len(e) != 3:
                 continue
 
