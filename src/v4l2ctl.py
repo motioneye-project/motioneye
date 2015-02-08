@@ -86,10 +86,16 @@ def list_resolutions(device):
         width, height = pair.split('x')
         width = int(width)
         height = int(height)
-        
+
+        if (width, height) in resolutions:
+            continue # duplicate resolution
+
         if width < 96 or height < 96: # some reasonable minimal values
             continue
         
+        if width % 16 or height % 16: # ignore non-modulo 16 resolutions
+            continue
+
         resolutions.add((width, height))
         
         logging.debug('found resolution %(width)sx%(height)s for device %(device)s' % {
