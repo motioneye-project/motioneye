@@ -149,6 +149,7 @@ class MainHandler(BaseHandler):
         self.render('main.html',
                 frame=False,
                 version=motioneye.VERSION,
+                enable_update=bool(settings.REPO),
                 wpa_supplicant=settings.WPA_SUPPLICANT_CONF,
                 enable_reboot=settings.ENABLE_REBOOT,
                 timezones=timezones,

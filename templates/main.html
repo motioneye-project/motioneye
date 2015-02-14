@@ -96,11 +96,13 @@
                         <td class="settings-item-label"><span class="settings-item-label">Current Version</span></td>
                         <td class="settings-item-value"><span class="settings-item-label">{{version}}</span></td>
                     </tr>
+                    {% if enable_update %}
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Software Update</span></td>
                         <td class="settings-item-value"><div class="button update-button" id="updateButton">Check</div></td>
                         <td><span class="help-mark" title="checks for new versions and performs updates">?</span></td>
                     </tr>
+                    {% endif %}
                     <tr class="settings-item advanced-setting{% if not enable_reboot %} hidden{% endif %}">
                         <td class="settings-item-label"><span class="settings-item-label">Power</span></td>
                         <td class="settings-item-value"><div class="button shut-down-button" id="shutDownButton">Shut Down</div></td>
