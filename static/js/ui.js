@@ -542,6 +542,8 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
             validate();
         }
     });
+    
+    makeStrippedInput($input);
 }
 
 function makeTimeValidator($input) {
@@ -593,6 +595,8 @@ function makeTimeValidator($input) {
             validate();
         }
     });
+    
+    makeStrippedInput($input);
 }
 
 function makeUrlValidator($input) {
@@ -683,6 +687,21 @@ function makeCustomValidator($input, isValidFunc) {
             }
             validate();
         }
+    });
+}
+
+
+    /* other input value processors */
+
+function makeStrippedInput($input) {
+    $input.change(function () {
+        this.value = $.trim(this.value);
+    });
+}
+
+function makeCharReplacer($input, oldChars, newStr) {
+    $input.change(function () {
+        this.value = this.value.replace(new RegExp('[' + oldChars + ']', 'g'), newStr);
     });
 }
 
