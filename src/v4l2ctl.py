@@ -16,7 +16,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import logging
+import os
 import re
+import stat
 import subprocess
 
 
@@ -124,6 +126,15 @@ def list_resolutions(device):
     return resolutions
 
 
+def device_present(device):
+    try:
+        st = os.stat(device)
+        return stat.S_ISCHR(st.st_mode)
+
+    except:
+        return False
+
+
 def get_brightness(device):
     return _get_ctrl(device, 'brightness')
 
@@ -159,6 +170,9 @@ def set_hue(device, value):
 def _get_ctrl(device, control):
     global _ctrl_values_cache
     
+    if not device_present(device):
+        return None
+    
     if device in _ctrl_values_cache and control in _ctrl_values_cache[device]:
         return _ctrl_values_cache[device][control]
     
@@ -192,6 +206,9 @@ def _get_ctrl(device, control):
 def _set_ctrl(device, control, value):
     global _ctrl_values_cache
     
+    if not device_present(device):
+        return
+
     controls = _list_ctrls(device)
     properties = controls.get(control)
     if properties is None:
@@ -222,7 +239,7 @@ def _set_ctrl(device, control, value):
 
 def _list_ctrls(device):
     global _ctrls_cache
-    
+
     if device in _ctrls_cache:
         return _ctrls_cache[device]
     
