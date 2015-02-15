@@ -3047,6 +3047,9 @@ function doConfigureCamera(cameraId) {
         return;
     }
     
+    hideApply();
+    pushConfigs = {};
+    
     openSettings(cameraId);
 }
 
