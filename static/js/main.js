@@ -512,6 +512,15 @@ function initUI() {
     makeTimeValidator($('#sundayFromEntry'));
     makeTimeValidator($('#sundayToEntry'));
     
+    /* custom validators */
+    makeCustomValidator($('#rootDirectoryEntry'), function (value) {
+        if ($('#storageDeviceSelect').val() == 'custom-path' && $.trim(value) == '/') {
+            return 'files cannot be created directly on the root of your system';
+        }
+        
+        return true;
+    }, '');    
+    
     /* progress bars */
     makeProgressBar($('#diskUsageProgressBar'));
     

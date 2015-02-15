@@ -305,6 +305,30 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
     return slider;
 }
 
+function makeProgressBar($div) {
+    if (!$div.length) {
+        return;
+    }
+    
+    $div.addClass('progress-bar-container');
+    var fillDiv = $('<div class="progress-bar-fill"></div>');
+    var textSpan = $('<span class="progress-bar-text"></span>');
+
+    $div.append(fillDiv);
+    $div.append(textSpan);
+    
+    $div[0].setProgress = function (progress) {
+        $div.progress = progress;
+        fillDiv.width(progress + '%');
+    };
+    
+    $div[0].setText = function (text) {
+        textSpan.html(text);
+    };
+
+    return $div;
+}
+
 
     /* validators */
 
@@ -352,7 +376,13 @@ function makeTextValidator($input, required) {
     $input.addClass('validator');
     $input.addClass('text-validator');
     $input.each(function () {
-        this.validate = validate;
+        var oldValidate = this.validate;
+        this.validate = function () {
+            if (oldValidate) {
+                oldValidate.call(this);
+            }
+            validate();
+        }
     });
 }
 
@@ -400,7 +430,13 @@ function makeComboValidator($select, required) {
     $select.addClass('validator');
     $select.addClass('combo-validator');
     $select.each(function () {
-        this.validate = validate;
+        var oldValidate = this.validate;
+        this.validate = function () {
+            if (oldValidate) {
+                oldValidate.call(this);
+            }
+            validate();
+        }
     });
 }
 
@@ -498,7 +534,13 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     $input.addClass('validator');
     $input.addClass('number-validator');
     $input.each(function () {
-        this.validate = validate;
+        var oldValidate = this.validate;
+        this.validate = function () {
+            if (oldValidate) {
+                oldValidate.call(this);
+            }
+            validate();
+        }
     });
 }
 
@@ -543,7 +585,13 @@ function makeTimeValidator($input) {
     $input.addClass('validator');
     $input.addClass('time-validator');
     $input.each(function () {
-        this.validate = validate;
+        var oldValidate = this.validate;
+        this.validate = function () {
+            if (oldValidate) {
+                oldValidate.call(this);
+            }
+            validate();
+        }
     });
 }
 
@@ -583,32 +631,59 @@ function makeUrlValidator($input) {
     $input.addClass('validator');
     $input.addClass('url-validator');
     $input.each(function () {
-        this.validate = validate;
+        var oldValidate = this.validate;
+        this.validate = function () {
+            if (oldValidate) {
+                oldValidate.call(this);
+            }
+            validate();
+        }
     });
 }
 
-function makeProgressBar($div) {
-    if (!$div.length) {
+function makeCustomValidator($input, isValidFunc) {
+    if (!$input.length) {
         return;
     }
     
-    $div.addClass('progress-bar-container');
-    var fillDiv = $('<div class="progress-bar-fill"></div>');
-    var textSpan = $('<span class="progress-bar-text"></span>');
-
-    $div.append(fillDiv);
-    $div.append(textSpan);
+    function isValid(strVal) {
+        if (!$input.is(':visible')) {
+            return true; /* an invisible element is considered always valid */
+        }
+        
+        return isValidFunc(strVal);
+    }
     
-    $div[0].setProgress = function (progress) {
-        $div.progress = progress;
-        fillDiv.width(progress + '%');
-    };
-    
-    $div[0].setText = function (text) {
-        textSpan.html(text);
-    };
+    function validate() {
+        var strVal = $input.val();
+        var valid = isValid(strVal);
+        if (valid == true) {
+            $input.attr('title', '');
+            $input.removeClass('error');
+            $input[0].invalid = false;
+        }
+        else {
+            $input.attr('title', valid || 'enter a valid value');
+            $input.addClass('error');
+            $input[0].invalid = true;
+        }
+    }
 
-    return $div;
+    $input.keyup(validate);
+    $input.blur(validate);
+    $input.change(validate).change();
+    
+    $input.addClass('validator');
+    $input.addClass('custom-validator');
+    $input.each(function () {
+        var oldValidate = this.validate;
+        this.validate = function () {
+            if (oldValidate) {
+                oldValidate.call(this);
+            }
+            validate();
+        }
+    });
 }
 
 
