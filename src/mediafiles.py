@@ -522,7 +522,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
         global _timelapse_process
 
         cmd =  'rm -f %(tmp_filename)s;'
-        cmd += 'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -b:v %(bitrate)s -q:v 0 -f avi %(tmp_filename)s'
+        cmd += 'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -b:v %(bitrate)s -qscale:v 0.1 -f avi %(tmp_filename)s'
 
         bitrate = 9999999
 
@@ -575,21 +575,37 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
             logging.debug('timelapse progress: %s' % int(100 * _timelapse_process.progress))
 
         else: # finished
+            exit_code = _timelapse_process.poll()
             _timelapse_process = None
+            
+            if exit_code != 0:
+                logging.error('ffmpeg process failed')
+                _timelapse_data = None
 
-            logging.debug('reading timelapse movie file "%s" into memory' % tmp_filename)
+                try:
+                    os.remove(tmp_filename)
 
-            try:
-                with open(tmp_filename, mode='r') as f:
-                    _timelapse_data = f.read()
+                except:
+                    pass
 
-                logging.debug('timelapse movie process has returned %d bytes' % len(_timelapse_data))
+            else:
+                logging.debug('reading timelapse movie file "%s" into memory' % tmp_filename)
+    
+                try:
+                    with open(tmp_filename, mode='r') as f:
+                        _timelapse_data = f.read()
+    
+                    logging.debug('timelapse movie process has returned %d bytes' % len(_timelapse_data))
+    
+                except Exception as e:
+                    logging.error('failed to read timelapse movie file "%s": %s' % (tmp_filename, e))
+    
+                finally:
+                    try:
+                        os.remove(tmp_filename)
 
-            except Exception as e:
-                logging.error('failed to read timelapse movie file "%s": %s' % (tmp_filename, e))
-
-            finally:
-                os.remove(tmp_filename)
+                    except:
+                        pass
 
     poll_media_list_process()
 
