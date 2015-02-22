@@ -280,7 +280,7 @@ div.settings-section-title {
     position: relative;
     text-align: right;
     background-color: rgba(100, 100, 100, 0.3);
-    padding: 5px;
+    padding: 5px 0.5em 5px 5px;
 }
 
 table.settings {

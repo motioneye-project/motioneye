@@ -442,12 +442,21 @@ span.help-mark {
     background-color: #414141;
     color: #3498db;
     font-size: 0.75em;
-    width: 1.1em;
-    height: 1.1em;
-    border-radius: 0.5em;
+    font-family: monospace;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 100em;
     cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+    top: -0.1em;
 }
 
+div.settings-section-title > span.help-mark {
+    background-color: #515151;
+}
+
+div.settings-section-title:HOVER > span.help-mark,
 tr:HOVER span.help-mark {
     visibility: visible;
 }
