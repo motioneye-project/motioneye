@@ -21,17 +21,15 @@ import os.path
 import re
 import shlex
 
-from collections import OrderedDict
-
 import diskctl
 import motionctl
 import settings
 import smbctl
-import tzctl
 import update
 import utils
 import v4l2ctl
-import wifictl
+
+from utils import OrderedDict
 
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
@@ -40,9 +38,24 @@ _MAIN_CONFIG_FILE_NAME = 'motion.conf'
 _main_config_cache = None
 _camera_config_cache = {}
 _camera_ids_cache = None
+_additional_section_funcs = []
+_additional_config_funcs = []
+_additional_structure_cache = {}
 
 # starting with r490 motion config directives have changed a bit 
 _LAST_OLD_CONFIG_VERSIONS = (490, '3.2.12')
+
+
+def additional_section(func):
+    _additional_section_funcs.append(func)
+
+
+def additional_config(func):
+    _additional_config_funcs.append(func)
+
+
+import wifictl  # @UnusedImport
+import tzctl  # @UnusedImport
 
 
 def get_main(as_lines=False):
@@ -91,12 +104,7 @@ def get_main(as_lines=False):
             list_names=['thread'],
             no_convert=['@admin_username', '@admin_password', '@normal_username', '@normal_password'])
     
-    if settings.WPA_SUPPLICANT_CONF:
-        _get_wifi_settings(main_config)
-        
-    if settings.LOCAL_TIME_FILE:
-        _get_localtime_settings(main_config)
-        
+    _get_additional_config(main_config, camera=False)
     _set_default_motion(main_config, old_motion=_is_old_motion())
     
     _main_config_cache = main_config
@@ -112,9 +120,8 @@ def set_main(main_config):
     _main_config_cache = main_config
     
     main_config = dict(main_config)
-    _set_wifi_settings(main_config)
-    _set_localtime_settings(main_config)
-    
+    _set_additional_config(main_config, camera=False)
+
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
     
     # read the actual configuration from file
@@ -480,37 +487,45 @@ def rem_camera(camera_id):
 
 
 def main_ui_to_dict(ui):
-    return {
+    data = {
         '@enabled': ui['enabled'],
         
         '@show_advanced': ui['show_advanced'],
         '@admin_username': ui['admin_username'],
         '@admin_password': ui['admin_password'],
         '@normal_username': ui['normal_username'],
-        '@normal_password': ui['normal_password'],
-        '@time_zone': ui['time_zone'],
-        
-        '@wifi_enabled': ui['wifi_enabled'],
-        '@wifi_name': ui['wifi_name'],
-        '@wifi_key': ui['wifi_key'],
+        '@normal_password': ui['normal_password']
     }
+
+    # additional configs
+    for name, value in ui.iteritems():
+        if not name.startswith('_'):
+            continue
+
+        data['@' + name] = value
+
+    return data
 
 
 def main_dict_to_ui(data):
-    return {
+    ui = {
         'enabled': data['@enabled'],
         
         'show_advanced': data['@show_advanced'],
         'admin_username': data['@admin_username'],
         'admin_password': data['@admin_password'],
         'normal_username': data['@normal_username'],
-        'normal_password': data['@normal_password'],
-        'time_zone': data['@time_zone'],
-    
-        'wifi_enabled': data['@wifi_enabled'],
-        'wifi_name': data['@wifi_name'],
-        'wifi_key': data['@wifi_key'],
+        'normal_password': data['@normal_password']
     }
+
+    # additional configs
+    for name, value in data.iteritems():
+        if not name.startswith('@_'):
+            continue
+        
+        ui[name[1:]] = value
+
+    return ui
 
 
 def camera_ui_to_dict(ui):
@@ -767,6 +782,13 @@ def camera_ui_to_dict(ui):
     on_event_end = ['%(script)s stop %%t' % {'script': event_relay_path}]
     
     data['on_event_end'] = '; '.join(on_event_end)
+    
+    # additional configs
+    for name, value in ui.iteritems():
+        if not name.startswith('_'):
+            continue
+
+        data['@' + name] = value
 
     return data
 
@@ -1083,6 +1105,13 @@ def camera_dict_to_ui(data):
         ui['command_notifications_enabled'] = True
         ui['command_notifications_exec'] = '; '.join(command_notifications)
 
+    # additional configs
+    for name, value in data.iteritems():
+        if not name.startswith('@_'):
+            continue
+        
+        ui[name[1:]] = value
+
     return ui
 
 
@@ -1224,6 +1253,9 @@ def _dict_to_conf(lines, data, list_names=[]):
         conf_lines.append('') # add a blank line
     
     for (name, value) in remaining.iteritems():
+        if name.startswith('@_'):
+            continue # ignore additional configs
+        
         if name in list_names:
             for v in value:
                 line = name + ' ' + _python_to_value(v)
@@ -1276,12 +1308,7 @@ def _set_default_motion(data, old_motion):
     data.setdefault('@admin_password', '')
     data.setdefault('@normal_username', 'user')
     data.setdefault('@normal_password', '')
-    data.setdefault('@time_zone', 'UTC')
 
-    data.setdefault('@wifi_enabled', False)
-    data.setdefault('@wifi_name', '')
-    data.setdefault('@wifi_key', '')
-    
     if old_motion:
         data.setdefault('control_port', 7999)
     
@@ -1389,34 +1416,98 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('on_event_end', '')
 
 
-def _get_wifi_settings(data):
-    wifi_settings = wifictl.get_wifi_settings()
+def get_additional_structure(camera):
+    if _additional_structure_cache.get(camera) is None:
+        logging.debug('loading additional config structure for %s' % ('camera' if camera else 'main'))
 
-    data['@wifi_enabled'] = bool(wifi_settings['ssid'])
-    data['@wifi_name'] = wifi_settings['ssid']
-    data['@wifi_key'] = wifi_settings['psk']
+        # gather sections
+        sections = OrderedDict()
+        for func in _additional_section_funcs:
+            result = func()
+            if not result:
+                continue
+            
+            if result.get('reboot') and not settings.ENABLE_REBOOT:
+                continue
+            
+            if bool(result.get('camera')) != bool(camera):
+                continue
     
-
-def _set_wifi_settings(data):
-    wifi_enabled = data.pop('@wifi_enabled', False)
-    wifi_name = data.pop('@wifi_name', '')
-    wifi_key = data.pop('@wifi_key', '')
+            result['name'] = func.func_name
+            sections[func.func_name] = result
     
-    if settings.WPA_SUPPLICANT_CONF:
-        s = {
-            'ssid': wifi_enabled and wifi_name,
-            'psk': wifi_key
-        }
-        
-        wifictl.set_wifi_settings(s)
+        configs = OrderedDict()
+        for func in _additional_config_funcs:
+            result = func()
+            if not result:
+                continue
+            
+            if result.get('reboot') and not settings.ENABLE_REBOOT:
+                continue
+            
+            if bool(result.get('camera')) != bool(camera):
+                continue
+            
+            result['name'] = func.func_name
+            configs[func.func_name] = result
+    
+            section = sections.setdefault(result.get('section'), {})
+            section.setdefault('configs', []).append(result)
+
+        _additional_structure_cache[camera] = sections, configs
+
+    return _additional_structure_cache[camera]
 
 
-def _get_localtime_settings(data):
-    time_zone = tzctl.get_time_zone()
-    data['@time_zone'] = time_zone
+def _get_additional_config(data, camera):
+    (sections, configs) = get_additional_structure(camera)
+    get_funcs = set([c.get('get') for c in configs.itervalues() if c.get('get')])
+    get_func_values = dict((f, f()) for f in get_funcs)
+
+    for name, section in sections.iteritems():
+        if not section.get('get'):
+            continue
+
+        if section.get('get_set_dict'):
+            data['@_' + name] = get_func_values.get(section['get'], {}).get(name)
+            
+        else:
+            data['@_' + name] = get_func_values.get(section['get'])  
+
+    for name, config in configs.iteritems():
+        if not config.get('get'):
+            continue
+
+        if config.get('get_set_dict'):
+            data['@_' + name] = get_func_values.get(config['get'], {}).get(name)
+            
+        else:
+            data['@_' + name] = get_func_values.get(config['get']) 
 
 
-def _set_localtime_settings(data):
-    time_zone = data.pop('@time_zone')
-    if time_zone and settings.LOCAL_TIME_FILE:
-        tzctl.set_time_zone(time_zone)
+def _set_additional_config(data, camera):
+    (sections, configs) = get_additional_structure(camera)
+
+    set_func_values = {}
+    for name, section in sections.iteritems():
+        if not section.get('set'):
+            continue
+
+        if section.get('get_set_dict'):
+            set_func_values.setdefault(section['set'], {})[name] = data.get('@_' + name)
+
+        else:
+            set_func_values[section['set']] = data.get('@_' + name)
+
+    for name, config in configs.iteritems():
+        if not config.get('set'):
+            continue
+
+        if config.get('get_set_dict'):
+            set_func_values.setdefault(config['set'], {})[name] = data.get('@_' + name)
+            
+        else:
+            set_func_values[config['set']] = data.get('@_' + name)
+
+    for func, value in set_func_values.iteritems():
+        func(value)

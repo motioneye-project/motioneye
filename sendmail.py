@@ -102,7 +102,7 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
         }
         
         if settings.LOCAL_TIME_FILE:
-            format_dict['timezone'] = tzctl.get_time_zone()
+            format_dict['timezone'] = tzctl._get_time_zone()
         
         else:
             format_dict['timezone'] = 'local time'

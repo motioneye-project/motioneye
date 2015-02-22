@@ -27,6 +27,13 @@ from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 import settings
 
 
+try:
+    from collections import OrderedDict  # @UnusedImport
+
+except:
+    from ordereddict import OrderedDict  # @UnusedImport @Reimport
+
+
 def pretty_date_time(date_time, tzinfo=None, short=False):
     if date_time is None:
         return '('+  _('never') + ')'

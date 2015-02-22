@@ -21,6 +21,11 @@ import os
 import settings
 import subprocess
 
+from config import additional_config
+
+
+LOCAL_TIME_FILE = settings.LOCAL_TIME_FILE  # @UndefinedVariable
+
 
 def _get_time_zone_symlink():
     file = settings.LOCAL_TIME_FILE
@@ -81,7 +86,7 @@ def _get_time_zone_md5():
     return time_zone
 
 
-def get_time_zone():
+def _get_time_zone():
     time_zone = _get_time_zone_symlink() or _get_time_zone_md5()
     if not time_zone:
         logging.error('could not find local time zone')
@@ -89,7 +94,7 @@ def get_time_zone():
     return time_zone
 
 
-def set_time_zone(time_zone):
+def _set_time_zone(time_zone):
     zoneinfo_file = '/usr/share/zoneinfo/' + time_zone
     if not os.path.exists(zoneinfo_file):
         logging.error('%s file does not exist' % zoneinfo_file)
@@ -113,3 +118,23 @@ def set_time_zone(time_zone):
         logging.error('failed to link "%s" to "%s": %s' % (settings.LOCAL_TIME_FILE, zoneinfo_file, e))
         
         return False
+
+
+@additional_config
+def timeZone():
+    if not LOCAL_TIME_FILE:
+        return
+
+    import pytz
+    timezones = pytz.common_timezones
+
+    return {
+        'label': 'Time Zone',
+        'description': 'selecting the right timezone assures a correct timestamp displayed on pictures and movies',
+        'type': 'choices',
+        'choices': [(t, t) for t in timezones],
+        'section': 'general',
+        'advanced': True,
+        'get': _get_time_zone,
+        'set': _set_time_zone
+    }

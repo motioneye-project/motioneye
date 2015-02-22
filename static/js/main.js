@@ -303,6 +303,16 @@ Array.prototype.forEach = Array.prototype.forEach || function (callback, thisArg
     }
 };
 
+Array.prototype.every = Array.prototype.every || function (callback, thisArg) {
+    for (var i = 0; i < this.length; i++) {
+        if (!callback.call(thisArg, this[i], i, this)) {
+            return false;
+        }
+    }
+    
+    return true;
+};
+
 Array.prototype.unique = function (callback, thisArg) {
     var uniqueElements = [];
     this.forEach(function (element) {
@@ -349,6 +359,18 @@ Array.prototype.sortKey = function (keyFunc, reverse) {
             return 0;
         }
     });
+};
+
+String.prototype.startsWith = String.prototype.startsWith || function (str) {
+    return (this.substr(0, str.length) === str);
+};
+
+String.prototype.endsWith = String.prototype.endsWith || function (str) {
+    return (this.substr(this.length - str.length) === str);
+};
+
+String.prototype.trim = String.prototype.trim || function () {
+    return this.replace(new RegExp('^\\s*'), '').replace(new RegExp('\\s*$'), '');
 };
 
 String.prototype.replaceAll = String.prototype.replaceAll || function (oldStr, newStr) {
@@ -428,96 +450,48 @@ function doLogout() {
 
 function initUI() {
     /* checkboxes */
-    $('input[type=checkbox].styled').each(function () {
-        makeCheckBox($(this));
-    });
+    makeCheckBox($('input[type=checkbox].styled'));
 
     /* sliders */
-    makeSlider($('#brightnessSlider'), 0, 100, 2, null, 5, 0, '%');
-    makeSlider($('#contrastSlider'), 0, 100, 2, null, 5, 0, '%');
-    makeSlider($('#saturationSlider'), 0, 100, 2, null, 5, 0, '%');
-    makeSlider($('#hueSlider'), 0, 100, 2, null, 5, 0, '%');
-    makeSlider($('#framerateSlider'), 2, 30, 0, [
-        {value: 1, label: '1'},
-        {value: 5, label: '5'},
-        {value: 10, label: '10'},
-        {value: 15, label: '15'},
-        {value: 20, label: '20'},
-        {value: 25, label: '25'},
-        {value: 30, label: '30'}
-    ], null, 0);
-    makeSlider($('#streamingFramerateSlider'), 1, 30, 0, [
-        {value: 1, label: '1'},
-        {value: 5, label: '5'},
-        {value: 10, label: '10'},
-        {value: 15, label: '15'},
-        {value: 20, label: '20'},
-        {value: 25, label: '25'},
-        {value: 30, label: '30'}
-    ], null, 0);
-    makeSlider($('#streamingQualitySlider'), 0, 100, 2, null, 5, 0, '%');
-    makeSlider($('#streamingResolutionSlider'), 0, 100, 2, null, 5, 0, '%');
-    makeSlider($('#imageQualitySlider'), 0, 100, 2, null, 5, 0, '%');
-    makeSlider($('#movieQualitySlider'), 0, 100, 2, null, 5, 0, '%');
-    makeSlider($('#frameChangeThresholdSlider'), 0, 20, 0, null, 5, 1, '%');
-    
-    makeSlider($('#noiseLevelSlider'), 0, 25, 0, null, 6, 0, '%');
-    
+    $('input[type=text].range.styled').each(function () {
+        var $this = $(this);
+        var $tr = $this.parent().parent();
+        var ticks = null;
+        var ticksAttr = $tr.attr('ticks');
+        if (ticksAttr) {
+            ticks = ticksAttr.split('|').map(function (t) {
+                var parts = t.split(',');
+                if (parts.length < 2) {
+                    parts.push(parts[0]);
+                }
+                return {value: Number(parts[0]), label: parts[1]};
+            });
+        }
+        makeSlider($this, Number($tr.attr('min')), Number($tr.attr('max')),
+                Number($tr.attr('snap')), ticks, Number($tr.attr('ticksnum')), Number($tr.attr('decimals')), $tr.attr('unit'));
+    });
+
     /* progress bars */
-    makeProgressBar($('#diskUsageProgressBar'));
-    
+    makeProgressBar($('div.progress-bar'));
+
     /* text validators */
-    makeTextValidator($('#adminUsernameEntry'), true);
-    makeTextValidator($('#normalUsernameEntry'), true);
-    makeTextValidator($('#wifiNameEntry'), true);
-    makeTextValidator($('#deviceNameEntry'), true);
-    makeTextValidator($('#networkServerEntry'), true);
-    makeTextValidator($('#networkShareNameEntry'), true);
-    makeTextValidator($('#networkUsernameEntry'), false);
-    makeTextValidator($('#networkPasswordEntry'), false);
-    makeTextValidator($('#rootDirectoryEntry'), true);
-    makeTextValidator($('#leftTextEntry'), true);
-    makeTextValidator($('#rightTextEntry'), true);
-    makeTextValidator($('#imageFileNameEntry'), true);
-    makeTextValidator($('#movieFileNameEntry'), true);
-    makeTextValidator($('#emailAddressesEntry'), true);
-    makeTextValidator($('#smtpServerEntry'), true);
-    makeTextValidator($('#smtpAccountEntry'), true);
-    makeTextValidator($('#smtpPasswordEntry'), true);
-    makeTextValidator($('#webHookUrlEntry'), true);
-    makeTextValidator($('#commandNotificationsEntry'), true);
-    
+    makeTextValidator($('tr[required=true] input[type=text]'), true);
+    makeTextValidator($('tr[required=true] input[type=password]'), true);
+
     /* number validators */
-    makeNumberValidator($('#streamingPortEntry'), 1024, 65535, false, false, true);
-    makeNumberValidator($('#snapshotIntervalEntry'), 1, 86400, false, false, true);
-    makeNumberValidator($('#picturesLifetimeEntry'), 1, 3650, false, false, true);
-    makeNumberValidator($('#moviesLifetimeEntry'), 1, 3650, false, false, true);
-    makeNumberValidator($('#eventGapEntry'), 1, 86400, false, false, true);
-    makeNumberValidator($('#preCaptureEntry'), 0, 100, false, false, true);
-    makeNumberValidator($('#postCaptureEntry'), 0, 100, false, false, true);
-    makeNumberValidator($('#minimumMotionFramesEntry'), 1, 1000, false, false, true);
-    makeNumberValidator($('#smtpPortEntry'), 1, 65535, false, false, true);
-    makeNumberValidator($('#emailPictureTimeSpanEntry'), 0, 60, false, false, true);
-    
+    $('input[type=text].number').each(function () {
+        var $this = $(this);
+        var $tr = $this.parent().parent();
+        makeTextValidator($this, Number($tr.attr('min')), Number($tr.attr('max')),
+                Boolean($tr.attr('floating')), Boolean($tr.attr('sign')), Boolean($tr.attr('required')));
+    });
+
     /* time validators */
-    makeTimeValidator($('#mondayFromEntry'));
-    makeTimeValidator($('#mondayToEntry'));
-    makeTimeValidator($('#tuesdayFromEntry'));
-    makeTimeValidator($('#tuesdayToEntry'));
-    makeTimeValidator($('#wednesdayFromEntry'));
-    makeTimeValidator($('#wednesdayToEntry'));
-    makeTimeValidator($('#thursdayFromEntry'));
-    makeTimeValidator($('#thursdayToEntry'));
-    makeTimeValidator($('#fridayFromEntry'));
-    makeTimeValidator($('#fridayToEntry'));
-    makeTimeValidator($('#saturdayFromEntry'));
-    makeTimeValidator($('#saturdayToEntry'));
-    makeTimeValidator($('#sundayFromEntry'));
-    makeTimeValidator($('#sundayToEntry'));
+    makeTimeValidator($('input[type=text].time'));
     
     /* custom validators */
     makeCustomValidator($('#rootDirectoryEntry'), function (value) {
-        if ($('#storageDeviceSelect').val() == 'custom-path' && $.trim(value) == '/') {
+        if ($('#storageDeviceSelect').val() == 'custom-path' && String(value).trim() == '/') {
             return 'files cannot be created directly on the root of your system';
         }
         
@@ -525,28 +499,12 @@ function initUI() {
     }, '');
     
     /* input value processors */
-    
-    makeStrippedInput($('#adminUsernameEntry'));
-    makeStrippedInput($('#adminPasswordEntry'));
-    makeStrippedInput($('#normalUsernameEntry'));
-    makeStrippedInput($('#normalPasswordEntry'));
-    makeStrippedInput($('#deviceNameEntry'));
-    makeStrippedInput($('#rootDirectoryEntry'));
-    makeStrippedInput($('#leftTextEntry'));
-    makeStrippedInput($('#rightTextEntry'));
-    makeStrippedInput($('#imageFileNameEntry'));
-    makeStrippedInput($('#movieFileNameEntry'));
-    makeStrippedInput($('#emailAddressesEntry'));
-    makeStrippedInput($('#smtpServerEntry'));
-    makeStrippedInput($('#smtpAccountEntry'));
-    makeStrippedInput($('#smtpPasswordEntry'));
-    makeStrippedInput($('#webHookUrlEntry'));
-    makeStrippedInput($('#commandNotificationsEntry'));
-    
+    makeStrippedInput($('tr[strip=true] input[type=text]'));
+    makeStrippedInput($('tr[strip=true] input[type=password]'));
+
     /* ui elements that enable/disable other ui elements */
     $('#motionEyeSwitch').change(updateConfigUi);
     $('#showAdvancedSwitch').change(updateConfigUi);
-    $('#wifiSwitch').change(updateConfigUi);
     $('#storageDeviceSelect').change(updateConfigUi);
     $('#resolutionSelect').change(updateConfigUi);
     $('#leftTextSelect').change(updateConfigUi);
@@ -574,13 +532,34 @@ function initUI() {
     $('#fridayEnabledSwitch').change(updateConfigUi);
     $('#saturdayEnabledSwitch').change(updateConfigUi);
     $('#sundayEnabledSwitch').change(updateConfigUi);
+
+    /* additional configs */
+    var seenDependNames = {};
+    $('tr[depends]').each(function () {
+        var $tr = $(this);
+        var depends = $tr.attr('depends').split(' ');
+        depends.forEach(function (depend) {
+            if (depend.charAt(0) == '!') {
+                depend = depend.substring(1);
+            }
+            
+            if (depend in seenDependNames) {
+                return;
+            }
+            
+            seenDependNames[depend] = true;
+
+            var control = $('#' + depend + 'Entry, #' + depend + 'Select, #' + depend + 'Slider, #' + depend + 'Switch');
+            control.change(updateConfigUi);
+        });
+    });
     
     $('#storageDeviceSelect').change(function () {
         $('#rootDirectoryEntry').val('/');
     });
     
     $('#rootDirectoryEntry').change(function () {
-        this.value = $.trim(this.value);
+        this.value = this.value.trim();
     });
     
     $('#rootDirectoryEntry').change(function () {
@@ -605,17 +584,8 @@ function initUI() {
             fetchCurrentCameraConfig(endProgress);
         }
     });
-    $('input.general, select.general').change(pushMainConfig);
-    $('input.wifi').change(pushMainConfig);
-    $('input.device, select.device, ' +
-      'input.storage, select.storage, ' +
-      'input.text-overlay, select.text-overlay, ' + 
-      'input.streaming, select.streaming, ' +
-      'input.still-images, select.still-images, ' +
-      'input.motion-detection, select.motion-detection, ' +
-      'input.motion-movies, select.motion-movies, ' +
-      'input.notifications, select.notifications, ' +
-      'input.working-schedule, select.working-schedule').change(pushCameraConfig);
+    $('input.main-config, select.main-config').change(pushMainConfig);
+    $('input.camera-config, select.camera-config').change(pushCameraConfig);
     
     /* preview controls */
     $('#brightnessSlider').change(function () {pushPreview('brightness');});
@@ -652,7 +622,7 @@ function initUI() {
     /* logout button */
     $('div.button.logout-button').click(doLogout);
     
-    /* read-only entries */
+    /* autoselect urls in read-only entries */
     $('#streamingSnapshotUrlEntry:text, #streamingMjpgUrlEntry:text, #streamingEmbedUrlEntry:text').click(function () {
         this.select();
     });
@@ -710,11 +680,6 @@ function updateConfigUi() {
     var motionEyeEnabled = $('#motionEyeSwitch').get(0).checked;
     if (!motionEyeEnabled) {
         objs.not($('#motionEyeSwitch').parents('div').get(0)).each(markHide);
-    }
-    
-    /* wifi switch */
-    if (!$('#wifiSwitch').get(0).checked) {
-        $('#wifiSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
     }
     
     if ($('#cameraSelect').find('option').length < 2) { /* no camera configured */
@@ -861,6 +826,48 @@ function updateConfigUi() {
         $('#workingScheduleSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
     }
     
+    /* additional configs */
+    $('tr[depends]').each(function () {
+        var $tr = $(this);
+        var depends = $tr.attr('depends').split(' ');
+        var conditionOk = true;
+        depends.every(function (depend) {
+            var neg = false;
+            if (depend.charAt(0) == '!') {
+                neg = true;
+                depend = depend.substring(1);
+            }
+
+            var control = $('#' + depend + 'Entry, #' + depend + 'Select, #' + depend + 'Slider');
+            var val = false;
+            if (control.length) {
+                val = control.val();
+            }
+            else { /* maybe it's a checkbox */
+                control = $('#' + depend + 'Switch');
+                if (control.length) {
+                    val = control.get(0).checked;
+                }
+            }
+            
+            val = Boolean(val);
+            if (neg) {
+                val = !val;
+            }
+            
+            if (!val) {
+                conditionOk = false;
+                return false;
+            }
+            
+            return true;
+        });
+        
+        if (!conditionOk) {
+            $tr.each(markHide);
+        }
+    });
+
     var weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     weekDays.forEach(function (weekDay) {
         var check = $('#' + weekDay + 'EnabledSwitch');
@@ -917,20 +924,53 @@ function configUiValid() {
 }
 
 function mainUi2Dict() {
-    return {
+    var dict = {
         'enabled': $('#motionEyeSwitch')[0].checked,
         
         'show_advanced': $('#showAdvancedSwitch')[0].checked,
         'admin_username': $('#adminUsernameEntry').val(),
         'admin_password': $('#adminPasswordEntry').val(),
         'normal_username': $('#normalUsernameEntry').val(),
-        'normal_password': $('#normalPasswordEntry').val(),
-        'time_zone': $('#timeZoneSelect').val(),
-        
-        'wifi_enabled': $('#wifiSwitch')[0].checked,
-        'wifi_name': $('#wifiNameEntry').val(),
-        'wifi_key': $('#wifiKeyEntry').val()
+        'normal_password': $('#normalPasswordEntry').val()
     };
+
+    /* additional sections */
+    $('input[type=checkbox].additional-section.main-config').each(function () {
+        dict['_' + this.id.substring(0, this.id.length - 6)] = this.checked;
+    });
+
+    /* additional configs */
+    $('tr.additional-config').each(function () {
+        var $this = $(this);
+        var control = $this.find('input, select');
+        
+        if (!control.hasClass('main-config')) {
+            return;
+        }
+        
+        var id = control.attr('id');
+        var name, value;
+        if (id.endsWith('Entry')) {
+            name = id.substring(0, id.length - 5);
+            value = control.val();
+        }
+        else if (id.endsWith('Select')) {
+            name = id.substring(0, id.length - 6);
+            value = control.val();
+        }
+        else if (id.endsWith('Slider')) {
+            name = id.substring(0, id.length - 6);
+            value = control.val();
+        }
+        else if (id.endsWith('Switch')) {
+            name = id.substring(0, id.length - 6);
+            value = control[0].checked;
+        }
+        
+        dict['_' + name] = value;
+    });
+
+    return dict;
 }
 
 function dict2MainUi(dict) {
@@ -941,12 +981,41 @@ function dict2MainUi(dict) {
     $('#adminPasswordEntry').val(dict['admin_password']);
     $('#normalUsernameEntry').val(dict['normal_username']);
     $('#normalPasswordEntry').val(dict['normal_password']);
-    $('#timeZoneSelect').val(dict['time_zone']);
-    
-    $('#wifiSwitch')[0].checked = dict['wifi_enabled'];
-    $('#wifiNameEntry').val(dict['wifi_name']);
-    $('#wifiKeyEntry').val(dict['wifi_key']);
-    
+
+    /* additional sections */
+    $('input[type=checkbox].additional-section.main-config').each(function () {
+        this.checked = dict['_' + this.id.substring(0, this.id.length - 6)];
+    });
+
+    /* additional configs */
+    $('tr.additional-config').each(function () {
+        var $this = $(this);
+        var control = $this.find('input, select');
+        
+        if (!control.hasClass('main-config')) {
+            return;
+        }
+
+        var id = control.attr('id');
+        var name;
+        if (id.endsWith('Entry')) {
+            name = id.substring(0, id.length - 5);
+            control.val(dict['_' + name]);
+        }
+        else if (id.endsWith('Select')) {
+            name = id.substring(0, id.length - 6);
+            control.val(dict['_' + name]);
+        }
+        else if (id.endsWith('Slider')) {
+            name = id.substring(0, id.length - 6);
+            control.val(dict['_' + name]);
+        }
+        else if (id.endsWith('Switch')) {
+            name = id.substring(0, id.length - 6);
+            control[0].checked = dict['_' + name];
+        }
+    });
+
     updateConfigUi();
 }
 
@@ -1075,6 +1144,42 @@ function cameraUi2Dict() {
         dict.hue = $('#hueSlider').val();
     }
     
+    /* additional sections */
+    $('input[type=checkbox].additional-section.camera-config').each(function () {
+        dict['_' + this.id.substring(0, this.id.length - 6)] = this.checked;
+    });
+
+    /* additional configs */
+    $('tr.additional-config').each(function () {
+        var $this = $(this);
+        var control = $this.find('input, select');
+        
+        if (!control.hasClass('camera-config')) {
+            return;
+        }
+        
+        var id = control.attr('id');
+        var name, value;
+        if (id.endsWith('Entry')) {
+            name = id.substring(0, id.length - 5);
+            value = control.val();
+        }
+        else if (id.endsWith('Select')) {
+            name = id.substring(0, id.length - 6);
+            value = control.val();
+        }
+        else if (id.endsWith('Slider')) {
+            name = id.substring(0, id.length - 6);
+            value = control.val();
+        }
+        else if (id.endsWith('Switch')) {
+            name = id.substring(0, id.length - 6);
+            value = control[0].checked;
+        }
+        
+        dict['_' + name] = value;
+    });
+
     return dict;
 }
 
@@ -1302,6 +1407,40 @@ function dict2CameraUi(dict) {
     $('#sundayToEntry').val(dict['sunday_to']);
     $('#workingScheduleTypeSelect').val(dict['working_schedule_type']);
     
+    /* additional sections */
+    $('input[type=checkbox].additional-section.main-config').each(function () {
+        this.checked = dict[this.id.substring(0, this.id.length - 6)];
+    });
+
+    /* additional configs */
+    $('tr.additional-config').each(function () {
+        var $this = $(this);
+        var control = $this.find('input, select');
+        
+        if (!control.hasClass('camera-config')) {
+            return;
+        }
+
+        var id = control.attr('id');
+        var name;
+        if (id.endsWith('Entry')) {
+            name = id.substring(0, id.length - 5);
+            control.val(dict['_' + name]);
+        }
+        else if (id.endsWith('Select')) {
+            name = id.substring(0, id.length - 6);
+            control.val(dict['_' + name]);
+        }
+        else if (id.endsWith('Slider')) {
+            name = id.substring(0, id.length - 6);
+            control.val(dict['_' + name]);
+        }
+        else if (id.endsWith('Switch')) {
+            name = id.substring(0, id.length - 6);
+            control[0].checked = dict['_' + name];
+        }
+    });
+
     updateConfigUi();
 }
 

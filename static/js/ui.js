@@ -5,446 +5,433 @@ var _modalDialogContexts = [];
     /* UI widgets */
 
 function makeCheckBox($input) {
-    if (!$input.length) {
-        return;
-    }
-    
-    var mainDiv = $('<div class="check-box"></div>');
-    var buttonDiv = $('<div class="check-box-button"></div>');
-    var text = $('<span class="check-box-text"><span>');
-    
-    function setOn() {
-        text.html('ON');
-        mainDiv.addClass('on');
-    }
-    
-    function setOff() {
-        text.html('OFF');
-        mainDiv.removeClass('on');
-    }
-    
-    buttonDiv.append(text);
-    mainDiv.append(buttonDiv);
-    
-    /* transfer the CSS classes */
-    mainDiv[0].className += ' ' + $input[0].className;
-    
-    /* add the element */
-    $input.after(mainDiv);
-    
-    function update() {
-        if ($input[0].checked) {
-            setOn();
+    $input.each(function () {
+        var $this = $(this);
+
+        var mainDiv = $('<div class="check-box"></div>');
+        var buttonDiv = $('<div class="check-box-button"></div>');
+        var text = $('<span class="check-box-text"><span>');
+        
+        function setOn() {
+            text.html('ON');
+            mainDiv.addClass('on');
         }
-        else {
-            setOff();
+        
+        function setOff() {
+            text.html('OFF');
+            mainDiv.removeClass('on');
         }
-    }
-    
-    /* add event handers */
-    $input.change(update).change();
-    
-    mainDiv.click(function () {
-        $input[0].checked = !$input[0].checked;
-        $input.change();
+        
+        buttonDiv.append(text);
+        mainDiv.append(buttonDiv);
+        
+        /* transfer the CSS classes */
+        mainDiv[0].className += ' ' + $this[0].className;
+        
+        /* add the element */
+        $this.after(mainDiv);
+        
+        function update() {
+            if ($this[0].checked) {
+                setOn();
+            }
+            else {
+                setOff();
+            }
+        }
+        
+        /* add event handers */
+        $this.change(update).change();
+        
+        mainDiv.click(function () {
+            $this[0].checked = !$this[0].checked;
+            $this.change();
+        });
+        
+        /* make the element focusable */
+        mainDiv[0].tabIndex = 0;
+        
+        /* handle the key events */
+        mainDiv.keydown(function (e) {
+            if (e.which === 13 || e.which === 32) {
+                $this[0].checked = !$this[0].checked;
+                $this.change();
+                
+                return false;
+            }
+        });
+        
+        this.update = update;
     });
-    
-    /* make the element focusable */
-    mainDiv[0].tabIndex = 0;
-    
-    /* handle the key events */
-    mainDiv.keydown(function (e) {
-        if (e.which === 13 || e.which === 32) {
-            $input[0].checked = !$input[0].checked;
-            $input.change();
-            
-            return false;
-        }
-    });
-    
-    $input[0].update = update;
-    
-    return mainDiv;
 }
 
 function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decimals, unit) {
-    if (!$input.length) {
-        return;
-    }
-
     unit = unit || '';
-    
-    var slider = $('<div class="slider"></div>');
-    
-    var labels = $('<div class="slider-labels"></div>');
-    slider.append(labels);
-    
-    var bar = $('<div class="slider-bar"></div>');
-    slider.append(bar);
-    
-    bar.append('<div class="slider-bar-inside"></div>');
-    
-    var cursor = $('<div class="slider-cursor"></div>');
-    bar.append(cursor);
-    
-    var cursorLabel = $('<div class="slider-cursor-label"></div>');
-    cursor.append(cursorLabel);
-    
-    function bestPos(pos) {
-        if (pos < 0) {
-            pos = 0;
-        }
-        if (pos > 100) {
-            pos = 100;
+
+    $input.each(function () {
+        var $this = $(this);
+        var slider = $('<div class="slider"></div>');
+        
+        var labels = $('<div class="slider-labels"></div>');
+        slider.append(labels);
+        
+        var bar = $('<div class="slider-bar"></div>');
+        slider.append(bar);
+        
+        bar.append('<div class="slider-bar-inside"></div>');
+        
+        var cursor = $('<div class="slider-cursor"></div>');
+        bar.append(cursor);
+        
+        var cursorLabel = $('<div class="slider-cursor-label"></div>');
+        cursor.append(cursorLabel);
+        
+        function bestPos(pos) {
+            if (pos < 0) {
+                pos = 0;
+            }
+            if (pos > 100) {
+                pos = 100;
+            }
+            
+            if (snapMode > 0) {
+                var minDif = Infinity;
+                var bestPos = null;
+                for (var i = 0; i < ticks.length; i++) {
+                    var tick = ticks[i];
+                    var p = valToPos(tick.value);
+                    var dif = Math.abs(p - pos);
+                    if ((dif < minDif) && (snapMode == 1 || dif < 5)) {
+                        minDif = dif;
+                        bestPos = p;
+                    }
+                }
+                
+                if (bestPos != null) {
+                    pos = bestPos;
+                }
+            }
+            
+            return pos;
         }
         
-        if (snapMode > 0) {
-            var minDif = Infinity;
-            var bestPos = null;
-            for (var i = 0; i < ticks.length; i++) {
+        function getPos() {
+            return parseInt(cursor.position().left * 100 / bar.width());
+        }
+        
+        function valToPos(val) {
+            return (val - minVal) * 100 / (maxVal - minVal);
+        }
+        
+        function posToVal(pos) {
+            return minVal + pos * (maxVal - minVal) / 100;
+        }
+        
+        function sliderChange(val) {
+            $this.val(val.toFixed(decimals));
+            cursorLabel.html('' + val.toFixed(decimals) + unit);
+        }
+        
+        function bodyMouseMove(e) {
+            if (bar[0]._mouseDown) {
+                var offset = bar.offset();
+                var pos = e.pageX - offset.left - 5;
+                pos = pos / slider.width() * 100;
+                pos = bestPos(pos);
+                var val = posToVal(pos);
+                
+                cursor.css('left', pos + '%');
+                sliderChange(val);
+            }
+        }
+        
+        function bodyMouseUp(e) {
+            bar[0]._mouseDown = false;
+    
+            $('body').unbind('mousemove', bodyMouseMove);
+            $('body').unbind('mouseup', bodyMouseUp);
+            
+            cursorLabel.css('display', 'none');
+            
+            $this.change();
+        }
+        
+        bar.mousedown(function (e) {
+            if (e.which > 1) {
+                return;
+            }
+            
+            this._mouseDown = true;
+            bodyMouseMove(e);
+    
+            $('body').mousemove(bodyMouseMove);
+            $('body').mouseup(bodyMouseUp);
+            
+            slider.focus();
+            cursorLabel.css('display', 'inline-block');
+            
+            return false;
+        });
+        
+        /* ticks */
+        var autoTicks = (ticks == null);
+        
+        function makeTicks() {
+            if (ticksNumber == null) {
+                ticksNumber = 11; 
+            }
+    
+            labels.html('');
+            
+            if (autoTicks) {
+                ticks = [];
+                var i;
+                for (i = 0; i < ticksNumber; i++) {
+                    var val = minVal + i * (maxVal - minVal) / (ticksNumber - 1);
+                    var valStr;
+                    if (Math.round(val) == val) {
+                        valStr = '' + val;
+                    }
+                    else {
+                        valStr = val.toFixed(decimals);
+                    }
+                    ticks.push({value: val, label: valStr + unit});
+                }
+            }
+            
+            for (i = 0; i < ticks.length; i++) {
                 var tick = ticks[i];
-                var p = valToPos(tick.value);
-                var dif = Math.abs(p - pos);
-                if ((dif < minDif) && (snapMode == 1 || dif < 5)) {
-                    minDif = dif;
-                    bestPos = p;
-                }
+                var pos = valToPos(tick.value);
+                var span = $('<span class="slider-label" style="left: -9999px;">' + tick.label + '</span>');
+                
+                labels.append(span);
+                span.css('left', (pos - 10) + '%');
             }
             
-            if (bestPos != null) {
-                pos = bestPos;
-            }
+            return ticks;
         }
         
-        return pos;
-    }
+        makeTicks();
     
-    function getPos() {
-        return parseInt(cursor.position().left * 100 / bar.width());
-    }
-    
-    function valToPos(val) {
-        return (val - minVal) * 100 / (maxVal - minVal);
-    }
-    
-    function posToVal(pos) {
-        return minVal + pos * (maxVal - minVal) / 100;
-    }
-    
-    function sliderChange(val) {
-        $input.val(val.toFixed(decimals));
-        cursorLabel.html('' + val.toFixed(decimals) + unit);
-    }
-    
-    function bodyMouseMove(e) {
-        if (bar[0]._mouseDown) {
-            var offset = bar.offset();
-            var pos = e.pageX - offset.left - 5;
-            pos = pos / slider.width() * 100;
+        function input2slider() {
+            var value = parseFloat($this.val());
+            if (isNaN(value)) {
+                value = minVal;
+            }
+            
+            var pos = valToPos(value);
             pos = bestPos(pos);
-            var val = posToVal(pos);
-            
             cursor.css('left', pos + '%');
-            sliderChange(val);
-        }
-    }
-    
-    function bodyMouseUp(e) {
-        bar[0]._mouseDown = false;
-
-        $('body').unbind('mousemove', bodyMouseMove);
-        $('body').unbind('mouseup', bodyMouseUp);
-        
-        cursorLabel.css('display', 'none');
-        
-        $input.change();
-    }
-    
-    bar.mousedown(function (e) {
-        if (e.which > 1) {
-            return;
+            cursorLabel.html($this.val() + unit);
         }
         
-        this._mouseDown = true;
-        bodyMouseMove(e);
-
-        $('body').mousemove(bodyMouseMove);
-        $('body').mouseup(bodyMouseUp);
+        /* transfer the CSS classes */
+        slider.addClass($this.attr('class'));
         
-        slider.focus();
-        cursorLabel.css('display', 'inline-block');
+        /* handle input events */
+        $this.change(input2slider).change();
         
-        return false;
-    });
-    
-    /* ticks */
-    var autoTicks = (ticks == null);
-    
-    function makeTicks() {
-        if (ticksNumber == null) {
-            ticksNumber = 11; 
-        }
-
-        labels.html('');
+        /* add the slider to the parent of the input */
+        $this.after(slider);
         
-        if (autoTicks) {
-            ticks = [];
-            var i;
-            for (i = 0; i < ticksNumber; i++) {
-                var val = minVal + i * (maxVal - minVal) / (ticksNumber - 1);
-                var valStr;
-                if (Math.round(val) == val) {
-                    valStr = '' + val;
-                }
-                else {
-                    valStr = val.toFixed(decimals);
-                }
-                ticks.push({value: val, label: valStr + unit});
-            }
-        }
+        /* make the slider focusable */
+        slider.attr('tabIndex', 0);
         
-        for (i = 0; i < ticks.length; i++) {
-            var tick = ticks[i];
-            var pos = valToPos(tick.value);
-            var span = $('<span class="slider-label" style="left: -9999px;">' + tick.label + '</span>');
-            
-            labels.append(span);
-            span.css('left', (pos - 10) + '%');
-        }
-        
-        return ticks;
-    }
-    
-    makeTicks();
-
-    function input2slider() {
-        var value = parseFloat($input.val());
-        if (isNaN(value)) {
-            value = minVal;
-        }
-        
-        var pos = valToPos(value);
-        pos = bestPos(pos);
-        cursor.css('left', pos + '%');
-        cursorLabel.html($input.val() + unit);
-    }
-    
-    /* transfer the CSS classes */
-    slider.addClass($input.attr('class'));
-    
-    /* handle input events */
-    $input.change(input2slider).change();
-    
-    /* add the slider to the parent of the input */
-    $input.after(slider);
-    
-    /* make the slider focusable */
-    slider.attr('tabIndex', 0);
-    
-    /* handle key events */
-    slider.keydown(function (e) {
-        switch (e.which) {
-            case 37: /* left */
-                if (snapMode == 1) { /* strict snapping */
-                    // TODO implement me
-                }
-                else {
-                    var step = (maxVal - minVal) / 200;
-                    var val = Math.max(minVal, parseFloat($input.val()) - step);
-                    if (decimals == 0) {
-                        val = Math.floor(val);
+        /* handle key events */
+        slider.keydown(function (e) {
+            switch (e.which) {
+                case 37: /* left */
+                    if (snapMode == 1) { /* strict snapping */
+                        // TODO implement me
+                    }
+                    else {
+                        var step = (maxVal - minVal) / 200;
+                        var val = Math.max(minVal, parseFloat($this.val()) - step);
+                        if (decimals == 0) {
+                            val = Math.floor(val);
+                        }
+                        
+                        var origSnapMode = snapMode;
+                        snapMode = 0;
+                        $this.val(val).change();
+                        snapMode = origSnapMode;
                     }
                     
-                    var origSnapMode = snapMode;
-                    snapMode = 0;
-                    $input.val(val).change();
-                    snapMode = origSnapMode;
-                }
-                
-                break;
-                
-            case 39: /* right */
-                if (snapMode == 1) { /* strict snapping */
-                    // TODO implement me
-                }
-                else {
-                    var step = (maxVal - minVal) / 200;
-                    var val = Math.min(maxVal, parseFloat($input.val()) + step);
-                    if (decimals == 0) {
-                        val = Math.ceil(val);
+                    break;
+                    
+                case 39: /* right */
+                    if (snapMode == 1) { /* strict snapping */
+                        // TODO implement me
                     }
-
-                    var origSnapMode = snapMode;
-                    snapMode = 0;
-                    $input.val(val).change();
-                    snapMode = origSnapMode;
-                }
-                
-                break;
-        }
-    });
+                    else {
+                        var step = (maxVal - minVal) / 200;
+                        var val = Math.min(maxVal, parseFloat($this.val()) + step);
+                        if (decimals == 0) {
+                            val = Math.ceil(val);
+                        }
     
-    $input.each(function () {
-        this.update = input2slider;
-    });
-    
-    slider[0].setMinVal = function (mv) {
-        minVal = mv;
-
-        makeTicks();
-    };
-    
-    slider[0].setMaxVal = function (mv) {
-        maxVal = mv;
-
-        makeTicks();
+                        var origSnapMode = snapMode;
+                        snapMode = 0;
+                        $this.val(val).change();
+                        snapMode = origSnapMode;
+                    }
+                    
+                    break;
+            }
+        });
         
-        input2slider();
-    };
+        this.update = input2slider;
+        
+        slider[0].setMinVal = function (mv) {
+            minVal = mv;
     
-    return slider;
+            makeTicks();
+        };
+        
+        slider[0].setMaxVal = function (mv) {
+            maxVal = mv;
+    
+            makeTicks();
+            
+            input2slider();
+        };
+    });
 }
 
 function makeProgressBar($div) {
-    if (!$div.length) {
-        return;
-    }
+    $div.each(function () {
+        var $this = $(this);
+        
+        $this.addClass('progress-bar-container');
+        var fillDiv = $('<div class="progress-bar-fill"></div>');
+        var textSpan = $('<span class="progress-bar-text"></span>');
     
-    $div.addClass('progress-bar-container');
-    var fillDiv = $('<div class="progress-bar-fill"></div>');
-    var textSpan = $('<span class="progress-bar-text"></span>');
-
-    $div.append(fillDiv);
-    $div.append(textSpan);
-    
-    $div[0].setProgress = function (progress) {
-        $div.progress = progress;
-        fillDiv.width(progress + '%');
-    };
-    
-    $div[0].setText = function (text) {
-        textSpan.html(text);
-    };
-
-    return $div;
+        $this.append(fillDiv);
+        $this.append(textSpan);
+        
+        this.setProgress = function (progress) {
+            $this.progress = progress;
+            fillDiv.width(progress + '%');
+        };
+        
+        this.setText = function (text) {
+            textSpan.html(text);
+        };
+    });
 }
 
 
     /* validators */
 
 function makeTextValidator($input, required) {
-    if (!$input.length) {
-        return;
-    }
-    
     if (required == null) {
         required = true;
     }
+
+    $input.each(function () {
+        var $this = $(this);
+
+        function isValid(strVal) {
+            if (!$this.is(':visible')) {
+                return true; /* an invisible element is considered always valid */
+            }
+            
+            if (strVal.length === 0 && required) {
+                return false;
+            }
     
-    function isValid(strVal) {
-        if (!$input.is(':visible')) {
-            return true; /* an invisible element is considered always valid */
+            return true;
         }
         
-        if (strVal.length === 0 && required) {
-            return false;
-        }
-
-        return true;
-    }
-    
-    var msg = 'this field is required';
-    
-    function validate() {
-        var strVal = $input.val();
-        if (isValid(strVal)) {
-            $input.attr('title', '');
-            $input.removeClass('error');
-            $input[0].invalid = false;
-        }
-        else {
-            $input.attr('title', msg);
-            $input.addClass('error');
-            $input[0].invalid = true;
-        }
-    }
-    
-    $input.keyup(validate);
-    $input.blur(validate);
-    $input.change(validate).change();
-    
-    $input.addClass('validator');
-    $input.addClass('text-validator');
-    $input.each(function () {
-        var oldValidate = this.validate;
-        this.validate = function () {
-            if (oldValidate) {
-                oldValidate.call(this);
+        var msg = 'this field is required';
+        
+        function validate() {
+            var strVal = $this.val();
+            if (isValid(strVal)) {
+                $this.attr('title', '');
+                $this.removeClass('error');
+                $this[0].invalid = false;
             }
-            validate();
+            else {
+                $this.attr('title', msg);
+                $this.addClass('error');
+                $this[0].invalid = true;
+            }
         }
+        
+        $this.keyup(validate);
+        $this.blur(validate);
+        $this.change(validate).change();
+        
+        $this.addClass('validator');
+        $this.addClass('text-validator');
+        $this.each(function () {
+            var oldValidate = this.validate;
+            this.validate = function () {
+                if (oldValidate) {
+                    oldValidate.call(this);
+                }
+                validate();
+            }
+        });
     });
 }
 
 function makeComboValidator($select, required) {
-    if (!$select.length) {
-        return;
-    }
-    
     if (required == null) {
         required = true;
     }
+
+    $select.each(function () {
+        $this = $(this);
+
+        function isValid(strVal) {
+            if (!$this.is(':visible')) {
+                return true; /* an invisible element is considered always valid */
+            }
+            
+            if (strVal.length === 0 && required) {
+                return false;
+            }
     
-    function isValid(strVal) {
-        if (!$select.is(':visible')) {
-            return true; /* an invisible element is considered always valid */
+            return true;
         }
         
-        if (strVal.length === 0 && required) {
-            return false;
-        }
-
-        return true;
-    }
-    
-    var msg = 'this field is required';
-    
-    function validate() {
-        var strVal = $select.val() || '';
-        if (isValid(strVal)) {
-            $select.attr('title', '');
-            $select.removeClass('error');
-            $select[0].invalid = false;
-        }
-        else {
-            $select.attr('title', msg);
-            $select.addClass('error');
-            $select[0].invalid = true;
-        }
-    }
-    
-    $select.keyup(validate);
-    $select.blur(validate);
-    $select.change(validate).change();
-    
-    $select.addClass('validator');
-    $select.addClass('combo-validator');
-    $select.each(function () {
-        var oldValidate = this.validate;
-        this.validate = function () {
-            if (oldValidate) {
-                oldValidate.call(this);
+        var msg = 'this field is required';
+        
+        function validate() {
+            var strVal = $this.val() || '';
+            if (isValid(strVal)) {
+                $this.attr('title', '');
+                $this.removeClass('error');
+                $this[0].invalid = false;
             }
-            validate();
+            else {
+                $this.attr('title', msg);
+                $this.addClass('error');
+                $this[0].invalid = true;
+            }
         }
+        
+        $this.keyup(validate);
+        $this.blur(validate);
+        $this.change(validate).change();
+        
+        $this.addClass('validator');
+        $this.addClass('combo-validator');
+        $this.each(function () {
+            var oldValidate = this.validate;
+            this.validate = function () {
+                if (oldValidate) {
+                    oldValidate.call(this);
+                }
+                validate();
+            }
+        });
     });
 }
 
 function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
-    if (!$input.length) {
-        return;
-    }
-    
     if (minVal == null) {
         minVal = -Infinity;
     }
@@ -460,233 +447,237 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     if (required == null) {
         required = true;
     }
-    
-    function isValid(strVal) {
-        if (!$input.is(':visible')) {
-            return true; /* an invisible element is considered always valid */
-        }
 
-        if (strVal.length === 0 && !required) {
+    $input.each(function () {
+        var $this = $(this);
+        
+        function isValid(strVal) {
+            if (!$this.is(':visible')) {
+                return true; /* an invisible element is considered always valid */
+            }
+    
+            if (strVal.length === 0 && !required) {
+                return true;
+            }
+            
+            var numVal = parseInt(strVal);
+            if ('' + numVal != strVal) {
+                return false;
+            }
+            
+            if (numVal < minVal || numVal > maxVal) {
+                return false;
+            }
+            
+            if (!sign && numVal < 0) {
+                return false;
+            }
+            
             return true;
         }
         
-        var numVal = parseInt(strVal);
-        if ('' + numVal != strVal) {
-            return false;
-        }
-        
-        if (numVal < minVal || numVal > maxVal) {
-            return false;
-        }
-        
-        if (!sign && numVal < 0) {
-            return false;
-        }
-        
-        return true;
-    }
-    
-    var msg = '';
-    if (!sign) {
-        msg = 'enter a positive';
-    }
-    else {
-        msg = 'enter a';
-    }
-    if (floating) {
-        msg += ' number';
-    }
-    else {
-        msg += ' integer number';
-    }
-    if (isFinite(minVal)) {
-        if (isFinite(maxVal)) {
-            msg += ' between ' + minVal + ' and ' + maxVal;
+        var msg = '';
+        if (!sign) {
+            msg = 'enter a positive';
         }
         else {
-            msg += ' greater than ' + minVal;
+            msg = 'enter a';
         }
-    }
-    else {
-        if (isFinite(maxVal)) {
-            msg += ' smaller than ' + maxVal;
-        }
-    }
-    
-    function validate() {
-        var strVal = $input.val();
-        if (isValid(strVal)) {
-            $input.attr('title', '');
-            $input.removeClass('error');
-            $input[0].invalid = false;
+        if (floating) {
+            msg += ' number';
         }
         else {
-            $input.attr('title', msg);
-            $input.addClass('error');
-            $input[0].invalid = true;
+            msg += ' integer number';
         }
-    }
-    
-    $input.keyup(validate);
-    $input.blur(validate);
-    $input.change(validate).change();
-    
-    $input.addClass('validator');
-    $input.addClass('number-validator');
-    $input.each(function () {
-        var oldValidate = this.validate;
-        this.validate = function () {
-            if (oldValidate) {
-                oldValidate.call(this);
+        if (isFinite(minVal)) {
+            if (isFinite(maxVal)) {
+                msg += ' between ' + minVal + ' and ' + maxVal;
             }
-            validate();
+            else {
+                msg += ' greater than ' + minVal;
+            }
         }
+        else {
+            if (isFinite(maxVal)) {
+                msg += ' smaller than ' + maxVal;
+            }
+        }
+        
+        function validate() {
+            var strVal = $this.val();
+            if (isValid(strVal)) {
+                $this.attr('title', '');
+                $this.removeClass('error');
+                $this[0].invalid = false;
+            }
+            else {
+                $this.attr('title', msg);
+                $this.addClass('error');
+                $this[0].invalid = true;
+            }
+        }
+        
+        $this.keyup(validate);
+        $this.blur(validate);
+        $this.change(validate).change();
+        
+        $this.addClass('validator');
+        $this.addClass('number-validator');
+        $this.each(function () {
+            var oldValidate = this.validate;
+            this.validate = function () {
+                if (oldValidate) {
+                    oldValidate.call(this);
+                }
+                validate();
+            }
+        });
     });
     
     makeStrippedInput($input);
 }
 
 function makeTimeValidator($input) {
-    if (!$input.length) {
-        return;
-    }
-    
-    function isValid(strVal) {
-        if (!$input.is(':visible')) {
-            return true; /* an invisible element is considered always valid */
-        }
-
-        return strVal.match(new RegExp('^[0-2][0-9]:[0-5][0-9]$')) != null;
-    }
-    
-    var msg = 'enter a valid time in the following format: HH:MM';
-    
-    function validate() {
-        var strVal = $input.val();
-        if (isValid(strVal)) {
-            $input.attr('title', '');
-            $input.removeClass('error');
-            $input[0].invalid = false;
-        }
-        else {
-            $input.attr('title', msg);
-            $input.addClass('error');
-            $input[0].invalid = true;
-        }
-    }
-    
-    $input.keyup(validate);
-    $input.blur(validate);
-    $input.change(validate).change();
-    $input.timepicker({
-        closeOnWindowScroll: true,
-        selectOnBlur: true,
-        timeFormat: 'H:i',
-    });
-    
-    $input.addClass('validator');
-    $input.addClass('time-validator');
     $input.each(function () {
-        var oldValidate = this.validate;
-        this.validate = function () {
-            if (oldValidate) {
-                oldValidate.call(this);
+        var $this = $(this);
+
+        function isValid(strVal) {
+            if (!$this.is(':visible')) {
+                return true; /* an invisible element is considered always valid */
             }
-            validate();
-        }
-    });
     
+            return strVal.match(new RegExp('^[0-2][0-9]:[0-5][0-9]$')) != null;
+        }
+        
+        var msg = 'enter a valid time in the following format: HH:MM';
+        
+        function validate() {
+            var strVal = $this.val();
+            if (isValid(strVal)) {
+                $this.attr('title', '');
+                $this.removeClass('error');
+                $this[0].invalid = false;
+            }
+            else {
+                $this.attr('title', msg);
+                $this.addClass('error');
+                $this[0].invalid = true;
+            }
+        }
+        
+        $this.keyup(validate);
+        $this.blur(validate);
+        $this.change(validate).change();
+        $this.timepicker({
+            closeOnWindowScroll: true,
+            selectOnBlur: true,
+            timeFormat: 'H:i',
+        });
+        
+        $this.addClass('validator');
+        $this.addClass('time-validator');
+        $this.each(function () {
+            var oldValidate = this.validate;
+            this.validate = function () {
+                if (oldValidate) {
+                    oldValidate.call(this);
+                }
+                validate();
+            }
+        });
+    });
+
     makeStrippedInput($input);
 }
 
 function makeUrlValidator($input) {
-    if (!$input.length) {
-        return;
-    }
-    
-    function isValid(strVal) {
-        if (!$input.is(':visible')) {
-            return true; /* an invisible element is considered always valid */
-        }
-
-        return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w\-.]+)(:\\d+)?(/.*)?$')) != null;
-    }
-    
-    var msg = 'enter a valid URL (e.g. http://example.com:8080/cams/)';
-    
-    function validate() {
-        var strVal = $input.val();
-        if (isValid(strVal)) {
-            $input.attr('title', '');
-            $input.removeClass('error');
-            $input[0].invalid = false;
-        }
-        else {
-            $input.attr('title', msg);
-            $input.addClass('error');
-            $input[0].invalid = true;
-        }
-    }
-    
-    $input.keyup(validate);
-    $input.blur(validate);
-    $input.change(validate).change();
-    
-    $input.addClass('validator');
-    $input.addClass('url-validator');
     $input.each(function () {
-        var oldValidate = this.validate;
-        this.validate = function () {
-            if (oldValidate) {
-                oldValidate.call(this);
+        var $this = $(this);
+
+        function isValid(strVal) {
+            if (!$this.is(':visible')) {
+                return true; /* an invisible element is considered always valid */
             }
-            validate();
+    
+            return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w\-.]+)(:\\d+)?(/.*)?$')) != null;
         }
+        
+        var msg = 'enter a valid URL (e.g. http://example.com:8080/cams/)';
+        
+        function validate() {
+            var strVal = $this.val();
+            if (isValid(strVal)) {
+                $this.attr('title', '');
+                $this.removeClass('error');
+                $this[0].invalid = false;
+            }
+            else {
+                $this.attr('title', msg);
+                $this.addClass('error');
+                $this[0].invalid = true;
+            }
+        }
+        
+        $this.keyup(validate);
+        $this.blur(validate);
+        $this.change(validate).change();
+        
+        $this.addClass('validator');
+        $this.addClass('url-validator');
+        $this.each(function () {
+            var oldValidate = this.validate;
+            this.validate = function () {
+                if (oldValidate) {
+                    oldValidate.call(this);
+                }
+                validate();
+            }
+        });
     });
 }
 
 function makeCustomValidator($input, isValidFunc) {
-    if (!$input.length) {
-        return;
-    }
-    
-    function isValid(strVal) {
-        if (!$input.is(':visible')) {
-            return true; /* an invisible element is considered always valid */
+    $input.each(function () {
+        var $this = $(this);
+        
+        function isValid(strVal) {
+            if (!$this.is(':visible')) {
+                return true; /* an invisible element is considered always valid */
+            }
+            
+            return isValidFunc(strVal);
         }
         
-        return isValidFunc(strVal);
-    }
-    
-    function validate() {
-        var strVal = $input.val();
-        var valid = isValid(strVal);
-        if (valid == true) {
-            $input.attr('title', '');
-            $input.removeClass('error');
-            $input[0].invalid = false;
-        }
-        else {
-            $input.attr('title', valid || 'enter a valid value');
-            $input.addClass('error');
-            $input[0].invalid = true;
-        }
-    }
-
-    $input.keyup(validate);
-    $input.blur(validate);
-    $input.change(validate).change();
-    
-    $input.addClass('validator');
-    $input.addClass('custom-validator');
-    $input.each(function () {
-        var oldValidate = this.validate;
-        this.validate = function () {
-            if (oldValidate) {
-                oldValidate.call(this);
+        function validate() {
+            var strVal = $this.val();
+            var valid = isValid(strVal);
+            if (valid == true) {
+                $this.attr('title', '');
+                $this.removeClass('error');
+                $this[0].invalid = false;
             }
-            validate();
+            else {
+                $this.attr('title', valid || 'enter a valid value');
+                $this.addClass('error');
+                $this[0].invalid = true;
+            }
         }
+    
+        $this.keyup(validate);
+        $this.blur(validate);
+        $this.change(validate).change();
+        
+        $this.addClass('validator');
+        $this.addClass('custom-validator');
+        $this.each(function () {
+            var oldValidate = this.validate;
+            this.validate = function () {
+                if (oldValidate) {
+                    oldValidate.call(this);
+                }
+                validate();
+            }
+        });
     });
 }
 

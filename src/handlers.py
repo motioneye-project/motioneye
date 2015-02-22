@@ -141,18 +141,17 @@ class MainHandler(BaseHandler):
     def get(self):
         import motioneye
         
-        timezones = []
-        if settings.LOCAL_TIME_FILE:
-            import pytz
-            timezones = pytz.common_timezones
+        # additional config
+        main_sections = config.get_additional_structure(camera=False)[0]
+        camera_sections = config.get_additional_structure(camera=True)[0]
 
         self.render('main.html',
                 frame=False,
                 version=motioneye.VERSION,
                 enable_update=bool(settings.REPO),
-                wpa_supplicant=settings.WPA_SUPPLICANT_CONF,
                 enable_reboot=settings.ENABLE_REBOOT,
-                timezones=timezones,
+                main_sections=main_sections,
+                camera_sections=camera_sections,
                 hostname=socket.gethostname(),
                 admin_username=config.get_main().get('@admin_username'))
 
@@ -293,12 +292,13 @@ class ConfigHandler(BaseHandler):
             main_config = config.main_ui_to_dict(ui_config)
             main_config.setdefault('thread', old_main_config.get('thread', [])) 
             admin_credentials = '%s:%s' % (main_config.get('@admin_username', ''), main_config.get('@admin_password', ''))
-            
-            wifi_changed = bool([k for k in ['@wifi_enabled', '@wifi_name', '@wifi_key'] if old_main_config.get(k) != main_config.get(k)])
-            
+
+            additional_configs = config.get_additional_structure(camera=False)[1]           
+            reboot_config_names = [('@_' + c['name']) for c in additional_configs.values() if c.get('reboot')]
+            reboot = bool([k for k in reboot_config_names if old_main_config.get(k) != main_config.get(k)])
+
             config.set_main(main_config)
             
-            reboot = False
             reload = False
             
             if admin_credentials != old_admin_credentials:
@@ -306,11 +306,11 @@ class ConfigHandler(BaseHandler):
                 
                 reload = True
             
-            if wifi_changed:
-                logging.debug('wifi settings changed, reboot needed')
+            if reboot:
+                logging.debug('system settings changed, reboot needed')
                 
                 reboot = True
-                
+
             return {'reload': reload, 'reboot': reboot}
         
         reload = False # indicates that browser should reload the page
@@ -322,8 +322,7 @@ class ConfigHandler(BaseHandler):
             if reboot[0]:
                 if settings.ENABLE_REBOOT:
                     def call_reboot():
-                        logging.info('rebooting')
-                        os.system('reboot')
+                        powerctl.reboot()
                     
                     ioloop = IOLoop.instance()
                     ioloop.add_timeout(datetime.timedelta(seconds=2), call_reboot)
@@ -625,7 +624,13 @@ class ConfigHandler(BaseHandler):
         event = self.get_argument('event')
         logging.debug('event %(event)s relayed for camera with id %(id)s' % {'event': event, 'id': camera_id})
         
-        camera_config = config.get_camera(camera_id)
+        try:
+            camera_config = config.get_camera(camera_id)
+        
+        except:
+            logging.warn('ignoring event for remote camera with id %s (probably removed)' % camera_id)
+            return self.finish_json()
+
         if not utils.local_camera(camera_config):
             logging.warn('ignoring event for remote camera with id %s' % camera_id)
             return self.finish_json()

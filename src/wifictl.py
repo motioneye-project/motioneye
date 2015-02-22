@@ -19,22 +19,28 @@ import logging
 import re
 import settings
 
+from config import additional_config, additional_section
 
-def get_wifi_settings():
+
+WPA_SUPPLICANT_CONF = settings.WPA_SUPPLICANT_CONF  # @UndefinedVariable
+
+
+def _get_wifi_settings():
     # will return the first configured network
-    
-    logging.debug('reading wifi settings from %s' % settings.WPA_SUPPLICANT_CONF)
+
+    logging.debug('reading wifi settings from %s' % WPA_SUPPLICANT_CONF)
     
     try:
-        conf_file = open(settings.WPA_SUPPLICANT_CONF, 'r')
+        conf_file = open(WPA_SUPPLICANT_CONF, 'r')
     
     except Exception as e:
         logging.error('could open wifi settings file %(path)s: %(msg)s' % {
-                'path': settings.WPA_SUPPLICANT_CONF, 'msg': unicode(e)})
+                'path': WPA_SUPPLICANT_CONF, 'msg': unicode(e)})
         
         return {
-            'ssid': None,
-            'psk': None
+            'wifiEnabled': False,
+            'wifiNetworkName': '',
+            'wifiNetworkKey': ''
         }
     
     lines = conf_file.readlines()
@@ -70,26 +76,27 @@ def get_wifi_settings():
         logging.debug('wifi is disabled')
 
     return {
-        'ssid': ssid,
-        'psk': psk
+        'wifiEnabled': False,
+        'wifiNetworkName': ssid,
+        'wifiNetworkKey': psk
     }
 
 
-def set_wifi_settings(s):
+def _set_wifi_settings(s):
     # will update the first configured network
     
-    logging.debug('writing wifi settings to %s' % settings.WPA_SUPPLICANT_CONF)
+    logging.debug('writing wifi settings to %s' % WPA_SUPPLICANT_CONF)
     
-    enabled = bool(s['ssid'])
-    ssid = s['ssid']
-    psk = s['psk']
+    enabled = s['wifiEnabled']
+    ssid = s['wifiNetworkName']
+    psk = s['wifiNetworkKey']
     
     try:
-        conf_file = open(settings.WPA_SUPPLICANT_CONF, 'r')
+        conf_file = open(WPA_SUPPLICANT_CONF, 'r')
     
     except Exception as e:
         logging.error('could open wifi settings file %(path)s: %(msg)s' % {
-                'path': settings.WPA_SUPPLICANT_CONF, 'msg': unicode(e)})
+                'path': WPA_SUPPLICANT_CONF, 'msg': unicode(e)})
 
         return
     
@@ -150,11 +157,11 @@ def set_wifi_settings(s):
         lines.append('}\n\n')
 
     try:
-        conf_file = open(settings.WPA_SUPPLICANT_CONF, 'w')
+        conf_file = open(WPA_SUPPLICANT_CONF, 'w')
     
     except Exception as e:
         logging.error('could open wifi settings file %(path)s: %(msg)s' % {
-                'path': settings.WPA_SUPPLICANT_CONF, 'msg': unicode(e)})
+                'path': WPA_SUPPLICANT_CONF, 'msg': unicode(e)})
 
         return
     
@@ -162,3 +169,71 @@ def set_wifi_settings(s):
         conf_file.write(line)
 
     conf_file.close()
+
+
+@additional_section
+def network():
+    return {
+        'label': 'Network',
+        'description': 'configure the network connection',
+        'advanced': True
+    }
+
+
+
+@additional_config
+def wifiEnabled():
+    if not WPA_SUPPLICANT_CONF:
+        return
+
+    return {
+        'label': 'Wireless Network',
+        'description': 'enable this if you want to connect to a wireless network',
+        'type': 'bool',
+        'section': 'network',
+        'advanced': True,
+        'reboot': True,
+        'get': _get_wifi_settings,
+        'set': _set_wifi_settings,
+        'get_set_dict': True
+    }
+
+
+@additional_config
+def wifiNetworkName():
+    if not WPA_SUPPLICANT_CONF:
+        return
+
+    return {
+        'label': 'Wireless Network Name',
+        'description': 'the name (SSID) of your wireless network',
+        'type': 'str',
+        'section': 'network',
+        'advanced': True,
+        'required': True,
+        'reboot': True,
+        'depends': ['wifiEnabled'],
+        'get': _get_wifi_settings,
+        'set': _set_wifi_settings,
+        'get_set_dict': True
+    }
+
+
+@additional_config
+def wifiNetworkKey():
+    if not WPA_SUPPLICANT_CONF:
+        return
+
+    return {
+        'label': 'Wireless Network Key',
+        'description': 'the key (PSK) required to connect to your wireless network',
+        'type': 'pwd',
+        'section': 'network',
+        'advanced': True,
+        'required': True,
+        'reboot': True,
+        'depends': ['wifiEnabled'],
+        'get': _get_wifi_settings,
+        'set': _set_wifi_settings,
+        'get_set_dict': True
+    }
