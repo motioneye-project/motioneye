@@ -1608,7 +1608,7 @@ function doUpdate() {
         }
         else {
             runConfirmDialog('New version available: ' + data.update_version + '. Update?', function () {
-                showModalDialog('<div style="text-align: center;"><span>This may take a few minutes.</span><div class="modal-progress"></div></div>');
+                showModalDialog('<div style="text-align: center;"><span>Updating. This may take a few minutes.</span><div class="modal-progress"></div></div>');
                 ajax('POST', baseUri + 'update/?version=' + data.update_version, null, function () {
                     var count = 0;
                     function checkServerUpdate() {
@@ -1633,6 +1633,11 @@ function doUpdate() {
                     }
                     
                     setTimeout(checkServerUpdate, 10000);
+
+                }, function (e) { /* error */
+                    runAlertDialog('The update process has failed!', function () {
+                        window.location.reload(true);
+                    });
                 });
 
                 return false; /* prevents hiding the modal container */
