@@ -490,9 +490,27 @@ function initUI() {
     makeTimeValidator($('input[type=text].time'));
     
     /* custom validators */
+    makeCustomValidator($('#deviceNameEntry'), function (value) {
+        if (!value) {
+            return 'this field is required';
+        }
+
+        if (!value.toLowerCase().match(new RegExp('^[a-z0-9\-\_\+\ ]*$'))) {
+            return "special characters are not allowed in camera's name";
+        }
+        
+        return true;
+    }, '');
     makeCustomValidator($('#rootDirectoryEntry'), function (value) {
         if ($('#storageDeviceSelect').val() == 'custom-path' && String(value).trim() == '/') {
             return 'files cannot be created directly on the root of your system';
+        }
+        
+        return true;
+    }, '');
+    makeCustomValidator($('#emailAddressesEntry'), function (value) {
+        if (!value.toLowerCase().match(new RegExp('^[a-z0-9\-\_\+\.\@\^\~\, ]+$'))) {
+            return 'enter a list of comma-separated valid email addresses';
         }
         
         return true;
