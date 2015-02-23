@@ -15,6 +15,9 @@
             {% if config.get('ticksnum') is not none %}ticksnum="{{config['ticksnum']}}"{% endif %}
             {% if config.get('decimals') is not none %}decimals="{{config['decimals']}}"{% endif %}
             {% if config.get('unit') %}unit="{{config['unit']}}"{% endif %}>
+        {% if config['type'] == 'separator' %}
+        <td colspan="100"><div class="settings-item-separator"></div></td>
+        {% else %}
         <td class="settings-item-label"><span class="settings-item-label">{{config['label']}}</span></td>
         <td class="settings-item-value">
             {% if config['type'] == 'str' %}
@@ -36,6 +39,7 @@
             {% endif %}
         </td>
         <td>{% if config.get('description') %}<span class="help-mark" title="{{config['description']}}">?</span>{% endif %}</td>
+        {% endif %}
     </tr>
 {%- endmacro %}
 

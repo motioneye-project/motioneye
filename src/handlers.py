@@ -142,8 +142,8 @@ class MainHandler(BaseHandler):
         import motioneye
         
         # additional config
-        main_sections = config.get_additional_structure(camera=False)[0]
-        camera_sections = config.get_additional_structure(camera=True)[0]
+        main_sections = config.get_additional_structure(camera=False, separators=True)[0]
+        camera_sections = config.get_additional_structure(camera=True, separators=True)[0]
 
         self.render('main.html',
                 frame=False,

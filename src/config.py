@@ -1416,8 +1416,8 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('on_event_end', '')
 
 
-def get_additional_structure(camera):
-    if _additional_structure_cache.get(camera) is None:
+def get_additional_structure(camera, separators=False):
+    if _additional_structure_cache.get((camera, separators)) is None:
         logging.debug('loading additional config structure for %s' % ('camera' if camera else 'main'))
 
         # gather sections
@@ -1432,7 +1432,7 @@ def get_additional_structure(camera):
             
             if bool(result.get('camera')) != bool(camera):
                 continue
-    
+            
             result['name'] = func.func_name
             sections[func.func_name] = result
     
@@ -1447,16 +1447,19 @@ def get_additional_structure(camera):
             
             if bool(result.get('camera')) != bool(camera):
                 continue
-            
+
+            if result['type'] == 'separator' and not separators:
+                continue
+
             result['name'] = func.func_name
             configs[func.func_name] = result
     
             section = sections.setdefault(result.get('section'), {})
             section.setdefault('configs', []).append(result)
 
-        _additional_structure_cache[camera] = sections, configs
+        _additional_structure_cache[(camera, separators)] = sections, configs
 
-    return _additional_structure_cache[camera]
+    return _additional_structure_cache[(camera, separators)]
 
 
 def _get_additional_config(data, camera):
