@@ -295,6 +295,7 @@ class ConfigHandler(BaseHandler):
 
             additional_configs = config.get_additional_structure(camera=False)[1]           
             reboot_config_names = [('@_' + c['name']) for c in additional_configs.values() if c.get('reboot')]
+            reboot_config_names.append('@admin_password')
             reboot = bool([k for k in reboot_config_names if old_main_config.get(k) != main_config.get(k)])
 
             config.set_main(main_config)
@@ -305,8 +306,8 @@ class ConfigHandler(BaseHandler):
                 logging.debug('admin credentials changed, reload needed')
                 
                 reload = True
-            
-            if reboot:
+
+            if reboot and settings.ENABLE_REBOOT:
                 logging.debug('system settings changed, reboot needed')
                 
                 reboot = True

@@ -72,14 +72,20 @@ def _get_wifi_settings():
     if ssid:
         logging.debug('wifi is enabled (ssid = "%s")' % ssid)
     
+        return {
+            'wifiEnabled': True,
+            'wifiNetworkName': ssid,
+            'wifiNetworkKey': psk
+        }
+
     else:
         logging.debug('wifi is disabled')
 
-    return {
-        'wifiEnabled': False,
-        'wifiNetworkName': ssid,
-        'wifiNetworkKey': psk
-    }
+        return {
+            'wifiEnabled': False,
+            'wifiNetworkName': ssid,
+            'wifiNetworkKey': psk
+        }
 
 
 def _set_wifi_settings(s):
@@ -178,7 +184,6 @@ def network():
         'description': 'configure the network connection',
         'advanced': True
     }
-
 
 
 @additional_config
