@@ -515,6 +515,27 @@ function initUI() {
         
         return true;
     }, '');
+    $('tr[validate] input[type=text]').each(function () {
+        var $this = $(this);
+        var $tr = $this.parent().parent();
+        var required = $tr.attr('required');
+        var validate = $tr.attr('validate');
+        if (!validate) {
+            return;
+        }
+
+        makeCustomValidator($this, function (value) {
+            if (!value && required) {
+                return 'this field is required';
+            }
+
+            if (!value.toLowerCase().match(new RegExp(validate))) {
+                return 'enter a valid value';
+            }
+
+            return true;
+        }, '');
+    });
     
     /* input value processors */
     makeStrippedInput($('tr[strip=true] input[type=text]'));
@@ -557,9 +578,8 @@ function initUI() {
         var $tr = $(this);
         var depends = $tr.attr('depends').split(' ');
         depends.forEach(function (depend) {
-            if (depend.charAt(0) == '!') {
-                depend = depend.substring(1);
-            }
+            depend = depend.split('=')[0];
+            depend = depend.replace(new RegExp('[^a-zA-Z0-9_]', 'g'), '');
             
             if (depend in seenDependNames) {
                 return;
@@ -850,11 +870,10 @@ function updateConfigUi() {
         var depends = $tr.attr('depends').split(' ');
         var conditionOk = true;
         depends.every(function (depend) {
-            var neg = false;
-            if (depend.charAt(0) == '!') {
-                neg = true;
-                depend = depend.substring(1);
-            }
+            var neg = depend.indexOf('!') >= 0;
+            var parts = depend.split('=');
+            var boolCheck = parts.length == 1;
+            depend = parts[0].replace(new RegExp('[^a-zA-Z0-9_$]', 'g'), '');
 
             var control = $('#' + depend + 'Entry, #' + depend + 'Select, #' + depend + 'Slider');
             var val = false;
@@ -867,17 +886,25 @@ function updateConfigUi() {
                     val = control.get(0).checked;
                 }
             }
-            
-            val = Boolean(val);
-            if (neg) {
-                val = !val;
+
+            if (boolCheck) {
+                if (neg) {
+                    val = !val;
+                }
+                
+                if (!val) {
+                    conditionOk = false;
+                    return false;
+                }
             }
-            
-            if (!val) {
-                conditionOk = false;
-                return false;
+            else { /* comparison */
+                var equal = parts[parts.length - 1] == val;
+                if (equal == neg) {
+                    conditionOk = false;
+                    return false;
+                }
             }
-            
+
             return true;
         });
         

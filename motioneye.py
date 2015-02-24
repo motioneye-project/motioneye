@@ -148,9 +148,9 @@ def _test_requirements():
             print('SMB_SHARES require root privileges')
             return False
 
-#         if settings.ENABLE_REBOOT: # TODO
-#             print('reboot requires root privileges')
-#             return False
+        if settings.ENABLE_REBOOT:
+            print('reboot requires root privileges')
+            return False
 
     try:
         import tornado  # @UnusedImport

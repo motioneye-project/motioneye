@@ -14,7 +14,8 @@
             {% if config.get('ticks') %}ticks="{{config['ticks']}}"{% endif %}
             {% if config.get('ticksnum') is not none %}ticksnum="{{config['ticksnum']}}"{% endif %}
             {% if config.get('decimals') is not none %}decimals="{{config['decimals']}}"{% endif %}
-            {% if config.get('unit') %}unit="{{config['unit']}}"{% endif %}>
+            {% if config.get('unit') %}unit="{{config['unit']}}"{% endif %}
+            {% if config.get('validate') %}validate="{{config['validate']}}"{% endif %}>
         {% if config['type'] == 'separator' %}
         <td colspan="100"><div class="settings-item-separator"></div></td>
         {% else %}
