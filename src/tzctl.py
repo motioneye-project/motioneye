@@ -87,24 +87,19 @@ def _get_time_zone_md5():
 
 
 def _get_time_zone():
-    time_zone = _get_time_zone_symlink() or _get_time_zone_md5()
-    if not time_zone:
-        logging.error('could not find local time zone')
-
-    return time_zone
+    return _get_time_zone_symlink() or _get_time_zone_md5() or 'UTC'
 
 
 def _set_time_zone(time_zone):
-    if not time_zone:
-        return logging.warn('ignoring null time zone')
+    time_zone = time_zone or 'UTC'
 
-    zoneinfo_file = '/usr/share/zoneinfo/'
+    zoneinfo_file = '/usr/share/zoneinfo/' + time_zone
     if not os.path.exists(zoneinfo_file):
         logging.error('%s file does not exist' % zoneinfo_file)
         
         return False
 
-    logging.debug('linking "%s" to "%s"...' % (settings.LOCAL_TIME_FILE, zoneinfo_file))
+    logging.debug('linking "%s" to "%s"' % (settings.LOCAL_TIME_FILE, zoneinfo_file))
 
     try:
         os.remove(settings.LOCAL_TIME_FILE)
