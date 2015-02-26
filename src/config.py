@@ -1501,22 +1501,28 @@ def _set_additional_config(data, camera):
     for name, section in sections.iteritems():
         if not section.get('set'):
             continue
+        
+        if ('@_' + name) not in data:
+            continue
 
         if section.get('get_set_dict'):
-            set_func_values.setdefault(section['set'], {})[name] = data.get('@_' + name)
+            set_func_values.setdefault(section['set'], {})[name] = data['@_' + name]
 
         else:
-            set_func_values[section['set']] = data.get('@_' + name)
+            set_func_values[section['set']] = data['@_' + name]
 
     for name, config in configs.iteritems():
         if not config.get('set'):
             continue
 
+        if ('@_' + name) not in data:
+            continue
+
         if config.get('get_set_dict'):
-            set_func_values.setdefault(config['set'], {})[name] = data.get('@_' + name)
+            set_func_values.setdefault(config['set'], {})[name] = data['@_' + name]
             
         else:
-            set_func_values[config['set']] = data.get('@_' + name)
+            set_func_values[config['set']] = data['@_' + name]
 
     for func, value in set_func_values.iteritems():
         func(value)
