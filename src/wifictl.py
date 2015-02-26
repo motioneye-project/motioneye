@@ -89,7 +89,9 @@ def _get_wifi_settings():
 
 
 def _set_wifi_settings(s):
-    # will update the first configured network
+    s.setdefault('wifiEnabled', False)
+    s.setdefault('wifiNetworkName', '')
+    s.setdefault('wifiNetworkKey', '')
     
     logging.debug('writing wifi settings to %s' % WPA_SUPPLICANT_CONF)
     
@@ -97,6 +99,7 @@ def _set_wifi_settings(s):
     ssid = s['wifiNetworkName']
     psk = s['wifiNetworkKey']
     
+    # will update the first configured network
     try:
         conf_file = open(WPA_SUPPLICANT_CONF, 'r')
     

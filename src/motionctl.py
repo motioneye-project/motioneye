@@ -39,12 +39,20 @@ def find_motion():
     global _motion_binary_cache
     if _motion_binary_cache:
         return _motion_binary_cache
-
-    try:
-        binary = subprocess.check_output('which motion', shell=True).strip()
     
-    except subprocess.CalledProcessError: # not found
-        return None
+    if settings.MOTION_BINARY:
+        if os.path.exists(settings.MOTION_BINARY):
+            binary = settings.MOTION_BINARY
+        
+        else:
+            return None
+
+    else: # autodetect motion binary path
+        try:
+            binary = subprocess.check_output('which motion', shell=True).strip()
+        
+        except subprocess.CalledProcessError: # not found
+            return None
 
     try:
         help = subprocess.check_output(binary + ' -h || true', shell=True)
@@ -87,6 +95,8 @@ def start():
     
     program, version = program  # @UnusedVariable
     
+    logging.debug('using motion binary "%s"' % program)
+
     motion_config_path = os.path.join(settings.CONF_PATH, 'motion.conf')
     motion_log_path = os.path.join(settings.LOG_PATH, 'motion.log')
     motion_pid_path = os.path.join(settings.RUN_PATH, 'motion.pid')

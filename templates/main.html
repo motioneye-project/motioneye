@@ -7,7 +7,7 @@
             {% if config.get('strip') %}strip="true"{% endif %}
             {% if config.get('depends') %}depends="{{' '.join(config['depends'])}}"{% endif %}
             {% if config.get('min') is not none %}min="{{config['min']}}"{% endif %}
-            {% if config.get('max') is not none %}max="{{config['min']}}"{% endif %}
+            {% if config.get('max') is not none %}max="{{config['max']}}"{% endif %}
             {% if config.get('floating') %}floating="true"{% endif %}
             {% if config.get('sign') %}sign="true"{% endif %}
             {% if config.get('snap') is not none %}snap="{{config['snap']}}"{% endif %}

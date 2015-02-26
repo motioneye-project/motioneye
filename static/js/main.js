@@ -482,7 +482,7 @@ function initUI() {
     $('input[type=text].number').each(function () {
         var $this = $(this);
         var $tr = $this.parent().parent();
-        makeTextValidator($this, Number($tr.attr('min')), Number($tr.attr('max')),
+        makeNumberValidator($this, Number($tr.attr('min')), Number($tr.attr('max')),
                 Boolean($tr.attr('floating')), Boolean($tr.attr('sign')), Boolean($tr.attr('required')));
     });
 
