@@ -95,7 +95,10 @@ def _get_time_zone():
 
 
 def _set_time_zone(time_zone):
-    zoneinfo_file = '/usr/share/zoneinfo/' + time_zone
+    if not time_zone:
+        return logging.warn('ignoring null time zone')
+
+    zoneinfo_file = '/usr/share/zoneinfo/'
     if not os.path.exists(zoneinfo_file):
         logging.error('%s file does not exist' % zoneinfo_file)
         
