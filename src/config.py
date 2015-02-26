@@ -1230,6 +1230,9 @@ def _dict_to_conf(lines, data, list_names=[]):
             new_value = data.get(name)
             if new_value is not None:
                 for v in new_value:
+                    if v is None:
+                        continue
+
                     line = name + ' ' + _python_to_value(v)
                     conf_lines.append(line)
             
@@ -1258,6 +1261,9 @@ def _dict_to_conf(lines, data, list_names=[]):
         
         if name in list_names:
             for v in value:
+                if v is None:
+                    continue
+
                 line = name + ' ' + _python_to_value(v)
                 conf_lines.append(line)
 
