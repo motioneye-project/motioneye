@@ -34,9 +34,12 @@ class MjpgClient(iostream.IOStream):
     last_jpg_moment = {} # dictionary of moments of the last received jpeg indexed by camera id
     last_access = {} # dictionary of access moments indexed by camera id
     
-    def __init__(self, camera_id, port):
+    def __init__(self, camera_id, port, username, password):
         self._camera_id = camera_id
         self._port = port
+        self._username = (username or '').encode('utf8')
+        self._password = (password or '').encode('utf8')
+        self._auth_digest_state = {}
         
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         iostream.IOStream.__init__(self, s)
@@ -92,9 +95,51 @@ class MjpgClient(iostream.IOStream):
         logging.debug('mjpg client for camera %(camera_id)s connected on port %(port)s' % {
                 'port': self._port, 'camera_id': self._camera_id})
         
-        self.write(b"GET / HTTP/1.0\r\n\r\n")
-        self._seek_content_length()
+        self.write('GET / HTTP/1.0\r\n\r\n')
+        self._seek_http()
+    
+    def _seek_http(self):
+        if self._check_error():
+            return
         
+        self.read_until_regex('HTTP/1.\d \d+ ', self._on_http)
+
+    def _on_http(self, data):
+        if data.endswith('401 '):
+            self._seek_www_authenticate()
+
+        else: # no authorization required, skip to content length
+            self._seek_content_length()
+
+    def _seek_www_authenticate(self):
+        if self._check_error():
+            return
+        
+        self.read_until('WWW-Authenticate:', self._on_before_www_authenticate)
+
+    def _on_before_www_authenticate(self, data):
+        if self._check_error():
+            return
+        
+        self.read_until('\r\n', self._on_www_authenticate)
+    
+    def _on_www_authenticate(self, data):
+        if self._check_error():
+            return
+        
+        m = re.match('Digest\s*realm="([a-zA-Z0-9\-\s]+)",\s*nonce="([a-zA-Z0-9]+)"', data.strip())
+        if not m:
+            logging.error('mjpgclient: unknown authentication header: "%s"' % data)
+            return self._seek_content_length()
+
+        realm, nonce = m.groups()
+        self._auth_digest_state['realm'] = realm
+        self._auth_digest_state['nonce'] = nonce
+
+        auth_header = utils.build_digest_header('GET', '/', self._username, self._password, self._auth_digest_state)
+        self.write('GET / HTTP/1.0\r\n\r\nAuthorization: %s\r\n\r\n' % auth_header)
+        self._seek_http()
+
     def _seek_content_length(self):
         if self._check_error():
             return
@@ -196,7 +241,11 @@ def get_jpg(camera_id):
             return None
         
         port = camera_config['stream_port']
-        client = MjpgClient(camera_id, port)
+        username, password = None, None
+        if camera_config.get('stream_auth_method') == 2:
+            username, password = camera_config.get('stream_authentication', ':').split(':')
+
+        client = MjpgClient(camera_id, port, username, password)
         client.connect()
 
     MjpgClient.last_access[camera_id] = datetime.datetime.utcnow()

@@ -289,10 +289,12 @@ class ConfigHandler(BaseHandler):
             
             old_main_config = config.get_main()
             old_admin_credentials = '%s:%s' % (old_main_config.get('@admin_username', ''), old_main_config.get('@admin_password', ''))
-            
+            old_normal_credentials = '%s:%s' % (old_main_config.get('@normal_username', ''), old_main_config.get('@normal_password', ''))
+
             main_config = config.main_ui_to_dict(ui_config)
             main_config.setdefault('thread', old_main_config.get('thread', [])) 
             admin_credentials = '%s:%s' % (main_config.get('@admin_username', ''), main_config.get('@admin_password', ''))
+            normal_credentials = '%s:%s' % (main_config.get('@normal_username', ''), main_config.get('@normal_password', ''))
 
             additional_configs = config.get_additional_structure(camera=False)[1]           
             reboot_config_names = [('@_' + c['name']) for c in additional_configs.values() if c.get('reboot')]
@@ -302,18 +304,35 @@ class ConfigHandler(BaseHandler):
             config.set_main(main_config)
             
             reload = False
+            restart = False
             
             if admin_credentials != old_admin_credentials:
                 logging.debug('admin credentials changed, reload needed')
                 
                 reload = True
 
+            if normal_credentials != old_normal_credentials:
+                logging.debug('surveillance credentials changed, all camera configs must be updated')
+                
+                for camera_id in config.get_camera_ids():
+                    local_config = config.get_camera(camera_id)
+                    if not utils.local_camera(local_config):
+                        continue
+                    
+                    # this will update the stream authentication options
+                    ui_config = config.camera_dict_to_ui(local_config)
+                    local_config = config.camera_ui_to_dict(ui_config)
+                    config.set_camera(camera_id, local_config)
+                    
+                    restart = True
+
             if reboot and settings.ENABLE_REBOOT:
                 logging.debug('system settings changed, reboot needed')
-                
-                reboot = True
+        
+            else: 
+                reboot = False
 
-            return {'reload': reload, 'reboot': reboot}
+            return {'reload': reload, 'reboot': reboot, 'restart': restart}
         
         reload = False # indicates that browser should reload the page
         reboot = [False] # indicates that the server will reboot immediately
@@ -368,12 +387,17 @@ class ConfigHandler(BaseHandler):
                     
                     if so_far[0] >= len(ui_config): # finished
                         finish()
-        
-                for key, cfg in ui_config.items():
+
+                # make sure main config is handled first
+                items = ui_config.items()
+                items.sort(key=lambda (key, cfg): key != 'main')
+
+                for key, cfg in items:
                     if key == 'main':
                         result = set_main_config(cfg)
                         reload = result['reload'] or reload
                         reboot[0] = result['reboot'] or reboot[0]
+                        restart[0] = result['restart'] or restart[0]
                         check_finished(None, reload)
                         
                     else:
@@ -391,6 +415,7 @@ class ConfigHandler(BaseHandler):
             result = set_main_config(ui_config)
             reload = result['reload']
             reboot[0] = result['reboot']
+            restart[0] = result['restart']
 
     @BaseHandler.auth(admin=True)
     def set_preview(self, camera_id):
@@ -1330,6 +1355,4 @@ class LoginHandler(BaseHandler):
 
     def post(self):
         self.set_header('Content-Type', 'text/html')
-        if not self.current_user:
-            self.set_status(403)
         self.finish()

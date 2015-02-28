@@ -19,6 +19,7 @@ import datetime
 import hashlib
 import logging
 import os
+import time
 import urllib
 import urlparse
 
@@ -309,3 +310,96 @@ def compute_signature(method, uri, body, key):
     uri = urlparse.urlunsplit(parts)
     
     return hashlib.sha1('%s:%s:%s:%s' % (method, uri, body or '', key)).hexdigest().lower()
+
+
+def build_digest_header(method, url, username, password, state):
+    realm = state['realm']
+    nonce = state['nonce']
+    last_nonce = state.get('last_nonce', '')
+    nonce_count = state.get('nonce_count', 0)
+    qop = state.get('qop')
+    algorithm = state.get('algorithm')
+    opaque = state.get('opaque')
+
+    if algorithm is None:
+        _algorithm = 'MD5'
+
+    else:
+        _algorithm = algorithm.upper()
+
+    if _algorithm == 'MD5' or _algorithm == 'MD5-SESS':
+        def md5_utf8(x):
+            if isinstance(x, str):
+                x = x.encode('utf-8')
+            return hashlib.md5(x).hexdigest()
+        hash_utf8 = md5_utf8
+
+    elif _algorithm == 'SHA':
+        def sha_utf8(x):
+            if isinstance(x, str):
+                x = x.encode('utf-8')
+            return hashlib.sha1(x).hexdigest()
+        hash_utf8 = sha_utf8
+
+    KD = lambda s, d: hash_utf8("%s:%s" % (s, d))
+
+    if hash_utf8 is None:
+        return None
+
+    entdig = None
+    p_parsed = urlparse.urlparse(url)
+    path = p_parsed.path
+    if p_parsed.query:
+        path += '?' + p_parsed.query
+
+    A1 = '%s:%s:%s' % (username, realm, password)
+    A2 = '%s:%s' % (method, path)
+
+    HA1 = hash_utf8(A1)
+    HA2 = hash_utf8(A2)
+
+    if nonce == last_nonce:
+        nonce_count += 1
+
+    else:
+        nonce_count = 1
+    
+    ncvalue = '%08x' % nonce_count
+    s = str(nonce_count).encode('utf-8')
+    s += nonce.encode('utf-8')
+    s += time.ctime().encode('utf-8')
+    s += os.urandom(8)
+
+    cnonce = (hashlib.sha1(s).hexdigest()[:16])
+    if _algorithm == 'MD5-SESS':
+        HA1 = hash_utf8('%s:%s:%s' % (HA1, nonce, cnonce))
+
+    if qop is None:
+        respdig = KD(HA1, "%s:%s" % (nonce, HA2))
+    
+    elif qop == 'auth' or 'auth' in qop.split(','):
+        noncebit = "%s:%s:%s:%s:%s" % (
+            nonce, ncvalue, cnonce, 'auth', HA2
+            )
+        respdig = KD(HA1, noncebit)
+    
+    else:
+        return None
+
+    last_nonce = nonce
+
+    base = 'username="%s", realm="%s", nonce="%s", uri="%s", ' \
+           'response="%s"' % (username, realm, nonce, path, respdig)
+    if opaque:
+        base += ', opaque="%s"' % opaque
+    if algorithm:
+        base += ', algorithm="%s"' % algorithm
+    if entdig:
+        base += ', digest="%s"' % entdig
+    if qop:
+        base += ', qop="auth", nc=%s, cnonce="%s"' % (ncvalue, cnonce)
+    
+    state['last_nonce'] = last_nonce
+    state['nonce_count'] = nonce_count
+
+    return 'Digest %s' % (base)

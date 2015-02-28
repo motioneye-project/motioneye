@@ -350,6 +350,10 @@ def set_camera(camera_id, camera_config):
                 camera_config['webcam_maxrate'] = camera_config.pop('stream_maxrate')
             if 'stream_localhost' in camera_config:
                 camera_config['webcam_localhost'] = camera_config.pop('stream_localhost')
+            if 'stream_auth_method' in camera_config:
+                camera_config.pop('stream_auth_method')
+            if 'stream_authentication' in camera_config:
+                camera_config.pop('stream_authentication')
             if 'event_gap' in camera_config:
                 camera_config['gap'] = camera_config.pop('event_gap')
             
@@ -529,6 +533,8 @@ def main_dict_to_ui(data):
 
 
 def camera_ui_to_dict(ui):
+    main_config = get_main() # needed for surveillance password
+
     data = {
         # device
         '@name': ui['name'],
@@ -558,7 +564,9 @@ def camera_ui_to_dict(ui):
         '@webcam_resolution': max(1, int(ui['streaming_resolution'])),
         '@webcam_server_resize': ui['streaming_server_resize'],
         'stream_motion': ui['streaming_motion'],
-        
+        'stream_auth_method': 2 if main_config['@normal_password'] else 0,
+        'stream_authentication': (main_config['@normal_username'] + ':' + main_config['@normal_password']) if main_config['@normal_password'] else '',
+
         # still images
         'output_pictures': False,
         'emulate_motion': False,
@@ -1361,6 +1369,7 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
         data.setdefault('stream_maxrate', 5)
         data.setdefault('stream_quality', 85)
         data.setdefault('stream_motion', False)
+        data.setdefault('stream_auth_method', 0)
 
     data.setdefault('@webcam_resolution', 100)
     data.setdefault('@webcam_server_resize', False)
