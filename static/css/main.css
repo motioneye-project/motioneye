@@ -283,6 +283,9 @@ div.settings-section-title {
     padding: 5px 0.5em 5px 5px;
 }
 
+a.settings-section-title {
+}
+
 table.settings {
     width: 100%;
     padding: 0.5em 0.5em 1em 0.5em;
@@ -437,6 +440,58 @@ input[type=text].working-schedule.number {
 div.hidden,
 tr.hidden {
     display: none !important;
+}
+
+span.help-mark {
+    display: inline-block;
+    visibility: hidden;
+    text-align: center;
+    background-color: #414141;
+    color: #3498db;
+    font-size: 0.75em;
+    font-family: monospace;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 100em;
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+    top: -0.1em;
+}
+
+div.settings-section-title > span.help-mark {
+    background-color: #515151;
+}
+
+div.settings-section-title:HOVER > span.help-mark,
+tr:HOVER span.help-mark {
+    visibility: visible;
+}
+
+span.minimize {
+    display: inline-block;
+    background-image: url(../img/combo-box-arrow.svg);
+    background-size: cover;
+    width: 0.8em;
+    height: 0.8em;
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+    top: -0.1em;
+    transition: transform 0.1s linear;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+span.minimize.open {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
 }
 
 

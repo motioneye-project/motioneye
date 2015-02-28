@@ -93,8 +93,9 @@ def _set_wifi_settings(s):
     s.setdefault('wifiNetworkName', '')
     s.setdefault('wifiNetworkKey', '')
     
-    logging.debug('writing wifi settings to %s' % WPA_SUPPLICANT_CONF)
-    
+    logging.debug('writing wifi settings to %s: enabled=%s, psk="%s"' % (
+            WPA_SUPPLICANT_CONF, s['wifiEnabled'], s['wifiNetworkName']))
+
     enabled = s['wifiEnabled']
     ssid = s['wifiNetworkName']
     psk = s['wifiNetworkKey']

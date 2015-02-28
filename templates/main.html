@@ -95,8 +95,12 @@
     <div class="page">
         <div class="settings closed">
             <div class="settings-container">
-                <div class="settings-section-title"><input type="checkbox" class="styled section general main-config" id="motionEyeSwitch">General Settings
-                        <span class="help-mark" title="general settings, not related to any camera">?</span></div>
+                <div class="settings-section-title">
+                    <input type="checkbox" class="styled section general main-config" id="motionEyeSwitch">
+                    <span class="help-mark" title="general settings, not related to any camera">?</span>
+                    <a class="settings-section-title">General Settings</a>
+                    <span class="minimize open"></span>
+                </div>
                 <table class="settings">
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Show Advanced Settings</span></td>
@@ -154,10 +158,13 @@
                 
                 {% for section in main_sections.values() %}
                 {% if section.get('label') and section.get('configs') %}
-                <div class="settings-section-title {% if section['advanced'] %}advanced-setting{% endif %}">{% if section.get('onoff') %}
-                        <input type="checkbox" class="styled section additional-section {{section['name']}} main-config" id="{{section['name']}}Switch">{% endif %}{{section['label']}}
-                        {% if section.get('description') %}<span class="help-mark" title="{{section['description']}}">?</span>{% endif %}</div>
-                <table class="settings">
+                <div class="settings-section-title {% if section['advanced'] %}advanced-setting{% endif %}">
+                    {% if section.get('onoff') %}<input type="checkbox" class="styled section additional-section {{section['name']}} main-config" id="{{section['name']}}Switch">{% endif %}
+                    {% if section.get('description') %}<span class="help-mark" title="{{section['description']}}">?</span>{% endif %}
+                    <a class="settings-section-title">{{section['label']}}</a>
+                    <span class="minimize {% if section.get('open') %}open{% endif %}"></span>
+                </div>
+                <table class="settings {% if section.get('advanced') %}advanced-setting{% endif %}">
                     {% for config in section['configs'] %}
                         {{config_item(config)}}
                     {% endfor %}
@@ -165,8 +172,12 @@
                 {% endif %}                    
                 {% endfor %}
 
-                <div class="settings-section-title"><input type="checkbox" class="styled section device camera-config" id="videoDeviceSwitch">Video Device
-                        <span class="help-mark" title="enable this if you want to use this camera device">?</span></div>
+                <div class="settings-section-title">
+                    <input type="checkbox" class="styled section device camera-config" id="videoDeviceSwitch">
+                    <span class="help-mark" title="enable this if you want to use this camera device">?</span>
+                    <a class="settings-section-title">Video Device</a>
+                    <span class="minimize open"></span>
+                </div>
                 <table class="settings">
                     <tr class="settings-item" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Camera Name</span></td>
@@ -243,8 +254,11 @@
                     {% endfor %}
                 </table>
                 
-                <div class="settings-section-title advanced-setting">File Storage
-                        <span class="help-mark" title="choose where and how your media files are saved">?</span></div>
+                <div class="settings-section-title advanced-setting">
+                    <span class="help-mark" title="choose where and how your media files are saved">?</span>
+                    <a class="settings-section-title">File Storage</a>
+                    <span class="minimize"></span>
+                </div>
                 <table class="settings advanced-setting">
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Storage Device</span></td>
@@ -294,8 +308,12 @@
                     {% endfor %}
                 </table>
                 
-                <div class="settings-section-title advanced-setting"><input type="checkbox" class="styled section text-overlay camera-config" id="textOverlaySwitch">Text Overlay
-                        <span class="help-mark" title="choose what information is displayed on the captured frames">?</span></div>
+                <div class="settings-section-title advanced-setting">
+                    <input type="checkbox" class="styled section text-overlay camera-config" id="textOverlaySwitch">
+                    <span class="help-mark" title="choose what information is displayed on the captured frames">?</span>
+                    <a class="settings-section-title">Text Overlay</a>
+                    <span class="minimize"></span>
+                </div>
                 <table class="settings advanced-setting">
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Left Text</span></td>
@@ -336,8 +354,12 @@
                     {% endfor %}
                 </table>
 
-                <div class="settings-section-title"><input type="checkbox" class="styled section streaming camera-config" id="videoStreamingSwitch">Video Streaming
-                        <span class="help-mark" title="enable this if you want video streaming for this camera">?</span></div>
+                <div class="settings-section-title">
+                    <input type="checkbox" class="styled section streaming camera-config" id="videoStreamingSwitch">
+                    <span class="help-mark" title="enable this if you want video streaming for this camera">?</span>
+                    <a class="settings-section-title">Video Streaming</a>
+                    <span class="minimize"></span>
+                </div>
                 <table class="settings">
                     <tr class="settings-item advanced-setting local-streaming" min="1" max="30" snap="0" ticks="1|5|10|15|20|25|30" decimals="0">
                         <td class="settings-item-label"><span class="settings-item-label">Streaming Frame Rate</span></td>
@@ -389,8 +411,12 @@
                     {% endfor %}
                 </table>
                 
-                <div class="settings-section-title"><input type="checkbox" class="styled section still-images camera-config" id="stillImagesSwitch">Still Images
-                        <span class="help-mark" title="enable this if you want to capture still images (pictures)">?</span></div>
+                <div class="settings-section-title">
+                    <input type="checkbox" class="styled section still-images camera-config" id="stillImagesSwitch">
+                    <span class="help-mark" title="enable this if you want to capture still images (pictures)">?</span>
+                    <a class="settings-section-title">Still Images</a>
+                    <span class="minimize"></span>
+                </div>
                 <table class="settings">
                     <tr class="settings-item advanced-setting" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Image File Name</span></td>
@@ -442,8 +468,12 @@
                     {% endfor %}
                 </table>
                 
-                <div class="settings-section-title advanced-setting"><input type="checkbox" class="styled section motion-detection camera-config" id="motionDetectionSwitch">Motion Detection
-                        <span class="help-mark" title="enable this to use and configure the motion detection mechanism">?</span></div>
+                <div class="settings-section-title advanced-setting">
+                    <input type="checkbox" class="styled section motion-detection camera-config" id="motionDetectionSwitch">
+                    <span class="help-mark" title="enable this to use and configure the motion detection mechanism">?</span>
+                    <a class="settings-section-title">Motion Detection</a>
+                    <span class="minimize"></span>
+                </div>
                 <table class="settings advanced-setting">
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Show Frame Changes</span></td>
@@ -493,8 +523,12 @@
                     {% endfor %}
                 </table>
                 
-                <div class="settings-section-title"><input type="checkbox" class="styled section motion-movies camera-config" id="motionMoviesSwitch">Motion Movies
-                        <span class="help-mark" title="enable this if you want to record motion movies">?</span></div>
+                <div class="settings-section-title">
+                    <input type="checkbox" class="styled section motion-movies camera-config" id="motionMoviesSwitch">
+                    <span class="help-mark" title="enable this if you want to record motion movies">?</span>
+                    <a class="settings-section-title">Motion Movies</a>
+                    <span class="minimize"></span>
+                </div>
                 <table class="settings">
                     <tr class="settings-item advanced-setting" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Movie File Name</span></td>
@@ -529,8 +563,11 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                <div class="settings-section-title advanced-setting">Motion Notifications
-                        <span class="help-mark" title="enable this if you want to be notified when motion is detected">?</span></div>
+                <div class="settings-section-title advanced-setting">
+                    <span class="help-mark" title="enable this if you want to be notified when motion is detected">?</span>
+                    <a class="settings-section-title">Motion Notifications</a>
+                    <span class="minimize"></span>
+                </div>
                 <table class="settings">
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Email Notifications</span></td>
@@ -613,8 +650,12 @@
                     {% endfor %}
                 </table>
 
-                <div class="settings-section-title"><input type="checkbox" class="styled section working-schedule camera-config" id="workingScheduleSwitch">Working Schedule
-                        <span class="help-mark" title="enable this if you want to define a weekly working schedule for motion detection">?</span></div>
+                <div class="settings-section-title">
+                    <input type="checkbox" class="styled section working-schedule camera-config" id="workingScheduleSwitch">
+                    <span class="help-mark" title="enable this if you want to define a weekly working schedule for motion detection">?</span>
+                    <a class="settings-section-title">Working Schedule</a>
+                    <span class="minimize"></span>
+                </div>
                 <table class="settings">
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Monday</span></td>
@@ -696,9 +737,12 @@
 
                 {% for section in camera_sections.values() %}
                 {% if section.get('label') and section.get('configs') %}
-                <div class="settings-section-title {% if section['advanced'] %}advanced-setting{% endif %}">{% if section.get('onoff') %}
-                        <input type="checkbox" class="styled section additional-section {{section['name']}} camera-config" id="{{section['name']}}Switch">{% endif %}{{section['label']}}
-                        {% if section.get('description') %}<span class="help-mark" title="{{section['description']}}">?</span>{% endif %}</div>
+                <div class="settings-section-title {% if section['advanced'] %}advanced-setting{% endif %}">
+                    {% if section.get('onoff') %}<input type="checkbox" class="styled section additional-section {{section['name']}} camera-config" id="{{section['name']}}Switch">{% endif %}
+                    {% if section.get('description') %}<span class="help-mark" title="{{section['description']}}">?</span>{% endif %}
+                    <a class="settings-section-title">{{section['label']}}</a>
+                    <span class="minimize {% if section.get('open') %}open{% endif %}"></span>
+                </div>
                 <table class="settings">
                     {% for config in section['configs'] %}
                         {{config_item(config)}}

@@ -18,13 +18,13 @@ input[type=checkbox].styled {
 }
 
 a {
-    color: #317CAD;
+    color: #3498db;
     text-decoration: inherit;
     transition: color 0.1s ease;
+    cursor: pointer;
 }
 
 a:HOVER {
-    color: #3498db;
 }
 
 a:ACTIVE {
@@ -430,35 +430,6 @@ span.popup-message.info {
 
 span.popup-message.error {
     color: #FF6D55;
-}
-
-
-    /* misc */
-
-span.help-mark {
-    display: inline-block;
-    visibility: hidden;
-    text-align: center;
-    background-color: #414141;
-    color: #3498db;
-    font-size: 0.75em;
-    font-family: monospace;
-    width: 1.2em;
-    height: 1.2em;
-    border-radius: 100em;
-    cursor: pointer;
-    vertical-align: middle;
-    position: relative;
-    top: -0.1em;
-}
-
-div.settings-section-title > span.help-mark {
-    background-color: #515151;
-}
-
-div.settings-section-title:HOVER > span.help-mark,
-tr:HOVER span.help-mark {
-    visibility: visible;
 }
 
 

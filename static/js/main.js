@@ -544,6 +544,14 @@ function initUI() {
     /* input value processors */
     makeStrippedInput($('tr[strip=true] input[type=text]'));
     makeStrippedInput($('tr[strip=true] input[type=password]'));
+    
+    function unMinimizeSection() {
+        var $switch = $(this);
+        var $minimizeSpan = $switch.parent().find('span.minimize');
+        if ($switch.is(':checked') && !$minimizeSpan.hasClass('open')) {
+            $minimizeSpan.addClass('open');
+        }
+    }
 
     /* ui elements that enable/disable other ui elements */
     $('#motionEyeSwitch').change(updateConfigUi);
@@ -554,19 +562,19 @@ function initUI() {
     $('#rightTextSelect').change(updateConfigUi);
     $('#captureModeSelect').change(updateConfigUi);
     $('#autoNoiseDetectSwitch').change(updateConfigUi);
-    $('#videoDeviceSwitch').change(updateConfigUi);
-    $('#textOverlaySwitch').change(updateConfigUi);
-    $('#videoStreamingSwitch').change(updateConfigUi);
+    $('#videoDeviceSwitch').change(unMinimizeSection).change(updateConfigUi);
+    $('#textOverlaySwitch').change(unMinimizeSection).change(updateConfigUi);
+    $('#videoStreamingSwitch').change(unMinimizeSection).change(updateConfigUi);
     $('#streamingServerResizeSwitch').change(updateConfigUi);
-    $('#stillImagesSwitch').change(updateConfigUi);
+    $('#stillImagesSwitch').change(unMinimizeSection).change(updateConfigUi);
     $('#preservePicturesSelect').change(updateConfigUi);
-    $('#motionDetectionSwitch').change(updateConfigUi);
-    $('#motionMoviesSwitch').change(updateConfigUi);
+    $('#motionDetectionSwitch').change(unMinimizeSection).change(updateConfigUi);
+    $('#motionMoviesSwitch').change(unMinimizeSection).change(updateConfigUi);
     $('#preserveMoviesSelect').change(updateConfigUi);
     $('#emailNotificationsSwitch').change(updateConfigUi);
     $('#webHookNotificationsSwitch').change(updateConfigUi);
     $('#commandNotificationsSwitch').change(updateConfigUi);
-    $('#workingScheduleSwitch').change(updateConfigUi);
+    $('#workingScheduleSwitch').change(unMinimizeSection).change(updateConfigUi);
     
     $('#mondayEnabledSwitch').change(updateConfigUi);
     $('#tuesdayEnabledSwitch').change(updateConfigUi);
@@ -575,6 +583,16 @@ function initUI() {
     $('#fridayEnabledSwitch').change(updateConfigUi);
     $('#saturdayEnabledSwitch').change(updateConfigUi);
     $('#sundayEnabledSwitch').change(updateConfigUi);
+    
+    /* minimizable sections */
+    $('span.minimize').click(function () {
+        $(this).toggleClass('open');
+        updateConfigUi();
+    });
+
+    $('a.settings-section-title').click(function () {
+        $(this).parent().find('span.minimize').click();
+    });
 
     /* additional configs */
     var seenDependNames = {};
@@ -717,7 +735,15 @@ function updateConfigUi() {
             $(this).parents('tr:eq(0)').each(markHide);
         }
     });
-    
+
+    /* minimizable sections */
+    $('span.minimize').each(function () {
+        var $this = $(this);
+        if (!$this.hasClass('open')) {
+            $this.parent().next('table.settings').find('tr').each(markHide);
+        }
+    });
+
     /* general enable switch */
     var motionEyeEnabled = $('#motionEyeSwitch').get(0).checked;
     if (!motionEyeEnabled) {
@@ -1002,6 +1028,9 @@ function mainUi2Dict() {
         if (id.endsWith('Entry')) {
             name = id.substring(0, id.length - 5);
             value = control.val();
+            if (control.hasClass('number')) {
+                value = Number(value);
+            }
         }
         else if (id.endsWith('Select')) {
             name = id.substring(0, id.length - 6);
@@ -1009,7 +1038,7 @@ function mainUi2Dict() {
         }
         else if (id.endsWith('Slider')) {
             name = id.substring(0, id.length - 6);
-            value = control.val();
+            value = Number(control.val());
         }
         else if (id.endsWith('Switch')) {
             name = id.substring(0, id.length - 6);
@@ -1212,6 +1241,9 @@ function cameraUi2Dict() {
         if (id.endsWith('Entry')) {
             name = id.substring(0, id.length - 5);
             value = control.val();
+            if (control.hasClass('number')) {
+                value = Number(value);
+            }
         }
         else if (id.endsWith('Select')) {
             name = id.substring(0, id.length - 6);
@@ -1219,7 +1251,7 @@ function cameraUi2Dict() {
         }
         else if (id.endsWith('Slider')) {
             name = id.substring(0, id.length - 6);
-            value = control.val();
+            value = Number(control.val());
         }
         else if (id.endsWith('Switch')) {
             name = id.substring(0, id.length - 6);
