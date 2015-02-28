@@ -71,6 +71,7 @@ class BaseHandler(RequestHandler):
         
         username = self.get_argument('_username', None)
         signature = self.get_argument('_signature', None)
+        login = self.get_argument('_login', None) == 'true'
         if (username == main_config.get('@admin_username') and
             signature == utils.compute_signature(self.request.method, self.request.uri, self.request.body, main_config.get('@admin_password'))):
             
@@ -84,7 +85,7 @@ class BaseHandler(RequestHandler):
             
             return 'normal'
 
-        elif username and username != '_':
+        elif username and username != '_' and login:
             logging.error('authentication failed for user %(user)s' % {'user': username})
 
         return None
@@ -1327,4 +1328,8 @@ class LoginHandler(BaseHandler):
     def get(self):
         self.finish_json()
 
-    post = get
+    def post(self):
+        self.set_header('Content-Type', 'text/html')
+        if not self.current_user:
+            self.set_status(403)
+        self.finish()

@@ -166,9 +166,13 @@ function addAuthParams(method, url, body) {
     }
     
     url += '_username=' + window.username;
+    if (window._loginDialogSubmitted) {
+        url += '&_login=true';
+        delete _loginDialogSubmitted;
+    }
     var signature = computeSignature(method, url, body);
     url += '&_signature=' + signature;
-    
+
     return url;
 }
 
@@ -2159,6 +2163,7 @@ function runLoginDialog(retry) {
             {caption: 'Login', isDefault: true, click: function () {
                 window.username = usernameEntry.val();
                 window.password = passwordEntry.val();
+                window._loginDialogSubmitted = true;
                 
                 setCookie('username', window.username);
                 
