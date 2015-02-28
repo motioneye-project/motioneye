@@ -211,7 +211,7 @@ class ConfigHandler(BaseHandler):
                     
                 self.finish_json(ui_config)
             
-            else:
+            else: # remote camera
                 def on_response(remote_ui_config=None, error=None):
                     if error:
                         return self.finish_json({'error': 'Failed to get remote camera configuration for %(url)s: %(msg)s.' % {
@@ -495,7 +495,7 @@ class ConfigHandler(BaseHandler):
                     
                     else:
                         remote_ui_config['id'] = camera_id
-                        
+
                         if not remote_ui_config['enabled'] and local_config['@enabled']:
                             # if a remote camera is disabled, make sure it's disabled locally as well
                             local_config['@enabled'] = False
@@ -525,11 +525,11 @@ class ConfigHandler(BaseHandler):
                     check_finished()
 
                 else:  # remote camera
-                    if local_config.get('@enabled'):
+                    if local_config.get('@enabled') or self.get_argument('force', None) == 'true':
                         remote.get_config(local_config, on_response_builder(camera_id, local_config))
                     
                     else: # don't try to reach the remote of the camera is disabled
-                        on_response_builder(camera_id, local_config)(None)
+                        on_response_builder(camera_id, local_config)(error=True)
             
             if length[0] == 0:        
                 self.finish_json({'cameras': []})

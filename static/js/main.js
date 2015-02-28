@@ -1233,7 +1233,7 @@ function dict2CameraUi(dict) {
         /* errors while getting the configuration */
         
         $('#videoDeviceSwitch')[0].error = true;
-        $('#videoDeviceSwitch')[0].checked = false;
+        $('#videoDeviceSwitch')[0].checked = true; /* so that the user can explicitly disable the camera */
         updateConfigUi();
         
         return;
@@ -1913,14 +1913,18 @@ function fetchCurrentConfig(onFetch) {
                 var enabledCameras = cameras.filter(function (camera) {return camera['enabled'];});
                 if (enabledCameras.length > 0) { /* prefer the first enabled camera */
                     cameraSelect[0].selectedIndex = cameras.indexOf(enabledCameras[0]);
-                    fetchCurrentCameraConfig();
+                    fetchCurrentCameraConfig(onFetch);
                 }
-                else if (cameras.length) { /* a disabled camera */
+                else if (cameras.length) { /* only disabled cameras */
                     cameraSelect[0].selectedIndex = 0;
-                    fetchCurrentCameraConfig();
+                    fetchCurrentCameraConfig(onFetch);
                 }
                 else { /* no camera at all */
                     cameraSelect[0].selectedIndex = -1;
+
+                    if (onFetch) {
+                        onFetch(data);
+                    }
                 }
 
                 updateConfigUi();
@@ -1930,8 +1934,12 @@ function fetchCurrentConfig(onFetch) {
                     /* normal user with no cameras doesn't make too much sense - force login */
                     doLogout();
                 }
+
+                if (onFetch) {
+                    onFetch(data);
+                }
             }
-            
+
             var mainLoadingProgressImg = $('img.main-loading-progress');
             if (mainLoadingProgressImg.length) {
                 mainLoadingProgressImg.animate({'opacity': 0}, 200, function () {
@@ -1941,10 +1949,6 @@ function fetchCurrentConfig(onFetch) {
             }
             else {
                 recreateCameraFrames(cameras);
-            }
-
-            if (onFetch) {
-                onFetch(data);
             }
         });
     }
@@ -1972,13 +1976,14 @@ function fetchCurrentConfig(onFetch) {
 function fetchCurrentCameraConfig(onFetch) {
     var cameraId = $('#cameraSelect').val();
     if (cameraId != null) {
-        ajax('GET', baseUri + 'config/' + cameraId + '/get/', null, function (data) {
+        ajax('GET', baseUri + 'config/' + cameraId + '/get/?force=true', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 dict2CameraUi(null);
                 if (onFetch) {
                     onFetch(null);
                 }
+                
                 return;
             }
             
@@ -1990,6 +1995,9 @@ function fetchCurrentCameraConfig(onFetch) {
     }
     else {
         dict2CameraUi({});
+        if (onFetch) {
+            onFetch({});
+        }
     }
 }
 
@@ -2337,9 +2345,14 @@ function runAddCameraDialog() {
     
     function updateUi() {
         content.find('tr.motioneye, tr.netcam').css('display', 'none');
+        usernameEntry.val('');
+        usernameEntry.removeAttr('readonly');
+
         if (deviceSelect.val() == 'motioneye') {
             content.find('tr.motioneye').css('display', 'table-row');
             addCameraSelect.hide();
+            usernameEntry.val('admin');
+            usernameEntry.attr('readonly', 'readonly');
         }
         else if (deviceSelect.val() == 'netcam') {
             content.find('tr.netcam').css('display', 'table-row');

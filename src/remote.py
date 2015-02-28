@@ -33,7 +33,7 @@ def _make_request(host, port, username, password, uri, method='GET', data=None, 
             'uri': uri or ''}
     
     query = dict(query or {})
-    query['_username'] = username
+    query['_username'] = username or ''
     query['_admin'] = 'true' # always use the admin account
     
     if url.count('?'):
