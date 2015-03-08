@@ -459,6 +459,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     _timelapse_process = multiprocessing.Process(target=do_list_media, args=(child_pipe, ))
     _timelapse_process.progress = 0
     _timelapse_process.start()
+    _timelapse_data = None
 
     started = [datetime.datetime.now()]
     media_list = []
@@ -516,6 +517,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
             selected.append(min(slice, key=lambda m: m['delta']))
 
+        logging.debug('selected %d/%d media files' % (len(selected), len(media_list)))
+        
         return selected
 
     def make_movie(pictures):
@@ -611,8 +614,14 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
 
 def check_timelapse_movie():
-    if _timelapse_process and _timelapse_process.poll() is None:
-        return {'progress': _timelapse_process.progress, 'data': None}
+    if _timelapse_process:
+        if ((hasattr(_timelapse_process, 'poll') and _timelapse_process.poll() is None) or
+            (hasattr(_timelapse_process, 'is_alive') and _timelapse_process.is_alive())):
+        
+            return {'progress': _timelapse_process.progress, 'data': None}
+        
+        else:
+            return {'progress': _timelapse_process.progress, 'data': _timelapse_data}
 
     else:
         return {'progress': -1, 'data': _timelapse_data}
