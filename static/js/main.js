@@ -1,5 +1,6 @@
 
 var pushConfigs = {};
+var pushConfigReboot = false;
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var fullScreenCameraId = null;
 var inProgress = false;
@@ -670,8 +671,12 @@ function initUI() {
             fetchCurrentCameraConfig(endProgress);
         }
     });
-    $('input.main-config, select.main-config, div[contenteditable=true].main-config').change(pushMainConfig);
-    $('input.camera-config, select.camera-config, div[contenteditable=true].camera-config').change(pushCameraConfig);
+    $('input.main-config, select.main-config, div[contenteditable=true].main-config').change(function () {
+        pushMainConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
+    });
+    $('input.camera-config, select.camera-config, div[contenteditable=true].camera-config').change(function () {
+        pushCameraConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
+    });
     
     /* preview controls */
     $('#brightnessSlider').change(function () {pushPreview('brightness');});
@@ -732,6 +737,7 @@ function openSettings(cameraId) {
 function closeSettings() {
     hideApply();
     pushConfigs = {};
+    pushConfigReboot = false;
     
     $('div.settings').removeClass('open').addClass('closed');
     $('div.page-container').removeClass('stretched');
@@ -1679,102 +1685,113 @@ function isApplyVisible() {
 function doApply() {
     if (!configUiValid()) {
         runAlertDialog('Make sure all the configuration options are valid!');
-        
         return;
     }
     
-    /* gather the affected motion instances */
-    var affectedInstances = {};
-    Object.keys(pushConfigs).forEach(function (key) {
-        var config = pushConfigs[key];
-        if (key === 'main') {
-            return;
-        }
-        
-        var instance;
-        if (config.proto == 'http' || config.proto == 'v4l2') {
-            instance = '';
-        }
-        else { /* motioneye */
-            instance = config.host || '';
-            if (config.port) {
-                instance += ':' + config.port;
-            }
-        }
-        
-        affectedInstances[instance] = true;
-    });
-    affectedInstances = Object.keys(affectedInstances);
-    
-    /* compute the affected camera ids */ 
-    var cameraIdsByInstance = getCameraIdsByInstance();
-    var affectedCameraIds = [];
-    
-    affectedInstances.forEach(function (instance) {
-        affectedCameraIds = affectedCameraIds.concat(cameraIdsByInstance[instance] || []);
-    });
-    
-    beginProgress(affectedCameraIds);
-    affectedCameraIds.forEach(function (cameraId) {
-        refreshDisabled[cameraId] |= 0;
-        refreshDisabled[cameraId]++;
-    });
-    
-    ajax('POST', baseUri + 'config/0/set/', pushConfigs, function (data) {
-        affectedCameraIds.forEach(function (cameraId) {
-            refreshDisabled[cameraId]--;
-        });
-        
-        if (data == null || data.error) {
-            endProgress();
-            showErrorMessage(data && data.error);
-            return;
-        }
-        
-        if (data.reboot) {
-            var count = 0;
-            function checkServerReboot() {
-                ajax('GET', baseUri + 'config/0/get/', null, 
-                    function () {
-                        window.location.reload(true);
-                    },
-                    function () {
-                        if (count < 25) {
-                            count += 1;
-                            setTimeout(checkServerReboot, 2000);
-                        }
-                        else {
-                            window.location.reload(true);
-                        }
-                    }
-                );
-            }
-            
-            setTimeout(checkServerReboot, 15000);
-            
-            return;
-        }
-        
-        if (data.reload) {
-            window.location.reload(true);
-            return;
-        }
-        
-        /* update the camera name in the device select
-         * and frame title bar */
+    function actualApply() {
+        /* gather the affected motion instances */
+        var affectedInstances = {};
         Object.keys(pushConfigs).forEach(function (key) {
             var config = pushConfigs[key];
-            if (config.key !== 'main') {
-                $('#cameraSelect').find('option[value=' + key + ']').html(config.name);
+            if (key === 'main') {
+                return;
             }
             
-            $('#camera' + key).find('span.camera-name').html(config.name);
+            var instance;
+            if (config.proto == 'http' || config.proto == 'v4l2') {
+                instance = '';
+            }
+            else { /* motioneye */
+                instance = config.host || '';
+                if (config.port) {
+                    instance += ':' + config.port;
+                }
+            }
+            
+            affectedInstances[instance] = true;
         });
-
-        pushConfigs = {};
-        endProgress();
-        recreateCameraFrames(); /* a camera could have been disabled */
-    });
+        affectedInstances = Object.keys(affectedInstances);
+        
+        /* compute the affected camera ids */ 
+        var cameraIdsByInstance = getCameraIdsByInstance();
+        var affectedCameraIds = [];
+        
+        affectedInstances.forEach(function (instance) {
+            affectedCameraIds = affectedCameraIds.concat(cameraIdsByInstance[instance] || []);
+        });
+        
+        beginProgress(affectedCameraIds);
+        affectedCameraIds.forEach(function (cameraId) {
+            refreshDisabled[cameraId] |= 0;
+            refreshDisabled[cameraId]++;
+        });
+        
+        ajax('POST', baseUri + 'config/0/set/', pushConfigs, function (data) {
+            affectedCameraIds.forEach(function (cameraId) {
+                refreshDisabled[cameraId]--;
+            });
+            
+            if (data == null || data.error) {
+                endProgress();
+                showErrorMessage(data && data.error);
+                return;
+            }
+            
+            if (data.reboot) {
+                var count = 0;
+                function checkServerReboot() {
+                    ajax('GET', baseUri + 'config/0/get/', null, 
+                        function () {
+                            window.location.reload(true);
+                        },
+                        function () {
+                            if (count < 25) {
+                                count += 1;
+                                setTimeout(checkServerReboot, 2000);
+                            }
+                            else {
+                                window.location.reload(true);
+                            }
+                        }
+                    );
+                }
+                
+                setTimeout(checkServerReboot, 15000);
+                
+                return;
+            }
+            
+            if (data.reload) {
+                window.location.reload(true);
+                return;
+            }
+            
+            /* update the camera name in the device select
+             * and frame title bar */
+            Object.keys(pushConfigs).forEach(function (key) {
+                var config = pushConfigs[key];
+                if (config.key !== 'main') {
+                    $('#cameraSelect').find('option[value=' + key + ']').html(config.name);
+                }
+                
+                $('#camera' + key).find('span.camera-name').html(config.name);
+            });
+    
+            pushConfigs = {};
+            pushConfigReboot = false;
+            endProgress();
+            recreateCameraFrames(); /* a camera could have been disabled */
+        });
+    }
+    
+    if (pushConfigReboot) {
+        runConfirmDialog('This will reboot the system. Continue?', function () {
+            actualApply();
+        });
+    }
+    else {
+        actualApply();
+    }
 }
 
 function doShutDown() {
@@ -2095,19 +2112,21 @@ function fetchCurrentCameraConfig(onFetch) {
     }
 }
 
-function pushMainConfig() {
+function pushMainConfig(reboot) {
     var mainConfig = mainUi2Dict();
     
+    pushConfigReboot = reboot;
     pushConfigs['main'] = mainConfig;
     if (!isApplyVisible()) {
         showApply();
     }
 }
 
-function pushCameraConfig() {
+function pushCameraConfig(reboot) {
     var cameraConfig = cameraUi2Dict();
     var cameraId = $('#cameraSelect').val();
 
+    pushConfigReboot = reboot;
     pushConfigs[cameraId] = cameraConfig;
     if (!isApplyVisible()) {
         showApply();
@@ -3346,6 +3365,7 @@ function doConfigureCamera(cameraId) {
     
     hideApply();
     pushConfigs = {};
+    pushConfigReboot = false;
     
     openSettings(cameraId);
 }
