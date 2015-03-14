@@ -155,7 +155,7 @@
                         <td><span class="help-mark" title="reboots the system">?</span></td>
                     </tr>
                 </table>
-                
+
                 {% for section in main_sections.values() %}
                 {% if section.get('label') and section.get('configs') %}
                 <div class="settings-section-title {% if section['advanced'] %}advanced-setting{% endif %}">
@@ -172,6 +172,10 @@
                 {% endif %}                    
                 {% endfor %}
 
+                <tr class="settings-item advanced-setting">
+                    <td colspan="100"><div class="settings-item-separator" style="margin-bottom: 1.5em;"></div></td>
+                </tr>
+                
                 <div class="settings-section-title">
                     <input type="checkbox" class="styled section device camera-config" id="videoDeviceSwitch">
                     <span class="help-mark" title="enable this if you want to use this camera device">?</span>
