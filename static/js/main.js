@@ -1869,8 +1869,14 @@ function doUpdate() {
 function doDownloadZipped(cameraId, groupKey) {
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
     ajax('GET', baseUri + 'picture/' + cameraId + '/zipped/' + groupKey + '/', null, function (data) {
-        hideModalDialog(); /* progress */
-        downloadFile(baseUri + 'picture/' + cameraId + '/zipped/' + groupKey + '/?key=' + data.key);
+        if (data.error) {
+            hideModalDialog(); /* progress */
+            showErrorMessage(data.error);
+        }
+        else {
+            hideModalDialog(); /* progress */
+            downloadFile(baseUri + 'picture/' + cameraId + '/zipped/' + groupKey + '/?key=' + data.key);
+        }
     });
 }
 
