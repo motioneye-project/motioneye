@@ -545,11 +545,14 @@ function initUI() {
     makeStrippedInput($('tr[strip=true] input[type=text]'));
     makeStrippedInput($('tr[strip=true] input[type=password]'));
     
-    function unMinimizeSection() {
+    function checkMinimizeSection() {
         var $switch = $(this);
         var $minimizeSpan = $switch.parent().find('span.minimize');
         if ($switch.is(':checked') && !$minimizeSpan.hasClass('open')) {
             $minimizeSpan.addClass('open');
+        }
+        else if (!$switch.is(':checked') && $minimizeSpan.hasClass('open')) {
+            $minimizeSpan.removeClass('open');
         }
     }
 
@@ -562,19 +565,19 @@ function initUI() {
     $('#rightTextSelect').change(updateConfigUi);
     $('#captureModeSelect').change(updateConfigUi);
     $('#autoNoiseDetectSwitch').change(updateConfigUi);
-    $('#videoDeviceSwitch').change(unMinimizeSection).change(updateConfigUi);
-    $('#textOverlaySwitch').change(unMinimizeSection).change(updateConfigUi);
-    $('#videoStreamingSwitch').change(unMinimizeSection).change(updateConfigUi);
+    $('#videoDeviceSwitch').change(checkMinimizeSection).change(updateConfigUi);
+    $('#textOverlaySwitch').change(checkMinimizeSection).change(updateConfigUi);
+    $('#videoStreamingSwitch').change(checkMinimizeSection).change(updateConfigUi);
     $('#streamingServerResizeSwitch').change(updateConfigUi);
-    $('#stillImagesSwitch').change(unMinimizeSection).change(updateConfigUi);
+    $('#stillImagesSwitch').change(checkMinimizeSection).change(updateConfigUi);
     $('#preservePicturesSelect').change(updateConfigUi);
-    $('#motionDetectionSwitch').change(unMinimizeSection).change(updateConfigUi);
-    $('#motionMoviesSwitch').change(unMinimizeSection).change(updateConfigUi);
+    $('#motionDetectionSwitch').change(checkMinimizeSection).change(updateConfigUi);
+    $('#motionMoviesSwitch').change(checkMinimizeSection).change(updateConfigUi);
     $('#preserveMoviesSelect').change(updateConfigUi);
     $('#emailNotificationsSwitch').change(updateConfigUi);
     $('#webHookNotificationsSwitch').change(updateConfigUi);
     $('#commandNotificationsSwitch').change(updateConfigUi);
-    $('#workingScheduleSwitch').change(unMinimizeSection).change(updateConfigUi);
+    $('#workingScheduleSwitch').change(checkMinimizeSection).change(updateConfigUi);
     
     $('#mondayEnabledSwitch').change(updateConfigUi);
     $('#tuesdayEnabledSwitch').change(updateConfigUi);
@@ -587,6 +590,16 @@ function initUI() {
     /* minimizable sections */
     $('span.minimize').click(function () {
         $(this).toggleClass('open');
+        
+        /* enable the section switch when unminimizing */
+        if ($(this).hasClass('open')) {
+            var sectionSwitch = $(this).parent().find('input[type=checkbox]');
+            if (sectionSwitch.length && !sectionSwitch.is(':checked')) {
+                sectionSwitch[0].checked = true;
+                sectionSwitch.change();
+            }
+        }
+            
         updateConfigUi();
     });
 
