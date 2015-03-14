@@ -797,6 +797,11 @@ def camera_ui_to_dict(ui):
             continue
 
         data['@' + name] = value
+        
+    # extra motion options
+    extra_options = ui.get('extra_options', [])
+    for name, value in extra_options:
+        data[name] = value or ''
 
     return data
 
@@ -1119,6 +1124,22 @@ def camera_dict_to_ui(data):
             continue
         
         ui[name[1:]] = value
+    
+    # extra motion options
+    known_options = set([
+        'auto_brightness', 'brightness', 'contrast', 'emulate_motion', 'event_gap', 'ffmpeg_bps', 'ffmpeg_output_movies', 'ffmpeg_variable_bitrate', 'ffmpeg_video_codec',
+        'framerate', 'height', 'hue', 'lightswitch', 'locate_motion_mode', 'locate_motion_style', 'minimum_motion_frames', 'movie_filename', 'noise_level', 'noise_tune',
+        'on_event_end', 'on_event_start', 'output_pictures', 'picture_filename', 'post_capture', 'pre_capture', 'quality', 'rotate', 'saturation',
+        'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate', 'stream_motion', 'stream_port', 'stream_quality',
+        'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width'
+    ])
+    
+    extra_options = []
+    for name, value in data.iteritems():
+        if name not in known_options and not name.startswith('@'):
+            extra_options.append((name, value))
+
+    ui['extra_options'] = extra_options
 
     return ui
 
@@ -1252,10 +1273,9 @@ def _dict_to_conf(lines, data, list_names=[]):
             new_value = data.get(name)
             if new_value is not None:
                 value = _python_to_value(new_value)
-            
-            line = name + ' ' + value
-            conf_lines.append(line)
-        
+                line = name + ' ' + value
+                conf_lines.append(line)
+
         remaining.pop(name, None)
     
     # add the remaining config values not covered by existing lines

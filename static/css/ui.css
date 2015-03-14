@@ -130,7 +130,9 @@ div.check-box.on:HOVER div.check-box-button {
     /* input box */
 
 input[type=password].styled,
-input[type=text].styled {
+input[type=text].styled,
+textarea.styled,
+[contenteditable=true].styled {
     width: 90%;
     border: 1px solid #317CAD;
     border-radius: 2px;
@@ -141,6 +143,8 @@ input[type=text].styled {
     font-size: 0.8em;
     margin: 2px;
     transition: all 0.1s ease;
+    resize: none;
+    vertical-align: middle;
 }
 
 input[type=password].styled:FOCUS,

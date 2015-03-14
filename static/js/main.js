@@ -541,6 +541,19 @@ function initUI() {
         }, '');
     });
     
+    /* implement change events for [contenteditable=true] elements */
+    $('[contenteditable=true]').each(function () {
+        var $this = $(this);
+        $this.focus(function () {
+            $this.data('val', $this.html());
+        });
+        $this.blur(function () {
+            if ($this.html() != $this.data('val')) {
+                $this.change();
+            }
+        });
+    });
+    
     /* input value processors */
     makeStrippedInput($('tr[strip=true] input[type=text]'));
     makeStrippedInput($('tr[strip=true] input[type=password]'));
@@ -657,8 +670,8 @@ function initUI() {
             fetchCurrentCameraConfig(endProgress);
         }
     });
-    $('input.main-config, select.main-config').change(pushMainConfig);
-    $('input.camera-config, select.camera-config').change(pushCameraConfig);
+    $('input.main-config, select.main-config, div[contenteditable=true].main-config').change(pushMainConfig);
+    $('input.camera-config, select.camera-config, div[contenteditable=true].camera-config').change(pushCameraConfig);
     
     /* preview controls */
     $('#brightnessSlider').change(function () {pushPreview('brightness');});
@@ -1131,7 +1144,30 @@ function cameraUi2Dict() {
         'uri': $('#deviceEntry')[0].uri,
         'username': $('#deviceEntry')[0].username,
         'password': $('#deviceEntry')[0].password,
-        
+        'extra_options': $('#extraOptionsEntry').html().split(new RegExp('(<br[^>]*>)|(<div>)|(<p>)')).map(function (o) {
+            if (!o) {
+                return null;
+            }
+
+            o = o.replace(new RegExp('(<([^>]+)>)', 'ig'), ''); /* remove crappy HTML tags added by the browser */
+            o = o.replace(new RegExp('&\\w+;', 'ig'), ''); /* remove crappy HTML entities added by the browser */
+            o = o.trim();
+            if (!o.length) {
+                return null;
+            }
+
+            var parts = o.replace(new RegExp('\\s+', 'g'), ' ').split(' ');
+            if (parts.length < 2) {
+                return [parts[0], ''];
+            }
+            else if (parts.length == 2) {
+                return parts;
+            }
+            else {
+                return [parts[0], parts.slice(1).join(' ')];
+            }
+        }).filter(function (e) {return e;}),
+
         /* file storage */
         'storage_device': $('#storageDeviceSelect').val(),
         'network_server': $('#networkServerEntry').val(),
@@ -1342,6 +1378,9 @@ function dict2CameraUi(dict) {
     
     $('#rotationSelect').val(dict['rotation']);
     $('#framerateSlider').val(dict['framerate']);
+    $('#extraOptionsEntry').html(dict['extra_options'].map(function (o) {
+        return o.join(' ');
+    }).join('<br>'));
     
     /* file storage */
     $('#storageDeviceSelect').empty();
