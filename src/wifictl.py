@@ -239,7 +239,7 @@ def wifiNetworkKey():
         'type': 'pwd',
         'section': 'network',
         'advanced': True,
-        'required': True,
+        'required': False,
         'reboot': True,
         'depends': ['wifiEnabled'],
         'get': _get_wifi_settings,
