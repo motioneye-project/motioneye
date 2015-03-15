@@ -433,7 +433,8 @@ def get_zipped_content(local_config, media_type, key, group, callback):
             'media_type': media_type,
             'group': group,
             'id': camera_id,
-            'key': key})
+            'key': key},
+            timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
 
     def on_response(response):
         if response.error:
@@ -475,7 +476,7 @@ def make_timelapse_movie(local_config, framerate, interval, group, callback):
             'framerate': framerate,
             'group': group}
     
-    request = _make_request(host, port, username, password, uri)
+    request = _make_request(host, port, username, password, uri, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
 
     def on_response(response):
         if response.error:
@@ -561,7 +562,8 @@ def get_timelapse_movie(local_config, key, group, callback):
     request = _make_request(host, port, username, password, uri + '/picture/%(id)s/timelapse/%(group)s/?key=%(key)s' % {
             'id': camera_id,
             'group': group,
-            'key': key})
+            'key': key},
+            timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
 
     def on_response(response):
         if response.error:
