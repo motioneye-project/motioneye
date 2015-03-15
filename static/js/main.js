@@ -2230,7 +2230,7 @@ function fetchCurrentCameraConfig(onFetch) {
 function pushMainConfig(reboot) {
     var mainConfig = mainUi2Dict();
     
-    pushConfigReboot = reboot;
+    pushConfigReboot = pushConfigReboot || reboot;
     pushConfigs['main'] = mainConfig;
     if (!isApplyVisible()) {
         showApply();
@@ -2241,7 +2241,7 @@ function pushCameraConfig(reboot) {
     var cameraConfig = cameraUi2Dict();
     var cameraId = $('#cameraSelect').val();
 
-    pushConfigReboot = reboot;
+    pushConfigReboot = pushConfigReboot || reboot;
     pushConfigs[cameraId] = cameraConfig;
     if (!isApplyVisible()) {
         showApply();
