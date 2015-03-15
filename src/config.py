@@ -15,14 +15,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
+import datetime
 import errno
 import logging
 import os.path
 import re
 import shlex
+import subprocess
+
+from tornado.ioloop import IOLoop
 
 import diskctl
 import motionctl
+import powerctl
 import settings
 import smbctl
 import update
@@ -1142,6 +1147,79 @@ def camera_dict_to_ui(data):
     ui['extra_options'] = extra_options
 
     return ui
+
+
+def backup():
+    logging.debug('generating config backup file')
+
+    if len(os.listdir(settings.CONF_PATH)) > 100:
+        logging.debug('config path "%s" appears to be a system-wide config directory, performing a selective backup' % settings.CONF_PATH)
+        cmd = 'cd "%s" && tar zc motion.conf thread-*.conf' % settings.CONF_PATH
+        try:
+            content = subprocess.check_output(cmd, shell=True)
+            logging.debug('backup file created (%s bytes)' % len(content))
+            
+            return content
+            
+        except Exception as e:
+            logging.error('backup failed: %s' % e, exc_info=True)
+            
+            return None
+
+    else:
+        logging.debug('config path "%s" appears to be a motion-specific config directory, performing a full backup' % settings.CONF_PATH)
+
+        cmd = 'cd "%s" && tar zc .' % settings.CONF_PATH
+        try:
+            content = subprocess.check_output(cmd, shell=True)
+            logging.debug('backup file created (%s bytes)' % len(content))
+            
+            return content
+            
+        except Exception as e:
+            logging.error('backup failed: %s' % e, exc_info=True)
+            
+            return None
+
+
+def restore(content):
+    global _main_config_cache
+    global _camera_config_cache
+    global _camera_ids_cache
+    global _additional_structure_cache
+    
+    logging.info('restoring config from backup file')
+
+    cmd = 'tar zxC "%s" || true' % settings.CONF_PATH
+
+    try:
+        p = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        msg = p.communicate(content)[0]
+        if msg:
+            logging.error('failed to restore configuration: %s' % msg)
+            return False
+
+        logging.debug('configuration restored successfully')
+
+        if settings.ENABLE_REBOOT:
+            def later():
+                powerctl.reboot()
+
+            IOLoop.instance().add_timeout(datetime.timedelta(seconds=2), later)
+
+        else:
+            logging.info('invalidating config cache')
+            _main_config_cache = None
+            _camera_config_cache = {}
+            _camera_ids_cache = None
+            _additional_structure_cache = {}
+
+        return {'reboot': settings.ENABLE_REBOOT}
+
+    except Exception as e:
+        logging.error('failed to restore configuration: %s' % e, exc_info=True)
+
+        return None
 
 
 def _value_to_python(value):

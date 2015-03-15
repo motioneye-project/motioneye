@@ -636,6 +636,59 @@ function makeUrlValidator($input) {
     });
 }
 
+function makeFileValidator($input, required) {
+    if (required == null) {
+        required = true;
+    }
+
+    $input.each(function () {
+        var $this = $(this);
+
+        function isValid(strVal) {
+            if (!$this.is(':visible')) {
+                return true; /* an invisible element is considered always valid */
+            }
+            
+            if (strVal.length === 0 && required) {
+                return false;
+            }
+    
+            return true;
+        }
+        
+        var msg = 'this field is required';
+        
+        function validate() {
+            var strVal = $this.val();
+            if (isValid(strVal)) {
+                $this.attr('title', '');
+                $this.removeClass('error');
+                $this[0].invalid = false;
+            }
+            else {
+                $this.attr('title', msg);
+                $this.addClass('error');
+                $this[0].invalid = true;
+            }
+        }
+        
+        $this.keyup(validate);
+        $this.blur(validate);
+        $this.change(validate).change();
+        
+        $this.addClass('validator');
+        $this.addClass('file-validator');
+        $this.each(function () {
+            var oldValidate = this.validate;
+            this.validate = function () {
+                if (oldValidate) {
+                    oldValidate.call(this);
+                }
+                validate();
+            }
+        });
+    });
+}
 function makeCustomValidator($input, isValidFunc) {
     $input.each(function () {
         var $this = $(this);

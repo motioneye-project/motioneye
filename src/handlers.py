@@ -171,6 +171,9 @@ class ConfigHandler(BaseHandler):
         
         elif op == 'list_devices':
             self.list_devices()
+            
+        elif op == 'backup':
+            self.backup()
         
         else:
             raise HTTPError(400, 'unknown operation')
@@ -191,6 +194,9 @@ class ConfigHandler(BaseHandler):
         
         elif op == 'rem':
             self.rem_camera(camera_id)
+            
+        elif op == 'restore':
+            self.restore()
         
         elif op == '_relay_event':
             self._relay_event(camera_id)
@@ -645,6 +651,31 @@ class ConfigHandler(BaseHandler):
             motionctl.start()
             
         self.finish_json()
+        
+    @BaseHandler.auth(admin=True)
+    def backup(self):
+        content = config.backup()
+
+        filename = 'motioneye-config.tar.gz'
+        self.set_header('Content-Type', 'application/x-compressed')
+        self.set_header('Content-Disposition', 'attachment; filename=' + filename + ';')
+
+        self.finish(content)
+
+    @BaseHandler.auth(admin=True)
+    def restore(self):
+        try:
+            content = self.request.files['files'][0]['body']
+            
+        except KeyError:
+            raise HTTPError(400, 'file attachment required')
+
+        result = config.restore(content)
+        if result:
+            self.finish_json({'ok': True, 'reboot': result['reboot']})
+            
+        else:
+            self.finish_json({'ok': False})
 
     @BaseHandler.auth(admin=True)
     def _relay_event(self, camera_id):

@@ -309,6 +309,9 @@ def compute_signature(method, uri, body, key):
     parts[3] = query
     uri = urlparse.urlunsplit(parts)
     
+    if body and body.startswith('---'):
+        body = None # file attachment
+
     return hashlib.sha1('%s:%s:%s:%s' % (method, uri, body or '', key)).hexdigest().lower()
 
 

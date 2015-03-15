@@ -195,8 +195,13 @@ function ajax(method, url, data, callback, error) {
     url += '_=' + new Date().getTime();
 
     var json = false;
+    var processData = true;
     if (method == 'POST') {
-        if (typeof data == 'object') {
+        if (window.FormData && (data instanceof FormData)) {
+            json = false;
+            processData = false;
+        }
+        else if (typeof data == 'object') {
             data = JSON.stringify(data);
             json = true;
         }
@@ -208,7 +213,7 @@ function ajax(method, url, data, callback, error) {
         }
     }
     
-    url = addAuthParams(method, url, data);
+    url = addAuthParams(method, url, processData ? data : null);
     
     var options = {
         type: method,
@@ -232,7 +237,8 @@ function ajax(method, url, data, callback, error) {
                 }
             }
         },
-        contentType: json ? 'application/json' : null,
+        contentType: json ? 'application/json' : false,
+        processData: processData,
         error: error || function (request, options, error) {
             showErrorMessage();
             if (callback) {
@@ -1651,6 +1657,19 @@ function downloadFile(uri) {
     $('body').append(frame);
 }
 
+function uploadFile(uri, input, callback) {
+    if (!window.FormData) {
+        showErrorMessage("Your browser doesn't implement this function!");s
+        callback();
+    }
+
+    var formData = new FormData();
+    var files = input[0].files;
+    formData.append('files', files[0], files[0].name);
+
+    ajax('POST', uri, formData, callback);
+}
+
 
     /* apply button */
 
@@ -1897,6 +1916,7 @@ function doUpdate() {
         }
         else {
             runConfirmDialog('New version available: ' + data.update_version + '. Update?', function () {
+                refreshInterval = 1000000;
                 showModalDialog('<div style="text-align: center;"><span>Updating. This may take a few minutes.</span><div class="modal-progress"></div></div>');
                 ajax('POST', baseUri + 'update/?version=' + data.update_version, null, function () {
                     var count = 0;
@@ -1931,6 +1951,101 @@ function doUpdate() {
 
                 return false; /* prevents hiding the modal container */
             });
+        }
+    });
+}
+
+function doBackup() {
+    downloadFile(baseUri + 'config/backup/');
+}
+
+function doRestore() {
+    var content = 
+            $('<table class="restore-dialog">' +
+                '<tr>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">Backup File</span></td>' +
+                    '<td class="dialog-item-value"><form><input type="file" class="styled" id="fileInput"></form></td>' +
+                    '<td><span class="help-mark" title="the device you wish to add to motionEye">?</span></td>' +
+                '</tr>' +
+            '</table>');
+    
+    /* collect ui widgets */
+    var fileInput = content.find('#fileInput');
+    
+    /* make validators */
+    makeFileValidator(fileInput, true);
+    
+    function uiValid() {
+        /* re-validate all the validators */
+        content.find('.validator').each(function () {
+            this.validate();
+        });
+        
+        var valid = true;
+        var query = content.find('input, select');
+        query.each(function () {
+            if (this.invalid) {
+                valid = false;
+                return false;
+            }
+        });
+
+        return valid;
+    }
+
+    runModalDialog({
+        title: 'Restore Configuration',
+        closeButton: true,
+        buttons: 'okcancel',
+        content: content,
+        onOk: function () {
+            if (!uiValid(true)) {
+                return false;
+            }
+            
+            refreshInterval = 1000000;
+
+            setTimeout(function () {
+                showModalDialog('<div style="text-align: center;"><span>Restoring configuration...</span><div class="modal-progress"></div></div>');
+                uploadFile(baseUri + 'config/restore/', fileInput, function (data) {
+                    if (data && data.ok) {
+                        var count = 0;
+                        function checkServer() {
+                            ajax('GET', baseUri + 'config/0/get/', null,
+                                function () {
+                                    runAlertDialog('The configuration has been restored!', function () {
+                                        window.location.reload(true);
+                                    });
+                                },
+                                function () {
+                                    if (count < 25) {
+                                        count += 1;
+                                        setTimeout(checkServer, 2000);
+                                    }
+                                    else {
+                                        runAlertDialog('Failed to restore the configuration!', function () {
+                                            window.location.reload(true);
+                                        });
+                                    }
+                                }
+                            );
+                        }
+                        
+                        if (data.reboot) {
+                            setTimeout(checkServer, 10000);
+                        }
+                        else {
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 5000);
+                        }
+                    }
+                    else {
+                        hideModalDialog();
+                        showErrorMessage('Failed to restore the configuration!');
+                    }
+                });
+            }, 10);
         }
     });
 }
@@ -2636,13 +2751,13 @@ function runAddCameraDialog() {
 
                 beginProgress();
                 ajax('POST', baseUri + 'config/add/', data, function (data) {
+                    endProgress();
+
                     if (data == null || data.error) {
-                        endProgress();
                         showErrorMessage(data && data.error);
                         return;
                     }
                     
-                    endProgress();
                     var cameraOption = $('#cameraSelect').find('option[value=add]');
                     cameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
                     $('#cameraSelect').val(data.id).change();
@@ -3539,6 +3654,10 @@ $(document).ready(function () {
     
     /* software update button */
     $('div#updateButton').click(doUpdate);
+    
+    /* backup/restore */
+    $('div#backupButton').click(doBackup);
+    $('div#restoreButton').click(doRestore);
     
     /* prevent scroll events on settings div from propagating TODO this does not actually work */
     $('div.settings').mousewheel(function (e, d) {

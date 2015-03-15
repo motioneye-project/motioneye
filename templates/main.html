@@ -140,19 +140,32 @@
                     {% if enable_update %}
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Software Update</span></td>
-                        <td class="settings-item-value"><div class="button update-button" id="updateButton">Check</div></td>
+                        <td class="settings-item-value"><div class="button normal-button update-button" id="updateButton">Check</div></td>
                         <td><span class="help-mark" title="checks for new versions and performs updates">?</span></td>
                     </tr>
                     {% endif %}
                     <tr class="settings-item advanced-setting{% if not enable_reboot %} hidden{% endif %}">
                         <td class="settings-item-label"><span class="settings-item-label">Power</span></td>
-                        <td class="settings-item-value"><div class="button shut-down-button" id="shutDownButton">Shut Down</div></td>
+                        <td class="settings-item-value"><div class="button normal-button shut-down-button" id="shutDownButton">Shut Down</div></td>
                         <td><span class="help-mark" title="shuts down the system">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting{% if not enable_reboot %} hidden{% endif %}">
                         <td class="settings-item-label"><span class="settings-item-label"></span></td>
-                        <td class="settings-item-value"><div class="button reboot-button" id="rebootButton">Reboot</div></td>
+                        <td class="settings-item-value"><div class="button normal-button reboot-button" id="rebootButton">Reboot</div></td>
                         <td><span class="help-mark" title="reboots the system">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Configuration</span></td>
+                        <td class="settings-item-value"><div class="button normal-button backup-button" id="backupButton">Backup</div></td>
+                        <td><span class="help-mark" title="creates a file with the current configuration for you to save it locally">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label"></span></td>
+                        <td class="settings-item-value"><div class="button normal-button restore-button" id="restoreButton">Restore</div></td>
+                        <td><span class="help-mark" title="restores the configuration from a previously saved backup file">?</span></td>
                     </tr>
                 </table>
 
@@ -173,7 +186,7 @@
                 {% endfor %}
 
                 <tr class="settings-item advanced-setting">
-                    <td colspan="100"><div class="settings-item-separator" style="margin-bottom: 1.5em;"></div></td>
+                    <td colspan="100"><div class="settings-item-separator" style="margin: 0px -1em 1.5em -1em;"></div></td>
                 </tr>
                 
                 <div class="settings-section-title">

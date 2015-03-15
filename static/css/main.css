@@ -315,7 +315,7 @@ span.settings-item-unit {
 div.settings-item-separator {
     height: 1px;
     border-top: 1px solid #414141;
-    margin: 5px 0px;
+    margin: 0.5em 1em;
 }
 
 #cameraSelect {
@@ -361,9 +361,7 @@ img.apply-progress {
     margin-top: 3px;
 }
 
-div.update-button,
-div.shut-down-button,
-div.reboot-button {
+div.normal-button {
     position: relative;
     height: 1.5em;
     line-height: 1.5em;
@@ -376,7 +374,9 @@ div.reboot-button {
     width: 7em;
 }
 
-div.update-button {
+div.update-button,
+div.backup-button,
+div.restore-button {
     background: #317CAD;
 }
 
@@ -385,7 +385,9 @@ div.reboot-button {
     background: #c0392b;
 }
 
-div.update-button:HOVER {
+div.update-button:HOVER,
+div.backup-button:HOVER,
+div.restore-button:HOVER {
     background: #3498db;
 }
 
@@ -394,7 +396,9 @@ div.reboot-button:HOVER {
     background: #D43F2F;
 }
 
-div.update-button:ACTIVE {
+div.update-button:ACTIVE,
+div.backup-button:ACTIVE,
+div.restore-button:ACTIVE {
     background: #317CAD;
 }
 
