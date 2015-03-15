@@ -149,7 +149,7 @@ class MainHandler(BaseHandler):
         self.render('main.html',
                 frame=False,
                 version=motioneye.VERSION,
-                enable_update=bool(settings.REPO),
+                enable_update=False,
                 enable_reboot=settings.ENABLE_REBOOT,
                 main_sections=main_sections,
                 camera_sections=camera_sections,

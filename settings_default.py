@@ -26,9 +26,6 @@ MEDIA_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'media'))
 # path to motion binary (automatically detected if not set)
 MOTION_BINARY = None 
 
-# repository details for software updating
-REPO = ('ccrisan', 'motioneye')
-
 # set to logging.DEBUG for verbose output
 LOG_LEVEL = logging.INFO
 

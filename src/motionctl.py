@@ -26,6 +26,7 @@ import time
 from tornado.httpclient import HTTPClient, AsyncHTTPClient, HTTPRequest
 
 import config
+import powerctl
 import settings
 import utils
 
@@ -166,7 +167,12 @@ def stop():
                 os.waitpid(pid, os.WNOHANG)
                 
             # the process still did not exit
-            raise Exception('could not terminate the motion process')
+            if settings.ENABLE_REBOOT:
+                logging.error('could not terminate the motion process')
+                powerctl.reboot()
+
+            else:
+                raise Exception('could not terminate the motion process')
         
         except OSError as e:
             if e.errno not in (errno.ESRCH, errno.ECHILD):

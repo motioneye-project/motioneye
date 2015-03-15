@@ -46,7 +46,6 @@ def _configure_settings():
     set_default_setting('LOG_PATH', os.path.join(settings.PROJECT_PATH, 'log'))
     set_default_setting('MEDIA_PATH', os.path.join(settings.PROJECT_PATH, 'media'))
     set_default_setting('MOTION_BINARY', None)
-    set_default_setting('REPO', None)
     set_default_setting('LOG_LEVEL', logging.INFO)
     set_default_setting('LISTEN', '0.0.0.0')
     set_default_setting('PORT', 8765)

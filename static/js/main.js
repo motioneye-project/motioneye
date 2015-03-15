@@ -1920,7 +1920,7 @@ function doUpdate() {
                 showModalDialog('<div style="text-align: center;"><span>Updating. This may take a few minutes.</span><div class="modal-progress"></div></div>');
                 ajax('POST', baseUri + 'update/?version=' + data.update_version, null, function () {
                     var count = 0;
-                    function checkServerUpdate() {
+                    function checkServer() {
                         ajax('GET', baseUri + 'config/0/get/', null,
                             function () {
                                 runAlertDialog('motionEye was successfully updated!', function () {
@@ -1928,9 +1928,9 @@ function doUpdate() {
                                 });
                             },
                             function () {
-                                if (count < 25) {
+                                if (count < 60) {
                                     count += 1;
-                                    setTimeout(checkServerUpdate, 2000);
+                                    setTimeout(checkServer, 5000);
                                 }
                                 else {
                                     runAlertDialog('Update failed!', function () {
@@ -1941,7 +1941,7 @@ function doUpdate() {
                         );
                     }
                     
-                    setTimeout(checkServerUpdate, 10000);
+                    setTimeout(checkServer, 10000);
 
                 }, function (e) { /* error */
                     runAlertDialog('The update process has failed!', function () {
