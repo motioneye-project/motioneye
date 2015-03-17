@@ -1136,7 +1136,8 @@ def camera_dict_to_ui(data):
         'framerate', 'height', 'hue', 'lightswitch', 'locate_motion_mode', 'locate_motion_style', 'minimum_motion_frames', 'movie_filename', 'noise_level', 'noise_tune',
         'on_event_end', 'on_event_start', 'output_pictures', 'picture_filename', 'post_capture', 'pre_capture', 'quality', 'rotate', 'saturation',
         'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate', 'stream_motion', 'stream_port', 'stream_quality',
-        'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width'
+        'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width',
+        'webcam_localhost', 'webcam_port', 'webcam_maxrate', 'webcam_quality', 'webcam_motion', 'ffmpeg_cap_new', 'output_normal', 'jpeg_filename', 'output_all', 'gap', 'locate'    
     ])
     
     extra_options = []
