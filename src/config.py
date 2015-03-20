@@ -1137,9 +1137,10 @@ def camera_dict_to_ui(data):
         'on_event_end', 'on_event_start', 'output_pictures', 'picture_filename', 'post_capture', 'pre_capture', 'quality', 'rotate', 'saturation',
         'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate', 'stream_motion', 'stream_port', 'stream_quality',
         'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width',
-        'webcam_localhost', 'webcam_port', 'webcam_maxrate', 'webcam_quality', 'webcam_motion', 'ffmpeg_cap_new', 'output_normal', 'jpeg_filename', 'output_all', 'gap', 'locate'    
+        'webcam_localhost', 'webcam_port', 'webcam_maxrate', 'webcam_quality', 'webcam_motion', 'ffmpeg_cap_new', 'output_normal', 'jpeg_filename', 'output_all', 'gap', 'locate',
+        'netcam_url', 'netcam_userpass', 'netcam_http', 'netcam_tolerant_check'
     ])
-    
+
     extra_options = []
     for name, value in data.iteritems():
         if name not in known_options and not name.startswith('@'):
