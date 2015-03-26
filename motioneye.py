@@ -245,7 +245,7 @@ def _configure_logging():
 
 
 def _configure_tornado():
-    AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient")
+    AsyncHTTPClient.configure('tornado.curl_httpclient.CurlAsyncHTTPClient', max_clients=16)
 
 
 def _print_help():

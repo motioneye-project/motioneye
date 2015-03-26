@@ -274,20 +274,16 @@ def test_netcam_url(data, callback):
             'port': ':' + str(data['port']) if data['port'] else '',
             'uri': data['uri'] or ''}
     
-    logging.debug('testing netcam at %s' % url)
-    
-    http_client = AsyncHTTPClient()
-    
     called = [False]
-    not_2xx = [False]
+    status_2xx = [False]
+    auth_modes = ['basic', 'digest']
     
     def on_header(header):
-        if not_2xx[0]:
-            return # ignore headers unless the status is 2xx
-
         header = header.lower()
-        if header.startswith('content-type'):
+        if header.startswith('content-type') and status_2xx[0]:
             content_type = header.split(':')[1].strip()
+            called[0] = True
+
             if content_type in ['image/jpg', 'image/jpeg', 'image/pjpg']:
                 callback([{'id': 1, 'name': 'JPEG Network Camera'}])
             
@@ -296,27 +292,43 @@ def test_netcam_url(data, callback):
             
             else:
                 callback(error='not a network camera')
-            
-            called[0] = True
 
         else:
+            # check for the status header
             m = re.match('^http/1.\d (\d+) ', header)
-            if m and int(m.group(1)) / 100 != 2:
-                not_2xx[0] = True
+            if m and int(m.group(1)) / 100 == 2:
+                status_2xx[0] = True
+
+    def do_request(on_response):
+        if data['username']:
+            auth = auth_modes[0]
+            
+        else:
+            auth = 'no'
+
+        logging.debug('testing netcam at %s using %s authentication' % (url, auth))
+
+        request = HTTPRequest(url, auth_username=username, auth_password=password, auth_mode=auth_modes.pop(0),
+                connect_timeout=settings.REMOTE_REQUEST_TIMEOUT, request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
+                header_callback=on_header)
+
+        http_client = AsyncHTTPClient(force_instance=True)    
+        http_client.fetch(request, on_response)
 
     def on_response(response):
         if not called[0]:
-            called[0] = True
-            callback(error=pretty_http_error(response.error) if response.error else 'not a network camera')
+            if response.code == 401 and auth_modes and data['username']:
+                status_2xx[0] = False
+                do_request(on_response)
+                
+            else:
+                called[0] = True
+                callback(error=pretty_http_error(response.error) if response.error else 'not a network camera')
     
     username = data['username'] or None
     password = data['password'] or None
     
-    request = HTTPRequest(url, auth_username=username, auth_password=password,
-            connect_timeout=settings.REMOTE_REQUEST_TIMEOUT, request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
-            header_callback=on_header)
-    
-    http_client.fetch(request, on_response)
+    do_request(on_response)
 
 
 def compute_signature(method, uri, body, key):
