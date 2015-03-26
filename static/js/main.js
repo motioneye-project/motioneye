@@ -2574,8 +2574,6 @@ function runAddCameraDialog() {
     
     function updateUi() {
         content.find('tr.motioneye, tr.netcam').css('display', 'none');
-        usernameEntry.val('');
-        usernameEntry.removeAttr('readonly');
 
         if (deviceSelect.val() == 'motioneye') {
             content.find('tr.motioneye').css('display', 'table-row');
@@ -2584,6 +2582,7 @@ function runAddCameraDialog() {
             usernameEntry.attr('readonly', 'readonly');
         }
         else if (deviceSelect.val() == 'netcam') {
+            usernameEntry.removeAttr('readonly');
             content.find('tr.netcam').css('display', 'table-row');
             addCameraSelect.hide();
         }
