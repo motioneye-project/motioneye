@@ -109,9 +109,9 @@ def list_cameras(local_config, callback):
         if response.error:
             logging.error('failed to list remote cameras on %(url)s: %(msg)s' % {
                     'url': make_camera_url(local_config, camera=False),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
             
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
         
         try:
             response = json.loads(response.body)
@@ -148,9 +148,9 @@ def get_config(local_config, callback):
             logging.error('failed to get config for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
             
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
     
         try:
             response = json.loads(response.body)
@@ -201,9 +201,9 @@ def set_config(local_config, ui_config, callback):
             logging.error('failed to set config for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
             
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
     
         callback()
 
@@ -232,9 +232,9 @@ def set_preview(local_config, controls, callback):
             logging.error('failed to set preview for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
         
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
         
         callback()
 
@@ -278,9 +278,9 @@ def get_current_picture(local_config, width, height, callback):
             logging.error('failed to get current picture for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
             
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
 
         callback(motion_detected, response.body)
     
@@ -313,9 +313,9 @@ def list_media(local_config, media_type, prefix, callback):
             logging.error('failed to get media list for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
             
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
         
         try:
             response = json.loads(response.body)
@@ -360,9 +360,9 @@ def get_media_content(local_config, filename, media_type, callback):
                     'filename': filename,
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
             
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
         
         return callback(response.body)
 
@@ -397,9 +397,9 @@ def make_zipped_content(local_config, media_type, group, callback):
                     'group': group,
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
 
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
         
         try:
             key = json.loads(response.body)['key']
@@ -441,9 +441,9 @@ def get_zipped_content(local_config, media_type, key, group, callback):
             logging.error('failed to download zip file for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
 
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
 
         callback({
             'data': response.body,
@@ -486,9 +486,9 @@ def make_timelapse_movie(local_config, framerate, interval, group, callback):
                     'url': make_camera_url(local_config),
                     'int': interval,
                     'framerate': framerate,
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
 
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
         
         try:
             response = json.loads(response.body)
@@ -527,9 +527,9 @@ def check_timelapse_movie(local_config, group, callback):
             logging.error('failed to check timelapse movie status for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
 
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
         
         try:
             response = json.loads(response.body)
@@ -570,9 +570,9 @@ def get_timelapse_movie(local_config, key, group, callback):
             logging.error('failed to download timelapse movie for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
 
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
 
         callback({
             'data': response.body,
@@ -618,9 +618,9 @@ def get_media_preview(local_config, filename, media_type, width, height, callbac
                     'filename': filename,
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
             
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
         
         callback(response.body)
 
@@ -654,9 +654,9 @@ def del_media_content(local_config, filename, media_type, callback):
                     'filename': filename,
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
             
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
         
         callback()
 
@@ -690,9 +690,9 @@ def del_media_group(local_config, group, media_type, callback):
                     'group': group,
                     'id': camera_id,
                     'url': make_camera_url(local_config),
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
             
-            return callback(error=unicode(response.error))
+            return callback(error=utils.pretty_http_error(response.error))
         
         callback()
 

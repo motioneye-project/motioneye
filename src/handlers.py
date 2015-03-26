@@ -489,7 +489,7 @@ class ConfigHandler(BaseHandler):
                 else:
                     cameras = [c for c in cameras if c.get('enabled')]
                     self.finish_json({'cameras': cameras})
-            
+
             remote.list_cameras(self.get_data(), on_response)
         
         elif type == 'netcam':

@@ -25,6 +25,8 @@ import re
 import signal
 import sys
 
+from tornado.httpclient import AsyncHTTPClient
+
 import settings
 
 sys.path.append(os.path.join(getattr(settings, 'PROJECT_PATH', os.path.dirname(sys.argv[0])), 'src'))
@@ -238,6 +240,12 @@ def _configure_signals():
 def _configure_logging():
     logging.basicConfig(filename=None, level=settings.LOG_LEVEL,
             format='%(asctime)s: %(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    
+    logging.getLogger('tornado').setLevel(logging.WARN)
+
+
+def _configure_tornado():
+    AsyncHTTPClient.configure("tornado.curl_httpclient.CurlAsyncHTTPClient")
 
 
 def _print_help():
@@ -355,6 +363,7 @@ if __name__ == '__main__':
     
     _configure_signals()
     _configure_logging()
+    _configure_tornado()
     
     if settings.SMB_SHARES:
         stop, start = smbctl.update_mounts()

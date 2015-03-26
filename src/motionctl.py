@@ -253,7 +253,7 @@ def set_motion_detection(camera_id, enabled):
             logging.error('failed to %(what)s motion detection for camera with id %(id)s: %(msg)s' % {
                     'what': ['disable', 'enable'][enabled],
                     'id': camera_id,
-                    'msg': unicode(response.error)})
+                    'msg': utils.pretty_http_error(response.error)})
         
         else:
             logging.debug('successfully %(what)s motion detection for camera with id %(id)s' % {

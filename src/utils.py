@@ -19,6 +19,7 @@ import datetime
 import hashlib
 import logging
 import os
+import re
 import time
 import urllib
 import urlparse
@@ -206,7 +207,18 @@ def pretty_size(size):
         size, unit = size / 1024.0 / 1024 / 1024, 'GB'
     
     return '%.1f %s' % (size, unit)
-    
+
+
+def pretty_http_error(http_error):
+    msg = unicode(http_error)
+    if msg.startswith('HTTP '):
+        msg = msg.split(':', 1)[-1].strip()
+
+    if msg.startswith('[Errno '):
+        msg = msg.split(']', 1)[-1].strip()
+
+    return msg
+
 
 def get_disk_usage(path):
     logging.debug('getting disk usage for path %(path)s...' % {
@@ -267,8 +279,12 @@ def test_netcam_url(data, callback):
     http_client = AsyncHTTPClient()
     
     called = [False]
+    not_2xx = [False]
     
     def on_header(header):
+        if not_2xx[0]:
+            return # ignore headers unless the status is 2xx
+
         header = header.lower()
         if header.startswith('content-type'):
             content_type = header.split(':')[1].strip()
@@ -283,10 +299,15 @@ def test_netcam_url(data, callback):
             
             called[0] = True
 
+        else:
+            m = re.match('^http/1.\d (\d+) ', header)
+            if m and int(m.group(1)) / 100 != 2:
+                not_2xx[0] = True
+
     def on_response(response):
         if not called[0]:
             called[0] = True
-            callback(error=unicode(response.error) if response.error else 'not a network camera')
+            callback(error=pretty_http_error(response.error) if response.error else 'not a network camera')
     
     username = data['username'] or None
     password = data['password'] or None
