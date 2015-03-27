@@ -276,8 +276,8 @@ def test_netcam_url(data, callback):
     
     called = [False]
     status_2xx = [False]
-    auth_modes = ['basic', 'digest']
-    
+    auth_modes = ['basic'] # 'digest' netcams are not supported by motion yet
+
     def on_header(header):
         header = header.lower()
         if header.startswith('content-type') and status_2xx[0]:

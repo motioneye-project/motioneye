@@ -305,7 +305,9 @@ def get_camera(camera_id, as_lines=False):
                 camera_config['stream_localhost'] = camera_config.pop('webcam_localhost')
             if 'gap' in camera_config:
                 camera_config['event_gap'] = camera_config.pop('gap')
-                
+            if 'netcam_http' in camera_config:
+                camera_config['netcam_keepalive'] = camera_config.pop('netcam_http') in ['1.1', 'keepalive']
+
         _set_default_motion_camera(camera_id, camera_config)
     
     elif utils.remote_camera(camera_config):
@@ -361,9 +363,9 @@ def set_camera(camera_id, camera_config):
                 camera_config.pop('stream_authentication')
             if 'event_gap' in camera_config:
                 camera_config['gap'] = camera_config.pop('event_gap')
-            
-            camera_config['netcam_tolerant_check'] = True
-        
+            if 'netcam_keepalive' in camera_config:
+                camera_config['netcam_http'] = '1.1' if camera_config.pop('netcam_keepalive') else '1.0'
+                
         _set_default_motion_camera(camera_id, camera_config, old_motion)
         
         # set the enabled status in main config
@@ -659,8 +661,9 @@ def camera_ui_to_dict(ui):
         if ui['username'] or ui['password']:
             data['netcam_userpass'] = (ui['username'] or '') + ':' + (ui['password'] or '')
 
-        data['netcam_http'] = '1.1'
-        
+        data['netcam_keepalive'] = True
+        data['netcam_tolerant_check'] = True
+
         threshold = int(float(ui['frame_change_threshold']) * 640 * 480 / 100)
 
     data['threshold'] = threshold
@@ -1138,7 +1141,7 @@ def camera_dict_to_ui(data):
         'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate', 'stream_motion', 'stream_port', 'stream_quality',
         'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width',
         'webcam_localhost', 'webcam_port', 'webcam_maxrate', 'webcam_quality', 'webcam_motion', 'ffmpeg_cap_new', 'output_normal', 'jpeg_filename', 'output_all', 'gap', 'locate',
-        'netcam_url', 'netcam_userpass', 'netcam_http', 'netcam_tolerant_check'
+        'netcam_url', 'netcam_userpass', 'netcam_http', 'netcam_tolerant_check', 'netcam_keepalive'
     ])
 
     extra_options = []
