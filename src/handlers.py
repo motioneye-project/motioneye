@@ -1325,6 +1325,27 @@ class MovieHandler(BaseHandler):
             remote.del_media_group(camera_config, group=group, media_type='movie', callback=on_response)
 
 
+class LogHandler(BaseHandler):
+    LOGS = {
+        'motion': (os.path.join(settings.LOG_PATH, 'motion.log'),  'motion.log')
+    }
+
+    @BaseHandler.auth(admin=True)
+    def get(self, name):
+        log = self.LOGS.get(name)
+        if log is None:
+            raise HTTPError(404, 'no such log')
+
+        (path, filename) = log
+        logging.debug('serving log file %s from %s' % (filename, path))
+
+        self.set_header('Content-Type', 'text/plain')
+        self.set_header('Content-Disposition', 'attachment; filename=' + filename + ';')
+
+        with open(path) as f:
+            self.finish(f.read())
+
+
 class UpdateHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
     def get(self):

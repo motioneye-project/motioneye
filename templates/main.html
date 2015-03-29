@@ -37,6 +37,8 @@
                     <option value="{{choice[0]}}">{{choice[1]}}</option>
                     {% endfor %}
                 </select>
+            {% elif config['type'] == 'html' %}
+                <div class="html styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Html">
             {% endif %}
         </td>
         <td>{% if config.get('description') %}<span class="help-mark" title="{{config['description']}}">?</span>{% endif %}</td>

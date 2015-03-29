@@ -7,6 +7,7 @@ var inProgress = false;
 var refreshInterval = 50; /* milliseconds */
 var username = '';
 var password = '';
+var baseUri = null;
 
 
     /* utils */
@@ -1106,7 +1107,7 @@ function dict2MainUi(dict) {
     /* additional configs */
     $('tr.additional-config').each(function () {
         var $this = $(this);
-        var control = $this.find('input, select');
+        var control = $this.find('input, select, div.html');
         
         if (!control.hasClass('main-config')) {
             return;
@@ -1129,6 +1130,10 @@ function dict2MainUi(dict) {
         else if (id.endsWith('Switch')) {
             name = id.substring(0, id.length - 6);
             control[0].checked = dict['_' + name];
+        }
+        else if (id.endsWith('Html')) {
+            name = id.substring(0, id.length - 4);
+            control.html(dict['_' + name]);
         }
     });
 
@@ -1562,7 +1567,7 @@ function dict2CameraUi(dict) {
     /* additional configs */
     $('tr.additional-config').each(function () {
         var $this = $(this);
-        var control = $this.find('input, select');
+        var control = $this.find('input, select, div.html');
         
         if (!control.hasClass('camera-config')) {
             return;
@@ -1585,6 +1590,10 @@ function dict2CameraUi(dict) {
         else if (id.endsWith('Switch')) {
             name = id.substring(0, id.length - 6);
             control[0].checked = dict['_' + name];
+        }
+        else if (id.endsWith('Html')) {
+            name = id.substring(0, id.length - 4);
+            control.html(dict['_' + name]);
         }
     });
 
@@ -1648,6 +1657,8 @@ function endProgress() {
 }
 
 function downloadFile(uri) {
+    uri = baseUri + uri;
+
     var url = window.location.href;
     var parts = url.split('/');
     url = parts.slice(0, 3).join('/') + uri;
@@ -1958,7 +1969,7 @@ function doUpdate() {
 }
 
 function doBackup() {
-    downloadFile(baseUri + 'config/backup/');
+    downloadFile('config/backup/');
 }
 
 function doRestore() {
@@ -2061,7 +2072,7 @@ function doDownloadZipped(cameraId, groupKey) {
         }
         else {
             hideModalDialog(); /* progress */
-            downloadFile(baseUri + 'picture/' + cameraId + '/zipped/' + groupKey + '/?key=' + data.key);
+            downloadFile('picture/' + cameraId + '/zipped/' + groupKey + '/?key=' + data.key);
         }
     });
 }
@@ -2505,7 +2516,7 @@ function runPictureDialog(entries, pos, mediaType) {
             {caption: 'Close'},
             {caption: 'Download', isDefault: true, click: function () {
                 var entry = entries[pos];
-                downloadFile(baseUri + mediaType + '/' + entry.cameraId + '/download' + entry.path);
+                downloadFile(mediaType + '/' + entry.cameraId + '/download' + entry.path);
                 
                 return false;
             }}
@@ -2887,7 +2898,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                         setTimeout(function () {
                             hideModalDialog(); /* progress */
                             hideModalDialog(); /* timelapse dialog */
-                            downloadFile(baseUri + 'picture/' + cameraId + '/timelapse/' + groupKey + '/?key=' + data.key);
+                            downloadFile('picture/' + cameraId + '/timelapse/' + groupKey + '/?key=' + data.key);
                         }, 500);
                     }
                     else {
@@ -2980,7 +2991,7 @@ function runMediaDialog(cameraId, mediaType) {
                     entryDiv.append(detailsDiv);
                     
                     downloadButton.click(function () {
-                        downloadFile(baseUri + mediaType + '/' + cameraId + '/download' + entry.path);
+                        downloadFile(mediaType + '/' + cameraId + '/download' + entry.path);
                         return false;
                     });
                     
