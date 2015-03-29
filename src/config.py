@@ -110,7 +110,7 @@ def get_main(as_lines=False):
             no_convert=['@admin_username', '@admin_password', '@normal_username', '@normal_password'])
     
     _get_additional_config(main_config, camera=False)
-    _set_default_motion(main_config, old_motion=_is_old_motion())
+    _set_default_motion(main_config, old_motion=is_old_motion())
     
     _main_config_cache = main_config
     
@@ -121,7 +121,7 @@ def set_main(main_config):
     global _main_config_cache
     
     main_config = dict(main_config)
-    _set_default_motion(main_config, old_motion=_is_old_motion())
+    _set_default_motion(main_config, old_motion=is_old_motion())
     _main_config_cache = main_config
     
     main_config = dict(main_config)
@@ -277,7 +277,7 @@ def get_camera(camera_id, as_lines=False):
         camera_config['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
         camera_config['@id'] = camera_id
         
-        old_motion = _is_old_motion()
+        old_motion = is_old_motion()
         
         # adapt directives from old configuration, if needed
         if old_motion:
@@ -331,7 +331,7 @@ def set_camera(camera_id, camera_config):
     camera_config = dict(camera_config)
     
     if utils.local_camera(camera_config):
-        old_motion = _is_old_motion()
+        old_motion = is_old_motion()
         
         # adapt directives to old configuration, if needed
         if old_motion:
@@ -571,8 +571,8 @@ def camera_ui_to_dict(ui):
         '@webcam_resolution': max(1, int(ui['streaming_resolution'])),
         '@webcam_server_resize': ui['streaming_server_resize'],
         'stream_motion': ui['streaming_motion'],
-        'stream_auth_method': 2 if main_config['@normal_password'] else 0,
-        'stream_authentication': (main_config['@normal_username'] + ':' + main_config['@normal_password']) if main_config['@normal_password'] else '',
+        'stream_auth_method': {'disabled': 0, 'basic': 1, 'digest': 2}.get(ui['streaming_auth_mode'], 0),
+        'stream_authentication': main_config['@normal_username'] + ':' + main_config['@normal_password'],
 
         # still images
         'output_pictures': False,
@@ -850,6 +850,7 @@ def camera_dict_to_ui(data):
         'streaming_resolution': int(data['@webcam_resolution']),
         'streaming_server_resize': data['@webcam_server_resize'],
         'streaming_port': int(data['stream_port']),
+        'streaming_auth_mode': {0: 'disabled', 1: 'basic', 2: 'digest'}.get(data.get('stream_auth_method'), 'disabled'),
         'streaming_motion': int(data['stream_motion']),
         
         # still images
@@ -1227,6 +1228,21 @@ def restore(content):
         return None
 
 
+def is_old_motion():
+    try:
+        binary, version = motionctl.find_motion()  # @UnusedVariable
+        
+        if version.startswith('trunkREV'): # e.g. trunkREV599
+            version = int(version[8:])
+            return version < _LAST_OLD_CONFIG_VERSIONS[0]
+        
+        else: # stable release, should be in the format x.y.z
+            return update.compare_versions(version, _LAST_OLD_CONFIG_VERSIONS[1]) <= 0
+
+    except:
+        return False
+
+
 def _value_to_python(value):
     value_lower = value.lower()
     if value_lower == 'off':
@@ -1400,21 +1416,6 @@ def _dict_to_conf(lines, data, list_names=[]):
         lines.append(line)
         
     return lines
-
-
-def _is_old_motion():
-    try:
-        binary, version = motionctl.find_motion()  # @UnusedVariable
-        
-        if version.startswith('trunkREV'): # e.g. trunkREV599
-            version = int(version[8:])
-            return version < _LAST_OLD_CONFIG_VERSIONS[0]
-        
-        else: # stable release, should be in the format x.y.z
-            return update.compare_versions(version, _LAST_OLD_CONFIG_VERSIONS[1]) <= 0
-
-    except:
-        return False
 
 
 def _set_default_motion(data, old_motion):

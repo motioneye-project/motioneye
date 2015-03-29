@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
+import base64
 import datetime
 import hashlib
 import logging
@@ -346,6 +347,10 @@ def compute_signature(method, uri, body, key):
         body = None # file attachment
 
     return hashlib.sha1('%s:%s:%s:%s' % (method, uri, body or '', key)).hexdigest().lower()
+
+
+def build_basic_header(username, password):
+    return 'Basic ' + base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
 
 
 def build_digest_header(method, url, username, password, state):

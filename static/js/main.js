@@ -1202,6 +1202,7 @@ function cameraUi2Dict() {
         'streaming_resolution': $('#streamingResolutionSlider').val(),
         'streaming_server_resize': $('#streamingServerResizeSwitch')[0].checked,
         'streaming_port': $('#streamingPortEntry').val(),
+        'streaming_auth_mode': $('#streamingAuthModeSelect').val() || 'disabled', /* compatibility with old motion */
         'streaming_motion': $('#streamingMotion')[0].checked,
         
         /* still images */
@@ -1456,6 +1457,7 @@ function dict2CameraUi(dict) {
     $('#streamingResolutionSlider').val(dict['streaming_resolution']);
     $('#streamingServerResizeSwitch')[0].checked = dict['streaming_server_resize'];
     $('#streamingPortEntry').val(dict['streaming_port']);
+    $('#streamingAuthModeSelect').val(dict['streaming_auth_mode']);
     $('#streamingMotion')[0].checked = dict['streaming_motion'];
     
     var cameraUrl = location.protocol + '//' + location.host + '/picture/' + dict.id + '/';

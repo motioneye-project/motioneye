@@ -408,10 +408,26 @@
                         <td class="settings-item-value"><input type="text" class="styled streaming camera-config" id="streamingPortEntry"></td>
                         <td><span class="help-mark" title="sets the TCP port on which the webcam streaming server listens">?</span></td>
                     </tr>
+                    {% if not old_motion %}
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Authentication Mode</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled streaming camera-config" id="streamingAuthModeSelect">
+                                <option value="disabled">Disabled</option>
+                                <option value="basic">Basic</option>
+                                <option value="digest">Digest</option>
+                            </select>
+                        </td>
+                        <td><span class="help-mark" title="the authentication mode to use when accessing the stream (use Basic instead of Digest if you encounter issues with third party apps)">?</span></td>
+                    </tr>
+                    {% endif %}
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Motion Optimization</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled streaming camera-config" id="streamingMotion"></td>
                         <td><span class="help-mark" title="enable this if you want a lower frame rate for the live streaming when no motion is detected">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
                     <tr class="settings-item advanced-setting local-streaming">
                         <td class="settings-item-label"><span class="settings-item-label">Snapshot URL</span></td>
