@@ -28,6 +28,7 @@ import sys
 from tornado.httpclient import AsyncHTTPClient
 
 import settings
+import update
 
 sys.path.append(os.path.join(getattr(settings, 'PROJECT_PATH', os.path.dirname(sys.argv[0])), 'src'))
 
@@ -156,62 +157,76 @@ def _test_requirements():
 
     try:
         import tornado  # @UnusedImport
-        tornado = True
-    
+        has_tornado = True
+
     except ImportError:
-        tornado = False
+        has_tornado = False
+
+    if update.compare_versions(tornado.version, '3.1') < 0:
+        has_tornado = False
 
     try:
         import jinja2  # @UnusedImport
-        jinja2 = True
+        has_jinja2 = True
     
     except ImportError:
-        jinja2 = False
+        has_jinja2 = False
 
     try:
         import PIL.Image  # @UnusedImport
-        pil = True
+        has_pil = True
     
     except ImportError:
-        pil = False
+        has_pil = False
+
+    try:
+        import pycurl  # @UnusedImport
+        has_pycurl = True
+    
+    except ImportError:
+        has_pycurl = False
 
     import mediafiles
-    ffmpeg = mediafiles.find_ffmpeg() is not None
+    has_ffmpeg = mediafiles.find_ffmpeg() is not None
     
     import motionctl
-    motion = motionctl.find_motion() is not None
+    has_motion = motionctl.find_motion() is not None
     
     import v4l2ctl
-    v4lutils = v4l2ctl.find_v4l2_ctl() is not None
+    has_v4lutils = v4l2ctl.find_v4l2_ctl() is not None
     
-    mount_cifs = smbctl.find_mount_cifs() is not None
+    has_mount_cifs = smbctl.find_mount_cifs() is not None
     
     ok = True
-    if not tornado:
-        print('please install tornado (python-tornado)')
+    if not has_tornado:
+        print('please install tornado (python-tornado), version 3.1 or greater')
         ok = False
     
-    if not jinja2:
+    if not has_jinja2:
         print('please install jinja2 (python-jinja2)')
         ok = False
 
-    if not pil:
+    if not has_pil:
         print('please install PIL (python-imaging)')
         ok = False
 
-    if not ffmpeg:
+    if not has_pycurl:
+        print('please install pycurl (python-pycurl)')
+        ok = False
+    
+    if not has_ffmpeg:
         print('please install ffmpeg')
         ok = False
 
-    if not motion:
+    if not has_motion:
         print('please install motion')
         ok = False
 
-    if not v4lutils:
+    if not has_v4lutils:
         print('please install v4l-utils')
         ok = False
 
-    if settings.SMB_SHARES and not mount_cifs:
+    if settings.SMB_SHARES and not has_mount_cifs:
         print('please install cifs-utils')
         ok = False
 
