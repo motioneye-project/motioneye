@@ -2866,10 +2866,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                     }
                     
                     if (data.progress != -1 && first) {
-                        hideModalDialog(); /* progress */
-                        hideModalDialog(); /* timelapse dialog */
-                        showErrorMessage('A timelapse movie is already being created.');
-                        return;
+                        showPopupMessage('A timelapse movie is already being created.');
                     }
                     
                     if (data.progress == -1 && !first && !data.key) {
