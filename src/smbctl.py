@@ -111,25 +111,32 @@ def list_mounts():
 
 def mount(server, share, username, password):
     mount_point = make_mount_point(server, share, username)
-    logging.debug('mounting "//%s/%s" at "%s"' % (server, share, mount_point))
     
     logging.debug('making sure mount point "%s" exists' % mount_point)
     
     if not os.path.exists(mount_point):    
         os.makedirs(mount_point)
-    
+        
     if username:
         opts = 'username=%s,password=%s' % (username, password)
-        
+        sec_types = ['ntlm', 'ntlmv2', 'none']
+
     else:
         opts = 'guest'
+        sec_types = ['none', 'ntlm', 'ntlmv2']
 
-    try:
-        subprocess.check_call('mount.cifs "//%s/%s" "%s" -o "%s"' % (server, share, mount_point, opts), shell=True)
-        
-    except subprocess.CalledProcessError:
+    for sec in sec_types:
+        actual_opts = opts + ',sec=' + sec
+        try:
+            logging.debug('mounting "//%s/%s" at "%s" (sec=%s)' % (server, share, mount_point, sec))
+            subprocess.check_call('mount.cifs "//%s/%s" "%s" -o "%s"' % (server, share, mount_point, actual_opts), shell=True)
+            break
+
+        except subprocess.CalledProcessError:
+            pass
+            
+    else:
         logging.error('failed to mount smb share "//%s/%s" at "%s"' % (server, share, mount_point))
-        
         return None
     
     # test to see if mount point is writable
