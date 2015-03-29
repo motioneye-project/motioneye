@@ -28,9 +28,10 @@ import sys
 from tornado.httpclient import AsyncHTTPClient
 
 import settings
-import update
 
 sys.path.append(os.path.join(getattr(settings, 'PROJECT_PATH', os.path.dirname(sys.argv[0])), 'src'))
+
+import update
 
 VERSION = '0.23'
 

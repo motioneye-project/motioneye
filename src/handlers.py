@@ -1327,7 +1327,7 @@ class MovieHandler(BaseHandler):
 
 class LogHandler(BaseHandler):
     LOGS = {
-        'motion': (os.path.join(settings.LOG_PATH, 'motion.log'),  'motion.log')
+        'motion': (os.path.join(settings.LOG_PATH, 'motion.log'),  'motion.log'),
     }
 
     @BaseHandler.auth(admin=True)
