@@ -19,6 +19,7 @@ import datetime
 import logging
 import re
 import socket
+import time
 
 from tornado import iostream, ioloop
 
@@ -33,6 +34,7 @@ class MjpgClient(iostream.IOStream):
     last_jpgs = {} # dictionary of jpg contents indexed by camera id
     last_jpg_moment = {} # dictionary of moments of the last received jpeg indexed by camera id
     last_access = {} # dictionary of access moments indexed by camera id
+    last_erroneous_close_time = 0 # helps detecting erroneous connections and restart motion
     
     def __init__(self, camera_id, port, username, password):
         self._camera_id = camera_id
@@ -63,6 +65,17 @@ class MjpgClient(iostream.IOStream):
             
             logging.debug('mjpg client for camera %(camera_id)s on port %(port)s removed' % {
                     'port': self._port, 'camera_id': self._camera_id})
+        
+        if getattr(self, 'error', None):
+            now = time.time()
+            if now - MjpgClient.last_erroneous_close_time < settings.MJPG_CLIENT_TIMEOUT:
+                logging.error('connection problem detected for mjpg client for camera %(camera_id)s on port %(port)s' % {
+                        'port': self._port, 'camera_id': self._camera_id})
+
+                motionctl.stop() # this will close all the mjpg clients
+                motionctl.start()
+
+            MjpgClient.last_erroneous_close_time = now
 
     def _check_error(self):
         if self.socket is None:
@@ -195,11 +208,11 @@ def _garbage_collector():
         delta = delta.days * 86400 + delta.seconds
         
         if delta > settings.MJPG_CLIENT_TIMEOUT:
-            logging.debug('mjpg client timed out receiving data for camera %(camera_id)s on port %(port)s' % {
+            logging.error('mjpg client timed out receiving data for camera %(camera_id)s on port %(port)s' % {
                     'camera_id': camera_id, 'port': port})
             
             motionctl.stop() # this will close all the mjpg clients
-            motionctl.start() # this will close all the mjpg clients
+            motionctl.start()
             
             break
 
