@@ -2583,6 +2583,15 @@ function runAddCameraDialog() {
         }
         else if (deviceSelect.val() == 'netcam') {
             usernameEntry.removeAttr('readonly');
+            
+            /* make sure there is one trailing slash so that
+             * an URI can be detected */
+            var url = urlEntry.val().trim();
+            var m = url.match(new RegExp('/', 'g'));
+            if (m && m.length < 3 && !url.endsWith('/')) {
+                urlEntry.val(url + '/');
+            }
+
             content.find('tr.netcam').css('display', 'table-row');
             addCameraSelect.hide();
         }
@@ -2642,8 +2651,8 @@ function runAddCameraDialog() {
             port = parts[1];
         }
         
-        if (uri == '/') {
-            uri = '';
+        if (uri == '') {
+            uri = '/';
         }
         
         return {

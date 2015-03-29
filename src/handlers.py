@@ -605,8 +605,6 @@ class ConfigHandler(BaseHandler):
             # adjust uri format
             if device_details['uri'] and not device_details['uri'].startswith('/'):
                 device_details['uri'] = '/' + device_details['uri']
-            while device_details['uri'] and device_details['uri'].endswith('/'):
-                device_details['uri'] = device_details['uri'][:-1]
 
         camera_id, camera_config = config.add_camera(device_details)
         camera_config['@id'] = camera_id
