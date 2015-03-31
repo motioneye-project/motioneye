@@ -46,7 +46,7 @@
     </tr>
 {%- endmacro %}
 
-{% block title %}{% if title %}{{title}}{% else %}motionEye{% endif %}{% endblock %}
+{% block title %}{% if title %}{{title}}{% else %}{{hostname}}{% endif %}{% endblock %}
 
 {% block style %}
     {{super()}}

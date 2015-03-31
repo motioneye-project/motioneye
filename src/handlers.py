@@ -154,6 +154,7 @@ class MainHandler(BaseHandler):
                 main_sections=main_sections,
                 camera_sections=camera_sections,
                 hostname=socket.gethostname(),
+                title=self.get_argument('title', None),
                 admin_username=config.get_main().get('@admin_username'),
                 old_motion=config.is_old_motion())
 

@@ -3654,7 +3654,7 @@ $(document).ready(function () {
 
     }
     else {
-        baseUri = qualifyUri('');
+        baseUri = splitUrl(qualifyUri('')).baseUrl;
 
         /* restore the username from cookie */
         window.username = getCookie('username');
