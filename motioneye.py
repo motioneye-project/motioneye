@@ -33,7 +33,7 @@ sys.path.append(os.path.join(getattr(settings, 'PROJECT_PATH', os.path.dirname(s
 
 import update
 
-VERSION = '0.23'
+VERSION = '0.24'
 
 
 def _configure_settings():
