@@ -18,14 +18,18 @@
 import functools
 import json
 import logging
+import re
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 
 import settings
 import utils
 
+_DOUBLE_SLASH_REGEX = re.compile('//+')
+
 
 def _make_request(host, port, username, password, uri, method='GET', data=None, query=None, timeout=None):
+    uri = _DOUBLE_SLASH_REGEX.sub('/', uri)
     url = '%(scheme)s://%(host)s%(port)s%(uri)s' % {
             'scheme': 'http',
             'host': host,
