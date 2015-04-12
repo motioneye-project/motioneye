@@ -46,11 +46,17 @@ function setupCameraFrame() {
         cameraPlaceholder.css('opacity', 0);
         cameraProgress.removeClass('visible');
         
-        if (getCookie('motion_detected_' + cameraId) == 'true') {
-            cameraFrameDiv.addClass('motion-detected');
-        }
-        else {
-            cameraFrameDiv.removeClass('motion-detected');
+        /* there's no point in looking for a cookie update more often than once every second */
+        var now = new Date().getTime();
+        if (!this.lastCookieTime || now - this.lastCookieTime > 1000) {
+            if (getCookie('motion_detected_' + cameraId) == 'true') {
+                cameraFrameDiv.addClass('motion-detected');
+            }
+            else {
+                cameraFrameDiv.removeClass('motion-detected');
+            }
+            
+            this.lastCookieTime = now;
         }
 
         if (this.naturalWidth / this.naturalHeight > body.width() / body.height()) {
@@ -72,8 +78,13 @@ function refreshCameraFrame() {
     var img = $cameraFrame.find('img.camera')[0];
     var cameraId = cameraFrame.id.substring(6);
     
-    /* limit the refresh rate to 20 fps */
-    var count = Math.max(1, 1 / cameraFrame.streamingFramerate * 1000 / refreshInterval);
+    /* at a refresh interval of 50ms, the refresh rate is limited to 20 fps */
+    var count = 1000 / (refreshInterval * cameraFrame.streamingFramerate);
+    if (count <= 2) {
+        /* skipping frames (showing the same frame twice) at this rate won't be visible,
+         * while the effective framerate will be as close as possible to the motion's one */
+        count -= 1;
+    }
     
     if (img.error) {
         /* in case of error, decrease the refresh rate to 1 fps */

@@ -3426,11 +3426,17 @@ function addCameraFrameUi(cameraConfig) {
         cameraPlaceholder.css('opacity', 0);
         cameraProgress.removeClass('visible');
         
-        if (getCookie('motion_detected_' + cameraId) == 'true') {
-            cameraFrameDiv.addClass('motion-detected');
-        }
-        else {
-            cameraFrameDiv.removeClass('motion-detected');
+        /* there's no point in looking for a cookie update more often than once every second */
+        var now = new Date().getTime();
+        if (!this.lastCookieTime || now - this.lastCookieTime > 1000) {
+            if (getCookie('motion_detected_' + cameraId) == 'true') {
+                cameraFrameDiv.addClass('motion-detected');
+            }
+            else {
+                cameraFrameDiv.removeClass('motion-detected');
+            }
+            
+            this.lastCookieTime = now;
         }
 
         if (fullScreenCameraId) {
@@ -3504,7 +3510,7 @@ function doConfigureCamera(cameraId) {
 }
 
 function doFullScreenCamera(cameraId) {
-    if (inProgress || refreshCameraFrames[cameraId]) {
+    if (inProgress || refreshDisabled[cameraId]) {
         return;
     }
     
@@ -3576,7 +3582,7 @@ function refreshCameraFrames() {
         if (img.loading) {
             img.loading++; /* increases each time the camera would refresh but is still loading */
             
-            if (img.loading > 2 * 1000 / refreshInterval) { /* limits the retry at one every two seconds */
+            if (img.loading > 2 * 1000 / refreshInterval) { /* limits the retries to one every two seconds */
                 img.loading = 0;
             }
             else {
@@ -3606,12 +3612,21 @@ function refreshCameraFrames() {
     }
     
     cameraFrames.each(function () {
-        /* limit the refresh rate to 20 fps */
-        var count = Math.max(0, 1 / this.config['streaming_framerate'] * 1000 / refreshInterval);
-        var serverSideResize = this.config['streaming_server_resize'];
-        var img = $(this).find('img.camera')[0];
+        if (!this.img) {
+            this.img = $(this).find('img.camera')[0];
+        }
         
-        if (img.error) {
+        /* at a refresh interval of 50ms, the refresh rate is limited to 20 fps */
+        var count = 1000 / (refreshInterval * this.config['streaming_framerate']);
+        var serverSideResize = this.config['streaming_server_resize'];
+        
+        if (count <= 2) {
+            /* skipping frames (showing the same frame twice) at this rate won't be visible,
+             * while the effective framerate will be as close as possible to the motion's one */
+            count -= 1;
+        }
+        
+        if (this.img.error) {
             /* in case of error, decrease the refresh rate to 1 fps */
             count = 1000 / refreshInterval;
         }
@@ -3621,7 +3636,7 @@ function refreshCameraFrames() {
         }
         else {
             var cameraId = this.id.substring(6);
-            refreshCameraFrame(cameraId, img, serverSideResize);
+            refreshCameraFrame(cameraId, this.img, serverSideResize);
             
             this.refreshDivider = 0;
         }

@@ -24,7 +24,7 @@ LOG_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'log'))
 MEDIA_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'media'))
 
 # path to motion binary (automatically detected if not set)
-MOTION_BINARY = None 
+MOTION_BINARY = None
 
 # set to logging.DEBUG for verbose output
 LOG_LEVEL = logging.INFO
