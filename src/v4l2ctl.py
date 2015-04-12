@@ -17,7 +17,7 @@
 
 import fcntl
 import logging
-import os
+import os.path
 import re
 import stat
 import subprocess
@@ -27,6 +27,8 @@ import time
 _resolutions_cache = {}
 _ctrls_cache = {}
 _ctrl_values_cache = {}
+
+_DEV_V4L_BY_ID = '/dev/v4l/by-id/'
 
 
 def find_v4l2_ctl():
@@ -87,6 +89,7 @@ def list_devices():
     for line in output.split('\n'):
         if line.startswith('\t'):
             device = line.strip()
+            device = find_persistent_device(device)
             devices.append((device, name))
         
             logging.debug('found device %(name)s: %(device)s' % {
@@ -201,6 +204,21 @@ def device_present(device):
 
     except:
         return False
+    
+
+def find_persistent_device(device):
+    try:
+        devs_by_id = os.listdir(_DEV_V4L_BY_ID)
+
+    except OSError:
+        return device
+    
+    for p in devs_by_id:
+        p = os.path.join(_DEV_V4L_BY_ID, p)
+        if os.path.realpath(p) == device:
+            return p
+    
+    return device
 
 
 def get_brightness(device):
