@@ -22,6 +22,7 @@ import os.path
 import re
 import shlex
 import subprocess
+import urlparse
 
 from tornado.ioloop import IOLoop
 
@@ -208,7 +209,7 @@ def has_local_enabled_cameras():
     
     camera_ids = get_camera_ids()
     cameras = [get_camera(camera_id) for camera_id in camera_ids]
-    return bool([c for c in cameras if c.get('@enabled') and utils.local_camera(c)])
+    return bool([c for c in cameras if c.get('@enabled') and utils.local_motion_camera(c)])
 
 
 def get_network_shares():
@@ -270,7 +271,7 @@ def get_camera(camera_id, as_lines=False):
             no_convert=['@name', '@network_share_name', '@network_server',
                         '@network_username', '@network_password', '@storage_device'])
     
-    if utils.local_camera(camera_config):
+    if utils.local_motion_camera(camera_config):
         # determine the enabled status
         main_config = get_main()
         threads = main_config.get('thread', [])
@@ -330,7 +331,7 @@ def set_camera(camera_id, camera_config):
     _camera_config_cache[camera_id] = camera_config
     camera_config = dict(camera_config)
     
-    if utils.local_camera(camera_config):
+    if utils.local_motion_camera(camera_config):
         old_motion = is_old_motion()
         
         # adapt directives to old configuration, if needed
@@ -422,6 +423,21 @@ def add_camera(device_details):
     global _camera_ids_cache
     global _camera_config_cache
     
+    proto = device_details['proto']
+    if proto in ['netcam', 'mjpeg']:
+        host = device_details['host']
+        if device_details['port']:
+            host += ':' + str(device_details['port'])
+
+        if device_details['username'] and proto == 'mjpeg':
+            if device_details['password']:
+                host = device_details['username'] + ':' + device_details['password'] + '@' + host
+                
+            else:
+                host = device_details['username'] + '@' + host
+
+        device_details['url'] = urlparse.urlunparse((device_details['scheme'], host, device_details['uri'], '', '', ''))
+
     # determine the last camera id
     camera_ids = get_camera_ids()
 
@@ -433,14 +449,20 @@ def add_camera(device_details):
     
     # prepare a default camera config
     camera_config = {'@enabled': True}
-    if device_details['proto'] == 'v4l2':
+    if proto == 'v4l2':
+        # find a suitable resolution
+        for (w, h) in v4l2ctl.list_resolutions(device_details['uri']):
+            if w > 300:
+                camera_config['width'] = w
+                camera_config['height'] = h
+                break
+
+        camera_config['videodevice'] = device_details['uri']
         _set_default_motion_camera(camera_id, camera_config)
-        camera_config_ui = camera_dict_to_ui(camera_config)
-        camera_config_ui.update(device_details)
-        camera_config = camera_ui_to_dict(camera_config_ui)
     
-    elif device_details['proto'] == 'motioneye':
+    elif proto == 'motioneye':
         camera_config['@proto'] = 'motioneye'
+        camera_config['@scheme'] = device_details['scheme']
         camera_config['@host'] = device_details['host']
         camera_config['@port'] = device_details['port']
         camera_config['@uri'] = device_details['uri']
@@ -448,12 +470,15 @@ def add_camera(device_details):
         camera_config['@password'] = device_details['password']
         camera_config['@remote_camera_id'] = device_details['remote_camera_id']
 
-    else: # assuming netcam
-        camera_config['netcam_url'] = 'http://dummy' # used only to identify it as a netcam
+    elif proto == 'netcam':
+        camera_config['netcam_url'] = device_details['url']
+        if device_details['username']:
+            camera_config['netcam_userpass'] = device_details['username'] + ':' + device_details['password']
         _set_default_motion_camera(camera_id, camera_config)
-        camera_config_ui = camera_dict_to_ui(camera_config)
-        camera_config_ui.update(device_details)
-        camera_config = camera_ui_to_dict(camera_config_ui)
+
+    else: # assuming mjpeg
+        camera_config['@proto'] = 'mjpeg'
+        camera_config['@url'] = device_details['url']
 
     # write the configuration to file
     set_camera(camera_id, camera_config)
@@ -539,7 +564,8 @@ def main_dict_to_ui(data):
     return ui
 
 
-def camera_ui_to_dict(ui):
+def camera_ui_to_dict(ui, old_config=None):
+    old_config = dict(old_config or {})
     main_config = get_main() # needed for surveillance password
 
     data = {
@@ -607,9 +633,14 @@ def camera_ui_to_dict(ui):
         'on_event_end': ''
     }
     
-    if ui['proto'] == 'v4l2':
-        # device
-        data['videodevice'] = ui['uri']
+    if utils.v4l2_camera(old_config):
+        proto = 'v4l2'
+        
+    else:
+        proto = 'netcam'
+    
+    if proto == 'v4l2':
+        # leave videodevice unchanged
         
         # resolution
         if not ui['resolution']:
@@ -650,17 +681,9 @@ def camera_ui_to_dict(ui):
             else:
                 data['hue'] = max(1, int(round(int(ui['hue']) * 2.55)))
     
-    else: # assuming http/netcam
-        # device
-        data['netcam_url'] = ui['proto'] + '://' + ui['host']
-        if ui['port']:
-            data['netcam_url'] += ':' + str(ui['port'])
-        
-        data['netcam_url'] += ui['uri']
-        
-        if ui['username'] or ui['password']:
-            data['netcam_userpass'] = (ui['username'] or '') + ':' + (ui['password'] or '')
-
+    else: # assuming netcam
+        # leave netcam_url unchanged
+        # leave netcam_userpass unchanged
         data['netcam_keepalive'] = True
         data['netcam_tolerant_check'] = True
 
@@ -714,7 +737,7 @@ def camera_ui_to_dict(ui):
         else:
             data['text_right'] = ui['custom_right_text']
         
-        if ui['proto'] != 'v4l2' or data['width'] > 320:
+        if proto == 'netcam' or data['width'] > 320:
             data['text_double'] = True
     
     if ui['still_images']:
@@ -735,10 +758,10 @@ def camera_ui_to_dict(ui):
         data['quality'] = max(1, int(ui['image_quality']))
     
     if ui['motion_movies']:
-        if ui['proto'] == 'v4l2':
+        if proto == 'v4l2':
             max_val = data['width'] * data['height'] * data['framerate'] / 3
         
-        else:
+        else: # always assume netcam image size of (640x480) - we have no means to test it
             max_val = 640 * 480 * data['framerate'] / 3
             
         max_val = min(max_val, 9999999)
@@ -811,7 +834,9 @@ def camera_ui_to_dict(ui):
     for name, value in extra_options:
         data[name] = value or ''
 
-    return data
+    old_config.update(data)
+
+    return old_config
 
 
 def camera_dict_to_ui(data):
@@ -893,44 +918,16 @@ def camera_dict_to_ui(data):
     }
     
     if utils.net_camera(data):
-        netcam_url = data.get('netcam_url')
-        proto, rest = netcam_url.split('://')
-        parts = rest.split('/', 1)
-        if len(parts) > 1:
-            host_port, uri = parts[:2]
-            uri = '/' + uri
-        
-        else:
-            host_port, uri = rest, ''
-        
-        parts = host_port.split(':')
-        if len(parts) > 1:
-            host, port = parts[:2]
-        
-        else:
-            host, port = host_port, ''
+        ui['device_url'] = data['netcam_url']
+        ui['proto'] = 'netcam'
 
-        ui['proto'] = proto
-        ui['host'] = host
-        ui['port'] = port
-        ui['uri'] = uri
-        
-        userpass = data.get('netcam_userpass')
-        if userpass:
-            ui['username'], ui['password'] = userpass.split(':', 1)
-        
-        else:
-            ui['username'], ui['password'] = '', ''
-        
         # width & height are not available for netcams,
         # we have no other choice but use something like 640x480 as reference
         threshold = data['threshold'] * 100.0 / (640 * 480)
     
     else: # assuming v4l2
+        ui['device_url'] = data['videodevice']
         ui['proto'] = 'v4l2'
-        ui['host'], ui['port'] = None, None
-        ui['uri'] = data['videodevice']
-        ui['username'], ui['password'] = None, None
 
         # resolutions
         resolutions = v4l2ctl.list_resolutions(data['videodevice'])
@@ -940,7 +937,7 @@ def camera_dict_to_ui(data):
         # the brightness & co. keys in the ui dictionary
         # indicate the presence of these controls
         # we must call v4l2ctl functions to determine the available controls    
-        brightness = v4l2ctl.get_brightness(ui['uri'])
+        brightness = v4l2ctl.get_brightness(data['videodevice'])
         if brightness is not None: # has brightness control
             if data.get('brightness', 0) != 0:
                 ui['brightness'] = brightness
@@ -948,7 +945,7 @@ def camera_dict_to_ui(data):
             else:
                 ui['brightness'] = 50
 
-        contrast = v4l2ctl.get_contrast(ui['uri'])
+        contrast = v4l2ctl.get_contrast(data['videodevice'])
         if contrast is not None: # has contrast control
             if data.get('contrast', 0) != 0:
                 ui['contrast'] = contrast
@@ -956,7 +953,7 @@ def camera_dict_to_ui(data):
             else:
                 ui['contrast'] = 50
             
-        saturation = v4l2ctl.get_saturation(ui['uri'])
+        saturation = v4l2ctl.get_saturation(data['videodevice'])
         if saturation is not None: # has saturation control
             if data.get('saturation', 0) != 0:
                 ui['saturation'] = saturation
@@ -964,7 +961,7 @@ def camera_dict_to_ui(data):
             else:
                 ui['saturation'] = 50
             
-        hue = v4l2ctl.get_hue(ui['uri'])
+        hue = v4l2ctl.get_hue(data['videodevice'])
         if hue is not None: # has hue control
             if data.get('hue', 0) != 0:
                 ui['hue'] = hue
@@ -1062,7 +1059,7 @@ def camera_dict_to_ui(data):
         if utils.v4l2_camera(data):
             max_val = data['width'] * data['height'] * data['framerate'] / 3
         
-        else:
+        else: # net camera
             max_val = 640 * 480 * data['framerate'] / 3
             
         max_val = min(max_val, 9999999)

@@ -521,6 +521,10 @@ span#cameraMsgLabel {
     font-size: 0.7em;
 }
 
+div#addCameraInfo {
+    font-size: 0.7em;
+    max-width: 33em;
+}
 
 div.media-dialog {
 }

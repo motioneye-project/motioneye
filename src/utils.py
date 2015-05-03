@@ -210,13 +210,22 @@ def pretty_size(size):
     return '%.1f %s' % (size, unit)
 
 
-def pretty_http_error(http_error):
-    msg = unicode(http_error)
+def pretty_http_error(response):
+    if response.code == 401 or response.error == 'Authentication Error':
+        return 'authentication failed'
+
+    if not response.error:
+        return 'ok'
+    
+    msg = unicode(response.error)
     if msg.startswith('HTTP '):
         msg = msg.split(':', 1)[-1].strip()
 
     if msg.startswith('[Errno '):
         msg = msg.split(']', 1)[-1].strip()
+    
+    if 'timeout' in msg.lower() or 'timed out' in msg.lower():
+        msg = 'request timed out' 
 
     return msg
 
@@ -244,40 +253,48 @@ def get_disk_usage(path):
     return (used_size, total_size)
 
 
-def local_camera(config):
+def local_motion_camera(config):
+    '''Tells if a camera is managed by the local motion instance.'''
     return bool(config.get('videodevice') or config.get('netcam_url'))
 
 
 def remote_camera(config):
+    '''Tells if a camera is managed by a remote motionEye server.'''
     return config.get('@proto') == 'motioneye'
 
 
 def v4l2_camera(config):
+    '''Tells if a camera is a v4l2 device managed by the local motion instance.'''
     return bool(config.get('videodevice'))
 
 
 def net_camera(config):
+    '''Tells if a camera is a network camera managed by the local motion instance.'''
     return bool(config.get('netcam_url'))
 
 
-def test_netcam_url(data, callback):
+def simple_mjpeg_camera(config):
+    '''Tells if a camera is a simple MJPEG camera not managed by any motion instance.'''
+    return bool(config.get('@proto') == 'mjpeg')
+
+
+def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
     data = dict(data)
-    data.setdefault('proto', 'http')
+    data.setdefault('scheme', 'http')
     data.setdefault('host', '127.0.0.1')
     data.setdefault('port', '80')
     data.setdefault('uri', '')
     data.setdefault('username', None)
     data.setdefault('password', None)
 
-    url = '%(proto)s://%(host)s%(port)s%(uri)s' % {
-            'proto': data['proto'],
+    url = '%(scheme)s://%(host)s%(port)s%(uri)s' % {
+            'scheme': data['scheme'],
             'host': data['host'],
             'port': ':' + str(data['port']) if data['port'] else '',
             'uri': data['uri'] or ''}
     
     called = [False]
     status_2xx = [False]
-    auth_modes = ['basic'] # 'digest' netcams are not supported by motion yet
 
     def on_header(header):
         header = header.lower()
@@ -285,14 +302,14 @@ def test_netcam_url(data, callback):
             content_type = header.split(':')[1].strip()
             called[0] = True
 
-            if content_type in ['image/jpg', 'image/jpeg', 'image/pjpg']:
+            if content_type in ['image/jpg', 'image/jpeg', 'image/pjpg'] and allow_jpeg:
                 callback([{'id': 1, 'name': 'JPEG Network Camera'}])
             
             elif content_type.startswith('multipart/x-mixed-replace'):
                 callback([{'id': 1, 'name': 'MJPEG Network Camera'}])
             
             else:
-                callback(error='not a network camera')
+                callback(error='not a supported network camera')
 
         else:
             # check for the status header
@@ -324,7 +341,7 @@ def test_netcam_url(data, callback):
                 
             else:
                 called[0] = True
-                callback(error=pretty_http_error(response.error) if response.error else 'not a network camera')
+                callback(error=pretty_http_error(response) if response.error else 'not a supported network camera')
     
     username = data['username'] or None
     password = data['password'] or None

@@ -176,6 +176,9 @@ input[type=text].time {
     width: 3.5em;
 }
 
+input[disabled] {
+    border: 1px solid #555 !important;
+}
 
     /* combo box */
 
@@ -408,6 +411,12 @@ td.dialog-item-value {
 
 span.dialog-item-label {
     font-size: 0.9em;    
+}
+
+div.dialog-item-separator {
+    height: 1px;
+    border-top: 1px solid #414141;
+    margin: 0.5em 1em;
 }
 
    

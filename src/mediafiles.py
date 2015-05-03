@@ -153,7 +153,7 @@ def cleanup_media(media_type):
         
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
-        if not utils.local_camera(camera_config):
+        if not utils.local_motion_camera(camera_config):
             continue
         
         preserve_media = camera_config.get('@preserve_%(media_type)ss' % {'media_type': media_type}, 0)
@@ -239,7 +239,7 @@ def make_next_movie_preview():
         count = 0
         for camera_id in config.get_camera_ids():
             camera_config = config.get_camera(camera_id)
-            if not utils.local_camera(camera_config):
+            if not utils.local_motion_camera(camera_config):
                 continue
             
             target_dir = camera_config['target_dir']

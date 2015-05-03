@@ -72,7 +72,7 @@ def find_motion():
 def _disable_initial_motion_detection():
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
-        if not utils.local_camera(camera_config):
+        if not utils.local_motion_camera(camera_config):
             continue
 
         if not camera_config['@motion_detection']:
@@ -253,7 +253,7 @@ def set_motion_detection(camera_id, enabled):
             logging.error('failed to %(what)s motion detection for camera with id %(id)s: %(msg)s' % {
                     'what': ['disable', 'enable'][enabled],
                     'id': camera_id,
-                    'msg': utils.pretty_http_error(response.error)})
+                    'msg': utils.pretty_http_error(response)})
         
         else:
             logging.debug('successfully %(what)s motion detection for camera with id %(id)s' % {
@@ -276,7 +276,7 @@ def _get_thread_id(camera_id):
     thread_id = 0
     for cid in camera_ids:
         camera_config = config.get_camera(cid)
-        if utils.local_camera(camera_config):
+        if utils.local_motion_camera(camera_config):
             thread_id += 1
         
         if cid == camera_id:
