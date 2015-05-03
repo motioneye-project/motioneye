@@ -17,6 +17,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import datetime
+import imp
 import inspect
 import logging
 import multiprocessing
@@ -27,10 +28,15 @@ import sys
 
 from tornado.httpclient import AsyncHTTPClient
 
+# test if a --settings directive has been supplied
+for i in xrange(1, len(sys.argv) - 1):
+    if sys.argv[i] == '--settings':
+        settings_module = sys.argv[i + 1]
+        imp.load_source('settings', settings_module)
+
+sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), 'src'))
+
 import settings
-
-sys.path.append(os.path.join(getattr(settings, 'PROJECT_PATH', os.path.dirname(sys.argv[0])), 'src'))
-
 import update
 
 VERSION = '0.24'
@@ -269,6 +275,8 @@ def _print_help():
     print('available options: ')
     
     options = list(inspect.getmembers(settings))
+    
+    print('    --settings <module>')
     
     for (name, value) in sorted(options):
         if name.upper() != name:
