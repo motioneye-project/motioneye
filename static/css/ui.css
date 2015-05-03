@@ -176,7 +176,7 @@ input[type=text].time {
     width: 3.5em;
 }
 
-input[disabled] {
+input[readonly] {
     border: 1px solid #555 !important;
 }
 

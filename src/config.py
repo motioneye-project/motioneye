@@ -472,6 +472,7 @@ def add_camera(device_details):
 
     elif proto == 'netcam':
         camera_config['netcam_url'] = device_details['url']
+        camera_config['text_double'] = True
         if device_details['username']:
             camera_config['netcam_userpass'] = device_details['username'] + ':' + device_details['password']
         _set_default_motion_camera(camera_id, camera_config)

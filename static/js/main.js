@@ -469,7 +469,7 @@ function initUI() {
         makeSlider($this, Number($tr.attr('min')), Number($tr.attr('max')),
                 Number($tr.attr('snap')), ticks, Number($tr.attr('ticksnum')), Number($tr.attr('decimals')), $tr.attr('unit'));
     });
-
+    
     /* progress bars */
     makeProgressBar($('div.progress-bar'));
 
@@ -670,6 +670,16 @@ function initUI() {
     });
     $('input.camera-config, select.camera-config, div[contenteditable=true].camera-config').change(function () {
         pushCameraConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
+    });
+    
+    /* streaming framerate must be >= device framerate */
+    $('#framerateSlider').change(function (val) {
+        var value = Number($('#framerateSlider').val());
+        var streamingValue = Number($('#streamingFramerateSlider').val());
+        
+        if (streamingValue < value) {
+            $('#streamingFramerateSlider').val(value).change();
+        }
     });
     
     /* preview controls */
@@ -1465,11 +1475,11 @@ function dict2CameraUi(dict) {
     var mjpgUrl = location.protocol + '//' + location.host.split(':')[0] + ':' + dict.streaming_port;
     var embedUrl = cameraUrl + 'frame/';
 
-    if (dict.proto == 'motioneye') { // TODO what about other protocols
+    if (dict.proto == 'motioneye') {
         /* cannot tell the mjpg streaming url for a remote motionEye camera */
         mjpgUrl = '';
     }
-    
+
     if ($('#normalPasswordEntry').val()) { /* anonymous access is disabled */ 
         snapshotUrl = addAuthParams('GET', snapshotUrl);
         if (mjpgUrl) {
