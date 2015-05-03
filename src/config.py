@@ -314,6 +314,9 @@ def get_camera(camera_id, as_lines=False):
     elif utils.remote_camera(camera_config):
         pass
     
+    elif utils.simple_mjpeg_camera(camera_config):
+        pass
+    
     else: # incomplete configuration
         logging.warn('camera config file at %s is incomplete, ignoring' % camera_config_path)
         
@@ -489,7 +492,7 @@ def add_camera(device_details):
     
     camera_config = get_camera(camera_id)
     
-    return camera_id, camera_config
+    return camera_config
 
 
 def rem_camera(camera_id):

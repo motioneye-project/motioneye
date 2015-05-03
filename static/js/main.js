@@ -2575,7 +2575,7 @@ function runAddCameraDialog() {
                     '<td colspan="100"><div class="dialog-item-separator"></div></td>' +
                 '</tr>' +
                 '<tr class="motioneye netcam mjpeg">' +
-                    '<td class="dialog-item-value" colspan="100"><div id="addCameraInfo">blah blah sdfsdf ana are mere multe verzi si vesele si mari</div></td>' +
+                    '<td class="dialog-item-value" colspan="100"><div id="addCameraInfo"></div></td>' +
                 '</tr>' +
             '</table>');
     
@@ -2639,7 +2639,7 @@ function runAddCameraDialog() {
             addCameraSelect.hide();
             addCameraInfo.html(
                     'Adding your device as a simple MJPEG camera instead of as a network camera will improve the framerate, ' +
-                    'but no motion detection or other advanced features will be available for it. ' +
+                    'but no motion detection, picture capturing or movie recording will be available for it. ' +
                     'The camera must be accessible to both your server and your browser. ' +
                     'This type of camera is not compatible with Internet Explorer.');
         }
@@ -2773,7 +2773,7 @@ function runAddCameraDialog() {
         
         deviceSelect.append('<option value="netcam">Network camera...</option>');
         deviceSelect.append('<option value="motioneye">Remote motionEye camera...</option>');
-        //deviceSelect.append('<option value="mjpeg">Simple MJPEG camera...</option>');
+        deviceSelect.append('<option value="mjpeg">Simple MJPEG camera...</option>');
         
         updateUi();
         
