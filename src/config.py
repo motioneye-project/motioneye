@@ -123,6 +123,8 @@ def set_main(main_config):
     
     main_config = dict(main_config)
     _set_default_motion(main_config, old_motion=is_old_motion())
+    for n, v in _main_config_cache.iteritems():
+        main_config.setdefault(n, v)
     _main_config_cache = main_config
     
     main_config = dict(main_config)
@@ -1610,7 +1612,7 @@ def _get_additional_config(data, camera):
 
 def _set_additional_config(data, camera):
     (sections, configs) = get_additional_structure(camera)
-
+    
     set_func_values = {}
     for name, section in sections.iteritems():
         if not section.get('set'):
