@@ -110,7 +110,7 @@ def get_main(as_lines=False):
             list_names=['thread'],
             no_convert=['@admin_username', '@admin_password', '@normal_username', '@normal_password'])
     
-    _get_additional_config(main_config, camera=False)
+    _get_additional_config(main_config)
     _set_default_motion(main_config, old_motion=is_old_motion())
     
     _main_config_cache = main_config
@@ -128,7 +128,7 @@ def set_main(main_config):
     _main_config_cache = main_config
     
     main_config = dict(main_config)
-    _set_additional_config(main_config, camera=False)
+    _set_additional_config(main_config)
 
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
     
@@ -311,6 +311,7 @@ def get_camera(camera_id, as_lines=False):
             if 'netcam_http' in camera_config:
                 camera_config['netcam_keepalive'] = camera_config.pop('netcam_http') in ['1.1', 'keepalive']
 
+        _get_additional_config(camera_config, camera_id=camera_id)
         _set_default_motion_camera(camera_id, camera_config)
     
     elif utils.remote_camera(camera_config):
@@ -334,6 +335,7 @@ def set_camera(camera_id, camera_config):
 
     camera_config['@id'] = camera_id
     _camera_config_cache[camera_id] = camera_config
+
     camera_config = dict(camera_config)
     
     if utils.local_motion_camera(camera_config):
@@ -387,6 +389,8 @@ def set_camera(camera_id, camera_config):
         main_config['thread'] = threads
         
         set_main(main_config)
+    
+    _set_additional_config(camera_config, camera_id=camera_id)
         
     # read the actual configuration from file
     config_file_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
@@ -1584,10 +1588,12 @@ def get_additional_structure(camera, separators=False):
     return _additional_structure_cache[(camera, separators)]
 
 
-def _get_additional_config(data, camera):
-    (sections, configs) = get_additional_structure(camera)
+def _get_additional_config(data, camera_id=None):
+    args = [camera_id] if camera_id else []
+    
+    (sections, configs) = get_additional_structure(camera=bool(camera_id))
     get_funcs = set([c.get('get') for c in configs.itervalues() if c.get('get')])
-    get_func_values = dict((f, f()) for f in get_funcs)
+    get_func_values = dict((f, f(*args)) for f in get_funcs)
 
     for name, section in sections.iteritems():
         if not section.get('get'):
@@ -1610,8 +1616,10 @@ def _get_additional_config(data, camera):
             data['@_' + name] = get_func_values.get(config['get']) 
 
 
-def _set_additional_config(data, camera):
-    (sections, configs) = get_additional_structure(camera)
+def _set_additional_config(data, camera_id=None):
+    args = [camera_id] if camera_id else []
+
+    (sections, configs) = get_additional_structure(camera=bool(camera_id))
     
     set_func_values = {}
     for name, section in sections.iteritems():
@@ -1641,4 +1649,4 @@ def _set_additional_config(data, camera):
             set_func_values[config['set']] = data['@_' + name]
 
     for func, value in set_func_values.iteritems():
-        func(value)
+        func(*(args + [value]))
