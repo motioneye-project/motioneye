@@ -755,20 +755,30 @@ function isSettingsOpen() {
 function updateConfigUi() {
     var objs = $('tr.settings-item, div.advanced-setting, table.advanced-setting, div.settings-section-title, table.settings');
     
-    function markHide() {
-        this._hide = true;
+    function markHideLogic() {
+        this._hideLogic = true;
+    }
+    
+    function markHideAdvanced() {
+        this._hideAdvanced = true;
+    }
+    
+    function markHideMinimized() {
+        this._hideMinimized = true;
     }
     
     function unmarkHide() {
-        this._hide = false;
+        this._hideLogic = false;
+        this._hideAdvanced = false;
+        this._hideMinimized = false;
     }
     
     objs.each(unmarkHide);
     
-    /* sliders */
+    /* hide sliders that, for some reason, don't have a value */
     $('input.range').each(function () {
-        if  (this.value === '' || this.value == null) {
-            $(this).parents('tr:eq(0)').each(markHide);
+        if  (this.value == '') {
+            $(this).parents('tr:eq(0)').each(markHideLogic);
         }
     });
 
@@ -776,158 +786,140 @@ function updateConfigUi() {
     $('span.minimize').each(function () {
         var $this = $(this);
         if (!$this.hasClass('open')) {
-            $this.parent().next('table.settings').find('tr').each(markHide);
+            $this.parent().next('table.settings').find('tr').each(markHideMinimized);
         }
     });
 
     /* general enable switch */
     var motionEyeEnabled = $('#motionEyeSwitch').get(0).checked;
     if (!motionEyeEnabled) {
-        objs.not($('#motionEyeSwitch').parents('div').get(0)).each(markHide);
+        objs.not($('#motionEyeSwitch').parents('div').get(0)).each(markHideLogic);
     }
     
     if ($('#cameraSelect').find('option').length < 2) { /* no camera configured */
-        $('#videoDeviceSwitch').parent().each(markHide);
-        $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHide);
+        $('#videoDeviceSwitch').parent().each(markHideLogic);
+        $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
     
     if ($('#videoDeviceSwitch')[0].error) { /* config error */
-        $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHide);
+        $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
         
     /* advanced settings */
     var showAdvanced = $('#showAdvancedSwitch').get(0).checked;
     if (!showAdvanced) {
-        $('tr.advanced-setting, div.advanced-setting, table.advanced-setting').each(markHide);
+        $('tr.advanced-setting, div.advanced-setting, table.advanced-setting').each(markHideAdvanced);
     }
     
-    /* video device */
-    if ($('#brightnessSlider').val() == '') {
-        $('#brightnessSlider').parents('tr:eq(0)').each(markHide);
-    }
-    if ($('#contrastSlider').val() == '') {
-        $('#contrastSlider').parents('tr:eq(0)').each(markHide);
-    }
-    if ($('#saturationSlider').val() == '') {
-        $('#saturationSlider').parents('tr:eq(0)').each(markHide);
-    }
-    if ($('#hueSlider').val() == '') {
-        $('#hueSlider').parents('tr:eq(0)').each(markHide);
-    }
-    if ($('#contrastSlider').val() == '') {
-        $('#contrastSlider').parents('tr:eq(0)').each(markHide);
-    }
+    /* hide resolution select if no resolution is selected (none matches) */
     if ($('#resolutionSelect')[0].selectedIndex == -1) {
-        $('#resolutionSelect').parents('tr:eq(0)').each(markHide);
+        $('#resolutionSelect').parents('tr:eq(0)').each(markHideLogic);
     }
 
     /* storage device */
     if ($('#storageDeviceSelect').val() !== 'network-share') {
-        $('#networkServerEntry').parents('tr:eq(0)').each(markHide);
-        $('#networkUsernameEntry').parents('tr:eq(0)').each(markHide);
-        $('#networkPasswordEntry').parents('tr:eq(0)').each(markHide);
-        $('#networkShareNameEntry').parents('tr:eq(0)').each(markHide);
+        $('#networkServerEntry').parents('tr:eq(0)').each(markHideLogic);
+        $('#networkUsernameEntry').parents('tr:eq(0)').each(markHideLogic);
+        $('#networkPasswordEntry').parents('tr:eq(0)').each(markHideLogic);
+        $('#networkShareNameEntry').parents('tr:eq(0)').each(markHideLogic);
     }
     
     /* text */
     if ($('#leftTextSelect').val() !== 'custom-text') {
-        $('#leftTextEntry').parents('tr:eq(0)').each(markHide);
+        $('#leftTextEntry').parents('tr:eq(0)').each(markHideLogic);
     }
     if ($('#rightTextSelect').val() !== 'custom-text') {
-        $('#rightTextEntry').parents('tr:eq(0)').each(markHide);
+        $('#rightTextEntry').parents('tr:eq(0)').each(markHideLogic);
     }
     
     /* still images capture mode */
     if ($('#captureModeSelect').val() !== 'interval-snapshots') {
-        $('#snapshotIntervalEntry').parents('tr:eq(0)').each(markHide);
+        $('#snapshotIntervalEntry').parents('tr:eq(0)').each(markHideLogic);
     }
     
     /* auto noise level */
     if ($('#autoNoiseDetectSwitch').get(0).checked) {
-        $('#noiseLevelSlider').parents('tr:eq(0)').each(markHide);
+        $('#noiseLevelSlider').parents('tr:eq(0)').each(markHideLogic);
     }
     
     /* video device switch */
     if (!$('#videoDeviceSwitch').get(0).checked) {
-        $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHide);
+        $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
     
     /* text overlay switch */
     if (!$('#textOverlaySwitch').get(0).checked) {
-        $('#textOverlaySwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+        $('#textOverlaySwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
     }
     
     /* video streaming */
     if (!$('#videoStreamingSwitch').get(0).checked) {
-        $('#videoStreamingSwitch').parent().next('table.settings').find('tr.settings-item').not('.local-streaming').each(markHide);
-    }
-    if (!$('#streamingSnapshotUrlEntry').val()) {
-        $('#streamingSnapshotUrlEntry').parents('tr:eq(0)').each(markHide);
-    }
-    if (!$('#streamingMjpgUrlEntry').val()) {
-        $('#streamingMjpgUrlEntry').parents('tr:eq(0)').each(markHide);
-    }
-    if (!$('#streamingEmbedUrlEntry').val()) {
-        $('#streamingEmbedUrlEntry').parents('tr:eq(0)').each(markHide);
+        $('#videoStreamingSwitch').parent().next('table.settings').find('tr.settings-item').not('.local-streaming').each(markHideLogic);
     }
     if (!$('#streamingServerResizeSwitch').get(0).checked) {
-        $('#streamingResolutionSlider').parents('tr:eq(0)').each(markHide);
+        $('#streamingResolutionSlider').parents('tr:eq(0)').each(markHideLogic);
     }
     
     /* still images switch */
     if (!$('#stillImagesSwitch').get(0).checked) {
-        $('#stillImagesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+        $('#stillImagesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
     }
     
     /* preserve pictures */
     if ($('#preservePicturesSelect').val() != '-1') {
-        $('#picturesLifetimeEntry').parents('tr:eq(0)').each(markHide);
+        $('#picturesLifetimeEntry').parents('tr:eq(0)').each(markHideLogic);
     }
     
     /* motion detection switch */
     if (!$('#motionDetectionSwitch').get(0).checked) {
-        $('#motionDetectionSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
-        $('#motionMoviesSwitch').parent().each(markHide);
-        $('#motionMoviesSwitch').parent().next('table.settings').each(markHide);
-        $('#emailNotificationsSwitch').parents('table.settings:eq(0)').each(markHide);
-        $('#emailNotificationsSwitch').parents('table.settings:eq(0)').prev().each(markHide);
-        $('#workingScheduleSwitch').parent().each(markHide);
-        $('#workingScheduleSwitch').parent().next('table.settings').each(markHide);
+        $('#motionDetectionSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
+        
+        /* hide the entire motion movies section */
+        $('#motionMoviesSwitch').parent().each(markHideLogic);
+        $('#motionMoviesSwitch').parent().next('table.settings').each(markHideLogic);
+        
+        /* hide the entire notifications section */
+        $('#emailNotificationsSwitch').parents('table.settings').prev().each(markHideLogic);
+        $('#emailNotificationsSwitch').parents('table.settings').each(markHideLogic);
+        
+        /* hide the entire working schedule section */
+        $('#workingScheduleSwitch').parent().each(markHideLogic);
+        $('#workingScheduleSwitch').parent().next('table.settings').each(markHideLogic);
     }
     
     /* motion movies switch */
     if (!$('#motionMoviesSwitch').get(0).checked) {
-        $('#motionMoviesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+        $('#motionMoviesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
     }
     
     /* preserve movies */
     if ($('#preserveMoviesSelect').val() != '-1') {
-        $('#moviesLifetimeEntry').parents('tr:eq(0)').each(markHide);
+        $('#moviesLifetimeEntry').parents('tr:eq(0)').each(markHideLogic);
     }
     
     /* event notifications */
     if (!$('#emailNotificationsSwitch').get(0).checked) {
-        $('#emailAddressesEntry').parents('tr:eq(0)').each(markHide);
-        $('#smtpServerEntry').parents('tr:eq(0)').each(markHide);
-        $('#smtpPortEntry').parents('tr:eq(0)').each(markHide);
-        $('#smtpAccountEntry').parents('tr:eq(0)').each(markHide);
-        $('#smtpPasswordEntry').parents('tr:eq(0)').each(markHide);
-        $('#smtpTlsSwitch').parents('tr:eq(0)').each(markHide);
-        $('#emailPictureTimeSpanEntry').parents('tr:eq(0)').each(markHide);
+        $('#emailAddressesEntry').parents('tr:eq(0)').each(markHideLogic);
+        $('#smtpServerEntry').parents('tr:eq(0)').each(markHideLogic);
+        $('#smtpPortEntry').parents('tr:eq(0)').each(markHideLogic);
+        $('#smtpAccountEntry').parents('tr:eq(0)').each(markHideLogic);
+        $('#smtpPasswordEntry').parents('tr:eq(0)').each(markHideLogic);
+        $('#smtpTlsSwitch').parents('tr:eq(0)').each(markHideLogic);
+        $('#emailPictureTimeSpanEntry').parents('tr:eq(0)').each(markHideLogic);
     }
     
     if (!$('#webHookNotificationsSwitch').get(0).checked) {
-        $('#webHookUrlEntry').parents('tr:eq(0)').each(markHide);
-        $('#webHookHttpMethodSelect').parents('tr:eq(0)').each(markHide);
+        $('#webHookUrlEntry').parents('tr:eq(0)').each(markHideLogic);
+        $('#webHookHttpMethodSelect').parents('tr:eq(0)').each(markHideLogic);
     }
 
     if (!$('#commandNotificationsSwitch').get(0).checked) {
-        $('#commandNotificationsEntry').parents('tr:eq(0)').each(markHide);
+        $('#commandNotificationsEntry').parents('tr:eq(0)').each(markHideLogic);
     }
 
     /* working schedule */
     if (!$('#workingScheduleSwitch').get(0).checked) {
-        $('#workingScheduleSwitch').parent().next('table.settings').find('tr.settings-item').each(markHide);
+        $('#workingScheduleSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
     }
     
     /* additional configs */
@@ -975,10 +967,36 @@ function updateConfigUi() {
         });
         
         if (!conditionOk) {
-            $tr.each(markHide);
+            $tr.each(markHideLogic);
         }
     });
+    
+    /* hide sections that have no visible configs and no switch */
+    $('div.settings-section-title').each(function () {
+        var $this = $(this);
+        var $table = $this.next();
+        var controls = $table.find('input, select');
 
+        if ($this.children('input[type=checkbox]').length) {
+            return; /* has switch */
+        }
+
+        for (var i = 0; i < controls.length; i++) {
+            var control = $(controls[i]);
+            var tr = control.parents('tr:eq(0)')[0];
+            if (!tr._hideLogic && !tr._hideAdvanced && !tr._hideNull) {
+                return; /* has visible controls */
+            }
+        }
+
+        $table.find('div.settings-item-separator').each(function () {
+            $(this).parent().parent().each(markHideLogic);
+        });
+
+        $this.each(markHideLogic);
+        $table.each(markHideLogic);
+    });
+    
     var weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     weekDays.forEach(function (weekDay) {
         var check = $('#' + weekDay + 'EnabledSwitch');
@@ -991,7 +1009,7 @@ function updateConfigUi() {
     });
     
     objs.each(function () {
-        if (this._hide) {
+        if (this._hideLogic || this._hideAdvanced || this._hideMinimized || this._hideNull /* from dict2ui */) {
             $(this).hide(200);
         }
         else {
@@ -1335,6 +1353,19 @@ function dict2CameraUi(dict) {
     else {
         $('#videoDeviceSwitch')[0].error = false;
     }
+
+    function markHideIfNull(field, elemId) {
+        if (field == null || dict[field] == null) {
+            var elem = $('#' + elemId);
+            var sectionDiv = elem.parents('tr:eq(0), div.settings-section-title:eq(0)');
+            if (sectionDiv.length) { /* element is a section */
+                sectionDiv.add(sectionDiv.next()).each(function () {this._hideNull = true;});
+            }
+            else { /* element is a config option */
+                elem.parents('tr:eq(0)').each(function () {this._hideNull = true;});
+            }
+        }
+    }
     
     /* video device */
     var prettyType = '';
@@ -1356,40 +1387,17 @@ function dict2CameraUi(dict) {
             break;
     }
     
-    $('#videoDeviceSwitch')[0].checked = dict['enabled'];
-    $('#deviceNameEntry').val(dict['name']);
-    $('#deviceUriEntry').val(dict['device_url']);
-    $('#deviceTypeEntry').val(prettyType);
-    $('#lightSwitchDetectSwitch')[0].checked = dict['light_switch_detect'];
-    $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness'];
+    $('#videoDeviceSwitch')[0].checked = dict['enabled']; markHideIfNull('enabled', 'videoDeviceSwitch');
+    $('#deviceNameEntry').val(dict['name']); markHideIfNull('name', 'deviceNameEntry');
+    $('#deviceUriEntry').val(dict['device_url']); markHideIfNull('device_url', 'deviceUriEntry');
+    $('#deviceTypeEntry').val(prettyType); markHideIfNull(prettyType, 'deviceTypeEntry');
+    $('#lightSwitchDetectSwitch')[0].checked = dict['light_switch_detect']; markHideIfNull('light_switch_detect', 'lightSwitchDetectSwitch');
+    $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness']; markHideIfNull('auto_brightness', 'autoBrightnessSwitch');
     
-    if (dict['brightness'] != null) {
-        $('#brightnessSlider').val(dict['brightness']);
-    }
-    else {
-        $('#brightnessSlider').val('');
-    }
-    
-    if (dict['contrast'] != null) {
-        $('#contrastSlider').val(dict['contrast']);
-    }
-    else {
-        $('#contrastSlider').val('');
-    }
-    
-    if (dict['saturation'] != null) {
-        $('#saturationSlider').val(dict['saturation']);
-    }
-    else {
-        $('#saturationSlider').val('');
-    }
-    
-    if (dict['hue'] != null) {
-        $('#hueSlider').val(dict['hue']);
-    }
-    else {
-        $('#hueSlider').val('');
-    }
+    $('#brightnessSlider').val(dict['brightness']); markHideIfNull('brightness', 'brightnessSlider');
+    $('#contrastSlider').val(dict['contrast']); markHideIfNull('contrast', 'contrastSlider');
+    $('#saturationSlider').val(dict['saturation']); markHideIfNull('saturation', 'saturationSlider');
+    $('#hueSlider').val(dict['hue']); markHideIfNull('hue', 'hueSlider');
 
     $('#resolutionSelect').html('');
     if (dict['available_resolutions']) {
@@ -1397,13 +1405,13 @@ function dict2CameraUi(dict) {
             $('#resolutionSelect').append('<option value="' + resolution + '">' + resolution + '</option>');
         });
     }
-    $('#resolutionSelect').val(dict['resolution']);
+    $('#resolutionSelect').val(dict['resolution']); markHideIfNull('available_resolutions', 'resolutionSelect');
     
-    $('#rotationSelect').val(dict['rotation']);
-    $('#framerateSlider').val(dict['framerate']);
-    $('#extraOptionsEntry').html(dict['extra_options'].map(function (o) {
+    $('#rotationSelect').val(dict['rotation']); markHideIfNull('rotation', 'rotationSelect');
+    $('#framerateSlider').val(dict['framerate']); markHideIfNull('framerate', 'framerateSlider');
+    $('#extraOptionsEntry').html(dict['extra_options'] ? (dict['extra_options'].map(function (o) {
         return o.join(' ');
-    }).join('<br>'));
+    }).join('<br>')) : ''); markHideIfNull('extra_options', 'extraOptionsEntry');
     
     /* file storage */
     $('#storageDeviceSelect').empty();
@@ -1438,11 +1446,12 @@ function dict2CameraUi(dict) {
     else {
         $('#storageDeviceSelect').val('custom-path');
     }
-    $('#networkServerEntry').val(dict['network_server']);
-    $('#networkShareNameEntry').val(dict['network_share_name']);
-    $('#networkUsernameEntry').val(dict['network_username']);
-    $('#networkPasswordEntry').val(dict['network_password']);
-    $('#rootDirectoryEntry').val(dict['root_directory']);
+    markHideIfNull('storage_device', 'storageDeviceSelect');
+    $('#networkServerEntry').val(dict['network_server']); markHideIfNull('network_server', 'networkServerEntry');
+    $('#networkShareNameEntry').val(dict['network_share_name']); markHideIfNull('network_share_name', 'networkShareNameEntry');
+    $('#networkUsernameEntry').val(dict['network_username']); markHideIfNull('network_username', 'networkUsernameEntry');
+    $('#networkPasswordEntry').val(dict['network_password']); markHideIfNull('network_password', 'networkPasswordEntry');
+    $('#rootDirectoryEntry').val(dict['root_directory']); markHideIfNull('root_directory', 'rootDirectoryEntry');
     var percent = 0;
     if (dict['disk_total'] != 0) {
         percent = parseInt(dict['disk_used'] * 100 / dict['disk_total']);
@@ -1451,24 +1460,24 @@ function dict2CameraUi(dict) {
     $('#diskUsageProgressBar').each(function () {
         this.setProgress(percent);
         this.setText((dict['disk_used'] / 1073741824).toFixed(1)  + '/' + (dict['disk_total'] / 1073741824).toFixed(1) + ' GB (' + percent + '%)');
-    });
+    }); markHideIfNull('disk_used', 'diskUsageProgressBar');
     
     /* text overlay */
-    $('#textOverlaySwitch')[0].checked = dict['text_overlay'];
-    $('#leftTextSelect').val(dict['left_text']);
-    $('#leftTextEntry').val(dict['custom_left_text']);
-    $('#rightTextSelect').val(dict['right_text']);
-    $('#rightTextEntry').val(dict['custom_right_text']);
+    $('#textOverlaySwitch')[0].checked = dict['text_overlay']; markHideIfNull('text_overlay', 'textOverlaySwitch');
+    $('#leftTextSelect').val(dict['left_text']); markHideIfNull('left_text', 'leftTextSelect');
+    $('#leftTextEntry').val(dict['custom_left_text']); markHideIfNull('custom_left_text', 'leftTextEntry');
+    $('#rightTextSelect').val(dict['right_text']); markHideIfNull('right_text', 'rightTextSelect');
+    $('#rightTextEntry').val(dict['custom_right_text']); markHideIfNull('custom_right_text', 'rightTextEntry');
     
     /* video streaming */
-    $('#videoStreamingSwitch')[0].checked = dict['video_streaming'];
-    $('#streamingFramerateSlider').val(dict['streaming_framerate']);
-    $('#streamingQualitySlider').val(dict['streaming_quality']);
-    $('#streamingResolutionSlider').val(dict['streaming_resolution']);
-    $('#streamingServerResizeSwitch')[0].checked = dict['streaming_server_resize'];
-    $('#streamingPortEntry').val(dict['streaming_port']);
-    $('#streamingAuthModeSelect').val(dict['streaming_auth_mode']);
-    $('#streamingMotion')[0].checked = dict['streaming_motion'];
+    $('#videoStreamingSwitch')[0].checked = dict['video_streaming']; markHideIfNull('video_streaming', 'videoStreamingSwitch');
+    $('#streamingFramerateSlider').val(dict['streaming_framerate']); markHideIfNull('streaming_framerate', 'streamingFramerateSlider');
+    $('#streamingQualitySlider').val(dict['streaming_quality']); markHideIfNull('streaming_quality', 'streamingQualitySlider');
+    $('#streamingResolutionSlider').val(dict['streaming_resolution']); markHideIfNull('streaming_resolution', 'streamingResolutionSlider');
+    $('#streamingServerResizeSwitch')[0].checked = dict['streaming_server_resize']; markHideIfNull('streaming_server_resize', 'streamingServerResizeSwitch');
+    $('#streamingPortEntry').val(dict['streaming_port']); markHideIfNull('streaming_port', 'streamingPortEntry');
+    $('#streamingAuthModeSelect').val(dict['streaming_auth_mode']); markHideIfNull('streaming_auth_mode', 'streamingAuthModeSelect');
+    $('#streamingMotion')[0].checked = dict['streaming_motion']; markHideIfNull('streaming_motion', 'streamingMotion');
     
     var cameraUrl = location.protocol + '//' + location.host + '/picture/' + dict.id + '/';
     var snapshotUrl = cameraUrl + 'current/';
@@ -1487,86 +1496,96 @@ function dict2CameraUi(dict) {
         }
     }
     
-    $('#streamingSnapshotUrlEntry').val(snapshotUrl);
-    $('#streamingMjpgUrlEntry').val(mjpgUrl);
-    $('#streamingEmbedUrlEntry').val(embedUrl);
+    $('#streamingSnapshotUrlEntry').val(snapshotUrl); markHideIfNull(snapshotUrl, 'streamingSnapshotUrlEntry');
+    $('#streamingMjpgUrlEntry').val(mjpgUrl); markHideIfNull(mjpgUrl, 'streamingMjpgUrlEntry');
+    $('#streamingEmbedUrlEntry').val(embedUrl); markHideIfNull(embedUrl, 'streamingEmbedUrlEntry');
     
     /* still images */
-    $('#stillImagesSwitch')[0].checked = dict['still_images'];
-    $('#imageFileNameEntry').val(dict['image_file_name']);
-    $('#imageQualitySlider').val(dict['image_quality']);
-    $('#captureModeSelect').val(dict['capture_mode']);
-    $('#snapshotIntervalEntry').val(dict['snapshot_interval']);
+    $('#stillImagesSwitch')[0].checked = dict['still_images']; markHideIfNull('still_images', 'stillImagesSwitch');
+    $('#imageFileNameEntry').val(dict['image_file_name']); markHideIfNull('image_file_name', 'imageFileNameEntry');
+    $('#imageQualitySlider').val(dict['image_quality']); markHideIfNull('image_quality', 'imageQualitySlider');
+    $('#captureModeSelect').val(dict['capture_mode']); markHideIfNull('capture_mode', 'captureModeSelect');
+    $('#snapshotIntervalEntry').val(dict['snapshot_interval']); markHideIfNull('snapshot_interval', 'snapshotIntervalEntry');
     $('#preservePicturesSelect').val(dict['preserve_pictures']);
     if ($('#preservePicturesSelect').val() == null) {
         $('#preservePicturesSelect').val('-1');
     }
-    $('#picturesLifetimeEntry').val(dict['preserve_pictures']);
+    markHideIfNull('preserve_pictures', 'preservePicturesSelect');
+    $('#picturesLifetimeEntry').val(dict['preserve_pictures']); markHideIfNull('preserve_pictures', 'picturesLifetimeEntry');
     
     /* motion detection */
-    $('#motionDetectionSwitch')[0].checked = dict['motion_detection'];
-    $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes'];
-    $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']);
-    $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect'];
-    $('#noiseLevelSlider').val(dict['noise_level']);
-    $('#eventGapEntry').val(dict['event_gap']);
-    $('#preCaptureEntry').val(dict['pre_capture']);
-    $('#postCaptureEntry').val(dict['post_capture']);
-    $('#minimumMotionFramesEntry').val(dict['minimum_motion_frames']);
+    $('#motionDetectionSwitch')[0].checked = dict['motion_detection']; markHideIfNull('motion_detection', 'motionDetectionSwitch');
+    $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes']; markHideIfNull('show_frame_changes', 'showFrameChangesSwitch');
+    $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']); markHideIfNull('frame_change_threshold', 'frameChangeThresholdSlider');
+    $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect']; markHideIfNull('auto_noise_detect', 'autoNoiseDetectSwitch');
+    $('#noiseLevelSlider').val(dict['noise_level']); markHideIfNull('noise_level', 'noiseLevelSlider');
+    $('#eventGapEntry').val(dict['event_gap']); markHideIfNull('event_gap', 'eventGapEntry');
+    $('#preCaptureEntry').val(dict['pre_capture']); markHideIfNull('pre_capture', 'preCaptureEntry');
+    $('#postCaptureEntry').val(dict['post_capture']); markHideIfNull('post_capture', 'postCaptureEntry');
+    $('#minimumMotionFramesEntry').val(dict['minimum_motion_frames']); markHideIfNull('minimum_motion_frames', 'minimumMotionFramesEntry');
     
     /* motion movies */
-    $('#motionMoviesSwitch')[0].checked = dict['motion_movies'];
-    $('#movieFileNameEntry').val(dict['movie_file_name']);
-    $('#movieQualitySlider').val(dict['movie_quality']);
+    $('#motionMoviesSwitch')[0].checked = dict['motion_movies']; markHideIfNull('motion_movies', 'motionMoviesSwitch');
+    $('#movieFileNameEntry').val(dict['movie_file_name']); markHideIfNull('movie_file_name', 'movieFileNameEntry');
+    $('#movieQualitySlider').val(dict['movie_quality']); markHideIfNull('movie_quality', 'movieQualitySlider');
     $('#preserveMoviesSelect').val(dict['preserve_movies']);
     if ($('#preserveMoviesSelect').val() == null) {
         $('#preserveMoviesSelect').val('-1');
     }
-    $('#moviesLifetimeEntry').val(dict['preserve_movies']);
+    markHideIfNull('preserve_movies', 'preserveMoviesSelect');
+    $('#moviesLifetimeEntry').val(dict['preserve_movies']); markHideIfNull('preserve_movies', 'moviesLifetimeEntry');
     
     /* motion notifications */
-    $('#emailNotificationsSwitch')[0].checked = dict['email_notifications_enabled'];
-    $('#emailAddressesEntry').val(dict['email_notifications_addresses']);
-    $('#smtpServerEntry').val(dict['email_notifications_smtp_server']);
-    $('#smtpPortEntry').val(dict['email_notifications_smtp_port']);
-    $('#smtpAccountEntry').val(dict['email_notifications_smtp_account']);
-    $('#smtpPasswordEntry').val(dict['email_notifications_smtp_password']);
-    $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls'];
-    $('#emailPictureTimeSpanEntry').val(dict['email_notifications_picture_time_span']);
-    $('#webHookNotificationsSwitch')[0].checked = dict['web_hook_notifications_enabled'];
-    $('#webHookUrlEntry').val(dict['web_hook_notifications_url']);
-    $('#webHookHttpMethodSelect').val(dict['web_hook_notifications_http_method']);
-    $('#commandNotificationsSwitch')[0].checked = dict['command_notifications_enabled'];
-    $('#commandNotificationsEntry').val(dict['command_notifications_exec']);
+    $('#emailNotificationsSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsSwitch');
+    $('#emailAddressesEntry').val(dict['email_notifications_addresses']); markHideIfNull('email_notifications_addresses', 'emailAddressesEntry');
+    $('#smtpServerEntry').val(dict['email_notifications_smtp_server']); markHideIfNull('email_notifications_smtp_server', 'smtpServerEntry');
+    $('#smtpPortEntry').val(dict['email_notifications_smtp_port']); markHideIfNull('email_notifications_smtp_port', 'smtpPortEntry');
+    $('#smtpAccountEntry').val(dict['email_notifications_smtp_account']); markHideIfNull('email_notifications_smtp_account', 'smtpAccountEntry');
+    $('#smtpPasswordEntry').val(dict['email_notifications_smtp_password']); markHideIfNull('email_notifications_smtp_password', 'smtpPasswordEntry');
+    $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls']; markHideIfNull('email_notifications_smtp_tls', 'smtpTlsSwitch');
+    $('#emailPictureTimeSpanEntry').val(dict['email_notifications_picture_time_span']); markHideIfNull('email_notifications_picture_time_span', 'emailPictureTimeSpanEntry');
+    $('#webHookNotificationsSwitch')[0].checked = dict['web_hook_notifications_enabled']; markHideIfNull('web_hook_notifications_enabled', 'webHookNotificationsSwitch');
+    $('#webHookUrlEntry').val(dict['web_hook_notifications_url']); markHideIfNull('web_hook_notifications_url', 'webHookUrlEntry');
+    $('#webHookHttpMethodSelect').val(dict['web_hook_notifications_http_method']); markHideIfNull('web_hook_notifications_http_method', 'webHookHttpMethodSelect');
+    $('#commandNotificationsSwitch')[0].checked = dict['command_notifications_enabled']; markHideIfNull('command_notifications_enabled', 'commandNotificationsSwitch');
+    $('#commandNotificationsEntry').val(dict['command_notifications_exec']); markHideIfNull('command_notifications_exec', 'commandNotificationsEntry');
 
     /* working schedule */
-    $('#workingScheduleSwitch')[0].checked = dict['working_schedule'];
-    $('#mondayEnabledSwitch')[0].checked = Boolean(dict['monday_from'] && dict['monday_to']);
-    $('#mondayFromEntry').val(dict['monday_from']);
-    $('#mondayToEntry').val(dict['monday_to']);
-    $('#tuesdayEnabledSwitch')[0].checked = Boolean(dict['tuesday_from'] && dict['tuesday_to']);
-    $('#tuesdayFromEntry').val(dict['tuesday_from']);
-    $('#tuesdayToEntry').val(dict['tuesday_to']);
-    $('#wednesdayEnabledSwitch')[0].checked = Boolean(dict['wednesday_from'] && dict['wednesday_to']);
-    $('#wednesdayFromEntry').val(dict['wednesday_from']);
-    $('#wednesdayToEntry').val(dict['wednesday_to']);
-    $('#thursdayEnabledSwitch')[0].checked = Boolean(dict['thursday_from'] && dict['thursday_to']);
-    $('#thursdayFromEntry').val(dict['thursday_from']);
-    $('#thursdayToEntry').val(dict['thursday_to']);
-    $('#fridayEnabledSwitch')[0].checked = Boolean(dict['friday_from'] && dict['friday_to']);
-    $('#fridayFromEntry').val(dict['friday_from']);
-    $('#fridayToEntry').val(dict['friday_to']);
-    $('#saturdayEnabledSwitch')[0].checked = Boolean(dict['saturday_from'] && dict['saturday_to']);
-    $('#saturdayFromEntry').val(dict['saturday_from']);
-    $('#saturdayToEntry').val(dict['saturday_to']);
-    $('#sundayEnabledSwitch')[0].checked = Boolean(dict['sunday_from'] && dict['sunday_to']);
-    $('#sundayFromEntry').val(dict['sunday_from']);
-    $('#sundayToEntry').val(dict['sunday_to']);
-    $('#workingScheduleTypeSelect').val(dict['working_schedule_type']);
+    $('#workingScheduleSwitch')[0].checked = dict['working_schedule']; markHideIfNull('working_schedule', 'workingScheduleSwitch');
+    $('#mondayEnabledSwitch')[0].checked = Boolean(dict['monday_from'] && dict['monday_to']); markHideIfNull('monday_from', 'mondayEnabledSwitch');
+    $('#mondayFromEntry').val(dict['monday_from']); markHideIfNull('monday_from', 'mondayFromEntry');
+    $('#mondayToEntry').val(dict['monday_to']); markHideIfNull('monday_to', 'mondayToEntry');
+    
+    $('#tuesdayEnabledSwitch')[0].checked = Boolean(dict['tuesday_from'] && dict['tuesday_to']); markHideIfNull('tuesday_from', 'tuesdayEnabledSwitch');
+    $('#tuesdayFromEntry').val(dict['tuesday_from']); markHideIfNull('tuesday_from', 'tuesdayFromEntry');
+    $('#tuesdayToEntry').val(dict['tuesday_to']); markHideIfNull('tuesday_to', 'tuesdayToEntry');
+    
+    $('#wednesdayEnabledSwitch')[0].checked = Boolean(dict['wednesday_from'] && dict['wednesday_to']); markHideIfNull('wednesday_from', 'wednesdayEnabledSwitch');
+    $('#wednesdayFromEntry').val(dict['wednesday_from']); markHideIfNull('wednesday_from', 'wednesdayFromEntry');
+    $('#wednesdayToEntry').val(dict['wednesday_to']); markHideIfNull('wednesday_to', 'wednesdayToEntry');
+    
+    $('#thursdayEnabledSwitch')[0].checked = Boolean(dict['thursday_from'] && dict['thursday_to']); markHideIfNull('thursday_from', 'thursdayEnabledSwitch');
+    $('#thursdayFromEntry').val(dict['thursday_from']); markHideIfNull('thursday_from', 'thursdayFromEntry');
+    $('#thursdayToEntry').val(dict['thursday_to']); markHideIfNull('thursday_to', 'thursdayToEntry');
+    
+    $('#fridayEnabledSwitch')[0].checked = Boolean(dict['friday_from'] && dict['friday_to']); markHideIfNull('friday_from', 'fridayEnabledSwitch');
+    $('#fridayFromEntry').val(dict['friday_from']); markHideIfNull('friday_from', 'fridayFromEntry');
+    $('#fridayToEntry').val(dict['friday_to']); markHideIfNull('friday_to', 'fridayToEntry');
+    
+    $('#saturdayEnabledSwitch')[0].checked = Boolean(dict['saturday_from'] && dict['saturday_to']); markHideIfNull('saturday_from', 'saturdayEnabledSwitch');
+    $('#saturdayFromEntry').val(dict['saturday_from']); markHideIfNull('saturday_from', 'saturdayFromEntry');
+    $('#saturdayToEntry').val(dict['saturday_to']); markHideIfNull('saturday_to', 'saturdayToEntry');
+    
+    $('#sundayEnabledSwitch')[0].checked = Boolean(dict['sunday_from'] && dict['sunday_to']); markHideIfNull('sunday_from', 'sundayEnabledSwitch');
+    $('#sundayFromEntry').val(dict['sunday_from']); markHideIfNull('sunday_from', 'sundayFromEntry');
+    $('#sundayToEntry').val(dict['sunday_to']); markHideIfNull('sunday_to', 'sundayToEntry');
+    $('#workingScheduleTypeSelect').val(dict['working_schedule_type']); markHideIfNull('working_schedule_type', 'workingScheduleTypeSelect');
     
     /* additional sections */
     $('input[type=checkbox].additional-section.main-config').each(function () {
-        this.checked = dict[this.id.substring(0, this.id.length - 6)];
+        var name = this.id.substring(0, this.id.length - 6);
+        this.checked = dict[name];
+        markHideIfNull(name, this.id);
     });
 
     /* additional configs */
@@ -1600,6 +1619,8 @@ function dict2CameraUi(dict) {
             name = id.substring(0, id.length - 4);
             control.html(dict['_' + name]);
         }
+        
+        markHideIfNull('_' + name, id);
     });
 
     updateConfigUi();
