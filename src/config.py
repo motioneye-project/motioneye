@@ -1243,6 +1243,9 @@ def is_old_motion():
             version = int(version[8:])
             return version < _LAST_OLD_CONFIG_VERSIONS[0]
         
+        elif version.count('Git'): # e.g. Unofficial-Git-a5b5f13
+            return False # all git versions are assumed to be new
+        
         else: # stable release, should be in the format x.y.z
             return update.compare_versions(version, _LAST_OLD_CONFIG_VERSIONS[1]) <= 0
 
