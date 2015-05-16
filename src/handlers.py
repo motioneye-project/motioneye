@@ -200,9 +200,6 @@ class ConfigHandler(BaseHandler):
         elif op == 'restore':
             self.restore()
         
-        elif op == '_relay_event':
-            self._relay_event(camera_id)
-        
         else:
             raise HTTPError(400, 'unknown operation')
     
@@ -688,37 +685,6 @@ class ConfigHandler(BaseHandler):
             
         else:
             self.finish_json({'ok': False})
-
-    @BaseHandler.auth(admin=True)
-    def _relay_event(self, camera_id):
-        event = self.get_argument('event')
-        logging.debug('event %(event)s relayed for camera with id %(id)s' % {'event': event, 'id': camera_id})
-        
-        try:
-            camera_config = config.get_camera(camera_id)
-        
-        except:
-            logging.warn('ignoring event for remote camera with id %s (probably removed)' % camera_id)
-            return self.finish_json()
-
-        if not utils.local_motion_camera(camera_config):
-            logging.warn('ignoring event for non-local camera with id %s' % camera_id)
-            return self.finish_json()
-        
-        if event == 'start':
-            if not camera_config['@motion_detection']:
-                logging.debug('ignoring start event for camera with id %s and motion detection disabled' % camera_id)
-                return self.finish_json()
-
-            motionctl._motion_detected[camera_id] = True
-            
-        elif event == 'stop':
-            motionctl._motion_detected[camera_id] = False
-            
-        else:
-            logging.warn('unknown event %s' % event)
-
-        self.finish_json()
 
 
 class PictureHandler(BaseHandler):
@@ -1376,6 +1342,41 @@ class MovieHandler(BaseHandler):
 
         else: # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
+
+
+class RelayEventHandler(BaseHandler):
+    @BaseHandler.auth(admin=True)
+    def post(self):
+        event = self.get_argument('event')
+        thread_id = int(self.get_argument('thread_id'))
+        logging.debug('recevied relayed event %(event)s for thread id %(id)s' % {'event': event, 'id': thread_id})
+        
+        camera_id = motionctl.thread_id_to_camera_id(thread_id)
+        try:
+            camera_config = config.get_camera(camera_id)
+        
+        except:
+            logging.warn('ignoring event for remote camera with id %s (probably removed)' % camera_id)
+            return self.finish_json()
+
+        if not utils.local_motion_camera(camera_config):
+            logging.warn('ignoring event for non-local camera with id %s' % camera_id)
+            return self.finish_json()
+        
+        if event == 'start':
+            if not camera_config['@motion_detection']:
+                logging.debug('ignoring start event for camera with id %s and motion detection disabled' % camera_id)
+                return self.finish_json()
+
+            motionctl.set_motion_detected(camera_id, True)
+            
+        elif event == 'stop':
+            motionctl.set_motion_detected(camera_id, False)
+
+        else:
+            logging.warn('unknown event %s' % event)
+
+        self.finish_json()
 
 
 class LogHandler(BaseHandler):

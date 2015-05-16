@@ -37,7 +37,7 @@ _configure_logging()
 
 
 def print_usage():
-    print 'Usage: eventrelay.py <event> <camera_id>'
+    print 'Usage: eventrelay.py <event> <thread_id>'
 
 
 def get_admin_credentials():
@@ -116,16 +116,16 @@ if __name__ == '__main__':
         sys.exit(-1)
     
     event = sys.argv[1] 
-    camera_id = sys.argv[2]
+    thread_id = sys.argv[2]
 
     logging.debug('event = %s' % event)
-    logging.debug('camera_id = %s' % camera_id)
+    logging.debug('thread_id = %s' % thread_id)
     
     admin_username, admin_password = get_admin_credentials()
 
-    uri = '/config/%(camera_id)s/_relay_event/?event=%(event)s&_username=%(username)s' % {
+    uri = '/_relay_event/?event=%(event)s&thread_id=%(thread_id)s&_username=%(username)s' % {
             'username': admin_username,
-            'camera_id': camera_id,
+            'thread_id': thread_id,
             'event': event}
     
     signature = compute_signature('POST', uri, '', admin_password)

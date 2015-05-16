@@ -42,7 +42,7 @@ application = Application(
     [
         (r'^/$', handlers.MainHandler),
         (r'^/config/main/(?P<op>set|get)/?$', handlers.ConfigHandler),
-        (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|set_preview|_relay_event)/?$', handlers.ConfigHandler),
+        (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|set_preview)/?$', handlers.ConfigHandler),
         (r'^/config/(?P<op>add|list|list_devices|backup|restore)/?$', handlers.ConfigHandler),
         (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', handlers.PictureHandler),
         (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.PictureHandler),
@@ -50,6 +50,7 @@ application = Application(
         (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', handlers.MovieHandler),
         (r'^/movie/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.MovieHandler),
         (r'^/movie/(?P<camera_id>\d+)/(?P<op>delete_all)/(?P<group>.+?)/?$', handlers.MovieHandler),
+        (r'^/_relay_event/?$', handlers.RelayEventHandler),
         (r'^/log/(?P<name>\w+)/?$', handlers.LogHandler),
         (r'^/update/?$', handlers.UpdateHandler),
         (r'^/power/(?P<op>shutdown|reboot)/?$', handlers.PowerHandler),

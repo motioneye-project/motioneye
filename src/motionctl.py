@@ -203,7 +203,7 @@ def started():
 
 
 def get_motion_detection(camera_id):
-    thread_id = _get_thread_id(camera_id)
+    thread_id = camera_id_to_thread_id(camera_id)
     if thread_id is None:
         return logging.error('could not find thread id for camera with id %s' % camera_id)
     
@@ -233,7 +233,7 @@ def get_motion_detection(camera_id):
 
 
 def set_motion_detection(camera_id, enabled):
-    thread_id = _get_thread_id(camera_id)
+    thread_id = camera_id_to_thread_id(camera_id)
     if thread_id is None:
         return logging.error('could not find thread id for camera with id %s' % camera_id)
     
@@ -269,7 +269,17 @@ def is_motion_detected(camera_id):
     return _motion_detected.get(camera_id, False)
 
 
-def _get_thread_id(camera_id):
+def set_motion_detected(camera_id, motion_detected):
+    if motion_detected:
+        logging.debug('marking motion detected for camera with id %s' % camera_id)
+
+    else:
+        logging.debug('clearing motion detected for camera with id %s' % camera_id)
+        
+    _motion_detected[camera_id] = motion_detected
+
+
+def camera_id_to_thread_id(camera_id):
     # find the corresponding thread_id
     # (which can be different from camera_id)
     camera_ids = config.get_camera_ids()
@@ -280,15 +290,24 @@ def _get_thread_id(camera_id):
             thread_id += 1
         
         if cid == camera_id:
-            break
+            return thread_id or None
+
+    return None
     
-    else:
-        return None
+
+def thread_id_to_camera_id(thread_id):
+    # find the corresponding camera_id
+    # (which can be different from thread_id)
+    camera_ids = config.get_camera_ids()
+    tid = 0
+    for cid in camera_ids:
+        camera_config = config.get_camera(cid)
+        if utils.local_motion_camera(camera_config):
+            tid += 1
+            if tid == thread_id:
+                return cid
     
-    if thread_id == 0:
-        return None
-    
-    return thread_id
+    return None
 
 
 def _get_pid():
