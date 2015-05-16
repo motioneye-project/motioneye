@@ -1580,7 +1580,9 @@ function dict2CameraUi(dict) {
     }
 
     if ($('#normalPasswordEntry').val()) { /* anonymous access is disabled */ 
-        snapshotUrl = addAuthParams('GET', snapshotUrl);
+        if (snapshotUrl) {
+            snapshotUrl = addAuthParams('GET', snapshotUrl);
+        }
         if (mjpgUrl) {
             mjpgUrl = addAuthParams('GET', mjpgUrl);
         }
