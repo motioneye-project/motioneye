@@ -1106,17 +1106,32 @@ function mainUi2Dict() {
 }
 
 function dict2MainUi(dict) {
+    function markHideIfNull(field, elemId) {
+        var elem = $('#' + elemId);
+        var sectionDiv = elem.parents('tr:eq(0), div.settings-section-title:eq(0)');
+        var hideNull = field == null || dict[field] == null;
+
+        if (sectionDiv.length) { /* element is a section */
+            sectionDiv.add(sectionDiv.next()).each(function () {this._hideNull = hideNull;});
+        }
+        else { /* element is a config option */
+            elem.parents('tr:eq(0)').each(function () {this._hideNull = hideNull;});
+        }
+    }
+    
     $('#motionEyeSwitch')[0].checked = dict['enabled'];
     
-    $('#showAdvancedSwitch')[0].checked = dict['show_advanced'];
-    $('#adminUsernameEntry').val(dict['admin_username']);
-    $('#adminPasswordEntry').val(dict['admin_password']);
-    $('#normalUsernameEntry').val(dict['normal_username']);
-    $('#normalPasswordEntry').val(dict['normal_password']);
+    $('#showAdvancedSwitch')[0].checked = dict['show_advanced']; markHideIfNull('show_advanced', 'showAdvancedSwitch');
+    $('#adminUsernameEntry').val(dict['admin_username']); markHideIfNull('admin_username', 'adminUsernameEntry');
+    $('#adminPasswordEntry').val(dict['admin_password']); markHideIfNull('admin_password', 'adminPasswordEntry');
+    $('#normalUsernameEntry').val(dict['normal_username']); markHideIfNull('normal_username', 'normalUsernameEntry');
+    $('#normalPasswordEntry').val(dict['normal_password']); markHideIfNull('normal_password', 'normalPasswordEntry');
 
     /* additional sections */
     $('input[type=checkbox].additional-section.main-config').each(function () {
-        this.checked = dict['_' + this.id.substring(0, this.id.length - 6)];
+        var name = this.id.substring(0, this.id.length - 6);
+        this.checked = dict[name];
+        markHideIfNull(name, this.id);
     });
 
     /* additional configs */
@@ -1150,6 +1165,8 @@ function dict2MainUi(dict) {
             name = id.substring(0, id.length - 4);
             control.html(dict['_' + name]);
         }
+        
+        markHideIfNull('_' + name, id);
     });
 
     updateConfigUi();
