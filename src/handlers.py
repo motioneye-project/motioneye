@@ -216,7 +216,7 @@ class ConfigHandler(BaseHandler):
             
             local_config = config.get_camera(camera_id)
             if utils.local_motion_camera(local_config):
-                ui_config = config.camera_dict_to_ui(local_config)
+                ui_config = config.motion_camera_dict_to_ui(local_config)
                     
                 self.finish_json(ui_config)
             
@@ -236,7 +236,9 @@ class ConfigHandler(BaseHandler):
                 remote.get_config(local_config, on_response)
                 
             else: # assuming simple mjpeg camera
-                pass # TODO implement me
+                ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
+                    
+                self.finish_json(ui_config)
             
         else:
             logging.debug('getting main config')
@@ -264,7 +266,7 @@ class ConfigHandler(BaseHandler):
             
             local_config = config.get_camera(camera_id)
             if utils.local_motion_camera(local_config):
-                local_config = config.camera_ui_to_dict(ui_config, local_config)
+                local_config = config.motion_camera_ui_to_dict(ui_config, local_config)
 
                 config.set_camera(camera_id, local_config)
             
@@ -289,7 +291,11 @@ class ConfigHandler(BaseHandler):
                     on_finish(None, False)
                     
             else: # assuming simple mjpeg camera
-                pass # TODO implement me
+                local_config = config.simple_mjpeg_camera_ui_to_dict(ui_config, local_config)
+
+                config.set_camera(camera_id, local_config)
+            
+                on_finish(None, False) # (no error, motion doesn't need restart)
 
         def set_main_config(ui_config):
             logging.debug('setting main config...')
@@ -327,8 +333,8 @@ class ConfigHandler(BaseHandler):
                     if not utils.local_motion_camera(local_config):
                         continue
                     
-                    ui_config = config.camera_dict_to_ui(local_config)
-                    local_config = config.camera_ui_to_dict(ui_config, local_config)
+                    ui_config = config.motion_camera_dict_to_ui(local_config)
+                    local_config = config.motion_camera_ui_to_dict(ui_config, local_config)
 
                     config.set_camera(camera_id, local_config)
                     
@@ -564,7 +570,7 @@ class ConfigHandler(BaseHandler):
                     continue
                 
                 if utils.local_motion_camera(local_config):
-                    ui_config = config.camera_dict_to_ui(local_config)
+                    ui_config = config.motion_camera_dict_to_ui(local_config)
                     cameras.append(ui_config)
                     check_finished()
 
@@ -576,7 +582,9 @@ class ConfigHandler(BaseHandler):
                         on_response_builder(camera_id, local_config)(error=True)
                         
                 else: # assuming simple mjpeg camera
-                    pass # TODO implement me
+                    ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
+                    cameras.append(ui_config)
+                    check_finished()
             
             if length[0] == 0:        
                 self.finish_json({'cameras': []})
@@ -622,7 +630,7 @@ class ConfigHandler(BaseHandler):
             else:
                 motionctl.start()
             
-            ui_config = config.camera_dict_to_ui(camera_config)
+            ui_config = config.motion_camera_dict_to_ui(camera_config)
             
             self.finish_json(ui_config)
         
@@ -639,8 +647,8 @@ class ConfigHandler(BaseHandler):
             remote.get_config(camera_config, on_response)
         
         else: # assuming simple mjpeg camera
-            #ui_config = config.camera_dict_to_ui(camera_config)
-            # TODO use a special mjpeg function to generate ui_config
+            ui_config = config.simple_mjpeg_camera_dict_to_ui(camera_config)
+            
             self.finish_json(ui_config)
     
     @BaseHandler.auth(admin=True)
@@ -837,7 +845,7 @@ class PictureHandler(BaseHandler):
     def frame(self, camera_id):
         camera_config = config.get_camera(camera_id)
         
-        if utils.local_motion_camera(camera_config) or self.get_argument('title', None) is not None:
+        if utils.local_motion_camera(camera_config) or utils.simple_mjpeg_camera(camera_config) or self.get_argument('title', None) is not None:
             self.render('main.html',
                     frame=True,
                     camera_id=camera_id,
@@ -854,9 +862,9 @@ class PictureHandler(BaseHandler):
                             camera_config=camera_config,
                             title=self.get_argument('title', ''))
 
-                # issue a fake camera_ui_to_dict() call to transform
+                # issue a fake motion_camera_ui_to_dict() call to transform
                 # the remote UI values into motion config directives
-                remote_config = config.camera_ui_to_dict(remote_ui_config)
+                remote_config = config.motion_camera_ui_to_dict(remote_ui_config)
                 
                 self.render('main.html',
                         frame=True,
@@ -867,9 +875,6 @@ class PictureHandler(BaseHandler):
 
             remote.get_config(camera_config, on_response)
         
-        else: # assuming simple mjpeg camera
-            pass # TODO implement me
-
     @BaseHandler.auth()
     def download(self, camera_id, filename):
         logging.debug('downloading picture %(filename)s of camera %(id)s' % {

@@ -16,6 +16,8 @@ function setupCameraFrame() {
     cameraFrameDiv[0].refreshDivider = 0;
     cameraFrameDiv[0].streamingFramerate = parseInt(cameraFrameDiv.attr('streaming_framerate')) || 1;
     cameraFrameDiv[0].streamingServerResize = cameraFrameDiv.attr('streaming_server_resize') == 'True';
+    cameraFrameDiv[0].proto = cameraFrameDiv.attr('proto');
+    cameraFrameDiv[0].url = cameraFrameDiv.attr('url');
     progressImg.attr('src', staticUrl + 'img/camera-progress.gif');
     
     cameraProgress.addClass('visible');
@@ -77,6 +79,12 @@ function refreshCameraFrame() {
     var cameraFrame = $cameraFrame[0];
     var img = $cameraFrame.find('img.camera')[0];
     var cameraId = cameraFrame.id.substring(6);
+    
+    if (cameraFrame.proto == 'mjpeg') {
+        /* no manual refresh for simple mjpeg cameras */
+        img.src = cameraFrame.url;
+        return; 
+    }
     
     /* at a refresh interval of 50ms, the refresh rate is limited to 20 fps */
     var count = 1000 / (refreshInterval * cameraFrame.streamingFramerate);

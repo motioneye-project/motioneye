@@ -1163,9 +1163,11 @@ function cameraUi2Dict() {
     }
     
     var dict = {
-        /* video device */
         'enabled': $('#videoDeviceSwitch')[0].checked,
         'name': $('#deviceNameEntry').val(),
+        'proto': $('#deviceTypeEntry')[0].proto,
+        
+        /* video device */
         'light_switch_detect': $('#lightSwitchDetectSwitch')[0].checked,
         'auto_brightness': $('#autoBrightnessSwitch')[0].checked,
         'rotation': $('#rotationSelect').val(),
@@ -1355,15 +1357,15 @@ function dict2CameraUi(dict) {
     }
 
     function markHideIfNull(field, elemId) {
-        if (field == null || dict[field] == null) {
-            var elem = $('#' + elemId);
-            var sectionDiv = elem.parents('tr:eq(0), div.settings-section-title:eq(0)');
-            if (sectionDiv.length) { /* element is a section */
-                sectionDiv.add(sectionDiv.next()).each(function () {this._hideNull = true;});
-            }
-            else { /* element is a config option */
-                elem.parents('tr:eq(0)').each(function () {this._hideNull = true;});
-            }
+        var elem = $('#' + elemId);
+        var sectionDiv = elem.parents('tr:eq(0), div.settings-section-title:eq(0)');
+        var hideNull = field == null || dict[field] == null;
+
+        if (sectionDiv.length) { /* element is a section */
+            sectionDiv.add(sectionDiv.next()).each(function () {this._hideNull = hideNull;});
+        }
+        else { /* element is a config option */
+            elem.parents('tr:eq(0)').each(function () {this._hideNull = hideNull;});
         }
     }
     
@@ -1391,6 +1393,7 @@ function dict2CameraUi(dict) {
     $('#deviceNameEntry').val(dict['name']); markHideIfNull('name', 'deviceNameEntry');
     $('#deviceUriEntry').val(dict['device_url']); markHideIfNull('device_url', 'deviceUriEntry');
     $('#deviceTypeEntry').val(prettyType); markHideIfNull(prettyType, 'deviceTypeEntry');
+    $('#deviceTypeEntry')[0].proto = dict['proto'];
     $('#lightSwitchDetectSwitch')[0].checked = dict['light_switch_detect']; markHideIfNull('light_switch_detect', 'lightSwitchDetectSwitch');
     $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness']; markHideIfNull('auto_brightness', 'autoBrightnessSwitch');
     
@@ -2342,11 +2345,14 @@ function getCameraIdsByInstance() {
         if (this.config.proto == 'netcam' || this.config.proto == 'v4l2') {
             instance = '';
         }
-        else { /* motioneye */
+        else if (this.config.proto == 'motioneye') {
             instance = this.config.host || '';
             if (this.config.port) {
                 instance += ':' + this.config.port;
             }
+        }
+        else { /* assuming simple mjpeg camera */
+            return;
         }
         
         (cameraIdsByInstance[instance] = cameraIdsByInstance[instance] || []).push(this.config.id);
@@ -3407,6 +3413,12 @@ function addCameraFrameUi(cameraConfig) {
         configureButton.hide();
     }
     
+    /* no media buttons for simple mjpeg cameras */
+    if (cameraConfig['proto'] == 'mjpeg') {
+        picturesButton.hide();
+        moviesButton.hide();
+    }
+    
     cameraFrameDiv.attr('id', 'camera' + cameraId);
     cameraFrameDiv[0].refreshDivider = 0;
     cameraFrameDiv[0].config = cameraConfig;
@@ -3633,6 +3645,11 @@ function doFullScreenCamera(cameraId) {
             }
         });
     });
+    
+    if (cameraFrameDiv[0].config['proto'] == 'mjpeg') {
+        /* manually trigger the load event on simple mjpeg cameras */
+        cameraImg.load();
+    }
 }
 
 function refreshCameraFrames() {
@@ -3678,6 +3695,13 @@ function refreshCameraFrames() {
     cameraFrames.each(function () {
         if (!this.img) {
             this.img = $(this).find('img.camera')[0];
+            if (this.config['proto'] == 'mjpeg') {
+                this.img.src = this.config['url'];
+            }
+        }
+        
+        if (this.config['proto'] == 'mjpeg') {
+            return; /* no manual refresh for simple mjpeg cameras */
         }
         
         /* at a refresh interval of 50ms, the refresh rate is limited to 20 fps */

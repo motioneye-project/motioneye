@@ -489,6 +489,7 @@ def add_camera(device_details):
     else: # assuming mjpeg
         camera_config['@proto'] = 'mjpeg'
         camera_config['@url'] = device_details['url']
+        _set_default_simple_mjpeg_camera(camera_id, camera_config)
 
     # write the configuration to file
     set_camera(camera_id, camera_config)
@@ -574,7 +575,7 @@ def main_dict_to_ui(data):
     return ui
 
 
-def camera_ui_to_dict(ui, old_config=None):
+def motion_camera_ui_to_dict(ui, old_config=None):
     old_config = dict(old_config or {})
     main_config = get_main() # needed for surveillance password
 
@@ -849,7 +850,7 @@ def camera_ui_to_dict(ui, old_config=None):
     return old_config
 
 
-def camera_dict_to_ui(data):
+def motion_camera_dict_to_ui(data):
     ui = {
         # device
         'name': data['@name'],
@@ -1159,6 +1160,32 @@ def camera_dict_to_ui(data):
 
     ui['extra_options'] = extra_options
 
+    return ui
+
+
+def simple_mjpeg_camera_ui_to_dict(ui, old_config=None):
+    old_config = dict(old_config or {})
+
+    data = {
+        # device
+        '@name': ui['name'],
+        '@enabled': ui['enabled'],
+    }
+    
+    old_config.update(data)
+
+    return old_config
+
+
+def simple_mjpeg_camera_dict_to_ui(data):
+    ui = {
+        'name': data['@name'],
+        'enabled': data['@enabled'],
+        'id': data['@id'],
+        'proto': 'mjpeg',
+        'url': data['@url']
+    }
+    
     return ui
 
 
@@ -1545,6 +1572,12 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('on_event_end', '')
 
 
+def _set_default_simple_mjpeg_camera(camera_id, data):
+    data.setdefault('@name', 'Camera' + str(camera_id))
+    data.setdefault('@enabled', False)
+    data.setdefault('@id', camera_id)
+
+    
 def get_additional_structure(camera, separators=False):
     if _additional_structure_cache.get((camera, separators)) is None:
         logging.debug('loading additional config structure for %s' % ('camera' if camera else 'main'))
