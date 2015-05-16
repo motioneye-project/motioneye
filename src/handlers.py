@@ -21,6 +21,7 @@ import logging
 import os
 import re
 import socket
+import subprocess
 
 from tornado.web import RequestHandler, HTTPError, asynchronous
 from tornado.ioloop import IOLoop
@@ -1391,14 +1392,27 @@ class LogHandler(BaseHandler):
             raise HTTPError(404, 'no such log')
 
         (path, filename) = log
-        logging.debug('serving log file %s from %s' % (filename, path))
 
         self.set_header('Content-Type', 'text/plain')
         self.set_header('Content-Disposition', 'attachment; filename=' + filename + ';')
 
-        with open(path) as f:
-            self.finish(f.read())
+        if path.startswith('/'): # an actual path        
+            logging.debug('serving log file "%s" from "%s"' % (filename, path))
 
+            with open(path) as f:
+                self.finish(f.read())
+                
+        else: # a command to execute 
+            logging.debug('serving log file "%s" from command "%s"' % (filename, path))
+
+            try:
+                output = subprocess.check_output(path, shell=True)
+            
+            except Exception as e:
+                output = 'failed to execute command: %s' % e
+                
+            self.finish(output)
+                
 
 class UpdateHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
