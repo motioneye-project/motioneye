@@ -193,6 +193,13 @@ def _test_requirements():
     except ImportError:
         has_pycurl = False
 
+    try:
+        import pytz  # @UnusedImport
+        has_pytz = True
+    
+    except ImportError:
+        has_pytz = False
+
     import mediafiles
     has_ffmpeg = mediafiles.find_ffmpeg() is not None
     
@@ -219,6 +226,10 @@ def _test_requirements():
 
     if not has_pycurl:
         print('please install pycurl (python-pycurl)')
+        ok = False
+    
+    if not has_pytz:
+        print('please install pytz (python-pytz)')
         ok = False
     
     if not has_ffmpeg:
