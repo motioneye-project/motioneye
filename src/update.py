@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import logging
+import re
 
 
 # versions
@@ -31,6 +32,9 @@ def get_all_versions():
 
 
 def compare_versions(version1, version2):
+    version1 = re.sub('[^0-9.]', '', version1)
+    version2 = re.sub('[^0-9.]', '', version2)
+    
     version1 = [int(n) for n in version1.split('.')]
     version2 = [int(n) for n in version2.split('.')]
     
