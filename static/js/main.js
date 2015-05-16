@@ -555,11 +555,13 @@ function initUI() {
     
     function checkMinimizeSection() {
         var $switch = $(this);
+        var $sectionDiv = $switch.parents('div.settings-section-title:eq(0)');
+        
         var $minimizeSpan = $switch.parent().find('span.minimize');
         if ($switch.is(':checked') && !$minimizeSpan.hasClass('open')) {
             $minimizeSpan.addClass('open');
         }
-        else if (!$switch.is(':checked') && $minimizeSpan.hasClass('open')) {
+        else if (!$switch.is(':checked') && $minimizeSpan.hasClass('open') && !$sectionDiv.attr('minimize-switch-independent')) {
             $minimizeSpan.removeClass('open');
         }
     }
@@ -602,7 +604,11 @@ function initUI() {
         /* enable the section switch when unminimizing */
         if ($(this).hasClass('open')) {
             var sectionSwitch = $(this).parent().find('input[type=checkbox]');
-            if (sectionSwitch.length && !sectionSwitch.is(':checked')) {
+            var sectionSwitchDiv = $(this).parent().find('div.check-box');
+            var sectionDiv = $(this).parents('div.settings-section-title:eq(0)');
+            if (sectionSwitch.length && !sectionSwitch.is(':checked') &&
+                !sectionSwitchDiv[0]._hideNull && !sectionDiv.attr('minimize-switch-independent')) {
+
                 sectionSwitch[0].checked = true;
                 sectionSwitch.change();
             }
@@ -753,7 +759,8 @@ function isSettingsOpen() {
 }
 
 function updateConfigUi() {
-    var objs = $('tr.settings-item, div.advanced-setting, table.advanced-setting, div.settings-section-title, table.settings');
+    var objs = $('tr.settings-item, div.advanced-setting, table.advanced-setting, div.settings-section-title, table.settings, ' +
+            'div.check-box.camera-config, div.check-box.main-config');
     
     function markHideLogic() {
         this._hideLogic = true;
@@ -854,7 +861,7 @@ function updateConfigUi() {
     
     /* video streaming */
     if (!$('#videoStreamingSwitch').get(0).checked) {
-        $('#videoStreamingSwitch').parent().next('table.settings').find('tr.settings-item').not('.local-streaming').each(markHideLogic);
+        $('#videoStreamingSwitch').parent().next('table.settings').find('tr.settings-item').not('.localhost-streaming').each(markHideLogic);
     }
     if (!$('#streamingServerResizeSwitch').get(0).checked) {
         $('#streamingResolutionSlider').parents('tr:eq(0)').each(markHideLogic);
@@ -977,8 +984,9 @@ function updateConfigUi() {
         var $table = $this.next();
         var controls = $table.find('input, select');
 
-        if ($this.children('input[type=checkbox]').length) {
-            return; /* has switch */
+        var switchButton = $this.children('div.check-box');
+        if (switchButton.length && !switchButton[0]._hideNull) {
+            return; /* has visible switch */
         }
 
         for (var i = 0; i < controls.length; i++) {
@@ -995,6 +1003,51 @@ function updateConfigUi() {
 
         $this.each(markHideLogic);
         $table.each(markHideLogic);
+    });
+    
+    /* hide useless separators */
+    $('div.settings-container table.settings').each(function () {
+        var $table = $(this);
+        
+        /* filter visible rows */
+        var visibleTrs = $table.find('tr').filter(function () {
+            return !this._hideLogic && !this._hideAdvanced && !this._hideNull;
+        }).map(function () {
+            var $tr = $(this);
+            $tr.isSeparator = $tr.find('div.settings-item-separator').length > 0;
+            
+            return $tr;
+        }).get();
+
+        for (var i = 1; i < visibleTrs.length; i++) {
+            var $prevTr = visibleTrs[i - 1];
+            var $tr = visibleTrs[i];
+            if ($prevTr.isSeparator && $tr.isSeparator) {
+                $tr.each(markHideLogic);
+            }
+        }
+
+        /* filter visible rows again */
+        visibleTrs = $table.find('tr').filter(function () {
+            return !this._hideLogic && !this._hideAdvanced && !this._hideNull;
+        }).map(function () {
+            var $tr = $(this);
+            $tr.isSeparator = $tr.find('div.settings-item-separator').length > 0;
+            
+            return $tr;
+        }).get();
+
+        if (visibleTrs.length) {
+            /* test first row */
+            if (visibleTrs[0].isSeparator) {
+                visibleTrs[0].each(markHideLogic);
+            }
+            
+            /* test last row */
+            if (visibleTrs[visibleTrs.length - 1].isSeparator) {
+                visibleTrs[visibleTrs.length - 1].each(markHideLogic);
+            }
+        }
     });
     
     var weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
@@ -1108,11 +1161,14 @@ function mainUi2Dict() {
 function dict2MainUi(dict) {
     function markHideIfNull(field, elemId) {
         var elem = $('#' + elemId);
-        var sectionDiv = elem.parents('tr:eq(0), div.settings-section-title:eq(0)');
-        var hideNull = field == null || dict[field] == null;
+        var sectionDiv = elem.parents('div.settings-section-title:eq(0)');
+        var hideNull = (field === true) || (typeof field == 'string' && dict[field] == null);
 
         if (sectionDiv.length) { /* element is a section */
-            sectionDiv.add(sectionDiv.next()).each(function () {this._hideNull = hideNull;});
+            sectionDiv.find('div.check-box').each(function () {this._hideNull = hideNull;});
+            if (hideNull) {
+                sectionDiv.find('input[type=checkbox]').each(function () {this.checked = true;});
+            }
         }
         else { /* element is a config option */
             elem.parents('tr:eq(0)').each(function () {this._hideNull = hideNull;});
@@ -1375,11 +1431,14 @@ function dict2CameraUi(dict) {
 
     function markHideIfNull(field, elemId) {
         var elem = $('#' + elemId);
-        var sectionDiv = elem.parents('tr:eq(0), div.settings-section-title:eq(0)');
-        var hideNull = field == null || dict[field] == null;
+        var sectionDiv = elem.parents('div.settings-section-title:eq(0)');
+        var hideNull = (field === true) || (typeof field == 'string' && dict[field] == null);
 
         if (sectionDiv.length) { /* element is a section */
-            sectionDiv.add(sectionDiv.next()).each(function () {this._hideNull = hideNull;});
+            sectionDiv.find('div.check-box').each(function () {this._hideNull = hideNull;});
+            if (hideNull) {
+                sectionDiv.find('input[type=checkbox]').each(function () {this.checked = true;});
+            }
         }
         else { /* element is a config option */
             elem.parents('tr:eq(0)').each(function () {this._hideNull = hideNull;});
@@ -1409,7 +1468,7 @@ function dict2CameraUi(dict) {
     $('#videoDeviceSwitch')[0].checked = dict['enabled']; markHideIfNull('enabled', 'videoDeviceSwitch');
     $('#deviceNameEntry').val(dict['name']); markHideIfNull('name', 'deviceNameEntry');
     $('#deviceUriEntry').val(dict['device_url']); markHideIfNull('device_url', 'deviceUriEntry');
-    $('#deviceTypeEntry').val(prettyType); markHideIfNull(prettyType, 'deviceTypeEntry');
+    $('#deviceTypeEntry').val(prettyType); markHideIfNull(!prettyType, 'deviceTypeEntry');
     $('#deviceTypeEntry')[0].proto = dict['proto'];
     $('#lightSwitchDetectSwitch')[0].checked = dict['light_switch_detect']; markHideIfNull('light_switch_detect', 'lightSwitchDetectSwitch');
     $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness']; markHideIfNull('auto_brightness', 'autoBrightnessSwitch');
@@ -1500,9 +1559,20 @@ function dict2CameraUi(dict) {
     $('#streamingMotion')[0].checked = dict['streaming_motion']; markHideIfNull('streaming_motion', 'streamingMotion');
     
     var cameraUrl = location.protocol + '//' + location.host + '/picture/' + dict.id + '/';
-    var snapshotUrl = cameraUrl + 'current/';
-    var mjpgUrl = location.protocol + '//' + location.host.split(':')[0] + ':' + dict.streaming_port;
-    var embedUrl = cameraUrl + 'frame/';
+    
+    var snapshotUrl = null;
+    var mjpgUrl = null;
+    var embedUrl = null;
+    
+    if (dict['proto'] == 'mjpeg') {
+        mjpgUrl = dict['url'];
+        embedUrl = cameraUrl + 'frame/';
+    }
+    else {
+        snapshotUrl = cameraUrl + 'current/';
+        mjpgUrl = location.protocol + '//' + location.host.split(':')[0] + ':' + dict.streaming_port;
+        embedUrl = cameraUrl + 'frame/';
+    }
 
     if (dict.proto == 'motioneye') {
         /* cannot tell the mjpg streaming url for a remote motionEye camera */
@@ -1516,9 +1586,9 @@ function dict2CameraUi(dict) {
         }
     }
     
-    $('#streamingSnapshotUrlEntry').val(snapshotUrl); markHideIfNull(snapshotUrl, 'streamingSnapshotUrlEntry');
-    $('#streamingMjpgUrlEntry').val(mjpgUrl); markHideIfNull(mjpgUrl, 'streamingMjpgUrlEntry');
-    $('#streamingEmbedUrlEntry').val(embedUrl); markHideIfNull(embedUrl, 'streamingEmbedUrlEntry');
+    $('#streamingSnapshotUrlEntry').val(snapshotUrl); markHideIfNull(!snapshotUrl, 'streamingSnapshotUrlEntry');
+    $('#streamingMjpgUrlEntry').val(mjpgUrl); markHideIfNull(!mjpgUrl, 'streamingMjpgUrlEntry');
+    $('#streamingEmbedUrlEntry').val(embedUrl); markHideIfNull(!embedUrl, 'streamingEmbedUrlEntry');
     
     /* still images */
     $('#stillImagesSwitch')[0].checked = dict['still_images']; markHideIfNull('still_images', 'stillImagesSwitch');
@@ -1557,18 +1627,18 @@ function dict2CameraUi(dict) {
     
     /* motion notifications */
     $('#emailNotificationsSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsSwitch');
-    $('#emailAddressesEntry').val(dict['email_notifications_addresses']); markHideIfNull('email_notifications_addresses', 'emailAddressesEntry');
-    $('#smtpServerEntry').val(dict['email_notifications_smtp_server']); markHideIfNull('email_notifications_smtp_server', 'smtpServerEntry');
-    $('#smtpPortEntry').val(dict['email_notifications_smtp_port']); markHideIfNull('email_notifications_smtp_port', 'smtpPortEntry');
-    $('#smtpAccountEntry').val(dict['email_notifications_smtp_account']); markHideIfNull('email_notifications_smtp_account', 'smtpAccountEntry');
-    $('#smtpPasswordEntry').val(dict['email_notifications_smtp_password']); markHideIfNull('email_notifications_smtp_password', 'smtpPasswordEntry');
-    $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls']; markHideIfNull('email_notifications_smtp_tls', 'smtpTlsSwitch');
-    $('#emailPictureTimeSpanEntry').val(dict['email_notifications_picture_time_span']); markHideIfNull('email_notifications_picture_time_span', 'emailPictureTimeSpanEntry');
+    $('#emailAddressesEntry').val(dict['email_notifications_addresses']);
+    $('#smtpServerEntry').val(dict['email_notifications_smtp_server']);
+    $('#smtpPortEntry').val(dict['email_notifications_smtp_port']);
+    $('#smtpAccountEntry').val(dict['email_notifications_smtp_account']);
+    $('#smtpPasswordEntry').val(dict['email_notifications_smtp_password']);
+    $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls'];
+    $('#emailPictureTimeSpanEntry').val(dict['email_notifications_picture_time_span']);
     $('#webHookNotificationsSwitch')[0].checked = dict['web_hook_notifications_enabled']; markHideIfNull('web_hook_notifications_enabled', 'webHookNotificationsSwitch');
-    $('#webHookUrlEntry').val(dict['web_hook_notifications_url']); markHideIfNull('web_hook_notifications_url', 'webHookUrlEntry');
-    $('#webHookHttpMethodSelect').val(dict['web_hook_notifications_http_method']); markHideIfNull('web_hook_notifications_http_method', 'webHookHttpMethodSelect');
+    $('#webHookUrlEntry').val(dict['web_hook_notifications_url']);
+    $('#webHookHttpMethodSelect').val(dict['web_hook_notifications_http_method']);
     $('#commandNotificationsSwitch')[0].checked = dict['command_notifications_enabled']; markHideIfNull('command_notifications_enabled', 'commandNotificationsSwitch');
-    $('#commandNotificationsEntry').val(dict['command_notifications_exec']); markHideIfNull('command_notifications_exec', 'commandNotificationsEntry');
+    $('#commandNotificationsEntry').val(dict['command_notifications_exec']);
 
     /* working schedule */
     $('#workingScheduleSwitch')[0].checked = dict['working_schedule']; markHideIfNull('working_schedule', 'workingScheduleSwitch');
