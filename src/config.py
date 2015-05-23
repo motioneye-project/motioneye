@@ -296,6 +296,8 @@ def get_camera(camera_id, as_lines=False):
                 camera_config['locate_motion_mode'] = camera_config.pop('locate')
             if 'jpeg_filename' in camera_config:
                 camera_config['picture_filename'] = camera_config.pop('jpeg_filename')
+            if 'max_mpeg_time' in camera_config:
+                camera_config['max_movie_time'] = camera_config.pop('max_mpeg_time')
             if 'webcam_port' in camera_config:
                 camera_config['stream_port'] = camera_config.pop('webcam_port')
             if 'webcam_quality' in camera_config:
@@ -355,6 +357,8 @@ def set_camera(camera_id, camera_config):
                 camera_config['locate'] = camera_config.pop('locate_motion_mode')
             if 'picture_filename' in camera_config:
                 camera_config['jpeg_filename'] = camera_config.pop('picture_filename')
+            if 'max_movie_time' in camera_config:
+                camera_config['max_mpeg_time'] = camera_config.pop('max_movie_time')
             if 'stream_port' in camera_config:
                 camera_config['webcam_port'] = camera_config.pop('stream_port')
             if 'stream_quality' in camera_config:
@@ -634,6 +638,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         'ffmpeg_output_movies': ui['motion_movies'],
         'movie_filename': ui['movie_file_name'],
         'ffmpeg_bps': 44000, # a quality of about 85% for 320x240x2fps
+        'max_movie_time': ui['max_movie_length'],
         '@preserve_movies': int(ui['preserve_movies']),
     
         # working schedule
@@ -910,6 +915,7 @@ def motion_camera_dict_to_ui(data):
         # motion movies
         'motion_movies': data['ffmpeg_output_movies'],
         'movie_file_name': data['movie_filename'],
+        'max_movie_length': data['max_movie_time'],
         'preserve_movies': data['@preserve_movies'],
 
         # motion notifications
@@ -919,6 +925,7 @@ def motion_camera_dict_to_ui(data):
         
         # working schedule
         'working_schedule': False,
+        'working_schedule_type': 'during',
         'monday_from': '', 'monday_to': '',
         'tuesday_from': '', 'tuesday_to': '',
         'wednesday_from': '', 'wednesday_to': '',
@@ -1145,8 +1152,8 @@ def motion_camera_dict_to_ui(data):
     # extra motion options
     known_options = set([
         'auto_brightness', 'brightness', 'contrast', 'emulate_motion', 'event_gap', 'ffmpeg_bps', 'ffmpeg_output_movies', 'ffmpeg_variable_bitrate', 'ffmpeg_video_codec',
-        'framerate', 'height', 'hue', 'lightswitch', 'locate_motion_mode', 'locate_motion_style', 'minimum_motion_frames', 'movie_filename', 'noise_level', 'noise_tune',
-        'on_event_end', 'on_event_start', 'output_pictures', 'picture_filename', 'post_capture', 'pre_capture', 'quality', 'rotate', 'saturation',
+        'framerate', 'height', 'hue', 'lightswitch', 'locate_motion_mode', 'locate_motion_style', 'minimum_motion_frames', 'movie_filename', 'max_movie_time', 'max_mpeg_time',
+        'noise_level', 'noise_tune', 'on_event_end', 'on_event_start', 'output_pictures', 'picture_filename', 'post_capture', 'pre_capture', 'quality', 'rotate', 'saturation',
         'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate', 'stream_motion', 'stream_port', 'stream_quality',
         'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width',
         'webcam_localhost', 'webcam_port', 'webcam_maxrate', 'webcam_quality', 'webcam_motion', 'ffmpeg_cap_new', 'output_normal', 'output_motion', 'jpeg_filename', 'output_all', 'gap', 'locate',
@@ -1558,9 +1565,11 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('ffmpeg_bps', 44000) # a quality of about 85% 
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     if old_motion:
+        data.setdefault('max_mpeg_time', 0)
         data.setdefault('ffmpeg_cap_new', False)
     
     else:
+        data.setdefault('max_movie_time', 0)
         data.setdefault('ffmpeg_output_movies', False)
     data.setdefault('ffmpeg_video_codec', 'msmpeg4')
     data.setdefault('@preserve_movies', 0)

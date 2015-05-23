@@ -584,6 +584,11 @@
                         <td class="settings-item-value"><input type="text" class="range styled motion-movies camera-config" id="movieQualitySlider"></td>
                         <td><span class="help-mark" title="sets the MPEG video quality (higher values produce a better video quality but require more storage space)">?</span></td>
                     </tr>
+                    <tr class="settings-item advanced-setting" min="0" max="86400" required="true">
+                        <td class="settings-item-label"><span class="settings-item-label">Maximum Movie Length</span></td>
+                        <td class="settings-item-value"><input type="text" class="number styled motion-movies camera-config" id="maxMovieLengthEntry"><span class="settings-item-unit">seconds</span></td>
+                        <td><span class="help-mark" title="sets the maximum length of motion movies, in seconds; if the motion event lasts longer, a new movie file is created; use 0 for infinite length">?</span></td>
+                    </tr>
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Preserve Movies</span></td>
                         <td class="settings-item-value">

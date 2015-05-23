@@ -1317,6 +1317,7 @@ function cameraUi2Dict() {
         'motion_movies': $('#motionMoviesSwitch')[0].checked,
         'movie_file_name': $('#movieFileNameEntry').val(),
         'movie_quality': $('#movieQualitySlider').val(),
+        'max_movie_length': $('#maxMovieLengthEntry').val(),
         'preserve_movies': $('#preserveMoviesSelect').val() >= 0 ? $('#preserveMoviesSelect').val() : $('#moviesLifetimeEntry').val(),
         
         /* motion notifications */
@@ -1620,6 +1621,7 @@ function dict2CameraUi(dict) {
     $('#motionMoviesSwitch')[0].checked = dict['motion_movies']; markHideIfNull('motion_movies', 'motionMoviesSwitch');
     $('#movieFileNameEntry').val(dict['movie_file_name']); markHideIfNull('movie_file_name', 'movieFileNameEntry');
     $('#movieQualitySlider').val(dict['movie_quality']); markHideIfNull('movie_quality', 'movieQualitySlider');
+    $('#maxMovieLengthEntry').val(dict['max_movie_length']); markHideIfNull('max_movie_length', 'maxMovieLengthEntry');
     $('#preserveMoviesSelect').val(dict['preserve_movies']);
     if ($('#preserveMoviesSelect').val() == null) {
         $('#preserveMoviesSelect').val('-1');
