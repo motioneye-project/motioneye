@@ -152,6 +152,7 @@ class MainHandler(BaseHandler):
                 version=motioneye.VERSION,
                 enable_update=False,
                 enable_reboot=settings.ENABLE_REBOOT,
+                add_remove_cameras=settings.ADD_REMOVE_CAMERAS,
                 main_sections=main_sections,
                 camera_sections=camera_sections,
                 hostname=socket.gethostname(),

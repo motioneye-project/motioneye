@@ -79,3 +79,6 @@ SMTP_TIMEOUT = 60
 
 # the time to wait for zip file creation
 ZIP_TIMEOUT = 500
+
+# enable adding and removing cameras from UI
+ADD_REMOVE_CAMERAS = True
