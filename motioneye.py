@@ -74,6 +74,7 @@ def _configure_settings():
     set_default_setting('ENABLE_REBOOT', False)
     set_default_setting('SMTP_TIMEOUT', 60)
     set_default_setting('ZIP_TIMEOUT', 500)
+    set_default_setting('ADD_REMOVE_CAMERAS', True)
 
     length = len(sys.argv) - 1
     for i in xrange(length):
