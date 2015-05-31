@@ -118,20 +118,41 @@ def _remove_older_files(dir, moment, exts):
             logging.debug('removing file %(path)s...' % {'path': full_path})
             
             # remove the file itself
-            os.remove(full_path)
+            try:
+                os.remove(full_path)
+            
+            except OSError as e:
+                if e.errno == errno.ENOENT:
+                    pass # the file might have been removed in the meantime
+                
+                else:
+                    logging.error('failed to remove %s: %s' % (full_path, e))
 
-            # remove the parent directories if empty or contains only thumb files
+            # remove the parent directories if empty or contain only thumb files
             dir_path = os.path.dirname(full_path)
+            if not os.path.exists(dir_path):
+                continue
+            
             listing = os.listdir(dir_path)
             thumbs = [l for l in listing if l.endswith('.thumb')]
             
             if len(listing) == len(thumbs): # only thumbs
                 for p in thumbs:
-                    os.remove(os.path.join(dir_path, p))
+                    try:
+                        os.remove(os.path.join(dir_path, p))
+                    
+                    except:
+                        logging.error('failed to remove %s: %s' % (p, e))
 
             if not listing or len(listing) == len(thumbs):
+                # this will possibly cause following paths that are in the media files for loop
+                # to be removed in advance; the os.remove call will raise ENOENT which is silently ignored 
                 logging.debug('removing empty directory %(path)s...' % {'path': dir_path})
-                os.removedirs(dir_path)
+                try:
+                    os.removedirs(dir_path)
+                
+                except:
+                    logging.error('failed to remove %s: %s' % (dir_path, e))
 
 
 def find_ffmpeg():

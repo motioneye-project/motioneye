@@ -89,6 +89,7 @@ def _do_cleanup():
     try:
         mediafiles.cleanup_media('picture')
         mediafiles.cleanup_media('movie')
+        logging.debug('cleanup done')
          
     except Exception as e:
         logging.error('failed to cleanup media files: %(msg)s' % {
