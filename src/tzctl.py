@@ -133,6 +133,7 @@ def timeZone():
         'choices': [(t, t) for t in timezones],
         'section': 'general',
         'advanced': True,
+        'reboot': True,
         'get': _get_time_zone,
         'set': _set_time_zone
     }
