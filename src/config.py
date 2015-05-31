@@ -205,13 +205,13 @@ def get_camera_ids():
     return filtered_camera_ids
 
 
-def has_local_enabled_cameras():
+def get_enabled_local_motion_cameras():
     if not get_main().get('@enabled'):
-        return False
+        return []
     
     camera_ids = get_camera_ids()
     cameras = [get_camera(camera_id) for camera_id in camera_ids]
-    return bool([c for c in cameras if c.get('@enabled') and utils.local_motion_camera(c)])
+    return [c for c in cameras if c.get('@enabled') and utils.local_motion_camera(c)]
 
 
 def get_network_shares():

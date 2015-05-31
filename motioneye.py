@@ -65,6 +65,7 @@ def _configure_settings():
     set_default_setting('THUMBNAILER_INTERVAL', 60)
     set_default_setting('REMOTE_REQUEST_TIMEOUT', 10)
     set_default_setting('MJPG_CLIENT_TIMEOUT', 10)
+    set_default_setting('MJPG_CLIENT_IDLE_TIMEOUT', 10)
     set_default_setting('PICTURE_CACHE_SIZE', 8)
     set_default_setting('PICTURE_CACHE_LIFETIME', 60)
     set_default_setting('SMB_SHARES', False)
@@ -341,7 +342,7 @@ def _start_motion():
         if ioloop._stopped:
             return
             
-        if not motionctl.running() and motionctl.started() and config.has_local_enabled_cameras():
+        if not motionctl.running() and motionctl.started() and config.get_enabled_local_motion_cameras():
             try:
                 logging.error('motion not running, starting it')
                 motionctl.start()

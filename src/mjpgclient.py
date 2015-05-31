@@ -72,8 +72,8 @@ class MjpgClient(iostream.IOStream):
                 logging.error('connection problem detected for mjpg client for camera %(camera_id)s on port %(port)s' % {
                         'port': self._port, 'camera_id': self._camera_id})
 
-                motionctl.stop() # this will close all the mjpg clients
-                motionctl.start()
+                motionctl.stop(invalidate=True) # this will close all the mjpg clients
+                motionctl.start(deferred=True)
 
             MjpgClient.last_erroneous_close_time = now
 
@@ -231,8 +231,8 @@ def _garbage_collector():
             logging.error('mjpg client timed out receiving data for camera %(camera_id)s on port %(port)s' % {
                     'camera_id': camera_id, 'port': port})
             
-            motionctl.stop() # this will close all the mjpg clients
-            motionctl.start()
+            motionctl.stop(invalidate=True) # this will close all the mjpg clients
+            motionctl.start(deferred=True)
             
             break
 
@@ -244,9 +244,9 @@ def _garbage_collector():
         delta = now - last_access
         delta = delta.days * 86400 + delta.seconds
         
-        if delta > settings.MJPG_CLIENT_TIMEOUT:
-            logging.debug('mjpg client for camera %(camera_id)s on port %(port)s timed out' % {
-                    'camera_id': camera_id, 'port': port})
+        if settings.MJPG_CLIENT_IDLE_TIMEOUT and delta > settings.MJPG_CLIENT_IDLE_TIMEOUT:
+            logging.debug('mjpg client for camera %(camera_id)s on port %(port)s has been idle for %(timeout)s seconds, removing it' % {
+                    'camera_id': camera_id, 'port': port, 'timeout': settings.MJPG_CLIENT_IDLE_TIMEOUT})
             
             client.close()
 
@@ -286,9 +286,16 @@ def get_jpg(camera_id):
     return MjpgClient.last_jpgs.get(camera_id)
 
 
-def close_all():
+def close_all(invalidate=False):
     for client in MjpgClient.clients.values():
         client.close()
+    
+    if invalidate:
+        MjpgClient.clients = {}
+        MjpgClient.last_jpgs = {}
+        MjpgClient.last_jpg_moment = {}
+        MjpgClient.last_access = {}
+        MjpgClient.last_erroneous_close_time = 0
 
 
 # schedule the garbage collector

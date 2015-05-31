@@ -47,11 +47,14 @@ CLEANUP_INTERVAL = 43200
 # interval in seconds at which the thumbnail mechanism runs (set to 0 to disable) 
 THUMBNAILER_INTERVAL = 60
 
-# timeout in seconds to wait for responses when contacting a remote server
+# timeout in seconds when waiting for response from a remote motionEye server
 REMOTE_REQUEST_TIMEOUT = 10
 
-# timeout in seconds to wait for an access to a mjpg client before removing it
+# timeout in seconds when waiting for mjpg data from the motion daemon
 MJPG_CLIENT_TIMEOUT = 10
+
+# timeout in seconds after which an idle mjpg client is removed (set to 0 to disable)
+MJPG_CLIENT_IDLE_TIMEOUT = 10
 
 # the maximal number of entries per camera in the current pictures cache
 PICTURE_CACHE_SIZE = 8

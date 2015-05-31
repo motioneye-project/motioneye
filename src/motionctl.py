@@ -24,8 +24,10 @@ import subprocess
 import time
 
 from tornado.httpclient import HTTPClient, AsyncHTTPClient, HTTPRequest
+from tornado.ioloop import IOLoop
 
 import config
+import mjpgclient
 import powerctl
 import settings
 import utils
@@ -80,12 +82,16 @@ def _disable_initial_motion_detection():
             set_motion_detection(camera_id, False)
 
 
-def start():
+def start(deferred=False):
+    if deferred:
+        return IOLoop.instance().add_callback(start, deferred=False)
+
     global _started
     
     _started = True
     
-    if running() or not config.has_local_enabled_cameras():
+    enabled_local_motion_cameras = config.get_enabled_local_motion_cameras()
+    if running() or not enabled_local_motion_cameras:
         return
     
     logging.debug('starting motion')
@@ -131,11 +137,15 @@ def start():
         f.write(str(pid) + '\n')
     
     _disable_initial_motion_detection()
-
-
-def stop():
-    import mjpgclient
     
+    # if mjpg client idle timeout is disabled, create mjpg clients for all cameras by default
+    if not settings.MJPG_CLIENT_IDLE_TIMEOUT:
+        logging.debug('creating default mjpg clients for local cameras')
+        for camera in enabled_local_motion_cameras:
+            mjpgclient.get_jpg(camera['@id'])
+
+
+def stop(invalidate=False):
     global _started
     
     _started = False
@@ -145,7 +155,7 @@ def stop():
     
     logging.debug('stopping motion')
 
-    mjpgclient.close_all()
+    mjpgclient.close_all(invalidate=invalidate)
     
     pid = _get_pid()
     if pid is not None:
