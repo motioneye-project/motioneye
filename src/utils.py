@@ -37,6 +37,9 @@ except:
     from ordereddict import OrderedDict  # @UnusedImport @Reimport
 
 
+_SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, _-]')
+
+
 def pretty_date_time(date_time, tzinfo=None, short=False):
     if date_time is None:
         return '('+  _('never') + ')'
@@ -230,6 +233,36 @@ def pretty_http_error(response):
     return msg
 
 
+def make_str(s):
+    if isinstance(s, str):
+        return s
+
+    try:
+        return str(s)
+
+    except:
+        try:
+            return unicode(s, encoding='utf8').encode('utf8')
+    
+        except:
+            return unicode(s).encode('utf8')
+
+
+def make_unicode(s):
+    if isinstance(s, unicode):
+        return s
+
+    try:
+        return unicode(s, encoding='utf8')
+    
+    except:
+        try:
+            return unicode(s)
+        
+        except:
+            return str(s).decode('utf8')
+
+
 def get_disk_usage(path):
     logging.debug('getting disk usage for path %(path)s...' % {
             'path': path})
@@ -359,9 +392,13 @@ def compute_signature(method, uri, body, key):
     parts[0] = parts[1] = ''
     parts[3] = query
     uri = urlparse.urlunsplit(parts)
-    
+    uri = _SIGNATURE_REGEX.sub('-', uri)
+    key = _SIGNATURE_REGEX.sub('-', key)
+
     if body and body.startswith('---'):
         body = None # file attachment
+
+    body = body and _SIGNATURE_REGEX.sub('-', body.decode('utf8'))
 
     return hashlib.sha1('%s:%s:%s:%s' % (method, uri, body or '', key)).hexdigest().lower()
 

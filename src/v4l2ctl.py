@@ -22,6 +22,7 @@ import re
 import stat
 import subprocess
 import time
+import utils
 
 
 _resolutions_cache = {}
@@ -109,6 +110,8 @@ def list_devices():
 def list_resolutions(device):
     global _resolutions_cache
     
+    device = utils.make_str(device)
+    
     if device in _resolutions_cache:
         return _resolutions_cache[device]
     
@@ -117,7 +120,7 @@ def list_resolutions(device):
     resolutions = set()
     output = ''
     started = time.time()
-    p = subprocess.Popen('v4l2-ctl -d %(device)s --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true' % {
+    p = subprocess.Popen('v4l2-ctl -d "%(device)s" --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true' % {
             'device': device}, shell=True, stdout=subprocess.PIPE, bufsize=1)
 
     fd = p.stdout.fileno()
@@ -198,6 +201,8 @@ def list_resolutions(device):
 
 
 def device_present(device):
+    device = utils.make_str(device)
+    
     try:
         st = os.stat(device)
         return stat.S_ISCHR(st.st_mode)
@@ -207,6 +212,8 @@ def device_present(device):
     
 
 def find_persistent_device(device):
+    device = utils.make_str(device)
+    
     try:
         devs_by_id = os.listdir(_DEV_V4L_BY_ID)
 
@@ -256,6 +263,8 @@ def set_hue(device, value):
 def _get_ctrl(device, control):
     global _ctrl_values_cache
     
+    device = utils.make_str(device)
+    
     if not device_present(device):
         return None
     
@@ -292,6 +301,8 @@ def _get_ctrl(device, control):
 def _set_ctrl(device, control, value):
     global _ctrl_values_cache
     
+    device = utils.make_str(device)
+    
     if not device_present(device):
         return
 
@@ -321,7 +332,7 @@ def _set_ctrl(device, control, value):
 
     output = ''
     started = time.time()
-    p = subprocess.Popen('v4l2-ctl -d %(device)s --set-ctrl %(control)s=%(value)s' % {
+    p = subprocess.Popen('v4l2-ctl -d "%(device)s" --set-ctrl %(control)s=%(value)s' % {
             'device': device, 'control': control, 'value': value}, shell=True, stdout=subprocess.PIPE, bufsize=1)
 
     fd = p.stdout.fileno()
@@ -358,13 +369,15 @@ def _set_ctrl(device, control, value):
 
 def _list_ctrls(device):
     global _ctrls_cache
+    
+    device = utils.make_str(device)
 
     if device in _ctrls_cache:
         return _ctrls_cache[device]
     
     output = ''
     started = time.time()
-    p = subprocess.Popen('v4l2-ctl -d %(device)s --list-ctrls' % {
+    p = subprocess.Popen('v4l2-ctl -d "%(device)s" --list-ctrls' % {
             'device': device}, shell=True, stdout=subprocess.PIPE, bufsize=1)
 
     fd = p.stdout.fileno()

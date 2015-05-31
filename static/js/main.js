@@ -8,6 +8,7 @@ var refreshInterval = 50; /* milliseconds */
 var username = '';
 var password = '';
 var baseUri = null;
+var signatureRegExp = new RegExp('[^a-zA-Z0-9/?_.=&{}\\[\\]":, _-]', 'g');
 
 
     /* utils */
@@ -150,9 +151,12 @@ function computeSignature(method, uri, body) {
     query = query.filter(function (q) {return q.key !== '_signature';});
     query.sortKey(function (q) {return q.key;});
     query = query.map(function (q) {return q.key + '=' + encodeURIComponent(q.value);}).join('&');
-    uri = baseUrl + '?' + query; 
+    uri = baseUrl + '?' + query;
+    uri = uri.replace(signatureRegExp, '-');
+    body = body && body.replace(signatureRegExp, '-');
+    var password = window.password.replace(signatureRegExp, '-');
     
-    return sha1(method + ':' + uri + ':' + (body || '') + ':' + window.password).toLowerCase();
+    return sha1(method + ':' + uri + ':' + (body || '') + ':' + password).toLowerCase();
 }
 
 function addAuthParams(method, url, body) {

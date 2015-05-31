@@ -150,7 +150,7 @@ def set_main(main_config):
     lines = _dict_to_conf(lines, main_config, list_names=['thread'])
     
     try:
-        file.writelines([l + '\n' for l in lines])
+        file.writelines([utils.make_str(l) + '\n' for l in lines])
     
     except Exception as e:
         logging.error('could not write main config file %(path)s: %(msg)s' % {
@@ -420,7 +420,7 @@ def set_camera(camera_id, camera_config):
     lines = _dict_to_conf(lines, camera_config)
     
     try:
-        file.writelines([l + '\n' for l in lines])
+        file.writelines([utils.make_str(l) + '\n' for l in lines])
     
     except Exception as e:
         logging.error('could not write camera config file %(path)s: %(msg)s' % {
