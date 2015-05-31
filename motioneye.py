@@ -391,6 +391,8 @@ if __name__ == '__main__':
     _configure_logging()
     _configure_tornado()
     
+    logging.info('hello! this is motionEye %s' % VERSION)
+    
     if settings.SMB_SHARES:
         stop, start = smbctl.update_mounts()
         if start:
@@ -406,3 +408,5 @@ if __name__ == '__main__':
         _start_thumbnailer()
 
     _run_server()
+
+    logging.info('bye!')
