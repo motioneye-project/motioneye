@@ -320,7 +320,7 @@ def get_camera(camera_id, as_lines=False):
         pass
     
     elif utils.simple_mjpeg_camera(camera_config):
-        pass
+        _get_additional_config(camera_config, camera_id=camera_id)
     
     else: # incomplete configuration
         logging.warn('camera config file at %s is incomplete, ignoring' % camera_config_path)
@@ -393,9 +393,14 @@ def set_camera(camera_id, camera_config):
         main_config['thread'] = threads
         
         set_main(main_config)
+        _set_additional_config(camera_config, camera_id=camera_id)
+
+    elif utils.remote_camera(camera_config):
+        pass
     
-    _set_additional_config(camera_config, camera_id=camera_id)
-        
+    elif utils.simple_mjpeg_camera(camera_config):
+        _set_additional_config(camera_config, camera_id=camera_id)
+
     # read the actual configuration from file
     config_file_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
     if os.path.isfile(config_file_path):
@@ -1179,6 +1184,13 @@ def simple_mjpeg_camera_ui_to_dict(ui, old_config=None):
         '@enabled': ui['enabled'],
     }
     
+    # additional configs
+    for name, value in ui.iteritems():
+        if not name.startswith('_'):
+            continue
+
+        data['@' + name] = value
+        
     old_config.update(data)
 
     return old_config
@@ -1192,6 +1204,13 @@ def simple_mjpeg_camera_dict_to_ui(data):
         'proto': 'mjpeg',
         'url': data['@url']
     }
+    
+    # additional configs
+    for name, value in data.iteritems():
+        if not name.startswith('@_'):
+            continue
+        
+        ui[name[1:]] = value
     
     return ui
 
