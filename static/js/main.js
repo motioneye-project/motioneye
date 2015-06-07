@@ -3665,6 +3665,12 @@ function recreateCameraFrames(cameras) {
             updateCameras(data.cameras);
         });
     }
+    
+    /* update settings panel */
+    var cameraId = $('#cameraSelect').val();
+    if (cameraId && cameraId != 'add') {
+        openSettings(cameraId);
+    }
 }
 
 
