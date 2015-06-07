@@ -162,7 +162,7 @@ def set_main(main_config):
         file.close()
 
 
-def get_camera_ids():
+def get_camera_ids(filter_valid=True):
     global _camera_ids_cache
     
     if _camera_ids_cache is not None:
@@ -195,6 +195,9 @@ def get_camera_ids():
         
     camera_ids.sort()
     
+    if not filter_valid:
+        return camera_ids
+
     filtered_camera_ids = []
     for camera_id in camera_ids:
         if get_camera(camera_id):
@@ -1304,6 +1307,17 @@ def is_old_motion():
 
     except:
         return False
+
+
+def invalidate():
+    global _main_config_cache
+    global _camera_config_cache
+    global _camera_ids_cache
+
+    logging.debug('invalidating config cache')    
+    _main_config_cache = None
+    _camera_config_cache = {}
+    _camera_ids_cache = None
 
 
 def _value_to_python(value):
