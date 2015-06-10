@@ -1571,6 +1571,7 @@ function dict2CameraUi(dict) {
     
     if (dict['proto'] == 'mjpeg') {
         mjpgUrl = dict['url'];
+        mjpgUrl = mjpgUrl.replace('127.0.0.1', window.location.host);
         embedUrl = cameraUrl + 'frame/';
     }
     else {
@@ -1588,7 +1589,7 @@ function dict2CameraUi(dict) {
         if (snapshotUrl) {
             snapshotUrl = addAuthParams('GET', snapshotUrl);
         }
-        if (mjpgUrl) {
+        if (mjpgUrl && dict['proto'] != 'mjpeg') {
             mjpgUrl = addAuthParams('GET', mjpgUrl);
         }
     }
@@ -3797,7 +3798,7 @@ function refreshCameraFrames() {
         if (!this.img) {
             this.img = $(this).find('img.camera')[0];
             if (this.config['proto'] == 'mjpeg') {
-                this.img.src = this.config['url'];
+                this.img.src = this.config['url'].replace('127.0.0.1', window.location.host);
             }
         }
         
