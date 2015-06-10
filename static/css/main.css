@@ -63,7 +63,7 @@ html {
 div.page,
 div.header-container {
     position: relative;
-    min-width: 360px;
+    min-width: 320px;
     width: 100%;
 }
 
@@ -227,7 +227,7 @@ div.settings {
 
 div.settings.open {
     width: 40%;
-    min-width: 360px;
+    min-width: 320px;
 }
 
 body:not(.admin) div.settings {
@@ -265,7 +265,7 @@ div.settings-top-bar {
 
 div.settings-top-bar.open {
     background-color: #414141;
-    min-width: 360px;
+    min-width: 320px;
 }
 
 body:not(.admin) div.settings-top-bar {
