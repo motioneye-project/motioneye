@@ -1368,12 +1368,10 @@ def _conf_to_dict(lines, list_names=[], no_convert=[]):
         if match:
             name, value = match.groups()[:2]
         
-        elif line.startswith('#'): # comment line
+        elif line.startswith('#') or line.startswith(';'): # comment line
             continue
 
         else:
-            line = line.split('#')[0] # everything up to the first #
-            
             parts = line.split(None, 1)
             if len(parts) == 1: # empty value
                 parts.append('')
