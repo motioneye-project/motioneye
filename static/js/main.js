@@ -2791,6 +2791,11 @@ function runAddCameraDialog() {
         if (!includeCameraSelect) {
             query = query.not('#addCameraSelect');
         }
+        else {
+            if (cameraMsgLabel.html()) {
+                return false;
+            }
+        }
         query.each(function () {
             if (this.invalid) {
                 valid = false;
