@@ -3803,7 +3803,9 @@ function refreshCameraFrames() {
         if (!this.img) {
             this.img = $(this).find('img.camera')[0];
             if (this.config['proto'] == 'mjpeg') {
-                this.img.src = this.config['url'].replace('127.0.0.1', window.location.host);
+                var url = this.config['url'].replace('127.0.0.1', window.location.host);
+                url += (url.indexOf('?') > 0 ? '&' : '?') + '_=' + new Date().getTime();
+                this.img.src = url;
             }
         }
         
