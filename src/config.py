@@ -1278,10 +1278,7 @@ def restore(content):
 
         else:
             logging.info('invalidating config cache')
-            _main_config_cache = None
-            _camera_config_cache = {}
-            _camera_ids_cache = None
-            _additional_structure_cache = {}
+            invalidate()
 
         return {'reboot': settings.ENABLE_REBOOT}
 
@@ -1313,11 +1310,13 @@ def invalidate():
     global _main_config_cache
     global _camera_config_cache
     global _camera_ids_cache
+    global _additional_structure_cache
 
     logging.debug('invalidating config cache')    
     _main_config_cache = None
     _camera_config_cache = {}
     _camera_ids_cache = None
+    _additional_structure_cache = {}
 
 
 def _value_to_python(value):
@@ -1620,7 +1619,9 @@ def _set_default_simple_mjpeg_camera(camera_id, data):
     
 def get_additional_structure(camera, separators=False):
     if _additional_structure_cache.get((camera, separators)) is None:
-        logging.debug('loading additional config structure for %s' % ('camera' if camera else 'main'))
+        logging.debug('loading additional config structure for %s, %s separators' % (
+                'camera' if camera else 'main',
+                'with' if separators else 'without'))
 
         # gather sections
         sections = OrderedDict()
@@ -1637,6 +1638,8 @@ def get_additional_structure(camera, separators=False):
             
             result['name'] = func.func_name
             sections[func.func_name] = result
+            
+            logging.debug('additional config section: %s' % result['name'])
     
         configs = OrderedDict()
         for func in _additional_config_funcs:
@@ -1658,6 +1661,8 @@ def get_additional_structure(camera, separators=False):
     
             section = sections.setdefault(result.get('section'), {})
             section.setdefault('configs', []).append(result)
+            
+            logging.debug('additional config item: %s' % result['name'])
 
         _additional_structure_cache[(camera, separators)] = sections, configs
 
