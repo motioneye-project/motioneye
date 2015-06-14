@@ -3605,7 +3605,7 @@ function addCameraFrameUi(cameraConfig) {
         
         /* there's no point in looking for a cookie update more often than once every second */
         var now = new Date().getTime();
-        if (!this.lastCookieTime || now - this.lastCookieTime > 1000) {
+        if ((!this.lastCookieTime || now - this.lastCookieTime > 1000) && (cameraFrameDiv[0].config['proto'] != 'mjpeg')) {
             if (getCookie('motion_detected_' + cameraId) == 'true') {
                 cameraFrameDiv.addClass('motion-detected');
             }
