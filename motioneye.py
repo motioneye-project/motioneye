@@ -204,6 +204,7 @@ def _test_requirements():
     import v4l2ctl
     has_v4lutils = v4l2ctl.find_v4l2_ctl() is not None
     
+    import smbctl
     has_mount_cifs = smbctl.find_mount_cifs() is not None
     
     ok = True
@@ -305,6 +306,7 @@ def _run_server():
     import thumbnailer
     import tornado.ioloop
     import server
+    import smbctl
 
     server.application.listen(settings.PORT, settings.LISTEN)
     logging.info('server started')
@@ -381,19 +383,20 @@ def _start_thumbnailer():
 
 if __name__ == '__main__':
     cmd = _configure_settings()
-    
-    import smbctl
 
-    if not _test_requirements():
-        sys.exit(-1)
-    
     _configure_signals()
     _configure_logging()
+    
+    if not _test_requirements():
+        sys.exit(-1)
+
     _configure_tornado()
     
     logging.info('hello! this is motionEye %s' % VERSION)
     
     if settings.SMB_SHARES:
+        import smbctl
+
         stop, start = smbctl.update_mounts()
         if start:
             _start_motion()
