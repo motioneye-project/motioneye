@@ -56,12 +56,6 @@ MJPG_CLIENT_TIMEOUT = 10
 # timeout in seconds after which an idle mjpg client is removed (set to 0 to disable)
 MJPG_CLIENT_IDLE_TIMEOUT = 10
 
-# the maximal number of entries per camera in the current pictures cache
-PICTURE_CACHE_SIZE = 8
-
-# the number of seconds that a cached picture is valid
-PICTURE_CACHE_LIFETIME = 60
-
 # enable SMB shares (requires root) 
 SMB_SHARES = False
 

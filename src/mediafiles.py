@@ -42,10 +42,6 @@ import utils
 _PICTURE_EXTS = ['.jpg']
 _MOVIE_EXTS = ['.avi', '.mp4']
 
-# a dictionary indexed by camera_id containing
-# tuples of (moment, sequence, width, content)
-_current_pictures_cache = {}
-
 # a cache list of paths to movies without preview
 _previewless_movie_files = []
 
@@ -757,7 +753,7 @@ def get_current_picture(camera_config, width, height):
         return None
     
     if width is height is None:
-        return jpg
+        return jpg # no server-side resize needed
 
     sio = StringIO.StringIO(jpg)
     image = Image.open(sio)
@@ -781,33 +777,6 @@ def get_current_picture(camera_config, width, height):
     image.save(sio, format='JPEG')
 
     return sio.getvalue()
-
-
-def set_picture_cache(camera_id, sequence, width, content):
-    if not content:
-        return
-    
-    cache = _current_pictures_cache.setdefault(camera_id, [])
-    
-    if len(cache) >= settings.PICTURE_CACHE_SIZE:
-        cache.pop(0) # drop the first item
-    
-    cache.append((datetime.datetime.utcnow(), sequence, width, content))
-
-
-def get_picture_cache(camera_id, sequence, width):
-    cache = _current_pictures_cache.setdefault(camera_id, [])
-    now = datetime.datetime.utcnow()
-
-    for (moment, seq, w, content) in cache:
-        delta = now - moment
-        if delta.days * 86400 + delta.seconds > settings.PICTURE_CACHE_LIFETIME:
-            continue
-        
-        if (seq >= sequence) and ((width is w is None) or (width >= w)):
-            return content
-        
-    return None
 
 
 def get_prepared_cache(key):

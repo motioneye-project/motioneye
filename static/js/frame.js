@@ -123,9 +123,8 @@ function refreshCameraFrame() {
                 }
             }
             
-            var timestamp = Math.round(new Date().getTime());
-            
-            var uri = baseUri + 'picture/' + cameraId + '/current/?seq=' + timestamp;
+            var timestamp = new Date().getTime();
+            var uri = baseUri + 'picture/' + cameraId + '/current/?_=' + timestamp;
             if (cameraFrame.serverSideResize) {
                 uri += '&width=' + img.width;
             }

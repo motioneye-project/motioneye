@@ -66,8 +66,6 @@ def _configure_settings():
     set_default_setting('REMOTE_REQUEST_TIMEOUT', 10)
     set_default_setting('MJPG_CLIENT_TIMEOUT', 10)
     set_default_setting('MJPG_CLIENT_IDLE_TIMEOUT', 10)
-    set_default_setting('PICTURE_CACHE_SIZE', 8)
-    set_default_setting('PICTURE_CACHE_LIFETIME', 60)
     set_default_setting('SMB_SHARES', False)
     set_default_setting('SMB_MOUNT_ROOT', '/media')
     set_default_setting('WPA_SUPPLICANT_CONF', None)

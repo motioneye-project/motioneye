@@ -257,9 +257,6 @@ def _garbage_collector():
 
 
 def get_jpg(camera_id):
-    if not motionctl.running():
-        return None
-    
     if camera_id not in MjpgClient.clients:
         # mjpg client not started yet for this camera
         

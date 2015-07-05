@@ -1589,9 +1589,6 @@ function dict2CameraUi(dict) {
         if (snapshotUrl) {
             snapshotUrl = addAuthParams('GET', snapshotUrl);
         }
-        if (mjpgUrl && dict['proto'] != 'mjpeg') {
-            mjpgUrl = addAuthParams('GET', mjpgUrl);
-        }
     }
     
     $('#streamingSnapshotUrlEntry').val(snapshotUrl); markHideIfNull(!snapshotUrl, 'streamingSnapshotUrlEntry');
@@ -3778,9 +3775,8 @@ function refreshCameraFrames() {
             }
         }
         
-        var timestamp = Math.round(new Date().getTime());
-        
-        var uri = baseUri + 'picture/' + cameraId + '/current/?seq=' + timestamp;
+        var timestamp = new Date().getTime();
+        var uri = baseUri + 'picture/' + cameraId + '/current/?_=' + timestamp;
         if (serverSideResize) {
             uri += '&width=' + img.width;
         }

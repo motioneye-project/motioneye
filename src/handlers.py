@@ -741,35 +741,20 @@ class PictureHandler(BaseHandler):
     def current(self, camera_id):
         self.set_header('Content-Type', 'image/jpeg')
         
-        sequence = self.get_argument('seq', None)
-        if sequence:
-            sequence = int(sequence)
-        
         width = self.get_argument('width', None)
         height = self.get_argument('height', None)
         
-        picture = sequence and mediafiles.get_picture_cache(camera_id, sequence, width) or None
-
-        if picture is not None:
-            return self.try_finish(picture)
-
         camera_config = config.get_camera(camera_id)
         if utils.local_motion_camera(camera_config):
             picture = mediafiles.get_current_picture(camera_config,
                     width=width,
                     height=height)
             
-            if sequence and picture:
-                mediafiles.set_picture_cache(camera_id, sequence, width, picture)
-
             self.set_cookie('motion_detected_' + str(camera_id), str(motionctl.is_motion_detected(camera_id)).lower())
             self.try_finish(picture)
                 
         elif utils.remote_camera(camera_config):
             def on_response(motion_detected=False, picture=None, error=None):
-                if sequence and picture:
-                    mediafiles.set_picture_cache(camera_id, sequence, width, picture)
-                
                 self.set_cookie('motion_detected_' + str(camera_id), str(motion_detected).lower())
                 self.try_finish(picture)
             
