@@ -781,16 +781,15 @@ def motion_camera_ui_to_dict(ui, old_config=None):
             
         data['quality'] = max(1, int(ui['image_quality']))
     
-    if ui['motion_movies']:
-        if proto == 'v4l2':
-            max_val = data['width'] * data['height'] * data['framerate'] / 3
+    if proto == 'v4l2':
+        max_val = data['width'] * data['height'] * data['framerate'] / 3
+    
+    else: # always assume a netcam image size of 640x480, since we have no means to know it at this point
+        max_val = 640 * 480 * data['framerate'] / 3
         
-        else: # always assume netcam image size of (640x480) - we have no means to test it
-            max_val = 640 * 480 * data['framerate'] / 3
-            
-        max_val = min(max_val, 9999999)
-        
-        data['ffmpeg_bps'] = int(ui['movie_quality']) * max_val / 100
+    max_val = min(max_val, 9999999)
+    
+    data['ffmpeg_bps'] = int(ui['movie_quality']) * max_val / 100
     
     # working schedule
     if ui['working_schedule']:
