@@ -24,7 +24,8 @@ body {
 
 select,
 input[type=text],
-input[type=password] {
+input[type=password],
+textarea {
     box-sizing: border-box;
 }
 

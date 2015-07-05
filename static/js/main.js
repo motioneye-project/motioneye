@@ -540,19 +540,6 @@ function initUI() {
         }, '');
     });
     
-    /* implement change events for [contenteditable=true] elements */
-    $('[contenteditable=true]').each(function () {
-        var $this = $(this);
-        $this.focus(function () {
-            $this.data('val', $this.html());
-        });
-        $this.blur(function () {
-            if ($this.html() != $this.data('val')) {
-                $this.change();
-            }
-        });
-    });
-    
     /* input value processors */
     makeStrippedInput($('tr[strip=true] input[type=text]'));
     makeStrippedInput($('tr[strip=true] input[type=password]'));
@@ -675,10 +662,10 @@ function initUI() {
             fetchCurrentCameraConfig(endProgress);
         }
     });
-    $('input.main-config, select.main-config, div[contenteditable=true].main-config').change(function () {
+    $('input.main-config, select.main-config, textarea.main-config').change(function () {
         pushMainConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
     });
-    $('input.camera-config, select.camera-config, div[contenteditable=true].camera-config').change(function () {
+    $('input.camera-config, select.camera-config, textarea.camera-config').change(function () {
         pushCameraConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
     });
     
@@ -1197,7 +1184,7 @@ function dict2MainUi(dict) {
     /* additional configs */
     $('tr.additional-config').each(function () {
         var $this = $(this);
-        var control = $this.find('input, select, div.html');
+        var control = $this.find('input, select, textarea, div.html');
         
         if (!control.hasClass('main-config')) {
             return;
@@ -1249,13 +1236,11 @@ function cameraUi2Dict() {
         'auto_brightness': $('#autoBrightnessSwitch')[0].checked,
         'rotation': $('#rotationSelect').val(),
         'framerate': $('#framerateSlider').val(),
-        'extra_options': $('#extraOptionsEntry').html().split(new RegExp('(<br[^>]*>)|(<div>)|(<p>)')).map(function (o) {
+        'extra_options': $('#extraOptionsEntry').val().split(new RegExp('(\n)|(\r\n)|(\n\r)')).map(function (o) {
             if (!o) {
                 return null;
             }
 
-            o = o.replace(new RegExp('(<([^>]+)>)', 'ig'), ''); /* remove crappy HTML tags added by the browser */
-            o = o.replace(new RegExp('&\\w+;', 'ig'), ''); /* remove crappy HTML entities added by the browser */
             o = o.trim();
             if (!o.length) {
                 return null;
@@ -1493,9 +1478,9 @@ function dict2CameraUi(dict) {
     
     $('#rotationSelect').val(dict['rotation']); markHideIfNull('rotation', 'rotationSelect');
     $('#framerateSlider').val(dict['framerate']); markHideIfNull('framerate', 'framerateSlider');
-    $('#extraOptionsEntry').html(dict['extra_options'] ? (dict['extra_options'].map(function (o) {
+    $('#extraOptionsEntry').val(dict['extra_options'] ? (dict['extra_options'].map(function (o) {
         return o.join(' ');
-    }).join('<br>')) : ''); markHideIfNull('extra_options', 'extraOptionsEntry');
+    }).join('\r\n')) : ''); markHideIfNull('extra_options', 'extraOptionsEntry');
     
     /* file storage */
     $('#storageDeviceSelect').empty();
@@ -1687,7 +1672,7 @@ function dict2CameraUi(dict) {
     /* additional configs */
     $('tr.additional-config').each(function () {
         var $this = $(this);
-        var control = $this.find('input, select, div.html');
+        var control = $this.find('input, select, textarea, div.html');
         
         if (!control.hasClass('camera-config')) {
             return;

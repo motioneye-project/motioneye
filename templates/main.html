@@ -274,7 +274,7 @@
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Extra Motion Options</span></td>
-                        <td class="settings-item-value"><div class="styled device camera-config" id="extraOptionsEntry" contenteditable="true"></div></td>
+                        <td class="settings-item-value"><textarea class="styled device camera-config" id="extraOptionsEntry" rows="3"></textarea></td>
                         <td><span class="help-mark" title="you can add here any extra options for the motion daemon (use the &quot;name value&quot; format, one option per line)">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('device', {}).get('configs', []) %}

@@ -127,12 +127,11 @@ div.check-box.on:HOVER div.check-box-button {
 }
 
 
-    /* input box */
+    /* input boxes */
 
 input[type=password].styled,
 input[type=text].styled,
-textarea.styled,
-[contenteditable=true].styled {
+textarea.styled {
     width: 90%;
     border: 1px solid #317CAD;
     border-radius: 2px;
@@ -179,6 +178,7 @@ input[type=text].time {
 input[readonly] {
     border: 1px solid #555 !important;
 }
+
 
     /* combo box */
 
