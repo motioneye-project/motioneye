@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
+import collections
 import datetime
 import errno
 import logging
@@ -1673,7 +1674,7 @@ def _get_additional_config(data, camera_id=None):
     
     (sections, configs) = get_additional_structure(camera=bool(camera_id))
     get_funcs = set([c.get('get') for c in configs.itervalues() if c.get('get')])
-    get_func_values = dict((f, f(*args)) for f in get_funcs)
+    get_func_values = collections.OrderedDict((f, f(*args)) for f in get_funcs)
 
     for name, section in sections.iteritems():
         if not section.get('get'):
@@ -1701,7 +1702,7 @@ def _set_additional_config(data, camera_id=None):
 
     (sections, configs) = get_additional_structure(camera=bool(camera_id))
     
-    set_func_values = {}
+    set_func_values = collections.OrderedDict()
     for name, section in sections.iteritems():
         if not section.get('set'):
             continue
