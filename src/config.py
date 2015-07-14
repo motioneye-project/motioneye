@@ -1363,7 +1363,7 @@ def _conf_to_dict(lines, list_names=[], no_convert=[]):
         if line.startswith(';'):  # comment line
             continue
         
-        match = re.match('^\#\s*(\@\w+)\s*([^\#]*)', line)
+        match = re.match('^\#\s*(\@\w+)\s*(.*)', line)
         if match:
             name, value = match.groups()[:2]
         
@@ -1407,7 +1407,7 @@ def _dict_to_conf(lines, data, list_names=[]):
             conf_lines.append(line)
             continue
         
-        match = re.match('^\#\s*(\@\w+)\s*([^\#]*)', line)
+        match = re.match('^\#\s*(\@\w+)\s*(.*)', line)
         if match: # @line
             (name, value) = match.groups()[:2]
         
