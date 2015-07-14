@@ -82,7 +82,7 @@ function refreshCameraFrame() {
     
     if (cameraFrame.proto == 'mjpeg') {
         /* no manual refresh for simple mjpeg cameras */
-        var url = cameraFrame.url.replace('127.0.0.1', window.location.host);
+        var url = cameraFrame.url.replace('127.0.0.1', window.location.host.split(':')[0]);
         url += (url.indexOf('?') > 0 ? '&' : '?') + '_=' + new Date().getTime();
         img.src = url;
         return; 
