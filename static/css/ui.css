@@ -165,8 +165,9 @@ input[type=text].number {
 
 input[type=text].error,
 input[type=password].error,
-input[type=file].error {
-    background-image: url(../img/validation-error.svg);
+input[type=file].error,
+select.error {
+    background-image: url(../img/validation-error.svg) !important;
     background-position: center right;
     background-repeat: no-repeat;
 }

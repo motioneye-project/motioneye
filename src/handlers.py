@@ -171,11 +171,8 @@ class ConfigHandler(BaseHandler):
             self.get_config(camera_id)
             
         elif op == 'list':
-            self.list_cameras()
+            self.list()
         
-        elif op == 'list_devices':
-            self.list_devices()
-            
         elif op == 'backup':
             self.backup()
         
@@ -484,7 +481,7 @@ class ConfigHandler(BaseHandler):
             self.finish_json({'error': True})
 
     @BaseHandler.auth()
-    def list_cameras(self):
+    def list(self):
         logging.debug('listing cameras')
 
         proto = self.get_data().get('proto')        
@@ -497,7 +494,7 @@ class ConfigHandler(BaseHandler):
                     cameras = [c for c in cameras if c.get('enabled')]
                     self.finish_json({'cameras': cameras})
 
-            remote.list_cameras(self.get_data(), on_response)
+            remote.list(self.get_data(), on_response)
         
         elif proto == 'netcam':
             def on_response(cameras=None, error=None):
@@ -518,7 +515,20 @@ class ConfigHandler(BaseHandler):
                     self.finish_json({'cameras': cameras})
             
             utils.test_mjpeg_url(self.get_data(), auth_modes=['basic', 'digest'], allow_jpeg=False, callback=on_response)
-                
+        
+        elif proto == 'v4l2':
+            logging.debug('listing v4l2 devices')
+            
+            configured_devices = set()
+            for camera_id in config.get_camera_ids():
+                data = config.get_camera(camera_id)
+                if utils.v4l2_camera(data):
+                    configured_devices.add(data['videodevice'])
+
+            cameras = [{'id': d[0], 'name': d[1]} for d in v4l2ctl.list_devices() if d[0] not in configured_devices]
+            
+            self.finish_json({'cameras': cameras})
+
         else:  # assuming local motionEye camera listing
             cameras = []
             camera_ids = config.get_camera_ids()
@@ -588,21 +598,6 @@ class ConfigHandler(BaseHandler):
             if length[0] == 0:        
                 self.finish_json({'cameras': []})
 
-    @BaseHandler.auth(admin=True)
-    def list_devices(self):
-        logging.debug('listing devices')
-        
-        configured_devices = {}
-        for camera_id in config.get_camera_ids():
-            data = config.get_camera(camera_id)
-            if utils.v4l2_camera(data):
-                configured_devices[data['videodevice']] = True
-
-        devices = [{'uri': d[0], 'name': d[1], 'configured': d[0] in configured_devices}
-                for d in v4l2ctl.list_devices()]
-        
-        self.finish_json({'devices': devices})
-    
     @BaseHandler.auth(admin=True)
     def add_camera(self):
         logging.debug('adding new camera')

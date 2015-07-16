@@ -885,7 +885,7 @@ function makeModalDialogButtons(buttonsInfo) {
             var oldClick = info.click;
             info.click = function () {
                 if (oldClick() == false) {
-                    return;
+                    return false;
                 }
                 
                 hideModalDialog();

@@ -111,7 +111,7 @@ def _remote_params(local_config):
             local_config.get('@remote_camera_id', local_config.get('remote_camera_id')))
 
 
-def list_cameras(local_config, callback):
+def list(local_config, callback):
     scheme, host, port, username, password, uri, _ = _remote_params(local_config)
     
     logging.debug('listing remote cameras on %(url)s' % {

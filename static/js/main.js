@@ -2652,9 +2652,14 @@ function runAddCameraDialog() {
     var content = 
             $('<table class="add-camera-dialog">' +
                 '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Device</span></td>' +
-                    '<td class="dialog-item-value"><select class="styled" id="deviceSelect"></select></td>' +
-                    '<td><span class="help-mark" title="the device type you wish to add">?</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">Camera Type</span></td>' +
+                    '<td class="dialog-item-value"><select class="styled" id="typeSelect">' +
+                        '<option value="v4l2">Local Camera</option>' +
+                        '<option value="netcam">Network Camera</option>' +
+                        '<option value="motioneye">Remote motionEye Camera</option>' +
+                        '<option value="mjpeg">Simple MJPEG Camera</option>' +
+                    '</select></td>' +
+                    '<td><span class="help-mark" title="the type of camera you wish to add">?</span></td>' +
                 '</tr>' +
                 '<tr class="motioneye netcam mjpeg">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">URL</span></td>' +
@@ -2671,21 +2676,21 @@ function runAddCameraDialog() {
                     '<td class="dialog-item-value"><input type="password" class="styled" id="passwordEntry" placeholder="password..."></td>' +
                     '<td><span class="help-mark" title="the password for the URL, if required">?</span></td>' +
                 '</tr>' +
-                '<tr class="motioneye netcam mjpeg">' +
+                '<tr class="v4l2 motioneye netcam mjpeg">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Camera</span></td>' +
                     '<td class="dialog-item-value"><select class="styled" id="addCameraSelect"></select><span id="cameraMsgLabel"></span></td>' +
                     '<td><span class="help-mark" title="the camera you wish to add">?</span></td>' +
                 '</tr>' +
-                '<tr class="motioneye netcam mjpeg">' +
+                '<tr class="v4l2 motioneye netcam mjpeg">' +
                     '<td colspan="100"><div class="dialog-item-separator"></div></td>' +
                 '</tr>' +
-                '<tr class="motioneye netcam mjpeg">' +
+                '<tr class="v4l2 motioneye netcam mjpeg">' +
                     '<td class="dialog-item-value" colspan="100"><div id="addCameraInfo"></div></td>' +
                 '</tr>' +
             '</table>');
     
     /* collect ui widgets */
-    var deviceSelect = content.find('#deviceSelect');
+    var typeSelect = content.find('#typeSelect');
     var urlEntry = content.find('#urlEntry');
     var usernameEntry = content.find('#usernameEntry');
     var passwordEntry = content.find('#passwordEntry');
@@ -2696,23 +2701,22 @@ function runAddCameraDialog() {
     /* make validators */
     makeUrlValidator(urlEntry, true);
     makeTextValidator(usernameEntry, false);
-    makeTextValidator(deviceSelect, false);
+    makeTextValidator(typeSelect, false);
     makeComboValidator(addCameraSelect, true);
     
     /* ui interaction */
     function updateUi() {
-        content.find('tr.motioneye, tr.netcam, tr.mjpeg').css('display', 'none');
+        content.find('tr.v4l2, tr.motioneye, tr.netcam, tr.mjpeg').css('display', 'none');
 
-        if (deviceSelect.val() == 'motioneye') {
+        if (typeSelect.val() == 'motioneye') {
             content.find('tr.motioneye').css('display', 'table-row');
-            addCameraSelect.hide();
             usernameEntry.val('admin');
             usernameEntry.attr('readonly', 'readonly');
             addCameraInfo.html(
                     'Remote motionEye cameras are cameras installed behind another motionEye server. ' +
                     'Adding them here will allow you to view and manage them remotely.');
         }
-        else if (deviceSelect.val() == 'netcam') {
+        else if (typeSelect.val() == 'netcam') {
             usernameEntry.removeAttr('readonly');
             
             /* make sure there is one trailing slash so that
@@ -2724,12 +2728,11 @@ function runAddCameraDialog() {
             }
 
             content.find('tr.netcam').css('display', 'table-row');
-            addCameraSelect.hide();
             addCameraInfo.html(
                     'Network cameras (or IP cameras) are devices that natively stream MJPEG videos or plain JPEG images. ' +
                     "Consult your device's manual to find out the correct MJPEG (or JPEG) URL.");
         }
-        else if (deviceSelect.val() == 'mjpeg') {
+        else if (typeSelect.val() == 'mjpeg') {
             usernameEntry.removeAttr('readonly');
             
             /* make sure there is one trailing slash so that
@@ -2741,43 +2744,48 @@ function runAddCameraDialog() {
             }
 
             content.find('tr.mjpeg').css('display', 'table-row');
-            addCameraSelect.hide();
             addCameraInfo.html(
                     'Adding your device as a simple MJPEG camera instead of as a network camera will improve the framerate, ' +
                     'but no motion detection, picture capturing or movie recording will be available for it. ' +
                     'The camera must be accessible to both your server and your browser. ' +
                     'This type of camera is not compatible with Internet Explorer.');
         }
+        else { /* assuming v4l2 */
+            content.find('tr.v4l2').css('display', 'table-row');
+            addCameraInfo.html(
+                    'Local cameras are camera devices that are connected directly to your motionEye system. ' +
+                    'These are usually USB webcams or board-specific cameras.');
+        }
         
         updateModalDialogPosition();
-        addCameraSelect.html('');
         
         /* re-validate all the validators */
         content.find('.validator').each(function () {
             this.validate();
         });
         
-        if (content.is(':visible') && uiValid() && (deviceSelect.val() in {'motioneye': 1, 'netcam': 1, 'mjpeg': 1})) {
-            fetchRemoteCameras();
+        if (uiValid()) {
+            listCameras();
         }
     }
     
     function uiValid(includeCameraSelect) {
+        var query = content.find('input, select');
+        if (!includeCameraSelect) {
+            query = query.not('#addCameraSelect');
+        }
+        else {
+            if (cameraMsgLabel.html() || !addCameraSelect.val()) {
+                return false;
+            }
+        }
+
         /* re-validate all the validators */
         content.find('.validator').each(function () {
             this.validate();
         });
         
         var valid = true;
-        var query = content.find('input, select');
-        if (!includeCameraSelect) {
-            query = query.not('#addCameraSelect');
-        }
-        else {
-            if (cameraMsgLabel.html()) {
-                return false;
-            }
-        }
         query.each(function () {
             if (this.invalid) {
                 valid = false;
@@ -2821,17 +2829,21 @@ function runAddCameraDialog() {
         };
     }
     
-    function fetchRemoteCameras() {
+    function listCameras() {
         var progress = $('<div style="text-align: center; margin: 2px;"><img src="' + staticUrl + 'img/small-progress.gif"></div>');
         
+        addCameraSelect.html('');
         addCameraSelect.hide();
         addCameraSelect.parent().find('div').remove(); /* remove any previous progress div */
         addCameraSelect.before(progress);
         
-        var data = splitCameraUrl(urlEntry.val());
+        var data = {};
+        if (urlEntry.is(':visible') && urlEntry.val()) {
+            data = splitCameraUrl(urlEntry.val());
+        }
         data.username = usernameEntry.val();
         data.password = passwordEntry.val();
-        data.proto = deviceSelect.val();
+        data.proto = typeSelect.val();
         
         cameraMsgLabel.html('');
         
@@ -2854,91 +2866,72 @@ function runAddCameraDialog() {
                 addCameraSelect.append('<option value="' + info.id + '">' + info.name + '</option>');
             });
             
+            if (!data.cameras || !data.cameras.length) {
+                addCameraSelect.append('<option value="">(no cameras)</option>');
+            }
+            
             addCameraSelect.show();
+            addCameraSelect[0].validate();
         });
     }
     
-    deviceSelect.change(updateUi);
+    typeSelect.change(updateUi);
     urlEntry.change(updateUi);
     usernameEntry.change(updateUi);
     passwordEntry.change(updateUi);
     updateUi();
     
-    showModalDialog('<div class="modal-progress"></div>');
-    
-    /* fetch the available devices */
-    ajax('GET', baseUri + 'config/list_devices/', null, function (data) {
-        if (data == null || data.error) {
-            hideModalDialog();
-            showErrorMessage(data && data.error);
-            return;
-        }
-        
-        /* add available devices */
-        data.devices.forEach(function (device) {
-            if (!device.configured) {
-                deviceSelect.append('<option value="' + device.uri + '">' + device.name + '</option>');
+    runModalDialog({
+        title: 'Add Camera...',
+        closeButton: true,
+        buttons: 'okcancel',
+        content: content,
+        onOk: function () {
+            if (!uiValid(true)) {
+                return false;
             }
-        });
-        
-        deviceSelect.append('<option value="netcam">Network camera...</option>');
-        deviceSelect.append('<option value="motioneye">Remote motionEye camera...</option>');
-        deviceSelect.append('<option value="mjpeg">Simple MJPEG camera...</option>');
-        
-        updateUi();
-        
-        runModalDialog({
-            title: 'Add Camera...',
-            closeButton: true,
-            buttons: 'okcancel',
-            content: content,
-            onOk: function () {
-                if (!uiValid(true)) {
-                    return false;
-                }
 
-                var data = {};
+            var data = {};
+            
+            if (typeSelect.val() == 'motioneye') {
+                data = splitCameraUrl(urlEntry.val());
+                data.proto = 'motioneye';
+                data.username = usernameEntry.val();
+                data.password = passwordEntry.val();
+                data.remote_camera_id = addCameraSelect.val();
+            }
+            else if (typeSelect.val() == 'netcam') {
+                data = splitCameraUrl(urlEntry.val());
+                data.username = usernameEntry.val();
+                data.password = passwordEntry.val();
+                data.proto = 'netcam';
+            }
+            else if (typeSelect.val() == 'mjpeg') {
+                data = splitCameraUrl(urlEntry.val());
+                data.username = usernameEntry.val();
+                data.password = passwordEntry.val();
+                data.proto = 'mjpeg';
+            }
+            else { /* assuming v4l2 */
+                data.proto = 'v4l2';
+                data.uri = addCameraSelect.val();
+            }
+
+            beginProgress();
+            ajax('POST', baseUri + 'config/add/', data, function (data) {
+                endProgress();
+
+                if (data == null || data.error) {
+                    showErrorMessage(data && data.error);
+                    return;
+                }
                 
-                if (deviceSelect.val() == 'motioneye') {
-                    data = splitCameraUrl(urlEntry.val());
-                    data.proto = 'motioneye';
-                    data.username = usernameEntry.val();
-                    data.password = passwordEntry.val();
-                    data.remote_camera_id = addCameraSelect.val();
-                }
-                else if (deviceSelect.val() == 'netcam') {
-                    data = splitCameraUrl(urlEntry.val());
-                    data.username = usernameEntry.val();
-                    data.password = passwordEntry.val();
-                    data.proto = 'netcam';
-                }
-                else if (deviceSelect.val() == 'mjpeg') {
-                    data = splitCameraUrl(urlEntry.val());
-                    data.username = usernameEntry.val();
-                    data.password = passwordEntry.val();
-                    data.proto = 'mjpeg';
-                }
-                else { /* assuming v4l2 */
-                    data.proto = 'v4l2';
-                    data.uri = deviceSelect.val();
-                }
-
-                beginProgress();
-                ajax('POST', baseUri + 'config/add/', data, function (data) {
-                    endProgress();
-
-                    if (data == null || data.error) {
-                        showErrorMessage(data && data.error);
-                        return;
-                    }
-                    
-                    var cameraOption = $('#cameraSelect').find('option[value=add]');
-                    cameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
-                    $('#cameraSelect').val(data.id).change();
-                    recreateCameraFrames();
-                });
-            }
-        });
+                var cameraOption = $('#cameraSelect').find('option[value=add]');
+                cameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
+                $('#cameraSelect').val(data.id).change();
+                recreateCameraFrames();
+            });
+        }
     });
 }
 
