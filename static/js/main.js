@@ -2085,7 +2085,7 @@ function doRestore() {
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Backup File</span></td>' +
                     '<td class="dialog-item-value"><form><input type="file" class="styled" id="fileInput"></form></td>' +
-                    '<td><span class="help-mark" title="the device you wish to add to motionEye">?</span></td>' +
+                    '<td><span class="help-mark" title="the backup file you have previously downloaded">?</span></td>' +
                 '</tr>' +
             '</table>');
     
