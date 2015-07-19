@@ -2859,8 +2859,6 @@ function runAddCameraDialog() {
                 return;
             }
             
-            addCameraSelect.html('');
-            
             if (data.error || !data.cameras) {
                 return;
             }
@@ -2878,12 +2876,16 @@ function runAddCameraDialog() {
         });
     }
     
+    typeSelect.change(function () {
+        addCameraSelect.html('');
+    });
+    
     typeSelect.change(updateUi);
     urlEntry.change(updateUi);
     usernameEntry.change(updateUi);
     passwordEntry.change(updateUi);
     updateUi();
-    
+
     runModalDialog({
         title: 'Add Camera...',
         closeButton: true,
