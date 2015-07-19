@@ -90,12 +90,12 @@ def list_devices():
     for line in output.split('\n'):
         if line.startswith('\t'):
             device = line.strip()
-            device = find_persistent_device(device)
-            devices.append((device, name))
+            persistent_device = find_persistent_device(device)
+            devices.append((device, persistent_device, name))
         
-            logging.debug('found device %(name)s: %(device)s' % {
-                    'name': name, 'device': device})
-            
+            logging.debug('found device %(name)s: %(device)s, %(persistent_device)s' % {
+                    'name': name, 'device': device, 'persistent_device': persistent_device})
+
         else:
             name = line.split('(')[0].strip()
     
