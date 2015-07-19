@@ -186,7 +186,7 @@ function isAdmin() {
     return username === adminUsername;
 }
 
-function ajax(method, url, data, callback, error) {
+function ajax(method, url, data, callback, error, timeout) {
     var origUrl = url;
     var origData = data;
     
@@ -224,6 +224,7 @@ function ajax(method, url, data, callback, error) {
         type: method,
         url: url,
         data: data,
+        timeout: timeout || 300 * 1000,
         success: function (data) {
             if (data && data.error == 'unauthorized') {
                 if (data.prompt) {
@@ -1950,7 +1951,8 @@ function doShutDown() {
                         setTimeout(function () {
                             $('div.modal-glass').animate({'opacity': '1', 'background-color': '#212121'}, 200);
                         },100);
-                    }
+                    },
+                    10000 /* timeout = 10s */
                 );
             }
             
@@ -1982,7 +1984,8 @@ function doReboot() {
                     function () {
                         shutDown = true; /* the first error indicates the system was shut down */
                         setTimeout(checkServer, 1000);
-                    }
+                    },
+                    5 * 1000 /* timeout = 5s */
                 );
             }
             
