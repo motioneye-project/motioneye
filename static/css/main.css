@@ -333,14 +333,12 @@ div.apply-button {
     display: none;
     opacity: 0;
     float: right;
-    width: 80px;
+    width: 4em;
     height: 30px;
     line-height: 30px;
     text-align: center;
     margin: 10px;
     color: white;
-    font-weight: bold;
-    font-size: 17px;
     background-color: #FF6F00;
     border-radius: 3px;
     transition: all 0.1s linear;
