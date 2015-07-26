@@ -144,6 +144,7 @@ textarea.styled {
     transition: all 0.1s ease;
     resize: none;
     vertical-align: middle;
+    white-space: nowrap;
 }
 
 input[type=password].styled:FOCUS,

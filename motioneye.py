@@ -39,7 +39,7 @@ sys.path.append(os.path.join(os.path.dirname(sys.argv[0]), 'src'))
 import settings
 import update
 
-VERSION = '0.24'
+VERSION = '0.25.1'
 
 
 def _configure_settings():
