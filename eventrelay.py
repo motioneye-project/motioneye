@@ -17,17 +17,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import errno
-import hashlib
 import json
 import logging
 import os.path
 import sys
 import urllib
-import urlparse
 
 sys.path.append(os.path.join(os.path.dirname(sys.argv[0]),'src'))
 
 import settings
+import utils
 
 from motioneye import _configure_settings, _configure_logging
 
@@ -98,16 +97,16 @@ def get_admin_credentials():
     return admin_username, admin_password
 
 
-def compute_signature(method, uri, body, key):
-    parts = list(urlparse.urlsplit(uri))
-    query = [q for q in urlparse.parse_qsl(parts[3]) if (q[0] != 'signature')]
-    query.sort(key=lambda q: q[0])
-    query = urllib.urlencode(query)
-    parts[0] = parts[1] = ''
-    parts[3] = query
-    uri = urlparse.urlunsplit(parts)
-    
-    return hashlib.sha1('%s:%s:%s:%s' % (method, uri, body or '', key)).hexdigest().lower()
+# def compute_signature(method, uri, body, key):
+#     parts = list(urlparse.urlsplit(uri))
+#     query = [q for q in urlparse.parse_qsl(parts[3]) if (q[0] != 'signature')]
+#     query.sort(key=lambda q: q[0])
+#     query = urllib.urlencode(query)
+#     parts[0] = parts[1] = ''
+#     parts[3] = query
+#     uri = urlparse.urlunsplit(parts)
+#     
+#     return hashlib.sha1('%s:%s:%s:%s' % (method, uri, body or '', key)).hexdigest().lower()
 
 
 if __name__ == '__main__':
@@ -128,7 +127,7 @@ if __name__ == '__main__':
             'thread_id': thread_id,
             'event': event}
     
-    signature = compute_signature('POST', uri, '', admin_password)
+    signature = utils.compute_signature('POST', uri, '', admin_password)
     
     url = 'http://127.0.0.1:%(port)s' + uri + '&_signature=' + signature
     url = url % {'port': settings.PORT}

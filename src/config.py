@@ -825,7 +825,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         send_mail_path = os.path.abspath(send_mail_path)
         emails = re.sub('\\s', '', ui['email_notifications_addresses'])
         
-        on_event_start.append('%(script)s "%(server)s" "%(port)s" "%(account)s" "%(password)s" "%(tls)s" "%(to)s" "motion_start" "%%t" "%%Y-%%m-%%dT%%H:%%M:%%S" "%(timespan)s"' % {
+        on_event_start.append("%(script)s '%(server)s' '%(port)s' '%(account)s' '%(password)s' '%(tls)s' '%(to)s' 'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'" % {
                 'script': send_mail_path,
                 'server': ui['email_notifications_smtp_server'],
                 'port': ui['email_notifications_smtp_port'],
@@ -840,7 +840,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         web_hook_path = os.path.abspath(web_hook_path)
         url = re.sub('\\s', '+', ui['web_hook_notifications_url'])
 
-        on_event_start.append('%(script)s "%(method)s" "%(url)s"' % {
+        on_event_start.append("%(script)s '%(method)s' '%(url)s'" % {
                 'script': web_hook_path,
                 'method': ui['web_hook_notifications_http_method'],
                 'url': url})

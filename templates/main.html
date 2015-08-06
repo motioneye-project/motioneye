@@ -2,7 +2,7 @@
 
 {% macro config_item(config) -%}
     <tr class="settings-item additional-config {% if config['advanced'] %}advanced-setting{% endif %}"
-            {% if config.get('reboot') %}reboot="true"{% endif %}
+            {% if config.get('reboot') and enable_reboot %}reboot="true"{% endif %}
             {% if config.get('required') %}required="true"{% endif %}
             {% if config.get('strip') %}strip="true"{% endif %}
             {% if config.get('depends') %}depends="{{' '.join(config['depends'])}}"{% endif %}
@@ -114,7 +114,7 @@
                         <td class="settings-item-value"><input type="text" class="styled general main-config" id="adminUsernameEntry" readonly="readonly"></td>
                         <td><span class="help-mark" title="the username to be used for configuring the system">?</span></td>
                     </tr>
-                    <tr class="settings-item" strip="true" reboot="true">
+                    <tr class="settings-item" strip="true" {% if enable_reboot %}reboot="true"{% endif %}>
                         <td class="settings-item-label"><span class="settings-item-label">Administrator Password</span></td>
                         <td class="settings-item-value"><input type="password" class="styled general main-config" id="adminPasswordEntry"></td>
                         <td><span class="help-mark" title="administrator's password">?</span></td>
