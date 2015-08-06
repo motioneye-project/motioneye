@@ -32,7 +32,7 @@ from motioneye import _configure_settings, _configure_logging
 
 
 _configure_settings()
-_configure_logging()
+_configure_logging(module='eventrelay')
 
 
 def print_usage():
@@ -117,6 +117,7 @@ if __name__ == '__main__':
     event = sys.argv[1] 
     thread_id = sys.argv[2]
 
+    logging.debug('hello!')
     logging.debug('event = %s' % event)
     logging.debug('thread_id = %s' % thread_id)
     
@@ -142,3 +143,5 @@ if __name__ == '__main__':
     
     except Exception as e:
         logging.error('failed to relay event: %s' % e)
+
+    logging.debug('bye!')

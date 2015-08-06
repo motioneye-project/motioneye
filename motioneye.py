@@ -260,9 +260,15 @@ def _configure_signals():
     signal.signal(signal.SIGCHLD, child_handler)
 
 
-def _configure_logging():
+def _configure_logging(module=None):
+    if module:
+        format = '%(asctime)s: [{module}] %(levelname)s: %(message)s'.format(module=module)
+        
+    else:
+        format = '%(asctime)s: %(levelname)s: %(message)s'
+
     logging.basicConfig(filename=None, level=settings.LOG_LEVEL,
-            format='%(asctime)s: %(levelname)s: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+            format=format, datefmt='%Y-%m-%d %H:%M:%S')
     
     logging.getLogger('tornado').setLevel(logging.WARN)
 

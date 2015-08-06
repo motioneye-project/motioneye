@@ -25,7 +25,6 @@ import time
 from tornado import ioloop
 
 import config
-import motionctl
 import settings
 
 
@@ -210,6 +209,8 @@ def umount_all():
 
 
 def _check_mounts():
+    import motionctl
+    
     logging.debug('checking SMB mounts...')
     
     stop, start = update_mounts()

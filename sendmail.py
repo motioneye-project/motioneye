@@ -37,7 +37,7 @@ from motioneye import _configure_settings, _configure_logging, _configure_signal
 
 _configure_settings()
 _configure_signals()
-_configure_logging()
+_configure_logging(module='sendmail')
 
 import config
 import mediafiles
@@ -81,6 +81,7 @@ def send_mail(server, port, account, password, tls, to, subject, message, files)
     if files:
         logging.debug('attached %d pictures' % len(files))
 
+    logging.debug('sending email message')
     conn.sendmail(_from, to, email.as_string())
     conn.quit()
 
@@ -89,11 +90,15 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
     camera_config = config.get_camera(camera_id)
     
     def on_media_files(media_files):
+        logging.debug('got media files')
+        
         timestamp = time.mktime(moment.timetuple())
 
         media_files = [m for m in media_files if abs(m['timestamp'] - timestamp) < timespan] # filter out non-recent media files
         media_files.sort(key=lambda m: m['timestamp'], reverse=True)
         media_files = [os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path'])) for m in media_files]
+        
+        logging.debug('selected %d pictures' % len(media_files))
 
         format_dict = {
             'camera': camera_config['@name'],
@@ -118,7 +123,9 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
 
     if not timespan:
         return on_media_files([])
-        
+
+    logging.debug('creating email message')
+
     time.sleep(timespan) # give motion some time to create motion pictures
     mediafiles.list_media(camera_config, media_type='picture', callback=on_media_files)
 
@@ -145,7 +152,9 @@ if __name__ == '__main__':
         timespan = int(sys.argv[10])
 
     except:
-        timespan = 5
+        timespan = 0
+
+    logging.debug('hello!')
 
     message = messages.get(msg_id)
     subject = subjects.get(msg_id)
@@ -194,3 +203,5 @@ if __name__ == '__main__':
 
     io_loop.add_timeout(datetime.timedelta(seconds=settings.SMTP_TIMEOUT), ioloop_timeout)
     io_loop.start()
+
+    logging.debug('bye!')

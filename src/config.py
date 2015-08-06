@@ -28,10 +28,8 @@ import urlparse
 from tornado.ioloop import IOLoop
 
 import diskctl
-import motionctl
 import powerctl
 import settings
-import smbctl
 import update
 import utils
 import v4l2ctl
@@ -599,6 +597,8 @@ def main_dict_to_ui(data):
 
 
 def motion_camera_ui_to_dict(ui, old_config=None):
+    import smbctl
+    
     old_config = dict(old_config or {})
     main_config = get_main() # needed for surveillance password
 
@@ -878,6 +878,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
 
 
 def motion_camera_dict_to_ui(data):
+    import smbctl
+    
     ui = {
         # device
         'name': data['@name'],
@@ -1125,6 +1127,7 @@ def motion_camera_dict_to_ui(data):
     if on_event_start:
         on_event_start = [e.strip() for e in on_event_start.split(';')]
 
+    ui['email_notifications_picture_time_span'] = 0
     command_notifications = []
     for e in on_event_start:
         if e.count('sendmail.py') and e.count('motion_start'):
@@ -1143,7 +1146,7 @@ def motion_camera_dict_to_ui(data):
                 ui['email_notifications_picture_time_span'] = int(e[10])
                 
             except:
-                ui['email_notifications_picture_time_span'] = 5
+                ui['email_notifications_picture_time_span'] = 0
 
         elif e.count('webhook.py'):
             e = shlex.split(e)
@@ -1293,6 +1296,8 @@ def restore(content):
 
 
 def is_old_motion():
+    import motionctl
+    
     try:
         binary, version = motionctl.find_motion()  # @UnusedVariable
         
