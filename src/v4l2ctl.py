@@ -43,12 +43,12 @@ def find_v4l2_ctl():
 def list_devices():
     global _resolutions_cache, _ctrls_cache, _ctrl_values_cache
     
-    logging.debug('listing v4l devices...')
+    logging.debug('listing v4l2 devices...')
     
     try:
         output = ''
         started = time.time()
-        p = subprocess.Popen('v4l2-ctl --list-devices', shell=True, stdout=subprocess.PIPE, bufsize=1)
+        p = subprocess.Popen('v4l2-ctl --list-devices 2>/dev/null', shell=True, stdout=subprocess.PIPE, bufsize=1)
 
         fd = p.stdout.fileno()
         fl = fcntl.fcntl(fd, fcntl.F_GETFL)

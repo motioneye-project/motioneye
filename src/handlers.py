@@ -517,8 +517,6 @@ class ConfigHandler(BaseHandler):
             utils.test_mjpeg_url(self.get_data(), auth_modes=['basic', 'digest'], allow_jpeg=False, callback=on_response)
         
         elif proto == 'v4l2':
-            logging.debug('listing v4l2 devices')
-            
             configured_devices = set()
             for camera_id in config.get_camera_ids():
                 data = config.get_camera(camera_id)
