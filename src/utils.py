@@ -21,11 +21,13 @@ import hashlib
 import logging
 import os
 import re
+import socket
 import time
 import urllib
 import urlparse
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
+from tornado.iostream import IOStream
 
 import settings
 
@@ -38,6 +40,22 @@ except:
 
 
 _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, _-]')
+
+
+COMMON_RESOLUTIONS = [
+    (320, 240),
+    (640, 480),
+    (800, 480),
+    (1024, 576),
+    (1024, 768),
+    (1280, 720),
+    (1280, 800),
+    (1280, 960),
+    (1280, 1024),
+    (1440, 960),
+    (1440, 1024),
+    (1600, 1200)
+]
 
 
 def pretty_date_time(date_time, tzinfo=None, short=False):
@@ -329,6 +347,22 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
     called = [False]
     status_2xx = [False]
 
+    def do_request(on_response):
+        if data['username']:
+            auth = auth_modes[0]
+            
+        else:
+            auth = 'no'
+
+        logging.debug('testing (m)jpg netcam at %s using %s authentication' % (url, auth))
+
+        request = HTTPRequest(url, auth_username=username, auth_password=password, auth_mode=auth_modes.pop(0),
+                connect_timeout=settings.REMOTE_REQUEST_TIMEOUT, request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
+                header_callback=on_header)
+
+        http_client = AsyncHTTPClient(force_instance=True)    
+        http_client.fetch(request, on_response)
+
     def on_header(header):
         header = header.lower()
         if header.startswith('content-type') and status_2xx[0]:
@@ -350,22 +384,6 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
             if m and int(m.group(1)) / 100 == 2:
                 status_2xx[0] = True
 
-    def do_request(on_response):
-        if data['username']:
-            auth = auth_modes[0]
-            
-        else:
-            auth = 'no'
-
-        logging.debug('testing netcam at %s using %s authentication' % (url, auth))
-
-        request = HTTPRequest(url, auth_username=username, auth_password=password, auth_mode=auth_modes.pop(0),
-                connect_timeout=settings.REMOTE_REQUEST_TIMEOUT, request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
-                header_callback=on_header)
-
-        http_client = AsyncHTTPClient(force_instance=True)    
-        http_client.fetch(request, on_response)
-
     def on_response(response):
         if not called[0]:
             if response.code == 401 and auth_modes and data['username']:
@@ -380,6 +398,131 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
     password = data['password'] or None
     
     do_request(on_response)
+
+
+def test_rtsp_url(data, callback):
+    import config
+    
+    data = dict(data)
+    data.setdefault('scheme', 'rtsp')
+    data.setdefault('host', '127.0.0.1')
+    data['port'] = data.get('port') or '554'
+    data.setdefault('uri', '')
+    data.setdefault('username', None)
+    data.setdefault('password', None)
+
+    url = '%(scheme)s://%(host)s%(port)s%(uri)s' % {
+            'scheme': data['scheme'],
+            'host': data['host'],
+            'port': ':' + str(data['port']) if data['port'] else '',
+            'uri': data['uri'] or ''}
+    
+    called = [False]
+    stream = None
+
+    def connect():
+        logging.debug('testing rtsp netcam at %s' % url)
+
+        stream = IOStream(socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0))
+        stream.set_close_callback(on_close)
+        stream.connect((data['host'], int(data['port'])), on_connect)
+        
+        return stream
+    
+    def on_connect():
+        if not stream:
+            return logging.error('failed to connect to rtsp netcam') 
+
+        logging.debug('connected to rtsp netcam')
+        
+        stream.write('\r\n'.join([
+            'OPTIONS %s RTSP/1.0' % url.encode('utf8'),
+            'CSeq: 1',
+            'User-Agent: motionEye',
+            '',
+            ''
+        ]))
+
+        seek_rtsp()
+        
+    def seek_rtsp():
+        if check_error():
+            return
+
+        stream.read_until_regex('RTSP/1.0 \d+ ', on_rtsp)
+
+    def on_rtsp(data):
+        if data.endswith('200 '):
+            seek_server()
+
+        else:
+            handle_error('rtsp netcam returned erroneous response: %s' % data)
+        
+    def seek_server():
+        if check_error():
+            return
+
+        stream.read_until_regex('Server: .*', on_server)
+
+    def on_server(data):
+        identifier = re.findall('Server: (.*)', data)[0].strip()
+        logging.debug('rtsp netcam identifier is "%s"' % identifier)
+
+        handle_success(identifier)
+
+    def on_close():
+        if called[0]:
+            return
+ 
+        if not check_error():
+            handle_error('connection closed')
+
+    def handle_success(identifier):
+        if called[0]:
+            return
+        
+        called[0] = True
+        cameras = []
+        rtsp_support = config.motion_rtsp_support()
+        if 'udp' in rtsp_support:
+            cameras.append({'id': 'udp', 'name': '%s RTSP/UDP Camera' % identifier})
+        
+        if 'tcp' in rtsp_support:
+            cameras.append({'id': 'tcp', 'name': '%s RTSP/TCP Camera' % identifier})
+
+        callback(cameras)
+
+    def handle_error(e):
+        if called[0]:
+            return
+        
+        called[0] = True
+        logging.error('rtsp client error: %s' % unicode(e))
+
+        try:
+            stream.close()
+        
+        except:
+            pass
+        
+        callback(error=unicode(e))
+
+    def check_error():
+        error = getattr(stream, 'error', None)
+        if error and getattr(error, 'errno', None) != 0:
+            handle_error(error.strerror)
+            return True
+
+        if stream and stream.socket is None:
+            logging.warning('rtsp client connection is closed')
+            handle_error('connection closed')
+            stream.close()
+
+            return True
+        
+        return False
+
+    stream = connect()
 
 
 def compute_signature(method, uri, body, key):

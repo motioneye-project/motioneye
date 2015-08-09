@@ -57,7 +57,7 @@ _KNOWN_MOTION_OPTIONS = set([
     'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate', 'stream_motion', 'stream_port', 'stream_quality',
     'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width',
     'webcam_localhost', 'webcam_port', 'webcam_maxrate', 'webcam_quality', 'webcam_motion', 'ffmpeg_cap_new', 'output_normal', 'output_motion', 'jpeg_filename', 'output_all', 'gap', 'locate',
-    'netcam_url', 'netcam_userpass', 'netcam_http', 'netcam_tolerant_check', 'netcam_keepalive'
+    'netcam_url', 'netcam_userpass', 'netcam_http', 'netcam_tolerant_check', 'netcam_keepalive', 'rtsp_uses_tcp'
 ])
 
 
@@ -503,8 +503,17 @@ def add_camera(device_details):
     elif proto == 'netcam':
         camera_config['netcam_url'] = device_details['url']
         camera_config['text_double'] = True
+        
         if device_details['username']:
             camera_config['netcam_userpass'] = device_details['username'] + ':' + device_details['password']
+        
+        if device_details.get('camera_index') == 'udp':
+            camera_config['rtsp_uses_tcp'] = False
+        
+        if camera_config['netcam_url'].startswith('rtsp'):
+            camera_config['width'] = 640
+            camera_config['height'] = 480
+
         _set_default_motion_camera(camera_id, camera_config)
 
     else: # assuming mjpeg
@@ -721,8 +730,18 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         # leave netcam_userpass unchanged
         data['netcam_keepalive'] = True
         data['netcam_tolerant_check'] = True
-
-        threshold = int(float(ui['frame_change_threshold']) * 640 * 480 / 100)
+        
+        if data.get('netcam_url', old_config.get('netcam_url', '')).startswith('rtsp'):
+            # motion uses the configured width and height for RTSP cameras
+            width = int(ui['resolution'].split('x')[0])
+            height = int(ui['resolution'].split('x')[1])
+            data['width'] = width
+            data['height'] = height
+            
+            threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
+        
+        else: # width & height are not available for other netcams
+            threshold = int(float(ui['frame_change_threshold']) * 640 * 480 / 100)
 
     data['threshold'] = threshold
 
@@ -963,10 +982,19 @@ def motion_camera_dict_to_ui(data):
         ui['device_url'] = data['netcam_url']
         ui['proto'] = 'netcam'
 
-        # width & height are not available for netcams,
-        # we have no other choice but use something like 640x480 as reference
-        threshold = data['threshold'] * 100.0 / (640 * 480)
-    
+        # resolutions
+        if data['netcam_url'].startswith('rtsp'):
+            # motion uses the configured width and height for RTSP cameras
+            resolutions = utils.COMMON_RESOLUTIONS
+            ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
+            ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
+
+            threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
+
+        else: # width & height are not available for other netcams
+            # we have no other choice but use something like 640x480 as reference
+            threshold = data['threshold'] * 100.0 / (640 * 480)
+
     else: # assuming v4l2
         ui['device_url'] = data['videodevice']
         ui['proto'] = 'v4l2'
@@ -1303,7 +1331,7 @@ def is_old_motion():
         
         if version.startswith('trunkREV'): # e.g. trunkREV599
             version = int(version[8:])
-            return version < _LAST_OLD_CONFIG_VERSIONS[0]
+            return version <= _LAST_OLD_CONFIG_VERSIONS[0]
         
         elif version.count('Git'): # e.g. Unofficial-Git-a5b5f13
             return False # all git versions are assumed to be new
@@ -1313,6 +1341,27 @@ def is_old_motion():
 
     except:
         return False
+
+
+def motion_rtsp_support():
+    import motionctl
+
+    try:
+        binary, version = motionctl.find_motion()  # @UnusedVariable
+        
+        if version.startswith('trunkREV'): # e.g. trunkREV599
+            version = int(version[8:])
+            if version > _LAST_OLD_CONFIG_VERSIONS[0]:
+                return ['tcp']
+        
+        elif version.count('Git'): # e.g. Unofficial-Git-a5b5f13
+            return ['tcp', 'udp'] # all git versions are assumed to support both transport protocols
+        
+        else: # stable release, should be in the format x.y.z
+            return []
+
+    except:
+        return []
 
 
 def invalidate():

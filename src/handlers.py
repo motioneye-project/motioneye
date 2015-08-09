@@ -497,6 +497,8 @@ class ConfigHandler(BaseHandler):
             remote.list(self.get_data(), on_response)
         
         elif proto == 'netcam':
+            scheme = self.get_data().get('scheme', 'http')
+
             def on_response(cameras=None, error=None):
                 if error:
                     self.finish_json({'error': error})
@@ -504,8 +506,15 @@ class ConfigHandler(BaseHandler):
                 else:
                     self.finish_json({'cameras': cameras})
             
-            utils.test_mjpeg_url(self.get_data(), auth_modes=['basic'], allow_jpeg=True, callback=on_response)
+            if scheme in ['http', 'https']:
+                utils.test_mjpeg_url(self.get_data(), auth_modes=['basic'], allow_jpeg=True, callback=on_response)
                 
+            elif config.motion_rtsp_support() and scheme == 'rtsp':
+                utils.test_rtsp_url(self.get_data(), callback=on_response)
+                
+            else:
+                on_response(error='protocol %s not supported' % scheme)
+
         elif proto == 'mjpeg':
             def on_response(cameras=None, error=None):
                 if error:

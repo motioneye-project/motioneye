@@ -178,21 +178,10 @@ def list_resolutions(device):
                 'device': device, 'width': width, 'height': height})
     
     if not resolutions:
-        logging.debug('no resolutions found for device %(device)s, adding the defaults' % {'device': device})
-        
+        logging.debug('no resolutions found for device %(device)s, using common values' % {'device': device})
+
         # no resolution returned by v4l2-ctl call, add common default resolutions
-        resolutions.add((320, 240))
-        resolutions.add((640, 480))
-        resolutions.add((800, 480))
-        resolutions.add((1024, 576))
-        resolutions.add((1024, 768))
-        resolutions.add((1280, 720))
-        resolutions.add((1280, 800))
-        resolutions.add((1280, 960))
-        resolutions.add((1280, 1024))
-        resolutions.add((1440, 960))
-        resolutions.add((1440, 1024))
-        resolutions.add((1600, 1200))
+        resolutions += utils.COMMON_RESOLUTIONS
 
     resolutions = list(sorted(resolutions, key=lambda r: (r[0], r[1])))
     _resolutions_cache[device] = resolutions

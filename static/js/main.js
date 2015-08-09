@@ -2910,6 +2910,7 @@ function runAddCameraDialog() {
                 data.username = usernameEntry.val();
                 data.password = passwordEntry.val();
                 data.proto = 'netcam';
+                data.camera_index = addCameraSelect.val();
             }
             else if (typeSelect.val() == 'mjpeg') {
                 data = splitCameraUrl(urlEntry.val());
