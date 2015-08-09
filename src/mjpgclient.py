@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import datetime
+import errno
 import logging
 import re
 import socket
@@ -62,19 +63,19 @@ class MjpgClient(iostream.IOStream):
         if MjpgClient.clients.pop(self._camera_id, None):
             MjpgClient.last_access.pop(self._camera_id, None)
             MjpgClient.last_jpg_moment.pop(self._camera_id, None)
-            
+             
             logging.debug('mjpg client for camera %(camera_id)s on port %(port)s removed' % {
                     'port': self._port, 'camera_id': self._camera_id})
-        
-        if getattr(self, 'error', None):
+         
+        if getattr(self, 'error', None) and self.error.errno != errno.ECONNREFUSED:
             now = time.time()
             if now - MjpgClient.last_erroneous_close_time < settings.MJPG_CLIENT_TIMEOUT:
                 logging.error('connection problem detected for mjpg client for camera %(camera_id)s on port %(port)s' % {
                         'port': self._port, 'camera_id': self._camera_id})
-
+ 
                 motionctl.stop(invalidate=True) # this will close all the mjpg clients
                 motionctl.start(deferred=True)
-
+ 
             MjpgClient.last_erroneous_close_time = now
 
     def _check_error(self):
