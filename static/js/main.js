@@ -2732,8 +2732,8 @@ function runAddCameraDialog() {
 
             content.find('tr.netcam').css('display', 'table-row');
             addCameraInfo.html(
-                    'Network cameras (or IP cameras) are devices that natively stream MJPEG videos or plain JPEG images. ' +
-                    "Consult your device's manual to find out the correct MJPEG (or JPEG) URL.");
+                    'Network cameras (or IP cameras) are devices that natively stream RTSP or MJPEG videos or plain JPEG images. ' +
+                    "Consult your device's manual to find out the correct RTSP, MJPEG or JPEG URL.");
         }
         else if (typeSelect.val() == 'mjpeg') {
             usernameEntry.removeAttr('readonly');

@@ -17,6 +17,7 @@
 
 import base64
 import datetime
+import functools
 import hashlib
 import logging
 import os
@@ -28,6 +29,7 @@ import urlparse
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.iostream import IOStream
+from tornado.ioloop import IOLoop
 
 import settings
 
@@ -418,20 +420,31 @@ def test_rtsp_url(data, callback):
             'uri': data['uri'] or ''}
     
     called = [False]
+    timeout = [None]
     stream = None
 
     def connect():
         logging.debug('testing rtsp netcam at %s' % url)
 
-        stream = IOStream(socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0))
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+        s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
+        stream = IOStream(s)
         stream.set_close_callback(on_close)
         stream.connect((data['host'], int(data['port'])), on_connect)
         
+        timeout[0] = IOLoop.instance().add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
+                functools.partial(on_connect, _timeout=True))
+        
         return stream
     
-    def on_connect():
+    def on_connect(_timeout=False):
+        IOLoop.instance().remove_timeout(timeout[0])
+        
+        if _timeout:
+            return handle_error('timeout connecting to rtsp netcam')
+
         if not stream:
-            return logging.error('failed to connect to rtsp netcam') 
+            return handle_error('failed to connect to rtsp netcam') 
 
         logging.debug('connected to rtsp netcam')
         
@@ -450,23 +463,38 @@ def test_rtsp_url(data, callback):
             return
 
         stream.read_until_regex('RTSP/1.0 \d+ ', on_rtsp)
+        timeout[0] = IOLoop.instance().add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), on_rtsp)
 
     def on_rtsp(data):
-        if data.endswith('200 '):
-            seek_server()
+        IOLoop.instance().remove_timeout(timeout[0])
 
-        else:
-            handle_error('rtsp netcam returned erroneous response: %s' % data)
+        if data:
+            if data.endswith('200 '):
+                seek_server()
+    
+            else:
+                handle_error('rtsp netcam returned erroneous response: %s' % data)
         
+        else:
+            handle_error('timeout waiting for rtsp netcam response')
+
     def seek_server():
         if check_error():
             return
 
         stream.read_until_regex('Server: .*', on_server)
+        timeout[0] = IOLoop.instance().add_timeout(datetime.timedelta(seconds=1), on_server)
 
-    def on_server(data):
-        identifier = re.findall('Server: (.*)', data)[0].strip()
-        logging.debug('rtsp netcam identifier is "%s"' % identifier)
+    def on_server(data=None):
+        IOLoop.instance().remove_timeout(timeout[0])
+
+        if data:
+            identifier = re.findall('Server: (.*)', data)[0].strip()
+            logging.debug('rtsp netcam identifier is "%s"' % identifier)
+        
+        else:
+            identifier = None
+            logging.debug('no rtsp netcam identifier')
 
         handle_success(identifier)
 
@@ -484,11 +512,17 @@ def test_rtsp_url(data, callback):
         called[0] = True
         cameras = []
         rtsp_support = config.motion_rtsp_support()
+        if identifier:
+            identifier = ' ' + identifier
+            
+        else:
+            identifier = ''
+
         if 'udp' in rtsp_support:
-            cameras.append({'id': 'udp', 'name': '%s RTSP/UDP Camera' % identifier})
+            cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
         
         if 'tcp' in rtsp_support:
-            cameras.append({'id': 'tcp', 'name': '%s RTSP/TCP Camera' % identifier})
+            cameras.append({'id': 'tcp', 'name': '%sRTSP/TCP Camera' % identifier})
 
         callback(cameras)
 
@@ -514,7 +548,6 @@ def test_rtsp_url(data, callback):
             return True
 
         if stream and stream.socket is None:
-            logging.warning('rtsp client connection is closed')
             handle_error('connection closed')
             stream.close()
 
