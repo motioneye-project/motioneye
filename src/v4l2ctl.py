@@ -181,7 +181,7 @@ def list_resolutions(device):
         logging.debug('no resolutions found for device %(device)s, using common values' % {'device': device})
 
         # no resolution returned by v4l2-ctl call, add common default resolutions
-        resolutions += utils.COMMON_RESOLUTIONS
+        resolutions = utils.COMMON_RESOLUTIONS
 
     resolutions = list(sorted(resolutions, key=lambda r: (r[0], r[1])))
     _resolutions_cache[device] = resolutions
