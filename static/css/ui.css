@@ -201,7 +201,6 @@ select.styled {
     background-position: right center;
     cursor: pointer;
     vertical-align: middle;
-    transition: all 0.1s ease;
 }
 
 select.styled:FOCUS {

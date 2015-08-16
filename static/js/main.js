@@ -1841,7 +1841,7 @@ function doApply() {
             if (config.proto == 'netcam' || config.proto == 'v4l2') {
                 instance = '';
             }
-            else { /* motioneye */
+            else if (config.proto == 'motioneye') { /* motioneye */
                 instance = config.host || '';
                 if (config.port) {
                     instance += ':' + config.port;
@@ -2363,6 +2363,10 @@ function pushMainConfig(reboot) {
 function pushCameraConfig(reboot) {
     var cameraConfig = cameraUi2Dict();
     var cameraId = $('#cameraSelect').val();
+    
+    if (!cameraId) {
+        return; /* event triggered without a selected camera */
+    }
 
     pushConfigReboot = pushConfigReboot || reboot;
     pushConfigs[cameraId] = cameraConfig;
