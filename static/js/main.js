@@ -2864,7 +2864,18 @@ function runAddCameraDialog() {
             }
 
             data.cameras.forEach(function (info) {
-                addCameraSelect.append('<option value="' + info.id + '">' + info.name + '</option>');
+                var option = $('<option value="' + info.id + '">' + info.name + '</option>');
+                option[0]._extra_attrs = {};
+                Object.keys(info).forEach(function (key) {
+                    if (key == 'id' || key == 'name') {
+                        return;
+                    }
+                    
+                    var value = info[key];
+                    option[0]._extra_attrs[key] = value;
+                });
+
+                addCameraSelect.append(option);
             });
             
             if (!data.cameras || !data.cameras.length) {
@@ -2922,6 +2933,13 @@ function runAddCameraDialog() {
                 data.proto = 'v4l2';
                 data.uri = addCameraSelect.val();
             }
+            
+            /* add all extra attributes */
+            var option = addCameraSelect.find('option:eq(' + addCameraSelect[0].selectedIndex + ')')[0];
+            Object.keys(option._extra_attrs).forEach(function (key) {
+                var value = option._extra_attrs[key];
+                data[key] = value;
+            });
 
             beginProgress();
             ajax('POST', baseUri + 'config/add/', data, function (data) {

@@ -507,6 +507,9 @@ def add_camera(device_details):
         if device_details['username']:
             camera_config['netcam_userpass'] = device_details['username'] + ':' + device_details['password']
         
+        camera_config['netcam_keepalive'] = device_details.get('keep_alive')
+        camera_config['netcam_tolerant_check'] = True
+
         if device_details.get('camera_index') == 'udp':
             camera_config['rtsp_uses_tcp'] = False
         
@@ -726,11 +729,6 @@ def motion_camera_ui_to_dict(ui, old_config=None):
                 data['hue'] = max(1, int(round(int(ui['hue']) * 2.55)))
     
     else: # assuming netcam
-        # leave netcam_url unchanged
-        # leave netcam_userpass unchanged
-        data['netcam_keepalive'] = True
-        data['netcam_tolerant_check'] = True
-        
         if data.get('netcam_url', old_config.get('netcam_url', '')).startswith('rtsp'):
             # motion uses the configured width and height for RTSP cameras
             width = int(ui['resolution'].split('x')[0])

@@ -348,6 +348,7 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
     
     called = [False]
     status_2xx = [False]
+    http_11 = [False]
 
     def do_request(on_response):
         if data['username']:
@@ -372,19 +373,23 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
             called[0] = True
 
             if content_type in ['image/jpg', 'image/jpeg', 'image/pjpg'] and allow_jpeg:
-                callback([{'id': 1, 'name': 'JPEG Network Camera'}])
+                callback([{'id': 1, 'name': 'JPEG Network Camera', 'keep_alive': http_11[0]}])
             
             elif content_type.startswith('multipart/x-mixed-replace'):
-                callback([{'id': 1, 'name': 'MJPEG Network Camera'}])
+                callback([{'id': 1, 'name': 'MJPEG Network Camera', 'keep_alive': http_11[0]}])
             
             else:
                 callback(error='not a supported network camera')
 
         else:
             # check for the status header
-            m = re.match('^http/1.\d (\d+) ', header)
-            if m and int(m.group(1)) / 100 == 2:
-                status_2xx[0] = True
+            m = re.match('^http/1.(\d) (\d+) ', header)
+            if m:
+                if int(m.group(2)) / 100 == 2:
+                    status_2xx[0] = True
+                
+                if m.group(1) == '1':
+                    http_11[0] = True
 
     def on_response(response):
         if not called[0]:
