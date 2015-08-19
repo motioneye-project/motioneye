@@ -7,7 +7,6 @@
 *.conf
 *.json
 .settings
-settings.py
 conf
 run
 media

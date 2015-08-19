@@ -3,36 +3,54 @@ import logging
 import os.path
 import sys
 
-# you normally don't have to change these 
-PROJECT_PATH = os.path.dirname(sys.argv[0])
+import motioneye
+
+# the root directory of the project
+PROJECT_PATH = os.path.dirname(motioneye.__file__)
+
+# the templates directory
 TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
+
+# the static files directory
 STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 
 # static files (.css, .js etc) are served at this root url
 STATIC_URL = '/static/'
 
 # path to the config directory; must be writable
-CONF_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'conf'))
+CONF_PATH = [sys.prefix, ''][sys.prefix == '/usr']  + '/etc/motioneye'
 
 # pid files go here
-RUN_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'run'))
+for d in ['/run', '/var/run', '/tmp', '/var/tmp']:
+    if os.path.exists(d):
+        RUN_PATH = d
+        break
+    
+else:
+    RUN_PATH = PROJECT_PATH
 
 # log files go here
-LOG_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'log'))
+for d in ['/log', '/var/log', '/tmp', '/var/tmp']:
+    if os.path.exists(d):
+        LOG_PATH = d
+        break
+    
+else:
+    LOG_PATH = RUN_PATH
 
 # default output path for media files
-MEDIA_PATH = os.path.abspath(os.path.join(PROJECT_PATH, 'media'))
+MEDIA_PATH = RUN_PATH
 
 # path to motion binary (automatically detected if not set)
 MOTION_BINARY = None
 
-# set to logging.DEBUG for verbose output
+# the log level
 LOG_LEVEL = logging.INFO
 
-# set to 127.0.0.1 to restrict access to localhost
+# IP addresses to listen on
 LISTEN = '0.0.0.0'
 
-# change the port according to your requirements/restrictions
+# the TCP port to listen on
 PORT = 8765
 
 # interval in seconds at which motionEye checks the SMB mounts

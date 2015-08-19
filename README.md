@@ -14,16 +14,6 @@
  * ffmpeg
  * v4l-utils
 
-On a debian-based system you could run (as root):
-
-    apt-get install motion ffmpeg v4l-utils python-pip
-    pip install python-imaging jinja2 pycurl tornado
-
-## Browser Compatibility ##
-
-motionEye works fine with most modern browsers, including IE9+.
-Being designed with responsiveness in mind, it will also work nicely on mobile devices and tablets.
-
 ## Installation ##
 
  1. download the latest version from [bitbucket](https://bitbucket.org/ccrisan/motioneye/downloads) (use the *Tags* tab).

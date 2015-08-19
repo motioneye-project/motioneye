@@ -9,6 +9,7 @@ var username = '';
 var password = '';
 var baseUri = null;
 var signatureRegExp = new RegExp('[^a-zA-Z0-9/?_.=&{}\\[\\]":, _-]', 'g');
+var initialConfigFetched = false; /* used to workaround browser extensions that trigger stupid change events */
 
 
     /* utils */
@@ -2248,6 +2249,8 @@ function fetchCurrentConfig(onFetch) {
                 }
             }
             
+            initialConfigFetched = true;
+            
             var i, cameras = data.cameras;
             
             if (isAdmin()) {
@@ -2351,6 +2354,10 @@ function fetchCurrentCameraConfig(onFetch) {
 }
 
 function pushMainConfig(reboot) {
+    if (!initialConfigFetched) {
+        return;
+    }
+    
     var mainConfig = mainUi2Dict();
     
     pushConfigReboot = pushConfigReboot || reboot;
@@ -2361,12 +2368,16 @@ function pushMainConfig(reboot) {
 }
 
 function pushCameraConfig(reboot) {
-    var cameraConfig = cameraUi2Dict();
-    var cameraId = $('#cameraSelect').val();
+    if (!initialConfigFetched) {
+        return;
+    }
     
+    var cameraId = $('#cameraSelect').val();
     if (!cameraId) {
         return; /* event triggered without a selected camera */
     }
+
+    var cameraConfig = cameraUi2Dict();
 
     pushConfigReboot = pushConfigReboot || reboot;
     pushConfigs[cameraId] = cameraConfig;
