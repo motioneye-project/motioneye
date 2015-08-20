@@ -507,7 +507,7 @@ def add_camera(device_details):
         if device_details['username']:
             camera_config['netcam_userpass'] = device_details['username'] + ':' + device_details['password']
         
-        camera_config['netcam_keepalive'] = device_details.get('keep_alive')
+        camera_config['netcam_keepalive'] = device_details.get('keep_alive', False)
         camera_config['netcam_tolerant_check'] = True
 
         if device_details.get('camera_index') == 'udp':
