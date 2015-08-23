@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -22,7 +21,6 @@ import os
 import re
 import smtplib
 import socket
-import sys
 import time
 
 from email import Encoders
@@ -32,12 +30,6 @@ from email.MIMEBase import MIMEBase
 from tornado.ioloop import IOLoop
 
 import settings
-
-from motioneye import _configure_settings, _configure_logging, _configure_signals
-
-_configure_settings()
-_configure_signals()
-_configure_logging(module='sendmail')
 
 import config
 import mediafiles
@@ -54,7 +46,7 @@ subjects = {
 
 
 def send_mail(server, port, account, password, tls, to, subject, message, files):
-    conn = smtplib.SMTP(server, port, timeout=getattr(settings, 'SMTP_TIMEOUT', 60))
+    conn = smtplib.SMTP(server, port, timeout=settings.SMTP_TIMEOUT)
     if tls:
         conn.starttls()
     
@@ -130,67 +122,62 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
     mediafiles.list_media(camera_config, media_type='picture', callback=on_media_files)
 
 
-def print_usage():
-    print 'Usage: sendmail.py <server> <port> <account> <password> <tls> <to> <msg_id> <camera_id> <moment> <frames> [timespan]'
+def parse_options(parser, args):
+    parser.add_argument('server', help='address of the SMTP server')
+    parser.add_argument('port', help='port for the SMTP connection')
+    parser.add_argument('account', help='SMTP account name (username)')
+    parser.add_argument('password', help='SMTP account password')
+    parser.add_argument('tls', help='"true" to use TLS')
+    parser.add_argument('to', help='the email recipient(s)')
+    parser.add_argument('msg_id', help='the identifier of the message')
+    parser.add_argument('camera_id', help='the id of the camera')
+    parser.add_argument('moment', help='the moment in ISO-8601 format')
+    parser.add_argument('timespan', help='picture collection time span')
 
-
-if __name__ == '__main__':
-    if len(sys.argv) < 10:
-        print_usage()
-        sys.exit(-1)
+    return parser.parse_args(args)
     
-    server = sys.argv[1]
-    port = int(sys.argv[2]) 
-    account = sys.argv[3]
-    password = sys.argv[4]
-    tls = sys.argv[5].lower() == 'true'
-    to = sys.argv[6]
-    msg_id = sys.argv[7]
-    camera_id = sys.argv[8]
-    moment = sys.argv[9]
-    try:
-        timespan = int(sys.argv[10])
 
-    except:
-        timespan = 0
+def main(parser, args):
+    import meyectl
+    
+    options = parse_options(parser, args)
+    
+    meyectl.configure_logging('sendmail')
+    meyectl.configure_tornado()
 
     logging.debug('hello!')
 
-    message = messages.get(msg_id)
-    subject = subjects.get(msg_id)
-    if not message or not subject:
-        logging.error('unknown message id')
-        sys.exit(-1)
+    options.port = int(options.port) 
+    options.tls = options.tls.lower() == 'true'
+    options.timespan = int(options.timespan)
+    message = messages.get(options.msg_id)
+    subject = subjects.get(options.msg_id)
+    options.moment = datetime.datetime.strptime(options.moment, '%Y-%m-%dT%H:%M:%S')
     
-    moment = datetime.datetime.strptime(moment, '%Y-%m-%dT%H:%M:%S')
-    
-    logging.debug('server = %s' % server)
-    logging.debug('port = %s' % port)
-    logging.debug('account = %s' % account)
+    logging.debug('server = %s' % options.server)
+    logging.debug('port = %s' % options.port)
+    logging.debug('account = %s' % options.account)
     logging.debug('password = ******')
-    logging.debug('server = %s' % server)
-    logging.debug('tls = %s' % tls)
-    logging.debug('to = %s' % to)
-    logging.debug('msg_id = %s' % msg_id)
-    logging.debug('camera_id = %s' % camera_id)
-    logging.debug('moment = %s' % moment.strftime('%Y-%m-%d %H:%M:%S'))
+    logging.debug('server = %s' % options.server)
+    logging.debug('tls = %s' % str(options.tls).lower())
+    logging.debug('to = %s' % options.to)
+    logging.debug('msg_id = %s' % options.msg_id)
+    logging.debug('camera_id = %s' % options.camera_id)
+    logging.debug('moment = %s' % options.moment.strftime('%Y-%m-%d %H:%M:%S'))
     logging.debug('smtp timeout = %d' % settings.SMTP_TIMEOUT)
-    logging.debug('timespan = %d' % timespan)
+    logging.debug('timespan = %d' % options.timespan)
     
-    if not to:
-        logging.info('no email address specified')
-        sys.exit(0)
-
-    to = [t.strip() for t in re.split('[,;| ]', to)]
+    to = [t.strip() for t in re.split('[,;| ]', options.to)]
     to = [t for t in to if t]
 
     io_loop = IOLoop.instance()
     
     def on_message(subject, message, files):
         try:
-            send_mail(server, port, account, password, tls, to, subject, message, files)
+            send_mail(options.server, options.port, options.account, options.password,
+                    options.tls, options.to, subject, message, files)
             logging.info('email sent')
-        
+
         except Exception as e:
             logging.error('failed to send mail: %s' % e, exc_info=True)
 
@@ -199,7 +186,7 @@ if __name__ == '__main__':
     def ioloop_timeout():
         io_loop.stop()
     
-    make_message(subject, message, camera_id, moment, timespan, on_message)
+    make_message(subject, message, options.camera_id, options.moment, options.timespan, on_message)
 
     io_loop.add_timeout(datetime.timedelta(seconds=settings.SMTP_TIMEOUT), ioloop_timeout)
     io_loop.start()

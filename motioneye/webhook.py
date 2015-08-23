@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -17,45 +16,44 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import logging
-import sys
 import urllib2
 import urlparse
 
 import settings
 
-from motioneye import _configure_settings, _configure_logging
+
+def parse_options(parser, args):
+    parser.add_argument('method', help='the HTTP method to use')
+    parser.add_argument('url', help='the URL for the request')
+
+    return parser.parse_args(args)
 
 
-_configure_settings()
-_configure_logging()
-
-
-def print_usage():
-    print 'Usage: webhook.py <method> <url>'
-
-
-if __name__ == '__main__':
-    if len(sys.argv) < 3:
-        print_usage()
-        sys.exit(-1)
+def main(parser, args):
+    import meyectl
     
-    method = sys.argv[1] 
-    url = sys.argv[2]
-
-    logging.debug('method = %s' % method)
-    logging.debug('url = %s' % url)
+    options = parse_options(parser, args)
     
-    if method == 'POST':
-        parts = urlparse.urlparse(url)
+    meyectl.configure_logging('webhook')
+    meyectl.configure_tornado()
+
+    logging.debug('hello!')
+    logging.debug('method = %s' % options.method)
+    logging.debug('url = %s' % options.url)
+    
+    if options.method == 'POST':
+        parts = urlparse.urlparse(options.url)
         data = parts.query
 
     else:
         data = None
 
-    request = urllib2.Request(url, data)
+    request = urllib2.Request(options.url, data)
     try:
         urllib2.urlopen(request, timeout=settings.REMOTE_REQUEST_TIMEOUT)
         logging.debug('webhook successfully called')
     
     except Exception as e:
         logging.error('failed to call webhook: %s' % e)
+
+    logging.debug('bye!')

@@ -77,6 +77,9 @@ class MjpgClient(iostream.IOStream):
                 motionctl.start(deferred=True)
  
             MjpgClient.last_erroneous_close_time = now
+        
+        # remove the cached picture
+        MjpgClient.last_jpgs.pop(self._camera_id, None)
 
     def _check_error(self):
         if self.socket is None:

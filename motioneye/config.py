@@ -507,7 +507,7 @@ def add_camera(device_details):
         if device_details['username']:
             camera_config['netcam_userpass'] = device_details['username'] + ':' + device_details['password']
         
-        camera_config['netcam_keepalive'] = device_details.get('keep_alive')
+        camera_config['netcam_keepalive'] = device_details.get('keep_alive', False)
         camera_config['netcam_tolerant_check'] = True
 
         if device_details.get('camera_index') == 'udp':
@@ -609,6 +609,7 @@ def main_dict_to_ui(data):
 
 
 def motion_camera_ui_to_dict(ui, old_config=None):
+    import meyectl
     import smbctl
     
     old_config = dict(old_config or {})
@@ -833,17 +834,14 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         data['@working_schedule_type'] = ui['working_schedule_type']
     
     # event start
-    event_relay_path = os.path.join(settings.PROJECT_PATH, 'eventrelay.py')
-    event_relay_path = os.path.abspath(event_relay_path)
-        
-    on_event_start = ['%(script)s start %%t' % {'script': event_relay_path}]
+    on_event_start = ['%(script)s start %%t' % {'script': meyectl.find_command('relayevent')}]
     if ui['email_notifications_enabled']:
         send_mail_path = os.path.join(settings.PROJECT_PATH, 'sendmail.py')
         send_mail_path = os.path.abspath(send_mail_path)
         emails = re.sub('\\s', '', ui['email_notifications_addresses'])
         
         on_event_start.append("%(script)s '%(server)s' '%(port)s' '%(account)s' '%(password)s' '%(tls)s' '%(to)s' 'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'" % {
-                'script': send_mail_path,
+                'script': meyectl.find_command('sendmail'),
                 'server': ui['email_notifications_smtp_server'],
                 'port': ui['email_notifications_smtp_port'],
                 'account': ui['email_notifications_smtp_account'],
@@ -853,12 +851,10 @@ def motion_camera_ui_to_dict(ui, old_config=None):
                 'timespan': ui['email_notifications_picture_time_span']})
 
     if ui['web_hook_notifications_enabled']:
-        web_hook_path = os.path.join(settings.PROJECT_PATH, 'webhook.py')
-        web_hook_path = os.path.abspath(web_hook_path)
         url = re.sub('\\s', '+', ui['web_hook_notifications_url'])
 
         on_event_start.append("%(script)s '%(method)s' '%(url)s'" % {
-                'script': web_hook_path,
+                'script': meyectl.find_command('webhook'),
                 'method': ui['web_hook_notifications_http_method'],
                 'url': url})
 
@@ -869,7 +865,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     data['on_event_start'] = '; '.join(on_event_start)
 
     # event end
-    on_event_end = ['%(script)s stop %%t' % {'script': event_relay_path}]
+    on_event_end = ['%(script)s stop %%t' % {'script': meyectl.find_command('relayevent')}]
     
     data['on_event_end'] = '; '.join(on_event_end)
     
@@ -1156,34 +1152,36 @@ def motion_camera_dict_to_ui(data):
     ui['email_notifications_picture_time_span'] = 0
     command_notifications = []
     for e in on_event_start:
-        if e.count('sendmail.py') and e.count('motion_start'):
+        if e.count('sendmail'):
             e = shlex.split(e)
+
             if len(e) < 10:
                 continue
-
+            
             ui['email_notifications_enabled'] = True 
-            ui['email_notifications_smtp_server'] = e[1]
-            ui['email_notifications_smtp_port'] = e[2]
-            ui['email_notifications_smtp_account'] = e[3]
-            ui['email_notifications_smtp_password'] = e[4]
-            ui['email_notifications_smtp_tls'] = e[5].lower() == 'true'
-            ui['email_notifications_addresses'] = e[6]
+            ui['email_notifications_smtp_server'] = e[-10]
+            ui['email_notifications_smtp_port'] = e[-9]
+            ui['email_notifications_smtp_account'] = e[-8]
+            ui['email_notifications_smtp_password'] = e[-7]
+            ui['email_notifications_smtp_tls'] = e[-6].lower() == 'true'
+            ui['email_notifications_addresses'] = e[-5]
             try:
-                ui['email_notifications_picture_time_span'] = int(e[10])
+                ui['email_notifications_picture_time_span'] = int(e[-1])
                 
             except:
                 ui['email_notifications_picture_time_span'] = 0
 
-        elif e.count('webhook.py'):
+        elif e.count('webhook'):
             e = shlex.split(e)
-            if len(e) != 3:
+
+            if len(e) < 3:
                 continue
 
             ui['web_hook_notifications_enabled'] = True 
-            ui['web_hook_notifications_http_method'] = e[1]
-            ui['web_hook_notifications_url'] = e[2]
+            ui['web_hook_notifications_http_method'] = e[-1]
+            ui['web_hook_notifications_url'] = e[-1]
         
-        elif e.count('eventrelay.py'):
+        elif e.count('relayevent') or e.count('eventrelay.py'):
             continue # ignore internal relay script
 
         else: # custom command
