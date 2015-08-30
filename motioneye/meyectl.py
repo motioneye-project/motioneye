@@ -116,7 +116,11 @@ def load_settings():
 
 
 def configure_logging(cmd, log_to_file=False):
-    format = '%(asctime)s: [{cmd}] %(levelname)s: %(message)s'.format(cmd=cmd)
+    if log_to_file or cmd != 'motioneye':
+        format = '%(asctime)s: [{cmd}] %(levelname)s: %(message)s'.format(cmd=cmd)
+        
+    else:
+        format = '%(levelname)s: %(message)s'.format(cmd=cmd)
 
     for h in logging.getLogger().handlers:
         logging.getLogger().removeHandler(h)
@@ -168,6 +172,8 @@ def make_arg_parser(command=None):
             action='store_true', dest='debug')
     parser.add_argument('-h', help='print this help and exit',
             action='help', default=argparse.SUPPRESS)
+    parser.add_argument('-l', help='log to file instead of standard error',
+            action='store_true', dest='log_to_file')
     parser.add_argument('-v', help='print program version and exit',
             action='version', default=argparse.SUPPRESS)
 

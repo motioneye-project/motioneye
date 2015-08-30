@@ -15,7 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import argparse
 import atexit
 import datetime
 import logging
@@ -401,7 +400,7 @@ def main(parser, args, command):
     
     options = parse_options(parser, args)
     
-    meyectl.configure_logging('motioneye', options.background)
+    meyectl.configure_logging('motioneye', options.background or options.log_to_file)
     meyectl.configure_tornado()
 
     if command == 'start':

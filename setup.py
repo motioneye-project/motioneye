@@ -1,19 +1,23 @@
 
-# Always prefer setuptools over distutils
+import os.path
+
 from setuptools import setup
-# To use a consistent encoding
 from codecs import open
-from os import path
 
-here = path.abspath(path.dirname(__file__))
+import motioneye
 
-with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+
+here = os.path.abspath(os.path.dirname(__file__))
+name = 'motioneye'
+version = motioneye.VERSION
+
+with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
-setup(
-    name='motioneye',
 
-    version='0.25.2',
+setup(
+    name=name,
+    version=version,
 
     description='motionEye server',
     long_description=long_description,
@@ -25,7 +29,6 @@ setup(
 
     license='GPLv3',
 
-    # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[
         'Development Status :: 3 - Beta',
 
@@ -47,18 +50,20 @@ setup(
 
     package_data={
         'motioneye': [
-            'static/*',
+            'static/*.*',
             'static/*/*',
             'templates/*'
         ]
     },
 
-    data_files=[],
+    data_files=[
+        (os.path.join('share/%s' % name, root), [os.path.join(root, f) for f in files])
+                for (root, dirs, files) in os.walk('extra')
+    ],
 
     entry_points={
         'console_scripts': [
-            'motioneye=motioneye.motioneye:main',
+            'meyectl=motioneye.meyectl:main',
         ],
-    },
+    }
 )
-
