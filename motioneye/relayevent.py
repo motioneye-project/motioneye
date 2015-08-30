@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -27,16 +26,6 @@ sys.path.append(os.path.join(os.path.dirname(sys.argv[0]),'src'))
 
 import settings
 import utils
-
-from motioneye import _configure_settings, _configure_logging
-
-
-_configure_settings()
-_configure_logging(module='eventrelay')
-
-
-def print_usage():
-    print 'Usage: eventrelay.py <event> <thread_id>'
 
 
 def get_admin_credentials():
@@ -97,36 +86,31 @@ def get_admin_credentials():
     return admin_username, admin_password
 
 
-# def compute_signature(method, uri, body, key):
-#     parts = list(urlparse.urlsplit(uri))
-#     query = [q for q in urlparse.parse_qsl(parts[3]) if (q[0] != 'signature')]
-#     query.sort(key=lambda q: q[0])
-#     query = urllib.urlencode(query)
-#     parts[0] = parts[1] = ''
-#     parts[3] = query
-#     uri = urlparse.urlunsplit(parts)
-#     
-#     return hashlib.sha1('%s:%s:%s:%s' % (method, uri, body or '', key)).hexdigest().lower()
+def parse_options(parser, args):
+    parser.add_argument('event', help='the name of the event to relay')
+    parser.add_argument('thread_id', help='the id of the thread')
 
-
-if __name__ == '__main__':
-    if len(sys.argv) < 3:
-        print_usage()
-        sys.exit(-1)
+    return parser.parse_args(args)
     
-    event = sys.argv[1] 
-    thread_id = sys.argv[2]
+
+def main(parser, args):
+    import meyectl
+    
+    options = parse_options(parser, args)
+    
+    meyectl.configure_logging('relayevent', options.log_to_file)
+    meyectl.configure_tornado()
 
     logging.debug('hello!')
-    logging.debug('event = %s' % event)
-    logging.debug('thread_id = %s' % thread_id)
+    logging.debug('event = %s' % options.event)
+    logging.debug('thread_id = %s' % options.thread_id)
     
     admin_username, admin_password = get_admin_credentials()
 
     uri = '/_relay_event/?event=%(event)s&thread_id=%(thread_id)s&_username=%(username)s' % {
             'username': admin_username,
-            'thread_id': thread_id,
-            'event': event}
+            'thread_id': options.thread_id,
+            'event': options.event}
     
     signature = utils.compute_signature('POST', uri, '', admin_password)
     

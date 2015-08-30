@@ -7,8 +7,9 @@
 *.conf
 *.json
 .settings
-settings.py
 conf
 run
 media
 log
+dist
+motioneye.egg-info

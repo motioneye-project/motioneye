@@ -131,7 +131,6 @@ def set_main(main_config):
     global _main_config_cache
     
     main_config = dict(main_config)
-    _set_default_motion(main_config, old_motion=is_old_motion())
     for n, v in _main_config_cache.iteritems():
         main_config.setdefault(n, v)
     _main_config_cache = main_config
@@ -326,7 +325,6 @@ def get_camera(camera_id, as_lines=False):
                 camera_config['netcam_keepalive'] = camera_config.pop('netcam_http') in ['1.1', 'keepalive']
 
         _get_additional_config(camera_config, camera_id=camera_id)
-        _set_default_motion_camera(camera_id, camera_config)
     
     elif utils.remote_camera(camera_config):
         pass
@@ -389,9 +387,7 @@ def set_camera(camera_id, camera_config):
                 camera_config['gap'] = camera_config.pop('event_gap')
             if 'netcam_keepalive' in camera_config:
                 camera_config['netcam_http'] = '1.1' if camera_config.pop('netcam_keepalive') else '1.0'
-                
-        _set_default_motion_camera(camera_id, camera_config, old_motion)
-        
+         
         # set the enabled status in main config
         main_config = get_main()
         threads = main_config.setdefault('thread', [])
@@ -488,7 +484,6 @@ def add_camera(device_details):
                 break
 
         camera_config['videodevice'] = device_details['uri']
-        _set_default_motion_camera(camera_id, camera_config)
     
     elif proto == 'motioneye':
         camera_config['@proto'] = 'motioneye'
@@ -517,12 +512,21 @@ def add_camera(device_details):
             camera_config['width'] = 640
             camera_config['height'] = 480
 
-        _set_default_motion_camera(camera_id, camera_config)
-
     else: # assuming mjpeg
         camera_config['@proto'] = 'mjpeg'
         camera_config['@url'] = device_details['url']
+    
+    if utils.local_motion_camera(camera_config):
+        _set_default_motion_camera(camera_id, camera_config, is_old_motion())
+
+        # go through the config conversion functions back and forth once
+        camera_config = motion_camera_ui_to_dict(motion_camera_dict_to_ui(camera_config), camera_config)
+    
+    elif utils.simple_mjpeg_camera(camera_config):
         _set_default_simple_mjpeg_camera(camera_id, camera_config)
+
+        # go through the config conversion functions back and forth once
+        camera_config = simple_mjpeg_camera_ui_to_dict(simple_mjpeg_camera_dict_to_ui(camera_config), camera_config)
 
     # write the configuration to file
     set_camera(camera_id, camera_config)
@@ -609,6 +613,7 @@ def main_dict_to_ui(data):
 
 
 def motion_camera_ui_to_dict(ui, old_config=None):
+    import meyectl
     import smbctl
     
     old_config = dict(old_config or {})
@@ -833,17 +838,14 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         data['@working_schedule_type'] = ui['working_schedule_type']
     
     # event start
-    event_relay_path = os.path.join(settings.PROJECT_PATH, 'eventrelay.py')
-    event_relay_path = os.path.abspath(event_relay_path)
-        
-    on_event_start = ['%(script)s start %%t' % {'script': event_relay_path}]
+    on_event_start = ['%(script)s start %%t' % {'script': meyectl.find_command('relayevent')}]
     if ui['email_notifications_enabled']:
         send_mail_path = os.path.join(settings.PROJECT_PATH, 'sendmail.py')
         send_mail_path = os.path.abspath(send_mail_path)
         emails = re.sub('\\s', '', ui['email_notifications_addresses'])
         
         on_event_start.append("%(script)s '%(server)s' '%(port)s' '%(account)s' '%(password)s' '%(tls)s' '%(to)s' 'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'" % {
-                'script': send_mail_path,
+                'script': meyectl.find_command('sendmail'),
                 'server': ui['email_notifications_smtp_server'],
                 'port': ui['email_notifications_smtp_port'],
                 'account': ui['email_notifications_smtp_account'],
@@ -853,12 +855,10 @@ def motion_camera_ui_to_dict(ui, old_config=None):
                 'timespan': ui['email_notifications_picture_time_span']})
 
     if ui['web_hook_notifications_enabled']:
-        web_hook_path = os.path.join(settings.PROJECT_PATH, 'webhook.py')
-        web_hook_path = os.path.abspath(web_hook_path)
         url = re.sub('\\s', '+', ui['web_hook_notifications_url'])
 
         on_event_start.append("%(script)s '%(method)s' '%(url)s'" % {
-                'script': web_hook_path,
+                'script': meyectl.find_command('webhook'),
                 'method': ui['web_hook_notifications_http_method'],
                 'url': url})
 
@@ -869,7 +869,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     data['on_event_start'] = '; '.join(on_event_start)
 
     # event end
-    on_event_end = ['%(script)s stop %%t' % {'script': event_relay_path}]
+    on_event_end = ['%(script)s stop %%t' % {'script': meyectl.find_command('relayevent')}]
     
     data['on_event_end'] = '; '.join(on_event_end)
     
@@ -1156,34 +1156,36 @@ def motion_camera_dict_to_ui(data):
     ui['email_notifications_picture_time_span'] = 0
     command_notifications = []
     for e in on_event_start:
-        if e.count('sendmail.py') and e.count('motion_start'):
+        if e.count('sendmail'):
             e = shlex.split(e)
+
             if len(e) < 10:
                 continue
-
+            
             ui['email_notifications_enabled'] = True 
-            ui['email_notifications_smtp_server'] = e[1]
-            ui['email_notifications_smtp_port'] = e[2]
-            ui['email_notifications_smtp_account'] = e[3]
-            ui['email_notifications_smtp_password'] = e[4]
-            ui['email_notifications_smtp_tls'] = e[5].lower() == 'true'
-            ui['email_notifications_addresses'] = e[6]
+            ui['email_notifications_smtp_server'] = e[-10]
+            ui['email_notifications_smtp_port'] = e[-9]
+            ui['email_notifications_smtp_account'] = e[-8]
+            ui['email_notifications_smtp_password'] = e[-7]
+            ui['email_notifications_smtp_tls'] = e[-6].lower() == 'true'
+            ui['email_notifications_addresses'] = e[-5]
             try:
-                ui['email_notifications_picture_time_span'] = int(e[10])
+                ui['email_notifications_picture_time_span'] = int(e[-1])
                 
             except:
                 ui['email_notifications_picture_time_span'] = 0
 
-        elif e.count('webhook.py'):
+        elif e.count('webhook'):
             e = shlex.split(e)
-            if len(e) != 3:
+
+            if len(e) < 3:
                 continue
 
             ui['web_hook_notifications_enabled'] = True 
-            ui['web_hook_notifications_http_method'] = e[1]
-            ui['web_hook_notifications_url'] = e[2]
+            ui['web_hook_notifications_http_method'] = e[-1]
+            ui['web_hook_notifications_url'] = e[-1]
         
-        elif e.count('eventrelay.py'):
+        elif e.count('relayevent') or e.count('eventrelay.py'):
             continue # ignore internal relay script
 
         else: # custom command
@@ -1566,7 +1568,6 @@ def _set_default_motion(data, old_motion):
 
 def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('@name', 'Camera' + str(camera_id))
-    data.setdefault('@enabled', False)
     data.setdefault('@id', camera_id)
     
     if not utils.net_camera(data):
@@ -1669,7 +1670,6 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
 
 def _set_default_simple_mjpeg_camera(camera_id, data):
     data.setdefault('@name', 'Camera' + str(camera_id))
-    data.setdefault('@enabled', False)
     data.setdefault('@id', camera_id)
 
     

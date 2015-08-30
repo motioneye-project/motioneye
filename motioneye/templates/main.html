@@ -68,6 +68,8 @@
         var adminUsername = '{{admin_username}}';
         var frame = {% if frame %}true{% else %}false{% endif %};
         var baseUri = null;
+        var hasLocalCamSupport = {% if has_motion %}true{% else %}false{% endif %};
+        var hasNetCamSupport = {% if has_motion %}true{% else %}false{% endif %};
     </script>
 {% endblock %}
 

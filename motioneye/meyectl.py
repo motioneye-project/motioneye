@@ -1,0 +1,228 @@
+#!/usr/bin/env python
+
+# Copyright (c) 2013 Calin Crisan
+# This file is part of motionEye.
+#
+# motionEye is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+import argparse
+import logging
+import os.path
+import pipes
+import sys
+
+from tornado.httpclient import AsyncHTTPClient
+
+# make sure motioneye is on python path
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+import relayevent
+import sendmail
+import server
+import settings
+import webhook
+
+
+_LOG_FILE = 'motioneye.log'
+
+
+def find_command(command):
+    cmd = os.path.abspath(sys.argv[0])
+    cmd += ' %s ' % command
+    cmd += ' '.join([pipes.quote(arg) for arg in sys.argv[2:]])
+    
+    return cmd
+
+
+def load_settings():
+    # parse common comnand line argumentss
+    config_file = None
+    debug = False
+
+    for i in xrange(1, len(sys.argv)):
+        arg = sys.argv[i]
+        next_arg = i < len(sys.argv) - 1 and sys.argv[i + 1]
+        if arg == '-c':
+            config_file = next_arg
+            
+        elif arg == '-d':
+            debug = True
+
+    def parse_conf_line(line):
+        line = line.strip()
+        if not line or line.startswith('#'):
+            return
+
+        parts = line.split(' ', 1)
+        if len(parts) != 2:
+            raise Exception('invalid configuration line: %s' % line)
+
+        name, value = parts
+        upper_name = name.upper().replace('-', '_')
+
+        if hasattr(settings, upper_name):
+            curr_value = getattr(settings, upper_name)
+
+            if upper_name == 'LOG_LEVEL':
+                if value == 'quiet':
+                    value = 100
+
+                else:
+                    value = getattr(logging, value.upper(), logging.DEBUG)
+
+            elif value.lower() == 'true':
+                value = True
+
+            elif value.lower() == 'false':
+                value = False
+
+            elif isinstance(curr_value, int):
+                value = int(value)
+
+            elif isinstance(curr_value, float):
+                value = float(value)
+
+            setattr(settings, upper_name, value)
+
+        else:
+            raise Exception('unknown configuration option: %s' % name)
+
+    if config_file:
+        try:
+            with open(config_file) as f:
+                for line in f:
+                    parse_conf_line(line)
+            
+        except Exception as e:
+            logging.fatal('failed to read settings from "%s": %s' % (config_file, e))
+            sys.exit(-1)
+            
+    else:
+        logging.info('no configuration file given, using built-in defaults')
+
+    if debug:
+        settings.LOG_LEVEL = logging.DEBUG
+
+
+def configure_logging(cmd, log_to_file=False):
+    if log_to_file or cmd != 'motioneye':
+        format = '%(asctime)s: [{cmd}] %(levelname)7s: %(message)s'.format(cmd=cmd)
+        
+    else:
+        format = '%(levelname)7s: %(message)s'.format(cmd=cmd)
+
+    for h in logging.getLogger().handlers:
+        logging.getLogger().removeHandler(h)
+        
+    try:
+        if log_to_file:
+            log_file = os.path.join(settings.LOG_PATH, _LOG_FILE)
+            
+        else:
+            log_file = None
+
+        logging.basicConfig(filename=log_file, level=settings.LOG_LEVEL,
+                format=format, datefmt='%Y-%m-%d %H:%M:%S')
+    
+    except Exception as e:
+        sys.stderr.write('failed to configure logging: %s\n' % e)
+        sys.exit(-1)
+
+    logging.getLogger('tornado').setLevel(logging.WARN)
+
+
+def configure_tornado():
+    AsyncHTTPClient.configure('tornado.curl_httpclient.CurlAsyncHTTPClient', max_clients=16)
+
+
+def make_arg_parser(command=None):
+    if command:
+        usage = description = epilog = None
+        
+    else:
+        usage = '%(prog)s [command] [-c CONFIG_FILE] [-d] [-v] [command options...]\n\n'
+        
+        description = 'available commands:\n'
+        description += '  startserver\n'
+        description += '  stopserver\n'
+        description += '  relayevent\n'
+        description += '  sendmail\n'
+        description += '  webhook\n\n'
+
+        epilog = 'type "%(prog)s [command] -h" for help on a specific command\n\n'
+        
+    parser = argparse.ArgumentParser(prog='meyectl%s' % ((' ' + command) if command else ''),
+            usage=usage, description=description, epilog=epilog,
+            add_help=False, formatter_class=argparse.RawTextHelpFormatter)
+
+    parser.add_argument('-c', help='use a config file instead of built-in defaults',
+            type=str, dest='config_file')
+    parser.add_argument('-d', help='enable debugging, overriding log level from config file',
+            action='store_true', dest='debug')
+    parser.add_argument('-h', help='print this help and exit',
+            action='help', default=argparse.SUPPRESS)
+    parser.add_argument('-l', help='log to file instead of standard error',
+            action='store_true', dest='log_to_file')
+    parser.add_argument('-v', help='print program version and exit',
+            action='version', default=argparse.SUPPRESS)
+
+    return parser
+
+
+def print_usage_and_exit(code):
+    parser = make_arg_parser()
+    parser.print_help(sys.stderr)
+
+    sys.exit(code)
+
+
+def print_version_and_exit():
+    import motioneye
+
+    sys.stderr.write('motionEye %s\n' % motioneye.VERSION)
+    sys.exit()
+
+
+def main():
+    for a in sys.argv:
+        if a == '-v':
+            print_version_and_exit()
+    
+    if len(sys.argv) < 2 or sys.argv[1] == '-h':
+        print_usage_and_exit(0)
+    
+    load_settings()
+
+    command = sys.argv[1]
+    arg_parser = make_arg_parser(command)
+
+    if command in ('startserver', 'stopserver'):
+        server.main(arg_parser, sys.argv[2:], command[:-6])
+
+    elif command == 'sendmail':
+        sendmail.main(arg_parser, sys.argv[2:])
+    
+    elif command == 'relayevent':
+        relayevent.main(arg_parser, sys.argv[2:])
+
+    elif command == 'webhook':
+        webhook.main(arg_parser, sys.argv[2:])
+
+    else:
+        sys.stderr.write('unknown command "%s"\n\n' % command)
+        print_usage_and_exit(-1)
+
+
+if __name__ == '__main__':
+    main()
