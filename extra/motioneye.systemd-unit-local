@@ -2,7 +2,7 @@
 Description=motionEye Server
 
 [Service]
-ExecStart=/usr/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
+ExecStart=/usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
 Restart=on-abort
 
 [Install]
