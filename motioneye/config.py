@@ -517,7 +517,7 @@ def add_camera(device_details):
         camera_config['@url'] = device_details['url']
     
     if utils.local_motion_camera(camera_config):
-        _set_default_motion_camera(camera_id, camera_config, is_old_motion())
+        _set_default_motion_camera(camera_id, camera_config)
 
         # go through the config conversion functions back and forth once
         camera_config = motion_camera_ui_to_dict(motion_camera_dict_to_ui(camera_config), camera_config)
@@ -1566,7 +1566,7 @@ def _set_default_motion(data, old_motion):
         data.setdefault('webcontrol_port', 7999)
 
 
-def _set_default_motion_camera(camera_id, data, old_motion=False):
+def _set_default_motion_camera(camera_id, data):
     data.setdefault('@name', 'Camera' + str(camera_id))
     data.setdefault('@id', camera_id)
     
@@ -1591,20 +1591,12 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('@network_password', '')
     data.setdefault('target_dir', settings.MEDIA_PATH)
     
-    if old_motion:
-        data.setdefault('webcam_localhost', False)
-        data.setdefault('webcam_port', int('808' + str(camera_id)))
-        data.setdefault('webcam_maxrate', 5)
-        data.setdefault('webcam_quality', 85)
-        data.setdefault('webcam_motion', False)
-    
-    else:
-        data.setdefault('stream_localhost', False)
-        data.setdefault('stream_port', int('808' + str(camera_id)))
-        data.setdefault('stream_maxrate', 5)
-        data.setdefault('stream_quality', 85)
-        data.setdefault('stream_motion', False)
-        data.setdefault('stream_auth_method', 0)
+    data.setdefault('stream_localhost', False)
+    data.setdefault('stream_port', int('808' + str(camera_id)))
+    data.setdefault('stream_maxrate', 5)
+    data.setdefault('stream_quality', 85)
+    data.setdefault('stream_motion', False)
+    data.setdefault('stream_auth_method', 0)
 
     data.setdefault('@webcam_resolution', 100)
     data.setdefault('@webcam_server_resize', False)
@@ -1615,12 +1607,8 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
 
     data.setdefault('@motion_detection', True)
     data.setdefault('text_changes', False)
-    if old_motion:
-        data.setdefault('locate', False)
-    
-    else:
-        data.setdefault('locate_motion_mode', False)
-        data.setdefault('locate_motion_style', 'redbox')
+    data.setdefault('locate_motion_mode', False)
+    data.setdefault('locate_motion_style', 'redbox')
     
     data.setdefault('threshold', 2000)
     data.setdefault('noise_tune', True)
@@ -1631,17 +1619,10 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('post_capture', 4)
     data.setdefault('minimum_motion_frames', 1)
     
-    if old_motion:
-        data.setdefault('output_normal', False)
-        data.setdefault('jpeg_filename', '')
-        data.setdefault('output_all', False)
-        data.setdefault('gap', 10)
-
-    else:
-        data.setdefault('output_pictures', False)
-        data.setdefault('picture_filename', '')
-        data.setdefault('emulate_motion', False)
-        data.setdefault('event_gap', 10)
+    data.setdefault('output_pictures', False)
+    data.setdefault('picture_filename', '')
+    data.setdefault('emulate_motion', False)
+    data.setdefault('event_gap', 10)
     
     data.setdefault('snapshot_interval', 0)
     data.setdefault('snapshot_filename', '')
@@ -1651,13 +1632,8 @@ def _set_default_motion_camera(camera_id, data, old_motion=False):
     data.setdefault('ffmpeg_variable_bitrate', 0)
     data.setdefault('ffmpeg_bps', 44000) # a quality of about 85% 
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
-    if old_motion:
-        data.setdefault('max_mpeg_time', 0)
-        data.setdefault('ffmpeg_cap_new', False)
-    
-    else:
-        data.setdefault('max_movie_time', 0)
-        data.setdefault('ffmpeg_output_movies', False)
+    data.setdefault('max_movie_time', 0)
+    data.setdefault('ffmpeg_output_movies', False)
     data.setdefault('ffmpeg_video_codec', 'msmpeg4')
     data.setdefault('@preserve_movies', 0)
     

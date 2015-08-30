@@ -14,11 +14,11 @@
 
 NAME="motioneye"
 PATH_BIN="/bin:/usr/bin:/sbin:/usr/sbin"
-DAEMON="/usr/bin/meyectl"
+DAEMON="/usr/local/bin/meyectl"
 PIDFILE="/var/run/$NAME.pid"
 DESC="motionEye server"
-USER="motion"
-OPTIONS="startserver -c /etc/motioneye/motioneye.conf -l"
+USER="root"
+OPTIONS="startserver -c /etc/motioneye/motioneye.conf -l -b"
 
 . /lib/lsb/init-functions
 
@@ -29,7 +29,7 @@ RET=0
 case "$1" in
     start)
         log_daemon_msg "Starting $DESC"
-        if start-stop-daemon --start --oknodo --exec $DAEMON -b --chuid $USER -- $OPTIONS; then
+        if start-stop-daemon --start --oknodo --exec $DAEMON --chuid $USER -- $OPTIONS; then
             log_end_msg 0
         else
             log_end_msg 1
@@ -39,7 +39,7 @@ case "$1" in
 
     stop)
         log_daemon_msg "Stopping $DESC"
-        if start-stop-daemon --stop --oknodo --exec $DAEMON --retry 5; then
+        if start-stop-daemon --stop --oknodo --pidfile $PIDFILE --retry 5; then
             log_end_msg 0
         else
             log_end_msg 1

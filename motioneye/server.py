@@ -261,11 +261,11 @@ def test_requirements():
         logging.fatal('please install pycurl')
         sys.exit(-1)
     
-    import mediafiles
-    has_ffmpeg = mediafiles.find_ffmpeg() is not None
-    
     import motionctl
     has_motion = motionctl.find_motion() is not None
+    
+    import mediafiles
+    has_ffmpeg = mediafiles.find_ffmpeg() is not None
     
     import v4l2ctl
     has_v4lutils = v4l2ctl.find_v4l2_ctl() is not None
@@ -275,6 +275,9 @@ def test_requirements():
         logging.fatal('please install cifs-utils')
         sys.exit(-1)
 
+    if not has_motion:
+        logging.info('motion not installed')
+
     if not has_ffmpeg:
         if has_motion:
             logging.warn('you have motion installed, but no ffmpeg')
@@ -282,11 +285,12 @@ def test_requirements():
         else:
             logging.info('ffmpeg not installed')
 
-    if not has_motion:
-        logging.info('motion not installed')
-
     if not has_v4lutils:
-        logging.info('v4l-utils not installed')
+        if has_motion:
+            logging.warn('you have motion installed, but no v4l-utils')
+
+        else:
+            logging.info('v4l-utils not installed')
 
         
 def start_motion():
