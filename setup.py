@@ -1,8 +1,10 @@
 
 import os.path
+import subprocess
 
-from setuptools import setup
 from codecs import open
+from setuptools.command.sdist import sdist
+from setuptools import setup
 
 import motioneye
 
@@ -13,6 +15,27 @@ version = motioneye.VERSION
 
 with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
+
+
+# update the version according to git
+git_version = subprocess.Popen('git describe --tags',
+        stdout=subprocess.PIPE, stderr=open('/dev/null'), shell=True).communicate()[0].strip()
+
+if git_version:
+    print 'detected git version %s' % git_version
+    version = git_version
+
+else:
+    print 'using found version %s' % version
+
+
+class custom_sdist(sdist):
+    def run(self):
+        if git_version:
+            subprocess.Popen("sed -ri 's/VERSION = (.+)/VERSION = \"%s\"/' %s/__init__.py" % (git_version, name),
+                    shell=True).communicate()
+
+        sdist.run(self)
 
 
 setup(
@@ -65,5 +88,9 @@ setup(
         'console_scripts': [
             'meyectl=motioneye.meyectl:main',
         ],
+    },
+    
+    cmdclass={
+        'sdist': custom_sdist
     }
 )
