@@ -158,7 +158,8 @@ class MainHandler(BaseHandler):
                 hostname=socket.gethostname(),
                 title=self.get_argument('title', None),
                 admin_username=config.get_main().get('@admin_username'),
-                old_motion=config.is_old_motion())
+                old_motion=config.is_old_motion(),
+                has_motion=bool(motionctl.find_motion()))
 
 
 class ConfigHandler(BaseHandler):
@@ -491,7 +492,6 @@ class ConfigHandler(BaseHandler):
                     self.finish_json({'error': error})
                     
                 else:
-                    cameras = [c for c in cameras if c.get('enabled')]
                     self.finish_json({'cameras': cameras})
 
             remote.list(self.get_data(), on_response)

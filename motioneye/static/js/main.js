@@ -2672,8 +2672,8 @@ function runAddCameraDialog() {
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Camera Type</span></td>' +
                     '<td class="dialog-item-value"><select class="styled" id="typeSelect">' +
-                        '<option value="v4l2">Local Camera</option>' +
-                        '<option value="netcam">Network Camera</option>' +
+                        (hasLocalCamSupport ? '<option value="v4l2">Local Camera</option>' : '') +
+                        (hasNetCamSupport ? '<option value="netcam">Network Camera</option>' : '') +
                         '<option value="motioneye">Remote motionEye Camera</option>' +
                         '<option value="mjpeg">Simple MJPEG Camera</option>' +
                     '</select></td>' +
@@ -2910,7 +2910,6 @@ function runAddCameraDialog() {
     urlEntry.change(updateUi);
     usernameEntry.change(updateUi);
     passwordEntry.change(updateUi);
-    updateUi();
 
     runModalDialog({
         title: 'Add Camera...',
@@ -2972,6 +2971,8 @@ function runAddCameraDialog() {
             });
         }
     });
+
+    updateUi();
 }
 
 function runTimelapseDialog(cameraId, groupKey, group) {

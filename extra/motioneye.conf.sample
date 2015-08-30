@@ -5,7 +5,7 @@
 #static_url '/static/'
 
 # path to the configuration directory (must be writable by motionEye)
-conf_path /etc/motioneye
+#conf_path /etc/motioneye
 
 # path to the directory where pid files go (must be writable by motionEye)
 #run_path /var/run

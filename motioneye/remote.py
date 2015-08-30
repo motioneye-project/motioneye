@@ -120,6 +120,12 @@ def list(local_config, callback):
     request = _make_request(scheme, host, port, username, password, uri + '/config/list/')
     
     def on_response(response):
+        def make_camera_response(c):
+            return {
+                'id': c['id'],
+                'name': c['name']
+            }
+        
         if response.error:
             logging.error('failed to list remote cameras on %(url)s: %(msg)s' % {
                     'url': pretty_camera_url(local_config, camera=False),
@@ -140,7 +146,8 @@ def list(local_config, callback):
         cameras = response['cameras']
         
         # filter out simple mjpeg cameras
-        cameras = [c for c in cameras if c['proto'] != 'mjpeg']
+        cameras = [make_camera_response(c) for c in cameras
+                if c['proto'] != 'mjpeg' and c.get('enabled')]
         
         callback(cameras)
     

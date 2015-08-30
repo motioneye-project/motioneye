@@ -117,10 +117,10 @@ def load_settings():
 
 def configure_logging(cmd, log_to_file=False):
     if log_to_file or cmd != 'motioneye':
-        format = '%(asctime)s: [{cmd}] %(levelname)s: %(message)s'.format(cmd=cmd)
+        format = '%(asctime)s: [{cmd}] %(levelname)7s: %(message)s'.format(cmd=cmd)
         
     else:
-        format = '%(levelname)s: %(message)s'.format(cmd=cmd)
+        format = '%(levelname)7s: %(message)s'.format(cmd=cmd)
 
     for h in logging.getLogger().handlers:
         logging.getLogger().removeHandler(h)

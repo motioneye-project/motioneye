@@ -276,7 +276,11 @@ def test_requirements():
         sys.exit(-1)
 
     if not has_ffmpeg:
-        logging.info('ffmpeg not installed')
+        if has_motion:
+            logging.warn('you have motion installed, but no ffmpeg')
+        
+        else:
+            logging.info('ffmpeg not installed')
 
     if not has_motion:
         logging.info('motion not installed')
@@ -350,9 +354,9 @@ def run():
     import tornado.ioloop
 
     configure_signals()
-    test_requirements()
-
     logging.info('hello! this is motionEye server %s' % motioneye.VERSION)
+
+    test_requirements()
 
     if settings.SMB_SHARES:
 

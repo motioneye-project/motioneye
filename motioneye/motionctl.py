@@ -52,7 +52,7 @@ def find_motion():
 
     else: # autodetect motion binary path
         try:
-            binary = subprocess.check_output('which motion', shell=True).strip()
+            binary = subprocess.check_output('which motion', stderr=open('/dev/null'), shell=True).strip()
         
         except subprocess.CalledProcessError: # not found
             return None
