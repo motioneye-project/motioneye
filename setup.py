@@ -53,7 +53,7 @@ setup(
     license='GPLv3',
 
     classifiers=[
-        'Development Status :: 3 - Beta',
+        'Development Status :: 4 - Beta',
 
         'Intended Audience :: End Users/Desktop',
         'Topic :: Multimedia :: Video',
@@ -61,7 +61,6 @@ setup(
         'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
 
         'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7'
     ],
 
