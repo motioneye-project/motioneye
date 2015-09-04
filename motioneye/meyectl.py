@@ -38,9 +38,13 @@ _LOG_FILE = 'motioneye.log'
 
 
 def find_command(command):
-    cmd = os.path.abspath(sys.argv[0])
+    cmd = sys.argv[0]
+    if not cmd.startswith('/'):
+        cmd = os.path.join(os.getcwd(), cmd)
+    cmd = cmd.replace('-b', '') # remove server-specific options
     cmd += ' %s ' % command
-    cmd += ' '.join([pipes.quote(arg) for arg in sys.argv[2:]])
+    cmd += ' '.join([pipes.quote(arg) for arg in sys.argv[2:]
+            if arg not in ['-b']])
     
     return cmd
 

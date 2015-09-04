@@ -50,7 +50,6 @@ class Daemon(object):
             sys.exit(-1)
 
         # separate from parent
-        os.chdir('/') 
         os.setsid()
         os.umask(0) 
 
