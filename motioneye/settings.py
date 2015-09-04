@@ -41,7 +41,7 @@ else:
     LOG_PATH = RUN_PATH
 
 # default output path for media files (must be writable by motionEye)
-MEDIA_PATH = RUN_PATH
+MEDIA_PATH = '/var/lib/motioneye'
 
 # path to the motion binary to use (automatically detected by default)
 MOTION_BINARY = None

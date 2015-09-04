@@ -7,9 +7,6 @@
 *.conf
 *.json
 .settings
-conf
 run
-media
-log
 dist
 motioneye.egg-info
