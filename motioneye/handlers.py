@@ -1342,13 +1342,11 @@ class RelayEventHandler(BaseHandler):
         logging.debug('recevied relayed event %(event)s for thread id %(id)s' % {'event': event, 'id': thread_id})
         
         camera_id = motionctl.thread_id_to_camera_id(thread_id)
-        try:
-            camera_config = config.get_camera(camera_id)
-        
-        except:
-            logging.warn('ignoring event for remote camera with id %s (probably removed)' % camera_id)
+        if camera_id is None:
+            logging.debug('ignoring event for thread id %s' % thread_id)
             return self.finish_json()
-
+        
+        camera_config = config.get_camera(camera_id)
         if not utils.local_motion_camera(camera_config):
             logging.warn('ignoring event for non-local camera with id %s' % camera_id)
             return self.finish_json()
