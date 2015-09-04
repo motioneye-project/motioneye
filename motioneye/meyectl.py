@@ -50,7 +50,8 @@ def find_command(command):
 
 
 def load_settings():
-    # parse common comnand line argumentss
+    # parse common command line arguments
+    
     config_file = None
     debug = False
 
@@ -62,7 +63,14 @@ def load_settings():
             
         elif arg == '-d':
             debug = True
+    
+    conf_path_given = False
+    run_path_given = False
+    log_path_given = False
+    media_path_given = False
 
+    # parse the config file, if given
+    
     def parse_conf_line(line):
         line = line.strip()
         if not line or line.startswith('#'):
@@ -96,6 +104,18 @@ def load_settings():
 
             elif isinstance(curr_value, float):
                 value = float(value)
+            
+            if upper_name == 'CONF_PATH':
+                conf_path_given = True
+
+            elif upper_name == 'RUN_PATH':
+                run_path_given = True
+
+            elif upper_name == 'LOG_PATH':
+                log_path_given = True
+
+            elif upper_name == 'MEDIA_PATH':
+                media_path_given = True
 
             setattr(settings, upper_name, value)
 
@@ -111,7 +131,23 @@ def load_settings():
         except Exception as e:
             logging.fatal('failed to read settings from "%s": %s' % (config_file, e))
             sys.exit(-1)
-            
+        
+        # use the config file directory as base path
+        # if not specified otherwise in the config file
+        base_dir = os.path.dirname(config_file)
+
+        if not conf_path_given:
+            settings.CONF_PATH = base_dir
+ 
+        if not run_path_given:
+            settings.RUN_PATH = base_dir
+ 
+        if not log_path_given:
+            settings.LOG_PATH = base_dir
+ 
+        if not media_path_given:
+            settings.MEDIA_PATH = base_dir
+ 
     else:
         logging.info('no configuration file given, using built-in defaults')
 
