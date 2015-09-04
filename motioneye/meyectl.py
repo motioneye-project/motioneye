@@ -64,10 +64,10 @@ def load_settings():
         elif arg == '-d':
             debug = True
     
-    conf_path_given = False
-    run_path_given = False
-    log_path_given = False
-    media_path_given = False
+    conf_path_given = [False]
+    run_path_given = [False]
+    log_path_given = [False]
+    media_path_given = [False]
 
     # parse the config file, if given
     
@@ -106,16 +106,16 @@ def load_settings():
                 value = float(value)
             
             if upper_name == 'CONF_PATH':
-                conf_path_given = True
+                conf_path_given[0] = True
 
             elif upper_name == 'RUN_PATH':
-                run_path_given = True
+                run_path_given[0] = True
 
             elif upper_name == 'LOG_PATH':
-                log_path_given = True
+                log_path_given[0] = True
 
             elif upper_name == 'MEDIA_PATH':
-                media_path_given = True
+                media_path_given[0] = True
 
             setattr(settings, upper_name, value)
 
@@ -136,16 +136,16 @@ def load_settings():
         # if not specified otherwise in the config file
         base_dir = os.path.dirname(config_file)
 
-        if not conf_path_given:
+        if not conf_path_given[0]:
             settings.CONF_PATH = base_dir
  
-        if not run_path_given:
+        if not run_path_given[0]:
             settings.RUN_PATH = base_dir
  
-        if not log_path_given:
+        if not log_path_given[0]:
             settings.LOG_PATH = base_dir
  
-        if not media_path_given:
+        if not media_path_given[0]:
             settings.MEDIA_PATH = base_dir
  
     else:
