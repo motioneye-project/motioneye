@@ -336,15 +336,15 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
     data.setdefault('scheme', 'http')
     data.setdefault('host', '127.0.0.1')
     data.setdefault('port', '80')
-    data.setdefault('uri', '')
+    data.setdefault('path', '')
     data.setdefault('username', None)
     data.setdefault('password', None)
 
-    url = '%(scheme)s://%(host)s%(port)s%(uri)s' % {
+    url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
             'scheme': data['scheme'],
             'host': data['host'],
             'port': ':' + str(data['port']) if data['port'] else '',
-            'uri': data['uri'] or ''}
+            'path': data['path'] or ''}
     
     called = [False]
     status_2xx = [False]
@@ -414,15 +414,15 @@ def test_rtsp_url(data, callback):
     data.setdefault('scheme', 'rtsp')
     data.setdefault('host', '127.0.0.1')
     data['port'] = data.get('port') or '554'
-    data.setdefault('uri', '')
+    data.setdefault('path', '')
     data.setdefault('username', None)
     data.setdefault('password', None)
 
-    url = '%(scheme)s://%(host)s%(port)s%(uri)s' % {
+    url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
             'scheme': data['scheme'],
             'host': data['host'],
             'port': ':' + str(data['port']) if data['port'] else '',
-            'uri': data['uri'] or ''}
+            'path': data['path'] or ''}
     
     called = [False]
     timeout = [None]
@@ -563,8 +563,8 @@ def test_rtsp_url(data, callback):
     stream = connect()
 
 
-def compute_signature(method, uri, body, key):
-    parts = list(urlparse.urlsplit(uri))
+def compute_signature(method, path, body, key):
+    parts = list(urlparse.urlsplit(path))
     query = [q for q in urlparse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
     query.sort(key=lambda q: q[0])
     # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
@@ -572,8 +572,8 @@ def compute_signature(method, uri, body, key):
     query = '&'.join([(q[0] + '=' + q[1]) for q in query])
     parts[0] = parts[1] = ''
     parts[3] = query
-    uri = urlparse.urlunsplit(parts)
-    uri = _SIGNATURE_REGEX.sub('-', uri)
+    path = urlparse.urlunsplit(parts)
+    path = _SIGNATURE_REGEX.sub('-', path)
     key = _SIGNATURE_REGEX.sub('-', key)
 
     if body and body.startswith('---'):
@@ -581,7 +581,7 @@ def compute_signature(method, uri, body, key):
 
     body = body and _SIGNATURE_REGEX.sub('-', body.decode('utf8'))
 
-    return hashlib.sha1('%s:%s:%s:%s' % (method, uri, body or '', key)).hexdigest().lower()
+    return hashlib.sha1('%s:%s:%s:%s' % (method, path, body or '', key)).hexdigest().lower()
 
 
 def build_basic_header(username, password):
@@ -664,7 +664,7 @@ def build_digest_header(method, url, username, password, state):
 
     last_nonce = nonce
 
-    base = 'username="%s", realm="%s", nonce="%s", uri="%s", ' \
+    base = 'username="%s", realm="%s", nonce="%s", path="%s", ' \
            'response="%s"' % (username, realm, nonce, path, respdig)
     if opaque:
         base += ', opaque="%s"' % opaque

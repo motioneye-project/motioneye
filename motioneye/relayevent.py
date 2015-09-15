@@ -107,14 +107,14 @@ def main(parser, args):
     
     admin_username, admin_password = get_admin_credentials()
 
-    uri = '/_relay_event/?event=%(event)s&thread_id=%(thread_id)s&_username=%(username)s' % {
+    path = '/_relay_event/?event=%(event)s&thread_id=%(thread_id)s&_username=%(username)s' % {
             'username': admin_username,
             'thread_id': options.thread_id,
             'event': options.event}
     
-    signature = utils.compute_signature('POST', uri, '', admin_password)
+    signature = utils.compute_signature('POST', path, '', admin_password)
     
-    url = 'http://127.0.0.1:%(port)s' + uri + '&_signature=' + signature
+    url = 'http://127.0.0.1:%(port)s' + path + '&_signature=' + signature
     url = url % {'port': settings.PORT}
     
     try:

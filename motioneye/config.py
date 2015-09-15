@@ -462,7 +462,7 @@ def add_camera(device_details):
             else:
                 host = device_details['username'] + '@' + host
 
-        device_details['url'] = urlparse.urlunparse((device_details['scheme'], host, device_details['uri'], '', '', ''))
+        device_details['url'] = urlparse.urlunparse((device_details['scheme'], host, device_details['path'], '', '', ''))
 
     # determine the last camera id
     camera_ids = get_camera_ids()
@@ -477,20 +477,20 @@ def add_camera(device_details):
     camera_config = {'@enabled': True}
     if proto == 'v4l2':
         # find a suitable resolution
-        for (w, h) in v4l2ctl.list_resolutions(device_details['uri']):
+        for (w, h) in v4l2ctl.list_resolutions(device_details['path']):
             if w > 300:
                 camera_config['width'] = w
                 camera_config['height'] = h
                 break
 
-        camera_config['videodevice'] = device_details['uri']
+        camera_config['videodevice'] = device_details['path']
     
     elif proto == 'motioneye':
         camera_config['@proto'] = 'motioneye'
         camera_config['@scheme'] = device_details['scheme']
         camera_config['@host'] = device_details['host']
         camera_config['@port'] = device_details['port']
-        camera_config['@uri'] = device_details['uri']
+        camera_config['@path'] = device_details['path']
         camera_config['@username'] = device_details['username']
         camera_config['@password'] = device_details['password']
         camera_config['@remote_camera_id'] = device_details['remote_camera_id']

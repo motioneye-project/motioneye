@@ -17,7 +17,7 @@ STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 # static files (.css, .js etc) are served at this root url;
 # change this if you run motionEye behind a reverse proxy (e.g. nginx),
 # and you want static files to be served directly by it
-STATIC_URL = '/static/'
+BASE_PATH = ''
 
 # path to the configuration directory (must be writable by motionEye)
 CONF_PATH = [sys.prefix, ''][sys.prefix == '/usr']  + '/etc/motioneye'

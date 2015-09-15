@@ -158,33 +158,25 @@ def _log_request(handler):
     log_method("%d %s %.2fms", handler.get_status(),
                handler._request_summary(), request_time)
 
-application = Application(
-    [
-        (r'^/$', handlers.MainHandler),
-        (r'^/config/main/(?P<op>set|get)/?$', handlers.ConfigHandler),
-        (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|set_preview)/?$', handlers.ConfigHandler),
-        (r'^/config/(?P<op>add|list|backup|restore)/?$', handlers.ConfigHandler),
-        (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', handlers.PictureHandler),
-        (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.PictureHandler),
-        (r'^/picture/(?P<camera_id>\d+)/(?P<op>zipped|timelapse|delete_all)/(?P<group>.+?)/?$', handlers.PictureHandler),
-        (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', handlers.MovieHandler),
-        (r'^/movie/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.MovieHandler),
-        (r'^/movie/(?P<camera_id>\d+)/(?P<op>delete_all)/(?P<group>.+?)/?$', handlers.MovieHandler),
-        (r'^/_relay_event/?$', handlers.RelayEventHandler),
-        (r'^/log/(?P<name>\w+)/?$', handlers.LogHandler),
-        (r'^/update/?$', handlers.UpdateHandler),
-        (r'^/power/(?P<op>shutdown|reboot)/?$', handlers.PowerHandler),
-        (r'^/version/?$', handlers.VersionHandler),
-        (r'^/login/?$', handlers.LoginHandler),
-        (r'^.*$', handlers.NotFoundHandler),
-    ],
-    debug=False,
-    log_function=_log_request,
-    static_path=settings.STATIC_PATH,
-    static_url_prefix=settings.STATIC_URL
-)
-
-template.add_context('STATIC_URL', settings.STATIC_URL)
+handler_mapping = [
+    (r'^/$', handlers.MainHandler),
+    (r'^/config/main/(?P<op>set|get)/?$', handlers.ConfigHandler),
+    (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|set_preview)/?$', handlers.ConfigHandler),
+    (r'^/config/(?P<op>add|list|backup|restore)/?$', handlers.ConfigHandler),
+    (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', handlers.PictureHandler),
+    (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.PictureHandler),
+    (r'^/picture/(?P<camera_id>\d+)/(?P<op>zipped|timelapse|delete_all)/(?P<group>.+?)/?$', handlers.PictureHandler),
+    (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', handlers.MovieHandler),
+    (r'^/movie/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.MovieHandler),
+    (r'^/movie/(?P<camera_id>\d+)/(?P<op>delete_all)/(?P<group>.+?)/?$', handlers.MovieHandler),
+    (r'^/_relay_event/?$', handlers.RelayEventHandler),
+    (r'^/log/(?P<name>\w+)/?$', handlers.LogHandler),
+    (r'^/update/?$', handlers.UpdateHandler),
+    (r'^/power/(?P<op>shutdown|reboot)/?$', handlers.PowerHandler),
+    (r'^/version/?$', handlers.VersionHandler),
+    (r'^/login/?$', handlers.LoginHandler),
+    (r'^.*$', handlers.NotFoundHandler),
+]
 
 
 def configure_signals():
@@ -376,6 +368,11 @@ def run():
     if settings.THUMBNAILER_INTERVAL:
         start_thumbnailer()
 
+    template.add_context('static_path', settings.BASE_PATH + '/static/')
+    
+    application = Application(handler_mapping, debug=False, log_function=_log_request,
+            static_path=settings.STATIC_PATH, static_url_prefix='/static/')
+    
     application.listen(settings.PORT, settings.LISTEN)
     logging.info('server started')
     

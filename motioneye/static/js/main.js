@@ -7,7 +7,7 @@ var inProgress = false;
 var refreshInterval = 50; /* milliseconds */
 var username = '';
 var password = '';
-var baseUri = null;
+var basePath = null;
 var signatureRegExp = new RegExp('[^a-zA-Z0-9/?_.=&{}\\[\\]":, _-]', 'g');
 var initialConfigFetched = false; /* used to workaround browser extensions that trigger stupid change events */
 
@@ -124,8 +124,8 @@ function qualifyUrl(url) {
     return a.href;
 }
 
-function qualifyUri(uri) {
-    var url = qualifyUrl(uri);
+function qualifyPath(path) {
+    var url = qualifyUrl(path);
     var pos = url.indexOf('//');
     if (pos === -1) { /* not a full url */
         return url;
@@ -140,24 +140,25 @@ function qualifyUri(uri) {
     return url.substring(pos);
 }
         
-function computeSignature(method, uri, body) {
-    uri = qualifyUri(uri);
+function computeSignature(method, path, body) {
+    path = qualifyPath(path);
     
-    var parts = splitUrl(uri);
+    var parts = splitUrl(path);
     var query = parts.params;
-    var baseUrl = parts.baseUrl;
+    var path = parts.baseUrl;
+    path = '/' + path.substring(basePath.length);
     
     /* sort query arguments alphabetically */
     query = Object.keys(query).map(function (key) {return {key: key, value: decodeURIComponent(query[key])};});
     query = query.filter(function (q) {return q.key !== '_signature';});
     query.sortKey(function (q) {return q.key;});
     query = query.map(function (q) {return q.key + '=' + encodeURIComponent(q.value);}).join('&');
-    uri = baseUrl + '?' + query;
-    uri = uri.replace(signatureRegExp, '-');
+    path = path + '?' + query;
+    path = path.replace(signatureRegExp, '-');
     body = body && body.replace(signatureRegExp, '-');
     var password = window.password.replace(signatureRegExp, '-');
     
-    return sha1(method + ':' + uri + ':' + (body || '') + ':' + password).toLowerCase();
+    return sha1(method + ':' + path + ':' + (body || '') + ':' + password).toLowerCase();
 }
 
 function addAuthParams(method, url, body) {
@@ -1459,7 +1460,7 @@ function dict2CameraUi(dict) {
     
     $('#videoDeviceSwitch')[0].checked = dict['enabled']; markHideIfNull('enabled', 'videoDeviceSwitch');
     $('#deviceNameEntry').val(dict['name']); markHideIfNull('name', 'deviceNameEntry');
-    $('#deviceUriEntry').val(dict['device_url']); markHideIfNull('device_url', 'deviceUriEntry');
+    $('#deviceUrlEntry').val(dict['device_url']); markHideIfNull('device_url', 'deviceUrlEntry');
     $('#deviceTypeEntry').val(prettyType); markHideIfNull(!prettyType, 'deviceTypeEntry');
     $('#deviceTypeEntry')[0].proto = dict['proto'];
     $('#lightSwitchDetectSwitch')[0].checked = dict['light_switch_detect']; markHideIfNull('light_switch_detect', 'lightSwitchDetectSwitch');
@@ -1550,7 +1551,7 @@ function dict2CameraUi(dict) {
     $('#streamingAuthModeSelect').val(dict['streaming_auth_mode']); markHideIfNull('streaming_auth_mode', 'streamingAuthModeSelect');
     $('#streamingMotion')[0].checked = dict['streaming_motion']; markHideIfNull('streaming_motion', 'streamingMotion');
     
-    var cameraUrl = location.protocol + '//' + location.host + '/picture/' + dict.id + '/';
+    var cameraUrl = location.protocol + '//' + location.host + basePath + 'picture/' + dict.id + '/';
     
     var snapshotUrl = null;
     var mjpgUrl = null;
@@ -1720,10 +1721,10 @@ function beginProgress(cameraIds) {
     inProgress = true;
     
     /* replace the main page message with a progress indicator */
-    $('div.add-camera-message').replaceWith('<img class="main-loading-progress" src="' + staticUrl + 'img/main-loading-progress.gif">');
+    $('div.add-camera-message').replaceWith('<img class="main-loading-progress" src="' + staticPath + 'img/main-loading-progress.gif">');
     
     /* show the apply button progress indicator */
-    $('#applyButton').html('<img class="apply-progress" src="' + staticUrl + 'img/apply-progress.gif">');
+    $('#applyButton').html('<img class="apply-progress" src="' + staticPath + 'img/apply-progress.gif">');
     
     /* show the camera progress indicators */
     if (cameraIds) {
@@ -1765,12 +1766,12 @@ function endProgress() {
     }, 500);
 }
 
-function downloadFile(uri) {
-    uri = baseUri + uri;
+function downloadFile(path) {
+    path = basePath + path;
 
     var url = window.location.href;
     var parts = url.split('/');
-    url = parts.slice(0, 3).join('/') + uri;
+    url = parts.slice(0, 3).join('/') + path;
     url = addAuthParams('GET', url);
     
     /* download the file by creating a temporary iframe */
@@ -1779,7 +1780,7 @@ function downloadFile(uri) {
     $('body').append(frame);
 }
 
-function uploadFile(uri, input, callback) {
+function uploadFile(path, input, callback) {
     if (!window.FormData) {
         showErrorMessage("Your browser doesn't implement this function!");s
         callback();
@@ -1789,7 +1790,7 @@ function uploadFile(uri, input, callback) {
     var files = input[0].files;
     formData.append('files', files[0], files[0].name);
 
-    ajax('POST', uri, formData, callback);
+    ajax('POST', path, formData, callback);
 }
 
 
@@ -1867,7 +1868,7 @@ function doApply() {
             refreshDisabled[cameraId]++;
         });
         
-        ajax('POST', baseUri + 'config/0/set/', pushConfigs, function (data) {
+        ajax('POST', basePath + 'config/0/set/', pushConfigs, function (data) {
             affectedCameraIds.forEach(function (cameraId) {
                 refreshDisabled[cameraId]--;
             });
@@ -1881,7 +1882,7 @@ function doApply() {
             if (data.reboot) {
                 var count = 0;
                 function checkServerReboot() {
-                    ajax('GET', baseUri + 'config/0/get/', null, 
+                    ajax('GET', basePath + 'config/0/get/', null, 
                         function () {
                             window.location.reload(true);
                         },
@@ -1937,13 +1938,13 @@ function doApply() {
 
 function doShutDown() {
     runConfirmDialog('Really shut down?', function () {
-        ajax('POST', baseUri + 'power/shutdown/');
+        ajax('POST', basePath + 'power/shutdown/');
         setTimeout(function () {
             refreshInterval = 1000000;
             showModalDialog('<div class="modal-progress"></div>');
             
             function checkServer() {
-                ajax('GET', baseUri, null, 
+                ajax('GET', basePath, null, 
                     function () {
                         setTimeout(checkServer, 1000);
                     },
@@ -1964,14 +1965,14 @@ function doShutDown() {
 
 function doReboot() {
     runConfirmDialog('Really reboot?', function () {
-        ajax('POST', baseUri + 'power/reboot/');
+        ajax('POST', basePath + 'power/reboot/');
         setTimeout(function () {
             refreshInterval = 1000000;
             showModalDialog('<div class="modal-progress"></div>');
             var shutDown = false;
             
             function checkServer() {
-                ajax('GET', baseUri, null, 
+                ajax('GET', basePath, null, 
                     function () {
                         if (!shutDown) {
                             setTimeout(checkServer, 1000);
@@ -2016,7 +2017,7 @@ function doRemCamera() {
         }
 
         beginProgress();
-        ajax('POST', baseUri + 'config/' + cameraId + '/rem/', null, function (data) {
+        ajax('POST', basePath + 'config/' + cameraId + '/rem/', null, function (data) {
             if (data == null || data.error) {
                 endProgress();
                 showErrorMessage(data && data.error);
@@ -2034,7 +2035,7 @@ function doUpdate() {
     }
     
     showModalDialog('<div class="modal-progress"></div>');
-    ajax('GET', baseUri + 'update/', null, function (data) {
+    ajax('GET', basePath + 'update/', null, function (data) {
         if (data.update_version == null) {
             runAlertDialog('motionEye is up to date (current version: ' + data.current_version + ')');
         }
@@ -2042,10 +2043,10 @@ function doUpdate() {
             runConfirmDialog('New version available: ' + data.update_version + '. Update?', function () {
                 refreshInterval = 1000000;
                 showModalDialog('<div style="text-align: center;"><span>Updating. This may take a few minutes.</span><div class="modal-progress"></div></div>');
-                ajax('POST', baseUri + 'update/?version=' + data.update_version, null, function () {
+                ajax('POST', basePath + 'update/?version=' + data.update_version, null, function () {
                     var count = 0;
                     function checkServer() {
-                        ajax('GET', baseUri + 'config/0/get/', null,
+                        ajax('GET', basePath + 'config/0/get/', null,
                             function () {
                                 runAlertDialog('motionEye was successfully updated!', function () {
                                     window.location.reload(true);
@@ -2131,11 +2132,11 @@ function doRestore() {
 
             setTimeout(function () {
                 showModalDialog('<div style="text-align: center;"><span>Restoring configuration...</span><div class="modal-progress"></div></div>');
-                uploadFile(baseUri + 'config/restore/', fileInput, function (data) {
+                uploadFile(basePath + 'config/restore/', fileInput, function (data) {
                     if (data && data.ok) {
                         var count = 0;
                         function checkServer() {
-                            ajax('GET', baseUri + 'config/0/get/', null,
+                            ajax('GET', basePath + 'config/0/get/', null,
                                 function () {
                                     runAlertDialog('The configuration has been restored!', function () {
                                         window.location.reload(true);
@@ -2176,7 +2177,7 @@ function doRestore() {
 
 function doDownloadZipped(cameraId, groupKey) {
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
-    ajax('GET', baseUri + 'picture/' + cameraId + '/zipped/' + groupKey + '/', null, function (data) {
+    ajax('GET', basePath + 'picture/' + cameraId + '/zipped/' + groupKey + '/', null, function (data) {
         if (data.error) {
             hideModalDialog(); /* progress */
             showErrorMessage(data.error);
@@ -2188,10 +2189,10 @@ function doDownloadZipped(cameraId, groupKey) {
     });
 }
 
-function doDeleteFile(uri, callback) {
+function doDeleteFile(path, callback) {
     var url = window.location.href;
     var parts = url.split('/');
-    url = parts.slice(0, 3).join('/') + uri;
+    url = parts.slice(0, 3).join('/') + path;
     
     runConfirmDialog('Really delete this file?', function () {
         showModalDialog('<div class="modal-progress"></div>', null, null, true);
@@ -2216,7 +2217,7 @@ function doDeleteFile(uri, callback) {
 function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
     runConfirmDialog('Really delete all ' + mediaType + 's in ' + groupKey + '?', function () {
         showModalDialog('<div class="modal-progress"></div>', null, null, true);
-        ajax('POST', baseUri + mediaType + '/' + cameraId + '/delete_all/' + groupKey + '/', null, function (data) {
+        ajax('POST', basePath + mediaType + '/' + cameraId + '/delete_all/' + groupKey + '/', null, function (data) {
             hideModalDialog(); /* progress */
             hideModalDialog(); /* confirm */
             
@@ -2240,7 +2241,7 @@ function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
 function fetchCurrentConfig(onFetch) {
     function fetchCameraList() {
         /* fetch the camera list */
-        ajax('GET', baseUri + 'config/list/', null, function (data) {
+        ajax('GET', basePath + 'config/list/', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 data = {cameras: []};
@@ -2306,11 +2307,11 @@ function fetchCurrentConfig(onFetch) {
     }
  
     /* add a progress indicator */
-    $('div.page-container').append('<img class="main-loading-progress" src="' + staticUrl + 'img/main-loading-progress.gif">');
+    $('div.page-container').append('<img class="main-loading-progress" src="' + staticPath + 'img/main-loading-progress.gif">');
 
     if (isAdmin()) {
         /* fetch the main configuration */
-        ajax('GET', baseUri + 'config/main/get/', null, function (data) {
+        ajax('GET', basePath + 'config/main/get/', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 return;
@@ -2328,7 +2329,7 @@ function fetchCurrentConfig(onFetch) {
 function fetchCurrentCameraConfig(onFetch) {
     var cameraId = $('#cameraSelect').val();
     if (cameraId != null) {
-        ajax('GET', baseUri + 'config/' + cameraId + '/get/?force=true', null, function (data) {
+        ajax('GET', basePath + 'config/' + cameraId + '/get/?force=true', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 dict2CameraUi(null);
@@ -2421,7 +2422,7 @@ function pushPreview(control) {
     refreshDisabled[cameraId] |= 0;
     refreshDisabled[cameraId]++;
     
-    ajax('POST', baseUri + 'config/' + cameraId + '/set_preview/', data, function (data) {
+    ajax('POST', basePath + 'config/' + cameraId + '/set_preview/', data, function (data) {
         refreshDisabled[cameraId]--;
         
         if (data == null || data.error) {
@@ -2494,7 +2495,7 @@ function runLoginDialog(retry) {
     $('body').append(tempFrame);
     
     var form = 
-            $('<form action="' + baseUri + 'login/" target="temp" method="POST"><table class="login-dialog">' +
+            $('<form action="' + basePath + 'login/" target="temp" method="POST"><table class="login-dialog">' +
                 '<tr>' +
                     '<td class="login-dialog-error" colspan="100"></td>' +
                 '</tr>' +
@@ -2559,7 +2560,7 @@ function runPictureDialog(entries, pos, mediaType) {
     var nextArrow = $('<div class="picture-dialog-next-arrow button mouse-effect" title="next picture"></div>');
     content.append(nextArrow);
     
-    var progressImg = $('<img class="picture-dialog-progress" src="' + staticUrl + 'img/modal-progress.gif">');
+    var progressImg = $('<img class="picture-dialog-progress" src="' + staticPath + 'img/modal-progress.gif">');
     
     function updatePicture() {
         var entry = entries[pos];
@@ -2579,7 +2580,7 @@ function runPictureDialog(entries, pos, mediaType) {
         progressImg.css('left', (img.parent().width() - progressImg.width()) / 2);
         progressImg.css('top', (img.parent().height() - progressImg.height()) / 2);
         
-        img.attr('src', addAuthParams('GET', baseUri + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
+        img.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
         img.load(function () {
             var aspectRatio = this.naturalWidth / this.naturalHeight;
             var sizeWidth = width * width / aspectRatio;
@@ -2737,8 +2738,8 @@ function runAddCameraDialog() {
         else if (typeSelect.val() == 'netcam') {
             usernameEntry.removeAttr('readonly');
             
-            /* make sure there is one trailing slash so that
-             * an URI can be detected */
+            /* make sure there is one trailing slash
+             * so that a path can be detected */
             var url = urlEntry.val().trim();
             var m = url.match(new RegExp('/', 'g'));
             if (m && m.length < 3 && !url.endsWith('/')) {
@@ -2753,8 +2754,8 @@ function runAddCameraDialog() {
         else if (typeSelect.val() == 'mjpeg') {
             usernameEntry.removeAttr('readonly');
             
-            /* make sure there is one trailing slash so that
-             * an URI can be detected */
+            /* make sure there is one trailing slash
+             * so that a path can be detected */
             var url = urlEntry.val().trim();
             var m = url.match(new RegExp('/', 'g'));
             if (m && m.length < 3 && !url.endsWith('/')) {
@@ -2819,10 +2820,10 @@ function runAddCameraDialog() {
         var scheme = parts[0];
         var index = parts[1].indexOf('/');
         var host = null;
-        var uri = '';
+        var path = '';
         if (index >= 0) {
             host = parts[1].substring(0, index);
-            uri = parts[1].substring(index);
+            path = parts[1].substring(index);
         }
         else {
             host = parts[1];
@@ -2835,20 +2836,20 @@ function runAddCameraDialog() {
             port = parts[1];
         }
         
-        if (uri == '') {
-            uri = '/';
+        if (path == '') {
+            path = '/';
         }
         
         return {
             scheme: scheme,
             host: host,
             port: port,
-            uri: uri
+            path: path
         };
     }
     
     function listCameras() {
-        var progress = $('<div style="text-align: center; margin: 2px;"><img src="' + staticUrl + 'img/small-progress.gif"></div>');
+        var progress = $('<div style="text-align: center; margin: 2px;"><img src="' + staticPath + 'img/small-progress.gif"></div>');
         
         addCameraSelect.html('');
         addCameraSelect.hide();
@@ -2865,7 +2866,7 @@ function runAddCameraDialog() {
         
         cameraMsgLabel.html('');
         
-        ajax('GET', baseUri + 'config/list/', data, function (data) {
+        ajax('GET', basePath + 'config/list/', data, function (data) {
             progress.remove();
             
             if (data == null || data.error) {
@@ -2945,7 +2946,7 @@ function runAddCameraDialog() {
             }
             else { /* assuming v4l2 */
                 data.proto = 'v4l2';
-                data.uri = addCameraSelect.val();
+                data.path = addCameraSelect.val();
             }
             
             /* add all extra attributes */
@@ -2956,7 +2957,7 @@ function runAddCameraDialog() {
             });
 
             beginProgress();
-            ajax('POST', baseUri + 'config/add/', data, function (data) {
+            ajax('POST', basePath + 'config/add/', data, function (data) {
                 endProgress();
 
                 if (data == null || data.error) {
@@ -3044,7 +3045,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                 noKeys: true
             });
             
-            var url = baseUri + 'picture/' + cameraId + '/timelapse/' + groupKey + '/';
+            var url = basePath + 'picture/' + cameraId + '/timelapse/' + groupKey + '/';
             var data = {interval: intervalSelect.val(), framerate: framerateSlider.val()};
             var first = true;
             
@@ -3158,9 +3159,9 @@ function runMediaDialog(cameraId, mediaType) {
                 if (!entryDiv) {
                     entryDiv = $('<div class="media-list-entry"></div>');
                     
-                    var previewImg = $('<img class="media-list-preview" src="' + staticUrl + 'img/modal-progress.gif"/>');
+                    var previewImg = $('<img class="media-list-preview" src="' + staticPath + 'img/modal-progress.gif"/>');
                     entryDiv.append(previewImg);
-                    previewImg[0]._src = addAuthParams('GET', baseUri + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height);
+                    previewImg[0]._src = addAuthParams('GET', basePath + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height);
                     
                     var downloadButton = $('<div class="media-list-download-button button">Download</div>');
                     entryDiv.append(downloadButton);
@@ -3182,7 +3183,7 @@ function runMediaDialog(cameraId, mediaType) {
                     });
                     
                     deleteButton.click(function () {
-                        doDeleteFile(baseUri + mediaType + '/' + cameraId + '/delete' + entry.path, function () {
+                        doDeleteFile(basePath + mediaType + '/' + cameraId + '/delete' + entry.path, function () {
                             entryDiv.remove();
                             entries.splice(i, 1); /* remove entry from group */
 
@@ -3231,10 +3232,10 @@ function runMediaDialog(cameraId, mediaType) {
             return addEntries();
         }
         
-        var previewImg = $('<img class="media-list-progress" src="' + staticUrl + 'img/modal-progress.gif"/>');
+        var previewImg = $('<img class="media-list-progress" src="' + staticPath + 'img/modal-progress.gif"/>');
         mediaListDiv.append(previewImg);
         
-        var url = baseUri + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped');
+        var url = basePath + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped');
         ajax('GET', url, null, function (data) {
             previewImg.remove();
             
@@ -3367,7 +3368,7 @@ function runMediaDialog(cameraId, mediaType) {
     showModalDialog('<div class="modal-progress"></div>');
     
     /* fetch the media list */
-    ajax('GET', baseUri + mediaType + '/' + cameraId + '/list/', null, function (data) {
+    ajax('GET', basePath + mediaType + '/' + cameraId + '/list/', null, function (data) {
         if (data == null || data.error) {
             hideModalDialog();
             showErrorMessage(data && data.error);
@@ -3508,7 +3509,7 @@ function addCameraFrameUi(cameraConfig) {
                     '</div>' +
                 '</div>' +
                 '<div class="camera-container">' +
-                    '<div class="camera-placeholder"><img class="no-camera" src="' + staticUrl + 'img/no-camera.svg"></div>' +
+                    '<div class="camera-placeholder"><img class="no-camera" src="' + staticPath + 'img/no-camera.svg"></div>' +
                     '<img class="camera">' +
                     '<div class="camera-progress"><img class="camera-progress"></div>' +
                 '</div>' +
@@ -3539,7 +3540,7 @@ function addCameraFrameUi(cameraConfig) {
     cameraFrameDiv[0].refreshDivider = 0;
     cameraFrameDiv[0].config = cameraConfig;
     nameSpan.html(cameraConfig.name);
-    progressImg.attr('src', staticUrl + 'img/camera-progress.gif');
+    progressImg.attr('src', staticPath + 'img/camera-progress.gif');
     
     cameraProgress.click(function () {
         doFullScreenCamera(cameraId);
@@ -3589,8 +3590,8 @@ function addCameraFrameUi(cameraConfig) {
     
     fullScreenButton.click(function (cameraId) {
         return function () {
-            var url = baseUri + 'picture/' + cameraId + '/frame/';
-            window.open(url, '_blank');
+            var path = basePath + 'picture/' + cameraId + '/frame/';
+            window.open(path, '_blank');
         };
     }(cameraId));
     
@@ -3677,7 +3678,7 @@ function recreateCameraFrames(cameras) {
         updateCameras(cameras);
     }
     else {
-        ajax('GET', baseUri + 'config/list/', null, function (data) {
+        ajax('GET', basePath + 'config/list/', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 return;
@@ -3794,14 +3795,14 @@ function refreshCameraFrames() {
         }
         
         var timestamp = new Date().getTime();
-        var uri = baseUri + 'picture/' + cameraId + '/current/?_=' + timestamp;
+        var path = basePath + 'picture/' + cameraId + '/current/?_=' + timestamp;
         if (serverSideResize) {
-            uri += '&width=' + img.width;
+            path += '&width=' + img.width;
         }
         
-        uri = addAuthParams('GET', uri);
+        path = addAuthParams('GET', path);
         
-        img.src = uri;
+        img.src = path;
         img.loading = 1;
     }
 
@@ -3874,13 +3875,13 @@ function checkCameraErrors() {
     /* startup function */
 
 $(document).ready(function () {
-    /* detect base uri */
+    /* detect base path */
     if (frame) {
-        baseUri = qualifyUri('../../../');
+        window.basePath = qualifyPath('../../../');
 
     }
     else {
-        baseUri = splitUrl(qualifyUri('')).baseUrl;
+        window.basePath = splitUrl(qualifyPath('')).baseUrl;
 
         /* restore the username from cookie */
         window.username = getCookie('username');
@@ -3917,7 +3918,7 @@ $(document).ready(function () {
     initUI();
     beginProgress();
     
-    ajax('GET', baseUri + 'login/', null, function () {
+    ajax('GET', basePath + 'login/', null, function () {
         if (!frame) {
             fetchCurrentConfig(endProgress);
         }

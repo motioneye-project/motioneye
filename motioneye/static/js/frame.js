@@ -18,7 +18,7 @@ function setupCameraFrame() {
     cameraFrameDiv[0].streamingServerResize = cameraFrameDiv.attr('streaming_server_resize') == 'True';
     cameraFrameDiv[0].proto = cameraFrameDiv.attr('proto');
     cameraFrameDiv[0].url = cameraFrameDiv.attr('url');
-    progressImg.attr('src', staticUrl + 'img/camera-progress.gif');
+    progressImg.attr('src', staticPath + 'img/camera-progress.gif');
     
     cameraProgress.addClass('visible');
     cameraPlaceholder.css('opacity', '0');
@@ -124,13 +124,13 @@ function refreshCameraFrame() {
             }
             
             var timestamp = new Date().getTime();
-            var uri = baseUri + 'picture/' + cameraId + '/current/?_=' + timestamp;
+            var path = basePath + 'picture/' + cameraId + '/current/?_=' + timestamp;
             if (cameraFrame.serverSideResize) {
-                uri += '&width=' + img.width;
+                path += '&width=' + img.width;
             }
             
-            uri = addAuthParams('GET', uri);
-            img.src = uri;
+            path = addAuthParams('GET', path);
+            img.src = path;
             img.loading = 1;
             
             cameraFrame.refreshDivider = 0;

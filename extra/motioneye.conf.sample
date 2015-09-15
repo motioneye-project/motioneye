@@ -1,8 +1,8 @@
 
-# static files (.css, .js etc) are served at this root url;
+# the base URL path at which motionEye lives
 # change this if you run motionEye behind a reverse proxy (e.g. nginx),
-# and you want static files to be served directly by it
-static_url /static/
+# and you want to make motionEye accessible at a specific base path (e.g. /cams)
+#base_path /cams
 
 # path to the configuration directory (must be writable by motionEye)
 conf_path /etc/motioneye

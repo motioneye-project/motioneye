@@ -28,13 +28,13 @@ import utils
 _DOUBLE_SLASH_REGEX = re.compile('//+')
 
 
-def _make_request(scheme, host, port, username, password, uri, method='GET', data=None, query=None, timeout=None):
-    uri = _DOUBLE_SLASH_REGEX.sub('/', uri)
-    url = '%(scheme)s://%(host)s%(port)s%(uri)s' % {
+def _make_request(scheme, host, port, username, password, path, method='GET', data=None, query=None, timeout=None):
+    path = _DOUBLE_SLASH_REGEX.sub('/', path)
+    url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
             'scheme': scheme,
             'host': host,
             'port': ':' + str(port) if port else '',
-            'uri': uri or ''}
+            'path': path or ''}
     
     query = dict(query or {})
     query['_username'] = username or ''
@@ -78,14 +78,14 @@ def pretty_camera_url(local_config, camera=True):
     scheme = local_config.get('@scheme', local_config.get('scheme')) or 'http'
     host = local_config.get('@host', local_config.get('host'))
     port = local_config.get('@port', local_config.get('port'))
-    uri = local_config.get('@uri', local_config.get('uri')) or ''
+    path = local_config.get('@path', local_config.get('path')) or ''
 
     url = scheme + '://' + host
     if port and str(port) not in ['80', '443']:
         url += ':' + str(port)
     
-    if uri:
-        url += uri
+    if path:
+        url += path
         
     if url.endswith('/'):
         url = url[:-1]
@@ -107,17 +107,17 @@ def _remote_params(local_config):
             local_config.get('@port', local_config.get('port')),
             local_config.get('@username', local_config.get('username')),
             local_config.get('@password', local_config.get('password')),
-            local_config.get('@uri', local_config.get('uri')) or '',
+            local_config.get('@path', local_config.get('path')) or '',
             local_config.get('@remote_camera_id', local_config.get('remote_camera_id')))
 
 
 def list(local_config, callback):
-    scheme, host, port, username, password, uri, _ = _remote_params(local_config)
+    scheme, host, port, username, password, path, _ = _remote_params(local_config)
     
     logging.debug('listing remote cameras on %(url)s' % {
             'url': pretty_camera_url(local_config, camera=False)})
     
-    request = _make_request(scheme, host, port, username, password, uri + '/config/list/')
+    request = _make_request(scheme, host, port, username, password, path + '/config/list/')
     
     def on_response(response):
         def make_camera_response(c):
@@ -156,13 +156,13 @@ def list(local_config, callback):
     
 
 def get_config(local_config, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
      
     logging.debug('getting config for remote camera %(id)s on %(url)s' % {
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
-    request = _make_request(scheme, host, port, username, password, uri + '/config/%(id)s/get/' % {'id': camera_id})
+    request = _make_request(scheme, host, port, username, password, path + '/config/%(id)s/get/' % {'id': camera_id})
     
     def on_response(response):
         if response.error:
@@ -198,7 +198,7 @@ def set_config(local_config, ui_config, callback):
     port = local_config.get('@port', local_config.get('port'))
     username = local_config.get('@username', local_config.get('username'))
     password = local_config.get('@password', local_config.get('password'))
-    uri = local_config.get('@uri', local_config.get('uri')) or ''
+    path = local_config.get('@path', local_config.get('path')) or ''
     camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
 
     logging.debug('setting config for remote camera %(id)s on %(url)s' % {
@@ -207,7 +207,7 @@ def set_config(local_config, ui_config, callback):
     
     ui_config = json.dumps(ui_config)
     
-    request = _make_request(scheme, host, port, username, password, uri + '/config/%(id)s/set/' % {'id': camera_id}, method='POST', data=ui_config)
+    request = _make_request(scheme, host, port, username, password, path + '/config/%(id)s/set/' % {'id': camera_id}, method='POST', data=ui_config)
     
     def on_response(response):
         if response.error:
@@ -225,7 +225,7 @@ def set_config(local_config, ui_config, callback):
 
 
 def set_preview(local_config, controls, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
     logging.debug('setting preview for remote camera %(id)s on %(url)s' % {
             'id': camera_id,
@@ -233,7 +233,7 @@ def set_preview(local_config, controls, callback):
     
     data = json.dumps(controls)
     
-    request = _make_request(scheme, host, port, username, password, uri + '/config/%(id)s/set_preview/' % {'id': camera_id}, method='POST', data=data)
+    request = _make_request(scheme, host, port, username, password, path + '/config/%(id)s/set_preview/' % {'id': camera_id}, method='POST', data=data)
 
     def on_response(response):
         if response.error:
@@ -251,7 +251,7 @@ def set_preview(local_config, controls, callback):
 
 
 def get_current_picture(local_config, width, height, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
     logging.debug('getting current picture for remote camera %(id)s on %(url)s' % {
             'id': camera_id,
@@ -265,7 +265,7 @@ def get_current_picture(local_config, width, height, callback):
     if height:
         query['height'] = str(height)
     
-    request = _make_request(scheme, host, port, username, password, uri + '/picture/%(id)s/current/' % {'id': camera_id}, query=query)
+    request = _make_request(scheme, host, port, username, password, path + '/picture/%(id)s/current/' % {'id': camera_id}, query=query)
     
     def on_response(response):
         motion_detected = False
@@ -292,7 +292,7 @@ def get_current_picture(local_config, width, height, callback):
 
 
 def list_media(local_config, media_type, prefix, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
     logging.debug('getting media list for remote camera %(id)s on %(url)s' % {
             'id': camera_id,
@@ -303,7 +303,7 @@ def list_media(local_config, media_type, prefix, callback):
         query['prefix'] = prefix
     
     # timeout here is 10 times larger than usual - we expect a big delay when fetching the media list
-    request = _make_request(scheme, host, port, username, password, uri + '/%(media_type)s/%(id)s/list/' % {
+    request = _make_request(scheme, host, port, username, password, path + '/%(media_type)s/%(id)s/list/' % {
             'id': camera_id, 'media_type': media_type}, query=query, timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
     
     def on_response(response):
@@ -332,20 +332,20 @@ def list_media(local_config, media_type, prefix, callback):
 
 
 def get_media_content(local_config, filename, media_type, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
     logging.debug('downloading file %(filename)s of remote camera %(id)s on %(url)s' % {
             'filename': filename,
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
-    uri += '/%(media_type)s/%(id)s/download/%(filename)s' % {
+    path += '/%(media_type)s/%(id)s/download/%(filename)s' % {
             'media_type': media_type,
             'id': camera_id,
             'filename': filename}
     
     # timeout here is 10 times larger than usual - we expect a big delay when fetching the media list
-    request = _make_request(scheme, host, port, username, password, uri, timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
+    request = _make_request(scheme, host, port, username, password, path, timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
     
     def on_response(response):
         if response.error:
@@ -364,20 +364,20 @@ def get_media_content(local_config, filename, media_type, callback):
 
 
 def make_zipped_content(local_config, media_type, group, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
     logging.debug('preparing zip file for group %(group)s of remote camera %(id)s on %(url)s' % {
             'group': group,
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
 
-    prepare_uri = uri + '/%(media_type)s/%(id)s/zipped/%(group)s/' % {
+    prepare_path = path + '/%(media_type)s/%(id)s/zipped/%(group)s/' % {
             'media_type': media_type,
             'id': camera_id,
             'group': group}
  
     # timeout here is 100 times larger than usual - we expect a big delay
-    request = _make_request(scheme, host, port, username, password, prepare_uri, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
+    request = _make_request(scheme, host, port, username, password, prepare_path, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
 
     def on_response(response):
         if response.error:
@@ -406,13 +406,13 @@ def make_zipped_content(local_config, media_type, group, callback):
 
 
 def get_zipped_content(local_config, media_type, key, group, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
     logging.debug('downloading zip file for remote camera %(id)s on %(url)s' % {
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
-    request = _make_request(scheme, host, port, username, password, uri + '/%(media_type)s/%(id)s/zipped/%(group)s/?key=%(key)s' % {
+    request = _make_request(scheme, host, port, username, password, path + '/%(media_type)s/%(id)s/zipped/%(group)s/?key=%(key)s' % {
             'media_type': media_type,
             'group': group,
             'id': camera_id,
@@ -439,7 +439,7 @@ def get_zipped_content(local_config, media_type, key, group, callback):
 
 
 def make_timelapse_movie(local_config, framerate, interval, group, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
     logging.debug('making timelapse movie for group %(group)s of remote camera %(id)s with rate %(framerate)s/%(int)s on %(url)s' % {
             'group': group,
@@ -448,13 +448,13 @@ def make_timelapse_movie(local_config, framerate, interval, group, callback):
             'int': interval,
             'url': pretty_camera_url(local_config)})
 
-    uri += '/picture/%(id)s/timelapse/%(group)s/?interval=%(int)s&framerate=%(framerate)s' % {
+    path += '/picture/%(id)s/timelapse/%(group)s/?interval=%(int)s&framerate=%(framerate)s' % {
             'id': camera_id,
             'int': interval,
             'framerate': framerate,
             'group': group}
     
-    request = _make_request(scheme, host, port, username, password, uri, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
+    request = _make_request(scheme, host, port, username, password, path, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
 
     def on_response(response):
         if response.error:
@@ -485,13 +485,13 @@ def make_timelapse_movie(local_config, framerate, interval, group, callback):
 
 
 def check_timelapse_movie(local_config, group, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
     logging.debug('checking timelapse movie status for remote camera %(id)s on %(url)s' % {
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
-    request = _make_request(scheme, host, port, username, password, uri + '/picture/%(id)s/timelapse/%(group)s/?check=true' % {
+    request = _make_request(scheme, host, port, username, password, path + '/picture/%(id)s/timelapse/%(group)s/?check=true' % {
             'id': camera_id,
             'group': group})
     
@@ -521,13 +521,13 @@ def check_timelapse_movie(local_config, group, callback):
 
 
 def get_timelapse_movie(local_config, key, group, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
     logging.debug('downloading timelapse movie for remote camera %(id)s on %(url)s' % {
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
-    request = _make_request(scheme, host, port, username, password, uri + '/picture/%(id)s/timelapse/%(group)s/?key=%(key)s' % {
+    request = _make_request(scheme, host, port, username, password, path + '/picture/%(id)s/timelapse/%(group)s/?key=%(key)s' % {
             'id': camera_id,
             'group': group,
             'key': key},
@@ -553,14 +553,14 @@ def get_timelapse_movie(local_config, key, group, callback):
 
 
 def get_media_preview(local_config, filename, media_type, width, height, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
     logging.debug('getting file preview for %(filename)s of remote camera %(id)s on %(url)s' % {
             'filename': filename,
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
-    uri += '/%(media_type)s/%(id)s/preview/%(filename)s' % {
+    path += '/%(media_type)s/%(id)s/preview/%(filename)s' % {
             'media_type': media_type,
             'id': camera_id,
             'filename': filename}
@@ -573,7 +573,7 @@ def get_media_preview(local_config, filename, media_type, width, height, callbac
     if height:
         query['height'] = str(height)
     
-    request = _make_request(scheme, host, port, username, password, uri, query=query)
+    request = _make_request(scheme, host, port, username, password, path, query=query)
     
     def on_response(response):
         if response.error:
@@ -592,19 +592,19 @@ def get_media_preview(local_config, filename, media_type, width, height, callbac
 
 
 def del_media_content(local_config, filename, media_type, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
     logging.debug('deleting file %(filename)s of remote camera %(id)s on %(url)s' % {
             'filename': filename,
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
-    uri += '/%(media_type)s/%(id)s/delete/%(filename)s' % {
+    path += '/%(media_type)s/%(id)s/delete/%(filename)s' % {
             'media_type': media_type,
             'id': camera_id,
             'filename': filename}
 
-    request = _make_request(scheme, host, port, username, password, uri, method='POST', data='{}', timeout=settings.REMOTE_REQUEST_TIMEOUT)
+    request = _make_request(scheme, host, port, username, password, path, method='POST', data='{}', timeout=settings.REMOTE_REQUEST_TIMEOUT)
 
     def on_response(response):
         if response.error:
@@ -623,19 +623,19 @@ def del_media_content(local_config, filename, media_type, callback):
 
 
 def del_media_group(local_config, group, media_type, callback):
-    scheme, host, port, username, password, uri, camera_id = _remote_params(local_config)
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
     logging.debug('deleting group %(group)s of remote camera %(id)s on %(url)s' % {
             'group': group,
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
-    uri += '/%(media_type)s/%(id)s/delete_all/%(group)s/' % {
+    path += '/%(media_type)s/%(id)s/delete_all/%(group)s/' % {
             'media_type': media_type,
             'id': camera_id,
             'group': group}
 
-    request = _make_request(scheme, host, port, username, password, uri, method='POST', data='{}', timeout=settings.REMOTE_REQUEST_TIMEOUT)
+    request = _make_request(scheme, host, port, username, password, path, method='POST', data='{}', timeout=settings.REMOTE_REQUEST_TIMEOUT)
 
     def on_response(response):
         if response.error:

@@ -226,7 +226,7 @@ class ConfigHandler(BaseHandler):
                     for key, value in local_config.items():
                         remote_ui_config[key.replace('@', '')] = value
                     
-                    # replace the real device URI with the remote camera URL
+                    # replace the real device url with the remote camera path
                     remote_ui_config['device_url'] = remote.pretty_camera_url(local_config)
                     self.finish_json(remote_ui_config)
                 

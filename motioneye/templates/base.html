@@ -10,18 +10,18 @@
         {% endblock %}
         <title>{% block title %}{% endblock %}</title>
         {% block style %}
-            <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/jquery.timepicker.css" />
+            <link rel="stylesheet" type="text/css" href="{{static_path}}css/jquery.timepicker.css" />
             <link rel="shortcut icon" href="/static/favicon.ico" />
             <link rel="apple-touch-icon" href="/static/favicon.ico" />
         {% endblock %}
         {% block script %}
-            <script type="text/javascript" src="{{STATIC_URL}}js/css-browser-selector.js"></script>
-            <script type="text/javascript" src="{{STATIC_URL}}js/jquery.min.js"></script>
-            <script type="text/javascript" src="{{STATIC_URL}}js/jquery.timepicker.min.js"></script>
-            <script type="text/javascript" src="{{STATIC_URL}}js/jquery.mousewheel.js"></script>
-            
+            <script type="text/javascript" src="{{static_path}}js/css-browser-selector.js"></script>
+            <script type="text/javascript" src="{{static_path}}js/jquery.min.js"></script>
+            <script type="text/javascript" src="{{static_path}}js/jquery.timepicker.min.js"></script>
+            <script type="text/javascript" src="{{static_path}}js/jquery.mousewheel.js"></script>
+
             <script type="text/javascript">
-                var staticUrl = '{{STATIC_URL}}';
+                var staticPath = '{{static_path}}';
             </script>
         {% endblock %}
     </head>
