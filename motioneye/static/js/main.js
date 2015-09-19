@@ -721,6 +721,20 @@ function initUI() {
     $('#streamingSnapshotUrlEntry:text, #streamingMjpgUrlEntry:text, #streamingEmbedUrlEntry:text').click(function () {
         this.select();
     });
+
+    /* show a warning when enabling media files removal */
+    var preserveSelects = $('#preservePicturesSelect, #preserveMoviesSelect');
+    var rootDirectoryEntry = $('#rootDirectoryEntry');
+    preserveSelects.focus(function () {
+        this._prevValue = $(this).val();
+    }).change(function () {
+        var value = $(this).val();
+        if (value != '0' && this._prevValue == '0') {
+            var rootDir = rootDirectoryEntry.val();
+            runAlertDialog(('This will recursively remove all old media files present in the directory "' + rootDir + 
+                    '", not just those created by motionEye!'));
+        }
+    });
 }
 
 

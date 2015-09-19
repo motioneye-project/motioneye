@@ -358,9 +358,11 @@ div.modal-title-bar {
 }
 
 span.modal-title {
+    display: inline-block;
     color: white;
     font-size: 1.2em;
     line-height: 1.2em;
+    max-width: 30em;
 }
 
 div.modal-close-button {
