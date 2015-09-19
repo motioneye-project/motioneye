@@ -190,8 +190,11 @@ def cleanup_media(media_type):
             continue # only cleanup movies for cameras with movies enabled
 
         preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_media)
-            
+
         target_dir = camera_config.get('target_dir')
+        # create a sentinel file to make sure the target dir is never removed
+        open(os.path.join(target_dir, '.keep'), 'w').close()
+
         _remove_older_files(target_dir, preserve_moment, exts=exts)
 
 
