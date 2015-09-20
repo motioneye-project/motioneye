@@ -191,7 +191,7 @@ def make_arg_parser(command=None):
         usage = description = epilog = None
         
     else:
-        usage = '%(prog)s [command] [-c CONFIG_FILE] [-d] [-v] [command options...]\n\n'
+        usage = '%(prog)s [command] [-c CONFIG_FILE] [-d] [-h] [-l] [-v] [command options...]\n\n'
         
         description = 'available commands:\n'
         description += '  startserver\n'
