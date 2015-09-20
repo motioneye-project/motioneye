@@ -175,7 +175,7 @@ def main(parser, args):
     def on_message(subject, message, files):
         try:
             send_mail(options.server, options.port, options.account, options.password,
-                    options.tls, options.to, subject, message, files)
+                    options.tls, to, subject, message, files)
             logging.info('email sent')
 
         except Exception as e:
