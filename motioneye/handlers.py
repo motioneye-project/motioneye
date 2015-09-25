@@ -150,7 +150,7 @@ class MainHandler(BaseHandler):
         self.render('main.html',
                 frame=False,
                 version=motioneye.VERSION,
-                enable_update=False,
+                enable_update=settings.ENABLE_UPDATE,
                 enable_reboot=settings.ENABLE_REBOOT,
                 add_remove_cameras=settings.ADD_REMOVE_CAMERAS,
                 main_sections=main_sections,
