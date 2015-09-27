@@ -53,7 +53,7 @@ def send_mail(server, port, account, password, tls, to, subject, message, files)
     if account and password:
         conn.login(account, password)
     
-    _from = account or 'motioneye@' + socket.gethostname()
+    _from = 'motionEye on %s <%s>' % (socket.gethostname(), to[0])
     
     email = MIMEMultipart()
     email['Subject'] = subject
