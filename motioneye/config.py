@@ -623,7 +623,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         # device
         '@name': ui['name'],
         '@enabled': ui['enabled'],
-        'lightswitch': int(ui['light_switch_detect']) * 50,
+        'lightswitch': ui['light_switch_detect'],
         'auto_brightness': ui['auto_brightness'],
         'framerate': int(ui['framerate']),
         'rotate': int(ui['rotation']),
@@ -902,7 +902,7 @@ def motion_camera_dict_to_ui(data):
         'name': data['@name'],
         'enabled': data['@enabled'],
         'id': data['@id'],
-        'light_switch_detect': data['lightswitch'] > 0,
+        'light_switch_detect': data['lightswitch'],
         'auto_brightness': data['auto_brightness'],
         'framerate': int(data['framerate']),
         'rotation': int(data['rotate']),

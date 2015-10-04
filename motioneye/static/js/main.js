@@ -1249,7 +1249,7 @@ function cameraUi2Dict() {
         'proto': $('#deviceTypeEntry')[0].proto,
         
         /* video device */
-        'light_switch_detect': $('#lightSwitchDetectSwitch')[0].checked,
+        'light_switch_detect': $('#lightSwitchDetectSlider').val(),
         'auto_brightness': $('#autoBrightnessSwitch')[0].checked,
         'rotation': $('#rotationSelect').val(),
         'framerate': $('#framerateSlider').val(),
@@ -1477,7 +1477,7 @@ function dict2CameraUi(dict) {
     $('#deviceUrlEntry').val(dict['device_url']); markHideIfNull('device_url', 'deviceUrlEntry');
     $('#deviceTypeEntry').val(prettyType); markHideIfNull(!prettyType, 'deviceTypeEntry');
     $('#deviceTypeEntry')[0].proto = dict['proto'];
-    $('#lightSwitchDetectSwitch')[0].checked = dict['light_switch_detect']; markHideIfNull('light_switch_detect', 'lightSwitchDetectSwitch');
+    $('#lightSwitchDetectSlider').val(dict['light_switch_detect']); markHideIfNull('light_switch_detect', 'lightSwitchDetectSlider');
     $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness']; markHideIfNull('auto_brightness', 'autoBrightnessSwitch');
     
     $('#brightnessSlider').val(dict['brightness']); markHideIfNull('brightness', 'brightnessSlider');

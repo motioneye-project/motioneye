@@ -216,14 +216,14 @@
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Light Switch Detection</span></td>
-                        <td class="settings-item-value"><input type="checkbox" class="styled device camera-config" id="lightSwitchDetectSwitch"></td>
-                        <td><span class="help-mark" title="enable this if you want sudden changes in light to not be treated as motion">?</span></td>
-                    </tr>
-                    <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Automatic Brightness</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled device camera-config" id="autoBrightnessSwitch"></td>
                         <td><span class="help-mark" title="enables software automatic brightness (only recommended for cameras without autobrightness)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
+                        <td class="settings-item-label"><span class="settings-item-label">Light Switch Detection</span></td>
+                        <td class="settings-item-value"><input type="text" class="range styled device camera-config" id="lightSwitchDetectSlider"></td>
+                        <td><span class="help-mark" title="sets the percentage of the image that needs to change so that the event is treated as a sudden light change instead of motion">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
                         <td class="settings-item-label"><span class="settings-item-label">Brightness</span></td>
