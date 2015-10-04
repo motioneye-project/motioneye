@@ -653,14 +653,22 @@ def motion_camera_ui_to_dict(ui, old_config=None):
 
         # still images
         'output_pictures': False,
-        'emulate_motion': False,
         'snapshot_interval': 0,
         'picture_filename': '',
         'snapshot_filename': '',
+        'quality': max(1, int(ui['image_quality'])),
         '@preserve_pictures': int(ui['preserve_pictures']),
         
+        # movies
+        'ffmpeg_output_movies': False,
+        'movie_filename': ui['movie_file_name'],
+        'ffmpeg_bps': 44000, # a quality of about 85% for 320x240x2fps
+        'max_movie_time': ui['max_movie_length'],
+        '@preserve_movies': int(ui['preserve_movies']),
+    
         # motion detection
         '@motion_detection': ui['motion_detection'],
+        'emulate_motion': False,
         'text_changes': ui['show_frame_changes'],
         'locate_motion_mode': ui['show_frame_changes'],
         'noise_tune': ui['auto_noise_detect'],
@@ -670,13 +678,6 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         'post_capture': int(ui['post_capture']),
         'minimum_motion_frames': int(ui['minimum_motion_frames']),
         
-        # movies
-        'ffmpeg_output_movies': ui['motion_movies'],
-        'movie_filename': ui['movie_file_name'],
-        'ffmpeg_bps': 44000, # a quality of about 85% for 320x240x2fps
-        'max_movie_time': ui['max_movie_length'],
-        '@preserve_movies': int(ui['preserve_movies']),
-    
         # working schedule
         '@working_schedule': '',
     
@@ -812,17 +813,24 @@ def motion_camera_ui_to_dict(ui, old_config=None):
             data['emulate_motion'] = True
             data['picture_filename'] = ui['image_file_name']
             
-        data['quality'] = max(1, int(ui['image_quality']))
-    
+    if ui['movies']:
+        data['ffmpeg_output_movies'] = True
+        recording_mode = ui['recording_mode']
+        if recording_mode == 'motion-triggered':
+            data['emulate_motion'] = False  
+
+        elif recording_mode == 'continuous':
+            data['emulate_motion'] = True
+
     if proto == 'v4l2':
-        max_val = data['width'] * data['height'] * data['framerate'] / 3
+        max_val = data['width'] * data['height'] * data['framerate']
     
-    else: # always assume a netcam image size of 640x480, since we have no means to know it at this point
-        max_val = 640 * 480 * data['framerate'] / 3
-        
+    else: # assume a netcam image size of 640x480, since we have no means to know it at this point
+        max_val = 640 * 480 * data['framerate']
+
     max_val = min(max_val, 9999999)
-    
-    data['ffmpeg_bps'] = int(ui['movie_quality']) * max_val / 100
+
+    data['ffmpeg_bps'] = int(int(ui['movie_quality']) * max_val / 100)
     
     # working schedule
     if ui['working_schedule']:
@@ -939,10 +947,17 @@ def motion_camera_dict_to_ui(data):
         'still_images': False,
         'capture_mode': 'motion-triggered',
         'image_file_name': '%Y-%m-%d/%H-%M-%S',
-        'image_quality': 85,
+        'image_quality': data['quality'],
         'snapshot_interval': 0,
         'preserve_pictures': data['@preserve_pictures'],
         
+        # movies
+        'movies': False,
+        'recording_mode': 'motion-triggered',
+        'movie_file_name': data['movie_filename'],
+        'max_movie_length': data['max_movie_time'],
+        'preserve_movies': data['@preserve_movies'],
+
         # motion detection
         'motion_detection': data['@motion_detection'],
         'show_frame_changes': data['text_changes'] or data['locate_motion_mode'],
@@ -953,12 +968,6 @@ def motion_camera_dict_to_ui(data):
         'post_capture': int(data['post_capture']),
         'minimum_motion_frames': int(data['minimum_motion_frames']),
         
-        # motion movies
-        'motion_movies': data['ffmpeg_output_movies'],
-        'movie_file_name': data['movie_filename'],
-        'max_movie_length': data['max_movie_time'],
-        'preserve_movies': data['@preserve_movies'],
-
         # motion notifications
         'email_notifications_enabled': False,
         'web_hook_notifications_enabled': False,
@@ -1102,33 +1111,41 @@ def motion_camera_dict_to_ui(data):
     snapshot_interval = data['snapshot_interval']
     snapshot_filename = data['snapshot_filename']
     
-    if (((emulate_motion or output_pictures) and picture_filename) or
-        (snapshot_interval and snapshot_filename)):
+    ui['still_images'] = (((emulate_motion or output_pictures) and picture_filename) or
+            (snapshot_interval and snapshot_filename))
         
-        ui['still_images'] = True
-        
-        if emulate_motion:
-            ui['capture_mode'] = 'all-frames'
+    if emulate_motion:
+        ui['capture_mode'] = 'all-frames'
+        if picture_filename:
             ui['image_file_name'] = picture_filename
-            
-        elif snapshot_interval:
-            ui['capture_mode'] = 'interval-snapshots'
-            ui['image_file_name'] = snapshot_filename
-            ui['snapshot_interval'] = snapshot_interval
-            
-        elif output_pictures:
-            ui['capture_mode'] = 'motion-triggered'
-            ui['image_file_name'] = picture_filename  
-            
-        ui['image_quality'] = data['quality']
 
+    elif snapshot_interval:
+        ui['capture_mode'] = 'interval-snapshots'
+        ui['snapshot_interval'] = snapshot_interval
+        if snapshot_filename:
+            ui['image_file_name'] = snapshot_filename
+        
+    elif output_pictures:
+        ui['capture_mode'] = 'motion-triggered'
+        if picture_filename:
+            ui['image_file_name'] = picture_filename
+        
+    if data['ffmpeg_output_movies']:
+        ui['movies'] = True
+        
+    if emulate_motion:
+        ui['recording_mode'] = 'continuous'  
+
+    else:
+        ui['recording_mode'] = 'motion-triggered'
+            
     ffmpeg_bps = data['ffmpeg_bps']
     if ffmpeg_bps is not None:
         if utils.v4l2_camera(data):
-            max_val = data['width'] * data['height'] * data['framerate'] / 3
+            max_val = data['width'] * data['height'] * data['framerate']
         
         else: # net camera
-            max_val = 640 * 480 * data['framerate'] / 3
+            max_val = 640 * 480 * data['framerate']
             
         max_val = min(max_val, 9999999)
         

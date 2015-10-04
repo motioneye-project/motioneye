@@ -98,6 +98,8 @@
     <div class="page">
         <div class="settings closed">
             <div class="settings-container">
+                
+                <!-- General Settings -->
                 <div class="settings-section-title">
                     <input type="checkbox" class="styled section general main-config" id="motionEyeSwitch">
                     <span class="help-mark" title="general settings, not related to any camera">?</span>
@@ -172,6 +174,7 @@
                     </tr>
                 </table>
 
+                <!-- Additional Main Sections -->
                 {% for section in main_sections.values() %}
                 {% if section.get('label') and section.get('configs') %}
                 <div class="settings-section-title {% if section['advanced'] %}advanced-setting{% endif %}">
@@ -192,6 +195,7 @@
                     <td colspan="100"><div class="settings-item-separator" style="margin: 0px 0px 1.5em 0px;"></div></td>
                 </tr>
                 
+                <!-- Video Device -->
                 <div class="settings-section-title">
                     <input type="checkbox" class="styled section device camera-config" id="videoDeviceSwitch">
                     <span class="help-mark" title="enable this if you want to use this camera device">?</span>
@@ -283,6 +287,7 @@
                     {% endfor %}
                 </table>
                 
+                <!-- File Storage -->
                 <div class="settings-section-title advanced-setting">
                     <span class="help-mark" title="choose where and how your media files are saved">?</span>
                     <a class="settings-section-title">File Storage</a>
@@ -337,6 +342,7 @@
                     {% endfor %}
                 </table>
                 
+                <!-- Text Overlay -->
                 <div class="settings-section-title advanced-setting">
                     <input type="checkbox" class="styled section text-overlay camera-config" id="textOverlaySwitch">
                     <span class="help-mark" title="choose what information is displayed on the captured frames">?</span>
@@ -383,6 +389,7 @@
                     {% endfor %}
                 </table>
 
+                <!-- Video Streaming -->
                 <div class="settings-section-title" minimize-switch-independent="true">
                     <input type="checkbox" class="styled section streaming camera-config" id="videoStreamingSwitch">
                     <span class="help-mark" title="enable this if you want video streaming for this camera">?</span>
@@ -456,6 +463,7 @@
                     {% endfor %}
                 </table>
                 
+                <!-- Still Images -->
                 <div class="settings-section-title">
                     <input type="checkbox" class="styled section still-images camera-config" id="stillImagesSwitch">
                     <span class="help-mark" title="enable this if you want to capture still images (pictures)">?</span>
@@ -482,12 +490,12 @@
                                 <option value="all-frames">All Frames</option>
                             </select>
                         </td>
-                        <td><span class="help-mark" title="sets the image capture mode: Motion Triggered = an image captured whenever motion is detected, Automated Snapshots = an image captured every x seconds, All Frames = saves each frame into an image file">?</span></td>
+                        <td><span class="help-mark" title="sets the image capture mode: Motion Triggered = an image captured whenever motion is detected, Interval Snapshots = an image captured every x seconds, All Frames = saves each frame to an image file">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" min="1" max="86400" required="true">
                         <td class="settings-item-label"><span class="settings-item-label">Snapshot Interval</span></td>
                         <td class="settings-item-value"><input type="text" class="styled number still-images camera-config" id="snapshotIntervalEntry"><span class="settings-item-unit">seconds</span></td>
-                        <td><span class="help-mark" title="sets the interval (in seconds) for the automated snapshots">?</span></td>
+                        <td><span class="help-mark" title="sets the interval (in seconds) for the snapshots">?</span></td>
                     </tr>
                     <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Preserve Pictures</span></td>
@@ -501,7 +509,7 @@
                                 <option value="-1">Custom</option>
                             </select>
                         </td>
-                        <td><span class="help-mark" title="images older than the specified duration are automatically deleted to free storage space">?</span></td>
+                        <td><span class="help-mark" title="images older than the specified duration are automatically deleted to free up storage space">?</span></td>
                     </tr>
                     <tr class="settings-item" min="1" max="3650" required="true">
                         <td class="settings-item-label"><span class="settings-item-label">Pictures Lifetime</span></td>
@@ -513,6 +521,64 @@
                     {% endfor %}
                 </table>
                 
+                <!-- Movies -->
+                <div class="settings-section-title">
+                    <input type="checkbox" class="styled section movies camera-config" id="moviesSwitch">
+                    <span class="help-mark" title="enable this if you want to record movies">?</span>
+                    <a class="settings-section-title">Movies</a>
+                    <span class="minimize"></span>
+                </div>
+                <table class="settings">
+                    <tr class="settings-item advanced-setting" required="true" strip="true">
+                        <td class="settings-item-label"><span class="settings-item-label">Movie File Name</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled movies camera-config" id="movieFileNameEntry" placeholder="file name pattern..."></td>
+                        <td><span class="help-mark" title="sets the name pattern for the movie (MPEG) files; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number, / = subfolder">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
+                        <td class="settings-item-label"><span class="settings-item-label">Movie Quality</span></td>
+                        <td class="settings-item-value"><input type="text" class="range styled movies camera-config" id="movieQualitySlider"></td>
+                        <td><span class="help-mark" title="sets the MPEG video quality (higher values produce a better video quality but require more storage space)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Recording Mode</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled movies camera-config" id="recordingModeSelect">
+                                <option value="motion-triggered">Motion Triggered</option>
+                                <option value="continuous">Continuous Recording</option>
+                            </select>
+                        </td>
+                        <td><span class="help-mark" title="sets the recording mode: Motion Triggered = a new movie created whenever motion is detected, Continuous Recording = one big movie file">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" min="0" max="86400" required="true">
+                        <td class="settings-item-label"><span class="settings-item-label">Maximum Movie Length</span></td>
+                        <td class="settings-item-value"><input type="text" class="number styled movies camera-config" id="maxMovieLengthEntry"><span class="settings-item-unit">seconds</span></td>
+                        <td><span class="help-mark" title="sets the maximum length of movies, in seconds; if the motion event lasts longer, a new movie file is created; use 0 for unlimited length">?</span></td>
+                    </tr>
+                    <tr class="settings-item">
+                        <td class="settings-item-label"><span class="settings-item-label">Preserve Movies</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled movies camera-config" id="preserveMoviesSelect">
+                                <option value="1">For One Day</option>
+                                <option value="7">For One Week</option>
+                                <option value="30">For One Month</option>
+                                <option value="365">For One Year</option>
+                                <option value="0">Forever</option>
+                                <option value="-1">Custom</option>
+                            </select>
+                        </td>
+                        <td><span class="help-mark" title="movies older than the specified duration are automatically deleted to free up storage space">?</span></td>
+                    </tr>
+                    <tr class="settings-item" min="1" max="3650" required="true">
+                        <td class="settings-item-label"><span class="settings-item-label">Movies Lifetime</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled number movies camera-config" id="moviesLifetimeEntry"><span class="settings-item-unit">days</span></td>
+                        <td><span class="help-mark" title="sets the number of days after which the movies will be deleted automatically">?</span></td>
+                    </tr>
+                    {% for config in camera_sections.get('movies', {}).get('configs', []) %}
+                        {{config_item(config)}}
+                    {% endfor %}
+                </table>
+
+                <!-- Motion Detection -->
                 <div class="settings-section-title advanced-setting">
                     <input type="checkbox" class="styled section motion-detection camera-config" id="motionDetectionSwitch">
                     <span class="help-mark" title="enable this to use and configure the motion detection mechanism">?</span>
@@ -568,51 +634,7 @@
                     {% endfor %}
                 </table>
                 
-                <div class="settings-section-title">
-                    <input type="checkbox" class="styled section motion-movies camera-config" id="motionMoviesSwitch">
-                    <span class="help-mark" title="enable this if you want to record motion movies">?</span>
-                    <a class="settings-section-title">Motion Movies</a>
-                    <span class="minimize"></span>
-                </div>
-                <table class="settings">
-                    <tr class="settings-item advanced-setting" required="true" strip="true">
-                        <td class="settings-item-label"><span class="settings-item-label">Movie File Name</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled motion-movies camera-config" id="movieFileNameEntry" placeholder="file name pattern..."></td>
-                        <td><span class="help-mark" title="sets the name pattern for the movie (MPEG) files; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number, / = subfolder">?</span></td>
-                    </tr>
-                    <tr class="settings-item advanced-setting" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
-                        <td class="settings-item-label"><span class="settings-item-label">Movie Quality</span></td>
-                        <td class="settings-item-value"><input type="text" class="range styled motion-movies camera-config" id="movieQualitySlider"></td>
-                        <td><span class="help-mark" title="sets the MPEG video quality (higher values produce a better video quality but require more storage space)">?</span></td>
-                    </tr>
-                    <tr class="settings-item advanced-setting" min="0" max="86400" required="true">
-                        <td class="settings-item-label"><span class="settings-item-label">Maximum Movie Length</span></td>
-                        <td class="settings-item-value"><input type="text" class="number styled motion-movies camera-config" id="maxMovieLengthEntry"><span class="settings-item-unit">seconds</span></td>
-                        <td><span class="help-mark" title="sets the maximum length of motion movies, in seconds; if the motion event lasts longer, a new movie file is created; use 0 for infinite length">?</span></td>
-                    </tr>
-                    <tr class="settings-item">
-                        <td class="settings-item-label"><span class="settings-item-label">Preserve Movies</span></td>
-                        <td class="settings-item-value">
-                            <select class="styled motion-movies camera-config" id="preserveMoviesSelect">
-                                <option value="1">For One Day</option>
-                                <option value="7">For One Week</option>
-                                <option value="30">For One Month</option>
-                                <option value="365">For One Year</option>
-                                <option value="0">Forever</option>
-                                <option value="-1">Custom</option>
-                            </select>
-                        </td>
-                        <td><span class="help-mark" title="movies older than the specified duration are automatically deleted to free storage space">?</span></td>
-                    </tr>
-                    <tr class="settings-item" min="1" max="3650" required="true">
-                        <td class="settings-item-label"><span class="settings-item-label">Movies Lifetime</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled number motion-movies camera-config" id="moviesLifetimeEntry"><span class="settings-item-unit">days</span></td>
-                        <td><span class="help-mark" title="sets the number of days after which the movies will be deleted automatically">?</span></td>
-                    </tr>
-                    {% for config in camera_sections.get('motion-movies', {}).get('configs', []) %}
-                        {{config_item(config)}}
-                    {% endfor %}
-                </table>
+                <!-- Motion Notifications -->
                 <div class="settings-section-title advanced-setting">
                     <span class="help-mark" title="enable this if you want to be notified when motion is detected">?</span>
                     <a class="settings-section-title">Motion Notifications</a>
@@ -700,6 +722,7 @@
                     {% endfor %}
                 </table>
 
+                <!-- Working Schedule -->
                 <div class="settings-section-title">
                     <input type="checkbox" class="styled section working-schedule camera-config" id="workingScheduleSwitch">
                     <span class="help-mark" title="enable this if you want to define a weekly working schedule for motion detection">?</span>
@@ -785,6 +808,7 @@
                     {% endfor %}
                 </table>
 
+                <!-- Additional Camera Sections -->
                 {% for section in camera_sections.values() %}
                 {% if section.get('label') and section.get('configs') %}
                 <div class="settings-section-title {% if section['advanced'] %}advanced-setting{% endif %}">

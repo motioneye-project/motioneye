@@ -561,35 +561,35 @@ function initUI() {
     }
 
     /* ui elements that enable/disable other ui elements */
-    $('#motionEyeSwitch').change(updateConfigUi);
-    $('#showAdvancedSwitch').change(updateConfigUi);
-    $('#storageDeviceSelect').change(updateConfigUi);
-    $('#resolutionSelect').change(updateConfigUi);
-    $('#leftTextSelect').change(updateConfigUi);
-    $('#rightTextSelect').change(updateConfigUi);
-    $('#captureModeSelect').change(updateConfigUi);
-    $('#autoNoiseDetectSwitch').change(updateConfigUi);
-    $('#videoDeviceSwitch').change(checkMinimizeSection).change(updateConfigUi);
-    $('#textOverlaySwitch').change(checkMinimizeSection).change(updateConfigUi);
-    $('#videoStreamingSwitch').change(checkMinimizeSection).change(updateConfigUi);
-    $('#streamingServerResizeSwitch').change(updateConfigUi);
-    $('#stillImagesSwitch').change(checkMinimizeSection).change(updateConfigUi);
-    $('#preservePicturesSelect').change(updateConfigUi);
-    $('#motionDetectionSwitch').change(checkMinimizeSection).change(updateConfigUi);
-    $('#motionMoviesSwitch').change(checkMinimizeSection).change(updateConfigUi);
-    $('#preserveMoviesSelect').change(updateConfigUi);
-    $('#emailNotificationsSwitch').change(updateConfigUi);
-    $('#webHookNotificationsSwitch').change(updateConfigUi);
-    $('#commandNotificationsSwitch').change(updateConfigUi);
-    $('#workingScheduleSwitch').change(checkMinimizeSection).change(updateConfigUi);
+    $('#motionEyeSwitch').change(updateConfigUI);
+    $('#showAdvancedSwitch').change(updateConfigUI);
+    $('#storageDeviceSelect').change(updateConfigUI);
+    $('#resolutionSelect').change(updateConfigUI);
+    $('#leftTextSelect').change(updateConfigUI);
+    $('#rightTextSelect').change(updateConfigUI);
+    $('#captureModeSelect').change(updateConfigUI);
+    $('#autoNoiseDetectSwitch').change(updateConfigUI);
+    $('#videoDeviceSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#textOverlaySwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#videoStreamingSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#streamingServerResizeSwitch').change(updateConfigUI);
+    $('#stillImagesSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#preservePicturesSelect').change(updateConfigUI);
+    $('#moviesSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#motionDetectionSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#preserveMoviesSelect').change(updateConfigUI);
+    $('#emailNotificationsSwitch').change(updateConfigUI);
+    $('#webHookNotificationsSwitch').change(updateConfigUI);
+    $('#commandNotificationsSwitch').change(updateConfigUI);
+    $('#workingScheduleSwitch').change(checkMinimizeSection).change(updateConfigUI);
     
-    $('#mondayEnabledSwitch').change(updateConfigUi);
-    $('#tuesdayEnabledSwitch').change(updateConfigUi);
-    $('#wednesdayEnabledSwitch').change(updateConfigUi);
-    $('#thursdayEnabledSwitch').change(updateConfigUi);
-    $('#fridayEnabledSwitch').change(updateConfigUi);
-    $('#saturdayEnabledSwitch').change(updateConfigUi);
-    $('#sundayEnabledSwitch').change(updateConfigUi);
+    $('#mondayEnabledSwitch').change(updateConfigUI);
+    $('#tuesdayEnabledSwitch').change(updateConfigUI);
+    $('#wednesdayEnabledSwitch').change(updateConfigUI);
+    $('#thursdayEnabledSwitch').change(updateConfigUI);
+    $('#fridayEnabledSwitch').change(updateConfigUI);
+    $('#saturdayEnabledSwitch').change(updateConfigUI);
+    $('#sundayEnabledSwitch').change(updateConfigUI);
     
     /* minimizable sections */
     $('span.minimize').click(function () {
@@ -608,7 +608,7 @@ function initUI() {
             }
         }
             
-        updateConfigUi();
+        updateConfigUI();
     });
 
     $('a.settings-section-title').click(function () {
@@ -631,7 +631,7 @@ function initUI() {
             seenDependNames[depend] = true;
 
             var control = $('#' + depend + 'Entry, #' + depend + 'Select, #' + depend + 'Slider, #' + depend + 'Switch');
-            control.change(updateConfigUi);
+            control.change(updateConfigUI);
         });
     });
     
@@ -673,13 +673,40 @@ function initUI() {
     });
     
     /* streaming framerate must be >= device framerate */
-    $('#framerateSlider').change(function (val) {
+    $('#framerateSlider').change(function () {
         var value = Number($('#framerateSlider').val());
         var streamingValue = Number($('#streamingFramerateSlider').val());
         
         if (streamingValue < value) {
             $('#streamingFramerateSlider').val(value).change();
         }
+    });
+    
+    /* capture mode and recording mode are not completely independent:
+     * all frames capture mode implies continuous recording (and vice-versa) */
+    $('#captureModeSelect').change(function (val) {
+        if ($('#captureModeSelect').val() == 'all-frames') {
+            $('#recordingModeSelect').val('continuous');
+        }
+        else {
+            if ($('#recordingModeSelect').val() == 'continuous') {
+                $('#recordingModeSelect').val('motion-triggered');
+            }
+        }
+        
+        updateConfigUI();
+    });
+    $('#recordingModeSelect').change(function (val) {
+        if ($('#recordingModeSelect').val() == 'continuous') {
+            $('#captureModeSelect').val('all-frames');
+        }
+        else {
+            if ($('#captureModeSelect').val() == 'all-frames') {
+                $('#captureModeSelect').val('motion-triggered');
+            }
+        }
+        
+        updateConfigUI();
     });
     
     /* preview controls */
@@ -749,7 +776,7 @@ function openSettings(cameraId) {
     $('div.page-container').addClass('stretched');
     $('div.settings-top-bar').addClass('open').removeClass('closed');
     
-    updateConfigUi();
+    updateConfigUI();
 }
 
 function closeSettings() {
@@ -766,7 +793,7 @@ function isSettingsOpen() {
     return $('div.settings').hasClass('open');   
 }
 
-function updateConfigUi() {
+function updateConfigUI() {
     var objs = $('tr.settings-item, div.advanced-setting, table.advanced-setting, div.settings-section-title, table.settings, ' +
             'div.check-box.camera-config, div.check-box.main-config');
     
@@ -885,13 +912,19 @@ function updateConfigUi() {
         $('#picturesLifetimeEntry').parents('tr:eq(0)').each(markHideLogic);
     }
     
+    /* movies switch */
+    if (!$('#moviesSwitch').get(0).checked) {
+        $('#moviesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
+    }
+    
+    /* preserve movies */
+    if ($('#preserveMoviesSelect').val() != '-1') {
+        $('#moviesLifetimeEntry').parents('tr:eq(0)').each(markHideLogic);
+    }
+    
     /* motion detection switch */
     if (!$('#motionDetectionSwitch').get(0).checked) {
         $('#motionDetectionSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
-        
-        /* hide the entire motion movies section */
-        $('#motionMoviesSwitch').parent().each(markHideLogic);
-        $('#motionMoviesSwitch').parent().next('table.settings').each(markHideLogic);
         
         /* hide the entire notifications section */
         $('#emailNotificationsSwitch').parents('table.settings').prev().each(markHideLogic);
@@ -900,16 +933,6 @@ function updateConfigUi() {
         /* hide the entire working schedule section */
         $('#workingScheduleSwitch').parent().each(markHideLogic);
         $('#workingScheduleSwitch').parent().next('table.settings').each(markHideLogic);
-    }
-    
-    /* motion movies switch */
-    if (!$('#motionMoviesSwitch').get(0).checked) {
-        $('#motionMoviesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
-    }
-    
-    /* preserve movies */
-    if ($('#preserveMoviesSelect').val() != '-1') {
-        $('#moviesLifetimeEntry').parents('tr:eq(0)').each(markHideLogic);
     }
     
     /* event notifications */
@@ -1233,7 +1256,7 @@ function dict2MainUi(dict) {
         markHideIfNull('_' + name, id);
     });
 
-    updateConfigUi();
+    updateConfigUI();
 }
 
 function cameraUi2Dict() {
@@ -1308,6 +1331,14 @@ function cameraUi2Dict() {
         'snapshot_interval': $('#snapshotIntervalEntry').val(),
         'preserve_pictures': $('#preservePicturesSelect').val() >= 0 ? $('#preservePicturesSelect').val() : $('#picturesLifetimeEntry').val(),
         
+        /* movies */
+        'movies': $('#moviesSwitch')[0].checked,
+        'movie_file_name': $('#movieFileNameEntry').val(),
+        'movie_quality': $('#movieQualitySlider').val(),
+        'recording_mode': $('#recordingModeSelect').val(),
+        'max_movie_length': $('#maxMovieLengthEntry').val(),
+        'preserve_movies': $('#preserveMoviesSelect').val() >= 0 ? $('#preserveMoviesSelect').val() : $('#moviesLifetimeEntry').val(),
+        
         /* motion detection */
         'motion_detection': $('#motionDetectionSwitch')[0].checked,
         'show_frame_changes': $('#showFrameChangesSwitch')[0].checked,
@@ -1318,13 +1349,6 @@ function cameraUi2Dict() {
         'pre_capture': $('#preCaptureEntry').val(),
         'post_capture': $('#postCaptureEntry').val(),
         'minimum_motion_frames': $('#minimumMotionFramesEntry').val(),
-        
-        /* motion movies */
-        'motion_movies': $('#motionMoviesSwitch')[0].checked,
-        'movie_file_name': $('#movieFileNameEntry').val(),
-        'movie_quality': $('#movieQualitySlider').val(),
-        'max_movie_length': $('#maxMovieLengthEntry').val(),
-        'preserve_movies': $('#preserveMoviesSelect').val() >= 0 ? $('#preserveMoviesSelect').val() : $('#moviesLifetimeEntry').val(),
         
         /* motion notifications */
         'email_notifications_enabled': $('#emailNotificationsSwitch')[0].checked,
@@ -1428,7 +1452,7 @@ function dict2CameraUi(dict) {
         
         $('#videoDeviceSwitch')[0].error = true;
         $('#videoDeviceSwitch')[0].checked = true; /* so that the user can explicitly disable the camera */
-        updateConfigUi();
+        updateConfigUI();
         
         return;
     }
@@ -1610,6 +1634,19 @@ function dict2CameraUi(dict) {
     markHideIfNull('preserve_pictures', 'preservePicturesSelect');
     $('#picturesLifetimeEntry').val(dict['preserve_pictures']); markHideIfNull('preserve_pictures', 'picturesLifetimeEntry');
     
+    /* movies */
+    $('#moviesSwitch')[0].checked = dict['movies']; markHideIfNull('movies', 'moviesSwitch');
+    $('#movieFileNameEntry').val(dict['movie_file_name']); markHideIfNull('movie_file_name', 'movieFileNameEntry');
+    $('#movieQualitySlider').val(dict['movie_quality']); markHideIfNull('movie_quality', 'movieQualitySlider');
+    $('#recordingModeSelect').val(dict['recording_mode']); markHideIfNull('recording_mode', 'recordingModeSelect');
+    $('#maxMovieLengthEntry').val(dict['max_movie_length']); markHideIfNull('max_movie_length', 'maxMovieLengthEntry');
+    $('#preserveMoviesSelect').val(dict['preserve_movies']);
+    if ($('#preserveMoviesSelect').val() == null) {
+        $('#preserveMoviesSelect').val('-1');
+    }
+    markHideIfNull('preserve_movies', 'preserveMoviesSelect');
+    $('#moviesLifetimeEntry').val(dict['preserve_movies']); markHideIfNull('preserve_movies', 'moviesLifetimeEntry');
+    
     /* motion detection */
     $('#motionDetectionSwitch')[0].checked = dict['motion_detection']; markHideIfNull('motion_detection', 'motionDetectionSwitch');
     $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes']; markHideIfNull('show_frame_changes', 'showFrameChangesSwitch');
@@ -1620,18 +1657,6 @@ function dict2CameraUi(dict) {
     $('#preCaptureEntry').val(dict['pre_capture']); markHideIfNull('pre_capture', 'preCaptureEntry');
     $('#postCaptureEntry').val(dict['post_capture']); markHideIfNull('post_capture', 'postCaptureEntry');
     $('#minimumMotionFramesEntry').val(dict['minimum_motion_frames']); markHideIfNull('minimum_motion_frames', 'minimumMotionFramesEntry');
-    
-    /* motion movies */
-    $('#motionMoviesSwitch')[0].checked = dict['motion_movies']; markHideIfNull('motion_movies', 'motionMoviesSwitch');
-    $('#movieFileNameEntry').val(dict['movie_file_name']); markHideIfNull('movie_file_name', 'movieFileNameEntry');
-    $('#movieQualitySlider').val(dict['movie_quality']); markHideIfNull('movie_quality', 'movieQualitySlider');
-    $('#maxMovieLengthEntry').val(dict['max_movie_length']); markHideIfNull('max_movie_length', 'maxMovieLengthEntry');
-    $('#preserveMoviesSelect').val(dict['preserve_movies']);
-    if ($('#preserveMoviesSelect').val() == null) {
-        $('#preserveMoviesSelect').val('-1');
-    }
-    markHideIfNull('preserve_movies', 'preserveMoviesSelect');
-    $('#moviesLifetimeEntry').val(dict['preserve_movies']); markHideIfNull('preserve_movies', 'moviesLifetimeEntry');
     
     /* motion notifications */
     $('#emailNotificationsSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsSwitch');
@@ -1721,7 +1746,7 @@ function dict2CameraUi(dict) {
         markHideIfNull('_' + name, id);
     });
 
-    updateConfigUi();
+    updateConfigUI();
 }
 
     
@@ -2294,7 +2319,7 @@ function fetchCurrentConfig(onFetch) {
                     }
                 }
 
-                updateConfigUi();
+                updateConfigUI();
             }
             else { /* normal user */
                 if (!cameras.length) {
