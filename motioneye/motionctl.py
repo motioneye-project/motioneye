@@ -109,9 +109,9 @@ def start(deferred=False):
     motion_pid_path = os.path.join(settings.RUN_PATH, 'motion.pid')
     
     args = [program,
-            '-c', motion_config_path,
             '-n',
-            '-d']
+            '-d',
+            '-c', motion_config_path]
     
     if settings.LOG_LEVEL == logging.DEBUG:
         args.append('9')

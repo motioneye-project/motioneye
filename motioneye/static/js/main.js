@@ -635,6 +635,8 @@ function initUI() {
         });
     });
     
+    /* various change handlers */
+    
     $('#storageDeviceSelect').change(function () {
         $('#rootDirectoryEntry').val('/');
     });
@@ -647,29 +649,6 @@ function initUI() {
         if (this.value.charAt(0) !== '/') {
             this.value = '/' + this.value;
         }
-    });
-    
-    /* fetch & push handlers */
-    $('#cameraSelect').focus(function () {
-        /* remember the previously selected index */
-        this._prevSelectedIndex = this.selectedIndex;
-    
-    }).change(function () {
-        if ($('#cameraSelect').val() === 'add') {
-            runAddCameraDialog();
-            this.selectedIndex = this._prevSelectedIndex;
-        }
-        else {
-            this._prevSelectedIndex = this.selectedIndex;
-            beginProgress([$(this).val()]);
-            fetchCurrentCameraConfig(endProgress);
-        }
-    });
-    $('input.main-config, select.main-config, textarea.main-config').change(function () {
-        pushMainConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
-    });
-    $('input.camera-config, select.camera-config, textarea.camera-config').change(function () {
-        pushCameraConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
     });
     
     /* streaming framerate must be >= device framerate */
@@ -707,6 +686,29 @@ function initUI() {
         }
         
         updateConfigUI();
+    });
+    
+    /* fetch & push handlers */
+    $('#cameraSelect').focus(function () {
+        /* remember the previously selected index */
+        this._prevSelectedIndex = this.selectedIndex;
+    
+    }).change(function () {
+        if ($('#cameraSelect').val() === 'add') {
+            runAddCameraDialog();
+            this.selectedIndex = this._prevSelectedIndex;
+        }
+        else {
+            this._prevSelectedIndex = this.selectedIndex;
+            beginProgress([$(this).val()]);
+            fetchCurrentCameraConfig(endProgress);
+        }
+    });
+    $('input.main-config, select.main-config, textarea.main-config').change(function () {
+        pushMainConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
+    });
+    $('input.camera-config, select.camera-config, textarea.camera-config').change(function () {
+        pushCameraConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
     });
     
     /* preview controls */

@@ -817,7 +817,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         data['ffmpeg_output_movies'] = True
         recording_mode = ui['recording_mode']
         if recording_mode == 'motion-triggered':
-            data['emulate_motion'] = False  
+            data['emulate_motion'] = False
 
         elif recording_mode == 'continuous':
             data['emulate_motion'] = True
