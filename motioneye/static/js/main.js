@@ -2107,7 +2107,7 @@ function doUpdate() {
                         );
                     }
                     
-                    setTimeout(checkServer, 10000);
+                    setTimeout(checkServer, 15000);
 
                 }, function (e) { /* error */
                     runAlertDialog('The update process has failed!', function () {
@@ -2198,7 +2198,7 @@ function doRestore() {
                         }
                         
                         if (data.reboot) {
-                            setTimeout(checkServer, 10000);
+                            setTimeout(checkServer, 15000);
                         }
                         else {
                             setTimeout(function () {
