@@ -29,6 +29,13 @@ listen 0.0.0.0
 # the TCP port to listen on
 port 8765
 
+# whether motion HTTP control interface listens on
+# localhost or on all interfaces
+motion_control_localhost true
+
+# the TCP port that motion HTTP control interface listens on
+motion_control_port 7999
+
 # interval in seconds at which motionEye checks the SMB mounts
 mount_check_interval 300
 
