@@ -623,7 +623,6 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         # device
         '@name': ui['name'],
         '@enabled': ui['enabled'],
-        'lightswitch': ui['light_switch_detect'],
         'auto_brightness': ui['auto_brightness'],
         'framerate': int(ui['framerate']),
         'rotate': int(ui['rotation']),
@@ -673,6 +672,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         'locate_motion_mode': ui['show_frame_changes'],
         'noise_tune': ui['auto_noise_detect'],
         'noise_level': max(1, int(round(int(ui['noise_level']) * 2.55))),
+        'lightswitch': ui['light_switch_detect'],
         'event_gap': int(ui['event_gap']),
         'pre_capture': int(ui['pre_capture']),
         'post_capture': int(ui['post_capture']),
@@ -910,7 +910,6 @@ def motion_camera_dict_to_ui(data):
         'name': data['@name'],
         'enabled': data['@enabled'],
         'id': data['@id'],
-        'light_switch_detect': data['lightswitch'],
         'auto_brightness': data['auto_brightness'],
         'framerate': int(data['framerate']),
         'rotation': int(data['rotate']),
@@ -963,6 +962,7 @@ def motion_camera_dict_to_ui(data):
         'show_frame_changes': data['text_changes'] or data['locate_motion_mode'],
         'auto_noise_detect': data['noise_tune'],
         'noise_level': int(int(data['noise_level']) / 2.55),
+        'light_switch_detect': data['lightswitch'],
         'event_gap': int(data['event_gap']),
         'pre_capture': int(data['pre_capture']),
         'post_capture': int(data['post_capture']),
@@ -1600,7 +1600,6 @@ def _set_default_motion_camera(camera_id, data):
         data.setdefault('width', 352)
         data.setdefault('height', 288)
 
-    data.setdefault('lightswitch', 50)
     data.setdefault('auto_brightness', False)
     data.setdefault('framerate', 2)
     data.setdefault('rotate', 0)
@@ -1634,6 +1633,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('threshold', 2000)
     data.setdefault('noise_tune', True)
     data.setdefault('noise_level', 32)
+    data.setdefault('lightswitch', 50)
     data.setdefault('minimum_motion_frames', 1)
     
     data.setdefault('pre_capture', 2)
