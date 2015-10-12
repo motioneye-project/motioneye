@@ -34,11 +34,8 @@ _LOG_FILE = 'motioneye.log'
 
 
 def find_command(command):
-    cmd = sys.argv[0]
-    if not cmd.startswith('/'):
-        cmd = os.path.join(os.getcwd(), cmd)
-    if cmd.count('meyectl.py'): # prepend the python command if ran with py(c) file
-        cmd = sys.executable + ' ' + cmd
+    cmd = __file__
+    cmd = sys.executable + ' ' + cmd
     cmd = cmd.replace('-b', '') # remove server-specific options
     cmd += ' %s ' % command
     cmd += ' '.join([pipes.quote(arg) for arg in sys.argv[2:]
