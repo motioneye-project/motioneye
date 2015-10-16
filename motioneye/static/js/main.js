@@ -332,6 +332,16 @@ Array.prototype.every = Array.prototype.every || function (callback, thisArg) {
     return true;
 };
 
+Array.prototype.some = Array.prototype.some || function (callback, thisArg) {
+    for (var i = 0; i < this.length; i++) {
+        if (callback.call(thisArg, this[i], i, this)) {
+            return true;
+        }
+    }
+    
+    return false;
+};
+
 Array.prototype.unique = function (callback, thisArg) {
     var uniqueElements = [];
     this.forEach(function (element) {
@@ -1385,6 +1395,16 @@ function cameraUi2Dict() {
         'sunday_to': $('#sundayEnabledSwitch')[0].checked ? $('#sundayToEntry').val() : '',
         'working_schedule_type': $('#workingScheduleTypeSelect').val(),
     };
+    
+    /* if all working schedule days are disabled,
+     * also disable the global working schedule */
+    var hasWS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].some(function (day) {
+        return $('#' + day + 'EnabledSwitch')[0].checked;
+    });
+    
+    if (!hasWS) {
+        dict['working_schedule'] = false;
+    }
 
     if ($('#resolutionSelect')[0].selectedIndex != -1) {
         dict.resolution = $('#resolutionSelect').val();
