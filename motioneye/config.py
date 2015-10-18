@@ -1346,14 +1346,14 @@ def is_old_motion():
     try:
         binary, version = motionctl.find_motion()  # @UnusedVariable
         
-        if version.startswith('trunkREV'): # e.g. trunkREV599
+        if version.startswith('trunkREV'): # e.g. "trunkREV599"
             version = int(version[8:])
             return version <= _LAST_OLD_CONFIG_VERSIONS[0]
         
-        elif version.count('Git'): # e.g. Unofficial-Git-a5b5f13
+        elif version.lower().count('git'): # e.g. "Unofficial-Git-a5b5f13" or "3.2.12+git20150927mrdave"
             return False # all git versions are assumed to be new
         
-        else: # stable release, should be in the format x.y.z
+        else: # stable release, should be in the format "x.y.z"
             return update.compare_versions(version, _LAST_OLD_CONFIG_VERSIONS[1]) <= 0
 
     except:
