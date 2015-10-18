@@ -17,7 +17,8 @@
 
 import datetime
 import logging
-import tornado
+
+from tornado import ioloop, gen
 
 import config
 import motionctl
@@ -25,8 +26,8 @@ import utils
 
 
 def start():
-    ioloop = tornado.ioloop.IOLoop.instance()
-    ioloop.add_timeout(datetime.timedelta(seconds=10), _check_ws)
+    io_loop = ioloop.IOLoop.instance()
+    io_loop.add_timeout(datetime.timedelta(seconds=1), _check_ws)
 
 
 def _during_working_schedule(now, working_schedule):
@@ -69,14 +70,15 @@ def _during_working_schedule(now, working_schedule):
     return True
 
 
+@gen.coroutine
 def _check_ws():
     # schedule the next call
-    ioloop = tornado.ioloop.IOLoop.instance()
-    ioloop.add_timeout(datetime.timedelta(seconds=10), _check_ws)
+    io_loop = ioloop.IOLoop.instance()
+    io_loop.add_timeout(datetime.timedelta(seconds=10), _check_ws)
 
     if not motionctl.running():
         return
-
+    
     now = datetime.datetime.now()
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
@@ -96,7 +98,7 @@ def _check_ws():
         now_during = _during_working_schedule(now, working_schedule)
         must_be_enabled = (now_during and working_schedule_type == 'during') or (not now_during and working_schedule_type == 'outside')
         
-        currently_enabled = motionctl.get_motion_detection(camera_id)
+        currently_enabled = yield motionctl.get_motion_detection(camera_id)
         if currently_enabled is None: # could not detect current status
             logging.warn('skipping motion detection status update for camera with id %(id)s' % {'id': camera_id})
             continue
