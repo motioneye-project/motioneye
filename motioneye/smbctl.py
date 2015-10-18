@@ -28,6 +28,15 @@ import config
 import settings
 
 
+def start():
+    io_loop = ioloop.IOLoop.instance()
+    io_loop.add_timeout(datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts)
+
+
+def stop():
+    _umount_all()
+
+
 def find_mount_cifs():
     try:
         return subprocess.check_output('which mount.cifs', shell=True).strip()
@@ -48,11 +57,6 @@ def make_mount_point(server, share, username):
         mount_point = os.path.join(settings.SMB_MOUNT_ROOT, 'motioneye_%s_%s' % (server, share))
 
     return mount_point
-
-
-def _is_motioneye_mount(mount_point):
-    mount_point_root = os.path.join(settings.SMB_MOUNT_ROOT, 'motioneye_')
-    return bool(re.match('^' + mount_point_root + '\w+$', mount_point))
 
 
 def list_mounts():
@@ -108,7 +112,34 @@ def list_mounts():
     return mounts
 
 
-def mount(server, share, username, password):
+def update_mounts():
+    network_shares = config.get_network_shares()
+    
+    mounts = list_mounts()
+    mounts = dict(((m['server'], m['share'], m['username'] or ''), False) for m in mounts)
+    
+    should_stop = False # indicates that motion should be stopped immediately
+    should_start = True # indicates that motion can be started afterwards
+    for network_share in network_shares:
+        key = (network_share['server'], network_share['share'], network_share['username'] or '')
+        if key in mounts: # found
+            mounts[key] = True
+        
+        else: # needs to be mounted
+            should_stop = True
+            if not _mount(network_share['server'], network_share['share'], network_share['username'], network_share['password']):
+                should_start = False
+    
+    # unmount the no longer necessary mounts
+    for (server, share, username), required in mounts.items():
+        if not required:
+            _umount(server, share, username)
+            should_stop = True
+    
+    return (should_stop, should_start)
+
+
+def _mount(server, share, username, password):
     mount_point = make_mount_point(server, share, username)
     
     logging.debug('making sure mount point "%s" exists' % mount_point)
@@ -153,7 +184,7 @@ def mount(server, share, username, password):
     return mount_point
 
 
-def umount(server, share, username):
+def _umount(server, share, username):
     mount_point = make_mount_point(server, share, username)
     logging.debug('unmounting "//%s/%s" from "%s"' % (server, share, mount_point))
     
@@ -176,36 +207,14 @@ def umount(server, share, username):
     return True
 
 
-def update_mounts():
-    network_shares = config.get_network_shares()
-    
-    mounts = list_mounts()
-    mounts = dict(((m['server'], m['share'], m['username'] or ''), False) for m in mounts)
-    
-    should_stop = False # indicates that motion should be stopped immediately
-    should_start = True # indicates that motion can be started afterwards
-    for network_share in network_shares:
-        key = (network_share['server'], network_share['share'], network_share['username'] or '')
-        if key in mounts: # found
-            mounts[key] = True
-        
-        else: # needs to be mounted
-            should_stop = True
-            if not mount(network_share['server'], network_share['share'], network_share['username'], network_share['password']):
-                should_start = False
-    
-    # unmount the no longer necessary mounts
-    for (server, share, username), required in mounts.items():
-        if not required:
-            umount(server, share, username)
-            should_stop = True
-    
-    return (should_stop, should_start)
+def _is_motioneye_mount(mount_point):
+    mount_point_root = os.path.join(settings.SMB_MOUNT_ROOT, 'motioneye_')
+    return bool(re.match('^' + mount_point_root + '\w+$', mount_point))
 
 
-def umount_all():
+def _umount_all():
     for mount in list_mounts():
-        umount(mount['server'], mount['share'], mount['username'])
+        _umount(mount['server'], mount['share'], mount['username'])
 
 
 def _check_mounts():
@@ -223,8 +232,3 @@ def _check_mounts():
     io_loop = ioloop.IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts)
 
-
-if settings.SMB_SHARES:
-    # schedule the mount checker
-    io_loop = ioloop.IOLoop.instance()
-    io_loop.add_timeout(datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts)

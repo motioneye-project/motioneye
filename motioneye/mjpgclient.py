@@ -210,6 +210,51 @@ class MjpgClient(iostream.IOStream):
         self._seek_content_length()
 
 
+def start():
+    # schedule the garbage collector
+    io_loop = ioloop.IOLoop.instance()
+    io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
+
+
+def get_jpg(camera_id):
+    if camera_id not in MjpgClient.clients:
+        # mjpg client not started yet for this camera
+        
+        logging.debug('creating mjpg client for camera %(camera_id)s' % {
+                'camera_id': camera_id})
+        
+        camera_config = config.get_camera(camera_id)
+        if not camera_config['@enabled'] or not utils.local_motion_camera(camera_config):
+            logging.error('could not start mjpg client for camera id %(camera_id)s: not enabled or not local' % {
+                    'camera_id': camera_id})
+            
+            return None
+        
+        port = camera_config['stream_port']
+        username, password = None, None
+        if camera_config.get('stream_auth_method') > 0:
+            username, password = camera_config.get('stream_authentication', ':').split(':')
+
+        client = MjpgClient(camera_id, port, username, password)
+        client.connect()
+
+    MjpgClient.last_access[camera_id] = datetime.datetime.utcnow()
+    
+    return MjpgClient.last_jpgs.get(camera_id)
+
+
+def close_all(invalidate=False):
+    for client in MjpgClient.clients.values():
+        client.close()
+    
+    if invalidate:
+        MjpgClient.clients = {}
+        MjpgClient.last_jpgs = {}
+        MjpgClient.last_jpg_moment = {}
+        MjpgClient.last_access = {}
+        MjpgClient.last_erroneous_close_time = 0
+
+
 def _garbage_collector():
     logging.debug('running garbage collector for mjpg clients...')
 
@@ -258,48 +303,3 @@ def _garbage_collector():
             client.close()
 
             continue
-        
-
-def get_jpg(camera_id):
-    if camera_id not in MjpgClient.clients:
-        # mjpg client not started yet for this camera
-        
-        logging.debug('creating mjpg client for camera %(camera_id)s' % {
-                'camera_id': camera_id})
-        
-        camera_config = config.get_camera(camera_id)
-        if not camera_config['@enabled'] or not utils.local_motion_camera(camera_config):
-            logging.error('could not start mjpg client for camera id %(camera_id)s: not enabled or not local' % {
-                    'camera_id': camera_id})
-            
-            return None
-        
-        port = camera_config['stream_port']
-        username, password = None, None
-        if camera_config.get('stream_auth_method') > 0:
-            username, password = camera_config.get('stream_authentication', ':').split(':')
-
-        client = MjpgClient(camera_id, port, username, password)
-        client.connect()
-
-    MjpgClient.last_access[camera_id] = datetime.datetime.utcnow()
-    
-    return MjpgClient.last_jpgs.get(camera_id)
-
-
-def close_all(invalidate=False):
-    for client in MjpgClient.clients.values():
-        client.close()
-    
-    if invalidate:
-        MjpgClient.clients = {}
-        MjpgClient.last_jpgs = {}
-        MjpgClient.last_jpg_moment = {}
-        MjpgClient.last_access = {}
-        MjpgClient.last_erroneous_close_time = 0
-
-
-def start_gc():
-    # schedule the garbage collector
-    io_loop = ioloop.IOLoop.instance()
-    io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)

@@ -25,6 +25,7 @@ import sys
 import time
 
 from tornado.web import Application
+from tornado.ioloop import IOLoop
 
 import handlers
 import settings
@@ -181,13 +182,11 @@ handler_mapping = [
 
 def configure_signals():
     def bye_handler(signal, frame):
-        import tornado.ioloop
-        
         logging.info('interrupt signal received, shutting down...')
 
         # shut down the IO loop if it has been started
-        ioloop = tornado.ioloop.IOLoop.instance()
-        ioloop.stop()
+        io_loop = IOLoop.instance()
+        io_loop.stop()
         
     def child_handler(signal, frame):
         # this is required for the multiprocessing mechanism to work
@@ -217,12 +216,12 @@ def test_requirements():
 
     if os.geteuid() != 0:
         if settings.SMB_SHARES:
-            print('SMB_SHARES require root privileges')
-            return False
+            logging.fatal('smb shares require root privileges')
+            sys.exit(-1)
 
         if settings.ENABLE_REBOOT:
-            print('reboot requires root privileges')
-            return False
+            logging.fatal('reboot requires root privileges')
+            sys.exit(-1)
 
     try:
         import tornado  # @UnusedImport
@@ -312,34 +311,6 @@ def start_motion():
     ioloop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
 
 
-def start_cleanup():
-    import cleanup
-
-    cleanup.start()
-    logging.info('cleanup started')
-
-
-def start_wsswitch():
-    import wsswitch
-
-    wsswitch.start()
-    logging.info('wsswitch started')
-
-
-def start_thumbnailer():
-    import thumbnailer
-
-    thumbnailer.start()
-    logging.info('thumbnailer started')
-
-
-def start_mjpg_client_gc():
-    import mjpgclient
-
-    mjpgclient.start_gc()
-    logging.info('mjpg client garbage collector started')
-
-
 def parse_options(parser, args):
     parser.add_argument('-b', help='start the server in background (daemonize)',
             action='store_true', dest='background', default=False)
@@ -349,11 +320,12 @@ def parse_options(parser, args):
 
 def run():
     import cleanup
+    import mjpgclient
     import motionctl
     import motioneye
     import smbctl
     import thumbnailer
-    import tornado.ioloop
+    import wsswitch
 
     configure_signals()
     logging.info('hello! this is motionEye server %s' % motioneye.VERSION)
@@ -361,7 +333,6 @@ def run():
     test_requirements()
 
     if settings.SMB_SHARES:
-
         stop, start = smbctl.update_mounts()  # @UnusedVariable
         if start:
             start_motion()
@@ -370,15 +341,23 @@ def run():
         start_motion()
 
     if settings.CLEANUP_INTERVAL:
-        start_cleanup()
+        cleanup.start()
+        logging.info('cleanup started')
         
-    start_wsswitch()
+    wsswitch.start()
+    logging.info('wsswitch started')
 
     if settings.THUMBNAILER_INTERVAL:
-        start_thumbnailer()
+        thumbnailer.start()
+        logging.info('thumbnailer started')
 
     if settings.MJPG_CLIENT_TIMEOUT:
-        start_mjpg_client_gc()
+        mjpgclient.start()
+        logging.info('mjpg client garbage collector started')
+
+    if settings.SMB_SHARES:
+        smbctl.start()
+        logging.info('smb mounts started')
 
     template.add_context('static_path', settings.BASE_PATH + '/static/')
     
@@ -388,7 +367,7 @@ def run():
     application.listen(settings.PORT, settings.LISTEN)
     logging.info('server started')
     
-    tornado.ioloop.IOLoop.instance().start()
+    IOLoop.instance().start()
 
     logging.info('server stopped')
     
@@ -405,8 +384,8 @@ def run():
         logging.info('motion stopped')
     
     if settings.SMB_SHARES:
-        smbctl.umount_all()
-        logging.info('SMB shares unmounted')
+        smbctl.stop()
+        logging.info('smb mounts stopped')
 
     logging.info('bye!')
 

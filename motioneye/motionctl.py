@@ -72,17 +72,6 @@ def find_motion():
     return _motion_binary_cache
 
 
-def _disable_initial_motion_detection():
-    for camera_id in config.get_camera_ids():
-        camera_config = config.get_camera(camera_id)
-        if not utils.local_motion_camera(camera_config):
-            continue
-
-        if not camera_config['@motion_detection']:
-            logging.debug('motion detection disabled by config for camera with id %s' % camera_id)
-            set_motion_detection(camera_id, False)
-
-
 def start(deferred=False):
     if deferred:
         return IOLoop.instance().add_callback(start, deferred=False)
@@ -321,6 +310,17 @@ def thread_id_to_camera_id(thread_id):
                 return cid
     
     return None
+
+
+def _disable_initial_motion_detection():
+    for camera_id in config.get_camera_ids():
+        camera_config = config.get_camera(camera_id)
+        if not utils.local_motion_camera(camera_config):
+            continue
+
+        if not camera_config['@motion_detection']:
+            logging.debug('motion detection disabled by config for camera with id %s' % camera_id)
+            set_motion_detection(camera_id, False)
 
 
 def _get_pid():
