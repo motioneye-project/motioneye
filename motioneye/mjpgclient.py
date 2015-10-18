@@ -212,7 +212,10 @@ class MjpgClient(iostream.IOStream):
 
 def _garbage_collector():
     logging.debug('running garbage collector for mjpg clients...')
-    
+
+    io_loop = ioloop.IOLoop.instance()
+    io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
+
     now = datetime.datetime.utcnow()
     for client in MjpgClient.clients.values():
         camera_id = client._camera_id
@@ -256,9 +259,6 @@ def _garbage_collector():
 
             continue
         
-    io_loop = ioloop.IOLoop.instance()
-    io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
-
 
 def get_jpg(camera_id):
     if camera_id not in MjpgClient.clients:
@@ -299,6 +299,7 @@ def close_all(invalidate=False):
         MjpgClient.last_erroneous_close_time = 0
 
 
-# schedule the garbage collector
-io_loop = ioloop.IOLoop.instance()
-io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
+def start_gc():
+    # schedule the garbage collector
+    io_loop = ioloop.IOLoop.instance()
+    io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)

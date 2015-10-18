@@ -333,6 +333,13 @@ def start_thumbnailer():
     logging.info('thumbnailer started')
 
 
+def start_mjpg_client_gc():
+    import mjpgclient
+
+    mjpgclient.start_gc()
+    logging.info('mjpg client garbage collector started')
+
+
 def parse_options(parser, args):
     parser.add_argument('-b', help='start the server in background (daemonize)',
             action='store_true', dest='background', default=False)
@@ -362,11 +369,16 @@ def run():
     else:
         start_motion()
 
-    start_cleanup()
+    if settings.CLEANUP_INTERVAL:
+        start_cleanup()
+        
     start_wsswitch()
 
     if settings.THUMBNAILER_INTERVAL:
         start_thumbnailer()
+
+    if settings.MJPG_CLIENT_TIMEOUT:
+        start_mjpg_client_gc()
 
     template.add_context('static_path', settings.BASE_PATH + '/static/')
     
