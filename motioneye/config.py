@@ -1579,12 +1579,12 @@ def _set_default_motion(data, old_motion):
     if old_motion:
         data.setdefault('control_port', settings.MOTION_CONTROL_PORT)
         data.setdefault('control_html_output', True)
-        data.setdefault('control_localhost', settings.MOTION_CONTROL_LISTEN_LOCALHOST)
+        data.setdefault('control_localhost', settings.MOTION_CONTROL_LOCALHOST)
     
     else:
         data.setdefault('webcontrol_port', settings.MOTION_CONTROL_PORT)
         data.setdefault('webcontrol_html_output', True)
-        data.setdefault('webcontrol_localhost', settings.MOTION_CONTROL_LISTEN_LOCALHOST)
+        data.setdefault('webcontrol_localhost', settings.MOTION_CONTROL_LOCALHOST)
 
 
 def _set_default_motion_camera(camera_id, data):

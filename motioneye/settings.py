@@ -58,7 +58,7 @@ PORT = 8765
 
 # whether motion HTTP control interface listens on
 # localhost or on all interfaces
-MOTION_CONTROL_LISTEN_LOCALHOST = True
+MOTION_CONTROL_LOCALHOST = True
 
 # the TCP port that motion HTTP control interface listens on
 MOTION_CONTROL_PORT = 7999
