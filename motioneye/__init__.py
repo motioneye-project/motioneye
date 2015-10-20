@@ -1,2 +1,2 @@
 
-VERSION = "0.28.1-git"
+VERSION = "0.28.2"
