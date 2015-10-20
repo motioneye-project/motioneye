@@ -111,8 +111,14 @@ ENABLE_UPDATE = False
 # timeout in seconds to use when talking to the SMTP server
 SMTP_TIMEOUT = 60
 
+# timeout in seconds to wait media files list
+LIST_MEDIA_TIMEOUT = 120
+
 # timeout in seconds to wait for zip file creation
 ZIP_TIMEOUT = 500
+
+# timeout in seconds to wait for timelapse creation
+TIMELAPSE_TIMEOUT = 500
 
 # enable adding and removing cameras from UI
 ADD_REMOVE_CAMERAS = True

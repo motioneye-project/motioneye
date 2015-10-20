@@ -20,7 +20,8 @@ import logging
 import multiprocessing
 import os
 import signal
-import tornado
+
+from tornado.ioloop import IOLoop
 
 import mediafiles
 import settings
@@ -35,8 +36,8 @@ def start():
         return
 
     # schedule the first call a bit later to improve performance at startup
-    ioloop = tornado.ioloop.IOLoop.instance()
-    ioloop.add_timeout(datetime.timedelta(seconds=min(settings.CLEANUP_INTERVAL, 60)), _run_process)
+    io_loop = IOLoop.instance()
+    io_loop.add_timeout(datetime.timedelta(seconds=min(settings.CLEANUP_INTERVAL, 60)), _run_process)
 
 
 def stop():
@@ -63,17 +64,17 @@ def running():
 def _run_process():
     global _process
     
-    ioloop = tornado.ioloop.IOLoop.instance()
+    io_loop = IOLoop.instance()
     
     if thumbnailer.running():
         # postpone if thumbnailer is currently running
-        ioloop.add_timeout(datetime.timedelta(seconds=60), _run_process)
+        io_loop.add_timeout(datetime.timedelta(seconds=60), _run_process)
         
         return
         
     else:
         # schedule the next call
-        ioloop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), _run_process)
+        io_loop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), _run_process)
 
     if not running(): # check that the previous process has finished
         logging.debug('running cleanup process...')

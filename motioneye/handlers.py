@@ -23,8 +23,8 @@ import re
 import socket
 import subprocess
 
-from tornado.web import RequestHandler, HTTPError, asynchronous
 from tornado.ioloop import IOLoop
+from tornado.web import RequestHandler, HTTPError, asynchronous
 
 import config
 import mediafiles
@@ -356,8 +356,8 @@ class ConfigHandler(BaseHandler):
                     def call_reboot():
                         powerctl.reboot()
                     
-                    ioloop = IOLoop.instance()
-                    ioloop.add_timeout(datetime.timedelta(seconds=2), call_reboot)
+                    io_loop = IOLoop.instance()
+                    io_loop.add_timeout(datetime.timedelta(seconds=2), call_reboot)
                     return self.finish({'reload': False, 'reboot': True, 'error': None})
                 
                 else:
@@ -1438,10 +1438,12 @@ class PowerHandler(BaseHandler):
             self.reboot()
     
     def shut_down(self):
-        IOLoop.instance().add_timeout(datetime.timedelta(seconds=2), powerctl.shut_down)
+        io_loop = IOLoop.instance()
+        io_loop.add_timeout(datetime.timedelta(seconds=2), powerctl.shut_down)
 
     def reboot(self):
-        IOLoop.instance().add_timeout(datetime.timedelta(seconds=2), powerctl.reboot)
+        io_loop = IOLoop.instance()
+        io_loop.add_timeout(datetime.timedelta(seconds=2), powerctl.reboot)
 
 
 class VersionHandler(BaseHandler):

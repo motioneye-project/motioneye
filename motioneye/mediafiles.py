@@ -24,15 +24,15 @@ import logging
 import multiprocessing
 import os.path
 import re
+import signal
 import stat
 import StringIO
 import subprocess
 import time
-import tornado
 import zipfile
 
 from PIL import Image
-from tornado import ioloop
+from tornado.ioloop import IOLoop
 
 import config
 import settings
@@ -326,17 +326,22 @@ def list_media(camera_config, media_type, callback, prefix=None):
             media_list.append(parent_pipe.recv())
     
     def poll_process():
-        ioloop = tornado.ioloop.IOLoop.instance()
+        io_loop = IOLoop.instance()
         if process.is_alive(): # not finished yet
             now = datetime.datetime.now()
             delta = now - started
-            if delta.seconds < 120:
-                ioloop.add_timeout(datetime.timedelta(seconds=0.5), poll_process)
+            if delta.seconds < settings.LIST_MEDIA_TIMEOUT:
+                io_loop.add_timeout(datetime.timedelta(seconds=0.5), poll_process)
                 read_media_list()
             
-            else: # process did not finish within 2 minutes
+            else: # process did not finish in time
                 logging.error('timeout waiting for the media listing process to finish')
+                try:
+                    os.kill(process.pid, signal.SIGTERM)
                 
+                except:
+                    pass # nevermind
+                    
                 callback(None)
 
         else: # finished
@@ -430,15 +435,20 @@ def get_zipped_content(camera_config, media_type, group, callback):
     started = datetime.datetime.now()
 
     def poll_process():
-        ioloop = tornado.ioloop.IOLoop.instance()
+        io_loop = IOLoop.instance()
         if working.value:
             now = datetime.datetime.now()
             delta = now - started
             if delta.seconds < settings.ZIP_TIMEOUT:
-                ioloop.add_timeout(datetime.timedelta(seconds=0.5), poll_process)
+                io_loop.add_timeout(datetime.timedelta(seconds=0.5), poll_process)
 
-            else: # process did not finish within 2 minutes
+            else: # process did not finish in time
                 logging.error('timeout waiting for the zip process to finish')
+                try:
+                    os.kill(process.pid, signal.SIGTERM)
+                
+                except:
+                    pass # nevermind
 
                 callback(None)
 
@@ -492,17 +502,22 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
             media_list.append(parent_pipe.recv())
         
     def poll_media_list_process():
-        ioloop = tornado.ioloop.IOLoop.instance()
+        io_loop = IOLoop.instance()
         if _timelapse_process.is_alive(): # not finished yet
             now = datetime.datetime.now()
             delta = now - started[0]
-            if delta.seconds < 300: # the subprocess has 5 minutes to complete its job
-                ioloop.add_timeout(datetime.timedelta(seconds=0.5), poll_media_list_process)
+            if delta.seconds < settings.TIMELAPSE_TIMEOUT: # the subprocess has limited time to complete its job
+                io_loop.add_timeout(datetime.timedelta(seconds=0.5), poll_media_list_process)
                 read_media_list()
 
-            else: # process did not finish within 2 minutes
+            else: # process did not finish in time
                 logging.error('timeout waiting for the media listing process to finish')
+                try:
+                    os.kill(_timelapse_process.pid, signal.SIGTERM)
                 
+                except:
+                    pass # nevermind
+
                 _timelapse_process.progress = -1
 
         else: # finished
@@ -573,9 +588,9 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
         global _timelapse_process
         global _timelapse_data
         
-        ioloop = tornado.ioloop.IOLoop.instance()
+        io_loop = IOLoop.instance()
         if _timelapse_process.poll() is None: # not finished yet
-            ioloop.add_timeout(datetime.timedelta(seconds=0.5), functools.partial(poll_movie_process, pictures))
+            io_loop.add_timeout(datetime.timedelta(seconds=0.5), functools.partial(poll_movie_process, pictures))
 
             try:
                 output = _timelapse_process.stdout.read()
@@ -800,6 +815,8 @@ def set_prepared_cache(data):
             logging.warn('key "%s" was still present in the prepared cache, removed' % key)
 
     timeout = 3600 # the user has 1 hour to download the file after creation
-    ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=timeout), clear)
+    
+    io_loop = IOLoop.instance()
+    io_loop.add_timeout(datetime.timedelta(seconds=timeout), clear)
 
     return key

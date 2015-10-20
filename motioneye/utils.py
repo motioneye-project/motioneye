@@ -33,7 +33,6 @@ from tornado.ioloop import IOLoop
 
 import settings
 
-
 try:
     from collections import OrderedDict  # @UnusedImport
 
@@ -427,6 +426,8 @@ def test_rtsp_url(data, callback):
     called = [False]
     timeout = [None]
     stream = None
+    
+    io_loop = IOLoop.instance()
 
     def connect():
         logging.debug('testing rtsp netcam at %s' % url)
@@ -437,13 +438,13 @@ def test_rtsp_url(data, callback):
         stream.set_close_callback(on_close)
         stream.connect((data['host'], int(data['port'])), on_connect)
         
-        timeout[0] = IOLoop.instance().add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
+        timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
                 functools.partial(on_connect, _timeout=True))
         
         return stream
     
     def on_connect(_timeout=False):
-        IOLoop.instance().remove_timeout(timeout[0])
+        io_loop.remove_timeout(timeout[0])
         
         if _timeout:
             return handle_error('timeout connecting to rtsp netcam')
@@ -468,10 +469,10 @@ def test_rtsp_url(data, callback):
             return
 
         stream.read_until_regex('RTSP/1.0 \d+ ', on_rtsp)
-        timeout[0] = IOLoop.instance().add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), on_rtsp)
+        timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), on_rtsp)
 
     def on_rtsp(data):
-        IOLoop.instance().remove_timeout(timeout[0])
+        io_loop.remove_timeout(timeout[0])
 
         if data:
             if data.endswith('200 '):
@@ -488,10 +489,10 @@ def test_rtsp_url(data, callback):
             return
 
         stream.read_until_regex('Server: .*', on_server)
-        timeout[0] = IOLoop.instance().add_timeout(datetime.timedelta(seconds=1), on_server)
+        timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_server)
 
     def on_server(data=None):
-        IOLoop.instance().remove_timeout(timeout[0])
+        io_loop.remove_timeout(timeout[0])
 
         if data:
             identifier = re.findall('Server: (.*)', data)[0].strip()

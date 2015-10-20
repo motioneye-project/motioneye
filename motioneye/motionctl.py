@@ -23,16 +23,14 @@ import signal
 import subprocess
 import time
 
-from tornado import gen
-from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.ioloop import IOLoop
 
 import config
-import mjpgclient
 import powerctl
 import settings
 import utils
 
+_MOTION_CONTROL_TIMEOUT = 5
 
 _started = False
 _motion_binary_cache = None
@@ -73,8 +71,11 @@ def find_motion():
 
 
 def start(deferred=False):
+    import mjpgclient
+    
     if deferred:
-        return IOLoop.instance().add_callback(start, deferred=False)
+        io_loop = IOLoop.instance()
+        io_loop.add_callback(start, deferred=False)
 
     global _started
     
@@ -136,6 +137,8 @@ def start(deferred=False):
 
 
 def stop(invalidate=False):
+    import mjpgclient
+    
     global _started
     
     _started = False
@@ -202,39 +205,37 @@ def started():
     return _started
 
 
-@gen.coroutine
-def get_motion_detection(camera_id):
+def get_motion_detection(camera_id, callback):
+    from tornado.httpclient import HTTPRequest, AsyncHTTPClient
+    
     thread_id = camera_id_to_thread_id(camera_id)
     if thread_id is None:
-        logging.error('could not find thread id for camera with id %s' % camera_id)
-        return
+        error = 'could not find thread id for camera with id %s' % camera_id
+        logging.error(error)
+        return callback(error=error)
 
     url = 'http://127.0.0.1:7999/%(id)s/detection/status' % {'id': thread_id}
     
-    request = HTTPRequest(url, connect_timeout=5, request_timeout=5)
-    http_client = AsyncHTTPClient()
-    try:
-        response = yield http_client.fetch(request)
+    def on_response(response):
         if response.error:
-            raise response.error
+            return callback(error=utils.pretty_http_error())
 
-    except Exception as e:
-        logging.error('failed to get motion detection status for camera with id %(id)s: %(msg)s' % {
-                'id': camera_id,
-                'msg': unicode(e)})
- 
-        return
+        enabled = bool(response.body.lower().count('active'))
+        
+        logging.debug('motion detection is %(what)s for camera with id %(id)s' % {
+                'what': ['disabled', 'enabled'][enabled],
+                'id': camera_id})
 
-    enabled = bool(response.body.lower().count('active'))
-    
-    logging.debug('motion detection is %(what)s for camera with id %(id)s' % {
-            'what': ['disabled', 'enabled'][enabled],
-            'id': camera_id})
+        callback(enabled)
 
-    raise gen.Return(enabled)
+    request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT, request_timeout=_MOTION_CONTROL_TIMEOUT)
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, callback=on_response)
 
 
 def set_motion_detection(camera_id, enabled):
+    from tornado.httpclient import HTTPRequest, AsyncHTTPClient
+    
     thread_id = camera_id_to_thread_id(camera_id)
     if thread_id is None:
         return logging.error('could not find thread id for camera with id %s' % camera_id)
@@ -262,7 +263,7 @@ def set_motion_detection(camera_id, enabled):
                     'what': ['disabled', 'enabled'][enabled],
                     'id': camera_id})
 
-    request = HTTPRequest(url, connect_timeout=4, request_timeout=4)
+    request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT, request_timeout=_MOTION_CONTROL_TIMEOUT)
     http_client = AsyncHTTPClient()
     http_client.fetch(request, on_response)
 

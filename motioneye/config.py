@@ -34,8 +34,6 @@ import update
 import utils
 import v4l2ctl
 
-from utils import OrderedDict
-
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
@@ -1326,7 +1324,8 @@ def restore(content):
             def later():
                 powerctl.reboot()
 
-            IOLoop.instance().add_timeout(datetime.timedelta(seconds=2), later)
+            io_loop = IOLoop.instance()
+            io_loop.add_timeout(datetime.timedelta(seconds=2), later)
 
         else:
             logging.info('invalidating config cache')
@@ -1428,7 +1427,7 @@ def _python_to_value(value):
 
 
 def _conf_to_dict(lines, list_names=[], no_convert=[]):
-    data = OrderedDict()
+    data = utils.OrderedDict()
     
     for line in lines:
         line = line.strip()
@@ -1467,7 +1466,7 @@ def _conf_to_dict(lines, list_names=[], no_convert=[]):
 
 def _dict_to_conf(lines, data, list_names=[]):
     conf_lines = []
-    remaining = OrderedDict(data)
+    remaining = utils.OrderedDict(data)
     processed = set()
     
     # parse existing lines and replace the values
@@ -1677,7 +1676,7 @@ def get_additional_structure(camera, separators=False):
                 'with' if separators else 'without'))
 
         # gather sections
-        sections = OrderedDict()
+        sections = utils.OrderedDict()
         for func in _additional_section_funcs:
             result = func()
             if not result:
@@ -1694,7 +1693,7 @@ def get_additional_structure(camera, separators=False):
             
             logging.debug('additional config section: %s' % result['name'])
     
-        configs = OrderedDict()
+        configs = utils.OrderedDict()
         for func in _additional_config_funcs:
             result = func()
             if not result:

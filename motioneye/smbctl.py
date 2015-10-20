@@ -22,14 +22,14 @@ import re
 import subprocess
 import time
 
-from tornado import ioloop
+from tornado.ioloop import IOLoop
 
 import config
 import settings
 
 
 def start():
-    io_loop = ioloop.IOLoop.instance()
+    io_loop = IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts)
 
 
@@ -229,6 +229,6 @@ def _check_mounts():
     if start:
         motionctl.start()
         
-    io_loop = ioloop.IOLoop.instance()
+    io_loop = IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts)
 

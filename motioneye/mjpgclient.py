@@ -22,7 +22,8 @@ import re
 import socket
 import time
 
-from tornado import iostream, ioloop
+from tornado.ioloop import IOLoop
+from tornado.iostream import IOStream
 
 import config
 import motionctl
@@ -30,7 +31,7 @@ import settings
 import utils
 
 
-class MjpgClient(iostream.IOStream):
+class MjpgClient(IOStream):
     clients = {} # dictionary of clients indexed by camera id
     last_jpgs = {} # dictionary of jpg contents indexed by camera id
     last_jpg_moment = {} # dictionary of moments of the last received jpeg indexed by camera id
@@ -45,12 +46,12 @@ class MjpgClient(iostream.IOStream):
         self._auth_digest_state = {}
         
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
-        iostream.IOStream.__init__(self, s)
+        IOStream.__init__(self, s)
         
         self.set_close_callback(self.on_close)
         
     def connect(self):
-        iostream.IOStream.connect(self, ('localhost', self._port), self._on_connect)
+        IOStream.connect(self, ('localhost', self._port), self._on_connect)
         MjpgClient.clients[self._camera_id] = self
         
         logging.debug('mjpg client for camera %(camera_id)s connecting on port %(port)s...' % {
@@ -212,7 +213,7 @@ class MjpgClient(iostream.IOStream):
 
 def start():
     # schedule the garbage collector
-    io_loop = ioloop.IOLoop.instance()
+    io_loop = IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
 
 
@@ -258,7 +259,7 @@ def close_all(invalidate=False):
 def _garbage_collector():
     logging.debug('running garbage collector for mjpg clients...')
 
-    io_loop = ioloop.IOLoop.instance()
+    io_loop = IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
 
     now = datetime.datetime.utcnow()

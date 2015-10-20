@@ -16,9 +16,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import datetime
+import functools
 import logging
 
-from tornado import ioloop, gen
+from tornado.ioloop import IOLoop
 
 import config
 import motionctl
@@ -26,7 +27,7 @@ import utils
 
 
 def start():
-    io_loop = ioloop.IOLoop.instance()
+    io_loop = IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=1), _check_ws)
 
 
@@ -70,14 +71,31 @@ def _during_working_schedule(now, working_schedule):
     return True
 
 
-@gen.coroutine
 def _check_ws():
     # schedule the next call
-    io_loop = ioloop.IOLoop.instance()
+    io_loop = IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=10), _check_ws)
 
     if not motionctl.running():
         return
+    
+    def on_motion_detection_status(camera_id, must_be_enabled, working_schedule_type, enabled=None, error=None):
+        if error: # could not detect current status
+            return logging.warn('skipping motion detection status update for camera with id %(id)s' % {'id': camera_id})
+            
+        if enabled and not must_be_enabled:
+            logging.debug('must disable motion detection for camera with id %(id)s (%(what)s working schedule)' % {
+                    'id': camera_id,
+                    'what': working_schedule_type})
+            
+            motionctl.set_motion_detection(camera_id, False)
+
+        elif not enabled and must_be_enabled:
+            logging.debug('must enable motion detection for camera with id %(id)s (%(what)s working schedule)' % {
+                    'id': camera_id,
+                    'what': working_schedule_type})
+            
+            motionctl.set_motion_detection(camera_id, True)
     
     now = datetime.datetime.now()
     for camera_id in config.get_camera_ids():
@@ -98,21 +116,5 @@ def _check_ws():
         now_during = _during_working_schedule(now, working_schedule)
         must_be_enabled = (now_during and working_schedule_type == 'during') or (not now_during and working_schedule_type == 'outside')
         
-        currently_enabled = yield motionctl.get_motion_detection(camera_id)
-        if currently_enabled is None: # could not detect current status
-            logging.warn('skipping motion detection status update for camera with id %(id)s' % {'id': camera_id})
-            continue
-            
-        if currently_enabled and not must_be_enabled:
-            logging.debug('must disable motion detection for camera with id %(id)s (%(what)s working schedule)' % {
-                    'id': camera_id,
-                    'what': working_schedule_type})
-            
-            motionctl.set_motion_detection(camera_id, False)
-
-        elif not currently_enabled and must_be_enabled:
-            logging.debug('must enable motion detection for camera with id %(id)s (%(what)s working schedule)' % {
-                    'id': camera_id,
-                    'what': working_schedule_type})
-            
-            motionctl.set_motion_detection(camera_id, True)
+        motionctl.get_motion_detection(camera_id, functools.partial(
+                on_motion_detection_status, camera_id, must_be_enabled, working_schedule_type))

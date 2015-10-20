@@ -24,8 +24,8 @@ import signal
 import sys
 import time
 
-from tornado.web import Application
 from tornado.ioloop import IOLoop
+from tornado.web import Application
 
 import handlers
 import settings
@@ -284,15 +284,14 @@ def test_requirements():
 
         
 def start_motion():
-    import tornado.ioloop
     import config
     import motionctl
 
-    ioloop = tornado.ioloop.IOLoop.instance()
+    io_loop = IOLoop.instance()
     
     # add a motion running checker
     def checker():
-        if ioloop._stopped:
+        if io_loop._stopped:
             return
             
         if not motionctl.running() and motionctl.started() and config.get_enabled_local_motion_cameras():
@@ -304,11 +303,11 @@ def start_motion():
                 logging.error('failed to start motion: %(msg)s' % {
                         'msg': unicode(e)}, exc_info=True)
 
-        ioloop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
+        io_loop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
     
     motionctl.start()
         
-    ioloop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
+    io_loop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
 
 
 def parse_options(parser, args):
@@ -367,7 +366,8 @@ def run():
     application.listen(settings.PORT, settings.LISTEN)
     logging.info('server started')
     
-    IOLoop.instance().start()
+    io_loop = IOLoop.instance()
+    io_loop.start()
 
     logging.info('server stopped')
     

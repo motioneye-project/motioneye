@@ -22,8 +22,6 @@ import os.path
 import pipes
 import sys
 
-from tornado.httpclient import AsyncHTTPClient
-
 # make sure motioneye is on python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -178,6 +176,8 @@ def configure_logging(cmd, log_to_file=False):
 
 
 def configure_tornado():
+    from tornado.httpclient import AsyncHTTPClient
+
     AsyncHTTPClient.configure('tornado.curl_httpclient.CurlAsyncHTTPClient', max_clients=16)
 
 
@@ -242,21 +242,21 @@ def main():
     command = sys.argv[1]
     arg_parser = make_arg_parser(command)
 
-    import relayevent
-    import sendmail
-    import server
-    import webhook
 
     if command in ('startserver', 'stopserver'):
+        import server
         server.main(arg_parser, sys.argv[2:], command[:-6])
 
     elif command == 'sendmail':
+        import sendmail
         sendmail.main(arg_parser, sys.argv[2:])
     
     elif command == 'relayevent':
+        import relayevent
         relayevent.main(arg_parser, sys.argv[2:])
 
     elif command == 'webhook':
+        import webhook
         webhook.main(arg_parser, sys.argv[2:])
 
     else:

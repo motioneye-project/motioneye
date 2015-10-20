@@ -19,6 +19,7 @@ import datetime
 import logging
 import os
 import re
+import signal
 import smtplib
 import socket
 import time
@@ -27,6 +28,7 @@ from email import Encoders
 from email.mime.text import MIMEText
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEBase import MIMEBase
+
 from tornado.ioloop import IOLoop
 
 import settings
@@ -81,16 +83,21 @@ def send_mail(server, port, account, password, tls, to, subject, message, files)
 def make_message(subject, message, camera_id, moment, timespan, callback):
     camera_config = config.get_camera(camera_id)
     
+    # we must start the IO loop for the media list subprocess polling
+    io_loop = IOLoop.instance()
+
     def on_media_files(media_files):
-        logging.debug('got media files')
+        io_loop.stop()
         
         timestamp = time.mktime(moment.timetuple())
 
-        media_files = [m for m in media_files if abs(m['timestamp'] - timestamp) < timespan] # filter out non-recent media files
-        media_files.sort(key=lambda m: m['timestamp'], reverse=True)
-        media_files = [os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path'])) for m in media_files]
+        if media_files:
+            logging.debug('got media files')
+            media_files = [m for m in media_files if abs(m['timestamp'] - timestamp) < timespan] # filter out non-recent media files
+            media_files.sort(key=lambda m: m['timestamp'], reverse=True)
+            media_files = [os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path'])) for m in media_files]
         
-        logging.debug('selected %d pictures' % len(media_files))
+            logging.debug('selected %d pictures' % len(media_files))
 
         format_dict = {
             'camera': camera_config['@name'],
@@ -99,8 +106,8 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
         }
         
         if settings.LOCAL_TIME_FILE:
-            format_dict['timezone'] = tzctl._get_time_zone()
-        
+            format_dict['timezone'] = tzctl.get_time_zone()
+
         else:
             format_dict['timezone'] = 'local time'
     
@@ -115,11 +122,14 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
 
     if not timespan:
         return on_media_files([])
-
-    logging.debug('creating email message')
-
+    
+    logging.debug('waiting for pictures to be taken')
     time.sleep(timespan) # give motion some time to create motion pictures
+    
+    logging.debug('creating email message')
     mediafiles.list_media(camera_config, media_type='picture', callback=on_media_files)
+    
+    io_loop.start()
 
 
 def parse_options(parser, args):
@@ -140,10 +150,14 @@ def parse_options(parser, args):
 def main(parser, args):
     import meyectl
     
+    # the motion daemon overrides SIGCHLD,
+    # so we must restore it here,
+    # or otherwise media listing won't work
+    signal.signal(signal.SIGCHLD,signal.SIG_DFL)
+
     options = parse_options(parser, args)
     
     meyectl.configure_logging('sendmail', options.log_to_file)
-    meyectl.configure_tornado()
 
     logging.debug('hello!')
 
@@ -153,6 +167,10 @@ def main(parser, args):
     message = messages.get(options.msg_id)
     subject = subjects.get(options.msg_id)
     options.moment = datetime.datetime.strptime(options.moment, '%Y-%m-%dT%H:%M:%S')
+    
+    # do not wait too long for media list,
+    # email notifications are critical
+    settings.LIST_MEDIA_TIMEOUT = 10
     
     logging.debug('server = %s' % options.server)
     logging.debug('port = %s' % options.port)
@@ -170,25 +188,15 @@ def main(parser, args):
     to = [t.strip() for t in re.split('[,;| ]', options.to)]
     to = [t for t in to if t]
 
-    io_loop = IOLoop.instance()
-    
     def on_message(subject, message, files):
         try:
             send_mail(options.server, options.port, options.account, options.password,
-                    options.tls, to, subject, message, files)
+                    options.tls, to, subject, message, files or [])
             logging.info('email sent')
 
         except Exception as e:
             logging.error('failed to send mail: %s' % e, exc_info=True)
 
-        io_loop.stop()
-    
-    def ioloop_timeout():
-        io_loop.stop()
+        logging.debug('bye!')
     
     make_message(subject, message, options.camera_id, options.moment, options.timespan, on_message)
-
-    io_loop.add_timeout(datetime.timedelta(seconds=settings.SMTP_TIMEOUT), ioloop_timeout)
-    io_loop.start()
-
-    logging.debug('bye!')

@@ -27,6 +27,10 @@ from config import additional_config
 LOCAL_TIME_FILE = settings.LOCAL_TIME_FILE  # @UndefinedVariable
 
 
+def get_time_zone():
+    return _get_time_zone_symlink() or _get_time_zone_md5() or 'UTC'
+
+
 def _get_time_zone_symlink():
     file = settings.LOCAL_TIME_FILE
     if not file:
@@ -86,10 +90,6 @@ def _get_time_zone_md5():
     return time_zone
 
 
-def _get_time_zone():
-    return _get_time_zone_symlink() or _get_time_zone_md5() or 'UTC'
-
-
 def _set_time_zone(time_zone):
     time_zone = time_zone or 'UTC'
 
@@ -134,6 +134,6 @@ def timeZone():
         'section': 'general',
         'advanced': True,
         'reboot': True,
-        'get': _get_time_zone,
+        'get': get_time_zone,
         'set': _set_time_zone
     }
