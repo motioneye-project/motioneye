@@ -263,7 +263,7 @@ def _get_ctrl(device, control):
     controls = _list_ctrls(device)
     properties = controls.get(control)
     if properties is None:
-        logging.warn('control %(control)s not found for device %(device)s' % {
+        logging.debug('control %(control)s not found for device %(device)s' % {
                 'control': control, 'device': device})
         
         return None
@@ -298,7 +298,7 @@ def _set_ctrl(device, control, value):
     controls = _list_ctrls(device)
     properties = controls.get(control)
     if properties is None:
-        logging.warn('control %(control)s not found for device %(device)s' % {
+        logging.debug('control %(control)s not found for device %(device)s' % {
                 'control': control, 'device': device})
         
         return
