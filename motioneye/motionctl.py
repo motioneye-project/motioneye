@@ -218,7 +218,7 @@ def get_motion_detection(camera_id, callback):
     
     def on_response(response):
         if response.error:
-            return callback(error=utils.pretty_http_error())
+            return callback(error=utils.pretty_http_error(response))
 
         enabled = bool(response.body.lower().count('active'))
         

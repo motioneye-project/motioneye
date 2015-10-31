@@ -665,7 +665,7 @@ def build_digest_header(method, url, username, password, state):
 
     last_nonce = nonce
 
-    base = 'username="%s", realm="%s", nonce="%s", path="%s", ' \
+    base = 'username="%s", realm="%s", nonce="%s", uri="%s", ' \
            'response="%s"' % (username, realm, nonce, path, respdig)
     if opaque:
         base += ', opaque="%s"' % opaque

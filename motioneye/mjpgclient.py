@@ -113,12 +113,7 @@ class MjpgClient(IOStream):
         logging.debug('mjpg client for camera %(camera_id)s connected on port %(port)s' % {
                 'port': self._port, 'camera_id': self._camera_id})
         
-        if self._username:
-            auth_header = utils.build_basic_header(self._username, self._password)
-            self.write('GET / HTTP/1.0\r\n\r\nAuthorization: %s\r\n\r\n' % auth_header)
-            
-        else:
-            self.write('GET / HTTP/1.0\r\n\r\n')
+        self.write('GET / HTTP/1.0\r\n\r\n')
 
         self._seek_http()
 
