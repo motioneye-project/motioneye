@@ -101,9 +101,9 @@ def start(deferred=False):
     
     args = [program,
             '-n',
-            '-d',
             '-c', motion_config_path]
     
+    args.append('-d')
     if settings.LOG_LEVEL == logging.DEBUG:
         args.append('9')
     
