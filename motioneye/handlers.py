@@ -726,6 +726,9 @@ class PictureHandler(BaseHandler):
     
     @asynchronous
     def post(self, camera_id, op, filename=None, group=None):
+        if group == '/': # ungrouped
+            group = ''
+        
         if camera_id is not None:
             camera_id = int(camera_id)
             if camera_id not in config.get_camera_ids():
@@ -935,8 +938,8 @@ class PictureHandler(BaseHandler):
         camera_config = config.get_camera(camera_id)
         
         if key:
-            logging.debug('serving zip file for group %(group)s of camera %(id)s with key %(key)s' % {
-                    'group': group, 'id': camera_id, 'key': key})
+            logging.debug('serving zip file for group "%(group)s" of camera %(id)s with key %(key)s' % {
+                    'group': group or 'ungrouped', 'id': camera_id, 'key': key})
             
             if utils.local_motion_camera(camera_config):
                 data = mediafiles.get_prepared_cache(key)
@@ -968,8 +971,8 @@ class PictureHandler(BaseHandler):
                 raise HTTPError(400, 'unknown operation')
 
         else: # prepare
-            logging.debug('preparing zip file for group %(group)s of camera %(id)s' % {
-                    'group': group, 'id': camera_id})
+            logging.debug('preparing zip file for group "%(group)s" of camera %(id)s' % {
+                    'group': group or 'ungrouped', 'id': camera_id})
 
             if utils.local_motion_camera(camera_config):
                 def on_zip(data):
@@ -977,8 +980,8 @@ class PictureHandler(BaseHandler):
                         return self.finish_json({'error': 'Failed to create zip file.'})
     
                     key = mediafiles.set_prepared_cache(data)
-                    logging.debug('prepared zip file for group %(group)s of camera %(id)s with key %(key)s' % {
-                            'group': group, 'id': camera_id, 'key': key})
+                    logging.debug('prepared zip file for group "%(group)s" of camera %(id)s with key %(key)s' % {
+                            'group': group or 'ungrouped', 'id': camera_id, 'key': key})
                     self.finish_json({'key': key})
     
                 mediafiles.get_zipped_content(camera_config, media_type='picture', group=group, callback=on_zip)
@@ -1003,8 +1006,8 @@ class PictureHandler(BaseHandler):
         camera_config = config.get_camera(camera_id)
 
         if key: # download
-            logging.debug('serving timelapse movie for group %(group)s of camera %(id)s with key %(key)s' % {
-                    'group': group, 'id': camera_id, 'key': key})
+            logging.debug('serving timelapse movie for group "%(group)s" of camera %(id)s with key %(key)s' % {
+                    'group': group or 'ungrouped', 'id': camera_id, 'key': key})
             
             if utils.local_motion_camera(camera_config):
                 data = mediafiles.get_prepared_cache(key)
@@ -1036,15 +1039,15 @@ class PictureHandler(BaseHandler):
                 raise HTTPError(400, 'unknown operation')
 
         elif check:
-            logging.debug('checking timelapse movie status for group %(group)s of camera %(id)s' % {
-                    'group': group, 'id': camera_id})
+            logging.debug('checking timelapse movie status for group "%(group)s" of camera %(id)s' % {
+                    'group': group or 'ungrouped', 'id': camera_id})
 
             if utils.local_motion_camera(camera_config):
                 status = mediafiles.check_timelapse_movie()
                 if status['progress'] == -1 and status['data']:
                     key = mediafiles.set_prepared_cache(status['data'])
-                    logging.debug('prepared timelapse movie for group %(group)s of camera %(id)s with key %(key)s' % {
-                            'group': group, 'id': camera_id, 'key': key})
+                    logging.debug('prepared timelapse movie for group "%(group)s" of camera %(id)s with key %(key)s' % {
+                            'group': group or 'ungrouped', 'id': camera_id, 'key': key})
                     self.finish_json({'key': key, 'progress': -1})
 
                 else:
@@ -1071,8 +1074,8 @@ class PictureHandler(BaseHandler):
             interval = int(self.get_argument('interval'))
             framerate = int(self.get_argument('framerate'))
 
-            logging.debug('preparing timelapse movie for group %(group)s of camera %(id)s with rate %(framerate)s/%(int)s' % {
-                    'group': group, 'id': camera_id, 'framerate': framerate, 'int': interval})
+            logging.debug('preparing timelapse movie for group "%(group)s" of camera %(id)s with rate %(framerate)s/%(int)s' % {
+                    'group': group or 'ungrouped', 'id': camera_id, 'framerate': framerate, 'int': interval})
 
             if utils.local_motion_camera(camera_config):
                 status = mediafiles.check_timelapse_movie()
@@ -1108,8 +1111,8 @@ class PictureHandler(BaseHandler):
 
     @BaseHandler.auth(admin=True)
     def delete_all(self, camera_id, group):
-        logging.debug('deleting picture group %(group)s of camera %(id)s' % {
-                'group': group, 'id': camera_id})
+        logging.debug('deleting picture group "%(group)s" of camera %(id)s' % {
+                'group': group or 'ungrouped', 'id': camera_id})
 
         camera_config = config.get_camera(camera_id)
         if utils.local_motion_camera(camera_config):
@@ -1123,7 +1126,7 @@ class PictureHandler(BaseHandler):
         elif utils.remote_camera(camera_config):
             def on_response(response=None, error=None):
                 if error:
-                    return self.finish_json({'error': 'Failed to delete picture group from %(url)s: %(msg)s.' % {
+                    return self.finish_json({'error': 'Failed to delete picture group at %(url)s: %(msg)s.' % {
                             'url': remote.pretty_camera_url(camera_config), 'msg': error}})
 
                 self.finish_json()
@@ -1163,6 +1166,9 @@ class MovieHandler(BaseHandler):
     
     @asynchronous
     def post(self, camera_id, op, filename=None, group=None):
+        if group == '/': # ungrouped
+            group = ''
+
         if camera_id is not None:
             camera_id = int(camera_id)
             if camera_id not in config.get_camera_ids():
@@ -1308,8 +1314,8 @@ class MovieHandler(BaseHandler):
 
     @BaseHandler.auth(admin=True)
     def delete_all(self, camera_id, group):
-        logging.debug('deleting movie group %(group)s of camera %(id)s' % {
-                'group': group, 'id': camera_id})
+        logging.debug('deleting movie group "%(group)s" of camera %(id)s' % {
+                'group': group or 'ungrouped', 'id': camera_id})
 
         camera_config = config.get_camera(camera_id)
         if utils.local_motion_camera(camera_config):
@@ -1323,7 +1329,7 @@ class MovieHandler(BaseHandler):
         elif utils.remote_camera(camera_config):
             def on_response(response=None, error=None):
                 if error:
-                    return self.finish_json({'error': 'Failed to delete movie group from %(url)s: %(msg)s.' % {
+                    return self.finish_json({'error': 'Failed to delete movie group at %(url)s: %(msg)s.' % {
                             'url': remote.pretty_camera_url(camera_config), 'msg': error}})
 
                 self.finish_json()

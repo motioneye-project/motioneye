@@ -366,8 +366,8 @@ def get_media_content(local_config, filename, media_type, callback):
 def make_zipped_content(local_config, media_type, group, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
-    logging.debug('preparing zip file for group %(group)s of remote camera %(id)s on %(url)s' % {
-            'group': group,
+    logging.debug('preparing zip file for group "%(group)s" of remote camera %(id)s on %(url)s' % {
+            'group': group or 'ungrouped',
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
 
@@ -381,8 +381,8 @@ def make_zipped_content(local_config, media_type, group, callback):
 
     def on_response(response):
         if response.error:
-            logging.error('failed to prepare zip file for group %(group)s of remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'group': group,
+            logging.error('failed to prepare zip file for group "%(group)s" of remote camera %(id)s on %(url)s: %(msg)s' % {
+                    'group': group or 'ungrouped',
                     'id': camera_id,
                     'url': pretty_camera_url(local_config),
                     'msg': utils.pretty_http_error(response)})
@@ -441,8 +441,8 @@ def get_zipped_content(local_config, media_type, key, group, callback):
 def make_timelapse_movie(local_config, framerate, interval, group, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
-    logging.debug('making timelapse movie for group %(group)s of remote camera %(id)s with rate %(framerate)s/%(int)s on %(url)s' % {
-            'group': group,
+    logging.debug('making timelapse movie for group "%(group)s" of remote camera %(id)s with rate %(framerate)s/%(int)s on %(url)s' % {
+            'group': group or 'ungrouped',
             'id': camera_id,
             'framerate': framerate,
             'int': interval,
@@ -458,8 +458,8 @@ def make_timelapse_movie(local_config, framerate, interval, group, callback):
 
     def on_response(response):
         if response.error:
-            logging.error('failed to make timelapse movie for group %(group)s of remote camera %(id)s with rate %(framerate)s/%(int)s on %(url)s: %(msg)s' % {
-                    'group': group,
+            logging.error('failed to make timelapse movie for group "%(group)s" of remote camera %(id)s with rate %(framerate)s/%(int)s on %(url)s: %(msg)s' % {
+                    'group': group or 'ungrouped',
                     'id': camera_id,
                     'url': pretty_camera_url(local_config),
                     'int': interval,
@@ -625,8 +625,8 @@ def del_media_content(local_config, filename, media_type, callback):
 def del_media_group(local_config, group, media_type, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
-    logging.debug('deleting group %(group)s of remote camera %(id)s on %(url)s' % {
-            'group': group,
+    logging.debug('deleting group "%(group)s" of remote camera %(id)s on %(url)s' % {
+            'group': group or 'ungrouped',
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
@@ -639,8 +639,8 @@ def del_media_group(local_config, group, media_type, callback):
 
     def on_response(response):
         if response.error:
-            logging.error('failed to delete group %(group)s of remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'group': group,
+            logging.error('failed to delete group "%(group)s" of remote camera %(id)s on %(url)s: %(msg)s' % {
+                    'group': group or 'ungrouped',
                     'id': camera_id,
                     'url': pretty_camera_url(local_config),
                     'msg': utils.pretty_http_error(response)})

@@ -258,6 +258,59 @@ function ajax(method, url, data, callback, error, timeout) {
     $.ajax(options);
 }
 
+function getCookie(name) {
+    if (document.cookie.length <= 0) {
+        return null;
+    }
+
+    var start = document.cookie.indexOf(name + '=');
+    if (start == -1) {
+        return null;
+    }
+     
+    var start = start + name.length + 1;
+    var end = document.cookie.indexOf(';', start);
+    if (end == -1) {
+        end = document.cookie.length;
+    }
+    
+    return unescape(document.cookie.substring(start, end));
+}
+
+function setCookie(name, value, days) {
+    var date, expires;
+    if (days) {
+        date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = 'expires=' + date.toGMTString();
+    }
+    else {
+        expires = '';
+    }
+
+    document.cookie = name + '=' + value + '; ' + expires + '; path=/';
+}
+
+function remCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function showErrorMessage(message) {
+    if (message == null || message == true) {
+        message = 'An error occurred. Refreshing is recommended.';
+    }
+    
+    showPopupMessage(message, 'error');
+}
+
+function doLogout() {
+    setCookie('username', '_');
+    window.location.reload(true);
+}
+
+
+    /* Object utilities */
+
 Object.keys = Object.keys || (function () {
     var hasOwnProperty = Object.prototype.hasOwnProperty;
     var hasDontEnumBug = !({toString: null}).propertyIsEnumerable('toString');
@@ -305,6 +358,9 @@ Object.update = function (dest, source) {
         dest[key] = source[key];
     }
 };
+
+
+    /* Array utilities */
 
 Array.prototype.indexOf = Array.prototype.indexOf || function (obj) {
     for (var i = 0; i < this.length; i++) {
@@ -390,6 +446,9 @@ Array.prototype.sortKey = function (keyFunc, reverse) {
     });
 };
 
+
+    /* String utilities */
+
 String.prototype.startsWith = String.prototype.startsWith || function (str) {
     return (this.substr(0, str.length) === str);
 };
@@ -411,58 +470,33 @@ String.prototype.replaceAll = String.prototype.replaceAll || function (oldStr, n
     return s.toString();
 };
 
-function getCookie(name) {
-    if (document.cookie.length <= 0) {
-        return null;
-    }
-
-    var start = document.cookie.indexOf(name + '=');
-    if (start == -1) {
-        return null;
-    }
-     
-    var start = start + name.length + 1;
-    var end = document.cookie.indexOf(';', start);
-    if (end == -1) {
-        end = document.cookie.length;
+String.prototype.format = function () {
+    var text = this;
+    
+    var rex = new RegExp('%[sdf]');
+    var match, i = 0;
+    while (match = text.match(rex)) {
+        text = text.substring(0, match.index) + arguments[i] + text.substring(match.index + 2);
+        i++;
     }
     
-    return unescape(document.cookie.substring(start, end));
-}
-
-function setCookie(name, value, days) {
-    var date, expires;
-    if (days) {
-        date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = 'expires=' + date.toGMTString();
-    }
-    else {
-        expires = '';
-    }
-
-    document.cookie = name + '=' + value + '; ' + expires + '; path=/';
-}
-
-function remCookie(name) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
-function showErrorMessage(message) {
-    if (message == null || message == true) {
-        message = 'An error occurred. Refreshing is recommended.';
+    if (i) { /* %s format used */
+        return text;
     }
     
-    showPopupMessage(message, 'error');
-}
+    var keywords = arguments[0];
+    
+    for (var key in keywords) {
+        text = text.replace('%(' + key + ')s', "" + keywords[key]);
+        text = text.replace('%(' + key + ')d', "" + keywords[key]);
+        text = text.replace('%(' + key + ')f', "" + keywords[key]);
+    }
+    
+    return text;
+};
 
-function doLogout() {
-    setCookie('username', '_');
-    window.location.reload(true);
-}
-
-
-/* UI initialization */
+    
+    /* UI initialization */
 
 function initUI() {
     /* checkboxes */
@@ -2276,9 +2310,30 @@ function doDeleteFile(path, callback) {
 }
 
 function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
-    runConfirmDialog('Really delete all ' + mediaType + 's in ' + groupKey + '?', function () {
+    var msg;
+    if (groupKey) {
+        if (mediaType == 'picture') {
+            msg = 'Really delete all pictures from "%(group)s"?'.format({group: groupKey});
+        }
+        else {
+            msg = 'Really delete all movies from "%(group)s"?'.format({group: groupKey});
+        }
+    }
+    else {
+        if (mediaType == 'picture') {
+            msg = 'Really delete all ungrouped pictures?';
+        }
+        else {
+            msg = 'Really delete all ungrouped movies?';
+        }
+    }
+    
+    runConfirmDialog(msg, function () {
         showModalDialog('<div class="modal-progress"></div>', null, null, true);
-        ajax('POST', basePath + mediaType + '/' + cameraId + '/delete_all/' + groupKey + '/', null, function (data) {
+        if (groupKey) {
+            groupKey += '/';
+        }
+        ajax('POST', basePath + mediaType + '/' + cameraId + '/delete_all/' + groupKey, null, function (data) {
             hideModalDialog(); /* progress */
             hideModalDialog(); /* confirm */
             
