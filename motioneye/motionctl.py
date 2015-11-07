@@ -62,7 +62,7 @@ def find_motion():
     except subprocess.CalledProcessError: # not found
         return None
     
-    result = re.findall('^motion Version ([^,]+)', help)
+    result = re.findall('motion Version ([^,]+)', help, re.IGNORECASE)
     version = result and result[0] or ''
     
     _motion_binary_cache = (binary, version)

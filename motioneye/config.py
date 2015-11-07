@@ -1370,7 +1370,7 @@ def motion_rtsp_support():
             if version > _LAST_OLD_CONFIG_VERSIONS[0]:
                 return ['tcp']
         
-        elif version.count('Git'): # e.g. Unofficial-Git-a5b5f13
+        elif version.lower().count('git'): # e.g. Unofficial-Git-a5b5f13
             return ['tcp', 'udp'] # all git versions are assumed to support both transport protocols
         
         else: # stable release, should be in the format x.y.z
