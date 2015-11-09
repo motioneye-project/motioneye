@@ -108,7 +108,7 @@ def start(deferred=False):
         args.append('9')
     
     else:
-        args.append('6')
+        args.append('5')
 
     log_file = open(motion_log_path, 'w')
     
