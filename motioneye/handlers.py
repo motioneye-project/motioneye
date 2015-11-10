@@ -30,6 +30,7 @@ import config
 import mediafiles
 import motionctl
 import powerctl
+import prefs
 import remote
 import settings
 import smbctl
@@ -90,6 +91,12 @@ class BaseHandler(RequestHandler):
             logging.error('authentication failed for user %(user)s' % {'user': username})
 
         return None
+    
+    def get_pref(self, key, default=None):
+        return prefs.get(self.current_user or 'anonymous', key, default)
+        
+    def set_pref(self, key, value):
+        return prefs.set(self.current_user or 'anonymous', key, value)
         
     def _handle_request_exception(self, exception):
         try:
@@ -1339,6 +1346,22 @@ class MovieHandler(BaseHandler):
         else: # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
 
+
+class PrefsHandler(BaseHandler):
+    def get(self, key):
+        self.finish_json(self.get_pref(key))
+
+    def post(self, key):
+        try:
+            value = json.loads(self.request.body)
+
+        except Exception as e:
+            logging.error('could not decode json: %s' % e)
+
+            raise
+
+        self.set_pref(key, value)
+    
 
 class RelayEventHandler(BaseHandler):
     @BaseHandler.auth(admin=True)

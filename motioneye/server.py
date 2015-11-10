@@ -170,6 +170,7 @@ handler_mapping = [
     (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', handlers.MovieHandler),
     (r'^/movie/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.MovieHandler),
     (r'^/movie/(?P<camera_id>\d+)/(?P<op>delete_all)/(?P<group>.*?)/?$', handlers.MovieHandler),
+    (r'^/prefs/(?P<key>\w+)/?$', handlers.PrefsHandler),
     (r'^/_relay_event/?$', handlers.RelayEventHandler),
     (r'^/log/(?P<name>\w+)/?$', handlers.LogHandler),
     (r'^/update/?$', handlers.UpdateHandler),
