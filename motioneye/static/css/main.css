@@ -585,6 +585,7 @@ div.media-dialog-group-button.current:ACTIVE {
 div.media-dialog-list {
     overflow: auto;
     position: relative;
+    display: inline-block;
 }
 
 div.media-list-group-title {
