@@ -1197,7 +1197,7 @@ def motion_camera_dict_to_ui(data):
                 continue
 
             ui['web_hook_notifications_enabled'] = True 
-            ui['web_hook_notifications_http_method'] = e[-1]
+            ui['web_hook_notifications_http_method'] = e[-2]
             ui['web_hook_notifications_url'] = e[-1]
         
         elif e.count('relayevent') or e.count('eventrelay.py'):
