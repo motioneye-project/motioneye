@@ -113,7 +113,7 @@ def load_settings():
             setattr(settings, upper_name, value)
 
         else:
-            raise Exception('unknown configuration option: %s' % name)
+            logging.warn('unknown configuration option: %s' % name)
 
     if config_file:
         try:
