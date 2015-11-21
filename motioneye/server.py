@@ -20,6 +20,7 @@ import datetime
 import logging
 import multiprocessing
 import os
+import re
 import signal
 import sys
 import time
@@ -33,6 +34,7 @@ import template
 
 
 _PID_FILE = 'motioneye.pid'
+_CURRENT_PICTURE_REGEX = re.compile('^/picture/\d+/current')
 
 
 class Daemon(object):
@@ -146,8 +148,11 @@ class Daemon(object):
 
 
 def _log_request(handler):
+    log_method = None
+
     if handler.get_status() < 400:
-        log_method = logging.debug
+        if not _CURRENT_PICTURE_REGEX.match(handler.request.uri):
+            log_method = logging.debug
     
     elif handler.get_status() < 500:
         log_method = logging.warning
@@ -155,9 +160,10 @@ def _log_request(handler):
     else:
         log_method = logging.error
     
-    request_time = 1000.0 * handler.request.request_time()
-    log_method("%d %s %.2fms", handler.get_status(),
-               handler._request_summary(), request_time)
+    if log_method:
+        request_time = 1000.0 * handler.request.request_time()
+        log_method("%d %s %.2fms", handler.get_status(),
+                   handler._request_summary(), request_time)
 
 handler_mapping = [
     (r'^/$', handlers.MainHandler),
@@ -324,7 +330,7 @@ def run():
     import motionctl
     import motioneye
     import smbctl
-    import thumbnailer
+    import tasker
     import wsswitch
 
     configure_signals()
@@ -347,9 +353,8 @@ def run():
     wsswitch.start()
     logging.info('wsswitch started')
 
-    if settings.THUMBNAILER_INTERVAL:
-        thumbnailer.start()
-        logging.info('thumbnailer started')
+    tasker.start()
+    logging.info('tasker started')
 
     if settings.MJPG_CLIENT_TIMEOUT:
         mjpgclient.start()
@@ -372,10 +377,6 @@ def run():
 
     logging.info('server stopped')
     
-    if thumbnailer.running():
-        thumbnailer.stop()
-        logging.info('thumbnailer stopped')
-
     if cleanup.running():
         cleanup.stop()
         logging.info('cleanup stopped')

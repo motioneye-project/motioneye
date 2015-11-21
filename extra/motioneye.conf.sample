@@ -46,10 +46,6 @@ motion_check_interval 10
 # to remove old pictures and movies
 cleanup_interval 43200
 
-# interval in seconds at which the thumbnail mechanism runs
-# (set to 0 to disable) 
-thumbnailer_interval 60
-
 # timeout in seconds to wait for response from a remote motionEye server
 remote_request_timeout 10
 

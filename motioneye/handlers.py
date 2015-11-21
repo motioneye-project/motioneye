@@ -34,6 +34,7 @@ import prefs
 import remote
 import settings
 import smbctl
+import tasker
 import template
 import update
 import utils
@@ -41,23 +42,50 @@ import v4l2ctl
 
 
 class BaseHandler(RequestHandler):
-    def get_data(self):
+    def get_all_arguments(self):
         keys = self.request.arguments.keys()
-        data = dict([(key, self.get_argument(key)) for key in keys])
+        arguments = dict([(key, self.get_argument(key)) for key in keys])
 
         for key in self.request.files:
             files = self.request.files[key]
             if len(files) > 1:
-                data[key] = files
+                arguments[key] = files
 
             elif len(files) > 0:
-                data[key] = files[0]
+                arguments[key] = files[0]
 
             else:
                 continue
+        
+        # consider the json passed in body as well
+        data = self.get_json()
+        if data and isinstance(data, dict):
+            arguments.update(data)
 
-        return data
+        return arguments
     
+    def get_json(self):
+        if not hasattr(self, '_json'):
+            self._json = None
+            if self.request.headers.get('Content-Type', '').startswith('application/json'):
+                self._json = json.loads(self.request.body)
+
+        return self._json
+    
+    def get_argument(self, name, default=None):
+        DEF = {}
+        argument = RequestHandler.get_argument(self, name, default=DEF)
+        if argument is DEF:
+            # try to find it in json body
+            data = self.get_json()
+            if data:
+                argument = data.get(name, DEF)
+        
+            if argument is DEF:
+                argument = default
+        
+        return argument
+
     def render(self, template_name, content_type='text/html', **context):
         self.set_header('Content-Type', content_type)
         
@@ -492,7 +520,7 @@ class ConfigHandler(BaseHandler):
     def list(self):
         logging.debug('listing cameras')
 
-        proto = self.get_data().get('proto')        
+        proto = self.get_argument('proto')        
         if proto == 'motioneye':  # remote listing
             def on_response(cameras=None, error=None):
                 if error:
@@ -501,10 +529,10 @@ class ConfigHandler(BaseHandler):
                 else:
                     self.finish_json({'cameras': cameras})
 
-            remote.list(self.get_data(), on_response)
+            remote.list(self.get_all_arguments(), on_response)
         
         elif proto == 'netcam':
-            scheme = self.get_data().get('scheme', 'http')
+            scheme = self.get_argument('scheme', 'http')
 
             def on_response(cameras=None, error=None):
                 if error:
@@ -514,10 +542,10 @@ class ConfigHandler(BaseHandler):
                     self.finish_json({'cameras': cameras})
             
             if scheme in ['http', 'https']:
-                utils.test_mjpeg_url(self.get_data(), auth_modes=['basic'], allow_jpeg=True, callback=on_response)
+                utils.test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic'], allow_jpeg=True, callback=on_response)
                 
             elif config.motion_rtsp_support() and scheme == 'rtsp':
-                utils.test_rtsp_url(self.get_data(), callback=on_response)
+                utils.test_rtsp_url(self.get_all_arguments(), callback=on_response)
                 
             else:
                 on_response(error='protocol %s not supported' % scheme)
@@ -530,7 +558,7 @@ class ConfigHandler(BaseHandler):
                 else:
                     self.finish_json({'cameras': cameras})
             
-            utils.test_mjpeg_url(self.get_data(), auth_modes=['basic', 'digest'], allow_jpeg=False, callback=on_response)
+            utils.test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic', 'digest'], allow_jpeg=False, callback=on_response)
         
         elif proto == 'v4l2':
             configured_devices = set()
@@ -1372,7 +1400,7 @@ class RelayEventHandler(BaseHandler):
         
         camera_id = motionctl.thread_id_to_camera_id(thread_id)
         if camera_id is None:
-            logging.debug('ignoring event for thread id %s' % thread_id)
+            logging.debug('ignoring event for unknown thread id %s' % thread_id)
             return self.finish_json()
         
         camera_config = config.get_camera(camera_id)
@@ -1389,6 +1417,17 @@ class RelayEventHandler(BaseHandler):
             
         elif event == 'stop':
             motionctl.set_motion_detected(camera_id, False)
+            
+        elif event == 'movie_end':
+            full_path = self.get_argument('filename')
+            
+            # generate preview (thumbnail)
+            tasker.add_task(5, mediafiles.make_movie_preview, tag='make_movie_preview(%s)' % full_path, async=True,
+                    camera_config=camera_config, full_path=full_path)
+
+            # upload TODO
+#             tasker.add_task(5, upload.upload_media_file, tag='upload_media_file(%s)' % full_path,
+#                     camera_config=camera_config, full_path=full_path)
 
         else:
             logging.warn('unknown event %s' % event)

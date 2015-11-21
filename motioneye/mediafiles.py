@@ -42,9 +42,6 @@ import utils
 _PICTURE_EXTS = ['.jpg']
 _MOVIE_EXTS = ['.avi', '.mp4']
 
-# a cache list of paths to movies without preview
-_previewless_movie_files = []
-
 # a cache of prepared files (whose preparing time is significant)
 _prepared_files = {}
 
@@ -242,43 +239,6 @@ def make_movie_preview(camera_config, full_path):
             return None
     
     return full_path + '.thumb'
-
-
-def make_next_movie_preview():
-    global _previewless_movie_files
-    
-    logging.debug('making preview for the next movie...')
-    
-    if _previewless_movie_files:
-        (camera_config, path) = _previewless_movie_files.pop(0)
-        
-        make_movie_preview(camera_config, path)
-    
-    else:
-        logging.debug('gathering movies without preview...')
-        
-        count = 0
-        for camera_id in config.get_camera_ids():
-            camera_config = config.get_camera(camera_id)
-            if not utils.local_motion_camera(camera_config):
-                continue
-            
-            target_dir = camera_config['target_dir']
-            
-            for (full_path, st) in _list_media_files(target_dir, _MOVIE_EXTS):  # @UnusedVariable
-                if os.path.exists(full_path + '.thumb'):
-                    continue
-                
-                logging.debug('found a movie without preview: %(path)s' % {
-                        'path': full_path})
-                
-                _previewless_movie_files.append((camera_config, full_path))
-                count += 1
-        
-        logging.debug('found %(count)d movies without preview' % {'count': count})    
-        
-        if count:
-            make_next_movie_preview()
 
 
 def list_media(camera_config, media_type, callback, prefix=None):
@@ -669,6 +629,10 @@ def get_media_preview(camera_config, path, media_type, width, height):
     
     if media_type == 'movie':
         if not os.path.exists(full_path + '.thumb'):
+            # at this point we expect the thumb to
+            # have already been created by the thumbnailer task;
+            # if, for some reason that's not the case,
+            # we create it right away 
             if not make_movie_preview(camera_config, full_path):
                 return None
         

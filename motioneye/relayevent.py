@@ -20,7 +20,7 @@ import json
 import logging
 import os.path
 import sys
-import urllib
+import urllib2
 
 sys.path.append(os.path.join(os.path.dirname(sys.argv[0]),'src'))
 
@@ -89,6 +89,7 @@ def get_admin_credentials():
 def parse_options(parser, args):
     parser.add_argument('event', help='the name of the event to relay')
     parser.add_argument('thread_id', help='the id of the thread')
+    parser.add_argument('filename', nargs='?', help='the name of the file related to the event')
 
     return parser.parse_args(args)
     
@@ -104,21 +105,32 @@ def main(parser, args):
     logging.debug('hello!')
     logging.debug('event = %s' % options.event)
     logging.debug('thread_id = %s' % options.thread_id)
+    if options.filename:
+        logging.debug('filename = %s' % options.filename)
     
     admin_username, admin_password = get_admin_credentials()
-
-    path = '/_relay_event/?event=%(event)s&thread_id=%(thread_id)s&_username=%(username)s' % {
-            'username': admin_username,
-            'thread_id': options.thread_id,
-            'event': options.event}
     
-    signature = utils.compute_signature('POST', path, '', admin_password)
+    data = {
+        '_username': admin_username,
+        'thread_id': options.thread_id,
+        'event': options.event
+    }
     
-    url = 'http://127.0.0.1:%(port)s' + path + '&_signature=' + signature
+    if options.filename:
+        data['filename'] = options.filename
+    
+    path = '/_relay_event/'
+    body = json.dumps(data)
+    
+    signature = utils.compute_signature('POST', path, body, admin_password)
+    
+    url = 'http://127.0.0.1:%(port)s' + path + '?_signature=' + signature
     url = url % {'port': settings.PORT}
     
+    request = urllib2.Request(url, data=body, headers={'Content-Type': 'application/json'})
+    
     try:
-        response = urllib.urlopen(url, data='')
+        response = urllib2.urlopen(request)
         response = json.load(response)
         if response.get('error'):
             raise Exception(response['error'])

@@ -51,11 +51,11 @@ _LAST_OLD_CONFIG_VERSIONS = (490, '3.2.12')
 _KNOWN_MOTION_OPTIONS = set([
     'auto_brightness', 'brightness', 'contrast', 'emulate_motion', 'event_gap', 'ffmpeg_bps', 'ffmpeg_output_movies', 'ffmpeg_variable_bitrate', 'ffmpeg_video_codec',
     'framerate', 'height', 'hue', 'lightswitch', 'locate_motion_mode', 'locate_motion_style', 'minimum_motion_frames', 'movie_filename', 'max_movie_time', 'max_mpeg_time',
-    'noise_level', 'noise_tune', 'on_event_end', 'on_event_start', 'output_pictures', 'picture_filename', 'post_capture', 'pre_capture', 'quality', 'rotate', 'saturation',
-    'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate', 'stream_motion', 'stream_port', 'stream_quality',
-    'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width',
-    'webcam_localhost', 'webcam_port', 'webcam_maxrate', 'webcam_quality', 'webcam_motion', 'ffmpeg_cap_new', 'output_normal', 'output_motion', 'jpeg_filename', 'output_all', 'gap', 'locate',
-    'netcam_url', 'netcam_userpass', 'netcam_http', 'netcam_tolerant_check', 'netcam_keepalive', 'rtsp_uses_tcp'
+    'noise_level', 'noise_tune', 'on_event_end', 'on_event_start', 'on_movie_end', 'on_picture_save', 'output_pictures', 'picture_filename', 'post_capture', 'pre_capture',
+    'quality', 'rotate', 'saturation', 'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate',
+    'stream_motion', 'stream_port', 'stream_quality', 'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width',
+    'webcam_localhost', 'webcam_port', 'webcam_maxrate', 'webcam_quality', 'webcam_motion', 'ffmpeg_cap_new', 'output_normal', 'output_motion', 'jpeg_filename', 'output_all',
+    'gap', 'locate', 'netcam_url', 'netcam_userpass', 'netcam_http', 'netcam_tolerant_check', 'netcam_keepalive', 'rtsp_uses_tcp'
 ])
 
 
@@ -681,7 +681,9 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     
         # events
         'on_event_start': '',
-        'on_event_end': ''
+        'on_event_end': '',
+        'on_movie_end': '',
+        'on_picture_save': ''
     }
     
     if utils.v4l2_camera(old_config):
@@ -879,6 +881,14 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     
     data['on_event_end'] = '; '.join(on_event_end)
     
+    # movie end
+    on_movie_end = ['%(script)s movie_end %%t %%f' % {'script': meyectl.find_command('relayevent')}]
+    data['on_movie_end'] = '; '.join(on_movie_end)
+    
+    # picture save
+    on_picture_save = ['%(script)s picture_save %%t %%f' % {'script': meyectl.find_command('relayevent')}]
+    data['on_picture_save'] = '; '.join(on_picture_save)
+
     # additional configs
     for name, value in ui.iteritems():
         if not name.startswith('_'):
@@ -1661,6 +1671,8 @@ def _set_default_motion_camera(camera_id, data):
 
     data.setdefault('on_event_start', '')
     data.setdefault('on_event_end', '')
+    data.setdefault('on_movie_end', '')
+    data.setdefault('on_picture_save', '')
 
 
 def _set_default_simple_mjpeg_camera(camera_id, data):

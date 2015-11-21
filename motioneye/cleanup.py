@@ -25,7 +25,6 @@ from tornado.ioloop import IOLoop
 
 import mediafiles
 import settings
-import thumbnailer
 
 
 _process = None
@@ -66,15 +65,8 @@ def _run_process():
     
     io_loop = IOLoop.instance()
     
-    if thumbnailer.running():
-        # postpone if thumbnailer is currently running
-        io_loop.add_timeout(datetime.timedelta(seconds=60), _run_process)
-        
-        return
-        
-    else:
-        # schedule the next call
-        io_loop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), _run_process)
+    # schedule the next call
+    io_loop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), _run_process)
 
     if not running(): # check that the previous process has finished
         logging.debug('running cleanup process...')
