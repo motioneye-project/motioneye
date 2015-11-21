@@ -299,18 +299,10 @@ def camera_id_to_thread_id(camera_id):
     
 
 def thread_id_to_camera_id(thread_id):
-    # find the corresponding camera_id
-    # (which can be different from thread_id)
-    camera_ids = config.get_camera_ids()
-    tid = 0
-    for cid in camera_ids:
-        camera_config = config.get_camera(cid)
-        if utils.local_motion_camera(camera_config):
-            tid += 1
-            if tid == thread_id:
-                return cid
-    
-    return None
+    main_config = config.get_main()
+    threads = main_config.get('thread', '')
+
+    return int(re.search('thread-(\d+).conf', threads[thread_id - 1]).group(1))
 
 
 def _disable_initial_motion_detection():

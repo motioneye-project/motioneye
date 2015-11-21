@@ -1396,12 +1396,15 @@ class RelayEventHandler(BaseHandler):
     def post(self):
         event = self.get_argument('event')
         thread_id = int(self.get_argument('thread_id'))
-        logging.debug('recevied relayed event %(event)s for thread id %(id)s' % {'event': event, 'id': thread_id})
-        
+
         camera_id = motionctl.thread_id_to_camera_id(thread_id)
         if camera_id is None:
             logging.debug('ignoring event for unknown thread id %s' % thread_id)
             return self.finish_json()
+
+        else:
+            logging.debug('recevied relayed event %(event)s for thread id %(id)s (camera id %(cid)s)' % {
+                    'event': event, 'id': thread_id, 'cid': camera_id})
         
         camera_config = config.get_camera(camera_id)
         if not utils.local_motion_camera(camera_config):
