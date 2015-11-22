@@ -221,7 +221,7 @@ class GoogleDrive(UploadService):
         
         return items[0]['id']
 
-    def _request(self, url, body=None, headers=None):
+    def _request(self, url, body=None, headers=None, retry_auth=True):
         if not self._authorization_key:
             msg = 'missing authorization key'
             self.error(msg)
@@ -247,11 +247,12 @@ class GoogleDrive(UploadService):
             response = urllib2.urlopen(request)
         
         except urllib2.HTTPError as e:
-            if e.code == 403: # unauthorized, access token may have expired
+            if e.code == 401 and retry_auth: # unauthorized, access token may have expired
                 try:
-                    self.debug('access token might have expired, refreshing it')
+                    self.debug('access token has probably expired, refreshing it')
                     self._credentials.refresh(httplib2.Http())
                     save()
+                    self._request(url, body, headers, retry_auth=False)
 
                 except Exception as e:
                     self.error('refreshing access token failed')
