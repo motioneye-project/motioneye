@@ -211,7 +211,13 @@ class ConfigHandler(BaseHandler):
         
         elif op == 'backup':
             self.backup()
-        
+            
+        elif op == 'test':
+            self.test()
+            
+        elif op == 'authorize':
+            self.authorize()
+
         else:
             raise HTTPError(400, 'unknown operation')
     
@@ -725,6 +731,14 @@ class ConfigHandler(BaseHandler):
             
         else:
             self.finish_json({'ok': False})
+    
+    @BaseHandler.auth(admin=True)
+    def test(self):
+        pass
+
+    @BaseHandler.auth(admin=True)
+    def authorize(self):
+        pass
 
 
 class PictureHandler(BaseHandler):

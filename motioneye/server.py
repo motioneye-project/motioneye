@@ -169,7 +169,7 @@ handler_mapping = [
     (r'^/$', handlers.MainHandler),
     (r'^/config/main/(?P<op>set|get)/?$', handlers.ConfigHandler),
     (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|set_preview)/?$', handlers.ConfigHandler),
-    (r'^/config/(?P<op>add|list|backup|restore)/?$', handlers.ConfigHandler),
+    (r'^/config/(?P<op>add|list|backup|restore|test|authorize)/?$', handlers.ConfigHandler),
     (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', handlers.PictureHandler),
     (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.PictureHandler),
     (r'^/picture/(?P<camera_id>\d+)/(?P<op>zipped|timelapse|delete_all)/(?P<group>.*?)/?$', handlers.PictureHandler),

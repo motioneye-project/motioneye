@@ -1040,7 +1040,9 @@ function updateConfigUI() {
                 }
             }
             else { /* comparison */
-                var equal = parts[parts.length - 1] == val;
+                var reqVal = parts[parts.length - 1];
+                var reqRegex = new RegExp('^' + reqVal + '$');
+                var equal = reqRegex.test(val);
                 if (equal == neg) {
                     conditionOk = false;
                     return false;
