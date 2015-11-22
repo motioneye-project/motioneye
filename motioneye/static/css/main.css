@@ -375,7 +375,8 @@ div.normal-button {
 
 div.update-button,
 div.backup-button,
-div.restore-button {
+div.restore-button,
+div.test-button {
     background: #317CAD;
 }
 

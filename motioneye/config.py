@@ -31,6 +31,7 @@ import diskctl
 import powerctl
 import settings
 import update
+import uploadservices
 import utils
 import v4l2ctl
 
@@ -280,7 +281,8 @@ def get_camera(camera_id, as_lines=False):
         
     camera_config = _conf_to_dict(lines,
             no_convert=['@name', '@network_share_name', '@network_server',
-                        '@network_username', '@network_password', '@storage_device'])
+                        '@network_username', '@network_password', '@storage_device',
+                        '@upload_server', '@upload_username', '@upload_password', '@upload_authorization_key'])
     
     if utils.local_motion_camera(camera_config):
         # determine the enabled status
@@ -323,12 +325,16 @@ def get_camera(camera_id, as_lines=False):
                 camera_config['netcam_keepalive'] = camera_config.pop('netcam_http') in ['1.1', 'keepalive']
 
         _get_additional_config(camera_config, camera_id=camera_id)
+        
+        _set_default_motion_camera(camera_id, camera_config)
     
     elif utils.remote_camera(camera_config):
         pass
     
     elif utils.simple_mjpeg_camera(camera_config):
         _get_additional_config(camera_config, camera_id=camera_id)
+        
+        _set_default_simple_mjpeg_camera(camera_id, camera_config)
     
     else: # incomplete configuration
         logging.warn('camera config file at %s is incomplete, ignoring' % camera_config_path)
@@ -631,6 +637,15 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         '@network_share_name': ui['network_share_name'],
         '@network_username': ui['network_username'],
         '@network_password': ui['network_password'],
+        '@upload_enabled': ui['upload_enabled'],
+        '@upload_service': ui['upload_service'],
+        '@upload_server': ui['upload_server'],
+        '@upload_port': ui['upload_port'],
+        '@upload_method': ui['upload_method'],
+        '@upload_location': ui['upload_location'],
+        '@upload_username': ui['upload_username'],
+        '@upload_password': ui['upload_password'],
+        '@upload_authorization_key': ui['upload_authorization_key'],
         
         # text overlay
         'text_left': '',
@@ -767,6 +782,12 @@ def motion_camera_ui_to_dict(ui, old_config=None):
 
     else:
         data['target_dir'] = ui['root_directory']
+        
+    if ui['upload_enabled'] and '@id' in old_config:
+        upload_settings = {k[7:]: ui[k] for k in ui.iterkeys() if k.startswith('upload_')}
+        service = uploadservices.get(old_config['@id'], ui['upload_service'])
+        service.load(upload_settings)
+        uploadservices.save()
 
     if ui['text_overlay']:
         left_text = ui['left_text']
@@ -932,6 +953,15 @@ def motion_camera_dict_to_ui(data):
         'disk_used': 0,
         'disk_total': 0,
         'available_disks': diskctl.list_mounted_disks(),
+        'upload_enabled': data['@upload_enabled'],
+        'upload_service': data['@upload_service'],
+        'upload_server': data['@upload_server'],
+        'upload_port': data['@upload_port'],
+        'upload_method': data['@upload_method'],
+        'upload_location': data['@upload_location'],
+        'upload_username': data['@upload_username'],
+        'upload_password': data['@upload_password'],
+        'upload_authorization_key': data['@upload_authorization_key'],
 
         # text overlay
         'text_overlay': False,
@@ -1619,7 +1649,16 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@network_username', '')
     data.setdefault('@network_password', '')
     data.setdefault('target_dir', settings.MEDIA_PATH)
-    
+    data.setdefault('@upload_enabled', False)
+    data.setdefault('@upload_service', 'ftp')
+    data.setdefault('@upload_server', '')
+    data.setdefault('@upload_port', '')
+    data.setdefault('@upload_method', 'POST')
+    data.setdefault('@upload_location', '')
+    data.setdefault('@upload_username', '')
+    data.setdefault('@upload_password', '')
+    data.setdefault('@upload_authorization_key', '')
+
     data.setdefault('stream_localhost', False)
     data.setdefault('stream_port', int('808' + str(camera_id)))
     data.setdefault('stream_maxrate', 5)

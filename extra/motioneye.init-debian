@@ -13,7 +13,7 @@
 ### END INIT INFO
 
 NAME="motioneye"
-PATH_BIN="/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
+PATH="/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
 DAEMON="/usr/local/bin/meyectl"
 PIDFILE="/var/run/$NAME.pid"
 DESC="motionEye server"

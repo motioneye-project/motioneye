@@ -173,6 +173,7 @@ def configure_logging(cmd, log_to_file=False):
         sys.exit(-1)
 
     logging.getLogger('tornado').setLevel(logging.WARN)
+    logging.getLogger('oauth2client').setLevel(logging.WARN)
 
 
 def configure_tornado():

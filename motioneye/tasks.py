@@ -41,15 +41,53 @@ def start():
     global _pool
 
     io_loop = IOLoop.instance()
-    io_loop.add_timeout(datetime.timedelta(seconds=_INTERVAL), check_tasks)
+    io_loop.add_timeout(datetime.timedelta(seconds=_INTERVAL), _check_tasks)
+    
+    def init_pool_process():
+        import signal
+
+        signal.signal(signal.SIGINT, signal.SIG_IGN)
+        signal.signal(signal.SIGTERM, signal.SIG_IGN)
 
     _load()
-    _pool = multiprocessing.Pool(_POOL_SIZE)
+    _pool = multiprocessing.Pool(_POOL_SIZE, initializer=init_pool_process)
 
 
-def check_tasks():
+def stop():
+    global _pool
+    
+    #_pool.terminate()
+    _pool = None
+
+
+def add(when, func, tag=None, async=False, **params):
+    if len(_tasks) >= _MAX_TASKS:
+        return logging.error('the maximum number of tasks (%d) has been reached' % _MAX_TASKS)
+    
+    now = time.time()
+    
+    if isinstance(when, int): # delay, in seconds
+        when += now
+        
+    elif isinstance(when, datetime.timedelta):
+        when = now + when.total_seconds()
+        
+    elif isinstance(when, datetime.datetime):
+        when = calendar.timegm(when.timetuple())
+
+    i = 0
+    while i < len(_tasks) and _tasks[i][0] <= when:
+        i += 1
+
+    logging.debug('adding task "%s" in %d seconds' % (tag or func.func_name, when - now))
+    _tasks.insert(i, (when, func, tag, async, params))
+
+    _save()
+
+
+def _check_tasks():
     io_loop = IOLoop.instance()
-    io_loop.add_timeout(datetime.timedelta(seconds=_INTERVAL), check_tasks)
+    io_loop.add_timeout(datetime.timedelta(seconds=_INTERVAL), _check_tasks)
     
     now = time.time()
     changed = False
@@ -71,29 +109,6 @@ def check_tasks():
     
     if changed:
         _save()
-
-
-def add_task(when, func, tag=None, async=False, **params):
-    if len(_tasks) >= _MAX_TASKS:
-        return logging.error('the maximum number of tasks (%d) has been reached' % _MAX_TASKS)
-    
-    if isinstance(when, int): # delay, in seconds
-        when += time.time()
-        
-    elif isinstance(when, datetime.timedelta):
-        when = time.time() + when.total_seconds()
-        
-    elif isinstance(when, datetime.datetime):
-        when = calendar.timegm(when.timetuple())
-
-    i = 0
-    while i < len(_tasks) and _tasks[i][0] <= when:
-        i += 1
-
-    logging.debug('adding task "%s" in %d seconds' % (tag or func.func_name, when - time.time()))
-    _tasks.insert(i, (when, func, tag, async, params))
-
-    _save()
 
 
 def _load():

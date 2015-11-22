@@ -34,9 +34,10 @@ import prefs
 import remote
 import settings
 import smbctl
-import tasker
+import tasks
 import template
 import update
+import uploadservices
 import utils
 import v4l2ctl
 
@@ -212,11 +213,8 @@ class ConfigHandler(BaseHandler):
         elif op == 'backup':
             self.backup()
             
-        elif op == 'test':
-            self.test()
-            
         elif op == 'authorize':
-            self.authorize()
+            self.authorize(camera_id)
 
         else:
             raise HTTPError(400, 'unknown operation')
@@ -241,6 +239,9 @@ class ConfigHandler(BaseHandler):
         elif op == 'restore':
             self.restore()
         
+        elif op == 'test':
+            self.test(camera_id)
+            
         else:
             raise HTTPError(400, 'unknown operation')
     
@@ -733,12 +734,59 @@ class ConfigHandler(BaseHandler):
             self.finish_json({'ok': False})
     
     @BaseHandler.auth(admin=True)
-    def test(self):
-        pass
+    def test(self, camera_id):
+        what = self.get_argument('what')
+        data = self.get_all_arguments()
+        camera_config = config.get_camera(camera_id)
+        if what == 'upload_service':
+            service_name = data.get('service')
+            if not service_name:
+                raise HTTPError(400, 'service_name required')
+
+            if utils.local_motion_camera(camera_config): 
+                service = uploadservices.get(camera_id, service_name)
+                service.load(data)
+                if not service:
+                    raise HTTPError(400, 'unknown upload service %s' % service_name)
+                
+                logging.debug('testing access to %s' % service)
+                result = service.test_access()
+                if result is True:
+                    logging.debug('accessing %s succeeded' % service)
+                    self.finish_json()
+    
+                else:
+                    logging.warn('accessing %s failed' % service)
+                    self.finish_json({'error': result})
+            
+            elif utils.remote_camera(camera_config):
+                def on_response(result=None, error=None):
+                    if result is True:
+                        self.finish_json()
+                        
+                    else:
+                        result = result or error
+                        self.finish_json({'error': result})
+
+                remote.test(camera_config, data, on_response)
+
+        else:
+            raise HTTPError(400, 'unknown test %s' % what)
 
     @BaseHandler.auth(admin=True)
-    def authorize(self):
-        pass
+    def authorize(self, camera_id):
+        service_name = self.get_argument('service')
+        if not service_name:
+            raise HTTPError(400, 'service_name required')
+
+        service = uploadservices.get(camera_id, service_name)
+        if not service:
+            raise HTTPError(400, 'unknown upload service %s' % service_name)
+
+        url = service.get_authorize_url()
+
+        logging.debug('redirected to authorization url %s' % url)
+        self.redirect(url)
 
 
 class PictureHandler(BaseHandler):
@@ -1436,15 +1484,26 @@ class RelayEventHandler(BaseHandler):
             motionctl.set_motion_detected(camera_id, False)
             
         elif event == 'movie_end':
-            full_path = self.get_argument('filename')
+            filename = self.get_argument('filename')
             
             # generate preview (thumbnail)
-            tasker.add_task(5, mediafiles.make_movie_preview, tag='make_movie_preview(%s)' % full_path, async=True,
-                    camera_config=camera_config, full_path=full_path)
+            tasks.add(5, mediafiles.make_movie_preview, tag='make_movie_preview(%s)' % filename, async=True,
+                    camera_config=camera_config, full_path=filename)
 
-            # upload TODO
-#             tasker.add_task(5, upload.upload_media_file, tag='upload_media_file(%s)' % full_path,
-#                     camera_config=camera_config, full_path=full_path)
+            # upload to external service
+            if camera_config['@upload_enabled']:
+                service_name = camera_config['@upload_service']
+                tasks.add(5, uploadservices.upload_media_file, tag='upload_media_file(%s)' % filename,
+                        camera_id=camera_id, service_name=service_name, filename=filename)
+
+        elif event == 'picture_save':
+            filename = self.get_argument('filename')
+            
+            # upload to external service
+            if camera_config['@upload_enabled']:
+                service_name = camera_config['@upload_service']
+                tasks.add(5, uploadservices.upload_media_file, tag='upload_media_file(%s)' % filename,
+                        camera_id=camera_id, service_name=service_name, filename=filename)
 
         else:
             logging.warn('unknown event %s' % event)

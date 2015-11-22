@@ -28,7 +28,7 @@ import utils
 _DOUBLE_SLASH_REGEX = re.compile('//+')
 
 
-def _make_request(scheme, host, port, username, password, path, method='GET', data=None, query=None, timeout=None):
+def _make_request(scheme, host, port, username, password, path, method='GET', data=None, query=None, timeout=None, content_type=None):
     path = _DOUBLE_SLASH_REGEX.sub('/', path)
     url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
             'scheme': scheme,
@@ -51,8 +51,12 @@ def _make_request(scheme, host, port, username, password, path, method='GET', da
 
     if timeout is None:
         timeout = settings.REMOTE_REQUEST_TIMEOUT
-        
-    return HTTPRequest(url, method, body=data, connect_timeout=timeout, request_timeout=timeout)
+    
+    headers = {}
+    if content_type:
+        headers['Content-Type'] = content_type
+
+    return HTTPRequest(url, method, body=data, connect_timeout=timeout, request_timeout=timeout, headers=headers)
 
 
 def _callback_wrapper(callback):
@@ -117,7 +121,8 @@ def list(local_config, callback):
     logging.debug('listing remote cameras on %(url)s' % {
             'url': pretty_camera_url(local_config, camera=False)})
     
-    request = _make_request(scheme, host, port, username, password, path + '/config/list/')
+    request = _make_request(scheme, host, port, username, password,
+            path + '/config/list/')
     
     def on_response(response):
         def make_camera_response(c):
@@ -162,7 +167,8 @@ def get_config(local_config, callback):
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
-    request = _make_request(scheme, host, port, username, password, path + '/config/%(id)s/get/' % {'id': camera_id})
+    request = _make_request(scheme, host, port, username, password,
+            path + '/config/%(id)s/get/' % {'id': camera_id})
     
     def on_response(response):
         if response.error:
@@ -207,7 +213,9 @@ def set_config(local_config, ui_config, callback):
     
     ui_config = json.dumps(ui_config)
     
-    request = _make_request(scheme, host, port, username, password, path + '/config/%(id)s/set/' % {'id': camera_id}, method='POST', data=ui_config)
+    request = _make_request(scheme, host, port, username, password,
+            path + '/config/%(id)s/set/' % {'id': camera_id},
+            method='POST', data=ui_config, content_type='application/json')
     
     def on_response(response):
         if response.error:
@@ -233,7 +241,9 @@ def set_preview(local_config, controls, callback):
     
     data = json.dumps(controls)
     
-    request = _make_request(scheme, host, port, username, password, path + '/config/%(id)s/set_preview/' % {'id': camera_id}, method='POST', data=data)
+    request = _make_request(scheme, host, port, username, password,
+            path + '/config/%(id)s/set_preview/' % {'id': camera_id},
+            method='POST', data=data, content_type='application/json')
 
     def on_response(response):
         if response.error:
@@ -250,12 +260,42 @@ def set_preview(local_config, controls, callback):
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
+def test(local_config, data, callback):
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
+    what = data['what']
+    logging.debug('testing %(what)s on remote camera %(id)s, on %(url)s' % {
+            'what': what,
+            'id': camera_id,
+            'url': pretty_camera_url(local_config)})
+
+    data = json.dumps(data)
+
+    request = _make_request(scheme, host, port, username, password,
+            path + '/config/%(id)s/test/' % {'id': camera_id},
+            method='POST', data=data, content_type='application/json')
+
+    def on_response(response):
+        if response.error:
+            logging.error('failed to test %(what)s on remote camera %(id)s, on %(url)s: %(msg)s' % {
+                    'what': what,
+                    'id': camera_id,
+                    'url': pretty_camera_url(local_config),
+                    'msg': utils.pretty_http_error(response)})
+
+            return callback(error=utils.pretty_http_error(response))
+        
+        callback()
+
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, _callback_wrapper(on_response))
+
+
 def get_current_picture(local_config, width, height, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
-    logging.debug('getting current picture for remote camera %(id)s on %(url)s' % {
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+#     logging.debug('getting current picture for remote camera %(id)s on %(url)s' % {
+#             'id': camera_id,
+#             'url': pretty_camera_url(local_config)})
     
     query = {}
     
@@ -265,7 +305,9 @@ def get_current_picture(local_config, width, height, callback):
     if height:
         query['height'] = str(height)
     
-    request = _make_request(scheme, host, port, username, password, path + '/picture/%(id)s/current/' % {'id': camera_id}, query=query)
+    request = _make_request(scheme, host, port, username, password,
+            path + '/picture/%(id)s/current/' % {'id': camera_id},
+            query=query)
     
     def on_response(response):
         motion_detected = False
@@ -303,8 +345,10 @@ def list_media(local_config, media_type, prefix, callback):
         query['prefix'] = prefix
     
     # timeout here is 10 times larger than usual - we expect a big delay when fetching the media list
-    request = _make_request(scheme, host, port, username, password, path + '/%(media_type)s/%(id)s/list/' % {
-            'id': camera_id, 'media_type': media_type}, query=query, timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
+    request = _make_request(scheme, host, port, username, password,
+            path + '/%(media_type)s/%(id)s/list/' % {
+            'id': camera_id, 'media_type': media_type}, query=query,
+            timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
     
     def on_response(response):
         if response.error:
@@ -345,7 +389,8 @@ def get_media_content(local_config, filename, media_type, callback):
             'filename': filename}
     
     # timeout here is 10 times larger than usual - we expect a big delay when fetching the media list
-    request = _make_request(scheme, host, port, username, password, path, timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
+    request = _make_request(scheme, host, port, username, password,
+            path, timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
     
     def on_response(response):
         if response.error:
@@ -377,7 +422,8 @@ def make_zipped_content(local_config, media_type, group, callback):
             'group': group}
  
     # timeout here is 100 times larger than usual - we expect a big delay
-    request = _make_request(scheme, host, port, username, password, prepare_path, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
+    request = _make_request(scheme, host, port, username, password,
+            prepare_path, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
 
     def on_response(response):
         if response.error:
@@ -412,11 +458,12 @@ def get_zipped_content(local_config, media_type, key, group, callback):
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
-    request = _make_request(scheme, host, port, username, password, path + '/%(media_type)s/%(id)s/zipped/%(group)s/?key=%(key)s' % {
-            'media_type': media_type,
-            'group': group,
-            'id': camera_id,
-            'key': key},
+    request = _make_request(scheme, host, port, username, password,
+            path + '/%(media_type)s/%(id)s/zipped/%(group)s/?key=%(key)s' % {
+                    'media_type': media_type,
+                    'group': group,
+                    'id': camera_id,
+                    'key': key},
             timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
 
     def on_response(response):
@@ -454,7 +501,8 @@ def make_timelapse_movie(local_config, framerate, interval, group, callback):
             'framerate': framerate,
             'group': group}
     
-    request = _make_request(scheme, host, port, username, password, path, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
+    request = _make_request(scheme, host, port, username, password,
+            path, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
 
     def on_response(response):
         if response.error:
@@ -491,9 +539,10 @@ def check_timelapse_movie(local_config, group, callback):
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
-    request = _make_request(scheme, host, port, username, password, path + '/picture/%(id)s/timelapse/%(group)s/?check=true' % {
-            'id': camera_id,
-            'group': group})
+    request = _make_request(scheme, host, port, username, password,
+            path + '/picture/%(id)s/timelapse/%(group)s/?check=true' % {
+                    'id': camera_id,
+                    'group': group})
     
     def on_response(response):
         if response.error:
@@ -527,10 +576,11 @@ def get_timelapse_movie(local_config, key, group, callback):
             'id': camera_id,
             'url': pretty_camera_url(local_config)})
     
-    request = _make_request(scheme, host, port, username, password, path + '/picture/%(id)s/timelapse/%(group)s/?key=%(key)s' % {
-            'id': camera_id,
-            'group': group,
-            'key': key},
+    request = _make_request(scheme, host, port, username, password,
+            path + '/picture/%(id)s/timelapse/%(group)s/?key=%(key)s' % {
+                'id': camera_id,
+                'group': group,
+                'key': key},
             timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
 
     def on_response(response):
@@ -573,7 +623,8 @@ def get_media_preview(local_config, filename, media_type, width, height, callbac
     if height:
         query['height'] = str(height)
     
-    request = _make_request(scheme, host, port, username, password, path, query=query)
+    request = _make_request(scheme, host, port, username, password,
+            path, query=query)
     
     def on_response(response):
         if response.error:
@@ -604,7 +655,9 @@ def del_media_content(local_config, filename, media_type, callback):
             'id': camera_id,
             'filename': filename}
 
-    request = _make_request(scheme, host, port, username, password, path, method='POST', data='{}', timeout=settings.REMOTE_REQUEST_TIMEOUT)
+    request = _make_request(scheme, host, port, username, password,
+            path, method='POST', data='{}',
+            timeout=settings.REMOTE_REQUEST_TIMEOUT, content_type='application/json')
 
     def on_response(response):
         if response.error:
@@ -635,7 +688,9 @@ def del_media_group(local_config, group, media_type, callback):
             'id': camera_id,
             'group': group}
 
-    request = _make_request(scheme, host, port, username, password, path, method='POST', data='{}', timeout=settings.REMOTE_REQUEST_TIMEOUT)
+    request = _make_request(scheme, host, port, username, password, path,
+            method='POST', data='{}',
+            timeout=settings.REMOTE_REQUEST_TIMEOUT, content_type='application/json')
 
     def on_response(response):
         if response.error:

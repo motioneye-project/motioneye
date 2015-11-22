@@ -168,8 +168,8 @@ def _log_request(handler):
 handler_mapping = [
     (r'^/$', handlers.MainHandler),
     (r'^/config/main/(?P<op>set|get)/?$', handlers.ConfigHandler),
-    (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|set_preview)/?$', handlers.ConfigHandler),
-    (r'^/config/(?P<op>add|list|backup|restore|test|authorize)/?$', handlers.ConfigHandler),
+    (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|set_preview|test|authorize)/?$', handlers.ConfigHandler),
+    (r'^/config/(?P<op>add|list|backup|restore)/?$', handlers.ConfigHandler),
     (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', handlers.PictureHandler),
     (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.PictureHandler),
     (r'^/picture/(?P<camera_id>\d+)/(?P<op>zipped|timelapse|delete_all)/(?P<group>.*?)/?$', handlers.PictureHandler),
@@ -330,7 +330,8 @@ def run():
     import motionctl
     import motioneye
     import smbctl
-    import tasker
+    import tasks
+    import uploadservices
     import wsswitch
 
     configure_signals()
@@ -353,8 +354,11 @@ def run():
     wsswitch.start()
     logging.info('wsswitch started')
 
-    tasker.start()
-    logging.info('tasker started')
+    tasks.start()
+    logging.info('tasks started')
+
+    uploadservices.load()
+    logging.info('upload services loaded')
 
     if settings.MJPG_CLIENT_TIMEOUT:
         mjpgclient.start()
@@ -377,6 +381,9 @@ def run():
 
     logging.info('server stopped')
     
+    tasks.stop()
+    logging.info('tasks stopped')
+
     if cleanup.running():
         cleanup.stop()
         logging.info('cleanup stopped')

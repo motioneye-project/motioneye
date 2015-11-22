@@ -495,6 +495,18 @@ String.prototype.format = function () {
     return text;
 };
 
+
+    /* various */
+
+function authorizeUpload() {
+    var service = $('#uploadServiceSelect').val();
+    var cameraId = $('#cameraSelect').val();
+    var url = basePath + 'config/' + cameraId + '/authorize/?service=' + service;
+    url = addAuthParams('GET', url);
+
+    window.open(url, '_blank');
+}
+
     
     /* UI initialization */
 
@@ -1352,6 +1364,15 @@ function cameraUi2Dict() {
         'network_username': $('#networkUsernameEntry').val(),
         'network_password': $('#networkPasswordEntry').val(),
         'root_directory': $('#rootDirectoryEntry').val(),
+        'upload_enabled': $('#uploadEnabledSwitch')[0].checked,
+        'upload_service': $('#uploadServiceSelect').val(),
+        'upload_server': $('#uploadServerEntry').val(),
+        'upload_port': $('#uploadPortEntry').val(),
+        'upload_method': $('#uploadMethodSelect').val(),
+        'upload_location': $('#uploadLocationEntry').val(),
+        'upload_username': $('#uploadUsernameEntry').val(),
+        'upload_password': $('#uploadPasswordEntry').val(),
+        'upload_authorization_key': $('#uploadAuthorizationKeyEntry').val(),
         
         /* text overlay */
         'text_overlay': $('#textOverlaySwitch')[0].checked,
@@ -1623,12 +1644,22 @@ function dict2CameraUi(dict) {
     if (dict['disk_total'] != 0) {
         percent = parseInt(dict['disk_used'] * 100 / dict['disk_total']);
     }
-    
+
     $('#diskUsageProgressBar').each(function () {
         this.setProgress(percent);
         this.setText((dict['disk_used'] / 1073741824).toFixed(1)  + '/' + (dict['disk_total'] / 1073741824).toFixed(1) + ' GB (' + percent + '%)');
     }); markHideIfNull('disk_used', 'diskUsageProgressBar');
     
+    $('#uploadEnabledSwitch')[0].checked = dict['upload_enabled']; markHideIfNull('upload_enabled', 'uploadEnabledSwitch');
+    $('#uploadServiceSelect').val(dict['upload_service']); markHideIfNull('upload_service', 'uploadServiceSelect');
+    $('#uploadServerEntry').val(dict['upload_server']); markHideIfNull('upload_server', 'uploadServerEntry');
+    $('#uploadPortEntry').val(dict['upload_port']); markHideIfNull('upload_port', 'uploadPortEntry');
+    $('#uploadMethodSelect').val(dict['upload_method']); markHideIfNull('upload_method', 'uploadMethodSelect');
+    $('#uploadLocationEntry').val(dict['upload_location']); markHideIfNull('upload_location', 'uploadLocationEntry');
+    $('#uploadUsernameEntry').val(dict['upload_username']); markHideIfNull('upload_username', 'uploadUsernameEntry');
+    $('#uploadPasswordEntry').val(dict['upload_password']); markHideIfNull('upload_password', 'uploadPasswordEntry');
+    $('#uploadAuthorizationKeyEntry').val(dict['upload_authorization_key']); markHideIfNull('upload_authorization_key', 'uploadAuthorizationKeyEntry');
+
     /* text overlay */
     $('#textOverlaySwitch')[0].checked = dict['text_overlay']; markHideIfNull('text_overlay', 'textOverlaySwitch');
     $('#leftTextSelect').val(dict['left_text']); markHideIfNull('left_text', 'leftTextSelect');
@@ -2268,6 +2299,34 @@ function doRestore() {
                     }
                 });
             }, 10);
+        }
+    });
+}
+
+function doTestUpload() {
+    showModalDialog('<div class="modal-progress"></div>', null, null, true);
+    
+    var data = {
+        what: 'upload_service',
+        service: $('#uploadServiceSelect').val(),
+        server: $('#uploadServerEntry').val(),
+        port: $('#uploadPortEntry').val(),
+        method: $('#uploadMethodSelect').val(),
+        location: $('#uploadLocationEntry').val(),
+        username: $('#uploadUsernameEntry').val(),
+        password: $('#uploadPasswordEntry').val(),
+        authorization_key: $('#uploadAuthorizationKeyEntry').val()
+    };
+    
+    var cameraId = $('#cameraSelect').val();
+
+    ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
+        hideModalDialog(); /* progress */
+        if (data.error) {
+            showErrorMessage('Accessing the upload service failed: ' + data.error + '!');
+        }
+        else {
+            showPopupMessage('Accessing the upload service succeeded!', 'info');
         }
     });
 }
@@ -4021,6 +4080,9 @@ $(document).ready(function () {
     /* backup/restore */
     $('div#backupButton').click(doBackup);
     $('div#restoreButton').click(doRestore);
+    
+    /* test buttons */
+    $('div#uploadTestButton').click(doTestUpload);
     
     /* prevent scroll events on settings div from propagating TODO this does not actually work */
     $('div.settings').mousewheel(function (e, d) {

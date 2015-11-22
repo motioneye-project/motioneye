@@ -23,6 +23,7 @@ import settings
 
 
 _PREFS_FILE_NAME = 'prefs.json'
+
 _prefs = None
 
 
