@@ -643,6 +643,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         '@upload_port': ui['upload_port'],
         '@upload_method': ui['upload_method'],
         '@upload_location': ui['upload_location'],
+        '@upload_subfolders': ui['upload_subfolders'],
         '@upload_username': ui['upload_username'],
         '@upload_password': ui['upload_password'],
         '@upload_authorization_key': ui['upload_authorization_key'],
@@ -959,6 +960,7 @@ def motion_camera_dict_to_ui(data):
         'upload_port': data['@upload_port'],
         'upload_method': data['@upload_method'],
         'upload_location': data['@upload_location'],
+        'upload_subfolders': data['@upload_subfolders'],
         'upload_username': data['@upload_username'],
         'upload_password': data['@upload_password'],
         'upload_authorization_key': data['@upload_authorization_key'],
@@ -1655,6 +1657,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@upload_port', '')
     data.setdefault('@upload_method', 'POST')
     data.setdefault('@upload_location', '')
+    data.setdefault('@upload_subfolders', True)
     data.setdefault('@upload_username', '')
     data.setdefault('@upload_password', '')
     data.setdefault('@upload_authorization_key', '')

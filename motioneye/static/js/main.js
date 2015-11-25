@@ -1370,6 +1370,7 @@ function cameraUi2Dict() {
         'upload_port': $('#uploadPortEntry').val(),
         'upload_method': $('#uploadMethodSelect').val(),
         'upload_location': $('#uploadLocationEntry').val(),
+        'upload_subfolders': $('#uploadSubfoldersSwitch')[0].checked,
         'upload_username': $('#uploadUsernameEntry').val(),
         'upload_password': $('#uploadPasswordEntry').val(),
         'upload_authorization_key': $('#uploadAuthorizationKeyEntry').val(),
@@ -1656,6 +1657,7 @@ function dict2CameraUi(dict) {
     $('#uploadPortEntry').val(dict['upload_port']); markHideIfNull('upload_port', 'uploadPortEntry');
     $('#uploadMethodSelect').val(dict['upload_method']); markHideIfNull('upload_method', 'uploadMethodSelect');
     $('#uploadLocationEntry').val(dict['upload_location']); markHideIfNull('upload_location', 'uploadLocationEntry');
+    $('#uploadSubfoldersSwitch')[0].checked = dict['upload_subfolders']; markHideIfNull('upload_subfolders', 'uploadSubfoldersSwitch');
     $('#uploadUsernameEntry').val(dict['upload_username']); markHideIfNull('upload_username', 'uploadUsernameEntry');
     $('#uploadPasswordEntry').val(dict['upload_password']); markHideIfNull('upload_password', 'uploadPasswordEntry');
     $('#uploadAuthorizationKeyEntry').val(dict['upload_authorization_key']); markHideIfNull('upload_authorization_key', 'uploadAuthorizationKeyEntry');
@@ -2304,6 +2306,19 @@ function doRestore() {
 }
 
 function doTestUpload() {
+    var q = $('#uploadPortEntry, #uploadLocationEntry, #uploadServerEntry');
+    var valid = true;
+    q.each(function() {
+        this.validate();
+        if (this.invalid) {
+            valid = false;
+        }
+    });
+    
+    if (!valid) {
+        return runAlertDialog('Make sure all the configuration options are valid!');
+    }
+    
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
     
     var data = {
@@ -2313,6 +2328,7 @@ function doTestUpload() {
         port: $('#uploadPortEntry').val(),
         method: $('#uploadMethodSelect').val(),
         location: $('#uploadLocationEntry').val(),
+        subfolders: $('#uploadSubfoldersSwitch')[0].checked,
         username: $('#uploadUsernameEntry').val(),
         password: $('#uploadPasswordEntry').val(),
         authorization_key: $('#uploadAuthorizationKeyEntry').val()
