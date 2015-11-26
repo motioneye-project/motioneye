@@ -27,14 +27,12 @@ import settings
 
 _STATE_FILE_NAME = 'uploadservices.json'
 
-_services = None
-
 
 class UploadService(object):
     NAME = 'base'
 
-    def __init__(self, **kwargs):
-        pass
+    def __init__(self, camera_id, **kwargs):
+        self.camera_id = camera_id
 
     def __str__(self):
         return self.NAME
@@ -99,6 +97,13 @@ class UploadService(object):
     
     def load(self, data):
         pass
+    
+    def save(self):
+        services = _load()
+        camera_services = services.get(self.camera_id, {})
+        camera_services[self.NAME] = self
+        
+        _save(services)
 
     def log(self, level, *args, **kwargs):
         logging.log(level, *args, **kwargs)
@@ -134,11 +139,13 @@ class GoogleDrive(UploadService):
     BOUNDARY = 'motioneye_multipart_boundary'
     MAX_FILE_SIZE = 128 * 1024 * 1024 # 128 MB
 
-    def __init__(self, location=None, authorization_key=None, credentials=None, **kwargs):
+    def __init__(self, camera_id, location=None, authorization_key=None, credentials=None, **kwargs):
         self._location = location
         self._authorization_key = authorization_key
         self._credentials = credentials
         self._folder_id = None
+        
+        UploadService.__init__(self, camera_id)
 
     def get_authorize_url(self):
         query = {
@@ -210,7 +217,7 @@ class GoogleDrive(UploadService):
         if not self._folder_id:
             self.debug('finding folder id for location "%s"' % self._location)
             self._folder_id = self._get_folder_id_by_path(self._location)
-            save()
+            self.save()
 
         return self._folder_id
 
@@ -259,16 +266,16 @@ class GoogleDrive(UploadService):
         return items[0]['id']
 
     def _request(self, url, body=None, headers=None, retry_auth=True):
-        if not self._authorization_key:
-            msg = 'missing authorization key'
-            self.error(msg)
-            raise Exception(msg)
-
         if not self._credentials:
+            if not self._authorization_key:
+                msg = 'missing authorization key'
+                self.error(msg)
+                raise Exception(msg)
+
             self.debug('requesting credentials')
             try:
                 self._credentials = self._request_credentials(self._authorization_key)
-                save()
+                self.save()
             
             except Exception as e:
                 self.error('failed to obtain credentials: %s' % e)
@@ -287,7 +294,7 @@ class GoogleDrive(UploadService):
                 try:
                     self.debug('credentials have probably expired, refreshing them')
                     self._credentials = self._refresh_credentials(self._credentials['refresh_token'])
-                    save()
+                    self.save()
                     
                     # retry the request with refreshed credentials
                     return self._request(url, body, headers, retry_auth=False)
@@ -388,11 +395,13 @@ class Dropbox(UploadService):
 
     MAX_FILE_SIZE = 128 * 1024 * 1024 # 128 MB
 
-    def __init__(self, location=None, subfolders=True, authorization_key=None, credentials=None, **kwargs):
+    def __init__(self, camera_id, location=None, subfolders=True, authorization_key=None, credentials=None, **kwargs):
         self._location = location
         self._subfolders = subfolders
         self._authorization_key = authorization_key
         self._credentials = credentials
+        
+        UploadService.__init__(self, camera_id)
 
     def get_authorize_url(self):
         query = {
@@ -470,16 +479,16 @@ class Dropbox(UploadService):
         return location
 
     def _request(self, url, body=None, headers=None, retry_auth=True):
-        if not self._authorization_key:
-            msg = 'missing authorization key'
-            self.error(msg)
-            raise Exception(msg)
-
         if not self._credentials:
+            if not self._authorization_key:
+                msg = 'missing authorization key'
+                self.error(msg)
+                raise Exception(msg)
+
             self.debug('requesting credentials')
             try:
                 self._credentials = self._request_credentials(self._authorization_key)
-                save()
+                self.save()
             
             except Exception as e:
                 self.error('failed to obtain credentials: %s' % e)
@@ -498,7 +507,7 @@ class Dropbox(UploadService):
                 try:
                     self.debug('credentials have probably expired, refreshing them')
                     self._credentials = self._refresh_credentials(self._credentials['refresh_token'])
-                    save()
+                    self.save()
                     
                     # retry the request with refreshed credentials
                     self._request(url, body, headers, retry_auth=False)
@@ -551,27 +560,23 @@ class Dropbox(UploadService):
         }
     
 
-def get(camera_id, name, create=True):
-    if _services is None:
-        load()
+def get(camera_id, service_name, create=True):
+    services = _load()
     
     camera_id = str(camera_id)
-    service = _services.get(camera_id, {}).get(name)
+    service = services.get(camera_id, {}).get(service_name)
     if not service and create:
         classes = UploadService.get_service_classes()
-        cls = classes.get(name)
+        cls = classes.get(service_name)
         if cls:
-            logging.debug('creating upload service %s for camera with id %s' % (name, camera_id))
-            service = cls()
-            _services.setdefault(camera_id, {})[name] = service
+            logging.debug('creating upload service %s for camera with id %s' % (service_name, camera_id))
+            service = cls(camera_id=camera_id)
 
     return service
 
 
-def load():
-    global _services
-    
-    _services = {}
+def _load():
+    services = {}
     
     file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
     
@@ -597,21 +602,20 @@ def load():
 
         for camera_id, d in data.iteritems():
             for name, state in d.iteritems():
-                camera_services = _services.setdefault(camera_id, {})
+                camera_services = services.setdefault(camera_id, {})
                 cls = UploadService.get_service_classes().get(name)
                 if cls:
-                    service = cls()
+                    service = cls(camera_id=camera_id)
                     service.load(state)
 
                     camera_services[name] = service
     
                     logging.debug('loaded upload service "%s" for camera with id "%s"' % (name, camera_id))
+    
+    return services
 
 
-def save():
-    if _services is None:
-        return
-
+def _save(services):
     file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
     
     logging.debug('saving upload services state to "%s"...' % file_path)
@@ -625,7 +629,7 @@ def save():
         return
     
     data = {}
-    for camera_id, camera_services in _services.iteritems():
+    for camera_id, camera_services in services.iteritems():
         for name, service in camera_services.iteritems():
             data.setdefault(camera_id, {})[name] = service.dump()
 
@@ -640,10 +644,6 @@ def save():
 
 
 def upload_media_file(camera_id, target_dir, service_name, filename):
-    # force a load from file with every upload,
-    # as settings might have changed
-    load()
-    
     service = get(camera_id, service_name, create=False)
     if not service:
         return logging.error('service "%s" not initialized for camera with id %s' % (service_name, camera_id))

@@ -282,7 +282,7 @@ def get_camera(camera_id, as_lines=False):
     camera_config = _conf_to_dict(lines,
             no_convert=['@name', '@network_share_name', '@network_server',
                         '@network_username', '@network_password', '@storage_device',
-                        '@upload_server', '@upload_username', '@upload_password', '@upload_authorization_key'])
+                        '@upload_server', '@upload_username', '@upload_password'])
     
     if utils.local_motion_camera(camera_config):
         # determine the enabled status
@@ -646,7 +646,6 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         '@upload_subfolders': ui['upload_subfolders'],
         '@upload_username': ui['upload_username'],
         '@upload_password': ui['upload_password'],
-        '@upload_authorization_key': ui['upload_authorization_key'],
         
         # text overlay
         'text_left': '',
@@ -788,7 +787,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         upload_settings = {k[7:]: ui[k] for k in ui.iterkeys() if k.startswith('upload_')}
         service = uploadservices.get(old_config['@id'], ui['upload_service'])
         service.load(upload_settings)
-        uploadservices.save()
+        service.save()
 
     if ui['text_overlay']:
         left_text = ui['left_text']
@@ -963,7 +962,7 @@ def motion_camera_dict_to_ui(data):
         'upload_subfolders': data['@upload_subfolders'],
         'upload_username': data['@upload_username'],
         'upload_password': data['@upload_password'],
-        'upload_authorization_key': data['@upload_authorization_key'],
+        'upload_authorization_key': '', # needed, otherwise the field is hidden
 
         # text overlay
         'text_overlay': False,
@@ -1660,7 +1659,6 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@upload_subfolders', True)
     data.setdefault('@upload_username', '')
     data.setdefault('@upload_password', '')
-    data.setdefault('@upload_authorization_key', '')
 
     data.setdefault('stream_localhost', False)
     data.setdefault('stream_port', int('808' + str(camera_id)))

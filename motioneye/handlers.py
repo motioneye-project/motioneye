@@ -756,7 +756,7 @@ class ConfigHandler(BaseHandler):
                     self.finish_json()
     
                 else:
-                    logging.warn('accessing %s failed' % service)
+                    logging.warn('accessing %s failed: %s' % (service, result))
                     self.finish_json({'error': result})
             
             elif utils.remote_camera(camera_config):

@@ -331,7 +331,6 @@ def run():
     import motioneye
     import smbctl
     import tasks
-    import uploadservices
     import wsswitch
 
     configure_signals()
@@ -356,9 +355,6 @@ def run():
 
     tasks.start()
     logging.info('tasks started')
-
-    uploadservices.load()
-    logging.info('upload services loaded')
 
     if settings.MJPG_CLIENT_TIMEOUT:
         mjpgclient.start()
