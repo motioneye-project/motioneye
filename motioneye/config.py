@@ -1262,6 +1262,9 @@ def motion_camera_dict_to_ui(data):
     extra_options = []
     for name, value in data.iteritems():
         if name not in _KNOWN_MOTION_OPTIONS and not name.startswith('@'):
+            if isinstance(value, bool):
+                value = ['off', 'on'][value] # boolean values should be transferred as on/off
+
             extra_options.append((name, value))
 
     ui['extra_options'] = extra_options
