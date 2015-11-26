@@ -100,7 +100,7 @@ class UploadService(object):
     
     def save(self):
         services = _load()
-        camera_services = services.get(self.camera_id, {})
+        camera_services = services.setdefault(self.camera_id, {})
         camera_services[self.NAME] = self
         
         _save(services)
@@ -146,7 +146,7 @@ class GoogleDrive(UploadService):
         self._folder_id = None
         
         UploadService.__init__(self, camera_id)
-
+        
     def get_authorize_url(self):
         query = {
             'scope': self.SCOPE,
@@ -168,6 +168,8 @@ class GoogleDrive(UploadService):
             return str(e)
 
     def upload_data(self, filename, mime_type, data):
+        filename = os.path.basename(filename)
+        
         metadata = {
             'title': filename,
             'parents': [{'id': self._get_folder_id()}]
@@ -395,9 +397,8 @@ class Dropbox(UploadService):
 
     MAX_FILE_SIZE = 128 * 1024 * 1024 # 128 MB
 
-    def __init__(self, camera_id, location=None, subfolders=True, authorization_key=None, credentials=None, **kwargs):
+    def __init__(self, camera_id, location=None, authorization_key=None, credentials=None, **kwargs):
         self._location = location
-        self._subfolders = subfolders
         self._authorization_key = authorization_key
         self._credentials = credentials
         
@@ -453,7 +454,6 @@ class Dropbox(UploadService):
     def dump(self):
         return {
             'location': self._location,
-            'subfolders': self._subfolders,
             'credentials': self._credentials,
             'authorization_key': self._authorization_key
         }
@@ -461,8 +461,6 @@ class Dropbox(UploadService):
     def load(self, data):
         if 'location' in data:
             self._location = data['location']
-        if 'subfolders' in data:
-            self._subfolders = data['subfolders']
         if 'credentials' in data:
             self._credentials = data['credentials']
         if 'authorization_key' in data:
