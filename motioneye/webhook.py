@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
+import json
 import logging
 import urllib2
 import urlparse
@@ -41,14 +42,31 @@ def main(parser, args):
     logging.debug('method = %s' % options.method)
     logging.debug('url = %s' % options.url)
     
+    headers = {}    
+    parts = urlparse.urlparse(options.url)
+    url = options.url
+    data = None
+
     if options.method == 'POST':
-        parts = urlparse.urlparse(options.url)
+        headers['Content-Type'] = 'text/plain'
+        data = ''
+
+    elif options.method == 'POSTf': # form url-encoded
+        headers['Content-Type'] = 'application/x-www-form-urlencoded'
         data = parts.query
+        url = options.url.split('?')[0]
 
-    else:
-        data = None
+    elif options.method == 'POSTj': # json
+        headers['Content-Type'] = 'application/json'
+        data = urlparse.parse_qs(parts.query)
+        data = {k: v[0] for (k, v) in data.iteritems()}
+        data = json.dumps(data)
+        url = options.url.split('?')[0]
 
-    request = urllib2.Request(options.url, data)
+    else: # GET
+        pass
+
+    request = urllib2.Request(url, data, headers=headers)
     try:
         urllib2.urlopen(request, timeout=settings.REMOTE_REQUEST_TIMEOUT)
         logging.debug('webhook successfully called')

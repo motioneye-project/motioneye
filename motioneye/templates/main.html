@@ -550,7 +550,7 @@
                     <tr class="settings-item advanced-setting" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Image File Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled still-images camera-config" id="imageFileNameEntry" placeholder="file name pattern..."></td>
-                        <td><span class="help-mark" title="sets the name pattern for the image (JPEG) files; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number / = subfolder">?</span></td>
+                        <td><span class="help-mark" title="sets the name pattern for the image (JPEG) files; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, / = subfolder">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
                         <td class="settings-item-label"><span class="settings-item-label">Image Quality</span></td>
@@ -723,9 +723,9 @@
                 </div>
                 <table class="settings">
                     <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Email Notifications</span></td>
+                        <td class="settings-item-label"><span class="settings-item-label">Send An Email</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="emailNotificationsSwitch"></td>
-                        <td><span class="help-mark" title="enable this if you want to receive email notifications whenever a motion event is detected">?</span></td>
+                        <td><span class="help-mark" title="enable this if you want to receive an email whenever a motion event is detected">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Email Addresses</span></td>
@@ -766,7 +766,7 @@
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Web Hook Notifications</span></td>
+                        <td class="settings-item-label"><span class="settings-item-label">Call A Web Hook</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="webHookNotificationsSwitch"></td>
                         <td><span class="help-mark" title="enable this if you want a URL to be requested whenever a motion event is detected">?</span></td>
                     </tr>
@@ -780,10 +780,12 @@
                         <td class="settings-item-value">
                             <select class="styled notifications camera-config" id="webHookHttpMethodSelect">
                                 <option value="GET">GET</option>
-                                <option value="POST">POST</option>
+                                <option value="POST">POST (query)</option>
+                                <option value="POSTf">POST (form)</option>
+                                <option value="POSTj">POST (json)</option>
                             </select>
                         </td>
-                        <td><span class="help-mark" title="the HTTP method to use when requesting the web hook URL">?</span></td>
+                        <td><span class="help-mark" title="the HTTP method to use when requesting the web hook URL (the given URL-encoded parameters will in fact be transmitted as indicated here)">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
