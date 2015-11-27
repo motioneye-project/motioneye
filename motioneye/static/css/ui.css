@@ -148,14 +148,17 @@ textarea.styled {
 }
 
 input[type=password].styled:FOCUS,
-input[type=text].styled:FOCUS {
+input[type=text].styled:FOCUS,
+textarea.styled:FOCUS {
     background-color: #414141;
 }
 
 input[type=password].styled:HOVER,
 input[type=password].styled:FOCUS,
 input[type=text].styled:HOVER,
-input[type=text].styled:FOCUS {
+input[type=text].styled:FOCUS,
+textarea.styled:HOVER,
+textarea.styled:FOCUS {
     border-color: #3498db;
     color: white;
 }

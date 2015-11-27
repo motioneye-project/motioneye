@@ -576,8 +576,6 @@ def rem_camera(camera_id):
 
 def main_ui_to_dict(ui):
     data = {
-        '@enabled': ui['enabled'],
-        
         '@show_advanced': ui['show_advanced'],
         '@admin_username': ui['admin_username'],
         '@admin_password': ui['admin_password'],
@@ -597,8 +595,6 @@ def main_ui_to_dict(ui):
 
 def main_dict_to_ui(data):
     ui = {
-        'enabled': data['@enabled'],
-        
         'show_advanced': data['@show_advanced'],
         'admin_username': data['@admin_username'],
         'admin_password': data['@admin_password'],
@@ -904,10 +900,36 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     
     # movie end
     on_movie_end = ['%(script)s movie_end %%t %%f' % {'script': meyectl.find_command('relayevent')}]
+    
+    if ui['web_hook_storage_enabled']:
+        url = re.sub('\\s', '+', ui['web_hook_storage_url'])
+
+        on_movie_end.append("%(script)s '%(method)s' '%(url)s'" % {
+                'script': meyectl.find_command('webhook'),
+                'method': ui['web_hook_storage_http_method'],
+                'url': url})
+
+    if ui['command_storage_enabled']:
+        commands = ui['command_storage_exec'].split(';')
+        on_movie_end += [c.strip() for c in commands]
+
     data['on_movie_end'] = '; '.join(on_movie_end)
     
     # picture save
     on_picture_save = ['%(script)s picture_save %%t %%f' % {'script': meyectl.find_command('relayevent')}]
+    
+    if ui['web_hook_storage_enabled']:
+        url = re.sub('\\s', '+', ui['web_hook_storage_url'])
+
+        on_picture_save.append("%(script)s '%(method)s' '%(url)s'" % {
+                'script': meyectl.find_command('webhook'),
+                'method': ui['web_hook_storage_http_method'],
+                'url': url})
+
+    if ui['command_storage_enabled']:
+        commands = ui['command_storage_exec'].split(';')
+        on_picture_save += [c.strip() for c in commands]
+
     data['on_picture_save'] = '; '.join(on_picture_save)
 
     # additional configs
@@ -963,6 +985,8 @@ def motion_camera_dict_to_ui(data):
         'upload_username': data['@upload_username'],
         'upload_password': data['@upload_password'],
         'upload_authorization_key': '', # needed, otherwise the field is hidden
+        'web_hook_storage_enabled': False,
+        'command_storage_enabled': False,
 
         # text overlay
         'text_overlay': False,
@@ -1204,7 +1228,7 @@ def motion_camera_dict_to_ui(data):
         ui['sunday_from'], ui['sunday_to'] = days[6].split('-')
         ui['working_schedule_type'] = data['@working_schedule_type']
     
-    # event start    
+    # event start
     on_event_start = data.get('on_event_start') or []
     if on_event_start:
         on_event_start = [e.strip() for e in on_event_start.split(';')]
@@ -1250,6 +1274,33 @@ def motion_camera_dict_to_ui(data):
     if command_notifications: 
         ui['command_notifications_enabled'] = True
         ui['command_notifications_exec'] = '; '.join(command_notifications)
+
+    # movie end
+    on_movie_end = data.get('on_movie_end') or []
+    if on_movie_end:
+        on_movie_end = [e.strip() for e in on_movie_end.split(';')]
+
+    command_storage = []
+    for e in on_movie_end:
+        if e.count('webhook'):
+            e = shlex.split(e)
+
+            if len(e) < 3:
+                continue
+
+            ui['web_hook_storage_enabled'] = True 
+            ui['web_hook_storage_http_method'] = e[-2]
+            ui['web_hook_storage_url'] = e[-1]
+
+        elif e.count('relayevent') or e.count('eventrelay.py'):
+            continue # ignore internal relay script
+
+        else: # custom command
+            command_storage.append(e)
+    
+    if command_storage: 
+        ui['command_storage_enabled'] = True
+        ui['command_storage_exec'] = '; '.join(command_storage)
 
     # additional configs
     for name, value in data.iteritems():

@@ -617,27 +617,23 @@ function initUI() {
     }
 
     /* ui elements that enable/disable other ui elements */
-    $('#motionEyeSwitch').change(updateConfigUI);
     $('#showAdvancedSwitch').change(updateConfigUI);
     $('#storageDeviceSelect').change(updateConfigUI);
     $('#resolutionSelect').change(updateConfigUI);
-    $('#leftTextSelect').change(updateConfigUI);
-    $('#rightTextSelect').change(updateConfigUI);
+    $('#leftTextTypeSelect').change(updateConfigUI);
+    $('#rightTextTypeSelect').change(updateConfigUI);
     $('#captureModeSelect').change(updateConfigUI);
     $('#autoNoiseDetectSwitch').change(updateConfigUI);
-    $('#videoDeviceSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#textOverlaySwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#videoStreamingSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#videoDeviceEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#textOverlayEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#videoStreamingEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     $('#streamingServerResizeSwitch').change(updateConfigUI);
-    $('#stillImagesSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#stillImagesEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     $('#preservePicturesSelect').change(updateConfigUI);
-    $('#moviesSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#motionDetectionSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#moviesEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#motionDetectionEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     $('#preserveMoviesSelect').change(updateConfigUI);
-    $('#emailNotificationsSwitch').change(updateConfigUI);
-    $('#webHookNotificationsSwitch').change(updateConfigUI);
-    $('#commandNotificationsSwitch').change(updateConfigUI);
-    $('#workingScheduleSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#workingScheduleEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     
     $('#mondayEnabledSwitch').change(updateConfigUI);
     $('#tuesdayEnabledSwitch').change(updateConfigUI);
@@ -890,19 +886,13 @@ function updateConfigUI() {
         }
     });
 
-    /* general enable switch */
-    var motionEyeEnabled = $('#motionEyeSwitch').get(0).checked;
-    if (!motionEyeEnabled) {
-        objs.not($('#motionEyeSwitch').parents('div').get(0)).each(markHideLogic);
-    }
-    
     if ($('#cameraSelect').find('option').length < 2) { /* no camera configured */
-        $('#videoDeviceSwitch').parent().each(markHideLogic);
-        $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
+        $('#videoDeviceEnabledSwitch').parent().each(markHideLogic);
+        $('#videoDeviceEnabledSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
     
-    if ($('#videoDeviceSwitch')[0].error) { /* config error */
-        $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
+    if ($('#videoDeviceEnabledSwitch')[0].error) { /* config error */
+        $('#videoDeviceEnabledSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
         
     /* advanced settings */
@@ -916,109 +906,41 @@ function updateConfigUI() {
         $('#resolutionSelect').parents('tr:eq(0)').each(markHideLogic);
     }
 
-    /* storage device */
-    if ($('#storageDeviceSelect').val() !== 'network-share') {
-        $('#networkServerEntry').parents('tr:eq(0)').each(markHideLogic);
-        $('#networkUsernameEntry').parents('tr:eq(0)').each(markHideLogic);
-        $('#networkPasswordEntry').parents('tr:eq(0)').each(markHideLogic);
-        $('#networkShareNameEntry').parents('tr:eq(0)').each(markHideLogic);
-    }
-    
-    /* text */
-    if ($('#leftTextSelect').val() !== 'custom-text') {
-        $('#leftTextEntry').parents('tr:eq(0)').each(markHideLogic);
-    }
-    if ($('#rightTextSelect').val() !== 'custom-text') {
-        $('#rightTextEntry').parents('tr:eq(0)').each(markHideLogic);
-    }
-    
-    /* still images capture mode */
-    if ($('#captureModeSelect').val() !== 'interval-snapshots') {
-        $('#snapshotIntervalEntry').parents('tr:eq(0)').each(markHideLogic);
-    }
-    
-    /* auto noise level */
-    if ($('#autoNoiseDetectSwitch').get(0).checked) {
-        $('#noiseLevelSlider').parents('tr:eq(0)').each(markHideLogic);
-    }
-    
     /* video device switch */
-    if (!$('#videoDeviceSwitch').get(0).checked) {
-        $('#videoDeviceSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
+    if (!$('#videoDeviceEnabledSwitch').get(0).checked) {
+        $('#videoDeviceEnabledSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
     
     /* text overlay switch */
-    if (!$('#textOverlaySwitch').get(0).checked) {
-        $('#textOverlaySwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
-    }
-    
-    /* video streaming */
-    if (!$('#videoStreamingSwitch').get(0).checked) {
-        $('#videoStreamingSwitch').parent().next('table.settings').find('tr.settings-item').not('.localhost-streaming').each(markHideLogic);
-    }
-    if (!$('#streamingServerResizeSwitch').get(0).checked) {
-        $('#streamingResolutionSlider').parents('tr:eq(0)').each(markHideLogic);
+    if (!$('#textOverlayEnabledSwitch').get(0).checked) {
+        $('#textOverlayEnabledSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
     }
     
     /* still images switch */
-    if (!$('#stillImagesSwitch').get(0).checked) {
-        $('#stillImagesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
-    }
-    
-    /* preserve pictures */
-    if ($('#preservePicturesSelect').val() != '-1') {
-        $('#picturesLifetimeEntry').parents('tr:eq(0)').each(markHideLogic);
+    if (!$('#stillImagesEnabledSwitch').get(0).checked) {
+        $('#stillImagesEnabledSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
     }
     
     /* movies switch */
-    if (!$('#moviesSwitch').get(0).checked) {
-        $('#moviesSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
-    }
-    
-    /* preserve movies */
-    if ($('#preserveMoviesSelect').val() != '-1') {
-        $('#moviesLifetimeEntry').parents('tr:eq(0)').each(markHideLogic);
+    if (!$('#moviesEnabledSwitch').get(0).checked) {
+        $('#moviesEnabledSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
     }
     
     /* motion detection switch */
-    if (!$('#motionDetectionSwitch').get(0).checked) {
-        $('#motionDetectionSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
+    if (!$('#motionDetectionEnabledSwitch').get(0).checked) {
+        $('#motionDetectionEnabledSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
         
-        /* hide the entire notifications section */
-        $('#emailNotificationsSwitch').parents('table.settings').prev().each(markHideLogic);
-        $('#emailNotificationsSwitch').parents('table.settings').each(markHideLogic);
-        
-        /* hide the entire working schedule section */
-        $('#workingScheduleSwitch').parent().each(markHideLogic);
-        $('#workingScheduleSwitch').parent().next('table.settings').each(markHideLogic);
+        /* hide the entire working schedule section,
+         * as its switch button prevents hiding it automatically */
+        $('#workingScheduleEnabledSwitch').parent().each(markHideLogic);
     }
     
-    /* event notifications */
-    if (!$('#emailNotificationsSwitch').get(0).checked) {
-        $('#emailAddressesEntry').parents('tr:eq(0)').each(markHideLogic);
-        $('#smtpServerEntry').parents('tr:eq(0)').each(markHideLogic);
-        $('#smtpPortEntry').parents('tr:eq(0)').each(markHideLogic);
-        $('#smtpAccountEntry').parents('tr:eq(0)').each(markHideLogic);
-        $('#smtpPasswordEntry').parents('tr:eq(0)').each(markHideLogic);
-        $('#smtpTlsSwitch').parents('tr:eq(0)').each(markHideLogic);
-        $('#emailPictureTimeSpanEntry').parents('tr:eq(0)').each(markHideLogic);
-    }
-    
-    if (!$('#webHookNotificationsSwitch').get(0).checked) {
-        $('#webHookUrlEntry').parents('tr:eq(0)').each(markHideLogic);
-        $('#webHookHttpMethodSelect').parents('tr:eq(0)').each(markHideLogic);
-    }
-
-    if (!$('#commandNotificationsSwitch').get(0).checked) {
-        $('#commandNotificationsEntry').parents('tr:eq(0)').each(markHideLogic);
-    }
-
     /* working schedule */
-    if (!$('#workingScheduleSwitch').get(0).checked) {
-        $('#workingScheduleSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
+    if (!$('#workingScheduleEnabledSwitch').get(0).checked) {
+        $('#workingScheduleEnabledSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
     }
     
-    /* additional configs */
+    /* html dependencies */
     $('tr[depends]').each(function () {
         var $tr = $(this);
         var depends = $tr.attr('depends').split(' ');
@@ -1198,8 +1120,6 @@ function configUiValid() {
 
 function mainUi2Dict() {
     var dict = {
-        'enabled': $('#motionEyeSwitch')[0].checked,
-        
         'show_advanced': $('#showAdvancedSwitch')[0].checked,
         'admin_username': $('#adminUsernameEntry').val(),
         'admin_password': $('#adminPasswordEntry').val(),
@@ -1266,8 +1186,6 @@ function dict2MainUi(dict) {
         }
     }
     
-    $('#motionEyeSwitch')[0].checked = dict['enabled'];
-    
     $('#showAdvancedSwitch')[0].checked = dict['show_advanced']; markHideIfNull('show_advanced', 'showAdvancedSwitch');
     $('#adminUsernameEntry').val(dict['admin_username']); markHideIfNull('admin_username', 'adminUsernameEntry');
     $('#adminPasswordEntry').val(dict['admin_password']); markHideIfNull('admin_password', 'adminPasswordEntry');
@@ -1320,14 +1238,14 @@ function dict2MainUi(dict) {
 }
 
 function cameraUi2Dict() {
-    if ($('#videoDeviceSwitch')[0].error) { /* config error */
+    if ($('#videoDeviceEnabledSwitch')[0].error) { /* config error */
         return {
-            'enabled': $('#videoDeviceSwitch')[0].checked,
+            'enabled': $('#videoDeviceEnabledSwitch')[0].checked,
         };
     }
     
     var dict = {
-        'enabled': $('#videoDeviceSwitch')[0].checked,
+        'enabled': $('#videoDeviceEnabledSwitch')[0].checked,
         'name': $('#deviceNameEntry').val(),
         'proto': $('#deviceTypeEntry')[0].proto,
         
@@ -1374,16 +1292,21 @@ function cameraUi2Dict() {
         'upload_username': $('#uploadUsernameEntry').val(),
         'upload_password': $('#uploadPasswordEntry').val(),
         'upload_authorization_key': $('#uploadAuthorizationKeyEntry').val(),
-        
+        'web_hook_storage_enabled': $('#webHookStorageEnabledSwitch')[0].checked,
+        'web_hook_storage_url': $('#webHookStorageUrlEntry').val(),
+        'web_hook_storage_http_method': $('#webHookStorageHttpMethodSelect').val(),
+        'command_storage_enabled': $('#commandStorageEnabledSwitch')[0].checked,
+        'command_storage_exec': $('#commandStorageEntry').val(),
+
         /* text overlay */
-        'text_overlay': $('#textOverlaySwitch')[0].checked,
-        'left_text': $('#leftTextSelect').val(),
+        'text_overlay': $('#textOverlayEnabledSwitch')[0].checked,
+        'left_text': $('#leftTextTypeSelect').val(),
         'custom_left_text': $('#leftTextEntry').val(),
-        'right_text': $('#rightTextSelect').val(),
+        'right_text': $('#rightTextTypeSelect').val(),
         'custom_right_text': $('#rightTextEntry').val(),
         
         /* video streaming */
-        'video_streaming': $('#videoStreamingSwitch')[0].checked,
+        'video_streaming': $('#videoStreamingEnabledSwitch')[0].checked,
         'streaming_framerate': $('#streamingFramerateSlider').val(),
         'streaming_quality': $('#streamingQualitySlider').val(),
         'streaming_resolution': $('#streamingResolutionSlider').val(),
@@ -1393,7 +1316,7 @@ function cameraUi2Dict() {
         'streaming_motion': $('#streamingMotion')[0].checked,
         
         /* still images */
-        'still_images': $('#stillImagesSwitch')[0].checked,
+        'still_images': $('#stillImagesEnabledSwitch')[0].checked,
         'image_file_name': $('#imageFileNameEntry').val(),
         'image_quality': $('#imageQualitySlider').val(),
         'capture_mode': $('#captureModeSelect').val(),
@@ -1401,7 +1324,7 @@ function cameraUi2Dict() {
         'preserve_pictures': $('#preservePicturesSelect').val() >= 0 ? $('#preservePicturesSelect').val() : $('#picturesLifetimeEntry').val(),
         
         /* movies */
-        'movies': $('#moviesSwitch')[0].checked,
+        'movies': $('#moviesEnabledSwitch')[0].checked,
         'movie_file_name': $('#movieFileNameEntry').val(),
         'movie_quality': $('#movieQualitySlider').val(),
         'recording_mode': $('#recordingModeSelect').val(),
@@ -1409,7 +1332,7 @@ function cameraUi2Dict() {
         'preserve_movies': $('#preserveMoviesSelect').val() >= 0 ? $('#preserveMoviesSelect').val() : $('#moviesLifetimeEntry').val(),
         
         /* motion detection */
-        'motion_detection': $('#motionDetectionSwitch')[0].checked,
+        'motion_detection': $('#motionDetectionEnabledSwitch')[0].checked,
         'show_frame_changes': $('#showFrameChangesSwitch')[0].checked,
         'frame_change_threshold': $('#frameChangeThresholdSlider').val(),
         'auto_noise_detect': $('#autoNoiseDetectSwitch')[0].checked,
@@ -1421,7 +1344,7 @@ function cameraUi2Dict() {
         'minimum_motion_frames': $('#minimumMotionFramesEntry').val(),
         
         /* motion notifications */
-        'email_notifications_enabled': $('#emailNotificationsSwitch')[0].checked,
+        'email_notifications_enabled': $('#emailNotificationsEnabledSwitch')[0].checked,
         'email_notifications_addresses': $('#emailAddressesEntry').val(),
         'email_notifications_smtp_server': $('#smtpServerEntry').val(),
         'email_notifications_smtp_port': $('#smtpPortEntry').val(),
@@ -1429,14 +1352,14 @@ function cameraUi2Dict() {
         'email_notifications_smtp_password': $('#smtpPasswordEntry').val(),
         'email_notifications_smtp_tls': $('#smtpTlsSwitch')[0].checked,
         'email_notifications_picture_time_span': $('#emailPictureTimeSpanEntry').val(),
-        'web_hook_notifications_enabled': $('#webHookNotificationsSwitch')[0].checked,
-        'web_hook_notifications_url': $('#webHookUrlEntry').val(),
-        'web_hook_notifications_http_method': $('#webHookHttpMethodSelect').val(),
-        'command_notifications_enabled': $('#commandNotificationsSwitch')[0].checked,
+        'web_hook_notifications_enabled': $('#webHookNotificationsEnabledSwitch')[0].checked,
+        'web_hook_notifications_url': $('#webHookNotificationsUrlEntry').val(),
+        'web_hook_notifications_http_method': $('#webHookNotificationsHttpMethodSelect').val(),
+        'command_notifications_enabled': $('#commandNotificationsEnabledSwitch')[0].checked,
         'command_notifications_exec': $('#commandNotificationsEntry').val(),
         
         /* working schedule */
-        'working_schedule': $('#workingScheduleSwitch')[0].checked,
+        'working_schedule': $('#workingScheduleEnabledSwitch')[0].checked,
         'monday_from': $('#mondayEnabledSwitch')[0].checked ? $('#mondayFromEntry').val() : '',
         'monday_to':$('#mondayEnabledSwitch')[0].checked ? $('#mondayToEntry').val() : '',
         'tuesday_from': $('#tuesdayEnabledSwitch')[0].checked ? $('#tuesdayFromEntry').val() : '',
@@ -1530,14 +1453,14 @@ function dict2CameraUi(dict) {
     if (dict == null) {
         /* errors while getting the configuration */
         
-        $('#videoDeviceSwitch')[0].error = true;
-        $('#videoDeviceSwitch')[0].checked = true; /* so that the user can explicitly disable the camera */
+        $('#videoDeviceEnabledSwitch')[0].error = true;
+        $('#videoDeviceEnabledSwitch')[0].checked = true; /* so that the user can explicitly disable the camera */
         updateConfigUI();
         
         return;
     }
     else {
-        $('#videoDeviceSwitch')[0].error = false;
+        $('#videoDeviceEnabledSwitch')[0].error = false;
     }
 
     function markHideIfNull(field, elemId) {
@@ -1576,7 +1499,7 @@ function dict2CameraUi(dict) {
             break;
     }
     
-    $('#videoDeviceSwitch')[0].checked = dict['enabled']; markHideIfNull('enabled', 'videoDeviceSwitch');
+    $('#videoDeviceEnabledSwitch')[0].checked = dict['enabled']; markHideIfNull('enabled', 'videoDeviceEnabledSwitch');
     $('#deviceNameEntry').val(dict['name']); markHideIfNull('name', 'deviceNameEntry');
     $('#deviceUrlEntry').val(dict['device_url']); markHideIfNull('device_url', 'deviceUrlEntry');
     $('#deviceTypeEntry').val(prettyType); markHideIfNull(!prettyType, 'deviceTypeEntry');
@@ -1662,15 +1585,22 @@ function dict2CameraUi(dict) {
     $('#uploadPasswordEntry').val(dict['upload_password']); markHideIfNull('upload_password', 'uploadPasswordEntry');
     $('#uploadAuthorizationKeyEntry').val(dict['upload_authorization_key']); markHideIfNull('upload_authorization_key', 'uploadAuthorizationKeyEntry');
 
+    $('#webHookStorageEnabledSwitch')[0].checked = dict['web_hook_storage_enabled']; markHideIfNull('web_hook_storage_enabled', 'webHookStorageEnabledSwitch');
+    $('#webHookStorageUrlEntry').val(dict['web_hook_storage_url']);
+    $('#webHookStorageHttpMethodSelect').val(dict['web_hook_storage_http_method']);
+
+    $('#commandStorageEnabledSwitch')[0].checked = dict['command_storage_enabled']; markHideIfNull('command_storage_enabled', 'commandstorageSwitch');
+    $('#commandStorageEntry').val(dict['command_storage_exec']);
+
     /* text overlay */
-    $('#textOverlaySwitch')[0].checked = dict['text_overlay']; markHideIfNull('text_overlay', 'textOverlaySwitch');
-    $('#leftTextSelect').val(dict['left_text']); markHideIfNull('left_text', 'leftTextSelect');
+    $('#textOverlayEnabledSwitch')[0].checked = dict['text_overlay']; markHideIfNull('text_overlay', 'textOverlayEnabledSwitch');
+    $('#leftTextTypeSelect').val(dict['left_text']); markHideIfNull('left_text', 'leftTextTypeSelect');
     $('#leftTextEntry').val(dict['custom_left_text']); markHideIfNull('custom_left_text', 'leftTextEntry');
-    $('#rightTextSelect').val(dict['right_text']); markHideIfNull('right_text', 'rightTextSelect');
+    $('#rightTextTypeSelect').val(dict['right_text']); markHideIfNull('right_text', 'rightTextTypeSelect');
     $('#rightTextEntry').val(dict['custom_right_text']); markHideIfNull('custom_right_text', 'rightTextEntry');
     
     /* video streaming */
-    $('#videoStreamingSwitch')[0].checked = dict['video_streaming']; markHideIfNull('video_streaming', 'videoStreamingSwitch');
+    $('#videoStreamingEnabledSwitch')[0].checked = dict['video_streaming']; markHideIfNull('video_streaming', 'videoStreamingEnabledSwitch');
     $('#streamingFramerateSlider').val(dict['streaming_framerate']); markHideIfNull('streaming_framerate', 'streamingFramerateSlider');
     $('#streamingQualitySlider').val(dict['streaming_quality']); markHideIfNull('streaming_quality', 'streamingQualitySlider');
     $('#streamingResolutionSlider').val(dict['streaming_resolution']); markHideIfNull('streaming_resolution', 'streamingResolutionSlider');
@@ -1710,9 +1640,9 @@ function dict2CameraUi(dict) {
     $('#streamingSnapshotUrlEntry').val(snapshotUrl); markHideIfNull(!snapshotUrl, 'streamingSnapshotUrlEntry');
     $('#streamingMjpgUrlEntry').val(mjpgUrl); markHideIfNull(!mjpgUrl, 'streamingMjpgUrlEntry');
     $('#streamingEmbedUrlEntry').val(embedUrl); markHideIfNull(!embedUrl, 'streamingEmbedUrlEntry');
-    
+
     /* still images */
-    $('#stillImagesSwitch')[0].checked = dict['still_images']; markHideIfNull('still_images', 'stillImagesSwitch');
+    $('#stillImagesEnabledSwitch')[0].checked = dict['still_images']; markHideIfNull('still_images', 'stillImagesEnabledSwitch');
     $('#imageFileNameEntry').val(dict['image_file_name']); markHideIfNull('image_file_name', 'imageFileNameEntry');
     $('#imageQualitySlider').val(dict['image_quality']); markHideIfNull('image_quality', 'imageQualitySlider');
     $('#captureModeSelect').val(dict['capture_mode']); markHideIfNull('capture_mode', 'captureModeSelect');
@@ -1725,7 +1655,7 @@ function dict2CameraUi(dict) {
     $('#picturesLifetimeEntry').val(dict['preserve_pictures']); markHideIfNull('preserve_pictures', 'picturesLifetimeEntry');
     
     /* movies */
-    $('#moviesSwitch')[0].checked = dict['movies']; markHideIfNull('movies', 'moviesSwitch');
+    $('#moviesEnabledSwitch')[0].checked = dict['movies']; markHideIfNull('movies', 'moviesEnabledSwitch');
     $('#movieFileNameEntry').val(dict['movie_file_name']); markHideIfNull('movie_file_name', 'movieFileNameEntry');
     $('#movieQualitySlider').val(dict['movie_quality']); markHideIfNull('movie_quality', 'movieQualitySlider');
     $('#recordingModeSelect').val(dict['recording_mode']); markHideIfNull('recording_mode', 'recordingModeSelect');
@@ -1738,7 +1668,7 @@ function dict2CameraUi(dict) {
     $('#moviesLifetimeEntry').val(dict['preserve_movies']); markHideIfNull('preserve_movies', 'moviesLifetimeEntry');
     
     /* motion detection */
-    $('#motionDetectionSwitch')[0].checked = dict['motion_detection']; markHideIfNull('motion_detection', 'motionDetectionSwitch');
+    $('#motionDetectionEnabledSwitch')[0].checked = dict['motion_detection']; markHideIfNull('motion_detection', 'motionDetectionEnabledSwitch');
     $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes']; markHideIfNull('show_frame_changes', 'showFrameChangesSwitch');
     $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']); markHideIfNull('frame_change_threshold', 'frameChangeThresholdSlider');
     $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect']; markHideIfNull('auto_noise_detect', 'autoNoiseDetectSwitch');
@@ -1750,7 +1680,7 @@ function dict2CameraUi(dict) {
     $('#minimumMotionFramesEntry').val(dict['minimum_motion_frames']); markHideIfNull('minimum_motion_frames', 'minimumMotionFramesEntry');
     
     /* motion notifications */
-    $('#emailNotificationsSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsSwitch');
+    $('#emailNotificationsEnabledSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsEnabledSwitch');
     $('#emailAddressesEntry').val(dict['email_notifications_addresses']);
     $('#smtpServerEntry').val(dict['email_notifications_smtp_server']);
     $('#smtpPortEntry').val(dict['email_notifications_smtp_port']);
@@ -1758,14 +1688,16 @@ function dict2CameraUi(dict) {
     $('#smtpPasswordEntry').val(dict['email_notifications_smtp_password']);
     $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls'];
     $('#emailPictureTimeSpanEntry').val(dict['email_notifications_picture_time_span']);
-    $('#webHookNotificationsSwitch')[0].checked = dict['web_hook_notifications_enabled']; markHideIfNull('web_hook_notifications_enabled', 'webHookNotificationsSwitch');
-    $('#webHookUrlEntry').val(dict['web_hook_notifications_url']);
-    $('#webHookHttpMethodSelect').val(dict['web_hook_notifications_http_method']);
-    $('#commandNotificationsSwitch')[0].checked = dict['command_notifications_enabled']; markHideIfNull('command_notifications_enabled', 'commandNotificationsSwitch');
+    
+    $('#webHookNotificationsEnabledSwitch')[0].checked = dict['web_hook_notifications_enabled']; markHideIfNull('web_hook_notifications_enabled', 'webHookNotificationsEnabledSwitch');
+    $('#webHookNotificationsUrlEntry').val(dict['web_hook_notifications_url']);
+    $('#webHookNotificationsHttpMethodSelect').val(dict['web_hook_notifications_http_method']);
+    
+    $('#commandNotificationsEnabledSwitch')[0].checked = dict['command_notifications_enabled']; markHideIfNull('command_notifications_enabled', 'commandNotificationsEnabledSwitch');
     $('#commandNotificationsEntry').val(dict['command_notifications_exec']);
 
     /* working schedule */
-    $('#workingScheduleSwitch')[0].checked = dict['working_schedule']; markHideIfNull('working_schedule', 'workingScheduleSwitch');
+    $('#workingScheduleEnabledSwitch')[0].checked = dict['working_schedule']; markHideIfNull('working_schedule', 'workingScheduleEnabledSwitch');
     $('#mondayEnabledSwitch')[0].checked = Boolean(dict['monday_from'] && dict['monday_to']); markHideIfNull('monday_from', 'mondayEnabledSwitch');
     $('#mondayFromEntry').val(dict['monday_from']); markHideIfNull('monday_from', 'mondayFromEntry');
     $('#mondayToEntry').val(dict['monday_to']); markHideIfNull('monday_to', 'mondayToEntry');
@@ -2853,10 +2785,6 @@ function runPictureDialog(entries, pos, mediaType) {
 }
 
 function runAddCameraDialog() {
-    if (!$('#motionEyeSwitch')[0].checked) {
-        return runAlertDialog('Please enable motionEye first!');
-    }
-    
     if (Object.keys(pushConfigs).length) {
         return runAlertDialog('Please apply the modified settings first!');
     }
@@ -2875,7 +2803,7 @@ function runAddCameraDialog() {
                 '</tr>' +
                 '<tr class="motioneye netcam mjpeg">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">URL</span></td>' +
-                    '<td class="dialog-item-value"><input type="text" class="styled" id="urlEntry" placeholder="http://example.com:8080/cams/..."></td>' +
+                    '<td class="dialog-item-value"><input type="text" class="styled" id="urlEntry" placeholder="http://example.com:8765/cams/..."></td>' +
                     '<td><span class="help-mark" title="the camera URL (e.g. http://example.com:8080/cam/)">?</span></td>' +
                 '</tr>' +
                 '<tr class="motioneye netcam mjpeg">' +
@@ -3859,7 +3787,7 @@ function recreateCameraFrames(cameras) {
             addCameraFrameUi(camera);
         }
         
-        if ($('#cameraSelect').find('option').length < 2 && isAdmin() && $('#motionEyeSwitch')[0].checked) {
+        if ($('#cameraSelect').find('option').length < 2 && isAdmin()) {
             /* invite the user to add a camera */
             var addCameraLink = $('<div class="add-camera-message">' + 
                     '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');
