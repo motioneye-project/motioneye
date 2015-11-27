@@ -1423,7 +1423,6 @@ def restore(content):
             io_loop.add_timeout(datetime.timedelta(seconds=2), later)
 
         else:
-            logging.info('invalidating config cache')
             invalidate()
 
         return {'reboot': settings.ENABLE_REBOOT}

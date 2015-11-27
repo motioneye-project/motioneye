@@ -298,13 +298,14 @@ def make_media_folders():
     camera_ids = config.get_camera_ids()
     for camera_id in camera_ids:
         camera_config = config.get_camera(camera_id)
-        if not os.path.exists(camera_config['target_dir']):
-            try:
-                os.makedirs(camera_config['target_dir'])
-            
-            except Exception as e:
-                logging.error('failed to create root media folder "%s" for camera with id %s: %s' % (
-                        camera_config['target_dir'], camera_id, e))
+        if 'target_dir' in camera_config:
+            if not os.path.exists(camera_config['target_dir']):
+                try:
+                    os.makedirs(camera_config['target_dir'])
+                
+                except Exception as e:
+                    logging.error('failed to create root media folder "%s" for camera with id %s: %s' % (
+                            camera_config['target_dir'], camera_id, e))
 
 
 def start_motion():
