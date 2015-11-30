@@ -372,10 +372,11 @@ div.modal-close-button {
     position: absolute;
     top: 0.2em;
     right: 0.3em;
-    width: 1.1em;
-    height: 1.1em;
-    background-image: url(../img/top-bar-buttons.svg);
+    width: 1.5em;
+    height: 1.5em;
+    background-image: url(../img/camera-top-buttons.svg);
     background-size: cover;
+    background-position: -400% 0px;
     cursor: pointer;
 }
 
@@ -464,11 +465,5 @@ span.popup-message.error {
     div.modal-title-bar {
         min-height: 2em;
         line-height: 2em;
-    }
-    
-    div.modal-close-button {
-        background-size: cover;
-        width: 24px;
-        height: 24px;
     }
 }

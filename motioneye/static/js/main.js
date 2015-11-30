@@ -53,6 +53,10 @@ Object.keys = Object.keys || (function () {
     };
 })();
 
+Object.values = function (obj) {
+    return Object.keys(obj).map(function (k) {return obj[k];});
+};
+
 Object.update = function (dest, source) {
     for (var key in source) {
         if (!source.hasOwnProperty(key)) {
@@ -846,6 +850,32 @@ function getCameraProgresses() {
 
 function getCameraProgress(cameraId) {
     return getCameraFrame(cameraId).find('div.camera-progress'); 
+}
+
+function setLayoutColumns(columns) {
+    var cssClasses = {
+        1: 'one-column',
+        2: 'two-columns',
+        3: 'three-columns',
+        4: 'four-columns'
+    };
+    
+    getPageContainer().removeClass(Object.values(cssClasses).join(' '));
+    getPageContainer().addClass(cssClasses[columns]);
+}
+
+function showCameraOverlay() {
+    getCameraFrames().find('div.camera-overlay').css('display', '');
+    setTimeout(function () {
+        getCameraFrames().find('div.camera-overlay').addClass('visible');
+    }, 10);
+}
+
+function hideCameraOverlay() {
+    getCameraFrames().find('div.camera-overlay').removeClass('visible');
+    setTimeout(function () {
+        getCameraFrames().find('div.camera-overlay').css('display', 'none');
+    }, 300);
 }
 
 
@@ -2542,7 +2572,7 @@ function pushCameraConfig(reboot) {
     }
     
     /* also update the config stored in the camera frame div */
-    var cameraFrame = $('div.camera-frame#camera' + cameraId);
+    var cameraFrame = getCameraFrame(cameraId);
     if (cameraFrame.length) {
         Object.update(cameraFrame[0].config, cameraConfig);
     }
@@ -2592,7 +2622,7 @@ function getCameraIdsByInstance() {
      * the local instance has both the host and the port set to empty string */
     
     var cameraIdsByInstance = {};
-    $('div.camera-frame').each(function () {
+    getCameraFrames().each(function () {
         var instance;
         if (this.config.proto == 'netcam' || this.config.proto == 'v4l2') {
             instance = '';
@@ -3637,38 +3667,53 @@ function runMediaDialog(cameraId, mediaType) {
     /* camera frames */
 
 function addCameraFrameUi(cameraConfig) {
-    if (cameraConfig == null) {
-        var cameraFrameDivPlaceHolder = $('<div class="camera-frame-place-holder"></div>');
-        getPageContainer().append(cameraFrameDivPlaceHolder);
-        
-        return;
-    }
-    
     var cameraId = cameraConfig.id;
     
     var cameraFrameDiv = $(
             '<div class="camera-frame">' +
-                '<div class="camera-top-bar">' +
-                    '<span class="camera-name"></span>' +
-                    '<div class="camera-buttons">' +
-                        '<div class="button camera-button mouse-effect full-screen" title="full-screen window"></div>' +
-                        '<div class="button camera-button mouse-effect media-pictures" title="pictures"></div>' +
-                        '<div class="button camera-button mouse-effect media-movies" title="movies"></div>' +
-                        '<div class="button camera-button mouse-effect configure" title="configure"></div>' +
-                    '</div>' +
-                '</div>' +
                 '<div class="camera-container">' +
                     '<div class="camera-placeholder"><img class="no-camera" src="' + staticPath + 'img/no-camera.svg"></div>' +
                     '<img class="camera">' +
                     '<div class="camera-progress"><img class="camera-progress"></div>' +
                 '</div>' +
+                '<div class="camera-overlay">' +
+                    '<div class="camera-overlay-top">' +
+                        '<div class="camera-name"><span class="camera-name"></span></div>' +
+                        '<div class="camera-top-buttons">' +
+                            '<div class="button camera-top-button mouse-effect full-screen" title="full-screen window"></div>' +
+                            '<div class="button camera-top-button mouse-effect media-pictures" title="pictures"></div>' +
+                            '<div class="button camera-top-button mouse-effect media-movies" title="movies"></div>' +
+                            '<div class="button camera-top-button mouse-effect configure" title="configure"></div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="camera-overlay-bottom">' +
+                        '<div class="camera-info"></div>' +
+                        '<div class="camera-action-buttons">' +
+                            '<div class="button camera-action-button mouse-effect lock" title="lock"></div>' +
+                            '<div class="button camera-action-button mouse-effect unlock" title="unlock"></div>' +
+                            '<div class="button camera-action-button mouse-effect light-on" title="turn on light"></div>' +
+                            '<div class="button camera-action-button mouse-effect light-off" title="turn off light"></div>' +
+                            '<div class="button camera-action-button mouse-effect alarm" title="alarm"></div>' +
+                        '</div>' +
+                    '</div>' +
+                '</div>' +
             '</div>');
-    
+
     var nameSpan = cameraFrameDiv.find('span.camera-name');
-    var configureButton = cameraFrameDiv.find('div.camera-button.configure');
-    var picturesButton = cameraFrameDiv.find('div.camera-button.media-pictures');
-    var moviesButton = cameraFrameDiv.find('div.camera-button.media-movies');
-    var fullScreenButton = cameraFrameDiv.find('div.camera-button.full-screen');
+    
+    var configureButton = cameraFrameDiv.find('div.camera-top-button.configure');
+    var picturesButton = cameraFrameDiv.find('div.camera-top-button.media-pictures');
+    var moviesButton = cameraFrameDiv.find('div.camera-top-button.media-movies');
+    var fullScreenButton = cameraFrameDiv.find('div.camera-top-button.full-screen');
+    
+    var cameraInfoDiv = cameraFrameDiv.find('div.camera-info');
+    
+    var lockButton = cameraFrameDiv.find('div.camera-action-button.lock');
+    var unlockButton = cameraFrameDiv.find('div.camera-action-button.unlock');
+    var lightOnButton = cameraFrameDiv.find('div.camera-action-button.light-on');
+    var lightOffButton = cameraFrameDiv.find('div.camera-action-button.light-off');
+    var alarmButton = cameraFrameDiv.find('div.camera-action-button.alarm');
+    
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
     var cameraProgress = cameraFrameDiv.find('div.camera-progress');
     var cameraImg = cameraFrameDiv.find('img.camera');
@@ -3720,7 +3765,7 @@ function addCameraFrameUi(cameraConfig) {
     /* fade in */
     cameraFrameDiv.animate({'opacity': 1}, 100);
     
-    /* add the button handlers */
+    /* add the top button handlers */
     configureButton.click(function () {
         doConfigureCamera(cameraId);
     });
@@ -3743,6 +3788,16 @@ function addCameraFrameUi(cameraConfig) {
             window.open(path, '_blank');
         };
     }(cameraId));
+    
+    /* add the top button handlers */
+    //TODO 
+    
+    // TODO move these to the refresh function
+    cameraInfoDiv.append('<span class="camera-info-name">frame rate</span>');
+    cameraInfoDiv.append('<span class="camera-info-value">25 fps</span><br>');
+    cameraInfoDiv.append('<span class="camera-info-name">temperature</span>');
+    cameraInfoDiv.append('<span class="camera-info-value">38 deg</span><br>');
+    cameraInfoDiv.css('padding-top', '1em');
     
     /* error and load handlers */
     cameraImg[0].onerror = function () {

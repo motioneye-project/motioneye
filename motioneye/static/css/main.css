@@ -106,13 +106,12 @@ div.copyright-note {
 }
 
 div.page-container {
-    transition: all 0.2s linear;
-    padding: 55px 5px 3em 2%;
+    transition: all 0.1s linear;
+    padding: 50px 0.2em 50px 0px;
 }
 
 div.page-container.stretched {
     margin-left: 40%;
-    padding-left: 5px;
 }
 
 
@@ -121,15 +120,23 @@ div.page-container.stretched {
 div.button.settings-button {
     margin: 1px;
     vertical-align: middle;
-    background-image: url(../img/settings.svg);
+    background-image: url(../img/top-bar-buttons.svg);
+    background-size: cover;
     width: 48px;
     height: 48px;
+    transition: transform 0.1s ease;    
+}
+
+div.settings-top-bar.open div.button.settings-button {
+    transform: rotate(90deg);
 }
 
 div.button.logout-button {
     margin: 1px;
     vertical-align: middle;
-    background-image: url(../img/logout.svg);
+    background-image: url(../img/top-bar-buttons.svg);
+    background-size: cover;
+    background-position: -100% 0px;
     width: 48px;
     height: 48px;
 }
@@ -150,10 +157,11 @@ div.button.rem-camera-button {
     display: none;
     margin: 1px;
     vertical-align: middle;
-    background-image: url(../img/settings.svg);
+    background-image: url(../img/top-bar-buttons.svg);
+    background-size: cover;
+    background-position: -200% 0px;
     width: 48px;
     height: 48px;
-    background-position: -48px 0px;
 }
 
 div.settings-top-bar.open div.button.rem-camera-button {
@@ -228,7 +236,7 @@ div.settings {
 
 div.settings.open {
     width: 40%;
-    min-width: 320px;
+    min-width: 360px;
 }
 
 body:not(.admin) div.settings {
@@ -266,7 +274,7 @@ div.settings-top-bar {
 
 div.settings-top-bar.open {
     background-color: #414141;
-    min-width: 320px;
+    min-width: 360px;
 }
 
 body:not(.admin) div.settings-top-bar {
@@ -321,9 +329,9 @@ div.settings-item-separator {
 
 #cameraSelect {
     display: none;
-    padding: 4px 1.5em 4px 4px;
+    padding: 2px 1.5em 2px 2px;
     vertical-align: middle;
-    font-size: 1.1em;
+    font-size: 1.2em;
     width: auto;
     max-width: 35%;
 }
@@ -803,32 +811,46 @@ div.camera-list {
     text-align: center;
 }
 
-div.camera-frame,
-div.camera-frame-place-holder {
+div.camera-frame {
+    width: 100%;
     position: relative;
-    width: 32%;
+    box-sizing: border-box;
     text-align: left;
     background-color: #313131;
     display: inline-block;
-    padding: 0px 3px 3px 3px;
-    border-radius: 3px;
-    transition: all 0.2s, opacity 0s;
-    margin: 2px;
+    padding: 0.2em;
+    border-radius: 0.1em;
+    border: 0.2em solid #212121;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    transition: all 0.1s, opacity 0s;
     opacity: 0;
     vertical-align: top;
+    cursor: pointer;
 }
 
-div.camera-frame:only-child,
-div.camera-frame-place-holder:only-child {
-    width: 48%;
-}
-
-div.camera-frame-place-holder {
-    visibility: hidden;
+div.camera-frame:HOVER {
+    background-color: #414141;
 }
 
 div.camera-frame.motion-detected {
     background-color: #712727;
+}
+
+div.page-container.one-column div.camera-frame {
+    width: 100%;
+}
+
+div.page-container.two-columns div.camera-frame {
+    width: 50%;
+}
+
+div.page-container.three-columns div.camera-frame {
+    width: 33%;
+}
+
+div.page-container.four-columns div.camera-frame {
+    width: 25%;
 }
 
 div.modal-container div.camera-frame {
@@ -838,62 +860,167 @@ div.modal-container div.camera-frame {
     background-color: #414141;
 }
 
-div.camera-frame:HOVER {
-    background-color: #414141;
+div.camera-overlay {
+    position: absolute;
+    top: 0.2em;
+    right: 0.2em;
+    left: 0.2em;
+    bottom: 0.2em;
+    opacity: 0;
+    transition: opacity 0.2s ease;
 }
 
-div.camera-frame.motion-detected:HOVER {
-    background-color: #8B3636;
+div.camera-overlay.visible {
+    opacity: 1;
 }
 
-div.camera-top-bar {
-    padding: 3px 0px;
-    font-size: 20px;
-    height: 25px;
+div.camera-overlay-top,
+div.camera-overlay-bottom {
+    position: absolute;
+    background-color: rgba(49, 49, 49, 0.5);
+    left: 0px;
+    width: 100%;
 }
 
-div.modal-container div.camera-top-bar {
-    display: none;
+div.camera-frame:HOVER div.camera-overlay-top,
+div.camera-frame:HOVER div.camera-overlay-bottom {
+    background-color: rgba(65, 65, 65, 0.5);
+}
+
+div.camera-frame.motion-detected div.camera-overlay-top,
+div.camera-frame.motion-detected div.camera-overlay-bottom {
+    background-color: rgba(113, 39, 39, 0.5);
+}
+
+div.camera-overlay-top {
+    top: 0px;
+    height: 2.5em;
+    line-height: 2.5em;
+    white-space: nowrap;
+}
+
+div.camera-name {
+    display: inline-block;
+    font-size: 1.5em;
+    white-space: nowrap;
+    width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
 }
 
 span.camera-name {
-    float: left;
-    line-height: 25px;
+    padding-left: 0.4em;
 }
 
-div.camera-buttons {
-    float: right;
-}
-
-div.camera-button {
+div.camera-top-buttons {
     display: inline-block;
-    width: 24px;
-    height: 24px;
-    background-image: url(../img/top-bar-buttons.svg);
+    width: 50%;
+    vertical-align: top;
+    text-align: right;
+}
+
+div.camera-top-button {
+    background-image: url(../img/camera-top-buttons.svg);
     background-size: cover;
-    margin-left: 3px;
-    cursor: pointer;
-    transition: all 0.1s linear;
+    width: 2em;
+    height: 2em;
+    vertical-align: top;
+    margin-top: 0.25em;
 }
 
-div.camera-button.close {
-    background-position: 0px 0px;
+div.camera-top-button:last-child {
+    margin-right: 0.25em;
 }
 
-div.camera-button.full-screen {
-    background-position: -200% 0px;
-}
-
-div.camera-button.configure {
+div.camera-top-button.full-screen {
     background-position: -100% 0px;
 }
 
-div.camera-button.media-pictures {
+div.camera-top-button.configure {
+    background-position: 0px 0px;
+}
+
+div.camera-top-button.media-pictures {
+    background-position: -200% 0px;
+}
+
+div.camera-top-button.media-movies {
     background-position: -300% 0px;
 }
 
-div.camera-button.media-movies {
-    background-position: -400% 0px;
+div.camera-overlay-bottom {
+    bottom: 0px;
+    white-space: nowrap;
+    height: 4.5em;
+}
+
+div.camera-info {
+    display: inline-block;
+    white-space: nowrap;
+    width: 33%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+
+span.camera-info-name {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 50%;
+    text-align: right;
+}
+
+span.camera-info-value {
+    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 48%;
+    text-align: left;
+    padding-left: 0.5em;
+    font-weight: bold;
+}
+
+div.camera-action-buttons {
+    display: inline-block;
+    white-space: nowrap;
+    width: 66%;
+    vertical-align: top;
+    text-align: right;
+}
+
+div.camera-action-button {
+    background-image: url(../img/camera-top-buttons.svg);
+    background-size: cover;
+    width: 4em;
+    height: 4em;
+    vertical-align: top;
+    margin: 0.25em;
+}
+
+/* div.camera-action-button:last-child { */
+/*     margin-right: 0.25em; */
+/* } */
+
+div.camera-action-button.lock {
+    background-position: -100% 0px;
+}
+
+div.camera-action-button.unlock {
+    background-position: 0px 0px;
+}
+
+div.camera-action-button.light-on {
+    background-position: -200% 0px;
+}
+
+div.camera-action-button.light-off {
+    background-position: -200% 0px;
+}
+
+div.camera-action-button.alarm {
+    background-position: -300% 0px;
 }
 
 div.camera-container {
@@ -966,12 +1093,12 @@ img.camera-progress {
     /* smaller screens */
     
     body {
-        font-size: 17px;
+        font-size: 16px;
     }
 }
 
 @media all and (max-width: 1000px) {
-    /* small screens (mobile devices) */
+    /* small screens (mobile devices, including tablets) */
     
     div.page-container.stretched {
         margin-left: 0px;
@@ -1008,38 +1135,23 @@ img.camera-progress {
 }
 
 @media all and (max-width: 400px) {
-    /* very small screens */
+    /* very small screens (older phones) */
     
     body {
-        font-size: 13px;
+        font-size: 16px;
     }
     
-    div.camera-button {
-        background-size: cover;
-        width: 24px;
-        height: 24px;
+    div.settings.open {
+        min-width: 100%;
     }
-}
 
-@media all and (max-width: 1900px) {
-    div.camera-frame, 
-    div.camera-frame-place-holder {
-        width: 48%;
+    div.settings-top-bar.open {
+        min-width: 100%;
     }
 }
 
 @media all and (max-width: 1200px) {
-    div.page-container {
-        padding-left: 1%;
-    }
-
-    div.camera-frame,
-    div.camera-frame-place-holder {
-        width: 98%;
-    }
-
-    div.camera-frame:only-child,
-    div.camera-frame-place-holder:only-child {
-        width: 98%;
+    div.camera-frame {
+        width: 100% !important;
     }
 }
