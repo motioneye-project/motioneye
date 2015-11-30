@@ -911,7 +911,7 @@ img.camera {
 }
 
 img.camera.error,
-img.camera.loading {
+img.camera.initializing {
     opacity: 0;
 }
 

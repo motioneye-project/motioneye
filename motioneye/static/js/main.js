@@ -10,303 +10,7 @@ var password = '';
 var basePath = null;
 var signatureRegExp = new RegExp('[^a-zA-Z0-9/?_.=&{}\\[\\]":, _-]', 'g');
 var initialConfigFetched = false; /* used to workaround browser extensions that trigger stupid change events */
-
-
-    /* utils */
-
-var sha1 = (function () {
-    function hash(msg) {
-        var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
-
-        msg += String.fromCharCode(0x80);
-
-        var l = msg.length / 4 + 2;
-        var N = Math.ceil(l / 16);
-        var M = new Array(N);
-
-        for (var i = 0; i < N; i++) {
-            M[i] = new Array(16);
-            for (var j = 0; j < 16; j++) {
-                M[i][j] = (msg.charCodeAt(i * 64 + j * 4) << 24) | (msg.charCodeAt(i * 64 + j * 4 + 1) << 16) | 
-                (msg.charCodeAt(i * 64 + j * 4 + 2) << 8) | (msg.charCodeAt(i * 64 + j * 4 + 3));
-            }
-        }
-        M[N-1][14] = ((msg.length-1) * 8) / Math.pow(2, 32);
-        M[N-1][14] = Math.floor(M[N-1][14]);
-        M[N-1][15] = ((msg.length-1) * 8) & 0xffffffff;
-
-        var H0 = 0x67452301;
-        var H1 = 0xefcdab89;
-        var H2 = 0x98badcfe;
-        var H3 = 0x10325476;
-        var H4 = 0xc3d2e1f0;
-
-        var W = new Array(80);
-        var a, b, c, d, e;
-        for (var i = 0; i < N; i++) {
-            for (var t = 0; t < 16; t++) W[t] = M[i][t];
-            for (var t = 16; t < 80; t++) W[t] = ROTL(W[t-3] ^ W[t-8] ^ W[t-14] ^ W[t-16], 1);
-
-            a = H0; b = H1; c = H2; d = H3; e = H4;
-
-            for (var t = 0; t < 80; t++) {
-                var s = Math.floor(t / 20);
-                var T = (ROTL(a, 5) + f(s, b, c, d) + e + K[s] + W[t]) & 0xffffffff;
-                e = d;
-                d = c;
-                c = ROTL(b, 30);
-                b = a;
-                a = T;
-            }
-
-            H0 = (H0 + a) & 0xffffffff;
-            H1 = (H1 + b) & 0xffffffff; 
-            H2 = (H2 + c) & 0xffffffff; 
-            H3 = (H3 + d) & 0xffffffff; 
-            H4 = (H4 + e) & 0xffffffff;
-        }
-
-        return toHexStr(H0) + toHexStr(H1) + toHexStr(H2) + toHexStr(H3) + toHexStr(H4);
-    }
-
-    function f(s, x, y, z)  {
-        switch (s) {
-            case 0: return (x & y) ^ (~x & z);
-            case 1: return x ^ y ^ z;
-            case 2: return (x & y) ^ (x & z) ^ (y & z);
-            case 3: return x ^ y ^ z;
-        }
-    }
-
-    function ROTL(x, n) {
-        return (x << n) | (x >>> (32 - n));
-    }
-
-    function toHexStr(n) {
-        var s = "", v;
-        for (var i = 7; i >= 0; i--) {
-            v = (n >>> (i * 4)) & 0xf;
-            s += v.toString(16);
-        }
-        return s;
-    }
-    
-    return hash;
-}());
-
-function splitUrl(url) {
-    if (!url) {
-        url = window.location.href;
-    }
-    
-    var parts = url.split('?');
-    if (parts.length < 2 || parts[1].length === 0) {
-        return {baseUrl: parts[0], params: {}};
-    }
-    
-    var baseUrl = parts[0];
-    var paramStr = parts[1];
-    
-    parts = paramStr.split('&');
-    var params = {};
-    
-    for (var i = 0; i < parts.length; i++) {
-        var pair = parts[i].split('=');
-        params[pair[0]] = pair[1];
-    }
-    
-    return {baseUrl: baseUrl, params: params};
-}
-
-function qualifyUrl(url) {
-    var a = document.createElement('a');
-    a.href = url;
-    return a.href;
-}
-
-function qualifyPath(path) {
-    var url = qualifyUrl(path);
-    var pos = url.indexOf('//');
-    if (pos === -1) { /* not a full url */
-        return url;
-    }
-    
-    url = url.substring(pos + 2);
-    pos = url.indexOf('/');
-    if (pos === -1) { /* root with no trailing slash */
-        return '';
-    }
-    
-    return url.substring(pos);
-}
-        
-function computeSignature(method, path, body) {
-    path = qualifyPath(path);
-    
-    var parts = splitUrl(path);
-    var query = parts.params;
-    var path = parts.baseUrl;
-    path = '/' + path.substring(basePath.length);
-    
-    /* sort query arguments alphabetically */
-    query = Object.keys(query).map(function (key) {return {key: key, value: decodeURIComponent(query[key])};});
-    query = query.filter(function (q) {return q.key !== '_signature';});
-    query.sortKey(function (q) {return q.key;});
-    query = query.map(function (q) {return q.key + '=' + encodeURIComponent(q.value);}).join('&');
-    path = path + '?' + query;
-    path = path.replace(signatureRegExp, '-');
-    body = body && body.replace(signatureRegExp, '-');
-    var password = window.password.replace(signatureRegExp, '-');
-    
-    return sha1(method + ':' + path + ':' + (body || '') + ':' + password).toLowerCase();
-}
-
-function addAuthParams(method, url, body) {
-    if (!window.username) {
-        return url;
-    }
-
-    if (url.indexOf('?') < 0) {
-        url += '?';
-    }
-    else {
-        url += '&';
-    }
-    
-    url += '_username=' + window.username;
-    if (window._loginDialogSubmitted) {
-        url += '&_login=true';
-        delete _loginDialogSubmitted;
-    }
-    var signature = computeSignature(method, url, body);
-    url += '&_signature=' + signature;
-
-    return url;
-}
-
-function isAdmin() {
-    return username === adminUsername;
-}
-
-function ajax(method, url, data, callback, error, timeout) {
-    var origUrl = url;
-    var origData = data;
-    
-    if (url.indexOf('?') < 0) {
-        url += '?';
-    }
-    else {
-        url += '&';
-    }
-    
-    url += '_=' + new Date().getTime();
-
-    var json = false;
-    var processData = true;
-    if (method == 'POST') {
-        if (window.FormData && (data instanceof FormData)) {
-            json = false;
-            processData = false;
-        }
-        else if (typeof data == 'object') {
-            data = JSON.stringify(data);
-            json = true;
-        }
-    }
-    else { /* assuming GET */
-        if (data) {
-            url += '&' + $.param(data);
-            data = null;
-        }
-    }
-    
-    url = addAuthParams(method, url, processData ? data : null);
-    
-    var options = {
-        type: method,
-        url: url,
-        data: data,
-        timeout: timeout || 300 * 1000,
-        success: function (data) {
-            if (data && data.error == 'unauthorized') {
-                if (data.prompt) {
-                    runLoginDialog(function () {
-                        ajax(method, origUrl, origData, callback, error);
-                    });
-                }
-                
-                window._loginRetry = true;
-            }
-            else {
-                delete window._loginRetry;
-                if (callback) {
-                    $('body').toggleClass('admin', isAdmin());
-                    callback(data);
-                }
-            }
-        },
-        contentType: json ? 'application/json' : false,
-        processData: processData,
-        error: error || function (request, options, error) {
-            showErrorMessage();
-            if (callback) {
-                callback();
-            }
-        }
-    };
-    
-    $.ajax(options);
-}
-
-function getCookie(name) {
-    if (document.cookie.length <= 0) {
-        return null;
-    }
-
-    var start = document.cookie.indexOf(name + '=');
-    if (start == -1) {
-        return null;
-    }
-     
-    var start = start + name.length + 1;
-    var end = document.cookie.indexOf(';', start);
-    if (end == -1) {
-        end = document.cookie.length;
-    }
-    
-    return unescape(document.cookie.substring(start, end));
-}
-
-function setCookie(name, value, days) {
-    var date, expires;
-    if (days) {
-        date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = 'expires=' + date.toGMTString();
-    }
-    else {
-        expires = '';
-    }
-
-    document.cookie = name + '=' + value + '; ' + expires + '; path=/';
-}
-
-function remCookie(name) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
-function showErrorMessage(message) {
-    if (message == null || message == true) {
-        message = 'An error occurred. Refreshing is recommended.';
-    }
-    
-    showPopupMessage(message, 'error');
-}
-
-function doLogout() {
-    setCookie('username', '_');
-    window.location.reload(true);
-}
+var pageContainer = null;
 
 
     /* Object utilities */
@@ -496,7 +200,303 @@ String.prototype.format = function () {
 };
 
 
-    /* various */
+    /* misc utilities */
+
+var sha1 = (function () {
+    var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
+    var P = Math.pow(2, 32);
+
+    function hash(msg) {
+        msg += String.fromCharCode(0x80);
+
+        var l = msg.length / 4 + 2;
+        var N = Math.ceil(l / 16);
+        var M = new Array(N);
+
+        for (var i = 0; i < N; i++) {
+            M[i] = new Array(16);
+            for (var j = 0; j < 16; j++) {
+                M[i][j] = (msg.charCodeAt(i * 64 + j * 4) << 24) | (msg.charCodeAt(i * 64 + j * 4 + 1) << 16) | 
+                (msg.charCodeAt(i * 64 + j * 4 + 2) << 8) | (msg.charCodeAt(i * 64 + j * 4 + 3));
+            }
+        }
+        M[N - 1][14] = Math.floor(((msg.length - 1) * 8) / P);
+        M[N - 1][15] = ((msg.length - 1) * 8) & 0xffffffff;
+
+        var H0 = 0x67452301;
+        var H1 = 0xefcdab89;
+        var H2 = 0x98badcfe;
+        var H3 = 0x10325476;
+        var H4 = 0xc3d2e1f0;
+
+        var W = new Array(80);
+        var a, b, c, d, e;
+        for (i = 0; i < N; i++) {
+            for (var t = 0; t < 16; t++) W[t] = M[i][t];
+            for (t = 16; t < 80; t++) W[t] = ROTL(W[t-3] ^ W[t-8] ^ W[t-14] ^ W[t-16], 1);
+
+            a = H0; b = H1; c = H2; d = H3; e = H4;
+
+            for (var t = 0; t < 80; t++) {
+                var s = Math.floor(t / 20);
+                var T = (ROTL(a, 5) + f(s, b, c, d) + e + K[s] + W[t]) & 0xffffffff;
+                e = d;
+                d = c;
+                c = ROTL(b, 30);
+                b = a;
+                a = T;
+            }
+
+            H0 = (H0 + a) & 0xffffffff;
+            H1 = (H1 + b) & 0xffffffff; 
+            H2 = (H2 + c) & 0xffffffff; 
+            H3 = (H3 + d) & 0xffffffff; 
+            H4 = (H4 + e) & 0xffffffff;
+        }
+
+        return toHexStr(H0) + toHexStr(H1) + toHexStr(H2) + toHexStr(H3) + toHexStr(H4);
+    }
+
+    function f(s, x, y, z)  {
+        switch (s) {
+            case 0: return (x & y) ^ (~x & z);
+            case 1: return x ^ y ^ z;
+            case 2: return (x & y) ^ (x & z) ^ (y & z);
+            case 3: return x ^ y ^ z;
+        }
+    }
+
+    function ROTL(x, n) {
+        return (x << n) | (x >>> (32 - n));
+    }
+
+    function toHexStr(n) {
+        var s = "", v;
+        for (var i = 7; i >= 0; i--) {
+            v = (n >>> (i * 4)) & 0xf;
+            s += v.toString(16);
+        }
+        return s;
+    }
+    
+    return hash;
+}());
+
+function splitUrl(url) {
+    if (!url) {
+        url = window.location.href;
+    }
+    
+    var parts = url.split('?');
+    if (parts.length < 2 || parts[1].length === 0) {
+        return {baseUrl: parts[0], params: {}};
+    }
+    
+    var baseUrl = parts[0];
+    var paramStr = parts[1];
+    
+    parts = paramStr.split('&');
+    var params = {};
+    
+    for (var i = 0; i < parts.length; i++) {
+        var pair = parts[i].split('=');
+        params[pair[0]] = pair[1];
+    }
+    
+    return {baseUrl: baseUrl, params: params};
+}
+
+function qualifyUrl(url) {
+    var a = document.createElement('a');
+    a.href = url;
+    return a.href;
+}
+
+function qualifyPath(path) {
+    var url = qualifyUrl(path);
+    var pos = url.indexOf('//');
+    if (pos === -1) { /* not a full url */
+        return url;
+    }
+    
+    url = url.substring(pos + 2);
+    pos = url.indexOf('/');
+    if (pos === -1) { /* root with no trailing slash */
+        return '';
+    }
+    
+    return url.substring(pos);
+}
+        
+function computeSignature(method, path, body) {
+    path = qualifyPath(path);
+    
+    var parts = splitUrl(path);
+    var query = parts.params;
+    var path = parts.baseUrl;
+    path = '/' + path.substring(basePath.length);
+    
+    /* sort query arguments alphabetically */
+    query = Object.keys(query).map(function (key) {return {key: key, value: decodeURIComponent(query[key])};});
+    query = query.filter(function (q) {return q.key !== '_signature';});
+    query.sortKey(function (q) {return q.key;});
+    query = query.map(function (q) {return q.key + '=' + encodeURIComponent(q.value);}).join('&');
+    path = path + '?' + query;
+    path = path.replace(signatureRegExp, '-');
+    body = body && body.replace(signatureRegExp, '-');
+    var password = window.password.replace(signatureRegExp, '-');
+    
+    return sha1(method + ':' + path + ':' + (body || '') + ':' + password).toLowerCase();
+}
+
+function addAuthParams(method, url, body) {
+    if (!window.username) {
+        return url;
+    }
+
+    if (url.indexOf('?') < 0) {
+        url += '?';
+    }
+    else {
+        url += '&';
+    }
+    
+    url += '_username=' + window.username;
+    if (window._loginDialogSubmitted) {
+        url += '&_login=true';
+        _loginDialogSubmitted = false;
+    }
+    var signature = computeSignature(method, url, body);
+    url += '&_signature=' + signature;
+
+    return url;
+}
+
+function isAdmin() {
+    return username === adminUsername;
+}
+
+function ajax(method, url, data, callback, error, timeout) {
+    var origUrl = url;
+    var origData = data;
+    
+    if (url.indexOf('?') < 0) {
+        url += '?';
+    }
+    else {
+        url += '&';
+    }
+    
+    url += '_=' + new Date().getTime();
+
+    var json = false;
+    var processData = true;
+    if (method == 'POST') {
+        if (window.FormData && (data instanceof FormData)) {
+            json = false;
+            processData = false;
+        }
+        else if (typeof data == 'object') {
+            data = JSON.stringify(data);
+            json = true;
+        }
+    }
+    else { /* assuming GET */
+        if (data) {
+            url += '&' + $.param(data);
+            data = null;
+        }
+    }
+    
+    url = addAuthParams(method, url, processData ? data : null);
+    
+    var options = {
+        type: method,
+        url: url,
+        data: data,
+        timeout: timeout || 300 * 1000,
+        success: function (data) {
+            if (data && data.error == 'unauthorized') {
+                if (data.prompt) {
+                    runLoginDialog(function () {
+                        ajax(method, origUrl, origData, callback, error);
+                    });
+                }
+                
+                window._loginRetry = true;
+            }
+            else {
+                delete window._loginRetry;
+                if (callback) {
+                    $('body').toggleClass('admin', isAdmin());
+                    callback(data);
+                }
+            }
+        },
+        contentType: json ? 'application/json' : false,
+        processData: processData,
+        error: error || function (request, options, error) {
+            showErrorMessage();
+            if (callback) {
+                callback();
+            }
+        }
+    };
+    
+    $.ajax(options);
+}
+
+function getCookie(name) {
+    var cookie = document.cookie.substring();
+    
+    if (cookie.length <= 0) {
+        return null;
+    }
+
+    var start = cookie.indexOf(name + '=');
+    if (start == -1) {
+        return null;
+    }
+     
+    var start = start + name.length + 1;
+    var end = cookie.indexOf(';', start);
+    if (end == -1) {
+        end = cookie.length;
+    }
+    
+    return cookie.substring(start, end);
+}
+
+function setCookie(name, value, days) {
+    var date, expires;
+    if (days) {
+        date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = 'expires=' + date.toGMTString();
+    }
+    else {
+        expires = '';
+    }
+
+    document.cookie = name + '=' + value + '; ' + expires + '; path=/';
+}
+
+function remCookie(name) {
+    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+}
+
+function showErrorMessage(message) {
+    if (message == null || message == true) {
+        message = 'An error occurred. Refreshing is recommended.';
+    }
+    
+    showPopupMessage(message, 'error');
+}
+
+function doLogout() {
+    setCookie('username', '_');
+    window.location.reload(true);
+}
 
 function authorizeUpload() {
     var service = $('#uploadServiceSelect').val();
@@ -507,8 +507,8 @@ function authorizeUpload() {
     window.open(url, '_blank');
 }
 
-    
-    /* UI initialization */
+
+    /* UI */
 
 function initUI() {
     /* checkboxes */
@@ -818,6 +818,36 @@ function initUI() {
     });
 }
 
+function getPageContainer() {
+    if (!pageContainer) {
+        pageContainer = $('div.page-container');
+    }
+    
+    return pageContainer; 
+}
+
+function getCameraFrames() {
+    return getPageContainer().children('div.camera-frame'); 
+}
+
+function getCameraFrame(cameraId) {
+    var frame = getPageContainer().children('div.camera-frame#camera' + cameraId);
+    if (!frame.length) {
+        /* look for camera frames detached from page container */
+        frame = $('div.camera-frame#camera' + cameraId);
+    }
+    
+    return frame;
+}
+
+function getCameraProgresses() {
+    return getCameraFrames().find('div.camera-progress'); 
+}
+
+function getCameraProgress(cameraId) {
+    return getCameraFrame(cameraId).find('div.camera-progress'); 
+}
+
 
     /* settings */
 
@@ -827,7 +857,7 @@ function openSettings(cameraId) {
     }
     
     $('div.settings').addClass('open').removeClass('closed');
-    $('div.page-container').addClass('stretched');
+    getPageContainer().addClass('stretched');
     $('div.settings-top-bar').addClass('open').removeClass('closed');
     
     updateConfigUI();
@@ -839,7 +869,7 @@ function closeSettings() {
     pushConfigReboot = false;
     
     $('div.settings').removeClass('open').addClass('closed');
-    $('div.page-container').removeClass('stretched');
+    getPageContainer().removeClass('stretched');
     $('div.settings-top-bar').removeClass('open').addClass('closed');
 }
 
@@ -1791,11 +1821,11 @@ function beginProgress(cameraIds) {
     /* show the camera progress indicators */
     if (cameraIds) {
         cameraIds.forEach(function (cameraId) {
-            $('div.camera-frame#camera' + cameraId + ' div.camera-progress').addClass('visible');
+            getCameraProgress(cameraId).addClass('visible');
         });
     }
     else {
-        $('div.camera-progress').addClass('visible');
+        getCameraProgresses().addClass('visible');
     }
     
     /* remove the settings progress lock */
@@ -1821,7 +1851,7 @@ function endProgress() {
     $('div.settings-progress').css('opacity', '0');
     
     /* hide the camera progress indicator */
-    $('div.camera-progress').removeClass('visible');
+    getCameraProgresses().removeClass('visible');
 
     setTimeout(function () {
         $('div.settings-progress').css('width', '0px');
@@ -2432,7 +2462,7 @@ function fetchCurrentConfig(onFetch) {
     }
  
     /* add a progress indicator */
-    $('div.page-container').append('<img class="main-loading-progress" src="' + staticPath + 'img/main-loading-progress.gif">');
+    getPageContainer().append('<img class="main-loading-progress" src="' + staticPath + 'img/main-loading-progress.gif">');
 
     if (isAdmin()) {
         /* fetch the main configuration */
@@ -3607,11 +3637,9 @@ function runMediaDialog(cameraId, mediaType) {
     /* camera frames */
 
 function addCameraFrameUi(cameraConfig) {
-    var pageContainer = $('div.page-container');
-    
     if (cameraConfig == null) {
         var cameraFrameDivPlaceHolder = $('<div class="camera-frame-place-holder"></div>');
-        pageContainer.append(cameraFrameDivPlaceHolder);
+        getPageContainer().append(cameraFrameDivPlaceHolder);
         
         return;
     }
@@ -3672,7 +3700,7 @@ function addCameraFrameUi(cameraConfig) {
     
     /* insert the new camera frame at the right position,
      * with respect to the camera id */
-    var cameraFrames = pageContainer.find('div.camera-frame');
+    var cameraFrames = getPageContainer().find('div.camera-frame');
     var cameraIds = cameraFrames.map(function () {return parseInt(this.id.substring(6));});
     cameraIds.sort();
     
@@ -3682,11 +3710,11 @@ function addCameraFrameUi(cameraConfig) {
     }
     
     if (index < cameraIds.length) {
-        var beforeCameraFrame = pageContainer.find('div.camera-frame#camera' + cameraIds[index]);
+        var beforeCameraFrame = getPageContainer().find('div.camera-frame#camera' + cameraIds[index]);
         cameraFrameDiv.insertAfter(beforeCameraFrame);
     }
     else  {
-        pageContainer.append(cameraFrameDiv);
+        getPageContainer().append(cameraFrameDiv);
     }
 
     /* fade in */
@@ -3717,29 +3745,37 @@ function addCameraFrameUi(cameraConfig) {
     }(cameraId));
     
     /* error and load handlers */
-    cameraImg.error(function () {
+    cameraImg[0].onerror = function () {
         this.error = true;
         this.loading = 0;
         
-        cameraImg.addClass('error').removeClass('loading');
+        cameraImg.addClass('error').removeClass('initializing');
         cameraImg.height(Math.round(cameraImg.width() * 0.75));
         cameraPlaceholder.css('opacity', 1);
         cameraProgress.removeClass('visible');
         cameraFrameDiv.removeClass('motion-detected');
-    });
-    cameraImg.load(function () {
+    };
+    cameraImg[0].onload = function () {
         if (refreshDisabled[cameraId]) {
             return; /* refresh temporarily disabled for updating */
         }
         
-        this.error = false;
+        if (this.error) {
+            cameraImg.removeClass('error');
+            cameraPlaceholder.css('opacity', 0);
+            cameraImg.css('height', '');
+            this.error = false;
+        }
+
         this.loading = 0;
         
-        cameraImg.removeClass('error').removeClass('loading');
-        cameraImg.css('height', '');
-        cameraPlaceholder.css('opacity', 0);
-        cameraProgress.removeClass('visible');
-        
+        if (this.initializing) {
+            cameraProgress.removeClass('visible');
+            cameraImg.removeClass('initializing');
+            cameraImg.css('height', '');
+            this.initializing = false;
+        }
+
         /* there's no point in looking for a cookie update more often than once every second */
         var now = new Date().getTime();
         if ((!this.lastCookieTime || now - this.lastCookieTime > 1000) && (cameraFrameDiv[0].config['proto'] != 'mjpeg')) {
@@ -3757,29 +3793,27 @@ function addCameraFrameUi(cameraConfig) {
             /* update the modal dialog position when image is loaded */
             updateModalDialogPosition();
         }
-    });
+    };
     
-    cameraImg.addClass('loading');
+    cameraImg.addClass('initializing');
+    cameraImg[0].initializing = true;
     cameraImg.height(Math.round(cameraImg.width() * 0.75));
 }
 
 function remCameraFrameUi(cameraId) {
-    var pageContainer = $('div.page-container');
-    var cameraFrameDiv = pageContainer.find('div.camera-frame#camera' + cameraId);
+    var cameraFrameDiv = getPageContainer().find('div.camera-frame#camera' + cameraId);
     cameraFrameDiv.animate({'opacity': 0}, 100, function () {
         cameraFrameDiv.remove();
     });
 }
 
 function recreateCameraFrames(cameras) {
-    var pageContainer = $('div.page-container');
-    
     function updateCameras(cameras) {
         cameras = cameras.filter(function (camera) {return camera.enabled;});
         var i, camera;
 
         /* remove everything on the page */
-        pageContainer.children().remove();
+        getPageContainer().children().remove();
         
         /* add camera frames */
         for (i = 0; i < cameras.length; i++) {
@@ -3791,7 +3825,7 @@ function recreateCameraFrames(cameras) {
             /* invite the user to add a camera */
             var addCameraLink = $('<div class="add-camera-message">' + 
                     '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');
-            pageContainer.append(addCameraLink);
+            getPageContainer().append(addCameraLink);
         }
     }
     
@@ -3840,17 +3874,19 @@ function doFullScreenCamera(cameraId) {
     
     fullScreenCameraId = -1; /* avoids successive fast toggles of fullscreen */
     
-    var cameraFrameDiv = $('#camera' + cameraId);
+    var cameraFrameDiv = getCameraFrame(cameraId);
     var cameraName = cameraFrameDiv.find('span.camera-name').text();
-    var frameImg = cameraFrameDiv.find('img.camera');
-    var aspectRatio = frameImg.width() / frameImg.height();
+    var cameraImg = cameraFrameDiv.find('img.camera');
+    var aspectRatio = cameraImg.width() / cameraImg.height();
     var windowWidth = $(window).width();
     var windowHeight = $(window).height();
     var windowAspectRatio = windowWidth / windowHeight;
     var frameIndex = cameraFrameDiv.index();
-    var pageContainer = $('div.page-container');
     
-    if (frameImg.hasClass('error')) {
+    cameraImg.addClass('initializing');
+    cameraImg[0].initializing = true;
+    
+    if (cameraImg.hasClass('error')) {
         return; /* no full screen for erroneous cameras */
     }
 
@@ -3879,12 +3915,12 @@ function doFullScreenCamera(cameraId) {
             onClose: function () {
                 fullScreenCameraId = null;
                 cameraFrameDiv.css('width', '');
-                var nextFrame = pageContainer.children('div:eq(' + frameIndex + ')');
+                var nextFrame = getPageContainer().children('div:eq(' + frameIndex + ')');
                 if (nextFrame.length) {
                     nextFrame.before(cameraFrameDiv);
                 }
                 else {
-                    pageContainer.append(cameraFrameDiv);
+                    getPageContainer().append(cameraFrameDiv);
                 }
             }
         });
@@ -3897,6 +3933,8 @@ function doFullScreenCamera(cameraId) {
 }
 
 function refreshCameraFrames() {
+    var timestamp = new Date().getTime();
+
     function refreshCameraFrame(cameraId, img, serverSideResize) {
         if (refreshDisabled[cameraId]) {
             /* camera refreshing disabled, retry later */
@@ -3915,7 +3953,6 @@ function refreshCameraFrames() {
             }
         }
         
-        var timestamp = new Date().getTime();
         var path = basePath + 'picture/' + cameraId + '/current/?_=' + timestamp;
         if (serverSideResize) {
             path += '&width=' + img.width;
@@ -3929,10 +3966,10 @@ function refreshCameraFrames() {
 
     var cameraFrames;
     if (fullScreenCameraId != null && fullScreenCameraId >= 0) {
-        cameraFrames = $('#camera' + fullScreenCameraId);
+        cameraFrames = getCameraFrame(fullScreenCameraId);
     }
     else {
-        cameraFrames = $('div.page-container').find('div.camera-frame');
+        cameraFrames = getCameraFrames();
     }
     
     cameraFrames.each(function () {
@@ -3981,7 +4018,7 @@ function refreshCameraFrames() {
 function checkCameraErrors() {
     /* properly triggers the onerror event on the cameras whose imgs were not successfully loaded,
      * but the onerror event hasn't been triggered, for some reason (seems to happen in Chrome) */
-    var cameraFrames = $('div.page-container').find('img.camera');
+    var cameraFrames = getPageContainer().find('img.camera');
     
     cameraFrames.each(function () {
         if (this.complete === true && this.naturalWidth === 0 && !this.error && this.src) {
