@@ -38,6 +38,7 @@ import v4l2ctl
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
+_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off']
 
 _main_config_cache = None
 _camera_config_cache = {}
@@ -1319,6 +1320,10 @@ def motion_camera_dict_to_ui(data):
             extra_options.append((name, value))
 
     ui['extra_options'] = extra_options
+    
+    # action commands
+    action_commands = get_action_commands(data['@id'])
+    ui['actions'] = action_commands.keys()
 
     return ui
 
@@ -1361,6 +1366,16 @@ def simple_mjpeg_camera_dict_to_ui(data):
         ui[name[1:]] = value
     
     return ui
+
+
+def get_action_commands(camera_id):
+    action_commands = {}
+    for action in _ACTIONS:
+        path = os.path.join(settings.CONF_PATH, '%s_%s' % (action, camera_id))
+        if os.access(path, os.X_OK):
+            action_commands[action] = path
+    
+    return action_commands
 
 
 def backup():

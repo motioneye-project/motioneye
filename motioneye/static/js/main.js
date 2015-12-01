@@ -2421,6 +2421,18 @@ function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
     }, {stack: true});
 }
 
+function doAction(cameraId, action, callback) {
+    ajax('POST', basePath + 'action/' + cameraId + '/' + action + '/', null, function (data) {
+        if (data == null || data.error) {
+            showErrorMessage(data && data.error);
+        }
+
+        if (callback) {
+            callback();
+        }
+    });
+}    
+
 
     /* fetch & push */
 
@@ -3723,7 +3735,7 @@ function addCameraFrameUi(cameraConfig) {
     var alarmOnButton = cameraFrameDiv.find('div.camera-action-button.alarm-on');
     var alarmOffButton = cameraFrameDiv.find('div.camera-action-button.alarm-off');
     var snapshotButton = cameraFrameDiv.find('div.camera-action-button.snapshot');
-    var recordButton = cameraFrameDiv.find('div.camera-action-button.record');
+    var recordButton = cameraFrameDiv.find('div.camera-action-button.record-start');
     
     var cameraOverlay = cameraFrameDiv.find('div.camera-overlay');
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
@@ -3787,7 +3799,7 @@ function addCameraFrameUi(cameraConfig) {
     /* fade in */
     cameraFrameDiv.animate({'opacity': 1}, 100);
     
-    /* add the top button handlers */
+    /* add the top buttons handlers */
     configureButton.click(function () {
         doConfigureCamera(cameraId);
     });
@@ -3811,12 +3823,53 @@ function addCameraFrameUi(cameraConfig) {
         };
     }(cameraId));
     
-    /* add the action button handlers */
-//    if (cameraConfig.at-most-4-buttons) { TODO
-//        cameraOverlay.find('div.camera-overlay-bottom').addClass('few-buttons');
-//    }
-    //TODO add handlers 
+    /* action buttons */
+
+    cameraFrameDiv.find('div.camera-action-button').css('display', 'none');
+    var actionButtonDict = {
+        'lock': lockButton,
+        'unlock': unlockButton,
+        'light_on': lightOnButton,
+        'light_off': lightOffButton,
+        'alarm_on': alarmOnButton,
+        'alarm_off': alarmOffButton,
+        'snapshpt': snapshotButton,
+        'record': recordButton
+    };
     
+    cameraConfig.actions.forEach(function (action) {
+        var button = actionButtonDict[action];
+        if (!button) {
+            return;
+        }
+        
+        button.css('display', '');
+        button.click(function () {
+            if (button.hasClass('pending')) {
+                return;
+            }
+            
+            button.addClass('pending');
+            
+            if (action == 'record') {
+                if (button.hasClass('record-start')) {
+                    action = 'record_start';
+                }
+                else {
+                    action = 'record_stop';
+                }
+            }
+
+            doAction(cameraId, action, function () {
+                button.removeClass('pending');
+            });
+        })
+    });
+    
+    if (cameraConfig.actions.length <= 4) {
+        cameraOverlay.find('div.camera-overlay-bottom').addClass('few-buttons');
+    }
+
     var FPS_LEN = 4;
     cameraImg[0].fpsTimes = [];
     
@@ -3861,6 +3914,13 @@ function addCameraFrameUi(cameraConfig) {
             }
             else {
                 cameraFrameDiv.removeClass('motion-detected');
+            }
+
+            if (getCookie('record_active_' + cameraId) == 'true') {
+                recordButton.removeClass('record-start').addClass('record-stop');
+            }
+            else {
+                recordButton.removeClass('record-stop').addClass('record-start');
             }
             
             this.lastCookieTime = now;

@@ -902,7 +902,7 @@ div.camera-overlay-bottom {
 
 div.camera-frame:HOVER div.camera-overlay-top,
 div.camera-frame:HOVER div.camera-overlay-bottom {
-    background-color: rgba(65, 65, 65, 0.8);
+    background-color: rgba(40, 40, 40, 0.8);
 }
 
 div.camera-frame.motion-detected div.camera-overlay-top,
@@ -1010,6 +1010,10 @@ div.camera-action-button {
     width: 2.5em;
     height: 2.5em;
     vertical-align: top;
+}
+
+div.camera-action-button.pending {
+    opacity: 0.5 !important;
 }
 
 div.camera-action-button.lock {
