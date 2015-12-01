@@ -11,6 +11,7 @@ var basePath = null;
 var signatureRegExp = new RegExp('[^a-zA-Z0-9/?_.=&{}\\[\\]":, _-]', 'g');
 var initialConfigFetched = false; /* used to workaround browser extensions that trigger stupid change events */
 var pageContainer = null;
+var overlayVisible = false;
 
 
     /* Object utilities */
@@ -3522,9 +3523,9 @@ function runMediaDialog(cameraId, mediaType) {
         buttonsDiv.show();
         
         if (windowWidth < 1000) {
-            mediaListDiv.width(parseInt(windowWidth * 0.8));
-            mediaListDiv.height(parseInt(windowHeight * 0.7));
-            groupsDiv.width(parseInt(windowWidth * 0.8));
+            mediaListDiv.width(windowWidth - 30);
+            mediaListDiv.height(windowHeight - 140);
+            groupsDiv.width(windowWidth - 30);
             groupsDiv.height('');
             groupsDiv.addClass('small-screen');
         }
@@ -3680,20 +3681,27 @@ function addCameraFrameUi(cameraConfig) {
                     '<div class="camera-overlay-top">' +
                         '<div class="camera-name"><span class="camera-name"></span></div>' +
                         '<div class="camera-top-buttons">' +
-                            '<div class="button camera-top-button mouse-effect full-screen" title="full-screen window"></div>' +
-                            '<div class="button camera-top-button mouse-effect media-pictures" title="pictures"></div>' +
-                            '<div class="button camera-top-button mouse-effect media-movies" title="movies"></div>' +
-                            '<div class="button camera-top-button mouse-effect configure" title="configure"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect full-screen" title="full-screen window"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect media-pictures" title="pictures"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect media-movies" title="movies"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect configure" title="configure"></div>' +
                         '</div>' +
                     '</div>' +
                     '<div class="camera-overlay-bottom">' +
-                        '<div class="camera-info"></div>' +
+                        '<div class="camera-info">' +
+                            '<span class="camera-info fps"></span>' +
+                        '</div>' +
                         '<div class="camera-action-buttons">' +
-                            '<div class="button camera-action-button mouse-effect lock" title="lock"></div>' +
-                            '<div class="button camera-action-button mouse-effect unlock" title="unlock"></div>' +
-                            '<div class="button camera-action-button mouse-effect light-on" title="turn on light"></div>' +
-                            '<div class="button camera-action-button mouse-effect light-off" title="turn off light"></div>' +
-                            '<div class="button camera-action-button mouse-effect alarm" title="alarm"></div>' +
+                        '<div class="camera-action-buttons-wrapper">' +
+                                '<div class="button icon camera-action-button mouse-effect lock" title="lock"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect light-on" title="turn light on"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect snapshot" title="take a snapshot"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect unlock" title="unlock"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect light-off" title="turn light off"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect record-start" title="record"></div>' +
+                            '</div>' +
                         '</div>' +
                     '</div>' +
                 '</div>' +
@@ -3712,8 +3720,12 @@ function addCameraFrameUi(cameraConfig) {
     var unlockButton = cameraFrameDiv.find('div.camera-action-button.unlock');
     var lightOnButton = cameraFrameDiv.find('div.camera-action-button.light-on');
     var lightOffButton = cameraFrameDiv.find('div.camera-action-button.light-off');
-    var alarmButton = cameraFrameDiv.find('div.camera-action-button.alarm');
+    var alarmOnButton = cameraFrameDiv.find('div.camera-action-button.alarm-on');
+    var alarmOffButton = cameraFrameDiv.find('div.camera-action-button.alarm-off');
+    var snapshotButton = cameraFrameDiv.find('div.camera-action-button.snapshot');
+    var recordButton = cameraFrameDiv.find('div.camera-action-button.record');
     
+    var cameraOverlay = cameraFrameDiv.find('div.camera-overlay');
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
     var cameraProgress = cameraFrameDiv.find('div.camera-progress');
     var cameraImg = cameraFrameDiv.find('img.camera');
@@ -3737,7 +3749,17 @@ function addCameraFrameUi(cameraConfig) {
     progressImg.attr('src', staticPath + 'img/camera-progress.gif');
     
     cameraProgress.click(function () {
-        doFullScreenCamera(cameraId);
+        showCameraOverlay();
+        overlayVisible = true;
+    });
+    
+    cameraOverlay.click(function () {
+        hideCameraOverlay();
+        overlayVisible = false;
+    });
+    
+    cameraOverlay.find('div.camera-overlay-top, div.camera-overlay-bottom').click(function () {
+        return false;
     });
     
     cameraProgress.addClass('visible');
@@ -3789,15 +3811,14 @@ function addCameraFrameUi(cameraConfig) {
         };
     }(cameraId));
     
-    /* add the top button handlers */
-    //TODO 
+    /* add the action button handlers */
+//    if (cameraConfig.at-most-4-buttons) {
+//        cameraOverlay.find('div.camera-overlay-bottom').addClass('few-buttons');
+//    }
+    //TODO add handlers 
     
-    // TODO move these to the refresh function
-    cameraInfoDiv.append('<span class="camera-info-name">frame rate</span>');
-    cameraInfoDiv.append('<span class="camera-info-value">25 fps</span><br>');
-    cameraInfoDiv.append('<span class="camera-info-name">temperature</span>');
-    cameraInfoDiv.append('<span class="camera-info-value">38 deg</span><br>');
-    cameraInfoDiv.css('padding-top', '1em');
+    // TODO move this to the refresh function
+    cameraInfoDiv.append('');
     
     /* error and load handlers */
     cameraImg[0].onerror = function () {
@@ -3875,6 +3896,9 @@ function recreateCameraFrames(cameras) {
             camera = cameras[i];
             addCameraFrameUi(camera);
         }
+
+        /* overlay is always hidden after creating the frames */
+        hideCameraOverlay();
         
         if ($('#cameraSelect').find('option').length < 2 && isAdmin()) {
             /* invite the user to add a camera */

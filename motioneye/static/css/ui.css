@@ -60,7 +60,7 @@ div.button.dialog.default {
 }
 
 div.button.mouse-effect {
-    opacity: 0.7;
+    opacity: 0.8;
     transition: opacity 0.1s ease;
 }
 
@@ -70,6 +70,10 @@ div.button.mouse-effect:HOVER {
 
 div.button.mouse-effect:ACTIVE {
     opacity: 0.7;
+}
+
+div.icon.mouse-effect:ACTIVE {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 
 
@@ -370,10 +374,12 @@ span.modal-title {
 
 div.modal-close-button {
     position: absolute;
-    top: 0.2em;
-    right: 0.3em;
-    width: 1.5em;
-    height: 1.5em;
+    top: 0px;
+    right: 0px;
+    margin-top: -5px;
+    margin-right: -5px;
+    width: 2.5em;
+    height: 2.5em;
     background-image: url(../img/camera-top-buttons.svg);
     background-size: cover;
     background-position: -400% 0px;

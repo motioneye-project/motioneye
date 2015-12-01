@@ -13,6 +13,7 @@
 
 html {
     height: 100%;
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
@@ -110,15 +111,28 @@ div.page-container {
     padding: 50px 0.2em 50px 0px;
 }
 
+div.page-container.four-columns {
+    font-size: 12px;
+}
+
 div.page-container.stretched {
     margin-left: 40%;
+    font-size: 16px;
+}
+
+div.page-container.three-columns.stretched {
+    font-size: 12px;
+}
+
+div.page-container.four-columns.stretched {
+    font-size: 10px;
 }
 
 
     /* icons & icon buttons */
 
 div.button.settings-button {
-    margin: 1px;
+    border: 1px solid transparent;
     vertical-align: middle;
     background-image: url(../img/top-bar-buttons.svg);
     background-size: cover;
@@ -132,7 +146,7 @@ div.settings-top-bar.open div.button.settings-button {
 }
 
 div.button.logout-button {
-    margin: 1px;
+    border: 1px solid transparent;
     vertical-align: middle;
     background-image: url(../img/top-bar-buttons.svg);
     background-size: cover;
@@ -155,7 +169,7 @@ body:not(.admin) div.settings-top-bar div.logout-button {
 
 div.button.rem-camera-button {
     display: none;
-    margin: 1px;
+    border: 1px solid transparent;
     vertical-align: middle;
     background-image: url(../img/top-bar-buttons.svg);
     background-size: cover;
@@ -827,6 +841,9 @@ div.camera-frame {
     opacity: 0;
     vertical-align: top;
     cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
 div.camera-frame:HOVER {
@@ -877,19 +894,19 @@ div.camera-overlay.visible {
 div.camera-overlay-top,
 div.camera-overlay-bottom {
     position: absolute;
-    background-color: rgba(49, 49, 49, 0.5);
+    background-color: rgba(49, 49, 49, 0.8);
     left: 0px;
     width: 100%;
 }
 
 div.camera-frame:HOVER div.camera-overlay-top,
 div.camera-frame:HOVER div.camera-overlay-bottom {
-    background-color: rgba(65, 65, 65, 0.5);
+    background-color: rgba(65, 65, 65, 0.8);
 }
 
 div.camera-frame.motion-detected div.camera-overlay-top,
 div.camera-frame.motion-detected div.camera-overlay-bottom {
-    background-color: rgba(113, 39, 39, 0.5);
+    background-color: rgba(113, 39, 39, 0.8);
 }
 
 div.camera-overlay-top {
@@ -923,14 +940,9 @@ div.camera-top-buttons {
 div.camera-top-button {
     background-image: url(../img/camera-top-buttons.svg);
     background-size: cover;
-    width: 2em;
-    height: 2em;
+    width: 2.5em;
+    height: 2.5em;
     vertical-align: top;
-    margin-top: 0.25em;
-}
-
-div.camera-top-button:last-child {
-    margin-right: 0.25em;
 }
 
 div.camera-top-button.full-screen {
@@ -952,63 +964,59 @@ div.camera-top-button.media-movies {
 div.camera-overlay-bottom {
     bottom: 0px;
     white-space: nowrap;
-    height: 4.5em;
+    height: 5em;
+}
+
+div.camera-overlay-bottom.few-buttons {
+    height: 2.5em;
 }
 
 div.camera-info {
     display: inline-block;
     white-space: nowrap;
-    width: 33%;
+    width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: top;
-}
-
-span.camera-info-name {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 50%;
-    text-align: right;
-}
-
-span.camera-info-value {
-    display: inline-block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 48%;
     text-align: left;
+    line-height: 5em;
+}
+
+div.camera-overlay-bottom.few-buttons div.camera-info {
+    line-height: 2.5em;
+}
+
+span.camera-info {
     padding-left: 0.5em;
-    font-weight: bold;
 }
 
 div.camera-action-buttons {
     display: inline-block;
-    white-space: nowrap;
-    width: 66%;
+    width: 50%;
     vertical-align: top;
     text-align: right;
 }
 
-div.camera-action-button {
-    background-image: url(../img/camera-top-buttons.svg);
-    background-size: cover;
-    width: 4em;
-    height: 4em;
-    vertical-align: top;
-    margin: 0.25em;
+div.camera-action-buttons-wrapper {
+    width: 10em;
+    display: inline-block;
+    white-space: normal;
 }
 
-/* div.camera-action-button:last-child { */
-/*     margin-right: 0.25em; */
-/* } */
+div.camera-action-button {
+    background-image: url(../img/camera-action-buttons.svg);
+    background-size: cover;
+    width: 2.5em;
+    height: 2.5em;
+    vertical-align: top;
+}
 
 div.camera-action-button.lock {
-    background-position: -100% 0px;
+    background-position: 0px 0px;
 }
 
 div.camera-action-button.unlock {
-    background-position: 0px 0px;
+    background-position: -100% 0px;
 }
 
 div.camera-action-button.light-on {
@@ -1016,11 +1024,27 @@ div.camera-action-button.light-on {
 }
 
 div.camera-action-button.light-off {
-    background-position: -200% 0px;
+    background-position: -300% 0px;
 }
 
-div.camera-action-button.alarm {
-    background-position: -300% 0px;
+div.camera-action-button.alarm-on {
+    background-position: -400% 0px;
+}
+
+div.camera-action-button.alarm-off {
+    background-position: -500% 0px;
+}
+
+div.camera-action-button.snapshot {
+    background-position: -600% 0px;
+}
+
+div.camera-action-button.record-start {
+    background-position: -700% 0px;
+}
+
+div.camera-action-button.record-stop {
+    background-position: -800% 0px;
 }
 
 div.camera-container {
@@ -1095,6 +1119,14 @@ img.camera-progress {
     body {
         font-size: 16px;
     }
+    
+    div.page-container.stretched {
+        font-size: 10px;
+    }
+
+    div.page-container.four-columns.stretched {
+        font-size: 8px;
+    }
 }
 
 @media all and (max-width: 1000px) {
@@ -1102,8 +1134,9 @@ img.camera-progress {
     
     div.page-container.stretched {
         margin-left: 0px;
+        font-size: 16px;
     }
-    
+
     div.settings.open {
         box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
         background-color: rgba(40, 40, 40, 0.9);
@@ -1148,9 +1181,17 @@ img.camera-progress {
     div.settings-top-bar.open {
         min-width: 100%;
     }
+
+    div.page-container.stretched {
+        font-size: 16px;
+    }
 }
 
 @media all and (max-width: 1200px) {
+    div.page-container {
+        font-size: 16px !important;
+    }
+
     div.camera-frame {
         width: 100% !important;
     }

@@ -927,7 +927,7 @@ function makeModalDialogTitleBar(options) {
     titleBar.append(titleSpan);
     
     if (options.closeButton) {
-        var closeButton = $('<div class="button modal-close-button mouse-effect" title="close"></div>');
+        var closeButton = $('<div class="button icon modal-close-button mouse-effect" title="close"></div>');
         closeButton.click(hideModalDialog);
         titleBar.append(closeButton);
     }
