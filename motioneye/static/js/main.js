@@ -3714,7 +3714,7 @@ function addCameraFrameUi(cameraConfig) {
     var moviesButton = cameraFrameDiv.find('div.camera-top-button.media-movies');
     var fullScreenButton = cameraFrameDiv.find('div.camera-top-button.full-screen');
     
-    var cameraInfoDiv = cameraFrameDiv.find('div.camera-info');
+    var fpsSpan = cameraFrameDiv.find('span.camera-info.fps');
     
     var lockButton = cameraFrameDiv.find('div.camera-action-button.lock');
     var unlockButton = cameraFrameDiv.find('div.camera-action-button.unlock');
@@ -3812,13 +3812,13 @@ function addCameraFrameUi(cameraConfig) {
     }(cameraId));
     
     /* add the action button handlers */
-//    if (cameraConfig.at-most-4-buttons) {
+//    if (cameraConfig.at-most-4-buttons) { TODO
 //        cameraOverlay.find('div.camera-overlay-bottom').addClass('few-buttons');
 //    }
     //TODO add handlers 
     
-    // TODO move this to the refresh function
-    cameraInfoDiv.append('');
+    var FPS_LEN = 4;
+    cameraImg[0].fpsTimes = [];
     
     /* error and load handlers */
     cameraImg[0].onerror = function () {
@@ -3830,6 +3830,7 @@ function addCameraFrameUi(cameraConfig) {
         cameraPlaceholder.css('opacity', 1);
         cameraProgress.removeClass('visible');
         cameraFrameDiv.removeClass('motion-detected');
+        fpsSpan.html('');
     };
     cameraImg[0].onload = function () {
         if (refreshDisabled[cameraId]) {
@@ -3863,6 +3864,20 @@ function addCameraFrameUi(cameraConfig) {
             }
             
             this.lastCookieTime = now;
+
+            if (this.fpsTimes.length == FPS_LEN) {
+                var fps = this.fpsTimes.length * 1000 / (this.fpsTimes[this.fpsTimes.length - 1] - this.fpsTimes[0]);
+                fps = fps.toFixed(1);
+                fpsSpan.html(fps + ' fps');
+            }
+        }
+
+        /* compute the actual framerate */
+        if (cameraFrameDiv[0].config['proto'] != 'mjpeg') {
+            this.fpsTimes.push(now);
+            while (this.fpsTimes.length > FPS_LEN) {
+                this.fpsTimes.shift();
+            }
         }
 
         if (fullScreenCameraId) {
@@ -4097,15 +4112,21 @@ function refreshCameraFrames() {
 function checkCameraErrors() {
     /* properly triggers the onerror event on the cameras whose imgs were not successfully loaded,
      * but the onerror event hasn't been triggered, for some reason (seems to happen in Chrome) */
-    var cameraFrames = getPageContainer().find('img.camera');
-    
-    cameraFrames.each(function () {
+    var cameraImgs = getPageContainer().find('img.camera');
+    var now = new Date().getTime();
+
+    cameraImgs.each(function () {
         if (this.complete === true && this.naturalWidth === 0 && !this.error && this.src) {
             $(this).error();
         }
+
+        /* fps timeout */
+        if (this.fpsTimes.length && (now - this.fpsTimes[this.fpsTimes.length - 1]) > 2000) {
+            $(this).parents('div.camera-frame').find('span.camera-info.fps').html('0 fps');
+        }
     });
-    
-    setTimeout(checkCameraErrors, 500);
+
+    setTimeout(checkCameraErrors, 1000);
 }
 
 

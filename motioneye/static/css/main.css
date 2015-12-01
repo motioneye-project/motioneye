@@ -138,7 +138,7 @@ div.button.settings-button {
     background-size: cover;
     width: 48px;
     height: 48px;
-    transition: transform 0.1s ease;    
+    transition: transform 0.1s linear;    
 }
 
 div.settings-top-bar.open div.button.settings-button {
@@ -837,7 +837,7 @@ div.camera-frame {
     border: 0.2em solid #212121;
     border-right-width: 0px;
     border-bottom-width: 0px;
-    transition: all 0.1s, opacity 0s;
+    transition: all 0.1s linear, opacity 0s;
     opacity: 0;
     vertical-align: top;
     cursor: pointer;
@@ -884,7 +884,7 @@ div.camera-overlay {
     left: 0.2em;
     bottom: 0.2em;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: all 0.2s linear;
 }
 
 div.camera-overlay.visible {
@@ -894,7 +894,8 @@ div.camera-overlay.visible {
 div.camera-overlay-top,
 div.camera-overlay-bottom {
     position: absolute;
-    background-color: rgba(49, 49, 49, 0.8);
+    background-color: rgba(0, 0, 0, 0.7);
+    transition: background-color 0.1s linear;
     left: 0px;
     width: 100%;
 }
