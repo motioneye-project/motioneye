@@ -302,7 +302,11 @@ def thread_id_to_camera_id(thread_id):
     main_config = config.get_main()
     threads = main_config.get('thread', '')
 
-    return int(re.search('thread-(\d+).conf', threads[thread_id - 1]).group(1))
+    try:
+        return int(re.search('thread-(\d+).conf', threads[thread_id - 1]).group(1))
+    
+    except IndexError:
+        return None
 
 
 def _disable_initial_motion_detection():
