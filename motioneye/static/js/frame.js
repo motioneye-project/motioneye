@@ -15,7 +15,7 @@ function setupCameraFrame() {
     
     cameraFrameDiv[0].refreshDivider = 0;
     cameraFrameDiv[0].streamingFramerate = parseInt(cameraFrameDiv.attr('streaming_framerate')) || 1;
-    cameraFrameDiv[0].streamingServerResize = cameraFrameDiv.attr('streaming_server_resize') == 'True';
+    cameraFrameDiv[0].streamingServerResize = cameraFrameDiv.attr('streaming_server_resize') == 'true';
     cameraFrameDiv[0].proto = cameraFrameDiv.attr('proto');
     cameraFrameDiv[0].url = cameraFrameDiv.attr('url');
     progressImg.attr('src', staticPath + 'img/camera-progress.gif');

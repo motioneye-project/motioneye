@@ -71,7 +71,7 @@ div.header-container {
 
 div.page {
     font-size: 1em;
-    transition: all 0.5s linear;
+    transition: all 0.5s ease;
     min-height: 100%;
 }
 
@@ -84,10 +84,15 @@ div.header {
     position: fixed;
     overflow: hidden;
     z-index: 10000;
+    transition: all 0.2s ease;
+}
+
+div.header.full-screen {
+    height: 0px;
 }
 
 div.header-container {
-    transition: all 0.5s linear;
+    transition: all 0.5s ease;
 }
 
 div.footer {
@@ -98,6 +103,12 @@ div.footer {
     font-size: 0.7em;
     color: #aaa;
     text-align: center;
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+div.footer.full-screen {
+    height: 0px;
 }
 
 div.copyright-note {
@@ -107,7 +118,7 @@ div.copyright-note {
 }
 
 div.page-container {
-    transition: all 0.1s linear;
+    transition: all 0.2s ease;
     padding: 50px 0.2em 50px 0px;
 }
 
@@ -126,6 +137,11 @@ div.page-container.three-columns.stretched {
 
 div.page-container.four-columns.stretched {
     font-size: 10px;
+}
+
+div.page-container.full-screen {
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 
@@ -244,7 +260,7 @@ div.settings {
     left: 0px;
     width: 0px;
     bottom: 0px;
-    transition: all 0.2s linear;
+    transition: all 0.2s ease;
     overflow: auto;
 }
 
@@ -837,13 +853,14 @@ div.camera-frame {
     border: 0.2em solid #212121;
     border-right-width: 0px;
     border-bottom-width: 0px;
-    transition: all 0.1s linear, opacity 0s;
+    transition: all 0.1s ease, opacity 0s;
     opacity: 0;
     vertical-align: top;
     cursor: pointer;
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
+    overflow: hidden;
 }
 
 div.camera-frame:HOVER {
@@ -863,18 +880,25 @@ div.page-container.two-columns div.camera-frame {
 }
 
 div.page-container.three-columns div.camera-frame {
-    width: 33%;
+    width: 33.3333%;
 }
 
 div.page-container.four-columns div.camera-frame {
     width: 25%;
 }
 
-div.modal-container div.camera-frame {
-    width: auto;
+div.page-container div.camera-frame.full-screen-hidden {
+    width: 0px !important;
+    height: 0px !important;
     padding: 0px;
-    margin: -7px;
-    background-color: #414141;
+    border: 0px;
+    margin: 0px;
+}
+
+div.page-container div.camera-frame.full-screen {
+    width: 100%;
+    height: auto;
+    transition: all 0.4s ease; /* prevents unwanted camera frame line wrapping */
 }
 
 div.camera-overlay {
@@ -884,7 +908,7 @@ div.camera-overlay {
     left: 0.2em;
     bottom: 0.2em;
     opacity: 0;
-    transition: all 0.2s linear;
+    transition: all 0.2s ease;
 }
 
 div.camera-overlay.visible {
@@ -895,7 +919,7 @@ div.camera-overlay-top,
 div.camera-overlay-bottom {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.7);
-    transition: background-color 0.1s linear;
+    transition: background-color 0.1s ease;
     left: 0px;
     width: 100%;
 }
@@ -1061,7 +1085,7 @@ img.camera {
     position: relative;
     width: 100%;
     display: block;
-    transition: opacity 0.2s linear;
+    transition: opacity 0.2s ease;
     opacity: 1;
     min-height: 160px;
 }
@@ -1078,7 +1102,7 @@ div.camera-placeholder {
     bottom: 0px;
     left: 0px;
     text-align: center;
-    transition: opacity 0.2s linear;
+    transition: opacity 0.2s ease;
 }
 
 img.no-camera {
@@ -1095,7 +1119,7 @@ div.camera-progress {
     bottom: 0px;
     left: 0px;
     opacity: 0;
-    transition: all 0.2s linear;
+    transition: all 0.2s ease;
     text-align: center;
     cursor: pointer;
 }

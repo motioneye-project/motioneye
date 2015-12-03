@@ -2656,6 +2656,12 @@ function getCameraIdsByInstance() {
     return cameraIdsByInstance;
 }
 
+function getCameraIds() {
+    return getCameraFrames().map(function () {
+        return this.config.id;
+    }).toArray();
+}
+
 
     /* dialogs */
 
@@ -3693,10 +3699,10 @@ function addCameraFrameUi(cameraConfig) {
                     '<div class="camera-overlay-top">' +
                         '<div class="camera-name"><span class="camera-name"></span></div>' +
                         '<div class="camera-top-buttons">' +
-                            '<div class="button icon camera-top-button mouse-effect full-screen" title="full-screen window"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect media-pictures" title="pictures"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect media-movies" title="movies"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect configure" title="configure"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect full-screen" title="toggle full-screen camera"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect media-pictures" title="open pictures browser"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect media-movies" title="open movies browser"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect configure" title="configure this camera"></div>' +
                         '</div>' +
                     '</div>' +
                     '<div class="camera-overlay-bottom">' +
@@ -3712,7 +3718,7 @@ function addCameraFrameUi(cameraConfig) {
                                 '<div class="button icon camera-action-button mouse-effect unlock" title="unlock"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect light-off" title="turn light off"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect record-start" title="record"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect record-start" title="toggle continuous recording mode"></div>' +
                             '</div>' +
                         '</div>' +
                     '</div>' +
@@ -3818,8 +3824,12 @@ function addCameraFrameUi(cameraConfig) {
     
     fullScreenButton.click(function (cameraId) {
         return function () {
-            var path = basePath + 'picture/' + cameraId + '/frame/';
-            window.open(path, '_blank');
+            if (fullScreenCameraId && fullScreenCameraId == cameraId) {
+                doExitFullScreenCamera();
+            }
+            else {
+                doFullScreenCamera(cameraId);
+            }
         };
     }(cameraId));
     
@@ -4018,7 +4028,7 @@ function doConfigureCamera(cameraId) {
 }
 
 function doFullScreenCamera(cameraId) {
-    if (inProgress || refreshDisabled[cameraId]) {
+    if (inProgress) {
         return;
     }
     
@@ -4026,64 +4036,62 @@ function doFullScreenCamera(cameraId) {
         return; /* a camera is already in full screen */
     }
     
-    fullScreenCameraId = -1; /* avoids successive fast toggles of fullscreen */
+    closeSettings();
     
-    var cameraFrameDiv = getCameraFrame(cameraId);
-    var cameraName = cameraFrameDiv.find('span.camera-name').text();
-    var cameraImg = cameraFrameDiv.find('img.camera');
-    var aspectRatio = cameraImg.width() / cameraImg.height();
-    var windowWidth = $(window).width();
-    var windowHeight = $(window).height();
-    var windowAspectRatio = windowWidth / windowHeight;
-    var frameIndex = cameraFrameDiv.index();
+    fullScreenCameraId = cameraId;
     
-    cameraImg.addClass('initializing');
-    cameraImg[0].initializing = true;
-    
-    if (cameraImg.hasClass('error')) {
-        return; /* no full screen for erroneous cameras */
-    }
-
-    var width;
-    if (windowAspectRatio > aspectRatio) {
-        width = aspectRatio * Math.round(0.8 * windowHeight);
-    }
-    else {
-        width = Math.round(0.9 * windowWidth);
-    }
-
-    cameraFrameDiv.find('div.camera-progress').addClass('visible');
-    
-    var cameraImg = cameraFrameDiv.find('img.camera');
-    cameraImg.load(function showFullScreenCamera() {
-        cameraFrameDiv.css('width', width);
-        fullScreenCameraId = cameraId;
+    var cameraIds = getCameraIds();
+    cameraIds.forEach(function (cid) {
+        if (cid == cameraId) {
+            return;
+        }
         
-        runModalDialog({
-            title: cameraName,
-            closeButton: true,
-            content: cameraFrameDiv,
-            onShow: function () {
-                cameraImg.unbind('load', showFullScreenCamera);
-            },
-            onClose: function () {
-                fullScreenCameraId = null;
-                cameraFrameDiv.css('width', '');
-                var nextFrame = getPageContainer().children('div:eq(' + frameIndex + ')');
-                if (nextFrame.length) {
-                    nextFrame.before(cameraFrameDiv);
-                }
-                else {
-                    getPageContainer().append(cameraFrameDiv);
-                }
-            }
-        });
+        refreshDisabled[cid] |= 0;
+        refreshDisabled[cid]++;
+        
+        var cf = getCameraFrame(cid);
+        cf.css('height', cf.height()); /* required for the height animation */
+        setTimeout(function () {
+            cf.addClass('full-screen-hidden');
+        }, 10);
     });
     
-    if (cameraFrameDiv[0].config['proto'] == 'mjpeg') {
-        /* manually trigger the load event on simple mjpeg cameras */
-        cameraImg.load();
+    var cameraFrame = getCameraFrame(cameraId);
+    var pageContainer = getPageContainer();
+    
+    pageContainer.addClass('full-screen');
+    cameraFrame.addClass('full-screen');
+    $('div.header').addClass('full-screen')
+    $('div.footer').addClass('full-screen')
+}
+
+function doExitFullScreenCamera() {
+    if (fullScreenCameraId == null) {
+        return; /* no current full-screen camera */
     }
+        
+    getCameraFrames().
+            removeClass('full-screen-hidden').
+            css('height', '');
+    
+    var cameraFrame = getCameraFrame(fullScreenCameraId);
+    var pageContainer = getPageContainer();
+    
+    $('div.header').removeClass('full-screen')
+    $('div.footer').removeClass('full-screen')
+    pageContainer.removeClass('full-screen');
+    cameraFrame.removeClass('full-screen');
+
+    var cameraIds = getCameraIds();
+    cameraIds.forEach(function (cid) {
+        if (cid == fullScreenCameraId) {
+            return;
+        }
+        
+        refreshDisabled[cid]--;
+    });
+
+    fullScreenCameraId = null;
 }
 
 function refreshCameraFrames() {
@@ -4247,5 +4255,6 @@ $(document).ready(function () {
     
     refreshCameraFrames();
     checkCameraErrors();
+    setLayoutColumns(3); // TODO !!!
 });
 
