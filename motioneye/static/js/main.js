@@ -12,6 +12,7 @@ var signatureRegExp = new RegExp('[^a-zA-Z0-9/?_.=&{}\\[\\]":, _-]', 'g');
 var initialConfigFetched = false; /* used to workaround browser extensions that trigger stupid change events */
 var pageContainer = null;
 var overlayVisible = false;
+var layoutColumns = 1;
 
 
     /* Object utilities */
@@ -863,6 +864,64 @@ function setLayoutColumns(columns) {
     
     getPageContainer().removeClass(Object.values(cssClasses).join(' '));
     getPageContainer().addClass(cssClasses[columns]);
+    
+    layoutColumns = columns;
+    updateLayout();
+}
+
+function updateLayout() {
+    /* make sure the height of each camera
+     * is smaller than the height of the screen */
+    
+    /* find the tallest frame */
+    var frames = getCameraFrames();
+    var maxHeight = -1;
+    var maxHeightFrame = null;
+    frames.each(function () {
+        var frame = $(this);
+        var height = frame.height();
+        if (height > maxHeight) {
+            maxHeight = height;
+            maxHeightFrame = frame;
+        }
+    });
+    
+    if (!maxHeightFrame) {
+        return; /* no camera frames */
+    }
+    
+    var pageContainer = getPageContainer();
+    var windowWidth = $(window).width();
+    
+    var columns = layoutColumns;
+    if (isFullScreen() || windowWidth < 1200) {
+        columns = 1; /* always 1 column when in full screen or mobile */
+    }
+    
+    var heightOffset = 10; /* some padding */
+    if (!isFullScreen()) {
+        heightOffset += 50; /* top bar */
+    }
+
+    var windowHeight = $(window).height() - heightOffset;
+    var ratio = maxHeightFrame.width() / maxHeightFrame.height();
+    var width = parseInt(ratio * windowHeight * columns);
+    var maxWidth = windowWidth;
+    
+    if (pageContainer.hasClass('stretched')) {
+        maxWidth *= 0.6; /* opened settings panel occupies 40% of the window width */ 
+    }
+    
+    if (width < 100) {
+        width = 100; /* absolute minimum width for a frame */;
+    }
+    
+    if (width > maxWidth) {
+        getPageContainer().css('width', '');
+        return; /* page container width already at its maximum */
+    }
+    
+    getPageContainer().css('width', width);
 }
 
 function showCameraOverlay() {
@@ -892,6 +951,9 @@ function openSettings(cameraId) {
     $('div.settings-top-bar').addClass('open').removeClass('closed');
     
     updateConfigUI();
+    doExitFullScreenCamera();
+    updateLayout();
+    setTimeout(updateLayout, 200);
 }
 
 function closeSettings() {
@@ -902,6 +964,8 @@ function closeSettings() {
     $('div.settings').removeClass('open').addClass('closed');
     getPageContainer().removeClass('stretched');
     $('div.settings-top-bar').removeClass('open').addClass('closed');
+    
+    updateLayout();
 }
 
 function isSettingsOpen() {
@@ -3914,6 +3978,8 @@ function addCameraFrameUi(cameraConfig) {
             cameraImg.removeClass('initializing');
             cameraImg.css('height', '');
             this.initializing = false;
+            
+            updateLayout();
         }
 
         /* there's no point in looking for a cookie update more often than once every second */
@@ -4061,8 +4127,10 @@ function doFullScreenCamera(cameraId) {
     
     pageContainer.addClass('full-screen');
     cameraFrame.addClass('full-screen');
-    $('div.header').addClass('full-screen')
-    $('div.footer').addClass('full-screen')
+    $('div.header').addClass('full-screen');
+    $('div.footer').addClass('full-screen');
+    
+    updateLayout();
 }
 
 function doExitFullScreenCamera() {
@@ -4077,8 +4145,8 @@ function doExitFullScreenCamera() {
     var cameraFrame = getCameraFrame(fullScreenCameraId);
     var pageContainer = getPageContainer();
     
-    $('div.header').removeClass('full-screen')
-    $('div.footer').removeClass('full-screen')
+    $('div.header').removeClass('full-screen');
+    $('div.footer').removeClass('full-screen');
     pageContainer.removeClass('full-screen');
     cameraFrame.removeClass('full-screen');
 
@@ -4092,6 +4160,12 @@ function doExitFullScreenCamera() {
     });
 
     fullScreenCameraId = null;
+    
+    updateLayout();
+}
+
+function isFullScreen() {
+    return fullScreenCameraId != null;   
 }
 
 function refreshCameraFrames() {
@@ -4255,6 +4329,9 @@ $(document).ready(function () {
     
     refreshCameraFrames();
     checkCameraErrors();
-    setLayoutColumns(3); // TODO !!!
+    
+    $(window).resize(function () {
+        updateLayout();
+    });
 });
 

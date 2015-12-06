@@ -120,6 +120,7 @@ div.copyright-note {
 div.page-container {
     transition: all 0.2s ease;
     padding: 50px 0.2em 50px 0px;
+    margin: auto;
 }
 
 div.page-container.four-columns {
@@ -926,7 +927,7 @@ div.camera-overlay-bottom {
 
 div.camera-frame:HOVER div.camera-overlay-top,
 div.camera-frame:HOVER div.camera-overlay-bottom {
-    background-color: rgba(40, 40, 40, 0.8);
+    background-color: rgba(30, 30, 30, 0.8);
 }
 
 div.camera-frame.motion-detected div.camera-overlay-top,
@@ -1223,5 +1224,11 @@ img.camera-progress {
 
     div.camera-frame {
         width: 100% !important;
+    }
+}
+
+@media all and (max-height: 320px) {
+    div.page-container {
+        font-size: 14px !important;
     }
 }
