@@ -88,13 +88,7 @@ function refreshCameraFrame() {
         return; 
     }
     
-    /* at a refresh interval of 50ms, the refresh rate is limited to 20 fps */
     var count = 1000 / (refreshInterval * cameraFrame.streamingFramerate);
-    if (count <= 2) {
-        /* skipping frames (showing the same frame twice) at this rate won't be visible,
-         * while the effective framerate will be as close as possible to the motion's one */
-        count -= 1;
-    }
     
     if (img.error) {
         /* in case of error, decrease the refresh rate to 1 fps */

@@ -4,7 +4,7 @@ var pushConfigReboot = false;
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var fullScreenCameraId = null;
 var inProgress = false;
-var refreshInterval = 50; /* milliseconds */
+var refreshInterval = 15; /* milliseconds */
 var username = '';
 var password = '';
 var basePath = null;
@@ -4270,15 +4270,8 @@ function refreshCameraFrames() {
             return; /* no manual refresh for simple mjpeg cameras */
         }
         
-        /* at a refresh interval of 50ms, the refresh rate is limited to 20 fps */
-        var count = 1000 / (refreshInterval * this.config['streaming_framerate']);
+        var count = parseInt(1000 / (refreshInterval * this.config['streaming_framerate']));
         var serverSideResize = this.config['streaming_server_resize'];
-        
-        if (count <= 2) {
-            /* skipping frames (showing the same frame twice) at this rate won't be visible,
-             * while the effective framerate will be as close as possible to the motion's one */
-            count -= 1;
-        }
         
         if (this.img.error) {
             /* in case of error, decrease the refresh rate to 1 fps */
