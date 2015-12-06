@@ -172,18 +172,6 @@ div.button.logout-button {
     height: 48px;
 }
 
-body.admin div.logout-button {
-    display: none;
-}
-
-body.admin div.settings-top-bar.closed div.logout-button {
-    display: inline-block;
-}
-
-body:not(.admin) div.settings-top-bar div.logout-button {
-    display: none;
-}
-
 div.button.rem-camera-button {
     display: none;
     border: 1px solid transparent;
@@ -270,10 +258,6 @@ div.settings.open {
     min-width: 360px;
 }
 
-body:not(.admin) div.settings {
-    display: none !important;
-}
-
 div.settings-container {
     position: relative;
     padding-top: 10px;
@@ -308,10 +292,6 @@ div.settings-top-bar.open {
     min-width: 360px;
 }
 
-body:not(.admin) div.settings-top-bar {
-    display: none !important;
-}
-
 div.settings-top-bar.closed div.apply-button {
     display: none !important;
 }
@@ -321,6 +301,9 @@ div.settings-section-title {
     text-align: right;
     background-color: rgba(100, 100, 100, 0.3);
     padding: 5px 0.5em 5px 5px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
 a.settings-section-title {
@@ -1224,6 +1207,12 @@ img.camera-progress {
 
     div.camera-frame {
         width: 100% !important;
+    }
+    
+    #layoutColumnsRow {
+        /* layout columns are ignored on small screens,
+         * so hide the prefs row as well */
+        display: none !important;
     }
 }
 

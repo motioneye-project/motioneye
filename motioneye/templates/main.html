@@ -84,7 +84,6 @@
                 <div class="button apply-button" id="applyButton">Apply</div>
                 {% if hostname %}<div class="hostname">{{hostname}}</div>{% endif %}
             </div>
-            <div class="button logout-button mouse-effect" title="switch user"></div>
             <div class="logo">
                 <a href="/">
                     <span class="logo">motionEye</span>
@@ -98,9 +97,22 @@
     <div class="page">
         <div class="settings closed">
             <div class="settings-container">
+                <!-- Preferences -->
+                <div class="settings-section-title" id="preferencesDiv">
+                    <span class="help-mark" title="user preferences">?</span>
+                    <a class="settings-section-title">Preferences</a>
+                    <span class="minimize open"></span>
+                </div>
+                <table class="settings">
+                    <tr class="settings-item" min="1" max="4" snap="1" ticksnum="4" decimals="0" id="layoutColumnsRow">
+                        <td class="settings-item-label"><span class="settings-item-label">Layout Columns</span></td>
+                        <td class="settings-item-value"><input type="text" class="range styled prefs" id="layoutColumnsSlider"></td>
+                        <td><span class="help-mark" title="configures the number of columns to use when laying out the camera frames">?</span></td>
+                    </tr>
+                </table>
                 
                 <!-- General Settings -->
-                <div class="settings-section-title">
+                <div class="settings-section-title" id="generalSectionDiv">
                     <span class="help-mark" title="general settings, not related to any camera">?</span>
                     <a class="settings-section-title">General Settings</a>
                     <span class="minimize open"></span>
@@ -195,7 +207,7 @@
                 </tr>
                 
                 <!-- Video Device -->
-                <div class="settings-section-title">
+                <div class="settings-section-title" id="deviceSectionDiv">
                     <input type="checkbox" class="styled section device camera-config" id="videoDeviceEnabledSwitch">
                     <span class="help-mark" title="enable this if you want to use this camera device">?</span>
                     <a class="settings-section-title">Video Device</a>
@@ -282,7 +294,7 @@
                 </table>
                 
                 <!-- File Storage -->
-                <div class="settings-section-title advanced-setting">
+                <div class="settings-section-title advanced-setting" id="storageSectionDiv">
                     <span class="help-mark" title="choose where and how your media files are saved">?</span>
                     <a class="settings-section-title">File Storage</a>
                     <span class="minimize"></span>
@@ -456,7 +468,7 @@
                 </table>
                 
                 <!-- Text Overlay -->
-                <div class="settings-section-title advanced-setting">
+                <div class="settings-section-title advanced-setting" id="textOverlaySectionDiv">
                     <input type="checkbox" class="styled section text-overlay camera-config" id="textOverlayEnabledSwitch">
                     <span class="help-mark" title="choose what information is displayed on the captured frames">?</span>
                     <a class="settings-section-title">Text Overlay</a>
@@ -503,7 +515,7 @@
                 </table>
 
                 <!-- Video Streaming -->
-                <div class="settings-section-title" minimize-switch-independent="true">
+                <div class="settings-section-title" minimize-switch-independent="true" id="streamingSectionDiv">
                     <input type="checkbox" class="styled section streaming camera-config" id="videoStreamingEnabledSwitch">
                     <span class="help-mark" title="enable this if you want video streaming for this camera">?</span>
                     <a class="settings-section-title">Video Streaming</a>
@@ -577,7 +589,7 @@
                 </table>
                 
                 <!-- Still Images -->
-                <div class="settings-section-title">
+                <div class="settings-section-title" id="stillImagesSectionDiv">
                     <input type="checkbox" class="styled section still-images camera-config" id="stillImagesEnabledSwitch">
                     <span class="help-mark" title="enable this if you want to capture still images (pictures)">?</span>
                     <a class="settings-section-title">Still Images</a>
@@ -635,7 +647,7 @@
                 </table>
                 
                 <!-- Movies -->
-                <div class="settings-section-title">
+                <div class="settings-section-title" id="moviesSectionDiv">
                     <input type="checkbox" class="styled section movies camera-config" id="moviesEnabledSwitch">
                     <span class="help-mark" title="enable this if you want to record movies">?</span>
                     <a class="settings-section-title">Movies</a>
@@ -692,7 +704,7 @@
                 </table>
 
                 <!-- Motion Detection -->
-                <div class="settings-section-title advanced-setting">
+                <div class="settings-section-title advanced-setting" id="motionDetectionSectionDiv">
                     <input type="checkbox" class="styled section motion-detection camera-config" id="motionDetectionEnabledSwitch">
                     <span class="help-mark" title="enable this to use and configure the motion detection mechanism">?</span>
                     <a class="settings-section-title">Motion Detection</a>
@@ -753,7 +765,7 @@
                 </table>
                 
                 <!-- Motion Notifications -->
-                <div class="settings-section-title advanced-setting">
+                <div class="settings-section-title advanced-setting" id="notificationsSectionDiv">
                     <span class="help-mark" title="enable this if you want to be notified when motion is detected">?</span>
                     <a class="settings-section-title">Motion Notifications</a>
                     <span class="minimize"></span>
@@ -843,7 +855,7 @@
                 </table>
 
                 <!-- Working Schedule -->
-                <div class="settings-section-title" depends="motionDetectionEnabled">
+                <div class="settings-section-title" depends="motionDetectionEnabled" id="workingScheduleSectionDiv">
                     <input type="checkbox" class="styled section working-schedule camera-config" id="workingScheduleEnabledSwitch">
                     <span class="help-mark" title="enable this if you want to define a weekly working schedule for motion detection">?</span>
                     <a class="settings-section-title">Working Schedule</a>

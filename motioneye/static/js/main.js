@@ -693,8 +693,14 @@ function initUI() {
         });
     });
     
-    /* various change handlers */
+    /* prefs change handlers */
+    $('#layoutColumnsSlider').change(function () {
+        var columns = parseInt(this.value);
+        setLayoutColumns(columns);
+        savePrefs();
+    });
     
+    /* various change handlers */
     $('#storageDeviceSelect').change(function () {
         $('#rootDirectoryEntry').val('/');
     });
@@ -1011,6 +1017,11 @@ function updateConfigUI() {
         }
     });
 
+    if (!isAdmin()) {
+        $('#generalSectionDiv').each(markHideLogic);
+        $('#generalSectionDiv').next().each(markHideLogic);
+    }
+
     if ($('#cameraSelect').find('option').length < 2) { /* no camera configured */
         $('#videoDeviceEnabledSwitch').parent().each(markHideLogic);
         $('#videoDeviceEnabledSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
@@ -1241,6 +1252,29 @@ function configUiValid() {
     });
     
     return valid;
+}
+
+function prefsUi2Dict() {
+    var dict = {
+        'layout_columns': $('#layoutColumnsSlider').val()
+    };
+
+    return dict;
+}
+
+function dict2PrefsUi(dict) {
+    $('#layoutColumnsSlider').val(dict['layout_columns']);
+
+    updateConfigUI();
+}
+
+function applyPrefs(dict) {
+    setLayoutColumns(dict['layout_columns']);
+}
+
+function savePrefs() {
+    var prefs = prefsUi2Dict();
+    ajax('POST', basePath + 'prefs/', prefs);
 }
 
 function mainUi2Dict() {
@@ -2549,6 +2583,9 @@ function fetchCurrentConfig(onFetch) {
                     /* normal user with no cameras doesn't make too much sense - force login */
                     doLogout();
                 }
+                
+                $('#cameraSelect').hide();
+                $('#remCameraButton').hide();
 
                 if (onFetch) {
                     onFetch(data);
@@ -2571,21 +2608,32 @@ function fetchCurrentConfig(onFetch) {
     /* add a progress indicator */
     getPageContainer().append('<img class="main-loading-progress" src="' + staticPath + 'img/main-loading-progress.gif">');
 
-    if (isAdmin()) {
-        /* fetch the main configuration */
-        ajax('GET', basePath + 'config/main/get/', null, function (data) {
-            if (data == null || data.error) {
-                showErrorMessage(data && data.error);
-                return;
-            }
-            
-            dict2MainUi(data);
+    /* fetch the prefs */
+    ajax('GET', basePath + 'prefs/', null, function (data) {
+        if (data == null || data.error) {
+            showErrorMessage(data && data.error);
+            return;
+        }
+        
+        dict2PrefsUi(data);
+        applyPrefs(data);
+
+        if (isAdmin()) {
+            /* fetch the main configuration */
+            ajax('GET', basePath + 'config/main/get/', null, function (data) {
+                if (data == null || data.error) {
+                    showErrorMessage(data && data.error);
+                    return;
+                }
+                
+                dict2MainUi(data);
+                fetchCameraList();
+            });
+        }
+        else {
             fetchCameraList();
-        });
-    }
-    else {
-        fetchCameraList();
-    }
+        }
+    });
 }
 
 function fetchCurrentCameraConfig(onFetch) {
@@ -3813,7 +3861,7 @@ function addCameraFrameUi(cameraConfig) {
     var cameraImg = cameraFrameDiv.find('img.camera');
     var progressImg = cameraFrameDiv.find('img.camera-progress');
     
-    /* no camera buttons if not admin */
+    /* no configure button unless admin */
     if (!isAdmin()) {
         configureButton.hide();
     }

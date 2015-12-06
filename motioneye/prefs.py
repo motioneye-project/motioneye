@@ -23,6 +23,9 @@ import settings
 
 
 _PREFS_FILE_NAME = 'prefs.json'
+_DEFAULT_PREFS = {
+    'layout_columns': 3
+}
 
 _prefs = None
 
@@ -55,7 +58,7 @@ def _load():
             file.close()
             
     else:
-        logging.debug('preferences file "%s" does not exist, using default preferences')
+        logging.debug('preferences file "%s" does not exist, using default preferences' % file_path)
 
 
 def _save():
@@ -81,17 +84,25 @@ def _save():
         file.close()
 
 
-def get(username, key, default=None):
+def get(username, key=None):
     if _prefs is None:
         _load()
 
-    return _prefs.get(username, {}).get(key, default)
+    if key:
+        return _prefs.get(username, {}).get(key, _DEFAULT_PREFS.get(key))
+    
+    else:
+        return _prefs.get(username, _DEFAULT_PREFS)
 
 
 def set(username, key, value):
     if _prefs is None:
         _load()
 
-    _prefs.setdefault(username, {})[key] = value
-    _save()
+    if key:
+        _prefs.setdefault(username, {})[key] = value
+        
+    else:
+        _prefs[username] = value
 
+    _save()

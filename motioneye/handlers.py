@@ -121,8 +121,8 @@ class BaseHandler(RequestHandler):
 
         return None
     
-    def get_pref(self, key, default=None):
-        return prefs.get(self.current_user or 'anonymous', key, default)
+    def get_pref(self, key):
+        return prefs.get(self.current_user or 'anonymous', key)
         
     def set_pref(self, key, value):
         return prefs.set(self.current_user or 'anonymous', key, value)
@@ -1496,10 +1496,10 @@ class ActionHandler(BaseHandler):
 
 
 class PrefsHandler(BaseHandler):
-    def get(self, key):
+    def get(self, key=None):
         self.finish_json(self.get_pref(key))
 
-    def post(self, key):
+    def post(self, key=None):
         try:
             value = json.loads(self.request.body)
 
