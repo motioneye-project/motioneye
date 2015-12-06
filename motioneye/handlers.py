@@ -847,6 +847,9 @@ class PictureHandler(BaseHandler):
         width = self.get_argument('width', None)
         height = self.get_argument('height', None)
         
+        width = width and float(width)
+        height = height and float(height)
+        
         camera_config = config.get_camera(camera_id)
         if utils.local_motion_camera(camera_config):
             picture = mediafiles.get_current_picture(camera_config,

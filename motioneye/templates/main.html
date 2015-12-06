@@ -107,15 +107,24 @@
                     <tr class="settings-item" min="1" max="4" snap="1" ticksnum="4" decimals="0" id="layoutColumnsRow">
                         <td class="settings-item-label"><span class="settings-item-label">Layout Columns</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled prefs" id="layoutColumnsSlider"></td>
-                        <td><span class="help-mark" title="configures the number of columns to use when laying out the camera frames">?</span></td>
+                        <td><span class="help-mark" title="configures the number of columns used to lay out the camera frames">?</span></td>
                     </tr>
                     <tr class="settings-item" min="0" max="100" snap="2" ticksnum="6" decimals="0">
                         <td class="settings-item-label"><span class="settings-item-label">Frame Rate Dimmer</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled prefs" id="framerateDimmerSlider"></td>
-                        <td><span class="help-mark" title="dims the actual frame refreshing rate to save network bandwidth and traffic (doesn't work on simple MJPEG cameras)">?</span></td>
+                        <td><span class="help-mark" title="dims the global frame rate to save network bandwidth and traffic (doesn't work on simple MJPEG cameras)">?</span></td>
+                    </tr>
+                    <tr class="settings-item" min="1" max="100" snap="2" ticks="1|20|40|60|80|100" decimals="0">
+                        <td class="settings-item-label"><span class="settings-item-label">Resolution Dimmer</span></td>
+                        <td class="settings-item-value"><input type="text" class="range styled prefs" id="resolutionDimmerSlider"></td>
+                        <td><span class="help-mark" title="dims the actual resolution of all cameras to save network bandwidth and traffic (doesn't work on simple MJPEG cameras)">?</span></td>
                     </tr>
                 </table>
                 
+                <tr class="settings-item advanced-setting">
+                    <td colspan="100"><div class="settings-item-separator" style="margin: 0px 0px 1.5em 0px;"></div></td>
+                </tr>
+
                 <!-- General Settings -->
                 <div class="settings-section-title" id="generalSectionDiv">
                     <span class="help-mark" title="general settings, not related to any camera">?</span>

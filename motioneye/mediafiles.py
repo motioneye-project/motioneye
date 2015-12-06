@@ -741,6 +741,11 @@ def get_current_picture(camera_config, width, height):
     sio = StringIO.StringIO(jpg)
     image = Image.open(sio)
     
+    if width and width < 1: # given as percent
+        width = int(width * image.size[0])
+    if height and height < 1: # given as percent
+        height = int(height * image.size[1])
+
     width = width and int(width) or image.size[0]
     height = height and int(height) or image.size[1]
     

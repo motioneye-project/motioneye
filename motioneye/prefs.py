@@ -25,7 +25,8 @@ import settings
 _PREFS_FILE_NAME = 'prefs.json'
 _DEFAULT_PREFS = {
     'layout_columns': 3,
-    'refresh_factor': 1
+    'framerate_factor': 1,
+    'resolution_factor': 1
 }
 
 _prefs = None

@@ -5,7 +5,8 @@ var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is
 var fullScreenCameraId = null;
 var inProgress = false;
 var refreshInterval = 15; /* milliseconds */
-var refreshFactor = 1;
+var framerateFactor = 1;
+var resolutionFactor = 1;
 var username = '';
 var password = '';
 var basePath = null;
@@ -701,7 +702,11 @@ function initUI() {
         savePrefs();
     });
     $('#framerateDimmerSlider').change(function () {
-        refreshFactor = parseInt(this.value) / 100;
+        framerateFactor = parseInt(this.value) / 100;
+        savePrefs();
+    });
+    $('#resolutionDimmerSlider').change(function () {
+        resolutionFactor = parseInt(this.value) / 100;
         savePrefs();
     });
     
@@ -1262,7 +1267,8 @@ function configUiValid() {
 function prefsUi2Dict() {
     var dict = {
         'layout_columns': $('#layoutColumnsSlider').val(),
-        'refresh_factor': $('#framerateDimmerSlider').val() / 100
+        'framerate_factor': $('#framerateDimmerSlider').val() / 100,
+        'resolution_factor': $('#resolutionDimmerSlider').val() / 100
     };
 
     return dict;
@@ -1270,14 +1276,16 @@ function prefsUi2Dict() {
 
 function dict2PrefsUi(dict) {
     $('#layoutColumnsSlider').val(dict['layout_columns']);
-    $('#framerateDimmerSlider').val(dict['refresh_factor'] * 100);
+    $('#framerateDimmerSlider').val(dict['framerate_factor'] * 100);
+    $('#resolutionDimmerSlider').val(dict['resolution_factor'] * 100);
 
     updateConfigUI();
 }
 
 function applyPrefs(dict) {
     setLayoutColumns(dict['layout_columns']);
-    refreshFactor = dict['refresh_factor'];
+    framerateFactor = dict['framerate_factor'];
+    resolutionFactor = dict['resolution_factor'];
 }
 
 function savePrefs() {
@@ -4246,7 +4254,10 @@ function refreshCameraFrames() {
         }
         
         var path = basePath + 'picture/' + cameraId + '/current/?_=' + timestamp;
-        if (serverSideResize) {
+        if (resolutionFactor != 1) {
+            path += '&width=' + resolutionFactor;
+        }
+        else if (serverSideResize) {
             path += '&width=' + img.width;
         }
         
@@ -4280,7 +4291,7 @@ function refreshCameraFrames() {
         
         var count = parseInt(1000 / (refreshInterval * this.config['streaming_framerate']));
         var serverSideResize = this.config['streaming_server_resize'];
-        count /= refreshFactor;
+        count /= framerateFactor;
         
         if (this.img.error) {
             /* in case of error, decrease the refresh rate to 1 fps */
