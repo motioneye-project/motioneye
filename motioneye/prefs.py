@@ -24,7 +24,8 @@ import settings
 
 _PREFS_FILE_NAME = 'prefs.json'
 _DEFAULT_PREFS = {
-    'layout_columns': 3
+    'layout_columns': 3,
+    'refresh_factor': 1
 }
 
 _prefs = None
@@ -89,10 +90,13 @@ def get(username, key=None):
         _load()
 
     if key:
-        return _prefs.get(username, {}).get(key, _DEFAULT_PREFS.get(key))
+        prefs = _prefs.get(username, {}).get(key, _DEFAULT_PREFS.get(key))
     
     else:
-        return _prefs.get(username, _DEFAULT_PREFS)
+        prefs = dict(_DEFAULT_PREFS)
+        prefs.update(_prefs.get(username, {}))
+        
+    return prefs
 
 
 def set(username, key, value):

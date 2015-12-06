@@ -5,6 +5,7 @@ var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is
 var fullScreenCameraId = null;
 var inProgress = false;
 var refreshInterval = 15; /* milliseconds */
+var refreshFactor = 1;
 var username = '';
 var password = '';
 var basePath = null;
@@ -699,6 +700,10 @@ function initUI() {
         setLayoutColumns(columns);
         savePrefs();
     });
+    $('#framerateDimmerSlider').change(function () {
+        refreshFactor = parseInt(this.value) / 100;
+        savePrefs();
+    });
     
     /* various change handlers */
     $('#storageDeviceSelect').change(function () {
@@ -1256,7 +1261,8 @@ function configUiValid() {
 
 function prefsUi2Dict() {
     var dict = {
-        'layout_columns': $('#layoutColumnsSlider').val()
+        'layout_columns': $('#layoutColumnsSlider').val(),
+        'refresh_factor': $('#framerateDimmerSlider').val() / 100
     };
 
     return dict;
@@ -1264,12 +1270,14 @@ function prefsUi2Dict() {
 
 function dict2PrefsUi(dict) {
     $('#layoutColumnsSlider').val(dict['layout_columns']);
+    $('#framerateDimmerSlider').val(dict['refresh_factor'] * 100);
 
     updateConfigUI();
 }
 
 function applyPrefs(dict) {
     setLayoutColumns(dict['layout_columns']);
+    refreshFactor = dict['refresh_factor'];
 }
 
 function savePrefs() {
@@ -4272,6 +4280,7 @@ function refreshCameraFrames() {
         
         var count = parseInt(1000 / (refreshInterval * this.config['streaming_framerate']));
         var serverSideResize = this.config['streaming_server_resize'];
+        count /= refreshFactor;
         
         if (this.img.error) {
             /* in case of error, decrease the refresh rate to 1 fps */
