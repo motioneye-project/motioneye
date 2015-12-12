@@ -1668,6 +1668,8 @@ def _set_default_motion(data, old_motion):
     data.setdefault('@admin_password', '')
     data.setdefault('@normal_username', 'user')
     data.setdefault('@normal_password', '')
+    
+    data.setdefault('setup_mode', False)
 
     if old_motion:
         data.setdefault('control_port', settings.MOTION_CONTROL_PORT)

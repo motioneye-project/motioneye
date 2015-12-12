@@ -104,11 +104,17 @@ def start(deferred=False):
             '-c', motion_config_path]
     
     args.append('-d')
-    if settings.LOG_LEVEL == logging.DEBUG:
+    if settings.LOG_LEVEL <= logging.DEBUG:
         args.append('9')
     
-    else:
+    elif settings.LOG_LEVEL <= logging.WARN:
         args.append('5')
+
+    elif settings.LOG_LEVEL <= logging.ERROR:
+        args.append('4')
+    
+    else: # fatat, quiet
+        args.append('1')
 
     log_file = open(motion_log_path, 'w')
     
