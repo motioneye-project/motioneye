@@ -33,16 +33,17 @@ import utils
 
 class MjpgClient(IOStream):
     clients = {} # dictionary of clients indexed by camera id
-    last_jpgs = {} # dictionary of jpg contents indexed by camera id
+    last_jpgs = {} # dictionary of jpeg contents indexed by camera id
     last_jpg_moment = {} # dictionary of moments of the last received jpeg indexed by camera id
     last_access = {} # dictionary of access moments indexed by camera id
     last_erroneous_close_time = 0 # helps detecting erroneous connections and restart motion
     
-    def __init__(self, camera_id, port, username, password):
+    def __init__(self, camera_id, port, username, password, auth_mode):
         self._camera_id = camera_id
         self._port = port
         self._username = (username or '').encode('utf8')
         self._password = (password or '').encode('utf8')
+        self._auth_mode = auth_mode
         self._auth_digest_state = {}
         
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
@@ -112,8 +113,15 @@ class MjpgClient(IOStream):
     def _on_connect(self):
         logging.debug('mjpg client for camera %(camera_id)s connected on port %(port)s' % {
                 'port': self._port, 'camera_id': self._camera_id})
-        
-        self.write('GET / HTTP/1.0\r\n\r\n')
+
+        if self._auth_mode == 'basic':
+            logging.debug('mjpg client using basic authentication')
+
+            auth_header = utils.build_basic_header(self._username, self._password)
+            self.write('GET / HTTP/1.0\r\n\r\nAuthorization: %s\r\n\r\n' % auth_header)
+            
+        else: # in digest auth mode, the header is built upon receiving 401
+            self.write('GET / HTTP/1.0\r\n\r\n')
 
         self._seek_http()
 
@@ -148,7 +156,7 @@ class MjpgClient(IOStream):
         
         m = re.match('Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data.strip())
         if m:
-            logging.debug('mjpgclient: using basic authentication')
+            logging.debug('mjpg client using basic authentication')
             
             auth_header = utils.build_basic_header(self._username, self._password)
             self.write('GET / HTTP/1.0\r\n\r\nAuthorization: %s\r\n\r\n' % auth_header)
@@ -158,7 +166,7 @@ class MjpgClient(IOStream):
 
         m = re.match('Digest\s*realm="([a-zA-Z0-9\-\s]+)",\s*nonce="([a-zA-Z0-9]+)"', data.strip())
         if m:
-            logging.debug('mjpgclient: using digest authentication')
+            logging.debug('mjpg client using digest authentication')
 
             realm, nonce = m.groups()
             self._auth_digest_state['realm'] = realm
@@ -170,7 +178,7 @@ class MjpgClient(IOStream):
             
             return
 
-        logging.error('mjpgclient: unknown authentication header: "%s"' % data)
+        logging.error('mjpg client unknown authentication header: "%s"' % data)
         self._seek_content_length()
 
     def _seek_content_length(self):
@@ -228,10 +236,12 @@ def get_jpg(camera_id):
         
         port = camera_config['stream_port']
         username, password = None, None
+        auth_mode = None
         if camera_config.get('stream_auth_method') > 0:
             username, password = camera_config.get('stream_authentication', ':').split(':')
+            auth_mode = 'digest' if camera_config.get('stream_auth_method') > 1 else 'basic'
 
-        client = MjpgClient(camera_id, port, username, password)
+        client = MjpgClient(camera_id, port, username, password, auth_mode)
         client.connect()
 
     MjpgClient.last_access[camera_id] = datetime.datetime.utcnow()
