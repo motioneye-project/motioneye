@@ -1499,6 +1499,15 @@ class ActionHandler(BaseHandler):
 
         else:
             self.io_loop.add_timeout(datetime.timedelta(milliseconds=100), self.check_command)
+    
+    def snapshot(self):
+        self.finish_json({})
+    
+    def record_start(self):
+        self.finish_json({})
+    
+    def record_stop(self):
+        self.finish_json({})
 
 
 class PrefsHandler(BaseHandler):

@@ -980,7 +980,7 @@ div.camera-overlay-bottom.few-buttons {
 div.camera-info {
     display: inline-block;
     white-space: nowrap;
-    width: 50%;
+    width: 40%;
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: top;
@@ -998,13 +998,12 @@ span.camera-info {
 
 div.camera-action-buttons {
     display: inline-block;
-    width: 50%;
+    width: 60%;
     vertical-align: top;
     text-align: right;
 }
 
 div.camera-action-buttons-wrapper {
-    width: 10em;
     display: inline-block;
     white-space: normal;
 }

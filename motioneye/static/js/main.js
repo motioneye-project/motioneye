@@ -3835,17 +3835,17 @@ function addCameraFrameUi(cameraConfig) {
                     '</div>' +
                     '<div class="camera-overlay-bottom">' +
                         '<div class="camera-info">' +
-                            '<span class="camera-info fps"></span>' +
+                            '<span class="camera-info fps" title="streaming/capture frame rate"></span>' +
                         '</div>' +
                         '<div class="camera-action-buttons">' +
                         '<div class="camera-action-buttons-wrapper">' +
                                 '<div class="button icon camera-action-button mouse-effect lock" title="lock"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect light-on" title="turn light on"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect snapshot" title="take a snapshot"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect unlock" title="unlock"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect light-on" title="turn light on"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect light-off" title="turn light off"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect snapshot" title="take a snapshot"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect record-start" title="toggle continuous recording mode"></div>' +
                             '</div>' +
                         '</div>' +
@@ -3971,7 +3971,7 @@ function addCameraFrameUi(cameraConfig) {
         'light_off': lightOffButton,
         'alarm_on': alarmOnButton,
         'alarm_off': alarmOffButton,
-        'snapshpt': snapshotButton,
+        'snapshot': snapshotButton,
         'record': recordButton
     };
     
@@ -4006,6 +4006,9 @@ function addCameraFrameUi(cameraConfig) {
     
     if (cameraConfig.actions.length <= 4) {
         cameraOverlay.find('div.camera-overlay-bottom').addClass('few-buttons');
+    }
+    else {
+        cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', Math.ceil(cameraConfig.actions.length / 2) * 2.5 + 'em');
     }
 
     var FPS_LEN = 4;
