@@ -924,7 +924,8 @@ div.camera-overlay-top {
 
 div.camera-name {
     display: inline-block;
-    font-size: 1.5em;
+    font-size: 1.2em;
+    font-weight: bold;
     white-space: nowrap;
     width: 33.33%;
     overflow: hidden;

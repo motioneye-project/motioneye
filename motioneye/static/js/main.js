@@ -4337,7 +4337,7 @@ function checkCameraErrors() {
         }
 
         /* fps timeout */
-        if (this.fpsTimes.length && (now - this.fpsTimes[this.fpsTimes.length - 1]) > 2000) {
+        if (this.fpsTimes && this.fpsTimes.length && (now - this.fpsTimes[this.fpsTimes.length - 1]) > 2000) {
             $(this).parents('div.camera-frame').find('span.camera-info.fps').html('0 fps');
         }
     });
