@@ -28,6 +28,7 @@ from tornado.web import RequestHandler, HTTPError, asynchronous
 
 import config
 import mediafiles
+import mjpgclient
 import motionctl
 import powerctl
 import prefs
@@ -857,11 +858,13 @@ class PictureHandler(BaseHandler):
                     height=height)
             
             self.set_cookie('motion_detected_' + str(camera_id), str(motionctl.is_motion_detected(camera_id)).lower())
+            self.set_cookie('capture_fps_' + str(camera_id), '%.1f' % mjpgclient.get_fps(camera_id))
             self.try_finish(picture)
-                
+
         elif utils.remote_camera(camera_config):
-            def on_response(motion_detected=False, picture=None, error=None):
+            def on_response(motion_detected=False, fps=None, picture=None, error=None):
                 self.set_cookie('motion_detected_' + str(camera_id), str(motion_detected).lower())
+                self.set_cookie('capture_fps_' + str(camera_id), '%.1f' % fps)
                 self.try_finish(picture)
             
             remote.get_current_picture(camera_config, width=width, height=height, callback=on_response)

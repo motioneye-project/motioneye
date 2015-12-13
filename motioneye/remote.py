@@ -318,6 +318,8 @@ def get_current_picture(local_config, width, height, callback):
             cookies = [[i.strip() for i in c.split('=')] for c in cookies]
             cookies = dict([c for c in cookies if len(c) == 2])
             motion_detected = cookies.get('motion_detected_' + str(camera_id)) == 'true'
+            fps = cookies.get('capture_fps_' + str(camera_id))
+            fps = float(fps) if fps else 0
         
         if response.error:
             logging.error('failed to get current picture for remote camera %(id)s on %(url)s: %(msg)s' % {
@@ -327,7 +329,7 @@ def get_current_picture(local_config, width, height, callback):
             
             return callback(error=utils.pretty_http_error(response))
 
-        callback(motion_detected, response.body)
+        callback(motion_detected, fps, response.body)
     
     http_client = AsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))

@@ -4063,12 +4063,22 @@ function addCameraFrameUi(cameraConfig) {
                 recordButton.removeClass('record-stop').addClass('record-start');
             }
             
+            var captureFps = getCookie('capture_fps_' + cameraId);
+            
             this.lastCookieTime = now;
 
             if (this.fpsTimes.length == FPS_LEN) {
-                var fps = this.fpsTimes.length * 1000 / (this.fpsTimes[this.fpsTimes.length - 1] - this.fpsTimes[0]);
-                fps = fps.toFixed(1);
-                fpsSpan.html(fps + ' fps');
+                var streamingFps = this.fpsTimes.length * 1000 / (this.fpsTimes[this.fpsTimes.length - 1] - this.fpsTimes[0]);
+                streamingFps = streamingFps.toFixed(1);
+                
+                var fps = streamingFps;
+                if (captureFps) {
+                    fps += '/' + captureFps;
+                }
+                
+                fps += ' fps';
+
+                fpsSpan.html(fps);
             }
         }
 
