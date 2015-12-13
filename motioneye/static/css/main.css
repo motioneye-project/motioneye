@@ -123,10 +123,6 @@ div.page-container {
     margin: auto;
 }
 
-div.page-container.four-columns {
-    font-size: 12px;
-}
-
 div.page-container.stretched {
     margin-left: 40%;
     font-size: 16px;
@@ -230,6 +226,7 @@ img.main-loading-progress {
 div.add-camera-message {
     text-align: center;
     margin-top: 30px;
+    font-size: 1rem;
 }
 
 div.hostname {
@@ -929,7 +926,7 @@ div.camera-name {
     display: inline-block;
     font-size: 1.5em;
     white-space: nowrap;
-    width: 50%;
+    width: 33.33%;
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: top;
@@ -941,7 +938,7 @@ span.camera-name {
 
 div.camera-top-buttons {
     display: inline-block;
-    width: 50%;
+    width: 66.66%;
     vertical-align: top;
     text-align: right;
 }
@@ -1131,14 +1128,6 @@ img.camera-progress {
     
     body {
         font-size: 16px;
-    }
-    
-    div.page-container.stretched {
-        font-size: 10px;
-    }
-
-    div.page-container.four-columns.stretched {
-        font-size: 8px;
     }
 }
 
