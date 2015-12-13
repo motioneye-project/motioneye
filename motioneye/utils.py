@@ -41,6 +41,7 @@ except:
 
 
 _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, _-]')
+_SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
 
 COMMON_RESOLUTIONS = [
@@ -584,6 +585,23 @@ def compute_signature(method, path, body, key):
 
     return hashlib.sha1('%s:%s:%s:%s' % (method, path, body or '', key)).hexdigest().lower()
 
+
+def parse_cookies(cookies_headers):
+    parsed = {}
+    
+    for cookie in cookies_headers:
+        cookie = cookie.split(';')
+        for c in cookie:
+            (name, value) = c.split('=', 1)
+            name = name.strip()
+            value = value.strip()
+
+            if name.lower() in _SPECIAL_COOKIE_NAMES:
+                continue
+            
+            parsed[name] = value
+
+    return parsed
 
 def build_basic_header(username, password):
     return 'Basic ' + base64.encodestring('%s:%s' % (username, password)).replace('\n', '')

@@ -310,17 +310,11 @@ def get_current_picture(local_config, width, height, callback):
             query=query)
     
     def on_response(response):
-        motion_detected = False
-        
-        cookies = response.headers.get('Set-Cookie')
-        if cookies:
-            cookies = cookies.split(';')
-            cookies = [[i.strip() for i in c.split('=')] for c in cookies]
-            cookies = dict([c for c in cookies if len(c) == 2])
-            motion_detected = cookies.get('motion_detected_' + str(camera_id)) == 'true'
-            fps = cookies.get('capture_fps_' + str(camera_id))
-            fps = float(fps) if fps else 0
-        
+        cookies = utils.parse_cookies(response.headers.get_list('Set-Cookie'))
+        motion_detected = cookies.get('motion_detected_' + str(camera_id)) == 'true'
+        fps = cookies.get('capture_fps_' + str(camera_id))
+        fps = float(fps) if fps else 0
+
         if response.error:
             logging.error('failed to get current picture for remote camera %(id)s on %(url)s: %(msg)s' % {
                     'id': camera_id,
@@ -702,6 +696,38 @@ def del_media_group(local_config, group, media_type, callback):
                     'url': pretty_camera_url(local_config),
                     'msg': utils.pretty_http_error(response)})
             
+            return callback(error=utils.pretty_http_error(response))
+        
+        callback()
+
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, _callback_wrapper(on_response))
+
+
+def exec_action(local_config, action, callback):
+    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
+    
+    logging.debug('executing action "%(action)s" of remote camera %(id)s on %(url)s' % {
+            'action': action,
+            'id': camera_id,
+            'url': pretty_camera_url(local_config)})
+
+    path += '/action/%(id)s/%(action)s/' % {
+            'action': action,
+            'id': camera_id}
+
+    request = _make_request(scheme, host, port, username, password, path,
+            method='POST', data='{}',
+            timeout=settings.REMOTE_REQUEST_TIMEOUT, content_type='application/json')
+
+    def on_response(response):
+        if response.error:
+            logging.error('failed to execute action "%(action)s" of remote camera %(id)s on %(url)s: %(msg)s' % {
+                    'action': action,
+                    'id': camera_id,
+                    'url': pretty_camera_url(local_config),
+                    'msg': utils.pretty_http_error(response)})
+
             return callback(error=utils.pretty_http_error(response))
         
         callback()

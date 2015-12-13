@@ -1450,6 +1450,17 @@ class ActionHandler(BaseHandler):
         if camera_id not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
         
+        local_config = config.get_camera(camera_id)
+        if utils.remote_camera(local_config):
+            def on_response(error=None):
+                if error:
+                    return self.finish_json({'error': 'Failed to execute action on remote camera at %(url)s: %(msg)s.' % {
+                            'url': remote.pretty_camera_url(local_config), 'msg': error}})
+
+                self.finish_json()
+
+            return remote.exec_action(local_config, action, on_response)
+
         if action == 'snapshot':
             logging.debug('executing snapshot action for camera with id %s' % camera_id)
             return self.snapshot()
