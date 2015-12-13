@@ -194,7 +194,8 @@ def make_arg_parser(command=None):
         description += '  stopserver\n'
         description += '  relayevent\n'
         description += '  sendmail\n'
-        description += '  webhook\n\n'
+        description += '  webhook\n'
+        description += '  shell\n\n'
 
         epilog = 'type "%(prog)s [command] -h" for help on a specific command\n\n'
         
@@ -259,6 +260,10 @@ def main():
     elif command == 'webhook':
         import webhook
         webhook.main(arg_parser, sys.argv[2:])
+
+    elif command == 'shell':
+        import shell
+        shell.main(arg_parser, sys.argv[2:])
 
     else:
         sys.stderr.write('unknown command "%s"\n\n' % command)
