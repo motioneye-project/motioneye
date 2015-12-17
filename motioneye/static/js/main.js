@@ -4204,6 +4204,22 @@ function doFullScreenCamera(cameraId) {
     $('div.footer').addClass('full-screen');
     
     updateLayout();
+
+    /* try to make browser window full screen */
+    var element = document.documentElement;
+    var requestFullScreen = (
+            element.requestFullscreen ||
+            element.requestFullScreen ||
+            element.webkitRequestFullscreen ||
+            element.webkitRequestFullScreen ||
+            element.mozRequestFullscreen ||
+            element.mozRequestFullScreen ||
+            element.msRequestFullscreen ||
+            element.msRequestFullScreen);
+    
+    if (requestFullScreen) {
+        requestFullScreen.call(element);
+    }
 }
 
 function doExitFullScreenCamera() {
@@ -4235,6 +4251,21 @@ function doExitFullScreenCamera() {
     fullScreenCameraId = null;
     
     updateLayout();
+
+    /* exit browser window full screen */
+    var exitFullScreen = (
+            document.exitFullscreen ||
+            document.cancelFullScreen ||
+            document.webkitExitFullscreen ||
+            document.webkitCancelFullScreen ||
+            document.mozExitFullscreen ||
+            document.mozCancelFullScreen ||
+            document.msExitFullscreen ||
+            document.msCancelFullScreen);
+    
+    if (exitFullScreen) {
+        exitFullScreen.call(document);
+    }
 }
 
 function isFullScreen() {
