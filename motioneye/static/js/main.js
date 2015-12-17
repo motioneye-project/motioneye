@@ -4027,10 +4027,6 @@ function addCameraFrameUi(cameraConfig) {
         fpsSpan.html('');
     };
     cameraImg[0].onload = function () {
-        if (refreshDisabled[cameraId]) {
-            return; /* refresh temporarily disabled for updating */
-        }
-        
         if (this.error) {
             cameraImg.removeClass('error');
             cameraPlaceholder.css('opacity', 0);
@@ -4214,7 +4210,7 @@ function doExitFullScreenCamera() {
     if (fullScreenCameraId == null) {
         return; /* no current full-screen camera */
     }
-        
+
     getCameraFrames().
             removeClass('full-screen-hidden').
             css('height', '');
