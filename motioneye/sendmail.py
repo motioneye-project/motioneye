@@ -35,6 +35,7 @@ import settings
 
 import config
 import mediafiles
+import motionctl
 import tzctl
 
 
@@ -140,7 +141,7 @@ def parse_options(parser, args):
     parser.add_argument('tls', help='"true" to use TLS')
     parser.add_argument('to', help='the email recipient(s)')
     parser.add_argument('msg_id', help='the identifier of the message')
-    parser.add_argument('camera_id', help='the id of the camera')
+    parser.add_argument('thread_id', help='the id of the motion thread')
     parser.add_argument('moment', help='the moment in ISO-8601 format')
     parser.add_argument('timespan', help='picture collection time span')
 
@@ -172,6 +173,8 @@ def main(parser, args):
     # email notifications are critical
     settings.LIST_MEDIA_TIMEOUT = 10
     
+    camera_id = motionctl.thread_id_to_camera_id(options.thread_id)
+
     logging.debug('server = %s' % options.server)
     logging.debug('port = %s' % options.port)
     logging.debug('account = %s' % options.account)
@@ -180,7 +183,8 @@ def main(parser, args):
     logging.debug('tls = %s' % str(options.tls).lower())
     logging.debug('to = %s' % options.to)
     logging.debug('msg_id = %s' % options.msg_id)
-    logging.debug('camera_id = %s' % options.camera_id)
+    logging.debug('thread_id = %s' % options.thread_id)
+    logging.debug('camera_id = %s' % camera_id)
     logging.debug('moment = %s' % options.moment.strftime('%Y-%m-%d %H:%M:%S'))
     logging.debug('smtp timeout = %d' % settings.SMTP_TIMEOUT)
     logging.debug('timespan = %d' % options.timespan)
@@ -199,4 +203,4 @@ def main(parser, args):
 
         logging.debug('bye!')
     
-    make_message(subject, message, options.camera_id, options.moment, options.timespan, on_message)
+    make_message(subject, message, camera_id, options.moment, options.timespan, on_message)

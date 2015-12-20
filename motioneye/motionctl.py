@@ -293,6 +293,7 @@ def camera_id_to_thread_id(camera_id):
     # (which can be different from camera_id)
     camera_ids = config.get_camera_ids()
     thread_id = 0
+    camera_id = int(camera_id)
     for cid in camera_ids:
         camera_config = config.get_camera(cid)
         if utils.local_motion_camera(camera_config):
@@ -309,7 +310,7 @@ def thread_id_to_camera_id(thread_id):
     threads = main_config.get('thread', '')
 
     try:
-        return int(re.search('thread-(\d+).conf', threads[thread_id - 1]).group(1))
+        return int(re.search('thread-(\d+).conf', threads[int(thread_id) - 1]).group(1))
     
     except IndexError:
         return None
