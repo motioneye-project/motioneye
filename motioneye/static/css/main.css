@@ -1192,6 +1192,7 @@ img.camera-progress {
 @media all and (max-width: 1200px) {
     div.page-container {
         font-size: 16px !important;
+        margin-left: auto !important;
     }
 
     div.camera-frame {

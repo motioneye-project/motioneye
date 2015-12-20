@@ -931,7 +931,7 @@ function updateLayout() {
         var width = parseInt(ratio * windowHeight * columns);
         var maxWidth = windowWidth;
         
-        if (pageContainer.hasClass('stretched') && windowWidth > 1000) {
+        if (pageContainer.hasClass('stretched') && windowWidth > 1200) {
             maxWidth *= 0.6; /* opened settings panel occupies 40% of the window width */ 
         }
         
@@ -1300,6 +1300,13 @@ function applyPrefs(dict) {
     fitFramesVertically = dict['fit_frames_vertically']
     framerateFactor = dict['framerate_factor'];
     resolutionFactor = dict['resolution_factor'];
+    
+    if (fitFramesVertically) {
+        getPageContainer().addClass('fit-frames-vertically');
+    }
+    else {
+        getPageContainer().removeClass('fit-frames-vertically');
+    }
 }
 
 function savePrefs() {
