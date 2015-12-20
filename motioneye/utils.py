@@ -472,7 +472,7 @@ def test_rtsp_url(data, callback):
         stream.read_until_regex('RTSP/1.0 \d+ ', on_rtsp)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), on_rtsp)
 
-    def on_rtsp(data):
+    def on_rtsp(data=None):
         io_loop.remove_timeout(timeout[0])
 
         if data:
