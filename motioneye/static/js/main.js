@@ -15,6 +15,7 @@ var initialConfigFetched = false; /* used to workaround browser extensions that 
 var pageContainer = null;
 var overlayVisible = false;
 var layoutColumns = 1;
+var fitFramesVertically = false;
 
 
     /* Object utilities */
@@ -701,6 +702,11 @@ function initUI() {
         setLayoutColumns(columns);
         savePrefs();
     });
+    $('#fitFramesVerticallySwitch').change(function () {
+        fitFramesVertically = this.checked;
+        updateLayout();
+        savePrefs();
+    });
     $('#framerateDimmerSlider').change(function () {
         framerateFactor = parseInt(this.value) / 100;
         savePrefs();
@@ -886,58 +892,63 @@ function setLayoutColumns(columns) {
 }
 
 function updateLayout() {
-    /* make sure the height of each camera
-     * is smaller than the height of the screen */
-    
-    /* find the tallest frame */
-    var frames = getCameraFrames();
-    var maxHeight = -1;
-    var maxHeightFrame = null;
-    frames.each(function () {
-        var frame = $(this);
-        var height = frame.height();
-        if (height > maxHeight) {
-            maxHeight = height;
-            maxHeightFrame = frame;
+    if (fitFramesVertically) {
+        /* make sure the height of each camera
+         * is smaller than the height of the screen */
+        
+        /* find the tallest frame */
+        var frames = getCameraFrames();
+        var maxHeight = -1;
+        var maxHeightFrame = null;
+        frames.each(function () {
+            var frame = $(this);
+            var height = frame.height();
+            if (height > maxHeight) {
+                maxHeight = height;
+                maxHeightFrame = frame;
+            }
+        });
+        
+        if (!maxHeightFrame) {
+            return; /* no camera frames */
         }
-    });
+        
+        var pageContainer = getPageContainer();
+        var windowWidth = $(window).width();
+        
+        var columns = layoutColumns;
+        if (isFullScreen() || windowWidth < 1200) {
+            columns = 1; /* always 1 column when in full screen or mobile */
+        }
+        
+        var heightOffset = 10; /* some padding */
+        if (!isFullScreen()) {
+            heightOffset += 50; /* top bar */
+        }
     
-    if (!maxHeightFrame) {
-        return; /* no camera frames */
+        var windowHeight = $(window).height() - heightOffset;
+        var ratio = maxHeightFrame.width() / maxHeightFrame.height();
+        var width = parseInt(ratio * windowHeight * columns);
+        var maxWidth = windowWidth;
+        
+        if (pageContainer.hasClass('stretched') && windowWidth > 1000) {
+            maxWidth *= 0.6; /* opened settings panel occupies 40% of the window width */ 
+        }
+        
+        if (width < 100) {
+            width = 100; /* absolute minimum width for a frame */
+        }
+        
+        if (width > maxWidth) {
+            getPageContainer().css('width', '');
+            return; /* page container width already at its maximum */
+        }
+        
+        getPageContainer().css('width', width);
     }
-    
-    var pageContainer = getPageContainer();
-    var windowWidth = $(window).width();
-    
-    var columns = layoutColumns;
-    if (isFullScreen() || windowWidth < 1200) {
-        columns = 1; /* always 1 column when in full screen or mobile */
-    }
-    
-    var heightOffset = 10; /* some padding */
-    if (!isFullScreen()) {
-        heightOffset += 50; /* top bar */
-    }
-
-    var windowHeight = $(window).height() - heightOffset;
-    var ratio = maxHeightFrame.width() / maxHeightFrame.height();
-    var width = parseInt(ratio * windowHeight * columns);
-    var maxWidth = windowWidth;
-    
-    if (pageContainer.hasClass('stretched')) {
-        maxWidth *= 0.6; /* opened settings panel occupies 40% of the window width */ 
-    }
-    
-    if (width < 100) {
-        width = 100; /* absolute minimum width for a frame */;
-    }
-    
-    if (width > maxWidth) {
+    else {
         getPageContainer().css('width', '');
-        return; /* page container width already at its maximum */
     }
-    
-    getPageContainer().css('width', width);
 }
 
 function showCameraOverlay() {
@@ -1267,6 +1278,7 @@ function configUiValid() {
 function prefsUi2Dict() {
     var dict = {
         'layout_columns': $('#layoutColumnsSlider').val(),
+        'fit_frames_vertically': $('#fitFramesVerticallySwitch')[0].checked,
         'framerate_factor': $('#framerateDimmerSlider').val() / 100,
         'resolution_factor': $('#resolutionDimmerSlider').val() / 100
     };
@@ -1276,6 +1288,7 @@ function prefsUi2Dict() {
 
 function dict2PrefsUi(dict) {
     $('#layoutColumnsSlider').val(dict['layout_columns']);
+    $('#fitFramesVerticallySwitch')[0].checked = dict['fit_frames_vertically'];
     $('#framerateDimmerSlider').val(dict['framerate_factor'] * 100);
     $('#resolutionDimmerSlider').val(dict['resolution_factor'] * 100);
 
@@ -1284,6 +1297,7 @@ function dict2PrefsUi(dict) {
 
 function applyPrefs(dict) {
     setLayoutColumns(dict['layout_columns']);
+    fitFramesVertically = dict['fit_frames_vertically']
     framerateFactor = dict['framerate_factor'];
     resolutionFactor = dict['resolution_factor'];
 }

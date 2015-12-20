@@ -25,6 +25,7 @@ import settings
 _PREFS_FILE_NAME = 'prefs.json'
 _DEFAULT_PREFS = {
     'layout_columns': 3,
+    'fit_frames_vertically': True,
     'framerate_factor': 1,
     'resolution_factor': 1
 }

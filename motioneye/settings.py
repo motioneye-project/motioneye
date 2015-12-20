@@ -107,7 +107,7 @@ ENABLE_UPDATE = False
 # timeout in seconds to use when talking to the SMTP server
 SMTP_TIMEOUT = 60
 
-# timeout in seconds to wait media files list
+# timeout in seconds to wait for media files list
 LIST_MEDIA_TIMEOUT = 120
 
 # timeout in seconds to wait for zip file creation
