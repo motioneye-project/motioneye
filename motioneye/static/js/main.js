@@ -4224,8 +4224,6 @@ function doFullScreenCamera(cameraId) {
     $('div.header').addClass('full-screen');
     $('div.footer').addClass('full-screen');
     
-    updateLayout();
-
     /* try to make browser window full screen */
     var element = document.documentElement;
     var requestFullScreen = (
@@ -4238,9 +4236,17 @@ function doFullScreenCamera(cameraId) {
             element.msRequestFullscreen ||
             element.msRequestFullScreen);
     
+
     if (requestFullScreen) {
         requestFullScreen.call(element);
     }
+
+    /* calling updateLayout like this fixes wrong frame size
+     * after the window as actually been put into full screen mode */
+    updateLayout();
+    setTimeout(updateLayout, 200);
+    setTimeout(updateLayout, 400);
+    setTimeout(updateLayout, 1000);
 }
 
 function doExitFullScreenCamera() {
@@ -4428,17 +4434,6 @@ $(document).ready(function () {
     
     /* test buttons */
     $('div#uploadTestButton').click(doTestUpload);
-    
-    /* prevent scroll events on settings div from propagating TODO this does not actually work */
-    $('div.settings').mousewheel(function (e, d) {
-        var t = $(this);
-        if (d > 0 && t.scrollTop() === 0) {
-            e.preventDefault();
-        }
-        else if (d < 0 && (t.scrollTop() === t.get(0).scrollHeight - t.innerHeight())) {
-            e.preventDefault();
-        }
-    });
     
     initUI();
     beginProgress();
