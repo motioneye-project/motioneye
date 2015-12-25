@@ -1755,15 +1755,15 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('noise_tune', True)
     data.setdefault('noise_level', 32)
     data.setdefault('lightswitch', 0)
-    data.setdefault('minimum_motion_frames', 10)
+    data.setdefault('minimum_motion_frames', 20)
     
-    data.setdefault('pre_capture', 2)
-    data.setdefault('post_capture', 4)
+    data.setdefault('pre_capture', 1)
+    data.setdefault('post_capture', 1)
     
     data.setdefault('output_pictures', False)
     data.setdefault('picture_filename', '')
     data.setdefault('emulate_motion', False)
-    data.setdefault('event_gap', 10)
+    data.setdefault('event_gap', 30)
     
     data.setdefault('snapshot_interval', 0)
     data.setdefault('snapshot_filename', '')
