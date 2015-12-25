@@ -389,8 +389,8 @@ class Dropbox(UploadService):
     AUTH_URL = 'https://www.dropbox.com/1/oauth2/authorize'
     TOKEN_URL = 'https://api.dropboxapi.com/1/oauth2/token'
 
-    CLIENT_ID = 'dwiw710jz6r60pq'
-    CLIENT_NOT_SO_SECRET = '8jz75qo405ritd5'
+    CLIENT_ID = 'dropbox_client_id_placeholder'
+    CLIENT_NOT_SO_SECRET = 'dropbox_client_secret_placeholder'
     
     LIST_FOLDER_URL = 'https://api.dropboxapi.com/2/files/list_folder'
     UPLOAD_URL = 'https://content.dropboxapi.com/2/files/upload'

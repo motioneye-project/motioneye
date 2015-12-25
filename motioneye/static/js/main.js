@@ -917,7 +917,7 @@ function updateLayout() {
         var windowWidth = $(window).width();
         
         var columns = layoutColumns;
-        if (isFullScreen() || windowWidth < 1200) {
+        if (isFullScreen() || windowWidth <= 1200) {
             columns = 1; /* always 1 column when in full screen or mobile */
         }
         
