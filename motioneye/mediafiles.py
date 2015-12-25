@@ -652,7 +652,13 @@ def get_media_preview(camera_config, path, media_type, width, height):
         return content
     
     sio = StringIO.StringIO(content)
-    image = Image.open(sio)
+    try:
+        image = Image.open(sio)
+    
+    except Exception as e:
+        logging.error('failed to open media preview image file: %s' % e)
+        return None
+    
     width = width and int(width) or image.size[0]
     height = height and int(height) or image.size[1]
     

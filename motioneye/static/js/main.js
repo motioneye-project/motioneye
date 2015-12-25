@@ -3501,7 +3501,7 @@ function runMediaDialog(cameraId, mediaType) {
         
         function addEntries() {
             /* add the entries to the media list */
-            entries.forEach(function (entry, i) {
+            entries.forEach(function (entry) {
                 var entryDiv = entry.div;
                 var detailsDiv = null;
                 
@@ -3534,7 +3534,10 @@ function runMediaDialog(cameraId, mediaType) {
                     deleteButton.click(function () {
                         doDeleteFile(basePath + mediaType + '/' + cameraId + '/delete' + entry.path, function () {
                             entryDiv.remove();
-                            entries.splice(i, 1); /* remove entry from group */
+                            var pos = entries.indexOf(entry);
+                            if (pos >= 0) {
+                                entries.splice(pos, 1); /* remove entry from group */
+                            }
 
                             /* update text on group button */
                             groupsDiv.find('div.media-dialog-group-button').each(function () {
