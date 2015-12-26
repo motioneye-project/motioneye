@@ -168,6 +168,7 @@ def main(parser, args):
     message = messages.get(options.msg_id)
     subject = subjects.get(options.msg_id)
     options.moment = datetime.datetime.strptime(options.moment, '%Y-%m-%dT%H:%M:%S')
+    options.password = options.password.replace('\\;', ';') # unescape password
     
     # do not wait too long for media list,
     # email notifications are critical

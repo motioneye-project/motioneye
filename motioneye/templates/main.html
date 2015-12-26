@@ -479,7 +479,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="commandStorageEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
                         <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="commandStorageEntry" placeholder="command..."></td>
-                        <td><span class="help-mark" title="a command to be executed after a media file is created; multiple commands can be separated by a semicolon; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %f = file path">?</span></td>
+                        <td><span class="help-mark" title="a command to be executed after a media file is created; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %f = file path">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('storage', {}).get('configs', []) %}
                         {{config_item(config)}}
@@ -866,7 +866,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="commandNotificationsEnabled motionDetectionEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandNotificationsEntry" placeholder="command..."></td>
-                        <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
+                        <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semilcolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('notifications', {}).get('configs', []) %}
                         {{config_item(config, "motionDetectionEnabled")}}

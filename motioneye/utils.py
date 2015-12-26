@@ -283,6 +283,22 @@ def make_unicode(s):
             return str(s).decode('utf8')
 
 
+def split_semicolon(s):
+    parts = s.split(';')
+    merged_parts = []
+    for p in parts:
+        if merged_parts and merged_parts[-1][-1] == '\\':
+            merged_parts[-1] = merged_parts[-1][:-1] + ';' + p
+            
+        else:
+            merged_parts.append(p)
+    
+    if not merged_parts:
+        return []
+
+    return [p.strip() for p in merged_parts]
+
+
 def get_disk_usage(path):
     logging.debug('getting disk usage for path %(path)s...' % {
             'path': path})

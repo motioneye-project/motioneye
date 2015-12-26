@@ -873,7 +873,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
                 'server': ui['email_notifications_smtp_server'],
                 'port': ui['email_notifications_smtp_port'],
                 'account': ui['email_notifications_smtp_account'],
-                'password': ui['email_notifications_smtp_password'],
+                'password': ui['email_notifications_smtp_password'].replace(';', '\\;'),
                 'tls': ui['email_notifications_smtp_tls'],
                 'to': emails,
                 'timespan': ui['email_notifications_picture_time_span']})
@@ -887,8 +887,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
                 'url': url})
 
     if ui['command_notifications_enabled']:
-        commands = ui['command_notifications_exec'].split(';')
-        on_event_start += [c.strip() for c in commands]
+        on_event_start += utils.split_semicolon(ui['command_notifications_exec'])
 
     data['on_event_start'] = '; '.join(on_event_start)
 
@@ -909,8 +908,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
                 'url': url})
 
     if ui['command_storage_enabled']:
-        commands = ui['command_storage_exec'].split(';')
-        on_movie_end += [c.strip() for c in commands]
+        on_movie_end += utils.split_semicolon(ui['command_storage_exec'])
 
     data['on_movie_end'] = '; '.join(on_movie_end)
     
@@ -926,8 +924,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
                 'url': url})
 
     if ui['command_storage_enabled']:
-        commands = ui['command_storage_exec'].split(';')
-        on_picture_save += [c.strip() for c in commands]
+        on_picture_save += utils.split_semicolon(ui['command_storage_exec'])
 
     data['on_picture_save'] = '; '.join(on_picture_save)
 
@@ -1230,7 +1227,7 @@ def motion_camera_dict_to_ui(data):
     # event start
     on_event_start = data.get('on_event_start') or []
     if on_event_start:
-        on_event_start = [e.strip() for e in on_event_start.split(';')]
+        on_event_start = utils.split_semicolon(on_event_start)
 
     ui['email_notifications_picture_time_span'] = 0
     command_notifications = []
@@ -1245,7 +1242,7 @@ def motion_camera_dict_to_ui(data):
             ui['email_notifications_smtp_server'] = e[-10]
             ui['email_notifications_smtp_port'] = e[-9]
             ui['email_notifications_smtp_account'] = e[-8]
-            ui['email_notifications_smtp_password'] = e[-7]
+            ui['email_notifications_smtp_password'] = e[-7].replace('\\;', ';')
             ui['email_notifications_smtp_tls'] = e[-6].lower() == 'true'
             ui['email_notifications_addresses'] = e[-5]
             try:
@@ -1277,7 +1274,7 @@ def motion_camera_dict_to_ui(data):
     # movie end
     on_movie_end = data.get('on_movie_end') or []
     if on_movie_end:
-        on_movie_end = [e.strip() for e in on_movie_end.split(';')]
+        on_movie_end = utils.split_semicolon(on_movie_end)
 
     command_storage = []
     for e in on_movie_end:
