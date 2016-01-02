@@ -80,6 +80,8 @@ def _list_media_files(dir, exts, prefix=None):
 
     else:    
         for root, dirs, files in os.walk(dir):  # @UnusedVariable # TODO os.walk can be rewritten to return stat info
+            if '.AppleDouble' in dirs:
+                    dirs.remove('.AppleDouble')  # don't visit .AppleDouble directories, the contain metadata
             for name in files:
                 if name == 'lastsnap.jpg' or name.startswith('.'): # ignore the lastsnap.jpg and hidden files
                     continue
