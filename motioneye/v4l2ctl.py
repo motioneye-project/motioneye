@@ -407,8 +407,10 @@ def _list_ctrls(device):
         
         match = re.match('^\s*(\w+)\s+\(\w+\)\s+\:\s*(.+)', line)
         if not match:
-            continue
-        
+            match = re.match('^\s*(\w+)\s+\(\w+\)+\:\s*(.+)', line) #extra check for controls with no separator before :
+            if not match:
+                continue
+    
         (control, properties) = match.groups()
         properties = dict([v.split('=', 1) for v in properties.split(' ') if v.count('=')])
         controls[control] = properties
