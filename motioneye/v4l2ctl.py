@@ -405,7 +405,7 @@ def _list_ctrls(device):
         if not line:
             continue
         
-        match = re.match('^\s*(\w+)\s+\(\w+\)\s+\:\s*(.+)', line)
+        match = re.match('^\s*(\w+)\s+\(\w+\)\s*\:\s*(.+)\s*', line)
         if not match:
             continue
         
