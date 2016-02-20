@@ -80,6 +80,9 @@ smtp_timeout 60
 # timeout in seconds to wait for media files list
 list_media_timeout 120
 
+# timeout in seconds to wait for media files list, when sending emails
+list_media_timeout_email 10
+
 # timeout in seconds to wait for zip file creation
 zip_timeout 500
 

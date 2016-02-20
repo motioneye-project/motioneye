@@ -172,7 +172,7 @@ def main(parser, args):
     
     # do not wait too long for media list,
     # email notifications are critical
-    settings.LIST_MEDIA_TIMEOUT = 10
+    settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_EMAIL
     
     camera_id = motionctl.thread_id_to_camera_id(options.thread_id)
 
