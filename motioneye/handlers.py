@@ -863,6 +863,9 @@ class PictureHandler(BaseHandler):
 
         elif utils.remote_camera(camera_config):
             def on_response(motion_detected=False, fps=None, picture=None, error=None):
+                if error:
+                    return self.try_finish(None)
+
                 self.set_cookie('motion_detected_' + str(camera_id), str(motion_detected).lower())
                 self.set_cookie('capture_fps_' + str(camera_id), '%.1f' % fps)
                 self.try_finish(picture)

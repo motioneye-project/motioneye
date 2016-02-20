@@ -149,14 +149,19 @@ def _mount(server, share, username, password):
         
     if username:
         opts = 'username=%s,password=%s' % (username, password)
-        sec_types = ['ntlm', 'ntlmv2', 'none']
+        sec_types = [None, 'ntlm', 'ntlmv2', 'ntlmv2i', 'ntlmsspi', 'none']
 
     else:
         opts = 'guest'
-        sec_types = ['none', 'ntlm', 'ntlmv2']
+        sec_types = [None, 'none', 'ntlm', 'ntlmv2', 'ntlmv2i', 'ntlmsspi']
 
     for sec in sec_types:
-        actual_opts = opts + ',sec=' + sec
+        if sec:
+            actual_opts = opts + ',sec=' + sec
+        
+        else:
+            actual_opts = opts
+
         try:
             logging.debug('mounting "//%s/%s" at "%s" (sec=%s)' % (server, share, mount_point, sec))
             subprocess.check_call('mount.cifs "//%s/%s" "%s" -o "%s"' % (server, share, mount_point, actual_opts), shell=True)
