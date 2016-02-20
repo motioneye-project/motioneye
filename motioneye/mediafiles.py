@@ -49,6 +49,21 @@ _timelapse_process = None
 _timelapse_data = None
 
 
+def findfiles(path):
+    files = []
+    for name in os.listdir(path):
+        pathname = os.path.join(path, name)
+        st = os.stat(pathname)
+        mode = st.st_mode
+        if stat.S_ISDIR(mode):
+            files.extend(findfiles(pathname))
+
+        elif stat.S_ISREG(mode):
+            files.append((pathname, name, st))
+
+    return files
+
+
 def _list_media_files(dir, exts, prefix=None):
     media_files = []
     
@@ -78,31 +93,19 @@ def _list_media_files(dir, exts, prefix=None):
             
             media_files.append((full_path, st))
 
-    else:    
-        for root, dirs, files in os.walk(dir):  # @UnusedVariable # TODO os.walk can be rewritten to return stat info
-            if os.path.basename(root).startswith('.'): # ignore hidden dirs
+    else:
+        for full_path, name, st in findfiles(dir):
+            if name == 'lastsnap.jpg' or name.startswith('.'): # ignore the lastsnap.jpg and hidden files
                 continue
 
-            for name in files:
-                if name == 'lastsnap.jpg' or name.startswith('.'): # ignore the lastsnap.jpg and hidden files
-                    continue
-                
-                full_path = os.path.join(root, name)
-                try:
-                    st = os.stat(full_path)
-                
-                except Exception as e:
-                    logging.error('stat failed: ' + unicode(e))
-                    continue
-                
-                if not stat.S_ISREG(st.st_mode): # not a regular file
-                    continue
-                 
-                full_path_lower = full_path.lower()
-                if not [e for e in exts if full_path_lower.endswith(e)]:
-                    continue
-                
-                media_files.append((full_path, st))
+            if not stat.S_ISREG(st.st_mode): # not a regular file
+                continue
+
+            full_path_lower = full_path.lower()
+            if not [e for e in exts if full_path_lower.endswith(e)]:
+                continue
+
+            media_files.append((full_path, st))
 
     return media_files
 
@@ -204,14 +207,17 @@ def make_movie_preview(camera_config, full_path):
     pre_capture = camera_config['pre_capture']
     offs = pre_capture / framerate
     offs = max(4, offs * 2)
+    thumb_path = full_path + '.thumb'
     
     logging.debug('creating movie preview for %(path)s with an offset of %(offs)s seconds...' % {
             'path': full_path, 'offs': offs})
 
     cmd = 'ffmpeg -i "%(path)s" -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb'
+    actual_cmd = cmd % {'path': full_path, 'offs': offs}
+    logging.debug('running command "%s"' % actual_cmd)
     
     try:
-        subprocess.check_output(cmd % {'path': full_path, 'offs': offs}, shell=True, stderr=subprocess.STDOUT)
+        subprocess.check_output(actual_cmd, shell=True, stderr=subprocess.STDOUT)
     
     except subprocess.CalledProcessError as e:
         logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
@@ -220,28 +226,48 @@ def make_movie_preview(camera_config, full_path):
         return None
     
     try:
-        st = os.stat(full_path + '.thumb')
+        st = os.stat(thumb_path)
     
     except os.error:
-        logging.error('failed to create movie preview for %(path)s: ffmpeg error' % {
-                'path': full_path})
+        logging.error('failed to create movie preview for %(path)s' % {'path': full_path})
 
         return None
 
     if st.st_size == 0:
-        logging.debug('movie is too short, grabbing first frame from %(path)s...' % {'path': full_path})
+        logging.debug('movie probably too short, grabbing first frame from %(path)s...' % {'path': full_path})
         
+        actual_cmd = cmd % {'path': full_path, 'offs': 0}
+        logging.debug('running command "%s"' % actual_cmd)
+
         # try again, this time grabbing the very first frame
         try:
-            subprocess.check_output(cmd % {'path': full_path, 'offs': 0}, shell=True, stderr=subprocess.STDOUT)
-        
+            subprocess.check_output(actual_cmd, shell=True, stderr=subprocess.STDOUT)
+
         except subprocess.CalledProcessError as e:
             logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
                     'path': full_path, 'msg': unicode(e)})
-            
+
             return None
+
+        try:
+            st = os.stat(thumb_path)
     
-    return full_path + '.thumb'
+        except os.error:
+            logging.error('failed to create movie preview for %(path)s' % {'path': full_path})
+    
+            return None
+
+    if st.st_size == 0:
+        logging.error('failed to create movie preview for %(path)s' % {'path': full_path})
+        try:
+            os.remove(thumb_path)
+        
+        except:
+            pass
+        
+        return None
+
+    return thumb_path
 
 
 def list_media(camera_config, media_type, callback, prefix=None):
