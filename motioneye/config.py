@@ -873,7 +873,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
                 'server': ui['email_notifications_smtp_server'],
                 'port': ui['email_notifications_smtp_port'],
                 'account': ui['email_notifications_smtp_account'],
-                'password': ui['email_notifications_smtp_password'].replace(';', '\\;'),
+                'password': ui['email_notifications_smtp_password'].replace(';', '\\;').replace('%', '%%'),
                 'tls': ui['email_notifications_smtp_tls'],
                 'to': emails,
                 'timespan': ui['email_notifications_picture_time_span']})
@@ -1242,7 +1242,7 @@ def motion_camera_dict_to_ui(data):
             ui['email_notifications_smtp_server'] = e[-10]
             ui['email_notifications_smtp_port'] = e[-9]
             ui['email_notifications_smtp_account'] = e[-8]
-            ui['email_notifications_smtp_password'] = e[-7].replace('\\;', ';')
+            ui['email_notifications_smtp_password'] = e[-7].replace('\\;', ';').replace('%%', '%')
             ui['email_notifications_smtp_tls'] = e[-6].lower() == 'true'
             ui['email_notifications_addresses'] = e[-5]
             try:
