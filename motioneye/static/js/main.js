@@ -579,6 +579,13 @@ function initUI() {
         
         return true;
     }, '');
+    makeCustomValidator($('#emailFromEntry'), function (value) {
+        if (value && !value.toLowerCase().match(new RegExp('^[a-z0-9\-\_\+\.\@\^\~\<>, ]+$'))) {
+            return 'enter a vaild email address';
+        }
+        
+        return true;
+    }, '');
     makeCustomValidator($('#emailAddressesEntry'), function (value) {
         if (!value.toLowerCase().match(new RegExp('^[a-z0-9\-\_\+\.\@\^\~\, ]+$'))) {
             return 'enter a list of comma-separated valid email addresses';
@@ -1541,6 +1548,7 @@ function cameraUi2Dict() {
         
         /* motion notifications */
         'email_notifications_enabled': $('#emailNotificationsEnabledSwitch')[0].checked,
+        'email_notifications_from': $('#emailFromEntry').val(),
         'email_notifications_addresses': $('#emailAddressesEntry').val(),
         'email_notifications_smtp_server': $('#smtpServerEntry').val(),
         'email_notifications_smtp_port': $('#smtpPortEntry').val(),
@@ -1877,6 +1885,7 @@ function dict2CameraUi(dict) {
     
     /* motion notifications */
     $('#emailNotificationsEnabledSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsEnabledSwitch');
+    $('#emailFromEntry').val(dict['email_notifications_from']);
     $('#emailAddressesEntry').val(dict['email_notifications_addresses']);
     $('#smtpServerEntry').val(dict['email_notifications_smtp_server']);
     $('#smtpPortEntry').val(dict['email_notifications_smtp_port']);

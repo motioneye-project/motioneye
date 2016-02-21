@@ -868,13 +868,14 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     if ui['email_notifications_enabled']:
         emails = re.sub('\\s', '', ui['email_notifications_addresses'])
         
-        on_event_start.append("%(script)s '%(server)s' '%(port)s' '%(account)s' '%(password)s' '%(tls)s' '%(to)s' 'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'" % {
+        on_event_start.append("%(script)s '%(server)s' '%(port)s' '%(account)s' '%(password)s' '%(tls)s' '%(from)s' '%(to)s' 'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'" % {
                 'script': meyectl.find_command('sendmail'),
                 'server': ui['email_notifications_smtp_server'],
                 'port': ui['email_notifications_smtp_port'],
                 'account': ui['email_notifications_smtp_account'],
                 'password': ui['email_notifications_smtp_password'].replace(';', '\\;').replace('%', '%%'),
                 'tls': ui['email_notifications_smtp_tls'],
+                'from': ui['email_notifications_from'],
                 'to': emails,
                 'timespan': ui['email_notifications_picture_time_span']})
 
@@ -1237,17 +1238,22 @@ def motion_camera_dict_to_ui(data):
 
             if len(e) < 10:
                 continue
-            
+
+            if len(e) < 16:
+                # backwards compatibility with older configs lacking "from" field
+                e.insert(-5, '')
+
             ui['email_notifications_enabled'] = True 
-            ui['email_notifications_smtp_server'] = e[-10]
-            ui['email_notifications_smtp_port'] = e[-9]
-            ui['email_notifications_smtp_account'] = e[-8]
-            ui['email_notifications_smtp_password'] = e[-7].replace('\\;', ';').replace('%%', '%')
-            ui['email_notifications_smtp_tls'] = e[-6].lower() == 'true'
+            ui['email_notifications_smtp_server'] = e[-11]
+            ui['email_notifications_smtp_port'] = e[-10]
+            ui['email_notifications_smtp_account'] = e[-9]
+            ui['email_notifications_smtp_password'] = e[-8].replace('\\;', ';').replace('%%', '%')
+            ui['email_notifications_smtp_tls'] = e[-7].lower() == 'true'
+            ui['email_notifications_from'] = e[-6]
             ui['email_notifications_addresses'] = e[-5]
             try:
                 ui['email_notifications_picture_time_span'] = int(e[-1])
-                
+
             except:
                 ui['email_notifications_picture_time_span'] = 0
 

@@ -820,6 +820,11 @@
                         <td class="settings-item-value"><input type="password" class="styled notifications camera-config" id="smtpPasswordEntry"></td>
                         <td><span class="help-mark" title="enter your SMTP account password (for Gmail use your Google password or an app-specific generated password)">?</span></td>
                     </tr>
+                    <tr class="settings-item advanced-setting" depends="emailNotificationsEnabled motionDetectionEnabled" strip="true">
+                        <td class="settings-item-label"><span class="settings-item-label">From Address</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="emailFromEntry" placeholder="email address..."></td>
+                        <td><span class="help-mark" title="set a custom From address, if your SMTP service requires one (the first destination email address will be used if left blank)">?</span></td>
+                    </tr>
                     <tr class="settings-item advanced-setting" depends="emailNotificationsEnabled motionDetectionEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">Use TLS</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="smtpTlsSwitch"></td>

@@ -48,15 +48,13 @@ subjects = {
 }
 
 
-def send_mail(server, port, account, password, tls, to, subject, message, files):
+def send_mail(server, port, account, password, tls, _from, to, subject, message, files):
     conn = smtplib.SMTP(server, port, timeout=settings.SMTP_TIMEOUT)
     if tls:
         conn.starttls()
     
     if account and password:
         conn.login(account, password)
-    
-    _from = 'motionEye on %s <%s>' % (socket.gethostname(), to[0])
     
     email = MIMEMultipart()
     email['Subject'] = subject
@@ -139,6 +137,7 @@ def parse_options(parser, args):
     parser.add_argument('account', help='SMTP account name (username)')
     parser.add_argument('password', help='SMTP account password')
     parser.add_argument('tls', help='"true" to use TLS')
+    parser.add_argument('from', help='the email from field')
     parser.add_argument('to', help='the email recipient(s)')
     parser.add_argument('msg_id', help='the identifier of the message')
     parser.add_argument('thread_id', help='the id of the motion thread')
@@ -155,6 +154,14 @@ def main(parser, args):
     # so we must restore it here,
     # or otherwise media listing won't work
     signal.signal(signal.SIGCHLD,signal.SIG_DFL)
+
+    if len(args) == 12:
+        # backwards compatibility with older configs lacking "from" field
+        _from = 'motionEye on %s <%s>' % (socket.gethostname(), args[7].split(',')[0])
+        args = args[:7] + [_from] + args[7:]
+    
+    if not args[7]:
+        args[7] = 'motionEye on %s <%s>' % (socket.gethostname(), args[8].split(',')[0])
 
     options = parse_options(parser, args)
     
@@ -175,6 +182,7 @@ def main(parser, args):
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_EMAIL
     
     camera_id = motionctl.thread_id_to_camera_id(options.thread_id)
+    _from = getattr(options, 'from')
 
     logging.debug('server = %s' % options.server)
     logging.debug('port = %s' % options.port)
@@ -182,6 +190,7 @@ def main(parser, args):
     logging.debug('password = ******')
     logging.debug('server = %s' % options.server)
     logging.debug('tls = %s' % str(options.tls).lower())
+    logging.debug('from = %s' % _from)
     logging.debug('to = %s' % options.to)
     logging.debug('msg_id = %s' % options.msg_id)
     logging.debug('thread_id = %s' % options.thread_id)
@@ -196,7 +205,7 @@ def main(parser, args):
     def on_message(subject, message, files):
         try:
             send_mail(options.server, options.port, options.account, options.password,
-                    options.tls, to, subject, message, files or [])
+                    options.tls, _from, to, subject, message, files or [])
             logging.info('email sent')
 
         except Exception as e:
