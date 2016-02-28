@@ -53,7 +53,7 @@ def findfiles(path):
     files = []
     for name in os.listdir(path):
         pathname = os.path.join(path, name)
-        st = os.stat(pathname)
+        st = os.lstat(pathname)
         mode = st.st_mode
         if stat.S_ISDIR(mode):
             files.extend(findfiles(pathname))
@@ -703,6 +703,9 @@ def del_media_content(camera_config, path, media_type):
     target_dir = camera_config.get('target_dir')
 
     full_path = os.path.join(target_dir, path)
+
+    # create a sentinel file to make sure the target dir is never removed
+    open(os.path.join(target_dir, '.keep'), 'w').close()
     
     try:
         # remove the file itself
@@ -737,6 +740,9 @@ def del_media_group(camera_config, group, media_type):
         
     target_dir = camera_config.get('target_dir')
     full_path = os.path.join(target_dir, group)
+
+    # create a sentinel file to make sure the target dir is never removed
+    open(os.path.join(target_dir, '.keep'), 'w').close()
 
     mf = _list_media_files(target_dir, exts=exts, prefix=group)
     for (path, st) in mf:  # @UnusedVariable
