@@ -3927,7 +3927,7 @@ function addCameraFrameUi(cameraConfig) {
     nameSpan.html(cameraConfig.name);
     progressImg.attr('src', staticPath + 'img/camera-progress.gif');
     
-    cameraProgress.click(function () {
+    cameraImg.click(function () {
         showCameraOverlay();
         overlayVisible = true;
     });

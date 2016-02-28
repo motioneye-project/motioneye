@@ -1103,6 +1103,7 @@ div.camera-progress {
     transition: all 0.2s ease;
     text-align: center;
     cursor: pointer;
+    pointer-events: none;
 }
 
 div.camera-progress.visible {
