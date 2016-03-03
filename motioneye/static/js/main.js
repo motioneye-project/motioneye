@@ -1793,7 +1793,7 @@ function dict2CameraUi(dict) {
     $('#webHookStorageUrlEntry').val(dict['web_hook_storage_url']);
     $('#webHookStorageHttpMethodSelect').val(dict['web_hook_storage_http_method']);
 
-    $('#commandStorageEnabledSwitch')[0].checked = dict['command_storage_enabled']; markHideIfNull('command_storage_enabled', 'commandstorageSwitch');
+    $('#commandStorageEnabledSwitch')[0].checked = dict['command_storage_enabled']; markHideIfNull('command_storage_enabled', 'commandStorageEnabledSwitch');
     $('#commandStorageEntry').val(dict['command_storage_exec']);
 
     /* text overlay */
