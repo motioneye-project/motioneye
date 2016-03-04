@@ -52,6 +52,9 @@ _timelapse_data = None
 def findfiles(path):
     files = []
     for name in os.listdir(path):
+        # ignore hidden files/dirs and other unwanted files
+        if name.startswith('.') or name == 'lastsnap.jpg':
+            continue
         pathname = os.path.join(path, name)
         st = os.lstat(pathname)
         mode = st.st_mode
@@ -73,7 +76,8 @@ def _list_media_files(dir, exts, prefix=None):
         
         root = os.path.join(dir, prefix)
         for name in os.listdir(root):
-            if name == 'lastsnap.jpg' or name.startswith('.'): # ignore the lastsnap.jpg and hidden files
+            # ignore hidden files/dirs and other unwanted files
+            if name.startswith('.') or name == 'lastsnap.jpg':
                 continue
                 
             full_path = os.path.join(root, name)
@@ -95,12 +99,6 @@ def _list_media_files(dir, exts, prefix=None):
 
     else:
         for full_path, name, st in findfiles(dir):
-            if name == 'lastsnap.jpg' or name.startswith('.'): # ignore the lastsnap.jpg and hidden files
-                continue
-
-            if not stat.S_ISREG(st.st_mode): # not a regular file
-                continue
-
             full_path_lower = full_path.lower()
             if not [e for e in exts if full_path_lower.endswith(e)]:
                 continue
