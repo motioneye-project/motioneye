@@ -32,12 +32,18 @@ _LOG_FILE = 'motioneye.log'
 
 
 def find_command(command):
-    cmd = __file__
-    cmd = sys.executable + ' ' + cmd
-    cmd = cmd.replace('-b', '') # remove server-specific options
-    cmd += ' %s ' % command
-    cmd += ' '.join([pipes.quote(arg) for arg in sys.argv[2:]
-            if arg not in ['-b']])
+    if command == 'relayevent':
+        relayevent_sh = os.path.join(os.path.dirname(__file__), 'scripts/relayevent.sh')
+        
+        cmd = relayevent_sh + ' "%s"' % (settings._config_file or '')
+
+    else:
+        cmd = __file__
+        cmd = sys.executable + ' ' + cmd
+        cmd = cmd.replace('-b', '') # remove server-specific options
+        cmd += ' %s ' % command
+        cmd += ' '.join([pipes.quote(arg) for arg in sys.argv[2:]
+                if arg not in ['-b']])
     
     return cmd
 
@@ -128,6 +134,7 @@ def load_settings():
         # use the config file directory as base path
         # if not specified otherwise in the config file
         base_dir = os.path.dirname(config_file)
+        settings._config_file = config_file
 
         if not conf_path_given[0]:
             settings.CONF_PATH = base_dir

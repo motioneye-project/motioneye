@@ -5,6 +5,8 @@ import sys
 
 import motioneye
 
+_config_file = None
+
 # the root directory of the project
 PROJECT_PATH = os.path.dirname(motioneye.__file__)
 

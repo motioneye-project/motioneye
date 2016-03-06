@@ -69,7 +69,8 @@ setup(
         'motioneye': [
             'static/*.*',
             'static/*/*',
-            'templates/*'
+            'templates/*',
+            'scripts/*'
         ]
     },
 
