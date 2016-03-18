@@ -708,6 +708,13 @@ def del_media_content(camera_config, path, media_type):
     try:
         # remove the file itself
         os.remove(full_path)
+        
+        # remove the thumb file
+        try:
+            os.remove(full_path + '.thumb')
+        
+        except:
+            pass
 
         # remove the parent directories if empty or contains only thumb files
         dir_path = os.path.dirname(full_path)
