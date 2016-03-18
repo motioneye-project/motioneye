@@ -105,14 +105,22 @@ def pretty_camera_url(local_config, camera=True):
 
 
 def _remote_params(local_config):
-    return (
+    params = [
             local_config.get('@scheme', local_config.get('scheme')) or 'http',
             local_config.get('@host', local_config.get('host')),
             local_config.get('@port', local_config.get('port')),
             local_config.get('@username', local_config.get('username')),
             local_config.get('@password', local_config.get('password')),
             local_config.get('@path', local_config.get('path')) or '',
-            local_config.get('@remote_camera_id', local_config.get('remote_camera_id')))
+            local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))]
+    
+    if params[3] is not None:
+        params[3] = str(params[3])
+    
+    if params[4] is not None:
+        params[4] = str(params[4])
+
+    return params
 
 
 def list(local_config, callback):
