@@ -23,9 +23,12 @@ import logging
 import os
 import re
 import socket
+import struct
 import time
 import urllib
 import urlparse
+
+from PIL import Image, ImageDraw
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.iostream import IOStream
@@ -714,3 +717,50 @@ def build_digest_header(method, url, username, password, state):
     state['nonce_count'] = nonce_count
 
     return 'Digest %s' % (base)
+
+
+def build_editable_mask_file(editable_mask):
+    width = editable_mask[0]
+    height = editable_mask[1]
+    nx = editable_mask[2]
+    ny = editable_mask[3]
+    lines = editable_mask[4:]
+    
+    data = struct.pack('<HHBB', width, height, nx, ny)
+    for line in lines:
+        data += struct.pack('<I', line)
+    
+    name = base64.b64encode(data, '-_')
+    
+    # draw the actual mask image content
+    im = Image.new('L', (width, height), 255) # all white
+    dr = ImageDraw.Draw(im)
+
+    rw = width / nx
+    rh = height / ny
+
+    for y in xrange(ny):
+        line = lines[y]
+        for x in xrange(nx):
+            if line & (31 - x):
+                print line & (31 - x)
+                dr.rectangle((x * rw, y * rh, (x + 1) * rw, (y + 1) * rh), fill=0)
+
+    file_name = os.path.join(settings.CONF_PATH, name) + '.pgm'
+    im.save(file_name, 'ppm')
+
+    return name
+
+
+def parse_editable_mask_file(file_name):
+    name = os.path.splitext(os.path.basename(file_name))[0]
+    try:
+        data = base64.b64decode(name, '-_')
+        width, height, nx, ny = struct.unpack('<HHBB', data[:6])
+        fmt = '<' + 'I' * ny
+        lines = struct.unpack(fmt, data[6:])
+        
+        return [width, height, nx, ny] + list(lines)
+
+    except Exception:
+        return None

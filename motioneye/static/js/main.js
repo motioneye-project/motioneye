@@ -1545,6 +1545,10 @@ function cameraUi2Dict() {
         'pre_capture': $('#preCaptureEntry').val(),
         'post_capture': $('#postCaptureEntry').val(),
         'minimum_motion_frames': $('#minimumMotionFramesEntry').val(),
+        'mask': $('#maskSwitch')[0].checked,
+        'mask_type': $('#maskTypeSelect').val(),
+        'smart_mask_slugginess': $('#smartMaskSlugginessSlider').val(),
+        'mask_file': $('#maskFileEntry').val(),
         
         /* motion notifications */
         'email_notifications_enabled': $('#emailNotificationsEnabledSwitch')[0].checked,
@@ -1882,6 +1886,10 @@ function dict2CameraUi(dict) {
     $('#preCaptureEntry').val(dict['pre_capture']); markHideIfNull('pre_capture', 'preCaptureEntry');
     $('#postCaptureEntry').val(dict['post_capture']); markHideIfNull('post_capture', 'postCaptureEntry');
     $('#minimumMotionFramesEntry').val(dict['minimum_motion_frames']); markHideIfNull('minimum_motion_frames', 'minimumMotionFramesEntry');
+    $('#maskSwitch')[0].checked = dict['mask']; markHideIfNull('mask', 'maskSwitch');
+    $('#maskTypeSelect').val(dict['mask_type']); markHideIfNull('mask_type', 'maskTypeSelect');
+    $('#smartMaskSlugginessSlider').val(dict['smart_mask_slugginess']); markHideIfNull('smart_mask_slugginess', 'smartMaskSlugginessSlider');
+    $('#maskFileEntry').val(dict['mask_file']); markHideIfNull('mask_file', 'maskFileEntry');
     
     /* motion notifications */
     $('#emailNotificationsEnabledSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsEnabledSwitch');

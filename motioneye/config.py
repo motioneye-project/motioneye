@@ -57,7 +57,8 @@ _KNOWN_MOTION_OPTIONS = set([
     'quality', 'rotate', 'saturation', 'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate',
     'stream_motion', 'stream_port', 'stream_quality', 'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width',
     'webcam_localhost', 'webcam_port', 'webcam_maxrate', 'webcam_quality', 'webcam_motion', 'ffmpeg_cap_new', 'output_normal', 'output_motion', 'jpeg_filename', 'output_all',
-    'gap', 'locate', 'netcam_url', 'netcam_userpass', 'netcam_http', 'netcam_tolerant_check', 'netcam_keepalive', 'rtsp_uses_tcp'
+    'gap', 'locate', 'netcam_url', 'netcam_userpass', 'netcam_http', 'netcam_tolerant_check', 'netcam_keepalive', 'rtsp_uses_tcp',
+    'mask_file', 'smart_mask_speed'
 ])
 
 
@@ -687,6 +688,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         'pre_capture': int(ui['pre_capture']),
         'post_capture': int(ui['post_capture']),
         'minimum_motion_frames': int(ui['minimum_motion_frames']),
+        'smart_mask_speed': 0,
+        'mask_file': '',
         
         # working schedule
         '@working_schedule': '',
@@ -849,7 +852,18 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     max_val = min(max_val, 9999999)
 
     data['ffmpeg_bps'] = int(int(ui['movie_quality']) * max_val / 100)
-    
+
+    # motion detection
+    if ui['mask']:
+        if ui['mask_type'] == 'smart':
+            data['smart_mask_speed'] = 10 - int(ui['smart_mask_slugginess'])
+
+        elif ui['mask_type'] == 'editable':
+            data['mask_file'] = utils.build_editable_mask_file(ui['editable_mask'])
+
+        else:
+            data['mask_file'] = ui['mask_file']
+
     # working schedule
     if ui['working_schedule']:
         data['@working_schedule'] = (
@@ -1027,6 +1041,11 @@ def motion_camera_dict_to_ui(data):
         'pre_capture': int(data['pre_capture']),
         'post_capture': int(data['post_capture']),
         'minimum_motion_frames': int(data['minimum_motion_frames']),
+        'mask': False,
+        'mask_type': 'smart',
+        'smart_mask_slugginess': 5,
+        'mask_file': '',
+        'editable_mask': '',
         
         # motion notifications
         'email_notifications_enabled': False,
@@ -1210,6 +1229,23 @@ def motion_camera_dict_to_ui(data):
         max_val = min(max_val, 9999999)
         
         ui['movie_quality'] = min(100, int(round(ffmpeg_bps * 100.0 / max_val)))
+        
+    # motion detection
+    if data['smart_mask_speed'] or data['mask_file']:
+        ui['mask'] = True
+        if data['smart_mask_speed']:
+            ui['mask_type'] = 'smart'
+            ui['smart_mask_slugginess'] = 10 - int(data['smart_mask_speed'])
+
+        else:
+            editable_mask = utils.parse_editable_mask_file(data['mask_file'])
+            if editable_mask:
+                ui['mask_type'] = 'editable'
+                ui['editable_mask'] = editable_mask
+
+            else:
+                ui['mask_type'] = 'file'
+                ui['mask_file'] = data['mask_file']
 
     # working schedule
     working_schedule = data['@working_schedule']
@@ -1759,6 +1795,8 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('noise_level', 32)
     data.setdefault('lightswitch', 0)
     data.setdefault('minimum_motion_frames', 20)
+    data.setdefault('smart_mask_speed', 0)
+    data.setdefault('mask_file', '')
     
     data.setdefault('pre_capture', 1)
     data.setdefault('post_capture', 1)

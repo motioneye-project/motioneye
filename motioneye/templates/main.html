@@ -112,7 +112,7 @@
                     <tr class="settings-item" min="1" max="4" snap="1" ticksnum="4" decimals="0" id="fitFramesVerticallyRow">
                         <td class="settings-item-label"><span class="settings-item-label">Fit Frames Vertically</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled prefs" id="fitFramesVerticallySwitch"></td>
-                        <td><span class="help-mark" title="controls whether frame sizes can be reduced to vertically fit the window or not">?</span></td>
+                        <td><span class="help-mark" title="controls whether frame sizes can be reduced to fit the window vertically">?</span></td>
                     </tr>
                     <tr class="settings-item" min="0" max="100" snap="2" ticksnum="6" decimals="0">
                         <td class="settings-item-label"><span class="settings-item-label">Frame Rate Dimmer</span></td>
@@ -777,6 +777,35 @@
                         <td class="settings-item-label"><span class="settings-item-label">Minimum Motion Frames</span></td>
                         <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="minimumMotionFramesEntry"><span class="settings-item-unit">frames</span></td>
                         <td><span class="help-mark" title="sets the minimum number of successive motion frames required to start a motion event">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Mask</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="maskSwitch"></td>
+                        <td><span class="help-mark" title="enables image masking for a more selective and precise motion detection">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="mask">
+                        <td class="settings-item-label"><span class="settings-item-label">Mask Type</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled motion-detection camera-config" id="maskTypeSelect">
+                                <option value="smart">Smart</option>
+                                <option value="editable">Editable</option>
+                                <option value="file">File</option>
+                            </select>
+                        </td>
+                        <td><span class="help-mark" title="the smart option automatically detects regions with regular motion and builds an internal mask, the editable mask allows you to manually build it and the file option allows you to specify a mask file (not recommended)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" min="1" max="10" snap="1" ticksnum="10" decimals="0" unit="" depends="mask maskType=smart">
+                        <td class="settings-item-label"><span class="settings-item-label">Smart Mask Slugginess</span></td>
+                        <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="smartMaskSlugginessSlider"></td>
+                        <td><span class="help-mark" title="lower values result in a longer-lasting smart mask with a slower building process">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" required="true" depends="mask maskType=file" strip="true">
+                        <td class="settings-item-label"><span class="settings-item-label">Mask File</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled motion-detection camera-config" id="maskFileEntry"></td>
+                        <td><span class="help-mark" title="full path to the PGM mask image file">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('motion-detection', {}).get('configs', []) %}
                         {{config_item(config)}}
