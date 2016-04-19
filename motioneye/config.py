@@ -635,6 +635,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         '@network_username': ui['network_username'],
         '@network_password': ui['network_password'],
         '@upload_enabled': ui['upload_enabled'],
+        '@upload_movie': ui['upload_movie'],
+        '@upload_picture': ui['upload_picture'],
         '@upload_service': ui['upload_service'],
         '@upload_server': ui['upload_server'],
         '@upload_port': ui['upload_port'],
@@ -973,6 +975,8 @@ def motion_camera_dict_to_ui(data):
         'disk_total': 0,
         'available_disks': diskctl.list_mounted_disks(),
         'upload_enabled': data['@upload_enabled'],
+        'upload_picture': data['@upload_picture'],
+        'upload_movie': data['@upload_movie'],
         'upload_service': data['@upload_service'],
         'upload_server': data['@upload_server'],
         'upload_port': data['@upload_port'],
@@ -1726,6 +1730,8 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@network_password', '')
     data.setdefault('target_dir', settings.MEDIA_PATH)
     data.setdefault('@upload_enabled', False)
+    data.setdefault('@upload_picture', True)
+    data.setdefault('@upload_movie', True)
     data.setdefault('@upload_service', 'ftp')
     data.setdefault('@upload_server', '')
     data.setdefault('@upload_port', '')

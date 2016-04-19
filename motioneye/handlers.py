@@ -1578,14 +1578,14 @@ class RelayEventHandler(BaseHandler):
                     camera_config=camera_config, full_path=filename)
 
             # upload to external service
-            if camera_config['@upload_enabled']:
+            if camera_config['@upload_enabled'] and camera_config['@upload_movie']:
                 self.upload_media_file(filename, camera_id, camera_config)
 
         elif event == 'picture_save':
             filename = self.get_argument('filename')
             
             # upload to external service
-            if camera_config['@upload_enabled']:
+            if camera_config['@upload_enabled'] and camera_config['@upload_picture']:
                 self.upload_media_file(filename, camera_id, camera_config)
 
         else:
