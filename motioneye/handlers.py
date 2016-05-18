@@ -87,6 +87,12 @@ class BaseHandler(RequestHandler):
                 argument = default
         
         return argument
+    
+    def finish(self, chunk=None):
+        import motioneye
+
+        self.set_header('Server', 'motionEye/%s' % motioneye.VERSION)
+        RequestHandler.finish(self, chunk=chunk)
 
     def render(self, template_name, content_type='text/html', **context):
         self.set_header('Content-Type', content_type)
@@ -197,6 +203,9 @@ class MainHandler(BaseHandler):
                 admin_username=config.get_main().get('@admin_username'),
                 old_motion=config.is_old_motion(),
                 has_motion=bool(motionctl.find_motion()))
+    
+    def head(self):
+        self.finish()
 
 
 class ConfigHandler(BaseHandler):
