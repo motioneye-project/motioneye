@@ -504,9 +504,9 @@ class Dropbox(UploadService):
             if e.code == 401 and retry_auth: # unauthorized, access token may have expired
                 try:
                     self.debug('credentials have probably expired, refreshing them')
-                    self._credentials = self._refresh_credentials(self._credentials['refresh_token'])
+                    self._credentials = self._request_credentials(self._authorization_key)
                     self.save()
-                    
+
                     # retry the request with refreshed credentials
                     self._request(url, body, headers, retry_auth=False)
 
