@@ -1486,6 +1486,8 @@ function cameraUi2Dict() {
         'network_password': $('#networkPasswordEntry').val(),
         'root_directory': $('#rootDirectoryEntry').val(),
         'upload_enabled': $('#uploadEnabledSwitch')[0].checked,
+        'upload_picture': $('#uploadPictureSwitch')[0].checked,
+        'upload_movie': $('#uploadMovieSwitch')[0].checked,
         'upload_service': $('#uploadServiceSelect').val(),
         'upload_server': $('#uploadServerEntry').val(),
         'upload_port': $('#uploadPortEntry').val(),
@@ -1779,6 +1781,8 @@ function dict2CameraUi(dict) {
     }); markHideIfNull('disk_used', 'diskUsageProgressBar');
     
     $('#uploadEnabledSwitch')[0].checked = dict['upload_enabled']; markHideIfNull('upload_enabled', 'uploadEnabledSwitch');
+    $('#uploadPictureSwitch')[0].checked = dict['upload_picture']; markHideIfNull('upload_picture', 'uploadPictureSwitch');
+    $('#uploadMovieSwitch')[0].checked = dict['upload_movie']; markHideIfNull('upload_movie', 'uploadMovieSwitch');
     $('#uploadServiceSelect').val(dict['upload_service']); markHideIfNull('upload_service', 'uploadServiceSelect');
     $('#uploadServerEntry').val(dict['upload_server']); markHideIfNull('upload_server', 'uploadServerEntry');
     $('#uploadPortEntry').val(dict['upload_port']); markHideIfNull('upload_port', 'uploadPortEntry');
