@@ -35,7 +35,7 @@ _DEV_V4L_BY_ID = '/dev/v4l/by-id/'
 
 def find_v4l2_ctl():
     try:
-        return subprocess.check_output(['which', 'v4l2-ctl'], stderr=open('/dev/null', 'w')).strip()
+        return subprocess.check_output(['which', 'v4l2-ctl'], stderr=utils.DEV_NULL).strip()
     
     except subprocess.CalledProcessError: # not found
         return None

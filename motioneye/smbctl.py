@@ -21,6 +21,7 @@ import os
 import re
 import subprocess
 import time
+import utils
 
 from tornado.ioloop import IOLoop
 
@@ -39,7 +40,7 @@ def stop():
 
 def find_mount_cifs():
     try:
-        return subprocess.check_output(['which', 'mount.cifs'], stderr=open('/dev/null', 'w')).strip()
+        return subprocess.check_output(['which', 'mount.cifs'], stderr=utils.DEV_NULL).strip()
     
     except subprocess.CalledProcessError: # not found
         return None

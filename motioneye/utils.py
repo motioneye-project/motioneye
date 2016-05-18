@@ -43,6 +43,8 @@ except:
 _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, _-]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
+DEV_NULL = open('/dev/null', 'w')
+
 
 COMMON_RESOLUTIONS = [
     (320, 240),

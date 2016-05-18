@@ -154,7 +154,7 @@ def _remove_older_files(dir, moment, exts):
 
 def find_ffmpeg():
     try:
-        return subprocess.check_output(['which', 'ffmpeg'], stderr=open('/dev/null', 'w')).strip()
+        return subprocess.check_output(['which', 'ffmpeg'], stderr=utils.DEV_NULL).strip()
     
     except subprocess.CalledProcessError: # not found
         return None
