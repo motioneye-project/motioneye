@@ -593,7 +593,7 @@ def _load():
             data = json.load(file)
 
         except Exception as e:
-            return logging.error('could not read upload services state from file "%s": %s'(file_path, e))
+            return logging.error('could not read upload services state from file "%s": %s' % (file_path, e))
 
         finally:
             file.close()
