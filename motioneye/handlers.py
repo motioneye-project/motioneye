@@ -712,6 +712,9 @@ class ConfigHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
     def backup(self):
         content = config.backup()
+        
+        if not content:
+            raise Exception('failed to create backup file')
 
         filename = 'motioneye-config.tar.gz'
         self.set_header('Content-Type', 'application/x-compressed')
@@ -1485,7 +1488,7 @@ class ActionHandler(BaseHandler):
         self.run_command_bg(command)
     
     def run_command_bg(self, command):
-        self.p = subprocess.Popen(command, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+        self.p = subprocess.Popen(command, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
         self.command = command
         
         self.io_loop = IOLoop.instance()
@@ -1628,8 +1631,8 @@ class LogHandler(BaseHandler):
             logging.debug('serving log file "%s" from command "%s"' % (filename, path))
 
             try:
-                output = subprocess.check_output(path, shell=True)
-            
+                output = subprocess.check_output(path.split())
+
             except Exception as e:
                 output = 'failed to execute command: %s' % e
                 

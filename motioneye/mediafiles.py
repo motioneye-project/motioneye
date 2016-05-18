@@ -154,7 +154,7 @@ def _remove_older_files(dir, moment, exts):
 
 def find_ffmpeg():
     try:
-        return subprocess.check_output('which ffmpeg', stderr=open('/dev/null'), shell=True).strip()
+        return subprocess.check_output(['which', 'ffmpeg'], stderr=open('/dev/null', 'w')).strip()
     
     except subprocess.CalledProcessError: # not found
         return None
@@ -210,12 +210,12 @@ def make_movie_preview(camera_config, full_path):
     logging.debug('creating movie preview for %(path)s with an offset of %(offs)s seconds...' % {
             'path': full_path, 'offs': offs})
 
-    cmd = 'ffmpeg -i "%(path)s" -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb'
+    cmd = 'ffmpeg -i %(path)s -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb'
     actual_cmd = cmd % {'path': full_path, 'offs': offs}
     logging.debug('running command "%s"' % actual_cmd)
     
     try:
-        subprocess.check_output(actual_cmd, shell=True, stderr=subprocess.STDOUT)
+        subprocess.check_output(actual_cmd.split(), stderr=subprocess.STDOUT)
     
     except subprocess.CalledProcessError as e:
         logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
@@ -239,7 +239,7 @@ def make_movie_preview(camera_config, full_path):
 
         # try again, this time grabbing the very first frame
         try:
-            subprocess.check_output(actual_cmd, shell=True, stderr=subprocess.STDOUT)
+            subprocess.check_output(actual_cmd.split(), stderr=subprocess.STDOUT)
 
         except subprocess.CalledProcessError as e:
             logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
@@ -560,7 +560,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
         }
         
         logging.debug('executing "%s"' % cmd)
-        
+
         _timelapse_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
         _timelapse_process.progress = 0.01 # 1%
         

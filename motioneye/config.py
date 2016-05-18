@@ -18,6 +18,7 @@
 import collections
 import datetime
 import errno
+import glob
 import logging
 import os.path
 import re
@@ -1388,9 +1389,10 @@ def backup():
 
     if len(os.listdir(settings.CONF_PATH)) > 100:
         logging.debug('config path "%s" appears to be a system-wide config directory, performing a selective backup' % settings.CONF_PATH)
-        cmd = 'cd "%s" && tar zc motion.conf thread-*.conf' % settings.CONF_PATH
+        cmd = ['tar', 'zc', 'motion.conf']
+        cmd += map(os.path.basename, glob.glob(os.path.join(settings.CONF_PATH, 'thread-*.conf')))
         try:
-            content = subprocess.check_output(cmd, shell=True)
+            content = subprocess.check_output(cmd, cwd=settings.CONF_PATH)
             logging.debug('backup file created (%s bytes)' % len(content))
             
             return content
@@ -1403,9 +1405,8 @@ def backup():
     else:
         logging.debug('config path "%s" appears to be a motion-specific config directory, performing a full backup' % settings.CONF_PATH)
 
-        cmd = 'cd "%s" && tar zc .' % settings.CONF_PATH
         try:
-            content = subprocess.check_output(cmd, shell=True)
+            content = subprocess.check_output(['tar', 'zc', '.'], cwd=settings.CONF_PATH)
             logging.debug('backup file created (%s bytes)' % len(content))
             
             return content
@@ -1424,10 +1425,10 @@ def restore(content):
     
     logging.info('restoring config from backup file')
 
-    cmd = 'tar zxC "%s" || true' % settings.CONF_PATH
+    cmd = ['tar', 'zxC', settings.CONF_PATH]
 
     try:
-        p = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         msg = p.communicate(content)[0]
         if msg:
             logging.error('failed to restore configuration: %s' % msg)

@@ -39,7 +39,7 @@ def stop():
 
 def find_mount_cifs():
     try:
-        return subprocess.check_output('which mount.cifs', shell=True).strip()
+        return subprocess.check_output(['which', 'mount.cifs'], stderr=open('/dev/null', 'w')).strip()
     
     except subprocess.CalledProcessError: # not found
         return None
@@ -164,7 +164,7 @@ def _mount(server, share, username, password):
 
         try:
             logging.debug('mounting "//%s/%s" at "%s" (sec=%s)' % (server, share, mount_point, sec))
-            subprocess.check_call('mount.cifs "//%s/%s" "%s" -o "%s"' % (server, share, mount_point, actual_opts), shell=True)
+            subprocess.check_call(['mount.cifs', '//%s/%s' % (server, share), mount_point, '-o', actual_opts])
             break
 
         except subprocess.CalledProcessError:
@@ -194,7 +194,7 @@ def _umount(server, share, username):
     logging.debug('unmounting "//%s/%s" from "%s"' % (server, share, mount_point))
     
     try:
-        subprocess.check_call('umount "%s"' % mount_point, shell=True)
+        subprocess.check_call(['umount', mount_point])
 
     except subprocess.CalledProcessError:
         logging.error('failed to unmount smb share "//%s/%s" from "%s"' % (server, share, mount_point))

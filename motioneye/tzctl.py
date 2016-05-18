@@ -61,7 +61,7 @@ def _get_time_zone_md5():
         return None
 
     try:
-        output = subprocess.check_output('cd /usr/share/zoneinfo; find * -type f | xargs md5sum', shell=True)
+        output = subprocess.check_output('find * -type f | xargs md5sum', shell=True, cwd='/usr/share/zoneinfo')
 
     except Exception as e:
         logging.error('getting md5 of zoneinfo files failed: %s' % e)
