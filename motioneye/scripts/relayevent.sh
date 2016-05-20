@@ -13,7 +13,7 @@ if [ -f "$motioneye_conf" ]; then
         motion_conf="$conf_path/motion.conf"
         if [ -r "$motion_conf" ]; then
             username=$(cat $motion_conf | grep 'admin_username' | cut -d ' ' -f 3)
-            password=$(cat $motion_conf | grep 'admin_password' | cut -d ' ' -f 3)
+            password=$(cat $motion_conf | grep 'admin_password' | cut -d ' ' -f 3 | sed -r 's/[^a-zA-Z0-9\/?_.=&{}":, _]/-/g')
         fi
     fi
 fi
@@ -30,5 +30,4 @@ data="{\"filename\": \"$filename\"}"
 signature=$(echo -n "POST:$uri:$data:$password" | sha1sum | cut -d ' ' -f 1)
 
 curl -H "Content-Type: application/json" -X POST "http://127.0.0.1:$port$uri&_signature=$signature" -d "$data" &>/dev/null
-
 

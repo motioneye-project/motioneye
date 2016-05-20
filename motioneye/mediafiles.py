@@ -23,6 +23,7 @@ import hashlib
 import logging
 import multiprocessing
 import os.path
+import pipes
 import re
 import signal
 import stat
@@ -211,7 +212,7 @@ def make_movie_preview(camera_config, full_path):
             'path': full_path, 'offs': offs})
 
     cmd = 'ffmpeg -i %(path)s -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb'
-    actual_cmd = cmd % {'path': full_path, 'offs': offs}
+    actual_cmd = cmd % {'path': pipes.quote(full_path), 'offs': offs}
     logging.debug('running command "%s"' % actual_cmd)
     
     try:
