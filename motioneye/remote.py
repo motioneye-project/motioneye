@@ -379,7 +379,7 @@ def list_media(local_config, media_type, prefix, callback):
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
-def get_media_content(local_config, filename, media_type, callback):
+def get_media_content(local_config, filename, media_type, callback, start=None, end=None):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     
     logging.debug('downloading file %(filename)s of remote camera %(id)s on %(url)s' % {
@@ -391,11 +391,18 @@ def get_media_content(local_config, filename, media_type, callback):
             'media_type': media_type,
             'id': camera_id,
             'filename': filename}
-    
+ 
     # timeout here is 10 times larger than usual - we expect a big delay when fetching the media list
     request = _make_request(scheme, host, port, username, password,
             path, timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
-    
+   
+    if start is not None or end is not None:
+        end_str = ''
+        start = start or 0
+        if end:
+            end_str = str(end - 1)
+        request.headers['Range'] = 'bytes=%i-%s' % (start, end_str)
+ 
     def on_response(response):
         if response.error:
             logging.error('failed to download file %(filename)s of remote camera %(id)s on %(url)s: %(msg)s' % {
@@ -406,7 +413,7 @@ def get_media_content(local_config, filename, media_type, callback):
             
             return callback(error=utils.pretty_http_error(response))
         
-        return callback(response.body)
+        return callback(response)
 
     http_client = AsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
