@@ -2950,6 +2950,8 @@ function runPictureDialog(entries, pos, mediaType) {
         prevArrow.css('display', 'none');
         nextArrow.css('display', 'none');
 
+        /* Construct a likely mime-type with 'video/' and the file extension, then see if the 
+           browser can play it */       
         var playable = video_container.get(0).canPlayType('video/' + entry.path.split('.').pop()) != ''
         playButton.hide();
         video_container.hide();
@@ -2966,11 +2968,11 @@ function runPictureDialog(entries, pos, mediaType) {
 	  playButton.on('click', function() {
             video_source.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/download' + entry.path));
             video_container.show();
-            video_container.get(0).load();
+            video_container.get(0).load();  /* Must call load() after changing <video> source */
             img.hide();
             playButton.hide();
             video_container.on('canplay', function() {
-              video_container.get(0).play();
+              video_container.get(0).play();  /* Automatically play the video once the browser is ready */
             });
           });
 

@@ -1381,7 +1381,7 @@ class MovieHandler(BaseHandler):
             self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
             self.set_header("Content-Length", content_length)
 
-
+            # Yield the data to the network in chunks.
             content = StaticFileHandler.get_content(full_path, start, end)
             if content:           
                 for chunk in content:
@@ -1397,8 +1397,12 @@ class MovieHandler(BaseHandler):
                 if error:
                     return self.finish_json({'error': 'Failed to download movie from %(url)s: %(msg)s.' % {
                             'url': remote.pretty_camera_url(camera_config), 'msg': error}})
-
-                self.set_status(response.code)
+		# Copy certain critical headers out of the remote response and
+		# into our response. Propogating these headers are necessary to
+		# support in-brower playback of remote movies. Also copy the 
+                # response code which might be 200 or 206 (partial content, for range
+                # requests).
+		self.set_status(response.code)
                 for header in ('Content-Type', 'Content-Range', 'Content-Length', 'Content-Disposition'):
                     if header in response.headers:
                         self.set_header(header, response.headers[header])
