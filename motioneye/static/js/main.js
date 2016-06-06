@@ -2965,18 +2965,18 @@ function runPictureDialog(entries, pos, mediaType) {
         img.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
 
         if (playable) {
-	  playButton.on('click', function() {
-            video_source.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/download' + entry.path));
-            video_container.show();
-            video_container.get(0).load();  /* Must call load() after changing <video> source */
-            img.hide();
-            playButton.hide();
-            video_container.on('canplay', function() {
-              video_container.get(0).play();  /* Automatically play the video once the browser is ready */
+            playButton.on('click', function() {
+                video_source.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/download' + entry.path));
+                video_container.show();
+                video_container.get(0).load();  /* Must call load() after changing <video> source */
+                img.hide();
+                playButton.hide();
+                video_container.on('canplay', function() {
+                   video_container.get(0).play();  /* Automatically play the video once the browser is ready */
+                });
             });
-          });
 
-          playButton.show();
+            playButton.show();
         }
 
         img.load(function () {

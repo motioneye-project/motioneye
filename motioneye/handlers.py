@@ -1397,12 +1397,12 @@ class MovieHandler(BaseHandler):
                 if error:
                     return self.finish_json({'error': 'Failed to download movie from %(url)s: %(msg)s.' % {
                             'url': remote.pretty_camera_url(camera_config), 'msg': error}})
-		# Copy certain critical headers out of the remote response and
-		# into our response. Propogating these headers are necessary to
-		# support in-brower playback of remote movies. Also copy the 
+                # Copy certain critical headers out of the remote response and
+                # into our response. Propogating these headers are necessary to
+                # support in-brower playback of remote movies. Also copy the 
                 # response code which might be 200 or 206 (partial content, for range
                 # requests).
-		self.set_status(response.code)
+                self.set_status(response.code)
                 for header in ('Content-Type', 'Content-Range', 'Content-Length', 'Content-Disposition'):
                     if header in response.headers:
                         self.set_header(header, response.headers[header])
