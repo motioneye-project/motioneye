@@ -419,32 +419,38 @@ function ajax(method, url, data, callback, error, timeout) {
     
     url = addAuthParams(method, url, processData ? data : null);
     
+    function onResponse(data) {
+        if (data && data.error == 'unauthorized') {
+            if (data.prompt) {
+                runLoginDialog(function () {
+                    ajax(method, origUrl, origData, callback, error);
+                });
+            }
+            
+            window._loginRetry = true;
+        }
+        else {
+            delete window._loginRetry;
+            if (callback) {
+                $('body').toggleClass('admin', isAdmin());
+                callback(data);
+            }
+        }
+    }
+
     var options = {
         type: method,
         url: url,
         data: data,
         timeout: timeout || 300 * 1000,
-        success: function (data) {
-            if (data && data.error == 'unauthorized') {
-                if (data.prompt) {
-                    runLoginDialog(function () {
-                        ajax(method, origUrl, origData, callback, error);
-                    });
-                }
-                
-                window._loginRetry = true;
-            }
-            else {
-                delete window._loginRetry;
-                if (callback) {
-                    $('body').toggleClass('admin', isAdmin());
-                    callback(data);
-                }
-            }
-        },
+        success: onResponse,
         contentType: json ? 'application/json' : false,
         processData: processData,
         error: error || function (request, options, error) {
+            if (request.status == 403) {
+                return onResponse(request.responseJSON);
+            }
+            
             showErrorMessage();
             if (callback) {
                 callback();

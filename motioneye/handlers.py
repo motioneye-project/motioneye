@@ -158,6 +158,7 @@ class BaseHandler(RequestHandler):
                 user = self.current_user
                 if (user is None) or (user != 'admin' and (admin or _admin)):
                     self.set_header('Content-Type', 'application/json')
+                    self.set_status(403)
 
                     return self.finish_json({'error': 'unauthorized', 'prompt': prompt})
 

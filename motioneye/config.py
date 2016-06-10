@@ -1499,6 +1499,18 @@ def motion_rtsp_support():
         return []
 
 
+def motion_mmal_support():
+    import motionctl
+
+    try:
+        binary, version = motionctl.find_motion()  # @UnusedVariable
+        
+        return version == 'mmaltest'
+
+    except:
+        return False
+
+
 def invalidate():
     global _main_config_cache
     global _camera_config_cache
