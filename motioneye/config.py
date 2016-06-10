@@ -47,6 +47,7 @@ _camera_ids_cache = None
 _additional_section_funcs = []
 _additional_config_funcs = []
 _additional_structure_cache = {}
+_monitor_command_cache = {}
 
 # starting with r490 motion config directives have changed a bit 
 _LAST_OLD_CONFIG_VERSIONS = (490, '3.2.12')
@@ -249,8 +250,6 @@ def get_network_shares():
 
 
 def get_camera(camera_id, as_lines=False):
-    global _camera_config_cache
-    
     if not as_lines and camera_id in _camera_config_cache:
         return _camera_config_cache[camera_id]
     
@@ -349,8 +348,6 @@ def get_camera(camera_id, as_lines=False):
 
 
 def set_camera(camera_id, camera_config):
-    global _camera_config_cache
-
     camera_config['@id'] = camera_id
     _camera_config_cache[camera_id] = camera_config
 
@@ -453,7 +450,6 @@ def set_camera(camera_id, camera_config):
 
 def add_camera(device_details):
     global _camera_ids_cache
-    global _camera_config_cache
     
     proto = device_details['proto']
     if proto in ['netcam', 'mjpeg']:
@@ -538,7 +534,7 @@ def add_camera(device_details):
     set_camera(camera_id, camera_config)
     
     _camera_ids_cache = None
-    _camera_config_cache = {}
+    _camera_config_cache.clear()
     
     camera_config = get_camera(camera_id)
     
@@ -547,7 +543,6 @@ def add_camera(device_details):
 
 def rem_camera(camera_id):
     global _camera_ids_cache
-    global _camera_config_cache
     
     camera_config_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
     camera_config_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
@@ -564,7 +559,7 @@ def rem_camera(camera_id):
     logging.info('removing camera config file %(path)s...' % {'path': camera_config_path})
     
     _camera_ids_cache = None
-    _camera_config_cache = {}
+    _camera_config_cache.clear()
     
     try:
         os.remove(camera_config_path)
@@ -1386,6 +1381,22 @@ def get_action_commands(camera_id):
             action_commands[action] = path
     
     return action_commands
+
+
+def get_monitor_command(camera_id):
+    if camera_id not in _monitor_command_cache:
+        path = os.path.join(settings.CONF_PATH, 'monitor_%s' % camera_id)
+        if os.access(path, os.X_OK):
+            _monitor_command_cache[camera_id] = path
+        
+        else:
+            _monitor_command_cache[camera_id] = None
+
+    return _monitor_command_cache[camera_id]
+
+
+def invalidate_monitor_commands():
+    _monitor_command_cache.clear()
 
 
 def backup():

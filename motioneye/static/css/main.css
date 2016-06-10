@@ -981,6 +981,9 @@ div.camera-overlay-bottom.few-buttons {
 div.camera-info {
     display: inline-block;
     white-space: nowrap;
+    font-family: monospace;
+    font-size: 1em;
+    font-weight: bold;
     width: 40%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -989,12 +992,32 @@ div.camera-info {
     line-height: 5em;
 }
 
+div.camera-info.two-lines {
+    line-height: 1.2em;
+}
+
 div.camera-overlay-bottom.few-buttons div.camera-info {
     line-height: 2.5em;
 }
 
+div.camera-overlay-bottom.few-buttons div.camera-info.two-lines {
+    line-height: 1.2em;
+    font-size: 0.8em;
+}
+
 span.camera-info {
-    padding-left: 0.5em;
+    display: inline-block;
+    margin-left: 1em;
+}
+
+div.camera-info.two-lines > span.camera-info {
+    margin-left: 1em;
+    margin-top: 1.5em;
+}
+
+div.camera-overlay-bottom.few-buttons div.camera-info.two-lines > span.camera-info {
+    margin-left: 0.5em;
+    margin-top: 0.5em;
 }
 
 div.camera-action-buttons {

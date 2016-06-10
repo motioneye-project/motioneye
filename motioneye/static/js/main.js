@@ -3878,7 +3878,7 @@ function addCameraFrameUi(cameraConfig) {
                     '</div>' +
                     '<div class="camera-overlay-bottom">' +
                         '<div class="camera-info">' +
-                            '<span class="camera-info fps" title="streaming/capture frame rate"></span>' +
+                            '<span class="camera-info" title="streaming/capture frame rate"></span>' +
                         '</div>' +
                         '<div class="camera-action-buttons">' +
                         '<div class="camera-action-buttons-wrapper">' +
@@ -3902,8 +3902,9 @@ function addCameraFrameUi(cameraConfig) {
     var picturesButton = cameraFrameDiv.find('div.camera-top-button.media-pictures');
     var moviesButton = cameraFrameDiv.find('div.camera-top-button.media-movies');
     var fullScreenButton = cameraFrameDiv.find('div.camera-top-button.full-screen');
-    
-    var fpsSpan = cameraFrameDiv.find('span.camera-info.fps');
+
+    var cameraInfoDiv = cameraFrameDiv.find('div.camera-info');
+    var cameraInfoSpan = cameraFrameDiv.find('span.camera-info');
     
     var lockButton = cameraFrameDiv.find('div.camera-action-button.lock');
     var unlockButton = cameraFrameDiv.find('div.camera-action-button.unlock');
@@ -4067,7 +4068,7 @@ function addCameraFrameUi(cameraConfig) {
         cameraPlaceholder.css('opacity', 1);
         cameraProgress.removeClass('visible');
         cameraFrameDiv.removeClass('motion-detected');
-        fpsSpan.html('');
+        cameraInfoSpan.html('');
     };
     cameraImg[0].onload = function () {
         if (this.error) {
@@ -4106,6 +4107,7 @@ function addCameraFrameUi(cameraConfig) {
             }
             
             var captureFps = getCookie('capture_fps_' + cameraId);
+            var monitorInfo = getCookie('monitor_info_' + cameraId);
             
             this.lastCookieTime = now;
 
@@ -4113,14 +4115,25 @@ function addCameraFrameUi(cameraConfig) {
                 var streamingFps = this.fpsTimes.length * 1000 / (this.fpsTimes[this.fpsTimes.length - 1] - this.fpsTimes[0]);
                 streamingFps = streamingFps.toFixed(1);
                 
-                var fps = streamingFps;
+                var info = streamingFps;
                 if (captureFps) {
-                    fps += '/' + captureFps;
+                    info += '/' + captureFps;
                 }
                 
-                fps += ' fps';
+                info += ' fps';
+                
+                if (monitorInfo) {
+                    if (monitorInfo.charAt(0) == monitorInfo.charAt(monitorInfo.length - 1)) {
+                        monitorInfo = monitorInfo.substring(1, monitorInfo.length - 1);
+                    }
+                    info += '<br>' + monitorInfo;
+                    cameraInfoDiv.addClass('two-lines');
+                }
+                else {
+                    cameraInfoDiv.removeClass('two-lines')
+                }
 
-                fpsSpan.html(fps);
+                cameraInfoSpan.html(info);
             }
         }
 

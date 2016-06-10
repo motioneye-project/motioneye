@@ -29,6 +29,7 @@ from tornado.web import RequestHandler, HTTPError, asynchronous
 import config
 import mediafiles
 import mjpgclient
+import monitor
 import motionctl
 import powerctl
 import prefs
@@ -212,18 +213,20 @@ class MainHandler(BaseHandler):
 class ConfigHandler(BaseHandler):
     @asynchronous
     def get(self, camera_id=None, op=None):
+        config.invalidate_monitor_commands()
+
         if camera_id is not None:
             camera_id = int(camera_id)
-        
+
         if op == 'get':
             self.get_config(camera_id)
-            
+
         elif op == 'list':
             self.list()
-        
+
         elif op == 'backup':
             self.backup()
-            
+
         elif op == 'authorize':
             self.authorize(camera_id)
 
@@ -864,23 +867,29 @@ class PictureHandler(BaseHandler):
         width = width and float(width)
         height = height and float(height)
         
+        camera_id_str = str(camera_id)
+        
         camera_config = config.get_camera(camera_id)
         if utils.local_motion_camera(camera_config):
             picture = mediafiles.get_current_picture(camera_config,
                     width=width,
                     height=height)
             
-            self.set_cookie('motion_detected_' + str(camera_id), str(motionctl.is_motion_detected(camera_id)).lower())
-            self.set_cookie('capture_fps_' + str(camera_id), '%.1f' % mjpgclient.get_fps(camera_id))
+            self.set_cookie('motion_detected_' + camera_id_str, str(motionctl.is_motion_detected(camera_id)).lower())
+            self.set_cookie('capture_fps_' + camera_id_str, '%.1f' % mjpgclient.get_fps(camera_id))
+            self.set_cookie('monitor_info_' + camera_id_str, monitor.get_monitor_info(camera_id))
+
             self.try_finish(picture)
 
         elif utils.remote_camera(camera_config):
-            def on_response(motion_detected=False, fps=None, picture=None, error=None):
+            def on_response(motion_detected=False, capture_fps=None, monitor_info=None, picture=None, error=None):
                 if error:
                     return self.try_finish(None)
 
-                self.set_cookie('motion_detected_' + str(camera_id), str(motion_detected).lower())
-                self.set_cookie('capture_fps_' + str(camera_id), '%.1f' % fps)
+                self.set_cookie('motion_detected_' + camera_id_str, str(motion_detected).lower())
+                self.set_cookie('capture_fps_' + camera_id_str, '%.1f' % capture_fps)
+                self.set_cookie('monitor_info_' + camera_id_str, monitor_info or '')
+
                 self.try_finish(picture)
             
             remote.get_current_picture(camera_config, width=width, height=height, callback=on_response)
