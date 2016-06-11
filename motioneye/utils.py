@@ -583,6 +583,12 @@ def test_rtsp_url(data, callback):
     stream = connect()
 
 
+def compute_digest(method, path, body, username, realm, password, nonce):
+    from hashlib import md5
+    h1 = md5('%s:%s:%s' % (username, realm, password)).hexdigest()
+    h2 = md5('%s:%s' % (method, path)).hexdigest()
+    return md5('%s:%s:%s' % (h1, nonce, h2)).hexdigest()
+
 def compute_signature(method, path, body, key):
     parts = list(urlparse.urlsplit(path))
     query = [q for q in urlparse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]

@@ -45,6 +45,14 @@ import v4l2ctl
 
 
 class BaseHandler(RequestHandler):
+    def get_realm(self):
+        import motioneye
+        return 'motionEye/%s' % motioneye.VERSION
+
+    def get_nonce(self):
+        # TODO: Replace ...
+        return '1234567890A'
+
     def get_all_arguments(self):
         keys = self.request.arguments.keys()
         arguments = dict([(key, self.get_argument(key)) for key in keys])
@@ -60,6 +68,7 @@ class BaseHandler(RequestHandler):
             else:
                 continue
         
+        # TODO: remove?        
         # consider the json passed in body as well
         data = self.get_json()
         if data and isinstance(data, dict):
@@ -67,6 +76,7 @@ class BaseHandler(RequestHandler):
 
         return arguments
     
+    # TODO: remove?        
     def get_json(self):
         if not hasattr(self, '_json'):
             self._json = None
@@ -79,6 +89,7 @@ class BaseHandler(RequestHandler):
         DEF = {}
         argument = RequestHandler.get_argument(self, name, default=DEF)
         if argument is DEF:
+            #TODO: remove?
             # try to find it in json body
             data = self.get_json()
             if data:
@@ -86,6 +97,7 @@ class BaseHandler(RequestHandler):
         
             if argument is DEF:
                 argument = default
+            #argument = default
         
         return argument
     
@@ -105,28 +117,57 @@ class BaseHandler(RequestHandler):
         self.set_header('Content-Type', 'application/json')
         self.finish(json.dumps(data))
 
+    def parse_auth(self, auth):
+        mode, params = auth.split(' ', 1)
+        params_dict = {}
+        for item in re.split(''',(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', params):
+            logging.info('Item: %s' % item)
+            k, v = item.strip(' ').split('=', 1)
+            if (k[0] == '"' and k[-1] == '"') or (k[0] == '\'' and k[-1] == '\''):
+                k = k[1:-1]
+            if (v[0] == '"' and v[-1] == '"') or (v[0] == '\'' and v[-1] == '\''):
+                v = v[1:-1]
+            params_dict[k] = v
+        return mode, params_dict
+
     def get_current_user(self):
         main_config = config.get_main()
-        
-        username = self.get_argument('_username', None)
-        signature = self.get_argument('_signature', None)
+
+        logging.debug('Arguments: "%s"' % self.get_all_arguments())
+
+        auth = self.request.headers.get('Authorization', None)
+        if auth is None:
+            return None
+
+        logging.debug('Auth: %s' % auth)
+        auth_mode, auth_params = self.parse_auth(auth)
+
+        logging.debug('Authorization: "%s" "%s' % (auth_mode, auth_params))
+        username = auth_params.get('username', None)
+        realm    = auth_params.get('realm', None)
+        nonce    = auth_params.get('nonce', None)
+        uri      = auth_params.get('uri', None)
+        response = auth_params.get('response', None)
+
         login = self.get_argument('_login', None) == 'true'
-        if (username == main_config.get('@admin_username') and
-            signature == utils.compute_signature(self.request.method, self.request.uri, self.request.body, main_config.get('@admin_password'))):
-            
+        if (username == main_config.get('@admin_username') and realm == self.get_realm() and nonce == self.get_nonce() and uri[0:len(self.request.path)] == self.request.path and
+            response == utils.compute_digest(self.request.method, uri, self.request.body, username, realm, main_config.get('@admin_password'), nonce)):
+            logging.debug('Authenticated as admin')
             return 'admin'
         
         elif not username and not main_config.get('@normal_password'): # no authentication required for normal user
+            logging.debug('Authenticated as normal (no password)')
             return 'normal'
         
-        elif (username == main_config.get('@normal_username') and
-            signature == utils.compute_signature(self.request.method, self.request.uri, self.request.body, main_config.get('@normal_password'))):
-            
+        elif (username == main_config.get('@normal_username') and realm == self.get_realm() and nonce == self.get_nonce() and uri[0:len(self.request.path)] == self.request.path and
+            response == utils.compute_digest(self.request.method, self.request.uri, self.request.body, username, realm, main_config.get('@normal_password'), nonce)):
+            logging.debug('Authenticated as normal')
             return 'normal'
 
         elif username and username != '_' and login:
             logging.error('authentication failed for user %(user)s' % {'user': username})
 
+        logging.debug('Not authenticated')
         return None
     
     def get_pref(self, key):
@@ -158,6 +199,10 @@ class BaseHandler(RequestHandler):
                 
                 user = self.current_user
                 if (user is None) or (user != 'admin' and (admin or _admin)):
+                    self.set_status(401)
+                    #TODO: Use custom algorithm "MyDigest" to not trigger browser login pop-up
+                    self.set_header('WWW-Authenticate', 'MyDigest realm="%(realm)s", nonce="%(nonce)s"' % {'realm': self.get_realm(), 'nonce': self.get_nonce()})
+                    #self.set_header('WWW-Authenticate', 'Digest realm="%(realm)s", nonce="%(nonce)s"' % {'realm': self.get_realm(), 'nonce': self.get_nonce()})
                     self.set_header('Content-Type', 'application/json')
                     self.set_status(403)
 

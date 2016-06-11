@@ -363,20 +363,26 @@ function addAuthParams(method, url, body) {
         return url;
     }
 
-    if (url.indexOf('?') < 0) {
+/*    if (url.indexOf('?') < 0) {
         url += '?';
     }
     else {
         url += '&';
     }
     
-    url += '_username=' + window.username;
+    url += '_username=' + window.username;*/
     if (window._loginDialogSubmitted) {
-        url += '&_login=true';
+        if (url.indexOf('?') < 0) {
+            url += '?';
+        }
+        else {
+            url += '&';
+        }
+        url += '_login=true';
         _loginDialogSubmitted = false;
     }
-    var signature = computeSignature(method, url, body);
-    url += '&_signature=' + signature;
+/*    var signature = computeSignature(method, url, body);
+    url += '&_signature=' + signature;*/
 
     return url;
 }
@@ -388,7 +394,8 @@ function isAdmin() {
 function ajax(method, url, data, callback, error, timeout) {
     var origUrl = url;
     var origData = data;
-    
+
+    // TODO: remove    
     if (url.indexOf('?') < 0) {
         url += '?';
     }
@@ -416,7 +423,8 @@ function ajax(method, url, data, callback, error, timeout) {
             data = null;
         }
     }
-    
+
+    // TODO: remove?    
     url = addAuthParams(method, url, processData ? data : null);
     
     function onResponse(data) {
@@ -443,22 +451,36 @@ function ajax(method, url, data, callback, error, timeout) {
         url: url,
         data: data,
         timeout: timeout || 300 * 1000,
-        success: onResponse,
         contentType: json ? 'application/json' : false,
-        processData: processData,
-        error: error || function (request, options, error) {
-            if (request.status == 403) {
-                return onResponse(request.responseJSON);
-            }
-            
+        processData: processData
+    };
+
+    if (window.username) {
+        options.username = window.username;
+        options.password = window.password;
+    }
+    $.ajaxDigest(options).done(function(data, textStatus, jqXHR) {
+        delete window._loginRetry;
+        if (callback) {
+            $('body').toggleClass('admin', isAdmin());
+            callback(data);
+        }
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        if (jqXHR.status == 401) {
+//            if (request.responseJSON.prompt) {
+                runLoginDialog(function () {
+                    ajax(method, origUrl, origData, callback, error);
+                });
+//            }
+            window._loginRetry = true;
+        }
+        else {
             showErrorMessage();
             if (callback) {
                 callback();
             }
         }
-    };
-    
-    $.ajax(options);
+    });
 }
 
 function getCookie(name) {
@@ -510,6 +532,11 @@ function showErrorMessage(message) {
 
 function doLogout() {
     setCookie('username', '_');
+    window.username='';
+    window.password='';
+    window._loginDialogSubmitted = false;
+
+    ajax('POST', basePath + 'login/', null, function () {});
     window.location.reload(true);
 }
 
@@ -2905,10 +2932,11 @@ function runLoginDialog(retry) {
                 
                 setCookie('username', window.username);
                 
-                form.submit();
-                setTimeout(function () {
-                    tempFrame.remove();
-                }, 5000);
+                ajax('POST', basePath + 'login/', null, function () {
+                    setTimeout(function () {
+                        tempFrame.remove();
+                    }, 5000);
+                });
                 
                 if (retry) {
                     retry();
