@@ -358,35 +358,6 @@ function computeSignature(method, path, body) {
     return sha1(method + ':' + path + ':' + (body || '') + ':' + password).toLowerCase();
 }
 
-function addAuthParams(method, url, body) {
-    if (!window.username) {
-        return url;
-    }
-
-/*    if (url.indexOf('?') < 0) {
-        url += '?';
-    }
-    else {
-        url += '&';
-    }
-    
-    url += '_username=' + window.username;*/
-    if (window._loginDialogSubmitted) {
-        if (url.indexOf('?') < 0) {
-            url += '?';
-        }
-        else {
-            url += '&';
-        }
-        url += '_login=true';
-        _loginDialogSubmitted = false;
-    }
-/*    var signature = computeSignature(method, url, body);
-    url += '&_signature=' + signature;*/
-
-    return url;
-}
-
 function isAdmin() {
     return username === adminUsername;
 }
@@ -424,8 +395,14 @@ function ajax(method, url, data, callback, error, timeout, dataType) {
         }
     }
 
-    // TODO: remove?    
-    url = addAuthParams(method, url, processData ? data : null);
+    if (!window.username) {
+        return url;
+    }
+
+    if (window._loginDialogSubmitted) {
+        url += '&_login=true';
+        _loginDialogSubmitted = false;
+    }
     
     function onResponse(data) {
         if (data && data.error == 'unauthorized') {
@@ -490,6 +467,18 @@ function ajax(method, url, data, callback, error, timeout, dataType) {
     });
 }
 
+function ajaxBinary(path, callback) {
+    ajax('GET', path, null, function (data) {
+        if (data && data.size != 0) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                callback(e.target.result);
+            };
+            reader.readAsDataURL(data);
+        }
+    }, null, null, 'binary');
+}
+
 function getCookie(name) {
     var cookie = document.cookie.substring();
     
@@ -551,9 +540,10 @@ function authorizeUpload() {
     var service = $('#uploadServiceSelect').val();
     var cameraId = $('#cameraSelect').val();
     var url = basePath + 'config/' + cameraId + '/authorize/?service=' + service;
-    url = addAuthParams('GET', url);
 
-    window.open(url, '_blank');
+    ajax('GET', url, null, function (data) {
+        window.open(data.url, '_blank');
+    });
 }
 
 
@@ -1878,12 +1868,6 @@ function dict2CameraUi(dict) {
         /* cannot tell the mjpg streaming url for a remote motionEye camera */
         mjpgUrl = '';
     }
-
-    if ($('#normalPasswordEntry').val()) { /* anonymous access is disabled */ 
-        if (snapshotUrl) {
-            snapshotUrl = addAuthParams('GET', snapshotUrl);
-        }
-    }
     
     $('#streamingSnapshotUrlEntry').val(snapshotUrl); markHideIfNull(!snapshotUrl, 'streamingSnapshotUrlEntry');
     $('#streamingMjpgUrlEntry').val(mjpgUrl); markHideIfNull(!mjpgUrl, 'streamingMjpgUrlEntry');
@@ -2083,12 +2067,13 @@ function downloadFile(path) {
     var url = window.location.href;
     var parts = url.split('/');
     url = parts.slice(0, 3).join('/') + path;
-    url = addAuthParams('GET', url);
-    
-    /* download the file by creating a temporary iframe */
-    var frame = $('<iframe style="display: none;"></iframe>');
-    frame.attr('src', url);
-    $('body').append(frame);
+   
+    ajaxBinary(url, function(data) {
+        /* download the file by creating a temporary iframe */
+        var frame = $('<iframe style="display: none;"></iframe>');
+        frame.attr('src', url);
+        $('body').append(frame);
+    });
 }
 
 function uploadFile(path, input, callback) {
@@ -2987,7 +2972,6 @@ function runPictureDialog(entries, pos, mediaType) {
         progressImg.css('left', (img.parent().width() - progressImg.width()) / 2);
         progressImg.css('top', (img.parent().height() - progressImg.height()) / 2);
         
-        img.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
         img.load(function () {
             var aspectRatio = this.naturalWidth / this.naturalHeight;
             var sizeWidth = width * width / aspectRatio;
@@ -3003,6 +2987,10 @@ function runPictureDialog(entries, pos, mediaType) {
             prevArrow.css('display', pos > 0 ? '' : 'none');
             nextArrow.css('display', pos < entries.length - 1 ? '' : 'none');
             progressImg.remove();
+        });
+
+        ajaxBinary(basePath + mediaType + '/' + entry.cameraId + '/preview' + entry.path, function(data) {
+            img.attr('src', data);
         });
         
         $('div.modal-container').find('span.modal-title:last').html(entry.name);
@@ -3564,7 +3552,9 @@ function runMediaDialog(cameraId, mediaType) {
                     
                     var previewImg = $('<img class="media-list-preview" src="' + staticPath + 'img/modal-progress.gif"/>');
                     entryDiv.append(previewImg);
-                    previewImg[0]._src = addAuthParams('GET', basePath + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height);
+                    ajaxBinary(basePath + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height, function(data) {
+                        previewImg[0].src = data;
+                    });
                     
                     var downloadButton = $('<div class="media-list-download-button button">Download</div>');
                     entryDiv.append(downloadButton);
@@ -4399,17 +4389,10 @@ function refreshCameraFrames() {
             path += '&width=' + img.width;
         }
         
-        ajax('GET', path, null, function (data) {
-            if (data && data.size != 0) {
-                var reader = new FileReader();
-                reader.onload = function(e) {
-                    img.src = e.target.result;
-                    img.loading = 1;
-                };
-                reader.readAsDataURL(data);
-            }
-        }, null, null, 'binary');
-        
+        ajaxBinary(path, function(data) {
+            img.src = data;
+            img.loading = 1;
+        });
     }
 
     var cameraFrames;

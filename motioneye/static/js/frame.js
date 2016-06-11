@@ -123,11 +123,11 @@ function refreshCameraFrame() {
                 path += '&width=' + img.width;
             }
             
-            path = addAuthParams('GET', path);
-            img.src = path;
-            img.loading = 1;
-            
-            cameraFrame.refreshDivider = 0;
+            ajaxBinary(path, function(data) {
+                img.src = data;
+                img.loading = 1;
+                cameraFrame.refreshDivider = 0;
+            });
         })();
     }
 

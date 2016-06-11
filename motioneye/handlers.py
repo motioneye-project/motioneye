@@ -850,8 +850,8 @@ class ConfigHandler(BaseHandler):
 
         url = service.get_authorize_url()
 
-        logging.debug('redirected to authorization url %s' % url)
-        self.redirect(url)
+        logging.debug('return authorization url %s' % url)
+        self.finish_json({'url': url})
 
 
 class PictureHandler(BaseHandler):
