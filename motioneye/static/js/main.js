@@ -366,7 +366,6 @@ function ajax(method, url, data, callback, error, timeout, dataType) {
     var origUrl = url;
     var origData = data;
 
-    // TODO: remove    
     if (url.indexOf('?') < 0) {
         url += '?';
     }

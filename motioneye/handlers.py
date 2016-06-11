@@ -68,7 +68,6 @@ class BaseHandler(RequestHandler):
             else:
                 continue
         
-        # TODO: remove?        
         # consider the json passed in body as well
         data = self.get_json()
         if data and isinstance(data, dict):
@@ -76,7 +75,6 @@ class BaseHandler(RequestHandler):
 
         return arguments
     
-    # TODO: remove?        
     def get_json(self):
         if not hasattr(self, '_json'):
             self._json = None
@@ -89,7 +87,6 @@ class BaseHandler(RequestHandler):
         DEF = {}
         argument = RequestHandler.get_argument(self, name, default=DEF)
         if argument is DEF:
-            #TODO: remove?
             # try to find it in json body
             data = self.get_json()
             if data:
@@ -97,7 +94,6 @@ class BaseHandler(RequestHandler):
         
             if argument is DEF:
                 argument = default
-            #argument = default
         
         return argument
     
