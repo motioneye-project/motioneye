@@ -196,13 +196,16 @@ class BaseHandler(RequestHandler):
         def decorator(func):
             def wrapper(self, *args, **kwargs):
                 _admin = self.get_argument('_admin', None) == 'true'
+                tmp = self.get_argument('_', None) <> None
                 
                 user = self.current_user
                 if (user is None) or (user != 'admin' and (admin or _admin)):
                     self.set_status(401)
                     #TODO: Use custom algorithm "MyDigest" to not trigger browser login pop-up
-                    self.set_header('WWW-Authenticate', 'MyDigest realm="%(realm)s", nonce="%(nonce)s"' % {'realm': self.get_realm(), 'nonce': self.get_nonce()})
-                    #self.set_header('WWW-Authenticate', 'Digest realm="%(realm)s", nonce="%(nonce)s"' % {'realm': self.get_realm(), 'nonce': self.get_nonce()})
+                    if tmp:
+                        self.set_header('WWW-Authenticate', 'MyDigest realm="%(realm)s", nonce="%(nonce)s"' % {'realm': self.get_realm(), 'nonce': self.get_nonce()})
+                    else:
+                        self.set_header('WWW-Authenticate', 'Digest realm="%(realm)s", nonce="%(nonce)s"' % {'realm': self.get_realm(), 'nonce': self.get_nonce()})
                     self.set_header('Content-Type', 'application/json')
                     self.set_status(403)
 

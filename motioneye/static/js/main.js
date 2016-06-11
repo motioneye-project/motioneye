@@ -391,7 +391,7 @@ function isAdmin() {
     return username === adminUsername;
 }
 
-function ajax(method, url, data, callback, error, timeout) {
+function ajax(method, url, data, callback, error, timeout, dataType) {
     var origUrl = url;
     var origData = data;
 
@@ -454,6 +454,13 @@ function ajax(method, url, data, callback, error, timeout) {
         contentType: json ? 'application/json' : false,
         processData: processData
     };
+
+    if (dataType) {
+        options.dataType = dataType;
+        if(dataType == 'binary') {
+            options.processData = false;
+        }
+    }
 
     if (window.username) {
         options.username = window.username;
@@ -4392,10 +4399,17 @@ function refreshCameraFrames() {
             path += '&width=' + img.width;
         }
         
-        path = addAuthParams('GET', path);
+        ajax('GET', path, null, function (data) {
+            if (data && data.size != 0) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                    img.loading = 1;
+                };
+                reader.readAsDataURL(data);
+            }
+        }, null, null, 'binary');
         
-        img.src = path;
-        img.loading = 1;
     }
 
     var cameraFrames;
