@@ -170,12 +170,16 @@
         function createAuthorizationHeader(xhr) {
             var header = xhr.getResponseHeader(DigestAjax.WWW_AUTHENTICATE);
             if (header !== undefined && header !== null) {
+                //TODO Support multiple WWW-Authenticate headers
                 var params = parseWWWAuthenticateHeader(header);
 
                 var qop = params.qop;
-                var clientQop = 'auth';
+                var clientQop = undefined;
                 if (qop !== undefined && qop.toLowerCase() === 'auth-int') {
                     clientQop = 'auth-int';
+                }
+                else if (qop !== undefined && qop.toLowerCase() === 'auth') {
+                    clientQop = 'auth';
                 }
 
                 //HA1 Calculation
@@ -221,7 +225,7 @@
 
                 //Response Calculation
                 var response, nc;
-                if (params.qop === undefined) {
+                if (clientQop === undefined) {
                     response = CryptoJS.MD5(ha1 + ':' + params.nonce + ':' + ha2);
                 }
                 else {
@@ -240,7 +244,12 @@
                 sb.push('realm="', params.realm, '",');
                 sb.push('nonce="', params.nonce, '",');
                 sb.push('uri="', s.requestUri, '",');
-                sb.push('qop=', clientQop, ',');
+                if (clientQop !== undefined) {
+                    sb.push('qop=', clientQop, ',');
+                }
+                if (algorithm !== undefined) {
+                    sb.push('algorithm="', algorithm, '",');
+                }
                 if (nc !== undefined) {
                     sb.push('nc=', nc, ',');
                 }
