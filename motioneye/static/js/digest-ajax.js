@@ -199,18 +199,16 @@
                         }, DigestAjax.authHelper());
                         $.extend(s, auth);
                     }
-                    if (algorithm !== undefined && algorithm.toLowerCase() === 'md5-sess') {
-                        cnonce = generateCnonce();
-                        ha1 = CryptoJS.MD5(CryptoJS.MD5(s.username + ':' 
-                                + params.realm + ':' + s.password) + ':' 
-                                + params.nonce + ':' + cnonce);
-                    }
-                    else {
-                        ha1 = CryptoJS.MD5(s.username + ':' + params.realm + ':' + s.password);
-                    }
+                    ha1 = CryptoJS.MD5(s.username + ':' + params.realm + ':' + s.password);
                     username = s.username;
                     DigestAjax.UNAUTH_HA1 = ha1;
                     DigestAjax.UNAUTH_USERNAME = s.username;
+                }
+
+                if (algorithm !== undefined && algorithm.toLowerCase() === 'md5-sess') {
+                    cnonce = generateCnonce();
+                    ha1 = CryptoJS.MD5(ha1 + ':' 
+                            + params.nonce + ':' + cnonce);
                 }
 
                 //HA2 Calculation
