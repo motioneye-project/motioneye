@@ -421,26 +421,14 @@ function ajax(method, url, data, callback, error, timeout, dataType) {
         options.username = window.username;
         options.password = window.password;
     }
+    //TODO implement queuing to avoid that two messages continuously invalidate the nonce they received
     $.ajaxDigest(options).done(function(data, textStatus, jqXHR) {
-        delete window._loginRetry;
         if (callback) {
-            $('body').toggleClass('admin', isAdmin());
             callback(data);
         }
     }).fail(function(jqXHR, textStatus, errorThrown) {
-        if (jqXHR.status == 401) {
-//            if (request.responseJSON.prompt) {
-                runLoginDialog(function () {
-                    ajax(method, origUrl, origData, callback, error);
-                });
-//            }
-            window._loginRetry = true;
-        }
-        else {
-            showErrorMessage();
-            if (callback) {
-                callback();
-            }
+        if (error) {
+            error(jqXHR);
         }
     });
 }
@@ -455,6 +443,32 @@ function ajaxBinary(path, callback) {
             reader.readAsDataURL(data);
         }
     }, null, null, 'binary');
+}
+
+function ajaxLogin(method, url, data, callback, error, timeout, dataType) {
+    ajax(method, url, data, function (data) {
+            delete window._loginRetry;
+            $('body').toggleClass('admin', isAdmin());
+            if (!frame) {
+                fetchCurrentConfig(endProgress);
+            }
+            if (callback) {
+                callback(data);
+            }
+        }, function (jqXHR) {
+            if (jqXHR.status == 401) {
+                runLoginDialog(function () {
+                    ajax(method, url, data, callback, error, timeout, dataType);
+                });
+                window._loginRetry = true;
+            }
+            else {
+                showErrorMessage();
+            }
+            if (error) {
+                error(jqXHR);
+            }
+        }, timeout, dataType);
 }
 
 function getCookie(name) {
@@ -510,7 +524,7 @@ function doLogout() {
     window.password='';
     window._loginDialogSubmitted = false;
 
-    ajax('POST', basePath + 'login/', null, function () {});
+    ajaxLogin('POST', basePath + 'login/');
     window.location.reload(true);
 }
 
@@ -2902,7 +2916,7 @@ function runLoginDialog(retry) {
                 
                 setCookie('username', window.username);
                 
-                ajax('POST', basePath + 'login/', null, function () {
+                ajaxLogin('POST', basePath + 'login/', null, function (data) {
                     setTimeout(function () {
                         tempFrame.remove();
                     }, 5000);
@@ -4477,7 +4491,7 @@ $(document).ready(function () {
     initUI();
     beginProgress();
     
-    ajax('GET', basePath + 'login/', null, function () {
+    ajaxLogin('GET', basePath + 'login/', null, function () {
         if (!frame) {
             fetchCurrentConfig(endProgress);
         }

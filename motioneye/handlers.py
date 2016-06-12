@@ -43,35 +43,73 @@ import uploadservices
 import utils
 import v4l2ctl
 
+#TODO: cleanup nonce generation and checking code
+import threading
+
+def create_nonce():
+    global nonce
+    global nonce_uuid
+    global nonce_count
+    with lock:
+        import uuid
+        from hashlib import md5
+
+        nonce_uuid = uuid.uuid4()
+        nonce_count = 0
+        nonce = md5('%s' % nonce_uuid).hexdigest()
+    logging.info('Created nonce="%s"' % nonce)
+
+lock = threading.Lock()
+create_nonce()
 
 class BaseHandler(RequestHandler):
+    #TODO recheck what is supported by digest-ajax, Safari and curl
     # Digest authentication tested for the following algorithm/qop combinations
     #
     # included digest-ajax.js (Safari)
     # Working: MD5/None. MD5/auth. MD5/auth-int, MD5-sess/None, MD5-sess/auth, MD5-sess/auth-int
     # Failed : -
     #
+    # Safari
+    # Working: 
+    # Failed : MD5-sess/None, MD5-sess/auth-int
+    #
     # curl
     # Working: MD5/None, MD5-sess/auth. MD5/auth, MD5/auth-int, MD5-sess/auth-int
     # Failed : MD5-sess/None (Bug: https://github.com/curl/curl/issues/872)
+
+    def initialize(self):
+        logging.info('ConfigHandler.initialize()')
 
     def get_realm(self):
         import motioneye
         return 'motionEye/%s' % motioneye.VERSION
 
     def get_nonce(self):
-        # TODO Implement proper algorithm for nonce
-        return '1234567890A'
+        global nonce
+        logging.info('Get     nonce="%s"' % nonce)
+        return nonce
+
+    def get_next_nonce(self):
+        global nonce
+        global nonce_count
+        with lock:
+            nonce_count = nonce_count + 1
+            nc = nonce_count
+
+        logging.info('Get     nonce="%s", nonce_count="%s"' % (nonce, nc))
+        return (nonce, nc)
 
     def get_qops(self):
-        # Allowed values for items are: None, 'auth', 'auth-int'
+        # Allowed values for items are: '', 'auth', 'auth-int'
         # Order of items reflected in WWW-Authenticate header
-        return ['auth-int', 'auth', None]
+        # MD5-sess/None and MD5-sess/auth-int not working in some/most browsers
+        return ['']
 
     def get_algorithms(self):
         # Allowed values for items are: 'MD5', 'MD5-sess'
         # Order of items reflected in WWW-Authenticate header
-        return ['MD5-sess', 'MD5']
+        return ['MD5']
 
     def get_all_arguments(self):
         keys = self.request.arguments.keys()
@@ -174,7 +212,7 @@ class BaseHandler(RequestHandler):
             logging.warn('Received realm "%s", expected "%s"' % (realm, self.get_realm()))
             ret = False
 
-        qop = auth_params.get('qop', None)
+        qop = auth_params.get('qop', '')
         if qop not in self.get_qops():
             logging.warn('Received qop "%s", expected "%s"' % (qop, ','.join(self.get_qops())))
             ret = False
@@ -184,12 +222,13 @@ class BaseHandler(RequestHandler):
             logging.warn('Received algorithm "%s", expected "%s"' % (algorithm, ','.join(self.get_algorithms())))
             ret = False
 
+        (servernonce, nonce_count) = self.get_next_nonce()
         nonce = auth_params.get('nonce', None)
         if nonce == None:
             logging.warn('Missing nonce')
             ret = False
-        elif nonce <> self.get_nonce():
-            logging.warn('Received nonce "%s", expected "%s"' % (nonce, self.get_nonce()))
+        elif nonce <> servernonce:
+            logging.warn('Received nonce "%s", expected "%s"' % (nonce, servernonce))
             ret = False
 
         cnonce = auth_params.get('cnonce', None)
@@ -198,9 +237,13 @@ class BaseHandler(RequestHandler):
             ret = False
 
         nc = auth_params.get('nc', None)
-        if nc == None and (qop == 'auth' or qop == 'auth-int'):
-            logging.warn('Missing nc for qop "%s"' % qop)
-            ret = False
+        if qop == 'auth' or qop == 'auth-int':
+            if nc == None:
+                logging.warn('Missing nc for qop "%s"' % qop)
+                ret = False
+            elif int(nc, 16) <> nonce_count:
+                logging.warn('Received nc "%s", expected "%08x"' % (nc, nonce_count))
+                ret = False
 
         return ret
 
@@ -218,7 +261,7 @@ class BaseHandler(RequestHandler):
 
         # Check if provided Authorization is valid
         if not self.verify_auth(auth_mode, auth_params):
-            return
+            return None
 
         logging.debug('Authorization: "%s" "%s' % (auth_mode, auth_params))
         uri       = auth_params.get('uri', None)
@@ -227,7 +270,7 @@ class BaseHandler(RequestHandler):
         nonce     = auth_params.get('nonce', None)
         cnonce    = auth_params.get('cnonce', None)
         nc        = auth_params.get('nc', None)
-        qop       = auth_params.get('qop', None)
+        qop       = auth_params.get('qop', '')
         algorithm = auth_params.get('algorithm', None)
         response  = auth_params.get('response', None)
 
@@ -289,6 +332,7 @@ class BaseHandler(RequestHandler):
                 
                 user = self.current_user
                 if (user is None) or (user != 'admin' and (admin or _admin)):
+                    create_nonce()
                     self.set_status(401)
                     for algorithm in self.get_algorithms():
                         for qop in self.get_qops():
@@ -299,7 +343,7 @@ class BaseHandler(RequestHandler):
                                 mode = 'Digest'
 
                             challenge = '%s realm="%s", nonce="%s"' % (mode, self.get_realm(), self.get_nonce())
-                            if qop is not None:
+                            if qop <> '':
                                 challenge = '%s, qop="%s"' % (challenge, qop)
                             challenge = '%s, algorithm="%s"' % (challenge, algorithm)
 

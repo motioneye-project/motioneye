@@ -283,6 +283,7 @@
                         //Cnonce may have been generated already for MD5-sess algorithm
                         cnonce = generateCnonce();
                     }
+                    //TODO fix nc calculation
                     nc = '00000001';
                     response = CryptoJS.MD5(ha1 + ':' + params.nonce + ':' 
                             + nc + ':' + cnonce + ':' + clientQop + ':' + ha2);
