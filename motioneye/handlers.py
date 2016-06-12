@@ -27,6 +27,7 @@ from tornado.ioloop import IOLoop
 from tornado.web import RequestHandler, HTTPError, asynchronous
 
 import config
+import datetime
 import mediafiles
 import mjpgclient
 import monitor
@@ -38,29 +39,66 @@ import settings
 import smbctl
 import tasks
 import template
+import threading
 import update
 import uploadservices
 import utils
 import v4l2ctl
 
-#TODO: cleanup nonce generation and checking code
-import threading
+#TODO Implement "stale" in WWW-Authorize response
+class NonceStore():
+    def __init__(self):
+        self._nonceDict = {}
+        self._lock = threading.Lock()
 
-def create_nonce():
-    global nonce
-    global nonce_uuid
-    global nonce_count
-    with lock:
-        import uuid
-        from hashlib import md5
+    def _cleanup_nonce(self):
+        #TODO Instead of time based timestamps, we could also implement that only a specific number of concurrent requests are allowed (ie 10)?
+        # clean up nonce values older than 5 minutes
+        for nonce in self._nonceDict.keys():
+            info = self._nonceDict[nonce]
+            if (datetime.datetime.utcnow() - info['ts']) > datetime.timedelta(minutes=5):
+                logging.debug('Remove  nonce="%s", nonce_count="%s"' % (nonce, info['nc']))
+                del self._nonceDict[nonce]
+            else:
+                logging.debug('Exist   nonce="%s", nonce_count="%s", age="%s"' % (nonce, info['nc'], datetime.datetime.utcnow() - info['ts']))
 
-        nonce_uuid = uuid.uuid4()
-        nonce_count = 0
-        nonce = md5('%s' % nonce_uuid).hexdigest()
-    logging.info('Created nonce="%s"' % nonce)
+    def create_nonce(self):
+        with self._lock:
+            self._cleanup_nonce()
 
-lock = threading.Lock()
-create_nonce()
+            import uuid
+            from hashlib import md5
+
+            uuid = uuid.uuid4()
+            nc = 0
+            ts = datetime.datetime.utcnow()
+            nonce = md5('%s:%s' % (uuid, ts.isoformat())).hexdigest()
+
+            item = {'nonce': nonce, 'nc': nc, 'ts': ts}
+            self._nonceDict[nonce] = item
+
+            logging.debug('Created nonce="%s", nonce_count="%s"' % (nonce, nc))
+
+            return item
+
+    def get_nonce(self, nonce, nc):
+        with self._lock:
+            self._cleanup_nonce()
+
+            if nonce:
+                info = self._nonceDict.get(nonce)
+                if info:
+                    if nc:
+                        info['nc'] = info['nc'] + 1
+                        self._nonceDict[nonce] = info
+                    else:
+                        logging.debug('Remove  nonce="%s", nonce_count="%s"' % (nonce, info['nc']))
+                        del self._nonceDict[nonce]
+                    return info
+
+            return None
+
+nonceStore = NonceStore()
 
 class BaseHandler(RequestHandler):
     #TODO recheck what is supported by digest-ajax, Safari and curl
@@ -85,31 +123,16 @@ class BaseHandler(RequestHandler):
         import motioneye
         return 'motionEye/%s' % motioneye.VERSION
 
-    def get_nonce(self):
-        global nonce
-        logging.info('Get     nonce="%s"' % nonce)
-        return nonce
-
-    def get_next_nonce(self):
-        global nonce
-        global nonce_count
-        with lock:
-            nonce_count = nonce_count + 1
-            nc = nonce_count
-
-        logging.info('Get     nonce="%s", nonce_count="%s"' % (nonce, nc))
-        return (nonce, nc)
-
     def get_qops(self):
         # Allowed values for items are: '', 'auth', 'auth-int'
         # Order of items reflected in WWW-Authenticate header
         # MD5-sess/None and MD5-sess/auth-int not working in some/most browsers
-        return ['']
+        return ['auth']
 
     def get_algorithms(self):
         # Allowed values for items are: 'MD5', 'MD5-sess'
         # Order of items reflected in WWW-Authenticate header
-        return ['MD5']
+        return ['MD5-sess']
 
     def get_all_arguments(self):
         keys = self.request.arguments.keys()
@@ -222,8 +245,18 @@ class BaseHandler(RequestHandler):
             logging.warn('Received algorithm "%s", expected "%s"' % (algorithm, ','.join(self.get_algorithms())))
             ret = False
 
-        (servernonce, nonce_count) = self.get_next_nonce()
         nonce = auth_params.get('nonce', None)
+        nc = auth_params.get('nc', None)
+
+        nonceinfo = None
+        nonce_count = 0
+        servernonce = ""
+        if nonce:
+            nonceinfo = nonceStore.get_nonce(nonce, nc)
+            if nonceinfo:
+                nonce_count = nonceinfo['nc']
+                servernonce = nonceinfo['nonce']
+
         if nonce == None:
             logging.warn('Missing nonce')
             ret = False
@@ -231,12 +264,6 @@ class BaseHandler(RequestHandler):
             logging.warn('Received nonce "%s", expected "%s"' % (nonce, servernonce))
             ret = False
 
-        cnonce = auth_params.get('cnonce', None)
-        if cnonce == None and (algorithm == 'MD5-sess' or (qop == 'auth' or qop == 'auth-int')):
-            logging.warn('Missing cnonce for algorithm "%s" and qop "%s"' % (algorithm, qop))
-            ret = False
-
-        nc = auth_params.get('nc', None)
         if qop == 'auth' or qop == 'auth-int':
             if nc == None:
                 logging.warn('Missing nc for qop "%s"' % qop)
@@ -244,6 +271,16 @@ class BaseHandler(RequestHandler):
             elif int(nc, 16) <> nonce_count:
                 logging.warn('Received nc "%s", expected "%08x"' % (nc, nonce_count))
                 ret = False
+
+        cnonce = auth_params.get('cnonce', None)
+        if cnonce == None and (algorithm == 'MD5-sess' or (qop == 'auth' or qop == 'auth-int')):
+            logging.warn('Missing cnonce for algorithm "%s" and qop "%s"' % (algorithm, qop))
+            ret = False
+
+        cnonce = auth_params.get('cnonce', None)
+        if cnonce == None and (algorithm == 'MD5-sess' or (qop == 'auth' or qop == 'auth-int')):
+            logging.warn('Missing cnonce for algorithm "%s" and qop "%s"' % (algorithm, qop))
+            ret = False
 
         return ret
 
@@ -332,7 +369,7 @@ class BaseHandler(RequestHandler):
                 
                 user = self.current_user
                 if (user is None) or (user != 'admin' and (admin or _admin)):
-                    create_nonce()
+                    nonceinfo = nonceStore.create_nonce()
                     self.set_status(401)
                     for algorithm in self.get_algorithms():
                         for qop in self.get_qops():
@@ -342,7 +379,7 @@ class BaseHandler(RequestHandler):
                             else:
                                 mode = 'Digest'
 
-                            challenge = '%s realm="%s", nonce="%s"' % (mode, self.get_realm(), self.get_nonce())
+                            challenge = '%s realm="%s", nonce="%s"' % (mode, self.get_realm(), nonceinfo['nonce'])
                             if qop <> '':
                                 challenge = '%s, qop="%s"' % (challenge, qop)
                             challenge = '%s, algorithm="%s"' % (challenge, algorithm)
