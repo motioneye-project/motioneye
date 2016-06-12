@@ -585,28 +585,26 @@ def test_rtsp_url(data, callback):
 
 def compute_digest(method, path, body, username, realm, password, nonce, cnonce, nc, qop, algorithm):
     from hashlib import md5
-    if algorithm == 'MD5-sess':
-        h1 = md5('%s:%s:%s' % (md5('%s:%s:%s' % (username, realm, password)).hexdigest(), nonce, cnonce)).hexdigest()
-    else: # MD5 or not specified
-        h1 = md5('%s:%s:%s' % (username, realm, password)).hexdigest()
 
-    logging.debug('h1=%s' % h1)
+    ha1 = md5('%s:%s:%s' % (username, realm, password)).hexdigest()
+    if algorithm == 'MD5-sess':
+        logging.debug('ha1=%s (algorithm=MD5)' % (ha1))
+        ha1 = md5('%s:%s:%s' % (ha1, nonce, cnonce)).hexdigest()
+    logging.debug('ha1=%s (algorithm=%s)' % (ha1, algorithm))
 
     if qop == 'auth-int':
         hbody = md5(body).hexdigest()
-        h2 = md5('%s:%s:%s' % (method, path, hbody)).hexdigest()
-        logging.debug('hbody=%s' % hbody)
+        logging.debug('hbody=%s (qop=%s)' % (hbody,qop))
+        ha2 = md5('%s:%s:%s' % (method, path, hbody)).hexdigest()
     else: # auth or not specified
-        h2 = md5('%s:%s' % (method, path)).hexdigest()
-
-    logging.debug('h2=%s' % h2)
+        ha2 = md5('%s:%s' % (method, path)).hexdigest()
+    logging.debug('ha2=%s (qop=%s)' % (ha2, qop))
 
     if qop == 'auth' or qop == 'auth-int':
-        res = md5('%s:%s:%s:%s:%s:%s' % (h1, nonce, nc, cnonce, qop, h2)).hexdigest()
+        res = md5('%s:%s:%s:%s:%s:%s' % (ha1, nonce, nc, cnonce, qop, ha2)).hexdigest()
     else: # not specified
-        res = md5('%s:%s:%s' % (h1, nonce, h2)).hexdigest()
-
-    logging.info('res=%s' % res)
+        res = md5('%s:%s:%s' % (ha1, nonce, ha2)).hexdigest()
+    logging.debug('res=%s (qop=%s)' % (res,qop))
 
     return res
 

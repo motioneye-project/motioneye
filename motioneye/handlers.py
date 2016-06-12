@@ -45,6 +45,16 @@ import v4l2ctl
 
 
 class BaseHandler(RequestHandler):
+    # Digest authentication tested for the following algorithm/qop combinations
+    #
+    # included digest-ajax.js (Safari)
+    # Working: MD5/None. MD5/auth. MD5/auth-int, MD5-sess/None, MD5-sess/auth, MD5-sess/auth-int
+    # Failed : -
+    #
+    # curl
+    # Working: MD5/None, MD5-sess/auth. MD5/auth, MD5/auth-int, MD5-sess/auth-int
+    # Failed : MD5-sess/None (Bug: https://github.com/curl/curl/issues/872)
+
     def get_realm(self):
         import motioneye
         return 'motionEye/%s' % motioneye.VERSION
@@ -54,11 +64,14 @@ class BaseHandler(RequestHandler):
         return '1234567890A'
 
     def get_qops(self):
-        #TODO auth-int not working
-        return ['auth'] # 'auth-int'
+        # Allowed values for items are: None, 'auth', 'auth-int'
+        # Order of items reflected in WWW-Authenticate header
+        return ['auth-int', 'auth', None]
 
     def get_algorithms(self):
-        return ['MD5', 'MD5-sess']
+        # Allowed values for items are: 'MD5', 'MD5-sess'
+        # Order of items reflected in WWW-Authenticate header
+        return ['MD5-sess', 'MD5']
 
     def get_all_arguments(self):
         keys = self.request.arguments.keys()
@@ -124,7 +137,6 @@ class BaseHandler(RequestHandler):
         mode, params = auth.split(' ', 1)
         params_dict = {}
         for item in re.split(''',(?=(?:[^'"]|'[^']*'|"[^"]*")*$)''', params):
-            logging.info('Item: %s' % item)
             k, v = item.strip(' ').split('=', 1)
             if (k[0] == '"' and k[-1] == '"') or (k[0] == '\'' and k[-1] == '\''):
                 k = k[1:-1]
@@ -132,6 +144,65 @@ class BaseHandler(RequestHandler):
                 v = v[1:-1]
             params_dict[k] = v
         return mode, params_dict
+
+    def verify_auth(self, auth_mode, auth_params):
+        ret = True
+        if auth_mode <> "Digest":
+            logging.warn('Received mode "%s", expected "Digest"' % (auth_mode))
+            ret = False
+
+        username = auth_params.get('username', None)
+        if username == None:
+            logging.warn('Missing username')
+            ret = False
+
+        uri = auth_params.get('uri', None)
+        if uri == None:
+            logging.warn('Missing uri')
+            ret = False
+        elif uri[0:len(self.request.path)] <> self.request.path:
+            logging.warn('Received uri "%s", not matching "%s"' % (uri, self.request.path))
+            ret = False
+
+        response = auth_params.get('response', None)
+        if response == None:
+            logging.warn('Missing response')
+            ret = False
+
+        realm = auth_params.get('realm', None)
+        if realm <> self.get_realm():
+            logging.warn('Received realm "%s", expected "%s"' % (realm, self.get_realm()))
+            ret = False
+
+        qop = auth_params.get('qop', None)
+        if qop not in self.get_qops():
+            logging.warn('Received qop "%s", expected "%s"' % (qop, ','.join(self.get_qops())))
+            ret = False
+
+        algorithm = auth_params.get('algorithm', None)
+        if algorithm not in self.get_algorithms() and algorithm <> None:
+            logging.warn('Received algorithm "%s", expected "%s"' % (algorithm, ','.join(self.get_algorithms())))
+            ret = False
+
+        nonce = auth_params.get('nonce', None)
+        if nonce == None:
+            logging.warn('Missing nonce')
+            ret = False
+        elif nonce <> self.get_nonce():
+            logging.warn('Received nonce "%s", expected "%s"' % (nonce, self.get_nonce()))
+            ret = False
+
+        cnonce = auth_params.get('cnonce', None)
+        if cnonce == None and (algorithm == 'MD5-sess' or (qop == 'auth' or qop == 'auth-int')):
+            logging.warn('Missing cnonce for algorithm "%s" and qop "%s"' % (algorithm, qop))
+            ret = False
+
+        nc = auth_params.get('nc', None)
+        if nc == None and (qop == 'auth' or qop == 'auth-int'):
+            logging.warn('Missing nc for qop "%s"' % qop)
+            ret = False
+
+        return ret
 
     def get_current_user(self):
         main_config = config.get_main()
@@ -145,20 +216,31 @@ class BaseHandler(RequestHandler):
         logging.debug('Auth: %s' % auth)
         auth_mode, auth_params = self.parse_auth(auth)
 
+        # Check if provided Authorization is valid
+        if not self.verify_auth(auth_mode, auth_params):
+            return
+
         logging.debug('Authorization: "%s" "%s' % (auth_mode, auth_params))
+        uri       = auth_params.get('uri', None)
         username  = auth_params.get('username', None)
         realm     = auth_params.get('realm', None)
         nonce     = auth_params.get('nonce', None)
         cnonce    = auth_params.get('cnonce', None)
         nc        = auth_params.get('nc', None)
-        uri       = auth_params.get('uri', None)
-        response  = auth_params.get('response', None)
         qop       = auth_params.get('qop', None)
         algorithm = auth_params.get('algorithm', None)
+        response  = auth_params.get('response', None)
+
+        # Workaround: curl always assumes an empty body for A2 calculations in digest
+        useragent = self.request.headers['User-Agent']
+        if useragent <> None and useragent.find('curl') == 0:
+            body = ''
+        else:
+            body = self.request.body
 
         login = self.get_argument('_login', None) == 'true'
-        if (username == main_config.get('@admin_username') and realm == self.get_realm() and nonce == self.get_nonce() and uri[0:len(self.request.path)] == self.request.path and
-            response == utils.compute_digest(self.request.method, uri, self.request.body, username, realm, main_config.get('@admin_password'), nonce, cnonce, nc, qop, algorithm)):
+        if (username == main_config.get('@admin_username') and 
+            response == utils.compute_digest(self.request.method, uri, body, username, realm, main_config.get('@admin_password'), nonce, cnonce, nc, qop, algorithm)):
             logging.debug('Authenticated as admin')
             return 'admin'
         
@@ -166,8 +248,8 @@ class BaseHandler(RequestHandler):
             logging.debug('Authenticated as normal (no password)')
             return 'normal'
         
-        elif (username == main_config.get('@normal_username') and realm == self.get_realm() and nonce == self.get_nonce() and uri[0:len(self.request.path)] == self.request.path and
-            response == utils.compute_digest(self.request.method, self.request.uri, self.request.body, username, realm, main_config.get('@normal_password'), nonce, cnonce, nc, qop, algorithm)):
+        elif (username == main_config.get('@normal_username') and
+            response == utils.compute_digest(self.request.method, uri, body, username, realm, main_config.get('@normal_password'), nonce, cnonce, nc, qop, algorithm)):
             logging.debug('Authenticated as normal')
             return 'normal'
 
@@ -209,21 +291,21 @@ class BaseHandler(RequestHandler):
                 if (user is None) or (user != 'admin' and (admin or _admin)):
                     self.set_status(401)
                     for algorithm in self.get_algorithms():
-                        # The timestamp argument with key='_' indicates a call through ajax. Send custom algorithm (MyDigest) back to avoid browser pop-up.
-                        if timestamp:
-                            mode = 'MyDigest'
-                        else:
-                            mode = 'Digest'
+                        for qop in self.get_qops():
+                            # The timestamp argument with key='_' indicates a call through ajax. Send custom algorithm (MyDigest) back to avoid browser pop-up.
+                            if timestamp:
+                                mode = 'MyDigest'
+                            else:
+                                mode = 'Digest'
 
-                        challenge = '%s realm="%s", nonce="%s"' % (mode, self.get_realm(), self.get_nonce())
-                        if self.get_qops():
-                            challenge = '%s, qop="%s"' % (challenge, ','.join(self.get_qops()))
+                            challenge = '%s realm="%s", nonce="%s"' % (mode, self.get_realm(), self.get_nonce())
+                            if qop is not None:
+                                challenge = '%s, qop="%s"' % (challenge, qop)
                             challenge = '%s, algorithm="%s"' % (challenge, algorithm)
 
-                        self.add_header('WWW-Authenticate', challenge)
-                    self.set_header('Content-Type', 'application/json')
-                    self.set_status(403)
+                            self.add_header('WWW-Authenticate', challenge)
 
+                    self.set_header('Content-Type', 'application/json')
                     return self.finish_json({'error': 'unauthorized', 'prompt': prompt})
 
                 return func(self, *args, **kwargs)
