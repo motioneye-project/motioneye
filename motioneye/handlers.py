@@ -50,8 +50,15 @@ class BaseHandler(RequestHandler):
         return 'motionEye/%s' % motioneye.VERSION
 
     def get_nonce(self):
-        # TODO: Replace ...
+        # TODO Implement proper algorithm for nonce
         return '1234567890A'
+
+    def get_qops(self):
+        #TODO auth-int not working
+        return ['auth'] # 'auth-int'
+
+    def get_algorithms(self):
+        return ['MD5', 'MD5-sess']
 
     def get_all_arguments(self):
         keys = self.request.arguments.keys()
@@ -139,15 +146,19 @@ class BaseHandler(RequestHandler):
         auth_mode, auth_params = self.parse_auth(auth)
 
         logging.debug('Authorization: "%s" "%s' % (auth_mode, auth_params))
-        username = auth_params.get('username', None)
-        realm    = auth_params.get('realm', None)
-        nonce    = auth_params.get('nonce', None)
-        uri      = auth_params.get('uri', None)
-        response = auth_params.get('response', None)
+        username  = auth_params.get('username', None)
+        realm     = auth_params.get('realm', None)
+        nonce     = auth_params.get('nonce', None)
+        cnonce    = auth_params.get('cnonce', None)
+        nc        = auth_params.get('nc', None)
+        uri       = auth_params.get('uri', None)
+        response  = auth_params.get('response', None)
+        qop       = auth_params.get('qop', None)
+        algorithm = auth_params.get('algorithm', None)
 
         login = self.get_argument('_login', None) == 'true'
         if (username == main_config.get('@admin_username') and realm == self.get_realm() and nonce == self.get_nonce() and uri[0:len(self.request.path)] == self.request.path and
-            response == utils.compute_digest(self.request.method, uri, self.request.body, username, realm, main_config.get('@admin_password'), nonce)):
+            response == utils.compute_digest(self.request.method, uri, self.request.body, username, realm, main_config.get('@admin_password'), nonce, cnonce, nc, qop, algorithm)):
             logging.debug('Authenticated as admin')
             return 'admin'
         
@@ -156,7 +167,7 @@ class BaseHandler(RequestHandler):
             return 'normal'
         
         elif (username == main_config.get('@normal_username') and realm == self.get_realm() and nonce == self.get_nonce() and uri[0:len(self.request.path)] == self.request.path and
-            response == utils.compute_digest(self.request.method, self.request.uri, self.request.body, username, realm, main_config.get('@normal_password'), nonce)):
+            response == utils.compute_digest(self.request.method, self.request.uri, self.request.body, username, realm, main_config.get('@normal_password'), nonce, cnonce, nc, qop, algorithm)):
             logging.debug('Authenticated as normal')
             return 'normal'
 
@@ -197,11 +208,19 @@ class BaseHandler(RequestHandler):
                 user = self.current_user
                 if (user is None) or (user != 'admin' and (admin or _admin)):
                     self.set_status(401)
-                    # The timestamp argument with key='_' indicates a call through ajax. Send custom algorithm (MyDigest) back to avoid browser pop-up.
-                    if timestamp:
-                        self.set_header('WWW-Authenticate', 'MyDigest realm="%(realm)s", nonce="%(nonce)s"' % {'realm': self.get_realm(), 'nonce': self.get_nonce()})
-                    else:
-                        self.set_header('WWW-Authenticate', 'Digest realm="%(realm)s", nonce="%(nonce)s"' % {'realm': self.get_realm(), 'nonce': self.get_nonce()})
+                    for algorithm in self.get_algorithms():
+                        # The timestamp argument with key='_' indicates a call through ajax. Send custom algorithm (MyDigest) back to avoid browser pop-up.
+                        if timestamp:
+                            mode = 'MyDigest'
+                        else:
+                            mode = 'Digest'
+
+                        challenge = '%s realm="%s", nonce="%s"' % (mode, self.get_realm(), self.get_nonce())
+                        if self.get_qops():
+                            challenge = '%s, qop="%s"' % (challenge, ','.join(self.get_qops()))
+                            challenge = '%s, algorithm="%s"' % (challenge, algorithm)
+
+                        self.add_header('WWW-Authenticate', challenge)
                     self.set_header('Content-Type', 'application/json')
                     self.set_status(403)
 

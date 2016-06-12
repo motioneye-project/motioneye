@@ -337,27 +337,6 @@ function qualifyPath(path) {
     return url.substring(pos);
 }
         
-function computeSignature(method, path, body) {
-    path = qualifyPath(path);
-    
-    var parts = splitUrl(path);
-    var query = parts.params;
-    var path = parts.baseUrl;
-    path = '/' + path.substring(basePath.length);
-    
-    /* sort query arguments alphabetically */
-    query = Object.keys(query).map(function (key) {return {key: key, value: decodeURIComponent(query[key])};});
-    query = query.filter(function (q) {return q.key !== '_signature';});
-    query.sortKey(function (q) {return q.key;});
-    query = query.map(function (q) {return q.key + '=' + encodeURIComponent(q.value);}).join('&');
-    path = path + '?' + query;
-    path = path.replace(signatureRegExp, '-');
-    body = body && body.replace(signatureRegExp, '-');
-    var password = window.password.replace(signatureRegExp, '-');
-    
-    return sha1(method + ':' + path + ':' + (body || '') + ':' + password).toLowerCase();
-}
-
 function isAdmin() {
     return username === adminUsername;
 }

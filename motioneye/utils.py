@@ -583,32 +583,32 @@ def test_rtsp_url(data, callback):
     stream = connect()
 
 
-def compute_digest(method, path, body, username, realm, password, nonce):
+def compute_digest(method, path, body, username, realm, password, nonce, cnonce, nc, qop, algorithm):
     from hashlib import md5
-    h1 = md5('%s:%s:%s' % (username, realm, password)).hexdigest()
-    h2 = md5('%s:%s' % (method, path)).hexdigest()
-    return md5('%s:%s:%s' % (h1, nonce, h2)).hexdigest()
+    if algorithm == 'MD5-sess':
+        h1 = md5('%s:%s:%s' % (md5('%s:%s:%s' % (username, realm, password)).hexdigest(), nonce, cnonce)).hexdigest()
+    else: # MD5 or not specified
+        h1 = md5('%s:%s:%s' % (username, realm, password)).hexdigest()
 
-def compute_signature(method, path, body, key):
-    parts = list(urlparse.urlsplit(path))
-    query = [q for q in urlparse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
-    query.sort(key=lambda q: q[0])
-    # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
-    query = [(n, urllib.quote(v, safe="!'()*~")) for (n, v) in query]
-    query = '&'.join([(q[0] + '=' + q[1]) for q in query])
-    parts[0] = parts[1] = ''
-    parts[3] = query
-    path = urlparse.urlunsplit(parts)
-    path = _SIGNATURE_REGEX.sub('-', path)
-    key = _SIGNATURE_REGEX.sub('-', key)
+    logging.debug('h1=%s' % h1)
 
-    if body and body.startswith('---'):
-        body = None # file attachment
+    if qop == 'auth-int':
+        hbody = md5(body).hexdigest()
+        h2 = md5('%s:%s:%s' % (method, path, hbody)).hexdigest()
+        logging.debug('hbody=%s' % hbody)
+    else: # auth or not specified
+        h2 = md5('%s:%s' % (method, path)).hexdigest()
 
-    body = body and _SIGNATURE_REGEX.sub('-', body.decode('utf8'))
+    logging.debug('h2=%s' % h2)
 
-    return hashlib.sha1('%s:%s:%s:%s' % (method, path, body or '', key)).hexdigest().lower()
+    if qop == 'auth' or qop == 'auth-int':
+        res = md5('%s:%s:%s:%s:%s:%s' % (h1, nonce, nc, cnonce, qop, h2)).hexdigest()
+    else: # not specified
+        res = md5('%s:%s:%s' % (h1, nonce, h2)).hexdigest()
 
+    logging.info('res=%s' % res)
+
+    return res
 
 def parse_cookies(cookies_headers):
     parsed = {}
