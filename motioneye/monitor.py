@@ -16,9 +16,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import logging
-import re
 import subprocess
 import time
+import urllib
 
 import config
 
@@ -43,12 +43,12 @@ def get_monitor_info(camera_id):
     interval = _interval_by_camera_id.get(camera_id, DEFAULT_INTERVAL)
     if monitor_info is None or now - last_call_time > interval:
         monitor_info, interval = _exec_monitor_command(command)
-        monitor_info = re.sub('[\x00-\x20]', '&nbsp', monitor_info)
+        monitor_info = urllib.quote(monitor_info, safe='')
         _interval_by_camera_id[camera_id] = interval
         _monior_info_cache_by_camera_id[camera_id] = monitor_info
         _last_call_time_by_camera_id[camera_id] = now
-    
-    return monitor_info
+
+    return monitor_info 
 
 
 def _exec_monitor_command(command):

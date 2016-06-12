@@ -4123,7 +4123,8 @@ function addCameraFrameUi(cameraConfig) {
                 info += ' fps';
                 
                 if (monitorInfo) {
-                    if (monitorInfo.charAt(0) == monitorInfo.charAt(monitorInfo.length - 1)) {
+                    monitorInfo = decodeURIComponent(monitorInfo);
+                    if (monitorInfo.charAt(0) == monitorInfo.charAt(monitorInfo.length - 1) == '"') {
                         monitorInfo = monitorInfo.substring(1, monitorInfo.length - 1);
                     }
                     info += '<br>' + monitorInfo;
