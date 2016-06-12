@@ -341,6 +341,32 @@ function isAdmin() {
     return username === adminUsername;
 }
 
+var MessageQueue = {
+    queue: [],
+    executing: false,
+    push: function (op, d, f) {
+        MessageQueue.queue.push({ options: op, done: d, fail: f });
+        if (!MessageQueue.executing) MessageQueue.execute();
+    },
+
+    execute: function() {
+        MessageQueue.executing = true;
+        if (MessageQueue.queue.length > 0) {
+            item = MessageQueue.queue.pop();
+            $.ajaxDigest(item.options).done(function(data, textStatus, jqXHR) {
+                if (item.done) item.done(data, textStatus, jqXHR);
+                MessageQueue.execute();
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                if (item.fail) item.fail(jqXHR, textStatus, errorThrown);
+                MessageQueue.execute();
+            });
+        }
+        else {
+            MessageQueue.executing = false;
+        }
+    }
+}
+
 function ajax(method, url, data, callback, error, timeout, dataType) {
     var origUrl = url;
     var origData = data;
@@ -421,16 +447,14 @@ function ajax(method, url, data, callback, error, timeout, dataType) {
         options.username = window.username;
         options.password = window.password;
     }
-    //TODO implement queuing to avoid that two messages continuously invalidate the nonce they received
-    $.ajaxDigest(options).done(function(data, textStatus, jqXHR) {
-        if (callback) {
-            callback(data);
-        }
-    }).fail(function(jqXHR, textStatus, errorThrown) {
-        if (error) {
-            error(jqXHR);
-        }
-    });
+    //Serialize requests to avoid concurrent request changing nonce values
+    MessageQueue.push(options,
+        function(data, textStatus, jqXHR) {
+            if (callback) callback(data);
+        },
+        function(jqXHR, textStatus, errorThrown) {
+            if (error) error(jqXHR);
+        });
 }
 
 function ajaxBinary(path, callback) {
