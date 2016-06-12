@@ -133,7 +133,14 @@
                 .fail(function(jqXHR, textStatus, errorThrown) {
                     //Only attempt Digest authentication on a 401/407 response
                     if (jqXHR.status === 401 || jqXHR.status === 407) {
-                        doAjaxAuthorized(createAuthorizationHeader(jqXHR));
+                        var auth = createAuthorizationHeader(jqXHR)
+                        if(auth !== null) {
+                            doAjaxAuthorized(auth);
+                        }
+                        else {
+                            // no matching authentication found.
+                            dfd.reject(jqXHR, textStatus, errorThrown);
+                        }
                     }
                     else {
                         dfd.reject(jqXHR, textStatus, errorThrown);
@@ -167,12 +174,56 @@
                 });
         }
 
-        function createAuthorizationHeader(xhr) {
-            var header = xhr.getResponseHeader(DigestAjax.WWW_AUTHENTICATE);
-            if (header !== undefined && header !== null) {
-                //TODO Support multiple WWW-Authenticate headers
-                var params = parseWWWAuthenticateHeader(header);
+        function getAllMyResponseHeaders(xhr) {
+            var headersDict = {}
+            var headersString = xhr.getAllResponseHeaders();
+            var headers = headersString.split('\u000d\u000a');
+            for (var i=0;i<headers.length;i++) {
+                var items = headers[i].split(": ", 2);
+                var key = items[0];
+                if (key == "") continue;
 
+                var value = "";
+                if (items.length == 2)
+                    value = items[1];
+
+                headersDict[key] = value.split('\u000a');
+            }
+            return headersDict;
+        }
+
+        function getMyResponseHeader(xhr, key) {
+            headersDict = getAllMyResponseHeaders(xhr);
+            return headersDict[key];
+        }
+
+        function createAuthorizationHeader(xhr) {
+            var headers = getMyResponseHeader(xhr, DigestAjax.WWW_AUTHENTICATE);
+
+            if (headers === undefined) {
+                // no authentication requested
+                return null;
+            }
+
+            // pick the first supported authentication
+            var params;
+            for (var i=0;i<headers.length;i++) {
+                params = parseWWWAuthenticateHeader(headers[i]);
+
+                var qop = params.qop;
+                if (qop !== undefined && qop !== 'auth' && qop !== 'auth-int') continue;
+
+                var algorithm = params.algorithm;
+                if (algorithm !== undefined && algorithm !== 'MD5' && algorithm !== 'MD5-sess') continue;
+
+                break;
+            }
+
+            if (i === headers.length) {
+                // no authentication matched
+                return null;
+            }
+            else {
                 var qop = params.qop;
                 var clientQop = undefined;
                 if (qop !== undefined && qop.toLowerCase() === 'auth-int') {
