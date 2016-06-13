@@ -51,7 +51,6 @@ class NonceStore():
         self._lock = threading.Lock()
 
     def _cleanup_nonce(self):
-        #TODO Instead of time based timestamps, we could also implement that only a specific number of concurrent requests are allowed (ie 10)?
         # clean up nonce values older than 5 minutes
         for nonce in self._nonceDict.keys():
             info = self._nonceDict[nonce]
@@ -64,6 +63,23 @@ class NonceStore():
     def create_nonce(self):
         with self._lock:
             self._cleanup_nonce()
+
+            # Limit the number of active nonces to 10 by removing the oldest
+            # nonce when a new one is generated and we already have 10
+            dictlen = 10
+            if dictlen > 0 and len(self._nonceDict) > dictlen:
+                oldestNonce     = None
+                oldestNc        = None
+                oldestTimestamp = None
+                for nonce in self._nonceDict.keys():
+                    info = self._nonceDict[nonce]
+                    if (oldestTimestamp == None) or (info['ts'] < oldestTimestamp):
+                        oldestNonce     = info['nonce']
+                        oldestNc        = info['nc']
+                        oldestTimestamp = info['ts']
+                del self._nonceDict[oldestNonce]
+                logging.debug('Remove  nonce="%s", nonce_count="%s"' % (oldestNonce, oldestNc))
+                
 
             import uuid
             from hashlib import md5
@@ -89,6 +105,7 @@ class NonceStore():
                 if info:
                     if nc:
                         info['nc'] = info['nc'] + 1
+                        info['ts'] = info['ts'] = datetime.datetime.utcnow()
                         self._nonceDict[nonce] = info
                     else:
                         logging.debug('Remove  nonce="%s", nonce_count="%s"' % (nonce, info['nc']))
