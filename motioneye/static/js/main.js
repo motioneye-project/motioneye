@@ -548,7 +548,7 @@ function doLogout() {
     window.password='';
     window._loginDialogSubmitted = false;
 
-    ajaxLogin('POST', basePath + 'login/');
+    ajaxLogin('GET', basePath + 'login/');
     window.location.reload(true);
 }
 
@@ -2940,15 +2940,11 @@ function runLoginDialog(retry) {
                 
                 setCookie('username', window.username);
                 
-                ajaxLogin('POST', basePath + 'login/', null, function (data) {
+                ajaxLogin('GET', basePath + 'login/', null, function (data) {
                     setTimeout(function () {
                         tempFrame.remove();
                     }, 5000);
                 });
-                
-                if (retry) {
-                    retry();
-                }
             }}
         ],
     };
