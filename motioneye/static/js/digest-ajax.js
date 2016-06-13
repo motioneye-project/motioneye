@@ -187,14 +187,14 @@
                 if (items.length == 2)
                     value = items[1];
 
-                headersDict[key] = value.split('\u000a');
+                headersDict[key.toLowerCase()] = value.split('\u000a');
             }
             return headersDict;
         }
 
         function getMyResponseHeader(xhr, key) {
             headersDict = getAllMyResponseHeaders(xhr);
-            return headersDict[key];
+            return headersDict[key.toLowerCase()];
         }
 
         function createAuthorizationHeader(xhr) {
