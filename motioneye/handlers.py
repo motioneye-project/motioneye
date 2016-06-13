@@ -114,6 +114,15 @@ class NonceStore():
 
             return None
 
+    def remove_nonce(self, nonce):
+        with self._lock:
+            if nonce:
+                info = self._nonceDict.get(nonce)
+                if info:
+                    logging.debug('Remove  nonce="%s", nonce_count="%s"' % (nonce, info['nc']))
+                    del self._nonceDict[nonce]
+
+
 nonceStore = NonceStore()
 
 class BaseHandler(RequestHandler):
@@ -143,7 +152,7 @@ class BaseHandler(RequestHandler):
         # Allowed values for items are: '', 'auth', 'auth-int'
         # Order of items reflected in WWW-Authenticate header
         # MD5-sess/None and MD5-sess/auth-int not working in some/most browsers
-        return ['auth']
+        return ['']
 
     def get_stale(self):
         return self._stale
@@ -299,6 +308,10 @@ class BaseHandler(RequestHandler):
             if nonceinfo:
                 nonce_count = nonceinfo['nc']
                 servernonce = nonceinfo['nonce']
+            elif qop == '':
+                # if algorithm does not require nc, remove nonces that have already
+                # been used once to avoid replay attacks
+                nonceinfo.remove_nonce(nonce)
 
         if nonce <> servernonce:
             logging.warn('Received nonce "%s", expected "%s"' % (nonce, servernonce))
@@ -324,7 +337,7 @@ class BaseHandler(RequestHandler):
         auth_mode, auth_params = self.parse_auth(auth)
         logging.debug('WWW-Authenticate (request): %s "%s' % (auth_mode, auth_params))
 
-        # Check if Authorization header is contains all needed information
+        # Check if Authorization header contains all needed information
         if not self.check_auth(auth_mode, auth_params):
             self._stale = False
             return None
