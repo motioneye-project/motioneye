@@ -45,7 +45,6 @@ import uploadservices
 import utils
 import v4l2ctl
 
-#TODO Implement "stale" in WWW-Authorize response
 class NonceStore():
     def __init__(self):
         self._nonceDict = {}
@@ -104,11 +103,11 @@ class BaseHandler(RequestHandler):
     #TODO recheck what is supported by digest-ajax, Safari and curl
     # Digest authentication tested for the following algorithm/qop combinations
     #
-    # included digest-ajax.js (Safari)
+    # included digest-ajax.js (Firefox)
     # Working: MD5/None. MD5/auth. MD5/auth-int, MD5-sess/None, MD5-sess/auth, MD5-sess/auth-int
     # Failed : -
     #
-    # Safari
+    # Firefox
     # Working: 
     # Failed : MD5-sess/None, MD5-sess/auth-int
     #
@@ -117,7 +116,7 @@ class BaseHandler(RequestHandler):
     # Failed : MD5-sess/None (Bug: https://github.com/curl/curl/issues/872)
 
     def initialize(self):
-        logging.info('ConfigHandler.initialize()')
+        self._stale = False
 
     def get_realm(self):
         import motioneye
@@ -128,6 +127,9 @@ class BaseHandler(RequestHandler):
         # Order of items reflected in WWW-Authenticate header
         # MD5-sess/None and MD5-sess/auth-int not working in some/most browsers
         return ['auth']
+
+    def get_stale(self):
+        return self._stale
 
     def get_algorithms(self):
         # Allowed values for items are: 'MD5', 'MD5-sess'
@@ -206,7 +208,7 @@ class BaseHandler(RequestHandler):
             params_dict[k] = v
         return mode, params_dict
 
-    def verify_auth(self, auth_mode, auth_params):
+    def check_auth(self, auth_mode, auth_params):
         ret = True
         if auth_mode <> "Digest":
             logging.warn('Received mode "%s", expected "Digest"' % (auth_mode))
@@ -246,41 +248,49 @@ class BaseHandler(RequestHandler):
             ret = False
 
         nonce = auth_params.get('nonce', None)
+        if nonce == None:
+            logging.warn('Missing nonce')
+            ret = False
+
         nc = auth_params.get('nc', None)
+        if qop == 'auth' or qop == 'auth-int':
+            if nc == None:
+                logging.warn('Missing nc for qop "%s"' % qop)
+                ret = False
+
+        cnonce = auth_params.get('cnonce', None)
+        if cnonce == None and (algorithm == 'MD5-sess' or (qop == 'auth' or qop == 'auth-int')):
+            logging.warn('Missing cnonce for algorithm "%s" and qop "%s"' % (algorithm, qop))
+            ret = False
+
+        return ret
+
+    def verify_auth(self, auth_mode, auth_params):
+        ret = True
 
         nonceinfo = None
         nonce_count = 0
         servernonce = ""
+
+        nonce = auth_params.get('nonce', None)
+        nc = auth_params.get('nc', None)
+        qop = auth_params.get('qop', '')
+        algorithm = auth_params.get('algorithm', None)
+
         if nonce:
             nonceinfo = nonceStore.get_nonce(nonce, nc)
             if nonceinfo:
                 nonce_count = nonceinfo['nc']
                 servernonce = nonceinfo['nonce']
 
-        if nonce == None:
-            logging.warn('Missing nonce')
-            ret = False
-        elif nonce <> servernonce:
+        if nonce <> servernonce:
             logging.warn('Received nonce "%s", expected "%s"' % (nonce, servernonce))
             ret = False
 
         if qop == 'auth' or qop == 'auth-int':
-            if nc == None:
-                logging.warn('Missing nc for qop "%s"' % qop)
-                ret = False
-            elif int(nc, 16) <> nonce_count:
+            if int(nc, 16) <> nonce_count:
                 logging.warn('Received nc "%s", expected "%08x"' % (nc, nonce_count))
                 ret = False
-
-        cnonce = auth_params.get('cnonce', None)
-        if cnonce == None and (algorithm == 'MD5-sess' or (qop == 'auth' or qop == 'auth-int')):
-            logging.warn('Missing cnonce for algorithm "%s" and qop "%s"' % (algorithm, qop))
-            ret = False
-
-        cnonce = auth_params.get('cnonce', None)
-        if cnonce == None and (algorithm == 'MD5-sess' or (qop == 'auth' or qop == 'auth-int')):
-            logging.warn('Missing cnonce for algorithm "%s" and qop "%s"' % (algorithm, qop))
-            ret = False
 
         return ret
 
@@ -295,12 +305,16 @@ class BaseHandler(RequestHandler):
 
         logging.debug('Auth: %s' % auth)
         auth_mode, auth_params = self.parse_auth(auth)
+        logging.debug('WWW-Authenticate (request): %s "%s' % (auth_mode, auth_params))
 
-        # Check if provided Authorization is valid
-        if not self.verify_auth(auth_mode, auth_params):
+        # Check if Authorization header is contains all needed information
+        if not self.check_auth(auth_mode, auth_params):
+            self._stale = False
             return None
 
-        logging.debug('Authorization: "%s" "%s' % (auth_mode, auth_params))
+        # Check if nonce, cnonce and nc are valid
+        self._stale = not self.verify_auth(auth_mode, auth_params)
+
         uri       = auth_params.get('uri', None)
         username  = auth_params.get('username', None)
         realm     = auth_params.get('realm', None)
@@ -321,8 +335,12 @@ class BaseHandler(RequestHandler):
         login = self.get_argument('_login', None) == 'true'
         if (username == main_config.get('@admin_username') and 
             response == utils.compute_digest(self.request.method, uri, body, username, realm, main_config.get('@admin_password'), nonce, cnonce, nc, qop, algorithm)):
-            logging.debug('Authenticated as admin')
-            return 'admin'
+            if self._stale:
+                logging.debug('Authenticated as admin (stale)')
+                return None
+            else:
+                logging.debug('Authenticated as admin')
+                return 'admin'
         
         elif not username and not main_config.get('@normal_password'): # no authentication required for normal user
             logging.debug('Authenticated as normal (no password)')
@@ -330,12 +348,17 @@ class BaseHandler(RequestHandler):
         
         elif (username == main_config.get('@normal_username') and
             response == utils.compute_digest(self.request.method, uri, body, username, realm, main_config.get('@normal_password'), nonce, cnonce, nc, qop, algorithm)):
-            logging.debug('Authenticated as normal')
-            return 'normal'
+            if self._stale:
+                logging.debug('Authenticated as normal (stale)')
+                return None
+            else:
+                logging.debug('Authenticated as normal')
+                return 'normal'
 
         elif username and username != '_' and login:
             logging.error('authentication failed for user %(user)s' % {'user': username})
 
+        self._stale = False
         logging.debug('Not authenticated')
         return None
     
@@ -374,7 +397,8 @@ class BaseHandler(RequestHandler):
                     for algorithm in self.get_algorithms():
                         for qop in self.get_qops():
                             # The timestamp argument with key='_' indicates a call through ajax. Send custom algorithm (MyDigest) back to avoid browser pop-up.
-                            if timestamp:
+                            # Firefox attaches the browser credentials when using ajax. To clear current cache send back Digest with stale instead of MyDigest with stale.
+                            if timestamp and not self.get_stale():
                                 mode = 'MyDigest'
                             else:
                                 mode = 'Digest'
@@ -384,6 +408,11 @@ class BaseHandler(RequestHandler):
                                 challenge = '%s, qop="%s"' % (challenge, qop)
                             challenge = '%s, algorithm="%s"' % (challenge, algorithm)
 
+                            # Indicates that this request was valid in regards to the response property. However supplied nonce and nc value where invalid.
+                            if self.get_stale():
+                                challenge = '%s, stale=true' % challenge
+
+                            logging.debug('WWW-Authenticate (response): %s', challenge)
                             self.add_header('WWW-Authenticate', challenge)
 
                     self.set_header('Content-Type', 'application/json')
