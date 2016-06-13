@@ -20,7 +20,8 @@ import json
 import logging
 import re
 
-from tornado.httpclient import AsyncHTTPClient, HTTPRequest
+from tornado.httpclient import HTTPRequest
+from tornado.curl_httpclient import CurlAsyncHTTPClient
 
 import settings
 import utils
@@ -37,8 +38,6 @@ def _make_request(scheme, host, port, username, password, path, method='GET', da
             'path': path or ''}
     
     query = dict(query or {})
-    query['_username'] = username or ''
-    query['_admin'] = 'true' # always use the admin account
     
     if url.count('?'):
         url += '&'
@@ -47,7 +46,6 @@ def _make_request(scheme, host, port, username, password, path, method='GET', da
         url += '?'
     
     url += '&'.join([(n + '=' + v) for (n, v) in query.iteritems()])
-    url += '&_signature=' + utils.compute_signature(method, url, data, password)
 
     if timeout is None:
         timeout = settings.REMOTE_REQUEST_TIMEOUT
@@ -56,7 +54,7 @@ def _make_request(scheme, host, port, username, password, path, method='GET', da
     if content_type:
         headers['Content-Type'] = content_type
 
-    return HTTPRequest(url, method, body=data, connect_timeout=timeout, request_timeout=timeout, headers=headers)
+    return HTTPRequest(url, method, body=data, connect_timeout=timeout, request_timeout=timeout, headers=headers, auth_username=username, auth_password=password, auth_mode='digest')
 
 
 def _callback_wrapper(callback):
@@ -164,7 +162,7 @@ def list(local_config, callback):
         
         callback(cameras)
     
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
     
 
@@ -202,7 +200,7 @@ def get_config(local_config, callback):
             
         callback(response)
     
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
     
 
@@ -236,7 +234,7 @@ def set_config(local_config, ui_config, callback):
     
         callback()
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -264,7 +262,7 @@ def set_preview(local_config, controls, callback):
         
         callback()
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -294,7 +292,7 @@ def test(local_config, data, callback):
         
         callback()
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -334,7 +332,7 @@ def get_current_picture(local_config, width, height, callback):
 
         callback(motion_detected, capture_fps, monitor_info, response.body)
     
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -376,7 +374,7 @@ def list_media(local_config, media_type, prefix, callback):
         
         return callback(response)
     
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -409,7 +407,7 @@ def get_media_content(local_config, filename, media_type, callback):
         
         return callback(response.body)
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -452,7 +450,7 @@ def make_zipped_content(local_config, media_type, group, callback):
 
         callback({'key': key})
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -486,7 +484,7 @@ def get_zipped_content(local_config, media_type, key, group, callback):
             'content_disposition': response.headers.get('Content-Disposition')
         })
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -533,7 +531,7 @@ def make_timelapse_movie(local_config, framerate, interval, group, callback):
         
         callback(response)
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -570,7 +568,7 @@ def check_timelapse_movie(local_config, group, callback):
         
         callback(response)
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -603,7 +601,7 @@ def get_timelapse_movie(local_config, key, group, callback):
             'content_disposition': response.headers.get('Content-Disposition')
         })
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -643,7 +641,7 @@ def get_media_preview(local_config, filename, media_type, width, height, callbac
         
         callback(response.body)
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -676,7 +674,7 @@ def del_media_content(local_config, filename, media_type, callback):
         
         callback()
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -709,7 +707,7 @@ def del_media_group(local_config, group, media_type, callback):
         
         callback()
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
@@ -741,5 +739,5 @@ def exec_action(local_config, action, callback):
         
         callback()
 
-    http_client = AsyncHTTPClient()
+    http_client = CurlAsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))
