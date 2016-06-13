@@ -583,31 +583,6 @@ def test_rtsp_url(data, callback):
     stream = connect()
 
 
-def compute_digest(method, path, body, username, realm, password, nonce, cnonce, nc, qop, algorithm):
-    from hashlib import md5
-
-    ha1 = md5('%s:%s:%s' % (username, realm, password)).hexdigest()
-    if algorithm == 'MD5-sess':
-        logging.debug('ha1=%s (algorithm=MD5)' % (ha1))
-        ha1 = md5('%s:%s:%s' % (ha1, nonce, cnonce)).hexdigest()
-    logging.debug('ha1=%s (algorithm=%s)' % (ha1, algorithm))
-
-    if qop == 'auth-int':
-        hbody = md5(body).hexdigest()
-        logging.debug('hbody=%s (qop=%s)' % (hbody,qop))
-        ha2 = md5('%s:%s:%s' % (method, path, hbody)).hexdigest()
-    else: # auth or not specified
-        ha2 = md5('%s:%s' % (method, path)).hexdigest()
-    logging.debug('ha2=%s (qop=%s)' % (ha2, qop))
-
-    if qop == 'auth' or qop == 'auth-int':
-        res = md5('%s:%s:%s:%s:%s:%s' % (ha1, nonce, nc, cnonce, qop, ha2)).hexdigest()
-    else: # not specified
-        res = md5('%s:%s:%s' % (ha1, nonce, ha2)).hexdigest()
-    logging.debug('res=%s (qop=%s)' % (res,qop))
-
-    return res
-
 def parse_cookies(cookies_headers):
     parsed = {}
     
@@ -629,29 +604,21 @@ def build_basic_header(username, password):
     return 'Basic ' + base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
 
 
-def build_digest_header(method, url, username, password, state):
-    realm = state['realm']
-    nonce = state['nonce']
-    last_nonce = state.get('last_nonce', '')
-    nonce_count = state.get('nonce_count', 0)
-    qop = state.get('qop')
-    algorithm = state.get('algorithm')
-    opaque = state.get('opaque')
-
+def compute_digest(method, path, body, username, realm, password, nonce, cnonce, ncvalue, qop, algorithm):
     if algorithm is None:
-        _algorithm = 'MD5'
+        algorithm = 'MD5'
 
     else:
-        _algorithm = algorithm.upper()
+        algorithm = algorithm.upper()
 
-    if _algorithm == 'MD5' or _algorithm == 'MD5-SESS':
+    if algorithm == 'MD5' or algorithm == 'MD5-SESS':
         def md5_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
             return hashlib.md5(x).hexdigest()
         hash_utf8 = md5_utf8
 
-    elif _algorithm == 'SHA':
+    elif algorithm == 'SHA':
         def sha_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
@@ -663,17 +630,50 @@ def build_digest_header(method, url, username, password, state):
     if hash_utf8 is None:
         return None
 
+    A1 = '%s:%s:%s' % (username, realm, password)
+
+    HA1 = hash_utf8(A1)
+    if qop == 'auth-int':
+        HBODY = hash_utf8(body)
+        A2 = '%s:%s:%s' % (method, path, body)
+        HA2 = hash_utf8(A2)
+    elif qop == 'auth' or qop == None:
+        A2 = '%s:%s' % (method, path)
+        HA2 = hash_utf8(A2)
+    else:
+        return None
+
+    if algorithm == 'MD5-SESS':
+        HA1 = hash_utf8('%s:%s:%s' % (HA1, nonce, cnonce))
+
+    if qop is None:
+        respdig = KD(HA1, "%s:%s" % (nonce, HA2))
+    
+    elif qop == 'auth' or qop == 'auth-int':
+        noncebit = "%s:%s:%s:%s:%s" % (
+            nonce, ncvalue, cnonce, qop, HA2
+            )
+        respdig = KD(HA1, noncebit)
+    
+    else:
+        return None
+
+    return respdig
+
+def build_digest_header(method, url, username, password, state):
+    realm = state['realm']
+    nonce = state['nonce']
+    last_nonce = state.get('last_nonce', '')
+    nonce_count = state.get('nonce_count', 0)
+    qop = state.get('qop')
+    algorithm = state.get('algorithm')
+    opaque = state.get('opaque')
+
     entdig = None
     p_parsed = urlparse.urlparse(url)
     path = p_parsed.path
     if p_parsed.query:
         path += '?' + p_parsed.query
-
-    A1 = '%s:%s:%s' % (username, realm, password)
-    A2 = '%s:%s' % (method, path)
-
-    HA1 = hash_utf8(A1)
-    HA2 = hash_utf8(A2)
 
     if nonce == last_nonce:
         nonce_count += 1
@@ -688,19 +688,16 @@ def build_digest_header(method, url, username, password, state):
     s += os.urandom(8)
 
     cnonce = (hashlib.sha1(s).hexdigest()[:16])
-    if _algorithm == 'MD5-SESS':
-        HA1 = hash_utf8('%s:%s:%s' % (HA1, nonce, cnonce))
 
-    if qop is None:
-        respdig = KD(HA1, "%s:%s" % (nonce, HA2))
-    
-    elif qop == 'auth' or 'auth' in qop.split(','):
-        noncebit = "%s:%s:%s:%s:%s" % (
-            nonce, ncvalue, cnonce, 'auth', HA2
-            )
-        respdig = KD(HA1, noncebit)
-    
+    if qop == None or qop == 'auth': 
+        _qop = qop
+    elif 'auth' in qop.split(','):
+        _qop = 'auth'
     else:
+        return None
+
+    respdig = compute_digest(method, path, '', username, realm, password, nonce, cnonce, ncvalue, qop, algorithm)
+    if respdig == None:
         return None
 
     last_nonce = nonce

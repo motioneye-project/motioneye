@@ -153,7 +153,7 @@ class BaseHandler(RequestHandler):
         return 'motionEye/%s' % motioneye.VERSION
 
     def get_qops(self):
-        # Allowed values for items are: '', 'auth', 'auth-int'
+        # Allowed values for items are: None, 'auth', 'auth-int'
         # Order of items reflected in WWW-Authenticate header
         # MD5-sess/None not working in Firefox and Safari,
         # */auth-int not working in Firefox which picks auth-int if received first but sends a qop='' and no cnonce
@@ -163,7 +163,7 @@ class BaseHandler(RequestHandler):
         return self._stale
 
     def get_algorithms(self):
-        # Allowed values for items are: 'MD5', 'MD5-sess'
+        # Allowed values for items are: 'MD5', 'MD5-sess', 'SHA' (untested)
         # Order of items reflected in WWW-Authenticate header
         return ['MD5-sess', 'MD5']
 
@@ -268,9 +268,11 @@ class BaseHandler(RequestHandler):
             logging.warn('Received realm "%s", expected "%s"' % (realm, self.get_realm()))
             ret = False
 
-        qop = auth_params.get('qop', '')
+        qop = auth_params.get('qop', None)
         if qop not in self.get_qops():
-            logging.warn('Received qop "%s", expected "%s"' % (qop, ','.join(self.get_qops())))
+            _qop = qop if qop <> None else ''
+            _qops = map(lambda x: '' if x == None else x, self.get_qops())
+            logging.warn('Received qop "%s", expected "%s"' % (_qop, _qops))
             ret = False
 
         algorithm = auth_params.get('algorithm', None)
@@ -305,7 +307,7 @@ class BaseHandler(RequestHandler):
 
         nonce = auth_params.get('nonce', None)
         nc = auth_params.get('nc', None)
-        qop = auth_params.get('qop', '')
+        qop = auth_params.get('qop', None)
         algorithm = auth_params.get('algorithm', None)
 
         if nonce:
@@ -313,7 +315,7 @@ class BaseHandler(RequestHandler):
             if nonceinfo:
                 nonce_count = nonceinfo['nc']
                 servernonce = nonceinfo['nonce']
-                if qop == '':
+                if qop == None:
                     # if algorithm does not require nc, remove nonces that have already
                     # been used once to avoid replay attacks
                     nonceStore.remove_nonce(nonce)
@@ -356,7 +358,7 @@ class BaseHandler(RequestHandler):
         nonce     = auth_params.get('nonce', None)
         cnonce    = auth_params.get('cnonce', None)
         nc        = auth_params.get('nc', None)
-        qop       = auth_params.get('qop', '')
+        qop       = auth_params.get('qop', None)
         algorithm = auth_params.get('algorithm', None)
         response  = auth_params.get('response', None)
 
@@ -439,7 +441,7 @@ class BaseHandler(RequestHandler):
                                 mode = 'Digest'
 
                             challenge = '%s realm="%s", nonce="%s"' % (mode, self.get_realm(), nonceinfo['nonce'])
-                            if qop <> '':
+                            if qop <> None:
                                 challenge = '%s, qop="%s"' % (challenge, qop)
                             challenge = '%s, algorithm="%s"' % (challenge, algorithm)
 
