@@ -126,19 +126,23 @@ class NonceStore():
 nonceStore = NonceStore()
 
 class BaseHandler(RequestHandler):
-    #TODO recheck what is supported by digest-ajax, Safari and curl
     # Digest authentication tested for the following algorithm/qop combinations
     #
-    # included digest-ajax.js (Firefox)
-    # Working: MD5/None. MD5/auth. MD5/auth-int, MD5-sess/None, MD5-sess/auth, MD5-sess/auth-int
-    # Failed : -
+    # included digest-ajax.js (Firefox and Safari)
+    # Working: MD5/None, MD5/auth, MD5/auth-int, MD5-sess/None, MD5-sess/None, MD5-sess/auth, MD5-sess/auth-int
+    # Failed : 
     #
     # Firefox
-    # Working: 
-    # Failed : MD5-sess/None, MD5-sess/auth-int
+    # Working: MD5/None, MD5/auth, MD5-sess/auth
+    # Failed : MD5-sess/None (Bug: cnonce missing), MD5/auth-int (Bug: uses qop='', cnonce missing), MD5-sess/auth-int (Bug: uses qop='', cnonce missing)
+    #
+    # Safari
+    # Working: MD5/None, MD5/auth, MD5-sess/auth
+    # Failed : MD5-sess/None (Bug: cnonce missing)
+    # Ignored: MD5/auth-int, MD5-sess/auth-int
     #
     # curl
-    # Working: MD5/None, MD5-sess/auth. MD5/auth, MD5/auth-int, MD5-sess/auth-int
+    # Working: MD5/None, MD5/auth, MD5/auth-int (payload ignored), MD5-sess/auth, MD5-sess/auth-int
     # Failed : MD5-sess/None (Bug: https://github.com/curl/curl/issues/872)
 
     def initialize(self):
@@ -151,8 +155,9 @@ class BaseHandler(RequestHandler):
     def get_qops(self):
         # Allowed values for items are: '', 'auth', 'auth-int'
         # Order of items reflected in WWW-Authenticate header
-        # MD5-sess/None and MD5-sess/auth-int not working in some/most browsers
-        return ['']
+        # MD5-sess/None not working in Firefox and Safari,
+        # */auth-int not working in Firefox which picks auth-int if received first but sends a qop='' and no cnonce
+        return ['auth', 'auth-int']
 
     def get_stale(self):
         return self._stale
@@ -160,7 +165,7 @@ class BaseHandler(RequestHandler):
     def get_algorithms(self):
         # Allowed values for items are: 'MD5', 'MD5-sess'
         # Order of items reflected in WWW-Authenticate header
-        return ['MD5-sess']
+        return ['MD5-sess', 'MD5']
 
     def get_all_arguments(self):
         keys = self.request.arguments.keys()
@@ -308,10 +313,10 @@ class BaseHandler(RequestHandler):
             if nonceinfo:
                 nonce_count = nonceinfo['nc']
                 servernonce = nonceinfo['nonce']
-            elif qop == '':
-                # if algorithm does not require nc, remove nonces that have already
-                # been used once to avoid replay attacks
-                nonceinfo.remove_nonce(nonce)
+                if qop == '':
+                    # if algorithm does not require nc, remove nonces that have already
+                    # been used once to avoid replay attacks
+                    nonceStore.remove_nonce(nonce)
 
         if nonce <> servernonce:
             logging.warn('Received nonce "%s", expected "%s"' % (nonce, servernonce))
