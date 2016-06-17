@@ -606,19 +606,19 @@ def build_basic_header(username, password):
 
 def compute_digest(method, path, body, username, realm, password, nonce, cnonce, ncvalue, qop, algorithm):
     if algorithm is None:
-        algorithm = 'MD5'
+        _algorithm = 'MD5'
 
     else:
-        algorithm = algorithm.upper()
+        _algorithm = algorithm.upper()
 
-    if algorithm == 'MD5' or algorithm == 'MD5-SESS':
+    if _algorithm == 'MD5' or _algorithm == 'MD5-SESS':
         def md5_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
             return hashlib.md5(x).hexdigest()
         hash_utf8 = md5_utf8
 
-    elif algorithm == 'SHA':
+    elif _algorithm == 'SHA':
         def sha_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
@@ -631,8 +631,10 @@ def compute_digest(method, path, body, username, realm, password, nonce, cnonce,
         return None
 
     A1 = '%s:%s:%s' % (username, realm, password)
-
     HA1 = hash_utf8(A1)
+    if _algorithm == 'MD5-SESS':
+        HA1 = hash_utf8('%s:%s:%s' % (HA1, nonce, cnonce))
+
     if qop == 'auth-int':
         HBODY = hash_utf8(body)
         A2 = '%s:%s:%s' % (method, path, body)
@@ -643,18 +645,15 @@ def compute_digest(method, path, body, username, realm, password, nonce, cnonce,
     else:
         return None
 
-    if algorithm == 'MD5-SESS':
-        HA1 = hash_utf8('%s:%s:%s' % (HA1, nonce, cnonce))
-
     if qop is None:
         respdig = KD(HA1, "%s:%s" % (nonce, HA2))
-    
+
     elif qop == 'auth' or qop == 'auth-int':
         noncebit = "%s:%s:%s:%s:%s" % (
             nonce, ncvalue, cnonce, qop, HA2
             )
         respdig = KD(HA1, noncebit)
-    
+
     else:
         return None
 
