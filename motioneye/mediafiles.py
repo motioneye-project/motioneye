@@ -177,7 +177,7 @@ def cleanup_media(media_type):
         
         preserve_media = camera_config.get('@preserve_%(media_type)ss' % {'media_type': media_type}, 0)
         if preserve_media == 0:
-            return # preserve forever
+            continue # preserve forever
         
         still_images_enabled = bool(
                 ((camera_config['emulate_motion'] or camera_config['output_pictures']) and camera_config['picture_filename']) or
