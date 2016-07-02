@@ -2534,6 +2534,44 @@ function doTestEmail() {
     });
 }
 
+function doTestNetworkShare() {
+    var q = $('#networkServerEntry, #networkShareNameEntry, #rootDirectoryEntry');
+    var valid = true;
+    q.each(function() {
+        this.validate();
+        if (this.invalid) {
+            valid = false;
+        }
+    });
+    
+    if (!valid) {
+        return runAlertDialog('Make sure all the configuration options are valid!');
+    }
+    
+    showModalDialog('<div class="modal-progress"></div>', null, null, true);
+    
+    var data = {
+        what: 'network_share',
+        server: $('#networkServerEntry').val(),
+        share: $('#networkShareNameEntry').val(),
+        username: $('#networkUsernameEntry').val(),
+        password: $('#networkPasswordEntry').val(),
+        root_directory: $('#rootDirectoryEntry').val()
+    };
+    
+    var cameraId = $('#cameraSelect').val();
+
+    ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
+        hideModalDialog(); /* progress */
+        if (data.error) {
+            showErrorMessage('Accessing network share failed: ' + data.error + '!');
+        }
+        else {
+            showPopupMessage('Accessing network share succeeded!', 'info');
+        }
+    });
+}
+
 function doDownloadZipped(cameraId, groupKey) {
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
     ajax('GET', basePath + 'picture/' + cameraId + '/zipped/' + groupKey + '/', null, function (data) {
@@ -4511,6 +4549,7 @@ $(document).ready(function () {
     /* test buttons */
     $('div#uploadTestButton').click(doTestUpload);
     $('div#emailTestButton').click(doTestEmail);
+    $('div#networkShareTestButton').click(doTestNetworkShare);
     
     initUI();
     beginProgress();

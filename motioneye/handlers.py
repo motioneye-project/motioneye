@@ -749,18 +749,16 @@ class ConfigHandler(BaseHandler):
             
         else:
             self.finish_json({'ok': False})
-    
+
     @BaseHandler.auth(admin=True)
     def test(self, camera_id):
         what = self.get_argument('what')
         data = self.get_all_arguments()
         camera_config = config.get_camera(camera_id)
-        if what == 'upload_service':
-            service_name = data.get('service')
-            if not service_name:
-                raise HTTPError(400, 'service_name required')
-
-            if utils.local_motion_camera(camera_config): 
+        
+        if utils.local_motion_camera(camera_config):
+            if what == 'upload_service':
+                service_name = data['service']
                 service = uploadservices.get(camera_id, service_name)
                 service.load(data)
                 if not service:
@@ -775,24 +773,12 @@ class ConfigHandler(BaseHandler):
                 else:
                     logging.warn('accessing %s failed: %s' % (service, result))
                     self.finish_json({'error': result})
-
-            elif utils.remote_camera(camera_config):
-                def on_response(result=None, error=None):
-                    if result is True:
-                        self.finish_json()
-                        
-                    else:
-                        result = result or error
-                        self.finish_json({'error': result})
-
-                remote.test(camera_config, data, on_response)
-
-        elif what == 'email':
-            import sendmail
-            import tzctl
-            import smtplib
-            
-            if utils.local_motion_camera(camera_config):
+    
+            elif what == 'email':
+                import sendmail
+                import tzctl
+                import smtplib
+                
                 logging.debug('testing notification email')
     
                 try:
@@ -819,7 +805,9 @@ class ConfigHandler(BaseHandler):
                     settings.SMTP_TIMEOUT = old_timeout
 
                     self.finish_json()
-                
+                    
+                    logging.debug('notification email test succeeded')
+
                 except Exception as e:
                     if isinstance(e, smtplib.SMTPResponseException):
                         msg = e.smtp_error
@@ -842,20 +830,35 @@ class ConfigHandler(BaseHandler):
 
                     logging.error('notification email test failed: %s' % msg, exc_info=True)
                     self.finish_json({'error': str(msg)})
-            
-            elif utils.remote_camera(camera_config):
-                def on_response(result=None, error=None):
-                    if result is True:
-                        self.finish_json()
-                        
-                    else:
-                        result = result or error
-                        self.finish_json({'error': result})
 
-                remote.test(camera_config, data, on_response)
+            elif what == 'network_share':
+                logging.debug('testing access to network share //%s/%s' % (data['server'], data['share']))
 
+                try:
+                    smbctl.test_share(data['server'], data['share'], data['username'], data['password'], data['root_directory'])
+                    logging.debug('access to network share //%s/%s succeeded' % (data['server'], data['share']))
+                    self.finish_json()
+
+                except Exception as e:
+                    logging.error('access to network share //%s/%s failed: %s' % (data['server'], data['share'], e))
+                    self.finish_json({'error': str(e)})
+
+            else:
+                raise HTTPError(400, 'unknown test %s' % what)
+
+        elif utils.remote_camera(camera_config):
+            def on_response(result=None, error=None):
+                if result is True:
+                    self.finish_json()
+                    
+                else:
+                    result = result or error
+                    self.finish_json({'error': result})
+    
+            remote.test(camera_config, data, on_response)
+        
         else:
-            raise HTTPError(400, 'unknown test %s' % what)
+            raise HTTPError(400, 'cannot test features on this type of camera')
 
     @BaseHandler.auth(admin=True)
     def authorize(self, camera_id):
