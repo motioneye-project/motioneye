@@ -775,6 +775,73 @@ class ConfigHandler(BaseHandler):
                 else:
                     logging.warn('accessing %s failed: %s' % (service, result))
                     self.finish_json({'error': result})
+
+            elif utils.remote_camera(camera_config):
+                def on_response(result=None, error=None):
+                    if result is True:
+                        self.finish_json()
+                        
+                    else:
+                        result = result or error
+                        self.finish_json({'error': result})
+
+                remote.test(camera_config, data, on_response)
+
+        elif what == 'email':
+            import sendmail
+            import tzctl
+            import smtplib
+            
+            if utils.local_motion_camera(camera_config):
+                logging.debug('testing notification email')
+    
+                try:
+                    subject = sendmail.subjects['motion_start']
+                    message = sendmail.messages['motion_start']
+                    format_dict = {
+                        'camera': camera_config['@name'],
+                        'hostname': socket.gethostname(),
+                        'moment': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    }
+                    if settings.LOCAL_TIME_FILE:
+                        format_dict['timezone'] = tzctl.get_time_zone()
+            
+                    else:
+                        format_dict['timezone'] = 'local time'
+
+                    message = message % format_dict
+                    subject = subject % format_dict
+    
+                    old_timeout = settings.SMTP_TIMEOUT
+                    settings.SMTP_TIMEOUT = 10
+                    sendmail.send_mail(data['smtp_server'], int(data['smtp_port']), data['smtp_account'], data['smtp_password'], data['smtp_tls'],
+                            data['from'], [data['addresses']], subject=subject, message=message, files=[])
+                    settings.SMTP_TIMEOUT = old_timeout
+
+                    self.finish_json()
+                
+                except Exception as e:
+                    if isinstance(e, smtplib.SMTPResponseException):
+                        msg = e.smtp_error
+
+                    else:
+                        msg = str(e)
+                    
+                    msg_lower = msg.lower()
+                    if msg_lower.count('tls'):
+                        msg = 'TLS might be required'
+                    
+                    elif msg_lower.count('authentication'):
+                        msg = 'authentication error'
+                    
+                    elif msg_lower.count('name or service not known'):
+                        msg = 'check SMTP server name'
+
+                    elif msg_lower.count('connection refused'):
+                        msg = 'check SMTP port'
+
+                    logging.error('notification email test failed: %s' % msg, exc_info=True)
+                    self.finish_json({'error': str(msg)})
             
             elif utils.remote_camera(camera_config):
                 def on_response(result=None, error=None):

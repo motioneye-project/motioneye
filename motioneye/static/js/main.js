@@ -2494,6 +2494,46 @@ function doTestUpload() {
     });
 }
 
+function doTestEmail() {
+    var q = $('#emailAddressesEntry, #smtpServerEntry, #smtpPortEntry');
+    var valid = true;
+    q.each(function() {
+        this.validate();
+        if (this.invalid) {
+            valid = false;
+        }
+    });
+    
+    if (!valid) {
+        return runAlertDialog('Make sure all the configuration options are valid!');
+    }
+    
+    showModalDialog('<div class="modal-progress"></div>', null, null, true);
+    
+    var data = {
+        what: 'email',
+        from: $('#emailFromEntry').val(),
+        addresses: $('#emailAddressesEntry').val(),
+        smtp_server: $('#smtpServerEntry').val(),
+        smtp_port: $('#smtpPortEntry').val(),
+        smtp_account: $('#smtpAccountEntry').val(),
+        smtp_password: $('#smtpPasswordEntry').val(),
+        smtp_tls: $('#smtpTlsSwitch')[0].checked
+    };
+    
+    var cameraId = $('#cameraSelect').val();
+
+    ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
+        hideModalDialog(); /* progress */
+        if (data.error) {
+            showErrorMessage('Notification email failed: ' + data.error + '!');
+        }
+        else {
+            showPopupMessage('Notification email succeeded!', 'info');
+        }
+    });
+}
+
 function doDownloadZipped(cameraId, groupKey) {
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
     ajax('GET', basePath + 'picture/' + cameraId + '/zipped/' + groupKey + '/', null, function (data) {
@@ -4470,6 +4510,7 @@ $(document).ready(function () {
     
     /* test buttons */
     $('div#uploadTestButton').click(doTestUpload);
+    $('div#emailTestButton').click(doTestEmail);
     
     initUI();
     beginProgress();
