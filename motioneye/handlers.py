@@ -175,13 +175,15 @@ class BaseHandler(RequestHandler):
     def post(self, *args, **kwargs):
         raise HTTPError(400, 'method not allowed')
 
+    def head(self, *args, **kwargs):
+        self.finish()
+
 
 class NotFoundHandler(BaseHandler):
-    def get(self):
+    def get(self, *args, **kwargs):
         raise HTTPError(404, 'not found')
 
-    def post(self):
-        raise HTTPError(404, 'not found')
+    post = head = get
 
 
 class MainHandler(BaseHandler):
@@ -206,9 +208,6 @@ class MainHandler(BaseHandler):
                 old_motion=config.is_old_motion(),
                 has_motion=bool(motionctl.find_motion()))
     
-    def head(self):
-        self.finish()
-
 
 class ConfigHandler(BaseHandler):
     @asynchronous
