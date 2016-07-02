@@ -107,17 +107,19 @@ class UploadService(object):
         
         _save(services)
 
-    def log(self, level, *args, **kwargs):
-        logging.log(level, *args, **kwargs)
+    def log(self, level, message, **kwargs):
+        message = self.NAME + ': ' + message
+        
+        logging.log(level, message, **kwargs)
 
-    def debug(self, *args, **kwargs):
-        self.log(logging.DEBUG, *args, **kwargs)
+    def debug(self, message, **kwargs):
+        self.log(logging.DEBUG, message, **kwargs)
 
-    def info(self, *args, **kwargs):
-        self.log(logging.INFO, *args, **kwargs)
+    def info(self, message, **kwargs):
+        self.log(logging.INFO, message, **kwargs)
 
-    def error(self, *args, **kwargs):
-        self.log(logging.ERROR, *args, **kwargs)
+    def error(self, message, **kwargs):
+        self.log(logging.ERROR, message, **kwargs)
         
     @staticmethod
     def get_service_classes():
@@ -135,8 +137,9 @@ class GoogleDrive(UploadService):
     
     SCOPE = 'https://www.googleapis.com/auth/drive'
     CHILDREN_URL = 'https://www.googleapis.com/drive/v2/files/%(parent_id)s/children?q=%(query)s'
-    CHILDREN_QUERY = "'%(parent_id)s' in parents and title = '%(child_name)s'"
+    CHILDREN_QUERY = "'%(parent_id)s' in parents and title = '%(child_name)s' and trashed = false"
     UPLOAD_URL = 'https://www.googleapis.com/upload/drive/v2/files?uploadType=multipart'
+    CREATE_FOLDER_URL = 'https://www.googleapis.com/drive/v2/files'
 
     BOUNDARY = 'motioneye_multipart_boundary'
     MAX_FILE_SIZE = 128 * 1024 * 1024 # 128 MB
@@ -147,8 +150,8 @@ class GoogleDrive(UploadService):
         self._location = location
         self._authorization_key = authorization_key
         self._credentials = credentials
-        self._folder_id = None
-        self._folder_id_time = 0
+        self._folder_ids = {}
+        self._folder_id_times = {}
         
         UploadService.__init__(self, camera_id)
         
@@ -165,7 +168,7 @@ class GoogleDrive(UploadService):
 
     def test_access(self):
         try:
-            self._folder_id = None
+            self._folder_ids = {}
             self._get_folder_id()
             return True
 
@@ -173,11 +176,12 @@ class GoogleDrive(UploadService):
             return str(e)
 
     def upload_data(self, filename, mime_type, data):
+        path = os.path.dirname(filename)
         filename = os.path.basename(filename)
-        
+
         metadata = {
             'title': filename,
-            'parents': [{'id': self._get_folder_id()}]
+            'parents': [{'id': self._get_folder_id(path)}]
         }
 
         body = ['--' + self.BOUNDARY]
@@ -211,20 +215,32 @@ class GoogleDrive(UploadService):
     def load(self, data):
         if 'location' in data:
             self._location = data['location']
-            self._folder_id = None # invalidate the folder
+            self._folder_ids = {}
         if 'credentials' in data:
             self._credentials = data['credentials']
         if 'authorization_key' in data:
             self._authorization_key = data['authorization_key']
 
-    def _get_folder_id(self):
+    def _get_folder_id(self, path=''):
         now = time.time()
-        if not self._folder_id or (now - self._folder_id_time > self.FOLDER_ID_LIFE_TIME):
-            self.debug('finding folder id for location "%s"' % self._location)
-            self._folder_id = self._get_folder_id_by_path(self._location)
-            self._folder_id_time = now
+        
+        folder_id = self._folder_ids.get(path)
+        folder_id_time = self._folder_id_times.get(path, 0)
+        
+        location = self._location
+        if not location.endswith('/'):
+            location += '/'
+        
+        location += path
 
-        return self._folder_id
+        if not folder_id or (now - folder_id_time > self.FOLDER_ID_LIFE_TIME):
+            self.debug('finding folder id for location "%s"' % location)
+            folder_id = self._get_folder_id_by_path(location)
+            
+            self._folder_ids[path] = folder_id
+            self._folder_id_times[path] = now
+
+        return folder_id
 
     def _get_folder_id_by_path(self, path):
         if path and path != '/':
@@ -238,7 +254,7 @@ class GoogleDrive(UploadService):
         else: # root folder
             return self._get_folder_id_by_name(None, 'root')
 
-    def _get_folder_id_by_name(self, parent_id, child_name):
+    def _get_folder_id_by_name(self, parent_id, child_name, create=True):
         if parent_id:
             query = self.CHILDREN_QUERY % {'parent_id': parent_id, 'child_name': child_name}
             query = urllib.quote(query)
@@ -264,11 +280,32 @@ class GoogleDrive(UploadService):
 
         items = response.get('items')
         if not items:
-            msg = 'folder with name "%s" could not be found' % child_name
-            self.error(msg)
-            raise Exception(msg)
-        
+            if create:
+                self.debug('folder with name "%s" does not exist, creating it' % child_name)
+                self._create_folder(parent_id, child_name)
+                return self._get_folder_id_by_name(parent_id, child_name, create=False)
+            
+            else:
+                msg = 'folder with name "%s" does not exist' % child_name
+                self.error(msg)
+                raise Exception(msg)
+
         return items[0]['id']
+    
+    def _create_folder(self, parent_id, child_name):
+        metadata = {
+            'title': child_name,
+            'parents': [{'id': parent_id}],
+            'mimeType': 'application/vnd.google-apps.folder'
+        }
+
+        body = json.dumps(metadata)
+
+        headers = {
+            'Content-Type': 'application/json; charset=UTF-8'
+        }
+
+        self._request(self.CREATE_FOLDER_URL, body, headers)
 
     def _request(self, url, body=None, headers=None, retry_auth=True):
         if not self._credentials:
