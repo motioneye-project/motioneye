@@ -1766,7 +1766,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@upload_password', '')
 
     data.setdefault('stream_localhost', False)
-    data.setdefault('stream_port', int('808' + str(camera_id)))
+    data.setdefault('stream_port', 8080 + camera_id)
     data.setdefault('stream_maxrate', 5)
     data.setdefault('stream_quality', 85)
     data.setdefault('stream_motion', False)
