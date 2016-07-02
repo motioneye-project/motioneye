@@ -19,6 +19,7 @@ import json
 import logging
 import mimetypes
 import os.path
+import time
 import urllib
 import urllib2 
 
@@ -26,6 +27,7 @@ import settings
 
 
 _STATE_FILE_NAME = 'uploadservices.json'
+_services = None
 
 
 class UploadService(object):
@@ -51,7 +53,7 @@ class UploadService(object):
             while rel_filename.startswith('/'):
                 rel_filename = rel_filename[1:]
 
-            self.debug('uploading file "[%s]/%s" to %s' % (target_dir, rel_filename, self))
+            self.debug('uploading file "%s/%s" to %s' % (target_dir, rel_filename, self))
 
         else:
             rel_filename = os.path.basename(filename)
@@ -80,7 +82,7 @@ class UploadService(object):
             raise Exception(msg)
 
         data = f.read()
-        self.debug('size of "%s" is %.1fMB' % (filename, len(data) / 1024.0 / 1024))
+        self.debug('size of "%s" is %.3fMB' % (filename, len(data) / 1024.0 / 1024))
         
         mime_type = mimetypes.guess_type(filename)[0] or 'image/jpeg'
         self.debug('mime type of "%s" is "%s"' % (filename, mime_type))
@@ -138,12 +140,15 @@ class GoogleDrive(UploadService):
 
     BOUNDARY = 'motioneye_multipart_boundary'
     MAX_FILE_SIZE = 128 * 1024 * 1024 # 128 MB
+    
+    FOLDER_ID_LIFE_TIME = 300 # 5 minutes
 
     def __init__(self, camera_id, location=None, authorization_key=None, credentials=None, **kwargs):
         self._location = location
         self._authorization_key = authorization_key
         self._credentials = credentials
         self._folder_id = None
+        self._folder_id_time = 0
         
         UploadService.__init__(self, camera_id)
         
@@ -201,7 +206,6 @@ class GoogleDrive(UploadService):
             'location': self._location,
             'credentials': self._credentials,
             'authorization_key': self._authorization_key,
-            'folder_id': self._folder_id
         }
 
     def load(self, data):
@@ -212,14 +216,13 @@ class GoogleDrive(UploadService):
             self._credentials = data['credentials']
         if 'authorization_key' in data:
             self._authorization_key = data['authorization_key']
-        if 'folder_id' in data:
-            self._folder_id = data['folder_id']
 
     def _get_folder_id(self):
-        if not self._folder_id:
+        now = time.time()
+        if not self._folder_id or (now - self._folder_id_time > self.FOLDER_ID_LIFE_TIME):
             self.debug('finding folder id for location "%s"' % self._location)
             self._folder_id = self._get_folder_id_by_path(self._location)
-            self.save()
+            self._folder_id_time = now
 
         return self._folder_id
 
@@ -558,19 +561,13 @@ class Dropbox(UploadService):
         }
     
 
-def get(camera_id, service_name, create=True):
-    services = _load()
+def get(camera_id, service_name):
+    global _services
     
-    camera_id = str(camera_id)
-    service = services.get(camera_id, {}).get(service_name)
-    if not service and create:
-        classes = UploadService.get_service_classes()
-        cls = classes.get(service_name)
-        if cls:
-            logging.debug('creating upload service %s for camera with id %s' % (service_name, camera_id))
-            service = cls(camera_id=camera_id)
+    if _services is None:
+        _services = _load()
 
-    return service
+    return _services.get(str(camera_id), {}).get(service_name)
 
 
 def _load():
@@ -642,7 +639,7 @@ def _save(services):
 
 
 def upload_media_file(camera_id, target_dir, service_name, filename):
-    service = get(camera_id, service_name, create=False)
+    service = get(camera_id, service_name)
     if not service:
         return logging.error('service "%s" not initialized for camera with id %s' % (service_name, camera_id))
 

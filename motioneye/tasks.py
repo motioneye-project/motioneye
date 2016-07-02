@@ -31,7 +31,7 @@ import settings
 _INTERVAL = 10
 _STATE_FILE_NAME = 'tasks.pickle'
 _MAX_TASKS = 100
-_POOL_SIZE = 2 
+_POOL_SIZE = 1 # we just need one extra process to handle async tasks
 
 _tasks = []
 _pool = None
