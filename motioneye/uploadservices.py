@@ -386,8 +386,8 @@ class GoogleDrive(UploadService):
 class Dropbox(UploadService):
     NAME = 'dropbox'
     
-    AUTH_URL = 'https://www.dropbox.com/1/oauth2/authorize'
-    TOKEN_URL = 'https://api.dropboxapi.com/1/oauth2/token'
+    AUTH_URL = 'https://www.dropbox.com/oauth2/authorize'
+    TOKEN_URL = 'https://api.dropboxapi.com/oauth2/token'
 
     CLIENT_ID = 'dropbox_client_id_placeholder'
     CLIENT_NOT_SO_SECRET = 'dropbox_client_secret_placeholder'
