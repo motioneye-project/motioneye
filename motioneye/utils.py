@@ -473,13 +473,22 @@ def test_rtsp_url(data, callback):
 
         logging.debug('connected to rtsp netcam')
         
-        stream.write('\r\n'.join([
+        lines = [
             'OPTIONS %s RTSP/1.0' % url.encode('utf8'),
             'CSeq: 1',
-            'User-Agent: motionEye',
+            'User-Agent: motionEye'
+        ]
+        
+        if data['username']:
+            auth_header = 'Authorization: ' + build_basic_header(data['username'], data['password'])
+            lines.append(auth_header)
+
+        lines += [
             '',
             ''
-        ]))
+        ]
+
+        stream.write('\r\n'.join(lines))
 
         seek_rtsp()
         
@@ -497,6 +506,9 @@ def test_rtsp_url(data, callback):
             if data.endswith('200 '):
                 seek_server()
     
+            elif data.endswith('401 '):
+                handle_error('authentication failed')
+
             else:
                 handle_error('rtsp netcam returned erroneous response: %s' % data)
         
