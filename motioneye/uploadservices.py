@@ -604,7 +604,16 @@ def get(camera_id, service_name):
     if _services is None:
         _services = _load()
 
-    return _services.get(str(camera_id), {}).get(service_name)
+    service = _services.get(str(camera_id), {}).get(service_name)
+    if service is None:
+        cls = UploadService.get_service_classes().get(service_name)
+        if cls:
+            service = cls(camera_id=camera_id)
+            _services.setdefault(camera_id, {})[service_name] = service
+
+            logging.debug('created default upload service "%s" for camera with id "%s"' % (service_name, camera_id))
+    
+    return service
 
 
 def _load():
