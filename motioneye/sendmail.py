@@ -28,6 +28,7 @@ from email import Encoders
 from email.mime.text import MIMEText
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEBase import MIMEBase
+from email.Utils import formatdate
 
 from tornado.ioloop import IOLoop
 
@@ -60,6 +61,7 @@ def send_mail(server, port, account, password, tls, _from, to, subject, message,
     email['Subject'] = subject
     email['From'] = _from
     email['To'] = ', '.join(to)
+    email['Date'] = formatdate(localtime=True)
     email.attach(MIMEText(message))
     
     for file in reversed(files):
