@@ -1080,6 +1080,22 @@ div.camera-action-button.record-stop {
     background-position: -800% 0px;
 }
 
+div.camera-action-button.up {
+    background-position: -900% 0px;
+}
+
+div.camera-action-button.right {
+    background-position: -1000% 0px;
+}
+
+div.camera-action-button.down {
+    background-position: -1100% 0px;
+}
+
+div.camera-action-button.left {
+    background-position: -1200% 0px;
+}
+
 div.camera-container {
     position: relative;
     padding: 0px;

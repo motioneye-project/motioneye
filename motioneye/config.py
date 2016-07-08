@@ -20,6 +20,7 @@ import datetime
 import errno
 import glob
 import logging
+import math
 import os.path
 import re
 import shlex
@@ -39,7 +40,7 @@ import v4l2ctl
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
-_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off']
+_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off', 'up', 'right', 'down', 'left']
 
 _main_config_cache = None
 _camera_config_cache = {}
@@ -669,7 +670,6 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         # movies
         'ffmpeg_output_movies': False,
         'movie_filename': ui['movie_file_name'],
-        'ffmpeg_bps': 44000, # a quality of about 85% for 320x240x2fps
         'max_movie_time': ui['max_movie_length'],
         '@preserve_movies': int(ui['preserve_movies']),
     
@@ -837,17 +837,11 @@ def motion_camera_ui_to_dict(ui, old_config=None):
 
         elif recording_mode == 'continuous':
             data['emulate_motion'] = True
+        
+        data['ffmpeg_video_codec'] = ui['movie_format']
 
-    if proto == 'v4l2':
-        max_val = data['width'] * data['height'] * data['framerate']
-    
-    else: # assume a netcam image size of 640x480, since we have no means to know it at this point
-        max_val = 640 * 480 * data['framerate']
+    data['ffmpeg_variable_bitrate'] = 1 + min(32766, int(math.ceil(327.66 * (100 - int(ui['movie_quality'])))))
 
-    max_val = min(max_val, 9999999)
-
-    data['ffmpeg_bps'] = int(int(ui['movie_quality']) * max_val / 100)
-    
     # working schedule
     if ui['working_schedule']:
         data['@working_schedule'] = (
@@ -1189,7 +1183,7 @@ def motion_camera_dict_to_ui(data):
         ui['capture_mode'] = 'motion-triggered'
         if picture_filename:
             ui['image_file_name'] = picture_filename
-        
+
     if data['ffmpeg_output_movies']:
         ui['movies'] = True
         
@@ -1198,18 +1192,14 @@ def motion_camera_dict_to_ui(data):
 
     else:
         ui['recording_mode'] = 'motion-triggered'
-            
-    ffmpeg_bps = data['ffmpeg_bps']
-    if ffmpeg_bps is not None:
-        if utils.v4l2_camera(data):
-            max_val = data['width'] * data['height'] * data['framerate']
         
-        else: # net camera
-            max_val = 640 * 480 * data['framerate']
-            
-        max_val = min(max_val, 9999999)
-        
-        ui['movie_quality'] = min(100, int(round(ffmpeg_bps * 100.0 / max_val)))
+    ui['movie_format'] = data['ffmpeg_video_codec']
+
+    bitrate = data['ffmpeg_variable_bitrate']
+    if not bitrate:
+        bitrate = 8193 # about 75%
+
+    ui['movie_quality'] = int(math.floor(100 - (bitrate - 2) * 100.0 / 32766))
 
     # working schedule
     working_schedule = data['@working_schedule']
@@ -1522,6 +1512,19 @@ def motion_mmal_support():
         return False
 
 
+def motion_new_movie_format_support():
+    import motionctl
+ 
+    try:
+        binary, version = motionctl.find_motion()  # @UnusedVariable
+
+        # any git version is supposed to accept newer formats
+        return version.lower().count('git') 
+ 
+    except:
+        return False
+
+
 def invalidate():
     global _main_config_cache
     global _camera_config_cache
@@ -1803,12 +1806,15 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('quality', 85)
     data.setdefault('@preserve_pictures', 0)
     
-    data.setdefault('ffmpeg_variable_bitrate', 0)
-    data.setdefault('ffmpeg_bps', 44000) # a quality of about 85% 
+    data.setdefault('ffmpeg_variable_bitrate', 8193) # about 75%
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     data.setdefault('max_movie_time', 0)
     data.setdefault('ffmpeg_output_movies', False)
-    data.setdefault('ffmpeg_video_codec', 'msmpeg4')
+    if motion_new_movie_format_support():
+        data.setdefault('ffmpeg_video_codec', 'mp4') # will use h264 codec
+        
+    else:
+        data.setdefault('ffmpeg_video_codec', 'msmpeg4')
     data.setdefault('@preserve_movies', 0)
     
     data.setdefault('@working_schedule', '')

@@ -41,7 +41,43 @@ import utils
 
 
 _PICTURE_EXTS = ['.jpg']
-_MOVIE_EXTS = ['.avi', '.mp4']
+_MOVIE_EXTS = ['.avi', '.mp4', '.mov', '.swf', '.flv', '.ogg', '.mkv']
+
+FFMPEG_CODEC_MAPPING = {
+    'mpeg4': 'mpeg4',
+    'msmpeg4': 'msmpeg4v2',
+    'swf': 'flv1',
+    'flv': 'flv1',
+    'mov': 'mpeg4',
+    'ogg': 'theora',
+    'mp4': 'h264',
+    'mkv': 'h264',
+    'hevc': 'h265'
+}
+
+FFMPEG_FORMAT_MAPPING = {
+    'mpeg4': 'avi',
+    'msmpeg4': 'avi',
+    'swf': 'swf',
+    'flv': 'flv',
+    'mov': 'mov',
+    'ogg': 'ogg',
+    'mp4': 'mp4',
+    'mkv': 'matroska',
+    'hevc': 'mp4'
+}
+
+FFMPEG_EXT_MAPPING = {
+    'mpeg4': 'avi',
+    'msmpeg4': 'avi',
+    'swf': 'swf',
+    'flv': 'flv',
+    'mov': 'mov',
+    'ogg': 'ogg',
+    'mp4': 'mp4',
+    'mkv': 'mkv',
+    'hevc': 'mp4'
+}
 
 # a cache of prepared files (whose preparing time is significant)
 _prepared_files = {}
@@ -458,7 +494,11 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     global _timelapse_data
     
     target_dir = camera_config.get('target_dir')
+    codec = camera_config.get('ffmpeg_video_codec')
     
+    codec = FFMPEG_CODEC_MAPPING.get(codec, codec)
+    format = FFMPEG_FORMAT_MAPPING.get(codec, codec)
+
     # create a subprocess to retrieve media files
     def do_list_media(pipe):
         mf = _list_media_files(target_dir, exts=_PICTURE_EXTS, prefix=group)
@@ -549,7 +589,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
         global _timelapse_process
 
         cmd =  'rm -f %(tmp_filename)s;'
-        cmd += 'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -b:v %(bitrate)s -qscale:v 0.1 -f avi %(tmp_filename)s'
+        cmd += 'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec %(codec)s -format %(format)s -b:v %(bitrate)s -qscale:v 0.1 -f avi %(tmp_filename)s'
 
         bitrate = 9999999
 
@@ -557,6 +597,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
             'tmp_filename': tmp_filename,
             'jpegs': ' '.join((('"' + p['path'] + '"') for p in pictures)),
             'framerate': framerate,
+            'codec': codec,
+            'format': format,
             'bitrate': bitrate
         }
         

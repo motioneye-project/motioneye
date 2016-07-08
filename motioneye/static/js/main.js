@@ -1538,6 +1538,7 @@ function cameraUi2Dict() {
         'movies': $('#moviesEnabledSwitch')[0].checked,
         'movie_file_name': $('#movieFileNameEntry').val(),
         'movie_quality': $('#movieQualitySlider').val(),
+        'movie_format': $('#movieFormatSelect').val(),
         'recording_mode': $('#recordingModeSelect').val(),
         'max_movie_length': $('#maxMovieLengthEntry').val(),
         'preserve_movies': $('#preserveMoviesSelect').val() >= 0 ? $('#preserveMoviesSelect').val() : $('#moviesLifetimeEntry').val(),
@@ -1872,6 +1873,7 @@ function dict2CameraUi(dict) {
     $('#moviesEnabledSwitch')[0].checked = dict['movies']; markHideIfNull('movies', 'moviesEnabledSwitch');
     $('#movieFileNameEntry').val(dict['movie_file_name']); markHideIfNull('movie_file_name', 'movieFileNameEntry');
     $('#movieQualitySlider').val(dict['movie_quality']); markHideIfNull('movie_quality', 'movieQualitySlider');
+    $('#movieFormatSelect').val(dict['movie_format']); markHideIfNull('movie_format', 'movieFormatSelect');
     $('#recordingModeSelect').val(dict['recording_mode']); markHideIfNull('recording_mode', 'recordingModeSelect');
     $('#maxMovieLengthEntry').val(dict['max_movie_length']); markHideIfNull('max_movie_length', 'maxMovieLengthEntry');
     $('#preserveMoviesSelect').val(dict['preserve_movies']);
@@ -3968,6 +3970,10 @@ function addCameraFrameUi(cameraConfig) {
                                 '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect snapshot" title="take a snapshot"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect record-start" title="toggle continuous recording mode"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect up" title="up"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect left" title="left"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect right" title="right"></div>' +
                             '</div>' +
                         '</div>' +
                     '</div>' +
@@ -3992,6 +3998,10 @@ function addCameraFrameUi(cameraConfig) {
     var alarmOffButton = cameraFrameDiv.find('div.camera-action-button.alarm-off');
     var snapshotButton = cameraFrameDiv.find('div.camera-action-button.snapshot');
     var recordButton = cameraFrameDiv.find('div.camera-action-button.record-start');
+    var upButton = cameraFrameDiv.find('div.camera-action-button.up');
+    var rightButton = cameraFrameDiv.find('div.camera-action-button.right');
+    var downButton = cameraFrameDiv.find('div.camera-action-button.down');
+    var leftButton = cameraFrameDiv.find('div.camera-action-button.left');
     
     var cameraOverlay = cameraFrameDiv.find('div.camera-overlay');
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
@@ -4094,7 +4104,11 @@ function addCameraFrameUi(cameraConfig) {
         'alarm_on': alarmOnButton,
         'alarm_off': alarmOffButton,
         'snapshot': snapshotButton,
-        'record': recordButton
+        'record': recordButton,
+        'up': upButton,
+        'right': rightButton,
+        'down': downButton,
+        'left': leftButton,
     };
     
     cameraConfig.actions.forEach(function (action) {

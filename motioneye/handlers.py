@@ -206,6 +206,7 @@ class MainHandler(BaseHandler):
                 title=self.get_argument('title', None),
                 admin_username=config.get_main().get('@admin_username'),
                 old_motion=config.is_old_motion(),
+                motion_new_movie_format_support=config.motion_new_movie_format_support(),
                 has_motion=bool(motionctl.find_motion()))
     
 
@@ -1215,9 +1216,10 @@ class PictureHandler(BaseHandler):
 
                 pretty_filename = camera_config['@name'] + '_' + group
                 pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
+                pretty_filename += '.' + mediafiles.FFMPEG_EXT_MAPPING.get(camera_config['ffmpeg_video_codec'], 'avi')
     
                 self.set_header('Content-Type', 'video/x-msvideo')
-                self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + '.avi;')
+                self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
                 self.finish(data)
 
             elif utils.remote_camera(camera_config):

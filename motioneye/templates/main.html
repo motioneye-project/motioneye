@@ -691,7 +691,26 @@
                     <tr class="settings-item advanced-setting" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Movie File Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled movies camera-config" id="movieFileNameEntry" placeholder="file name pattern..."></td>
-                        <td><span class="help-mark" title="sets the name pattern for the movie (MPEG) files; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number, / = subfolder">?</span></td>
+                        <td><span class="help-mark" title="sets the name pattern for the movie files; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number, / = subfolder">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Movie Format</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled movies camera-config" id="movieFormatSelect">
+                                <option value="mpeg4">MPEG4 (.avi)</option>
+                                <option value="msmpeg4">MSMPEG4v2 (.avi)</option>
+                                <option value="swf">Small Web Format (.swf)</option>
+                                <option value="flv">Flash Video (.flv)</option>
+                                <option value="mov">QuickTime (.mov)</option>
+                                {% if motion_new_movie_format_support %}
+                                <option value="ogg">Ogg (.ogg)</option>
+                                <option value="mp4">H.264 (.mp4)</option>
+                                <option value="hevc">HEVC (.mp4)</option>
+                                <option value="mkv">Matroska Video (.mkv)</option>
+                                {% endif %}
+                            </select>
+                        </td>
+                        <td><span class="help-mark" title="sets the movie file format; not all formats are guaranteed to work on all systems; if in doubt, test each format and select the one that works best with your video player">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
                         <td class="settings-item-label"><span class="settings-item-label">Movie Quality</span></td>
