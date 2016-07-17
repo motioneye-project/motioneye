@@ -47,7 +47,7 @@ case "$1" in
         fi
         ;;
 
-    restart)
+    restart|force-reload)
         log_action_begin_msg "Restarting $DESC"
         if $0 stop && $0 start; then
             log_action_end_msg 0
