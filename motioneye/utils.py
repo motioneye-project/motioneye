@@ -555,12 +555,12 @@ def test_rtsp_url(data, callback):
         else:
             identifier = ''
 
-        if 'udp' in rtsp_support:
-            cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
-        
         if 'tcp' in rtsp_support:
             cameras.append({'id': 'tcp', 'name': '%sRTSP/TCP Camera' % identifier})
 
+        if 'udp' in rtsp_support:
+            cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
+        
         callback(cameras)
 
     def handle_error(e):
