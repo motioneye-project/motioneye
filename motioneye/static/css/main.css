@@ -1096,6 +1096,14 @@ div.camera-action-button.left {
     background-position: -1200% 0px;
 }
 
+div.camera-action-button.zoom-in {
+    background-position: -1300% 0px;
+}
+
+div.camera-action-button.zoom-out {
+    background-position: -1400% 0px;
+}
+
 div.camera-container {
     position: relative;
     padding: 0px;

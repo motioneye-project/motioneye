@@ -3974,6 +3974,8 @@ function addCameraFrameUi(cameraConfig) {
                                 '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect left" title="left"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect right" title="right"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect zoom-in" title="zoom in"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect zoom-out" title="zoom out"></div>' +
                             '</div>' +
                         '</div>' +
                     '</div>' +
@@ -4002,6 +4004,8 @@ function addCameraFrameUi(cameraConfig) {
     var rightButton = cameraFrameDiv.find('div.camera-action-button.right');
     var downButton = cameraFrameDiv.find('div.camera-action-button.down');
     var leftButton = cameraFrameDiv.find('div.camera-action-button.left');
+    var zoomInButton = cameraFrameDiv.find('div.camera-action-button.zoom-in');
+    var zoomOutButton = cameraFrameDiv.find('div.camera-action-button.zoom-out');
     
     var cameraOverlay = cameraFrameDiv.find('div.camera-overlay');
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
@@ -4109,6 +4113,8 @@ function addCameraFrameUi(cameraConfig) {
         'right': rightButton,
         'down': downButton,
         'left': leftButton,
+        'zoom_in': zoomInButton,
+        'zoom_out': zoomOutButton
     };
     
     cameraConfig.actions.forEach(function (action) {
@@ -4144,7 +4150,8 @@ function addCameraFrameUi(cameraConfig) {
         cameraOverlay.find('div.camera-overlay-bottom').addClass('few-buttons');
     }
     else {
-        cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', Math.ceil(cameraConfig.actions.length / 2) * 2.5 + 'em');
+        //cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', Math.ceil(cameraConfig.actions.length / 2) * 2.5 + 'em');
+        cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', 4 * 2.5 + 'em');
     }
 
     var FPS_LEN = 4;
