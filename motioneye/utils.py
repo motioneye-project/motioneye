@@ -595,27 +595,6 @@ def test_rtsp_url(data, callback):
     stream = connect()
 
 
-def compute_signature(method, path, body, key):
-    parts = list(urlparse.urlsplit(path))
-    query = [q for q in urlparse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
-    query.sort(key=lambda q: q[0])
-    # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
-    query = [(n, urllib.quote(v, safe="!'()*~")) for (n, v) in query]
-    query = '&'.join([(q[0] + '=' + q[1]) for q in query])
-    parts[0] = parts[1] = ''
-    parts[3] = query
-    path = urlparse.urlunsplit(parts)
-    path = _SIGNATURE_REGEX.sub('-', path)
-    key = _SIGNATURE_REGEX.sub('-', key)
-
-    if body and body.startswith('---'):
-        body = None # file attachment
-
-    body = body and _SIGNATURE_REGEX.sub('-', body.decode('utf8'))
-
-    return hashlib.sha1('%s:%s:%s:%s' % (method, path, body or '', key)).hexdigest().lower()
-
-
 def parse_cookies(cookies_headers):
     parsed = {}
     
@@ -637,15 +616,7 @@ def build_basic_header(username, password):
     return 'Basic ' + base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
 
 
-def build_digest_header(method, url, username, password, state):
-    realm = state['realm']
-    nonce = state['nonce']
-    last_nonce = state.get('last_nonce', '')
-    nonce_count = state.get('nonce_count', 0)
-    qop = state.get('qop')
-    algorithm = state.get('algorithm')
-    opaque = state.get('opaque')
-
+def compute_digest(method, path, body, username, realm, password, nonce, cnonce, ncvalue, qop, algorithm):
     if algorithm is None:
         _algorithm = 'MD5'
 
@@ -671,17 +642,49 @@ def build_digest_header(method, url, username, password, state):
     if hash_utf8 is None:
         return None
 
+    A1 = '%s:%s:%s' % (username, realm, password)
+    HA1 = hash_utf8(A1)
+    if _algorithm == 'MD5-SESS':
+        HA1 = hash_utf8('%s:%s:%s' % (HA1, nonce, cnonce))
+
+    if qop == 'auth-int':
+        HBODY = hash_utf8(body)
+        A2 = '%s:%s:%s' % (method, path, body)
+        HA2 = hash_utf8(A2)
+    elif qop == 'auth' or qop == None:
+        A2 = '%s:%s' % (method, path)
+        HA2 = hash_utf8(A2)
+    else:
+        return None
+
+    if qop is None:
+        respdig = KD(HA1, "%s:%s" % (nonce, HA2))
+
+    elif qop == 'auth' or qop == 'auth-int':
+        noncebit = "%s:%s:%s:%s:%s" % (
+            nonce, ncvalue, cnonce, qop, HA2
+            )
+        respdig = KD(HA1, noncebit)
+
+    else:
+        return None
+
+    return respdig
+
+def build_digest_header(method, url, username, password, state):
+    realm = state['realm']
+    nonce = state['nonce']
+    last_nonce = state.get('last_nonce', '')
+    nonce_count = state.get('nonce_count', 0)
+    qop = state.get('qop')
+    algorithm = state.get('algorithm')
+    opaque = state.get('opaque')
+
     entdig = None
     p_parsed = urlparse.urlparse(url)
     path = p_parsed.path
     if p_parsed.query:
         path += '?' + p_parsed.query
-
-    A1 = '%s:%s:%s' % (username, realm, password)
-    A2 = '%s:%s' % (method, path)
-
-    HA1 = hash_utf8(A1)
-    HA2 = hash_utf8(A2)
 
     if nonce == last_nonce:
         nonce_count += 1
@@ -696,19 +699,16 @@ def build_digest_header(method, url, username, password, state):
     s += os.urandom(8)
 
     cnonce = (hashlib.sha1(s).hexdigest()[:16])
-    if _algorithm == 'MD5-SESS':
-        HA1 = hash_utf8('%s:%s:%s' % (HA1, nonce, cnonce))
 
-    if qop is None:
-        respdig = KD(HA1, "%s:%s" % (nonce, HA2))
-    
-    elif qop == 'auth' or 'auth' in qop.split(','):
-        noncebit = "%s:%s:%s:%s:%s" % (
-            nonce, ncvalue, cnonce, 'auth', HA2
-            )
-        respdig = KD(HA1, noncebit)
-    
+    if qop == None or qop == 'auth': 
+        _qop = qop
+    elif 'auth' in qop.split(','):
+        _qop = 'auth'
     else:
+        return None
+
+    respdig = compute_digest(method, path, '', username, realm, password, nonce, cnonce, ncvalue, qop, algorithm)
+    if respdig == None:
         return None
 
     last_nonce = nonce
