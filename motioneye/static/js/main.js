@@ -2920,9 +2920,10 @@ function runPictureDialog(entries, pos, mediaType) {
     var img = $('<img class="picture-dialog-content">');
     content.append(img);
 
-    var video_container = $('<video class="picture-dialog-content" controls="true">');
-    var video_source = $('<source type="video/mp4">')
-    video_container.append(video_source);
+    var video_container = $('<video class="picture-dialog-content" controls="true" type="video/mp4">');
+    video_container.on('error', function(err) {
+      showErrorMessage('Error: Unable to play movie.')
+    });
     video_container.hide()
     content.append(video_container);
  
@@ -2951,8 +2952,8 @@ function runPictureDialog(entries, pos, mediaType) {
         nextArrow.css('display', 'none');
 
         /* Construct a likely mime-type with 'video/' and the file extension, then see if the 
-           browser can play it */       
-        var playable = video_container.get(0).canPlayType('video/' + entry.path.split('.').pop()) != ''
+           browser can play it */
+        var playable = video_container.get(0).canPlayType(entry.mimeType) != ''
         playButton.hide();
         video_container.hide();
         img.show();
@@ -2966,7 +2967,7 @@ function runPictureDialog(entries, pos, mediaType) {
 
         if (playable) {
             playButton.on('click', function() {
-                video_source.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/download' + entry.path));
+                video_container.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/download' + entry.path));
                 video_container.show();
                 video_container.get(0).load();  /* Must call load() after changing <video> source */
                 img.hide();
@@ -3657,6 +3658,7 @@ function runMediaDialog(cameraId, mediaType) {
                 entries.forEach(function (entry) {
                     var media = mediaListByName[entry.name];
                     if (media) {
+                        entry.mimeType = media.mimeType;
                         entry.momentStr = media.momentStr;
                         entry.momentStrShort = media.momentStrShort;
                         entry.sizeStr = media.sizeStr;
