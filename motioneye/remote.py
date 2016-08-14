@@ -56,7 +56,8 @@ def _make_request(scheme, host, port, username, password, path, method='GET', da
     if content_type:
         headers['Content-Type'] = content_type
 
-    return HTTPRequest(url, method, body=data, connect_timeout=timeout, request_timeout=timeout, headers=headers)
+    return HTTPRequest(url, method, body=data, connect_timeout=timeout, request_timeout=timeout, headers=headers,
+            validate_cert=settings.VALIDATE_CERTS)
 
 
 def _callback_wrapper(callback):

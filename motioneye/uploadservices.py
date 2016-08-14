@@ -24,6 +24,7 @@ import urllib
 import urllib2 
 
 import settings
+import utils
 
 
 _STATE_FILE_NAME = 'uploadservices.json'
@@ -329,7 +330,7 @@ class GoogleDrive(UploadService):
         self.debug('requesting %s' % url)
         request = urllib2.Request(url, data=body, headers=headers)
         try:
-            response = urllib2.urlopen(request)
+            response = utils.urlopen(request)
         
         except urllib2.HTTPError as e:
             if e.code == 401 and retry_auth: # unauthorized, access token may have expired
@@ -380,7 +381,7 @@ class GoogleDrive(UploadService):
         request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
         
         try:
-            response = urllib2.urlopen(request)
+            response = utils.urlopen(request)
         
         except urllib2.HTTPError as e:
             error = json.load(e)
@@ -409,7 +410,7 @@ class GoogleDrive(UploadService):
         request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
         
         try:
-            response = urllib2.urlopen(request)
+            response = utils.urlopen(request)
         
         except urllib2.HTTPError as e:
             error = json.load(e)
@@ -538,7 +539,7 @@ class Dropbox(UploadService):
         self.debug('requesting %s' % url)
         request = urllib2.Request(url, data=body, headers=headers)
         try:
-            response = urllib2.urlopen(request)
+            response = utils.urlopen(request)
         
         except urllib2.HTTPError as e:
             if e.code == 401 and retry_auth: # unauthorized, access token may have expired
@@ -585,7 +586,7 @@ class Dropbox(UploadService):
         request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
         
         try:
-            response = urllib2.urlopen(request)
+            response = utils.urlopen(request)
         
         except urllib2.HTTPError as e:
             error = json.load(e)

@@ -32,6 +32,7 @@ def parse_options(parser, args):
 
 def main(parser, args):
     import meyectl
+    import utils
     
     options = parse_options(parser, args)
     
@@ -68,9 +69,9 @@ def main(parser, args):
 
     request = urllib2.Request(url, data, headers=headers)
     try:
-        urllib2.urlopen(request, timeout=settings.REMOTE_REQUEST_TIMEOUT)
+        utils.urlopen(request, timeout=settings.REMOTE_REQUEST_TIMEOUT)
         logging.debug('webhook successfully called')
-    
+
     except Exception as e:
         logging.error('failed to call webhook: %s' % e)
 

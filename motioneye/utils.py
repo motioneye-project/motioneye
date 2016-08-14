@@ -23,8 +23,10 @@ import logging
 import os
 import re
 import socket
+import sys
 import time
 import urllib
+import urllib2
 import urlparse
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
@@ -379,9 +381,9 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
         request = HTTPRequest(url, auth_username=username, auth_password=password, auth_mode=auth_modes.pop(0),
                 connect_timeout=settings.REMOTE_REQUEST_TIMEOUT, request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
-                header_callback=on_header)
+                header_callback=on_header, validate_cert=settings.VALIDATE_CERTS)
 
-        http_client = AsyncHTTPClient(force_instance=True)    
+        http_client = AsyncHTTPClient(force_instance=True)
         http_client.fetch(request, on_response)
 
     def on_header(header):
@@ -728,3 +730,19 @@ def build_digest_header(method, url, username, password, state):
     state['nonce_count'] = nonce_count
 
     return 'Digest %s' % (base)
+
+
+def urlopen(*args, **kwargs):
+    if sys.version_info >= (2, 7, 9) and not settings.VALIDATE_CERTS:
+        # ssl certs are not verified by default
+        # in versions prior to 2.7.9
+
+        import ssl
+
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+    
+        kwargs.setdefault('context', ctx)
+
+    return urllib2.urlopen(*args, **kwargs)
