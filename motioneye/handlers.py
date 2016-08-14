@@ -24,9 +24,8 @@ import re
 import socket
 import subprocess
 
-from tornado import httputil
 from tornado.ioloop import IOLoop
-from tornado.web import RequestHandler, StaticFileHandler, HTTPError, asynchronous
+from tornado.web import RequestHandler, HTTPError, asynchronous
 
 import config
 import mediafiles
@@ -979,7 +978,7 @@ class PictureHandler(BaseHandler):
                 self.set_header('Content-Type', 'image/jpeg')
                 self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
                 
-                self.finish(response.body)
+                self.finish(response)
 
             remote.get_media_content(camera_config, filename=filename, media_type='picture', callback=on_response)
 
@@ -1340,78 +1339,28 @@ class MovieHandler(BaseHandler):
                 'filename': filename, 'id': camera_id})
         
         camera_config = config.get_camera(camera_id)
-
-        # To facilitiate cross-browser HTML5 <video> playback we need
-        # to support HTTP Range requests.
-        # (The below adapted from Tornado's StaticFileHandler)
-        request_range = None
-        range_header = self.request.headers.get("Range")
-        if range_header:
-            request_range = httputil._parse_request_range(range_header)
-
         if utils.local_motion_camera(camera_config):
-            full_path = os.path.join(camera_config.get('target_dir'), filename)
-            size = os.stat(full_path).st_size
-            if request_range:
-                start, end = request_range
-                if (start is not None and start >= size) or end == 0:
-                    raise HTTPError(416, 'Range not satisfiable')
-                if start is not None and start < 0:
-                    start += size
-                if end is not None and end > size:
-                    end = size
-                # Chrome won't allow seeking unless we always return 206 for Range requests,
-                # even if this represents the entire file.
-                self.set_status(206)  # Partial Content
-                self.set_header("Content-Range", httputil._get_content_range(start, end, size))
-            else:
-                start = end = None
-
-            if start is not None and end is not None:
-                content_length = end - start
-            elif end is not None:
-                content_length = end
-            elif start is not None:
-                content_length = size - start
-            else:
-                content_length = size
+            content = mediafiles.get_media_content(camera_config, filename, 'movie')
 
             pretty_filename = camera_config['@name'] + '_' + os.path.basename(filename)
-            self.set_header('Content-Type', mimetypes.guess_type(full_path)[0] or 'video/mpeg')
+            self.set_header('Content-Type', mimetypes.guess_type(filename)[0] or 'video/mpeg')
             self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
-            self.set_header("Content-Length", content_length)
 
-            # Yield the data to the network in chunks.
-            content = StaticFileHandler.get_content(full_path, start, end)
-            if content:           
-                for chunk in content:
-                    try:
-                        self.write(chunk)
-                        self.flush()
-                    except iostream.StreamClosedError:
-                        return
-            self.finish()
+            self.finish(content)
 
         elif utils.remote_camera(camera_config):
             def on_response(response=None, error=None):
                 if error:
                     return self.finish_json({'error': 'Failed to download movie from %(url)s: %(msg)s.' % {
                             'url': remote.pretty_camera_url(camera_config), 'msg': error}})
-                # Copy certain critical headers out of the remote response and
-                # into our response. Propogating these headers are necessary to
-                # support in-brower playback of remote movies. Also copy the 
-                # response code which might be 200 or 206 (partial content, for range
-                # requests).
-                self.set_status(response.code)
-                for header in ('Content-Type', 'Content-Range', 'Content-Length', 'Content-Disposition'):
-                    if header in response.headers:
-                        self.set_header(header, response.headers[header])
-                self.finish(response.body)
 
-            start = end = None
-            if request_range:
-                start, end = request_range
-            remote.get_media_content(camera_config, filename=filename, media_type='movie', callback=on_response, start=start, end=end)
+                pretty_filename = os.path.basename(filename) # no camera name available w/o additional request
+                self.set_header('Content-Type', 'video/mpeg')
+                self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
+
+                self.finish(response)
+
+            remote.get_media_content(camera_config, filename=filename, media_type='movie', callback=on_response)
 
         else: # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')

@@ -2926,11 +2926,11 @@ function runPictureDialog(entries, pos, mediaType) {
     });
     video_container.hide()
     content.append(video_container);
- 
+
     var prevArrow = $('<div class="picture-dialog-prev-arrow button mouse-effect" title="previous picture"></div>');
     content.append(prevArrow);
 
-    var playButton = $('<div class="picture-dialog-play button mouse-effect" title="play"></div>');  
+    var playButton = $('<div class="picture-dialog-play button mouse-effect" title="play"></div>');
     content.append(playButton);
 
     var nextArrow = $('<div class="picture-dialog-next-arrow button mouse-effect" title="next picture"></div>');
@@ -2951,7 +2951,7 @@ function runPictureDialog(entries, pos, mediaType) {
         prevArrow.css('display', 'none');
         nextArrow.css('display', 'none');
 
-        /* Construct a likely mime-type with 'video/' and the file extension, then see if the 
+        /* Construct a likely mime-type with 'video/' and the file extension, then see if the
            browser can play it */
         var playable = video_container.get(0).canPlayType(entry.mimeType) != ''
         playButton.hide();
