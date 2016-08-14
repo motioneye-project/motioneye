@@ -770,7 +770,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         if ui['root_directory'].startswith('/'):
             ui['root_directory'] = ui['root_directory'][1:]
         data['target_dir'] = os.path.normpath(os.path.join(mount_point, ui['root_directory']))
-    
+        
     elif ui['storage_device'].startswith('local-disk'):
         target_dev = ui['storage_device'][10:].replace('-', '/')
         mounted_partitions = diskctl.list_mounted_partitions()
@@ -783,7 +783,18 @@ def motion_camera_ui_to_dict(ui, old_config=None):
 
     else:
         data['target_dir'] = ui['root_directory']
+
+    # try to create the target dir
+    try:
+        os.makedirs(data['target_dir'])
+    
+    except Exception as e:
+        if isinstance(e, OSError) and e.errno == errno.EEXIST:
+            pass # already exists, things should be just fine
         
+        else:
+            logging.error('failed to create root directory "%s": %s' % (data['target_dir'], e), exc_info=True)
+
     if ui['upload_enabled'] and '@id' in old_config:
         upload_settings = {k[7:]: ui[k] for k in ui.iterkeys() if k.startswith('upload_')}
         service = uploadservices.get(old_config['@id'], ui['upload_service'])
