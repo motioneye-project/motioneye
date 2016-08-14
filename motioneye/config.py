@@ -53,6 +53,12 @@ _monitor_command_cache = {}
 # starting with r490 motion config directives have changed a bit 
 _LAST_OLD_CONFIG_VERSIONS = (490, '3.2.12')
 
+# when using the following video codecs, the ffmpeg_variable_bitrate parameter appears to have an exponential effect
+_EXPONENTIAL_QUALITY_CODECS = ['mpeg4', 'msmpeg4', 'swf', 'flv', 'mov', 'ogg', 'mkv']
+_EXPONENTIAL_QUALITY_FACTOR = 100000 # voodoo
+_EXPONENTIAL_DEF_QUALITY = 511 # about 75%
+_MAX_FFMPEG_VARIABLE_BITRATE = 32767
+
 _KNOWN_MOTION_OPTIONS = set([
     'auto_brightness', 'brightness', 'contrast', 'emulate_motion', 'event_gap', 'ffmpeg_bps', 'ffmpeg_output_movies', 'ffmpeg_variable_bitrate', 'ffmpeg_video_codec',
     'framerate', 'height', 'hue', 'lightswitch', 'locate_motion_mode', 'locate_motion_style', 'minimum_motion_frames', 'movie_filename', 'max_movie_time', 'max_mpeg_time',
@@ -837,10 +843,16 @@ def motion_camera_ui_to_dict(ui, old_config=None):
 
         elif recording_mode == 'continuous':
             data['emulate_motion'] = True
-        
-        data['ffmpeg_video_codec'] = ui['movie_format']
 
-    data['ffmpeg_variable_bitrate'] = 1 + min(32766, int(math.ceil(327.66 * (100 - int(ui['movie_quality'])))))
+    data['ffmpeg_video_codec'] = ui['movie_format']
+    q = int(ui['movie_quality'])
+    if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
+        vbr = max(1, _MAX_FFMPEG_VARIABLE_BITRATE * (1 - math.log(max(1, q * _EXPONENTIAL_QUALITY_FACTOR), _EXPONENTIAL_QUALITY_FACTOR * 100)))
+        
+    else:
+        vbr = 1 + (_MAX_FFMPEG_VARIABLE_BITRATE - 1) / 100.0 * (100 - q)
+
+    data['ffmpeg_variable_bitrate'] = int(vbr)
 
     # working schedule
     if ui['working_schedule']:
@@ -1194,12 +1206,15 @@ def motion_camera_dict_to_ui(data):
         ui['recording_mode'] = 'motion-triggered'
         
     ui['movie_format'] = data['ffmpeg_video_codec']
-
+    
     bitrate = data['ffmpeg_variable_bitrate']
-    if not bitrate:
-        bitrate = 8193 # about 75%
+    if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
+        q = (100 * _EXPONENTIAL_QUALITY_FACTOR) ** ((1 - float(bitrate) / _MAX_FFMPEG_VARIABLE_BITRATE)) / _EXPONENTIAL_QUALITY_FACTOR
 
-    ui['movie_quality'] = int(math.floor(100 - (bitrate - 2) * 100.0 / 32766))
+    else:
+        q = 100 - (bitrate - 1) * 100.0 / (_MAX_FFMPEG_VARIABLE_BITRATE - 1)
+
+    ui['movie_quality'] = int(q)
 
     # working schedule
     working_schedule = data['@working_schedule']
@@ -1806,15 +1821,16 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('quality', 85)
     data.setdefault('@preserve_pictures', 0)
     
-    data.setdefault('ffmpeg_variable_bitrate', 8193) # about 75%
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     data.setdefault('max_movie_time', 0)
     data.setdefault('ffmpeg_output_movies', False)
     if motion_new_movie_format_support():
         data.setdefault('ffmpeg_video_codec', 'mp4') # will use h264 codec
+        data.setdefault('ffmpeg_variable_bitrate', _MAX_FFMPEG_VARIABLE_BITRATE / 4) # 75%
         
     else:
         data.setdefault('ffmpeg_video_codec', 'msmpeg4')
+        data.setdefault('ffmpeg_variable_bitrate', _EXPONENTIAL_DEF_QUALITY)
     data.setdefault('@preserve_movies', 0)
     
     data.setdefault('@working_schedule', '')

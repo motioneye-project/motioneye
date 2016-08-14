@@ -510,7 +510,7 @@ class Dropbox(UploadService):
         location = self._location
         if location == '/':
             return ''
-        
+
         if not location.startswith('/'):
             location = '/' + location
         

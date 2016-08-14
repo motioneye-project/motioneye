@@ -251,7 +251,6 @@ def main():
     command = sys.argv[1]
     arg_parser = make_arg_parser(command)
 
-
     if command in ('startserver', 'stopserver'):
         import server
         server.main(arg_parser, sys.argv[2:], command[:-6])
