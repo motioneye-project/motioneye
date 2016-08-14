@@ -2920,11 +2920,31 @@ function runPictureDialog(entries, pos, mediaType) {
     var img = $('<img class="picture-dialog-content">');
     content.append(img);
 
-    var video_container = $('<video class="picture-dialog-content" controls="true" type="video/mp4">');
+    var video_container = $('<video class="picture-dialog-content" controls="true">');
     video_container.on('error', function(err) {
-      showErrorMessage('Error: Unable to play movie.')
+      var msg = '';
+
+      /* Reference: https://html.spec.whatwg.org/multipage/embedded-content.html#error-codes */
+      switch (err.target.error.code) {
+        case err.target.error.MEDIA_ERR_ABORTED:
+          msg = 'You aborted the video playback.';
+          break;
+        case err.target.error.MEDIA_ERR_NETWORK:
+          msg = 'A network error occurred.';
+          break;
+        case err.target.error.MEDIA_ERR_DECODE:
+          msg = 'Media decode error or unsupported media features.';
+          break;
+        case err.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+          msg = 'Media format unsupported or otherwise unavilable/unsuitable for playing.';
+          break;
+        default:
+          msg = 'Unknown error occurred.'
+      }
+
+      showErrorMessage('Error: ' + msg);
     });
-    video_container.hide()
+    video_container.hide();
     content.append(video_container);
 
     var prevArrow = $('<div class="picture-dialog-prev-arrow button mouse-effect" title="previous picture"></div>');
@@ -2951,8 +2971,6 @@ function runPictureDialog(entries, pos, mediaType) {
         prevArrow.css('display', 'none');
         nextArrow.css('display', 'none');
 
-        /* Construct a likely mime-type with 'video/' and the file extension, then see if the
-           browser can play it */
         var playable = video_container.get(0).canPlayType(entry.mimeType) != ''
         playButton.hide();
         video_container.hide();
