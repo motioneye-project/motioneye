@@ -1781,7 +1781,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@network_share_name', '')
     data.setdefault('@network_username', '')
     data.setdefault('@network_password', '')
-    data.setdefault('target_dir', settings.MEDIA_PATH)
+    data.setdefault('target_dir', os.path.join(settings.MEDIA_PATH, data['@name']))
     data.setdefault('@upload_enabled', False)
     data.setdefault('@upload_picture', True)
     data.setdefault('@upload_movie', True)
