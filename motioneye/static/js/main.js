@@ -3985,6 +3985,15 @@ function addCameraFrameUi(cameraConfig) {
                                 '<div class="button icon camera-action-button mouse-effect right" title="right"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect zoom-in" title="zoom in"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect zoom-out" title="zoom out"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset1" title="preset 1"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset2" title="preset 2"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset3" title="preset 3"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset4" title="preset 4"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset5" title="preset 5"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset6" title="preset 6"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset7" title="preset 7"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset8" title="preset 8"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset9" title="preset 9"></div>' +
                             '</div>' +
                         '</div>' +
                     '</div>' +
@@ -4015,6 +4024,15 @@ function addCameraFrameUi(cameraConfig) {
     var leftButton = cameraFrameDiv.find('div.camera-action-button.left');
     var zoomInButton = cameraFrameDiv.find('div.camera-action-button.zoom-in');
     var zoomOutButton = cameraFrameDiv.find('div.camera-action-button.zoom-out');
+    var preset1Button = cameraFrameDiv.find('div.camera-action-button.preset1');
+    var preset2Button = cameraFrameDiv.find('div.camera-action-button.preset2');
+    var preset3Button = cameraFrameDiv.find('div.camera-action-button.preset3');
+    var preset4Button = cameraFrameDiv.find('div.camera-action-button.preset4');
+    var preset5Button = cameraFrameDiv.find('div.camera-action-button.preset5');
+    var preset6Button = cameraFrameDiv.find('div.camera-action-button.preset6');
+    var preset7Button = cameraFrameDiv.find('div.camera-action-button.preset7');
+    var preset8Button = cameraFrameDiv.find('div.camera-action-button.preset8');
+    var preset9Button = cameraFrameDiv.find('div.camera-action-button.preset9');
     
     var cameraOverlay = cameraFrameDiv.find('div.camera-overlay');
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
@@ -4123,7 +4141,16 @@ function addCameraFrameUi(cameraConfig) {
         'down': downButton,
         'left': leftButton,
         'zoom_in': zoomInButton,
-        'zoom_out': zoomOutButton
+        'zoom_out': zoomOutButton,
+        'preset1': preset1Button,
+        'preset2': preset2Button,
+        'preset3': preset3Button,
+        'preset4': preset4Button,
+        'preset5': preset5Button,
+        'preset6': preset6Button,
+        'preset7': preset7Button,
+        'preset8': preset8Button,
+        'preset9': preset9Button
     };
     
     cameraConfig.actions.forEach(function (action) {

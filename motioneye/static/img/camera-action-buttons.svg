@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.74509804"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="562.2256"
-     inkscape:cy="12.256296"
+     inkscape:zoom="8"
+     inkscape:cx="579.29889"
+     inkscape:cy="13.896368"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -322,5 +322,11 @@
        id="path4192"
        d="m 581,1029.8622 -7,0"
        style="fill:none;fill-rule:evenodd;stroke:#3498db;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <circle
+       r="13"
+       cy="1032.3623"
+       cx="620"
+       id="circle4175"
+       style="fill:none;stroke:#3498db;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
 </svg>

@@ -41,7 +41,8 @@ import v4l2ctl
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
-_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off', 'up', 'right', 'down', 'left', 'zoom_in', 'zoom_out']
+_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off', 'up', 'right', 'down', 'left', 'zoom_in', 'zoom_out',
+        'preset1', 'preset2', 'preset3', 'preset4', 'preset5', 'preset6', 'preset7', 'preset8', 'preset9']
 
 _main_config_cache = None
 _camera_config_cache = {}

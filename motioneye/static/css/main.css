@@ -1104,6 +1104,50 @@ div.camera-action-button.zoom-out {
     background-position: -1400% 0px;
 }
 
+div.camera-action-button.preset {
+    background-position: -1500% 0px;
+    text-align: center;
+    line-height: 2.5em;
+    color: #3498db;
+    font-weight: bold;
+}
+
+div.camera-action-button.preset1:BEFORE {
+    content: '1';
+}
+
+div.camera-action-button.preset2:BEFORE {
+    content: '2';
+}
+
+div.camera-action-button.preset3:BEFORE {
+    content: '3';
+}
+
+div.camera-action-button.preset4:BEFORE {
+    content: '4';
+}
+
+div.camera-action-button.preset5:BEFORE {
+    content: '5';
+}
+
+div.camera-action-button.preset6:BEFORE {
+    content: '6';
+}
+
+div.camera-action-button.preset7:BEFORE {
+    content: '7';
+}
+
+div.camera-action-button.preset8:BEFORE {
+    content: '8';
+}
+
+div.camera-action-button.preset9:BEFORE {
+    content: '9';
+}
+
 div.camera-container {
     position: relative;
     padding: 0px;
