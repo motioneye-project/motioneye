@@ -32,6 +32,7 @@ from tornado.ioloop import IOLoop
 import diskctl
 import powerctl
 import settings
+import tasks
 import update
 import uploadservices
 import utils
@@ -800,6 +801,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         service = uploadservices.get(old_config['@id'], ui['upload_service'])
         service.load(upload_settings)
         service.save()
+
+        tasks.add(0, uploadservices.invalidate, tag='invalidate_uploadservices', async=True)
 
     if ui['text_overlay']:
         left_text = ui['left_text']

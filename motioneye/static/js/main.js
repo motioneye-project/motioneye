@@ -2486,6 +2486,15 @@ function doTestUpload() {
     var cameraId = $('#cameraSelect').val();
 
     ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
+        /* clear the authorization key as it's definitely not usable anymore;
+         * the credentials must have already been obtained and saved */
+        $('#uploadAuthorizationKeyEntry').val('');
+        
+        /* also clear it from the pending configs dict */
+        Object.keys(pushConfigs).forEach(function (id) {
+            delete pushConfigs[id].upload_authorization_key;
+        });
+        
         hideModalDialog(); /* progress */
         if (data.error) {
             showErrorMessage('Accessing the upload service failed: ' + data.error + '!');

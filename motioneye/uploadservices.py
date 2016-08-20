@@ -169,6 +169,7 @@ class GoogleDrive(UploadService):
 
     def test_access(self):
         try:
+            self._credentials = None # invalidate credentials
             self._folder_ids = {}
             self._get_folder_id()
             return True
@@ -217,10 +218,11 @@ class GoogleDrive(UploadService):
         if 'location' in data:
             self._location = data['location']
             self._folder_ids = {}
-        if 'credentials' in data:
-            self._credentials = data['credentials']
         if 'authorization_key' in data:
             self._authorization_key = data['authorization_key']
+            self._credentials = None
+        if 'credentials' in data:
+            self._credentials = data['credentials']
 
     def _get_folder_id(self, path=''):
         now = time.time()
@@ -454,6 +456,8 @@ class Dropbox(UploadService):
         return self.AUTH_URL + '?' + urllib.urlencode(query)
 
     def test_access(self):
+        self._credentials = None # invalidate credentials
+
         body = {
             'path': self._clean_location(),
             'recursive': False,
@@ -502,10 +506,11 @@ class Dropbox(UploadService):
     def load(self, data):
         if 'location' in data:
             self._location = data['location']
-        if 'credentials' in data:
-            self._credentials = data['credentials']
         if 'authorization_key' in data:
             self._authorization_key = data['authorization_key']
+            self._credentials = None
+        if 'credentials' in data:
+            self._credentials = data['credentials']
     
     def _clean_location(self):
         location = self._location
@@ -604,8 +609,10 @@ def get(camera_id, service_name):
     
     if _services is None:
         _services = _load()
+        
+    camera_id = str(camera_id)
 
-    service = _services.get(str(camera_id), {}).get(service_name)
+    service = _services.get(camera_id, {}).get(service_name)
     if service is None:
         cls = UploadService.get_service_classes().get(service_name)
         if cls:
@@ -673,7 +680,7 @@ def _save(services):
     data = {}
     for camera_id, camera_services in services.iteritems():
         for name, service in camera_services.iteritems():
-            data.setdefault(camera_id, {})[name] = service.dump()
+            data.setdefault(str(camera_id), {})[name] = service.dump()
 
     try:
         json.dump(data, file, sort_keys=True, indent=4)
@@ -685,6 +692,12 @@ def _save(services):
         file.close()
 
 
+def invalidate():
+    global _services
+    
+    _services = None
+
+
 def upload_media_file(camera_id, target_dir, service_name, filename):
     service = get(camera_id, service_name)
     if not service:
@@ -694,4 +707,4 @@ def upload_media_file(camera_id, target_dir, service_name, filename):
         service.upload_file(target_dir, filename)
 
     except Exception as e:
-        logging.error('failed to upload file "%s" with service %s: %s' % (filename, service, e))
+        logging.error('failed to upload file "%s" with service %s: %s' % (filename, service, e), exc_info=True)
