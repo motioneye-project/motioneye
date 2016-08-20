@@ -3054,8 +3054,8 @@ function runPictureDialog(entries, pos, mediaType) {
                 img.height(height);
             }
             updateModalDialogPosition();
-            prevArrow.css('display', pos > 0 ? '' : 'none');
-            nextArrow.css('display', pos < entries.length - 1 ? '' : 'none');
+            prevArrow.css('display', pos < entries.length - 1 ? '' : 'none');
+            nextArrow.css('display', pos > 0 ? '' : 'none');
             progressImg.remove();
         });
         
@@ -3064,16 +3064,16 @@ function runPictureDialog(entries, pos, mediaType) {
     }
     
     prevArrow.click(function () {
-        if (pos > 0) {
-            pos--;
+        if (pos < entries.length - 1) {
+            pos++;
         }
         
         updatePicture();
     });
     
     nextArrow.click(function () {
-        if (pos < entries.length - 1) {
-            pos++;
+        if (pos > 0) {
+            pos--;
         }
         
         updatePicture();
