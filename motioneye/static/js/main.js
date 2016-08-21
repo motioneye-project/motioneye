@@ -1570,6 +1570,8 @@ function cameraUi2Dict() {
         'web_hook_notifications_http_method': $('#webHookNotificationsHttpMethodSelect').val(),
         'command_notifications_enabled': $('#commandNotificationsEnabledSwitch')[0].checked,
         'command_notifications_exec': $('#commandNotificationsEntry').val(),
+        'command_post_notifications_enabled': $('#commandPostNotificationsEnabledSwitch')[0].checked,
+        'command_post_notifications_exec': $('#commandPostNotificationsEntry').val(),
         
         /* working schedule */
         'working_schedule': $('#workingScheduleEnabledSwitch')[0].checked,
@@ -1912,6 +1914,8 @@ function dict2CameraUi(dict) {
     
     $('#commandNotificationsEnabledSwitch')[0].checked = dict['command_notifications_enabled']; markHideIfNull('command_notifications_enabled', 'commandNotificationsEnabledSwitch');
     $('#commandNotificationsEntry').val(dict['command_notifications_exec']);
+    $('#commandPostNotificationsEnabledSwitch')[0].checked = dict['command_post_notifications_enabled']; markHideIfNull('command_post_notifications_enabled', 'commandPostNotificationsEnabledSwitch');
+    $('#commandPostNotificationsEntry').val(dict['command_post_notifications_exec']);
 
     /* working schedule */
     $('#workingScheduleEnabledSwitch')[0].checked = dict['working_schedule']; markHideIfNull('working_schedule', 'workingScheduleEnabledSwitch');

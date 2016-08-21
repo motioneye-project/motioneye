@@ -913,6 +913,9 @@ def motion_camera_ui_to_dict(ui, old_config=None):
 
     # event end
     on_event_end = ['%(script)s stop %%t' % {'script': meyectl.find_command('relayevent')}]
+
+    if ui['command_post_notifications_enabled']:
+        on_event_end += utils.split_semicolon(ui['command_post_notifications_exec'])
     
     data['on_event_end'] = '; '.join(on_event_end)
     
@@ -1053,6 +1056,7 @@ def motion_camera_dict_to_ui(data):
         'email_notifications_enabled': False,
         'web_hook_notifications_enabled': False,
         'command_notifications_enabled': False,
+        'command_post_notifications_enabled': False,
         
         # working schedule
         'working_schedule': False,
@@ -1296,6 +1300,24 @@ def motion_camera_dict_to_ui(data):
     if command_notifications: 
         ui['command_notifications_enabled'] = True
         ui['command_notifications_exec'] = '; '.join(command_notifications)
+
+    # event end
+    on_event_end = data.get('on_event_end') or []
+    if on_event_end:
+        on_event_end = utils.split_semicolon(on_event_end)
+
+    command_post_notifications = []
+    for e in on_event_end:
+        if e.count('relayevent') or e.count('eventrelay.py'):
+            continue # ignore internal relay script
+
+        else: # custom command
+            command_post_notifications.append(e)
+
+    if command_post_notifications:
+        ui['command_post_notifications_enabled'] = True
+        ui['command_post_notifications_exec'] = '; '.join(command_post_notifications)
+
 
     # movie end
     on_movie_end = data.get('on_movie_end') or []
