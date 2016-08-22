@@ -31,6 +31,7 @@ _ctrls_cache = {}
 _ctrl_values_cache = {}
 
 _DEV_V4L_BY_ID = '/dev/v4l/by-id/'
+_V4L2_TIMEOUT = 10
 
 
 def find_v4l2_ctl():
@@ -71,8 +72,8 @@ def list_devices():
                 logging.warn('v4l2-ctl command returned more than 10k of output')
                 break
             
-            if time.time() - started > 3:
-                logging.warn('v4l2-ctl command ran for more than 3 seconds')
+            if time.time() - started > _V4L2_TIMEOUT:
+                logging.warn('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
                 break
 
     except subprocess.CalledProcessError:
@@ -144,8 +145,8 @@ def list_resolutions(device):
             logging.warn('v4l2-ctl command returned more than 10k of output')
             break
         
-        if time.time() - started > 3:
-            logging.warn('v4l2-ctl command ran for more than 3 seconds')
+        if time.time() - started > _V4L2_TIMEOUT:
+            logging.warn('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
             break
     
     try:
