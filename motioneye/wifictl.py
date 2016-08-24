@@ -99,7 +99,7 @@ def _set_wifi_settings(s):
     enabled = s['wifiEnabled']
     ssid = s['wifiNetworkName']
     psk = s['wifiNetworkKey']
-    key_mgmt = 'WPA-PSK WPA-EAP' if psk else 'NONE'
+    key_mgmt = None if psk else 'NONE'
     
     # will update the first configured network
     try:
@@ -134,7 +134,7 @@ def _set_wifi_settings(s):
                 lines.insert(i, '    ssid="' + ssid + '"\n')
             if enabled and psk and not found_psk:
                 lines.insert(i, '    psk="' + psk + '"\n')
-            if enabled and not found_key_mgmt:
+            if enabled and not found_key_mgmt and key_mgmt:
                 lines.insert(i, '    key_mgmt=' + key_mgmt + '\n')
             
             found_psk = found_ssid = found_key_mgmt = True
@@ -156,7 +156,7 @@ def _set_wifi_settings(s):
                         lines.pop(i)
                         i -= 1
         
-                elif re.match('key_mgmt\s*=\s*.*?', line):
+                elif re.match('key_mgmt\s*=\s*.*?', line) and key_mgmt:
                     lines[i] = '    key_mgmt=' + key_mgmt + '\n'
                     found_key_mgmt = True
         
@@ -172,7 +172,8 @@ def _set_wifi_settings(s):
         lines.append('    scan_ssid=1\n')
         lines.append('    ssid="' + ssid + '"\n')
         lines.append('    psk="' + psk + '"\n')
-        lines.append('    key_mgmt=' + key_mgmt + '\n')
+        if key_mgmt:
+            lines.append('    key_mgmt=' + key_mgmt + '\n')
         lines.append('}\n\n')
 
     try:
