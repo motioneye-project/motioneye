@@ -4,7 +4,7 @@ motioneye:
     - /mnt/motioneye/media:/media
     - /mnt/motioneye/config:/etc/motioneye
   environment:
-    - TIMEZONE="Pacific/Auckland"
+    - "TZ=Pacific/Auckland" # See http://php.net/manual/en/timezones.php
   ports:
     - 8081:8081
     - 8765:8765
