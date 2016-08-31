@@ -205,8 +205,8 @@ class MainHandler(BaseHandler):
                 hostname=socket.gethostname(),
                 title=self.get_argument('title', None),
                 admin_username=config.get_main().get('@admin_username'),
-                old_motion=config.is_old_motion(),
-                motion_new_movie_format_support=config.motion_new_movie_format_support(),
+                has_streaming_auth=motionctl.has_streaming_auth(),
+                has_new_movie_format_support=motionctl.has_new_movie_format_support(),
                 has_motion=bool(motionctl.find_motion()))
     
 
@@ -565,7 +565,7 @@ class ConfigHandler(BaseHandler):
             if scheme in ['http', 'https']:
                 utils.test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic'], allow_jpeg=True, callback=on_response)
                 
-            elif config.motion_rtsp_support() and scheme == 'rtsp':
+            elif motionctl.get_rtsp_support() and scheme == 'rtsp':
                 utils.test_rtsp_url(self.get_all_arguments(), callback=on_response)
                 
             else:

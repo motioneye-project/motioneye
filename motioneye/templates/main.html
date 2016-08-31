@@ -581,7 +581,7 @@
                         <td class="settings-item-value"><input type="text" class="styled streaming camera-config" id="streamingPortEntry"></td>
                         <td><span class="help-mark" title="sets the TCP port on which the webcam streaming server listens">?</span></td>
                     </tr>
-                    {% if not old_motion %}
+                    {% if has_streaming_auth %}
                     <tr class="settings-item advanced-setting" depends="videoStreamingEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">Authentication Mode</span></td>
                         <td class="settings-item-value">
@@ -702,7 +702,7 @@
                                 <option value="swf">Small Web Format (.swf)</option>
                                 <option value="flv">Flash Video (.flv)</option>
                                 <option value="mov">QuickTime (.mov)</option>
-                                {% if motion_new_movie_format_support %}
+                                {% if has_new_movie_format_support %}
                                 <option value="ogg">Ogg (.ogg)</option>
                                 <option value="mp4">H.264 (.mp4)</option>
                                 <option value="hevc">HEVC (.mp4)</option>

@@ -30,10 +30,10 @@ import urlparse
 from tornado.ioloop import IOLoop
 
 import diskctl
+import motionctl
 import powerctl
 import settings
 import tasks
-import update
 import uploadservices
 import utils
 import v4l2ctl
@@ -51,9 +51,6 @@ _additional_section_funcs = []
 _additional_config_funcs = []
 _additional_structure_cache = {}
 _monitor_command_cache = {}
-
-# starting with r490 motion config directives have changed a bit 
-_LAST_OLD_CONFIG_VERSIONS = (490, '3.2.12')
 
 # when using the following video codecs, the ffmpeg_variable_bitrate parameter appears to have an exponential effect
 _EXPONENTIAL_QUALITY_CODECS = ['mpeg4', 'msmpeg4', 'swf', 'flv', 'mov', 'ogg', 'mkv']
@@ -131,7 +128,7 @@ def get_main(as_lines=False):
             no_convert=['@admin_username', '@admin_password', '@normal_username', '@normal_password'])
     
     _get_additional_config(main_config)
-    _set_default_motion(main_config, old_motion=is_old_motion())
+    _set_default_motion(main_config, old_config_format=motionctl.has_old_config_format())
     
     _main_config_cache = main_config
     
@@ -301,10 +298,10 @@ def get_camera(camera_id, as_lines=False):
         camera_config['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
         camera_config['@id'] = camera_id
         
-        old_motion = is_old_motion()
+        old_config_format = motionctl.has_old_config_format()
         
         # adapt directives from old configuration, if needed
-        if old_motion:
+        if old_config_format:
             logging.debug('using old motion config directives')
             
             if 'output_normal' in camera_config:
@@ -363,10 +360,10 @@ def set_camera(camera_id, camera_config):
     camera_config = dict(camera_config)
     
     if utils.local_motion_camera(camera_config):
-        old_motion = is_old_motion()
+        old_config_format = motionctl.has_old_config_format()
         
         # adapt directives to old configuration, if needed
-        if old_motion:
+        if old_config_format:
             logging.debug('using old motion config directives')
             
             if 'output_pictures' in camera_config:
@@ -1489,72 +1486,6 @@ def restore(content):
         return None
 
 
-def is_old_motion():
-    import motionctl
-    
-    try:
-        binary, version = motionctl.find_motion()  # @UnusedVariable
-        
-        if version.startswith('trunkREV'): # e.g. "trunkREV599"
-            version = int(version[8:])
-            return version <= _LAST_OLD_CONFIG_VERSIONS[0]
-        
-        elif version.lower().count('git'): # e.g. "Unofficial-Git-a5b5f13" or "3.2.12+git20150927mrdave"
-            return False # all git versions are assumed to be new
-        
-        else: # stable release, should be in the format "x.y.z"
-            return update.compare_versions(version, _LAST_OLD_CONFIG_VERSIONS[1]) <= 0
-
-    except:
-        return False
-
-
-def motion_rtsp_support():
-    import motionctl
-
-    try:
-        binary, version = motionctl.find_motion()  # @UnusedVariable
-        
-        if version.startswith('trunkREV'): # e.g. trunkREV599
-            version = int(version[8:])
-            if version > _LAST_OLD_CONFIG_VERSIONS[0]:
-                return ['tcp']
-        
-        elif version.lower().count('git'): # e.g. Unofficial-Git-a5b5f13
-            return ['tcp', 'udp'] # all git versions are assumed to support both transport protocols
-        
-        else: # stable release, should be in the format x.y.z
-            return []
-
-    except:
-        return []
-
-
-def motion_mmal_support():
-    import motionctl
-
-    try:
-        binary, version = motionctl.find_motion()  # @UnusedVariable
-        
-        return version == 'mmaltest'
-
-    except:
-        return False
-
-
-def motion_new_movie_format_support():
-    import motionctl
- 
-    try:
-        binary, version = motionctl.find_motion()  # @UnusedVariable
-
-        # any git version is supposed to accept newer formats
-        return version.lower().count('git') 
- 
-    except:
-        return False
-
-
 def invalidate():
     global _main_config_cache
     global _camera_config_cache
@@ -1741,7 +1672,7 @@ def _dict_to_conf(lines, data, list_names=[]):
     return lines
 
 
-def _set_default_motion(data, old_motion):
+def _set_default_motion(data, old_config_format):
     data.setdefault('@enabled', True)
 
     data.setdefault('@show_advanced', False)
@@ -1752,7 +1683,7 @@ def _set_default_motion(data, old_motion):
     
     data.setdefault('setup_mode', False)
 
-    if old_motion:
+    if old_config_format:
         data.setdefault('control_port', settings.MOTION_CONTROL_PORT)
         data.setdefault('control_html_output', True)
         data.setdefault('control_localhost', settings.MOTION_CONTROL_LOCALHOST)
@@ -1839,7 +1770,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     data.setdefault('max_movie_time', 0)
     data.setdefault('ffmpeg_output_movies', False)
-    if motion_new_movie_format_support():
+    if motionctl.has_new_movie_format_support():
         data.setdefault('ffmpeg_video_codec', 'mp4') # will use h264 codec
         data.setdefault('ffmpeg_variable_bitrate', _MAX_FFMPEG_VARIABLE_BITRATE / 4) # 75%
         
