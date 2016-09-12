@@ -749,6 +749,25 @@ class ConfigHandler(BaseHandler):
             
         else:
             self.finish_json({'ok': False})
+    
+    @classmethod
+    def _on_test_result(cls, result):
+        upload_service_test_info = getattr(cls, '_upload_service_test_info', None)
+        cls._upload_service_test_info = None
+
+        if not upload_service_test_info:
+            return logging.warn('no pending upload service test request')
+        
+        (request_handler, service_name) = upload_service_test_info
+
+        if result is True:
+            logging.debug('accessing %s succeeded' % service_name)
+            request_handler.finish_json()
+
+        else:
+            logging.warn('accessing %s failed: %s' % (service_name, result))
+            request_handler.finish_json({'error': result})
+        
 
     @BaseHandler.auth(admin=True)
     def test(self, camera_id):
@@ -759,21 +778,11 @@ class ConfigHandler(BaseHandler):
         if utils.local_motion_camera(camera_config):
             if what == 'upload_service':
                 service_name = data['service']
-                service = uploadservices.get(camera_id, service_name)
-                service.load(data)
-                if not service:
-                    raise HTTPError(400, 'unknown upload service %s' % service_name)
-                
-                logging.debug('testing access to %s' % service)
-                result = service.test_access()
-                if result is True:
-                    logging.debug('accessing %s succeeded' % service)
-                    self.finish_json()
-    
-                else:
-                    logging.warn('accessing %s failed: %s' % (service, result))
-                    self.finish_json({'error': result})
-    
+                ConfigHandler._upload_service_test_info = (self, service_name)
+
+                tasks.add(0, uploadservices.test_access, tag='uploadservices.test(%s)'% service_name,
+                        camera_id=camera_id, service_name=service_name, data=data, callback=self._on_test_result)
+
             elif what == 'email':
                 import sendmail
                 import tzctl
@@ -866,11 +875,9 @@ class ConfigHandler(BaseHandler):
         if not service_name:
             raise HTTPError(400, 'service_name required')
 
-        service = uploadservices.get(camera_id, service_name)
-        if not service:
-            raise HTTPError(400, 'unknown upload service %s' % service_name)
-
-        url = service.get_authorize_url()
+        url = uploadservices.get_authorize_url(service_name)
+        if not url:
+            raise HTTPError(400, 'no authorization url for upload service %s' % service_name)
 
         logging.debug('redirected to authorization url %s' % url)
         self.redirect(url)
@@ -1667,7 +1674,7 @@ class RelayEventHandler(BaseHandler):
             filename = self.get_argument('filename')
             
             # generate preview (thumbnail)
-            tasks.add(5, mediafiles.make_movie_preview, tag='make_movie_preview(%s)' % filename, async=True,
+            tasks.add(5, mediafiles.make_movie_preview, tag='make_movie_preview(%s)' % filename,
                     camera_config=camera_config, full_path=filename)
 
             # upload to external service
@@ -1689,7 +1696,7 @@ class RelayEventHandler(BaseHandler):
     def upload_media_file(self, filename, camera_id, camera_config):
         service_name = camera_config['@upload_service']
         
-        tasks.add(5, uploadservices.upload_media_file, tag='upload_media_file(%s)' % filename, async=True,
+        tasks.add(5, uploadservices.upload_media_file, tag='upload_media_file(%s)' % filename,
                 camera_id=camera_id, service_name=service_name,
                 target_dir=camera_config['@upload_subfolders'] and camera_config['target_dir'],
                 filename=filename)

@@ -40,7 +40,8 @@ class UploadService(object):
     def __str__(self):
         return self.NAME
     
-    def get_authorize_url(self):
+    @classmethod
+    def get_authorize_url(cls):
         return '/'
     
     def test_access(self):
@@ -155,21 +156,21 @@ class GoogleDrive(UploadService):
         self._folder_id_times = {}
         
         UploadService.__init__(self, camera_id)
-        
-    def get_authorize_url(self):
+    
+    @classmethod
+    def get_authorize_url(cls):
         query = {
-            'scope': self.SCOPE,
+            'scope': cls.SCOPE,
             'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
             'response_type': 'code',
-            'client_id': self.CLIENT_ID,
+            'client_id': cls.CLIENT_ID,
             'access_type': 'offline'
         }
 
-        return self.AUTH_URL + '?' + urllib.urlencode(query)
+        return cls.AUTH_URL + '?' + urllib.urlencode(query)
 
     def test_access(self):
         try:
-            self._credentials = None # invalidate credentials
             self._folder_ids = {}
             self._get_folder_id()
             return True
@@ -215,13 +216,13 @@ class GoogleDrive(UploadService):
         }
 
     def load(self, data):
-        if 'location' in data:
+        if data.get('location'):
             self._location = data['location']
             self._folder_ids = {}
-        if 'authorization_key' in data:
+        if data.get('authorization_key'):
             self._authorization_key = data['authorization_key']
             self._credentials = None
-        if 'credentials' in data:
+        if data.get('credentials'):
             self._credentials = data['credentials']
 
     def _get_folder_id(self, path=''):
@@ -447,17 +448,16 @@ class Dropbox(UploadService):
         
         UploadService.__init__(self, camera_id)
 
-    def get_authorize_url(self):
+    @classmethod
+    def get_authorize_url(cls):
         query = {
             'response_type': 'code',
-            'client_id': self.CLIENT_ID
+            'client_id': cls.CLIENT_ID
         }
 
-        return self.AUTH_URL + '?' + urllib.urlencode(query)
+        return cls.AUTH_URL + '?' + urllib.urlencode(query)
 
     def test_access(self):
-        self._credentials = None # invalidate credentials
-
         body = {
             'path': self._clean_location(),
             'recursive': False,
@@ -504,12 +504,12 @@ class Dropbox(UploadService):
         }
 
     def load(self, data):
-        if 'location' in data:
+        if data.get('location'):
             self._location = data['location']
-        if 'authorization_key' in data:
+        if data.get('authorization_key'):
             self._authorization_key = data['authorization_key']
             self._credentials = None
-        if 'credentials' in data:
+        if data.get('credentials'):
             self._credentials = data['credentials']
     
     def _clean_location(self):
@@ -602,7 +602,17 @@ class Dropbox(UploadService):
         return {
             'access_token': data['access_token']
         }
+
+
+def get_authorize_url(service_name):
+    cls = UploadService.get_service_classes().get(service_name)
+
+    if cls:
+        return cls.get_authorize_url()
     
+    else:
+        return None
+
 
 def get(camera_id, service_name):
     global _services
@@ -622,6 +632,35 @@ def get(camera_id, service_name):
             logging.debug('created default upload service "%s" for camera with id "%s"' % (service_name, camera_id))
     
     return service
+
+
+def test_access(camera_id, service_name, data):
+    logging.debug('testing access to %s' % service_name)
+
+    service = get(camera_id, service_name)
+    service.load(data)
+    if not service:
+        return 'unknown upload service %s' % service_name
+
+    return service.test_access()
+
+
+def update(camera_id, service_name, settings):
+    service = get(camera_id, service_name)
+    service.load(settings)
+    service.save()
+
+
+def upload_media_file(camera_id, target_dir, service_name, filename):
+    service = get(camera_id, service_name)
+    if not service:
+        return logging.error('service "%s" not initialized for camera with id %s' % (service_name, camera_id))
+
+    try:
+        service.upload_file(target_dir, filename)
+
+    except Exception as e:
+        logging.error('failed to upload file "%s" with service %s: %s' % (filename, service, e), exc_info=True)
 
 
 def _load():
@@ -692,19 +731,3 @@ def _save(services):
         file.close()
 
 
-def invalidate():
-    global _services
-    
-    _services = None
-
-
-def upload_media_file(camera_id, target_dir, service_name, filename):
-    service = get(camera_id, service_name)
-    if not service:
-        return logging.error('service "%s" not initialized for camera with id %s' % (service_name, camera_id))
-
-    try:
-        service.upload_file(target_dir, filename)
-
-    except Exception as e:
-        logging.error('failed to upload file "%s" with service %s: %s' % (filename, service, e), exc_info=True)

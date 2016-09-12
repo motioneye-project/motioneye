@@ -796,11 +796,9 @@ def motion_camera_ui_to_dict(ui, old_config=None):
 
     if ui['upload_enabled'] and '@id' in old_config:
         upload_settings = {k[7:]: ui[k] for k in ui.iterkeys() if k.startswith('upload_')}
-        service = uploadservices.get(old_config['@id'], ui['upload_service'])
-        service.load(upload_settings)
-        service.save()
 
-        tasks.add(0, uploadservices.invalidate, tag='invalidate_uploadservices', async=True)
+        tasks.add(0, uploadservices.update, tag='uploadservices.update(%s)' % ui['upload_service'],
+                camera_id=old_config['@id'], service_name=ui['upload_service'], settings=upload_settings)
 
     if ui['text_overlay']:
         left_text = ui['left_text']
