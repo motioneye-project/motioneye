@@ -13,7 +13,16 @@
 # GNU General Public License for more details.
 # 
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+
+# THIS SCRIPT IS NO LONGER USED BUT IS KEPT FOR COMPATIBILITY REASONS,
+# AS OLDER CONFIGS MIGHT STILL REFERENCE IT
+# NEWER CONFIGS WILL USE motioneye/scripts/relayevent.sh,
+# AS IT'S CONSIDERABLY FASTER 
+
+
 
 import errno
 import json

@@ -19,6 +19,7 @@ import logging
 import os
 import re
 import subprocess
+import utils
 
 
 def _list_mounts():
@@ -150,7 +151,7 @@ def _list_disks_dev_by_id():
 
 def _list_disks_fdisk():
     try:
-        output = subprocess.check_output('fdisk -l 2>/dev/null', shell=True)
+        output = subprocess.check_output(['fdisk', '-l'], stderr=utils.DEV_NULL)
     
     except Exception as e:
         logging.error('failed to list disks using "fdisk -l": %s' % e, exc_info=True)

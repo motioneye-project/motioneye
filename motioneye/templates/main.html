@@ -112,7 +112,7 @@
                     <tr class="settings-item" min="1" max="4" snap="1" ticksnum="4" decimals="0" id="fitFramesVerticallyRow">
                         <td class="settings-item-label"><span class="settings-item-label">Fit Frames Vertically</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled prefs" id="fitFramesVerticallySwitch"></td>
-                        <td><span class="help-mark" title="controls whether frame sizes can be reduced to fit the window vertically">?</span></td>
+                        <td><span class="help-mark" title="controls whether frame sizes can be reduced to vertically fit the window or not">?</span></td>
                     </tr>
                     <tr class="settings-item" min="0" max="100" snap="2" ticksnum="6" decimals="0">
                         <td class="settings-item-label"><span class="settings-item-label">Frame Rate Dimmer</span></td>
@@ -352,6 +352,11 @@
                         <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="rootDirectoryEntry"></td>
                         <td><span class="help-mark" title="the root path (on the selected storage device) where the files will be saved">?</span></td>
                     </tr>
+                    <tr class="settings-item advanced-setting" depends="storageDevice=network-share">
+                        <td class="settings-item-label"><span class="settings-item-label"></span></td>
+                        <td class="settings-item-value"><div class="button normal-button test-button" id="networkShareTestButton">Test Share</div></td>
+                        <td><span class="help-mark" title="click this button to test the network share connectivity after you have filled in the required details">?</span></td>
+                    </tr>
                     <tr class="settings-item advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
@@ -369,6 +374,16 @@
                         <td class="settings-item-label"><span class="settings-item-label">Upload Media Files</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadEnabledSwitch"></td>
                         <td><span class="help-mark" title="enable this if you want your media files to be uploaded to an external service">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="uploadEnabled">
+                        <td class="settings-item-label"><span class="settings-item-label">Upload Pictures</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadPictureSwitch"></td>
+                        <td><span class="help-mark" title="enable this if you want pictures to be uploaded to an external service">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="uploadEnabled">
+                        <td class="settings-item-label"><span class="settings-item-label">Upload Movies</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadMovieSwitch"></td>
+                        <td><span class="help-mark" title="enable this if you want videos to be uploaded to an external service">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="uploadEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">Upload Service</span></td>
@@ -409,7 +424,7 @@
                         <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadLocationEntry"></td>
                         <td><span class="help-mark" title="the location (root path) where media files should be uploaded (e.g. /files/cam1/)">?</span></td>
                     </tr>
-                    <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService=(dropbox)">
+                    <tr class="settings-item advanced-setting" depends="uploadEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">Include Subfolders</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadSubfoldersSwitch"></td>
                         <td><span class="help-mark" title="enable this to upload the media files together with their subfolders, instead of placing them directly into the root location">?</span></td>
@@ -566,7 +581,7 @@
                         <td class="settings-item-value"><input type="text" class="styled streaming camera-config" id="streamingPortEntry"></td>
                         <td><span class="help-mark" title="sets the TCP port on which the webcam streaming server listens">?</span></td>
                     </tr>
-                    {% if not old_motion %}
+                    {% if has_streaming_auth %}
                     <tr class="settings-item advanced-setting" depends="videoStreamingEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">Authentication Mode</span></td>
                         <td class="settings-item-value">
@@ -576,7 +591,7 @@
                                 <option value="digest">Digest</option>
                             </select>
                         </td>
-                        <td><span class="help-mark" title="the authentication mode to use when accessing the stream (use Basic instead of Digest if you encounter issues with third party apps)">?</span></td>
+                        <td><span class="help-mark" title="the authentication method used by the stream (choose Basic instead of Digest if you encounter issues with third party apps); surveillance credentials will be used">?</span></td>
                     </tr>
                     {% endif %}
                     <tr class="settings-item advanced-setting">
@@ -676,7 +691,26 @@
                     <tr class="settings-item advanced-setting" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Movie File Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled movies camera-config" id="movieFileNameEntry" placeholder="file name pattern..."></td>
-                        <td><span class="help-mark" title="sets the name pattern for the movie (MPEG) files; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number, / = subfolder">?</span></td>
+                        <td><span class="help-mark" title="sets the name pattern for the movie files; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number, / = subfolder">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Movie Format</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled movies camera-config" id="movieFormatSelect">
+                                <option value="mpeg4">MPEG4 (.avi)</option>
+                                <option value="msmpeg4">MSMPEG4v2 (.avi)</option>
+                                <option value="swf">Small Web Format (.swf)</option>
+                                <option value="flv">Flash Video (.flv)</option>
+                                <option value="mov">QuickTime (.mov)</option>
+                                {% if has_new_movie_format_support %}
+                                <option value="ogg">Ogg (.ogg)</option>
+                                <option value="mp4">H.264 (.mp4)</option>
+                                <option value="hevc">HEVC (.mp4)</option>
+                                <option value="mkv">Matroska Video (.mkv)</option>
+                                {% endif %}
+                            </select>
+                        </td>
+                        <td><span class="help-mark" title="sets the movie file format; not all formats are guaranteed to work on all systems; if in doubt, test each format and select the one that works best with your video player">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
                         <td class="settings-item-label"><span class="settings-item-label">Movie Quality</span></td>
@@ -863,6 +897,11 @@
                         <td class="settings-item-label"><span class="settings-item-label">Attached Pictures Time Span</span></td>
                         <td class="settings-item-value"><input type="text" class="number styled notifications camera-config" id="emailPictureTimeSpanEntry"><span class="settings-item-unit">seconds</span></td>
                         <td><span class="help-mark" title="defines the picture search time interval to use when creating email attachments (higher values generate emails with more pictures at the cost of an increased notification delay); set to 0 to disable picture attachments">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="emailNotificationsEnabled motionDetectionEnabled">
+                        <td class="settings-item-label"><span class="settings-item-label"></span></td>
+                        <td class="settings-item-value"><div class="button normal-button test-button" id="emailTestButton">Test Email</div></td>
+                        <td><span class="help-mark" title="click this button to test email notifications after you have filled in the required details">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="motionDetectionEnabled">
                         <td colspan="100"><div class="settings-item-separator"></div></td>

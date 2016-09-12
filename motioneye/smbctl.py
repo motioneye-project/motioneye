@@ -21,6 +21,7 @@ import os
 import re
 import subprocess
 import time
+import utils
 
 from tornado.ioloop import IOLoop
 
@@ -39,7 +40,7 @@ def stop():
 
 def find_mount_cifs():
     try:
-        return subprocess.check_output('which mount.cifs', shell=True).strip()
+        return subprocess.check_output(['which', 'mount.cifs'], stderr=utils.DEV_NULL).strip()
     
     except subprocess.CalledProcessError: # not found
         return None
@@ -139,6 +140,39 @@ def update_mounts():
     return (should_stop, should_start)
 
 
+def test_share(server, share, username, password, root_directory):
+    mounts = list_mounts()
+    mounts = dict(((m['server'], m['share'], m['username'] or ''), m['mount_point']) for m in mounts)
+    
+    key = (server, share, username or '')
+    mounted = False
+    mount_point = mounts.get(key)
+    if not mount_point:
+        mount_point = _mount(server, share, username, password)
+        if not mount_point:
+            raise Exception('cannot mount network share')
+
+        mounted = True
+    
+    def maybe_umount():
+        if mounted:
+            time.sleep(1)
+            _umount(server, share, username)
+
+    path = os.path.join(mount_point, root_directory)
+    if os.path.exists(path):
+        return maybe_umount()
+    
+    try:
+        os.makedirs(path)
+    
+    except:
+        raise Exception('cannot create root directory')
+    
+    finally:
+        maybe_umount()
+
+
 def _mount(server, share, username, password):
     mount_point = make_mount_point(server, share, username)
     
@@ -164,7 +198,7 @@ def _mount(server, share, username, password):
 
         try:
             logging.debug('mounting "//%s/%s" at "%s" (sec=%s)' % (server, share, mount_point, sec))
-            subprocess.check_call('mount.cifs "//%s/%s" "%s" -o "%s"' % (server, share, mount_point, actual_opts), shell=True)
+            subprocess.check_call(['mount.cifs', '//%s/%s' % (server, share), mount_point, '-o', actual_opts])
             break
 
         except subprocess.CalledProcessError:
@@ -194,7 +228,7 @@ def _umount(server, share, username):
     logging.debug('unmounting "//%s/%s" from "%s"' % (server, share, mount_point))
     
     try:
-        subprocess.check_call('umount "%s"' % mount_point, shell=True)
+        subprocess.check_call(['umount', mount_point])
 
     except subprocess.CalledProcessError:
         logging.error('failed to unmount smb share "//%s/%s" from "%s"' % (server, share, mount_point))

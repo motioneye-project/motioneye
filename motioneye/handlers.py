@@ -29,6 +29,7 @@ from tornado.web import RequestHandler, HTTPError, asynchronous
 import config
 import mediafiles
 import mjpgclient
+import monitor
 import motionctl
 import powerctl
 import prefs
@@ -87,6 +88,12 @@ class BaseHandler(RequestHandler):
                 argument = default
         
         return argument
+    
+    def finish(self, chunk=None):
+        import motioneye
+
+        self.set_header('Server', 'motionEye/%s' % motioneye.VERSION)
+        RequestHandler.finish(self, chunk=chunk)
 
     def render(self, template_name, content_type='text/html', **context):
         self.set_header('Content-Type', content_type)
@@ -152,6 +159,7 @@ class BaseHandler(RequestHandler):
                 user = self.current_user
                 if (user is None) or (user != 'admin' and (admin or _admin)):
                     self.set_header('Content-Type', 'application/json')
+                    self.set_status(403)
 
                     return self.finish_json({'error': 'unauthorized', 'prompt': prompt})
 
@@ -167,13 +175,15 @@ class BaseHandler(RequestHandler):
     def post(self, *args, **kwargs):
         raise HTTPError(400, 'method not allowed')
 
+    def head(self, *args, **kwargs):
+        self.finish()
+
 
 class NotFoundHandler(BaseHandler):
-    def get(self):
+    def get(self, *args, **kwargs):
         raise HTTPError(404, 'not found')
 
-    def post(self):
-        raise HTTPError(404, 'not found')
+    post = head = get
 
 
 class MainHandler(BaseHandler):
@@ -195,25 +205,28 @@ class MainHandler(BaseHandler):
                 hostname=socket.gethostname(),
                 title=self.get_argument('title', None),
                 admin_username=config.get_main().get('@admin_username'),
-                old_motion=config.is_old_motion(),
+                has_streaming_auth=motionctl.has_streaming_auth(),
+                has_new_movie_format_support=motionctl.has_new_movie_format_support(),
                 has_motion=bool(motionctl.find_motion()))
-
+    
 
 class ConfigHandler(BaseHandler):
     @asynchronous
     def get(self, camera_id=None, op=None):
+        config.invalidate_monitor_commands()
+
         if camera_id is not None:
             camera_id = int(camera_id)
-        
+
         if op == 'get':
             self.get_config(camera_id)
-            
+
         elif op == 'list':
             self.list()
-        
+
         elif op == 'backup':
             self.backup()
-            
+
         elif op == 'authorize':
             self.authorize(camera_id)
 
@@ -552,7 +565,7 @@ class ConfigHandler(BaseHandler):
             if scheme in ['http', 'https']:
                 utils.test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic'], allow_jpeg=True, callback=on_response)
                 
-            elif config.motion_rtsp_support() and scheme == 'rtsp':
+            elif motionctl.get_rtsp_support() and scheme == 'rtsp':
                 utils.test_rtsp_url(self.get_all_arguments(), callback=on_response)
                 
             else:
@@ -712,6 +725,9 @@ class ConfigHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
     def backup(self):
         content = config.backup()
+        
+        if not content:
+            raise Exception('failed to create backup file')
 
         filename = 'motioneye-config.tar.gz'
         self.set_header('Content-Type', 'application/x-compressed')
@@ -734,45 +750,124 @@ class ConfigHandler(BaseHandler):
         else:
             self.finish_json({'ok': False})
     
+    @classmethod
+    def _on_test_result(cls, result):
+        upload_service_test_info = getattr(cls, '_upload_service_test_info', None)
+        cls._upload_service_test_info = None
+
+        if not upload_service_test_info:
+            return logging.warn('no pending upload service test request')
+        
+        (request_handler, service_name) = upload_service_test_info
+
+        if result is True:
+            logging.debug('accessing %s succeeded' % service_name)
+            request_handler.finish_json()
+
+        else:
+            logging.warn('accessing %s failed: %s' % (service_name, result))
+            request_handler.finish_json({'error': result})
+        
+
     @BaseHandler.auth(admin=True)
     def test(self, camera_id):
         what = self.get_argument('what')
         data = self.get_all_arguments()
         camera_config = config.get_camera(camera_id)
-        if what == 'upload_service':
-            service_name = data.get('service')
-            if not service_name:
-                raise HTTPError(400, 'service_name required')
+        
+        if utils.local_motion_camera(camera_config):
+            if what == 'upload_service':
+                service_name = data['service']
+                ConfigHandler._upload_service_test_info = (self, service_name)
 
-            if utils.local_motion_camera(camera_config): 
-                service = uploadservices.get(camera_id, service_name)
-                service.load(data)
-                if not service:
-                    raise HTTPError(400, 'unknown upload service %s' % service_name)
+                tasks.add(0, uploadservices.test_access, tag='uploadservices.test(%s)'% service_name,
+                        camera_id=camera_id, service_name=service_name, data=data, callback=self._on_test_result)
+
+            elif what == 'email':
+                import sendmail
+                import tzctl
+                import smtplib
                 
-                logging.debug('testing access to %s' % service)
-                result = service.test_access()
-                if result is True:
-                    logging.debug('accessing %s succeeded' % service)
-                    self.finish_json()
+                logging.debug('testing notification email')
     
-                else:
-                    logging.warn('accessing %s failed: %s' % (service, result))
-                    self.finish_json({'error': result})
+                try:
+                    subject = sendmail.subjects['motion_start']
+                    message = sendmail.messages['motion_start']
+                    format_dict = {
+                        'camera': camera_config['@name'],
+                        'hostname': socket.gethostname(),
+                        'moment': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                    }
+                    if settings.LOCAL_TIME_FILE:
+                        format_dict['timezone'] = tzctl.get_time_zone()
             
-            elif utils.remote_camera(camera_config):
-                def on_response(result=None, error=None):
-                    if result is True:
-                        self.finish_json()
-                        
                     else:
-                        result = result or error
-                        self.finish_json({'error': result})
+                        format_dict['timezone'] = 'local time'
 
-                remote.test(camera_config, data, on_response)
+                    message = message % format_dict
+                    subject = subject % format_dict
+    
+                    old_timeout = settings.SMTP_TIMEOUT
+                    settings.SMTP_TIMEOUT = 10
+                    sendmail.send_mail(data['smtp_server'], int(data['smtp_port']), data['smtp_account'], data['smtp_password'], data['smtp_tls'],
+                            data['from'], [data['addresses']], subject=subject, message=message, files=[])
+                    settings.SMTP_TIMEOUT = old_timeout
 
+                    self.finish_json()
+                    
+                    logging.debug('notification email test succeeded')
+
+                except Exception as e:
+                    if isinstance(e, smtplib.SMTPResponseException):
+                        msg = e.smtp_error
+
+                    else:
+                        msg = str(e)
+                    
+                    msg_lower = msg.lower()
+                    if msg_lower.count('tls'):
+                        msg = 'TLS might be required'
+                    
+                    elif msg_lower.count('authentication'):
+                        msg = 'authentication error'
+                    
+                    elif msg_lower.count('name or service not known'):
+                        msg = 'check SMTP server name'
+
+                    elif msg_lower.count('connection refused'):
+                        msg = 'check SMTP port'
+
+                    logging.error('notification email test failed: %s' % msg, exc_info=True)
+                    self.finish_json({'error': str(msg)})
+
+            elif what == 'network_share':
+                logging.debug('testing access to network share //%s/%s' % (data['server'], data['share']))
+
+                try:
+                    smbctl.test_share(data['server'], data['share'], data['username'], data['password'], data['root_directory'])
+                    logging.debug('access to network share //%s/%s succeeded' % (data['server'], data['share']))
+                    self.finish_json()
+
+                except Exception as e:
+                    logging.error('access to network share //%s/%s failed: %s' % (data['server'], data['share'], e))
+                    self.finish_json({'error': str(e)})
+
+            else:
+                raise HTTPError(400, 'unknown test %s' % what)
+
+        elif utils.remote_camera(camera_config):
+            def on_response(result=None, error=None):
+                if result is True:
+                    self.finish_json()
+                    
+                else:
+                    result = result or error
+                    self.finish_json({'error': result})
+    
+            remote.test(camera_config, data, on_response)
+        
         else:
-            raise HTTPError(400, 'unknown test %s' % what)
+            raise HTTPError(400, 'cannot test features on this type of camera')
 
     @BaseHandler.auth(admin=True)
     def authorize(self, camera_id):
@@ -780,11 +875,9 @@ class ConfigHandler(BaseHandler):
         if not service_name:
             raise HTTPError(400, 'service_name required')
 
-        service = uploadservices.get(camera_id, service_name)
-        if not service:
-            raise HTTPError(400, 'unknown upload service %s' % service_name)
-
-        url = service.get_authorize_url()
+        url = uploadservices.get_authorize_url(service_name)
+        if not url:
+            raise HTTPError(400, 'no authorization url for upload service %s' % service_name)
 
         logging.debug('redirected to authorization url %s' % url)
         self.redirect(url)
@@ -851,23 +944,29 @@ class PictureHandler(BaseHandler):
         width = width and float(width)
         height = height and float(height)
         
+        camera_id_str = str(camera_id)
+        
         camera_config = config.get_camera(camera_id)
         if utils.local_motion_camera(camera_config):
             picture = mediafiles.get_current_picture(camera_config,
                     width=width,
                     height=height)
             
-            self.set_cookie('motion_detected_' + str(camera_id), str(motionctl.is_motion_detected(camera_id)).lower())
-            self.set_cookie('capture_fps_' + str(camera_id), '%.1f' % mjpgclient.get_fps(camera_id))
+            self.set_cookie('motion_detected_' + camera_id_str, str(motionctl.is_motion_detected(camera_id)).lower())
+            self.set_cookie('capture_fps_' + camera_id_str, '%.1f' % mjpgclient.get_fps(camera_id))
+            self.set_cookie('monitor_info_' + camera_id_str, monitor.get_monitor_info(camera_id))
+
             self.try_finish(picture)
 
         elif utils.remote_camera(camera_config):
-            def on_response(motion_detected=False, fps=None, picture=None, error=None):
+            def on_response(motion_detected=False, capture_fps=None, monitor_info=None, picture=None, error=None):
                 if error:
                     return self.try_finish(None)
 
-                self.set_cookie('motion_detected_' + str(camera_id), str(motion_detected).lower())
-                self.set_cookie('capture_fps_' + str(camera_id), '%.1f' % fps)
+                self.set_cookie('motion_detected_' + camera_id_str, str(motion_detected).lower())
+                self.set_cookie('capture_fps_' + camera_id_str, '%.1f' % capture_fps)
+                self.set_cookie('monitor_info_' + camera_id_str, monitor_info or '')
+
                 self.try_finish(picture)
             
             remote.get_current_picture(camera_config, width=width, height=height, callback=on_response)
@@ -1124,9 +1223,10 @@ class PictureHandler(BaseHandler):
 
                 pretty_filename = camera_config['@name'] + '_' + group
                 pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
+                pretty_filename += '.' + mediafiles.FFMPEG_EXT_MAPPING.get(camera_config['ffmpeg_video_codec'], 'avi')
     
                 self.set_header('Content-Type', 'video/x-msvideo')
-                self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + '.avi;')
+                self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
                 self.finish(data)
 
             elif utils.remote_camera(camera_config):
@@ -1485,7 +1585,7 @@ class ActionHandler(BaseHandler):
         self.run_command_bg(command)
     
     def run_command_bg(self, command):
-        self.p = subprocess.Popen(command, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+        self.p = subprocess.Popen(command, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
         self.command = command
         
         self.io_loop = IOLoop.instance()
@@ -1574,18 +1674,18 @@ class RelayEventHandler(BaseHandler):
             filename = self.get_argument('filename')
             
             # generate preview (thumbnail)
-            tasks.add(5, mediafiles.make_movie_preview, tag='make_movie_preview(%s)' % filename, async=True,
+            tasks.add(5, mediafiles.make_movie_preview, tag='make_movie_preview(%s)' % filename,
                     camera_config=camera_config, full_path=filename)
 
             # upload to external service
-            if camera_config['@upload_enabled']:
+            if camera_config['@upload_enabled'] and camera_config['@upload_movie']:
                 self.upload_media_file(filename, camera_id, camera_config)
 
         elif event == 'picture_save':
             filename = self.get_argument('filename')
             
             # upload to external service
-            if camera_config['@upload_enabled']:
+            if camera_config['@upload_enabled'] and camera_config['@upload_picture']:
                 self.upload_media_file(filename, camera_id, camera_config)
 
         else:
@@ -1595,8 +1695,8 @@ class RelayEventHandler(BaseHandler):
     
     def upload_media_file(self, filename, camera_id, camera_config):
         service_name = camera_config['@upload_service']
-
-        tasks.add(5, uploadservices.upload_media_file, tag='upload_media_file(%s)' % filename, async=True,
+        
+        tasks.add(5, uploadservices.upload_media_file, tag='upload_media_file(%s)' % filename,
                 camera_id=camera_id, service_name=service_name,
                 target_dir=camera_config['@upload_subfolders'] and camera_config['target_dir'],
                 filename=filename)
@@ -1628,8 +1728,8 @@ class LogHandler(BaseHandler):
             logging.debug('serving log file "%s" from command "%s"' % (filename, path))
 
             try:
-                output = subprocess.check_output(path, shell=True)
-            
+                output = subprocess.check_output(path.split())
+
             except Exception as e:
                 output = 'failed to execute command: %s' % e
                 

@@ -24,8 +24,10 @@ import os
 import re
 import socket
 import struct
+import sys
 import time
 import urllib
+import urllib2
 import urlparse
 
 from PIL import Image, ImageDraw
@@ -45,6 +47,8 @@ except:
 
 _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, _-]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
+
+DEV_NULL = open('/dev/null', 'w')
 
 
 COMMON_RESOLUTIONS = [
@@ -380,9 +384,9 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
         request = HTTPRequest(url, auth_username=username, auth_password=password, auth_mode=auth_modes.pop(0),
                 connect_timeout=settings.REMOTE_REQUEST_TIMEOUT, request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
-                header_callback=on_header)
+                header_callback=on_header, validate_cert=settings.VALIDATE_CERTS)
 
-        http_client = AsyncHTTPClient(force_instance=True)    
+        http_client = AsyncHTTPClient(force_instance=True)
         http_client.fetch(request, on_response)
 
     def on_header(header):
@@ -427,37 +431,41 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
 
 def test_rtsp_url(data, callback):
-    import config
+    import motionctl
     
-    data = dict(data)
-    data.setdefault('scheme', 'rtsp')
-    data.setdefault('host', '127.0.0.1')
-    data['port'] = data.get('port') or '554'
-    data.setdefault('path', '')
-    data.setdefault('username', None)
-    data.setdefault('password', None)
+    scheme = data.get('scheme', 'rtsp')
+    host = data.get('host', '127.0.0.1')
+    port = data.get('port') or '554'
+    path = data.get('path') or ''
+    username = data.get('username')
+    password = data.get('password')
 
     url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-            'scheme': data['scheme'],
-            'host': data['host'],
-            'port': ':' + str(data['port']) if data['port'] else '',
-            'path': data['path'] or ''}
+            'scheme': scheme,
+            'host': host,
+            'port': (':' + port) if port else '',
+            'path': path}
     
     called = [False]
+    send_auth = [False]
     timeout = [None]
     stream = None
     
     io_loop = IOLoop.instance()
 
     def connect():
-        logging.debug('testing rtsp netcam at %s' % url)
+        if send_auth[0]:
+            logging.debug('testing rtsp netcam at %s (this time with credentials)' % url)
+            
+        else:
+            logging.debug('testing rtsp netcam at %s' % url)
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
         stream = IOStream(s)
         stream.set_close_callback(on_close)
-        stream.connect((data['host'], int(data['port'])), on_connect)
-        
+        stream.connect((host, int(port)), on_connect)
+
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
                 functools.partial(on_connect, _timeout=True))
         
@@ -474,13 +482,22 @@ def test_rtsp_url(data, callback):
 
         logging.debug('connected to rtsp netcam')
         
-        stream.write('\r\n'.join([
+        lines = [
             'OPTIONS %s RTSP/1.0' % url.encode('utf8'),
             'CSeq: 1',
-            'User-Agent: motionEye',
+            'User-Agent: motionEye'
+        ]
+        
+        if username and send_auth[0]:
+            auth_header = 'Authorization: ' + build_basic_header(username, password)
+            lines.append(auth_header)
+
+        lines += [
             '',
             ''
-        ]))
+        ]
+
+        stream.write('\r\n'.join(lines))
 
         seek_rtsp()
         
@@ -497,10 +514,18 @@ def test_rtsp_url(data, callback):
         if data:
             if data.endswith('200 '):
                 seek_server()
-    
+
+            elif data.endswith('401 '):
+                if not username or send_auth[0]:
+                    # either credentials not supplied, or already sent
+                    handle_error('authentication failed')
+
+                else:
+                    seek_www_authenticate()
+
             else:
                 handle_error('rtsp netcam returned erroneous response: %s' % data)
-        
+
         else:
             handle_error('timeout waiting for rtsp netcam response')
 
@@ -524,6 +549,31 @@ def test_rtsp_url(data, callback):
 
         handle_success(identifier)
 
+    def seek_www_authenticate():
+        if check_error():
+            return
+
+        stream.read_until_regex('WWW-Authenticate: .*', on_www_authenticate)
+        timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_www_authenticate)
+
+    def on_www_authenticate(data=None):
+        io_loop.remove_timeout(timeout[0])
+
+        if data:
+            scheme = re.findall('WWW-Authenticate: ([^\s]+)', data)[0].strip()
+            logging.debug('rtsp netcam auth scheme: %s' % scheme)
+            if scheme.lower() == 'basic':
+                send_auth[0] = True
+                connect()
+                
+            else:
+                logging.debug('rtsp auth scheme digest not supported, considering credentials ok')
+                handle_success('(unknown) ')
+
+        else:
+            logging.error('timeout waiting for rtsp auth scheme')
+            handle_error('timeout waiting for rtsp netcam response')
+
     def on_close():
         if called[0]:
             return
@@ -537,19 +587,19 @@ def test_rtsp_url(data, callback):
         
         called[0] = True
         cameras = []
-        rtsp_support = config.motion_rtsp_support()
+        rtsp_support = motionctl.get_rtsp_support()
         if identifier:
             identifier = ' ' + identifier
             
         else:
             identifier = ''
 
-        if 'udp' in rtsp_support:
-            cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
-        
         if 'tcp' in rtsp_support:
             cameras.append({'id': 'tcp', 'name': '%sRTSP/TCP Camera' % identifier})
 
+        if 'udp' in rtsp_support:
+            cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
+        
         callback(cameras)
 
     def handle_error(e):
@@ -717,6 +767,22 @@ def build_digest_header(method, url, username, password, state):
     state['nonce_count'] = nonce_count
 
     return 'Digest %s' % (base)
+
+
+def urlopen(*args, **kwargs):
+    if sys.version_info >= (2, 7, 9) and not settings.VALIDATE_CERTS:
+        # ssl certs are not verified by default
+        # in versions prior to 2.7.9
+
+        import ssl
+
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+    
+        kwargs.setdefault('context', ctx)
+
+    return urllib2.urlopen(*args, **kwargs)
 
 
 def build_editable_mask_file(editable_mask):

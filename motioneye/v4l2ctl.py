@@ -18,6 +18,7 @@
 import fcntl
 import logging
 import os.path
+import pipes
 import re
 import stat
 import subprocess
@@ -30,11 +31,12 @@ _ctrls_cache = {}
 _ctrl_values_cache = {}
 
 _DEV_V4L_BY_ID = '/dev/v4l/by-id/'
+_V4L2_TIMEOUT = 10
 
 
 def find_v4l2_ctl():
     try:
-        return subprocess.check_output('which v4l2-ctl', shell=True).strip()
+        return subprocess.check_output(['which', 'v4l2-ctl'], stderr=utils.DEV_NULL).strip()
     
     except subprocess.CalledProcessError: # not found
         return None
@@ -48,7 +50,7 @@ def list_devices():
     try:
         output = ''
         started = time.time()
-        p = subprocess.Popen('v4l2-ctl --list-devices 2>/dev/null', shell=True, stdout=subprocess.PIPE, bufsize=1)
+        p = subprocess.Popen(['v4l2-ctl', '--list-devices'], stdout=subprocess.PIPE, bufsize=1)
 
         fd = p.stdout.fileno()
         fl = fcntl.fcntl(fd, fcntl.F_GETFL)
@@ -70,8 +72,8 @@ def list_devices():
                 logging.warn('v4l2-ctl command returned more than 10k of output')
                 break
             
-            if time.time() - started > 3:
-                logging.warn('v4l2-ctl command ran for more than 3 seconds')
+            if time.time() - started > _V4L2_TIMEOUT:
+                logging.warn('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
                 break
 
     except subprocess.CalledProcessError:
@@ -120,8 +122,8 @@ def list_resolutions(device):
     resolutions = set()
     output = ''
     started = time.time()
-    p = subprocess.Popen('v4l2-ctl -d "%(device)s" --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true' % {
-            'device': device}, shell=True, stdout=subprocess.PIPE, bufsize=1)
+    p = subprocess.Popen('v4l2-ctl -d %(device)s --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true' % {
+            'device': pipes.quote(device)}, shell=True, stdout=subprocess.PIPE, bufsize=1)
 
     fd = p.stdout.fileno()
     fl = fcntl.fcntl(fd, fcntl.F_GETFL)
@@ -143,8 +145,8 @@ def list_resolutions(device):
             logging.warn('v4l2-ctl command returned more than 10k of output')
             break
         
-        if time.time() - started > 3:
-            logging.warn('v4l2-ctl command ran for more than 3 seconds')
+        if time.time() - started > _V4L2_TIMEOUT:
+            logging.warn('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
             break
     
     try:
@@ -321,8 +323,8 @@ def _set_ctrl(device, control, value):
 
     output = ''
     started = time.time()
-    p = subprocess.Popen('v4l2-ctl -d "%(device)s" --set-ctrl %(control)s=%(value)s' % {
-            'device': device, 'control': control, 'value': value}, shell=True, stdout=subprocess.PIPE, bufsize=1)
+    p = subprocess.Popen('v4l2-ctl -d %(device)s --set-ctrl %(control)s=%(value)s' % {
+            'device': pipes.quote(device), 'control': pipes.quote(control), 'value': pipes.quote(str(value))}, shell=True, stdout=subprocess.PIPE, bufsize=1)
 
     fd = p.stdout.fileno()
     fl = fcntl.fcntl(fd, fcntl.F_GETFL)
@@ -366,8 +368,8 @@ def _list_ctrls(device):
     
     output = ''
     started = time.time()
-    p = subprocess.Popen('v4l2-ctl -d "%(device)s" --list-ctrls' % {
-            'device': device}, shell=True, stdout=subprocess.PIPE, bufsize=1)
+    p = subprocess.Popen('v4l2-ctl -d %(device)s --list-ctrls' % {
+            'device': pipes.quote(device)}, shell=True, stdout=subprocess.PIPE, bufsize=1)
 
     fd = p.stdout.fileno()
     fl = fcntl.fcntl(fd, fcntl.F_GETFL)

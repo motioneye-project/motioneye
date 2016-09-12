@@ -23,6 +23,7 @@ import hashlib
 import logging
 import multiprocessing
 import os.path
+import pipes
 import re
 import signal
 import stat
@@ -40,7 +41,43 @@ import utils
 
 
 _PICTURE_EXTS = ['.jpg']
-_MOVIE_EXTS = ['.avi', '.mp4']
+_MOVIE_EXTS = ['.avi', '.mp4', '.mov', '.swf', '.flv', '.ogg', '.mkv']
+
+FFMPEG_CODEC_MAPPING = {
+    'mpeg4': 'mpeg4',
+    'msmpeg4': 'msmpeg4v2',
+    'swf': 'flv1',
+    'flv': 'flv1',
+    'mov': 'mpeg4',
+    'ogg': 'theora',
+    'mp4': 'h264',
+    'mkv': 'h264',
+    'hevc': 'h265'
+}
+
+FFMPEG_FORMAT_MAPPING = {
+    'mpeg4': 'avi',
+    'msmpeg4': 'avi',
+    'swf': 'swf',
+    'flv': 'flv',
+    'mov': 'mov',
+    'ogg': 'ogg',
+    'mp4': 'mp4',
+    'mkv': 'matroska',
+    'hevc': 'mp4'
+}
+
+FFMPEG_EXT_MAPPING = {
+    'mpeg4': 'avi',
+    'msmpeg4': 'avi',
+    'swf': 'swf',
+    'flv': 'flv',
+    'mov': 'mov',
+    'ogg': 'ogg',
+    'mp4': 'mp4',
+    'mkv': 'mkv',
+    'hevc': 'mp4'
+}
 
 # a cache of prepared files (whose preparing time is significant)
 _prepared_files = {}
@@ -154,7 +191,7 @@ def _remove_older_files(dir, moment, exts):
 
 def find_ffmpeg():
     try:
-        return subprocess.check_output('which ffmpeg', stderr=open('/dev/null'), shell=True).strip()
+        return subprocess.check_output(['which', 'ffmpeg'], stderr=utils.DEV_NULL).strip()
     
     except subprocess.CalledProcessError: # not found
         return None
@@ -176,7 +213,7 @@ def cleanup_media(media_type):
         
         preserve_media = camera_config.get('@preserve_%(media_type)ss' % {'media_type': media_type}, 0)
         if preserve_media == 0:
-            return # preserve forever
+            continue # preserve forever
         
         still_images_enabled = bool(
                 ((camera_config['emulate_motion'] or camera_config['output_pictures']) and camera_config['picture_filename']) or
@@ -210,12 +247,12 @@ def make_movie_preview(camera_config, full_path):
     logging.debug('creating movie preview for %(path)s with an offset of %(offs)s seconds...' % {
             'path': full_path, 'offs': offs})
 
-    cmd = 'ffmpeg -i "%(path)s" -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb'
-    actual_cmd = cmd % {'path': full_path, 'offs': offs}
+    cmd = 'ffmpeg -i %(path)s -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb'
+    actual_cmd = cmd % {'path': pipes.quote(full_path), 'offs': offs}
     logging.debug('running command "%s"' % actual_cmd)
     
     try:
-        subprocess.check_output(actual_cmd, shell=True, stderr=subprocess.STDOUT)
+        subprocess.check_output(actual_cmd.split(), stderr=subprocess.STDOUT)
     
     except subprocess.CalledProcessError as e:
         logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
@@ -239,7 +276,7 @@ def make_movie_preview(camera_config, full_path):
 
         # try again, this time grabbing the very first frame
         try:
-            subprocess.check_output(actual_cmd, shell=True, stderr=subprocess.STDOUT)
+            subprocess.check_output(actual_cmd.split(), stderr=subprocess.STDOUT)
 
         except subprocess.CalledProcessError as e:
             logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
@@ -457,7 +494,11 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     global _timelapse_data
     
     target_dir = camera_config.get('target_dir')
+    codec = camera_config.get('ffmpeg_video_codec')
     
+    codec = FFMPEG_CODEC_MAPPING.get(codec, codec)
+    format = FFMPEG_FORMAT_MAPPING.get(codec, codec)
+
     # create a subprocess to retrieve media files
     def do_list_media(pipe):
         mf = _list_media_files(target_dir, exts=_PICTURE_EXTS, prefix=group)
@@ -548,7 +589,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
         global _timelapse_process
 
         cmd =  'rm -f %(tmp_filename)s;'
-        cmd += 'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec mpeg4 -b:v %(bitrate)s -qscale:v 0.1 -f avi %(tmp_filename)s'
+        cmd += 'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec %(codec)s -format %(format)s -b:v %(bitrate)s -qscale:v 0.1 -f avi %(tmp_filename)s'
 
         bitrate = 9999999
 
@@ -556,11 +597,13 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
             'tmp_filename': tmp_filename,
             'jpegs': ' '.join((('"' + p['path'] + '"') for p in pictures)),
             'framerate': framerate,
+            'codec': codec,
+            'format': format,
             'bitrate': bitrate
         }
         
         logging.debug('executing "%s"' % cmd)
-        
+
         _timelapse_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
         _timelapse_process.progress = 0.01 # 1%
         

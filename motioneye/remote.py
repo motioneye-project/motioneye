@@ -56,7 +56,8 @@ def _make_request(scheme, host, port, username, password, path, method='GET', da
     if content_type:
         headers['Content-Type'] = content_type
 
-    return HTTPRequest(url, method, body=data, connect_timeout=timeout, request_timeout=timeout, headers=headers)
+    return HTTPRequest(url, method, body=data, connect_timeout=timeout, request_timeout=timeout, headers=headers,
+            validate_cert=settings.VALIDATE_CERTS)
 
 
 def _callback_wrapper(callback):
@@ -320,8 +321,9 @@ def get_current_picture(local_config, width, height, callback):
     def on_response(response):
         cookies = utils.parse_cookies(response.headers.get_list('Set-Cookie'))
         motion_detected = cookies.get('motion_detected_' + str(camera_id)) == 'true'
-        fps = cookies.get('capture_fps_' + str(camera_id))
-        fps = float(fps) if fps else 0
+        capture_fps = cookies.get('capture_fps_' + str(camera_id))
+        capture_fps = float(capture_fps) if capture_fps else 0
+        monitor_info = cookies.get('monitor_info_' + str(camera_id))
 
         if response.error:
             logging.error('failed to get current picture for remote camera %(id)s on %(url)s: %(msg)s' % {
@@ -331,7 +333,7 @@ def get_current_picture(local_config, width, height, callback):
             
             return callback(error=utils.pretty_http_error(response))
 
-        callback(motion_detected, fps, response.body)
+        callback(motion_detected, capture_fps, monitor_info, response.body)
     
     http_client = AsyncHTTPClient()
     http_client.fetch(request, _callback_wrapper(on_response))

@@ -18,11 +18,12 @@
 import logging
 import os
 import subprocess
+import utils
 
 
 def _find_prog(prog):
     try:
-        return subprocess.check_output('which %s' % prog, shell=True).strip()
+        return subprocess.check_output(['which', prog], stderr=utils.DEV_NULL).strip()
     
     except subprocess.CalledProcessError: # not found
         return None
