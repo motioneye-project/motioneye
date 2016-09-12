@@ -875,9 +875,6 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         elif ui['mask_type'] == 'editable':
             data['mask_file'] = utils.build_editable_mask_file(ui['editable_mask'])
 
-        else:
-            data['mask_file'] = ui['mask_file']
-
     # working schedule
     if ui['working_schedule']:
         data['@working_schedule'] = (
@@ -1060,7 +1057,6 @@ def motion_camera_dict_to_ui(data):
         'mask': False,
         'mask_type': 'smart',
         'smart_mask_slugginess': 5,
-        'mask_file': '',
         'editable_mask': '',
         
         # motion notifications
@@ -1244,6 +1240,17 @@ def motion_camera_dict_to_ui(data):
         q = 100 - (bitrate - 1) * 100.0 / (_MAX_FFMPEG_VARIABLE_BITRATE - 1)
 
     ui['movie_quality'] = int(q)
+
+    # mask
+    if data['mask_file']:
+        ui['mask'] = True
+        ui['mask_type'] = 'editable'
+        ui['editable_mask'] = utils.parse_editable_mask_file(data['mask_file'])
+
+    elif data['smart_mask_speed']:
+        ui['mask'] = True
+        ui['mask_type'] = 'smart'
+        ui['smart_mask_slugginess'] = 10 - data['smart_mask_speed']
 
     # working schedule
     working_schedule = data['@working_schedule']
