@@ -147,7 +147,9 @@ def _save():
         return
 
     try:
-        cPickle.dump(_tasks, file)
+        # don't save tasks that have a callback
+        tasks = [t for t in _tasks if not t[3]]
+        cPickle.dump(tasks, file)
 
     except Exception as e:
         logging.error('could not save tasks to file "%s": %s'% (file_path, e))
