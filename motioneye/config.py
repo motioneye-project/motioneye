@@ -786,6 +786,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     # try to create the target dir
     try:
         os.makedirs(data['target_dir'])
+        logging.debug('created root directory %s for camera %s' % (data['target_dir'], data['@name']))
     
     except Exception as e:
         if isinstance(e, OSError) and e.errno == errno.EEXIST:
@@ -1146,10 +1147,12 @@ def motion_camera_dict_to_ui(data):
         ui['root_directory'] = data['target_dir']
 
     # disk usage
-    usage = utils.get_disk_usage(data['target_dir'])
+    usage = None
+    if os.path.exists(data['target_dir']):
+        usage = utils.get_disk_usage(data['target_dir'])
     if usage:
         ui['disk_used'], ui['disk_total'] = usage
-    
+
     text_left = data['text_left']
     text_right = data['text_right'] 
     if text_left or text_right:
