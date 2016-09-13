@@ -23,7 +23,6 @@ import logging
 import os
 import re
 import socket
-import struct
 import sys
 import time
 import urllib
@@ -47,6 +46,8 @@ except:
 
 _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, _-]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
+
+_MASK_WIDTH = 32
 
 DEV_NULL = open('/dev/null', 'w')
 
@@ -785,48 +786,131 @@ def urlopen(*args, **kwargs):
     return urllib2.urlopen(*args, **kwargs)
 
 
-def build_editable_mask_file(editable_mask):
-    width = editable_mask[0]
-    height = editable_mask[1]
-    nx = editable_mask[2]
-    ny = editable_mask[3]
-    lines = editable_mask[4:]
-    
-    data = struct.pack('<HHBB', width, height, nx, ny)
-    for line in lines:
-        data += struct.pack('<I', line)
-    
-    name = base64.b64encode(data, '-_')
-    
+def build_editable_mask_file(camera_id, width, height, mask_lines):
+    # horizontal rectangles
+    nx = _MASK_WIDTH    # number of rectangles
+    rw = width / nx     # rectangle width
+    rx = width % nx     # remainder
+    if rx:
+        nx -= 1
+
+    # vertical rectangles
+    ny = height * _MASK_WIDTH / width   # number of rectangles
+    rh = height / ny                    # rectangle height
+    ry = height % ny                    # remainder
+    if ry:
+        ny -= 1
+
     # draw the actual mask image content
     im = Image.new('L', (width, height), 255) # all white
     dr = ImageDraw.Draw(im)
 
-    rw = width / nx
-    rh = height / ny
-
     for y in xrange(ny):
-        line = lines[y]
+        line = mask_lines[y]
         for x in xrange(nx):
-            if line & (31 - x):
-                print line & (31 - x)
+            if line & (_MASK_WIDTH - 1 - x):
                 dr.rectangle((x * rw, y * rh, (x + 1) * rw, (y + 1) * rh), fill=0)
 
-    file_name = os.path.join(settings.CONF_PATH, name) + '.pgm'
+        if rx and line & (nx + 1):
+            dr.rectangle((nx * rw, y * rh, nx * rw + rx, (y + 1) * rh), fill=0)
+
+    if ry:
+        line = mask_lines[ny]
+        for x in xrange(nx):
+            if line & (_MASK_WIDTH - 1 - x):
+                dr.rectangle((x * rw, ny * rh, (x + 1) * rw, ny * rh + ry), fill=0)
+
+        if rx and line & (nx + 1):
+            dr.rectangle((nx * rw, ny * rh, nx * rw + rx, ny * rh + ry), fill=0)
+
+    file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
     im.save(file_name, 'ppm')
 
-    return name
 
+def parse_editable_mask_file(camera_id, width, height):
+    # width and height arguments represent the current size of the camera image,
+    # as it might be different from that of the associated mask
 
-def parse_editable_mask_file(file_name):
-    name = os.path.splitext(os.path.basename(file_name))[0]
+    # horizontal rectangles
+    nx = _MASK_WIDTH    # number of rectangles
+    rw = width / nx     # rectangle width
+    rx = width % nx     # remainder
+    if rx:
+        nx -= 1
+
+    # vertical rectangles
+    ny = mask_height = height * _MASK_WIDTH / width   # number of rectangles
+    rh = height / ny                    # rectangle height
+    ry = height % ny                    # remainder
+    if ry:
+        ny -= 1
+
+    file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
+
+    # read the image file
     try:
-        data = base64.b64decode(name, '-_')
-        width, height, nx, ny = struct.unpack('<HHBB', data[:6])
-        fmt = '<' + 'I' * ny
-        lines = struct.unpack(fmt, data[6:])
-        
-        return [width, height, nx, ny] + list(lines)
+        im = Image.open(file_name)
 
-    except Exception:
-        return None
+    except Exception as e:
+        logging.error('failed to read mask file %s: %s' % (file_name, e))
+
+        # empty mask        
+        return [2 ** _MASK_WIDTH - 1] * mask_height
+    
+    # resize the image if necessary
+    if im.size != (width, height):
+        im = im.resize((width, height))
+
+    pixels = list(im.getdata())
+
+    # parse the image contents and build the mask lines
+    mask_lines = []
+    for y in xrange(ny):
+        bits = []
+        for x in xrange(nx):
+            px = (x + 0.5) * rw
+            py = (y + 0.5) * rh
+            pixel = pixels[py * height + px]
+            if pixel == 0:
+                bits.append(not bool(pixel))
+
+        if rx:
+            px = nx * rw + rx / 2
+            py = (y + 0.5) * rh
+            pixel = pixels[py * height + px]
+            if pixel == 0:
+                bits.append(not bool(pixel))
+
+        # build the binary packed mask line
+        line = 0
+        for i, bit in enumerate(bits):
+            if bit:
+                line |= 1 << (_MASK_WIDTH - 1 - i)
+                
+        mask_lines.append(line)
+
+    if ry:
+        bits = []
+        for x in xrange(nx):
+            px = (x + 0.5) * rw
+            py = ny * rh + ry / 2
+            pixel = pixels[py * height + px]
+            if pixel == 0:
+                bits.append(not bool(pixel))
+
+        if rx:
+            px = nx * rw + rx / 2
+            py = ny * rh + ry / 2
+            pixel = pixels[py * height + px]
+            if pixel == 0:
+                bits.append(not bool(pixel))
+
+        # build the binary packed mask line
+        line = 0
+        for i, bit in enumerate(bits):
+            if bit:
+                line |= 1 << (_MASK_WIDTH - 1 - i)
+
+        mask_lines.append(line)
+    
+    return mask_lines
