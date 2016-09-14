@@ -47,7 +47,7 @@ except:
 _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, _-]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
-_MASK_WIDTH = 32
+MASK_WIDTH = 32
 
 DEV_NULL = open('/dev/null', 'w')
 
@@ -788,18 +788,26 @@ def urlopen(*args, **kwargs):
 
 def build_editable_mask_file(camera_id, width, height, mask_lines):
     # horizontal rectangles
-    nx = _MASK_WIDTH    # number of rectangles
-    rw = width / nx     # rectangle width
-    rx = width % nx     # remainder
-    if rx:
+    nx = MASK_WIDTH # number of rectangles
+    if width % nx:
         nx -= 1
+        rx = width % nx # remainder
+
+    else:
+        rx = 0
+    
+    rw = width / nx # rectangle width
 
     # vertical rectangles
-    ny = height * _MASK_WIDTH / width   # number of rectangles
-    rh = height / ny                    # rectangle height
-    ry = height % ny                    # remainder
-    if ry:
+    ny = height * MASK_WIDTH / width # number of rectangles
+    if height % ny:
         ny -= 1
+        ry = height % ny # remainder
+    
+    else:
+        ry = 0
+
+    rh = height / ny # rectangle height
 
     # draw the actual mask image content
     im = Image.new('L', (width, height), 255) # all white
@@ -808,20 +816,20 @@ def build_editable_mask_file(camera_id, width, height, mask_lines):
     for y in xrange(ny):
         line = mask_lines[y]
         for x in xrange(nx):
-            if line & (_MASK_WIDTH - 1 - x):
-                dr.rectangle((x * rw, y * rh, (x + 1) * rw, (y + 1) * rh), fill=0)
+            if line & (1 << (MASK_WIDTH - 1 - x)):
+                dr.rectangle((x * rw, y * rh, (x + 1) * rw - 1, (y + 1) * rh - 1), fill=0)
 
-        if rx and line & (nx + 1):
-            dr.rectangle((nx * rw, y * rh, nx * rw + rx, (y + 1) * rh), fill=0)
+        if rx and line & 1:
+            dr.rectangle((nx * rw, y * rh, nx * rw + rx - 1, (y + 1) * rh - 1), fill=0)
 
     if ry:
         line = mask_lines[ny]
         for x in xrange(nx):
-            if line & (_MASK_WIDTH - 1 - x):
-                dr.rectangle((x * rw, ny * rh, (x + 1) * rw, ny * rh + ry), fill=0)
+            if line & (1 << (MASK_WIDTH - 1 - x)):
+                dr.rectangle((x * rw, ny * rh, (x + 1) * rw - 1, ny * rh + ry - 1), fill=0)
 
-        if rx and line & (nx + 1):
-            dr.rectangle((nx * rw, ny * rh, nx * rw + rx, ny * rh + ry), fill=0)
+        if rx and line & 1:
+            dr.rectangle((nx * rw, ny * rh, nx * rw + rx - 1, ny * rh + ry - 1), fill=0)
 
     file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
     im.save(file_name, 'ppm')
@@ -832,18 +840,26 @@ def parse_editable_mask_file(camera_id, width, height):
     # as it might be different from that of the associated mask
 
     # horizontal rectangles
-    nx = _MASK_WIDTH    # number of rectangles
-    rw = width / nx     # rectangle width
-    rx = width % nx     # remainder
-    if rx:
+    nx = MASK_WIDTH # number of rectangles
+    if width % nx:
         nx -= 1
+        rx = width % nx # remainder
+
+    else:
+        rx = 0
+    
+    rw = width / nx # rectangle width
 
     # vertical rectangles
-    ny = mask_height = height * _MASK_WIDTH / width   # number of rectangles
-    rh = height / ny                    # rectangle height
-    ry = height % ny                    # remainder
-    if ry:
+    ny = mask_height = height * MASK_WIDTH / width # number of rectangles
+    if height % ny:
         ny -= 1
+        ry = height % ny # remainder
+    
+    else:
+        ry = 0
+
+    rh = height / ny # rectangle height
 
     file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
 
@@ -855,7 +871,7 @@ def parse_editable_mask_file(camera_id, width, height):
         logging.error('failed to read mask file %s: %s' % (file_name, e))
 
         # empty mask        
-        return [2 ** _MASK_WIDTH - 1] * mask_height
+        return [2 ** MASK_WIDTH - 1] * mask_height
     
     # resize the image if necessary
     if im.size != (width, height):
@@ -868,48 +884,44 @@ def parse_editable_mask_file(camera_id, width, height):
     for y in xrange(ny):
         bits = []
         for x in xrange(nx):
-            px = (x + 0.5) * rw
-            py = (y + 0.5) * rh
-            pixel = pixels[py * height + px]
-            if pixel == 0:
-                bits.append(not bool(pixel))
+            px = int((x + 0.5) * rw)
+            py = int((y + 0.5) * rh)
+            pixel = pixels[py * width + px]
+            bits.append(not bool(pixel))
 
         if rx:
-            px = nx * rw + rx / 2
-            py = (y + 0.5) * rh
-            pixel = pixels[py * height + px]
-            if pixel == 0:
-                bits.append(not bool(pixel))
+            px = int(nx * rw + rx / 2)
+            py = int((y + 0.5) * rh)
+            pixel = pixels[py * width + px]
+            bits.append(not bool(pixel))
 
         # build the binary packed mask line
         line = 0
         for i, bit in enumerate(bits):
             if bit:
-                line |= 1 << (_MASK_WIDTH - 1 - i)
+                line |= 1 << (MASK_WIDTH - 1 - i)
                 
         mask_lines.append(line)
 
     if ry:
         bits = []
         for x in xrange(nx):
-            px = (x + 0.5) * rw
-            py = ny * rh + ry / 2
-            pixel = pixels[py * height + px]
-            if pixel == 0:
-                bits.append(not bool(pixel))
+            px = int((x + 0.5) * rw)
+            py = int(ny * rh + ry / 2)
+            pixel = pixels[py * width + px]
+            bits.append(not bool(pixel))
 
         if rx:
-            px = nx * rw + rx / 2
-            py = ny * rh + ry / 2
-            pixel = pixels[py * height + px]
-            if pixel == 0:
-                bits.append(not bool(pixel))
+            px = int(nx * rw + rx / 2)
+            py = int(ny * rh + ry / 2)
+            pixel = pixels[py * width + px]
+            bits.append(not bool(pixel))
 
         # build the binary packed mask line
         line = 0
         for i, bit in enumerate(bits):
             if bit:
-                line |= 1 << (_MASK_WIDTH - 1 - i)
+                line |= 1 << (MASK_WIDTH - 1 - i)
 
         mask_lines.append(line)
     

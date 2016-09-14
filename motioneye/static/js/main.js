@@ -978,6 +978,92 @@ function hideCameraOverlay() {
     }, 300);
 }
 
+function enableMaskEdit(cameraId, width, height) {
+    var cameraFrame = getCameraFrame(cameraId);
+    var overlayDiv = cameraFrame.find('div.camera-overlay');
+    var maskDiv = cameraFrame.find('div.camera-overlay-mask');
+    
+    overlayDiv.addClass('mask-edit');
+
+    var nx = maskWidth; /* number of rectangles */
+    var rx, rw;
+    if (width % nx) {
+        nx--;
+        rx = width % nx; /* remainder */
+    }
+    else {
+        rx = 0;
+    }
+    
+    rw = parseInt(width / nx); /* rectangle width */
+
+    var maskHeight;
+    var ny = maskHeight = parseInt(height * maskWidth / width); /* number of rectangles */
+    var ry, rh;
+    if (height % ny) {
+        ny--;
+        ry = height % ny; /* remainder */
+    }
+    else {
+        ry = 0;
+    }
+    
+    rh = parseInt(height / ny); /* rectangle height */
+    
+    function makeMaskElement(x, y, px, py, pw, ph) {
+        px = px * 100 / width;
+        py = py * 100 / height;
+        pw = pw * 100 / width;
+        ph = ph * 100 / height;
+
+        var el = $('<div class="mask-element"></div>');
+        el.css('left', px + '%');
+        el.css('top', py + '%');
+        el.css('width', pw + '%');
+        el.css('height', ph + '%');
+        if (x == maskWidth - 1) {
+            el.addClass('last-row');
+        }
+        if (y == maskHeight - 1) {
+            el.addClass('last-line');
+        }
+        maskDiv.append(el);
+    }
+    
+    /* make sure the mask is empty */
+    maskDiv.html('');
+
+    var x, y;
+    for (y = 0; y < ny; y++) {
+        for (x = 0; x < nx; x++) {
+            makeMaskElement(x, y, x * rw, y * rh, rw, rh);
+        }
+
+        if (rx) {
+            makeMaskElement(x, y, nx * rw, y * rh, rx, rh);
+        }
+    }
+
+    if (ry) {
+        for (x = 0; x < nx; x++) {
+            makeMaskElement(x, y, x * rw, ny * rh, rw, ry);
+        }
+
+        if (rx) {
+            makeMaskElement(x, y, nx * rw, ny * rh, rx, ry);
+        }
+    }
+}
+
+function disableMaskEdit(cameraId) {
+    var cameraFrame = getCameraFrame(cameraId);
+    var overlayDiv = cameraFrame.find('div.camera-overlay');
+    var maskDiv = cameraFrame.find('div.camera-overlay-mask');
+    
+    overlayDiv.removeClass('mask-edit');
+    maskDiv.html('');
+}
+
 
     /* settings */
 
@@ -1557,7 +1643,7 @@ function cameraUi2Dict() {
         'mask': $('#maskSwitch')[0].checked,
         'mask_type': $('#maskTypeSelect').val(),
         'smart_mask_slugginess': $('#smartMaskSlugginessSlider').val(),
-        'mask_file': $('#maskFileEntry').val(),
+        'mask_lines': [], // TODO generate mask lines
         
         /* motion notifications */
         'email_notifications_enabled': $('#emailNotificationsEnabledSwitch')[0].checked,
@@ -1901,7 +1987,7 @@ function dict2CameraUi(dict) {
     $('#maskSwitch')[0].checked = dict['mask']; markHideIfNull('mask', 'maskSwitch');
     $('#maskTypeSelect').val(dict['mask_type']); markHideIfNull('mask_type', 'maskTypeSelect');
     $('#smartMaskSlugginessSlider').val(dict['smart_mask_slugginess']); markHideIfNull('smart_mask_slugginess', 'smartMaskSlugginessSlider');
-    $('#maskFileEntry').val(dict['mask_file']); markHideIfNull('mask_file', 'maskFileEntry');
+    //TODO use dict['mask_lines']; markHideIfNull('mask_file', 'maskFileEntry');
     
     /* motion notifications */
     $('#emailNotificationsEnabledSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsEnabledSwitch');
@@ -3973,6 +4059,7 @@ function addCameraFrameUi(cameraConfig) {
                             '<div class="button icon camera-top-button mouse-effect configure" title="configure this camera"></div>' +
                         '</div>' +
                     '</div>' +
+                    '<div class="camera-overlay-mask"></div>' +
                     '<div class="camera-overlay-bottom">' +
                         '<div class="camera-info">' +
                             '<span class="camera-info" title="streaming/capture frame rate"></span>' +

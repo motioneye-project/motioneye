@@ -69,6 +69,7 @@
         var frame = {% if frame %}true{% else %}false{% endif %};
         var hasLocalCamSupport = {% if has_motion %}true{% else %}false{% endif %};
         var hasNetCamSupport = {% if has_motion %}true{% else %}false{% endif %};
+        {% if mask_width %}var maskWidth = {{mask_width}};{% endif %}
     </script>
 {% endblock %}
 
