@@ -48,6 +48,7 @@ _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, _-]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
 MASK_WIDTH = 32
+MASK_DEFAULT_RESOLUTION = (640, 480)
 
 DEV_NULL = open('/dev/null', 'w')
 
@@ -787,6 +788,12 @@ def urlopen(*args, **kwargs):
 
 
 def build_editable_mask_file(camera_id, width, height, mask_lines):
+    logging.debug('building editable mask for camera with id %s (%sx%s)' %
+            (camera_id, width, height))
+
+    width = width or MASK_DEFAULT_RESOLUTION[0]
+    height = height or MASK_DEFAULT_RESOLUTION[1]
+    
     # horizontal rectangles
     nx = MASK_WIDTH # number of rectangles
     if width % nx:
@@ -799,7 +806,7 @@ def build_editable_mask_file(camera_id, width, height, mask_lines):
     rw = width / nx # rectangle width
 
     # vertical rectangles
-    ny = height * MASK_WIDTH / width # number of rectangles
+    ny = mask_height = height * MASK_WIDTH / width # number of rectangles
     if height % ny:
         ny -= 1
         ry = height % ny # remainder
@@ -812,6 +819,10 @@ def build_editable_mask_file(camera_id, width, height, mask_lines):
     # draw the actual mask image content
     im = Image.new('L', (width, height), 255) # all white
     dr = ImageDraw.Draw(im)
+    
+    while len(mask_lines) < mask_height:
+        # add empty mask lines until mask is tall enough
+        mask_lines.append(0)
 
     for y in xrange(ny):
         line = mask_lines[y]
@@ -833,11 +844,19 @@ def build_editable_mask_file(camera_id, width, height, mask_lines):
 
     file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
     im.save(file_name, 'ppm')
+    
+    return file_name
 
 
 def parse_editable_mask_file(camera_id, width, height):
+    logging.debug('parsing editable mask for camera with id %s (%sx%s)' %
+            (camera_id, width, height))
+
     # width and height arguments represent the current size of the camera image,
     # as it might be different from that of the associated mask
+
+    width = width or MASK_DEFAULT_RESOLUTION[0]
+    height = height or MASK_DEFAULT_RESOLUTION[1]
 
     # horizontal rectangles
     nx = MASK_WIDTH # number of rectangles
@@ -871,10 +890,13 @@ def parse_editable_mask_file(camera_id, width, height):
         logging.error('failed to read mask file %s: %s' % (file_name, e))
 
         # empty mask        
-        return [2 ** MASK_WIDTH - 1] * mask_height
+        return [0] * mask_height
     
     # resize the image if necessary
     if im.size != (width, height):
+        logging.debug('editable mask needs resizing from %sx%s to %sx%s' %
+                (im.size[0], im.size[1], width, height))
+
         im = im.resize((width, height))
 
     pixels = list(im.getdata())

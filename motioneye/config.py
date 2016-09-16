@@ -869,12 +869,12 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     data['ffmpeg_variable_bitrate'] = int(vbr)
 
     # motion detection
-    if ui['mask'] and data.get('width') and data.get('height'):
+    if ui['mask']:
         if ui['mask_type'] == 'smart':
             data['smart_mask_speed'] = 10 - int(ui['smart_mask_slugginess'])
 
         elif ui['mask_type'] == 'editable':
-            data['mask_file'] = utils.build_editable_mask_file(old_config['@id'], data['width'], data['height'], ui['mask_lines'])
+            data['mask_file'] = utils.build_editable_mask_file(old_config['@id'], data.get('width'), data.get('height'), ui['mask_lines'])
 
     # working schedule
     if ui['working_schedule']:
@@ -1245,10 +1245,10 @@ def motion_camera_dict_to_ui(data):
     ui['movie_quality'] = int(q)
 
     # mask
-    if data['mask_file'] and data.get('width') and data.get('height'):
+    if data['mask_file']:
         ui['mask'] = True
         ui['mask_type'] = 'editable'
-        ui['mask_lines'] = utils.parse_editable_mask_file(data['@id'], data['width'], data['height'])
+        ui['mask_lines'] = utils.parse_editable_mask_file(data['@id'], data.get('width'), data.get('height'))
 
     elif data['smart_mask_speed']:
         ui['mask'] = True

@@ -69,7 +69,10 @@
         var frame = {% if frame %}true{% else %}false{% endif %};
         var hasLocalCamSupport = {% if has_motion %}true{% else %}false{% endif %};
         var hasNetCamSupport = {% if has_motion %}true{% else %}false{% endif %};
-        {% if mask_width %}var maskWidth = {{mask_width}};{% endif %}
+        {% if mask_width %}
+        var maskWidth = {{mask_width}};
+        var maskDefaultResolution = '{{mask_default_resolution[0]}}x{{mask_default_resolution[1]}}';
+        {% endif %}
     </script>
 {% endblock %}
 
@@ -835,6 +838,20 @@
                         <td class="settings-item-label"><span class="settings-item-label">Smart Mask Slugginess</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="smartMaskSlugginessSlider"></td>
                         <td><span class="help-mark" title="lower values result in a longer-lasting smart mask with a slower building process">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="mask maskType=editable">
+                        <td class="settings-item-label"><span class="settings-item-label"></span></td>
+                        <td class="settings-item-value">
+                            <div class="button normal-button edit-mask-button" id="editMaskButton">Edit Mask</div>
+                            <div class="button normal-button save-mask-button" id="saveMaskButton">Save Mask</div>
+                            <input type="text" id="maskLinesEntry">
+                        </td>
+                        <td><span class="help-mark" title="click this button to enable/disable the mask editor">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="mask maskType=editable">
+                        <td class="settings-item-label"><span class="settings-item-label"></span></td>
+                        <td class="settings-item-value"><div class="button normal-button clear-mask-button" id="clearMaskButton">Clear Mask</div></td>
+                        <td><span class="help-mark" title="click this button to clear the current mask">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('motion-detection', {}).get('configs', []) %}
                         {{config_item(config)}}

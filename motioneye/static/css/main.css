@@ -395,8 +395,16 @@ div.normal-button {
 div.update-button,
 div.backup-button,
 div.restore-button,
+div.edit-mask-button,
+div.save-mask-button,
+div.clear-mask-button,
 div.test-button {
     background: #317CAD;
+}
+
+div.save-mask-button,
+div.clear-mask-button {
+    display: none;
 }
 
 div.shut-down-button,
@@ -406,7 +414,11 @@ div.reboot-button {
 
 div.update-button:HOVER,
 div.backup-button:HOVER,
-div.restore-button:HOVER {
+div.restore-button:HOVER,
+div.edit-mask-button:HOVER,
+div.save-mask-button:HOVER,
+div.clear-mask-button:HOVER,
+div.test-button:HOVER {
     background: #3498db;
 }
 
@@ -417,7 +429,11 @@ div.reboot-button:HOVER {
 
 div.update-button:ACTIVE,
 div.backup-button:ACTIVE,
-div.restore-button:ACTIVE {
+div.restore-button:ACTIVE,
+div.edit-mask-button:ACTIVE,
+div.save-mask-button:ACTIVE,
+div.clear-mask-button:ACTIVE,
+div.test-button:ACTIVE {
     background: #317CAD;
 }
 
@@ -458,6 +474,10 @@ input[type=text].working-schedule.number {
 
 #diskUsageProgressBar {
     width: 90%;
+}
+
+#editableMaskEntry {
+    display: none;
 }
 
 div.hidden,
@@ -904,6 +924,7 @@ div.camera-overlay-bottom {
     left: 0px;
     width: 100%;
     z-index: 1;
+    transition: height 0.2s ease;
 }
 
 div.camera-frame:HOVER div.camera-overlay-top,
@@ -921,10 +942,11 @@ div.camera-overlay-top {
     height: 2.5em;
     line-height: 2.5em;
     white-space: nowrap;
+    overflow: hidden;
 }
 
 div.camera-overlay-mask {
-    background: #888;
+    background: rgba(255, 255, 255, 0.2);
     opacity: 0;
     position: absolute;
     top: 0px;
@@ -932,21 +954,27 @@ div.camera-overlay-mask {
     bottom: 0px;
     left: 0px;
     z-index: 0;
+    transition: opacity 0.2s ease;
 }
 
-div.camera-overlay.mask-edit > div.camera-overlay-top,
+div.camera-overlay.mask-edit > div.camera-overlay-top {
+    height: 0px;
+    bottom: auto;
+}
+
 div.camera-overlay.mask-edit > div.camera-overlay-bottom {
-    display: none;
+    height: 0px;
+    top: auto;
 }
 
 div.camera-overlay.mask-edit > div.camera-overlay-mask {
-    opacity: 0.3;
+    opacity: 1;
 }
 
 div.mask-element {
     position: absolute;
     box-sizing: border-box;
-    border: 1px solid #aaa;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-width: 0px 1px 1px 0px;
     background: transparent;
 }
@@ -960,7 +988,7 @@ div.mask-element.last-line {
 }
 
 div.mask-element.on {
-    background: #444;
+    background: rgba(0, 0, 0, 0.7);
 }
 
 div.camera-name {

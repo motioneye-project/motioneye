@@ -795,6 +795,7 @@ function initUI() {
             this._prevSelectedIndex = this.selectedIndex;
             beginProgress([$(this).val()]);
             fetchCurrentCameraConfig(endProgress);
+            disableMaskEdit();
         }
     });
     $('input.main-config, select.main-config, textarea.main-config').change(function () {
@@ -969,6 +970,8 @@ function showCameraOverlay() {
     setTimeout(function () {
         getCameraFrames().find('div.camera-overlay').addClass('visible');
     }, 10);
+    
+    overlayVisible = true;
 }
 
 function hideCameraOverlay() {
@@ -976,6 +979,10 @@ function hideCameraOverlay() {
     setTimeout(function () {
         getCameraFrames().find('div.camera-overlay').css('display', 'none');
     }, 300);
+    
+    overlayVisible = false;
+
+    disableMaskEdit();
 }
 
 function enableMaskEdit(cameraId, width, height) {
@@ -983,6 +990,10 @@ function enableMaskEdit(cameraId, width, height) {
     var overlayDiv = cameraFrame.find('div.camera-overlay');
     var maskDiv = cameraFrame.find('div.camera-overlay-mask');
     
+    if (overlayDiv.hasClass('mask-edit')) {
+        return; /* already enabled */
+    }
+
     overlayDiv.addClass('mask-edit');
 
     var nx = maskWidth; /* number of rectangles */
@@ -1010,6 +1021,14 @@ function enableMaskEdit(cameraId, width, height) {
     
     rh = parseInt(height / ny); /* rectangle height */
     
+    var mouseDown = false;
+    var currentState = false;
+    
+    function handleMouseUp() {
+        mouseDown = false;
+        $('html').unbind('mouseup', handleMouseUp);
+    }
+    
     function makeMaskElement(x, y, px, py, pw, ph) {
         px = px * 100 / width;
         py = py * 100 / height;
@@ -1028,10 +1047,30 @@ function enableMaskEdit(cameraId, width, height) {
             el.addClass('last-line');
         }
         maskDiv.append(el);
+
+        el.mousedown(function () {
+            mouseDown = true;
+            el.toggleClass('on');
+            currentState = el.hasClass('on');
+            $('html').mouseup(handleMouseUp);
+        });
+        
+        el.mouseenter(function () {
+            if (!mouseDown) {
+                return;
+            }
+            
+            el.toggleClass('on', currentState);
+        });
     }
-    
+
     /* make sure the mask is empty */
     maskDiv.html('');
+    
+    /* prevent editor closing by accidental click on mask container */
+    maskDiv.click(function () {
+        return false;
+    })
 
     var x, y;
     for (y = 0; y < ny; y++) {
@@ -1053,15 +1092,48 @@ function enableMaskEdit(cameraId, width, height) {
             makeMaskElement(x, y, nx * rw, ny * rh, rx, ry);
         }
     }
+
+    var selectedCameraId = $('#cameraSelect').val();
+    if (selectedCameraId && (!cameraId || cameraId == selectedCameraId)) {
+        $('#saveMaskButton, #clearMaskButton').css('display', 'inline-block');
+        $('#editMaskButton').css('display', 'none');
+    }
+    
+    if (!overlayVisible) {
+        showCameraOverlay();
+    }
 }
 
 function disableMaskEdit(cameraId) {
-    var cameraFrame = getCameraFrame(cameraId);
-    var overlayDiv = cameraFrame.find('div.camera-overlay');
-    var maskDiv = cameraFrame.find('div.camera-overlay-mask');
+    var cameraFrames;
+    if (cameraId) {
+        cameraFrames = [getCameraFrame(cameraId)];
+    }
+    else { /* disable mask editor on any camera */
+        cameraFrames = getCameraFrames().toArray().map(function (f) {return $(f);});
+    }
+
+    cameraFrames.forEach(function (cameraFrame) {
+        var overlayDiv = cameraFrame.find('div.camera-overlay');
+        var maskDiv = cameraFrame.find('div.camera-overlay-mask');
+
+        overlayDiv.removeClass('mask-edit');
+        maskDiv.html('');
+        maskDiv.unbind('click');
+    });
     
-    overlayDiv.removeClass('mask-edit');
-    maskDiv.html('');
+    var selectedCameraId = $('#cameraSelect').val();
+    if (selectedCameraId && (!cameraId || cameraId == selectedCameraId)) {
+        $('#editMaskButton').css('display', 'inline-block');
+        $('#saveMaskButton, #clearMaskButton').css('display', 'none');
+    }
+}
+
+function clearMask(cameraId) {
+    var cameraFrame = getCameraFrame(cameraId);
+    var maskDiv = cameraFrame.find('div.camera-overlay-mask');
+
+    maskDiv.find('div.mask-element').removeClass('on');
 }
 
 
@@ -1643,8 +1715,8 @@ function cameraUi2Dict() {
         'mask': $('#maskSwitch')[0].checked,
         'mask_type': $('#maskTypeSelect').val(),
         'smart_mask_slugginess': $('#smartMaskSlugginessSlider').val(),
-        'mask_lines': [], // TODO generate mask lines
-        
+        'mask_lines': $('#maskLinesEntry').val().split(','),
+
         /* motion notifications */
         'email_notifications_enabled': $('#emailNotificationsEnabledSwitch')[0].checked,
         'email_notifications_from': $('#emailFromEntry').val(),
@@ -1987,8 +2059,8 @@ function dict2CameraUi(dict) {
     $('#maskSwitch')[0].checked = dict['mask']; markHideIfNull('mask', 'maskSwitch');
     $('#maskTypeSelect').val(dict['mask_type']); markHideIfNull('mask_type', 'maskTypeSelect');
     $('#smartMaskSlugginessSlider').val(dict['smart_mask_slugginess']); markHideIfNull('smart_mask_slugginess', 'smartMaskSlugginessSlider');
-    //TODO use dict['mask_lines']; markHideIfNull('mask_file', 'maskFileEntry');
-    
+    $('#maskLinesEntry').val((dict['mask_lines'] or []).join(',')); markHideIfNull('mask_lines', 'maskLinesEntry');
+
     /* motion notifications */
     $('#emailNotificationsEnabledSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsEnabledSwitch');
     $('#emailFromEntry').val(dict['email_notifications_from']);
@@ -4154,12 +4226,10 @@ function addCameraFrameUi(cameraConfig) {
     
     cameraImg.click(function () {
         showCameraOverlay();
-        overlayVisible = true;
     });
     
     cameraOverlay.click(function () {
         hideCameraOverlay();
-        overlayVisible = false;
     });
     
     cameraOverlay.find('div.camera-overlay-top, div.camera-overlay-bottom').click(function () {
@@ -4702,6 +4772,43 @@ $(document).ready(function () {
     $('div#uploadTestButton').click(doTestUpload);
     $('div#emailTestButton').click(doTestEmail);
     $('div#networkShareTestButton').click(doTestNetworkShare);
+    
+    /* mask editor buttons */
+    $('div#editMaskButton').click(function () {
+        var cameraId = $('#cameraSelect').val();
+        var resolution = $('#resolutionSelect').val();
+        if (!cameraId) {
+            return;
+        }
+        
+        if (!resolution) {
+            /*
+             * TODO motion requires the mask file to be the same size as the
+             * captured images; however for netcams we have no means to know in
+             * advance the size of the stream; therefore, for netcams, we impose
+             * here a standard fixed mask size, which WILL NOT WORK for netcam
+             * streams of a different resolution
+             */
+            resolution = maskDefaultResolution; 
+        }
+
+        resolution = resolution.split('x');
+        var width = resolution[0];
+        var height = resolution[1];
+
+        enableMaskEdit(cameraId, width, height);
+    });
+    $('div#saveMaskButton').click(function () {
+        disableMaskEdit();
+    });
+    $('div#clearMaskButton').click(function () {
+        var cameraId = $('#cameraSelect').val();
+        if (!cameraId) {
+            return;
+        }
+
+        clearMask(cameraId);
+    });
     
     initUI();
     beginProgress();
