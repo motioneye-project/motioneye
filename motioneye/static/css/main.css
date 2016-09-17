@@ -476,7 +476,7 @@ input[type=text].working-schedule.number {
     width: 90%;
 }
 
-#editableMaskEntry {
+#maskLinesEntry {
     display: none;
 }
 

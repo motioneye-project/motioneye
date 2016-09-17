@@ -814,18 +814,26 @@ def build_editable_mask_file(camera_id, width, height, mask_lines):
     else:
         ry = 0
 
+    # if mask not present, generate an empty mask    
+    if not mask_lines:
+        mask_lines = [0] * mask_height
+
+    # scale the mask vertically in case the aspect ratio has changed
+    # since the last time the mask has been generated
+    if mask_height == len(mask_lines):
+        line_index_func = lambda y: y
+        
+    else:
+        line_index_func = lambda y: (len(mask_lines) - 1) * y / (mask_height - 1)
+
     rh = height / ny # rectangle height
 
     # draw the actual mask image content
     im = Image.new('L', (width, height), 255) # all white
     dr = ImageDraw.Draw(im)
     
-    while len(mask_lines) < mask_height:
-        # add empty mask lines until mask is tall enough
-        mask_lines.append(0)
-
     for y in xrange(ny):
-        line = mask_lines[y]
+        line = mask_lines[line_index_func(y)]
         for x in xrange(nx):
             if line & (1 << (MASK_WIDTH - 1 - x)):
                 dr.rectangle((x * rw, y * rh, (x + 1) * rw - 1, (y + 1) * rh - 1), fill=0)
@@ -834,7 +842,7 @@ def build_editable_mask_file(camera_id, width, height, mask_lines):
             dr.rectangle((nx * rw, y * rh, nx * rw + rx - 1, (y + 1) * rh - 1), fill=0)
 
     if ry:
-        line = mask_lines[ny]
+        line = mask_lines[line_index_func(ny)]
         for x in xrange(nx):
             if line & (1 << (MASK_WIDTH - 1 - x)):
                 dr.rectangle((x * rw, ny * rh, (x + 1) * rw - 1, ny * rh + ry - 1), fill=0)
