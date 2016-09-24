@@ -44,11 +44,13 @@ RUN cd /tmp && \
     cp motion /usr/local/bin/motion && \
     rm -rf /tmp/motion-mrdave
 
+ARG GIT_REPOSITORY=https://github.com/ccrisan/motioneye.git
 RUN cd /tmp && \
-    git clone https://github.com/ccrisan/motioneye.git && \
+    git clone $GIT_REPOSITORY && \
     cd /tmp/motioneye && \
     python setup.py install && \
     mkdir /etc/motioneye && \
+    mkdir -p /var/lib/motioneye && \
     mkdir -p /usr/share/motioneye/extra && \
     cp /tmp/motioneye/extra/motioneye.conf.sample /usr/share/motioneye/extra/motioneye.conf.sample && \
     rm -rf /tmp/motioneye
@@ -62,6 +64,9 @@ VOLUME /var/run/motion
 # Video & images
 VOLUME /var/lib/motion
 
-CMD /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
+CMD test -e /etc/motioneye/motioneye.conf || \    
+    cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
+    /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
+
 EXPOSE 8765
 
