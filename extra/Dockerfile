@@ -40,14 +40,14 @@ RUN cd /tmp && \
     autoreconf -fiv && \
     ./configure --prefix=/usr --without-pgsql --without-sdl --without-sqlite3 --without-mysql && \
     make && \
+    touch README \
     make install && \
     cp motion /usr/local/bin/motion && \
     rm -rf /tmp/motion-mrdave
 
-ARG GIT_REPOSITORY=https://github.com/ccrisan/motioneye.git
-RUN cd /tmp && \
-    git clone $GIT_REPOSITORY && \
-    cd /tmp/motioneye && \
+COPY . /tmp/motioneye
+
+RUN cd /tmp/motioneye && \
     python setup.py install && \
     mkdir /etc/motioneye && \
     mkdir -p /var/lib/motioneye && \
