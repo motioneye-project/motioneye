@@ -71,7 +71,6 @@
         var hasNetCamSupport = {% if has_motion %}true{% else %}false{% endif %};
         {% if mask_width %}
         var maskWidth = {{mask_width}};
-        var maskDefaultResolution = '{{mask_default_resolution[0]}}x{{mask_default_resolution[1]}}';
         {% endif %}
     </script>
 {% endblock %}

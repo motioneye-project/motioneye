@@ -874,7 +874,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
             data['smart_mask_speed'] = 10 - int(ui['smart_mask_slugginess'])
 
         elif ui['mask_type'] == 'editable':
-            data['mask_file'] = utils.build_editable_mask_file(old_config['@id'], data.get('width'), data.get('height'), ui['mask_lines'])
+            data['mask_file'] = utils.build_editable_mask_file(old_config['@id'], ui['mask_lines'], data.get('width'), data.get('height'))
 
     # working schedule
     if ui['working_schedule']:

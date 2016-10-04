@@ -208,8 +208,7 @@ class MainHandler(BaseHandler):
                 has_streaming_auth=motionctl.has_streaming_auth(),
                 has_new_movie_format_support=motionctl.has_new_movie_format_support(),
                 has_motion=bool(motionctl.find_motion()),
-                mask_width=utils.MASK_WIDTH,
-                mask_default_resolution=utils.MASK_DEFAULT_RESOLUTION)
+                mask_width=utils.MASK_WIDTH)
 
 
 class ConfigHandler(BaseHandler):

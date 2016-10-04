@@ -241,7 +241,7 @@ div.hostname {
 div.settings {
     background-color: #313131;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     top: 50px;
     left: 0px;
     width: 0px;

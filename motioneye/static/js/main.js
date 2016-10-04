@@ -895,27 +895,12 @@ function initUI() {
     /* mask editor buttons */
     $('div#editMaskButton').click(function () {
         var cameraId = $('#cameraSelect').val();
-        var resolution = $('#resolutionSelect').val();
-        if (!cameraId) {
-            return;
-        }
-        
-        if (!resolution) {
-            /*
-             * motion requires the mask file to be the same size as the
-             * captured images; however for netcams we have no means to know in
-             * advance the size of the stream; therefore, for netcams, we impose
-             * here a standard fixed mask size, which WILL NOT WORK for netcam
-             * streams of a different resolution, unless motion is patched accordingly
-             */
-            resolution = maskDefaultResolution; 
+        var img = getCameraFrame(cameraId).find('img.camera')[0];
+        if (!img.naturalWidth || !img.naturalHeight) {
+            return runAlertDialog('Cannot edit the mask without a valid camera image!');
         }
 
-        resolution = resolution.split('x');
-        var width = resolution[0];
-        var height = resolution[1];
-
-        enableMaskEdit(cameraId, width, height);
+        enableMaskEdit(cameraId, img.naturalWidth, img.naturalHeight);
     });
     $('div#saveMaskButton').click(function () {
         disableMaskEdit();
@@ -1099,6 +1084,9 @@ function enableMaskEdit(cameraId, width, height) {
         var maskLines = [];
         var bits, line;
         
+        maskLines.push(width);
+        maskLines.push(height);
+
         for (y = 0; y < ny; y++) {
             bits = [];
             for (x = 0; x < nx; x++) { 
@@ -1135,10 +1123,10 @@ function enableMaskEdit(cameraId, width, height) {
                     line |= 1 << (maskWidth - 1 - i);
                 }
             });
+
+            maskLines.push(line);
         }
         
-        maskLines.push(line);
-
         $('#maskLinesEntry').val(maskLines.join(',')).change();
     }
     
@@ -1219,7 +1207,8 @@ function enableMaskEdit(cameraId, width, height) {
     /* use mask lines to initialize the element matrix */
     var line;
     var maskLines = $('#maskLinesEntry').val() ? $('#maskLinesEntry').val().split(',').map(function (v) {return parseInt(v);}) : [];
-    
+    maskLines = maskLines.slice(2);
+
     for (y = 0; y < ny; y++) {
         line = maskLines[y];
         for (x = 0; x < nx; x++) { 
