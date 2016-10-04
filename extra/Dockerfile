@@ -40,15 +40,17 @@ RUN cd /tmp && \
     autoreconf -fiv && \
     ./configure --prefix=/usr --without-pgsql --without-sdl --without-sqlite3 --without-mysql && \
     make && \
+    touch README \
     make install && \
     cp motion /usr/local/bin/motion && \
     rm -rf /tmp/motion-mrdave
 
-RUN cd /tmp && \
-    git clone https://github.com/ccrisan/motioneye.git && \
-    cd /tmp/motioneye && \
+COPY . /tmp/motioneye
+
+RUN cd /tmp/motioneye && \
     python setup.py install && \
     mkdir /etc/motioneye && \
+    mkdir -p /var/lib/motioneye && \
     mkdir -p /usr/share/motioneye/extra && \
     cp /tmp/motioneye/extra/motioneye.conf.sample /usr/share/motioneye/extra/motioneye.conf.sample && \
     rm -rf /tmp/motioneye
@@ -62,6 +64,9 @@ VOLUME /var/run/motion
 # Video & images
 VOLUME /var/lib/motion
 
-CMD /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
+CMD test -e /etc/motioneye/motioneye.conf || \    
+    cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
+    /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
+
 EXPOSE 8765
 
