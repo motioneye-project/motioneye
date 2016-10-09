@@ -304,7 +304,7 @@ def camera_id_to_thread_id(camera_id):
     camera_id = int(camera_id)
     for cid in camera_ids:
         camera_config = config.get_camera(cid)
-        if utils.local_motion_camera(camera_config):
+        if utils.is_local_motion_camera(camera_config):
             thread_id += 1
         
         if cid == camera_id:
@@ -382,7 +382,7 @@ def _disable_initial_motion_detection():
 
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
-        if not utils.local_motion_camera(camera_config):
+        if not utils.is_local_motion_camera(camera_config):
             continue
 
         if not camera_config['@motion_detection']:
