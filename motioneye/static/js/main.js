@@ -419,32 +419,38 @@ function ajax(method, url, data, callback, error, timeout) {
     
     url = addAuthParams(method, url, processData ? data : null);
     
+    function onResponse(data) {
+        if (data && data.error == 'unauthorized') {
+            if (data.prompt) {
+                runLoginDialog(function () {
+                    ajax(method, origUrl, origData, callback, error);
+                });
+            }
+            
+            window._loginRetry = true;
+        }
+        else {
+            delete window._loginRetry;
+            if (callback) {
+                $('body').toggleClass('admin', isAdmin());
+                callback(data);
+            }
+        }
+    }
+
     var options = {
         type: method,
         url: url,
         data: data,
         timeout: timeout || 300 * 1000,
-        success: function (data) {
-            if (data && data.error == 'unauthorized') {
-                if (data.prompt) {
-                    runLoginDialog(function () {
-                        ajax(method, origUrl, origData, callback, error);
-                    });
-                }
-                
-                window._loginRetry = true;
-            }
-            else {
-                delete window._loginRetry;
-                if (callback) {
-                    $('body').toggleClass('admin', isAdmin());
-                    callback(data);
-                }
-            }
-        },
+        success: onResponse,
         contentType: json ? 'application/json' : false,
         processData: processData,
         error: error || function (request, options, error) {
+            if (request.status == 403) {
+                return onResponse(request.responseJSON);
+            }
+            
             showErrorMessage();
             if (callback) {
                 callback();
@@ -789,6 +795,7 @@ function initUI() {
             this._prevSelectedIndex = this.selectedIndex;
             beginProgress([$(this).val()]);
             fetchCurrentCameraConfig(endProgress);
+            disableMaskEdit();
         }
     });
     $('input.main-config, select.main-config, textarea.main-config').change(function () {
@@ -803,6 +810,50 @@ function initUI() {
     $('#contrastSlider').change(function () {pushPreview('contrast');});
     $('#saturationSlider').change(function () {pushPreview('saturation');});
     $('#hueSlider').change(function () {pushPreview('hue');});
+    
+    /* whenever the window is resized,
+     * if a modal dialog is visible, it should be repositioned */
+    $(window).resize(updateModalDialogPosition);
+    
+    /* autoselect urls in read-only entries */
+    $('#streamingSnapshotUrlEntry:text, #streamingMjpgUrlEntry:text, #streamingEmbedUrlEntry:text').click(function () {
+        this.select();
+    });
+
+    /* show a warning when enabling media files removal */
+    var preserveSelects = $('#preservePicturesSelect, #preserveMoviesSelect');
+    var rootDirectoryEntry = $('#rootDirectoryEntry');
+    preserveSelects.focus(function () {
+        this._prevValue = $(this).val();
+    }).change(function () {
+        var value = $(this).val();
+        if (value != '0' && this._prevValue == '0') {
+            var rootDir = rootDirectoryEntry.val();
+            runAlertDialog(('This will recursively remove all old media files present in the directory "' + rootDir + 
+                    '", not just those created by motionEye!'));
+        }
+    });
+    
+    /* disable mask editor when mask gets disabled */
+    $('#maskSwitch').change(function () {
+       if (!this.checked) {
+           disableMaskEdit();
+       } 
+    });
+    
+    /* disable mask editor when mask gets disabled */
+    $('#maskSwitch').change(function () {
+       if (!this.checked) {
+           disableMaskEdit();
+       } 
+    });
+    
+    /* disable mask editor when mask type is no longer editable */
+    $('#maskTypeSelect').change(function () {
+        if ($(this).val() != 'editable') {
+            disableMaskEdit();
+        }
+    });
     
     /* apply button */
     $('#applyButton').click(function () {
@@ -823,34 +874,45 @@ function initUI() {
         doReboot();
     });
     
-    /* whenever the window is resized,
-     * if a modal dialog is visible, it should be repositioned */
-    $(window).resize(updateModalDialogPosition);
-    
     /* remove camera button */
     $('div.button.rem-camera-button').click(doRemCamera);
     
     /* logout button */
     $('div.button.logout-button').click(doLogout);
     
-    /* autoselect urls in read-only entries */
-    $('#streamingSnapshotUrlEntry:text, #streamingMjpgUrlEntry:text, #streamingEmbedUrlEntry:text').click(function () {
-        this.select();
-    });
-
-    /* show a warning when enabling media files removal */
-    var preserveSelects = $('#preservePicturesSelect, #preserveMoviesSelect');
-    var rootDirectoryEntry = $('#rootDirectoryEntry');
-    preserveSelects.focus(function () {
-        this._prevValue = $(this).val();
-    }).change(function () {
-        var value = $(this).val();
-        if (value != '0' && this._prevValue == '0') {
-            var rootDir = rootDirectoryEntry.val();
-            runAlertDialog(('This will recursively remove all old media files present in the directory "' + rootDir + 
-                    '", not just those created by motionEye!'));
+    /* software update button */
+    $('div#updateButton').click(doUpdate);
+    
+    /* backup/restore */
+    $('div#backupButton').click(doBackup);
+    $('div#restoreButton').click(doRestore);
+    
+    /* test buttons */
+    $('div#uploadTestButton').click(doTestUpload);
+    $('div#emailTestButton').click(doTestEmail);
+    $('div#networkShareTestButton').click(doTestNetworkShare);
+    
+    /* mask editor buttons */
+    $('div#editMaskButton').click(function () {
+        var cameraId = $('#cameraSelect').val();
+        var img = getCameraFrame(cameraId).find('img.camera')[0];
+        if (!img.naturalWidth || !img.naturalHeight) {
+            return runAlertDialog('Cannot edit the mask without a valid camera image!');
         }
+
+        enableMaskEdit(cameraId, img.naturalWidth, img.naturalHeight);
     });
+    $('div#saveMaskButton').click(function () {
+        disableMaskEdit();
+    });
+    $('div#clearMaskButton').click(function () {
+        var cameraId = $('#cameraSelect').val();
+        if (!cameraId) {
+            return;
+        }
+
+        clearMask(cameraId);
+    });    
 }
 
 function getPageContainer() {
@@ -963,6 +1025,8 @@ function showCameraOverlay() {
     setTimeout(function () {
         getCameraFrames().find('div.camera-overlay').addClass('visible');
     }, 10);
+    
+    overlayVisible = true;
 }
 
 function hideCameraOverlay() {
@@ -970,6 +1034,248 @@ function hideCameraOverlay() {
     setTimeout(function () {
         getCameraFrames().find('div.camera-overlay').css('display', 'none');
     }, 300);
+    
+    overlayVisible = false;
+
+    disableMaskEdit();
+}
+
+function enableMaskEdit(cameraId, width, height) {
+    var cameraFrame = getCameraFrame(cameraId);
+    var overlayDiv = cameraFrame.find('div.camera-overlay');
+    var maskDiv = cameraFrame.find('div.camera-overlay-mask');
+
+    if (overlayDiv.hasClass('mask-edit')) {
+        return; /* already enabled */
+    }
+
+    overlayDiv.addClass('mask-edit');
+
+    var nx = maskWidth; /* number of rectangles */
+    var rx, rw;
+    if (width % nx) {
+        nx--;
+        rx = width % nx; /* remainder */
+    }
+    else {
+        rx = 0;
+    }
+    
+    rw = parseInt(width / nx); /* rectangle width */
+
+    var maskHeight;
+    var ny = maskHeight = parseInt(height * maskWidth / width); /* number of rectangles */
+    var ry, rh;
+    if (height % ny) {
+        ny--;
+        ry = height % ny; /* remainder */
+    }
+    else {
+        ry = 0;
+    }
+    
+    rh = parseInt(height / ny); /* rectangle height */
+    
+    var mouseDown = false;
+    var currentState = false;
+    var elementsMatrix = Array.apply(null, Array(maskHeight)).map(function(){return []});
+
+    function matrixToMaskLines() {
+        var maskLines = [];
+        var bits, line;
+        
+        maskLines.push(width);
+        maskLines.push(height);
+
+        for (y = 0; y < ny; y++) {
+            bits = [];
+            for (x = 0; x < nx; x++) { 
+                bits.push(elementsMatrix[y][x].hasClass('on'));
+            }
+
+            if (rx) {
+                bits.push(elementsMatrix[y][nx].hasClass('on'));
+            }
+        
+            line = 0;
+            bits.forEach(function (bit, i) {
+                if (bit) {
+                    line |= 1 << (maskWidth - 1 - i);
+                }
+            });
+        
+            maskLines.push(line);
+        }
+
+        if (ry) {
+            bits = [];
+            for (x = 0; x < nx; x++) {
+                bits.push(elementsMatrix[ny][x].hasClass('on'));
+            }
+
+            if (rx) {
+                bits.push(elementsMatrix[ny][nx].hasClass('on'));
+            }
+
+            line = 0;
+            bits.forEach(function (bit, i) {
+                if (bit) {
+                    line |= 1 << (maskWidth - 1 - i);
+                }
+            });
+
+            maskLines.push(line);
+        }
+        
+        $('#maskLinesEntry').val(maskLines.join(',')).change();
+    }
+    
+    function handleMouseUp() {
+        mouseDown = false;
+        $('html').unbind('mouseup', handleMouseUp);
+        matrixToMaskLines();
+    }
+    
+    function makeMaskElement(x, y, px, py, pw, ph) {
+        px = px * 100 / width;
+        py = py * 100 / height;
+        pw = pw * 100 / width;
+        ph = ph * 100 / height;
+
+        var el = $('<div class="mask-element"></div>');
+        el.css('left', px + '%');
+        el.css('top', py + '%');
+        el.css('width', pw + '%');
+        el.css('height', ph + '%');
+        if (x == maskWidth - 1) {
+            el.addClass('last-row');
+        }
+        if (y == maskHeight - 1) {
+            el.addClass('last-line');
+        }
+        maskDiv.append(el);
+        
+        elementsMatrix[y][x] = el; 
+
+        el.mousedown(function () {
+            mouseDown = true;
+            el.toggleClass('on');
+            currentState = el.hasClass('on');
+            $('html').mouseup(handleMouseUp);
+        });
+        
+        el.mouseenter(function () {
+            if (!mouseDown) {
+                return;
+            }
+            
+            el.toggleClass('on', currentState);
+        });
+    }
+    
+    maskDiv[0]._matrixToMaskLines = matrixToMaskLines;
+
+    /* make sure the mask is empty */
+    maskDiv.html('');
+    
+    /* prevent editor closing by accidental click on mask container */
+    maskDiv.click(function () {
+        return false;
+    })
+
+    var x, y;
+    for (y = 0; y < ny; y++) {
+        for (x = 0; x < nx; x++) {
+            makeMaskElement(x, y, x * rw, y * rh, rw, rh);
+        }
+
+        if (rx) {
+            makeMaskElement(nx, y, nx * rw, y * rh, rx, rh);
+        }
+    }
+
+    if (ry) {
+        for (x = 0; x < nx; x++) {
+            makeMaskElement(x, ny, x * rw, ny * rh, rw, ry);
+        }
+
+        if (rx) {
+            makeMaskElement(nx, ny, nx * rw, ny * rh, rx, ry);
+        }
+    }
+    
+    /* use mask lines to initialize the element matrix */
+    var line;
+    var maskLines = $('#maskLinesEntry').val() ? $('#maskLinesEntry').val().split(',').map(function (v) {return parseInt(v);}) : [];
+    maskLines = maskLines.slice(2);
+
+    for (y = 0; y < ny; y++) {
+        line = maskLines[y];
+        for (x = 0; x < nx; x++) { 
+            if (line & (1 << (maskWidth - 1 - x))) {
+                elementsMatrix[y][x].addClass('on');
+            }
+        }
+        if (rx && (line & 1)) {
+            elementsMatrix[y][nx].addClass('on');
+        }
+    }
+
+    if (ry) {
+        line = maskLines[ny];
+        for (x = 0; x < nx; x++) {
+            if (line & (1 << (maskWidth - 1 - x))) {
+                elementsMatrix[ny][x].addClass('on');
+            }
+        }
+
+        if (rx && (line & 1)) {
+            elementsMatrix[ny][nx].addClass('on');
+        }
+    }
+
+    var selectedCameraId = $('#cameraSelect').val();
+    if (selectedCameraId && (!cameraId || cameraId == selectedCameraId)) {
+        $('#saveMaskButton, #clearMaskButton').css('display', 'inline-block');
+        $('#editMaskButton').css('display', 'none');
+    }
+    
+    if (!overlayVisible) {
+        showCameraOverlay();
+    }
+}
+
+function disableMaskEdit(cameraId) {
+    var cameraFrames;
+    if (cameraId) {
+        cameraFrames = [getCameraFrame(cameraId)];
+    }
+    else { /* disable mask editor on any camera */
+        cameraFrames = getCameraFrames().toArray().map(function (f) {return $(f);});
+    }
+
+    cameraFrames.forEach(function (cameraFrame) {
+        var overlayDiv = cameraFrame.find('div.camera-overlay');
+        var maskDiv = cameraFrame.find('div.camera-overlay-mask');
+
+        overlayDiv.removeClass('mask-edit');
+        maskDiv.html('');
+        maskDiv.unbind('click');
+    });
+    
+    var selectedCameraId = $('#cameraSelect').val();
+    if (selectedCameraId && (!cameraId || cameraId == selectedCameraId)) {
+        $('#editMaskButton').css('display', 'inline-block');
+        $('#saveMaskButton, #clearMaskButton').css('display', 'none');
+    }
+}
+
+function clearMask(cameraId) {
+    var cameraFrame = getCameraFrame(cameraId);
+    var maskDiv = cameraFrame.find('div.camera-overlay-mask');
+
+    maskDiv.find('div.mask-element').removeClass('on');
+    maskDiv[0]._matrixToMaskLines();
 }
 
 
@@ -1532,6 +1838,7 @@ function cameraUi2Dict() {
         'movies': $('#moviesEnabledSwitch')[0].checked,
         'movie_file_name': $('#movieFileNameEntry').val(),
         'movie_quality': $('#movieQualitySlider').val(),
+        'movie_format': $('#movieFormatSelect').val(),
         'recording_mode': $('#recordingModeSelect').val(),
         'max_movie_length': $('#maxMovieLengthEntry').val(),
         'preserve_movies': $('#preserveMoviesSelect').val() >= 0 ? $('#preserveMoviesSelect').val() : $('#moviesLifetimeEntry').val(),
@@ -1547,7 +1854,11 @@ function cameraUi2Dict() {
         'pre_capture': $('#preCaptureEntry').val(),
         'post_capture': $('#postCaptureEntry').val(),
         'minimum_motion_frames': $('#minimumMotionFramesEntry').val(),
-        
+        'mask': $('#maskSwitch')[0].checked,
+        'mask_type': $('#maskTypeSelect').val(),
+        'smart_mask_slugginess': $('#smartMaskSlugginessSlider').val(),
+        'mask_lines': $('#maskLinesEntry').val() ? $('#maskLinesEntry').val().split(',').map(function (l) {return parseInt(l);}) : [],
+
         /* motion notifications */
         'email_notifications_enabled': $('#emailNotificationsEnabledSwitch')[0].checked,
         'email_notifications_from': $('#emailFromEntry').val(),
@@ -1866,6 +2177,7 @@ function dict2CameraUi(dict) {
     $('#moviesEnabledSwitch')[0].checked = dict['movies']; markHideIfNull('movies', 'moviesEnabledSwitch');
     $('#movieFileNameEntry').val(dict['movie_file_name']); markHideIfNull('movie_file_name', 'movieFileNameEntry');
     $('#movieQualitySlider').val(dict['movie_quality']); markHideIfNull('movie_quality', 'movieQualitySlider');
+    $('#movieFormatSelect').val(dict['movie_format']); markHideIfNull('movie_format', 'movieFormatSelect');
     $('#recordingModeSelect').val(dict['recording_mode']); markHideIfNull('recording_mode', 'recordingModeSelect');
     $('#maxMovieLengthEntry').val(dict['max_movie_length']); markHideIfNull('max_movie_length', 'maxMovieLengthEntry');
     $('#preserveMoviesSelect').val(dict['preserve_movies']);
@@ -1886,7 +2198,11 @@ function dict2CameraUi(dict) {
     $('#preCaptureEntry').val(dict['pre_capture']); markHideIfNull('pre_capture', 'preCaptureEntry');
     $('#postCaptureEntry').val(dict['post_capture']); markHideIfNull('post_capture', 'postCaptureEntry');
     $('#minimumMotionFramesEntry').val(dict['minimum_motion_frames']); markHideIfNull('minimum_motion_frames', 'minimumMotionFramesEntry');
-    
+    $('#maskSwitch')[0].checked = dict['mask']; markHideIfNull('mask', 'maskSwitch');
+    $('#maskTypeSelect').val(dict['mask_type']); markHideIfNull('mask_type', 'maskTypeSelect');
+    $('#smartMaskSlugginessSlider').val(dict['smart_mask_slugginess']); markHideIfNull('smart_mask_slugginess', 'smartMaskSlugginessSlider');
+    $('#maskLinesEntry').val((dict['mask_lines'] || []).join(',')); markHideIfNull('mask_lines', 'maskLinesEntry');
+
     /* motion notifications */
     $('#emailNotificationsEnabledSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsEnabledSwitch');
     $('#emailFromEntry').val(dict['email_notifications_from']);
@@ -2478,12 +2794,99 @@ function doTestUpload() {
     var cameraId = $('#cameraSelect').val();
 
     ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
+        /* clear the authorization key as it's definitely not usable anymore;
+         * the credentials must have already been obtained and saved */
+        $('#uploadAuthorizationKeyEntry').val('');
+        
+        /* also clear it from the pending configs dict */
+        Object.keys(pushConfigs).forEach(function (id) {
+            delete pushConfigs[id].upload_authorization_key;
+        });
+        
         hideModalDialog(); /* progress */
         if (data.error) {
             showErrorMessage('Accessing the upload service failed: ' + data.error + '!');
         }
         else {
             showPopupMessage('Accessing the upload service succeeded!', 'info');
+        }
+    });
+}
+
+function doTestEmail() {
+    var q = $('#emailAddressesEntry, #smtpServerEntry, #smtpPortEntry');
+    var valid = true;
+    q.each(function() {
+        this.validate();
+        if (this.invalid) {
+            valid = false;
+        }
+    });
+    
+    if (!valid) {
+        return runAlertDialog('Make sure all the configuration options are valid!');
+    }
+    
+    showModalDialog('<div class="modal-progress"></div>', null, null, true);
+    
+    var data = {
+        what: 'email',
+        from: $('#emailFromEntry').val(),
+        addresses: $('#emailAddressesEntry').val(),
+        smtp_server: $('#smtpServerEntry').val(),
+        smtp_port: $('#smtpPortEntry').val(),
+        smtp_account: $('#smtpAccountEntry').val(),
+        smtp_password: $('#smtpPasswordEntry').val(),
+        smtp_tls: $('#smtpTlsSwitch')[0].checked
+    };
+    
+    var cameraId = $('#cameraSelect').val();
+
+    ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
+        hideModalDialog(); /* progress */
+        if (data.error) {
+            showErrorMessage('Notification email failed: ' + data.error + '!');
+        }
+        else {
+            showPopupMessage('Notification email succeeded!', 'info');
+        }
+    });
+}
+
+function doTestNetworkShare() {
+    var q = $('#networkServerEntry, #networkShareNameEntry, #rootDirectoryEntry');
+    var valid = true;
+    q.each(function() {
+        this.validate();
+        if (this.invalid) {
+            valid = false;
+        }
+    });
+    
+    if (!valid) {
+        return runAlertDialog('Make sure all the configuration options are valid!');
+    }
+    
+    showModalDialog('<div class="modal-progress"></div>', null, null, true);
+    
+    var data = {
+        what: 'network_share',
+        server: $('#networkServerEntry').val(),
+        share: $('#networkShareNameEntry').val(),
+        username: $('#networkUsernameEntry').val(),
+        password: $('#networkPasswordEntry').val(),
+        root_directory: $('#rootDirectoryEntry').val()
+    };
+    
+    var cameraId = $('#cameraSelect').val();
+
+    ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
+        hideModalDialog(); /* progress */
+        if (data.error) {
+            showErrorMessage('Accessing network share failed: ' + data.error + '!');
+        }
+        else {
+            showPopupMessage('Accessing network share succeeded!', 'info');
         }
     });
 }
@@ -3012,8 +3415,8 @@ function runPictureDialog(entries, pos, mediaType) {
                 video_container.height(height);
             }
             updateModalDialogPosition();
-            prevArrow.css('display', pos > 0 ? '' : 'none');
-            nextArrow.css('display', pos < entries.length - 1 ? '' : 'none');
+            prevArrow.css('display', pos < entries.length - 1 ? '' : 'none');
+            nextArrow.css('display', pos > 0 ? '' : 'none');
             progressImg.remove();
         });
 
@@ -3022,16 +3425,16 @@ function runPictureDialog(entries, pos, mediaType) {
     }
     
     prevArrow.click(function () {
-        if (pos > 0) {
-            pos--;
+        if (pos < entries.length - 1) {
+            pos++;
         }
         
         updatePicture();
     });
     
     nextArrow.click(function () {
-        if (pos < entries.length - 1) {
-            pos++;
+        if (pos > 0) {
+            pos--;
         }
         
         updatePicture();
@@ -3924,9 +4327,10 @@ function addCameraFrameUi(cameraConfig) {
                             '<div class="button icon camera-top-button mouse-effect configure" title="configure this camera"></div>' +
                         '</div>' +
                     '</div>' +
+                    '<div class="camera-overlay-mask"></div>' +
                     '<div class="camera-overlay-bottom">' +
                         '<div class="camera-info">' +
-                            '<span class="camera-info fps" title="streaming/capture frame rate"></span>' +
+                            '<span class="camera-info" title="streaming/capture frame rate"></span>' +
                         '</div>' +
                         '<div class="camera-action-buttons">' +
                         '<div class="camera-action-buttons-wrapper">' +
@@ -3938,6 +4342,21 @@ function addCameraFrameUi(cameraConfig) {
                                 '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect snapshot" title="take a snapshot"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect record-start" title="toggle continuous recording mode"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect up" title="up"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect left" title="left"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect right" title="right"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect zoom-in" title="zoom in"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect zoom-out" title="zoom out"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset1" title="preset 1"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset2" title="preset 2"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset3" title="preset 3"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset4" title="preset 4"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset5" title="preset 5"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset6" title="preset 6"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset7" title="preset 7"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset8" title="preset 8"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect preset preset9" title="preset 9"></div>' +
                             '</div>' +
                         '</div>' +
                     '</div>' +
@@ -3950,8 +4369,9 @@ function addCameraFrameUi(cameraConfig) {
     var picturesButton = cameraFrameDiv.find('div.camera-top-button.media-pictures');
     var moviesButton = cameraFrameDiv.find('div.camera-top-button.media-movies');
     var fullScreenButton = cameraFrameDiv.find('div.camera-top-button.full-screen');
-    
-    var fpsSpan = cameraFrameDiv.find('span.camera-info.fps');
+
+    var cameraInfoDiv = cameraFrameDiv.find('div.camera-info');
+    var cameraInfoSpan = cameraFrameDiv.find('span.camera-info');
     
     var lockButton = cameraFrameDiv.find('div.camera-action-button.lock');
     var unlockButton = cameraFrameDiv.find('div.camera-action-button.unlock');
@@ -3961,6 +4381,21 @@ function addCameraFrameUi(cameraConfig) {
     var alarmOffButton = cameraFrameDiv.find('div.camera-action-button.alarm-off');
     var snapshotButton = cameraFrameDiv.find('div.camera-action-button.snapshot');
     var recordButton = cameraFrameDiv.find('div.camera-action-button.record-start');
+    var upButton = cameraFrameDiv.find('div.camera-action-button.up');
+    var rightButton = cameraFrameDiv.find('div.camera-action-button.right');
+    var downButton = cameraFrameDiv.find('div.camera-action-button.down');
+    var leftButton = cameraFrameDiv.find('div.camera-action-button.left');
+    var zoomInButton = cameraFrameDiv.find('div.camera-action-button.zoom-in');
+    var zoomOutButton = cameraFrameDiv.find('div.camera-action-button.zoom-out');
+    var preset1Button = cameraFrameDiv.find('div.camera-action-button.preset1');
+    var preset2Button = cameraFrameDiv.find('div.camera-action-button.preset2');
+    var preset3Button = cameraFrameDiv.find('div.camera-action-button.preset3');
+    var preset4Button = cameraFrameDiv.find('div.camera-action-button.preset4');
+    var preset5Button = cameraFrameDiv.find('div.camera-action-button.preset5');
+    var preset6Button = cameraFrameDiv.find('div.camera-action-button.preset6');
+    var preset7Button = cameraFrameDiv.find('div.camera-action-button.preset7');
+    var preset8Button = cameraFrameDiv.find('div.camera-action-button.preset8');
+    var preset9Button = cameraFrameDiv.find('div.camera-action-button.preset9');
     
     var cameraOverlay = cameraFrameDiv.find('div.camera-overlay');
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
@@ -3987,12 +4422,10 @@ function addCameraFrameUi(cameraConfig) {
     
     cameraImg.click(function () {
         showCameraOverlay();
-        overlayVisible = true;
     });
     
     cameraOverlay.click(function () {
         hideCameraOverlay();
-        overlayVisible = false;
     });
     
     cameraOverlay.find('div.camera-overlay-top, div.camera-overlay-bottom').click(function () {
@@ -4063,7 +4496,22 @@ function addCameraFrameUi(cameraConfig) {
         'alarm_on': alarmOnButton,
         'alarm_off': alarmOffButton,
         'snapshot': snapshotButton,
-        'record': recordButton
+        'record': recordButton,
+        'up': upButton,
+        'right': rightButton,
+        'down': downButton,
+        'left': leftButton,
+        'zoom_in': zoomInButton,
+        'zoom_out': zoomOutButton,
+        'preset1': preset1Button,
+        'preset2': preset2Button,
+        'preset3': preset3Button,
+        'preset4': preset4Button,
+        'preset5': preset5Button,
+        'preset6': preset6Button,
+        'preset7': preset7Button,
+        'preset8': preset8Button,
+        'preset9': preset9Button
     };
     
     cameraConfig.actions.forEach(function (action) {
@@ -4099,7 +4547,8 @@ function addCameraFrameUi(cameraConfig) {
         cameraOverlay.find('div.camera-overlay-bottom').addClass('few-buttons');
     }
     else {
-        cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', Math.ceil(cameraConfig.actions.length / 2) * 2.5 + 'em');
+        //cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', Math.ceil(cameraConfig.actions.length / 2) * 2.5 + 'em');
+        cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', 4 * 2.5 + 'em');
     }
 
     var FPS_LEN = 4;
@@ -4115,7 +4564,7 @@ function addCameraFrameUi(cameraConfig) {
         cameraPlaceholder.css('opacity', 1);
         cameraProgress.removeClass('visible');
         cameraFrameDiv.removeClass('motion-detected');
-        fpsSpan.html('');
+        cameraInfoSpan.html('');
     };
     cameraImg[0].onload = function () {
         if (this.error) {
@@ -4154,6 +4603,7 @@ function addCameraFrameUi(cameraConfig) {
             }
             
             var captureFps = getCookie('capture_fps_' + cameraId);
+            var monitorInfo = getCookie('monitor_info_' + cameraId);
             
             this.lastCookieTime = now;
 
@@ -4161,14 +4611,26 @@ function addCameraFrameUi(cameraConfig) {
                 var streamingFps = this.fpsTimes.length * 1000 / (this.fpsTimes[this.fpsTimes.length - 1] - this.fpsTimes[0]);
                 streamingFps = streamingFps.toFixed(1);
                 
-                var fps = streamingFps;
+                var info = streamingFps;
                 if (captureFps) {
-                    fps += '/' + captureFps;
+                    info += '/' + captureFps;
                 }
                 
-                fps += ' fps';
+                info += ' fps';
+                
+                if (monitorInfo) {
+                    monitorInfo = decodeURIComponent(monitorInfo);
+                    if (monitorInfo.charAt(0) == monitorInfo.charAt(monitorInfo.length - 1) == '"') {
+                        monitorInfo = monitorInfo.substring(1, monitorInfo.length - 1);
+                    }
+                    info += '<br>' + monitorInfo;
+                    cameraInfoDiv.addClass('two-lines');
+                }
+                else {
+                    cameraInfoDiv.removeClass('two-lines')
+                }
 
-                fpsSpan.html(fps);
+                cameraInfoSpan.html(info);
             }
         }
 
@@ -4494,16 +4956,6 @@ $(document).ready(function () {
             openSettings();
         }
     });
-    
-    /* software update button */
-    $('div#updateButton').click(doUpdate);
-    
-    /* backup/restore */
-    $('div#backupButton').click(doBackup);
-    $('div#restoreButton').click(doRestore);
-    
-    /* test buttons */
-    $('div#uploadTestButton').click(doTestUpload);
     
     initUI();
     beginProgress();

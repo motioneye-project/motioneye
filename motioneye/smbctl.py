@@ -140,6 +140,39 @@ def update_mounts():
     return (should_stop, should_start)
 
 
+def test_share(server, share, username, password, root_directory):
+    mounts = list_mounts()
+    mounts = dict(((m['server'], m['share'], m['username'] or ''), m['mount_point']) for m in mounts)
+    
+    key = (server, share, username or '')
+    mounted = False
+    mount_point = mounts.get(key)
+    if not mount_point:
+        mount_point = _mount(server, share, username, password)
+        if not mount_point:
+            raise Exception('cannot mount network share')
+
+        mounted = True
+    
+    def maybe_umount():
+        if mounted:
+            time.sleep(1)
+            _umount(server, share, username)
+
+    path = os.path.join(mount_point, root_directory)
+    if os.path.exists(path):
+        return maybe_umount()
+    
+    try:
+        os.makedirs(path)
+    
+    except:
+        raise Exception('cannot create root directory')
+    
+    finally:
+        maybe_umount()
+
+
 def _mount(server, share, username, password):
     mount_point = make_mount_point(server, share, username)
     

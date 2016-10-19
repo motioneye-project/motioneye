@@ -25,12 +25,15 @@ import time
 
 from tornado.ioloop import IOLoop
 
-import config
 import powerctl
 import settings
+import update
 import utils
 
 _MOTION_CONTROL_TIMEOUT = 5
+
+# starting with r490 motion config directives have changed a bit 
+_LAST_OLD_CONFIG_VERSIONS = (490, '3.2.12')
 
 _started = False
 _motion_binary_cache = None
@@ -65,12 +68,15 @@ def find_motion():
     result = re.findall('motion Version ([^,]+)', help, re.IGNORECASE)
     version = result and result[0] or ''
     
+    logging.debug('using motion version %s' % version)
+    
     _motion_binary_cache = (binary, version)
     
     return _motion_binary_cache
 
 
 def start(deferred=False):
+    import config
     import mjpgclient
     
     if deferred:
@@ -289,6 +295,8 @@ def set_motion_detected(camera_id, motion_detected):
 
 
 def camera_id_to_thread_id(camera_id):
+    import config
+
     # find the corresponding thread_id
     # (which can be different from camera_id)
     camera_ids = config.get_camera_ids()
@@ -296,7 +304,7 @@ def camera_id_to_thread_id(camera_id):
     camera_id = int(camera_id)
     for cid in camera_ids:
         camera_config = config.get_camera(cid)
-        if utils.local_motion_camera(camera_config):
+        if utils.is_local_motion_camera(camera_config):
             thread_id += 1
         
         if cid == camera_id:
@@ -306,6 +314,8 @@ def camera_id_to_thread_id(camera_id):
     
 
 def thread_id_to_camera_id(thread_id):
+    import config
+
     main_config = config.get_main()
     threads = main_config.get('thread', '')
 
@@ -316,10 +326,63 @@ def thread_id_to_camera_id(thread_id):
         return None
 
 
+def has_old_config_format():
+    try:
+        binary, version = find_motion()  # @UnusedVariable
+
+        if version.startswith('trunkREV'): # e.g. "trunkREV599"
+            version = int(version[8:])
+            return version <= _LAST_OLD_CONFIG_VERSIONS[0]
+
+        elif version.lower().count('git'): # e.g. "Unofficial-Git-a5b5f13" or "3.2.12+git20150927mrdave"
+            return False # all git versions are assumed to be new
+
+        else: # stable release, should have the format "x.y.z"
+            return update.compare_versions(version, _LAST_OLD_CONFIG_VERSIONS[1]) <= 0
+
+    except:
+        return False
+
+
+def has_streaming_auth():
+    return not has_old_config_format()
+
+
+def has_new_movie_format_support():
+    try:
+        binary, version = find_motion()  # @UnusedVariable
+
+        return version.lower().count('git') or update.compare_versions(version, '3.4') >= 0 
+
+    except:
+        return False
+
+
+def get_rtsp_support():
+    try:
+        binary, version = find_motion()  # @UnusedVariable
+
+        if version.startswith('trunkREV'): # e.g. trunkREV599
+            version = int(version[8:])
+            if version > _LAST_OLD_CONFIG_VERSIONS[0]:
+                return ['tcp']
+
+        elif version.lower().count('git') or update.compare_versions(version, '3.4') >= 0:
+            return ['tcp', 'udp'] # all git versions are assumed to support both transport protocols
+        
+        else: # stable release, should be in the format x.y.z
+            return []
+
+    except:
+        return []
+
+
 def _disable_initial_motion_detection():
+    import config
+
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
-        if not utils.local_motion_camera(camera_config):
+        if not utils.is_local_motion_camera(camera_config):
             continue
 
         if not camera_config['@motion_detection']:

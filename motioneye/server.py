@@ -331,7 +331,11 @@ def start_motion():
 
         io_loop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
     
-    motionctl.start()
+    try:
+        motionctl.start()
+    
+    except Exception as e:
+        logging.error(str(e), exc_info=True)
         
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
 

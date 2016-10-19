@@ -123,3 +123,6 @@ TIMELAPSE_TIMEOUT = 500
 
 # enable adding and removing cameras from UI
 ADD_REMOVE_CAMERAS = True
+
+# enable HTTPS certificate validation
+VALIDATE_CERTS = True

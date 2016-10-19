@@ -28,10 +28,12 @@ from tornado.ioloop import IOLoop
 import settings
 
 
-_INTERVAL = 10
+_INTERVAL = 2
 _STATE_FILE_NAME = 'tasks.pickle'
 _MAX_TASKS = 100
-_POOL_SIZE = 2 
+
+# we must be sure there's only one extra process that handles all tasks
+_POOL_SIZE = 1
 
 _tasks = []
 _pool = None
@@ -60,7 +62,7 @@ def stop():
     _pool = None
 
 
-def add(when, func, tag=None, async=False, **params):
+def add(when, func, tag=None, callback=None, **params):
     if len(_tasks) >= _MAX_TASKS:
         return logging.error('the maximum number of tasks (%d) has been reached' % _MAX_TASKS)
     
@@ -80,7 +82,7 @@ def add(when, func, tag=None, async=False, **params):
         i += 1
 
     logging.debug('adding task "%s" in %d seconds' % (tag or func.func_name, when - now))
-    _tasks.insert(i, (when, func, tag, async, params))
+    _tasks.insert(i, (when, func, tag, callback, params))
 
     _save()
 
@@ -92,19 +94,11 @@ def _check_tasks():
     now = time.time()
     changed = False
     while _tasks and _tasks[0][0] <= now:
-        (when, func, tag, async, params) = _tasks.pop(0)  # @UnusedVariable
+        (when, func, tag, callback, params) = _tasks.pop(0)  # @UnusedVariable
         
         logging.debug('executing task "%s"' % tag or func.func_name)
-        if async:
-            _pool.apply_async(func, kwds=params)
+        _pool.apply_async(func, kwds=params, callback=callback if callable(callback) else None)
 
-        else:
-            try:
-                func(**params)
-            
-            except Exception as e:
-                logging.error('task "%s" failed: %s' % (tag or func.func_name, e), exc_info=True)
-                
         changed = True
     
     if changed:
@@ -153,7 +147,9 @@ def _save():
         return
 
     try:
-        cPickle.dump(_tasks, file)
+        # don't save tasks that have a callback
+        tasks = [t for t in _tasks if not t[3]]
+        cPickle.dump(tasks, file)
 
     except Exception as e:
         logging.error('could not save tasks to file "%s": %s'% (file_path, e))

@@ -23,9 +23,13 @@ import logging
 import os
 import re
 import socket
+import sys
 import time
 import urllib
+import urllib2
 import urlparse
+
+from PIL import Image, ImageDraw
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.iostream import IOStream
@@ -42,6 +46,8 @@ except:
 
 _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, _-]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
+
+MASK_WIDTH = 32
 
 DEV_NULL = open('/dev/null', 'w')
 
@@ -324,27 +330,27 @@ def get_disk_usage(path):
     return (used_size, total_size)
 
 
-def local_motion_camera(config):
+def is_local_motion_camera(config):
     '''Tells if a camera is managed by the local motion instance.'''
     return bool(config.get('videodevice') or config.get('netcam_url'))
 
 
-def remote_camera(config):
+def is_remote_camera(config):
     '''Tells if a camera is managed by a remote motionEye server.'''
     return config.get('@proto') == 'motioneye'
 
 
-def v4l2_camera(config):
+def is_v4l2_camera(config):
     '''Tells if a camera is a v4l2 device managed by the local motion instance.'''
     return bool(config.get('videodevice'))
 
 
-def net_camera(config):
+def is_net_camera(config):
     '''Tells if a camera is a network camera managed by the local motion instance.'''
     return bool(config.get('netcam_url'))
 
 
-def simple_mjpeg_camera(config):
+def is_simple_mjpeg_camera(config):
     '''Tells if a camera is a simple MJPEG camera not managed by any motion instance.'''
     return bool(config.get('@proto') == 'mjpeg')
 
@@ -379,9 +385,9 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
         request = HTTPRequest(url, auth_username=username, auth_password=password, auth_mode=auth_modes.pop(0),
                 connect_timeout=settings.REMOTE_REQUEST_TIMEOUT, request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
-                header_callback=on_header)
+                header_callback=on_header, validate_cert=settings.VALIDATE_CERTS)
 
-        http_client = AsyncHTTPClient(force_instance=True)    
+        http_client = AsyncHTTPClient(force_instance=True)
         http_client.fetch(request, on_response)
 
     def on_header(header):
@@ -426,37 +432,41 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
 
 def test_rtsp_url(data, callback):
-    import config
+    import motionctl
     
-    data = dict(data)
-    data.setdefault('scheme', 'rtsp')
-    data.setdefault('host', '127.0.0.1')
-    data['port'] = data.get('port') or '554'
-    data.setdefault('path', '')
-    data.setdefault('username', None)
-    data.setdefault('password', None)
+    scheme = data.get('scheme', 'rtsp')
+    host = data.get('host', '127.0.0.1')
+    port = data.get('port') or '554'
+    path = data.get('path') or ''
+    username = data.get('username')
+    password = data.get('password')
 
     url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-            'scheme': data['scheme'],
-            'host': data['host'],
-            'port': ':' + str(data['port']) if data['port'] else '',
-            'path': data['path'] or ''}
+            'scheme': scheme,
+            'host': host,
+            'port': (':' + port) if port else '',
+            'path': path}
     
     called = [False]
+    send_auth = [False]
     timeout = [None]
     stream = None
     
     io_loop = IOLoop.instance()
 
     def connect():
-        logging.debug('testing rtsp netcam at %s' % url)
+        if send_auth[0]:
+            logging.debug('testing rtsp netcam at %s (this time with credentials)' % url)
+            
+        else:
+            logging.debug('testing rtsp netcam at %s' % url)
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
         stream = IOStream(s)
         stream.set_close_callback(on_close)
-        stream.connect((data['host'], int(data['port'])), on_connect)
-        
+        stream.connect((host, int(port)), on_connect)
+
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
                 functools.partial(on_connect, _timeout=True))
         
@@ -473,13 +483,22 @@ def test_rtsp_url(data, callback):
 
         logging.debug('connected to rtsp netcam')
         
-        stream.write('\r\n'.join([
+        lines = [
             'OPTIONS %s RTSP/1.0' % url.encode('utf8'),
             'CSeq: 1',
-            'User-Agent: motionEye',
+            'User-Agent: motionEye'
+        ]
+        
+        if username and send_auth[0]:
+            auth_header = 'Authorization: ' + build_basic_header(username, password)
+            lines.append(auth_header)
+
+        lines += [
             '',
             ''
-        ]))
+        ]
+
+        stream.write('\r\n'.join(lines))
 
         seek_rtsp()
         
@@ -496,10 +515,18 @@ def test_rtsp_url(data, callback):
         if data:
             if data.endswith('200 '):
                 seek_server()
-    
+
+            elif data.endswith('401 '):
+                if not username or send_auth[0]:
+                    # either credentials not supplied, or already sent
+                    handle_error('authentication failed')
+
+                else:
+                    seek_www_authenticate()
+
             else:
                 handle_error('rtsp netcam returned erroneous response: %s' % data)
-        
+
         else:
             handle_error('timeout waiting for rtsp netcam response')
 
@@ -523,6 +550,31 @@ def test_rtsp_url(data, callback):
 
         handle_success(identifier)
 
+    def seek_www_authenticate():
+        if check_error():
+            return
+
+        stream.read_until_regex('WWW-Authenticate: .*', on_www_authenticate)
+        timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_www_authenticate)
+
+    def on_www_authenticate(data=None):
+        io_loop.remove_timeout(timeout[0])
+
+        if data:
+            scheme = re.findall('WWW-Authenticate: ([^\s]+)', data)[0].strip()
+            logging.debug('rtsp netcam auth scheme: %s' % scheme)
+            if scheme.lower() == 'basic':
+                send_auth[0] = True
+                connect()
+                
+            else:
+                logging.debug('rtsp auth scheme digest not supported, considering credentials ok')
+                handle_success('(unknown) ')
+
+        else:
+            logging.error('timeout waiting for rtsp auth scheme')
+            handle_error('timeout waiting for rtsp netcam response')
+
     def on_close():
         if called[0]:
             return
@@ -536,19 +588,19 @@ def test_rtsp_url(data, callback):
         
         called[0] = True
         cameras = []
-        rtsp_support = config.motion_rtsp_support()
+        rtsp_support = motionctl.get_rtsp_support()
         if identifier:
             identifier = ' ' + identifier
             
         else:
             identifier = ''
 
-        if 'udp' in rtsp_support:
-            cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
-        
         if 'tcp' in rtsp_support:
             cameras.append({'id': 'tcp', 'name': '%sRTSP/TCP Camera' % identifier})
 
+        if 'udp' in rtsp_support:
+            cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
+        
         callback(cameras)
 
     def handle_error(e):
@@ -716,3 +768,204 @@ def build_digest_header(method, url, username, password, state):
     state['nonce_count'] = nonce_count
 
     return 'Digest %s' % (base)
+
+
+def urlopen(*args, **kwargs):
+    if sys.version_info >= (2, 7, 9) and not settings.VALIDATE_CERTS:
+        # ssl certs are not verified by default
+        # in versions prior to 2.7.9
+
+        import ssl
+
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+    
+        kwargs.setdefault('context', ctx)
+
+    return urllib2.urlopen(*args, **kwargs)
+
+
+def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_height=None):
+    width = mask_lines[0]
+    height = mask_lines[1]
+    mask_lines = mask_lines[2:]
+    
+    logging.debug('building editable mask for camera with id %s (%sx%s)' %
+            (camera_id, width, height))
+
+    # horizontal rectangles
+    nx = MASK_WIDTH # number of rectangles
+    if width % nx:
+        nx -= 1
+        rx = width % nx # remainder
+
+    else:
+        rx = 0
+    
+    rw = width / nx # rectangle width
+
+    # vertical rectangles
+    ny = mask_height = height * MASK_WIDTH / width # number of rectangles
+    if height % ny:
+        ny -= 1
+        ry = height % ny # remainder
+    
+    else:
+        ry = 0
+
+    # if mask not present, generate an empty mask    
+    if not mask_lines:
+        mask_lines = [0] * mask_height
+
+    # scale the mask vertically in case the aspect ratio has changed
+    # since the last time the mask has been generated
+    if mask_height == len(mask_lines):
+        line_index_func = lambda y: y
+        
+    else:
+        line_index_func = lambda y: (len(mask_lines) - 1) * y / (mask_height - 1)
+
+    rh = height / ny # rectangle height
+
+    # draw the actual mask image content
+    im = Image.new('L', (width, height), 255) # all white
+    dr = ImageDraw.Draw(im)
+    
+    for y in xrange(ny):
+        line = mask_lines[line_index_func(y)]
+        for x in xrange(nx):
+            if line & (1 << (MASK_WIDTH - 1 - x)):
+                dr.rectangle((x * rw, y * rh, (x + 1) * rw - 1, (y + 1) * rh - 1), fill=0)
+
+        if rx and line & 1:
+            dr.rectangle((nx * rw, y * rh, nx * rw + rx - 1, (y + 1) * rh - 1), fill=0)
+
+    if ry:
+        line = mask_lines[line_index_func(ny)]
+        for x in xrange(nx):
+            if line & (1 << (MASK_WIDTH - 1 - x)):
+                dr.rectangle((x * rw, ny * rh, (x + 1) * rw - 1, ny * rh + ry - 1), fill=0)
+
+        if rx and line & 1:
+            dr.rectangle((nx * rw, ny * rh, nx * rw + rx - 1, ny * rh + ry - 1), fill=0)
+
+    file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
+    
+    # resize the image if necessary
+    if capture_width and capture_height and im.size != (capture_width, capture_height):
+        logging.debug('editable mask needs resizing from %sx%s to %sx%s' %
+                (im.size[0], im.size[1], capture_width, capture_height))
+
+        im = im.resize((capture_width, capture_height))
+
+    im.save(file_name, 'ppm')
+
+    return file_name
+
+
+def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None):
+    # capture_width and capture_height arguments represent the current size
+    # of the camera image, as it might be different from that of the associated mask;
+    # they can be null (e.g. netcams)
+
+    file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
+
+    logging.debug('parsing editable mask for camera with id %s: %s' % (camera_id, file_name))
+
+    # read the image file
+    try:
+        im = Image.open(file_name)
+
+    except Exception as e:
+        logging.error('failed to read mask file %s: %s' % (file_name, e))
+
+        # empty mask        
+        return [0] * (MASK_WIDTH * 10)
+
+    if capture_width and capture_height:
+        # resize the image if necessary
+        if im.size != (capture_width, capture_height):
+            logging.debug('editable mask needs resizing from %sx%s to %sx%s' %
+                    (im.size[0], im.size[1], capture_width, capture_height))
+
+            im = im.resize((capture_width, capture_height))
+            
+        width, height = capture_width, capture_height
+
+    else:
+        logging.debug('using mask size from file: %sx%s' % (im.size[0], im.size[1]))
+
+        width, height = im.size
+
+    pixels = list(im.getdata())
+
+    # horizontal rectangles
+    nx = MASK_WIDTH # number of rectangles
+    if width % nx:
+        nx -= 1
+        rx = width % nx # remainder
+
+    else:
+        rx = 0
+    
+    rw = width / nx # rectangle width
+
+    # vertical rectangles
+    ny = height * MASK_WIDTH / width # number of rectangles
+    if height % ny:
+        ny -= 1
+        ry = height % ny # remainder
+    
+    else:
+        ry = 0
+
+    rh = height / ny # rectangle height
+
+    # parse the image contents and build the mask lines
+    mask_lines = [width, height]
+    for y in xrange(ny):
+        bits = []
+        for x in xrange(nx):
+            px = int((x + 0.5) * rw)
+            py = int((y + 0.5) * rh)
+            pixel = pixels[py * width + px]
+            bits.append(not bool(pixel))
+
+        if rx:
+            px = int(nx * rw + rx / 2)
+            py = int((y + 0.5) * rh)
+            pixel = pixels[py * width + px]
+            bits.append(not bool(pixel))
+
+        # build the binary packed mask line
+        line = 0
+        for i, bit in enumerate(bits):
+            if bit:
+                line |= 1 << (MASK_WIDTH - 1 - i)
+                
+        mask_lines.append(line)
+
+    if ry:
+        bits = []
+        for x in xrange(nx):
+            px = int((x + 0.5) * rw)
+            py = int(ny * rh + ry / 2)
+            pixel = pixels[py * width + px]
+            bits.append(not bool(pixel))
+
+        if rx:
+            px = int(nx * rw + rx / 2)
+            py = int(ny * rh + ry / 2)
+            pixel = pixels[py * width + px]
+            bits.append(not bool(pixel))
+
+        # build the binary packed mask line
+        line = 0
+        for i, bit in enumerate(bits):
+            if bit:
+                line |= 1 << (MASK_WIDTH - 1 - i)
+
+        mask_lines.append(line)
+    
+    return mask_lines

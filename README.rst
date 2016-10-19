@@ -1,4 +1,4 @@
-**motionEye** is a web-based frontend for `motion <http://www.lavrsen.dk/foswiki/bin/view/Motion>`_. Check out the `wiki <https://github.com/ccrisan/motioneye/wiki>`_ for more details.
+**motionEye** is a web-based frontend for `motion <https://motion-project.github.io>`_. Check out the `wiki <https://github.com/ccrisan/motioneye/wiki>`_ for more details.
 
 
 .. image:: https://badges.gitter.im/Join%20Chat.svg

@@ -20,6 +20,7 @@ import datetime
 import errno
 import glob
 import logging
+import math
 import os.path
 import re
 import shlex
@@ -29,9 +30,10 @@ import urlparse
 from tornado.ioloop import IOLoop
 
 import diskctl
+import motionctl
 import powerctl
 import settings
-import update
+import tasks
 import uploadservices
 import utils
 import v4l2ctl
@@ -39,7 +41,8 @@ import v4l2ctl
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
-_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off']
+_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off', 'up', 'right', 'down', 'left', 'zoom_in', 'zoom_out',
+        'preset1', 'preset2', 'preset3', 'preset4', 'preset5', 'preset6', 'preset7', 'preset8', 'preset9']
 
 _main_config_cache = None
 _camera_config_cache = {}
@@ -47,9 +50,13 @@ _camera_ids_cache = None
 _additional_section_funcs = []
 _additional_config_funcs = []
 _additional_structure_cache = {}
+_monitor_command_cache = {}
 
-# starting with r490 motion config directives have changed a bit 
-_LAST_OLD_CONFIG_VERSIONS = (490, '3.2.12')
+# when using the following video codecs, the ffmpeg_variable_bitrate parameter appears to have an exponential effect
+_EXPONENTIAL_QUALITY_CODECS = ['mpeg4', 'msmpeg4', 'swf', 'flv', 'mov', 'ogg', 'mkv']
+_EXPONENTIAL_QUALITY_FACTOR = 100000 # voodoo
+_EXPONENTIAL_DEF_QUALITY = 511 # about 75%
+_MAX_FFMPEG_VARIABLE_BITRATE = 32767
 
 _KNOWN_MOTION_OPTIONS = set([
     'auto_brightness', 'brightness', 'contrast', 'emulate_motion', 'event_gap', 'ffmpeg_bps', 'ffmpeg_output_movies', 'ffmpeg_variable_bitrate', 'ffmpeg_video_codec',
@@ -58,7 +65,8 @@ _KNOWN_MOTION_OPTIONS = set([
     'quality', 'rotate', 'saturation', 'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate',
     'stream_motion', 'stream_port', 'stream_quality', 'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width',
     'webcam_localhost', 'webcam_port', 'webcam_maxrate', 'webcam_quality', 'webcam_motion', 'ffmpeg_cap_new', 'output_normal', 'output_motion', 'jpeg_filename', 'output_all',
-    'gap', 'locate', 'netcam_url', 'netcam_userpass', 'netcam_http', 'netcam_tolerant_check', 'netcam_keepalive', 'rtsp_uses_tcp'
+    'gap', 'locate', 'netcam_url', 'netcam_userpass', 'netcam_http', 'netcam_tolerant_check', 'netcam_keepalive', 'rtsp_uses_tcp',
+    'mask_file', 'smart_mask_speed'
 ])
 
 
@@ -121,7 +129,7 @@ def get_main(as_lines=False):
             no_convert=['@admin_username', '@admin_password', '@normal_username', '@normal_password'])
     
     _get_additional_config(main_config)
-    _set_default_motion(main_config, old_motion=is_old_motion())
+    _set_default_motion(main_config, old_config_format=motionctl.has_old_config_format())
     
     _main_config_cache = main_config
     
@@ -223,7 +231,7 @@ def get_enabled_local_motion_cameras():
     
     camera_ids = get_camera_ids()
     cameras = [get_camera(camera_id) for camera_id in camera_ids]
-    return [c for c in cameras if c.get('@enabled') and utils.local_motion_camera(c)]
+    return [c for c in cameras if c.get('@enabled') and utils.is_local_motion_camera(c)]
 
 
 def get_network_shares():
@@ -249,8 +257,6 @@ def get_network_shares():
 
 
 def get_camera(camera_id, as_lines=False):
-    global _camera_config_cache
-    
     if not as_lines and camera_id in _camera_config_cache:
         return _camera_config_cache[camera_id]
     
@@ -286,17 +292,17 @@ def get_camera(camera_id, as_lines=False):
                         '@network_username', '@network_password', '@storage_device',
                         '@upload_server', '@upload_username', '@upload_password'])
     
-    if utils.local_motion_camera(camera_config):
+    if utils.is_local_motion_camera(camera_config):
         # determine the enabled status
         main_config = get_main()
         threads = main_config.get('thread', [])
         camera_config['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
         camera_config['@id'] = camera_id
         
-        old_motion = is_old_motion()
+        old_config_format = motionctl.has_old_config_format()
         
         # adapt directives from old configuration, if needed
-        if old_motion:
+        if old_config_format:
             logging.debug('using old motion config directives')
             
             if 'output_normal' in camera_config:
@@ -330,10 +336,10 @@ def get_camera(camera_id, as_lines=False):
         
         _set_default_motion_camera(camera_id, camera_config)
     
-    elif utils.remote_camera(camera_config):
+    elif utils.is_remote_camera(camera_config):
         pass
     
-    elif utils.simple_mjpeg_camera(camera_config):
+    elif utils.is_simple_mjpeg_camera(camera_config):
         _get_additional_config(camera_config, camera_id=camera_id)
         
         _set_default_simple_mjpeg_camera(camera_id, camera_config)
@@ -349,18 +355,16 @@ def get_camera(camera_id, as_lines=False):
 
 
 def set_camera(camera_id, camera_config):
-    global _camera_config_cache
-
     camera_config['@id'] = camera_id
     _camera_config_cache[camera_id] = camera_config
 
     camera_config = dict(camera_config)
     
-    if utils.local_motion_camera(camera_config):
-        old_motion = is_old_motion()
+    if utils.is_local_motion_camera(camera_config):
+        old_config_format = motionctl.has_old_config_format()
         
         # adapt directives to old configuration, if needed
-        if old_motion:
+        if old_config_format:
             logging.debug('using old motion config directives')
             
             if 'output_pictures' in camera_config:
@@ -409,10 +413,10 @@ def set_camera(camera_id, camera_config):
         set_main(main_config)
         _set_additional_config(camera_config, camera_id=camera_id)
 
-    elif utils.remote_camera(camera_config):
+    elif utils.is_remote_camera(camera_config):
         pass
     
-    elif utils.simple_mjpeg_camera(camera_config):
+    elif utils.is_simple_mjpeg_camera(camera_config):
         _set_additional_config(camera_config, camera_id=camera_id)
 
     # read the actual configuration from file
@@ -453,7 +457,6 @@ def set_camera(camera_id, camera_config):
 
 def add_camera(device_details):
     global _camera_ids_cache
-    global _camera_config_cache
     
     proto = device_details['proto']
     if proto in ['netcam', 'mjpeg']:
@@ -522,13 +525,13 @@ def add_camera(device_details):
         camera_config['@proto'] = 'mjpeg'
         camera_config['@url'] = device_details['url']
     
-    if utils.local_motion_camera(camera_config):
+    if utils.is_local_motion_camera(camera_config):
         _set_default_motion_camera(camera_id, camera_config)
 
         # go through the config conversion functions back and forth once
         camera_config = motion_camera_ui_to_dict(motion_camera_dict_to_ui(camera_config), camera_config)
     
-    elif utils.simple_mjpeg_camera(camera_config):
+    elif utils.is_simple_mjpeg_camera(camera_config):
         _set_default_simple_mjpeg_camera(camera_id, camera_config)
 
         # go through the config conversion functions back and forth once
@@ -538,7 +541,7 @@ def add_camera(device_details):
     set_camera(camera_id, camera_config)
     
     _camera_ids_cache = None
-    _camera_config_cache = {}
+    _camera_config_cache.clear()
     
     camera_config = get_camera(camera_id)
     
@@ -547,7 +550,6 @@ def add_camera(device_details):
 
 def rem_camera(camera_id):
     global _camera_ids_cache
-    global _camera_config_cache
     
     camera_config_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
     camera_config_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
@@ -564,7 +566,7 @@ def rem_camera(camera_id):
     logging.info('removing camera config file %(path)s...' % {'path': camera_config_path})
     
     _camera_ids_cache = None
-    _camera_config_cache = {}
+    _camera_config_cache.clear()
     
     try:
         os.remove(camera_config_path)
@@ -674,7 +676,6 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         # movies
         'ffmpeg_output_movies': False,
         'movie_filename': ui['movie_file_name'],
-        'ffmpeg_bps': 44000, # a quality of about 85% for 320x240x2fps
         'max_movie_time': ui['max_movie_length'],
         '@preserve_movies': int(ui['preserve_movies']),
     
@@ -690,6 +691,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         'pre_capture': int(ui['pre_capture']),
         'post_capture': int(ui['post_capture']),
         'minimum_motion_frames': int(ui['minimum_motion_frames']),
+        'smart_mask_speed': 0,
+        'mask_file': '',
         
         # working schedule
         '@working_schedule': '',
@@ -701,7 +704,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         'on_picture_save': ''
     }
     
-    if utils.v4l2_camera(old_config):
+    if utils.is_v4l2_camera(old_config):
         proto = 'v4l2'
         
     else:
@@ -769,7 +772,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         if ui['root_directory'].startswith('/'):
             ui['root_directory'] = ui['root_directory'][1:]
         data['target_dir'] = os.path.normpath(os.path.join(mount_point, ui['root_directory']))
-    
+        
     elif ui['storage_device'].startswith('local-disk'):
         target_dev = ui['storage_device'][10:].replace('-', '/')
         mounted_partitions = diskctl.list_mounted_partitions()
@@ -782,12 +785,24 @@ def motion_camera_ui_to_dict(ui, old_config=None):
 
     else:
         data['target_dir'] = ui['root_directory']
+
+    # try to create the target dir
+    try:
+        os.makedirs(data['target_dir'])
+        logging.debug('created root directory %s for camera %s' % (data['target_dir'], data['@name']))
+    
+    except Exception as e:
+        if isinstance(e, OSError) and e.errno == errno.EEXIST:
+            pass # already exists, things should be just fine
         
+        else:
+            logging.error('failed to create root directory "%s": %s' % (data['target_dir'], e), exc_info=True)
+
     if ui['upload_enabled'] and '@id' in old_config:
         upload_settings = {k[7:]: ui[k] for k in ui.iterkeys() if k.startswith('upload_')}
-        service = uploadservices.get(old_config['@id'], ui['upload_service'])
-        service.load(upload_settings)
-        service.save()
+
+        tasks.add(0, uploadservices.update, tag='uploadservices.update(%s)' % ui['upload_service'],
+                camera_id=old_config['@id'], service_name=ui['upload_service'], settings=upload_settings)
 
     if ui['text_overlay']:
         left_text = ui['left_text']
@@ -843,16 +858,24 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         elif recording_mode == 'continuous':
             data['emulate_motion'] = True
 
-    if proto == 'v4l2':
-        max_val = data['width'] * data['height'] * data['framerate']
-    
-    else: # assume a netcam image size of 640x480, since we have no means to know it at this point
-        max_val = 640 * 480 * data['framerate']
+    data['ffmpeg_video_codec'] = ui['movie_format']
+    q = int(ui['movie_quality'])
+    if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
+        vbr = max(1, _MAX_FFMPEG_VARIABLE_BITRATE * (1 - math.log(max(1, q * _EXPONENTIAL_QUALITY_FACTOR), _EXPONENTIAL_QUALITY_FACTOR * 100)))
+        
+    else:
+        vbr = 1 + (_MAX_FFMPEG_VARIABLE_BITRATE - 1) / 100.0 * (100 - q)
 
-    max_val = min(max_val, 9999999)
+    data['ffmpeg_variable_bitrate'] = int(vbr)
 
-    data['ffmpeg_bps'] = int(int(ui['movie_quality']) * max_val / 100)
-    
+    # motion detection
+    if ui['mask']:
+        if ui['mask_type'] == 'smart':
+            data['smart_mask_speed'] = 10 - int(ui['smart_mask_slugginess'])
+
+        elif ui['mask_type'] == 'editable':
+            data['mask_file'] = utils.build_editable_mask_file(old_config['@id'], ui['mask_lines'], data.get('width'), data.get('height'))
+
     # working schedule
     if ui['working_schedule']:
         data['@working_schedule'] = (
@@ -1032,6 +1055,10 @@ def motion_camera_dict_to_ui(data):
         'pre_capture': int(data['pre_capture']),
         'post_capture': int(data['post_capture']),
         'minimum_motion_frames': int(data['minimum_motion_frames']),
+        'mask': False,
+        'mask_type': 'smart',
+        'smart_mask_slugginess': 5,
+        'mask_lines': [],
         
         # motion notifications
         'email_notifications_enabled': False,
@@ -1050,7 +1077,7 @@ def motion_camera_dict_to_ui(data):
         'sunday_from': '', 'sunday_to': ''
     }
     
-    if utils.net_camera(data):
+    if utils.is_net_camera(data):
         ui['device_url'] = data['netcam_url']
         ui['proto'] = 'netcam'
 
@@ -1135,10 +1162,12 @@ def motion_camera_dict_to_ui(data):
         ui['root_directory'] = data['target_dir']
 
     # disk usage
-    usage = utils.get_disk_usage(data['target_dir'])
+    usage = None
+    if os.path.exists(data['target_dir']):
+        usage = utils.get_disk_usage(data['target_dir'])
     if usage:
         ui['disk_used'], ui['disk_total'] = usage
-    
+
     text_left = data['text_left']
     text_right = data['text_right'] 
     if text_left or text_right:
@@ -1194,7 +1223,7 @@ def motion_camera_dict_to_ui(data):
         ui['capture_mode'] = 'motion-triggered'
         if picture_filename:
             ui['image_file_name'] = picture_filename
-        
+
     if data['ffmpeg_output_movies']:
         ui['movies'] = True
         
@@ -1203,18 +1232,28 @@ def motion_camera_dict_to_ui(data):
 
     else:
         ui['recording_mode'] = 'motion-triggered'
-            
-    ffmpeg_bps = data['ffmpeg_bps']
-    if ffmpeg_bps is not None:
-        if utils.v4l2_camera(data):
-            max_val = data['width'] * data['height'] * data['framerate']
         
-        else: # net camera
-            max_val = 640 * 480 * data['framerate']
-            
-        max_val = min(max_val, 9999999)
-        
-        ui['movie_quality'] = min(100, int(round(ffmpeg_bps * 100.0 / max_val)))
+    ui['movie_format'] = data['ffmpeg_video_codec']
+    
+    bitrate = data['ffmpeg_variable_bitrate']
+    if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
+        q = (100 * _EXPONENTIAL_QUALITY_FACTOR) ** ((1 - float(bitrate) / _MAX_FFMPEG_VARIABLE_BITRATE)) / _EXPONENTIAL_QUALITY_FACTOR
+
+    else:
+        q = 100 - (bitrate - 1) * 100.0 / (_MAX_FFMPEG_VARIABLE_BITRATE - 1)
+
+    ui['movie_quality'] = int(q)
+
+    # mask
+    if data['mask_file']:
+        ui['mask'] = True
+        ui['mask_type'] = 'editable'
+        ui['mask_lines'] = utils.parse_editable_mask_file(data['@id'], data.get('width'), data.get('height'))
+
+    elif data['smart_mask_speed']:
+        ui['mask'] = True
+        ui['mask_type'] = 'smart'
+        ui['smart_mask_slugginess'] = 10 - data['smart_mask_speed']
 
     # working schedule
     working_schedule = data['@working_schedule']
@@ -1388,6 +1427,22 @@ def get_action_commands(camera_id):
     return action_commands
 
 
+def get_monitor_command(camera_id):
+    if camera_id not in _monitor_command_cache:
+        path = os.path.join(settings.CONF_PATH, 'monitor_%s' % camera_id)
+        if os.access(path, os.X_OK):
+            _monitor_command_cache[camera_id] = path
+        
+        else:
+            _monitor_command_cache[camera_id] = None
+
+    return _monitor_command_cache[camera_id]
+
+
+def invalidate_monitor_commands():
+    _monitor_command_cache.clear()
+
+
 def backup():
     logging.debug('generating config backup file')
 
@@ -1456,47 +1511,6 @@ def restore(content):
         logging.error('failed to restore configuration: %s' % e, exc_info=True)
 
         return None
-
-
-def is_old_motion():
-    import motionctl
-    
-    try:
-        binary, version = motionctl.find_motion()  # @UnusedVariable
-        
-        if version.startswith('trunkREV'): # e.g. "trunkREV599"
-            version = int(version[8:])
-            return version <= _LAST_OLD_CONFIG_VERSIONS[0]
-        
-        elif version.lower().count('git'): # e.g. "Unofficial-Git-a5b5f13" or "3.2.12+git20150927mrdave"
-            return False # all git versions are assumed to be new
-        
-        else: # stable release, should be in the format "x.y.z"
-            return update.compare_versions(version, _LAST_OLD_CONFIG_VERSIONS[1]) <= 0
-
-    except:
-        return False
-
-
-def motion_rtsp_support():
-    import motionctl
-
-    try:
-        binary, version = motionctl.find_motion()  # @UnusedVariable
-        
-        if version.startswith('trunkREV'): # e.g. trunkREV599
-            version = int(version[8:])
-            if version > _LAST_OLD_CONFIG_VERSIONS[0]:
-                return ['tcp']
-        
-        elif version.lower().count('git'): # e.g. Unofficial-Git-a5b5f13
-            return ['tcp', 'udp'] # all git versions are assumed to support both transport protocols
-        
-        else: # stable release, should be in the format x.y.z
-            return []
-
-    except:
-        return []
 
 
 def invalidate():
@@ -1685,7 +1699,7 @@ def _dict_to_conf(lines, data, list_names=[]):
     return lines
 
 
-def _set_default_motion(data, old_motion):
+def _set_default_motion(data, old_config_format):
     data.setdefault('@enabled', True)
 
     data.setdefault('@show_advanced', False)
@@ -1696,7 +1710,7 @@ def _set_default_motion(data, old_motion):
     
     data.setdefault('setup_mode', False)
 
-    if old_motion:
+    if old_config_format:
         data.setdefault('control_port', settings.MOTION_CONTROL_PORT)
         data.setdefault('control_html_output', True)
         data.setdefault('control_localhost', settings.MOTION_CONTROL_LOCALHOST)
@@ -1711,7 +1725,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@name', 'Camera' + str(camera_id))
     data.setdefault('@id', camera_id)
     
-    if not utils.net_camera(data):
+    if not utils.is_net_camera(data):
         data.setdefault('videodevice', '/dev/video0')
         data.setdefault('brightness', 0)
         data.setdefault('contrast', 0)
@@ -1729,7 +1743,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@network_share_name', '')
     data.setdefault('@network_username', '')
     data.setdefault('@network_password', '')
-    data.setdefault('target_dir', settings.MEDIA_PATH)
+    data.setdefault('target_dir', os.path.join(settings.MEDIA_PATH, data['@name']))
     data.setdefault('@upload_enabled', False)
     data.setdefault('@upload_picture', True)
     data.setdefault('@upload_movie', True)
@@ -1743,7 +1757,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@upload_password', '')
 
     data.setdefault('stream_localhost', False)
-    data.setdefault('stream_port', int('808' + str(camera_id)))
+    data.setdefault('stream_port', 8080 + camera_id)
     data.setdefault('stream_maxrate', 5)
     data.setdefault('stream_quality', 85)
     data.setdefault('stream_motion', False)
@@ -1766,6 +1780,8 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('noise_level', 32)
     data.setdefault('lightswitch', 0)
     data.setdefault('minimum_motion_frames', 20)
+    data.setdefault('smart_mask_speed', 0)
+    data.setdefault('mask_file', '')
     
     data.setdefault('pre_capture', 1)
     data.setdefault('post_capture', 1)
@@ -1780,12 +1796,16 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('quality', 85)
     data.setdefault('@preserve_pictures', 0)
     
-    data.setdefault('ffmpeg_variable_bitrate', 0)
-    data.setdefault('ffmpeg_bps', 44000) # a quality of about 85% 
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     data.setdefault('max_movie_time', 0)
     data.setdefault('ffmpeg_output_movies', False)
-    data.setdefault('ffmpeg_video_codec', 'msmpeg4')
+    if motionctl.has_new_movie_format_support():
+        data.setdefault('ffmpeg_video_codec', 'mp4') # will use h264 codec
+        data.setdefault('ffmpeg_variable_bitrate', _MAX_FFMPEG_VARIABLE_BITRATE / 4) # 75%
+        
+    else:
+        data.setdefault('ffmpeg_video_codec', 'msmpeg4')
+        data.setdefault('ffmpeg_variable_bitrate', _EXPONENTIAL_DEF_QUALITY)
     data.setdefault('@preserve_movies', 0)
     
     data.setdefault('@working_schedule', '')

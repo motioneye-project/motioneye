@@ -69,6 +69,9 @@
         var frame = {% if frame %}true{% else %}false{% endif %};
         var hasLocalCamSupport = {% if has_motion %}true{% else %}false{% endif %};
         var hasNetCamSupport = {% if has_motion %}true{% else %}false{% endif %};
+        {% if mask_width %}
+        var maskWidth = {{mask_width}};
+        {% endif %}
     </script>
 {% endblock %}
 
@@ -352,6 +355,11 @@
                         <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="rootDirectoryEntry"></td>
                         <td><span class="help-mark" title="the root path (on the selected storage device) where the files will be saved">?</span></td>
                     </tr>
+                    <tr class="settings-item advanced-setting" depends="storageDevice=network-share">
+                        <td class="settings-item-label"><span class="settings-item-label"></span></td>
+                        <td class="settings-item-value"><div class="button normal-button test-button" id="networkShareTestButton">Test Share</div></td>
+                        <td><span class="help-mark" title="click this button to test the network share connectivity after you have filled in the required details">?</span></td>
+                    </tr>
                     <tr class="settings-item advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
@@ -419,7 +427,7 @@
                         <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadLocationEntry"></td>
                         <td><span class="help-mark" title="the location (root path) where media files should be uploaded (e.g. /files/cam1/)">?</span></td>
                     </tr>
-                    <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService=(dropbox)">
+                    <tr class="settings-item advanced-setting" depends="uploadEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">Include Subfolders</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadSubfoldersSwitch"></td>
                         <td><span class="help-mark" title="enable this to upload the media files together with their subfolders, instead of placing them directly into the root location">?</span></td>
@@ -464,7 +472,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="webHookStorageEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Web Hook URL</span></td>
                         <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="webHookStorageUrlEntry" placeholder="e.g. http://example.com/notify/"></td>
-                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %f = file path">?</span></td>
+                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %f = file path">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="webHookStorageEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">HTTP Method</span></td>
@@ -489,7 +497,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="commandStorageEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
                         <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="commandStorageEntry" placeholder="command..."></td>
-                        <td><span class="help-mark" title="a command to be executed after a media file is created; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %f = file path">?</span></td>
+                        <td><span class="help-mark" title="a command to be executed after a media file is created; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %f = file path">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('storage', {}).get('configs', []) %}
                         {{config_item(config)}}
@@ -519,7 +527,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="leftTextType=custom-text" strip="true">
                         <td class="settings-item-label"></td>
                         <td class="settings-item-value"><input type="text" class="styled text-overlay camera-config" id="leftTextEntry" placeholder="custom text..."></td>
-                        <td><span class="help-mark" title="sets a custom left text; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %T = HH:MM:SS, %q = frame number, \n = new line">?</span></td>
+                        <td><span class="help-mark" title="sets a custom left text; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %T = HH:MM:SS, %q = frame number, \n = new line">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Right Text</span></td>
@@ -536,7 +544,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="rightTextType=custom-text" strip="true">
                         <td class="settings-item-label"></td>
                         <td class="settings-item-value"><input type="text" class="styled text-overlay camera-config" id="rightTextEntry" placeholder="custom text..."></td>
-                        <td><span class="help-mark" title="sets a custom right text; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %T = HH:MM:SS, %q = frame number, \n = new line">?</span></td>
+                        <td><span class="help-mark" title="sets a custom right text; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %T = HH:MM:SS, %q = frame number, \n = new line">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('text-overlay', {}).get('configs', []) %}
                         {{config_item(config)}}
@@ -576,7 +584,7 @@
                         <td class="settings-item-value"><input type="text" class="styled streaming camera-config" id="streamingPortEntry"></td>
                         <td><span class="help-mark" title="sets the TCP port on which the webcam streaming server listens">?</span></td>
                     </tr>
-                    {% if not old_motion %}
+                    {% if has_streaming_auth %}
                     <tr class="settings-item advanced-setting" depends="videoStreamingEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">Authentication Mode</span></td>
                         <td class="settings-item-value">
@@ -586,7 +594,7 @@
                                 <option value="digest">Digest</option>
                             </select>
                         </td>
-                        <td><span class="help-mark" title="the authentication mode to use when accessing the stream (use Basic instead of Digest if you encounter issues with third party apps)">?</span></td>
+                        <td><span class="help-mark" title="the authentication method used by the stream (choose Basic instead of Digest if you encounter issues with third party apps); surveillance credentials will be used">?</span></td>
                     </tr>
                     {% endif %}
                     <tr class="settings-item advanced-setting">
@@ -628,7 +636,7 @@
                     <tr class="settings-item advanced-setting" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Image File Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled still-images camera-config" id="imageFileNameEntry" placeholder="file name pattern..."></td>
-                        <td><span class="help-mark" title="sets the name pattern for the image (JPEG) files; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, / = subfolder">?</span></td>
+                        <td><span class="help-mark" title="sets the name pattern for the image (JPEG) files; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, / = subfolder">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
                         <td class="settings-item-label"><span class="settings-item-label">Image Quality</span></td>
@@ -686,7 +694,26 @@
                     <tr class="settings-item advanced-setting" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Movie File Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled movies camera-config" id="movieFileNameEntry" placeholder="file name pattern..."></td>
-                        <td><span class="help-mark" title="sets the name pattern for the movie (MPEG) files; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number, / = subfolder">?</span></td>
+                        <td><span class="help-mark" title="sets the name pattern for the movie files; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, / = subfolder">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Movie Format</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled movies camera-config" id="movieFormatSelect">
+                                <option value="mpeg4">MPEG4 (.avi)</option>
+                                <option value="msmpeg4">MSMPEG4v2 (.avi)</option>
+                                <option value="swf">Small Web Format (.swf)</option>
+                                <option value="flv">Flash Video (.flv)</option>
+                                <option value="mov">QuickTime (.mov)</option>
+                                {% if has_new_movie_format_support %}
+                                <option value="ogg">Ogg (.ogg)</option>
+                                <option value="mp4">H.264 (.mp4)</option>
+                                <option value="hevc">HEVC (.mp4)</option>
+                                <option value="mkv">Matroska Video (.mkv)</option>
+                                {% endif %}
+                            </select>
+                        </td>
+                        <td><span class="help-mark" title="sets the movie file format; not all formats are guaranteed to work on all systems; if in doubt, test each format and select the one that works best with your video player">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
                         <td class="settings-item-label"><span class="settings-item-label">Movie Quality</span></td>
@@ -788,6 +815,43 @@
                         <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="minimumMotionFramesEntry"><span class="settings-item-unit">frames</span></td>
                         <td><span class="help-mark" title="sets the minimum number of successive motion frames required to start a motion event">?</span></td>
                     </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Mask</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="maskSwitch"></td>
+                        <td><span class="help-mark" title="enables image masking for a more selective and precise motion detection">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="mask">
+                        <td class="settings-item-label"><span class="settings-item-label">Mask Type</span></td>
+                        <td class="settings-item-value">
+                            <select class="styled motion-detection camera-config" id="maskTypeSelect">
+                                <option value="smart">Smart</option>
+                                <option value="editable">Editable</option>
+                            </select>
+                        </td>
+                        <td><span class="help-mark" title="the smart option automatically detects regions with regular motion and dynamically builds an internal mask, while the editable mask allows you to manually build it yourself">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" min="1" max="10" snap="1" ticksnum="10" decimals="0" unit="" depends="mask maskType=smart">
+                        <td class="settings-item-label"><span class="settings-item-label">Smart Mask Slugginess</span></td>
+                        <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="smartMaskSlugginessSlider"></td>
+                        <td><span class="help-mark" title="lower values result in a longer-lasting smart mask with a slower building process">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="mask maskType=editable">
+                        <td class="settings-item-label"><span class="settings-item-label"></span></td>
+                        <td class="settings-item-value">
+                            <div class="button normal-button edit-mask-button" id="editMaskButton">Edit Mask</div>
+                            <div class="button normal-button save-mask-button" id="saveMaskButton">Save Mask</div>
+                            <input type="text" class="motion-detection camera-config" id="maskLinesEntry">
+                        </td>
+                        <td><span class="help-mark" title="click this button to enable/disable the mask editor">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="mask maskType=editable">
+                        <td class="settings-item-label"><span class="settings-item-label"></span></td>
+                        <td class="settings-item-value"><div class="button normal-button clear-mask-button" id="clearMaskButton">Clear Mask</div></td>
+                        <td><span class="help-mark" title="click this button to clear the current mask">?</span></td>
+                    </tr>
                     {% for config in camera_sections.get('motion-detection', {}).get('configs', []) %}
                         {{config_item(config)}}
                     {% endfor %}
@@ -843,7 +907,12 @@
                     <tr class="settings-item advanced-setting" min="0" max="60" required="true" depends="emailNotificationsEnabled motionDetectionEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">Attached Pictures Time Span</span></td>
                         <td class="settings-item-value"><input type="text" class="number styled notifications camera-config" id="emailPictureTimeSpanEntry"><span class="settings-item-unit">seconds</span></td>
-                        <td><span class="help-mark" title="defines the picture search time interval to use when creating email attachments (higher values generate emails with more pictures at the cost of an increased notification delay); set to 0 to disable picture attachments">?</span></td>
+                        <td><span class="help-mark" title="defines the picture search time interval to use when creating email attachments (higher values generate emails with more pictures at the cost of an increased notification delay); set to 0 to disable picture attachments; you must also enable Still Images for this to work">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="emailNotificationsEnabled motionDetectionEnabled">
+                        <td class="settings-item-label"><span class="settings-item-label"></span></td>
+                        <td class="settings-item-value"><div class="button normal-button test-button" id="emailTestButton">Test Email</div></td>
+                        <td><span class="help-mark" title="click this button to test email notifications after you have filled in the required details">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="motionDetectionEnabled">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
@@ -856,7 +925,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="webHookNotificationsEnabled motionDetectionEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Web Hook URL</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="webHookNotificationsUrlEntry" placeholder="e.g. http://example.com/notify/"></td>
-                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
+                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="webHookNotificationsEnabled motionDetectionEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">HTTP Method</span></td>
@@ -881,7 +950,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="commandNotificationsEnabled motionDetectionEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandNotificationsEntry" placeholder="command..."></td>
-                        <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semilcolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
+                        <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semilcolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('notifications', {}).get('configs', []) %}
                         {{config_item(config, "motionDetectionEnabled")}}

@@ -241,7 +241,7 @@ div.hostname {
 div.settings {
     background-color: #313131;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     top: 50px;
     left: 0px;
     width: 0px;
@@ -395,8 +395,16 @@ div.normal-button {
 div.update-button,
 div.backup-button,
 div.restore-button,
+div.edit-mask-button,
+div.save-mask-button,
+div.clear-mask-button,
 div.test-button {
     background: #317CAD;
+}
+
+div.save-mask-button,
+div.clear-mask-button {
+    display: none;
 }
 
 div.shut-down-button,
@@ -406,7 +414,11 @@ div.reboot-button {
 
 div.update-button:HOVER,
 div.backup-button:HOVER,
-div.restore-button:HOVER {
+div.restore-button:HOVER,
+div.edit-mask-button:HOVER,
+div.save-mask-button:HOVER,
+div.clear-mask-button:HOVER,
+div.test-button:HOVER {
     background: #3498db;
 }
 
@@ -417,7 +429,11 @@ div.reboot-button:HOVER {
 
 div.update-button:ACTIVE,
 div.backup-button:ACTIVE,
-div.restore-button:ACTIVE {
+div.restore-button:ACTIVE,
+div.edit-mask-button:ACTIVE,
+div.save-mask-button:ACTIVE,
+div.clear-mask-button:ACTIVE,
+div.test-button:ACTIVE {
     background: #317CAD;
 }
 
@@ -458,6 +474,10 @@ input[type=text].working-schedule.number {
 
 #diskUsageProgressBar {
     width: 90%;
+}
+
+#maskLinesEntry {
+    display: none;
 }
 
 div.hidden,
@@ -916,6 +936,8 @@ div.camera-overlay-bottom {
     transition: background-color 0.1s ease;
     left: 0px;
     width: 100%;
+    z-index: 1;
+    transition: height 0.2s ease;
 }
 
 div.camera-frame:HOVER div.camera-overlay-top,
@@ -933,6 +955,53 @@ div.camera-overlay-top {
     height: 2.5em;
     line-height: 2.5em;
     white-space: nowrap;
+    overflow: hidden;
+}
+
+div.camera-overlay-mask {
+    background: rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: 0;
+    transition: opacity 0.2s ease;
+}
+
+div.camera-overlay.mask-edit > div.camera-overlay-top {
+    height: 0px;
+    bottom: auto;
+}
+
+div.camera-overlay.mask-edit > div.camera-overlay-bottom {
+    height: 0px;
+    top: auto;
+}
+
+div.camera-overlay.mask-edit > div.camera-overlay-mask {
+    opacity: 1;
+}
+
+div.mask-element {
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-width: 0px 1px 1px 0px;
+    background: transparent;
+}
+
+div.mask-element.last-row {
+    border-right-width: 0px;
+}
+
+div.mask-element.last-line {
+    border-bottom-width: 0px;
+}
+
+div.mask-element.on {
+    background: rgba(0, 0, 0, 0.7);
 }
 
 div.camera-name {
@@ -994,6 +1063,9 @@ div.camera-overlay-bottom.few-buttons {
 div.camera-info {
     display: inline-block;
     white-space: nowrap;
+    font-family: monospace;
+    font-size: 1em;
+    font-weight: bold;
     width: 40%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -1002,12 +1074,32 @@ div.camera-info {
     line-height: 5em;
 }
 
+div.camera-info.two-lines {
+    line-height: 1.2em;
+}
+
 div.camera-overlay-bottom.few-buttons div.camera-info {
     line-height: 2.5em;
 }
 
+div.camera-overlay-bottom.few-buttons div.camera-info.two-lines {
+    line-height: 1.2em;
+    font-size: 0.8em;
+}
+
 span.camera-info {
-    padding-left: 0.5em;
+    display: inline-block;
+    margin-left: 1em;
+}
+
+div.camera-info.two-lines > span.camera-info {
+    margin-left: 1em;
+    margin-top: 1.5em;
+}
+
+div.camera-overlay-bottom.few-buttons div.camera-info.two-lines > span.camera-info {
+    margin-left: 0.5em;
+    margin-top: 0.5em;
 }
 
 div.camera-action-buttons {
@@ -1068,6 +1160,74 @@ div.camera-action-button.record-start {
 
 div.camera-action-button.record-stop {
     background-position: -800% 0px;
+}
+
+div.camera-action-button.up {
+    background-position: -900% 0px;
+}
+
+div.camera-action-button.right {
+    background-position: -1000% 0px;
+}
+
+div.camera-action-button.down {
+    background-position: -1100% 0px;
+}
+
+div.camera-action-button.left {
+    background-position: -1200% 0px;
+}
+
+div.camera-action-button.zoom-in {
+    background-position: -1300% 0px;
+}
+
+div.camera-action-button.zoom-out {
+    background-position: -1400% 0px;
+}
+
+div.camera-action-button.preset {
+    background-position: -1500% 0px;
+    text-align: center;
+    line-height: 2.5em;
+    color: #3498db;
+    font-weight: bold;
+}
+
+div.camera-action-button.preset1:BEFORE {
+    content: '1';
+}
+
+div.camera-action-button.preset2:BEFORE {
+    content: '2';
+}
+
+div.camera-action-button.preset3:BEFORE {
+    content: '3';
+}
+
+div.camera-action-button.preset4:BEFORE {
+    content: '4';
+}
+
+div.camera-action-button.preset5:BEFORE {
+    content: '5';
+}
+
+div.camera-action-button.preset6:BEFORE {
+    content: '6';
+}
+
+div.camera-action-button.preset7:BEFORE {
+    content: '7';
+}
+
+div.camera-action-button.preset8:BEFORE {
+    content: '8';
+}
+
+div.camera-action-button.preset9:BEFORE {
+    content: '9';
 }
 
 div.camera-container {

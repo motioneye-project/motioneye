@@ -100,7 +100,7 @@ def _check_ws():
     now = datetime.datetime.now()
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
-        if not utils.local_motion_camera(camera_config):
+        if not utils.is_local_motion_camera(camera_config):
             continue
         
         working_schedule = camera_config.get('@working_schedule')
