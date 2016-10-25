@@ -231,7 +231,7 @@ def get_enabled_local_motion_cameras():
     
     camera_ids = get_camera_ids()
     cameras = [get_camera(camera_id) for camera_id in camera_ids]
-    return [c for c in cameras if c.get('@enabled') and utils.local_motion_camera(c)]
+    return [c for c in cameras if c.get('@enabled') and utils.is_local_motion_camera(c)]
 
 
 def get_network_shares():
@@ -292,7 +292,7 @@ def get_camera(camera_id, as_lines=False):
                         '@network_username', '@network_password', '@storage_device',
                         '@upload_server', '@upload_username', '@upload_password'])
     
-    if utils.local_motion_camera(camera_config):
+    if utils.is_local_motion_camera(camera_config):
         # determine the enabled status
         main_config = get_main()
         threads = main_config.get('thread', [])
@@ -336,10 +336,10 @@ def get_camera(camera_id, as_lines=False):
         
         _set_default_motion_camera(camera_id, camera_config)
     
-    elif utils.remote_camera(camera_config):
+    elif utils.is_remote_camera(camera_config):
         pass
     
-    elif utils.simple_mjpeg_camera(camera_config):
+    elif utils.is_simple_mjpeg_camera(camera_config):
         _get_additional_config(camera_config, camera_id=camera_id)
         
         _set_default_simple_mjpeg_camera(camera_id, camera_config)
@@ -360,7 +360,7 @@ def set_camera(camera_id, camera_config):
 
     camera_config = dict(camera_config)
     
-    if utils.local_motion_camera(camera_config):
+    if utils.is_local_motion_camera(camera_config):
         old_config_format = motionctl.has_old_config_format()
         
         # adapt directives to old configuration, if needed
@@ -413,10 +413,10 @@ def set_camera(camera_id, camera_config):
         set_main(main_config)
         _set_additional_config(camera_config, camera_id=camera_id)
 
-    elif utils.remote_camera(camera_config):
+    elif utils.is_remote_camera(camera_config):
         pass
     
-    elif utils.simple_mjpeg_camera(camera_config):
+    elif utils.is_simple_mjpeg_camera(camera_config):
         _set_additional_config(camera_config, camera_id=camera_id)
 
     # read the actual configuration from file
@@ -525,13 +525,13 @@ def add_camera(device_details):
         camera_config['@proto'] = 'mjpeg'
         camera_config['@url'] = device_details['url']
     
-    if utils.local_motion_camera(camera_config):
+    if utils.is_local_motion_camera(camera_config):
         _set_default_motion_camera(camera_id, camera_config)
 
         # go through the config conversion functions back and forth once
         camera_config = motion_camera_ui_to_dict(motion_camera_dict_to_ui(camera_config), camera_config)
     
-    elif utils.simple_mjpeg_camera(camera_config):
+    elif utils.is_simple_mjpeg_camera(camera_config):
         _set_default_simple_mjpeg_camera(camera_id, camera_config)
 
         # go through the config conversion functions back and forth once
@@ -704,7 +704,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         'on_picture_save': ''
     }
     
-    if utils.v4l2_camera(old_config):
+    if utils.is_v4l2_camera(old_config):
         proto = 'v4l2'
         
     else:
@@ -1077,7 +1077,7 @@ def motion_camera_dict_to_ui(data):
         'sunday_from': '', 'sunday_to': ''
     }
     
-    if utils.net_camera(data):
+    if utils.is_net_camera(data):
         ui['device_url'] = data['netcam_url']
         ui['proto'] = 'netcam'
 
@@ -1739,7 +1739,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@name', 'Camera' + str(camera_id))
     data.setdefault('@id', camera_id)
     
-    if not utils.net_camera(data):
+    if not utils.is_net_camera(data):
         data.setdefault('videodevice', '/dev/video0')
         data.setdefault('brightness', 0)
         data.setdefault('contrast', 0)

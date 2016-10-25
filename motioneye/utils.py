@@ -330,27 +330,27 @@ def get_disk_usage(path):
     return (used_size, total_size)
 
 
-def local_motion_camera(config):
+def is_local_motion_camera(config):
     '''Tells if a camera is managed by the local motion instance.'''
     return bool(config.get('videodevice') or config.get('netcam_url'))
 
 
-def remote_camera(config):
+def is_remote_camera(config):
     '''Tells if a camera is managed by a remote motionEye server.'''
     return config.get('@proto') == 'motioneye'
 
 
-def v4l2_camera(config):
+def is_v4l2_camera(config):
     '''Tells if a camera is a v4l2 device managed by the local motion instance.'''
     return bool(config.get('videodevice'))
 
 
-def net_camera(config):
+def is_net_camera(config):
     '''Tells if a camera is a network camera managed by the local motion instance.'''
     return bool(config.get('netcam_url'))
 
 
-def simple_mjpeg_camera(config):
+def is_simple_mjpeg_camera(config):
     '''Tells if a camera is a simple MJPEG camera not managed by any motion instance.'''
     return bool(config.get('@proto') == 'mjpeg')
 
