@@ -227,10 +227,6 @@ def test_requirements():
             logging.fatal('smb shares require root privileges')
             sys.exit(-1)
 
-        if settings.ENABLE_REBOOT:
-            logging.fatal('reboot requires root privileges')
-            sys.exit(-1)
-
     try:
         import tornado  # @UnusedImport
 
