@@ -377,6 +377,19 @@ def get_rtsp_support():
         return []
 
 
+def needs_ffvb_quirks():
+    # versions below 4.0 require a value range of 1..32767
+    # for the ffmpeg_variable_bitrate parameter;
+    # also the quality is non-linear in this range
+    try:
+        binary, version = find_motion()  # @UnusedVariable
+
+        return update.compare_versions(version, '4.0') < 0 
+
+    except:
+        return False
+
+
 def _disable_initial_motion_detection():
     import config
 

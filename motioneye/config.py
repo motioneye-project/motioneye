@@ -860,11 +860,15 @@ def motion_camera_ui_to_dict(ui, old_config=None):
 
     data['ffmpeg_video_codec'] = ui['movie_format']
     q = int(ui['movie_quality'])
-    if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
-        vbr = max(1, _MAX_FFMPEG_VARIABLE_BITRATE * (1 - math.log(max(1, q * _EXPONENTIAL_QUALITY_FACTOR), _EXPONENTIAL_QUALITY_FACTOR * 100)))
-        
+    if motionctl.needs_ffvb_quirks():
+        if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
+            vbr = max(1, _MAX_FFMPEG_VARIABLE_BITRATE * (1 - math.log(max(1, q * _EXPONENTIAL_QUALITY_FACTOR), _EXPONENTIAL_QUALITY_FACTOR * 100)))
+            
+        else:
+            vbr = 1 + (_MAX_FFMPEG_VARIABLE_BITRATE - 1) / 100.0 * (100 - q)
+            
     else:
-        vbr = 1 + (_MAX_FFMPEG_VARIABLE_BITRATE - 1) / 100.0 * (100 - q)
+        vbr = max(1, q)
 
     data['ffmpeg_variable_bitrate'] = int(vbr)
 
@@ -1236,13 +1240,17 @@ def motion_camera_dict_to_ui(data):
     ui['movie_format'] = data['ffmpeg_video_codec']
     
     bitrate = data['ffmpeg_variable_bitrate']
-    if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
-        q = (100 * _EXPONENTIAL_QUALITY_FACTOR) ** ((1 - float(bitrate) / _MAX_FFMPEG_VARIABLE_BITRATE)) / _EXPONENTIAL_QUALITY_FACTOR
-
+    if motionctl.needs_ffvb_quirks():
+        if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
+            q = (100 * _EXPONENTIAL_QUALITY_FACTOR) ** ((1 - float(bitrate) / _MAX_FFMPEG_VARIABLE_BITRATE)) / _EXPONENTIAL_QUALITY_FACTOR
+    
+        else:
+            q = 100 - (bitrate - 1) * 100.0 / (_MAX_FFMPEG_VARIABLE_BITRATE - 1)
+    
+        ui['movie_quality'] = int(q)
+        
     else:
-        q = 100 - (bitrate - 1) * 100.0 / (_MAX_FFMPEG_VARIABLE_BITRATE - 1)
-
-    ui['movie_quality'] = int(q)
+        ui['movie_quality'] = bitrate
 
     # mask
     if data['mask_file']:
@@ -1815,11 +1823,16 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('ffmpeg_output_movies', False)
     if motionctl.has_new_movie_format_support():
         data.setdefault('ffmpeg_video_codec', 'mp4') # will use h264 codec
-        data.setdefault('ffmpeg_variable_bitrate', _MAX_FFMPEG_VARIABLE_BITRATE / 4) # 75%
+        if motionctl.needs_ffvb_quirks():
+            data.setdefault('ffmpeg_variable_bitrate', _MAX_FFMPEG_VARIABLE_BITRATE / 4) # 75%
+            
+        else:
+            data.setdefault('ffmpeg_variable_bitrate', 75) # 75%
         
     else:
         data.setdefault('ffmpeg_video_codec', 'msmpeg4')
         data.setdefault('ffmpeg_variable_bitrate', _EXPONENTIAL_DEF_QUALITY)
+
     data.setdefault('@preserve_movies', 0)
     
     data.setdefault('@working_schedule', '')
