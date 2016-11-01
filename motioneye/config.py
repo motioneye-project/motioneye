@@ -1089,6 +1089,7 @@ def motion_camera_dict_to_ui(data):
         if data['netcam_url'].startswith('rtsp'):
             # motion uses the configured width and height for RTSP cameras
             resolutions = utils.COMMON_RESOLUTIONS
+            resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
             ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
             ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
 

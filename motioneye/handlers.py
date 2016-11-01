@@ -210,7 +210,7 @@ class MainHandler(BaseHandler):
                 admin_username=config.get_main().get('@admin_username'),
                 has_streaming_auth=motionctl.has_streaming_auth(),
                 has_new_movie_format_support=motionctl.has_new_movie_format_support(),
-                has_motion=bool(motionctl.find_motion()),
+                has_motion=bool(motionctl.find_motion()[0]),
                 mask_width=utils.MASK_WIDTH)
 
 
