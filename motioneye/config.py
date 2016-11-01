@@ -60,7 +60,7 @@ _MAX_FFMPEG_VARIABLE_BITRATE = 32767
 
 _KNOWN_MOTION_OPTIONS = set([
     'auto_brightness', 'brightness', 'contrast', 'emulate_motion', 'event_gap', 'ffmpeg_bps', 'ffmpeg_output_movies', 'ffmpeg_variable_bitrate', 'ffmpeg_video_codec',
-    'framerate', 'height', 'hue', 'lightswitch', 'locate_motion_mode', 'locate_motion_style', 'minimum_motion_frames', 'movie_filename', 'max_movie_time', 'max_mpeg_time',
+    'framerate', 'height', 'hue', 'lightswitch', 'despeckle_filter', 'locate_motion_mode', 'locate_motion_style', 'minimum_motion_frames', 'movie_filename', 'max_movie_time', 'max_mpeg_time',
     'noise_level', 'noise_tune', 'on_event_end', 'on_event_start', 'on_movie_end', 'on_picture_save', 'output_pictures', 'picture_filename', 'post_capture', 'pre_capture',
     'quality', 'rotate', 'saturation', 'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate',
     'stream_motion', 'stream_port', 'stream_quality', 'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width',
@@ -331,6 +331,8 @@ def get_camera(camera_id, as_lines=False):
                 camera_config['event_gap'] = camera_config.pop('gap')
             if 'netcam_http' in camera_config:
                 camera_config['netcam_keepalive'] = camera_config.pop('netcam_http') in ['1.1', 'keepalive']
+            if 'despeckle' in camera_config:
+                camera_config['despeckle_filter'] = camera_config.pop('despeckle')
 
         _get_additional_config(camera_config, camera_id=camera_id)
         
@@ -397,6 +399,8 @@ def set_camera(camera_id, camera_config):
                 camera_config['gap'] = camera_config.pop('event_gap')
             if 'netcam_keepalive' in camera_config:
                 camera_config['netcam_http'] = '1.1' if camera_config.pop('netcam_keepalive') else '1.0'
+            if 'despeckle_filter' in camera_config:
+                camera_config['despeckle'] = camera_config.pop('despeckle_filter')
          
         # set the enabled status in main config
         main_config = get_main()
@@ -873,6 +877,13 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     data['ffmpeg_variable_bitrate'] = int(vbr)
 
     # motion detection
+
+    if ui['despeckle_filter']:
+        data['despeckle_filter'] = old_config['despeckle_filter'] or 'EedDl'
+
+    else:
+        data['despeckle_filter'] = ''
+
     if ui['mask']:
         if ui['mask_type'] == 'smart':
             data['smart_mask_speed'] = 10 - int(ui['smart_mask_slugginess'])
@@ -1055,6 +1066,7 @@ def motion_camera_dict_to_ui(data):
         'auto_noise_detect': data['noise_tune'],
         'noise_level': int(int(data['noise_level']) / 2.55),
         'light_switch_detect': data['lightswitch'],
+        'despeckle_filter': data['despeckle_filter'],
         'event_gap': int(data['event_gap']),
         'pre_capture': int(data['pre_capture']),
         'post_capture': int(data['post_capture']),
@@ -1802,6 +1814,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('noise_tune', True)
     data.setdefault('noise_level', 32)
     data.setdefault('lightswitch', 0)
+    data.setdefault('despeckle_filter', '')
     data.setdefault('minimum_motion_frames', 20)
     data.setdefault('smart_mask_speed', 0)
     data.setdefault('mask_file', '')
