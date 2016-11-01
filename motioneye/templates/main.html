@@ -292,6 +292,16 @@
                         </td>
                         <td><span class="help-mark" title="the video resolution (larger values produce better quality but require more CPU power, larger storage space and bandwidth)">?</span></td>
                     </tr>
+                    <tr class="settings-item" min="96" max="4096" required="true" depends="resolution=custom">
+                        <td class="settings-item-label"><span class="settings-item-label">Width</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled number device camera-config" id="customWidthEntry"></td>
+                        <td><span class="help-mark" title="enter a custom resolution width">?</span></td>
+                    </tr>
+                    <tr class="settings-item" min="96" max="4096" required="true" depends="resolution=custom">
+                        <td class="settings-item-label"><span class="settings-item-label">Height</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled number device camera-config" id="customHeightEntry"></td>
+                        <td><span class="help-mark" title="enter a custom resolution height">?</span></td>
+                    </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Video Rotation</span></td>
                         <td class="settings-item-value">
