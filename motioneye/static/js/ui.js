@@ -359,21 +359,24 @@ function makeTextValidator($input, required) {
             }
         }
         
-        $this.keyup(validate);
-        $this.blur(validate);
-        $this.change(validate).change();
-        
         $this.addClass('validator');
         $this.addClass('text-validator');
         $this.each(function () {
             var oldValidate = this.validate;
             this.validate = function () {
                 if (oldValidate) {
-                    oldValidate.call(this);
+                    if (!oldValidate.call(this)) {
+                        return;
+                    }
                 }
                 validate();
+                return !this.invalid;
             }
         });
+
+        $this.keyup(function () {this.validate();});
+        $this.blur(function () {this.validate();});
+        $this.change(function () {this.validate();}).change();
     });
 }
 
@@ -413,21 +416,24 @@ function makeComboValidator($select, required) {
             }
         }
         
-        $this.keyup(validate);
-        $this.blur(validate);
-        $this.change(validate).change();
-        
         $this.addClass('validator');
         $this.addClass('combo-validator');
         $this.each(function () {
             var oldValidate = this.validate;
             this.validate = function () {
                 if (oldValidate) {
-                    oldValidate.call(this);
+                    if (!oldValidate.call(this)) {
+                        return;
+                    }
                 }
                 validate();
+                return !this.invalid;
             }
         });
+
+        $this.keyup(function () {this.validate();});
+        $this.blur(function () {this.validate();});
+        $this.change(function () {this.validate();}).change();
     });
 }
 
@@ -517,21 +523,24 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
             }
         }
         
-        $this.keyup(validate);
-        $this.blur(validate);
-        $this.change(validate).change();
-        
         $this.addClass('validator');
         $this.addClass('number-validator');
         $this.each(function () {
             var oldValidate = this.validate;
             this.validate = function () {
                 if (oldValidate) {
-                    oldValidate.call(this);
+                    if (!oldValidate.call(this)) {
+                        return;
+                    }
                 }
                 validate();
+                return !this.invalid;
             }
         });
+
+        $this.keyup(function () {this.validate();});
+        $this.blur(function () {this.validate();});
+        $this.change(function () {this.validate();}).change();
     });
     
     makeStrippedInput($input);
@@ -565,9 +574,6 @@ function makeTimeValidator($input) {
             }
         }
         
-        $this.keyup(validate);
-        $this.blur(validate);
-        $this.change(validate).change();
         $this.timepicker({
             closeOnWindowScroll: true,
             selectOnBlur: true,
@@ -580,11 +586,18 @@ function makeTimeValidator($input) {
             var oldValidate = this.validate;
             this.validate = function () {
                 if (oldValidate) {
-                    oldValidate.call(this);
+                    if (!oldValidate.call(this)) {
+                        return;
+                    }
                 }
                 validate();
+                return !this.invalid;
             }
         });
+
+        $this.keyup(function () {this.validate();});
+        $this.blur(function () {this.validate();});
+        $this.change(function () {this.validate();}).change();
     });
 
     makeStrippedInput($input);
@@ -618,21 +631,24 @@ function makeUrlValidator($input) {
             }
         }
         
-        $this.keyup(validate);
-        $this.blur(validate);
-        $this.change(validate).change();
-        
         $this.addClass('validator');
         $this.addClass('url-validator');
         $this.each(function () {
             var oldValidate = this.validate;
             this.validate = function () {
                 if (oldValidate) {
-                    oldValidate.call(this);
+                    if (!oldValidate.call(this)) {
+                        return;
+                    }
                 }
                 validate();
+                return !this.invalid;
             }
         });
+
+        $this.keyup(function () {this.validate();});
+        $this.blur(function () {this.validate();});
+        $this.change(function () {this.validate();}).change();
     });
 }
 
@@ -672,23 +688,27 @@ function makeFileValidator($input, required) {
             }
         }
         
-        $this.keyup(validate);
-        $this.blur(validate);
-        $this.change(validate).change();
-        
         $this.addClass('validator');
         $this.addClass('file-validator');
         $this.each(function () {
             var oldValidate = this.validate;
             this.validate = function () {
                 if (oldValidate) {
-                    oldValidate.call(this);
+                    if (!oldValidate.call(this)) {
+                        return;
+                    }
                 }
                 validate();
+                return !this.invalid;
             }
         });
+
+        $this.keyup(function () {this.validate();});
+        $this.blur(function () {this.validate();});
+        $this.change(function () {this.validate();}).change();
     });
 }
+
 function makeCustomValidator($input, isValidFunc) {
     $input.each(function () {
         var $this = $(this);
@@ -716,21 +736,25 @@ function makeCustomValidator($input, isValidFunc) {
             }
         }
     
-        $this.keyup(validate);
-        $this.blur(validate);
-        $this.change(validate).change();
-        
         $this.addClass('validator');
         $this.addClass('custom-validator');
         $this.each(function () {
             var oldValidate = this.validate;
             this.validate = function () {
                 if (oldValidate) {
-                    oldValidate.call(this);
+                    if (!oldValidate.call(this)) {
+                        return;
+                    }
                 }
+                
                 validate();
+                return !this.invalid;
             }
         });
+
+        $this.keyup(function () {this.validate();});
+        $this.blur(function () {this.validate();});
+        $this.change(function () {this.validate();}).change();
     });
 }
 

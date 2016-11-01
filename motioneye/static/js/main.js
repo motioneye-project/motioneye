@@ -578,6 +578,18 @@ function initUI() {
         
         return true;
     }, '');
+    makeCustomValidator($('#customWidthEntry, #customHeightEntry'), function (value) {
+        if (!value) {
+            return 'this field is required';
+        }
+
+        value = Number(value);
+        if (value % 8) {
+            return "value must be a multiple of 8";
+        }
+        
+        return true;
+    }, '');
     makeCustomValidator($('#rootDirectoryEntry'), function (value) {
         if ($('#storageDeviceSelect').val() == 'custom-path' && String(value).trim() == '/') {
             return 'files cannot be created directly on the root of your system';
@@ -1371,9 +1383,9 @@ function updateConfigUI() {
         $('tr.advanced-setting, div.advanced-setting, table.advanced-setting').each(markHideAdvanced);
     }
     
-    /* hide resolution select if no resolution is selected (none matches) */
+    /* set resolution to custom if no existing value matches */
     if ($('#resolutionSelect')[0].selectedIndex == -1) {
-        $('#resolutionSelect').parents('tr:eq(0)').each(markHideLogic);
+        $('#resolutionSelect').val('custom');
     }
 
     /* video device switch */
@@ -1850,6 +1862,7 @@ function cameraUi2Dict() {
         'auto_noise_detect': $('#autoNoiseDetectSwitch')[0].checked,
         'noise_level': $('#noiseLevelSlider').val(),
         'light_switch_detect': $('#lightSwitchDetectSlider').val(),
+        'despeckle_filter': $('#despeckleFilterSwitch')[0].checked,
         'event_gap': $('#eventGapEntry').val(),
         'pre_capture': $('#preCaptureEntry').val(),
         'post_capture': $('#postCaptureEntry').val(),
@@ -1904,7 +1917,10 @@ function cameraUi2Dict() {
         dict['working_schedule'] = false;
     }
 
-    if ($('#resolutionSelect')[0].selectedIndex != -1) {
+    if ($('#resolutionSelect').val() == 'custom') {
+        dict.resolution = $('#customWidthEntry').val() + 'x' + $('#customHeightEntry').val();
+    }
+    else {
         dict.resolution = $('#resolutionSelect').val();
     }
 
@@ -2033,8 +2049,13 @@ function dict2CameraUi(dict) {
         dict['available_resolutions'].forEach(function (resolution) {
             $('#resolutionSelect').append('<option value="' + resolution + '">' + resolution + '</option>');
         });
+        $('#resolutionSelect').append('<option value="custom">Custom</option>');
     }
     $('#resolutionSelect').val(dict['resolution']); markHideIfNull('available_resolutions', 'resolutionSelect');
+    if (dict['resolution']) {
+        $('#customWidthEntry').val(dict['resolution'].split('x')[0]);
+        $('#customHeightEntry').val(dict['resolution'].split('x')[1]);
+    }
     
     $('#rotationSelect').val(dict['rotation']); markHideIfNull('rotation', 'rotationSelect');
     $('#framerateSlider').val(dict['framerate']); markHideIfNull('framerate', 'framerateSlider');
@@ -2194,6 +2215,7 @@ function dict2CameraUi(dict) {
     $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect']; markHideIfNull('auto_noise_detect', 'autoNoiseDetectSwitch');
     $('#noiseLevelSlider').val(dict['noise_level']); markHideIfNull('noise_level', 'noiseLevelSlider');
     $('#lightSwitchDetectSlider').val(dict['light_switch_detect']); markHideIfNull('light_switch_detect', 'lightSwitchDetectSlider');
+    $('#despeckleFilterSwitch')[0].checked = dict['despeckle_filter']; markHideIfNull('despeckle_filter', 'despeckleFilterSwitch');
     $('#eventGapEntry').val(dict['event_gap']); markHideIfNull('event_gap', 'eventGapEntry');
     $('#preCaptureEntry').val(dict['pre_capture']); markHideIfNull('pre_capture', 'preCaptureEntry');
     $('#postCaptureEntry').val(dict['post_capture']); markHideIfNull('post_capture', 'postCaptureEntry');

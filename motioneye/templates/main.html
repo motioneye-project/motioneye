@@ -172,8 +172,12 @@
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Current Version</span></td>
+                        <td class="settings-item-label"><span class="settings-item-label">motionEye Version</span></td>
                         <td class="settings-item-value"><span class="settings-item-label">{{version}}</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Motion Version</span></td>
+                        <td class="settings-item-value"><span class="settings-item-label">{{motion_version}}</span></td>
                     </tr>
                     {% if enable_update %}
                     <tr class="settings-item advanced-setting">
@@ -287,6 +291,16 @@
                             </select>
                         </td>
                         <td><span class="help-mark" title="the video resolution (larger values produce better quality but require more CPU power, larger storage space and bandwidth)">?</span></td>
+                    </tr>
+                    <tr class="settings-item" min="96" max="4096" required="true" depends="resolution=custom">
+                        <td class="settings-item-label"><span class="settings-item-label">Width</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled number device camera-config" id="customWidthEntry"></td>
+                        <td><span class="help-mark" title="enter a custom resolution width">?</span></td>
+                    </tr>
+                    <tr class="settings-item" min="96" max="4096" required="true" depends="resolution=custom">
+                        <td class="settings-item-label"><span class="settings-item-label">Height</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled number device camera-config" id="customHeightEntry"></td>
+                        <td><span class="help-mark" title="enter a custom resolution height">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Video Rotation</span></td>
@@ -791,6 +805,11 @@
                         <td class="settings-item-label"><span class="settings-item-label">Light Switch Detection</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="lightSwitchDetectSlider"></td>
                         <td><span class="help-mark" title="sets the percentage of the image that needs to change so that the event is treated as a sudden light change instead of motion (0% disables the function)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Despeckle Filter</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="despeckleFilterSwitch"></td>
+                        <td><span class="help-mark" title="enable this to apply a despeckle filter to frames before detecting motion">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>

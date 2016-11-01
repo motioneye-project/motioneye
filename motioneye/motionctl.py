@@ -50,20 +50,20 @@ def find_motion():
             binary = settings.MOTION_BINARY
         
         else:
-            return None
+            return None, None
 
     else: # autodetect motion binary path
         try:
             binary = subprocess.check_output(['which', 'motion'], stderr=utils.DEV_NULL).strip()
         
         except subprocess.CalledProcessError: # not found
-            return None
+            return None, None
 
     try:
         help = subprocess.check_output(binary + ' -h || true', shell=True)
     
     except subprocess.CalledProcessError: # not found
-        return None
+        return None, None
     
     result = re.findall('motion Version ([^,]+)', help, re.IGNORECASE)
     version = result and result[0] or ''
@@ -94,7 +94,7 @@ def start(deferred=False):
     logging.debug('starting motion')
  
     program = find_motion()
-    if not program:
+    if not program[0]:
         raise Exception('motion executable could not be found')
     
     program, version = program  # @UnusedVariable
@@ -299,16 +299,16 @@ def camera_id_to_thread_id(camera_id):
 
     # find the corresponding thread_id
     # (which can be different from camera_id)
-    camera_ids = config.get_camera_ids()
-    thread_id = 0
-    camera_id = int(camera_id)
-    for cid in camera_ids:
-        camera_config = config.get_camera(cid)
-        if utils.is_local_motion_camera(camera_config):
-            thread_id += 1
         
-        if cid == camera_id:
-            return thread_id or None
+    main_config = config.get_main()
+    threads = main_config.get('thread', [])
+    
+    thread_filename = 'thread-%d.conf' % camera_id
+    for i, thread in enumerate(threads):
+        if thread != thread_filename:
+            continue
+        
+        return i + 1
 
     return None
     
@@ -317,7 +317,7 @@ def thread_id_to_camera_id(thread_id):
     import config
 
     main_config = config.get_main()
-    threads = main_config.get('thread', '')
+    threads = main_config.get('thread', [])
 
     try:
         return int(re.search('thread-(\d+).conf', threads[int(thread_id) - 1]).group(1))
@@ -327,21 +327,19 @@ def thread_id_to_camera_id(thread_id):
 
 
 def has_old_config_format():
-    try:
-        binary, version = find_motion()  # @UnusedVariable
-
-        if version.startswith('trunkREV'): # e.g. "trunkREV599"
-            version = int(version[8:])
-            return version <= _LAST_OLD_CONFIG_VERSIONS[0]
-
-        elif version.lower().count('git'): # e.g. "Unofficial-Git-a5b5f13" or "3.2.12+git20150927mrdave"
-            return False # all git versions are assumed to be new
-
-        else: # stable release, should have the format "x.y.z"
-            return update.compare_versions(version, _LAST_OLD_CONFIG_VERSIONS[1]) <= 0
-
-    except:
+    binary, version = find_motion()
+    if not binary:
         return False
+
+    if version.startswith('trunkREV'): # e.g. "trunkREV599"
+        version = int(version[8:])
+        return version <= _LAST_OLD_CONFIG_VERSIONS[0]
+
+    elif version.lower().count('git'): # e.g. "Unofficial-Git-a5b5f13" or "3.2.12+git20150927mrdave"
+        return False # all git versions are assumed to be new
+
+    else: # stable release, should have the format "x.y.z"
+        return update.compare_versions(version, _LAST_OLD_CONFIG_VERSIONS[1]) <= 0
 
 
 def has_streaming_auth():
@@ -349,32 +347,58 @@ def has_streaming_auth():
 
 
 def has_new_movie_format_support():
-    try:
-        binary, version = find_motion()  # @UnusedVariable
-
-        return version.lower().count('git') or update.compare_versions(version, '3.4') >= 0 
-
-    except:
+    binary, version = find_motion()
+    if not binary:
         return False
+
+    return version.lower().count('git') or update.compare_versions(version, '3.4') >= 0 
 
 
 def get_rtsp_support():
-    try:
-        binary, version = find_motion()  # @UnusedVariable
-
-        if version.startswith('trunkREV'): # e.g. trunkREV599
-            version = int(version[8:])
-            if version > _LAST_OLD_CONFIG_VERSIONS[0]:
-                return ['tcp']
-
-        elif version.lower().count('git') or update.compare_versions(version, '3.4') >= 0:
-            return ['tcp', 'udp'] # all git versions are assumed to support both transport protocols
-        
-        else: # stable release, should be in the format x.y.z
-            return []
-
-    except:
+    binary, version = find_motion()
+    if not binary:
         return []
+
+    if version.startswith('trunkREV'): # e.g. trunkREV599
+        version = int(version[8:])
+        if version > _LAST_OLD_CONFIG_VERSIONS[0]:
+            return ['tcp']
+
+    elif version.lower().count('git') or update.compare_versions(version, '3.4') >= 0:
+        return ['tcp', 'udp'] # all git versions are assumed to support both transport protocols
+    
+    else: # stable release, should be in the format x.y.z
+        return []
+
+
+def needs_ffvb_quirks():
+    # versions below 4.0 require a value range of 1..32767
+    # for the ffmpeg_variable_bitrate parameter;
+    # also the quality is non-linear in this range
+    
+    binary, version = find_motion()
+    if not binary:
+        return False
+
+    return update.compare_versions(version, '4.0') < 0 
+
+
+def resolution_is_valid(width, height):
+    # versions below 3.4 require width and height to be modulo 16;
+    # newer versions require them to be modulo 8
+
+    modulo = 8
+    binary, version = find_motion()  # @UnusedVariable
+    if version and not version.lower().count('git') and update.compare_versions(version, '3.4') < 0:
+        modulo = 16
+    
+    if width % modulo:
+        return False
+    
+    if height % modulo:
+        return False
+
+    return True
 
 
 def _disable_initial_motion_detection():

@@ -227,10 +227,6 @@ def test_requirements():
             logging.fatal('smb shares require root privileges')
             sys.exit(-1)
 
-        if settings.ENABLE_REBOOT:
-            logging.fatal('reboot requires root privileges')
-            sys.exit(-1)
-
     try:
         import tornado  # @UnusedImport
 
@@ -260,7 +256,7 @@ def test_requirements():
         sys.exit(-1)
     
     import motionctl
-    has_motion = motionctl.find_motion() is not None
+    has_motion = motionctl.find_motion()[0] is not None
     
     import mediafiles
     has_ffmpeg = mediafiles.find_ffmpeg() is not None

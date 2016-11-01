@@ -60,7 +60,7 @@ _MAX_FFMPEG_VARIABLE_BITRATE = 32767
 
 _KNOWN_MOTION_OPTIONS = set([
     'auto_brightness', 'brightness', 'contrast', 'emulate_motion', 'event_gap', 'ffmpeg_bps', 'ffmpeg_output_movies', 'ffmpeg_variable_bitrate', 'ffmpeg_video_codec',
-    'framerate', 'height', 'hue', 'lightswitch', 'locate_motion_mode', 'locate_motion_style', 'minimum_motion_frames', 'movie_filename', 'max_movie_time', 'max_mpeg_time',
+    'framerate', 'height', 'hue', 'lightswitch', 'despeckle_filter', 'locate_motion_mode', 'locate_motion_style', 'minimum_motion_frames', 'movie_filename', 'max_movie_time', 'max_mpeg_time',
     'noise_level', 'noise_tune', 'on_event_end', 'on_event_start', 'on_movie_end', 'on_picture_save', 'output_pictures', 'picture_filename', 'post_capture', 'pre_capture',
     'quality', 'rotate', 'saturation', 'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate',
     'stream_motion', 'stream_port', 'stream_quality', 'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width',
@@ -331,6 +331,8 @@ def get_camera(camera_id, as_lines=False):
                 camera_config['event_gap'] = camera_config.pop('gap')
             if 'netcam_http' in camera_config:
                 camera_config['netcam_keepalive'] = camera_config.pop('netcam_http') in ['1.1', 'keepalive']
+            if 'despeckle' in camera_config:
+                camera_config['despeckle_filter'] = camera_config.pop('despeckle')
 
         _get_additional_config(camera_config, camera_id=camera_id)
         
@@ -397,6 +399,8 @@ def set_camera(camera_id, camera_config):
                 camera_config['gap'] = camera_config.pop('event_gap')
             if 'netcam_keepalive' in camera_config:
                 camera_config['netcam_http'] = '1.1' if camera_config.pop('netcam_keepalive') else '1.0'
+            if 'despeckle_filter' in camera_config:
+                camera_config['despeckle'] = camera_config.pop('despeckle_filter')
          
         # set the enabled status in main config
         main_config = get_main()
@@ -860,15 +864,26 @@ def motion_camera_ui_to_dict(ui, old_config=None):
 
     data['ffmpeg_video_codec'] = ui['movie_format']
     q = int(ui['movie_quality'])
-    if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
-        vbr = max(1, _MAX_FFMPEG_VARIABLE_BITRATE * (1 - math.log(max(1, q * _EXPONENTIAL_QUALITY_FACTOR), _EXPONENTIAL_QUALITY_FACTOR * 100)))
-        
+    if motionctl.needs_ffvb_quirks():
+        if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
+            vbr = max(1, _MAX_FFMPEG_VARIABLE_BITRATE * (1 - math.log(max(1, q * _EXPONENTIAL_QUALITY_FACTOR), _EXPONENTIAL_QUALITY_FACTOR * 100)))
+            
+        else:
+            vbr = 1 + (_MAX_FFMPEG_VARIABLE_BITRATE - 1) / 100.0 * (100 - q)
+            
     else:
-        vbr = 1 + (_MAX_FFMPEG_VARIABLE_BITRATE - 1) / 100.0 * (100 - q)
+        vbr = max(1, q)
 
     data['ffmpeg_variable_bitrate'] = int(vbr)
 
     # motion detection
+
+    if ui['despeckle_filter']:
+        data['despeckle_filter'] = old_config['despeckle_filter'] or 'EedDl'
+
+    else:
+        data['despeckle_filter'] = ''
+
     if ui['mask']:
         if ui['mask_type'] == 'smart':
             data['smart_mask_speed'] = 10 - int(ui['smart_mask_slugginess'])
@@ -1051,6 +1066,7 @@ def motion_camera_dict_to_ui(data):
         'auto_noise_detect': data['noise_tune'],
         'noise_level': int(int(data['noise_level']) / 2.55),
         'light_switch_detect': data['lightswitch'],
+        'despeckle_filter': data['despeckle_filter'],
         'event_gap': int(data['event_gap']),
         'pre_capture': int(data['pre_capture']),
         'post_capture': int(data['post_capture']),
@@ -1085,6 +1101,7 @@ def motion_camera_dict_to_ui(data):
         if data['netcam_url'].startswith('rtsp'):
             # motion uses the configured width and height for RTSP cameras
             resolutions = utils.COMMON_RESOLUTIONS
+            resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
             ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
             ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
 
@@ -1236,13 +1253,17 @@ def motion_camera_dict_to_ui(data):
     ui['movie_format'] = data['ffmpeg_video_codec']
     
     bitrate = data['ffmpeg_variable_bitrate']
-    if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
-        q = (100 * _EXPONENTIAL_QUALITY_FACTOR) ** ((1 - float(bitrate) / _MAX_FFMPEG_VARIABLE_BITRATE)) / _EXPONENTIAL_QUALITY_FACTOR
-
+    if motionctl.needs_ffvb_quirks():
+        if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
+            q = (100 * _EXPONENTIAL_QUALITY_FACTOR) ** ((1 - float(bitrate) / _MAX_FFMPEG_VARIABLE_BITRATE)) / _EXPONENTIAL_QUALITY_FACTOR
+    
+        else:
+            q = 100 - (bitrate - 1) * 100.0 / (_MAX_FFMPEG_VARIABLE_BITRATE - 1)
+    
+        ui['movie_quality'] = int(q)
+        
     else:
-        q = 100 - (bitrate - 1) * 100.0 / (_MAX_FFMPEG_VARIABLE_BITRATE - 1)
-
-    ui['movie_quality'] = int(q)
+        ui['movie_quality'] = bitrate
 
     # mask
     if data['mask_file']:
@@ -1567,9 +1588,6 @@ def _conf_to_dict(lines, list_names=[], no_convert=[]):
         if len(line) == 0:  # empty line
             continue
         
-        if line.startswith(';'):  # comment line
-            continue
-        
         match = re.match('^\#\s*(\@\w+)\s*(.*)', line)
         if match:
             name, value = match.groups()[:2]
@@ -1583,8 +1601,15 @@ def _conf_to_dict(lines, list_names=[], no_convert=[]):
                 parts.append('')
 
             (name, value) = parts
+            try:
+                value, v, _ = re.split(r'([^\\])#', value, 1)
+                value += v
+
+            except ValueError:
+                pass
+            
             value = value.strip()
-        
+
         if name not in no_convert:
             value = _value_to_python(value)
         
@@ -1610,15 +1635,12 @@ def _dict_to_conf(lines, data, list_names=[]):
             conf_lines.append(line)
             continue
 
-        if line.startswith(';'):  # simple comment line
-            conf_lines.append(line)
-            continue
-        
         match = re.match('^\#\s*(\@\w+)\s*(.*)', line)
         if match: # @line
             (name, value) = match.groups()[:2]
+            extra_comment = None
         
-        elif line.startswith('#'):  # simple comment line
+        elif line.startswith('#') or line.startswith(';'):  # simple comment line
             conf_lines.append(line)
             continue
         
@@ -1629,7 +1651,14 @@ def _dict_to_conf(lines, data, list_names=[]):
             
             else:
                 (name, value) = parts[0], ''
-        
+            
+            try:
+                value, v, extra_comment = re.split(r'([^\\])#', value, 1)
+                value += v
+            
+            except ValueError:
+                extra_comment = None
+
         if name in processed:
             continue # name already processed
         
@@ -1643,10 +1672,14 @@ def _dict_to_conf(lines, data, list_names=[]):
                         continue
 
                     line = name + ' ' + _python_to_value(v)
+                    if extra_comment:
+                        line += ' #' + extra_comment
                     conf_lines.append(line)
             
             else:
                 line = name + ' ' + value
+                if extra_comment:
+                    line += ' #' + extra_comment
                 conf_lines.append(line)
 
         else:
@@ -1654,6 +1687,8 @@ def _dict_to_conf(lines, data, list_names=[]):
             if new_value is not None:
                 value = _python_to_value(new_value)
                 line = name + ' ' + value
+                if extra_comment:
+                    line += ' #' + extra_comment
                 conf_lines.append(line)
 
         remaining.pop(name, None)
@@ -1779,6 +1814,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('noise_tune', True)
     data.setdefault('noise_level', 32)
     data.setdefault('lightswitch', 0)
+    data.setdefault('despeckle_filter', '')
     data.setdefault('minimum_motion_frames', 20)
     data.setdefault('smart_mask_speed', 0)
     data.setdefault('mask_file', '')
@@ -1801,11 +1837,16 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('ffmpeg_output_movies', False)
     if motionctl.has_new_movie_format_support():
         data.setdefault('ffmpeg_video_codec', 'mp4') # will use h264 codec
-        data.setdefault('ffmpeg_variable_bitrate', _MAX_FFMPEG_VARIABLE_BITRATE / 4) # 75%
+        if motionctl.needs_ffvb_quirks():
+            data.setdefault('ffmpeg_variable_bitrate', _MAX_FFMPEG_VARIABLE_BITRATE / 4) # 75%
+            
+        else:
+            data.setdefault('ffmpeg_variable_bitrate', 75) # 75%
         
     else:
         data.setdefault('ffmpeg_video_codec', 'msmpeg4')
         data.setdefault('ffmpeg_variable_bitrate', _EXPONENTIAL_DEF_QUALITY)
+
     data.setdefault('@preserve_movies', 0)
     
     data.setdefault('@working_schedule', '')

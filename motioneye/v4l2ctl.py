@@ -110,6 +110,8 @@ def list_devices():
 
 
 def list_resolutions(device):
+    import motionctl
+    
     global _resolutions_cache
     
     device = utils.make_str(device)
@@ -171,7 +173,7 @@ def list_resolutions(device):
         if width < 96 or height < 96: # some reasonable minimal values
             continue
         
-        if width % 16 or height % 16: # ignore non-modulo 16 resolutions
+        if not motionctl.resolution_is_valid(width, height):
             continue
 
         resolutions.add((width, height))
@@ -184,6 +186,7 @@ def list_resolutions(device):
 
         # no resolution returned by v4l2-ctl call, add common default resolutions
         resolutions = utils.COMMON_RESOLUTIONS
+        resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
 
     resolutions = list(sorted(resolutions, key=lambda r: (r[0], r[1])))
     _resolutions_cache[device] = resolutions

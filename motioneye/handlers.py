@@ -194,10 +194,13 @@ class MainHandler(BaseHandler):
         # additional config
         main_sections = config.get_additional_structure(camera=False, separators=True)[0]
         camera_sections = config.get_additional_structure(camera=True, separators=True)[0]
+        
+        motion_info = motionctl.find_motion(); 
 
         self.render('main.html',
                 frame=False,
                 version=motioneye.VERSION,
+                motion_version=motion_info[1] if motion_info else '(none)',
                 enable_update=settings.ENABLE_UPDATE,
                 enable_reboot=settings.ENABLE_REBOOT,
                 add_remove_cameras=settings.ADD_REMOVE_CAMERAS,
@@ -208,7 +211,7 @@ class MainHandler(BaseHandler):
                 admin_username=config.get_main().get('@admin_username'),
                 has_streaming_auth=motionctl.has_streaming_auth(),
                 has_new_movie_format_support=motionctl.has_new_movie_format_support(),
-                has_motion=bool(motionctl.find_motion()),
+                has_motion=bool(motionctl.find_motion()[0]),
                 mask_width=utils.MASK_WIDTH)
 
 
