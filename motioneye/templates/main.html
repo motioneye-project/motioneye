@@ -819,15 +819,15 @@
                         <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="eventGapEntry"><span class="settings-item-unit">seconds</span></td>
                         <td><span class="help-mark" title="sets the number of seconds of silence (i.e. no motion) that mark the end of a motion event">?</span></td>
                     </tr>
-                    <tr class="settings-item advanced-setting" min="0" max="100" required="true">
+                    <tr class="settings-item advanced-setting" min="0" max="1000" required="true">
                         <td class="settings-item-label"><span class="settings-item-label">Captured Before</span></td>
                         <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="preCaptureEntry"><span class="settings-item-unit">frames</span></td>
                         <td><span class="help-mark" title="sets the number of frames to be captured (and included in the movie) before a motion event is detected">?</span></td>
                     </tr>
-                    <tr class="settings-item advanced-setting" min="0" max="100" required="true">
+                    <tr class="settings-item advanced-setting" min="0" max="1000" required="true">
                         <td class="settings-item-label"><span class="settings-item-label">Captured After</span></td>
                         <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="postCaptureEntry"><span class="settings-item-unit">frames</span></td>
-                        <td><span class="help-mark" title="sets the number of frames to be captured (and included in the movie) after a motion event is detected">?</span></td>
+                        <td><span class="help-mark" title="sets the number of frames to be captured (and included in the movie) after the end of a motion event">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" min="1" max="1000" required="true">
                         <td class="settings-item-label"><span class="settings-item-label">Minimum Motion Frames</span></td>
@@ -853,8 +853,8 @@
                         <td><span class="help-mark" title="the smart option automatically detects regions with regular motion and dynamically builds an internal mask, while the editable mask allows you to manually build it yourself">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" min="1" max="10" snap="1" ticksnum="10" decimals="0" unit="" depends="mask maskType=smart">
-                        <td class="settings-item-label"><span class="settings-item-label">Smart Mask Slugginess</span></td>
-                        <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="smartMaskSlugginessSlider"></td>
+                        <td class="settings-item-label"><span class="settings-item-label">Smart Mask Sluggishness</span></td>
+                        <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="smartMaskSluggishnessSlider"></td>
                         <td><span class="help-mark" title="lower values result in a longer-lasting smart mask with a slower building process">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="mask maskType=editable">
