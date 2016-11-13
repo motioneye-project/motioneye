@@ -59,14 +59,65 @@ _EXPONENTIAL_DEF_QUALITY = 511 # about 75%
 _MAX_FFMPEG_VARIABLE_BITRATE = 32767
 
 _KNOWN_MOTION_OPTIONS = set([
-    'auto_brightness', 'brightness', 'contrast', 'emulate_motion', 'event_gap', 'ffmpeg_bps', 'ffmpeg_output_movies', 'ffmpeg_variable_bitrate', 'ffmpeg_video_codec',
-    'framerate', 'height', 'hue', 'lightswitch', 'despeckle_filter', 'locate_motion_mode', 'locate_motion_style', 'minimum_motion_frames', 'movie_filename', 'max_movie_time', 'max_mpeg_time',
-    'noise_level', 'noise_tune', 'on_event_end', 'on_event_start', 'on_movie_end', 'on_picture_save', 'output_pictures', 'picture_filename', 'post_capture', 'pre_capture',
-    'quality', 'rotate', 'saturation', 'snapshot_filename', 'snapshot_interval', 'stream_auth_method', 'stream_authentication', 'stream_localhost', 'stream_maxrate',
-    'stream_motion', 'stream_port', 'stream_quality', 'target_dir', 'text_changes', 'text_double', 'text_left', 'text_right', 'threshold', 'videodevice', 'width',
-    'webcam_localhost', 'webcam_port', 'webcam_maxrate', 'webcam_quality', 'webcam_motion', 'ffmpeg_cap_new', 'output_normal', 'output_motion', 'jpeg_filename', 'output_all',
-    'gap', 'locate', 'netcam_url', 'netcam_userpass', 'netcam_http', 'netcam_tolerant_check', 'netcam_keepalive', 'rtsp_uses_tcp',
-    'mask_file', 'smart_mask_speed'
+    'auto_brightness',
+    'brightness',
+    'contrast',
+    'despeckle_filter',
+    'emulate_motion',
+    'event_gap',
+    'ffmpeg_bps',
+    'ffmpeg_output_debug_movies',
+    'ffmpeg_output_movies',
+    'ffmpeg_variable_bitrate',
+    'ffmpeg_video_codec',
+    'framerate',
+    'height',
+    'hue',
+    'lightswitch',
+    'locate_motion_mode',
+    'locate_motion_style',
+    'mask_file',
+    'max_movie_time',
+    'minimum_motion_frames',
+    'movie_filename',
+    'netcam_keepalive',
+    'netcam_tolerant_check',
+    'netcam_url',
+    'netcam_userpass',
+    'noise_level',
+    'noise_tune',
+    'on_event_end',
+    'on_event_start',
+    'on_movie_end',
+    'on_picture_save',
+    'output_debug_pictures',
+    'output_motion',
+    'output_pictures',
+    'picture_filename',
+    'post_capture',
+    'pre_capture',
+    'quality',
+    'rotate',
+    'rtsp_uses_tcp',
+    'saturation',
+    'smart_mask_speed',
+    'snapshot_filename',
+    'snapshot_interval',
+    'stream_authentication',
+    'stream_auth_method',
+    'stream_localhost',
+    'stream_maxrate',
+    'stream_motion',
+    'stream_port',
+    'stream_quality',
+    'target_dir',
+    'text_changes',
+    'text_double',
+    'text_left',
+    'text_right',
+    'threshold',
+    'videodevice',
+    'width',
 ])
 
 
@@ -311,6 +362,8 @@ def get_camera(camera_id, as_lines=False):
                 camera_config['emulate_motion'] = camera_config.pop('output_all')
             if 'ffmpeg_cap_new' in camera_config:
                 camera_config['ffmpeg_output_movies'] = camera_config.pop('ffmpeg_cap_new')
+            if 'ffmpeg_cap_motion' in camera_config:
+                camera_config['ffmpeg_output_debug_movies'] = camera_config.pop('ffmpeg_cap_motion')
             if 'locate' in camera_config:
                 camera_config['locate_motion_mode'] = camera_config.pop('locate')
             if 'jpeg_filename' in camera_config:
@@ -375,6 +428,8 @@ def set_camera(camera_id, camera_config):
                 camera_config['output_all'] = camera_config.pop('emulate_motion')
             if 'ffmpeg_output_movies' in camera_config:
                 camera_config['ffmpeg_cap_new'] = camera_config.pop('ffmpeg_output_movies')
+            if 'ffmpeg_output_debug_movies' in camera_config:
+                camera_config['ffmpeg_cap_motion'] = camera_config.pop('ffmpeg_output_debug_movies')
             if 'locate_motion_mode' in camera_config:
                 camera_config['locate'] = camera_config.pop('locate_motion_mode')
             if 'picture_filename' in camera_config:
@@ -697,6 +752,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         'minimum_motion_frames': int(ui['minimum_motion_frames']),
         'smart_mask_speed': 0,
         'mask_file': '',
+        'output_debug_pictures': ui['create_debug_media'],
+        'ffmpeg_output_debug_movies': ui['create_debug_media'],
         
         # working schedule
         '@working_schedule': '',
@@ -1075,6 +1132,7 @@ def motion_camera_dict_to_ui(data):
         'mask_type': 'smart',
         'smart_mask_sluggishness': 5,
         'mask_lines': [],
+        'create_debug_media': data['ffmpeg_output_debug_movies'] or data['output_debug_pictures'],
         
         # motion notifications
         'email_notifications_enabled': False,
@@ -1818,6 +1876,8 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('minimum_motion_frames', 20)
     data.setdefault('smart_mask_speed', 0)
     data.setdefault('mask_file', '')
+    data.setdefault('ffmpeg_output_debug_movies', False)
+    data.setdefault('output_debug_pictures', False)
     
     data.setdefault('pre_capture', 1)
     data.setdefault('post_capture', 1)

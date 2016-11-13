@@ -781,11 +781,6 @@
                     <span class="minimize"></span>
                 </div>
                 <table class="settings advanced-setting">
-                    <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Show Frame Changes</span></td>
-                        <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="showFrameChangesSwitch"></td>
-                        <td><span class="help-mark" title="if this is enabled, frame changes (number of pixels as well as the changed area) are shown on the video; temporarily enable this option to help adjust the motion detection parameters">?</span></td>
-                    </tr>
                     <tr class="settings-item advanced-setting" min="0" max="20" snap="0" ticksnum="5" decimals="1" unit="%">
                         <td class="settings-item-label"><span class="settings-item-label">Frame Change Threshold</span></td>
                         <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="frameChangeThresholdSlider"></td>
@@ -870,6 +865,19 @@
                         <td class="settings-item-label"><span class="settings-item-label"></span></td>
                         <td class="settings-item-value"><div class="button normal-button clear-mask-button" id="clearMaskButton">Clear Mask</div></td>
                         <td><span class="help-mark" title="click this button to clear the current mask">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Show Frame Changes</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="showFrameChangesSwitch"></td>
+                        <td><span class="help-mark" title="if this is enabled, frame changes (number of pixels as well as the changed area) are shown on the video; temporarily enable this option to help adjust the motion detection parameters">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Create Debug Media Files</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="createDebugMediaSwitch"></td>
+                        <td><span class="help-mark" title="when enabled, creates special movies and pictures that help debugging motion detection problems">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('motion-detection', {}).get('configs', []) %}
                         {{config_item(config)}}

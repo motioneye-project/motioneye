@@ -1857,7 +1857,6 @@ function cameraUi2Dict() {
         
         /* motion detection */
         'motion_detection': $('#motionDetectionEnabledSwitch')[0].checked,
-        'show_frame_changes': $('#showFrameChangesSwitch')[0].checked,
         'frame_change_threshold': $('#frameChangeThresholdSlider').val(),
         'auto_noise_detect': $('#autoNoiseDetectSwitch')[0].checked,
         'noise_level': $('#noiseLevelSlider').val(),
@@ -1871,6 +1870,8 @@ function cameraUi2Dict() {
         'mask_type': $('#maskTypeSelect').val(),
         'smart_mask_sluggishness': $('#smartMaskSluggishnessSlider').val(),
         'mask_lines': $('#maskLinesEntry').val() ? $('#maskLinesEntry').val().split(',').map(function (l) {return parseInt(l);}) : [],
+        'show_frame_changes': $('#showFrameChangesSwitch')[0].checked,
+        'create_debug_media': $('#createDebugMediaSwitch')[0].checked,
 
         /* motion notifications */
         'email_notifications_enabled': $('#emailNotificationsEnabledSwitch')[0].checked,
@@ -2210,7 +2211,6 @@ function dict2CameraUi(dict) {
     
     /* motion detection */
     $('#motionDetectionEnabledSwitch')[0].checked = dict['motion_detection']; markHideIfNull('motion_detection', 'motionDetectionEnabledSwitch');
-    $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes']; markHideIfNull('show_frame_changes', 'showFrameChangesSwitch');
     $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']); markHideIfNull('frame_change_threshold', 'frameChangeThresholdSlider');
     $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect']; markHideIfNull('auto_noise_detect', 'autoNoiseDetectSwitch');
     $('#noiseLevelSlider').val(dict['noise_level']); markHideIfNull('noise_level', 'noiseLevelSlider');
@@ -2224,6 +2224,8 @@ function dict2CameraUi(dict) {
     $('#maskTypeSelect').val(dict['mask_type']); markHideIfNull('mask_type', 'maskTypeSelect');
     $('#smartMaskSluggishnessSlider').val(dict['smart_mask_sluggishness']); markHideIfNull('smart_mask_sluggishness', 'smartMaskSluggishnessSlider');
     $('#maskLinesEntry').val((dict['mask_lines'] || []).join(',')); markHideIfNull('mask_lines', 'maskLinesEntry');
+    $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes']; markHideIfNull('show_frame_changes', 'showFrameChangesSwitch');
+    $('#createDebugMediaSwitch')[0].checked = dict['create_debug_media']; markHideIfNull('create_debug_media', 'createDebugMediaSwitch');
 
     /* motion notifications */
     $('#emailNotificationsEnabledSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsEnabledSwitch');
