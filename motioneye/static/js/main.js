@@ -908,11 +908,11 @@ function initUI() {
     $('div#editMaskButton').click(function () {
         var cameraId = $('#cameraSelect').val();
         var img = getCameraFrame(cameraId).find('img.camera')[0];
-        if (!img.naturalWidth || !img.naturalHeight) {
+        if (!img._naturalWidth || !img._naturalHeight) {
             return runAlertDialog('Cannot edit the mask without a valid camera image!');
         }
 
-        enableMaskEdit(cameraId, img.naturalWidth, img.naturalHeight);
+        enableMaskEdit(cameraId, img._naturalWidth, img._naturalHeight);
     });
     $('div#saveMaskButton').click(function () {
         disableMaskEdit();
@@ -4545,6 +4545,12 @@ function addCameraFrameUi(cameraConfig) {
         }
 
         this.loading = 0;
+        if (this.naturalWidth) {
+            this._naturalWidth = this.naturalWidth;
+        }
+        if (this.naturalHeight) {
+            this._naturalHeight = this.naturalHeight;
+        }
         
         if (this.initializing) {
             cameraProgress.removeClass('visible');
