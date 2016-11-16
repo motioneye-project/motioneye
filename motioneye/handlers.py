@@ -215,6 +215,15 @@ class MainHandler(BaseHandler):
                 mask_width=utils.MASK_WIDTH)
 
 
+class ManifestHandler(BaseHandler):
+    def get(self):
+        import motioneye
+        
+        self.set_header('Content-Type', 'application/manifest+json')
+        self.set_header('Cache-Control', 'max-age=2592000') # 30 days
+        self.render('manifest.json', version=motioneye.VERSION)
+
+
 class ConfigHandler(BaseHandler):
     @asynchronous
     def get(self, camera_id=None, op=None):

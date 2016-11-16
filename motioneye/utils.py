@@ -793,6 +793,9 @@ def urlopen(*args, **kwargs):
 
 
 def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_height=None):
+    if not mask_lines:
+        return ''
+    
     width = mask_lines[0]
     height = mask_lines[1]
     mask_lines = mask_lines[2:]

@@ -151,6 +151,10 @@ textarea.styled {
     white-space: nowrap;
 }
 
+textarea.styled {
+    white-space: pre;
+}
+
 input[type=password].styled:FOCUS,
 input[type=text].styled:FOCUS,
 textarea.styled:FOCUS {

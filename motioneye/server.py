@@ -167,6 +167,7 @@ def _log_request(handler):
 
 handler_mapping = [
     (r'^/$', handlers.MainHandler),
+    (r'^/manifest.json$', handlers.ManifestHandler),
     (r'^/config/main/(?P<op>set|get)/?$', handlers.ConfigHandler),
     (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|set_preview|test|authorize)/?$', handlers.ConfigHandler),
     (r'^/config/(?P<op>add|list|backup|restore)/?$', handlers.ConfigHandler),

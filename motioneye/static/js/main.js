@@ -908,11 +908,11 @@ function initUI() {
     $('div#editMaskButton').click(function () {
         var cameraId = $('#cameraSelect').val();
         var img = getCameraFrame(cameraId).find('img.camera')[0];
-        if (!img.naturalWidth || !img.naturalHeight) {
+        if (!img._naturalWidth || !img._naturalHeight) {
             return runAlertDialog('Cannot edit the mask without a valid camera image!');
         }
 
-        enableMaskEdit(cameraId, img.naturalWidth, img.naturalHeight);
+        enableMaskEdit(cameraId, img._naturalWidth, img._naturalHeight);
     });
     $('div#saveMaskButton').click(function () {
         disableMaskEdit();
@@ -1857,7 +1857,6 @@ function cameraUi2Dict() {
         
         /* motion detection */
         'motion_detection': $('#motionDetectionEnabledSwitch')[0].checked,
-        'show_frame_changes': $('#showFrameChangesSwitch')[0].checked,
         'frame_change_threshold': $('#frameChangeThresholdSlider').val(),
         'auto_noise_detect': $('#autoNoiseDetectSwitch')[0].checked,
         'noise_level': $('#noiseLevelSlider').val(),
@@ -1869,8 +1868,10 @@ function cameraUi2Dict() {
         'minimum_motion_frames': $('#minimumMotionFramesEntry').val(),
         'mask': $('#maskSwitch')[0].checked,
         'mask_type': $('#maskTypeSelect').val(),
-        'smart_mask_slugginess': $('#smartMaskSlugginessSlider').val(),
+        'smart_mask_sluggishness': $('#smartMaskSluggishnessSlider').val(),
         'mask_lines': $('#maskLinesEntry').val() ? $('#maskLinesEntry').val().split(',').map(function (l) {return parseInt(l);}) : [],
+        'show_frame_changes': $('#showFrameChangesSwitch')[0].checked,
+        'create_debug_media': $('#createDebugMediaSwitch')[0].checked,
 
         /* motion notifications */
         'email_notifications_enabled': $('#emailNotificationsEnabledSwitch')[0].checked,
@@ -2210,7 +2211,6 @@ function dict2CameraUi(dict) {
     
     /* motion detection */
     $('#motionDetectionEnabledSwitch')[0].checked = dict['motion_detection']; markHideIfNull('motion_detection', 'motionDetectionEnabledSwitch');
-    $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes']; markHideIfNull('show_frame_changes', 'showFrameChangesSwitch');
     $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']); markHideIfNull('frame_change_threshold', 'frameChangeThresholdSlider');
     $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect']; markHideIfNull('auto_noise_detect', 'autoNoiseDetectSwitch');
     $('#noiseLevelSlider').val(dict['noise_level']); markHideIfNull('noise_level', 'noiseLevelSlider');
@@ -2222,8 +2222,10 @@ function dict2CameraUi(dict) {
     $('#minimumMotionFramesEntry').val(dict['minimum_motion_frames']); markHideIfNull('minimum_motion_frames', 'minimumMotionFramesEntry');
     $('#maskSwitch')[0].checked = dict['mask']; markHideIfNull('mask', 'maskSwitch');
     $('#maskTypeSelect').val(dict['mask_type']); markHideIfNull('mask_type', 'maskTypeSelect');
-    $('#smartMaskSlugginessSlider').val(dict['smart_mask_slugginess']); markHideIfNull('smart_mask_slugginess', 'smartMaskSlugginessSlider');
+    $('#smartMaskSluggishnessSlider').val(dict['smart_mask_sluggishness']); markHideIfNull('smart_mask_sluggishness', 'smartMaskSluggishnessSlider');
     $('#maskLinesEntry').val((dict['mask_lines'] || []).join(',')); markHideIfNull('mask_lines', 'maskLinesEntry');
+    $('#showFrameChangesSwitch')[0].checked = dict['show_frame_changes']; markHideIfNull('show_frame_changes', 'showFrameChangesSwitch');
+    $('#createDebugMediaSwitch')[0].checked = dict['create_debug_media']; markHideIfNull('create_debug_media', 'createDebugMediaSwitch');
 
     /* motion notifications */
     $('#emailNotificationsEnabledSwitch')[0].checked = dict['email_notifications_enabled']; markHideIfNull('email_notifications_enabled', 'emailNotificationsEnabledSwitch');
@@ -4597,6 +4599,12 @@ function addCameraFrameUi(cameraConfig) {
         }
 
         this.loading = 0;
+        if (this.naturalWidth) {
+            this._naturalWidth = this.naturalWidth;
+        }
+        if (this.naturalHeight) {
+            this._naturalHeight = this.naturalHeight;
+        }
         
         if (this.initializing) {
             cameraProgress.removeClass('visible');
