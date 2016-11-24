@@ -71,6 +71,9 @@ MOUNT_CHECK_INTERVAL = 300
 # interval in seconds at which motionEye checks if motion is running
 MOTION_CHECK_INTERVAL = 10
 
+# whether to restart the motion daemon when an error occurs while communicating with it
+MOTION_RESTART_ON_ERRORS = False
+
 # interval in seconds at which the janitor is called
 # to remove old pictures and movies
 CLEANUP_INTERVAL = 43200

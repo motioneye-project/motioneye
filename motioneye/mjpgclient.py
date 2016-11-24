@@ -72,9 +72,10 @@ class MjpgClient(IOStream):
                 logging.error('connection problem detected for mjpg client for camera %(camera_id)s on port %(port)s' % {
                         'port': self._port, 'camera_id': self._camera_id})
  
-                motionctl.stop(invalidate=True) # this will close all the mjpg clients
-                motionctl.start(deferred=True)
- 
+                if settings.MOTION_RESTART_ON_ERRORS:
+                    motionctl.stop(invalidate=True) # this will close all the mjpg clients
+                    motionctl.start(deferred=True)
+
             MjpgClient._last_erroneous_close_time = now
         
     def _check_error(self):
@@ -293,8 +294,9 @@ def _garbage_collector():
             logging.error('mjpg client timed out receiving data for camera %(camera_id)s on port %(port)s' % {
                     'camera_id': camera_id, 'port': port})
             
-            motionctl.stop(invalidate=True) # this will close all the mjpg clients
-            motionctl.start(deferred=True)
+            if settings.MOTION_RESTART_ON_ERRORS:
+                motionctl.stop(invalidate=True) # this will close all the mjpg clients
+                motionctl.start(deferred=True)
             
             break
 

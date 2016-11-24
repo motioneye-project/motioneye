@@ -42,6 +42,9 @@ mount_check_interval 300
 # interval in seconds at which motionEye checks if motion is running
 motion_check_interval 10
 
+# whether to restart the motion daemon when an error occurs while communicating with it
+motion_restart_on_errors false
+
 # interval in seconds at which the janitor is called
 # to remove old pictures and movies
 cleanup_interval 43200
