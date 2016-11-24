@@ -1,0 +1,17 @@
+{
+    "lang": "en-US",
+    "short_name": "motionEye",
+    "name": "motionEye",
+    "description": "A free video surveillance software.",
+    "version": "{{version}}",
+    "theme_color": "#414141",
+    "background_color": "#414141",
+    "icons": [
+        {"src": "{{static_path}}img/launcher-icon-96.png",  "sizes": "96x96",   "type": "image/png"},
+        {"src": "{{static_path}}img/launcher-icon-144.png", "sizes": "144x144", "type": "image/png"},
+        {"src": "{{static_path}}img/launcher-icon-192.png", "sizes": "192x192", "type": "image/png"},
+        {"src": "{{static_path}}img/launcher-icon-256.png", "sizes": "256x256", "type": "image/png"}
+    ],
+    "start_url": ".",
+    "display": "standalone"
+}
