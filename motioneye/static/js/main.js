@@ -827,11 +827,6 @@ function initUI() {
      * if a modal dialog is visible, it should be repositioned */
     $(window).resize(updateModalDialogPosition);
     
-    /* autoselect urls in read-only entries */
-    $('#streamingSnapshotUrlEntry:text, #streamingMjpgUrlEntry:text, #streamingEmbedUrlEntry:text').click(function () {
-        this.select();
-    });
-
     /* show a warning when enabling media files removal */
     var preserveSelects = $('#preservePicturesSelect, #preserveMoviesSelect');
     var rootDirectoryEntry = $('#rootDirectoryEntry');
@@ -2150,13 +2145,13 @@ function dict2CameraUi(dict) {
     $('#streamingPortEntry').val(dict['streaming_port']); markHideIfNull('streaming_port', 'streamingPortEntry');
     $('#streamingAuthModeSelect').val(dict['streaming_auth_mode']); markHideIfNull('streaming_auth_mode', 'streamingAuthModeSelect');
     $('#streamingMotion')[0].checked = dict['streaming_motion']; markHideIfNull('streaming_motion', 'streamingMotion');
-    
+
     var cameraUrl = location.protocol + '//' + location.host + basePath + 'picture/' + dict.id + '/';
-    
+
     var snapshotUrl = null;
     var mjpgUrl = null;
     var embedUrl = null;
-    
+
     if (dict['proto'] == 'mjpeg') {
         mjpgUrl = dict['url'];
         mjpgUrl = mjpgUrl.replace('127.0.0.1', window.location.host.split(':')[0]);
@@ -2178,10 +2173,10 @@ function dict2CameraUi(dict) {
             snapshotUrl = addAuthParams('GET', snapshotUrl);
         }
     }
-    
-    $('#streamingSnapshotUrlEntry').val(snapshotUrl); markHideIfNull(!snapshotUrl, 'streamingSnapshotUrlEntry');
-    $('#streamingMjpgUrlEntry').val(mjpgUrl); markHideIfNull(!mjpgUrl, 'streamingMjpgUrlEntry');
-    $('#streamingEmbedUrlEntry').val(embedUrl); markHideIfNull(!embedUrl, 'streamingEmbedUrlEntry');
+
+    $('#streamingSnapshotUrlHtml').data('url', snapshotUrl); markHideIfNull(!snapshotUrl, 'streamingSnapshotUrlHtml');
+    $('#streamingMjpgUrlHtml').data('url', mjpgUrl); markHideIfNull(!mjpgUrl, 'streamingMjpgUrlHtml');
+    $('#streamingEmbedUrlHtml').data('url', embedUrl); markHideIfNull(!embedUrl, 'streamingEmbedUrlHtml');
 
     /* still images */
     $('#stillImagesEnabledSwitch')[0].checked = dict['still_images']; markHideIfNull('still_images', 'stillImagesEnabledSwitch');
@@ -3007,7 +3002,42 @@ function doAction(cameraId, action, callback) {
             callback();
         }
     });
-}    
+}
+
+function showUrl(url) {
+    var span = $('<span class="url-message-span"></span>');
+    span.html(url);
+    runAlertDialog(span);
+    
+    var range, selection;
+    if (window.getSelection && document.createRange) {
+        selection = window.getSelection();
+        range = document.createRange();
+        range.selectNodeContents(span[0]);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+    else if (document.selection && document.body.createTextRange) {
+        range = document.body.createTextRange();
+        range.moveToElementText(span[0]);
+        range.select();
+    }    
+}
+
+function showSnapshotUrl() {
+    var url = $('#streamingSnapshotUrlHtml').data('url');
+    showUrl(url);
+}
+
+function showMjpgUrl() {
+    var url = $('#streamingMjpgUrlHtml').data('url');
+    showUrl(url);
+}
+
+function showEmbedUrl() {
+    var url = $('#streamingEmbedUrlHtml').data('url');
+    showUrl(url);
+}
 
 
     /* fetch & push */

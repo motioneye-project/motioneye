@@ -1348,6 +1348,10 @@ img.camera-progress {
     div.page-container.stretched {
         font-size: 16px;
     }
+
+    span.url-message-span {
+        font-size: 0.75em;
+    }
 }
 
 @media all and (max-width: 1200px) {

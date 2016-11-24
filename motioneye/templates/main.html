@@ -625,18 +625,30 @@
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Snapshot URL</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled streaming camera-config" id="streamingSnapshotUrlEntry" readonly="readonly"></td>
+                        <td class="settings-item-label"><span class="settings-item-label">Useful URLs</span></td>
+                        <td class="settings-item-value">
+                            <div class="html styled streaming camera-config" id="streamingSnapshotUrlHtml">
+                                <a href="javascript:showSnapshotUrl()">Snapshot URL</a>
+                            </div>
+                        </td>
                         <td><span class="help-mark" title="a URL that provides a JPEG image with the most recent snapshot of the camera">?</span></td>
                     </tr>
-                    <tr class="settings-item advanced-setting" depends="videoStreamingEnabled">
-                        <td class="settings-item-label"><span class="settings-item-label">Streaming URL</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled streaming camera-config" id="streamingMjpgUrlEntry" readonly="readonly"></td>
-                        <td><span class="help-mark" title="a URL that provides a MJPEG stream of the camera (there is no password protection for this URL!)">?</span></td>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"></td>
+                        <td class="settings-item-value">
+                            <div class="html styled streaming camera-config" id="streamingMjpgUrlHtml">
+                                <a href="javascript:showMjpgUrl()">Streaming URL</a>
+                            </div>
+                        </td>
+                        <td><span class="help-mark" title="a URL that provides a MJPEG stream of the camera">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Embed URL</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled streaming camera-config" id="streamingEmbedUrlEntry" readonly="readonly"></td>
+                        <td class="settings-item-label"></td>
+                        <td class="settings-item-value">
+                            <div class="html styled streaming camera-config" id="streamingEmbedUrlHtml">
+                                <a href="javascript:showEmbedUrl()">Embed URL</a>
+                            </div>
+                        </td>
                         <td><span class="help-mark" title="a URL that provides a minimal HTML document containing the camera frame, ready to be embedded">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('streaming', {}).get('configs', []) %}
