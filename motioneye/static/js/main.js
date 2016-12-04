@@ -412,7 +412,10 @@ function ajax(method, url, data, callback, error, timeout) {
     }
     else { /* assuming GET */
         if (data) {
-            url += '&' + $.param(data);
+            var query = $.param(data);
+            /* $.param encodes spaces as "+" */
+            query = query.replaceAll('+', '%20');
+            url += '&' + query;
             data = null;
         }
     }
