@@ -19,6 +19,7 @@ import collections
 import datetime
 import errno
 import glob
+import hashlib
 import logging
 import math
 import os.path
@@ -178,10 +179,13 @@ def get_main(as_lines=False):
     main_config = _conf_to_dict(lines,
             list_names=['thread'],
             no_convert=['@admin_username', '@admin_password', '@normal_username', '@normal_password'])
-    
+
     _get_additional_config(main_config)
     _set_default_motion(main_config, old_config_format=motionctl.has_old_config_format())
-    
+
+    main_config.setdefault('@admin_password_hash', hashlib.sha1(main_config['@admin_password']).hexdigest())
+    main_config.setdefault('@normal_password_hash', hashlib.sha1(main_config['@normal_password']).hexdigest())
+
     _main_config_cache = main_config
     
     return main_config

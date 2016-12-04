@@ -8,7 +8,7 @@ var refreshInterval = 15; /* milliseconds */
 var framerateFactor = 1;
 var resolutionFactor = 1;
 var username = '';
-var password = '';
+var passwordHash = '';
 var basePath = null;
 var signatureRegExp = new RegExp('[^a-zA-Z0-9/?_.=&{}\\[\\]":, _-]', 'g');
 var initialConfigFetched = false; /* used to workaround browser extensions that trigger stupid change events */
@@ -353,9 +353,8 @@ function computeSignature(method, path, body) {
     path = path + '?' + query;
     path = path.replace(signatureRegExp, '-');
     body = body && body.replace(signatureRegExp, '-');
-    var password = window.password.replace(signatureRegExp, '-');
     
-    return sha1(method + ':' + path + ':' + (body || '') + ':' + password).toLowerCase();
+    return sha1(method + ':' + path + ':' + (body || '') + ':' + passwordHash).toLowerCase();
 }
 
 function addAuthParams(method, url, body) {
@@ -3355,11 +3354,18 @@ function runLoginDialog(retry) {
                     '<td class="dialog-item-value"><input type="password" name="password" class="styled" id="passwordEntry"></td>' +
                     '<input type="submit" style="display: none;" name="login" value="login">' +
                 '</tr>' +
+                '<tr>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">Remember Me</span></td>' +
+                    '<td class="dialog-item-value"><input type="checkbox" name="remember" class="styled" id="rememberCheck"></td>' +
+                '</tr>' +
             '</table></form>');
 
     var usernameEntry = form.find('#usernameEntry');
     var passwordEntry = form.find('#passwordEntry');
+    var rememberCheck = form.find('#rememberCheck');
     var errorTd = form.find('td.login-dialog-error');
+    
+    makeCheckBox(rememberCheck);
     
     if (window._loginRetry) {
         errorTd.css('display', 'table-cell');
@@ -3375,10 +3381,13 @@ function runLoginDialog(retry) {
             }},
             {caption: 'Login', isDefault: true, click: function () {
                 window.username = usernameEntry.val();
-                window.password = passwordEntry.val();
+                window.passwordHash = sha1(passwordEntry.val()).toLowerCase();
                 window._loginDialogSubmitted = true;
                 
-                setCookie('username', window.username);
+                if (rememberCheck[0].checked) {
+                    setCookie('username', window.username);
+                    setCookie('passwordHash', window.passwordHash);
+                }
                 
                 form.submit();
                 setTimeout(function () {
@@ -4976,6 +4985,7 @@ $(document).ready(function () {
 
         /* restore the username from cookie */
         window.username = getCookie('username');
+        window.passwordHash = getCookie('passwordHash');
     }
     
     /* open/close settings */

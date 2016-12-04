@@ -112,16 +112,22 @@ class BaseHandler(RequestHandler):
         signature = self.get_argument('_signature', None)
         login = self.get_argument('_login', None) == 'true'
         if (username == main_config.get('@admin_username') and
-            signature == utils.compute_signature(self.request.method, self.request.uri, self.request.body, main_config.get('@admin_password'))):
-            
+            (signature == utils.compute_signature(self.request.method, self.request.uri, # backwards compatibility
+                                                  self.request.body, main_config.get('@admin_password')) or
+             signature == utils.compute_signature(self.request.method, self.request.uri,
+                                                  self.request.body, main_config.get('@admin_password_hash')))):
+
             return 'admin'
         
         elif not username and not main_config.get('@normal_password'): # no authentication required for normal user
             return 'normal'
         
         elif (username == main_config.get('@normal_username') and
-            signature == utils.compute_signature(self.request.method, self.request.uri, self.request.body, main_config.get('@normal_password'))):
-            
+            (signature == utils.compute_signature(self.request.method, self.request.uri, # backwards compatibility
+                                                  self.request.body, main_config.get('@normal_password')) or
+             signature == utils.compute_signature(self.request.method, self.request.uri,
+                                                  self.request.body, main_config.get('@normal_password_hash')))):
+
             return 'normal'
 
         elif username and username != '_' and login:
