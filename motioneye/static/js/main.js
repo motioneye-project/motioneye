@@ -1366,7 +1366,12 @@ function updateConfigUI() {
         $('#generalSectionDiv').next().each(markHideLogic);
     }
 
-    if ($('#cameraSelect').find('option').length < 2) { /* no camera configured */
+    var query = splitUrl().params;
+    var minEntries = 2;
+    if (query.camera_ids) {
+        minEntries = 1;
+    }
+    if ($('#cameraSelect').find('option').length < minEntries) { /* no camera configured */
         $('#videoDeviceEnabledSwitch').parent().each(markHideLogic);
         $('#videoDeviceEnabledSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
@@ -3061,6 +3066,15 @@ function fetchCurrentConfig(onFetch) {
             
             var i, cameras = data.cameras;
             
+            /* filter shown cameras by query */
+            var query = splitUrl().params;
+            if (query.camera_ids) {
+                var cameraIds = query.camera_ids.split(',');
+                cameras = cameras.filter(function (c){
+                    return cameraIds.indexOf(String(c.id)) >= 0;
+                });
+            }
+            
             if (isAdmin()) {
                 var cameraSelect = $('#cameraSelect');
                 cameraSelect.html('');
@@ -3068,7 +3082,10 @@ function fetchCurrentConfig(onFetch) {
                     var camera = cameras[i];
                     cameraSelect.append('<option value="' + camera['id'] + '">' + camera['name'] + '</option>');
                 }
-                cameraSelect.append('<option value="add">add camera...</option>');
+                
+                if (!query.camera_ids) {
+                    cameraSelect.append('<option value="add">add camera...</option>');
+                }
                 
                 var enabledCameras = cameras.filter(function (camera) {return camera['enabled'];});
                 if (enabledCameras.length > 0) { /* prefer the first enabled camera */
@@ -3117,7 +3134,10 @@ function fetchCurrentConfig(onFetch) {
     }
  
     /* add a progress indicator */
-    getPageContainer().append('<img class="main-loading-progress" src="' + staticPath + 'img/main-loading-progress.gif">');
+    var pageContainer = getPageContainer();
+    if (!pageContainer.children('img.main-loading-progress').length) {
+        pageContainer.append('<img class="main-loading-progress" src="' + staticPath + 'img/main-loading-progress.gif">');
+    }
 
     /* fetch the prefs */
     ajax('GET', basePath + 'prefs/', null, function (data) {
@@ -4687,7 +4707,8 @@ function recreateCameraFrames(cameras) {
         /* overlay is always hidden after creating the frames */
         hideCameraOverlay();
         
-        if ($('#cameraSelect').find('option').length < 2 && isAdmin()) {
+        var query = splitUrl().params;
+        if ($('#cameraSelect').find('option').length < 2 && isAdmin() && !query.camera_ids) {
             /* invite the user to add a camera */
             var addCameraLink = $('<div class="add-camera-message">' + 
                     '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');
