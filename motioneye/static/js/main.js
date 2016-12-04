@@ -3347,7 +3347,7 @@ function runLoginDialog(retry) {
                 '</tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Username</span></td>' +
-                    '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry"></td>' +
+                    '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry" autofocus></td>' +
                 '</tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Password</span></td>' +
