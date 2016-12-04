@@ -112,10 +112,15 @@
                         <td class="settings-item-value"><input type="text" class="range styled prefs" id="layoutColumnsSlider"></td>
                         <td><span class="help-mark" title="configures the number of columns used to lay out the camera frames">?</span></td>
                     </tr>
-                    <tr class="settings-item" min="1" max="4" snap="1" ticksnum="4" decimals="0" id="fitFramesVerticallyRow">
+                    <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Fit Frames Vertically</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled prefs" id="fitFramesVerticallySwitch"></td>
                         <td><span class="help-mark" title="controls whether frame sizes can be reduced to vertically fit the window or not">?</span></td>
+                    </tr>
+                    <tr class="settings-item" min="1" max="4" snap="1" ticksnum="4" decimals="0" id="layoutRows" depends="fitFramesVertically">
+                        <td class="settings-item-label"><span class="settings-item-label">Layout Rows</span></td>
+                        <td class="settings-item-value"><input type="text" class="range styled prefs" id="layoutRowsSlider"></td>
+                        <td><span class="help-mark" title="configures the number of rows used to lay out the camera frames">?</span></td>
                     </tr>
                     <tr class="settings-item" min="0" max="100" snap="2" ticksnum="6" decimals="0">
                         <td class="settings-item-label"><span class="settings-item-label">Frame Rate Dimmer</span></td>

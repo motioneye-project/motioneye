@@ -26,6 +26,7 @@ _PREFS_FILE_NAME = 'prefs.json'
 _DEFAULT_PREFS = {
     'layout_columns': 3,
     'fit_frames_vertically': True,
+    'layout_rows': 1,
     'framerate_factor': 1,
     'resolution_factor': 1
 }

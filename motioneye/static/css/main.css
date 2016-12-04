@@ -1228,7 +1228,6 @@ img.camera {
     display: block;
     transition: opacity 0.2s ease;
     opacity: 1;
-    min-height: 160px;
 }
 
 img.camera.error,

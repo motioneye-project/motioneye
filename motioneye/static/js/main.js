@@ -16,6 +16,7 @@ var pageContainer = null;
 var overlayVisible = false;
 var layoutColumns = 1;
 var fitFramesVertically = false;
+var layoutRows = 1;
 
 
     /* Object utilities */
@@ -734,6 +735,11 @@ function initUI() {
         updateLayout();
         savePrefs();
     });
+    $('#layoutRowsSlider').change(function () {
+        layoutRows = parseInt(this.value);
+        updateLayout();
+        savePrefs();
+    });
     $('#framerateDimmerSlider').change(function () {
         framerateFactor = parseInt(this.value) / 100;
         savePrefs();
@@ -972,7 +978,8 @@ function setLayoutColumns(columns) {
 function updateLayout() {
     if (fitFramesVertically) {
         /* make sure the height of each camera
-         * is smaller than the height of the screen */
+         * is smaller than the height of the screen
+         * divided by the number of layout rows */
         
         /* find the tallest frame */
         var frames = getCameraFrames();
@@ -1005,7 +1012,7 @@ function updateLayout() {
         }
     
         var windowHeight = $(window).height() - heightOffset;
-        var ratio = maxHeightFrame.width() / maxHeightFrame.height();
+        var ratio = maxHeightFrame.width() / maxHeightFrame.height() / layoutRows;
         var width = parseInt(ratio * windowHeight * columns);
         var maxWidth = windowWidth;
         
@@ -1604,8 +1611,9 @@ function configUiValid() {
 
 function prefsUi2Dict() {
     var dict = {
-        'layout_columns': $('#layoutColumnsSlider').val(),
+        'layout_columns': parseInt($('#layoutColumnsSlider').val()),
         'fit_frames_vertically': $('#fitFramesVerticallySwitch')[0].checked,
+        'layout_rows': parseInt($('#layoutRowsSlider').val()),
         'framerate_factor': $('#framerateDimmerSlider').val() / 100,
         'resolution_factor': $('#resolutionDimmerSlider').val() / 100
     };
@@ -1616,6 +1624,7 @@ function prefsUi2Dict() {
 function dict2PrefsUi(dict) {
     $('#layoutColumnsSlider').val(dict['layout_columns']);
     $('#fitFramesVerticallySwitch')[0].checked = dict['fit_frames_vertically'];
+    $('#layoutRowsSlider').val(dict['layout_rows']);
     $('#framerateDimmerSlider').val(dict['framerate_factor'] * 100);
     $('#resolutionDimmerSlider').val(dict['resolution_factor'] * 100);
 
@@ -1625,6 +1634,7 @@ function dict2PrefsUi(dict) {
 function applyPrefs(dict) {
     setLayoutColumns(dict['layout_columns']);
     fitFramesVertically = dict['fit_frames_vertically']
+    layoutRows = dict['layout_rows'];
     framerateFactor = dict['framerate_factor'];
     resolutionFactor = dict['resolution_factor'];
     
