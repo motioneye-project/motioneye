@@ -496,7 +496,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="webHookStorageEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Web Hook URL</span></td>
                         <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="webHookStorageUrlEntry" placeholder="e.g. http://example.com/notify/"></td>
-                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %f = file path">?</span></td>
+                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, %f = file path">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="webHookStorageEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">HTTP Method</span></td>
@@ -521,7 +521,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="commandStorageEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
                         <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="commandStorageEntry" placeholder="command..."></td>
-                        <td><span class="help-mark" title="a command to be executed after a media file is created; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %f = file path">?</span></td>
+                        <td><span class="help-mark" title="a command to be executed after a media file is created; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, %f = file path">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('storage', {}).get('configs', []) %}
                         {{config_item(config)}}
@@ -551,7 +551,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="leftTextType=custom-text" strip="true">
                         <td class="settings-item-label"></td>
                         <td class="settings-item-value"><input type="text" class="styled text-overlay camera-config" id="leftTextEntry" placeholder="custom text..."></td>
-                        <td><span class="help-mark" title="sets a custom left text; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %T = HH:MM:SS, %q = frame number, \n = new line">?</span></td>
+                        <td><span class="help-mark" title="sets a custom left text; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, %T = HH:MM:SS, \n = new line">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Right Text</span></td>
@@ -568,7 +568,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="rightTextType=custom-text" strip="true">
                         <td class="settings-item-label"></td>
                         <td class="settings-item-value"><input type="text" class="styled text-overlay camera-config" id="rightTextEntry" placeholder="custom text..."></td>
-                        <td><span class="help-mark" title="sets a custom right text; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %T = HH:MM:SS, %q = frame number, \n = new line">?</span></td>
+                        <td><span class="help-mark" title="sets a custom right text; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, %T = HH:MM:SS, \n = new line">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('text-overlay', {}).get('configs', []) %}
                         {{config_item(config)}}
@@ -730,7 +730,7 @@
                     <tr class="settings-item advanced-setting" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Movie File Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled movies camera-config" id="movieFileNameEntry" placeholder="file name pattern..."></td>
-                        <td><span class="help-mark" title="sets the name pattern for the movie files; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, / = subfolder">?</span></td>
+                        <td><span class="help-mark" title="sets the name pattern for the movie files; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, / = subfolder">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Movie Format</span></td>
@@ -974,7 +974,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="webHookNotificationsEnabled motionDetectionEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Web Hook URL</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="webHookNotificationsUrlEntry" placeholder="e.g. http://example.com/notify/"></td>
-                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
+                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="webHookNotificationsEnabled motionDetectionEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">HTTP Method</span></td>
@@ -999,7 +999,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="commandNotificationsEnabled motionDetectionEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandNotificationsEntry" placeholder="command..."></td>
-                        <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semilcolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
+                        <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semilcolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('notifications', {}).get('configs', []) %}
                         {{config_item(config, "motionDetectionEnabled")}}
