@@ -2455,31 +2455,28 @@ function doApply() {
     }
     
     function actualApply() {
+        var cameraIdsByInstance = getCameraIdsByInstance();
+
         /* gather the affected motion instances */
         var affectedInstances = {};
+        
         Object.keys(pushConfigs).forEach(function (key) {
-            var config = pushConfigs[key];
-            if (key === 'main') {
+            if (key == 'main') {
                 return;
             }
             
-            var instance;
-            if (config.proto == 'netcam' || config.proto == 'v4l2') {
-                instance = '';
-            }
-            else if (config.proto == 'motioneye') { /* motioneye */
-                instance = config.host || '';
-                if (config.port) {
-                    instance += ':' + config.port;
+            /* key is a camera id */
+            Object.keys(cameraIdsByInstance).forEach(function (instance) {
+                var cameraIds = cameraIdsByInstance[instance];
+                if (cameraIds.indexOf(parseInt(key)) >= 0) {
+                    affectedInstances[instance] = true;
                 }
-            }
-            
-            affectedInstances[instance] = true;
+            });
         });
+
         affectedInstances = Object.keys(affectedInstances);
         
         /* compute the affected camera ids */ 
-        var cameraIdsByInstance = getCameraIdsByInstance();
         var affectedCameraIds = [];
         
         affectedInstances.forEach(function (instance) {
