@@ -16,6 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import datetime
+import hashlib
 import json
 import logging
 import os
@@ -113,9 +114,10 @@ class BaseHandler(RequestHandler):
         login = self.get_argument('_login', None) == 'true'
         if (username == main_config.get('@admin_username') and
             (signature == utils.compute_signature(self.request.method, self.request.uri, # backwards compatibility
-                                                  self.request.body, main_config.get('@admin_password')) or
+                                                  self.request.body, main_config['@admin_password']) or
              signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body, main_config.get('@admin_password_hash')))):
+                                                  self.request.body,
+                                                  hashlib.sha1(main_config['@admin_password']).hexdigest()))):
 
             return 'admin'
         
@@ -126,7 +128,8 @@ class BaseHandler(RequestHandler):
             (signature == utils.compute_signature(self.request.method, self.request.uri, # backwards compatibility
                                                   self.request.body, main_config.get('@normal_password')) or
              signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body, main_config.get('@normal_password_hash')))):
+                                                  self.request.body,
+                                                  hashlib.sha1(main_config['@normal_password']).hexdigest()))):
 
             return 'normal'
 
