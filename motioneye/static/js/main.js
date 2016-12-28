@@ -8,7 +8,7 @@ var refreshInterval = 15; /* milliseconds */
 var framerateFactor = 1;
 var resolutionFactor = 1;
 var username = '';
-var password = '';
+var passwordHash = '';
 var basePath = null;
 var signatureRegExp = new RegExp('[^a-zA-Z0-9/?_.=&{}\\[\\]":, _-]', 'g');
 var initialConfigFetched = false; /* used to workaround browser extensions that trigger stupid change events */
@@ -16,6 +16,7 @@ var pageContainer = null;
 var overlayVisible = false;
 var layoutColumns = 1;
 var fitFramesVertically = false;
+var layoutRows = 1;
 
 
     /* Object utilities */
@@ -353,9 +354,8 @@ function computeSignature(method, path, body) {
     path = path + '?' + query;
     path = path.replace(signatureRegExp, '-');
     body = body && body.replace(signatureRegExp, '-');
-    var password = window.password.replace(signatureRegExp, '-');
     
-    return sha1(method + ':' + path + ':' + (body || '') + ':' + password).toLowerCase();
+    return sha1(method + ':' + path + ':' + (body || '') + ':' + passwordHash).toLowerCase();
 }
 
 function addAuthParams(method, url, body) {
@@ -412,7 +412,10 @@ function ajax(method, url, data, callback, error, timeout) {
     }
     else { /* assuming GET */
         if (data) {
-            url += '&' + $.param(data);
+            var query = $.param(data);
+            /* $.param encodes spaces as "+" */
+            query = query.replaceAll('+', '%20');
+            url += '&' + query;
             data = null;
         }
     }
@@ -732,6 +735,11 @@ function initUI() {
         updateLayout();
         savePrefs();
     });
+    $('#layoutRowsSlider').change(function () {
+        layoutRows = parseInt(this.value);
+        updateLayout();
+        savePrefs();
+    });
     $('#framerateDimmerSlider').change(function () {
         framerateFactor = parseInt(this.value) / 100;
         savePrefs();
@@ -827,11 +835,6 @@ function initUI() {
      * if a modal dialog is visible, it should be repositioned */
     $(window).resize(updateModalDialogPosition);
     
-    /* autoselect urls in read-only entries */
-    $('#streamingSnapshotUrlEntry:text, #streamingMjpgUrlEntry:text, #streamingEmbedUrlEntry:text').click(function () {
-        this.select();
-    });
-
     /* show a warning when enabling media files removal */
     var preserveSelects = $('#preservePicturesSelect, #preserveMoviesSelect');
     var rootDirectoryEntry = $('#rootDirectoryEntry');
@@ -975,7 +978,8 @@ function setLayoutColumns(columns) {
 function updateLayout() {
     if (fitFramesVertically) {
         /* make sure the height of each camera
-         * is smaller than the height of the screen */
+         * is smaller than the height of the screen
+         * divided by the number of layout rows */
         
         /* find the tallest frame */
         var frames = getCameraFrames();
@@ -1008,7 +1012,7 @@ function updateLayout() {
         }
     
         var windowHeight = $(window).height() - heightOffset;
-        var ratio = maxHeightFrame.width() / maxHeightFrame.height();
+        var ratio = maxHeightFrame.width() / maxHeightFrame.height() / layoutRows;
         var width = parseInt(ratio * windowHeight * columns);
         var maxWidth = windowWidth;
         
@@ -1368,7 +1372,12 @@ function updateConfigUI() {
         $('#generalSectionDiv').next().each(markHideLogic);
     }
 
-    if ($('#cameraSelect').find('option').length < 2) { /* no camera configured */
+    var query = splitUrl().params;
+    var minEntries = 2;
+    if (query.camera_ids) {
+        minEntries = 1;
+    }
+    if ($('#cameraSelect').find('option').length < minEntries) { /* no camera configured */
         $('#videoDeviceEnabledSwitch').parent().each(markHideLogic);
         $('#videoDeviceEnabledSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
@@ -1602,8 +1611,9 @@ function configUiValid() {
 
 function prefsUi2Dict() {
     var dict = {
-        'layout_columns': $('#layoutColumnsSlider').val(),
+        'layout_columns': parseInt($('#layoutColumnsSlider').val()),
         'fit_frames_vertically': $('#fitFramesVerticallySwitch')[0].checked,
+        'layout_rows': parseInt($('#layoutRowsSlider').val()),
         'framerate_factor': $('#framerateDimmerSlider').val() / 100,
         'resolution_factor': $('#resolutionDimmerSlider').val() / 100
     };
@@ -1614,6 +1624,7 @@ function prefsUi2Dict() {
 function dict2PrefsUi(dict) {
     $('#layoutColumnsSlider').val(dict['layout_columns']);
     $('#fitFramesVerticallySwitch')[0].checked = dict['fit_frames_vertically'];
+    $('#layoutRowsSlider').val(dict['layout_rows']);
     $('#framerateDimmerSlider').val(dict['framerate_factor'] * 100);
     $('#resolutionDimmerSlider').val(dict['resolution_factor'] * 100);
 
@@ -1623,6 +1634,7 @@ function dict2PrefsUi(dict) {
 function applyPrefs(dict) {
     setLayoutColumns(dict['layout_columns']);
     fitFramesVertically = dict['fit_frames_vertically']
+    layoutRows = dict['layout_rows'];
     framerateFactor = dict['framerate_factor'];
     resolutionFactor = dict['resolution_factor'];
     
@@ -2035,6 +2047,7 @@ function dict2CameraUi(dict) {
     
     $('#videoDeviceEnabledSwitch')[0].checked = dict['enabled']; markHideIfNull('enabled', 'videoDeviceEnabledSwitch');
     $('#deviceNameEntry').val(dict['name']); markHideIfNull('name', 'deviceNameEntry');
+    $('#deviceIdEntry').val(dict['id']); markHideIfNull('id', 'deviceIdEntry');
     $('#deviceUrlEntry').val(dict['device_url']); markHideIfNull('device_url', 'deviceUrlEntry');
     $('#deviceTypeEntry').val(prettyType); markHideIfNull(!prettyType, 'deviceTypeEntry');
     $('#deviceTypeEntry')[0].proto = dict['proto'];
@@ -2149,13 +2162,13 @@ function dict2CameraUi(dict) {
     $('#streamingPortEntry').val(dict['streaming_port']); markHideIfNull('streaming_port', 'streamingPortEntry');
     $('#streamingAuthModeSelect').val(dict['streaming_auth_mode']); markHideIfNull('streaming_auth_mode', 'streamingAuthModeSelect');
     $('#streamingMotion')[0].checked = dict['streaming_motion']; markHideIfNull('streaming_motion', 'streamingMotion');
-    
+
     var cameraUrl = location.protocol + '//' + location.host + basePath + 'picture/' + dict.id + '/';
-    
+
     var snapshotUrl = null;
     var mjpgUrl = null;
     var embedUrl = null;
-    
+
     if (dict['proto'] == 'mjpeg') {
         mjpgUrl = dict['url'];
         mjpgUrl = mjpgUrl.replace('127.0.0.1', window.location.host.split(':')[0]);
@@ -2177,10 +2190,10 @@ function dict2CameraUi(dict) {
             snapshotUrl = addAuthParams('GET', snapshotUrl);
         }
     }
-    
-    $('#streamingSnapshotUrlEntry').val(snapshotUrl); markHideIfNull(!snapshotUrl, 'streamingSnapshotUrlEntry');
-    $('#streamingMjpgUrlEntry').val(mjpgUrl); markHideIfNull(!mjpgUrl, 'streamingMjpgUrlEntry');
-    $('#streamingEmbedUrlEntry').val(embedUrl); markHideIfNull(!embedUrl, 'streamingEmbedUrlEntry');
+
+    $('#streamingSnapshotUrlHtml').data('url', snapshotUrl); markHideIfNull(!snapshotUrl, 'streamingSnapshotUrlHtml');
+    $('#streamingMjpgUrlHtml').data('url', mjpgUrl); markHideIfNull(!mjpgUrl, 'streamingMjpgUrlHtml');
+    $('#streamingEmbedUrlHtml').data('url', embedUrl); markHideIfNull(!embedUrl, 'streamingEmbedUrlHtml');
 
     /* still images */
     $('#stillImagesEnabledSwitch')[0].checked = dict['still_images']; markHideIfNull('still_images', 'stillImagesEnabledSwitch');
@@ -2442,31 +2455,28 @@ function doApply() {
     }
     
     function actualApply() {
+        var cameraIdsByInstance = getCameraIdsByInstance();
+
         /* gather the affected motion instances */
         var affectedInstances = {};
+        
         Object.keys(pushConfigs).forEach(function (key) {
-            var config = pushConfigs[key];
-            if (key === 'main') {
+            if (key == 'main') {
                 return;
             }
             
-            var instance;
-            if (config.proto == 'netcam' || config.proto == 'v4l2') {
-                instance = '';
-            }
-            else if (config.proto == 'motioneye') { /* motioneye */
-                instance = config.host || '';
-                if (config.port) {
-                    instance += ':' + config.port;
+            /* key is a camera id */
+            Object.keys(cameraIdsByInstance).forEach(function (instance) {
+                var cameraIds = cameraIdsByInstance[instance];
+                if (cameraIds.indexOf(parseInt(key)) >= 0) {
+                    affectedInstances[instance] = true;
                 }
-            }
-            
-            affectedInstances[instance] = true;
+            });
         });
+
         affectedInstances = Object.keys(affectedInstances);
         
         /* compute the affected camera ids */ 
-        var cameraIdsByInstance = getCameraIdsByInstance();
         var affectedCameraIds = [];
         
         affectedInstances.forEach(function (instance) {
@@ -3006,7 +3016,42 @@ function doAction(cameraId, action, callback) {
             callback();
         }
     });
-}    
+}
+
+function showUrl(url) {
+    var span = $('<span class="url-message-span"></span>');
+    span.html(url);
+    runAlertDialog(span);
+    
+    var range, selection;
+    if (window.getSelection && document.createRange) {
+        selection = window.getSelection();
+        range = document.createRange();
+        range.selectNodeContents(span[0]);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+    else if (document.selection && document.body.createTextRange) {
+        range = document.body.createTextRange();
+        range.moveToElementText(span[0]);
+        range.select();
+    }    
+}
+
+function showSnapshotUrl() {
+    var url = $('#streamingSnapshotUrlHtml').data('url');
+    showUrl(url);
+}
+
+function showMjpgUrl() {
+    var url = $('#streamingMjpgUrlHtml').data('url');
+    showUrl(url);
+}
+
+function showEmbedUrl() {
+    var url = $('#streamingEmbedUrlHtml').data('url');
+    showUrl(url);
+}
 
 
     /* fetch & push */
@@ -3027,6 +3072,15 @@ function fetchCurrentConfig(onFetch) {
             
             var i, cameras = data.cameras;
             
+            /* filter shown cameras by query */
+            var query = splitUrl().params;
+            if (query.camera_ids) {
+                var cameraIds = query.camera_ids.split(',');
+                cameras = cameras.filter(function (c){
+                    return cameraIds.indexOf(String(c.id)) >= 0;
+                });
+            }
+            
             if (isAdmin()) {
                 var cameraSelect = $('#cameraSelect');
                 cameraSelect.html('');
@@ -3034,7 +3088,10 @@ function fetchCurrentConfig(onFetch) {
                     var camera = cameras[i];
                     cameraSelect.append('<option value="' + camera['id'] + '">' + camera['name'] + '</option>');
                 }
-                cameraSelect.append('<option value="add">add camera...</option>');
+                
+                if (!query.camera_ids) {
+                    cameraSelect.append('<option value="add">add camera...</option>');
+                }
                 
                 var enabledCameras = cameras.filter(function (camera) {return camera['enabled'];});
                 if (enabledCameras.length > 0) { /* prefer the first enabled camera */
@@ -3083,7 +3140,10 @@ function fetchCurrentConfig(onFetch) {
     }
  
     /* add a progress indicator */
-    getPageContainer().append('<img class="main-loading-progress" src="' + staticPath + 'img/main-loading-progress.gif">');
+    var pageContainer = getPageContainer();
+    if (!pageContainer.children('img.main-loading-progress').length) {
+        pageContainer.append('<img class="main-loading-progress" src="' + staticPath + 'img/main-loading-progress.gif">');
+    }
 
     /* fetch the prefs */
     ajax('GET', basePath + 'prefs/', null, function (data) {
@@ -3294,18 +3354,25 @@ function runLoginDialog(retry) {
                 '</tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Username</span></td>' +
-                    '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry"></td>' +
+                    '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry" autofocus></td>' +
                 '</tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Password</span></td>' +
                     '<td class="dialog-item-value"><input type="password" name="password" class="styled" id="passwordEntry"></td>' +
                     '<input type="submit" style="display: none;" name="login" value="login">' +
                 '</tr>' +
+                '<tr>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">Remember Me</span></td>' +
+                    '<td class="dialog-item-value"><input type="checkbox" name="remember" class="styled" id="rememberCheck"></td>' +
+                '</tr>' +
             '</table></form>');
 
     var usernameEntry = form.find('#usernameEntry');
     var passwordEntry = form.find('#passwordEntry');
+    var rememberCheck = form.find('#rememberCheck');
     var errorTd = form.find('td.login-dialog-error');
+    
+    makeCheckBox(rememberCheck);
     
     if (window._loginRetry) {
         errorTd.css('display', 'table-cell');
@@ -3321,10 +3388,13 @@ function runLoginDialog(retry) {
             }},
             {caption: 'Login', isDefault: true, click: function () {
                 window.username = usernameEntry.val();
-                window.password = passwordEntry.val();
+                window.passwordHash = sha1(passwordEntry.val()).toLowerCase();
                 window._loginDialogSubmitted = true;
                 
-                setCookie('username', window.username);
+                if (rememberCheck[0].checked) {
+                    setCookie('username', window.username);
+                    setCookie('passwordHash', window.passwordHash);
+                }
                 
                 form.submit();
                 setTimeout(function () {
@@ -4707,7 +4777,8 @@ function recreateCameraFrames(cameras) {
         /* overlay is always hidden after creating the frames */
         hideCameraOverlay();
         
-        if ($('#cameraSelect').find('option').length < 2 && isAdmin()) {
+        var query = splitUrl().params;
+        if ($('#cameraSelect').find('option').length < 2 && isAdmin() && !query.camera_ids) {
             /* invite the user to add a camera */
             var addCameraLink = $('<div class="add-camera-message">' + 
                     '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');
@@ -4975,6 +5046,7 @@ $(document).ready(function () {
 
         /* restore the username from cookie */
         window.username = getCookie('username');
+        window.passwordHash = getCookie('passwordHash');
     }
     
     /* open/close settings */

@@ -112,10 +112,15 @@
                         <td class="settings-item-value"><input type="text" class="range styled prefs" id="layoutColumnsSlider"></td>
                         <td><span class="help-mark" title="configures the number of columns used to lay out the camera frames">?</span></td>
                     </tr>
-                    <tr class="settings-item" min="1" max="4" snap="1" ticksnum="4" decimals="0" id="fitFramesVerticallyRow">
+                    <tr class="settings-item">
                         <td class="settings-item-label"><span class="settings-item-label">Fit Frames Vertically</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled prefs" id="fitFramesVerticallySwitch"></td>
                         <td><span class="help-mark" title="controls whether frame sizes can be reduced to vertically fit the window or not">?</span></td>
+                    </tr>
+                    <tr class="settings-item" min="1" max="4" snap="1" ticksnum="4" decimals="0" id="layoutRows" depends="fitFramesVertically">
+                        <td class="settings-item-label"><span class="settings-item-label">Layout Rows</span></td>
+                        <td class="settings-item-value"><input type="text" class="range styled prefs" id="layoutRowsSlider"></td>
+                        <td><span class="help-mark" title="configures the number of rows used to lay out the camera frames">?</span></td>
                     </tr>
                     <tr class="settings-item" min="0" max="100" snap="2" ticksnum="6" decimals="0">
                         <td class="settings-item-label"><span class="settings-item-label">Frame Rate Dimmer</span></td>
@@ -244,6 +249,11 @@
                         <td class="settings-item-label"><span class="settings-item-label">Camera Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled device camera-config" id="deviceNameEntry" placeholder="camera name..."></td>
                         <td><span class="help-mark" title="an alias for this camera device">?</span></td>
+                    </tr>
+                    <tr class="settings-item" required="true" strip="true">
+                        <td class="settings-item-label"><span class="settings-item-label">Camera ID</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled device camera-config" id="deviceIdEntry" readonly="readonly"></td>
+                        <td><span class="help-mark" title="the camera identifier number">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Camera Device</span></td>
@@ -486,7 +496,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="webHookStorageEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Web Hook URL</span></td>
                         <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="webHookStorageUrlEntry" placeholder="e.g. http://example.com/notify/"></td>
-                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %f = file path">?</span></td>
+                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, %f = file path">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="webHookStorageEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">HTTP Method</span></td>
@@ -511,7 +521,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="commandStorageEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
                         <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="commandStorageEntry" placeholder="command..."></td>
-                        <td><span class="help-mark" title="a command to be executed after a media file is created; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %f = file path">?</span></td>
+                        <td><span class="help-mark" title="a command to be executed after a media file is created; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, %f = file path">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('storage', {}).get('configs', []) %}
                         {{config_item(config)}}
@@ -541,7 +551,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="leftTextType=custom-text" strip="true">
                         <td class="settings-item-label"></td>
                         <td class="settings-item-value"><input type="text" class="styled text-overlay camera-config" id="leftTextEntry" placeholder="custom text..."></td>
-                        <td><span class="help-mark" title="sets a custom left text; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %T = HH:MM:SS, %q = frame number, \n = new line">?</span></td>
+                        <td><span class="help-mark" title="sets a custom left text; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, %T = HH:MM:SS, \n = new line">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Right Text</span></td>
@@ -558,7 +568,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="rightTextType=custom-text" strip="true">
                         <td class="settings-item-label"></td>
                         <td class="settings-item-value"><input type="text" class="styled text-overlay camera-config" id="rightTextEntry" placeholder="custom text..."></td>
-                        <td><span class="help-mark" title="sets a custom right text; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %T = HH:MM:SS, %q = frame number, \n = new line">?</span></td>
+                        <td><span class="help-mark" title="sets a custom right text; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, %T = HH:MM:SS, \n = new line">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('text-overlay', {}).get('configs', []) %}
                         {{config_item(config)}}
@@ -620,18 +630,30 @@
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Snapshot URL</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled streaming camera-config" id="streamingSnapshotUrlEntry" readonly="readonly"></td>
+                        <td class="settings-item-label"><span class="settings-item-label">Useful URLs</span></td>
+                        <td class="settings-item-value">
+                            <div class="html styled streaming camera-config" id="streamingSnapshotUrlHtml">
+                                <a href="javascript:showSnapshotUrl()">Snapshot URL</a>
+                            </div>
+                        </td>
                         <td><span class="help-mark" title="a URL that provides a JPEG image with the most recent snapshot of the camera">?</span></td>
                     </tr>
-                    <tr class="settings-item advanced-setting" depends="videoStreamingEnabled">
-                        <td class="settings-item-label"><span class="settings-item-label">Streaming URL</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled streaming camera-config" id="streamingMjpgUrlEntry" readonly="readonly"></td>
-                        <td><span class="help-mark" title="a URL that provides a MJPEG stream of the camera (there is no password protection for this URL!)">?</span></td>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"></td>
+                        <td class="settings-item-value">
+                            <div class="html styled streaming camera-config" id="streamingMjpgUrlHtml">
+                                <a href="javascript:showMjpgUrl()">Streaming URL</a>
+                            </div>
+                        </td>
+                        <td><span class="help-mark" title="a URL that provides a MJPEG stream of the camera">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
-                        <td class="settings-item-label"><span class="settings-item-label">Embed URL</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled streaming camera-config" id="streamingEmbedUrlEntry" readonly="readonly"></td>
+                        <td class="settings-item-label"></td>
+                        <td class="settings-item-value">
+                            <div class="html styled streaming camera-config" id="streamingEmbedUrlHtml">
+                                <a href="javascript:showEmbedUrl()">Embed URL</a>
+                            </div>
+                        </td>
                         <td><span class="help-mark" title="a URL that provides a minimal HTML document containing the camera frame, ready to be embedded">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('streaming', {}).get('configs', []) %}
@@ -708,7 +730,7 @@
                     <tr class="settings-item advanced-setting" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Movie File Name</span></td>
                         <td class="settings-item-value"><input type="text" class="styled movies camera-config" id="movieFileNameEntry" placeholder="file name pattern..."></td>
-                        <td><span class="help-mark" title="sets the name pattern for the movie files; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, / = subfolder">?</span></td>
+                        <td><span class="help-mark" title="sets the name pattern for the movie files; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, / = subfolder">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Movie Format</span></td>
@@ -952,7 +974,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="webHookNotificationsEnabled motionDetectionEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Web Hook URL</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="webHookNotificationsUrlEntry" placeholder="e.g. http://example.com/notify/"></td>
-                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
+                        <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="webHookNotificationsEnabled motionDetectionEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">HTTP Method</span></td>
@@ -977,7 +999,7 @@
                     <tr class="settings-item advanced-setting" required="true" depends="commandNotificationsEnabled motionDetectionEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandNotificationsEntry" placeholder="command..."></td>
-                        <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semilcolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
+                        <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semilcolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('notifications', {}).get('configs', []) %}
                         {{config_item(config, "motionDetectionEnabled")}}

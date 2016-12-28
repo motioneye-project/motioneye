@@ -45,9 +45,6 @@ else:
 # default output path for media files (must be writable by motionEye)
 MEDIA_PATH = '/var/lib/motioneye'
 
-# path to the motion binary to use (automatically detected by default)
-MOTION_BINARY = None
-
 # the log level (use FATAL, ERROR, WARNING, INFO or DEBUG)
 LOG_LEVEL = logging.INFO
 
@@ -58,6 +55,9 @@ LISTEN = '0.0.0.0'
 # the TCP port to listen on
 PORT = 8765
 
+# path to the motion binary to use (automatically detected by default)
+MOTION_BINARY = None
+
 # whether motion HTTP control interface listens on
 # localhost or on all interfaces
 MOTION_CONTROL_LOCALHOST = True
@@ -65,11 +65,14 @@ MOTION_CONTROL_LOCALHOST = True
 # the TCP port that motion HTTP control interface listens on
 MOTION_CONTROL_PORT = 7999
 
-# interval in seconds at which motionEye checks the SMB mounts
-MOUNT_CHECK_INTERVAL = 300
-
 # interval in seconds at which motionEye checks if motion is running
 MOTION_CHECK_INTERVAL = 10
+
+# whether to restart the motion daemon when an error occurs while communicating with it
+MOTION_RESTART_ON_ERRORS = False
+
+# interval in seconds at which motionEye checks the SMB mounts
+MOUNT_CHECK_INTERVAL = 300
 
 # interval in seconds at which the janitor is called
 # to remove old pictures and movies

@@ -48,7 +48,6 @@ class MjpgClient(IOStream):
         self._last_access = None
         self._last_jpg = None
         self._last_jpg_times = []
-        self._fps = 0
         
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         IOStream.__init__(self, s)
@@ -71,12 +70,26 @@ class MjpgClient(IOStream):
             if now - MjpgClient._last_erroneous_close_time < settings.MJPG_CLIENT_TIMEOUT:
                 logging.error('connection problem detected for mjpg client for camera %(camera_id)s on port %(port)s' % {
                         'port': self._port, 'camera_id': self._camera_id})
- 
-                motionctl.stop(invalidate=True) # this will close all the mjpg clients
-                motionctl.start(deferred=True)
- 
+                
+                if settings.MOTION_RESTART_ON_ERRORS:
+                    motionctl.stop(invalidate=True) # this will close all the mjpg clients
+                    motionctl.start(deferred=True)
+
             MjpgClient._last_erroneous_close_time = now
+    
+    def get_last_jpg(self):
+        self._last_access = time.time()
+        return self._last_jpg
+    
+    def get_fps(self):
+        if len(self._last_jpg_times) < self._FPS_LEN:
+            return 0  # not enough "samples"
         
+        if time.time() - self._last_jpg_times[-1] > 1:
+            return 0  # everything below 1 fps is considered 0
+        
+        return (len(self._last_jpg_times) - 1) / (self._last_jpg_times[-1] - self._last_jpg_times[0])
+
     def _check_error(self):
         if self.socket is None:
             logging.warning('mjpg client connection for camera %(camera_id)s on port %(port)s is closed' % {
@@ -207,9 +220,6 @@ class MjpgClient(IOStream):
         self._last_jpg_times.append(time.time())
         while len(self._last_jpg_times) > self._FPS_LEN:
             self._last_jpg_times.pop(0)
-            
-        if len(self._last_jpg_times) == self._FPS_LEN:
-            self._fps = (len(self._last_jpg_times) - 1) / (self._last_jpg_times[-1] - self._last_jpg_times[0])
 
         self._seek_content_length()
 
@@ -247,9 +257,8 @@ def get_jpg(camera_id):
         MjpgClient.clients[camera_id] = client
 
     client = MjpgClient.clients[camera_id]
-    client._last_access = time.time()
 
-    return client._last_jpg
+    return client.get_last_jpg()
 
 
 def get_fps(camera_id):
@@ -257,7 +266,7 @@ def get_fps(camera_id):
     if client is None:
         return 0
     
-    return client._fps
+    return client.get_fps()
     
 
 def close_all(invalidate=False):
@@ -293,8 +302,9 @@ def _garbage_collector():
             logging.error('mjpg client timed out receiving data for camera %(camera_id)s on port %(port)s' % {
                     'camera_id': camera_id, 'port': port})
             
-            motionctl.stop(invalidate=True) # this will close all the mjpg clients
-            motionctl.start(deferred=True)
+            if settings.MOTION_RESTART_ON_ERRORS:
+                motionctl.stop(invalidate=True) # this will close all the mjpg clients
+                motionctl.start(deferred=True)
             
             break
 

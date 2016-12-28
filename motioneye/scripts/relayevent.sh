@@ -5,6 +5,8 @@ if [ -z "$3" ]; then
     exit -1
 fi
 
+timeout=5
+
 motioneye_conf=$1
 if [ -f "$motioneye_conf" ]; then
     port=$(cat $motioneye_conf | grep -E '^port' | cut -d ' ' -f 2)
@@ -29,5 +31,5 @@ uri="/_relay_event/?_username=$username&event=$event&thread_id=$thread_id"
 data="{\"filename\": \"$filename\"}"
 signature=$(echo -n "POST:$uri:$data:$password" | sha1sum | cut -d ' ' -f 1)
 
-curl -s -S -H "Content-Type: application/json" -X POST "http://127.0.0.1:$port$uri&_signature=$signature" -d "$data" >/dev/null
+curl -s -S -m $timeout -H "Content-Type: application/json" -X POST "http://127.0.0.1:$port$uri&_signature=$signature" -d "$data" >/dev/null
 

@@ -1241,7 +1241,6 @@ img.camera {
     display: block;
     transition: opacity 0.2s ease;
     opacity: 1;
-    min-height: 160px;
 }
 
 img.camera.error,
@@ -1360,6 +1359,10 @@ img.camera-progress {
 
     div.page-container.stretched {
         font-size: 16px;
+    }
+
+    span.url-message-span {
+        font-size: 0.75em;
     }
 }
 

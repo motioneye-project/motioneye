@@ -53,13 +53,13 @@ def _get_wifi_settings():
         if line.startswith('#'):
             continue
         
-        if '{' in line:
+        if line.endswith('{'):
             in_section = True
             
-        elif '}' in line:
+        elif line.startswith('}'):
             in_section = False
             break
-            
+
         elif in_section:
             m = re.search('ssid\s*=\s*"(.*?)"', line)
             if m:
@@ -125,10 +125,10 @@ def _set_wifi_settings(s):
             i += 1
             continue
         
-        if '{' in line:
+        if line.endswith('{'):
             in_section = True
-            
-        elif '}' in line:
+
+        elif line.startswith('}'):
             in_section = False
             if enabled and ssid and not found_ssid:
                 lines.insert(i, '    ssid="' + ssid + '"\n')

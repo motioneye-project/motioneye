@@ -178,10 +178,10 @@ def get_main(as_lines=False):
     main_config = _conf_to_dict(lines,
             list_names=['thread'],
             no_convert=['@admin_username', '@admin_password', '@normal_username', '@normal_password'])
-    
+
     _get_additional_config(main_config)
     _set_default_motion(main_config, old_config_format=motionctl.has_old_config_format())
-    
+
     _main_config_cache = main_config
     
     return main_config
