@@ -829,11 +829,11 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
 
     # scale the mask vertically in case the aspect ratio has changed
     # since the last time the mask has been generated
-    if mask_height == len(mask_lines):
+    if ny == len(mask_lines):
         line_index_func = lambda y: y
         
     else:
-        line_index_func = lambda y: (len(mask_lines) - 1) * y / (mask_height - 1)
+        line_index_func = lambda y: (len(mask_lines) - 1) * y / (ny - 1)
 
     rh = height / ny # rectangle height
 
