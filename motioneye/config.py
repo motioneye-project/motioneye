@@ -1659,12 +1659,6 @@ def _conf_to_dict(lines, list_names=[], no_convert=[]):
                 parts.append('')
 
             (name, value) = parts
-            try:
-                value, v, _ = re.split(r'([^\\])#', value, 1)
-                value += v
-
-            except ValueError:
-                pass
             
             value = value.strip()
 
@@ -1696,7 +1690,6 @@ def _dict_to_conf(lines, data, list_names=[]):
         match = re.match('^\#\s*(\@\w+)\s*(.*)', line)
         if match: # @line
             (name, value) = match.groups()[:2]
-            extra_comment = None
         
         elif line.startswith('#') or line.startswith(';'):  # simple comment line
             conf_lines.append(line)
@@ -1710,13 +1703,6 @@ def _dict_to_conf(lines, data, list_names=[]):
             else:
                 (name, value) = parts[0], ''
             
-            try:
-                value, v, extra_comment = re.split(r'([^\\])#', value, 1)
-                value += v
-            
-            except ValueError:
-                extra_comment = None
-
         if name in processed:
             continue # name already processed
         
@@ -1730,14 +1716,10 @@ def _dict_to_conf(lines, data, list_names=[]):
                         continue
 
                     line = name + ' ' + _python_to_value(v)
-                    if extra_comment:
-                        line += ' #' + extra_comment
                     conf_lines.append(line)
             
             else:
                 line = name + ' ' + value
-                if extra_comment:
-                    line += ' #' + extra_comment
                 conf_lines.append(line)
 
         else:
@@ -1745,8 +1727,6 @@ def _dict_to_conf(lines, data, list_names=[]):
             if new_value is not None:
                 value = _python_to_value(new_value)
                 line = name + ' ' + value
-                if extra_comment:
-                    line += ' #' + extra_comment
                 conf_lines.append(line)
 
         remaining.pop(name, None)
