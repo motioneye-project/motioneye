@@ -3392,8 +3392,8 @@ function runLoginDialog(retry) {
                 window._loginDialogSubmitted = true;
                 
                 if (rememberCheck[0].checked) {
-                    setCookie('username', window.username);
-                    setCookie('passwordHash', window.passwordHash);
+                    setCookie('username', window.username, /* days = */ 3650);
+                    setCookie('passwordHash', window.passwordHash, /* days = */ 3650);
                 }
                 
                 form.submit();
