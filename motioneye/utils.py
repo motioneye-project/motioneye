@@ -833,7 +833,7 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
         line_index_func = lambda y: y
         
     else:
-        line_index_func = lambda y: (len(mask_lines) - 1) * y / (ny - 1)
+        line_index_func = lambda y: (len(mask_lines) - 1) * y / ny
 
     rh = height / ny # rectangle height
 
