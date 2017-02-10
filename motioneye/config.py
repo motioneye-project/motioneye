@@ -946,7 +946,11 @@ def motion_camera_ui_to_dict(ui, old_config=None):
             data['smart_mask_speed'] = 10 - int(ui['smart_mask_sluggishness'])
 
         elif ui['mask_type'] == 'editable':
-            data['mask_file'] = utils.build_editable_mask_file(old_config['@id'], ui['mask_lines'], data.get('width'), data.get('height'))
+            capture_width, capture_height = data.get('width'), data.get('height')
+            if data.get('rotate') in [90, 270]:
+                capture_width, capture_height = capture_height, capture_width
+
+            data['mask_file'] = utils.build_editable_mask_file(old_config['@id'], ui['mask_lines'], capture_width, capture_height)
 
     # working schedule
     if ui['working_schedule']:
@@ -1327,7 +1331,12 @@ def motion_camera_dict_to_ui(data):
     if data['mask_file']:
         ui['mask'] = True
         ui['mask_type'] = 'editable'
-        ui['mask_lines'] = utils.parse_editable_mask_file(data['@id'], data.get('width'), data.get('height'))
+        
+        capture_width, capture_height = data.get('width'), data.get('height')
+        if int(data.get('rotate')) in [90, 270]:
+            capture_width, capture_height = capture_height, capture_width
+        
+        ui['mask_lines'] = utils.parse_editable_mask_file(data['@id'], capture_width, capture_height)
 
     elif data['smart_mask_speed']:
         ui['mask'] = True
