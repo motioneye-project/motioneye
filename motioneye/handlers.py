@@ -203,12 +203,14 @@ class MainHandler(BaseHandler):
         main_sections = config.get_additional_structure(camera=False, separators=True)[0]
         camera_sections = config.get_additional_structure(camera=True, separators=True)[0]
         
-        motion_info = motionctl.find_motion(); 
+        motion_info = motionctl.find_motion() 
+        os_version = update.get_os_version()
 
         self.render('main.html',
                 frame=False,
                 version=motioneye.VERSION,
                 motion_version=motion_info[1] if motion_info else '(none)',
+                os_version=' '.join(os_version),
                 enable_update=settings.ENABLE_UPDATE,
                 enable_reboot=settings.ENABLE_REBOOT,
                 add_remove_cameras=settings.ADD_REMOVE_CAMERAS,
@@ -1764,10 +1766,10 @@ class UpdateHandler(BaseHandler):
         logging.debug('listing versions')
         
         versions = update.get_all_versions()
-        current_version = update.get_version()
-        update_version = None
-        if versions and update.compare_versions(versions[-1], current_version) > 0:
-            update_version = versions[-1]
+        current_version = update.get_os_version()[1]  # os version is returned as (name, version) tuple
+        recent_versions = [v for v in versions if update.compare_versions(v, current_version) > 0]
+        recent_versions.sort(cmp=update.compare_versions)
+        update_version = recent_versions[-1] if recent_versions else None
 
         self.finish_json({
             'update_version': update_version,
@@ -1805,8 +1807,15 @@ class PowerHandler(BaseHandler):
 
 class VersionHandler(BaseHandler):
     def get(self):
+        import motioneye
+
+        motion_info = motionctl.find_motion()
+        os_version = update.get_os_version()
+
         self.render('version.html',
-                version=update.get_version(),
+                version=motioneye.VERSION,
+                os_version=' '.join(os_version),
+                motion_version=motion_info[1] if motion_info else '',
                 hostname=socket.gethostname())
 
     post = get

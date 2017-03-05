@@ -17,18 +17,43 @@
 
 import logging
 import re
+import subprocess
 
 
-# versions
+def get_os_version():
+    try:
+        import platformupdate
+        
+        return platformupdate.get_os_version()
 
-def get_version():
-    import motioneye
-    
-    return motioneye.VERSION
+    except ImportError:
+        return _get_os_version_lsb_release()
 
 
-def get_all_versions():
-    return []
+def _get_os_version_lsb_release():
+    try:
+        output = subprocess.check_output('lsb_release -sri', shell=True)
+        lines = output.strip().split()
+        name, version = lines
+        if version.lower() == 'rolling':
+            version = ''
+        
+        return name, version
+
+    except:
+        return _get_os_version_uname()
+
+
+def _get_os_version_uname():
+    try:
+        output = subprocess.check_output('uname -rs', shell=True)
+        lines = output.strip().split()
+        name, version = lines
+        
+        return name, version
+
+    except:
+        return ('Linux', '')  # most likely :)
 
 
 def compare_versions(version1, version2):
@@ -68,7 +93,23 @@ def compare_versions(version1, version2):
         return 0
 
 
-def perform_update(version):
-    logging.error('updating is not implemented')
+def get_all_versions():
+    try:
+        import platformupdate
+
+    except ImportError:
+        return []
     
-    return False
+    return platformupdate.get_all_versions()
+
+
+def perform_update(version):
+    logging.info('updating to version %(version)s...' % {'version': version})
+
+    try:
+        import platformupdate
+
+    except ImportError:
+        logging.error('updating is not implemented')
+    
+    platformupdate.perform_update(version)
