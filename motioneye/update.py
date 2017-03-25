@@ -15,9 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
+import datetime
 import logging
 import re
 import subprocess
+
+from tornado import ioloop
 
 
 def get_os_version():
@@ -110,6 +113,12 @@ def perform_update(version):
         import platformupdate
 
     except ImportError:
-        logging.error('updating is not implemented')
-    
-    platformupdate.perform_update(version)
+        logging.error('updating is not available on this platform')
+        
+        raise Exception('updating is not available on this platform')
+
+    # schedule the actual update for two seconds later,
+    # since we want to be able to respond to the request right away
+    ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=2),
+                                         platformupdate.perform_update, version=version)
+
