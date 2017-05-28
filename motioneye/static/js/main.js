@@ -569,6 +569,13 @@ function initUI() {
     makeTimeValidator($('input[type=text].time'));
     
     /* custom validators */
+    makeCustomValidator($('#adminPasswordEntry'), function (value) {
+        if (!value.toLowerCase().match(new RegExp('^[\x21-\x7F]*$'))) {
+            return "special characters are not allowed in admin password";
+        }
+        
+        return true;
+    }, '');
     makeCustomValidator($('#deviceNameEntry'), function (value) {
         if (!value) {
             return 'this field is required';
