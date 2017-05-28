@@ -959,7 +959,7 @@ class PictureHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
     
     @BaseHandler.auth(prompt=False)
-    def current(self, camera_id):
+    def current(self, camera_id, retry=0):
         self.set_header('Content-Type', 'image/jpeg')
         
         width = self.get_argument('width', None)
@@ -972,9 +972,14 @@ class PictureHandler(BaseHandler):
         
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
-            picture = mediafiles.get_current_picture(camera_config,
-                    width=width,
-                    height=height)
+            picture = mediafiles.get_current_picture(camera_config, width=width, height=height)
+            
+            # picture is not available usually when the corresponding internal mjpeg client has been closed;
+            # get_current_picture() will make sure to start a client, but a jpeg frame is not available right away;
+            # wait at most 5 seconds and retry every 200 ms.
+            if not picture and retry < 25:
+                return IOLoop.instance().add_timeout(datetime.timedelta(seconds=0.2), self.current,
+                                                     camera_id=camera_id, retry=retry + 1)
             
             self.set_cookie('motion_detected_' + camera_id_str, str(motionctl.is_motion_detected(camera_id)).lower())
             self.set_cookie('capture_fps_' + camera_id_str, '%.1f' % mjpgclient.get_fps(camera_id))
