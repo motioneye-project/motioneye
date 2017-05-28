@@ -1399,7 +1399,7 @@ def motion_camera_dict_to_ui(data):
             ui['web_hook_notifications_http_method'] = e[-2]
             ui['web_hook_notifications_url'] = e[-1]
         
-        elif e.count('relayevent') or e.count('eventrelay.py'):
+        elif e.count('relayevent'):
             continue # ignore internal relay script
 
         else: # custom command
@@ -1426,7 +1426,7 @@ def motion_camera_dict_to_ui(data):
             ui['web_hook_storage_http_method'] = e[-2]
             ui['web_hook_storage_url'] = e[-1]
 
-        elif e.count('relayevent') or e.count('eventrelay.py'):
+        elif e.count('relayevent'):
             continue # ignore internal relay script
 
         else: # custom command

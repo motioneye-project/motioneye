@@ -199,7 +199,6 @@ def make_arg_parser(command=None):
         description = 'available commands:\n'
         description += '  startserver\n'
         description += '  stopserver\n'
-        description += '  relayevent\n'
         description += '  sendmail\n'
         description += '  webhook\n'
         description += '  shell\n\n'
@@ -259,10 +258,6 @@ def main():
         import sendmail
         sendmail.main(arg_parser, sys.argv[2:])
     
-    elif command == 'relayevent':
-        import relayevent
-        relayevent.main(arg_parser, sys.argv[2:])
-
     elif command == 'webhook':
         import webhook
         webhook.main(arg_parser, sys.argv[2:])
