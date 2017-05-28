@@ -53,7 +53,7 @@ _additional_structure_cache = {}
 _monitor_command_cache = {}
 
 # when using the following video codecs, the ffmpeg_variable_bitrate parameter appears to have an exponential effect
-_EXPONENTIAL_QUALITY_CODECS = ['mpeg4', 'msmpeg4', 'swf', 'flv', 'mov', 'ogg', 'mkv']
+_EXPONENTIAL_QUALITY_CODECS = ['mpeg4', 'msmpeg4', 'swf', 'flv', 'mov', 'mkv']
 _EXPONENTIAL_QUALITY_FACTOR = 100000 # voodoo
 _EXPONENTIAL_DEF_QUALITY = 511 # about 75%
 _MAX_FFMPEG_VARIABLE_BITRATE = 32767
