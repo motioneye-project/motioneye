@@ -131,7 +131,7 @@ def load_settings():
             logging.fatal('failed to read settings from "%s": %s' % (config_file, e))
             sys.exit(-1)
         
-        # use the config file directory as base path
+        # use the config file directory as base dir
         # if not specified otherwise in the config file
         base_dir = os.path.dirname(config_file)
         settings._config_file = config_file
