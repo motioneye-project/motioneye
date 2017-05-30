@@ -184,6 +184,10 @@
                         <td class="settings-item-label"><span class="settings-item-label">Motion Version</span></td>
                         <td class="settings-item-value"><span class="settings-item-label">{{motion_version}}</span></td>
                     </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">OS Version</span></td>
+                        <td class="settings-item-value"><span class="settings-item-label">{{os_version}}</span></td>
+                    </tr>
                     {% if enable_update %}
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Software Update</span></td>
@@ -742,7 +746,6 @@
                                 <option value="flv">Flash Video (.flv)</option>
                                 <option value="mov">QuickTime (.mov)</option>
                                 {% if has_new_movie_format_support %}
-                                <option value="ogg">Ogg (.ogg)</option>
                                 <option value="mp4">H.264 (.mp4)</option>
                                 <option value="hevc">HEVC (.mp4)</option>
                                 <option value="mkv">Matroska Video (.mkv)</option>

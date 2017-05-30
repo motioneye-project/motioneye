@@ -204,12 +204,14 @@ class MainHandler(BaseHandler):
         main_sections = config.get_additional_structure(camera=False, separators=True)[0]
         camera_sections = config.get_additional_structure(camera=True, separators=True)[0]
         
-        motion_info = motionctl.find_motion(); 
+        motion_info = motionctl.find_motion() 
+        os_version = update.get_os_version()
 
         self.render('main.html',
                 frame=False,
                 version=motioneye.VERSION,
                 motion_version=motion_info[1] if motion_info else '(none)',
+                os_version=' '.join(os_version),
                 enable_update=settings.ENABLE_UPDATE,
                 enable_reboot=settings.ENABLE_REBOOT,
                 add_remove_cameras=settings.ADD_REMOVE_CAMERAS,
@@ -958,7 +960,7 @@ class PictureHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
     
     @BaseHandler.auth(prompt=False)
-    def current(self, camera_id):
+    def current(self, camera_id, retry=0):
         self.set_header('Content-Type', 'image/jpeg')
         
         width = self.get_argument('width', None)
@@ -971,9 +973,14 @@ class PictureHandler(BaseHandler):
         
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
-            picture = mediafiles.get_current_picture(camera_config,
-                    width=width,
-                    height=height)
+            picture = mediafiles.get_current_picture(camera_config, width=width, height=height)
+            
+            # picture is not available usually when the corresponding internal mjpeg client has been closed;
+            # get_current_picture() will make sure to start a client, but a jpeg frame is not available right away;
+            # wait at most 5 seconds and retry every 200 ms.
+            if not picture and retry < 25:
+                return IOLoop.instance().add_timeout(datetime.timedelta(seconds=0.2), self.current,
+                                                     camera_id=camera_id, retry=retry + 1)
             
             self.set_cookie('motion_detected_' + camera_id_str, str(motionctl.is_motion_detected(camera_id)).lower())
             self.set_cookie('capture_fps_' + camera_id_str, '%.1f' % mjpgclient.get_fps(camera_id))
@@ -1764,10 +1771,10 @@ class UpdateHandler(BaseHandler):
         logging.debug('listing versions')
         
         versions = update.get_all_versions()
-        current_version = update.get_version()
-        update_version = None
-        if versions and update.compare_versions(versions[-1], current_version) > 0:
-            update_version = versions[-1]
+        current_version = update.get_os_version()[1]  # os version is returned as (name, version) tuple
+        recent_versions = [v for v in versions if update.compare_versions(v, current_version) > 0]
+        recent_versions.sort(cmp=update.compare_versions)
+        update_version = recent_versions[-1] if recent_versions else None
 
         self.finish_json({
             'update_version': update_version,
@@ -1805,8 +1812,15 @@ class PowerHandler(BaseHandler):
 
 class VersionHandler(BaseHandler):
     def get(self):
+        import motioneye
+
+        motion_info = motionctl.find_motion()
+        os_version = update.get_os_version()
+
         self.render('version.html',
-                version=update.get_version(),
+                version=motioneye.VERSION,
+                os_version=' '.join(os_version),
+                motion_version=motion_info[1] if motion_info else '',
                 hostname=socket.gethostname())
 
     post = get

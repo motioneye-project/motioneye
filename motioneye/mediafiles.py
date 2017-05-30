@@ -42,7 +42,7 @@ import utils
 
 
 _PICTURE_EXTS = ['.jpg']
-_MOVIE_EXTS = ['.avi', '.mp4', '.mov', '.swf', '.flv', '.ogg', '.mkv']
+_MOVIE_EXTS = ['.avi', '.mp4', '.mov', '.swf', '.flv', '.mkv']
 
 FFMPEG_CODEC_MAPPING = {
     'mpeg4': 'mpeg4',
@@ -50,7 +50,6 @@ FFMPEG_CODEC_MAPPING = {
     'swf': 'flv1',
     'flv': 'flv1',
     'mov': 'mpeg4',
-    'ogg': 'theora',
     'mp4': 'h264',
     'mkv': 'h264',
     'hevc': 'h265'
@@ -62,7 +61,6 @@ FFMPEG_FORMAT_MAPPING = {
     'swf': 'swf',
     'flv': 'flv',
     'mov': 'mov',
-    'ogg': 'ogg',
     'mp4': 'mp4',
     'mkv': 'matroska',
     'hevc': 'mp4'
@@ -74,7 +72,6 @@ FFMPEG_EXT_MAPPING = {
     'swf': 'swf',
     'flv': 'flv',
     'mov': 'mov',
-    'ogg': 'ogg',
     'mp4': 'mp4',
     'mkv': 'mkv',
     'hevc': 'mp4'

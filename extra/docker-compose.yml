@@ -1,11 +1,17 @@
-motioneye:
-  image: motioneye
-  volumes:
-    - /mnt/motioneye/media:/media
-    - /mnt/motioneye/config:/etc/motioneye
-  environment:
-    - "TZ=Pacific/Auckland" # See http://php.net/manual/en/timezones.php
-  ports:
-    - 8081:8081
-    - 8765:8765
-  restart: always
+---
+version: "2"
+services:
+  motioneye:
+    image: cahna/motioneye
+    ports:
+      - "8081:8081"
+      - "8765:8765"
+    volumes_from:
+      - data_motioneye
+
+  data_motioneye:
+    image: busybox
+    volumes:
+      - /docker/motioneye/etc:/etc/motioneye
+      - /docker/motioneye/media:/var/lib/motioneye
+

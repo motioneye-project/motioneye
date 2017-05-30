@@ -385,8 +385,7 @@ def run():
         smbctl.start()
         logging.info('smb mounts started')
 
-    template.add_context('static_path', settings.BASE_PATH + '/static/')
-    template.add_context('base_path', settings.BASE_PATH + '/')
+    template.add_context('static_path', 'static/')
     
     application = Application(handler_mapping, debug=False, log_function=_log_request,
             static_path=settings.STATIC_PATH, static_url_prefix='/static/')

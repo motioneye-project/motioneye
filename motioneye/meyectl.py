@@ -131,7 +131,7 @@ def load_settings():
             logging.fatal('failed to read settings from "%s": %s' % (config_file, e))
             sys.exit(-1)
         
-        # use the config file directory as base path
+        # use the config file directory as base dir
         # if not specified otherwise in the config file
         base_dir = os.path.dirname(config_file)
         settings._config_file = config_file
@@ -199,7 +199,6 @@ def make_arg_parser(command=None):
         description = 'available commands:\n'
         description += '  startserver\n'
         description += '  stopserver\n'
-        description += '  relayevent\n'
         description += '  sendmail\n'
         description += '  webhook\n'
         description += '  shell\n\n'
@@ -259,10 +258,6 @@ def main():
         import sendmail
         sendmail.main(arg_parser, sys.argv[2:])
     
-    elif command == 'relayevent':
-        import relayevent
-        relayevent.main(arg_parser, sys.argv[2:])
-
     elif command == 'webhook':
         import webhook
         webhook.main(arg_parser, sys.argv[2:])

@@ -1,4 +1,7 @@
 
+var USERNAME_COOKIE = 'meye_username';
+var PASSWORD_COOKIE = 'meye_password_hash';
+
 var pushConfigs = {};
 var pushConfigReboot = false;
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
@@ -499,10 +502,6 @@ function setCookie(name, value, days) {
     document.cookie = name + '=' + value + '; ' + expires + '; path=/';
 }
 
-function remCookie(name) {
-    document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-}
-
 function showErrorMessage(message) {
     if (message == null || message == true) {
         message = 'An error occurred. Refreshing is recommended.';
@@ -512,7 +511,7 @@ function showErrorMessage(message) {
 }
 
 function doLogout() {
-    setCookie('username', '_');
+    setCookie(USERNAME_COOKIE, '_');
     window.location.reload(true);
 }
 
@@ -570,6 +569,13 @@ function initUI() {
     makeTimeValidator($('input[type=text].time'));
     
     /* custom validators */
+    makeCustomValidator($('#adminPasswordEntry'), function (value) {
+        if (!value.toLowerCase().match(new RegExp('^[\x21-\x7F]*$'))) {
+            return "special characters are not allowed in admin password";
+        }
+        
+        return true;
+    }, '');
     makeCustomValidator($('#deviceNameEntry'), function (value) {
         if (!value) {
             return 'this field is required';
@@ -3392,8 +3398,8 @@ function runLoginDialog(retry) {
                 window._loginDialogSubmitted = true;
                 
                 if (rememberCheck[0].checked) {
-                    setCookie('username', window.username);
-                    setCookie('passwordHash', window.passwordHash);
+                    setCookie(USERNAME_COOKIE, window.username, /* days = */ 3650);
+                    setCookie(PASSWORD_COOKIE, window.passwordHash, /* days = */ 3650);
                 }
                 
                 form.submit();
@@ -5045,8 +5051,8 @@ $(document).ready(function () {
         window.basePath = splitUrl(qualifyPath('')).baseUrl;
 
         /* restore the username from cookie */
-        window.username = getCookie('username');
-        window.passwordHash = getCookie('passwordHash');
+        window.username = getCookie(USERNAME_COOKIE);
+        window.passwordHash = getCookie(PASSWORD_COOKIE);
     }
     
     /* open/close settings */

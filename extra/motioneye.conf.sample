@@ -1,9 +1,4 @@
 
-# the base URL path at which motionEye lives
-# change this if you run motionEye behind a reverse proxy (e.g. nginx),
-# and you want to make motionEye accessible at a specific base path (e.g. /cams)
-#base_path /cams
-
 # path to the configuration directory (must be writable by motionEye)
 conf_path /etc/motioneye
 

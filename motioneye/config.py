@@ -53,7 +53,7 @@ _additional_structure_cache = {}
 _monitor_command_cache = {}
 
 # when using the following video codecs, the ffmpeg_variable_bitrate parameter appears to have an exponential effect
-_EXPONENTIAL_QUALITY_CODECS = ['mpeg4', 'msmpeg4', 'swf', 'flv', 'mov', 'ogg', 'mkv']
+_EXPONENTIAL_QUALITY_CODECS = ['mpeg4', 'msmpeg4', 'swf', 'flv', 'mov', 'mkv']
 _EXPONENTIAL_QUALITY_FACTOR = 100000 # voodoo
 _EXPONENTIAL_DEF_QUALITY = 511 # about 75%
 _MAX_FFMPEG_VARIABLE_BITRATE = 32767
@@ -946,7 +946,11 @@ def motion_camera_ui_to_dict(ui, old_config=None):
             data['smart_mask_speed'] = 10 - int(ui['smart_mask_sluggishness'])
 
         elif ui['mask_type'] == 'editable':
-            data['mask_file'] = utils.build_editable_mask_file(old_config['@id'], ui['mask_lines'], data.get('width'), data.get('height'))
+            capture_width, capture_height = data.get('width'), data.get('height')
+            if data.get('rotate') in [90, 270]:
+                capture_width, capture_height = capture_height, capture_width
+
+            data['mask_file'] = utils.build_editable_mask_file(old_config['@id'], ui['mask_lines'], capture_width, capture_height)
 
     # working schedule
     if ui['working_schedule']:
@@ -1327,7 +1331,12 @@ def motion_camera_dict_to_ui(data):
     if data['mask_file']:
         ui['mask'] = True
         ui['mask_type'] = 'editable'
-        ui['mask_lines'] = utils.parse_editable_mask_file(data['@id'], data.get('width'), data.get('height'))
+        
+        capture_width, capture_height = data.get('width'), data.get('height')
+        if int(data.get('rotate')) in [90, 270]:
+            capture_width, capture_height = capture_height, capture_width
+        
+        ui['mask_lines'] = utils.parse_editable_mask_file(data['@id'], capture_width, capture_height)
 
     elif data['smart_mask_speed']:
         ui['mask'] = True
@@ -1390,7 +1399,7 @@ def motion_camera_dict_to_ui(data):
             ui['web_hook_notifications_http_method'] = e[-2]
             ui['web_hook_notifications_url'] = e[-1]
         
-        elif e.count('relayevent') or e.count('eventrelay.py'):
+        elif e.count('relayevent'):
             continue # ignore internal relay script
 
         else: # custom command
@@ -1417,7 +1426,7 @@ def motion_camera_dict_to_ui(data):
             ui['web_hook_storage_http_method'] = e[-2]
             ui['web_hook_storage_url'] = e[-1]
 
-        elif e.count('relayevent') or e.count('eventrelay.py'):
+        elif e.count('relayevent'):
             continue # ignore internal relay script
 
         else: # custom command
@@ -1659,12 +1668,6 @@ def _conf_to_dict(lines, list_names=[], no_convert=[]):
                 parts.append('')
 
             (name, value) = parts
-            try:
-                value, v, _ = re.split(r'([^\\])#', value, 1)
-                value += v
-
-            except ValueError:
-                pass
             
             value = value.strip()
 
@@ -1696,7 +1699,6 @@ def _dict_to_conf(lines, data, list_names=[]):
         match = re.match('^\#\s*(\@\w+)\s*(.*)', line)
         if match: # @line
             (name, value) = match.groups()[:2]
-            extra_comment = None
         
         elif line.startswith('#') or line.startswith(';'):  # simple comment line
             conf_lines.append(line)
@@ -1710,13 +1712,6 @@ def _dict_to_conf(lines, data, list_names=[]):
             else:
                 (name, value) = parts[0], ''
             
-            try:
-                value, v, extra_comment = re.split(r'([^\\])#', value, 1)
-                value += v
-            
-            except ValueError:
-                extra_comment = None
-
         if name in processed:
             continue # name already processed
         
@@ -1730,14 +1725,10 @@ def _dict_to_conf(lines, data, list_names=[]):
                         continue
 
                     line = name + ' ' + _python_to_value(v)
-                    if extra_comment:
-                        line += ' #' + extra_comment
                     conf_lines.append(line)
             
             else:
                 line = name + ' ' + value
-                if extra_comment:
-                    line += ' #' + extra_comment
                 conf_lines.append(line)
 
         else:
@@ -1745,8 +1736,6 @@ def _dict_to_conf(lines, data, list_names=[]):
             if new_value is not None:
                 value = _python_to_value(new_value)
                 line = name + ' ' + value
-                if extra_comment:
-                    line += ' #' + extra_comment
                 conf_lines.append(line)
 
         remaining.pop(name, None)

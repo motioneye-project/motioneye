@@ -32,6 +32,8 @@ _services = None
 
 
 class UploadService(object):
+    MAX_FILE_SIZE = 1024 * 1024 * 1024  # 1GB
+    
     NAME = 'base'
 
     def __init__(self, camera_id, **kwargs):
@@ -144,7 +146,6 @@ class GoogleDrive(UploadService):
     CREATE_FOLDER_URL = 'https://www.googleapis.com/drive/v2/files'
 
     BOUNDARY = 'motioneye_multipart_boundary'
-    MAX_FILE_SIZE = 128 * 1024 * 1024 # 128 MB
     
     FOLDER_ID_LIFE_TIME = 300 # 5 minutes
 
@@ -438,8 +439,6 @@ class Dropbox(UploadService):
     
     LIST_FOLDER_URL = 'https://api.dropboxapi.com/2/files/list_folder'
     UPLOAD_URL = 'https://content.dropboxapi.com/2/files/upload'
-
-    MAX_FILE_SIZE = 128 * 1024 * 1024 # 128 MB
 
     def __init__(self, camera_id, location=None, authorization_key=None, credentials=None, **kwargs):
         self._location = location
