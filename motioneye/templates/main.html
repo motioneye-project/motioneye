@@ -23,10 +23,12 @@
         <td class="settings-item-value">
             {% if config['type'] == 'str' %}
                 <input type="text" class="styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Entry">
+                {% if config['unit'] %}<span class="settings-item-unit">{{config['unit']}}</span>{% endif %}
             {% elif config['type'] == 'pwd' %}
                 <input type="password" class="styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Entry">
             {% elif config['type'] == 'number' %}
                 <input type="text" class="number styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Entry">
+                {% if config['unit'] %}<span class="settings-item-unit">{{config['unit']}}</span>{% endif %}
             {% elif config['type'] == 'range' %}
                 <input type="text" class="range styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Slider">
             {% elif config['type'] == 'bool' %}
@@ -37,6 +39,7 @@
                     <option value="{{choice[0]}}">{{choice[1]}}</option>
                     {% endfor %}
                 </select>
+                {% if config['unit'] %}<span class="settings-item-unit">{{config['unit']}}</span>{% endif %}
             {% elif config['type'] == 'html' %}
                 <div class="html styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Html"></div>
             {% endif %}
