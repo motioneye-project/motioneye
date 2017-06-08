@@ -151,10 +151,10 @@ class GoogleDrive(UploadService):
     
     FOLDER_ID_LIFE_TIME = 300 # 5 minutes
 
-    def __init__(self, camera_id, location=None, authorization_key=None, credentials=None, **kwargs):
-        self._location = location
-        self._authorization_key = authorization_key
-        self._credentials = credentials
+    def __init__(self, camera_id):
+        self._location = None
+        self._authorization_key = None
+        self._credentials = None
         self._folder_ids = {}
         self._folder_id_times = {}
         
@@ -442,10 +442,10 @@ class Dropbox(UploadService):
     LIST_FOLDER_URL = 'https://api.dropboxapi.com/2/files/list_folder'
     UPLOAD_URL = 'https://content.dropboxapi.com/2/files/upload'
 
-    def __init__(self, camera_id, location=None, authorization_key=None, credentials=None, **kwargs):
-        self._location = location
-        self._authorization_key = authorization_key
-        self._credentials = credentials
+    def __init__(self, camera_id):
+        self._location = None
+        self._authorization_key = None
+        self._credentials = None
         
         UploadService.__init__(self, camera_id)
 
@@ -609,12 +609,12 @@ class FTP(UploadService):
     NAME = 'ftp'
     CONN_LIFE_TIME = 60  # don't keep an FTP connection for more than 1 minute
     
-    def __init__(self, camera_id, server=None, port=None, username=None, password=None, location=None, **kwargs):
-        self._server = server
-        self._port = port
-        self._username = username or 'anonymous'
-        self._password = password or ''
-        self._location = location
+    def __init__(self, camera_id):
+        self._server = None
+        self._port = None
+        self._username = None
+        self._password = None
+        self._location = None
 
         self._conn = None
         self._conn_time = 0
@@ -623,7 +623,7 @@ class FTP(UploadService):
 
     def test_access(self):
         try:
-            conn = self._get_conn()
+            conn = self._get_conn(create=True)
 
             path = self._make_dirs(self._location, conn=conn)
             conn.cwd(path)
@@ -674,14 +674,14 @@ class FTP(UploadService):
         if data.get('location'):
             self._location = data['location']
 
-    def _get_conn(self):
+    def _get_conn(self, create=False):
         now = time.time()
-        if self._conn is None or now - self._conn_time > self.CONN_LIFE_TIME:
-            self.debug('creating connection to %s@%s:%s' % (self._username, self._server, self._port))
+        if self._conn is None or now - self._conn_time > self.CONN_LIFE_TIME or create:
+            self.debug('creating connection to %s@%s:%s' % (self._username or 'anonymous', self._server, self._port))
             self._conn = ftplib.FTP()
             self._conn.set_pasv(True)
             self._conn.connect(self._server, port=self._port)
-            self._conn.login(self._username, self._password)
+            self._conn.login(self._username or 'anonymous', self._password)
             self._conn_time = now
 
         return self._conn
