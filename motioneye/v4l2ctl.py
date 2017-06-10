@@ -292,7 +292,7 @@ def _get_ctrl(device, control):
     return value
 
 
-def _set_ctrl(device, control, value):
+def _set_ctrl(device, control, value, relative=True):
     global _ctrl_values_cache
     
     device = utils.make_str(device)
@@ -315,7 +315,8 @@ def _set_ctrl(device, control, value):
         min_value = int(properties['min'])
         max_value = int(properties['max'])
         
-        value = int(round(min_value + value * (max_value - min_value) / 100.0))
+        if relative:        
+            value = int(round(min_value + value * (max_value - min_value) / 100.0)) #only make up for relative values when appropriate
     
     else:
         logging.warn('min and max values not found for control %(control)s of device %(device)s' % {
