@@ -189,9 +189,11 @@ def get_main(as_lines=False):
 
     _get_additional_config(main_config)
     _set_default_motion(main_config, old_config_format=motionctl.has_old_config_format())
-
+  
     _main_config_cache = main_config
-    
+    _main_config_cache['@admin_password'] = decode_password(main_config['@admin_password'].encode('utf-8'))
+    _main_config_cache['@normal_password'] = decode_password(main_config['@normal_password'].encode('utf-8'))
+
     return main_config
 
 
@@ -400,6 +402,7 @@ def get_camera(camera_id, as_lines=False):
         _set_default_motion_camera(camera_id, camera_config)
     
     elif utils.is_remote_camera(camera_config):
+        camera_config['@password'] = decode_password(camera_config['@password'])
         pass
     
     elif utils.is_simple_mjpeg_camera(camera_config):
@@ -481,6 +484,8 @@ def set_camera(camera_id, camera_config):
         _set_additional_config(camera_config, camera_id=camera_id)
 
     elif utils.is_remote_camera(camera_config):
+        #encrypt remote camera password
+        camera_config['@password'] = encode_password(camera_config['@password'])
         pass
     
     elif utils.is_simple_mjpeg_camera(camera_config):
@@ -668,9 +673,9 @@ def main_dict_to_ui(data):
     ui = {
         'show_advanced': data['@show_advanced'],
         'admin_username': data['@admin_username'],
-        'admin_password': data['@admin_password'],
+        'admin_password': decode_password(data['@admin_password']),
         'normal_username': data['@normal_username'],
-        'normal_password': data['@normal_password']
+        'normal_password': decode_password(data['@normal_password'])
     }
 
     # additional configs
@@ -1743,14 +1748,13 @@ def _dict_to_conf(lines, data, list_names=[]):
             new_value = data.get(name)
             if new_value is not None:
                 value = _python_to_value(new_value).encode('utf-8')
-                hashed = value
+
                 if name == '@admin_password':
-                    hashed = encode_password(value)
+                    value = encode_password(value)
                     
                 if(name == '@normal_password'):
-                    hashed = encode_password(value)
+                    value = encode_password(value)
                     
-                value = hashed #disabled for moment
                 line = name + ' ' + value
                 conf_lines.append(line)
 
