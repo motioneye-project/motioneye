@@ -15,10 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import ftplib
 import json
 import logging
 import mimetypes
 import os.path
+import StringIO
 import time
 import urllib
 import urllib2 
@@ -149,10 +151,10 @@ class GoogleDrive(UploadService):
     
     FOLDER_ID_LIFE_TIME = 300 # 5 minutes
 
-    def __init__(self, camera_id, location=None, authorization_key=None, credentials=None, **kwargs):
-        self._location = location
-        self._authorization_key = authorization_key
-        self._credentials = credentials
+    def __init__(self, camera_id):
+        self._location = None
+        self._authorization_key = None
+        self._credentials = None
         self._folder_ids = {}
         self._folder_id_times = {}
         
@@ -440,10 +442,10 @@ class Dropbox(UploadService):
     LIST_FOLDER_URL = 'https://api.dropboxapi.com/2/files/list_folder'
     UPLOAD_URL = 'https://content.dropboxapi.com/2/files/upload'
 
-    def __init__(self, camera_id, location=None, authorization_key=None, credentials=None, **kwargs):
-        self._location = location
-        self._authorization_key = authorization_key
-        self._credentials = credentials
+    def __init__(self, camera_id):
+        self._location = None
+        self._authorization_key = None
+        self._credentials = None
         
         UploadService.__init__(self, camera_id)
 
@@ -601,6 +603,106 @@ class Dropbox(UploadService):
         return {
             'access_token': data['access_token']
         }
+
+
+class FTP(UploadService):
+    NAME = 'ftp'
+    CONN_LIFE_TIME = 60  # don't keep an FTP connection for more than 1 minute
+    
+    def __init__(self, camera_id):
+        self._server = None
+        self._port = None
+        self._username = None
+        self._password = None
+        self._location = None
+
+        self._conn = None
+        self._conn_time = 0
+        
+        UploadService.__init__(self, camera_id)
+
+    def test_access(self):
+        try:
+            conn = self._get_conn(create=True)
+
+            path = self._make_dirs(self._location, conn=conn)
+            conn.cwd(path)
+
+            d = '%s' % int(time.time())
+            self.debug('creating test directory %s/%s' % (path, d))
+            conn.mkd(d)
+            conn.rmd(d)
+
+            return True
+
+        except Exception as e:
+            self.error(str(e), exc_info=True)
+
+            return str(e)
+
+    def upload_data(self, filename, mime_type, data):
+        path = os.path.dirname(filename)
+        filename = os.path.basename(filename)
+
+        conn = self._get_conn()
+        path = self._make_dirs(self._location + '/' + path, conn=conn)
+        conn.cwd(path)
+
+        self.debug('uploading %s of %s bytes' % (filename, len(data)))
+        conn.storbinary('STOR %s' % filename, StringIO.StringIO(data))
+
+        self.debug('upload done')
+
+    def dump(self):
+        return {
+            'server': self._server,
+            'port': self._port,
+            'username': self._username,
+            'password': self._password,
+            'location': self._location
+        }
+
+    def load(self, data):
+        if data.get('server') is not None:
+            self._server = data['server']
+        if data.get('port') is not None:
+            self._port = int(data['port'])
+        if data.get('username') is not None:
+            self._username = data['username']
+        if data.get('password') is not None:
+            self._password = data['password']
+        if data.get('location'):
+            self._location = data['location']
+
+    def _get_conn(self, create=False):
+        now = time.time()
+        if self._conn is None or now - self._conn_time > self.CONN_LIFE_TIME or create:
+            self.debug('creating connection to %s@%s:%s' % (self._username or 'anonymous', self._server, self._port))
+            self._conn = ftplib.FTP()
+            self._conn.set_pasv(True)
+            self._conn.connect(self._server, port=self._port)
+            self._conn.login(self._username or 'anonymous', self._password)
+            self._conn_time = now
+
+        return self._conn
+    
+    def _make_dirs(self, path, conn=None):
+        conn = conn or self._get_conn()
+        
+        path = path.split('/')
+        path = [p for p in path if p]
+        
+        self.debug('ensuring path /%s' % '/'.join(path))
+
+        conn.cwd('/')
+        for p in path:
+            l = conn.nlst()
+            if p not in l:
+                conn.mkd(p)
+
+            conn.cwd(p)
+        
+        return '/' + '/'.join(path)
 
 
 def get_authorize_url(service_name):

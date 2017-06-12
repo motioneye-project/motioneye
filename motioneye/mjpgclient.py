@@ -279,8 +279,6 @@ def close_all(invalidate=False):
 
 
 def _garbage_collector():
-    logging.debug('running garbage collector for mjpg clients...')
-
     io_loop = IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
 

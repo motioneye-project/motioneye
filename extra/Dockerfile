@@ -58,6 +58,8 @@ VOLUME /var/run/motion
 # Video & images
 VOLUME /var/lib/motioneye
 
+ADD extra /usr/share/motioneye/extra/
+
 CMD test -e /etc/motioneye/motioneye.conf || \    
     cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
     /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf

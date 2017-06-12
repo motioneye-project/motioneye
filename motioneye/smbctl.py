@@ -94,7 +94,7 @@ def list_mounts():
             server, share = match.groups()
             share = share.replace('\\040', ' ') # spaces are reported oddly by /proc/mounts
             
-            match = re.search('username=([\w\s]+)', opts)
+            match = re.search('username=([a-z][-\w]*)', opts)
             if match:
                 username = match.group(1)
             
