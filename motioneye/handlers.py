@@ -112,28 +112,30 @@ class BaseHandler(RequestHandler):
         username = self.get_argument('_username', None)
         signature = self.get_argument('_signature', None)
         login = self.get_argument('_login', None) == 'true'
+        admin_password = config.decode_password(main_config['@admin_password'])
+        normal_password = config.decode_password(main_config['@normal_password'])
+
         if (username == main_config.get('@admin_username') and
             (signature == utils.compute_signature(self.request.method, self.request.uri, # backwards compatibility
-                                                  self.request.body, main_config['@admin_password']) or
+                                                  self.request.body, admin_password) or
              signature == utils.compute_signature(self.request.method, self.request.uri,
                                                   self.request.body,
-                                                  hashlib.sha1(main_config['@admin_password']).hexdigest()))):
-
+                                                  hashlib.sha1(admin_password).hexdigest()))):
             return 'admin'
         
-        elif not username and not main_config.get('@normal_password'): # no authentication required for normal user
+        elif not username and not normal_password: # no authentication required for normal user
             return 'normal'
         
         elif (username == main_config.get('@normal_username') and
             (signature == utils.compute_signature(self.request.method, self.request.uri, # backwards compatibility
-                                                  self.request.body, main_config.get('@normal_password')) or
+                                                  self.request.body, normal_password) or
              signature == utils.compute_signature(self.request.method, self.request.uri,
                                                   self.request.body,
-                                                  hashlib.sha1(main_config['@normal_password']).hexdigest()))):
-
+                                                  hashlib.sha1(normal_password).hexdigest()))):
             return 'normal'
 
         elif username and username != '_' and login:
+
             logging.error('authentication failed for user %(user)s' % {'user': username})
 
         return None

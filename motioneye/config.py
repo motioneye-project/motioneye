@@ -26,8 +26,13 @@ import re
 import shlex
 import subprocess
 import urlparse
+import uuid
+import hashlib
+import base64
 
 from tornado.ioloop import IOLoop
+from Crypto.Cipher import AES
+from Crypto import Random
 
 import diskctl
 import motionctl
@@ -37,7 +42,6 @@ import tasks
 import uploadservices
 import utils
 import v4l2ctl
-
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
@@ -57,6 +61,7 @@ _EXPONENTIAL_QUALITY_CODECS = ['mpeg4', 'msmpeg4', 'swf', 'flv', 'mov', 'mkv']
 _EXPONENTIAL_QUALITY_FACTOR = 100000 # voodoo
 _EXPONENTIAL_DEF_QUALITY = 511 # about 75%
 _MAX_FFMPEG_VARIABLE_BITRATE = 32767
+_BS=16
 
 _KNOWN_MOTION_OPTIONS = set([
     'auto_brightness',
@@ -119,6 +124,9 @@ _KNOWN_MOTION_OPTIONS = set([
     'videodevice',
     'width',
 ])
+
+pad = lambda s: s + (_BS - len(s) % _BS ) * chr(_BS - len(s) % _BS)
+unpad = lambda s : s[:-ord(s[len(s)-1:])]
 
 
 def additional_section(func):
@@ -1734,12 +1742,20 @@ def _dict_to_conf(lines, data, list_names=[]):
         else:
             new_value = data.get(name)
             if new_value is not None:
-                value = _python_to_value(new_value)
+                value = _python_to_value(new_value).encode('utf-8')
+                hashed = value
+                if name == '@admin_password':
+                    hashed = encode_password(value)
+                    
+                if(name == '@normal_password'):
+                    hashed = encode_password(value)
+                    
+                value = hashed #disabled for moment
                 line = name + ' ' + value
                 conf_lines.append(line)
 
         remaining.pop(name, None)
-    
+
     # add the remaining config values not covered by existing lines
     
     if len(remaining) and len(lines):
@@ -1783,6 +1799,7 @@ def _dict_to_conf(lines, data, list_names=[]):
 
 def _set_default_motion(data, old_config_format):
     data.setdefault('@enabled', True)
+    data.setdefault('@application_uuid', create_system_uuid())
 
     data.setdefault('@show_advanced', False)
     data.setdefault('@admin_username', 'admin')
@@ -2026,3 +2043,32 @@ def _set_additional_config(data, camera_id=None):
 
     for func, value in set_func_values.iteritems():
         func(*(args + [value]))
+
+def create_system_uuid():
+    return str(uuid.uuid4())
+
+def encode_password(data):
+    raw = pad(data)
+    k = hashlib.md5(_main_config_cache['@application_uuid']).hexdigest()[:_BS]
+    iv = Random.new().read(AES.block_size)
+    cipher = AES.new(k, AES.MODE_CBC, iv)
+    return base64.urlsafe_b64encode(iv + cipher.encrypt(raw))
+
+def decode_password(data):
+    k = hashlib.md5(_main_config_cache['@application_uuid']).hexdigest()[:_BS]
+    clear = data
+    coded = True
+    try:
+        e = base64.urlsafe_b64decode(data.encode('utf-8'))
+        iv = e[:_BS]
+        cipher = AES.new(k, AES.MODE_CBC, iv)
+        clear = unpad(cipher.decrypt(e[_BS:]))
+    except Exception as e:
+        coded = False
+        pass
+
+    if coded == False:
+        clear = data
+
+    return clear
+
