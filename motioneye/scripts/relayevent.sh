@@ -16,7 +16,6 @@ if [ -f "$motioneye_conf" ]; then
         if [ -r "$motion_conf" ]; then
             username=$(cat $motion_conf | grep 'admin_username' | cut -d ' ' -f 3)
             password=$(cat $motion_conf | grep 'admin_password' | cut -d ' ' -f 3 | sed -r 's/[^][a-zA-Z0-9/?_.=&{}":, _]/-/g')
-            echo "aa${password}aa" > /tmp/wtf
         fi
     fi
 fi
