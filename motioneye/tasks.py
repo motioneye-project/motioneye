@@ -33,6 +33,7 @@ _STATE_FILE_NAME = 'tasks.pickle'
 _MAX_TASKS = 100
 
 # we must be sure there's only one extra process that handles all tasks
+# TODO replace the pool with one simple thread
 _POOL_SIZE = 1
 
 _tasks = []

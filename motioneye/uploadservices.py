@@ -778,13 +778,15 @@ def _load():
         except Exception as e:
             logging.error('could not open upload services state file "%s": %s' % (file_path, e))
             
-            return
+            return services
 
         try:
             data = json.load(file)
 
         except Exception as e:
-            return logging.error('could not read upload services state from file "%s": %s' % (file_path, e))
+            logging.error('could not read upload services state from file "%s": %s' % (file_path, e))
+            
+            return services
 
         finally:
             file.close()
@@ -809,6 +811,11 @@ def _save(services):
     
     logging.debug('saving upload services state to "%s"...' % file_path)
 
+    data = {}
+    for camera_id, camera_services in services.iteritems():
+        for name, service in camera_services.iteritems():
+            data.setdefault(str(camera_id), {})[name] = service.dump()
+
     try:
         file = open(file_path, 'w')
 
@@ -817,11 +824,6 @@ def _save(services):
         
         return
     
-    data = {}
-    for camera_id, camera_services in services.iteritems():
-        for name, service in camera_services.iteritems():
-            data.setdefault(str(camera_id), {})[name] = service.dump()
-
     try:
         json.dump(data, file, sort_keys=True, indent=4)
 

@@ -1044,7 +1044,8 @@ class PictureHandler(BaseHandler):
                     camera_id=camera_id,
                     camera_config=camera_config,
                     title=self.get_argument('title', camera_config.get('@name', '')),
-                    admin_username=config.get_main().get('@admin_username'))
+                    admin_username=config.get_main().get('@admin_username'),
+                    static_path='../../../static/')
 
         elif utils.is_remote_camera(camera_config):
             def on_response(remote_ui_config=None, error=None):
