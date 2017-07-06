@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -6,12 +5,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -23,7 +22,8 @@ import os.path
 import StringIO
 import time
 import urllib
-import urllib2 
+import urllib2
+import pycurl
 
 import settings
 import utils
@@ -35,7 +35,7 @@ _services = None
 
 class UploadService(object):
     MAX_FILE_SIZE = 1024 * 1024 * 1024  # 1GB
-    
+
     NAME = 'base'
 
     def __init__(self, camera_id, **kwargs):
@@ -43,11 +43,11 @@ class UploadService(object):
 
     def __str__(self):
         return self.NAME
-    
+
     @classmethod
     def get_authorize_url(cls):
         return '/'
-    
+
     def test_access(self):
         return True
 
@@ -55,7 +55,7 @@ class UploadService(object):
         if target_dir:
             target_dir = os.path.realpath(target_dir)
             rel_filename = filename[len(target_dir):]
-            
+
             while rel_filename.startswith('/'):
                 rel_filename = rel_filename[1:]
 
@@ -63,17 +63,17 @@ class UploadService(object):
 
         else:
             rel_filename = os.path.basename(filename)
-            
+
             self.debug('uploading file "%s" to %s' % (filename, self))
-        
+
         try:
             st = os.stat(filename)
-        
+
         except Exception as e:
             msg = 'failed to open file "%s": %s' % (filename, e)
             self.error(msg)
             raise Exception(msg)
-         
+
         if st.st_size > self.MAX_FILE_SIZE:
             msg = 'file "%s" is too large (%sMB/%sMB)' % (filename, st.st_size / 1024 / 1024, self.MAX_FILE_SIZE / 1024 / 1024)
             self.error(msg)
@@ -81,7 +81,7 @@ class UploadService(object):
 
         try:
             f = open(filename)
-            
+
         except Exception as e:
             msg = 'failed to open file "%s": %s' % (filename, e)
             self.error(msg)
@@ -89,33 +89,33 @@ class UploadService(object):
 
         data = f.read()
         self.debug('size of "%s" is %.3fMB' % (filename, len(data) / 1024.0 / 1024))
-        
+
         mime_type = mimetypes.guess_type(filename)[0] or 'image/jpeg'
         self.debug('mime type of "%s" is "%s"' % (filename, mime_type))
 
         self.upload_data(rel_filename, mime_type, data)
-        
+
         self.debug('file "%s" successfully uploaded' % filename)
 
     def upload_data(self, filename, mime_type, data):
         pass
-    
+
     def dump(self):
         return {}
-    
+
     def load(self, data):
         pass
-    
+
     def save(self):
         services = _load()
         camera_services = services.setdefault(self.camera_id, {})
         camera_services[self.NAME] = self
-        
+
         _save(services)
 
     def log(self, level, message, **kwargs):
         message = self.NAME + ': ' + message
-        
+
         logging.log(level, message, **kwargs)
 
     def debug(self, message, **kwargs):
@@ -126,7 +126,7 @@ class UploadService(object):
 
     def error(self, message, **kwargs):
         self.log(logging.ERROR, message, **kwargs)
-        
+
     @staticmethod
     def get_service_classes():
         return {c.NAME: c for c in UploadService.__subclasses__()}
@@ -134,13 +134,13 @@ class UploadService(object):
 
 class GoogleDrive(UploadService):
     NAME = 'gdrive'
-    
+
     AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
     TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
 
     CLIENT_ID = '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
     CLIENT_NOT_SO_SECRET = 'jjqbWmICpA0GvbhsJB3okX7s'
-    
+
     SCOPE = 'https://www.googleapis.com/auth/drive'
     CHILDREN_URL = 'https://www.googleapis.com/drive/v2/files/%(parent_id)s/children?q=%(query)s'
     CHILDREN_QUERY = "'%(parent_id)s' in parents and title = '%(child_name)s' and trashed = false"
@@ -148,7 +148,7 @@ class GoogleDrive(UploadService):
     CREATE_FOLDER_URL = 'https://www.googleapis.com/drive/v2/files'
 
     BOUNDARY = 'motioneye_multipart_boundary'
-    
+
     FOLDER_ID_LIFE_TIME = 300 # 5 minutes
 
     def __init__(self, camera_id):
@@ -157,9 +157,9 @@ class GoogleDrive(UploadService):
         self._credentials = None
         self._folder_ids = {}
         self._folder_id_times = {}
-        
+
         UploadService.__init__(self, camera_id)
-    
+
     @classmethod
     def get_authorize_url(cls):
         query = {
@@ -195,7 +195,7 @@ class GoogleDrive(UploadService):
         body.append('')
         body.append(json.dumps(metadata))
         body.append('')
-        
+
         body.append('--' + self.BOUNDARY)
         body.append('Content-Type: %s' % mime_type)
         body.append('')
@@ -203,12 +203,12 @@ class GoogleDrive(UploadService):
         body = '\r\n'.join(body)
         body += data
         body += '\r\n--%s--' % self.BOUNDARY
-        
+
         headers = {
             'Content-Type': 'multipart/related; boundary="%s"' % self.BOUNDARY,
             'Content-Length': len(body)
         }
-        
+
         self._request(self.UPLOAD_URL, body, headers)
 
     def dump(self):
@@ -230,20 +230,20 @@ class GoogleDrive(UploadService):
 
     def _get_folder_id(self, path=''):
         now = time.time()
-        
+
         folder_id = self._folder_ids.get(path)
         folder_id_time = self._folder_id_times.get(path, 0)
-        
+
         location = self._location
         if not location.endswith('/'):
             location += '/'
-        
+
         location += path
 
         if not folder_id or (now - folder_id_time > self.FOLDER_ID_LIFE_TIME):
             self.debug('finding folder id for location "%s"' % location)
             folder_id = self._get_folder_id_by_path(location)
-            
+
             self._folder_ids[path] = folder_id
             self._folder_id_times[path] = now
 
@@ -255,7 +255,7 @@ class GoogleDrive(UploadService):
             parent_id = 'root'
             for name in path:
                 parent_id = self._get_folder_id_by_name(parent_id, name)
-        
+
             return parent_id
 
         else: # root folder
@@ -265,13 +265,13 @@ class GoogleDrive(UploadService):
         if parent_id:
             query = self.CHILDREN_QUERY % {'parent_id': parent_id, 'child_name': child_name}
             query = urllib.quote(query)
-            
+
         else:
             query = ''
-            
+
         parent_id = parent_id or 'root'
         # when requesting the id of the root folder, we perform a dummy request,
-        # event though we already know the id (which is "root"), to test the request 
+        # event though we already know the id (which is "root"), to test the request
 
         url = self.CHILDREN_URL % {'parent_id': parent_id, 'query': query}
         response = self._request(url)
@@ -281,7 +281,7 @@ class GoogleDrive(UploadService):
         except Exception:
             self.error("response doesn't seem to be a valid json")
             raise
-        
+
         if parent_id == 'root' and child_name == 'root':
             return 'root'
 
@@ -291,14 +291,14 @@ class GoogleDrive(UploadService):
                 self.debug('folder with name "%s" does not exist, creating it' % child_name)
                 self._create_folder(parent_id, child_name)
                 return self._get_folder_id_by_name(parent_id, child_name, create=False)
-            
+
             else:
                 msg = 'folder with name "%s" does not exist' % child_name
                 self.error(msg)
                 raise Exception(msg)
 
         return items[0]['id']
-    
+
     def _create_folder(self, parent_id, child_name):
         metadata = {
             'title': child_name,
@@ -325,41 +325,41 @@ class GoogleDrive(UploadService):
             try:
                 self._credentials = self._request_credentials(self._authorization_key)
                 self.save()
-            
+
             except Exception as e:
                 self.error('failed to obtain credentials: %s' % e)
                 raise
 
         headers = headers or {}
         headers['Authorization'] = 'Bearer %s' % self._credentials['access_token']
-        
+
         self.debug('requesting %s' % url)
         request = urllib2.Request(url, data=body, headers=headers)
         try:
             response = utils.urlopen(request)
-        
+
         except urllib2.HTTPError as e:
             if e.code == 401 and retry_auth: # unauthorized, access token may have expired
                 try:
                     self.debug('credentials have probably expired, refreshing them')
                     self._credentials = self._refresh_credentials(self._credentials['refresh_token'])
                     self.save()
-                    
+
                     # retry the request with refreshed credentials
                     return self._request(url, body, headers, retry_auth=False)
 
                 except Exception as e:
                     self.error('refreshing credentials failed')
                     raise
-                
+
             else:
                 try:
                     e = json.load(e)
                     msg = e['error']['message']
-                
+
                 except Exception:
                     msg = str(e)
-                    
+
                 self.error('request failed: %s' % msg)
                 raise Exception(msg)
 
@@ -368,16 +368,16 @@ class GoogleDrive(UploadService):
             raise
 
         return response.read()
-    
+
     def _request_credentials(self, authorization_key):
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
-        
+
         body = {
             'code': authorization_key,
             'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
-            'client_id': self.CLIENT_ID, 
+            'client_id': self.CLIENT_ID,
             'client_secret': self.CLIENT_NOT_SO_SECRET,
             'scope': self.SCOPE,
             'grant_type': 'authorization_code'
@@ -385,21 +385,21 @@ class GoogleDrive(UploadService):
         body = urllib.urlencode(body)
 
         request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
-        
+
         try:
             response = utils.urlopen(request)
-        
+
         except urllib2.HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
-        
+
         data = json.load(response)
-        
+
         return {
             'access_token': data['access_token'],
             'refresh_token': data['refresh_token']
         }
-    
+
     def _refresh_credentials(self, refresh_token):
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
@@ -407,23 +407,23 @@ class GoogleDrive(UploadService):
 
         body = {
             'refresh_token': refresh_token,
-            'client_id': self.CLIENT_ID, 
+            'client_id': self.CLIENT_ID,
             'client_secret': self.CLIENT_NOT_SO_SECRET,
             'grant_type': 'refresh_token'
         }
         body = urllib.urlencode(body)
 
         request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
-        
+
         try:
             response = utils.urlopen(request)
-        
+
         except urllib2.HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
 
         data = json.load(response)
-        
+
         return {
             'access_token': data['access_token'],
             'refresh_token': data.get('refresh_token', refresh_token)
@@ -432,13 +432,13 @@ class GoogleDrive(UploadService):
 
 class Dropbox(UploadService):
     NAME = 'dropbox'
-    
+
     AUTH_URL = 'https://www.dropbox.com/oauth2/authorize'
     TOKEN_URL = 'https://api.dropboxapi.com/oauth2/token'
 
     CLIENT_ID = 'dropbox_client_id_placeholder'
     CLIENT_NOT_SO_SECRET = 'dropbox_client_secret_placeholder'
-    
+
     LIST_FOLDER_URL = 'https://api.dropboxapi.com/2/files/list_folder'
     UPLOAD_URL = 'https://content.dropboxapi.com/2/files/upload'
 
@@ -446,7 +446,7 @@ class Dropbox(UploadService):
         self._location = None
         self._authorization_key = None
         self._credentials = None
-        
+
         UploadService.__init__(self, camera_id)
 
     @classmethod
@@ -465,21 +465,21 @@ class Dropbox(UploadService):
             'include_media_info': False,
             'include_deleted': False
         }
-        
+
         body = json.dumps(body)
         headers = {'Content-Type': 'application/json'}
-        
+
         try:
             self._request(self.LIST_FOLDER_URL, body, headers)
             return True
 
         except Exception as e:
             msg = str(e)
-            
+
             # remove trailing punctuation
             while msg and not msg[-1].isalnum():
                 msg = msg[:-1]
-            
+
             return msg
 
     def upload_data(self, filename, mime_type, data):
@@ -512,7 +512,7 @@ class Dropbox(UploadService):
             self._credentials = None
         if data.get('credentials'):
             self._credentials = data['credentials']
-    
+
     def _clean_location(self):
         location = self._location
         if location == '/':
@@ -520,7 +520,7 @@ class Dropbox(UploadService):
 
         if not location.startswith('/'):
             location = '/' + location
-        
+
         return location
 
     def _request(self, url, body=None, headers=None, retry_auth=True):
@@ -534,19 +534,19 @@ class Dropbox(UploadService):
             try:
                 self._credentials = self._request_credentials(self._authorization_key)
                 self.save()
-            
+
             except Exception as e:
                 self.error('failed to obtain credentials: %s' % e)
                 raise
 
         headers = headers or {}
         headers['Authorization'] = 'Bearer %s' % self._credentials['access_token']
-        
+
         self.debug('requesting %s' % url)
         request = urllib2.Request(url, data=body, headers=headers)
         try:
             response = utils.urlopen(request)
-        
+
         except urllib2.HTTPError as e:
             if e.code == 401 and retry_auth: # unauthorized, access token may have expired
                 try:
@@ -560,12 +560,12 @@ class Dropbox(UploadService):
                 except Exception as e:
                     self.error('refreshing credentials failed')
                     raise
-            
+
             elif str(e).count('not_found'):
                 msg = 'folder "%s" not found' % self._location
                 self.error(msg)
                 raise Exception(msg)
-            
+
             else:
                 self.error('request failed: %s' % e)
                 raise
@@ -575,31 +575,31 @@ class Dropbox(UploadService):
             raise
 
         return response.read()
-    
+
     def _request_credentials(self, authorization_key):
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded'
         }
-        
+
         body = {
             'code': authorization_key,
-            'client_id': self.CLIENT_ID, 
+            'client_id': self.CLIENT_ID,
             'client_secret': self.CLIENT_NOT_SO_SECRET,
             'grant_type': 'authorization_code'
         }
         body = urllib.urlencode(body)
 
         request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
-        
+
         try:
             response = utils.urlopen(request)
-        
+
         except urllib2.HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
-        
+
         data = json.load(response)
-        
+
         return {
             'access_token': data['access_token']
         }
@@ -608,7 +608,7 @@ class Dropbox(UploadService):
 class FTP(UploadService):
     NAME = 'ftp'
     CONN_LIFE_TIME = 60  # don't keep an FTP connection for more than 1 minute
-    
+
     def __init__(self, camera_id):
         self._server = None
         self._port = None
@@ -618,7 +618,7 @@ class FTP(UploadService):
 
         self._conn = None
         self._conn_time = 0
-        
+
         UploadService.__init__(self, camera_id)
 
     def test_access(self):
@@ -685,13 +685,13 @@ class FTP(UploadService):
             self._conn_time = now
 
         return self._conn
-    
+
     def _make_dirs(self, path, conn=None):
         conn = conn or self._get_conn()
-        
+
         path = path.split('/')
         path = [p for p in path if p]
-        
+
         self.debug('ensuring path /%s' % '/'.join(path))
 
         conn.cwd('/')
@@ -701,8 +701,112 @@ class FTP(UploadService):
                 conn.mkd(p)
 
             conn.cwd(p)
-        
+
         return '/' + '/'.join(path)
+
+
+class SFTP(UploadService):
+    NAME = 'sftp'
+
+    def __init__(self, camera_id):
+        self._server = None
+        self._port = None
+        self._username = None
+        self._password = None
+        self._location = None
+
+        UploadService.__init__(self, camera_id)
+
+    def curl_perform_filetransfer(self, conn):
+        curl_url = conn.getinfo(pycurl.EFFECTIVE_URL)
+
+        try:
+            conn.perform()
+        except pycurl.error:
+            curl_error = conn.errstr()
+            msg = 'cURL upload failed on {}: {}'.format(curl_url, curl_error)
+            self.error(msg)
+            raise
+        else:
+            self.debug('upload done: {}'.format(curl_url))
+        finally:
+            conn.close()
+
+    def test_access(self):
+        filename = time.time()
+        test_folder = "motioneye_test"
+        test_file = "/{}/{}".format(test_folder, filename)
+
+        # List of commands to send after upload.
+        rm_operations = ['RM {}/{}'.format(self._location, test_file),
+                         'RMDIR {}/{}'.format(self._location, test_folder)
+                         ]
+
+        conn = self._get_conn(test_file)
+        conn.setopt(conn.POSTQUOTE, rm_operations)  # Executed after transfer.
+        conn.setopt(pycurl.READFUNCTION, StringIO.StringIO().read)
+        self.curl_perform_filetransfer(conn)
+
+        return True
+
+    def upload_data(self, filename, mime_type, data):
+        conn = self._get_conn(filename)
+        conn.setopt(pycurl.READFUNCTION, StringIO.StringIO(data).read)
+
+        self.curl_perform_filetransfer(conn)
+
+    def dump(self):
+        return {
+            'server': self._server,
+            'port': self._port,
+            'username': self._username,
+            'password': self._password,
+            'location': self._location
+        }
+
+    def load(self, data):
+        if data.get('server') is not None:
+            self._server = data['server']
+        if data.get('port') is not None:
+            self._port = int(data['port'])
+        if data.get('username') is not None:
+            self._username = data['username']
+        if data.get('password') is not None:
+            self._password = data['password']
+        if data.get('location'):
+            self._location = data['location']
+
+    def _get_conn(self, filename, auth_type='password'):
+        sftp_url = 'sftp://{}:{}/{}/{}'.format(self._server, self._port,
+                                               self._location, filename)
+
+        self.debug('creating sftp connection to {}@{}{}'.format(self._username,
+                                                                self._server,
+                                                                self._port))
+
+        self._conn = pycurl.Curl()
+        self._conn.setopt(self._conn.URL, sftp_url)
+        self._conn.setopt(self._conn.FTP_CREATE_MISSING_DIRS, 2)  # retry once if MKD fails
+
+        auth_types = {
+            'password': self._conn.SSH_AUTH_PASSWORD,
+            # 'private_key': self._conn.SSH_PRIVATE_KEYFILE
+            # ref: https://curl.haxx.se/libcurl/c/CURLOPT_SSH_PRIVATE_KEYFILE.html
+            }
+
+        try:
+            self._conn.setopt(self._conn.SSH_AUTH_TYPES, auth_types[auth_type])
+        except KeyError:
+            self.error("invalid SSH auth type: {}".format(auth_type))
+            raise
+
+        if auth_type == 'password':
+            self._conn.setopt(self._conn.USERNAME, self._username)
+            self._conn.setopt(self._conn.PASSWORD, self._password)
+
+        self._conn.setopt(self._conn.UPLOAD, 1)
+
+        return self._conn
 
 
 def get_authorize_url(service_name):
@@ -710,17 +814,17 @@ def get_authorize_url(service_name):
 
     if cls:
         return cls.get_authorize_url()
-    
+
     else:
         return None
 
 
 def get(camera_id, service_name):
     global _services
-    
+
     if _services is None:
         _services = _load()
-        
+
     camera_id = str(camera_id)
 
     service = _services.get(camera_id, {}).get(service_name)
@@ -731,7 +835,7 @@ def get(camera_id, service_name):
             _services.setdefault(camera_id, {})[service_name] = service
 
             logging.debug('created default upload service "%s" for camera with id "%s"' % (service_name, camera_id))
-    
+
     return service
 
 
@@ -766,18 +870,18 @@ def upload_media_file(camera_id, target_dir, service_name, filename):
 
 def _load():
     services = {}
-    
+
     file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
-    
+
     if os.path.exists(file_path):
         logging.debug('loading upload services state from "%s"...' % file_path)
-    
+
         try:
             file = open(file_path, 'r')
-        
+
         except Exception as e:
             logging.error('could not open upload services state file "%s": %s' % (file_path, e))
-            
+
             return services
 
         try:
@@ -785,7 +889,7 @@ def _load():
 
         except Exception as e:
             logging.error('could not read upload services state from file "%s": %s' % (file_path, e))
-            
+
             return services
 
         finally:
@@ -800,15 +904,15 @@ def _load():
                     service.load(state)
 
                     camera_services[name] = service
-    
+
                     logging.debug('loaded upload service "%s" for camera with id "%s"' % (name, camera_id))
-    
+
     return services
 
 
 def _save(services):
     file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
-    
+
     logging.debug('saving upload services state to "%s"...' % file_path)
 
     data = {}
@@ -821,9 +925,9 @@ def _save(services):
 
     except Exception as e:
         logging.error('could not open upload services state file "%s": %s' % (file_path, e))
-        
+
         return
-    
+
     try:
         json.dump(data, file, sort_keys=True, indent=4)
 
@@ -832,5 +936,3 @@ def _save(services):
 
     finally:
         file.close()
-
-
