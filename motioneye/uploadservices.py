@@ -149,7 +149,7 @@ class GoogleDrive(UploadService):
 
     BOUNDARY = 'motioneye_multipart_boundary'
 
-    FOLDER_ID_LIFE_TIME = 300 # 5 minutes
+    FOLDER_ID_LIFE_TIME = 300  # 5 minutes
 
     def __init__(self, camera_id):
         self._location = None
@@ -258,7 +258,7 @@ class GoogleDrive(UploadService):
 
             return parent_id
 
-        else: # root folder
+        else:  # root folder
             return self._get_folder_id_by_name(None, 'root')
 
     def _get_folder_id_by_name(self, parent_id, child_name, create=True):
@@ -339,7 +339,7 @@ class GoogleDrive(UploadService):
             response = utils.urlopen(request)
 
         except urllib2.HTTPError as e:
-            if e.code == 401 and retry_auth: # unauthorized, access token may have expired
+            if e.code == 401 and retry_auth:  # unauthorized, access token may have expired
                 try:
                     self.debug('credentials have probably expired, refreshing them')
                     self._credentials = self._refresh_credentials(self._credentials['refresh_token'])
@@ -548,7 +548,7 @@ class Dropbox(UploadService):
             response = utils.urlopen(request)
 
         except urllib2.HTTPError as e:
-            if e.code == 401 and retry_auth: # unauthorized, access token may have expired
+            if e.code == 401 and retry_auth:  # unauthorized, access token may have expired
                 try:
                     self.debug('credentials have probably expired, refreshing them')
                     self._credentials = self._request_credentials(self._authorization_key)
@@ -722,13 +722,16 @@ class SFTP(UploadService):
 
         try:
             conn.perform()
+
         except pycurl.error:
             curl_error = conn.errstr()
             msg = 'cURL upload failed on {}: {}'.format(curl_url, curl_error)
             self.error(msg)
             raise
+
         else:
             self.debug('upload done: {}'.format(curl_url))
+
         finally:
             conn.close()
 
@@ -737,17 +740,22 @@ class SFTP(UploadService):
         test_folder = "motioneye_test"
         test_file = "/{}/{}".format(test_folder, filename)
 
-        # List of commands to send after upload.
+        # list of commands to send after upload.
         rm_operations = ['RM {}/{}'.format(self._location, test_file),
-                         'RMDIR {}/{}'.format(self._location, test_folder)
-                         ]
+                         'RMDIR {}/{}'.format(self._location, test_folder)]
 
         conn = self._get_conn(test_file)
         conn.setopt(conn.POSTQUOTE, rm_operations)  # Executed after transfer.
         conn.setopt(pycurl.READFUNCTION, StringIO.StringIO().read)
-        self.curl_perform_filetransfer(conn)
 
-        return True
+        try:
+            self.curl_perform_filetransfer(conn)
+            return True
+
+        except Exception as e:
+            logging.error('sftp connection failed: %s' % e)
+
+            return str(e)
 
     def upload_data(self, filename, mime_type, data):
         conn = self._get_conn(filename)
@@ -780,9 +788,8 @@ class SFTP(UploadService):
         sftp_url = 'sftp://{}:{}/{}/{}'.format(self._server, self._port,
                                                self._location, filename)
 
-        self.debug('creating sftp connection to {}@{}{}'.format(self._username,
-                                                                self._server,
-                                                                self._port))
+        self.debug('creating sftp connection to {}@{}:{}'.format(
+                self._username, self._server, self._port))
 
         self._conn = pycurl.Curl()
         self._conn.setopt(self._conn.URL, sftp_url)
@@ -792,10 +799,11 @@ class SFTP(UploadService):
             'password': self._conn.SSH_AUTH_PASSWORD,
             # 'private_key': self._conn.SSH_PRIVATE_KEYFILE
             # ref: https://curl.haxx.se/libcurl/c/CURLOPT_SSH_PRIVATE_KEYFILE.html
-            }
+        }
 
         try:
             self._conn.setopt(self._conn.SSH_AUTH_TYPES, auth_types[auth_type])
+
         except KeyError:
             self.error("invalid SSH auth type: {}".format(auth_type))
             raise
