@@ -53,19 +53,19 @@
 
 {% block style %}
     {{super()}}
-    <link rel="stylesheet" type="text/css" href="{{static_path}}css/ui.css" />
-    <link rel="stylesheet" type="text/css" href="{{static_path}}css/main.css" />
+    <link rel="stylesheet" type="text/css" href="/{{static_path}}css/ui.css" />
+    <link rel="stylesheet" type="text/css" href="/{{static_path}}css/main.css" />
     {% if frame %}
-        <link rel="stylesheet" type="text/css" href="{{static_path}}css/frame.css" />
+        <link rel="stylesheet" type="text/css" href="/{{static_path}}css/frame.css" />
     {% endif %}
 {% endblock %}
 
 {% block script %}
     {{super()}}
-    <script type="text/javascript" src="{{static_path}}js/ui.js"></script>
-    <script type="text/javascript" src="{{static_path}}js/main.js"></script>
+    <script type="text/javascript" src="/{{static_path}}js/ui.js"></script>
+    <script type="text/javascript" src="/{{static_path}}js/main.js"></script>
     {% if frame %}
-        <script type="text/javascript" src="{{static_path}}js/frame.js"></script>
+        <script type="text/javascript" src="/{{static_path}}js/frame.js"></script>
     {% endif %}
     <script type="text/javascript">
         var adminUsername = '{{admin_username}}';
@@ -93,7 +93,7 @@
             <div class="logo">
                 <a href="">
                     <span class="logo">motionEye</span>
-                    <img class="logo" src="{{static_path}}img/motioneye-logo.svg">
+                    <img class="logo" src="/{{static_path}}img/motioneye-logo.svg">
                 </a>
             </div>
         </div>
@@ -136,7 +136,7 @@
                         <td><span class="help-mark" title="dims the actual resolution of all cameras to save network bandwidth and traffic (doesn't work on simple MJPEG cameras)">?</span></td>
                     </tr>
                 </table>
-                
+
                 <tr class="settings-item advanced-setting">
                     <td colspan="100"><div class="settings-item-separator" style="margin: 0px 0px 1.5em 0px;"></div></td>
                 </tr>
@@ -237,13 +237,13 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                {% endif %}                    
+                {% endif %}
                 {% endfor %}
 
                 <tr class="settings-item advanced-setting">
                     <td colspan="100"><div class="settings-item-separator" style="margin: 0px 0px 1.5em 0px;"></div></td>
                 </tr>
-                
+
                 <!-- Video Device -->
                 <div class="settings-section-title" id="deviceSectionDiv">
                     <input type="checkbox" class="styled section device camera-config" id="videoDeviceEnabledSwitch">
@@ -345,7 +345,7 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                
+
                 <!-- File Storage -->
                 <div class="settings-section-title advanced-setting" id="storageSectionDiv">
                     <span class="help-mark" title="choose where and how your media files are saved">?</span>
@@ -534,7 +534,7 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                
+
                 <!-- Text Overlay -->
                 <div class="settings-section-title advanced-setting" id="textOverlaySectionDiv">
                     <input type="checkbox" class="styled section text-overlay camera-config" id="textOverlayEnabledSwitch">
@@ -667,7 +667,7 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                
+
                 <!-- Still Images -->
                 <div class="settings-section-title" id="stillImagesSectionDiv">
                     <input type="checkbox" class="styled section still-images camera-config" id="stillImagesEnabledSwitch">
@@ -725,7 +725,7 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                
+
                 <!-- Movies -->
                 <div class="settings-section-title" id="moviesSectionDiv">
                     <input type="checkbox" class="styled section movies camera-config" id="moviesEnabledSwitch">
@@ -911,7 +911,7 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                
+
                 <!-- Motion Notifications -->
                 <div class="settings-section-title advanced-setting" id="notificationsSectionDiv">
                     <span class="help-mark" title="enable this if you want to be notified when motion is detected">?</span>
@@ -1112,25 +1112,25 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                {% endif %}                    
+                {% endif %}
                 {% endfor %}
 
                 <div class="settings-progress"></div>
             </div>
         </div>
-        <img class="background-logo" src="{{static_path}}img/motioneye-logo.svg" onmousedown="return false;">
+        <img class="background-logo" src="/{{static_path}}img/motioneye-logo.svg" onmousedown="return false;">
         <div class="page-container"></div>
         <div class="footer">
             <div class="copyright-note">copyright &copy; Calin Crisan</div>
-        </div> 
+        </div>
     </div>
     {% else %}
         <div class="camera-frame" id="camera{{camera_id}}"
                 streaming_framerate="{{camera_config['stream_maxrate']}}" streaming_server_resize="{{camera_config['@webcam_server_resize']|string|lower}}"
                 proto="{{camera_config['@proto']}}" url="{{camera_config['@url']}}">
-            
+
             <div class="camera-container">
-                <div class="camera-placeholder"><img class="no-camera" src="{{static_path}}img/no-camera.svg"></div><img
+                <div class="camera-placeholder"><img class="no-camera" src="/{{static_path}}img/no-camera.svg"></div><img
                     class="camera"><div class="camera-progress"><img class="camera-progress"></div>
             </div>
         </div>
