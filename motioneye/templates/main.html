@@ -721,6 +721,11 @@
                         <td class="settings-item-value"><input type="text" class="styled number still-images camera-config" id="picturesLifetimeEntry"><span class="settings-item-unit">days</span></td>
                         <td><span class="help-mark" title="sets the number of days after which the pictures will be deleted automatically">?</span></td>
                     </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Manual Snapshots</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled still-images camera-config" id="manualSnapshotsSwitch"></td>
+                        <td><span class="help-mark" title="when this is enabled, a button on the camera frame will allow you to manually take snapshots">?</span></td>
+                    </tr>
                     {% for config in camera_sections.get('still-images', {}).get('configs', []) %}
                         {{config_item(config)}}
                     {% endfor %}

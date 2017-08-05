@@ -1646,17 +1646,17 @@ class ActionHandler(BaseHandler):
 
         if action == 'snapshot':
             logging.debug('executing snapshot action for camera with id %s' % camera_id)
-            return self.snapshot()
+            return self.snapshot(camera_id)
         
         elif action == 'record_start':
             logging.debug('executing record_start action for camera with id %s' % camera_id)
-            return self.record_start()
+            return self.record_start(camera_id)
         
         elif action == 'record_stop':
             logging.debug('executing record_stop action for camera with id %s' % camera_id)
-            return self.record_stop()
+            return self.record_stop(camera_id)
 
-        action_commands = config.get_action_commands(camera_id)
+        action_commands = config.get_action_commands(local_config)
         command = action_commands.get(action)
         if not command:
             raise HTTPError(400, 'unknown action')
@@ -1694,13 +1694,14 @@ class ActionHandler(BaseHandler):
         else:
             self.io_loop.add_timeout(datetime.timedelta(milliseconds=100), self.check_command)
     
-    def snapshot(self):
+    def snapshot(self, camera_id):
+        motionctl.take_snapshot(camera_id)
         self.finish_json({})
     
-    def record_start(self):
+    def record_start(self, camera_id):
         self.finish_json({})
     
-    def record_stop(self):
+    def record_stop(self, camera_id):
         self.finish_json({})
 
 

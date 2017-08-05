@@ -1878,6 +1878,7 @@ function cameraUi2Dict() {
         'capture_mode': $('#captureModeSelect').val(),
         'snapshot_interval': $('#snapshotIntervalEntry').val(),
         'preserve_pictures': $('#preservePicturesSelect').val() >= 0 ? $('#preservePicturesSelect').val() : $('#picturesLifetimeEntry').val(),
+        'manual_snapshots': $('#manualSnapshotsSwitch')[0].checked,
         
         /* movies */
         'movies': $('#moviesEnabledSwitch')[0].checked,
@@ -2230,6 +2231,7 @@ function dict2CameraUi(dict) {
     }
     markHideIfNull('preserve_pictures', 'preservePicturesSelect');
     $('#picturesLifetimeEntry').val(dict['preserve_pictures']); markHideIfNull('preserve_pictures', 'picturesLifetimeEntry');
+    $('#manualSnapshotsSwitch')[0].checked = dict['manual_snapshots']; markHideIfNull('manual_snapshots', 'manualSnapshotsSwitch');
     
     /* movies */
     $('#moviesEnabledSwitch')[0].checked = dict['movies']; markHideIfNull('movies', 'moviesEnabledSwitch');

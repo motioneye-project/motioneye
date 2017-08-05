@@ -40,8 +40,8 @@ import v4l2ctl
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
-_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off', 'up',
-            'right', 'down', 'left', 'zoom_in', 'zoom_out',
+_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off',
+            'up', 'right', 'down', 'left', 'zoom_in', 'zoom_out',
             'preset1', 'preset2', 'preset3', 'preset4', 'preset5', 'preset6', 'preset7', 'preset8', 'preset9']
 
 _main_config_cache = None
@@ -774,6 +774,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         'snapshot_filename': ui['image_file_name'],
         'quality': max(1, int(ui['image_quality'])),
         '@preserve_pictures': int(ui['preserve_pictures']),
+        '@manual_snapshots': ui['manual_snapshots'],
 
         # movies
         'ffmpeg_output_movies': False,
@@ -1161,6 +1162,7 @@ def motion_camera_dict_to_ui(data):
         'image_quality': data['quality'],
         'snapshot_interval': 0,
         'preserve_pictures': data['@preserve_pictures'],
+        'manual_snapshots': data['@manual_snapshots'],
 
         # movies
         'movies': False,
@@ -1527,7 +1529,7 @@ def motion_camera_dict_to_ui(data):
     ui['extra_options'] = extra_options
 
     # action commands
-    action_commands = get_action_commands(data['@id'])
+    action_commands = get_action_commands(data)
     ui['actions'] = action_commands.keys()
 
     return ui
@@ -1571,18 +1573,26 @@ def simple_mjpeg_camera_dict_to_ui(data):
         ui[name[1:]] = value
 
     # action commands
-    action_commands = get_action_commands(data['@id'])
+    action_commands = get_action_commands(data)
     ui['actions'] = action_commands.keys()
 
     return ui
 
 
-def get_action_commands(camera_id):
+def get_action_commands(camera_config):
+    camera_id = camera_config['@id']
+
     action_commands = {}
     for action in _ACTIONS:
         path = os.path.join(settings.CONF_PATH, '%s_%s' % (action, camera_id))
         if os.access(path, os.X_OK):
             action_commands[action] = path
+
+    if camera_config.get('@manual_snapshots'):
+        action_commands['snapshot'] = True
+
+    if camera_config.get('@manual_record'):
+        action_commands['record'] = True
 
     return action_commands
 
@@ -1964,6 +1974,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('snapshot_filename', '')
     data.setdefault('quality', 85)
     data.setdefault('@preserve_pictures', 0)
+    data.setdefault('@manual_snapshots', True)
 
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     data.setdefault('max_movie_time', 0)
@@ -1981,6 +1992,7 @@ def _set_default_motion_camera(camera_id, data):
         data.setdefault('ffmpeg_variable_bitrate', _EXPONENTIAL_DEF_QUALITY)
 
     data.setdefault('@preserve_movies', 0)
+    data.setdefault('@manual_record', False)
 
     data.setdefault('@working_schedule', '')
     data.setdefault('@working_schedule_type', 'outside')

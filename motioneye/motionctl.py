@@ -223,7 +223,8 @@ def get_motion_detection(camera_id, callback):
         logging.error(error)
         return callback(error=error)
 
-    url = 'http://127.0.0.1:7999/%(id)s/detection/status' % {'id': thread_id}
+    url = 'http://127.0.0.1:%(port)s/%(id)s/detection/status' % {
+            'port': settings.MOTION_CONTROL_PORT, 'id': thread_id}
     
     def on_response(response):
         if response.error:
@@ -256,7 +257,8 @@ def set_motion_detection(camera_id, enabled):
             'what': ['disabling', 'enabling'][enabled],
             'id': camera_id})
     
-    url = 'http://127.0.0.1:7999/%(id)s/detection/%(enabled)s' % {
+    url = 'http://127.0.0.1:%(port)s/%(id)s/detection/%(enabled)s' % {
+            'port': settings.MOTION_CONTROL_PORT,
             'id': thread_id,
             'enabled': ['pause', 'start'][enabled]}
     
@@ -271,6 +273,33 @@ def set_motion_detection(camera_id, enabled):
             logging.debug('successfully %(what)s motion detection for camera with id %(id)s' % {
                     'what': ['disabled', 'enabled'][enabled],
                     'id': camera_id})
+
+    request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT, request_timeout=_MOTION_CONTROL_TIMEOUT)
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, on_response)
+
+
+def take_snapshot(camera_id):
+    from tornado.httpclient import HTTPRequest, AsyncHTTPClient
+
+    thread_id = camera_id_to_thread_id(camera_id)
+    if thread_id is None:
+        return logging.error('could not find thread id for camera with id %s' % camera_id)
+
+    logging.debug('taking snapshot for camera with id %(id)s' % {'id': camera_id})
+
+    url = 'http://127.0.0.1:%(port)s/%(id)s/action/snapshot' % {
+            'port': settings.MOTION_CONTROL_PORT,
+            'id': thread_id}
+
+    def on_response(response):
+        if response.error:
+            logging.error('failed to take snapshot for camera with id %(id)s: %(msg)s' % {
+                    'id': camera_id,
+                    'msg': utils.pretty_http_error(response)})
+
+        else:
+            logging.debug('successfully took snapshot for camera with id %(id)s' % {'id': camera_id})
 
     request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT, request_timeout=_MOTION_CONTROL_TIMEOUT)
     http_client = AsyncHTTPClient()
