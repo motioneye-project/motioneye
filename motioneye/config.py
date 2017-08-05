@@ -1607,7 +1607,7 @@ def get_action_commands(camera_config):
         if os.access(path, os.X_OK):
             action_commands[action] = path
 
-    if camera_config.get('@manual_snapshots'):
+    if camera_config.get('@manual_snapshots') and bool(camera_config.get('snapshot_filename')):
         action_commands['snapshot'] = True
 
     if camera_config.get('@manual_record'):
