@@ -770,8 +770,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         # still images
         'output_pictures': False,
         'snapshot_interval': 0,
-        'picture_filename': '',
-        'snapshot_filename': '',
+        'picture_filename': ui['image_file_name'],
+        'snapshot_filename': ui['image_file_name'],
         'quality': max(1, int(ui['image_quality'])),
         '@preserve_pictures': int(ui['preserve_pictures']),
 
@@ -942,16 +942,13 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         capture_mode = ui['capture_mode']
         if capture_mode == 'motion-triggered':
             data['output_pictures'] = True
-            data['picture_filename'] = ui['image_file_name']
 
         elif capture_mode == 'interval-snapshots':
             data['snapshot_interval'] = int(ui['snapshot_interval'])
-            data['snapshot_filename'] = ui['image_file_name']
 
         elif capture_mode == 'all-frames':
             data['output_pictures'] = True
             data['emulate_motion'] = True
-            data['picture_filename'] = ui['image_file_name']
 
     if ui['movies']:
         data['ffmpeg_output_movies'] = True
