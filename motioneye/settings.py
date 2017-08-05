@@ -128,3 +128,6 @@ VALIDATE_CERTS = True
 # an external program to be executed whenever a password changes;
 # the program will be invoked with environment variables MEYE_USERNAME and MEYE_PASSWORD
 PASSWORD_HOOK = None
+
+# enables HTTP basic authentication scheme (in addition to, not instead of the signature mechanism)
+HTTP_BASIC_AUTH = False
