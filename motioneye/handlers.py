@@ -115,28 +115,49 @@ class BaseHandler(RequestHandler):
         username = self.get_argument('_username', None)
         signature = self.get_argument('_signature', None)
         login = self.get_argument('_login', None) == 'true'
-        if (username == main_config.get('@admin_username') and
-            (signature == utils.compute_signature(self.request.method, self.request.uri,  # backwards compatibility
-                                                  self.request.body, main_config['@admin_password']) or
+
+        admin_username = main_config.get('@admin_username')
+        normal_username = main_config.get('@normal_username')
+
+        admin_password = main_config.get('@admin_password')
+        normal_password = main_config.get('@normal_password')
+
+        admin_hash = hashlib.sha1(main_config['@admin_password']).hexdigest()
+        normal_hash = hashlib.sha1(main_config['@normal_password']).hexdigest()
+
+        if settings.HTTP_BASIC_AUTH and 'Authorization' in self.request.headers:
+            up = utils.parse_basic_header(self.request.headers['Authorization'])
+            if up:
+                if (up['username'] == admin_username and
+                    admin_password in (up['password'], hashlib.sha1(up['password']).hexdigest())):
+
+                    return 'admin'
+
+                if (up['username'] == normal_username and
+                    normal_password in (up['password'], hashlib.sha1(up['password']).hexdigest())):
+
+                    return 'normal'
+
+        if (username == admin_username and
+            (signature == utils.compute_signature(self.request.method, self.request.uri,
+                                                  self.request.body, admin_password) or
              signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body,
-                                                  hashlib.sha1(main_config['@admin_password']).hexdigest()))):
+                                                  self.request.body, admin_hash))):
 
             return 'admin'
         
-        elif not username and not main_config.get('@normal_password'):  # no authentication required for normal user
+        if not username and not normal_password:  # no authentication required for normal user
             return 'normal'
-        
-        elif (username == main_config.get('@normal_username') and
-            (signature == utils.compute_signature(self.request.method, self.request.uri,  # backwards compatibility
-                                                  self.request.body, main_config.get('@normal_password')) or
+
+        if (username == normal_username and
+            (signature == utils.compute_signature(self.request.method, self.request.uri,
+                                                  self.request.body, normal_password) or
              signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body,
-                                                  hashlib.sha1(main_config['@normal_password']).hexdigest()))):
+                                                  self.request.body, normal_hash))):
 
             return 'normal'
 
-        elif username and username != '_' and login:
+        if username and username != '_' and login:
             logging.error('authentication failed for user %(user)s' % {'user': username})
 
         return None

@@ -683,6 +683,32 @@ def build_basic_header(username, password):
     return 'Basic ' + base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
 
 
+def parse_basic_header(header):
+    parts = header.split(' ', 1)
+    if len(parts) < 2:
+        return None
+
+    if parts[0].lower() != 'basic':
+        return None
+
+    encoded = parts[1]
+
+    try:
+        decoded = base64.decodestring(encoded)
+
+    except:
+        return None
+
+    parts = decoded.split(':', 1)
+    if len(parts) < 2:
+        return None
+
+    return {
+        'username': parts[0],
+        'password': parts[1]
+    }
+
+
 def build_digest_header(method, url, username, password, state):
     realm = state['realm']
     nonce = state['nonce']
