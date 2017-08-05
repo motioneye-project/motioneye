@@ -64,13 +64,13 @@ def send_mail(server, port, account, password, tls, _from, to, subject, message,
     email['Date'] = formatdate(localtime=True)
     email.attach(MIMEText(message))
     
-    for file in reversed(files):
+    for f in reversed(files):
         part = MIMEBase('image', 'jpeg')
-        with open(file, 'rb') as f:
+        with open(f, 'rb') as f:
             part.set_payload(f.read())
         
         Encoders.encode_base64(part)
-        part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(file))
+        part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(f))
         email.attach(part)
     
     if files:
@@ -94,7 +94,7 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
 
         if media_files:
             logging.debug('got media files')
-            media_files = [m for m in media_files if abs(m['timestamp'] - timestamp) < timespan] # filter out non-recent media files
+            media_files = [m for m in media_files if abs(m['timestamp'] - timestamp) < timespan]  # filter out non-recent media files
             media_files.sort(key=lambda m: m['timestamp'], reverse=True)
             media_files = [os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path'])) for m in media_files]
         
@@ -125,7 +125,7 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
         return on_media_files([])
     
     logging.debug('waiting for pictures to be taken')
-    time.sleep(timespan) # give motion some time to create motion pictures
+    time.sleep(timespan)  # give motion some time to create motion pictures
     
     logging.debug('creating email message')
     mediafiles.list_media(camera_config, media_type='picture', callback=on_media_files)
@@ -155,7 +155,7 @@ def main(parser, args):
     # the motion daemon overrides SIGCHLD,
     # so we must restore it here,
     # or otherwise media listing won't work
-    signal.signal(signal.SIGCHLD,signal.SIG_DFL)
+    signal.signal(signal.SIGCHLD, signal.SIG_DFL)
 
     if len(args) == 12:
         # backwards compatibility with older configs lacking "from" field
@@ -177,7 +177,7 @@ def main(parser, args):
     message = messages.get(options.msg_id)
     subject = subjects.get(options.msg_id)
     options.moment = datetime.datetime.strptime(options.moment, '%Y-%m-%dT%H:%M:%S')
-    options.password = options.password.replace('\\;', ';') # unescape password
+    options.password = options.password.replace('\\;', ';')  # unescape password
     
     # do not wait too long for media list,
     # email notifications are critical
@@ -207,7 +207,7 @@ def main(parser, args):
     def on_message(subject, message, files):
         try:
             send_mail(options.server, options.port, options.account, options.password,
-                    options.tls, _from, to, subject, message, files or [])
+                      options.tls, _from, to, subject, message, files or [])
             logging.info('email sent')
 
         except Exception as e:

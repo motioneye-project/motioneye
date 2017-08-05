@@ -23,29 +23,27 @@ import urllib
 import config
 
 
-DEFAULT_INTERVAL = 1 # seconds
+DEFAULT_INTERVAL = 1  # seconds
 
-_monior_info_cache_by_camera_id = {}
+_monitor_info_cache_by_camera_id = {}
 _last_call_time_by_camera_id = {}
 _interval_by_camera_id = {}
 
 
 def get_monitor_info(camera_id):
-    global _command_cache_time
-
     now = time.time()
     command = config.get_monitor_command(camera_id)
     if command is None:
         return ''
 
-    monitor_info = _monior_info_cache_by_camera_id.get(camera_id)
+    monitor_info = _monitor_info_cache_by_camera_id.get(camera_id)
     last_call_time = _last_call_time_by_camera_id.get(camera_id, 0)
     interval = _interval_by_camera_id.get(camera_id, DEFAULT_INTERVAL)
     if monitor_info is None or now - last_call_time > interval:
         monitor_info, interval = _exec_monitor_command(command)
         monitor_info = urllib.quote(monitor_info, safe='')
         _interval_by_camera_id[camera_id] = interval
-        _monior_info_cache_by_camera_id[camera_id] = monitor_info
+        _monitor_info_cache_by_camera_id[camera_id] = monitor_info
         _last_call_time_by_camera_id[camera_id] = now
 
     return monitor_info 

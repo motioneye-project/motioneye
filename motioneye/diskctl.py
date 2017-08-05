@@ -46,12 +46,12 @@ def _list_mounts():
                 continue
             
             if target in seen_targets:
-                continue # probably a bind mount
+                continue  # probably a bind mount
             
             seen_targets.add(target)
 
             if fstype == 'fuseblk':
-                fstype = 'ntfs' # most likely
+                fstype = 'ntfs'  # most likely
             
             logging.debug('found mount "%s" at "%s"' % (target, mount_point))
             
@@ -161,15 +161,15 @@ def _list_disks_fdisk():
     disks = []
     disk = None
     
-    def add_disk(disk):
+    def add_disk(d):
         logging.debug('found disk at "%s" on bus "%s": "%s %s"' %
-                (disk['target'], disk['bus'], disk['vendor'], disk['model']))
+                (d['target'], d['bus'], d['vendor'], d['model']))
 
-        for part in disk['partitions']:
+        for part in d['partitions']:
             logging.debug('found partition "%s" at "%s" on bus "%s": "%s %s"' %
                     (part['part_no'], part['target'], part['bus'], part['vendor'], part['model']))
 
-        disks.append(disk)
+        disks.append(d)
 
     for line in output.split('\n'):
         line = line.replace('*', '')

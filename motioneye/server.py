@@ -45,7 +45,7 @@ class Daemon(object):
     def daemonize(self):
         # first fork
         try: 
-            if os.fork() > 0: # parent
+            if os.fork() > 0:  # parent
                 sys.exit(0)
 
         except OSError, e: 
@@ -58,7 +58,7 @@ class Daemon(object):
 
         # second fork
         try: 
-            if os.fork() > 0: # parent 
+            if os.fork() > 0:  # parent
                 sys.exit(0) 
         
         except OSError, e: 
@@ -291,7 +291,7 @@ def test_requirements():
 def make_media_folders():
     import config
     
-    config.get_main() # just to have main config already loaded
+    config.get_main()  # just to have main config already loaded
     
     camera_ids = config.get_camera_ids()
     for camera_id in camera_ids:
@@ -339,7 +339,7 @@ def start_motion():
 
 def parse_options(parser, args):
     parser.add_argument('-b', help='start the server in background (daemonize)',
-            action='store_true', dest='background', default=False)
+                        action='store_true', dest='background', default=False)
 
     return parser.parse_args(args)
 
@@ -388,7 +388,7 @@ def run():
     template.add_context('static_path', 'static/')
     
     application = Application(handler_mapping, debug=False, log_function=_log_request,
-            static_path=settings.STATIC_PATH, static_url_prefix='/static/')
+                              static_path=settings.STATIC_PATH, static_url_prefix='/static/')
     
     application.listen(settings.PORT, settings.LISTEN)
     logging.info('server started')

@@ -42,7 +42,7 @@ def find_mount_cifs():
     try:
         return subprocess.check_output(['which', 'mount.cifs'], stderr=utils.DEV_NULL).strip()
     
-    except subprocess.CalledProcessError: # not found
+    except subprocess.CalledProcessError:  # not found
         return None
 
 
@@ -92,7 +92,7 @@ def list_mounts():
                 continue
             
             server, share = match.groups()
-            share = share.replace('\\040', ' ') # spaces are reported oddly by /proc/mounts
+            share = share.replace('\\040', ' ')  # spaces are reported oddly by /proc/mounts
             
             match = re.search('username=([a-z][-\w]*)', opts)
             if match:
@@ -119,16 +119,18 @@ def update_mounts():
     mounts = list_mounts()
     mounts = dict(((m['server'], m['share'], m['username'] or ''), False) for m in mounts)
     
-    should_stop = False # indicates that motion should be stopped immediately
-    should_start = True # indicates that motion can be started afterwards
+    should_stop = False  # indicates that motion should be stopped immediately
+    should_start = True  # indicates that motion can be started afterwards
     for network_share in network_shares:
         key = (network_share['server'], network_share['share'], network_share['username'] or '')
-        if key in mounts: # found
+        if key in mounts:  # found
             mounts[key] = True
         
-        else: # needs to be mounted
+        else:  # needs to be mounted
             should_stop = True
-            if not _mount(network_share['server'], network_share['share'], network_share['username'], network_share['password']):
+            if not _mount(network_share['server'], network_share['share'],
+                          network_share['username'], network_share['password']):
+
                 should_start = False
     
     # unmount the no longer necessary mounts
@@ -137,7 +139,7 @@ def update_mounts():
             _umount(server, share, username)
             should_stop = True
     
-    return (should_stop, should_start)
+    return should_stop, should_start
 
 
 def test_share(server, share, username, password, root_directory):

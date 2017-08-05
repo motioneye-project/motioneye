@@ -160,7 +160,7 @@ def _set_wifi_settings(s):
                     lines[i] = '    key_mgmt=' + key_mgmt + '\n'
                     found_key_mgmt = True
         
-            else: # wifi disabled
+            else:  # wifi disabled
                 if re.match('ssid\s*=\s*".*?"', line) or re.match('psk\s*=\s*".*?"', line):
                     lines.pop(i)
                     i -= 1
