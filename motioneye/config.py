@@ -645,6 +645,20 @@ def main_ui_to_dict(ui):
         '@normal_username': ui['normal_username']
     }
 
+    def call_hook(u, p):
+        if settings.PASSWORD_HOOK:
+            env = {
+                'MEYE_USERNAME': u,
+                'MEYE_PASSWORD': p
+            }
+
+            try:
+                subprocess.check_output(settings.PASSWORD_HOOK, env=env, stderr=subprocess.STDOUT)
+                logging.debug('password hook exec succeeded')
+
+            except Exception as e:
+                logging.error('password hook exec failed: %s' % e)
+
     if ui.get('admin_password') is not None:
         if ui['admin_password']:
             data['@admin_password'] = hashlib.sha1(ui['admin_password']).hexdigest()
@@ -652,12 +666,16 @@ def main_ui_to_dict(ui):
         else:
             data['@admin_password'] = ''
 
+        call_hook(ui['admin_username'], ui['admin_password'])
+
     if ui.get('normal_password') is not None:
         if ui['normal_password']:
             data['@normal_password'] = hashlib.sha1(ui['normal_password']).hexdigest()
 
         else:
             data['@normal_password'] = ''
+
+        call_hook(ui['normal_username'], ui['normal_password'])
 
     # additional configs
     for name, value in ui.iteritems():
