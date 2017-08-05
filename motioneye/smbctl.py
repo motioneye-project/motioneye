@@ -104,9 +104,9 @@ def list_mounts():
             logging.debug('found smb mount "//%s/%s" at "%s"' % (server, share, mount_point))
             
             mounts.append({
-                'server': server,
-                'share': share,
-                'username': username,
+                'server': server.lower(),
+                'share': share.lower(),
+                'username': username.lower(),
                 'mount_point': mount_point
             })
 
@@ -122,7 +122,7 @@ def update_mounts():
     should_stop = False  # indicates that motion should be stopped immediately
     should_start = True  # indicates that motion can be started afterwards
     for network_share in network_shares:
-        key = (network_share['server'], network_share['share'], network_share['username'] or '')
+        key = (network_share['server'].lower(), network_share['share'].lower(), network_share['username'].lower() or '')
         if key in mounts:  # found
             mounts[key] = True
         

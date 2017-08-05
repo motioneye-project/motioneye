@@ -4950,6 +4950,11 @@ function refreshCameraFrames() {
             if (this.config['proto'] == 'mjpeg') {
                 var url = this.config['url'].replace('127.0.0.1', window.location.host.split(':')[0]);
                 url += (url.indexOf('?') > 0 ? '&' : '?') + '_=' + new Date().getTime();
+
+                /* if (url.indexOf('@') >= 0) {
+                    url = url.substring(0, url.indexOf('//') + 2)+ url.substring(url.indexOf('@') + 1);
+                } */
+
                 this.img.src = url;
             }
         }
