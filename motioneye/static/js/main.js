@@ -791,7 +791,7 @@ function initUI() {
     });
     
     /* capture mode and recording mode are not completely independent:
-     * all frames capture mode implies continuous recording (and vice-versa) */
+     * all-frames capture mode implies continuous recording (and vice-versa) */
     $('#captureModeSelect').change(function (val) {
         if ($('#captureModeSelect').val() == 'all-frames') {
             $('#recordingModeSelect').val('continuous');
@@ -1878,6 +1878,7 @@ function cameraUi2Dict() {
         'capture_mode': $('#captureModeSelect').val(),
         'snapshot_interval': $('#snapshotIntervalEntry').val(),
         'preserve_pictures': $('#preservePicturesSelect').val() >= 0 ? $('#preservePicturesSelect').val() : $('#picturesLifetimeEntry').val(),
+        'manual_snapshots': $('#manualSnapshotsSwitch')[0].checked,
         
         /* movies */
         'movies': $('#moviesEnabledSwitch')[0].checked,
@@ -1921,8 +1922,8 @@ function cameraUi2Dict() {
         'web_hook_notifications_http_method': $('#webHookNotificationsHttpMethodSelect').val(),
         'command_notifications_enabled': $('#commandNotificationsEnabledSwitch')[0].checked,
         'command_notifications_exec': $('#commandNotificationsEntry').val(),
-        'command_post_notifications_enabled': $('#commandPostNotificationsEnabledSwitch')[0].checked,
-        'command_post_notifications_exec': $('#commandPostNotificationsEntry').val(),
+        'command_end_notifications_enabled': $('#commandEndNotificationsEnabledSwitch')[0].checked,
+        'command_end_notifications_exec': $('#commandEndNotificationsEntry').val(),
         
         /* working schedule */
         'working_schedule': $('#workingScheduleEnabledSwitch')[0].checked,
@@ -2230,6 +2231,7 @@ function dict2CameraUi(dict) {
     }
     markHideIfNull('preserve_pictures', 'preservePicturesSelect');
     $('#picturesLifetimeEntry').val(dict['preserve_pictures']); markHideIfNull('preserve_pictures', 'picturesLifetimeEntry');
+    $('#manualSnapshotsSwitch')[0].checked = dict['manual_snapshots']; markHideIfNull('manual_snapshots', 'manualSnapshotsSwitch');
     
     /* movies */
     $('#moviesEnabledSwitch')[0].checked = dict['movies']; markHideIfNull('movies', 'moviesEnabledSwitch');
@@ -2280,8 +2282,8 @@ function dict2CameraUi(dict) {
     
     $('#commandNotificationsEnabledSwitch')[0].checked = dict['command_notifications_enabled']; markHideIfNull('command_notifications_enabled', 'commandNotificationsEnabledSwitch');
     $('#commandNotificationsEntry').val(dict['command_notifications_exec']);
-    $('#commandPostNotificationsEnabledSwitch')[0].checked = dict['command_post_notifications_enabled']; markHideIfNull('command_post_notifications_enabled', 'commandPostNotificationsEnabledSwitch');
-    $('#commandPostNotificationsEntry').val(dict['command_post_notifications_exec']);
+    $('#commandEndNotificationsEnabledSwitch')[0].checked = dict['command_end_notifications_enabled']; markHideIfNull('command_end_notifications_enabled', 'commandEndNotificationsEnabledSwitch');
+    $('#commandEndNotificationsEntry').val(dict['command_end_notifications_exec']);
 
     /* working schedule */
     $('#workingScheduleEnabledSwitch')[0].checked = dict['working_schedule']; markHideIfNull('working_schedule', 'workingScheduleEnabledSwitch');

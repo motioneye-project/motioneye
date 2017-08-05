@@ -40,8 +40,8 @@ import v4l2ctl
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
-_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off', 'up',
-            'right', 'down', 'left', 'zoom_in', 'zoom_out',
+_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off',
+            'up', 'right', 'down', 'left', 'zoom_in', 'zoom_out',
             'preset1', 'preset2', 'preset3', 'preset4', 'preset5', 'preset6', 'preset7', 'preset8', 'preset9']
 
 _main_config_cache = None
@@ -774,6 +774,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         'snapshot_filename': '',
         'quality': max(1, int(ui['image_quality'])),
         '@preserve_pictures': int(ui['preserve_pictures']),
+        '@manual_snapshots': ui['manual_snapshots'],
 
         # movies
         'ffmpeg_output_movies': False,
@@ -939,19 +940,26 @@ def motion_camera_ui_to_dict(ui, old_config=None):
             data['text_double'] = True
 
     if ui['still_images']:
+        data['picture_filename'] = ui['image_file_name']
+        data['snapshot_filename'] = ui['image_file_name']
+
         capture_mode = ui['capture_mode']
         if capture_mode == 'motion-triggered':
             data['output_pictures'] = True
-            data['picture_filename'] = ui['image_file_name']
+
+        elif capture_mode == 'motion-triggered-one':
+            data['output_pictures'] = 'best'
 
         elif capture_mode == 'interval-snapshots':
             data['snapshot_interval'] = int(ui['snapshot_interval'])
-            data['snapshot_filename'] = ui['image_file_name']
 
         elif capture_mode == 'all-frames':
             data['output_pictures'] = True
             data['emulate_motion'] = True
-            data['picture_filename'] = ui['image_file_name']
+
+        elif capture_mode == 'manual':
+            data['output_pictures'] = False
+            data['emulate_motion'] = False
 
     if ui['movies']:
         data['ffmpeg_output_movies'] = True
@@ -1045,8 +1053,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     # event end
     on_event_end = ['%(script)s stop %%t' % {'script': meyectl.find_command('relayevent')}]
 
-    if ui['command_post_notifications_enabled']:
-        on_event_end += utils.split_semicolon(ui['command_post_notifications_exec'])
+    if ui['command_end_notifications_enabled']:
+        on_event_end += utils.split_semicolon(ui['command_end_notifications_exec'])
     
     data['on_event_end'] = '; '.join(on_event_end)
 
@@ -1164,6 +1172,7 @@ def motion_camera_dict_to_ui(data):
         'image_quality': data['quality'],
         'snapshot_interval': 0,
         'preserve_pictures': data['@preserve_pictures'],
+        'manual_snapshots': data['@manual_snapshots'],
 
         # movies
         'movies': False,
@@ -1193,7 +1202,7 @@ def motion_camera_dict_to_ui(data):
         'email_notifications_enabled': False,
         'web_hook_notifications_enabled': False,
         'command_notifications_enabled': False,
-        'command_post_notifications_enabled': False,
+        'command_end_notifications_enabled': False,
         
         # working schedule
         'working_schedule': False,
@@ -1341,8 +1350,7 @@ def motion_camera_dict_to_ui(data):
     snapshot_interval = data['snapshot_interval']
     snapshot_filename = data['snapshot_filename']
 
-    ui['still_images'] = (((emulate_motion or output_pictures) and picture_filename) or
-                          (snapshot_interval and snapshot_filename))
+    ui['still_images'] = bool(snapshot_filename) or bool(picture_filename)
 
     if emulate_motion:
         ui['capture_mode'] = 'all-frames'
@@ -1356,9 +1364,19 @@ def motion_camera_dict_to_ui(data):
             ui['image_file_name'] = snapshot_filename
 
     elif output_pictures:
-        ui['capture_mode'] = 'motion-triggered'
+        if output_pictures == 'best':
+            ui['capture_mode'] = 'motion-triggered-one'
+
+        else:
+            ui['capture_mode'] = 'motion-triggered'
+
         if picture_filename:
             ui['image_file_name'] = picture_filename
+
+    else:  # assuming manual
+        ui['capture_mode'] = 'manual'
+        if snapshot_filename:
+            ui['image_file_name'] = snapshot_filename
 
     if data['ffmpeg_output_movies']:
         ui['movies'] = True
@@ -1472,18 +1490,17 @@ def motion_camera_dict_to_ui(data):
     if on_event_end:
         on_event_end = utils.split_semicolon(on_event_end)
 
-    command_post_notifications = []
+    command_end_notifications = []
     for e in on_event_end:
         if e.count('relayevent') or e.count('eventrelay.py'):
-            continue # ignore internal relay script
+            continue  # ignore internal relay script
 
-        else: # custom command
-            command_post_notifications.append(e)
+        else:  # custom command
+            command_end_notifications.append(e)
 
-    if command_post_notifications:
-        ui['command_post_notifications_enabled'] = True
-        ui['command_post_notifications_exec'] = '; '.join(command_post_notifications)
-
+    if command_end_notifications:
+        ui['command_end_notifications_enabled'] = True
+        ui['command_end_notifications_exec'] = '; '.join(command_end_notifications)
 
     # movie end
     on_movie_end = data.get('on_movie_end') or []
@@ -1531,7 +1548,7 @@ def motion_camera_dict_to_ui(data):
     ui['extra_options'] = extra_options
 
     # action commands
-    action_commands = get_action_commands(data['@id'])
+    action_commands = get_action_commands(data)
     ui['actions'] = action_commands.keys()
 
     return ui
@@ -1575,18 +1592,26 @@ def simple_mjpeg_camera_dict_to_ui(data):
         ui[name[1:]] = value
 
     # action commands
-    action_commands = get_action_commands(data['@id'])
+    action_commands = get_action_commands(data)
     ui['actions'] = action_commands.keys()
 
     return ui
 
 
-def get_action_commands(camera_id):
+def get_action_commands(camera_config):
+    camera_id = camera_config['@id']
+
     action_commands = {}
     for action in _ACTIONS:
         path = os.path.join(settings.CONF_PATH, '%s_%s' % (action, camera_id))
         if os.access(path, os.X_OK):
             action_commands[action] = path
+
+    if camera_config.get('@manual_snapshots'):
+        action_commands['snapshot'] = True
+
+    if camera_config.get('@manual_record'):
+        action_commands['record'] = True
 
     return action_commands
 
@@ -1968,6 +1993,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('snapshot_filename', '')
     data.setdefault('quality', 85)
     data.setdefault('@preserve_pictures', 0)
+    data.setdefault('@manual_snapshots', True)
 
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     data.setdefault('max_movie_time', 0)
@@ -1985,6 +2011,7 @@ def _set_default_motion_camera(camera_id, data):
         data.setdefault('ffmpeg_variable_bitrate', _EXPONENTIAL_DEF_QUALITY)
 
     data.setdefault('@preserve_movies', 0)
+    data.setdefault('@manual_record', False)
 
     data.setdefault('@working_schedule', '')
     data.setdefault('@working_schedule_type', 'outside')
