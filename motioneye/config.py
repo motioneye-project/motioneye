@@ -947,6 +947,9 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         if capture_mode == 'motion-triggered':
             data['output_pictures'] = True
 
+        elif capture_mode == 'motion-triggered-one':
+            data['output_pictures'] = 'best'
+
         elif capture_mode == 'interval-snapshots':
             data['snapshot_interval'] = int(ui['snapshot_interval'])
 
@@ -1361,7 +1364,12 @@ def motion_camera_dict_to_ui(data):
             ui['image_file_name'] = snapshot_filename
 
     elif output_pictures:
-        ui['capture_mode'] = 'motion-triggered'
+        if output_pictures == 'best':
+            ui['capture_mode'] = 'motion-triggered-one'
+
+        else:
+            ui['capture_mode'] = 'motion-triggered'
+
         if picture_filename:
             ui['image_file_name'] = picture_filename
 
