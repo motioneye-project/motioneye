@@ -212,11 +212,8 @@ def cleanup_media(media_type):
         if preserve_media == 0:
             continue  # preserve forever
         
-        still_images_enabled = bool(
-                ((camera_config['emulate_motion'] or camera_config['output_pictures']) and camera_config['picture_filename']) or
-                (camera_config['snapshot_interval'] and camera_config['snapshot_filename']))
-        
-        movies_enabled = camera_config['ffmpeg_output_movies']
+        still_images_enabled = bool(camera_config['picture_filename']) or bool(camera_config['snapshot_filename'])
+        movies_enabled = bool(camera_config['ffmpeg_output_movies'])
 
         if media_type == 'picture' and not still_images_enabled:
             continue  # only cleanup pictures for cameras with still images enabled

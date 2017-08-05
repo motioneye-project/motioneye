@@ -693,9 +693,14 @@
                                 <option value="motion-triggered">Motion Triggered</option>
                                 <option value="interval-snapshots">Interval Snapshots</option>
                                 <option value="all-frames">All Frames</option>
+                                <option value="manual">Manual</option>
                             </select>
                         </td>
-                        <td><span class="help-mark" title="sets the image capture mode: Motion Triggered = an image captured whenever motion is detected, Interval Snapshots = an image captured every x seconds, All Frames = saves each frame to an image file">?</span></td>
+                        <td><span class="help-mark" title="sets the image capture mode:
+                                Motion Triggered = an image captured whenever motion is detected,
+                                Interval Snapshots = an image captured every x seconds,
+                                All Frames = saves each frame to an image file,
+                                Manual = manual snapshots using snapshot button">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" min="1" max="86400" required="true" depends="captureMode=interval-snapshots">
                         <td class="settings-item-label"><span class="settings-item-label">Snapshot Interval</span></td>

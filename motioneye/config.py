@@ -770,8 +770,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         # still images
         'output_pictures': False,
         'snapshot_interval': 0,
-        'picture_filename': ui['image_file_name'],
-        'snapshot_filename': ui['image_file_name'],
+        'picture_filename': '',
+        'snapshot_filename': '',
         'quality': max(1, int(ui['image_quality'])),
         '@preserve_pictures': int(ui['preserve_pictures']),
         '@manual_snapshots': ui['manual_snapshots'],
@@ -940,6 +940,9 @@ def motion_camera_ui_to_dict(ui, old_config=None):
             data['text_double'] = True
 
     if ui['still_images']:
+        data['picture_filename'] = ui['image_file_name']
+        data['snapshot_filename'] = ui['image_file_name']
+
         capture_mode = ui['capture_mode']
         if capture_mode == 'motion-triggered':
             data['output_pictures'] = True
@@ -950,6 +953,10 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         elif capture_mode == 'all-frames':
             data['output_pictures'] = True
             data['emulate_motion'] = True
+
+        elif capture_mode == 'manual':
+            data['output_pictures'] = False
+            data['emulate_motion'] = False
 
     if ui['movies']:
         data['ffmpeg_output_movies'] = True
@@ -1340,8 +1347,7 @@ def motion_camera_dict_to_ui(data):
     snapshot_interval = data['snapshot_interval']
     snapshot_filename = data['snapshot_filename']
 
-    ui['still_images'] = (((emulate_motion or output_pictures) and picture_filename) or
-                          (snapshot_interval and snapshot_filename))
+    ui['still_images'] = bool(snapshot_filename) or bool(picture_filename)
 
     if emulate_motion:
         ui['capture_mode'] = 'all-frames'
@@ -1358,6 +1364,11 @@ def motion_camera_dict_to_ui(data):
         ui['capture_mode'] = 'motion-triggered'
         if picture_filename:
             ui['image_file_name'] = picture_filename
+
+    else:  # assuming manual
+        ui['capture_mode'] = 'manual'
+        if snapshot_filename:
+            ui['image_file_name'] = snapshot_filename
 
     if data['ffmpeg_output_movies']:
         ui['movies'] = True

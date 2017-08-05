@@ -791,7 +791,7 @@ function initUI() {
     });
     
     /* capture mode and recording mode are not completely independent:
-     * all frames capture mode implies continuous recording (and vice-versa) */
+     * all-frames capture mode implies continuous recording (and vice-versa) */
     $('#captureModeSelect').change(function (val) {
         if ($('#captureModeSelect').val() == 'all-frames') {
             $('#recordingModeSelect').val('continuous');
