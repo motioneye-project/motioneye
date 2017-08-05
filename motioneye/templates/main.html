@@ -1007,6 +1007,19 @@
                         <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandNotificationsEntry" placeholder="command..."></td>
                         <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semilcolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number">?</span></td>
                     </tr>
+                    <tr class="settings-item advanced-setting" depends="motionDetectionEnabled">
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="motionDetectionEnabled">
+                        <td class="settings-item-label"><span class="settings-item-label">Run A Post Command</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="commandPostNotificationsEnabledSwitch"></td>
+                        <td><span class="help-mark" title="enable this if you want to execute a command whenever a motion event is finished">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" required="true" depends="commandPostNotificationsEnabled motionDetectionEnabled" strip="true">
+                        <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandPostNotificationsEntry" placeholder="command..."></td>
+                        <td><span class="help-mark" title="a command to be executed when motion event is finished; multiple commands can be separated by a semicolon; don't use semilcolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
+                    </tr>
                     {% for config in camera_sections.get('notifications', {}).get('configs', []) %}
                         {{config_item(config, "motionDetectionEnabled")}}
                     {% endfor %}
