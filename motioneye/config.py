@@ -41,8 +41,9 @@ import v4l2ctl
 
 _CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
-_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off', 'up', 'right', 'down', 'left', 'zoom_in', 'zoom_out',
-        'preset1', 'preset2', 'preset3', 'preset4', 'preset5', 'preset6', 'preset7', 'preset8', 'preset9']
+_ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off', 'up',
+            'right', 'down', 'left', 'zoom_in', 'zoom_out',
+            'preset1', 'preset2', 'preset3', 'preset4', 'preset5', 'preset6', 'preset7', 'preset8', 'preset9']
 
 _main_config_cache = None
 _camera_config_cache = {}
@@ -54,11 +55,11 @@ _monitor_command_cache = {}
 
 # when using the following video codecs, the ffmpeg_variable_bitrate parameter appears to have an exponential effect
 _EXPONENTIAL_QUALITY_CODECS = ['mpeg4', 'msmpeg4', 'swf', 'flv', 'mov', 'mkv']
-_EXPONENTIAL_QUALITY_FACTOR = 100000 # voodoo
-_EXPONENTIAL_DEF_QUALITY = 511 # about 75%
+_EXPONENTIAL_QUALITY_FACTOR = 100000  # voodoo
+_EXPONENTIAL_DEF_QUALITY = 511  # about 75%
 _MAX_FFMPEG_VARIABLE_BITRATE = 32767
 
-_KNOWN_MOTION_OPTIONS = set([
+_KNOWN_MOTION_OPTIONS = {
     'auto_brightness',
     'brightness',
     'contrast',
@@ -117,8 +118,8 @@ _KNOWN_MOTION_OPTIONS = set([
     'text_right',
     'threshold',
     'videodevice',
-    'width',
-])
+    'width'
+}
 
 
 def additional_section(func):
@@ -145,13 +146,14 @@ def get_main(as_lines=False):
     
     lines = None
     try:
-        file = open(config_file_path, 'r')
+        f = open(config_file_path, 'r')
     
     except IOError as e:
         if e.errno == errno.ENOENT:  # file does not exist
             logging.info('main config file %(path)s does not exist, using default values' % {'path': config_file_path})
             
             lines = []
+            f = None
         
         else:
             logging.error('could not open main config file %(path)s: %(msg)s' % {
@@ -159,9 +161,9 @@ def get_main(as_lines=False):
             
             raise
     
-    if lines is None:
+    if lines is None and f:
         try:
-            lines = [l[:-1] for l in file.readlines()]
+            lines = [l[:-1] for l in f.readlines()]
         
         except Exception as e:
             logging.error('could not read main config file %(path)s: %(msg)s' % {
@@ -170,7 +172,7 @@ def get_main(as_lines=False):
             raise
         
         finally:
-            file.close()
+            f.close()
     
     if as_lines:
         return lines
@@ -207,7 +209,7 @@ def set_main(main_config):
     logging.debug('writing main config to %(path)s...' % {'path': config_file_path})
     
     try:
-        file = open(config_file_path, 'w')
+        f = open(config_file_path, 'w')
     
     except Exception as e:
         logging.error('could not open main config file %(path)s for writing: %(msg)s' % {
@@ -218,7 +220,7 @@ def set_main(main_config):
     lines = _dict_to_conf(lines, main_config, list_names=['thread'])
     
     try:
-        file.writelines([utils.make_str(l) + '\n' for l in lines])
+        f.writelines([utils.make_str(l) + '\n' for l in lines])
     
     except Exception as e:
         logging.error('could not write main config file %(path)s: %(msg)s' % {
@@ -227,7 +229,7 @@ def set_main(main_config):
         raise
     
     finally:
-        file.close()
+        f.close()
 
 
 def get_camera_ids(filter_valid=True):
@@ -316,7 +318,7 @@ def get_camera(camera_id, as_lines=False):
     logging.debug('reading camera config from %(path)s...' % {'path': camera_config_path})
     
     try:
-        file = open(camera_config_path, 'r')
+        f = open(camera_config_path, 'r')
     
     except Exception as e:
         logging.error('could not open camera config file: %(msg)s' % {'msg': unicode(e)})
@@ -324,7 +326,7 @@ def get_camera(camera_id, as_lines=False):
         raise
     
     try:
-        lines = [l.strip() for l in file.readlines()]
+        lines = [l.strip() for l in f.readlines()]
     
     except Exception as e:
         logging.error('could not read camera config file %(path)s: %(msg)s' % {
@@ -333,7 +335,7 @@ def get_camera(camera_id, as_lines=False):
         raise
     
     finally:
-        file.close()
+        f.close()
     
     if as_lines:
         return lines
@@ -399,7 +401,7 @@ def get_camera(camera_id, as_lines=False):
         
         _set_default_simple_mjpeg_camera(camera_id, camera_config)
     
-    else: # incomplete configuration
+    else:  # incomplete configuration
         logging.warn('camera config file at %s is incomplete, ignoring' % camera_config_path)
         
         return None
@@ -491,7 +493,7 @@ def set_camera(camera_id, camera_config):
     logging.debug('writing camera config to %(path)s...' % {'path': camera_config_path})
     
     try:
-        file = open(camera_config_path, 'w')
+        f = open(camera_config_path, 'w')
     
     except Exception as e:
         logging.error('could not open camera config file %(path)s for writing: %(msg)s' % {
@@ -502,7 +504,7 @@ def set_camera(camera_id, camera_config):
     lines = _dict_to_conf(lines, camera_config)
     
     try:
-        file.writelines([utils.make_str(l) + '\n' for l in lines])
+        f.writelines([utils.make_str(l) + '\n' for l in lines])
     
     except Exception as e:
         logging.error('could not write camera config file %(path)s: %(msg)s' % {
@@ -511,7 +513,7 @@ def set_camera(camera_id, camera_config):
         raise
     
     finally:
-        file.close()
+        f.close()
         
 
 def add_camera(device_details):
@@ -530,7 +532,8 @@ def add_camera(device_details):
             else:
                 host = device_details['username'] + '@' + host
 
-        device_details['url'] = urlparse.urlunparse((device_details['scheme'], host, device_details['path'], '', '', ''))
+        device_details['url'] = urlparse.urlunparse(
+                (device_details['scheme'], host, device_details['path'], '', '', ''))
 
     # determine the last camera id
     camera_ids = get_camera_ids()
@@ -580,7 +583,7 @@ def add_camera(device_details):
             camera_config['width'] = 640
             camera_config['height'] = 480
 
-    else: # assuming mjpeg
+    else:  # assuming mjpeg
         camera_config['@proto'] = 'mjpeg'
         camera_config['@url'] = device_details['url']
     
@@ -680,7 +683,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     import smbctl
     
     old_config = dict(old_config or {})
-    main_config = get_main() # needed for surveillance password
+    main_config = get_main()  # needed for surveillance password
 
     data = {
         # device
@@ -813,7 +816,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
             else:
                 data['hue'] = max(1, int(round(int(ui['hue']) * 2.55)))
     
-    else: # assuming netcam
+    else:  # assuming netcam
         if data.get('netcam_url', old_config.get('netcam_url', '')).startswith('rtsp'):
             # motion uses the configured width and height for RTSP cameras
             width = int(ui['resolution'].split('x')[0])
@@ -823,7 +826,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
             
             threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
         
-        else: # width & height are not available for other netcams
+        else:  # width & height are not available for other netcams
             threshold = int(float(ui['frame_change_threshold']) * 640 * 480 / 100)
 
     data['threshold'] = threshold
@@ -852,9 +855,9 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         os.makedirs(data['target_dir'])
         logging.debug('created root directory %s for camera %s' % (data['target_dir'], data['@name']))
     
-    except Exception as e:
+    except OSError as e:
         if isinstance(e, OSError) and e.errno == errno.EEXIST:
-            pass # already exists, things should be just fine
+            pass  # already exists, things should be just fine
         
         else:
             logging.error('failed to create root directory "%s": %s' % (data['target_dir'], e), exc_info=True)
@@ -923,7 +926,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     q = int(ui['movie_quality'])
     if motionctl.needs_ffvb_quirks():
         if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
-            vbr = max(1, _MAX_FFMPEG_VARIABLE_BITRATE * (1 - math.log(max(1, q * _EXPONENTIAL_QUALITY_FACTOR), _EXPONENTIAL_QUALITY_FACTOR * 100)))
+            vbr = max(1, _MAX_FFMPEG_VARIABLE_BITRATE * (1 - math.log(max(1, q * _EXPONENTIAL_QUALITY_FACTOR),
+                                                                      _EXPONENTIAL_QUALITY_FACTOR * 100)))
             
         else:
             vbr = 1 + (_MAX_FFMPEG_VARIABLE_BITRATE - 1) / 100.0 * (100 - q)
@@ -950,7 +954,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
             if data.get('rotate') in [90, 270]:
                 capture_width, capture_height = capture_height, capture_width
 
-            data['mask_file'] = utils.build_editable_mask_file(old_config['@id'], ui['mask_lines'], capture_width, capture_height)
+            data['mask_file'] = utils.build_editable_mask_file(old_config['@id'], ui['mask_lines'],
+                                                               capture_width, capture_height)
 
     # working schedule
     if ui['working_schedule']:
@@ -970,7 +975,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     if ui['email_notifications_enabled']:
         emails = re.sub('\\s', '', ui['email_notifications_addresses'])
         
-        on_event_start.append("%(script)s '%(server)s' '%(port)s' '%(account)s' '%(password)s' '%(tls)s' '%(from)s' '%(to)s' 'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'" % {
+        line = "%(script)s '%(server)s' '%(port)s' '%(account)s' '%(password)s' '%(tls)s' '%(from)s' '%(to)s' " \
+               "'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'" % {
                 'script': meyectl.find_command('sendmail'),
                 'server': ui['email_notifications_smtp_server'],
                 'port': ui['email_notifications_smtp_port'],
@@ -979,7 +985,9 @@ def motion_camera_ui_to_dict(ui, old_config=None):
                 'tls': ui['email_notifications_smtp_tls'],
                 'from': ui['email_notifications_from'],
                 'to': emails,
-                'timespan': ui['email_notifications_picture_time_span']})
+                'timespan': ui['email_notifications_picture_time_span']}
+
+        on_event_start.append(line)
 
     if ui['web_hook_notifications_enabled']:
         url = re.sub('\\s', '+', ui['web_hook_notifications_url'])
@@ -1085,7 +1093,7 @@ def motion_camera_dict_to_ui(data):
         'upload_subfolders': data['@upload_subfolders'],
         'upload_username': data['@upload_username'],
         'upload_password': data['@upload_password'],
-        'upload_authorization_key': '', # needed, otherwise the field is hidden
+        'upload_authorization_key': '',  # needed, otherwise the field is hidden
         'web_hook_storage_enabled': False,
         'command_storage_enabled': False,
 
@@ -1169,11 +1177,11 @@ def motion_camera_dict_to_ui(data):
 
             threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
 
-        else: # width & height are not available for other netcams
+        else:  # width & height are not available for other netcams
             # we have no other choice but use something like 640x480 as reference
             threshold = data['threshold'] * 100.0 / (640 * 480)
 
-    else: # assuming v4l2
+    else:  # assuming v4l2
         ui['device_url'] = data['videodevice']
         ui['proto'] = 'v4l2'
 
@@ -1186,7 +1194,7 @@ def motion_camera_dict_to_ui(data):
         # indicate the presence of these controls
         # we must call v4l2ctl functions to determine the available controls    
         brightness = v4l2ctl.get_brightness(data['videodevice'])
-        if brightness is not None: # has brightness control
+        if brightness is not None:  # has brightness control
             if data.get('brightness', 0) != 0:
                 ui['brightness'] = brightness
                     
@@ -1194,7 +1202,7 @@ def motion_camera_dict_to_ui(data):
                 ui['brightness'] = 50
 
         contrast = v4l2ctl.get_contrast(data['videodevice'])
-        if contrast is not None: # has contrast control
+        if contrast is not None:  # has contrast control
             if data.get('contrast', 0) != 0:
                 ui['contrast'] = contrast
             
@@ -1202,7 +1210,7 @@ def motion_camera_dict_to_ui(data):
                 ui['contrast'] = 50
             
         saturation = v4l2ctl.get_saturation(data['videodevice'])
-        if saturation is not None: # has saturation control
+        if saturation is not None:  # has saturation control
             if data.get('saturation', 0) != 0:
                 ui['saturation'] = saturation
             
@@ -1210,7 +1218,7 @@ def motion_camera_dict_to_ui(data):
                 ui['saturation'] = 50
             
         hue = v4l2ctl.get_hue(data['videodevice'])
-        if hue is not None: # has hue control
+        if hue is not None:  # has hue control
             if data.get('hue', 0) != 0:
                 ui['hue'] = hue
             
@@ -1222,7 +1230,10 @@ def motion_camera_dict_to_ui(data):
     ui['frame_change_threshold'] = threshold
     
     if (data['@storage_device'] == 'network-share') and settings.SMB_SHARES:
-        mount_point = smbctl.make_mount_point(data['@network_server'], data['@network_share_name'], data['@network_username'])
+        mount_point = smbctl.make_mount_point(data['@network_server'],
+                                              data['@network_share_name'],
+                                              data['@network_username'])
+
         ui['root_directory'] = data['target_dir'][len(mount_point):] or '/'
     
     elif data['@storage_device'].startswith('local-disk'):
@@ -1233,8 +1244,10 @@ def motion_camera_dict_to_ui(data):
                 ui['root_directory'] = data['target_dir'][len(partition['mount_point']):] or '/'
                 break
 
-        else: # not found for some reason
-            logging.error('could not find mounted partition for device "%s" and target dir "%s"' % (target_dev, data['target_dir']))
+        else:  # not found for some reason
+            logging.error('could not find mounted partition for device "%s" and target dir "%s"' %
+                          (target_dev, data['target_dir']))
+
             ui['root_directory'] = data['target_dir']
 
     else:
@@ -1317,7 +1330,8 @@ def motion_camera_dict_to_ui(data):
     bitrate = data['ffmpeg_variable_bitrate']
     if motionctl.needs_ffvb_quirks():
         if data['ffmpeg_video_codec'] in _EXPONENTIAL_QUALITY_CODECS:
-            q = (100 * _EXPONENTIAL_QUALITY_FACTOR) ** ((1 - float(bitrate) / _MAX_FFMPEG_VARIABLE_BITRATE)) / _EXPONENTIAL_QUALITY_FACTOR
+            q = (100 * _EXPONENTIAL_QUALITY_FACTOR) ** \
+                    (1 - float(bitrate) / _MAX_FFMPEG_VARIABLE_BITRATE) / _EXPONENTIAL_QUALITY_FACTOR
     
         else:
             q = 100 - (bitrate - 1) * 100.0 / (_MAX_FFMPEG_VARIABLE_BITRATE - 1)
@@ -1400,9 +1414,9 @@ def motion_camera_dict_to_ui(data):
             ui['web_hook_notifications_url'] = e[-1]
         
         elif e.count('relayevent'):
-            continue # ignore internal relay script
+            continue  # ignore internal relay script
 
-        else: # custom command
+        else:  # custom command
             command_notifications.append(e)
     
     if command_notifications: 
@@ -1427,9 +1441,9 @@ def motion_camera_dict_to_ui(data):
             ui['web_hook_storage_url'] = e[-1]
 
         elif e.count('relayevent'):
-            continue # ignore internal relay script
+            continue  # ignore internal relay script
 
-        else: # custom command
+        else:  # custom command
             command_storage.append(e)
     
     if command_storage: 
@@ -1448,7 +1462,7 @@ def motion_camera_dict_to_ui(data):
     for name, value in data.iteritems():
         if name not in _KNOWN_MOTION_OPTIONS and not name.startswith('@'):
             if isinstance(value, bool):
-                value = ['off', 'on'][value] # boolean values should be transferred as on/off
+                value = ['off', 'on'][value]  # boolean values should be transferred as on/off
 
             extra_options.append((name, value))
 
@@ -1535,7 +1549,9 @@ def backup():
     logging.debug('generating config backup file')
 
     if len(os.listdir(settings.CONF_PATH)) > 100:
-        logging.debug('config path "%s" appears to be a system-wide config directory, performing a selective backup' % settings.CONF_PATH)
+        logging.debug('config path "%s" appears to be a system-wide config directory, performing a selective backup' %
+                      settings.CONF_PATH)
+
         cmd = ['tar', 'zc', 'motion.conf']
         cmd += map(os.path.basename, glob.glob(os.path.join(settings.CONF_PATH, 'thread-*.conf')))
         try:
@@ -1550,7 +1566,8 @@ def backup():
             return None
 
     else:
-        logging.debug('config path "%s" appears to be a motion-specific config directory, performing a full backup' % settings.CONF_PATH)
+        logging.debug('config path "%s" appears to be a motion-specific config directory, performing a full backup' %
+                      settings.CONF_PATH)
 
         try:
             content = subprocess.check_output(['tar', 'zc', '.'], cwd=settings.CONF_PATH)
@@ -1647,24 +1664,30 @@ def _python_to_value(value):
         return value
 
 
-def _conf_to_dict(lines, list_names=[], no_convert=[]):
-    data = utils.OrderedDict()
+def _conf_to_dict(lines, list_names=None, no_convert=None):
+    if list_names is None:
+        list_names = []
+
+    if no_convert is None:
+        no_convert = []
+
+    data = collections.OrderedDict()
     
     for line in lines:
         line = line.strip()
         if len(line) == 0:  # empty line
             continue
         
-        match = re.match('^\#\s*(\@\w+)\s*(.*)', line)
+        match = re.match('^#\s*(@\w+)\s*(.*)', line)
         if match:
             name, value = match.groups()[:2]
         
-        elif line.startswith('#') or line.startswith(';'): # comment line
+        elif line.startswith('#') or line.startswith(';'):  # comment line
             continue
 
         else:
             parts = line.split(None, 1)
-            if len(parts) == 1: # empty value
+            if len(parts) == 1:  # empty value
                 parts.append('')
 
             (name, value) = parts
@@ -1683,9 +1706,12 @@ def _conf_to_dict(lines, list_names=[], no_convert=[]):
     return data
 
 
-def _dict_to_conf(lines, data, list_names=[]):
+def _dict_to_conf(lines, data, list_names=None):
+    if list_names is None:
+        list_names = []
+
     conf_lines = []
-    remaining = utils.OrderedDict(data)
+    remaining = collections.OrderedDict(data)
     processed = set()
     
     # parse existing lines and replace the values
@@ -1696,8 +1722,8 @@ def _dict_to_conf(lines, data, list_names=[]):
             conf_lines.append(line)
             continue
 
-        match = re.match('^\#\s*(\@\w+)\s*(.*)', line)
-        if match: # @line
+        match = re.match('^#\s*(@\w+)\s*(.*)', line)
+        if match:  # @line
             (name, value) = match.groups()[:2]
         
         elif line.startswith('#') or line.startswith(';'):  # simple comment line
@@ -1713,7 +1739,7 @@ def _dict_to_conf(lines, data, list_names=[]):
                 (name, value) = parts[0], ''
             
         if name in processed:
-            continue # name already processed
+            continue  # name already processed
         
         processed.add(name)
         
@@ -1743,11 +1769,11 @@ def _dict_to_conf(lines, data, list_names=[]):
     # add the remaining config values not covered by existing lines
     
     if len(remaining) and len(lines):
-        conf_lines.append('') # add a blank line
+        conf_lines.append('')  # add a blank line
     
     for (name, value) in remaining.iteritems():
         if name.startswith('@_'):
-            continue # ignore additional configs
+            continue  # ignore additional configs
         
         if name in list_names:
             for v in value:
@@ -1774,7 +1800,7 @@ def _dict_to_conf(lines, data, list_names=[]):
             line = '# ' + line
         
         elif i > 0 and conf_lines[i - 1].startswith('@'):
-            lines.append('') # add a blank line between @lines and the rest
+            lines.append('')  # add a blank line between @lines and the rest
         
         lines.append(line)
         
@@ -1885,12 +1911,12 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('max_movie_time', 0)
     data.setdefault('ffmpeg_output_movies', False)
     if motionctl.has_new_movie_format_support():
-        data.setdefault('ffmpeg_video_codec', 'mp4') # will use h264 codec
+        data.setdefault('ffmpeg_video_codec', 'mp4')  # will use h264 codec
         if motionctl.needs_ffvb_quirks():
-            data.setdefault('ffmpeg_variable_bitrate', _MAX_FFMPEG_VARIABLE_BITRATE / 4) # 75%
+            data.setdefault('ffmpeg_variable_bitrate', _MAX_FFMPEG_VARIABLE_BITRATE / 4)  # 75%
             
         else:
-            data.setdefault('ffmpeg_variable_bitrate', 75) # 75%
+            data.setdefault('ffmpeg_variable_bitrate', 75)  # 75%
         
     else:
         data.setdefault('ffmpeg_video_codec', 'msmpeg4')
@@ -1919,7 +1945,7 @@ def get_additional_structure(camera, separators=False):
                 'with' if separators else 'without'))
 
         # gather sections
-        sections = utils.OrderedDict()
+        sections = collections.OrderedDict()
         for func in _additional_section_funcs:
             result = func()
             if not result:
@@ -1936,7 +1962,7 @@ def get_additional_structure(camera, separators=False):
             
             logging.debug('additional config section: %s' % result['name'])
     
-        configs = utils.OrderedDict()
+        configs = collections.OrderedDict()
         for func in _additional_config_funcs:
             result = func()
             if not result:

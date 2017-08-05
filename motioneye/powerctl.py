@@ -25,7 +25,7 @@ def _find_prog(prog):
     try:
         return subprocess.check_output(['which', prog], stderr=utils.DEV_NULL).strip()
     
-    except subprocess.CalledProcessError: # not found
+    except subprocess.CalledProcessError:  # not found
         return None
 
 

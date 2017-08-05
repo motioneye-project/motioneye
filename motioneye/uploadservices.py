@@ -75,7 +75,9 @@ class UploadService(object):
             raise Exception(msg)
 
         if st.st_size > self.MAX_FILE_SIZE:
-            msg = 'file "%s" is too large (%sMB/%sMB)' % (filename, st.st_size / 1024 / 1024, self.MAX_FILE_SIZE / 1024 / 1024)
+            msg = 'file "%s" is too large (%sMB/%sMB)' % \
+                    (filename, st.st_size / 1024 / 1024, self.MAX_FILE_SIZE / 1024 / 1024)
+
             self.error(msg)
             raise Exception(msg)
 
@@ -348,7 +350,7 @@ class GoogleDrive(UploadService):
                     # retry the request with refreshed credentials
                     return self._request(url, body, headers, retry_auth=False)
 
-                except Exception as e:
+                except Exception:
                     self.error('refreshing credentials failed')
                     raise
 
@@ -555,9 +557,9 @@ class Dropbox(UploadService):
                     self.save()
 
                     # retry the request with refreshed credentials
-                    self._request(url, body, headers, retry_auth=False)
+                    return self._request(url, body, headers, retry_auth=False)
 
-                except Exception as e:
+                except Exception:
                     self.error('refreshing credentials failed')
                     raise
 
@@ -885,7 +887,7 @@ def _load():
         logging.debug('loading upload services state from "%s"...' % file_path)
 
         try:
-            file = open(file_path, 'r')
+            f = open(file_path, 'r')
 
         except Exception as e:
             logging.error('could not open upload services state file "%s": %s' % (file_path, e))
@@ -893,7 +895,7 @@ def _load():
             return services
 
         try:
-            data = json.load(file)
+            data = json.load(f)
 
         except Exception as e:
             logging.error('could not read upload services state from file "%s": %s' % (file_path, e))
@@ -901,7 +903,7 @@ def _load():
             return services
 
         finally:
-            file.close()
+            f.close()
 
         for camera_id, d in data.iteritems():
             for name, state in d.iteritems():
@@ -929,7 +931,7 @@ def _save(services):
             data.setdefault(str(camera_id), {})[name] = service.dump()
 
     try:
-        file = open(file_path, 'w')
+        f = open(file_path, 'w')
 
     except Exception as e:
         logging.error('could not open upload services state file "%s": %s' % (file_path, e))
@@ -937,10 +939,10 @@ def _save(services):
         return
 
     try:
-        json.dump(data, file, sort_keys=True, indent=4)
+        json.dump(data, f, sort_keys=True, indent=4)
 
     except Exception as e:
-        logging.error('could not save upload services state to file "%s": %s'(file_path, e))
+        logging.error('could not save upload services state to file "%s": %s' % (file_path, e))
 
     finally:
-        file.close()
+        f.close()

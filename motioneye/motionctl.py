@@ -52,17 +52,17 @@ def find_motion():
         else:
             return None, None
 
-    else: # autodetect motion binary path
+    else:  # autodetect motion binary path
         try:
             binary = subprocess.check_output(['which', 'motion'], stderr=utils.DEV_NULL).strip()
         
-        except subprocess.CalledProcessError: # not found
+        except subprocess.CalledProcessError:  # not found
             return None, None
 
     try:
         help = subprocess.check_output(binary + ' -h || true', shell=True)
     
-    except subprocess.CalledProcessError: # not found
+    except subprocess.CalledProcessError:  # not found
         return None, None
     
     result = re.findall('motion Version ([^,]+)', help, re.IGNORECASE)
@@ -105,11 +105,8 @@ def start(deferred=False):
     motion_log_path = os.path.join(settings.LOG_PATH, 'motion.log')
     motion_pid_path = os.path.join(settings.RUN_PATH, 'motion.pid')
     
-    args = [program,
-            '-n',
-            '-c', motion_config_path]
-    
-    args.append('-d')
+    args = [program, '-n', '-c', motion_config_path, '-d']
+
     if settings.LOG_LEVEL <= logging.DEBUG:
         args.append('9')
     
@@ -119,7 +116,7 @@ def start(deferred=False):
     elif settings.LOG_LEVEL <= logging.ERROR:
         args.append('4')
     
-    else: # fatat, quiet
+    else:  # fatal, quiet
         args.append('1')
 
     log_file = open(motion_log_path, 'w')
@@ -331,14 +328,14 @@ def has_old_config_format():
     if not binary:
         return False
 
-    if version.startswith('trunkREV'): # e.g. "trunkREV599"
+    if version.startswith('trunkREV'):  # e.g. "trunkREV599"
         version = int(version[8:])
         return version <= _LAST_OLD_CONFIG_VERSIONS[0]
 
-    elif version.lower().count('git'): # e.g. "Unofficial-Git-a5b5f13" or "3.2.12+git20150927mrdave"
-        return False # all git versions are assumed to be new
+    elif version.lower().count('git'):  # e.g. "Unofficial-Git-a5b5f13" or "3.2.12+git20150927mrdave"
+        return False  # all git versions are assumed to be new
 
-    else: # stable release, should have the format "x.y.z"
+    else:  # stable release, should have the format "x.y.z"
         return update.compare_versions(version, _LAST_OLD_CONFIG_VERSIONS[1]) <= 0
 
 
@@ -359,15 +356,15 @@ def get_rtsp_support():
     if not binary:
         return []
 
-    if version.startswith('trunkREV'): # e.g. trunkREV599
+    if version.startswith('trunkREV'):  # e.g. trunkREV599
         version = int(version[8:])
         if version > _LAST_OLD_CONFIG_VERSIONS[0]:
             return ['tcp']
 
     elif version.lower().count('git') or update.compare_versions(version, '3.4') >= 0:
-        return ['tcp', 'udp'] # all git versions are assumed to support both transport protocols
+        return ['tcp', 'udp']  # all git versions are assumed to support both transport protocols
     
-    else: # stable release, should be in the format x.y.z
+    else:  # stable release, should be in the format x.y.z
         return []
 
 

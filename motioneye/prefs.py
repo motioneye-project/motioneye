@@ -45,7 +45,7 @@ def _load():
         logging.debug('loading preferences from "%s"...' % file_path)
     
         try:
-            file = open(file_path, 'r')
+            f = open(file_path, 'r')
         
         except Exception as e:
             logging.error('could not open preferences file "%s": %s' % (file_path, e))
@@ -53,13 +53,13 @@ def _load():
             return
         
         try:
-            _prefs = json.load(file)
+            _prefs = json.load(f)
 
         except Exception as e:
-            logging.error('could not read preferences from file "%s": %s'(file_path, e))
+            logging.error('could not read preferences from file "%s": %s' % (file_path, e))
 
         finally:
-            file.close()
+            f.close()
             
     else:
         logging.debug('preferences file "%s" does not exist, using default preferences' % file_path)
@@ -71,7 +71,7 @@ def _save():
     logging.debug('saving preferences to "%s"...' % file_path)
 
     try:
-        file = open(file_path, 'w')
+        f = open(file_path, 'w')
 
     except Exception as e:
         logging.error('could not open preferences file "%s": %s' % (file_path, e))
@@ -79,13 +79,13 @@ def _save():
         return
 
     try:
-        json.dump(_prefs, file, sort_keys=True, indent=4)
+        json.dump(_prefs, f, sort_keys=True, indent=4)
 
     except Exception as e:
-        logging.error('could not save preferences to file "%s": %s'(file_path, e))
+        logging.error('could not save preferences to file "%s": %s' % (file_path, e))
 
     finally:
-        file.close()
+        f.close()
 
 
 def get(username, key=None):

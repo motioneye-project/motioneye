@@ -52,19 +52,19 @@ def main(parser, args):
         headers['Content-Type'] = 'text/plain'
         data = ''
 
-    elif options.method == 'POSTf': # form url-encoded
+    elif options.method == 'POSTf':  # form url-encoded
         headers['Content-Type'] = 'application/x-www-form-urlencoded'
         data = parts.query
         url = options.url.split('?')[0]
 
-    elif options.method == 'POSTj': # json
+    elif options.method == 'POSTj':  # json
         headers['Content-Type'] = 'application/json'
         data = urlparse.parse_qs(parts.query)
         data = {k: v[0] for (k, v) in data.iteritems()}
         data = json.dumps(data)
         url = options.url.split('?')[0]
 
-    else: # GET
+    else:  # GET
         pass
 
     request = urllib2.Request(url, data, headers=headers)
