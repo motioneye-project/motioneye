@@ -116,7 +116,7 @@ class BaseHandler(RequestHandler):
         signature = self.get_argument('_signature', None)
         login = self.get_argument('_login', None) == 'true'
         if (username == main_config.get('@admin_username') and
-            (signature == utils.compute_signature(self.request.method, self.request.uri,  # backwards compatibility
+            (signature == utils.compute_signature(self.request.method, self.request.uri,
                                                   self.request.body, main_config['@admin_password']) or
              signature == utils.compute_signature(self.request.method, self.request.uri,
                                                   self.request.body,
@@ -128,11 +128,11 @@ class BaseHandler(RequestHandler):
             return 'normal'
         
         elif (username == main_config.get('@normal_username') and
-            (signature == utils.compute_signature(self.request.method, self.request.uri,  # backwards compatibility
-                                                  self.request.body, main_config.get('@normal_password')) or
-             signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body,
-                                                  hashlib.sha1(main_config['@normal_password']).hexdigest()))):
+              (signature == utils.compute_signature(self.request.method, self.request.uri,
+                                                    self.request.body, main_config.get('@normal_password')) or
+               signature == utils.compute_signature(self.request.method, self.request.uri,
+                                                    self.request.body,
+                                                    hashlib.sha1(main_config['@normal_password']).hexdigest()))):
 
             return 'normal'
 

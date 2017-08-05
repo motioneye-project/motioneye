@@ -4,6 +4,8 @@ var PASSWORD_COOKIE = 'meye_password_hash';
 
 var pushConfigs = {};
 var pushConfigReboot = false;
+var adminPasswordChanged = false;
+var normalPasswordChanged = false;
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var fullScreenCameraId = null;
 var inProgress = false;
@@ -346,7 +348,7 @@ function computeSignature(method, path, body) {
     
     var parts = splitUrl(path);
     var query = parts.params;
-    var path = parts.baseUrl;
+    path = parts.baseUrl;
     path = '/' + path.substring(basePath.length);
     
     /* sort query arguments alphabetically */
@@ -376,7 +378,7 @@ function addAuthParams(method, url, body) {
     url += '_username=' + window.username;
     if (window._loginDialogSubmitted) {
         url += '&_login=true';
-        _loginDialogSubmitted = false;
+        window._loginDialogSubmitted = false;
     }
     var signature = computeSignature(method, url, body);
     url += '&_signature=' + signature;
@@ -468,7 +470,7 @@ function ajax(method, url, data, callback, error, timeout) {
 }
 
 function getCookie(name) {
-    var cookie = document.cookie.substring();
+    var cookie = document.cookie + '';
     
     if (cookie.length <= 0) {
         return null;
@@ -658,6 +660,14 @@ function initUI() {
             $minimizeSpan.removeClass('open');
         }
     }
+
+    /* update password changed flags */
+    $('#adminPasswordEntry').change(function () {
+        adminPasswordChanged = true;
+    });
+    $('#normalPasswordEntry').change(function () {
+        normalPasswordChanged = true;
+    });
 
     /* ui elements that enable/disable other ui elements */
     $('#showAdvancedSwitch').change(updateConfigUI);
@@ -1203,7 +1213,7 @@ function enableMaskEdit(cameraId, width, height) {
     /* prevent editor closing by accidental click on mask container */
     maskDiv.click(function () {
         return false;
-    })
+    });
 
     var x, y;
     for (y = 0; y < ny; y++) {
@@ -1639,7 +1649,7 @@ function dict2PrefsUi(dict) {
 
 function applyPrefs(dict) {
     setLayoutColumns(dict['layout_columns']);
-    fitFramesVertically = dict['fit_frames_vertically']
+    fitFramesVertically = dict['fit_frames_vertically'];
     layoutRows = dict['layout_rows'];
     framerateFactor = dict['framerate_factor'];
     resolutionFactor = dict['resolution_factor'];
@@ -1661,10 +1671,15 @@ function mainUi2Dict() {
     var dict = {
         'show_advanced': $('#showAdvancedSwitch')[0].checked,
         'admin_username': $('#adminUsernameEntry').val(),
-        'admin_password': $('#adminPasswordEntry').val(),
         'normal_username': $('#normalUsernameEntry').val(),
-        'normal_password': $('#normalPasswordEntry').val()
     };
+
+    if (adminPasswordChanged) {
+        dict['admin_password'] = $('#adminPasswordEntry').val();
+    }
+    if (normalPasswordChanged) {
+        dict['normal_password'] = $('#normalPasswordEntry').val();
+    }
 
     /* additional sections */
     $('input[type=checkbox].additional-section.main-config').each(function () {
@@ -1779,7 +1794,7 @@ function dict2MainUi(dict) {
 function cameraUi2Dict() {
     if ($('#videoDeviceEnabledSwitch')[0].error) { /* config error */
         return {
-            'enabled': $('#videoDeviceEnabledSwitch')[0].checked,
+            'enabled': $('#videoDeviceEnabledSwitch')[0].checked
         };
     }
     
@@ -1923,7 +1938,7 @@ function cameraUi2Dict() {
         'saturday_to': $('#saturdayEnabledSwitch')[0].checked ? $('#saturdayToEntry').val() : '',
         'sunday_from': $('#sundayEnabledSwitch')[0].checked ? $('#sundayFromEntry').val() : '',
         'sunday_to': $('#sundayEnabledSwitch')[0].checked ? $('#sundayToEntry').val() : '',
-        'working_schedule_type': $('#workingScheduleTypeSelect').val(),
+        'working_schedule_type': $('#workingScheduleTypeSelect').val()
     };
     
     /* if all working schedule days are disabled,
@@ -2412,7 +2427,7 @@ function downloadFile(path) {
 
 function uploadFile(path, input, callback) {
     if (!window.FormData) {
-        showErrorMessage("Your browser doesn't implement this function!");s
+        showErrorMessage("Your browser doesn't implement this function!");
         callback();
     }
 
@@ -2505,6 +2520,10 @@ function doApply() {
                 showErrorMessage(data && data.error);
                 return;
             }
+
+            /* reset password change flags */
+            adminPasswordChanged = false;
+            normalPasswordChanged = false;
             
             if (data.reboot) {
                 var count = 0;
@@ -3280,7 +3299,6 @@ function pushPreview(control) {
         
         if (data == null || data.error) {
             showErrorMessage(data && data.error);
-            return;
         }
     });
 }
@@ -3411,7 +3429,7 @@ function runLoginDialog(retry) {
                     retry();
                 }
             }}
-        ],
+        ]
     };
     
     runModalDialog(params);
@@ -3876,7 +3894,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
     var intervalSelect = content.find('#intervalSelect');
     var framerateSlider = content.find('#framerateSlider');
     var timelapseWarning = content.find('td.timelapse-warning');
-    
+
     if (group.length > 1440) { /* one day worth of pictures, taken 1 minute apart */
         timelapseWarning.html('Given the large number of pictures, creating your timelapse might take a while!');
         timelapseWarning.css('display', 'table-cell');
@@ -4821,7 +4839,6 @@ function doFullScreenCamera(cameraId) {
             element.msRequestFullscreen ||
             element.msRequestFullScreen);
     
-
     if (requestFullScreen) {
         requestFullScreen.call(element);
     }
