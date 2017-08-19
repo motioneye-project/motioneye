@@ -67,6 +67,15 @@ COMMON_RESOLUTIONS = [
     (1920, 1080)
 ]
 
+RPI_MMAL_RESOLUTIONS = [
+    (640, 480),
+    (1280, 720),
+    (1280, 960),
+    (1920, 1080),
+    (1920, 1088),
+    (2592, 1944)
+]
+
 
 def _(x):
     return x  # this could later be replaced by a proper translate function
@@ -336,8 +345,7 @@ def get_disk_usage(path):
 
 def is_local_motion_camera(config):
     """Tells if a camera is managed by the local motion instance."""
-    return bool(config.get('videodevice') or config.get('netcam_url'))
-
+    return bool(config.get('videodevice') or config.get('netcam_url') or config.get('mmalcam_name'))
 
 def is_remote_camera(config):
     """Tells if a camera is managed by a remote motionEye server."""
@@ -348,6 +356,9 @@ def is_v4l2_camera(config):
     """Tells if a camera is a v4l2 device managed by the local motion instance."""
     return bool(config.get('videodevice'))
 
+def is_mmal_camera(config):
+    '''Tells if a camera is mmal device managed by the local motion instance.'''
+    return bool(config.get('mmalcam_name'))
 
 def is_net_camera(config):
     """Tells if a camera is a network camera managed by the local motion instance."""

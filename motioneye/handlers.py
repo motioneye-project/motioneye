@@ -651,6 +651,20 @@ class ConfigHandler(BaseHandler):
             
             self.finish_json({'cameras': cameras})
 
+        elif proto == 'mmal':
+            configured_devices = set()
+            for camera_id in config.get_camera_ids():
+                data = config.get_camera(camera_id)
+                if utils.is_mmal_camera(data):
+                    configured_devices.add(data['mmalcam_name'])
+
+            if "vc.ril.camera" not in configured_devices:
+                cameras = [{'id': "vc.ril.camera", 'name': "VideoCore Camera (vc.ril.camera)"}]
+            else:
+				cameras = []
+            
+            self.finish_json({'cameras': cameras})
+
         else:  # assuming local motionEye camera listing
             cameras = []
             camera_ids = config.get_camera_ids()
