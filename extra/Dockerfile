@@ -1,13 +1,6 @@
 FROM ubuntu:17.04
 LABEL maintainer="Conor Heine <conor.heine@gmail.com>"
 
-RUN locale-gen en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LC_TYPE en_US.UTF-8
-ENV TZ America/Los_Angeles
-
 RUN apt-get --quiet update && \
     DEBIAN_FRONTEND="noninteractive" apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
     automake \
