@@ -1,6 +1,5 @@
-
 FROM ubuntu:15.04
-MAINTAINER Conor Heine <conor.heine@gmail.com>
+LABEL maintainer="Conor Heine <conor.heine@gmail.com>"
 
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -11,29 +10,29 @@ ENV LANG en_US.UTF-8
 ENV LC_TYPE en_US.UTF-8
 ENV TZ America/Los_Angeles
 
-RUN apt-get update && \
-    apt-get --yes install \
-    	automake \
-	curl \
-	autoconf \
-	build-essential \
-	ffmpeg \
-	git \
-	libav-tools \
-	libavcodec-dev \
-	libavformat-dev \
-	libavutil-dev \
-	libcurl4-openssl-dev \
-	libjpeg-dev \
-	libssl-dev \
-	libswscale-dev \
-	pkgconf \
-        python-dev \
-        python-pip \
-	python-setuptools \
-	subversion \
-	v4l-utils && \
-    apt-get clean
+RUN apt-get --quiet update && \
+    DEBIAN_FRONTEND="noninteractive" apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+    automake \
+    autoconf \
+    build-essential \
+    ffmpeg \
+    git \
+    libav-tools \
+    libavcodec-dev \
+    libavformat-dev \
+    libavutil-dev \
+    libcurl4-openssl-dev \
+    libjpeg-dev \
+    libssl-dev \
+    libswscale-dev \
+    pkgconf \
+    python-dev \
+    python-pip \
+    python-setuptools \
+    subversion \
+    v4l-utils && \
+    apt-get --quiet autoremove && \
+    apt-get --quiet --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # Pip
 RUN pip install tornado jinja2 pillow pycurl
@@ -59,11 +58,10 @@ VOLUME /var/run/motion
 # Video & images
 VOLUME /var/lib/motioneye
 
-ADD extra /usr/share/motioneye/extra/
+ADD motioneye.conf.sample /usr/share/motioneye/extra/
 
 CMD test -e /etc/motioneye/motioneye.conf || \    
     cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
     /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
 
 EXPOSE 8765
-
