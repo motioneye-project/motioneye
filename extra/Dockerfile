@@ -1,7 +1,5 @@
-FROM ubuntu:15.04
+FROM ubuntu:17.04
 LABEL maintainer="Conor Heine <conor.heine@gmail.com>"
-
-ENV DEBIAN_FRONTEND noninteractive
 
 RUN locale-gen en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
