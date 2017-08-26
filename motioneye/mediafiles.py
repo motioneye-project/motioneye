@@ -109,6 +109,9 @@ def _list_media_files(directory, exts, prefix=None):
             prefix = ''
         
         root = os.path.join(directory, prefix)
+        if not os.path.exists(root):
+            return media_files
+
         for name in os.listdir(root):
             # ignore hidden files/dirs and other unwanted files
             if name.startswith('.') or name == 'lastsnap.jpg':
