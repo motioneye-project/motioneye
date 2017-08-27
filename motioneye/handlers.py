@@ -405,21 +405,20 @@ class ConfigHandler(BaseHandler):
             logging.debug('setting main config...')
             
             old_main_config = config.get_main()
-            old_admin_credentials = '%s:%s' % (old_main_config.get('@admin_username', ''),
-                                               old_main_config.get('@admin_password', ''))
-            old_normal_credentials = '%s:%s' % (old_main_config.get('@normal_username', ''),
-                                                old_main_config.get('@normal_password', ''))
+            old_admin_username = old_main_config.get('@admin_username')
+            old_normal_username = old_main_config.get('@normal_username')
 
             main_config = config.main_ui_to_dict(ui_config)
-            main_config.setdefault('thread', old_main_config.get('thread', [])) 
-            admin_credentials = '%s:%s' % (main_config.get('@admin_username', ''),
-                                           main_config.get('@admin_password', ''))
-            normal_credentials = '%s:%s' % (main_config.get('@normal_username', ''),
-                                            main_config.get('@normal_password', ''))
+            main_config.setdefault('thread', old_main_config.get('thread', []))
 
-            additional_configs = config.get_additional_structure(camera=False)[1]           
+            admin_username = main_config.get('@admin_username')
+            admin_password = main_config.get('@admin_password')
+
+            normal_username = main_config.get('@normal_username')
+            normal_password = main_config.get('@normal_password')
+
+            additional_configs = config.get_additional_structure(camera=False)[1]
             reboot_config_names = [('@_' + c['name']) for c in additional_configs.values() if c.get('reboot')]
-            reboot_config_names.append('@admin_password')
             reboot = bool([k for k in reboot_config_names if old_main_config.get(k) != main_config.get(k)])
 
             config.set_main(main_config)
@@ -427,12 +426,12 @@ class ConfigHandler(BaseHandler):
             reload = False
             restart = False
             
-            if admin_credentials != old_admin_credentials:
+            if admin_username != old_admin_username or admin_password is not None:
                 logging.debug('admin credentials changed, reload needed')
                 
                 reload = True
 
-            if normal_credentials != old_normal_credentials:
+            if normal_username != old_normal_username or normal_password is not None:
                 logging.debug('surveillance credentials changed, all camera configs must be updated')
                 
                 # reconfigure all local cameras to update the stream authentication options
@@ -521,7 +520,7 @@ class ConfigHandler(BaseHandler):
                         reload = result['reload'] or reload
                         reboot[0] = result['reboot'] or reboot[0]
                         restart[0] = result['restart'] or restart[0]
-                        check_finished(None, reload)
+                        check_finished(None, False)
                         
                     else:
                         set_camera_config(int(key), cfg, check_finished)
