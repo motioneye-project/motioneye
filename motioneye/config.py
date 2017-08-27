@@ -1999,7 +1999,12 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('max_movie_time', 0)
     data.setdefault('ffmpeg_output_movies', False)
     if motionctl.has_new_movie_format_support():
-        data.setdefault('ffmpeg_video_codec', 'mp4')  # will use h264 codec
+        if motionctl.has_h264_omx_support():
+            data.setdefault('ffmpeg_video_codec', 'mp4:h264_omx')  # will use h264 codec
+
+        else:
+            data.setdefault('ffmpeg_video_codec', 'mp4')  # will use h264 codec
+
         if motionctl.needs_ffvb_quirks():
             data.setdefault('ffmpeg_variable_bitrate', _MAX_FFMPEG_VARIABLE_BITRATE / 4)  # 75%
 
