@@ -388,7 +388,7 @@ def has_h264_omx_support():
 
     # TODO also check for motion codec parameter support
 
-    return 'h264_omx' in codecs
+    return 'h264_omx' in codecs.get('h264', {}).get('encoders', set())
 
 
 def get_rtsp_support():

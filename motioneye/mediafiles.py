@@ -225,8 +225,31 @@ def find_ffmpeg():
         return None, None, None
 
     lines = output.split('\n')
-    matches = [re.match('^ [DEVILSA.]{6} ([\w+_]+) ', l) for l in lines]
-    codecs = set([m.group(1) for m in matches if m])
+    lines = [l for l in lines if re.match('^ [DEVILSA.]{6} [^=].*', l)]
+
+    codecs = {}
+    for line in lines:
+        m = re.match('^ [DEVILSA.]{6} ([\w+_]+)', line)
+        if not m:
+            continue
+
+        codec = m.group(1)
+
+        decoders = set()
+        encoders = set()
+
+        m = re.search('decoders: ([\w\s_]+)+', line)
+        if m:
+            decoders = set(m.group(1).split())
+
+        m = re.search('encoders: ([\w\s_]+)+', line)
+        if m:
+            encoders = set(m.group(1).split())
+
+        codecs[codec] = {
+            'encoders': encoders,
+            'decoders': decoders
+        }
 
     logging.debug('using ffmpeg version %s' % version)
 
