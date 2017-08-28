@@ -20,6 +20,7 @@ RUN apt-get --quiet update && \
     python-dev \
     python-pip \
     python-setuptools \
+    python-wheel \
     subversion \
     v4l-utils && \
     apt-get --quiet autoremove && \
