@@ -7,6 +7,7 @@ RUN apt-get --quiet update && \
     ffmpeg \
     libcurl4-openssl-dev \
     libssl-dev \
+    lsb-release \
     motion \
     python-dev \
     python-pip \
