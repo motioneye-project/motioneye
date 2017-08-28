@@ -3,22 +3,21 @@ LABEL maintainer="Conor Heine <conor.heine@gmail.com>"
 
 RUN apt-get --quiet update && \
     DEBIAN_FRONTEND="noninteractive" apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
-    gcc \
     ffmpeg \
-    libcurl4-openssl-dev \
-    libssl-dev \
     lsb-release \
     motion \
-    python-dev \
+    python-jinja2 \
     python-pip \
+    python-pycurl \
     python-setuptools \
+    python-tornado \
     python-wheel \
     v4l-utils && \
     apt-get --quiet autoremove && \
     apt-get --quiet --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # Pip
-RUN pip install tornado jinja2 pillow pycurl
+RUN pip install pillow
 
 RUN pip install motioneye
 
