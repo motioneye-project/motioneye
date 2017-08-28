@@ -13,10 +13,14 @@ RUN apt-get --quiet update && \
     python-tornado \
     python-wheel \
     v4l-utils && \
+    pip install motioneye && \
+    apt-get purge --yes \
+    python-pip \
+    python-setuptools \
+    python-wheel && \
+    apt-get autoremove --yes && \
     apt-get --quiet autoremove && \
     apt-get --quiet --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
-
-RUN pip install motioneye
 
 # R/W needed for motioneye to update configurations
 VOLUME /etc/motioneye
