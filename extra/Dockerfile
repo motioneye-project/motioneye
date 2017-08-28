@@ -16,9 +16,6 @@ RUN apt-get --quiet update && \
     apt-get --quiet autoremove && \
     apt-get --quiet --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
-# Pip
-RUN pip install pillow
-
 RUN pip install motioneye
 
 # R/W needed for motioneye to update configurations
