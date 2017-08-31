@@ -5,5 +5,8 @@ services:
 install:
   - docker build --build-arg VCS_REF=$TRAVIS_COMMIT --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") -t $DOCKER_REPO:$TRAVIS_BRANCH extra
   - docker run --rm $DOCKER_REPO:$TRAVIS_BRANCH uname -a
+after_success:
+  - docker login -e=$DOCKER_EMAIL -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
+  - docker push $DOCKER_REPO:$TRAVIS_BRANCH
 env:
   # DOCKER_REPO
