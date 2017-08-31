@@ -1,0 +1,9 @@
+sudo: required
+language: bash
+services:
+  - docker
+install:
+  - docker build --build-arg VCS_REF=$TRAVIS_COMMIT --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") -t $DOCKER_REPO:$TRAVIS_BRANCH extra
+  - docker run --rm $DOCKER_REPO:$TRAVIS_BRANCH uname -a
+env:
+  # DOCKER_REPO

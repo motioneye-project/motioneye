@@ -1,6 +1,17 @@
 FROM ubuntu:17.04
 LABEL maintainer="Conor Heine <conor.heine@gmail.com>"
 
+ARG BUILD_DATE
+ARG VCS_REF
+LABEL org.label-schema.build-date=$BUILD_DATE \
+    org.label-schema.docker.dockerfile="extra/Dockerfile" \
+    org.label-schema.license="GPLv3" \
+    org.label-schema.name="motioneye" \
+    org.label-schema.url="https://github.com/ccrisan/motioneye/wiki" \
+    org.label-schema.vcs-ref=$VCS_REF \
+    org.label-schema.vcs-type="Git" \
+    org.label-schema.vcs-url="https://github.com/ccrisan/motioneye.git"
+
 RUN apt-get --quiet update && \
     DEBIAN_FRONTEND="noninteractive" apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
     ffmpeg \
