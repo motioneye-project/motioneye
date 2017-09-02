@@ -3752,6 +3752,10 @@ function runAddCameraDialog() {
         data.username = usernameEntry.val();
         data.password = passwordEntry.val();
         data.proto = typeSelect.val();
+
+        if (data.proto == 'motioneye') {
+            data.password = sha1(data.password);
+        }
         
         cameraMsgLabel.html('');
         
@@ -3817,7 +3821,7 @@ function runAddCameraDialog() {
                 data = splitCameraUrl(urlEntry.val());
                 data.proto = 'motioneye';
                 data.username = usernameEntry.val();
-                data.password = passwordEntry.val();
+                data.password = sha1(passwordEntry.val());
                 data.remote_camera_id = addCameraSelect.val();
             }
             else if (typeSelect.val() == 'netcam') {
