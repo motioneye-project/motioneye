@@ -4978,20 +4978,27 @@ function refreshCameraFrames() {
         
         var count = parseInt(1000 / (refreshInterval * this.config['streaming_framerate']));
         var serverSideResize = this.config['streaming_server_resize'];
+        var cameraId = this.id.substring(6);
+
         count /= framerateFactor;
-        
+
+        /* if frameFactor is 0, we only want one camera refresh at the beginning,
+         * and no subsequent refreshes at all */
+        if (framerateFactor == 0 && this.refreshDivider == 0) {
+            refreshCameraFrame(cameraId, this.img, serverSideResize);
+            this.refreshDivider++;
+        }
+
         if (this.img.error) {
             /* in case of error, decrease the refresh rate to 1 fps */
             count = 1000 / refreshInterval;
         }
-        
+
         if (this.refreshDivider < count) {
             this.refreshDivider++;
         }
         else {
-            var cameraId = this.id.substring(6);
             refreshCameraFrame(cameraId, this.img, serverSideResize);
-            
             this.refreshDivider = 0;
         }
     });
