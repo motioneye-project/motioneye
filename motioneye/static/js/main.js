@@ -780,11 +780,14 @@ function initUI() {
         }
     });
     
-    /* streaming framerate must be >= device framerate */
+    /* streaming framerate must be >= device framerate + a margin */
     $('#framerateSlider').change(function () {
         var value = Number($('#framerateSlider').val());
         var streamingValue = Number($('#streamingFramerateSlider').val());
-        
+
+        value += 5; /* a margin of 5 extra fps */
+        value = Math.min(value, 30); /* don't go above 30 fps */
+
         if (streamingValue < value) {
             $('#streamingFramerateSlider').val(value).change();
         }
