@@ -44,6 +44,8 @@ _ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off',
             'up', 'right', 'down', 'left', 'zoom_in', 'zoom_out',
             'preset1', 'preset2', 'preset3', 'preset4', 'preset5', 'preset6', 'preset7', 'preset8', 'preset9']
 
+_TEXT_DOUBLE_THRESHOLD = 640
+
 _main_config_cache = None
 _camera_config_cache = {}
 _camera_ids_cache = None
@@ -932,7 +934,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         else:
             data['text_right'] = ui['custom_right_text']
 
-        if proto == 'netcam' or data['width'] > 320:
+        if proto == 'netcam' or data['width'] > _TEXT_DOUBLE_THRESHOLD:
             data['text_double'] = True
 
     if ui['still_images']:
