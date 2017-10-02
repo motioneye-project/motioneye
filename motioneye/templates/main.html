@@ -761,8 +761,14 @@
                                 <option value="mov">QuickTime (.mov)</option>
                                 {% if has_new_movie_format_support %}
                                 <option value="mp4">H.264 (.mp4)</option>
+                                {% if has_h264_omx_support %}
+                                <option value="mp4:h264_omx">H.264/OMX (.mp4)</option>
+                                {% endif %}
                                 <option value="hevc">HEVC (.mp4)</option>
                                 <option value="mkv">Matroska Video (.mkv)</option>
+                                {% if has_h264_omx_support %}
+                                <option value="mkv:h264_omx">Matroska Video/OMX (.mkv)</option>
+                                {% endif %}
                                 {% endif %}
                             </select>
                         </td>

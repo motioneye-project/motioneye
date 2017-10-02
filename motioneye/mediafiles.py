@@ -51,6 +51,8 @@ FFMPEG_CODEC_MAPPING = {
     'mov': 'mpeg4',
     'mp4': 'h264',
     'mkv': 'h264',
+    'mp4:h264_omx': 'h264_omx',
+    'mkv:h264_omx': 'h264_omx',
     'hevc': 'h265'
 }
 
@@ -81,6 +83,8 @@ _prepared_files = {}
 
 _timelapse_process = None
 _timelapse_data = None
+
+_ffmpeg_binary_cache = None
 
 
 def findfiles(path):
@@ -190,11 +194,68 @@ def _remove_older_files(directory, moment, exts):
 
 
 def find_ffmpeg():
+    global _ffmpeg_binary_cache
+    if _ffmpeg_binary_cache:
+        return _ffmpeg_binary_cache
+
+    # binary
     try:
-        return subprocess.check_output(['which', 'ffmpeg'], stderr=utils.DEV_NULL).strip()
+        binary = subprocess.check_output(['which', 'ffmpeg'], stderr=utils.DEV_NULL).strip()
     
     except subprocess.CalledProcessError:  # not found
-        return None
+        return None, None, None
+
+    # version
+    try:
+        output = subprocess.check_output(binary + ' -version', shell=True)
+
+    except subprocess.CalledProcessError as e:
+        logging.error('ffmpeg: could find version: %s' % e)
+        return None, None, None
+
+    result = re.findall('ffmpeg version (.+?) ', output, re.IGNORECASE)
+    version = result and result[0] or ''
+
+    # codecs
+    try:
+        output = subprocess.check_output(binary + ' -codecs -hide_banner', shell=True)
+
+    except subprocess.CalledProcessError as e:
+        logging.error('ffmpeg: could not list supported codecs: %s' % e)
+        return None, None, None
+
+    lines = output.split('\n')
+    lines = [l for l in lines if re.match('^ [DEVILSA.]{6} [^=].*', l)]
+
+    codecs = {}
+    for line in lines:
+        m = re.match('^ [DEVILSA.]{6} ([\w+_]+)', line)
+        if not m:
+            continue
+
+        codec = m.group(1)
+
+        decoders = set()
+        encoders = set()
+
+        m = re.search('decoders: ([\w\s_]+)+', line)
+        if m:
+            decoders = set(m.group(1).split())
+
+        m = re.search('encoders: ([\w\s_]+)+', line)
+        if m:
+            encoders = set(m.group(1).split())
+
+        codecs[codec] = {
+            'encoders': encoders,
+            'decoders': decoders
+        }
+
+    logging.debug('using ffmpeg version %s' % version)
+
+    _ffmpeg_binary_cache = (binary, version, codecs)
+
+    return _ffmpeg_binary_cache
 
 
 def cleanup_media(media_type):
