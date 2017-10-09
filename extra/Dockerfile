@@ -14,6 +14,7 @@ ENV TZ America/Los_Angeles
 RUN apt-get update && \
     apt-get --yes install \
     	automake \
+	curl \
 	autoconf \
 	build-essential \
 	ffmpeg \
