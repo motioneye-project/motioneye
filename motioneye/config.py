@@ -119,7 +119,8 @@ _KNOWN_MOTION_OPTIONS = {
     'text_right',
     'threshold',
     'videodevice',
-    'width'
+    'width',
+    'mmalcam_name'
 }
 
 
@@ -542,7 +543,7 @@ def add_camera(device_details):
     while camera_id in camera_ids:
         camera_id += 1
 
-    logging.info('adding new camera with id %(id)s...' % {'id': camera_id})
+    logging.info('adding new %(prt)s camera with id %(id)s...' % {'prt': proto, 'id': camera_id})
 
     # prepare a default camera config
     camera_config = {'@enabled': True}
@@ -565,6 +566,11 @@ def add_camera(device_details):
         camera_config['@username'] = device_details['username']
         camera_config['@password'] = device_details['password']
         camera_config['@remote_camera_id'] = device_details['remote_camera_id']
+
+    elif proto == 'mmal':
+        camera_config['mmalcam_name'] = device_details['path']
+        camera_config['width'] = 640
+        camera_config['height'] = 480
 
     elif proto == 'netcam':
         camera_config['netcam_url'] = device_details['url']
@@ -810,10 +816,13 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     if utils.is_v4l2_camera(old_config):
         proto = 'v4l2'
 
+    elif utils.is_mmal_camera(old_config):
+        proto = 'mmal'     
+   
     else:
         proto = 'netcam'
 
-    if proto == 'v4l2':
+    if (proto == 'v4l2') or (proto == 'mmal'):
         # leave videodevice unchanged
 
         # resolution
@@ -1231,6 +1240,17 @@ def motion_camera_dict_to_ui(data):
         else:  # width & height are not available for other netcams
             # we have no other choice but use something like 640x480 as reference
             threshold = data['threshold'] * 100.0 / (640 * 480)
+
+    elif utils.is_mmal_camera(data):
+        ui['device_url'] = data['mmalcam_name']
+        ui['proto'] = 'mmal'
+        
+        resolutions = utils.RPI_MMAL_RESOLUTIONS
+        resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
+        ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
+        ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
+
+        threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
 
     else:  # assuming v4l2
         ui['device_url'] = data['videodevice']
