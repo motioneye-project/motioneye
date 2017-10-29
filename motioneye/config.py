@@ -543,7 +543,7 @@ def add_camera(device_details):
     while camera_id in camera_ids:
         camera_id += 1
 
-    logging.info('adding new %(prt)s camera with id %(id)s...' % {'prt': proto, 'id': camera_id})
+    logging.info('adding new %(proto)s camera with id %(id)s...' % {'proto': proto, 'id': camera_id})
 
     # prepare a default camera config
     camera_config = {'@enabled': True}

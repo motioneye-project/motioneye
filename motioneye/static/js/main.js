@@ -3569,7 +3569,7 @@ function runAddCameraDialog() {
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Camera Type</span></td>' +
                     '<td class="dialog-item-value"><select class="styled" id="typeSelect">' +
-                        (hasLocalCamSupport ? '<option value="v4l2">Local Camera</option>' : '') +
+                        (hasLocalCamSupport ? '<option value="v4l2">Local V4L2 Camera</option>' : '') +
                         (hasLocalCamSupport ? '<option value="mmal">Local MMAL Camera</option>' : '') +
                         (hasNetCamSupport ? '<option value="netcam">Network Camera</option>' : '') +
                         '<option value="motioneye">Remote motionEye Camera</option>' +
@@ -3675,8 +3675,8 @@ function runAddCameraDialog() {
         else { /* assuming v4l2 */
             content.find('tr.v4l2').css('display', 'table-row');
             addCameraInfo.html(
-                    'Local cameras are camera devices that are connected directly to your motionEye system. ' +
-                    'These are usually USB webcams or board-specific cameras.');
+                    'Local V4L2 cameras are camera devices that are connected directly to your motionEye system, ' +
+                    'usually via USB.');
         }
         
         updateModalDialogPosition();

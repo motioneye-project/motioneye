@@ -647,7 +647,7 @@ class ConfigHandler(BaseHandler):
                     configured_devices.add(data['videodevice'])
 
             cameras = [{'id': d[1], 'name': d[2]} for d in v4l2ctl.list_devices()
-                    if (d[0] not in configured_devices) and (d[1] not in configured_devices)]
+                       if (d[0] not in configured_devices) and (d[1] not in configured_devices)]
             
             self.finish_json({'cameras': cameras})
 
@@ -660,9 +660,10 @@ class ConfigHandler(BaseHandler):
 
             if "vc.ril.camera" not in configured_devices:
                 cameras = [{'id': "vc.ril.camera", 'name': "VideoCore Camera (vc.ril.camera)"}]
+
             else:
-				cameras = []
-            
+                cameras = []
+
             self.finish_json({'cameras': cameras})
 
         else:  # assuming local motionEye camera listing
@@ -679,6 +680,7 @@ class ConfigHandler(BaseHandler):
                     self.finish_json({'cameras': cameras})
                     
             def on_response_builder(camera_id, local_config):
+
                 def on_response(remote_ui_config=None, error=None):
                     if error:
                         cameras.append({
