@@ -374,15 +374,17 @@ def list_media(camera_config, media_type, callback, prefix=None):
 
     # create a subprocess to retrieve media files
     def do_list_media(pipe):
+        parent_pipe.close()
+
         mf = _list_media_files(target_dir, exts=exts, prefix=prefix)
         for (p, st) in mf:
             path = p[len(target_dir):]
             if not path.startswith('/'):
                 path = '/' + path
-    
+
             timestamp = st.st_mtime
             size = st.st_size
-            
+
             pipe.send({
                 'path': path,
                 'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
@@ -390,23 +392,28 @@ def list_media(camera_config, media_type, callback, prefix=None):
                 'sizeStr': utils.pretty_size(size),
                 'timestamp': timestamp
             })
-        
+
         pipe.close()
     
     logging.debug('starting media listing process...')
     
     (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
-    process = multiprocessing.Process(target=do_list_media, args=(child_pipe, ))
+    process = multiprocessing.Process(target=do_list_media, args=(child_pipe,))
     process.start()
+    child_pipe.close()
     
     # poll the subprocess to see when it has finished
     started = datetime.datetime.now()
     media_list = []
-    
+
     def read_media_list():
         while parent_pipe.poll():
-            media_list.append(parent_pipe.recv())
-    
+            try:
+                media_list.append(parent_pipe.recv())
+
+            except EOFError:
+                break
+
     def poll_process():
         io_loop = IOLoop.instance()
         if process.is_alive():  # not finished yet
@@ -415,15 +422,15 @@ def list_media(camera_config, media_type, callback, prefix=None):
             if delta.seconds < settings.LIST_MEDIA_TIMEOUT:
                 io_loop.add_timeout(datetime.timedelta(seconds=0.5), poll_process)
                 read_media_list()
-            
+
             else:  # process did not finish in time
                 logging.error('timeout waiting for the media listing process to finish')
                 try:
                     os.kill(process.pid, signal.SIGTERM)
-                
+
                 except:
                     pass  # nevermind
-                    
+
                 callback(None)
 
         else:  # finished
@@ -464,6 +471,8 @@ def get_zipped_content(camera_config, media_type, group, callback):
 
     # create a subprocess to add files to zip
     def do_zip(pipe):
+        parent_pipe.close()
+
         mf = _list_media_files(target_dir, exts=exts, prefix=group)
         paths = []
         for (p, st) in mf:  # @UnusedVariable
@@ -512,6 +521,7 @@ def get_zipped_content(camera_config, media_type, group, callback):
     (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
     process = multiprocessing.Process(target=do_zip, args=(child_pipe, ))
     process.start()
+    child_pipe.close()
 
     # poll the subprocess to see when it has finished
     started = datetime.datetime.now()
@@ -559,6 +569,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
     # create a subprocess to retrieve media files
     def do_list_media(pipe):
+        parent_pipe.close()
+
         mf = _list_media_files(target_dir, exts=_PICTURE_EXTS, prefix=group)
         for (p, st) in mf:
             timestamp = st.st_mtime
@@ -578,6 +590,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     _timelapse_process.start()
     _timelapse_data = None
 
+    child_pipe.close()
+
     started = [datetime.datetime.now()]
     media_list = []
     
@@ -585,7 +599,11 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
     def read_media_list():
         while parent_pipe.poll():
-            media_list.append(parent_pipe.recv())
+            try:
+                media_list.append(parent_pipe.recv())
+
+            except EOFError:
+                break
         
     def poll_media_list_process():
         io_loop = IOLoop.instance()
