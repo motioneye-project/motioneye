@@ -67,15 +67,6 @@ COMMON_RESOLUTIONS = [
     (1920, 1080)
 ]
 
-RPI_MMAL_RESOLUTIONS = [
-    (640, 480),
-    (1280, 720),
-    (1280, 960),
-    (1920, 1080),
-    (1920, 1088),
-    (2592, 1944)
-]
-
 
 def _(x):
     return x  # this could later be replaced by a proper translate function

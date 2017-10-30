@@ -1245,7 +1245,7 @@ def motion_camera_dict_to_ui(data):
         ui['device_url'] = data['mmalcam_name']
         ui['proto'] = 'mmal'
         
-        resolutions = utils.RPI_MMAL_RESOLUTIONS
+        resolutions = utils.COMMON_RESOLUTIONS
         resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
         ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
         ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
