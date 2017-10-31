@@ -53,19 +53,19 @@
 
 {% block style %}
     {{super()}}
-    <link rel="stylesheet" type="text/css" href="{{static_path}}css/ui.css" />
-    <link rel="stylesheet" type="text/css" href="{{static_path}}css/main.css" />
+    <link rel="stylesheet" type="text/css" href="{{static_path}}css/ui.css?v={{version}}" />
+    <link rel="stylesheet" type="text/css" href="{{static_path}}css/main.css?v={{version}}" />
     {% if frame %}
-        <link rel="stylesheet" type="text/css" href="{{static_path}}css/frame.css" />
+        <link rel="stylesheet" type="text/css" href="{{static_path}}css/frame.css?v={{version}}" />
     {% endif %}
 {% endblock %}
 
 {% block script %}
     {{super()}}
-    <script type="text/javascript" src="{{static_path}}js/ui.js"></script>
-    <script type="text/javascript" src="{{static_path}}js/main.js"></script>
+    <script type="text/javascript" src="{{static_path}}js/ui.js?v={{version}}"></script>
+    <script type="text/javascript" src="{{static_path}}js/main.js?v={{version}}"></script>
     {% if frame %}
-        <script type="text/javascript" src="{{static_path}}js/frame.js"></script>
+        <script type="text/javascript" src="{{static_path}}js/frame.js?v={{version}}"></script>
     {% endif %}
     <script type="text/javascript">
         var adminUsername = '{{admin_username}}';

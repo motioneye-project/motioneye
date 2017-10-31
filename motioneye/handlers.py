@@ -97,7 +97,11 @@ class BaseHandler(RequestHandler):
         RequestHandler.finish(self, chunk=chunk)
 
     def render(self, template_name, content_type='text/html', **context):
+        import motioneye
+        
         self.set_header('Content-Type', content_type)
+        
+        context.setdefault('version', motioneye.VERSION)
         
         content = template.render(template_name, **context)
         self.finish(content)
@@ -222,8 +226,6 @@ class NotFoundHandler(BaseHandler):
 
 class MainHandler(BaseHandler):
     def get(self):
-        import motioneye
-        
         # additional config
         main_sections = config.get_additional_structure(camera=False, separators=True)[0]
         camera_sections = config.get_additional_structure(camera=True, separators=True)[0]
@@ -232,32 +234,29 @@ class MainHandler(BaseHandler):
         os_version = update.get_os_version()
 
         self.render('main.html',
-                frame=False,
-                version=motioneye.VERSION,
-                motion_version=motion_info[1] if motion_info else '(none)',
-                os_version=' '.join(os_version),
-                enable_update=settings.ENABLE_UPDATE,
-                enable_reboot=settings.ENABLE_REBOOT,
-                add_remove_cameras=settings.ADD_REMOVE_CAMERAS,
-                main_sections=main_sections,
-                camera_sections=camera_sections,
-                hostname=socket.gethostname(),
-                title=self.get_argument('title', None),
-                admin_username=config.get_main().get('@admin_username'),
-                has_streaming_auth=motionctl.has_streaming_auth(),
-                has_new_movie_format_support=motionctl.has_new_movie_format_support(),
-                has_h264_omx_support=motionctl.has_h264_omx_support(),
-                has_motion=bool(motionctl.find_motion()[0]),
-                mask_width=utils.MASK_WIDTH)
+                    frame=False,
+                    motion_version=motion_info[1] if motion_info else '(none)',
+                    os_version=' '.join(os_version),
+                    enable_update=settings.ENABLE_UPDATE,
+                    enable_reboot=settings.ENABLE_REBOOT,
+                    add_remove_cameras=settings.ADD_REMOVE_CAMERAS,
+                    main_sections=main_sections,
+                    camera_sections=camera_sections,
+                    hostname=socket.gethostname(),
+                    title=self.get_argument('title', None),
+                    admin_username=config.get_main().get('@admin_username'),
+                    has_streaming_auth=motionctl.has_streaming_auth(),
+                    has_new_movie_format_support=motionctl.has_new_movie_format_support(),
+                    has_h264_omx_support=motionctl.has_h264_omx_support(),
+                    has_motion=bool(motionctl.find_motion()[0]),
+                    mask_width=utils.MASK_WIDTH)
 
 
 class ManifestHandler(BaseHandler):
     def get(self):
-        import motioneye
-        
         self.set_header('Content-Type', 'application/manifest+json')
         self.set_header('Cache-Control', 'max-age=2592000')  # 30 days
-        self.render('manifest.json', version=motioneye.VERSION)
+        self.render('manifest.json')
 
 
 class ConfigHandler(BaseHandler):
@@ -1097,32 +1096,32 @@ class PictureHandler(BaseHandler):
             self.get_argument('title', None) is not None):
 
             self.render('main.html',
-                    frame=True,
-                    camera_id=camera_id,
-                    camera_config=camera_config,
-                    title=self.get_argument('title', camera_config.get('@name', '')),
-                    admin_username=config.get_main().get('@admin_username'),
-                    static_path='../../../static/')
+                        frame=True,
+                        camera_id=camera_id,
+                        camera_config=camera_config,
+                        title=self.get_argument('title', camera_config.get('@name', '')),
+                        admin_username=config.get_main().get('@admin_username'),
+                        static_path='../../../static/')
 
         elif utils.is_remote_camera(camera_config):
             def on_response(remote_ui_config=None, error=None):
                 if error:
                     return self.render('main.html',
-                            frame=True,
-                            camera_id=camera_id,
-                            camera_config=camera_config,
-                            title=self.get_argument('title', ''))
+                                       frame=True,
+                                       camera_id=camera_id,
+                                       camera_config=camera_config,
+                                       title=self.get_argument('title', ''))
 
                 # issue a fake motion_camera_ui_to_dict() call to transform
                 # the remote UI values into motion config directives
                 remote_config = config.motion_camera_ui_to_dict(remote_ui_config)
                 
                 self.render('main.html',
-                        frame=True,
-                        camera_id=camera_id,
-                        camera_config=remote_config,
-                        title=self.get_argument('title', remote_config['@name']),
-                        admin_username=config.get_main().get('@admin_username'))
+                            frame=True,
+                            camera_id=camera_id,
+                            camera_config=remote_config,
+                            title=self.get_argument('title', remote_config['@name']),
+                            admin_username=config.get_main().get('@admin_username'))
 
             remote.get_config(camera_config, on_response)
         
@@ -1880,16 +1879,13 @@ class PowerHandler(BaseHandler):
 
 class VersionHandler(BaseHandler):
     def get(self):
-        import motioneye
-
         motion_info = motionctl.find_motion()
         os_version = update.get_os_version()
 
         self.render('version.html',
-                version=motioneye.VERSION,
-                os_version=' '.join(os_version),
-                motion_version=motion_info[1] if motion_info else '',
-                hostname=socket.gethostname())
+                    os_version=' '.join(os_version),
+                    motion_version=motion_info[1] if motion_info else '',
+                    hostname=socket.gethostname())
 
     post = get
 
