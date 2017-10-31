@@ -12,16 +12,16 @@
         {% endblock %}
         <title>{% block title %}{% endblock %}</title>
         {% block style %}
-            <link rel="stylesheet" type="text/css" href="{{static_path}}css/jquery.timepicker.css" />
-            <link rel="shortcut icon" href="{{static_path}}favicon.ico" />
-            <link rel="apple-touch-icon" href="{{static_path}}favicon.ico" />
-            <link rel="manifest" href="{{static_path}}../manifest.json" />
+            <link rel="stylesheet" type="text/css" href="{{static_path}}css/jquery.timepicker.css?v={{version}}" />
+            <link rel="shortcut icon" href="{{static_path}}favicon.ico?v={{version}}" />
+            <link rel="apple-touch-icon" href="{{static_path}}favicon.ico?v={{version}}" />
+            <link rel="manifest" href="{{static_path}}../manifest.json?v={{version}}" />
         {% endblock %}
         {% block script %}
-            <script type="text/javascript" src="{{static_path}}js/css-browser-selector.js"></script>
-            <script type="text/javascript" src="{{static_path}}js/jquery.min.js"></script>
-            <script type="text/javascript" src="{{static_path}}js/jquery.timepicker.min.js"></script>
-            <script type="text/javascript" src="{{static_path}}js/jquery.mousewheel.js"></script>
+            <script type="text/javascript" src="{{static_path}}js/css-browser-selector.js?v={{version}}"></script>
+            <script type="text/javascript" src="{{static_path}}js/jquery.min.js?v={{version}}"></script>
+            <script type="text/javascript" src="{{static_path}}js/jquery.timepicker.min.js?v={{version}}"></script>
+            <script type="text/javascript" src="{{static_path}}js/jquery.mousewheel.js?v={{version}}"></script>
 
             <script type="text/javascript">
                 var staticPath = '{{static_path}}';

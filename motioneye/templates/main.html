@@ -53,19 +53,19 @@
 
 {% block style %}
     {{super()}}
-    <link rel="stylesheet" type="text/css" href="{{static_path}}css/ui.css" />
-    <link rel="stylesheet" type="text/css" href="{{static_path}}css/main.css" />
+    <link rel="stylesheet" type="text/css" href="{{static_path}}css/ui.css?v={{version}}" />
+    <link rel="stylesheet" type="text/css" href="{{static_path}}css/main.css?v={{version}}" />
     {% if frame %}
-        <link rel="stylesheet" type="text/css" href="{{static_path}}css/frame.css" />
+        <link rel="stylesheet" type="text/css" href="{{static_path}}css/frame.css?v={{version}}" />
     {% endif %}
 {% endblock %}
 
 {% block script %}
     {{super()}}
-    <script type="text/javascript" src="{{static_path}}js/ui.js"></script>
-    <script type="text/javascript" src="{{static_path}}js/main.js"></script>
+    <script type="text/javascript" src="{{static_path}}js/ui.js?v={{version}}"></script>
+    <script type="text/javascript" src="{{static_path}}js/main.js?v={{version}}"></script>
     {% if frame %}
-        <script type="text/javascript" src="{{static_path}}js/frame.js"></script>
+        <script type="text/javascript" src="{{static_path}}js/frame.js?v={{version}}"></script>
     {% endif %}
     <script type="text/javascript">
         var adminUsername = '{{admin_username}}';
@@ -761,8 +761,14 @@
                                 <option value="mov">QuickTime (.mov)</option>
                                 {% if has_new_movie_format_support %}
                                 <option value="mp4">H.264 (.mp4)</option>
+                                {% if has_h264_omx_support %}
+                                <option value="mp4:h264_omx">H.264/OMX (.mp4)</option>
+                                {% endif %}
                                 <option value="hevc">HEVC (.mp4)</option>
                                 <option value="mkv">Matroska Video (.mkv)</option>
+                                {% if has_h264_omx_support %}
+                                <option value="mkv:h264_omx">Matroska Video/OMX (.mkv)</option>
+                                {% endif %}
                                 {% endif %}
                             </select>
                         </td>

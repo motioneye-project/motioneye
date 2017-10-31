@@ -45,7 +45,7 @@ def find_v4l2_ctl():
 def list_devices():
     global _resolutions_cache, _ctrls_cache, _ctrl_values_cache
     
-    logging.debug('listing v4l2 devices...')
+    logging.debug('listing V4L2 devices')
     
     try:
         output = ''
@@ -96,7 +96,7 @@ def list_devices():
             devices.append((device, persistent_device, name))
         
             logging.debug('found device %(name)s: %(device)s, %(persistent_device)s' % {
-                    'name': name, 'device': device, 'persistent_device': persistent_device})
+                          'name': name, 'device': device, 'persistent_device': persistent_device})
 
         else:
             name = line.split('(')[0].strip()

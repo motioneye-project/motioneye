@@ -25,6 +25,7 @@ import time
 
 from tornado.ioloop import IOLoop
 
+import mediafiles
 import powerctl
 import settings
 import update
@@ -99,7 +100,7 @@ def start(deferred=False):
     
     program, version = program  # @UnusedVariable
     
-    logging.debug('using motion binary "%s"' % program)
+    logging.debug('starting motion binary "%s"' % program)
 
     motion_config_path = os.path.join(settings.CONF_PATH, 'motion.conf')
     motion_log_path = os.path.join(settings.LOG_PATH, 'motion.log')
@@ -378,6 +379,16 @@ def has_new_movie_format_support():
         return False
 
     return version.lower().count('git') or update.compare_versions(version, '3.4') >= 0 
+
+
+def has_h264_omx_support():
+    binary, version, codecs = mediafiles.find_ffmpeg()
+    if not binary:
+        return False
+
+    # TODO also check for motion codec parameter support
+
+    return 'h264_omx' in codecs.get('h264', {}).get('encoders', set())
 
 
 def get_rtsp_support():

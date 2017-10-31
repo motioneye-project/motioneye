@@ -51,6 +51,8 @@ FFMPEG_CODEC_MAPPING = {
     'mov': 'mpeg4',
     'mp4': 'h264',
     'mkv': 'h264',
+    'mp4:h264_omx': 'h264_omx',
+    'mkv:h264_omx': 'h264_omx',
     'hevc': 'h265'
 }
 
@@ -81,6 +83,8 @@ _prepared_files = {}
 
 _timelapse_process = None
 _timelapse_data = None
+
+_ffmpeg_binary_cache = None
 
 
 def findfiles(path):
@@ -190,11 +194,68 @@ def _remove_older_files(directory, moment, exts):
 
 
 def find_ffmpeg():
+    global _ffmpeg_binary_cache
+    if _ffmpeg_binary_cache:
+        return _ffmpeg_binary_cache
+
+    # binary
     try:
-        return subprocess.check_output(['which', 'ffmpeg'], stderr=utils.DEV_NULL).strip()
+        binary = subprocess.check_output(['which', 'ffmpeg'], stderr=utils.DEV_NULL).strip()
     
     except subprocess.CalledProcessError:  # not found
-        return None
+        return None, None, None
+
+    # version
+    try:
+        output = subprocess.check_output(binary + ' -version', shell=True)
+
+    except subprocess.CalledProcessError as e:
+        logging.error('ffmpeg: could find version: %s' % e)
+        return None, None, None
+
+    result = re.findall('ffmpeg version (.+?) ', output, re.IGNORECASE)
+    version = result and result[0] or ''
+
+    # codecs
+    try:
+        output = subprocess.check_output(binary + ' -codecs -hide_banner', shell=True)
+
+    except subprocess.CalledProcessError as e:
+        logging.error('ffmpeg: could not list supported codecs: %s' % e)
+        return None, None, None
+
+    lines = output.split('\n')
+    lines = [l for l in lines if re.match('^ [DEVILSA.]{6} [^=].*', l)]
+
+    codecs = {}
+    for line in lines:
+        m = re.match('^ [DEVILSA.]{6} ([\w+_]+)', line)
+        if not m:
+            continue
+
+        codec = m.group(1)
+
+        decoders = set()
+        encoders = set()
+
+        m = re.search('decoders: ([\w\s_]+)+', line)
+        if m:
+            decoders = set(m.group(1).split())
+
+        m = re.search('encoders: ([\w\s_]+)+', line)
+        if m:
+            encoders = set(m.group(1).split())
+
+        codecs[codec] = {
+            'encoders': encoders,
+            'decoders': decoders
+        }
+
+    logging.debug('using ffmpeg version %s' % version)
+
+    _ffmpeg_binary_cache = (binary, version, codecs)
+
+    return _ffmpeg_binary_cache
 
 
 def cleanup_media(media_type):
@@ -313,15 +374,17 @@ def list_media(camera_config, media_type, callback, prefix=None):
 
     # create a subprocess to retrieve media files
     def do_list_media(pipe):
+        parent_pipe.close()
+
         mf = _list_media_files(target_dir, exts=exts, prefix=prefix)
         for (p, st) in mf:
             path = p[len(target_dir):]
             if not path.startswith('/'):
                 path = '/' + path
-    
+
             timestamp = st.st_mtime
             size = st.st_size
-            
+
             pipe.send({
                 'path': path,
                 'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
@@ -329,23 +392,28 @@ def list_media(camera_config, media_type, callback, prefix=None):
                 'sizeStr': utils.pretty_size(size),
                 'timestamp': timestamp
             })
-        
+
         pipe.close()
     
     logging.debug('starting media listing process...')
     
     (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
-    process = multiprocessing.Process(target=do_list_media, args=(child_pipe, ))
+    process = multiprocessing.Process(target=do_list_media, args=(child_pipe,))
     process.start()
+    child_pipe.close()
     
     # poll the subprocess to see when it has finished
     started = datetime.datetime.now()
     media_list = []
-    
+
     def read_media_list():
         while parent_pipe.poll():
-            media_list.append(parent_pipe.recv())
-    
+            try:
+                media_list.append(parent_pipe.recv())
+
+            except EOFError:
+                break
+
     def poll_process():
         io_loop = IOLoop.instance()
         if process.is_alive():  # not finished yet
@@ -354,15 +422,15 @@ def list_media(camera_config, media_type, callback, prefix=None):
             if delta.seconds < settings.LIST_MEDIA_TIMEOUT:
                 io_loop.add_timeout(datetime.timedelta(seconds=0.5), poll_process)
                 read_media_list()
-            
+
             else:  # process did not finish in time
                 logging.error('timeout waiting for the media listing process to finish')
                 try:
                     os.kill(process.pid, signal.SIGTERM)
-                
+
                 except:
                     pass  # nevermind
-                    
+
                 callback(None)
 
         else:  # finished
@@ -403,6 +471,8 @@ def get_zipped_content(camera_config, media_type, group, callback):
 
     # create a subprocess to add files to zip
     def do_zip(pipe):
+        parent_pipe.close()
+
         mf = _list_media_files(target_dir, exts=exts, prefix=group)
         paths = []
         for (p, st) in mf:  # @UnusedVariable
@@ -451,6 +521,7 @@ def get_zipped_content(camera_config, media_type, group, callback):
     (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
     process = multiprocessing.Process(target=do_zip, args=(child_pipe, ))
     process.start()
+    child_pipe.close()
 
     # poll the subprocess to see when it has finished
     started = datetime.datetime.now()
@@ -498,6 +569,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
     # create a subprocess to retrieve media files
     def do_list_media(pipe):
+        parent_pipe.close()
+
         mf = _list_media_files(target_dir, exts=_PICTURE_EXTS, prefix=group)
         for (p, st) in mf:
             timestamp = st.st_mtime
@@ -517,6 +590,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     _timelapse_process.start()
     _timelapse_data = None
 
+    child_pipe.close()
+
     started = [datetime.datetime.now()]
     media_list = []
     
@@ -524,7 +599,11 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
     def read_media_list():
         while parent_pipe.poll():
-            media_list.append(parent_pipe.recv())
+            try:
+                media_list.append(parent_pipe.recv())
+
+            except EOFError:
+                break
         
     def poll_media_list_process():
         io_loop = IOLoop.instance()

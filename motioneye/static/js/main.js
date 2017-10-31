@@ -2062,6 +2062,10 @@ function dict2CameraUi(dict) {
         case 'netcam':
             prettyType = 'Network Camera';
             break;
+            
+        case 'mmal':
+            prettyType = 'MMAL Camera';
+            break;
 
         case 'motioneye':
             prettyType = 'Remote motionEye Camera';
@@ -3319,7 +3323,7 @@ function getCameraIdsByInstance() {
     var cameraIdsByInstance = {};
     getCameraFrames().each(function () {
         var instance;
-        if (this.config.proto == 'netcam' || this.config.proto == 'v4l2') {
+        if (this.config.proto == 'netcam' || this.config.proto == 'v4l2' || this.config.proto == 'mmal') {
             instance = '';
         }
         else if (this.config.proto == 'motioneye') {
@@ -3565,7 +3569,8 @@ function runAddCameraDialog() {
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Camera Type</span></td>' +
                     '<td class="dialog-item-value"><select class="styled" id="typeSelect">' +
-                        (hasLocalCamSupport ? '<option value="v4l2">Local Camera</option>' : '') +
+                        (hasLocalCamSupport ? '<option value="v4l2">Local V4L2 Camera</option>' : '') +
+                        (hasLocalCamSupport ? '<option value="mmal">Local MMAL Camera</option>' : '') +
                         (hasNetCamSupport ? '<option value="netcam">Network Camera</option>' : '') +
                         '<option value="motioneye">Remote motionEye Camera</option>' +
                         '<option value="mjpeg">Simple MJPEG Camera</option>' +
@@ -3587,15 +3592,15 @@ function runAddCameraDialog() {
                     '<td class="dialog-item-value"><input type="password" class="styled" id="passwordEntry" placeholder="password..."></td>' +
                     '<td><span class="help-mark" title="the password for the URL, if required">?</span></td>' +
                 '</tr>' +
-                '<tr class="v4l2 motioneye netcam mjpeg">' +
+                '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Camera</span></td>' +
                     '<td class="dialog-item-value"><select class="styled" id="addCameraSelect"></select><span id="cameraMsgLabel"></span></td>' +
                     '<td><span class="help-mark" title="the camera you wish to add">?</span></td>' +
                 '</tr>' +
-                '<tr class="v4l2 motioneye netcam mjpeg">' +
+                '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
                     '<td colspan="100"><div class="dialog-item-separator"></div></td>' +
                 '</tr>' +
-                '<tr class="v4l2 motioneye netcam mjpeg">' +
+                '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
                     '<td class="dialog-item-value" colspan="100"><div id="addCameraInfo"></div></td>' +
                 '</tr>' +
             '</table>');
@@ -3617,7 +3622,7 @@ function runAddCameraDialog() {
     
     /* ui interaction */
     function updateUi() {
-        content.find('tr.v4l2, tr.motioneye, tr.netcam, tr.mjpeg').css('display', 'none');
+        content.find('tr.v4l2, tr.motioneye, tr.netcam, tr.mjpeg, tr.mmal').css('display', 'none');
 
         if (typeSelect.val() == 'motioneye') {
             content.find('tr.motioneye').css('display', 'table-row');
@@ -3643,6 +3648,12 @@ function runAddCameraDialog() {
                     'Network cameras (or IP cameras) are devices that natively stream RTSP or MJPEG videos or plain JPEG images. ' +
                     "Consult your device's manual to find out the correct RTSP, MJPEG or JPEG URL.");
         }
+        else if (typeSelect.val() == 'mmal') {
+            content.find('tr.mmal').css('display', 'table-row');
+            addCameraInfo.html(
+                    'Local MMAL cameras are devices that are connected directly to your motionEye system. ' +
+                    'These are usually board-specific cameras.');
+        }
         else if (typeSelect.val() == 'mjpeg') {
             usernameEntry.removeAttr('readonly');
             
@@ -3664,8 +3675,8 @@ function runAddCameraDialog() {
         else { /* assuming v4l2 */
             content.find('tr.v4l2').css('display', 'table-row');
             addCameraInfo.html(
-                    'Local cameras are camera devices that are connected directly to your motionEye system. ' +
-                    'These are usually USB webcams or board-specific cameras.');
+                    'Local V4L2 cameras are camera devices that are connected directly to your motionEye system, ' +
+                    'usually via USB.');
         }
         
         updateModalDialogPosition();
@@ -3833,6 +3844,10 @@ function runAddCameraDialog() {
                 data.password = passwordEntry.val();
                 data.proto = 'netcam';
                 data.camera_index = addCameraSelect.val();
+            }
+            else if (typeSelect.val() == 'mmal') {
+                data.path = addCameraSelect.val();
+                data.proto = 'mmal';
             }
             else if (typeSelect.val() == 'mjpeg') {
                 data = splitCameraUrl(urlEntry.val());

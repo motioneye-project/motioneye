@@ -44,6 +44,8 @@ _ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off',
             'up', 'right', 'down', 'left', 'zoom_in', 'zoom_out',
             'preset1', 'preset2', 'preset3', 'preset4', 'preset5', 'preset6', 'preset7', 'preset8', 'preset9']
 
+_TEXT_DOUBLE_THRESHOLD = 640
+
 _main_config_cache = None
 _camera_config_cache = {}
 _camera_ids_cache = None
@@ -117,7 +119,8 @@ _KNOWN_MOTION_OPTIONS = {
     'text_right',
     'threshold',
     'videodevice',
-    'width'
+    'width',
+    'mmalcam_name'
 }
 
 
@@ -540,7 +543,7 @@ def add_camera(device_details):
     while camera_id in camera_ids:
         camera_id += 1
 
-    logging.info('adding new camera with id %(id)s...' % {'id': camera_id})
+    logging.info('adding new %(proto)s camera with id %(id)s...' % {'proto': proto, 'id': camera_id})
 
     # prepare a default camera config
     camera_config = {'@enabled': True}
@@ -563,6 +566,11 @@ def add_camera(device_details):
         camera_config['@username'] = device_details['username']
         camera_config['@password'] = device_details['password']
         camera_config['@remote_camera_id'] = device_details['remote_camera_id']
+
+    elif proto == 'mmal':
+        camera_config['mmalcam_name'] = device_details['path']
+        camera_config['width'] = 640
+        camera_config['height'] = 480
 
     elif proto == 'netcam':
         camera_config['netcam_url'] = device_details['url']
@@ -808,10 +816,13 @@ def motion_camera_ui_to_dict(ui, old_config=None):
     if utils.is_v4l2_camera(old_config):
         proto = 'v4l2'
 
+    elif utils.is_mmal_camera(old_config):
+        proto = 'mmal'     
+   
     else:
         proto = 'netcam'
 
-    if proto == 'v4l2':
+    if (proto == 'v4l2') or (proto == 'mmal'):
         # leave videodevice unchanged
 
         # resolution
@@ -932,7 +943,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         else:
             data['text_right'] = ui['custom_right_text']
 
-        if proto == 'netcam' or data['width'] > 320:
+        if proto == 'netcam' or data['width'] > _TEXT_DOUBLE_THRESHOLD:
             data['text_double'] = True
 
     if ui['still_images']:
@@ -1229,6 +1240,17 @@ def motion_camera_dict_to_ui(data):
         else:  # width & height are not available for other netcams
             # we have no other choice but use something like 640x480 as reference
             threshold = data['threshold'] * 100.0 / (640 * 480)
+
+    elif utils.is_mmal_camera(data):
+        ui['device_url'] = data['mmalcam_name']
+        ui['proto'] = 'mmal'
+        
+        resolutions = utils.COMMON_RESOLUTIONS
+        resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
+        ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
+        ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
+
+        threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
 
     else:  # assuming v4l2
         ui['device_url'] = data['videodevice']
@@ -1995,7 +2017,12 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('max_movie_time', 0)
     data.setdefault('ffmpeg_output_movies', False)
     if motionctl.has_new_movie_format_support():
-        data.setdefault('ffmpeg_video_codec', 'mp4')  # will use h264 codec
+        if motionctl.has_h264_omx_support():
+            data.setdefault('ffmpeg_video_codec', 'mp4:h264_omx')  # will use h264 codec
+
+        else:
+            data.setdefault('ffmpeg_video_codec', 'mp4')  # will use h264 codec
+
         if motionctl.needs_ffvb_quirks():
             data.setdefault('ffmpeg_variable_bitrate', _MAX_FFMPEG_VARIABLE_BITRATE / 4)  # 75%
 
