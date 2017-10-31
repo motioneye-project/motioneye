@@ -30,6 +30,7 @@ from tornado.web import RequestHandler, HTTPError, asynchronous
 import config
 import mediafiles
 import mjpgclient
+import mmalctl
 import monitor
 import motionctl
 import powerctl
@@ -657,11 +658,8 @@ class ConfigHandler(BaseHandler):
                 if utils.is_mmal_camera(data):
                     configured_devices.add(data['mmalcam_name'])
 
-            if "vc.ril.camera" not in configured_devices:
-                cameras = [{'id': "vc.ril.camera", 'name': "VideoCore Camera (vc.ril.camera)"}]
-
-            else:
-                cameras = []
+            cameras = [{'id': d[0], 'name': d[1]} for d in mmalctl.list_devices()
+                       if (d[0] not in configured_devices)]
 
             self.finish_json({'cameras': cameras})
 
