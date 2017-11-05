@@ -27,7 +27,8 @@ RUN apt-get --quiet update && \
     python-setuptools \
     python-tornado \
     python-wheel \
-    v4l-utils && \
+    v4l-utils \
+    zlib1g-dev && \
     pip install motioneye && \
     apt-get purge --yes \
     python-pip \
