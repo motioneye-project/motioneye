@@ -1,16 +1,11 @@
+dist: trusty
 sudo: required
+
 language: bash
+
 services:
   - docker
-before_install:
-  - docker info
-  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
-install:
-  - docker build --build-arg VCS_REF=$TRAVIS_COMMIT --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") -t $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET -f extra/Dockerfile${EXT} extra
-  - docker run --rm $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET uname -a
-after_success:
-  - docker login -e=$DOCKER_EMAIL -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
-  - docker push $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET
+
 env:
   # global:
   #   DOCKER_REPO
@@ -22,3 +17,13 @@ env:
     - TARGET=armhf EXT=".armv7-armhf"
 matrix:
   fast_finish: true
+
+before_install:
+  - docker info
+  - docker run --rm --privileged multiarch/qemu-user-static:register --reset
+install:
+  - docker build --build-arg VCS_REF=$TRAVIS_COMMIT --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") -t $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET -f extra/Dockerfile${EXT} .
+  - docker run --rm $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET uname -a
+after_success:
+  - docker login -e=$DOCKER_EMAIL -u=$DOCKER_USERNAME -p=$DOCKER_PASSWORD
+  - docker push $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET

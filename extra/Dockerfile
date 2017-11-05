@@ -47,7 +47,7 @@ VOLUME /var/run/motion
 # Video & images
 VOLUME /var/lib/motioneye
 
-ADD motioneye.conf.sample /usr/share/motioneye/extra/
+ADD extra/motioneye.conf.sample /usr/share/motioneye/extra/
 
 CMD test -e /etc/motioneye/motioneye.conf || \    
     cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
