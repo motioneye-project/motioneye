@@ -19,6 +19,7 @@ RUN apt-get --quiet update && \
     lsb-release \
     motion \
     python-jinja2 \
+    python-olefile \
     python-pip \
     python-pycurl \
     python-setuptools \

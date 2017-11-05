@@ -1,21 +1,11 @@
-
-FROM multiarch/ubuntu-debootstrap:armhf-vivid
-MAINTAINER Conor Heine <conor.heine@gmail.com>
-
-ENV DEBIAN_FRONTEND noninteractive
-
-RUN locale-gen en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
-ENV LC_ALL en_US.UTF-8
-ENV LANG en_US.UTF-8
-ENV LC_TYPE en_US.UTF-8
-ENV TZ America/Los_Angeles
+FROM multiarch/ubuntu-debootstrap:armhf-zesty
+LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
 ADD sources.list /etc/apt/
 
-RUN apt-get update && \
-    apt-get --yes install \
-    	automake \
+RUN apt-get --quiet update && \
+    DEBIAN_FRONTEND="noninteractive" apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+    automake \
 	autoconf \
 	build-essential \
 	ffmpeg \
@@ -29,8 +19,8 @@ RUN apt-get update && \
 	libssl-dev \
 	libswscale-dev \
 	pkgconf \
-        python-dev \
-        python-pip \
+    python-dev \
+    python-pip \
 	python-setuptools \
 	subversion \
 	v4l-utils && \

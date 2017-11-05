@@ -1,35 +1,3 @@
-# See http://help.ubuntu.com/community/UpgradeNotes for how to upgrade to
-# newer versions of the distribution.
-
-deb http://ports.ubuntu.com/ubuntu-ports/ vivid main restricted
-deb-src http://ports.ubuntu.com/ubuntu-ports/ vivid main restricted
-
-## Major bug fix updates produced after the final release of the
-## distribution.
-deb http://ports.ubuntu.com/ubuntu-ports/ vivid-updates main restricted
-deb-src http://ports.ubuntu.com/ubuntu-ports/ vivid-updates main restricted
-
-## Uncomment the following two lines to add software from the 'universe'
-## repository.
-## N.B. software from this repository is ENTIRELY UNSUPPORTED by the Ubuntu
-## team. Also, please note that software in universe WILL NOT receive any
-## review or updates from the Ubuntu security team.
-deb http://ports.ubuntu.com/ubuntu-ports/ vivid universe
-deb-src http://ports.ubuntu.com/ubuntu-ports/ vivid universe
-deb http://ports.ubuntu.com/ubuntu-ports/ vivid-updates universe
-deb-src http://ports.ubuntu.com/ubuntu-ports/ vivid-updates universe
-
-## N.B. software from this repository may not have been tested as
-## extensively as that contained in the main release, although it includes
-## newer versions of some applications which may provide useful features.
-## Also, please note that software in backports WILL NOT receive any review
-## or updates from the Ubuntu security team.
-# deb http://ports.ubuntu.com/ubuntu-ports/ vivid-backports main restricted
-# deb-src http://ports.ubuntu.com/ubuntu-ports/ vivid-backports main restricted
-
-deb http://ports.ubuntu.com/ubuntu-ports/ vivid-security main restricted
-deb-src http://ports.ubuntu.com/ubuntu-ports/ vivid-security main restricted
-deb http://ports.ubuntu.com/ubuntu-ports/ vivid-security universe
-deb-src http://ports.ubuntu.com/ubuntu-ports/ vivid-security universe
-# deb http://ports.ubuntu.com/ubuntu-ports/ vivid-security multiverse
-# deb-src http://ports.ubuntu.com/ubuntu-ports/ vivid-security multiverse
+deb http://ports.ubuntu.com/ubuntu-ports/ zesty main restricted universe
+deb http://ports.ubuntu.com/ubuntu-ports/ zesty-updates main restricted universe
+deb http://ports.ubuntu.com/ubuntu-ports/ zesty-security main restricted universe
