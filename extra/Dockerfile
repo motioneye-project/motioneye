@@ -20,7 +20,7 @@ RUN apt-get --quiet update && \
     libpq5 \
     lsb-release \
     python-jinja2 \
-    python-olefile \
+    python-pil \
     python-pip \
     python-pycurl \
     python-setuptools \
