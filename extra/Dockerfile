@@ -1,5 +1,5 @@
-FROM ubuntu:17.04
-LABEL maintainer="Conor Heine <conor.heine@gmail.com>"
+FROM ubuntu:17.10
+LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -14,6 +14,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 RUN apt-get --quiet update && \
     DEBIAN_FRONTEND="noninteractive" apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+    curl \
     ffmpeg \
     lsb-release \
     motion \
