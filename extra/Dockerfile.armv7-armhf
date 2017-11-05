@@ -12,7 +12,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-url="https://github.com/ccrisan/motioneye.git"
 
-ADD sources.list /etc/apt/
+ADD extra/sources.list /etc/apt/
 
 RUN apt-get --quiet update && \
     DEBIAN_FRONTEND="noninteractive" apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
