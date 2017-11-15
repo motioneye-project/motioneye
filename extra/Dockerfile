@@ -27,7 +27,7 @@ RUN apt-get --quiet update && \
     python-tornado \
     python-wheel \
     v4l-utils && \
-    curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.0.1/yakkety_motion_4.0.1-1_amd64.deb && \
+    curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.1/artful_motion_4.1-1_amd64.deb && \
     dpkg -i /tmp/motion.deb && \
     rm /tmp/motion.deb && \
     pip install motioneye && \
