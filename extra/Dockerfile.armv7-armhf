@@ -12,10 +12,15 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-url="https://github.com/ccrisan/motioneye.git"
 
+COPY . /tmp/motioneye
+ENV LD_LIBRARY_PATH /opt/vc/lib
+
 RUN apt-get --quiet update && \
+    apt-get --quiet upgrade --yes && \
     DEBIAN_FRONTEND="noninteractive" apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
     curl \
     ffmpeg \
+    git \
     libmariadbclient18 \
     libpq5 \
     lsb-release \
@@ -28,11 +33,16 @@ RUN apt-get --quiet update && \
     python-wheel \
     v4l-utils \
     zlib1g-dev && \
+    git clone --depth 1 https://github.com/Hexxeh/rpi-firmware.git /tmp/rpi-firmware && \
+    cp -rv /tmp/rpi-firmware/vc/hardfp/opt/vc /opt && \
+    rm -rf /tmp/rpi-firmware && \
     curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.1/pi_stretch_motion_4.1-1_armhf.deb && \
     dpkg -i /tmp/motion.deb && \
     rm /tmp/motion.deb && \
-    pip install motioneye && \
+    pip install /tmp/motioneye && \
+    rm -rf /tmp/motioneye && \
     apt-get purge --yes \
+    git \
     python-pip \
     python-setuptools \
     python-wheel && \

@@ -12,7 +12,10 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-url="https://github.com/ccrisan/motioneye.git"
 
+COPY . /tmp/motioneye
+
 RUN apt-get --quiet update && \
+    apt-get --quiet upgrade --yes && \
     DEBIAN_FRONTEND="noninteractive" apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
     curl \
     ffmpeg \
@@ -30,7 +33,8 @@ RUN apt-get --quiet update && \
     curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.1/artful_motion_4.1-1_amd64.deb && \
     dpkg -i /tmp/motion.deb && \
     rm /tmp/motion.deb && \
-    pip install motioneye && \
+    pip install /tmp/motioneye && \
+    rm -rf /tmp/motioneye && \
     apt-get purge --yes \
     python-pip \
     python-setuptools \
