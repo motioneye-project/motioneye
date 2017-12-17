@@ -1938,7 +1938,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@name', 'Camera' + str(camera_id))
     data.setdefault('@id', camera_id)
 
-    if not utils.is_net_camera(data):
+    if utils.is_v4l2_camera(data):
         data.setdefault('videodevice', '/dev/video0')
         data.setdefault('brightness', 0)
         data.setdefault('contrast', 0)
