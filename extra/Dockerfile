@@ -1,10 +1,10 @@
 
-FROM ubuntu:15.04
+FROM ubuntu:16.04
 MAINTAINER Conor Heine <conor.heine@gmail.com>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN locale-gen en_US.UTF-8
+
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -13,7 +13,12 @@ ENV TZ America/Los_Angeles
 
 RUN apt-get update && \
     apt-get --yes install \
-    	automake \
+	locales
+
+RUN locale-gen en_US.UTF-8
+
+RUN apt-get --yes install \
+	automake \
 	curl \
 	autoconf \
 	build-essential \
@@ -32,8 +37,9 @@ RUN apt-get update && \
         python-pip \
 	python-setuptools \
 	subversion \
-	v4l-utils && \
-    apt-get clean
+	v4l-utils
+
+RUN apt-get clean
 
 # Pip
 RUN pip install tornado jinja2 pillow pycurl
