@@ -1932,6 +1932,7 @@ def _set_default_motion(data, old_config_format):
         data.setdefault('webcontrol_port', settings.MOTION_CONTROL_PORT)
         data.setdefault('webcontrol_html_output', True)
         data.setdefault('webcontrol_localhost', settings.MOTION_CONTROL_LOCALHOST)
+        data.setdefault('webcontrol_parms', 2)  # the advanced list of parameters will be available
 
 
 def _set_default_motion_camera(camera_id, data):
