@@ -19,6 +19,7 @@ import datetime
 import hashlib
 import json
 import logging
+import mimetypes
 import os
 import re
 import socket
@@ -1521,7 +1522,7 @@ class MovieHandler(BaseHandler):
             content = mediafiles.get_media_content(camera_config, filename, 'movie')
             
             pretty_filename = camera_config['@name'] + '_' + os.path.basename(filename)
-            self.set_header('Content-Type', 'video/mpeg')
+            self.set_header('Content-Type', mimetypes.guess_type(filename)[0] or 'video/mpeg')
             self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
             
             self.finish(content)
@@ -1533,7 +1534,7 @@ class MovieHandler(BaseHandler):
                             'url': remote.pretty_camera_url(camera_config), 'msg': error}})
 
                 pretty_filename = os.path.basename(filename)  # no camera name available w/o additional request
-                self.set_header('Content-Type', 'video/mpeg')
+                self.set_header('Content-Type', mimetypes.guess_type(filename)[0] or 'video/mpeg')
                 self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
                 
                 self.finish(response)

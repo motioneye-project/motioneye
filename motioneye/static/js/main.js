@@ -4932,6 +4932,11 @@ function isFullScreen() {
 function refreshCameraFrames() {
     var timestamp = new Date().getTime();
 
+    if ($('div.modal-container').is(':visible')) {
+        /* pause camera refresh if hidden by a dialog */
+        return setTimeout(refreshCameraFrames, 1000);
+    }
+
     function refreshCameraFrame(cameraId, img, serverSideResize) {
         if (refreshDisabled[cameraId]) {
             /* camera refreshing disabled, retry later */
