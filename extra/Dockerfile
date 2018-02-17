@@ -33,6 +33,7 @@ RUN apt-get --quiet update && \
     curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.1/artful_motion_4.1-1_amd64.deb && \
     dpkg -i /tmp/motion.deb && \
     rm /tmp/motion.deb && \
+    pip install pynacl && \
     pip install /tmp/motioneye && \
     rm -rf /tmp/motioneye && \
     apt-get purge --yes \
@@ -53,7 +54,7 @@ VOLUME /var/lib/motioneye
 
 ADD extra/motioneye.conf.sample /usr/share/motioneye/extra/
 
-CMD test -e /etc/motioneye/motioneye.conf || \    
+CMD test -e /etc/motioneye/motioneye.conf || \
     cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
     /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
 

@@ -28,6 +28,7 @@ from tornado.ioloop import IOLoop
 from tornado.web import RequestHandler, StaticFileHandler, HTTPError, asynchronous
 
 import config
+import encrypt
 import mediafiles
 import mjpgclient
 import mmalctl
@@ -1838,7 +1839,10 @@ class RelayEventHandler(BaseHandler):
     
     def upload_media_file(self, filename, camera_id, camera_config):
         service_name = camera_config['@upload_service']
-        
+
+        if camera_config['@cloud_encryption_enabled']:
+            filename = encrypt.encrypt(filename, camera_id)
+
         tasks.add(5, uploadservices.upload_media_file, tag='upload_media_file(%s)' % filename,
                 camera_id=camera_id, service_name=service_name,
                 target_dir=camera_config['@upload_subfolders'] and camera_config['target_dir'],

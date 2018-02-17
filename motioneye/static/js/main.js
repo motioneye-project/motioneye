@@ -1848,6 +1848,9 @@ function cameraUi2Dict() {
         'upload_method': $('#uploadMethodSelect').val(),
         'upload_location': $('#uploadLocationEntry').val(),
         'upload_subfolders': $('#uploadSubfoldersSwitch')[0].checked,
+        'cloud_encryption_enabled': $('#cloudEncryptionSwitch')[0].checked,
+        'cloud_encryption_upload_fails': $('#cloudEncryptionUploadFailsSwitch')[0].checked,
+        'cloud_encryption_remove_unencrypted': $('#cloudEncryptionRemoveUnencryptedSwitch')[0].checked,
         'upload_username': $('#uploadUsernameEntry').val(),
         'upload_password': $('#uploadPasswordEntry').val(),
         'upload_authorization_key': $('#uploadAuthorizationKeyEntry').val(),
@@ -2166,6 +2169,9 @@ function dict2CameraUi(dict) {
     $('#uploadMethodSelect').val(dict['upload_method']); markHideIfNull('upload_method', 'uploadMethodSelect');
     $('#uploadLocationEntry').val(dict['upload_location']); markHideIfNull('upload_location', 'uploadLocationEntry');
     $('#uploadSubfoldersSwitch')[0].checked = dict['upload_subfolders']; markHideIfNull('upload_subfolders', 'uploadSubfoldersSwitch');
+    $('#cloudEncryptionSwitch')[0].checked = dict['cloud_encryption_enabled']; markHideIfNull('cloud_encryption_enabled', 'cloudEncryptionSwitch');
+    $('#cloudEncryptionUploadFailsSwitch')[0].checked = dict['cloud_encryption_upload_fails']; markHideIfNull('cloud_encryption_upload_fails', 'cloudEncryptionUploadFailsSwitch');
+    $('#cloudEncryptionRemoveUnencryptedSwitch')[0].checked = dict['cloud_encryption_remove_unencrypted']; markHideIfNull('cloud_encryption_remove_unencrypted', 'cloudEncryptionRemoveUnencryptedSwitch');
     $('#uploadUsernameEntry').val(dict['upload_username']); markHideIfNull('upload_username', 'uploadUsernameEntry');
     $('#uploadPasswordEntry').val(dict['upload_password']); markHideIfNull('upload_password', 'uploadPasswordEntry');
     $('#uploadAuthorizationKeyEntry').val(dict['upload_authorization_key']); markHideIfNull('upload_authorization_key', 'uploadAuthorizationKeyEntry');

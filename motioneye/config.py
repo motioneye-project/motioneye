@@ -5,14 +5,14 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import collections
 import datetime
@@ -752,6 +752,9 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         '@upload_method': ui['upload_method'],
         '@upload_location': ui['upload_location'],
         '@upload_subfolders': ui['upload_subfolders'],
+        '@cloud_encryption_enabled': ui['cloud_encryption_enabled'],
+        '@cloud_encryption_upload_fails': ui['cloud_encryption_upload_fails'],
+        '@cloud_encryption_remove_unencrypted': ui['cloud_encryption_remove_unencrypted'],
         '@upload_username': ui['upload_username'],
         '@upload_password': ui['upload_password'],
 
@@ -817,8 +820,8 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         proto = 'v4l2'
 
     elif utils.is_mmal_camera(old_config):
-        proto = 'mmal'     
-   
+        proto = 'mmal'
+
     else:
         proto = 'netcam'
 
@@ -1062,7 +1065,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
 
     if ui['command_end_notifications_enabled']:
         on_event_end += utils.split_semicolon(ui['command_end_notifications_exec'])
-    
+
     data['on_event_end'] = '; '.join(on_event_end)
 
     # movie end
@@ -1149,6 +1152,9 @@ def motion_camera_dict_to_ui(data):
         'upload_method': data['@upload_method'],
         'upload_location': data['@upload_location'],
         'upload_subfolders': data['@upload_subfolders'],
+        'cloud_encryption_enabled': data['@cloud_encryption_enabled'],
+        'cloud_encryption_upload_fails': data['@cloud_encryption_upload_fails'],
+        'cloud_encryption_remove_unencrypted': data['@cloud_encryption_remove_unencrypted'],
         'upload_username': data['@upload_username'],
         'upload_password': data['@upload_password'],
         'upload_authorization_key': '',  # needed, otherwise the field is hidden
@@ -1210,7 +1216,7 @@ def motion_camera_dict_to_ui(data):
         'web_hook_notifications_enabled': False,
         'command_notifications_enabled': False,
         'command_end_notifications_enabled': False,
-        
+
         # working schedule
         'working_schedule': False,
         'working_schedule_type': 'during',
@@ -1244,7 +1250,7 @@ def motion_camera_dict_to_ui(data):
     elif utils.is_mmal_camera(data):
         ui['device_url'] = data['mmalcam_name']
         ui['proto'] = 'mmal'
-        
+
         resolutions = utils.COMMON_RESOLUTIONS
         resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
         ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
@@ -1263,7 +1269,7 @@ def motion_camera_dict_to_ui(data):
 
         # the brightness & co. keys in the ui dictionary
         # indicate the presence of these controls
-        # we must call v4l2ctl functions to determine the available controls    
+        # we must call v4l2ctl functions to determine the available controls
         brightness = v4l2ctl.get_brightness(data['videodevice'])
         if brightness is not None:  # has brightness control
             if data.get('brightness', 0) != 0:
@@ -1967,6 +1973,9 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@upload_method', 'POST')
     data.setdefault('@upload_location', '')
     data.setdefault('@upload_subfolders', True)
+    data.setdefault('@cloud_encryption_enabled', False)
+    data.setdefault('@cloud_encryption_upload_fails', False)
+    data.setdefault('@cloud_encryption_remove_unencrypted', False)
     data.setdefault('@upload_username', '')
     data.setdefault('@upload_password', '')
 
