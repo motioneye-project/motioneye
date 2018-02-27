@@ -1520,12 +1520,13 @@ class MovieHandler(BaseHandler):
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
             content = mediafiles.get_media_content(camera_config, filename, 'movie')
-
+            
             pretty_filename = camera_config['@name'] + '_' + os.path.basename(filename)
             self.set_header('Content-Type', mimetypes.guess_type(filename)[0] or 'video/mpeg')
             self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
-
+            
             self.finish(content)
+        
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):
                 if error:
@@ -1535,7 +1536,7 @@ class MovieHandler(BaseHandler):
                 pretty_filename = os.path.basename(filename)  # no camera name available w/o additional request
                 self.set_header('Content-Type', mimetypes.guess_type(filename)[0] or 'video/mpeg')
                 self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
-
+                
                 self.finish(response)
 
             remote.get_media_content(camera_config, filename=filename, media_type='movie', callback=on_response)

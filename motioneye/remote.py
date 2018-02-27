@@ -392,7 +392,7 @@ def get_media_content(local_config, filename, media_type, callback):
             'media_type': media_type,
             'id': camera_id,
             'filename': filename}
-
+    
     # timeout here is 10 times larger than usual - we expect a big delay when fetching the media list
     request = _make_request(scheme, host, port, username, password,
                             path, timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
