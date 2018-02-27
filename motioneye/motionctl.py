@@ -25,6 +25,7 @@ import time
 
 from tornado.ioloop import IOLoop
 
+import mediafiles
 import powerctl
 import settings
 import update
@@ -52,17 +53,17 @@ def find_motion():
         else:
             return None, None
 
-    else: # autodetect motion binary path
+    else:  # autodetect motion binary path
         try:
             binary = subprocess.check_output(['which', 'motion'], stderr=utils.DEV_NULL).strip()
         
-        except subprocess.CalledProcessError: # not found
+        except subprocess.CalledProcessError:  # not found
             return None, None
 
     try:
         help = subprocess.check_output(binary + ' -h || true', shell=True)
     
-    except subprocess.CalledProcessError: # not found
+    except subprocess.CalledProcessError:  # not found
         return None, None
     
     result = re.findall('motion Version ([^,]+)', help, re.IGNORECASE)
@@ -99,17 +100,14 @@ def start(deferred=False):
     
     program, version = program  # @UnusedVariable
     
-    logging.debug('using motion binary "%s"' % program)
+    logging.debug('starting motion binary "%s"' % program)
 
     motion_config_path = os.path.join(settings.CONF_PATH, 'motion.conf')
     motion_log_path = os.path.join(settings.LOG_PATH, 'motion.log')
     motion_pid_path = os.path.join(settings.RUN_PATH, 'motion.pid')
     
-    args = [program,
-            '-n',
-            '-c', motion_config_path]
-    
-    args.append('-d')
+    args = [program, '-n', '-c', motion_config_path, '-d']
+
     if settings.LOG_LEVEL <= logging.DEBUG:
         args.append('9')
     
@@ -119,7 +117,7 @@ def start(deferred=False):
     elif settings.LOG_LEVEL <= logging.ERROR:
         args.append('4')
     
-    else: # fatat, quiet
+    else:  # fatal, quiet
         args.append('1')
 
     log_file = open(motion_log_path, 'w')
@@ -226,7 +224,8 @@ def get_motion_detection(camera_id, callback):
         logging.error(error)
         return callback(error=error)
 
-    url = 'http://127.0.0.1:7999/%(id)s/detection/status' % {'id': thread_id}
+    url = 'http://127.0.0.1:%(port)s/%(id)s/detection/status' % {
+            'port': settings.MOTION_CONTROL_PORT, 'id': thread_id}
     
     def on_response(response):
         if response.error:
@@ -259,7 +258,8 @@ def set_motion_detection(camera_id, enabled):
             'what': ['disabling', 'enabling'][enabled],
             'id': camera_id})
     
-    url = 'http://127.0.0.1:7999/%(id)s/detection/%(enabled)s' % {
+    url = 'http://127.0.0.1:%(port)s/%(id)s/detection/%(enabled)s' % {
+            'port': settings.MOTION_CONTROL_PORT,
             'id': thread_id,
             'enabled': ['pause', 'start'][enabled]}
     
@@ -274,6 +274,33 @@ def set_motion_detection(camera_id, enabled):
             logging.debug('successfully %(what)s motion detection for camera with id %(id)s' % {
                     'what': ['disabled', 'enabled'][enabled],
                     'id': camera_id})
+
+    request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT, request_timeout=_MOTION_CONTROL_TIMEOUT)
+    http_client = AsyncHTTPClient()
+    http_client.fetch(request, on_response)
+
+
+def take_snapshot(camera_id):
+    from tornado.httpclient import HTTPRequest, AsyncHTTPClient
+
+    thread_id = camera_id_to_thread_id(camera_id)
+    if thread_id is None:
+        return logging.error('could not find thread id for camera with id %s' % camera_id)
+
+    logging.debug('taking snapshot for camera with id %(id)s' % {'id': camera_id})
+
+    url = 'http://127.0.0.1:%(port)s/%(id)s/action/snapshot' % {
+            'port': settings.MOTION_CONTROL_PORT,
+            'id': thread_id}
+
+    def on_response(response):
+        if response.error:
+            logging.error('failed to take snapshot for camera with id %(id)s: %(msg)s' % {
+                    'id': camera_id,
+                    'msg': utils.pretty_http_error(response)})
+
+        else:
+            logging.debug('successfully took snapshot for camera with id %(id)s' % {'id': camera_id})
 
     request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT, request_timeout=_MOTION_CONTROL_TIMEOUT)
     http_client = AsyncHTTPClient()
@@ -331,14 +358,14 @@ def has_old_config_format():
     if not binary:
         return False
 
-    if version.startswith('trunkREV'): # e.g. "trunkREV599"
+    if version.startswith('trunkREV'):  # e.g. "trunkREV599"
         version = int(version[8:])
         return version <= _LAST_OLD_CONFIG_VERSIONS[0]
 
-    elif version.lower().count('git'): # e.g. "Unofficial-Git-a5b5f13" or "3.2.12+git20150927mrdave"
-        return False # all git versions are assumed to be new
+    elif version.lower().count('git'):  # e.g. "Unofficial-Git-a5b5f13" or "3.2.12+git20150927mrdave"
+        return False  # all git versions are assumed to be new
 
-    else: # stable release, should have the format "x.y.z"
+    else:  # stable release, should have the format "x.y.z"
         return update.compare_versions(version, _LAST_OLD_CONFIG_VERSIONS[1]) <= 0
 
 
@@ -354,20 +381,30 @@ def has_new_movie_format_support():
     return version.lower().count('git') or update.compare_versions(version, '3.4') >= 0 
 
 
+def has_h264_omx_support():
+    binary, version, codecs = mediafiles.find_ffmpeg()
+    if not binary:
+        return False
+
+    # TODO also check for motion codec parameter support
+
+    return 'h264_omx' in codecs.get('h264', {}).get('encoders', set())
+
+
 def get_rtsp_support():
     binary, version = find_motion()
     if not binary:
         return []
 
-    if version.startswith('trunkREV'): # e.g. trunkREV599
+    if version.startswith('trunkREV'):  # e.g. trunkREV599
         version = int(version[8:])
         if version > _LAST_OLD_CONFIG_VERSIONS[0]:
             return ['tcp']
 
     elif version.lower().count('git') or update.compare_versions(version, '3.4') >= 0:
-        return ['tcp', 'udp'] # all git versions are assumed to support both transport protocols
+        return ['tcp', 'udp']  # all git versions are assumed to support both transport protocols
     
-    else: # stable release, should be in the format x.y.z
+    else:  # stable release, should be in the format x.y.z
         return []
 
 

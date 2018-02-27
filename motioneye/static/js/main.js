@@ -4,6 +4,8 @@ var PASSWORD_COOKIE = 'meye_password_hash';
 
 var pushConfigs = {};
 var pushConfigReboot = false;
+var adminPasswordChanged = false;
+var normalPasswordChanged = false;
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var fullScreenCameraId = null;
 var inProgress = false;
@@ -346,7 +348,7 @@ function computeSignature(method, path, body) {
     
     var parts = splitUrl(path);
     var query = parts.params;
-    var path = parts.baseUrl;
+    path = parts.baseUrl;
     path = '/' + path.substring(basePath.length);
     
     /* sort query arguments alphabetically */
@@ -376,7 +378,7 @@ function addAuthParams(method, url, body) {
     url += '_username=' + window.username;
     if (window._loginDialogSubmitted) {
         url += '&_login=true';
-        _loginDialogSubmitted = false;
+        window._loginDialogSubmitted = false;
     }
     var signature = computeSignature(method, url, body);
     url += '&_signature=' + signature;
@@ -468,7 +470,7 @@ function ajax(method, url, data, callback, error, timeout) {
 }
 
 function getCookie(name) {
-    var cookie = document.cookie.substring();
+    var cookie = document.cookie + '';
     
     if (cookie.length <= 0) {
         return null;
@@ -659,6 +661,14 @@ function initUI() {
         }
     }
 
+    /* update password changed flags */
+    $('#adminPasswordEntry').change(function () {
+        adminPasswordChanged = true;
+    });
+    $('#normalPasswordEntry').change(function () {
+        normalPasswordChanged = true;
+    });
+
     /* ui elements that enable/disable other ui elements */
     $('#showAdvancedSwitch').change(updateConfigUI);
     $('#storageDeviceSelect').change(updateConfigUI);
@@ -770,18 +780,21 @@ function initUI() {
         }
     });
     
-    /* streaming framerate must be >= device framerate */
+    /* streaming framerate must be >= device framerate + a margin */
     $('#framerateSlider').change(function () {
         var value = Number($('#framerateSlider').val());
         var streamingValue = Number($('#streamingFramerateSlider').val());
-        
+
+        value += 5; /* a margin of 5 extra fps */
+        value = Math.min(value, 30); /* don't go above 30 fps */
+
         if (streamingValue < value) {
             $('#streamingFramerateSlider').val(value).change();
         }
     });
     
     /* capture mode and recording mode are not completely independent:
-     * all frames capture mode implies continuous recording (and vice-versa) */
+     * all-frames capture mode implies continuous recording (and vice-versa) */
     $('#captureModeSelect').change(function (val) {
         if ($('#captureModeSelect').val() == 'all-frames') {
             $('#recordingModeSelect').val('continuous');
@@ -1203,7 +1216,7 @@ function enableMaskEdit(cameraId, width, height) {
     /* prevent editor closing by accidental click on mask container */
     maskDiv.click(function () {
         return false;
-    })
+    });
 
     var x, y;
     for (y = 0; y < ny; y++) {
@@ -1639,7 +1652,7 @@ function dict2PrefsUi(dict) {
 
 function applyPrefs(dict) {
     setLayoutColumns(dict['layout_columns']);
-    fitFramesVertically = dict['fit_frames_vertically']
+    fitFramesVertically = dict['fit_frames_vertically'];
     layoutRows = dict['layout_rows'];
     framerateFactor = dict['framerate_factor'];
     resolutionFactor = dict['resolution_factor'];
@@ -1661,10 +1674,15 @@ function mainUi2Dict() {
     var dict = {
         'show_advanced': $('#showAdvancedSwitch')[0].checked,
         'admin_username': $('#adminUsernameEntry').val(),
-        'admin_password': $('#adminPasswordEntry').val(),
         'normal_username': $('#normalUsernameEntry').val(),
-        'normal_password': $('#normalPasswordEntry').val()
     };
+
+    if (adminPasswordChanged) {
+        dict['admin_password'] = $('#adminPasswordEntry').val();
+    }
+    if (normalPasswordChanged) {
+        dict['normal_password'] = $('#normalPasswordEntry').val();
+    }
 
     /* additional sections */
     $('input[type=checkbox].additional-section.main-config').each(function () {
@@ -1779,7 +1797,7 @@ function dict2MainUi(dict) {
 function cameraUi2Dict() {
     if ($('#videoDeviceEnabledSwitch')[0].error) { /* config error */
         return {
-            'enabled': $('#videoDeviceEnabledSwitch')[0].checked,
+            'enabled': $('#videoDeviceEnabledSwitch')[0].checked
         };
     }
     
@@ -1863,6 +1881,7 @@ function cameraUi2Dict() {
         'capture_mode': $('#captureModeSelect').val(),
         'snapshot_interval': $('#snapshotIntervalEntry').val(),
         'preserve_pictures': $('#preservePicturesSelect').val() >= 0 ? $('#preservePicturesSelect').val() : $('#picturesLifetimeEntry').val(),
+        'manual_snapshots': $('#manualSnapshotsSwitch')[0].checked,
         
         /* movies */
         'movies': $('#moviesEnabledSwitch')[0].checked,
@@ -1906,6 +1925,8 @@ function cameraUi2Dict() {
         'web_hook_notifications_http_method': $('#webHookNotificationsHttpMethodSelect').val(),
         'command_notifications_enabled': $('#commandNotificationsEnabledSwitch')[0].checked,
         'command_notifications_exec': $('#commandNotificationsEntry').val(),
+        'command_end_notifications_enabled': $('#commandEndNotificationsEnabledSwitch')[0].checked,
+        'command_end_notifications_exec': $('#commandEndNotificationsEntry').val(),
         
         /* working schedule */
         'working_schedule': $('#workingScheduleEnabledSwitch')[0].checked,
@@ -1923,7 +1944,7 @@ function cameraUi2Dict() {
         'saturday_to': $('#saturdayEnabledSwitch')[0].checked ? $('#saturdayToEntry').val() : '',
         'sunday_from': $('#sundayEnabledSwitch')[0].checked ? $('#sundayFromEntry').val() : '',
         'sunday_to': $('#sundayEnabledSwitch')[0].checked ? $('#sundayToEntry').val() : '',
-        'working_schedule_type': $('#workingScheduleTypeSelect').val(),
+        'working_schedule_type': $('#workingScheduleTypeSelect').val()
     };
     
     /* if all working schedule days are disabled,
@@ -2040,6 +2061,10 @@ function dict2CameraUi(dict) {
 
         case 'netcam':
             prettyType = 'Network Camera';
+            break;
+            
+        case 'mmal':
+            prettyType = 'MMAL Camera';
             break;
 
         case 'motioneye':
@@ -2213,6 +2238,7 @@ function dict2CameraUi(dict) {
     }
     markHideIfNull('preserve_pictures', 'preservePicturesSelect');
     $('#picturesLifetimeEntry').val(dict['preserve_pictures']); markHideIfNull('preserve_pictures', 'picturesLifetimeEntry');
+    $('#manualSnapshotsSwitch')[0].checked = dict['manual_snapshots']; markHideIfNull('manual_snapshots', 'manualSnapshotsSwitch');
     
     /* movies */
     $('#moviesEnabledSwitch')[0].checked = dict['movies']; markHideIfNull('movies', 'moviesEnabledSwitch');
@@ -2263,6 +2289,8 @@ function dict2CameraUi(dict) {
     
     $('#commandNotificationsEnabledSwitch')[0].checked = dict['command_notifications_enabled']; markHideIfNull('command_notifications_enabled', 'commandNotificationsEnabledSwitch');
     $('#commandNotificationsEntry').val(dict['command_notifications_exec']);
+    $('#commandEndNotificationsEnabledSwitch')[0].checked = dict['command_end_notifications_enabled']; markHideIfNull('command_end_notifications_enabled', 'commandEndNotificationsEnabledSwitch');
+    $('#commandEndNotificationsEntry').val(dict['command_end_notifications_exec']);
 
     /* working schedule */
     $('#workingScheduleEnabledSwitch')[0].checked = dict['working_schedule']; markHideIfNull('working_schedule', 'workingScheduleEnabledSwitch');
@@ -2412,7 +2440,7 @@ function downloadFile(path) {
 
 function uploadFile(path, input, callback) {
     if (!window.FormData) {
-        showErrorMessage("Your browser doesn't implement this function!");s
+        showErrorMessage("Your browser doesn't implement this function!");
         callback();
     }
 
@@ -2505,6 +2533,10 @@ function doApply() {
                 showErrorMessage(data && data.error);
                 return;
             }
+
+            /* reset password change flags */
+            adminPasswordChanged = false;
+            normalPasswordChanged = false;
             
             if (data.reboot) {
                 var count = 0;
@@ -3280,7 +3312,6 @@ function pushPreview(control) {
         
         if (data == null || data.error) {
             showErrorMessage(data && data.error);
-            return;
         }
     });
 }
@@ -3292,7 +3323,7 @@ function getCameraIdsByInstance() {
     var cameraIdsByInstance = {};
     getCameraFrames().each(function () {
         var instance;
-        if (this.config.proto == 'netcam' || this.config.proto == 'v4l2') {
+        if (this.config.proto == 'netcam' || this.config.proto == 'v4l2' || this.config.proto == 'mmal') {
             instance = '';
         }
         else if (this.config.proto == 'motioneye') {
@@ -3411,7 +3442,7 @@ function runLoginDialog(retry) {
                     retry();
                 }
             }}
-        ],
+        ]
     };
     
     runModalDialog(params);
@@ -3591,7 +3622,8 @@ function runAddCameraDialog() {
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Camera Type</span></td>' +
                     '<td class="dialog-item-value"><select class="styled" id="typeSelect">' +
-                        (hasLocalCamSupport ? '<option value="v4l2">Local Camera</option>' : '') +
+                        (hasLocalCamSupport ? '<option value="v4l2">Local V4L2 Camera</option>' : '') +
+                        (hasLocalCamSupport ? '<option value="mmal">Local MMAL Camera</option>' : '') +
                         (hasNetCamSupport ? '<option value="netcam">Network Camera</option>' : '') +
                         '<option value="motioneye">Remote motionEye Camera</option>' +
                         '<option value="mjpeg">Simple MJPEG Camera</option>' +
@@ -3613,15 +3645,15 @@ function runAddCameraDialog() {
                     '<td class="dialog-item-value"><input type="password" class="styled" id="passwordEntry" placeholder="password..."></td>' +
                     '<td><span class="help-mark" title="the password for the URL, if required">?</span></td>' +
                 '</tr>' +
-                '<tr class="v4l2 motioneye netcam mjpeg">' +
+                '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Camera</span></td>' +
                     '<td class="dialog-item-value"><select class="styled" id="addCameraSelect"></select><span id="cameraMsgLabel"></span></td>' +
                     '<td><span class="help-mark" title="the camera you wish to add">?</span></td>' +
                 '</tr>' +
-                '<tr class="v4l2 motioneye netcam mjpeg">' +
+                '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
                     '<td colspan="100"><div class="dialog-item-separator"></div></td>' +
                 '</tr>' +
-                '<tr class="v4l2 motioneye netcam mjpeg">' +
+                '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
                     '<td class="dialog-item-value" colspan="100"><div id="addCameraInfo"></div></td>' +
                 '</tr>' +
             '</table>');
@@ -3643,7 +3675,7 @@ function runAddCameraDialog() {
     
     /* ui interaction */
     function updateUi() {
-        content.find('tr.v4l2, tr.motioneye, tr.netcam, tr.mjpeg').css('display', 'none');
+        content.find('tr.v4l2, tr.motioneye, tr.netcam, tr.mjpeg, tr.mmal').css('display', 'none');
 
         if (typeSelect.val() == 'motioneye') {
             content.find('tr.motioneye').css('display', 'table-row');
@@ -3669,6 +3701,12 @@ function runAddCameraDialog() {
                     'Network cameras (or IP cameras) are devices that natively stream RTSP or MJPEG videos or plain JPEG images. ' +
                     "Consult your device's manual to find out the correct RTSP, MJPEG or JPEG URL.");
         }
+        else if (typeSelect.val() == 'mmal') {
+            content.find('tr.mmal').css('display', 'table-row');
+            addCameraInfo.html(
+                    'Local MMAL cameras are devices that are connected directly to your motionEye system. ' +
+                    'These are usually board-specific cameras.');
+        }
         else if (typeSelect.val() == 'mjpeg') {
             usernameEntry.removeAttr('readonly');
             
@@ -3690,8 +3728,8 @@ function runAddCameraDialog() {
         else { /* assuming v4l2 */
             content.find('tr.v4l2').css('display', 'table-row');
             addCameraInfo.html(
-                    'Local cameras are camera devices that are connected directly to your motionEye system. ' +
-                    'These are usually USB webcams or board-specific cameras.');
+                    'Local V4L2 cameras are camera devices that are connected directly to your motionEye system, ' +
+                    'usually via USB.');
         }
         
         updateModalDialogPosition();
@@ -3781,6 +3819,10 @@ function runAddCameraDialog() {
         data.username = usernameEntry.val();
         data.password = passwordEntry.val();
         data.proto = typeSelect.val();
+
+        if (data.proto == 'motioneye') {
+            data.password = sha1(data.password);
+        }
         
         cameraMsgLabel.html('');
         
@@ -3846,7 +3888,7 @@ function runAddCameraDialog() {
                 data = splitCameraUrl(urlEntry.val());
                 data.proto = 'motioneye';
                 data.username = usernameEntry.val();
-                data.password = passwordEntry.val();
+                data.password = sha1(passwordEntry.val());
                 data.remote_camera_id = addCameraSelect.val();
             }
             else if (typeSelect.val() == 'netcam') {
@@ -3855,6 +3897,10 @@ function runAddCameraDialog() {
                 data.password = passwordEntry.val();
                 data.proto = 'netcam';
                 data.camera_index = addCameraSelect.val();
+            }
+            else if (typeSelect.val() == 'mmal') {
+                data.path = addCameraSelect.val();
+                data.proto = 'mmal';
             }
             else if (typeSelect.val() == 'mjpeg') {
                 data = splitCameraUrl(urlEntry.val());
@@ -3929,7 +3975,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
     var intervalSelect = content.find('#intervalSelect');
     var framerateSlider = content.find('#framerateSlider');
     var timelapseWarning = content.find('td.timelapse-warning');
-    
+
     if (group.length > 1440) { /* one day worth of pictures, taken 1 minute apart */
         timelapseWarning.html('Given the large number of pictures, creating your timelapse might take a while!');
         timelapseWarning.css('display', 'table-cell');
@@ -4875,7 +4921,6 @@ function doFullScreenCamera(cameraId) {
             element.msRequestFullscreen ||
             element.msRequestFullScreen);
     
-
     if (requestFullScreen) {
         requestFullScreen.call(element);
     }
@@ -4941,6 +4986,11 @@ function isFullScreen() {
 function refreshCameraFrames() {
     var timestamp = new Date().getTime();
 
+    if ($('div.modal-container').is(':visible')) {
+        /* pause camera refresh if hidden by a dialog */
+        return setTimeout(refreshCameraFrames, 1000);
+    }
+
     function refreshCameraFrame(cameraId, img, serverSideResize) {
         if (refreshDisabled[cameraId]) {
             /* camera refreshing disabled, retry later */
@@ -4987,6 +5037,11 @@ function refreshCameraFrames() {
             if (this.config['proto'] == 'mjpeg') {
                 var url = this.config['url'].replace('127.0.0.1', window.location.host.split(':')[0]);
                 url += (url.indexOf('?') > 0 ? '&' : '?') + '_=' + new Date().getTime();
+
+                /* if (url.indexOf('@') >= 0) {
+                    url = url.substring(0, url.indexOf('//') + 2)+ url.substring(url.indexOf('@') + 1);
+                } */
+
                 this.img.src = url;
             }
         }
@@ -4997,20 +5052,27 @@ function refreshCameraFrames() {
         
         var count = parseInt(1000 / (refreshInterval * this.config['streaming_framerate']));
         var serverSideResize = this.config['streaming_server_resize'];
+        var cameraId = this.id.substring(6);
+
         count /= framerateFactor;
-        
+
+        /* if frameFactor is 0, we only want one camera refresh at the beginning,
+         * and no subsequent refreshes at all */
+        if (framerateFactor == 0 && this.refreshDivider == 0) {
+            refreshCameraFrame(cameraId, this.img, serverSideResize);
+            this.refreshDivider++;
+        }
+
         if (this.img.error) {
             /* in case of error, decrease the refresh rate to 1 fps */
             count = 1000 / refreshInterval;
         }
-        
+
         if (this.refreshDivider < count) {
             this.refreshDivider++;
         }
         else {
-            var cameraId = this.id.substring(6);
             refreshCameraFrame(cameraId, this.img, serverSideResize);
-            
             this.refreshDivider = 0;
         }
     });

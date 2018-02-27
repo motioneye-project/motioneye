@@ -23,10 +23,12 @@
         <td class="settings-item-value">
             {% if config['type'] == 'str' %}
                 <input type="text" class="styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Entry">
+                {% if config['unit'] %}<span class="settings-item-unit">{{config['unit']}}</span>{% endif %}
             {% elif config['type'] == 'pwd' %}
                 <input type="password" class="styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Entry">
             {% elif config['type'] == 'number' %}
                 <input type="text" class="number styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Entry">
+                {% if config['unit'] %}<span class="settings-item-unit">{{config['unit']}}</span>{% endif %}
             {% elif config['type'] == 'range' %}
                 <input type="text" class="range styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Slider">
             {% elif config['type'] == 'bool' %}
@@ -37,6 +39,7 @@
                     <option value="{{choice[0]}}">{{choice[1]}}</option>
                     {% endfor %}
                 </select>
+                {% if config['unit'] %}<span class="settings-item-unit">{{config['unit']}}</span>{% endif %}
             {% elif config['type'] == 'html' %}
                 <div class="html styled {{config['section']}} {% if config.get('camera') %}camera{% else %}main{% endif %}-config" id="{{config['name']}}Html"></div>
             {% endif %}
@@ -50,19 +53,19 @@
 
 {% block style %}
     {{super()}}
-    <link rel="stylesheet" type="text/css" href="{{static_path}}css/ui.css" />
-    <link rel="stylesheet" type="text/css" href="{{static_path}}css/main.css" />
+    <link rel="stylesheet" type="text/css" href="{{static_path}}css/ui.css?v={{version}}" />
+    <link rel="stylesheet" type="text/css" href="{{static_path}}css/main.css?v={{version}}" />
     {% if frame %}
-        <link rel="stylesheet" type="text/css" href="{{static_path}}css/frame.css" />
+        <link rel="stylesheet" type="text/css" href="{{static_path}}css/frame.css?v={{version}}" />
     {% endif %}
 {% endblock %}
 
 {% block script %}
     {{super()}}
-    <script type="text/javascript" src="{{static_path}}js/ui.js"></script>
-    <script type="text/javascript" src="{{static_path}}js/main.js"></script>
+    <script type="text/javascript" src="{{static_path}}js/ui.js?v={{version}}"></script>
+    <script type="text/javascript" src="{{static_path}}js/main.js?v={{version}}"></script>
     {% if frame %}
-        <script type="text/javascript" src="{{static_path}}js/frame.js"></script>
+        <script type="text/javascript" src="{{static_path}}js/frame.js?v={{version}}"></script>
     {% endif %}
     <script type="text/javascript">
         var adminUsername = '{{admin_username}}';
@@ -155,7 +158,7 @@
                         <td class="settings-item-value"><input type="text" class="styled general main-config" id="adminUsernameEntry" readonly="readonly"></td>
                         <td><span class="help-mark" title="the username to be used for configuring the system">?</span></td>
                     </tr>
-                    <tr class="settings-item" strip="true" {% if enable_reboot %}reboot="true"{% endif %}>
+                    <tr class="settings-item" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Admin Password</span></td>
                         <td class="settings-item-value"><input type="password" class="styled general main-config" id="adminPasswordEntry"></td>
                         <td><span class="help-mark" title="administrator's password">?</span></td>
@@ -420,8 +423,8 @@
                         <td class="settings-item-label"><span class="settings-item-label">Upload Service</span></td>
                         <td class="settings-item-value">
                             <select class="styled storage camera-config" id="uploadServiceSelect">
-<!--                                 <option value="ftp">FTP Server</option> -->
-<!--                                 <option value="sftp">SFTP Server</option> -->
+                                <option value="ftp">FTP Server</option>
+                                <option value="sftp">SFTP Server</option>
 <!--                                 <option value="http">HTTP Server</option> -->
 <!--                                 <option value="https">HTTPS Server</option> -->
                                 <option value="gdrive">Google Drive</option>
@@ -688,11 +691,17 @@
                         <td class="settings-item-value">
                             <select class="styled still-images camera-config" id="captureModeSelect">
                                 <option value="motion-triggered">Motion Triggered</option>
+                                <option value="motion-triggered-one">Motion Triggered (One Picture)</option>
                                 <option value="interval-snapshots">Interval Snapshots</option>
                                 <option value="all-frames">All Frames</option>
+                                <option value="manual">Manual</option>
                             </select>
                         </td>
-                        <td><span class="help-mark" title="sets the image capture mode: Motion Triggered = an image captured whenever motion is detected, Interval Snapshots = an image captured every x seconds, All Frames = saves each frame to an image file">?</span></td>
+                        <td><span class="help-mark" title="sets the image capture mode:
+                                Motion Triggered = an image captured whenever motion is detected,
+                                Interval Snapshots = an image captured every x seconds,
+                                All Frames = saves each frame to an image file,
+                                Manual = manual snapshots using snapshot button">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" min="1" max="86400" required="true" depends="captureMode=interval-snapshots">
                         <td class="settings-item-label"><span class="settings-item-label">Snapshot Interval</span></td>
@@ -717,6 +726,11 @@
                         <td class="settings-item-label"><span class="settings-item-label">Pictures Lifetime</span></td>
                         <td class="settings-item-value"><input type="text" class="styled number still-images camera-config" id="picturesLifetimeEntry"><span class="settings-item-unit">days</span></td>
                         <td><span class="help-mark" title="sets the number of days after which the pictures will be deleted automatically">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting">
+                        <td class="settings-item-label"><span class="settings-item-label">Enable Manual Snapshots</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled still-images camera-config" id="manualSnapshotsSwitch"></td>
+                        <td><span class="help-mark" title="when this is enabled, a button on the camera frame will allow you to manually take snapshots">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('still-images', {}).get('configs', []) %}
                         {{config_item(config)}}
@@ -747,8 +761,14 @@
                                 <option value="mov">QuickTime (.mov)</option>
                                 {% if has_new_movie_format_support %}
                                 <option value="mp4">H.264 (.mp4)</option>
+                                {% if has_h264_omx_support %}
+                                <option value="mp4:h264_omx">H.264/OMX (.mp4)</option>
+                                {% endif %}
                                 <option value="hevc">HEVC (.mp4)</option>
                                 <option value="mkv">Matroska Video (.mkv)</option>
+                                {% if has_h264_omx_support %}
+                                <option value="mkv:h264_omx">Matroska Video/OMX (.mkv)</option>
+                                {% endif %}
                                 {% endif %}
                             </select>
                         </td>
@@ -834,7 +854,7 @@
                     <tr class="settings-item advanced-setting">
                         <td colspan="100"><div class="settings-item-separator"></div></td>
                     </tr>
-                    <tr class="settings-item advanced-setting" min="1" max="86400" required="true">
+                    <tr class="settings-item advanced-setting" min="0" max="86400" required="true">
                         <td class="settings-item-label"><span class="settings-item-label">Motion Gap</span></td>
                         <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="eventGapEntry"><span class="settings-item-unit">seconds</span></td>
                         <td><span class="help-mark" title="sets the number of seconds of silence (i.e. no motion) that mark the end of a motion event">?</span></td>
@@ -1002,7 +1022,20 @@
                     <tr class="settings-item advanced-setting" required="true" depends="commandNotificationsEnabled motionDetectionEnabled" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
                         <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandNotificationsEntry" placeholder="command..."></td>
-                        <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semilcolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number">?</span></td>
+                        <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="motionDetectionEnabled">
+                        <td colspan="100"><div class="settings-item-separator"></div></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="motionDetectionEnabled">
+                        <td class="settings-item-label"><span class="settings-item-label">Run An End Command</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="commandEndNotificationsEnabledSwitch"></td>
+                        <td><span class="help-mark" title="enable this if you want to execute a command whenever a motion event ends">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" required="true" depends="commandEndNotificationsEnabled motionDetectionEnabled" strip="true">
+                        <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandEndNotificationsEntry" placeholder="command..."></td>
+                        <td><span class="help-mark" title="a command to be executed when motion event ends; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
                     </tr>
                     {% for config in camera_sections.get('notifications', {}).get('configs', []) %}
                         {{config_item(config, "motionDetectionEnabled")}}

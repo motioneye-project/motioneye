@@ -33,6 +33,7 @@ _STATE_FILE_NAME = 'tasks.pickle'
 _MAX_TASKS = 100
 
 # we must be sure there's only one extra process that handles all tasks
+# TODO replace the pool with one simple thread
 _POOL_SIZE = 1
 
 _tasks = []
@@ -58,7 +59,6 @@ def start():
 def stop():
     global _pool
     
-    #_pool.terminate()
     _pool = None
 
 
@@ -68,7 +68,7 @@ def add(when, func, tag=None, callback=None, **params):
     
     now = time.time()
     
-    if isinstance(when, int): # delay, in seconds
+    if isinstance(when, int):  # delay, in seconds
         when += now
         
     elif isinstance(when, datetime.timedelta):
@@ -116,7 +116,7 @@ def _load():
         logging.debug('loading tasks from "%s"...' % file_path)
     
         try:
-            file = open(file_path, 'r')
+            f = open(file_path, 'r')
         
         except Exception as e:
             logging.error('could not open tasks file "%s": %s' % (file_path, e))
@@ -124,13 +124,13 @@ def _load():
             return
         
         try:
-            _tasks = cPickle.load(file)
+            _tasks = cPickle.load(f)
 
         except Exception as e:
             logging.error('could not read tasks from file "%s": %s' % (file_path, e))
 
         finally:
-            file.close()
+            f.close()
             
 
 def _save():
@@ -139,7 +139,7 @@ def _save():
     logging.debug('saving tasks to "%s"...' % file_path)
 
     try:
-        file = open(file_path, 'w')
+        f = open(file_path, 'w')
 
     except Exception as e:
         logging.error('could not open tasks file "%s": %s' % (file_path, e))
@@ -149,10 +149,10 @@ def _save():
     try:
         # don't save tasks that have a callback
         tasks = [t for t in _tasks if not t[3]]
-        cPickle.dump(tasks, file)
+        cPickle.dump(tasks, f)
 
     except Exception as e:
-        logging.error('could not save tasks to file "%s": %s'% (file_path, e))
+        logging.error('could not save tasks to file "%s": %s' % (file_path, e))
 
     finally:
-        file.close()
+        f.close()

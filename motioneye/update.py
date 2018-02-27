@@ -56,7 +56,7 @@ def _get_os_version_uname():
         return name, version
 
     except:
-        return ('Linux', '')  # most likely :)
+        return 'Linux', ''  # most likely :)
 
 
 def compare_versions(version1, version2):

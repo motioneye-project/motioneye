@@ -5,7 +5,7 @@ import sys
 
 import motioneye
 
-_config_file = None
+config_file = None
 
 # the root directory of the project
 PROJECT_PATH = os.path.dirname(motioneye.__file__)
@@ -17,7 +17,7 @@ TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
 STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
 
 # path to the configuration directory (must be writable by motionEye)
-CONF_PATH = [sys.prefix, ''][sys.prefix == '/usr']  + '/etc/motioneye'
+CONF_PATH = [sys.prefix, ''][sys.prefix == '/usr'] + '/etc/motioneye'
 
 # path to the directory where pid files go (must be writable by motionEye)
 for d in ['/run', '/var/run', '/tmp', '/var/tmp']:
@@ -124,3 +124,10 @@ ADD_REMOVE_CAMERAS = True
 
 # enable HTTPS certificate validation
 VALIDATE_CERTS = True
+
+# an external program to be executed whenever a password changes;
+# the program will be invoked with environment variables MEYE_USERNAME and MEYE_PASSWORD
+PASSWORD_HOOK = None
+
+# enables HTTP basic authentication scheme (in addition to, not instead of the signature mechanism)
+HTTP_BASIC_AUTH = False

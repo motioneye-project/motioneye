@@ -65,7 +65,7 @@ def _get_wifi_settings():
             if m:
                 ssid = m.group(1)
     
-            m = re.search('psk\s*=\s*"(.*?)"', line)
+            m = re.search('psk\s*=\s*"?([^"]*)"?', line)
             if m:
                 psk = m.group(1)
 
@@ -99,6 +99,7 @@ def _set_wifi_settings(s):
     enabled = s['wifiEnabled']
     ssid = s['wifiNetworkName']
     psk = s['wifiNetworkKey']
+    psk_is_hex = re.match('^[a-f0-9]{64}$', psk, re.I) is not None
     key_mgmt = None if psk else 'NONE'
     
     # will update the first configured network
@@ -133,7 +134,11 @@ def _set_wifi_settings(s):
             if enabled and ssid and not found_ssid:
                 lines.insert(i, '    ssid="' + ssid + '"\n')
             if enabled and psk and not found_psk:
-                lines.insert(i, '    psk="' + psk + '"\n')
+                if psk_is_hex:
+                    lines.insert(i, '    psk=' + psk + '\n')
+
+                else:
+                    lines.insert(i, '    psk="' + psk + '"\n')
             if enabled and not found_key_mgmt and key_mgmt:
                 lines.insert(i, '    key_mgmt=' + key_mgmt + '\n')
             
@@ -147,9 +152,14 @@ def _set_wifi_settings(s):
                     lines[i] = '    ssid="' + ssid + '"\n'
                     found_ssid = True
                 
-                elif re.match('psk\s*=\s*".*?"', line):
+                elif re.match('psk\s*=.*', line):
                     if psk:
-                        lines[i] = '    psk="' + psk + '"\n'
+                        if psk_is_hex:
+                            lines[i] = '    psk=' + psk + '\n'
+
+                        else:
+                            lines[i] = '    psk="' + psk + '"\n'
+
                         found_psk = True
                 
                     else:
@@ -160,7 +170,7 @@ def _set_wifi_settings(s):
                     lines[i] = '    key_mgmt=' + key_mgmt + '\n'
                     found_key_mgmt = True
         
-            else: # wifi disabled
+            else:  # wifi disabled
                 if re.match('ssid\s*=\s*".*?"', line) or re.match('psk\s*=\s*".*?"', line):
                     lines.pop(i)
                     i -= 1
@@ -171,7 +181,11 @@ def _set_wifi_settings(s):
         lines.append('network={\n')
         lines.append('    scan_ssid=1\n')
         lines.append('    ssid="' + ssid + '"\n')
-        lines.append('    psk="' + psk + '"\n')
+        if psk_is_hex:
+            lines.append('    psk=' + psk + '\n')
+
+        else:
+            lines.append('    psk="' + psk + '"\n')
         if key_mgmt:
             lines.append('    key_mgmt=' + key_mgmt + '\n')
         lines.append('}\n\n')

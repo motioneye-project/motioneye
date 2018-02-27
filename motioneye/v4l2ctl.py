@@ -38,14 +38,14 @@ def find_v4l2_ctl():
     try:
         return subprocess.check_output(['which', 'v4l2-ctl'], stderr=utils.DEV_NULL).strip()
     
-    except subprocess.CalledProcessError: # not found
+    except subprocess.CalledProcessError:  # not found
         return None
 
 
 def list_devices():
     global _resolutions_cache, _ctrls_cache, _ctrl_values_cache
     
-    logging.debug('listing v4l2 devices...')
+    logging.debug('listing V4L2 devices')
     
     try:
         output = ''
@@ -85,7 +85,7 @@ def list_devices():
         p.kill()
 
     except:
-        pass # nevermind
+        pass  # nevermind
 
     name = None
     devices = []
@@ -96,7 +96,7 @@ def list_devices():
             devices.append((device, persistent_device, name))
         
             logging.debug('found device %(name)s: %(device)s, %(persistent_device)s' % {
-                    'name': name, 'device': device, 'persistent_device': persistent_device})
+                          'name': name, 'device': device, 'persistent_device': persistent_device})
 
         else:
             name = line.split('(')[0].strip()
@@ -124,8 +124,10 @@ def list_resolutions(device):
     resolutions = set()
     output = ''
     started = time.time()
-    p = subprocess.Popen('v4l2-ctl -d %(device)s --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true' % {
-            'device': pipes.quote(device)}, shell=True, stdout=subprocess.PIPE, bufsize=1)
+    cmd = 'v4l2-ctl -d %(device)s --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true' % {
+            'device': pipes.quote(device)}
+
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, bufsize=1)
 
     fd = p.stdout.fileno()
     fl = fcntl.fcntl(fd, fcntl.F_GETFL)
@@ -156,7 +158,7 @@ def list_resolutions(device):
         p.kill()
     
     except:
-        pass # nevermind
+        pass  # nevermind
 
     for pair in output.split('\n'):
         pair = pair.strip()
@@ -168,9 +170,9 @@ def list_resolutions(device):
         height = int(height)
 
         if (width, height) in resolutions:
-            continue # duplicate resolution
+            continue  # duplicate resolution
 
-        if width < 96 or height < 96: # some reasonable minimal values
+        if width < 96 or height < 96:  # some reasonable minimal values
             continue
         
         if not motionctl.resolution_is_valid(width, height):
@@ -326,8 +328,9 @@ def _set_ctrl(device, control, value):
 
     output = ''
     started = time.time()
-    p = subprocess.Popen('v4l2-ctl -d %(device)s --set-ctrl %(control)s=%(value)s' % {
-            'device': pipes.quote(device), 'control': pipes.quote(control), 'value': pipes.quote(str(value))}, shell=True, stdout=subprocess.PIPE, bufsize=1)
+    cmd = 'v4l2-ctl -d %(device)s --set-ctrl %(control)s=%(value)s' % {
+            'device': pipes.quote(device), 'control': pipes.quote(control), 'value': pipes.quote(str(value))}
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, bufsize=1)
 
     fd = p.stdout.fileno()
     fl = fcntl.fcntl(fd, fcntl.F_GETFL)
@@ -358,7 +361,7 @@ def _set_ctrl(device, control, value):
         p.kill()
 
     except:
-        pass # nevermind
+        pass  # nevermind
 
 
 def _list_ctrls(device):
@@ -403,14 +406,14 @@ def _list_ctrls(device):
         p.kill()
 
     except:
-        pass # nevermind
+        pass  # nevermind
 
     controls = {}
     for line in output.split('\n'):
         if not line:
             continue
         
-        match = re.match('^\s*(\w+)\s+\(\w+\)\s*\:\s*(.+)\s*', line)
+        match = re.match('^\s*(\w+)\s+\(\w+\)\s*:\s*(.+)\s*', line)
         if not match:
             continue
         

@@ -34,21 +34,21 @@ def start():
 def _during_working_schedule(now, working_schedule):
     parts = working_schedule.split('|')
     if len(parts) < 7:
-        return False # invalid ws
+        return False  # invalid ws
 
     ws_day = parts[now.weekday()]
     parts = ws_day.split('-')
     if len(parts) != 2:
-        return False # invalid ws
+        return False  # invalid ws
     
     _from, to = parts
     if not _from or not to:
-        return False # ws disabled for this day
+        return False  # ws disabled for this day
     
     _from = _from.split(':')
     to = to.split(':')
     if len(_from) != 2 or len(to) != 2:
-        return False # invalid ws
+        return False  # invalid ws
     
     try:
         from_h = int(_from[0])
@@ -57,7 +57,7 @@ def _during_working_schedule(now, working_schedule):
         to_m = int(to[1])
     
     except ValueError:
-        return False # invalid ws
+        return False  # invalid ws
     
     if now.hour < from_h or now.hour > to_h:
         return False
@@ -80,7 +80,7 @@ def _check_ws():
         return
     
     def on_motion_detection_status(camera_id, must_be_enabled, working_schedule_type, enabled=None, error=None):
-        if error: # could not detect current status
+        if error:  # could not detect current status
             return logging.warn('skipping motion detection status update for camera with id %(id)s: %(error)s' % {
                     'id': camera_id, 'error': error})
             
@@ -108,14 +108,15 @@ def _check_ws():
         motion_detection = camera_config.get('@motion_detection')
         working_schedule_type = camera_config.get('@working_schedule_type') or 'outside'
         
-        if not working_schedule: # working schedule disabled, motion detection left untouched
+        if not working_schedule:  # working schedule disabled, motion detection left untouched
             continue
         
-        if not motion_detection: # motion detection explicitly disabled
+        if not motion_detection:  # motion detection explicitly disabled
             continue
         
         now_during = _during_working_schedule(now, working_schedule)
-        must_be_enabled = (now_during and working_schedule_type == 'during') or (not now_during and working_schedule_type == 'outside')
+        must_be_enabled = ((now_during and working_schedule_type == 'during') or
+                           (not now_during and working_schedule_type == 'outside'))
         
         motionctl.get_motion_detection(camera_id, functools.partial(
                 on_motion_detection_status, camera_id, must_be_enabled, working_schedule_type))

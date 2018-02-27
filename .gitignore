@@ -6,6 +6,7 @@
 .pydevproject
 *.conf
 .settings
+.idea
 run
 dist
 motioneye.egg-info

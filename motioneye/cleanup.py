@@ -68,7 +68,7 @@ def _run_process():
     # schedule the next call
     io_loop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), _run_process)
 
-    if not running(): # check that the previous process has finished
+    if not running():  # check that the previous process has finished
         logging.debug('running cleanup process...')
 
         _process = multiprocessing.Process(target=_do_cleanup)

@@ -37,14 +37,8 @@ from tornado.ioloop import IOLoop
 
 import settings
 
-try:
-    from collections import OrderedDict  # @UnusedImport
 
-except:
-    from ordereddict import OrderedDict  # @UnusedImport @Reimport
-
-
-_SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, _-]')
+_SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
 MASK_WIDTH = 32
@@ -74,9 +68,13 @@ COMMON_RESOLUTIONS = [
 ]
 
 
+def _(x):
+    return x  # this could later be replaced by a proper translate function
+
+
 def pretty_date_time(date_time, tzinfo=None, short=False):
     if date_time is None:
-        return '('+  _('never') + ')'
+        return '(' + _('never') + ')'
 
     if isinstance(date_time, int):
         return pretty_date_time(datetime.datetime.fromtimestamp(date_time))
@@ -115,7 +113,7 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
 
 def pretty_date(date):
     if date is None:
-        return '('+  _('never') + ')'
+        return '(' + _('never') + ')'
 
     if isinstance(date, int):
         return pretty_date(datetime.datetime.fromtimestamp(date))
@@ -212,36 +210,36 @@ def pretty_duration(duration):
         return special_result
 
     if days:
-        format = "{d}d{h}h{m}m"
+        fmt = "{d}d{h}h{m}m"
 
     elif hours:
-        format = "{h}h{m}m"
+        fmt = "{h}h{m}m"
 
     elif minutes:
-        format = "{m}m"
+        fmt = "{m}m"
         if seconds:
-            format += "{s}s"
+            fmt += "{s}s"
 
     else:
-        format = "{s}s"
+        fmt = "{s}s"
 
     if negative:
-        format = '-' + format
+        fmt = '-' + fmt
 
-    return format.format(d=days, h=hours, m=minutes, s=seconds)
+    return fmt.format(d=days, h=hours, m=minutes, s=seconds)
 
 
 def pretty_size(size):
-    if size < 1024: # less than 1kB
+    if size < 1024:  # less than 1kB
         size, unit = size, 'B'
     
-    elif size < 1024 * 1024: # less than 1MB
+    elif size < 1024 * 1024:  # less than 1MB
         size, unit = size / 1024.0, 'kB'
         
-    elif size < 1024 * 1024 * 1024: # less than 1GB
+    elif size < 1024 * 1024 * 1024:  # less than 1GB
         size, unit = size / 1024.0 / 1024, 'MB'
     
-    else: # greater than or equal to 1GB
+    else:  # greater than or equal to 1GB
         size, unit = size / 1024.0 / 1024 / 1024, 'GB'
     
     return '%.1f %s' % (size, unit)
@@ -333,31 +331,36 @@ def get_disk_usage(path):
     total_size = total_blocks * block_size
     used_size = total_size - free_size
     
-    return (used_size, total_size)
+    return used_size, total_size
 
 
 def is_local_motion_camera(config):
-    '''Tells if a camera is managed by the local motion instance.'''
-    return bool(config.get('videodevice') or config.get('netcam_url'))
+    """Tells if a camera is managed by the local motion instance."""
+    return bool(config.get('videodevice') or config.get('netcam_url') or config.get('mmalcam_name'))
 
 
 def is_remote_camera(config):
-    '''Tells if a camera is managed by a remote motionEye server.'''
+    """Tells if a camera is managed by a remote motionEye server."""
     return config.get('@proto') == 'motioneye'
 
 
 def is_v4l2_camera(config):
-    '''Tells if a camera is a v4l2 device managed by the local motion instance.'''
+    """Tells if a camera is a v4l2 device managed by the local motion instance."""
     return bool(config.get('videodevice'))
 
 
+def is_mmal_camera(config):
+    '''Tells if a camera is mmal device managed by the local motion instance.'''
+    return bool(config.get('mmalcam_name'))
+
+
 def is_net_camera(config):
-    '''Tells if a camera is a network camera managed by the local motion instance.'''
+    """Tells if a camera is a network camera managed by the local motion instance."""
     return bool(config.get('netcam_url'))
 
 
 def is_simple_mjpeg_camera(config):
-    '''Tells if a camera is a simple MJPEG camera not managed by any motion instance.'''
+    """Tells if a camera is a simple MJPEG camera not managed by any motion instance."""
     return bool(config.get('@proto') == 'mjpeg')
 
 
@@ -390,8 +393,9 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
         logging.debug('testing (m)jpg netcam at %s using %s authentication' % (url, auth))
 
         request = HTTPRequest(url, auth_username=username, auth_password=password, auth_mode=auth_modes.pop(0),
-                connect_timeout=settings.REMOTE_REQUEST_TIMEOUT, request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
-                header_callback=on_header, validate_cert=settings.VALIDATE_CERTS)
+                              connect_timeout=settings.REMOTE_REQUEST_TIMEOUT,
+                              request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
+                              header_callback=on_header, validate_cert=settings.VALIDATE_CERTS)
 
         http_client = AsyncHTTPClient(force_instance=True)
         http_client.fetch(request, on_response)
@@ -474,7 +478,7 @@ def test_rtsp_url(data, callback):
         stream.connect((host, int(port)), on_connect)
 
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
-                functools.partial(on_connect, _timeout=True))
+                                         functools.partial(on_connect, _timeout=True))
         
         return stream
     
@@ -655,7 +659,7 @@ def compute_signature(method, path, body, key):
     key = _SIGNATURE_REGEX.sub('-', key)
 
     if body and body.startswith('---'):
-        body = None # file attachment
+        body = None  # file attachment
 
     body = body and _SIGNATURE_REGEX.sub('-', body.decode('utf8'))
 
@@ -679,8 +683,35 @@ def parse_cookies(cookies_headers):
 
     return parsed
 
+
 def build_basic_header(username, password):
     return 'Basic ' + base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
+
+
+def parse_basic_header(header):
+    parts = header.split(' ', 1)
+    if len(parts) < 2:
+        return None
+
+    if parts[0].lower() != 'basic':
+        return None
+
+    encoded = parts[1]
+
+    try:
+        decoded = base64.decodestring(encoded)
+
+    except:
+        return None
+
+    parts = decoded.split(':', 1)
+    if len(parts) < 2:
+        return None
+
+    return {
+        'username': parts[0],
+        'password': parts[1]
+    }
 
 
 def build_digest_header(method, url, username, password, state):
@@ -705,7 +736,7 @@ def build_digest_header(method, url, username, password, state):
             return hashlib.md5(x).hexdigest()
         hash_utf8 = md5_utf8
 
-    elif _algorithm == 'SHA':
+    else:  # _algorithm == 'SHA'
         def sha_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
@@ -773,7 +804,7 @@ def build_digest_header(method, url, username, password, state):
     state['last_nonce'] = last_nonce
     state['nonce_count'] = nonce_count
 
-    return 'Digest %s' % (base)
+    return 'Digest %s' % base
 
 
 def urlopen(*args, **kwargs):
@@ -801,24 +832,24 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
     mask_lines = mask_lines[2:]
     
     logging.debug('building editable mask for camera with id %s (%sx%s)' %
-            (camera_id, width, height))
+                  (camera_id, width, height))
 
     # horizontal rectangles
-    nx = MASK_WIDTH # number of rectangles
+    nx = MASK_WIDTH  # number of rectangles
     if width % nx:
         nx -= 1
-        rx = width % nx # remainder
+        rx = width % nx  # remainder
 
     else:
         rx = 0
     
-    rw = width / nx # rectangle width
+    rw = width / nx  # rectangle width
 
     # vertical rectangles
-    ny = mask_height = height * MASK_WIDTH / width # number of rectangles
+    ny = mask_height = height * MASK_WIDTH / width  # number of rectangles
     if height % ny:
         ny -= 1
-        ry = height % ny # remainder
+        ry = height % ny  # remainder
     
     else:
         ry = 0
@@ -835,10 +866,10 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
     else:
         line_index_func = lambda y: (len(mask_lines) - 1) * y / ny
 
-    rh = height / ny # rectangle height
+    rh = height / ny  # rectangle height
 
     # draw the actual mask image content
-    im = Image.new('L', (width, height), 255) # all white
+    im = Image.new('L', (width, height), 255)  # all white
     dr = ImageDraw.Draw(im)
     
     for y in xrange(ny):
@@ -864,7 +895,7 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
     # resize the image if necessary
     if capture_width and capture_height and im.size != (capture_width, capture_height):
         logging.debug('editable mask needs resizing from %sx%s to %sx%s' %
-                (im.size[0], im.size[1], capture_width, capture_height))
+                      (im.size[0], im.size[1], capture_width, capture_height))
 
         im = im.resize((capture_width, capture_height))
 
@@ -896,7 +927,7 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
         # resize the image if necessary
         if im.size != (capture_width, capture_height):
             logging.debug('editable mask needs resizing from %sx%s to %sx%s' %
-                    (im.size[0], im.size[1], capture_width, capture_height))
+                          (im.size[0], im.size[1], capture_width, capture_height))
 
             im = im.resize((capture_width, capture_height))
             
@@ -910,26 +941,26 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
     pixels = list(im.getdata())
 
     # horizontal rectangles
-    nx = MASK_WIDTH # number of rectangles
+    nx = MASK_WIDTH  # number of rectangles
     if width % nx:
         nx -= 1
-        rx = width % nx # remainder
+        rx = width % nx  # remainder
 
     else:
         rx = 0
     
-    rw = width / nx # rectangle width
+    rw = width / nx  # rectangle width
 
     # vertical rectangles
-    ny = height * MASK_WIDTH / width # number of rectangles
+    ny = height * MASK_WIDTH / width  # number of rectangles
     if height % ny:
         ny -= 1
-        ry = height % ny # remainder
+        ry = height % ny  # remainder
     
     else:
         ry = 0
 
-    rh = height / ny # rectangle height
+    rh = height / ny  # rectangle height
 
     # parse the image contents and build the mask lines
     mask_lines = [width, height]

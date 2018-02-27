@@ -32,24 +32,24 @@ def get_time_zone():
 
 
 def _get_time_zone_symlink():
-    file = settings.LOCAL_TIME_FILE
-    if not file:
+    f = settings.LOCAL_TIME_FILE
+    if not f:
         return None
     
-    for i in xrange(8): # recursively follow the symlinks @UnusedVariable
+    for i in xrange(8):  # recursively follow the symlinks @UnusedVariable
         try:
-            file = os.readlink(file)
+            f = os.readlink(f)
 
         except OSError:
             break
     
-    if file and file.startswith('/usr/share/zoneinfo/'):
-        file = file[20:]
+    if f and f.startswith('/usr/share/zoneinfo/'):
+        f = f[20:]
     
     else:
-        file = None
+        f = None
 
-    time_zone = file or None
+    time_zone = f or None
     if time_zone:
         logging.debug('found time zone by symlink method: %s' % time_zone)
     
@@ -105,7 +105,7 @@ def _set_time_zone(time_zone):
         os.remove(settings.LOCAL_TIME_FILE)
     
     except:
-        pass # nevermind
+        pass  # nevermind
     
     try:
         os.symlink(zoneinfo_file, settings.LOCAL_TIME_FILE)

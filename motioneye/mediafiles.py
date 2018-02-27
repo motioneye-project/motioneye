@@ -52,6 +52,8 @@ FFMPEG_CODEC_MAPPING = {
     'mov': 'mpeg4',
     'mp4': 'h264',
     'mkv': 'h264',
+    'mp4:h264_omx': 'h264_omx',
+    'mkv:h264_omx': 'h264_omx',
     'hevc': 'h265'
 }
 
@@ -83,6 +85,8 @@ _prepared_files = {}
 _timelapse_process = None
 _timelapse_data = None
 
+_ffmpeg_binary_cache = None
+
 
 def findfiles(path):
     files = []
@@ -102,14 +106,17 @@ def findfiles(path):
     return files
 
 
-def _list_media_files(dir, exts, prefix=None):
+def _list_media_files(directory, exts, prefix=None):
     media_files = []
     
     if prefix is not None:
         if prefix == 'ungrouped':
             prefix = ''
         
-        root = os.path.join(dir, prefix)
+        root = os.path.join(directory, prefix)
+        if not os.path.exists(root):
+            return media_files
+
         for name in os.listdir(root):
             # ignore hidden files/dirs and other unwanted files
             if name.startswith('.') or name == 'lastsnap.jpg':
@@ -123,7 +130,7 @@ def _list_media_files(dir, exts, prefix=None):
                 logging.error('stat failed: ' + unicode(e))
                 continue
                 
-            if not stat.S_ISREG(st.st_mode): # not a regular file
+            if not stat.S_ISREG(st.st_mode):  # not a regular file
                 continue
 
             full_path_lower = full_path.lower()
@@ -133,7 +140,7 @@ def _list_media_files(dir, exts, prefix=None):
             media_files.append((full_path, st))
 
     else:
-        for full_path, name, st in findfiles(dir):
+        for full_path, name, st in findfiles(directory):
             full_path_lower = full_path.lower()
             if not [e for e in exts if full_path_lower.endswith(e)]:
                 continue
@@ -143,8 +150,8 @@ def _list_media_files(dir, exts, prefix=None):
     return media_files
 
 
-def _remove_older_files(dir, moment, exts):
-    for (full_path, st) in _list_media_files(dir, exts):
+def _remove_older_files(directory, moment, exts):
+    for (full_path, st) in _list_media_files(directory, exts):
         file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
         if file_moment < moment:
             logging.debug('removing file %(path)s...' % {'path': full_path})
@@ -155,7 +162,7 @@ def _remove_older_files(dir, moment, exts):
             
             except OSError as e:
                 if e.errno == errno.ENOENT:
-                    pass # the file might have been removed in the meantime
+                    pass  # the file might have been removed in the meantime
                 
                 else:
                     logging.error('failed to remove %s: %s' % (full_path, e))
@@ -168,7 +175,7 @@ def _remove_older_files(dir, moment, exts):
             listing = os.listdir(dir_path)
             thumbs = [l for l in listing if l.endswith('.thumb')]
             
-            if len(listing) == len(thumbs): # only thumbs
+            if len(listing) == len(thumbs):  # only thumbs
                 for p in thumbs:
                     try:
                         os.remove(os.path.join(dir_path, p))
@@ -188,11 +195,68 @@ def _remove_older_files(dir, moment, exts):
 
 
 def find_ffmpeg():
+    global _ffmpeg_binary_cache
+    if _ffmpeg_binary_cache:
+        return _ffmpeg_binary_cache
+
+    # binary
     try:
-        return subprocess.check_output(['which', 'ffmpeg'], stderr=utils.DEV_NULL).strip()
+        binary = subprocess.check_output(['which', 'ffmpeg'], stderr=utils.DEV_NULL).strip()
     
-    except subprocess.CalledProcessError: # not found
-        return None
+    except subprocess.CalledProcessError:  # not found
+        return None, None, None
+
+    # version
+    try:
+        output = subprocess.check_output(binary + ' -version', shell=True)
+
+    except subprocess.CalledProcessError as e:
+        logging.error('ffmpeg: could find version: %s' % e)
+        return None, None, None
+
+    result = re.findall('ffmpeg version (.+?) ', output, re.IGNORECASE)
+    version = result and result[0] or ''
+
+    # codecs
+    try:
+        output = subprocess.check_output(binary + ' -codecs -hide_banner', shell=True)
+
+    except subprocess.CalledProcessError as e:
+        logging.error('ffmpeg: could not list supported codecs: %s' % e)
+        return None, None, None
+
+    lines = output.split('\n')
+    lines = [l for l in lines if re.match('^ [DEVILSA.]{6} [^=].*', l)]
+
+    codecs = {}
+    for line in lines:
+        m = re.match('^ [DEVILSA.]{6} ([\w+_]+)', line)
+        if not m:
+            continue
+
+        codec = m.group(1)
+
+        decoders = set()
+        encoders = set()
+
+        m = re.search('decoders: ([\w\s_]+)+', line)
+        if m:
+            decoders = set(m.group(1).split())
+
+        m = re.search('encoders: ([\w\s_]+)+', line)
+        if m:
+            encoders = set(m.group(1).split())
+
+        codecs[codec] = {
+            'encoders': encoders,
+            'decoders': decoders
+        }
+
+    logging.debug('using ffmpeg version %s' % version)
+
+    _ffmpeg_binary_cache = (binary, version, codecs)
+
+    return _ffmpeg_binary_cache
 
 
 def cleanup_media(media_type):
@@ -201,9 +265,9 @@ def cleanup_media(media_type):
     if media_type == 'picture':
         exts = _PICTURE_EXTS
         
-    elif media_type == 'movie':
+    else:  # media_type == 'movie'
         exts = _MOVIE_EXTS + ['.thumb']
-        
+
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
         if not utils.is_local_motion_camera(camera_config):
@@ -211,19 +275,16 @@ def cleanup_media(media_type):
         
         preserve_media = camera_config.get('@preserve_%(media_type)ss' % {'media_type': media_type}, 0)
         if preserve_media == 0:
-            continue # preserve forever
+            continue  # preserve forever
         
-        still_images_enabled = bool(
-                ((camera_config['emulate_motion'] or camera_config['output_pictures']) and camera_config['picture_filename']) or
-                (camera_config['snapshot_interval'] and camera_config['snapshot_filename']))
-        
-        movies_enabled = camera_config['ffmpeg_output_movies']
+        still_images_enabled = bool(camera_config['picture_filename']) or bool(camera_config['snapshot_filename'])
+        movies_enabled = bool(camera_config['ffmpeg_output_movies'])
 
         if media_type == 'picture' and not still_images_enabled:
-            continue # only cleanup pictures for cameras with still images enabled
+            continue  # only cleanup pictures for cameras with still images enabled
         
         elif media_type == 'movie' and not movies_enabled:
-            continue # only cleanup movies for cameras with movies enabled
+            continue  # only cleanup movies for cameras with movies enabled
 
         preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_media)
 
@@ -314,15 +375,17 @@ def list_media(camera_config, media_type, callback, prefix=None):
 
     # create a subprocess to retrieve media files
     def do_list_media(pipe):
+        parent_pipe.close()
+
         mf = _list_media_files(target_dir, exts=exts, prefix=prefix)
         for (p, st) in mf:
             path = p[len(target_dir):]
             if not path.startswith('/'):
                 path = '/' + path
-    
+
             timestamp = st.st_mtime
             size = st.st_size
-            
+
             pipe.send({
                 'path': path,
                 'mimeType': mimetypes.guess_type(path)[0],
@@ -331,43 +394,48 @@ def list_media(camera_config, media_type, callback, prefix=None):
                 'sizeStr': utils.pretty_size(size),
                 'timestamp': timestamp
             })
-        
+
         pipe.close()
     
     logging.debug('starting media listing process...')
     
     (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
-    process = multiprocessing.Process(target=do_list_media, args=(child_pipe, ))
+    process = multiprocessing.Process(target=do_list_media, args=(child_pipe,))
     process.start()
+    child_pipe.close()
     
     # poll the subprocess to see when it has finished
     started = datetime.datetime.now()
     media_list = []
-    
+
     def read_media_list():
         while parent_pipe.poll():
-            media_list.append(parent_pipe.recv())
-    
+            try:
+                media_list.append(parent_pipe.recv())
+
+            except EOFError:
+                break
+
     def poll_process():
         io_loop = IOLoop.instance()
-        if process.is_alive(): # not finished yet
+        if process.is_alive():  # not finished yet
             now = datetime.datetime.now()
             delta = now - started
             if delta.seconds < settings.LIST_MEDIA_TIMEOUT:
                 io_loop.add_timeout(datetime.timedelta(seconds=0.5), poll_process)
                 read_media_list()
-            
-            else: # process did not finish in time
+
+            else:  # process did not finish in time
                 logging.error('timeout waiting for the media listing process to finish')
                 try:
                     os.kill(process.pid, signal.SIGTERM)
-                
+
                 except:
-                    pass # nevermind
-                    
+                    pass  # nevermind
+
                 callback(None)
 
-        else: # finished
+        else:  # finished
             read_media_list()
             logging.debug('media listing process has returned %(count)s files' % {'count': len(media_list)})
             callback(media_list)
@@ -405,6 +473,8 @@ def get_zipped_content(camera_config, media_type, group, callback):
 
     # create a subprocess to add files to zip
     def do_zip(pipe):
+        parent_pipe.close()
+
         mf = _list_media_files(target_dir, exts=exts, prefix=group)
         paths = []
         for (p, st) in mf:  # @UnusedVariable
@@ -453,6 +523,7 @@ def get_zipped_content(camera_config, media_type, group, callback):
     (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
     process = multiprocessing.Process(target=do_zip, args=(child_pipe, ))
     process.start()
+    child_pipe.close()
 
     # poll the subprocess to see when it has finished
     started = datetime.datetime.now()
@@ -465,17 +536,17 @@ def get_zipped_content(camera_config, media_type, group, callback):
             if delta.seconds < settings.ZIP_TIMEOUT:
                 io_loop.add_timeout(datetime.timedelta(seconds=0.5), poll_process)
 
-            else: # process did not finish in time
+            else:  # process did not finish in time
                 logging.error('timeout waiting for the zip process to finish')
                 try:
                     os.kill(process.pid, signal.SIGTERM)
                 
                 except:
-                    pass # nevermind
+                    pass  # nevermind
 
                 callback(None)
 
-        else: # finished
+        else:  # finished
             try:
                 data = parent_pipe.recv()
                 logging.debug('zip process has returned %d bytes' % len(data))
@@ -496,10 +567,12 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     codec = camera_config.get('ffmpeg_video_codec')
     
     codec = FFMPEG_CODEC_MAPPING.get(codec, codec)
-    format = FFMPEG_FORMAT_MAPPING.get(codec, codec)
+    fmt = FFMPEG_FORMAT_MAPPING.get(codec, codec)
 
     # create a subprocess to retrieve media files
     def do_list_media(pipe):
+        parent_pipe.close()
+
         mf = _list_media_files(target_dir, exts=_PICTURE_EXTS, prefix=group)
         for (p, st) in mf:
             timestamp = st.st_mtime
@@ -519,6 +592,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     _timelapse_process.start()
     _timelapse_data = None
 
+    child_pipe.close()
+
     started = [datetime.datetime.now()]
     media_list = []
     
@@ -526,28 +601,32 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
     def read_media_list():
         while parent_pipe.poll():
-            media_list.append(parent_pipe.recv())
+            try:
+                media_list.append(parent_pipe.recv())
+
+            except EOFError:
+                break
         
     def poll_media_list_process():
         io_loop = IOLoop.instance()
-        if _timelapse_process.is_alive(): # not finished yet
+        if _timelapse_process.is_alive():  # not finished yet
             now = datetime.datetime.now()
             delta = now - started[0]
-            if delta.seconds < settings.TIMELAPSE_TIMEOUT: # the subprocess has limited time to complete its job
+            if delta.seconds < settings.TIMELAPSE_TIMEOUT:  # the subprocess has limited time to complete its job
                 io_loop.add_timeout(datetime.timedelta(seconds=0.5), poll_media_list_process)
                 read_media_list()
 
-            else: # process did not finish in time
+            else:  # process did not finish in time
                 logging.error('timeout waiting for the media listing process to finish')
                 try:
                     os.kill(_timelapse_process.pid, signal.SIGTERM)
                 
                 except:
-                    pass # nevermind
+                    pass  # nevermind
 
                 _timelapse_process.progress = -1
 
-        else: # finished
+        else:  # finished
             read_media_list()
             logging.debug('media listing process has returned %(count)s files' % {'count': len(media_list)})
             
@@ -574,11 +653,11 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
         selected = []
         for i in xrange(max_idx + 1):
-            slice = slices.get(i)
-            if not slice:
+            s = slices.get(i)
+            if not s:
                 continue
 
-            selected.append(min(slice, key=lambda m: m['delta']))
+            selected.append(min(s, key=lambda m: m['delta']))
 
         logging.debug('selected %d/%d media files' % (len(selected), len(media_list)))
         
@@ -587,8 +666,9 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     def make_movie(pictures):
         global _timelapse_process
 
-        cmd =  'rm -f %(tmp_filename)s;'
-        cmd += 'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec %(codec)s -format %(format)s -b:v %(bitrate)s -qscale:v 0.1 -f avi %(tmp_filename)s'
+        cmd = 'rm -f %(tmp_filename)s;'
+        cmd += 'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec %(codec)s ' \
+               '-format %(format)s -b:v %(bitrate)s -qscale:v 0.1 -f avi %(tmp_filename)s'
 
         bitrate = 9999999
 
@@ -597,14 +677,14 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
             'jpegs': ' '.join((('"' + p['path'] + '"') for p in pictures)),
             'framerate': framerate,
             'codec': codec,
-            'format': format,
+            'format': fmt,
             'bitrate': bitrate
         }
         
         logging.debug('executing "%s"' % cmd)
 
         _timelapse_process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
-        _timelapse_process.progress = 0.01 # 1%
+        _timelapse_process.progress = 0.01  # 1%
         
         # make subprocess stdout pipe non-blocking
         fd = _timelapse_process.stdout.fileno()
@@ -618,7 +698,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
         global _timelapse_data
         
         io_loop = IOLoop.instance()
-        if _timelapse_process.poll() is None: # not finished yet
+        if _timelapse_process.poll() is None:  # not finished yet
             io_loop.add_timeout(datetime.timedelta(seconds=0.5), functools.partial(poll_movie_process, pictures))
 
             try:
@@ -642,7 +722,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
             
             logging.debug('timelapse progress: %s' % int(100 * _timelapse_process.progress))
 
-        else: # finished
+        else:  # finished
             exit_code = _timelapse_process.poll()
             _timelapse_process = None
             
@@ -763,7 +843,7 @@ def del_media_content(camera_config, path, media_type):
         listing = os.listdir(dir_path)
         thumbs = [l for l in listing if l.endswith('.thumb')]
         
-        if len(listing) == len(thumbs): # only thumbs
+        if len(listing) == len(thumbs):  # only thumbs
             for p in thumbs:
                 os.remove(os.path.join(dir_path, p))
 
@@ -782,7 +862,7 @@ def del_media_group(camera_config, group, media_type):
     if media_type == 'picture':
         exts = _PICTURE_EXTS
         
-    elif media_type == 'movie':
+    else:  # media_type == 'movie'
         exts = _MOVIE_EXTS
         
     target_dir = camera_config.get('target_dir')
@@ -806,7 +886,7 @@ def del_media_group(camera_config, group, media_type):
     listing = os.listdir(full_path)
     thumbs = [l for l in listing if l.endswith('.thumb')]
 
-    if len(listing) == len(thumbs): # only thumbs
+    if len(listing) == len(thumbs):  # only thumbs
         for p in thumbs:
             os.remove(os.path.join(full_path, p))
 
@@ -824,14 +904,14 @@ def get_current_picture(camera_config, width, height):
         return None
     
     if width is height is None:
-        return jpg # no server-side resize needed
+        return jpg  # no server-side resize needed
 
     sio = StringIO.StringIO(jpg)
     image = Image.open(sio)
     
-    if width and width < 1: # given as percent
+    if width and width < 1:  # given as percent
         width = int(width * image.size[0])
-    if height and height < 1: # given as percent
+    if height and height < 1:  # given as percent
         height = int(height * image.size[1])
 
     width = width and int(width) or image.size[0]
@@ -845,7 +925,7 @@ def get_current_picture(camera_config, width, height):
     height = min(max_height, height)
     
     if width >= image.size[0] and height >= image.size[1]:
-        return jpg # no enlarging of the picture on the server side
+        return jpg  # no enlarging of the picture on the server side
     
     image.thumbnail((width, height), Image.CUBIC)
 
@@ -871,7 +951,7 @@ def set_prepared_cache(data):
         if _prepared_files.pop(key, None) is not None:
             logging.warn('key "%s" was still present in the prepared cache, removed' % key)
 
-    timeout = 3600 # the user has 1 hour to download the file after creation
+    timeout = 3600  # the user has 1 hour to download the file after creation
     
     io_loop = IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=timeout), clear)

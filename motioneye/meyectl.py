@@ -35,12 +35,12 @@ def find_command(command):
     if command == 'relayevent':
         relayevent_sh = os.path.join(os.path.dirname(__file__), 'scripts/relayevent.sh')
         
-        cmd = relayevent_sh + ' "%s"' % (settings._config_file or '')
+        cmd = relayevent_sh + ' "%s"' % (settings.config_file or '')
 
     else:
         cmd = __file__
         cmd = sys.executable + ' ' + cmd
-        cmd = cmd.replace('-b', '') # remove server-specific options
+        cmd = cmd.replace('-b', '')  # remove server-specific options
         cmd += ' %s ' % command
         cmd += ' '.join([pipes.quote(arg) for arg in sys.argv[2:]
                 if arg not in ['-b']])
@@ -134,7 +134,7 @@ def load_settings():
         # use the config file directory as base dir
         # if not specified otherwise in the config file
         base_dir = os.path.dirname(config_file)
-        settings._config_file = config_file
+        settings.config_file = config_file
 
         if not conf_path_given[0]:
             settings.CONF_PATH = base_dir
@@ -157,10 +157,10 @@ def load_settings():
 
 def configure_logging(cmd, log_to_file=False):
     if log_to_file or cmd != 'motioneye':
-        format = '%(asctime)s: [{cmd}] %(levelname)8s: %(message)s'.format(cmd=cmd)
+        fmt = '%(asctime)s: [{cmd}] %(levelname)8s: %(message)s'.format(cmd=cmd)
         
     else:
-        format = '%(levelname)8s: %(message)s'.format(cmd=cmd)
+        fmt = '%(levelname)8s: %(message)s'.format(cmd=cmd)
 
     for h in logging.getLogger().handlers:
         logging.getLogger().removeHandler(h)
@@ -173,7 +173,7 @@ def configure_logging(cmd, log_to_file=False):
             log_file = None
 
         logging.basicConfig(filename=log_file, level=settings.LOG_LEVEL,
-                format=format, datefmt='%Y-%m-%d %H:%M:%S')
+                format=fmt, datefmt='%Y-%m-%d %H:%M:%S')
     
     except Exception as e:
         sys.stderr.write('failed to configure logging: %s\n' % e)

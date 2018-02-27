@@ -89,3 +89,6 @@ timelapse_timeout 500
 
 # enable adding and removing cameras from UI
 add_remove_cameras true
+
+# enables HTTP basic authentication scheme (in addition to, not instead of the signature mechanism)
+http_basic_auth false
