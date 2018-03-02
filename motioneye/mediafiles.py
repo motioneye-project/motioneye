@@ -21,6 +21,7 @@ import fcntl
 import functools
 import hashlib
 import logging
+import mimetypes
 import multiprocessing
 import os.path
 import pipes
@@ -387,6 +388,7 @@ def list_media(camera_config, media_type, callback, prefix=None):
 
             pipe.send({
                 'path': path,
+                'mimeType': mimetypes.guess_type(path)[0],
                 'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
                 'momentStrShort': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp), short=True),
                 'sizeStr': utils.pretty_size(size),

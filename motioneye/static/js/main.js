@@ -3453,15 +3453,44 @@ function runPictureDialog(entries, pos, mediaType) {
     
     var img = $('<img class="picture-dialog-content">');
     content.append(img);
-    
+
+    var video_container = $('<video class="picture-dialog-content" controls="true">');
+    video_container.on('error', function(err) {
+      var msg = '';
+
+      /* Reference: https://html.spec.whatwg.org/multipage/embedded-content.html#error-codes */
+      switch (err.target.error.code) {
+        case err.target.error.MEDIA_ERR_ABORTED:
+          msg = 'You aborted the video playback.';
+          break;
+        case err.target.error.MEDIA_ERR_NETWORK:
+          msg = 'A network error occurred.';
+          break;
+        case err.target.error.MEDIA_ERR_DECODE:
+          msg = 'Media decode error or unsupported media features.';
+          break;
+        case err.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+          msg = 'Media format unsupported or otherwise unavilable/unsuitable for playing.';
+          break;
+        default:
+          msg = 'Unknown error occurred.'
+      }
+
+      showErrorMessage('Error: ' + msg);
+    });
+    video_container.hide();
+    content.append(video_container);
+
     var prevArrow = $('<div class="picture-dialog-prev-arrow button mouse-effect" title="previous picture"></div>');
     content.append(prevArrow);
-    
+
+    var playButton = $('<div class="picture-dialog-play button mouse-effect" title="play"></div>');
+    content.append(playButton);
+
     var nextArrow = $('<div class="picture-dialog-next-arrow button mouse-effect" title="next picture"></div>');
     content.append(nextArrow);
-    
     var progressImg = $('<img class="picture-dialog-progress" src="' + staticPath + 'img/modal-progress.gif">');
-    
+
     function updatePicture() {
         var entry = entries[pos];
 
@@ -3475,12 +3504,34 @@ function runPictureDialog(entries, pos, mediaType) {
         
         prevArrow.css('display', 'none');
         nextArrow.css('display', 'none');
+
+        var playable = video_container.get(0).canPlayType(entry.mimeType) != ''
+        playButton.hide();
+        video_container.hide();
+        img.show();
+
         img.parent().append(progressImg);
         updateModalDialogPosition();
         progressImg.css('left', (img.parent().width() - progressImg.width()) / 2);
         progressImg.css('top', (img.parent().height() - progressImg.height()) / 2);
         
         img.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
+
+        if (playable) {
+            playButton.on('click', function() {
+                video_container.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/download' + entry.path));
+                video_container.show();
+                video_container.get(0).load();  /* Must call load() after changing <video> source */
+                img.hide();
+                playButton.hide();
+                video_container.on('canplay', function() {
+                   video_container.get(0).play();  /* Automatically play the video once the browser is ready */
+                });
+            });
+
+            playButton.show();
+        }
+
         img.load(function () {
             var aspectRatio = this.naturalWidth / this.naturalHeight;
             var sizeWidth = width * width / aspectRatio;
@@ -3488,16 +3539,18 @@ function runPictureDialog(entries, pos, mediaType) {
             
             if (sizeWidth < sizeHeight) {
                 img.width(width);
+                video_container.width(width);
             }
             else {
                 img.height(height);
+                video_container.height(height);
             }
             updateModalDialogPosition();
             prevArrow.css('display', pos < entries.length - 1 ? '' : 'none');
             nextArrow.css('display', pos > 0 ? '' : 'none');
             progressImg.remove();
         });
-        
+
         $('div.modal-container').find('span.modal-title:last').html(entry.name);
         updateModalDialogPosition();
     }
@@ -4172,6 +4225,7 @@ function runMediaDialog(cameraId, mediaType) {
                 entries.forEach(function (entry) {
                     var media = mediaListByName[entry.name];
                     if (media) {
+                        entry.mimeType = media.mimeType;
                         entry.momentStr = media.momentStr;
                         entry.momentStrShort = media.momentStrShort;
                         entry.sizeStr = media.sizeStr;
