@@ -3455,28 +3455,29 @@ function runPictureDialog(entries, pos, mediaType) {
     content.append(img);
 
     var video_container = $('<video class="picture-dialog-content" controls="true">');
+    var video_loader = $('<img>');
     video_container.on('error', function(err) {
-      var msg = '';
+        var msg = '';
 
-      /* Reference: https://html.spec.whatwg.org/multipage/embedded-content.html#error-codes */
-      switch (err.target.error.code) {
-        case err.target.error.MEDIA_ERR_ABORTED:
-          msg = 'You aborted the video playback.';
-          break;
-        case err.target.error.MEDIA_ERR_NETWORK:
-          msg = 'A network error occurred.';
-          break;
-        case err.target.error.MEDIA_ERR_DECODE:
-          msg = 'Media decode error or unsupported media features.';
-          break;
-        case err.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-          msg = 'Media format unsupported or otherwise unavilable/unsuitable for playing.';
-          break;
-        default:
-          msg = 'Unknown error occurred.'
-      }
+        /* Reference: https://html.spec.whatwg.org/multipage/embedded-content.html#error-codes */
+        switch (err.target.error.code) {
+            case err.target.error.MEDIA_ERR_ABORTED:
+                msg = 'You aborted the video playback.';
+                break;
+            case err.target.error.MEDIA_ERR_NETWORK:
+                msg = 'A network error occurred.';
+                break;
+            case err.target.error.MEDIA_ERR_DECODE:
+                msg = 'Media decode error or unsupported media features.';
+                break;
+            case err.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                msg = 'Media format unsupported or otherwise unavilable/unsuitable for playing.';
+                break;
+            default:
+                msg = 'Unknown error occurred.'
+        }
 
-      showErrorMessage('Error: ' + msg);
+        showErrorMessage('Error: ' + msg);
     });
     video_container.hide();
     content.append(video_container);
@@ -3489,7 +3490,7 @@ function runPictureDialog(entries, pos, mediaType) {
 
     var nextArrow = $('<div class="picture-dialog-next-arrow button mouse-effect" title="next picture"></div>');
     content.append(nextArrow);
-    var progressImg = $('<img class="picture-dialog-progress" src="' + staticPath + 'img/modal-progress.gif">');
+    var progressImg = $('<div class="picture-dialog-progress">');
 
     function updatePicture() {
         var entry = entries[pos];
@@ -3500,7 +3501,7 @@ function runPictureDialog(entries, pos, mediaType) {
         var heightCoef = 0.75;
         
         var width = parseInt(windowWidth * widthCoef);
-        var height = parseInt(windowHeight * heightCoef);        
+        var height = parseInt(windowHeight * heightCoef);
         
         prevArrow.css('display', 'none');
         nextArrow.css('display', 'none');
@@ -3512,14 +3513,13 @@ function runPictureDialog(entries, pos, mediaType) {
 
         img.parent().append(progressImg);
         updateModalDialogPosition();
-        progressImg.css('left', (img.parent().width() - progressImg.width()) / 2);
-        progressImg.css('top', (img.parent().height() - progressImg.height()) / 2);
         
         img.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
 
         if (playable) {
+            video_loader.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path));
             playButton.on('click', function() {
-                video_container.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/download' + entry.path));
+                video_container.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path));
                 video_container.show();
                 video_container.get(0).load();  /* Must call load() after changing <video> source */
                 img.hide();
@@ -3536,14 +3536,17 @@ function runPictureDialog(entries, pos, mediaType) {
             var aspectRatio = this.naturalWidth / this.naturalHeight;
             var sizeWidth = width * width / aspectRatio;
             var sizeHeight = height * aspectRatio * height;
-            
+
+            img.width('').height('');
+            video_container.width('').height('');
+
             if (sizeWidth < sizeHeight) {
                 img.width(width);
-                video_container.width(width);
+                video_container.width(width).height(parseInt(width/aspectRatio));
             }
             else {
                 img.height(height);
-                video_container.height(height);
+                video_container.width(parseInt(height*aspectRatio)).height(height);
             }
             updateModalDialogPosition();
             prevArrow.css('display', pos < entries.length - 1 ? '' : 'none');

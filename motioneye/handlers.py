@@ -19,14 +19,13 @@ import datetime
 import hashlib
 import json
 import logging
-import mimetypes
 import os
 import re
 import socket
 import subprocess
 
 from tornado.ioloop import IOLoop
-from tornado.web import RequestHandler, HTTPError, asynchronous
+from tornado.web import RequestHandler, StaticFileHandler, HTTPError, asynchronous
 
 import config
 import mediafiles
@@ -1452,9 +1451,6 @@ class MovieHandler(BaseHandler):
         if op == 'list':
             self.list(camera_id)
             
-        elif op == 'download':
-            self.download(camera_id, filename)
-        
         elif op == 'preview':
             self.preview(camera_id, filename)
         
@@ -1508,38 +1504,6 @@ class MovieHandler(BaseHandler):
             
             remote.list_media(camera_config, media_type='movie', prefix=self.get_argument('prefix', None),
                               callback=on_response)
-
-        else:  # assuming simple mjpeg camera
-            raise HTTPError(400, 'unknown operation')
-
-    @BaseHandler.auth()
-    def download(self, camera_id, filename):
-        logging.debug('downloading movie %(filename)s of camera %(id)s' % {
-                'filename': filename, 'id': camera_id})
-        
-        camera_config = config.get_camera(camera_id)
-        if utils.is_local_motion_camera(camera_config):
-            content = mediafiles.get_media_content(camera_config, filename, 'movie')
-            
-            pretty_filename = camera_config['@name'] + '_' + os.path.basename(filename)
-            self.set_header('Content-Type', mimetypes.guess_type(filename)[0] or 'video/mpeg')
-            self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
-            
-            self.finish(content)
-        
-        elif utils.is_remote_camera(camera_config):
-            def on_response(response=None, error=None):
-                if error:
-                    return self.finish_json({'error': 'Failed to download movie from %(url)s: %(msg)s.' % {
-                            'url': remote.pretty_camera_url(camera_config), 'msg': error}})
-
-                pretty_filename = os.path.basename(filename)  # no camera name available w/o additional request
-                self.set_header('Content-Type', mimetypes.guess_type(filename)[0] or 'video/mpeg')
-                self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
-                
-                self.finish(response)
-
-            remote.get_media_content(camera_config, filename=filename, media_type='movie', callback=on_response)
 
         else:  # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
@@ -1636,6 +1600,90 @@ class MovieHandler(BaseHandler):
 
         else:  # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
+
+
+# support fetching movies with authentication
+class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
+    import tempfile
+    tmpdir = tempfile.gettempdir() + '/MotionEye'
+
+    @asynchronous
+    @BaseHandler.auth()
+    def get(self,  camera_id, filename=None, include_body=True):
+        logging.debug('downloading movie %(filename)s of camera %(id)s' % {
+                'filename': filename, 'id': camera_id})
+        
+        self.pretty_filename = os.path.basename(filename)
+
+        if camera_id is not None:
+            camera_id = int(camera_id)
+            if camera_id not in config.get_camera_ids():
+                raise HTTPError(404, 'no such camera')
+
+        camera_config = config.get_camera(camera_id)
+
+        if utils.is_local_motion_camera(camera_config):
+            filename = mediafiles.get_media_path(camera_config, filename, 'movie')
+            self.pretty_filename = camera_config['@name'] + '_' + self.pretty_filename
+            return StaticFileHandler.get(self, filename, include_body=include_body)
+
+        elif utils.is_remote_camera(camera_config):
+
+            def on_response(response=None, error=None):
+                if error:
+                    return self.finish_json({'error': 'Failed to download movie from %(url)s: %(msg)s.' % {
+                            'url': remote.pretty_camera_url(camera_config), 'msg': error}})
+
+                # check if the file has been created by another request while we were fetching the movie
+                if not os.path.isfile(tmpfile):
+                    tmp = open(tmpfile, 'wb')
+                    tmp.write(response)
+                    tmp.close()
+
+                return StaticFileHandler.get(self, tmpfile, include_body=include_body)
+
+            # we will cache the movie since it takes a while to fetch from the remote camera
+            # and we may be going to play it back in the browser, which will fetch the video in chunks
+            tmpfile = self.tmpdir+'/'+self.pretty_filename
+            if os.path.isfile(tmpfile):
+                # have a cached copy, update the timestamp so it's not flushed
+                import time
+                mtime = os.stat(tmpfile).st_mtime
+                os.utime(tmpfile, (time.time(), mtime))
+                return StaticFileHandler.get(self, tmpfile, include_body=include_body)
+
+            if not os.path.exists(self.tmpdir):
+                os.mkdir(self.tmpdir)
+            remote.get_media_content(camera_config, filename, media_type='movie', callback=on_response)
+
+        else:  # assuming simple mjpeg camera
+            raise HTTPError(400, 'unknown operation')
+
+    def on_finish(self):
+        import time
+        # delete any cached file older than an hour
+        stale_time = time.time() - (60 * 60)
+        try:
+            for f in os.listdir(self.tmpdir):
+                f = os.path.join(self.tmpdir, f)
+                if os.path.isfile(f) and os.stat(f).st_atime <= stale_time:
+                    os.remove(f)
+        except:
+            logging.error('could not delete temp file')
+            pass
+
+    def get_absolute_path(self, root, path):
+        return path
+
+    def validate_absolute_path(self, root, absolute_path):
+        return absolute_path
+
+
+class MovieDownloadHandler(MoviePlaybackHandler):
+    def set_extra_headers(self, filename):
+        if (self.get_status() in (200, 304)):
+            self.set_header('Content-Disposition','attachment; filename=' + self.pretty_filename + ';')
+            self.set_header('Expires','0')
 
 
 class ActionHandler(BaseHandler):
