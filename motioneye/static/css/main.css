@@ -768,7 +768,8 @@ div.picture-dialog-content {
 div.picture-dialog-prev-arrow,
 div.picture-dialog-next-arrow {
     position: absolute;
-    top: 45%;
+    top: 50%;
+    margin-top: -1.5em;
     background-color: rgba(0, 0, 0, 0.6);
     background-image: url(../img/arrows.svg);
     background-size: cover;
@@ -790,7 +791,10 @@ div.picture-dialog-next-arrow {
     background-position: -100% 0%;
 }
 
-img.picture-dialog-content {
+img.picture-dialog-content,
+video.picture-dialog-content {
+    display: block;
+    margin: 0 auto;
     border: 1px solid #292929;
 }
 
@@ -800,6 +804,22 @@ img.picture-dialog-progress {
     padding: 10px;
     border-radius: 10px;
     opacity: 0.7;
+}
+.video-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: -5px;
+    height: 2.5em;
+    width: 2.5em;
+    background-image: url(../img/small-progress.gif);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.video-loaderror {
+    background-image: url(../img/validation-error.svg);
+    background-position: center;
+    cursor: pointer;
 }
 
 table.timelapse-dialog select {
