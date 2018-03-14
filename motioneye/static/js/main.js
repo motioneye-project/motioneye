@@ -3450,52 +3450,48 @@ function runLoginDialog(retry) {
 
 function runPictureDialog(entries, pos, mediaType) {
     var content = $('<div class="picture-dialog-content"></div>');
-    var video = videoEl = videoLoader = vProgressImg = null;
-    var img = $('<img class="picture-dialog-content">');
-
-    if (mediaType == 'movie') {
-        video = $('<video class="picture-dialog-content" preload="metadata" style="display:none;" controls="controls" >');
-        if (video.get(0).canPlayType) {
-            content.append(video);
-            videoEl = video.get(0);
-            videoLoader = $('<img>');
-            vProgressImg = $('<div class="video-loading" style="display:none;">');
-            vProgressImg.on('click', function() {
-                displayVideoError(videoEl.error);
-            });
-        }
-    }
-    content.append(img);
     
+    var img = $('<img class="picture-dialog-content">');
+    content.append(img);
+
+    var video_container = $('<video class="picture-dialog-content" controls="true">');
+    var video_loader = $('<img>');
+    video_container.on('error', function(err) {
+        var msg = '';
+
+        /* Reference: https://html.spec.whatwg.org/multipage/embedded-content.html#error-codes */
+        switch (err.target.error.code) {
+            case err.target.error.MEDIA_ERR_ABORTED:
+                msg = 'You aborted the video playback.';
+                break;
+            case err.target.error.MEDIA_ERR_NETWORK:
+                msg = 'A network error occurred.';
+                break;
+            case err.target.error.MEDIA_ERR_DECODE:
+                msg = 'Media decode error or unsupported media features.';
+                break;
+            case err.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
+                msg = 'Media format unsupported or otherwise unavilable/unsuitable for playing.';
+                break;
+            default:
+                msg = 'Unknown error occurred.'
+        }
+
+        showErrorMessage('Error: ' + msg);
+    });
+    video_container.hide();
+    content.append(video_container);
+
     var prevArrow = $('<div class="picture-dialog-prev-arrow button mouse-effect" title="previous picture"></div>');
     content.append(prevArrow);
-    
+
+    var playButton = $('<div class="picture-dialog-play button mouse-effect" title="play"></div>');
+    content.append(playButton);
+
     var nextArrow = $('<div class="picture-dialog-next-arrow button mouse-effect" title="next picture"></div>');
     content.append(nextArrow);
-    
-    var progressImg = $('<img class="picture-dialog-progress" src="' + staticPath + 'img/modal-progress.gif">');
-    
-    function displayVideoError(e) {
-        var errMsg;
-        if (e == null)
-            return;
-        switch (e.code) {
-            case e.MEDIA_ERR_ABORTED:
-                errMsg = 'Video download aborted';
-                break;
-            case e.MEDIA_ERR_NETWORK:
-                errMsg = 'Video download failed - network connection error';
-                break;
-            case e.MEDIA_ERR_DECODE:
-                errMsg = 'Video cannot be played due to error while decoding - video file may be corrupt';
-                break;
-            case e.MEDIA_ERR_SRC_NOT_SUPPORTED:
-            default:
-                errMsg = 'Video encoding format not compatable with this browser - try viewing on a different browser or another type of device';
-        }
-        alert(errMsg);
-    }
-    
+    var progressImg = $('<div class="picture-dialog-progress">');
+
     function updatePicture() {
         var entry = entries[pos];
 
@@ -3510,87 +3506,54 @@ function runPictureDialog(entries, pos, mediaType) {
         prevArrow.css('display', 'none');
         nextArrow.css('display', 'none');
 
-        if (videoEl != null) {
-            if (videoEl.currentTime != 0) {
-                videoEl.pause();
-                videoEl.currentTime = 0;
-            }
-            video.hide();
-            img.show();
-            videoLoader.removeAttr('src');
-            vProgressImg.removeClass('video-loaderror');
+        var playable = video_container.get(0).canPlayType(entry.mimeType) != ''
+        playButton.hide();
+        video_container.hide();
+        img.show();
+
+        img.parent().append(progressImg);
+        updateModalDialogPosition();
+        
+        img.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
+
+        if (playable) {
+            video_loader.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path));
+            playButton.on('click', function() {
+                video_container.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path));
+                video_container.show();
+                video_container.get(0).load();  /* Must call load() after changing <video> source */
+                img.hide();
+                playButton.hide();
+                video_container.on('canplay', function() {
+                   video_container.get(0).play();  /* Automatically play the video once the browser is ready */
+                });
+            });
+
+            playButton.show();
         }
 
-        updateModalDialogPosition();
-        img.parent().append(progressImg);
-        progressImg.css('left', (img.parent().width() - progressImg.width()) / 2);
-        progressImg.css('top', (img.parent().height() - progressImg.height()) / 2);
-        
-        function mediaLoaded(naturalWidth, naturalHeight) {
-            var aspectRatio = naturalWidth / naturalHeight;
+        img.load(function () {
+            var aspectRatio = this.naturalWidth / this.naturalHeight;
             var sizeWidth = width * width / aspectRatio;
             var sizeHeight = height * aspectRatio * height;
 
             img.width('').height('');
-            if (videoEl != null)
-                video.width('').height('');
+            video_container.width('').height('');
 
             if (sizeWidth < sizeHeight) {
                 img.width(width);
-                if (videoEl != null)
-                    video.width(width);
+                video_container.width(width).height(parseInt(width/aspectRatio));
             }
             else {
                 img.height(height);
-                if (videoEl != null)
-                    video.height(height);
+                video_container.width(parseInt(height*aspectRatio)).height(height);
             }
             updateModalDialogPosition();
             prevArrow.css('display', pos < entries.length - 1 ? '' : 'none');
             nextArrow.css('display', pos > 0 ? '' : 'none');
             progressImg.remove();
-        }
-        
-        img.one('load', function () {
-            mediaLoaded(this.naturalWidth, this.naturalHeight);
         });
-        img.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
 
-        if (videoEl != null) {
-            video.one('loadstart', function() {
-                /* older iOS browsers get this far then video tag needs to be made visible for it to 
-                 * fionish loading, but since they don't work well we wont bother
-                 */
-                vProgressImg.hide();
-            });
-            video.one('loadedmetadata', function() {
-                // enough video loaded it will have detected any codec errors and maybe has dimensions
-                if (videoEl.videoWidth && videoEl.videoHeight)
-                    mediaLoaded(videoEl.videoWidth, videoEl.videoHeight);
-                video.show();
-                img.hide();
-                vProgressImg.hide();
-            });
-            video.one('error', function(event) {
-                video.hide();
-                img.show();
-                vProgressImg.show().addClass('video-loaderror');
-            });
-            videoLoader.one('load error', function() {
-                video.attr({
-                    src: addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path),
-                    poster: addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/preview' + entry.path),
-                    type: entry.mimeType
-                });
-                // make old Android Chrome load video
-                videoEl.load();
-            });
-            vProgressImg.show();
-            videoLoader.attr({
-                src: addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path)
-            });
-        }
-        
         $('div.modal-container').find('span.modal-title:last').html(entry.name);
         updateModalDialogPosition();
     }
@@ -3650,9 +3613,6 @@ function runPictureDialog(entries, pos, mediaType) {
             $('body').off('keydown', bodyKeyDown);
         }
     });
-    if (videoEl != null) {
-        $('div.modal-container').find('.modal-title-bar:last').append(vProgressImg);
-    }
 }
 
 function runAddCameraDialog() {
@@ -4268,7 +4228,7 @@ function runMediaDialog(cameraId, mediaType) {
                 entries.forEach(function (entry) {
                     var media = mediaListByName[entry.name];
                     if (media) {
-                        entry.mimeType = media.mimeType
+                        entry.mimeType = media.mimeType;
                         entry.momentStr = media.momentStr;
                         entry.momentStrShort = media.momentStrShort;
                         entry.sizeStr = media.sizeStr;

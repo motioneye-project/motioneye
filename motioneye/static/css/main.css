@@ -766,12 +766,12 @@ div.picture-dialog-content {
 }
 
 div.picture-dialog-prev-arrow,
-div.picture-dialog-next-arrow {
+div.picture-dialog-next-arrow,
+div.picture-dialog-play {
     position: absolute;
     top: 50%;
     margin-top: -1.5em;
     background-color: rgba(0, 0, 0, 0.6);
-    background-image: url(../img/arrows.svg);
     background-size: cover;
     width: 3em;
     height: 3em;
@@ -780,6 +780,19 @@ div.picture-dialog-next-arrow {
     -moz-user-select: none;
     user-select: none;
     cursor: pointer;
+}
+
+div.picture-dialog-prev-arrow,
+div.picture-dialog-next-arrow {
+    background-image: url(../img/arrows.svg);
+}
+
+div.picture-dialog-play {
+    background-image: url(../img/camera-top-buttons.svg);
+    background-position: -300% 0px;
+    left: 50%;
+    right: 50%;
+    transform: translate(-1.5em,0);
 }
 
 div.picture-dialog-prev-arrow {

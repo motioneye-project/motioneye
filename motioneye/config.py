@@ -1932,13 +1932,14 @@ def _set_default_motion(data, old_config_format):
         data.setdefault('webcontrol_port', settings.MOTION_CONTROL_PORT)
         data.setdefault('webcontrol_html_output', True)
         data.setdefault('webcontrol_localhost', settings.MOTION_CONTROL_LOCALHOST)
+        data.setdefault('webcontrol_parms', 2)  # the advanced list of parameters will be available
 
 
 def _set_default_motion_camera(camera_id, data):
     data.setdefault('@name', 'Camera' + str(camera_id))
     data.setdefault('@id', camera_id)
 
-    if not utils.is_net_camera(data):
+    if utils.is_v4l2_camera(data):
         data.setdefault('videodevice', '/dev/video0')
         data.setdefault('brightness', 0)
         data.setdefault('contrast', 0)

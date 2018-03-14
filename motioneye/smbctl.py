@@ -99,14 +99,14 @@ def list_mounts():
                 username = match.group(1)
             
             else:
-                username = None
+                username = ''
                 
             logging.debug('found smb mount "//%s/%s" at "%s"' % (server, share, mount_point))
             
             mounts.append({
                 'server': server.lower(),
                 'share': share.lower(),
-                'username': username.lower(),
+                'username': username,
                 'mount_point': mount_point
             })
 
