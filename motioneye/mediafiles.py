@@ -21,7 +21,6 @@ import fcntl
 import functools
 import hashlib
 import logging
-import mimetypes
 import multiprocessing
 import os.path
 import pipes

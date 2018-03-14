@@ -767,7 +767,8 @@ div.picture-dialog-content {
 
 div.picture-dialog-prev-arrow,
 div.picture-dialog-next-arrow,
-div.picture-dialog-play {
+div.picture-dialog-play,
+div.picture-dialog-progress {
     position: absolute;
     top: 50%;
     margin-top: -1.5em;
@@ -791,8 +792,7 @@ div.picture-dialog-play {
     background-image: url(../img/camera-top-buttons.svg);
     background-position: -300% 0px;
     left: 50%;
-    right: 50%;
-    transform: translate(-1.5em,0);
+    margin-left: -1.5em;
 }
 
 div.picture-dialog-prev-arrow {
@@ -811,28 +811,14 @@ video.picture-dialog-content {
     border: 1px solid #292929;
 }
 
-img.picture-dialog-progress {
-    position: absolute;
-    background-color: #313131;
-    padding: 10px;
+div.picture-dialog-progress {
+    left: 50%;
+    margin: -32px 0 0 -32px;
+    width: 64px;
+    height: 64px;
     border-radius: 10px;
+    background-image: url(../img/modal-progress.gif);
     opacity: 0.7;
-}
-.video-loading {
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin-top: -5px;
-    height: 2.5em;
-    width: 2.5em;
-    background-image: url(../img/small-progress.gif);
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.video-loaderror {
-    background-image: url(../img/validation-error.svg);
-    background-position: center;
-    cursor: pointer;
 }
 
 table.timelapse-dialog select {
