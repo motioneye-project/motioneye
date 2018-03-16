@@ -767,9 +767,11 @@ div.picture-dialog-content {
 
 div.picture-dialog-prev-arrow,
 div.picture-dialog-next-arrow,
-div.picture-dialog-play {
+div.picture-dialog-play,
+div.picture-dialog-progress {
     position: absolute;
-    top: 45%;
+    top: 50%;
+    margin-top: -1.5em;
     background-color: rgba(0, 0, 0, 0.6);
     background-size: cover;
     width: 3em;
@@ -790,8 +792,7 @@ div.picture-dialog-play {
     background-image: url(../img/camera-top-buttons.svg);
     background-position: -300% 0px;
     left: 50%;
-    right: 50%;
-    transform: translate(-1.5em,0);
+    margin-left: -1.5em;
 }
 
 div.picture-dialog-prev-arrow {
@@ -803,15 +804,20 @@ div.picture-dialog-next-arrow {
     background-position: -100% 0%;
 }
 
-img.picture-dialog-content {
+img.picture-dialog-content,
+video.picture-dialog-content {
+    display: block;
+    margin: 0 auto;
     border: 1px solid #292929;
 }
 
-img.picture-dialog-progress {
-    position: absolute;
-    background-color: #313131;
-    padding: 10px;
+div.picture-dialog-progress {
+    left: 50%;
+    margin: -32px 0 0 -32px;
+    width: 64px;
+    height: 64px;
     border-radius: 10px;
+    background-image: url(../img/modal-progress.gif);
     opacity: 0.7;
 }
 
