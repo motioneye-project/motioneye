@@ -10,6 +10,6 @@ script:
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
   - docker build --build-arg VCS_REF=$TRAVIS_COMMIT --build-arg BUILD_DATE=$(date +"%Y-%m-%dT%H:%M:%SZ") -t $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET -f extra/Dockerfile${EXT} .
   - docker run --rm $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET uname -a
-  - echo $DOCKER_PASSWORD | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker push $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo $DOCKER_PASSWORD | docker login -u "$DOCKER_USERNAME" --password-stdin; fi'
+  - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET; fi'
 

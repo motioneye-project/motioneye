@@ -21,7 +21,6 @@ import fcntl
 import functools
 import hashlib
 import logging
-import mimetypes
 import multiprocessing
 import os.path
 import pipes
@@ -375,6 +374,7 @@ def list_media(camera_config, media_type, callback, prefix=None):
 
     # create a subprocess to retrieve media files
     def do_list_media(pipe):
+        import mimetypes
         parent_pipe.close()
 
         mf = _list_media_files(target_dir, exts=exts, prefix=prefix)
@@ -388,7 +388,7 @@ def list_media(camera_config, media_type, callback, prefix=None):
 
             pipe.send({
                 'path': path,
-                'mimeType': mimetypes.guess_type(path)[0],
+                'mimeType': mimetypes.guess_type(path)[0] if mimetypes.guess_type(path)[0] is not None else 'video/mpeg',
                 'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
                 'momentStrShort': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp), short=True),
                 'sizeStr': utils.pretty_size(size),
@@ -441,6 +441,12 @@ def list_media(camera_config, media_type, callback, prefix=None):
             callback(media_list)
     
     poll_process()
+
+
+def get_media_path(camera_config, path, media_type):
+    target_dir = camera_config.get('target_dir')
+    full_path = os.path.join(target_dir, path)
+    return full_path
 
 
 def get_media_content(camera_config, path, media_type):
