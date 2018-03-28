@@ -92,3 +92,6 @@ add_remove_cameras true
 
 # enables HTTP basic authentication scheme (in addition to, not instead of the signature mechanism)
 http_basic_auth false
+
+# overrides the hostname (useful if motionEye runs behind a reverse proxy)
+# server_name motionEye
