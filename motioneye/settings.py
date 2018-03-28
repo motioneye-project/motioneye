@@ -2,6 +2,7 @@
 import logging
 import os.path
 import sys
+import socket
 
 import motioneye
 
@@ -131,3 +132,6 @@ PASSWORD_HOOK = None
 
 # enables HTTP basic authentication scheme (in addition to, not instead of the signature mechanism)
 HTTP_BASIC_AUTH = False
+
+# provides the possibility to override the hostname
+SERVER_NAME = socket.gethostname()
