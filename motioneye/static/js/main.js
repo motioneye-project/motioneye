@@ -999,21 +999,20 @@ function updateLayout() {
         /* make sure the height of each camera
          * is smaller than the height of the screen
          * divided by the number of layout rows */
-        
-        /* find the tallest frame */
+
+        /* check if all images are initialized and find the max height/width ratio */
         var frames = getCameraFrames();
-        var maxHeight = -1;
-        var maxHeightFrame = null;
+        var maxRatio = 0;
+
         frames.each(function () {
-            var frame = $(this);
-            var height = frame.height();
-            if (height > maxHeight) {
-                maxHeight = height;
-                maxHeightFrame = frame;
+            var img = $(this).find('img.camera');
+            var ratio = img.height() / img.width();
+            if (ratio > maxRatio) {
+                maxRatio = ratio;
             }
         });
-        
-        if (!maxHeightFrame) {
+
+        if (!maxRatio) {
             return; /* no camera frames */
         }
         
@@ -1025,16 +1024,15 @@ function updateLayout() {
             columns = 1; /* always 1 column when in full screen or mobile */
         }
         
-        var heightOffset = 10; /* some padding */
+        var heightOffset = 5; /* some padding */
         if (!isFullScreen()) {
             heightOffset += 50; /* top bar */
         }
     
         var windowHeight = $(window).height() - heightOffset;
-        var ratio = maxHeightFrame.width() / maxHeightFrame.height() / layoutRows;
-        var width = parseInt(ratio * windowHeight * columns);
         var maxWidth = windowWidth;
-        
+
+        var width = windowHeight / maxRatio * columns;
         if (pageContainer.hasClass('stretched') && windowWidth > 1200) {
             maxWidth *= 0.6; /* opened settings panel occupies 40% of the window width */ 
         }
