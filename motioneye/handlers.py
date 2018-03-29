@@ -243,7 +243,7 @@ class MainHandler(BaseHandler):
                     add_remove_cameras=settings.ADD_REMOVE_CAMERAS,
                     main_sections=main_sections,
                     camera_sections=camera_sections,
-                    hostname=socket.gethostname(),
+                    hostname=settings.SERVER_NAME,
                     title=self.get_argument('title', None),
                     admin_username=config.get_main().get('@admin_username'),
                     has_streaming_auth=motionctl.has_streaming_auth(),
