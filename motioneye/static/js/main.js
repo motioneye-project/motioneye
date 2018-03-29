@@ -1000,7 +1000,7 @@ function updateLayout() {
          * is smaller than the height of the screen
          * divided by the number of layout rows */
 
-        /* check if all images are initialized and find the max height/width ratio */
+        /* find the max height/width ratio */
         var frames = getCameraFrames();
         var maxRatio = 0;
 
@@ -1015,7 +1015,7 @@ function updateLayout() {
         if (!maxRatio) {
             return; /* no camera frames */
         }
-        
+
         var pageContainer = getPageContainer();
         var windowWidth = $(window).width();
         
@@ -1045,7 +1045,7 @@ function updateLayout() {
             getPageContainer().css('width', '');
             return; /* page container width already at its maximum */
         }
-        
+
         getPageContainer().css('width', width);
     }
     else {
@@ -4399,7 +4399,7 @@ function runMediaDialog(cameraId, mediaType) {
 
 function addCameraFrameUi(cameraConfig) {
     var cameraId = cameraConfig.id;
-    
+
     var cameraFrameDiv = $(
             '<div class="camera-frame">' +
                 '<div class="camera-container">' +
@@ -4671,13 +4671,13 @@ function addCameraFrameUi(cameraConfig) {
         if (this.naturalHeight) {
             this._naturalHeight = this.naturalHeight;
         }
-        
+
         if (this.initializing) {
             cameraProgress.removeClass('visible');
             cameraImg.removeClass('initializing');
             cameraImg.css('height', '');
             this.initializing = false;
-            
+
             updateLayout();
         }
 
