@@ -1606,6 +1606,8 @@ class MovieHandler(BaseHandler):
 class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
     import tempfile
     tmpdir = tempfile.gettempdir() + '/MotionEye'
+    if not os.path.exists(tmpdir):
+        os.mkdir(tmpdir)
 
     @asynchronous
     @BaseHandler.auth()
@@ -1652,8 +1654,6 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
                 os.utime(tmpfile, (time.time(), mtime))
                 return StaticFileHandler.get(self, tmpfile, include_body=include_body)
 
-            if not os.path.exists(self.tmpdir):
-                os.mkdir(self.tmpdir)
             remote.get_media_content(camera_config, filename, media_type='movie', callback=on_response)
 
         else:  # assuming simple mjpeg camera
@@ -1669,7 +1669,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
                 if os.path.isfile(f) and os.stat(f).st_atime <= stale_time:
                     os.remove(f)
         except:
-            logging.error('could not delete temp file')
+            logging.exception('could not delete temp file')
             pass
 
     def get_absolute_path(self, root, path):
