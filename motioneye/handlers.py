@@ -1669,7 +1669,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
                 if os.path.isfile(f) and os.stat(f).st_atime <= stale_time:
                     os.remove(f)
         except:
-            logging.exception('could not delete temp file')
+            logging.error('could not delete temp file', exc_info=True)
             pass
 
     def get_absolute_path(self, root, path):
