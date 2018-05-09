@@ -48,7 +48,7 @@ def sealed_box(public_key, data):
 def remove_source_file(input_file, camera_id):
     camera_config = config.get_camera(camera_id)
     if camera_config['@cloud_encryption_remove_unencrypted']:
-        logging.debug('Deleting unencrypted source file "%s"' % input_file)
+        logging.debug('Deleting unencrypted source file {0}'.format(input_file))
         os.remove(input_file)
 
 def encrypt(input_file, camera_id):
@@ -57,14 +57,14 @@ def encrypt(input_file, camera_id):
         public_key = read_public_key(public_key_location)
         encrypted = sealed_box(public_key, data)
         outfile = write_file(outfile, encrypted)
-        logging.debug('Successfully encrypted "%s" to "%s"' % (input_file, outfile))
+        logging.debug('Successfully encrypted {0} to {1}'.format(input_file, outfile))
         remove_source_file(input_file, camera_id)
         return outfile
     except:
         camera_config = config.get_camera(camera_id)
         if camera_config['@cloud_encryption_upload_fails']:
-            logging.error('Encryption of file "%s" failed. Uploading unencrypted file' % input_file)
+            logging.error('Encryption of file {0} failed. Uploading unencrypted file'.format(input_file))
             return input_file
         else:
-            logging.error('Encryption of file "%s" failed. Not uploading unencrypted file' % input_file)
+            logging.error('Encryption of file {0} failed. Not uploading unencrypted file'.format(input_file))
             return None

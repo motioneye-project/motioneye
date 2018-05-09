@@ -58,11 +58,11 @@ def backup_key_files(private_key_location, public_key_location):
 
     if os.path.isfile(private_key_location):
         os.rename(private_key_location, backup_private_key_location)
-        print ("Existing private key %s was backuped to %s" % (private_key_location, backup_private_key_location))
+        print ("Existing private key {0} was backuped to {1}".format(private_key_location, backup_private_key_location))
 
     if os.path.isfile(public_key_location):
         os.rename(public_key_location, backup_public_key_location)
-        print ("Existing public key %s was backuped to %s" % (public_key_location, backup_public_key_location))
+        print ("Existing public key {0} was backuped to {1}".format(public_key_location, backup_public_key_location))
 
 
 def generate_key_pair(mem, private_key_location, public_key_location):
@@ -78,29 +78,29 @@ def generate_key_pair(mem, private_key_location, public_key_location):
     write_private_key(private_key_location, salt, encrypted_private_key, mem)
     write_public_key(public_key_location, encoded_public_key)
 
-    print('IMPORTANT: Backup the newly generated private key at %s immediately. If you lose it, you will not be able to decrypt your files.' % private_key_location)
+    print('IMPORTANT: Backup the newly generated private key at {0} immediately. If you lose it, you will not be able to decrypt your files.'.format(private_key_location))
 
 def main():
     args = parser.parse_args()
     if args.memlimit:
         if args.memlimit >= 8192:
             mem = args.memlimit
-            print ("Using custom memory limit of %i") % mem
+            print ("Using custom memory limit of {0}".format(mem))
         else:
             sys.exit("ERROR: memlimit must be at least 8192 bytes")
     else:
         mem = pwhash.argon2i.MEMLIMIT_SENSITIVE
-        print ("Using default memory limit of %i") % mem
+        print ("Using default memory limit of {0}".format(mem))
 
     if args.directory:
         if os.path.exists(args.directory):
             directory = args.directory
-            print ("Using specified directory %s as output directory" % directory)
+            print ("Using specified directory {0} as output directory".format(directory))
         else:
-            sys.exit("ERROR: Specified output directory %s does not exist" % args.directory)
+            sys.exit("ERROR: Specified output directory {0} does not exist".format(args.directory))
     else:
         directory = os.getcwd()
-        print ("No output directory specified. Using current directory %s as output directory." % directory)
+        print ("No output directory specified. Using current directory {0} as output directory.".format(directory))
 
     public_key_location = os.path.join(directory, 'public.key')
     private_key_location = os.path.join(directory, 'private.key')

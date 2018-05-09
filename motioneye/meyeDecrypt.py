@@ -56,9 +56,9 @@ def decrypt_files_in_dir(loaded_private_key, directory):
                     with open(outfile, 'wb') as out_file:
                         out_file.write(decrypted)
 
-                        print ("Decrypted %s to %s" % (file, outfile))
+                        print ("Decrypted {0} to {1}".format(file, outfile))
             except:
-                print ("Failed to decrypt %s") % file
+                print ("Failed to decrypt {0}".format(file))
 
 def decrypt_file(loaded_private_key, file):
     if file.endswith(".crypt"):
@@ -77,7 +77,7 @@ def decrypt_file(loaded_private_key, file):
         with open(outfile, 'wb') as out_file:
             out_file.write(decrypted)
 
-        print ("Decrypted %s to %s" % (file, outfile))
+        print ("Decrypted {0} to {1}".format(file, outfile))
 
 if __name__ == "__main__":
     args = parser.parse_args()
