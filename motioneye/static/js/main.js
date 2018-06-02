@@ -4,8 +4,8 @@ var PASSWORD_COOKIE = 'meye_password_hash';
 
 var pushConfigs = {};
 var pushConfigReboot = false;
-var adminPasswordChanged = false;
-var normalPasswordChanged = false;
+var adminPasswordChanged = {};
+var normalPasswordChanged = {};
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var fullScreenCameraId = null;
 var inProgress = false;
@@ -15,7 +15,7 @@ var resolutionFactor = 1;
 var username = '';
 var passwordHash = '';
 var basePath = null;
-var signatureRegExp = new RegExp('[^a-zA-Z0-9/?_.=&{}\\[\\]":, _-]', 'g');
+var signatureRegExp = new RegExp('[^a-zA-Z0-9/?_.=&{}\\[\\]":, -]', 'g');
 var initialConfigFetched = false; /* used to workaround browser extensions that trigger stupid change events */
 var pageContainer = null;
 var overlayVisible = false;
@@ -662,11 +662,17 @@ function initUI() {
     }
 
     /* update password changed flags */
+    $('#adminPasswordEntry').keydown(function () {
+        adminPasswordChanged.keydown = true;
+    });
     $('#adminPasswordEntry').change(function () {
-        adminPasswordChanged = true;
+        adminPasswordChanged.change = true;
+    });
+    $('#normalPasswordEntry').keydown(function () {
+        normalPasswordChanged.keydown = true;
     });
     $('#normalPasswordEntry').change(function () {
-        normalPasswordChanged = true;
+        normalPasswordChanged.change = true;
     });
 
     /* ui elements that enable/disable other ui elements */
@@ -1672,13 +1678,13 @@ function mainUi2Dict() {
     var dict = {
         'show_advanced': $('#showAdvancedSwitch')[0].checked,
         'admin_username': $('#adminUsernameEntry').val(),
-        'normal_username': $('#normalUsernameEntry').val(),
+        'normal_username': $('#normalUsernameEntry').val()
     };
 
-    if (adminPasswordChanged) {
+    if (adminPasswordChanged.change && adminPasswordChanged.keydown && $('#adminPasswordEntry').val() !== '*****') {
         dict['admin_password'] = $('#adminPasswordEntry').val();
     }
-    if (normalPasswordChanged) {
+    if (normalPasswordChanged.change && normalPasswordChanged.keydown && $('#normalPasswordEntry').val() !== '*****') {
         dict['normal_password'] = $('#normalPasswordEntry').val();
     }
 
@@ -2533,8 +2539,8 @@ function doApply() {
             }
 
             /* reset password change flags */
-            adminPasswordChanged = false;
-            normalPasswordChanged = false;
+            adminPasswordChanged = {};
+            normalPasswordChanged = {};
             
             if (data.reboot) {
                 var count = 0;
