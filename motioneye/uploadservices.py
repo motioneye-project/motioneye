@@ -54,7 +54,8 @@ class UploadService(object):
     def upload_file(self, target_dir, filename):
         if target_dir:
             target_dir = os.path.realpath(target_dir)
-            rel_filename = filename[len(target_dir):]
+            rel_filename = os.path.realpath(filename)
+            rel_filename = rel_filename[len(target_dir):]
 
             while rel_filename.startswith('/'):
                 rel_filename = rel_filename[1:]
