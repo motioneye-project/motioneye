@@ -191,6 +191,8 @@ def _mount(server, share, username, password):
         opts = 'guest'
         sec_types = [None, 'none', 'ntlm', 'ntlmv2', 'ntlmv2i', 'ntlmsspi']
 
+    opts += ',vers=1.0'
+
     for sec in sec_types:
         if sec:
             actual_opts = opts + ',sec=' + sec
