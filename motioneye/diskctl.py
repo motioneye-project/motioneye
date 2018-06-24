@@ -131,7 +131,7 @@ def _list_disks_dev_by_id():
         for disk_dev, disk in disks_by_dev.items():
             if dev.startswith(disk_dev):
                 disk['partitions'].append(partition)
-                partition.pop('unmatched')
+                partition.pop('unmatched', None)
             
     # add separate partitions that did not match any disk
     for partition in partitions_by_dev.values():
