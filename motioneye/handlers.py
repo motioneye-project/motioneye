@@ -114,6 +114,26 @@ class BaseHandler(RequestHandler):
         self.set_header('Content-Type', 'application/json')
         self.finish(json.dumps(data))
 
+    def get_signatures(self, password):
+        """
+        Given the user's password (cleartext), returns a list of possible
+        signatures (matching the current user,pw/hash,request method and URI).
+
+        The signature calculatio method must match the corresponding
+        Javascript code (in ./static/js/main.js:computeSignature() ).
+        """
+        method = self.request.method
+        body = self.request.body
+        uri = self.request.uri
+
+        hashed_pw = hashlib.sha1(password).hexdigest()
+
+        sigs = []
+        sigs.append(utils.compute_signature(method, uri,body,password))
+        sigs.append(utils.compute_signature(method, uri,body,hashed_pw))
+        return sigs
+
+
     def get_current_user(self):
         main_config = config.get_main()
         
@@ -126,9 +146,6 @@ class BaseHandler(RequestHandler):
 
         admin_password = main_config.get('@admin_password')
         normal_password = main_config.get('@normal_password')
-
-        admin_hash = hashlib.sha1(main_config['@admin_password']).hexdigest()
-        normal_hash = hashlib.sha1(main_config['@normal_password']).hexdigest()
 
         if settings.HTTP_BASIC_AUTH and 'Authorization' in self.request.headers:
             up = utils.parse_basic_header(self.request.headers['Authorization'])
@@ -144,22 +161,14 @@ class BaseHandler(RequestHandler):
                     return 'normal'
 
         if (username == admin_username and
-            (signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body, admin_password) or
-             signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body, admin_hash))):
-
+            signature in self.get_signatures(admin_password)):
             return 'admin'
         
         if not username and not normal_password:  # no authentication required for normal user
             return 'normal'
 
         if (username == normal_username and
-            (signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body, normal_password) or
-             signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body, normal_hash))):
-
+            signature in self.get_signatures(normal_password)):
             return 'normal'
 
         if username and username != '_' and login:
