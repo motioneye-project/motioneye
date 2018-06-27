@@ -131,6 +131,24 @@ class BaseHandler(RequestHandler):
         sigs = []
         sigs.append(utils.compute_signature(method, uri,body,password))
         sigs.append(utils.compute_signature(method, uri,body,hashed_pw))
+
+        """Ugly Hack Alert:
+        The javascript code seems to already strip
+        initial directories from the URL, regardless of the URL_PREFIX
+        feature. This happens in
+            main.js:computeSignature()
+        where it calls:
+            path = '/' + path.substring(basePath.length);
+        and basePath == the URL_PREFIX.
+
+        Instead of trying to figure out when/why it strips it (likely as part of
+        another feature or setup?) just verify the signature without the
+        URL_PREFIX.
+        """
+        if settings.URL_PREFIX:
+            uri_no_prefix = uri[len(settings.URL_PREFIX):]
+            sigs.append(utils.compute_signature(method,uri_no_prefix,body,password))
+            sigs.append(utils.compute_signature(method,uri_no_prefix,body,hashed_pw))
         return sigs
 
 
@@ -1946,7 +1964,7 @@ class VersionHandler(BaseHandler):
     post = get
 
 
-# this will only trigger the login mechanism on the client side, if required 
+# this will only trigger the login mechanism on the client side, if required
 class LoginHandler(BaseHandler):
     @BaseHandler.auth()
     def get(self):
@@ -1955,3 +1973,22 @@ class LoginHandler(BaseHandler):
     def post(self):
         self.set_header('Content-Type', 'text/html')
         self.finish()
+
+
+class URLPrefixNoticeHandler(BaseHandler):
+    """
+    A helper handler that will only be used if the user configured a URL_PREFIX
+    and then requested a URL without that prefix.
+
+    This avoids the confusion of getting a 404-page-not-found when visiting the
+    root url and points the user to the relevant issue.
+    """
+    def initialize(self, url_prefix):
+        self.url_prefix = url_prefix
+
+    def get(self, *args, **kwargs):
+        msg="This instance of MotionEye is configured with a URL_PREFIX of '%s'. " \
+            "Try adding '%s' to your URL." % ( self.url_prefix, self.url_prefix)
+        raise HTTPError(404, msg)
+
+    post = head = get
