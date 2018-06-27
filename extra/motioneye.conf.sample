@@ -21,6 +21,10 @@ listen 0.0.0.0
 # the TCP port to listen on
 port 8765
 
+# URL Prefix to add, or empty string for root URL (the default).
+# e.g. if URL_PREFIX="/foo", motioneye's UI will be at http://0.0.0.0:8765/foo/
+#url_prefix /foo
+
 # path to the motion binary to use (automatically detected if commented)
 #motion_binary /usr/bin/motion
 

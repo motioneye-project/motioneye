@@ -114,6 +114,44 @@ class BaseHandler(RequestHandler):
         self.set_header('Content-Type', 'application/json')
         self.finish(json.dumps(data))
 
+    def get_signatures(self, password):
+        """
+        Given the user's password (cleartext), returns a list of possible
+        signatures (matching the current user,pw/hash,request method and URI).
+
+        The signature calculatio method must match the corresponding
+        Javascript code (in ./static/js/main.js:computeSignature() ).
+        """
+        method = self.request.method
+        body = self.request.body
+        uri = self.request.uri
+
+        hashed_pw = hashlib.sha1(password).hexdigest()
+
+        sigs = []
+        sigs.append(utils.compute_signature(method, uri,body,password))
+        sigs.append(utils.compute_signature(method, uri,body,hashed_pw))
+
+        """Ugly Hack Alert:
+        The javascript code seems to already strip
+        initial directories from the URL, regardless of the URL_PREFIX
+        feature. This happens in
+            main.js:computeSignature()
+        where it calls:
+            path = '/' + path.substring(basePath.length);
+        and basePath == the URL_PREFIX.
+
+        Instead of trying to figure out when/why it strips it (likely as part of
+        another feature or setup?) just verify the signature without the
+        URL_PREFIX.
+        """
+        if settings.URL_PREFIX:
+            uri_no_prefix = uri[len(settings.URL_PREFIX):]
+            sigs.append(utils.compute_signature(method,uri_no_prefix,body,password))
+            sigs.append(utils.compute_signature(method,uri_no_prefix,body,hashed_pw))
+        return sigs
+
+
     def get_current_user(self):
         main_config = config.get_main()
         
@@ -126,9 +164,6 @@ class BaseHandler(RequestHandler):
 
         admin_password = main_config.get('@admin_password')
         normal_password = main_config.get('@normal_password')
-
-        admin_hash = hashlib.sha1(main_config['@admin_password']).hexdigest()
-        normal_hash = hashlib.sha1(main_config['@normal_password']).hexdigest()
 
         if settings.HTTP_BASIC_AUTH and 'Authorization' in self.request.headers:
             up = utils.parse_basic_header(self.request.headers['Authorization'])
@@ -144,22 +179,14 @@ class BaseHandler(RequestHandler):
                     return 'normal'
 
         if (username == admin_username and
-            (signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body, admin_password) or
-             signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body, admin_hash))):
-
+            signature in self.get_signatures(admin_password)):
             return 'admin'
         
         if not username and not normal_password:  # no authentication required for normal user
             return 'normal'
 
         if (username == normal_username and
-            (signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body, normal_password) or
-             signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                  self.request.body, normal_hash))):
-
+            signature in self.get_signatures(normal_password)):
             return 'normal'
 
         if username and username != '_' and login:
@@ -1937,7 +1964,7 @@ class VersionHandler(BaseHandler):
     post = get
 
 
-# this will only trigger the login mechanism on the client side, if required 
+# this will only trigger the login mechanism on the client side, if required
 class LoginHandler(BaseHandler):
     @BaseHandler.auth()
     def get(self):
@@ -1946,3 +1973,22 @@ class LoginHandler(BaseHandler):
     def post(self):
         self.set_header('Content-Type', 'text/html')
         self.finish()
+
+
+class URLPrefixNoticeHandler(BaseHandler):
+    """
+    A helper handler that will only be used if the user configured a URL_PREFIX
+    and then requested a URL without that prefix.
+
+    This avoids the confusion of getting a 404-page-not-found when visiting the
+    root url and points the user to the relevant issue.
+    """
+    def initialize(self, url_prefix):
+        self.url_prefix = url_prefix
+
+    def get(self, *args, **kwargs):
+        msg="This instance of MotionEye is configured with a URL_PREFIX of '%s'. " \
+            "Try adding '%s' to your URL." % ( self.url_prefix, self.url_prefix)
+        raise HTTPError(404, msg)
+
+    post = head = get

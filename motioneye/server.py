@@ -26,7 +26,7 @@ import sys
 import time
 
 from tornado.ioloop import IOLoop
-from tornado.web import Application
+from tornado.web import Application, RedirectHandler
 
 import handlers
 import settings
@@ -189,6 +189,55 @@ handler_mapping = [
     (r'^/login/?$', handlers.LoginHandler),
     (r'^.*$', handlers.NotFoundHandler),
 ]
+
+def adjust_handler_mapping_prefix(url_prefix):
+    """
+    This function adjusts the global variable 'handler_mapping'
+    and adds a prefix to each existing URL.
+
+    It also adds two additional handlers:
+    1. root url without the prefix: Gives a 404 page with a helpful message.
+    2. url_prefix without ending slash: redirects to url_prefix + "/"
+       (which is the original "index" page when not using URL_PREFIX).
+    """
+    global handler_mapping
+
+    # Sanity checks
+    if not url_prefix.startswith("/"):
+        raise ValueError("url_prefix must start with a slash (got '%s')" % url_prefix)
+    if url_prefix.endswith("/"):
+        raise ValueError("url_prefix must not end with a slash (got '%s')" % url_prefix)
+
+    new_handlers = []
+    for tpl in handler_mapping:
+        url = tpl[0]
+        have_caret = url.startswith('^')
+        if have_caret:
+            url = url[1:] # skip the caret
+        abs_url = url.startswith('/')
+
+        if not abs_url:
+            # Don't modify the handler mapping if it's not absolute path.
+            new_handlers.append(tpl)
+            continue
+
+        # Add URL Prefix
+        url = url_prefix + url
+        if have_caret:
+            url = '^' + url
+
+        # replace the URL (first element in tuple) but keep all other elements
+        new_tpl = (url,) + tpl[1:]
+        new_handlers.append(new_tpl)
+
+    url_prefix_slash = url_prefix + "/"
+    url_prefix_no_slash = (r"^" + url_prefix + "$", RedirectHandler, dict(url=url_prefix_slash))
+    new_handlers.insert(0,url_prefix_no_slash)
+
+    url_prefix_handler = (r'^/$', handlers.URLPrefixNoticeHandler,dict(url_prefix=url_prefix))
+    new_handlers.insert(0,url_prefix_handler)
+
+    handler_mapping = new_handlers
 
 
 def configure_signals():
@@ -388,9 +437,24 @@ def run():
         logging.info('smb mounts started')
 
     template.add_context('static_path', 'static/')
-    
-    application = Application(handler_mapping, debug=False, log_function=_log_request,
-                              static_path=settings.STATIC_PATH, static_url_prefix='/static/')
+
+    if settings.URL_PREFIX:
+        # validate and normalize the URL_PREFIX to avoid problems.
+        if not settings.URL_PREFIX.startswith("/"):
+            msg = "invalid URL_PREFIX settings (%s): must start with '/'" % settings.URL_PREFIX
+            sys.exit(msg)
+        settings.URL_PREFIX = settings.URL_PREFIX.rstrip("/")
+
+        logging.info("Serving from URL prefix: %s" % settings.URL_PREFIX)
+        adjust_handler_mapping_prefix(settings.URL_PREFIX)
+    else:
+        # Regardless of what 'false' value it was, set it to an empty string
+        # (e.g. avoid a NoneType)
+        settings.URL_PREFIX = ""
+
+    application = Application(handler_mapping, debug=True, log_function=_log_request,
+                              static_path=settings.STATIC_PATH,
+                              static_url_prefix= settings.URL_PREFIX + '/static/')
     
     application.listen(settings.PORT, settings.LISTEN)
     logging.info('server started')
