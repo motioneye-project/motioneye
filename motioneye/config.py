@@ -38,7 +38,7 @@ import uploadservices
 import utils
 import v4l2ctl
 
-_CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
+_CAMERA_CONFIG_FILE_NAME = 'camera-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
 _ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off',
             'up', 'right', 'down', 'left', 'zoom_in', 'zoom_out',
