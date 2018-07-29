@@ -1840,6 +1840,7 @@ function cameraUi2Dict() {
         'storage_device': $('#storageDeviceSelect').val(),
         'network_server': $('#networkServerEntry').val(),
         'network_share_name': $('#networkShareNameEntry').val(),
+        'network_smb_ver': $('#networkSMBVerSelect').val(),
         'network_username': $('#networkUsernameEntry').val(),
         'network_password': $('#networkPasswordEntry').val(),
         'root_directory': $('#rootDirectoryEntry').val(),
@@ -2148,6 +2149,7 @@ function dict2CameraUi(dict) {
     markHideIfNull('storage_device', 'storageDeviceSelect');
     $('#networkServerEntry').val(dict['network_server']); markHideIfNull('network_server', 'networkServerEntry');
     $('#networkShareNameEntry').val(dict['network_share_name']); markHideIfNull('network_share_name', 'networkShareNameEntry');
+    $('#networkSMBVerSelect').val(dict['network_smb_ver']); markHideIfNull('network_smb_ver', 'networkSMBVerSelect');
     $('#networkUsernameEntry').val(dict['network_username']); markHideIfNull('network_username', 'networkUsernameEntry');
     $('#networkPasswordEntry').val(dict['network_password']); markHideIfNull('network_password', 'networkPasswordEntry');
     $('#rootDirectoryEntry').val(dict['root_directory']); markHideIfNull('root_directory', 'rootDirectoryEntry');
@@ -2949,6 +2951,7 @@ function doTestNetworkShare() {
         what: 'network_share',
         server: $('#networkServerEntry').val(),
         share: $('#networkShareNameEntry').val(),
+        smb_ver: $('#networkSMBVerSelect').val(),
         username: $('#networkUsernameEntry').val(),
         password: $('#networkPasswordEntry').val(),
         root_directory: $('#rootDirectoryEntry').val()

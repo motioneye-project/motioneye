@@ -100,12 +100,20 @@ def list_mounts():
             
             else:
                 username = ''
-                
+
+            match = re.search('vers=([\w.]+)', opts)
+            if match:
+                smb_ver = match.group(1)
+
+            else:
+                smb_ver = '1.0'
+
             logging.debug('found smb mount "//%s/%s" at "%s"' % (server, share, mount_point))
             
             mounts.append({
                 'server': server.lower(),
                 'share': share.lower(),
+                'smb_ver': smb_ver,
                 'username': username,
                 'mount_point': mount_point
             })
@@ -117,24 +125,26 @@ def update_mounts():
     network_shares = config.get_network_shares()
     
     mounts = list_mounts()
-    mounts = dict(((m['server'], m['share'], m['username'] or ''), False) for m in mounts)
+    mounts = dict(((m['server'], m['share'], m['smb_ver'], m['username'] or ''), False) for m in mounts)
     
     should_stop = False  # indicates that motion should be stopped immediately
     should_start = True  # indicates that motion can be started afterwards
     for network_share in network_shares:
-        key = (network_share['server'].lower(), network_share['share'].lower(), network_share['username'].lower() or '')
+        key = (network_share['server'].lower(), network_share['share'].lower(),
+               network_share['smb_ver'], network_share['username'].lower() or '')
+
         if key in mounts:  # found
             mounts[key] = True
         
         else:  # needs to be mounted
             should_stop = True
-            if not _mount(network_share['server'], network_share['share'],
+            if not _mount(network_share['server'], network_share['share'], network_share['smb_ver'],
                           network_share['username'], network_share['password']):
 
                 should_start = False
     
     # unmount the no longer necessary mounts
-    for (server, share, username), required in mounts.items():
+    for (server, share, smb_ver, username), required in mounts.items():
         if not required:
             _umount(server, share, username)
             should_stop = True
@@ -142,15 +152,15 @@ def update_mounts():
     return should_stop, should_start
 
 
-def test_share(server, share, username, password, root_directory):
+def test_share(server, share, smb_ver, username, password, root_directory):
     mounts = list_mounts()
-    mounts = dict(((m['server'], m['share'], m['username'] or ''), m['mount_point']) for m in mounts)
+    mounts = dict(((m['server'], m['share'], m['smb_ver'], m['username'] or ''), m['mount_point']) for m in mounts)
     
-    key = (server, share, username or '')
+    key = (server, share, smb_ver, username or '')
     mounted = False
     mount_point = mounts.get(key)
     if not mount_point:
-        mount_point = _mount(server, share, username, password)
+        mount_point = _mount(server, share, smb_ver, username, password)
         if not mount_point:
             raise Exception('cannot mount network share')
 
@@ -175,7 +185,7 @@ def test_share(server, share, username, password, root_directory):
         maybe_umount()
 
 
-def _mount(server, share, username, password):
+def _mount(server, share, smb_ver, username, password):
     mount_point = make_mount_point(server, share, username)
     
     logging.debug('making sure mount point "%s" exists' % mount_point)
@@ -191,7 +201,7 @@ def _mount(server, share, username, password):
         opts = 'guest'
         sec_types = [None, 'none', 'ntlm', 'ntlmv2', 'ntlmv2i', 'ntlmsspi']
 
-    opts += ',vers=1.0'
+    opts += ',vers=%s' % smb_ver
 
     for sec in sec_types:
         if sec:
