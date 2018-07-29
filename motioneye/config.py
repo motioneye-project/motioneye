@@ -303,6 +303,7 @@ def get_network_shares():
         mounts.append({
             'server': camera['@network_server'],
             'share': camera['@network_share_name'],
+            'smb_ver': camera['@network_smb_ver'],
             'username': camera['@network_username'],
             'password': camera['@network_password'],
         })
@@ -342,7 +343,7 @@ def get_camera(camera_id, as_lines=False):
         return lines
 
     camera_config = _conf_to_dict(lines,
-                                  no_convert=['@name', '@network_share_name', '@network_server',
+                                  no_convert=['@name', '@network_share_name', '@network_smb_ver', '@network_server',
                                               '@network_username', '@network_password', '@storage_device',
                                               '@upload_server', '@upload_username', '@upload_password'])
 
@@ -741,6 +742,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         '@storage_device': ui['storage_device'],
         '@network_server': ui['network_server'],
         '@network_share_name': ui['network_share_name'],
+        '@network_smb_ver': ui['network_smb_ver'],
         '@network_username': ui['network_username'],
         '@network_password': ui['network_password'],
         '@upload_enabled': ui['upload_enabled'],
@@ -1135,6 +1137,7 @@ def motion_camera_dict_to_ui(data):
         'storage_device': data['@storage_device'],
         'network_server': data['@network_server'],
         'network_share_name': data['@network_share_name'],
+        'network_smb_ver': data['@network_smb_ver'],
         'network_username': data['@network_username'],
         'network_password': data['@network_password'],
         'disk_used': 0,
@@ -1301,8 +1304,7 @@ def motion_camera_dict_to_ui(data):
     ui['frame_change_threshold'] = threshold
 
     if (data['@storage_device'] == 'network-share') and settings.SMB_SHARES:
-        mount_point = smbctl.make_mount_point(data['@network_server'],
-                                              data['@network_share_name'],
+        mount_point = smbctl.make_mount_point(data['@network_server'], data['@network_share_name'],
                                               data['@network_username'])
 
         ui['root_directory'] = data['target_dir'][len(mount_point):] or '/'
@@ -1955,6 +1957,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@storage_device', 'custom-path')
     data.setdefault('@network_server', '')
     data.setdefault('@network_share_name', '')
+    data.setdefault('@network_smb_ver', '1.0')
     data.setdefault('@network_username', '')
     data.setdefault('@network_password', '')
     data.setdefault('target_dir', os.path.join(settings.MEDIA_PATH, data['@name']))

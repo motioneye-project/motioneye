@@ -917,7 +917,7 @@ class ConfigHandler(BaseHandler):
                 logging.debug('testing access to network share //%s/%s' % (data['server'], data['share']))
 
                 try:
-                    smbctl.test_share(data['server'], data['share'], data['username'],
+                    smbctl.test_share(data['server'], data['share'], data['smb_ver'], data['username'],
                                       data['password'], data['root_directory'])
 
                     logging.debug('access to network share //%s/%s succeeded' % (data['server'], data['share']))
