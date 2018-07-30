@@ -136,7 +136,7 @@
                         <td><span class="help-mark" title="dims the actual resolution of all cameras to save network bandwidth and traffic (doesn't work on simple MJPEG cameras)">?</span></td>
                     </tr>
                 </table>
-                
+
                 <tr class="settings-item advanced-setting">
                     <td colspan="100"><div class="settings-item-separator" style="margin: 0px 0px 1.5em 0px;"></div></td>
                 </tr>
@@ -237,13 +237,13 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                {% endif %}                    
+                {% endif %}
                 {% endfor %}
 
                 <tr class="settings-item advanced-setting">
                     <td colspan="100"><div class="settings-item-separator" style="margin: 0px 0px 1.5em 0px;"></div></td>
                 </tr>
-                
+
                 <!-- Video Device -->
                 <div class="settings-section-title" id="deviceSectionDiv">
                     <input type="checkbox" class="styled section device camera-config" id="videoDeviceEnabledSwitch">
@@ -345,7 +345,7 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                
+
                 <!-- File Storage -->
                 <div class="settings-section-title advanced-setting" id="storageSectionDiv">
                     <span class="help-mark" title="choose where and how your media files are saved">?</span>
@@ -476,6 +476,21 @@
                         <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadSubfoldersSwitch"></td>
                         <td><span class="help-mark" title="enable this to upload the media files together with their subfolders, instead of placing them directly into the root location">?</span></td>
                     </tr>
+                    <tr class="settings-item advanced-setting" depends="uploadEnabled">
+                        <td class="settings-item-label"><span class="settings-item-label">Encrypt files before cloud upload</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled device camera-config" id="cloudEncryptionSwitch"></td>
+                        <td><span class="help-mark" title="Enables encryption for media files before they're uploaded to the cloud. Don't forget to generate keys with generateKeys.py and place them in motioneye config directory.">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="uploadEnabled">
+                        <td class="settings-item-label"><span class="settings-item-label">Upload unencrypted files, if encryption fails</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled device camera-config" id="cloudEncryptionUploadFailsSwitch"></td>
+                        <td><span class="help-mark" title="Enable upload of unencrypted media files to the cloud, if encryption fails?">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="uploadEnabled">
+                        <td class="settings-item-label"><span class="settings-item-label">Remove unencrypted files after encryption</span></td>
+                        <td class="settings-item-value"><input type="checkbox" class="styled device camera-config" id="cloudEncryptionRemoveUnencryptedSwitch"></td>
+                        <td><span class="help-mark" title="Remove unencrypted media files from local storage after they've been encrypted?">?</span></td>
+                    </tr>
                     <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService=(ftp|sftp|http|https)">
                         <td class="settings-item-label"><span class="settings-item-label">Username</span></td>
                         <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadUsernameEntry"></td>
@@ -547,7 +562,7 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                
+
                 <!-- Text Overlay -->
                 <div class="settings-section-title advanced-setting" id="textOverlaySectionDiv">
                     <input type="checkbox" class="styled section text-overlay camera-config" id="textOverlayEnabledSwitch">
@@ -680,7 +695,7 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                
+
                 <!-- Still Images -->
                 <div class="settings-section-title" id="stillImagesSectionDiv">
                     <input type="checkbox" class="styled section still-images camera-config" id="stillImagesEnabledSwitch">
@@ -749,7 +764,7 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                
+
                 <!-- Movies -->
                 <div class="settings-section-title" id="moviesSectionDiv">
                     <input type="checkbox" class="styled section movies camera-config" id="moviesEnabledSwitch">
@@ -941,7 +956,7 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                
+
                 <!-- Motion Notifications -->
                 <div class="settings-section-title advanced-setting" id="notificationsSectionDiv">
                     <span class="help-mark" title="enable this if you want to be notified when motion is detected">?</span>
@@ -1155,7 +1170,7 @@
                         {{config_item(config)}}
                     {% endfor %}
                 </table>
-                {% endif %}                    
+                {% endif %}
                 {% endfor %}
 
                 <div class="settings-progress"></div>
@@ -1165,13 +1180,13 @@
         <div class="page-container"></div>
         <div class="footer">
             <div class="copyright-note">copyright &copy; Calin Crisan</div>
-        </div> 
+        </div>
     </div>
     {% else %}
         <div class="camera-frame" id="camera{{camera_id}}"
                 streaming_framerate="{{camera_config['stream_maxrate']}}" streaming_server_resize="{{camera_config['@webcam_server_resize']|string|lower}}"
                 proto="{{camera_config['@proto']}}" url="{{camera_config['@url']}}">
-            
+
             <div class="camera-container">
                 <div class="camera-placeholder"><img class="no-camera" src="{{static_path}}img/no-camera.svg"></div><img
                     class="camera"><div class="camera-progress"><img class="camera-progress"></div>

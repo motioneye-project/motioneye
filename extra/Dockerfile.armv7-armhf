@@ -18,12 +18,15 @@ ENV LD_LIBRARY_PATH /opt/vc/lib
 RUN apt-get --quiet update && \
     apt-get --quiet upgrade --yes && \
     DEBIAN_FRONTEND="noninteractive" apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+    build-essential \
     curl \
     ffmpeg \
     git \
+    libffi-dev \
     libmariadbclient18 \
     libpq5 \
     lsb-release \
+    python-dev \
     python-jinja2 \
     python-pil \
     python-pip \
@@ -39,6 +42,7 @@ RUN apt-get --quiet update && \
     curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.1/pi_stretch_motion_4.1-1_armhf.deb && \
     dpkg -i /tmp/motion.deb && \
     rm /tmp/motion.deb && \
+    pip install pynacl && \
     pip install /tmp/motioneye && \
     rm -rf /tmp/motioneye && \
     apt-get purge --yes \
@@ -60,7 +64,7 @@ VOLUME /var/lib/motioneye
 
 ADD extra/motioneye.conf.sample /usr/share/motioneye/extra/
 
-CMD test -e /etc/motioneye/motioneye.conf || \    
+CMD test -e /etc/motioneye/motioneye.conf || \
     cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
     /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
 

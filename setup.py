@@ -82,6 +82,7 @@ setup(
     entry_points={
         'console_scripts': [
             'meyectl=motioneye.meyectl:main',
+            'meyeGenerateKeys=motioneye.meyeGenerateKeys:main',
         ],
     },
     
