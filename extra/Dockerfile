@@ -1,4 +1,4 @@
-FROM ubuntu:17.10
+FROM ubuntu:18.04
 LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
 ARG BUILD_DATE
@@ -14,9 +14,9 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 COPY . /tmp/motioneye
 
-RUN apt-get --quiet update && \
-    apt-get --quiet upgrade --yes && \
-    DEBIAN_FRONTEND="noninteractive" apt-get --quiet --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+RUN apt-get update && \
+    apt-get upgrade --yes && \
+    DEBIAN_FRONTEND="noninteractive" apt-get --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
     curl \
     ffmpeg \
     libmysqlclient20 \
@@ -28,9 +28,11 @@ RUN apt-get --quiet update && \
     python-pycurl \
     python-setuptools \
     python-tornado \
+    python-tz \
     python-wheel \
+    tzdata \
     v4l-utils && \
-    curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.1/artful_motion_4.1-1_amd64.deb && \
+    curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.1.1/bionic_motion_4.1.1-1_amd64.deb && \
     dpkg -i /tmp/motion.deb && \
     rm /tmp/motion.deb && \
     pip install /tmp/motioneye && \
@@ -39,8 +41,8 @@ RUN apt-get --quiet update && \
     python-pip \
     python-setuptools \
     python-wheel && \
-    apt-get --quiet autoremove --yes && \
-    apt-get --quiet --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
+    apt-get autoremove --yes && \
+    apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # R/W needed for motioneye to update configurations
 VOLUME /etc/motioneye
