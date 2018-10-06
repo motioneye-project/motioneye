@@ -1,6 +1,13 @@
 dist: trusty
 sudo: true
 
+notifications:
+  email:
+    recipients:
+      - ccrisan@gmail.com
+      - himself@kleini.org
+    on_failure: always
+
 env:
   - TARGET=amd64 EXT=""
   - TARGET=armhf EXT=".armv7-armhf"
