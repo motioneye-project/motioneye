@@ -442,6 +442,7 @@
 <!--                                 <option value="https">HTTPS Server</option> -->
                                 <option value="gdrive">Google Drive</option>
                                 <option value="dropbox">Dropbox</option>
+                                <option value="s3">AWS S3</option>
                             </select>
                         </td>
                         <td><span class="help-mark" title="choose a service to which the media files should be uploaded">?</span></td>
@@ -499,6 +500,21 @@
                             </div>
                         </td>
                         <td><span class="help-mark" title="click here to obtain the service authorization key">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService=(s3)">
+                        <td class="settings-item-label"><span class="settings-item-label">Access Key Id</span></td>
+                        <td class="settings-item-value"><input type="password" class="styled storage camera-config" id="uploadAccessKeyIDEntry"></td>
+                        <td><span class="help-mark" title="the AWS access key id used to authenticate with the upload service (normally required only during setup)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService=(s3)">
+                        <td class="settings-item-label"><span class="settings-item-label">Secret Access Key</span></td>
+                        <td class="settings-item-value"><input type="password" class="styled storage camera-config" id="uploadSecretAccessKeyEntry"></td>
+                        <td><span class="help-mark" title="the AWS secret access key used to authenticate with the upload service (normally required only during setup)">?</span></td>
+                    </tr>
+                    <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService=(s3)">
+                        <td class="settings-item-label"><span class="settings-item-label">Bucket</span></td>
+                        <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadBucketEntry"></td>
+                        <td><span class="help-mark" title="the S3 bucket name for the upload service (normally required only during setup)">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="uploadEnabled">
                         <td class="settings-item-label"><span class="settings-item-label"></span></td>

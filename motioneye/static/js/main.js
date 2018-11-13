@@ -1856,6 +1856,9 @@ function cameraUi2Dict() {
         'upload_username': $('#uploadUsernameEntry').val(),
         'upload_password': $('#uploadPasswordEntry').val(),
         'upload_authorization_key': $('#uploadAuthorizationKeyEntry').val(),
+	'upload_access_key_id': $('#uploadAccessKeyIDEntry').val(),
+        'upload_secret_access_key': $('#uploadSecretAccessKeyEntry').val(),
+        'upload_bucket': $('#uploadBucketEntry').val(),
         'web_hook_storage_enabled': $('#webHookStorageEnabledSwitch')[0].checked,
         'web_hook_storage_url': $('#webHookStorageUrlEntry').val(),
         'web_hook_storage_http_method': $('#webHookStorageHttpMethodSelect').val(),
@@ -2175,6 +2178,9 @@ function dict2CameraUi(dict) {
     $('#uploadUsernameEntry').val(dict['upload_username']); markHideIfNull('upload_username', 'uploadUsernameEntry');
     $('#uploadPasswordEntry').val(dict['upload_password']); markHideIfNull('upload_password', 'uploadPasswordEntry');
     $('#uploadAuthorizationKeyEntry').val(dict['upload_authorization_key']); markHideIfNull('upload_authorization_key', 'uploadAuthorizationKeyEntry');
+    $('#uploadAccessKeyIDEntry').val(dict['upload_access_key_id']); markHideIfNull('upload_access_key_id', 'uploadAccessKeyIDEntry');
+    $('#uploadSecretAccessKeyEntry').val(dict['upload_secret_access_key']); markHideIfNull('upload_secret_access_key', 'uploadSecretAccessKeyEntry');
+    $('#uploadBucketEntry').val(dict['upload_bucket']); markHideIfNull('upload_bucket', 'uploadBucketEntry');
 
     $('#webHookStorageEnabledSwitch')[0].checked = dict['web_hook_storage_enabled']; markHideIfNull('web_hook_storage_enabled', 'webHookStorageEnabledSwitch');
     $('#webHookStorageUrlEntry').val(dict['web_hook_storage_url']);
@@ -2867,6 +2873,9 @@ function doTestUpload() {
         username: $('#uploadUsernameEntry').val(),
         password: $('#uploadPasswordEntry').val(),
         authorization_key: $('#uploadAuthorizationKeyEntry').val()
+	access_key_id: $('#uploadAccessKeyIDEntry').val,
+        secret_access_key: $('#uploadSecretAccessKeyEntry').val,
+        bucket: $('#uploadBucketEntry').val
     };
     
     var cameraId = $('#cameraSelect').val();

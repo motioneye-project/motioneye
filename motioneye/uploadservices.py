@@ -24,6 +24,7 @@ import time
 import urllib
 import urllib2
 import pycurl
+import boto3
 
 import settings
 import utils
@@ -818,6 +819,30 @@ class SFTP(UploadService):
         self._conn.setopt(self._conn.UPLOAD, 1)
 
         return self._conn
+
+
+####class S3(UploadService):
+###    NAME = 's3'
+###
+###    def __init__(self, camera_id):
+###        self._access_key_id = None
+###        self._secret_access_key = None
+###        self._bucket = None
+###        self._location = None
+###
+###    # Create an S3 client
+###    s3 = boto3.client(
+###        's3',
+###        aws_access_key_id='xxxxxxxx',
+###        aws_secret_access_key='xxxxxxxx'
+###    )
+###
+###   filename = 'xxxxxxxx'
+###   bucket_name = 'xxxxxxxx'
+###
+###    # Uploads the given file using a managed uploader, which will split up
+###    # large files automatically and upload parts in parallel.
+###    s3.upload_file(filename, bucket_name, filename)
 
 
 def get_authorize_url(service_name):
