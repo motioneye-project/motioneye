@@ -1,5 +1,5 @@
 FROM ubuntu:17.10
-LABEL maintainer="Marcus Klein <himself@kleini.org>"
+LABEL maintainer="Adam Beames <adamtbeames@gmail.comg>"
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -10,7 +10,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.url="https://github.com/ccrisan/motioneye/wiki" \
     org.label-schema.vcs-ref=$VCS_REF \
     org.label-schema.vcs-type="Git" \
-    org.label-schema.vcs-url="https://github.com/ccrisan/motioneye.git"
+    org.label-schema.vcs-url="https://github.com/adamtbeames/motioneye.git"
 
 COPY . /tmp/motioneye
 
@@ -40,7 +40,8 @@ RUN apt-get --quiet update && \
     python-setuptools \
     python-wheel && \
     apt-get --quiet autoremove --yes && \
-    apt-get --quiet --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
+    apt-get --quiet --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin && \
+    pip install boto3
 
 # R/W needed for motioneye to update configurations
 VOLUME /etc/motioneye
