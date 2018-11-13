@@ -29,6 +29,7 @@ RUN apt-get --quiet update && \
     python-setuptools \
     python-tornado \
     python-wheel \
+    python-boto3 \
     v4l-utils && \
     curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.1/artful_motion_4.1-1_amd64.deb && \
     dpkg -i /tmp/motion.deb && \
@@ -40,8 +41,7 @@ RUN apt-get --quiet update && \
     python-setuptools \
     python-wheel && \
     apt-get --quiet autoremove --yes && \
-    apt-get --quiet --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin && \
-    pip install boto3
+    apt-get --quiet --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 # R/W needed for motioneye to update configurations
 VOLUME /etc/motioneye
