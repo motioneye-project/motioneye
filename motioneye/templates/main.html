@@ -155,7 +155,7 @@
                     </tr>
                     <tr class="settings-item" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Admin Username</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general main-config" id="adminUsernameEntry" readonly="readonly"></td>
+                        <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled general main-config" id="adminUsernameEntry" readonly="readonly"></td>
                         <td><span class="help-mark" title="the username to be used for configuring the system">?</span></td>
                     </tr>
                     <tr class="settings-item" strip="true">
@@ -165,7 +165,7 @@
                     </tr>
                     <tr class="settings-item" required="true" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Surveillance Username</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled general main-config" id="normalUsernameEntry"></td>
+                        <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled general main-config" id="normalUsernameEntry"></td>
                         <td><span class="help-mark" title="the username to be used for video surveillance">?</span></td>
                     </tr>
                     <tr class="settings-item" strip="true">
@@ -386,7 +386,7 @@
                     </tr>
                     <tr class="settings-item advanced-setting" depends="storageDevice=network-share" strip="true">
                         <td class="settings-item-label"><span class="settings-item-label">Share Username</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="networkUsernameEntry"></td>
+                        <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled storage camera-config" id="networkUsernameEntry"></td>
                         <td><span class="help-mark" title="the username to be supplied when accessing the network share (leave empty if no username is required)">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="storageDevice=network-share" strip="true">
@@ -479,7 +479,7 @@
                     </tr>
                     <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService=(ftp|sftp|http|https)">
                         <td class="settings-item-label"><span class="settings-item-label">Username</span></td>
-                        <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadUsernameEntry"></td>
+                        <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled storage camera-config" id="uploadUsernameEntry"></td>
                         <td><span class="help-mark" title="the username for the upload service account">?</span></td>
                     </tr>
                     <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService=(ftp|sftp|http|https)">
