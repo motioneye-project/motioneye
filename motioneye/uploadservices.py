@@ -825,6 +825,7 @@ class SFTP(UploadService):
 ### To get a test file uploaded to S3 set the "aws_secret_key_id",
 ### "aws_secret_access_key", "filename" and "bucketname" variables.
 ### This file will then be copied to the bucket by motioneye
+### NB: Make sure you install boto3 first
 
 #class S3(UploadService):
     NAME = 's3'
