@@ -821,28 +821,33 @@ class SFTP(UploadService):
         return self._conn
 
 
-####class S3(UploadService):
-###    NAME = 's3'
-###
-###    def __init__(self, camera_id):
-###        self._access_key_id = None
-###        self._secret_access_key = None
-###        self._bucket = None
-###        self._location = None
-###
-###    # Create an S3 client
-###    s3 = boto3.client(
-###        's3',
-###        aws_access_key_id='xxxxxxxx',
-###        aws_secret_access_key='xxxxxxxx'
-###    )
-###
-###   filename = 'xxxxxxxx'
-###   bucket_name = 'xxxxxxxx'
-###
-###    # Uploads the given file using a managed uploader, which will split up
-###    # large files automatically and upload parts in parallel.
-###    s3.upload_file(filename, bucket_name, filename)
+### This code is here as a proof of concept only and is not usuable yet.
+### To get a test file uploaded to S3 set the "aws_secret_key_id",
+### "aws_secret_access_key", "filename" and "bucketname" variables.
+### This file will then be copied to the bucket by motioneye
+
+#class S3(UploadService):
+    NAME = 's3'
+
+    def __init__(self, camera_id):
+        self._access_key_id = None
+        self._secret_access_key = None
+        self._bucket = None
+        self._location = None
+
+    # Create an S3 client
+    s3 = boto3.client(
+        's3',
+        aws_access_key_id='xxxxxxxx',
+        aws_secret_access_key='xxxxxxxx'
+    )
+
+   filename = 'xxxxxxxx'
+   bucket_name = 'xxxxxxxx'
+
+    # Uploads the given file using a managed uploader, which will split up
+    # large files automatically and upload parts in parallel.
+    s3.upload_file(filename, bucket_name, filename)
 
 
 def get_authorize_url(service_name):
