@@ -22,6 +22,7 @@ RUN apt-get --quiet update && \
     libmysqlclient20 \
     libpq5 \
     lsb-release \
+    mosquitto-clients \
     python-jinja2 \
     python-pil \
     python-pip \
