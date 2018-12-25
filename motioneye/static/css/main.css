@@ -1007,7 +1007,7 @@ div.mask-element.last-line {
 }
 
 div.mask-element.on {
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(255, 0, 0, 0.5);
 }
 
 div.camera-name {
