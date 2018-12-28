@@ -396,6 +396,8 @@ def run():
     logging.info('server started')
     
     io_loop = IOLoop.instance()
+    # we need to reset the loop's PID to fix PID checks when running in daemon mode
+    io_loop._pid = os.getpid()
     io_loop.start()
 
     logging.info('server stopped')
