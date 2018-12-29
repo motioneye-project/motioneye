@@ -374,7 +374,7 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
     data.setdefault('password', None)
 
     url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-            'scheme': data['scheme'],
+            'scheme': data['scheme'] if data['scheme'] != 'mjpeg' else 'http',
             'host': data['host'],
             'port': ':' + str(data['port']) if data['port'] else '',
             'path': data['path'] or ''}
