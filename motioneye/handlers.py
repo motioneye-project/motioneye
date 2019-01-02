@@ -618,7 +618,7 @@ class ConfigHandler(BaseHandler):
                 else:
                     self.finish_json({'cameras': cameras})
             
-            if scheme in ['http', 'https']:
+            if scheme in ['http', 'https', 'mjpeg']:
                 utils.test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic'], allow_jpeg=True,
                                      callback=on_response)
                 
