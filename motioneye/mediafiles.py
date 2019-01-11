@@ -195,7 +195,7 @@ def _remove_older_files(directory, moment, to_clean_cloud, cloud_dir, camera_id,
                 except:
                     logging.error('failed to remove %s: %s' % (dir_path, e))
 
-    if remove_cloud and removed_folder_count > 0:
+    if to_clean_cloud and removed_folder_count > 0:
         uploadservices.clean_cloud(camera_id, service_name, data, local_dir, cloud_dir)
 
 def find_ffmpeg():
