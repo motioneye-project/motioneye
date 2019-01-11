@@ -150,7 +150,7 @@ def _list_media_files(directory, exts, prefix=None):
     return media_files
 
 
-def _remove_older_files(directory, moment, exts, remove_cloud, cloud_dir, camera_id, service_name):
+def _remove_older_files(directory, moment, to_clean_cloud, cloud_dir, camera_id, service_name, exts):
     removed_folder_count = 0
     for (full_path, st) in _list_media_files(directory, exts):
         file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
@@ -300,7 +300,7 @@ def cleanup_media(media_type):
             # create a sentinel file to make sure the target dir is never removed
             open(os.path.join(target_dir, '.keep'), 'w').close()
 
-        _remove_older_files(target_dir, preserve_moment, exts=exts, remove_cloud=False, cloud_dir, camera_id, service_name)
+        _remove_older_files(target_dir, preserve_moment, True, cloud_dir, camera_id, service_name, exts=exts)
 
 
 def make_movie_preview(camera_config, full_path):
