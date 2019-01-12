@@ -150,7 +150,7 @@ def _list_media_files(directory, exts, prefix=None):
     return media_files
 
 
-def _remove_older_files(directory, moment, to_clean_cloud, cloud_dir, camera_id, service_name, exts):
+def _remove_older_files(directory, moment, clean_cloud_info, exts):
     removed_folder_count = 0
     for (full_path, st) in _list_media_files(directory, exts):
         file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
@@ -195,8 +195,10 @@ def _remove_older_files(directory, moment, to_clean_cloud, cloud_dir, camera_id,
                 except:
                     logging.error('failed to remove %s: %s' % (dir_path, e))
 
-    if to_clean_cloud and removed_folder_count > 0:
-        uploadservices.clean_cloud(camera_id, service_name, {}, directory, cloud_dir)
+    if clean_cloud_info and removed_folder_count > 0:
+        #uploadservices.clean_cloud(camera_id, service_name, {}, directory, cloud_dir)
+        uploadservices.clean_cloud(directory, {}, \
+            { 'camera_id': camera_id, 'service_name': service_name, 'cloud_dir': cloud_dir })
 
 def find_ffmpeg():
     global _ffmpeg_binary_cache
@@ -296,11 +298,14 @@ def cleanup_media(media_type):
         cloud_dir = camera_config.get('@upload_location')
         camera_id = camera_config.get('@id')
         service_name = camera_config.get('@upload_service')
+        clean_cloud_info = None
+        if camera_id and service_name and cloud_dir:
+            clean_cloud_info = { 'camera_id': camera_id, 'service_name': service_name, 'cloud_dir': cloud_dir }
         if os.path.exists(target_dir):
             # create a sentinel file to make sure the target dir is never removed
             open(os.path.join(target_dir, '.keep'), 'w').close()
 
-        _remove_older_files(target_dir, preserve_moment, True, cloud_dir, camera_id, service_name, exts=exts)
+        _remove_older_files(target_dir, preserve_moment, clean_cloud_info, exts=exts)
 
 
 def make_movie_preview(camera_config, full_path):

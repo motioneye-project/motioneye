@@ -438,13 +438,13 @@ class GoogleDrive(UploadService):
 
     def clean_cloud(self, cloud_dir, local_folders):
         # to delete old cloud folder that does not exist in local
-        # assumes 'cloud_dir' is under the 'root'
+        # assumes 'cloud_dir' is a direct child of the 'root'
 
         count_deleted = 0
         folder_id = self._get_folder_id_by_name('root', cloud_dir, False)
         #print 'clean_cloud %s %s' % (cloud_dir, folder_id)
         children = self._get_children(folder_id)
-        self.debug('found %s/%s folder(s) in local/cloud' % \
+        self.info('found %s/%s folder(s) in local/cloud' % \
             (len(local_folders), len(children)))
         self.debug('local %s' % local_folders)
         for child in children:
@@ -454,7 +454,7 @@ class GoogleDrive(UploadService):
             to_delete = not exist_in_local(name, local_folders)
             if to_delete and self._delete_child(folder_id, id):
                 count_deleted += 1
-                self.info('deleted a folder "%s" on cloud' % name)
+                self.info("deleted a cloud folder '%s'" % name)
 
         self.info('deleted %s cloud folder(s)' % count_deleted)
         return count_deleted
@@ -1012,8 +1012,11 @@ def _save(services):
     finally:
         f.close()
 
-def clean_cloud(camera_id, service_name, data, local_dir, cloud_dir):
-    #camera_config = config.get_camera(camera_id)
+#def clean_cloud(camera_id, service_name, data, local_dir, cloud_dir):
+def clean_cloud(local_dir, data, info):
+    camera_id = info['camera_id']
+    service_name = info['service_name']
+    cloud_dir = info['cloud_dir']
     #local_dir = camera_config['target_dir']
     #cloud_dir = camera_config['@upload_location']
 
