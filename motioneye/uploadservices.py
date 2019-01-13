@@ -132,6 +132,9 @@ class UploadService(object):
     def error(self, message, **kwargs):
         self.log(logging.ERROR, message, **kwargs)
 
+    def clean_cloud(self, cloud_dir, local_folders):
+        pass
+
     @staticmethod
     def get_service_classes():
         return {c.NAME: c for c in UploadService.__subclasses__()}
@@ -1012,22 +1015,18 @@ def _save(services):
     finally:
         f.close()
 
-#def clean_cloud(camera_id, service_name, data, local_dir, cloud_dir):
 def clean_cloud(local_dir, data, info):
     camera_id = info['camera_id']
     service_name = info['service_name']
     cloud_dir = info['cloud_dir']
-    #local_dir = camera_config['target_dir']
-    #cloud_dir = camera_config['@upload_location']
 
-    logging.debug('clean_cloud(%s, %s, %s %s)' % \
-        (camera_id, service_name, local_dir, cloud_dir))
-    if service_name != 'gdrive' or not local_dir or not cloud_dir:
-        return
-    local_folders = get_local_folders(local_dir)
-    service = get(camera_id, service_name)
-    service.load(data)
-    service.clean_cloud(cloud_dir, local_folders)
+    logging.debug('clean_cloud(%s, %s, %s %s)' % (camera_id, service_name, local_dir, cloud_dir))
+
+    if service_name and local_dir and cloud_dir:
+        local_folders = get_local_folders(local_dir)
+        service = get(camera_id, service_name)
+        service.load(data)
+        service.clean_cloud(cloud_dir, local_folders)
 
 def exist_in_local(folder, local_folders):
     if not local_folders:
