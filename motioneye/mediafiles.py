@@ -274,7 +274,7 @@ def cleanup_media(media_type):
         exts = _MOVIE_EXTS + ['.thumb']
 
     for camera_id in config.get_camera_ids():
-        logging('bob-lee camera_id %s' % camera_id)
+        logging.debug('bob-lee camera_id %s' % camera_id)
 
         camera_config = config.get_camera(camera_id)
         if not utils.is_local_motion_camera(camera_config):
