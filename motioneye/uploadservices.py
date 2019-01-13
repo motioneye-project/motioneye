@@ -440,12 +440,11 @@ class GoogleDrive(UploadService):
         }
 
     def clean_cloud(self, cloud_dir, local_folders):
-        # to delete old cloud folder that does not exist in local
-        # assumes 'cloud_dir' is a direct child of the 'root'
+        # remove old cloud folder that does not exist in local.
+        # assumes 'cloud_dir' is a direct child of the 'root'.
 
-        count_deleted = 0
+        removed_count = 0
         folder_id = self._get_folder_id_by_name('root', cloud_dir, False)
-        #print 'clean_cloud %s %s' % (cloud_dir, folder_id)
         children = self._get_children(folder_id)
         self.info('found %s/%s folder(s) in local/cloud' % \
             (len(local_folders), len(children)))
@@ -456,11 +455,11 @@ class GoogleDrive(UploadService):
             self.debug("cloud '%s'" % name)
             to_delete = not exist_in_local(name, local_folders)
             if to_delete and self._delete_child(folder_id, id):
-                count_deleted += 1
+                removed_count += 1
                 self.info("deleted a cloud folder '%s'" % name)
 
-        self.info('deleted %s cloud folder(s)' % count_deleted)
-        return count_deleted
+        self.info('deleted %s cloud folder(s)' % removed_count)
+        return removed_count
 
     def _get_children(self, file_id):
         url = '%s/%s/children' % (self.CREATE_FOLDER_URL, file_id)
@@ -479,8 +478,6 @@ class GoogleDrive(UploadService):
         url = '%s/%s/children/%s' % (self.CREATE_FOLDER_URL, folder_id, child_id)
         response = self._request(url, None, None, True, 'DELETE')
         succeeded = response == ""
-        #result = 'success' if succeeded else 'failed'
-
         return succeeded
 
     def _get_file_metadata(self, file_id):
@@ -1020,7 +1017,7 @@ def clean_cloud(local_dir, data, info):
     service_name = info['service_name']
     cloud_dir = info['cloud_dir']
 
-    logging.debug('clean_cloud(%s, %s, %s %s)' % (camera_id, service_name, local_dir, cloud_dir))
+    logging.debug('clean_cloud(%s, %s, %s, %s)' % (camera_id, service_name, local_dir, cloud_dir))
 
     if service_name and local_dir and cloud_dir:
         local_folders = get_local_folders(local_dir)
