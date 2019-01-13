@@ -197,8 +197,7 @@ def _remove_older_files(directory, moment, clean_cloud_info, exts):
 
     if clean_cloud_info and removed_folder_count > 0:
         #uploadservices.clean_cloud(camera_id, service_name, {}, directory, cloud_dir)
-        uploadservices.clean_cloud(directory, {}, \
-            { 'camera_id': camera_id, 'service_name': service_name, 'cloud_dir': cloud_dir })
+        uploadservices.clean_cloud(directory, {}, clean_cloud_info)
 
 def find_ffmpeg():
     global _ffmpeg_binary_cache
@@ -275,6 +274,8 @@ def cleanup_media(media_type):
         exts = _MOVIE_EXTS + ['.thumb']
 
     for camera_id in config.get_camera_ids():
+        logging('bob-lee camera_id %s' % camera_id)
+
         camera_config = config.get_camera(camera_id)
         if not utils.is_local_motion_camera(camera_config):
             continue
@@ -304,6 +305,8 @@ def cleanup_media(media_type):
         if os.path.exists(target_dir):
             # create a sentinel file to make sure the target dir is never removed
             open(os.path.join(target_dir, '.keep'), 'w').close()
+
+        logging('bob-lee camera_id %s %s' % (camera_id, clean_cloud_info))
 
         _remove_older_files(target_dir, preserve_moment, clean_cloud_info, exts=exts)
 
