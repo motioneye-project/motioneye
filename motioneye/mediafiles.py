@@ -198,6 +198,7 @@ def _remove_older_files(directory, moment, clean_cloud_info, exts):
     if clean_cloud_info and removed_folder_count > 0:
         uploadservices.clean_cloud(directory, {}, clean_cloud_info)
 
+
 def find_ffmpeg():
     global _ffmpeg_binary_cache
     if _ffmpeg_binary_cache:
@@ -293,11 +294,12 @@ def cleanup_media(media_type):
         preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_media)
 
         target_dir = camera_config.get('target_dir')
+        #clean_cloud_enabled = camera_config.get('@clean_cloud_enabled')
+        clean_cloud_enabled = camera_config.get('@upload_enabled')
         cloud_dir = camera_config.get('@upload_location')
-        #camera_id = camera_config.get('@id')
         service_name = camera_config.get('@upload_service')
         clean_cloud_info = None
-        if camera_id and service_name and cloud_dir:
+        if clean_cloud_enabled and camera_id and service_name and cloud_dir:
             clean_cloud_info = { 'camera_id': camera_id, 'service_name': service_name, 'cloud_dir': cloud_dir }
         if os.path.exists(target_dir):
             # create a sentinel file to make sure the target dir is never removed
