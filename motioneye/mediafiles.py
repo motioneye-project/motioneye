@@ -294,17 +294,18 @@ def cleanup_media(media_type):
         preserve_moment = datetime.datetime.now() - datetime.timedelta(days=preserve_media)
 
         target_dir = camera_config.get('target_dir')
-        #clean_cloud_enabled = camera_config.get('@clean_cloud_enabled')
-        clean_cloud_enabled = camera_config.get('@upload_enabled')
+        cloud_enabled = camera_config.get('@upload_enabled')
+        clean_cloud_enabled = camera_config.get('@clean_cloud_enabled')
         cloud_dir = camera_config.get('@upload_location')
         service_name = camera_config.get('@upload_service')
         clean_cloud_info = None
-        if clean_cloud_enabled and camera_id and service_name and cloud_dir:
+        if cloud_enabled and clean_cloud_enabled and camera_id and service_name and cloud_dir:
             clean_cloud_info = { 'camera_id': camera_id, 'service_name': service_name, 'cloud_dir': cloud_dir }
         if os.path.exists(target_dir):
             # create a sentinel file to make sure the target dir is never removed
             open(os.path.join(target_dir, '.keep'), 'w').close()
 
+        logging.debug('calling _remove_older_files: %s %s %s' % (cloud_enabled, clean_cloud_enabled, clean_cloud_info))
         _remove_older_files(target_dir, preserve_moment, clean_cloud_info, exts=exts)
 
 
