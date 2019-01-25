@@ -785,6 +785,15 @@ function initUI() {
             this.value = '/' + this.value;
         }
     });
+    $('#cleanCloudEnabledSwitch').change(function () {
+        var enabled = this.checked;
+        var folder = $('#uploadLocationEntry').val();
+        console.log('cleanCloudEnabled', enabled, folder);
+        if (enabled) {
+            runAlertDialog(('This will recursively remove all files present in the cloud folder "' + folder + 
+                    '", not just those uploaded by motionEye!'));
+        }
+    });
     
     /* streaming framerate must be >= device framerate + a margin */
     $('#framerateSlider').change(function () {
