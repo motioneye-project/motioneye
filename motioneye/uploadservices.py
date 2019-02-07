@@ -18,6 +18,7 @@ import ftplib
 import json
 import logging
 import mimetypes
+import os
 import os.path
 import StringIO
 import time
@@ -27,6 +28,7 @@ import pycurl
 
 import settings
 import utils
+import config
 
 
 _STATE_FILE_NAME = 'uploadservices.json'
@@ -129,6 +131,9 @@ class UploadService(object):
 
     def error(self, message, **kwargs):
         self.log(logging.ERROR, message, **kwargs)
+
+    def clean_cloud(self, cloud_dir, local_folders):
+        pass
 
     @staticmethod
     def get_service_classes():
@@ -317,7 +322,7 @@ class GoogleDrive(UploadService):
 
         self._request(self.CREATE_FOLDER_URL, body, headers)
 
-    def _request(self, url, body=None, headers=None, retry_auth=True):
+    def _request(self, url, body=None, headers=None, retry_auth=True, method=None):
         if not self._credentials:
             if not self._authorization_key:
                 msg = 'missing authorization key'
@@ -338,6 +343,8 @@ class GoogleDrive(UploadService):
 
         self.debug('requesting %s' % url)
         request = urllib2.Request(url, data=body, headers=headers)
+        if method:
+            request.get_method = lambda: method
         try:
             response = utils.urlopen(request)
 
@@ -431,6 +438,63 @@ class GoogleDrive(UploadService):
             'access_token': data['access_token'],
             'refresh_token': data.get('refresh_token', refresh_token)
         }
+
+    def clean_cloud(self, cloud_dir, local_folders):
+        # remove old cloud folder that does not exist in local.
+        # assumes 'cloud_dir' is a direct child of the 'root'.
+
+        removed_count = 0
+        folder_id = self._get_folder_id_by_name('root', cloud_dir, False)
+        children = self._get_children(folder_id)
+        self.info('found %s/%s folder(s) in local/cloud' % \
+            (len(local_folders), len(children)))
+        self.debug('local %s' % local_folders)
+        for child in children:
+            id = child['id']
+            name = self._get_file_title(id)
+            self.debug("cloud '%s'" % name)
+            to_delete = not exist_in_local(name, local_folders)
+            if to_delete and self._delete_child(folder_id, id):
+                removed_count += 1
+                self.info("deleted a cloud folder '%s'" % name)
+
+        self.info('deleted %s cloud folder(s)' % removed_count)
+        return removed_count
+
+    def _get_children(self, file_id):
+        url = '%s/%s/children' % (self.CREATE_FOLDER_URL, file_id)
+        response = self._request(url)
+
+        try:
+            response = json.loads(response)
+
+        except Exception:
+            self.error("response doesn't seem to be a valid json")
+            raise
+
+        return response['items']
+
+    def _delete_child(self, folder_id, child_id):
+        url = '%s/%s/children/%s' % (self.CREATE_FOLDER_URL, folder_id, child_id)
+        response = self._request(url, None, None, True, 'DELETE')
+        succeeded = response == ""
+        return succeeded
+
+    def _get_file_metadata(self, file_id):
+        url = '%s/%s' % (self.CREATE_FOLDER_URL, file_id)
+        response = self._request(url)
+
+        try:
+            response = json.loads(response)
+
+        except Exception:
+            self.error("response doesn't seem to be a valid json")
+            raise
+
+        return response
+
+    def _get_file_title(self, file_id):
+        return self._get_file_metadata(file_id)['title']
 
 
 class Dropbox(UploadService):
@@ -947,3 +1011,29 @@ def _save(services):
 
     finally:
         f.close()
+
+def clean_cloud(local_dir, data, info):
+    camera_id = info['camera_id']
+    service_name = info['service_name']
+    cloud_dir = info['cloud_dir']
+
+    logging.debug('clean_cloud(%s, %s, %s, %s)' % (camera_id, service_name, local_dir, cloud_dir))
+
+    if service_name and local_dir and cloud_dir:
+        local_folders = get_local_folders(local_dir)
+        service = get(camera_id, service_name)
+        service.load(data)
+        service.clean_cloud(cloud_dir, local_folders)
+
+def exist_in_local(folder, local_folders):
+    if not local_folders:
+        local_folders = []
+
+    if not folder:
+        return False
+
+    return folder in local_folders
+
+def get_local_folders(dir):
+    folders = next(os.walk(dir))[1]
+    return folders

@@ -756,6 +756,7 @@ def motion_camera_ui_to_dict(ui, old_config=None):
         '@upload_subfolders': ui['upload_subfolders'],
         '@upload_username': ui['upload_username'],
         '@upload_password': ui['upload_password'],
+        '@clean_cloud_enabled': ui['clean_cloud_enabled'],
 
         # text overlay
         'text_left': '',
@@ -1155,6 +1156,7 @@ def motion_camera_dict_to_ui(data):
         'upload_username': data['@upload_username'],
         'upload_password': data['@upload_password'],
         'upload_authorization_key': '',  # needed, otherwise the field is hidden
+        'clean_cloud_enabled': data['@clean_cloud_enabled'],
         'web_hook_storage_enabled': False,
         'command_storage_enabled': False,
 
@@ -1972,6 +1974,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@upload_subfolders', True)
     data.setdefault('@upload_username', '')
     data.setdefault('@upload_password', '')
+    data.setdefault('@clean_cloud_enabled', False)
 
     data.setdefault('stream_localhost', False)
     data.setdefault('stream_port', 8080 + camera_id)
