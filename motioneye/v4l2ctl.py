@@ -413,11 +413,11 @@ def _list_ctrls(device):
         if not line:
             continue
         
-        match = re.match('^\s*(\w+)\s+\(\w+\)\s*:\s*(.+)\s*', line)
+        match = re.match(r'^\s*(\w+)\s+([a-f0-9x\s]+)?\(\w+\)\s*:\s*(.+)\s*', line)
         if not match:
             continue
         
-        (control, properties) = match.groups()
+        (control, _, properties) = match.groups()
         properties = dict([v.split('=', 1) for v in properties.split(' ') if v.count('=')])
         controls[control] = properties
     
