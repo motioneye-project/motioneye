@@ -785,6 +785,15 @@ function initUI() {
             this.value = '/' + this.value;
         }
     });
+    $('#cleanCloudEnabledSwitch').change(function () {
+        var enabled = this.checked;
+        var folder = $('#uploadLocationEntry').val();
+        console.log('cleanCloudEnabled', enabled, folder);
+        if (enabled) {
+            runAlertDialog(('This will recursively remove all files present in the cloud folder "' + folder + 
+                    '", not just those uploaded by motionEye!'));
+        }
+    });
     
     /* streaming framerate must be >= device framerate + a margin */
     $('#framerateSlider').change(function () {
@@ -1856,6 +1865,7 @@ function cameraUi2Dict() {
         'upload_username': $('#uploadUsernameEntry').val(),
         'upload_password': $('#uploadPasswordEntry').val(),
         'upload_authorization_key': $('#uploadAuthorizationKeyEntry').val(),
+        'clean_cloud_enabled': $('#cleanCloudEnabledSwitch')[0].checked,
         'web_hook_storage_enabled': $('#webHookStorageEnabledSwitch')[0].checked,
         'web_hook_storage_url': $('#webHookStorageUrlEntry').val(),
         'web_hook_storage_http_method': $('#webHookStorageHttpMethodSelect').val(),
@@ -2175,6 +2185,7 @@ function dict2CameraUi(dict) {
     $('#uploadUsernameEntry').val(dict['upload_username']); markHideIfNull('upload_username', 'uploadUsernameEntry');
     $('#uploadPasswordEntry').val(dict['upload_password']); markHideIfNull('upload_password', 'uploadPasswordEntry');
     $('#uploadAuthorizationKeyEntry').val(dict['upload_authorization_key']); markHideIfNull('upload_authorization_key', 'uploadAuthorizationKeyEntry');
+    $('#cleanCloudEnabledSwitch')[0].checked = dict['clean_cloud_enabled']; markHideIfNull('clean_cloud_enabled', 'cleanCloudEnabledSwitch');
 
     $('#webHookStorageEnabledSwitch')[0].checked = dict['web_hook_storage_enabled']; markHideIfNull('web_hook_storage_enabled', 'webHookStorageEnabledSwitch');
     $('#webHookStorageUrlEntry').val(dict['web_hook_storage_url']);
