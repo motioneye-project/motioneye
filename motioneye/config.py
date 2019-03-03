@@ -38,7 +38,7 @@ import uploadservices
 import utils
 import v4l2ctl
 
-_CAMERA_CONFIG_FILE_NAME = 'thread-%(id)s.conf'
+_CAMERA_CONFIG_FILE_NAME = 'camera-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
 _ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off',
             'up', 'right', 'down', 'left', 'zoom_in', 'zoom_out',
@@ -179,7 +179,7 @@ def get_main(as_lines=False):
     if as_lines:
         return lines
 
-    main_config = _conf_to_dict(lines, list_names=['thread'], no_convert=[
+    main_config = _conf_to_dict(lines, list_names=['camera'], no_convert=[
                                 '@admin_username', '@admin_password', '@normal_username', '@normal_password'])
 
     _get_additional_config(main_config)
@@ -218,7 +218,7 @@ def set_main(main_config):
 
         raise
 
-    lines = _dict_to_conf(lines, main_config, list_names=['thread'])
+    lines = _dict_to_conf(lines, main_config, list_names=['camera'])
 
     try:
         f.writelines([utils.make_str(l) + '\n' for l in lines])
@@ -350,8 +350,8 @@ def get_camera(camera_id, as_lines=False):
     if utils.is_local_motion_camera(camera_config):
         # determine the enabled status
         main_config = get_main()
-        threads = main_config.get('thread', [])
-        camera_config['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in threads
+        cameras = main_config.get('camera', [])
+        camera_config['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in cameras
         camera_config['@id'] = camera_id
 
         _get_additional_config(camera_config, camera_id=camera_id)
@@ -385,15 +385,15 @@ def set_camera(camera_id, camera_config):
     if utils.is_local_motion_camera(camera_config):
         # set the enabled status in main config
         main_config = get_main()
-        threads = main_config.setdefault('thread', [])
+        cameras = main_config.setdefault('camera', [])
         config_file_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
-        if camera_config['@enabled'] and config_file_name not in threads:
-            threads.append(config_file_name)
+        if camera_config['@enabled'] and config_file_name not in cameras:
+            cameras.append(config_file_name)
 
         elif not camera_config['@enabled']:
-            threads = [t for t in threads if t != config_file_name]
+            cameras = [c for c in cameras if c != config_file_name]
 
-        main_config['thread'] = threads
+        main_config['camera'] = cameras
 
         set_main(main_config)
         _set_additional_config(camera_config, camera_id=camera_id)
@@ -547,10 +547,10 @@ def rem_camera(camera_id):
 
     # remove the camera from the main config
     main_config = get_main()
-    threads = main_config.setdefault('thread', [])
-    threads = [t for t in threads if t != camera_config_name]
+    cameras = main_config.setdefault('camera', [])
+    cameras = [t for t in cameras if t != camera_config_name]
 
-    main_config['thread'] = threads
+    main_config['camera'] = cameras
 
     set_main(main_config)
 
@@ -1561,7 +1561,7 @@ def backup():
                       settings.CONF_PATH)
 
         cmd = ['tar', 'zc', 'motion.conf']
-        cmd += map(os.path.basename, glob.glob(os.path.join(settings.CONF_PATH, 'thread-*.conf')))
+        cmd += map(os.path.basename, glob.glob(os.path.join(settings.CONF_PATH, 'camera-*.conf')))
         try:
             content = subprocess.check_output(cmd, cwd=settings.CONF_PATH)
             logging.debug('backup file created (%s bytes)' % len(content))

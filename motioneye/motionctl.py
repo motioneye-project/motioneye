@@ -215,14 +215,14 @@ def started():
 def get_motion_detection(camera_id, callback):
     from tornado.httpclient import HTTPRequest, AsyncHTTPClient
     
-    thread_id = camera_id_to_thread_id(camera_id)
-    if thread_id is None:
-        error = 'could not find thread id for camera with id %s' % camera_id
+    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
+    if motion_camera_id is None:
+        error = 'could not find motion camera id for camera with id %s' % camera_id
         logging.error(error)
         return callback(error=error)
 
     url = 'http://127.0.0.1:%(port)s/%(id)s/detection/status' % {
-            'port': settings.MOTION_CONTROL_PORT, 'id': thread_id}
+            'port': settings.MOTION_CONTROL_PORT, 'id': motion_camera_id}
     
     def on_response(response):
         if response.error:
@@ -244,9 +244,9 @@ def get_motion_detection(camera_id, callback):
 def set_motion_detection(camera_id, enabled):
     from tornado.httpclient import HTTPRequest, AsyncHTTPClient
     
-    thread_id = camera_id_to_thread_id(camera_id)
-    if thread_id is None:
-        return logging.error('could not find thread id for camera with id %s' % camera_id)
+    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
+    if motion_camera_id is None:
+        return logging.error('could not find motion camera id for camera with id %s' % camera_id)
     
     if not enabled:
         _motion_detected[camera_id] = False
@@ -257,7 +257,7 @@ def set_motion_detection(camera_id, enabled):
     
     url = 'http://127.0.0.1:%(port)s/%(id)s/detection/%(enabled)s' % {
             'port': settings.MOTION_CONTROL_PORT,
-            'id': thread_id,
+            'id': motion_camera_id,
             'enabled': ['pause', 'start'][enabled]}
     
     def on_response(response):
@@ -280,15 +280,15 @@ def set_motion_detection(camera_id, enabled):
 def take_snapshot(camera_id):
     from tornado.httpclient import HTTPRequest, AsyncHTTPClient
 
-    thread_id = camera_id_to_thread_id(camera_id)
-    if thread_id is None:
-        return logging.error('could not find thread id for camera with id %s' % camera_id)
+    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
+    if motion_camera_id is None:
+        return logging.error('could not find motion camera id for camera with id %s' % camera_id)
 
     logging.debug('taking snapshot for camera with id %(id)s' % {'id': camera_id})
 
     url = 'http://127.0.0.1:%(port)s/%(id)s/action/snapshot' % {
             'port': settings.MOTION_CONTROL_PORT,
-            'id': thread_id}
+            'id': motion_camera_id}
 
     def on_response(response):
         if response.error:
@@ -318,18 +318,18 @@ def set_motion_detected(camera_id, motion_detected):
     _motion_detected[camera_id] = motion_detected
 
 
-def camera_id_to_thread_id(camera_id):
+def camera_id_to_motion_camera_id(camera_id):
     import config
 
-    # find the corresponding thread_id
+    # find the corresponding motion camera_id
     # (which can be different from camera_id)
         
     main_config = config.get_main()
-    threads = main_config.get('thread', [])
+    cameras = main_config.get('camera', [])
     
-    thread_filename = 'thread-%d.conf' % camera_id
-    for i, thread in enumerate(threads):
-        if thread != thread_filename:
+    camera_filename = 'camera-%d.conf' % camera_id
+    for i, camera in enumerate(cameras):
+        if camera != camera_filename:
             continue
         
         return i + 1
@@ -337,14 +337,14 @@ def camera_id_to_thread_id(camera_id):
     return None
     
 
-def thread_id_to_camera_id(thread_id):
+def motion_camera_id_to_camera_id(motion_camera_id):
     import config
 
     main_config = config.get_main()
-    threads = main_config.get('thread', [])
+    cameras = main_config.get('camera', [])
 
     try:
-        return int(re.search('thread-(\d+).conf', threads[int(thread_id) - 1]).group(1))
+        return int(re.search('camera-(\d+).conf', cameras[int(motion_camera_id) - 1]).group(1))
     
     except IndexError:
         return None

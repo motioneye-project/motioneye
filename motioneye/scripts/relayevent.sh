@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$3" ]; then
-    echo "Usage: $0 <motioneye.conf> <event> <thread_id> [filename]"
+    echo "Usage: $0 <motioneye.conf> <event> <motion_camera_id> [filename]"
     exit -1
 fi
 
@@ -24,10 +24,10 @@ test -z "$port" && port="8765"
 test -z "$username" && username="admin"
 
 event="$2"
-thread_id="$3"
+motion_camera_id="$3"
 filename="$4"
 
-uri="/_relay_event/?_username=$username&event=$event&thread_id=$thread_id"
+uri="/_relay_event/?_username=$username&event=$event&motion_camera_id=$motion_camera_id"
 data="{\"filename\": \"$filename\"}"
 signature=$(echo -n "POST:$uri:$data:$password" | sha1sum | cut -d ' ' -f 1)
 

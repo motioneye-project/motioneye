@@ -408,7 +408,7 @@ class ConfigHandler(BaseHandler):
             old_normal_username = old_main_config.get('@normal_username')
 
             main_config = config.main_ui_to_dict(ui_config)
-            main_config.setdefault('thread', old_main_config.get('thread', []))
+            main_config.setdefault('camera', old_main_config.get('camera', []))
 
             admin_username = main_config.get('@admin_username')
             admin_password = main_config.get('@admin_password')
@@ -1785,16 +1785,16 @@ class RelayEventHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
     def post(self):
         event = self.get_argument('event')
-        thread_id = int(self.get_argument('thread_id'))
+        motion_camera_id = int(self.get_argument('motion_camera_id'))
 
-        camera_id = motionctl.thread_id_to_camera_id(thread_id)
+        camera_id = motionctl.motion_camera_id_to_camera_id(motion_camera_id)
         if camera_id is None:
-            logging.debug('ignoring event for unknown thread id %s' % thread_id)
+            logging.debug('ignoring event for unknown motion camera id %s' % motion_camera_id)
             return self.finish_json()
 
         else:
-            logging.debug('received relayed event %(event)s for thread id %(id)s (camera id %(cid)s)' % {
-                    'event': event, 'id': thread_id, 'cid': camera_id})
+            logging.debug('received relayed event %(event)s for motion camera id %(id)s (camera id %(cid)s)' % {
+                    'event': event, 'id': motion_camera_id, 'cid': camera_id})
         
         camera_config = config.get_camera(camera_id)
         if not utils.is_local_motion_camera(camera_config):
