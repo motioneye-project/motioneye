@@ -20,7 +20,6 @@ import errno
 import glob
 import hashlib
 import logging
-import math
 import os.path
 import re
 import shlex
@@ -54,13 +53,7 @@ _additional_config_funcs = []
 _additional_structure_cache = {}
 _monitor_command_cache = {}
 
-# when using the following video codecs, the ffmpeg_variable_bitrate parameter appears to have an exponential effect
-_EXPONENTIAL_QUALITY_CODECS = ['mpeg4', 'msmpeg4', 'swf', 'flv', 'mov', 'mkv']
-_EXPONENTIAL_QUALITY_FACTOR = 100000  # voodoo
-_EXPONENTIAL_DEF_QUALITY = 511  # about 75%
-_MAX_FFMPEG_VARIABLE_BITRATE = 32767
-
-_KNOWN_MOTION_OPTIONS = {
+_USED_MOTION_OPTIONS_PRE42 = {
     'auto_brightness',
     'brightness',
     'contrast',
@@ -81,6 +74,7 @@ _KNOWN_MOTION_OPTIONS = {
     'mask_file',
     'max_movie_time',
     'minimum_motion_frames',
+    'mmalcam_name'
     'movie_filename',
     'netcam_keepalive',
     'netcam_tolerant_check',
@@ -119,8 +113,73 @@ _KNOWN_MOTION_OPTIONS = {
     'text_right',
     'threshold',
     'videodevice',
+    'webcontrol_html_output',
+    'webcontrol_port',
+    'webcontrol_localhost',
+    'webcontrol_parms',
     'width',
+}
+
+_USED_MOTION_OPTIONS = {
+    'auto_brightness',
+    'despeckle_filter',
+    'emulate_motion',
+    'event_gap',
+    'framerate',
+    'height',
+    'lightswitch_percent',
+    'locate_motion_mode',
+    'locate_motion_style',
+    'mask_file',
+    'movie_bps',
+    'movie_codec',
+    'movie_filename',
+    'movie_max_time',
+    'movie_output_motion',
+    'movie_output',
+    'movie_quality',
+    'minimum_motion_frames',
     'mmalcam_name'
+    'netcam_keepalive',
+    'netcam_tolerant_check',
+    'netcam_url',
+    'netcam_use_tcp',
+    'netcam_userpass',
+    'noise_level',
+    'noise_tune',
+    'on_event_end',
+    'on_event_start',
+    'on_movie_end',
+    'on_picture_save',
+    'picture_filename',
+    'picture_output_motion',
+    'picture_output',
+    'picture_quality',
+    'post_capture',
+    'pre_capture',
+    'rotate',
+    'smart_mask_speed',
+    'snapshot_filename',
+    'snapshot_interval',
+    'stream_authentication',
+    'stream_auth_method',
+    'stream_localhost',
+    'stream_maxrate',
+    'stream_port',
+    'stream_quality',
+    'target_dir',
+    'text_changes',
+    'text_scale',
+    'text_left',
+    'text_right',
+    'threshold',
+    'videodevice',
+    'vid_control_params',
+    'webcontrol_interface',
+    'webcontrol_localhost',
+    'webcontrol_parms',
+    'webcontrol_port',
+    'width',
 }
 
 
@@ -132,8 +191,8 @@ def additional_config(func):
     _additional_config_funcs.append(func)
 
 
-import wifictl  # @UnusedImport
-import tzctl  # @UnusedImport
+import wifictl  # unused import
+import tzctl  # unused import
 
 
 def get_main(as_lines=False):
@@ -1021,7 +1080,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     # extra motion options
     for name in prev_config.keys():
-        if name not in _KNOWN_MOTION_OPTIONS and not name.startswith('@'):
+        if name not in _USED_MOTION_OPTIONS_PRE42 and not name.startswith('@'):
             prev_config.pop(name)
 
     extra_options = ui.get('extra_options', [])
@@ -1460,7 +1519,7 @@ def motion_camera_dict_to_ui(data):
     # extra motion options
     extra_options = []
     for name, value in data.iteritems():
-        if name not in _KNOWN_MOTION_OPTIONS and not name.startswith('@'):
+        if name not in _USED_MOTION_OPTIONS_PRE42 and not name.startswith('@'):
             if isinstance(value, bool):
                 value = ['off', 'on'][value]  # boolean values should be transferred as on/off
 
