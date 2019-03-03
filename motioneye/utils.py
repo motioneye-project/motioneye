@@ -598,18 +598,14 @@ def test_rtsp_url(data, callback):
         
         called[0] = True
         cameras = []
-        rtsp_support = motionctl.get_rtsp_support()
         if identifier:
             identifier = ' ' + identifier
             
         else:
             identifier = ''
 
-        if 'tcp' in rtsp_support:
-            cameras.append({'id': 'tcp', 'name': '%sRTSP/TCP Camera' % identifier})
-
-        if 'udp' in rtsp_support:
-            cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
+        cameras.append({'id': 'tcp', 'name': '%sRTSP/TCP Camera' % identifier})
+        cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
         
         callback(cameras)
 

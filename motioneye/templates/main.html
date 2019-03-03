@@ -633,7 +633,6 @@
                         <td class="settings-item-value"><input type="text" class="styled streaming camera-config" id="streamingPortEntry"></td>
                         <td><span class="help-mark" title="sets the TCP port on which the webcam streaming server listens">?</span></td>
                     </tr>
-                    {% if has_streaming_auth %}
                     <tr class="settings-item advanced-setting" depends="videoStreamingEnabled">
                         <td class="settings-item-label"><span class="settings-item-label">Authentication Mode</span></td>
                         <td class="settings-item-value">
@@ -645,7 +644,6 @@
                         </td>
                         <td><span class="help-mark" title="the authentication method used by the stream (choose Basic instead of Digest if you encounter issues with third party apps); surveillance credentials will be used">?</span></td>
                     </tr>
-                    {% endif %}
                     <tr class="settings-item advanced-setting">
                         <td class="settings-item-label"><span class="settings-item-label">Motion Optimization</span></td>
                         <td class="settings-item-value"><input type="checkbox" class="styled streaming camera-config" id="streamingMotion"></td>
@@ -777,7 +775,6 @@
                                 <option value="swf">Small Web Format (.swf)</option>
                                 <option value="flv">Flash Video (.flv)</option>
                                 <option value="mov">QuickTime (.mov)</option>
-                                {% if has_new_movie_format_support %}
                                 <option value="mp4">H.264 (.mp4)</option>
                                 {% if has_h264_omx_support %}
                                 <option value="mp4:h264_omx">H.264/OMX (.mp4)</option>
@@ -786,7 +783,6 @@
                                 <option value="mkv">Matroska Video (.mkv)</option>
                                 {% if has_h264_omx_support %}
                                 <option value="mkv:h264_omx">Matroska Video/OMX (.mkv)</option>
-                                {% endif %}
                                 {% endif %}
                             </select>
                         </td>

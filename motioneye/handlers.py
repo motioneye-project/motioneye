@@ -246,8 +246,6 @@ class MainHandler(BaseHandler):
                     hostname=settings.SERVER_NAME,
                     title=self.get_argument('title', None),
                     admin_username=config.get_main().get('@admin_username'),
-                    has_streaming_auth=motionctl.has_streaming_auth(),
-                    has_new_movie_format_support=motionctl.has_new_movie_format_support(),
                     has_h264_omx_support=motionctl.has_h264_omx_support(),
                     has_motion=bool(motionctl.find_motion()[0]),
                     mask_width=utils.MASK_WIDTH)
@@ -622,7 +620,7 @@ class ConfigHandler(BaseHandler):
                 utils.test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic'], allow_jpeg=True,
                                      callback=on_response)
                 
-            elif motionctl.get_rtsp_support() and scheme == 'rtsp':
+            elif scheme == 'rtsp':
                 utils.test_rtsp_url(self.get_all_arguments(), callback=on_response)
                 
             else:
