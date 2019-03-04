@@ -566,7 +566,7 @@ def add_camera(device_details):
         camera_config['netcam_tolerant_check'] = True
 
         if device_details.get('camera_index') == 'udp':
-            camera_config['rtsp_uses_tcp'] = False
+            camera_config['netcam_use_tcp'] = False
 
         if camera_config['netcam_url'].startswith('rtsp'):
             camera_config['width'] = 640
