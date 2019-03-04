@@ -962,7 +962,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         elif recording_mode == 'continuous':
             data['emulate_motion'] = True
 
-    data['ffmpeg_video_codec'] = ui['movie_format']
+    data['movie_codec'] = ui['movie_format']
     q = int(ui['movie_quality'])
 
     data['movie_quality'] = max(1, q)
@@ -1381,7 +1381,7 @@ def motion_camera_dict_to_ui(data):
     else:
         ui['recording_mode'] = 'motion-triggered'
 
-    ui['movie_format'] = data['ffmpeg_video_codec']
+    ui['movie_format'] = data['movie_codec']
     ui['movie_quality'] = data['movie_quality']
 
     # mask
@@ -1977,10 +1977,10 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('ffmpeg_output_movies', False)
 
     if motionctl.has_h264_omx_support():
-        data.setdefault('ffmpeg_video_codec', 'mp4:h264_omx')  # will use h264 codec
+        data.setdefault('movie_codec', 'mp4:h264_omx')  # will use h264 codec
 
     else:
-        data.setdefault('ffmpeg_video_codec', 'mp4')  # will use h264 codec
+        data.setdefault('movie_codec', 'mp4')  # will use h264 codec
 
     data.setdefault('movie_quality', 75)  # 75%
 

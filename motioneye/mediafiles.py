@@ -584,7 +584,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     global _timelapse_data
 
     target_dir = camera_config.get('target_dir')
-    codec = camera_config.get('ffmpeg_video_codec')
+    codec = camera_config.get('movie_codec')
 
     codec = FFMPEG_CODEC_MAPPING.get(codec, codec)
     fmt = FFMPEG_FORMAT_MAPPING.get(codec, codec)
