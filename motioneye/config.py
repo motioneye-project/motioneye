@@ -785,7 +785,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         'minimum_motion_frames': int(ui['minimum_motion_frames']),
         'smart_mask_speed': 0,
         'mask_file': '',
-        'output_debug_pictures': ui['create_debug_media'],
+        'picture_output_motion': ui['create_debug_media'],
         'movie_output_motion': ui['create_debug_media'],
 
         # working schedule
@@ -1180,7 +1180,7 @@ def motion_camera_dict_to_ui(data):
         'mask_type': 'smart',
         'smart_mask_sluggishness': 5,
         'mask_lines': [],
-        'create_debug_media': data['movie_output_motion'] or data['output_debug_pictures'],
+        'create_debug_media': data['movie_output_motion'] or data['picture_output_motion'],
 
         # motion notifications
         'email_notifications_enabled': False,
@@ -1956,7 +1956,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('smart_mask_speed', 0)
     data.setdefault('mask_file', '')
     data.setdefault('movie_output_motion', False)
-    data.setdefault('output_debug_pictures', False)
+    data.setdefault('picture_output_motion', False)
 
     data.setdefault('pre_capture', 1)
     data.setdefault('post_capture', 1)
