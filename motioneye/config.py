@@ -766,7 +766,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         '@manual_snapshots': ui['manual_snapshots'],
 
         # movies
-        'ffmpeg_output_movies': False,
+        'movie_output': False,
         'movie_filename': ui['movie_file_name'],
         'movie_max_time': ui['max_movie_length'],
         '@preserve_movies': int(ui['preserve_movies']),
@@ -954,7 +954,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             data['emulate_motion'] = False
 
     if ui['movies']:
-        data['ffmpeg_output_movies'] = True
+        data['movie_output'] = True
         recording_mode = ui['recording_mode']
         if recording_mode == 'motion-triggered':
             data['emulate_motion'] = False
@@ -1372,7 +1372,7 @@ def motion_camera_dict_to_ui(data):
         if snapshot_filename:
             ui['image_file_name'] = snapshot_filename
 
-    if data['ffmpeg_output_movies']:
+    if data['movie_output']:
         ui['movies'] = True
 
     if emulate_motion:
@@ -1974,7 +1974,7 @@ def _set_default_motion_camera(camera_id, data):
 
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     data.setdefault('movie_max_time', 0)
-    data.setdefault('ffmpeg_output_movies', False)
+    data.setdefault('movie_output', False)
 
     if motionctl.has_h264_omx_support():
         data.setdefault('movie_codec', 'mp4:h264_omx')  # will use h264 codec
