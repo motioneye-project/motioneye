@@ -761,7 +761,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         'snapshot_interval': 0,
         'picture_filename': '',
         'snapshot_filename': '',
-        'quality': max(1, int(ui['image_quality'])),
+        'picture_quality': max(1, int(ui['image_quality'])),
         '@preserve_pictures': int(ui['preserve_pictures']),
         '@manual_snapshots': ui['manual_snapshots'],
 
@@ -1153,7 +1153,7 @@ def motion_camera_dict_to_ui(data):
         'still_images': False,
         'capture_mode': 'motion-triggered',
         'image_file_name': '%Y-%m-%d/%H-%M-%S',
-        'image_quality': data['quality'],
+        'image_quality': data['picture_quality'],
         'snapshot_interval': 0,
         'preserve_pictures': data['@preserve_pictures'],
         'manual_snapshots': data['@manual_snapshots'],
@@ -1968,7 +1968,7 @@ def _set_default_motion_camera(camera_id, data):
 
     data.setdefault('snapshot_interval', 0)
     data.setdefault('snapshot_filename', '')
-    data.setdefault('quality', 85)
+    data.setdefault('picture_quality', 85)
     data.setdefault('@preserve_pictures', 0)
     data.setdefault('@manual_snapshots', True)
 
