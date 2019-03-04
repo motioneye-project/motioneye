@@ -757,7 +757,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         'stream_authentication': main_config['@normal_username'] + ':' + main_config['@normal_password'],
 
         # still images
-        'output_pictures': False,
+        'picture_output': False,
         'snapshot_interval': 0,
         'picture_filename': '',
         'snapshot_filename': '',
@@ -937,20 +937,20 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
         capture_mode = ui['capture_mode']
         if capture_mode == 'motion-triggered':
-            data['output_pictures'] = True
+            data['picture_output'] = True
 
         elif capture_mode == 'motion-triggered-one':
-            data['output_pictures'] = 'best'
+            data['picture_output'] = 'best'
 
         elif capture_mode == 'interval-snapshots':
             data['snapshot_interval'] = int(ui['snapshot_interval'])
 
         elif capture_mode == 'all-frames':
-            data['output_pictures'] = True
+            data['picture_output'] = True
             data['emulate_motion'] = True
 
         elif capture_mode == 'manual':
-            data['output_pictures'] = False
+            data['picture_output'] = False
             data['emulate_motion'] = False
 
     if ui['movies']:
@@ -1339,7 +1339,7 @@ def motion_camera_dict_to_ui(data):
             ui['custom_right_text'] = text_right
 
     emulate_motion = data['emulate_motion']
-    output_pictures = data['output_pictures']
+    picture_output = data['picture_output']
     picture_filename = data['picture_filename']
     snapshot_interval = data['snapshot_interval']
     snapshot_filename = data['snapshot_filename']
@@ -1357,8 +1357,8 @@ def motion_camera_dict_to_ui(data):
         if snapshot_filename:
             ui['image_file_name'] = snapshot_filename
 
-    elif output_pictures:
-        if output_pictures == 'best':
+    elif picture_output:
+        if picture_output == 'best':
             ui['capture_mode'] = 'motion-triggered-one'
 
         else:
@@ -1961,7 +1961,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('pre_capture', 1)
     data.setdefault('post_capture', 1)
 
-    data.setdefault('output_pictures', False)
+    data.setdefault('picture_output', False)
     data.setdefault('picture_filename', '')
     data.setdefault('emulate_motion', False)
     data.setdefault('event_gap', 30)
