@@ -61,7 +61,6 @@ _USED_MOTION_OPTIONS_PRE42 = {
     'despeckle_filter',
     'emulate_motion',
     'event_gap',
-    'ffmpeg_bps',
     'ffmpeg_output_debug_movies',
     'ffmpeg_output_movies',
     'ffmpeg_variable_bitrate',
@@ -966,7 +965,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     data['ffmpeg_video_codec'] = ui['movie_format']
     q = int(ui['movie_quality'])
 
-    data['ffmpeg_variable_bitrate'] = max(1, q)
+    data['movie_quality'] = max(1, q)
 
     # motion detection
 
@@ -1383,7 +1382,7 @@ def motion_camera_dict_to_ui(data):
         ui['recording_mode'] = 'motion-triggered'
 
     ui['movie_format'] = data['ffmpeg_video_codec']
-    ui['movie_quality'] = data['ffmpeg_variable_bitrate']
+    ui['movie_quality'] = data['movie_quality']
 
     # mask
     if data['mask_file']:
@@ -1983,7 +1982,7 @@ def _set_default_motion_camera(camera_id, data):
     else:
         data.setdefault('ffmpeg_video_codec', 'mp4')  # will use h264 codec
 
-    data.setdefault('ffmpeg_variable_bitrate', 75)  # 75%
+    data.setdefault('movie_quality', 75)  # 75%
 
     data.setdefault('@preserve_movies', 0)
     data.setdefault('@manual_record', False)
