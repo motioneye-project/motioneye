@@ -57,6 +57,7 @@ _USED_MOTION_OPTIONS_PRE42 = {
     'auto_brightness',
     'brightness',
     'contrast',
+    'camera_name',
     'despeckle_filter',
     'emulate_motion',
     'event_gap',
@@ -778,7 +779,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         'locate_motion_mode': ui['show_frame_changes'],
         'noise_tune': ui['auto_noise_detect'],
         'noise_level': max(1, int(round(int(ui['noise_level']) * 2.55))),
-        'lightswitch': ui['light_switch_detect'],
+        'lightswitch_percent': ui['light_switch_detect'],
         'event_gap': int(ui['event_gap']),
         'pre_capture': int(ui['pre_capture']),
         'post_capture': int(ui['post_capture']),
@@ -1170,7 +1171,7 @@ def motion_camera_dict_to_ui(data):
         'show_frame_changes': data['text_changes'] or data['locate_motion_mode'],
         'auto_noise_detect': data['noise_tune'],
         'noise_level': int(int(data['noise_level']) / 2.55),
-        'light_switch_detect': data['lightswitch'],
+        'light_switch_detect': data['lightswitch_percent'],
         'despeckle_filter': data['despeckle_filter'],
         'event_gap': int(data['event_gap']),
         'pre_capture': int(data['pre_capture']),
@@ -1950,7 +1951,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('threshold', 2000)
     data.setdefault('noise_tune', True)
     data.setdefault('noise_level', 32)
-    data.setdefault('lightswitch', 0)
+    data.setdefault('lightswitch_percent', 0)
     data.setdefault('despeckle_filter', '')
     data.setdefault('minimum_motion_frames', 20)
     data.setdefault('smart_mask_speed', 0)
