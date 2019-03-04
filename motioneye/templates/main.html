@@ -596,6 +596,11 @@
                             <td class="settings-item-value"><input type="text" class="styled text-overlay camera-config" id="rightTextEntry" placeholder="custom text..."></td>
                             <td><span class="help-mark" title="sets a custom right text; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, %T = HH:MM:SS, \n = new line">?</span></td>
                         </tr>
+                        <tr class="settings-item" min="1" max="10" snap="1" ticksnum="10" decimals="0">
+                            <td class="settings-item-label"><span class="settings-item-label">Text Scale</span></td>
+                            <td class="settings-item-value"><input type="text" class="range styled text-overlay camera-config" id="textScaleSlider"></td>
+                            <td><span class="help-mark" title="sets the size of the overlay text">?</span></td>
+                        </tr>
                         {% for config in camera_sections.get('text-overlay', {}).get('configs', []) %}
                             {{config_item(config)}}
                         {% endfor %}

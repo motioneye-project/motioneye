@@ -43,8 +43,6 @@ _ACTIONS = ['lock', 'unlock', 'light_on', 'light_off', 'alarm_on', 'alarm_off',
             'up', 'right', 'down', 'left', 'zoom_in', 'zoom_out',
             'preset1', 'preset2', 'preset3', 'preset4', 'preset5', 'preset6', 'preset7', 'preset8', 'preset9']
 
-_TEXT_DOUBLE_THRESHOLD = 640
-
 _main_config_cache = None
 _camera_config_cache = {}
 _camera_ids_cache = None
@@ -123,6 +121,7 @@ _USED_MOTION_OPTIONS_PRE42 = {
 _USED_MOTION_OPTIONS = {
     'auto_brightness',
     'despeckle_filter',
+    'camera_name',
     'emulate_motion',
     'event_gap',
     'framerate',
@@ -557,7 +556,6 @@ def add_camera(device_details):
 
     elif proto == 'netcam':
         camera_config['netcam_url'] = device_details['url']
-        camera_config['text_double'] = True
 
         if device_details['username']:
             camera_config['netcam_userpass'] = device_details['username'] + ':' + device_details['password']
@@ -743,7 +741,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         # text overlay
         'text_left': '',
         'text_right': '',
-        'text_double': False,
+        'text_scale': ui['text_scale'],
 
         # streaming
         'stream_localhost': not ui['video_streaming'],
@@ -928,9 +926,6 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         else:
             data['text_right'] = ui['custom_right_text']
 
-        if proto == 'netcam' or data['width'] > _TEXT_DOUBLE_THRESHOLD:
-            data['text_double'] = True
-
     if ui['still_images']:
         data['picture_filename'] = ui['image_file_name']
         data['snapshot_filename'] = ui['image_file_name']
@@ -1081,7 +1076,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     # extra motion options
     for name in prev_config.keys():
-        if name not in _USED_MOTION_OPTIONS_PRE42 and not name.startswith('@'):
+        if name not in _USED_MOTION_OPTIONS and not name.startswith('@'):
             prev_config.pop(name)
 
     extra_options = ui.get('extra_options', [])
@@ -1307,6 +1302,7 @@ def motion_camera_dict_to_ui(data):
     if usage:
         ui['disk_used'], ui['disk_total'] = usage
 
+    ui['text_scale'] = data['text_scale']
     text_left = data['text_left']
     text_right = data['text_right']
     if text_left or text_right:
@@ -1520,7 +1516,7 @@ def motion_camera_dict_to_ui(data):
     # extra motion options
     extra_options = []
     for name, value in data.iteritems():
-        if name not in _USED_MOTION_OPTIONS_PRE42 and not name.startswith('@'):
+        if name not in _USED_MOTION_OPTIONS and not name.startswith('@'):
             if isinstance(value, bool):
                 value = ['off', 'on'][value]  # boolean values should be transferred as on/off
 
@@ -1940,7 +1936,7 @@ def _set_default_motion_camera(camera_id, data):
 
     data.setdefault('text_left', data['camera_name'])
     data.setdefault('text_right', '%Y-%m-%d\\n%T')
-    data.setdefault('text_double', False)
+    data.setdefault('text_scale', 1)
 
     data.setdefault('@motion_detection', True)
     data.setdefault('text_changes', False)

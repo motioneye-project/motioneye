@@ -1878,6 +1878,7 @@ function cameraUi2Dict() {
         'custom_left_text': $('#leftTextEntry').val(),
         'right_text': $('#rightTextTypeSelect').val(),
         'custom_right_text': $('#rightTextEntry').val(),
+        'text_scale': $('#textScaleSlider').val(),
         
         /* video streaming */
         'video_streaming': $('#videoStreamingEnabledSwitch')[0].checked,
@@ -2200,6 +2201,7 @@ function dict2CameraUi(dict) {
     $('#leftTextEntry').val(dict['custom_left_text']); markHideIfNull('custom_left_text', 'leftTextEntry');
     $('#rightTextTypeSelect').val(dict['right_text']); markHideIfNull('right_text', 'rightTextTypeSelect');
     $('#rightTextEntry').val(dict['custom_right_text']); markHideIfNull('custom_right_text', 'rightTextEntry');
+    $('#textScaleSlider').val(dict['text_scale']); markHideIfNull('text_scale', 'textScaleSlider');
     
     /* video streaming */
     $('#videoStreamingEnabledSwitch')[0].checked = dict['video_streaming']; markHideIfNull('video_streaming', 'videoStreamingEnabledSwitch');
