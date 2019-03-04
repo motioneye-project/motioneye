@@ -768,7 +768,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         # movies
         'ffmpeg_output_movies': False,
         'movie_filename': ui['movie_file_name'],
-        'max_movie_time': ui['max_movie_length'],
+        'movie_max_time': ui['max_movie_length'],
         '@preserve_movies': int(ui['preserve_movies']),
 
         # motion detection
@@ -1162,7 +1162,7 @@ def motion_camera_dict_to_ui(data):
         'movies': False,
         'recording_mode': 'motion-triggered',
         'movie_file_name': data['movie_filename'],
-        'max_movie_length': data['max_movie_time'],
+        'max_movie_length': data['movie_max_time'],
         'preserve_movies': data['@preserve_movies'],
 
         # motion detection
@@ -1973,7 +1973,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@manual_snapshots', True)
 
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
-    data.setdefault('max_movie_time', 0)
+    data.setdefault('movie_max_time', 0)
     data.setdefault('ffmpeg_output_movies', False)
 
     if motionctl.has_h264_omx_support():
