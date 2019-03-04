@@ -3689,6 +3689,8 @@ function runAddCameraDialog() {
     var addCameraSelect = content.find('#addCameraSelect');
     var addCameraInfo = content.find('#addCameraInfo');
     var cameraMsgLabel = content.find('#cameraMsgLabel');
+
+    var isProgress = false;
     
     /* make validators */
     makeUrlValidator(urlEntry, true);
@@ -3768,6 +3770,11 @@ function runAddCameraDialog() {
     }
     
     function uiValid(includeCameraSelect) {
+        if (isProgress) {
+            /* add dialog is not valid while in progress */
+            return false;
+        }
+
         var query = content.find('input, select');
         if (!includeCameraSelect) {
             query = query.not('#addCameraSelect');
@@ -3848,9 +3855,11 @@ function runAddCameraDialog() {
         }
         
         cameraMsgLabel.html('');
-        
+
+        isProgress = true;
         ajax('GET', basePath + 'config/list/', data, function (data) {
             progress.remove();
+            isProgress = false;
             
             if (data == null || data.error) {
                 cameraMsgLabel.html(data && data.error);
