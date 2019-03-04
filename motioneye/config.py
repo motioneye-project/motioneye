@@ -165,6 +165,7 @@ _USED_MOTION_OPTIONS = {
     'stream_auth_method',
     'stream_localhost',
     'stream_maxrate',
+    'stream_motion',
     'stream_port',
     'stream_quality',
     'target_dir',
@@ -402,7 +403,7 @@ def get_camera(camera_id, as_lines=False):
         return lines
 
     camera_config = _conf_to_dict(lines,
-                                  no_convert=['@name', '@network_share_name', '@network_smb_ver', '@network_server',
+                                  no_convert=['@network_share_name', '@network_smb_ver', '@network_server',
                                               '@network_username', '@network_password', '@storage_device',
                                               '@upload_server', '@upload_username', '@upload_password'])
 
@@ -713,7 +714,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     data = {
         # device
-        '@name': ui['name'],
+        'camera_name': ui['name'],
         '@enabled': ui['enabled'],
         'auto_brightness': ui['auto_brightness'],
         'framerate': int(ui['framerate']),
@@ -885,7 +886,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     # try to create the target dir
     try:
         os.makedirs(data['target_dir'])
-        logging.debug('created root directory %s for camera %s' % (data['target_dir'], data['@name']))
+        logging.debug('created root directory %s for camera %s' % (data['target_dir'], data['camera_name']))
 
     except OSError as e:
         if isinstance(e, OSError) and e.errno == errno.EEXIST:
@@ -1097,7 +1098,7 @@ def motion_camera_dict_to_ui(data):
 
     ui = {
         # device
-        'name': data['@name'],
+        'name': data['camera_name'],
         'enabled': data['@enabled'],
         'id': data['@id'],
         'auto_brightness': data['auto_brightness'],
@@ -1311,7 +1312,7 @@ def motion_camera_dict_to_ui(data):
     if text_left or text_right:
         ui['text_overlay'] = True
 
-        if text_left == data['@name']:
+        if text_left == data['camera_name']:
             ui['left_text'] = 'camera-name'
 
         elif text_left == '%Y-%m-%d\\n%T':
@@ -1324,7 +1325,7 @@ def motion_camera_dict_to_ui(data):
             ui['left_text'] = 'custom-text'
             ui['custom_left_text'] = text_left
 
-        if text_right == data['@name']:
+        if text_right == data['camera_name']:
             ui['right_text'] = 'camera-name'
 
         elif text_right == '%Y-%m-%d\\n%T':
@@ -1539,7 +1540,7 @@ def simple_mjpeg_camera_ui_to_dict(ui, prev_config=None):
 
     data = {
         # device
-        '@name': ui['name'],
+        'camera_name': ui['name'],
         '@enabled': ui['enabled'],
     }
 
@@ -1557,7 +1558,7 @@ def simple_mjpeg_camera_ui_to_dict(ui, prev_config=None):
 
 def simple_mjpeg_camera_dict_to_ui(data):
     ui = {
-        'name': data['@name'],
+        'name': data['camera_name'],
         'enabled': data['@enabled'],
         'id': data['@id'],
         'proto': 'mjpeg',
@@ -1891,7 +1892,7 @@ def _set_default_motion(data):
 
 
 def _set_default_motion_camera(camera_id, data):
-    data.setdefault('@name', 'Camera' + str(camera_id))
+    data.setdefault('camera_name', 'Camera' + str(camera_id))
     data.setdefault('@id', camera_id)
 
     if utils.is_v4l2_camera(data):
@@ -1913,7 +1914,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@network_smb_ver', '1.0')
     data.setdefault('@network_username', '')
     data.setdefault('@network_password', '')
-    data.setdefault('target_dir', os.path.join(settings.MEDIA_PATH, data['@name']))
+    data.setdefault('target_dir', os.path.join(settings.MEDIA_PATH, data['camera_name']))
     data.setdefault('@upload_enabled', False)
     data.setdefault('@upload_picture', True)
     data.setdefault('@upload_movie', True)
@@ -1937,7 +1938,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@webcam_resolution', 100)
     data.setdefault('@webcam_server_resize', False)
 
-    data.setdefault('text_left', data['@name'])
+    data.setdefault('text_left', data['camera_name'])
     data.setdefault('text_right', '%Y-%m-%d\\n%T')
     data.setdefault('text_double', False)
 
@@ -1996,7 +1997,7 @@ def _set_default_motion_camera(camera_id, data):
 
 
 def _set_default_simple_mjpeg_camera(camera_id, data):
-    data.setdefault('@name', 'Camera' + str(camera_id))
+    data.setdefault('camera_name', 'Camera' + str(camera_id))
     data.setdefault('@id', camera_id)
 
 

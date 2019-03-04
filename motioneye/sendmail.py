@@ -103,7 +103,7 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
             logging.debug('selected %d pictures' % len(media_files))
 
         format_dict = {
-            'camera': camera_config['@name'],
+            'camera': camera_config['camera_name'],
             'hostname': socket.gethostname(),
             'moment': moment.strftime('%Y-%m-%d %H:%M:%S'),
         }

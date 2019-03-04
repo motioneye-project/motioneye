@@ -863,7 +863,7 @@ class ConfigHandler(BaseHandler):
                     subject = sendmail.subjects['motion_start']
                     message = sendmail.messages['motion_start']
                     format_dict = {
-                        'camera': camera_config['@name'],
+                        'camera': camera_config['camera_name'],
                         'hostname': socket.gethostname(),
                         'moment': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                     }
@@ -1064,7 +1064,7 @@ class PictureHandler(BaseHandler):
 
                 self.finish_json({
                     'mediaList': media_list,
-                    'cameraName': camera_config['@name']
+                    'cameraName': camera_config['camera_name']
                 })
             
             mediafiles.list_media(camera_config, media_type='picture',
@@ -1095,7 +1095,7 @@ class PictureHandler(BaseHandler):
                         frame=True,
                         camera_id=camera_id,
                         camera_config=camera_config,
-                        title=self.get_argument('title', camera_config.get('@name', '')),
+                        title=self.get_argument('title', camera_config.get('camera_name', '')),
                         admin_username=config.get_main().get('@admin_username'),
                         static_path='../../../static/')
 
@@ -1116,7 +1116,7 @@ class PictureHandler(BaseHandler):
                             frame=True,
                             camera_id=camera_id,
                             camera_config=remote_config,
-                            title=self.get_argument('title', remote_config['@name']),
+                            title=self.get_argument('title', remote_config['camera_name']),
                             admin_username=config.get_main().get('@admin_username'))
 
             remote.get_config(camera_config, on_response)
@@ -1130,7 +1130,7 @@ class PictureHandler(BaseHandler):
         if utils.is_local_motion_camera(camera_config):
             content = mediafiles.get_media_content(camera_config, filename, 'picture')
             
-            pretty_filename = camera_config['@name'] + '_' + os.path.basename(filename)
+            pretty_filename = camera_config['camera_name'] + '_' + os.path.basename(filename)
             self.set_header('Content-Type', 'image/jpeg')
             self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
             
@@ -1235,7 +1235,7 @@ class PictureHandler(BaseHandler):
                     
                     raise HTTPError(404, 'no such key')
 
-                pretty_filename = camera_config['@name'] + '_' + group
+                pretty_filename = camera_config['camera_name'] + '_' + group
                 pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
          
                 self.set_header('Content-Type', 'application/zip')
@@ -1304,7 +1304,7 @@ class PictureHandler(BaseHandler):
 
                     raise HTTPError(404, 'no such key')
 
-                pretty_filename = camera_config['@name'] + '_' + group
+                pretty_filename = camera_config['camera_name'] + '_' + group
                 pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
                 pretty_filename += '.' + mediafiles.FFMPEG_EXT_MAPPING.get(camera_config['ffmpeg_video_codec'], 'avi')
     
@@ -1486,7 +1486,7 @@ class MovieHandler(BaseHandler):
 
                 self.finish_json({
                     'mediaList': media_list,
-                    'cameraName': camera_config['@name']
+                    'cameraName': camera_config['camera_name']
                 })
             
             mediafiles.list_media(camera_config, media_type='movie',
@@ -1624,7 +1624,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
         if utils.is_local_motion_camera(camera_config):
             filename = mediafiles.get_media_path(camera_config, filename, 'movie')
-            self.pretty_filename = camera_config['@name'] + '_' + self.pretty_filename
+            self.pretty_filename = camera_config['camera_name'] + '_' + self.pretty_filename
             return StaticFileHandler.get(self, filename, include_body=include_body)
 
         elif utils.is_remote_camera(camera_config):
