@@ -51,73 +51,6 @@ _additional_config_funcs = []
 _additional_structure_cache = {}
 _monitor_command_cache = {}
 
-_USED_MOTION_OPTIONS_PRE42 = {
-    'auto_brightness',
-    'brightness',
-    'contrast',
-    'camera_name',
-    'despeckle_filter',
-    'emulate_motion',
-    'event_gap',
-    'ffmpeg_output_debug_movies',
-    'ffmpeg_output_movies',
-    'ffmpeg_variable_bitrate',
-    'ffmpeg_video_codec',
-    'framerate',
-    'height',
-    'hue',
-    'lightswitch',
-    'locate_motion_mode',
-    'locate_motion_style',
-    'mask_file',
-    'max_movie_time',
-    'minimum_motion_frames',
-    'mmalcam_name'
-    'movie_filename',
-    'netcam_keepalive',
-    'netcam_tolerant_check',
-    'netcam_url',
-    'netcam_userpass',
-    'noise_level',
-    'noise_tune',
-    'on_event_end',
-    'on_event_start',
-    'on_movie_end',
-    'on_picture_save',
-    'output_debug_pictures',
-    'output_motion',
-    'output_pictures',
-    'picture_filename',
-    'post_capture',
-    'pre_capture',
-    'quality',
-    'rotate',
-    'rtsp_uses_tcp',
-    'saturation',
-    'smart_mask_speed',
-    'snapshot_filename',
-    'snapshot_interval',
-    'stream_authentication',
-    'stream_auth_method',
-    'stream_localhost',
-    'stream_maxrate',
-    'stream_motion',
-    'stream_port',
-    'stream_quality',
-    'target_dir',
-    'text_changes',
-    'text_double',
-    'text_left',
-    'text_right',
-    'threshold',
-    'videodevice',
-    'webcontrol_html_output',
-    'webcontrol_port',
-    'webcontrol_localhost',
-    'webcontrol_parms',
-    'width',
-}
-
 _USED_MOTION_OPTIONS = {
     'auto_brightness',
     'despeckle_filter',
@@ -180,6 +113,36 @@ _USED_MOTION_OPTIONS = {
     'webcontrol_parms',
     'webcontrol_port',
     'width',
+}
+
+_MOTION_PRE42_OPTIONS_MAPPING = {
+    'ffmpeg_bps': 'movie_bps',
+    'ffmpeg_video_codec': 'movie_codec',
+    'ffmpeg_output_movies': 'movie_output',
+    'ffmpeg_output_debug_movies': 'movie_output_motion',
+    'ffmpeg_variable_bitrate': 'movie_quality',
+    'lightswitch': 'lightswitch_frames',
+    'max_movie_time': 'movie_max_time',
+    'output_pictures': 'picture_output',
+    'output_debug_pictures': 'picture_output_motion',
+    'quality': 'picture_quality',
+    'rtsp_uses_tcp': 'netcam_use_tcp',
+    'text_double': lambda v, data: {'text_scale': [1, 2][v]},
+    'webcontrol_html_output': lambda v, data: {'webcontrol_interface': int(v)},
+
+    'movie_bps': 'ffmpeg_bps',
+    'movie_codec': 'ffmpeg_video_codec',
+    'movie_output': 'ffmpeg_output_movies',
+    'movie_output_motion': 'ffmpeg_output_debug_movies',
+    'movie_quality': 'ffmpeg_variable_bitrate',
+    'lightswitch_frames': 'lightswitch',
+    'movie_max_time': 'max_movie_time',
+    'picture_output': 'output_pictures',
+    'picture_output_motion': 'output_debug_pictures',
+    'picture_quality': 'quality',
+    'netcam_use_tcp': 'rtsp_uses_tcp',
+    'text_scale': lambda v, data: {'text_double': True if v > 1 else False},
+    'webcontrol_interface': lambda v, data: {'webcontrol_html_output': bool(v)}
 }
 
 
@@ -413,6 +376,21 @@ def get_camera(camera_id, as_lines=False):
         camera_config['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in cameras
         camera_config['@id'] = camera_id
 
+        # adapt directives from pre-4.2 configuration, if needed
+        if motionctl.is_motion_pre42():
+            for name in list(camera_config.keys()):
+                mapping = _MOTION_PRE42_OPTIONS_MAPPING.get(name)
+                if not mapping:
+                    continue
+
+                value = camera_config.pop(name)
+
+                if callable(mapping):
+                    camera_config.update(mapping(value, camera_config))
+
+                else:  # assuming simple new name
+                    camera_config[mapping] = value
+
         _get_additional_config(camera_config, camera_id=camera_id)
 
         _set_default_motion_camera(camera_id, camera_config)
@@ -442,6 +420,21 @@ def set_camera(camera_id, camera_config):
     camera_config = dict(camera_config)
 
     if utils.is_local_motion_camera(camera_config):
+        # adapt directives to pre-4.2 configuration, if needed
+        if motionctl.is_motion_pre42():
+            for name in list(camera_config.keys()):
+                mapping = _MOTION_PRE42_OPTIONS_MAPPING.get(name)
+                if not mapping:
+                    continue
+
+                value = camera_config.pop(name)
+
+                if callable(mapping):
+                    camera_config.update(mapping(value, camera_config))
+
+                else:  # assuming simple new name
+                    camera_config[mapping] = value
+
         # set the enabled status in main config
         main_config = get_main()
         cameras = main_config.setdefault('camera', [])
