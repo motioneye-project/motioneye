@@ -859,12 +859,6 @@ function initUI() {
         pushCameraConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
     });
     
-    /* preview controls */
-    $('#brightnessSlider').change(function () {pushPreview('brightness');});
-    $('#contrastSlider').change(function () {pushPreview('contrast');});
-    $('#saturationSlider').change(function () {pushPreview('saturation');});
-    $('#hueSlider').change(function () {pushPreview('hue');});
-    
     /* whenever the window is resized,
      * if a modal dialog is visible, it should be repositioned */
     $(window).resize(updateModalDialogPosition);
@@ -1980,22 +1974,6 @@ function cameraUi2Dict() {
         dict.resolution = $('#resolutionSelect').val();
     }
 
-    if ($('#brightnessSlider').val() !== '') {
-        dict.brightness = $('#brightnessSlider').val();
-    }
-
-    if ($('#contrastSlider').val() !== '') {
-        dict.contrast = $('#contrastSlider').val();
-    }
-    
-    if ($('#saturationSlider').val() !== '') {
-        dict.saturation = $('#saturationSlider').val();
-    }
-    
-    if ($('#hueSlider').val() !== '') {
-        dict.hue = $('#hueSlider').val();
-    }
-    
     /* additional sections */
     $('input[type=checkbox].additional-section.camera-config').each(function () {
         dict['_' + this.id.substring(0, this.id.length - 6)] = this.checked;
@@ -2099,11 +2077,6 @@ function dict2CameraUi(dict) {
     $('#deviceTypeEntry').val(prettyType); markHideIfNull(!prettyType, 'deviceTypeEntry');
     $('#deviceTypeEntry')[0].proto = dict['proto'];
     $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness']; markHideIfNull('auto_brightness', 'autoBrightnessSwitch');
-    
-    $('#brightnessSlider').val(dict['brightness']); markHideIfNull('brightness', 'brightnessSlider');
-    $('#contrastSlider').val(dict['contrast']); markHideIfNull('contrast', 'contrastSlider');
-    $('#saturationSlider').val(dict['saturation']); markHideIfNull('saturation', 'saturationSlider');
-    $('#hueSlider').val(dict['hue']); markHideIfNull('hue', 'hueSlider');
 
     $('#resolutionSelect').html('');
     if (dict['available_resolutions']) {
@@ -3296,44 +3269,6 @@ function pushCameraConfig(reboot) {
     if (cameraFrame.length) {
         Object.update(cameraFrame[0].config, cameraConfig);
     }
-}
-
-function pushPreview(control) {
-    var cameraId = $('#cameraSelect').val();
-    
-    var brightness = $('#brightnessSlider').val();
-    var contrast= $('#contrastSlider').val();
-    var saturation = $('#saturationSlider').val();
-    var hue = $('#hueSlider').val();
-    
-    var data = {};
-    
-    if (brightness !== '' && (!control || control == 'brightness')) {
-        data.brightness = brightness;
-    }
-    
-    if (contrast !== '' && (!control || control == 'contrast')) {
-        data.contrast = contrast;
-    }
-    
-    if (saturation !== '' && (!control || control == 'saturation')) {
-        data.saturation = saturation;
-    }
-    
-    if (hue !== '' && (!control || control == 'hue')) {
-        data.hue = hue;
-    }
-    
-    refreshDisabled[cameraId] |= 0;
-    refreshDisabled[cameraId]++;
-    
-    ajax('POST', basePath + 'config/' + cameraId + '/set_preview/', data, function (data) {
-        refreshDisabled[cameraId]--;
-        
-        if (data == null || data.error) {
-            showErrorMessage(data && data.error);
-        }
-    });
 }
 
 function getCameraIdsByInstance() {

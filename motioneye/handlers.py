@@ -289,9 +289,6 @@ class ConfigHandler(BaseHandler):
         if op == 'set':
             self.set_config(camera_id)
         
-        elif op == 'set_preview':
-            self.set_preview(camera_id)
-        
         elif op == 'add':
             self.add_camera()
         
@@ -537,59 +534,6 @@ class ConfigHandler(BaseHandler):
             reload = result['reload']
             reboot[0] = result['reboot']
             restart[0] = result['restart']
-
-    @BaseHandler.auth(admin=True)
-    def set_preview(self, camera_id):
-        try:
-            controls = json.loads(self.request.body)
-            
-        except Exception as e:
-            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
-            
-            raise
-
-        camera_config = config.get_camera(camera_id)
-        if utils.is_v4l2_camera(camera_config):
-            device = camera_config['videodevice']
-            
-            if 'brightness' in controls:
-                value = int(controls['brightness'])
-                logging.debug('setting brightness to %(value)s...' % {'value': value})
-    
-                v4l2ctl.set_brightness(device, value)
-    
-            if 'contrast' in controls:
-                value = int(controls['contrast'])
-                logging.debug('setting contrast to %(value)s...' % {'value': value})
-    
-                v4l2ctl.set_contrast(device, value)
-    
-            if 'saturation' in controls:
-                value = int(controls['saturation'])
-                logging.debug('setting saturation to %(value)s...' % {'value': value})
-    
-                v4l2ctl.set_saturation(device, value)
-    
-            if 'hue' in controls:
-                value = int(controls['hue'])
-                logging.debug('setting hue to %(value)s...' % {'value': value})
-    
-                v4l2ctl.set_hue(device, value)
-            
-            self.finish_json({})
-
-        elif utils.is_remote_camera(camera_config):
-            def on_response(error=None):
-                if error:
-                    self.finish_json({'error': error})
-                    
-                else:
-                    self.finish_json()
-            
-            remote.set_preview(camera_config, controls, on_response)
-        
-        else:  # not supported
-            self.finish_json({'error': True})
 
     @BaseHandler.auth()
     def list(self):

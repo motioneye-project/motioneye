@@ -242,34 +242,6 @@ def set_config(local_config, ui_config, callback):
     http_client.fetch(request, _callback_wrapper(on_response))
 
 
-def set_preview(local_config, controls, callback):
-    scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
-    
-    logging.debug('setting preview for remote camera %(id)s on %(url)s' % {
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
-    
-    data = json.dumps(controls)
-
-    p = path + '/config/%(id)s/set_preview/' % {'id': camera_id}
-    request = _make_request(scheme, host, port, username, password, p,
-                            method='POST', data=data, content_type='application/json')
-
-    def on_response(response):
-        if response.error:
-            logging.error('failed to set preview for remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
-        
-            return callback(error=utils.pretty_http_error(response))
-        
-        callback()
-
-    http_client = AsyncHTTPClient()
-    http_client.fetch(request, _callback_wrapper(on_response))
-
-
 def test(local_config, data, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     what = data['what']
