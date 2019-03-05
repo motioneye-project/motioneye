@@ -958,6 +958,42 @@ function initUI() {
     });    
 }
 
+function addVideoControl(name, min, max, step) {
+    var prevTr = $('#autoBrightnessSwitch').parent().parent();
+    var controlTr = $('\
+        <tr class="settings-item advanced-setting video-control"> \
+            <td class="settings-item-label"><span class="settings-item-label"></span></td> \
+            <td class="settings-item-value"><input type="text" class="range styled device camera-config"></td> \
+        </tr>');
+
+    prevTr.after(controlTr);
+    var controlLabel = controlTr.find('span.settings-item-label');
+    var controlInput = controlTr.find('input');
+
+    controlInput.attr('id', name + 'VideoControlSlider');
+    controlTr.attr('name', name);
+
+    /* make name pretty */
+    var title = name.replace(new RegExp('[^a-z0-9]', 'ig'), ' ');
+    title = title.replace (/\s(\w)/g, function (_, c) {
+        return c ? ' ' + c.toUpperCase () : ' ';
+    });
+
+    title = title.substr(0, 1).toUpperCase() + title.substr(1);
+
+    controlLabel.text(title);
+
+    if (min == 0 && max == 1) {
+        controlInput.attr('type', 'checkbox');
+        makeCheckBox(controlInput);
+    }
+    else {
+        makeSlider(controlInput, min, max, /* snapMode = */ 0, /* ticks = */ null, /* ticks number = */ 3, null, null);
+    }
+
+    return controlInput;
+}
+
 function getPageContainer() {
     if (!pageContainer) {
         pageContainer = $('div.page-container');
@@ -1956,7 +1992,27 @@ function cameraUi2Dict() {
         'sunday_to': $('#sundayEnabledSwitch')[0].checked ? $('#sundayToEntry').val() : '',
         'working_schedule_type': $('#workingScheduleTypeSelect').val()
     };
-    
+
+    /* video controls */
+    var videoControls = {};
+    $('tr.video-control').each(function () {
+        var $this = $(this);
+        var $input = $this.find('input');
+        var value;
+        if ($input[0].type == 'checkbox') {
+            value = $input[0].checked ? 1 : 0;
+        }
+        else {
+            value = Number($input.val());
+        }
+
+        videoControls[$this.attr('name')] = {
+            'value': value
+        };
+    });
+
+    dict['video_controls'] = videoControls;
+
     /* if all working schedule days are disabled,
      * also disable the global working schedule */
     var hasWS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].some(function (day) {
@@ -2314,7 +2370,35 @@ function dict2CameraUi(dict) {
     $('#sundayFromEntry').val(dict['sunday_from']); markHideIfNull('sunday_from', 'sundayFromEntry');
     $('#sundayToEntry').val(dict['sunday_to']); markHideIfNull('sunday_to', 'sundayToEntry');
     $('#workingScheduleTypeSelect').val(dict['working_schedule_type']); markHideIfNull('working_schedule_type', 'workingScheduleTypeSelect');
-    
+
+    /* video controls */
+    $('tr.video-control').remove();
+    if (dict['video_controls']) {
+        var videoControls = Object.keys(dict['video_controls']).map(function (n) {
+            dict['video_controls'][n].name = n;
+            return dict['video_controls'][n];
+        });
+        videoControls.sort(function (c1, c2) {
+            if (c1.name < c2.name) {
+                return 1;
+            }
+            else if (c1.name > c2.name) {
+                return -1;
+            }
+            else {
+                return 0;
+            }
+        });
+        videoControls.forEach(function (c) {
+            var controlInput = addVideoControl(c.name, c.min, c.max, c.step);
+            controlInput.val(c.value);
+            controlInput[0].checked = Boolean(c.value);
+            controlInput.change(function () {
+                pushCameraConfig(/* reboot = */ false);
+            });
+        });
+    }
+
     /* additional sections */
     $('input[type=checkbox].additional-section.main-config').each(function () {
         var name = this.id.substring(0, this.id.length - 6);

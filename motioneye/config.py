@@ -805,7 +805,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     else:
         proto = 'netcam'
 
-    if (proto == 'v4l2') or (proto == 'mmal'):
+    if proto in ('v4l2', 'mmal'):
         # leave videodevice unchanged
 
         # resolution
@@ -819,33 +819,9 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
         threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
 
-        if 'brightness' in ui:
-            if int(ui['brightness']) == 50:
-                data['brightness'] = 0
-
-            else:
-                data['brightness'] = max(1, int(round(int(ui['brightness']) * 2.55)))
-
-        if 'contrast' in ui:
-            if int(ui['contrast']) == 50:
-                data['contrast'] = 0
-
-            else:
-                data['contrast'] = max(1, int(round(int(ui['contrast']) * 2.55)))
-
-        if 'saturation' in ui:
-            if int(ui['saturation']) == 50:
-                data['saturation'] = 0
-
-            else:
-                data['saturation'] = max(1, int(round(int(ui['saturation']) * 2.55)))
-
-        if 'hue' in ui:
-            if int(ui['hue']) == 50:
-                data['hue'] = 0
-
-            else:
-                data['hue'] = max(1, int(round(int(ui['hue']) * 2.55)))
+        # video controls
+        vid_control_params = (('%s=%s' % (n, c['value'])) for n, c in ui['video_controls'].items())
+        data['vid_control_params'] = ','.join(vid_control_params)
 
     else:  # assuming netcam
         if data.get('netcam_url', prev_config.get('netcam_url', '')).startswith('rtsp'):
@@ -1233,40 +1209,33 @@ def motion_camera_dict_to_ui(data):
         ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
         ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
 
-        # the brightness & co. keys in the ui dictionary
-        # indicate the presence of these controls
-        # we must call v4l2ctl functions to determine the available controls    
-        brightness = v4l2ctl.get_brightness(data['videodevice'])
-        if brightness is not None:  # has brightness control
-            if data.get('brightness', 0) != 0:
-                ui['brightness'] = brightness
+        video_controls = v4l2ctl.list_ctrls(data['videodevice'])
+        video_controls = [(n, c) for (n, c) in video_controls.items()
+                          if 'min' in c and 'max' in c and 'value' in c]
+
+        vid_control_params = data['vid_control_params'].split(',')
+        vid_control_values = {}
+        for param in vid_control_params:
+            parts = param.split('=')
+            if len(parts) == 1:
+                name, value = param, 1
+
+            elif len(parts) == 2:
+                name, value = parts
 
             else:
-                ui['brightness'] = 50
+                continue  # ignore any other kind of param
 
-        contrast = v4l2ctl.get_contrast(data['videodevice'])
-        if contrast is not None:  # has contrast control
-            if data.get('contrast', 0) != 0:
-                ui['contrast'] = contrast
+            vid_control_values[name] = value
 
-            else:
-                ui['contrast'] = 50
-
-        saturation = v4l2ctl.get_saturation(data['videodevice'])
-        if saturation is not None:  # has saturation control
-            if data.get('saturation', 0) != 0:
-                ui['saturation'] = saturation
-
-            else:
-                ui['saturation'] = 50
-
-        hue = v4l2ctl.get_hue(data['videodevice'])
-        if hue is not None:  # has hue control
-            if data.get('hue', 0) != 0:
-                ui['hue'] = hue
-
-            else:
-                ui['hue'] = 50
+        ui['video_controls'] = {
+            n: {
+                'min': int(c['min']),
+                'max': int(c['max']),
+                'step': int(c['step']) if 'step' in c else None,
+                'value': int(vid_control_values.get(n, c['value']))
+            } for n, c in video_controls
+        }
 
         threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
 
@@ -1893,10 +1862,7 @@ def _set_default_motion_camera(camera_id, data):
 
     if utils.is_v4l2_camera(data):
         data.setdefault('videodevice', '/dev/video0')
-        data.setdefault('brightness', 0)
-        data.setdefault('contrast', 0)
-        data.setdefault('saturation', 0)
-        data.setdefault('hue', 0)
+        data.setdefault('vid_control_params', '')
         data.setdefault('width', 352)
         data.setdefault('height', 288)
 
