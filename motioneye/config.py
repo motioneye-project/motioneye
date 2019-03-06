@@ -71,7 +71,7 @@ _USED_MOTION_OPTIONS = {
     'movie_output',
     'movie_quality',
     'minimum_motion_frames',
-    'mmalcam_name'
+    'mmalcam_name',
     'netcam_keepalive',
     'netcam_tolerant_check',
     'netcam_url',
@@ -121,7 +121,7 @@ _MOTION_PRE42_OPTIONS_MAPPING = {
     'ffmpeg_output_movies': 'movie_output',
     'ffmpeg_output_debug_movies': 'movie_output_motion',
     'ffmpeg_variable_bitrate': 'movie_quality',
-    'lightswitch': 'lightswitch_frames',
+    'lightswitch': 'lightswitch_percent',
     'max_movie_time': 'movie_max_time',
     'output_pictures': 'picture_output',
     'output_debug_pictures': 'picture_output_motion',
@@ -135,15 +135,33 @@ _MOTION_PRE42_OPTIONS_MAPPING = {
     'movie_output': 'ffmpeg_output_movies',
     'movie_output_motion': 'ffmpeg_output_debug_movies',
     'movie_quality': 'ffmpeg_variable_bitrate',
-    'lightswitch_frames': 'lightswitch',
+    'lightswitch_percent': 'lightswitch',
     'movie_max_time': 'max_movie_time',
     'picture_output': 'output_pictures',
     'picture_output_motion': 'output_debug_pictures',
     'picture_quality': 'quality',
     'netcam_use_tcp': 'rtsp_uses_tcp',
     'text_scale': lambda v, data: {'text_double': True if v > 1 else False},
-    'webcontrol_interface': lambda v, data: {'webcontrol_html_output': bool(v)}
+    'webcontrol_interface': lambda v, data: {'webcontrol_html_output': bool(v)},
+    'webcontrol_parms': None
 }
+
+
+def adapt_config_directives(data):
+    # adapt directives from pre-4.2 configuration, if needed
+    if motionctl.is_motion_pre42():
+        for name in list(data.keys()):
+            mapping = _MOTION_PRE42_OPTIONS_MAPPING.get(name)
+            if mapping is None:
+                continue
+
+            value = data.pop(name)
+
+            if callable(mapping):
+                data.update(mapping(value, data))
+
+            else:  # assuming simple new name
+                data[mapping] = value
 
 
 def additional_section(func):
@@ -204,6 +222,8 @@ def get_main(as_lines=False):
     main_config = _conf_to_dict(lines, list_names=['camera'], no_convert=[
                                 '@admin_username', '@admin_password', '@normal_username', '@normal_password'])
 
+    adapt_config_directives(main_config)
+
     _get_additional_config(main_config)
     _set_default_motion(main_config)
 
@@ -222,6 +242,8 @@ def set_main(main_config):
 
     main_config = dict(main_config)
     _set_additional_config(main_config)
+
+    adapt_config_directives(main_config)
 
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
 
@@ -376,20 +398,7 @@ def get_camera(camera_id, as_lines=False):
         camera_config['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in cameras
         camera_config['@id'] = camera_id
 
-        # adapt directives from pre-4.2 configuration, if needed
-        if motionctl.is_motion_pre42():
-            for name in list(camera_config.keys()):
-                mapping = _MOTION_PRE42_OPTIONS_MAPPING.get(name)
-                if not mapping:
-                    continue
-
-                value = camera_config.pop(name)
-
-                if callable(mapping):
-                    camera_config.update(mapping(value, camera_config))
-
-                else:  # assuming simple new name
-                    camera_config[mapping] = value
+        adapt_config_directives(camera_config)
 
         _get_additional_config(camera_config, camera_id=camera_id)
 
@@ -420,20 +429,7 @@ def set_camera(camera_id, camera_config):
     camera_config = dict(camera_config)
 
     if utils.is_local_motion_camera(camera_config):
-        # adapt directives to pre-4.2 configuration, if needed
-        if motionctl.is_motion_pre42():
-            for name in list(camera_config.keys()):
-                mapping = _MOTION_PRE42_OPTIONS_MAPPING.get(name)
-                if not mapping:
-                    continue
-
-                value = camera_config.pop(name)
-
-                if callable(mapping):
-                    camera_config.update(mapping(value, camera_config))
-
-                else:  # assuming simple new name
-                    camera_config[mapping] = value
+        adapt_config_directives(camera_config)
 
         # set the enabled status in main config
         main_config = get_main()
