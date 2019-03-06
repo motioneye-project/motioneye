@@ -392,7 +392,7 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
         logging.debug('testing (m)jpg netcam at %s using %s authentication' % (url, auth))
 
-        request = HTTPRequest(url, auth_username=username, auth_password=password, auth_mode=auth_modes.pop(0),
+        request = HTTPRequest(url, auth_username=username, auth_password=password or '', auth_mode=auth_modes.pop(0),
                               connect_timeout=settings.REMOTE_REQUEST_TIMEOUT,
                               request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
                               header_callback=on_header, validate_cert=settings.VALIDATE_CERTS)
