@@ -63,7 +63,6 @@ _USED_MOTION_OPTIONS = {
     'locate_motion_mode',
     'locate_motion_style',
     'mask_file',
-    'movie_bps',
     'movie_codec',
     'movie_filename',
     'movie_max_time',
@@ -116,7 +115,6 @@ _USED_MOTION_OPTIONS = {
 }
 
 _MOTION_PRE42_OPTIONS_MAPPING = {
-    'ffmpeg_bps': 'movie_bps',
     'ffmpeg_video_codec': 'movie_codec',
     'ffmpeg_output_movies': 'movie_output',
     'ffmpeg_output_debug_movies': 'movie_output_motion',
@@ -130,7 +128,6 @@ _MOTION_PRE42_OPTIONS_MAPPING = {
     'text_double': lambda v, data: {'text_scale': [1, 2][v]},
     'webcontrol_html_output': lambda v, data: {'webcontrol_interface': int(v)},
 
-    'movie_bps': 'ffmpeg_bps',
     'movie_codec': 'ffmpeg_video_codec',
     'movie_output': 'ffmpeg_output_movies',
     'movie_output_motion': 'ffmpeg_output_debug_movies',
