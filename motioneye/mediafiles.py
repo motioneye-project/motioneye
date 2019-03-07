@@ -283,7 +283,7 @@ def cleanup_media(media_type):
             continue  # preserve forever
 
         still_images_enabled = bool(camera_config['picture_filename']) or bool(camera_config['snapshot_filename'])
-        movies_enabled = bool(camera_config['ffmpeg_output_movies'])
+        movies_enabled = bool(camera_config['movie_output'])
 
         if media_type == 'picture' and not still_images_enabled:
             continue  # only cleanup pictures for cameras with still images enabled
@@ -584,7 +584,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     global _timelapse_data
 
     target_dir = camera_config.get('target_dir')
-    codec = camera_config.get('ffmpeg_video_codec')
+    codec = camera_config.get('movie_codec')
 
     codec = FFMPEG_CODEC_MAPPING.get(codec, codec)
     fmt = FFMPEG_FORMAT_MAPPING.get(codec, codec)

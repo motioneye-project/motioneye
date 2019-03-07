@@ -392,7 +392,7 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
         logging.debug('testing (m)jpg netcam at %s using %s authentication' % (url, auth))
 
-        request = HTTPRequest(url, auth_username=username, auth_password=password, auth_mode=auth_modes.pop(0),
+        request = HTTPRequest(url, auth_username=username, auth_password=password or '', auth_mode=auth_modes.pop(0),
                               connect_timeout=settings.REMOTE_REQUEST_TIMEOUT,
                               request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
                               header_callback=on_header, validate_cert=settings.VALIDATE_CERTS)
@@ -598,18 +598,14 @@ def test_rtsp_url(data, callback):
         
         called[0] = True
         cameras = []
-        rtsp_support = motionctl.get_rtsp_support()
         if identifier:
             identifier = ' ' + identifier
             
         else:
             identifier = ''
 
-        if 'tcp' in rtsp_support:
-            cameras.append({'id': 'tcp', 'name': '%sRTSP/TCP Camera' % identifier})
-
-        if 'udp' in rtsp_support:
-            cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
+        cameras.append({'id': 'tcp', 'name': '%sRTSP/TCP Camera' % identifier})
+        cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
         
         callback(cameras)
 

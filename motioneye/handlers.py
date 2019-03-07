@@ -246,8 +246,6 @@ class MainHandler(BaseHandler):
                     hostname=settings.SERVER_NAME,
                     title=self.get_argument('title', None),
                     admin_username=config.get_main().get('@admin_username'),
-                    has_streaming_auth=motionctl.has_streaming_auth(),
-                    has_new_movie_format_support=motionctl.has_new_movie_format_support(),
                     has_h264_omx_support=motionctl.has_h264_omx_support(),
                     has_motion=bool(motionctl.find_motion()[0]),
                     mask_width=utils.MASK_WIDTH)
@@ -290,9 +288,6 @@ class ConfigHandler(BaseHandler):
         
         if op == 'set':
             self.set_config(camera_id)
-        
-        elif op == 'set_preview':
-            self.set_preview(camera_id)
         
         elif op == 'add':
             self.add_camera()
@@ -410,7 +405,7 @@ class ConfigHandler(BaseHandler):
             old_normal_username = old_main_config.get('@normal_username')
 
             main_config = config.main_ui_to_dict(ui_config)
-            main_config.setdefault('thread', old_main_config.get('thread', []))
+            main_config.setdefault('camera', old_main_config.get('camera', []))
 
             admin_username = main_config.get('@admin_username')
             admin_password = main_config.get('@admin_password')
@@ -540,59 +535,6 @@ class ConfigHandler(BaseHandler):
             reboot[0] = result['reboot']
             restart[0] = result['restart']
 
-    @BaseHandler.auth(admin=True)
-    def set_preview(self, camera_id):
-        try:
-            controls = json.loads(self.request.body)
-            
-        except Exception as e:
-            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
-            
-            raise
-
-        camera_config = config.get_camera(camera_id)
-        if utils.is_v4l2_camera(camera_config):
-            device = camera_config['videodevice']
-            
-            if 'brightness' in controls:
-                value = int(controls['brightness'])
-                logging.debug('setting brightness to %(value)s...' % {'value': value})
-    
-                v4l2ctl.set_brightness(device, value)
-    
-            if 'contrast' in controls:
-                value = int(controls['contrast'])
-                logging.debug('setting contrast to %(value)s...' % {'value': value})
-    
-                v4l2ctl.set_contrast(device, value)
-    
-            if 'saturation' in controls:
-                value = int(controls['saturation'])
-                logging.debug('setting saturation to %(value)s...' % {'value': value})
-    
-                v4l2ctl.set_saturation(device, value)
-    
-            if 'hue' in controls:
-                value = int(controls['hue'])
-                logging.debug('setting hue to %(value)s...' % {'value': value})
-    
-                v4l2ctl.set_hue(device, value)
-            
-            self.finish_json({})
-
-        elif utils.is_remote_camera(camera_config):
-            def on_response(error=None):
-                if error:
-                    self.finish_json({'error': error})
-                    
-                else:
-                    self.finish_json()
-            
-            remote.set_preview(camera_config, controls, on_response)
-        
-        else:  # not supported
-            self.finish_json({'error': True})
-
     @BaseHandler.auth()
     def list(self):
         logging.debug('listing cameras')
@@ -622,7 +564,7 @@ class ConfigHandler(BaseHandler):
                 utils.test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic'], allow_jpeg=True,
                                      callback=on_response)
                 
-            elif motionctl.get_rtsp_support() and scheme == 'rtsp':
+            elif scheme == 'rtsp':
                 utils.test_rtsp_url(self.get_all_arguments(), callback=on_response)
                 
             else:
@@ -865,7 +807,7 @@ class ConfigHandler(BaseHandler):
                     subject = sendmail.subjects['motion_start']
                     message = sendmail.messages['motion_start']
                     format_dict = {
-                        'camera': camera_config['@name'],
+                        'camera': camera_config['camera_name'],
                         'hostname': socket.gethostname(),
                         'moment': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
                     }
@@ -1066,7 +1008,7 @@ class PictureHandler(BaseHandler):
 
                 self.finish_json({
                     'mediaList': media_list,
-                    'cameraName': camera_config['@name']
+                    'cameraName': camera_config['camera_name']
                 })
             
             mediafiles.list_media(camera_config, media_type='picture',
@@ -1097,7 +1039,7 @@ class PictureHandler(BaseHandler):
                         frame=True,
                         camera_id=camera_id,
                         camera_config=camera_config,
-                        title=self.get_argument('title', camera_config.get('@name', '')),
+                        title=self.get_argument('title', camera_config.get('camera_name', '')),
                         admin_username=config.get_main().get('@admin_username'),
                         static_path='../../../static/')
 
@@ -1118,7 +1060,7 @@ class PictureHandler(BaseHandler):
                             frame=True,
                             camera_id=camera_id,
                             camera_config=remote_config,
-                            title=self.get_argument('title', remote_config['@name']),
+                            title=self.get_argument('title', remote_config['camera_name']),
                             admin_username=config.get_main().get('@admin_username'))
 
             remote.get_config(camera_config, on_response)
@@ -1132,7 +1074,7 @@ class PictureHandler(BaseHandler):
         if utils.is_local_motion_camera(camera_config):
             content = mediafiles.get_media_content(camera_config, filename, 'picture')
             
-            pretty_filename = camera_config['@name'] + '_' + os.path.basename(filename)
+            pretty_filename = camera_config['camera_name'] + '_' + os.path.basename(filename)
             self.set_header('Content-Type', 'image/jpeg')
             self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
             
@@ -1237,7 +1179,7 @@ class PictureHandler(BaseHandler):
                     
                     raise HTTPError(404, 'no such key')
 
-                pretty_filename = camera_config['@name'] + '_' + group
+                pretty_filename = camera_config['camera_name'] + '_' + group
                 pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
          
                 self.set_header('Content-Type', 'application/zip')
@@ -1306,9 +1248,9 @@ class PictureHandler(BaseHandler):
 
                     raise HTTPError(404, 'no such key')
 
-                pretty_filename = camera_config['@name'] + '_' + group
+                pretty_filename = camera_config['camera_name'] + '_' + group
                 pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
-                pretty_filename += '.' + mediafiles.FFMPEG_EXT_MAPPING.get(camera_config['ffmpeg_video_codec'], 'avi')
+                pretty_filename += '.' + mediafiles.FFMPEG_EXT_MAPPING.get(camera_config['movie_codec'], 'avi')
     
                 self.set_header('Content-Type', 'video/x-msvideo')
                 self.set_header('Content-Disposition', 'attachment; filename=' + pretty_filename + ';')
@@ -1488,7 +1430,7 @@ class MovieHandler(BaseHandler):
 
                 self.finish_json({
                     'mediaList': media_list,
-                    'cameraName': camera_config['@name']
+                    'cameraName': camera_config['camera_name']
                 })
             
             mediafiles.list_media(camera_config, media_type='movie',
@@ -1626,7 +1568,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
         if utils.is_local_motion_camera(camera_config):
             filename = mediafiles.get_media_path(camera_config, filename, 'movie')
-            self.pretty_filename = camera_config['@name'] + '_' + self.pretty_filename
+            self.pretty_filename = camera_config['camera_name'] + '_' + self.pretty_filename
             return StaticFileHandler.get(self, filename, include_body=include_body)
 
         elif utils.is_remote_camera(camera_config):
@@ -1787,16 +1729,16 @@ class RelayEventHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
     def post(self):
         event = self.get_argument('event')
-        thread_id = int(self.get_argument('thread_id'))
+        motion_camera_id = int(self.get_argument('motion_camera_id'))
 
-        camera_id = motionctl.thread_id_to_camera_id(thread_id)
+        camera_id = motionctl.motion_camera_id_to_camera_id(motion_camera_id)
         if camera_id is None:
-            logging.debug('ignoring event for unknown thread id %s' % thread_id)
+            logging.debug('ignoring event for unknown motion camera id %s' % motion_camera_id)
             return self.finish_json()
 
         else:
-            logging.debug('received relayed event %(event)s for thread id %(id)s (camera id %(cid)s)' % {
-                    'event': event, 'id': thread_id, 'cid': camera_id})
+            logging.debug('received relayed event %(event)s for motion camera id %(id)s (camera id %(cid)s)' % {
+                    'event': event, 'id': motion_camera_id, 'cid': camera_id})
         
         camera_config = config.get_camera(camera_id)
         if not utils.is_local_motion_camera(camera_config):
