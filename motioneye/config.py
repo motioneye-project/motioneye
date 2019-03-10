@@ -114,7 +114,7 @@ _USED_MOTION_OPTIONS = {
     'width',
 }
 
-_MOTION_PRE42_OPTIONS_MAPPING = {
+_MOTION_PRE_TO_POST_42_OPTIONS_MAPPING = {
     'ffmpeg_video_codec': 'movie_codec',
     'ffmpeg_output_movies': 'movie_output',
     'ffmpeg_output_debug_movies': 'movie_output_motion',
@@ -127,7 +127,9 @@ _MOTION_PRE42_OPTIONS_MAPPING = {
     'rtsp_uses_tcp': 'netcam_use_tcp',
     'text_double': lambda v, data: {'text_scale': [1, 2][v]},
     'webcontrol_html_output': lambda v, data: {'webcontrol_interface': int(v)},
+}
 
+_MOTION_POST_TO_PRE_42_OPTIONS_MAPPING = {
     'movie_codec': 'ffmpeg_video_codec',
     'movie_output': 'ffmpeg_output_movies',
     'movie_output_motion': 'ffmpeg_output_debug_movies',
@@ -144,21 +146,19 @@ _MOTION_PRE42_OPTIONS_MAPPING = {
 }
 
 
-def adapt_config_directives(data):
-    # adapt directives from pre-4.2 configuration, if needed
-    if motionctl.is_motion_pre42():
-        for name in list(data.keys()):
-            mapping = _MOTION_PRE42_OPTIONS_MAPPING.get(name)
-            if mapping is None:
-                continue
+def adapt_config_directives(data, mapping):
+    for name in list(data.keys()):
+        mapped = mapping.get(name)
+        if mapped is None:
+            continue
 
-            value = data.pop(name)
+        value = data.pop(name)
 
-            if callable(mapping):
-                data.update(mapping(value, data))
+        if callable(mapped):
+            data.update(mapped(value, data))
 
-            else:  # assuming simple new name
-                data[mapping] = value
+        else:  # assuming simple new name
+            data[mapped] = value
 
 
 def additional_section(func):
@@ -219,7 +219,8 @@ def get_main(as_lines=False):
     main_config = _conf_to_dict(lines, list_names=['camera'], no_convert=[
                                 '@admin_username', '@admin_password', '@normal_username', '@normal_password'])
 
-    adapt_config_directives(main_config)
+    # adapt directives from pre-4.2 configuration
+    adapt_config_directives(main_config, _MOTION_PRE_TO_POST_42_OPTIONS_MAPPING)
 
     _get_additional_config(main_config)
     _set_default_motion(main_config)
@@ -240,7 +241,9 @@ def set_main(main_config):
     main_config = dict(main_config)
     _set_additional_config(main_config)
 
-    adapt_config_directives(main_config)
+    # adapt directives to pre-4.2 configuration, if needed
+    if motionctl.is_motion_pre42():
+        adapt_config_directives(main_config, _MOTION_POST_TO_PRE_42_OPTIONS_MAPPING)
 
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
 
@@ -395,7 +398,8 @@ def get_camera(camera_id, as_lines=False):
         camera_config['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in cameras
         camera_config['@id'] = camera_id
 
-        adapt_config_directives(camera_config)
+        # adapt directives from pre-4.2 configuration
+        adapt_config_directives(camera_config, _MOTION_PRE_TO_POST_42_OPTIONS_MAPPING)
 
         _get_additional_config(camera_config, camera_id=camera_id)
 
@@ -426,7 +430,9 @@ def set_camera(camera_id, camera_config):
     camera_config = dict(camera_config)
 
     if utils.is_local_motion_camera(camera_config):
-        adapt_config_directives(camera_config)
+        # adapt directives to pre-4.2 configuration, if needed
+        if motionctl.is_motion_pre42():
+            adapt_config_directives(camera_config, _MOTION_POST_TO_PRE_42_OPTIONS_MAPPING)
 
         # set the enabled status in main config
         main_config = get_main()
