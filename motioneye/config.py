@@ -811,9 +811,10 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
         threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
 
-        # video controls
-        vid_control_params = (('%s=%s' % (n, c['value'])) for n, c in ui['video_controls'].items())
-        data['vid_control_params'] = ','.join(vid_control_params)
+        if proto == 'v4l2':
+            # video controls
+            vid_control_params = (('%s=%s' % (n, c['value'])) for n, c in ui['video_controls'].items())
+            data['vid_control_params'] = ','.join(vid_control_params)
 
     else:  # assuming netcam
         if data.get('netcam_url', prev_config.get('netcam_url', '')).startswith('rtsp'):
