@@ -776,9 +776,7 @@ def build_digest_header(method, url, username, password, state):
         respdig = KD(HA1, "%s:%s" % (nonce, HA2))
     
     elif qop == 'auth' or 'auth' in qop.split(','):
-        noncebit = "%s:%s:%s:%s:%s" % (
-            nonce, ncvalue, cnonce, 'auth', HA2
-            )
+        noncebit = "%s:%s:%s:%s:%s" % (nonce, ncvalue, cnonce, 'auth', HA2)
         respdig = KD(HA1, noncebit)
     
     else:
