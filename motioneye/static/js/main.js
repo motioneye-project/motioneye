@@ -988,7 +988,11 @@ function addVideoControl(name, min, max, step) {
         makeCheckBox(controlInput);
     }
     else {
-        makeSlider(controlInput, min, max, /* snapMode = */ 0, /* ticks = */ null, /* ticks number = */ 3, null, null);
+        var ticksNumber = 3;
+        if (max - min <= 6) {
+            ticksNumber = max - min + 1;
+        }
+        makeSlider(controlInput, min, max, /* snapMode = */ 0, /* ticks = */ null, ticksNumber, null, null);
     }
 
     return controlInput;
