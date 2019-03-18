@@ -793,7 +793,7 @@ def build_digest_header(method, url, username, password, state):
     if entdig:
         base += ', digest="%s"' % entdig
     if qop:
-        base += ', qop="auth", nc=%s, cnonce="%s"' % (ncvalue, cnonce)
+        base += ', qop=auth, nc=%s, cnonce="%s"' % (ncvalue, cnonce)
     
     state['last_nonce'] = last_nonce
     state['nonce_count'] = nonce_count
