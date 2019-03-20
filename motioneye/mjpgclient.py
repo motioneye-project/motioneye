@@ -139,10 +139,13 @@ class MjpgClient(IOStream):
             logging.debug('mjpg client using basic authentication')
 
             auth_header = utils.build_basic_header(self._username, self._password)
-            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\n\r\n' % auth_header)
-            
-        else:  # in digest auth mode, the header is built upon receiving 401
+            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
+
+        elif self._auth_mode == 'digest':  # in digest auth mode, the header is built upon receiving 401
             self.write('GET / HTTP/1.1\r\n\r\n')
+            
+        else:  # no authentication
+            self.write('GET / HTTP/1.1\r\nConnection: close\r\n\r\n')
 
         self._seek_http()
 
@@ -182,7 +185,7 @@ class MjpgClient(IOStream):
             logging.debug('mjpg client using basic authentication')
             
             auth_header = utils.build_basic_header(self._username, self._password)
-            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\n\r\n' % auth_header)
+            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
             self._seek_http()
 
             return
@@ -197,7 +200,7 @@ class MjpgClient(IOStream):
             self._auth_digest_state = parts_dict
 
             auth_header = utils.build_digest_header('GET', '/', self._username, self._password, self._auth_digest_state)
-            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\n\r\n' % auth_header)
+            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
             self._seek_http()
             
             return
