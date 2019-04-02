@@ -629,7 +629,10 @@ def test_rtsp_url(data, callback):
     def check_error():
         error = getattr(stream, 'error', None)
         if error and getattr(error, 'errno', None) != 0:
-            #handle_error(error.strerror)
+            if getattr(error, 'strerror', None) != None:
+                handle_error(error.strerror)
+            else:
+                handle_error('error rc=' + str(error.errno))
             return True
 
         if stream and stream.socket is None:
