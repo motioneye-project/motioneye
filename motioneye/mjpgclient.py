@@ -154,10 +154,10 @@ class MjpgClient(IOStream):
         if self._check_error():
             return
         
-        self.read_until_regex(six.b('HTTP/1.\d \d+ '), self._on_http)
+        self.read_until_regex(b'HTTP/1.\d \d+ ', self._on_http)
 
     def _on_http(self, data):
-        if data.endswith(six.b('401 ')):
+        if data.endswith(b'401 '):
             self._seek_www_authenticate()
 
         else:  # no authorization required, skip to content length
@@ -167,13 +167,13 @@ class MjpgClient(IOStream):
         if self._check_error():
             return
         
-        self.read_until(six.b('WWW-Authenticate:'), self._on_before_www_authenticate)
+        self.read_until(b'WWW-Authenticate:', self._on_before_www_authenticate)
 
     def _on_before_www_authenticate(self, data):
         if self._check_error():
             return
         
-        self.read_until(six.b('\r\n'), self._on_www_authenticate)
+        self.read_until(b'\r\n', self._on_www_authenticate)
     
     def _on_www_authenticate(self, data):
         if self._check_error():
@@ -181,7 +181,7 @@ class MjpgClient(IOStream):
 
         data = data.strip()
         
-        m = re.match(six.b('Basic\s*realm="([a-zA-Z0-9\-\s]+)"'), data)
+        m = re.match(b'Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data)
         if m:
             logging.debug('mjpg client using basic authentication')
             
@@ -213,19 +213,19 @@ class MjpgClient(IOStream):
         if self._check_error():
             return
         
-        self.read_until(six.b('Content-Length:'), self._on_before_content_length)
+        self.read_until(b'Content-Length:', self._on_before_content_length)
     
     def _on_before_content_length(self, data):
         if self._check_error():
             return
         
-        self.read_until(six.b('\r\n\r\n'), self._on_content_length)
+        self.read_until(b'\r\n\r\n', self._on_content_length)
     
     def _on_content_length(self, data):
         if self._check_error():
             return
         
-        matches = re.findall(six.b('(\d+)'), data)
+        matches = re.findall(b'(\d+)', data)
         if not matches:
             self._error('could not find content length in mjpg header line "%(header)s"' % {
                     'header': data})

@@ -510,7 +510,7 @@ def test_rtsp_url(data, callback):
             ''
         ]
 
-        stream.write(six.b('\r\n'.join(lines)))
+        stream.write(b'\r\n'.join(lines))
 
         seek_rtsp()
         
@@ -518,17 +518,17 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex(six.b('RTSP/1.0 \d+ '), on_rtsp)
+        stream.read_until_regex(b'RTSP/1.0 \d+ ', on_rtsp)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), on_rtsp)
 
     def on_rtsp(data=None):
         io_loop.remove_timeout(timeout[0])
 
         if data:
-            if data.endswith(six.b('200 ')):
+            if data.endswith(b'200 '):
                 seek_server()
 
-            elif data.endswith(six.b('401 ')):
+            elif data.endswith(b'401 '):
                 if not username or send_auth[0]:
                     # either credentials not supplied, or already sent
                     handle_error('authentication failed')
@@ -546,14 +546,14 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex(six.b('Server: .*'), on_server)
+        stream.read_until_regex(b'Server: .*', on_server)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_server)
 
     def on_server(data=None):
         io_loop.remove_timeout(timeout[0])
 
         if data:
-            identifier = re.findall(six.b('Server: (.*)'), data)[0].strip()
+            identifier = re.findall(b'Server: (.*)', data)[0].strip()
             logging.debug('rtsp netcam identifier is "%s"' % identifier)
         
         else:
@@ -566,14 +566,14 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex(six.b('WWW-Authenticate: .*'), on_www_authenticate)
+        stream.read_until_regex(b'WWW-Authenticate: .*', on_www_authenticate)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_www_authenticate)
 
     def on_www_authenticate(data=None):
         io_loop.remove_timeout(timeout[0])
 
         if data:
-            scheme = re.findall(six.b('WWW-Authenticate: ([^\s]+)'), data)[0].strip()
+            scheme = re.findall(b'WWW-Authenticate: ([^\s]+)', data)[0].strip()
             logging.debug('rtsp netcam auth scheme: %s' % scheme)
             if scheme.lower() == 'basic':
                 send_auth[0] = True
@@ -659,7 +659,7 @@ def compute_signature(method, path, body, key):
     path = _SIGNATURE_REGEX.sub('-', path)
     key = _SIGNATURE_REGEX.sub('-', key)
 
-    if body and body.startswith(six.b('---')):
+    if body and body.startswith(b'---'):
         body = None  # file attachment
 
     body = body and _SIGNATURE_REGEX.sub('-', body.decode('utf8'))
