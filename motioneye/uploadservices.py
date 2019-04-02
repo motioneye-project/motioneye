@@ -20,15 +20,19 @@ import logging
 import mimetypes
 import os
 import os.path
-import StringIO
 import time
 import urllib
-import urllib2
 import pycurl
+from six.moves.urllib import request as urllib2
+from six.moves import StringIO
 
-import settings
-import utils
-import config
+from motioneye import settings
+from motioneye import utils
+
+try:
+    from motioneye import config
+except ImportError:
+    import config
 
 
 _STATE_FILE_NAME = 'uploadservices.json'
@@ -716,7 +720,7 @@ class FTP(UploadService):
         conn.cwd(path)
 
         self.debug('uploading %s of %s bytes' % (filename, len(data)))
-        conn.storbinary('STOR %s' % filename, StringIO.StringIO(data))
+        conn.storbinary('STOR %s' % filename, StringIO(data))
 
         self.debug('upload done')
 
@@ -813,7 +817,7 @@ class SFTP(UploadService):
 
         conn = self._get_conn(test_file)
         conn.setopt(conn.POSTQUOTE, rm_operations)  # Executed after transfer.
-        conn.setopt(pycurl.READFUNCTION, StringIO.StringIO().read)
+        conn.setopt(pycurl.READFUNCTION, StringIO().read)
 
         try:
             self.curl_perform_filetransfer(conn)
@@ -826,7 +830,7 @@ class SFTP(UploadService):
 
     def upload_data(self, filename, mime_type, data):
         conn = self._get_conn(filename)
-        conn.setopt(pycurl.READFUNCTION, StringIO.StringIO(data).read)
+        conn.setopt(pycurl.READFUNCTION, StringIO(data).read)
 
         self.curl_perform_filetransfer(conn)
 

@@ -18,10 +18,11 @@
 import hashlib
 import logging
 import os
-import settings
+from motioneye import settings
 import subprocess
+from six.moves import xrange
 
-from config import additional_config
+from motioneye.config import additional_config
 
 
 LOCAL_TIME_FILE = settings.LOCAL_TIME_FILE  # @UndefinedVariable

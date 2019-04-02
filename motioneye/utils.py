@@ -25,9 +25,11 @@ import re
 import socket
 import sys
 import time
-import urllib
-import urllib2
-import urlparse
+from six.moves.urllib import request as urllib2
+from six.moves.urllib import parse as urllib
+from six.moves.urllib import parse as urlparse
+from six.moves import xrange
+import six
 
 from PIL import Image, ImageDraw
 
@@ -35,7 +37,7 @@ from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.iostream import IOStream
 from tornado.ioloop import IOLoop
 
-import settings
+from motioneye import settings
 
 
 _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
@@ -442,7 +444,7 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
 
 def test_rtsp_url(data, callback):
-    import motionctl
+    from motioneye import motionctl
     
     scheme = data.get('scheme', 'rtsp')
     host = data.get('host', '127.0.0.1')
@@ -508,7 +510,7 @@ def test_rtsp_url(data, callback):
             ''
         ]
 
-        stream.write('\r\n'.join(lines))
+        stream.write(six.b('\r\n'.join(lines)))
 
         seek_rtsp()
         
@@ -516,17 +518,17 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex('RTSP/1.0 \d+ ', on_rtsp)
+        stream.read_until_regex(six.b('RTSP/1.0 \d+ '), on_rtsp)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), on_rtsp)
 
     def on_rtsp(data=None):
         io_loop.remove_timeout(timeout[0])
 
         if data:
-            if data.endswith('200 '):
+            if data.endswith(six.b('200 ')):
                 seek_server()
 
-            elif data.endswith('401 '):
+            elif data.endswith(six.b('401 ')):
                 if not username or send_auth[0]:
                     # either credentials not supplied, or already sent
                     handle_error('authentication failed')
@@ -544,14 +546,14 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex('Server: .*', on_server)
+        stream.read_until_regex(six.b('Server: .*'), on_server)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_server)
 
     def on_server(data=None):
         io_loop.remove_timeout(timeout[0])
 
         if data:
-            identifier = re.findall('Server: (.*)', data)[0].strip()
+            identifier = re.findall(six.b('Server: (.*)'), data)[0].strip()
             logging.debug('rtsp netcam identifier is "%s"' % identifier)
         
         else:
@@ -564,14 +566,14 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex('WWW-Authenticate: .*', on_www_authenticate)
+        stream.read_until_regex(six.b('WWW-Authenticate: .*'), on_www_authenticate)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_www_authenticate)
 
     def on_www_authenticate(data=None):
         io_loop.remove_timeout(timeout[0])
 
         if data:
-            scheme = re.findall('WWW-Authenticate: ([^\s]+)', data)[0].strip()
+            scheme = re.findall(six.b('WWW-Authenticate: ([^\s]+)'), data)[0].strip()
             logging.debug('rtsp netcam auth scheme: %s' % scheme)
             if scheme.lower() == 'basic':
                 send_auth[0] = True
@@ -599,7 +601,7 @@ def test_rtsp_url(data, callback):
         called[0] = True
         cameras = []
         if identifier:
-            identifier = ' ' + identifier
+            identifier = ' ' + identifier.decode()
             
         else:
             identifier = ''
@@ -627,7 +629,7 @@ def test_rtsp_url(data, callback):
     def check_error():
         error = getattr(stream, 'error', None)
         if error and getattr(error, 'errno', None) != 0:
-            handle_error(error.strerror)
+            #handle_error(error.strerror)
             return True
 
         if stream and stream.socket is None:
@@ -654,12 +656,12 @@ def compute_signature(method, path, body, key):
     path = _SIGNATURE_REGEX.sub('-', path)
     key = _SIGNATURE_REGEX.sub('-', key)
 
-    if body and body.startswith('---'):
+    if body and body.startswith(six.b('---')):
         body = None  # file attachment
 
     body = body and _SIGNATURE_REGEX.sub('-', body.decode('utf8'))
 
-    return hashlib.sha1('%s:%s:%s:%s' % (method, path, body or '', key)).hexdigest().lower()
+    return hashlib.sha1(('%s:%s:%s:%s' % (method, path, body or '', key)).encode('utf-8')).hexdigest().lower()
 
 
 def parse_cookies(cookies_headers):

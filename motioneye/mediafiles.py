@@ -27,18 +27,23 @@ import pipes
 import re
 import signal
 import stat
-import StringIO
+#import StringIO
 import subprocess
 import time
 import zipfile
+from six.moves import StringIO
 
 from PIL import Image
 from tornado.ioloop import IOLoop
 
-import config
-import settings
-import utils
-import uploadservices
+from motioneye import settings
+from motioneye import utils
+from motioneye import uploadservices
+
+try:
+    from motioneye import config
+except ImportError:
+    import config
 
 
 _PICTURE_EXTS = ['.jpg']
@@ -207,6 +212,7 @@ def find_ffmpeg():
     # binary
     try:
         binary = subprocess.check_output(['which', 'ffmpeg'], stderr=utils.DEV_NULL).strip()
+        binary = binary.decode()
 
     except subprocess.CalledProcessError:  # not found
         return None, None, None
@@ -214,6 +220,7 @@ def find_ffmpeg():
     # version
     try:
         output = subprocess.check_output(binary + ' -version', shell=True)
+        output = output.decode()
 
     except subprocess.CalledProcessError as e:
         logging.error('ffmpeg: could find version: %s' % e)
@@ -225,6 +232,7 @@ def find_ffmpeg():
     # codecs
     try:
         output = subprocess.check_output(binary + ' -codecs -hide_banner', shell=True)
+        output = output.decode()
 
     except subprocess.CalledProcessError as e:
         logging.error('ffmpeg: could not list supported codecs: %s' % e)
@@ -820,7 +828,7 @@ def get_media_preview(camera_config, path, media_type, width, height):
     if width is height is None:
         return content
 
-    sio = StringIO.StringIO(content)
+    sio = StringIO(content)
     try:
         image = Image.open(sio)
 
@@ -833,7 +841,7 @@ def get_media_preview(camera_config, path, media_type, width, height):
 
     image.thumbnail((width, height), Image.LINEAR)
 
-    sio = StringIO.StringIO()
+    sio = StringIO()
     image.save(sio, format='JPEG')
 
     return sio.getvalue()
@@ -916,7 +924,7 @@ def del_media_group(camera_config, group, media_type):
 
 
 def get_current_picture(camera_config, width, height):
-    import mjpgclient
+    from motioneye import mjpgclient
 
     jpg = mjpgclient.get_jpg(camera_config['@id'])
 
@@ -926,7 +934,7 @@ def get_current_picture(camera_config, width, height):
     if width is height is None:
         return jpg  # no server-side resize needed
 
-    sio = StringIO.StringIO(jpg)
+    sio = StringIO(jpg)
     image = Image.open(sio)
 
     if width and width < 1:  # given as percent
@@ -949,7 +957,7 @@ def get_current_picture(camera_config, width, height):
 
     image.thumbnail((width, height), Image.CUBIC)
 
-    sio = StringIO.StringIO()
+    sio = StringIO()
     image.save(sio, format='JPEG')
 
     return sio.getvalue()

@@ -19,6 +19,7 @@ import datetime
 import logging
 import re
 import subprocess
+from six.moves import xrange
 
 from tornado import ioloop
 
@@ -36,6 +37,7 @@ def get_os_version():
 def _get_os_version_lsb_release():
     try:
         output = subprocess.check_output('lsb_release -sri', shell=True)
+        output = output.decode()
         lines = output.strip().split()
         name, version = lines
         if version.lower() == 'rolling':
@@ -50,6 +52,7 @@ def _get_os_version_lsb_release():
 def _get_os_version_uname():
     try:
         output = subprocess.check_output('uname -rs', shell=True)
+        output = output.decode()
         lines = output.strip().split()
         name, version = lines
         

@@ -32,12 +32,12 @@ from email.Utils import formatdate
 
 from tornado.ioloop import IOLoop
 
-import settings
+from motioneye import settings
 
-import config
-import mediafiles
-import motionctl
-import tzctl
+from motioneye import config
+from motioneye import mediafiles
+from motioneye import motionctl
+from motioneye import tzctl
 
 
 messages = {
@@ -164,7 +164,7 @@ def parse_options(parser, args):
     
 
 def main(parser, args):
-    import meyectl
+    from motioneye import meyectl
     
     # the motion daemon overrides SIGCHLD,
     # so we must restore it here,

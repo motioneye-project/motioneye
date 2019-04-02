@@ -21,14 +21,15 @@ import logging
 import re
 import socket
 import time
+import six
 
 from tornado.ioloop import IOLoop
 from tornado.iostream import IOStream
 
-import config
-import motionctl
-import settings
-import utils
+from motioneye import config
+from motioneye import motionctl
+from motioneye import settings
+from motioneye import utils
 
 
 class MjpgClient(IOStream):
@@ -139,13 +140,13 @@ class MjpgClient(IOStream):
             logging.debug('mjpg client using basic authentication')
 
             auth_header = utils.build_basic_header(self._username, self._password)
-            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
+            self.write(('GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header).encode('utf-8'))
 
         elif self._auth_mode == 'digest':  # in digest auth mode, the header is built upon receiving 401
-            self.write('GET / HTTP/1.1\r\n\r\n')
+            self.write('GET / HTTP/1.1\r\n\r\n'.encode('utf-8'))
             
         else:  # no authentication
-            self.write('GET / HTTP/1.1\r\nConnection: close\r\n\r\n')
+            self.write('GET / HTTP/1.1\r\nConnection: close\r\n\r\n'.encode('utf-8'))
 
         self._seek_http()
 
@@ -153,10 +154,10 @@ class MjpgClient(IOStream):
         if self._check_error():
             return
         
-        self.read_until_regex('HTTP/1.\d \d+ ', self._on_http)
+        self.read_until_regex(six.b('HTTP/1.\d \d+ '), self._on_http)
 
     def _on_http(self, data):
-        if data.endswith('401 '):
+        if data.endswith(six.b('401 ')):
             self._seek_www_authenticate()
 
         else:  # no authorization required, skip to content length
@@ -166,13 +167,13 @@ class MjpgClient(IOStream):
         if self._check_error():
             return
         
-        self.read_until('WWW-Authenticate:', self._on_before_www_authenticate)
+        self.read_until(six.b('WWW-Authenticate:'), self._on_before_www_authenticate)
 
     def _on_before_www_authenticate(self, data):
         if self._check_error():
             return
         
-        self.read_until('\r\n', self._on_www_authenticate)
+        self.read_until(six.b('\r\n'), self._on_www_authenticate)
     
     def _on_www_authenticate(self, data):
         if self._check_error():
@@ -180,7 +181,7 @@ class MjpgClient(IOStream):
 
         data = data.strip()
         
-        m = re.match('Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data)
+        m = re.match(six.b('Basic\s*realm="([a-zA-Z0-9\-\s]+)"'), data)
         if m:
             logging.debug('mjpg client using basic authentication')
             
@@ -212,19 +213,19 @@ class MjpgClient(IOStream):
         if self._check_error():
             return
         
-        self.read_until('Content-Length:', self._on_before_content_length)
+        self.read_until(six.b('Content-Length:'), self._on_before_content_length)
     
     def _on_before_content_length(self, data):
         if self._check_error():
             return
         
-        self.read_until('\r\n\r\n', self._on_content_length)
+        self.read_until(six.b('\r\n\r\n'), self._on_content_length)
     
     def _on_content_length(self, data):
         if self._check_error():
             return
         
-        matches = re.findall('(\d+)', data)
+        matches = re.findall(six.b('(\d+)'), data)
         if not matches:
             self._error('could not find content length in mjpg header line "%(header)s"' % {
                     'header': data})
