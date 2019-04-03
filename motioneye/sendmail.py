@@ -24,7 +24,7 @@ import smtplib
 import socket
 import time
 
-from email import Encoders
+from email import encoders
 from email.mime.text import MIMEText
 from email.MIMEMultipart import MIMEMultipart
 from email.MIMEBase import MIMEBase

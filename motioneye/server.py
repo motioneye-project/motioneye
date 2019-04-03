@@ -234,6 +234,15 @@ def test_requirements():
     try:
         import tornado  # @UnusedImport
 
+        # Check tornado version:
+        # python2 - Any
+        # python3 - Up to 4.5.3
+
+        if sys.version_info[0] >= 3:
+            if tornado.version and tornado.version[0] >= '5':
+                logging.fatal('please install tornado version 4.5.3 or earlier (required by python3). You can use the following command "pip3 install tornado==4.5.3"')
+                sys.exit(-1)
+
     except ImportError:
         logging.fatal('please install tornado version 3.1 or greater')
         sys.exit(-1)
