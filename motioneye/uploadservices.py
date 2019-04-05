@@ -140,14 +140,43 @@ class UploadService(object):
         return {c.NAME: c for c in UploadService.__subclasses__()}
 
 
+#class GoogleBase(UploadService):
+#    NAME = 'google'
+#
+#    AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
+#    TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
+#
+#    CLIENT_ID = '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
+#    CLIENT_NOT_SO_SECRET = 'jjqbWmICpA0GvbhsJB3okX7s'
+#
+#    def __init__(self, camera_id):
+#        self._location = None
+#        self._authorization_key = None
+#        self._credentials = None
+#        self._folder_ids = {}
+#        self._folder_id_times = {}
+#
+#        UploadService.__init__(self, camera_id)
+#
+#    @classmethod
+#    def get_authorize_url(cls):
+#        query = {
+#            'scope': cls.SCOPE,
+#            'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
+#            'response_type': 'code',
+#            'client_id': cls.CLIENT_ID,
+#            'access_type': 'offline'
+#        }
+#
+#        return cls.AUTH_URL + '?' + urllib.urlencode(query)
+#
+#    @staticmethod
+#    def get_service_classes():
+#        return {c.NAME: c for c in GoogleBase.__subclasses__()}
+
+#class GoogleDrive(GoogleBase):
 class GoogleDrive(UploadService):
     NAME = 'gdrive'
-
-    AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
-    TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
-
-    CLIENT_ID = '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
-    CLIENT_NOT_SO_SECRET = 'jjqbWmICpA0GvbhsJB3okX7s'
 
     SCOPE = 'https://www.googleapis.com/auth/drive'
     CHILDREN_URL = 'https://www.googleapis.com/drive/v2/files/%(parent_id)s/children?q=%(query)s'
@@ -159,6 +188,12 @@ class GoogleDrive(UploadService):
 
     FOLDER_ID_LIFE_TIME = 300  # 5 minutes
 
+    AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
+    TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
+
+    CLIENT_ID = '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
+    CLIENT_NOT_SO_SECRET = 'jjqbWmICpA0GvbhsJB3okX7s'
+
     def __init__(self, camera_id):
         self._location = None
         self._authorization_key = None
@@ -167,6 +202,9 @@ class GoogleDrive(UploadService):
         self._folder_id_times = {}
 
         UploadService.__init__(self, camera_id)
+
+#    def __init__(self, camera_id):
+#        GoogleBase.__init__(self, camera_id)
 
     @classmethod
     def get_authorize_url(cls):
@@ -198,6 +236,8 @@ class GoogleDrive(UploadService):
             'parents': [{'id': self._get_folder_id(path)}]
         }
 
+        self.info("upload_data %s, %s, %s" % (path, filename, self._folder_ids))
+
         body = ['--' + self.BOUNDARY]
         body.append('Content-Type: application/json; charset=UTF-8')
         body.append('')
@@ -227,6 +267,8 @@ class GoogleDrive(UploadService):
         }
 
     def load(self, data):
+        #self.debug('load() got data %s' % data)
+
         if data.get('location'):
             self._location = data['location']
             self._folder_ids = {}
@@ -497,25 +539,18 @@ class GoogleDrive(UploadService):
         return self._get_file_metadata(file_id)['title']
 
 
+#class GooglePhoto(GoogleBase):
 class GooglePhoto(UploadService):
     NAME = 'gphoto'
+
+    SCOPE = 'https://www.googleapis.com/auth/photoslibrary'
+    GOOGLE_PHOTO_API = 'https://photoslibrary.googleapis.com/v1/'
 
     AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
     TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
 
     CLIENT_ID = '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
     CLIENT_NOT_SO_SECRET = 'jjqbWmICpA0GvbhsJB3okX7s'
-
-    SCOPE = 'https://www.googleapis.com/auth/photoslibrary'
-    GOOGLE_PHOTO_API = 'https://photoslibrary.googleapis.com/v1/'
-    CHILDREN_URL = 'https://www.googleapis.com/drive/v2/files/%(parent_id)s/children?q=%(query)s'
-    CHILDREN_QUERY = "'%(parent_id)s' in parents and title = '%(child_name)s' and trashed = false"
-    UPLOAD_URL = 'https://www.googleapis.com/upload/drive/v2/files?uploadType=multipart'
-    CREATE_FOLDER_URL = 'https://www.googleapis.com/drive/v2/files'
-
-    BOUNDARY = 'motioneye_multipart_boundary'
-
-    FOLDER_ID_LIFE_TIME = 300  # 5 minutes
 
     def __init__(self, camera_id):
         self._location = None
@@ -525,6 +560,9 @@ class GooglePhoto(UploadService):
         self._folder_id_times = {}
 
         UploadService.__init__(self, camera_id)
+
+#    def __init__(self, camera_id):
+#        GoogleBase.__init__(self, camera_id)
 
     @classmethod
     def get_authorize_url(cls):
@@ -541,8 +579,7 @@ class GooglePhoto(UploadService):
     def test_access(self):
         try:
             self._folder_ids = {}
-            #self._get_folder_id()
-            self._get_albums()
+            self._get_folder_id()
             return True
 
         except Exception as e:
@@ -557,26 +594,28 @@ class GooglePhoto(UploadService):
             'parents': [{'id': self._get_folder_id(path)}]
         }
 
-        body = ['--' + self.BOUNDARY]
-        body.append('Content-Type: application/json; charset=UTF-8')
-        body.append('')
-        body.append(json.dumps(metadata))
-        body.append('')
+        self.info("skipping upload_data %s, %s, %s" % (path, filename, self._folder_ids))
 
-        body.append('--' + self.BOUNDARY)
-        body.append('Content-Type: %s' % mime_type)
-        body.append('')
-        body.append('')
-        body = '\r\n'.join(body)
-        body += data
-        body += '\r\n--%s--' % self.BOUNDARY
+        #body = ['--' + self.BOUNDARY]
+        #body.append('Content-Type: application/json; charset=UTF-8')
+        #body.append('')
+        #body.append(json.dumps(metadata))
+        #body.append('')
 
-        headers = {
-            'Content-Type': 'multipart/related; boundary="%s"' % self.BOUNDARY,
-            'Content-Length': len(body)
-        }
+        #body.append('--' + self.BOUNDARY)
+        #body.append('Content-Type: %s' % mime_type)
+        #body.append('')
+        #body.append('')
+        #body = '\r\n'.join(body)
+        #body += data
+        #body += '\r\n--%s--' % self.BOUNDARY
 
-        self._request(self.UPLOAD_URL, body, headers)
+        #headers = {
+        #    'Content-Type': 'multipart/related; boundary="%s"' % self.BOUNDARY,
+        #    'Content-Length': len(body)
+        #}
+
+        #self._request(self.UPLOAD_URL, body, headers)
 
     def dump(self):
         return {
@@ -586,6 +625,8 @@ class GooglePhoto(UploadService):
         }
 
     def load(self, data):
+        #self.debug('load() got data %s' % data)
+
         if data.get('location'):
             self._location = data['location']
             self._folder_ids = {}
@@ -596,103 +637,69 @@ class GooglePhoto(UploadService):
             self._credentials = data['credentials']
 
     def _get_folder_id(self, path=''):
-        now = time.time()
-
-        folder_id = self._folder_ids.get(path)
-        folder_id_time = self._folder_id_times.get(path, 0)
-
         location = self._location
-        if not location.endswith('/'):
-            location += '/'
 
-        location += path
+        folder_id = self._folder_ids.get(location)
 
-        if not folder_id or (now - folder_id_time > self.FOLDER_ID_LIFE_TIME):
-            self.debug('finding folder id for location "%s"' % location)
-            folder_id = self._get_folder_id_by_path(location)
+        if not folder_id:
+            self.debug('finding album with title "%s"' % location)
+            folder_id = self._get_folder_id_by_name(location)
 
-            self._folder_ids[path] = folder_id
-            self._folder_id_times[path] = now
+            self._folder_ids[location] = folder_id
+            #self._folder_id_times[path] = now
 
         return folder_id
 
-    def _get_folder_id_by_path(self, path):
-        if path and path != '/':
-            path = [p.strip() for p in path.split('/') if p.strip()]
-            parent_id = 'root'
-            for name in path:
-                parent_id = self._get_folder_id_by_name(parent_id, name)
 
-            return parent_id
+    def _get_folder_id_by_name(self, name, create=True):
+        # assumes self._folder_ids doesn't have 'name' 
 
-        else:  # root folder
-            return self._get_folder_id_by_name(None, 'root')
-
-    def _get_folder_id_by_name(self, parent_id, child_name, create=True):
-        if parent_id:
-            query = self.CHILDREN_QUERY % {'parent_id': parent_id, 'child_name': child_name}
-            query = urllib.quote(query)
-
-        else:
-            query = ''
-
-        parent_id = parent_id or 'root'
-        # when requesting the id of the root folder, we perform a dummy request,
-        # event though we already know the id (which is "root"), to test the request
-
-        url = self.CHILDREN_URL % {'parent_id': parent_id, 'query': query}
-        response = self._request(url)
         try:
-            response = json.loads(response)
+            albums = self._get_albums()
+            albumsWithName = self._filter_albums(albums, name)
 
-        except Exception:
-            self.error("response doesn't seem to be a valid json")
+            if albumsWithName:
+                count = len(albumsWithName)
+                if count > 0:
+                    self.debug('found %s existing album(s) "%s"' % (count, name))
+                    albumId = albumsWithName[0].get('id')
+                    return albumId
+
+            # create album
+            response = self._create_folder(None, name)
+            albumId = response.get('id')
+            self.debug('Album "%s" was created successfully with id "%s"' % (name, albumId))
+            return albumId
+
+        except Exception as e:
+            self.error("_get_folder_id_by_name() failed: %s" % e)
             raise
-
-        if parent_id == 'root' and child_name == 'root':
-            return 'root'
-
-        items = response.get('items')
-        if not items:
-            if create:
-                self.debug('folder with name "%s" does not exist, creating it' % child_name)
-                self._create_folder(parent_id, child_name)
-                return self._get_folder_id_by_name(parent_id, child_name, create=False)
-
-            else:
-                msg = 'folder with name "%s" does not exist' % child_name
-                self.error(msg)
-                raise Exception(msg)
-
-        return items[0]['id']
 
     def _create_folder(self, parent_id, child_name):
         metadata = {
-            'title': child_name,
-            'parents': [{'id': parent_id}],
-            'mimeType': 'application/vnd.google-apps.folder'
+            'album': {
+                'title': child_name
+            }
         }
 
         body = json.dumps(metadata)
 
         headers = {
-            'Content-Type': 'application/json; charset=UTF-8'
+            'Content-Type': 'application/json'
         }
 
-        self._request(self.CREATE_FOLDER_URL, body, headers)
+        response = self._request_json(self.GOOGLE_PHOTO_API + 'albums', body, headers)
+        return response
 
     def _get_albums(self):
-        response = self._request(self.GOOGLE_PHOTO_API + 'albums')
-        try:
-            response = json.loads(response)
-
-        except Exception:
-            self.error("response doesn't seem to be a valid json")
-            raise
+        response = self._request_json(self.GOOGLE_PHOTO_API + 'albums')
 
         albums = response.get('albums')
         self.debug('got %s album(s)' % len(albums))
         return albums
+
+    def _filter_albums(self, albums, title):
+        return [a for a in albums if a.get('title') == title]
 
     def _request(self, url, body=None, headers=None, retry_auth=True, method=None):
         if not self._credentials:
@@ -750,6 +757,16 @@ class GooglePhoto(UploadService):
             raise
 
         return response.read()
+
+    def _request_json(self, url, body=None, headers=None, retry_auth=True, method=None):
+        response = self._request(url, body, headers, retry_auth, method)
+        try:
+            response = json.loads(response)
+        except Exception:
+            self.error("reponse doesn't seem to be a valid json")
+            raise
+
+        return response
 
     def _request_credentials(self, authorization_key):
         headers = {
@@ -1199,7 +1216,16 @@ class SFTP(UploadService):
         return self._conn
 
 
+#def _get_service_class(service_name):
+#    cls = UploadService.get_service_classes().get(service_name)
+#
+#    if not cls:
+#        cls = GoogleBase.get_service_classes().get(service_name)
+#
+#    return cls
+
 def get_authorize_url(service_name):
+#    cls = _get_service_class(service_name)
     cls = UploadService.get_service_classes().get(service_name)
 
     if cls:
@@ -1219,18 +1245,22 @@ def get(camera_id, service_name):
 
     service = _services.get(camera_id, {}).get(service_name)
     if service is None:
+        #cls = _get_service_class(service_name)
         cls = UploadService.get_service_classes().get(service_name)
+
         if cls:
             service = cls(camera_id=camera_id)
             _services.setdefault(camera_id, {})[service_name] = service
 
             logging.debug('created default upload service "%s" for camera with id "%s"' % (service_name, camera_id))
+        #else:
+        #    logging.debug('upload service "%s" not found' % service_name)
 
     return service
 
 
 def test_access(camera_id, service_name, data):
-    logging.debug('testing access to %s' % service_name)
+    logging.debug('testing access to %s %' % (service_name, data))
 
     service = get(camera_id, service_name)
     service.load(data)
@@ -1288,7 +1318,9 @@ def _load():
         for camera_id, d in data.iteritems():
             for name, state in d.iteritems():
                 camera_services = services.setdefault(camera_id, {})
+                #cls = _get_service_class(name)
                 cls = UploadService.get_service_classes().get(name)
+
                 if cls:
                     service = cls(camera_id=camera_id)
                     service.load(state)
