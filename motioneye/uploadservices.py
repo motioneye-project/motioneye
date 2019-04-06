@@ -29,7 +29,7 @@ import pycurl
 import settings
 import utils
 import config
-
+import datetime
 
 _STATE_FILE_NAME = 'uploadservices.json'
 _services = None
@@ -54,6 +54,8 @@ class UploadService(object):
         return True
 
     def upload_file(self, target_dir, filename):
+        ctime = os.path.getctime(filename)
+
         if target_dir:
             target_dir = os.path.realpath(target_dir)
             rel_filename = os.path.realpath(filename)
@@ -98,11 +100,11 @@ class UploadService(object):
         mime_type = mimetypes.guess_type(filename)[0] or 'image/jpeg'
         self.debug('mime type of "%s" is "%s"' % (filename, mime_type))
 
-        self.upload_data(rel_filename, mime_type, data)
+        self.upload_data(rel_filename, mime_type, data, ctime)
 
         self.debug('file "%s" successfully uploaded' % filename)
 
-    def upload_data(self, filename, mime_type, data):
+    def upload_data(self, filename, mime_type, data, ctime):
         pass
 
     def dump(self):
@@ -319,7 +321,7 @@ class GoogleDrive(UploadService, GoogleBase):
         except Exception as e:
             return str(e)
 
-    def upload_data(self, filename, mime_type, data):
+    def upload_data(self, filename, mime_type, data, ctime):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
 
@@ -327,8 +329,6 @@ class GoogleDrive(UploadService, GoogleBase):
             'title': filename,
             'parents': [{'id': self._get_folder_id(path)}]
         }
-
-        self.info("upload_data %s, %s, %s" % (path, filename, self._folder_ids))
 
         body = ['--' + self.BOUNDARY]
         body.append('Content-Type: application/json; charset=UTF-8')
@@ -359,8 +359,6 @@ class GoogleDrive(UploadService, GoogleBase):
         }
 
     def load(self, data):
-        self.debug('load() got data %s' % data)
-
         if data.get('location'):
             self._location = data['location']
             self._folder_ids = {}
@@ -550,16 +548,11 @@ class GooglePhoto(UploadService, GoogleBase):
         except Exception as e:
             return str(e)
 
-    def upload_data(self, filename, mime_type, data):
+    def upload_data(self, filename, mime_type, data, ctime):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
-
-        if path:
-            uploadname = path + '-' + filename
-        else:
-            uploadname = filename
-
-        self.info("upload_data(%s, %s, %s)" % (path, filename, self._folder_ids))
+        dayinfo = datetime.datetime.fromtimestamp(ctime).strftime('%Y-%m-%d')
+        uploadname = dayinfo + '-' + filename
 
         body = data 
 
@@ -581,8 +574,6 @@ class GooglePhoto(UploadService, GoogleBase):
         }
 
     def load(self, data):
-        self.debug('load() got data %s' % data)
-
         if data.get('location'):
             self._location = data['location']
             self._folder_ids = {}
@@ -622,7 +613,7 @@ class GooglePhoto(UploadService, GoogleBase):
             # create album
             response = self._create_folder(None, name)
             albumId = response.get('id')
-            self.debug('Album "%s" was created successfully with id "%s"' % (name, albumId))
+            self.info('Album "%s" was created successfully with id "%s"' % (name, albumId))
             return albumId
 
         except Exception as e:
@@ -730,7 +721,7 @@ class Dropbox(UploadService):
 
             return msg
 
-    def upload_data(self, filename, mime_type, data):
+    def upload_data(self, filename, mime_type, data, ctime):
         metadata = {
             'path': os.path.join(self._clean_location(), filename),
             'mode': 'add',
@@ -888,7 +879,7 @@ class FTP(UploadService):
 
             return str(e)
 
-    def upload_data(self, filename, mime_type, data):
+    def upload_data(self, filename, mime_type, data, ctime):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
 
@@ -1005,7 +996,7 @@ class SFTP(UploadService):
 
             return str(e)
 
-    def upload_data(self, filename, mime_type, data):
+    def upload_data(self, filename, mime_type, data, ctime):
         conn = self._get_conn(filename)
         conn.setopt(pycurl.READFUNCTION, StringIO.StringIO(data).read)
 
@@ -1065,16 +1056,7 @@ class SFTP(UploadService):
         return self._conn
 
 
-#def _get_service_class(service_name):
-#    cls = UploadService.get_service_classes().get(service_name)
-#
-#    if not cls:
-#        cls = GoogleBase.get_service_classes().get(service_name)
-#
-#    return cls
-
 def get_authorize_url(service_name):
-#    cls = _get_service_class(service_name)
     cls = UploadService.get_service_classes().get(service_name)
 
     if cls:
@@ -1095,7 +1077,6 @@ def get(camera_id, service_name):
     service = _services.get(camera_id, {}).get(service_name)
 
     if service is None:
-        #cls = _get_service_class(service_name)
         cls = UploadService.get_service_classes().get(service_name)
 
         if cls:
@@ -1115,7 +1096,6 @@ def test_access(camera_id, service_name, data):
     if not service:
         return 'unknown upload service %s' % service_name
 
-    #return service(camera_id).test_access()
     return service.test_access()
 
 
@@ -1167,7 +1147,6 @@ def _load():
         for camera_id, d in data.iteritems():
             for name, state in d.iteritems():
                 camera_services = services.setdefault(camera_id, {})
-                #cls = _get_service_class(name)
                 cls = UploadService.get_service_classes().get(name)
 
                 if cls:
