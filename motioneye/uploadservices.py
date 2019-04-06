@@ -140,39 +140,42 @@ class UploadService(object):
         return {c.NAME: c for c in UploadService.__subclasses__()}
 
 
-#class GoogleBase(UploadService):
-#    NAME = 'google'
-#
-#    AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
-#    TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
-#
-#    CLIENT_ID = '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
-#    CLIENT_NOT_SO_SECRET = 'jjqbWmICpA0GvbhsJB3okX7s'
-#
-#    def __init__(self, camera_id):
-#        self._location = None
-#        self._authorization_key = None
-#        self._credentials = None
-#        self._folder_ids = {}
-#        self._folder_id_times = {}
-#
-#        UploadService.__init__(self, camera_id)
-#
-#    @classmethod
-#    def get_authorize_url(cls):
-#        query = {
-#            'scope': cls.SCOPE,
-#            'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
-#            'response_type': 'code',
-#            'client_id': cls.CLIENT_ID,
-#            'access_type': 'offline'
-#        }
-#
-#        return cls.AUTH_URL + '?' + urllib.urlencode(query)
-#
-#    @staticmethod
-#    def get_service_classes():
-#        return {c.NAME: c for c in GoogleBase.__subclasses__()}
+class GoogleBase(UploadService):
+    NAME = 'google'
+
+    AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
+    TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
+
+    CLIENT_ID = '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
+    CLIENT_NOT_SO_SECRET = 'jjqbWmICpA0GvbhsJB3okX7s'
+
+    def __init__(self, camera_id):
+        self._location = None
+        self._authorization_key = None
+        self._credentials = None
+        self._folder_ids = {}
+        self._folder_id_times = {}
+
+        UploadService.__init__(self, camera_id)
+
+    @classmethod
+    def get_authorize_url(cls):
+        query = {
+            'scope': cls.SCOPE,
+            'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
+            'response_type': 'code',
+            'client_id': cls.CLIENT_ID,
+            'access_type': 'offline'
+        }
+
+        return cls.AUTH_URL + '?' + urllib.urlencode(query)
+
+    def _get_folder_id(self, path):
+        pass
+
+    @staticmethod
+    def get_service_classes():
+        return {c.NAME: c for c in GoogleBase.__subclasses__()}
 
 #class GoogleDrive(GoogleBase):
 class GoogleDrive(UploadService):
@@ -267,7 +270,7 @@ class GoogleDrive(UploadService):
         }
 
     def load(self, data):
-        #self.debug('load() got data %s' % data)
+        self.debug('load() got data %s' % data)
 
         if data.get('location'):
             self._location = data['location']
@@ -589,33 +592,19 @@ class GooglePhoto(UploadService):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
 
-        metadata = {
-            'title': filename,
-            'parents': [{'id': self._get_folder_id(path)}]
+        self.info("upload_data(%s, %s, %s)" % (path, filename, self._folder_ids))
+
+        body = data 
+
+        headers = {
+            'Content-Type': 'application/octet-stream',
+            'X-Goog-Upload-File-Name': filename,
+            'X-Goog-Upload-Protocol': 'raw'
         }
 
-        self.info("skipping upload_data %s, %s, %s" % (path, filename, self._folder_ids))
-
-        #body = ['--' + self.BOUNDARY]
-        #body.append('Content-Type: application/json; charset=UTF-8')
-        #body.append('')
-        #body.append(json.dumps(metadata))
-        #body.append('')
-
-        #body.append('--' + self.BOUNDARY)
-        #body.append('Content-Type: %s' % mime_type)
-        #body.append('')
-        #body.append('')
-        #body = '\r\n'.join(body)
-        #body += data
-        #body += '\r\n--%s--' % self.BOUNDARY
-
-        #headers = {
-        #    'Content-Type': 'multipart/related; boundary="%s"' % self.BOUNDARY,
-        #    'Content-Length': len(body)
-        #}
-
-        #self._request(self.UPLOAD_URL, body, headers)
+        uploadToken = self._request(self.GOOGLE_PHOTO_API + 'uploads', body, headers)
+        response = self._create_media(uploadToken)
+        self.debug('response %s' % response[0])
 
     def dump(self):
         return {
@@ -625,7 +614,7 @@ class GooglePhoto(UploadService):
         }
 
     def load(self, data):
-        #self.debug('load() got data %s' % data)
+        self.debug('load() got data %s' % data)
 
         if data.get('location'):
             self._location = data['location']
@@ -641,19 +630,17 @@ class GooglePhoto(UploadService):
 
         folder_id = self._folder_ids.get(location)
 
+        self.debug('_get_folder_id(%s, %s, %s)' % (path, location, folder_id))
+
         if not folder_id:
             self.debug('finding album with title "%s"' % location)
             folder_id = self._get_folder_id_by_name(location)
 
             self._folder_ids[location] = folder_id
-            #self._folder_id_times[path] = now
 
         return folder_id
 
-
     def _get_folder_id_by_name(self, name, create=True):
-        # assumes self._folder_ids doesn't have 'name' 
-
         try:
             albums = self._get_albums()
             albumsWithName = self._filter_albums(albums, name)
@@ -661,8 +648,8 @@ class GooglePhoto(UploadService):
             if albumsWithName:
                 count = len(albumsWithName)
                 if count > 0:
-                    self.debug('found %s existing album(s) "%s"' % (count, name))
                     albumId = albumsWithName[0].get('id')
+                    self.debug('found %s existing album(s) "%s" taking first id "%s"' % (count, name, albumId))
                     return albumId
 
             # create album
@@ -689,6 +676,28 @@ class GooglePhoto(UploadService):
         }
 
         response = self._request_json(self.GOOGLE_PHOTO_API + 'albums', body, headers)
+        return response
+
+    def _create_media(self, uploadToken):
+        metadata = {
+            'albumId': self._get_folder_id(),
+            'newMediaItems': [
+                {
+                    'description': 'captured by motionEye',
+                    'simpleMediaItem': {
+                        'uploadToken': uploadToken
+                    }
+                }
+            ]
+        }
+
+        body = json.dumps(metadata)
+
+        headers = {
+            'Content-Type': 'application/json'
+        }
+
+        response = self._request_json(self.GOOGLE_PHOTO_API + 'mediaItems:batchCreate', body, headers)
         return response
 
     def _get_albums(self):
@@ -1216,17 +1225,17 @@ class SFTP(UploadService):
         return self._conn
 
 
-#def _get_service_class(service_name):
-#    cls = UploadService.get_service_classes().get(service_name)
-#
+def _get_service_class(service_name):
+    cls = UploadService.get_service_classes().get(service_name)
+
 #    if not cls:
 #        cls = GoogleBase.get_service_classes().get(service_name)
-#
-#    return cls
+
+    return cls
 
 def get_authorize_url(service_name):
-#    cls = _get_service_class(service_name)
-    cls = UploadService.get_service_classes().get(service_name)
+    cls = _get_service_class(service_name)
+#    cls = UploadService.get_service_classes().get(service_name)
 
     if cls:
         return cls.get_authorize_url()
@@ -1244,9 +1253,10 @@ def get(camera_id, service_name):
     camera_id = str(camera_id)
 
     service = _services.get(camera_id, {}).get(service_name)
+
     if service is None:
-        #cls = _get_service_class(service_name)
-        cls = UploadService.get_service_classes().get(service_name)
+        cls = _get_service_class(service_name)
+        #cls = UploadService.get_service_classes().get(service_name)
 
         if cls:
             service = cls(camera_id=camera_id)
@@ -1260,13 +1270,14 @@ def get(camera_id, service_name):
 
 
 def test_access(camera_id, service_name, data):
-    logging.debug('testing access to %s %' % (service_name, data))
+    logging.debug('testing access to %s' % service_name)
 
     service = get(camera_id, service_name)
     service.load(data)
     if not service:
         return 'unknown upload service %s' % service_name
 
+    #return service(camera_id).test_access()
     return service.test_access()
 
 
@@ -1318,8 +1329,8 @@ def _load():
         for camera_id, d in data.iteritems():
             for name, state in d.iteritems():
                 camera_services = services.setdefault(camera_id, {})
-                #cls = _get_service_class(name)
-                cls = UploadService.get_service_classes().get(name)
+                cls = _get_service_class(name)
+                #cls = UploadService.get_service_classes().get(name)
 
                 if cls:
                     service = cls(camera_id=camera_id)
