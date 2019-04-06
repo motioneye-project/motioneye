@@ -140,8 +140,7 @@ class UploadService(object):
         return {c.NAME: c for c in UploadService.__subclasses__()}
 
 
-class GoogleBase(UploadService):
-    NAME = 'google'
+class GoogleBase:
 
     AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
     TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
@@ -149,36 +148,135 @@ class GoogleBase(UploadService):
     CLIENT_ID = '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
     CLIENT_NOT_SO_SECRET = 'jjqbWmICpA0GvbhsJB3okX7s'
 
-    def __init__(self, camera_id):
-        self._location = None
-        self._authorization_key = None
-        self._credentials = None
-        self._folder_ids = {}
-        self._folder_id_times = {}
+    def _request(self, url, body=None, headers=None, retry_auth=True, method=None):
+        if not self._credentials:
+            if not self._authorization_key:
+                msg = 'missing authorization key'
+                self.error(msg)
+                raise Exception(msg)
 
-        UploadService.__init__(self, camera_id)
+            self.debug('requesting credentials')
+            try:
+                self._credentials = self._request_credentials(self._authorization_key)
+                self.save()
 
-    @classmethod
-    def get_authorize_url(cls):
-        query = {
-            'scope': cls.SCOPE,
-            'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
-            'response_type': 'code',
-            'client_id': cls.CLIENT_ID,
-            'access_type': 'offline'
+            except Exception as e:
+                self.error('failed to obtain credentials: %s' % e)
+                raise
+
+        headers = headers or {}
+        headers['Authorization'] = 'Bearer %s' % self._credentials['access_token']
+
+        self.debug('requesting %s' % url)
+        request = urllib2.Request(url, data=body, headers=headers)
+        if method:
+            request.get_method = lambda: method
+        try:
+            response = utils.urlopen(request)
+
+        except urllib2.HTTPError as e:
+            if e.code == 401 and retry_auth:  # unauthorized, access token may have expired
+                try:
+                    self.debug('credentials have probably expired, refreshing them')
+                    self._credentials = self._refresh_credentials(self._credentials['refresh_token'])
+                    self.save()
+
+                    # retry the request with refreshed credentials
+                    return self._request(url, body, headers, retry_auth=False)
+
+                except Exception:
+                    self.error('refreshing credentials failed')
+                    raise
+
+            else:
+                try:
+                    e = json.load(e)
+                    msg = e['error']['message']
+
+                except Exception:
+                    msg = str(e)
+
+                self.error('request failed: %s' % msg)
+                raise Exception(msg)
+
+        except Exception as e:
+            self.error('request failed: %s' % e)
+            raise
+
+        return response.read()
+
+    def _request_json(self, url, body=None, headers=None, retry_auth=True, method=None):
+        response = self._request(url, body, headers, retry_auth, method)
+        try:
+            response = json.loads(response)
+        except Exception:
+            self.error("reponse doesn't seem to be a valid json")
+            raise
+
+        return response
+
+    def _request_credentials(self, authorization_key):
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
         }
 
-        return cls.AUTH_URL + '?' + urllib.urlencode(query)
+        body = {
+            'code': authorization_key,
+            'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
+            'client_id': self.CLIENT_ID,
+            'client_secret': self.CLIENT_NOT_SO_SECRET,
+            'scope': self.SCOPE,
+            'grant_type': 'authorization_code'
+        }
+        body = urllib.urlencode(body)
 
-    def _get_folder_id(self, path):
-        pass
+        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
 
-    @staticmethod
-    def get_service_classes():
-        return {c.NAME: c for c in GoogleBase.__subclasses__()}
+        try:
+            response = utils.urlopen(request)
 
-#class GoogleDrive(GoogleBase):
-class GoogleDrive(UploadService):
+        except urllib2.HTTPError as e:
+            error = json.load(e)
+            raise Exception(error.get('error_description') or error.get('error') or str(e))
+
+        data = json.load(response)
+
+        return {
+            'access_token': data['access_token'],
+            'refresh_token': data['refresh_token']
+        }
+
+    def _refresh_credentials(self, refresh_token):
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+
+        body = {
+            'refresh_token': refresh_token,
+            'client_id': self.CLIENT_ID,
+            'client_secret': self.CLIENT_NOT_SO_SECRET,
+            'grant_type': 'refresh_token'
+        }
+        body = urllib.urlencode(body)
+
+        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
+
+        try:
+            response = utils.urlopen(request)
+
+        except urllib2.HTTPError as e:
+            error = json.load(e)
+            raise Exception(error.get('error_description') or error.get('error') or str(e))
+
+        data = json.load(response)
+
+        return {
+            'access_token': data['access_token'],
+            'refresh_token': data.get('refresh_token', refresh_token)
+        }
+
+
+class GoogleDrive(UploadService, GoogleBase):
     NAME = 'gdrive'
 
     SCOPE = 'https://www.googleapis.com/auth/drive'
@@ -191,12 +289,6 @@ class GoogleDrive(UploadService):
 
     FOLDER_ID_LIFE_TIME = 300  # 5 minutes
 
-    AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
-    TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
-
-    CLIENT_ID = '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
-    CLIENT_NOT_SO_SECRET = 'jjqbWmICpA0GvbhsJB3okX7s'
-
     def __init__(self, camera_id):
         self._location = None
         self._authorization_key = None
@@ -205,9 +297,6 @@ class GoogleDrive(UploadService):
         self._folder_id_times = {}
 
         UploadService.__init__(self, camera_id)
-
-#    def __init__(self, camera_id):
-#        GoogleBase.__init__(self, camera_id)
 
     @classmethod
     def get_authorize_url(cls):
@@ -367,123 +456,6 @@ class GoogleDrive(UploadService):
 
         self._request(self.CREATE_FOLDER_URL, body, headers)
 
-    def _request(self, url, body=None, headers=None, retry_auth=True, method=None):
-        if not self._credentials:
-            if not self._authorization_key:
-                msg = 'missing authorization key'
-                self.error(msg)
-                raise Exception(msg)
-
-            self.debug('requesting credentials')
-            try:
-                self._credentials = self._request_credentials(self._authorization_key)
-                self.save()
-
-            except Exception as e:
-                self.error('failed to obtain credentials: %s' % e)
-                raise
-
-        headers = headers or {}
-        headers['Authorization'] = 'Bearer %s' % self._credentials['access_token']
-
-        self.debug('requesting %s' % url)
-        request = urllib2.Request(url, data=body, headers=headers)
-        if method:
-            request.get_method = lambda: method
-        try:
-            response = utils.urlopen(request)
-
-        except urllib2.HTTPError as e:
-            if e.code == 401 and retry_auth:  # unauthorized, access token may have expired
-                try:
-                    self.debug('credentials have probably expired, refreshing them')
-                    self._credentials = self._refresh_credentials(self._credentials['refresh_token'])
-                    self.save()
-
-                    # retry the request with refreshed credentials
-                    return self._request(url, body, headers, retry_auth=False)
-
-                except Exception:
-                    self.error('refreshing credentials failed')
-                    raise
-
-            else:
-                try:
-                    e = json.load(e)
-                    msg = e['error']['message']
-
-                except Exception:
-                    msg = str(e)
-
-                self.error('request failed: %s' % msg)
-                raise Exception(msg)
-
-        except Exception as e:
-            self.error('request failed: %s' % e)
-            raise
-
-        return response.read()
-
-    def _request_credentials(self, authorization_key):
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-
-        body = {
-            'code': authorization_key,
-            'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
-            'client_id': self.CLIENT_ID,
-            'client_secret': self.CLIENT_NOT_SO_SECRET,
-            'scope': self.SCOPE,
-            'grant_type': 'authorization_code'
-        }
-        body = urllib.urlencode(body)
-
-        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
-
-        try:
-            response = utils.urlopen(request)
-
-        except urllib2.HTTPError as e:
-            error = json.load(e)
-            raise Exception(error.get('error_description') or error.get('error') or str(e))
-
-        data = json.load(response)
-
-        return {
-            'access_token': data['access_token'],
-            'refresh_token': data['refresh_token']
-        }
-
-    def _refresh_credentials(self, refresh_token):
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-
-        body = {
-            'refresh_token': refresh_token,
-            'client_id': self.CLIENT_ID,
-            'client_secret': self.CLIENT_NOT_SO_SECRET,
-            'grant_type': 'refresh_token'
-        }
-        body = urllib.urlencode(body)
-
-        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
-
-        try:
-            response = utils.urlopen(request)
-
-        except urllib2.HTTPError as e:
-            error = json.load(e)
-            raise Exception(error.get('error_description') or error.get('error') or str(e))
-
-        data = json.load(response)
-
-        return {
-            'access_token': data['access_token'],
-            'refresh_token': data.get('refresh_token', refresh_token)
-        }
-
     def clean_cloud(self, cloud_dir, local_folders):
         # remove old cloud folder that does not exist in local.
         # assumes 'cloud_dir' is a direct child of the 'root'.
@@ -542,18 +514,11 @@ class GoogleDrive(UploadService):
         return self._get_file_metadata(file_id)['title']
 
 
-#class GooglePhoto(GoogleBase):
-class GooglePhoto(UploadService):
+class GooglePhoto(UploadService, GoogleBase):
     NAME = 'gphoto'
 
     SCOPE = 'https://www.googleapis.com/auth/photoslibrary'
     GOOGLE_PHOTO_API = 'https://photoslibrary.googleapis.com/v1/'
-
-    AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
-    TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
-
-    CLIENT_ID = '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
-    CLIENT_NOT_SO_SECRET = 'jjqbWmICpA0GvbhsJB3okX7s'
 
     def __init__(self, camera_id):
         self._location = None
@@ -563,9 +528,6 @@ class GooglePhoto(UploadService):
         self._folder_id_times = {}
 
         UploadService.__init__(self, camera_id)
-
-#    def __init__(self, camera_id):
-#        GoogleBase.__init__(self, camera_id)
 
     @classmethod
     def get_authorize_url(cls):
@@ -592,19 +554,24 @@ class GooglePhoto(UploadService):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
 
+        if path:
+            uploadname = path + '-' + filename
+        else:
+            uploadname = filename
+
         self.info("upload_data(%s, %s, %s)" % (path, filename, self._folder_ids))
 
         body = data 
 
         headers = {
             'Content-Type': 'application/octet-stream',
-            'X-Goog-Upload-File-Name': filename,
+            'X-Goog-Upload-File-Name': uploadname,
             'X-Goog-Upload-Protocol': 'raw'
         }
 
         uploadToken = self._request(self.GOOGLE_PHOTO_API + 'uploads', body, headers)
         response = self._create_media(uploadToken)
-        self.debug('response %s' % response[0])
+        self.debug('response %s' % response['mediaItem'])
 
     def dump(self):
         return {
@@ -698,7 +665,7 @@ class GooglePhoto(UploadService):
         }
 
         response = self._request_json(self.GOOGLE_PHOTO_API + 'mediaItems:batchCreate', body, headers)
-        return response
+        return response.get('newMediaItemResults')[0]
 
     def _get_albums(self):
         response = self._request_json(self.GOOGLE_PHOTO_API + 'albums')
@@ -709,133 +676,6 @@ class GooglePhoto(UploadService):
 
     def _filter_albums(self, albums, title):
         return [a for a in albums if a.get('title') == title]
-
-    def _request(self, url, body=None, headers=None, retry_auth=True, method=None):
-        if not self._credentials:
-            if not self._authorization_key:
-                msg = 'missing authorization key'
-                self.error(msg)
-                raise Exception(msg)
-
-            self.debug('requesting credentials')
-            try:
-                self._credentials = self._request_credentials(self._authorization_key)
-                self.save()
-
-            except Exception as e:
-                self.error('failed to obtain credentials: %s' % e)
-                raise
-
-        headers = headers or {}
-        headers['Authorization'] = 'Bearer %s' % self._credentials['access_token']
-
-        self.debug('requesting %s' % url)
-        request = urllib2.Request(url, data=body, headers=headers)
-        if method:
-            request.get_method = lambda: method
-        try:
-            response = utils.urlopen(request)
-
-        except urllib2.HTTPError as e:
-            if e.code == 401 and retry_auth:  # unauthorized, access token may have expired
-                try:
-                    self.debug('credentials have probably expired, refreshing them')
-                    self._credentials = self._refresh_credentials(self._credentials['refresh_token'])
-                    self.save()
-
-                    # retry the request with refreshed credentials
-                    return self._request(url, body, headers, retry_auth=False)
-
-                except Exception:
-                    self.error('refreshing credentials failed')
-                    raise
-
-            else:
-                try:
-                    e = json.load(e)
-                    msg = e['error']['message']
-
-                except Exception:
-                    msg = str(e)
-
-                self.error('request failed: %s' % msg)
-                raise Exception(msg)
-
-        except Exception as e:
-            self.error('request failed: %s' % e)
-            raise
-
-        return response.read()
-
-    def _request_json(self, url, body=None, headers=None, retry_auth=True, method=None):
-        response = self._request(url, body, headers, retry_auth, method)
-        try:
-            response = json.loads(response)
-        except Exception:
-            self.error("reponse doesn't seem to be a valid json")
-            raise
-
-        return response
-
-    def _request_credentials(self, authorization_key):
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-
-        body = {
-            'code': authorization_key,
-            'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
-            'client_id': self.CLIENT_ID,
-            'client_secret': self.CLIENT_NOT_SO_SECRET,
-            'scope': self.SCOPE,
-            'grant_type': 'authorization_code'
-        }
-        body = urllib.urlencode(body)
-
-        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
-
-        try:
-            response = utils.urlopen(request)
-
-        except urllib2.HTTPError as e:
-            error = json.load(e)
-            raise Exception(error.get('error_description') or error.get('error') or str(e))
-
-        data = json.load(response)
-
-        return {
-            'access_token': data['access_token'],
-            'refresh_token': data['refresh_token']
-        }
-
-    def _refresh_credentials(self, refresh_token):
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-
-        body = {
-            'refresh_token': refresh_token,
-            'client_id': self.CLIENT_ID,
-            'client_secret': self.CLIENT_NOT_SO_SECRET,
-            'grant_type': 'refresh_token'
-        }
-        body = urllib.urlencode(body)
-
-        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
-
-        try:
-            response = utils.urlopen(request)
-
-        except urllib2.HTTPError as e:
-            error = json.load(e)
-            raise Exception(error.get('error_description') or error.get('error') or str(e))
-
-        data = json.load(response)
-
-        return {
-            'access_token': data['access_token'],
-            'refresh_token': data.get('refresh_token', refresh_token)
-        }
 
 
 class Dropbox(UploadService):
@@ -1225,17 +1065,17 @@ class SFTP(UploadService):
         return self._conn
 
 
-def _get_service_class(service_name):
-    cls = UploadService.get_service_classes().get(service_name)
-
+#def _get_service_class(service_name):
+#    cls = UploadService.get_service_classes().get(service_name)
+#
 #    if not cls:
 #        cls = GoogleBase.get_service_classes().get(service_name)
-
-    return cls
+#
+#    return cls
 
 def get_authorize_url(service_name):
-    cls = _get_service_class(service_name)
-#    cls = UploadService.get_service_classes().get(service_name)
+#    cls = _get_service_class(service_name)
+    cls = UploadService.get_service_classes().get(service_name)
 
     if cls:
         return cls.get_authorize_url()
@@ -1255,16 +1095,14 @@ def get(camera_id, service_name):
     service = _services.get(camera_id, {}).get(service_name)
 
     if service is None:
-        cls = _get_service_class(service_name)
-        #cls = UploadService.get_service_classes().get(service_name)
+        #cls = _get_service_class(service_name)
+        cls = UploadService.get_service_classes().get(service_name)
 
         if cls:
             service = cls(camera_id=camera_id)
             _services.setdefault(camera_id, {})[service_name] = service
 
             logging.debug('created default upload service "%s" for camera with id "%s"' % (service_name, camera_id))
-        #else:
-        #    logging.debug('upload service "%s" not found' % service_name)
 
     return service
 
@@ -1329,8 +1167,8 @@ def _load():
         for camera_id, d in data.iteritems():
             for name, state in d.iteritems():
                 camera_services = services.setdefault(camera_id, {})
-                cls = _get_service_class(name)
-                #cls = UploadService.get_service_classes().get(name)
+                #cls = _get_service_class(name)
+                cls = UploadService.get_service_classes().get(name)
 
                 if cls:
                     service = cls(camera_id=camera_id)
