@@ -53,7 +53,7 @@ class UploadService(object):
     def test_access(self):
         return True
 
-    def upload_file(self, target_dir, filename):
+    def upload_file(self, target_dir, filename, camera_name):
         ctime = os.path.getctime(filename)
 
         if target_dir:
@@ -100,11 +100,11 @@ class UploadService(object):
         mime_type = mimetypes.guess_type(filename)[0] or 'image/jpeg'
         self.debug('mime type of "%s" is "%s"' % (filename, mime_type))
 
-        self.upload_data(rel_filename, mime_type, data, ctime)
+        self.upload_data(rel_filename, mime_type, data, ctime, camera_name)
 
         self.debug('file "%s" successfully uploaded' % filename)
 
-    def upload_data(self, filename, mime_type, data, ctime):
+    def upload_data(self, filename, mime_type, data, ctime, camera_name):
         pass
 
     def dump(self):
@@ -321,7 +321,7 @@ class GoogleDrive(UploadService, GoogleBase):
         except Exception as e:
             return str(e)
 
-    def upload_data(self, filename, mime_type, data, ctime):
+    def upload_data(self, filename, mime_type, data, ctime, camera_name):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
 
@@ -548,7 +548,7 @@ class GooglePhoto(UploadService, GoogleBase):
         except Exception as e:
             return str(e)
 
-    def upload_data(self, filename, mime_type, data, ctime):
+    def upload_data(self, filename, mime_type, data, ctime, camera_name):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
         dayinfo = datetime.datetime.fromtimestamp(ctime).strftime('%Y-%m-%d')
@@ -563,7 +563,7 @@ class GooglePhoto(UploadService, GoogleBase):
         }
 
         uploadToken = self._request(self.GOOGLE_PHOTO_API + 'uploads', body, headers)
-        response = self._create_media(uploadToken)
+        response = self._create_media(uploadToken, camera_name)
         self.debug('response %s' % response['mediaItem'])
 
     def dump(self):
@@ -636,12 +636,14 @@ class GooglePhoto(UploadService, GoogleBase):
         response = self._request_json(self.GOOGLE_PHOTO_API + 'albums', body, headers)
         return response
 
-    def _create_media(self, uploadToken):
+    def _create_media(self, uploadToken, camera_name):
+        description = 'captured by motionEye camera' + (' "%s"' % camera_name if camera_name else '')
+
         metadata = {
             'albumId': self._get_folder_id(),
             'newMediaItems': [
                 {
-                    'description': 'captured by motionEye',
+                    'description': description,
                     'simpleMediaItem': {
                         'uploadToken': uploadToken
                     }
@@ -721,7 +723,7 @@ class Dropbox(UploadService):
 
             return msg
 
-    def upload_data(self, filename, mime_type, data, ctime):
+    def upload_data(self, filename, mime_type, data, ctime, camera_name):
         metadata = {
             'path': os.path.join(self._clean_location(), filename),
             'mode': 'add',
@@ -879,7 +881,7 @@ class FTP(UploadService):
 
             return str(e)
 
-    def upload_data(self, filename, mime_type, data, ctime):
+    def upload_data(self, filename, mime_type, data, ctime, camera_name):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
 
@@ -996,7 +998,7 @@ class SFTP(UploadService):
 
             return str(e)
 
-    def upload_data(self, filename, mime_type, data, ctime):
+    def upload_data(self, filename, mime_type, data, ctime, camera_name):
         conn = self._get_conn(filename)
         conn.setopt(pycurl.READFUNCTION, StringIO.StringIO(data).read)
 
@@ -1105,13 +1107,13 @@ def update(camera_id, service_name, settings):
     service.save()
 
 
-def upload_media_file(camera_id, target_dir, service_name, filename):
+def upload_media_file(camera_id, camera_name, target_dir, service_name, filename):
     service = get(camera_id, service_name)
     if not service:
         return logging.error('service "%s" not initialized for camera with id %s' % (service_name, camera_id))
 
     try:
-        service.upload_file(target_dir, filename)
+        service.upload_file(target_dir, filename, camera_name)
 
     except Exception as e:
         logging.error('failed to upload file "%s" with service %s: %s' % (filename, service, e), exc_info=True)
