@@ -24,6 +24,7 @@ import time
 import urllib
 import pycurl
 from six.moves.urllib import request as urllib2
+from six.moves.urllib.error import HTTPError
 from six.moves import StringIO
 
 from motioneye import settings
@@ -352,7 +353,7 @@ class GoogleDrive(UploadService):
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except HTTPError as e:
             if e.code == 401 and retry_auth:  # unauthorized, access token may have expired
                 try:
                     self.debug('credentials have probably expired, refreshing them')
@@ -403,7 +404,7 @@ class GoogleDrive(UploadService):
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
 
@@ -432,7 +433,7 @@ class GoogleDrive(UploadService):
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
 
@@ -618,7 +619,7 @@ class Dropbox(UploadService):
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except HTTPError as e:
             if e.code == 401 and retry_auth:  # unauthorized, access token may have expired
                 try:
                     self.debug('credentials have probably expired, refreshing them')
@@ -665,7 +666,7 @@ class Dropbox(UploadService):
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
 
