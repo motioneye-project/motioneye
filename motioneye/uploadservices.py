@@ -150,6 +150,51 @@ class GoogleBase:
     CLIENT_ID = '349038943026-m16svdadjrqc0c449u4qv71v1m1niu5o.apps.googleusercontent.com'
     CLIENT_NOT_SO_SECRET = 'jjqbWmICpA0GvbhsJB3okX7s'
 
+    def _init(self):
+        self._location = None
+        self._authorization_key = None
+        self._credentials = None
+        self._folder_ids = {}
+        self._folder_id_times = {}
+
+    @classmethod
+    def _get_authorize_url(cls):
+        query = {
+            'scope': cls.SCOPE,
+            'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
+            'response_type': 'code',
+            'client_id': cls.CLIENT_ID,
+            'access_type': 'offline'
+        }
+
+        return cls.AUTH_URL + '?' + urllib.urlencode(query)
+
+    def _test_access(self):
+        try:
+            self._folder_ids = {}
+            self._get_folder_id()
+            return True
+
+        except Exception as e:
+            return str(e)
+
+    def _dump(self):
+        return {
+            'location': self._location,
+            'credentials': self._credentials,
+            'authorization_key': self._authorization_key,
+        }
+
+    def _load(self, data):
+        if data.get('location'):
+            self._location = data['location']
+            self._folder_ids = {}
+        if data.get('authorization_key'):
+            self._authorization_key = data['authorization_key']
+            self._credentials = None
+        if data.get('credentials'):
+            self._credentials = data['credentials']
+
     def _request(self, url, body=None, headers=None, retry_auth=True, method=None):
         if not self._credentials:
             if not self._authorization_key:
@@ -292,34 +337,16 @@ class GoogleDrive(UploadService, GoogleBase):
     FOLDER_ID_LIFE_TIME = 300  # 5 minutes
 
     def __init__(self, camera_id):
-        self._location = None
-        self._authorization_key = None
-        self._credentials = None
-        self._folder_ids = {}
-        self._folder_id_times = {}
+        self._init()
 
         UploadService.__init__(self, camera_id)
 
     @classmethod
     def get_authorize_url(cls):
-        query = {
-            'scope': cls.SCOPE,
-            'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
-            'response_type': 'code',
-            'client_id': cls.CLIENT_ID,
-            'access_type': 'offline'
-        }
-
-        return cls.AUTH_URL + '?' + urllib.urlencode(query)
+        return cls._get_authorize_url()
 
     def test_access(self):
-        try:
-            self._folder_ids = {}
-            self._get_folder_id()
-            return True
-
-        except Exception as e:
-            return str(e)
+        return self._test_access()
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         path = os.path.dirname(filename)
@@ -352,21 +379,10 @@ class GoogleDrive(UploadService, GoogleBase):
         self._request(self.UPLOAD_URL, body, headers)
 
     def dump(self):
-        return {
-            'location': self._location,
-            'credentials': self._credentials,
-            'authorization_key': self._authorization_key,
-        }
+        return self._dump()
 
     def load(self, data):
-        if data.get('location'):
-            self._location = data['location']
-            self._folder_ids = {}
-        if data.get('authorization_key'):
-            self._authorization_key = data['authorization_key']
-            self._credentials = None
-        if data.get('credentials'):
-            self._credentials = data['credentials']
+        self._load(data)
 
     def _get_folder_id(self, path=''):
         now = time.time()
@@ -519,34 +535,16 @@ class GooglePhoto(UploadService, GoogleBase):
     GOOGLE_PHOTO_API = 'https://photoslibrary.googleapis.com/v1/'
 
     def __init__(self, camera_id):
-        self._location = None
-        self._authorization_key = None
-        self._credentials = None
-        self._folder_ids = {}
-        self._folder_id_times = {}
+        self._init()
 
         UploadService.__init__(self, camera_id)
 
     @classmethod
     def get_authorize_url(cls):
-        query = {
-            'scope': cls.SCOPE,
-            'redirect_uri': 'urn:ietf:wg:oauth:2.0:oob',
-            'response_type': 'code',
-            'client_id': cls.CLIENT_ID,
-            'access_type': 'offline'
-        }
-
-        return cls.AUTH_URL + '?' + urllib.urlencode(query)
+        return cls._get_authorize_url()
 
     def test_access(self):
-        try:
-            self._folder_ids = {}
-            self._get_folder_id()
-            return True
-
-        except Exception as e:
-            return str(e)
+        return self._test_access()
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         path = os.path.dirname(filename)
@@ -567,21 +565,10 @@ class GooglePhoto(UploadService, GoogleBase):
         self.debug('response %s' % response['mediaItem'])
 
     def dump(self):
-        return {
-            'location': self._location,
-            'credentials': self._credentials,
-            'authorization_key': self._authorization_key,
-        }
+        return self._dump()
 
     def load(self, data):
-        if data.get('location'):
-            self._location = data['location']
-            self._folder_ids = {}
-        if data.get('authorization_key'):
-            self._authorization_key = data['authorization_key']
-            self._credentials = None
-        if data.get('credentials'):
-            self._credentials = data['credentials']
+        self._load(data)
 
     def _get_folder_id(self, path=''):
         location = self._location
