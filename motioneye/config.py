@@ -1404,7 +1404,7 @@ def motion_camera_dict_to_ui(data):
             except:
                 ui['email_notifications_picture_time_span'] = 0
 
-        elif e.count('webhook'):
+        elif e.count(' webhook '):
             e = shlex.split(e)
 
             if len(e) < 3:
@@ -1448,7 +1448,7 @@ def motion_camera_dict_to_ui(data):
 
     command_storage = []
     for e in on_movie_end:
-        if e.count('webhook'):
+        if e.count(' webhook '):
             e = shlex.split(e)
 
             if len(e) < 3:
