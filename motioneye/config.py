@@ -1380,7 +1380,7 @@ def motion_camera_dict_to_ui(data):
     ui['email_notifications_picture_time_span'] = 0
     command_notifications = []
     for e in on_event_start:
-        if e.count('sendmail'):
+        if e.count(' sendmail '):
             e = shlex.split(e)
 
             if len(e) < 10:
