@@ -476,7 +476,7 @@ input[type=text].working-schedule.number {
     width: 90%;
 }
 
-#maskLinesEntry {
+#motionMaskLinesEntry, #privacyMaskLinesEntry {
     display: none;
 }
 
