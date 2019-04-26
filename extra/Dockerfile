@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:18.10
 LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
 ARG BUILD_DATE
@@ -19,6 +19,7 @@ RUN apt-get update && \
     DEBIAN_FRONTEND="noninteractive" apt-get --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
     curl \
     ffmpeg \
+    libmicrohttpd12 \
     libmysqlclient20 \
     libpq5 \
     lsb-release \
@@ -33,7 +34,7 @@ RUN apt-get update && \
     python-wheel \
     tzdata \
     v4l-utils && \
-    curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.1.1/bionic_motion_4.1.1-1_amd64.deb && \
+    curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.2.2/cosmic_motion_4.2.2-1_amd64.deb && \
     dpkg -i /tmp/motion.deb && \
     rm /tmp/motion.deb && \
     pip install /tmp/motioneye && \
@@ -58,6 +59,6 @@ ADD extra/motioneye.conf.sample /usr/share/motioneye/extra/
 
 CMD test -e /etc/motioneye/motioneye.conf || \    
     cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
-    /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
+    /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf -d
 
 EXPOSE 8765

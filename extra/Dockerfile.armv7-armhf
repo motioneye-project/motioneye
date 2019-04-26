@@ -22,6 +22,7 @@ RUN apt-get update && \
     ffmpeg \
     git \
     libmariadbclient18 \
+    libmicrohttpd12 \
     libpq5 \
     lsb-release \
     mosquitto-clients \
@@ -39,7 +40,7 @@ RUN apt-get update && \
     git clone --depth 1 https://github.com/Hexxeh/rpi-firmware.git /tmp/rpi-firmware && \
     cp -rv /tmp/rpi-firmware/vc/hardfp/opt/vc /opt && \
     rm -rf /tmp/rpi-firmware && \
-    curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.1.1/pi_stretch_motion_4.1.1-1_armhf.deb && \
+    curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.2.2/pi_stretch_motion_4.2.2-1_armhf.deb && \
     dpkg -i /tmp/motion.deb && \
     rm /tmp/motion.deb && \
     pip install /tmp/motioneye && \
@@ -65,6 +66,6 @@ ADD extra/motioneye.conf.sample /usr/share/motioneye/extra/
 
 CMD test -e /etc/motioneye/motioneye.conf || \    
     cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
-    /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
+    /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf -d
 
 EXPOSE 8765
