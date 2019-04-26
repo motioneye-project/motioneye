@@ -12,3 +12,5 @@ dist
 motioneye.egg-info
 dropbox.keys
 .venv
+venv/
+.vscode
