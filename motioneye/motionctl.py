@@ -105,13 +105,13 @@ def start(deferred=False):
     
     args = [program, '-n', '-c', motion_config_path, '-d']
 
-    if settings.LOG_LEVEL <= logging.DEBUG:
+    if settings.LOG_LEVEL >= logging.DEBUG:
         args.append('9')
     
-    elif settings.LOG_LEVEL <= logging.WARN:
+    elif settings.LOG_LEVEL >= logging.WARN:
         args.append('5')
 
-    elif settings.LOG_LEVEL <= logging.ERROR:
+    elif settings.LOG_LEVEL >= logging.ERROR:
         args.append('4')
     
     else:  # fatal, quiet
