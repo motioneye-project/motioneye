@@ -59,6 +59,6 @@ ADD extra/motioneye.conf.sample /usr/share/motioneye/extra/
 
 CMD test -e /etc/motioneye/motioneye.conf || \    
     cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
-    /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf -d
+    /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
 
 EXPOSE 8765
