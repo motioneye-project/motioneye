@@ -422,6 +422,7 @@
     <!--                                 <option value="http">HTTP Server</option> -->
     <!--                                 <option value="https">HTTPS Server</option> -->
                                     <option value="gdrive">Google Drive</option>
+                                    <option value="gphoto">Google Photo</option>
                                     <option value="dropbox">Dropbox</option>
                                 </select>
                             </td>
@@ -452,7 +453,7 @@
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadLocationEntry"></td>
                             <td><span class="help-mark" title="the location (root path) where media files should be uploaded (e.g. /files/cam1/)">?</span></td>
                         </tr>
-                        <tr class="settings-item advanced-setting" depends="uploadEnabled">
+                        <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService!=(gphoto)">
                             <td class="settings-item-label"><span class="settings-item-label">Include Subfolders</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadSubfoldersSwitch"></td>
                             <td><span class="help-mark" title="enable this to upload the media files together with their subfolders, instead of placing them directly into the root location">?</span></td>
@@ -472,12 +473,12 @@
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled storage camera-config" id="uploadPasswordEntry"></td>
                             <td><span class="help-mark" title="the password for the upload service account">?</span></td>
                         </tr>
-                        <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService=(gdrive|dropbox)">
+                        <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService=(gdrive|gphoto|dropbox)">
                             <td class="settings-item-label"><span class="settings-item-label">Authorization Key</span></td>
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled storage camera-config" id="uploadAuthorizationKeyEntry"></td>
                             <td><span class="help-mark" title="the key used to authenticate with the upload service (normally required only during setup)">?</span></td>
                         </tr>
-                        <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService=(gdrive|dropbox)">
+                        <tr class="settings-item advanced-setting" depends="uploadEnabled uploadService=(gdrive|gphoto|dropbox)">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
                             <td class="settings-item-value">
                                 <div class="html styled storage camera-config" id="authorizeLinkHtml">
