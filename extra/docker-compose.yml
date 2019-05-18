@@ -2,7 +2,7 @@
 version: "2"
 services:
   motioneye:
-    image: cahna/motioneye
+    image: ccrisan/motioneye:master-amd64  # Change to ccrisan/motioneye:master-armhf for ARM chips (Pi etc.)
     ports:
       - "8081:8081"
       - "8765:8765"
