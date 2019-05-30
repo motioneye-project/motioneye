@@ -901,6 +901,9 @@ class ConfigHandler(BaseHandler):
 
 
 class PictureHandler(BaseHandler):
+    def compute_etag(self):
+        return None
+
     @asynchronous
     def get(self, camera_id, op, filename=None, group=None):
         if camera_id is not None:
