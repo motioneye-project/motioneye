@@ -1931,6 +1931,7 @@ function cameraUi2Dict() {
         /* motion detection */
         'motion_detection': $('#motionDetectionEnabledSwitch')[0].checked,
         'frame_change_threshold': $('#frameChangeThresholdSlider').val(),
+        'max_frame_change_threshold': $('#maxFrameChangeThresholdEntry').val(),
         'auto_noise_detect': $('#autoNoiseDetectSwitch')[0].checked,
         'noise_level': $('#noiseLevelSlider').val(),
         'light_switch_detect': $('#lightSwitchDetectSlider').val(),
@@ -2295,6 +2296,7 @@ function dict2CameraUi(dict) {
     /* motion detection */
     $('#motionDetectionEnabledSwitch')[0].checked = dict['motion_detection']; markHideIfNull('motion_detection', 'motionDetectionEnabledSwitch');
     $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']); markHideIfNull('frame_change_threshold', 'frameChangeThresholdSlider');
+    $('#maxFrameChangeThresholdEntry').val(dict['max_frame_change_threshold']); markHideIfNull('max_frame_change_threshold', 'maxFrameChangeThresholdEntry');
     $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect']; markHideIfNull('auto_noise_detect', 'autoNoiseDetectSwitch');
     $('#noiseLevelSlider').val(dict['noise_level']); markHideIfNull('noise_level', 'noiseLevelSlider');
     $('#lightSwitchDetectSlider').val(dict['light_switch_detect']); markHideIfNull('light_switch_detect', 'lightSwitchDetectSlider');

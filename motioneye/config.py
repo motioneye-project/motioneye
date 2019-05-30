@@ -105,6 +105,7 @@ _USED_MOTION_OPTIONS = {
     'text_left',
     'text_right',
     'threshold',
+    'threshold_maximum',
     'videodevice',
     'vid_control_params',
     'webcontrol_interface',
@@ -821,6 +822,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             threshold = int(float(ui['frame_change_threshold']) * 640 * 480 / 100)
 
     data['threshold'] = threshold
+    data['threshold_maximum'] = ui['max_frame_change_threshold']
 
     if (ui['storage_device'] == 'network-share') and settings.SMB_SHARES:
         mount_point = smbctl.make_mount_point(ui['network_server'], ui['network_share_name'], ui['network_username'])
@@ -1224,6 +1226,7 @@ def motion_camera_dict_to_ui(data):
         threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
 
     ui['frame_change_threshold'] = threshold
+    ui['max_frame_change_threshold'] = data['threshold_maximum']
 
     if (data['@storage_device'] == 'network-share') and settings.SMB_SHARES:
         mount_point = smbctl.make_mount_point(data['@network_server'], data['@network_share_name'],
@@ -1893,6 +1896,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('locate_motion_style', 'redbox')
 
     data.setdefault('threshold', 2000)
+    data.setdefault('threshold_maximum', 0)
     data.setdefault('noise_tune', True)
     data.setdefault('noise_level', 32)
     data.setdefault('lightswitch_percent', 0)
