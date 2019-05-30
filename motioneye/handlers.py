@@ -957,6 +957,9 @@ class PictureHandler(BaseHandler):
     @BaseHandler.auth(prompt=False)
     def current(self, camera_id, retry=0):
         self.set_header('Content-Type', 'image/jpeg')
+        self.set_header('Cache-Control', 'no-store, must-revalidate')
+        self.set_header('Pragma', 'no-cache')
+        self.set_header('Expires', '0')
         
         width = self.get_argument('width', None)
         height = self.get_argument('height', None)
