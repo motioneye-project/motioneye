@@ -621,7 +621,6 @@ def rem_camera(camera_id):
 
 def main_ui_to_dict(ui):
     data = {
-        '@show_advanced': ui['show_advanced'],
         '@admin_username': ui['admin_username'],
         '@normal_username': ui['normal_username']
     }
@@ -666,7 +665,6 @@ def main_ui_to_dict(ui):
 
 def main_dict_to_ui(data):
     ui = {
-        'show_advanced': data['@show_advanced'],
         'admin_username': data['@admin_username'],
         'normal_username': data['@normal_username']
     }
@@ -1836,7 +1834,6 @@ def _dict_to_conf(lines, data, list_names=None):
 def _set_default_motion(data):
     data.setdefault('@enabled', True)
 
-    data.setdefault('@show_advanced', False)
     data.setdefault('@admin_username', 'admin')
     data.setdefault('@admin_password', '')
     data.setdefault('@normal_username', 'user')
