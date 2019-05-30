@@ -500,13 +500,6 @@ def add_camera(device_details):
         if device_details['port']:
             host += ':' + str(device_details['port'])
 
-        if device_details['username'] and proto == 'mjpeg':
-            if device_details['password']:
-                host = device_details['username'] + ':' + device_details['password'] + '@' + host
-
-            else:
-                host = device_details['username'] + '@' + host
-
         device_details['url'] = urlparse.urlunparse(
                 (device_details['scheme'], host, device_details['path'], '', '', ''))
 
