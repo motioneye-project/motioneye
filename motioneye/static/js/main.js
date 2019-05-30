@@ -682,6 +682,7 @@ function initUI() {
     $('#rightTextTypeSelect').change(updateConfigUI);
     $('#captureModeSelect').change(updateConfigUI);
     $('#autoNoiseDetectSwitch').change(updateConfigUI);
+    $('#autoThresholdTuningSwitch').change(updateConfigUI);
     $('#videoDeviceEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     $('#textOverlayEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     $('#videoStreamingEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
@@ -1931,6 +1932,8 @@ function cameraUi2Dict() {
         /* motion detection */
         'motion_detection': $('#motionDetectionEnabledSwitch')[0].checked,
         'frame_change_threshold': $('#frameChangeThresholdSlider').val(),
+        'max_frame_change_threshold': $('#maxFrameChangeThresholdEntry').val(),
+        'auto_threshold_tuning': $('#autoThresholdTuningSwitch')[0].checked,
         'auto_noise_detect': $('#autoNoiseDetectSwitch')[0].checked,
         'noise_level': $('#noiseLevelSlider').val(),
         'light_switch_detect': $('#lightSwitchDetectSlider').val(),
@@ -2295,6 +2298,8 @@ function dict2CameraUi(dict) {
     /* motion detection */
     $('#motionDetectionEnabledSwitch')[0].checked = dict['motion_detection']; markHideIfNull('motion_detection', 'motionDetectionEnabledSwitch');
     $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']); markHideIfNull('frame_change_threshold', 'frameChangeThresholdSlider');
+    $('#maxFrameChangeThresholdEntry').val(dict['max_frame_change_threshold']); markHideIfNull('max_frame_change_threshold', 'maxFrameChangeThresholdEntry');
+    $('#autoThresholdTuningSwitch')[0].checked = dict['auto_threshold_tuning']; markHideIfNull('auto_threshold_tuning', 'autoThresholdTuningSwitch');
     $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect']; markHideIfNull('auto_noise_detect', 'autoNoiseDetectSwitch');
     $('#noiseLevelSlider').val(dict['noise_level']); markHideIfNull('noise_level', 'noiseLevelSlider');
     $('#lightSwitchDetectSlider').val(dict['light_switch_detect']); markHideIfNull('light_switch_detect', 'lightSwitchDetectSlider');
@@ -2324,7 +2329,7 @@ function dict2CameraUi(dict) {
     $('#webHookNotificationsEnabledSwitch')[0].checked = dict['web_hook_notifications_enabled']; markHideIfNull('web_hook_notifications_enabled', 'webHookNotificationsEnabledSwitch');
     $('#webHookNotificationsUrlEntry').val(dict['web_hook_notifications_url']);
     $('#webHookNotificationsHttpMethodSelect').val(dict['web_hook_notifications_http_method']);
-    
+
     $('#commandNotificationsEnabledSwitch')[0].checked = dict['command_notifications_enabled']; markHideIfNull('command_notifications_enabled', 'commandNotificationsEnabledSwitch');
     $('#commandNotificationsEntry').val(dict['command_notifications_exec']);
     $('#commandEndNotificationsEnabledSwitch')[0].checked = dict['command_end_notifications_enabled']; markHideIfNull('command_end_notifications_enabled', 'commandEndNotificationsEnabledSwitch');

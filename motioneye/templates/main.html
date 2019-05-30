@@ -822,10 +822,20 @@
                         <span class="minimize"></span>
                     </div>
                     <table class="settings">
-                        <tr class="settings-item" min="0" max="20" snap="0" ticksnum="5" decimals="1" unit="%">
+                        <tr class="settings-item" min="0" max="20" snap="0" ticksnum="5" decimals="1" unit="%" depends="!autoThresholdTuning">
                             <td class="settings-item-label"><span class="settings-item-label">Frame Change Threshold</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="frameChangeThresholdSlider"></td>
                             <td><span class="help-mark" title="indicates the minimal percent of the image that must change between two successive frames in order for motion to be detected (smaller values give a more sensitive detection, but are prone to false positives)">?</span></td>
+                        </tr>
+                        <tr class="settings-item" min="0" required="true" depends="!autoThresholdTuning">
+                            <td class="settings-item-label"><span class="settings-item-label">Maximum Change Threshold</span></td>
+                            <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="maxFrameChangeThresholdEntry"><span class="settings-item-unit">pixels</span></td>
+                            <td><span class="help-mark" title="sets the number of pixels changed between frames above which motion is no longer triggered (0 disables the limit)">?</span></td>
+                        </tr>
+                        <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">Auto Threshold Tuning</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="autoThresholdTuningSwitch"></td>
+                            <td><span class="help-mark" title="enable this to automatically adjust the threshold">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">Auto Noise Detection</span></td>
