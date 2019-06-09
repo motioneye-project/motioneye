@@ -421,6 +421,7 @@ def get_camera(camera_id, as_lines=False):
         return None
 
     _camera_config_cache[camera_id] = dict(camera_config)
+    _camera_config_cache[camera_id]['config_from_cache'] = 1
 
     return camera_config
 
