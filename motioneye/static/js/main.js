@@ -676,13 +676,13 @@ function initUI() {
     });
 
     /* ui elements that enable/disable other ui elements */
-    $('#showAdvancedSwitch').change(updateConfigUI);
     $('#storageDeviceSelect').change(updateConfigUI);
     $('#resolutionSelect').change(updateConfigUI);
     $('#leftTextTypeSelect').change(updateConfigUI);
     $('#rightTextTypeSelect').change(updateConfigUI);
     $('#captureModeSelect').change(updateConfigUI);
     $('#autoNoiseDetectSwitch').change(updateConfigUI);
+    $('#autoThresholdTuningSwitch').change(updateConfigUI);
     $('#videoDeviceEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     $('#textOverlayEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     $('#videoStreamingEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
@@ -960,7 +960,7 @@ function initUI() {
 function addVideoControl(name, min, max, step) {
     var prevTr = $('#autoBrightnessSwitch').parent().parent();
     var controlTr = $('\
-        <tr class="settings-item advanced-setting video-control"> \
+        <tr class="settings-item video-control"> \
             <td class="settings-item-label"><span class="settings-item-label"></span></td> \
             <td class="settings-item-value"><input type="text" class="range styled device camera-config"></td> \
         </tr>');
@@ -1399,15 +1399,11 @@ function isSettingsOpen() {
 }
 
 function updateConfigUI() {
-    var objs = $('tr.settings-item, div.advanced-setting, table.advanced-setting, div.settings-section-title, table.settings, ' +
+    var objs = $('tr.settings-item, div.settings-section-title, table.settings, ' +
             'div.check-box.camera-config, div.check-box.main-config');
     
     function markHideLogic() {
         this._hideLogic = true;
-    }
-    
-    function markHideAdvanced() {
-        this._hideAdvanced = true;
     }
     
     function markHideMinimized() {
@@ -1416,7 +1412,6 @@ function updateConfigUI() {
     
     function unmarkHide() {
         this._hideLogic = false;
-        this._hideAdvanced = false;
         this._hideMinimized = false;
     }
     
@@ -1456,12 +1451,6 @@ function updateConfigUI() {
         $('#videoDeviceEnabledSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
         
-    /* advanced settings */
-    var showAdvanced = $('#showAdvancedSwitch').get(0).checked;
-    if (!showAdvanced) {
-        $('tr.advanced-setting, div.advanced-setting, table.advanced-setting').each(markHideAdvanced);
-    }
-    
     /* set resolution to custom if no existing value matches */
     if ($('#resolutionSelect')[0].selectedIndex == -1) {
         $('#resolutionSelect').val('custom');
@@ -1566,7 +1555,7 @@ function updateConfigUI() {
         for (var i = 0; i < controls.length; i++) {
             var control = $(controls[i]);
             var tr = control.parents('tr:eq(0)')[0];
-            if (!tr._hideLogic && !tr._hideAdvanced && !tr._hideNull) {
+            if (!tr._hideLogic && !tr._hideNull) {
                 return; /* has visible controls */
             }
         }
@@ -1585,7 +1574,7 @@ function updateConfigUI() {
         
         /* filter visible rows */
         var visibleTrs = $table.find('tr').filter(function () {
-            return !this._hideLogic && !this._hideAdvanced && !this._hideNull;
+            return !this._hideLogic && !this._hideNull;
         }).map(function () {
             var $tr = $(this);
             $tr.isSeparator = $tr.find('div.settings-item-separator').length > 0;
@@ -1603,7 +1592,7 @@ function updateConfigUI() {
 
         /* filter visible rows again */
         visibleTrs = $table.find('tr').filter(function () {
-            return !this._hideLogic && !this._hideAdvanced && !this._hideNull;
+            return !this._hideLogic && !this._hideNull;
         }).map(function () {
             var $tr = $(this);
             $tr.isSeparator = $tr.find('div.settings-item-separator').length > 0;
@@ -1636,7 +1625,7 @@ function updateConfigUI() {
     });
     
     objs.each(function () {
-        if (this._hideLogic || this._hideAdvanced || this._hideMinimized || this._hideNull /* from dict2ui */) {
+        if (this._hideLogic || this._hideMinimized || this._hideNull /* from dict2ui */) {
             $(this).hide(200);
         }
         else {
@@ -1723,7 +1712,6 @@ function savePrefs() {
 
 function mainUi2Dict() {
     var dict = {
-        'show_advanced': $('#showAdvancedSwitch')[0].checked,
         'admin_username': $('#adminUsernameEntry').val(),
         'normal_username': $('#normalUsernameEntry').val()
     };
@@ -1794,7 +1782,6 @@ function dict2MainUi(dict) {
         }
     }
     
-    $('#showAdvancedSwitch')[0].checked = dict['show_advanced']; markHideIfNull('show_advanced', 'showAdvancedSwitch');
     $('#adminUsernameEntry').val(dict['admin_username']); markHideIfNull('admin_username', 'adminUsernameEntry');
     $('#adminPasswordEntry').val(dict['admin_password']); markHideIfNull('admin_password', 'adminPasswordEntry');
     $('#normalUsernameEntry').val(dict['normal_username']); markHideIfNull('normal_username', 'normalUsernameEntry');
@@ -1951,6 +1938,8 @@ function cameraUi2Dict() {
         /* motion detection */
         'motion_detection': $('#motionDetectionEnabledSwitch')[0].checked,
         'frame_change_threshold': $('#frameChangeThresholdSlider').val(),
+        'max_frame_change_threshold': $('#maxFrameChangeThresholdEntry').val(),
+        'auto_threshold_tuning': $('#autoThresholdTuningSwitch')[0].checked,
         'auto_noise_detect': $('#autoNoiseDetectSwitch')[0].checked,
         'noise_level': $('#noiseLevelSlider').val(),
         'light_switch_detect': $('#lightSwitchDetectSlider').val(),
@@ -2317,6 +2306,8 @@ function dict2CameraUi(dict) {
     /* motion detection */
     $('#motionDetectionEnabledSwitch')[0].checked = dict['motion_detection']; markHideIfNull('motion_detection', 'motionDetectionEnabledSwitch');
     $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']); markHideIfNull('frame_change_threshold', 'frameChangeThresholdSlider');
+    $('#maxFrameChangeThresholdEntry').val(dict['max_frame_change_threshold']); markHideIfNull('max_frame_change_threshold', 'maxFrameChangeThresholdEntry');
+    $('#autoThresholdTuningSwitch')[0].checked = dict['auto_threshold_tuning']; markHideIfNull('auto_threshold_tuning', 'autoThresholdTuningSwitch');
     $('#autoNoiseDetectSwitch')[0].checked = dict['auto_noise_detect']; markHideIfNull('auto_noise_detect', 'autoNoiseDetectSwitch');
     $('#noiseLevelSlider').val(dict['noise_level']); markHideIfNull('noise_level', 'noiseLevelSlider');
     $('#lightSwitchDetectSlider').val(dict['light_switch_detect']); markHideIfNull('light_switch_detect', 'lightSwitchDetectSlider');
@@ -2346,7 +2337,7 @@ function dict2CameraUi(dict) {
     $('#webHookNotificationsEnabledSwitch')[0].checked = dict['web_hook_notifications_enabled']; markHideIfNull('web_hook_notifications_enabled', 'webHookNotificationsEnabledSwitch');
     $('#webHookNotificationsUrlEntry').val(dict['web_hook_notifications_url']);
     $('#webHookNotificationsHttpMethodSelect').val(dict['web_hook_notifications_http_method']);
-    
+
     $('#commandNotificationsEnabledSwitch')[0].checked = dict['command_notifications_enabled']; markHideIfNull('command_notifications_enabled', 'commandNotificationsEnabledSwitch');
     $('#commandNotificationsEntry').val(dict['command_notifications_exec']);
     $('#commandEndNotificationsEnabledSwitch')[0].checked = dict['command_end_notifications_enabled']; markHideIfNull('command_end_notifications_enabled', 'commandEndNotificationsEnabledSwitch');

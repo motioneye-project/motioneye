@@ -901,6 +901,9 @@ class ConfigHandler(BaseHandler):
 
 
 class PictureHandler(BaseHandler):
+    def compute_etag(self):
+        return None
+
     @asynchronous
     def get(self, camera_id, op, filename=None, group=None):
         if camera_id is not None:
@@ -954,6 +957,9 @@ class PictureHandler(BaseHandler):
     @BaseHandler.auth(prompt=False)
     def current(self, camera_id, retry=0):
         self.set_header('Content-Type', 'image/jpeg')
+        self.set_header('Cache-Control', 'no-store, must-revalidate')
+        self.set_header('Pragma', 'no-cache')
+        self.set_header('Expires', '0')
         
         width = self.get_argument('width', None)
         height = self.get_argument('height', None)
@@ -1783,6 +1789,7 @@ class RelayEventHandler(BaseHandler):
         
         tasks.add(5, uploadservices.upload_media_file, tag='upload_media_file(%s)' % filename,
                 camera_id=camera_id, service_name=service_name,
+                camera_name=camera_config['camera_name'],
                 target_dir=camera_config['@upload_subfolders'] and camera_config['target_dir'],
                 filename=filename)
 
