@@ -209,8 +209,7 @@ def _set_wifi_settings(s):
 def network():
     return {
         'label': 'Network',
-        'description': 'configure the network connection',
-        'advanced': True
+        'description': 'configure the network connection'
     }
 
 
@@ -224,7 +223,6 @@ def wifiEnabled():
         'description': 'enable this if you want to connect to a wireless network',
         'type': 'bool',
         'section': 'network',
-        'advanced': True,
         'reboot': True,
         'get': _get_wifi_settings,
         'set': _set_wifi_settings,
@@ -242,7 +240,6 @@ def wifiNetworkName():
         'description': 'the name (SSID) of your wireless network',
         'type': 'str',
         'section': 'network',
-        'advanced': True,
         'required': True,
         'reboot': True,
         'depends': ['wifiEnabled'],
@@ -262,7 +259,6 @@ def wifiNetworkKey():
         'description': 'the key (PSK) required to connect to your wireless network',
         'type': 'pwd',
         'section': 'network',
-        'advanced': True,
         'required': False,
         'reboot': True,
         'depends': ['wifiEnabled'],
