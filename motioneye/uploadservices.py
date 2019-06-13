@@ -1179,7 +1179,8 @@ def _save(services):
 def clean_cloud(local_dir, data, info):
     camera_id = info['camera_id']
     service_name = info['service_name']
-    cloud_dir = info['cloud_dir']
+    cloud_dir_user = info['cloud_dir']
+    cloud_dir = [p.strip() for p in cloud_dir_user.split('/') if p.strip()][0]
 
     logging.debug('clean_cloud(%s, %s, %s, %s)' % (camera_id, service_name, local_dir, cloud_dir))
 
