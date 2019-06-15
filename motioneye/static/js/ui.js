@@ -85,6 +85,8 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         
         var cursorLabel = $('<div class="slider-cursor-label"></div>');
         cursor.append(cursorLabel);
+
+        var adjusting = false;
         
         function bestPos(pos) {
             if (pos < 0) {
@@ -152,6 +154,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             $('body').unbind('mouseup', bodyMouseUp);
             
             cursorLabel.css('display', 'none');
+            adjusting = false;
             
             $this.change();
         }
@@ -169,6 +172,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             
             slider.focus();
             cursorLabel.css('display', 'inline-block');
+            adjusting = true;
             
             return false;
         });
@@ -222,9 +226,21 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             var pos = valToPos(value);
             pos = bestPos(pos);
             cursor.css('left', pos + '%');
-            cursorLabel.html($this.val() + unit);
+            cursorLabel.html(value.toFixed(decimals) + unit);
         }
         
+        /* show / hide cursor label tooltip */
+        cursor.mouseenter(function (e) {
+            if (!adjusting) {
+                cursorLabel.css('display', 'inline-block');
+            }
+        });
+        cursor.mouseleave(function (e) {
+            if (!adjusting) {
+                cursorLabel.css('display', 'none');
+            }
+        });
+
         /* transfer the CSS classes */
         slider.addClass($this.attr('class'));
         
