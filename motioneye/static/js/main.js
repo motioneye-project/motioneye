@@ -2743,7 +2743,7 @@ function doRemCamera() {
         /* disable further refreshing of this camera */
         var img = $('div.camera-frame#camera' + cameraId).find('img.camera');
         if (img.length) {
-            img[0].loading = 1;
+            img[0].loading_count = 1;
         }
 
         beginProgress();
@@ -4749,7 +4749,7 @@ function addCameraFrameUi(cameraConfig) {
     /* error and load handlers */
     cameraImg[0].onerror = function () {
         this.error = true;
-        this.loading = 0;
+        this.loading_count = 0;
         
         cameraImg.addClass('error').removeClass('initializing');
         cameraImg.height(Math.round(cameraImg.width() * 0.75));
@@ -4766,7 +4766,7 @@ function addCameraFrameUi(cameraConfig) {
             this.error = false;
         }
 
-        this.loading = 0;
+        this.loading_count = 0;
         if (this.naturalWidth) {
             this._naturalWidth = this.naturalWidth;
         }
@@ -5044,11 +5044,11 @@ function refreshCameraFrames() {
             return;
         }
         
-        if (img.loading) {
-            img.loading++; /* increases each time the camera would refresh but is still loading */
+        if (img.loading_count) {
+            img.loading_count++; /* increases each time the camera would refresh but is still loading */
             
-            if (img.loading > 2 * 1000 / refreshInterval) { /* limits the retries to one every two seconds */
-                img.loading = 0;
+            if (img.loading_count > 2 * 1000 / refreshInterval) { /* limits the retries to one every two seconds */
+                img.loading_count = 0;
             }
             else {
                 return; /* wait for the previous frame to finish loading */
@@ -5066,7 +5066,7 @@ function refreshCameraFrames() {
         path = addAuthParams('GET', path);
         
         img.src = path;
-        img.loading = 1;
+        img.loading_count = 1;
     }
 
     var cameraFrames;
@@ -5189,4 +5189,3 @@ $(document).ready(function () {
         updateLayout();
     });
 });
-
