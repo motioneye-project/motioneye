@@ -29,7 +29,7 @@ function setupCameraFrame() {
     /* error and load handlers */
     cameraImg.error(function () {
         this.error = true;
-        this.loading = 0;
+        this.loading_count = 0;
         
         cameraImg.addClass('error').removeClass('loading');
         cameraPlaceholder.css('opacity', 1);
@@ -42,7 +42,7 @@ function setupCameraFrame() {
         }
         
         this.error = false;
-        this.loading = 0;
+        this.loading_count = 0;
         
         cameraImg.removeClass('error').removeClass('loading');
         cameraPlaceholder.css('opacity', 0);
@@ -106,11 +106,11 @@ function refreshCameraFrame() {
                 return;
             }
             
-            if (img.loading) {
-                img.loading++; /* increases each time the camera would refresh but is still loading */
+            if (img.loading_count) {
+                img.loading_count++; /* increases each time the camera would refresh but is still loading */
                 
-                if (img.loading > 2 * 1000 / refreshInterval) { /* limits the retry at one every two seconds */
-                    img.loading = 0;
+                if (img.loading_count > 2 * 1000 / refreshInterval) { /* limits the retry at one every two seconds */
+                    img.loading_count = 0;
                 }
                 else {
                     return; /* wait for the previous frame to finish loading */
@@ -125,7 +125,7 @@ function refreshCameraFrame() {
             
             path = addAuthParams('GET', path);
             img.src = path;
-            img.loading = 1;
+            img.loading_count = 1;
             
             cameraFrame.refreshDivider = 0;
         })();
@@ -141,4 +141,3 @@ $(document).ready(function () {
     setupCameraFrame();
     refreshCameraFrame();
 });
-
