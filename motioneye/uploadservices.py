@@ -485,7 +485,7 @@ class GoogleDrive(UploadService, GoogleBase):
             name = self._get_file_title(id)
             self.debug("cloud '%s'" % name)
             to_delete = not exist_in_local(name, local_folders)
-            if to_delete and self._delete_child(folder_id, id):
+            if to_delete and self._delete_file(id):
                 removed_count += 1
                 self.info("deleted a cloud folder '%s'" % name)
 
@@ -505,8 +505,8 @@ class GoogleDrive(UploadService, GoogleBase):
 
         return response['items']
 
-    def _delete_child(self, folder_id, child_id):
-        url = '%s/%s/children/%s' % (self.CREATE_FOLDER_URL, folder_id, child_id)
+    def _delete_file(self, file_id):
+        url = '%s/%s' % (self.CREATE_FOLDER_URL, file_id)
         response = self._request(url, None, None, True, 'DELETE')
         succeeded = response == ""
         return succeeded
