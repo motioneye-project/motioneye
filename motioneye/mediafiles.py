@@ -466,6 +466,9 @@ def get_media_path(camera_config, path, media_type):
 def get_media_content(camera_config, path, media_type):
     target_dir = camera_config.get('target_dir')
 
+    if '..' in path:
+        raise Exception('invalid media path')
+
     full_path = os.path.join(target_dir, path)
 
     try:
