@@ -16,6 +16,10 @@ var username = '';
 var passwordHash = '';
 var basePath = null;
 var signatureRegExp = new RegExp('[^a-zA-Z0-9/?_.=&{}\\[\\]":, -]', 'g');
+var deviceNameValidRegExp = new RegExp('^[a-z0-9\-\_\+\ ]+$');
+var filenameValidRegExp = new RegExp('^[a-z0-9_/\\%@\(\)-]*$');
+var dirnameValidRegExp = new RegExp('^[a-z0-9_/\\@\(\)-]*$');
+var emailValidRegExp = new RegExp('^[a-z0-9\-\_\+\.\@\^\~\<>, ]+$');
 var initialConfigFetched = false; /* used to workaround browser extensions that trigger stupid change events */
 var pageContainer = null;
 var overlayVisible = false;
@@ -571,9 +575,9 @@ function initUI() {
     makeTimeValidator($('input[type=text].time'));
     
     /* custom validators */
-    makeCustomValidator($('#adminPasswordEntry'), function (value) {
+    makeCustomValidator($('#adminPasswordEntry, #normalPasswordEntry'), function (value) {
         if (!value.toLowerCase().match(new RegExp('^[\x21-\x7F]*$'))) {
-            return "special characters are not allowed in admin password";
+            return "special characters are not allowed in password";
         }
         
         return true;
@@ -583,7 +587,7 @@ function initUI() {
             return 'this field is required';
         }
 
-        if (!value.toLowerCase().match(new RegExp('^[a-z0-9\-\_\+\ ]*$'))) {
+        if (!value.toLowerCase().match(deviceNameValidRegExp)) {
             return "special characters are not allowed in camera's name";
         }
         
@@ -602,6 +606,9 @@ function initUI() {
         return true;
     }, '');
     makeCustomValidator($('#rootDirectoryEntry'), function (value) {
+        if (!value.toLowerCase().match(dirnameValidRegExp)) {
+            return "special characters are not allowed in root directory name";
+        }
         if ($('#storageDeviceSelect').val() == 'custom-path' && String(value).trim() == '/') {
             return 'files cannot be created directly on the root of your system';
         }
@@ -609,15 +616,22 @@ function initUI() {
         return true;
     }, '');
     makeCustomValidator($('#emailFromEntry'), function (value) {
-        if (value && !value.toLowerCase().match(new RegExp('^[a-z0-9\-\_\+\.\@\^\~\<>, ]+$'))) {
+        if (value && !value.toLowerCase().match(emailValidRegExp)) {
             return 'enter a vaild email address';
         }
         
         return true;
     }, '');
     makeCustomValidator($('#emailAddressesEntry'), function (value) {
-        if (!value.toLowerCase().match(new RegExp('^[a-z0-9\-\_\+\.\@\^\~\, ]+$'))) {
+        if (!value.toLowerCase().match(emailValidRegExp)) {
             return 'enter a list of comma-separated valid email addresses';
+        }
+        
+        return true;
+    }, '');
+    makeCustomValidator($('#imageFileNameEntry, #movieFileNameEntry'), function (value) {
+        if (!value.toLowerCase().match(filenameValidRegExp)) {
+            return "special characters are not allowed in file name";
         }
         
         return true;
