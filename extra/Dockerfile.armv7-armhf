@@ -40,6 +40,7 @@ RUN apt-get update && \
     git clone --depth 1 https://github.com/Hexxeh/rpi-firmware.git /tmp/rpi-firmware && \
     cp -rv /tmp/rpi-firmware/vc/hardfp/opt/vc /opt && \
     rm -rf /tmp/rpi-firmware && \
+    ln -sf /opt/vc/bin/vcgencmd /usr/bin/vcgencmd && \
     curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.2.2/pi_stretch_motion_4.2.2-1_armhf.deb && \
     dpkg -i /tmp/motion.deb && \
     rm /tmp/motion.deb && \
