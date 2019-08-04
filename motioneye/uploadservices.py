@@ -14,28 +14,31 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
 import ftplib
 import json
 import logging
 import mimetypes
 import os
 import os.path
-import StringIO
 import time
 import urllib
-import urllib2
+from abc import ABCMeta, abstractmethod
+
+import StringIO
 import pycurl
+import urllib2
 
 import settings
 import utils
-import config
-import datetime
 
 _STATE_FILE_NAME = 'uploadservices.json'
 _services = None
 
 
-class UploadService(object):
+class UploadService:
+    __metaclass__ = ABCMeta
+
     MAX_FILE_SIZE = 1024 * 1024 * 1024  # 1GB
 
     NAME = 'base'
@@ -50,8 +53,9 @@ class UploadService(object):
     def get_authorize_url(cls):
         return '/'
 
+    @abstractmethod
     def test_access(self):
-        return True
+        pass
 
     def upload_file(self, target_dir, filename, camera_name):
         ctime = os.path.getctime(filename)
@@ -104,12 +108,15 @@ class UploadService(object):
 
         self.debug('file "%s" successfully uploaded' % filename)
 
+    @abstractmethod
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         pass
 
+    @abstractmethod
     def dump(self):
-        return {}
+        pass
 
+    @abstractmethod
     def load(self, data):
         pass
 
@@ -143,6 +150,7 @@ class UploadService(object):
 
 
 class GoogleBase:
+    __metaclass__ = ABCMeta
 
     AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
     TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
@@ -1176,6 +1184,7 @@ def _save(services):
     finally:
         f.close()
 
+
 def clean_cloud(local_dir, data, info):
     camera_id = info['camera_id']
     service_name = info['service_name']
@@ -1190,6 +1199,7 @@ def clean_cloud(local_dir, data, info):
         service.load(data)
         service.clean_cloud(cloud_dir, local_folders)
 
+
 def exist_in_local(folder, local_folders):
     if not local_folders:
         local_folders = []
@@ -1198,6 +1208,7 @@ def exist_in_local(folder, local_folders):
         return False
 
     return folder in local_folders
+
 
 def get_local_folders(dir):
     folders = next(os.walk(dir))[1]
