@@ -36,7 +36,11 @@ RUN apt-get update && \
     python-wheel \
     tzdata \
     v4l-utils \
-    zlib1g-dev && \
+    zlib1g-dev \
+    build-essential \
+    python-dev \
+    libxml2-dev \
+    libxslt-dev && \
     git clone --depth 1 https://github.com/Hexxeh/rpi-firmware.git /tmp/rpi-firmware && \
     cp -rv /tmp/rpi-firmware/vc/hardfp/opt/vc /opt && \
     rm -rf /tmp/rpi-firmware && \
@@ -50,7 +54,11 @@ RUN apt-get update && \
     git \
     python-pip \
     python-setuptools \
-    python-wheel && \
+    python-wheel \
+    build-essential \
+    python-dev \
+    libxml2-dev \
+    libxslt-dev && \
     apt-get autoremove --yes && \
     apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
