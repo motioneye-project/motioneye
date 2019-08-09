@@ -391,7 +391,8 @@ def get_camera(camera_id, as_lines=False):
     camera_config = _conf_to_dict(lines,
                                   no_convert=['@network_share_name', '@network_smb_ver', '@network_server',
                                               '@network_username', '@network_password', '@storage_device',
-                                              '@upload_server', '@upload_username', '@upload_password'])
+                                              '@upload_server', '@upload_username', '@upload_password',
+                                              '@upload_url'])
 
     if utils.is_local_motion_camera(camera_config):
         # determine the enabled status
@@ -716,6 +717,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         '@upload_service': ui['upload_service'],
         '@upload_server': ui['upload_server'],
         '@upload_port': ui['upload_port'],
+        '@upload_url': ui['upload_url'],
         '@upload_method': ui['upload_method'],
         '@upload_location': ui['upload_location'],
         '@upload_subfolders': ui['upload_subfolders'],
@@ -1082,6 +1084,7 @@ def motion_camera_dict_to_ui(data):
         'upload_service': data['@upload_service'],
         'upload_server': data['@upload_server'],
         'upload_port': data['@upload_port'],
+        'upload_url': data['@upload_url'],
         'upload_method': data['@upload_method'],
         'upload_location': data['@upload_location'],
         'upload_subfolders': data['@upload_subfolders'],
@@ -1873,6 +1876,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@upload_service', 'ftp')
     data.setdefault('@upload_server', '')
     data.setdefault('@upload_port', '')
+    data.setdefault('@upload_url', '')
     data.setdefault('@upload_method', 'POST')
     data.setdefault('@upload_location', '')
     data.setdefault('@upload_subfolders', True)

@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import StringIO
 import datetime
 import ftplib
 import json
@@ -23,11 +24,12 @@ import os
 import os.path
 import time
 import urllib
-from abc import ABCMeta, abstractmethod
-
-import StringIO
-import pycurl
 import urllib2
+from abc import ABCMeta, abstractmethod
+from inspect import isabstract
+
+import pycurl
+import webdav3.client
 
 import settings
 import utils
@@ -91,25 +93,25 @@ class UploadService:
             raise Exception(msg)
 
         try:
-            f = open(filename)
+            with open(filename) as f:
+                data = f.read()
 
         except Exception as e:
             msg = 'failed to open file "%s": %s' % (filename, e)
             self.error(msg)
             raise Exception(msg)
 
-        data = f.read()
         self.debug('size of "%s" is %.3fMB' % (filename, len(data) / 1024.0 / 1024))
 
         mime_type = mimetypes.guess_type(filename)[0] or 'image/jpeg'
         self.debug('mime type of "%s" is "%s"' % (filename, mime_type))
 
-        self.upload_data(rel_filename, mime_type, data, ctime, camera_name)
+        self.upload_data(filename, rel_filename, mime_type, data, ctime, camera_name)
 
         self.debug('file "%s" successfully uploaded' % filename)
 
     @abstractmethod
-    def upload_data(self, filename, mime_type, data, ctime, camera_name):
+    def upload_data(self, full_fname, filename, mime_type, data, ctime, camera_name):
         pass
 
     @abstractmethod
@@ -144,9 +146,18 @@ class UploadService:
     def clean_cloud(self, cloud_dir, local_folders):
         pass
 
-    @staticmethod
-    def get_service_classes():
-        return {c.NAME: c for c in UploadService.__subclasses__()}
+    @classmethod
+    def get_service_classes(cls):
+        sub_classes = cls.__subclasses__()
+        service_classes = {}
+        # search sub classes for Concrete implementations of UploadService
+        for sub_cls in sub_classes:
+            service_classes.update(sub_cls.get_service_classes())
+        # add own class to service list if not abstract
+        if not isabstract(cls):
+            service_classes[cls.NAME] = cls
+        # end recursion
+        return service_classes
 
 
 class GoogleBase:
@@ -356,7 +367,7 @@ class GoogleDrive(UploadService, GoogleBase):
     def test_access(self):
         return self._test_access()
 
-    def upload_data(self, filename, mime_type, data, ctime, camera_name):
+    def upload_data(self, full_fname, filename, mime_type, data, ctime, camera_name):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
 
@@ -554,7 +565,7 @@ class GooglePhoto(UploadService, GoogleBase):
     def test_access(self):
         return self._test_access()
 
-    def upload_data(self, filename, mime_type, data, ctime, camera_name):
+    def upload_data(self, full_fname, filename, mime_type, data, ctime, camera_name):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
         dayinfo = datetime.datetime.fromtimestamp(ctime).strftime('%Y-%m-%d')
@@ -718,7 +729,7 @@ class Dropbox(UploadService):
 
             return msg
 
-    def upload_data(self, filename, mime_type, data, ctime, camera_name):
+    def upload_data(self, full_fname, filename, mime_type, data, ctime, camera_name):
         metadata = {
             'path': os.path.join(self._clean_location(), filename),
             'mode': 'add',
@@ -841,6 +852,94 @@ class Dropbox(UploadService):
         }
 
 
+class WebDav(UploadService):
+    NAME = 'webdav'
+
+    def __init__(self, camera_id):
+        super(WebDav, self).__init__(camera_id)
+        self._url = None
+        self._location = None
+        self._username = None
+        self._password = None
+
+    def test_access(self):
+        client = self._webdav_client()
+        try:
+            self.debug('testing access')
+            self._make_dirs(client, self._location)
+            client.list(self._location)
+            return True
+        except Exception as e:
+            self.error(str(e), exc_info=True)
+            return False
+
+    def upload_data(self, full_fname, filename, mime_type, data, ctime, camera_name):
+        client = self._webdav_client()
+        self._make_dirs(client, self._location + '/' + os.path.dirname(filename))
+        client.upload_file(self._location + '/' + filename, full_fname)
+
+    def dump(self):
+        return {
+            'url': self._url,
+            'location': self._location,
+            'username': self._username,
+            'password': self._password
+        }
+
+    def load(self, data):
+        if data.get('url'):
+            self._url = data['url']
+        if data.get('location'):
+            self._location = data['location']
+        if data.get('username'):
+            self._username = data['username']
+        if data.get('password'):
+            self._password = data['password']
+
+    def _webdav_client(self):
+        options = {
+            'webdav_hostname': self._url,
+            'webdav_login': self._username,
+            'webdav_password': self._password
+        }
+        return webdav3.client.Client(options)
+
+    def _make_dirs(self, client, remote_dir):
+        # strip trailing '/'
+        remote_dir = remote_dir.rstrip('/')
+        self.debug('testing if remote dir "{}" exists'.format(remote_dir))
+        if client.check(remote_dir):
+            self.debug('remote dir {} exists'.format(remote_dir))
+            return
+        if remote_dir in ['', '.']:
+            self.debug('Root directory reached. Stop recursion and create directories from here.')
+            return
+        # create directories recursively
+        parent_dir = os.path.dirname(remote_dir)
+        self._make_dirs(client, parent_dir)
+        self.debug('creating remote directory {}'.format(remote_dir))
+        client.mkdir(remote_dir)
+
+
+class Nextcloud(WebDav):
+    NAME = 'nextcloud'
+
+    @property
+    def _dav_url(self):
+        return "{url}/remote.php/dav/files/{user}".format(
+            url=self._url.rstrip('/'),
+            user=self._username
+        )
+
+    def _webdav_client(self):
+        options = {
+            'webdav_hostname': self._dav_url,
+            'webdav_login': self._username,
+            'webdav_password': self._password
+        }
+        return webdav3.client.Client(options)
+
+
 class FTP(UploadService):
     NAME = 'ftp'
     CONN_LIFE_TIME = 60  # don't keep an FTP connection for more than 1 minute
@@ -876,7 +975,7 @@ class FTP(UploadService):
 
             return str(e)
 
-    def upload_data(self, filename, mime_type, data, ctime, camera_name):
+    def upload_data(self, full_fname, filename, mime_type, data, ctime, camera_name):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
 
@@ -993,7 +1092,7 @@ class SFTP(UploadService):
 
             return str(e)
 
-    def upload_data(self, filename, mime_type, data, ctime, camera_name):
+    def upload_data(self, full_fname, filename, mime_type, data, ctime, camera_name):
         conn = self._get_conn(filename)
         conn.setopt(pycurl.READFUNCTION, StringIO.StringIO(data).read)
 
@@ -1087,12 +1186,12 @@ def get(camera_id, service_name):
 
 def test_access(camera_id, service_name, data):
     logging.debug('testing access to %s' % service_name)
-
     service = get(camera_id, service_name)
-    service.load(data)
     if not service:
-        return 'unknown upload service %s' % service_name
-
+        msg = 'unknown upload service %s' % service_name
+        logging.debug(msg)
+        return msg
+    service.load(data)
     return service.test_access()
 
 
