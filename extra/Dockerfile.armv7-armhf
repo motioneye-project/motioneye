@@ -39,6 +39,7 @@ RUN apt-get update && \
     zlib1g-dev \
     build-essential \
     python-dev \
+    libxslt1.1 \
     libxml2-dev \
     libxslt-dev && \
     git clone --depth 1 https://github.com/Hexxeh/rpi-firmware.git /tmp/rpi-firmware && \
