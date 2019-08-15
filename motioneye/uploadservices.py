@@ -99,7 +99,7 @@ class UploadService:
         except Exception as e:
             msg = 'failed to open file "%s": %s' % (filename, e)
             self.error(msg)
-            raise Exception(msg)
+            raise
 
         self.debug('size of "%s" is %.3fMB' % (filename, len(data) / 1024.0 / 1024))
 
@@ -219,7 +219,7 @@ class GoogleBase:
             if not self._authorization_key:
                 msg = 'missing authorization key'
                 self.error(msg)
-                raise Exception(msg)
+                raise
 
             self.debug('requesting credentials')
             try:
