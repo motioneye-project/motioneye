@@ -1,3 +1,22 @@
+FROM multiarch/debian-debootstrap:armhf-stretch as builder
+ENV PYTHONUNBUFFERED 1
+RUN apt-get update && \
+    apt-get upgrade --yes && \
+    DEBIAN_FRONTEND="noninteractive" apt-get --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+    python-wheel \
+    build-essential \
+    python-dev \
+    libxslt1.1 \
+    libxml2-dev \
+    libxslt-dev \
+    python-pip \
+    zlib1g-dev \
+    python-setuptools
+WORKDIR /wheels
+RUN pip wheel webdavclient3
+
+
+
 FROM multiarch/debian-debootstrap:armhf-stretch
 LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
@@ -14,6 +33,8 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 COPY . /tmp/motioneye
 ENV LD_LIBRARY_PATH /opt/vc/lib
+
+COPY --from=builder /wheels /wheels
 
 RUN apt-get update && \
     apt-get upgrade --yes && \
@@ -35,13 +56,7 @@ RUN apt-get update && \
     python-tz \
     python-wheel \
     tzdata \
-    v4l-utils \
-    zlib1g-dev \
-    build-essential \
-    python-dev \
-    libxslt1.1 \
-    libxml2-dev \
-    libxslt-dev && \
+    v4l-utils && \
     git clone --depth 1 https://github.com/Hexxeh/rpi-firmware.git /tmp/rpi-firmware && \
     cp -rv /tmp/rpi-firmware/vc/hardfp/opt/vc /opt && \
     rm -rf /tmp/rpi-firmware && \
@@ -49,8 +64,11 @@ RUN apt-get update && \
     curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.2.2/pi_stretch_motion_4.2.2-1_armhf.deb && \
     dpkg -i /tmp/motion.deb && \
     rm /tmp/motion.deb && \
+    pip install webdavclient3 -f /wheels && \
+    rm -rf /wheels \
     pip install /tmp/motioneye && \
     rm -rf /tmp/motioneye && \
+    rm -rf /root/.cache/pip/* && \
     apt-get purge --yes \
     git \
     python-pip \
