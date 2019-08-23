@@ -901,7 +901,7 @@
                         <tr class="settings-item" min="1" max="10" snap="1" ticksnum="10" decimals="0" unit="" depends="mask maskType=smart">
                             <td class="settings-item-label"><span class="settings-item-label">Smart Mask Sluggishness</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="smartMaskSluggishnessSlider"></td>
-                            <td><span class="help-mark" title="lower values result in a longer-lasting smart mask with a slower building process">?</span></td>
+                            <td><span class="help-mark" title="higher values result in a longer-lasting smart mask with a slower building process">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="mask maskType=editable">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
@@ -1159,13 +1159,13 @@
         <div class="page-container"></div>
         <div class="footer">
             <div class="copyright-note">copyright &copy; Calin Crisan</div>
-        </div> 
+        </div>
     </div>
     {% else %}
         <div class="camera-frame" id="camera{{camera_id}}"
                 streaming_framerate="{{camera_config['stream_maxrate']}}" streaming_server_resize="{{camera_config['@webcam_server_resize']|string|lower}}"
                 proto="{{camera_config['@proto']}}" url="{{camera_config['@url']}}">
-            
+
             <div class="camera-container">
                 <div class="camera-placeholder"><img class="no-camera" src="{{static_path}}img/no-camera.svg"></div><img
                     class="camera"><div class="camera-progress"><img class="camera-progress"></div>
