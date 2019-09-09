@@ -1,17 +1,15 @@
 ---
-version: "2"
+version: "3.5"
 services:
   motioneye:
     image: ccrisan/motioneye:master-amd64  # Change to ccrisan/motioneye:master-armhf for ARM chips (Pi etc.)
     ports:
       - "8081:8081"
       - "8765:8765"
-    volumes_from:
-      - data_motioneye
-
-  data_motioneye:
-    image: busybox
     volumes:
-      - /docker/motioneye/etc:/etc/motioneye
-      - /docker/motioneye/media:/var/lib/motioneye
+      - etc_motioneye:/etc/motioneye
+      - var_lib_motioneye:/var/lib/motioneye
 
+volumes:
+  etc_motioneye:
+  var_lib_motioneye:
