@@ -1893,6 +1893,9 @@ function cameraUi2Dict() {
         'upload_movie': $('#uploadMovieSwitch')[0].checked,
         'upload_service': $('#uploadServiceSelect').val(),
         'upload_server': $('#uploadServerEntry').val(),
+        'upload_access_key': $('#uploadAccessKeyEntry').val(),
+        'upload_secret_key': $('#uploadSecretKeyEntry').val(),
+        'upload_bucket': $('#uploadBucketEntry').val(),
         'upload_port': $('#uploadPortEntry').val(),
         'upload_method': $('#uploadMethodSelect').val(),
         'upload_location': $('#uploadLocationEntry').val(),
@@ -2215,6 +2218,9 @@ function dict2CameraUi(dict) {
     $('#uploadMovieSwitch')[0].checked = dict['upload_movie']; markHideIfNull('upload_movie', 'uploadMovieSwitch');
     $('#uploadServiceSelect').val(dict['upload_service']); markHideIfNull('upload_service', 'uploadServiceSelect');
     $('#uploadServerEntry').val(dict['upload_server']); markHideIfNull('upload_server', 'uploadServerEntry');
+    $('#uploadAccessKeyEntry').val(dict['upload_access_key']); markHideIfNull('upload_access_key', 'uploadAccessKeyEntry');
+    $('#uploadSecretKeyEntry').val(dict['upload_secret_key']); markHideIfNull('upload_secret_key', 'uploadSecretKeyEntry');
+    $('#uploadBucketEntry').val(dict['upload_bucket']); markHideIfNull('upload_bucket', 'uploadBucketEntry');
     $('#uploadPortEntry').val(dict['upload_port']); markHideIfNull('upload_port', 'uploadPortEntry');
     $('#uploadMethodSelect').val(dict['upload_method']); markHideIfNull('upload_method', 'uploadMethodSelect');
     $('#uploadLocationEntry').val(dict['upload_location']); markHideIfNull('upload_location', 'uploadLocationEntry');
@@ -2920,7 +2926,7 @@ function doRestore() {
 }
 
 function doTestUpload() {
-    var q = $('#uploadPortEntry, #uploadLocationEntry, #uploadServerEntry');
+    var q = $('#uploadPortEntry, #uploadLocationEntry, #uploadServerEntry, #uploadAccessKeyEntry, #uploadSecretKeyEntry, #uploadBucketEntry');
     var valid = true;
     q.each(function() {
         this.validate();
@@ -2941,6 +2947,9 @@ function doTestUpload() {
         server: $('#uploadServerEntry').val(),
         port: $('#uploadPortEntry').val(),
         method: $('#uploadMethodSelect').val(),
+        access_key: $('#uploadAccessKeyEntry').val(),
+        secret_key: $('#uploadSecretKeyEntry').val(),
+        bucket: $('#uploadBucketEntry').val(),
         location: $('#uploadLocationEntry').val(),
         subfolders: $('#uploadSubfoldersSwitch')[0].checked,
         username: $('#uploadUsernameEntry').val(),

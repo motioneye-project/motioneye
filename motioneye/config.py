@@ -391,7 +391,7 @@ def get_camera(camera_id, as_lines=False):
     camera_config = _conf_to_dict(lines,
                                   no_convert=['@network_share_name', '@network_smb_ver', '@network_server',
                                               '@network_username', '@network_password', '@storage_device',
-                                              '@upload_server', '@upload_username', '@upload_password'])
+                                              '@upload_server','@upload_access_key','@upload_secret_key','@upload_bucket', '@upload_username', '@upload_password'])
 
     if utils.is_local_motion_camera(camera_config):
         # determine the enabled status
@@ -715,6 +715,11 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         '@upload_picture': ui['upload_picture'],
         '@upload_service': ui['upload_service'],
         '@upload_server': ui['upload_server'],
+
+        '@upload_access_key': ui['upload_access_key'],
+        '@upload_secret_key': ui['upload_secret_key'],
+        '@upload_bucket': ui['upload_bucket'],
+
         '@upload_port': ui['upload_port'],
         '@upload_method': ui['upload_method'],
         '@upload_location': ui['upload_location'],
@@ -1081,6 +1086,9 @@ def motion_camera_dict_to_ui(data):
         'upload_movie': data['@upload_movie'],
         'upload_service': data['@upload_service'],
         'upload_server': data['@upload_server'],
+        'upload_access_key': data['@upload_access_key'],
+        'upload_secret_key': data['@upload_secret_key'],
+        'upload_bucket': data['@upload_bucket'],
         'upload_port': data['@upload_port'],
         'upload_method': data['@upload_method'],
         'upload_location': data['@upload_location'],
@@ -1872,6 +1880,12 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@upload_movie', True)
     data.setdefault('@upload_service', 'ftp')
     data.setdefault('@upload_server', '')
+
+    data.setdefault('@upload_access_key', '')
+    data.setdefault('@upload_secret_key', '')
+    data.setdefault('@upload_bucket', '')
+
+
     data.setdefault('@upload_port', '')
     data.setdefault('@upload_method', 'POST')
     data.setdefault('@upload_location', '')
@@ -1881,7 +1895,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@clean_cloud_enabled', False)
 
     data.setdefault('stream_localhost', False)
-    data.setdefault('stream_port', 8080 + camera_id)
+    data.setdefault('stream_port', 8080 + int(camera_id))
     data.setdefault('stream_maxrate', 5)
     data.setdefault('stream_quality', 85)
     data.setdefault('stream_motion', False)

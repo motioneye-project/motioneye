@@ -30,6 +30,9 @@ import settings
 import utils
 import config
 import datetime
+from minio import Minio
+from minio.error import (ResponseError, BucketAlreadyOwnedByYou,
+                         BucketAlreadyExists)
 
 _STATE_FILE_NAME = 'uploadservices.json'
 _services = None
@@ -81,7 +84,7 @@ class UploadService(object):
 
         if st.st_size > self.MAX_FILE_SIZE:
             msg = 'file "%s" is too large (%sMB/%sMB)' % \
-                    (filename, st.st_size / 1024 / 1024, self.MAX_FILE_SIZE / 1024 / 1024)
+                  (filename, st.st_size / 1024 / 1024, self.MAX_FILE_SIZE / 1024 / 1024)
 
             self.error(msg)
             raise Exception(msg)
@@ -143,7 +146,6 @@ class UploadService(object):
 
 
 class GoogleBase:
-
     AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
     TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
 
@@ -478,7 +480,7 @@ class GoogleDrive(UploadService, GoogleBase):
         folder_id = self._get_folder_id_by_name('root', cloud_dir, False)
         children = self._get_children(folder_id)
         self.info('found %s/%s folder(s) in local/cloud' % \
-            (len(local_folders), len(children)))
+                  (len(local_folders), len(children)))
         self.debug('local %s' % local_folders)
         for child in children:
             id = child['id']
@@ -552,7 +554,7 @@ class GooglePhoto(UploadService, GoogleBase):
         dayinfo = datetime.datetime.fromtimestamp(ctime).strftime('%Y-%m-%d')
         uploadname = dayinfo + '-' + filename
 
-        body = data 
+        body = data
 
         headers = {
             'Content-Type': 'application/octet-stream',
@@ -1017,7 +1019,7 @@ class SFTP(UploadService):
                                                self._location, filename)
 
         self.debug('creating sftp connection to {}@{}:{}'.format(
-                self._username, self._server, self._port))
+            self._username, self._server, self._port))
 
         self._conn = pycurl.Curl()
         self._conn.setopt(self._conn.URL, sftp_url)
@@ -1043,6 +1045,70 @@ class SFTP(UploadService):
         self._conn.setopt(self._conn.UPLOAD, 1)
 
         return self._conn
+
+
+class MinioUpload(UploadService):
+    NAME = 'minio'
+
+    def __init__(self, camera_id):
+        self._server = None
+        self._port = None
+        self._access_key = None
+        self._secret_key = None
+        self._bucket = None
+        self._location = None
+
+        UploadService.__init__(self, camera_id)
+
+    def test_access(self):
+        return True
+
+    def dump(self):
+        return {
+            'location': self._location,
+            'server': self._server,
+            'port': self._port,
+            'access_key': self._access_key,
+            'secret_key': self._secret_key,
+            'bucket': self._bucket,
+        }
+
+    def load(self, data):
+        if data.get('location'):
+            self._location = data['location']
+        if data.get('access_key'):
+            self._access_key = data['access_key']
+        if data.get('secret_key'):
+            self._secret_key = data['secret_key']
+        if data.get('server'):
+            self._server = data['server']
+        if data.get('port'):
+            self._port = data['port']
+        if data.get('bucket'):
+            self._bucket = data['bucket']
+
+    def upload_data(self, filename, mime_type, data, ctime, camera_name):
+
+        camera_config = config.get_camera(self.camera_id)
+
+        # Initialize minioClient with an endpoint and access/secret keys.
+        minio_server_url = "{server}:{port}".format(server=self._server, port=self._port)
+        minioClient = Minio(minio_server_url, access_key=self._access_key, secret_key=self._secret_key, secure=False)
+
+        # Make a bucket with the make_bucket API call.
+        try:
+            minioClient.make_bucket(self._bucket, location="us-east-1")
+        except BucketAlreadyOwnedByYou as err:
+            pass
+        except BucketAlreadyExists as err:
+            pass
+        except ResponseError as err:
+            raise
+
+        try:
+            minioClient.fput_object(self._bucket, filename, camera_config.get('target_dir')+"/"+filename)
+        except ResponseError as e:
+            logging.error('Upload to minio failed: %s' % e)
 
 
 def get_authorize_url(service_name):
@@ -1176,6 +1242,7 @@ def _save(services):
     finally:
         f.close()
 
+
 def clean_cloud(local_dir, data, info):
     camera_id = info['camera_id']
     service_name = info['service_name']
@@ -1190,6 +1257,7 @@ def clean_cloud(local_dir, data, info):
         service.load(data)
         service.clean_cloud(cloud_dir, local_folders)
 
+
 def exist_in_local(folder, local_folders):
     if not local_folders:
         local_folders = []
@@ -1199,6 +1267,8 @@ def exist_in_local(folder, local_folders):
 
     return folder in local_folders
 
+
 def get_local_folders(dir):
     folders = next(os.walk(dir))[1]
     return folders
+

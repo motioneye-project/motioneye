@@ -37,6 +37,7 @@ RUN apt-get update && \
     curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.2.2/cosmic_motion_4.2.2-1_amd64.deb && \
     dpkg -i /tmp/motion.deb && \
     rm /tmp/motion.deb && \
+    pip install minio && \
     pip install /tmp/motioneye && \
     rm -rf /tmp/motioneye && \
     apt-get purge --yes \

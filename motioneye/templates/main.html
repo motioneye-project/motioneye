@@ -419,16 +419,17 @@
                                     <option value="gdrive">Google Drive</option>
                                     <option value="gphoto">Google Photo</option>
                                     <option value="dropbox">Dropbox</option>
+                                    <option value="minio">Minio</option>
                                 </select>
                             </td>
                             <td><span class="help-mark" title="choose a service to which the media files should be uploaded">?</span></td>
                         </tr>
-                        <tr class="settings-item" required="true" depends="uploadEnabled uploadService=(ftp|sftp|http|https)">
+                        <tr class="settings-item" required="true" depends="uploadEnabled uploadService=(ftp|sftp|http|https|minio)">
                             <td class="settings-item-label"><span class="settings-item-label">Server Address</span></td>
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadServerEntry"></td>
                             <td><span class="help-mark" title="the domain name or IP address of the server (e.g. ftp.example.com or 192.168.1.3)">?</span></td>
                         </tr>
-                        <tr class="settings-item" required="true" min="1" max="65535" depends="uploadEnabled uploadService=(ftp|sftp|http|https)">
+                        <tr class="settings-item" required="true" min="1" max="65535" depends="uploadEnabled uploadService=(ftp|sftp|http|https|minio)">
                             <td class="settings-item-label"><span class="settings-item-label">Server Port</span></td>
                             <td class="settings-item-value"><input type="text" class="number styled storage camera-config" id="uploadPortEntry"></td>
                             <td><span class="help-mark" title="the port to use when connecting to the service (leave it empty to use the default value)">?</span></td>
@@ -448,6 +449,25 @@
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadLocationEntry"></td>
                             <td><span class="help-mark" title="the location (root path) where media files should be uploaded (e.g. /files/cam1/)">?</span></td>
                         </tr>
+
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(minio)">
+                            <td class="settings-item-label"><span class="settings-item-label">ACCESS KEY</span></td>
+                            <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadAccessKeyEntry"></td>
+                            <td><span class="help-mark" title="Access key">?</span></td>
+                        </tr>
+
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(minio)">
+                            <td class="settings-item-label"><span class="settings-item-label">SECRET KEY</span></td>
+                            <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadSecretKeyEntry"></td>
+                            <td><span class="help-mark" title="Secret key">?</span></td>
+                        </tr>
+
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(minio)">
+                            <td class="settings-item-label"><span class="settings-item-label">Bucket</span></td>
+                            <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadBucketEntry"></td>
+                            <td><span class="help-mark" title="Minio bucket">?</span></td>
+                        </tr>
+
                         <tr class="settings-item" depends="uploadEnabled uploadService!=(gphoto)">
                             <td class="settings-item-label"><span class="settings-item-label">Include Subfolders</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadSubfoldersSwitch"></td>
