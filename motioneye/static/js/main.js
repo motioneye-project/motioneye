@@ -17,8 +17,8 @@ var passwordHash = '';
 var basePath = null;
 var signatureRegExp = new RegExp('[^A-Za-z0-9/?_.=&{}\\[\\]":, -]', 'g');
 var deviceNameValidRegExp = new RegExp('^[A-Za-z0-9\-\_\+\ ]+$');
-var filenameValidRegExp = new RegExp('^([A-Za-z0-9/._-]|%[YmdHMSqv])*$');
-var dirnameValidRegExp = new RegExp('^[A-Za-z0-9/._-]*$');
+var filenameValidRegExp = new RegExp('^([A-Za-z0-9 \(\)/._-]|%[YmdHMSqv])+$');
+var dirnameValidRegExp = new RegExp('^[A-Za-z0-9 \(\)/._-]+$');
 var emailValidRegExp = new RegExp('^[A-Za-z0-9_+.%^~<>,-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$');
 var initialConfigFetched = false; /* used to workaround browser extensions that trigger stupid change events */
 var pageContainer = null;
