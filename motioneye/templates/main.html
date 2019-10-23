@@ -761,10 +761,16 @@
                                     {% if has_h264_omx_support %}
                                     <option value="mp4:h264_omx">H.264/OMX (.mp4)</option>
                                     {% endif %}
+                                    {% if has_h264_v4l2m2m_support %}
+                                    <option value="mp4:h264_v4l2m2m">H.264/V4L2M2M (.mp4)</option>
+                                    {% endif %}
                                     <option value="hevc">HEVC (.mp4)</option>
                                     <option value="mkv">Matroska Video (.mkv)</option>
                                     {% if has_h264_omx_support %}
                                     <option value="mkv:h264_omx">Matroska Video/OMX (.mkv)</option>
+                                    {% endif %}
+                                    {% if has_h264_v4l2m2m_support %}
+                                    <option value="mkv:h264_v4l2m2m">Matroska Video/V4L2M2M (.mkv)</option>
                                     {% endif %}
                                 </select>
                             </td>
