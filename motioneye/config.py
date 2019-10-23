@@ -5,14 +5,14 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import collections
 import datetime
@@ -787,8 +787,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         proto = 'v4l2'
 
     elif utils.is_mmal_camera(prev_config):
-        proto = 'mmal'     
-   
+        proto = 'mmal'
+
     else:
         proto = 'netcam'
 
@@ -825,7 +825,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             threshold = int(float(ui['frame_change_threshold']) * 640 * 480 / 100)
 
     data['threshold'] = threshold
-    
+
 
     if (ui['storage_device'] == 'network-share') and settings.SMB_SHARES:
         mount_point = smbctl.make_mount_point(ui['network_server'], ui['network_share_name'], ui['network_username'])
@@ -997,7 +997,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     if ui['command_end_notifications_enabled']:
         on_event_end += utils.split_semicolon(ui['command_end_notifications_exec'])
-    
+
     data['on_event_end'] = '; '.join(on_event_end)
 
     # movie end
@@ -1149,7 +1149,7 @@ def motion_camera_dict_to_ui(data):
         'web_hook_notifications_enabled': False,
         'command_notifications_enabled': False,
         'command_end_notifications_enabled': False,
-        
+
         # working schedule
         'working_schedule': False,
         'working_schedule_type': 'during',
@@ -1183,7 +1183,7 @@ def motion_camera_dict_to_ui(data):
     elif utils.is_mmal_camera(data):
         ui['device_url'] = data['mmalcam_name']
         ui['proto'] = 'mmal'
-        
+
         resolutions = utils.COMMON_RESOLUTIONS
         resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
         ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
@@ -1932,6 +1932,9 @@ def _set_default_motion_camera(camera_id, data):
 
     if motionctl.has_h264_omx_support():
         data.setdefault('movie_codec', 'mp4:h264_omx')  # will use h264 codec
+
+    elif motionctl.has_h264_v4l2m2m_support():
+        data.setdefault('movie_codec', 'mp4:h264_v4l2m2m')  # will use h264 codec
 
     else:
         data.setdefault('movie_codec', 'mp4')  # will use h264 codec

@@ -54,6 +54,8 @@ FFMPEG_CODEC_MAPPING = {
     'mkv': 'h264',
     'mp4:h264_omx': 'h264_omx',
     'mkv:h264_omx': 'h264_omx',
+    'mp4:h264_v4l2m2m': 'h264_v4l2m2m',
+    'mkv:h264_v4l2m2m': 'h264_v4l2m2m',
     'hevc': 'h265'
 }
 
