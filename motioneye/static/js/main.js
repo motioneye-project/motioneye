@@ -706,6 +706,7 @@ function initUI() {
     $('#moviesEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     $('#motionDetectionEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     $('#preserveMoviesSelect').change(updateConfigUI);
+    $('#moviePassthroughSwitch').change(updateConfigUI);
     $('#workingScheduleEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     
     $('#mondayEnabledSwitch').change(updateConfigUI);
@@ -1939,6 +1940,7 @@ function cameraUi2Dict() {
         'movie_file_name': $('#movieFileNameEntry').val(),
         'movie_quality': $('#movieQualitySlider').val(),
         'movie_format': $('#movieFormatSelect').val(),
+        'movie_passthrough': $('#moviePassthroughSwitch')[0].checked,
         'recording_mode': $('#recordingModeSelect').val(),
         'max_movie_length': $('#maxMovieLengthEntry').val(),
         'preserve_movies': $('#preserveMoviesSelect').val() >= 0 ? $('#preserveMoviesSelect').val() : $('#moviesLifetimeEntry').val(),
@@ -2302,6 +2304,7 @@ function dict2CameraUi(dict) {
     $('#movieFormatSelect').val(dict['movie_format']); markHideIfNull('movie_format', 'movieFormatSelect');
     $('#recordingModeSelect').val(dict['recording_mode']); markHideIfNull('recording_mode', 'recordingModeSelect');
     $('#maxMovieLengthEntry').val(dict['max_movie_length']); markHideIfNull('max_movie_length', 'maxMovieLengthEntry');
+    $('#moviePassthroughSwitch')[0].checked = dict['movie_passthrough'];
     $('#preserveMoviesSelect').val(dict['preserve_movies']);
     if ($('#preserveMoviesSelect').val() == null) {
         $('#preserveMoviesSelect').val('-1');

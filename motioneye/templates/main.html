@@ -749,6 +749,11 @@
                             <td><span class="help-mark" title="sets the name pattern for the movie files; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, / = subfolder">?</span></td>
                         </tr>
                         <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">Movie  passthrough</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled movies camera-config" id="moviePassthroughSwitch"></td>
+                            <td><span class="help-mark" title="Create movie files of the motion directly from the camera. This option should reduce CPU usage but does increase memory requirements. No image processing is performed so text overlays, privacy masks etc will not be on the resulting video.">?</span></td>
+                        </tr>
+                        <tr class="settings-item" depends="!moviePassthrough">
                             <td class="settings-item-label"><span class="settings-item-label">Movie Format</span></td>
                             <td class="settings-item-value">
                                 <select class="styled movies camera-config" id="movieFormatSelect">
