@@ -247,6 +247,7 @@ class MainHandler(BaseHandler):
                     title=self.get_argument('title', None),
                     admin_username=config.get_main().get('@admin_username'),
                     has_h264_omx_support=motionctl.has_h264_omx_support(),
+                    has_h264_v4l2m2m_support=motionctl.has_h264_v4l2m2m_support(),
                     has_motion=bool(motionctl.find_motion()[0]),
                     mask_width=utils.MASK_WIDTH)
 

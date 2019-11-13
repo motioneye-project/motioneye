@@ -1933,6 +1933,9 @@ def _set_default_motion_camera(camera_id, data):
     if motionctl.has_h264_omx_support():
         data.setdefault('movie_codec', 'mp4:h264_omx')  # will use h264 codec
 
+    elif motionctl.has_h264_v4l2m2m_support():
+        data.setdefault('movie_codec', 'mp4:h264_v4l2m2m')  # will use h264 codec
+
     else:
         data.setdefault('movie_codec', 'mp4')  # will use h264 codec
 
