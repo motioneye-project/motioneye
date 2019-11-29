@@ -69,6 +69,7 @@ _USED_MOTION_OPTIONS = {
     'movie_output_motion',
     'movie_output',
     'movie_quality',
+    'movie_passthrough',
     'minimum_motion_frames',
     'mmalcam_name',
     'netcam_keepalive',
@@ -750,6 +751,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
         # movies
         'movie_output': False,
+        'movie_passthrough': bool(ui['movie_passthrough']),
         'movie_filename': ui['movie_file_name'],
         'movie_max_time': ui['max_movie_length'],
         '@preserve_movies': int(ui['preserve_movies']),
@@ -1124,6 +1126,7 @@ def motion_camera_dict_to_ui(data):
         'movie_file_name': data['movie_filename'],
         'max_movie_length': data['movie_max_time'],
         'preserve_movies': data['@preserve_movies'],
+        'movie_passthrough': data['movie_passthrough'],
 
         # motion detection
         'motion_detection': data['@motion_detection'],
@@ -1929,6 +1932,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     data.setdefault('movie_max_time', 0)
     data.setdefault('movie_output', False)
+    data.setdefault('movie_passthrough', False)
 
     if motionctl.has_h264_omx_support():
         data.setdefault('movie_codec', 'mp4:h264_omx')  # will use h264 codec
