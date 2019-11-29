@@ -6,14 +6,14 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import base64
 import datetime
@@ -85,7 +85,7 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
             month=date_time.strftime('%b'),
             hm=date_time.strftime('%H:%M')
         )
-    
+
     else:
         text = u'{day} {month} {year}, {hm}'.format(
             day=date_time.day,
@@ -93,7 +93,7 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
             year=date_time.year,
             hm=date_time.strftime('%H:%M')
         )
-    
+
     if tzinfo:
         offset = tzinfo.utcoffset(datetime.datetime.utcnow()).seconds
         tz = 'GMT'
@@ -232,16 +232,16 @@ def pretty_duration(duration):
 def pretty_size(size):
     if size < 1024:  # less than 1kB
         size, unit = size, 'B'
-    
+
     elif size < 1024 * 1024:  # less than 1MB
         size, unit = size / 1024.0, 'kB'
-        
+
     elif size < 1024 * 1024 * 1024:  # less than 1GB
         size, unit = size / 1024.0 / 1024, 'MB'
-    
+
     else:  # greater than or equal to 1GB
         size, unit = size / 1024.0 / 1024 / 1024, 'GB'
-    
+
     return '%.1f %s' % (size, unit)
 
 
@@ -251,16 +251,16 @@ def pretty_http_error(response):
 
     if not response.error:
         return 'ok'
-    
+
     msg = unicode(response.error)
     if msg.startswith('HTTP '):
         msg = msg.split(':', 1)[-1].strip()
 
     if msg.startswith('[Errno '):
         msg = msg.split(']', 1)[-1].strip()
-    
+
     if 'timeout' in msg.lower() or 'timed out' in msg.lower():
-        msg = 'request timed out' 
+        msg = 'request timed out'
 
     return msg
 
@@ -275,7 +275,7 @@ def make_str(s):
     except:
         try:
             return unicode(s, encoding='utf8').encode('utf8')
-    
+
         except:
             return unicode(s).encode('utf8')
 
@@ -286,11 +286,11 @@ def make_unicode(s):
 
     try:
         return unicode(s, encoding='utf8')
-    
+
     except:
         try:
             return unicode(s)
-        
+
         except:
             return str(s).decode('utf8')
 
@@ -301,10 +301,10 @@ def split_semicolon(s):
     for p in parts:
         if merged_parts and merged_parts[-1][-1] == '\\':
             merged_parts[-1] = merged_parts[-1][:-1] + ';' + p
-            
+
         else:
             merged_parts.append(p)
-    
+
     if not merged_parts:
         return []
 
@@ -315,22 +315,22 @@ def get_disk_usage(path):
     logging.debug('getting disk usage for path %(path)s...' % {
             'path': path})
 
-    try:    
+    try:
         result = os.statvfs(path)
-    
+
     except OSError as e:
         logging.error('failed to execute statvfs: %(msg)s' % {'msg': unicode(e)})
-        
+
         return None
 
     block_size = result.f_frsize
     free_blocks = result.f_bfree
     total_blocks = result.f_blocks
-    
+
     free_size = free_blocks * block_size
     total_size = total_blocks * block_size
     used_size = total_size - free_size
-    
+
     return used_size, total_size
 
 
@@ -378,7 +378,7 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
             'host': data['host'],
             'port': ':' + str(data['port']) if data['port'] else '',
             'path': data['path'] or ''}
-    
+
     called = [False]
     status_2xx = [False]
     http_11 = [False]
@@ -386,7 +386,7 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
     def do_request(on_response):
         if data['username']:
             auth = auth_modes[0]
-            
+
         else:
             auth = 'no'
 
@@ -408,10 +408,10 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
             if content_type in ['image/jpg', 'image/jpeg', 'image/pjpg'] and allow_jpeg:
                 callback([{'id': 1, 'name': 'JPEG Network Camera', 'keep_alive': http_11[0]}])
-            
+
             elif content_type.startswith('multipart/x-mixed-replace'):
                 callback([{'id': 1, 'name': 'MJPEG Network Camera', 'keep_alive': http_11[0]}])
-            
+
             else:
                 callback(error='not a supported network camera')
 
@@ -421,7 +421,7 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
             if m:
                 if int(m.group(2)) / 100 == 2:
                     status_2xx[0] = True
-                
+
                 if m.group(1) == '1':
                     http_11[0] = True
 
@@ -430,20 +430,20 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
             if response.code == 401 and auth_modes and data['username']:
                 status_2xx[0] = False
                 do_request(on_response)
-                
+
             else:
                 called[0] = True
                 callback(error=pretty_http_error(response) if response.error else 'not a supported network camera')
-    
+
     username = data['username'] or None
     password = data['password'] or None
-    
+
     do_request(on_response)
 
 
 def test_rtsp_url(data, callback):
     import motionctl
-    
+
     scheme = data.get('scheme', 'rtsp')
     host = data.get('host', '127.0.0.1')
     port = data.get('port') or '554'
@@ -456,18 +456,18 @@ def test_rtsp_url(data, callback):
             'host': host,
             'port': (':' + port) if port else '',
             'path': path}
-    
+
     called = [False]
     send_auth = [False]
     timeout = [None]
     stream = None
-    
+
     io_loop = IOLoop.instance()
 
     def connect():
         if send_auth[0]:
             logging.debug('testing rtsp netcam at %s (this time with credentials)' % url)
-            
+
         else:
             logging.debug('testing rtsp netcam at %s' % url)
 
@@ -479,26 +479,26 @@ def test_rtsp_url(data, callback):
 
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
                                          functools.partial(on_connect, _timeout=True))
-        
+
         return stream
-    
+
     def on_connect(_timeout=False):
         io_loop.remove_timeout(timeout[0])
-        
+
         if _timeout:
             return handle_error('timeout connecting to rtsp netcam')
 
         if not stream:
-            return handle_error('failed to connect to rtsp netcam') 
+            return handle_error('failed to connect to rtsp netcam')
 
         logging.debug('connected to rtsp netcam')
-        
+
         lines = [
             'OPTIONS %s RTSP/1.0' % url.encode('utf8'),
             'CSeq: 1',
             'User-Agent: motionEye'
         ]
-        
+
         if username and send_auth[0]:
             auth_header = 'Authorization: ' + build_basic_header(username, password)
             lines.append(auth_header)
@@ -511,7 +511,7 @@ def test_rtsp_url(data, callback):
         stream.write('\r\n'.join(lines))
 
         seek_rtsp()
-        
+
     def seek_rtsp():
         if check_error():
             return
@@ -553,7 +553,7 @@ def test_rtsp_url(data, callback):
         if data:
             identifier = re.findall('Server: (.*)', data)[0].strip()
             logging.debug('rtsp netcam identifier is "%s"' % identifier)
-        
+
         else:
             identifier = None
             logging.debug('no rtsp netcam identifier')
@@ -576,7 +576,7 @@ def test_rtsp_url(data, callback):
             if scheme.lower() == 'basic':
                 send_auth[0] = True
                 connect()
-                
+
             else:
                 logging.debug('rtsp auth scheme digest not supported, considering credentials ok')
                 handle_success('(unknown) ')
@@ -588,40 +588,40 @@ def test_rtsp_url(data, callback):
     def on_close():
         if called[0]:
             return
- 
+
         if not check_error():
             handle_error('connection closed')
 
     def handle_success(identifier):
         if called[0]:
             return
-        
+
         called[0] = True
         cameras = []
         if identifier:
             identifier = ' ' + identifier
-            
+
         else:
             identifier = ''
 
         cameras.append({'id': 'tcp', 'name': '%sRTSP/TCP Camera' % identifier})
         cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
-        
+
         callback(cameras)
 
     def handle_error(e):
         if called[0]:
             return
-        
+
         called[0] = True
         logging.error('rtsp client error: %s' % unicode(e))
 
         try:
             stream.close()
-        
+
         except:
             pass
-        
+
         callback(error=unicode(e))
 
     def check_error():
@@ -635,10 +635,34 @@ def test_rtsp_url(data, callback):
             stream.close()
 
             return True
-        
+
         return False
 
     stream = connect()
+
+def test_rtmp_url(data, callback):
+    import motionctl
+
+    scheme = data.get('scheme', 'rtmp')
+    host = data.get('host', '127.0.0.1')
+    port = data.get('port') or '1935'
+    path = data.get('path') or ''
+    username = data.get('username')
+    password = data.get('password')
+
+    url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
+            'scheme': scheme,
+            'host': host,
+            'port': (':' + port) if port else '',
+            'path': path}
+
+    # Since RTMP is a binary TCP stream its a little more work to do a proper test
+    # For now lets just check if a TCP socket is open on the target IP:PORT
+    # TODO: Actually do the TCP SYN/ACK check...
+
+    cameras = []
+    cameras.append({'id': 'tcp', 'name': 'RTMP/TCP Camera'})
+    callback(cameras)
 
 
 def compute_signature(method, path, body, key):
@@ -664,7 +688,7 @@ def compute_signature(method, path, body, key):
 
 def parse_cookies(cookies_headers):
     parsed = {}
-    
+
     for cookie in cookies_headers:
         cookie = cookie.split(';')
         for c in cookie:
@@ -674,7 +698,7 @@ def parse_cookies(cookies_headers):
 
             if name.lower() in _SPECIAL_COOKIE_NAMES:
                 continue
-            
+
             parsed[name] = value
 
     return parsed
@@ -761,7 +785,7 @@ def build_digest_header(method, url, username, password, state):
 
     else:
         nonce_count = 1
-    
+
     ncvalue = '%08x' % nonce_count
     s = str(nonce_count).encode('utf-8')
     s += nonce.encode('utf-8')
@@ -774,11 +798,11 @@ def build_digest_header(method, url, username, password, state):
 
     if qop is None:
         respdig = KD(HA1, "%s:%s" % (nonce, HA2))
-    
+
     elif qop == 'auth' or 'auth' in qop.split(','):
         noncebit = "%s:%s:%s:%s:%s" % (nonce, ncvalue, cnonce, 'auth', HA2)
         respdig = KD(HA1, noncebit)
-    
+
     else:
         return None
 
@@ -794,7 +818,7 @@ def build_digest_header(method, url, username, password, state):
         base += ', digest="%s"' % entdig
     if qop:
         base += ', qop=auth, nc=%s, cnonce="%s"' % (ncvalue, cnonce)
-    
+
     state['last_nonce'] = last_nonce
     state['nonce_count'] = nonce_count
 
@@ -811,7 +835,7 @@ def urlopen(*args, **kwargs):
         ctx = ssl.create_default_context()
         ctx.check_hostname = False
         ctx.verify_mode = ssl.CERT_NONE
-    
+
         kwargs.setdefault('context', ctx)
 
     return urllib2.urlopen(*args, **kwargs)
@@ -820,11 +844,11 @@ def urlopen(*args, **kwargs):
 def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_height=None):
     if not mask_lines:
         return ''
-    
+
     width = mask_lines[0]
     height = mask_lines[1]
     mask_lines = mask_lines[2:]
-    
+
     logging.debug('building editable mask for camera with id %s (%sx%s)' %
                   (camera_id, width, height))
 
@@ -836,7 +860,7 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
 
     else:
         rx = 0
-    
+
     rw = width / nx  # rectangle width
 
     # vertical rectangles
@@ -844,11 +868,11 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
     if height % ny:
         ny -= 1
         ry = height % ny  # remainder
-    
+
     else:
         ry = 0
 
-    # if mask not present, generate an empty mask    
+    # if mask not present, generate an empty mask
     if not mask_lines:
         mask_lines = [0] * mask_height
 
@@ -856,7 +880,7 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
     # since the last time the mask has been generated
     if ny == len(mask_lines):
         line_index_func = lambda y: y
-        
+
     else:
         line_index_func = lambda y: (len(mask_lines) - 1) * y / ny
 
@@ -865,7 +889,7 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
     # draw the actual mask image content
     im = Image.new('L', (width, height), 255)  # all white
     dr = ImageDraw.Draw(im)
-    
+
     for y in xrange(ny):
         line = mask_lines[line_index_func(y)]
         for x in xrange(nx):
@@ -885,7 +909,7 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
             dr.rectangle((nx * rw, ny * rh, nx * rw + rx - 1, ny * rh + ry - 1), fill=0)
 
     file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
-    
+
     # resize the image if necessary
     if capture_width and capture_height and im.size != (capture_width, capture_height):
         logging.debug('editable mask needs resizing from %sx%s to %sx%s' %
@@ -914,7 +938,7 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
     except Exception as e:
         logging.error('failed to read mask file %s: %s' % (file_name, e))
 
-        # empty mask        
+        # empty mask
         return [0] * (MASK_WIDTH * 10)
 
     if capture_width and capture_height:
@@ -924,7 +948,7 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
                           (im.size[0], im.size[1], capture_width, capture_height))
 
             im = im.resize((capture_width, capture_height))
-            
+
         width, height = capture_width, capture_height
 
     else:
@@ -942,7 +966,7 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
 
     else:
         rx = 0
-    
+
     rw = width / nx  # rectangle width
 
     # vertical rectangles
@@ -950,7 +974,7 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
     if height % ny:
         ny -= 1
         ry = height % ny  # remainder
-    
+
     else:
         ry = 0
 
@@ -977,7 +1001,7 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
         for i, bit in enumerate(bits):
             if bit:
                 line |= 1 << (MASK_WIDTH - 1 - i)
-                
+
         mask_lines.append(line)
 
     if ry:
@@ -1001,5 +1025,5 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
                 line |= 1 << (MASK_WIDTH - 1 - i)
 
         mask_lines.append(line)
-    
+
     return mask_lines

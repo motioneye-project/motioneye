@@ -568,6 +568,9 @@ class ConfigHandler(BaseHandler):
             elif scheme == 'rtsp':
                 utils.test_rtsp_url(self.get_all_arguments(), callback=on_response)
 
+            elif scheme == 'rtmp':
+                utils.test_rtmp_url(self.get_all_arguments(), callback=on_response)
+
             else:
                 on_response(error='protocol %s not supported' % scheme)
 

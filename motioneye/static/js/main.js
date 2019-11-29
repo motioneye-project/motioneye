@@ -63,7 +63,7 @@ Object.keys = Object.keys || (function () {
                 }
             }
         }
-        
+
         return result;
     };
 })();
@@ -77,7 +77,7 @@ Object.update = function (dest, source) {
         if (!source.hasOwnProperty(key)) {
             continue;
         }
-        
+
         dest[key] = source[key];
     }
 };
@@ -91,7 +91,7 @@ Array.prototype.indexOf = Array.prototype.indexOf || function (obj) {
             return i;
         }
     }
-    
+
     return -1;
 };
 
@@ -107,7 +107,7 @@ Array.prototype.every = Array.prototype.every || function (callback, thisArg) {
             return false;
         }
     }
-    
+
     return true;
 };
 
@@ -117,7 +117,7 @@ Array.prototype.some = Array.prototype.some || function (callback, thisArg) {
             return true;
         }
     }
-    
+
     return false;
 };
 
@@ -128,7 +128,7 @@ Array.prototype.unique = function (callback, thisArg) {
             uniqueElements.push(element);
         }
     });
-    
+
     return uniqueElements;
 };
 
@@ -139,7 +139,7 @@ Array.prototype.filter = function (func, thisArg) {
             filtered.push(this[i]);
         }
     }
-    
+
     return filtered;
 };
 
@@ -148,7 +148,7 @@ Array.prototype.map = function (func, thisArg) {
     for (var i = 0; i < this.length; i++) {
         mapped.push(func.call(thisArg, this[i], i, this));
     }
-    
+
     return mapped;
 };
 
@@ -156,7 +156,7 @@ Array.prototype.sortKey = function (keyFunc, reverse) {
     this.sort(function (e1, e2) {
         var k1 = keyFunc(e1);
         var k2 = keyFunc(e2);
-        
+
         if ((k1 < k2 && !reverse) || (k1 > k2 && reverse)) {
             return -1;
         }
@@ -189,32 +189,32 @@ String.prototype.replaceAll = String.prototype.replaceAll || function (oldStr, n
     while ((p = s.indexOf(oldStr)) >= 0) {
         s = s.substring(0, p) + newStr + s.substring(p + oldStr.length, s.length);
     }
-    
+
     return s.toString();
 };
 
 String.prototype.format = function () {
     var text = this;
-    
+
     var rex = new RegExp('%[sdf]');
     var match, i = 0;
     while (match = text.match(rex)) {
         text = text.substring(0, match.index) + arguments[i] + text.substring(match.index + 2);
         i++;
     }
-    
+
     if (i) { /* %s format used */
         return text;
     }
-    
+
     var keywords = arguments[0];
-    
+
     for (var key in keywords) {
         text = text.replace('%(' + key + ')s', "" + keywords[key]);
         text = text.replace('%(' + key + ')d', "" + keywords[key]);
         text = text.replace('%(' + key + ')f', "" + keywords[key]);
     }
-    
+
     return text;
 };
 
@@ -235,7 +235,7 @@ var sha1 = (function () {
         for (var i = 0; i < N; i++) {
             M[i] = new Array(16);
             for (var j = 0; j < 16; j++) {
-                M[i][j] = (msg.charCodeAt(i * 64 + j * 4) << 24) | (msg.charCodeAt(i * 64 + j * 4 + 1) << 16) | 
+                M[i][j] = (msg.charCodeAt(i * 64 + j * 4) << 24) | (msg.charCodeAt(i * 64 + j * 4 + 1) << 16) |
                 (msg.charCodeAt(i * 64 + j * 4 + 2) << 8) | (msg.charCodeAt(i * 64 + j * 4 + 3));
             }
         }
@@ -267,9 +267,9 @@ var sha1 = (function () {
             }
 
             H0 = (H0 + a) & 0xffffffff;
-            H1 = (H1 + b) & 0xffffffff; 
-            H2 = (H2 + c) & 0xffffffff; 
-            H3 = (H3 + d) & 0xffffffff; 
+            H1 = (H1 + b) & 0xffffffff;
+            H2 = (H2 + c) & 0xffffffff;
+            H3 = (H3 + d) & 0xffffffff;
             H4 = (H4 + e) & 0xffffffff;
         }
 
@@ -297,7 +297,7 @@ var sha1 = (function () {
         }
         return s;
     }
-    
+
     return hash;
 }());
 
@@ -305,23 +305,23 @@ function splitUrl(url) {
     if (!url) {
         url = window.location.href;
     }
-    
+
     var parts = url.split('?');
     if (parts.length < 2 || parts[1].length === 0) {
         return {baseUrl: parts[0], params: {}};
     }
-    
+
     var baseUrl = parts[0];
     var paramStr = parts[1];
-    
+
     parts = paramStr.split('&');
     var params = {};
-    
+
     for (var i = 0; i < parts.length; i++) {
         var pair = parts[i].split('=');
         params[pair[0]] = pair[1];
     }
-    
+
     return {baseUrl: baseUrl, params: params};
 }
 
@@ -337,24 +337,24 @@ function qualifyPath(path) {
     if (pos === -1) { /* not a full url */
         return url;
     }
-    
+
     url = url.substring(pos + 2);
     pos = url.indexOf('/');
     if (pos === -1) { /* root with no trailing slash */
         return '';
     }
-    
+
     return url.substring(pos);
 }
-        
+
 function computeSignature(method, path, body) {
     path = qualifyPath(path);
-    
+
     var parts = splitUrl(path);
     var query = parts.params;
     path = parts.baseUrl;
     path = '/' + path.substring(basePath.length);
-    
+
     /* sort query arguments alphabetically */
     query = Object.keys(query).map(function (key) {return {key: key, value: decodeURIComponent(query[key])};});
     query = query.filter(function (q) {return q.key !== '_signature';});
@@ -363,7 +363,7 @@ function computeSignature(method, path, body) {
     path = path + '?' + query;
     path = path.replace(signatureRegExp, '-');
     body = body && body.replace(signatureRegExp, '-');
-    
+
     return sha1(method + ':' + path + ':' + (body || '') + ':' + passwordHash).toLowerCase();
 }
 
@@ -378,7 +378,7 @@ function addAuthParams(method, url, body) {
     else {
         url += '&';
     }
-    
+
     url += '_username=' + window.username;
     if (window._loginDialogSubmitted) {
         url += '&_login=true';
@@ -397,14 +397,14 @@ function isAdmin() {
 function ajax(method, url, data, callback, error, timeout) {
     var origUrl = url;
     var origData = data;
-    
+
     if (url.indexOf('?') < 0) {
         url += '?';
     }
     else {
         url += '&';
     }
-    
+
     url += '_=' + new Date().getTime();
 
     var json = false;
@@ -428,9 +428,9 @@ function ajax(method, url, data, callback, error, timeout) {
             data = null;
         }
     }
-    
+
     url = addAuthParams(method, url, processData ? data : null);
-    
+
     function onResponse(data) {
         if (data && data.error == 'unauthorized') {
             if (data.prompt) {
@@ -438,7 +438,7 @@ function ajax(method, url, data, callback, error, timeout) {
                     ajax(method, origUrl, origData, callback, error);
                 });
             }
-            
+
             window._loginRetry = true;
         }
         else {
@@ -462,20 +462,20 @@ function ajax(method, url, data, callback, error, timeout) {
             if (request.status == 403) {
                 return onResponse(request.responseJSON);
             }
-            
+
             showErrorMessage();
             if (callback) {
                 callback();
             }
         }
     };
-    
+
     $.ajax(options);
 }
 
 function getCookie(name) {
     var cookie = document.cookie + '';
-    
+
     if (cookie.length <= 0) {
         return null;
     }
@@ -484,13 +484,13 @@ function getCookie(name) {
     if (start == -1) {
         return null;
     }
-     
+
     var start = start + name.length + 1;
     var end = cookie.indexOf(';', start);
     if (end == -1) {
         end = cookie.length;
     }
-    
+
     return cookie.substring(start, end);
 }
 
@@ -512,7 +512,7 @@ function showErrorMessage(message) {
     if (message == null || message == true) {
         message = 'An error occurred. Refreshing is recommended.';
     }
-    
+
     showPopupMessage(message, 'error');
 }
 
@@ -555,7 +555,7 @@ function initUI() {
         makeSlider($this, Number($tr.attr('min')), Number($tr.attr('max')),
                 Number($tr.attr('snap')), ticks, Number($tr.attr('ticksnum')), Number($tr.attr('decimals')), $tr.attr('unit'));
     });
-    
+
     /* progress bars */
     makeProgressBar($('div.progress-bar'));
 
@@ -573,13 +573,13 @@ function initUI() {
 
     /* time validators */
     makeTimeValidator($('input[type=text].time'));
-    
+
     /* custom validators */
     makeCustomValidator($('#adminPasswordEntry, #normalPasswordEntry'), function (value) {
         if (!value.toLowerCase().match(new RegExp('^[\x21-\x7F]*$'))) {
             return "special characters are not allowed in password";
         }
-        
+
         return true;
     }, '');
     makeCustomValidator($('#deviceNameEntry'), function (value) {
@@ -590,7 +590,7 @@ function initUI() {
         if (!value.match(deviceNameValidRegExp)) {
             return "special characters are not allowed in camera's name";
         }
-        
+
         return true;
     }, '');
     makeCustomValidator($('#customWidthEntry, #customHeightEntry'), function (value) {
@@ -602,7 +602,7 @@ function initUI() {
         if (value % 8) {
             return "value must be a multiple of 8";
         }
-        
+
         return true;
     }, '');
     makeCustomValidator($('#rootDirectoryEntry'), function (value) {
@@ -612,28 +612,28 @@ function initUI() {
         if ($('#storageDeviceSelect').val() == 'custom-path' && String(value).trim() == '/') {
             return 'files cannot be created directly on the root of your system';
         }
-        
+
         return true;
     }, '');
     makeCustomValidator($('#emailFromEntry'), function (value) {
         if (value && !value.match(emailValidRegExp)) {
             return 'enter a vaild email address';
         }
-        
+
         return true;
     }, '');
     makeCustomValidator($('#emailAddressesEntry'), function (value) {
         if (!value.match(emailValidRegExp)) {
             return 'enter a list of comma-separated valid email addresses';
         }
-        
+
         return true;
     }, '');
     makeCustomValidator($('#imageFileNameEntry, #movieFileNameEntry'), function (value) {
         if (!value.match(filenameValidRegExp)) {
             return "special characters are not allowed in file name";
         }
-        
+
         return true;
     }, '');
     $('tr[validate] input[type=text]').each(function () {
@@ -657,15 +657,15 @@ function initUI() {
             return true;
         }, '');
     });
-    
+
     /* input value processors */
     makeStrippedInput($('tr[strip=true] input[type=text]'));
     makeStrippedInput($('tr[strip=true] input[type=password]'));
-    
+
     function checkMinimizeSection() {
         var $switch = $(this);
         var $sectionDiv = $switch.parents('div.settings-section-title:eq(0)');
-        
+
         var $minimizeSpan = $switch.parent().find('span.minimize');
         if ($switch.is(':checked') && !$minimizeSpan.hasClass('open')) {
             $minimizeSpan.addClass('open');
@@ -708,7 +708,7 @@ function initUI() {
     $('#preserveMoviesSelect').change(updateConfigUI);
     $('#moviePassthroughSwitch').change(updateConfigUI);
     $('#workingScheduleEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    
+
     $('#mondayEnabledSwitch').change(updateConfigUI);
     $('#tuesdayEnabledSwitch').change(updateConfigUI);
     $('#wednesdayEnabledSwitch').change(updateConfigUI);
@@ -716,11 +716,11 @@ function initUI() {
     $('#fridayEnabledSwitch').change(updateConfigUI);
     $('#saturdayEnabledSwitch').change(updateConfigUI);
     $('#sundayEnabledSwitch').change(updateConfigUI);
-    
+
     /* minimizable sections */
     $('span.minimize').click(function () {
         $(this).toggleClass('open');
-        
+
         /* enable the section switch when unminimizing */
         if ($(this).hasClass('open')) {
             var sectionSwitch = $(this).parent().find('input[type=checkbox]');
@@ -733,7 +733,7 @@ function initUI() {
                 sectionSwitch.change();
             }
         }
-            
+
         updateConfigUI();
     });
 
@@ -749,18 +749,18 @@ function initUI() {
         depends.forEach(function (depend) {
             depend = depend.split('=')[0];
             depend = depend.replace(new RegExp('[^a-zA-Z0-9_]', 'g'), '');
-            
+
             if (depend in seenDependNames) {
                 return;
             }
-            
+
             seenDependNames[depend] = true;
 
             var control = $('#' + depend + 'Entry, #' + depend + 'Select, #' + depend + 'Slider, #' + depend + 'Switch');
             control.change(updateConfigUI);
         });
     });
-    
+
     /* prefs change handlers */
     $('#layoutColumnsSlider').change(function () {
         var columns = parseInt(this.value);
@@ -785,16 +785,16 @@ function initUI() {
         resolutionFactor = parseInt(this.value) / 100;
         savePrefs();
     });
-    
+
     /* various change handlers */
     $('#storageDeviceSelect').change(function () {
         $('#rootDirectoryEntry').val('/');
     });
-    
+
     $('#rootDirectoryEntry').change(function () {
         this.value = this.value.trim();
     });
-    
+
     $('#rootDirectoryEntry').change(function () {
         if (this.value.charAt(0) !== '/') {
             this.value = '/' + this.value;
@@ -805,11 +805,11 @@ function initUI() {
         var folder = $('#uploadLocationEntry').val();
         console.log('cleanCloudEnabled', enabled, folder);
         if (enabled) {
-            runAlertDialog(('This will recursively remove all files present in the cloud folder "' + folder + 
+            runAlertDialog(('This will recursively remove all files present in the cloud folder "' + folder +
                     '", not just those uploaded by motionEye!'));
         }
     });
-    
+
     /* streaming framerate must be >= device framerate + a margin */
     $('#framerateSlider').change(function () {
         var value = Number($('#framerateSlider').val());
@@ -822,7 +822,7 @@ function initUI() {
             $('#streamingFramerateSlider').val(value).change();
         }
     });
-    
+
     /* capture mode and recording mode are not completely independent:
      * all-frames capture mode implies continuous recording (and vice-versa) */
     $('#captureModeSelect').change(function (val) {
@@ -834,7 +834,7 @@ function initUI() {
                 $('#recordingModeSelect').val('motion-triggered');
             }
         }
-        
+
         updateConfigUI();
     });
     $('#recordingModeSelect').change(function (val) {
@@ -846,15 +846,15 @@ function initUI() {
                 $('#captureModeSelect').val('motion-triggered');
             }
         }
-        
+
         updateConfigUI();
     });
-    
+
     /* fetch & push handlers */
     $('#cameraSelect').focus(function () {
         /* remember the previously selected index */
         this._prevSelectedIndex = this.selectedIndex;
-    
+
     }).change(function () {
         if ($('#cameraSelect').val() === 'add') {
             runAddCameraDialog();
@@ -873,11 +873,11 @@ function initUI() {
     $('input.camera-config, select.camera-config, textarea.camera-config').change(function () {
         pushCameraConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
     });
-    
+
     /* whenever the window is resized,
      * if a modal dialog is visible, it should be repositioned */
     $(window).resize(updateModalDialogPosition);
-    
+
     /* show a warning when enabling media files removal */
     var preserveSelects = $('#preservePicturesSelect, #preserveMoviesSelect');
     var rootDirectoryEntry = $('#rootDirectoryEntry');
@@ -887,69 +887,69 @@ function initUI() {
         var value = $(this).val();
         if (value != '0' && this._prevValue == '0') {
             var rootDir = rootDirectoryEntry.val();
-            runAlertDialog(('This will recursively remove all old media files present in the directory "' + rootDir + 
+            runAlertDialog(('This will recursively remove all old media files present in the directory "' + rootDir +
                     '", not just those created by motionEye!'));
         }
     });
-    
+
     /* disable mask editor when mask gets disabled */
     $('#maskSwitch').change(function () {
        if (!this.checked) {
            disableMaskEdit();
-       } 
+       }
     });
-    
+
     /* disable mask editor when mask gets disabled */
     $('#maskSwitch').change(function () {
        if (!this.checked) {
            disableMaskEdit();
-       } 
+       }
     });
-    
+
     /* disable mask editor when mask type is no longer editable */
     $('#maskTypeSelect').change(function () {
         if ($(this).val() != 'editable') {
             disableMaskEdit();
         }
     });
-    
+
     /* apply button */
     $('#applyButton').click(function () {
         if ($(this).hasClass('progress')) {
             return; /* in progress */
         }
-        
+
         doApply();
     });
-    
+
     /* shut down button */
     $('#shutDownButton').click(function () {
         doShutDown();
     });
-    
+
     /* reboot button */
     $('#rebootButton').click(function () {
         doReboot();
     });
-    
+
     /* remove camera button */
     $('div.button.rem-camera-button').click(doRemCamera);
-    
+
     /* logout button */
     $('div.button.logout-button').click(doLogout);
-    
+
     /* software update button */
     $('div#updateButton').click(doUpdate);
-    
+
     /* backup/restore */
     $('div#backupButton').click(doBackup);
     $('div#restoreButton').click(doRestore);
-    
+
     /* test buttons */
     $('div#uploadTestButton').click(doTestUpload);
     $('div#emailTestButton').click(doTestEmail);
     $('div#networkShareTestButton').click(doTestNetworkShare);
-    
+
     /* mask editor buttons */
     $('div#editMaskButton').click(function () {
         var cameraId = $('#cameraSelect').val();
@@ -970,7 +970,7 @@ function initUI() {
         }
 
         clearMask(cameraId);
-    });    
+    });
 }
 
 function addVideoControl(name, min, max, step) {
@@ -1017,12 +1017,12 @@ function getPageContainer() {
     if (!pageContainer) {
         pageContainer = $('div.page-container');
     }
-    
-    return pageContainer; 
+
+    return pageContainer;
 }
 
 function getCameraFrames() {
-    return getPageContainer().children('div.camera-frame'); 
+    return getPageContainer().children('div.camera-frame');
 }
 
 function getCameraFrame(cameraId) {
@@ -1031,16 +1031,16 @@ function getCameraFrame(cameraId) {
         /* look for camera frames detached from page container */
         frame = $('div.camera-frame#camera' + cameraId);
     }
-    
+
     return frame;
 }
 
 function getCameraProgresses() {
-    return getCameraFrames().find('div.camera-progress'); 
+    return getCameraFrames().find('div.camera-progress');
 }
 
 function getCameraProgress(cameraId) {
-    return getCameraFrame(cameraId).find('div.camera-progress'); 
+    return getCameraFrame(cameraId).find('div.camera-progress');
 }
 
 function setLayoutColumns(columns) {
@@ -1050,10 +1050,10 @@ function setLayoutColumns(columns) {
         3: 'three-columns',
         4: 'four-columns'
     };
-    
+
     getPageContainer().removeClass(Object.values(cssClasses).join(' '));
     getPageContainer().addClass(cssClasses[columns]);
-    
+
     layoutColumns = columns;
     updateLayout();
 }
@@ -1082,29 +1082,29 @@ function updateLayout() {
 
         var pageContainer = getPageContainer();
         var windowWidth = $(window).width();
-        
+
         var columns = layoutColumns;
         if (isFullScreen() || windowWidth <= 1200) {
             columns = 1; /* always 1 column when in full screen or mobile */
         }
-        
+
         var heightOffset = 5; /* some padding */
         if (!isFullScreen()) {
             heightOffset += 50; /* top bar */
         }
-    
+
         var windowHeight = $(window).height() - heightOffset;
         var maxWidth = windowWidth;
 
         var width = windowHeight / maxRatio * columns;
         if (pageContainer.hasClass('stretched') && windowWidth > 1200) {
-            maxWidth *= 0.6; /* opened settings panel occupies 40% of the window width */ 
+            maxWidth *= 0.6; /* opened settings panel occupies 40% of the window width */
         }
-        
+
         if (width < 100) {
             width = 100; /* absolute minimum width for a frame */
         }
-        
+
         if (width > maxWidth) {
             getPageContainer().css('width', '');
             return; /* page container width already at its maximum */
@@ -1122,7 +1122,7 @@ function showCameraOverlay() {
     setTimeout(function () {
         getCameraFrames().find('div.camera-overlay').addClass('visible');
     }, 10);
-    
+
     overlayVisible = true;
 }
 
@@ -1131,7 +1131,7 @@ function hideCameraOverlay() {
     setTimeout(function () {
         getCameraFrames().find('div.camera-overlay').css('display', 'none');
     }, 300);
-    
+
     overlayVisible = false;
 
     disableMaskEdit();
@@ -1157,7 +1157,7 @@ function enableMaskEdit(cameraId, width, height) {
     else {
         rx = 0;
     }
-    
+
     rw = parseInt(width / nx); /* rectangle width */
 
     var maskHeight;
@@ -1170,9 +1170,9 @@ function enableMaskEdit(cameraId, width, height) {
     else {
         ry = 0;
     }
-    
+
     rh = parseInt(height / ny); /* rectangle height */
-    
+
     var mouseDown = false;
     var currentState = false;
     var elementsMatrix = Array.apply(null, Array(maskHeight)).map(function(){return []});
@@ -1180,27 +1180,27 @@ function enableMaskEdit(cameraId, width, height) {
     function matrixToMaskLines() {
         var maskLines = [];
         var bits, line;
-        
+
         maskLines.push(width);
         maskLines.push(height);
 
         for (y = 0; y < ny; y++) {
             bits = [];
-            for (x = 0; x < nx; x++) { 
+            for (x = 0; x < nx; x++) {
                 bits.push(elementsMatrix[y][x].hasClass('on'));
             }
 
             if (rx) {
                 bits.push(elementsMatrix[y][nx].hasClass('on'));
             }
-        
+
             line = 0;
             bits.forEach(function (bit, i) {
                 if (bit) {
                     line |= 1 << (maskWidth - 1 - i);
                 }
             });
-        
+
             maskLines.push(line);
         }
 
@@ -1223,16 +1223,16 @@ function enableMaskEdit(cameraId, width, height) {
 
             maskLines.push(line);
         }
-        
+
         $('#maskLinesEntry').val(maskLines.join(',')).change();
     }
-    
+
     function handleMouseUp() {
         mouseDown = false;
         $('html').unbind('mouseup', handleMouseUp);
         matrixToMaskLines();
     }
-    
+
     function makeMaskElement(x, y, px, py, pw, ph) {
         px = px * 100 / width;
         py = py * 100 / height;
@@ -1251,8 +1251,8 @@ function enableMaskEdit(cameraId, width, height) {
             el.addClass('last-line');
         }
         maskDiv.append(el);
-        
-        elementsMatrix[y][x] = el; 
+
+        elementsMatrix[y][x] = el;
 
         el.mousedown(function () {
             mouseDown = true;
@@ -1260,21 +1260,21 @@ function enableMaskEdit(cameraId, width, height) {
             currentState = el.hasClass('on');
             $('html').mouseup(handleMouseUp);
         });
-        
+
         el.mouseenter(function () {
             if (!mouseDown) {
                 return;
             }
-            
+
             el.toggleClass('on', currentState);
         });
     }
-    
+
     maskDiv[0]._matrixToMaskLines = matrixToMaskLines;
 
     /* make sure the mask is empty */
     maskDiv.html('');
-    
+
     /* prevent editor closing by accidental click on mask container */
     maskDiv.click(function () {
         return false;
@@ -1300,7 +1300,7 @@ function enableMaskEdit(cameraId, width, height) {
             makeMaskElement(nx, ny, nx * rw, ny * rh, rx, ry);
         }
     }
-    
+
     /* use mask lines to initialize the element matrix */
     var line;
     var maskLines = $('#maskLinesEntry').val() ? $('#maskLinesEntry').val().split(',').map(function (v) {return parseInt(v);}) : [];
@@ -1308,7 +1308,7 @@ function enableMaskEdit(cameraId, width, height) {
 
     for (y = 0; y < ny; y++) {
         line = maskLines[y];
-        for (x = 0; x < nx; x++) { 
+        for (x = 0; x < nx; x++) {
             if (line & (1 << (maskWidth - 1 - x))) {
                 elementsMatrix[y][x].addClass('on');
             }
@@ -1336,7 +1336,7 @@ function enableMaskEdit(cameraId, width, height) {
         $('#saveMaskButton, #clearMaskButton').css('display', 'inline-block');
         $('#editMaskButton').css('display', 'none');
     }
-    
+
     if (!overlayVisible) {
         showCameraOverlay();
     }
@@ -1359,7 +1359,7 @@ function disableMaskEdit(cameraId) {
         maskDiv.html('');
         maskDiv.unbind('click');
     });
-    
+
     var selectedCameraId = $('#cameraSelect').val();
     if (selectedCameraId && (!cameraId || cameraId == selectedCameraId)) {
         $('#editMaskButton').css('display', 'inline-block');
@@ -1382,11 +1382,11 @@ function openSettings(cameraId) {
     if (cameraId != null) {
         $('#cameraSelect').val(cameraId).change();
     }
-    
+
     $('div.settings').addClass('open').removeClass('closed');
     getPageContainer().addClass('stretched');
     $('div.settings-top-bar').addClass('open').removeClass('closed');
-    
+
     updateConfigUI();
     doExitFullScreenCamera();
     updateLayout();
@@ -1397,37 +1397,37 @@ function closeSettings() {
     hideApply();
     pushConfigs = {};
     pushConfigReboot = false;
-    
+
     $('div.settings').removeClass('open').addClass('closed');
     getPageContainer().removeClass('stretched');
     $('div.settings-top-bar').removeClass('open').addClass('closed');
-    
+
     updateLayout();
 }
 
 function isSettingsOpen() {
-    return $('div.settings').hasClass('open');   
+    return $('div.settings').hasClass('open');
 }
 
 function updateConfigUI() {
     var objs = $('tr.settings-item, div.settings-section-title, table.settings, ' +
             'div.check-box.camera-config, div.check-box.main-config');
-    
+
     function markHideLogic() {
         this._hideLogic = true;
     }
-    
+
     function markHideMinimized() {
         this._hideMinimized = true;
     }
-    
+
     function unmarkHide() {
         this._hideLogic = false;
         this._hideMinimized = false;
     }
-    
+
     objs.each(unmarkHide);
-    
+
     /* hide sliders that, for some reason, don't have a value */
     $('input.range').each(function () {
         if  (this.value == '') {
@@ -1457,11 +1457,11 @@ function updateConfigUI() {
         $('#videoDeviceEnabledSwitch').parent().each(markHideLogic);
         $('#videoDeviceEnabledSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
-    
+
     if ($('#videoDeviceEnabledSwitch')[0].error) { /* config error */
         $('#videoDeviceEnabledSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
-        
+
     /* set resolution to custom if no existing value matches */
     if ($('#resolutionSelect')[0].selectedIndex == -1) {
         $('#resolutionSelect').val('custom');
@@ -1471,36 +1471,36 @@ function updateConfigUI() {
     if (!$('#videoDeviceEnabledSwitch').get(0).checked) {
         $('#videoDeviceEnabledSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
-    
+
     /* text overlay switch */
     if (!$('#textOverlayEnabledSwitch').get(0).checked) {
         $('#textOverlayEnabledSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
     }
-    
+
     /* still images switch */
     if (!$('#stillImagesEnabledSwitch').get(0).checked) {
         $('#stillImagesEnabledSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
     }
-    
+
     /* movies switch */
     if (!$('#moviesEnabledSwitch').get(0).checked) {
         $('#moviesEnabledSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
     }
-    
+
     /* motion detection switch */
     if (!$('#motionDetectionEnabledSwitch').get(0).checked) {
         $('#motionDetectionEnabledSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
-        
+
         /* hide the entire working schedule section,
          * as its switch button prevents hiding it automatically */
         $('#workingScheduleEnabledSwitch').parent().each(markHideLogic);
     }
-    
+
     /* working schedule */
     if (!$('#workingScheduleEnabledSwitch').get(0).checked) {
         $('#workingScheduleEnabledSwitch').parent().next('table.settings').find('tr.settings-item').each(markHideLogic);
     }
-    
+
     /* html dependencies */
     $('tr[depends]').each(function () {
         var $tr = $(this);
@@ -1528,7 +1528,7 @@ function updateConfigUI() {
                 if (neg) {
                     val = !val;
                 }
-                
+
                 if (!val) {
                     conditionOk = false;
                     return false;
@@ -1546,12 +1546,12 @@ function updateConfigUI() {
 
             return true;
         });
-        
+
         if (!conditionOk) {
             $tr.each(markHideLogic);
         }
     });
-    
+
     /* hide sections that have no visible configs and no switch */
     $('div.settings-section-title').each(function () {
         var $this = $(this);
@@ -1578,18 +1578,18 @@ function updateConfigUI() {
         $this.each(markHideLogic);
         $table.each(markHideLogic);
     });
-    
+
     /* hide useless separators */
     $('div.settings-container table.settings').each(function () {
         var $table = $(this);
-        
+
         /* filter visible rows */
         var visibleTrs = $table.find('tr').filter(function () {
             return !this._hideLogic && !this._hideNull;
         }).map(function () {
             var $tr = $(this);
             $tr.isSeparator = $tr.find('div.settings-item-separator').length > 0;
-            
+
             return $tr;
         }).get();
 
@@ -1607,7 +1607,7 @@ function updateConfigUI() {
         }).map(function () {
             var $tr = $(this);
             $tr.isSeparator = $tr.find('div.settings-item-separator').length > 0;
-            
+
             return $tr;
         }).get();
 
@@ -1616,14 +1616,14 @@ function updateConfigUI() {
             if (visibleTrs[0].isSeparator) {
                 visibleTrs[0].each(markHideLogic);
             }
-            
+
             /* test last row */
             if (visibleTrs[visibleTrs.length - 1].isSeparator) {
                 visibleTrs[visibleTrs.length - 1].each(markHideLogic);
             }
         }
     });
-    
+
     var weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     weekDays.forEach(function (weekDay) {
         var check = $('#' + weekDay + 'EnabledSwitch');
@@ -1634,7 +1634,7 @@ function updateConfigUI() {
             check.parent().find('.time').hide();
         }
     });
-    
+
     objs.each(function () {
         if (this._hideLogic || this._hideMinimized || this._hideNull /* from dict2ui */) {
             $(this).hide(200);
@@ -1643,17 +1643,17 @@ function updateConfigUI() {
             $(this).show(200);
         }
     });
-    
+
     /* re-validate all the validators */
     $('div.settings').find('.validator').each(function () {
         this.validate();
     });
-    
+
     /* update all checkboxes and sliders */
     $('div.settings').find('input[type=checkbox], input.range').each(function () {
         this.update();
     });
-    
+
     /* select the first option for the selects with no current selection */
     $('div.settings').find('select').not('#cameraSelect').each(function () {
         if (this.selectedIndex === -1) {
@@ -1667,7 +1667,7 @@ function configUiValid() {
     $('div.settings').find('.validator').each(function () {
         this.validate();
     });
-    
+
     var valid = true;
     $('div.settings input, select').each(function () {
         if (this.invalid) {
@@ -1675,7 +1675,7 @@ function configUiValid() {
             return false;
         }
     });
-    
+
     return valid;
 }
 
@@ -1707,7 +1707,7 @@ function applyPrefs(dict) {
     layoutRows = dict['layout_rows'];
     framerateFactor = dict['framerate_factor'];
     resolutionFactor = dict['resolution_factor'];
-    
+
     if (fitFramesVertically) {
         getPageContainer().addClass('fit-frames-vertically');
     }
@@ -1743,11 +1743,11 @@ function mainUi2Dict() {
     $('tr.additional-config').each(function () {
         var $this = $(this);
         var control = $this.find('input, select');
-        
+
         if (!control.hasClass('main-config')) {
             return;
         }
-        
+
         var id = control.attr('id');
         var name, value;
         if (id.endsWith('Entry')) {
@@ -1769,7 +1769,7 @@ function mainUi2Dict() {
             name = id.substring(0, id.length - 6);
             value = control[0].checked;
         }
-        
+
         dict['_' + name] = value;
     });
 
@@ -1792,7 +1792,7 @@ function dict2MainUi(dict) {
             elem.parents('tr:eq(0)').each(function () {this._hideNull = hideNull;});
         }
     }
-    
+
     $('#adminUsernameEntry').val(dict['admin_username']); markHideIfNull('admin_username', 'adminUsernameEntry');
     $('#adminPasswordEntry').val(dict['admin_password']); markHideIfNull('admin_password', 'adminPasswordEntry');
     $('#normalUsernameEntry').val(dict['normal_username']); markHideIfNull('normal_username', 'normalUsernameEntry');
@@ -1809,7 +1809,7 @@ function dict2MainUi(dict) {
     $('tr.additional-config').each(function () {
         var $this = $(this);
         var control = $this.find('input, select, textarea, div.html');
-        
+
         if (!control.hasClass('main-config')) {
             return;
         }
@@ -1836,7 +1836,7 @@ function dict2MainUi(dict) {
             name = id.substring(0, id.length - 4);
             control.html(dict['_' + name]);
         }
-        
+
         markHideIfNull('_' + name, id);
     });
 
@@ -1849,12 +1849,12 @@ function cameraUi2Dict() {
             'enabled': $('#videoDeviceEnabledSwitch')[0].checked
         };
     }
-    
+
     var dict = {
         'enabled': $('#videoDeviceEnabledSwitch')[0].checked,
         'name': $('#deviceNameEntry').val(),
         'proto': $('#deviceTypeEntry')[0].proto,
-        
+
         /* video device */
         'auto_brightness': $('#autoBrightnessSwitch')[0].checked,
         'rotation': $('#rotationSelect').val(),
@@ -1915,7 +1915,7 @@ function cameraUi2Dict() {
         'right_text': $('#rightTextTypeSelect').val(),
         'custom_right_text': $('#rightTextEntry').val(),
         'text_scale': $('#textScaleSlider').val(),
-        
+
         /* video streaming */
         'video_streaming': $('#videoStreamingEnabledSwitch')[0].checked,
         'streaming_framerate': $('#streamingFramerateSlider').val(),
@@ -1925,7 +1925,7 @@ function cameraUi2Dict() {
         'streaming_port': $('#streamingPortEntry').val(),
         'streaming_auth_mode': $('#streamingAuthModeSelect').val() || 'disabled', /* compatibility with old motion */
         'streaming_motion': $('#streamingMotion')[0].checked,
-        
+
         /* still images */
         'still_images': $('#stillImagesEnabledSwitch')[0].checked,
         'image_file_name': $('#imageFileNameEntry').val(),
@@ -1934,7 +1934,7 @@ function cameraUi2Dict() {
         'snapshot_interval': $('#snapshotIntervalEntry').val(),
         'preserve_pictures': $('#preservePicturesSelect').val() >= 0 ? $('#preservePicturesSelect').val() : $('#picturesLifetimeEntry').val(),
         'manual_snapshots': $('#manualSnapshotsSwitch')[0].checked,
-        
+
         /* movies */
         'movies': $('#moviesEnabledSwitch')[0].checked,
         'movie_file_name': $('#movieFileNameEntry').val(),
@@ -1944,7 +1944,7 @@ function cameraUi2Dict() {
         'recording_mode': $('#recordingModeSelect').val(),
         'max_movie_length': $('#maxMovieLengthEntry').val(),
         'preserve_movies': $('#preserveMoviesSelect').val() >= 0 ? $('#preserveMoviesSelect').val() : $('#moviesLifetimeEntry').val(),
-        
+
         /* motion detection */
         'motion_detection': $('#motionDetectionEnabledSwitch')[0].checked,
         'frame_change_threshold': $('#frameChangeThresholdSlider').val(),
@@ -1982,7 +1982,7 @@ function cameraUi2Dict() {
         'command_notifications_exec': $('#commandNotificationsEntry').val(),
         'command_end_notifications_enabled': $('#commandEndNotificationsEnabledSwitch')[0].checked,
         'command_end_notifications_exec': $('#commandEndNotificationsEntry').val(),
-        
+
         /* working schedule */
         'working_schedule': $('#workingScheduleEnabledSwitch')[0].checked,
         'monday_from': $('#mondayEnabledSwitch')[0].checked ? $('#mondayFromEntry').val() : '',
@@ -2027,7 +2027,7 @@ function cameraUi2Dict() {
     var hasWS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'].some(function (day) {
         return $('#' + day + 'EnabledSwitch')[0].checked;
     });
-    
+
     if (!hasWS) {
         dict['working_schedule'] = false;
     }
@@ -2048,11 +2048,11 @@ function cameraUi2Dict() {
     $('tr.additional-config').each(function () {
         var $this = $(this);
         var control = $this.find('input, select');
-        
+
         if (!control.hasClass('camera-config')) {
             return;
         }
-        
+
         var id = control.attr('id');
         var name, value;
         if (id.endsWith('Entry')) {
@@ -2074,7 +2074,7 @@ function cameraUi2Dict() {
             name = id.substring(0, id.length - 6);
             value = control[0].checked;
         }
-        
+
         dict['_' + name] = value;
     });
 
@@ -2084,11 +2084,11 @@ function cameraUi2Dict() {
 function dict2CameraUi(dict) {
     if (dict == null) {
         /* errors while getting the configuration */
-        
+
         $('#videoDeviceEnabledSwitch')[0].error = true;
         $('#videoDeviceEnabledSwitch')[0].checked = true; /* so that the user can explicitly disable the camera */
         updateConfigUI();
-        
+
         return;
     }
     else {
@@ -2110,7 +2110,7 @@ function dict2CameraUi(dict) {
             elem.parents('tr:eq(0)').each(function () {this._hideNull = hideNull;});
         }
     }
-    
+
     /* video device */
     var prettyType = '';
     switch (dict['proto']) {
@@ -2121,7 +2121,7 @@ function dict2CameraUi(dict) {
         case 'netcam':
             prettyType = 'Network Camera';
             break;
-            
+
         case 'mmal':
             prettyType = 'MMAL Camera';
             break;
@@ -2134,7 +2134,7 @@ function dict2CameraUi(dict) {
             prettyType = 'Simple MJPEG Camera';
             break;
     }
-    
+
     $('#videoDeviceEnabledSwitch')[0].checked = dict['enabled']; markHideIfNull('enabled', 'videoDeviceEnabledSwitch');
     $('#deviceNameEntry').val(dict['name']); markHideIfNull('name', 'deviceNameEntry');
     $('#deviceIdEntry').val(dict['id']); markHideIfNull('id', 'deviceIdEntry');
@@ -2155,13 +2155,13 @@ function dict2CameraUi(dict) {
         $('#customWidthEntry').val(dict['resolution'].split('x')[0]);
         $('#customHeightEntry').val(dict['resolution'].split('x')[1]);
     }
-    
+
     $('#rotationSelect').val(dict['rotation']); markHideIfNull('rotation', 'rotationSelect');
     $('#framerateSlider').val(dict['framerate']); markHideIfNull('framerate', 'framerateSlider');
     $('#extraOptionsEntry').val(dict['extra_options'] ? (dict['extra_options'].map(function (o) {
         return o.join(' ');
     }).join('\r\n')) : ''); markHideIfNull('extra_options', 'extraOptionsEntry');
-    
+
     /* file storage */
     $('#storageDeviceSelect').empty();
     dict['available_disks'] = dict['available_disks'] || [];
@@ -2178,9 +2178,9 @@ function dict2CameraUi(dict) {
                 label += '/part' + partition.part_no;
             }
             label += ' (' + partition.target + ')';
-            
+
             storageDeviceOptions[option] = true;
-            
+
             $('#storageDeviceSelect').append('<option value="' + option + '">' + label + '</option>');
         });
     });
@@ -2211,7 +2211,7 @@ function dict2CameraUi(dict) {
         this.setProgress(percent);
         this.setText((dict['disk_used'] / 1073741824).toFixed(1)  + '/' + (dict['disk_total'] / 1073741824).toFixed(1) + ' GB (' + percent + '%)');
     }); markHideIfNull('disk_used', 'diskUsageProgressBar');
-    
+
     $('#uploadEnabledSwitch')[0].checked = dict['upload_enabled']; markHideIfNull('upload_enabled', 'uploadEnabledSwitch');
     $('#uploadPictureSwitch')[0].checked = dict['upload_picture']; markHideIfNull('upload_picture', 'uploadPictureSwitch');
     $('#uploadMovieSwitch')[0].checked = dict['upload_movie']; markHideIfNull('upload_movie', 'uploadMovieSwitch');
@@ -2240,7 +2240,7 @@ function dict2CameraUi(dict) {
     $('#rightTextTypeSelect').val(dict['right_text']); markHideIfNull('right_text', 'rightTextTypeSelect');
     $('#rightTextEntry').val(dict['custom_right_text']); markHideIfNull('custom_right_text', 'rightTextEntry');
     $('#textScaleSlider').val(dict['text_scale']); markHideIfNull('text_scale', 'textScaleSlider');
-    
+
     /* video streaming */
     $('#videoStreamingEnabledSwitch')[0].checked = dict['video_streaming']; markHideIfNull('video_streaming', 'videoStreamingEnabledSwitch');
     $('#streamingFramerateSlider').val(dict['streaming_framerate']); markHideIfNull('streaming_framerate', 'streamingFramerateSlider');
@@ -2273,7 +2273,7 @@ function dict2CameraUi(dict) {
         mjpgUrl = '';
     }
 
-    if ($('#normalPasswordEntry').val()) { /* anonymous access is disabled */ 
+    if ($('#normalPasswordEntry').val()) { /* anonymous access is disabled */
         if (snapshotUrl) {
             snapshotUrl = addAuthParams('GET', snapshotUrl);
         }
@@ -2296,7 +2296,7 @@ function dict2CameraUi(dict) {
     markHideIfNull('preserve_pictures', 'preservePicturesSelect');
     $('#picturesLifetimeEntry').val(dict['preserve_pictures']); markHideIfNull('preserve_pictures', 'picturesLifetimeEntry');
     $('#manualSnapshotsSwitch')[0].checked = dict['manual_snapshots']; markHideIfNull('manual_snapshots', 'manualSnapshotsSwitch');
-    
+
     /* movies */
     $('#moviesEnabledSwitch')[0].checked = dict['movies']; markHideIfNull('movies', 'moviesEnabledSwitch');
     $('#movieFileNameEntry').val(dict['movie_file_name']); markHideIfNull('movie_file_name', 'movieFileNameEntry');
@@ -2311,7 +2311,7 @@ function dict2CameraUi(dict) {
     }
     markHideIfNull('preserve_movies', 'preserveMoviesSelect');
     $('#moviesLifetimeEntry').val(dict['preserve_movies']); markHideIfNull('preserve_movies', 'moviesLifetimeEntry');
-    
+
     /* motion detection */
     $('#motionDetectionEnabledSwitch')[0].checked = dict['motion_detection']; markHideIfNull('motion_detection', 'motionDetectionEnabledSwitch');
     $('#frameChangeThresholdSlider').val(dict['frame_change_threshold']); markHideIfNull('frame_change_threshold', 'frameChangeThresholdSlider');
@@ -2342,7 +2342,7 @@ function dict2CameraUi(dict) {
     $('#smtpPasswordEntry').val(dict['email_notifications_smtp_password']);
     $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls'];
     $('#emailPictureTimeSpanEntry').val(dict['email_notifications_picture_time_span']);
-    
+
     $('#webHookNotificationsEnabledSwitch')[0].checked = dict['web_hook_notifications_enabled']; markHideIfNull('web_hook_notifications_enabled', 'webHookNotificationsEnabledSwitch');
     $('#webHookNotificationsUrlEntry').val(dict['web_hook_notifications_url']);
     $('#webHookNotificationsHttpMethodSelect').val(dict['web_hook_notifications_http_method']);
@@ -2357,27 +2357,27 @@ function dict2CameraUi(dict) {
     $('#mondayEnabledSwitch')[0].checked = Boolean(dict['monday_from'] && dict['monday_to']); markHideIfNull('monday_from', 'mondayEnabledSwitch');
     $('#mondayFromEntry').val(dict['monday_from']); markHideIfNull('monday_from', 'mondayFromEntry');
     $('#mondayToEntry').val(dict['monday_to']); markHideIfNull('monday_to', 'mondayToEntry');
-    
+
     $('#tuesdayEnabledSwitch')[0].checked = Boolean(dict['tuesday_from'] && dict['tuesday_to']); markHideIfNull('tuesday_from', 'tuesdayEnabledSwitch');
     $('#tuesdayFromEntry').val(dict['tuesday_from']); markHideIfNull('tuesday_from', 'tuesdayFromEntry');
     $('#tuesdayToEntry').val(dict['tuesday_to']); markHideIfNull('tuesday_to', 'tuesdayToEntry');
-    
+
     $('#wednesdayEnabledSwitch')[0].checked = Boolean(dict['wednesday_from'] && dict['wednesday_to']); markHideIfNull('wednesday_from', 'wednesdayEnabledSwitch');
     $('#wednesdayFromEntry').val(dict['wednesday_from']); markHideIfNull('wednesday_from', 'wednesdayFromEntry');
     $('#wednesdayToEntry').val(dict['wednesday_to']); markHideIfNull('wednesday_to', 'wednesdayToEntry');
-    
+
     $('#thursdayEnabledSwitch')[0].checked = Boolean(dict['thursday_from'] && dict['thursday_to']); markHideIfNull('thursday_from', 'thursdayEnabledSwitch');
     $('#thursdayFromEntry').val(dict['thursday_from']); markHideIfNull('thursday_from', 'thursdayFromEntry');
     $('#thursdayToEntry').val(dict['thursday_to']); markHideIfNull('thursday_to', 'thursdayToEntry');
-    
+
     $('#fridayEnabledSwitch')[0].checked = Boolean(dict['friday_from'] && dict['friday_to']); markHideIfNull('friday_from', 'fridayEnabledSwitch');
     $('#fridayFromEntry').val(dict['friday_from']); markHideIfNull('friday_from', 'fridayFromEntry');
     $('#fridayToEntry').val(dict['friday_to']); markHideIfNull('friday_to', 'fridayToEntry');
-    
+
     $('#saturdayEnabledSwitch')[0].checked = Boolean(dict['saturday_from'] && dict['saturday_to']); markHideIfNull('saturday_from', 'saturdayEnabledSwitch');
     $('#saturdayFromEntry').val(dict['saturday_from']); markHideIfNull('saturday_from', 'saturdayFromEntry');
     $('#saturdayToEntry').val(dict['saturday_to']); markHideIfNull('saturday_to', 'saturdayToEntry');
-    
+
     $('#sundayEnabledSwitch')[0].checked = Boolean(dict['sunday_from'] && dict['sunday_to']); markHideIfNull('sunday_from', 'sundayEnabledSwitch');
     $('#sundayFromEntry').val(dict['sunday_from']); markHideIfNull('sunday_from', 'sundayFromEntry');
     $('#sundayToEntry').val(dict['sunday_to']); markHideIfNull('sunday_to', 'sundayToEntry');
@@ -2422,7 +2422,7 @@ function dict2CameraUi(dict) {
     $('tr.additional-config').each(function () {
         var $this = $(this);
         var control = $this.find('input, select, textarea, div.html');
-        
+
         if (!control.hasClass('camera-config')) {
             return;
         }
@@ -2449,14 +2449,14 @@ function dict2CameraUi(dict) {
             name = id.substring(0, id.length - 4);
             control.html(dict['_' + name]);
         }
-        
+
         markHideIfNull('_' + name, id);
     });
 
     updateConfigUI();
 }
 
-    
+
     /* progress */
 
 function beginProgress(cameraIds) {
@@ -2465,13 +2465,13 @@ function beginProgress(cameraIds) {
     }
 
     inProgress = true;
-    
+
     /* replace the main page message with a progress indicator */
     $('div.add-camera-message').replaceWith('<img class="main-loading-progress" src="' + staticPath + 'img/main-loading-progress.gif">');
-    
+
     /* show the apply button progress indicator */
     $('#applyButton').html('<img class="apply-progress" src="' + staticPath + 'img/apply-progress.gif">');
-    
+
     /* show the camera progress indicators */
     if (cameraIds) {
         cameraIds.forEach(function (cameraId) {
@@ -2481,7 +2481,7 @@ function beginProgress(cameraIds) {
     else {
         getCameraProgresses().addClass('visible');
     }
-    
+
     /* remove the settings progress lock */
     $('div.settings-progress').css('width', '100%').css('opacity', '0.9');
 }
@@ -2490,9 +2490,9 @@ function endProgress() {
     if (!inProgress) {
         return; /* not in progress */
     }
-    
+
     inProgress = false;
-    
+
     /* deal with the apply button */
     if (Object.keys(pushConfigs).length === 0) {
         hideApply();
@@ -2500,10 +2500,10 @@ function endProgress() {
     else {
         showApply();
     }
-    
+
     /* hide the settings progress lock */
     $('div.settings-progress').css('opacity', '0');
-    
+
     /* hide the camera progress indicator */
     getCameraProgresses().removeClass('visible');
 
@@ -2519,7 +2519,7 @@ function downloadFile(path) {
     var parts = url.split('/');
     url = parts.slice(0, 3).join('/') + path;
     url = addAuthParams('GET', url);
-    
+
     /* download the file by creating a temporary iframe */
     var frame = $('<iframe style="display: none;"></iframe>');
     frame.attr('src', url);
@@ -2544,7 +2544,7 @@ function uploadFile(path, input, callback) {
 
 function showApply() {
     var applyButton = $('#applyButton');
-    
+
     applyButton.html('Apply');
     applyButton.css('display', 'inline-block');
     applyButton.removeClass('progress');
@@ -2555,10 +2555,10 @@ function showApply() {
 
 function hideApply() {
     var applyButton = $('#applyButton');
-    
+
     applyButton.css('opacity', '0');
     applyButton.removeClass('progress');
-    
+
     setTimeout(function () {
         applyButton.css('display', 'none');
     }, 500);
@@ -2566,7 +2566,7 @@ function hideApply() {
 
 function isApplyVisible() {
     var applyButton = $('#applyButton');
-    
+
     return applyButton.is(':visible');
 }
 
@@ -2575,18 +2575,18 @@ function doApply() {
         runAlertDialog('Make sure all the configuration options are valid!');
         return;
     }
-    
+
     function actualApply() {
         var cameraIdsByInstance = getCameraIdsByInstance();
 
         /* gather the affected motion instances */
         var affectedInstances = {};
-        
+
         Object.keys(pushConfigs).forEach(function (key) {
             if (key == 'main') {
                 return;
             }
-            
+
             /* key is a camera id */
             Object.keys(cameraIdsByInstance).forEach(function (instance) {
                 var cameraIds = cameraIdsByInstance[instance];
@@ -2597,25 +2597,25 @@ function doApply() {
         });
 
         affectedInstances = Object.keys(affectedInstances);
-        
-        /* compute the affected camera ids */ 
+
+        /* compute the affected camera ids */
         var affectedCameraIds = [];
-        
+
         affectedInstances.forEach(function (instance) {
             affectedCameraIds = affectedCameraIds.concat(cameraIdsByInstance[instance] || []);
         });
-        
+
         beginProgress(affectedCameraIds);
         affectedCameraIds.forEach(function (cameraId) {
             refreshDisabled[cameraId] |= 0;
             refreshDisabled[cameraId]++;
         });
-        
+
         ajax('POST', basePath + 'config/0/set/', pushConfigs, function (data) {
             affectedCameraIds.forEach(function (cameraId) {
                 refreshDisabled[cameraId]--;
             });
-            
+
             if (data == null || data.error) {
                 endProgress();
                 showErrorMessage(data && data.error);
@@ -2625,11 +2625,11 @@ function doApply() {
             /* reset password change flags */
             adminPasswordChanged = {};
             normalPasswordChanged = {};
-            
+
             if (data.reboot) {
                 var count = 0;
                 function checkServerReboot() {
-                    ajax('GET', basePath + 'config/0/get/', null, 
+                    ajax('GET', basePath + 'config/0/get/', null,
                         function () {
                             window.location.reload(true);
                         },
@@ -2644,17 +2644,17 @@ function doApply() {
                         }
                     );
                 }
-                
+
                 setTimeout(checkServerReboot, 15000);
-                
+
                 return;
             }
-            
+
             if (data.reload) {
                 window.location.reload(true);
                 return;
             }
-            
+
             /* update the camera name in the device select
              * and frame title bar */
             Object.keys(pushConfigs).forEach(function (key) {
@@ -2662,17 +2662,17 @@ function doApply() {
                 if (config.key !== 'main') {
                     $('#cameraSelect').find('option[value=' + key + ']').html(config.name);
                 }
-                
+
                 $('#camera' + key).find('span.camera-name').html(config.name);
             });
-    
+
             pushConfigs = {};
             pushConfigReboot = false;
             endProgress();
             recreateCameraFrames(); /* a camera could have been disabled */
         });
     }
-    
+
     if (pushConfigReboot) {
         runConfirmDialog('This will reboot the system. Continue?', function () {
             actualApply();
@@ -2689,9 +2689,9 @@ function doShutDown() {
         setTimeout(function () {
             refreshInterval = 1000000;
             showModalDialog('<div class="modal-progress"></div>');
-            
+
             function checkServer() {
-                ajax('GET', basePath, null, 
+                ajax('GET', basePath, null,
                     function () {
                         setTimeout(checkServer, 1000);
                     },
@@ -2704,7 +2704,7 @@ function doShutDown() {
                     10000 /* timeout = 10s */
                 );
             }
-            
+
             checkServer();
         }, 10);
     });
@@ -2717,9 +2717,9 @@ function doReboot() {
             refreshInterval = 1000000;
             showModalDialog('<div class="modal-progress"></div>');
             var shutDown = false;
-            
+
             function checkServer() {
-                ajax('GET', basePath, null, 
+                ajax('GET', basePath, null,
                     function () {
                         if (!shutDown) {
                             setTimeout(checkServer, 1000);
@@ -2737,7 +2737,7 @@ function doReboot() {
                     5 * 1000 /* timeout = 5s */
                 );
             }
-            
+
             checkServer();
         }, 10);
     });
@@ -2747,7 +2747,7 @@ function doRemCamera() {
     if (Object.keys(pushConfigs).length) {
         return runAlertDialog('Please apply the modified settings first!');
     }
-    
+
     var cameraId = $('#cameraSelect').val();
     if (cameraId == null || cameraId === 'add') {
         runAlertDialog('No camera to remove!');
@@ -2755,7 +2755,7 @@ function doRemCamera() {
     }
 
     var deviceName = $('#cameraSelect').find('option[value=' + cameraId + ']').text();
-    
+
     runConfirmDialog('Remove camera ' + deviceName + '?', function () {
         /* disable further refreshing of this camera */
         var img = $('div.camera-frame#camera' + cameraId).find('img.camera');
@@ -2770,7 +2770,7 @@ function doRemCamera() {
                 showErrorMessage(data && data.error);
                 return;
             }
-            
+
             fetchCurrentConfig(endProgress);
         });
     });
@@ -2780,7 +2780,7 @@ function doUpdate() {
     if (Object.keys(pushConfigs).length) {
         return runAlertDialog('Please apply the modified settings first!');
     }
-    
+
     showModalDialog('<div class="modal-progress"></div>');
     ajax('GET', basePath + 'update/', null, function (data) {
         if (data.update_version == null) {
@@ -2812,7 +2812,7 @@ function doUpdate() {
                             }
                         );
                     }
-                    
+
                     setTimeout(checkServer, 15000);
 
                 }, function (e) { /* error */
@@ -2832,7 +2832,7 @@ function doBackup() {
 }
 
 function doRestore() {
-    var content = 
+    var content =
             $('<table class="restore-dialog">' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Backup File</span></td>' +
@@ -2840,19 +2840,19 @@ function doRestore() {
                     '<td><span class="help-mark" title="the backup file you have previously downloaded">?</span></td>' +
                 '</tr>' +
             '</table>');
-    
+
     /* collect ui widgets */
     var fileInput = content.find('#fileInput');
-    
+
     /* make validators */
     makeFileValidator(fileInput, true);
-    
+
     function uiValid() {
         /* re-validate all the validators */
         content.find('.validator').each(function () {
             this.validate();
         });
-        
+
         var valid = true;
         var query = content.find('input, select');
         query.each(function () {
@@ -2874,7 +2874,7 @@ function doRestore() {
             if (!uiValid(true)) {
                 return false;
             }
-            
+
             refreshInterval = 1000000;
 
             setTimeout(function () {
@@ -2902,7 +2902,7 @@ function doRestore() {
                                 }
                             );
                         }
-                        
+
                         if (data.reboot) {
                             setTimeout(checkServer, 15000);
                         }
@@ -2931,13 +2931,13 @@ function doTestUpload() {
             valid = false;
         }
     });
-    
+
     if (!valid) {
         return runAlertDialog('Make sure all the configuration options are valid!');
     }
-    
+
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
-    
+
     var data = {
         what: 'upload_service',
         service: $('#uploadServiceSelect').val(),
@@ -2950,19 +2950,19 @@ function doTestUpload() {
         password: $('#uploadPasswordEntry').val(),
         authorization_key: $('#uploadAuthorizationKeyEntry').val()
     };
-    
+
     var cameraId = $('#cameraSelect').val();
 
     ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
         /* clear the authorization key as it's definitely not usable anymore;
          * the credentials must have already been obtained and saved */
         $('#uploadAuthorizationKeyEntry').val('');
-        
+
         /* also clear it from the pending configs dict */
         Object.keys(pushConfigs).forEach(function (id) {
             delete pushConfigs[id].upload_authorization_key;
         });
-        
+
         hideModalDialog(); /* progress */
         if (data.error) {
             showErrorMessage('Accessing the upload service failed: ' + data.error + '!');
@@ -2982,13 +2982,13 @@ function doTestEmail() {
             valid = false;
         }
     });
-    
+
     if (!valid) {
         return runAlertDialog('Make sure all the configuration options are valid!');
     }
-    
+
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
-    
+
     var data = {
         what: 'email',
         from: $('#emailFromEntry').val(),
@@ -2999,7 +2999,7 @@ function doTestEmail() {
         smtp_password: $('#smtpPasswordEntry').val(),
         smtp_tls: $('#smtpTlsSwitch')[0].checked
     };
-    
+
     var cameraId = $('#cameraSelect').val();
 
     ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
@@ -3022,13 +3022,13 @@ function doTestNetworkShare() {
             valid = false;
         }
     });
-    
+
     if (!valid) {
         return runAlertDialog('Make sure all the configuration options are valid!');
     }
-    
+
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
-    
+
     var data = {
         what: 'network_share',
         server: $('#networkServerEntry').val(),
@@ -3038,7 +3038,7 @@ function doTestNetworkShare() {
         password: $('#networkPasswordEntry').val(),
         root_directory: $('#rootDirectoryEntry').val()
     };
-    
+
     var cameraId = $('#cameraSelect').val();
 
     ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
@@ -3070,13 +3070,13 @@ function doDeleteFile(path, callback) {
     var url = window.location.href;
     var parts = url.split('/');
     url = parts.slice(0, 3).join('/') + path;
-    
+
     runConfirmDialog('Really delete this file?', function () {
         showModalDialog('<div class="modal-progress"></div>', null, null, true);
         ajax('POST', url, null, function (data) {
             hideModalDialog(); /* progress */
             hideModalDialog(); /* confirm */
-            
+
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 return;
@@ -3086,7 +3086,7 @@ function doDeleteFile(path, callback) {
                 callback();
             }
         });
-        
+
         return false;
     }, {stack: true});
 }
@@ -3109,7 +3109,7 @@ function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
             msg = 'Really delete all ungrouped movies?';
         }
     }
-    
+
     runConfirmDialog(msg, function () {
         showModalDialog('<div class="modal-progress"></div>', null, null, true);
         if (groupKey) {
@@ -3118,7 +3118,7 @@ function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
         ajax('POST', basePath + mediaType + '/' + cameraId + '/delete_all/' + groupKey, null, function (data) {
             hideModalDialog(); /* progress */
             hideModalDialog(); /* confirm */
-            
+
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 return;
@@ -3128,7 +3128,7 @@ function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
                 callback();
             }
         });
-        
+
         return false;
     }, {stack: true});
 }
@@ -3149,7 +3149,7 @@ function showUrl(url) {
     var span = $('<span class="url-message-span"></span>');
     span.html(url);
     runAlertDialog(span);
-    
+
     var range, selection;
     if (window.getSelection && document.createRange) {
         selection = window.getSelection();
@@ -3162,7 +3162,7 @@ function showUrl(url) {
         range = document.body.createTextRange();
         range.moveToElementText(span[0]);
         range.select();
-    }    
+    }
 }
 
 function showSnapshotUrl() {
@@ -3194,11 +3194,11 @@ function fetchCurrentConfig(onFetch) {
                     onFetch(null);
                 }
             }
-            
+
             initialConfigFetched = true;
-            
+
             var i, cameras = data.cameras;
-            
+
             /* filter shown cameras by query */
             var query = splitUrl().params;
             if (query.camera_ids) {
@@ -3207,7 +3207,7 @@ function fetchCurrentConfig(onFetch) {
                     return cameraIds.indexOf(String(c.id)) >= 0;
                 });
             }
-            
+
             if (isAdmin()) {
                 var cameraSelect = $('#cameraSelect');
                 cameraSelect.html('');
@@ -3215,11 +3215,11 @@ function fetchCurrentConfig(onFetch) {
                     var camera = cameras[i];
                     cameraSelect.append('<option value="' + camera['id'] + '">' + camera['name'] + '</option>');
                 }
-                
+
                 if (!query.camera_ids) {
                     cameraSelect.append('<option value="add">add camera...</option>');
                 }
-                
+
                 var enabledCameras = cameras.filter(function (camera) {return camera['enabled'];});
                 if (enabledCameras.length > 0) { /* prefer the first enabled camera */
                     cameraSelect[0].selectedIndex = cameras.indexOf(enabledCameras[0]);
@@ -3244,7 +3244,7 @@ function fetchCurrentConfig(onFetch) {
                     /* normal user with no cameras doesn't make too much sense - force login */
                     doLogout();
                 }
-                
+
                 $('#cameraSelect').hide();
                 $('#remCameraButton').hide();
 
@@ -3265,7 +3265,7 @@ function fetchCurrentConfig(onFetch) {
             }
         });
     }
- 
+
     /* add a progress indicator */
     var pageContainer = getPageContainer();
     if (!pageContainer.children('img.main-loading-progress').length) {
@@ -3278,7 +3278,7 @@ function fetchCurrentConfig(onFetch) {
             showErrorMessage(data && data.error);
             return;
         }
-        
+
         dict2PrefsUi(data);
         applyPrefs(data);
 
@@ -3289,7 +3289,7 @@ function fetchCurrentConfig(onFetch) {
                     showErrorMessage(data && data.error);
                     return;
                 }
-                
+
                 dict2MainUi(data);
                 fetchCameraList();
             });
@@ -3310,10 +3310,10 @@ function fetchCurrentCameraConfig(onFetch) {
                 if (onFetch) {
                     onFetch(null);
                 }
-                
+
                 return;
             }
-            
+
             dict2CameraUi(data);
             if (onFetch) {
                 onFetch(data);
@@ -3332,9 +3332,9 @@ function pushMainConfig(reboot) {
     if (!initialConfigFetched) {
         return;
     }
-    
+
     var mainConfig = mainUi2Dict();
-    
+
     pushConfigReboot = pushConfigReboot || reboot;
     pushConfigs['main'] = mainConfig;
     if (!isApplyVisible()) {
@@ -3346,7 +3346,7 @@ function pushCameraConfig(reboot) {
     if (!initialConfigFetched) {
         return;
     }
-    
+
     var cameraId = $('#cameraSelect').val();
     if (!cameraId) {
         return; /* event triggered without a selected camera */
@@ -3359,7 +3359,7 @@ function pushCameraConfig(reboot) {
     if (!isApplyVisible()) {
         showApply();
     }
-    
+
     /* also update the config stored in the camera frame div */
     var cameraFrame = getCameraFrame(cameraId);
     if (cameraFrame.length) {
@@ -3370,7 +3370,7 @@ function pushCameraConfig(reboot) {
 function getCameraIdsByInstance() {
     /* a motion instance is identified by the (host, port) pair;
      * the local instance has both the host and the port set to empty string */
-    
+
     var cameraIdsByInstance = {};
     getCameraFrames().each(function () {
         var instance;
@@ -3386,10 +3386,10 @@ function getCameraIdsByInstance() {
         else { /* assuming simple mjpeg camera */
             return;
         }
-        
+
         (cameraIdsByInstance[instance] = cameraIdsByInstance[instance] || []).push(this.config.id);
     });
-    
+
     return cameraIdsByInstance;
 }
 
@@ -3408,11 +3408,11 @@ function runAlertDialog(message, onOk, options) {
         buttons: 'ok',
         onOk: onOk
     };
-    
+
     if (options) {
         Object.update(params, options);
     }
-    
+
     runModalDialog(params);
 }
 
@@ -3422,11 +3422,11 @@ function runConfirmDialog(message, onYes, options) {
         buttons: 'yesno',
         onYes: onYes
     };
-    
+
     if (options) {
         Object.update(params, options);
     }
-    
+
     runModalDialog(params);
 }
 
@@ -3434,8 +3434,8 @@ function runLoginDialog(retry) {
     /* a workaround so that browsers will remember the credentials */
     var tempFrame = $('<iframe name="temp" id="temp" style="display: none;"></iframe>');
     $('body').append(tempFrame);
-    
-    var form = 
+
+    var form =
             $('<form action="' + basePath + 'login/" target="temp" method="POST"><table class="login-dialog">' +
                 '<tr>' +
                     '<td class="login-dialog-error" colspan="100"></td>' +
@@ -3459,9 +3459,9 @@ function runLoginDialog(retry) {
     var passwordEntry = form.find('#passwordEntry');
     var rememberCheck = form.find('#rememberCheck');
     var errorTd = form.find('td.login-dialog-error');
-    
+
     makeCheckBox(rememberCheck);
-    
+
     if (window._loginRetry) {
         errorTd.css('display', 'table-cell');
         errorTd.html('Invalid credentials.');
@@ -3478,30 +3478,30 @@ function runLoginDialog(retry) {
                 window.username = usernameEntry.val();
                 window.passwordHash = sha1(passwordEntry.val()).toLowerCase();
                 window._loginDialogSubmitted = true;
-                
+
                 if (rememberCheck[0].checked) {
                     setCookie(USERNAME_COOKIE, window.username, /* days = */ 3650);
                     setCookie(PASSWORD_COOKIE, window.passwordHash, /* days = */ 3650);
                 }
-                
+
                 form.submit();
                 setTimeout(function () {
                     tempFrame.remove();
                 }, 5000);
-                
+
                 if (retry) {
                     retry();
                 }
             }}
         ]
     };
-    
+
     runModalDialog(params);
 }
 
 function runPictureDialog(entries, pos, mediaType) {
     var content = $('<div class="picture-dialog-content"></div>');
-    
+
     var img = $('<img class="picture-dialog-content">');
     content.append(img);
 
@@ -3550,10 +3550,10 @@ function runPictureDialog(entries, pos, mediaType) {
         var windowHeight = $(window).height();
         var widthCoef = windowWidth < 1000 ? 0.8 : 0.5;
         var heightCoef = 0.75;
-        
+
         var width = parseInt(windowWidth * widthCoef);
         var height = parseInt(windowHeight * heightCoef);
-        
+
         prevArrow.css('display', 'none');
         nextArrow.css('display', 'none');
 
@@ -3564,7 +3564,7 @@ function runPictureDialog(entries, pos, mediaType) {
 
         img.parent().append(progressImg);
         updateModalDialogPosition();
-        
+
         img.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
 
         if (playable) {
@@ -3608,23 +3608,23 @@ function runPictureDialog(entries, pos, mediaType) {
         $('div.modal-container').find('span.modal-title:last').html(entry.name);
         updateModalDialogPosition();
     }
-    
+
     prevArrow.click(function () {
         if (pos < entries.length - 1) {
             pos++;
         }
-        
+
         updatePicture();
     });
-    
+
     nextArrow.click(function () {
         if (pos > 0) {
             pos--;
         }
-        
+
         updatePicture();
     });
-    
+
     function bodyKeyDown(e) {
         switch (e.which) {
             case 37:
@@ -3632,7 +3632,7 @@ function runPictureDialog(entries, pos, mediaType) {
                     prevArrow.click();
                 }
                 break;
-                
+
             case 39:
                 if (nextArrow.is(':visible')) {
                     nextArrow.click();
@@ -3640,11 +3640,11 @@ function runPictureDialog(entries, pos, mediaType) {
                 break;
         }
     }
-    
+
     $('body').on('keydown', bodyKeyDown);
-    
+
     img.load(updateModalDialogPosition);
-    
+
     runModalDialog({
         title: ' ',
         closeButton: true,
@@ -3653,7 +3653,7 @@ function runPictureDialog(entries, pos, mediaType) {
             {caption: 'Download', isDefault: true, click: function () {
                 var entry = entries[pos];
                 downloadFile(mediaType + '/' + entry.cameraId + '/download' + entry.path);
-                
+
                 return false;
             }}
         ],
@@ -3670,8 +3670,8 @@ function runAddCameraDialog() {
     if (Object.keys(pushConfigs).length) {
         return runAlertDialog('Please apply the modified settings first!');
     }
-    
-    var content = 
+
+    var content =
             $('<table class="add-camera-dialog">' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Camera Type</span></td>' +
@@ -3711,7 +3711,7 @@ function runAddCameraDialog() {
                     '<td class="dialog-item-value" colspan="100"><div id="addCameraInfo"></div></td>' +
                 '</tr>' +
             '</table>');
-    
+
     /* collect ui widgets */
     var typeSelect = content.find('#typeSelect');
     var urlEntry = content.find('#urlEntry');
@@ -3722,13 +3722,13 @@ function runAddCameraDialog() {
     var cameraMsgLabel = content.find('#cameraMsgLabel');
 
     var isProgress = false;
-    
+
     /* make validators */
     makeUrlValidator(urlEntry, true);
     makeTextValidator(usernameEntry, false);
     makeTextValidator(typeSelect, false);
     makeComboValidator(addCameraSelect, true);
-    
+
     /* ui interaction */
     function updateUi() {
         content.find('tr.v4l2, tr.motioneye, tr.netcam, tr.mjpeg, tr.mmal').css('display', 'none');
@@ -3743,7 +3743,7 @@ function runAddCameraDialog() {
         }
         else if (typeSelect.val() == 'netcam') {
             usernameEntry.removeAttr('readonly');
-            
+
             /* make sure there is one trailing slash
              * so that a path can be detected */
             var url = urlEntry.val().trim();
@@ -3754,8 +3754,8 @@ function runAddCameraDialog() {
 
             content.find('tr.netcam').css('display', 'table-row');
             addCameraInfo.html(
-                    'Network cameras (or IP cameras) are devices that natively stream RTSP or MJPEG videos or plain JPEG images. ' +
-                    "Consult your device's manual to find out the correct RTSP, MJPEG or JPEG URL.");
+                    'Network cameras (or IP cameras) are devices that natively stream RTSP/RTMP or MJPEG videos or plain JPEG images. ' +
+                    "Consult your device's manual to find out the correct RTSP, RTMP, MJPEG or JPEG URL.");
         }
         else if (typeSelect.val() == 'mmal') {
             content.find('tr.mmal').css('display', 'table-row');
@@ -3765,7 +3765,7 @@ function runAddCameraDialog() {
         }
         else if (typeSelect.val() == 'mjpeg') {
             usernameEntry.removeAttr('readonly');
-            
+
             /* make sure there is one trailing slash
              * so that a path can be detected */
             var url = urlEntry.val().trim();
@@ -3787,19 +3787,19 @@ function runAddCameraDialog() {
                     'Local V4L2 cameras are camera devices that are connected directly to your motionEye system, ' +
                     'usually via USB.');
         }
-        
+
         updateModalDialogPosition();
-        
+
         /* re-validate all the validators */
         content.find('.validator').each(function () {
             this.validate();
         });
-        
+
         if (uiValid()) {
             listCameras();
         }
     }
-    
+
     function uiValid(includeCameraSelect) {
         if (isProgress) {
             /* add dialog is not valid while in progress */
@@ -3820,7 +3820,7 @@ function runAddCameraDialog() {
         content.find('.validator').each(function () {
             this.validate();
         });
-        
+
         var valid = true;
         query.each(function () {
             if (this.invalid) {
@@ -3828,10 +3828,10 @@ function runAddCameraDialog() {
                 return false;
             }
         });
-        
+
         return valid;
     }
-    
+
     function splitCameraUrl(url) {
         var parts = url.split('://');
         var scheme = parts[0];
@@ -3845,18 +3845,18 @@ function runAddCameraDialog() {
         else {
             host = parts[1];
         }
-        
+
         var port = '';
         parts = host.split(':');
         if (parts.length >= 2) {
             host = parts[0];
             port = parts[1];
         }
-        
+
         if (path == '') {
             path = '/';
         }
-        
+
         return {
             scheme: scheme,
             host: host,
@@ -3864,15 +3864,15 @@ function runAddCameraDialog() {
             path: path
         };
     }
-    
+
     function listCameras() {
         var progress = $('<div style="text-align: center; margin: 2px;"><img src="' + staticPath + 'img/small-progress.gif"></div>');
-        
+
         addCameraSelect.html('');
         addCameraSelect.hide();
         addCameraSelect.parent().find('div').remove(); /* remove any previous progress div */
         addCameraSelect.before(progress);
-        
+
         var data = {};
         if (urlEntry.is(':visible') && urlEntry.val()) {
             data = splitCameraUrl(urlEntry.val());
@@ -3884,20 +3884,20 @@ function runAddCameraDialog() {
         if (data.proto == 'motioneye') {
             data.password = sha1(data.password);
         }
-        
+
         cameraMsgLabel.html('');
 
         isProgress = true;
         ajax('GET', basePath + 'config/list/', data, function (data) {
             progress.remove();
             isProgress = false;
-            
+
             if (data == null || data.error) {
                 cameraMsgLabel.html(data && data.error);
-                
+
                 return;
             }
-            
+
             if (data.error || !data.cameras) {
                 return;
             }
@@ -3909,27 +3909,27 @@ function runAddCameraDialog() {
                     if (key == 'id' || key == 'name') {
                         return;
                     }
-                    
+
                     var value = info[key];
                     option[0]._extra_attrs[key] = value;
                 });
 
                 addCameraSelect.append(option);
             });
-            
+
             if (!data.cameras || !data.cameras.length) {
                 addCameraSelect.append('<option value="">(no cameras)</option>');
             }
-            
+
             addCameraSelect.show();
             addCameraSelect[0].validate();
         });
     }
-    
+
     typeSelect.change(function () {
         addCameraSelect.html('');
     });
-    
+
     typeSelect.change(updateUi);
     urlEntry.change(updateUi);
     usernameEntry.change(updateUi);
@@ -3946,7 +3946,7 @@ function runAddCameraDialog() {
             }
 
             var data = {};
-            
+
             if (typeSelect.val() == 'motioneye') {
                 data = splitCameraUrl(urlEntry.val());
                 data.proto = 'motioneye';
@@ -3975,7 +3975,7 @@ function runAddCameraDialog() {
                 data.proto = 'v4l2';
                 data.path = addCameraSelect.val();
             }
-            
+
             /* add all extra attributes */
             var option = addCameraSelect.find('option:eq(' + addCameraSelect[0].selectedIndex + ')')[0];
             Object.keys(option._extra_attrs).forEach(function (key) {
@@ -3991,7 +3991,7 @@ function runAddCameraDialog() {
                     showErrorMessage(data && data.error);
                     return;
                 }
-                
+
                 var cameraOption = $('#cameraSelect').find('option[value=add]');
                 cameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
                 $('#cameraSelect').val(data.id).change();
@@ -4004,7 +4004,7 @@ function runAddCameraDialog() {
 }
 
 function runTimelapseDialog(cameraId, groupKey, group) {
-    var content = 
+    var content =
             $('<table class="timelapse-dialog">' +
                 '<tr><td colspan="2" class="timelapse-warning"></td></tr>' +
                 '<tr>' +
@@ -4014,7 +4014,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">Include a picture taken every</span></td>' +
                     '<td class="dialog-item-value">' +
-                        '<select class="styled timelapse" id="intervalSelect">' + 
+                        '<select class="styled timelapse" id="intervalSelect">' +
                             '<option value="1">second</option>' +
                             '<option value="5">5 seconds</option>' +
                             '<option value="10">10 seconds</option>' +
@@ -4043,7 +4043,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
         timelapseWarning.html('Given the large number of pictures, creating your timelapse might take a while!');
         timelapseWarning.css('display', 'table-cell');
     }
-    
+
     makeSlider(framerateSlider, 1, 100, 0, [
         {value: 1, label: '1'},
         {value: 20, label: '20'},
@@ -4052,7 +4052,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
         {value: 80, label: '80'},
         {value: 100, label: '100'}
     ], null, 0);
-    
+
     intervalSelect.val(60);
     framerateSlider.val(20).each(function () {this.update()});
 
@@ -4064,18 +4064,18 @@ function runTimelapseDialog(cameraId, groupKey, group) {
         onOk: function () {
             var progressBar = $('<div style=""></div>');
             makeProgressBar(progressBar);
-            
+
             runModalDialog({
                 title: 'Creating Timelapse Movie...',
                 content: progressBar,
                 stack: true,
                 noKeys: true
             });
-            
+
             var url = basePath + 'picture/' + cameraId + '/timelapse/' + groupKey + '/';
             var data = {interval: intervalSelect.val(), framerate: framerateSlider.val()};
             var first = true;
-            
+
             function checkTimelapse() {
                 var actualUrl = url;
                 if (!first) {
@@ -4089,18 +4089,18 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                         showErrorMessage(data && data.error);
                         return;
                     }
-                    
+
                     if (data.progress != -1 && first) {
                         showPopupMessage('A timelapse movie is already being created.');
                     }
-                    
+
                     if (data.progress == -1 && !first && !data.key) {
                         hideModalDialog(); /* progress */
                         hideModalDialog(); /* timelapse dialog */
                         showErrorMessage('The timelapse movie could not be created.');
                         return;
                     }
-                    
+
                     if (data.progress == -1) {
                         data.progress = 0;
                     }
@@ -4108,7 +4108,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                     if (data.key) {
                         progressBar[0].setProgress(100);
                         progressBar[0].setText('100%');
-                        
+
                         setTimeout(function () {
                             hideModalDialog(); /* progress */
                             hideModalDialog(); /* timelapse dialog */
@@ -4124,7 +4124,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
                     first = false;
                 });
             }
-            
+
             checkTimelapse();
 
             return false;
@@ -4138,14 +4138,14 @@ function runMediaDialog(cameraId, mediaType) {
     var mediaListDiv = $('<div class="media-dialog-list"></div>');
     var groupsDiv = $('<div class="media-dialog-groups"></div>');
     var buttonsDiv = $('<div class="media-dialog-buttons"></div>');
-    
+
     var groups = {};
     var groupKey = null;
-    
+
     dialogDiv.append(groupsDiv);
     dialogDiv.append(mediaListDiv);
     dialogDiv.append(buttonsDiv);
-    
+
     /* add a temporary div to compute 3em in px */
     var tempDiv = $('<div style="width: 3em; height: 3em;"></div>');
     $('div.modal-container').append(tempDiv);
@@ -4154,11 +4154,11 @@ function runMediaDialog(cameraId, mediaType) {
 
     function showGroup(key) {
         groupKey = key;
-        
+
         if (mediaListDiv.find('img.media-list-progress').length) {
             return; /* already in progress of loading */
         }
-        
+
         /* (re)set the current state of the group buttons */
         groupsDiv.find('div.media-dialog-group-button').each(function () {
             var $this = $(this);
@@ -4169,30 +4169,30 @@ function runMediaDialog(cameraId, mediaType) {
                 $this.removeClass('current');
             }
         });
-        
+
         var mediaListByName = {};
         var entries = groups[key];
-        
+
         /* cleanup the media list */
         mediaListDiv.children('div.media-list-entry').detach();
         mediaListDiv.html('');
-        
+
         function addEntries() {
             /* add the entries to the media list */
             entries.forEach(function (entry) {
                 var entryDiv = entry.div;
                 var detailsDiv = null;
-                
+
                 if (!entryDiv) {
                     entryDiv = $('<div class="media-list-entry"></div>');
-                    
+
                     var previewImg = $('<img class="media-list-preview" src="' + staticPath + 'img/modal-progress.gif"/>');
                     entryDiv.append(previewImg);
                     previewImg[0]._src = addAuthParams('GET', basePath + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height);
-                    
+
                     var downloadButton = $('<div class="media-list-download-button button">Download</div>');
                     entryDiv.append(downloadButton);
-                    
+
                     var deleteButton = $('<div class="media-list-delete-button button">Delete</div>');
                     if (isAdmin()) {
                         entryDiv.append(deleteButton);
@@ -4200,15 +4200,15 @@ function runMediaDialog(cameraId, mediaType) {
 
                     var nameDiv = $('<div class="media-list-entry-name">' + entry.name + '</div>');
                     entryDiv.append(nameDiv);
-                    
+
                     detailsDiv = $('<div class="media-list-entry-details"></div>');
                     entryDiv.append(detailsDiv);
-                    
+
                     downloadButton.click(function () {
                         downloadFile(mediaType + '/' + cameraId + '/download' + entry.path);
                         return false;
                     });
-                    
+
                     deleteButton.click(function () {
                         doDeleteFile(basePath + mediaType + '/' + cameraId + '/delete' + entry.path, function () {
                             entryDiv.remove();
@@ -4228,7 +4228,7 @@ function runMediaDialog(cameraId, mediaType) {
                                 }
                             });
                         });
-                        
+
                         return false;
                     });
 
@@ -4236,13 +4236,13 @@ function runMediaDialog(cameraId, mediaType) {
                         var pos = entries.indexOf(entry);
                         runPictureDialog(entries, pos, mediaType);
                     });
-                    
+
                     entry.div = entryDiv;
                 }
                 else {
                     detailsDiv = entry.div.find('div.media-list-entry-details');
-                }                    
-                
+                }
+
                 var momentSpan = $('<span class="details-moment">' + entry.momentStr + ', </span>');
                 var momentShortSpan = $('<span class="details-moment-short">' + entry.momentStrShort + '</span>');
                 var sizeSpan = $('<span class="details-size">' + entry.sizeStr + '</span>');
@@ -4256,34 +4256,34 @@ function runMediaDialog(cameraId, mediaType) {
             /* trigger a scroll event */
             mediaListDiv.scroll();
         }
-        
+
         /* if details are already fetched, simply add the entries and return */
         if (entries[0].timestamp) {
             return addEntries();
         }
-        
+
         var previewImg = $('<img class="media-list-progress" src="' + staticPath + 'img/modal-progress.gif"/>');
         mediaListDiv.append(previewImg);
-        
+
         var url = basePath + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped');
         ajax('GET', url, null, function (data) {
             previewImg.remove();
-            
+
             if (data == null || data.error) {
                 hideModalDialog();
                 showErrorMessage(data && data.error);
                 return;
             }
-            
+
             /* index the media list by name */
             data.mediaList.forEach(function (media) {
                 var path = media.path;
                 var parts = path.split('/');
                 var name = parts[parts.length - 1];
-                
+
                 mediaListByName[name] = media;
             });
-            
+
             /* assign details to entries */
                 entries.forEach(function (entry) {
                     var media = mediaListByName[entry.name];
@@ -4295,27 +4295,27 @@ function runMediaDialog(cameraId, mediaType) {
                         entry.timestamp = media.timestamp;
                     }
                 });
- 
+
                 /* sort the entries by timestamp */
             entries.sortKey(function (e) {return e.timestamp || e.name;}, true);
-            
+
             addEntries();
         });
     }
-    
+
     if (mediaType == 'picture') {
         var zippedButton = $('<div class="media-dialog-button">Zipped</div>');
         buttonsDiv.append(zippedButton);
-        
+
         zippedButton.click(function () {
             if (groupKey != null) {
                 doDownloadZipped(cameraId, groupKey);
             }
         });
-        
+
         var timelapseButton = $('<div class="media-dialog-button">Timelapse</div>');
         buttonsDiv.append(timelapseButton);
-        
+
         timelapseButton.click(function () {
             if (groupKey != null) {
                 runTimelapseDialog(cameraId, groupKey, groups[groupKey]);
@@ -4326,7 +4326,7 @@ function runMediaDialog(cameraId, mediaType) {
     if (isAdmin()) {
         var deleteAllButton = $('<div class="media-dialog-button media-dialog-delete-all-button">Delete All</div>');
         buttonsDiv.append(deleteAllButton);
-        
+
         deleteAllButton.click(function () {
             if (groupKey != null) {
                 doDeleteAllFiles(mediaType, cameraId, groupKey, function () {
@@ -4337,10 +4337,10 @@ function runMediaDialog(cameraId, mediaType) {
                             $this.remove();
                         }
                     });
-                    
+
                     /* delete the group itself */
                     delete groups[groupKey];
-                    
+
                     /* show the first existing group, if any */
                     var keys = Object.keys(groups);
                     if (keys.length) {
@@ -4353,11 +4353,11 @@ function runMediaDialog(cameraId, mediaType) {
             }
         });
     }
-    
+
     function updateDialogSize() {
         var windowWidth = $(window).width();
         var windowHeight = $(window).height();
-        
+
         if (Object.keys(groups).length == 0) {
             groupsDiv.width('auto');
             groupsDiv.height('auto');
@@ -4368,9 +4368,9 @@ function runMediaDialog(cameraId, mediaType) {
 
             return;
         }
-        
+
         buttonsDiv.show();
-        
+
         if (windowWidth < 1000) {
             mediaListDiv.width(windowWidth - 30);
             mediaListDiv.height(windowHeight - 140);
@@ -4386,18 +4386,18 @@ function runMediaDialog(cameraId, mediaType) {
             groupsDiv.removeClass('small-screen');
         }
     }
-    
+
     function onResize() {
         updateDialogSize();
         updateModalDialogPosition();
     }
-    
+
     $(window).resize(onResize);
-    
+
     updateDialogSize();
-    
+
     showModalDialog('<div class="modal-progress"></div>');
-    
+
     /* fetch the media list */
     ajax('GET', basePath + mediaType + '/' + cameraId + '/list/', null, function (data) {
         if (data == null || data.error) {
@@ -4405,20 +4405,20 @@ function runMediaDialog(cameraId, mediaType) {
             showErrorMessage(data && data.error);
             return;
         }
-        
+
         /* group the media */
         data.mediaList.forEach(function (media) {
             var path = media.path;
             var parts = path.split('/');
             var keyParts = parts.splice(0, parts.length - 1);
             var key = keyParts.join('/');
-            
+
             if (key.indexOf('/') === 0) {
                 key = key.substring(1);
             }
-            
+
             var list = (groups[key] = groups[key] || []);
-            
+
             list.push({
                 'path': path,
                 'group': key,
@@ -4426,26 +4426,26 @@ function runMediaDialog(cameraId, mediaType) {
                 'cameraId': cameraId
             });
         });
-        
+
         updateDialogSize();
-        
+
         var keys = Object.keys(groups);
         keys.sort();
         keys.reverse();
-        
+
         if (keys.length) {
             keys.forEach(function (key) {
                 var groupButton = $('<div class="media-dialog-group-button"></div>');
                 groupButton.text((key || '(ungrouped)') + ' (' + groups[key].length + ')');
                 groupButton[0].key = key;
-                
+
                 groupButton.click(function () {
                     showGroup(key);
                 });
-                
+
                 groupsDiv.append(groupButton);
             });
-            
+
             /* add tooltips to larger group buttons */
             setTimeout(function () {
                 groupsDiv.find('div.media-dialog-group-button').each(function () {
@@ -4459,7 +4459,7 @@ function runMediaDialog(cameraId, mediaType) {
             groupsDiv.html('(no media files)');
             mediaListDiv.remove();
         }
-        
+
         var title;
         if ($(window).width() < 1000) {
             title = data.cameraName;
@@ -4470,7 +4470,7 @@ function runMediaDialog(cameraId, mediaType) {
         else {
             title = 'Movies recorded by ' + data.cameraName;
         }
-        
+
         runModalDialog({
             title: title,
             closeButton: true,
@@ -4487,25 +4487,25 @@ function runMediaDialog(cameraId, mediaType) {
             }
         });
     });
-    
+
     /* install the media list scroll event handler */
     mediaListDiv.scroll(function () {
         var height = mediaListDiv.height();
-        
+
         mediaListDiv.find('img.media-list-preview').each(function () {
             if (!this._src) {
                 return;
             }
-            
+
             var $this = $(this);
             var entryDiv = $this.parent();
-            
+
             var top1 = entryDiv.position().top;
             var top2 = top1 + entryDiv.height();
-            
+
             if ((top1 >= 0 && top1 <= height) ||
                 (top2 >= 0 && top2 <= height)) {
-                
+
                 this.src = this._src;
                 delete this._src;
             }
@@ -4573,7 +4573,7 @@ function addCameraFrameUi(cameraConfig) {
             '</div>');
 
     var nameSpan = cameraFrameDiv.find('span.camera-name');
-    
+
     var configureButton = cameraFrameDiv.find('div.camera-top-button.configure');
     var picturesButton = cameraFrameDiv.find('div.camera-top-button.media-pictures');
     var moviesButton = cameraFrameDiv.find('div.camera-top-button.media-movies');
@@ -4581,7 +4581,7 @@ function addCameraFrameUi(cameraConfig) {
 
     var cameraInfoDiv = cameraFrameDiv.find('div.camera-info');
     var cameraInfoSpan = cameraFrameDiv.find('span.camera-info');
-    
+
     var lockButton = cameraFrameDiv.find('div.camera-action-button.lock');
     var unlockButton = cameraFrameDiv.find('div.camera-action-button.unlock');
     var lightOnButton = cameraFrameDiv.find('div.camera-action-button.light-on');
@@ -4605,56 +4605,56 @@ function addCameraFrameUi(cameraConfig) {
     var preset7Button = cameraFrameDiv.find('div.camera-action-button.preset7');
     var preset8Button = cameraFrameDiv.find('div.camera-action-button.preset8');
     var preset9Button = cameraFrameDiv.find('div.camera-action-button.preset9');
-    
+
     var cameraOverlay = cameraFrameDiv.find('div.camera-overlay');
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
     var cameraProgress = cameraFrameDiv.find('div.camera-progress');
     var cameraImg = cameraFrameDiv.find('img.camera');
     var progressImg = cameraFrameDiv.find('img.camera-progress');
-    
+
     /* no configure button unless admin */
     if (!isAdmin()) {
         configureButton.hide();
     }
-    
+
     /* no media buttons for simple mjpeg cameras */
     if (cameraConfig['proto'] == 'mjpeg') {
         picturesButton.hide();
         moviesButton.hide();
     }
-    
+
     cameraFrameDiv.attr('id', 'camera' + cameraId);
     cameraFrameDiv[0].refreshDivider = 0;
     cameraFrameDiv[0].config = cameraConfig;
     nameSpan.html(cameraConfig.name);
     progressImg.attr('src', staticPath + 'img/camera-progress.gif');
-    
+
     cameraImg.click(function () {
         showCameraOverlay();
     });
-    
+
     cameraOverlay.click(function () {
         hideCameraOverlay();
     });
-    
+
     cameraOverlay.find('div.camera-overlay-top, div.camera-overlay-bottom').click(function () {
         return false;
     });
-    
+
     cameraProgress.addClass('visible');
     cameraPlaceholder.css('opacity', '0');
-    
+
     /* insert the new camera frame at the right position,
      * with respect to the camera id */
     var cameraFrames = getPageContainer().find('div.camera-frame');
     var cameraIds = cameraFrames.map(function () {return parseInt(this.id.substring(6));});
     cameraIds.sort();
-    
+
     var index = 0; /* find the first position that is greater than the current camera id */
     while (index < cameraIds.length && cameraIds[index] < cameraId) {
         index++;
     }
-    
+
     if (index < cameraIds.length) {
         var beforeCameraFrame = getPageContainer().find('div.camera-frame#camera' + cameraIds[index]);
         cameraFrameDiv.insertAfter(beforeCameraFrame);
@@ -4665,7 +4665,7 @@ function addCameraFrameUi(cameraConfig) {
 
     /* fade in */
     cameraFrameDiv.animate({'opacity': 1}, 100);
-    
+
     /* add the top buttons handlers */
     configureButton.click(function () {
         doConfigureCamera(cameraId);
@@ -4676,13 +4676,13 @@ function addCameraFrameUi(cameraConfig) {
             runMediaDialog(cameraId, 'picture');
         };
     }(cameraId));
-    
+
     moviesButton.click(function (cameraId) {
         return function () {
             runMediaDialog(cameraId, 'movie');
         };
     }(cameraId));
-    
+
     fullScreenButton.click(function (cameraId) {
         return function () {
             if (fullScreenCameraId && fullScreenCameraId == cameraId) {
@@ -4693,7 +4693,7 @@ function addCameraFrameUi(cameraConfig) {
             }
         };
     }(cameraId));
-    
+
     /* action buttons */
 
     cameraFrameDiv.find('div.camera-action-button').css('display', 'none');
@@ -4722,21 +4722,21 @@ function addCameraFrameUi(cameraConfig) {
         'preset8': preset8Button,
         'preset9': preset9Button
     };
-    
+
     cameraConfig.actions.forEach(function (action) {
         var button = actionButtonDict[action];
         if (!button) {
             return;
         }
-        
+
         button.css('display', '');
         button.click(function () {
             if (button.hasClass('pending')) {
                 return;
             }
-            
+
             button.addClass('pending');
-            
+
             if (action == 'record') {
                 if (button.hasClass('record-start')) {
                     action = 'record_start';
@@ -4751,7 +4751,7 @@ function addCameraFrameUi(cameraConfig) {
             });
         })
     });
-    
+
     if (cameraConfig.actions.length <= 4) {
         cameraOverlay.find('div.camera-overlay-bottom').addClass('few-buttons');
     }
@@ -4762,12 +4762,12 @@ function addCameraFrameUi(cameraConfig) {
 
     var FPS_LEN = 4;
     cameraImg[0].fpsTimes = [];
-    
+
     /* error and load handlers */
     cameraImg[0].onerror = function () {
         this.error = true;
         this.loading_count = 0;
-        
+
         cameraImg.addClass('error').removeClass('initializing');
         cameraImg.height(Math.round(cameraImg.width() * 0.75));
         cameraPlaceholder.css('opacity', 1);
@@ -4816,23 +4816,23 @@ function addCameraFrameUi(cameraConfig) {
             else {
                 recordButton.removeClass('record-stop').addClass('record-start');
             }
-            
+
             var captureFps = getCookie('capture_fps_' + cameraId);
             var monitorInfo = getCookie('monitor_info_' + cameraId);
-            
+
             this.lastCookieTime = now;
 
             if (this.fpsTimes.length == FPS_LEN) {
                 var streamingFps = this.fpsTimes.length * 1000 / (this.fpsTimes[this.fpsTimes.length - 1] - this.fpsTimes[0]);
                 streamingFps = streamingFps.toFixed(1);
-                
+
                 var info = streamingFps;
                 if (captureFps) {
                     info += '/' + captureFps;
                 }
-                
+
                 info += ' fps';
-                
+
                 if (monitorInfo) {
                     monitorInfo = decodeURIComponent(monitorInfo);
                     if (monitorInfo.charAt(0) == monitorInfo.charAt(monitorInfo.length - 1) == '"') {
@@ -4862,7 +4862,7 @@ function addCameraFrameUi(cameraConfig) {
             updateModalDialogPosition();
         }
     };
-    
+
     cameraImg.addClass('initializing');
     cameraImg[0].initializing = true;
     cameraImg.height(Math.round(cameraImg.width() * 0.75));
@@ -4882,7 +4882,7 @@ function recreateCameraFrames(cameras) {
 
         /* remove everything on the page */
         getPageContainer().children().remove();
-        
+
         /* add camera frames */
         for (i = 0; i < cameras.length; i++) {
             camera = cameras[i];
@@ -4891,16 +4891,16 @@ function recreateCameraFrames(cameras) {
 
         /* overlay is always hidden after creating the frames */
         hideCameraOverlay();
-        
+
         var query = splitUrl().params;
         if ($('#cameraSelect').find('option').length < 2 && isAdmin() && !query.camera_ids) {
             /* invite the user to add a camera */
-            var addCameraLink = $('<div class="add-camera-message">' + 
+            var addCameraLink = $('<div class="add-camera-message">' +
                     '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');
             getPageContainer().append(addCameraLink);
         }
     }
-    
+
     if (cameras != null) {
         updateCameras(cameras);
     }
@@ -4910,11 +4910,11 @@ function recreateCameraFrames(cameras) {
                 showErrorMessage(data && data.error);
                 return;
             }
-            
+
             updateCameras(data.cameras);
         });
     }
-    
+
     /* update the settings panel */
     var cameraId = $('#cameraSelect').val();
     if (cameras == null && cameraId && cameraId != 'add') {
@@ -4927,11 +4927,11 @@ function doConfigureCamera(cameraId) {
     if (inProgress) {
         return;
     }
-    
+
     hideApply();
     pushConfigs = {};
     pushConfigReboot = false;
-    
+
     openSettings(cameraId);
 }
 
@@ -4939,39 +4939,39 @@ function doFullScreenCamera(cameraId) {
     if (inProgress) {
         return;
     }
-    
+
     if (fullScreenCameraId != null) {
         return; /* a camera is already in full screen */
     }
-    
+
     closeSettings();
-    
+
     fullScreenCameraId = cameraId;
-    
+
     var cameraIds = getCameraIds();
     cameraIds.forEach(function (cid) {
         if (cid == cameraId) {
             return;
         }
-        
+
         refreshDisabled[cid] |= 0;
         refreshDisabled[cid]++;
-        
+
         var cf = getCameraFrame(cid);
         cf.css('height', cf.height()); /* required for the height animation */
         setTimeout(function () {
             cf.addClass('full-screen-hidden');
         }, 10);
     });
-    
+
     var cameraFrame = getCameraFrame(cameraId);
     var pageContainer = getPageContainer();
-    
+
     pageContainer.addClass('full-screen');
     cameraFrame.addClass('full-screen');
     $('div.header').addClass('full-screen');
     $('div.footer').addClass('full-screen');
-    
+
     /* try to make browser window full screen */
     var element = document.documentElement;
     var requestFullScreen = (
@@ -4983,7 +4983,7 @@ function doFullScreenCamera(cameraId) {
             element.mozRequestFullScreen ||
             element.msRequestFullscreen ||
             element.msRequestFullScreen);
-    
+
     if (requestFullScreen) {
         requestFullScreen.call(element);
     }
@@ -5004,10 +5004,10 @@ function doExitFullScreenCamera() {
     getCameraFrames().
             removeClass('full-screen-hidden').
             css('height', '');
-    
+
     var cameraFrame = getCameraFrame(fullScreenCameraId);
     var pageContainer = getPageContainer();
-    
+
     $('div.header').removeClass('full-screen');
     $('div.footer').removeClass('full-screen');
     pageContainer.removeClass('full-screen');
@@ -5018,12 +5018,12 @@ function doExitFullScreenCamera() {
         if (cid == fullScreenCameraId) {
             return;
         }
-        
+
         refreshDisabled[cid]--;
     });
 
     fullScreenCameraId = null;
-    
+
     updateLayout();
 
     /* exit browser window full screen */
@@ -5036,14 +5036,14 @@ function doExitFullScreenCamera() {
             document.mozCancelFullScreen ||
             document.msExitFullscreen ||
             document.msCancelFullScreen);
-    
+
     if (exitFullScreen) {
         exitFullScreen.call(document);
     }
 }
 
 function isFullScreen() {
-    return fullScreenCameraId != null;   
+    return fullScreenCameraId != null;
 }
 
 function refreshCameraFrames() {
@@ -5057,13 +5057,13 @@ function refreshCameraFrames() {
     function refreshCameraFrame(cameraId, img, serverSideResize) {
         if (refreshDisabled[cameraId]) {
             /* camera refreshing disabled, retry later */
-            
+
             return;
         }
-        
+
         if (img.loading_count) {
             img.loading_count++; /* increases each time the camera would refresh but is still loading */
-            
+
             if (img.loading_count > 2 * 1000 / refreshInterval) { /* limits the retries to one every two seconds */
                 img.loading_count = 0;
             }
@@ -5071,7 +5071,7 @@ function refreshCameraFrames() {
                 return; /* wait for the previous frame to finish loading */
             }
         }
-        
+
         var path = basePath + 'picture/' + cameraId + '/current/?_=' + timestamp;
         if (resolutionFactor != 1) {
             path += '&width=' + resolutionFactor;
@@ -5079,9 +5079,9 @@ function refreshCameraFrames() {
         else if (serverSideResize) {
             path += '&width=' + img.width;
         }
-        
+
         path = addAuthParams('GET', path);
-        
+
         img.src = path;
         img.loading_count = 1;
     }
@@ -5093,7 +5093,7 @@ function refreshCameraFrames() {
     else {
         cameraFrames = getCameraFrames();
     }
-    
+
     cameraFrames.each(function () {
         if (!this.img) {
             this.img = $(this).find('img.camera')[0];
@@ -5108,11 +5108,11 @@ function refreshCameraFrames() {
                 this.img.src = url;
             }
         }
-        
+
         if (this.config['proto'] == 'mjpeg') {
             return; /* no manual refresh for simple mjpeg cameras */
         }
-        
+
         var count = parseInt(1000 / (refreshInterval * this.config['streaming_framerate']));
         var serverSideResize = this.config['streaming_server_resize'];
         var cameraId = this.id.substring(6);
@@ -5139,7 +5139,7 @@ function refreshCameraFrames() {
             this.refreshDivider = 0;
         }
     });
-    
+
     setTimeout(refreshCameraFrames, refreshInterval);
 }
 
@@ -5179,7 +5179,7 @@ $(document).ready(function () {
         window.username = getCookie(USERNAME_COOKIE);
         window.passwordHash = getCookie(PASSWORD_COOKIE);
     }
-    
+
     /* open/close settings */
     $('div.settings-button').click(function () {
         if (isSettingsOpen()) {
@@ -5189,19 +5189,19 @@ $(document).ready(function () {
             openSettings();
         }
     });
-    
+
     initUI();
     beginProgress();
-    
+
     ajax('GET', basePath + 'login/', null, function () {
         if (!frame) {
             fetchCurrentConfig(endProgress);
         }
     });
-    
+
     refreshCameraFrames();
     checkCameraErrors();
-    
+
     $(window).resize(function () {
         updateLayout();
     });
