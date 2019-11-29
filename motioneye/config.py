@@ -554,7 +554,7 @@ def add_camera(device_details):
         if device_details.get('camera_index') == 'udp':
             camera_config['netcam_use_tcp'] = False
 
-        if camera_config['netcam_url'].startswith('rtsp'):
+        if re.match(r'^rtsp|^rtmp', camera_config['netcam_url']):
             camera_config['width'] = 640
             camera_config['height'] = 480
 
@@ -814,8 +814,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             data['vid_control_params'] = ','.join(vid_control_params)
 
     else:  # assuming netcam
-        if data.get('netcam_url', prev_config.get('netcam_url', '')).startswith('rtsp'):
-            # motion uses the configured width and height for RTSP cameras
+        if re.match(r'^rtsp|^rtmp', data.get('netcam_url', prev_config.get('netcam_url', ''))):
+            # motion uses the configured width and height for RTSP/RTMP cameras
             width = int(ui['resolution'].split('x')[0])
             height = int(ui['resolution'].split('x')[1])
             data['width'] = width
@@ -1170,8 +1170,8 @@ def motion_camera_dict_to_ui(data):
         ui['proto'] = 'netcam'
 
         # resolutions
-        if data['netcam_url'].startswith('rtsp'):
-            # motion uses the configured width and height for RTSP cameras
+        if re.match(r'^rtsp|^rtmp', data['netcam_url']):
+            # motion uses the configured width and height for RTSP/RTMP cameras
             resolutions = utils.COMMON_RESOLUTIONS
             resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
             ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
