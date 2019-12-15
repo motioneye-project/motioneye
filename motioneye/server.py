@@ -27,11 +27,11 @@ import time
 
 from tornado.ioloop import IOLoop
 from tornado.web import Application
-from six.moves import xrange
 
 from motioneye import handlers
 from motioneye import settings
 from motioneye import template
+from motioneye import utils
 
 
 _PID_FILE = 'motioneye.pid'
@@ -234,15 +234,6 @@ def test_requirements():
     try:
         import tornado  # @UnusedImport
 
-        # Check tornado version:
-        # python2 - Any
-        # python3 - Up to 4.5.3
-
-        if sys.version_info[0] >= 3:
-            if tornado.version and tornado.version[0] >= '5':
-                logging.fatal('please install tornado version 4.5.3 or earlier (required by python3). You can use the following command "pip3 install tornado==4.5.3"')
-                sys.exit(-1)
-
     except ImportError:
         logging.fatal('please install tornado')
         sys.exit(-1)
@@ -326,9 +317,6 @@ def start_motion():
 
     # add a motion running checker
     def checker():
-        if io_loop._stopped:
-            return
-
         if not motionctl.running() and motionctl.started() and config.get_enabled_local_motion_cameras():
             try:
                 logging.error('motion not running, starting it')
