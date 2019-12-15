@@ -23,13 +23,15 @@ import os
 import os.path
 import StringIO
 import time
-import urllib
-import urllib2
 import pycurl
+
+from six.moves.urllib.error import HTTPError
+from six.moves.urllib.parse import urlencode
+from six.moves.urllib.parse import quote as urlquote
+from six.moves.urllib.request import Request
 
 from motioneye import settings
 from motioneye import utils
-from motioneye import config
 
 
 _STATE_FILE_NAME = 'uploadservices.json'
@@ -168,7 +170,7 @@ class GoogleBase:
             'access_type': 'offline'
         }
 
-        return cls.AUTH_URL + '?' + urllib.urlencode(query)
+        return cls.AUTH_URL + '?' + urlencode(query)
 
     def _test_access(self):
         try:
@@ -216,13 +218,13 @@ class GoogleBase:
         headers['Authorization'] = 'Bearer %s' % self._credentials['access_token']
 
         self.debug('requesting %s' % url)
-        request = urllib2.Request(url, data=body, headers=headers)
+        request = Request(url, data=body, headers=headers)
         if method:
             request.get_method = lambda: method
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except HTTPError as e:
             if e.code == 401 and retry_auth:  # unauthorized, access token may have expired
                 try:
                     self.debug('credentials have probably expired, refreshing them')
@@ -276,14 +278,14 @@ class GoogleBase:
             'scope': self.SCOPE,
             'grant_type': 'authorization_code'
         }
-        body = urllib.urlencode(body)
+        body = urlencode(body)
 
-        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
+        request = Request(self.TOKEN_URL, data=body, headers=headers)
 
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
 
@@ -305,14 +307,14 @@ class GoogleBase:
             'client_secret': self.CLIENT_NOT_SO_SECRET,
             'grant_type': 'refresh_token'
         }
-        body = urllib.urlencode(body)
+        body = urlencode(body)
 
-        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
+        request = Request(self.TOKEN_URL, data=body, headers=headers)
 
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
 
@@ -421,7 +423,7 @@ class GoogleDrive(UploadService, GoogleBase):
     def _get_folder_id_by_name(self, parent_id, child_name, create=True):
         if parent_id:
             query = self.CHILDREN_QUERY % {'parent_id': parent_id, 'child_name': child_name}
-            query = urllib.quote(query)
+            query = urlquote(query)
 
         else:
             query = ''
@@ -553,7 +555,7 @@ class GooglePhoto(UploadService, GoogleBase):
         dayinfo = datetime.datetime.fromtimestamp(ctime).strftime('%Y-%m-%d')
         uploadname = dayinfo + '-' + filename
 
-        body = data 
+        body = data
 
         headers = {
             'Content-Type': 'application/octet-stream',
@@ -685,7 +687,7 @@ class Dropbox(UploadService):
             'client_id': cls.CLIENT_ID
         }
 
-        return cls.AUTH_URL + '?' + urllib.urlencode(query)
+        return cls.AUTH_URL + '?' + urlencode(query)
 
     def test_access(self):
         body = {
@@ -772,11 +774,11 @@ class Dropbox(UploadService):
         headers['Authorization'] = 'Bearer %s' % self._credentials['access_token']
 
         self.debug('requesting %s' % url)
-        request = urllib2.Request(url, data=body, headers=headers)
+        request = Request(url, data=body, headers=headers)
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except HTTPError as e:
             if e.code == 401 and retry_auth:  # unauthorized, access token may have expired
                 try:
                     self.debug('credentials have probably expired, refreshing them')
@@ -816,14 +818,14 @@ class Dropbox(UploadService):
             'client_secret': self.CLIENT_NOT_SO_SECRET,
             'grant_type': 'authorization_code'
         }
-        body = urllib.urlencode(body)
+        body = urlencode(body)
 
-        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
+        request = Request(self.TOKEN_URL, data=body, headers=headers)
 
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
 

@@ -25,11 +25,12 @@ import re
 import socket
 import sys
 import time
-import urllib
-import urllib2
-import urlparse
 
 from PIL import Image, ImageDraw
+
+from six.moves.urllib import parse as urlparse
+from six.moves.urllib.parse import quote as urlquote
+from six.moves.urllib.request import urlopen as urllib_urlopen
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.iostream import IOStream
@@ -670,7 +671,7 @@ def compute_signature(method, path, body, key):
     query = [q for q in urlparse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
     query.sort(key=lambda q: q[0])
     # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
-    query = [(n, urllib.quote(v, safe="!'()*~")) for (n, v) in query]
+    query = [(n, urlquote(v, safe="!'()*~")) for (n, v) in query]
     query = '&'.join([(q[0] + '=' + q[1]) for q in query])
     parts[0] = parts[1] = ''
     parts[3] = query
@@ -838,7 +839,7 @@ def urlopen(*args, **kwargs):
 
         kwargs.setdefault('context', ctx)
 
-    return urllib2.urlopen(*args, **kwargs)
+    return urllib_urlopen(*args, **kwargs)
 
 
 def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_height=None):

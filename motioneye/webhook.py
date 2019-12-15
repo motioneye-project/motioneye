@@ -6,19 +6,20 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
 import logging
-import urllib2
-import urlparse
+
+from six.moves.urllib import parse as urlparse
+from six.moves.urllib.request import Request
 
 from motioneye import settings
 
@@ -33,17 +34,17 @@ def parse_options(parser, args):
 def main(parser, args):
     from motioneye import meyectl
     from motioneye import utils
-    
+
     options = parse_options(parser, args)
-    
+
     meyectl.configure_logging('webhook', options.log_to_file)
     meyectl.configure_tornado()
 
     logging.debug('hello!')
     logging.debug('method = %s' % options.method)
     logging.debug('url = %s' % options.url)
-    
-    headers = {}    
+
+    headers = {}
     parts = urlparse.urlparse(options.url)
     url = options.url
     data = None
@@ -67,7 +68,7 @@ def main(parser, args):
     else:  # GET
         pass
 
-    request = urllib2.Request(url, data, headers=headers)
+    request = Request(url, data, headers=headers)
     try:
         utils.urlopen(request, timeout=settings.REMOTE_REQUEST_TIMEOUT)
         logging.debug('webhook successfully called')
