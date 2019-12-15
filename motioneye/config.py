@@ -1043,7 +1043,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         data['@' + name] = value
 
     # extra motion options
-    for name in prev_config.keys():
+    for name in list(prev_config.keys()):
         if name not in _USED_MOTION_OPTIONS and not name.startswith('@'):
             prev_config.pop(name)
 

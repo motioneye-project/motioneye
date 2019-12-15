@@ -140,7 +140,7 @@ def _list_disks_dev_by_id():
             partition['partitions'] = [dict(partition)]
 
     # prepare flat list of disks
-    disks = disks_by_dev.values()
+    disks = list(disks_by_dev.values())
     disks.sort(key=lambda d: d['vendor'])
 
     for disk in disks:
