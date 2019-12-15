@@ -680,7 +680,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
             slices.setdefault(idx, []).append(m)
 
         selected = []
-        for i in xrange(max_idx + 1):
+        for i in range(max_idx + 1):
             s = slices.get(i)
             if not s:
                 continue

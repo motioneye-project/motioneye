@@ -891,9 +891,9 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
     im = Image.new('L', (width, height), 255)  # all white
     dr = ImageDraw.Draw(im)
 
-    for y in xrange(ny):
+    for y in range(ny):
         line = mask_lines[line_index_func(y)]
-        for x in xrange(nx):
+        for x in range(nx):
             if line & (1 << (MASK_WIDTH - 1 - x)):
                 dr.rectangle((x * rw, y * rh, (x + 1) * rw - 1, (y + 1) * rh - 1), fill=0)
 
@@ -902,7 +902,7 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
 
     if ry:
         line = mask_lines[line_index_func(ny)]
-        for x in xrange(nx):
+        for x in range(nx):
             if line & (1 << (MASK_WIDTH - 1 - x)):
                 dr.rectangle((x * rw, ny * rh, (x + 1) * rw - 1, ny * rh + ry - 1), fill=0)
 
@@ -983,9 +983,9 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
 
     # parse the image contents and build the mask lines
     mask_lines = [width, height]
-    for y in xrange(ny):
+    for y in range(ny):
         bits = []
-        for x in xrange(nx):
+        for x in range(nx):
             px = int((x + 0.5) * rw)
             py = int((y + 0.5) * rh)
             pixel = pixels[py * width + px]
@@ -1007,7 +1007,7 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
 
     if ry:
         bits = []
-        for x in xrange(nx):
+        for x in range(nx):
             px = int((x + 0.5) * rw)
             py = int(ny * rh + ry / 2)
             pixel = pixels[py * width + px]
