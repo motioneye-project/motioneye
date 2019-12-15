@@ -21,11 +21,11 @@ import logging
 import mimetypes
 import os
 import os.path
-import StringIO
 import time
 import pycurl
 import six
 
+from six.moves import StringIO
 from six.moves.urllib.error import HTTPError
 from six.moves.urllib.parse import urlencode
 from six.moves.urllib.parse import quote as urlquote
