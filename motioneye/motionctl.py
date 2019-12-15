@@ -25,11 +25,11 @@ import time
 
 from tornado.ioloop import IOLoop
 
-import mediafiles
-import powerctl
-import settings
-import update
-import utils
+from motioneye import mediafiles
+from motioneye import powerctl
+from motioneye import settings
+from motioneye import update
+from motioneye import utils
 
 _MOTION_CONTROL_TIMEOUT = 5
 

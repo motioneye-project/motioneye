@@ -22,8 +22,6 @@ import os.path
 import pipes
 import sys
 
-from six.moves import xrange
-
 # make sure motioneye is on python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
