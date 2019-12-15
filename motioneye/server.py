@@ -69,9 +69,9 @@ class Daemon(object):
         # redirect standard file descriptors
         sys.stdout.flush()
         sys.stderr.flush()
-        si = file('/dev/null', 'r')
-        so = file('/dev/null', 'a+')
-        se = file('/dev/null', 'a+', 0)
+        si = open('/dev/null', 'r')
+        so = open('/dev/null', 'a+')
+        se = open('/dev/null', 'a+', 0)
         os.dup2(si.fileno(), sys.stdin.fileno())
         os.dup2(so.fileno(), sys.stdout.fileno())
         os.dup2(se.fileno(), sys.stderr.fileno())
@@ -244,7 +244,7 @@ def test_requirements():
                 sys.exit(-1)
 
     except ImportError:
-        logging.fatal('please install tornado version 3.1 or greater')
+        logging.fatal('please install tornado')
         sys.exit(-1)
 
     try:
