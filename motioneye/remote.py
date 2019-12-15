@@ -19,6 +19,7 @@ import functools
 import json
 import logging
 import re
+import six
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 
@@ -48,7 +49,7 @@ def _make_request(scheme, host, port, username, password, path, method='GET', da
     else:
         url += '?'
 
-    url += '&'.join([(n + '=' + v) for (n, v) in query.iteritems()])
+    url += '&'.join([(n + '=' + v) for (n, v) in six.iteritems(query)])
     url += '&_signature=' + utils.compute_signature(method, url, data, password)
 
     if timeout is None:

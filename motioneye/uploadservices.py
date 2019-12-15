@@ -24,6 +24,7 @@ import os.path
 import StringIO
 import time
 import pycurl
+import six
 
 from six.moves.urllib.error import HTTPError
 from six.moves.urllib.parse import urlencode
@@ -1136,8 +1137,8 @@ def _load():
         finally:
             f.close()
 
-        for camera_id, d in data.iteritems():
-            for name, state in d.iteritems():
+        for camera_id, d in six.iteritems(data):
+            for name, state in six.iteritems(d):
                 camera_services = services.setdefault(camera_id, {})
                 cls = UploadService.get_service_classes().get(name)
 
@@ -1158,8 +1159,8 @@ def _save(services):
     logging.debug('saving upload services state to "%s"...' % file_path)
 
     data = {}
-    for camera_id, camera_services in services.iteritems():
-        for name, service in camera_services.iteritems():
+    for camera_id, camera_services in six.iteritems(services):
+        for name, service in six.iteritems(camera_services):
             data.setdefault(str(camera_id), {})[name] = service.dump()
 
     try:

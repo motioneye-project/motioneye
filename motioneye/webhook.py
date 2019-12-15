@@ -17,6 +17,7 @@
 
 import json
 import logging
+import six
 
 from six.moves.urllib import parse as urlparse
 from six.moves.urllib.request import Request
@@ -61,7 +62,7 @@ def main(parser, args):
     elif options.method == 'POSTj':  # json
         headers['Content-Type'] = 'application/json'
         data = urlparse.parse_qs(parts.query)
-        data = {k: v[0] for (k, v) in data.iteritems()}
+        data = {k: v[0] for (k, v) in six.iteritems(data)}
         data = json.dumps(data)
         url = options.url.split('?')[0]
 

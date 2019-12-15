@@ -862,7 +862,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             logging.error('failed to create root directory "%s": %s' % (data['target_dir'], e), exc_info=True)
 
     if ui['upload_enabled'] and '@id' in prev_config:
-        upload_settings = {k[7:]: ui[k] for k in ui.iterkeys() if k.startswith('upload_')}
+        upload_settings = {k[7:]: ui[k] for k in six.iterkeys(ui) if k.startswith('upload_')}
 
         tasks.add(0, uploadservices.update, tag='uploadservices.update(%s)' % ui['upload_service'],
                   camera_id=prev_config['@id'], service_name=ui['upload_service'], settings=upload_settings)
