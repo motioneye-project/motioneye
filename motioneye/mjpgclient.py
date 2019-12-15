@@ -139,13 +139,13 @@ class MjpgClient(IOStream):
             logging.debug('mjpg client using basic authentication')
 
             auth_header = utils.build_basic_header(self._username, self._password)
-            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
+            self.write(b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
 
         elif self._auth_mode == 'digest':  # in digest auth mode, the header is built upon receiving 401
-            self.write('GET / HTTP/1.1\r\n\r\n'.encode('utf-8'))
+            self.write(b'GET / HTTP/1.1\r\n\r\n')
 
         else:  # no authentication
-            self.write('GET / HTTP/1.1\r\nConnection: close\r\n\r\n')
+            self.write(b'GET / HTTP/1.1\r\nConnection: close\r\n\r\n')
 
         self._seek_http()
 
@@ -156,7 +156,7 @@ class MjpgClient(IOStream):
         self.read_until_regex(b'HTTP/1.\d \d+ ', self._on_http)
 
     def _on_http(self, data):
-        if data.endswith('401 '):
+        if data.endswith(b'401 '):
             self._seek_www_authenticate()
 
         else:  # no authorization required, skip to content length
@@ -185,7 +185,7 @@ class MjpgClient(IOStream):
             logging.debug('mjpg client using basic authentication')
 
             auth_header = utils.build_basic_header(self._username, self._password)
-            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
+            self.write(b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
             self._seek_http()
 
             return
@@ -200,7 +200,7 @@ class MjpgClient(IOStream):
             self._auth_digest_state = parts_dict
 
             auth_header = utils.build_digest_header('GET', '/', self._username, self._password, self._auth_digest_state)
-            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
+            self.write(b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
             self._seek_http()
 
             return
@@ -224,7 +224,7 @@ class MjpgClient(IOStream):
         if self._check_error():
             return
 
-        matches = re.findall(b'(\d+)', data)
+        matches = re.findall(rb'(\d+)', data)
         if not matches:
             self._error('could not find content length in mjpg header line "%(header)s"' % {
                     'header': data})
