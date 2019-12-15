@@ -442,7 +442,7 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
 
 def test_rtsp_url(data, callback):
-    import motionctl
+    from motioneye import motionctl
 
     scheme = data.get('scheme', 'rtsp')
     host = data.get('host', '127.0.0.1')
@@ -599,7 +599,7 @@ def test_rtsp_url(data, callback):
         called[0] = True
         cameras = []
         if identifier:
-            identifier = ' ' + identifier
+            identifier = ' ' + identifier.decode()
 
         else:
             identifier = ''

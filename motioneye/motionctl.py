@@ -53,12 +53,14 @@ def find_motion():
     else:  # autodetect motion binary path
         try:
             binary = subprocess.check_output(['which', 'motion'], stderr=utils.DEV_NULL).strip()
+            binary = binary.decode()
 
         except subprocess.CalledProcessError:  # not found
             return None, None
 
     try:
         help = subprocess.check_output(binary + ' -h || true', shell=True)
+        help = help.decode()
 
     except subprocess.CalledProcessError:  # not found
         return None, None
@@ -74,8 +76,8 @@ def find_motion():
 
 
 def start(deferred=False):
-    import config
-    import mjpgclient
+    from motioneye import config
+    from motioneye import mjpgclient
 
     if deferred:
         io_loop = IOLoop.instance()
@@ -144,7 +146,7 @@ def start(deferred=False):
 
 
 def stop(invalidate=False):
-    import mjpgclient
+    from motioneye import mjpgclient
 
     global _started
 

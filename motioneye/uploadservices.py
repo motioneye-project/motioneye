@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
 import ftplib
 import json
 import logging
@@ -26,10 +27,10 @@ import urllib
 import urllib2
 import pycurl
 
-import settings
-import utils
-import config
-import datetime
+from motioneye import settings
+from motioneye import utils
+from motioneye import config
+
 
 _STATE_FILE_NAME = 'uploadservices.json'
 _services = None
