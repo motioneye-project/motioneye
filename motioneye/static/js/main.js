@@ -1,6 +1,7 @@
 
 var USERNAME_COOKIE = 'meye_username';
 var PASSWORD_COOKIE = 'meye_password_hash';
+var CAMERA_FRAMES_CACHE_LIFETIME = 1000;
 
 var pushConfigs = {};
 var pushConfigReboot = false;
@@ -26,6 +27,10 @@ var overlayVisible = false;
 var layoutColumns = 1;
 var fitFramesVertically = false;
 var layoutRows = 1;
+var modalContainer = null;
+var cameraFramesCached = null;
+var cameraFramesTime = 0;
+var qualifyURLElement;
 
 
     /* Object utilities */
@@ -326,9 +331,8 @@ function splitUrl(url) {
 }
 
 function qualifyUrl(url) {
-    var a = document.createElement('a');
-    a.href = url;
-    return a.href;
+    qualifyURLElement.href = url;
+    return qualifyURLElement.href;
 }
 
 function qualifyPath(path) {
@@ -1022,7 +1026,13 @@ function getPageContainer() {
 }
 
 function getCameraFrames() {
-    return getPageContainer().children('div.camera-frame');
+    var now = new Date().getTime();
+    if (now - cameraFramesTime > CAMERA_FRAMES_CACHE_LIFETIME || !cameraFramesCached) {
+        cameraFramesCached = getPageContainer().children('div.camera-frame');
+        cameraFramesTime = now;
+    }
+
+    return cameraFramesCached;
 }
 
 function getCameraFrame(cameraId) {
@@ -3605,7 +3615,7 @@ function runPictureDialog(entries, pos, mediaType) {
             progressImg.remove();
         });
 
-        $('div.modal-container').find('span.modal-title:last').html(entry.name);
+        modalContainer.find('span.modal-title:last').html(entry.name);
         updateModalDialogPosition();
     }
 
@@ -4148,7 +4158,7 @@ function runMediaDialog(cameraId, mediaType) {
 
     /* add a temporary div to compute 3em in px */
     var tempDiv = $('<div style="width: 3em; height: 3em;"></div>');
-    $('div.modal-container').append(tempDiv);
+    modalContainer.append(tempDiv);
     var height = tempDiv.height();
     tempDiv.remove();
 
@@ -5049,7 +5059,7 @@ function isFullScreen() {
 function refreshCameraFrames() {
     var timestamp = new Date().getTime();
 
-    if ($('div.modal-container').is(':visible')) {
+    if (modalContainer.css('display') != 'none') {
         /* pause camera refresh if hidden by a dialog */
         return setTimeout(refreshCameraFrames, 1000);
     }
@@ -5167,6 +5177,9 @@ function checkCameraErrors() {
     /* startup function */
 
 $(document).ready(function () {
+    modalContainer = $('div.modal-container');
+    qualifyURLElement = document.createElement('a');
+
     /* detect base path */
     if (frame) {
         window.basePath = qualifyPath('../../../');
