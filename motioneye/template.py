@@ -17,8 +17,8 @@
 
 from jinja2 import Environment, FileSystemLoader
 
-import settings
-import utils
+from motioneye import settings
+from motioneye import utils
 
 
 _jinja_env = None

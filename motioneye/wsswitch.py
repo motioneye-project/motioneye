@@ -21,9 +21,9 @@ import logging
 
 from tornado.ioloop import IOLoop
 
-import config
-import motionctl
-import utils
+from motioneye import config
+from motioneye import motionctl
+from motioneye import utils
 
 
 def start():

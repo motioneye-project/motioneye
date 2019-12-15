@@ -25,11 +25,12 @@ import re
 import socket
 import sys
 import time
-import urllib
-import urllib2
-import urlparse
 
 from PIL import Image, ImageDraw
+
+from six.moves.urllib import parse as urlparse
+from six.moves.urllib.parse import quote as urlquote
+from six.moves.urllib.request import urlopen as urllib_urlopen
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.iostream import IOStream
@@ -252,7 +253,7 @@ def pretty_http_error(response):
     if not response.error:
         return 'ok'
 
-    msg = unicode(response.error)
+    msg = make_str(response.error)
     if msg.startswith('HTTP '):
         msg = msg.split(':', 1)[-1].strip()
 
@@ -273,26 +274,15 @@ def make_str(s):
         return str(s)
 
     except:
-        try:
-            return unicode(s, encoding='utf8').encode('utf8')
+        if sys.version_info[0] < 3:
+            try:
+                return unicode(s, encoding='utf8').encode('utf8')
 
-        except:
-            return unicode(s).encode('utf8')
+            except:
+                return unicode(s).encode('utf8')
 
-
-def make_unicode(s):
-    if isinstance(s, unicode):
-        return s
-
-    try:
-        return unicode(s, encoding='utf8')
-
-    except:
-        try:
-            return unicode(s)
-
-        except:
-            return str(s).decode('utf8')
+        else:
+            return ''
 
 
 def split_semicolon(s):
@@ -319,7 +309,7 @@ def get_disk_usage(path):
         result = os.statvfs(path)
 
     except OSError as e:
-        logging.error('failed to execute statvfs: %(msg)s' % {'msg': unicode(e)})
+        logging.error('failed to execute statvfs: %(msg)s' % {'msg': make_str(e)})
 
         return None
 
@@ -442,7 +432,7 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
 
 def test_rtsp_url(data, callback):
-    import motionctl
+    from motioneye import motionctl
 
     scheme = data.get('scheme', 'rtsp')
     host = data.get('host', '127.0.0.1')
@@ -599,7 +589,7 @@ def test_rtsp_url(data, callback):
         called[0] = True
         cameras = []
         if identifier:
-            identifier = ' ' + identifier
+            identifier = ' ' + identifier.decode()
 
         else:
             identifier = ''
@@ -614,7 +604,7 @@ def test_rtsp_url(data, callback):
             return
 
         called[0] = True
-        logging.error('rtsp client error: %s' % unicode(e))
+        logging.error('rtsp client error: %s' % make_str(e))
 
         try:
             stream.close()
@@ -622,7 +612,7 @@ def test_rtsp_url(data, callback):
         except:
             pass
 
-        callback(error=unicode(e))
+        callback(error=make_str(e))
 
     def check_error():
         error = getattr(stream, 'error', None)
@@ -670,7 +660,7 @@ def compute_signature(method, path, body, key):
     query = [q for q in urlparse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
     query.sort(key=lambda q: q[0])
     # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
-    query = [(n, urllib.quote(v, safe="!'()*~")) for (n, v) in query]
+    query = [(n, urlquote(v, safe="!'()*~")) for (n, v) in query]
     query = '&'.join([(q[0] + '=' + q[1]) for q in query])
     parts[0] = parts[1] = ''
     parts[3] = query
@@ -838,7 +828,7 @@ def urlopen(*args, **kwargs):
 
         kwargs.setdefault('context', ctx)
 
-    return urllib2.urlopen(*args, **kwargs)
+    return urllib_urlopen(*args, **kwargs)
 
 
 def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_height=None):
@@ -890,9 +880,9 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
     im = Image.new('L', (width, height), 255)  # all white
     dr = ImageDraw.Draw(im)
 
-    for y in xrange(ny):
+    for y in range(ny):
         line = mask_lines[line_index_func(y)]
-        for x in xrange(nx):
+        for x in range(nx):
             if line & (1 << (MASK_WIDTH - 1 - x)):
                 dr.rectangle((x * rw, y * rh, (x + 1) * rw - 1, (y + 1) * rh - 1), fill=0)
 
@@ -901,7 +891,7 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
 
     if ry:
         line = mask_lines[line_index_func(ny)]
-        for x in xrange(nx):
+        for x in range(nx):
             if line & (1 << (MASK_WIDTH - 1 - x)):
                 dr.rectangle((x * rw, ny * rh, (x + 1) * rw - 1, ny * rh + ry - 1), fill=0)
 
@@ -982,9 +972,9 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
 
     # parse the image contents and build the mask lines
     mask_lines = [width, height]
-    for y in xrange(ny):
+    for y in range(ny):
         bits = []
-        for x in xrange(nx):
+        for x in range(nx):
             px = int((x + 0.5) * rw)
             py = int((y + 0.5) * rh)
             pixel = pixels[py * width + px]
@@ -1006,7 +996,7 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
 
     if ry:
         bits = []
-        for x in xrange(nx):
+        for x in range(nx):
             px = int((x + 0.5) * rw)
             py = int(ny * rh + ry / 2)
             pixel = pixels[py * width + px]
