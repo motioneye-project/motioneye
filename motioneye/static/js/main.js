@@ -1456,6 +1456,9 @@ function updateConfigUI() {
     if (!isAdmin()) {
         $('#generalSectionDiv').each(markHideLogic);
         $('#generalSectionDiv').next().each(markHideLogic);
+
+        $('div.settings-section-title.additional-section').each(markHideLogic);
+        $('div.settings-section-title.additional-section').next().each(markHideLogic);
     }
 
     var query = splitUrl().params;

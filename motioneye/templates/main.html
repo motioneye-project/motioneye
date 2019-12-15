@@ -222,7 +222,7 @@
                     <!-- Additional Main Sections -->
                     {% for section in main_sections.values() %}
                     {% if section.get('label') and section.get('configs') %}
-                    <div class="settings-section-title">
+                    <div class="settings-section-title additional-section">
                         {% if section.get('onoff') %}<input type="checkbox" class="styled section additional-section {{section['name']}} main-config" id="{{section['name']}}Switch">{% endif %}
                         {% if section.get('description') %}<span class="help-mark" title="{{section['description']}}">?</span>{% endif %}
                         <a class="settings-section-title">{{section['label']}}</a>
