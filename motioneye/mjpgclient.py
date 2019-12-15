@@ -123,7 +123,7 @@ class MjpgClient(IOStream):
 
     def _error(self, error):
         logging.error('mjpg client for camera %(camera_id)s on port %(port)s error: %(msg)s' % {
-                'port': self._port, 'camera_id': self._camera_id, 'msg': unicode(error)})
+                'port': self._port, 'camera_id': self._camera_id, 'msg': utils.make_str(error)})
 
         try:
             self.close()

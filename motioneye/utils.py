@@ -253,7 +253,7 @@ def pretty_http_error(response):
     if not response.error:
         return 'ok'
 
-    msg = unicode(response.error)
+    msg = make_str(response.error)
     if msg.startswith('HTTP '):
         msg = msg.split(':', 1)[-1].strip()
 
@@ -274,26 +274,15 @@ def make_str(s):
         return str(s)
 
     except:
-        try:
-            return unicode(s, encoding='utf8').encode('utf8')
+        if sys.version_info[0] < 3:
+            try:
+                return unicode(s, encoding='utf8').encode('utf8')
 
-        except:
-            return unicode(s).encode('utf8')
+            except:
+                return unicode(s).encode('utf8')
 
-
-def make_unicode(s):
-    if isinstance(s, unicode):
-        return s
-
-    try:
-        return unicode(s, encoding='utf8')
-
-    except:
-        try:
-            return unicode(s)
-
-        except:
-            return str(s).decode('utf8')
+        else:
+            return ''
 
 
 def split_semicolon(s):
@@ -320,7 +309,7 @@ def get_disk_usage(path):
         result = os.statvfs(path)
 
     except OSError as e:
-        logging.error('failed to execute statvfs: %(msg)s' % {'msg': unicode(e)})
+        logging.error('failed to execute statvfs: %(msg)s' % {'msg': make_str(e)})
 
         return None
 
@@ -615,7 +604,7 @@ def test_rtsp_url(data, callback):
             return
 
         called[0] = True
-        logging.error('rtsp client error: %s' % unicode(e))
+        logging.error('rtsp client error: %s' % make_str(e))
 
         try:
             stream.close()
@@ -623,7 +612,7 @@ def test_rtsp_url(data, callback):
         except:
             pass
 
-        callback(error=unicode(e))
+        callback(error=make_str(e))
 
     def check_error():
         error = getattr(stream, 'error', None)

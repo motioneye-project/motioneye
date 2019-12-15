@@ -354,7 +354,7 @@ class ConfigHandler(BaseHandler):
             ui_config = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+            logging.error('could not decode json: %(msg)s' % {'msg': utils.make_str(e)})
 
             raise
 
@@ -689,7 +689,7 @@ class ConfigHandler(BaseHandler):
             device_details = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+            logging.error('could not decode json: %(msg)s' % {'msg': utils.make_str(e)})
 
             raise
 
@@ -1158,7 +1158,7 @@ class PictureHandler(BaseHandler):
                 self.finish_json()
 
             except Exception as e:
-                self.finish_json({'error': unicode(e)})
+                self.finish_json({'error': utils.make_str(e)})
 
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):
@@ -1369,7 +1369,7 @@ class PictureHandler(BaseHandler):
                 self.finish_json()
 
             except Exception as e:
-                self.finish_json({'error': unicode(e)})
+                self.finish_json({'error': utils.make_str(e)})
 
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):
@@ -1389,7 +1389,7 @@ class PictureHandler(BaseHandler):
             self.finish(content)
 
         except IOError as e:
-            logging.warning('could not write response: %(msg)s' % {'msg': unicode(e)})
+            logging.warning('could not write response: %(msg)s' % {'msg': utils.make_str(e)})
 
 
 class MovieHandler(BaseHandler):
@@ -1511,7 +1511,7 @@ class MovieHandler(BaseHandler):
                 self.finish_json()
 
             except Exception as e:
-                self.finish_json({'error': unicode(e)})
+                self.finish_json({'error': utils.make_str(e)})
 
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):
@@ -1538,7 +1538,7 @@ class MovieHandler(BaseHandler):
                 self.finish_json()
 
             except Exception as e:
-                self.finish_json({'error': unicode(e)})
+                self.finish_json({'error': utils.make_str(e)})
 
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):

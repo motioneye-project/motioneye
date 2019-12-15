@@ -129,7 +129,7 @@ def _list_media_files(directory, exts, prefix=None):
                 st = os.stat(full_path)
 
             except Exception as e:
-                logging.error('stat failed: ' + unicode(e))
+                logging.error('stat failed: ' + utils.make_str(e))
                 continue
 
             if not stat.S_ISREG(st.st_mode):  # not a regular file
@@ -333,7 +333,7 @@ def make_movie_preview(camera_config, full_path):
 
     except subprocess.CalledProcessError as e:
         logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
-                'path': full_path, 'msg': unicode(e)})
+                'path': full_path, 'msg': utils.make_str(e)})
 
         return None
 
@@ -357,7 +357,7 @@ def make_movie_preview(camera_config, full_path):
 
         except subprocess.CalledProcessError as e:
             logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
-                    'path': full_path, 'msg': unicode(e)})
+                    'path': full_path, 'msg': utils.make_str(e)})
 
             return None
 
@@ -482,7 +482,7 @@ def get_media_content(camera_config, path, media_type):
 
     except Exception as e:
         logging.error('failed to read file %(path)s: %(msg)s' % {
-                'path': full_path, 'msg': unicode(e)})
+                'path': full_path, 'msg': utils.make_str(e)})
 
         return None
 
@@ -821,7 +821,7 @@ def get_media_preview(camera_config, path, media_type, width, height):
 
     except Exception as e:
         logging.error('failed to read file %(path)s: %(msg)s' % {
-                'path': full_path, 'msg': unicode(e)})
+                'path': full_path, 'msg': utils.make_str(e)})
 
         return None
 
@@ -881,7 +881,7 @@ def del_media_content(camera_config, path, media_type):
 
     except Exception as e:
         logging.error('failed to remove file %(path)s: %(msg)s' % {
-                'path': full_path, 'msg': unicode(e)})
+                'path': full_path, 'msg': utils.make_str(e)})
 
         raise
 
@@ -906,7 +906,7 @@ def del_media_group(camera_config, group, media_type):
 
         except Exception as e:
             logging.error('failed to remove file %(path)s: %(msg)s' % {
-                    'path': full_path, 'msg': unicode(e)})
+                    'path': full_path, 'msg': utils.make_str(e)})
 
             raise
 

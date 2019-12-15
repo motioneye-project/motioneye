@@ -336,7 +336,7 @@ def start_motion():
 
             except Exception as e:
                 logging.error('failed to start motion: %(msg)s' % {
-                        'msg': unicode(e)}, exc_info=True)
+                        'msg': utils.make_str(e)}, exc_info=True)
 
         io_loop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
 
