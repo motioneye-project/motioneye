@@ -321,7 +321,7 @@ def set_motion_detected(camera_id, motion_detected):
 
 
 def camera_id_to_motion_camera_id(camera_id):
-    import config
+    from motioneye import config
 
     # find the corresponding motion camera_id
     # (which can be different from camera_id)
@@ -340,7 +340,7 @@ def camera_id_to_motion_camera_id(camera_id):
 
 
 def motion_camera_id_to_camera_id(motion_camera_id):
-    import config
+    from motioneye import config
 
     main_config = config.get_main()
     cameras = main_config.get('camera', [])
@@ -393,7 +393,7 @@ def resolution_is_valid(width, height):
 
 
 def _disable_initial_motion_detection():
-    import config
+    from motioneye import config
 
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
