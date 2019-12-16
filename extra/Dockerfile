@@ -1,4 +1,4 @@
-FROM ubuntu:18.10
+FROM ubuntu:19.10
 LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
 ARG BUILD_DATE
@@ -20,29 +20,28 @@ RUN apt-get update && \
     curl \
     ffmpeg \
     libmicrohttpd12 \
-    libmysqlclient20 \
+    libmysqlclient21 \
     libpq5 \
     lsb-release \
     mosquitto-clients \
-    python-jinja2 \
-    python-pil \
-    python-pip \
-    python-pycurl \
-    python-setuptools \
-    python-tornado \
-    python-tz \
-    python-wheel \
+    motion \
+    python3-jinja2 \
+    python3-pil \
+    python3-pip \
+    python3-pycurl \
+    python3-setuptools \
+    python3-six \
+    python3-tornado \
+    python3-tz \
+    python3-wheel \
     tzdata \
     v4l-utils && \
-    curl -L --output /tmp/motion.deb https://github.com/Motion-Project/motion/releases/download/release-4.2.2/cosmic_motion_4.2.2-1_amd64.deb && \
-    dpkg -i /tmp/motion.deb && \
-    rm /tmp/motion.deb && \
-    pip install /tmp/motioneye && \
+    pip3 install /tmp/motioneye && \
     rm -rf /tmp/motioneye && \
     apt-get purge --yes \
-    python-pip \
-    python-setuptools \
-    python-wheel && \
+    python3-pip \
+    python3-setuptools \
+    python3-wheel && \
     apt-get autoremove --yes && \
     apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
