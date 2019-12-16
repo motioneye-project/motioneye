@@ -631,8 +631,6 @@ def test_rtsp_url(data, callback):
     stream = connect()
 
 def test_rtmp_url(data, callback):
-    import motionctl
-
     scheme = data.get('scheme', 'rtmp')
     host = data.get('host', '127.0.0.1')
     port = data.get('port') or '1935'
