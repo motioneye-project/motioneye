@@ -26,7 +26,7 @@ import settings
 import utils
 
 _DOUBLE_SLASH_REGEX = re.compile('//+')
-
+logging.basicConfig(level=logging.DEBUG)
 
 def _make_request(scheme, host, port, username, password, path, method='GET', data=None, query=None,
                   timeout=None, content_type=None):

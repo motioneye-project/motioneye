@@ -21,7 +21,7 @@ import os.path
 
 import settings
 
-
+logging.basicConfig(level=logging.DEBUG)
 _PREFS_FILE_NAME = 'prefs.json'
 _DEFAULT_PREFS = {
     'layout_columns': 3,

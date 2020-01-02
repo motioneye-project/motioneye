@@ -20,7 +20,7 @@ import os
 import subprocess
 import utils
 
-
+logging.basicConfig(level=logging.DEBUG)
 def _find_prog(prog):
     try:
         return subprocess.check_output(['which', prog], stderr=utils.DEV_NULL).strip()
@@ -31,7 +31,6 @@ def _find_prog(prog):
 
 def _exec_prog(prog):
     logging.info('executing "%s"' % prog)
-    
     return os.system(prog) == 0
 
 
