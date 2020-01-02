@@ -76,6 +76,7 @@ def find_motion():
 def start(deferred=False):
     import config
     import mjpgclient
+    import sys
 
     if deferred:
         io_loop = IOLoop.instance()
@@ -122,7 +123,11 @@ def start(deferred=False):
     process = subprocess.Popen(args, stdout=log_file, stderr=log_file, close_fds=True, cwd=settings.CONF_PATH)
 
     # wait 2 seconds to see that the process has successfully started
-    for i in xrange(20):  # @UnusedVariable
+    if sys.version[0] == 3:
+        rangeInit = range(20)
+    else:
+        rangeInit = xrange(20)
+    for i in rangeInit:  # @UnusedVariable
         time.sleep(0.1)
         exit_code = process.poll()
         if exit_code is not None and exit_code != 0:
