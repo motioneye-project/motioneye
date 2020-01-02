@@ -22,6 +22,7 @@ import re
 import signal
 import subprocess
 import time
+import sys
 
 from tornado.ioloop import IOLoop
 
@@ -37,6 +38,12 @@ _started = False
 _motion_binary_cache = None
 _motion_detected = {}
 
+# select range function call based on Python version
+def _rangeOptim(x):
+    if sys.version[0] == 3:
+        return range(x)
+    else:
+        return xrange(x)
 
 def find_motion():
     global _motion_binary_cache
@@ -75,8 +82,7 @@ def find_motion():
 
 def start(deferred=False):
     import config
-    import mjpgclient
-    import sys
+    import mjpgclient    
 
     if deferred:
         io_loop = IOLoop.instance()
@@ -123,11 +129,7 @@ def start(deferred=False):
     process = subprocess.Popen(args, stdout=log_file, stderr=log_file, close_fds=True, cwd=settings.CONF_PATH)
 
     # wait 2 seconds to see that the process has successfully started
-    if sys.version[0] == 3:
-        rangeInit = range(20)
-    else:
-        rangeInit = xrange(20)
-    for i in rangeInit:  # @UnusedVariable
+    for i in _rangeOptim(20):  # @UnusedVariable
         time.sleep(0.1)
         exit_code = process.poll()
         if exit_code is not None and exit_code != 0:
@@ -167,9 +169,8 @@ def stop(invalidate=False):
         try:
             # send the TERM signal once
             os.kill(pid, signal.SIGTERM)
-
             # wait 5 seconds for the process to exit
-            for i in xrange(50):  # @UnusedVariable
+            for i in _rangeOptim(50):  # @UnusedVariable
                 os.waitpid(pid, os.WNOHANG)
                 time.sleep(0.1)
 
@@ -177,7 +178,7 @@ def stop(invalidate=False):
             os.kill(pid, signal.SIGKILL)
 
             # wait 2 seconds for the process to exit
-            for i in xrange(20):  # @UnusedVariable
+            for i in _rangeOptim(20):  # @UnusedVariable
                 time.sleep(0.1)
                 os.waitpid(pid, os.WNOHANG)
 
