@@ -1,5 +1,4 @@
-dist: trusty
-sudo: true
+language: python
 
 notifications:
   email:
@@ -12,6 +11,10 @@ env:
   - TARGET=amd64 EXT=""
   - TARGET=armhf EXT=".armv7-armhf"
 
+before_script:
+  - pip install flake8
+  - flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+
 script:
   - docker info
   - docker run --rm --privileged multiarch/qemu-user-static:register --reset
@@ -19,4 +22,3 @@ script:
   - docker run --rm $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET uname -a
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo $DOCKER_PASSWORD | docker login -u "$DOCKER_USERNAME" --password-stdin; fi'
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET; fi'
-
