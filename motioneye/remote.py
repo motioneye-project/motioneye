@@ -98,11 +98,10 @@ def pretty_camera_url(local_config, camera=True):
         url = url[:-1]
 
     if camera:
-        if camera is True:
-            url += '/config/' + str(local_config.get('@remote_camera_id', local_config.get('remote_camera_id')))
-        
-        else:
-            url += '/config/' + str(camera)
+        url += '/config/' + str(local_config.get('@remote_camera_id', local_config.get('remote_camera_id')))
+    
+    else:
+        url += '/config/' + str(camera)
 
     return url
 
