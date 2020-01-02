@@ -29,7 +29,7 @@ import settings
 
 _process = None
 
-
+logging.basicConfig(level=logging.DEBUG)
 def start():
     if not settings.CLEANUP_INTERVAL:
         return
