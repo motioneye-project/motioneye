@@ -19,6 +19,7 @@ import logging
 import subprocess
 import time
 import urllib
+import sys
 
 import config
 
@@ -31,7 +32,10 @@ _interval_by_camera_id = {}
 
 
 def get_monitor_info(camera_id):
-    now = time.time()
+    if sys.platform[:3] == 'win':
+        now = time.clock()
+    else:
+        now = time.time()
     command = config.get_monitor_command(camera_id)
     if command is None:
         return ''
