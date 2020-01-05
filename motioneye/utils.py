@@ -37,6 +37,11 @@ from tornado.ioloop import IOLoop
 
 import settings
 
+try:
+    unicode  # Python 2
+except NameError:
+    unicode = str  # Python 3
+
 
 _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
