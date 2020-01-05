@@ -25,7 +25,8 @@ class SdistCommand(sdist):
         dropbox_keys_file = os.path.join(os.getcwd(), base_dir, 'extra', 'dropbox.keys')
         if os.path.exists(dropbox_keys_file):
             g = {}
-            execfile(dropbox_keys_file, g)
+            with open(dropbox_keys_file) as in_file:
+               exec(in_file.read(), g)
             upload_services_file = os.path.join(os.getcwd(), base_dir, 'motioneye', 'uploadservices.py')
             if os.system("sed -i 's/dropbox_client_id_placeholder/%s/' %s" % (g['CLIENT_ID'], upload_services_file)):
                 raise Exception('failed to patch uploadservices.py')
