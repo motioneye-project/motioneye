@@ -20,7 +20,7 @@ class SdistCommand(sdist):
     def make_release_tree(self, base_dir, files):
         sdist.make_release_tree(self, base_dir, files)
         self.apply_patches(base_dir)
-        
+
     def apply_patches(self, base_dir):
         dropbox_keys_file = os.path.join(os.getcwd(), base_dir, 'extra', 'dropbox.keys')
         if os.path.exists(dropbox_keys_file):
@@ -64,7 +64,7 @@ setup(
 
     packages=['motioneye'],
 
-    install_requires=['tornado>=3.1,<6', 'jinja2', 'pillow', 'pycurl'],
+    install_requires=['tornado>=3.1,<6', 'jinja2', 'pillow', 'pycurl', 'six'],
 
     package_data={
         'motioneye': [
@@ -85,7 +85,7 @@ setup(
             'meyectl=motioneye.meyectl:main',
         ],
     },
-    
+
     cmdclass={
         'sdist': SdistCommand
     }

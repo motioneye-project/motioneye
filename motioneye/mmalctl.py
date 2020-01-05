@@ -18,7 +18,7 @@
 import logging
 import subprocess
 
-import utils
+from motioneye import utils
 
 
 def list_devices():

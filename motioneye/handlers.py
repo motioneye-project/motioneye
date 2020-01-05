@@ -21,29 +21,30 @@ import json
 import logging
 import os
 import re
+import smtplib
 import socket
 import subprocess
 
 from tornado.ioloop import IOLoop
 from tornado.web import RequestHandler, StaticFileHandler, HTTPError, asynchronous
 
-import config
-import mediafiles
-import mjpgclient
-import mmalctl
-import monitor
-import motionctl
-import powerctl
-import prefs
-import remote
-import settings
-import smbctl
-import tasks
-import template
-import update
-import uploadservices
-import utils
-import v4l2ctl
+from motioneye import config
+from motioneye import mediafiles
+from motioneye import mjpgclient
+from motioneye import mmalctl
+from motioneye import monitor
+from motioneye import motionctl
+from motioneye import powerctl
+from motioneye import prefs
+from motioneye import remote
+from motioneye import settings
+from motioneye import smbctl
+from motioneye import tasks
+from motioneye import template
+from motioneye import update
+from motioneye import uploadservices
+from motioneye import utils
+from motioneye import v4l2ctl
 
 
 class BaseHandler(RequestHandler):
@@ -127,19 +128,19 @@ class BaseHandler(RequestHandler):
         admin_password = main_config.get('@admin_password')
         normal_password = main_config.get('@normal_password')
 
-        admin_hash = hashlib.sha1(main_config['@admin_password']).hexdigest()
-        normal_hash = hashlib.sha1(main_config['@normal_password']).hexdigest()
+        admin_hash = hashlib.sha1(main_config['@admin_password'].encode('utf-8')).hexdigest()
+        normal_hash = hashlib.sha1(main_config['@normal_password'].encode('utf-8')).hexdigest()
 
         if settings.HTTP_BASIC_AUTH and 'Authorization' in self.request.headers:
             up = utils.parse_basic_header(self.request.headers['Authorization'])
             if up:
                 if (up['username'] == admin_username and
-                    admin_password in (up['password'], hashlib.sha1(up['password']).hexdigest())):
+                    admin_password in (up['password'], hashlib.sha1(up['password'].encode('utf-8')).hexdigest())):
 
                     return 'admin'
 
                 if (up['username'] == normal_username and
-                    normal_password in (up['password'], hashlib.sha1(up['password']).hexdigest())):
+                    normal_password in (up['password'], hashlib.sha1(up['password'].encode('utf-8')).hexdigest())):
 
                     return 'normal'
 
@@ -353,7 +354,7 @@ class ConfigHandler(BaseHandler):
             ui_config = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+            logging.error('could not decode json: %(msg)s' % {'msg': utils.make_str(e)})
 
             raise
 
@@ -509,7 +510,7 @@ class ConfigHandler(BaseHandler):
 
                 # make sure main config is handled first
                 items = ui_config.items()
-                items.sort(key=lambda (key, cfg): key != 'main')
+                items = sorted(items, key=lambda key_cfg: key_cfg[0] != 'main')
 
                 for key, cfg in items:
                     if key == 'main':
@@ -688,7 +689,7 @@ class ConfigHandler(BaseHandler):
             device_details = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+            logging.error('could not decode json: %(msg)s' % {'msg': utils.make_str(e)})
 
             raise
 
@@ -801,9 +802,8 @@ class ConfigHandler(BaseHandler):
                         camera_id=camera_id, service_name=service_name, data=data, callback=self._on_test_result)
 
             elif what == 'email':
-                import sendmail
-                import tzctl
-                import smtplib
+                from motioneye import sendmail
+                from motioneye import tzctl
 
                 logging.debug('testing notification email')
 
@@ -1158,7 +1158,7 @@ class PictureHandler(BaseHandler):
                 self.finish_json()
 
             except Exception as e:
-                self.finish_json({'error': unicode(e)})
+                self.finish_json({'error': utils.make_str(e)})
 
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):
@@ -1369,7 +1369,7 @@ class PictureHandler(BaseHandler):
                 self.finish_json()
 
             except Exception as e:
-                self.finish_json({'error': unicode(e)})
+                self.finish_json({'error': utils.make_str(e)})
 
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):
@@ -1389,7 +1389,7 @@ class PictureHandler(BaseHandler):
             self.finish(content)
 
         except IOError as e:
-            logging.warning('could not write response: %(msg)s' % {'msg': unicode(e)})
+            logging.warning('could not write response: %(msg)s' % {'msg': utils.make_str(e)})
 
 
 class MovieHandler(BaseHandler):
@@ -1511,7 +1511,7 @@ class MovieHandler(BaseHandler):
                 self.finish_json()
 
             except Exception as e:
-                self.finish_json({'error': unicode(e)})
+                self.finish_json({'error': utils.make_str(e)})
 
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):
@@ -1538,7 +1538,7 @@ class MovieHandler(BaseHandler):
                 self.finish_json()
 
             except Exception as e:
-                self.finish_json({'error': unicode(e)})
+                self.finish_json({'error': utils.make_str(e)})
 
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):

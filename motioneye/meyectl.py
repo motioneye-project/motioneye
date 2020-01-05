@@ -7,7 +7,7 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -25,7 +25,7 @@ import sys
 # make sure motioneye is on python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import settings
+from motioneye import settings
 
 
 _LOG_FILE = 'motioneye.log'
@@ -34,7 +34,7 @@ _LOG_FILE = 'motioneye.log'
 def find_command(command):
     if command == 'relayevent':
         relayevent_sh = os.path.join(os.path.dirname(__file__), 'scripts/relayevent.sh')
-        
+
         cmd = relayevent_sh + ' "%s"' % (settings.config_file or '')
 
     else:
@@ -44,32 +44,32 @@ def find_command(command):
         cmd += ' %s ' % command
         cmd += ' '.join([pipes.quote(arg) for arg in sys.argv[2:]
                 if arg not in ['-b']])
-    
+
     return cmd
 
 
 def load_settings():
     # parse common command line arguments
-    
+
     config_file = None
     debug = False
 
-    for i in xrange(1, len(sys.argv)):
+    for i in range(1, len(sys.argv)):
         arg = sys.argv[i]
         next_arg = i < len(sys.argv) - 1 and sys.argv[i + 1]
         if arg == '-c':
             config_file = next_arg
-            
+
         elif arg == '-d':
             debug = True
-    
+
     conf_path_given = [False]
     run_path_given = [False]
     log_path_given = [False]
     media_path_given = [False]
 
     # parse the config file, if given
-    
+
     def parse_conf_line(line):
         line = line.strip()
         if not line or line.startswith('#'):
@@ -103,7 +103,7 @@ def load_settings():
 
             elif isinstance(curr_value, float):
                 value = float(value)
-            
+
             if upper_name == 'CONF_PATH':
                 conf_path_given[0] = True
 
@@ -126,11 +126,11 @@ def load_settings():
             with open(config_file) as f:
                 for line in f:
                     parse_conf_line(line)
-            
+
         except Exception as e:
             logging.fatal('failed to read settings from "%s": %s' % (config_file, e))
             sys.exit(-1)
-        
+
         # use the config file directory as base dir
         # if not specified otherwise in the config file
         base_dir = os.path.dirname(config_file)
@@ -138,16 +138,16 @@ def load_settings():
 
         if not conf_path_given[0]:
             settings.CONF_PATH = base_dir
- 
+
         if not run_path_given[0]:
             settings.RUN_PATH = base_dir
- 
+
         if not log_path_given[0]:
             settings.LOG_PATH = base_dir
- 
+
         if not media_path_given[0]:
             settings.MEDIA_PATH = base_dir
- 
+
     else:
         logging.info('no configuration file given, using built-in defaults')
 
@@ -158,23 +158,23 @@ def load_settings():
 def configure_logging(cmd, log_to_file=False):
     if log_to_file or cmd != 'motioneye':
         fmt = '%(asctime)s: [{cmd}] %(levelname)8s: %(message)s'.format(cmd=cmd)
-        
+
     else:
         fmt = '%(levelname)8s: %(message)s'.format(cmd=cmd)
 
     for h in logging.getLogger().handlers:
         logging.getLogger().removeHandler(h)
-        
+
     try:
         if log_to_file:
             log_file = os.path.join(settings.LOG_PATH, _LOG_FILE)
-            
+
         else:
             log_file = None
 
         logging.basicConfig(filename=log_file, level=settings.LOG_LEVEL,
                 format=fmt, datefmt='%Y-%m-%d %H:%M:%S')
-    
+
     except Exception as e:
         sys.stderr.write('failed to configure logging: %s\n' % e)
         sys.exit(-1)
@@ -192,10 +192,10 @@ def configure_tornado():
 def make_arg_parser(command=None):
     if command:
         usage = description = epilog = None
-        
+
     else:
         usage = '%(prog)s [command] [-c CONFIG_FILE] [-d] [-h] [-l] [-v] [command options...]\n\n'
-        
+
         description = 'available commands:\n'
         description += '  startserver\n'
         description += '  stopserver\n'
@@ -204,7 +204,7 @@ def make_arg_parser(command=None):
         description += '  shell\n\n'
 
         epilog = 'type "%(prog)s [command] -h" for help on a specific command\n\n'
-        
+
     parser = argparse.ArgumentParser(prog='meyectl%s' % ((' ' + command) if command else ''),
             usage=usage, description=description, epilog=epilog,
             add_help=False, formatter_class=argparse.RawTextHelpFormatter)
@@ -241,29 +241,29 @@ def main():
     for a in sys.argv:
         if a == '-v':
             print_version_and_exit()
-    
+
     if len(sys.argv) < 2 or sys.argv[1] == '-h':
         print_usage_and_exit(0)
-    
+
     load_settings()
 
     command = sys.argv[1]
     arg_parser = make_arg_parser(command)
 
     if command in ('startserver', 'stopserver'):
-        import server
+        from motioneye import server
         server.main(arg_parser, sys.argv[2:], command[:-6])
 
     elif command == 'sendmail':
-        import sendmail
+        from motioneye import sendmail
         sendmail.main(arg_parser, sys.argv[2:])
-    
+
     elif command == 'webhook':
-        import webhook
+        from motioneye import webhook
         webhook.main(arg_parser, sys.argv[2:])
 
     elif command == 'shell':
-        import shell
+        from motioneye import shell
         shell.main(arg_parser, sys.argv[2:])
 
     else:

@@ -21,12 +21,12 @@ import os
 import re
 import subprocess
 import time
-import utils
+from motioneye import utils
 
 from tornado.ioloop import IOLoop
 
-import config
-import settings
+from motioneye import config
+from motioneye import settings
 
 
 def start():
@@ -271,7 +271,7 @@ def _umount_all():
 
 
 def _check_mounts():
-    import motionctl
+    from motioneye import motionctl
     
     logging.debug('checking SMB mounts...')
     

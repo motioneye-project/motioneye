@@ -25,11 +25,11 @@ import time
 
 from tornado.ioloop import IOLoop
 
-import mediafiles
-import powerctl
-import settings
-import update
-import utils
+from motioneye import mediafiles
+from motioneye import powerctl
+from motioneye import settings
+from motioneye import update
+from motioneye import utils
 
 _MOTION_CONTROL_TIMEOUT = 5
 
@@ -53,12 +53,14 @@ def find_motion():
     else:  # autodetect motion binary path
         try:
             binary = subprocess.check_output(['which', 'motion'], stderr=utils.DEV_NULL).strip()
+            binary = binary.decode()
 
         except subprocess.CalledProcessError:  # not found
             return None, None
 
     try:
         help = subprocess.check_output(binary + ' -h || true', shell=True)
+        help = help.decode()
 
     except subprocess.CalledProcessError:  # not found
         return None, None
@@ -74,8 +76,8 @@ def find_motion():
 
 
 def start(deferred=False):
-    import config
-    import mjpgclient
+    from motioneye import config
+    from motioneye import mjpgclient
 
     if deferred:
         io_loop = IOLoop.instance()
@@ -122,7 +124,7 @@ def start(deferred=False):
     process = subprocess.Popen(args, stdout=log_file, stderr=log_file, close_fds=True, cwd=settings.CONF_PATH)
 
     # wait 2 seconds to see that the process has successfully started
-    for i in xrange(20):  # @UnusedVariable
+    for i in range(20):  # @UnusedVariable
         time.sleep(0.1)
         exit_code = process.poll()
         if exit_code is not None and exit_code != 0:
@@ -144,7 +146,7 @@ def start(deferred=False):
 
 
 def stop(invalidate=False):
-    import mjpgclient
+    from motioneye import mjpgclient
 
     global _started
 
@@ -164,7 +166,7 @@ def stop(invalidate=False):
             os.kill(pid, signal.SIGTERM)
 
             # wait 5 seconds for the process to exit
-            for i in xrange(50):  # @UnusedVariable
+            for i in range(50):  # @UnusedVariable
                 os.waitpid(pid, os.WNOHANG)
                 time.sleep(0.1)
 
@@ -172,7 +174,7 @@ def stop(invalidate=False):
             os.kill(pid, signal.SIGKILL)
 
             # wait 2 seconds for the process to exit
-            for i in xrange(20):  # @UnusedVariable
+            for i in range(20):  # @UnusedVariable
                 time.sleep(0.1)
                 os.waitpid(pid, os.WNOHANG)
 
@@ -319,7 +321,7 @@ def set_motion_detected(camera_id, motion_detected):
 
 
 def camera_id_to_motion_camera_id(camera_id):
-    import config
+    from motioneye import config
 
     # find the corresponding motion camera_id
     # (which can be different from camera_id)
@@ -338,7 +340,7 @@ def camera_id_to_motion_camera_id(camera_id):
 
 
 def motion_camera_id_to_camera_id(motion_camera_id):
-    import config
+    from motioneye import config
 
     main_config = config.get_main()
     cameras = main_config.get('camera', [])
@@ -391,7 +393,7 @@ def resolution_is_valid(width, height):
 
 
 def _disable_initial_motion_detection():
-    import config
+    from motioneye import config
 
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)
