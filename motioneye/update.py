@@ -34,17 +34,23 @@ def get_os_version():
 
 
 def _get_os_version_lsb_release():
-    try:
-        output = subprocess.check_output('lsb_release -sri', shell=True)
-        lines = output.strip().split()
-        name, version = lines
-        if version.lower() == 'rolling':
-            version = ''
-        
-        return name, version
+    # check if it exists before calling to avoid log spam
+    rc = subprocess.call(['which', 'lsb_release'])
 
-    except:
-        return _get_os_version_uname()
+    if rc == 0:
+        try:
+            output = subprocess.check_output('lsb_release -sri', shell=True)
+            lines = output.strip().split()
+            name, version = lines
+            if version.lower() == 'rolling':
+                version = ''
+        
+            return name, version
+
+        except:
+            return _get_os_version_uname()
+    else:
+            return _get_os_version_uname()
 
 
 def _get_os_version_uname():
