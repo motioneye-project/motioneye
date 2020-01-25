@@ -939,7 +939,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     if ui['mask']:
         if ui['mask_type'] == 'smart':
-            data['smart_mask_speed'] = 10 - int(ui['smart_mask_sluggishness'])
+            data['smart_mask_speed'] = 11 - int(ui['smart_mask_sluggishness'])
 
         elif ui['mask_type'] == 'editable':
             capture_width, capture_height = data.get('width'), data.get('height')
@@ -1357,7 +1357,7 @@ def motion_camera_dict_to_ui(data):
     elif data['smart_mask_speed']:
         ui['mask'] = True
         ui['mask_type'] = 'smart'
-        ui['smart_mask_sluggishness'] = 10 - data['smart_mask_speed']
+        ui['smart_mask_sluggishness'] = 11 - data['smart_mask_speed']
 
     # working schedule
     working_schedule = data['@working_schedule']
