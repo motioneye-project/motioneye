@@ -21,6 +21,14 @@ import logging
 import os.path
 import pipes
 import sys
+import gettext
+
+try:
+  gettext.find('motioneye',localedir='locale')
+  traduction = gettext.translation('motioneye',localedir='locale')
+  traduction.install();
+except:
+  gettext.install('motioneye')
 
 # make sure motioneye is on python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

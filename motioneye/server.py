@@ -356,7 +356,7 @@ def run():
     import wsswitch
 
     configure_signals()
-    logging.info('hello! this is motionEye server %s' % motioneye.VERSION)
+    logging.info(_('hello! this is motionEye server ') + motioneye.VERSION)
 
     test_requirements()
     make_media_folders()

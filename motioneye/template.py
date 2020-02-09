@@ -15,10 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 import settings
 import utils
+import gettext
+from babel.support import Translations
+from meyectl import traduction
 
 
 _jinja_env = None
@@ -27,9 +30,14 @@ _jinja_env = None
 def _init_jinja():
     global _jinja_env
     
+#            loader=FileSystemLoader(settings.TEMPLATE_PATH),
     _jinja_env = Environment(
-            loader=FileSystemLoader(settings.TEMPLATE_PATH),
-            trim_blocks=False)
+            loader=FileSystemLoader(searchpath="templates" ),
+            trim_blocks=False,extensions=['jinja2.ext.i18n'],
+	    autoescape=select_autoescape(['html', 'xml']))
+    _jinja_env.install_gettext_translations(traduction,newstyle=True)
+#    translations = Translations.load('locale', ['eo'])
+#    _jinja_env.install_gettext_translations(translations)
 
     # globals
     _jinja_env.globals['settings'] = settings
