@@ -1,0 +1,108 @@
+# Language =en translations for PACKAGE package.
+# Copyright (C) 2020 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-02-09 22:28+0100\n"
+"PO-Revision-Date: 2020-02-06 21:22+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: =en\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: server.py:359
+msgid "hello! this is motionEye server "
+msgstr "Hello! "
+
+#: utils.py:77 utils.py:116
+msgid "never"
+msgstr ""
+
+#: utils.py:168
+msgid "day"
+msgstr ""
+
+#: utils.py:171
+msgid "week"
+msgstr ""
+
+#: utils.py:174
+msgid "month"
+msgstr ""
+
+#: utils.py:177
+msgid "year"
+msgstr ""
+
+#: utils.py:180
+msgid "days"
+msgstr ""
+
+#: utils.py:184
+msgid "hour"
+msgstr ""
+
+#: utils.py:187
+msgid "hours"
+msgstr ""
+
+#: utils.py:191
+msgid "minute"
+msgstr ""
+
+#: utils.py:194
+msgid "minutes"
+msgstr ""
+
+#: utils.py:198
+msgid "second"
+msgstr ""
+
+#: utils.py:201 utils.py:204
+msgid "seconds"
+msgstr ""
+
+#: utils.py:208
+msgid "minus"
+msgstr ""
+
+#: templates/index.html:1
+#, python-format
+msgid "%(title)s"
+msgstr ""
+
+#: templates/index.html:2
+#, python-format
+msgid ""
+"\n"
+"There is %(count)s %(name)s server.\n"
+msgid_plural ""
+"\n"
+"There are %(count)s %(name)s servers.\n"
+msgstr[0] ""
+msgstr[1] ""
+
+#: templates/index.html:7
+#, python-format
+msgid "%(title2)s"
+msgstr ""
+
+#: templates/index.html:8
+msgid "texte a traduire"
+msgstr ""
+
+#: templates/main.html:115
+msgid "Layout Columns"
+msgstr ""
+
+#~ msgid "Username"
+#~ msgstr "User."
+
+#~ msgid "Authorization Key"
+#~ msgstr "Auth."
