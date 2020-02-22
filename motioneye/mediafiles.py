@@ -374,7 +374,7 @@ def make_movie_preview(camera_config, full_path):
         try:
             os.remove(thumb_path)
 
-        except:
+        except OSError:
             pass
 
         return None
@@ -449,7 +449,7 @@ def list_media(camera_config, media_type, callback, prefix=None):
                 try:
                     os.kill(process.pid, signal.SIGTERM)
 
-                except:
+                except OSError:
                     pass  # nevermind
 
                 callback(None)
@@ -569,7 +569,7 @@ def get_zipped_content(camera_config, media_type, group, callback):
                 try:
                     os.kill(process.pid, signal.SIGTERM)
 
-                except:
+                except OSError:
                     pass  # nevermind
 
                 callback(None)
@@ -579,7 +579,7 @@ def get_zipped_content(camera_config, media_type, group, callback):
                 data = parent_pipe.recv()
                 logging.debug('zip process has returned %d bytes' % len(data))
 
-            except:
+            except OSError:
                 data = None
 
             callback(data)
@@ -649,7 +649,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
                 try:
                     os.kill(_timelapse_process.pid, signal.SIGTERM)
 
-                except:
+                except OSError:
                     pass  # nevermind
 
                 _timelapse_process.progress = -1
@@ -761,7 +761,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
                 try:
                     os.remove(tmp_filename)
 
-                except:
+                except OSError:
                     pass
 
             else:
@@ -780,7 +780,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
                     try:
                         os.remove(tmp_filename)
 
-                    except:
+                    except OSError:
                         pass
 
     poll_media_list_process()
@@ -863,7 +863,7 @@ def del_media_content(camera_config, path, media_type):
         try:
             os.remove(full_path + '.thumb')
 
-        except:
+        except OSError:
             pass
 
         # remove the parent directories if empty or contains only thumb files

@@ -74,7 +74,7 @@ def _callback_wrapper(callback):
             elif decoded['error']:
                 response.error = decoded['error']
 
-        except:
+        except (ValueError, KeyError):
             pass
 
         return callback(response)

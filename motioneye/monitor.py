@@ -57,7 +57,7 @@ def _exec_monitor_command(command):
     try:
         interval = int(err)
 
-    except:
+    except ValueError:
         interval = DEFAULT_INTERVAL
 
     out = out.strip()

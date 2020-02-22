@@ -85,7 +85,7 @@ class Daemon(object):
         try:
             os.remove(self.pid_file)
 
-        except:
+        except OSError:
             pass
 
     def running(self):
@@ -93,14 +93,14 @@ class Daemon(object):
             with open(self.pid_file) as f:
                 pid = int(f.read().strip())
 
-        except:
+        except (OSError, ValueError):
             return None
 
         try:
             os.kill(pid, 0)
             return pid
 
-        except:
+        except OSError:
             return None
 
     def start(self):
@@ -144,7 +144,7 @@ class Daemon(object):
             try:
                 os.kill(pid, signal.SIGKILL)
 
-            except:
+            except OSError:
                 pass
 
 

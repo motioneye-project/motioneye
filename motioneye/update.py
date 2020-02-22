@@ -45,7 +45,7 @@ def _get_os_version_lsb_release():
 
         return name, version
 
-    except:
+    except Exception:
         return _get_os_version_uname()
 
 
@@ -58,7 +58,7 @@ def _get_os_version_uname():
 
         return name, version
 
-    except:
+    except Exception:
         return 'Linux', ''  # most likely :)
 
 
@@ -70,7 +70,7 @@ def compare_versions(version1, version2):
         try:
             return int(n)
 
-        except:
+        except ValueError:
             return 0
 
     version1 = [int_or_0(n) for n in version1.split('.')]

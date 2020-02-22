@@ -106,7 +106,7 @@ def _set_time_zone(time_zone):
     try:
         os.remove(settings.LOCAL_TIME_FILE)
 
-    except:
+    except OSError:
         pass  # nevermind
 
     try:

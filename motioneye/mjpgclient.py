@@ -128,7 +128,7 @@ class MjpgClient(IOStream):
         try:
             self.close()
 
-        except:
+        except Exception:
             pass
 
     def _on_connect(self):

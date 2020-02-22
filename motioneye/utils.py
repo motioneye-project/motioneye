@@ -275,15 +275,22 @@ def make_str(s):
     if isinstance(s, str):
         return s
 
+    elif isinstance(s, bytes):
+        try:
+            return s.decode('utf8')
+
+        except UnicodeError:
+            return ''
+
     try:
         return str(s)
 
-    except:
+    except ValueError:
         if sys.version_info[0] < 3:
             try:
                 return unicode(s, encoding='utf8').encode('utf8')
 
-            except:
+            except UnicodeError:
                 return unicode(s).encode('utf8')
 
         else:
@@ -614,7 +621,7 @@ def test_rtsp_url(data, callback):
         try:
             stream.close()
 
-        except:
+        except Exception:
             pass
 
         callback(error=make_str(e))
@@ -714,7 +721,7 @@ def parse_basic_header(header):
     try:
         decoded = base64.decodestring(encoded)
 
-    except:
+    except Exception:
         return None
 
     parts = decoded.split(':', 1)

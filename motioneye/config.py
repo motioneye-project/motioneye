@@ -1399,7 +1399,7 @@ def motion_camera_dict_to_ui(data):
             try:
                 ui['email_notifications_picture_time_span'] = int(e[-1])
 
-            except:
+            except ValueError:
                 ui['email_notifications_picture_time_span'] = 0
 
         elif e.count(' webhook '):
