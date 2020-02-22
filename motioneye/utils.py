@@ -28,6 +28,7 @@ import time
 
 from PIL import Image, ImageDraw
 
+from six import ensure_text
 from six.moves.urllib import parse as urlparse
 from six.moves.urllib.parse import quote as urlquote
 from six.moves.urllib.request import urlopen as urllib_urlopen
@@ -272,29 +273,7 @@ def pretty_http_error(response):
 
 
 def make_str(s):
-    if isinstance(s, str):
-        return s
-
-    elif isinstance(s, bytes):
-        try:
-            return s.decode('utf8')
-
-        except UnicodeError:
-            return ''
-
-    try:
-        return str(s)
-
-    except ValueError:
-        if sys.version_info[0] < 3:
-            try:
-                return unicode(s, encoding='utf8').encode('utf8')
-
-            except UnicodeError:
-                return unicode(s).encode('utf8')
-
-        else:
-            return ''
+    return ensure_text(s)
 
 
 def split_semicolon(s):
