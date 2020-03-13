@@ -17,8 +17,8 @@
 
 from jinja2 import Environment, FileSystemLoader
 
-import settings
-import utils
+from . import settings
+from . import utils
 
 
 _jinja_env = None

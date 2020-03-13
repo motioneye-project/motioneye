@@ -25,9 +25,9 @@ import re
 import socket
 import sys
 import time
-import urllib
-import urllib2
-import urlparse
+import urllib.request, urllib.parse, urllib.error
+import urllib.request, urllib.error, urllib.parse
+import urllib.parse
 
 from PIL import Image, ImageDraw
 
@@ -35,7 +35,7 @@ from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.iostream import IOStream
 from tornado.ioloop import IOLoop
 
-import settings
+from . import settings
 
 
 _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
@@ -80,14 +80,14 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
         return pretty_date_time(datetime.datetime.fromtimestamp(date_time))
 
     if short:
-        text = u'{day} {month}, {hm}'.format(
+        text = '{day} {month}, {hm}'.format(
             day=date_time.day,
             month=date_time.strftime('%b'),
             hm=date_time.strftime('%H:%M')
         )
 
     else:
-        text = u'{day} {month} {year}, {hm}'.format(
+        text = '{day} {month} {year}, {hm}'.format(
             day=date_time.day,
             month=date_time.strftime('%B'),
             year=date_time.year,
@@ -118,7 +118,7 @@ def pretty_date(date):
     if isinstance(date, int):
         return pretty_date(datetime.datetime.fromtimestamp(date))
 
-    return u'{day} {month} {year}'.format(
+    return '{day} {month} {year}'.format(
         day=date.day,
         month=_(date.strftime('%B')),
         year=date.year
@@ -252,7 +252,7 @@ def pretty_http_error(response):
     if not response.error:
         return 'ok'
 
-    msg = unicode(response.error)
+    msg = str(response.error)
     if msg.startswith('HTTP '):
         msg = msg.split(':', 1)[-1].strip()
 
@@ -274,22 +274,22 @@ def make_str(s):
 
     except:
         try:
-            return unicode(s, encoding='utf8').encode('utf8')
+            return str(s, encoding='utf8').encode('utf8')
 
         except:
-            return unicode(s).encode('utf8')
+            return str(s).encode('utf8')
 
 
 def make_unicode(s):
-    if isinstance(s, unicode):
+    if isinstance(s, str):
         return s
 
     try:
-        return unicode(s, encoding='utf8')
+        return str(s, encoding='utf8')
 
     except:
         try:
-            return unicode(s)
+            return str(s)
 
         except:
             return str(s).decode('utf8')
@@ -319,7 +319,7 @@ def get_disk_usage(path):
         result = os.statvfs(path)
 
     except OSError as e:
-        logging.error('failed to execute statvfs: %(msg)s' % {'msg': unicode(e)})
+        logging.error('failed to execute statvfs: %(msg)s' % {'msg': str(e)})
 
         return None
 
@@ -442,7 +442,7 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
 
 def test_rtsp_url(data, callback):
-    import motionctl
+    from . import motionctl
 
     scheme = data.get('scheme', 'rtsp')
     host = data.get('host', '127.0.0.1')
@@ -614,7 +614,7 @@ def test_rtsp_url(data, callback):
             return
 
         called[0] = True
-        logging.error('rtsp client error: %s' % unicode(e))
+        logging.error('rtsp client error: %s' % str(e))
 
         try:
             stream.close()
@@ -622,7 +622,7 @@ def test_rtsp_url(data, callback):
         except:
             pass
 
-        callback(error=unicode(e))
+        callback(error=str(e))
 
     def check_error():
         error = getattr(stream, 'error', None)
@@ -641,7 +641,7 @@ def test_rtsp_url(data, callback):
     stream = connect()
 
 def test_rtmp_url(data, callback):
-    import motionctl
+    from . import motionctl
 
     scheme = data.get('scheme', 'rtmp')
     host = data.get('host', '127.0.0.1')
@@ -666,15 +666,15 @@ def test_rtmp_url(data, callback):
 
 
 def compute_signature(method, path, body, key):
-    parts = list(urlparse.urlsplit(path))
-    query = [q for q in urlparse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
+    parts = list(urllib.parse.urlsplit(path))
+    query = [q for q in urllib.parse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
     query.sort(key=lambda q: q[0])
     # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
-    query = [(n, urllib.quote(v, safe="!'()*~")) for (n, v) in query]
+    query = [(n, urllib.parse.quote(v, safe="!'()*~")) for (n, v) in query]
     query = '&'.join([(q[0] + '=' + q[1]) for q in query])
     parts[0] = parts[1] = ''
     parts[3] = query
-    path = urlparse.urlunsplit(parts)
+    path = urllib.parse.urlunsplit(parts)
     path = _SIGNATURE_REGEX.sub('-', path)
     key = _SIGNATURE_REGEX.sub('-', key)
 
@@ -769,7 +769,7 @@ def build_digest_header(method, url, username, password, state):
         return None
 
     entdig = None
-    p_parsed = urlparse.urlparse(url)
+    p_parsed = urllib.parse.urlparse(url)
     path = p_parsed.path
     if p_parsed.query:
         path += '?' + p_parsed.query
@@ -838,7 +838,7 @@ def urlopen(*args, **kwargs):
 
         kwargs.setdefault('context', ctx)
 
-    return urllib2.urlopen(*args, **kwargs)
+    return urllib.request.urlopen(*args, **kwargs)
 
 
 def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_height=None):
@@ -890,9 +890,9 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
     im = Image.new('L', (width, height), 255)  # all white
     dr = ImageDraw.Draw(im)
 
-    for y in xrange(ny):
+    for y in range(ny):
         line = mask_lines[line_index_func(y)]
-        for x in xrange(nx):
+        for x in range(nx):
             if line & (1 << (MASK_WIDTH - 1 - x)):
                 dr.rectangle((x * rw, y * rh, (x + 1) * rw - 1, (y + 1) * rh - 1), fill=0)
 
@@ -901,7 +901,7 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
 
     if ry:
         line = mask_lines[line_index_func(ny)]
-        for x in xrange(nx):
+        for x in range(nx):
             if line & (1 << (MASK_WIDTH - 1 - x)):
                 dr.rectangle((x * rw, ny * rh, (x + 1) * rw - 1, ny * rh + ry - 1), fill=0)
 
@@ -982,9 +982,9 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
 
     # parse the image contents and build the mask lines
     mask_lines = [width, height]
-    for y in xrange(ny):
+    for y in range(ny):
         bits = []
-        for x in xrange(nx):
+        for x in range(nx):
             px = int((x + 0.5) * rw)
             py = int((y + 0.5) * rh)
             pixel = pixels[py * width + px]
@@ -1006,7 +1006,7 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
 
     if ry:
         bits = []
-        for x in xrange(nx):
+        for x in range(nx):
             px = int((x + 0.5) * rw)
             py = int(ny * rh + ry / 2)
             pixel = pixels[py * width + px]

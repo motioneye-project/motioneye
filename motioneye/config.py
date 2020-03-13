@@ -24,18 +24,18 @@ import os.path
 import re
 import shlex
 import subprocess
-import urlparse
+import urllib.parse
 
 from tornado.ioloop import IOLoop
 
-import diskctl
-import motionctl
-import powerctl
-import settings
-import tasks
-import uploadservices
-import utils
-import v4l2ctl
+from . import diskctl
+from . import motionctl
+from . import powerctl
+from . import settings
+from . import tasks
+from . import uploadservices
+from . import utils
+from . import v4l2ctl
 
 _CAMERA_CONFIG_FILE_NAME = 'camera-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
@@ -172,8 +172,8 @@ def additional_config(func):
     _additional_config_funcs.append(func)
 
 
-import wifictl  # unused import
-import tzctl  # unused import
+from . import wifictl  # unused import
+from . import tzctl  # unused import
 
 
 def get_main(as_lines=False):
@@ -199,7 +199,7 @@ def get_main(as_lines=False):
 
         else:
             logging.error('could not open main config file %(path)s: %(msg)s' % {
-                'path': config_file_path, 'msg': unicode(e)})
+                'path': config_file_path, 'msg': str(e)})
 
             raise
 
@@ -209,7 +209,7 @@ def get_main(as_lines=False):
 
         except Exception as e:
             logging.error('could not read main config file %(path)s: %(msg)s' % {
-                'path': config_file_path, 'msg': unicode(e)})
+                'path': config_file_path, 'msg': str(e)})
 
             raise
 
@@ -237,7 +237,7 @@ def set_main(main_config):
     global _main_config_cache
 
     main_config = dict(main_config)
-    for n, v in _main_config_cache.iteritems():
+    for n, v in _main_config_cache.items():
         main_config.setdefault(n, v)
     _main_config_cache = main_config
 
@@ -261,7 +261,7 @@ def set_main(main_config):
 
     except Exception as e:
         logging.error('could not open main config file %(path)s for writing: %(msg)s' % {
-            'path': config_file_path, 'msg': unicode(e)})
+            'path': config_file_path, 'msg': str(e)})
 
         raise
 
@@ -272,7 +272,7 @@ def set_main(main_config):
 
     except Exception as e:
         logging.error('could not write main config file %(path)s: %(msg)s' % {
-            'path': config_file_path, 'msg': unicode(e)})
+            'path': config_file_path, 'msg': str(e)})
 
         raise
 
@@ -295,7 +295,7 @@ def get_camera_ids(filter_valid=True):
 
     except Exception as e:
         logging.error('failed to list config dir %(path)s: %(msg)s', {
-            'path': config_path, 'msg': unicode(e)})
+            'path': config_path, 'msg': str(e)})
 
         raise
 
@@ -370,7 +370,7 @@ def get_camera(camera_id, as_lines=False):
         f = open(camera_config_path, 'r')
 
     except Exception as e:
-        logging.error('could not open camera config file: %(msg)s' % {'msg': unicode(e)})
+        logging.error('could not open camera config file: %(msg)s' % {'msg': str(e)})
 
         raise
 
@@ -379,7 +379,7 @@ def get_camera(camera_id, as_lines=False):
 
     except Exception as e:
         logging.error('could not read camera config file %(path)s: %(msg)s' % {
-            'path': camera_config_path, 'msg': unicode(e)})
+            'path': camera_config_path, 'msg': str(e)})
 
         raise
 
@@ -475,7 +475,7 @@ def set_camera(camera_id, camera_config):
 
     except Exception as e:
         logging.error('could not open camera config file %(path)s for writing: %(msg)s' % {
-            'path': camera_config_path, 'msg': unicode(e)})
+            'path': camera_config_path, 'msg': str(e)})
 
         raise
 
@@ -486,7 +486,7 @@ def set_camera(camera_id, camera_config):
 
     except Exception as e:
         logging.error('could not write camera config file %(path)s: %(msg)s' % {
-            'path': camera_config_path, 'msg': unicode(e)})
+            'path': camera_config_path, 'msg': str(e)})
 
         raise
 
@@ -503,7 +503,7 @@ def add_camera(device_details):
         if device_details['port']:
             host += ':' + str(device_details['port'])
 
-        device_details['url'] = urlparse.urlunparse(
+        device_details['url'] = urllib.parse.urlunparse(
                 (device_details['scheme'], host, device_details['path'], '', '', ''))
 
     # determine the last camera id
@@ -610,7 +610,7 @@ def rem_camera(camera_id):
 
     except Exception as e:
         logging.error('could not remove camera config file %(path)s: %(msg)s' % {
-            'path': camera_config_path, 'msg': unicode(e)})
+            'path': camera_config_path, 'msg': str(e)})
 
         raise
 
@@ -650,7 +650,7 @@ def main_ui_to_dict(ui):
         call_hook(ui['normal_username'], ui['normal_password'])
 
     # additional configs
-    for name, value in ui.iteritems():
+    for name, value in ui.items():
         if not name.startswith('_'):
             continue
 
@@ -680,7 +680,7 @@ def main_dict_to_ui(data):
         ui['normal_password'] = ''
 
     # additional configs
-    for name, value in data.iteritems():
+    for name, value in data.items():
         if not name.startswith('@_'):
             continue
 
@@ -690,8 +690,8 @@ def main_dict_to_ui(data):
 
 
 def motion_camera_ui_to_dict(ui, prev_config=None):
-    import meyectl
-    import smbctl
+    from . import meyectl
+    from . import smbctl
 
     prev_config = dict(prev_config or {})
     main_config = get_main()  # needed for surveillance password
@@ -810,7 +810,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
         if proto == 'v4l2':
             # video controls
-            vid_control_params = (('%s=%s' % (n, c['value'])) for n, c in ui['video_controls'].items())
+            vid_control_params = (('%s=%s' % (n, c['value'])) for n, c in list(ui['video_controls'].items()))
             data['vid_control_params'] = ','.join(vid_control_params)
 
     else:  # assuming netcam
@@ -861,7 +861,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             logging.error('failed to create root directory "%s": %s' % (data['target_dir'], e), exc_info=True)
 
     if ui['upload_enabled'] and '@id' in prev_config:
-        upload_settings = {k[7:]: ui[k] for k in ui.iterkeys() if k.startswith('upload_')}
+        upload_settings = {k[7:]: ui[k] for k in ui.keys() if k.startswith('upload_')}
 
         tasks.add(0, uploadservices.update, tag='uploadservices.update(%s)' % ui['upload_service'],
                   camera_id=prev_config['@id'], service_name=ui['upload_service'], settings=upload_settings)
@@ -1035,14 +1035,14 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     data['on_picture_save'] = '; '.join(on_picture_save)
 
     # additional configs
-    for name, value in ui.iteritems():
+    for name, value in ui.items():
         if not name.startswith('_'):
             continue
 
         data['@' + name] = value
 
     # extra motion options
-    for name in prev_config.keys():
+    for name in list(prev_config.keys()):
         if name not in _USED_MOTION_OPTIONS and not name.startswith('@'):
             prev_config.pop(name)
 
@@ -1056,7 +1056,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
 
 def motion_camera_dict_to_ui(data):
-    import smbctl
+    from . import smbctl
 
     ui = {
         # device
@@ -1204,7 +1204,7 @@ def motion_camera_dict_to_ui(data):
         ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
 
         video_controls = v4l2ctl.list_ctrls(data['videodevice'])
-        video_controls = [(n, c) for (n, c) in video_controls.items()
+        video_controls = [(n, c) for (n, c) in list(video_controls.items())
                           if 'min' in c and 'max' in c and 'value' in c]
 
         vid_control_params = data['vid_control_params'].split(',')
@@ -1244,7 +1244,7 @@ def motion_camera_dict_to_ui(data):
     elif data['@storage_device'].startswith('local-disk'):
         target_dev = data['@storage_device'][10:].replace('-', '/')
         mounted_partitions = diskctl.list_mounted_partitions()
-        for partition in mounted_partitions.values():
+        for partition in list(mounted_partitions.values()):
             if partition['target'] == target_dev and data['target_dir'].startswith(partition['mount_point']):
                 ui['root_directory'] = data['target_dir'][len(partition['mount_point']):] or '/'
                 break
@@ -1470,7 +1470,7 @@ def motion_camera_dict_to_ui(data):
         ui['command_storage_exec'] = '; '.join(command_storage)
 
     # additional configs
-    for name, value in data.iteritems():
+    for name, value in data.items():
         if not name.startswith('@_'):
             continue
 
@@ -1478,7 +1478,7 @@ def motion_camera_dict_to_ui(data):
 
     # extra motion options
     extra_options = []
-    for name, value in data.iteritems():
+    for name, value in data.items():
         if name not in _USED_MOTION_OPTIONS and not name.startswith('@'):
             if isinstance(value, bool):
                 value = ['off', 'on'][value]  # boolean values should be transferred as on/off
@@ -1489,7 +1489,7 @@ def motion_camera_dict_to_ui(data):
 
     # action commands
     action_commands = get_action_commands(data)
-    ui['actions'] = action_commands.keys()
+    ui['actions'] = list(action_commands.keys())
 
     return ui
 
@@ -1504,7 +1504,7 @@ def simple_mjpeg_camera_ui_to_dict(ui, prev_config=None):
     }
 
     # additional configs
-    for name, value in ui.iteritems():
+    for name, value in ui.items():
         if not name.startswith('_'):
             continue
 
@@ -1525,7 +1525,7 @@ def simple_mjpeg_camera_dict_to_ui(data):
     }
 
     # additional configs
-    for name, value in data.iteritems():
+    for name, value in data.items():
         if not name.startswith('@_'):
             continue
 
@@ -1533,7 +1533,7 @@ def simple_mjpeg_camera_dict_to_ui(data):
 
     # action commands
     action_commands = get_action_commands(data)
-    ui['actions'] = action_commands.keys()
+    ui['actions'] = list(action_commands.keys())
 
     return ui
 
@@ -1580,7 +1580,7 @@ def backup():
                       settings.CONF_PATH)
 
         cmd = ['tar', 'zc', 'motion.conf']
-        cmd += map(os.path.basename, glob.glob(os.path.join(settings.CONF_PATH, 'camera-*.conf')))
+        cmd += list(map(os.path.basename, glob.glob(os.path.join(settings.CONF_PATH, 'camera-*.conf'))))
         try:
             content = subprocess.check_output(cmd, cwd=settings.CONF_PATH)
             logging.debug('backup file created (%s bytes)' % len(content))
@@ -1798,7 +1798,7 @@ def _dict_to_conf(lines, data, list_names=None):
     if len(remaining) and len(lines):
         conf_lines.append('')  # add a blank line
 
-    for (name, value) in remaining.iteritems():
+    for (name, value) in remaining.items():
         if name.startswith('@_'):
             continue  # ignore additional configs
 
@@ -1981,8 +1981,8 @@ def get_additional_structure(camera, separators=False):
             if bool(result.get('camera')) != bool(camera):
                 continue
 
-            result['name'] = func.func_name
-            sections[func.func_name] = result
+            result['name'] = func.__name__
+            sections[func.__name__] = result
 
             logging.debug('additional config section: %s' % result['name'])
 
@@ -2001,8 +2001,8 @@ def get_additional_structure(camera, separators=False):
             if result['type'] == 'separator' and not separators:
                 continue
 
-            result['name'] = func.func_name
-            configs[func.func_name] = result
+            result['name'] = func.__name__
+            configs[func.__name__] = result
 
             section = sections.setdefault(result.get('section'), {})
             section.setdefault('configs', []).append(result)
@@ -2018,10 +2018,10 @@ def _get_additional_config(data, camera_id=None):
     args = [camera_id] if camera_id else []
 
     (sections, configs) = get_additional_structure(camera=bool(camera_id))
-    get_funcs = set([c.get('get') for c in configs.itervalues() if c.get('get')])
+    get_funcs = set([c.get('get') for c in configs.values() if c.get('get')])
     get_func_values = collections.OrderedDict((f, f(*args)) for f in get_funcs)
 
-    for name, section in sections.iteritems():
+    for name, section in sections.items():
         if not section.get('get'):
             continue
 
@@ -2031,7 +2031,7 @@ def _get_additional_config(data, camera_id=None):
         else:
             data['@_' + name] = get_func_values.get(section['get'])
 
-    for name, config in configs.iteritems():
+    for name, config in configs.items():
         if not config.get('get'):
             continue
 
@@ -2048,7 +2048,7 @@ def _set_additional_config(data, camera_id=None):
     (sections, configs) = get_additional_structure(camera=bool(camera_id))
 
     set_func_values = collections.OrderedDict()
-    for name, section in sections.iteritems():
+    for name, section in sections.items():
         if not section.get('set'):
             continue
 
@@ -2061,7 +2061,7 @@ def _set_additional_config(data, camera_id=None):
         else:
             set_func_values[section['set']] = data['@_' + name]
 
-    for name, config in configs.iteritems():
+    for name, config in configs.items():
         if not config.get('set'):
             continue
 
@@ -2074,5 +2074,5 @@ def _set_additional_config(data, camera_id=None):
         else:
             set_func_values[config['set']] = data['@_' + name]
 
-    for func, value in set_func_values.iteritems():
+    for func, value in set_func_values.items():
         func(*(args + [value]))

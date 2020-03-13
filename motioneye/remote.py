@@ -22,8 +22,8 @@ import re
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 
-import settings
-import utils
+from . import settings
+from . import utils
 
 _DOUBLE_SLASH_REGEX = re.compile('//+')
 
@@ -48,7 +48,7 @@ def _make_request(scheme, host, port, username, password, path, method='GET', da
     else:
         url += '?'
     
-    url += '&'.join([(n + '=' + v) for (n, v) in query.iteritems()])
+    url += '&'.join([(n + '=' + v) for (n, v) in query.items()])
     url += '&_signature=' + utils.compute_signature(method, url, data, password)
 
     if timeout is None:
@@ -155,9 +155,9 @@ def list(local_config, callback):
         except Exception as e:
             logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
                     'url': pretty_camera_url(local_config, camera=False),
-                    'msg': unicode(e)})
+                    'msg': str(e)})
             
-            return callback(error=unicode(e))
+            return callback(error=str(e))
         
         cameras = response['cameras']
         
@@ -195,9 +195,9 @@ def get_config(local_config, callback):
         except Exception as e:
             logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
                     'url': pretty_camera_url(local_config),
-                    'msg': unicode(e)})
+                    'msg': str(e)})
             
-            return callback(error=unicode(e))
+            return callback(error=str(e))
         
         response['host'] = host
         response['port'] = port
@@ -342,9 +342,9 @@ def list_media(local_config, media_type, prefix, callback):
         except Exception as e:
             logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
                     'url': pretty_camera_url(local_config),
-                    'msg': unicode(e)})
+                    'msg': str(e)})
             
-            return callback(error=unicode(e))
+            return callback(error=str(e))
         
         return callback(response)
     
@@ -421,9 +421,9 @@ def make_zipped_content(local_config, media_type, group, callback):
         except Exception as e:
             logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
                     'url': pretty_camera_url(local_config),
-                    'msg': unicode(e)})
+                    'msg': str(e)})
 
-            return callback(error=unicode(e))
+            return callback(error=str(e))
 
         callback({'key': key})
 
@@ -509,9 +509,9 @@ def make_timelapse_movie(local_config, framerate, interval, group, callback):
         except Exception as e:
             logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
                     'url': pretty_camera_url(local_config),
-                    'msg': unicode(e)})
+                    'msg': str(e)})
 
-            return callback(error=unicode(e))
+            return callback(error=str(e))
         
         callback(response)
 
@@ -546,9 +546,9 @@ def check_timelapse_movie(local_config, group, callback):
         except Exception as e:
             logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
                     'url': pretty_camera_url(local_config),
-                    'msg': unicode(e)})
+                    'msg': str(e)})
 
-            return callback(error=unicode(e))
+            return callback(error=str(e))
         
         callback(response)
 

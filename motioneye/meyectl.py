@@ -25,7 +25,7 @@ import sys
 # make sure motioneye is on python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-import settings
+from . import settings
 
 
 _LOG_FILE = 'motioneye.log'
@@ -54,7 +54,7 @@ def load_settings():
     config_file = None
     debug = False
 
-    for i in xrange(1, len(sys.argv)):
+    for i in range(1, len(sys.argv)):
         arg = sys.argv[i]
         next_arg = i < len(sys.argv) - 1 and sys.argv[i + 1]
         if arg == '-c':
@@ -251,19 +251,19 @@ def main():
     arg_parser = make_arg_parser(command)
 
     if command in ('startserver', 'stopserver'):
-        import server
+        from . import server
         server.main(arg_parser, sys.argv[2:], command[:-6])
 
     elif command == 'sendmail':
-        import sendmail
+        from . import sendmail
         sendmail.main(arg_parser, sys.argv[2:])
     
     elif command == 'webhook':
-        import webhook
+        from . import webhook
         webhook.main(arg_parser, sys.argv[2:])
 
     elif command == 'shell':
-        import shell
+        from . import shell
         shell.main(arg_parser, sys.argv[2:])
 
     else:

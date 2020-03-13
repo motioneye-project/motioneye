@@ -18,9 +18,9 @@
 import logging
 import subprocess
 import time
-import urllib
+import urllib.request, urllib.parse, urllib.error
 
-import config
+from . import config
 
 
 DEFAULT_INTERVAL = 1  # seconds
@@ -41,7 +41,7 @@ def get_monitor_info(camera_id):
     interval = _interval_by_camera_id.get(camera_id, DEFAULT_INTERVAL)
     if monitor_info is None or now - last_call_time > interval:
         monitor_info, interval = _exec_monitor_command(command)
-        monitor_info = urllib.quote(monitor_info, safe='')
+        monitor_info = urllib.parse.quote(monitor_info, safe='')
         _interval_by_camera_id[camera_id] = interval
         _monitor_info_cache_by_camera_id[camera_id] = monitor_info
         _last_call_time_by_camera_id[camera_id] = now

@@ -18,7 +18,7 @@
 import logging
 import os
 import subprocess
-import utils
+from . import utils
 
 
 def _find_prog(prog):

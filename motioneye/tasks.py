@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import calendar
-import cPickle
+import pickle
 import datetime
 import logging
 import multiprocessing
@@ -25,7 +25,7 @@ import time
 
 from tornado.ioloop import IOLoop
 
-import settings
+from . import settings
 
 
 _INTERVAL = 2
@@ -81,7 +81,7 @@ def add(when, func, tag=None, callback=None, **params):
     while i < len(_tasks) and _tasks[i][0] <= when:
         i += 1
 
-    logging.debug('adding task "%s" in %d seconds' % (tag or func.func_name, when - now))
+    logging.debug('adding task "%s" in %d seconds' % (tag or func.__name__, when - now))
     _tasks.insert(i, (when, func, tag, callback, params))
 
     _save()
@@ -96,7 +96,7 @@ def _check_tasks():
     while _tasks and _tasks[0][0] <= now:
         (when, func, tag, callback, params) = _tasks.pop(0)  # @UnusedVariable
         
-        logging.debug('executing task "%s"' % tag or func.func_name)
+        logging.debug('executing task "%s"' % tag or func.__name__)
         _pool.apply_async(func, kwds=params, callback=callback if callable(callback) else None)
 
         changed = True
@@ -124,7 +124,7 @@ def _load():
             return
         
         try:
-            _tasks = cPickle.load(f)
+            _tasks = pickle.load(f)
 
         except Exception as e:
             logging.error('could not read tasks from file "%s": %s' % (file_path, e))
@@ -149,7 +149,7 @@ def _save():
     try:
         # don't save tasks that have a callback
         tasks = [t for t in _tasks if not t[3]]
-        cPickle.dump(tasks, f)
+        pickle.dump(tasks, f)
 
     except Exception as e:
         logging.error('could not save tasks to file "%s": %s' % (file_path, e))

@@ -76,7 +76,7 @@ def compare_versions(version1, version2):
     len1 = len(version1)
     len2 = len(version2)
     length = min(len1, len2)
-    for i in xrange(length):
+    for i in range(length):
         p1 = version1[i]
         p2 = version2[i]
         

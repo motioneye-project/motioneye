@@ -27,28 +27,28 @@ import subprocess
 from tornado.ioloop import IOLoop
 from tornado.web import RequestHandler, StaticFileHandler, HTTPError, asynchronous
 
-import config
-import mediafiles
-import mjpgclient
-import mmalctl
-import monitor
-import motionctl
-import powerctl
-import prefs
-import remote
-import settings
-import smbctl
-import tasks
-import template
-import update
-import uploadservices
-import utils
-import v4l2ctl
+from . import config
+from . import mediafiles
+from . import mjpgclient
+from . import mmalctl
+from . import monitor
+from . import motionctl
+from . import powerctl
+from . import prefs
+from . import remote
+from . import settings
+from . import smbctl
+from . import tasks
+from . import template
+from . import update
+from . import uploadservices
+from . import utils
+from . import v4l2ctl
 
 
 class BaseHandler(RequestHandler):
     def get_all_arguments(self):
-        keys = self.request.arguments.keys()
+        keys = list(self.request.arguments.keys())
         arguments = dict([(key, self.get_argument(key)) for key in keys])
 
         for key in self.request.files:
@@ -327,7 +327,7 @@ class ConfigHandler(BaseHandler):
 
                         return self.finish_json({'error': msg})
 
-                    for key, value in local_config.items():
+                    for key, value in list(local_config.items()):
                         remote_ui_config[key.replace('@', '')] = value
 
                     # replace the real device url with the remote camera path
@@ -353,7 +353,7 @@ class ConfigHandler(BaseHandler):
             ui_config = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+            logging.error('could not decode json: %(msg)s' % {'msg': str(e)})
 
             raise
 
@@ -415,7 +415,7 @@ class ConfigHandler(BaseHandler):
             normal_password = main_config.get('@normal_password')
 
             additional_configs = config.get_additional_structure(camera=False)[1]
-            reboot_config_names = [('@_' + c['name']) for c in additional_configs.values() if c.get('reboot')]
+            reboot_config_names = [('@_' + c['name']) for c in list(additional_configs.values()) if c.get('reboot')]
             reboot = bool([k for k in reboot_config_names if old_main_config.get(k) != main_config.get(k)])
 
             config.set_main(main_config)
@@ -508,8 +508,8 @@ class ConfigHandler(BaseHandler):
                         finish()
 
                 # make sure main config is handled first
-                items = ui_config.items()
-                items.sort(key=lambda (key, cfg): key != 'main')
+                items = list(ui_config.items())
+                items.sort(key=lambda key_cfg: key_cfg[0] != 'main')
 
                 for key, cfg in items:
                     if key == 'main':
@@ -646,7 +646,7 @@ class ConfigHandler(BaseHandler):
                             # if a remote camera is locally disabled, make sure the remote config says the same thing
                             remote_ui_config['enabled'] = False
 
-                        for key, value in local_config.items():
+                        for key, value in list(local_config.items()):
                             remote_ui_config[key.replace('@', '')] = value
 
                         cameras.append(remote_ui_config)
@@ -688,7 +688,7 @@ class ConfigHandler(BaseHandler):
             device_details = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error('could not decode json: %(msg)s' % {'msg': unicode(e)})
+            logging.error('could not decode json: %(msg)s' % {'msg': str(e)})
 
             raise
 
@@ -715,7 +715,7 @@ class ConfigHandler(BaseHandler):
                 if error:
                     return self.finish_json({'error': error})
 
-                for key, value in camera_config.items():
+                for key, value in list(camera_config.items()):
                     remote_ui_config[key.replace('@', '')] = value
 
                 self.finish_json(remote_ui_config)
@@ -801,8 +801,8 @@ class ConfigHandler(BaseHandler):
                         camera_id=camera_id, service_name=service_name, data=data, callback=self._on_test_result)
 
             elif what == 'email':
-                import sendmail
-                import tzctl
+                from . import sendmail
+                from . import tzctl
                 import smtplib
 
                 logging.debug('testing notification email')
@@ -1158,7 +1158,7 @@ class PictureHandler(BaseHandler):
                 self.finish_json()
 
             except Exception as e:
-                self.finish_json({'error': unicode(e)})
+                self.finish_json({'error': str(e)})
 
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):
@@ -1369,7 +1369,7 @@ class PictureHandler(BaseHandler):
                 self.finish_json()
 
             except Exception as e:
-                self.finish_json({'error': unicode(e)})
+                self.finish_json({'error': str(e)})
 
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):
@@ -1389,7 +1389,7 @@ class PictureHandler(BaseHandler):
             self.finish(content)
 
         except IOError as e:
-            logging.warning('could not write response: %(msg)s' % {'msg': unicode(e)})
+            logging.warning('could not write response: %(msg)s' % {'msg': str(e)})
 
 
 class MovieHandler(BaseHandler):
@@ -1511,7 +1511,7 @@ class MovieHandler(BaseHandler):
                 self.finish_json()
 
             except Exception as e:
-                self.finish_json({'error': unicode(e)})
+                self.finish_json({'error': str(e)})
 
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):
@@ -1538,7 +1538,7 @@ class MovieHandler(BaseHandler):
                 self.finish_json()
 
             except Exception as e:
-                self.finish_json({'error': unicode(e)})
+                self.finish_json({'error': str(e)})
 
         elif utils.is_remote_camera(camera_config):
             def on_response(response=None, error=None):

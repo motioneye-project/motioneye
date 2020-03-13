@@ -19,7 +19,7 @@ import json
 import logging
 import os.path
 
-import settings
+from . import settings
 
 
 _PREFS_FILE_NAME = 'prefs.json'

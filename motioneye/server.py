@@ -28,9 +28,9 @@ import time
 from tornado.ioloop import IOLoop
 from tornado.web import Application
 
-import handlers
-import settings
-import template
+from . import handlers
+from . import settings
+from . import template
 
 
 _PID_FILE = 'motioneye.pid'
@@ -48,7 +48,7 @@ class Daemon(object):
             if os.fork() > 0:  # parent
                 sys.exit(0)
 
-        except OSError, e: 
+        except OSError as e: 
             sys.stderr.write('fork() failed: %s\n' % e.strerror)
             sys.exit(-1)
 
@@ -61,7 +61,7 @@ class Daemon(object):
             if os.fork() > 0:  # parent
                 sys.exit(0) 
         
-        except OSError, e: 
+        except OSError as e: 
             sys.stderr.write('fork() failed: %s\n' % e.strerror)
             sys.exit(-1) 
 
@@ -123,7 +123,7 @@ class Daemon(object):
         except Exception as e:
             sys.stderr.write('failed to terminate server: %s\n' % e)
 
-        for i in xrange(50):  # @UnusedVariable
+        for i in range(50):  # @UnusedVariable
             try:
                 os.kill(pid, 0)
                 time.sleep(0.1)
@@ -258,16 +258,16 @@ def test_requirements():
         logging.fatal('please install pycurl')
         sys.exit(-1)
     
-    import motionctl
+    from . import motionctl
     has_motion = motionctl.find_motion()[0] is not None
     
-    import mediafiles
+    from . import mediafiles
     has_ffmpeg = mediafiles.find_ffmpeg() is not None
     
-    import v4l2ctl
+    from . import v4l2ctl
     has_v4lutils = v4l2ctl.find_v4l2_ctl() is not None
 
-    import smbctl
+    from . import smbctl
     if settings.SMB_SHARES and smbctl.find_mount_cifs() is None:
         logging.fatal('please install cifs-utils')
         sys.exit(-1)
@@ -291,7 +291,7 @@ def test_requirements():
 
 
 def make_media_folders():
-    import config
+    from . import config
     
     config.get_main()  # just to have main config already loaded
     
@@ -309,8 +309,8 @@ def make_media_folders():
 
 
 def start_motion():
-    import config
-    import motionctl
+    from . import config
+    from . import motionctl
 
     io_loop = IOLoop.instance()
     
@@ -326,7 +326,7 @@ def start_motion():
             
             except Exception as e:
                 logging.error('failed to start motion: %(msg)s' % {
-                        'msg': unicode(e)}, exc_info=True)
+                        'msg': str(e)}, exc_info=True)
 
         io_loop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
     
@@ -347,13 +347,13 @@ def parse_options(parser, args):
 
 
 def run():
-    import cleanup
-    import mjpgclient
-    import motionctl
+    from . import cleanup
+    from . import mjpgclient
+    from . import motionctl
     import motioneye
-    import smbctl
-    import tasks
-    import wsswitch
+    from . import smbctl
+    from . import tasks
+    from . import wsswitch
 
     configure_signals()
     logging.info('hello! this is motionEye server %s' % motioneye.VERSION)
@@ -421,7 +421,7 @@ def run():
 
 
 def main(parser, args, command):
-    import meyectl
+    from . import meyectl
     
     options = parse_options(parser, args)
     

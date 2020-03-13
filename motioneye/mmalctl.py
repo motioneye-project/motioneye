@@ -18,7 +18,7 @@
 import logging
 import subprocess
 
-import utils
+from . import utils
 
 
 def list_devices():

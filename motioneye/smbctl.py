@@ -21,12 +21,12 @@ import os
 import re
 import subprocess
 import time
-import utils
+from . import utils
 
 from tornado.ioloop import IOLoop
 
-import config
-import settings
+from . import config
+from . import settings
 
 
 def start():
@@ -144,7 +144,7 @@ def update_mounts():
                 should_start = False
     
     # unmount the no longer necessary mounts
-    for (server, share, smb_ver, username), required in mounts.items():
+    for (server, share, smb_ver, username), required in list(mounts.items()):
         if not required:
             _umount(server, share, username)
             should_stop = True
@@ -271,7 +271,7 @@ def _umount_all():
 
 
 def _check_mounts():
-    import motionctl
+    from . import motionctl
     
     logging.debug('checking SMB mounts...')
     
