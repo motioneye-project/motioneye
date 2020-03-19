@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-09 22:28+0100\n"
+"POT-Creation-Date: 2020-02-12 21:46+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: server.py:359
+#: meyectl.py:35
+msgid "lingvo : "
+msgstr ""
+
+#: server.py:360
 msgid "hello! this is motionEye server "
 msgstr ""
 
@@ -73,32 +77,33 @@ msgstr ""
 msgid "minus"
 msgstr ""
 
-#: templates/index.html:1
-#, python-format
-msgid "%(title)s"
+#: templates/main.html:124
+msgid "Preferoj"
 msgstr ""
 
-#: templates/index.html:2
-#, python-format
+#: templates/main.html:129
+msgid "Aranĝo Kolumnoj"
+msgstr ""
+
+#: templates/main.html:131
+msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
+msgstr ""
+
+#: templates/main.html:134
+msgid "Fiksi Kadrojn Vertikale"
+msgstr ""
+
+#: templates/main.html:136
 msgid ""
-"\n"
-"There is %(count)s %(name)s server.\n"
-msgid_plural ""
-"\n"
-"There are %(count)s %(name)s servers.\n"
-msgstr[0] ""
-msgstr[1] ""
-
-#: templates/index.html:7
-#, python-format
-msgid "%(title2)s"
+"kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la "
+"fenestro aŭ ne"
 msgstr ""
 
-#: templates/index.html:8
-msgid "texte a traduire"
+#: templates/main.html:139
+msgid "Aranĝo linioj"
 msgstr ""
 
-#: templates/main.html:115
-msgid "Layout Columns"
+#: templates/main.html:141
+msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
 msgstr ""
 

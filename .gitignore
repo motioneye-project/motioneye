@@ -2,6 +2,9 @@
 *.pyc
 *.bak
 *.pid
+*.pot
+*.po~
+toto*
 .project
 .pydevproject
 *.conf

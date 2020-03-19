@@ -24,11 +24,15 @@ import sys
 import gettext
 
 try:
-  gettext.find('motioneye',localedir='locale')
-  traduction = gettext.translation('motioneye',localedir='locale')
+  gettext.find('motioneye','locale')
+  traduction = gettext.translation('motioneye','locale')
   traduction.install();
 except:
   gettext.install('motioneye')
+
+file = gettext.find('motioneye', 'locale')
+lingvo = file[7:9]
+logging.warn(_('lingvo : ') + lingvo)
 
 # make sure motioneye is on python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

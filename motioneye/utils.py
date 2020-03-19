@@ -68,8 +68,8 @@ COMMON_RESOLUTIONS = [
 ]
 
 
-def _(x):
-    return x  # this could later be replaced by a proper translate function
+#def _(x):
+#    return x  # this could later be replaced by a proper translate function
 
 
 def pretty_date_time(date_time, tzinfo=None, short=False):

@@ -3454,16 +3454,19 @@ function runLoginDialog(retry) {
                     '<td class="login-dialog-error" colspan="100"></td>' +
                 '</tr>' +
                 '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Username</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'
+			+i18n.gettext("Uzantnomo") + '</span></td>' +
                     '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry" autofocus></td>' +
                 '</tr>' +
                 '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Password</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'
+			+i18n.gettext("Pasvorto") + '</span></td>' +
                     '<td class="dialog-item-value"><input type="password" name="password" class="styled" id="passwordEntry"></td>' +
                     '<input type="submit" style="display: none;" name="login" value="login">' +
                 '</tr>' +
                 '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Remember Me</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'
+			+i18n.gettext("Memoru min")+'</span></td>' +
                     '<td class="dialog-item-value"><input type="checkbox" name="remember" class="styled" id="rememberCheck"></td>' +
                 '</tr>' +
             '</table></form>');
@@ -3481,13 +3484,13 @@ function runLoginDialog(retry) {
     }
 
     var params = {
-        title: 'Login',
+        title: i18n.gettext('Ensaluti'),
         content: form,
         buttons: [
-            {caption: 'Cancel', isCancel: true, click: function () {
+            {caption: i18n.gettext('Nuligi'), isCancel: true, click: function () {
                 tempFrame.remove();
             }},
-            {caption: 'Login', isDefault: true, click: function () {
+            {caption: i18n.gettext('Ensaluti'), isDefault: true, click: function () {
                 window.username = usernameEntry.val();
                 window.passwordHash = sha1(passwordEntry.val()).toLowerCase();
                 window._loginDialogSubmitted = true;

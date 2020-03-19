@@ -27,6 +27,7 @@ import time
 
 from tornado.ioloop import IOLoop
 from tornado.web import Application
+from meyectl import lingvo
 
 import handlers
 import settings
@@ -356,7 +357,7 @@ def run():
     import wsswitch
 
     configure_signals()
-    logging.info(_('hello! this is motionEye server ') + motioneye.VERSION)
+    logging.info(_("hello! this is motionEye server ") + motioneye.VERSION)
 
     test_requirements()
     make_media_folders()
@@ -388,6 +389,7 @@ def run():
         logging.info('smb mounts started')
 
     template.add_context('static_path', 'static/')
+    template.add_context('lingvo', lingvo)
     
     application = Application(handler_mapping, debug=False, log_function=_log_request,
                               static_path=settings.STATIC_PATH, static_url_prefix='/static/')

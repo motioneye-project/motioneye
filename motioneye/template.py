@@ -36,8 +36,6 @@ def _init_jinja():
             trim_blocks=False,extensions=['jinja2.ext.i18n'],
 	    autoescape=select_autoescape(['html', 'xml']))
     _jinja_env.install_gettext_translations(traduction,newstyle=True)
-#    translations = Translations.load('locale', ['eo'])
-#    _jinja_env.install_gettext_translations(translations)
 
     # globals
     _jinja_env.globals['settings'] = settings
