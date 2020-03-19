@@ -1,3 +1,5 @@
+**motionEye.eo** estas forko de **motionEye** parte tradukita al esperanto.
+
 **motionEye** is a web-based frontend for `motion <https://motion-project.github.io>`_. Check out the `wiki <https://github.com/ccrisan/motioneye/wiki>`_ for more details.
 
 
