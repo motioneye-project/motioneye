@@ -23,15 +23,24 @@ import pipes
 import sys
 import gettext
 
+#pathname = os.path.dirname(sys.argv[0])      
+pathname=os.path.dirname(__file__)
+#print 'path =', pathname
+
 try:
-  gettext.find('motioneye','locale')
-  traduction = gettext.translation('motioneye','locale')
+  gettext.find('motioneye',pathname+'/locale')
+  traduction = gettext.translation('motioneye',pathname+'/locale')
   traduction.install();
 except:
+  traduction = gettext
   gettext.install('motioneye')
 
-file = gettext.find('motioneye', 'locale')
-lingvo = file[7:9]
+file = gettext.find('motioneye', pathname+'/locale')
+if file:
+  lgrpath = len(pathname)
+  lingvo = file[lgrpath+8:lgrpath+10]
+else:
+  lingvo = 'eo'
 logging.warn(_('lingvo : ') + lingvo)
 
 # make sure motioneye is on python path

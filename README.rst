@@ -1,4 +1,5 @@
-**motionEye.eo** estas forko de **motionEye** parte tradukita al esperanto.
+**motionEye.eo** estas forko de **motionEye** parte tradukita al esperanto kaj kun plurlingva subteno.
+La subtenataj lingvoj estas la franca kaj la angla.
 
 **motionEye** estas reta interfaco por `motion <https://motion-project.github.io>`_. Rigardu la `vikio <https://github.com/ccrisan/motioneye/wiki>`_ por pliaj detaloj.
 
