@@ -11,7 +11,7 @@ msgstr ""
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
-"Language: en\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,115 +20,119 @@ msgstr ""
 
 #: meyectl.py:45
 msgid "lingvo : "
-msgstr "language:"
+msgstr "sprache: "
 
 #: server.py:198
 msgid "interrompa signalo ricevita, fermanta ..."
-msgstr "interrupt signal received, closing ..."
+msgstr "Interrupt-Signal empfangen, schließen ..."
 
 #: server.py:232
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr "smb shares require root privileges"
+msgstr "SMB-Freigaben erfordern Root-Rechte"
 
 #: server.py:239
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr "please install tornado version 3.1 or higher"
+msgstr "Bitte installieren Sie Tornado Version 3.1 oder höher"
 
 #: server.py:246
 msgid "bonvolu instali jinja2"
-msgstr "please install jinja2"
+msgstr "Bitte installieren Sie jinja2"
 
 #: server.py:253
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr "please install pillow or PIL"
+msgstr "Bitte Kissen oder PIL einbauen"
 
 #: server.py:260
 msgid "bonvolu instali pycurl"
-msgstr "please install pycurl"
+msgstr "Bitte installieren Sie Pycurl"
 
 #: server.py:361
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "hello! this is motionEye server "
+msgstr "hallo das ist motionEye server "
 
 #: server.py:376
 msgid "purigado komenciĝis"
-msgstr "cleanup started"
+msgstr "Reinigung begann"
 
 #: server.py:379
+#, fuzzy
 msgid "wsswitch komenciĝis"
-msgstr "wsswitch started"
+msgstr "Reinigung begann"
 
 #: server.py:382
+#, fuzzy
 msgid "taskoj komenciĝis"
-msgstr "tasks started"
+msgstr "Reinigung begann"
 
 #: server.py:386
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr "mjpg customer garbage collector has started"
+msgstr "Der mjpg-Client-Garbage-Collector wurde gestartet"
 
 #: server.py:399
+#, fuzzy
 msgid "servilo komenciĝis"
-msgstr "server started"
+msgstr "Reinigung begann"
 
 #: server.py:406
+#, fuzzy
 msgid "servilo haltis"
-msgstr "server stopped"
+msgstr "motion gestoppt"
 
 #: server.py:417
 msgid "motion haltis"
-msgstr "motion stopped"
+msgstr "motion gestoppt"
 
 #: server.py:423
 msgid "adiaŭ!"
-msgstr "goodbye!"
+msgstr "Auf Wiedersehen!"
 
 #: utils.py:77 utils.py:116
 msgid "never"
-msgstr "never"
+msgstr "niemals"
 
 #: utils.py:168
 msgid "day"
-msgstr "day"
+msgstr "Tag"
 
 #: utils.py:171
 msgid "week"
-msgstr "week"
+msgstr "Woche"
 
 #: utils.py:174
 msgid "month"
-msgstr "month"
+msgstr "Monat"
 
 #: utils.py:177
 msgid "year"
-msgstr "year"
+msgstr "Jahr"
 
 #: utils.py:180
 msgid "days"
-msgstr "days"
+msgstr "Tage"
 
 #: utils.py:184
 msgid "hour"
-msgstr "hour"
+msgstr "stunde"
 
 #: utils.py:187
 msgid "hours"
-msgstr "hours"
+msgstr "Stunden"
 
 #: utils.py:191
 msgid "minute"
-msgstr "minute"
+msgstr "Minuten"
 
 #: utils.py:194
 msgid "minutes"
-msgstr "minutes"
+msgstr "Minuten"
 
 #: utils.py:198
 msgid "second"
-msgstr "second"
+msgstr "zweitens"
 
 #: utils.py:201 utils.py:204
 msgid "seconds"
-msgstr "seconds"
+msgstr "Sekunden"
 
 #: utils.py:208
 msgid "minus"
@@ -136,29 +140,34 @@ msgstr "minus"
 
 #: templates/main.html:124
 msgid "Preferoj"
-msgstr "Preferences"
+msgstr "Einstellungen"
 
 #: templates/main.html:129
 msgid "Aranĝo Kolumnoj"
-msgstr "Layout Columns"
+msgstr "Layout-Spalten"
 
 #: templates/main.html:131
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr "configures the number of columns used to lay out the camera frames"
+msgstr "Legt die Anzahl der Spalten für die Anordnung der Kameras fest"
 
 #: templates/main.html:134
 msgid "Fiksi Kadrojn Vertikale"
-msgstr "Fit Frames Vertically"
+msgstr "Frames vertikal einstellen"
 
 #: templates/main.html:136
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
-msgstr "controls whether frame sizes can be reduced to vertically fit the window or not"
+msgstr "Steuert, ob die Frame-Zeiten reduziert werden können, um sie vertikal an das Fenster anzupassen oder nicht"
 
 #: templates/main.html:139
+#, fuzzy
 msgid "Aranĝo linioj"
-msgstr "Layout Rows"
+msgstr "Layout-Spalten"
 
 #: templates/main.html:141
+#, fuzzy
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr "configures the number of rows used to lay out the camera frames"
+msgstr "Legt die Anzahl der Spalten für die Anordnung der Kameras fest"
 
+#, fuzzy
+#~ msgid "lingva dosiero : "
+#~ msgstr "sprache: "

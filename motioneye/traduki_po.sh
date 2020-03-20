@@ -12,7 +12,7 @@ cat $FIC|awk -v src=$src -v dst=$dst '{
   {
     MSGID=substr($0,7);
     print $0;
-    if(MSGID="\"\"")
+    if(MSGID=="\"\"")
       CONTMSG=1;
   }
   else if ( CONTMSG==1 && substr($1,1,1) == "\"")

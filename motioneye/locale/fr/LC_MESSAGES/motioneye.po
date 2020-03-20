@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-12 19:37+0100\n"
+"POT-Creation-Date: 2020-03-20 23:52+0100\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,13 +17,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: meyectl.py:35
+#: meyectl.py:45
 msgid "lingvo : "
-msgstr "langue:"
+msgstr "langue : "
 
-#: server.py:360
-msgid "hello! this is motionEye server "
-msgstr "bonjour! c'est le serveur motionEye "
+#: server.py:198
+msgid "interrompa signalo ricevita, fermanta ..."
+msgstr "signal d'interruption reçu, fermeture ..."
+
+#: server.py:232
+msgid "smb-akcioj postulas radikajn privilegiojn"
+msgstr "les partages smb nécessitent des privilèges root"
+
+#: server.py:239
+msgid "bonvolu instali tornado version 3.1 aŭ pli"
+msgstr "veuillez installer tornado version 3.1 ou supérieure"
+
+#: server.py:246
+msgid "bonvolu instali jinja2"
+msgstr "veuillez installer jinja2"
+
+#: server.py:253
+msgid "bonvolu instali pillow aŭ PIL"
+msgstr "veuillez installer un oreiller ou un PIL"
+
+#: server.py:260
+msgid "bonvolu instali pycurl"
+msgstr "veuillez installer pycurl"
+
+#: server.py:361
+msgid "saluton! ĉi tio estas motionEye-servilo "
+msgstr "bonjour ! c'est le serveur motionEye "
+
+#: server.py:376
+msgid "purigado komenciĝis"
+msgstr "nettoyage démarré"
+
+#: server.py:379
+msgid "wsswitch komenciĝis"
+msgstr "wsswitch démarré"
+
+#: server.py:382
+msgid "taskoj komenciĝis"
+msgstr "tâches démarrées"
+
+#: server.py:386
+msgid "mjpg klienta rubo-kolektanto komenciĝis"
+msgstr "le ramasse-miettes des clients mjpg a commencé"
+
+#: server.py:399
+msgid "servilo komenciĝis"
+msgstr "serveur démarré"
+
+#: server.py:406
+msgid "servilo haltis"
+msgstr "serveur arrêté"
+
+#: server.py:417
+msgid "motion haltis"
+msgstr "motion arrêté"
+
+#: server.py:423
+msgid "adiaŭ!"
+msgstr "au revoir !"
 
 #: utils.py:77 utils.py:116
 msgid "never"
@@ -94,9 +150,7 @@ msgid "Fiksi Kadrojn Vertikale"
 msgstr "Définir les cadres verticalement"
 
 #: templates/main.html:136
-msgid ""
-"kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la "
-"fenestro aŭ ne"
+msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
 msgstr "controle si les temps de trame peuvent être réduits pour s'adapter à la fenêtre verticalement ou non"
 
 #: templates/main.html:139
@@ -106,3 +160,6 @@ msgstr "Lignes"
 #: templates/main.html:141
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
 msgstr "définit le nombre de lignes utilisées pour organiser les caméras"
+
+#~ msgid "lingva dosiero : "
+#~ msgstr "fichier de traduction : "

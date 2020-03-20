@@ -1,3 +1,4 @@
+# This Python file uses the following encoding: utf-8
 
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -194,7 +195,7 @@ handler_mapping = [
 
 def configure_signals():
     def bye_handler(signal, frame):
-        logging.info('interrupt signal received, shutting down...')
+        logging.info(_(u'interrompa signalo ricevita, fermanta ...'))
 
         # shut down the IO loop if it has been started
         io_loop = IOLoop.instance()
@@ -228,35 +229,35 @@ def test_requirements():
 
     if os.geteuid() != 0:
         if settings.SMB_SHARES:
-            logging.fatal('smb shares require root privileges')
+            logging.fatal(_(u'smb-akcioj postulas radikajn privilegiojn'))
             sys.exit(-1)
 
     try:
         import tornado  # @UnusedImport
 
     except ImportError:
-        logging.fatal('please install tornado version 3.1 or greater')
+        logging.fatal(_(u'bonvolu instali tornado version 3.1 aŭ pli'))
         sys.exit(-1)
 
     try:
         import jinja2  # @UnusedImport
 
     except ImportError:
-        logging.fatal('please install jinja2')
+        logging.fatal(_(u'bonvolu instali jinja2'))
         sys.exit(-1)
 
     try:
         import PIL.Image  # @UnusedImport
 
     except ImportError:
-        logging.fatal('please install pillow or PIL')
+        logging.fatal(_(u'bonvolu instali pillow aŭ PIL'))
         sys.exit(-1)
 
     try:
         import pycurl  # @UnusedImport
 
     except ImportError:
-        logging.fatal('please install pycurl')
+        logging.fatal(_(u'bonvolu instali pycurl'))
         sys.exit(-1)
     
     import motionctl
@@ -357,7 +358,7 @@ def run():
     import wsswitch
 
     configure_signals()
-    logging.info(_("hello! this is motionEye server ") + motioneye.VERSION)
+    logging.info(_(u'saluton! ĉi tio estas motionEye-servilo ') + motioneye.VERSION)
 
     test_requirements()
     make_media_folders()
@@ -372,17 +373,17 @@ def run():
 
     if settings.CLEANUP_INTERVAL:
         cleanup.start()
-        logging.info('cleanup started')
+        logging.info(_(u'purigado komenciĝis'))
         
     wsswitch.start()
-    logging.info('wsswitch started')
+    logging.info(_(u'wsswitch komenciĝis'))
 
     tasks.start()
-    logging.info('tasks started')
+    logging.info(_(u'taskoj komenciĝis'))
 
     if settings.MJPG_CLIENT_TIMEOUT:
         mjpgclient.start()
-        logging.info('mjpg client garbage collector started')
+        logging.info(_(u'mjpg klienta rubo-kolektanto komenciĝis'))
 
     if settings.SMB_SHARES:
         smbctl.start()
@@ -395,14 +396,14 @@ def run():
                               static_path=settings.STATIC_PATH, static_url_prefix='/static/')
     
     application.listen(settings.PORT, settings.LISTEN)
-    logging.info('server started')
+    logging.info(_(u'servilo komenciĝis'))
     
     io_loop = IOLoop.instance()
     # we need to reset the loop's PID to fix PID checks when running in daemon mode
     io_loop._pid = os.getpid()
     io_loop.start()
 
-    logging.info('server stopped')
+    logging.info(_(u'servilo haltis'))
     
     tasks.stop()
     logging.info('tasks stopped')
@@ -413,13 +414,13 @@ def run():
 
     if motionctl.running():
         motionctl.stop()
-        logging.info('motion stopped')
+        logging.info(_('motion haltis'))
     
     if settings.SMB_SHARES:
         smbctl.stop()
         logging.info('smb mounts stopped')
 
-    logging.info('bye!')
+    logging.info(_(u'adiaŭ!'))
 
 
 def main(parser, args, command):

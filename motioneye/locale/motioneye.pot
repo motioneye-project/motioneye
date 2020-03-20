@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-02-12 21:46+0100\n"
+"POT-Creation-Date: 2020-03-20 23:52+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,12 +17,68 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: meyectl.py:35
+#: meyectl.py:45
 msgid "lingvo : "
 msgstr ""
 
-#: server.py:360
-msgid "hello! this is motionEye server "
+#: server.py:198
+msgid "interrompa signalo ricevita, fermanta ..."
+msgstr ""
+
+#: server.py:232
+msgid "smb-akcioj postulas radikajn privilegiojn"
+msgstr ""
+
+#: server.py:239
+msgid "bonvolu instali tornado version 3.1 aŭ pli"
+msgstr ""
+
+#: server.py:246
+msgid "bonvolu instali jinja2"
+msgstr ""
+
+#: server.py:253
+msgid "bonvolu instali pillow aŭ PIL"
+msgstr ""
+
+#: server.py:260
+msgid "bonvolu instali pycurl"
+msgstr ""
+
+#: server.py:361
+msgid "saluton! ĉi tio estas motionEye-servilo "
+msgstr ""
+
+#: server.py:376
+msgid "purigado komenciĝis"
+msgstr ""
+
+#: server.py:379
+msgid "wsswitch komenciĝis"
+msgstr ""
+
+#: server.py:382
+msgid "taskoj komenciĝis"
+msgstr ""
+
+#: server.py:386
+msgid "mjpg klienta rubo-kolektanto komenciĝis"
+msgstr ""
+
+#: server.py:399
+msgid "servilo komenciĝis"
+msgstr ""
+
+#: server.py:406
+msgid "servilo haltis"
+msgstr ""
+
+#: server.py:417
+msgid "motion haltis"
+msgstr ""
+
+#: server.py:423
+msgid "adiaŭ!"
 msgstr ""
 
 #: utils.py:77 utils.py:116

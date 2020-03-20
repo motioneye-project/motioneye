@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# coding: utf-8
 
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -23,10 +24,10 @@ import pipes
 import sys
 import gettext
 
-#pathname = os.path.dirname(sys.argv[0])      
+# ŝarĝante tradukojn
+lingvo = 'eo'
+traduction = None
 pathname=os.path.dirname(__file__)
-#print 'path =', pathname
-
 try:
   gettext.find('motioneye',pathname+'/locale')
   traduction = gettext.translation('motioneye',pathname+'/locale')
@@ -42,12 +43,11 @@ if file:
 else:
   lingvo = 'eo'
 logging.warn(_('lingvo : ') + lingvo)
-
+    
 # make sure motioneye is on python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
+    
 import settings
-
 
 _LOG_FILE = 'motioneye.log'
 
