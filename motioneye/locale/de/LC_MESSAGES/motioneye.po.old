@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-21 14:58+0100\n"
+"POT-Creation-Date: 2020-03-21 19:40+0100\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -225,6 +225,78 @@ msgstr "Motion Version"
 #: templates/main.html:201
 msgid "Operaciumo Versio"
 msgstr "Betriebssystemversion"
+
+#: templates/main.html:206
+msgid "Programara Ĝisdatigo"
+msgstr "Software-Update"
+
+#: templates/main.html:208
+msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
+msgstr "sucht nach neuen Releases und führt Updates durch"
+
+#: templates/main.html:212
+msgid "Nutro"
+msgstr "Essen"
+
+#: templates/main.html:213
+msgid "Fermu"
+msgstr "Schließen"
+
+#: templates/main.html:214
+msgid "malŝaltas la sistemon"
+msgstr "schaltet das System aus"
+
+#: templates/main.html:218
+msgid "Rekomencu"
+msgstr "Neustart"
+
+#: templates/main.html:219
+msgid "rekomencas la sistemon"
+msgstr "Starten Sie das System neu"
+
+#: templates/main.html:225
+msgid "Agordo"
+msgstr "Konfiguration"
+
+#: templates/main.html:226
+msgid "Sekurkopio"
+msgstr "Backup"
+
+#: templates/main.html:227
+msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
+msgstr "Erstellt eine Datei mit der aktuellen Konfiguration, damit Sie sie lokal speichern können"
+
+#: templates/main.html:231
+msgid "Restaŭri"
+msgstr "Wiederherstellen"
+
+#: templates/main.html:232
+msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
+msgstr "stellt die Konfiguration aus einer zuvor gespeicherten Sicherungsdatei wieder her"
+
+#: templates/main.html:260
+msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
+msgstr ""
+
+#: templates/main.html:261
+msgid "Video-Aparato"
+msgstr ""
+
+#: templates/main.html:266
+msgid "Kamerao Nomo"
+msgstr ""
+
+#: templates/main.html:268
+msgid "alias pri ĉi tiu kamera aparato"
+msgstr ""
+
+#: templates/main.html:271
+msgid "Kamerao ID"
+msgstr ""
+
+#: templates/main.html:273
+msgid "la kamerao identiga nombro"
+msgstr ""
 
 #~ msgid "lingvo : "
 #~ msgstr "sprache: "

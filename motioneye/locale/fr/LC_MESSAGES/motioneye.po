@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-21 14:58+0100\n"
+"POT-Creation-Date: 2020-03-21 19:40+0100\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -225,5 +225,74 @@ msgstr "Version Motion"
 msgid "Operaciumo Versio"
 msgstr "Version du système d'exploitation"
 
-#~ msgid "lingvo : "
-#~ msgstr "langue : "
+#: templates/main.html:206
+msgid "Programara Ĝisdatigo"
+msgstr "Mise à jour du logiciel"
+
+#: templates/main.html:208
+msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
+msgstr "recherche les nouvelles versions et effectue les mises à jour"
+
+#: templates/main.html:212
+msgid "Nutro"
+msgstr "Alimention"
+
+#: templates/main.html:213
+msgid "Fermu"
+msgstr "Éteindre"
+
+#: templates/main.html:214
+msgid "malŝaltas la sistemon"
+msgstr "éteint le système"
+
+#: templates/main.html:218
+msgid "Rekomencu"
+msgstr "Redémarrer"
+
+#: templates/main.html:219
+msgid "rekomencas la sistemon"
+msgstr "redémarrer le système"
+
+#: templates/main.html:225
+msgid "Agordo"
+msgstr "Configuration"
+
+#: templates/main.html:226
+msgid "Sekurkopio"
+msgstr "Sauvegarde"
+
+#: templates/main.html:227
+msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
+msgstr "crée un fichier avec la configuration actuelle afin que vous puissiez l'enregistrer localement"
+
+#: templates/main.html:231
+msgid "Restaŭri"
+msgstr "Restaurer"
+
+#: templates/main.html:232
+msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
+msgstr "restaure la configuration à partir d'un fichier de sauvegarde précédemment enregistré"
+
+#: templates/main.html:260
+msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
+msgstr "activez ceci si vous souhaitez utiliser cette caméra"
+
+#: templates/main.html:261
+msgid "Video-Aparato"
+msgstr "Périphérique vidéo"
+
+#: templates/main.html:266
+msgid "Kamerao Nomo"
+msgstr "Nom de la caméra"
+
+#: templates/main.html:268
+msgid "alias pri ĉi tiu kamera aparato"
+msgstr "alias sur cette caméra"
+
+#: templates/main.html:271
+msgid "Kamerao ID"
+msgstr "ID de la caméra"
+
+#: templates/main.html:273
+msgid "la kamerao identiga nombro"
+msgstr "le numéro d'identification de la caméra"

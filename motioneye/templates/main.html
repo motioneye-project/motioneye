@@ -203,33 +203,33 @@
                         </tr>
                         {% if enable_update %}
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Software Update</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Programara Ĝisdatigo") }}</span></td>
                             <td class="settings-item-value"><div class="button normal-button update-button" id="updateButton">Check</div></td>
-                            <td><span class="help-mark" title="checks for new versions and performs updates">?</span></td>
+                            <td><span class="help-mark" title="{{ _("kontrolas novajn versiojn kaj plenumas ĝisdatigojn") }}">?</span></td>
                         </tr>
                         {% endif %}
                         <tr class="settings-item{% if not enable_reboot %} hidden{% endif %}">
-                            <td class="settings-item-label"><span class="settings-item-label">Power</span></td>
-                            <td class="settings-item-value"><div class="button normal-button shut-down-button" id="shutDownButton">Shut Down</div></td>
-                            <td><span class="help-mark" title="shuts down the system">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Nutro") }}</span></td>
+                            <td class="settings-item-value"><div class="button normal-button shut-down-button" id="shutDownButton">{{ _("Fermu") }}</div></td>
+                            <td><span class="help-mark" title="{{ _("malŝaltas la sistemon") }}">?</span></td>
                         </tr>
                         <tr class="settings-item{% if not enable_reboot %} hidden{% endif %}">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
-                            <td class="settings-item-value"><div class="button normal-button reboot-button" id="rebootButton">Reboot</div></td>
-                            <td><span class="help-mark" title="reboots the system">?</span></td>
+                            <td class="settings-item-value"><div class="button normal-button reboot-button" id="rebootButton">{{ _("Rekomencu") }}</div></td>
+                            <td><span class="help-mark" title="{{ _("rekomencas la sistemon") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Configuration</span></td>
-                            <td class="settings-item-value"><div class="button normal-button backup-button" id="backupButton">Backup</div></td>
-                            <td><span class="help-mark" title="creates a file with the current configuration for you to save it locally">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Agordo") }}</span></td>
+                            <td class="settings-item-value"><div class="button normal-button backup-button" id="backupButton">{{ _("Sekurkopio") }}</div></td>
+                            <td><span class="help-mark" title="{{ _("kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
-                            <td class="settings-item-value"><div class="button normal-button restore-button" id="restoreButton">Restore</div></td>
-                            <td><span class="help-mark" title="restores the configuration from a previously saved backup file">?</span></td>
+                            <td class="settings-item-value"><div class="button normal-button restore-button" id="restoreButton">{{ _("Restaŭri") }}</div></td>
+                            <td><span class="help-mark" title="{{ _("restarigas la agordon el antaŭe konservita rezerva dosiero") }}">?</span></td>
                         </tr>
                     </table>
 
@@ -257,20 +257,20 @@
                     <!-- Video Device -->
                     <div class="settings-section-title" id="deviceSectionDiv">
                         <input type="checkbox" class="styled section device camera-config" id="videoDeviceEnabledSwitch">
-                        <span class="help-mark" title="enable this if you want to use this camera device">?</span>
-                        <a class="settings-section-title">Video Device</a>
+                        <span class="help-mark" title="{{ _("aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon") }}">?</span>
+                        <a class="settings-section-title">{{ _("Video-Aparato") }}</a>
                         <span class="minimize open"></span>
                     </div>
                     <table class="settings">
                         <tr class="settings-item" required="true" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Camera Name</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Kamerao Nomo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled device camera-config" id="deviceNameEntry" placeholder="camera name..."></td>
-                            <td><span class="help-mark" title="an alias for this camera device">?</span></td>
+                            <td><span class="help-mark" title="{{ _("alias pri ĉi tiu kamera aparato") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Camera ID</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Kamerao ID") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled device camera-config" id="deviceIdEntry" readonly="readonly"></td>
-                            <td><span class="help-mark" title="the camera identifier number">?</span></td>
+                            <td><span class="help-mark" title="{{ _("la kamerao identiga nombro") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">Camera Device</span></td>
