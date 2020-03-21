@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-20 23:52+0100\n"
+"POT-Creation-Date: 2020-03-21 12:12+0100\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -134,6 +134,10 @@ msgstr "seconds"
 msgid "minus"
 msgstr "minus"
 
+#: templates/main.html:123
+msgid "preferoj de uzanto"
+msgstr "user preferences"
+
 #: templates/main.html:124
 msgid "Preferoj"
 msgstr "Preferences"
@@ -162,3 +166,38 @@ msgstr "Layout Rows"
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
 msgstr "configures the number of rows used to lay out the camera frames"
 
+#: templates/main.html:144
+msgid "kadro-variatoro"
+msgstr "Frame Rate Dimmer"
+
+#: templates/main.html:146
+msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
+msgstr "dims the global frame rate to save network bandwidth and traffic (doesn't work on simple MJPEG cameras)"
+
+#: templates/main.html:149
+msgid "Rezolucio-variatoro"
+msgstr "Resolution Dimmer"
+
+#: templates/main.html:151
+msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+msgstr "dims the actual resolution of all cameras to save network bandwidth and traffic (doesn't work on simple MJPEG cameras)"
+
+#: templates/main.html:161
+msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
+msgstr "general settings, not related to any camera"
+
+#: templates/main.html:162
+msgid "Ĝeneralaj Agordoj"
+msgstr "General Settings"
+
+#: templates/main.html:167
+msgid "Administranto"
+msgstr "Admin Username"
+
+#: templates/main.html:169
+msgid "la uzantnomo uzata por agordi la sistemon"
+msgstr "the username to be used for configuring the system"
+
+#: templates/main.html:172
+msgid "Pasvorto"
+msgstr "Admin Password"

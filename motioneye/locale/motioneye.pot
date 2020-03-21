@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-20 23:52+0100\n"
+"POT-Creation-Date: 2020-03-21 12:12+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -133,6 +133,10 @@ msgstr ""
 msgid "minus"
 msgstr ""
 
+#: templates/main.html:123
+msgid "preferoj de uzanto"
+msgstr ""
+
 #: templates/main.html:124
 msgid "Preferoj"
 msgstr ""
@@ -161,5 +165,45 @@ msgstr ""
 
 #: templates/main.html:141
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
+msgstr ""
+
+#: templates/main.html:144
+msgid "kadro-variatoro"
+msgstr ""
+
+#: templates/main.html:146
+msgid ""
+"reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne "
+"funkcias kun simplaj MJPEG-fotiloj)"
+msgstr ""
+
+#: templates/main.html:149
+msgid "Rezolucio-variatoro"
+msgstr ""
+
+#: templates/main.html:151
+msgid ""
+"reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan "
+"bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+msgstr ""
+
+#: templates/main.html:161
+msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
+msgstr ""
+
+#: templates/main.html:162
+msgid "Ĝeneralaj Agordoj"
+msgstr ""
+
+#: templates/main.html:167
+msgid "Administranto"
+msgstr ""
+
+#: templates/main.html:169
+msgid "la uzantnomo uzata por agordi la sistemon"
+msgstr ""
+
+#: templates/main.html:172
+msgid "Pasvorto"
 msgstr ""
 

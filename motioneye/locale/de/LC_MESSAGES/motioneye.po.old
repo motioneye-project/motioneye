@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-20 23:52+0100\n"
+"POT-Creation-Date: 2020-03-21 12:12+0100\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -28,23 +28,23 @@ msgstr "Interrupt-Signal empfangen, schließen ..."
 
 #: server.py:232
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr ""
+msgstr "SMB-Freigaben erfordern Root-Rechte"
 
 #: server.py:239
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr ""
+msgstr "Bitte installieren Sie Tornado Version 3.1 oder höher"
 
 #: server.py:246
 msgid "bonvolu instali jinja2"
-msgstr ""
+msgstr "Bitte installieren Sie jinja2"
 
 #: server.py:253
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr ""
+msgstr "Bitte Kissen oder PIL einbauen"
 
 #: server.py:260
 msgid "bonvolu instali pycurl"
-msgstr ""
+msgstr "Bitte installieren Sie Pycurl"
 
 #: server.py:361
 msgid "saluton! ĉi tio estas motionEye-servilo "
@@ -55,28 +55,24 @@ msgid "purigado komenciĝis"
 msgstr "Reinigung begann"
 
 #: server.py:379
-#, fuzzy
 msgid "wsswitch komenciĝis"
-msgstr "Reinigung begann"
+msgstr "wsswitch hat begonnen"
 
 #: server.py:382
-#, fuzzy
 msgid "taskoj komenciĝis"
-msgstr "Reinigung begann"
+msgstr "Aufgaben gestartet"
 
 #: server.py:386
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "Der mjpg-Client-Garbage-Collector wurde gestartet"
 
 #: server.py:399
-#, fuzzy
 msgid "servilo komenciĝis"
-msgstr "Reinigung begann"
+msgstr "Server gestartet"
 
 #: server.py:406
-#, fuzzy
 msgid "servilo haltis"
-msgstr "motion gestoppt"
+msgstr "Server gestoppt"
 
 #: server.py:417
 msgid "motion haltis"
@@ -138,6 +134,10 @@ msgstr "Sekunden"
 msgid "minus"
 msgstr "minus"
 
+#: templates/main.html:123
+msgid "preferoj de uzanto"
+msgstr ""
+
 #: templates/main.html:124
 msgid "Preferoj"
 msgstr "Einstellungen"
@@ -159,15 +159,48 @@ msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la
 msgstr "Steuert, ob die Frame-Zeiten reduziert werden können, um sie vertikal an das Fenster anzupassen oder nicht"
 
 #: templates/main.html:139
-#, fuzzy
 msgid "Aranĝo linioj"
-msgstr "Layout-Spalten"
+msgstr "Layoutlinien"
 
 #: templates/main.html:141
-#, fuzzy
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr "Legt die Anzahl der Spalten für die Anordnung der Kameras fest"
+msgstr "Legt die Anzahl der Zeilen fest, die zum Anordnen der Kameras verwendet werden"
 
-#, fuzzy
-#~ msgid "lingva dosiero : "
-#~ msgstr "sprache: "
+#: templates/main.html:144
+msgid "kadro-variatoro"
+msgstr "Rahmenvariator"
+
+#: templates/main.html:146
+msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
+msgstr "reduziert die Bildrate, um Netzwerkbandbreite und Datenverkehr zu sparen (funktioniert nicht mit einfachen MJPEG-Kameras)"
+
+#: templates/main.html:149
+msgid "Rezolucio-variatoro"
+msgstr "Auflösungsvariator"
+
+#: templates/main.html:151
+msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+msgstr "reduziert die effektive Auflösung aller Kameras, um Netzwerkbandbreite und Datenverkehr zu sparen (funktioniert nicht bei einfachen MJPEG-Kameras)"
+
+#: templates/main.html:161
+msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
+msgstr ""
+
+#: templates/main.html:162
+msgid "Ĝeneralaj Agordoj"
+msgstr ""
+
+#: templates/main.html:167
+msgid "Administranto"
+msgstr ""
+
+#: templates/main.html:169
+msgid "la uzantnomo uzata por agordi la sistemon"
+msgstr ""
+
+#: templates/main.html:172
+msgid "Pasvorto"
+msgstr ""
+
+#~ msgid "malheligas la tutmondan framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+#~ msgstr "Verdunkelt die globale Bildrate, um Netzwerkbandbreite und Datenverkehr zu sparen (funktioniert nicht mit einfachen MJPEG-Kameras)"

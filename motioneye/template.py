@@ -30,9 +30,9 @@ _jinja_env = None
 def _init_jinja():
     global _jinja_env
     
-#            loader=FileSystemLoader(settings.TEMPLATE_PATH),
+#            loader=FileSystemLoader(searchpath="templates" ),
     _jinja_env = Environment(
-            loader=FileSystemLoader(searchpath="templates" ),
+            loader=FileSystemLoader(settings.TEMPLATE_PATH),
             trim_blocks=False,extensions=['jinja2.ext.i18n'],
 	    autoescape=select_autoescape(['html', 'xml']))
     _jinja_env.install_gettext_translations(traduction,newstyle=True)

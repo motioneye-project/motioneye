@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-20 23:52+0100\n"
+"POT-Creation-Date: 2020-03-21 12:12+0100\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -133,6 +133,10 @@ msgstr "secondes"
 msgid "minus"
 msgstr "moins"
 
+#: templates/main.html:123
+msgid "preferoj de uzanto"
+msgstr "préférences utilisateur"
+
 #: templates/main.html:124
 msgid "Preferoj"
 msgstr "Préférences"
@@ -151,7 +155,7 @@ msgstr "Définir les cadres verticalement"
 
 #: templates/main.html:136
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
-msgstr "controle si les temps de trame peuvent être réduits pour s'adapter à la fenêtre verticalement ou non"
+msgstr "controle si les largeurs d'image peuvent être réduites pour s'adapter à la fenêtre verticalement ou non"
 
 #: templates/main.html:139
 msgid "Aranĝo linioj"
@@ -161,5 +165,38 @@ msgstr "Lignes"
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
 msgstr "définit le nombre de lignes utilisées pour organiser les caméras"
 
-#~ msgid "lingva dosiero : "
-#~ msgstr "fichier de traduction : "
+#: templates/main.html:144
+msgid "kadro-variatoro"
+msgstr "variateur de fréquence"
+
+#: templates/main.html:146
+msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
+msgstr "réduit la fréquence d'images pour économiser la bande passante du réseau et le trafic (ne fonctionne pas avec les caméras MJPEG simples)"
+
+#: templates/main.html:149
+msgid "Rezolucio-variatoro"
+msgstr "Variateur de résolution"
+
+#: templates/main.html:151
+msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+msgstr "réduit la résolution effective de toutes les caméras pour économiser la bande passante réseau et le trafic (ne fonctionne pas sur les caméras MJPEG simples)"
+
+#: templates/main.html:161
+msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
+msgstr "paramètres généraux, communs à toutes les caméras"
+
+#: templates/main.html:162
+msgid "Ĝeneralaj Agordoj"
+msgstr "Paramètres généraux"
+
+#: templates/main.html:167
+msgid "Administranto"
+msgstr "Administrateur"
+
+#: templates/main.html:169
+msgid "la uzantnomo uzata por agordi la sistemon"
+msgstr "le nom d'utilisateur utilisé pour configurer le système"
+
+#: templates/main.html:172
+msgid "Pasvorto"
+msgstr "Mot de passe"

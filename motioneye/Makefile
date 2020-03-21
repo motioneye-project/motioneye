@@ -18,11 +18,11 @@ static/js/motioneye.fr.json: locale/en/LC_MESSAGES/motioneye.js.json
 
 locale/motioneye.js.pot : static/js/*.js
 	xgettext --no-wrap -o locale/motioneye.js.pot static/js/*.js
-	for x in locale/?? ; do msgmerge --no-wrap -U $$x/LC_MESSAGES/motioneye.js.po locale/motioneye.js.pot;./traduki_po.sh $$x/LC_MESSAGES/motioneye.js.po ; done
+	for x in locale/?? ; do msgmerge -N --no-wrap -U $$x/LC_MESSAGES/motioneye.js.po locale/motioneye.js.pot;./traduki_po.sh $$x/LC_MESSAGES/motioneye.js.po ; done
 
 locale/motioneye.pot : meyectl.py server.py templates/*.html
 	pybabel extract -F babel.cfg -o locale/motioneye.pot .
-	for x in locale/?? ; do msgmerge --no-wrap -U $$x/LC_MESSAGES/motioneye.po locale/motioneye.pot;./traduki_po.sh $$x/LC_MESSAGES/motioneye.po ; done
+	for x in locale/?? ; do msgmerge -N --no-wrap -U $$x/LC_MESSAGES/motioneye.po locale/motioneye.pot;./traduki_po.sh $$x/LC_MESSAGES/motioneye.po ; done
 
 %.json: %.po
 	scripts/po2json $*.po $*.json
