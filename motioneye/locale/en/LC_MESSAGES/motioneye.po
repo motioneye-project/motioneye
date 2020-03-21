@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-21 12:12+0100\n"
+"POT-Creation-Date: 2020-03-21 14:58+0100\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -17,10 +17,6 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-
-#: meyectl.py:45
-msgid "lingvo : "
-msgstr "language:"
 
 #: server.py:198
 msgid "interrompa signalo ricevita, fermanta ..."
@@ -198,6 +194,37 @@ msgstr "Admin Username"
 msgid "la uzantnomo uzata por agordi la sistemon"
 msgstr "the username to be used for configuring the system"
 
-#: templates/main.html:172
+#: templates/main.html:172 templates/main.html:182
 msgid "Pasvorto"
 msgstr "Admin Password"
+
+#: templates/main.html:174
+msgid "pasvorto de administranto"
+msgstr "administrator's password"
+
+#: templates/main.html:177
+msgid "Observanto"
+msgstr "Surveillance Username"
+
+#: templates/main.html:179
+msgid "la uzantnomo por uzi por la monitorado"
+msgstr "the username to be used for video surveillance"
+
+#: templates/main.html:184
+msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
+msgstr "the password for the surveillance user (leave empty for passwordless surveillance)"
+
+#: templates/main.html:193
+msgid "motionEye Versio"
+msgstr "motionEye Version"
+
+#: templates/main.html:197
+msgid "Motion Versio"
+msgstr "Motion Version"
+
+#: templates/main.html:201
+msgid "Operaciumo Versio"
+msgstr "OS Version"
+
+#~ msgid "lingvo : "
+#~ msgstr "language:"

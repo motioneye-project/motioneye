@@ -42,7 +42,7 @@ if file:
   lingvo = file[lgrpath+8:lgrpath+10]
 else:
   lingvo = 'eo'
-logging.warn(_('lingvo : ') + lingvo)
+#logging.info(_('lingvo : ') + lingvo)
     
 # make sure motioneye is on python path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))

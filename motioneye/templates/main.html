@@ -171,17 +171,17 @@
                         <tr class="settings-item" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Pasvorto") }}</span></td>
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled general main-config" id="adminPasswordEntry"></td>
-                            <td><span class="help-mark" title="administrator's password">?</span></td>
+                            <td><span class="help-mark" title="{{ _("pasvorto de administranto") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Surveillance Username</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Observanto") }}</span></td>
                             <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled general main-config" id="normalUsernameEntry"></td>
-                            <td><span class="help-mark" title="the username to be used for video surveillance">?</span></td>
+                            <td><span class="help-mark" title="{{ _("la uzantnomo por uzi por la monitorado") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Surveillance Password</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Pasvorto") }}</span></td>
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled general main-config" id="normalPasswordEntry"></td>
-                            <td><span class="help-mark" title="the password for the surveillance user (leave empty for passwordless surveillance)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)") }}">?</span></td>
                         </tr>
                         {% for config in main_sections.get('general', {}).get('configs', []) %}
                             {{config_item(config)}}
@@ -190,15 +190,15 @@
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">motionEye Version</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("motionEye Versio") }}</span></td>
                             <td class="settings-item-value"><span class="settings-item-label">{{version}}</span></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Motion Version</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Motion Versio") }}</span></td>
                             <td class="settings-item-value"><span class="settings-item-label">{{motion_version}}</span></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">OS Version</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Operaciumo Versio") }}</span></td>
                             <td class="settings-item-value"><span class="settings-item-label">{{os_version}}</span></td>
                         </tr>
                         {% if enable_update %}
