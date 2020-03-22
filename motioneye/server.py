@@ -406,7 +406,7 @@ def run():
     logging.info(_(u'servilo haltis'))
     
     tasks.stop()
-    logging.info('tasks stopped')
+    logging.info(_(u'taskoj haltis'))
 
     if cleanup.running():
         cleanup.stop()

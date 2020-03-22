@@ -273,44 +273,45 @@
                             <td><span class="help-mark" title="{{ _("la kamerao identiga nombro") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Camera Device</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Kamerao aparato") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled device camera-config" id="deviceUrlEntry" readonly="readonly"></td>
+                            <td><span class="help-mark" title="{{ _("Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Camera Type</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Kamerao Tipo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled device camera-config" id="deviceTypeEntry" readonly="readonly"></td>
                         </tr>
                         <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Automatic Brightness</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Aŭtomata Brilo") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled device camera-config" id="autoBrightnessSwitch"></td>
-                            <td><span class="help-mark" title="enables software automatic brightness (only recommended for cameras without autobrightness)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Video Resolution</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Video-rezolucio") }}</span></td>
                             <td class="settings-item-value">
                                 <select class="video-resolution styled device camera-config" id="resolutionSelect">
                                 </select>
                             </td>
-                            <td><span class="help-mark" title="the video resolution (larger values produce better quality but require more CPU power, larger storage space and bandwidth)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" min="96" max="4096" required="true" depends="resolution=custom">
-                            <td class="settings-item-label"><span class="settings-item-label">Width</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Larĝeco") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled number device camera-config" id="customWidthEntry"></td>
-                            <td><span class="help-mark" title="enter a custom resolution width">?</span></td>
+                            <td><span class="help-mark" title="{{ _("enigu kutiman rezolucian larĝon") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" min="96" max="4096" required="true" depends="resolution=custom">
-                            <td class="settings-item-label"><span class="settings-item-label">Height</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Alteco") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled number device camera-config" id="customHeightEntry"></td>
-                            <td><span class="help-mark" title="enter a custom resolution height">?</span></td>
+                            <td><span class="help-mark" title="{{ _("enigu kutiman rezolucian altecon") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Video Rotation</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Video-Rotacio") }}</span></td>
                             <td class="settings-item-value">
                                 <select class="rotation styled device camera-config" id="rotationSelect">
                                     <option value="0">0&deg;</option>
@@ -319,12 +320,12 @@
                                     <option value="270">270&deg;</option>
                                 </select>
                             </td>
-                            <td><span class="help-mark" title="use this to rotate the captured image, if your camera is not positioned correctly">?</span></td>
+                            <td><span class="help-mark" title="{{ _("uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" min="2" max="30" snap="0" ticks="2|5|10|15|20|25|30" decimals="0">
-                            <td class="settings-item-label"><span class="settings-item-label">Frame Rate</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Kadrofrekvenco") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled device camera-config" id="framerateSlider"></td>
-                            <td><span class="help-mark" title="sets the number of frames captured by the camera every second (higher values produce smoother videos but require more CPU power, larger storage space and bandwidth)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">Extra Motion Options</span></td>

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-21 19:40+0100\n"
+"POT-Creation-Date: 2020-03-22 19:19+0100\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -69,6 +69,10 @@ msgstr "server started"
 #: server.py:406
 msgid "servilo haltis"
 msgstr "server stopped"
+
+#: server.py:409
+msgid "taskoj haltis"
+msgstr "tasks stopped"
 
 #: server.py:417
 msgid "motion haltis"
@@ -297,3 +301,63 @@ msgstr "Camera ID"
 #: templates/main.html:273
 msgid "la kamerao identiga nombro"
 msgstr "the camera identifier number"
+
+#: templates/main.html:276
+msgid "Kamerao aparato"
+msgstr "Camera device"
+
+#: templates/main.html:278
+msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
+msgstr "Input device (eg: /dev/video) or URL (eg: rtsp://192.168.1.1/stream)"
+
+#: templates/main.html:281
+msgid "Kamerao Tipo"
+msgstr "Camera Type"
+
+#: templates/main.html:288
+msgid "Aŭtomata Brilo"
+msgstr "Automatic Brightness"
+
+#: templates/main.html:290
+msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
+msgstr "enables software automatic brightness (only recommended for cameras without autobrightness)"
+
+#: templates/main.html:296
+msgid "Video-rezolucio"
+msgstr "Video resolution"
+
+#: templates/main.html:301
+msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
+msgstr "the video resolution (larger values produce better quality, but require more CPU power, larger storage space and bandwidth)"
+
+#: templates/main.html:304
+msgid "Larĝeco"
+msgstr "Width"
+
+#: templates/main.html:306
+msgid "enigu kutiman rezolucian larĝon"
+msgstr "enter a custom resolution width"
+
+#: templates/main.html:309
+msgid "Alteco"
+msgstr "Height"
+
+#: templates/main.html:311
+msgid "enigu kutiman rezolucian altecon"
+msgstr "enter a custom resolution height"
+
+#: templates/main.html:314
+msgid "Video-Rotacio"
+msgstr "Video Rotation"
+
+#: templates/main.html:323
+msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
+msgstr "use this to rotate the captured image if your camera is not positioned correctly"
+
+#: templates/main.html:326
+msgid "Kadrofrekvenco"
+msgstr "Frame rate"
+
+#: templates/main.html:328
+msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
+msgstr "Sets the number of frames captured by the camera every second (higher values produce smoother videos but require more CPU power, larger storage space and bandwidth)"
