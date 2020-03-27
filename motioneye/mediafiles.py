@@ -833,8 +833,8 @@ def get_media_preview(camera_config, path, media_type, width, height):
         logging.error('failed to open media preview image file: %s' % e)
         return None
 
-    width = width and int(width) or image.size[0]
-    height = height and int(height) or image.size[1]
+    width = width and int(float(width)) or image.size[0]
+    height = height and int(float(height)) or image.size[1]
 
     image.thumbnail((width, height), Image.LINEAR)
 
