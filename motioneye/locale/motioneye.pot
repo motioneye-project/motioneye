@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-22 19:19+0100\n"
+"POT-Creation-Date: 2020-03-25 16:23+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -378,5 +378,23 @@ msgid ""
 "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli "
 "altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-"
 "potenco, pli grandan stokadon kaj larĝan bandon)"
+msgstr ""
+
+#: templates/main.html:331
+msgid "Ekstraj Elektoj"
+msgstr ""
+
+#: templates/main.html:333
+msgid ""
+"vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; "
+"demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
+msgstr ""
+
+#: templates/main.html:342
+msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
+msgstr ""
+
+#: templates/main.html:343
+msgid "Stokado de dosieroj"
 msgstr ""
 

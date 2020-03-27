@@ -328,9 +328,9 @@
                             <td><span class="help-mark" title="{{ _("agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Extra Motion Options</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Ekstraj Elektoj") }}</span></td>
                             <td class="settings-item-value"><textarea class="styled device camera-config" id="extraOptionsEntry" rows="3"></textarea></td>
-                            <td><span class="help-mark" title="you can add here any extra options for the motion daemon (use the &quot;name value&quot; format, one option per line)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)") }}">?</span></td>
                         </tr>
                         {% for config in camera_sections.get('device', {}).get('configs', []) %}
                             {{config_item(config)}}
@@ -339,8 +339,8 @@
 
                     <!-- File Storage -->
                     <div class="settings-section-title" id="storageSectionDiv">
-                        <span class="help-mark" title="choose where and how your media files are saved">?</span>
-                        <a class="settings-section-title">File Storage</a>
+                        <span class="help-mark" title="{{ _("elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj") }}">?</span>
+                        <a class="settings-section-title">{{ _("Stokado de dosieroj") }}</a>
                         <span class="minimize"></span>
                     </div>
                     <table class="settings">
