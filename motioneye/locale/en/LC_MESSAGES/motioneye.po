@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-03-25 16:19+0100\n"
+"POT-Creation-Date: 2020-03-28 14:11+0100\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -377,3 +377,99 @@ msgstr "choose where and how your media is stored"
 #: templates/main.html:343
 msgid "Stokado de dosieroj"
 msgstr "File storage"
+
+#: templates/main.html:348
+msgid "Stokada Aparato"
+msgstr "Storage Device"
+
+#: templates/main.html:353
+msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
+msgstr "indicates the storage device where the image and video files will be saved"
+
+#: templates/main.html:356
+msgid "Retservilo"
+msgstr "Network server"
+
+#: templates/main.html:358
+msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
+msgstr "the address of the network server (IP address or hostname)"
+
+#: templates/main.html:361
+msgid "SMB Protokolo-Versio"
+msgstr "SMB Protocol Version"
+
+#: templates/main.html:371
+msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
+msgstr "selects the SMB version to be used (test the various options and see which one works best with your NAS)"
+
+#: templates/main.html:374
+msgid "Kunhava nomo"
+msgstr "Share name"
+
+#: templates/main.html:376
+msgid "la nomo de la interŝanĝa reto"
+msgstr "the name of the network share"
+
+#: templates/main.html:379
+msgid "Uzantnomo"
+msgstr "Share Username"
+
+#: templates/main.html:381
+msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
+msgstr "the username to be supplied when accessing the network share (leave empty if no username is required)"
+
+#: templates/main.html:384
+msgid "Pasvorton"
+msgstr "Share Password"
+
+#: templates/main.html:386
+msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
+msgstr "the password required by the network share (leave empty if no password is required)"
+
+#: templates/main.html:389
+msgid "Radika dosierujo"
+msgstr "Root directory"
+
+#: templates/main.html:391
+msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
+msgstr "the root path (on the selected storage device) where the files will be saved"
+
+#: templates/main.html:395
+msgid "Testi la reton dosierujon"
+msgstr "Test share"
+
+#: templates/main.html:396
+msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
+msgstr "click this button to test the network share connectivity after you have filled in the required details"
+
+#: templates/main.html:402
+msgid "Uzado de Disko"
+msgstr "Disk usage"
+
+#: templates/main.html:406
+msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
+msgstr "the used/total size of the disk where the root directory resides"
+
+#: templates/main.html:412
+msgid "Alŝutu Mediajn Dosierojn"
+msgstr "Upload Media Files"
+
+#: templates/main.html:414
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
+msgstr "activate this option if you want your media to be uploaded to an external service"
+
+#: templates/main.html:417
+msgid "Alŝutu Bildojn"
+msgstr "Upload Images"
+
+#: templates/main.html:419
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
+msgstr "activate this option if you want the images to be downloaded to an external service"
+
+#: templates/main.html:422
+msgid "Alŝutu Filmojn"
+msgstr "Upload Movies"
+
+#: templates/main.html:424
+msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
+msgstr "enable this if you want videos to be uploaded to an external service"

@@ -13,12 +13,12 @@ function makeCheckBox($input) {
         var text = $('<span class="check-box-text"><span>');
         
         function setOn() {
-            text.html('ON');
+            text.html('<img src="' + staticPath + 'img/IEC5007_On_Symbol.svg" style="width:18px;height:18px;padding:2px">');
             mainDiv.addClass('on');
         }
         
         function setOff() {
-            text.html('OFF');
+            text.html('<img src="' + staticPath + 'img/IEC5008_Off_Symbol.svg" style="width:18px;height:18px;padding:2px">');
             mainDiv.removeClass('on');
         }
         

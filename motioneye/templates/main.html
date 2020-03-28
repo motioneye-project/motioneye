@@ -345,20 +345,20 @@
                     </div>
                     <table class="settings">
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Storage Device</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Stokada Aparato") }}</span></td>
                             <td class="settings-item-value">
                                 <select class="styled storage camera-config" id="storageDeviceSelect">
                                 </select>
                             </td>
-                            <td><span class="help-mark" title="indicates the storage device where the image and video files will be saved">?</span></td>
+                            <td><span class="help-mark" title="{{ _("indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="storageDevice=network-share" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Network Server</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Retservilo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="networkServerEntry"></td>
-                            <td><span class="help-mark" title="the address of the network server (IP address or hostname)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("la adreso de la retservilo (IP-adreso aŭ nomo)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="storageDevice=network-share">
-                            <td class="settings-item-label"><span class="settings-item-label">SMB Protocol Version</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("SMB Protokolo-Versio") }}</span></td>
                             <td class="settings-item-value">
                                 <select class="styled storage camera-config" id="networkSMBVerSelect">
                                     <option value="1.0">1.0</option>
@@ -368,60 +368,60 @@
                                     <option value="3.1.1">3.1.1</option>
                                 </select>
                             </td>
-                            <td><span class="help-mark" title="selects the SMB version to be used (test the various options and see which one works best with your NAS)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="storageDevice=network-share" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Share Name</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Kunhava nomo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="networkShareNameEntry"></td>
-                            <td><span class="help-mark" title="the name of the network share">?</span></td>
+                            <td><span class="help-mark" title="{{ _("la nomo de la interŝanĝa reto") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="storageDevice=network-share" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Share Username</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Uzantnomo") }}</span></td>
                             <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled storage camera-config" id="networkUsernameEntry"></td>
-                            <td><span class="help-mark" title="the username to be supplied when accessing the network share (leave empty if no username is required)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="storageDevice=network-share" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Share Password</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Pasvorton") }}</span></td>
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled storage camera-config" id="networkPasswordEntry"></td>
-                            <td><span class="help-mark" title="the password required by the network share (leave empty if no password is required)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Root Directory</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Radika dosierujo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="rootDirectoryEntry"></td>
-                            <td><span class="help-mark" title="the root path (on the selected storage device) where the files will be saved">?</span></td>
+                            <td><span class="help-mark" title="{{ _("la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="storageDevice=network-share">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
-                            <td class="settings-item-value"><div class="button normal-button test-button" id="networkShareTestButton">Test Share</div></td>
-                            <td><span class="help-mark" title="click this button to test the network share connectivity after you have filled in the required details">?</span></td>
+                            <td class="settings-item-value"><div class="button normal-button test-button" id="networkShareTestButton">{{ _("Testi la reton dosierujon") }}</div></td>
+                            <td><span class="help-mark" title="{{ _("alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Disk Usage</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Uzado de Disko") }}</span></td>
                             <td class="settings-item-value">
                                 <div id="diskUsageProgressBar" class="progress-bar"></div>
                             </td>
-                            <td><span class="help-mark" title="the used/total size of the disk where the root directory resides">?</span></td>
+                            <td><span class="help-mark" title="{{ _("la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Upload Media Files</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Alŝutu Mediajn Dosierojn") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadEnabledSwitch"></td>
-                            <td><span class="help-mark" title="enable this if you want your media files to be uploaded to an external service">?</span></td>
+                            <td><span class="help-mark" title="{{ _("aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="uploadEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Upload Pictures</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Alŝutu Bildojn") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadPictureSwitch"></td>
-                            <td><span class="help-mark" title="enable this if you want pictures to be uploaded to an external service">?</span></td>
+                            <td><span class="help-mark" title="{{ _("aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="uploadEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Upload Movies</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Alŝutu Filmojn") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="uploadMovieSwitch"></td>
-                            <td><span class="help-mark" title="enable this if you want videos to be uploaded to an external service">?</span></td>
+                            <td><span class="help-mark" title="{{ _("ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="uploadEnabled">
                             <td class="settings-item-label"><span class="settings-item-label">Upload Service</span></td>

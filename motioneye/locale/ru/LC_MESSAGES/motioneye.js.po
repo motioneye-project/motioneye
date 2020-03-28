@@ -1,0 +1,39 @@
+# Russian translations for PACKAGE package.
+# Copyright (C) 2020 THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Automatically generated, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-02-11 22:23+0100\n"
+"PO-Revision-Date: 2020-02-11 22:23+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+#: static/js/main.js:3458
+msgid "Uzantnomo"
+msgstr "имя пользователя"
+
+#: static/js/main.js:3463
+msgid "Pasvorto"
+msgstr "пароль"
+
+#: static/js/main.js:3469
+msgid "Memoru min"
+msgstr "Помни меня"
+
+#: static/js/main.js:3487 static/js/main.js:3493
+msgid "Ensaluti"
+msgstr "Войти в систему"
+
+#: static/js/main.js:3490
+msgid "Nuligi"
+msgstr "отменить"

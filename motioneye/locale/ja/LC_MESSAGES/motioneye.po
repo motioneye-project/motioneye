@@ -1,0 +1,475 @@
+# Translations template for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# Automatically generated, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2020-03-28 14:11+0100\n"
+"PO-Revision-Date: 2020-03-25 16:20+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#: server.py:198
+msgid "interrompa signalo ricevita, fermanta ..."
+msgstr "割り込み信号を受信し、閉じています..."
+
+#: server.py:232
+msgid "smb-akcioj postulas radikajn privilegiojn"
+msgstr "smb共有にはroot権限が必要です"
+
+#: server.py:239
+msgid "bonvolu instali tornado version 3.1 aŭ pli"
+msgstr "トルネードバージョン3.1以降をインストールしてください"
+
+#: server.py:246
+msgid "bonvolu instali jinja2"
+msgstr "jinja2をインストールしてください"
+
+#: server.py:253
+msgid "bonvolu instali pillow aŭ PIL"
+msgstr "枕またはPILを取り付けてください"
+
+#: server.py:260
+msgid "bonvolu instali pycurl"
+msgstr "pycurlをインストールしてください"
+
+#: server.py:361
+msgid "saluton! ĉi tio estas motionEye-servilo "
+msgstr "こんにちは！これはmotionEyeサーバーです"
+
+#: server.py:376
+msgid "purigado komenciĝis"
+msgstr "掃除が始まった"
+
+#: server.py:379
+msgid "wsswitch komenciĝis"
+msgstr "wsswitchが開始しました"
+
+#: server.py:382
+msgid "taskoj komenciĝis"
+msgstr "開始されたタスク"
+
+#: server.py:386
+msgid "mjpg klienta rubo-kolektanto komenciĝis"
+msgstr "mjpgカスタマーガベージコレクターが開始しました"
+
+#: server.py:399
+msgid "servilo komenciĝis"
+msgstr "サーバーが起動しました"
+
+#: server.py:406
+msgid "servilo haltis"
+msgstr "サーバーが停止しました"
+
+#: server.py:409
+msgid "taskoj haltis"
+msgstr "停止したタスク"
+
+#: server.py:417
+msgid "motion haltis"
+msgstr "動きが止まった"
+
+#: server.py:423
+msgid "adiaŭ!"
+msgstr "さようなら！"
+
+#: utils.py:77 utils.py:116
+msgid "never"
+msgstr "決して"
+
+#: utils.py:168
+msgid "day"
+msgstr "日"
+
+#: utils.py:171
+msgid "week"
+msgstr "一週間"
+
+#: utils.py:174
+msgid "month"
+msgstr "月"
+
+#: utils.py:177
+msgid "year"
+msgstr "年"
+
+#: utils.py:180
+msgid "days"
+msgstr "日"
+
+#: utils.py:184
+msgid "hour"
+msgstr "時間"
+
+#: utils.py:187
+msgid "hours"
+msgstr "時間"
+
+#: utils.py:191
+msgid "minute"
+msgstr "分"
+
+#: utils.py:194
+msgid "minutes"
+msgstr "分"
+
+#: utils.py:198
+msgid "second"
+msgstr "二番目"
+
+#: utils.py:201 utils.py:204
+msgid "seconds"
+msgstr "秒"
+
+#: utils.py:208
+msgid "minus"
+msgstr "マイナス"
+
+#: templates/main.html:123
+msgid "preferoj de uzanto"
+msgstr "ユーザー設定"
+
+#: templates/main.html:124
+msgid "Preferoj"
+msgstr "好み"
+
+#: templates/main.html:129
+msgid "Aranĝo Kolumnoj"
+msgstr "列のレイアウト"
+
+#: templates/main.html:131
+msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
+msgstr "カメラの配置に使用される列の数を設定します"
+
+#: templates/main.html:134
+msgid "Fiksi Kadrojn Vertikale"
+msgstr "フレームを垂直に設定"
+
+#: templates/main.html:136
+msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
+msgstr "ウィンドウを垂直に合わせるためにフレーム時間を短縮できるかどうかを制御します"
+
+#: templates/main.html:139
+msgid "Aranĝo linioj"
+msgstr "レイアウト線"
+
+#: templates/main.html:141
+msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
+msgstr "カメラの配置に使用される線の数を設定します"
+
+#: templates/main.html:144
+msgid "kadro-variatoro"
+msgstr "フレームバリエーター"
+
+#: templates/main.html:146
+msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
+msgstr "フレームレートを下げてネットワーク帯域幅とトラフィックを節約します（単純なMJPEGカメラでは機能しません）"
+
+#: templates/main.html:149
+msgid "Rezolucio-variatoro"
+msgstr "解像度バリエーター"
+
+#: templates/main.html:151
+msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+msgstr "すべてのカメラの有効解像度を下げて、ネットワーク帯域幅とトラフィックを節約します（単純なMJPEGカメラでは機能しません）。"
+
+#: templates/main.html:161
+msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
+msgstr "すべてのカメラに共通の一般的なパラメータ"
+
+#: templates/main.html:162
+msgid "Ĝeneralaj Agordoj"
+msgstr "一般設定"
+
+#: templates/main.html:167
+msgid "Administranto"
+msgstr "管理者"
+
+#: templates/main.html:169
+msgid "la uzantnomo uzata por agordi la sistemon"
+msgstr "システムの構成に使用されるユーザー名"
+
+#: templates/main.html:172 templates/main.html:182
+msgid "Pasvorto"
+msgstr "パスワード"
+
+#: templates/main.html:174
+msgid "pasvorto de administranto"
+msgstr "管理者パスワード"
+
+#: templates/main.html:177
+msgid "Observanto"
+msgstr "オブザーバー"
+
+#: templates/main.html:179
+msgid "la uzantnomo por uzi por la monitorado"
+msgstr "監視に使用するユーザー名"
+
+#: templates/main.html:184
+msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
+msgstr "監視ユーザーのパスワード（パスワードなしで監視する場合は空白のままにします）"
+
+#: templates/main.html:193
+msgid "motionEye Versio"
+msgstr "motionEyeバージョン"
+
+#: templates/main.html:197
+msgid "Motion Versio"
+msgstr "モーションバージョン"
+
+#: templates/main.html:201
+msgid "Operaciumo Versio"
+msgstr "オペレーティングシステムのバージョン"
+
+#: templates/main.html:206
+msgid "Programara Ĝisdatigo"
+msgstr "ソフトウェアアップデート"
+
+#: templates/main.html:208
+msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
+msgstr "新しいリリースをチェックして更新を実行する"
+
+#: templates/main.html:212
+msgid "Nutro"
+msgstr "食物"
+
+#: templates/main.html:213
+msgid "Fermu"
+msgstr "閉じる"
+
+#: templates/main.html:214
+msgid "malŝaltas la sistemon"
+msgstr "システムをオフにします"
+
+#: templates/main.html:218
+msgid "Rekomencu"
+msgstr "再起動"
+
+#: templates/main.html:219
+msgid "rekomencas la sistemon"
+msgstr "システムを再起動します"
+
+#: templates/main.html:225
+msgid "Agordo"
+msgstr "構成"
+
+#: templates/main.html:226
+msgid "Sekurkopio"
+msgstr "バックアップ"
+
+#: templates/main.html:227
+msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
+msgstr "ローカルに保存できるように、現在の構成でファイルを作成します"
+
+#: templates/main.html:231
+msgid "Restaŭri"
+msgstr "元に戻す"
+
+#: templates/main.html:232
+msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
+msgstr "以前に保存したバックアップファイルから構成を復元します"
+
+#: templates/main.html:260
+msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
+msgstr "このカメラを使用する場合は、これをアクティブにします"
+
+#: templates/main.html:261
+msgid "Video-Aparato"
+msgstr "ビデオデバイス"
+
+#: templates/main.html:266
+msgid "Kamerao Nomo"
+msgstr "カメラ名"
+
+#: templates/main.html:268
+msgid "alias pri ĉi tiu kamera aparato"
+msgstr "このカメラデバイスのエイリアス"
+
+#: templates/main.html:271
+msgid "Kamerao ID"
+msgstr "カメラID"
+
+#: templates/main.html:273
+msgid "la kamerao identiga nombro"
+msgstr "カメラ識別番号"
+
+#: templates/main.html:276
+msgid "Kamerao aparato"
+msgstr "カメラデバイス"
+
+#: templates/main.html:278
+msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
+msgstr "入力デバイス（例：/ dev / video）またはURL（例：rtsp：//192.168.1.1/stream）"
+
+#: templates/main.html:281
+msgid "Kamerao Tipo"
+msgstr "カメラタイプ"
+
+#: templates/main.html:288
+msgid "Aŭtomata Brilo"
+msgstr "自動輝度"
+
+#: templates/main.html:290
+msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
+msgstr "自動グレアソフトウェアを有効にします（自動グレアのないカメラにのみ推奨）"
+
+#: templates/main.html:296
+msgid "Video-rezolucio"
+msgstr "ビデオ解像度"
+
+#: templates/main.html:301
+msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
+msgstr "ビデオ解像度（値が大きいほど品質が良くなりますが、より多くのCPUパワー、より大きなストレージと帯域幅が必要になります）"
+
+#: templates/main.html:304
+msgid "Larĝeco"
+msgstr "幅"
+
+#: templates/main.html:306
+msgid "enigu kutiman rezolucian larĝon"
+msgstr "カスタム解像度の幅を入力してください"
+
+#: templates/main.html:309
+msgid "Alteco"
+msgstr "身長"
+
+#: templates/main.html:311
+msgid "enigu kutiman rezolucian altecon"
+msgstr "カスタム解像度の高さを入力してください"
+
+#: templates/main.html:314
+msgid "Video-Rotacio"
+msgstr "ビデオ回転"
+
+#: templates/main.html:323
+msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
+msgstr "カメラが正しく配置されていない場合は、これを使用してキャプチャした画像を回転させます"
+
+#: templates/main.html:326
+msgid "Kadrofrekvenco"
+msgstr "フレームレート"
+
+#: templates/main.html:328
+msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
+msgstr "1秒あたりのカメラによってキャプチャされたフレーム数を設定します（値が大きいほど滑らかなビデオが生成されますが、より多くのCPUパワー、より大きなストレージと帯域幅が必要になります）"
+
+#: templates/main.html:331
+msgid "Ekstraj Elektoj"
+msgstr "追加オプション"
+
+#: templates/main.html:333
+msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
+msgstr "ここで「モーション」デーモンの追加オプションを追加できます（「名前の値」の形式を使用して、1行に1つのオプションを入力します）"
+
+#: templates/main.html:342
+msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
+msgstr "メディアを保存する場所と方法を選択する"
+
+#: templates/main.html:343
+msgid "Stokado de dosieroj"
+msgstr "ファイルストレージ"
+
+#: templates/main.html:348
+msgid "Stokada Aparato"
+msgstr "ストレージデバイス"
+
+#: templates/main.html:353
+msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
+msgstr "画像および動画ファイルが保存されるストレージデバイスを示します"
+
+#: templates/main.html:356
+msgid "Retservilo"
+msgstr "ウェブサーバー"
+
+#: templates/main.html:358
+msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
+msgstr "Webサーバーのアドレス（IPアドレスまたは名前）"
+
+#: templates/main.html:361
+msgid "SMB Protokolo-Versio"
+msgstr "SMBプロトコルバージョン"
+
+#: templates/main.html:371
+msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
+msgstr "使用できるSMBバージョンを選択します（さまざまなオプションをテストし、NASで最適に動作するオプションを確認します）"
+
+#: templates/main.html:374
+msgid "Kunhava nomo"
+msgstr "共有名"
+
+#: templates/main.html:376
+msgid "la nomo de la interŝanĝa reto"
+msgstr "交換ネットワークの名前"
+
+#: templates/main.html:379
+msgid "Uzantnomo"
+msgstr "ユーザー名"
+
+#: templates/main.html:381
+msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
+msgstr "ネットワークディレクトリにアクセスするときに提供されるユーザー名（ユーザー名が不要な場合は空白のままにします）"
+
+#: templates/main.html:384
+msgid "Pasvorton"
+msgstr "パスワード"
+
+#: templates/main.html:386
+msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
+msgstr "ネットワークディレクトリで必要なパスワード（パスワードが不要な場合は空白のままにします）"
+
+#: templates/main.html:389
+msgid "Radika dosierujo"
+msgstr "ルートディレクトリ"
+
+#: templates/main.html:391
+msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
+msgstr "ファイルが保存される（選択したストレージデバイス上の）ルートパス"
+
+#: templates/main.html:395
+msgid "Testi la reton dosierujon"
+msgstr "ネットワークディレクトリをテストする"
+
+#: templates/main.html:396
+msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
+msgstr "必要な詳細を入力した後、このボタンをクリックしてネットワーク接続をテストします"
+
+#: templates/main.html:402
+msgid "Uzado de Disko"
+msgstr "ディスク使用量"
+
+#: templates/main.html:406
+msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
+msgstr "ルートディレクトリが存在するドライブのサイズ/サイズ"
+
+#: templates/main.html:412
+msgid "Alŝutu Mediajn Dosierojn"
+msgstr "メディアファイルのアップロード"
+
+#: templates/main.html:414
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
+msgstr "メディアを外部サービスにアップロードする場合は、このオプションを有効にします"
+
+#: templates/main.html:417
+msgid "Alŝutu Bildojn"
+msgstr "画像をアップロード"
+
+#: templates/main.html:419
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
+msgstr "画像を外部サービスにダウンロードする場合は、このオプションを有効にします"
+
+#: templates/main.html:422
+msgid "Alŝutu Filmojn"
+msgstr "映画をアップロード"
+
+#: templates/main.html:424
+msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
+msgstr "ビデオを外部サービスにアップロードする場合は、これを有効にします"

@@ -1,39 +1,37 @@
-# German translations for PACKAGE package.
+# Arabic translations for PACKAGE package.
 # Copyright (C) 2020 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2020.
 #
 msgid ""
-msgstr "./traduko.sh eo de ""
-"
+msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-02-11 22:23+0100\n"
-"PO-Revision-Date: 2020-02-11 19:04+0100\n"
+"PO-Revision-Date: 2020-02-11 22:23+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
-"Language: de\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=ASCII\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: static/js/main.js:3458
 msgid "Uzantnomo"
-msgstr "Benutzername"
+msgstr "اسم المستخدم"
 
 #: static/js/main.js:3463
 msgid "Pasvorto"
-msgstr "Passwort"
+msgstr "كلمة المرور"
 
 #: static/js/main.js:3469
 msgid "Memoru min"
-msgstr "Erinnere dich an mich"
+msgstr "تذكرني"
 
 #: static/js/main.js:3487 static/js/main.js:3493
 msgid "Ensaluti"
-msgstr "Einloggen"
+msgstr "تسجيل الدخول"
 
 #: static/js/main.js:3490
 msgid "Nuligi"
-msgstr "Abbrechen"
+msgstr "الإلغاء"
