@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-11 22:23+0100\n"
-"PO-Revision-Date: 2020-02-11 19:04+0100\n"
+"POT-Creation-Date: 2020-03-28 18:26+0100\n"
+"PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: de\n"
@@ -17,22 +17,33 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
+#: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
+#, fuzzy
+msgid "Ĉi tiu kampo estas deviga"
+msgstr "Dieses Feld ist erforderlich"
+
 #: static/js/main.js:3458
+#, fuzzy
 msgid "Uzantnomo"
 msgstr "Benutzername"
 
 #: static/js/main.js:3463
+#, fuzzy
 msgid "Pasvorto"
 msgstr "Passwort"
 
 #: static/js/main.js:3469
+#, fuzzy
 msgid "Memoru min"
 msgstr "Erinnere dich an mich"
 
 #: static/js/main.js:3487 static/js/main.js:3493
+#, fuzzy
 msgid "Ensaluti"
-msgstr "Einloggen"
+msgstr "Melden Sie sich an"
 
 #: static/js/main.js:3490
+#, fuzzy
 msgid "Nuligi"
 msgstr "Abbrechen"

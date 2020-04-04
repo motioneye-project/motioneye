@@ -588,7 +588,7 @@ function initUI() {
     }, '');
     makeCustomValidator($('#deviceNameEntry'), function (value) {
         if (!value) {
-            return 'this field is required';
+            return i18n.gettext("Ĉi tiu kampo estas deviga");
         }
 
         if (!value.match(deviceNameValidRegExp)) {
@@ -599,7 +599,7 @@ function initUI() {
     }, '');
     makeCustomValidator($('#customWidthEntry, #customHeightEntry'), function (value) {
         if (!value) {
-            return 'this field is required';
+            return i18n.gettext("Ĉi tiu kampo estas deviga");
         }
 
         value = Number(value);
@@ -651,7 +651,7 @@ function initUI() {
 
         makeCustomValidator($this, function (value) {
             if (!value && required) {
-                return 'this field is required';
+                return i18n.gettext("Ĉi tiu kampo estas deviga");
             }
 
             if (!value.toLowerCase().match(new RegExp(validate))) {

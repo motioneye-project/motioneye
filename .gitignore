@@ -4,6 +4,7 @@
 *.pid
 *.pot
 *.po~
+*.old
 toto*
 .project
 .pydevproject

@@ -359,7 +359,7 @@ function makeTextValidator($input, required) {
             return true;
         }
         
-        var msg = 'this field is required';
+        var msg = i18n.gettext("Ĉi tiu kampo estas deviga");
         
         function validate() {
             var strVal = $this.val();
@@ -416,7 +416,7 @@ function makeComboValidator($select, required) {
             return true;
         }
         
-        var msg = 'this field is required';
+        var msg = i18n.gettext("Ĉi tiu kampo estas deviga");
         
         function validate() {
             var strVal = $this.val() || '';
@@ -688,7 +688,7 @@ function makeFileValidator($input, required) {
             return true;
         }
         
-        var msg = 'this field is required';
+        var msg = i18n.gettext("Ĉi tiu kampo estas deviga");
         
         function validate() {
             var strVal = $this.val();
