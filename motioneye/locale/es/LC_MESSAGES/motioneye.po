@@ -8,1380 +8,1352 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-04-04 15:30+0200\n"
-"PO-Revision-Date: 2020-03-25 16:20+0100\n"
+"PO-Revision-Date: 2020-04-04 13:20+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
-"Language: ar\n"
+"Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: server.py:198
 #, fuzzy
 msgid "interrompa signalo ricevita, fermanta ..."
-msgstr "تلقي إشارة المقاطعة ، وإغلاق ..."
+msgstr "señal de interrupción recibida, cerrando ..."
 
 #: server.py:232
 #, fuzzy
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr "تتطلب مشاركات smb امتيازات الجذر"
+msgstr "los recursos compartidos de smb requieren privilegios de root"
 
 #: server.py:239
 #, fuzzy
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr "الرجاء تثبيت الإصدار الإعصار 3.1 أو أعلى"
+msgstr "instale tornado versión 3.1 o superior"
 
 #: server.py:246
 #, fuzzy
 msgid "bonvolu instali jinja2"
-msgstr "الرجاء تثبيت jinja2"
+msgstr "por favor instale jinja2"
 
 #: server.py:253
 #, fuzzy
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr "الرجاء تثبيت وسادة أو PIL"
+msgstr "instale la almohada o PIL"
 
 #: server.py:260
 #, fuzzy
 msgid "bonvolu instali pycurl"
-msgstr "الرجاء تثبيت pycurl"
+msgstr "por favor instale pycurl"
 
 #: server.py:361
 #, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "مرحبا! هذا هو خادم motionEye"
+msgstr "hola este es un servidor motionEye"
 
 #: server.py:376
 #, fuzzy
 msgid "purigado komenciĝis"
-msgstr "بدأ التنظيف"
+msgstr "limpieza comenzó"
 
 #: server.py:379
 #, fuzzy
 msgid "wsswitch komenciĝis"
-msgstr "بدأ wsswitch"
+msgstr "wsswitch ha comenzado"
 
 #: server.py:382
 #, fuzzy
 msgid "taskoj komenciĝis"
-msgstr "بدأت المهام"
+msgstr "tareas iniciadas"
 
 #: server.py:386
 #, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr "بدأ جامع القمامة العملاء mjpg"
+msgstr "El recolector de basura del cliente mjpg ha comenzado"
 
 #: server.py:399
 #, fuzzy
 msgid "servilo komenciĝis"
-msgstr "بدأ الخادم"
+msgstr "servidor iniciado"
 
 #: server.py:406
 #, fuzzy
 msgid "servilo haltis"
-msgstr "توقف الخادم"
+msgstr "servidor detenido"
 
 #: server.py:409
 #, fuzzy
 msgid "taskoj haltis"
-msgstr "توقفت المهام"
+msgstr "tareas detenidas"
 
 #: server.py:417
 #, fuzzy
 msgid "motion haltis"
-msgstr "توقفت الحركة"
+msgstr "movimiento detenido"
 
 #: server.py:423
 #, fuzzy
 msgid "adiaŭ!"
-msgstr "وداعا!"
+msgstr "adios"
 
 #: utils.py:77 utils.py:116
 #, fuzzy
 msgid "never"
-msgstr "أبدا"
+msgstr "nunca"
 
 #: utils.py:168
 #, fuzzy
 msgid "day"
-msgstr "اليوم"
+msgstr "dia"
 
 #: utils.py:171
 #, fuzzy
 msgid "week"
-msgstr "الأسبوع"
+msgstr "semana"
 
 #: utils.py:174
 #, fuzzy
 msgid "month"
-msgstr "شهر"
+msgstr "mes"
 
 #: utils.py:177
 #, fuzzy
 msgid "year"
-msgstr "عام"
+msgstr "año"
 
 #: utils.py:180
 #, fuzzy
 msgid "days"
-msgstr "أيام"
+msgstr "dias"
 
 #: utils.py:184
 #, fuzzy
 msgid "hour"
-msgstr "ساعة"
+msgstr "hora"
 
 #: utils.py:187
 #, fuzzy
 msgid "hours"
-msgstr "ساعات"
+msgstr "horas"
 
 #: utils.py:191
 #, fuzzy
 msgid "minute"
-msgstr "دقائق"
+msgstr "minutos"
 
 #: utils.py:194
 #, fuzzy
 msgid "minutes"
-msgstr "دقائق"
+msgstr "minutos"
 
 #: utils.py:198
 #, fuzzy
 msgid "second"
-msgstr "الثانية"
+msgstr "segundo"
 
 #: utils.py:201 utils.py:204
 #, fuzzy
 msgid "seconds"
-msgstr "ثواني"
+msgstr "segundos"
 
 #: utils.py:208
 #, fuzzy
 msgid "minus"
-msgstr "ناقص"
+msgstr "menos"
 
 #: templates/main.html:123
 #, fuzzy
 msgid "preferoj de uzanto"
-msgstr "تفضيلات المستخدم"
+msgstr "preferencias del usuario"
 
 #: templates/main.html:124
 #, fuzzy
 msgid "Preferoj"
-msgstr "التفضيلات"
+msgstr "Preferencias"
 
 #: templates/main.html:129
 #, fuzzy
 msgid "Aranĝo Kolumnoj"
-msgstr "أعمدة التخطيط"
+msgstr "Columnas de diseño"
 
 #: templates/main.html:131
 #, fuzzy
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr "يضبط عدد الأعمدة المستخدمة لترتيب الكاميرات"
+msgstr "establece el número de columnas utilizadas para organizar las cámaras"
 
 #: templates/main.html:134
 #, fuzzy
 msgid "Fiksi Kadrojn Vertikale"
-msgstr "تعيين الإطارات عموديا"
+msgstr "Establecer marcos verticalmente"
 
 #: templates/main.html:136
 #, fuzzy
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
-msgstr "يتحكم فيما إذا كان يمكن تقليل أوقات الإطار لتناسب النافذة بشكل رأسي أم لا"
+msgstr "controla si los tiempos de fotogramas se pueden reducir para adaptarse a la ventana verticalmente o no"
 
 #: templates/main.html:139
 #, fuzzy
 msgid "Aranĝo linioj"
-msgstr "خطوط التخطيط"
+msgstr "Líneas de diseño"
 
 #: templates/main.html:141
 #, fuzzy
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr "يضبط عدد الخطوط المستخدمة لترتيب الكاميرات"
+msgstr "establece el número de líneas utilizadas para organizar las cámaras"
 
 #: templates/main.html:144
 #, fuzzy
 msgid "kadro-variatoro"
-msgstr "متغير الإطار"
+msgstr "variador de cuadro"
 
 #: templates/main.html:146
 #, fuzzy
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
-msgstr "يقلل من معدل الإطارات لتوفير النطاق الترددي للشبكة وحركة المرور (لا يعمل مع كاميرات MJPEG البسيطة)"
+msgstr "reduce la velocidad de fotogramas para ahorrar ancho de banda y tráfico de red (no funciona con cámaras MJPEG simples)"
 
 #: templates/main.html:149
 #, fuzzy
 msgid "Rezolucio-variatoro"
-msgstr "متغير الدقة"
+msgstr "Variador de resolución"
 
 #: templates/main.html:151
 #, fuzzy
 msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
-msgstr "يقلل من الدقة الفعالة لجميع الكاميرات لتوفير النطاق الترددي للشبكة وحركة المرور (لا يعمل على كاميرات MJPEG البسيطة)"
+msgstr "reduce la resolución efectiva de todas las cámaras para ahorrar ancho de banda y tráfico de red (no funciona en cámaras MJPEG simples)"
 
 #: templates/main.html:161
 #, fuzzy
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
-msgstr "المعلمات العامة المشتركة لجميع الكاميرات"
+msgstr "parámetros generales, comunes a todas las cámaras"
 
 #: templates/main.html:162
 #, fuzzy
 msgid "Ĝeneralaj Agordoj"
-msgstr "الإعدادات العامة"
+msgstr "Configuraciones generales"
 
 #: templates/main.html:167
 #, fuzzy
 msgid "Administranto"
-msgstr "المسؤول"
+msgstr "Administrador"
 
 #: templates/main.html:169
 #, fuzzy
 msgid "la uzantnomo uzata por agordi la sistemon"
-msgstr "اسم المستخدم المستخدم لتكوين النظام"
+msgstr "el nombre de usuario utilizado para configurar el sistema"
 
 #: templates/main.html:172 templates/main.html:182 templates/main.html:482
 #, fuzzy
 msgid "Pasvorto"
-msgstr "كلمة المرور"
+msgstr "Contraseña"
 
 #: templates/main.html:174
 #, fuzzy
 msgid "pasvorto de administranto"
-msgstr "كلمة مرور المسؤول"
+msgstr "contraseña de administrador"
 
 #: templates/main.html:177
 #, fuzzy
 msgid "Observanto"
-msgstr "مراقب"
+msgstr "Observador"
 
 #: templates/main.html:179
 #, fuzzy
 msgid "la uzantnomo por uzi por la monitorado"
-msgstr "اسم المستخدم لاستخدامه في المراقبة"
+msgstr "el nombre de usuario a usar para monitorear"
 
 #: templates/main.html:184
 #, fuzzy
 msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "كلمة مرور مستخدم المراقبة (اتركها فارغة للمراقبة بدون كلمة مرور)"
+msgstr "la contraseña del usuario de monitoreo (déjelo en blanco para monitorear sin contraseña)"
 
 #: templates/main.html:193
 #, fuzzy
 msgid "motionEye Versio"
-msgstr "إصدار motionEye"
+msgstr "versión motionEye"
 
 #: templates/main.html:197
 #, fuzzy
 msgid "Motion Versio"
-msgstr "إصدار الحركة"
+msgstr "Versión de movimiento"
 
 #: templates/main.html:201
 #, fuzzy
 msgid "Operaciumo Versio"
-msgstr "إصدار نظام التشغيل"
+msgstr "Versión del sistema operativo"
 
 #: templates/main.html:206
 #, fuzzy
 msgid "Programara Ĝisdatigo"
-msgstr "تحديث البرنامج"
+msgstr "Actualización de software"
 
 #: templates/main.html:208
 #, fuzzy
 msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
-msgstr "للتحقق من الإصدارات الجديدة وتنفيذ التحديثات"
+msgstr "busca nuevas versiones y realiza actualizaciones"
 
 #: templates/main.html:212
 #, fuzzy
 msgid "Nutro"
-msgstr "طعام"
+msgstr "Comida"
 
 #: templates/main.html:213
 #, fuzzy
 msgid "Fermu"
-msgstr "أغلق"
+msgstr "Cerrar"
 
 #: templates/main.html:214
 #, fuzzy
 msgid "malŝaltas la sistemon"
-msgstr "يوقف النظام"
+msgstr "apaga el sistema"
 
 #: templates/main.html:218
 #, fuzzy
 msgid "Rekomencu"
-msgstr "أعد تشغيل"
+msgstr "Reiniciar"
 
 #: templates/main.html:219
 #, fuzzy
 msgid "rekomencas la sistemon"
-msgstr "إعادة تشغيل النظام"
+msgstr "reiniciar el sistema"
 
 #: templates/main.html:225
 #, fuzzy
 msgid "Agordo"
-msgstr "التكوين"
+msgstr "Configuracion"
 
 #: templates/main.html:226
 #, fuzzy
 msgid "Sekurkopio"
-msgstr "النسخ الاحتياطي"
+msgstr "Copia de seguridad"
 
 #: templates/main.html:227
 #, fuzzy
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
-msgstr "يقوم بإنشاء ملف بالتهيئة الحالية حتى تتمكن من حفظه محليًا"
+msgstr "crea un archivo con la configuración actual para que pueda guardarlo localmente"
 
 #: templates/main.html:231
 #, fuzzy
 msgid "Restaŭri"
-msgstr "استعادة"
+msgstr "Restaurar"
 
 #: templates/main.html:232
 #, fuzzy
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
-msgstr "يستعيد التكوين من ملف النسخ الاحتياطي المحفوظ مسبقًا"
+msgstr "restaura la configuración de un archivo de respaldo previamente guardado"
 
 #: templates/main.html:260
 #, fuzzy
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
-msgstr "قم بتفعيل هذا إذا كنت تريد استخدام هذه الكاميرا"
+msgstr "active esto si desea usar esta cámara"
 
 #: templates/main.html:261
 #, fuzzy
 msgid "Video-Aparato"
-msgstr "جهاز فيديو"
+msgstr "Dispositivo de video"
 
 #: templates/main.html:266 templates/main.html:560 templates/main.html:577
 #, fuzzy
 msgid "Kamerao Nomo"
-msgstr "اسم الكاميرا"
+msgstr "Nombre de la cámara"
 
 #: templates/main.html:268
 #, fuzzy
 msgid "alias pri ĉi tiu kamera aparato"
-msgstr "الاسم المستعار على جهاز الكاميرا هذا"
+msgstr "alias en este dispositivo de cámara"
 
 #: templates/main.html:271
 #, fuzzy
 msgid "Kamerao ID"
-msgstr "معرف الكاميرا"
+msgstr "ID de cámara"
 
 #: templates/main.html:273
 #, fuzzy
 msgid "la kamerao identiga numero"
-msgstr "رقم تعريف الكاميرا"
+msgstr "el número de identificación de la cámara"
 
 #: templates/main.html:276
 #, fuzzy
 msgid "Kamerao aparato"
-msgstr "جهاز الكاميرا"
+msgstr "Dispositivo de la cámara"
 
 #: templates/main.html:278
 #, fuzzy
 msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
-msgstr "جهاز الإدخال (مثل: / dev / video) أو عنوان URL (مثل: rtsp: //192.168.1.1/stream)"
+msgstr "Dispositivo de entrada (por ejemplo: / dev / video) o URL (por ejemplo: rtsp: //192.168.1.1/stream)"
 
 #: templates/main.html:281
 #, fuzzy
 msgid "Kamerao Tipo"
-msgstr "نوع الكاميرا"
+msgstr "Tipo de cámara"
 
 #: templates/main.html:288
 #, fuzzy
 msgid "Aŭtomata Brilo"
-msgstr "سطوع تلقائي"
+msgstr "Brillo automático"
 
 #: templates/main.html:290
 #, fuzzy
 msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
-msgstr "تمكين برنامج التوهج التلقائي (موصى به للكاميرات التي لا تحتوي على التوهج التلقائي فقط)"
+msgstr "Permite el brillo automático del software (recomendado solo para cámaras sin brillo automático)"
 
 #: templates/main.html:296
 #, fuzzy
 msgid "Video-rezolucio"
-msgstr "دقة الفيديو"
+msgstr "Resolución de video"
 
 #: templates/main.html:301
 #, fuzzy
 msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
-msgstr "دقة الفيديو (القيم الأكبر تنتج جودة أفضل ، ولكنها تتطلب المزيد من طاقة وحدة المعالجة المركزية ، ومساحة تخزين أكبر وعرض نطاق ترددي)"
+msgstr "la resolución de video (los valores más grandes producen una mejor calidad, pero requieren más potencia de CPU, mayor almacenamiento y ancho de banda)"
 
 #: templates/main.html:304
 #, fuzzy
 msgid "Larĝeco"
-msgstr "العرض"
+msgstr "Ancho"
 
 #: templates/main.html:306
 #, fuzzy
 msgid "enigu kutiman rezolucian larĝon"
-msgstr "أدخل عرض دقة مخصص"
+msgstr "ingrese un ancho de resolución personalizado"
 
 #: templates/main.html:309
 #, fuzzy
 msgid "Alteco"
-msgstr "الارتفاع"
+msgstr "Altura"
 
 #: templates/main.html:311
 #, fuzzy
 msgid "enigu kutiman rezolucian altecon"
-msgstr "أدخل ارتفاع دقة مخصص"
+msgstr "ingrese una altura de resolución personalizada"
 
 #: templates/main.html:314
 #, fuzzy
 msgid "Video-Rotacio"
-msgstr "دوران الفيديو"
+msgstr "Rotación de video"
 
 #: templates/main.html:323
 #, fuzzy
 msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
-msgstr "استخدم هذا لتدوير الصورة الملتقطة إذا لم يتم وضع الكاميرا بشكل صحيح"
+msgstr "use esto para girar la imagen capturada si su cámara no está posicionada correctamente"
 
 #: templates/main.html:326
 #, fuzzy
 msgid "Kadrofrekvenco"
-msgstr "معدل الإطار"
+msgstr "Velocidad de fotogramas"
 
 #: templates/main.html:328
 #, fuzzy
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
-msgstr "يضبط عدد الإطارات التي تلتقطها الكاميرا كل ثانية (القيم الأعلى تنتج مقاطع فيديو أكثر سلاسة ولكنها تتطلب المزيد من طاقة وحدة المعالجة المركزية ، ومساحة تخزين أكبر وعرض نطاق ترددي)"
+msgstr "Establece el número de fotogramas capturados por la cámara por segundo (los valores más altos producen videos más suaves pero requieren más potencia de CPU, mayor almacenamiento y ancho de banda)"
 
 #: templates/main.html:331
 #, fuzzy
 msgid "Ekstraj Elektoj"
-msgstr "خيارات إضافية"
+msgstr "Opciones extra"
 
 #: templates/main.html:333
 #, fuzzy
 msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
-msgstr "يمكنك إضافة أي خيارات إضافية هنا لبرنامج \"الحركة\" (استخدم تنسيق \"اسم القيمة\" ، خيار واحد لكل سطر)"
+msgstr "puede agregar opciones adicionales aquí para el daemon \"motion\" (use el formato \"valor de nombre\", una opción por línea)"
 
 #: templates/main.html:342
 #, fuzzy
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
-msgstr "اختر مكان وكيفية تخزين الوسائط الخاصة بك"
+msgstr "elija dónde y cómo se almacenan sus medios"
 
 #: templates/main.html:343
 #, fuzzy
 msgid "Stokado de dosieroj"
-msgstr "تخزين الملفات"
+msgstr "Almacenamiento de archivos"
 
 #: templates/main.html:348
 #, fuzzy
 msgid "Stokada Aparato"
-msgstr "جهاز التخزين"
+msgstr "Dispositivo de almacenamiento"
 
 #: templates/main.html:353
 #, fuzzy
 msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
-msgstr "يشير إلى جهاز التخزين حيث سيتم تخزين ملفات الصور والفيديو"
+msgstr "indica el dispositivo de almacenamiento donde se almacenarán los archivos de imagen y video"
 
 #: templates/main.html:356
 #, fuzzy
 msgid "Retservilo"
-msgstr "خادم الويب"
+msgstr "Servidor web"
 
 #: templates/main.html:358
 #, fuzzy
 msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
-msgstr "عنوان خادم الويب (عنوان IP أو الاسم)"
+msgstr "la dirección del servidor web (dirección IP o nombre)"
 
 #: templates/main.html:361
 #, fuzzy
 msgid "SMB Protokolo-Versio"
-msgstr "إصدار بروتوكول SMB"
+msgstr "Versión del protocolo SMB"
 
 #: templates/main.html:371
 #, fuzzy
 msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
-msgstr "حدد إصدار SMB الذي يمكنك استخدامه (اختبار الخيارات المختلفة ومعرفة أيها يعمل بشكل أفضل مع NAS)"
+msgstr "seleccione la versión SMB que puede usar (pruebe las diferentes opciones y vea cuál funciona mejor con su NAS)"
 
 #: templates/main.html:374
 #, fuzzy
 msgid "Kunhava nomo"
-msgstr "الاسم المشترك"
+msgstr "Nombre compartido"
 
 #: templates/main.html:376
 #, fuzzy
 msgid "la nomo de la interŝanĝa reto"
-msgstr "اسم شبكة التبادل"
+msgstr "el nombre de la red de intercambio"
 
 #: templates/main.html:379 templates/main.html:477
 #, fuzzy
 msgid "Uzantnomo"
-msgstr "اسم المستخدم"
+msgstr "Nombre de usuario"
 
 #: templates/main.html:381
 #, fuzzy
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
-msgstr "اسم المستخدم الذي سيتم تقديمه عند الوصول إلى دليل الشبكة (اتركه فارغًا إذا لم يكن اسم المستخدم مطلوبًا)"
+msgstr "el nombre de usuario que se proporcionará al acceder al directorio de red (déjelo en blanco si no se requiere nombre de usuario)"
 
 #: templates/main.html:384
 #, fuzzy
 msgid "Pasvorton"
-msgstr "كلمة المرور"
+msgstr "Contraseña"
 
 #: templates/main.html:386
 #, fuzzy
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
-msgstr "كلمة المرور التي يتطلبها دليل الشبكة (اتركها فارغة إذا لم تكن هناك حاجة لكلمة المرور)"
+msgstr "la contraseña requerida por el directorio de red (déjelo en blanco si no se requiere contraseña)"
 
 #: templates/main.html:389
 #, fuzzy
 msgid "Radika dosierujo"
-msgstr "دليل الجذر"
+msgstr "Directorio raíz"
 
 #: templates/main.html:391
 #, fuzzy
 msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
-msgstr "مسار الجذر (على جهاز التخزين المحدد) حيث سيتم تخزين الملفات"
+msgstr "la ruta raíz (en el dispositivo de almacenamiento seleccionado) donde se almacenarán los archivos"
 
 #: templates/main.html:395
 #, fuzzy
 msgid "Testi la reton dosierujon"
-msgstr "اختبر دليل الشبكة"
+msgstr "Probar el directorio de red"
 
 #: templates/main.html:396
 #, fuzzy
 msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
-msgstr "انقر فوق هذا الزر لاختبار اتصال الشبكة بعد ملء التفاصيل المطلوبة"
+msgstr "haga clic en este botón para probar la conexión de red después de haber completado los detalles requeridos"
 
 #: templates/main.html:402
 #, fuzzy
 msgid "Uzado de Disko"
-msgstr "استخدام القرص"
+msgstr "Uso del disco"
 
 #: templates/main.html:406
 #, fuzzy
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr "حجم / حجم محرك الأقراص حيث يوجد الدليل الجذر"
+msgstr "el tamaño / tamaño de la unidad donde reside el directorio raíz"
 
 #: templates/main.html:412
 #, fuzzy
 msgid "Alŝutu Mediajn Dosierojn"
-msgstr "تحميل ملفات الوسائط"
+msgstr "Subir archivos multimedia"
 
 #: templates/main.html:414
 #, fuzzy
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
-msgstr "قم بتمكين هذا الخيار إذا كنت تريد تحميل الوسائط الخاصة بك إلى خدمة خارجية"
+msgstr "active esta opción si desea que sus medios se carguen en un servicio externo"
 
 #: templates/main.html:417
 #, fuzzy
 msgid "Alŝutu Bildojn"
-msgstr "تحميل الصور"
+msgstr "Subir imágenes"
 
 #: templates/main.html:419
 #, fuzzy
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
-msgstr "قم بتنشيط هذا الخيار إذا كنت تريد تنزيل الصور إلى خدمة خارجية"
+msgstr "active esta opción si desea que las imágenes se descarguen a un servicio externo"
 
 #: templates/main.html:422
 #, fuzzy
 msgid "Alŝutu Filmojn"
-msgstr "تحميل الأفلام"
+msgstr "Subir películas"
 
 #: templates/main.html:424
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
-msgstr "قم بتمكين هذا إذا كنت تريد تحميل مقاطع الفيديو إلى خدمة خارجية"
+msgstr "habilítelo si desea que los videos se carguen en un servicio externo"
 
 #: templates/main.html:427
 #, fuzzy
 msgid "Alŝuta Servo"
-msgstr "خدمة التحميل"
+msgstr "Servicio de carga"
 
 #: templates/main.html:430
 #, fuzzy
 msgid "Servilo FTP"
-msgstr "خادم FTP"
+msgstr "Servidor FTP"
 
 #: templates/main.html:431
 #, fuzzy
 msgid "Servilo SFTP"
-msgstr "خادم SFTP"
+msgstr "Servidor SFTP"
 
 #: templates/main.html:432
 #, fuzzy
 msgid "Servilo HTTP"
-msgstr "خادم HTTP"
+msgstr "Servidor HTTP"
 
 #: templates/main.html:433
 #, fuzzy
 msgid "Servilo HTTPS"
-msgstr "خادم HTTPS"
+msgstr "Servidor HTTPS"
 
 #: templates/main.html:439
 #, fuzzy
 msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
-msgstr "حدد الخدمة التي سيتم تحميل ملفات الوسائط إليها"
+msgstr "seleccione un servicio al que se cargarán los archivos multimedia"
 
 #: templates/main.html:442
 #, fuzzy
 msgid "Servila Adreso"
-msgstr "عنوان الخادم"
+msgstr "Dirección del servidor"
 
 #: templates/main.html:444
 #, fuzzy
 msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
-msgstr "اسم المجال أو عنوان IP للخادم (مثل ftp.example.com أو 192.168.1.3)"
+msgstr "el nombre de dominio o la dirección IP del servidor (por ejemplo, ftp.example.com o 192.168.1.3)"
 
 #: templates/main.html:447
 #, fuzzy
 msgid "Servila haveno"
-msgstr "منفذ الخادم"
+msgstr "Puerto del servidor"
 
 #: templates/main.html:449
 #, fuzzy
 msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
-msgstr "المنفذ المراد استخدامه للاتصال بالخدمة (اترك هذا الحقل فارغًا لاستخدام القيمة الافتراضية)"
+msgstr "el puerto a usar para conectarse al servicio (deje este campo en blanco para usar el valor predeterminado)"
 
 #: templates/main.html:452
 #, fuzzy
 msgid "Metodo"
-msgstr "الطريقة"
+msgstr "Método"
 
 #: templates/main.html:459
 #, fuzzy
 msgid "la HTTP-metodo uzi por alŝuti dosierojn"
-msgstr "طريقة HTTP لاستخدامها في تحميل الملفات"
+msgstr "El método HTTP a utilizar para cargar archivos"
 
 #: templates/main.html:462
 #, fuzzy
 msgid "Loko"
-msgstr "الموقع"
+msgstr "Ubicación"
 
 #: templates/main.html:464
 #, fuzzy
 msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
-msgstr "المكان (مسار الجذر) حيث يجب تحميل الوسائط (مثل / files / cam1 /)"
+msgstr "el lugar (ruta raíz) donde se deben cargar los medios (p. ej. / files / cam1 /)"
 
 #: templates/main.html:467
 #, fuzzy
 msgid "Inkluzivi Subdosierujojn"
-msgstr "تضمين المجلدات الفرعية"
+msgstr "Incluir subcarpetas"
 
 #: templates/main.html:469
 #, fuzzy
 msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
-msgstr "قم بتنشيط هذا لتنزيل ملفات الوسائط مع أدلةها الفرعية ، بدلاً من وضعها مباشرة في موقع الجذر"
+msgstr "Active esto para descargar archivos multimedia con sus subdirectorios, en lugar de colocarlos directamente en la ubicación raíz"
 
 #: templates/main.html:472
 #, fuzzy
 msgid "Purigi la nubon"
-msgstr "تنظيف السحابة"
+msgstr "Limpiar la nube"
 
 #: templates/main.html:474
 #, fuzzy
 msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
-msgstr "قم بتمكين هذا لحذف ملفات الوسائط التي تم تحميلها إلى السحابة أيضًا عند حذف الوسائط المحلية وفقًا لإعداد استمرارية الملف. هذا الخيار متاح حاليًا لـ gdrive فقط."
+msgstr "habilite esto para eliminar archivos multimedia cargados en la nube también cuando los medios locales se eliminen de acuerdo con la configuración de persistencia de archivos. Actualmente esta opción solo está disponible para gdrive."
 
 #: templates/main.html:479
 #, fuzzy
 msgid "la uzantnomo por la alŝuta servo-konto"
-msgstr "اسم المستخدم لحساب خدمة التحميل"
+msgstr "el nombre de usuario para la cuenta del servicio de carga"
 
 #: templates/main.html:484
 #, fuzzy
 msgid "la pasvorto por la alŝuta servo-konto"
-msgstr "كلمة المرور لحساب خدمة التحميل"
+msgstr "la contraseña para la cuenta del servicio de carga"
 
 #: templates/main.html:487
 #, fuzzy
 msgid "Rajtiga ŝlosilo"
-msgstr "مفتاح التفويض"
+msgstr "Clave de autorización"
 
 #: templates/main.html:489
 #, fuzzy
 msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "المفتاح المستخدم للمصادقة مع خدمة التحميل (عادةً ما يكون مطلوبًا فقط أثناء التكوين)"
+msgstr "la clave utilizada para autenticarse con el servicio de carga (generalmente solo se requiere durante la configuración)"
 
 #: templates/main.html:495
 #, fuzzy
 msgid "Akiri ŝlosilon"
-msgstr "احصل على مفتاح"
+msgstr "Conseguir una llave"
 
 #: templates/main.html:498
 #, fuzzy
 msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
-msgstr "انقر هنا للحصول على خدمة الترخيص الرئيسية"
+msgstr "haga clic aquí para obtener el servicio de autorización de claves"
 
 #: templates/main.html:502
 #, fuzzy
 msgid "Testi la servon"
-msgstr "اختبر الخدمة"
+msgstr "Probar el servicio"
 
 #: templates/main.html:503
 #, fuzzy
 msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
-msgstr "انقر فوق هذا الزر لاختبار خدمة التحميل بعد ملء التفاصيل المطلوبة"
+msgstr "haga clic en este botón para probar el servicio de carga después de haber completado los detalles requeridos"
 
 #: templates/main.html:509
 #, fuzzy
 msgid "alvoki URL"
-msgstr "استدعاء URL"
+msgstr "invocar una URL"
 
 #: templates/main.html:511
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
-msgstr "قم بتمكين هذا إذا كنت تريد طلب عنوان URL بعد إنشاء ملف وسائط"
+msgstr "habilítelo si desea solicitar una URL después de crear un archivo multimedia"
 
 #: templates/main.html:514
 #, fuzzy
 msgid "Reteja URL"
-msgstr "URL الموقع"
+msgstr "URL del sitio web"
 
 #: templates/main.html:515
 #, fuzzy
 msgid "ekz. http://example.com/notify/"
-msgstr "على سبيل المثال http://example.com/notify/"
+msgstr "p. http://example.com/notify/"
 
 #: templates/main.html:516
 #, fuzzy, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
-msgstr "عنوان URL للإرسال عند اكتشاف الحركة ؛ يتم قبول الاختصارات الخاصة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = day، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number، ٪٪ v = رقم الحدث ، ٪٪ f = مسار الملف"
+msgstr "URL para transmitir cuando se detecta movimiento; Se aceptan los siguientes accesos directos especiales: %% Y = año, %% m = mes, %% d = día, %% H = hora, %% M = minuto, %% S = segundo, %% q = número de fotograma, %% v = número de evento, %% f = ruta del archivo"
 
 #: templates/main.html:519
 #, fuzzy
 msgid "Metodo HTTP"
-msgstr "طريقة HTTP"
+msgstr "Método HTTP"
 
 #: templates/main.html:528
 #, fuzzy
 msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
-msgstr "طريقة HTTP التي يتم استخدامها عند طلب عنوان URL لربط الشبكة (سيتم تسليم المعلمات المرمزة ذات عنوان URL كما هو موضح هنا)"
+msgstr "el método HTTP que se debe utilizar al solicitar una URL de enlace de red (los parámetros codificados con URL dados se entregarán realmente como se indica aquí)"
 
 #: templates/main.html:534
 #, fuzzy
 msgid "Kuri Komando"
-msgstr "قم بتشغيل الأمر"
+msgstr "Ejecutar comando"
 
 #: templates/main.html:536
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
-msgstr "قم بتمكين هذا إذا كنت تريد تنفيذ أمر بعد إنشاء ملف وسائط"
+msgstr "habilítelo si desea ejecutar un comando después de crear un archivo multimedia"
 
 #: templates/main.html:539
 #, fuzzy
 msgid "Ordono"
-msgstr "أجل"
+msgstr "Orden"
 
 #: templates/main.html:540
 #, fuzzy
 msgid "ordono..."
-msgstr "طلب ..."
+msgstr "orden ..."
 
 #: templates/main.html:541
 #, fuzzy, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
-msgstr "الأمر الذي سيتم تنفيذه بعد إنشاء ملف وسائط متعددة. يمكن فصل عدة أوامر بفاصلة منقوطة؛ لا تستخدم الفاصلة المنقوطة في الأوامر ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year ، ٪٪ m = month ، ٪٪ d = day ، ٪٪ H = hour ، ٪٪ M = minutes ، ٪٪ S = second ، ٪٪ q = frame number ، ٪٪ v = رقم الحدث ، ٪٪ f = مسار الملف"
+msgstr "Comando que se ejecutará después de crear un archivo multimedia. Varios comandos pueden estar separados por un punto y coma; no use punto y coma en los comandos; Se aceptan los siguientes tokens especiales: %% Y = año, %% m = mes, %% d = día, %% H = hora, %% M = minuto, %% S = segundo, %% q = número de fotograma, %% v = número de evento, %% f = ruta del archivo"
 
 #: templates/main.html:551
 #, fuzzy
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
-msgstr "حدد المعلومات التي يتم عرضها على الإطارات الملتقطة"
+msgstr "seleccione qué información se muestra en los cuadros capturados"
 
 #: templates/main.html:552
 #, fuzzy
 msgid "Teksto Superkovrita"
-msgstr "تراكب النص"
+msgstr "Superposición de texto"
 
 #: templates/main.html:557
 #, fuzzy
 msgid "Maldekstra Teksto"
-msgstr "النص الأيسر"
+msgstr "Texto izquierdo"
 
 #: templates/main.html:561 templates/main.html:578
 #, fuzzy
 msgid "Tempostampo"
-msgstr "طابع زمني"
+msgstr "Sello de tiempo"
 
 #: templates/main.html:562 templates/main.html:579
 #, fuzzy
 msgid "Propra Teksto"
-msgstr "نص مخصص"
+msgstr "Texto personalizado"
 
 #: templates/main.html:563 templates/main.html:580 templates/main.html:637
 #, fuzzy
 msgid "Malebligita"
-msgstr "معطل"
+msgstr "Discapacitados"
 
 #: templates/main.html:566
 #, fuzzy
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
-msgstr "يضبط النص المعروض على الأفلام والصور ، في الزاوية السفلية اليسرى"
+msgstr "Establece el texto que se muestra en las películas y las imágenes, en la esquina inferior izquierda."
 
 #: templates/main.html:570 templates/main.html:587
 #, fuzzy
 msgid "propra teksto..."
-msgstr "نص خاص ..."
+msgstr "texto propio ..."
 
 #: templates/main.html:571
 #, fuzzy, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "يحدد النص الأيسر المخصص ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year ، ٪٪ m = month ، ٪٪ d = day ، ٪٪ H = hour ، ٪٪ M = minutes ، ٪٪ S = second ، ٪٪ q = frame number ، ٪٪ v = رقم الحدث ، ٪٪ T = HH: MM: SS ، \\ n = سطر جديد"
+msgstr "Define texto izquierdo personalizado; Se aceptan los siguientes tokens especiales: %% Y = año, %% m = mes, %% d = día, %% H = hora, %% M = minuto, %% S = segundo, %% q = número de fotograma, %% v = número de evento, %% T = HH: MM: SS, \\ n = nueva línea"
 
 #: templates/main.html:574
 #, fuzzy
 msgid "Dekstra Teksto"
-msgstr "النص الأيمن"
+msgstr "Texto a la derecha"
 
 #: templates/main.html:583
 #, fuzzy
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
-msgstr "يضبط النص المعروض على الأفلام والصور ، في الزاوية اليمنى السفلى"
+msgstr "Establece el texto que se muestra en las películas y las imágenes, en la esquina inferior derecha"
 
 #: templates/main.html:588
 #, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "يحدد النص الأيمن المخصص ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year ، ٪٪ m = month ، ٪٪ d = day ، ٪٪ H = hour ، ٪٪ M = minutes ، ٪٪ S = second ، ٪٪ q = frame number ، ٪٪ v = رقم الحدث ، ٪٪ T = HH: MM: SS ، \\ n = سطر جديد"
+msgstr "Define texto derecho personalizado; Se aceptan los siguientes tokens especiales: %% Y = año, %% m = mes, %% d = día, %% H = hora, %% M = minuto, %% S = segundo, %% q = número de fotograma, %% v = número de evento, %% T = HH: MM: SS, \\ n = nueva línea"
 
 #: templates/main.html:591
 #, fuzzy
 msgid "Teksta Skalo"
-msgstr "مقياس النص"
+msgstr "Escala de texto"
 
 #: templates/main.html:593
 #, fuzzy
 msgid "Difinas la grandecon de la superkovrita teksto"
-msgstr "يحدد حجم نص التراكب"
+msgstr "Define el tamaño del texto superpuesto"
 
 #: templates/main.html:603
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
-msgstr "قم بتمكين هذا إذا كنت تريد دفق فيديو لهذه الكاميرا"
+msgstr "Habilítelo si desea una transmisión de video para esta cámara"
 
 #: templates/main.html:604
 #, fuzzy
 msgid "Videofluo"
-msgstr "دفق الفيديو"
+msgstr "Transmisión de video"
 
 #: templates/main.html:609
 #, fuzzy
 msgid "Framo frekvencon"
-msgstr "تردد الإطار"
+msgstr "Frecuencia de cuadro"
 
 #: templates/main.html:611
 #, fuzzy
 msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
-msgstr "يضبط عدد الإطارات المرسلة في الثانية في البث المباشر."
+msgstr "Establece el número de cuadros transmitidos por segundo en la transmisión en vivo."
 
 #: templates/main.html:614
 #, fuzzy
 msgid "Flua Kvalito"
-msgstr "جودة التدفق"
+msgstr "Calidad de flujo"
 
 #: templates/main.html:616
 #, fuzzy
 msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
-msgstr "الاستماع إلى جودة البث المباشر (القيم الأعلى تنتج جودة فيديو أفضل ولكنها تتطلب المزيد من النطاق الترددي)."
+msgstr "Sintonice la calidad de transmisión en vivo (los valores más altos producen una mejor calidad de video pero requieren más ancho de banda)."
 
 #: templates/main.html:619
 #, fuzzy
 msgid "Bilda Redimensionado"
-msgstr "تغيير حجم الصورة"
+msgstr "Cambio de tamaño de imagen"
 
 #: templates/main.html:621
 #, fuzzy
 msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
-msgstr "عند تشغيل هذا ، يتم تغيير حجم الصور قبل إرسالها إلى المتصفح (تعطيل عند التشغيل على وحدة المعالجة المركزية البطيئة)."
+msgstr "Cuando se activa, las imágenes se redimensionan antes de enviarse al navegador (deshabilítelas cuando se ejecutan en una CPU lenta)."
 
 #: templates/main.html:624
 #, fuzzy
 msgid "Flua rezolucio"
-msgstr "قرار التدفق"
+msgstr "Resolución de flujo"
 
 #: templates/main.html:626
 #, fuzzy
 msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
-msgstr "الدقة المقدمة كنسبة مئوية من دقة جهاز الفيديو (القيم الأعلى تنتج جودة فيديو أفضل ولكنها تتطلب المزيد من النطاق الترددي)"
+msgstr "la resolución dada como un porcentaje de la resolución del dispositivo de video (los valores más altos producen una mejor calidad de video pero requieren más ancho de banda)"
 
 #: templates/main.html:629
 #, fuzzy
 msgid "Flua haveno"
-msgstr "منفذ التدفق"
+msgstr "Puerto de flujo"
 
 #: templates/main.html:631
 #, fuzzy
 msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
-msgstr "إعداد منفذ TCP الذي يستمع إليه خادم الويب"
+msgstr "configura el puerto TCP en el que escucha el servidor web"
 
 #: templates/main.html:634
 #, fuzzy
 msgid "Aŭtentiga reĝimo"
-msgstr "وضع المصادقة"
+msgstr "Modo de autenticación"
 
 #: templates/main.html:642
 #, fuzzy
 msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "طريقة المصادقة التي يستخدمها الدفق (اختر \"Bazic\" بدلاً من \"Digest\" إذا واجهت مشاكل مع برامج الجهات الخارجية) ؛ سيتم استخدام شيكات الاعتماد"
+msgstr "el método de autenticación utilizado por la transmisión (elija 'Bazic' en lugar de 'Digest' si encuentra problemas con programas de terceros); se utilizarán verificaciones de acreditación"
 
 #: templates/main.html:645
 #, fuzzy
 msgid "Movado-Optimigo"
-msgstr "تحسين الحركة"
+msgstr "Optimización de movimiento"
 
 #: templates/main.html:647
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
-msgstr "قم بتمكين هذا إذا كنت تريد معدل إطارات أقل لدفق التسليم عندما لا يتم الكشف عن أي حركة"
+msgstr "habilítelo si desea una velocidad de fotogramas más baja para el flujo de entrega cuando no se detecta movimiento"
 
 #: templates/main.html:653
 #, fuzzy
 msgid "Utilaj URLoj"
-msgstr "عناوين URL مفيدة"
+msgstr "URL útiles"
 
 #: templates/main.html:656
 #, fuzzy
 msgid "Instantara URL"
-msgstr "URL فوري"
+msgstr "URL instantánea"
 
 #: templates/main.html:659
 #, fuzzy
 msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
-msgstr "عنوان URL يوفر صورة JPEG مع أحدث التقاط للكاميرا"
+msgstr "Una URL que proporciona una imagen JPEG con la última captura de la cámara."
 
 #: templates/main.html:665
 #, fuzzy
 msgid "Flua URL"
-msgstr "تدفق URL"
+msgstr "URL de flujo"
 
 #: templates/main.html:668
 #, fuzzy
 msgid "URL kiu provizas MJPEG-fluon de la kamerao"
-msgstr "عنوان URL يوفر تدفق MJPEG من الكاميرا"
+msgstr "Una URL que proporciona flujo MJPEG desde la cámara"
 
 #: templates/main.html:674
 #, fuzzy
 msgid "Enigita URL"
-msgstr "إدخال عنوان URL"
+msgstr "URL de entrada"
 
 #: templates/main.html:677
 #, fuzzy
 msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
-msgstr "عنوان URL يوفر الحد الأدنى من مستند HTML الذي يحتوي على إطار الكاميرا ، وهو جاهز للتضمين"
+msgstr "Una URL que proporciona un documento HTML mínimo que contiene el marco de la cámara, listo para ser incrustado"
 
 #: templates/main.html:687
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
-msgstr "قم بتمكين هذا إذا كنت تريد التقاط صور ثابتة."
+msgstr "Habilítelo si desea capturar imágenes estáticas."
 
 #: templates/main.html:688
 #, fuzzy
 msgid "Kaptitaj Bildoj"
-msgstr "الصور الملتقطة"
+msgstr "Imágenes capturadas"
 
 #: templates/main.html:693
 #, fuzzy
 msgid "Nomo Bildo-Dosiero"
-msgstr "اسم ملف الصورة"
+msgstr "Nombre de archivo de imagen"
 
 #: templates/main.html:695
 #, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr "يحدد قالب الاسم لملفات JPEG ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year ، ٪٪ m = month ، ٪٪ d = day ، ٪٪ H = hour ، ٪٪ M = minutes ، ٪٪ S = second ، ٪٪ q = frame number ، ٪٪ v = رقم الحدث ، / = دليل فرعي."
+msgstr "Define la plantilla de nombre para archivos JPEG; Se aceptan los siguientes tokens especiales: %% Y = año, %% m = mes, %% d = día, %% H = hora, %% M = minuto, %% S = segundo, %% q = número de fotograma, %% v = número de evento, / = subdirectorio."
 
 #: templates/main.html:698
 #, fuzzy
 msgid "Bildkvalito"
-msgstr "جودة الصورة"
+msgstr "Calidad de imagen"
 
 #: templates/main.html:700
 #, fuzzy
 msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
-msgstr "يضبط جودة صورة JPEG (القيم الأعلى تنتج جودة صورة أفضل ولكنها تتطلب مساحة تخزين أكبر)"
+msgstr "establece la calidad de imagen JPEG (los valores más altos producen una mejor calidad de imagen pero requieren más almacenamiento)"
 
 #: templates/main.html:703
 #, fuzzy
 msgid "Kaptila reĝimo"
-msgstr "وضع الالتقاط"
+msgstr "Modo de captura"
 
 #: templates/main.html:706 templates/main.html:808
 #, fuzzy
 msgid "Moviĝa deĉenigo"
-msgstr "زناد الحركة"
+msgstr "Activador de movimiento"
 
 #: templates/main.html:707
 #, fuzzy
 msgid "Moviĝa deĉenigo (Unu bildo)"
-msgstr "مشغل الحركة (صورة واحدة)"
+msgstr "Activador de movimiento (una imagen)"
 
 #: templates/main.html:708
 #, fuzzy
 msgid "Intertempe"
-msgstr "في هذه الأثناء"
+msgstr "Mientras tanto"
 
 #: templates/main.html:709
 #, fuzzy
 msgid "Ĉiuj bildoj"
-msgstr "جميع الصور"
+msgstr "Todas las fotos"
 
 #: templates/main.html:710
 #, fuzzy
 msgid "Mane"
-msgstr "بدة"
+msgstr "Mane"
 
 #: templates/main.html:713
 #, fuzzy
 msgid "Difinas la kapta reĝimon:"
-msgstr "يحدد وضع الالتقاط:"
+msgstr "Define el modo de captura:"
 
 #: templates/main.html:714
 #, fuzzy
 msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
-msgstr "مشغل الحركة = الصورة الملتقطة في كل مرة يتم فيها الكشف عن الحركة ،"
+msgstr "Activador de movimiento = imagen capturada cada vez que se detecta movimiento,"
 
 #: templates/main.html:715
 #, fuzzy
 msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
-msgstr "في هذه الأثناء = يتم التقاط الصورة كل x ثانية ،"
+msgstr "Mientras tanto = imagen capturada cada x segundos,"
 
 #: templates/main.html:716
 #, fuzzy
 msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
-msgstr "جميع الصور = حفظ كل إطار في ملف صورة ،"
+msgstr "Todas las imágenes = guardar cada cuadro en un archivo de imagen,"
 
 #: templates/main.html:717
 #, fuzzy
 msgid "Mane = mana kapto kun dediĉita butono."
-msgstr "بدة = التقاط اليد مع زر مخصص."
+msgstr "Mane = captura de mano con un botón dedicado."
 
 #: templates/main.html:720
 #, fuzzy
 msgid "Interkapto-Intervalo"
-msgstr "فاصل الاعتراض"
+msgstr "Intervalo de intercepción"
 
 #: templates/main.html:721 templates/main.html:816 templates/main.html:891
 #, fuzzy
 msgid "sekundoj"
-msgstr "ثواني"
+msgstr "segundos"
 
 #: templates/main.html:722
 #, fuzzy
 msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
-msgstr "يضبط الفاصل الزمني (بالثواني) للقطات"
+msgstr "establece el intervalo (en segundos) para las instantáneas"
 
 #: templates/main.html:725
 #, fuzzy
 msgid "Konservi bildojn"
-msgstr "حفظ الصور"
+msgstr "Guardar imágenes"
 
 #: templates/main.html:728 templates/main.html:823
 #, fuzzy
 msgid "Dum unu tago"
-msgstr "ليوم واحد"
+msgstr "Por un dia"
 
 #: templates/main.html:729 templates/main.html:824
 #, fuzzy
 msgid "Dum unu semajno"
-msgstr "لمدة أسبوع"
+msgstr "Por una semana"
 
 #: templates/main.html:730 templates/main.html:825
 #, fuzzy
 msgid "Dum unu monato"
-msgstr "لمدة شهر"
+msgstr "Por un mes"
 
 #: templates/main.html:731 templates/main.html:826
 #, fuzzy
 msgid "Dum unu jaro"
-msgstr "لمدة عام"
+msgstr "Por un año"
 
 #: templates/main.html:732 templates/main.html:827
 #, fuzzy
 msgid "Porĉiame"
-msgstr "إلى الأبد"
+msgstr "Por siempre"
 
 #: templates/main.html:733 templates/main.html:828
 #, fuzzy
 msgid "Propra"
-msgstr "الخاصة"
+msgstr "Propio"
 
 #: templates/main.html:736
 #, fuzzy
 msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
-msgstr "يتم حذف الصور الأقدم من المدة المحددة تلقائيًا لتوفير مساحة تخزين."
+msgstr "Las imágenes anteriores a la duración definida se eliminan automáticamente para liberar espacio de almacenamiento."
 
 #: templates/main.html:739
 #, fuzzy
 msgid "Bildaj Vivdaŭro"
-msgstr "عمر الصورة"
+msgstr "Picture Lifetime"
 
 #: templates/main.html:741
 #, fuzzy
 msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
-msgstr "يحدد عدد الأيام التي سيتم بعدها حذف الصور تلقائيًا."
+msgstr "Define el número de días después de los cuales las imágenes se eliminarán automáticamente."
 
 #: templates/main.html:744
 #, fuzzy
 msgid "Ebligu manaj kaptoj"
-msgstr "تمكين المصيد اليدوي"
+msgstr "Habilitar capturas de mano"
 
 #: templates/main.html:746
 #, fuzzy
 msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
-msgstr "عند تشغيل هذا ، سيسمح لك زر على إطار الكاميرا بالتقاط اللقطات يدويًا."
+msgstr "Cuando está activado, un botón en el marco de la cámara le permitirá tomar capturas manualmente."
 
 #: templates/main.html:756
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas registri filmojn"
-msgstr "قم بتمكين هذا إذا كنت تريد تسجيل الأفلام"
+msgstr "habilítelo si quieres grabar películas"
 
 #: templates/main.html:757
 #, fuzzy
 msgid "Filmoj"
-msgstr "أفلام"
+msgstr "Peliculas"
 
 #: templates/main.html:762
 #, fuzzy
 msgid "Filma Dosiernomo"
-msgstr "اسم ملف الفيلم"
+msgstr "Nombre de archivo de película"
 
 #: templates/main.html:764
 #, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr "يحدد قالب الاسم لملفات الفيلم ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year ، ٪٪ m = month ، ٪٪ d = day ، ٪٪ H = hour ، ٪٪ M = minutes ، ٪٪ S = second ، ٪٪ q = frame number ، ٪٪ v = رقم الحدث ، / = دليل فرعي."
+msgstr "Define la plantilla de nombre para los archivos de película; Se aceptan los siguientes tokens especiales: %% Y = año, %% m = mes, %% d = día, %% H = hora, %% M = minuto, %% S = segundo, %% q = número de fotograma, %% v = número de evento, / = subdirectorio."
 
 #: templates/main.html:767
 #, fuzzy
 msgid "Rekta kopia filmeto"
-msgstr "نسخ فيديو مباشر"
+msgstr "Copia directa de video"
 
 #: templates/main.html:769
 #, fuzzy
 msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
-msgstr "قم بإنشاء أفلام مباشرة من الكاميرا. يجب أن يقلل هذا الخيار من استخدام وحدة المعالجة المركزية ولكنه يزيد من متطلبات الذاكرة. لا تتم معالجة الصور ، لذا تتداخل النصوص ، وأقنعة الخصوصية ، وما إلى ذلك. لن يكون على الفيديو الناتج."
+msgstr "Crea películas directamente desde la cámara. Esta opción debería reducir el uso de la CPU pero aumentar las demandas de memoria. No se realiza el procesamiento de imágenes, por lo que los textos se superponen, las máscaras de privacidad, etc. no estará en el video resultante."
 
 #: templates/main.html:772
 #, fuzzy
 msgid "Filmformato"
-msgstr "تنسيق الفيلم"
+msgstr "Formato de película"
 
 #: templates/main.html:797
 #, fuzzy
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
-msgstr "تخصيص ملف الفيلم ؛ لا تضمن جميع التنسيقات العمل على جميع الأنظمة ؛ إذا كنت في شك ، فاختبر كل تنسيق واختر التنسيق الذي يعمل بشكل أفضل مع الفيديو الخاص بك."
+msgstr "Personaliza el archivo de película; no todos los formatos están garantizados para funcionar en todos los sistemas; si tiene dudas, pruebe cada formato y elija el que mejor funcione con su video."
 
 #: templates/main.html:800
 #, fuzzy
 msgid "Filma Kvalito"
-msgstr "جودة الفيلم"
+msgstr "Calidad de la película"
 
 #: templates/main.html:802
 #, fuzzy
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
-msgstr "يضبط جودة فيديو MPEG (القيم الأعلى تنتج جودة فيديو أفضل ولكنها تتطلب مساحة تخزين أكبر)."
+msgstr "Establece la calidad de video MPEG (los valores más altos producen una mejor calidad de video pero requieren más almacenamiento)."
 
 #: templates/main.html:805
 #, fuzzy
 msgid "Rekorda reĝimo"
-msgstr "وضع التسجيل"
+msgstr "Modo de grabación"
 
 #: templates/main.html:809
 #, fuzzy
 msgid "Kontinua registrado"
-msgstr "تسجيل مستمر"
+msgstr "Grabación continua"
 
 #: templates/main.html:812
 #, fuzzy
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
-msgstr "لتعيين وضع التسجيل: Motion Trigger = فيلم جديد تم إنشاؤه عند اكتشاف الحركة ، التسجيل المستمر = ملف فيلم كبير."
+msgstr "Establece el modo de grabación: Motion Trigger = nueva película creada cada vez que se detecta movimiento, Grabación continua = un archivo de película grande."
 
 #: templates/main.html:815
 #, fuzzy
 msgid "Maksimuma filma daŭro"
-msgstr "الحد الأقصى لمدة الفيلم"
+msgstr "Duración máxima de la película"
 
 #: templates/main.html:817
 #, fuzzy
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
-msgstr "يضبط الحد الأقصى لطول الأفلام بالثواني ؛ إذا استمر حدث الحركة لفترة أطول ، يتم إنشاء ملف فيلم جديد ؛ استخدم 0 لطول غير محدود."
+msgstr "Establece la duración máxima de películas en segundos; si el evento de movimiento dura más, se crea un nuevo archivo de película; use 0 para longitud ilimitada."
 
 #: templates/main.html:820
 #, fuzzy
 msgid "Konservi filmojn"
-msgstr "حفظ الأفلام"
+msgstr "Guardar películas"
 
 #: templates/main.html:831
 #, fuzzy
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
-msgstr "يتم حذف الأفلام الأقدم من المدة المحددة تلقائيًا لتحرير السعة التخزينية."
+msgstr "Las películas anteriores a la duración establecida se eliminan automáticamente para liberar el almacenamiento."
 
 #: templates/main.html:834
 #, fuzzy
 msgid "Filmoj Vivdaŭro"
-msgstr "أفلام عمر"
+msgstr "Películas de por vida"
 
 #: templates/main.html:835
 #, fuzzy
 msgid "tagoj"
-msgstr "أيام"
+msgstr "dias"
 
 #: templates/main.html:836
 #, fuzzy
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
-msgstr "يضبط عدد الأيام التي سيتم بعدها حذف الأفلام تلقائيًا."
+msgstr "Establece el número de días después de los cuales las películas se eliminarán automáticamente."
 
 #: templates/main.html:846
 #, fuzzy
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
-msgstr "قم بتنشيط هذا لاستخدام وتكوين الجهاز لاكتشاف الحركة."
+msgstr "Actívelo para usar y configurar el dispositivo para detectar movimiento."
 
 #: templates/main.html:847
 #, fuzzy
 msgid "Movado-Detekto"
-msgstr "كشف الحركة"
+msgstr "Detección de movimiento"
 
 #: templates/main.html:852
 #, fuzzy
 msgid "Kadra ŝanĝo sojlo"
-msgstr "حد تغيير الإطار"
+msgstr "Umbral de cambio de marco"
 
 #: templates/main.html:854
 #, fuzzy
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
-msgstr "يشير إلى الحد الأدنى للنسبة المئوية للصورة التي يجب أن تنتقل بين إطارين متتاليين لاكتشاف الحركة (القيم الأصغر تعطي كشفًا أكثر حساسية ، ولكنها تميل إلى نتائج إيجابية خاطئة)."
+msgstr "Indica el porcentaje mínimo de la imagen que debe cambiar entre dos cuadros sucesivos para detectar movimiento (los valores más pequeños dan una detección más sensible, pero tienden a falsos positivos)."
 
 #: templates/main.html:857
 #, fuzzy
 msgid "Maksimuma ŝanĝo sojlo"
-msgstr "الحد الأقصى للتغيير عتبة"
+msgstr "Umbral de cambio máximo"
 
 #: templates/main.html:859
 #, fuzzy
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
-msgstr "يضبط عدد وحدات البكسل التي يتم تبديلها بين الإطارات التي لم يعد يتم تشغيل التمرير فوقها (0 يعطل الحد)."
+msgstr "Establece el número de píxeles que se han cambiado entre fotogramas sobre los cuales ya no se activa un desplazamiento (0 deshabilita el borde)."
 
 #: templates/main.html:862
 #, fuzzy
 msgid "Aŭtomata sojla agordo"
-msgstr "إعداد العتبة التلقائي"
+msgstr "Ajuste automático de umbral"
 
 #: templates/main.html:864
 #, fuzzy
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
-msgstr "قم بتمكين هذا لضبط العتبة تلقائيًا."
+msgstr "Habilite esto para ajustar automáticamente el umbral."
 
 #: templates/main.html:867
 #, fuzzy
 msgid "Aŭtomata bruo-detekto"
-msgstr "كشف ضوضاء تلقائي"
+msgstr "Detección automática de ruido"
 
 #: templates/main.html:869
 #, fuzzy
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
-msgstr "قم بتمكين هذا لضبط مستوى الضوضاء تلقائيًا."
+msgstr "Habilite esto para ajustar automáticamente el nivel de ruido."
 
 #: templates/main.html:872
 #, fuzzy
 msgid "Bruo-nivelo"
-msgstr "مستوى الضجيج"
+msgstr "Nivel de ruido"
 
 #: templates/main.html:874
 #, fuzzy
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
-msgstr "يضبط مستوى الضوضاء بشكل دائم على قيمة محددة."
+msgstr "Establece permanentemente el nivel de ruido en un valor establecido."
 
 #: templates/main.html:877
 #, fuzzy
 msgid "Detekto de lumaj ŝanĝoj"
-msgstr "كشف تغيرات الضوء"
+msgstr "Detección de cambios de luz."
 
 #: templates/main.html:879
 #, fuzzy
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-msgstr "يحدد النسبة المئوية للصورة التي يجب تغييرها حتى يتم التعامل مع الحدث على أنه تغيير ضوء مفاجئ بدلاً من الحركة (0٪ يعطل الميزة)."
+msgstr "Define el porcentaje de la imagen que debe cambiarse para que el evento se trate como un cambio repentino de luz en lugar de movimiento (0% deshabilita la función)."
 
 #: templates/main.html:882
 #, fuzzy
 msgid "Makula filtrilo"
-msgstr "مرشح للبقع"
+msgstr "Filtro de manchas"
 
 #: templates/main.html:884
 #, fuzzy
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
-msgstr "قم بتمكين هذا عن طريق تطبيق مرشح موضعي على الإطارات قبل اكتشاف الحركة."
+msgstr "Habilite esto aplicando un filtro de punto a los cuadros antes de la detección de movimiento."
 
 #: templates/main.html:890
 #, fuzzy
 msgid "Senmovada daŭro"
-msgstr "حركة مستمرة"
+msgstr "Movimiento continuo"
 
 #: templates/main.html:892
 #, fuzzy
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
-msgstr "يضبط عدد ثواني الصمت (أي لا حركة) التي تحدد نهاية حدث الحركة."
+msgstr "Establece el número de segundos de silencio (es decir, sin movimiento) que marca el final de un evento de movimiento."
 
 #: templates/main.html:895
 #, fuzzy
 msgid "Kaptita Antaŭe"
-msgstr "اشتعلت من قبل"
+msgstr "Atrapado antes"
 
 #: templates/main.html:896 templates/main.html:901 templates/main.html:906
 #, fuzzy
 msgid "kadroj"
-msgstr "الإطارات"
+msgstr "marcos"
 
 #: templates/main.html:897
 #, fuzzy
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
-msgstr "يضبط عدد الإطارات الملتقطة (والمضمنة في الفيلم) قبل اكتشاف حادثة الحركة."
+msgstr "Establece el número de fotogramas capturados (e incluidos en la película) antes de que se detecte un incidente de movimiento."
 
 #: templates/main.html:900
 #, fuzzy
 msgid "Kaptita Post"
-msgstr "اشتعلت بعد"
+msgstr "Atrapado después"
 
 #: templates/main.html:902
 #, fuzzy
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
-msgstr "يضبط عدد الإطارات التي سيتم التقاطها (ويتم تضمينها في الفيلم) بعد نهاية حدث الحركة."
+msgstr "Establece el número de fotogramas que se capturarán (y se incluirán en la película) después del final de un evento de movimiento."
 
 #: templates/main.html:905
 #, fuzzy
 msgid "Minimumaj movaj kadroj"
-msgstr "إطارات الحركة الدنيا"
+msgstr "Marcos de movimiento mínimo"
 
 #: templates/main.html:907
 #, fuzzy
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
-msgstr "يضبط الحد الأدنى لعدد إطارات الحركة المتتالية اللازمة لبدء حدث الحركة."
+msgstr "Establece el número mínimo de cuadros de movimiento sucesivos necesarios para iniciar un evento de movimiento."
 
 #: templates/main.html:913
 #, fuzzy
 msgid "Masko"
-msgstr "قناع"
+msgstr "Mascara"
 
 #: templates/main.html:915
 #, fuzzy
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
-msgstr "يتيح إخفاء الصورة لاكتشاف حركة أكثر انتقائية ودقة."
-
-#, fuzzy
-#~ msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro nombro,%%v = nombro de evento, / = subdosierujo."
-#~ msgstr "يحدد قالب الاسم لملفات JPEG ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year ، ٪٪ m = month ، ٪٪ d = day ، ٪٪ H = hour ، ٪٪ M = minutes ، ٪٪ S = second ، ٪٪ q = frame number ، ٪٪ v = عدد الأحداث ، / = دليل فرعي."
-
-#, fuzzy
-#~ msgid "Por ĉiam"
-#~ msgstr "إلى الأبد"
-
-#, fuzzy
-#~ msgid "Difinas la kapta reĝimon"
-#~ msgstr "يحدد وضع الالتقاط"
-
-#, fuzzy
-#~ msgid "Manlibro"
-#~ msgstr "يدوي"
-
-#, fuzzy
-#~ msgid "Manlibro = manlibraj kaptiĉoj per rapida butono."
-#~ msgstr "يدوي = يستقر يدويًا بزر سريع."
-
-#, fuzzy
-#~ msgid ""
-#~ "Difinas la kapta reĝimon\n"
-#~ "                                    Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,\n"
-#~ "                                    Intertempe = bildo kaptita ĉiun x sekundojn,\n"
-#~ "                                    Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,\n"
-#~ "                                    Manlibro = manlibraj kaptiĉoj per rapida butono."
-#~ msgstr "تعريف وضع الالتقاط \\ n مشغل الحركة = الصورة الملتقطة في كل مرة يتم فيها الكشف عن الحركة ، \\ n في هذه الأثناء = الصورة الملتقطة كل x ثانية ، \\ n جميع الصور = حفظ كل إطار في ملف صورة ، \\ n يدوي = لقطات يدوية."
+msgstr "Permite el enmascaramiento de imágenes para una detección de movimiento más selectiva y precisa."

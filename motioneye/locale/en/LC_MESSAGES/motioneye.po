@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-04 12:36+0200\n"
+"POT-Creation-Date: 2020-04-04 15:30+0200\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -851,7 +851,7 @@ msgstr "Manual = manual snapshots using snapshot button"
 msgid "Interkapto-Intervalo"
 msgstr "Snapshot Interval"
 
-#: templates/main.html:721 templates/main.html:816
+#: templates/main.html:721 templates/main.html:816 templates/main.html:891
 msgid "sekundoj"
 msgstr "seconds"
 
@@ -1033,7 +1033,6 @@ msgid "Bruo-nivelo"
 msgstr "Noise Level"
 
 #: templates/main.html:874
-#, fuzzy
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
 msgstr "manually sets the noise level to a fixed value"
 
@@ -1052,3 +1051,47 @@ msgstr "Despeckle Filter"
 #: templates/main.html:884
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
 msgstr "enable this to apply a despeckle filter to frames before detecting motion"
+
+#: templates/main.html:890
+msgid "Senmovada daŭro"
+msgstr "Motion Gap"
+
+#: templates/main.html:892
+msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
+msgstr "sets the number of seconds of silence (i.e. no motion) that mark the end of a motion event"
+
+#: templates/main.html:895
+msgid "Kaptita Antaŭe"
+msgstr "Captured Before"
+
+#: templates/main.html:896 templates/main.html:901 templates/main.html:906
+msgid "kadroj"
+msgstr "frames"
+
+#: templates/main.html:897
+msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
+msgstr "sets the number of frames to be captured (and included in the movie) before a motion event is detected"
+
+#: templates/main.html:900
+msgid "Kaptita Post"
+msgstr "Captured After"
+
+#: templates/main.html:902
+msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
+msgstr "sets the number of frames to be captured (and included in the movie) after the end of a motion event"
+
+#: templates/main.html:905
+msgid "Minimumaj movaj kadroj"
+msgstr "Minimum Motion Frames"
+
+#: templates/main.html:907
+msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
+msgstr "sets the minimum number of successive motion frames required to start a motion event"
+
+#: templates/main.html:913
+msgid "Masko"
+msgstr "Mask"
+
+#: templates/main.html:915
+msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
+msgstr "enables image masking for a more selective and precise motion detection"

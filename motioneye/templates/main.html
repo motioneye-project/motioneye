@@ -887,32 +887,32 @@
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item" min="0" max="86400" required="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Motion Gap</span></td>
-                            <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="eventGapEntry"><span class="settings-item-unit">seconds</span></td>
-                            <td><span class="help-mark" title="sets the number of seconds of silence (i.e. no motion) that mark the end of a motion event">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Senmovada daŭro") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="eventGapEntry"><span class="settings-item-unit">{{ _("sekundoj") }}</span></td>
+                            <td><span class="help-mark" title="{{ _("Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" min="0" max="1000" required="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Captured Before</span></td>
-                            <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="preCaptureEntry"><span class="settings-item-unit">frames</span></td>
-                            <td><span class="help-mark" title="sets the number of frames to be captured (and included in the movie) before a motion event is detected">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Kaptita Antaŭe") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="preCaptureEntry"><span class="settings-item-unit">{{ _("kadroj") }}</span></td>
+                            <td><span class="help-mark" title="{{ _("Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" min="0" max="1000" required="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Captured After</span></td>
-                            <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="postCaptureEntry"><span class="settings-item-unit">frames</span></td>
-                            <td><span class="help-mark" title="sets the number of frames to be captured (and included in the movie) after the end of a motion event">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Kaptita Post") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="postCaptureEntry"><span class="settings-item-unit">{{ _("kadroj") }}</span></td>
+                            <td><span class="help-mark" title="{{ _("Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" min="1" max="1000" required="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Minimum Motion Frames</span></td>
-                            <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="minimumMotionFramesEntry"><span class="settings-item-unit">frames</span></td>
-                            <td><span class="help-mark" title="sets the minimum number of successive motion frames required to start a motion event">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Minimumaj movaj kadroj") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="number styled motion-detection camera-config" id="minimumMotionFramesEntry"><span class="settings-item-unit">{{ _("kadroj") }}</span></td>
+                            <td><span class="help-mark" title="{{ _("Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Mask</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Masko") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="maskSwitch"></td>
-                            <td><span class="help-mark" title="enables image masking for a more selective and precise motion detection">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="mask">
                             <td class="settings-item-label"><span class="settings-item-label">Mask Type</span></td>

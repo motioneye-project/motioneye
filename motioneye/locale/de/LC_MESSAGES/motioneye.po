@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-04 12:36+0200\n"
+"POT-Creation-Date: 2020-04-04 15:30+0200\n"
 "PO-Revision-Date: 2020-04-04 12:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
-"Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: server.py:198
@@ -739,8 +739,7 @@ msgid "ekz. http://example.com/notify/"
 msgstr "z.B. http://example.com/notify/"
 
 #: templates/main.html:516
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL, die gesendet werden soll, wenn eine Bewegung erkannt wird; Die folgenden speziellen Verknüpfungen werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Bildnummer, %% v = Ereignisnummer, %% f = Dateipfad"
 
@@ -775,8 +774,7 @@ msgid "ordono..."
 msgstr "bestellen ..."
 
 #: templates/main.html:541
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
 msgstr "Befehl, der nach dem Erstellen einer Multimediadatei ausgeführt werden soll. Mehrere Befehle können durch ein Semikolon getrennt werden. Verwenden Sie kein Semikolon in Befehlen. Die folgenden speziellen Token werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Rahmennummer, %% v = Ereignisnummer, %% f = Dateipfad"
 
@@ -821,8 +819,7 @@ msgid "propra teksto..."
 msgstr "eigener Text ..."
 
 #: templates/main.html:571
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "Definiert benutzerdefinierten linken Text. Die folgenden speziellen Token werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Rahmennummer, %% v = Ereignisnummer, %% T = HH: MM: SS, \\ n = neue Zeile"
 
@@ -837,8 +834,7 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dek
 msgstr "Legt den Text fest, der in den Filmen und Bildern in der unteren rechten Ecke angezeigt wird"
 
 #: templates/main.html:588
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "Definiert benutzerdefinierten richtigen Text. Die folgenden speziellen Token werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Rahmennummer, %% v = Ereignisnummer, %% T = HH: MM: SS, \\ n = neue Zeile"
 
@@ -983,8 +979,7 @@ msgid "Nomo Bildo-Dosiero"
 msgstr "Name Bilddatei"
 
 #: templates/main.html:695
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "Definiert die Namensvorlage für JPEG-Dateien. Die folgenden speziellen Token werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Rahmennummer, %% v = Ereignisnummer, / = Unterverzeichnis."
 
@@ -1058,7 +1053,7 @@ msgstr "Mähne = Handaufnahme mit einem speziellen Knopf."
 msgid "Interkapto-Intervalo"
 msgstr "Abfangintervall"
 
-#: templates/main.html:721 templates/main.html:816
+#: templates/main.html:721 templates/main.html:816 templates/main.html:891
 #, fuzzy
 msgid "sekundoj"
 msgstr "Sekunden"
@@ -1144,8 +1139,7 @@ msgid "Filma Dosiernomo"
 msgstr "Name der Filmdatei"
 
 #: templates/main.html:764
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "Definiert die Namensvorlage für die Filmdateien. Die folgenden speziellen Token werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Rahmennummer, %% v = Ereignisnummer, / = Unterverzeichnis."
 
@@ -1177,7 +1171,7 @@ msgstr "Filmqualität"
 #: templates/main.html:802
 #, fuzzy
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
-msgstr ""
+msgstr "Legt die MPEG-Videoqualität fest (höhere Werte führen zu einer besseren Videoqualität, erfordern jedoch mehr Speicherplatz)."
 
 #: templates/main.html:805
 #, fuzzy
@@ -1202,7 +1196,7 @@ msgstr "Maximale Filmdauer"
 #: templates/main.html:817
 #, fuzzy
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
-msgstr ""
+msgstr "Legt die maximale Länge von Filmen in Sekunden fest. Wenn das Bewegungsereignis länger dauert, wird eine neue Filmdatei erstellt. Verwenden Sie 0 für unbegrenzte Länge."
 
 #: templates/main.html:820
 #, fuzzy
@@ -1257,7 +1251,7 @@ msgstr "Maximale Änderungsschwelle"
 #: templates/main.html:859
 #, fuzzy
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
-msgstr ""
+msgstr "Legt die Anzahl der Pixel fest, die zwischen Frames geändert wurden, über die kein Bildlauf mehr ausgelöst wird (0 deaktiviert den Rahmen)."
 
 #: templates/main.html:862
 #, fuzzy
@@ -1277,7 +1271,7 @@ msgstr "Automatische Geräuscherkennung"
 #: templates/main.html:869
 #, fuzzy
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
-msgstr ""
+msgstr "Aktivieren Sie diese Option, um den Geräuschpegel automatisch anzupassen."
 
 #: templates/main.html:872
 #, fuzzy
@@ -1308,3 +1302,58 @@ msgstr "Fleckenfilter"
 #, fuzzy
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
 msgstr "Aktivieren Sie dies, indem Sie vor der Bewegungserkennung einen Punktfilter auf Frames anwenden."
+
+#: templates/main.html:890
+#, fuzzy
+msgid "Senmovada daŭro"
+msgstr "Kontinuierliche Bewegung"
+
+#: templates/main.html:892
+#, fuzzy
+msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
+msgstr "Legt die Anzahl der Sekunden der Stille (d. H. Keine Bewegung) fest, die das Ende eines Bewegungsereignisses markiert."
+
+#: templates/main.html:895
+#, fuzzy
+msgid "Kaptita Antaŭe"
+msgstr "Vorher gefangen"
+
+#: templates/main.html:896 templates/main.html:901 templates/main.html:906
+#, fuzzy
+msgid "kadroj"
+msgstr "Frames"
+
+#: templates/main.html:897
+#, fuzzy
+msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
+msgstr "Legt die Anzahl der Bilder fest, die aufgenommen (und im Film enthalten) werden, bevor ein Bewegungsvorfall erkannt wird."
+
+#: templates/main.html:900
+#, fuzzy
+msgid "Kaptita Post"
+msgstr "Gefangen danach"
+
+#: templates/main.html:902
+#, fuzzy
+msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
+msgstr "Legt die Anzahl der Bilder fest, die nach dem Ende eines Bewegungsereignisses aufgenommen (und in den Film aufgenommen) werden sollen."
+
+#: templates/main.html:905
+#, fuzzy
+msgid "Minimumaj movaj kadroj"
+msgstr "Minimale Bewegungsrahmen"
+
+#: templates/main.html:907
+#, fuzzy
+msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
+msgstr "Legt die Mindestanzahl aufeinanderfolgender Bewegungsrahmen fest, die zum Starten eines Bewegungsereignisses erforderlich sind."
+
+#: templates/main.html:913
+#, fuzzy
+msgid "Masko"
+msgstr "Maske"
+
+#: templates/main.html:915
+#, fuzzy
+msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
+msgstr "Aktiviert die Bildmaskierung für eine selektivere und genauere Bewegungserkennung."

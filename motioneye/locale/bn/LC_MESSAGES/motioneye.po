@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-04 12:36+0200\n"
+"POT-Creation-Date: 2020-04-04 15:30+0200\n"
 "PO-Revision-Date: 2020-04-02 18:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1052,7 +1052,7 @@ msgstr "মানে = একটি উত্সর্গীকৃত বোত�
 msgid "Interkapto-Intervalo"
 msgstr "বিরতি বিরতি"
 
-#: templates/main.html:721 templates/main.html:816
+#: templates/main.html:721 templates/main.html:816 templates/main.html:891
 #, fuzzy
 msgid "sekundoj"
 msgstr "সেকেন্ড"
@@ -1301,3 +1301,58 @@ msgstr "দাগ ফিল্টার"
 #, fuzzy
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
 msgstr "গতি সনাক্তকরণের আগে ফ্রেমে একটি স্পট ফিল্টার প্রয়োগ করে এটি সক্ষম করুন।"
+
+#: templates/main.html:890
+#, fuzzy
+msgid "Senmovada daŭro"
+msgstr "অবিচ্ছিন্ন চলাচল"
+
+#: templates/main.html:892
+#, fuzzy
+msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
+msgstr "সেকেন্ডের নীরবতার সংখ্যা নির্ধারণ করে (অর্থাত্ কোনও আন্দোলন নয়) যা কোনও আন্দোলনের ইভেন্টের সমাপ্তি চিহ্নিত করে।"
+
+#: templates/main.html:895
+#, fuzzy
+msgid "Kaptita Antaŭe"
+msgstr "আগে ধরা"
+
+#: templates/main.html:896 templates/main.html:901 templates/main.html:906
+#, fuzzy
+msgid "kadroj"
+msgstr "চিহ্ন"
+
+#: templates/main.html:897
+#, fuzzy
+msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
+msgstr "গতিবেগের ঘটনা সনাক্ত হওয়ার আগে ক্যাপচার করা ফ্রেমের সংখ্যা নির্ধারণ করে (এবং সিনেমায় অন্তর্ভুক্ত)।"
+
+#: templates/main.html:900
+#, fuzzy
+msgid "Kaptita Post"
+msgstr "পরে ধরা"
+
+#: templates/main.html:902
+#, fuzzy
+msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
+msgstr "কোনও আন্দোলনের ইভেন্ট শেষ হওয়ার পরে ক্যাপচার হওয়ার জন্য ফ্রেমগুলির সংখ্যা নির্ধারণ করে (এবং সিনেমায় অন্তর্ভুক্ত)।"
+
+#: templates/main.html:905
+#, fuzzy
+msgid "Minimumaj movaj kadroj"
+msgstr "ন্যূনতম গতি ফ্রেম"
+
+#: templates/main.html:907
+#, fuzzy
+msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
+msgstr "একটি মোশন ইভেন্ট শুরু করতে প্রয়োজনীয় ন্যূনতম গতি ফ্রেমের সংখ্যা নির্ধারণ করে।"
+
+#: templates/main.html:913
+#, fuzzy
+msgid "Masko"
+msgstr "মাস্ক"
+
+#: templates/main.html:915
+#, fuzzy
+msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
+msgstr "আরও নির্বাচনী এবং সঠিক গতি সনাক্তকরণের জন্য চিত্র মাস্কিং সক্ষম করে।"

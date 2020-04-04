@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-04 12:36+0200\n"
+"POT-Creation-Date: 2020-04-04 15:30+0200\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -850,7 +850,7 @@ msgstr "Manuel = capture par clic sur le bouton dédié."
 msgid "Interkapto-Intervalo"
 msgstr "Intervalle de capture"
 
-#: templates/main.html:721 templates/main.html:816
+#: templates/main.html:721 templates/main.html:816 templates/main.html:891
 msgid "sekundoj"
 msgstr "secondes"
 
@@ -1050,3 +1050,47 @@ msgstr "Filtre anti-taches"
 #: templates/main.html:884
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
 msgstr "Activez cela pour appliquer un filtre anti-taches aux images avant la détection de mouvement."
+
+#: templates/main.html:890
+msgid "Senmovada daŭro"
+msgstr "Temps d'inactivité"
+
+#: templates/main.html:892
+msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
+msgstr "Définit le nombre de secondes de silence (c'est-à-dire sans mouvement) qui marque la fin d'un événement."
+
+#: templates/main.html:895
+msgid "Kaptita Antaŭe"
+msgstr "Prévisualisation"
+
+#: templates/main.html:896 templates/main.html:901 templates/main.html:906
+msgid "kadroj"
+msgstr "trames"
+
+#: templates/main.html:897
+msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
+msgstr "Définit le nombre d'images capturées (et incluses dans le film) avant qu'un incident de mouvement ne soit détecté."
+
+#: templates/main.html:900
+msgid "Kaptita Post"
+msgstr "Images après"
+
+#: templates/main.html:902
+msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
+msgstr "Définit le nombre d'images à capturer (et à inclure dans le film) après la fin d'un événement de mouvement."
+
+#: templates/main.html:905
+msgid "Minimumaj movaj kadroj"
+msgstr "Minimum d'images détectées"
+
+#: templates/main.html:907
+msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
+msgstr "Définit le nombre minimum d'images de mouvement successives nécessaires pour démarrer un événement de mouvement."
+
+#: templates/main.html:913
+msgid "Masko"
+msgstr "Masque"
+
+#: templates/main.html:915
+msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
+msgstr "Permet le masquage d'image pour une détection de mouvement plus sélective et précise."
