@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-04 15:30+0200\n"
+"POT-Creation-Date: 2020-04-07 17:41+0200\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1094,3 +1094,27 @@ msgstr "Masque"
 #: templates/main.html:915
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
 msgstr "Permet le masquage d'image pour une détection de mouvement plus sélective et précise."
+
+#: templates/main.html:918
+msgid "Tipo de masko"
+msgstr "Type de masque"
+
+#: templates/main.html:921
+msgid "Inteligenta"
+msgstr "Intelligent"
+
+#: templates/main.html:922
+msgid "Redaktebla"
+msgstr "Modifiable"
+
+#: templates/main.html:925
+msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
+msgstr "L'option Intelligente détecte automatiquement les régions avec un mouvement régulier et crée dynamiquement un masque interne, tandis que l'option Modifiable vous permet de le construire manuellement vous-même."
+
+#: templates/main.html:928
+msgid "Inteligenta-maska Malrapideco"
+msgstr "Lenteur du masque intelligent"
+
+#: templates/main.html:930
+msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
+msgstr "Des valeurs plus élevées donnent un masque plus durable avec un processus de construction plus lent."

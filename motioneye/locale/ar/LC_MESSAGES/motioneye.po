@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-04 15:30+0200\n"
+"POT-Creation-Date: 2020-04-07 17:41+0200\n"
 "PO-Revision-Date: 2020-03-25 16:20+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1356,6 +1356,36 @@ msgstr "قناع"
 #, fuzzy
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
 msgstr "يتيح إخفاء الصورة لاكتشاف حركة أكثر انتقائية ودقة."
+
+#: templates/main.html:918
+#, fuzzy
+msgid "Tipo de masko"
+msgstr "نوع القناع"
+
+#: templates/main.html:921
+#, fuzzy
+msgid "Inteligenta"
+msgstr "ذكي"
+
+#: templates/main.html:922
+#, fuzzy
+msgid "Redaktebla"
+msgstr "قابل للتعديل"
+
+#: templates/main.html:925
+#, fuzzy
+msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
+msgstr "يكتشف الخيار الذكي تلقائيًا المناطق ذات الحركة المنتظمة ويقوم بإنشاء قناع داخلي ديناميكيًا ، بينما يتيح لك الخيار القابل للتحرير إنشاءه يدويًا بنفسك."
+
+#: templates/main.html:928
+#, fuzzy
+msgid "Inteligenta-maska Malrapideco"
+msgstr "بطء القناع الذكي"
+
+#: templates/main.html:930
+#, fuzzy
+msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
+msgstr "القيم الأعلى تعطي قناعًا أكثر متانة مع عملية بناء أبطأ."
 
 #, fuzzy
 #~ msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro nombro,%%v = nombro de evento, / = subdosierujo."

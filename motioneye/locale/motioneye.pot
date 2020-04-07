@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-04 15:30+0200\n"
+"POT-Creation-Date: 2020-04-07 17:41+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1232,5 +1232,34 @@ msgstr ""
 
 #: templates/main.html:915
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
+msgstr ""
+
+#: templates/main.html:918
+msgid "Tipo de masko"
+msgstr ""
+
+#: templates/main.html:921
+msgid "Inteligenta"
+msgstr ""
+
+#: templates/main.html:922
+msgid "Redaktebla"
+msgstr ""
+
+#: templates/main.html:925
+msgid ""
+"La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj "
+"dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane "
+"konstrui ĝin mem."
+msgstr ""
+
+#: templates/main.html:928
+msgid "Inteligenta-maska Malrapideco"
+msgstr ""
+
+#: templates/main.html:930
+msgid ""
+"Pli altaj valoroj donas pli daŭran maskon kun pli malrapida "
+"konstruprocezo."
 msgstr ""
 

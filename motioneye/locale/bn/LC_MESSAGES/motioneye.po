@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-04 15:30+0200\n"
+"POT-Creation-Date: 2020-04-07 17:41+0200\n"
 "PO-Revision-Date: 2020-04-02 18:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1356,3 +1356,33 @@ msgstr "মাস্ক"
 #, fuzzy
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
 msgstr "আরও নির্বাচনী এবং সঠিক গতি সনাক্তকরণের জন্য চিত্র মাস্কিং সক্ষম করে।"
+
+#: templates/main.html:918
+#, fuzzy
+msgid "Tipo de masko"
+msgstr "মুখোশের ধরণ"
+
+#: templates/main.html:921
+#, fuzzy
+msgid "Inteligenta"
+msgstr "বুদ্ধিমান"
+
+#: templates/main.html:922
+#, fuzzy
+msgid "Redaktebla"
+msgstr "সম্পাদনাযোগ্য"
+
+#: templates/main.html:925
+#, fuzzy
+msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
+msgstr "বুদ্ধিমান বিকল্পটি নিয়মিত গতির সাথে অঞ্চলগুলি স্বয়ংক্রিয়ভাবে সনাক্ত করে এবং গতিশীলভাবে একটি অভ্যন্তরীণ মুখোশ তৈরি করে, অন্যদিকে সম্পাদনাযোগ্য বিকল্পটি আপনাকে এটি নিজে নিজে তৈরি করতে দেয়।"
+
+#: templates/main.html:928
+#, fuzzy
+msgid "Inteligenta-maska Malrapideco"
+msgstr "স্মার্ট-মাস্ক স্লোনেস"
+
+#: templates/main.html:930
+#, fuzzy
+msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
+msgstr "উচ্চতর মান ধীর গতির বিল্ডিং প্রক্রিয়া সহ আরও টেকসই মাস্ক দেয়।"

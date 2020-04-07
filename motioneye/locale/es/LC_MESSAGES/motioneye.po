@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-04 15:30+0200\n"
+"POT-Creation-Date: 2020-04-07 17:41+0200\n"
 "PO-Revision-Date: 2020-04-04 13:20+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1357,3 +1357,33 @@ msgstr "Mascara"
 #, fuzzy
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
 msgstr "Permite el enmascaramiento de imágenes para una detección de movimiento más selectiva y precisa."
+
+#: templates/main.html:918
+#, fuzzy
+msgid "Tipo de masko"
+msgstr "Tipo de máscara"
+
+#: templates/main.html:921
+#, fuzzy
+msgid "Inteligenta"
+msgstr "Inteligente"
+
+#: templates/main.html:922
+#, fuzzy
+msgid "Redaktebla"
+msgstr "Editable"
+
+#: templates/main.html:925
+#, fuzzy
+msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
+msgstr "La opción Inteligente detecta automáticamente las regiones con movimiento regular y crea dinámicamente una máscara interna, mientras que la opción Editable le permite construirla usted mismo manualmente."
+
+#: templates/main.html:928
+#, fuzzy
+msgid "Inteligenta-maska Malrapideco"
+msgstr "Lentitud de máscara inteligente"
+
+#: templates/main.html:930
+#, fuzzy
+msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
+msgstr "Los valores más altos dan una máscara más duradera con un proceso de construcción más lento."
