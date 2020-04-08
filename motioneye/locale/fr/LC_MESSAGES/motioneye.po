@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-07 17:41+0200\n"
+"POT-Creation-Date: 2020-04-08 17:45+0200\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1118,3 +1118,23 @@ msgstr "Lenteur du masque intelligent"
 #: templates/main.html:930
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr "Des valeurs plus élevées donnent un masque plus durable avec un processus de construction plus lent."
+
+#: templates/main.html:935
+msgid "Redakti maskon"
+msgstr "Modifier le masque"
+
+#: templates/main.html:936
+msgid "Konservi maskon"
+msgstr "Sauver le masque"
+
+#: templates/main.html:939
+msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
+msgstr "Cliquez sur ce bouton pour activer/désactiver l'éditeur de masque."
+
+#: templates/main.html:943
+msgid "Purigi maskon"
+msgstr "Effacer le masque"
+
+#: templates/main.html:944
+msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
+msgstr "Cliquez sur ce bouton pour vider le masque actuel."

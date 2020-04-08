@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-07 17:41+0200\n"
+"POT-Creation-Date: 2020-04-08 17:45+0200\n"
 "PO-Revision-Date: 2020-04-02 18:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1386,3 +1386,28 @@ msgstr "স্মার্ট-মাস্ক স্লোনেস"
 #, fuzzy
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr "উচ্চতর মান ধীর গতির বিল্ডিং প্রক্রিয়া সহ আরও টেকসই মাস্ক দেয়।"
+
+#: templates/main.html:935
+#, fuzzy
+msgid "Redakti maskon"
+msgstr "মুখোশ সম্পাদনা করুন"
+
+#: templates/main.html:936
+#, fuzzy
+msgid "Konservi maskon"
+msgstr "একটি মুখোশ রাখুন"
+
+#: templates/main.html:939
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
+msgstr "মাস্ক সম্পাদক সক্ষম / অক্ষম করতে এই বোতামটি ক্লিক করুন।"
+
+#: templates/main.html:943
+#, fuzzy
+msgid "Purigi maskon"
+msgstr "পরিষ্কার মুখোশ"
+
+#: templates/main.html:944
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
+msgstr "বর্তমান মুখোশটি খালি করতে এই বোতামটি ক্লিক করুন।"

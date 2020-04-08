@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-07 17:41+0200\n"
+"POT-Creation-Date: 2020-04-08 17:45+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1261,5 +1261,25 @@ msgstr ""
 msgid ""
 "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida "
 "konstruprocezo."
+msgstr ""
+
+#: templates/main.html:935
+msgid "Redakti maskon"
+msgstr ""
+
+#: templates/main.html:936
+msgid "Konservi maskon"
+msgstr ""
+
+#: templates/main.html:939
+msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
+msgstr ""
+
+#: templates/main.html:943
+msgid "Purigi maskon"
+msgstr ""
+
+#: templates/main.html:944
+msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
 msgstr ""
 

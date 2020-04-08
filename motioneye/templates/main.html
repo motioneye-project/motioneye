@@ -927,21 +927,21 @@
                         <tr class="settings-item" min="1" max="10" snap="1" ticksnum="10" decimals="0" unit="" depends="mask maskType=smart">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Inteligenta-maska Malrapideco") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="smartMaskSluggishnessSlider"></td>
-                            <td><span class="help-mark" title=""{{ _("Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo.") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="mask maskType=editable">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
                             <td class="settings-item-value">
-                                <div class="button normal-button edit-mask-button" id="editMaskButton">Edit Mask</div>
-                                <div class="button normal-button save-mask-button" id="saveMaskButton">Save Mask</div>
+                                <div class="button normal-button edit-mask-button" id="editMaskButton">{{ _("Redakti maskon") }}</div>
+                                <div class="button normal-button save-mask-button" id="saveMaskButton">{{ _("Konservi maskon") }}</div>
                                 <input type="text" class="motion-detection camera-config" id="maskLinesEntry">
                             </td>
-                            <td><span class="help-mark" title="click this button to enable/disable the mask editor">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="mask maskType=editable">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
-                            <td class="settings-item-value"><div class="button normal-button clear-mask-button" id="clearMaskButton">Clear Mask</div></td>
-                            <td><span class="help-mark" title="click this button to clear the current mask">?</span></td>
+                            <td class="settings-item-value"><div class="button normal-button clear-mask-button" id="clearMaskButton">{{ _("Purigi maskon") }}</div></td>
+                            <td><span class="help-mark" title="{{ _("Alklaku ĉi tiun butonon por malplenigi la nunan maskon.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>

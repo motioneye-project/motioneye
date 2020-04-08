@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-07 17:41+0200\n"
+"POT-Creation-Date: 2020-04-08 17:45+0200\n"
 "PO-Revision-Date: 2020-03-25 16:20+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1386,6 +1386,31 @@ msgstr "بطء القناع الذكي"
 #, fuzzy
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr "القيم الأعلى تعطي قناعًا أكثر متانة مع عملية بناء أبطأ."
+
+#: templates/main.html:935
+#, fuzzy
+msgid "Redakti maskon"
+msgstr "تحرير القناع"
+
+#: templates/main.html:936
+#, fuzzy
+msgid "Konservi maskon"
+msgstr "حافظ على القناع"
+
+#: templates/main.html:939
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
+msgstr "انقر فوق هذا الزر لتمكين / تعطيل محرر القناع."
+
+#: templates/main.html:943
+#, fuzzy
+msgid "Purigi maskon"
+msgstr "قناع نظيف"
+
+#: templates/main.html:944
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
+msgstr "انقر فوق هذا الزر لتفريغ القناع الحالي."
 
 #, fuzzy
 #~ msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro nombro,%%v = nombro de evento, / = subdosierujo."

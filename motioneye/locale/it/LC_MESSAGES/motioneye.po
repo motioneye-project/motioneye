@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-07 17:41+0200\n"
+"POT-Creation-Date: 2020-04-08 17:45+0200\n"
 "PO-Revision-Date: 2020-04-07 17:41+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
-"Language: it\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: server.py:198
@@ -739,8 +739,7 @@ msgid "ekz. http://example.com/notify/"
 msgstr "ad es. http://example.com/notify/"
 
 #: templates/main.html:516
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL da trasmettere quando viene rilevato un movimento; sono accettate le seguenti scorciatoie speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame, %% v = numero dell'evento, %% f = percorso del file"
 
@@ -775,8 +774,7 @@ msgid "ordono..."
 msgstr "ordina ..."
 
 #: templates/main.html:541
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
 msgstr "Comando da eseguire dopo aver creato un file multimediale. Diversi comandi possono essere separati da un punto e virgola; non usare il punto e virgola nei comandi; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame, %% v = numero dell'evento, %% f = percorso del file"
 
@@ -821,8 +819,7 @@ msgid "propra teksto..."
 msgstr "proprio testo ..."
 
 #: templates/main.html:571
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "Definisce il testo sinistro personalizzato; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame, %% v = numero evento, %% T = HH: MM: SS, \\ n = nuova riga"
 
@@ -837,8 +834,7 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dek
 msgstr "Imposta il testo visualizzato su filmati e immagini, nell'angolo in basso a destra"
 
 #: templates/main.html:588
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "Definisce il testo corretto personalizzato; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame, %% v = numero evento, %% T = HH: MM: SS, \\ n = nuova riga"
 
@@ -983,8 +979,7 @@ msgid "Nomo Bildo-Dosiero"
 msgstr "Nome file immagine"
 
 #: templates/main.html:695
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "Definisce il modello di nome per i file JPEG; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame, %% v = numero evento, / = sottodirectory."
 
@@ -1144,8 +1139,7 @@ msgid "Filma Dosiernomo"
 msgstr "Nome file filmato"
 
 #: templates/main.html:764
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "Definisce il modello di nome per i file di film; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame, %% v = numero evento, / = sottodirectory."
 
@@ -1327,7 +1321,7 @@ msgstr "Catturato prima"
 #: templates/main.html:896 templates/main.html:901 templates/main.html:906
 #, fuzzy
 msgid "kadroj"
-msgstr ""
+msgstr "votazione"
 
 #: templates/main.html:897
 #, fuzzy
@@ -1352,17 +1346,17 @@ msgstr "Fotogrammi di movimento minimi"
 #: templates/main.html:907
 #, fuzzy
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
-msgstr ""
+msgstr "Imposta il numero minimo di fotogrammi di movimento successivi necessari per avviare un evento di movimento."
 
 #: templates/main.html:913
 #, fuzzy
 msgid "Masko"
-msgstr ""
+msgstr "mascherare"
 
 #: templates/main.html:915
 #, fuzzy
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
-msgstr ""
+msgstr "Abilita il mascheramento delle immagini per un rilevamento del movimento più selettivo e accurato."
 
 #: templates/main.html:918
 #, fuzzy
@@ -1372,17 +1366,17 @@ msgstr "Tipo di maschera"
 #: templates/main.html:921
 #, fuzzy
 msgid "Inteligenta"
-msgstr ""
+msgstr "intelligente"
 
 #: templates/main.html:922
 #, fuzzy
 msgid "Redaktebla"
-msgstr ""
+msgstr "modificabile"
 
 #: templates/main.html:925
 #, fuzzy
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
-msgstr ""
+msgstr "L'opzione Intelligente rileva automaticamente le regioni con movimento regolare e crea dinamicamente una maschera interna, mentre l'opzione Modificabile ti consente di costruirla manualmente da solo."
 
 #: templates/main.html:928
 #, fuzzy
@@ -1393,3 +1387,28 @@ msgstr "Lentezza maschera intelligente"
 #, fuzzy
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr "Valori più alti danno una maschera più duratura con un processo di costruzione più lento."
+
+#: templates/main.html:935
+#, fuzzy
+msgid "Redakti maskon"
+msgstr "Modifica maschera"
+
+#: templates/main.html:936
+#, fuzzy
+msgid "Konservi maskon"
+msgstr "Mantieni una maschera"
+
+#: templates/main.html:939
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
+msgstr "Fare clic su questo pulsante per abilitare / disabilitare l'editor delle maschere."
+
+#: templates/main.html:943
+#, fuzzy
+msgid "Purigi maskon"
+msgstr "Maschera pulita"
+
+#: templates/main.html:944
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
+msgstr "Fare clic su questo pulsante per svuotare la maschera corrente."

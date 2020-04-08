@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-07 17:41+0200\n"
+"POT-Creation-Date: 2020-04-08 17:45+0200\n"
 "PO-Revision-Date: 2020-04-04 12:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1387,3 +1387,28 @@ msgstr "Langsamkeit der intelligenten Maske"
 #, fuzzy
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr "Höhere Werte ergeben eine haltbarere Maske mit einem langsameren Erstellungsprozess."
+
+#: templates/main.html:935
+#, fuzzy
+msgid "Redakti maskon"
+msgstr "Maske bearbeiten"
+
+#: templates/main.html:936
+#, fuzzy
+msgid "Konservi maskon"
+msgstr "Behalte eine Maske"
+
+#: templates/main.html:939
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
+msgstr "Klicken Sie auf diese Schaltfläche, um den Maskeneditor zu aktivieren / deaktivieren."
+
+#: templates/main.html:943
+#, fuzzy
+msgid "Purigi maskon"
+msgstr "Maske reinigen"
+
+#: templates/main.html:944
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
+msgstr "Klicken Sie auf diese Schaltfläche, um die aktuelle Maske zu leeren."
