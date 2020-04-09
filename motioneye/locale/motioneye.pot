@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-08 17:45+0200\n"
+"POT-Creation-Date: 2020-04-09 16:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1281,5 +1281,34 @@ msgstr ""
 
 #: templates/main.html:944
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
+msgstr ""
+
+#: templates/main.html:950
+msgid "Montri Kadro-Ŝanĝojn"
+msgstr ""
+
+#: templates/main.html:952
+msgid ""
+"Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la "
+"modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion "
+"por ĝustigi agordojn de moviĝo-detekto."
+msgstr ""
+
+#: templates/main.html:955
+msgid "Krei debug media files"
+msgstr ""
+
+#: templates/main.html:957
+msgid ""
+"Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi"
+" problemojn de moviĝo-detekto."
+msgstr ""
+
+#: templates/main.html:966
+msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
+msgstr ""
+
+#: templates/main.html:967
+msgid "Moviĝaj sciigoj"
 msgstr ""
 

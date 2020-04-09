@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-08 17:45+0200\n"
+"POT-Creation-Date: 2020-04-09 16:58+0200\n"
 "PO-Revision-Date: 2020-04-02 18:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1411,3 +1411,33 @@ msgstr "পরিষ্কার মুখোশ"
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
 msgstr "বর্তমান মুখোশটি খালি করতে এই বোতামটি ক্লিক করুন।"
+
+#: templates/main.html:950
+#, fuzzy
+msgid "Montri Kadro-Ŝanĝojn"
+msgstr "ফ্রেম পরিবর্তনগুলি দেখান"
+
+#: templates/main.html:952
+#, fuzzy
+msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
+msgstr "যদি এটি সক্রিয় থাকে তবে ভিডিওতে চিত্রের পরিবর্তনগুলি (পিক্সেলের সংখ্যা এবং পরিবর্তিত অঞ্চল) প্রদর্শিত হবে; মোশন সনাক্তকরণ সেটিংস সামঞ্জস্য করতে সাময়িকভাবে এটিকে সক্ষম করুন।"
+
+#: templates/main.html:955
+#, fuzzy
+msgid "Krei debug media files"
+msgstr "ডিবাগ মিডিয়া ফাইলগুলি তৈরি করুন"
+
+#: templates/main.html:957
+#, fuzzy
+msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
+msgstr "সক্ষম করা থাকলে, বিশেষ চলচ্চিত্র এবং চিত্রগুলি তৈরি করুন যা গতি সনাক্তকরণের সমস্যাগুলিকে ডিবাগ করতে সহায়তা করে।"
+
+#: templates/main.html:966
+#, fuzzy
+msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
+msgstr "মোশন সনাক্ত করার পরে আপনি যদি অবহিত হতে চান তবে এটি সক্ষম করুন।"
+
+#: templates/main.html:967
+#, fuzzy
+msgid "Moviĝaj sciigoj"
+msgstr "গতি বিজ্ঞপ্তি"

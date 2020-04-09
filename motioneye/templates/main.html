@@ -947,14 +947,14 @@
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Show Frame Changes</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Montri Kadro-Ŝanĝojn") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="showFrameChangesSwitch"></td>
-                            <td><span class="help-mark" title="if this is enabled, frame changes (number of pixels as well as the changed area) are shown on the video; temporarily enable this option to help adjust the motion detection parameters">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Create Debug Media Files</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Krei debug media files") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="createDebugMediaSwitch"></td>
-                            <td><span class="help-mark" title="when enabled, creates special movies and pictures that help debugging motion detection problems">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto.") }}">?</span></td>
                         </tr>
                         {% for config in camera_sections.get('motion-detection', {}).get('configs', []) %}
                             {{config_item(config)}}
@@ -963,8 +963,8 @@
 
                     <!-- Motion Notifications -->
                     <div class="settings-section-title" id="notificationsSectionDiv">
-                        <span class="help-mark" title="enable this if you want to be notified when motion is detected">?</span>
-                        <a class="settings-section-title">Motion Notifications</a>
+                        <span class="help-mark" title="{{ _("Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita.") }}">?</span>
+                        <a class="settings-section-title">{{ _("Moviĝaj sciigoj") }}</a>
                         <span class="minimize"></span>
                     </div>
                     <table class="settings">

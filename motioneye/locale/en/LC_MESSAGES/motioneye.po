@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-08 17:45+0200\n"
+"POT-Creation-Date: 2020-04-09 16:58+0200\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1139,3 +1139,27 @@ msgstr "Clear Mask"
 #: templates/main.html:944
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
 msgstr "click this button to clear the current mask"
+
+#: templates/main.html:950
+msgid "Montri Kadro-Ŝanĝojn"
+msgstr "Show Frame Changes"
+
+#: templates/main.html:952
+msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
+msgstr "if this is enabled, frame changes (number of pixels as well as the changed area) are shown on the video; temporarily enable this option to help adjust the motion detection parameters"
+
+#: templates/main.html:955
+msgid "Krei debug media files"
+msgstr "Create Debug Media Files"
+
+#: templates/main.html:957
+msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
+msgstr "when enabled, creates special movies and pictures that help debugging motion detection problems"
+
+#: templates/main.html:966
+msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
+msgstr "enable this if you want to be notified when motion is detected"
+
+#: templates/main.html:967
+msgid "Moviĝaj sciigoj"
+msgstr "Motion Notifications"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-08 17:45+0200\n"
+"POT-Creation-Date: 2020-04-09 16:58+0200\n"
 "PO-Revision-Date: 2020-04-04 13:20+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1412,3 +1412,33 @@ msgstr "Mascarilla limpia"
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
 msgstr "Haga clic en este botón para vaciar la máscara actual."
+
+#: templates/main.html:950
+#, fuzzy
+msgid "Montri Kadro-Ŝanĝojn"
+msgstr "Mostrar cambios de marco"
+
+#: templates/main.html:952
+#, fuzzy
+msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
+msgstr "Si está activo, los cambios en la imagen (número de píxeles y el área modificada) se muestran en el video; habilítelo temporalmente para ajustar la configuración de detección de movimiento."
+
+#: templates/main.html:955
+#, fuzzy
+msgid "Krei debug media files"
+msgstr "Crear archivos multimedia de depuración"
+
+#: templates/main.html:957
+#, fuzzy
+msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
+msgstr "Cuando esté habilitado, cree películas e imágenes especiales que ayuden a depurar problemas de detección de movimiento."
+
+#: templates/main.html:966
+#, fuzzy
+msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
+msgstr "Habilítelo si desea recibir una notificación cuando se detecte movimiento."
+
+#: templates/main.html:967
+#, fuzzy
+msgid "Moviĝaj sciigoj"
+msgstr "Notificaciones de movimiento"
