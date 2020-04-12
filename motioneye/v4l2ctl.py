@@ -36,7 +36,7 @@ _V4L2_TIMEOUT = 10
 
 def find_v4l2_ctl():
     try:
-        return subprocess.check_output(['which', 'v4l2-ctl'], stderr=utils.DEV_NULL).strip()
+        return utils.call_subprocess(['which', 'v4l2-ctl'], stderr=utils.DEV_NULL)
     
     except subprocess.CalledProcessError:  # not found
         return None

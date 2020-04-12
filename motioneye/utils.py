@@ -22,6 +22,7 @@ import logging
 import os
 import re
 import socket
+import subprocess
 import sys
 import time
 import urllib.request
@@ -1009,3 +1010,14 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
         mask_lines.append(line)
 
     return mask_lines
+
+
+def call_subprocess(args, stdin=None, input=None, stdout=subprocess.PIPE, stderr=DEV_NULL, capture_output=False,
+                    shell=False, cwd=None, timeout=None, check=True, encoding='utf-8', errors=None,
+                    text=None, env=None, universal_newlines=None) -> str:
+    """subprocess.run wrapper to return output as a decoded string"""
+    return subprocess.run(
+        args, stdin=stdin, input=input, stdout=stdout, stderr=stderr, capture_output=capture_output, shell=shell,
+        cwd=cwd, timeout=timeout, check=check, encoding=encoding, errors=errors, text=text, env=env,
+        universal_newlines=universal_newlines
+    ).stdout.strip()

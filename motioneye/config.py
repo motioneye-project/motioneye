@@ -629,7 +629,7 @@ def main_ui_to_dict(ui):
             }
 
             try:
-                subprocess.check_output(settings.PASSWORD_HOOK, env=env, stderr=subprocess.STDOUT)
+                utils.call_subprocess(settings.PASSWORD_HOOK, env=env, stderr=subprocess.STDOUT)
                 logging.debug('password hook exec succeeded')
 
             except Exception as e:
@@ -1581,7 +1581,7 @@ def backup():
         cmd = ['tar', 'zc', 'motion.conf']
         cmd += list(map(os.path.basename, glob.glob(os.path.join(settings.CONF_PATH, 'camera-*.conf'))))
         try:
-            content = subprocess.check_output(cmd, cwd=settings.CONF_PATH)
+            content = utils.call_subprocess(cmd, cwd=settings.CONF_PATH)
             logging.debug('backup file created (%s bytes)' % len(content))
 
             return content
@@ -1596,7 +1596,7 @@ def backup():
                       settings.CONF_PATH)
 
         try:
-            content = subprocess.check_output(['tar', 'zc', '.'], cwd=settings.CONF_PATH)
+            content = utils.call_subprocess(['tar', 'zc', '.'], cwd=settings.CONF_PATH)
             logging.debug('backup file created (%s bytes)' % len(content))
 
             return content

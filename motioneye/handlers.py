@@ -1681,7 +1681,7 @@ class ActionHandler(BaseHandler):
         exit_status = self.p.poll()
         if exit_status is not None:
             output = self.p.stdout.read()
-            lines = output.split('\n')
+            lines = output.decode('utf-8').split('\n')
             if not lines[-1]:
                 lines = lines[:-1]
             command = os.path.basename(self.command)
@@ -1816,7 +1816,7 @@ class LogHandler(BaseHandler):
             logging.debug('serving log file "%s" from command "%s"' % (filename, path))
 
             try:
-                output = subprocess.check_output(path.split())
+                output = utils.call_subprocess(path.split())
 
             except Exception as e:
                 output = 'failed to execute command: %s' % e

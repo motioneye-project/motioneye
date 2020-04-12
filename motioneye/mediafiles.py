@@ -206,14 +206,14 @@ def find_ffmpeg():
 
     # binary
     try:
-        binary = subprocess.check_output(['which', 'ffmpeg'], stderr=utils.DEV_NULL).strip()
+        binary = utils.call_subprocess(['which', 'ffmpeg'], stderr=utils.DEV_NULL)
 
     except subprocess.CalledProcessError:  # not found
         return None, None, None
 
     # version
     try:
-        output = subprocess.check_output(binary + ' -version', shell=True)
+        output = utils.call_subprocess(binary + ' -version', shell=True)
 
     except subprocess.CalledProcessError as e:
         logging.error('ffmpeg: could find version: %s' % e)
@@ -224,7 +224,7 @@ def find_ffmpeg():
 
     # codecs
     try:
-        output = subprocess.check_output(binary + ' -codecs -hide_banner', shell=True)
+        output = utils.call_subprocess(binary + ' -codecs -hide_banner', shell=True)
 
     except subprocess.CalledProcessError as e:
         logging.error('ffmpeg: could not list supported codecs: %s' % e)
@@ -324,7 +324,7 @@ def make_movie_preview(camera_config, full_path):
     logging.debug('running command "%s"' % actual_cmd)
 
     try:
-        subprocess.check_output(actual_cmd.split(), stderr=subprocess.STDOUT)
+        utils.call_subprocess(actual_cmd.split(), stderr=subprocess.STDOUT)
 
     except subprocess.CalledProcessError as e:
         logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
@@ -348,7 +348,7 @@ def make_movie_preview(camera_config, full_path):
 
         # try again, this time grabbing the very first frame
         try:
-            subprocess.check_output(actual_cmd.split(), stderr=subprocess.STDOUT)
+            utils.call_subprocess(actual_cmd.split(), stderr=subprocess.STDOUT)
 
         except subprocess.CalledProcessError as e:
             logging.error('failed to create movie preview for %(path)s: %(msg)s' % {

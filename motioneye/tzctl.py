@@ -19,9 +19,8 @@ import hashlib
 import logging
 import os
 from motioneye import settings
-import subprocess
-
-from .config import additional_config
+from motioneye import utils
+from motioneye.config import additional_config
 
 
 LOCAL_TIME_FILE = settings.LOCAL_TIME_FILE  # @UndefinedVariable
@@ -61,7 +60,7 @@ def _get_time_zone_md5():
         return None
 
     try:
-        output = subprocess.check_output('find * -type f | xargs md5sum', shell=True, cwd='/usr/share/zoneinfo')
+        output = utils.call_subprocess('find * -type f | xargs md5sum', shell=True, cwd='/usr/share/zoneinfo')
 
     except Exception as e:
         logging.error('getting md5 of zoneinfo files failed: %s' % e)
@@ -73,7 +72,7 @@ def _get_time_zone_md5():
     time_zone_by_md5 = dict(lines)
 
     try:
-        with open(settings.LOCAL_TIME_FILE, 'r') as f:
+        with open(settings.LOCAL_TIME_FILE, 'rb') as f:
             data = f.read()
     
     except Exception as e:

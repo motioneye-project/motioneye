@@ -29,7 +29,6 @@ import pycurl
 
 from motioneye import settings
 from motioneye import utils
-from motioneye import config
 import datetime
 
 _STATE_FILE_NAME = 'uploadservices.json'
@@ -478,8 +477,7 @@ class GoogleDrive(UploadService, GoogleBase):
         removed_count = 0
         folder_id = self._get_folder_id_by_name('root', cloud_dir, False)
         children = self._get_children(folder_id)
-        self.info('found %s/%s folder(s) in local/cloud' % \
-            (len(local_folders), len(children)))
+        self.info('found %s/%s folder(s) in local/cloud' % (len(local_folders), len(children)))
         self.debug('local %s' % local_folders)
         for child in children:
             id = child['id']

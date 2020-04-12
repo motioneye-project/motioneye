@@ -44,7 +44,7 @@ class PowerControl:
 
     @staticmethod
     def _find_prog(prog: str) -> str:
-        return subprocess.run(['which', prog], stderr=utils.DEV_NULL, stdout=subprocess.PIPE).stdout.decode('utf-8')
+        return utils.call_subprocess(['which', prog])
 
     @classmethod
     def _exec_prog(cls, prog: str, args: str = '') -> bool:
