@@ -28,6 +28,7 @@ import urllib.request
 import urllib.error
 import urllib.parse
 
+from typing import Union
 from PIL import Image, ImageDraw
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
@@ -36,7 +37,7 @@ from tornado.ioloop import IOLoop
 
 from motioneye import settings
 
-_SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
+_SIGNATURE_REGEX = re.compile(r'[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
 MASK_WIDTH = 32
@@ -108,31 +109,31 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
     return text
 
 
-def pretty_date(date):
-    if date is None:
+def pretty_date(d: Union[datetime.date, int]) -> str:
+    if d is None:
         return '(' + _('never') + ')'
 
-    if isinstance(date, int):
-        return pretty_date(datetime.datetime.fromtimestamp(date))
+    if isinstance(d, int):
+        return pretty_date(datetime.datetime.fromtimestamp(d))
 
     return '{day} {month} {year}'.format(
-        day=date.day,
-        month=_(date.strftime('%B')),
-        year=date.year
+        day=d.day,
+        month=_(d.strftime('%B')),
+        year=d.year
     )
 
 
-def pretty_time(time):
-    if time is None:
+def pretty_time(t: Union[datetime.time, datetime.timedelta]) -> str:
+    if t is None:
         return ''
 
-    if isinstance(time, datetime.timedelta):
-        hour = time.seconds / 3600
-        minute = (time.seconds % 3600) / 60
-        time = datetime.time(hour, minute)
+    if isinstance(t, datetime.timedelta):
+        hour = int(t.seconds / 3600)
+        minute = int((t.seconds % 3600) / 60)
+        t = datetime.time(hour=hour, minute=minute)
 
     return '{hm}'.format(
-        hm=time.strftime('%H:%M')
+        hm=t.strftime('%H:%M')
     )
 
 
@@ -277,21 +278,6 @@ def make_str(s):
             return str(s).encode('utf8')
 
 
-def make_unicode(s):
-    if isinstance(s, str):
-        return s
-
-    try:
-        return str(s, encoding='utf8')
-
-    except:
-        try:
-            return str(s)
-
-        except:
-            return str(s).decode('utf8')
-
-
 def split_semicolon(s):
     parts = s.split(';')
     merged_parts = []
@@ -347,7 +333,7 @@ def is_v4l2_camera(config):
 
 
 def is_mmal_camera(config):
-    '''Tells if a camera is mmal device managed by the local motion instance.'''
+    """Tells if a camera is mmal device managed by the local motion instance."""
     return bool(config.get('mmalcam_name'))
 
 
@@ -439,8 +425,6 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
 
 def test_rtsp_url(data, callback):
-    from motioneye import motionctl
-
     scheme = data.get('scheme', 'rtsp')
     host = data.get('host', '127.0.0.1')
     port = data.get('port') or '554'
