@@ -116,8 +116,8 @@ def _load():
         logging.debug('loading tasks from "%s"...' % file_path)
     
         try:
-            f = open(file_path, 'r')
-        
+            f = open(file_path, 'rb')
+
         except Exception as e:
             logging.error('could not open tasks file "%s": %s' % (file_path, e))
             
@@ -139,7 +139,7 @@ def _save():
     logging.debug('saving tasks to "%s"...' % file_path)
 
     try:
-        f = open(file_path, 'w')
+        f = open(file_path, 'wb')
 
     except Exception as e:
         logging.error('could not open tasks file "%s": %s' % (file_path, e))

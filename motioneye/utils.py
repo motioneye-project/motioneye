@@ -508,7 +508,7 @@ def test_rtsp_url(data, callback):
             ''
         ]
 
-        stream.write('\r\n'.join(lines))
+        stream.write('\r\n'.join(lines).encode('utf-8'))
 
         seek_rtsp()
 
@@ -516,17 +516,17 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex('RTSP/1.0 \d+ ', on_rtsp)
+        stream.read_until_regex(b'RTSP/1.0 \d+ ', on_rtsp)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), on_rtsp)
 
     def on_rtsp(data=None):
         io_loop.remove_timeout(timeout[0])
 
         if data:
-            if data.endswith('200 '):
+            if data.endswith(b'200 '):
                 seek_server()
 
-            elif data.endswith('401 '):
+            elif data.endswith(b'401 '):
                 if not username or send_auth[0]:
                     # either credentials not supplied, or already sent
                     handle_error('authentication failed')
@@ -544,7 +544,7 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex('Server: .*', on_server)
+        stream.read_until_regex(b'Server: .*', on_server)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_server)
 
     def on_server(data=None):
@@ -564,14 +564,14 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex('WWW-Authenticate: .*', on_www_authenticate)
+        stream.read_until_regex(b'WWW-Authenticate: .*', on_www_authenticate)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_www_authenticate)
 
     def on_www_authenticate(data=None):
         io_loop.remove_timeout(timeout[0])
 
         if data:
-            scheme = re.findall('WWW-Authenticate: ([^\s]+)', data)[0].strip()
+            scheme = re.findall(b'WWW-Authenticate: ([^\s]+)', data)[0].strip()
             logging.debug('rtsp netcam auth scheme: %s' % scheme)
             if scheme.lower() == 'basic':
                 send_auth[0] = True
@@ -626,7 +626,7 @@ def test_rtsp_url(data, callback):
 
     def check_error():
         error = getattr(stream, 'error', None)
-        if error and getattr(error, 'errno', None) != 0:
+        if error and getattr(error, 'strerror', None):
             handle_error(error.strerror)
             return True
 
@@ -683,7 +683,7 @@ def compute_signature(method, path, body, key):
 
     body = body and _SIGNATURE_REGEX.sub('-', body.decode('utf8'))
 
-    return hashlib.sha1('%s:%s:%s:%s' % (method, path, body or '', key)).hexdigest().lower()
+    return hashlib.sha1(('%s:%s:%s:%s' % (method, path, body or '', key)).encode('utf-8')).hexdigest().lower()
 
 
 def parse_cookies(cookies_headers):

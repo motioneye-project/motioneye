@@ -24,6 +24,8 @@ import re
 import socket
 import subprocess
 
+from functools import cmp_to_key
+
 from tornado.ioloop import IOLoop
 from tornado.web import RequestHandler, StaticFileHandler, HTTPError, asynchronous
 
@@ -127,19 +129,19 @@ class BaseHandler(RequestHandler):
         admin_password = main_config.get('@admin_password')
         normal_password = main_config.get('@normal_password')
 
-        admin_hash = hashlib.sha1(main_config['@admin_password']).hexdigest()
-        normal_hash = hashlib.sha1(main_config['@normal_password']).hexdigest()
+        admin_hash = hashlib.sha1(main_config['@admin_password'].encode('utf-8')).hexdigest()
+        normal_hash = hashlib.sha1(main_config['@normal_password'].encode('utf-8')).hexdigest()
 
         if settings.HTTP_BASIC_AUTH and 'Authorization' in self.request.headers:
             up = utils.parse_basic_header(self.request.headers['Authorization'])
             if up:
                 if (up['username'] == admin_username and
-                    admin_password in (up['password'], hashlib.sha1(up['password']).hexdigest())):
+                    admin_password in (up['password'], hashlib.sha1(up['password'].encode('utf-8')).hexdigest())):
 
                     return 'admin'
 
                 if (up['username'] == normal_username and
-                    normal_password in (up['password'], hashlib.sha1(up['password']).hexdigest())):
+                    normal_password in (up['password'], hashlib.sha1(up['password'].encode('utf-8')).hexdigest())):
 
                     return 'normal'
 
@@ -1840,7 +1842,7 @@ class UpdateHandler(BaseHandler):
         versions = update.get_all_versions()
         current_version = update.get_os_version()[1]  # os version is returned as (name, version) tuple
         recent_versions = [v for v in versions if update.compare_versions(v, current_version) > 0]
-        recent_versions.sort(cmp=update.compare_versions)
+        recent_versions.sort(key=cmp_to_key(update.compare_versions))
         update_version = recent_versions[-1] if recent_versions else None
 
         self.finish_json({
