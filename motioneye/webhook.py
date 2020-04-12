@@ -17,7 +17,8 @@
 
 import json
 import logging
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.error
 import urllib.parse
 
 from . import settings

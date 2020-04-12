@@ -22,8 +22,9 @@ import os
 import os.path
 import io
 import time
-import urllib.request, urllib.parse, urllib.error
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.error
+import urllib.parse
 import pycurl
 
 from . import settings
@@ -1176,6 +1177,7 @@ def _save(services):
     finally:
         f.close()
 
+
 def clean_cloud(local_dir, data, info):
     camera_id = info['camera_id']
     service_name = info['service_name']
@@ -1190,6 +1192,7 @@ def clean_cloud(local_dir, data, info):
         service.load(data)
         service.clean_cloud(cloud_dir, local_folders)
 
+
 def exist_in_local(folder, local_folders):
     if not local_folders:
         local_folders = []
@@ -1199,6 +1202,7 @@ def exist_in_local(folder, local_folders):
 
     return folder in local_folders
 
-def get_local_folders(dir):
-    folders = next(os.walk(dir))[1]
+
+def get_local_folders(dirpath):
+    folders = next(os.walk(dirpath))[1]
     return folders

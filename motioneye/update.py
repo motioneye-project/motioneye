@@ -121,4 +121,3 @@ def perform_update(version):
     # since we want to be able to respond to the request right away
     ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=2),
                                          platformupdate.perform_update, version=version)
-

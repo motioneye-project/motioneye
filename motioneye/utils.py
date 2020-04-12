@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -25,8 +24,8 @@ import re
 import socket
 import sys
 import time
-import urllib.request, urllib.parse, urllib.error
-import urllib.request, urllib.error, urllib.parse
+import urllib.request
+import urllib.error
 import urllib.parse
 
 from PIL import Image, ImageDraw
@@ -37,14 +36,12 @@ from tornado.ioloop import IOLoop
 
 from . import settings
 
-
 _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
 MASK_WIDTH = 32
 
 DEV_NULL = open('/dev/null', 'w')
-
 
 COMMON_RESOLUTIONS = [
     (320, 200),
@@ -313,7 +310,7 @@ def split_semicolon(s):
 
 def get_disk_usage(path):
     logging.debug('getting disk usage for path %(path)s...' % {
-            'path': path})
+        'path': path})
 
     try:
         result = os.statvfs(path)
@@ -374,10 +371,10 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
     data.setdefault('password', None)
 
     url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-            'scheme': data['scheme'] if data['scheme'] != 'mjpeg' else 'http',
-            'host': data['host'],
-            'port': ':' + str(data['port']) if data['port'] else '',
-            'path': data['path'] or ''}
+        'scheme': data['scheme'] if data['scheme'] != 'mjpeg' else 'http',
+        'host': data['host'],
+        'port': ':' + str(data['port']) if data['port'] else '',
+        'path': data['path'] or ''}
 
     called = [False]
     status_2xx = [False]
@@ -452,10 +449,10 @@ def test_rtsp_url(data, callback):
     password = data.get('password')
 
     url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-            'scheme': scheme,
-            'host': host,
-            'port': (':' + port) if port else '',
-            'path': path}
+        'scheme': scheme,
+        'host': host,
+        'port': (':' + port) if port else '',
+        'path': path}
 
     called = [False]
     send_auth = [False]
@@ -640,9 +637,8 @@ def test_rtsp_url(data, callback):
 
     stream = connect()
 
-def test_rtmp_url(data, callback):
-    from . import motionctl
 
+def test_rtmp_url(data, callback):
     scheme = data.get('scheme', 'rtmp')
     host = data.get('host', '127.0.0.1')
     port = data.get('port') or '1935'
@@ -651,10 +647,10 @@ def test_rtmp_url(data, callback):
     password = data.get('password')
 
     url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-            'scheme': scheme,
-            'host': host,
-            'port': (':' + port) if port else '',
-            'path': path}
+        'scheme': scheme,
+        'host': host,
+        'port': (':' + port) if port else '',
+        'path': path}
 
     # Since RTMP is a binary TCP stream its a little more work to do a proper test
     # For now lets just check if a TCP socket is open on the target IP:PORT
@@ -754,6 +750,7 @@ def build_digest_header(method, url, username, password, state):
             if isinstance(x, str):
                 x = x.encode('utf-8')
             return hashlib.md5(x).hexdigest()
+
         hash_utf8 = md5_utf8
 
     else:  # _algorithm == 'SHA'
@@ -761,6 +758,7 @@ def build_digest_header(method, url, username, password, state):
             if isinstance(x, str):
                 x = x.encode('utf-8')
             return hashlib.sha1(x).hexdigest()
+
         hash_utf8 = sha_utf8
 
     KD = lambda s, d: hash_utf8("%s:%s" % (s, d))

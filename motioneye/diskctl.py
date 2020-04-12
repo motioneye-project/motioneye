@@ -87,10 +87,10 @@ def _list_disks_dev_by_id():
         target = os.path.realpath(os.path.join('/dev/disk/by-id/', entry))
         
         bus, entry = parts
-        m = re.search('-part(\d+)$', entry)
+        m = re.search(r'-part(\d+)$', entry)
         if m:
             part_no = int(m.group(1))
-            entry = re.sub('-part\d+$', '', entry)
+            entry = re.sub(r'-part\d+$', '', entry)
         
         else:
             part_no = None

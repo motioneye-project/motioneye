@@ -214,7 +214,7 @@ def network():
 
 
 @additional_config
-def wifiEnabled():
+def wifi_enabled():
     if not WPA_SUPPLICANT_CONF:
         return
 
@@ -231,7 +231,7 @@ def wifiEnabled():
 
 
 @additional_config
-def wifiNetworkName():
+def wifi_network_name():
     if not WPA_SUPPLICANT_CONF:
         return
 
@@ -250,7 +250,7 @@ def wifiNetworkName():
 
 
 @additional_config
-def wifiNetworkKey():
+def wifi_network_key():
     if not WPA_SUPPLICANT_CONF:
         return
 

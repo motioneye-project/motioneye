@@ -220,7 +220,7 @@ def get_main(as_lines=False):
         return lines
 
     main_config = _conf_to_dict(lines, list_names=['camera'], no_convert=[
-                                '@admin_username', '@admin_password', '@normal_username', '@normal_password'])
+        '@admin_username', '@admin_password', '@normal_username', '@normal_password'])
 
     # adapt directives from pre-4.2 configuration
     adapt_config_directives(main_config, _MOTION_PRE_TO_POST_42_OPTIONS_MAPPING)
@@ -268,7 +268,7 @@ def set_main(main_config):
     lines = _dict_to_conf(lines, main_config, list_names=['camera'])
 
     try:
-        f.writelines([utils.make_str(l) + '\n' for l in lines])
+        f.writelines([utils.make_str(line) + '\n' for line in lines])
 
     except Exception as e:
         logging.error('could not write main config file %(path)s: %(msg)s' % {
@@ -375,7 +375,7 @@ def get_camera(camera_id, as_lines=False):
         raise
 
     try:
-        lines = [l.strip() for l in f.readlines()]
+        lines = [line.strip() for line in f.readlines()]
 
     except Exception as e:
         logging.error('could not read camera config file %(path)s: %(msg)s' % {
@@ -482,7 +482,7 @@ def set_camera(camera_id, camera_config):
     lines = _dict_to_conf(lines, camera_config)
 
     try:
-        f.writelines([utils.make_str(l) + '\n' for l in lines])
+        f.writelines([utils.make_str(line) + '\n' for line in lines])
 
     except Exception as e:
         logging.error('could not write camera config file %(path)s: %(msg)s' % {
@@ -504,7 +504,7 @@ def add_camera(device_details):
             host += ':' + str(device_details['port'])
 
         device_details['url'] = urllib.parse.urlunparse(
-                (device_details['scheme'], host, device_details['path'], '', '', ''))
+            (device_details['scheme'], host, device_details['path'], '', '', ''))
 
     # determine the last camera id
     camera_ids = get_camera_ids()
@@ -828,7 +828,6 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     data['threshold'] = threshold
 
-
     if (ui['storage_device'] == 'network-share') and settings.SMB_SHARES:
         mount_point = smbctl.make_mount_point(ui['network_server'], ui['network_share_name'], ui['network_username'])
         if ui['root_directory'].startswith('/'):
@@ -952,13 +951,13 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     # working schedule
     if ui['working_schedule']:
         data['@working_schedule'] = (
-            ui['monday_from'] + '-' + ui['monday_to'] + '|' +
-            ui['tuesday_from'] + '-' + ui['tuesday_to'] + '|' +
-            ui['wednesday_from'] + '-' + ui['wednesday_to'] + '|' +
-            ui['thursday_from'] + '-' + ui['thursday_to'] + '|' +
-            ui['friday_from'] + '-' + ui['friday_to'] + '|' +
-            ui['saturday_from'] + '-' + ui['saturday_to'] + '|' +
-            ui['sunday_from'] + '-' + ui['sunday_to'])
+                ui['monday_from'] + '-' + ui['monday_to'] + '|' +
+                ui['tuesday_from'] + '-' + ui['tuesday_to'] + '|' +
+                ui['wednesday_from'] + '-' + ui['wednesday_to'] + '|' +
+                ui['thursday_from'] + '-' + ui['thursday_to'] + '|' +
+                ui['friday_from'] + '-' + ui['friday_to'] + '|' +
+                ui['saturday_from'] + '-' + ui['saturday_to'] + '|' +
+                ui['sunday_from'] + '-' + ui['sunday_to'])
 
         data['@working_schedule_type'] = ui['working_schedule_type']
 
@@ -1382,7 +1381,7 @@ def motion_camera_dict_to_ui(data):
     command_notifications = []
     for e in on_event_start:
         if e.count(' sendmail '):
-            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
+            e = shlex.split(utils.make_str(e))  # poor shlex can't deal with unicode properly
 
             if len(e) < 10:
                 continue
@@ -1406,7 +1405,7 @@ def motion_camera_dict_to_ui(data):
                 ui['email_notifications_picture_time_span'] = 0
 
         elif e.count(' webhook '):
-            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
+            e = shlex.split(utils.make_str(e))  # poor shlex can't deal with unicode properly
 
             if len(e) < 3:
                 continue
@@ -1450,7 +1449,7 @@ def motion_camera_dict_to_ui(data):
     command_storage = []
     for e in on_movie_end:
         if e.count(' webhook '):
-            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
+            e = shlex.split(utils.make_str(e))  # poor shlex can't deal with unicode properly
 
             if len(e) < 3:
                 continue
