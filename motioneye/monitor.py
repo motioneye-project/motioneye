@@ -22,7 +22,7 @@ import urllib.request
 import urllib.parse
 import urllib.error
 
-from . import config
+from motioneye import config
 
 
 DEFAULT_INTERVAL = 1  # seconds

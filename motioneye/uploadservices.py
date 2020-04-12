@@ -27,9 +27,9 @@ import urllib.error
 import urllib.parse
 import pycurl
 
-from . import settings
-from . import utils
-from . import config
+from motioneye import settings
+from motioneye import utils
+from motioneye import config
 import datetime
 
 _STATE_FILE_NAME = 'uploadservices.json'

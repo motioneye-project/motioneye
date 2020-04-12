@@ -31,12 +31,12 @@ from email.utils import formatdate
 
 from tornado.ioloop import IOLoop
 
-from . import settings
+from motioneye import settings
 
-from . import config
-from . import mediafiles
-from . import motionctl
-from . import tzctl
+from motioneye import config
+from motioneye import mediafiles
+from motioneye import motionctl
+from motioneye import tzctl
 
 messages = {
     'motion_start': 'Motion has been detected by camera "%(camera)s/%(hostname)s" at %(moment)s (%(timezone)s).'
@@ -161,7 +161,7 @@ def parse_options(parser, args):
 
 
 def main(parser, args):
-    from . import meyectl
+    from motioneye import meyectl
 
     # the motion daemon overrides SIGCHLD,
     # so we must restore it here,

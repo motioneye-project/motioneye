@@ -25,10 +25,10 @@ import time
 from tornado.ioloop import IOLoop
 from tornado.iostream import IOStream
 
-from . import config
-from . import motionctl
-from . import settings
-from . import utils
+from motioneye import config
+from motioneye import motionctl
+from motioneye import settings
+from motioneye import utils
 
 
 class MjpgClient(IOStream):

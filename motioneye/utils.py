@@ -34,7 +34,7 @@ from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.iostream import IOStream
 from tornado.ioloop import IOLoop
 
-from . import settings
+from motioneye import settings
 
 _SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
@@ -439,7 +439,7 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
 
 def test_rtsp_url(data, callback):
-    from . import motionctl
+    from motioneye import motionctl
 
     scheme = data.get('scheme', 'rtsp')
     host = data.get('host', '127.0.0.1')

@@ -19,7 +19,7 @@ import logging
 import os
 import re
 import subprocess
-from . import utils
+from motioneye import utils
 
 
 def _list_mounts():
@@ -163,11 +163,11 @@ def _list_disks_fdisk():
     
     def add_disk(d):
         logging.debug('found disk at "%s" on bus "%s": "%s %s"' %
-                (d['target'], d['bus'], d['vendor'], d['model']))
+                      (d['target'], d['bus'], d['vendor'], d['model']))
 
         for part in d['partitions']:
             logging.debug('found partition "%s" at "%s" on bus "%s": "%s %s"' %
-                    (part['part_no'], part['target'], part['bus'], part['vendor'], part['model']))
+                          (part['part_no'], part['target'], part['bus'], part['vendor'], part['model']))
 
         disks.append(d)
 
@@ -193,7 +193,7 @@ def _list_disks_fdisk():
             
         elif line.startswith('/dev/') and disk:
             parts = line.split()
-            part_no = re.findall('\d+$', parts[0])
+            part_no = re.findall(r'\d+$', parts[0])
             partition = {
                 'part_no': int(part_no[0]) if part_no else None,
                 'target': parts[0],

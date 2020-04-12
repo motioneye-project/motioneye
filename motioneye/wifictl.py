@@ -17,7 +17,7 @@
 
 import logging
 import re
-from . import settings
+from motioneye import settings
 
 from .config import additional_config, additional_section
 
@@ -34,8 +34,7 @@ def _get_wifi_settings():
         conf_file = open(WPA_SUPPLICANT_CONF, 'r')
     
     except Exception as e:
-        logging.error('could open wifi settings file %(path)s: %(msg)s' % {
-                'path': WPA_SUPPLICANT_CONF, 'msg': str(e)})
+        logging.error('could open wifi settings file %(path)s: %(msg)s' % {'path': WPA_SUPPLICANT_CONF, 'msg': str(e)})
         
         return {
             'wifiEnabled': False,
@@ -61,11 +60,11 @@ def _get_wifi_settings():
             break
 
         elif in_section:
-            m = re.search('ssid\s*=\s*"(.*?)"', line)
+            m = re.search(r'ssid\s*=\s*"(.*?)"', line)
             if m:
                 ssid = m.group(1)
     
-            m = re.search('psk\s*=\s*"?([^"]*)"?', line)
+            m = re.search(r'psk\s*=\s*"?([^"]*)"?', line)
             if m:
                 psk = m.group(1)
 
@@ -148,11 +147,11 @@ def _set_wifi_settings(s):
             
         elif in_section:
             if enabled:
-                if re.match('ssid\s*=\s*".*?"', line):
+                if re.match(r'ssid\s*=\s*".*?"', line):
                     lines[i] = '    ssid="' + ssid + '"\n'
                     found_ssid = True
                 
-                elif re.match('psk\s*=.*', line):
+                elif re.match(r'psk\s*=.*', line):
                     if psk:
                         if psk_is_hex:
                             lines[i] = '    psk=' + psk + '\n'
@@ -166,12 +165,12 @@ def _set_wifi_settings(s):
                         lines.pop(i)
                         i -= 1
         
-                elif re.match('key_mgmt\s*=\s*.*?', line) and key_mgmt:
+                elif re.match(r'key_mgmt\s*=\s*.*?', line) and key_mgmt:
                     lines[i] = '    key_mgmt=' + key_mgmt + '\n'
                     found_key_mgmt = True
         
             else:  # wifi disabled
-                if re.match('ssid\s*=\s*".*?"', line) or re.match('psk\s*=\s*".*?"', line):
+                if re.match(r'ssid\s*=\s*".*?"', line) or re.match(r'psk\s*=\s*".*?"', line):
                     lines.pop(i)
                     i -= 1
         

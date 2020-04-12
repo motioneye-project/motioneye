@@ -34,10 +34,10 @@ import zipfile
 from PIL import Image
 from tornado.ioloop import IOLoop
 
-from . import config
-from . import settings
-from . import utils
-from . import uploadservices
+from motioneye import config
+from motioneye import settings
+from motioneye import utils
+from motioneye import uploadservices
 
 _PICTURE_EXTS = ['.jpg']
 _MOVIE_EXTS = ['.avi', '.mp4', '.mov', '.swf', '.flv', '.mkv']
@@ -920,7 +920,7 @@ def del_media_group(camera_config, group, media_type):
 
 
 def get_current_picture(camera_config, width, height):
-    from . import mjpgclient
+    from motioneye import mjpgclient
 
     jpg = mjpgclient.get_jpg(camera_config['@id'])
 

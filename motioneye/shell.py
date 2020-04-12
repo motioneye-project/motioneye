@@ -24,7 +24,7 @@ def parse_options(parser, args):
 
 
 def main(parser, args):
-    from . import meyectl
+    from motioneye import meyectl
     
     options = parse_options(parser, args)
     

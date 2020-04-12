@@ -21,12 +21,12 @@ import os
 import re
 import subprocess
 import time
-from . import utils
+from motioneye import utils
 
 from tornado.ioloop import IOLoop
 
-from . import config
-from . import settings
+from motioneye import config
+from motioneye import settings
 
 
 def start():
@@ -94,14 +94,14 @@ def list_mounts():
             server, share = match.groups()
             share = share.replace('\\040', ' ')  # spaces are reported oddly by /proc/mounts
             
-            match = re.search('username=([a-z][-\w]*)', opts)
+            match = re.search(r'username=([a-z][-\w]*)', opts)
             if match:
                 username = match.group(1)
             
             else:
                 username = ''
 
-            match = re.search('vers=([\w.]+)', opts)
+            match = re.search(r'vers=([\w.]+)', opts)
             if match:
                 smb_ver = match.group(1)
 
@@ -271,7 +271,7 @@ def _umount_all():
 
 
 def _check_mounts():
-    from . import motionctl
+    from motioneye import motionctl
     
     logging.debug('checking SMB mounts...')
     

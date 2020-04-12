@@ -23,7 +23,7 @@ import re
 import stat
 import subprocess
 import time
-from . import utils
+from motioneye import utils
 
 
 _resolutions_cache = {}
@@ -110,7 +110,7 @@ def list_devices():
 
 
 def list_resolutions(device):
-    from . import motionctl
+    from motioneye import motionctl
     
     global _resolutions_cache
     

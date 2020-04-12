@@ -25,11 +25,11 @@ import time
 
 from tornado.ioloop import IOLoop
 
-from . import mediafiles
-from . import powerctl
-from . import settings
-from . import update
-from . import utils
+from motioneye import mediafiles
+from motioneye import powerctl
+from motioneye import settings
+from motioneye import update
+from motioneye import utils
 
 _MOTION_CONTROL_TIMEOUT = 5
 
@@ -74,8 +74,8 @@ def find_motion():
 
 
 def start(deferred=False):
-    from . import config
-    from . import mjpgclient
+    from motioneye import config
+    from motioneye import mjpgclient
 
     if deferred:
         io_loop = IOLoop.instance()
@@ -144,7 +144,7 @@ def start(deferred=False):
 
 
 def stop(invalidate=False):
-    from . import mjpgclient
+    from motioneye import mjpgclient
 
     global _started
 
@@ -319,7 +319,7 @@ def set_motion_detected(camera_id, motion_detected):
 
 
 def camera_id_to_motion_camera_id(camera_id):
-    from . import config
+    from motioneye import config
 
     # find the corresponding motion camera_id
     # (which can be different from camera_id)
@@ -338,7 +338,7 @@ def camera_id_to_motion_camera_id(camera_id):
 
 
 def motion_camera_id_to_camera_id(motion_camera_id):
-    from . import config
+    from motioneye import config
 
     main_config = config.get_main()
     cameras = main_config.get('camera', [])
@@ -391,7 +391,7 @@ def resolution_is_valid(width, height):
 
 
 def _disable_initial_motion_detection():
-    from . import config
+    from motioneye import config
 
     for camera_id in config.get_camera_ids():
         camera_config = config.get_camera(camera_id)

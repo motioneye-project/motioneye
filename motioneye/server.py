@@ -27,9 +27,9 @@ import time
 from tornado.ioloop import IOLoop
 from tornado.web import Application
 
-from . import handlers
-from . import settings
-from . import template
+from motioneye import handlers
+from motioneye import settings
+from motioneye import template
 
 _PID_FILE = 'motioneye.pid'
 _CURRENT_PICTURE_REGEX = re.compile('^/picture/\d+/current')
@@ -257,16 +257,16 @@ def test_requirements():
         logging.fatal('please install pycurl')
         sys.exit(-1)
 
-    from . import motionctl
+    from motioneye import motionctl
     has_motion = motionctl.find_motion()[0] is not None
 
-    from . import mediafiles
+    from motioneye import mediafiles
     has_ffmpeg = mediafiles.find_ffmpeg() is not None
 
-    from . import v4l2ctl
+    from motioneye import v4l2ctl
     has_v4lutils = v4l2ctl.find_v4l2_ctl() is not None
 
-    from . import smbctl
+    from motioneye import smbctl
     if settings.SMB_SHARES and smbctl.find_mount_cifs() is None:
         logging.fatal('please install cifs-utils')
         sys.exit(-1)
@@ -290,7 +290,7 @@ def test_requirements():
 
 
 def make_media_folders():
-    from . import config
+    from motioneye import config
 
     config.get_main()  # just to have main config already loaded
 
@@ -308,8 +308,8 @@ def make_media_folders():
 
 
 def start_motion():
-    from . import config
-    from . import motionctl
+    from motioneye import config
+    from motioneye import motionctl
 
     io_loop = IOLoop.instance()
 
@@ -346,13 +346,13 @@ def parse_options(parser, args):
 
 
 def run():
-    from . import cleanup
-    from . import mjpgclient
-    from . import motionctl
+    from motioneye import cleanup
+    from motioneye import mjpgclient
+    from motioneye import motionctl
     import motioneye
-    from . import smbctl
-    from . import tasks
-    from . import wsswitch
+    from motioneye import smbctl
+    from motioneye import tasks
+    from motioneye import wsswitch
 
     configure_signals()
     logging.info('hello! this is motionEye server %s' % motioneye.VERSION)
@@ -420,7 +420,7 @@ def run():
 
 
 def main(parser, args, command):
-    from . import meyectl
+    from motioneye import meyectl
 
     options = parse_options(parser, args)
 
