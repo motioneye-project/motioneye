@@ -705,7 +705,7 @@ def parse_cookies(cookies_headers):
 
 
 def build_basic_header(username, password):
-    return 'Basic ' + base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
+    return 'Basic ' + base64.encodebytes('%s:%s' % (username, password)).replace('\n', '')
 
 
 def parse_basic_header(header):
@@ -719,7 +719,7 @@ def parse_basic_header(header):
     encoded = parts[1]
 
     try:
-        decoded = base64.decodestring(encoded)
+        decoded = base64.decodebytes(encoded)
 
     except:
         return None

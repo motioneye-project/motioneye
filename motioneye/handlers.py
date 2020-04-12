@@ -27,7 +27,7 @@ import subprocess
 from functools import cmp_to_key
 
 from tornado.ioloop import IOLoop
-from tornado.web import RequestHandler, StaticFileHandler, HTTPError, asynchronous
+from tornado.web import RequestHandler, StaticFileHandler, HTTPError
 
 from . import config
 from . import mediafiles
@@ -262,8 +262,8 @@ class ManifestHandler(BaseHandler):
 
 
 class ConfigHandler(BaseHandler):
-    @asynchronous
-    def get(self, camera_id=None, op=None):
+
+    async def get(self, camera_id=None, op=None):
         config.invalidate_monitor_commands()
 
         if camera_id is not None:
@@ -284,8 +284,7 @@ class ConfigHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
 
-    @asynchronous
-    def post(self, camera_id=None, op=None):
+    async def post(self, camera_id=None, op=None):
         if camera_id is not None:
             camera_id = int(camera_id)
 
@@ -495,7 +494,7 @@ class ConfigHandler(BaseHandler):
                     logging.debug('setting multiple configs')
 
                 elif len(ui_config) == 0:
-                    logging.warn('no configuration to set')
+                    logging.warning('no configuration to set')
 
                     self.finish()
 
@@ -776,7 +775,7 @@ class ConfigHandler(BaseHandler):
         cls._upload_service_test_info = None
 
         if not upload_service_test_info:
-            return logging.warn('no pending upload service test request')
+            return logging.warning('no pending upload service test request')
 
         (request_handler, service_name) = upload_service_test_info
 
@@ -785,7 +784,7 @@ class ConfigHandler(BaseHandler):
             request_handler.finish_json()
 
         else:
-            logging.warn('accessing %s failed: %s' % (service_name, result))
+            logging.warning('accessing %s failed: %s' % (service_name, result))
             request_handler.finish_json({'error': result})
 
     @BaseHandler.auth(admin=True)
@@ -910,8 +909,7 @@ class PictureHandler(BaseHandler):
     def compute_etag(self):
         return None
 
-    @asynchronous
-    def get(self, camera_id, op, filename=None, group=None):
+    async def get(self, camera_id, op, filename=None, group=None):
         if camera_id is not None:
             camera_id = int(camera_id)
             if camera_id not in config.get_camera_ids():
@@ -941,8 +939,7 @@ class PictureHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
 
-    @asynchronous
-    def post(self, camera_id, op, filename=None, group=None):
+    async def post(self, camera_id, op, filename=None, group=None):
         if group == '/':  # ungrouped
             group = ''
 
@@ -1395,8 +1392,8 @@ class PictureHandler(BaseHandler):
 
 
 class MovieHandler(BaseHandler):
-    @asynchronous
-    def get(self, camera_id, op, filename=None):
+
+    async def get(self, camera_id, op, filename=None):
         if camera_id is not None:
             camera_id = int(camera_id)
             if camera_id not in config.get_camera_ids():
@@ -1411,8 +1408,7 @@ class MovieHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
 
-    @asynchronous
-    def post(self, camera_id, op, filename=None, group=None):
+    async def post(self, camera_id, op, filename=None, group=None):
         if group == '/':  # ungrouped
             group = ''
 
@@ -1563,9 +1559,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
     if not os.path.exists(tmpdir):
         os.mkdir(tmpdir)
 
-    @asynchronous
     @BaseHandler.auth()
-    def get(self,  camera_id, filename=None, include_body=True):
+    async def get(self,  camera_id, filename=None, include_body=True):
         logging.debug('downloading movie %(filename)s of camera %(id)s' % {
                 'filename': filename, 'id': camera_id})
 
@@ -1641,8 +1636,8 @@ class MovieDownloadHandler(MoviePlaybackHandler):
 
 
 class ActionHandler(BaseHandler):
-    @asynchronous
-    def post(self, camera_id, action):
+
+    async def post(self, camera_id, action):
         camera_id = int(camera_id)
         if camera_id not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
@@ -1696,9 +1691,9 @@ class ActionHandler(BaseHandler):
                 lines = lines[:-1]
             command = os.path.basename(self.command)
             if exit_status:
-                logging.warn('%s: command has finished with non-zero exit status: %s' % (command, exit_status))
+                logging.warning('%s: command has finished with non-zero exit status: %s' % (command, exit_status))
                 for line in lines:
-                    logging.warn('%s: %s' % (command, line))
+                    logging.warning('%s: %s' % (command, line))
 
             else:
                 logging.debug('%s: command has finished' % command)
@@ -1754,7 +1749,7 @@ class RelayEventHandler(BaseHandler):
 
         camera_config = config.get_camera(camera_id)
         if not utils.is_local_motion_camera(camera_config):
-            logging.warn('ignoring event for non-local camera with id %s' % camera_id)
+            logging.warning('ignoring event for non-local camera with id %s' % camera_id)
             return self.finish_json()
 
         if event == 'start':
@@ -1786,7 +1781,7 @@ class RelayEventHandler(BaseHandler):
                 self.upload_media_file(filename, camera_id, camera_config)
 
         else:
-            logging.warn('unknown event %s' % event)
+            logging.warning('unknown event %s' % event)
 
         self.finish_json()
 

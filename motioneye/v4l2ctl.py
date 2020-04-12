@@ -69,11 +69,11 @@ def list_devices():
             output += data
 
             if len(output) > 10240:
-                logging.warn('v4l2-ctl command returned more than 10k of output')
+                logging.warning('v4l2-ctl command returned more than 10k of output')
                 break
             
             if time.time() - started > _V4L2_TIMEOUT:
-                logging.warn('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
+                logging.warning('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
                 break
 
     except subprocess.CalledProcessError:
@@ -146,11 +146,11 @@ def list_resolutions(device):
         output += data
 
         if len(output) > 10240:
-            logging.warn('v4l2-ctl command returned more than 10k of output')
+            logging.warning('v4l2-ctl command returned more than 10k of output')
             break
         
         if time.time() - started > _V4L2_TIMEOUT:
-            logging.warn('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
+            logging.warning('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
             break
     
     try:
@@ -254,11 +254,11 @@ def list_ctrls(device):
         output += data
 
         if len(output) > 10240:
-            logging.warn('v4l2-ctl command returned more than 10k of output')
+            logging.warning('v4l2-ctl command returned more than 10k of output')
             break
 
         if time.time() - started > 3:
-            logging.warn('v4l2-ctl command ran for more than 3 seconds')
+            logging.warning('v4l2-ctl command ran for more than 3 seconds')
             break
 
     try:

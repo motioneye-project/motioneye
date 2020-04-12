@@ -417,7 +417,7 @@ def get_camera(camera_id, as_lines=False):
         _set_default_simple_mjpeg_camera(camera_id, camera_config)
 
     else:  # incomplete configuration
-        logging.warn('camera config file at %s is incomplete, ignoring' % camera_config_path)
+        logging.warning('camera config file at %s is incomplete, ignoring' % camera_config_path)
 
         return None
 

@@ -81,7 +81,7 @@ def _check_ws():
     
     def on_motion_detection_status(camera_id, must_be_enabled, working_schedule_type, enabled=None, error=None):
         if error:  # could not detect current status
-            return logging.warn('skipping motion detection status update for camera with id %(id)s: %(error)s' % {
+            return logging.warning('skipping motion detection status update for camera with id %(id)s: %(error)s' % {
                     'id': camera_id, 'error': error})
             
         if enabled and not must_be_enabled:

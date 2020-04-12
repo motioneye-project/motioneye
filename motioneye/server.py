@@ -277,14 +277,14 @@ def test_requirements():
 
     if not has_ffmpeg:
         if has_motion:
-            logging.warn('you have motion installed, but no ffmpeg')
+            logging.warning('you have motion installed, but no ffmpeg')
         
         else:
             logging.info('ffmpeg not installed')
 
     if not has_v4lutils:
         if has_motion:
-            logging.warn('you have motion installed, but no v4l-utils')
+            logging.warning('you have motion installed, but no v4l-utils')
 
         else:
             logging.info('v4l-utils not installed')

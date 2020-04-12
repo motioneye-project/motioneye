@@ -968,13 +968,13 @@ def set_prepared_cache(data):
     key = hashlib.sha1(str(time.time())).hexdigest()
 
     if key in _prepared_files:
-        logging.warn('key "%s" already present in prepared cache' % key)
+        logging.warning('key "%s" already present in prepared cache' % key)
 
     _prepared_files[key] = data
 
     def clear():
         if _prepared_files.pop(key, None) is not None:
-            logging.warn('key "%s" was still present in the prepared cache, removed' % key)
+            logging.warning('key "%s" was still present in the prepared cache, removed' % key)
 
     timeout = 3600  # the user has 1 hour to download the file after creation
 
