@@ -34,7 +34,6 @@ from motioneye import mjpgclient
 from motioneye import mmalctl
 from motioneye import monitor
 from motioneye import motionctl
-from motioneye import powerctl
 from motioneye import prefs
 from motioneye import remote
 from motioneye import settings
@@ -45,6 +44,7 @@ from motioneye import update
 from motioneye import uploadservices
 from motioneye import utils
 from motioneye import v4l2ctl
+from motioneye.powerctl import PowerControl
 
 
 class BaseHandler(RequestHandler):
@@ -457,7 +457,7 @@ class ConfigHandler(BaseHandler):
             if reboot[0]:
                 if settings.ENABLE_REBOOT:
                     def call_reboot():
-                        powerctl.reboot()
+                        PowerControl.reboot()
 
                     io_loop = IOLoop.instance()
                     io_loop.add_timeout(datetime.timedelta(seconds=2), call_reboot)
@@ -1862,11 +1862,11 @@ class PowerHandler(BaseHandler):
 
     def shut_down(self):
         io_loop = IOLoop.instance()
-        io_loop.add_timeout(datetime.timedelta(seconds=2), powerctl.shut_down)
+        io_loop.add_timeout(datetime.timedelta(seconds=2), PowerControl.shut_down)
 
     def reboot(self):
         io_loop = IOLoop.instance()
-        io_loop.add_timeout(datetime.timedelta(seconds=2), powerctl.reboot)
+        io_loop.add_timeout(datetime.timedelta(seconds=2), PowerControl.reboot)
 
 
 class VersionHandler(BaseHandler):

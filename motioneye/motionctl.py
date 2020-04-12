@@ -26,10 +26,10 @@ import time
 from tornado.ioloop import IOLoop
 
 from motioneye import mediafiles
-from motioneye import powerctl
 from motioneye import settings
 from motioneye import update
 from motioneye import utils
+from motioneye.powerctl import PowerControl
 
 _MOTION_CONTROL_TIMEOUT = 5
 
@@ -179,7 +179,7 @@ def stop(invalidate=False):
             # the process still did not exit
             if settings.ENABLE_REBOOT:
                 logging.error('could not terminate the motion process')
-                powerctl.reboot()
+                PowerControl.reboot()
 
             else:
                 raise Exception('could not terminate the motion process')

@@ -30,12 +30,12 @@ from tornado.ioloop import IOLoop
 
 from motioneye import diskctl
 from motioneye import motionctl
-from motioneye import powerctl
 from motioneye import settings
 from motioneye import tasks
 from motioneye import uploadservices
 from motioneye import utils
 from motioneye import v4l2ctl
+from motioneye.powerctl import PowerControl
 
 _CAMERA_CONFIG_FILE_NAME = 'camera-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
@@ -1628,7 +1628,7 @@ def restore(content):
 
         if settings.ENABLE_REBOOT:
             def later():
-                powerctl.reboot()
+                PowerControl.reboot()
 
             io_loop = IOLoop.instance()
             io_loop.add_timeout(datetime.timedelta(seconds=2), later)
