@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-09 16:58+0200\n"
+"POT-Creation-Date: 2020-04-13 15:20+0200\n"
 "PO-Revision-Date: 2020-04-07 17:41+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1053,6 +1053,7 @@ msgid "Interkapto-Intervalo"
 msgstr "अवरोधन अंतराल"
 
 #: templates/main.html:721 templates/main.html:816 templates/main.html:891
+#: templates/main.html:1013
 #, fuzzy
 msgid "sekundoj"
 msgstr "सेकंड"
@@ -1441,3 +1442,113 @@ msgstr "गति का पता चलने पर आपको इसे �
 #, fuzzy
 msgid "Moviĝaj sciigoj"
 msgstr "मोशन नोटिफिकेशन"
+
+#: templates/main.html:972
+#, fuzzy
+msgid "Sendi retpoŝton"
+msgstr "एक ईमेल भेजें"
+
+#: templates/main.html:974
+#, fuzzy
+msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "यदि आप एक गति की घटना का पता लगाने के लिए हर बार ईमेल प्राप्त करना चाहते हैं तो इस विकल्प को सक्रिय करें।"
+
+#: templates/main.html:977
+#, fuzzy
+msgid "Retpoŝtadresoj"
+msgstr "ईमेल पते"
+
+#: templates/main.html:979
+#, fuzzy
+msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
+msgstr "ईमेल पते (अल्पविराम से अलग) यहां जोड़े जाने पर गति की घटना का पता चलने पर सूचनाएं प्राप्त होंगी।"
+
+#: templates/main.html:982
+#, fuzzy
+msgid "Servilo SMTP"
+msgstr "SMTP सर्वर"
+
+#: templates/main.html:983
+#, fuzzy
+msgid "ekz. smtp.gmail.com"
+msgstr "जैसे। smtp.gmail.com"
+
+#: templates/main.html:984
+#, fuzzy
+msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
+msgstr "अपने SMTP सर्वर का होस्टनाम या IP पता (Gmail smtp.gmail.com का उपयोग करने के लिए) दर्ज करें।"
+
+#: templates/main.html:987
+#, fuzzy
+msgid "SMTP Haveno"
+msgstr "SMTP पोर्ट"
+
+#: templates/main.html:988
+#, fuzzy
+msgid "ekz. 587"
+msgstr "जैसे। 587"
+
+#: templates/main.html:989
+#, fuzzy
+msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
+msgstr "अपने SMTP सर्वर (आमतौर पर गैर-टीएलएस कनेक्शन के लिए 465 और टीएलएस कनेक्शन के लिए 587) द्वारा उपयोग किया जाने वाला पोर्ट दर्ज करें।"
+
+#: templates/main.html:992
+#, fuzzy
+msgid "SMTP-Konto"
+msgstr "SMTP खाता"
+
+#: templates/main.html:993
+#, fuzzy
+msgid "konto@gmail.com..."
+msgstr "account@gmail.com ..."
+
+#: templates/main.html:994
+#, fuzzy
+msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
+msgstr "अपना SMTP खाता (आमतौर पर आपका ईमेल पता) दर्ज करें।"
+
+#: templates/main.html:997
+#, fuzzy
+msgid "SMTP Pasvorto"
+msgstr "SMTP पासवर्ड"
+
+#: templates/main.html:999
+#, fuzzy
+msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
+msgstr "अपना एसएमटीपी पासवर्ड दर्ज करें (जीमेल के लिए अपने Google पासवर्ड या ऐप-जनरेट किए गए पासवर्ड का उपयोग करें)।"
+
+#: templates/main.html:1002
+#, fuzzy
+msgid "De adreso"
+msgstr "पते से"
+
+#: templates/main.html:1003
+#, fuzzy
+msgid "retpoŝta adreso..."
+msgstr "ईमेल पता ..."
+
+#: templates/main.html:1004
+#, fuzzy
+msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
+msgstr "कस्टम से पता सेट करें यदि आपकी एसएमटीपी सेवा को एक की आवश्यकता है (यदि खाली छोड़ दिया गया है तो पहले गंतव्य ईमेल पते का उपयोग किया जाएगा)।"
+
+#: templates/main.html:1007
+#, fuzzy
+msgid "Uzi TLS"
+msgstr "TLS का प्रयोग करें"
+
+#: templates/main.html:1009
+#, fuzzy
+msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
+msgstr "यदि आपके SMTP सर्वर को TLS की आवश्यकता है (Gmail को इसे सक्षम करने की आवश्यकता है) तो इसे सक्षम करें।"
+
+#: templates/main.html:1012
+#, fuzzy
+msgid "Aldonitaj bildoj tempo-intervalo"
+msgstr "जोड़ा गया चित्र समय अंतराल"
+
+#: templates/main.html:1014
+#, fuzzy
+msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgstr "ईमेल लिंक बनाते समय उपयोग करने के लिए समय खोज अंतराल को परिभाषित करता है (उच्च मान वृद्धि की गई अधिसूचना की कीमत पर अधिक छवियों के साथ ईमेल उत्पन्न करता है); जोड़ा छवियों को निष्क्रिय करने के लिए 0 पर सेट; आपको इस कार्य को करने के लिए \"कैप्चर इमेज\" को सक्षम करने की भी आवश्यकता है।"

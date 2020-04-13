@@ -8,1495 +8,1496 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-04-13 15:20+0200\n"
-"PO-Revision-Date: 2020-04-08 21:44+0200\n"
+"PO-Revision-Date: 2020-04-09 16:58+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
-"Language: ms\n"
+"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: server.py:198
 #, fuzzy
 msgid "interrompa signalo ricevita, fermanta ..."
-msgstr "isyarat mengganggu diterima, tutup ..."
+msgstr "sinal de interrupção recebido, fechando ..."
 
 #: server.py:232
 #, fuzzy
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr "saham smb memerlukan kelebihan root"
+msgstr "compartilhamentos smb requerem privilégios de root"
 
 #: server.py:239
 #, fuzzy
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr "sila pasang versi tornado 3.1 atau lebih tinggi"
+msgstr "instale o tornado versão 3.1 ou superior"
 
 #: server.py:246
 #, fuzzy
 msgid "bonvolu instali jinja2"
-msgstr "sila pasang jinja2"
+msgstr "instale o jinja2"
 
 #: server.py:253
 #, fuzzy
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr "sila pasangkan bantal atau PIL"
+msgstr "instale travesseiro ou PIL"
 
 #: server.py:260
 #, fuzzy
 msgid "bonvolu instali pycurl"
-msgstr "sila pasang pycurl"
+msgstr "instale o pycurl"
 
 #: server.py:361
 #, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "hello! ini adalah pelayan motionEye"
+msgstr "ola este é um servidor motionEye"
 
 #: server.py:376
 #, fuzzy
 msgid "purigado komenciĝis"
-msgstr "pembersihan bermula"
+msgstr "limpeza iniciada"
 
 #: server.py:379
 #, fuzzy
 msgid "wsswitch komenciĝis"
-msgstr "wsswitch telah bermula"
+msgstr "wsswitch começou"
 
 #: server.py:382
 #, fuzzy
 msgid "taskoj komenciĝis"
-msgstr "tugas bermula"
+msgstr "tarefas iniciadas"
 
 #: server.py:386
 #, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr "Pemungut sampah pelanggan mjpg telah dimulakan"
+msgstr "coletor de lixo do cliente mjpg iniciado"
 
 #: server.py:399
 #, fuzzy
 msgid "servilo komenciĝis"
-msgstr "pelayan bermula"
+msgstr "servidor iniciado"
 
 #: server.py:406
 #, fuzzy
 msgid "servilo haltis"
-msgstr "pelayan berhenti"
+msgstr "servidor parado"
 
 #: server.py:409
 #, fuzzy
 msgid "taskoj haltis"
-msgstr "tugas berhenti"
+msgstr "tarefas interrompidas"
 
 #: server.py:417
 #, fuzzy
 msgid "motion haltis"
-msgstr "gerakan berhenti"
+msgstr "movimento parado"
 
 #: server.py:423
 #, fuzzy
 msgid "adiaŭ!"
-msgstr "selamat tinggal!"
+msgstr "adeus!"
 
 #: utils.py:77 utils.py:116
 #, fuzzy
 msgid "never"
-msgstr "tidak pernah"
+msgstr "nunca"
 
 #: utils.py:168
 #, fuzzy
 msgid "day"
-msgstr "hari"
+msgstr "dia"
 
 #: utils.py:171
 #, fuzzy
 msgid "week"
-msgstr "minggu"
+msgstr "semana"
 
 #: utils.py:174
 #, fuzzy
 msgid "month"
-msgstr "bulan"
+msgstr "mês"
 
 #: utils.py:177
 #, fuzzy
 msgid "year"
-msgstr "tahun"
+msgstr "ano"
 
 #: utils.py:180
 #, fuzzy
 msgid "days"
-msgstr "hari"
+msgstr "dias"
 
 #: utils.py:184
 #, fuzzy
 msgid "hour"
-msgstr "jam"
+msgstr "hora"
 
 #: utils.py:187
 #, fuzzy
 msgid "hours"
-msgstr "jam"
+msgstr "horas"
 
 #: utils.py:191
 #, fuzzy
 msgid "minute"
-msgstr "minit"
+msgstr "minutos"
 
 #: utils.py:194
 #, fuzzy
 msgid "minutes"
-msgstr "minit"
+msgstr "minutos"
 
 #: utils.py:198
 #, fuzzy
 msgid "second"
-msgstr "kedua"
+msgstr "segundo"
 
 #: utils.py:201 utils.py:204
 #, fuzzy
 msgid "seconds"
-msgstr "detik"
+msgstr "segundos"
 
 #: utils.py:208
 #, fuzzy
 msgid "minus"
-msgstr "tolak"
+msgstr "menos"
 
 #: templates/main.html:123
 #, fuzzy
 msgid "preferoj de uzanto"
-msgstr "pilihan pengguna"
+msgstr "preferências do usuário"
 
 #: templates/main.html:124
 #, fuzzy
 msgid "Preferoj"
-msgstr "Keutamaan"
+msgstr "Preferências"
 
 #: templates/main.html:129
 #, fuzzy
 msgid "Aranĝo Kolumnoj"
-msgstr "Lajur Layout"
+msgstr "Colunas de layout"
 
 #: templates/main.html:131
 #, fuzzy
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr "menetapkan bilangan lajur yang digunakan untuk mengatur kamera"
+msgstr "define o número de colunas usadas para organizar as câmeras"
 
 #: templates/main.html:134
 #, fuzzy
 msgid "Fiksi Kadrojn Vertikale"
-msgstr "Tetapkan Bingkai secara menegak"
+msgstr "Definir quadros verticalmente"
 
 #: templates/main.html:136
 #, fuzzy
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
-msgstr "mengawal sama ada masa bingkai boleh dikurangkan agar sesuai dengan tetingkap secara menegak atau tidak"
+msgstr "controla se os tempos de quadro podem ser reduzidos para caber na janela verticalmente ou não"
 
 #: templates/main.html:139
 #, fuzzy
 msgid "Aranĝo linioj"
-msgstr "Talian susun atur"
+msgstr "Linhas de layout"
 
 #: templates/main.html:141
 #, fuzzy
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr "menetapkan bilangan garisan yang digunakan untuk mengatur kamera"
+msgstr "define o número de linhas usadas para organizar as câmeras"
 
 #: templates/main.html:144
 #, fuzzy
 msgid "kadro-variatoro"
-msgstr "variator bingkai"
+msgstr "variador de quadro"
 
 #: templates/main.html:146
 #, fuzzy
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
-msgstr "mengurangkan kadar bingkai untuk menjimatkan lebar jalur dan trafik rangkaian (tidak berfungsi dengan kamera MJPEG yang mudah)"
+msgstr "reduz a taxa de quadros para economizar largura de banda e tráfego da rede (não funciona com câmeras MJPEG simples)"
 
 #: templates/main.html:149
 #, fuzzy
 msgid "Rezolucio-variatoro"
-msgstr "Variator Penyelesaian"
+msgstr "Variador de resolução"
 
 #: templates/main.html:151
 #, fuzzy
 msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
-msgstr "mengurangkan resolusi berkesan semua kamera untuk menjimatkan jalur lebar dan lalu lintas rangkaian (tidak berfungsi pada kamera MJPEG mudah)"
+msgstr "reduz a resolução efetiva de todas as câmeras para economizar largura de banda e tráfego de rede (não funciona em câmeras MJPEG simples)"
 
 #: templates/main.html:161
 #, fuzzy
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
-msgstr "parameter umum, biasa kepada semua kamera"
+msgstr "parâmetros gerais, comuns a todas as câmeras"
 
 #: templates/main.html:162
 #, fuzzy
 msgid "Ĝeneralaj Agordoj"
-msgstr "Tetapan Umum"
+msgstr "Configurações Gerais"
 
 #: templates/main.html:167
 #, fuzzy
 msgid "Administranto"
-msgstr "Pentadbir"
+msgstr "Administrador"
 
 #: templates/main.html:169
 #, fuzzy
 msgid "la uzantnomo uzata por agordi la sistemon"
-msgstr "nama pengguna yang digunakan untuk mengkonfigurasi sistem"
+msgstr "o nome de usuário usado para configurar o sistema"
 
 #: templates/main.html:172 templates/main.html:182 templates/main.html:482
 #, fuzzy
 msgid "Pasvorto"
-msgstr "Kata laluan"
+msgstr "Senha"
 
 #: templates/main.html:174
 #, fuzzy
 msgid "pasvorto de administranto"
-msgstr "kata laluan admin"
+msgstr "senha de administrador"
 
 #: templates/main.html:177
 #, fuzzy
 msgid "Observanto"
-msgstr "Observer"
+msgstr "Observador"
 
 #: templates/main.html:179
 #, fuzzy
 msgid "la uzantnomo por uzi por la monitorado"
-msgstr "nama pengguna untuk digunakan untuk pemantauan"
+msgstr "o nome de usuário a ser usado para monitorar"
 
 #: templates/main.html:184
 #, fuzzy
 msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "kata laluan pengguna pemantauan (kosongkan untuk pemantauan tanpa kata laluan)"
+msgstr "a senha do usuário de monitoramento (deixe em branco para monitorar sem uma senha)"
 
 #: templates/main.html:193
 #, fuzzy
 msgid "motionEye Versio"
-msgstr "gerakanEye Versi"
+msgstr "Versão motionEye"
 
 #: templates/main.html:197
 #, fuzzy
 msgid "Motion Versio"
-msgstr "Versi Pergerakan"
+msgstr "Versão em movimento"
 
 #: templates/main.html:201
 #, fuzzy
 msgid "Operaciumo Versio"
-msgstr "Versi Sistem Pengoperasian"
+msgstr "Versão do sistema operacional"
 
 #: templates/main.html:206
 #, fuzzy
 msgid "Programara Ĝisdatigo"
-msgstr "Kemas kini Perisian"
+msgstr "Atualização de Software"
 
 #: templates/main.html:208
 #, fuzzy
 msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
-msgstr "menyemak siaran baru dan melakukan kemas kini"
+msgstr "verifica novos lançamentos e executa atualizações"
 
 #: templates/main.html:212
 #, fuzzy
 msgid "Nutro"
-msgstr "Makanan"
+msgstr "Alimento"
 
 #: templates/main.html:213
 #, fuzzy
 msgid "Fermu"
-msgstr "Tutup"
+msgstr "Fechar"
 
 #: templates/main.html:214
 #, fuzzy
 msgid "malŝaltas la sistemon"
-msgstr "mematikan sistem"
+msgstr "desliga o sistema"
 
 #: templates/main.html:218
 #, fuzzy
 msgid "Rekomencu"
-msgstr "Mulakan semula"
+msgstr "Reiniciar"
 
 #: templates/main.html:219
 #, fuzzy
 msgid "rekomencas la sistemon"
-msgstr "mulakan semula sistem"
+msgstr "reinicie o sistema"
 
 #: templates/main.html:225
 #, fuzzy
 msgid "Agordo"
-msgstr "Konfigurasi"
+msgstr "Configuração"
 
 #: templates/main.html:226
 #, fuzzy
 msgid "Sekurkopio"
-msgstr "Sandaran"
+msgstr "Backup"
 
 #: templates/main.html:227
 #, fuzzy
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
-msgstr "membuat fail dengan konfigurasi semasa supaya anda dapat menyimpannya secara tempatan"
+msgstr "cria um arquivo com a configuração atual para que você possa salvá-lo localmente"
 
 #: templates/main.html:231
 #, fuzzy
 msgid "Restaŭri"
-msgstr "Pulihkan"
+msgstr "Restaurar"
 
 #: templates/main.html:232
 #, fuzzy
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
-msgstr "mengembalikan konfigurasi dari fail sandaran yang telah disimpan sebelumnya"
+msgstr "restaura a configuração de um arquivo de backup salvo anteriormente"
 
 #: templates/main.html:260
 #, fuzzy
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
-msgstr "aktifkan ini jika anda mahu menggunakan kamera ini"
+msgstr "ative isso se você quiser usar esta câmera"
 
 #: templates/main.html:261
 #, fuzzy
 msgid "Video-Aparato"
-msgstr "Peranti Video"
+msgstr "Dispositivo de vídeo"
 
 #: templates/main.html:266 templates/main.html:560 templates/main.html:577
 #, fuzzy
 msgid "Kamerao Nomo"
-msgstr "Nama Kamera"
+msgstr "Nome da câmera"
 
 #: templates/main.html:268
 #, fuzzy
 msgid "alias pri ĉi tiu kamera aparato"
-msgstr "alias pada peranti kamera ini"
+msgstr "alias neste dispositivo de câmera"
 
 #: templates/main.html:271
 #, fuzzy
 msgid "Kamerao ID"
-msgstr "ID kamera"
+msgstr "ID da câmera"
 
 #: templates/main.html:273
 #, fuzzy
 msgid "la kamerao identiga numero"
-msgstr "nombor pengenalan kamera"
+msgstr "o número de identificação da câmera"
 
 #: templates/main.html:276
 #, fuzzy
 msgid "Kamerao aparato"
-msgstr "Peranti kamera"
+msgstr "Dispositivo de câmera"
 
 #: templates/main.html:278
 #, fuzzy
 msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
-msgstr "Peranti input (misalnya: / dev / video) atau URL (cth: rtsp: //192.168.1.1/stream)"
+msgstr "Dispositivo de entrada (por exemplo: / dev / video) ou URL (por exemplo: rtsp: //192.168.1.1/stream)"
 
 #: templates/main.html:281
 #, fuzzy
 msgid "Kamerao Tipo"
-msgstr "Jenis Kamera"
+msgstr "Tipo de câmera"
 
 #: templates/main.html:288
 #, fuzzy
 msgid "Aŭtomata Brilo"
-msgstr "Kecerahan Automatik"
+msgstr "Brilho automático"
 
 #: templates/main.html:290
 #, fuzzy
 msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
-msgstr "Mengaktifkan perisian silap mata automatik (disyorkan untuk kamera tanpa silau auto sahaja)"
+msgstr "Ativa o software de ofuscamento automático (recomendado apenas para câmeras sem ofuscamento automático)"
 
 #: templates/main.html:296
 #, fuzzy
 msgid "Video-rezolucio"
-msgstr "Resolusi video"
+msgstr "Resolução de vídeo"
 
 #: templates/main.html:301
 #, fuzzy
 msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
-msgstr "resolusi video (nilai yang lebih besar menghasilkan kualiti yang lebih baik, tetapi memerlukan lebih banyak kuasa CPU, penyimpanan yang lebih besar dan jalur lebar)"
+msgstr "a resolução do vídeo (valores maiores produzem melhor qualidade, mas exigem mais energia da CPU, maior armazenamento e largura de banda)"
 
 #: templates/main.html:304
 #, fuzzy
 msgid "Larĝeco"
-msgstr "Lebar"
+msgstr "Largura"
 
 #: templates/main.html:306
 #, fuzzy
 msgid "enigu kutiman rezolucian larĝon"
-msgstr "masukkan lebar resolusi adat"
+msgstr "insira uma largura de resolução personalizada"
 
 #: templates/main.html:309
 #, fuzzy
 msgid "Alteco"
-msgstr "Ketinggian"
+msgstr "Altura"
 
 #: templates/main.html:311
 #, fuzzy
 msgid "enigu kutiman rezolucian altecon"
-msgstr "masukkan ketinggian resolusi adat"
+msgstr "insira uma altura de resolução personalizada"
 
 #: templates/main.html:314
 #, fuzzy
 msgid "Video-Rotacio"
-msgstr "Putaran Video"
+msgstr "Rotação de Vídeo"
 
 #: templates/main.html:323
 #, fuzzy
 msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
-msgstr "gunakan ini untuk memutar imej yang ditangkap jika kamera anda tidak diposisikan dengan betul"
+msgstr "use isso para girar a imagem capturada se sua câmera não estiver posicionada corretamente"
 
 #: templates/main.html:326
 #, fuzzy
 msgid "Kadrofrekvenco"
-msgstr "Kadar bingkai"
+msgstr "Taxa de quadros"
 
 #: templates/main.html:328
 #, fuzzy
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
-msgstr "Menetapkan bilangan bingkai yang ditangkap oleh kamera sesaat (nilai yang lebih tinggi menghasilkan video yang lebih lancar tetapi memerlukan lebih banyak kuasa CPU, penyimpanan yang lebih besar dan jalur lebar)"
+msgstr "Define o número de quadros capturados pela câmera por segundo (valores mais altos produzem vídeos mais suaves, mas requerem mais energia da CPU, maior armazenamento e largura de banda)"
 
 #: templates/main.html:331
 #, fuzzy
 msgid "Ekstraj Elektoj"
-msgstr "Pilihan Tambahan"
+msgstr "Opções Extra"
 
 #: templates/main.html:333
 #, fuzzy
 msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
-msgstr "anda boleh menambah sebarang pilihan tambahan di sini untuk daemon \"gerakan\" (gunakan format \"nilai nama\", satu pilihan setiap baris)"
+msgstr "você pode adicionar outras opções aqui para o daemon \"motion\" (use o formato \"name value\", uma opção por linha)"
 
 #: templates/main.html:342
 #, fuzzy
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
-msgstr "pilih di mana dan bagaimana media anda disimpan"
+msgstr "escolha onde e como sua mídia é armazenada"
 
 #: templates/main.html:343
 #, fuzzy
 msgid "Stokado de dosieroj"
-msgstr "Penyimpanan fail"
+msgstr "Armazenamento de arquivos"
 
 #: templates/main.html:348
 #, fuzzy
 msgid "Stokada Aparato"
-msgstr "Peranti Penyimpanan"
+msgstr "Dispositivo de armazenamento"
 
 #: templates/main.html:353
 #, fuzzy
 msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
-msgstr "menunjukkan peranti storan di mana fail imej dan video akan disimpan"
+msgstr "indica o dispositivo de armazenamento onde os arquivos de imagem e vídeo serão armazenados"
 
 #: templates/main.html:356
 #, fuzzy
 msgid "Retservilo"
-msgstr "Pelayan web"
+msgstr "Servidor Web"
 
 #: templates/main.html:358
 #, fuzzy
 msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
-msgstr "alamat pelayan web (alamat IP atau nama)"
+msgstr "o endereço do servidor web (endereço IP ou nome)"
 
 #: templates/main.html:361
 #, fuzzy
 msgid "SMB Protokolo-Versio"
-msgstr "Versi Protokol SMB"
+msgstr "Versão do protocolo SMB"
 
 #: templates/main.html:371
 #, fuzzy
 msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
-msgstr "pilih versi SMB yang anda boleh gunakan (menguji pilihan yang berbeza dan lihat yang paling sesuai dengan NAS anda)"
+msgstr "selecione a versão SMB que você pode usar (teste as diferentes opções e veja qual funciona melhor com seu NAS)"
 
 #: templates/main.html:374
 #, fuzzy
 msgid "Kunhava nomo"
-msgstr "Nama yang dikongsi"
+msgstr "Nome compartilhado"
 
 #: templates/main.html:376
 #, fuzzy
 msgid "la nomo de la interŝanĝa reto"
-msgstr "nama rangkaian pertukaran"
+msgstr "o nome da rede de troca"
 
 #: templates/main.html:379 templates/main.html:477
 #, fuzzy
 msgid "Uzantnomo"
-msgstr "Nama pengguna"
+msgstr "Nome de usuário"
 
 #: templates/main.html:381
 #, fuzzy
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
-msgstr "nama pengguna akan diberikan apabila mengakses direktori rangkaian (kosongkan jika tiada nama pengguna diperlukan)"
+msgstr "o nome de usuário a ser fornecido quando você acessar o diretório de rede (deixe em branco se nenhum nome de usuário for necessário)"
 
 #: templates/main.html:384
 #, fuzzy
 msgid "Pasvorton"
-msgstr "Kata laluan"
+msgstr "Senha"
 
 #: templates/main.html:386
 #, fuzzy
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
-msgstr "kata laluan yang diperlukan oleh direktori rangkaian (kosongkan jika tiada kata laluan diperlukan)"
+msgstr "a senha exigida pelo diretório de rede (deixe em branco se nenhuma senha for necessária)"
 
 #: templates/main.html:389
 #, fuzzy
 msgid "Radika dosierujo"
-msgstr "Direktori akar"
+msgstr "Diretório raiz"
 
 #: templates/main.html:391
 #, fuzzy
 msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
-msgstr "laluan akar (pada peranti penyimpanan yang dipilih) di mana fail akan disimpan"
+msgstr "o caminho raiz (no dispositivo de armazenamento selecionado) onde os arquivos serão armazenados"
 
 #: templates/main.html:395
 #, fuzzy
 msgid "Testi la reton dosierujon"
-msgstr "Uji direktori rangkaian"
+msgstr "Teste o diretório de rede"
 
 #: templates/main.html:396
 #, fuzzy
 msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
-msgstr "klik butang ini untuk menguji sambungan rangkaian selepas anda mengisi butiran yang diperlukan"
+msgstr "clique neste botão para testar a conexão de rede depois de preencher os detalhes necessários"
 
 #: templates/main.html:402
 #, fuzzy
 msgid "Uzado de Disko"
-msgstr "Penggunaan cakera"
+msgstr "Uso de disco"
 
 #: templates/main.html:406
 #, fuzzy
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr "saiz / saiz pemacu di mana direktori root berada"
+msgstr "o tamanho / tamanho da unidade em que o diretório raiz reside"
 
 #: templates/main.html:412
 #, fuzzy
 msgid "Alŝutu Mediajn Dosierojn"
-msgstr "Muat naik Fail Media"
+msgstr "Carregar arquivos de mídia"
 
 #: templates/main.html:414
 #, fuzzy
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
-msgstr "aktifkan opsyen ini jika anda mahu media anda dimuat naik ke perkhidmatan luaran"
+msgstr "ative esta opção se desejar que sua mídia seja carregada em um serviço externo"
 
 #: templates/main.html:417
 #, fuzzy
 msgid "Alŝutu Bildojn"
-msgstr "Muat naik Imej"
+msgstr "Carregar Imagens"
 
 #: templates/main.html:419
 #, fuzzy
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
-msgstr "aktifkan opsyen ini jika anda mahu imej dimuat turun ke perkhidmatan luaran"
+msgstr "ative esta opção se desejar que as imagens sejam baixadas para um serviço externo"
 
 #: templates/main.html:422
 #, fuzzy
 msgid "Alŝutu Filmojn"
-msgstr "Muat naik Filem"
+msgstr "Carregar filmes"
 
 #: templates/main.html:424
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
-msgstr "dayakan ini jika anda mahu video dimuat naik ke perkhidmatan luaran"
+msgstr "ative isso se desejar que os vídeos sejam enviados para um serviço externo"
 
 #: templates/main.html:427
 #, fuzzy
 msgid "Alŝuta Servo"
-msgstr "Muat naik Perkhidmatan"
+msgstr "Carregar Serviço"
 
 #: templates/main.html:430
 #, fuzzy
 msgid "Servilo FTP"
-msgstr "Pelayan FTP"
+msgstr "Servidor FTP"
 
 #: templates/main.html:431
 #, fuzzy
 msgid "Servilo SFTP"
-msgstr "Pelayan SFTP"
+msgstr "Servidor SFTP"
 
 #: templates/main.html:432
 #, fuzzy
 msgid "Servilo HTTP"
-msgstr "Pelayan HTTP"
+msgstr "Servidor HTTP"
 
 #: templates/main.html:433
 #, fuzzy
 msgid "Servilo HTTPS"
-msgstr "Pelayan HTTPS"
+msgstr "Servidor HTTPS"
 
 #: templates/main.html:439
 #, fuzzy
 msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
-msgstr "pilih perkhidmatan yang mana fail media akan dimuat naik"
+msgstr "selecione um serviço para o qual os arquivos de mídia serão enviados"
 
 #: templates/main.html:442
 #, fuzzy
 msgid "Servila Adreso"
-msgstr "Alamat Pelayan"
+msgstr "Endereço do servidor"
 
 #: templates/main.html:444
 #, fuzzy
 msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
-msgstr "nama domain atau alamat IP pelayan (mis. ftp.example.com atau 192.168.1.3)"
+msgstr "o nome do domínio ou o endereço IP do servidor (por exemplo, ftp.example.com ou 192.168.1.3)"
 
 #: templates/main.html:447
 #, fuzzy
 msgid "Servila haveno"
-msgstr "Port pelayan"
+msgstr "Porta do servidor"
 
 #: templates/main.html:449
 #, fuzzy
 msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
-msgstr "pelabuhan untuk digunakan untuk menyambung kepada perkhidmatan (biarkan medan ini kosong untuk menggunakan nilai lalai)"
+msgstr "a porta a ser usada para se conectar ao serviço (deixe esse campo em branco para usar o valor padrão)"
 
 #: templates/main.html:452
 #, fuzzy
 msgid "Metodo"
-msgstr "Kaedah"
+msgstr "Método"
 
 #: templates/main.html:459
 #, fuzzy
 msgid "la HTTP-metodo uzi por alŝuti dosierojn"
-msgstr "kaedah HTTP untuk digunakan untuk memuat naik fail"
+msgstr "o método HTTP a ser usado para fazer upload de arquivos"
 
 #: templates/main.html:462
 #, fuzzy
 msgid "Loko"
-msgstr "Lokasi"
+msgstr "Localização"
 
 #: templates/main.html:464
 #, fuzzy
 msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
-msgstr "tempat (laluan akar) di mana media patut dimuat naik (misalnya / fail / cam1 /)"
+msgstr "o local (caminho raiz) onde a mídia deve ser carregada (por exemplo, / files / cam1 /)"
 
 #: templates/main.html:467
 #, fuzzy
 msgid "Inkluzivi Subdosierujojn"
-msgstr "Sertakan Subfolder"
+msgstr "Incluir subpastas"
 
 #: templates/main.html:469
 #, fuzzy
 msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
-msgstr "Aktifkan ini untuk memuat turun fail multimedia dengan subdirektori mereka, bukannya meletakkannya secara langsung di lokasi root"
+msgstr "Ative isso para baixar arquivos de mídia com seus subdiretórios, em vez de colocá-los diretamente no local raiz"
 
 #: templates/main.html:472
 #, fuzzy
 msgid "Purigi la nubon"
-msgstr "Bersihkan awan"
+msgstr "Limpe a nuvem"
 
 #: templates/main.html:474
 #, fuzzy
 msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
-msgstr "membolehkan ini memadam fail media yang dimuat naik ke awan juga apabila media tempatan dipadam mengikut tetapan kegigihan fail. Pada masa ini pilihan ini hanya tersedia untuk gdrive."
+msgstr "habilite isso para excluir arquivos de mídia carregados na nuvem também quando a mídia local for excluída de acordo com a configuração de persistência do arquivo. Atualmente, esta opção está disponível apenas para o gdrive."
 
 #: templates/main.html:479
 #, fuzzy
 msgid "la uzantnomo por la alŝuta servo-konto"
-msgstr "nama pengguna untuk akaun perkhidmatan muat naik"
+msgstr "o nome de usuário para a conta do serviço de upload"
 
 #: templates/main.html:484
 #, fuzzy
 msgid "la pasvorto por la alŝuta servo-konto"
-msgstr "kata laluan untuk akaun perkhidmatan muat naik"
+msgstr "a senha da conta do serviço de upload"
 
 #: templates/main.html:487
 #, fuzzy
 msgid "Rajtiga ŝlosilo"
-msgstr "Kunci kuasa"
+msgstr "Chave de autorização"
 
 #: templates/main.html:489
 #, fuzzy
 msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "kunci yang digunakan untuk mengesahkan dengan perkhidmatan muat naik (biasanya hanya diperlukan semasa konfigurasi)"
+msgstr "a chave usada para autenticar com o serviço de upload (geralmente necessário apenas durante a configuração)"
 
 #: templates/main.html:495
 #, fuzzy
 msgid "Akiri ŝlosilon"
-msgstr "Dapatkan kunci"
+msgstr "Obter uma chave"
 
 #: templates/main.html:498
 #, fuzzy
 msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
-msgstr "klik di sini untuk mendapatkan perkhidmatan kebenaran utama"
+msgstr "clique aqui para obter o serviço de autorização de chave"
 
 #: templates/main.html:502
 #, fuzzy
 msgid "Testi la servon"
-msgstr "Uji perkhidmatan"
+msgstr "Teste o serviço"
 
 #: templates/main.html:503
 #, fuzzy
 msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
-msgstr "klik butang ini untuk menguji perkhidmatan muat naik selepas anda mengisi butiran yang diperlukan"
+msgstr "clique neste botão para testar o serviço de upload depois de preencher os detalhes necessários"
 
 #: templates/main.html:509
 #, fuzzy
 msgid "alvoki URL"
-msgstr "memohon URL"
+msgstr "invocar um URL"
 
 #: templates/main.html:511
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
-msgstr "dayakan ini jika anda mahu URL yang diminta selepas membuat fail media"
+msgstr "ative isso se desejar que uma URL seja solicitada após a criação de um arquivo de mídia"
 
 #: templates/main.html:514
 #, fuzzy
 msgid "Reteja URL"
-msgstr "URL laman web"
+msgstr "URL do site"
 
 #: templates/main.html:515
 #, fuzzy
 msgid "ekz. http://example.com/notify/"
-msgstr "contohnya. http://example.com/notify/"
+msgstr "p. ex. http://example.com/notify/"
 
 #: templates/main.html:516
 #, fuzzy, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
-msgstr "URL untuk dihantar apabila gerakan dikesan; pintasan khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = %% v = nombor acara, %% f = laluan fail"
+msgstr "URL a transmitir quando movimento é detectado; os seguintes atalhos especiais são aceitos: %% Y = ano, %% m = mês, %% d = dia, %% H = hora, %% M = minuto, %% S = segundo, %% q = número do quadro, %% v = número do evento, %% f = caminho do arquivo"
 
 #: templates/main.html:519
 #, fuzzy
 msgid "Metodo HTTP"
-msgstr "Kaedah HTTP"
+msgstr "Método HTTP"
 
 #: templates/main.html:528
 #, fuzzy
 msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
-msgstr "kaedah HTTP yang digunakan apabila meminta URL rantaian rangkaian (parameter yang dikodkan URL yang diberikan sebenarnya akan dihantar seperti yang dinyatakan di sini)"
+msgstr "o método HTTP a ser usado ao solicitar uma URL de gancho de rede (os parâmetros codificados em URL fornecidos serão realmente entregues conforme indicado aqui)"
 
 #: templates/main.html:534
 #, fuzzy
 msgid "Kuri Komando"
-msgstr "Jalankan Perintah"
+msgstr "Comando Executar"
 
 #: templates/main.html:536
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
-msgstr "dayakan ini jika anda mahu melaksanakan arahan selepas fail media dibuat"
+msgstr "ative isso se desejar executar um comando após a criação de um arquivo de mídia"
 
 #: templates/main.html:539
 #, fuzzy
 msgid "Ordono"
-msgstr "Perintah"
+msgstr "Encomendar"
 
 #: templates/main.html:540
 #, fuzzy
 msgid "ordono..."
-msgstr "perintah ..."
+msgstr "encomendar ..."
 
 #: templates/main.html:541
 #, fuzzy, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
-msgstr "Perintah yang akan dilaksanakan selepas membuat fail multimedia. Beberapa perintah boleh dipisahkan dengan koma bertitik; jangan gunakan titik koma dalam arahan; butiran khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = %% v = nombor acara, %% f = laluan fail"
+msgstr "Comando a ser executado após a criação de um arquivo multimídia. Vários comandos podem ser separados por ponto e vírgula; não use ponto e vírgula nos comandos; os seguintes tokens especiais são aceitos: %% Y = ano, %% m = mês, %% d = dia, %% H = hora, %% M = minuto, %% S = segundo, %% S = segundo, %% q = número do quadro, %% v = número do evento, %% f = caminho do arquivo"
 
 #: templates/main.html:551
 #, fuzzy
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
-msgstr "pilih maklumat yang dipaparkan pada bingkai yang ditangkap"
+msgstr "selecione quais informações são exibidas nos quadros capturados"
 
 #: templates/main.html:552
 #, fuzzy
 msgid "Teksto Superkovrita"
-msgstr "Overlay Teks"
+msgstr "Sobreposição de texto"
 
 #: templates/main.html:557
 #, fuzzy
 msgid "Maldekstra Teksto"
-msgstr "Teks Kiri"
+msgstr "Texto à esquerda"
 
 #: templates/main.html:561 templates/main.html:578
 #, fuzzy
 msgid "Tempostampo"
-msgstr "Cap masa"
+msgstr "Carimbo de hora"
 
 #: templates/main.html:562 templates/main.html:579
 #, fuzzy
 msgid "Propra Teksto"
-msgstr "Teks Tersuai"
+msgstr "Texto personalizado"
 
 #: templates/main.html:563 templates/main.html:580 templates/main.html:637
 #, fuzzy
 msgid "Malebligita"
-msgstr "Dinyahdayakan"
+msgstr "Desativado"
 
 #: templates/main.html:566
 #, fuzzy
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
-msgstr "Menetapkan teks yang dipaparkan pada filem dan gambar, di sudut kiri bawah"
+msgstr "Define o texto exibido nos filmes e fotos, no canto inferior esquerdo"
 
 #: templates/main.html:570 templates/main.html:587
 #, fuzzy
 msgid "propra teksto..."
-msgstr "teks sendiri ..."
+msgstr "próprio texto ..."
 
 #: templates/main.html:571
 #, fuzzy, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "Menetapkan teks kiri tersendiri; butiran khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = %% v = nombor acara, %% T = HH: MM: SS, \\ n = baris baru"
+msgstr "Define o texto esquerdo personalizado; os seguintes tokens especiais são aceitos: %% Y = ano, %% m = mês, %% d = dia, %% H = hora, %% M = minuto, %% S = segundo, %% S = segundo, %% q = número do quadro, %% v = número do evento, %% T = HH: MM: SS, \\ n = nova linha"
 
 #: templates/main.html:574
 #, fuzzy
 msgid "Dekstra Teksto"
-msgstr "Teks Kanan"
+msgstr "Texto à direita"
 
 #: templates/main.html:583
 #, fuzzy
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
-msgstr "Menetapkan teks yang dipaparkan pada filem dan gambar, di sudut kanan bawah"
+msgstr "Define o texto exibido nos filmes e fotos, no canto inferior direito"
 
 #: templates/main.html:588
 #, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "Menetapkan teks hak tersuai; butiran khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = %% v = nombor acara, %% T = HH: MM: SS, \\ n = baris baru"
+msgstr "Define o texto certo personalizado; os seguintes tokens especiais são aceitos: %% Y = ano, %% m = mês, %% d = dia, %% H = hora, %% M = minuto, %% S = segundo, %% S = segundo, %% q = número do quadro, %% v = número do evento, %% T = HH: MM: SS, \\ n = nova linha"
 
 #: templates/main.html:591
 #, fuzzy
 msgid "Teksta Skalo"
-msgstr "Skala Teks"
+msgstr "Escala de texto"
 
 #: templates/main.html:593
 #, fuzzy
 msgid "Difinas la grandecon de la superkovrita teksto"
-msgstr "Mendefinisikan saiz teks tindanan"
+msgstr "Define o tamanho do texto da sobreposição"
 
 #: templates/main.html:603
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
-msgstr "Dayakan ini jika anda mahu aliran video untuk kamera ini"
+msgstr "Habilite isso se desejar um fluxo de vídeo para esta câmera"
 
 #: templates/main.html:604
 #, fuzzy
 msgid "Videofluo"
-msgstr "Aliran video"
+msgstr "Transmissão de vídeo"
 
 #: templates/main.html:609
 #, fuzzy
 msgid "Framo frekvencon"
-msgstr "Kekerapan bingkai"
+msgstr "Frequência de quadros"
 
 #: templates/main.html:611
 #, fuzzy
 msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
-msgstr "Menetapkan bilangan bingkai yang dihantar setiap saat dalam strim langsung."
+msgstr "Define o número de quadros transmitidos por segundo na transmissão ao vivo."
 
 #: templates/main.html:614
 #, fuzzy
 msgid "Flua Kvalito"
-msgstr "Kualiti Aliran"
+msgstr "Qualidade do fluxo"
 
 #: templates/main.html:616
 #, fuzzy
 msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
-msgstr "Tune in to live streaming quality (nilai yang lebih tinggi menghasilkan kualiti video yang lebih baik tetapi memerlukan lebih lebar jalur)."
+msgstr "Sintonize a qualidade da transmissão ao vivo (valores mais altos produzem melhor qualidade de vídeo, mas exigem mais largura de banda)."
 
 #: templates/main.html:619
 #, fuzzy
 msgid "Bilda Redimensionado"
-msgstr "Saiz semula Imej"
+msgstr "Redimensionamento de imagem"
 
 #: templates/main.html:621
 #, fuzzy
 msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
-msgstr "Apabila ini dihidupkan, imej akan diubah saiz sebelum dihantar ke penyemak imbas (lumpuhkan apabila berjalan pada CPU lambat)."
+msgstr "Quando ativada, as imagens são redimensionadas antes de serem enviadas para o navegador (desativadas ao executar em CPU lenta)."
 
 #: templates/main.html:624
 #, fuzzy
 msgid "Flua rezolucio"
-msgstr "Resolusi aliran"
+msgstr "Resolução de fluxo"
 
 #: templates/main.html:626
 #, fuzzy
 msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
-msgstr "resolusi yang diberikan sebagai peratusan resolusi peranti video (nilai yang lebih tinggi menghasilkan kualiti video yang lebih baik tetapi memerlukan lebih lebar jalur)"
+msgstr "a resolução fornecida como uma porcentagem da resolução do dispositivo de vídeo (valores mais altos produzem melhor qualidade de vídeo, mas exigem mais largura de banda)"
 
 #: templates/main.html:629
 #, fuzzy
 msgid "Flua haveno"
-msgstr "Pelabuhan aliran"
+msgstr "Porta de fluxo"
 
 #: templates/main.html:631
 #, fuzzy
 msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
-msgstr "menubuhkan port TCP di mana pelayan web sedang mendengar"
+msgstr "configura a porta TCP na qual o servidor da web está escutando"
 
 #: templates/main.html:634
 #, fuzzy
 msgid "Aŭtentiga reĝimo"
-msgstr "Mod pengesahan"
+msgstr "Modo de autenticação"
 
 #: templates/main.html:642
 #, fuzzy
 msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "kaedah pengesahan yang digunakan oleh strim (pilih 'Bazic' dan bukan 'Digest' jika anda menghadapi masalah dengan program pihak ketiga); cek akreditasi akan digunakan"
+msgstr "o método de autenticação usado pelo fluxo (escolha 'Bazic' em vez de 'Digest' se tiver problemas com programas de terceiros); verificações de acreditação serão usadas"
 
 #: templates/main.html:645
 #, fuzzy
 msgid "Movado-Optimigo"
-msgstr "Pengoptimuman Usul"
+msgstr "Otimização de movimento"
 
 #: templates/main.html:647
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
-msgstr "dayakan ini jika anda mahukan kadar bingkai yang lebih rendah untuk aliran penghantaran apabila pergerakan tidak dikesan"
+msgstr "ative isso se desejar uma taxa de quadros mais baixa para o fluxo de entrega quando nenhum movimento for detectado"
 
 #: templates/main.html:653
 #, fuzzy
 msgid "Utilaj URLoj"
-msgstr "URL berguna"
+msgstr "URLs úteis"
 
 #: templates/main.html:656
 #, fuzzy
 msgid "Instantara URL"
-msgstr "URL sekejap"
+msgstr "URL instantâneo"
 
 #: templates/main.html:659
 #, fuzzy
 msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
-msgstr "URL yang menyediakan imej JPEG dengan penangkapan kamera terkini"
+msgstr "Um URL que fornece uma imagem JPEG com a captura mais recente da câmera"
 
 #: templates/main.html:665
 #, fuzzy
 msgid "Flua URL"
-msgstr "URL aliran"
+msgstr "URL de fluxo"
 
 #: templates/main.html:668
 #, fuzzy
 msgid "URL kiu provizas MJPEG-fluon de la kamerao"
-msgstr "URL yang menyediakan aliran MJPEG dari kamera"
+msgstr "Um URL que fornece fluxo MJPEG da câmera"
 
 #: templates/main.html:674
 #, fuzzy
 msgid "Enigita URL"
-msgstr "URL input"
+msgstr "URL de entrada"
 
 #: templates/main.html:677
 #, fuzzy
 msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
-msgstr "URL yang menyediakan dokumen HTML minimum yang mengandungi bingkai kamera, sedia untuk disematkan"
+msgstr "Uma URL que fornece um documento HTML mínimo contendo o quadro da câmera, pronto para ser incorporado"
 
 #: templates/main.html:687
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
-msgstr "Dayakan ini jika anda mahu menangkap imej statik."
+msgstr "Ative isso se desejar capturar imagens estáticas."
 
 #: templates/main.html:688
 #, fuzzy
 msgid "Kaptitaj Bildoj"
-msgstr "Imej yang Ditangkap"
+msgstr "Imagens capturadas"
 
 #: templates/main.html:693
 #, fuzzy
 msgid "Nomo Bildo-Dosiero"
-msgstr "Nama Fail Imej"
+msgstr "Nome do arquivo de imagem"
 
 #: templates/main.html:695
 #, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr "Menetapkan templat nama untuk fail JPEG; butiran khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = %% v = nombor acara, / = subdirektori."
+msgstr "Define o modelo de nome para arquivos JPEG; os seguintes tokens especiais são aceitos: %% Y = ano, %% m = mês, %% d = dia, %% H = hora, %% M = minuto, %% S = segundo, %% S = segundo, %% q = número do quadro, %% v = número do evento, / = subdiretório."
 
 #: templates/main.html:698
 #, fuzzy
 msgid "Bildkvalito"
-msgstr "Kualiti imej"
+msgstr "Qualidade de imagem"
 
 #: templates/main.html:700
 #, fuzzy
 msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
-msgstr "menetapkan kualiti imej JPEG (nilai yang lebih tinggi menghasilkan kualiti imej yang lebih baik tetapi memerlukan lebih banyak storan)"
+msgstr "define a qualidade da imagem JPEG (valores mais altos produzem melhor qualidade de imagem, mas requerem mais armazenamento)"
 
 #: templates/main.html:703
 #, fuzzy
 msgid "Kaptila reĝimo"
-msgstr "Mod tangkapan"
+msgstr "Modo de captura"
 
 #: templates/main.html:706 templates/main.html:808
 #, fuzzy
 msgid "Moviĝa deĉenigo"
-msgstr "Pencetus gerakan"
+msgstr "Gatilho de movimento"
 
 #: templates/main.html:707
 #, fuzzy
 msgid "Moviĝa deĉenigo (Unu bildo)"
-msgstr "Pemacu Gerakan (Imej Satu)"
+msgstr "Gatilho de movimento (Uma imagem)"
 
 #: templates/main.html:708
 #, fuzzy
 msgid "Intertempe"
-msgstr "Sementara itu"
+msgstr "Enquanto isso"
 
 #: templates/main.html:709
 #, fuzzy
 msgid "Ĉiuj bildoj"
-msgstr "Semua gambar"
+msgstr "Todas as imagens"
 
 #: templates/main.html:710
 #, fuzzy
 msgid "Mane"
-msgstr "Mane"
+msgstr "Juba"
 
 #: templates/main.html:713
 #, fuzzy
 msgid "Difinas la kapta reĝimon:"
-msgstr "Menetapkan mod tangkapan:"
+msgstr "Define o modo de captura:"
 
 #: templates/main.html:714
 #, fuzzy
 msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
-msgstr "Trigger Motion = imej yang ditangkap setiap kali gerakan dikesan,"
+msgstr "Disparador de movimento = imagem capturada sempre que o movimento é detectado,"
 
 #: templates/main.html:715
 #, fuzzy
 msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
-msgstr "Sementara itu = imej yang ditangkap setiap saat x,"
+msgstr "Enquanto isso = imagem capturada a cada x segundos,"
 
 #: templates/main.html:716
 #, fuzzy
 msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
-msgstr "Semua imej = simpan setiap bingkai dalam fail imej,"
+msgstr "Todas as imagens = salvar cada quadro em um arquivo de imagem,"
 
 #: templates/main.html:717
 #, fuzzy
 msgid "Mane = mana kapto kun dediĉita butono."
-msgstr "Mane = menangkap tangan dengan butang khusus."
+msgstr "Juba = captura manual com um botão dedicado."
 
 #: templates/main.html:720
 #, fuzzy
 msgid "Interkapto-Intervalo"
-msgstr "Selang Pintu"
+msgstr "Intervalo de interceptação"
 
 #: templates/main.html:721 templates/main.html:816 templates/main.html:891
 #: templates/main.html:1013
 #, fuzzy
 msgid "sekundoj"
-msgstr "detik"
+msgstr "segundos"
 
 #: templates/main.html:722
 #, fuzzy
 msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
-msgstr "tetapkan selang (dalam saat) untuk snapshot"
+msgstr "define o intervalo (em segundos) para os instantâneos"
 
 #: templates/main.html:725
 #, fuzzy
 msgid "Konservi bildojn"
-msgstr "Simpan imej"
+msgstr "Salvar imagens"
 
 #: templates/main.html:728 templates/main.html:823
 #, fuzzy
 msgid "Dum unu tago"
-msgstr "Untuk satu hari"
+msgstr "Por um dia"
 
 #: templates/main.html:729 templates/main.html:824
 #, fuzzy
 msgid "Dum unu semajno"
-msgstr "Selama seminggu"
+msgstr "Por uma semana"
 
 #: templates/main.html:730 templates/main.html:825
 #, fuzzy
 msgid "Dum unu monato"
-msgstr "Selama sebulan"
+msgstr "Por um mês"
 
 #: templates/main.html:731 templates/main.html:826
 #, fuzzy
 msgid "Dum unu jaro"
-msgstr "Untuk satu tahun"
+msgstr "Por um ano"
 
 #: templates/main.html:732 templates/main.html:827
 #, fuzzy
 msgid "Porĉiame"
-msgstr "Selamanya"
+msgstr "Para sempre"
 
 #: templates/main.html:733 templates/main.html:828
 #, fuzzy
 msgid "Propra"
-msgstr "Sendiri"
+msgstr "Próprio"
 
 #: templates/main.html:736
 #, fuzzy
 msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
-msgstr "Imej yang lebih lama daripada tempoh yang ditetapkan akan dipadam secara automatik untuk membebaskan ruang storan."
+msgstr "Imagens anteriores à duração definida são excluídas automaticamente para liberar espaço de armazenamento."
 
 #: templates/main.html:739
 #, fuzzy
 msgid "Bildaj Vivdaŭro"
-msgstr "Hayat Gambar"
+msgstr "Vida útil da imagem"
 
 #: templates/main.html:741
 #, fuzzy
 msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
-msgstr "Mendefinisikan bilangan hari selepas itu imej akan dipadamkan secara automatik."
+msgstr "Define o número de dias após os quais as imagens serão excluídas automaticamente."
 
 #: templates/main.html:744
 #, fuzzy
 msgid "Ebligu manaj kaptoj"
-msgstr "Dayakan tangkapan tangan"
+msgstr "Ativar capturas manuais"
 
 #: templates/main.html:746
 #, fuzzy
 msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
-msgstr "Apabila ini dihidupkan, butang pada bingkai kamera akan membolehkan anda mengambil tangkapan secara manual."
+msgstr "Quando ativado, um botão no quadro da câmera permite fazer capturas manualmente."
 
 #: templates/main.html:756
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas registri filmojn"
-msgstr "dayakan ini jika anda mahu merakam filem"
+msgstr "habilite isso se você quiser gravar filmes"
 
 #: templates/main.html:757
 #, fuzzy
 msgid "Filmoj"
-msgstr "Filem"
+msgstr "Filmes"
 
 #: templates/main.html:762
 #, fuzzy
 msgid "Filma Dosiernomo"
-msgstr "Nama Fail Filem"
+msgstr "Nome do arquivo de filme"
 
 #: templates/main.html:764
 #, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr "Menentukan template nama untuk fail filem; butiran khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = %% v = nombor acara, / = subdirektori."
+msgstr "Define o modelo de nome para os arquivos de filme; os seguintes tokens especiais são aceitos: %% Y = ano, %% m = mês, %% d = dia, %% H = hora, %% M = minuto, %% S = segundo, %% S = segundo, %% q = número do quadro, %% v = número do evento, / = subdiretório."
 
 #: templates/main.html:767
 #, fuzzy
 msgid "Rekta kopia filmeto"
-msgstr "Video salinan langsung"
+msgstr "Cópia direta de vídeo"
 
 #: templates/main.html:769
 #, fuzzy
 msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
-msgstr "Buat filem secara langsung dari kamera. Pilihan ini harus mengurangkan penggunaan CPU tetapi meningkatkan permintaan memori. Tiada pemprosesan imej dilakukan, jadi teks bertindih, topeng privasi, dll. tidak akan pada video yang dihasilkan."
+msgstr "Crie filmes diretamente da câmera. Esta opção deve reduzir o uso da CPU, mas aumentar as demandas de memória. Nenhum processamento de imagem é feito; portanto, os textos se sobrepõem, máscaras de privacidade etc. não estará no vídeo resultante."
 
 #: templates/main.html:772
 #, fuzzy
 msgid "Filmformato"
-msgstr "Format filem"
+msgstr "Formato de filme"
 
 #: templates/main.html:797
 #, fuzzy
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
-msgstr "Menyesuaikan fail filem; tidak semua format dijamin berfungsi pada semua sistem; jika ragu-ragu, uji setiap format dan pilih yang paling sesuai dengan video anda."
+msgstr "Personaliza o arquivo de filme; nem todos os formatos têm garantia de funcionar em todos os sistemas; em caso de dúvida, teste cada formato e escolha o que melhor funciona com seu vídeo."
 
 #: templates/main.html:800
 #, fuzzy
 msgid "Filma Kvalito"
-msgstr "Kualiti Filem"
+msgstr "Qualidade do filme"
 
 #: templates/main.html:802
 #, fuzzy
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
-msgstr "Menetapkan kualiti video MPEG (nilai yang lebih tinggi menghasilkan kualiti video yang lebih baik tetapi memerlukan lebih banyak storan)."
+msgstr "Define a qualidade do vídeo MPEG (valores mais altos produzem melhor qualidade de vídeo, mas requerem mais armazenamento)."
 
 #: templates/main.html:805
 #, fuzzy
 msgid "Rekorda reĝimo"
-msgstr "Mod rakaman"
+msgstr "Modo de gravação"
 
 #: templates/main.html:809
 #, fuzzy
 msgid "Kontinua registrado"
-msgstr "Rakaman berterusan"
+msgstr "Gravação contínua"
 
 #: templates/main.html:812
 #, fuzzy
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
-msgstr "Menetapkan mod rakaman: Motion Trigger = filem baru yang dibuat apabila gerakan dikesan, Rakaman Berterusan = satu fail filem besar."
+msgstr "Define o modo de gravação: Disparo de movimento = novo filme criado sempre que o movimento é detectado, Gravação contínua = um arquivo de filme grande."
 
 #: templates/main.html:815
 #, fuzzy
 msgid "Maksimuma filma daŭro"
-msgstr "Tempoh filem maksimum"
+msgstr "Duração máxima do filme"
 
 #: templates/main.html:817
 #, fuzzy
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
-msgstr "Menetapkan panjang maksimum filem dalam beberapa saat; jika acara gerakan berlangsung lebih lama, fail filem baru dibuat; gunakan 0 untuk panjang tanpa had."
+msgstr "Define a duração máxima dos filmes em segundos; se o evento de movimento durar mais, um novo arquivo de filme será criado; use 0 para comprimento ilimitado."
 
 #: templates/main.html:820
 #, fuzzy
 msgid "Konservi filmojn"
-msgstr "Simpan filem"
+msgstr "Salvar filmes"
 
 #: templates/main.html:831
 #, fuzzy
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
-msgstr "Filem lebih lama daripada tempoh yang ditetapkan secara automatik dipadamkan untuk melepaskan storan."
+msgstr "Os filmes anteriores à duração definida são excluídos automaticamente para liberar armazenamento."
 
 #: templates/main.html:834
 #, fuzzy
 msgid "Filmoj Vivdaŭro"
-msgstr "Filem Sepanjang Hayat"
+msgstr "Vida útil dos filmes"
 
 #: templates/main.html:835
 #, fuzzy
 msgid "tagoj"
-msgstr "hari"
+msgstr "dias"
 
 #: templates/main.html:836
 #, fuzzy
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
-msgstr "Menetapkan bilangan hari selepas mana filem akan dipadamkan secara automatik."
+msgstr "Define o número de dias após os quais os filmes serão excluídos automaticamente."
 
 #: templates/main.html:846
 #, fuzzy
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
-msgstr "Aktifkan ini untuk menggunakan dan konfigurasi peranti untuk mengesan pergerakan."
+msgstr "Ative isso para usar e configurar o dispositivo para detectar movimento."
 
 #: templates/main.html:847
 #, fuzzy
 msgid "Movado-Detekto"
-msgstr "Pengesanan Pergerakan"
+msgstr "Detecção de movimento"
 
 #: templates/main.html:852
 #, fuzzy
 msgid "Kadra ŝanĝo sojlo"
-msgstr "Ambang batas bingkai"
+msgstr "Limite de mudança de quadro"
 
 #: templates/main.html:854
 #, fuzzy
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
-msgstr "Menunjukkan peratusan minimum imej yang mesti bertukar di antara dua bingkai berturut-turut untuk mengesan pergerakan (nilai yang lebih kecil memberikan pengesanan yang lebih sensitif, tetapi cenderung positif palsu)."
+msgstr "Indica a porcentagem mínima da imagem que deve alternar entre dois quadros sucessivos para detectar movimento (valores menores fornecem detecção mais sensível, mas tendem a falsos positivos)."
 
 #: templates/main.html:857
 #, fuzzy
 msgid "Maksimuma ŝanĝo sojlo"
-msgstr "Ambang perubahan maksimum"
+msgstr "Limite máximo de alteração"
 
 #: templates/main.html:859
 #, fuzzy
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
-msgstr "Menetapkan bilangan piksel yang telah ditukar antara bingkai yang mana skrol tidak lagi dicetuskan (0 melumpuhkan sempadan)."
+msgstr "Define o número de pixels que foram alterados entre os quadros sobre os quais um pergaminho não é mais acionado (0 desativa a borda)."
 
 #: templates/main.html:862
 #, fuzzy
 msgid "Aŭtomata sojla agordo"
-msgstr "Tetapan ambang automatik"
+msgstr "Configuração automática de limite"
 
 #: templates/main.html:864
 #, fuzzy
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
-msgstr "Dayakan ini untuk menyesuaikan ambang secara automatik."
+msgstr "Habilite isso para ajustar automaticamente o limite."
 
 #: templates/main.html:867
 #, fuzzy
 msgid "Aŭtomata bruo-detekto"
-msgstr "Pengesanan bunyi automatik"
+msgstr "Detecção automática de ruído"
 
 #: templates/main.html:869
 #, fuzzy
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
-msgstr "Dayakan ini untuk melaraskan tahap bunyi secara automatik."
+msgstr "Habilite isso para ajustar automaticamente o nível de ruído."
 
 #: templates/main.html:872
 #, fuzzy
 msgid "Bruo-nivelo"
-msgstr "Tahap kebisingan"
+msgstr "Nível de ruído"
 
 #: templates/main.html:874
 #, fuzzy
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
-msgstr "Secara tetap menetapkan tahap bunyi ke nilai yang ditetapkan."
+msgstr "Define permanentemente o nível de ruído para um valor definido."
 
 #: templates/main.html:877
 #, fuzzy
 msgid "Detekto de lumaj ŝanĝoj"
-msgstr "Pengesanan perubahan cahaya"
+msgstr "Detecção de mudanças de luz"
 
 #: templates/main.html:879
 #, fuzzy
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-msgstr "Mendefinisikan peratusan imej yang perlu diubah supaya peristiwa itu diperlakukan sebagai perubahan cahaya yang tiba-tiba bukan gerakan (0% melumpuhkan ciri)."
+msgstr "Define a porcentagem da imagem que precisa ser alterada para que o evento seja tratado como uma mudança repentina de luz em vez de movimento (0% desativa o recurso)."
 
 #: templates/main.html:882
 #, fuzzy
 msgid "Makula filtrilo"
-msgstr "Penapis noda"
+msgstr "Filtro de manchas"
 
 #: templates/main.html:884
 #, fuzzy
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
-msgstr "Dayakan ini dengan menggunakan penapis tempat ke bingkai sebelum pengesanan gerakan."
+msgstr "Habilite isso aplicando um filtro de ponto aos quadros antes da detecção de movimento."
 
 #: templates/main.html:890
 #, fuzzy
 msgid "Senmovada daŭro"
-msgstr "Pergerakan berterusan"
+msgstr "Movimento contínuo"
 
 #: templates/main.html:892
 #, fuzzy
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
-msgstr "Menetapkan bilangan detik berdiam diri (iaitu pergerakan tidak) yang menandakan berakhirnya peristiwa pergerakan."
+msgstr "Define o número de segundos de silêncio (ou seja, nenhum movimento) que marca o final de um evento de movimento."
 
 #: templates/main.html:895
 #, fuzzy
 msgid "Kaptita Antaŭe"
-msgstr "Terperangkap Sebelum"
+msgstr "Apanhado Antes"
 
 #: templates/main.html:896 templates/main.html:901 templates/main.html:906
 #, fuzzy
 msgid "kadroj"
-msgstr "bingkai"
+msgstr "quadros"
 
 #: templates/main.html:897
 #, fuzzy
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
-msgstr "Menetapkan bilangan bingkai yang ditangkap (dan dimasukkan ke dalam filem) sebelum kejadian gerakan dikesan."
+msgstr "Define o número de quadros capturados (e incluídos no filme) antes que um incidente de movimento seja detectado."
 
 #: templates/main.html:900
 #, fuzzy
 msgid "Kaptita Post"
-msgstr "Terperangkap Selepas"
+msgstr "Apanhado Depois"
 
 #: templates/main.html:902
 #, fuzzy
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
-msgstr "Menetapkan bilangan bingkai yang akan ditangkap (dan dimasukkan ke dalam filem) selepas berakhirnya peristiwa pergerakan."
+msgstr "Define o número de quadros a serem capturados (e incluídos no filme) após o final de um evento de movimento."
 
 #: templates/main.html:905
 #, fuzzy
 msgid "Minimumaj movaj kadroj"
-msgstr "Bingkai gerakan minimum"
+msgstr "Quadros de movimento mínimo"
 
 #: templates/main.html:907
 #, fuzzy
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
-msgstr "Menetapkan bilangan minimum bingkai gerakan yang diperlukan untuk memulakan sesuatu gerakan."
+msgstr "Define o número mínimo de quadros de movimento sucessivos necessários para iniciar um evento de movimento."
 
 #: templates/main.html:913
 #, fuzzy
 msgid "Masko"
-msgstr "Topeng"
+msgstr "Mask"
 
 #: templates/main.html:915
 #, fuzzy
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
-msgstr "Membolehkan pelekat imej untuk pengesanan gerakan yang lebih selektif dan tepat."
+msgstr "Permite mascaramento de imagem para detecção de movimento mais seletiva e precisa."
 
 #: templates/main.html:918
 #, fuzzy
 msgid "Tipo de masko"
-msgstr "Jenis topeng"
+msgstr "Tipo de máscara"
 
 #: templates/main.html:921
 #, fuzzy
 msgid "Inteligenta"
-msgstr "Pintar"
+msgstr "Smart"
 
 #: templates/main.html:922
 #, fuzzy
 msgid "Redaktebla"
-msgstr "Boleh diedit"
+msgstr "Editável"
 
 #: templates/main.html:925
 #, fuzzy
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
-msgstr "Opsyen Pintar secara automatik mengesan kawasan dengan pergerakan biasa dan secara dinamik mencipta topeng dalaman, sementara pilihan Disunting membolehkan anda membina sendiri secara manual."
+msgstr "A opção Inteligente detecta automaticamente regiões com movimento regular e cria dinamicamente uma máscara interna, enquanto a opção Editável permite que você a construa manualmente."
 
 #: templates/main.html:928
 #, fuzzy
 msgid "Inteligenta-maska Malrapideco"
-msgstr "Slotess Masker Pintar"
+msgstr "Lentidão com máscara inteligente"
 
 #: templates/main.html:930
 #, fuzzy
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
-msgstr "Nilai yang lebih tinggi memberikan masker yang lebih tahan lama dengan proses membina yang perlahan."
+msgstr "Valores mais altos fornecem uma máscara mais durável com um processo de construção mais lento."
 
 #: templates/main.html:935
 #, fuzzy
 msgid "Redakti maskon"
-msgstr "Edit topeng"
+msgstr "Editar máscara"
 
 #: templates/main.html:936
 #, fuzzy
 msgid "Konservi maskon"
-msgstr "Simpan topeng"
+msgstr "Mantenha uma máscara"
 
 #: templates/main.html:939
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
-msgstr "Klik butang ini untuk membolehkan / melumpuhkan editor topeng."
+msgstr "Clique neste botão para ativar / desativar o editor de máscaras."
 
 #: templates/main.html:943
 #, fuzzy
 msgid "Purigi maskon"
-msgstr "Topeng yang bersih"
+msgstr "Máscara limpa"
 
 #: templates/main.html:944
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
-msgstr "Klik butang ini untuk mengosongkan topeng semasa."
+msgstr "Clique neste botão para esvaziar a máscara atual."
 
 #: templates/main.html:950
 #, fuzzy
 msgid "Montri Kadro-Ŝanĝojn"
-msgstr "Tunjukkan Perubahan Bingkai"
+msgstr "Mostrar alterações de quadro"
 
 #: templates/main.html:952
 #, fuzzy
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
-msgstr "Jika ini aktif, perubahan imej (bilangan piksel dan kawasan diubahsuai) ditunjukkan dalam video; buat sementara ini untuk menyesuaikan tetapan pengesanan gerakan."
+msgstr "Se estiver ativo, a imagem muda (número de pixels e a área modificada) são mostrados no vídeo; habilite temporariamente isso para ajustar as configurações de detecção de movimento."
 
 #: templates/main.html:955
 #, fuzzy
 msgid "Krei debug media files"
-msgstr "Buat fail media debug"
+msgstr "Criar arquivos de mídia de depuração"
 
 #: templates/main.html:957
 #, fuzzy
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
-msgstr "Apabila diaktifkan, buat filem dan imej khas yang membantu mengesan masalah pengesanan gerakan."
+msgstr "Quando ativado, crie filmes e imagens especiais que ajudam a depurar problemas de detecção de movimento."
 
 #: templates/main.html:966
 #, fuzzy
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
-msgstr "Dayakan ini jika anda mahu diberitahu apabila gerakan dikesan."
+msgstr "Habilite isso se desejar ser notificado quando um movimento for detectado."
 
 #: templates/main.html:967
 #, fuzzy
 msgid "Moviĝaj sciigoj"
-msgstr "Pemberitahuan gerakan"
+msgstr "Notificações de movimento"
 
 #: templates/main.html:972
 #, fuzzy
 msgid "Sendi retpoŝton"
-msgstr "Hantar e-mel"
+msgstr "Envie um email"
 
 #: templates/main.html:974
 #, fuzzy
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
-msgstr "Aktifkan pilihan ini jika anda mahu menerima e-mel setiap kali kejadian gerakan dikesan."
+msgstr "Ative esta opção se desejar receber um email sempre que um incidente de movimento for detectado."
 
 #: templates/main.html:977
 #, fuzzy
 msgid "Retpoŝtadresoj"
-msgstr "Alamat e-mel"
+msgstr "Endereços de email"
 
 #: templates/main.html:979
 #, fuzzy
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
-msgstr "Alamat e-mel (dipisahkan oleh tanda koma) ditambah di sini akan menerima pemberitahuan apabila kejadian gerakan dikesan."
+msgstr "Os endereços de email (separados por vírgulas) adicionados aqui receberão notificações sempre que um incidente de movimento for detectado."
 
 #: templates/main.html:982
 #, fuzzy
 msgid "Servilo SMTP"
-msgstr "Pelayan SMTP"
+msgstr "Servidor SMTP"
 
 #: templates/main.html:983
 #, fuzzy
 msgid "ekz. smtp.gmail.com"
-msgstr "contohnya. smtp.gmail.com"
+msgstr "p. ex. smtp.gmail.com"
 
 #: templates/main.html:984
 #, fuzzy
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
-msgstr "Masukkan nama hos atau alamat IP pelayan SMTP anda (untuk menggunakan Gmail smtp.gmail.com)."
+msgstr "Digite o nome do host ou o endereço IP do seu servidor SMTP (para usar o Gmail smtp.gmail.com)."
 
 #: templates/main.html:987
 #, fuzzy
 msgid "SMTP Haveno"
-msgstr "Pelabuhan SMTP"
+msgstr "Porta SMTP"
 
 #: templates/main.html:988
 #, fuzzy
 msgid "ekz. 587"
-msgstr "contohnya. 587"
+msgstr "p. ex. 587"
 
 #: templates/main.html:989
 #, fuzzy
 msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
-msgstr "Masukkan port yang digunakan oleh pelayan SMTP anda (biasanya 465 untuk sambungan bukan TLS dan 587 untuk sambungan TLS)."
+msgstr "Digite a porta usada pelo servidor SMTP (normalmente 465 para conexões não TLS e 587 para conexões TLS)."
 
 #: templates/main.html:992
 #, fuzzy
 msgid "SMTP-Konto"
-msgstr "Akaun SMTP"
+msgstr "Conta SMTP"
 
 #: templates/main.html:993
 #, fuzzy
@@ -1506,49 +1507,49 @@ msgstr "account@gmail.com ..."
 #: templates/main.html:994
 #, fuzzy
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
-msgstr "Masukkan akaun SMTP anda (biasanya alamat e-mel anda)."
+msgstr "Digite sua conta SMTP (geralmente seu endereço de email)."
 
 #: templates/main.html:997
 #, fuzzy
 msgid "SMTP Pasvorto"
-msgstr "Kata Laluan SMTP"
+msgstr "Senha SMTP"
 
 #: templates/main.html:999
 #, fuzzy
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
-msgstr "Masukkan kata laluan SMTP anda (untuk Gmail menggunakan kata laluan Google anda atau kata laluan yang dihasilkan oleh aplikasi)."
+msgstr "Digite sua senha SMTP (para o Gmail, use sua senha do Google ou uma senha gerada por aplicativo)."
 
 #: templates/main.html:1002
 #, fuzzy
 msgid "De adreso"
-msgstr "Daripada alamat"
+msgstr "Do endereço"
 
 #: templates/main.html:1003
 #, fuzzy
 msgid "retpoŝta adreso..."
-msgstr "alamat e-mel ..."
+msgstr "endereço de email ..."
 
 #: templates/main.html:1004
 #, fuzzy
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
-msgstr "Tetapkan adat Dari alamat jika perkhidmatan SMTP anda memerlukannya (alamat e-mel destinasi pertama akan digunakan jika dibiarkan kosong)."
+msgstr "Defina o endereço De personalizado se o seu serviço SMTP exigir um (o primeiro endereço de email de destino será usado se for deixado em branco)."
 
 #: templates/main.html:1007
 #, fuzzy
 msgid "Uzi TLS"
-msgstr "Gunakan TLS"
+msgstr "Use TLS"
 
 #: templates/main.html:1009
 #, fuzzy
 msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
-msgstr "Dayakan ini jika pelayan SMTP anda memerlukan TLS (Gmail memerlukan ini untuk didayakan)."
+msgstr "Habilite isso se o servidor SMTP exigir TLS (o Gmail exige que isso esteja habilitado)."
 
 #: templates/main.html:1012
 #, fuzzy
 msgid "Aldonitaj bildoj tempo-intervalo"
-msgstr "Menambah selang masa gambar"
+msgstr "Intervalo de tempo das imagens adicionadas"
 
 #: templates/main.html:1014
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
-msgstr "Mendefinisikan selang masa pencarian untuk digunakan semasa membuat pautan e-mel (nilai yang lebih tinggi menjana e-mel dengan lebih banyak imej dengan perbelanjaan peningkatan pemberitahuan penangguhan); tetapkan kepada 0 untuk melumpuhkan imej tambahan; anda juga perlu mempunyai \"Capture Images\" yang membolehkan anda membuat kerja ini."
+msgstr "Define o intervalo de pesquisa de tempo a ser usado ao criar links de email (valores mais altos geram emails com mais imagens à custa de aumento da notificação de adiamento); defina como 0 para desativar as imagens adicionadas; você também precisa ter a opção \"Capturar imagens\" ativada para fazer isso funcionar."

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-09 16:58+0200\n"
+"POT-Creation-Date: 2020-04-13 15:20+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -951,6 +951,7 @@ msgid "Interkapto-Intervalo"
 msgstr ""
 
 #: templates/main.html:721 templates/main.html:816 templates/main.html:891
+#: templates/main.html:1013
 msgid "sekundoj"
 msgstr ""
 
@@ -1310,5 +1311,111 @@ msgstr ""
 
 #: templates/main.html:967
 msgid "Moviĝaj sciigoj"
+msgstr ""
+
+#: templates/main.html:972
+msgid "Sendi retpoŝton"
+msgstr ""
+
+#: templates/main.html:974
+msgid ""
+"Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam "
+"moviĝokazaĵo estas detektita."
+msgstr ""
+
+#: templates/main.html:977
+msgid "Retpoŝtadresoj"
+msgstr ""
+
+#: templates/main.html:979
+msgid ""
+"Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn "
+"kiam ajn moviĝokazaĵo estas detektita."
+msgstr ""
+
+#: templates/main.html:982
+msgid "Servilo SMTP"
+msgstr ""
+
+#: templates/main.html:983
+msgid "ekz. smtp.gmail.com"
+msgstr ""
+
+#: templates/main.html:984
+msgid ""
+"Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail "
+"smtp.gmail.com)."
+msgstr ""
+
+#: templates/main.html:987
+msgid "SMTP Haveno"
+msgstr ""
+
+#: templates/main.html:988
+msgid "ekz. 587"
+msgstr ""
+
+#: templates/main.html:989
+msgid ""
+"Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj "
+"kaj 587 por TLS-ligoj)."
+msgstr ""
+
+#: templates/main.html:992
+msgid "SMTP-Konto"
+msgstr ""
+
+#: templates/main.html:993
+msgid "konto@gmail.com..."
+msgstr ""
+
+#: templates/main.html:994
+msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
+msgstr ""
+
+#: templates/main.html:997
+msgid "SMTP Pasvorto"
+msgstr ""
+
+#: templates/main.html:999
+msgid ""
+"Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-"
+"specifan generitan pasvorton)."
+msgstr ""
+
+#: templates/main.html:1002
+msgid "De adreso"
+msgstr ""
+
+#: templates/main.html:1003
+msgid "retpoŝta adreso..."
+msgstr ""
+
+#: templates/main.html:1004
+msgid ""
+"Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina"
+" retpoŝta adreso estos uzata se lasita malplena)."
+msgstr ""
+
+#: templates/main.html:1007
+msgid "Uzi TLS"
+msgstr ""
+
+#: templates/main.html:1009
+msgid ""
+"Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por "
+"ebligi)."
+msgstr ""
+
+#: templates/main.html:1012
+msgid "Aldonitaj bildoj tempo-intervalo"
+msgstr ""
+
+#: templates/main.html:1014
+msgid ""
+"Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj "
+"ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de "
+"pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi"
+" ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr ""
 

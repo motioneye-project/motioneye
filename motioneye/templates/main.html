@@ -969,49 +969,49 @@
                     </div>
                     <table class="settings">
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Send An Email</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Sendi retpoŝton") }}Send An Email</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="emailNotificationsEnabledSwitch"></td>
-                            <td><span class="help-mark" title="enable this if you want to receive an email whenever a motion event is detected">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="emailNotificationsEnabled motionDetectionEnabled" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Email Addresses</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Retpoŝtadresoj") }}</span></td>
                             <td class="settings-item-value"><input type="text" autocomplete="new-password" class="styled notifications camera-config" id="emailAddressesEntry" placeholder="email addresses..."></td>
-                            <td><span class="help-mark" title="email addresses (separated by comma) that are added here will receive notifications whenever a motion event is detected">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="emailNotificationsEnabled motionDetectionEnabled" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">SMTP Server</span></td>
-                            <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="smtpServerEntry" placeholder="e.g. smtp.gmail.com"></td>
-                            <td><span class="help-mark" title="enter the hostname or IP address of your SMTP server (for Gmail use smtp.gmail.com)">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Servilo SMTP") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="smtpServerEntry" placeholder="{{ _("ekz. smtp.gmail.com") }}"></td>
+                            <td><span class="help-mark" title="{{ _("Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" min="1" max="65535" depends="emailNotificationsEnabled motionDetectionEnabled" required="true">
-                            <td class="settings-item-label"><span class="settings-item-label">SMTP Port</span></td>
-                            <td class="settings-item-value"><input type="text" class="styled number notifications camera-config" id="smtpPortEntry" placeholder="e.g. 587"></td>
-                            <td><span class="help-mark" title="enter the port used by your SMTP server (usually 465 for non-TLS connections and 587 for TLS connections)">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("SMTP Haveno") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="styled number notifications camera-config" id="smtpPortEntry" placeholder="{{ _("ekz. 587") }}"></td>
+                            <td><span class="help-mark" title="{{ _("Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">SMTP Account</span></td>
-                            <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="smtpAccountEntry" placeholder="account@gmail.com..."></td>
-                            <td><span class="help-mark" title="enter your SMTP account (normally your email address)">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("SMTP-Konto") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="smtpAccountEntry" placeholder="{{ _("konto@gmail.com...") }}"></td>
+                            <td><span class="help-mark" title="{{ _("Enigu vian SMTPan konton (kutime via retpoŝta adreso).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">SMTP Password</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("SMTP Pasvorto") }}</span></td>
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled notifications camera-config" id="smtpPasswordEntry"></td>
-                            <td><span class="help-mark" title="enter your SMTP account password (for Gmail use your Google password or an app-specific generated password)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">From Address</span></td>
-                            <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="emailFromEntry" placeholder="email address..."></td>
-                            <td><span class="help-mark" title="set a custom From address, if your SMTP service requires one (the first destination email address will be used if left blank)">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("De adreso") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="emailFromEntry" placeholder="{{ _("retpoŝta adreso...") }}"></td>
+                            <td><span class="help-mark" title="{{ _("Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Use TLS</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Uzi TLS") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="smtpTlsSwitch"></td>
-                            <td><span class="help-mark" title="enable this if your SMTP server requires TLS (Gmail needs this to be enabled)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" min="0" max="60" required="true" depends="emailNotificationsEnabled motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Attached Pictures Time Span</span></td>
-                            <td class="settings-item-value"><input type="text" class="number styled notifications camera-config" id="emailPictureTimeSpanEntry"><span class="settings-item-unit">seconds</span></td>
-                            <td><span class="help-mark" title="defines the picture search time interval to use when creating email attachments (higher values generate emails with more pictures at the cost of an increased notification delay); set to 0 to disable picture attachments; you must also enable Still Images for this to work">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Aldonitaj bildoj tempo-intervalo") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="number styled notifications camera-config" id="emailPictureTimeSpanEntry"><span class="settings-item-unit">{{ _("sekundoj") }}</span></td>
+                            <td><span class="help-mark" title="{{ _("Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>

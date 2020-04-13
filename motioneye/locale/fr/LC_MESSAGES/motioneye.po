@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-09 16:58+0200\n"
+"POT-Creation-Date: 2020-04-13 15:20+0200\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -783,7 +783,7 @@ msgstr "Activez ceci si vous souhaitez des captures d'images."
 
 #: templates/main.html:688
 msgid "Kaptitaj Bildoj"
-msgstr "Captures d'images"
+msgstr "Capture d'images"
 
 #: templates/main.html:693
 msgid "Nomo Bildo-Dosiero"
@@ -851,6 +851,7 @@ msgid "Interkapto-Intervalo"
 msgstr "Intervalle de capture"
 
 #: templates/main.html:721 templates/main.html:816 templates/main.html:891
+#: templates/main.html:1013
 msgid "sekundoj"
 msgstr "secondes"
 
@@ -1162,3 +1163,91 @@ msgstr "Activez cette option si vous souhaitez être averti lorsqu'un mouvement 
 #: templates/main.html:967
 msgid "Moviĝaj sciigoj"
 msgstr "Notifications de mouvement"
+
+#: templates/main.html:972
+msgid "Sendi retpoŝton"
+msgstr "Envoyer un e-mail"
+
+#: templates/main.html:974
+msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "Activez cette option si vous souhaitez recevoir un e-mail chaque fois qu'un mouvement est détecté."
+
+#: templates/main.html:977
+msgid "Retpoŝtadresoj"
+msgstr "Adresses e-mail"
+
+#: templates/main.html:979
+msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
+msgstr "Les adresses e-mail (séparées par des virgules) ajoutées ici recevront des notifications chaque fois qu'un mouvement est détecté."
+
+#: templates/main.html:982
+msgid "Servilo SMTP"
+msgstr "Serveur SMTP"
+
+#: templates/main.html:983
+msgid "ekz. smtp.gmail.com"
+msgstr "ex. smtp.gmail.com"
+
+#: templates/main.html:984
+msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
+msgstr "Saisissez le nom d'hôte ou l'adresse IP de votre serveur SMTP (pour utiliser Gmail : smtp.gmail.com)."
+
+#: templates/main.html:987
+msgid "SMTP Haveno"
+msgstr "Port SMTP"
+
+#: templates/main.html:988
+msgid "ekz. 587"
+msgstr "ex. 587"
+
+#: templates/main.html:989
+msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
+msgstr "Entrez le port utilisé par votre serveur SMTP (généralement 465 pour les connexions non TLS et 587 pour les connexions TLS)."
+
+#: templates/main.html:992
+msgid "SMTP-Konto"
+msgstr "compte SMTP"
+
+#: templates/main.html:993
+msgid "konto@gmail.com..."
+msgstr "compte@gmail.com ..."
+
+#: templates/main.html:994
+msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
+msgstr "Saisissez votre compte SMTP (généralement votre adresse e-mail)."
+
+#: templates/main.html:997
+msgid "SMTP Pasvorto"
+msgstr "Mot de passe SMTP"
+
+#: templates/main.html:999
+msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
+msgstr "Saisissez votre mot de passe SMTP (pour Gmail, utilisez votre mot de passe Google ou un mot de passe généré par l'application)."
+
+#: templates/main.html:1002
+msgid "De adreso"
+msgstr "Adresse «de:»"
+
+#: templates/main.html:1003
+msgid "retpoŝta adreso..."
+msgstr "adresse e-mail ..."
+
+#: templates/main.html:1004
+msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
+msgstr "Définissez l'adresse d'expéditeur personnalisée si votre service SMTP en requiert une (la première adresse e-mail de destination sera utilisée si elle est laissée vierge)."
+
+#: templates/main.html:1007
+msgid "Uzi TLS"
+msgstr "Utiliser TLS"
+
+#: templates/main.html:1009
+msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
+msgstr "Activez cette option si votre serveur SMTP nécessite TLS (Gmail requiert que cela soit activé)."
+
+#: templates/main.html:1012
+msgid "Aldonitaj bildoj tempo-intervalo"
+msgstr "Intervalle de temps des images jointes"
+
+#: templates/main.html:1014
+msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgstr "Définit l'intervalle de recherche de temps à utiliser lors de la création des pièces jointes (des valeurs plus élevées génèrent des e-mails avec plus d'images au détriment d'un délai de notification accru); mettre à 0 pour désactiver les images jointes; vous devez également activer «Capture d'images» pour que cela fonctionne."

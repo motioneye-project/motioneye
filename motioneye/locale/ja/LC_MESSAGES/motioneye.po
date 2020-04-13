@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-09 16:58+0200\n"
+"POT-Creation-Date: 2020-04-13 15:20+0200\n"
 "PO-Revision-Date: 2020-04-08 17:45+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1054,6 +1054,7 @@ msgid "Interkapto-Intervalo"
 msgstr "遮断間隔"
 
 #: templates/main.html:721 templates/main.html:816 templates/main.html:891
+#: templates/main.html:1013
 #, fuzzy
 msgid "sekundoj"
 msgstr "秒"
@@ -1442,3 +1443,113 @@ msgstr "動きが検出されたときに通知を受ける場合は、これを
 #, fuzzy
 msgid "Moviĝaj sciigoj"
 msgstr "モーション通知"
+
+#: templates/main.html:972
+#, fuzzy
+msgid "Sendi retpoŝton"
+msgstr "メールを送る"
+
+#: templates/main.html:974
+#, fuzzy
+msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "モーションインシデントが検出されるたびにメールを受信する場合は、このオプションを有効にします。"
+
+#: templates/main.html:977
+#, fuzzy
+msgid "Retpoŝtadresoj"
+msgstr "メールアドレス"
+
+#: templates/main.html:979
+#, fuzzy
+msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
+msgstr "ここに追加された（コンマで区切られた）電子メールアドレスは、モーションインシデントが検出されるたびに通知を受信します。"
+
+#: templates/main.html:982
+#, fuzzy
+msgid "Servilo SMTP"
+msgstr "SMTPサーバー"
+
+#: templates/main.html:983
+#, fuzzy
+msgid "ekz. smtp.gmail.com"
+msgstr "例smtp.gmail.com"
+
+#: templates/main.html:984
+#, fuzzy
+msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
+msgstr "SMTPサーバーのホスト名またはIPアドレスを入力します（Gmail smtp.gmail.comを使用する場合）。"
+
+#: templates/main.html:987
+#, fuzzy
+msgid "SMTP Haveno"
+msgstr "SMTPポート"
+
+#: templates/main.html:988
+#, fuzzy
+msgid "ekz. 587"
+msgstr "例587"
+
+#: templates/main.html:989
+#, fuzzy
+msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
+msgstr "SMTPサーバーが使用するポートを入力します（通常、非TLS接続の場合は465、TLS接続の場合は587）。"
+
+#: templates/main.html:992
+#, fuzzy
+msgid "SMTP-Konto"
+msgstr "SMTPアカウント"
+
+#: templates/main.html:993
+#, fuzzy
+msgid "konto@gmail.com..."
+msgstr "account@gmail.com ..."
+
+#: templates/main.html:994
+#, fuzzy
+msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
+msgstr "SMTPアカウント（通常はメールアドレス）を入力します。"
+
+#: templates/main.html:997
+#, fuzzy
+msgid "SMTP Pasvorto"
+msgstr "SMTPパスワード"
+
+#: templates/main.html:999
+#, fuzzy
+msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
+msgstr "SMTPパスワードを入力します（Gmailの場合はGoogleパスワードまたはアプリが生成したパスワードを使用します）。"
+
+#: templates/main.html:1002
+#, fuzzy
+msgid "De adreso"
+msgstr "差出人アドレス"
+
+#: templates/main.html:1003
+#, fuzzy
+msgid "retpoŝta adreso..."
+msgstr "メールアドレス..."
+
+#: templates/main.html:1004
+#, fuzzy
+msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
+msgstr "SMTPサービスで必要な場合は、カスタムの差出人アドレスを設定します（空白のままにすると、最初の宛先メールアドレスが使用されます）。"
+
+#: templates/main.html:1007
+#, fuzzy
+msgid "Uzi TLS"
+msgstr "TLSを使用する"
+
+#: templates/main.html:1009
+#, fuzzy
+msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
+msgstr "SMTPサーバーがTLSを必要とする場合は、これを有効にします（Gmailではこれを有効にする必要があります）。"
+
+#: templates/main.html:1012
+#, fuzzy
+msgid "Aldonitaj bildoj tempo-intervalo"
+msgstr "写真の時間間隔を追加"
+
+#: templates/main.html:1014
+#, fuzzy
+msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgstr "電子メールリンクを作成するときに使用する時間検索間隔を定義します（値が大きいほど、延期通知の増加を犠牲にしてより多くの画像を含む電子メールを生成します）;追加した画像を無効にするには、0に設定します。これを機能させるには、「画像のキャプチャ」を有効にする必要もあります。"

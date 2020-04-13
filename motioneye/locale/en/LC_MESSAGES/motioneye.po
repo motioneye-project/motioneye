@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-09 16:58+0200\n"
+"POT-Creation-Date: 2020-04-13 15:20+0200\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -852,6 +852,7 @@ msgid "Interkapto-Intervalo"
 msgstr "Snapshot Interval"
 
 #: templates/main.html:721 templates/main.html:816 templates/main.html:891
+#: templates/main.html:1013
 msgid "sekundoj"
 msgstr "seconds"
 
@@ -1163,3 +1164,91 @@ msgstr "enable this if you want to be notified when motion is detected"
 #: templates/main.html:967
 msgid "Moviĝaj sciigoj"
 msgstr "Motion Notifications"
+
+#: templates/main.html:972
+msgid "Sendi retpoŝton"
+msgstr "Send An Email"
+
+#: templates/main.html:974
+msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "enable this if you want to receive an email whenever a motion event is detected"
+
+#: templates/main.html:977
+msgid "Retpoŝtadresoj"
+msgstr "Email Addresses"
+
+#: templates/main.html:979
+msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
+msgstr "email addresses (separated by comma) that are added here will receive notifications whenever a motion event is detected"
+
+#: templates/main.html:982
+msgid "Servilo SMTP"
+msgstr "SMTP Server"
+
+#: templates/main.html:983
+msgid "ekz. smtp.gmail.com"
+msgstr "e.g. smtp.gmail.com"
+
+#: templates/main.html:984
+msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
+msgstr "enter the hostname or IP address of your SMTP server (for Gmail use smtp.gmail.com)"
+
+#: templates/main.html:987
+msgid "SMTP Haveno"
+msgstr "SMTP Port"
+
+#: templates/main.html:988
+msgid "ekz. 587"
+msgstr "e.g. 587"
+
+#: templates/main.html:989
+msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
+msgstr "enter the port used by your SMTP server (usually 465 for non-TLS connections and 587 for TLS connections)"
+
+#: templates/main.html:992
+msgid "SMTP-Konto"
+msgstr "SMTP Account"
+
+#: templates/main.html:993
+msgid "konto@gmail.com..."
+msgstr "account@gmail.com ..."
+
+#: templates/main.html:994
+msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
+msgstr "enter your SMTP account (normally your email address)"
+
+#: templates/main.html:997
+msgid "SMTP Pasvorto"
+msgstr "SMTP Password"
+
+#: templates/main.html:999
+msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
+msgstr "enter your SMTP account password (for Gmail use your Google password or an app-specific generated password)"
+
+#: templates/main.html:1002
+msgid "De adreso"
+msgstr "From Address"
+
+#: templates/main.html:1003
+msgid "retpoŝta adreso..."
+msgstr "email address ..."
+
+#: templates/main.html:1004
+msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
+msgstr "set a custom From address, if your SMTP service requires one (the first destination email address will be used if left blank)"
+
+#: templates/main.html:1007
+msgid "Uzi TLS"
+msgstr "Use TLS"
+
+#: templates/main.html:1009
+msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
+msgstr "enable this if your SMTP server requires TLS (Gmail needs this to be enabled)"
+
+#: templates/main.html:1012
+msgid "Aldonitaj bildoj tempo-intervalo"
+msgstr "Attached Pictures Time Span"
+
+#: templates/main.html:1014
+msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgstr "defines the picture search time interval to use when creating email attachments (higher values generate emails with more pictures at the cost of an increased notification delay); set to 0 to disable picture attachments; you must also enable Still Images for this to work"

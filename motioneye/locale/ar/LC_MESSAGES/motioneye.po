@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-09 16:58+0200\n"
+"POT-Creation-Date: 2020-04-13 15:20+0200\n"
 "PO-Revision-Date: 2020-03-25 16:20+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1053,6 +1053,7 @@ msgid "Interkapto-Intervalo"
 msgstr "فاصل الاعتراض"
 
 #: templates/main.html:721 templates/main.html:816 templates/main.html:891
+#: templates/main.html:1013
 #, fuzzy
 msgid "sekundoj"
 msgstr "ثواني"
@@ -1441,6 +1442,116 @@ msgstr "قم بتمكين هذا إذا كنت تريد أن يتم إعلامك
 #, fuzzy
 msgid "Moviĝaj sciigoj"
 msgstr "إخطارات الحركة"
+
+#: templates/main.html:972
+#, fuzzy
+msgid "Sendi retpoŝton"
+msgstr "إرسال بريد إلكتروني"
+
+#: templates/main.html:974
+#, fuzzy
+msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "قم بتنشيط هذا الخيار إذا كنت ترغب في تلقي بريد إلكتروني في كل مرة يتم فيها الكشف عن حادث حركة."
+
+#: templates/main.html:977
+#, fuzzy
+msgid "Retpoŝtadresoj"
+msgstr "عناوين البريد الإلكتروني"
+
+#: templates/main.html:979
+#, fuzzy
+msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
+msgstr "عناوين البريد الإلكتروني (مفصولة بفواصل) المضافة هنا ستتلقى إشعارات كلما تم اكتشاف حادثة حركة."
+
+#: templates/main.html:982
+#, fuzzy
+msgid "Servilo SMTP"
+msgstr "خادم SMTP"
+
+#: templates/main.html:983
+#, fuzzy
+msgid "ekz. smtp.gmail.com"
+msgstr "على سبيل المثال smtp.gmail.com"
+
+#: templates/main.html:984
+#, fuzzy
+msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
+msgstr "أدخل اسم المضيف أو عنوان IP لخادم SMTP (لاستخدام Gmail smtp.gmail.com)."
+
+#: templates/main.html:987
+#, fuzzy
+msgid "SMTP Haveno"
+msgstr "منفذ SMTP"
+
+#: templates/main.html:988
+#, fuzzy
+msgid "ekz. 587"
+msgstr "على سبيل المثال 587"
+
+#: templates/main.html:989
+#, fuzzy
+msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
+msgstr "أدخل المنفذ الذي يستخدمه خادم SMTP (عادةً 465 لاتصالات غير TLS و 587 لاتصالات TLS)."
+
+#: templates/main.html:992
+#, fuzzy
+msgid "SMTP-Konto"
+msgstr "حساب SMTP"
+
+#: templates/main.html:993
+#, fuzzy
+msgid "konto@gmail.com..."
+msgstr "account@gmail.com ..."
+
+#: templates/main.html:994
+#, fuzzy
+msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
+msgstr "أدخل حساب SMTP الخاص بك (عادة عنوان بريدك الإلكتروني)."
+
+#: templates/main.html:997
+#, fuzzy
+msgid "SMTP Pasvorto"
+msgstr "كلمة مرور SMTP"
+
+#: templates/main.html:999
+#, fuzzy
+msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
+msgstr "أدخل كلمة مرور SMTP (بالنسبة إلى Gmail ، استخدم كلمة مرور Google أو كلمة مرور تم إنشاؤها من قبل التطبيق)."
+
+#: templates/main.html:1002
+#, fuzzy
+msgid "De adreso"
+msgstr "من العنوان"
+
+#: templates/main.html:1003
+#, fuzzy
+msgid "retpoŝta adreso..."
+msgstr "عنوان البريد الإلكتروني ..."
+
+#: templates/main.html:1004
+#, fuzzy
+msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
+msgstr ""
+
+#: templates/main.html:1007
+#, fuzzy
+msgid "Uzi TLS"
+msgstr "استخدم TLS"
+
+#: templates/main.html:1009
+#, fuzzy
+msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
+msgstr "قم بتمكين هذا إذا كان خادم SMTP يتطلب TLS (يتطلب Gmail تمكين هذا)."
+
+#: templates/main.html:1012
+#, fuzzy
+msgid "Aldonitaj bildoj tempo-intervalo"
+msgstr "تمت إضافة الفاصل الزمني للصور"
+
+#: templates/main.html:1014
+#, fuzzy
+msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgstr "يحدد الفترة الزمنية للبحث لاستخدامها عند إنشاء روابط البريد الإلكتروني (القيم الأعلى تولد رسائل البريد الإلكتروني مع المزيد من الصور على حساب زيادة إشعار التأجيل) ؛ تعيين إلى 0 لتعطيل الصور المضافة ؛ تحتاج أيضًا إلى تمكين \"التقاط الصور\" لجعل هذا العمل."
 
 #, fuzzy
 #~ msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro nombro,%%v = nombro de evento, / = subdosierujo."
