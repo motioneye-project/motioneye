@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-13 15:20+0200\n"
+"POT-Creation-Date: 2020-04-14 23:21+0200\n"
 "PO-Revision-Date: 2020-03-25 16:20+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -727,7 +727,7 @@ msgstr "استدعاء URL"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "قم بتمكين هذا إذا كنت تريد طلب عنوان URL بعد إنشاء ملف وسائط"
 
-#: templates/main.html:514
+#: templates/main.html:514 templates/main.html:1030
 #, fuzzy
 msgid "Reteja URL"
 msgstr "URL الموقع"
@@ -742,7 +742,7 @@ msgstr "على سبيل المثال http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "عنوان URL للإرسال عند اكتشاف الحركة ؛ يتم قبول الاختصارات الخاصة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = day، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number، ٪٪ v = رقم الحدث ، ٪٪ f = مسار الملف"
 
-#: templates/main.html:519
+#: templates/main.html:519 templates/main.html:1035
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "طريقة HTTP"
@@ -1289,9 +1289,9 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "كشف تغيرات الضوء"
 
 #: templates/main.html:879
-#, fuzzy
-msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-msgstr "يحدد النسبة المئوية للصورة التي يجب تغييرها حتى يتم التعامل مع الحدث على أنه تغيير ضوء مفاجئ بدلاً من الحركة (0٪ يعطل الميزة)."
+#, fuzzy, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "يحدد النسبة المئوية للصورة التي يجب تغييرها حتى يتم التعامل مع الحدث على أنه تغيير ضوء مفاجئ بدلاً من الحركة (يعطل 0 ٪٪ الميزة)."
 
 #: templates/main.html:882
 #, fuzzy
@@ -1531,7 +1531,7 @@ msgstr "عنوان البريد الإلكتروني ..."
 #: templates/main.html:1004
 #, fuzzy
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
-msgstr ""
+msgstr "تعيين عنوان \"من:\" مخصص إذا كانت خدمة SMTP تتطلب عنوانًا (سيتم استخدام أول عنوان بريد إلكتروني مقصود إذا ترك فارغًا)."
 
 #: templates/main.html:1007
 #, fuzzy
@@ -1552,6 +1552,90 @@ msgstr "تمت إضافة الفاصل الزمني للصور"
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "يحدد الفترة الزمنية للبحث لاستخدامها عند إنشاء روابط البريد الإلكتروني (القيم الأعلى تولد رسائل البريد الإلكتروني مع المزيد من الصور على حساب زيادة إشعار التأجيل) ؛ تعيين إلى 0 لتعطيل الصور المضافة ؛ تحتاج أيضًا إلى تمكين \"التقاط الصور\" لجعل هذا العمل."
+
+#: templates/main.html:1018
+#, fuzzy
+msgid "Testi retpoŝto"
+msgstr "اختبار البريد الإلكتروني"
+
+#: templates/main.html:1019
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "انقر فوق هذا الزر لاختبار إشعارات البريد الإلكتروني بعد ملء التفاصيل المطلوبة."
+
+#: templates/main.html:1025
+#, fuzzy
+msgid "Alvoki URL"
+msgstr "استدعاء URL"
+
+#: templates/main.html:1031
+#, fuzzy
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "على سبيل المثال http://example.com/search/"
+
+#: templates/main.html:1032
+#, fuzzy, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "عنوان URL المطلوب عند الكشف عن الحركة ؛ يتم قبول الاختصارات الخاصة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = day، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number ، ٪٪ v = رقم الحدث"
+
+#: templates/main.html:1044
+#, fuzzy
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "طريقة HTTP المستخدمة عند طلب عنوان URL (سيتم تسليم معلمات عنوان URL المحددة كما هو موضح هنا)."
+
+#: templates/main.html:1050
+#, fuzzy
+msgid "Lanĉi komando"
+msgstr "قم بتشغيل أمر"
+
+#: templates/main.html:1052
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "قم بتمكين هذا إذا كنت تريد تشغيل أمر في كل مرة يتم فيها اكتشاف حدث الحركة."
+
+#: templates/main.html:1055 templates/main.html:1068
+#, fuzzy
+msgid "Komando"
+msgstr "أمر"
+
+#: templates/main.html:1056 templates/main.html:1069
+#, fuzzy
+msgid "komando..."
+msgstr "أمر ..."
+
+#: templates/main.html:1057
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "الأمر الذي سيبدأ عندما يتم الكشف عن الحركة ؛ يمكن فصل أوامر متعددة بنقطتين ؛ لا تستخدم الفواصل المنقوطة مع الأوامر ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = day، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number ، ٪٪ v = رقم الحدث"
+
+#: templates/main.html:1063
+#, fuzzy
+msgid "Lanĉi fina komando"
+msgstr "إطلاق الأمر النهائي"
+
+#: templates/main.html:1065
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "قم بتمكين هذا إذا كنت تريد تشغيل أمر في كل مرة ينتهي فيها حدث نقل."
+
+#: templates/main.html:1070
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "يتم إطلاق الأمر عند انتهاء حدث الحركة ؛ يمكن فصل أوامر متعددة بنقطتين ؛ لا تستخدم نقاط كومز مع الأوامر ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = date، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number."
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+#~ msgstr "الأمر الذي سيبدأ عندما يتم الكشف عن الحركة ؛ يمكن فصل أوامر متعددة بفاصلة منقوطة ؛ لا تستخدم الفواصل المنقوطة مع الأوامر ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = day، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number ، ٪٪ v = رقم الحدث"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
+#~ msgstr "يتم إطلاق الأمر عند انتهاء حدث الحركة ؛ يمكن فصل أوامر متعددة بفاصلة منقوطة ؛ لا تستخدم نقاط كومز مع الأوامر ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = date، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number."
+
+#, fuzzy
+#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
+#~ msgstr "يحدد النسبة المئوية للصورة التي يجب تغييرها حتى يتم التعامل مع الحدث على أنه تغيير ضوء مفاجئ بدلاً من الحركة (0٪ يعطل الميزة)."
 
 #, fuzzy
 #~ msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro nombro,%%v = nombro de evento, / = subdosierujo."

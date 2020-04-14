@@ -876,7 +876,7 @@
                         <tr class="settings-item" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Detekto de lumaj ŝanĝoj") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="lightSwitchDetectSlider"></td>
-                            <td><span class="help-mark" title="{{ _("Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion).") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Makula filtrilo") }}</span></td>
@@ -1015,24 +1015,24 @@
                         </tr>
                         <tr class="settings-item" depends="emailNotificationsEnabled motionDetectionEnabled">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
-                            <td class="settings-item-value"><div class="button normal-button test-button" id="emailTestButton">Test Email</div></td>
-                            <td><span class="help-mark" title="click this button to test email notifications after you have filled in the required details">?</span></td>
+                            <td class="settings-item-value"><div class="button normal-button test-button" id="emailTestButton">{{ _("Testi retpoŝto") }}</div></td>
+                            <td><span class="help-mark" title="{{ _("Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Call A Web Hook</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Alvoki URL") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="webHookNotificationsEnabledSwitch"></td>
-                            <td><span class="help-mark" title="enable this if you want a URL to be requested whenever a motion event is detected">?</span></td>
+                            <td><span class="help-mark" title="Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="webHookNotificationsEnabled motionDetectionEnabled" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Web Hook URL</span></td>
-                            <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="webHookNotificationsUrlEntry" placeholder="e.g. http://example.com/notify/"></td>
-                            <td><span class="help-mark" title="a URL to be requested when motion is detected; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Reteja URL") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="webHookNotificationsUrlEntry" placeholder="{{ _("ekz. http://ekzemplo.com/sciigi/") }}"></td>
+                            <td><span class="help-mark" title="{{ _("URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="webHookNotificationsEnabled motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">HTTP Method</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Metodo HTTP") }}</span></td>
                             <td class="settings-item-value">
                                 <select class="styled notifications camera-config" id="webHookNotificationsHttpMethodSelect">
                                     <option value="GET">GET</option>
@@ -1041,33 +1041,33 @@
                                     <option value="POSTj">POST (json)</option>
                                 </select>
                             </td>
-                            <td><span class="help-mark" title="the HTTP method to use when requesting the web hook URL (the given URL-encoded parameters will in fact be transmitted as indicated here)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Run A Command</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Lanĉi komando") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="commandNotificationsEnabledSwitch"></td>
-                            <td><span class="help-mark" title="enable this if you want to execute a command whenever a motion event is detected">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="commandNotificationsEnabled motionDetectionEnabled" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
-                            <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandNotificationsEntry" placeholder="command..."></td>
-                            <td><span class="help-mark" title="a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Komando") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandNotificationsEntry" placeholder="{{ _("komando...") }}"></td>
+                            <td><span class="help-mark" title="{{ _("Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Run An End Command</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Lanĉi fina komando") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="commandEndNotificationsEnabledSwitch"></td>
-                            <td><span class="help-mark" title="enable this if you want to execute a command whenever a motion event ends">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="commandEndNotificationsEnabled motionDetectionEnabled" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Command</span></td>
-                            <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandEndNotificationsEntry" placeholder="command..."></td>
-                            <td><span class="help-mark" title="a command to be executed when motion event ends; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %Y = year, %m = month, %d = date, %H = hour, %M = minute, %S = second, %q = frame number">?</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Komando") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandEndNotificationsEntry" placeholder="{{ _("komando...") }}"></td>
+                            <td><span class="help-mark" title="{{ _("Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro.") }}">?</span></td>
                         </tr>
                         {% for config in camera_sections.get('notifications', {}).get('configs', []) %}
                             {{config_item(config, "motionDetectionEnabled")}}

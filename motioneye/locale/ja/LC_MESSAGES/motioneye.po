@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-13 15:20+0200\n"
+"POT-Creation-Date: 2020-04-14 23:21+0200\n"
 "PO-Revision-Date: 2020-04-08 17:45+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -728,7 +728,7 @@ msgstr "URLを呼び出す"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "メディアファイルの作成後にURLを要求する場合は、これを有効にします"
 
-#: templates/main.html:514
+#: templates/main.html:514 templates/main.html:1030
 #, fuzzy
 msgid "Reteja URL"
 msgstr "ウェブサイトURL"
@@ -743,7 +743,7 @@ msgstr "例http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "動きが検出されたときに送信するURL。次の特別なショートカットを使用できます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、 %% v =イベント番号、%% f =ファイルパス"
 
-#: templates/main.html:519
+#: templates/main.html:519 templates/main.html:1035
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "HTTPメソッド"
@@ -1290,9 +1290,9 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "光の変化の検出"
 
 #: templates/main.html:879
-#, fuzzy
-msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-msgstr "変更する必要がある画像のパーセンテージを定義して、イベントがモーションではなく突然の軽い変化として扱われるようにします（0％は機能を無効にします）。"
+#, fuzzy, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "変更する必要がある画像のパーセンテージを定義して、イベントが動きではなく突然の軽い変化として扱われるようにします（0 %%で機能が無効になります）。"
 
 #: templates/main.html:882
 #, fuzzy
@@ -1553,3 +1553,87 @@ msgstr "写真の時間間隔を追加"
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "電子メールリンクを作成するときに使用する時間検索間隔を定義します（値が大きいほど、延期通知の増加を犠牲にしてより多くの画像を含む電子メールを生成します）;追加した画像を無効にするには、0に設定します。これを機能させるには、「画像のキャプチャ」を有効にする必要もあります。"
+
+#: templates/main.html:1018
+#, fuzzy
+msgid "Testi retpoŝto"
+msgstr "メールをテストする"
+
+#: templates/main.html:1019
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "必要な詳細を入力した後、このボタンをクリックして電子メール通知をテストします。"
+
+#: templates/main.html:1025
+#, fuzzy
+msgid "Alvoki URL"
+msgstr "URLを呼び出す"
+
+#: templates/main.html:1031
+#, fuzzy
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "例http://example.com/search/"
+
+#: templates/main.html:1032
+#, fuzzy, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "動きが検出されたときに要求されるURL。次の特別なショートカットを使用できます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、%% v =イベント番号"
+
+#: templates/main.html:1044
+#, fuzzy
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "URLを要求するときに使用するHTTPメソッド（指定されたURLパラメーターは、ここに示されているように配信されます）。"
+
+#: templates/main.html:1050
+#, fuzzy
+msgid "Lanĉi komando"
+msgstr "コマンドを起動する"
+
+#: templates/main.html:1052
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "モーションイベントが検出されるたびにコマンドを実行する場合は、これを有効にします。"
+
+#: templates/main.html:1055 templates/main.html:1068
+#, fuzzy
+msgid "Komando"
+msgstr "コマンド"
+
+#: templates/main.html:1056 templates/main.html:1069
+#, fuzzy
+msgid "komando..."
+msgstr "コマンド..."
+
+#: templates/main.html:1057
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "動きが検出されたときに起動するコマンド。複数のコマンドはコロンで区切ることができます。コマンドでセミコロンを使用しないでください。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、%% v =イベント番号"
+
+#: templates/main.html:1063
+#, fuzzy
+msgid "Lanĉi fina komando"
+msgstr "最終コマンドを起動"
+
+#: templates/main.html:1065
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "moveイベントが終了するたびにコマンドを起動する場合は、これを有効にします。"
+
+#: templates/main.html:1070
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "モーションイベントの終了時に起動するコマンド。複数のコマンドはコロンで区切ることができます。コマンドでドットコムを使用しないでください。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日付、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号。"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+#~ msgstr "動きが検出されたときに起動するコマンド。複数のコマンドはセミコロンで区切ることができます。コマンドでセミコロンを使用しないでください。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、%% v =イベント番号"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
+#~ msgstr "モーションイベントの終了時に起動するコマンド。複数のコマンドはセミコロンで区切ることができます。コマンドでドットコムを使用しないでください。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日付、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号。"
+
+#, fuzzy
+#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
+#~ msgstr "変更する必要がある画像のパーセンテージを定義して、イベントがモーションではなく突然の軽い変化として扱われるようにします（0％は機能を無効にします）。"

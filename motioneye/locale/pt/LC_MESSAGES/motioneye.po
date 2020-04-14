@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-13 15:20+0200\n"
+"POT-Creation-Date: 2020-04-14 23:21+0200\n"
 "PO-Revision-Date: 2020-04-09 16:58+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -728,7 +728,7 @@ msgstr "invocar um URL"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "ative isso se desejar que uma URL seja solicitada após a criação de um arquivo de mídia"
 
-#: templates/main.html:514
+#: templates/main.html:514 templates/main.html:1030
 #, fuzzy
 msgid "Reteja URL"
 msgstr "URL do site"
@@ -743,7 +743,7 @@ msgstr "p. ex. http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL a transmitir quando movimento é detectado; os seguintes atalhos especiais são aceitos: %% Y = ano, %% m = mês, %% d = dia, %% H = hora, %% M = minuto, %% S = segundo, %% q = número do quadro, %% v = número do evento, %% f = caminho do arquivo"
 
-#: templates/main.html:519
+#: templates/main.html:519 templates/main.html:1035
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "Método HTTP"
@@ -1290,9 +1290,9 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Detecção de mudanças de luz"
 
 #: templates/main.html:879
-#, fuzzy
-msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-msgstr "Define a porcentagem da imagem que precisa ser alterada para que o evento seja tratado como uma mudança repentina de luz em vez de movimento (0% desativa o recurso)."
+#, fuzzy, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "Define a porcentagem da imagem que precisa ser alterada para que o evento seja tratado como uma mudança repentina de luz em vez de movimento (0 %% desativa o recurso)."
 
 #: templates/main.html:882
 #, fuzzy
@@ -1553,3 +1553,87 @@ msgstr "Intervalo de tempo das imagens adicionadas"
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "Define o intervalo de pesquisa de tempo a ser usado ao criar links de email (valores mais altos geram emails com mais imagens à custa de aumento da notificação de adiamento); defina como 0 para desativar as imagens adicionadas; você também precisa ter a opção \"Capturar imagens\" ativada para fazer isso funcionar."
+
+#: templates/main.html:1018
+#, fuzzy
+msgid "Testi retpoŝto"
+msgstr "E-mail de teste"
+
+#: templates/main.html:1019
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "Clique neste botão para testar as notificações por email depois de preencher os detalhes necessários."
+
+#: templates/main.html:1025
+#, fuzzy
+msgid "Alvoki URL"
+msgstr "Invocar URL"
+
+#: templates/main.html:1031
+#, fuzzy
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "p. ex. http://example.com/search/"
+
+#: templates/main.html:1032
+#, fuzzy, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "URL a ser solicitada quando movimento é detectado; os seguintes atalhos especiais são aceitos: %% Y = ano, %% m = mês, %% d = dia, %% H = hora, %% M = minuto, %% S = segundo, %% q = número do quadro , %% v = número do evento"
+
+#: templates/main.html:1044
+#, fuzzy
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "O método HTTP a ser usado ao solicitar uma URL (os parâmetros de URL fornecidos serão entregues conforme indicado aqui)."
+
+#: templates/main.html:1050
+#, fuzzy
+msgid "Lanĉi komando"
+msgstr "Lançar um comando"
+
+#: templates/main.html:1052
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "Habilite isso se desejar executar um comando sempre que um evento de movimento for detectado."
+
+#: templates/main.html:1055 templates/main.html:1068
+#, fuzzy
+msgid "Komando"
+msgstr "Comando"
+
+#: templates/main.html:1056 templates/main.html:1069
+#, fuzzy
+msgid "komando..."
+msgstr "comando ..."
+
+#: templates/main.html:1057
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "Comando a ser lançado quando movimento for detectado; vários comandos podem ser separados por dois pontos; não use ponto e vírgula com comandos; os seguintes tokens especiais são aceitos: %% Y = ano, %% m = mês, %% d = dia, %% H = hora, %% M = minuto, %% S = segundo, %% q = número do quadro , %% v = número do evento"
+
+#: templates/main.html:1063
+#, fuzzy
+msgid "Lanĉi fina komando"
+msgstr "Iniciar comando final"
+
+#: templates/main.html:1065
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "Habilite isso se desejar iniciar um comando toda vez que um evento de movimentação terminar."
+
+#: templates/main.html:1070
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "Comando a ser lançado quando o evento de movimento terminar; vários comandos podem ser separados por dois pontos; não use pontocom com comandos; os seguintes tokens especiais são aceitos: %% Y = ano, %% m = mês, %% d = data, %% H = hora, %% M = minuto, %% S = segundo, %% q = número do quadro."
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+#~ msgstr "Comando a ser lançado quando movimento for detectado; vários comandos podem ser separados por ponto e vírgula; não use ponto e vírgula com comandos; os seguintes tokens especiais são aceitos: %% Y = ano, %% m = mês, %% d = dia, %% H = hora, %% M = minuto, %% S = segundo, %% q = número do quadro , %% v = número do evento"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
+#~ msgstr "Comando a ser lançado quando o evento de movimento terminar; vários comandos podem ser separados por ponto e vírgula; não use pontocom com comandos; os seguintes tokens especiais são aceitos: %% Y = ano, %% m = mês, %% d = data, %% H = hora, %% M = minuto, %% S = segundo, %% q = número do quadro."
+
+#, fuzzy
+#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
+#~ msgstr "Define a porcentagem da imagem que precisa ser alterada para que o evento seja tratado como uma mudança repentina de luz em vez de movimento (0% desativa o recurso)."

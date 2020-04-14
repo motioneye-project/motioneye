@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-13 15:20+0200\n"
+"POT-Creation-Date: 2020-04-14 23:21+0200\n"
 "PO-Revision-Date: 2020-04-02 18:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -727,7 +727,7 @@ msgstr "একটি ইউআরএল প্রার্থনা করুন
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "আপনি যদি মিডিয়া ফাইল তৈরির পরে কোনও URL অনুরোধ করতে চান তবে এটি সক্ষম করুন"
 
-#: templates/main.html:514
+#: templates/main.html:514 templates/main.html:1030
 #, fuzzy
 msgid "Reteja URL"
 msgstr "ওয়েবসাইট ইউআরএল"
@@ -742,7 +742,7 @@ msgstr "যেমন। http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "গতি সনাক্ত হওয়ার পরে প্রেরণে ইউআরএল; নিম্নলিখিত বিশেষ শর্টকাটগুলি গ্রহণ করা হয়েছে: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = = ফ্রেম নম্বর, %% v = ইভেন্ট সংখ্যা, %% f = ফাইলের পথ"
 
-#: templates/main.html:519
+#: templates/main.html:519 templates/main.html:1035
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "এইচটিটিপি পদ্ধতি"
@@ -1289,9 +1289,9 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "আলোক পরিবর্তনের সনাক্তকরণ"
 
 #: templates/main.html:879
-#, fuzzy
-msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-msgstr "যে চিত্রটি পরিবর্তন করা দরকার তার শতাংশ নির্ধারণ করে যাতে ইভেন্টটি গতির পরিবর্তে আকস্মিক আলো পরিবর্তনের হিসাবে বিবেচিত হয় (0% বৈশিষ্ট্যটি অক্ষম করে)।"
+#, fuzzy, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "যে চিত্রটি পরিবর্তন করা দরকার তার শতাংশ নির্ধারণ করে যাতে ইভেন্টটিকে গতির চেয়ে আকস্মিক আলো পরিবর্তনের হিসাবে বিবেচনা করা হয় (0%% বৈশিষ্ট্যটি অক্ষম করে)।"
 
 #: templates/main.html:882
 #, fuzzy
@@ -1552,3 +1552,87 @@ msgstr "ছবি সময় ব্যবধান যুক্ত"
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "ইমেল লিঙ্কগুলি তৈরি করার সময় ব্যবহারের জন্য সময় অনুসন্ধান ব্যবধানটি সংজ্ঞায়িত করে (উচ্চতর মানগুলি বর্ধিত স্থগিতকরণ বিজ্ঞপ্তির ব্যয়ে আরও চিত্র সহ ইমেল উত্পন্ন করে); যুক্ত চিত্রগুলি অক্ষম করতে 0 তে সেট করুন; এই কাজটি করার জন্য আপনার \"ক্যাপচার চিত্রগুলি\" সক্ষম হওয়াও দরকার।"
+
+#: templates/main.html:1018
+#, fuzzy
+msgid "Testi retpoŝto"
+msgstr "পরীক্ষা ইমেল"
+
+#: templates/main.html:1019
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "আপনি প্রয়োজনীয় বিশদ পূরণ করার পরে ইমেল বিজ্ঞপ্তিগুলি পরীক্ষা করতে এই বোতামটিতে ক্লিক করুন।"
+
+#: templates/main.html:1025
+#, fuzzy
+msgid "Alvoki URL"
+msgstr "ইউআরএল চালু করুন"
+
+#: templates/main.html:1031
+#, fuzzy
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "যেমন। http://ekzemplo.com/sciigi/"
+
+#: templates/main.html:1032
+#, fuzzy, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "মোশনটি সনাক্ত হওয়ার পরে ইউআরএল অনুরোধ করা হবে; নিম্নলিখিত বিশেষ শর্টকাটগুলি গ্রহণ করা হয়েছে: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর , %% v = ইভেন্ট নম্বর"
+
+#: templates/main.html:1044
+#, fuzzy
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "URL টি অনুরোধ করার সময় ব্যবহার করতে হবে HTTP পদ্ধতি (প্রদত্ত URL প্যারামিটারগুলি এখানে বর্ণিত হিসাবে বিতরণ করা হবে)।"
+
+#: templates/main.html:1050
+#, fuzzy
+msgid "Lanĉi komando"
+msgstr "কমান্ড চালু করুন"
+
+#: templates/main.html:1052
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "আপনি যখন কোনও মোশন ইভেন্ট সনাক্ত করে প্রতিবার কোনও কমান্ড চালাতে চান তবে এটি সক্ষম করুন।"
+
+#: templates/main.html:1055 templates/main.html:1068
+#, fuzzy
+msgid "Komando"
+msgstr "হুকুম"
+
+#: templates/main.html:1056 templates/main.html:1069
+#, fuzzy
+msgid "komando..."
+msgstr "আদেশ ..."
+
+#: templates/main.html:1057
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "মোশন সনাক্ত হওয়ার পরে চালু করার আদেশ; একাধিক কমান্ড একটি কোলন দ্বারা পৃথক করা যেতে পারে; কমান্ড সহ সেমিকোলন ব্যবহার করবেন না; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়েছে: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর , %% v = ইভেন্ট নম্বর"
+
+#: templates/main.html:1063
+#, fuzzy
+msgid "Lanĉi fina komando"
+msgstr "ফাইনাল কমান্ড চালু করুন"
+
+#: templates/main.html:1065
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "আপনি প্রতিবার কোনও মুভি ইভেন্ট শেষ হওয়ার পরে কোনও কমান্ড চালু করতে চাইলে এটি সক্ষম করুন।"
+
+#: templates/main.html:1070
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "মোশন ইভেন্ট শেষ হওয়ার পরে চালু করার আদেশ; একাধিক কমান্ড একটি কোলন দ্বারা পৃথক করা যেতে পারে; কমান্ড সহ ডট কমস ব্যবহার করবেন না; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়: %% Y = বছর, %% মি = মাস, %% d = তারিখ, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর।"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+#~ msgstr "মোশন সনাক্ত হওয়ার পরে চালু করার আদেশ; একাধিক কমান্ড একটি সেমিকোলন দ্বারা পৃথক করা যেতে পারে; কমান্ড সহ সেমিকোলন ব্যবহার করবেন না; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়েছে: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর , %% v = ইভেন্ট নম্বর"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
+#~ msgstr "মোশন ইভেন্ট শেষ হওয়ার পরে চালু করার আদেশ; একাধিক কমান্ড একটি সেমিকোলন দ্বারা পৃথক করা যেতে পারে; কমান্ড সহ ডট কমস ব্যবহার করবেন না; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়েছে: %% Y = বছর, %% মি = মাস, %% d = তারিখ, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর।"
+
+#, fuzzy
+#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
+#~ msgstr "যে চিত্রটি পরিবর্তন করা দরকার তার শতাংশ নির্ধারণ করে যাতে ইভেন্টটি গতির পরিবর্তে আকস্মিক আলো পরিবর্তনের হিসাবে বিবেচিত হয় (0% বৈশিষ্ট্যটি অক্ষম করে)।"

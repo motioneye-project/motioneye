@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-13 15:20+0200\n"
+"POT-Creation-Date: 2020-04-14 23:21+0200\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -586,7 +586,7 @@ msgstr "Call A Web Hook"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "enable this if you want a URL to be requested after a media file is created"
 
-#: templates/main.html:514
+#: templates/main.html:514 templates/main.html:1030
 msgid "Reteja URL"
 msgstr "Web Hook URL"
 
@@ -599,7 +599,7 @@ msgstr "e.g. http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "a URL to be requested when motion is detected; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number, %%f = file path"
 
-#: templates/main.html:519
+#: templates/main.html:519 templates/main.html:1035
 msgid "Metodo HTTP"
 msgstr "HTTP method"
 
@@ -1042,8 +1042,9 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Light Switch Detection"
 
 #: templates/main.html:879
-msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-msgstr "sets the percentage of the image that needs to change so that the event is treated as a sudden light change instead of motion (0% disables the function)"
+#, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "sets the percentage of the image that needs to change so that the event is treated as a sudden light change instead of motion (0%% disables the function)"
 
 #: templates/main.html:882
 msgid "Makula filtrilo"
@@ -1252,3 +1253,62 @@ msgstr "Attached Pictures Time Span"
 #: templates/main.html:1014
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "defines the picture search time interval to use when creating email attachments (higher values generate emails with more pictures at the cost of an increased notification delay); set to 0 to disable picture attachments; you must also enable Still Images for this to work"
+
+#: templates/main.html:1018
+msgid "Testi retpoŝto"
+msgstr "Test Email"
+
+#: templates/main.html:1019
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "click this button to test email notifications after you have filled in the required details"
+
+#: templates/main.html:1025
+msgid "Alvoki URL"
+msgstr "Call A Web Hook"
+
+#: templates/main.html:1031
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "e.g. http://example.com/notify/"
+
+#: templates/main.html:1032
+#, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "a URL to be requested when motion is detected; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number"
+
+#: templates/main.html:1044
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "the HTTP method to use when requesting the web hook URL (the given URL-encoded parameters will in fact be transmitted as indicated here"
+
+#: templates/main.html:1050
+msgid "Lanĉi komando"
+msgstr "Run A Command"
+
+#: templates/main.html:1052
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "enable this if you want to execute a command whenever a motion event is detected"
+
+#: templates/main.html:1055 templates/main.html:1068
+msgid "Komando"
+msgstr "Command"
+
+#: templates/main.html:1056 templates/main.html:1069
+msgid "komando..."
+msgstr "command ..."
+
+#: templates/main.html:1057
+#, python-format
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number"
+
+#: templates/main.html:1063
+msgid "Lanĉi fina komando"
+msgstr "Run An End Command"
+
+#: templates/main.html:1065
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "enable this if you want to execute a command whenever a motion event ends"
+
+#: templates/main.html:1070
+#, python-format
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "a command to be executed when motion event ends; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %%Y = year, %%m = month, %%d = date, %%H = hour, %%M = minute, %%S = second, %%q = frame number"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-13 15:20+0200\n"
+"POT-Creation-Date: 2020-04-14 23:21+0200\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -585,7 +585,7 @@ msgstr "invoquer une URL"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "activez cette option si vous souhaitez qu'une URL soit requêtée après la création d'un fichier multimédia"
 
-#: templates/main.html:514
+#: templates/main.html:514 templates/main.html:1030
 msgid "Reteja URL"
 msgstr "URL du site Web"
 
@@ -596,9 +596,9 @@ msgstr "ex. http://example.com/notify/"
 #: templates/main.html:516
 #, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
-msgstr "URL à transmettre lorsqu'un mouvement est détecté; les raccourcis spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événements, %%f = chemin du fichier"
+msgstr "URL à déclencher lorsqu'un mouvement est détecté; les raccourcis spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événements, %%f = chemin du fichier"
 
-#: templates/main.html:519
+#: templates/main.html:519 templates/main.html:1035
 msgid "Metodo HTTP"
 msgstr "Méthode HTTP"
 
@@ -1041,8 +1041,9 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Détection des changements de lumière"
 
 #: templates/main.html:879
-msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-msgstr "Définit le pourcentage de l'image qui a besoin d'être modifiée pour que l'événement soit traité comme un changement de lumière soudain au lieu d'un mouvement (0% désactive la fonction)."
+#, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "Définit le pourcentage de l'image qui a besoin d'être modifiée pour que l'événement soit traité comme un changement de lumière soudain au lieu d'un mouvement (0%% désactive la fonction)."
 
 #: templates/main.html:882
 msgid "Makula filtrilo"
@@ -1251,3 +1252,62 @@ msgstr "Intervalle de temps des images jointes"
 #: templates/main.html:1014
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "Définit l'intervalle de recherche de temps à utiliser lors de la création des pièces jointes (des valeurs plus élevées génèrent des e-mails avec plus d'images au détriment d'un délai de notification accru); mettre à 0 pour désactiver les images jointes; vous devez également activer «Capture d'images» pour que cela fonctionne."
+
+#: templates/main.html:1018
+msgid "Testi retpoŝto"
+msgstr "Tester l'e-mail"
+
+#: templates/main.html:1019
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "Cliquez sur ce bouton pour tester les notifications par e-mail après avoir rempli les détails requis."
+
+#: templates/main.html:1025
+msgid "Alvoki URL"
+msgstr "Invoquer une URL"
+
+#: templates/main.html:1031
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "ex. http://exemple.com/notifier/"
+
+#: templates/main.html:1032
+#, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "URL à déclencher lorsqu'un mouvement est détecté; les raccourcis spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame , %%v = numéro d'événement"
+
+#: templates/main.html:1044
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "La méthode HTTP à utiliser lors de l'envoi d'une URL (les paramètres d'URL donnés seront fournis comme indiqué ici)."
+
+#: templates/main.html:1050
+msgid "Lanĉi komando"
+msgstr "Lancer une commande"
+
+#: templates/main.html:1052
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "Activez cette option si vous souhaitez exécuter une commande chaque fois qu'un événement de mouvement est détecté."
+
+#: templates/main.html:1055 templates/main.html:1068
+msgid "Komando"
+msgstr "Commande"
+
+#: templates/main.html:1056 templates/main.html:1069
+msgid "komando..."
+msgstr "commande ..."
+
+#: templates/main.html:1057
+#, python-format
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "Commande à lancer lorsqu'un mouvement est détecté ; plusieurs commandes peuvent être séparées par deux-points; n'utilisez pas de points-virgules avec les commandes; les jetons spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame , %%v = numéro d'événement"
+
+#: templates/main.html:1063
+msgid "Lanĉi fina komando"
+msgstr "Lancer une commande finale"
+
+#: templates/main.html:1065
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "Activez cette option si vous souhaitez lancer une commande chaque fois qu'un événement de déplacement se termine."
+
+#: templates/main.html:1070
+#, python-format
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+ msgstr "Commande à lancer à la fin de l'événement de mouvement; plusieurs commandes peuvent être séparées par deux-points ; n'utilisez pas de points-virgules avec les commandes; les jetons spéciaux suivants sont acceptés : %%Y = année, %%m = mois, %%d = date, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame."

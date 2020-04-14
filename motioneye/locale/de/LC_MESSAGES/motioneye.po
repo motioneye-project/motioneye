@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-13 15:20+0200\n"
+"POT-Creation-Date: 2020-04-14 23:21+0200\n"
 "PO-Revision-Date: 2020-04-04 12:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -728,7 +728,7 @@ msgstr "Rufen Sie eine URL auf"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "Aktivieren Sie diese Option, wenn nach dem Erstellen einer Mediendatei eine URL angefordert werden soll"
 
-#: templates/main.html:514
+#: templates/main.html:514 templates/main.html:1030
 #, fuzzy
 msgid "Reteja URL"
 msgstr "Website-URL"
@@ -743,7 +743,7 @@ msgstr "z.B. http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL, die gesendet werden soll, wenn eine Bewegung erkannt wird; Die folgenden speziellen Verknüpfungen werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Bildnummer, %% v = Ereignisnummer, %% f = Dateipfad"
 
-#: templates/main.html:519
+#: templates/main.html:519 templates/main.html:1035
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "HTTP-Methode"
@@ -1290,9 +1290,9 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Erkennung von Lichtveränderungen"
 
 #: templates/main.html:879
-#, fuzzy
-msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-msgstr "Definiert den Prozentsatz des Bildes, der geändert werden muss, damit das Ereignis als plötzliche Lichtänderung anstelle von Bewegung behandelt wird (0% deaktiviert die Funktion)."
+#, fuzzy, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "Definiert den Prozentsatz des Bildes, der geändert werden muss, damit das Ereignis als plötzliche Lichtänderung anstelle von Bewegung behandelt wird (0 %% deaktiviert die Funktion)."
 
 #: templates/main.html:882
 #, fuzzy
@@ -1553,3 +1553,87 @@ msgstr "Zeitintervall für Bilder hinzugefügt"
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "Definiert das Zeitsuchintervall, das beim Erstellen von E-Mail-Links verwendet werden soll (höhere Werte erzeugen E-Mails mit mehr Bildern auf Kosten einer erhöhten Verschiebungsbenachrichtigung). auf 0 setzen, um hinzugefügte Bilder zu deaktivieren; Sie müssen auch \"Bilder aufnehmen\" aktiviert haben, damit dies funktioniert."
+
+#: templates/main.html:1018
+#, fuzzy
+msgid "Testi retpoŝto"
+msgstr "E-Mail testen"
+
+#: templates/main.html:1019
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "Klicken Sie auf diese Schaltfläche, um E-Mail-Benachrichtigungen zu testen, nachdem Sie die erforderlichen Details eingegeben haben."
+
+#: templates/main.html:1025
+#, fuzzy
+msgid "Alvoki URL"
+msgstr "URL aufrufen"
+
+#: templates/main.html:1031
+#, fuzzy
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "z.B. http://example.com/search/"
+
+#: templates/main.html:1032
+#, fuzzy, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "URL, die angefordert werden soll, wenn eine Bewegung erkannt wird; Die folgenden speziellen Verknüpfungen werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Bildnummer , %% v = Ereignisnummer"
+
+#: templates/main.html:1044
+#, fuzzy
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "Die HTTP-Methode, die beim Anfordern einer URL verwendet werden soll (die angegebenen URL-Parameter werden wie hier angegeben geliefert)."
+
+#: templates/main.html:1050
+#, fuzzy
+msgid "Lanĉi komando"
+msgstr "Starten Sie einen Befehl"
+
+#: templates/main.html:1052
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "Aktivieren Sie diese Option, wenn Sie jedes Mal, wenn ein Bewegungsereignis erkannt wird, einen Befehl ausführen möchten."
+
+#: templates/main.html:1055 templates/main.html:1068
+#, fuzzy
+msgid "Komando"
+msgstr ""
+
+#: templates/main.html:1056 templates/main.html:1069
+#, fuzzy
+msgid "komando..."
+msgstr "Befehl ..."
+
+#: templates/main.html:1057
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "Befehl, der gestartet werden soll, wenn eine Bewegung erkannt wird; Mehrere Befehle können durch einen Doppelpunkt getrennt werden. Verwenden Sie keine Semikolons mit Befehlen. Die folgenden speziellen Token werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Rahmennummer , %% v = Ereignisnummer"
+
+#: templates/main.html:1063
+#, fuzzy
+msgid "Lanĉi fina komando"
+msgstr "Starten Sie den letzten Befehl"
+
+#: templates/main.html:1065
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "Aktivieren Sie diese Option, wenn Sie bei jedem Ende eines Verschiebungsereignisses einen Befehl starten möchten."
+
+#: templates/main.html:1070
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr ""
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+#~ msgstr "Befehl, der gestartet werden soll, wenn eine Bewegung erkannt wird; Mehrere Befehle können durch ein Semikolon getrennt werden. Verwenden Sie keine Semikolons mit Befehlen. Die folgenden speziellen Token werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Rahmennummer , %% v = Ereignisnummer"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
+#~ msgstr "Befehl, der gestartet werden soll, wenn das Bewegungsereignis endet; Mehrere Befehle können durch ein Semikolon getrennt werden. Verwenden Sie keine Dotcoms mit Befehlen. Die folgenden speziellen Token werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Datum, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Rahmennummer."
+
+#, fuzzy
+#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
+#~ msgstr "Definiert den Prozentsatz des Bildes, der geändert werden muss, damit das Ereignis als plötzliche Lichtänderung anstelle von Bewegung behandelt wird (0% deaktiviert die Funktion)."

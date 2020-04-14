@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-13 15:20+0200\n"
+"POT-Creation-Date: 2020-04-14 23:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -639,7 +639,7 @@ msgid ""
 "amaskomunikila dosiero"
 msgstr ""
 
-#: templates/main.html:514
+#: templates/main.html:514 templates/main.html:1030
 msgid "Reteja URL"
 msgstr ""
 
@@ -656,7 +656,7 @@ msgid ""
 "numero,%%f = dosiera vojo"
 msgstr ""
 
-#: templates/main.html:519
+#: templates/main.html:519 templates/main.html:1035
 msgid "Metodo HTTP"
 msgstr ""
 
@@ -1169,9 +1169,10 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr ""
 
 #: templates/main.html:879
+#, python-format
 msgid ""
 "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento "
-"estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la "
+"estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la "
 "funkcion)."
 msgstr ""
 
@@ -1417,5 +1418,84 @@ msgid ""
 "ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de "
 "pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi"
 " ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgstr ""
+
+#: templates/main.html:1018
+msgid "Testi retpoŝto"
+msgstr ""
+
+#: templates/main.html:1019
+msgid ""
+"Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi "
+"plenigis la postulatajn detalojn."
+msgstr ""
+
+#: templates/main.html:1025
+msgid "Alvoki URL"
+msgstr ""
+
+#: templates/main.html:1031
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr ""
+
+#: templates/main.html:1032
+#, python-format
+msgid ""
+"URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj "
+"ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = "
+"horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr ""
+
+#: templates/main.html:1044
+msgid ""
+"La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos"
+" transdonitaj kiel indikite ĉi tie)."
+msgstr ""
+
+#: templates/main.html:1050
+msgid "Lanĉi komando"
+msgstr ""
+
+#: templates/main.html:1052
+msgid ""
+"Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo "
+"estas detektita."
+msgstr ""
+
+#: templates/main.html:1055 templates/main.html:1068
+msgid "Komando"
+msgstr ""
+
+#: templates/main.html:1056 templates/main.html:1069
+msgid "komando..."
+msgstr ""
+
+#: templates/main.html:1057
+#, python-format
+msgid ""
+"Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj "
+"povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la"
+" sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, "
+"%%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, "
+"%%v = okaza numero"
+msgstr ""
+
+#: templates/main.html:1063
+msgid "Lanĉi fina komando"
+msgstr ""
+
+#: templates/main.html:1065
+msgid ""
+"Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento "
+"finiĝos."
+msgstr ""
+
+#: templates/main.html:1070
+#, python-format
+msgid ""
+"Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj "
+"povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; "
+"la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, "
+"%%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr ""
 

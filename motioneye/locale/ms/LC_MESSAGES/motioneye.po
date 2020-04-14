@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-13 15:20+0200\n"
+"POT-Creation-Date: 2020-04-14 23:21+0200\n"
 "PO-Revision-Date: 2020-04-08 21:44+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -727,7 +727,7 @@ msgstr "memohon URL"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "dayakan ini jika anda mahu URL yang diminta selepas membuat fail media"
 
-#: templates/main.html:514
+#: templates/main.html:514 templates/main.html:1030
 #, fuzzy
 msgid "Reteja URL"
 msgstr "URL laman web"
@@ -742,7 +742,7 @@ msgstr "contohnya. http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL untuk dihantar apabila gerakan dikesan; pintasan khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = %% v = nombor acara, %% f = laluan fail"
 
-#: templates/main.html:519
+#: templates/main.html:519 templates/main.html:1035
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "Kaedah HTTP"
@@ -1289,9 +1289,9 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Pengesanan perubahan cahaya"
 
 #: templates/main.html:879
-#, fuzzy
-msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-msgstr "Mendefinisikan peratusan imej yang perlu diubah supaya peristiwa itu diperlakukan sebagai perubahan cahaya yang tiba-tiba bukan gerakan (0% melumpuhkan ciri)."
+#, fuzzy, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "Mendefinisikan peratusan imej yang perlu ditukar supaya peristiwa itu diperlakukan sebagai perubahan cahaya mendadak dan bukan gerakan (0 %% melumpuhkan ciri)."
 
 #: templates/main.html:882
 #, fuzzy
@@ -1552,3 +1552,87 @@ msgstr "Menambah selang masa gambar"
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "Mendefinisikan selang masa pencarian untuk digunakan semasa membuat pautan e-mel (nilai yang lebih tinggi menjana e-mel dengan lebih banyak imej dengan perbelanjaan peningkatan pemberitahuan penangguhan); tetapkan kepada 0 untuk melumpuhkan imej tambahan; anda juga perlu mempunyai \"Capture Images\" yang membolehkan anda membuat kerja ini."
+
+#: templates/main.html:1018
+#, fuzzy
+msgid "Testi retpoŝto"
+msgstr "E-mel ujian"
+
+#: templates/main.html:1019
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "Klik pada butang ini untuk menguji pemberitahuan e-mel selepas anda mengisi butiran yang diperlukan."
+
+#: templates/main.html:1025
+#, fuzzy
+msgid "Alvoki URL"
+msgstr "Memohon URL"
+
+#: templates/main.html:1031
+#, fuzzy
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "contohnya. http://contoh.com/search/"
+
+#: templates/main.html:1032
+#, fuzzy, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "URL yang diminta apabila gerakan dikesan; jalan pintas khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = nombor bingkai , %% v = nombor acara"
+
+#: templates/main.html:1044
+#, fuzzy
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "Kaedah HTTP untuk digunakan ketika meminta URL (parameter URL yang diberikan akan dikirimkan seperti yang ditunjukkan di sini)."
+
+#: templates/main.html:1050
+#, fuzzy
+msgid "Lanĉi komando"
+msgstr "Lancarkan arahan"
+
+#: templates/main.html:1052
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "Aktifkan ini jika anda ingin menjalankan perintah setiap kali peristiwa gerakan dikesan."
+
+#: templates/main.html:1055 templates/main.html:1068
+#, fuzzy
+msgid "Komando"
+msgstr "Perintah"
+
+#: templates/main.html:1056 templates/main.html:1069
+#, fuzzy
+msgid "komando..."
+msgstr "perintah ..."
+
+#: templates/main.html:1057
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "Perintah untuk dilancarkan semasa gerakan dikesan; pelbagai arahan boleh dipisahkan dengan titik dua; jangan gunakan titik koma dengan perintah; token khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = nombor bingkai , %% v = nombor acara"
+
+#: templates/main.html:1063
+#, fuzzy
+msgid "Lanĉi fina komando"
+msgstr "Lancarkan arahan akhir"
+
+#: templates/main.html:1065
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "Aktifkan ini jika anda ingin melancarkan perintah setiap kali peristiwa bergerak berakhir."
+
+#: templates/main.html:1070
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "Perintah untuk dilancarkan apabila acara gerakan berakhir; pelbagai arahan boleh dipisahkan dengan titik dua; jangan gunakan dot com dengan arahan; token khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = tarikh, %% H = jam, %% M = minit, %% S = kedua, %% q = nombor bingkai."
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+#~ msgstr "Perintah untuk dilancarkan semasa gerakan dikesan; pelbagai arahan boleh dipisahkan dengan titik koma; jangan gunakan titik koma dengan perintah; token khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = nombor bingkai , %% v = nombor acara"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
+#~ msgstr "Perintah untuk dilancarkan apabila acara gerakan berakhir; pelbagai arahan boleh dipisahkan dengan titik koma; jangan gunakan dot com dengan arahan; token khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = tarikh, %% H = jam, %% M = minit, %% S = kedua, %% q = nombor bingkai."
+
+#, fuzzy
+#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
+#~ msgstr "Mendefinisikan peratusan imej yang perlu diubah supaya peristiwa itu diperlakukan sebagai perubahan cahaya yang tiba-tiba bukan gerakan (0% melumpuhkan ciri)."

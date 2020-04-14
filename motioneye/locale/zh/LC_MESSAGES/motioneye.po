@@ -7,20 +7,20 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-13 15:20+0200\n"
+"POT-Creation-Date: 2020-04-14 23:21+0200\n"
 "PO-Revision-Date: 2020-04-13 15:20+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
-"Language: zh\n"
 
 #: server.py:198
 #, fuzzy
 msgid "interrompa signalo ricevita, fermanta ..."
-msgstr ""
+msgstr "收到中断信号，正在关闭..."
 
 #: server.py:232
 #, fuzzy
@@ -145,7 +145,7 @@ msgstr "分钟"
 #: utils.py:194
 #, fuzzy
 msgid "minutes"
-msgstr ""
+msgstr "分钟"
 
 #: utils.py:198
 #, fuzzy
@@ -240,7 +240,7 @@ msgstr "管理员"
 #: templates/main.html:169
 #, fuzzy
 msgid "la uzantnomo uzata por agordi la sistemon"
-msgstr ""
+msgstr "用于配置系统的用户名"
 
 #: templates/main.html:172 templates/main.html:182 templates/main.html:482
 #, fuzzy
@@ -690,7 +690,7 @@ msgstr "上传服务帐户的密码"
 #: templates/main.html:487
 #, fuzzy
 msgid "Rajtiga ŝlosilo"
-msgstr ""
+msgstr "授权密钥"
 
 #: templates/main.html:489
 #, fuzzy
@@ -727,7 +727,7 @@ msgstr "调用URL"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "如果要在创建媒体文件后请求URL，请启用此选项"
 
-#: templates/main.html:514
+#: templates/main.html:514 templates/main.html:1030
 #, fuzzy
 msgid "Reteja URL"
 msgstr "网站网址"
@@ -738,12 +738,11 @@ msgid "ekz. http://example.com/notify/"
 msgstr "例如http://example.com/notify/"
 
 #: templates/main.html:516
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "检测到运动时要传输的URL；接受以下特殊快捷方式：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，%% f =文件路径"
 
-#: templates/main.html:519
+#: templates/main.html:519 templates/main.html:1035
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "HTTP方法"
@@ -774,8 +773,7 @@ msgid "ordono..."
 msgstr "订购..."
 
 #: templates/main.html:541
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
 msgstr "创建多媒体文件后要执行的命令。几个命令可以用分号隔开。不要在命令中使用分号；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，%% f =文件路径"
 
@@ -820,8 +818,7 @@ msgid "propra teksto..."
 msgstr "自己的文字..."
 
 #: templates/main.html:571
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "定义自定义的左侧文本；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，%% T = HH：MM：SS，\\ n =新行"
 
@@ -836,8 +833,7 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dek
 msgstr "设置在电影和图片上右下角显示的文本"
 
 #: templates/main.html:588
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "定义自定义权限文本；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，%% T = HH：MM：SS，\\ n =新行"
 
@@ -982,8 +978,7 @@ msgid "Nomo Bildo-Dosiero"
 msgstr "名称图像文件"
 
 #: templates/main.html:695
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "定义JPEG文件的名称模板；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，/ =子目录。"
 
@@ -1144,8 +1139,7 @@ msgid "Filma Dosiernomo"
 msgstr "电影文件名"
 
 #: templates/main.html:764
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "定义电影文件的名称模板；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，/ =子目录。"
 
@@ -1295,9 +1289,9 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "检测光线变化"
 
 #: templates/main.html:879
-#, fuzzy
-msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-msgstr "定义需要更改的图像百分比，以便将事件视为突然的光更改而不是运动（0％禁用此功能）。"
+#, fuzzy, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "定义需要更改的图像百分比，以便将事件视为突然的光更改而不是运动（0 %%禁用该功能）。"
 
 #: templates/main.html:882
 #, fuzzy
@@ -1558,3 +1552,87 @@ msgstr "添加图片时间间隔"
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "定义创建电子邮件链接时使用的时间搜索间隔（较高的值会生成包含更多图像的电子邮件，但会增加延迟通知的时间）；设置为0以禁用添加的图像；您还需要启用“捕获图像”才能进行此项工作。"
+
+#: templates/main.html:1018
+#, fuzzy
+msgid "Testi retpoŝto"
+msgstr "测试电子邮件"
+
+#: templates/main.html:1019
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "填写必需的详细信息后，单击此按钮可以测试电子邮件通知。"
+
+#: templates/main.html:1025
+#, fuzzy
+msgid "Alvoki URL"
+msgstr "调用网址"
+
+#: templates/main.html:1031
+#, fuzzy
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "例如http://example.com/search/"
+
+#: templates/main.html:1032
+#, fuzzy, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "检测到运动时要请求的URL；接受以下特殊快捷方式：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号，%% v =事件编号"
+
+#: templates/main.html:1044
+#, fuzzy
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "请求URL时使用的HTTP方法（给定的URL参数将按此处指示的方式传递）。"
+
+#: templates/main.html:1050
+#, fuzzy
+msgid "Lanĉi komando"
+msgstr "启动命令"
+
+#: templates/main.html:1052
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "如果要在每次检测到运动事件时运行命令，请启用此选项。"
+
+#: templates/main.html:1055 templates/main.html:1068
+#, fuzzy
+msgid "Komando"
+msgstr "指挥部"
+
+#: templates/main.html:1056 templates/main.html:1069
+#, fuzzy
+msgid "komando..."
+msgstr "命令..."
+
+#: templates/main.html:1057
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "当检测到运动时要启动的命令；多个命令可以用冒号分隔；不要在命令中使用分号；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号，%% v =事件编号"
+
+#: templates/main.html:1063
+#, fuzzy
+msgid "Lanĉi fina komando"
+msgstr "启动最终命令"
+
+#: templates/main.html:1065
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "如果要在每次移动事件结束时启动命令，请启用此选项。"
+
+#: templates/main.html:1070
+#, python-format
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "运动事件结束时要启动的命令；多个命令可以用冒号分隔；不要在命令中使用点coms；接受以下特殊标记：%% Y =年，%% m =月，%% d =日期，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号。"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+#~ msgstr "当检测到运动时要启动的命令；多个命令可以用分号分隔；不要在命令中使用分号；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号，%% v =事件编号"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
+#~ msgstr "运动事件结束时要启动的命令；多个命令可以用分号分隔；不要在命令中使用点coms；接受以下特殊标记：%% Y =年，%% m =月，%% d =日期，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号。"
+
+#, fuzzy
+#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
+#~ msgstr "定义需要更改的图像百分比，以便将事件视为突然的光更改而不是运动（0％禁用此功能）。"
