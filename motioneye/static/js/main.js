@@ -592,7 +592,7 @@ function initUI() {
         }
 
         if (!value.match(deviceNameValidRegExp)) {
-            return "special characters are not allowed in camera's name";
+            return i18n.gettext("specialaj signoj ne rajtas en la nomo de kamerao");
         }
 
         return true;
@@ -604,7 +604,7 @@ function initUI() {
 
         value = Number(value);
         if (value % 8) {
-            return "value must be a multiple of 8";
+            return i18n.gettext("valoro devas esti multoblo de 8");
         }
 
         return true;

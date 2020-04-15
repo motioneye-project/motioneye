@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 20:04+0200\n"
+"POT-Creation-Date: 2020-04-15 22:02+0200\n"
 "PO-Revision-Date: 2020-02-11 22:23+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -26,6 +26,16 @@ msgstr "الأحرف الخاصة غير مسموح بها في كلمة الم�
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "هذا الحقل مطلوب"
+
+#: static/js/main.js:595
+#, fuzzy
+msgid "specialaj signoj ne rajtas en la nomo de kamerao"
+msgstr "الأحرف الخاصة غير مسموح بها في اسم الكاميرا"
+
+#: static/js/main.js:607
+#, fuzzy
+msgid "valoro devas esti multoblo de 8"
+msgstr "يجب أن تكون القيمة مضاعفًا لـ 8"
 
 #: static/js/main.js:3458
 #, fuzzy

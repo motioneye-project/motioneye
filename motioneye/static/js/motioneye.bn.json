@@ -1,6 +1,8 @@
 {"":{"language":"bn","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "পাসওয়ার্ডে বিশেষ অক্ষর অনুমোদিত নয়"
 ,"Ĉi tiu kampo estas deviga": "এই ক্ষেত্রটি প্রয়োজনীয়"
+,"specialaj signoj ne rajtas en la nomo de kamerao": "বিশেষ অক্ষর ক্যামেরার নামে অনুমোদিত নয়"
+,"valoro devas esti multoblo de 8": "মানটি 8 এর একাধিক হতে হবে"
 ,"Uzantnomo": "ব্যবহারকারীর নাম"
 ,"Pasvorto": "পাসওয়ার্ড"
 ,"Memoru min": "আমাকে মনে আছে"

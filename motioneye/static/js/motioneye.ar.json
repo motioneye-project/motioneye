@@ -1,6 +1,8 @@
 {"":{"language":"ar","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "الأحرف الخاصة غير مسموح بها في كلمة المرور"
 ,"Ĉi tiu kampo estas deviga": "هذا الحقل مطلوب"
+,"specialaj signoj ne rajtas en la nomo de kamerao": "الأحرف الخاصة غير مسموح بها في اسم الكاميرا"
+,"valoro devas esti multoblo de 8": "يجب أن تكون القيمة مضاعفًا لـ 8"
 ,"Uzantnomo": "اسم المستخدم"
 ,"Pasvorto": "كلمة المرور"
 ,"Memoru min": "تذكرني"

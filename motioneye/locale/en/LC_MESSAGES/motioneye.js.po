@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 20:04+0200\n"
+"POT-Creation-Date: 2020-04-15 22:02+0200\n"
 "PO-Revision-Date: 2020-02-11 19:28+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -25,6 +25,14 @@ msgstr "special characters are not allowed in password"
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "This field is required"
+
+#: static/js/main.js:595
+msgid "specialaj signoj ne rajtas en la nomo de kamerao"
+msgstr "special characters are not allowed in camera's name"
+
+#: static/js/main.js:607
+msgid "valoro devas esti multoblo de 8"
+msgstr "value must be a multiple of 8"
 
 #: static/js/main.js:3458
 msgid "Uzantnomo"

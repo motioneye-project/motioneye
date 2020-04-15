@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 20:04+0200\n"
+"POT-Creation-Date: 2020-04-15 22:02+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -27,6 +27,16 @@ msgstr "caracteres especiais não são permitidos na senha"
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "Este campo é obrigatório"
+
+#: static/js/main.js:595
+#, fuzzy
+msgid "specialaj signoj ne rajtas en la nomo de kamerao"
+msgstr "caracteres especiais não são permitidos no nome da câmera"
+
+#: static/js/main.js:607
+#, fuzzy
+msgid "valoro devas esti multoblo de 8"
+msgstr "o valor deve ser um múltiplo de 8"
 
 #: static/js/main.js:3458
 #, fuzzy

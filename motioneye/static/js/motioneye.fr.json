@@ -1,6 +1,8 @@
 {"":{"language":"fr","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "les caractères spéciaux ne sont pas autorisés dans le mot de passe"
 ,"Ĉi tiu kampo estas deviga": "Ce champ est obligatoire"
+,"specialaj signoj ne rajtas en la nomo de kamerao": "les caractères spéciaux ne sont pas autorisés dans le nom de la caméra"
+,"valoro devas esti multoblo de 8": "la valeur doit être un multiple de 8"
 ,"Uzantnomo": "Identifiant"
 ,"Pasvorto": "Mot de passe"
 ,"Memoru min": "Souviens toi de moi"

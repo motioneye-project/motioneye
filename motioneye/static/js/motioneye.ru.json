@@ -1,6 +1,8 @@
 {"":{"language":"ru","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "специальные символы не допускаются в пароле"
 ,"Ĉi tiu kampo estas deviga": "Это поле обязательно для заполнения"
+,"specialaj signoj ne rajtas en la nomo de kamerao": "специальные символы не допускаются в имени камеры"
+,"valoro devas esti multoblo de 8": ""
 ,"Uzantnomo": "имя пользователя"
 ,"Pasvorto": "пароль"
 ,"Memoru min": "Помни меня"

@@ -1,6 +1,8 @@
 {"":{"language":"zh","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "密码中不允许使用特殊字符"
 ,"Ĉi tiu kampo estas deviga": "必填项"
+,"specialaj signoj ne rajtas en la nomo de kamerao": "相机名称中不允许使用特殊字符"
+,"valoro devas esti multoblo de 8": "值必须是8的倍数"
 ,"Uzantnomo": "用户名"
 ,"Pasvorto": "密码"
 ,"Memoru min": "记住我"

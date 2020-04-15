@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 20:04+0200\n"
+"POT-Creation-Date: 2020-04-15 22:02+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -26,6 +26,16 @@ msgstr "watak khas tidak dibenarkan dalam kata laluan"
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "Bidang ini diperlukan"
+
+#: static/js/main.js:595
+#, fuzzy
+msgid "specialaj signoj ne rajtas en la nomo de kamerao"
+msgstr "watak khas tidak dibenarkan dalam nama kamera"
+
+#: static/js/main.js:607
+#, fuzzy
+msgid "valoro devas esti multoblo de 8"
+msgstr "nilai mestilah gandaan 8"
 
 #: static/js/main.js:3458
 #, fuzzy

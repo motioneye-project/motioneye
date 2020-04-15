@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 20:04+0200\n"
+"POT-Creation-Date: 2020-04-15 22:02+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -26,6 +26,16 @@ msgstr "পাসওয়ার্ডে বিশেষ অক্ষর অন
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "এই ক্ষেত্রটি প্রয়োজনীয়"
+
+#: static/js/main.js:595
+#, fuzzy
+msgid "specialaj signoj ne rajtas en la nomo de kamerao"
+msgstr "বিশেষ অক্ষর ক্যামেরার নামে অনুমোদিত নয়"
+
+#: static/js/main.js:607
+#, fuzzy
+msgid "valoro devas esti multoblo de 8"
+msgstr "মানটি 8 এর একাধিক হতে হবে"
 
 #: static/js/main.js:3458
 #, fuzzy

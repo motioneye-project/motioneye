@@ -1,6 +1,8 @@
 {"":{"language":"ja","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "パスワードに特殊文字は使用できません"
 ,"Ĉi tiu kampo estas deviga": "このフィールドは必須です"
+,"specialaj signoj ne rajtas en la nomo de kamerao": "カメラ名に特殊文字は使用できません"
+,"valoro devas esti multoblo de 8": ""
 ,"Uzantnomo": "ユーザー名"
 ,"Pasvorto": "パスワード"
 ,"Memoru min": "覚えて"

@@ -1,6 +1,8 @@
 {"":{"language":"it","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "i caratteri speciali non sono ammessi nella password"
 ,"Ĉi tiu kampo estas deviga": "Questo campo è obbligatorio"
+,"specialaj signoj ne rajtas en la nomo de kamerao": "i caratteri speciali non sono ammessi nel nome della telecamera"
+,"valoro devas esti multoblo de 8": "il valore deve essere un multiplo di 8"
 ,"Uzantnomo": "nome utente"
 ,"Pasvorto": "password"
 ,"Memoru min": "Ricordati di me"

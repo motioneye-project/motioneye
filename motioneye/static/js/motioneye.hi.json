@@ -1,6 +1,8 @@
 {"":{"language":"hi","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "पासवर्ड में विशेष वर्णों की अनुमति नहीं है"
 ,"Ĉi tiu kampo estas deviga": "इस क्षेत्र की आवश्यकता है"
+,"specialaj signoj ne rajtas en la nomo de kamerao": "विशेष पात्रों को कैमरे के नाम पर अनुमति नहीं है"
+,"valoro devas esti multoblo de 8": "मान 8 का एक से अधिक होना चाहिए"
 ,"Uzantnomo": "प्रयोक्ता नाम"
 ,"Pasvorto": "पासवर्ड"
 ,"Memoru min": "मुझे याद करो"
