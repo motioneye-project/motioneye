@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-14 23:21+0200\n"
+"POT-Creation-Date: 2020-04-15 17:50+0200\n"
 "PO-Revision-Date: 2020-04-08 21:44+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1604,8 +1604,7 @@ msgid "komando..."
 msgstr "perintah ..."
 
 #: templates/main.html:1057
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "Perintah untuk dilancarkan semasa gerakan dikesan; pelbagai arahan boleh dipisahkan dengan titik dua; jangan gunakan titik koma dengan perintah; token khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = nombor bingkai , %% v = nombor acara"
 
@@ -1620,10 +1619,109 @@ msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento 
 msgstr "Aktifkan ini jika anda ingin melancarkan perintah setiap kali peristiwa bergerak berakhir."
 
 #: templates/main.html:1070
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "Perintah untuk dilancarkan apabila acara gerakan berakhir; pelbagai arahan boleh dipisahkan dengan titik dua; jangan gunakan dot com dengan arahan; token khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = tarikh, %% H = jam, %% M = minit, %% S = kedua, %% q = nombor bingkai."
+
+#: templates/main.html:1080
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
+msgstr "Aktifkan ini jika anda ingin menetapkan jadual mingguan untuk pengesanan gerakan."
+
+#: templates/main.html:1081
+#, fuzzy
+msgid "Laboranta horaro"
+msgstr "Jadual kerja"
+
+#: templates/main.html:1086
+#, fuzzy
+msgid "Lundo"
+msgstr "Isnin"
+
+#: templates/main.html:1092
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por lundoj."
+msgstr "Menetapkan julat waktu hari bekerja untuk hari Isnin."
+
+#: templates/main.html:1095
+#, fuzzy
+msgid "Mardo"
+msgstr "Selasa"
+
+#: templates/main.html:1101
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por mardoj."
+msgstr "Menetapkan julat waktu hari bekerja untuk hari Selasa."
+
+#: templates/main.html:1104
+#, fuzzy
+msgid "Merkredo"
+msgstr "Hari Rabu"
+
+#: templates/main.html:1110
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por merkredoj."
+msgstr "Menetapkan julat waktu hari bekerja untuk hari Rabu."
+
+#: templates/main.html:1113
+#, fuzzy
+msgid "Ĵaŭdo"
+msgstr "Khamis"
+
+#: templates/main.html:1119
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
+msgstr "Menetapkan julat waktu hari bekerja untuk hari Khamis."
+
+#: templates/main.html:1122
+#, fuzzy
+msgid "Vendredo"
+msgstr "Jumaat"
+
+#: templates/main.html:1128
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por vendredoj."
+msgstr "Menetapkan julat waktu hari bekerja untuk hari Jumaat."
+
+#: templates/main.html:1131
+#, fuzzy
+msgid "Sabato"
+msgstr "Sabtu"
+
+#: templates/main.html:1137
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por sabatoj."
+msgstr "Menetapkan julat waktu hari bekerja untuk hari Sabtu."
+
+#: templates/main.html:1140
+#, fuzzy
+msgid "Dimanĉo"
+msgstr "Ahad"
+
+#: templates/main.html:1146
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
+msgstr "Menetapkan julat waktu hari bekerja untuk hari Ahad."
+
+#: templates/main.html:1149
+#, fuzzy
+msgid "Detekti movadon"
+msgstr "Mengesan pergerakan"
+
+#: templates/main.html:1152
+#, fuzzy
+msgid "Dum laborista horaro"
+msgstr "Semasa waktu bekerja"
+
+#: templates/main.html:1153
+#, fuzzy
+msgid "Ekster laborista horaro"
+msgstr "Di luar waktu bekerja"
+
+#: templates/main.html:1156
+#, fuzzy
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
+msgstr "Mentakrifkan sama ada pengesanan gerakan harus aktif semasa atau di luar waktu bekerja."
 
 #, fuzzy
 #~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"

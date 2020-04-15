@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-14 23:21+0200\n"
+"POT-Creation-Date: 2020-04-15 17:50+0200\n"
 "PO-Revision-Date: 2020-04-08 17:45+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1605,8 +1605,7 @@ msgid "komando..."
 msgstr "コマンド..."
 
 #: templates/main.html:1057
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "動きが検出されたときに起動するコマンド。複数のコマンドはコロンで区切ることができます。コマンドでセミコロンを使用しないでください。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、%% v =イベント番号"
 
@@ -1621,10 +1620,109 @@ msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento 
 msgstr "moveイベントが終了するたびにコマンドを起動する場合は、これを有効にします。"
 
 #: templates/main.html:1070
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "モーションイベントの終了時に起動するコマンド。複数のコマンドはコロンで区切ることができます。コマンドでドットコムを使用しないでください。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日付、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号。"
+
+#: templates/main.html:1080
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
+msgstr "モーション検出の週間スケジュールを設定する場合は、これを有効にします。"
+
+#: templates/main.html:1081
+#, fuzzy
+msgid "Laboranta horaro"
+msgstr "勤務スケジュール"
+
+#: templates/main.html:1086
+#, fuzzy
+msgid "Lundo"
+msgstr "月曜日"
+
+#: templates/main.html:1092
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por lundoj."
+msgstr "月曜日の営業日の時間範囲を設定します。"
+
+#: templates/main.html:1095
+#, fuzzy
+msgid "Mardo"
+msgstr "火曜日"
+
+#: templates/main.html:1101
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por mardoj."
+msgstr "火曜日の営業日の時間範囲を設定します。"
+
+#: templates/main.html:1104
+#, fuzzy
+msgid "Merkredo"
+msgstr "水曜日"
+
+#: templates/main.html:1110
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por merkredoj."
+msgstr "水曜日の営業日の時間範囲を設定します。"
+
+#: templates/main.html:1113
+#, fuzzy
+msgid "Ĵaŭdo"
+msgstr "木曜日"
+
+#: templates/main.html:1119
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
+msgstr "木曜日の営業日の時間範囲を設定します。"
+
+#: templates/main.html:1122
+#, fuzzy
+msgid "Vendredo"
+msgstr "金曜日"
+
+#: templates/main.html:1128
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por vendredoj."
+msgstr "金曜日の営業日の時間範囲を設定します。"
+
+#: templates/main.html:1131
+#, fuzzy
+msgid "Sabato"
+msgstr "土曜日"
+
+#: templates/main.html:1137
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por sabatoj."
+msgstr "土曜日の営業日の時間範囲を設定します。"
+
+#: templates/main.html:1140
+#, fuzzy
+msgid "Dimanĉo"
+msgstr "日曜日"
+
+#: templates/main.html:1146
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
+msgstr "日曜日の稼働日の時間範囲を設定します。"
+
+#: templates/main.html:1149
+#, fuzzy
+msgid "Detekti movadon"
+msgstr "動きを検出"
+
+#: templates/main.html:1152
+#, fuzzy
+msgid "Dum laborista horaro"
+msgstr "勤務時間中"
+
+#: templates/main.html:1153
+#, fuzzy
+msgid "Ekster laborista horaro"
+msgstr "勤務時間外"
+
+#: templates/main.html:1156
+#, fuzzy
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
+msgstr "勤務時間中または勤務時間外にモーション検知をアクティブにするかどうかを定義します。"
 
 #, fuzzy
 #~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"

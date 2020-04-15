@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-14 23:21+0200\n"
+"POT-Creation-Date: 2020-04-15 17:50+0200\n"
 "PO-Revision-Date: 2020-04-09 16:58+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1605,8 +1605,7 @@ msgid "komando..."
 msgstr "comando ..."
 
 #: templates/main.html:1057
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "Comando a ser lançado quando movimento for detectado; vários comandos podem ser separados por dois pontos; não use ponto e vírgula com comandos; os seguintes tokens especiais são aceitos: %% Y = ano, %% m = mês, %% d = dia, %% H = hora, %% M = minuto, %% S = segundo, %% q = número do quadro , %% v = número do evento"
 
@@ -1621,10 +1620,109 @@ msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento 
 msgstr "Habilite isso se desejar iniciar um comando toda vez que um evento de movimentação terminar."
 
 #: templates/main.html:1070
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "Comando a ser lançado quando o evento de movimento terminar; vários comandos podem ser separados por dois pontos; não use pontocom com comandos; os seguintes tokens especiais são aceitos: %% Y = ano, %% m = mês, %% d = data, %% H = hora, %% M = minuto, %% S = segundo, %% q = número do quadro."
+
+#: templates/main.html:1080
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
+msgstr "Habilite isso se desejar definir uma programação semanal para detecção de movimento."
+
+#: templates/main.html:1081
+#, fuzzy
+msgid "Laboranta horaro"
+msgstr "Horário de trabalho"
+
+#: templates/main.html:1086
+#, fuzzy
+msgid "Lundo"
+msgstr "Segunda-feira"
+
+#: templates/main.html:1092
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por lundoj."
+msgstr "Define o intervalo de dias úteis para as segundas-feiras."
+
+#: templates/main.html:1095
+#, fuzzy
+msgid "Mardo"
+msgstr "Terça-feira"
+
+#: templates/main.html:1101
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por mardoj."
+msgstr "Define o intervalo de dias úteis para as terças-feiras."
+
+#: templates/main.html:1104
+#, fuzzy
+msgid "Merkredo"
+msgstr "Quarta-feira"
+
+#: templates/main.html:1110
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por merkredoj."
+msgstr "Define o intervalo de dias úteis para quartas-feiras."
+
+#: templates/main.html:1113
+#, fuzzy
+msgid "Ĵaŭdo"
+msgstr "Quinta-feira"
+
+#: templates/main.html:1119
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
+msgstr "Define o intervalo de dias úteis para as quintas-feiras."
+
+#: templates/main.html:1122
+#, fuzzy
+msgid "Vendredo"
+msgstr "Sexta-feira"
+
+#: templates/main.html:1128
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por vendredoj."
+msgstr "Define o intervalo de dias úteis para as sextas-feiras."
+
+#: templates/main.html:1131
+#, fuzzy
+msgid "Sabato"
+msgstr "Sábado"
+
+#: templates/main.html:1137
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por sabatoj."
+msgstr "Define o intervalo de dias úteis para os sábados."
+
+#: templates/main.html:1140
+#, fuzzy
+msgid "Dimanĉo"
+msgstr "Domingo"
+
+#: templates/main.html:1146
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
+msgstr "Define o intervalo de dias úteis para os domingos."
+
+#: templates/main.html:1149
+#, fuzzy
+msgid "Detekti movadon"
+msgstr "Detectar movimento"
+
+#: templates/main.html:1152
+#, fuzzy
+msgid "Dum laborista horaro"
+msgstr "Durante o horário de trabalho"
+
+#: templates/main.html:1153
+#, fuzzy
+msgid "Ekster laborista horaro"
+msgstr "Fora do horário de trabalho"
+
+#: templates/main.html:1156
+#, fuzzy
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
+msgstr "Define se a detecção de movimento deve estar ativa durante ou fora do horário de trabalho."
 
 #, fuzzy
 #~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"

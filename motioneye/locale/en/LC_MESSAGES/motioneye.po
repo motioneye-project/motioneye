@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-14 23:21+0200\n"
+"POT-Creation-Date: 2020-04-15 17:50+0200\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1312,3 +1312,83 @@ msgstr "enable this if you want to execute a command whenever a motion event end
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "a command to be executed when motion event ends; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %%Y = year, %%m = month, %%d = date, %%H = hour, %%M = minute, %%S = second, %%q = frame number"
+
+#: templates/main.html:1080
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
+msgstr "enable this if you want to define a weekly working schedule for motion detection"
+
+#: templates/main.html:1081
+msgid "Laboranta horaro"
+msgstr "Working Schedule"
+
+#: templates/main.html:1086
+msgid "Lundo"
+msgstr "Monday"
+
+#: templates/main.html:1092
+msgid "Fiksas la labortagan tempintervalon por lundoj."
+msgstr "sets the working schedule time interval for Mondays"
+
+#: templates/main.html:1095
+msgid "Mardo"
+msgstr "Tuesday"
+
+#: templates/main.html:1101
+msgid "Fiksas la labortagan tempintervalon por mardoj."
+msgstr "sets the working schedule time interval for Tuesdays"
+
+#: templates/main.html:1104
+msgid "Merkredo"
+msgstr "Wednesday"
+
+#: templates/main.html:1110
+msgid "Fiksas la labortagan tempintervalon por merkredoj."
+msgstr "sets the working schedule time interval for Wednesdays"
+
+#: templates/main.html:1113
+msgid "Ĵaŭdo"
+msgstr "Thursday"
+
+#: templates/main.html:1119
+msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
+msgstr "sets the working schedule time interval for Thursdays"
+
+#: templates/main.html:1122
+msgid "Vendredo"
+msgstr "Friday"
+
+#: templates/main.html:1128
+msgid "Fiksas la labortagan tempintervalon por vendredoj."
+msgstr "sets the working schedule time interval for Fridays"
+
+#: templates/main.html:1131
+msgid "Sabato"
+msgstr "Saturday"
+
+#: templates/main.html:1137
+msgid "Fiksas la labortagan tempintervalon por sabatoj."
+msgstr "sets the working schedule time interval for Saturdays"
+
+#: templates/main.html:1140
+msgid "Dimanĉo"
+msgstr "Sunday"
+
+#: templates/main.html:1146
+msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
+msgstr "sets the working schedule time interval for Sundays"
+
+#: templates/main.html:1149
+msgid "Detekti movadon"
+msgstr "Detect Motion"
+
+#: templates/main.html:1152
+msgid "Dum laborista horaro"
+msgstr "During Working Schedule"
+
+#: templates/main.html:1153
+msgid "Ekster laborista horaro"
+msgstr "Outside Working Schedule"
+
+#: templates/main.html:1156
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
+msgstr "sets whether motion detection should be active during or outside the working schedule"

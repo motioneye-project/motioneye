@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-14 23:21+0200\n"
+"POT-Creation-Date: 2020-04-15 17:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1497,5 +1497,89 @@ msgid ""
 "povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; "
 "la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, "
 "%%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr ""
+
+#: templates/main.html:1080
+msgid ""
+"Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de "
+"moviĝo."
+msgstr ""
+
+#: templates/main.html:1081
+msgid "Laboranta horaro"
+msgstr ""
+
+#: templates/main.html:1086
+msgid "Lundo"
+msgstr ""
+
+#: templates/main.html:1092
+msgid "Fiksas la labortagan tempintervalon por lundoj."
+msgstr ""
+
+#: templates/main.html:1095
+msgid "Mardo"
+msgstr ""
+
+#: templates/main.html:1101
+msgid "Fiksas la labortagan tempintervalon por mardoj."
+msgstr ""
+
+#: templates/main.html:1104
+msgid "Merkredo"
+msgstr ""
+
+#: templates/main.html:1110
+msgid "Fiksas la labortagan tempintervalon por merkredoj."
+msgstr ""
+
+#: templates/main.html:1113
+msgid "Ĵaŭdo"
+msgstr ""
+
+#: templates/main.html:1119
+msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
+msgstr ""
+
+#: templates/main.html:1122
+msgid "Vendredo"
+msgstr ""
+
+#: templates/main.html:1128
+msgid "Fiksas la labortagan tempintervalon por vendredoj."
+msgstr ""
+
+#: templates/main.html:1131
+msgid "Sabato"
+msgstr ""
+
+#: templates/main.html:1137
+msgid "Fiksas la labortagan tempintervalon por sabatoj."
+msgstr ""
+
+#: templates/main.html:1140
+msgid "Dimanĉo"
+msgstr ""
+
+#: templates/main.html:1146
+msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
+msgstr ""
+
+#: templates/main.html:1149
+msgid "Detekti movadon"
+msgstr ""
+
+#: templates/main.html:1152
+msgid "Dum laborista horaro"
+msgstr ""
+
+#: templates/main.html:1153
+msgid "Ekster laborista horaro"
+msgstr ""
+
+#: templates/main.html:1156
+msgid ""
+"Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista "
+"horaro."
 msgstr ""
 

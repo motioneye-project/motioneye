@@ -1077,83 +1077,83 @@
                     <!-- Working Schedule -->
                     <div class="settings-section-title" depends="motionDetectionEnabled" id="workingScheduleSectionDiv">
                         <input type="checkbox" class="styled section working-schedule camera-config" id="workingScheduleEnabledSwitch">
-                        <span class="help-mark" title="enable this if you want to define a weekly working schedule for motion detection">?</span>
-                        <a class="settings-section-title">Working Schedule</a>
+                        <span class="help-mark" title="{{ _("Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo.") }}">?</span>
+                        <a class="settings-section-title">{{ _("Laboranta horaro") }}</a>
                         <span class="minimize"></span>
                     </div>
                     <table class="settings">
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Monday</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Lundo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="mondayEnabledSwitch">
                                 <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="mondayFromEntry">
                                 <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="mondayToEntry">
                             </td>
-                            <td><span class="help-mark" title="sets the working schedule time interval for Mondays">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por lundoj.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Tuesday</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Mardo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="tuesdayEnabledSwitch">
                                 <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="tuesdayFromEntry">
                                 <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="tuesdayToEntry">
                             </td>
-                            <td><span class="help-mark" title="sets the working schedule time interval for Tuesdays">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por mardoj.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Wednesday</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Merkredo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="wednesdayEnabledSwitch">
                                 <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="wednesdayFromEntry">
                                 <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="wednesdayToEntry">
                             </td>
-                            <td><span class="help-mark" title="sets the working schedule time interval for Wednesdays">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por merkredoj.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Thursday</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Ĵaŭdo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="thursdayEnabledSwitch">
                                 <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="thursdayFromEntry">
                                 <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="thursdayToEntry">
                             </td>
-                            <td><span class="help-mark" title="sets the working schedule time interval for Thursdays">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por ĵaŭdoj.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Friday</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Vendredo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="fridayEnabledSwitch">
                                 <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="fridayFromEntry">
                                 <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="fridayToEntry">
                             </td>
-                            <td><span class="help-mark" title="sets the working schedule time interval for Friday">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por vendredoj.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Saturday</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Sabato") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="saturdayEnabledSwitch">
                                 <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="saturdayFromEntry">
                                 <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="saturdayToEntry">
                             </td>
-                            <td><span class="help-mark" title="sets the working schedule time interval for Saturday">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por sabatoj.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Sunday</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Dimanĉo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="sundayEnabledSwitch">
                                 <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="sundayFromEntry">
                                 <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="sundayToEntry">
                             </td>
-                            <td><span class="help-mark" title="sets the working schedule time interval for Sunday">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por dimanĉoj.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Detect Motion</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Detekti movadon") }}</span></td>
                             <td class="settings-item-value">
                                 <select class="styled working-schedule camera-config" id="workingScheduleTypeSelect">
-                                    <option value="during">During Working Schedule</option>
-                                    <option value="outside">Outside Working Schedule</option>
+                                    <option value="during">{{ _("Dum laborista horaro") }}</option>
+                                    <option value="outside">{{ _("Ekster laborista horaro") }}</option>
                                 </select>
                             </td>
-                            <td><span class="help-mark" title="sets whether motion detection should be active during or outside the working schedule">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro.") }}">?</span></td>
                         </tr>
                         {% for config in camera_sections.get('working-schedule', {}).get('configs', []) %}
                             {{config_item(config, "motionDetectionEnabled")}}

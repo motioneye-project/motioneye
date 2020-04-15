@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-14 23:21+0200\n"
+"POT-Creation-Date: 2020-04-15 17:50+0200\n"
 "PO-Revision-Date: 2020-04-07 17:41+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1604,8 +1604,7 @@ msgid "komando..."
 msgstr "कमांड ..."
 
 #: templates/main.html:1057
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "गति का पता चलने पर कमांड लॉन्च किया जाना; कई आदेशों को एक बृहदान्त्र द्वारा अलग किया जा सकता है; आदेशों के साथ अर्धविराम का उपयोग न करें; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या , %% v = घटना संख्या"
 
@@ -1620,10 +1619,109 @@ msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento 
 msgstr "यदि आप हर बार किसी मूव इवेंट को समाप्त करने के लिए कमांड लॉन्च करना चाहते हैं तो इसे सक्षम करें।"
 
 #: templates/main.html:1070
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "मोशन इवेंट समाप्त होने पर लॉन्च होने की कमांड; कई आदेशों को एक बृहदान्त्र द्वारा अलग किया जा सकता है; आदेशों के साथ डॉट कॉम का उपयोग न करें; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिनांक, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या।"
+
+#: templates/main.html:1080
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
+msgstr "यदि आप गति का पता लगाने के लिए साप्ताहिक शेड्यूल सेट करना चाहते हैं तो इसे सक्षम करें।"
+
+#: templates/main.html:1081
+#, fuzzy
+msgid "Laboranta horaro"
+msgstr "काम करने का कार्यक्रम"
+
+#: templates/main.html:1086
+#, fuzzy
+msgid "Lundo"
+msgstr "सोमवार"
+
+#: templates/main.html:1092
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por lundoj."
+msgstr "सोमवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1095
+#, fuzzy
+msgid "Mardo"
+msgstr "मंगलवार"
+
+#: templates/main.html:1101
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por mardoj."
+msgstr "मंगलवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1104
+#, fuzzy
+msgid "Merkredo"
+msgstr "बुधवार"
+
+#: templates/main.html:1110
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por merkredoj."
+msgstr "बुधवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1113
+#, fuzzy
+msgid "Ĵaŭdo"
+msgstr "बृहस्पतिवार"
+
+#: templates/main.html:1119
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
+msgstr "गुरुवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1122
+#, fuzzy
+msgid "Vendredo"
+msgstr "शुक्रवार"
+
+#: templates/main.html:1128
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por vendredoj."
+msgstr "शुक्रवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1131
+#, fuzzy
+msgid "Sabato"
+msgstr "शनिवार"
+
+#: templates/main.html:1137
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por sabatoj."
+msgstr "शनिवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1140
+#, fuzzy
+msgid "Dimanĉo"
+msgstr "रविवार"
+
+#: templates/main.html:1146
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
+msgstr "रविवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1149
+#, fuzzy
+msgid "Detekti movadon"
+msgstr "आंदोलन का पता लगाएं"
+
+#: templates/main.html:1152
+#, fuzzy
+msgid "Dum laborista horaro"
+msgstr "काम के घंटों के दौरान"
+
+#: templates/main.html:1153
+#, fuzzy
+msgid "Ekster laborista horaro"
+msgstr "बाहर काम के घंटे"
+
+#: templates/main.html:1156
+#, fuzzy
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
+msgstr "परिभाषित करता है कि गति का पता लगाने के काम के घंटों के दौरान या बाहर सक्रिय होना चाहिए।"
 
 #, fuzzy
 #~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-14 23:21+0200\n"
+"POT-Creation-Date: 2020-04-15 17:50+0200\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1310,4 +1310,84 @@ msgstr "Activez cette option si vous souhaitez lancer une commande chaque fois q
 #: templates/main.html:1070
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
- msgstr "Commande à lancer à la fin de l'événement de mouvement; plusieurs commandes peuvent être séparées par deux-points ; n'utilisez pas de points-virgules avec les commandes; les jetons spéciaux suivants sont acceptés : %%Y = année, %%m = mois, %%d = date, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame."
+msgstr "Commande à lancer à la fin de l'événement de mouvement; plusieurs commandes peuvent être séparées par deux-points ; n'utilisez pas de points-virgules avec les commandes; les jetons spéciaux suivants sont acceptés : %%Y = année, %%m = mois, %%d = date, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame."
+
+#: templates/main.html:1080
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
+msgstr "Activez cette option si vous souhaitez définir un programme hebdomadaire de détection de mouvement."
+
+#: templates/main.html:1081
+msgid "Laboranta horaro"
+msgstr "Horaire de travail"
+
+#: templates/main.html:1086
+msgid "Lundo"
+msgstr "Lundi"
+
+#: templates/main.html:1092
+msgid "Fiksas la labortagan tempintervalon por lundoj."
+msgstr "Définit la plage horaire pour les lundis."
+
+#: templates/main.html:1095
+msgid "Mardo"
+msgstr "Mardi"
+
+#: templates/main.html:1101
+msgid "Fiksas la labortagan tempintervalon por mardoj."
+msgstr "Définit la plage horaire pour les mardis."
+
+#: templates/main.html:1104
+msgid "Merkredo"
+msgstr "Mercredi"
+
+#: templates/main.html:1110
+msgid "Fiksas la labortagan tempintervalon por merkredoj."
+msgstr "Définit la plage horaire pour les mercredis."
+
+#: templates/main.html:1113
+msgid "Ĵaŭdo"
+msgstr "Jeudi"
+
+#: templates/main.html:1119
+msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
+msgstr "Définit la plage horaire pour les jeudis."
+
+#: templates/main.html:1122
+msgid "Vendredo"
+msgstr "Vendredi"
+
+#: templates/main.html:1128
+msgid "Fiksas la labortagan tempintervalon por vendredoj."
+msgstr "Définit la plage horaire pour les vendredis."
+
+#: templates/main.html:1131
+msgid "Sabato"
+msgstr "Samedi"
+
+#: templates/main.html:1137
+msgid "Fiksas la labortagan tempintervalon por sabatoj."
+msgstr "Définit la plage horaire pour les samedis."
+
+#: templates/main.html:1140
+msgid "Dimanĉo"
+msgstr "Dimanche"
+
+#: templates/main.html:1146
+msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
+msgstr "Définit la plage horaire pour le dimanche."
+
+#: templates/main.html:1149
+msgid "Detekti movadon"
+msgstr "Détecter le mouvement"
+
+#: templates/main.html:1152
+msgid "Dum laborista horaro"
+msgstr "Pendant les heures de travail"
+
+#: templates/main.html:1153
+msgid "Ekster laborista horaro"
+msgstr "En dehors des heures de travail"
+
+#: templates/main.html:1156
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
+msgstr "Définit si la détection de mouvement doit être active pendant ou en dehors des heures de travail."
