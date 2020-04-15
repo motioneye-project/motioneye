@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 17:50+0200\n"
+"POT-Creation-Date: 2020-04-15 18:10+0200\n"
 "PO-Revision-Date: 2020-04-13 15:20+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -356,6 +356,11 @@ msgstr "视频设备"
 #, fuzzy
 msgid "Kamerao Nomo"
 msgstr "相机名称"
+
+#: templates/main.html:267
+#, fuzzy
+msgid "kameraa nomo..."
+msgstr "相机名称..."
 
 #: templates/main.html:268
 #, fuzzy
@@ -977,6 +982,11 @@ msgstr "拍摄的图像"
 msgid "Nomo Bildo-Dosiero"
 msgstr "名称图像文件"
 
+#: templates/main.html:694 templates/main.html:763
+#, fuzzy
+msgid "ŝablona nomo de dosiero..."
+msgstr "模板文件名..."
+
 #: templates/main.html:695
 #, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
@@ -1457,6 +1467,11 @@ msgstr "如果要在每次检测到运动事件时接收电子邮件，请激活
 #, fuzzy
 msgid "Retpoŝtadresoj"
 msgstr "电邮地址"
+
+#: templates/main.html:978
+#, fuzzy
+msgid "retpoŝtadresoj..."
+msgstr "电子邮件地址..."
 
 #: templates/main.html:979
 #, fuzzy

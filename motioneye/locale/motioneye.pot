@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 17:50+0200\n"
+"POT-Creation-Date: 2020-04-15 18:18+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -295,6 +295,10 @@ msgstr ""
 
 #: templates/main.html:266 templates/main.html:560 templates/main.html:577
 msgid "Kamerao Nomo"
+msgstr ""
+
+#: templates/main.html:267
+msgid "kameraa nomo..."
 msgstr ""
 
 #: templates/main.html:268
@@ -883,6 +887,10 @@ msgstr ""
 msgid "Nomo Bildo-Dosiero"
 msgstr ""
 
+#: templates/main.html:694 templates/main.html:763
+msgid "ŝablona nomo de dosiero..."
+msgstr ""
+
 #: templates/main.html:695
 #, python-format
 msgid ""
@@ -1326,6 +1334,10 @@ msgstr ""
 
 #: templates/main.html:977
 msgid "Retpoŝtadresoj"
+msgstr ""
+
+#: templates/main.html:978
+msgid "retpoŝtadresoj..."
 msgstr ""
 
 #: templates/main.html:979

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 17:50+0200\n"
+"POT-Creation-Date: 2020-04-15 18:10+0200\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -289,6 +289,10 @@ msgstr "Video Device"
 #: templates/main.html:266 templates/main.html:560 templates/main.html:577
 msgid "Kamerao Nomo"
 msgstr "Camera Name"
+
+#: templates/main.html:267
+msgid "kameraa nomo..."
+msgstr "camera name ..."
 
 #: templates/main.html:268
 msgid "alias pri ĉi tiu kamera aparato"
@@ -790,6 +794,10 @@ msgstr "Still Images"
 msgid "Nomo Bildo-Dosiero"
 msgstr "Image File Name"
 
+#: templates/main.html:694 templates/main.html:763
+msgid "ŝablona nomo de dosiero..."
+msgstr "file name pattern..."
+
 #: templates/main.html:695
 #, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
@@ -1177,6 +1185,10 @@ msgstr "enable this if you want to receive an email whenever a motion event is d
 #: templates/main.html:977
 msgid "Retpoŝtadresoj"
 msgstr "Email Addresses"
+
+#: templates/main.html:978
+msgid "retpoŝtadresoj..."
+msgstr "email addresses ..."
 
 #: templates/main.html:979
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."

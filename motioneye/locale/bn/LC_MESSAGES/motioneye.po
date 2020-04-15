@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 17:50+0200\n"
+"POT-Creation-Date: 2020-04-15 18:10+0200\n"
 "PO-Revision-Date: 2020-04-02 18:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -356,6 +356,11 @@ msgstr "ভিডিও ডিভাইস"
 #, fuzzy
 msgid "Kamerao Nomo"
 msgstr "ক্যামেরার নাম"
+
+#: templates/main.html:267
+#, fuzzy
+msgid "kameraa nomo..."
+msgstr "ক্যামেরার নাম ..."
 
 #: templates/main.html:268
 #, fuzzy
@@ -977,6 +982,11 @@ msgstr "বন্দী চিত্রসমূহ"
 msgid "Nomo Bildo-Dosiero"
 msgstr "নাম চিত্র ফাইল"
 
+#: templates/main.html:694 templates/main.html:763
+#, fuzzy
+msgid "ŝablona nomo de dosiero..."
+msgstr "টেমপ্লেট ফাইলের নাম ..."
+
 #: templates/main.html:695
 #, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
@@ -1457,6 +1467,11 @@ msgstr "আপনি যখন কোনও মোশন ইভেন্ট স�
 #, fuzzy
 msgid "Retpoŝtadresoj"
 msgstr "ইমেল ঠিকানা"
+
+#: templates/main.html:978
+#, fuzzy
+msgid "retpoŝtadresoj..."
+msgstr "ইমেল ঠিকানা ..."
 
 #: templates/main.html:979
 #, fuzzy

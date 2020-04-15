@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 17:50+0200\n"
+"POT-Creation-Date: 2020-04-15 18:10+0200\n"
 "PO-Revision-Date: 2020-04-04 12:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -357,6 +357,11 @@ msgstr "Videogerät"
 #, fuzzy
 msgid "Kamerao Nomo"
 msgstr "Kameraname"
+
+#: templates/main.html:267
+#, fuzzy
+msgid "kameraa nomo..."
+msgstr "Kameraname ..."
 
 #: templates/main.html:268
 #, fuzzy
@@ -978,6 +983,11 @@ msgstr "Erfasste Bilder"
 msgid "Nomo Bildo-Dosiero"
 msgstr "Name Bilddatei"
 
+#: templates/main.html:694 templates/main.html:763
+#, fuzzy
+msgid "ŝablona nomo de dosiero..."
+msgstr "Name der Vorlagendatei ..."
+
 #: templates/main.html:695
 #, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
@@ -1459,6 +1469,11 @@ msgstr "Aktivieren Sie diese Option, wenn Sie jedes Mal eine E-Mail erhalten mö
 msgid "Retpoŝtadresoj"
 msgstr "E-Mail-Adressen"
 
+#: templates/main.html:978
+#, fuzzy
+msgid "retpoŝtadresoj..."
+msgstr "E-Mail-Adressen ..."
+
 #: templates/main.html:979
 #, fuzzy
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
@@ -1620,8 +1635,7 @@ msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento 
 msgstr "Aktivieren Sie diese Option, wenn Sie bei jedem Ende eines Verschiebungsereignisses einen Befehl starten möchten."
 
 #: templates/main.html:1070
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "Befehl, der gestartet werden soll, wenn das Bewegungsereignis endet; Mehrere Befehle können durch einen Doppelpunkt getrennt werden. Verwenden Sie keine Dotcoms mit Befehlen. Die folgenden speziellen Token werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Datum, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Rahmennummer."
 

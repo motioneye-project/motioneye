@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 17:50+0200\n"
+"POT-Creation-Date: 2020-04-15 18:10+0200\n"
 "PO-Revision-Date: 2020-04-04 13:20+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -357,6 +357,11 @@ msgstr "Dispositivo de video"
 #, fuzzy
 msgid "Kamerao Nomo"
 msgstr "Nombre de la cámara"
+
+#: templates/main.html:267
+#, fuzzy
+msgid "kameraa nomo..."
+msgstr "nombre de la cámara ..."
 
 #: templates/main.html:268
 #, fuzzy
@@ -978,6 +983,11 @@ msgstr "Imágenes capturadas"
 msgid "Nomo Bildo-Dosiero"
 msgstr "Nombre de archivo de imagen"
 
+#: templates/main.html:694 templates/main.html:763
+#, fuzzy
+msgid "ŝablona nomo de dosiero..."
+msgstr "nombre del archivo de plantilla ..."
+
 #: templates/main.html:695
 #, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
@@ -1458,6 +1468,11 @@ msgstr "Active esta opción si desea recibir un correo electrónico cada vez que
 #, fuzzy
 msgid "Retpoŝtadresoj"
 msgstr "Direcciones de correo electrónico"
+
+#: templates/main.html:978
+#, fuzzy
+msgid "retpoŝtadresoj..."
+msgstr "direcciones de correo electrónico ..."
 
 #: templates/main.html:979
 #, fuzzy

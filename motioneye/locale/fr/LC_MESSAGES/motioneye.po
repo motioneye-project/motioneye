@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 17:50+0200\n"
+"POT-Creation-Date: 2020-04-15 18:10+0200\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -288,6 +288,10 @@ msgstr "Périphérique vidéo"
 #: templates/main.html:266 templates/main.html:560 templates/main.html:577
 msgid "Kamerao Nomo"
 msgstr "Nom de la caméra"
+
+#: templates/main.html:267
+msgid "kameraa nomo..."
+msgstr "nom de la caméra ..."
 
 #: templates/main.html:268
 msgid "alias pri ĉi tiu kamera aparato"
@@ -789,6 +793,10 @@ msgstr "Capture d'images"
 msgid "Nomo Bildo-Dosiero"
 msgstr "Nom du fichier image"
 
+#: templates/main.html:694 templates/main.html:763
+msgid "ŝablona nomo de dosiero..."
+msgstr "modèle de nom de fichier..."
+
 #: templates/main.html:695
 #, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
@@ -1176,6 +1184,10 @@ msgstr "Activez cette option si vous souhaitez recevoir un e-mail chaque fois qu
 #: templates/main.html:977
 msgid "Retpoŝtadresoj"
 msgstr "Adresses e-mail"
+
+#: templates/main.html:978
+msgid "retpoŝtadresoj..."
+msgstr "adresses e-mail ..."
 
 #: templates/main.html:979
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
