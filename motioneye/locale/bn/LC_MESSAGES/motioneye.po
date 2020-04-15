@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 18:10+0200\n"
+"POT-Creation-Date: 2020-04-15 18:31+0200\n"
 "PO-Revision-Date: 2020-04-02 18:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -161,6 +161,16 @@ msgstr "সেকেন্ড"
 #, fuzzy
 msgid "minus"
 msgstr "ঋণচিহ্ন"
+
+#: templates/main.html:100
+#, fuzzy
+msgid "agordojn"
+msgstr "সেটিংস"
+
+#: templates/main.html:101
+#, fuzzy
+msgid "ŝanĝi uzanton"
+msgstr "ব্যবহারকারী পরিবর্তন করুন"
 
 #: templates/main.html:123
 #, fuzzy

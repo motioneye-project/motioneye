@@ -581,7 +581,7 @@ function initUI() {
     /* custom validators */
     makeCustomValidator($('#adminPasswordEntry, #normalPasswordEntry'), function (value) {
         if (!value.toLowerCase().match(new RegExp('^[\x21-\x7F]*$'))) {
-            return "special characters are not allowed in password";
+            return i18n.gettext("specialaj signoj ne rajtas en pasvorto");
         }
 
         return true;
@@ -4546,10 +4546,10 @@ function addCameraFrameUi(cameraConfig) {
                     '<div class="camera-overlay-top">' +
                         '<div class="camera-name"><span class="camera-name"></span></div>' +
                         '<div class="camera-top-buttons">' +
-                            '<div class="button icon camera-top-button mouse-effect full-screen" title="toggle full-screen camera"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect media-pictures" title="open pictures browser"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect media-movies" title="open movies browser"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect configure" title="configure this camera"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect full-screen" title="' + i18n.gettext("plena ekrano kamerao") +'"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect media-pictures" title="' + i18n.gettext("malfermaj bildoj retumilo") + '"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect media-movies" title="' + i18n.gettext("malferma videoj retumilo") + '"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect configure" title="' + i18n.gettext("agordi ĉi tiun kameraon") + '"></div>' +
                         '</div>' +
                     '</div>' +
                     '<div class="camera-overlay-mask"></div>' +
@@ -4565,7 +4565,7 @@ function addCameraFrameUi(cameraConfig) {
                                 '<div class="button icon camera-action-button mouse-effect light-off" title="turn light off"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect snapshot" title="take a snapshot"></div>' +
+                                '<div class="button icon camera-action-button mouse-effect snapshot" title="' + i18n.gettext("preni instantaron") + '"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect record-start" title="toggle continuous recording mode"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect up" title="up"></div>' +
                                 '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +

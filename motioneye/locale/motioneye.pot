@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 18:18+0200\n"
+"POT-Creation-Date: 2020-04-15 18:31+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -131,6 +131,14 @@ msgstr ""
 
 #: utils.py:208
 msgid "minus"
+msgstr ""
+
+#: templates/main.html:100
+msgid "agordojn"
+msgstr ""
+
+#: templates/main.html:101
+msgid "ŝanĝi uzanton"
 msgstr ""
 
 #: templates/main.html:123

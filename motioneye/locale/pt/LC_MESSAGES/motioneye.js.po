@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-28 18:26+0100\n"
+"POT-Creation-Date: 2020-04-15 20:04+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -16,6 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: static/js/main.js:584
+#, fuzzy
+msgid "specialaj signoj ne rajtas en pasvorto"
+msgstr "caracteres especiais não são permitidos na senha"
 
 #: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
@@ -47,3 +52,28 @@ msgstr "Entrar"
 #, fuzzy
 msgid "Nuligi"
 msgstr "Cancelar"
+
+#: static/js/main.js:4549
+#, fuzzy
+msgid "plena ekrano kamerao"
+msgstr "câmera de tela cheia"
+
+#: static/js/main.js:4550
+#, fuzzy
+msgid "malfermaj bildoj retumilo"
+msgstr "navegador de imagens abertas"
+
+#: static/js/main.js:4551
+#, fuzzy
+msgid "malferma videoj retumilo"
+msgstr "navegador de vídeos abertos"
+
+#: static/js/main.js:4552
+#, fuzzy
+msgid "agordi ĉi tiun kameraon"
+msgstr "coloque esta câmera"
+
+#: static/js/main.js:4568
+#, fuzzy
+msgid "preni instantaron"
+msgstr "tirar uma foto"

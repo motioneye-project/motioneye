@@ -1,8 +1,14 @@
 {"":{"language":"en","plural-forms":"nplurals=2; plural=(n > 1);"}
+,"specialaj signoj ne rajtas en pasvorto": "special characters are not allowed in password"
 ,"Ĉi tiu kampo estas deviga": "This field is required"
 ,"Uzantnomo": "Username"
 ,"Pasvorto": "Password"
 ,"Memoru min": "Remember me"
 ,"Ensaluti": "Login"
 ,"Nuligi": "Cancel"
+,"plena ekrano kamerao": "toggle full-screen camera"
+,"malfermaj bildoj retumilo": "open pictures browser"
+,"malferma videoj retumilo": "open movies browser"
+,"agordi ĉi tiun kameraon": "configure this camera"
+,"preni instantaron": "take a snapshot"
 }

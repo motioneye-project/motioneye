@@ -1,8 +1,14 @@
 {"":{"language":"ar","plural-forms":"nplurals=2; plural=(n > 1);"}
+,"specialaj signoj ne rajtas en pasvorto": "الأحرف الخاصة غير مسموح بها في كلمة المرور"
 ,"Ĉi tiu kampo estas deviga": "هذا الحقل مطلوب"
 ,"Uzantnomo": "اسم المستخدم"
 ,"Pasvorto": "كلمة المرور"
 ,"Memoru min": "تذكرني"
 ,"Ensaluti": "تسجيل الدخول"
 ,"Nuligi": "الإلغاء"
+,"plena ekrano kamerao": "كاميرا ملء الشاشة"
+,"malfermaj bildoj retumilo": "فتح متصفح الصور"
+,"malferma videoj retumilo": "فتح متصفح الفيديو"
+,"agordi ĉi tiun kameraon": "ضبط هذه الكاميرا"
+,"preni instantaron": "أخذ لقطة"
 }

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-28 18:26+0100\n"
+"POT-Creation-Date: 2020-04-15 20:04+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -16,6 +16,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: static/js/main.js:584
+#, fuzzy
+msgid "specialaj signoj ne rajtas en pasvorto"
+msgstr "パスワードに特殊文字は使用できません"
 
 #: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
@@ -47,3 +52,28 @@ msgstr "ログイン"
 #, fuzzy
 msgid "Nuligi"
 msgstr "キャンセルする"
+
+#: static/js/main.js:4549
+#, fuzzy
+msgid "plena ekrano kamerao"
+msgstr "全画面カメラ"
+
+#: static/js/main.js:4550
+#, fuzzy
+msgid "malfermaj bildoj retumilo"
+msgstr "画像ブラウザを開く"
+
+#: static/js/main.js:4551
+#, fuzzy
+msgid "malferma videoj retumilo"
+msgstr "動画ブラウザを開く"
+
+#: static/js/main.js:4552
+#, fuzzy
+msgid "agordi ĉi tiun kameraon"
+msgstr "このカメラをセット"
+
+#: static/js/main.js:4568
+#, fuzzy
+msgid "preni instantaron"
+msgstr "スナップショットを撮る"

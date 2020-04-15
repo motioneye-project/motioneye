@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 18:10+0200\n"
+"POT-Creation-Date: 2020-04-15 18:31+0200\n"
 "PO-Revision-Date: 2020-04-08 17:45+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -162,6 +162,16 @@ msgstr "秒"
 #, fuzzy
 msgid "minus"
 msgstr "マイナス"
+
+#: templates/main.html:100
+#, fuzzy
+msgid "agordojn"
+msgstr "設定"
+
+#: templates/main.html:101
+#, fuzzy
+msgid "ŝanĝi uzanton"
+msgstr "ユーザーを変更する"
 
 #: templates/main.html:123
 #, fuzzy

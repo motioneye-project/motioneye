@@ -1,8 +1,14 @@
 {"":{"language":"bn","plural-forms":"nplurals=2; plural=(n > 1);"}
+,"specialaj signoj ne rajtas en pasvorto": "পাসওয়ার্ডে বিশেষ অক্ষর অনুমোদিত নয়"
 ,"Ĉi tiu kampo estas deviga": "এই ক্ষেত্রটি প্রয়োজনীয়"
 ,"Uzantnomo": "ব্যবহারকারীর নাম"
 ,"Pasvorto": "পাসওয়ার্ড"
 ,"Memoru min": "আমাকে মনে আছে"
 ,"Ensaluti": "লগ ইন"
 ,"Nuligi": "বাতিল"
+,"plena ekrano kamerao": "পূর্ণ স্ক্রিন ক্যামেরা"
+,"malfermaj bildoj retumilo": "চিত্র ব্রাউজার খুলুন"
+,"malferma videoj retumilo": "ভিডিও ব্রাউজার খুলুন"
+,"agordi ĉi tiun kameraon": "এই ক্যামেরা সেট করুন"
+,"preni instantaron": "একটি স্ন্যাপশট নিতে"
 }

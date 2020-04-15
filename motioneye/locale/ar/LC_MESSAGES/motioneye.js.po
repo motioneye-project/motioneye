@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-28 18:26+0100\n"
+"POT-Creation-Date: 2020-04-15 20:04+0200\n"
 "PO-Revision-Date: 2020-02-11 22:23+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -15,6 +15,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: static/js/main.js:584
+#, fuzzy
+msgid "specialaj signoj ne rajtas en pasvorto"
+msgstr "الأحرف الخاصة غير مسموح بها في كلمة المرور"
 
 #: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
@@ -46,3 +51,28 @@ msgstr "تسجيل الدخول"
 #, fuzzy
 msgid "Nuligi"
 msgstr "الإلغاء"
+
+#: static/js/main.js:4549
+#, fuzzy
+msgid "plena ekrano kamerao"
+msgstr "كاميرا ملء الشاشة"
+
+#: static/js/main.js:4550
+#, fuzzy
+msgid "malfermaj bildoj retumilo"
+msgstr "فتح متصفح الصور"
+
+#: static/js/main.js:4551
+#, fuzzy
+msgid "malferma videoj retumilo"
+msgstr "فتح متصفح الفيديو"
+
+#: static/js/main.js:4552
+#, fuzzy
+msgid "agordi ĉi tiun kameraon"
+msgstr "ضبط هذه الكاميرا"
+
+#: static/js/main.js:4568
+#, fuzzy
+msgid "preni instantaron"
+msgstr "أخذ لقطة"

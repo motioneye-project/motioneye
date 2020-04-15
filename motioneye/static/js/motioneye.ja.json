@@ -1,8 +1,14 @@
 {"":{"language":"ja","plural-forms":"nplurals=2; plural=(n > 1);"}
+,"specialaj signoj ne rajtas en pasvorto": "パスワードに特殊文字は使用できません"
 ,"Ĉi tiu kampo estas deviga": "このフィールドは必須です"
 ,"Uzantnomo": "ユーザー名"
 ,"Pasvorto": "パスワード"
 ,"Memoru min": "覚えて"
 ,"Ensaluti": "ログイン"
 ,"Nuligi": "キャンセルする"
+,"plena ekrano kamerao": "全画面カメラ"
+,"malfermaj bildoj retumilo": "画像ブラウザを開く"
+,"malferma videoj retumilo": "動画ブラウザを開く"
+,"agordi ĉi tiun kameraon": "このカメラをセット"
+,"preni instantaron": "スナップショットを撮る"
 }

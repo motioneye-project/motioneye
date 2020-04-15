@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-28 18:26+0100\n"
+"POT-Creation-Date: 2020-04-15 20:04+0200\n"
 "PO-Revision-Date: 2020-02-11 19:28+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -16,6 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: static/js/main.js:584
+msgid "specialaj signoj ne rajtas en pasvorto"
+msgstr "special characters are not allowed in password"
 
 #: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
@@ -41,3 +45,23 @@ msgstr "Login"
 #: static/js/main.js:3490
 msgid "Nuligi"
 msgstr "Cancel"
+
+#: static/js/main.js:4549
+msgid "plena ekrano kamerao"
+msgstr "toggle full-screen camera"
+
+#: static/js/main.js:4550
+msgid "malfermaj bildoj retumilo"
+msgstr "open pictures browser"
+
+#: static/js/main.js:4551
+msgid "malferma videoj retumilo"
+msgstr "open movies browser"
+
+#: static/js/main.js:4552
+msgid "agordi ĉi tiun kameraon"
+msgstr "configure this camera"
+
+#: static/js/main.js:4568
+msgid "preni instantaron"
+msgstr "take a snapshot"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-03-28 18:26+0100\n"
+"POT-Creation-Date: 2020-04-15 20:04+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -15,6 +15,11 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+#: static/js/main.js:584
+#, fuzzy
+msgid "specialaj signoj ne rajtas en pasvorto"
+msgstr "পাসওয়ার্ডে বিশেষ অক্ষর অনুমোদিত নয়"
 
 #: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
@@ -46,3 +51,28 @@ msgstr "লগ ইন"
 #, fuzzy
 msgid "Nuligi"
 msgstr "বাতিল"
+
+#: static/js/main.js:4549
+#, fuzzy
+msgid "plena ekrano kamerao"
+msgstr "পূর্ণ স্ক্রিন ক্যামেরা"
+
+#: static/js/main.js:4550
+#, fuzzy
+msgid "malfermaj bildoj retumilo"
+msgstr "চিত্র ব্রাউজার খুলুন"
+
+#: static/js/main.js:4551
+#, fuzzy
+msgid "malferma videoj retumilo"
+msgstr "ভিডিও ব্রাউজার খুলুন"
+
+#: static/js/main.js:4552
+#, fuzzy
+msgid "agordi ĉi tiun kameraon"
+msgstr "এই ক্যামেরা সেট করুন"
+
+#: static/js/main.js:4568
+#, fuzzy
+msgid "preni instantaron"
+msgstr "একটি স্ন্যাপশট নিতে"

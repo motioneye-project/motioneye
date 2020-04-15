@@ -1,8 +1,14 @@
 {"":{"language":"it","plural-forms":"nplurals=2; plural=(n > 1);"}
+,"specialaj signoj ne rajtas en pasvorto": "i caratteri speciali non sono ammessi nella password"
 ,"Ĉi tiu kampo estas deviga": "Questo campo è obbligatorio"
 ,"Uzantnomo": "nome utente"
 ,"Pasvorto": "password"
 ,"Memoru min": "Ricordati di me"
 ,"Ensaluti": "Accedi"
 ,"Nuligi": "annullare"
+,"plena ekrano kamerao": "fotocamera a schermo intero"
+,"malfermaj bildoj retumilo": "apri il browser delle immagini"
+,"malferma videoj retumilo": "apri il browser dei video"
+,"agordi ĉi tiun kameraon": "imposta questa fotocamera"
+,"preni instantaron": "fare un'istantanea"
 }

@@ -1,8 +1,14 @@
 {"":{"language":"zh","plural-forms":"nplurals=2; plural=(n > 1);"}
+,"specialaj signoj ne rajtas en pasvorto": "密码中不允许使用特殊字符"
 ,"Ĉi tiu kampo estas deviga": "必填项"
 ,"Uzantnomo": "用户名"
 ,"Pasvorto": "密码"
 ,"Memoru min": "记住我"
 ,"Ensaluti": "登入"
 ,"Nuligi": "取消"
+,"plena ekrano kamerao": "全屏摄像头"
+,"malfermaj bildoj retumilo": "打开图像浏览器"
+,"malferma videoj retumilo": "打开视频浏览器"
+,"agordi ĉi tiun kameraon": "设置这台相机"
+,"preni instantaron": "拍摄快照"
 }
