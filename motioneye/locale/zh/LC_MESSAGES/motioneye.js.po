@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 21:49+0200\n"
+"POT-Creation-Date: 2020-04-16 23:10+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "密码中不允许使用特殊字符"
 
-#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:655
+#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
@@ -47,72 +47,147 @@ msgstr "根路径名中不允许使用特殊字符"
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "文件不能直接在系统根目录中创建"
 
-#: static/js/main.js:625
+#: static/js/main.js:624
 #, fuzzy
 msgid "enigu validan retpoŝtadreson"
 msgstr "输入有效的电子邮件地址"
 
-#: static/js/main.js:632
+#: static/js/main.js:631
 #, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "输入以逗号分隔的有效电子邮件地址列表"
 
-#: static/js/main.js:639
+#: static/js/main.js:638
 #, fuzzy
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "文件名中不允许使用特殊字符"
 
-#: static/js/main.js:659
+#: static/js/main.js:658
 #, fuzzy
 msgid "enigu validan valoron"
 msgstr "输入有效值"
 
-#: static/js/main.js:3459
+#: static/js/main.js:3233
+#, fuzzy
+msgid "aldonadi kameraon..."
+msgstr "添加相机..."
+
+#: static/js/main.js:3458
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "用户名"
 
-#: static/js/main.js:3464
+#: static/js/main.js:3463
 #, fuzzy
 msgid "Pasvorto"
 msgstr "密码"
 
-#: static/js/main.js:3470
+#: static/js/main.js:3469
 #, fuzzy
 msgid "Memoru min"
 msgstr "记住我"
 
-#: static/js/main.js:3488 static/js/main.js:3494
+#: static/js/main.js:3487 static/js/main.js:3493
 #, fuzzy
 msgid "Ensaluti"
 msgstr "登入"
 
-#: static/js/main.js:3491
+#: static/js/main.js:3490
 #, fuzzy
 msgid "Nuligi"
 msgstr "取消"
 
-#: static/js/main.js:4550
+#: static/js/main.js:3532
+#, fuzzy
+msgid "Vi abortis la filmeton."
+msgstr "您中止了视频。"
+
+#: static/js/main.js:3535
+#, fuzzy
+msgid "Reto eraro okazis."
+msgstr "发生网络错误。"
+
+#: static/js/main.js:3538
+#, fuzzy
+msgid "Malkodado-eraro aŭ neprogresinta funkcio."
+msgstr "解码错误或非投影功能。"
+
+#: static/js/main.js:3541
+#, fuzzy
+msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
+msgstr "格式不受支持，否则将无法使用/无法播放。"
+
+#: static/js/main.js:3544
+#, fuzzy
+msgid "Nekonata eraro okazis."
+msgstr "发生未知错误。"
+
+#: static/js/main.js:3547
+#, fuzzy
+msgid "Eraro : "
+msgstr "错误："
+
+#: static/js/main.js:3693
+#, fuzzy
+msgid "Kamerao tipo"
+msgstr "相机类型"
+
+#: static/js/main.js:3695
+#, fuzzy
+msgid "Loka V4L2-kamerao"
+msgstr "本地V4L2相机"
+
+#: static/js/main.js:3696
+#, fuzzy
+msgid "Loka MMAL-kamerao"
+msgstr "本地MMAL相机"
+
+#: static/js/main.js:3697
+#, fuzzy
+msgid "Reta kamerao"
+msgstr "网路摄影机"
+
+#: static/js/main.js:3698
+#, fuzzy
+msgid "Fora motionEye kamerao"
+msgstr "外部运动眼相机"
+
+#: static/js/main.js:3699
+#, fuzzy
+msgid "Simpla MJPEG-kamerao"
+msgstr "简单的MJPEG相机"
+
+#: static/js/main.js:3701
+#, fuzzy
+msgid "la speco de kamerao, kiun vi volas aldoni"
+msgstr "您要添加的摄像头类型"
+
+#: static/js/main.js:3955
+#, fuzzy
+msgid "Aldonadi kameraon..."
+msgstr "添加相机..."
+
+#: static/js/main.js:4549
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "全屏摄像头"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4550
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "打开图像浏览器"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4551
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "打开视频浏览器"
 
-#: static/js/main.js:4553
+#: static/js/main.js:4552
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "设置这台相机"
 
-#: static/js/main.js:4569
+#: static/js/main.js:4568
 #, fuzzy
 msgid "preni instantaron"
 msgstr "拍摄快照"

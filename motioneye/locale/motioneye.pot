@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 18:31+0200\n"
+"POT-Creation-Date: 2020-04-16 22:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -139,6 +139,10 @@ msgstr ""
 
 #: templates/main.html:101
 msgid "ŝanĝi uzanton"
+msgstr ""
+
+#: templates/main.html:104
+msgid "Apliki"
 msgstr ""
 
 #: templates/main.html:123
@@ -1531,6 +1535,14 @@ msgstr ""
 
 #: templates/main.html:1086
 msgid "Lundo"
+msgstr ""
+
+#: templates/main.html:1089
+msgid "de"
+msgstr ""
+
+#: templates/main.html:1090
+msgid "ĝis"
 msgstr ""
 
 #: templates/main.html:1092

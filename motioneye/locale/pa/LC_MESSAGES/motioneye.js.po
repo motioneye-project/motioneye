@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 21:49+0200\n"
+"POT-Creation-Date: 2020-04-16 23:10+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "ਪਾਸਵਰਡ ਵਿੱਚ ਵਿਸ਼ੇਸ਼ ਅੱਖਰਾਂ ਦੀ ਆਗਿਆ ਨਹੀਂ ਹੈ"
 
-#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:655
+#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
@@ -47,72 +47,147 @@ msgstr "ਰੂਟ ਮਾਰਗ ਨਾਮ ਵਿੱਚ ਵਿਸ਼ੇਸ਼ ਅ�
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "ਫਾਈਲਾਂ ਸਿੱਧੇ ਤੁਹਾਡੇ ਸਿਸਟਮ ਦੇ ਰੂਟ ਵਿੱਚ ਨਹੀਂ ਬਣੀਆਂ"
 
-#: static/js/main.js:625
+#: static/js/main.js:624
 #, fuzzy
 msgid "enigu validan retpoŝtadreson"
 msgstr "ਇੱਕ ਵੈਧ ਈਮੇਲ ਪਤਾ ਦਰਜ ਕਰੋ"
 
-#: static/js/main.js:632
+#: static/js/main.js:631
 #, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "ਕਾਮੇ ਨਾਲ ਵੱਖ ਕੀਤੇ ਵੈਧ ਈਮੇਲ ਪਤਿਆਂ ਦੀ ਸੂਚੀ ਦਰਜ ਕਰੋ"
 
-#: static/js/main.js:639
+#: static/js/main.js:638
 #, fuzzy
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "ਫਾਇਲ ਅੱਖਰ ਵਿੱਚ ਵਿਸ਼ੇਸ਼ ਅੱਖਰਾਂ ਦੀ ਆਗਿਆ ਨਹੀਂ ਹੈ"
 
-#: static/js/main.js:659
+#: static/js/main.js:658
 #, fuzzy
 msgid "enigu validan valoron"
 msgstr "ਇੱਕ ਯੋਗ ਮੁੱਲ ਦਾਖਲ ਕਰੋ"
 
-#: static/js/main.js:3459
+#: static/js/main.js:3233
+#, fuzzy
+msgid "aldonadi kameraon..."
+msgstr "ਕੈਮਰਾ ਸ਼ਾਮਲ ਕਰੋ ..."
+
+#: static/js/main.js:3458
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "ਉਪਯੋਗਕਰਤਾ ਨਾਮ"
 
-#: static/js/main.js:3464
+#: static/js/main.js:3463
 #, fuzzy
 msgid "Pasvorto"
 msgstr "ਪਾਸਵਰਡ"
 
-#: static/js/main.js:3470
+#: static/js/main.js:3469
 #, fuzzy
 msgid "Memoru min"
 msgstr "ਮੈਨੂੰ ਯਾਦ ਕਰੋ"
 
-#: static/js/main.js:3488 static/js/main.js:3494
+#: static/js/main.js:3487 static/js/main.js:3493
 #, fuzzy
 msgid "Ensaluti"
 msgstr "ਲਾਗ ਇਨ"
 
-#: static/js/main.js:3491
+#: static/js/main.js:3490
 #, fuzzy
 msgid "Nuligi"
 msgstr "ਰੱਦ ਕਰੋ"
 
-#: static/js/main.js:4550
+#: static/js/main.js:3532
+#, fuzzy
+msgid "Vi abortis la filmeton."
+msgstr "ਤੁਸੀਂ ਵੀਡੀਓ ਨੂੰ ਅਧੂਰਾ ਛੱਡ ਦਿੱਤਾ ਹੈ."
+
+#: static/js/main.js:3535
+#, fuzzy
+msgid "Reto eraro okazis."
+msgstr "ਨੈੱਟਵਰਕ ਗਲਤੀ ਆਈ ਹੈ."
+
+#: static/js/main.js:3538
+#, fuzzy
+msgid "Malkodado-eraro aŭ neprogresinta funkcio."
+msgstr "ਡੀਕੋਡਿੰਗ ਗਲਤੀ ਜਾਂ ਨਾਨ-ਪ੍ਰੋਜੈਕਟਿਡ ਫੰਕਸ਼ਨ."
+
+#: static/js/main.js:3541
+#, fuzzy
+msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
+msgstr "ਫਾਰਮੈਟ ਸਹਿਯੋਗੀ ਨਹੀਂ ਹੈ ਜਾਂ ਖੇਡਣ ਦੇ ਲਈ ਬੇਕਾਰ / ਵਰਤੋਂ ਯੋਗ ਨਹੀਂ ਹੈ."
+
+#: static/js/main.js:3544
+#, fuzzy
+msgid "Nekonata eraro okazis."
+msgstr "ਇੱਕ ਅਣਜਾਣ ਗਲਤੀ ਆਈ ਹੈ."
+
+#: static/js/main.js:3547
+#, fuzzy
+msgid "Eraro : "
+msgstr "ਗਲਤੀ:"
+
+#: static/js/main.js:3693
+#, fuzzy
+msgid "Kamerao tipo"
+msgstr "ਕੈਮਰਾ ਕਿਸਮ"
+
+#: static/js/main.js:3695
+#, fuzzy
+msgid "Loka V4L2-kamerao"
+msgstr "ਸਥਾਨਕ ਵੀ 4 ਐਲ 2 ਕੈਮਰਾ"
+
+#: static/js/main.js:3696
+#, fuzzy
+msgid "Loka MMAL-kamerao"
+msgstr "ਸਥਾਨਕ ਐਮ ਐਮ ਐਲ ਕੈਮਰਾ"
+
+#: static/js/main.js:3697
+#, fuzzy
+msgid "Reta kamerao"
+msgstr "ਵੈਬਕੈਮ"
+
+#: static/js/main.js:3698
+#, fuzzy
+msgid "Fora motionEye kamerao"
+msgstr "ਬਾਹਰ ਮੋਸ਼ਨਈ ਕੈਮਰਾ"
+
+#: static/js/main.js:3699
+#, fuzzy
+msgid "Simpla MJPEG-kamerao"
+msgstr "ਸਧਾਰਨ ਐਮਜੇਪੀਈਜੀ ਕੈਮਰਾ"
+
+#: static/js/main.js:3701
+#, fuzzy
+msgid "la speco de kamerao, kiun vi volas aldoni"
+msgstr "ਕੈਮਰਾ ਦੀ ਕਿਸਮ ਜੋ ਤੁਸੀਂ ਸ਼ਾਮਲ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ"
+
+#: static/js/main.js:3955
+#, fuzzy
+msgid "Aldonadi kameraon..."
+msgstr "ਕੈਮਰਾ ਸ਼ਾਮਲ ਕਰੋ ..."
+
+#: static/js/main.js:4549
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "ਪੂਰਾ ਸਕਰੀਨ ਕੈਮਰਾ"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4550
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "ਚਿੱਤਰ ਬਰਾ browserਜ਼ਰ ਖੋਲ੍ਹੋ"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4551
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "ਵੀਡੀਓ ਬਰਾ browserਜ਼ਰ ਖੋਲ੍ਹੋ"
 
-#: static/js/main.js:4553
+#: static/js/main.js:4552
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "ਇਸ ਕੈਮਰਾ ਸੈੱਟ ਕਰੋ"
 
-#: static/js/main.js:4569
+#: static/js/main.js:4568
 #, fuzzy
 msgid "preni instantaron"
 msgstr "ਇੱਕ ਸਨੈਪਸ਼ਾਟ ਲਓ"

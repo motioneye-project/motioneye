@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 21:49+0200\n"
+"POT-Creation-Date: 2020-04-16 23:10+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "i caratteri speciali non sono ammessi nella password"
 
-#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:655
+#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
@@ -48,72 +48,147 @@ msgstr "i caratteri speciali non sono ammessi nel nome del percorso radice"
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "i file non possono essere creati direttamente nella radice del sistema"
 
-#: static/js/main.js:625
+#: static/js/main.js:624
 #, fuzzy
 msgid "enigu validan retpoŝtadreson"
 msgstr "inserisci un indirizzo email valido"
 
-#: static/js/main.js:632
+#: static/js/main.js:631
 #, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "inserisci un elenco di indirizzi email validi separati da virgola"
 
-#: static/js/main.js:639
+#: static/js/main.js:638
 #, fuzzy
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "i caratteri speciali non sono ammessi nel nome file"
 
-#: static/js/main.js:659
+#: static/js/main.js:658
 #, fuzzy
 msgid "enigu validan valoron"
 msgstr "inserisci un valore valido"
 
-#: static/js/main.js:3459
+#: static/js/main.js:3233
+#, fuzzy
+msgid "aldonadi kameraon..."
+msgstr "aggiungi fotocamera ..."
+
+#: static/js/main.js:3458
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "nome utente"
 
-#: static/js/main.js:3464
+#: static/js/main.js:3463
 #, fuzzy
 msgid "Pasvorto"
 msgstr "password"
 
-#: static/js/main.js:3470
+#: static/js/main.js:3469
 #, fuzzy
 msgid "Memoru min"
 msgstr "Ricordati di me"
 
-#: static/js/main.js:3488 static/js/main.js:3494
+#: static/js/main.js:3487 static/js/main.js:3493
 #, fuzzy
 msgid "Ensaluti"
 msgstr "Accedi"
 
-#: static/js/main.js:3491
+#: static/js/main.js:3490
 #, fuzzy
 msgid "Nuligi"
 msgstr "annullare"
 
-#: static/js/main.js:4550
+#: static/js/main.js:3532
+#, fuzzy
+msgid "Vi abortis la filmeton."
+msgstr "Hai interrotto il video."
+
+#: static/js/main.js:3535
+#, fuzzy
+msgid "Reto eraro okazis."
+msgstr "Si è verificato un errore di rete."
+
+#: static/js/main.js:3538
+#, fuzzy
+msgid "Malkodado-eraro aŭ neprogresinta funkcio."
+msgstr "Errore di decodifica o funzione non proiettata."
+
+#: static/js/main.js:3541
+#, fuzzy
+msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
+msgstr "Formato non supportato o altrimenti inutilizzabile / inutilizzabile per la riproduzione."
+
+#: static/js/main.js:3544
+#, fuzzy
+msgid "Nekonata eraro okazis."
+msgstr "Si è verificato un errore sconosciuto."
+
+#: static/js/main.js:3547
+#, fuzzy
+msgid "Eraro : "
+msgstr "di errore:"
+
+#: static/js/main.js:3693
+#, fuzzy
+msgid "Kamerao tipo"
+msgstr "Tipo di fotocamera"
+
+#: static/js/main.js:3695
+#, fuzzy
+msgid "Loka V4L2-kamerao"
+msgstr "Videocamera V4L2 locale"
+
+#: static/js/main.js:3696
+#, fuzzy
+msgid "Loka MMAL-kamerao"
+msgstr "Videocamera MMAL locale"
+
+#: static/js/main.js:3697
+#, fuzzy
+msgid "Reta kamerao"
+msgstr "telecamera di rete"
+
+#: static/js/main.js:3698
+#, fuzzy
+msgid "Fora motionEye kamerao"
+msgstr "Telecamera esterna"
+
+#: static/js/main.js:3699
+#, fuzzy
+msgid "Simpla MJPEG-kamerao"
+msgstr "Fotocamera MJPEG semplice"
+
+#: static/js/main.js:3701
+#, fuzzy
+msgid "la speco de kamerao, kiun vi volas aldoni"
+msgstr "il tipo di fotocamera che si desidera aggiungere"
+
+#: static/js/main.js:3955
+#, fuzzy
+msgid "Aldonadi kameraon..."
+msgstr "Aggiungi fotocamera ..."
+
+#: static/js/main.js:4549
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "fotocamera a schermo intero"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4550
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "apri il browser delle immagini"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4551
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "apri il browser dei video"
 
-#: static/js/main.js:4553
+#: static/js/main.js:4552
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "imposta questa fotocamera"
 
-#: static/js/main.js:4569
+#: static/js/main.js:4568
 #, fuzzy
 msgid "preni instantaron"
 msgstr "fare un'istantanea"

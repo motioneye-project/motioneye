@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 21:49+0200\n"
+"POT-Creation-Date: 2020-04-16 23:10+0200\n"
 "PO-Revision-Date: 2020-02-11 19:28+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "special characters are not allowed in password"
 
-#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:655
+#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "This field is required"
@@ -42,58 +42,118 @@ msgstr "special characters are not allowed in root directory name"
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "files cannot be created directly on the root of your system"
 
-#: static/js/main.js:625
+#: static/js/main.js:624
 msgid "enigu validan retpoŝtadreson"
 msgstr "enter a valid email address"
 
-#: static/js/main.js:632
+#: static/js/main.js:631
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "enter a list of comma-separated valid email addresses"
 
-#: static/js/main.js:639
+#: static/js/main.js:638
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "special characters are not allowed in filename"
 
-#: static/js/main.js:659
+#: static/js/main.js:658
 msgid "enigu validan valoron"
 msgstr "enter a valid value"
 
-#: static/js/main.js:3459
+#: static/js/main.js:3233
+msgid "aldonadi kameraon..."
+msgstr "add camera ..."
+
+#: static/js/main.js:3458
 msgid "Uzantnomo"
 msgstr "Username"
 
-#: static/js/main.js:3464
+#: static/js/main.js:3463
 msgid "Pasvorto"
 msgstr "Password"
 
-#: static/js/main.js:3470
+#: static/js/main.js:3469
 msgid "Memoru min"
 msgstr "Remember me"
 
-#: static/js/main.js:3488 static/js/main.js:3494
+#: static/js/main.js:3487 static/js/main.js:3493
 msgid "Ensaluti"
 msgstr "Login"
 
-#: static/js/main.js:3491
+#: static/js/main.js:3490
 msgid "Nuligi"
 msgstr "Cancel"
 
-#: static/js/main.js:4550
+#: static/js/main.js:3532
+msgid "Vi abortis la filmeton."
+msgstr "You aborted the video."
+
+#: static/js/main.js:3535
+msgid "Reto eraro okazis."
+msgstr "A network error occurred."
+
+#: static/js/main.js:3538
+msgid "Malkodado-eraro aŭ neprogresinta funkcio."
+msgstr "Media decode error or unsupported media features."
+
+#: static/js/main.js:3541
+msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
+msgstr "Media format unsupported or otherwise unavilable/unsuitable for playing."
+
+#: static/js/main.js:3544
+msgid "Nekonata eraro okazis."
+msgstr "Unknown error occurred."
+
+#: static/js/main.js:3547
+msgid "Eraro : "
+msgstr "Error : "
+
+#: static/js/main.js:3693
+msgid "Kamerao tipo"
+msgstr "Camera Type"
+
+#: static/js/main.js:3695
+msgid "Loka V4L2-kamerao"
+msgstr "Local V4L2 Camera"
+
+#: static/js/main.js:3696
+msgid "Loka MMAL-kamerao"
+msgstr "Local MMAL Camera"
+
+#: static/js/main.js:3697
+msgid "Reta kamerao"
+msgstr "Network Camera"
+
+#: static/js/main.js:3698
+msgid "Fora motionEye kamerao"
+msgstr "Remote motionEye Camera"
+
+#: static/js/main.js:3699
+msgid "Simpla MJPEG-kamerao"
+msgstr "Simple MJPEG Camera"
+
+#: static/js/main.js:3701
+msgid "la speco de kamerao, kiun vi volas aldoni"
+msgstr "the type of camera you wish to add"
+
+#: static/js/main.js:3955
+msgid "Aldonadi kameraon..."
+msgstr "Add Camera ..."
+
+#: static/js/main.js:4549
 msgid "plena ekrano kamerao"
 msgstr "toggle full-screen camera"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4550
 msgid "malfermaj bildoj retumilo"
 msgstr "open pictures browser"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4551
 msgid "malferma videoj retumilo"
 msgstr "open movies browser"
 
-#: static/js/main.js:4553
+#: static/js/main.js:4552
 msgid "agordi ĉi tiun kameraon"
 msgstr "configure this camera"
 
-#: static/js/main.js:4569
+#: static/js/main.js:4568
 msgid "preni instantaron"
 msgstr "take a snapshot"

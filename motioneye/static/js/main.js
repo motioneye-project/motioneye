@@ -614,8 +614,7 @@ function initUI() {
             return i18n.gettext("specialaj signoj ne rajtas en radika voja nomo");
         }
         if ($('#storageDeviceSelect').val() == 'custom-path' && String(value).trim() == '/') {
-            return i18n.gettext("dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo
-");
+            return i18n.gettext("dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo");
         }
 
         return true;
@@ -3231,7 +3230,7 @@ function fetchCurrentConfig(onFetch) {
                 }
 
                 if (!query.camera_ids) {
-                    cameraSelect.append('<option value="add">add camera...</option>');
+                    cameraSelect.append('<option value="add">'+i18n.gettext("aldonadi kameraon...")+'</option>');
                 }
 
                 var enabledCameras = cameras.filter(function (camera) {return camera['enabled'];});
@@ -3530,22 +3529,22 @@ function runPictureDialog(entries, pos, mediaType) {
         /* Reference: https://html.spec.whatwg.org/multipage/embedded-content.html#error-codes */
         switch (err.target.error.code) {
             case err.target.error.MEDIA_ERR_ABORTED:
-                msg = 'You aborted the video playback.';
+                msg = i18n.gettext('Vi abortis la filmeton.');
                 break;
             case err.target.error.MEDIA_ERR_NETWORK:
-                msg = 'A network error occurred.';
+                msg = i18n.gettext('Reto eraro okazis.');
                 break;
             case err.target.error.MEDIA_ERR_DECODE:
-                msg = 'Media decode error or unsupported media features.';
+                msg = i18n.gettext('Malkodado-eraro aŭ neprogresinta funkcio.');
                 break;
             case err.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-                msg = 'Media format unsupported or otherwise unavilable/unsuitable for playing.';
+                msg = i18n.gettext('Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado.');
                 break;
             default:
-                msg = 'Unknown error occurred.'
+                msg = i18n.gettext('Nekonata eraro okazis.');
         }
 
-        showErrorMessage('Error: ' + msg);
+        showErrorMessage(i18n.gettext('Eraro : ') + msg);
     });
     video_container.hide();
     content.append(video_container);
@@ -3691,15 +3690,15 @@ function runAddCameraDialog() {
     var content =
             $('<table class="add-camera-dialog">' +
                 '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Camera Type</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Kamerao tipo")+'</span></td>' +
                     '<td class="dialog-item-value"><select class="styled" id="typeSelect">' +
-                        (hasLocalCamSupport ? '<option value="v4l2">Local V4L2 Camera</option>' : '') +
-                        (hasLocalCamSupport ? '<option value="mmal">Local MMAL Camera</option>' : '') +
-                        (hasNetCamSupport ? '<option value="netcam">Network Camera</option>' : '') +
-                        '<option value="motioneye">Remote motionEye Camera</option>' +
-                        '<option value="mjpeg">Simple MJPEG Camera</option>' +
+                        (hasLocalCamSupport ? '<option value="v4l2">'+i18n.gettext("Loka V4L2-kamerao")+'</option>' : '') +
+                        (hasLocalCamSupport ? '<option value="mmal">'+i18n.gettext("Loka MMAL-kamerao")+'</option>' : '') +
+                        (hasNetCamSupport ? '<option value="netcam">'+i18n.gettext("Reta kamerao")+'</option>' : '') +
+                        '<option value="motioneye">'+i18n.gettext("Fora motionEye kamerao")+'</option>' +
+                        '<option value="mjpeg">'+i18n.gettext("Simpla MJPEG-kamerao")+'</option>' +
                     '</select></td>' +
-                    '<td><span class="help-mark" title="the type of camera you wish to add">?</span></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("la speco de kamerao, kiun vi volas aldoni")+'">?</span></td>' +
                 '</tr>' +
                 '<tr class="motioneye netcam mjpeg">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">URL</span></td>' +
@@ -3953,7 +3952,7 @@ function runAddCameraDialog() {
     passwordEntry.change(updateUi);
 
     runModalDialog({
-        title: 'Add Camera...',
+        title: i18n.gettext('Aldonadi kameraon...'),
         closeButton: true,
         buttons: 'okcancel',
         content: content,

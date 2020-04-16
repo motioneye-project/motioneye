@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 18:31+0200\n"
+"POT-Creation-Date: 2020-04-16 22:27+0200\n"
 "PO-Revision-Date: 2020-04-13 11:23+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -172,6 +172,11 @@ msgstr "настройки"
 #, fuzzy
 msgid "ŝanĝi uzanton"
 msgstr "изменить пользователя"
+
+#: templates/main.html:104
+#, fuzzy
+msgid "Apliki"
+msgstr "применять"
 
 #: templates/main.html:123
 #, fuzzy
@@ -1663,6 +1668,16 @@ msgstr "График работы"
 #, fuzzy
 msgid "Lundo"
 msgstr "понедельник"
+
+#: templates/main.html:1089
+#, fuzzy
+msgid "de"
+msgstr "из"
+
+#: templates/main.html:1090
+#, fuzzy
+msgid "ĝis"
+msgstr "до"
 
 #: templates/main.html:1092
 #, fuzzy

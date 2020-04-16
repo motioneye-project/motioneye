@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-15 18:31+0200\n"
+"POT-Creation-Date: 2020-04-16 22:27+0200\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -140,6 +140,10 @@ msgstr "paramètres"
 #: templates/main.html:101
 msgid "ŝanĝi uzanton"
 msgstr "changer d'utilisateur"
+
+#: templates/main.html:104
+msgid "Apliki"
+msgstr "Appliquer"
 
 #: templates/main.html:123
 msgid "preferoj de uzanto"
@@ -1343,6 +1347,14 @@ msgstr "Horaire de travail"
 #: templates/main.html:1086
 msgid "Lundo"
 msgstr "Lundi"
+
+#: templates/main.html:1089
+msgid "de"
+msgstr "de"
+
+#: templates/main.html:1090
+msgid "ĝis"
+msgstr "à"
 
 #: templates/main.html:1092
 msgid "Fiksas la labortagan tempintervalon por lundoj."
