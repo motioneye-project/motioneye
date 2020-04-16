@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 22:02+0200\n"
+"POT-Creation-Date: 2020-04-16 21:49+0200\n"
 "PO-Revision-Date: 2020-02-11 22:23+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "الأحرف الخاصة غير مسموح بها في كلمة المرور"
 
-#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
+#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:655
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
@@ -37,52 +37,82 @@ msgstr "الأحرف الخاصة غير مسموح بها في اسم الكا�
 msgid "valoro devas esti multoblo de 8"
 msgstr "يجب أن تكون القيمة مضاعفًا لـ 8"
 
-#: static/js/main.js:3458
+#: static/js/main.js:614
+#, fuzzy
+msgid "specialaj signoj ne rajtas en radika voja nomo"
+msgstr "الأحرف الخاصة غير مسموح بها في اسم مسار الجذر"
+
+#: static/js/main.js:617
+#, fuzzy
+msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
+msgstr "لا يمكن إنشاء الملفات مباشرة في جذر النظام الخاص بك"
+
+#: static/js/main.js:625
+#, fuzzy
+msgid "enigu validan retpoŝtadreson"
+msgstr "أدخل عنوان بريد إلكتروني صالح"
+
+#: static/js/main.js:632
+#, fuzzy
+msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
+msgstr "أدخل قائمة بعناوين بريد إلكتروني صالحة مفصولة بفواصل"
+
+#: static/js/main.js:639
+#, fuzzy
+msgid "specialaj signoj ne rajtas en dosiernomo"
+msgstr "الأحرف الخاصة غير مسموح بها في اسم الملف"
+
+#: static/js/main.js:659
+#, fuzzy
+msgid "enigu validan valoron"
+msgstr "أدخل قيمة صالحة"
+
+#: static/js/main.js:3459
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "اسم المستخدم"
 
-#: static/js/main.js:3463
+#: static/js/main.js:3464
 #, fuzzy
 msgid "Pasvorto"
 msgstr "كلمة المرور"
 
-#: static/js/main.js:3469
+#: static/js/main.js:3470
 #, fuzzy
 msgid "Memoru min"
 msgstr "تذكرني"
 
-#: static/js/main.js:3487 static/js/main.js:3493
+#: static/js/main.js:3488 static/js/main.js:3494
 #, fuzzy
 msgid "Ensaluti"
 msgstr "تسجيل الدخول"
 
-#: static/js/main.js:3490
+#: static/js/main.js:3491
 #, fuzzy
 msgid "Nuligi"
 msgstr "الإلغاء"
 
-#: static/js/main.js:4549
+#: static/js/main.js:4550
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "كاميرا ملء الشاشة"
 
-#: static/js/main.js:4550
+#: static/js/main.js:4551
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "فتح متصفح الصور"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4552
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "فتح متصفح الفيديو"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4553
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "ضبط هذه الكاميرا"
 
-#: static/js/main.js:4568
+#: static/js/main.js:4569
 #, fuzzy
 msgid "preni instantaron"
 msgstr "أخذ لقطة"

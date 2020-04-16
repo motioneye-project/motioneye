@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 22:02+0200\n"
+"POT-Creation-Date: 2020-04-16 21:49+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "caracteres especiais não são permitidos na senha"
 
-#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
+#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:655
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
@@ -38,52 +38,82 @@ msgstr "caracteres especiais não são permitidos no nome da câmera"
 msgid "valoro devas esti multoblo de 8"
 msgstr "o valor deve ser um múltiplo de 8"
 
-#: static/js/main.js:3458
+#: static/js/main.js:614
+#, fuzzy
+msgid "specialaj signoj ne rajtas en radika voja nomo"
+msgstr "caracteres especiais não são permitidos no nome do caminho raiz"
+
+#: static/js/main.js:617
+#, fuzzy
+msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
+msgstr "arquivos não podem ser criados diretamente na raiz do seu sistema"
+
+#: static/js/main.js:625
+#, fuzzy
+msgid "enigu validan retpoŝtadreson"
+msgstr "insira um endereço de email válido"
+
+#: static/js/main.js:632
+#, fuzzy
+msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
+msgstr "insira uma lista de endereços de email válidos separados por vírgula"
+
+#: static/js/main.js:639
+#, fuzzy
+msgid "specialaj signoj ne rajtas en dosiernomo"
+msgstr "caracteres especiais não são permitidos no nome do arquivo"
+
+#: static/js/main.js:659
+#, fuzzy
+msgid "enigu validan valoron"
+msgstr "insira um valor válido"
+
+#: static/js/main.js:3459
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "Nome de usuário"
 
-#: static/js/main.js:3463
+#: static/js/main.js:3464
 #, fuzzy
 msgid "Pasvorto"
 msgstr "Senha"
 
-#: static/js/main.js:3469
+#: static/js/main.js:3470
 #, fuzzy
 msgid "Memoru min"
 msgstr "Lembra de mim"
 
-#: static/js/main.js:3487 static/js/main.js:3493
+#: static/js/main.js:3488 static/js/main.js:3494
 #, fuzzy
 msgid "Ensaluti"
 msgstr "Entrar"
 
-#: static/js/main.js:3490
+#: static/js/main.js:3491
 #, fuzzy
 msgid "Nuligi"
 msgstr "Cancelar"
 
-#: static/js/main.js:4549
+#: static/js/main.js:4550
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "câmera de tela cheia"
 
-#: static/js/main.js:4550
+#: static/js/main.js:4551
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "navegador de imagens abertas"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4552
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "navegador de vídeos abertos"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4553
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "coloque esta câmera"
 
-#: static/js/main.js:4568
+#: static/js/main.js:4569
 #, fuzzy
 msgid "preni instantaron"
 msgstr "tirar uma foto"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 22:02+0200\n"
+"POT-Creation-Date: 2020-04-16 21:49+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "পাসওয়ার্ডে বিশেষ অক্ষর অনুমোদিত নয়"
 
-#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
+#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:655
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
@@ -37,52 +37,82 @@ msgstr "বিশেষ অক্ষর ক্যামেরার নামে
 msgid "valoro devas esti multoblo de 8"
 msgstr "মানটি 8 এর একাধিক হতে হবে"
 
-#: static/js/main.js:3458
+#: static/js/main.js:614
+#, fuzzy
+msgid "specialaj signoj ne rajtas en radika voja nomo"
+msgstr "মূল পাথের নামে বিশেষ অক্ষর অনুমোদিত নয়"
+
+#: static/js/main.js:617
+#, fuzzy
+msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
+msgstr "আপনার সিস্টেমে সরাসরি ফাইলগুলি তৈরি করা যায় না"
+
+#: static/js/main.js:625
+#, fuzzy
+msgid "enigu validan retpoŝtadreson"
+msgstr "একটি বৈধ ইমেল ঠিকানা লিখুন"
+
+#: static/js/main.js:632
+#, fuzzy
+msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
+msgstr "কমা-বিচ্ছিন্ন বৈধ ইমেল ঠিকানাগুলির একটি তালিকা প্রবেশ করান"
+
+#: static/js/main.js:639
+#, fuzzy
+msgid "specialaj signoj ne rajtas en dosiernomo"
+msgstr "ফাইলের অক্ষরে বিশেষ অক্ষর অনুমোদিত নয়"
+
+#: static/js/main.js:659
+#, fuzzy
+msgid "enigu validan valoron"
+msgstr "একটি বৈধ মান লিখুন"
+
+#: static/js/main.js:3459
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "ব্যবহারকারীর নাম"
 
-#: static/js/main.js:3463
+#: static/js/main.js:3464
 #, fuzzy
 msgid "Pasvorto"
 msgstr "পাসওয়ার্ড"
 
-#: static/js/main.js:3469
+#: static/js/main.js:3470
 #, fuzzy
 msgid "Memoru min"
 msgstr "আমাকে মনে আছে"
 
-#: static/js/main.js:3487 static/js/main.js:3493
+#: static/js/main.js:3488 static/js/main.js:3494
 #, fuzzy
 msgid "Ensaluti"
 msgstr "লগ ইন"
 
-#: static/js/main.js:3490
+#: static/js/main.js:3491
 #, fuzzy
 msgid "Nuligi"
 msgstr "বাতিল"
 
-#: static/js/main.js:4549
+#: static/js/main.js:4550
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "পূর্ণ স্ক্রিন ক্যামেরা"
 
-#: static/js/main.js:4550
+#: static/js/main.js:4551
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "চিত্র ব্রাউজার খুলুন"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4552
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "ভিডিও ব্রাউজার খুলুন"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4553
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "এই ক্যামেরা সেট করুন"
 
-#: static/js/main.js:4568
+#: static/js/main.js:4569
 #, fuzzy
 msgid "preni instantaron"
 msgstr "একটি স্ন্যাপশট নিতে"

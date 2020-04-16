@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 22:02+0200\n"
+"POT-Creation-Date: 2020-04-16 21:49+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "密码中不允许使用特殊字符"
 
-#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
+#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:655
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
@@ -37,52 +37,82 @@ msgstr "相机名称中不允许使用特殊字符"
 msgid "valoro devas esti multoblo de 8"
 msgstr "值必须是8的倍数"
 
-#: static/js/main.js:3458
+#: static/js/main.js:614
+#, fuzzy
+msgid "specialaj signoj ne rajtas en radika voja nomo"
+msgstr "根路径名中不允许使用特殊字符"
+
+#: static/js/main.js:617
+#, fuzzy
+msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
+msgstr "文件不能直接在系统根目录中创建"
+
+#: static/js/main.js:625
+#, fuzzy
+msgid "enigu validan retpoŝtadreson"
+msgstr "输入有效的电子邮件地址"
+
+#: static/js/main.js:632
+#, fuzzy
+msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
+msgstr "输入以逗号分隔的有效电子邮件地址列表"
+
+#: static/js/main.js:639
+#, fuzzy
+msgid "specialaj signoj ne rajtas en dosiernomo"
+msgstr "文件名中不允许使用特殊字符"
+
+#: static/js/main.js:659
+#, fuzzy
+msgid "enigu validan valoron"
+msgstr "输入有效值"
+
+#: static/js/main.js:3459
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "用户名"
 
-#: static/js/main.js:3463
+#: static/js/main.js:3464
 #, fuzzy
 msgid "Pasvorto"
 msgstr "密码"
 
-#: static/js/main.js:3469
+#: static/js/main.js:3470
 #, fuzzy
 msgid "Memoru min"
 msgstr "记住我"
 
-#: static/js/main.js:3487 static/js/main.js:3493
+#: static/js/main.js:3488 static/js/main.js:3494
 #, fuzzy
 msgid "Ensaluti"
 msgstr "登入"
 
-#: static/js/main.js:3490
+#: static/js/main.js:3491
 #, fuzzy
 msgid "Nuligi"
 msgstr "取消"
 
-#: static/js/main.js:4549
+#: static/js/main.js:4550
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "全屏摄像头"
 
-#: static/js/main.js:4550
+#: static/js/main.js:4551
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "打开图像浏览器"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4552
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "打开视频浏览器"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4553
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "设置这台相机"
 
-#: static/js/main.js:4568
+#: static/js/main.js:4569
 #, fuzzy
 msgid "preni instantaron"
 msgstr "拍摄快照"

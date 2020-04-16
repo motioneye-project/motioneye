@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-15 22:02+0200\n"
+"POT-Creation-Date: 2020-04-16 21:49+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "специальные символы не допускаются в пароле"
 
-#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
+#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:655
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
@@ -36,54 +36,84 @@ msgstr "специальные символы не допускаются в и�
 #: static/js/main.js:607
 #, fuzzy
 msgid "valoro devas esti multoblo de 8"
-msgstr ""
+msgstr "значение должно быть кратным 8"
 
-#: static/js/main.js:3458
+#: static/js/main.js:614
+#, fuzzy
+msgid "specialaj signoj ne rajtas en radika voja nomo"
+msgstr "специальные символы не допускаются в имени корневого пути"
+
+#: static/js/main.js:617
+#, fuzzy
+msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
+msgstr "файлы не могут быть созданы непосредственно в корне вашей системы"
+
+#: static/js/main.js:625
+#, fuzzy
+msgid "enigu validan retpoŝtadreson"
+msgstr "введите действующий адрес электронной почты"
+
+#: static/js/main.js:632
+#, fuzzy
+msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
+msgstr "введите список разделенных запятыми действительных адресов электронной почты"
+
+#: static/js/main.js:639
+#, fuzzy
+msgid "specialaj signoj ne rajtas en dosiernomo"
+msgstr "специальные символы не допускаются в имени файла"
+
+#: static/js/main.js:659
+#, fuzzy
+msgid "enigu validan valoron"
+msgstr "введите правильное значение"
+
+#: static/js/main.js:3459
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "имя пользователя"
 
-#: static/js/main.js:3463
+#: static/js/main.js:3464
 #, fuzzy
 msgid "Pasvorto"
 msgstr "пароль"
 
-#: static/js/main.js:3469
+#: static/js/main.js:3470
 #, fuzzy
 msgid "Memoru min"
 msgstr "Помни меня"
 
-#: static/js/main.js:3487 static/js/main.js:3493
+#: static/js/main.js:3488 static/js/main.js:3494
 #, fuzzy
 msgid "Ensaluti"
 msgstr "Войти в систему"
 
-#: static/js/main.js:3490
+#: static/js/main.js:3491
 #, fuzzy
 msgid "Nuligi"
 msgstr "отменить"
 
-#: static/js/main.js:4549
+#: static/js/main.js:4550
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "полноэкранная камера"
 
-#: static/js/main.js:4550
+#: static/js/main.js:4551
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "браузер открытых изображений"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4552
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "открыть браузер видео"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4553
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "установить эту камеру"
 
-#: static/js/main.js:4568
+#: static/js/main.js:4569
 #, fuzzy
 msgid "preni instantaron"
 msgstr "сделать снимок"
