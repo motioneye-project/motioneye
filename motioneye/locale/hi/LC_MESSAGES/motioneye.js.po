@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 23:10+0200\n"
+"POT-Creation-Date: 2020-04-17 19:33+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -67,17 +67,62 @@ msgstr "फ़ाइल नाम में विशेष वर्णों �
 msgid "enigu validan valoron"
 msgstr "एक मान्य मान दर्ज करें"
 
+#: static/js/main.js:2851
+#, fuzzy
+msgid "Rezerva dosiero"
+msgstr "बैकअप फ़ाइल"
+
+#: static/js/main.js:2853
+#, fuzzy
+msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
+msgstr "बैकअप फ़ाइल जिसे आपने पहले डाउनलोड किया था।"
+
+#: static/js/main.js:2882
+#, fuzzy
+msgid "Restaŭrigi Agordon"
+msgstr "कॉन्फ़िगरेशन पुनर्स्थापित करें"
+
+#: static/js/main.js:2894
+#, fuzzy
+msgid "Restaŭriganta agordon ..."
+msgstr "कॉन्फ़िगरेशन पुनर्स्थापित कर रहा है ..."
+
+#: static/js/main.js:2901
+#, fuzzy
+msgid "La agordo restaŭrigis!"
+msgstr "कॉन्फ़िगरेशन बहाल कर दिया गया है!"
+
+#: static/js/main.js:2911 static/js/main.js:2930
+#, fuzzy
+msgid "Malsukcesis restaŭri la agordon!"
+msgstr "कॉन्फ़िगरेशन को पुनर्स्थापित करने में विफल!"
+
+#: static/js/main.js:2949
+#, fuzzy
+msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
+msgstr "सुनिश्चित करें कि सभी कॉन्फ़िगरेशन विकल्प मान्य हैं!"
+
+#: static/js/main.js:2981
+#, fuzzy
+msgid "Aliri la alŝutan servon malsukcesis: "
+msgstr "अपलोड सेवा तक पहुँच विफल रही:"
+
+#: static/js/main.js:2984
+#, fuzzy
+msgid "Aliri la alŝutan servon sukcesis!"
+msgstr "अपलोड सेवा तक पहुँच सफल रही!"
+
 #: static/js/main.js:3233
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "कैमरा जोड़ें ..."
 
-#: static/js/main.js:3458
+#: static/js/main.js:3458 static/js/main.js:3709
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "प्रयोक्ता नाम"
 
-#: static/js/main.js:3463
+#: static/js/main.js:3463 static/js/main.js:3714
 #, fuzzy
 msgid "Pasvorto"
 msgstr "पासवर्ड"
@@ -92,7 +137,7 @@ msgstr "मुझे याद करो"
 msgid "Ensaluti"
 msgstr "लॉग इन करें"
 
-#: static/js/main.js:3490
+#: static/js/main.js:3490 static/js/ui.js:1022 static/js/ui.js:1029
 #, fuzzy
 msgid "Nuligi"
 msgstr "रद्द करना"
@@ -162,32 +207,105 @@ msgstr "सरल MJPEG कैमरा"
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "जिस प्रकार का कैमरा आप जोड़ना चाहते हैं"
 
-#: static/js/main.js:3955
+#: static/js/main.js:3704
+#, fuzzy
+msgid "URL"
+msgstr "यूआरएल"
+
+#: static/js/main.js:3705
+#, fuzzy
+msgid "http://ekzemplo.com:8765/cams/..."
+msgstr "http: //example.com: 8765 / cams / ..."
+
+#: static/js/main.js:3706
+#, fuzzy
+msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
+msgstr "कैमरा URL (जैसे http://example.com:8080/cam/)"
+
+#: static/js/main.js:3710
+#, fuzzy
+msgid "uzantnomo..."
+msgstr "उपयोगकर्ता नाम ..."
+
+#: static/js/main.js:3711
+#, fuzzy
+msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
+msgstr "यदि आवश्यक हो, तो URL के लिए उपयोगकर्ता नाम (उदाहरण के लिए)"
+
+#: static/js/main.js:3715
+#, fuzzy
+msgid "pasvorto..."
+msgstr "पासवर्ड ..."
+
+#: static/js/main.js:3716
+#, fuzzy
+msgid "la pasvorto por la URL, se bezonata"
+msgstr "जरूरत पड़ने पर URL के लिए पासवर्ड"
+
+#: static/js/main.js:3719
+#, fuzzy
+msgid "Kamerao"
+msgstr "कैमरा"
+
+#: static/js/main.js:3721
+#, fuzzy
+msgid "la kameraon, kiun vi volas aldoni"
+msgstr "कैमरा जिसे आप जोड़ना चाहते हैं"
+
+#: static/js/main.js:3803
+#, fuzzy
+msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
+msgstr "स्थानीय V4L2 कैमरे आमतौर पर USB के माध्यम से सीधे आपके मोशन सिस्टम से जुड़े कैमरा डिवाइस होते हैं।"
+
+#: static/js/main.js:3954
 #, fuzzy
 msgid "Aldonadi kameraon..."
 msgstr "कैमरा जोड़ें ..."
 
-#: static/js/main.js:4549
+#: static/js/main.js:4548
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "पूर्ण स्क्रीन कैमरा"
 
-#: static/js/main.js:4550
+#: static/js/main.js:4549
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "खुले चित्र ब्राउज़र"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4550
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "खुले वीडियो ब्राउज़र"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4551
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "इस कैमरे को सेट करें"
 
-#: static/js/main.js:4568
+#: static/js/main.js:4567
 #, fuzzy
 msgid "preni instantaron"
 msgstr "एक स्नैपशॉट ले लो"
+
+#: static/js/ui.js:1016 static/js/ui.js:1023
+#, fuzzy
+msgid "Ne"
+msgstr "नहीं"
+
+#: static/js/ui.js:1017 static/js/ui.js:1024
+#, fuzzy
+msgid "Jes"
+msgstr "हां"
+
+#: static/js/ui.js:1030 static/js/ui.js:1035
+#, fuzzy
+msgid "Bone"
+msgstr "अच्छी तरह से"
+
+#, fuzzy
+#~ msgid "la kameraa URL (t.e. http://ekzemplo.com:8080/cam/)"
+#~ msgstr "कैमरा URL (उदा। http://example.com:8080/cam/)"
+
+#, fuzzy
+#~ msgid "la uzantnomo por la URL, se bezonata (t.e. administranto)"
+#~ msgstr "यदि आवश्यक हो, तो URL के लिए उपयोगकर्ता नाम (व्यवस्थापक)"

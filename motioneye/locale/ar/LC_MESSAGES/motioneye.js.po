@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 23:10+0200\n"
+"POT-Creation-Date: 2020-04-17 19:33+0200\n"
 "PO-Revision-Date: 2020-02-11 22:23+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -67,17 +67,62 @@ msgstr "الأحرف الخاصة غير مسموح بها في اسم المل�
 msgid "enigu validan valoron"
 msgstr "أدخل قيمة صالحة"
 
+#: static/js/main.js:2851
+#, fuzzy
+msgid "Rezerva dosiero"
+msgstr "ملف النسخ الاحتياطي"
+
+#: static/js/main.js:2853
+#, fuzzy
+msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
+msgstr "ملف النسخ الاحتياطي الذي قمت بتنزيله مسبقًا."
+
+#: static/js/main.js:2882
+#, fuzzy
+msgid "Restaŭrigi Agordon"
+msgstr "استعادة التكوين"
+
+#: static/js/main.js:2894
+#, fuzzy
+msgid "Restaŭriganta agordon ..."
+msgstr "جاري استعادة التكوين ..."
+
+#: static/js/main.js:2901
+#, fuzzy
+msgid "La agordo restaŭrigis!"
+msgstr "تمت استعادة التكوين!"
+
+#: static/js/main.js:2911 static/js/main.js:2930
+#, fuzzy
+msgid "Malsukcesis restaŭri la agordon!"
+msgstr "فشل في استعادة التكوين!"
+
+#: static/js/main.js:2949
+#, fuzzy
+msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
+msgstr "تأكد من أن جميع خيارات التكوين صالحة!"
+
+#: static/js/main.js:2981
+#, fuzzy
+msgid "Aliri la alŝutan servon malsukcesis: "
+msgstr "فشل الوصول إلى خدمة التحميل:"
+
+#: static/js/main.js:2984
+#, fuzzy
+msgid "Aliri la alŝutan servon sukcesis!"
+msgstr "كان الوصول إلى خدمة التحميل ناجحًا!"
+
 #: static/js/main.js:3233
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "إضافة كاميرا ..."
 
-#: static/js/main.js:3458
+#: static/js/main.js:3458 static/js/main.js:3709
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "اسم المستخدم"
 
-#: static/js/main.js:3463
+#: static/js/main.js:3463 static/js/main.js:3714
 #, fuzzy
 msgid "Pasvorto"
 msgstr "كلمة المرور"
@@ -92,7 +137,7 @@ msgstr "تذكرني"
 msgid "Ensaluti"
 msgstr "تسجيل الدخول"
 
-#: static/js/main.js:3490
+#: static/js/main.js:3490 static/js/ui.js:1022 static/js/ui.js:1029
 #, fuzzy
 msgid "Nuligi"
 msgstr "الإلغاء"
@@ -162,32 +207,105 @@ msgstr "كاميرا MJPEG بسيطة"
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "نوع الكاميرا التي تريد إضافتها"
 
-#: static/js/main.js:3955
+#: static/js/main.js:3704
+#, fuzzy
+msgid "URL"
+msgstr "URL"
+
+#: static/js/main.js:3705
+#, fuzzy
+msgid "http://ekzemplo.com:8765/cams/..."
+msgstr "http: //example.com: 8765 / كاميرات / ..."
+
+#: static/js/main.js:3706
+#, fuzzy
+msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
+msgstr "عنوان URL للكاميرا (مثل http://example.com:8080/cam/)"
+
+#: static/js/main.js:3710
+#, fuzzy
+msgid "uzantnomo..."
+msgstr "اسم المستخدم ..."
+
+#: static/js/main.js:3711
+#, fuzzy
+msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
+msgstr "اسم المستخدم لعنوان URL ، إذا لزم الأمر (مثل المشرف)"
+
+#: static/js/main.js:3715
+#, fuzzy
+msgid "pasvorto..."
+msgstr "كلمة المرور ..."
+
+#: static/js/main.js:3716
+#, fuzzy
+msgid "la pasvorto por la URL, se bezonata"
+msgstr "كلمة المرور لعنوان URL ، إذا لزم الأمر"
+
+#: static/js/main.js:3719
+#, fuzzy
+msgid "Kamerao"
+msgstr "الكاميرا"
+
+#: static/js/main.js:3721
+#, fuzzy
+msgid "la kameraon, kiun vi volas aldoni"
+msgstr "الكاميرا التي تريد إضافتها"
+
+#: static/js/main.js:3803
+#, fuzzy
+msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
+msgstr "كاميرات V4L2 المحلية عبارة عن أجهزة كاميرا متصلة مباشرة بنظام motionEye الخاص بك ، عادةً عبر USB."
+
+#: static/js/main.js:3954
 #, fuzzy
 msgid "Aldonadi kameraon..."
 msgstr "إضافة كاميرا ..."
 
-#: static/js/main.js:4549
+#: static/js/main.js:4548
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "كاميرا ملء الشاشة"
 
-#: static/js/main.js:4550
+#: static/js/main.js:4549
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "فتح متصفح الصور"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4550
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "فتح متصفح الفيديو"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4551
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "ضبط هذه الكاميرا"
 
-#: static/js/main.js:4568
+#: static/js/main.js:4567
 #, fuzzy
 msgid "preni instantaron"
 msgstr "أخذ لقطة"
+
+#: static/js/ui.js:1016 static/js/ui.js:1023
+#, fuzzy
+msgid "Ne"
+msgstr "لا"
+
+#: static/js/ui.js:1017 static/js/ui.js:1024
+#, fuzzy
+msgid "Jes"
+msgstr "نعم"
+
+#: static/js/ui.js:1030 static/js/ui.js:1035
+#, fuzzy
+msgid "Bone"
+msgstr "حسنًا"
+
+#, fuzzy
+#~ msgid "la kameraa URL (t.e. http://ekzemplo.com:8080/cam/)"
+#~ msgstr "عنوان URL للكاميرا (مثل http://example.com:8080/cam/)"
+
+#, fuzzy
+#~ msgid "la uzantnomo por la URL, se bezonata (t.e. administranto)"
+#~ msgstr "اسم المستخدم لعنوان URL ، إذا لزم الأمر (أي المشرف)"

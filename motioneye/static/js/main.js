@@ -2848,9 +2848,9 @@ function doRestore() {
     var content =
             $('<table class="restore-dialog">' +
                 '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Backup File</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Rezerva dosiero")+'</span></td>' +
                     '<td class="dialog-item-value"><form><input type="file" class="styled" id="fileInput"></form></td>' +
-                    '<td><span class="help-mark" title="the backup file you have previously downloaded">?</span></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("La rezervan dosieron, kiun vi antaŭe elŝutis.")+'">?</span></td>' +
                 '</tr>' +
             '</table>');
 
@@ -2879,7 +2879,7 @@ function doRestore() {
     }
 
     runModalDialog({
-        title: 'Restore Configuration',
+        title: i18n.gettext("Restaŭrigi Agordon"),
         closeButton: true,
         buttons: 'okcancel',
         content: content,
@@ -2891,14 +2891,14 @@ function doRestore() {
             refreshInterval = 1000000;
 
             setTimeout(function () {
-                showModalDialog('<div style="text-align: center;"><span>Restoring configuration...</span><div class="modal-progress"></div></div>');
+                showModalDialog('<div style="text-align: center;"><span>'+i18n.gettext("Restaŭriganta agordon ...")+'</span><div class="modal-progress"></div></div>');
                 uploadFile(basePath + 'config/restore/', fileInput, function (data) {
                     if (data && data.ok) {
                         var count = 0;
                         function checkServer() {
                             ajax('GET', basePath + 'config/0/get/', null,
                                 function () {
-                                    runAlertDialog('The configuration has been restored!', function () {
+                                    runAlertDialog(i18n.gettext("La agordo restaŭrigis!"), function () {
                                         window.location.reload(true);
                                     });
                                 },
@@ -2908,7 +2908,7 @@ function doRestore() {
                                         setTimeout(checkServer, 2000);
                                     }
                                     else {
-                                        runAlertDialog('Failed to restore the configuration!', function () {
+                                        runAlertDialog(i18n.gettext("Malsukcesis restaŭri la agordon!"), function () {
                                             window.location.reload(true);
                                         });
                                     }
@@ -2927,7 +2927,7 @@ function doRestore() {
                     }
                     else {
                         hideModalDialog();
-                        showErrorMessage('Failed to restore the configuration!');
+                        showErrorMessage(i18n.gettext("Malsukcesis restaŭri la agordon!"));
                     }
                 });
             }, 10);
@@ -2946,7 +2946,7 @@ function doTestUpload() {
     });
 
     if (!valid) {
-        return runAlertDialog('Make sure all the configuration options are valid!');
+        return runAlertDialog(i18n.gettext("Certigu, ke ĉiuj agordaj opcioj validas!"));
     }
 
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
@@ -2978,10 +2978,10 @@ function doTestUpload() {
 
         hideModalDialog(); /* progress */
         if (data.error) {
-            showErrorMessage('Accessing the upload service failed: ' + data.error + '!');
+            showErrorMessage(i18n.gettext("Aliri la alŝutan servon malsukcesis: ") + data.error + '!');
         }
         else {
-            showPopupMessage('Accessing the upload service succeeded!', 'info');
+            showPopupMessage(i18n.gettext("Aliri la alŝutan servon sukcesis!"), 'info');
         }
     });
 }
@@ -3701,24 +3701,24 @@ function runAddCameraDialog() {
                     '<td><span class="help-mark" title="'+i18n.gettext("la speco de kamerao, kiun vi volas aldoni")+'">?</span></td>' +
                 '</tr>' +
                 '<tr class="motioneye netcam mjpeg">' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">URL</span></td>' +
-                    '<td class="dialog-item-value"><input type="text" class="styled" id="urlEntry" placeholder="http://example.com:8765/cams/..."></td>' +
-                    '<td><span class="help-mark" title="the camera URL (e.g. http://example.com:8080/cam/)">?</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("URL")+'</span></td>' +
+                    '<td class="dialog-item-value"><input type="text" class="styled" id="urlEntry" placeholder="'+i18n.gettext("http://ekzemplo.com:8765/cams/...")+'"></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)")+'">?</span></td>' +
                 '</tr>' +
                 '<tr class="motioneye netcam mjpeg">' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Username</span></td>' +
-                    '<td class="dialog-item-value"><input type="text" class="styled" id="usernameEntry" placeholder="username..."></td>' +
-                    '<td><span class="help-mark" title="the username for the URL, if required (e.g. admin)">?</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Uzantnomo")+'</span></td>' +
+                    '<td class="dialog-item-value"><input type="text" class="styled" id="usernameEntry" placeholder="'+i18n.gettext("uzantnomo...")+'"></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("la uzantnomo por la URL, se bezonata (ekz. administranto)")+'">?</span></td>' +
                 '</tr>' +
                 '<tr class="motioneye netcam mjpeg">' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Password</span></td>' +
-                    '<td class="dialog-item-value"><input type="password" class="styled" id="passwordEntry" placeholder="password..."></td>' +
-                    '<td><span class="help-mark" title="the password for the URL, if required">?</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Pasvorto")+'</span></td>' +
+                    '<td class="dialog-item-value"><input type="password" class="styled" id="passwordEntry" placeholder="'+i18n.gettext("pasvorto...")+'"></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("la pasvorto por la URL, se bezonata")+'">?</span></td>' +
                 '</tr>' +
                 '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Camera</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Kamerao")+'</span></td>' +
                     '<td class="dialog-item-value"><select class="styled" id="addCameraSelect"></select><span id="cameraMsgLabel"></span></td>' +
-                    '<td><span class="help-mark" title="the camera you wish to add">?</span></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("la kameraon, kiun vi volas aldoni")+'">?</span></td>' +
                 '</tr>' +
                 '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
                     '<td colspan="100"><div class="dialog-item-separator"></div></td>' +
@@ -3800,8 +3800,7 @@ function runAddCameraDialog() {
         else { /* assuming v4l2 */
             content.find('tr.v4l2').css('display', 'table-row');
             addCameraInfo.html(
-                    'Local V4L2 cameras are camera devices that are connected directly to your motionEye system, ' +
-                    'usually via USB.');
+                    i18n.gettext("Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."));
         }
 
         updateModalDialogPosition();

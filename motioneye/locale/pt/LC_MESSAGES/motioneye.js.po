@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 23:10+0200\n"
+"POT-Creation-Date: 2020-04-17 19:33+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -68,17 +68,62 @@ msgstr "caracteres especiais não são permitidos no nome do arquivo"
 msgid "enigu validan valoron"
 msgstr "insira um valor válido"
 
+#: static/js/main.js:2851
+#, fuzzy
+msgid "Rezerva dosiero"
+msgstr "Arquivo de backup"
+
+#: static/js/main.js:2853
+#, fuzzy
+msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
+msgstr "O arquivo de backup que você baixou anteriormente."
+
+#: static/js/main.js:2882
+#, fuzzy
+msgid "Restaŭrigi Agordon"
+msgstr "Restaurar configuração"
+
+#: static/js/main.js:2894
+#, fuzzy
+msgid "Restaŭriganta agordon ..."
+msgstr "Restaurando configuração ..."
+
+#: static/js/main.js:2901
+#, fuzzy
+msgid "La agordo restaŭrigis!"
+msgstr "A configuração foi restaurada!"
+
+#: static/js/main.js:2911 static/js/main.js:2930
+#, fuzzy
+msgid "Malsukcesis restaŭri la agordon!"
+msgstr "Falha ao restaurar a configuração!"
+
+#: static/js/main.js:2949
+#, fuzzy
+msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
+msgstr "Verifique se todas as opções de configuração são válidas!"
+
+#: static/js/main.js:2981
+#, fuzzy
+msgid "Aliri la alŝutan servon malsukcesis: "
+msgstr "O acesso ao serviço de upload falhou:"
+
+#: static/js/main.js:2984
+#, fuzzy
+msgid "Aliri la alŝutan servon sukcesis!"
+msgstr "O acesso ao serviço de upload foi bem-sucedido!"
+
 #: static/js/main.js:3233
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "adicionar câmera ..."
 
-#: static/js/main.js:3458
+#: static/js/main.js:3458 static/js/main.js:3709
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "Nome de usuário"
 
-#: static/js/main.js:3463
+#: static/js/main.js:3463 static/js/main.js:3714
 #, fuzzy
 msgid "Pasvorto"
 msgstr "Senha"
@@ -93,7 +138,7 @@ msgstr "Lembra de mim"
 msgid "Ensaluti"
 msgstr "Entrar"
 
-#: static/js/main.js:3490
+#: static/js/main.js:3490 static/js/ui.js:1022 static/js/ui.js:1029
 #, fuzzy
 msgid "Nuligi"
 msgstr "Cancelar"
@@ -163,32 +208,105 @@ msgstr "Câmera MJPEG simples"
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "o tipo de câmera que você deseja adicionar"
 
-#: static/js/main.js:3955
+#: static/js/main.js:3704
+#, fuzzy
+msgid "URL"
+msgstr "URL"
+
+#: static/js/main.js:3705
+#, fuzzy
+msgid "http://ekzemplo.com:8765/cams/..."
+msgstr "http: //example.com: 8765 / cams / ..."
+
+#: static/js/main.js:3706
+#, fuzzy
+msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
+msgstr "o URL da câmera (por exemplo, http://example.com:8080/cam/)"
+
+#: static/js/main.js:3710
+#, fuzzy
+msgid "uzantnomo..."
+msgstr "nome de usuário ..."
+
+#: static/js/main.js:3711
+#, fuzzy
+msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
+msgstr "o nome de usuário para o URL, se necessário (por exemplo, administrador)"
+
+#: static/js/main.js:3715
+#, fuzzy
+msgid "pasvorto..."
+msgstr "senha ..."
+
+#: static/js/main.js:3716
+#, fuzzy
+msgid "la pasvorto por la URL, se bezonata"
+msgstr "a senha do URL, se necessário"
+
+#: static/js/main.js:3719
+#, fuzzy
+msgid "Kamerao"
+msgstr "Camera"
+
+#: static/js/main.js:3721
+#, fuzzy
+msgid "la kameraon, kiun vi volas aldoni"
+msgstr "a câmera que você deseja adicionar"
+
+#: static/js/main.js:3803
+#, fuzzy
+msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
+msgstr "As câmeras V4L2 locais são dispositivos de câmera conectados diretamente ao seu sistema motionEye, geralmente via USB."
+
+#: static/js/main.js:3954
 #, fuzzy
 msgid "Aldonadi kameraon..."
 msgstr "Adicionar câmera ..."
 
-#: static/js/main.js:4549
+#: static/js/main.js:4548
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "câmera de tela cheia"
 
-#: static/js/main.js:4550
+#: static/js/main.js:4549
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "navegador de imagens abertas"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4550
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "navegador de vídeos abertos"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4551
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "coloque esta câmera"
 
-#: static/js/main.js:4568
+#: static/js/main.js:4567
 #, fuzzy
 msgid "preni instantaron"
 msgstr "tirar uma foto"
+
+#: static/js/ui.js:1016 static/js/ui.js:1023
+#, fuzzy
+msgid "Ne"
+msgstr "Não"
+
+#: static/js/ui.js:1017 static/js/ui.js:1024
+#, fuzzy
+msgid "Jes"
+msgstr "Sim"
+
+#: static/js/ui.js:1030 static/js/ui.js:1035
+#, fuzzy
+msgid "Bone"
+msgstr "Ok"
+
+#, fuzzy
+#~ msgid "la kameraa URL (t.e. http://ekzemplo.com:8080/cam/)"
+#~ msgstr "o URL da câmera (por exemplo, http://example.com:8080/cam/)"
+
+#, fuzzy
+#~ msgid "la uzantnomo por la URL, se bezonata (t.e. administranto)"
+#~ msgstr "o nome de usuário para o URL, se necessário (por exemplo, admin)"

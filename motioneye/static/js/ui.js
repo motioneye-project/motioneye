@@ -1013,26 +1013,26 @@ function runModalDialog(options) {
     /* add buttons */
     if (options.buttons === 'yesno') {
         options.buttons = [
-            {caption: 'No', click: options.onNo},
-            {caption: 'Yes', isDefault: true, click: options.onYes}
+            {caption: i18n.gettext("Ne"), click: options.onNo},
+            {caption: i18n.gettext("Jes"), isDefault: true, click: options.onYes}
         ];
     }
     if (options.buttons === 'yesnocancel') {
         options.buttons = [
-            {caption: 'Cancel', isCancel: true, click: options.onCancel},
-            {caption: 'No', click: options.onNo},
-            {caption: 'Yes', isDefault: true, click: options.onYes}
+            {caption: i18n.gettext("Nuligi"), isCancel: true, click: options.onCancel},
+            {caption: i18n.gettext("Ne"), click: options.onNo},
+            {caption: i18n.gettext("Jes"), isDefault: true, click: options.onYes}
         ];
     }
     else if (options.buttons === 'okcancel') {
         options.buttons = [
-            {caption: 'Cancel', isCancel:true, click: options.onCancel},
-            {caption: 'OK', isDefault: true, click: options.onOk}
+            {caption: i18n.gettext("Nuligi"), isCancel:true, click: options.onCancel},
+            {caption: i18n.gettext("Bone"), isDefault: true, click: options.onOk}
         ];
     }
     else if (options.buttons === 'ok') {
         options.buttons = [
-            {caption: 'OK', isDefault: true, click: options.onOk}
+            {caption: i18n.gettext("Bone"), isDefault: true, click: options.onOk}
         ];
     }
     

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 23:10+0200\n"
+"POT-Creation-Date: 2020-04-17 19:33+0200\n"
 "PO-Revision-Date: 2020-02-11 19:28+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -58,15 +58,51 @@ msgstr "special characters are not allowed in filename"
 msgid "enigu validan valoron"
 msgstr "enter a valid value"
 
+#: static/js/main.js:2851
+msgid "Rezerva dosiero"
+msgstr "Backup File"
+
+#: static/js/main.js:2853
+msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
+msgstr "the backup file you have previously downloaded"
+
+#: static/js/main.js:2882
+msgid "Restaŭrigi Agordon"
+msgstr "Restore Configuration"
+
+#: static/js/main.js:2894
+msgid "Restaŭriganta agordon ..."
+msgstr "Restoring configuration ..."
+
+#: static/js/main.js:2901
+msgid "La agordo restaŭrigis!"
+msgstr "The configuration has been restored!"
+
+#: static/js/main.js:2911 static/js/main.js:2930
+msgid "Malsukcesis restaŭri la agordon!"
+msgstr "Failed to restore configuration!"
+
+#: static/js/main.js:2949
+msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
+msgstr "Make sure all configuration options are valid!"
+
+#: static/js/main.js:2981
+msgid "Aliri la alŝutan servon malsukcesis: "
+msgstr "Accessing the upload service failed:"
+
+#: static/js/main.js:2984
+msgid "Aliri la alŝutan servon sukcesis!"
+msgstr "Accessing the upload service succeeded!"
+
 #: static/js/main.js:3233
 msgid "aldonadi kameraon..."
 msgstr "add camera ..."
 
-#: static/js/main.js:3458
+#: static/js/main.js:3458 static/js/main.js:3709
 msgid "Uzantnomo"
 msgstr "Username"
 
-#: static/js/main.js:3463
+#: static/js/main.js:3463 static/js/main.js:3714
 msgid "Pasvorto"
 msgstr "Password"
 
@@ -78,7 +114,7 @@ msgstr "Remember me"
 msgid "Ensaluti"
 msgstr "Login"
 
-#: static/js/main.js:3490
+#: static/js/main.js:3490 static/js/ui.js:1022 static/js/ui.js:1029
 msgid "Nuligi"
 msgstr "Cancel"
 
@@ -134,26 +170,79 @@ msgstr "Simple MJPEG Camera"
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "the type of camera you wish to add"
 
-#: static/js/main.js:3955
+#: static/js/main.js:3704
+msgid "URL"
+msgstr "URL"
+
+#: static/js/main.js:3705
+msgid "http://ekzemplo.com:8765/cams/..."
+msgstr "http://example.com:8765/cams/..."
+
+#: static/js/main.js:3706
+msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
+msgstr "the camera URL (eg http://example.com:8080/cam/)"
+
+#: static/js/main.js:3710
+msgid "uzantnomo..."
+msgstr "username ..."
+
+#: static/js/main.js:3711
+msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
+msgstr "the username for the URL, if needed (eg admin)"
+
+#: static/js/main.js:3715
+msgid "pasvorto..."
+msgstr "password ..."
+
+#: static/js/main.js:3716
+#, fuzzy
+msgid "la pasvorto por la URL, se bezonata"
+msgstr "the password for the URL, if needed"
+
+#: static/js/main.js:3719
+msgid "Kamerao"
+msgstr "Camera"
+
+#: static/js/main.js:3721
+msgid "la kameraon, kiun vi volas aldoni"
+msgstr "the camera you want to add"
+
+#: static/js/main.js:3803
+msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
+msgstr "Local V4L2 cameras are camera devices that are connected directly to your motionEye system, usually via USB."
+
+#: static/js/main.js:3954
 msgid "Aldonadi kameraon..."
 msgstr "Add Camera ..."
 
-#: static/js/main.js:4549
+#: static/js/main.js:4548
 msgid "plena ekrano kamerao"
 msgstr "toggle full-screen camera"
 
-#: static/js/main.js:4550
+#: static/js/main.js:4549
 msgid "malfermaj bildoj retumilo"
 msgstr "open pictures browser"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4550
 msgid "malferma videoj retumilo"
 msgstr "open movies browser"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4551
 msgid "agordi ĉi tiun kameraon"
 msgstr "configure this camera"
 
-#: static/js/main.js:4568
+#: static/js/main.js:4567
 msgid "preni instantaron"
 msgstr "take a snapshot"
+
+#: static/js/ui.js:1016 static/js/ui.js:1023
+msgid "Ne"
+msgstr "No"
+
+#: static/js/ui.js:1017 static/js/ui.js:1024
+msgid "Jes"
+msgstr "Yes"
+
+#: static/js/ui.js:1030 static/js/ui.js:1035
+msgid "Bone"
+msgstr "OK"

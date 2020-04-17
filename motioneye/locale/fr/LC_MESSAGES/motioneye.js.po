@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-16 23:10+0200\n"
+"POT-Creation-Date: 2020-04-17 19:33+0200\n"
 "PO-Revision-Date: 2020-02-11 18:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -58,15 +58,51 @@ msgstr "les caractères spéciaux ne sont pas autorisés dans le nom de fichier"
 msgid "enigu validan valoron"
 msgstr "entrez une valeur valide"
 
+#: static/js/main.js:2851
+msgid "Rezerva dosiero"
+msgstr "Fichier de sauvegarde"
+
+#: static/js/main.js:2853
+msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
+msgstr "Le fichier de sauvegarde que vous avez téléchargé précédemment."
+
+#: static/js/main.js:2882
+msgid "Restaŭrigi Agordon"
+msgstr "Restaurer la configuration"
+
+#: static/js/main.js:2894
+msgid "Restaŭriganta agordon ..."
+msgstr "Restauration de la configuration ..."
+
+#: static/js/main.js:2901
+msgid "La agordo restaŭrigis!"
+msgstr "La configuration a été restaurée!"
+
+#: static/js/main.js:2911 static/js/main.js:2930
+msgid "Malsukcesis restaŭri la agordon!"
+msgstr "Impossible de restaurer la configuration!"
+
+#: static/js/main.js:2949
+msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
+msgstr "Assurez-vous que toutes les options de configuration sont valides!"
+
+#: static/js/main.js:2981
+msgid "Aliri la alŝutan servon malsukcesis: "
+msgstr "Échec de l'accès au service de téléchargement: "
+
+#: static/js/main.js:2984
+msgid "Aliri la alŝutan servon sukcesis!"
+msgstr "L'accès au service de téléchargement a réussi!"
+
 #: static/js/main.js:3233
 msgid "aldonadi kameraon..."
 msgstr "ajouter une caméra ..."
 
-#: static/js/main.js:3458
+#: static/js/main.js:3458 static/js/main.js:3709
 msgid "Uzantnomo"
 msgstr "Identifiant"
 
-#: static/js/main.js:3463
+#: static/js/main.js:3463 static/js/main.js:3714
 msgid "Pasvorto"
 msgstr "Mot de passe"
 
@@ -78,7 +114,7 @@ msgstr "Souviens toi de moi"
 msgid "Ensaluti"
 msgstr "Connectez-vous"
 
-#: static/js/main.js:3490
+#: static/js/main.js:3490 static/js/ui.js:1022 static/js/ui.js:1029
 msgid "Nuligi"
 msgstr "Annuler"
 
@@ -134,26 +170,79 @@ msgstr "Caméra MJPEG simple"
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "le type de caméra que vous souhaitez ajouter"
 
-#: static/js/main.js:3955
+#: static/js/main.js:3704
+msgid "URL"
+msgstr "URL"
+
+#: static/js/main.js:3705
+msgid "http://ekzemplo.com:8765/cams/..."
+msgstr "http://exemple.com:8765/cams/.."
+
+#: static/js/main.js:3706
+msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
+msgstr "l'URL de la caméra (ex. http://exemple.com:8080/cam/)"
+
+#: static/js/main.js:3710
+msgid "uzantnomo..."
+msgstr "nom d'utilisateur ..."
+
+#: static/js/main.js:3711
+msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
+msgstr "le nom d'utilisateur de l'URL, si nécessaire (ex. admin)"
+
+#: static/js/main.js:3715
+msgid "pasvorto..."
+msgstr "mot de passe ..."
+
+#: static/js/main.js:3716
+#, fuzzy
+msgid "la pasvorto por la URL, se bezonata"
+msgstr "le mot de passe de l'URL, si nécessaire"
+
+#: static/js/main.js:3719
+msgid "Kamerao"
+msgstr "Caméra"
+
+#: static/js/main.js:3721
+msgid "la kameraon, kiun vi volas aldoni"
+msgstr "la caméra que vous souhaitez ajouter"
+
+#: static/js/main.js:3803
+msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
+msgstr "Les caméras V4L2 locales sont des périphériques connectés directement à votre système motionEye, généralement par USB."
+
+#: static/js/main.js:3954
 msgid "Aldonadi kameraon..."
 msgstr "Ajouter une caméra ..."
 
-#: static/js/main.js:4549
+#: static/js/main.js:4548
 msgid "plena ekrano kamerao"
 msgstr "Plein écran"
 
-#: static/js/main.js:4550
+#: static/js/main.js:4549
 msgid "malfermaj bildoj retumilo"
 msgstr "ouvrir le navigateur d'images"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4550
 msgid "malferma videoj retumilo"
 msgstr "ouvrir le navigateur de vidéos"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4551
 msgid "agordi ĉi tiun kameraon"
 msgstr "régler cette caméra"
 
-#: static/js/main.js:4568
+#: static/js/main.js:4567
 msgid "preni instantaron"
 msgstr "prendre un instantané"
+
+#: static/js/ui.js:1016 static/js/ui.js:1023
+msgid "Ne"
+msgstr "Non"
+
+#: static/js/ui.js:1017 static/js/ui.js:1024
+msgid "Jes"
+msgstr "Oui"
+
+#: static/js/ui.js:1030 static/js/ui.js:1035
+msgid "Bone"
+msgstr "OK"
