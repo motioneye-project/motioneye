@@ -763,6 +763,9 @@
                                     <option value="flv">Flash Video (.flv)</option>
                                     <option value="mov">QuickTime (.mov)</option>
                                     <option value="mp4">H.264 (.mp4)</option>
+                                    {% if has_h264_nvenc_support %}
+                                    <option value="mp4:h264_nvenc">H.264/NVENC (.mp4)</option>
+                                    {% endif %}
                                     {% if has_h264_omx_support %}
                                     <option value="mp4:h264_omx">H.264/OMX (.mp4)</option>
                                     {% endif %}
@@ -770,6 +773,9 @@
                                     <option value="mp4:h264_v4l2m2m">H.264/V4L2M2M (.mp4)</option>
                                     {% endif %}
                                     <option value="hevc">HEVC (.mp4)</option>
+                                    {% if has_hevc_nvenc_support %}
+                                    <option value="mp4:hevc_nvenc">HVEC/NVENC (.mp4)</option>
+                                    {% endif %}
                                     <option value="mkv">Matroska Video (.mkv)</option>
                                     {% if has_h264_omx_support %}
                                     <option value="mkv:h264_omx">Matroska Video/OMX (.mkv)</option>
