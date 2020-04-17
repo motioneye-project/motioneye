@@ -50,5 +50,9 @@ class MainHandler(BaseHandler):
                     admin_username=config.get_main().get('@admin_username'),
                     has_h264_omx_support=motionctl.has_h264_omx_support(),
                     has_h264_v4l2m2m_support=motionctl.has_h264_v4l2m2m_support(),
+                    has_h264_nvenc_support=motionctl.has_h264_nvenc_support(),
+                    has_hevc_nvenc_support=motionctl.has_hevc_nvenc_support(),
+                    has_h264_qsv_support=motionctl.has_h264_qsv_support(),
+                    has_hevc_qsv_support=motionctl.has_hevc_qsv_support(),
                     has_motion=bool(motionctl.find_motion()[0]),
                     mask_width=utils.MASK_WIDTH)
