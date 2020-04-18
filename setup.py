@@ -47,6 +47,8 @@ setup(
 
     license='GPLv3',
 
+    python_requires='>=3.6',
+
     classifiers=[
         'Development Status :: 4 - Beta',
 
@@ -55,15 +57,16 @@ setup(
 
         'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
 
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7'
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8'
     ],
 
     keywords='motion video surveillance frontend',
 
     packages=['motioneye'],
 
-    install_requires=['tornado>=3.1,<6', 'jinja2', 'pillow', 'pycurl'],
+    install_requires=['tornado', 'jinja2', 'pillow', 'pycurl'],
 
     package_data={
         'motioneye': [
@@ -76,7 +79,7 @@ setup(
 
     data_files=[
         (os.path.join('share/%s' % name, root), [os.path.join(root, f) for f in files])
-                for (root, dirs, files) in os.walk('extra')
+        for (root, dirs, files) in os.walk('extra')
     ],
 
     entry_points={
