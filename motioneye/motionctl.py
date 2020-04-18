@@ -26,10 +26,10 @@ import time
 from tornado.ioloop import IOLoop
 
 from motioneye import mediafiles
-from motioneye import powerctl
 from motioneye import settings
 from motioneye import update
 from motioneye import utils
+from motioneye.powerctl import PowerControl
 
 _MOTION_CONTROL_TIMEOUT = 5
 
@@ -52,15 +52,13 @@ def find_motion():
 
     else:  # autodetect motion binary path
         try:
-            binary = subprocess.check_output(['which', 'motion'], stderr=utils.DEV_NULL).strip()
-            binary = binary.decode()
+            binary = utils.call_subprocess(['which', 'motion'])
 
         except subprocess.CalledProcessError:  # not found
             return None, None
 
     try:
-        help = subprocess.check_output(binary + ' -h || true', shell=True)
-        help = help.decode()
+        help = utils.call_subprocess(binary + ' -h || true', shell=True)
 
     except subprocess.CalledProcessError:  # not found
         return None, None
@@ -181,7 +179,7 @@ def stop(invalidate=False):
             # the process still did not exit
             if settings.ENABLE_REBOOT:
                 logging.error('could not terminate the motion process')
-                powerctl.reboot()
+                PowerControl.reboot()
 
             else:
                 raise Exception('could not terminate the motion process')

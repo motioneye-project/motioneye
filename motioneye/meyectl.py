@@ -7,7 +7,7 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-#
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -27,7 +27,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from motioneye import settings
 
-
 _LOG_FILE = 'motioneye.log'
 
 
@@ -43,7 +42,7 @@ def find_command(command):
         cmd = cmd.replace('-b', '')  # remove server-specific options
         cmd += ' %s ' % command
         cmd += ' '.join([pipes.quote(arg) for arg in sys.argv[2:]
-                if arg not in ['-b']])
+                         if arg not in ['-b']])
 
     return cmd
 
@@ -119,7 +118,7 @@ def load_settings():
             setattr(settings, upper_name, value)
 
         else:
-            logging.warn('unknown configuration option: %s' % name)
+            logging.warning('unknown configuration option: %s' % name)
 
     if config_file:
         try:
@@ -173,7 +172,7 @@ def configure_logging(cmd, log_to_file=False):
             log_file = None
 
         logging.basicConfig(filename=log_file, level=settings.LOG_LEVEL,
-                format=fmt, datefmt='%Y-%m-%d %H:%M:%S')
+                            format=fmt, datefmt='%Y-%m-%d %H:%M:%S')
 
     except Exception as e:
         sys.stderr.write('failed to configure logging: %s\n' % e)
@@ -205,20 +204,16 @@ def make_arg_parser(command=None):
 
         epilog = 'type "%(prog)s [command] -h" for help on a specific command\n\n'
 
-    parser = argparse.ArgumentParser(prog='meyectl%s' % ((' ' + command) if command else ''),
-            usage=usage, description=description, epilog=epilog,
-            add_help=False, formatter_class=argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(prog='meyectl%s' % ((' ' + command) if command else ''), usage=usage,
+                                     description=description, epilog=epilog, add_help=False,
+                                     formatter_class=argparse.RawTextHelpFormatter)
 
-    parser.add_argument('-c', help='use a config file instead of built-in defaults',
-            type=str, dest='config_file')
-    parser.add_argument('-d', help='enable debugging, overriding log level from config file',
-            action='store_true', dest='debug')
-    parser.add_argument('-h', help='print this help and exit',
-            action='help', default=argparse.SUPPRESS)
-    parser.add_argument('-l', help='log to file instead of standard error',
-            action='store_true', dest='log_to_file')
-    parser.add_argument('-v', help='print program version and exit',
-            action='version', default=argparse.SUPPRESS)
+    parser.add_argument('-c', help='use a config file instead of built-in defaults', type=str, dest='config_file')
+    parser.add_argument('-d', help='enable debugging, overriding log level from config file', action='store_true',
+                        dest='debug')
+    parser.add_argument('-h', help='print this help and exit', action='help', default=argparse.SUPPRESS)
+    parser.add_argument('-l', help='log to file instead of standard error', action='store_true', dest='log_to_file')
+    parser.add_argument('-v', help='print program version and exit', action='version', default=argparse.SUPPRESS)
 
     return parser
 

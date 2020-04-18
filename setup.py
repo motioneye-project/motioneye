@@ -20,13 +20,12 @@ class SdistCommand(sdist):
     def make_release_tree(self, base_dir, files):
         sdist.make_release_tree(self, base_dir, files)
         self.apply_patches(base_dir)
-
+        
     def apply_patches(self, base_dir):
         dropbox_keys_file = os.path.join(os.getcwd(), base_dir, 'extra', 'dropbox.keys')
         if os.path.exists(dropbox_keys_file):
             g = {}
-            with open(dropbox_keys_file) as in_file:
-                exec(in_file.read(), g)
+            exec(compile(open(dropbox_keys_file, "rb").read(), dropbox_keys_file, 'exec'), g)
             upload_services_file = os.path.join(os.getcwd(), base_dir, 'motioneye', 'uploadservices.py')
             if os.system("sed -i 's/dropbox_client_id_placeholder/%s/' %s" % (g['CLIENT_ID'], upload_services_file)):
                 raise Exception('failed to patch uploadservices.py')
@@ -48,6 +47,8 @@ setup(
 
     license='GPLv3',
 
+    python_requires='>=3.6',
+
     classifiers=[
         'Development Status :: 4 - Beta',
 
@@ -56,15 +57,16 @@ setup(
 
         'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
 
-        'Programming Language :: Python :: 2',
-        'Programming Language :: Python :: 2.7'
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8'
     ],
 
     keywords='motion video surveillance frontend',
 
     packages=['motioneye'],
 
-    install_requires=['tornado>=3.1,<6', 'jinja2', 'pillow', 'pycurl', 'six'],
+    install_requires=['tornado', 'jinja2', 'pillow', 'pycurl'],
 
     package_data={
         'motioneye': [
@@ -77,7 +79,7 @@ setup(
 
     data_files=[
         (os.path.join('share/%s' % name, root), [os.path.join(root, f) for f in files])
-                for (root, dirs, files) in os.walk('extra')
+        for (root, dirs, files) in os.walk('extra')
     ],
 
     entry_points={
@@ -85,7 +87,7 @@ setup(
             'meyectl=motioneye.meyectl:main',
         ],
     },
-
+    
     cmdclass={
         'sdist': SdistCommand
     }

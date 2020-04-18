@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -6,12 +5,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-#
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#
+# 
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -28,10 +27,22 @@ import time
 from tornado.ioloop import IOLoop
 from tornado.web import Application
 
-from motioneye import handlers
 from motioneye import settings
 from motioneye import template
-from motioneye import utils
+from motioneye.handlers.main import MainHandler
+from motioneye.handlers.action import ActionHandler
+from motioneye.handlers.update import UpdateHandler
+from motioneye.handlers.movie import MovieHandler
+from motioneye.handlers.movie_playback import MovieDownloadHandler, MoviePlaybackHandler
+from motioneye.handlers.log import LogHandler
+from motioneye.handlers.login import LoginHandler
+from motioneye.handlers.config import ConfigHandler
+from motioneye.handlers.base import ManifestHandler, NotFoundHandler
+from motioneye.handlers.picture import PictureHandler
+from motioneye.handlers.prefs import PrefsHandler
+from motioneye.handlers.power import PowerHandler
+from motioneye.handlers.relay_event import RelayEventHandler
+from motioneye.handlers.version import VersionHandler
 
 
 _PID_FILE = 'motioneye.pid'
@@ -66,7 +77,7 @@ class Daemon(object):
             sys.stderr.write('fork() failed: %s\n' % e.strerror)
             sys.exit(-1)
 
-        # redirect standard file descriptors
+            # redirect standard file descriptors
         sys.stdout.flush()
         sys.stderr.flush()
         si = open('/dev/null', 'r')
@@ -85,7 +96,7 @@ class Daemon(object):
         try:
             os.remove(self.pid_file)
 
-        except OSError:
+        except:
             pass
 
     def running(self):
@@ -93,14 +104,14 @@ class Daemon(object):
             with open(self.pid_file) as f:
                 pid = int(f.read().strip())
 
-        except (OSError, ValueError):
+        except:
             return None
 
         try:
             os.kill(pid, 0)
             return pid
 
-        except OSError:
+        except:
             return None
 
     def start(self):
@@ -144,7 +155,7 @@ class Daemon(object):
             try:
                 os.kill(pid, signal.SIGKILL)
 
-            except OSError:
+            except:
                 pass
 
 
@@ -166,29 +177,30 @@ def _log_request(handler):
         log_method("%d %s %.2fms", handler.get_status(),
                    handler._request_summary(), request_time)
 
+
 handler_mapping = [
-    (r'^/$', handlers.MainHandler),
-    (r'^/manifest.json$', handlers.ManifestHandler),
-    (r'^/config/main/(?P<op>set|get)/?$', handlers.ConfigHandler),
-    (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize)/?$', handlers.ConfigHandler),
-    (r'^/config/(?P<op>add|list|backup|restore)/?$', handlers.ConfigHandler),
-    (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', handlers.PictureHandler),
-    (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.PictureHandler),
-    (r'^/picture/(?P<camera_id>\d+)/(?P<op>zipped|timelapse|delete_all)/(?P<group>.*?)/?$', handlers.PictureHandler),
-    (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', handlers.MovieHandler),
-    (r'^/movie/(?P<camera_id>\d+)/(?P<op>preview|delete)/(?P<filename>.+?)/?$', handlers.MovieHandler),
-    (r'^/movie/(?P<camera_id>\d+)/(?P<op>delete_all)/(?P<group>.*?)/?$', handlers.MovieHandler),
-    (r'^/movie/(?P<camera_id>\d+)/playback/(?P<filename>.+?)/?$', handlers.MoviePlaybackHandler,{'path':r''}),
-    (r'^/movie/(?P<camera_id>\d+)/download/(?P<filename>.+?)/?$', handlers.MovieDownloadHandler,{'path':r''}),
-    (r'^/action/(?P<camera_id>\d+)/(?P<action>\w+)/?$', handlers.ActionHandler),
-    (r'^/prefs/(?P<key>\w+)?/?$', handlers.PrefsHandler),
-    (r'^/_relay_event/?$', handlers.RelayEventHandler),
-    (r'^/log/(?P<name>\w+)/?$', handlers.LogHandler),
-    (r'^/update/?$', handlers.UpdateHandler),
-    (r'^/power/(?P<op>shutdown|reboot)/?$', handlers.PowerHandler),
-    (r'^/version/?$', handlers.VersionHandler),
-    (r'^/login/?$', handlers.LoginHandler),
-    (r'^.*$', handlers.NotFoundHandler),
+    (r'^/$', MainHandler),
+    (r'^/manifest.json$', ManifestHandler),
+    (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),
+    (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize)/?$', ConfigHandler),
+    (r'^/config/(?P<op>add|list|backup|restore)/?$', ConfigHandler),
+    (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', PictureHandler),
+    (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', PictureHandler),
+    (r'^/picture/(?P<camera_id>\d+)/(?P<op>zipped|timelapse|delete_all)/(?P<group>.*?)/?$', PictureHandler),
+    (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', MovieHandler),
+    (r'^/movie/(?P<camera_id>\d+)/(?P<op>preview|delete)/(?P<filename>.+?)/?$', MovieHandler),
+    (r'^/movie/(?P<camera_id>\d+)/(?P<op>delete_all)/(?P<group>.*?)/?$', MovieHandler),
+    (r'^/movie/(?P<camera_id>\d+)/playback/(?P<filename>.+?)/?$', MoviePlaybackHandler, {'path': r''}),
+    (r'^/movie/(?P<camera_id>\d+)/download/(?P<filename>.+?)/?$', MovieDownloadHandler, {'path': r''}),
+    (r'^/action/(?P<camera_id>\d+)/(?P<action>\w+)/?$', ActionHandler),
+    (r'^/prefs/(?P<key>\w+)?/?$', PrefsHandler),
+    (r'^/_relay_event/?$', RelayEventHandler),
+    (r'^/log/(?P<name>\w+)/?$', LogHandler),
+    (r'^/update/?$', UpdateHandler),
+    (r'^/power/(?P<op>shutdown|reboot)/?$', PowerHandler),
+    (r'^/version/?$', VersionHandler),
+    (r'^/login/?$', LoginHandler),
+    (r'^.*$', NotFoundHandler),
 ]
 
 
@@ -235,7 +247,7 @@ def test_requirements():
         import tornado  # @UnusedImport
 
     except ImportError:
-        logging.fatal('please install tornado')
+        logging.fatal('please install tornado version 3.1 or greater')
         sys.exit(-1)
 
     try:
@@ -278,14 +290,14 @@ def test_requirements():
 
     if not has_ffmpeg:
         if has_motion:
-            logging.warn('you have motion installed, but no ffmpeg')
+            logging.warning('you have motion installed, but no ffmpeg')
 
         else:
             logging.info('ffmpeg not installed')
 
     if not has_v4lutils:
         if has_motion:
-            logging.warn('you have motion installed, but no v4l-utils')
+            logging.warning('you have motion installed, but no v4l-utils')
 
         else:
             logging.info('v4l-utils not installed')
@@ -306,7 +318,7 @@ def make_media_folders():
 
                 except Exception as e:
                     logging.error('failed to create root media folder "%s" for camera with id %s: %s' % (
-                            camera_config['target_dir'], camera_id, e))
+                        camera_config['target_dir'], camera_id, e))
 
 
 def start_motion():
@@ -317,6 +329,7 @@ def start_motion():
 
     # add a motion running checker
     def checker():
+
         if not motionctl.running() and motionctl.started() and config.get_enabled_local_motion_cameras():
             try:
                 logging.error('motion not running, starting it')
@@ -324,7 +337,7 @@ def start_motion():
 
             except Exception as e:
                 logging.error('failed to start motion: %(msg)s' % {
-                        'msg': utils.make_str(e)}, exc_info=True)
+                    'msg': str(e)}, exc_info=True)
 
         io_loop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
 
@@ -345,11 +358,10 @@ def parse_options(parser, args):
 
 
 def run():
-    import motioneye
-
     from motioneye import cleanup
     from motioneye import mjpgclient
     from motioneye import motionctl
+    import motioneye
     from motioneye import smbctl
     from motioneye import tasks
     from motioneye import wsswitch
@@ -430,8 +442,8 @@ def main(parser, args, command):
     if command == 'start':
         if options.background:
             daemon = Daemon(
-                    pid_file=os.path.join(settings.RUN_PATH, _PID_FILE),
-                    run_callback=run)
+                pid_file=os.path.join(settings.RUN_PATH, _PID_FILE),
+                run_callback=run)
             daemon.start()
 
         else:

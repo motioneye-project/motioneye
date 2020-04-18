@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -23,15 +22,15 @@ import logging
 import os
 import re
 import socket
+import subprocess
 import sys
 import time
+import urllib.request
+import urllib.error
+import urllib.parse
 
+from typing import Union
 from PIL import Image, ImageDraw
-
-from six import ensure_text
-from six.moves.urllib import parse as urlparse
-from six.moves.urllib.parse import quote as urlquote
-from six.moves.urllib.request import urlopen as urllib_urlopen
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.iostream import IOStream
@@ -39,19 +38,12 @@ from tornado.ioloop import IOLoop
 
 from motioneye import settings
 
-try:
-    unicode  # Python 2
-except NameError:
-    unicode = str  # Python 3
-
-
-_SIGNATURE_REGEX = re.compile('[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
+_SIGNATURE_REGEX = re.compile(r'[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
 MASK_WIDTH = 32
 
 DEV_NULL = open('/dev/null', 'w')
-
 
 COMMON_RESOLUTIONS = [
     (320, 200),
@@ -87,14 +79,14 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
         return pretty_date_time(datetime.datetime.fromtimestamp(date_time))
 
     if short:
-        text = u'{day} {month}, {hm}'.format(
+        text = '{day} {month}, {hm}'.format(
             day=date_time.day,
             month=date_time.strftime('%b'),
             hm=date_time.strftime('%H:%M')
         )
 
     else:
-        text = u'{day} {month} {year}, {hm}'.format(
+        text = '{day} {month} {year}, {hm}'.format(
             day=date_time.day,
             month=date_time.strftime('%B'),
             year=date_time.year,
@@ -118,31 +110,31 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
     return text
 
 
-def pretty_date(date):
-    if date is None:
+def pretty_date(d: Union[datetime.date, int]) -> str:
+    if d is None:
         return '(' + _('never') + ')'
 
-    if isinstance(date, int):
-        return pretty_date(datetime.datetime.fromtimestamp(date))
+    if isinstance(d, int):
+        return pretty_date(datetime.datetime.fromtimestamp(d))
 
-    return u'{day} {month} {year}'.format(
-        day=date.day,
-        month=_(date.strftime('%B')),
-        year=date.year
+    return '{day} {month} {year}'.format(
+        day=d.day,
+        month=_(d.strftime('%B')),
+        year=d.year
     )
 
 
-def pretty_time(time):
-    if time is None:
+def pretty_time(t: Union[datetime.time, datetime.timedelta]) -> str:
+    if t is None:
         return ''
 
-    if isinstance(time, datetime.timedelta):
-        hour = time.seconds / 3600
-        minute = (time.seconds % 3600) / 60
-        time = datetime.time(hour, minute)
+    if isinstance(t, datetime.timedelta):
+        hour = int(t.seconds / 3600)
+        minute = int((t.seconds % 3600) / 60)
+        t = datetime.time(hour=hour, minute=minute)
 
     return '{hm}'.format(
-        hm=time.strftime('%H:%M')
+        hm=t.strftime('%H:%M')
     )
 
 
@@ -259,7 +251,7 @@ def pretty_http_error(response):
     if not response.error:
         return 'ok'
 
-    msg = make_str(response.error)
+    msg = str(response.error)
     if msg.startswith('HTTP '):
         msg = msg.split(':', 1)[-1].strip()
 
@@ -273,7 +265,18 @@ def pretty_http_error(response):
 
 
 def make_str(s):
-    return ensure_text(s)
+    if isinstance(s, str):
+        return s
+
+    try:
+        return str(s)
+
+    except:
+        try:
+            return str(s, encoding='utf8').encode('utf8')
+
+        except:
+            return str(s).encode('utf8')
 
 
 def split_semicolon(s):
@@ -294,13 +297,13 @@ def split_semicolon(s):
 
 def get_disk_usage(path):
     logging.debug('getting disk usage for path %(path)s...' % {
-            'path': path})
+        'path': path})
 
     try:
         result = os.statvfs(path)
 
     except OSError as e:
-        logging.error('failed to execute statvfs: %(msg)s' % {'msg': make_str(e)})
+        logging.error('failed to execute statvfs: %(msg)s' % {'msg': str(e)})
 
         return None
 
@@ -331,7 +334,7 @@ def is_v4l2_camera(config):
 
 
 def is_mmal_camera(config):
-    '''Tells if a camera is mmal device managed by the local motion instance.'''
+    """Tells if a camera is mmal device managed by the local motion instance."""
     return bool(config.get('mmalcam_name'))
 
 
@@ -355,10 +358,10 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
     data.setdefault('password', None)
 
     url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-            'scheme': data['scheme'] if data['scheme'] != 'mjpeg' else 'http',
-            'host': data['host'],
-            'port': ':' + str(data['port']) if data['port'] else '',
-            'path': data['path'] or ''}
+        'scheme': data['scheme'] if data['scheme'] != 'mjpeg' else 'http',
+        'host': data['host'],
+        'port': ':' + str(data['port']) if data['port'] else '',
+        'path': data['path'] or ''}
 
     called = [False]
     status_2xx = [False]
@@ -423,8 +426,6 @@ def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
 
 
 def test_rtsp_url(data, callback):
-    from motioneye import motionctl
-
     scheme = data.get('scheme', 'rtsp')
     host = data.get('host', '127.0.0.1')
     port = data.get('port') or '554'
@@ -433,10 +434,10 @@ def test_rtsp_url(data, callback):
     password = data.get('password')
 
     url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-            'scheme': scheme,
-            'host': host,
-            'port': (':' + port) if port else '',
-            'path': path}
+        'scheme': scheme,
+        'host': host,
+        'port': (':' + port) if port else '',
+        'path': path}
 
     called = [False]
     send_auth = [False]
@@ -456,7 +457,8 @@ def test_rtsp_url(data, callback):
         s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
         stream = IOStream(s)
         stream.set_close_callback(on_close)
-        stream.connect((host, int(port)), on_connect)
+        f = stream.connect((host, int(port)))
+        f.add_done_callback(on_connect)
 
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
                                          functools.partial(on_connect, _timeout=True))
@@ -497,7 +499,8 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex(b'RTSP/1.0 \d+ ', on_rtsp)
+        f = stream.read_until_regex(b'RTSP/1.0 \d+ ')
+        f.add_done_callback(on_rtsp)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), on_rtsp)
 
     def on_rtsp(data=None):
@@ -525,7 +528,8 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex(b'Server: .*', on_server)
+        f = stream.read_until_regex(b'Server: .*')
+        f.add_done_callback(on_server)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_server)
 
     def on_server(data=None):
@@ -545,7 +549,9 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex(b'WWW-Authenticate: .*', on_www_authenticate)
+        f = stream.read_until_regex(b'WWW-Authenticate: .*')
+        f.add_done_callback(on_www_authenticate(f))
+
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_www_authenticate)
 
     def on_www_authenticate(data=None):
@@ -595,15 +601,15 @@ def test_rtsp_url(data, callback):
             return
 
         called[0] = True
-        logging.error('rtsp client error: %s' % make_str(e))
+        logging.error('rtsp client error: %s' % str(e))
 
         try:
             stream.close()
 
-        except Exception:
+        except:
             pass
 
-        callback(error=make_str(e))
+        callback(error=str(e))
 
     def check_error():
         error = getattr(stream, 'error', None)
@@ -621,6 +627,7 @@ def test_rtsp_url(data, callback):
 
     stream = connect()
 
+
 def test_rtmp_url(data, callback):
     scheme = data.get('scheme', 'rtmp')
     host = data.get('host', '127.0.0.1')
@@ -630,10 +637,10 @@ def test_rtmp_url(data, callback):
     password = data.get('password')
 
     url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-            'scheme': scheme,
-            'host': host,
-            'port': (':' + port) if port else '',
-            'path': path}
+        'scheme': scheme,
+        'host': host,
+        'port': (':' + port) if port else '',
+        'path': path}
 
     # Since RTMP is a binary TCP stream its a little more work to do a proper test
     # For now lets just check if a TCP socket is open on the target IP:PORT
@@ -645,19 +652,19 @@ def test_rtmp_url(data, callback):
 
 
 def compute_signature(method, path, body, key):
-    parts = list(urlparse.urlsplit(path))
-    query = [q for q in urlparse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
+    parts = list(urllib.parse.urlsplit(path))
+    query = [q for q in urllib.parse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
     query.sort(key=lambda q: q[0])
     # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
-    query = [(n, urlquote(v, safe="!'()*~")) for (n, v) in query]
+    query = [(n, urllib.parse.quote(v, safe="!'()*~")) for (n, v) in query]
     query = '&'.join([(q[0] + '=' + q[1]) for q in query])
     parts[0] = parts[1] = ''
     parts[3] = query
-    path = urlparse.urlunsplit(parts)
+    path = urllib.parse.urlunsplit(parts)
     path = _SIGNATURE_REGEX.sub('-', path)
     key = _SIGNATURE_REGEX.sub('-', key)
 
-    if body and body.startswith(b'---'):
+    if body and body.startswith('---'):
         body = None  # file attachment
 
     body = body and _SIGNATURE_REGEX.sub('-', body.decode('utf8'))
@@ -684,7 +691,7 @@ def parse_cookies(cookies_headers):
 
 
 def build_basic_header(username, password):
-    return 'Basic ' + base64.encodestring('%s:%s' % (username, password)).replace('\n', '')
+    return 'Basic ' + base64.encodebytes('%s:%s' % (username, password)).replace('\n', '')
 
 
 def parse_basic_header(header):
@@ -698,9 +705,9 @@ def parse_basic_header(header):
     encoded = parts[1]
 
     try:
-        decoded = base64.decodestring(encoded)
+        decoded = base64.decodebytes(encoded)
 
-    except Exception:
+    except:
         return None
 
     parts = decoded.split(':', 1)
@@ -733,6 +740,7 @@ def build_digest_header(method, url, username, password, state):
             if isinstance(x, str):
                 x = x.encode('utf-8')
             return hashlib.md5(x).hexdigest()
+
         hash_utf8 = md5_utf8
 
     else:  # _algorithm == 'SHA'
@@ -740,6 +748,7 @@ def build_digest_header(method, url, username, password, state):
             if isinstance(x, str):
                 x = x.encode('utf-8')
             return hashlib.sha1(x).hexdigest()
+
         hash_utf8 = sha_utf8
 
     KD = lambda s, d: hash_utf8("%s:%s" % (s, d))
@@ -748,7 +757,7 @@ def build_digest_header(method, url, username, password, state):
         return None
 
     entdig = None
-    p_parsed = urlparse.urlparse(url)
+    p_parsed = urllib.parse.urlparse(url)
     path = p_parsed.path
     if p_parsed.query:
         path += '?' + p_parsed.query
@@ -817,7 +826,7 @@ def urlopen(*args, **kwargs):
 
         kwargs.setdefault('context', ctx)
 
-    return urllib_urlopen(*args, **kwargs)
+    return urllib.request.urlopen(*args, **kwargs)
 
 
 def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_height=None):
@@ -1006,3 +1015,14 @@ def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None)
         mask_lines.append(line)
 
     return mask_lines
+
+
+def call_subprocess(args, stdin=None, input=None, stdout=subprocess.PIPE, stderr=DEV_NULL, capture_output=False,
+                    shell=False, cwd=None, timeout=None, check=True, encoding='utf-8', errors=None,
+                    text=None, env=None, universal_newlines=None) -> str:
+    """subprocess.run wrapper to return output as a decoded string"""
+    return subprocess.run(
+        args, stdin=stdin, input=input, stdout=stdout, stderr=stderr, capture_output=capture_output, shell=shell,
+        cwd=cwd, timeout=timeout, check=check, encoding=encoding, errors=errors, text=text, env=env,
+        universal_newlines=universal_newlines
+    ).stdout.strip()

@@ -24,19 +24,18 @@ import os.path
 import re
 import shlex
 import subprocess
-import six
+import urllib.parse
 
-from six.moves.urllib import parse as urlparse
 from tornado.ioloop import IOLoop
 
 from motioneye import diskctl
 from motioneye import motionctl
-from motioneye import powerctl
 from motioneye import settings
 from motioneye import tasks
 from motioneye import uploadservices
 from motioneye import utils
 from motioneye import v4l2ctl
+from motioneye.powerctl import PowerControl
 
 _CAMERA_CONFIG_FILE_NAME = 'camera-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
@@ -196,7 +195,7 @@ def get_main(as_lines=False):
 
         else:
             logging.error('could not open main config file %(path)s: %(msg)s' % {
-                'path': config_file_path, 'msg': six.u(e)})
+                'path': config_file_path, 'msg': str(e)})
 
             raise
 
@@ -206,7 +205,7 @@ def get_main(as_lines=False):
 
         except Exception as e:
             logging.error('could not read main config file %(path)s: %(msg)s' % {
-                'path': config_file_path, 'msg': six.u(e)})
+                'path': config_file_path, 'msg': str(e)})
 
             raise
 
@@ -217,7 +216,7 @@ def get_main(as_lines=False):
         return lines
 
     main_config = _conf_to_dict(lines, list_names=['camera'], no_convert=[
-                                '@admin_username', '@admin_password', '@normal_username', '@normal_password'])
+        '@admin_username', '@admin_password', '@normal_username', '@normal_password'])
 
     # adapt directives from pre-4.2 configuration
     adapt_config_directives(main_config, _MOTION_PRE_TO_POST_42_OPTIONS_MAPPING)
@@ -234,7 +233,7 @@ def set_main(main_config):
     global _main_config_cache
 
     main_config = dict(main_config)
-    for n, v in six.iteritems(_main_config_cache):
+    for n, v in _main_config_cache.items():
         main_config.setdefault(n, v)
     _main_config_cache = main_config
 
@@ -258,18 +257,18 @@ def set_main(main_config):
 
     except Exception as e:
         logging.error('could not open main config file %(path)s for writing: %(msg)s' % {
-            'path': config_file_path, 'msg': six.u(e)})
+            'path': config_file_path, 'msg': str(e)})
 
         raise
 
     lines = _dict_to_conf(lines, main_config, list_names=['camera'])
 
     try:
-        f.writelines([utils.make_str(l) + '\n' for l in lines])
+        f.writelines([utils.make_str(line) + '\n' for line in lines])
 
     except Exception as e:
         logging.error('could not write main config file %(path)s: %(msg)s' % {
-            'path': config_file_path, 'msg': six.u(e)})
+            'path': config_file_path, 'msg': str(e)})
 
         raise
 
@@ -292,7 +291,7 @@ def get_camera_ids(filter_valid=True):
 
     except Exception as e:
         logging.error('failed to list config dir %(path)s: %(msg)s', {
-            'path': config_path, 'msg': six.u(e)})
+            'path': config_path, 'msg': str(e)})
 
         raise
 
@@ -367,16 +366,16 @@ def get_camera(camera_id, as_lines=False):
         f = open(camera_config_path, 'r')
 
     except Exception as e:
-        logging.error('could not open camera config file: %(msg)s' % {'msg': six.u(e)})
+        logging.error('could not open camera config file: %(msg)s' % {'msg': str(e)})
 
         raise
 
     try:
-        lines = [l.strip() for l in f.readlines()]
+        lines = [line.strip() for line in f.readlines()]
 
     except Exception as e:
         logging.error('could not read camera config file %(path)s: %(msg)s' % {
-            'path': camera_config_path, 'msg': six.u(e)})
+            'path': camera_config_path, 'msg': str(e)})
 
         raise
 
@@ -414,7 +413,7 @@ def get_camera(camera_id, as_lines=False):
         _set_default_simple_mjpeg_camera(camera_id, camera_config)
 
     else:  # incomplete configuration
-        logging.warn('camera config file at %s is incomplete, ignoring' % camera_config_path)
+        logging.warning('camera config file at %s is incomplete, ignoring' % camera_config_path)
 
         return None
 
@@ -472,18 +471,18 @@ def set_camera(camera_id, camera_config):
 
     except Exception as e:
         logging.error('could not open camera config file %(path)s for writing: %(msg)s' % {
-            'path': camera_config_path, 'msg': six.u(e)})
+            'path': camera_config_path, 'msg': str(e)})
 
         raise
 
     lines = _dict_to_conf(lines, camera_config)
 
     try:
-        f.writelines([utils.make_str(l) + '\n' for l in lines])
+        f.writelines([utils.make_str(line) + '\n' for line in lines])
 
     except Exception as e:
         logging.error('could not write camera config file %(path)s: %(msg)s' % {
-            'path': camera_config_path, 'msg': six.u(e)})
+            'path': camera_config_path, 'msg': str(e)})
 
         raise
 
@@ -500,8 +499,8 @@ def add_camera(device_details):
         if device_details['port']:
             host += ':' + str(device_details['port'])
 
-        device_details['url'] = urlparse.urlunparse(
-                (device_details['scheme'], host, device_details['path'], '', '', ''))
+        device_details['url'] = urllib.parse.urlunparse(
+            (device_details['scheme'], host, device_details['path'], '', '', ''))
 
     # determine the last camera id
     camera_ids = get_camera_ids()
@@ -607,7 +606,7 @@ def rem_camera(camera_id):
 
     except Exception as e:
         logging.error('could not remove camera config file %(path)s: %(msg)s' % {
-            'path': camera_config_path, 'msg': six.u(e)})
+            'path': camera_config_path, 'msg': str(e)})
 
         raise
 
@@ -626,7 +625,7 @@ def main_ui_to_dict(ui):
             }
 
             try:
-                subprocess.check_output(settings.PASSWORD_HOOK, env=env, stderr=subprocess.STDOUT)
+                utils.call_subprocess(settings.PASSWORD_HOOK, env=env, stderr=subprocess.STDOUT)
                 logging.debug('password hook exec succeeded')
 
             except Exception as e:
@@ -647,7 +646,7 @@ def main_ui_to_dict(ui):
         call_hook(ui['normal_username'], ui['normal_password'])
 
     # additional configs
-    for name, value in six.iteritems(ui):
+    for name, value in ui.items():
         if not name.startswith('_'):
             continue
 
@@ -677,7 +676,7 @@ def main_dict_to_ui(data):
         ui['normal_password'] = ''
 
     # additional configs
-    for name, value in six.iteritems(data):
+    for name, value in data.items():
         if not name.startswith('@_'):
             continue
 
@@ -807,7 +806,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
         if proto == 'v4l2':
             # video controls
-            vid_control_params = (('%s=%s' % (n, c['value'])) for n, c in ui['video_controls'].items())
+            vid_control_params = (('%s=%s' % (n, c['value'])) for n, c in list(ui['video_controls'].items()))
             data['vid_control_params'] = ','.join(vid_control_params)
 
     else:  # assuming netcam
@@ -824,7 +823,6 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             threshold = int(float(ui['frame_change_threshold']) * 640 * 480 / 100)
 
     data['threshold'] = threshold
-
 
     if (ui['storage_device'] == 'network-share') and settings.SMB_SHARES:
         mount_point = smbctl.make_mount_point(ui['network_server'], ui['network_share_name'], ui['network_username'])
@@ -858,7 +856,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             logging.error('failed to create root directory "%s": %s' % (data['target_dir'], e), exc_info=True)
 
     if ui['upload_enabled'] and '@id' in prev_config:
-        upload_settings = {k[7:]: ui[k] for k in six.iterkeys(ui) if k.startswith('upload_')}
+        upload_settings = {k[7:]: ui[k] for k in ui.keys() if k.startswith('upload_')}
 
         tasks.add(0, uploadservices.update, tag='uploadservices.update(%s)' % ui['upload_service'],
                   camera_id=prev_config['@id'], service_name=ui['upload_service'], settings=upload_settings)
@@ -936,7 +934,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     if ui['mask']:
         if ui['mask_type'] == 'smart':
-            data['smart_mask_speed'] = 10 - int(ui['smart_mask_sluggishness'])
+            data['smart_mask_speed'] = 11 - int(ui['smart_mask_sluggishness'])
 
         elif ui['mask_type'] == 'editable':
             capture_width, capture_height = data.get('width'), data.get('height')
@@ -949,13 +947,13 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     # working schedule
     if ui['working_schedule']:
         data['@working_schedule'] = (
-            ui['monday_from'] + '-' + ui['monday_to'] + '|' +
-            ui['tuesday_from'] + '-' + ui['tuesday_to'] + '|' +
-            ui['wednesday_from'] + '-' + ui['wednesday_to'] + '|' +
-            ui['thursday_from'] + '-' + ui['thursday_to'] + '|' +
-            ui['friday_from'] + '-' + ui['friday_to'] + '|' +
-            ui['saturday_from'] + '-' + ui['saturday_to'] + '|' +
-            ui['sunday_from'] + '-' + ui['sunday_to'])
+                ui['monday_from'] + '-' + ui['monday_to'] + '|' +
+                ui['tuesday_from'] + '-' + ui['tuesday_to'] + '|' +
+                ui['wednesday_from'] + '-' + ui['wednesday_to'] + '|' +
+                ui['thursday_from'] + '-' + ui['thursday_to'] + '|' +
+                ui['friday_from'] + '-' + ui['friday_to'] + '|' +
+                ui['saturday_from'] + '-' + ui['saturday_to'] + '|' +
+                ui['sunday_from'] + '-' + ui['sunday_to'])
 
         data['@working_schedule_type'] = ui['working_schedule_type']
 
@@ -1032,7 +1030,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     data['on_picture_save'] = '; '.join(on_picture_save)
 
     # additional configs
-    for name, value in six.iteritems(ui):
+    for name, value in ui.items():
         if not name.startswith('_'):
             continue
 
@@ -1201,7 +1199,7 @@ def motion_camera_dict_to_ui(data):
         ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
 
         video_controls = v4l2ctl.list_ctrls(data['videodevice'])
-        video_controls = [(n, c) for (n, c) in video_controls.items()
+        video_controls = [(n, c) for (n, c) in list(video_controls.items())
                           if 'min' in c and 'max' in c and 'value' in c]
 
         vid_control_params = data['vid_control_params'].split(',')
@@ -1241,7 +1239,7 @@ def motion_camera_dict_to_ui(data):
     elif data['@storage_device'].startswith('local-disk'):
         target_dev = data['@storage_device'][10:].replace('-', '/')
         mounted_partitions = diskctl.list_mounted_partitions()
-        for partition in mounted_partitions.values():
+        for partition in list(mounted_partitions.values()):
             if partition['target'] == target_dev and data['target_dir'].startswith(partition['mount_point']):
                 ui['root_directory'] = data['target_dir'][len(partition['mount_point']):] or '/'
                 break
@@ -1354,7 +1352,7 @@ def motion_camera_dict_to_ui(data):
     elif data['smart_mask_speed']:
         ui['mask'] = True
         ui['mask_type'] = 'smart'
-        ui['smart_mask_sluggishness'] = 10 - data['smart_mask_speed']
+        ui['smart_mask_sluggishness'] = 11 - data['smart_mask_speed']
 
     # working schedule
     working_schedule = data['@working_schedule']
@@ -1379,7 +1377,7 @@ def motion_camera_dict_to_ui(data):
     command_notifications = []
     for e in on_event_start:
         if e.count(' sendmail '):
-            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
+            e = shlex.split(utils.make_str(e))  # poor shlex can't deal with unicode properly
 
             if len(e) < 10:
                 continue
@@ -1399,11 +1397,11 @@ def motion_camera_dict_to_ui(data):
             try:
                 ui['email_notifications_picture_time_span'] = int(e[-1])
 
-            except ValueError:
+            except:
                 ui['email_notifications_picture_time_span'] = 0
 
         elif e.count(' webhook '):
-            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
+            e = shlex.split(utils.make_str(e))  # poor shlex can't deal with unicode properly
 
             if len(e) < 3:
                 continue
@@ -1447,7 +1445,7 @@ def motion_camera_dict_to_ui(data):
     command_storage = []
     for e in on_movie_end:
         if e.count(' webhook '):
-            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
+            e = shlex.split(utils.make_str(e))  # poor shlex can't deal with unicode properly
 
             if len(e) < 3:
                 continue
@@ -1467,7 +1465,7 @@ def motion_camera_dict_to_ui(data):
         ui['command_storage_exec'] = '; '.join(command_storage)
 
     # additional configs
-    for name, value in six.iteritems(data):
+    for name, value in data.items():
         if not name.startswith('@_'):
             continue
 
@@ -1475,7 +1473,7 @@ def motion_camera_dict_to_ui(data):
 
     # extra motion options
     extra_options = []
-    for name, value in six.iteritems(data):
+    for name, value in data.items():
         if name not in _USED_MOTION_OPTIONS and not name.startswith('@'):
             if isinstance(value, bool):
                 value = ['off', 'on'][value]  # boolean values should be transferred as on/off
@@ -1501,7 +1499,7 @@ def simple_mjpeg_camera_ui_to_dict(ui, prev_config=None):
     }
 
     # additional configs
-    for name, value in six.iteritems(ui):
+    for name, value in ui.items():
         if not name.startswith('_'):
             continue
 
@@ -1522,7 +1520,7 @@ def simple_mjpeg_camera_dict_to_ui(data):
     }
 
     # additional configs
-    for name, value in six.iteritems(data):
+    for name, value in data.items():
         if not name.startswith('@_'):
             continue
 
@@ -1577,9 +1575,9 @@ def backup():
                       settings.CONF_PATH)
 
         cmd = ['tar', 'zc', 'motion.conf']
-        cmd += map(os.path.basename, glob.glob(os.path.join(settings.CONF_PATH, 'camera-*.conf')))
+        cmd += list(map(os.path.basename, glob.glob(os.path.join(settings.CONF_PATH, 'camera-*.conf'))))
         try:
-            content = subprocess.check_output(cmd, cwd=settings.CONF_PATH)
+            content = utils.call_subprocess(cmd, cwd=settings.CONF_PATH)
             logging.debug('backup file created (%s bytes)' % len(content))
 
             return content
@@ -1594,7 +1592,7 @@ def backup():
                       settings.CONF_PATH)
 
         try:
-            content = subprocess.check_output(['tar', 'zc', '.'], cwd=settings.CONF_PATH)
+            content = utils.call_subprocess(['tar', 'zc', '.'], cwd=settings.CONF_PATH)
             logging.debug('backup file created (%s bytes)' % len(content))
 
             return content
@@ -1626,7 +1624,7 @@ def restore(content):
 
         if settings.ENABLE_REBOOT:
             def later():
-                powerctl.reboot()
+                PowerControl.reboot()
 
             io_loop = IOLoop.instance()
             io_loop.add_timeout(datetime.timedelta(seconds=2), later)
@@ -1795,7 +1793,7 @@ def _dict_to_conf(lines, data, list_names=None):
     if len(remaining) and len(lines):
         conf_lines.append('')  # add a blank line
 
-    for (name, value) in six.iteritems(remaining):
+    for (name, value) in remaining.items():
         if name.startswith('@_'):
             continue  # ignore additional configs
 
@@ -2015,10 +2013,10 @@ def _get_additional_config(data, camera_id=None):
     args = [camera_id] if camera_id else []
 
     (sections, configs) = get_additional_structure(camera=bool(camera_id))
-    get_funcs = set([c.get('get') for c in six.itervalues(configs) if c.get('get')])
+    get_funcs = set([c.get('get') for c in configs.values() if c.get('get')])
     get_func_values = collections.OrderedDict((f, f(*args)) for f in get_funcs)
 
-    for name, section in six.iteritems(sections):
+    for name, section in sections.items():
         if not section.get('get'):
             continue
 
@@ -2028,7 +2026,7 @@ def _get_additional_config(data, camera_id=None):
         else:
             data['@_' + name] = get_func_values.get(section['get'])
 
-    for name, config in six.iteritems(configs):
+    for name, config in configs.items():
         if not config.get('get'):
             continue
 
@@ -2045,7 +2043,7 @@ def _set_additional_config(data, camera_id=None):
     (sections, configs) = get_additional_structure(camera=bool(camera_id))
 
     set_func_values = collections.OrderedDict()
-    for name, section in six.iteritems(sections):
+    for name, section in sections.items():
         if not section.get('set'):
             continue
 
@@ -2058,7 +2056,7 @@ def _set_additional_config(data, camera_id=None):
         else:
             set_func_values[section['set']] = data['@_' + name]
 
-    for name, config in six.iteritems(configs):
+    for name, config in configs.items():
         if not config.get('set'):
             continue
 
@@ -2071,5 +2069,5 @@ def _set_additional_config(data, camera_id=None):
         else:
             set_func_values[config['set']] = data['@_' + name]
 
-    for func, value in six.iteritems(set_func_values):
+    for func, value in set_func_values.items():
         func(*(args + [value]))

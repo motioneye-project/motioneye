@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -6,20 +5,19 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-#
+# 
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#
+# 
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+# along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
 import functools
 import json
 import logging
 import re
-import six
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 
@@ -31,13 +29,12 @@ _DOUBLE_SLASH_REGEX = re.compile('//+')
 
 def _make_request(scheme, host, port, username, password, path, method='GET', data=None, query=None,
                   timeout=None, content_type=None):
-
     path = _DOUBLE_SLASH_REGEX.sub('/', path)
     url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-            'scheme': scheme,
-            'host': host,
-            'port': ':' + str(port) if port else '',
-            'path': path or ''}
+        'scheme': scheme,
+        'host': host,
+        'port': ':' + str(port) if port else '',
+        'path': path or ''}
 
     query = dict(query or {})
     query['_username'] = username or ''
@@ -49,7 +46,7 @@ def _make_request(scheme, host, port, username, password, path, method='GET', da
     else:
         url += '?'
 
-    url += '&'.join([(n + '=' + v) for (n, v) in six.iteritems(query)])
+    url += '&'.join([(n + '=' + v) for (n, v) in query.items()])
     url += '&_signature=' + utils.compute_signature(method, url, data, password)
 
     if timeout is None:
@@ -74,7 +71,7 @@ def _callback_wrapper(callback):
             elif decoded['error']:
                 response.error = decoded['error']
 
-        except (ValueError, KeyError):
+        except:
             pass
 
         return callback(response)
@@ -110,13 +107,13 @@ def pretty_camera_url(local_config, camera=True):
 
 def _remote_params(local_config):
     params = [
-            local_config.get('@scheme', local_config.get('scheme')) or 'http',
-            local_config.get('@host', local_config.get('host')),
-            local_config.get('@port', local_config.get('port')),
-            local_config.get('@username', local_config.get('username')),
-            local_config.get('@password', local_config.get('password')),
-            local_config.get('@path', local_config.get('path')) or '',
-            local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))]
+        local_config.get('@scheme', local_config.get('scheme')) or 'http',
+        local_config.get('@host', local_config.get('host')),
+        local_config.get('@port', local_config.get('port')),
+        local_config.get('@username', local_config.get('username')),
+        local_config.get('@password', local_config.get('password')),
+        local_config.get('@path', local_config.get('path')) or '',
+        local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))]
 
     if params[3] is not None:
         params[3] = str(params[3])
@@ -131,7 +128,7 @@ def list(local_config, callback):
     scheme, host, port, username, password, path, _ = _remote_params(local_config)
 
     logging.debug('listing remote cameras on %(url)s' % {
-            'url': pretty_camera_url(local_config, camera=False)})
+        'url': pretty_camera_url(local_config, camera=False)})
 
     request = _make_request(scheme, host, port, username, password,
                             path + '/config/list/')
@@ -145,8 +142,8 @@ def list(local_config, callback):
 
         if response.error:
             logging.error('failed to list remote cameras on %(url)s: %(msg)s' % {
-                    'url': pretty_camera_url(local_config, camera=False),
-                    'msg': utils.pretty_http_error(response)})
+                'url': pretty_camera_url(local_config, camera=False),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -155,10 +152,10 @@ def list(local_config, callback):
 
         except Exception as e:
             logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
-                    'url': pretty_camera_url(local_config, camera=False),
-                    'msg': utils.make_str(e)})
+                'url': pretty_camera_url(local_config, camera=False),
+                'msg': str(e)})
 
-            return callback(error=utils.make_str(e))
+            return callback(error=str(e))
 
         cameras = response['cameras']
 
@@ -175,8 +172,8 @@ def get_config(local_config, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
     logging.debug('getting config for remote camera %(id)s on %(url)s' % {
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     request = _make_request(scheme, host, port, username, password,
                             path + '/config/%(id)s/get/' % {'id': camera_id})
@@ -184,9 +181,9 @@ def get_config(local_config, callback):
     def on_response(response):
         if response.error:
             logging.error('failed to get config for remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -195,10 +192,10 @@ def get_config(local_config, callback):
 
         except Exception as e:
             logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.make_str(e)})
+                'url': pretty_camera_url(local_config),
+                'msg': str(e)})
 
-            return callback(error=utils.make_str(e))
+            return callback(error=str(e))
 
         response['host'] = host
         response['port'] = port
@@ -219,8 +216,8 @@ def set_config(local_config, ui_config, callback):
     camera_id = local_config.get('@remote_camera_id', local_config.get('remote_camera_id'))
 
     logging.debug('setting config for remote camera %(id)s on %(url)s' % {
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     ui_config = json.dumps(ui_config)
 
@@ -231,9 +228,9 @@ def set_config(local_config, ui_config, callback):
     def on_response(response):
         if response.error:
             logging.error('failed to set config for remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -247,9 +244,9 @@ def test(local_config, data, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
     what = data['what']
     logging.debug('testing %(what)s on remote camera %(id)s, on %(url)s' % {
-            'what': what,
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'what': what,
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     data = json.dumps(data)
 
@@ -260,10 +257,10 @@ def test(local_config, data, callback):
     def on_response(response):
         if response.error:
             logging.error('failed to test %(what)s on remote camera %(id)s, on %(url)s: %(msg)s' % {
-                    'what': what,
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'what': what,
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -276,9 +273,9 @@ def test(local_config, data, callback):
 def get_current_picture(local_config, width, height, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
-#     logging.debug('getting current picture for remote camera %(id)s on %(url)s' % {
-#             'id': camera_id,
-#             'url': pretty_camera_url(local_config)})
+    #     logging.debug('getting current picture for remote camera %(id)s on %(url)s' % {
+    #             'id': camera_id,
+    #             'url': pretty_camera_url(local_config)})
 
     query = {}
 
@@ -300,9 +297,9 @@ def get_current_picture(local_config, width, height, callback):
 
         if response.error:
             logging.error('failed to get current picture for remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -316,8 +313,8 @@ def list_media(local_config, media_type, prefix, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
     logging.debug('getting media list for remote camera %(id)s on %(url)s' % {
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     query = {}
     if prefix is not None:
@@ -331,9 +328,9 @@ def list_media(local_config, media_type, prefix, callback):
     def on_response(response):
         if response.error:
             logging.error('failed to get media list for remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -342,10 +339,10 @@ def list_media(local_config, media_type, prefix, callback):
 
         except Exception as e:
             logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.make_str(e)})
+                'url': pretty_camera_url(local_config),
+                'msg': str(e)})
 
-            return callback(error=utils.make_str(e))
+            return callback(error=str(e))
 
         return callback(response)
 
@@ -357,14 +354,14 @@ def get_media_content(local_config, filename, media_type, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
     logging.debug('downloading file %(filename)s of remote camera %(id)s on %(url)s' % {
-            'filename': filename,
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'filename': filename,
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     path += '/%(media_type)s/%(id)s/download/%(filename)s' % {
-            'media_type': media_type,
-            'id': camera_id,
-            'filename': filename}
+        'media_type': media_type,
+        'id': camera_id,
+        'filename': filename}
 
     # timeout here is 10 times larger than usual - we expect a big delay when fetching the media list
     request = _make_request(scheme, host, port, username, password,
@@ -373,10 +370,10 @@ def get_media_content(local_config, filename, media_type, callback):
     def on_response(response):
         if response.error:
             logging.error('failed to download file %(filename)s of remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'filename': filename,
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'filename': filename,
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -390,14 +387,14 @@ def make_zipped_content(local_config, media_type, group, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
     logging.debug('preparing zip file for group "%(group)s" of remote camera %(id)s on %(url)s' % {
-            'group': group or 'ungrouped',
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'group': group or 'ungrouped',
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     prepare_path = path + '/%(media_type)s/%(id)s/zipped/%(group)s/' % {
-            'media_type': media_type,
-            'id': camera_id,
-            'group': group}
+        'media_type': media_type,
+        'id': camera_id,
+        'group': group}
 
     # timeout here is 100 times larger than usual - we expect a big delay
     request = _make_request(scheme, host, port, username, password,
@@ -407,10 +404,10 @@ def make_zipped_content(local_config, media_type, group, callback):
         if response.error:
             msg = 'failed to prepare zip file for group "%(group)s" ' \
                   'of remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'group': group or 'ungrouped',
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)}
+                      'group': group or 'ungrouped',
+                      'id': camera_id,
+                      'url': pretty_camera_url(local_config),
+                      'msg': utils.pretty_http_error(response)}
 
             logging.error(msg)
 
@@ -421,10 +418,10 @@ def make_zipped_content(local_config, media_type, group, callback):
 
         except Exception as e:
             logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.make_str(e)})
+                'url': pretty_camera_url(local_config),
+                'msg': str(e)})
 
-            return callback(error=utils.make_str(e))
+            return callback(error=str(e))
 
         callback({'key': key})
 
@@ -436,14 +433,14 @@ def get_zipped_content(local_config, media_type, key, group, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
     logging.debug('downloading zip file for remote camera %(id)s on %(url)s' % {
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     p = path + '/%(media_type)s/%(id)s/zipped/%(group)s/?key=%(key)s' % {
-            'media_type': media_type,
-            'group': group,
-            'id': camera_id,
-            'key': key}
+        'media_type': media_type,
+        'group': group,
+        'id': camera_id,
+        'key': key}
 
     request = _make_request(scheme, host, port, username, password, p,
                             timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
@@ -451,9 +448,9 @@ def get_zipped_content(local_config, media_type, key, group, callback):
     def on_response(response):
         if response.error:
             logging.error('failed to download zip file for remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -472,19 +469,19 @@ def make_timelapse_movie(local_config, framerate, interval, group, callback):
 
     msg = 'making timelapse movie for group "%(group)s" of remote camera %(id)s ' \
           'with rate %(framerate)s/%(int)s on %(url)s' % {
-            'group': group or 'ungrouped',
-            'id': camera_id,
-            'framerate': framerate,
-            'int': interval,
-            'url': pretty_camera_url(local_config)}
+              'group': group or 'ungrouped',
+              'id': camera_id,
+              'framerate': framerate,
+              'int': interval,
+              'url': pretty_camera_url(local_config)}
 
     logging.debug(msg)
 
     path += '/picture/%(id)s/timelapse/%(group)s/?interval=%(int)s&framerate=%(framerate)s' % {
-            'id': camera_id,
-            'int': interval,
-            'framerate': framerate,
-            'group': group}
+        'id': camera_id,
+        'int': interval,
+        'framerate': framerate,
+        'group': group}
 
     request = _make_request(scheme, host, port, username, password,
                             path, timeout=100 * settings.REMOTE_REQUEST_TIMEOUT)
@@ -493,12 +490,12 @@ def make_timelapse_movie(local_config, framerate, interval, group, callback):
         if response.error:
             msg = 'failed to make timelapse movie for group "%(group)s" of remote camera %(id)s ' \
                   'with rate %(framerate)s/%(int)s on %(url)s: %(msg)s' % {
-                    'group': group or 'ungrouped',
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'int': interval,
-                    'framerate': framerate,
-                    'msg': utils.pretty_http_error(response)}
+                      'group': group or 'ungrouped',
+                      'id': camera_id,
+                      'url': pretty_camera_url(local_config),
+                      'int': interval,
+                      'framerate': framerate,
+                      'msg': utils.pretty_http_error(response)}
 
             logging.error(msg)
 
@@ -509,10 +506,10 @@ def make_timelapse_movie(local_config, framerate, interval, group, callback):
 
         except Exception as e:
             logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.make_str(e)})
+                'url': pretty_camera_url(local_config),
+                'msg': str(e)})
 
-            return callback(error=utils.make_str(e))
+            return callback(error=str(e))
 
         callback(response)
 
@@ -524,20 +521,20 @@ def check_timelapse_movie(local_config, group, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
     logging.debug('checking timelapse movie status for remote camera %(id)s on %(url)s' % {
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     p = path + '/picture/%(id)s/timelapse/%(group)s/?check=true' % {
-            'id': camera_id,
-            'group': group}
+        'id': camera_id,
+        'group': group}
     request = _make_request(scheme, host, port, username, password, p)
 
     def on_response(response):
         if response.error:
             logging.error('failed to check timelapse movie status for remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -546,10 +543,10 @@ def check_timelapse_movie(local_config, group, callback):
 
         except Exception as e:
             logging.error('failed to decode json answer from %(url)s: %(msg)s' % {
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.make_str(e)})
+                'url': pretty_camera_url(local_config),
+                'msg': str(e)})
 
-            return callback(error=utils.make_str(e))
+            return callback(error=str(e))
 
         callback(response)
 
@@ -561,13 +558,13 @@ def get_timelapse_movie(local_config, key, group, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
     logging.debug('downloading timelapse movie for remote camera %(id)s on %(url)s' % {
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     p = path + '/picture/%(id)s/timelapse/%(group)s/?key=%(key)s' % {
-            'id': camera_id,
-            'group': group,
-            'key': key}
+        'id': camera_id,
+        'group': group,
+        'key': key}
 
     request = _make_request(scheme, host, port, username, password, p,
                             timeout=10 * settings.REMOTE_REQUEST_TIMEOUT)
@@ -575,9 +572,9 @@ def get_timelapse_movie(local_config, key, group, callback):
     def on_response(response):
         if response.error:
             logging.error('failed to download timelapse movie for remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -595,14 +592,14 @@ def get_media_preview(local_config, filename, media_type, width, height, callbac
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
     logging.debug('getting file preview for %(filename)s of remote camera %(id)s on %(url)s' % {
-            'filename': filename,
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'filename': filename,
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     path += '/%(media_type)s/%(id)s/preview/%(filename)s' % {
-            'media_type': media_type,
-            'id': camera_id,
-            'filename': filename}
+        'media_type': media_type,
+        'id': camera_id,
+        'filename': filename}
 
     query = {}
 
@@ -617,10 +614,10 @@ def get_media_preview(local_config, filename, media_type, width, height, callbac
     def on_response(response):
         if response.error:
             logging.error('failed to get file preview for %(filename)s of remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'filename': filename,
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'filename': filename,
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -634,14 +631,14 @@ def del_media_content(local_config, filename, media_type, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
     logging.debug('deleting file %(filename)s of remote camera %(id)s on %(url)s' % {
-            'filename': filename,
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'filename': filename,
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     path += '/%(media_type)s/%(id)s/delete/%(filename)s' % {
-            'media_type': media_type,
-            'id': camera_id,
-            'filename': filename}
+        'media_type': media_type,
+        'id': camera_id,
+        'filename': filename}
 
     request = _make_request(scheme, host, port, username, password, path, method='POST', data='{}',
                             timeout=settings.REMOTE_REQUEST_TIMEOUT, content_type='application/json')
@@ -649,10 +646,10 @@ def del_media_content(local_config, filename, media_type, callback):
     def on_response(response):
         if response.error:
             logging.error('failed to delete file %(filename)s of remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'filename': filename,
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'filename': filename,
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -666,14 +663,14 @@ def del_media_group(local_config, group, media_type, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
     logging.debug('deleting group "%(group)s" of remote camera %(id)s on %(url)s' % {
-            'group': group or 'ungrouped',
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'group': group or 'ungrouped',
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     path += '/%(media_type)s/%(id)s/delete_all/%(group)s/' % {
-            'media_type': media_type,
-            'id': camera_id,
-            'group': group}
+        'media_type': media_type,
+        'id': camera_id,
+        'group': group}
 
     request = _make_request(scheme, host, port, username, password, path, method='POST', data='{}',
                             timeout=settings.REMOTE_REQUEST_TIMEOUT, content_type='application/json')
@@ -681,10 +678,10 @@ def del_media_group(local_config, group, media_type, callback):
     def on_response(response):
         if response.error:
             logging.error('failed to delete group "%(group)s" of remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'group': group or 'ungrouped',
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'group': group or 'ungrouped',
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 
@@ -698,13 +695,13 @@ def exec_action(local_config, action, callback):
     scheme, host, port, username, password, path, camera_id = _remote_params(local_config)
 
     logging.debug('executing action "%(action)s" of remote camera %(id)s on %(url)s' % {
-            'action': action,
-            'id': camera_id,
-            'url': pretty_camera_url(local_config)})
+        'action': action,
+        'id': camera_id,
+        'url': pretty_camera_url(local_config)})
 
     path += '/action/%(id)s/%(action)s/' % {
-            'action': action,
-            'id': camera_id}
+        'action': action,
+        'id': camera_id}
 
     request = _make_request(scheme, host, port, username, password, path, method='POST', data='{}',
                             timeout=settings.REMOTE_REQUEST_TIMEOUT, content_type='application/json')
@@ -712,10 +709,10 @@ def exec_action(local_config, action, callback):
     def on_response(response):
         if response.error:
             logging.error('failed to execute action "%(action)s" of remote camera %(id)s on %(url)s: %(msg)s' % {
-                    'action': action,
-                    'id': camera_id,
-                    'url': pretty_camera_url(local_config),
-                    'msg': utils.pretty_http_error(response)})
+                'action': action,
+                'id': camera_id,
+                'url': pretty_camera_url(local_config),
+                'msg': utils.pretty_http_error(response)})
 
             return callback(error=utils.pretty_http_error(response))
 

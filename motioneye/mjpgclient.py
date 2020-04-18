@@ -123,12 +123,12 @@ class MjpgClient(IOStream):
 
     def _error(self, error):
         logging.error('mjpg client for camera %(camera_id)s on port %(port)s error: %(msg)s' % {
-                'port': self._port, 'camera_id': self._camera_id, 'msg': utils.make_str(error)})
+                'port': self._port, 'camera_id': self._camera_id, 'msg': str(error)})
 
         try:
             self.close()
 
-        except Exception:
+        except:
             pass
 
     def _on_connect(self):
@@ -195,7 +195,7 @@ class MjpgClient(IOStream):
 
             parts = data[7:].split(',')
             parts_dict = dict(p.split('=', 1) for p in parts)
-            parts_dict = {p[0]: p[1].strip('"') for p in parts_dict.items()}
+            parts_dict = {p[0]: p[1].strip('"') for p in list(parts_dict.items())}
 
             self._auth_digest_state = parts_dict
 
@@ -290,7 +290,7 @@ def get_fps(camera_id):
 
 
 def close_all(invalidate=False):
-    for client in MjpgClient.clients.values():
+    for client in list(MjpgClient.clients.values()):
         client.close()
 
     if invalidate:
@@ -303,7 +303,7 @@ def _garbage_collector():
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
 
     now = time.time()
-    for camera_id, client in MjpgClient.clients.items():
+    for camera_id, client in list(MjpgClient.clients.items()):
         port = client.get_port()
 
         if client.closed():
