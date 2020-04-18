@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-16 22:27+0200\n"
+"POT-Creation-Date: 2020-04-18 13:44+0200\n"
 "PO-Revision-Date: 2020-04-08 17:45+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -172,6 +172,11 @@ msgstr "設定"
 #, fuzzy
 msgid "ŝanĝi uzanton"
 msgstr "ユーザーを変更する"
+
+#: templates/main.html:103
+#, fuzzy
+msgid "forigi kameraon"
+msgstr "カメラを削除"
 
 #: templates/main.html:104
 #, fuzzy
@@ -1598,6 +1603,11 @@ msgstr "必要な詳細を入力した後、このボタンをクリックして
 #, fuzzy
 msgid "Alvoki URL"
 msgstr "URLを呼び出す"
+
+#: templates/main.html:1027
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "モーションイベントが検出されたときにURLが要求されるようにするには、これを有効にします。"
 
 #: templates/main.html:1031
 #, fuzzy

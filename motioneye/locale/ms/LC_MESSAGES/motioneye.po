@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-16 22:27+0200\n"
+"POT-Creation-Date: 2020-04-18 13:44+0200\n"
 "PO-Revision-Date: 2020-04-08 21:44+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -171,6 +171,11 @@ msgstr "tetapan"
 #, fuzzy
 msgid "ŝanĝi uzanton"
 msgstr "tukar pengguna"
+
+#: templates/main.html:103
+#, fuzzy
+msgid "forigi kameraon"
+msgstr "tanggalkan kamera"
 
 #: templates/main.html:104
 #, fuzzy
@@ -1597,6 +1602,11 @@ msgstr "Klik pada butang ini untuk menguji pemberitahuan e-mel selepas anda meng
 #, fuzzy
 msgid "Alvoki URL"
 msgstr "Memohon URL"
+
+#: templates/main.html:1027
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "Aktifkan ini jika anda mahu URL diminta setiap kali peristiwa gerakan dikesan."
 
 #: templates/main.html:1031
 #, fuzzy

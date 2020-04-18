@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-17 19:33+0200\n"
+"POT-Creation-Date: 2020-04-18 21:27+0200\n"
 "PO-Revision-Date: 2020-02-11 19:28+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -22,7 +22,7 @@ msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "special characters are not allowed in password"
 
 #: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
-#: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:691
+#: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:687
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "This field is required"
 
@@ -58,6 +58,99 @@ msgstr "special characters are not allowed in filename"
 msgid "enigu validan valoron"
 msgstr "enter a valid value"
 
+#: static/js/main.js:812
+msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
+msgstr "This will recursively remove all files present in the cloud folder \""
+
+#: static/js/main.js:813
+msgid "\", ne nur tiuj alŝutitaj de motionEye!"
+msgstr "\", not just those uploaded by motionEye!"
+
+#: static/js/main.js:894
+msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
+msgstr "This will recursively remove all old media files present in the directory \""
+
+#: static/js/main.js:895
+msgid "\", ne nur tiuj kreitaj de motionEye!"
+msgstr "\", not just those created by motionEye!"
+
+#: static/js/main.js:962
+msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
+msgstr "Cannot edit the mask without a valid camera image!"
+
+#: static/js/main.js:2164
+msgid "Propra"
+msgstr "Custom"
+
+#: static/js/main.js:2200
+msgid "Propra dosierindiko"
+msgstr "Custom Path"
+
+#: static/js/main.js:2202
+msgid "Retan kunlokon"
+msgstr "Network Share"
+
+#: static/js/main.js:2588 static/js/main.js:2949 static/js/main.js:3000
+#: static/js/main.js:3040
+msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
+msgstr "Make sure all configuration options are valid!"
+
+#: static/js/main.js:2690
+msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
+msgstr "This will reboot the system. Continue?"
+
+#: static/js/main.js:2700
+msgid "Vere fermiti sistemon?"
+msgstr "Really shut down?"
+
+#: static/js/main.js:2712
+msgid "Malŝaltita"
+msgstr "Powered Off"
+
+#: static/js/main.js:2727
+msgid "Ĉu vere restartigi ?"
+msgstr "Really reboot?"
+
+#: static/js/main.js:2741
+msgid "La sistemo rekomencis!"
+msgstr "The system has been rebooted!"
+
+#: static/js/main.js:2761 static/js/main.js:2794 static/js/main.js:3687
+msgid "Bonvolu apliki unue la modifitajn agordojn!"
+msgstr "Please apply the modified settings first!"
+
+#: static/js/main.js:2766
+msgid "Neniu fotilo por forigi!"
+msgstr "No camera to remove!"
+
+#: static/js/main.js:2772
+msgid "Ĉu forigi kameraon "
+msgstr "Remove camera "
+
+#: static/js/main.js:2800
+msgid "motionEye estas ĝisdatigita (aktuala versio: "
+msgstr "motionEye is up to date (current version:"
+
+#: static/js/main.js:2803
+msgid "Nova versio havebla: "
+msgstr "New version available:"
+
+#: static/js/main.js:2803
+msgid ". Ĝisdatigi?"
+msgstr ". Update?"
+
+#: static/js/main.js:2811
+msgid "motionEye estis sukcese ĝisdatigita!"
+msgstr "motionEye was successfully updated!"
+
+#: static/js/main.js:2821
+msgid "Ĝisdatigo malsukcesis!"
+msgstr "Update failed!"
+
+#: static/js/main.js:2832
+msgid "La ĝisdatiga procezo malsukcesis!"
+msgstr "The upgdate process failed!"
+
 #: static/js/main.js:2851
 msgid "Rezerva dosiero"
 msgstr "Backup File"
@@ -82,10 +175,6 @@ msgstr "The configuration has been restored!"
 msgid "Malsukcesis restaŭri la agordon!"
 msgstr "Failed to restore configuration!"
 
-#: static/js/main.js:2949
-msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
-msgstr "Make sure all configuration options are valid!"
-
 #: static/js/main.js:2981
 msgid "Aliri la alŝutan servon malsukcesis: "
 msgstr "Accessing the upload service failed:"
@@ -94,9 +183,33 @@ msgstr "Accessing the upload service failed:"
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "Accessing the upload service succeeded!"
 
+#: static/js/main.js:3087
+msgid "Ĉu vere forigi ĉi tiun dosieron?"
+msgstr "Really delete this file?"
+
+#: static/js/main.js:3111
+msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
+msgstr "Really delete all pictures from \"%(group)s\"?"
+
+#: static/js/main.js:3114
+msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
+msgstr "Really remove all movies from \"%(group)s\"?"
+
+#: static/js/main.js:3119
+msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
+msgstr "Really delete all ungrouped pictures?"
+
+#: static/js/main.js:3122
+msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
+msgstr "Really delete all ungrouped movies?"
+
 #: static/js/main.js:3233
 msgid "aldonadi kameraon..."
 msgstr "add camera ..."
+
+#: static/js/main.js:3421
+msgid "bone"
+msgstr "ok"
 
 #: static/js/main.js:3458 static/js/main.js:3709
 msgid "Uzantnomo"
@@ -114,7 +227,7 @@ msgstr "Remember me"
 msgid "Ensaluti"
 msgstr "Login"
 
-#: static/js/main.js:3490 static/js/ui.js:1022 static/js/ui.js:1029
+#: static/js/main.js:3490 static/js/ui.js:1018 static/js/ui.js:1025
 msgid "Nuligi"
 msgstr "Cancel"
 
@@ -141,6 +254,26 @@ msgstr "Unknown error occurred."
 #: static/js/main.js:3547
 msgid "Eraro : "
 msgstr "Error : "
+
+#: static/js/main.js:3552
+msgid "antaŭa bildo"
+msgstr "previous picture"
+
+#: static/js/main.js:3555
+msgid "ludi"
+msgstr "play"
+
+#: static/js/main.js:3558
+msgid "sekva bildo"
+msgstr "next picture"
+
+#: static/js/main.js:3668
+msgid "Fermi"
+msgstr "Close"
+
+#: static/js/main.js:3669 static/js/main.js:4202
+msgid "Elŝuti"
+msgstr "Download"
 
 #: static/js/main.js:3693
 msgid "Kamerao tipo"
@@ -195,7 +328,6 @@ msgid "pasvorto..."
 msgstr "password ..."
 
 #: static/js/main.js:3716
-#, fuzzy
 msgid "la pasvorto por la URL, se bezonata"
 msgstr "the password for the URL, if needed"
 
@@ -207,42 +339,193 @@ msgstr "Camera"
 msgid "la kameraon, kiun vi volas aldoni"
 msgstr "the camera you want to add"
 
-#: static/js/main.js:3803
+#: static/js/main.js:3757
+msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
+msgstr "Remote motionEye cameras are cameras installed behind another motionEye server. Adding them here will allow you to view and manage them remotely."
+
+#: static/js/main.js:3772
+msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
+msgstr "Network cameras (or IP cameras) are devices that natively stream RTSP/RTMP or MJPEG videos or plain JPEG images. Consult your device's manual to find out the correct RTSP, RTMP, MJPEG or JPEG URL."
+
+#: static/js/main.js:3777
+msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
+msgstr "Local MMAL cameras are devices that are connected directly to your motionEye system. These are usually board-specific cameras."
+
+#: static/js/main.js:3792
+msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
+msgstr "Adding your device as a simple MJPEG camera instead of as a network camera will improve the framerate, but no motion detection, picture capturing or movie recording will be available for it. The camera must be accessible to both your server and your browser. This type of camera is not compatible with Internet Explorer."
+
+#: static/js/main.js:3797
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr "Local V4L2 cameras are camera devices that are connected directly to your motionEye system, usually via USB."
 
-#: static/js/main.js:3954
+#: static/js/main.js:3948
 msgid "Aldonadi kameraon..."
 msgstr "Add Camera ..."
 
-#: static/js/main.js:4548
+#: static/js/main.js:4020
+msgid "Grupo"
+msgstr "Group"
+
+#: static/js/main.js:4024
+msgid "Inkluzivi foton prenitan ĉiun"
+msgstr "Include a picture taken every"
+
+#: static/js/main.js:4027
+msgid "sekundo"
+msgstr "second"
+
+#: static/js/main.js:4028
+msgid "5 sekundoj"
+msgstr "5 seconds"
+
+#: static/js/main.js:4029
+msgid "10 sekundoj"
+msgstr "10 seconds"
+
+#: static/js/main.js:4030
+msgid "30 sekundoj"
+msgstr "30 seconds"
+
+#: static/js/main.js:4031
+msgid "minuto"
+msgstr "minute"
+
+#: static/js/main.js:4032
+msgid "5 minutoj"
+msgstr "5 minutes"
+
+#: static/js/main.js:4033
+msgid "10 minutoj"
+msgstr "10 minutes"
+
+#: static/js/main.js:4034
+msgid "30 minutoj"
+msgstr "30 minutes"
+
+#: static/js/main.js:4035
+msgid "horo"
+msgstr "hour"
+
+#: static/js/main.js:4038
+msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
+msgstr "choose the interval of time between two selected pictures"
+
+#: static/js/main.js:4041
+msgid "Filmo framfrekvenco"
+msgstr "Movie framerate"
+
+#: static/js/main.js:4043
+msgid "Elektu kiom rapide vi volas ke la akselita video estu."
+msgstr "choose how fast you want the timelapse playback to be"
+
+#: static/js/main.js:4052
+msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
+msgstr "Given the large number of pictures, creating your timelapse might take a while!"
+
+#: static/js/main.js:4069
+msgid "Krei akselita video"
+msgstr "Create Timelapse Movie"
+
+#: static/js/main.js:4078
+msgid "Filmo kreanta en progreso..."
+msgstr "Creating Timelapse Movie..."
+
+#: static/js/main.js:4205
+msgid "Forigi"
+msgstr "Remove"
+
+#: static/js/main.js:4316
+msgid "Zipitaj"
+msgstr "Zipped"
+
+#: static/js/main.js:4325
+msgid "Akselita video"
+msgstr "Timelapse"
+
+#: static/js/main.js:4336
+msgid "Forigi ĉiujn"
+msgstr "Delete all"
+
+#: static/js/main.js:4477
+msgid "Bildoj prenitaj de "
+msgstr "Pictures taken by "
+
+#: static/js/main.js:4480
+msgid "Filmoj registritaj de "
+msgstr "Movies recorded by "
+
+#: static/js/main.js:4542
 msgid "plena ekrano kamerao"
 msgstr "toggle full-screen camera"
 
-#: static/js/main.js:4549
+#: static/js/main.js:4543
 msgid "malfermaj bildoj retumilo"
 msgstr "open pictures browser"
 
-#: static/js/main.js:4550
+#: static/js/main.js:4544
 msgid "malferma videoj retumilo"
 msgstr "open movies browser"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4545
 msgid "agordi ĉi tiun kameraon"
 msgstr "configure this camera"
 
-#: static/js/main.js:4567
+#: static/js/main.js:4561
 msgid "preni instantaron"
 msgstr "take a snapshot"
 
-#: static/js/ui.js:1016 static/js/ui.js:1023
+#: static/js/ui.js:503
+msgid "enigu pozitivan nombron"
+msgstr "enter a positive number"
+
+#: static/js/ui.js:505
+msgid "enigu pozitivan entjeran nombron"
+msgstr "enter a positive integer"
+
+#: static/js/ui.js:507
+msgid "enigu nombron"
+msgstr "enter a number"
+
+#: static/js/ui.js:509
+msgid "enigu entjeran nombron"
+msgstr "enter an integer"
+
+#: static/js/ui.js:512
+msgid " inter "
+msgstr " between "
+
+#: static/js/ui.js:512
+msgid " kaj "
+msgstr " and "
+
+#: static/js/ui.js:515
+msgid " pli ol "
+msgstr " greater than "
+
+#: static/js/ui.js:520
+msgid " malpli ol "
+msgstr " smaller than "
+
+#: static/js/ui.js:573
+msgid "enigu validan tempon en la sekva formato: HH:MM"
+msgstr "enter valid time in the following format: HH:MM"
+
+#: static/js/ui.js:630
+msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
+msgstr "enter a valid URL (e.g. http://example.com:8080/cams/)"
+
+#: static/js/ui.js:1012 static/js/ui.js:1019
 msgid "Ne"
 msgstr "No"
 
-#: static/js/ui.js:1017 static/js/ui.js:1024
+#: static/js/ui.js:1013 static/js/ui.js:1020
 msgid "Jes"
 msgstr "Yes"
 
-#: static/js/ui.js:1030 static/js/ui.js:1035
+#: static/js/ui.js:1026 static/js/ui.js:1031
 msgid "Bone"
 msgstr "OK"
+
+#~ msgid "Zipita"
+#~ msgstr "Zipped"

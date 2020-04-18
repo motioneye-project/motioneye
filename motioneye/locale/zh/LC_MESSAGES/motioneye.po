@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-16 22:27+0200\n"
+"POT-Creation-Date: 2020-04-18 13:44+0200\n"
 "PO-Revision-Date: 2020-04-13 15:20+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -171,6 +171,11 @@ msgstr "设定"
 #, fuzzy
 msgid "ŝanĝi uzanton"
 msgstr "变更使用者"
+
+#: templates/main.html:103
+#, fuzzy
+msgid "forigi kameraon"
+msgstr "移除相机"
 
 #: templates/main.html:104
 #, fuzzy
@@ -1597,6 +1602,11 @@ msgstr "填写必需的详细信息后，单击此按钮可以测试电子邮件
 #, fuzzy
 msgid "Alvoki URL"
 msgstr "调用网址"
+
+#: templates/main.html:1027
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "如果希望在检测到运动事件时都请求URL，请启用此选项。"
 
 #: templates/main.html:1031
 #, fuzzy

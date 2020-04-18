@@ -22,9 +22,11 @@ import logging
 import os.path
 import pipes
 import sys
+import locale
 import gettext
 
 # ŝarĝante tradukojn
+locale.setlocale(locale.LC_ALL, '')
 lingvo = 'eo'
 traduction = None
 pathname=os.path.dirname(__file__)

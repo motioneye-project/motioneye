@@ -809,8 +809,8 @@ function initUI() {
         var folder = $('#uploadLocationEntry').val();
         console.log('cleanCloudEnabled', enabled, folder);
         if (enabled) {
-            runAlertDialog(('This will recursively remove all files present in the cloud folder "' + folder +
-                    '", not just those uploaded by motionEye!'));
+            runAlertDialog(( i18n.gettext('Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo "') + folder +
+                    i18n.gettext('", ne nur tiuj alŝutitaj de motionEye!')));
         }
     });
 
@@ -891,8 +891,8 @@ function initUI() {
         var value = $(this).val();
         if (value != '0' && this._prevValue == '0') {
             var rootDir = rootDirectoryEntry.val();
-            runAlertDialog(('This will recursively remove all old media files present in the directory "' + rootDir +
-                    '", not just those created by motionEye!'));
+            runAlertDialog((i18n.gettext('Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo "') + rootDir +
+                    i18n.gettext('", ne nur tiuj kreitaj de motionEye!')));
         }
     });
 
@@ -959,7 +959,7 @@ function initUI() {
         var cameraId = $('#cameraSelect').val();
         var img = getCameraFrame(cameraId).find('img.camera')[0];
         if (!img._naturalWidth || !img._naturalHeight) {
-            return runAlertDialog('Cannot edit the mask without a valid camera image!');
+            return runAlertDialog(i18n.gettext("Ne eblas redakti la maskon sen valida kameraa bildo!"));
         }
 
         enableMaskEdit(cameraId, img._naturalWidth, img._naturalHeight);
@@ -2161,7 +2161,7 @@ function dict2CameraUi(dict) {
         dict['available_resolutions'].forEach(function (resolution) {
             $('#resolutionSelect').append('<option value="' + resolution + '">' + resolution + '</option>');
         });
-        $('#resolutionSelect').append('<option value="custom">Custom</option>');
+        $('#resolutionSelect').append('<option value="custom">'+i18n.gettext("Propra")+'</option>');
     }
     $('#resolutionSelect').val(dict['resolution']); markHideIfNull('available_resolutions', 'resolutionSelect');
     if (dict['resolution']) {
@@ -2197,9 +2197,9 @@ function dict2CameraUi(dict) {
             $('#storageDeviceSelect').append('<option value="' + option + '">' + label + '</option>');
         });
     });
-    $('#storageDeviceSelect').append('<option value="custom-path">Custom Path</option>');
+    $('#storageDeviceSelect').append('<option value="custom-path">'+i18n.gettext("Propra dosierindiko")+'</option>');
     if (dict['smb_shares']) {
-        $('#storageDeviceSelect').append('<option value="network-share">Network Share</option>');
+        $('#storageDeviceSelect').append('<option value="network-share">'+i18n.gettext("Retan kunlokon")+'</option>');
     }
 
     if (storageDeviceOptions[dict['storage_device']]) {
@@ -2585,7 +2585,7 @@ function isApplyVisible() {
 
 function doApply() {
     if (!configUiValid()) {
-        runAlertDialog('Make sure all the configuration options are valid!');
+        runAlertDialog(i18n.gettext("Certigu, ke ĉiuj agordaj opcioj validas!"));
         return;
     }
 
@@ -2687,7 +2687,7 @@ function doApply() {
     }
 
     if (pushConfigReboot) {
-        runConfirmDialog('This will reboot the system. Continue?', function () {
+        runConfirmDialog(i18n.gettext("Ĉi tio rekomencos la sistemon. Daŭrigi?"), function () {
             actualApply();
         });
     }
@@ -2697,7 +2697,7 @@ function doApply() {
 }
 
 function doShutDown() {
-    runConfirmDialog('Really shut down?', function () {
+    runConfirmDialog(i18n.gettext("Vere fermiti sistemon?"), function () {
         ajax('POST', basePath + 'power/shutdown/');
         setTimeout(function () {
             refreshInterval = 1000000;
@@ -2709,7 +2709,7 @@ function doShutDown() {
                         setTimeout(checkServer, 1000);
                     },
                     function () {
-                        showModalDialog('Powered Off');
+                        showModalDialog(i18n.gettext("Malŝaltita"));
                         setTimeout(function () {
                             $('div.modal-glass').animate({'opacity': '1', 'background-color': '#212121'}, 200);
                         },100);
@@ -2724,7 +2724,7 @@ function doShutDown() {
 }
 
 function doReboot() {
-    runConfirmDialog('Really reboot?', function () {
+    runConfirmDialog(i18n.gettext("Ĉu vere restartigi ?"), function () {
         ajax('POST', basePath + 'power/reboot/');
         setTimeout(function () {
             refreshInterval = 1000000;
@@ -2738,7 +2738,7 @@ function doReboot() {
                             setTimeout(checkServer, 1000);
                         }
                         else {
-                            runAlertDialog('The system has been rebooted!', function () {
+                            runAlertDialog(i18n.gettext("La sistemo rekomencis!"), function () {
                                 window.location.reload(true);
                             });
                         }
@@ -2758,18 +2758,18 @@ function doReboot() {
 
 function doRemCamera() {
     if (Object.keys(pushConfigs).length) {
-        return runAlertDialog('Please apply the modified settings first!');
+        return runAlertDialog(i18n.gettext("Bonvolu apliki unue la modifitajn agordojn!"));
     }
 
     var cameraId = $('#cameraSelect').val();
     if (cameraId == null || cameraId === 'add') {
-        runAlertDialog('No camera to remove!');
+        runAlertDialog(i18n.gettext("Neniu fotilo por forigi!"));
         return;
     }
 
     var deviceName = $('#cameraSelect').find('option[value=' + cameraId + ']').text();
 
-    runConfirmDialog('Remove camera ' + deviceName + '?', function () {
+    runConfirmDialog(i18n.gettext("Ĉu forigi kameraon ") + deviceName + '?', function () {
         /* disable further refreshing of this camera */
         var img = $('div.camera-frame#camera' + cameraId).find('img.camera');
         if (img.length) {
@@ -2791,16 +2791,16 @@ function doRemCamera() {
 
 function doUpdate() {
     if (Object.keys(pushConfigs).length) {
-        return runAlertDialog('Please apply the modified settings first!');
+        return runAlertDialog(i18n.gettext("Bonvolu apliki unue la modifitajn agordojn!"));
     }
 
     showModalDialog('<div class="modal-progress"></div>');
     ajax('GET', basePath + 'update/', null, function (data) {
         if (data.update_version == null) {
-            runAlertDialog('motionEye is up to date (current version: ' + data.current_version + ')');
+            runAlertDialog(i18n.gettext("motionEye estas ĝisdatigita (aktuala versio: ") + data.current_version + ')');
         }
         else {
-            runConfirmDialog('New version available: ' + data.update_version + '. Update?', function () {
+            runConfirmDialog(i18n.gettext("Nova versio havebla: ") + data.update_version + i18n.gettext(". Ĝisdatigi?"), function () {
                 refreshInterval = 1000000;
                 showModalDialog('<div style="text-align: center;"><span>Updating. This may take a few minutes.</span><div class="modal-progress"></div></div>');
                 ajax('POST', basePath + 'update/?version=' + data.update_version, null, function () {
@@ -2808,7 +2808,7 @@ function doUpdate() {
                     function checkServer() {
                         ajax('GET', basePath + 'config/0/get/', null,
                             function () {
-                                runAlertDialog('motionEye was successfully updated!', function () {
+                                runAlertDialog(i18n.gettext("motionEye estis sukcese ĝisdatigita!"), function () {
                                     window.location.reload(true);
                                 });
                             },
@@ -2818,7 +2818,7 @@ function doUpdate() {
                                     setTimeout(checkServer, 5000);
                                 }
                                 else {
-                                    runAlertDialog('Update failed!', function () {
+                                    runAlertDialog(i18n.gettext("Ĝisdatigo malsukcesis!"), function () {
                                         window.location.reload(true);
                                     });
                                 }
@@ -2829,7 +2829,7 @@ function doUpdate() {
                     setTimeout(checkServer, 15000);
 
                 }, function (e) { /* error */
-                    runAlertDialog('The update process has failed!', function () {
+                    runAlertDialog(i18n.gettext("La ĝisdatiga procezo malsukcesis!"), function () {
                         window.location.reload(true);
                     });
                 });
@@ -2997,7 +2997,7 @@ function doTestEmail() {
     });
 
     if (!valid) {
-        return runAlertDialog('Make sure all the configuration options are valid!');
+        return runAlertDialog(i18n.gettext("Certigu, ke ĉiuj agordaj opcioj validas!"));
     }
 
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
@@ -3037,7 +3037,7 @@ function doTestNetworkShare() {
     });
 
     if (!valid) {
-        return runAlertDialog('Make sure all the configuration options are valid!');
+        return runAlertDialog(i18n.gettext("Certigu, ke ĉiuj agordaj opcioj validas!"));
     }
 
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
@@ -3084,7 +3084,7 @@ function doDeleteFile(path, callback) {
     var parts = url.split('/');
     url = parts.slice(0, 3).join('/') + path;
 
-    runConfirmDialog('Really delete this file?', function () {
+    runConfirmDialog(i18n.gettext("Ĉu vere forigi ĉi tiun dosieron?"), function () {
         showModalDialog('<div class="modal-progress"></div>', null, null, true);
         ajax('POST', url, null, function (data) {
             hideModalDialog(); /* progress */
@@ -3108,18 +3108,18 @@ function doDeleteAllFiles(mediaType, cameraId, groupKey, callback) {
     var msg;
     if (groupKey) {
         if (mediaType == 'picture') {
-            msg = 'Really delete all pictures from "%(group)s"?'.format({group: groupKey});
+            msg = i18n.gettext('Ĉu vere forigi ĉiujn bildojn de "%(group)s"?').format({group: groupKey});
         }
         else {
-            msg = 'Really delete all movies from "%(group)s"?'.format({group: groupKey});
+            msg = i18n.gettext('Ĉu vere forigi ĉiujn filmojn de "%(group)s"?').format({group: groupKey});
         }
     }
     else {
         if (mediaType == 'picture') {
-            msg = 'Really delete all ungrouped pictures?';
+            msg = i18n.gettext("Ĉu vere forigi ĉiujn ne grupigitajn bildojn?");
         }
         else {
-            msg = 'Really delete all ungrouped movies?';
+            msg = i18n.gettext("Ĉu vere forigi ĉiujn ne grupigitajn filmojn?");
         }
     }
 
@@ -3418,7 +3418,7 @@ function getCameraIds() {
 function runAlertDialog(message, onOk, options) {
     var params = {
         title: message,
-        buttons: 'ok',
+        buttons: i18n.gettext('bone'),
         onOk: onOk
     };
 
@@ -3549,13 +3549,13 @@ function runPictureDialog(entries, pos, mediaType) {
     video_container.hide();
     content.append(video_container);
 
-    var prevArrow = $('<div class="picture-dialog-prev-arrow button mouse-effect" title="previous picture"></div>');
+    var prevArrow = $('<div class="picture-dialog-prev-arrow button mouse-effect" title="'+i18n.gettext("antaŭa bildo")+'"></div>');
     content.append(prevArrow);
 
-    var playButton = $('<div class="picture-dialog-play button mouse-effect" title="play"></div>');
+    var playButton = $('<div class="picture-dialog-play button mouse-effect" title="'+i18n.gettext("ludi")+'"></div>');
     content.append(playButton);
 
-    var nextArrow = $('<div class="picture-dialog-next-arrow button mouse-effect" title="next picture"></div>');
+    var nextArrow = $('<div class="picture-dialog-next-arrow button mouse-effect" title="'+i18n.gettext("sekva bildo")+'"></div>');
     content.append(nextArrow);
     var progressImg = $('<div class="picture-dialog-progress">');
 
@@ -3665,8 +3665,8 @@ function runPictureDialog(entries, pos, mediaType) {
         title: ' ',
         closeButton: true,
         buttons: [
-            {caption: 'Close'},
-            {caption: 'Download', isDefault: true, click: function () {
+            {caption: i18n.gettext("Fermi")},
+            {caption: i18n.gettext("Elŝuti"), isDefault: true, click: function () {
                 var entry = entries[pos];
                 downloadFile(mediaType + '/' + entry.cameraId + '/download' + entry.path);
 
@@ -3684,7 +3684,7 @@ function runPictureDialog(entries, pos, mediaType) {
 
 function runAddCameraDialog() {
     if (Object.keys(pushConfigs).length) {
-        return runAlertDialog('Please apply the modified settings first!');
+        return runAlertDialog(i18n.gettext("Bonvolu apliki unue la modifitajn agordojn!"));
     }
 
     var content =
@@ -3754,8 +3754,7 @@ function runAddCameraDialog() {
             usernameEntry.val('admin');
             usernameEntry.attr('readonly', 'readonly');
             addCameraInfo.html(
-                    'Remote motionEye cameras are cameras installed behind another motionEye server. ' +
-                    'Adding them here will allow you to view and manage them remotely.');
+                    i18n.gettext("Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."));
         }
         else if (typeSelect.val() == 'netcam') {
             usernameEntry.removeAttr('readonly');
@@ -3770,14 +3769,12 @@ function runAddCameraDialog() {
 
             content.find('tr.netcam').css('display', 'table-row');
             addCameraInfo.html(
-                    'Network cameras (or IP cameras) are devices that natively stream RTSP/RTMP or MJPEG videos or plain JPEG images. ' +
-                    "Consult your device's manual to find out the correct RTSP, RTMP, MJPEG or JPEG URL.");
+		i18n.gettext("Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."));
         }
         else if (typeSelect.val() == 'mmal') {
             content.find('tr.mmal').css('display', 'table-row');
             addCameraInfo.html(
-                    'Local MMAL cameras are devices that are connected directly to your motionEye system. ' +
-                    'These are usually board-specific cameras.');
+		i18n.gettext("Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."));
         }
         else if (typeSelect.val() == 'mjpeg') {
             usernameEntry.removeAttr('readonly');
@@ -3792,10 +3789,7 @@ function runAddCameraDialog() {
 
             content.find('tr.mjpeg').css('display', 'table-row');
             addCameraInfo.html(
-                    'Adding your device as a simple MJPEG camera instead of as a network camera will improve the framerate, ' +
-                    'but no motion detection, picture capturing or movie recording will be available for it. ' +
-                    'The camera must be accessible to both your server and your browser. ' +
-                    'This type of camera is not compatible with Internet Explorer.');
+		i18n.gettext("Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."));
         }
         else { /* assuming v4l2 */
             content.find('tr.v4l2').css('display', 'table-row');
@@ -4023,30 +4017,30 @@ function runTimelapseDialog(cameraId, groupKey, group) {
             $('<table class="timelapse-dialog">' +
                 '<tr><td colspan="2" class="timelapse-warning"></td></tr>' +
                 '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Group</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Grupo")+'</span></td>' +
                     '<td class="dialog-item-value">' + groupKey + '</td>' +
                 '</tr>' +
                 '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Include a picture taken every</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Inkluzivi foton prenitan ĉiun")+'</span></td>' +
                     '<td class="dialog-item-value">' +
                         '<select class="styled timelapse" id="intervalSelect">' +
-                            '<option value="1">second</option>' +
-                            '<option value="5">5 seconds</option>' +
-                            '<option value="10">10 seconds</option>' +
-                            '<option value="30">30 seconds</option>' +
-                            '<option value="60">minute</option>' +
-                            '<option value="300">5 minutes</option>' +
-                            '<option value="600">10 minutes</option>' +
-                            '<option value="1800">30 minutes</option>' +
-                            '<option value="3600">hour</option>' +
+                            '<option value="1">'+i18n.gettext("sekundo")+'</option>' +
+                            '<option value="5">'+i18n.gettext("5 sekundoj")+'</option>' +
+                            '<option value="10">'+i18n.gettext("10 sekundoj")+'</option>' +
+                            '<option value="30">'+i18n.gettext("30 sekundoj")+'</option>' +
+                            '<option value="60">'+i18n.gettext("minuto")+'</option>' +
+                            '<option value="300">'+i18n.gettext("5 minutoj")+'</option>' +
+                            '<option value="600">'+i18n.gettext("10 minutoj")+'</option>' +
+                            '<option value="1800">'+i18n.gettext("30 minutoj")+'</option>' +
+                            '<option value="3600">'+i18n.gettext("horo")+'</option>' +
                         '</select>' +
                     '</td>' +
-                    '<td><span class="help-mark" title="choose the interval of time between two selected pictures">?</span></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("Elektu la intervalon de tempo inter du elektitaj bildoj.")+'">?</span></td>' +
                 '</tr>' +
                 '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">Movie framerate</span></td>' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Filmo framfrekvenco")+'</span></td>' +
                     '<td class="dialog-item-value"><input type="text" class="styled range" id="framerateSlider"></td>' +
-                    '<td><span class="help-mark" title="choose how fast you want the timelapse playback to be">?</span></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("Elektu kiom rapide vi volas ke la akselita video estu.")+'">?</span></td>' +
                 '</tr>' +
             '</table>');
 
@@ -4055,7 +4049,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
     var timelapseWarning = content.find('td.timelapse-warning');
 
     if (group.length > 1440) { /* one day worth of pictures, taken 1 minute apart */
-        timelapseWarning.html('Given the large number of pictures, creating your timelapse might take a while!');
+        timelapseWarning.html(i18n.gettext("Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"));
         timelapseWarning.css('display', 'table-cell');
     }
 
@@ -4072,7 +4066,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
     framerateSlider.val(20).each(function () {this.update()});
 
     runModalDialog({
-        title: 'Create Timelapse Movie',
+        title: i18n.gettext("Krei akselita video"),
         closeButton: true,
         buttons: 'okcancel',
         content: content,
@@ -4081,7 +4075,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
             makeProgressBar(progressBar);
 
             runModalDialog({
-                title: 'Creating Timelapse Movie...',
+                title: i18n.gettext("Filmo kreanta en progreso..."),
                 content: progressBar,
                 stack: true,
                 noKeys: true
@@ -4205,10 +4199,10 @@ function runMediaDialog(cameraId, mediaType) {
                     entryDiv.append(previewImg);
                     previewImg[0]._src = addAuthParams('GET', basePath + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height);
 
-                    var downloadButton = $('<div class="media-list-download-button button">Download</div>');
+                    var downloadButton = $('<div class="media-list-download-button button">'+i18n.gettext("Elŝuti")+'</div>');
                     entryDiv.append(downloadButton);
 
-                    var deleteButton = $('<div class="media-list-delete-button button">Delete</div>');
+                    var deleteButton = $('<div class="media-list-delete-button button">'+i18n.gettext("Forigi")+'</div>');
                     if (isAdmin()) {
                         entryDiv.append(deleteButton);
                     }
@@ -4319,7 +4313,7 @@ function runMediaDialog(cameraId, mediaType) {
     }
 
     if (mediaType == 'picture') {
-        var zippedButton = $('<div class="media-dialog-button">Zipped</div>');
+        var zippedButton = $('<div class="media-dialog-button">'+i18n.gettext("Zipitaj")+'</div>');
         buttonsDiv.append(zippedButton);
 
         zippedButton.click(function () {
@@ -4328,7 +4322,7 @@ function runMediaDialog(cameraId, mediaType) {
             }
         });
 
-        var timelapseButton = $('<div class="media-dialog-button">Timelapse</div>');
+        var timelapseButton = $('<div class="media-dialog-button">'+i18n.gettext("Akselita video")+'</div>');
         buttonsDiv.append(timelapseButton);
 
         timelapseButton.click(function () {
@@ -4339,7 +4333,7 @@ function runMediaDialog(cameraId, mediaType) {
     }
 
     if (isAdmin()) {
-        var deleteAllButton = $('<div class="media-dialog-button media-dialog-delete-all-button">Delete All</div>');
+        var deleteAllButton = $('<div class="media-dialog-button media-dialog-delete-all-button">'+i18n.gettext("Forigi ĉiujn")+'</div>');
         buttonsDiv.append(deleteAllButton);
 
         deleteAllButton.click(function () {
@@ -4480,10 +4474,10 @@ function runMediaDialog(cameraId, mediaType) {
             title = data.cameraName;
         }
         else if (mediaType === 'picture') {
-            title = 'Pictures taken by ' + data.cameraName;
+            title = i18n.gettext("Bildoj prenitaj de ") + data.cameraName;
         }
         else {
-            title = 'Movies recorded by ' + data.cameraName;
+            title = i18n.gettext("Filmoj registritaj de ") + data.cameraName;
         }
 
         runModalDialog({

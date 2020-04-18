@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-16 22:27+0200\n"
+"POT-Creation-Date: 2020-04-18 13:44+0200\n"
 "PO-Revision-Date: 2020-04-04 13:20+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -172,6 +172,11 @@ msgstr "ajustes"
 #, fuzzy
 msgid "ŝanĝi uzanton"
 msgstr "cambiar usuario"
+
+#: templates/main.html:103
+#, fuzzy
+msgid "forigi kameraon"
+msgstr "quitar la cámara"
 
 #: templates/main.html:104
 #, fuzzy
@@ -1598,6 +1603,11 @@ msgstr "Haga clic en este botón para probar las notificaciones por correo elect
 #, fuzzy
 msgid "Alvoki URL"
 msgstr "Invocar URL"
+
+#: templates/main.html:1027
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "Habilítelo si desea que se solicite una URL cada vez que se detecte un evento de movimiento."
 
 #: templates/main.html:1031
 #, fuzzy

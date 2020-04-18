@@ -499,29 +499,25 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
         }
         
         var msg = '';
-        if (!sign) {
-            msg = 'enter a positive';
-        }
-        else {
-            msg = 'enter a';
-        }
-        if (floating) {
-            msg += ' number';
-        }
-        else {
-            msg += ' integer number';
-        }
+	if (!sign && floating)
+            msg = i18n.gettext("enigu pozitivan nombron");
+	else if (!sign && !floating)
+            msg = i18n.gettext("enigu pozitivan entjeran nombron");
+	else if (sign && floating)
+            msg = i18n.gettext("enigu nombron");
+	else
+            msg = i18n.gettext("enigu entjeran nombron");
         if (isFinite(minVal)) {
             if (isFinite(maxVal)) {
-                msg += ' between ' + minVal + ' and ' + maxVal;
+                msg += i18n.gettext(" inter ") + minVal + i18n.gettext(" kaj ") + maxVal;
             }
             else {
-                msg += ' greater than ' + minVal;
+                msg += i18n.gettext(" pli ol ") + minVal;
             }
         }
         else {
             if (isFinite(maxVal)) {
-                msg += ' smaller than ' + maxVal;
+                msg += i18n.gettext(" malpli ol ") + maxVal;
             }
         }
         
@@ -574,7 +570,7 @@ function makeTimeValidator($input) {
             return strVal.match(new RegExp('^[0-2][0-9]:[0-5][0-9]$')) != null;
         }
         
-        var msg = 'enter a valid time in the following format: HH:MM';
+        var msg = i18n.gettext("enigu validan tempon en la sekva formato: HH:MM");
         
         function validate() {
             var strVal = $this.val();
@@ -631,7 +627,7 @@ function makeUrlValidator($input) {
             return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w\-.]+)(:\\d+)?(/.*)?$')) != null;
         }
         
-        var msg = 'enter a valid URL (e.g. http://example.com:8080/cams/)';
+        var msg = i18n.gettext("enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)");
         
         function validate() {
             var strVal = $this.val();

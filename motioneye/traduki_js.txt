@@ -24,3 +24,5 @@ La dosiero "json" estas ĝisdatigita per la komando scripts/po2json, ekz. :
 
 La dosiero "Makefile" permesas aŭtomate administri xgettext, msgmerge kaj po2json. Simple enigu "make" post modifi dosieron "js" aŭ "po".
 
+"Makefile" havas regulo "init%" por krei novan tradukon
+    ekz. : uzi "make initro" por krei la rumana traduko.

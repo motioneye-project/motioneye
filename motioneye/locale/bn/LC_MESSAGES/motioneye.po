@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-16 22:27+0200\n"
+"POT-Creation-Date: 2020-04-18 13:44+0200\n"
 "PO-Revision-Date: 2020-04-02 18:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -171,6 +171,11 @@ msgstr "সেটিংস"
 #, fuzzy
 msgid "ŝanĝi uzanton"
 msgstr "ব্যবহারকারী পরিবর্তন করুন"
+
+#: templates/main.html:103
+#, fuzzy
+msgid "forigi kameraon"
+msgstr "ক্যামেরা সরান"
 
 #: templates/main.html:104
 #, fuzzy
@@ -1597,6 +1602,11 @@ msgstr "আপনি প্রয়োজনীয় বিশদ পূরণ
 #, fuzzy
 msgid "Alvoki URL"
 msgstr "ইউআরএল চালু করুন"
+
+#: templates/main.html:1027
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "যখনই কোনও মোশন ইভেন্ট সনাক্ত হয় আপনি কোনও URL- এর অনুরোধ করতে চাইলে এটি সক্ষম করুন।"
 
 #: templates/main.html:1031
 #, fuzzy

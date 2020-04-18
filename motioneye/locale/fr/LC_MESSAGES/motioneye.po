@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-16 22:27+0200\n"
+"POT-Creation-Date: 2020-04-18 13:44+0200\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -140,6 +140,10 @@ msgstr "paramètres"
 #: templates/main.html:101
 msgid "ŝanĝi uzanton"
 msgstr "changer d'utilisateur"
+
+#: templates/main.html:103
+msgid "forigi kameraon"
+msgstr "retirer la caméra"
 
 #: templates/main.html:104
 msgid "Apliki"
@@ -1288,6 +1292,10 @@ msgstr "Cliquez sur ce bouton pour tester les notifications par e-mail après av
 #: templates/main.html:1025
 msgid "Alvoki URL"
 msgstr "Invoquer une URL"
+
+#: templates/main.html:1027
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "Activez cette option si vous souhaitez qu'une URL soit activée chaque fois qu'un événement de mouvement est détecté."
 
 #: templates/main.html:1031
 msgid "ekz. http://ekzemplo.com/sciigi/"

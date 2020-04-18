@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-16 22:27+0200\n"
+"POT-Creation-Date: 2020-04-18 13:44+0200\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -141,6 +141,10 @@ msgstr "settings"
 #: templates/main.html:101
 msgid "ŝanĝi uzanton"
 msgstr "switch user"
+
+#: templates/main.html:103
+msgid "forigi kameraon"
+msgstr "remove camera"
 
 #: templates/main.html:104
 msgid "Apliki"
@@ -813,7 +817,7 @@ msgstr "file name pattern..."
 #: templates/main.html:695
 #, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr "sets the name pattern for the image (JPEG) files; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, / = subfolder"
+msgstr "sets the name pattern for the image (JPEG) files; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number, / = subfolder"
 
 #: templates/main.html:698
 msgid "Bildkvalito"
@@ -943,7 +947,7 @@ msgstr "Movie File Name"
 #: templates/main.html:764
 #, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr "sets the name pattern for the movie files; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, / = subfolder"
+msgstr "sets the name pattern for the movie files; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number, / = subfolder"
 
 #: templates/main.html:767
 msgid "Rekta kopia filmeto"
@@ -1289,6 +1293,10 @@ msgstr "click this button to test email notifications after you have filled in t
 #: templates/main.html:1025
 msgid "Alvoki URL"
 msgstr "Call A Web Hook"
+
+#: templates/main.html:1027
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "enable this if you want a URL to be requested whenever a motion event is detected"
 
 #: templates/main.html:1031
 msgid "ekz. http://ekzemplo.com/sciigi/"
