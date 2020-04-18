@@ -27,9 +27,23 @@ import time
 from tornado.ioloop import IOLoop
 from tornado.web import Application
 
-from motioneye import handlers
 from motioneye import settings
 from motioneye import template
+from motioneye.handlers.main import MainHandler
+from motioneye.handlers.action import ActionHandler
+from motioneye.handlers.update import UpdateHandler
+from motioneye.handlers.movie import MovieHandler
+from motioneye.handlers.movie_playback import MovieDownloadHandler, MoviePlaybackHandler
+from motioneye.handlers.log import LogHandler
+from motioneye.handlers.login import LoginHandler
+from motioneye.handlers.config import ConfigHandler
+from motioneye.handlers.base import ManifestHandler, NotFoundHandler
+from motioneye.handlers.picture import PictureHandler
+from motioneye.handlers.prefs import PrefsHandler
+from motioneye.handlers.power import PowerHandler
+from motioneye.handlers.relay_event import RelayEventHandler
+from motioneye.handlers.version import VersionHandler
+
 
 _PID_FILE = 'motioneye.pid'
 _CURRENT_PICTURE_REGEX = re.compile('^/picture/\d+/current')
@@ -165,28 +179,28 @@ def _log_request(handler):
 
 
 handler_mapping = [
-    (r'^/$', handlers.MainHandler),
-    (r'^/manifest.json$', handlers.ManifestHandler),
-    (r'^/config/main/(?P<op>set|get)/?$', handlers.ConfigHandler),
-    (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize)/?$', handlers.ConfigHandler),
-    (r'^/config/(?P<op>add|list|backup|restore)/?$', handlers.ConfigHandler),
-    (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', handlers.PictureHandler),
-    (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.PictureHandler),
-    (r'^/picture/(?P<camera_id>\d+)/(?P<op>zipped|timelapse|delete_all)/(?P<group>.*?)/?$', handlers.PictureHandler),
-    (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', handlers.MovieHandler),
-    (r'^/movie/(?P<camera_id>\d+)/(?P<op>preview|delete)/(?P<filename>.+?)/?$', handlers.MovieHandler),
-    (r'^/movie/(?P<camera_id>\d+)/(?P<op>delete_all)/(?P<group>.*?)/?$', handlers.MovieHandler),
-    (r'^/movie/(?P<camera_id>\d+)/playback/(?P<filename>.+?)/?$', handlers.MoviePlaybackHandler, {'path': r''}),
-    (r'^/movie/(?P<camera_id>\d+)/download/(?P<filename>.+?)/?$', handlers.MovieDownloadHandler, {'path': r''}),
-    (r'^/action/(?P<camera_id>\d+)/(?P<action>\w+)/?$', handlers.ActionHandler),
-    (r'^/prefs/(?P<key>\w+)?/?$', handlers.PrefsHandler),
-    (r'^/_relay_event/?$', handlers.RelayEventHandler),
-    (r'^/log/(?P<name>\w+)/?$', handlers.LogHandler),
-    (r'^/update/?$', handlers.UpdateHandler),
-    (r'^/power/(?P<op>shutdown|reboot)/?$', handlers.PowerHandler),
-    (r'^/version/?$', handlers.VersionHandler),
-    (r'^/login/?$', handlers.LoginHandler),
-    (r'^.*$', handlers.NotFoundHandler),
+    (r'^/$', MainHandler),
+    (r'^/manifest.json$', ManifestHandler),
+    (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),
+    (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize)/?$', ConfigHandler),
+    (r'^/config/(?P<op>add|list|backup|restore)/?$', ConfigHandler),
+    (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', PictureHandler),
+    (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', PictureHandler),
+    (r'^/picture/(?P<camera_id>\d+)/(?P<op>zipped|timelapse|delete_all)/(?P<group>.*?)/?$', PictureHandler),
+    (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', MovieHandler),
+    (r'^/movie/(?P<camera_id>\d+)/(?P<op>preview|delete)/(?P<filename>.+?)/?$', MovieHandler),
+    (r'^/movie/(?P<camera_id>\d+)/(?P<op>delete_all)/(?P<group>.*?)/?$', MovieHandler),
+    (r'^/movie/(?P<camera_id>\d+)/playback/(?P<filename>.+?)/?$', MoviePlaybackHandler, {'path': r''}),
+    (r'^/movie/(?P<camera_id>\d+)/download/(?P<filename>.+?)/?$', MovieDownloadHandler, {'path': r''}),
+    (r'^/action/(?P<camera_id>\d+)/(?P<action>\w+)/?$', ActionHandler),
+    (r'^/prefs/(?P<key>\w+)?/?$', PrefsHandler),
+    (r'^/_relay_event/?$', RelayEventHandler),
+    (r'^/log/(?P<name>\w+)/?$', LogHandler),
+    (r'^/update/?$', UpdateHandler),
+    (r'^/power/(?P<op>shutdown|reboot)/?$', PowerHandler),
+    (r'^/version/?$', VersionHandler),
+    (r'^/login/?$', LoginHandler),
+    (r'^.*$', NotFoundHandler),
 ]
 
 
