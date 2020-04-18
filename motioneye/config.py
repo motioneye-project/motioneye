@@ -172,10 +172,6 @@ def additional_config(func):
     _additional_config_funcs.append(func)
 
 
-from motioneye import wifictl  # unused import
-from motioneye import tzctl  # unused import
-
-
 def get_main(as_lines=False):
     global _main_config_cache
 

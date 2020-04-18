@@ -205,8 +205,8 @@ def make_arg_parser(command=None):
         epilog = 'type "%(prog)s [command] -h" for help on a specific command\n\n'
 
     parser = argparse.ArgumentParser(prog='meyectl%s' % ((' ' + command) if command else ''), usage=usage,
-                                     description=description, epilog=epilog,
-                                     add_help=False, formatter_class=argparse.RawTextHelpFormatter)
+                                     description=description, epilog=epilog, add_help=False,
+                                     formatter_class=argparse.RawTextHelpFormatter)
 
     parser.add_argument('-c', help='use a config file instead of built-in defaults', type=str, dest='config_file')
     parser.add_argument('-d', help='enable debugging, overriding log level from config file', action='store_true',
