@@ -36,6 +36,9 @@ from motioneye import tasks
 from motioneye import uploadservices
 from motioneye.powerctl import PowerControl
 from motioneye.handlers.base import BaseHandler
+from motioneye.utils.mjpeg import test_mjpeg_url
+from motioneye.utils.rtmp import test_rtmp_url
+from motioneye.utils.rtsp import test_rtsp_url
 
 
 __all__ = ('ConfigHandler',)
@@ -343,14 +346,14 @@ class ConfigHandler(BaseHandler):
                     self.finish_json({'cameras': cameras})
 
             if scheme in ['http', 'https', 'mjpeg']:
-                utils.test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic'], allow_jpeg=True,
+                test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic'], allow_jpeg=True,
                                      callback=on_response)
 
             elif scheme == 'rtsp':
-                utils.test_rtsp_url(self.get_all_arguments(), callback=on_response)
+                test_rtsp_url(self.get_all_arguments(), callback=on_response)
 
             elif scheme == 'rtmp':
-                utils.test_rtmp_url(self.get_all_arguments(), callback=on_response)
+                test_rtmp_url(self.get_all_arguments(), callback=on_response)
 
             else:
                 on_response(error='protocol %s not supported' % scheme)
@@ -363,7 +366,7 @@ class ConfigHandler(BaseHandler):
                 else:
                     self.finish_json({'cameras': cameras})
 
-            utils.test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic', 'digest'], allow_jpeg=False,
+            test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic', 'digest'], allow_jpeg=False,
                                  callback=on_response)
 
         elif proto == 'v4l2':
