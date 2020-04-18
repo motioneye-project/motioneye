@@ -17,24 +17,14 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from typing import Callable
+from motioneye.utils.http import RtmpUrl, URLDataDict
 
 
 __all__ = ('test_rtmp_url',)
 
 
-def test_rtmp_url(data: dict, callback: Callable) -> None:
-    scheme = data.get('scheme', 'rtmp')
-    host = data.get('host', '127.0.0.1')
-    port = data.get('port') or '1935'
-    path = data.get('path') or ''
-    username = data.get('username')
-    password = data.get('password')
-
-    url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-        'scheme': scheme,
-        'host': host,
-        'port': (':' + port) if port else '',
-        'path': path}
+def test_rtmp_url(data: URLDataDict, callback: Callable) -> None:
+    url_obj = RtmpUrl(**data)
 
     # Since RTMP is a binary TCP stream its a little more work to do a proper test
     # For now lets just check if a TCP socket is open on the target IP:PORT

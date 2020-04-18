@@ -29,24 +29,15 @@ from tornado.iostream import IOStream
 
 from motioneye import settings
 from motioneye.utils import build_basic_header
+from motioneye.utils.http import RtspUrl, URLDataDict
 
 
 __all__ = ('test_rtsp_url',)
 
 
-def test_rtsp_url(data: dict, callback: Callable) -> None:
-    scheme = data.get('scheme', 'rtsp')
-    host = data.get('host', '127.0.0.1')
-    port = data.get('port') or '554'
-    path = data.get('path') or ''
-    username = data.get('username')
-    password = data.get('password')
-
-    url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-        'scheme': scheme,
-        'host': host,
-        'port': (':' + port) if port else '',
-        'path': path}
+def test_rtsp_url(data: URLDataDict, callback: Callable) -> None:
+    url_obj = RtspUrl(**data)
+    url = str(url_obj)
 
     called = [False]
     send_auth = [False]
@@ -66,7 +57,7 @@ def test_rtsp_url(data: dict, callback: Callable) -> None:
         s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
         stream = IOStream(s)
         stream.set_close_callback(on_close)
-        f = stream.connect((host, int(port)))
+        f = stream.connect((url_obj.host, int(url_obj.port)))
         f.add_done_callback(on_connect)
 
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
@@ -91,8 +82,8 @@ def test_rtsp_url(data: dict, callback: Callable) -> None:
             'User-Agent: motionEye'
         ]
 
-        if username and send_auth[0]:
-            auth_header = 'Authorization: ' + build_basic_header(username, password)
+        if url_obj.username and send_auth[0]:
+            auth_header = 'Authorization: ' + build_basic_header(url_obj.username, url_obj.password)
             lines.append(auth_header)
 
         lines += [
@@ -120,7 +111,7 @@ def test_rtsp_url(data: dict, callback: Callable) -> None:
                 seek_server()
 
             elif data.endswith(b'401 '):
-                if not username or send_auth[0]:
+                if not url_obj.username or send_auth[0]:
                     # either credentials not supplied, or already sent
                     handle_error('authentication failed')
 

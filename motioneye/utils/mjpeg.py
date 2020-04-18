@@ -25,31 +25,22 @@ from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 
 from motioneye import settings
 from motioneye.utils import pretty_http_error
+from motioneye.utils.http import MjpegUrl, URLDataDict
 
 
 __all__ = ('test_mjpeg_url',)
 
 
-def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool, callback: Callable) -> None:
-    data.setdefault('scheme', 'http')
-    data.setdefault('host', '127.0.0.1')
-    data.setdefault('port', '80')
-    data.setdefault('path', '')
-    data.setdefault('username', None)
-    data.setdefault('password', None)
-
-    url = '%(scheme)s://%(host)s%(port)s%(path)s' % {
-        'scheme': data['scheme'] if data['scheme'] != 'mjpeg' else 'http',
-        'host': data['host'],
-        'port': ':' + str(data['port']) if data['port'] else '',
-        'path': data['path'] or ''}
+def test_mjpeg_url(data: URLDataDict, auth_modes: List[str], allow_jpeg: bool, callback: Callable) -> None:
+    url_obj = MjpegUrl(**data)
+    url = str(url_obj)
 
     called = [False]
     status_2xx = [False]
     http_11 = [False]
 
     def do_request(on_response):
-        if data['username']:
+        if url_obj.username:
             auth = auth_modes[0]
 
         else:
@@ -92,7 +83,7 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool, callback
 
     def on_response(response):
         if not called[0]:
-            if response.code == 401 and auth_modes and data['username']:
+            if response.code == 401 and auth_modes and url_obj.username:
                 status_2xx[0] = False
                 do_request(on_response)
 
@@ -100,7 +91,7 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool, callback
                 called[0] = True
                 callback(error=pretty_http_error(response) if response.error else 'not a supported network camera')
 
-    username = data['username'] or None
-    password = data['password'] or None
+    username = url_obj.username
+    password = url_obj.password
 
     do_request(on_response)
