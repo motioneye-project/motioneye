@@ -357,6 +357,11 @@ def parse_options(parser, args):
     return parser.parse_args(args)
 
 
+def make_app(debug: bool = False) -> Application:
+    return Application(handler_mapping, debug=debug, log_function=_log_request, static_path=settings.STATIC_PATH,
+                       static_url_prefix='/static/')
+
+
 def run():
     from motioneye import cleanup
     from motioneye import mjpgclient
@@ -400,8 +405,7 @@ def run():
 
     template.add_context('static_path', 'static/')
 
-    application = Application(handler_mapping, debug=False, log_function=_log_request,
-                              static_path=settings.STATIC_PATH, static_url_prefix='/static/')
+    application = make_app()
 
     application.listen(settings.PORT, settings.LISTEN)
     logging.info('server started')
