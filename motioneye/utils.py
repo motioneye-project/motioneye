@@ -457,7 +457,8 @@ def test_rtsp_url(data, callback):
         s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
         stream = IOStream(s)
         stream.set_close_callback(on_close)
-        stream.connect((host, int(port)), on_connect)
+        f = stream.connect((host, int(port)))
+        f.add_done_callback(on_connect)
 
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
                                          functools.partial(on_connect, _timeout=True))
@@ -498,7 +499,8 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex(b'RTSP/1.0 \d+ ', on_rtsp)
+        f = stream.read_until_regex(b'RTSP/1.0 \d+ ')
+        f.add_done_callback(on_rtsp)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), on_rtsp)
 
     def on_rtsp(data=None):
@@ -526,7 +528,8 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex(b'Server: .*', on_server)
+        f = stream.read_until_regex(b'Server: .*')
+        f.add_done_callback(on_server)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_server)
 
     def on_server(data=None):
@@ -546,7 +549,9 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex(b'WWW-Authenticate: .*', on_www_authenticate)
+        f = stream.read_until_regex(b'WWW-Authenticate: .*')
+        f.add_done_callback(on_www_authenticate(f))
+
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_www_authenticate)
 
     def on_www_authenticate(data=None):
