@@ -2558,7 +2558,7 @@ function uploadFile(path, input, callback) {
 function showApply() {
     var applyButton = $('#applyButton');
 
-    applyButton.html('Apply');
+    applyButton.html(i18n.gettext("Apliki"));
     applyButton.css('display', 'inline-block');
     applyButton.removeClass('progress');
     setTimeout(function () {

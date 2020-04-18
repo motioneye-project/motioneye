@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-18 21:57+0200\n"
+"POT-Creation-Date: 2020-04-18 23:10+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -107,6 +107,11 @@ msgstr "Nombre de archivo personalizado"
 #, fuzzy
 msgid "Retan kunlokon"
 msgstr "Comunicación en línea"
+
+#: static/js/main.js:2561
+#, fuzzy
+msgid "Apliki"
+msgstr "Aplicar"
 
 #: static/js/main.js:2588 static/js/main.js:2949 static/js/main.js:3000
 #: static/js/main.js:3040
