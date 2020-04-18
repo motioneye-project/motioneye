@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-18 21:27+0200\n"
+"POT-Creation-Date: 2020-04-18 21:57+0200\n"
 "PO-Revision-Date: 2020-02-11 22:23+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -637,6 +637,11 @@ msgstr "أدخل وقتًا صالحًا بالتنسيق التالي: HH: MM"
 #, fuzzy
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
 msgstr "أدخل عنوان URL صالحًا (مثل http://example.com:8080/cams/)"
+
+#: static/js/ui.js:966
+#, fuzzy
+msgid "fermi"
+msgstr "ليغلق"
 
 #: static/js/ui.js:1012 static/js/ui.js:1019
 #, fuzzy

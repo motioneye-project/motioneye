@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-18 21:27+0200\n"
+"POT-Creation-Date: 2020-04-18 21:57+0200\n"
 "PO-Revision-Date: 2020-02-11 18:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -514,6 +514,10 @@ msgstr "entrez une heure valide au format suivant: HH:MM"
 #: static/js/ui.js:630
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
 msgstr "entrez une URL valide (par exemple http://exemple.com:8080/cams/)"
+
+#: static/js/ui.js:966
+msgid "fermi"
+msgstr "fermer"
 
 #: static/js/ui.js:1012 static/js/ui.js:1019
 msgid "Ne"
