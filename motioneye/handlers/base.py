@@ -33,7 +33,7 @@ __all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')
 
 
 class BaseHandler(RequestHandler):
-    def get_all_arguments(self):
+    def get_all_arguments(self) -> dict:
         keys = list(self.request.arguments.keys())
         arguments = dict([(key, self.get_argument(key)) for key in keys])
 

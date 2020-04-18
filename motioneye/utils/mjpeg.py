@@ -19,6 +19,8 @@
 import logging
 import re
 
+from typing import List, Callable
+
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 
 from motioneye import settings
@@ -28,8 +30,7 @@ from motioneye.utils import pretty_http_error
 __all__ = ('test_mjpeg_url',)
 
 
-def test_mjpeg_url(data, auth_modes, allow_jpeg, callback):
-    data = dict(data)
+def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool, callback: Callable) -> None:
     data.setdefault('scheme', 'http')
     data.setdefault('host', '127.0.0.1')
     data.setdefault('port', '80')

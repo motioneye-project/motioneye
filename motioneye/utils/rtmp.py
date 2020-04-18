@@ -16,11 +16,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from typing import Callable
+
 
 __all__ = ('test_rtmp_url',)
 
 
-def test_rtmp_url(data, callback):
+def test_rtmp_url(data: dict, callback: Callable) -> None:
     scheme = data.get('scheme', 'rtmp')
     host = data.get('host', '127.0.0.1')
     port = data.get('port') or '1935'

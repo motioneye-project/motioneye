@@ -22,6 +22,8 @@ import logging
 import re
 import socket
 
+from typing import Callable
+
 from tornado.ioloop import IOLoop
 from tornado.iostream import IOStream
 
@@ -32,7 +34,7 @@ from motioneye.utils import build_basic_header
 __all__ = ('test_rtsp_url',)
 
 
-def test_rtsp_url(data, callback):
+def test_rtsp_url(data: dict, callback: Callable) -> None:
     scheme = data.get('scheme', 'rtsp')
     host = data.get('host', '127.0.0.1')
     port = data.get('port') or '554'

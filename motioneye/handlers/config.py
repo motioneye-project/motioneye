@@ -346,8 +346,7 @@ class ConfigHandler(BaseHandler):
                     self.finish_json({'cameras': cameras})
 
             if scheme in ['http', 'https', 'mjpeg']:
-                test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic'], allow_jpeg=True,
-                                     callback=on_response)
+                test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic'], allow_jpeg=True, callback=on_response)
 
             elif scheme == 'rtsp':
                 test_rtsp_url(self.get_all_arguments(), callback=on_response)
