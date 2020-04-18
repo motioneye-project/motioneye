@@ -38,6 +38,7 @@ from motioneye import config
 from motioneye import settings
 from motioneye import utils
 from motioneye import uploadservices
+from motioneye.utils.dtconv import pretty_date_time
 
 _PICTURE_EXTS = ['.jpg']
 _MOVIE_EXTS = ['.avi', '.mp4', '.mov', '.swf', '.flv', '.mkv']
@@ -404,8 +405,8 @@ def list_media(camera_config, media_type, callback, prefix=None):
                 'path': path,
                 'mimeType': mimetypes.guess_type(path)[0] if mimetypes.guess_type(path)[
                                                                  0] is not None else 'video/mpeg',
-                'momentStr': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
-                'momentStrShort': utils.pretty_date_time(datetime.datetime.fromtimestamp(timestamp), short=True),
+                'momentStr': pretty_date_time(datetime.datetime.fromtimestamp(timestamp)),
+                'momentStrShort': pretty_date_time(datetime.datetime.fromtimestamp(timestamp), short=True),
                 'sizeStr': utils.pretty_size(size),
                 'timestamp': timestamp
             })

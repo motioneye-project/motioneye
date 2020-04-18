@@ -38,6 +38,5 @@ def test_rtmp_url(data, callback):
     # For now lets just check if a TCP socket is open on the target IP:PORT
     # TODO: Actually do the TCP SYN/ACK check...
 
-    cameras = []
-    cameras.append({'id': 'tcp', 'name': 'RTMP/TCP Camera'})
+    cameras = [{'id': 'tcp', 'name': 'RTMP/TCP Camera'}]
     callback(cameras)

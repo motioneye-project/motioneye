@@ -357,16 +357,9 @@ class GoogleDrive(UploadService, GoogleBase):
             'parents': [{'id': self._get_folder_id(path)}]
         }
 
-        body = ['--' + self.BOUNDARY]
-        body.append('Content-Type: application/json; charset=UTF-8')
-        body.append('')
-        body.append(json.dumps(metadata))
-        body.append('')
+        body = ['--' + self.BOUNDARY, 'Content-Type: application/json; charset=UTF-8', '', json.dumps(metadata), '',
+                '--' + self.BOUNDARY, 'Content-Type: %s' % mime_type, '', '']
 
-        body.append('--' + self.BOUNDARY)
-        body.append('Content-Type: %s' % mime_type)
-        body.append('')
-        body.append('')
         body = '\r\n'.join(body)
         body += data
         body += '\r\n--%s--' % self.BOUNDARY

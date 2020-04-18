@@ -109,6 +109,6 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
 class MovieDownloadHandler(MoviePlaybackHandler):
     def set_extra_headers(self, filename):
-        if (self.get_status() in (200, 304)):
+        if self.get_status() in (200, 304):
             self.set_header('Content-Disposition', 'attachment; filename=' + self.pretty_filename + ';')
             self.set_header('Expires', '0')
