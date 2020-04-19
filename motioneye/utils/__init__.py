@@ -182,7 +182,7 @@ def is_simple_mjpeg_camera(config):
     return bool(config.get('@proto') == 'mjpeg')
 
 
-def compute_signature(method, path, body, key):
+def compute_signature(method, path, body: bytes, key):
     parts = list(urllib.parse.urlsplit(path))
     query = [q for q in urllib.parse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
     query.sort(key=lambda q: q[0])
@@ -195,12 +195,13 @@ def compute_signature(method, path, body, key):
     path = _SIGNATURE_REGEX.sub('-', path)
     key = _SIGNATURE_REGEX.sub('-', key)
 
-    if body and body.startswith('---'):
-        body = None  # file attachment
+    body_str = body.decode('utf-8')
+    if body_str and body_str.startswith('---'):
+        body_str = None  # file attachment
 
-    body = body and _SIGNATURE_REGEX.sub('-', body.decode('utf8'))
+    body_str = body_str and _SIGNATURE_REGEX.sub('-', body_str)
 
-    return hashlib.sha1(('%s:%s:%s:%s' % (method, path, body or '', key)).encode('utf-8')).hexdigest().lower()
+    return hashlib.sha1(('%s:%s:%s:%s' % (method, path, body_str or '', key)).encode('utf-8')).hexdigest().lower()
 
 
 def parse_cookies(cookies_headers):

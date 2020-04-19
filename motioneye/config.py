@@ -117,6 +117,23 @@ _USED_MOTION_OPTIONS = {
     'width',
 }
 
+
+def text_double(v, data):
+    return {'text_scale': [1, 2][v]}
+
+
+def webcontrol_html_output(v, data):
+    return {'webcontrol_interface': int(v)}
+
+
+def text_scale(v, data):
+    return {'text_double': True if int(v) > 1 else False}
+
+
+def webcontrol_interface(v, data):
+    return {'webcontrol_html_output': bool(v)}
+
+
 _MOTION_PRE_TO_POST_42_OPTIONS_MAPPING = {
     'ffmpeg_video_codec': 'movie_codec',
     'ffmpeg_output_movies': 'movie_output',
@@ -128,8 +145,8 @@ _MOTION_PRE_TO_POST_42_OPTIONS_MAPPING = {
     'output_debug_pictures': 'picture_output_motion',
     'quality': 'picture_quality',
     'rtsp_uses_tcp': 'netcam_use_tcp',
-    'text_double': lambda v, data: {'text_scale': [1, 2][v]},
-    'webcontrol_html_output': lambda v, data: {'webcontrol_interface': int(v)},
+    'text_double': text_double,
+    'webcontrol_html_output': webcontrol_html_output,
 }
 
 _MOTION_POST_TO_PRE_42_OPTIONS_MAPPING = {
@@ -143,8 +160,8 @@ _MOTION_POST_TO_PRE_42_OPTIONS_MAPPING = {
     'picture_output_motion': 'output_debug_pictures',
     'picture_quality': 'quality',
     'netcam_use_tcp': 'rtsp_uses_tcp',
-    'text_scale': lambda v, data: {'text_double': True if v > 1 else False},
-    'webcontrol_interface': lambda v, data: {'webcontrol_html_output': bool(v)},
+    'text_scale': text_scale,
+    'webcontrol_interface': webcontrol_interface,
     'webcontrol_parms': None
 }
 
