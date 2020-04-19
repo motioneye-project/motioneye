@@ -40,9 +40,10 @@ setup(
     description='motionEye server',
     long_description=long_description,
 
-    url='https://github.com/jmichault/motioneye.eo/',
+    url='https://github.com/ccrisan/motioneye/',
 
     author='Calin Crisan',
+    author_email='ccrisan@gmail.com',
 
     license='GPLv3',
 
