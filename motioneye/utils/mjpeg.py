@@ -48,7 +48,8 @@ def test_mjpeg_url(data: URLDataDict, auth_modes: List[str], allow_jpeg: bool, c
 
         logging.debug('testing (m)jpg netcam at %s using %s authentication' % (url, auth))
 
-        request = HTTPRequest(url, auth_username=username, auth_password=password or '', auth_mode=auth_modes.pop(0),
+        request = HTTPRequest(url, auth_username=url_obj.username, auth_password=url_obj.password or '',
+                              auth_mode=auth_modes.pop(0),
                               connect_timeout=settings.REMOTE_REQUEST_TIMEOUT,
                               request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
                               header_callback=on_header, validate_cert=settings.VALIDATE_CERTS)
@@ -90,8 +91,5 @@ def test_mjpeg_url(data: URLDataDict, auth_modes: List[str], allow_jpeg: bool, c
             else:
                 called[0] = True
                 callback(error=pretty_http_error(response) if response.error else 'not a supported network camera')
-
-    username = url_obj.username
-    password = url_obj.password
 
     do_request(on_response)
