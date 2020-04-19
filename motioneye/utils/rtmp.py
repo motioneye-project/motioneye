@@ -17,13 +17,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from typing import Callable
-from motioneye.utils.http import RtmpUrl, URLDataDict
+from motioneye.utils.http import RtmpUrl
 
 
 __all__ = ('test_rtmp_url',)
 
 
-def test_rtmp_url(data: URLDataDict, callback: Callable) -> None:
+def test_rtmp_url(data: dict, callback: Callable) -> None:
     url_obj = RtmpUrl(**data)
 
     # Since RTMP is a binary TCP stream its a little more work to do a proper test

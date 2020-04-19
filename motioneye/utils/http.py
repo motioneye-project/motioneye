@@ -1,17 +1,8 @@
 from dataclasses import dataclass
-from typing import TypedDict, Union
+from typing import Union
 
 
-__all__ = ('URLDataDict', 'RtmpUrl', 'RtspUrl', 'MjpegUrl')
-
-
-class URLDataDict(TypedDict):
-    scheme: str
-    host: str
-    port: str
-    path: str
-    username: str
-    password: str
+__all__ = ('RtmpUrl', 'RtspUrl', 'MjpegUrl')
 
 
 @dataclass

@@ -29,13 +29,13 @@ from tornado.iostream import IOStream
 
 from motioneye import settings
 from motioneye.utils import build_basic_header
-from motioneye.utils.http import RtspUrl, URLDataDict
+from motioneye.utils.http import RtspUrl
 
 
 __all__ = ('test_rtsp_url',)
 
 
-def test_rtsp_url(data: URLDataDict, callback: Callable) -> None:
+def test_rtsp_url(data: dict, callback: Callable) -> None:
     url_obj = RtspUrl(**data)
     url = str(url_obj)
 

@@ -25,13 +25,13 @@ from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 
 from motioneye import settings
 from motioneye.utils import pretty_http_error
-from motioneye.utils.http import MjpegUrl, URLDataDict
+from motioneye.utils.http import MjpegUrl
 
 
 __all__ = ('test_mjpeg_url',)
 
 
-def test_mjpeg_url(data: URLDataDict, auth_modes: List[str], allow_jpeg: bool, callback: Callable) -> None:
+def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool, callback: Callable) -> None:
     url_obj = MjpegUrl(**data)
     url = str(url_obj)
 
