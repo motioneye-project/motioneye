@@ -26,7 +26,7 @@ class StreamUrl:
     _tpl = '%(scheme)s://%(host)s%(port)s%(path)s'
 
     def __str__(self):
-        return self._tpl % dict(scheme=self.scheme, host=self.host, port=(':' + self.port) if self.port else '',
+        return self._tpl % dict(scheme=self.scheme, host=self.host, port=(':' + str(self.port)) if self.port else '',
                                 path=self.path, username=self.username, password=self.password)
 
 
