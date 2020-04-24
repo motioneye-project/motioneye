@@ -364,6 +364,7 @@ def has_h264_v4l2m2m_support():
 
     return 'h264_v4l2m2m' in codecs.get('h264', {}).get('encoders', set())
 
+
 def has_h264_nvenc_support():
     binary, version, codecs = mediafiles.find_ffmpeg()
     if not binary:
@@ -372,6 +373,27 @@ def has_h264_nvenc_support():
     # TODO also check for motion codec parameter support
 
     return 'h264_nvenc' in codecs.get('h264', {}).get('encoders', set())
+
+
+def has_h264_nvmpi_support():
+    binary, version, codecs = mediafiles.find_ffmpeg()
+    if not binary:
+        return False
+
+    # TODO also check for motion codec parameter support
+
+    return 'h264_nvmpi' in codecs.get('h264', {}).get('encoders', set())
+
+
+def has_hevc_nvmpi_support():
+    binary, version, codecs = mediafiles.find_ffmpeg()
+    if not binary:
+        return False
+
+    # TODO also check for motion codec parameter support
+
+    return 'hevc_nvmpi' in codecs.get('hevc', {}).get('encoders', set())
+
 
 def has_hevc_nvenc_support():
     binary, version, codecs = mediafiles.find_ffmpeg()
@@ -382,6 +404,7 @@ def has_hevc_nvenc_support():
 
     return 'hevc_nvenc' in codecs.get('hevc', {}).get('encoders', set())
 
+
 def has_h264_qsv_support():
     binary, version, codecs = mediafiles.find_ffmpeg()
     if not binary:
@@ -391,6 +414,7 @@ def has_h264_qsv_support():
 
     return 'h264_qsv' in codecs.get('h264', {}).get('encoders', set())
 
+
 def has_hevc_qsv_support():
     binary, version, codecs = mediafiles.find_ffmpeg()
     if not binary:
@@ -399,6 +423,7 @@ def has_hevc_qsv_support():
     # TODO also check for motion codec parameter support
 
     return 'hevc_qsv' in codecs.get('hevc', {}).get('encoders', set())
+
 
 def resolution_is_valid(width, height):
     # width & height must be be modulo 8
