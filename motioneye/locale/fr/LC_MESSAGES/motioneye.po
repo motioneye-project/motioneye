@@ -16,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #: server.py:198
 msgid "interrompa signalo ricevita, fermanta ..."
