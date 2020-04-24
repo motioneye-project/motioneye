@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-18 13:44+0200\n"
+"POT-Creation-Date: 2020-04-24 16:24+0200\n"
 "PO-Revision-Date: 2020-04-13 11:23+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -753,7 +753,7 @@ msgstr "вызвать URL"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "включите это, если вы хотите, чтобы URL был запрошен после создания медиа-файла"
 
-#: templates/main.html:514 templates/main.html:1030
+#: templates/main.html:514 templates/main.html:1036
 #, fuzzy
 msgid "Reteja URL"
 msgstr "URL сайта"
@@ -768,7 +768,7 @@ msgstr "например. http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL для передачи при обнаружении движения; допускаются следующие специальные сочетания клавиш: %% Y = год, %% m = месяц, %% d = день, %% H = час, %% M = минута, %% S = секунда, %% q = номер кадра, %% v = номер события, %% f = путь к файлу"
 
-#: templates/main.html:519 templates/main.html:1035
+#: templates/main.html:519 templates/main.html:1041
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "HTTP метод"
@@ -1028,7 +1028,7 @@ msgstr "устанавливает качество изображения JPEG 
 msgid "Kaptila reĝimo"
 msgstr "Режим захвата"
 
-#: templates/main.html:706 templates/main.html:808
+#: templates/main.html:706 templates/main.html:814
 #, fuzzy
 msgid "Moviĝa deĉenigo"
 msgstr "Триггер движения"
@@ -1083,8 +1083,8 @@ msgstr "Грива = захват руки с помощью специальн�
 msgid "Interkapto-Intervalo"
 msgstr "Интервал перехвата"
 
-#: templates/main.html:721 templates/main.html:816 templates/main.html:891
-#: templates/main.html:1013
+#: templates/main.html:721 templates/main.html:822 templates/main.html:897
+#: templates/main.html:1019
 #, fuzzy
 msgid "sekundoj"
 msgstr "секунд"
@@ -1099,32 +1099,32 @@ msgstr "устанавливает интервал (в секундах) для
 msgid "Konservi bildojn"
 msgstr "Сохранить изображения"
 
-#: templates/main.html:728 templates/main.html:823
+#: templates/main.html:728 templates/main.html:829
 #, fuzzy
 msgid "Dum unu tago"
 msgstr "На один день"
 
-#: templates/main.html:729 templates/main.html:824
+#: templates/main.html:729 templates/main.html:830
 #, fuzzy
 msgid "Dum unu semajno"
 msgstr "На неделю"
 
-#: templates/main.html:730 templates/main.html:825
+#: templates/main.html:730 templates/main.html:831
 #, fuzzy
 msgid "Dum unu monato"
 msgstr "На месяц"
 
-#: templates/main.html:731 templates/main.html:826
+#: templates/main.html:731 templates/main.html:832
 #, fuzzy
 msgid "Dum unu jaro"
 msgstr "На один год"
 
-#: templates/main.html:732 templates/main.html:827
+#: templates/main.html:732 templates/main.html:833
 #, fuzzy
 msgid "Porĉiame"
 msgstr "бессрочно"
 
-#: templates/main.html:733 templates/main.html:828
+#: templates/main.html:733 templates/main.html:834
 #, fuzzy
 msgid "Propra"
 msgstr "изготовленный на заказ"
@@ -1189,587 +1189,587 @@ msgstr "Создавайте фильмы прямо с камеры. Эта о�
 msgid "Filmformato"
 msgstr "Формат фильма"
 
-#: templates/main.html:797
+#: templates/main.html:803
 #, fuzzy
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
 msgstr "Настраивает файл фильма; не все форматы гарантированно работают на всех системах; если сомневаетесь, протестируйте каждый формат и выберите тот, который лучше всего подходит для вашего видео."
 
-#: templates/main.html:800
+#: templates/main.html:806
 #, fuzzy
 msgid "Filma Kvalito"
 msgstr "Качество фильма"
 
-#: templates/main.html:802
+#: templates/main.html:808
 #, fuzzy
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
 msgstr "Устанавливает качество видео MPEG (более высокие значения дают лучшее качество видео, но требуют больше памяти)."
 
-#: templates/main.html:805
+#: templates/main.html:811
 #, fuzzy
 msgid "Rekorda reĝimo"
 msgstr "Режим записи"
 
-#: templates/main.html:809
+#: templates/main.html:815
 #, fuzzy
 msgid "Kontinua registrado"
 msgstr "Непрерывная запись"
 
-#: templates/main.html:812
+#: templates/main.html:818
 #, fuzzy
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
 msgstr "Устанавливает режим записи: триггер движения = новый фильм, созданный при обнаружении движения, непрерывная запись = один большой файл фильма."
 
-#: templates/main.html:815
+#: templates/main.html:821
 #, fuzzy
 msgid "Maksimuma filma daŭro"
 msgstr "Максимальная продолжительность фильма"
 
-#: templates/main.html:817
+#: templates/main.html:823
 #, fuzzy
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
 msgstr "Устанавливает максимальную продолжительность фильмов в секундах; если событие движения длится дольше, создается новый файл фильма; используйте 0 для неограниченной длины."
 
-#: templates/main.html:820
+#: templates/main.html:826
 #, fuzzy
 msgid "Konservi filmojn"
 msgstr "Сохранить фильмы"
 
-#: templates/main.html:831
+#: templates/main.html:837
 #, fuzzy
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
 msgstr "Фильмы старше установленной длительности автоматически удаляются для освобождения памяти."
 
-#: templates/main.html:834
+#: templates/main.html:840
 #, fuzzy
 msgid "Filmoj Vivdaŭro"
 msgstr "Фильмы Пожизненная"
 
-#: templates/main.html:835
+#: templates/main.html:841
 #, fuzzy
 msgid "tagoj"
 msgstr "дней"
 
-#: templates/main.html:836
+#: templates/main.html:842
 #, fuzzy
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
 msgstr "Устанавливает количество дней, по истечении которых фильмы будут автоматически удаляться."
 
-#: templates/main.html:846
+#: templates/main.html:852
 #, fuzzy
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
 msgstr "Активируйте это, чтобы использовать и настроить устройство для обнаружения движения."
 
-#: templates/main.html:847
+#: templates/main.html:853
 #, fuzzy
 msgid "Movado-Detekto"
 msgstr "Обнаружение движения"
 
-#: templates/main.html:852
+#: templates/main.html:858
 #, fuzzy
 msgid "Kadra ŝanĝo sojlo"
 msgstr "Порог смены кадров"
 
-#: templates/main.html:854
+#: templates/main.html:860
 #, fuzzy
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
 msgstr "Указывает минимальный процент изображения, который должен переключаться между двумя последовательными кадрами для обнаружения движения (меньшие значения дают более чувствительное обнаружение, но имеют тенденцию к ложным срабатываниям)."
 
-#: templates/main.html:857
+#: templates/main.html:863
 #, fuzzy
 msgid "Maksimuma ŝanĝo sojlo"
 msgstr "Максимальный порог изменения"
 
-#: templates/main.html:859
+#: templates/main.html:865
 #, fuzzy
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
 msgstr "Устанавливает количество пикселей, которые были изменены между кадрами, для которых прокрутка больше не срабатывает (0 отключает границу)."
 
-#: templates/main.html:862
+#: templates/main.html:868
 #, fuzzy
 msgid "Aŭtomata sojla agordo"
 msgstr "Автоматическая настройка порога"
 
-#: templates/main.html:864
+#: templates/main.html:870
 #, fuzzy
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
 msgstr "Включите это, чтобы автоматически настроить порог."
 
-#: templates/main.html:867
+#: templates/main.html:873
 #, fuzzy
 msgid "Aŭtomata bruo-detekto"
 msgstr "Автоматическое обнаружение шума"
 
-#: templates/main.html:869
+#: templates/main.html:875
 #, fuzzy
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
 msgstr "Включите это, чтобы автоматически настроить уровень шума."
 
-#: templates/main.html:872
+#: templates/main.html:878
 #, fuzzy
 msgid "Bruo-nivelo"
 msgstr "Уровень шума"
 
-#: templates/main.html:874
+#: templates/main.html:880
 #, fuzzy
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
 msgstr "Постоянно устанавливает уровень шума на заданное значение."
 
-#: templates/main.html:877
+#: templates/main.html:883
 #, fuzzy
 msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Обнаружение изменений света"
 
-#: templates/main.html:879
+#: templates/main.html:885
 #, fuzzy, python-format
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
 msgstr "Определяет процент изображения, которое необходимо изменить, чтобы событие воспринималось как внезапное изменение освещения, а не движение (0 %% отключает функцию)."
 
-#: templates/main.html:882
+#: templates/main.html:888
 #, fuzzy
 msgid "Makula filtrilo"
 msgstr "Фильтр пятен"
 
-#: templates/main.html:884
+#: templates/main.html:890
 #, fuzzy
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
 msgstr "Включите это, применив точечный фильтр к кадрам до обнаружения движения."
 
-#: templates/main.html:890
+#: templates/main.html:896
 #, fuzzy
 msgid "Senmovada daŭro"
 msgstr "Непрерывное движение"
 
-#: templates/main.html:892
+#: templates/main.html:898
 #, fuzzy
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
 msgstr "Устанавливает количество секунд молчания (т.е. без движения), которое отмечает конец события движения."
 
-#: templates/main.html:895
+#: templates/main.html:901
 #, fuzzy
 msgid "Kaptita Antaŭe"
 msgstr "Поймали до"
 
-#: templates/main.html:896 templates/main.html:901 templates/main.html:906
+#: templates/main.html:902 templates/main.html:907 templates/main.html:912
 #, fuzzy
 msgid "kadroj"
 msgstr "маркировка"
 
-#: templates/main.html:897
+#: templates/main.html:903
 #, fuzzy
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
 msgstr "Устанавливает количество кадров, снятых (и включенных в фильм) до обнаружения инцидента движения."
 
-#: templates/main.html:900
+#: templates/main.html:906
 #, fuzzy
 msgid "Kaptita Post"
 msgstr "Пойман после"
 
-#: templates/main.html:902
+#: templates/main.html:908
 #, fuzzy
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
 msgstr "Устанавливает количество кадров, которые будут захвачены (и включены в фильм) после окончания события движения."
 
-#: templates/main.html:905
+#: templates/main.html:911
 #, fuzzy
 msgid "Minimumaj movaj kadroj"
 msgstr "Минимальное движение кадров"
 
-#: templates/main.html:907
+#: templates/main.html:913
 #, fuzzy
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
 msgstr "Устанавливает минимальное количество последовательных кадров движения, необходимое для начала события движения."
 
-#: templates/main.html:913
+#: templates/main.html:919
 #, fuzzy
 msgid "Masko"
 msgstr "маскировать"
 
-#: templates/main.html:915
+#: templates/main.html:921
 #, fuzzy
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
 msgstr "Позволяет маскировать изображения для более избирательного и точного обнаружения движения."
 
-#: templates/main.html:918
+#: templates/main.html:924
 #, fuzzy
 msgid "Tipo de masko"
 msgstr "Тип маски"
 
-#: templates/main.html:921
+#: templates/main.html:927
 #, fuzzy
 msgid "Inteligenta"
 msgstr "умный"
 
-#: templates/main.html:922
+#: templates/main.html:928
 #, fuzzy
 msgid "Redaktebla"
 msgstr "редактируемые"
 
-#: templates/main.html:925
+#: templates/main.html:931
 #, fuzzy
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
 msgstr "Опция Intelligent автоматически обнаруживает регионы с регулярным движением и динамически создает внутреннюю маску, а опция Editable позволяет вам создавать ее самостоятельно."
 
-#: templates/main.html:928
+#: templates/main.html:934
 #, fuzzy
 msgid "Inteligenta-maska Malrapideco"
 msgstr "Смарт-маска Медлительность"
 
-#: templates/main.html:930
+#: templates/main.html:936
 #, fuzzy
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr "Более высокие значения дают более прочную маску с более медленным процессом сборки."
 
-#: templates/main.html:935
+#: templates/main.html:941
 #, fuzzy
 msgid "Redakti maskon"
 msgstr "Изменить маску"
 
-#: templates/main.html:936
+#: templates/main.html:942
 #, fuzzy
 msgid "Konservi maskon"
 msgstr "Держать маску"
 
-#: templates/main.html:939
+#: templates/main.html:945
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
 msgstr "Нажмите эту кнопку, чтобы включить / отключить редактор масок."
 
-#: templates/main.html:943
+#: templates/main.html:949
 #, fuzzy
 msgid "Purigi maskon"
 msgstr "Чистая маска"
 
-#: templates/main.html:944
+#: templates/main.html:950
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
 msgstr "Нажмите эту кнопку, чтобы очистить текущую маску."
 
-#: templates/main.html:950
+#: templates/main.html:956
 #, fuzzy
 msgid "Montri Kadro-Ŝanĝojn"
 msgstr "Показать изменения кадра"
 
-#: templates/main.html:952
+#: templates/main.html:958
 #, fuzzy
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
 msgstr "Если это активно, изменения изображения (количество пикселей и измененная область) отображаются в видео; временно включите это, чтобы настроить параметры обнаружения движения."
 
-#: templates/main.html:955
+#: templates/main.html:961
 #, fuzzy
 msgid "Krei debug media files"
 msgstr "Создать отладочные медиа-файлы"
 
-#: templates/main.html:957
+#: templates/main.html:963
 #, fuzzy
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
 msgstr "Когда включено, создайте специальные фильмы и изображения, которые помогут отладить проблемы обнаружения движения."
 
-#: templates/main.html:966
+#: templates/main.html:972
 #, fuzzy
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
 msgstr "Включите это, если вы хотите получать уведомления при обнаружении движения."
 
-#: templates/main.html:967
+#: templates/main.html:973
 #, fuzzy
 msgid "Moviĝaj sciigoj"
 msgstr "Уведомления о движении"
 
-#: templates/main.html:972
+#: templates/main.html:978
 #, fuzzy
 msgid "Sendi retpoŝton"
 msgstr "Отправить письмо"
 
-#: templates/main.html:974
+#: templates/main.html:980
 #, fuzzy
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "Активируйте эту опцию, если вы хотите получать электронную почту каждый раз, когда обнаруживается инцидент движения."
 
-#: templates/main.html:977
+#: templates/main.html:983
 #, fuzzy
 msgid "Retpoŝtadresoj"
 msgstr "Адреса электронной почты"
 
-#: templates/main.html:978
+#: templates/main.html:984
 #, fuzzy
 msgid "retpoŝtadresoj..."
 msgstr "адреса электронной почты ..."
 
-#: templates/main.html:979
+#: templates/main.html:985
 #, fuzzy
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
 msgstr "Адреса электронной почты (разделенные запятыми), добавленные здесь, будут получать уведомления при каждом обнаружении движения."
 
-#: templates/main.html:982
+#: templates/main.html:988
 #, fuzzy
 msgid "Servilo SMTP"
 msgstr "SMTP-сервер"
 
-#: templates/main.html:983
+#: templates/main.html:989
 #, fuzzy
 msgid "ekz. smtp.gmail.com"
 msgstr "например. smtp.gmail.com"
 
-#: templates/main.html:984
+#: templates/main.html:990
 #, fuzzy
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
 msgstr "Введите имя хоста или IP-адрес вашего SMTP-сервера (для использования Gmail smtp.gmail.com)."
 
-#: templates/main.html:987
+#: templates/main.html:993
 #, fuzzy
 msgid "SMTP Haveno"
 msgstr "Порт SMTP"
 
-#: templates/main.html:988
+#: templates/main.html:994
 #, fuzzy
 msgid "ekz. 587"
 msgstr "например. 587"
 
-#: templates/main.html:989
+#: templates/main.html:995
 #, fuzzy
 msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
 msgstr "Введите порт, используемый вашим SMTP-сервером (обычно 465 для соединений без TLS и 587 для соединений TLS)."
 
-#: templates/main.html:992
+#: templates/main.html:998
 #, fuzzy
 msgid "SMTP-Konto"
 msgstr "Учетная запись SMTP"
 
-#: templates/main.html:993
+#: templates/main.html:999
 #, fuzzy
 msgid "konto@gmail.com..."
 msgstr "account@gmail.com ..."
 
-#: templates/main.html:994
+#: templates/main.html:1000
 #, fuzzy
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
 msgstr "Введите вашу учетную запись SMTP (обычно ваш адрес электронной почты)."
 
-#: templates/main.html:997
+#: templates/main.html:1003
 #, fuzzy
 msgid "SMTP Pasvorto"
 msgstr "Пароль SMTP"
 
-#: templates/main.html:999
+#: templates/main.html:1005
 #, fuzzy
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
 msgstr "Введите свой пароль SMTP (для Gmail используйте свой пароль Google или пароль, созданный приложением)."
 
-#: templates/main.html:1002
+#: templates/main.html:1008
 #, fuzzy
 msgid "De adreso"
 msgstr "С адреса"
 
-#: templates/main.html:1003
+#: templates/main.html:1009
 #, fuzzy
 msgid "retpoŝta adreso..."
 msgstr "адрес электронной почты ..."
 
-#: templates/main.html:1004
+#: templates/main.html:1010
 #, fuzzy
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
 msgstr "Установка пользовательского адреса «От», если он требуется для вашей службы SMTP (будет использоваться первый адрес электронной почты назначения, если оставить его пустым)."
 
-#: templates/main.html:1007
+#: templates/main.html:1013
 #, fuzzy
 msgid "Uzi TLS"
 msgstr "Используйте TLS"
 
-#: templates/main.html:1009
+#: templates/main.html:1015
 #, fuzzy
 msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
 msgstr "Включите это, если ваш SMTP-сервер требует TLS (Gmail требует, чтобы это было включено)."
 
-#: templates/main.html:1012
+#: templates/main.html:1018
 #, fuzzy
 msgid "Aldonitaj bildoj tempo-intervalo"
 msgstr "Добавлен интервал времени картинок"
 
-#: templates/main.html:1014
+#: templates/main.html:1020
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "Определяет временной интервал поиска, который следует использовать при создании ссылок электронной почты (более высокие значения генерируют электронные письма с большим количеством изображений за счет увеличенного уведомления об отсрочке); установите 0, чтобы отключить добавленные изображения; Вам также нужно включить «Захват изображений», чтобы сделать эту работу."
 
-#: templates/main.html:1018
+#: templates/main.html:1024
 #, fuzzy
 msgid "Testi retpoŝto"
 msgstr "Тестовое письмо"
 
-#: templates/main.html:1019
+#: templates/main.html:1025
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
 msgstr "Нажмите на эту кнопку, чтобы протестировать уведомления по электронной почте после того, как вы заполните необходимые данные."
 
-#: templates/main.html:1025
+#: templates/main.html:1031
 #, fuzzy
 msgid "Alvoki URL"
 msgstr "Вызвать URL"
 
-#: templates/main.html:1027
+#: templates/main.html:1033
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "Включите этот параметр, если вы хотите, чтобы URL запрашивался при обнаружении события движения."
 
-#: templates/main.html:1031
+#: templates/main.html:1037
 #, fuzzy
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "например. http://ekzemplo.com/sciigi/"
 
-#: templates/main.html:1032
+#: templates/main.html:1038
 #, fuzzy, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "URL-адрес, запрашиваемый при обнаружении движения; принимаются следующие специальные сочетания клавиш: %% Y = год, %% m = месяц, %% d = день, %% H = час, %% M = минута, %% S = секунда, %% q = номер кадра , %% v = номер события"
 
-#: templates/main.html:1044
+#: templates/main.html:1050
 #, fuzzy
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "Метод HTTP, используемый при запросе URL (данные параметры URL будут доставлены, как указано здесь)."
 
-#: templates/main.html:1050
+#: templates/main.html:1056
 #, fuzzy
 msgid "Lanĉi komando"
 msgstr "Запустите команду"
 
-#: templates/main.html:1052
+#: templates/main.html:1058
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "Включите этот параметр, если вы хотите запускать команду каждый раз, когда обнаруживается событие движения."
 
-#: templates/main.html:1055 templates/main.html:1068
+#: templates/main.html:1061 templates/main.html:1074
 #, fuzzy
 msgid "Komando"
 msgstr "команда"
 
-#: templates/main.html:1056 templates/main.html:1069
+#: templates/main.html:1062 templates/main.html:1075
 #, fuzzy
 msgid "komando..."
 msgstr "команда ..."
 
-#: templates/main.html:1057
+#: templates/main.html:1063
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "Команда запускается при обнаружении движения; несколько команд могут быть разделены двоеточием; не используйте точки с запятой с командами; принимаются следующие специальные токены: %% Y = год, %% m = месяц, %% d = день, %% H = час, %% M = минута, %% S = секунда, %% q = номер кадра , %% v = номер события"
 
-#: templates/main.html:1063
+#: templates/main.html:1069
 #, fuzzy
 msgid "Lanĉi fina komando"
 msgstr "Запустите последнюю команду"
 
-#: templates/main.html:1065
+#: templates/main.html:1071
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "Включите это, если вы хотите запускать команду каждый раз, когда заканчивается событие перемещения."
 
-#: templates/main.html:1070
+#: templates/main.html:1076
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "Команда запускается по окончании события движения; несколько команд могут быть разделены двоеточием; не используйте точка ком с командами; принимаются следующие специальные токены: %% Y = год, %% m = месяц, %% d = дата, %% H = час, %% M = минута, %% S = секунда, %% q = номер кадра."
 
-#: templates/main.html:1080
+#: templates/main.html:1086
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "Включите это, если вы хотите установить еженедельное расписание для обнаружения движения."
 
-#: templates/main.html:1081
+#: templates/main.html:1087
 #, fuzzy
 msgid "Laboranta horaro"
 msgstr "График работы"
 
-#: templates/main.html:1086
+#: templates/main.html:1092
 #, fuzzy
 msgid "Lundo"
 msgstr "понедельник"
 
-#: templates/main.html:1089
+#: templates/main.html:1095
 #, fuzzy
 msgid "de"
 msgstr "из"
 
-#: templates/main.html:1090
+#: templates/main.html:1096
 #, fuzzy
 msgid "ĝis"
 msgstr "до"
 
-#: templates/main.html:1092
+#: templates/main.html:1098
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "Устанавливает диапазон рабочего дня по понедельникам."
 
-#: templates/main.html:1095
+#: templates/main.html:1101
 #, fuzzy
 msgid "Mardo"
 msgstr "вторник"
 
-#: templates/main.html:1101
+#: templates/main.html:1107
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "Устанавливает диапазон рабочего дня для вторника."
 
-#: templates/main.html:1104
+#: templates/main.html:1110
 #, fuzzy
 msgid "Merkredo"
 msgstr "среда"
 
-#: templates/main.html:1110
+#: templates/main.html:1116
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "Устанавливает диапазон рабочего дня для среды."
 
-#: templates/main.html:1113
+#: templates/main.html:1119
 #, fuzzy
 msgid "Ĵaŭdo"
 msgstr "четверг"
 
-#: templates/main.html:1119
+#: templates/main.html:1125
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "Устанавливает диапазон рабочего дня для четвергов."
 
-#: templates/main.html:1122
+#: templates/main.html:1128
 #, fuzzy
 msgid "Vendredo"
 msgstr "пятница"
 
-#: templates/main.html:1128
+#: templates/main.html:1134
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "Устанавливает диапазон рабочего дня для пятницы."
 
-#: templates/main.html:1131
+#: templates/main.html:1137
 #, fuzzy
 msgid "Sabato"
 msgstr "суббота"
 
-#: templates/main.html:1137
+#: templates/main.html:1143
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "Устанавливает диапазон рабочего дня для субботы."
 
-#: templates/main.html:1140
+#: templates/main.html:1146
 #, fuzzy
 msgid "Dimanĉo"
 msgstr "воскресенье"
 
-#: templates/main.html:1146
+#: templates/main.html:1152
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "Устанавливает диапазон рабочего дня для воскресенья."
 
-#: templates/main.html:1149
+#: templates/main.html:1155
 #, fuzzy
 msgid "Detekti movadon"
 msgstr "Обнаружить движение"
 
-#: templates/main.html:1152
+#: templates/main.html:1158
 #, fuzzy
 msgid "Dum laborista horaro"
 msgstr "В рабочее время"
 
-#: templates/main.html:1153
+#: templates/main.html:1159
 #, fuzzy
 msgid "Ekster laborista horaro"
 msgstr "Вне рабочего времени"
 
-#: templates/main.html:1156
+#: templates/main.html:1162
 #, fuzzy
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "Определяет, должно ли обнаружение движения быть активным в течение или вне рабочего времени."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-18 13:44+0200\n"
+"POT-Creation-Date: 2020-04-24 16:24+0200\n"
 "PO-Revision-Date: 2020-04-13 15:20+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -752,7 +752,7 @@ msgstr "调用URL"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "如果要在创建媒体文件后请求URL，请启用此选项"
 
-#: templates/main.html:514 templates/main.html:1030
+#: templates/main.html:514 templates/main.html:1036
 #, fuzzy
 msgid "Reteja URL"
 msgstr "网站网址"
@@ -767,7 +767,7 @@ msgstr "例如http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "检测到运动时要传输的URL；接受以下特殊快捷方式：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，%% f =文件路径"
 
-#: templates/main.html:519 templates/main.html:1035
+#: templates/main.html:519 templates/main.html:1041
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "HTTP方法"
@@ -1027,7 +1027,7 @@ msgstr "设置JPEG图像质量（较高的值可产生更好的图像质量，�
 msgid "Kaptila reĝimo"
 msgstr "拍摄模式"
 
-#: templates/main.html:706 templates/main.html:808
+#: templates/main.html:706 templates/main.html:814
 #, fuzzy
 msgid "Moviĝa deĉenigo"
 msgstr "运动触发"
@@ -1082,8 +1082,8 @@ msgstr "鬃毛=用专用按钮抓手。"
 msgid "Interkapto-Intervalo"
 msgstr "拦截间隔"
 
-#: templates/main.html:721 templates/main.html:816 templates/main.html:891
-#: templates/main.html:1013
+#: templates/main.html:721 templates/main.html:822 templates/main.html:897
+#: templates/main.html:1019
 #, fuzzy
 msgid "sekundoj"
 msgstr "秒"
@@ -1098,32 +1098,32 @@ msgstr "设置快照的间隔（以秒为单位）"
 msgid "Konservi bildojn"
 msgstr "保存图像"
 
-#: templates/main.html:728 templates/main.html:823
+#: templates/main.html:728 templates/main.html:829
 #, fuzzy
 msgid "Dum unu tago"
 msgstr "一日"
 
-#: templates/main.html:729 templates/main.html:824
+#: templates/main.html:729 templates/main.html:830
 #, fuzzy
 msgid "Dum unu semajno"
 msgstr "一周"
 
-#: templates/main.html:730 templates/main.html:825
+#: templates/main.html:730 templates/main.html:831
 #, fuzzy
 msgid "Dum unu monato"
 msgstr "一个月"
 
-#: templates/main.html:731 templates/main.html:826
+#: templates/main.html:731 templates/main.html:832
 #, fuzzy
 msgid "Dum unu jaro"
 msgstr "一年"
 
-#: templates/main.html:732 templates/main.html:827
+#: templates/main.html:732 templates/main.html:833
 #, fuzzy
 msgid "Porĉiame"
 msgstr "永远"
 
-#: templates/main.html:733 templates/main.html:828
+#: templates/main.html:733 templates/main.html:834
 #, fuzzy
 msgid "Propra"
 msgstr "自己的"
@@ -1188,587 +1188,587 @@ msgstr "直接从相机创建电影。此选项应减少CPU使用率，但增加
 msgid "Filmformato"
 msgstr "电影格式"
 
-#: templates/main.html:797
+#: templates/main.html:803
 #, fuzzy
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
 msgstr "自定义影片文件；并非所有格式都可以在所有系统上使用；如有疑问，请测试每种格式，然后选择最适合您视频的格式。"
 
-#: templates/main.html:800
+#: templates/main.html:806
 #, fuzzy
 msgid "Filma Kvalito"
 msgstr "电影质量"
 
-#: templates/main.html:802
+#: templates/main.html:808
 #, fuzzy
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
 msgstr "设置MPEG视频质量（较高的值产生更好的视频质量，但需要更多的存储空间）。"
 
-#: templates/main.html:805
+#: templates/main.html:811
 #, fuzzy
 msgid "Rekorda reĝimo"
 msgstr "记录方式"
 
-#: templates/main.html:809
+#: templates/main.html:815
 #, fuzzy
 msgid "Kontinua registrado"
 msgstr "连续录音"
 
-#: templates/main.html:812
+#: templates/main.html:818
 #, fuzzy
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
 msgstr "设置录制模式：“运动触发” =每当检测到运动时都会创建新电影，“连续录制” =一个大电影文件。"
 
-#: templates/main.html:815
+#: templates/main.html:821
 #, fuzzy
 msgid "Maksimuma filma daŭro"
 msgstr "电影最长时长"
 
-#: templates/main.html:817
+#: templates/main.html:823
 #, fuzzy
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
 msgstr "设置电影的最大长度，以秒为单位；如果运动事件持续的时间更长，则将创建一个新的电影文件；使用0表示无限长度。"
 
-#: templates/main.html:820
+#: templates/main.html:826
 #, fuzzy
 msgid "Konservi filmojn"
 msgstr "保存电影"
 
-#: templates/main.html:831
+#: templates/main.html:837
 #, fuzzy
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
 msgstr "早于设定时长的电影将被自动删除以释放存储空间。"
 
-#: templates/main.html:834
+#: templates/main.html:840
 #, fuzzy
 msgid "Filmoj Vivdaŭro"
 msgstr "电影一生"
 
-#: templates/main.html:835
+#: templates/main.html:841
 #, fuzzy
 msgid "tagoj"
 msgstr "天"
 
-#: templates/main.html:836
+#: templates/main.html:842
 #, fuzzy
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
 msgstr "设置将自动删除电影的天数。"
 
-#: templates/main.html:846
+#: templates/main.html:852
 #, fuzzy
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
 msgstr "激活此项以使用并配置设备以检测运动。"
 
-#: templates/main.html:847
+#: templates/main.html:853
 #, fuzzy
 msgid "Movado-Detekto"
 msgstr "运动侦测"
 
-#: templates/main.html:852
+#: templates/main.html:858
 #, fuzzy
 msgid "Kadra ŝanĝo sojlo"
 msgstr "帧变更阈值"
 
-#: templates/main.html:854
+#: templates/main.html:860
 #, fuzzy
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
 msgstr "表示必须在两个连续的帧之间切换以检测运动的图像的最小百分比（较小的值可提供更灵敏的检测，但容易产生误报）。"
 
-#: templates/main.html:857
+#: templates/main.html:863
 #, fuzzy
 msgid "Maksimuma ŝanĝo sojlo"
 msgstr "最大变化阈值"
 
-#: templates/main.html:859
+#: templates/main.html:865
 #, fuzzy
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
 msgstr "设置在不再触发滚动的帧之间更改的像素数（0禁用边框）。"
 
-#: templates/main.html:862
+#: templates/main.html:868
 #, fuzzy
 msgid "Aŭtomata sojla agordo"
 msgstr "自动阈值设置"
 
-#: templates/main.html:864
+#: templates/main.html:870
 #, fuzzy
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
 msgstr "启用它可以自动调整阈值。"
 
-#: templates/main.html:867
+#: templates/main.html:873
 #, fuzzy
 msgid "Aŭtomata bruo-detekto"
 msgstr "自动噪音检测"
 
-#: templates/main.html:869
+#: templates/main.html:875
 #, fuzzy
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
 msgstr "启用此选项可自动调整噪音水平。"
 
-#: templates/main.html:872
+#: templates/main.html:878
 #, fuzzy
 msgid "Bruo-nivelo"
 msgstr "噪音水平"
 
-#: templates/main.html:874
+#: templates/main.html:880
 #, fuzzy
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
 msgstr "永久将噪音等级设定为设定值。"
 
-#: templates/main.html:877
+#: templates/main.html:883
 #, fuzzy
 msgid "Detekto de lumaj ŝanĝoj"
 msgstr "检测光线变化"
 
-#: templates/main.html:879
+#: templates/main.html:885
 #, fuzzy, python-format
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
 msgstr "定义需要更改的图像百分比，以便将事件视为突然的光更改而不是运动（0 %%禁用该功能）。"
 
-#: templates/main.html:882
+#: templates/main.html:888
 #, fuzzy
 msgid "Makula filtrilo"
 msgstr "污点过滤器"
 
-#: templates/main.html:884
+#: templates/main.html:890
 #, fuzzy
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
 msgstr "通过在运动检测之前对帧应用点过滤器来启用此功能。"
 
-#: templates/main.html:890
+#: templates/main.html:896
 #, fuzzy
 msgid "Senmovada daŭro"
 msgstr "连续运动"
 
-#: templates/main.html:892
+#: templates/main.html:898
 #, fuzzy
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
 msgstr "设置标记运动事件结束的静默秒数（即无运动）。"
 
-#: templates/main.html:895
+#: templates/main.html:901
 #, fuzzy
 msgid "Kaptita Antaŭe"
 msgstr "之前被抓"
 
-#: templates/main.html:896 templates/main.html:901 templates/main.html:906
+#: templates/main.html:902 templates/main.html:907 templates/main.html:912
 #, fuzzy
 msgid "kadroj"
 msgstr "镜框"
 
-#: templates/main.html:897
+#: templates/main.html:903
 #, fuzzy
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
 msgstr "设置在检测到运动事件之前捕获的帧数（包括在影片中）。"
 
-#: templates/main.html:900
+#: templates/main.html:906
 #, fuzzy
 msgid "Kaptita Post"
 msgstr "被抓"
 
-#: templates/main.html:902
+#: templates/main.html:908
 #, fuzzy
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
 msgstr "设置移动事件结束后要捕获（并包含在影片中）的帧数。"
 
-#: templates/main.html:905
+#: templates/main.html:911
 #, fuzzy
 msgid "Minimumaj movaj kadroj"
 msgstr "最小运动架"
 
-#: templates/main.html:907
+#: templates/main.html:913
 #, fuzzy
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
 msgstr "设置启动运动事件所需的最小连续运动帧数。"
 
-#: templates/main.html:913
+#: templates/main.html:919
 #, fuzzy
 msgid "Masko"
 msgstr "面膜"
 
-#: templates/main.html:915
+#: templates/main.html:921
 #, fuzzy
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
 msgstr "启用图像遮罩以进行更有选择和准确的运动检测。"
 
-#: templates/main.html:918
+#: templates/main.html:924
 #, fuzzy
 msgid "Tipo de masko"
 msgstr "口罩类型"
 
-#: templates/main.html:921
+#: templates/main.html:927
 #, fuzzy
 msgid "Inteligenta"
 msgstr "聪明的"
 
-#: templates/main.html:922
+#: templates/main.html:928
 #, fuzzy
 msgid "Redaktebla"
 msgstr "可编辑的"
 
-#: templates/main.html:925
+#: templates/main.html:931
 #, fuzzy
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
 msgstr "“智能”选项自动检测到具有规则运动的区域并动态创建内部蒙版，而“可编辑”选项则允许您自己手动构建它。"
 
-#: templates/main.html:928
+#: templates/main.html:934
 #, fuzzy
 msgid "Inteligenta-maska Malrapideco"
 msgstr "智能口罩慢度"
 
-#: templates/main.html:930
+#: templates/main.html:936
 #, fuzzy
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr "较高的值可提供更耐用的面罩，且构建过程较慢。"
 
-#: templates/main.html:935
+#: templates/main.html:941
 #, fuzzy
 msgid "Redakti maskon"
 msgstr "编辑遮罩"
 
-#: templates/main.html:936
+#: templates/main.html:942
 #, fuzzy
 msgid "Konservi maskon"
 msgstr "保持口罩"
 
-#: templates/main.html:939
+#: templates/main.html:945
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
 msgstr "单击此按钮启用/禁用蒙版编辑器。"
 
-#: templates/main.html:943
+#: templates/main.html:949
 #, fuzzy
 msgid "Purigi maskon"
 msgstr "清洁面膜"
 
-#: templates/main.html:944
+#: templates/main.html:950
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
 msgstr "单击此按钮清空当前遮罩。"
 
-#: templates/main.html:950
+#: templates/main.html:956
 #, fuzzy
 msgid "Montri Kadro-Ŝanĝojn"
 msgstr "显示框架更改"
 
-#: templates/main.html:952
+#: templates/main.html:958
 #, fuzzy
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
 msgstr "如果启用此选项，则视频中会显示图像更改（像素数和修改的区域）；暂时启用它以调整运动检测设置。"
 
-#: templates/main.html:955
+#: templates/main.html:961
 #, fuzzy
 msgid "Krei debug media files"
 msgstr "创建调试媒体文件"
 
-#: templates/main.html:957
+#: templates/main.html:963
 #, fuzzy
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
 msgstr "启用后，创建有助于调试运动检测问题的特殊影片和图像。"
 
-#: templates/main.html:966
+#: templates/main.html:972
 #, fuzzy
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
 msgstr "如果要在检测到运动时收到通知，请启用此功能。"
 
-#: templates/main.html:967
+#: templates/main.html:973
 #, fuzzy
 msgid "Moviĝaj sciigoj"
 msgstr "动作通知"
 
-#: templates/main.html:972
+#: templates/main.html:978
 #, fuzzy
 msgid "Sendi retpoŝton"
 msgstr "发送邮件"
 
-#: templates/main.html:974
+#: templates/main.html:980
 #, fuzzy
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "如果要在每次检测到运动事件时接收电子邮件，请激活此选项。"
 
-#: templates/main.html:977
+#: templates/main.html:983
 #, fuzzy
 msgid "Retpoŝtadresoj"
 msgstr "电邮地址"
 
-#: templates/main.html:978
+#: templates/main.html:984
 #, fuzzy
 msgid "retpoŝtadresoj..."
 msgstr "电子邮件地址..."
 
-#: templates/main.html:979
+#: templates/main.html:985
 #, fuzzy
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
 msgstr "每当检测到运动事件时，此处添加的电子邮件地址（用逗号分隔）将收到通知。"
 
-#: templates/main.html:982
+#: templates/main.html:988
 #, fuzzy
 msgid "Servilo SMTP"
 msgstr "SMTP服务器"
 
-#: templates/main.html:983
+#: templates/main.html:989
 #, fuzzy
 msgid "ekz. smtp.gmail.com"
 msgstr "例如smtp.gmail.com"
 
-#: templates/main.html:984
+#: templates/main.html:990
 #, fuzzy
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
 msgstr "输入您的SMTP服务器的主机名或IP地址（用于使用Gmail smtp.gmail.com）。"
 
-#: templates/main.html:987
+#: templates/main.html:993
 #, fuzzy
 msgid "SMTP Haveno"
 msgstr "SMTP端口"
 
-#: templates/main.html:988
+#: templates/main.html:994
 #, fuzzy
 msgid "ekz. 587"
 msgstr "例如587"
 
-#: templates/main.html:989
+#: templates/main.html:995
 #, fuzzy
 msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
 msgstr "输入SMTP服务器使用的端口（对于非TLS连接，通常为465；对于TLS连接，通常为587）。"
 
-#: templates/main.html:992
+#: templates/main.html:998
 #, fuzzy
 msgid "SMTP-Konto"
 msgstr "SMTP帐号"
 
-#: templates/main.html:993
+#: templates/main.html:999
 #, fuzzy
 msgid "konto@gmail.com..."
 msgstr "account@gmail.com ..."
 
-#: templates/main.html:994
+#: templates/main.html:1000
 #, fuzzy
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
 msgstr "输入您的SMTP帐户（通常是您的电子邮件地址）。"
 
-#: templates/main.html:997
+#: templates/main.html:1003
 #, fuzzy
 msgid "SMTP Pasvorto"
 msgstr "SMTP密码"
 
-#: templates/main.html:999
+#: templates/main.html:1005
 #, fuzzy
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
 msgstr "输入您的SMTP密码（对于Gmail，请使用Google密码或应用生成的密码）。"
 
-#: templates/main.html:1002
+#: templates/main.html:1008
 #, fuzzy
 msgid "De adreso"
 msgstr "发件人地址"
 
-#: templates/main.html:1003
+#: templates/main.html:1009
 #, fuzzy
 msgid "retpoŝta adreso..."
 msgstr "电子邮件地址..."
 
-#: templates/main.html:1004
+#: templates/main.html:1010
 #, fuzzy
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
 msgstr "如果您的SMTP服务需要自定义发件人地址，请设置该地址（如果保留空白，则将使用第一个目标电子邮件地址）。"
 
-#: templates/main.html:1007
+#: templates/main.html:1013
 #, fuzzy
 msgid "Uzi TLS"
 msgstr "使用TLS"
 
-#: templates/main.html:1009
+#: templates/main.html:1015
 #, fuzzy
 msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
 msgstr "如果您的SMTP服务器需要TLS（Gmail要求启用此功能），请启用此功能。"
 
-#: templates/main.html:1012
+#: templates/main.html:1018
 #, fuzzy
 msgid "Aldonitaj bildoj tempo-intervalo"
 msgstr "添加图片时间间隔"
 
-#: templates/main.html:1014
+#: templates/main.html:1020
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "定义创建电子邮件链接时使用的时间搜索间隔（较高的值会生成包含更多图像的电子邮件，但会增加延迟通知的时间）；设置为0以禁用添加的图像；您还需要启用“捕获图像”才能进行此项工作。"
 
-#: templates/main.html:1018
+#: templates/main.html:1024
 #, fuzzy
 msgid "Testi retpoŝto"
 msgstr "测试电子邮件"
 
-#: templates/main.html:1019
+#: templates/main.html:1025
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
 msgstr "填写必需的详细信息后，单击此按钮可以测试电子邮件通知。"
 
-#: templates/main.html:1025
+#: templates/main.html:1031
 #, fuzzy
 msgid "Alvoki URL"
 msgstr "调用网址"
 
-#: templates/main.html:1027
+#: templates/main.html:1033
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "如果希望在检测到运动事件时都请求URL，请启用此选项。"
 
-#: templates/main.html:1031
+#: templates/main.html:1037
 #, fuzzy
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "例如http://example.com/search/"
 
-#: templates/main.html:1032
+#: templates/main.html:1038
 #, fuzzy, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "检测到运动时要请求的URL；接受以下特殊快捷方式：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号，%% v =事件编号"
 
-#: templates/main.html:1044
+#: templates/main.html:1050
 #, fuzzy
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "请求URL时使用的HTTP方法（给定的URL参数将按此处指示的方式传递）。"
 
-#: templates/main.html:1050
+#: templates/main.html:1056
 #, fuzzy
 msgid "Lanĉi komando"
 msgstr "启动命令"
 
-#: templates/main.html:1052
+#: templates/main.html:1058
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "如果要在每次检测到运动事件时运行命令，请启用此选项。"
 
-#: templates/main.html:1055 templates/main.html:1068
+#: templates/main.html:1061 templates/main.html:1074
 #, fuzzy
 msgid "Komando"
 msgstr "指挥部"
 
-#: templates/main.html:1056 templates/main.html:1069
+#: templates/main.html:1062 templates/main.html:1075
 #, fuzzy
 msgid "komando..."
 msgstr "命令..."
 
-#: templates/main.html:1057
+#: templates/main.html:1063
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "当检测到运动时要启动的命令；多个命令可以用冒号分隔；不要在命令中使用分号；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号，%% v =事件编号"
 
-#: templates/main.html:1063
+#: templates/main.html:1069
 #, fuzzy
 msgid "Lanĉi fina komando"
 msgstr "启动最终命令"
 
-#: templates/main.html:1065
+#: templates/main.html:1071
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "如果要在每次移动事件结束时启动命令，请启用此选项。"
 
-#: templates/main.html:1070
+#: templates/main.html:1076
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "运动事件结束时要启动的命令；多个命令可以用冒号分隔；不要在命令中使用点coms；接受以下特殊标记：%% Y =年，%% m =月，%% d =日期，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号。"
 
-#: templates/main.html:1080
+#: templates/main.html:1086
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "如果要设置运动检测的每周时间表，请启用此功能。"
 
-#: templates/main.html:1081
+#: templates/main.html:1087
 #, fuzzy
 msgid "Laboranta horaro"
 msgstr "工作时间表"
 
-#: templates/main.html:1086
+#: templates/main.html:1092
 #, fuzzy
 msgid "Lundo"
 msgstr "星期一"
 
-#: templates/main.html:1089
+#: templates/main.html:1095
 #, fuzzy
 msgid "de"
 msgstr "的"
 
-#: templates/main.html:1090
+#: templates/main.html:1096
 #, fuzzy
 msgid "ĝis"
 msgstr "直到"
 
-#: templates/main.html:1092
+#: templates/main.html:1098
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "设置星期一的工作日时间范围。"
 
-#: templates/main.html:1095
+#: templates/main.html:1101
 #, fuzzy
 msgid "Mardo"
 msgstr "周二"
 
-#: templates/main.html:1101
+#: templates/main.html:1107
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "设置星期二的工作日时间范围。"
 
-#: templates/main.html:1104
+#: templates/main.html:1110
 #, fuzzy
 msgid "Merkredo"
 msgstr "星期三"
 
-#: templates/main.html:1110
+#: templates/main.html:1116
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "设置星期三的工作日时间范围。"
 
-#: templates/main.html:1113
+#: templates/main.html:1119
 #, fuzzy
 msgid "Ĵaŭdo"
 msgstr "星期四"
 
-#: templates/main.html:1119
+#: templates/main.html:1125
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "设置星期四的工作日时间范围。"
 
-#: templates/main.html:1122
+#: templates/main.html:1128
 #, fuzzy
 msgid "Vendredo"
 msgstr "星期五"
 
-#: templates/main.html:1128
+#: templates/main.html:1134
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "设置星期五的工作日时间范围。"
 
-#: templates/main.html:1131
+#: templates/main.html:1137
 #, fuzzy
 msgid "Sabato"
 msgstr "周六"
 
-#: templates/main.html:1137
+#: templates/main.html:1143
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "设置星期六的工作日时间范围。"
 
-#: templates/main.html:1140
+#: templates/main.html:1146
 #, fuzzy
 msgid "Dimanĉo"
 msgstr "周日"
 
-#: templates/main.html:1146
+#: templates/main.html:1152
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "设置星期日的工作日时间范围。"
 
-#: templates/main.html:1149
+#: templates/main.html:1155
 #, fuzzy
 msgid "Detekti movadon"
 msgstr "检测运动"
 
-#: templates/main.html:1152
+#: templates/main.html:1158
 #, fuzzy
 msgid "Dum laborista horaro"
 msgstr "在工作时间"
 
-#: templates/main.html:1153
+#: templates/main.html:1159
 #, fuzzy
 msgid "Ekster laborista horaro"
 msgstr "工作时间以外"
 
-#: templates/main.html:1156
+#: templates/main.html:1162
 #, fuzzy
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "定义在工作时间内还是在工作时间之外应启用运动检测。"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-18 13:44+0200\n"
+"POT-Creation-Date: 2020-04-24 16:24+0200\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -16,6 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: server.py:198
 msgid "interrompa signalo ricevita, fermanta ..."
@@ -605,7 +606,7 @@ msgstr "invoquer une URL"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "activez cette option si vous souhaitez qu'une URL soit requêtée après la création d'un fichier multimédia"
 
-#: templates/main.html:514 templates/main.html:1030
+#: templates/main.html:514 templates/main.html:1036
 msgid "Reteja URL"
 msgstr "URL du site Web"
 
@@ -618,7 +619,7 @@ msgstr "ex. http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL à déclencher lorsqu'un mouvement est détecté; les raccourcis spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événements, %%f = chemin du fichier"
 
-#: templates/main.html:519 templates/main.html:1035
+#: templates/main.html:519 templates/main.html:1041
 msgid "Metodo HTTP"
 msgstr "Méthode HTTP"
 
@@ -830,7 +831,7 @@ msgstr "définit la qualité d'image JPEG (des valeurs plus élevées produisent
 msgid "Kaptila reĝimo"
 msgstr "Mode de capture"
 
-#: templates/main.html:706 templates/main.html:808
+#: templates/main.html:706 templates/main.html:814
 msgid "Moviĝa deĉenigo"
 msgstr "Déclencheur de mouvement"
 
@@ -874,8 +875,8 @@ msgstr "Manuel = capture par clic sur le bouton dédié."
 msgid "Interkapto-Intervalo"
 msgstr "Intervalle de capture"
 
-#: templates/main.html:721 templates/main.html:816 templates/main.html:891
-#: templates/main.html:1013
+#: templates/main.html:721 templates/main.html:822 templates/main.html:897
+#: templates/main.html:1019
 msgid "sekundoj"
 msgstr "secondes"
 
@@ -887,27 +888,27 @@ msgstr "définit l'intervalle (en secondes) pour les captures"
 msgid "Konservi bildojn"
 msgstr "Conserver les images"
 
-#: templates/main.html:728 templates/main.html:823
+#: templates/main.html:728 templates/main.html:829
 msgid "Dum unu tago"
 msgstr "Pendant un jour"
 
-#: templates/main.html:729 templates/main.html:824
+#: templates/main.html:729 templates/main.html:830
 msgid "Dum unu semajno"
 msgstr "Pendant une semaine"
 
-#: templates/main.html:730 templates/main.html:825
+#: templates/main.html:730 templates/main.html:831
 msgid "Dum unu monato"
 msgstr "Pendant un mois"
 
-#: templates/main.html:731 templates/main.html:826
+#: templates/main.html:731 templates/main.html:832
 msgid "Dum unu jaro"
 msgstr "Pendant un an"
 
-#: templates/main.html:732 templates/main.html:827
+#: templates/main.html:732 templates/main.html:833
 msgid "Porĉiame"
 msgstr "Pour toujours"
 
-#: templates/main.html:733 templates/main.html:828
+#: templates/main.html:733 templates/main.html:834
 msgid "Propra"
 msgstr "Personnalisé"
 
@@ -960,474 +961,474 @@ msgstr "Créez des films directement depuis la caméra. Cette option devrait ré
 msgid "Filmformato"
 msgstr "Format de vidéo"
 
-#: templates/main.html:797
+#: templates/main.html:803
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
 msgstr "Personnalise le fichier vidéo; tous les formats ne sont pas garantis fonctionner sur tous les systèmes; en cas de doute, testez chaque format et choisissez celui qui convient le mieux à votre visionneur."
 
-#: templates/main.html:800
+#: templates/main.html:806
 msgid "Filma Kvalito"
 msgstr "Qualité du film"
 
-#: templates/main.html:802
+#: templates/main.html:808
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
 msgstr "Définit la qualité vidéo MPEG (des valeurs plus élevées produisent une meilleure qualité vidéo mais nécessitent plus de stockage)."
 
-#: templates/main.html:805
+#: templates/main.html:811
 msgid "Rekorda reĝimo"
 msgstr "Mode d'enregistrement"
 
-#: templates/main.html:809
+#: templates/main.html:815
 msgid "Kontinua registrado"
 msgstr "Enregistrement continu"
 
-#: templates/main.html:812
+#: templates/main.html:818
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
 msgstr "Définit le mode d'enregistrement: Déclencheur de mouvement = nouveau film créé chaque fois qu'un mouvement est détecté, Enregistrement continu = un grand fichier de film."
 
-#: templates/main.html:815
+#: templates/main.html:821
 msgid "Maksimuma filma daŭro"
 msgstr "Durée maximale du film"
 
-#: templates/main.html:817
+#: templates/main.html:823
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
 msgstr "Définit la durée maximale des films en secondes; si l'événement dure plus longtemps, un nouveau fichier vidéo est créé; utilisez 0 pour une longueur illimitée."
 
-#: templates/main.html:820
+#: templates/main.html:826
 msgid "Konservi filmojn"
 msgstr "Conserver les films"
 
-#: templates/main.html:831
+#: templates/main.html:837
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
 msgstr "Les films plus anciens que la durée définie sont automatiquement supprimés pour libérer de l'espace de stockage."
 
-#: templates/main.html:834
+#: templates/main.html:840
 msgid "Filmoj Vivdaŭro"
 msgstr "Films conservés à vie"
 
-#: templates/main.html:835
+#: templates/main.html:841
 msgid "tagoj"
 msgstr "jours"
 
-#: templates/main.html:836
+#: templates/main.html:842
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
 msgstr "Définit le nombre de jours après lesquels les films seront automatiquement supprimés."
 
-#: templates/main.html:846
+#: templates/main.html:852
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
 msgstr "Activez cette option pour utiliser et configurer le mécanisme de détection des mouvements."
 
-#: templates/main.html:847
+#: templates/main.html:853
 msgid "Movado-Detekto"
 msgstr "Détection de mouvement"
 
-#: templates/main.html:852
+#: templates/main.html:858
 msgid "Kadra ŝanĝo sojlo"
 msgstr "Seuil de changement de trame"
 
-#: templates/main.html:854
+#: templates/main.html:860
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
 msgstr "Indique le pourcentage minimum de l'image qui doit changer entre deux images successives pour détecter un mouvement (des valeurs plus petites donnent une détection plus sensible, mais ont tendance à donner des faux positifs)."
 
-#: templates/main.html:857
+#: templates/main.html:863
 msgid "Maksimuma ŝanĝo sojlo"
 msgstr "Seuil de changement maximum"
 
-#: templates/main.html:859
+#: templates/main.html:865
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
 msgstr "Définit le nombre de pixels modifiés entre deux images au-delà duquel on ne déclenche plus une détection (0 désactive la limite)."
 
-#: templates/main.html:862
+#: templates/main.html:868
 msgid "Aŭtomata sojla agordo"
 msgstr "Réglage automatique du seuil"
 
-#: templates/main.html:864
+#: templates/main.html:870
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
 msgstr "Activez cette option pour ajuster automatiquement le seuil."
 
-#: templates/main.html:867
+#: templates/main.html:873
 msgid "Aŭtomata bruo-detekto"
 msgstr "Détection automatique du bruit"
 
-#: templates/main.html:869
+#: templates/main.html:875
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
 msgstr "Activez cette option pour régler automatiquement le niveau de bruit."
 
-#: templates/main.html:872
+#: templates/main.html:878
 msgid "Bruo-nivelo"
 msgstr "Niveau de bruit"
 
-#: templates/main.html:874
+#: templates/main.html:880
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
 msgstr "Définit de manière permanente le niveau de bruit à une valeur définie."
 
-#: templates/main.html:877
+#: templates/main.html:883
 msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Détection des changements de lumière"
 
-#: templates/main.html:879
+#: templates/main.html:885
 #, python-format
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
 msgstr "Définit le pourcentage de l'image qui a besoin d'être modifiée pour que l'événement soit traité comme un changement de lumière soudain au lieu d'un mouvement (0%% désactive la fonction)."
 
-#: templates/main.html:882
+#: templates/main.html:888
 msgid "Makula filtrilo"
 msgstr "Filtre anti-taches"
 
-#: templates/main.html:884
+#: templates/main.html:890
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
 msgstr "Activez cela pour appliquer un filtre anti-taches aux images avant la détection de mouvement."
 
-#: templates/main.html:890
+#: templates/main.html:896
 msgid "Senmovada daŭro"
 msgstr "Temps d'inactivité"
 
-#: templates/main.html:892
+#: templates/main.html:898
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
 msgstr "Définit le nombre de secondes de silence (c'est-à-dire sans mouvement) qui marque la fin d'un événement."
 
-#: templates/main.html:895
+#: templates/main.html:901
 msgid "Kaptita Antaŭe"
 msgstr "Prévisualisation"
 
-#: templates/main.html:896 templates/main.html:901 templates/main.html:906
+#: templates/main.html:902 templates/main.html:907 templates/main.html:912
 msgid "kadroj"
 msgstr "trames"
 
-#: templates/main.html:897
+#: templates/main.html:903
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
 msgstr "Définit le nombre d'images capturées (et incluses dans le film) avant qu'un incident de mouvement ne soit détecté."
 
-#: templates/main.html:900
+#: templates/main.html:906
 msgid "Kaptita Post"
 msgstr "Images après"
 
-#: templates/main.html:902
+#: templates/main.html:908
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
 msgstr "Définit le nombre d'images à capturer (et à inclure dans le film) après la fin d'un événement de mouvement."
 
-#: templates/main.html:905
+#: templates/main.html:911
 msgid "Minimumaj movaj kadroj"
 msgstr "Minimum d'images détectées"
 
-#: templates/main.html:907
+#: templates/main.html:913
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
 msgstr "Définit le nombre minimum d'images de mouvement successives nécessaires pour démarrer un événement de mouvement."
 
-#: templates/main.html:913
+#: templates/main.html:919
 msgid "Masko"
 msgstr "Masque"
 
-#: templates/main.html:915
+#: templates/main.html:921
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
 msgstr "Permet le masquage d'image pour une détection de mouvement plus sélective et précise."
 
-#: templates/main.html:918
+#: templates/main.html:924
 msgid "Tipo de masko"
 msgstr "Type de masque"
 
-#: templates/main.html:921
+#: templates/main.html:927
 msgid "Inteligenta"
 msgstr "Intelligent"
 
-#: templates/main.html:922
+#: templates/main.html:928
 msgid "Redaktebla"
 msgstr "Modifiable"
 
-#: templates/main.html:925
+#: templates/main.html:931
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
 msgstr "L'option Intelligente détecte automatiquement les régions avec un mouvement régulier et crée dynamiquement un masque interne, tandis que l'option Modifiable vous permet de le construire manuellement vous-même."
 
-#: templates/main.html:928
+#: templates/main.html:934
 msgid "Inteligenta-maska Malrapideco"
 msgstr "Lenteur du masque intelligent"
 
-#: templates/main.html:930
+#: templates/main.html:936
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr "Des valeurs plus élevées donnent un masque plus durable avec un processus de construction plus lent."
 
-#: templates/main.html:935
+#: templates/main.html:941
 msgid "Redakti maskon"
 msgstr "Modifier le masque"
 
-#: templates/main.html:936
+#: templates/main.html:942
 msgid "Konservi maskon"
 msgstr "Sauver le masque"
 
-#: templates/main.html:939
+#: templates/main.html:945
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
 msgstr "Cliquez sur ce bouton pour activer/désactiver l'éditeur de masque."
 
-#: templates/main.html:943
+#: templates/main.html:949
 msgid "Purigi maskon"
 msgstr "Effacer le masque"
 
-#: templates/main.html:944
+#: templates/main.html:950
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
 msgstr "Cliquez sur ce bouton pour vider le masque actuel."
 
-#: templates/main.html:950
+#: templates/main.html:956
 msgid "Montri Kadro-Ŝanĝojn"
 msgstr "Afficher les modifications d'image"
 
-#: templates/main.html:952
+#: templates/main.html:958
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
 msgstr "Si cette option est active, les changements d'image (nombre de pixels et zone modifiée) sont affichés dans la vidéo; activez-le temporairement pour ajuster les paramètres de détection de mouvement."
 
-#: templates/main.html:955
+#: templates/main.html:961
 msgid "Krei debug media files"
 msgstr "Créer des fichiers multimédias de débogage"
 
-#: templates/main.html:957
+#: templates/main.html:963
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
 msgstr "Quand c'est activé, des films et des images spéciaux sont créés, qui aident à déboguer les problèmes de détection de mouvement."
 
-#: templates/main.html:966
+#: templates/main.html:972
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
 msgstr "Activez cette option si vous souhaitez être averti lorsqu'un mouvement est détecté."
 
-#: templates/main.html:967
+#: templates/main.html:973
 msgid "Moviĝaj sciigoj"
 msgstr "Notifications de mouvement"
 
-#: templates/main.html:972
+#: templates/main.html:978
 msgid "Sendi retpoŝton"
 msgstr "Envoyer un e-mail"
 
-#: templates/main.html:974
+#: templates/main.html:980
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "Activez cette option si vous souhaitez recevoir un e-mail chaque fois qu'un mouvement est détecté."
 
-#: templates/main.html:977
+#: templates/main.html:983
 msgid "Retpoŝtadresoj"
 msgstr "Adresses e-mail"
 
-#: templates/main.html:978
+#: templates/main.html:984
 msgid "retpoŝtadresoj..."
 msgstr "adresses e-mail ..."
 
-#: templates/main.html:979
+#: templates/main.html:985
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
 msgstr "Les adresses e-mail (séparées par des virgules) ajoutées ici recevront des notifications chaque fois qu'un mouvement est détecté."
 
-#: templates/main.html:982
+#: templates/main.html:988
 msgid "Servilo SMTP"
 msgstr "Serveur SMTP"
 
-#: templates/main.html:983
+#: templates/main.html:989
 msgid "ekz. smtp.gmail.com"
 msgstr "ex. smtp.gmail.com"
 
-#: templates/main.html:984
+#: templates/main.html:990
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
 msgstr "Saisissez le nom d'hôte ou l'adresse IP de votre serveur SMTP (pour utiliser Gmail : smtp.gmail.com)."
 
-#: templates/main.html:987
+#: templates/main.html:993
 msgid "SMTP Haveno"
 msgstr "Port SMTP"
 
-#: templates/main.html:988
+#: templates/main.html:994
 msgid "ekz. 587"
 msgstr "ex. 587"
 
-#: templates/main.html:989
+#: templates/main.html:995
 msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
 msgstr "Entrez le port utilisé par votre serveur SMTP (généralement 465 pour les connexions non TLS et 587 pour les connexions TLS)."
 
-#: templates/main.html:992
+#: templates/main.html:998
 msgid "SMTP-Konto"
 msgstr "compte SMTP"
 
-#: templates/main.html:993
+#: templates/main.html:999
 msgid "konto@gmail.com..."
 msgstr "compte@gmail.com ..."
 
-#: templates/main.html:994
+#: templates/main.html:1000
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
 msgstr "Saisissez votre compte SMTP (généralement votre adresse e-mail)."
 
-#: templates/main.html:997
+#: templates/main.html:1003
 msgid "SMTP Pasvorto"
 msgstr "Mot de passe SMTP"
 
-#: templates/main.html:999
+#: templates/main.html:1005
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
 msgstr "Saisissez votre mot de passe SMTP (pour Gmail, utilisez votre mot de passe Google ou un mot de passe généré par l'application)."
 
-#: templates/main.html:1002
+#: templates/main.html:1008
 msgid "De adreso"
 msgstr "Adresse «de:»"
 
-#: templates/main.html:1003
+#: templates/main.html:1009
 msgid "retpoŝta adreso..."
 msgstr "adresse e-mail ..."
 
-#: templates/main.html:1004
+#: templates/main.html:1010
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
 msgstr "Définissez l'adresse d'expéditeur personnalisée si votre service SMTP en requiert une (la première adresse e-mail de destination sera utilisée si elle est laissée vierge)."
 
-#: templates/main.html:1007
+#: templates/main.html:1013
 msgid "Uzi TLS"
 msgstr "Utiliser TLS"
 
-#: templates/main.html:1009
+#: templates/main.html:1015
 msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
 msgstr "Activez cette option si votre serveur SMTP nécessite TLS (Gmail requiert que cela soit activé)."
 
-#: templates/main.html:1012
+#: templates/main.html:1018
 msgid "Aldonitaj bildoj tempo-intervalo"
 msgstr "Intervalle de temps des images jointes"
 
-#: templates/main.html:1014
+#: templates/main.html:1020
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "Définit l'intervalle de recherche de temps à utiliser lors de la création des pièces jointes (des valeurs plus élevées génèrent des e-mails avec plus d'images au détriment d'un délai de notification accru); mettre à 0 pour désactiver les images jointes; vous devez également activer «Capture d'images» pour que cela fonctionne."
 
-#: templates/main.html:1018
+#: templates/main.html:1024
 msgid "Testi retpoŝto"
 msgstr "Tester l'e-mail"
 
-#: templates/main.html:1019
+#: templates/main.html:1025
 msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
 msgstr "Cliquez sur ce bouton pour tester les notifications par e-mail après avoir rempli les détails requis."
 
-#: templates/main.html:1025
+#: templates/main.html:1031
 msgid "Alvoki URL"
 msgstr "Invoquer une URL"
 
-#: templates/main.html:1027
+#: templates/main.html:1033
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "Activez cette option si vous souhaitez qu'une URL soit activée chaque fois qu'un événement de mouvement est détecté."
 
-#: templates/main.html:1031
+#: templates/main.html:1037
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "ex. http://exemple.com/notifier/"
 
-#: templates/main.html:1032
+#: templates/main.html:1038
 #, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "URL à déclencher lorsqu'un mouvement est détecté; les raccourcis spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame , %%v = numéro d'événement"
 
-#: templates/main.html:1044
+#: templates/main.html:1050
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "La méthode HTTP à utiliser lors de l'envoi d'une URL (les paramètres d'URL donnés seront fournis comme indiqué ici)."
 
-#: templates/main.html:1050
+#: templates/main.html:1056
 msgid "Lanĉi komando"
 msgstr "Lancer une commande"
 
-#: templates/main.html:1052
+#: templates/main.html:1058
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "Activez cette option si vous souhaitez exécuter une commande chaque fois qu'un événement de mouvement est détecté."
 
-#: templates/main.html:1055 templates/main.html:1068
+#: templates/main.html:1061 templates/main.html:1074
 msgid "Komando"
 msgstr "Commande"
 
-#: templates/main.html:1056 templates/main.html:1069
+#: templates/main.html:1062 templates/main.html:1075
 msgid "komando..."
 msgstr "commande ..."
 
-#: templates/main.html:1057
+#: templates/main.html:1063
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "Commande à lancer lorsqu'un mouvement est détecté ; plusieurs commandes peuvent être séparées par deux-points; n'utilisez pas de points-virgules avec les commandes; les jetons spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame , %%v = numéro d'événement"
 
-#: templates/main.html:1063
+#: templates/main.html:1069
 msgid "Lanĉi fina komando"
 msgstr "Lancer une commande finale"
 
-#: templates/main.html:1065
+#: templates/main.html:1071
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "Activez cette option si vous souhaitez lancer une commande chaque fois qu'un événement de déplacement se termine."
 
-#: templates/main.html:1070
+#: templates/main.html:1076
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "Commande à lancer à la fin de l'événement de mouvement; plusieurs commandes peuvent être séparées par deux-points ; n'utilisez pas de points-virgules avec les commandes; les jetons spéciaux suivants sont acceptés : %%Y = année, %%m = mois, %%d = date, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame."
 
-#: templates/main.html:1080
+#: templates/main.html:1086
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "Activez cette option si vous souhaitez définir un programme hebdomadaire de détection de mouvement."
 
-#: templates/main.html:1081
+#: templates/main.html:1087
 msgid "Laboranta horaro"
 msgstr "Horaire de travail"
 
-#: templates/main.html:1086
+#: templates/main.html:1092
 msgid "Lundo"
 msgstr "Lundi"
 
-#: templates/main.html:1089
+#: templates/main.html:1095
 msgid "de"
 msgstr "de"
 
-#: templates/main.html:1090
+#: templates/main.html:1096
 msgid "ĝis"
 msgstr "à"
 
-#: templates/main.html:1092
+#: templates/main.html:1098
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "Définit la plage horaire pour les lundis."
 
-#: templates/main.html:1095
+#: templates/main.html:1101
 msgid "Mardo"
 msgstr "Mardi"
 
-#: templates/main.html:1101
+#: templates/main.html:1107
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "Définit la plage horaire pour les mardis."
 
-#: templates/main.html:1104
+#: templates/main.html:1110
 msgid "Merkredo"
 msgstr "Mercredi"
 
-#: templates/main.html:1110
+#: templates/main.html:1116
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "Définit la plage horaire pour les mercredis."
 
-#: templates/main.html:1113
+#: templates/main.html:1119
 msgid "Ĵaŭdo"
 msgstr "Jeudi"
 
-#: templates/main.html:1119
+#: templates/main.html:1125
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "Définit la plage horaire pour les jeudis."
 
-#: templates/main.html:1122
+#: templates/main.html:1128
 msgid "Vendredo"
 msgstr "Vendredi"
 
-#: templates/main.html:1128
+#: templates/main.html:1134
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "Définit la plage horaire pour les vendredis."
 
-#: templates/main.html:1131
+#: templates/main.html:1137
 msgid "Sabato"
 msgstr "Samedi"
 
-#: templates/main.html:1137
+#: templates/main.html:1143
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "Définit la plage horaire pour les samedis."
 
-#: templates/main.html:1140
+#: templates/main.html:1146
 msgid "Dimanĉo"
 msgstr "Dimanche"
 
-#: templates/main.html:1146
+#: templates/main.html:1152
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "Définit la plage horaire pour le dimanche."
 
-#: templates/main.html:1149
+#: templates/main.html:1155
 msgid "Detekti movadon"
 msgstr "Détecter le mouvement"
 
-#: templates/main.html:1152
+#: templates/main.html:1158
 msgid "Dum laborista horaro"
 msgstr "Pendant les heures de travail"
 
-#: templates/main.html:1153
+#: templates/main.html:1159
 msgid "Ekster laborista horaro"
 msgstr "En dehors des heures de travail"
 
-#: templates/main.html:1156
+#: templates/main.html:1162
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "Définit si la détection de mouvement doit être active pendant ou en dehors des heures de travail."
