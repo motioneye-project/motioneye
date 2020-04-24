@@ -766,6 +766,12 @@
                                     {% if has_h264_nvenc_support %}
                                     <option value="mp4:h264_nvenc">H.264/NVENC (.mp4)</option>
                                     {% endif %}
+                                    {% if has_h264_nvmpi_support %}
+                                    <option value="mp4:h264_nvmpi">H.264/NVMPI (.mp4)</option>
+                                    {% endif %}
+                                    {% if has_h264_qsv_support %}
+                                    <option value="mp4:h264_qsv">H.264/QSV (.mp4)</option>
+                                    {% endif %}
                                     {% if has_h264_omx_support %}
                                     <option value="mp4:h264_omx">H.264/OMX (.mp4)</option>
                                     {% endif %}
@@ -774,7 +780,13 @@
                                     {% endif %}
                                     <option value="hevc">HEVC (.mp4)</option>
                                     {% if has_hevc_nvenc_support %}
-                                    <option value="mp4:hevc_nvenc">HVEC/NVENC (.mp4)</option>
+                                    <option value="mp4:hevc_nvenc">HEVC/NVENC (.mp4)</option>
+                                    {% endif %}
+                                    {% if has_hevc_nvmpi_support %}
+                                    <option value="mp4:hevc_nvmpi">HEVC/NVMPI (.mp4)</option>
+                                    {% endif %}
+                                    {% if has_hevc_qsv_support %}
+                                    <option value="mp4:hevc_qsv">HEVC/QSV (.mp4)</option>
                                     {% endif %}
                                     <option value="mkv">Matroska Video (.mkv)</option>
                                     {% if has_h264_omx_support %}
