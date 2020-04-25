@@ -21,17 +21,18 @@ import re
 
 from typing import List, Callable
 
-from tornado.httpclient import AsyncHTTPClient, HTTPRequest
+from tornado.concurrent import Future
+from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPResponse
 
 from motioneye import settings
-from motioneye.utils import pretty_http_error
+from motioneye.utils import pretty_http_error, GetCamerasResponse
 from motioneye.utils.http import MjpegUrl
 
 
 __all__ = ('test_mjpeg_url',)
 
 
-def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool, callback: Callable) -> None:
+def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool) -> 'Future[GetCamerasResponse]':
     url_obj = MjpegUrl(**data)
     url = str(url_obj)
 
@@ -39,7 +40,9 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool, callback
     status_2xx = [False]
     http_11 = [False]
 
-    def do_request(on_response):
+    future = Future()
+
+    def do_request(on_resp_callback: Callable) -> None:
         if url_obj.username:
             auth = auth_modes[0]
 
@@ -54,23 +57,31 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool, callback
                               request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
                               header_callback=on_header, validate_cert=settings.VALIDATE_CERTS)
 
-        http_client = AsyncHTTPClient(force_instance=True)
-        http_client.fetch(request, on_response)
+        fetch_result = AsyncHTTPClient(force_instance=True).fetch(request)
+        fetch_result.add_done_callback(on_resp_callback)
 
-    def on_header(header):
+    def on_header(header: str):
         header = header.lower()
         if header.startswith('content-type') and status_2xx[0]:
             content_type = header.split(':')[1].strip()
             called[0] = True
 
             if content_type in ['image/jpg', 'image/jpeg', 'image/pjpg'] and allow_jpeg:
-                callback([{'id': 1, 'name': 'JPEG Network Camera', 'keep_alive': http_11[0]}])
+                future.set_result(GetCamerasResponse([{
+                    'id': 1,
+                    'name': 'JPEG Network Camera',
+                    'keep_alive': http_11[0]
+                }], None))
 
             elif content_type.startswith('multipart/x-mixed-replace'):
-                callback([{'id': 1, 'name': 'MJPEG Network Camera', 'keep_alive': http_11[0]}])
+                future.set_result(GetCamerasResponse([{
+                    'id': 1,
+                    'name': 'MJPEG Network Camera',
+                    'keep_alive': http_11[0]
+                }], None))
 
             else:
-                callback(error='not a supported network camera')
+                future.set_result(GetCamerasResponse(None, error='not a supported network camera'))
 
         else:
             # check for the status header
@@ -82,7 +93,7 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool, callback
                 if m.group(1) == '1':
                     http_11[0] = True
 
-    def on_response(response):
+    def on_response(response: HTTPResponse):
         if not called[0]:
             if response.code == 401 and auth_modes and url_obj.username:
                 status_2xx[0] = False
@@ -90,6 +101,7 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool, callback
 
             else:
                 called[0] = True
-                callback(error=pretty_http_error(response) if response.error else 'not a supported network camera')
+                error = pretty_http_error(response) if response.error else 'not a supported network camera'
+                future.set_result(GetCamerasResponse(None, error=error))
 
-    do_request(on_response)
+    return future

@@ -16,14 +16,14 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from typing import Callable
+from motioneye.utils import GetCamerasResponse
 from motioneye.utils.http import RtmpUrl
 
 
 __all__ = ('test_rtmp_url',)
 
 
-def test_rtmp_url(data: dict, callback: Callable) -> None:
+def test_rtmp_url(data: dict) -> GetCamerasResponse:
     url_obj = RtmpUrl(**data)
 
     # Since RTMP is a binary TCP stream its a little more work to do a proper test
@@ -31,4 +31,4 @@ def test_rtmp_url(data: dict, callback: Callable) -> None:
     # TODO: Actually do the TCP SYN/ACK check...
 
     cameras = [{'id': 'tcp', 'name': 'RTMP/TCP Camera'}]
-    callback(cameras)
+    return GetCamerasResponse(cameras, None)
