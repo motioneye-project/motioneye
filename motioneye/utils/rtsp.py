@@ -27,7 +27,7 @@ from tornado.ioloop import IOLoop
 from tornado.iostream import IOStream
 
 from motioneye import settings
-from motioneye.utils import build_basic_header, GetCamerasResponse
+from motioneye.utils import build_basic_header, GetCamerasResponse, cast_future
 from motioneye.utils.http import RtspUrl
 
 
@@ -65,7 +65,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
 
         return stream
 
-    def on_connect(f: Future, _timeout=False):
+    def on_connect(f: Future, _timeout: bool = False) -> None:
         try:
             io_loop.remove_timeout(timeout[0])
             s = f.result()
@@ -98,14 +98,14 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
 
     def seek_rtsp(f: Future):
         try:
-            s = f.result()
+            f.result()
         except Exception as e:
             logging.error(f'[SEEK_RTSP] Error occurred: {e}', exc_info=True)
             if check_error():
                 return
         else:
-            f = s.read_until_regex(b'RTSP/1.0 \d+ ')
-            f.add_done_callback(on_rtsp)
+            r_future = cast_future(stream.read_until_regex(b'RTSP/1.0 \d+ '))
+            r_future.add_done_callback(on_rtsp)
             timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), on_rtsp)
 
     def on_rtsp(f: Future):
@@ -137,8 +137,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         if check_error():
             return
 
-        f = stream.read_until_regex(b'Server: .*')
-        f.add_done_callback(on_server)
+        r_future = cast_future(stream.read_until_regex(b'Server: .*'))
+        r_future.add_done_callback(on_server)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_server)
 
     def on_server(f: Future):
@@ -163,8 +163,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         if check_error():
             return
 
-        f = stream.read_until_regex(b'WWW-Authenticate: .*')
-        f.add_done_callback(on_www_authenticate(f))
+        f = cast_future(stream.read_until_regex(b'WWW-Authenticate: .*'))
+        f.add_done_callback(on_www_authenticate)
 
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_www_authenticate)
 
@@ -227,7 +227,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         try:
             stream.close()
 
-        except:
+        except Exception:
             pass
 
         future.set_result(GetCamerasResponse(None, error=str(e)))
