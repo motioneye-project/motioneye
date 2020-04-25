@@ -59,20 +59,6 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
             return StaticFileHandler.get(self, filename, include_body=include_body)
 
         elif utils.is_remote_camera(camera_config):
-
-            def on_response(response=None, error=None):
-                if error:
-                    return self.finish_json({'error': 'Failed to download movie from %(url)s: %(msg)s.' % {
-                        'url': remote.pretty_camera_url(camera_config), 'msg': error}})
-
-                # check if the file has been created by another request while we were fetching the movie
-                if not os.path.isfile(tmpfile):
-                    tmp = open(tmpfile, 'wb')
-                    tmp.write(response)
-                    tmp.close()
-
-                return StaticFileHandler.get(self, tmpfile, include_body=include_body)
-
             # we will cache the movie since it takes a while to fetch from the remote camera
             # and we may be going to play it back in the browser, which will fetch the video in chunks
             tmpfile = self.tmpdir + '/' + self.pretty_filename
@@ -83,7 +69,18 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
                 os.utime(tmpfile, (time.time(), mtime))
                 return StaticFileHandler.get(self, tmpfile, include_body=include_body)
 
-            remote.get_media_content(camera_config, filename, media_type='movie', callback=on_response)
+            resp = await remote.get_media_content(camera_config, filename, media_type='movie')
+            if resp.error:
+                return self.finish_json({'error': 'Failed to download movie from %(url)s: %(msg)s.' % {
+                    'url': remote.pretty_camera_url(camera_config), 'msg': resp.error}})
+
+            # check if the file has been created by another request while we were fetching the movie
+            if not os.path.isfile(tmpfile):
+                tmp = open(tmpfile, 'wb')
+                tmp.write(resp.result)
+                tmp.close()
+
+            return StaticFileHandler.get(self, tmpfile, include_body=include_body)
 
         else:  # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')

@@ -19,6 +19,7 @@
 import hashlib
 import json
 import logging
+import traceback
 
 from tornado.web import RequestHandler, HTTPError
 
@@ -78,10 +79,15 @@ class BaseHandler(RequestHandler):
         return argument
 
     def finish(self, chunk=None):
-        import motioneye
+        if not self._finished:
+            import motioneye
 
-        self.set_header('Server', 'motionEye/%s' % motioneye.VERSION)
-        RequestHandler.finish(self, chunk=chunk)
+            self.set_header('Server', 'motionEye/%s' % motioneye.VERSION)
+
+            return super(BaseHandler, self).finish(chunk=chunk)
+        else:
+            logging.debug('Already finished')
+            traceback.print_stack()
 
     def render(self, template_name, content_type='text/html', **context):
         import motioneye
@@ -98,7 +104,7 @@ class BaseHandler(RequestHandler):
             data = {}
 
         self.set_header('Content-Type', 'application/json')
-        self.finish(json.dumps(data))
+        return self.finish(json.dumps(data))
 
     def get_current_user(self):
         main_config = config.get_main()

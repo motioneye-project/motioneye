@@ -43,20 +43,19 @@ class ActionHandler(BaseHandler):
 
         local_config = config.get_camera(camera_id)
         if utils.is_remote_camera(local_config):
-            def on_response(error=None):
-                if error:
-                    msg = 'Failed to execute action on remote camera at %(url)s: %(msg)s.' % {
-                        'url': remote.pretty_camera_url(local_config), 'msg': error}
+            resp = await remote.exec_action(local_config, action)
+            if resp.error:
+                msg = 'Failed to execute action on remote camera at %(url)s: %(msg)s.' % {
+                    'url': remote.pretty_camera_url(local_config), 'msg': resp.error}
 
-                    return self.finish_json({'error': msg})
+                return self.finish_json({'error': msg})
 
-                self.finish_json()
-
-            return remote.exec_action(local_config, action, on_response)
+            return self.finish_json()
 
         if action == 'snapshot':
             logging.debug('executing snapshot action for camera with id %s' % camera_id)
-            return self.snapshot(camera_id)
+            await self.snapshot(camera_id)
+            return
 
         elif action == 'record_start':
             logging.debug('executing record_start action for camera with id %s' % camera_id)
@@ -99,17 +98,17 @@ class ActionHandler(BaseHandler):
                 for line in lines:
                     logging.debug('%s: %s' % (command, line))
 
-            self.finish_json({'status': exit_status})
+            return self.finish_json({'status': exit_status})
 
         else:
             self.io_loop.add_timeout(datetime.timedelta(milliseconds=100), self.check_command)
 
-    def snapshot(self, camera_id):
-        motionctl.take_snapshot(camera_id)
-        self.finish_json({})
+    async def snapshot(self, camera_id):
+        await motionctl.take_snapshot(camera_id)
+        return self.finish_json({})
 
     def record_start(self, camera_id):
-        self.finish_json({})
+        return self.finish_json({})
 
     def record_stop(self, camera_id):
-        self.finish_json({})
+        return self.finish_json({})
