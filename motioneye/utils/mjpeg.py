@@ -19,13 +19,13 @@
 import logging
 import re
 
-from typing import List, Callable
+from typing import List
 
 from tornado.concurrent import Future
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPResponse
 
 from motioneye import settings
-from motioneye.utils import pretty_http_error, GetCamerasResponse
+from motioneye.utils import pretty_http_error, GetCamerasResponse, cast_future
 from motioneye.utils.http import MjpegUrl
 
 
@@ -42,7 +42,7 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool) -> 'Futu
 
     future = Future()
 
-    def do_request(on_resp_callback: Callable) -> None:
+    def do_request() -> 'Future[HTTPResponse]':
         if url_obj.username:
             auth = auth_modes[0]
 
@@ -57,8 +57,9 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool) -> 'Futu
                               request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
                               header_callback=on_header, validate_cert=settings.VALIDATE_CERTS)
 
-        fetch_result = AsyncHTTPClient(force_instance=True).fetch(request)
-        fetch_result.add_done_callback(on_resp_callback)
+        fetch_future = cast_future(AsyncHTTPClient(force_instance=True).fetch(request))
+        fetch_future.add_done_callback(on_response)
+        return fetch_future
 
     def on_header(header: str):
         header = header.lower()
@@ -97,11 +98,13 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool) -> 'Futu
         if not called[0]:
             if response.code == 401 and auth_modes and url_obj.username:
                 status_2xx[0] = False
-                do_request(on_response)
+                do_request()
 
             else:
                 called[0] = True
                 error = pretty_http_error(response) if response.error else 'not a supported network camera'
                 future.set_result(GetCamerasResponse(None, error=error))
+
+    do_request()
 
     return future
