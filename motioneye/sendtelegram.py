@@ -84,13 +84,6 @@ def make_message(message, camera_id, moment, timespan, callback):
         timestamp = time.mktime(moment.timetuple())
         if media_files:
             logging.debug('got media files')
-            # filter out non-recent media files
-            #for m in media_files:
-            #    compare = abs(m['timestamp'] - timestamp)
-            #    print compare
-            #    print float(timespan)
-            #    if (m['timestamp'] - timestamp) < float(timespan):
-            #        photos.append(m)
             media_files = [m for m in media_files if abs(m['timestamp'] - timestamp) < float(timespan)]
             media_files.sort(key=lambda m: m['timestamp'], reverse=True)
             media_files = [os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path'])) for m in media_files]
