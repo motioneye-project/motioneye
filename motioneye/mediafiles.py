@@ -378,6 +378,9 @@ def make_movie_preview(camera_config, full_path):
     return thumb_path
 
 
+# rewrite to use futures or async/await syntax
+
+
 def list_media(camera_config, media_type, callback, prefix=None):
     target_dir = camera_config.get('target_dir')
 
@@ -965,7 +968,7 @@ def get_prepared_cache(key):
 
 
 def set_prepared_cache(data):
-    key = hashlib.sha1(str(time.time())).hexdigest()
+    key = hashlib.sha1(bytes(str(time.time()))).hexdigest()
 
     if key in _prepared_files:
         logging.warning('key "%s" already present in prepared cache' % key)
