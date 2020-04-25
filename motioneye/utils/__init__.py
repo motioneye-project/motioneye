@@ -24,11 +24,16 @@ import re
 import subprocess
 import sys
 import time
+import typing
 import urllib.request
 import urllib.error
 import urllib.parse
 
+from dataclasses import dataclass
+from collections import namedtuple
 from PIL import Image, ImageDraw
+from tornado.ioloop import IOLoop
+from tornado.concurrent import Future
 
 from motioneye import settings
 
@@ -60,6 +65,39 @@ COMMON_RESOLUTIONS = [
     (1600, 1200),
     (1920, 1080)
 ]
+
+GetCamerasResponse = namedtuple('GetCamerasResponse', ('cameras', 'error'))
+GetConfigResponse = namedtuple('GetConfigResponse', ('remote_ui_config', 'error'))
+GetMotionDetectionResult = namedtuple('GetMotionDetectionResult', ('enabled', 'error'))
+
+
+@dataclass
+class GetCurrentPictureResponse:
+    motion_detected: bool = False
+    capture_fps: typing.Any = None
+    monitor_info: typing.Any = None
+    picture: typing.Any = None
+    error: typing.Any = None
+
+
+@dataclass
+class ListMediaResponse:
+    media_list: list = None
+    error: str = None
+
+
+@dataclass
+class CommonExternalResponse:
+    result: typing.Any = None
+    error: typing.Any = None
+
+
+def cast_future(obj: typing.Awaitable[typing.Any]) -> Future:
+    return typing.cast(Future, obj)
+
+
+def spawn_callback_timeout_wrapper(callback: typing.Callable, *args: typing.Any, **kwargs: typing.Any) -> None:
+    IOLoop.current().spawn_callback(callback, *args, **kwargs)
 
 
 def pretty_size(size):
