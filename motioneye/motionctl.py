@@ -24,6 +24,7 @@ import subprocess
 import time
 
 from tornado.ioloop import IOLoop
+from tornado.httpclient import HTTPRequest, AsyncHTTPClient
 
 from motioneye import mediafiles
 from motioneye import settings
@@ -134,7 +135,7 @@ def start(deferred=False):
     with open(motion_pid_path, 'w') as f:
         f.write(str(pid) + '\n')
 
-    _disable_initial_motion_detection()
+    IOLoop.instance().spawn_callback(_disable_initial_motion_detection)
 
     # if mjpg client idle timeout is disabled, create mjpg clients for all cameras by default
     if not settings.MJPG_CLIENT_IDLE_TIMEOUT:
@@ -212,38 +213,32 @@ def started():
     return _started
 
 
-def get_motion_detection(camera_id, callback):
-    from tornado.httpclient import HTTPRequest, AsyncHTTPClient
-
+async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
     motion_camera_id = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
         error = 'could not find motion camera id for camera with id %s' % camera_id
         logging.error(error)
-        return callback(error=error)
+        return utils.GetMotionDetectionResult(None, error=error)
 
     url = 'http://127.0.0.1:%(port)s/%(id)s/detection/status' % {
             'port': settings.MOTION_CONTROL_PORT, 'id': motion_camera_id}
 
-    def on_response(response):
-        if response.error:
-            return callback(error=utils.pretty_http_error(response))
-
-        enabled = bool(response.body.lower().count('active'))
-
-        logging.debug('motion detection is %(what)s for camera with id %(id)s' % {
-                'what': ['disabled', 'enabled'][enabled],
-                'id': camera_id})
-
-        callback(enabled)
-
     request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT, request_timeout=_MOTION_CONTROL_TIMEOUT)
-    http_client = AsyncHTTPClient()
-    http_client.fetch(request, callback=on_response)
+    resp = await AsyncHTTPClient().fetch(request)
+    if resp.error:
+        return utils.GetMotionDetectionResult(None, error=utils.pretty_http_error(resp))
+
+    resp_body = resp.body.decode('utf-8')
+    enabled = bool(resp_body.count('active'))
+
+    logging.debug('motion detection is %(what)s for camera with id %(id)s' % {
+        'what': ['disabled', 'enabled'][enabled],
+        'id': camera_id})
+
+    return utils.GetMotionDetectionResult(enabled, None)
 
 
-def set_motion_detection(camera_id, enabled):
-    from tornado.httpclient import HTTPRequest, AsyncHTTPClient
-
+async def set_motion_detection(camera_id, enabled):
     motion_camera_id = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
         return logging.error('could not find motion camera id for camera with id %s' % camera_id)
@@ -260,26 +255,21 @@ def set_motion_detection(camera_id, enabled):
             'id': motion_camera_id,
             'enabled': ['pause', 'start'][enabled]}
 
-    def on_response(response):
-        if response.error:
-            logging.error('failed to %(what)s motion detection for camera with id %(id)s: %(msg)s' % {
-                    'what': ['disable', 'enable'][enabled],
-                    'id': camera_id,
-                    'msg': utils.pretty_http_error(response)})
-
-        else:
-            logging.debug('successfully %(what)s motion detection for camera with id %(id)s' % {
-                    'what': ['disabled', 'enabled'][enabled],
-                    'id': camera_id})
-
     request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT, request_timeout=_MOTION_CONTROL_TIMEOUT)
-    http_client = AsyncHTTPClient()
-    http_client.fetch(request, on_response)
+    resp = await AsyncHTTPClient().fetch(request)
+    if resp.error:
+        logging.error('failed to %(what)s motion detection for camera with id %(id)s: %(msg)s' % {
+            'what': ['disable', 'enable'][enabled],
+            'id': camera_id,
+            'msg': utils.pretty_http_error(resp)})
+
+    else:
+        logging.debug('successfully %(what)s motion detection for camera with id %(id)s' % {
+            'what': ['disabled', 'enabled'][enabled],
+            'id': camera_id})
 
 
-def take_snapshot(camera_id):
-    from tornado.httpclient import HTTPRequest, AsyncHTTPClient
-
+async def take_snapshot(camera_id):
     motion_camera_id = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
         return logging.error('could not find motion camera id for camera with id %s' % camera_id)
@@ -290,18 +280,15 @@ def take_snapshot(camera_id):
             'port': settings.MOTION_CONTROL_PORT,
             'id': motion_camera_id}
 
-    def on_response(response):
-        if response.error:
-            logging.error('failed to take snapshot for camera with id %(id)s: %(msg)s' % {
-                    'id': camera_id,
-                    'msg': utils.pretty_http_error(response)})
-
-        else:
-            logging.debug('successfully took snapshot for camera with id %(id)s' % {'id': camera_id})
-
     request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT, request_timeout=_MOTION_CONTROL_TIMEOUT)
-    http_client = AsyncHTTPClient()
-    http_client.fetch(request, on_response)
+    resp = await AsyncHTTPClient().fetch(request)
+    if resp.error:
+        logging.error('failed to take snapshot for camera with id %(id)s: %(msg)s' % {
+            'id': camera_id,
+            'msg': utils.pretty_http_error(resp)})
+
+    else:
+        logging.debug('successfully took snapshot for camera with id %(id)s' % {'id': camera_id})
 
 
 def is_motion_detected(camera_id):
@@ -390,7 +377,7 @@ def resolution_is_valid(width, height):
     return True
 
 
-def _disable_initial_motion_detection():
+async def _disable_initial_motion_detection():
     from motioneye import config
 
     for camera_id in config.get_camera_ids():
@@ -400,7 +387,7 @@ def _disable_initial_motion_detection():
 
         if not camera_config['@motion_detection']:
             logging.debug('motion detection disabled by config for camera with id %s' % camera_id)
-            set_motion_detection(camera_id, False)
+            await set_motion_detection(camera_id, False)
 
 
 def _get_pid():
