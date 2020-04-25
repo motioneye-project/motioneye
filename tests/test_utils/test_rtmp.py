@@ -6,13 +6,9 @@ from motioneye.utils.rtmp import test_rtmp_url
 class UtilsRtmpTest(tornado.testing.AsyncTestCase):
 
     def test_test_rtmp_url(self):
-
-        def mock_on_response(cameras=None, error=None) -> None:
-            self.assertEqual([{'id': 'tcp', 'name': 'RTMP/TCP Camera'}], cameras)
-            self.assertIsNone(error)
-
-        result = test_rtmp_url({}, mock_on_response)
-        self.assertIsNone(result)
+        result = test_rtmp_url({})
+        self.assertEqual([{'id': 'tcp', 'name': 'RTMP/TCP Camera'}], result.cameras)
+        self.assertIsNone(result.error)
 
 
 if __name__ == '__main__':
