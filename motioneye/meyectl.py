@@ -26,6 +26,8 @@ import locale
 import gettext
 
 # ŝarĝante tradukojn
+reload(sys)
+sys.setdefaultencoding("utf-8")
 locale.setlocale(locale.LC_ALL, '')
 lingvo = 'eo'
 traduction = None
