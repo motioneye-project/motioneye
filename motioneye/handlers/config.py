@@ -29,12 +29,10 @@ from motioneye import utils
 from motioneye import remote
 from motioneye import settings
 from motioneye import motionctl
-from motioneye import mmalctl
-from motioneye import smbctl
-from motioneye import v4l2ctl
 from motioneye import tasks
 from motioneye import uploadservices
-from motioneye.powerctl import PowerControl
+from motioneye.controls import mmalctl, smbctl, tzctl, v4l2ctl
+from motioneye.controls.powerctl import PowerControl
 from motioneye.handlers.base import BaseHandler
 from motioneye.utils.mjpeg import test_mjpeg_url
 from motioneye.utils.rtmp import test_rtmp_url
@@ -581,7 +579,6 @@ class ConfigHandler(BaseHandler):
 
             elif what == 'email':
                 from motioneye import sendmail
-                from motioneye import tzctl
                 import smtplib
 
                 logging.debug('testing notification email')

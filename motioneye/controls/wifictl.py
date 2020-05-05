@@ -18,8 +18,7 @@
 import logging
 import re
 from motioneye import settings
-
-from .config import additional_config, additional_section
+from motioneye.config import additional_config, additional_section
 
 
 WPA_SUPPLICANT_CONF = settings.WPA_SUPPLICANT_CONF  # @UndefinedVariable

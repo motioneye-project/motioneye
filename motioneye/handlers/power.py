@@ -20,7 +20,7 @@ import datetime
 
 from tornado.ioloop import IOLoop
 
-from motioneye.powerctl import PowerControl
+from motioneye.controls.powerctl import PowerControl
 from motioneye.handlers.base import BaseHandler
 
 

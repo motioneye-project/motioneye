@@ -30,7 +30,7 @@ from motioneye import mediafiles
 from motioneye import settings
 from motioneye import update
 from motioneye import utils
-from motioneye.powerctl import PowerControl
+from motioneye.controls.powerctl import PowerControl
 
 _MOTION_CONTROL_TIMEOUT = 5
 

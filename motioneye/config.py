@@ -28,14 +28,14 @@ import urllib.parse
 
 from tornado.ioloop import IOLoop
 
-from motioneye import diskctl
+from motioneye import meyectl
 from motioneye import motionctl
 from motioneye import settings
 from motioneye import tasks
 from motioneye import uploadservices
 from motioneye import utils
-from motioneye import v4l2ctl
-from motioneye.powerctl import PowerControl
+from motioneye.controls import diskctl, smbctl, v4l2ctl
+from motioneye.controls.powerctl import PowerControl
 
 _CAMERA_CONFIG_FILE_NAME = 'camera-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
@@ -703,8 +703,6 @@ def main_dict_to_ui(data):
 
 
 def motion_camera_ui_to_dict(ui, prev_config=None):
-    from motioneye import meyectl
-    from motioneye import smbctl
 
     prev_config = dict(prev_config or {})
     main_config = get_main()  # needed for surveillance password
@@ -1068,7 +1066,6 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
 
 def motion_camera_dict_to_ui(data):
-    from motioneye import smbctl
 
     ui = {
         # device

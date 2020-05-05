@@ -29,6 +29,7 @@ from tornado.web import Application
 
 from motioneye import settings
 from motioneye import template
+from motioneye.controls import smbctl, v4l2ctl
 from motioneye.handlers.main import MainHandler
 from motioneye.handlers.action import ActionHandler
 from motioneye.handlers.update import UpdateHandler
@@ -277,10 +278,8 @@ def test_requirements():
     from motioneye import mediafiles
     has_ffmpeg = mediafiles.find_ffmpeg() is not None
 
-    from motioneye import v4l2ctl
     has_v4lutils = v4l2ctl.find_v4l2_ctl() is not None
 
-    from motioneye import smbctl
     if settings.SMB_SHARES and smbctl.find_mount_cifs() is None:
         logging.fatal('please install cifs-utils')
         sys.exit(-1)
@@ -363,13 +362,13 @@ def make_app(debug: bool = False) -> Application:
 
 
 def run():
+    import motioneye
     from motioneye import cleanup
     from motioneye import mjpgclient
     from motioneye import motionctl
-    import motioneye
-    from motioneye import smbctl
     from motioneye import tasks
     from motioneye import wsswitch
+    from motioneye.controls import smbctl
 
     configure_signals()
     logging.info('hello! this is motionEye server %s' % motioneye.VERSION)

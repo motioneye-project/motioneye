@@ -36,7 +36,7 @@ from motioneye import settings
 from motioneye import config
 from motioneye import mediafiles
 from motioneye import motionctl
-from motioneye import tzctl
+from motioneye.controls import tzctl
 
 messages = {
     'motion_start': 'Motion has been detected by camera "%(camera)s/%(hostname)s" at %(moment)s (%(timezone)s).'
