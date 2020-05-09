@@ -32,6 +32,8 @@ from motioneye import settings
 from motioneye import utils
 
 
+# somehow if tornado version is bigger than 6 then MjpgClient get broken and starts to work inconsistently
+
 class MjpgClient(IOStream):
     _FPS_LEN = 10
 
