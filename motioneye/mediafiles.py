@@ -478,7 +478,7 @@ def get_media_content(camera_config, path, media_type):
     full_path = os.path.join(target_dir, path)
 
     try:
-        with open(full_path) as f:
+        with open(full_path, 'rb') as f:
             return f.read()
 
     except Exception as e:
@@ -819,7 +819,7 @@ def get_media_preview(camera_config, path, media_type, width, height):
         full_path += '.thumb'
 
     try:
-        with open(full_path) as f:
+        with open(full_path, 'rb') as f:
             content = f.read()
 
     except Exception as e:
@@ -831,9 +831,9 @@ def get_media_preview(camera_config, path, media_type, width, height):
     if width is height is None:
         return content
 
-    sio = io.StringIO(content)
+    bio = io.BytesIO(content)
     try:
-        image = Image.open(sio)
+        image = Image.open(bio)
 
     except Exception as e:
         logging.error('failed to open media preview image file: %s' % e)
@@ -844,10 +844,10 @@ def get_media_preview(camera_config, path, media_type, width, height):
 
     image.thumbnail((width, height), Image.LINEAR)
 
-    sio = io.StringIO()
-    image.save(sio, format='JPEG')
+    bio = io.BytesIO()
+    image.save(bio, format='JPEG')
 
-    return sio.getvalue()
+    return bio.getvalue()
 
 
 def del_media_content(camera_config, path, media_type):

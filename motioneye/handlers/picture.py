@@ -241,7 +241,7 @@ class PictureHandler(BaseHandler):
 
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
-                content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read()
+                content = open(os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg'), 'rb').read()
 
             return self.finish(content)
 
