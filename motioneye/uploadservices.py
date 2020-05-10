@@ -29,6 +29,7 @@ from urllib.request import Request
 
 import boto3
 import pycurl
+import base64
 
 from motioneye import settings, utils
 
@@ -879,6 +880,87 @@ class Dropbox(UploadService):
             'access_token': data['access_token'],
             'refresh_token': data.get('refresh_token', refresh_token),
         }
+
+
+class Nextcloud(UploadService):
+    NAME = 'nextcloud'
+
+    def __init__(self, camera_id):
+        self._server = None
+        self._port = None
+        self._username = None
+        self._password = None
+        self._location = None
+
+        UploadService.__init__(self, camera_id)
+
+    def _get_base_url(self):
+        scheme = 'http://'
+        if self._port == 443:
+            scheme = 'https://'
+        url = scheme + self._server + ':' + str(self._port) + '/remote.php/dav/files/' + self._username + '/'
+        return url
+
+    def _request(self, url, method, data=None):
+        self.debug('request: ' + method + ' ' + url)
+        request = urllib2.Request(url, data=data)
+        request.get_method = lambda: method
+        base64string = base64.b64encode('%s:%s' % (self._username, self._password))
+        request.add_header("Authorization", "Basic %s" % base64string)
+        if data is not None:
+            request.add_header('Content-Length', '%d' % len(data))
+        try:
+            utils.urlopen(request)
+        except urllib2.HTTPError as e:
+            if method == 'MKCOL' and e.code == 405:
+                self.debug('MKCOL failed with code 405, this is normal if the folder exists')
+            else:
+                raise e
+
+    def _make_dirs(self, path):
+        dir_url = self._get_base_url()
+        for folder in path.strip('/').split('/'):
+            dir_url = dir_url + folder + '/'
+            self._request(dir_url, 'MKCOL')
+
+    def test_access(self):
+        try:
+            test_path = self._location.strip('/') + '/' + str(time.time())
+            self._make_dirs(test_path)
+            self._request(self._get_base_url() + test_path, 'DELETE')
+            return True
+        except Exception as e:
+            self.error(str(e), exc_info=True)
+            return str(e)
+
+    def upload_data(self, filename, mime_type, data, ctime, camera_name):
+        path = self._location.strip('/') + '/' + os.path.dirname(filename) + '/'
+        filename = os.path.basename(filename)
+        self._make_dirs(path)
+        self.debug('uploading %s of %s bytes' % (filename, len(data)))
+        self._request(self._get_base_url() + path + filename, 'PUT', bytearray(data))
+        self.debug('upload done')
+
+    def dump(self):
+        return {
+            'server': self._server,
+            'port': self._port,
+            'username': self._username,
+            'password': self._password,
+            'location': self._location
+        }
+
+    def load(self, data):
+        if data.get('server') is not None:
+            self._server = data['server']
+        if data.get('port') is not None:
+            self._port = int(data['port'])
+        if data.get('username') is not None:
+            self._username = data['username']
+        if data.get('password') is not None:
+            self._password = data['password']
+        if data.get('location'):
+            self._location = data['location']
 
 
 class FTP(UploadService):
