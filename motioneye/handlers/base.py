@@ -19,7 +19,6 @@
 import hashlib
 import json
 import logging
-import traceback
 
 from tornado.web import RequestHandler, HTTPError
 
@@ -87,7 +86,6 @@ class BaseHandler(RequestHandler):
             return super(BaseHandler, self).finish(chunk=chunk)
         else:
             logging.debug('Already finished')
-            traceback.print_stack()
 
     def render(self, template_name, content_type='text/html', **context):
         import motioneye
