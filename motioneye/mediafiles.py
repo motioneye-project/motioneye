@@ -29,9 +29,11 @@ import stat
 import io
 import subprocess
 import time
+import typing
 import zipfile
 
 from PIL import Image
+from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 
 from motioneye import config
@@ -89,7 +91,7 @@ _timelapse_data = None
 _ffmpeg_binary_cache = None
 
 
-def findfiles(path):
+def findfiles(path: str) -> typing.List[tuple]:
     files = []
     for name in os.listdir(path):
         # ignore hidden files/dirs and other unwanted files
@@ -107,7 +109,7 @@ def findfiles(path):
     return files
 
 
-def _list_media_files(directory, exts, prefix=None):
+def _list_media_files(directory: str, exts: typing.List[str], prefix: str = None) -> typing.List[tuple]:
     media_files = []
 
     if prefix is not None:
@@ -151,7 +153,7 @@ def _list_media_files(directory, exts, prefix=None):
     return media_files
 
 
-def _remove_older_files(directory, moment, clean_cloud_info, exts):
+def _remove_older_files(directory: str, moment: datetime.datetime, clean_cloud_info: dict, exts: typing.List[str]):
     removed_folder_count = 0
     for (full_path, st) in _list_media_files(directory, exts):
         file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
@@ -200,7 +202,7 @@ def _remove_older_files(directory, moment, clean_cloud_info, exts):
         uploadservices.clean_cloud(directory, {}, clean_cloud_info)
 
 
-def find_ffmpeg():
+def find_ffmpeg() -> tuple:
     global _ffmpeg_binary_cache
     if _ffmpeg_binary_cache:
         return _ffmpeg_binary_cache
@@ -265,7 +267,7 @@ def find_ffmpeg():
     return _ffmpeg_binary_cache
 
 
-def cleanup_media(media_type):
+def cleanup_media(media_type: str) -> None:
     logging.debug('cleaning up %(media_type)ss...' % {'media_type': media_type})
 
     if media_type == 'picture':
@@ -310,7 +312,7 @@ def cleanup_media(media_type):
         _remove_older_files(target_dir, preserve_moment, clean_cloud_info, exts=exts)
 
 
-def make_movie_preview(camera_config, full_path):
+def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str, None]:
     framerate = camera_config['framerate']
     pre_capture = camera_config['pre_capture']
     offs = pre_capture / framerate
@@ -378,10 +380,8 @@ def make_movie_preview(camera_config, full_path):
     return thumb_path
 
 
-# rewrite to use futures or async/await syntax
-
-
-def list_media(camera_config, media_type, callback, prefix=None):
+def list_media(camera_config: dict, media_type: str, prefix=None) -> typing.Awaitable:
+    fut = Future()
     target_dir = camera_config.get('target_dir')
 
     if media_type == 'picture':
@@ -452,14 +452,15 @@ def list_media(camera_config, media_type, callback, prefix=None):
                 except:
                     pass  # nevermind
 
-                callback(None)
+                fut.set_result(None)
 
         else:  # finished
             read_media_list()
             logging.debug('media listing process has returned %(count)s files' % {'count': len(media_list)})
-            callback(media_list)
+            fut.set_result(media_list)
 
     poll_process()
+    return fut
 
 
 def get_media_path(camera_config, path, media_type):
@@ -487,7 +488,8 @@ def get_media_content(camera_config, path, media_type):
         return None
 
 
-def get_zipped_content(camera_config, media_type, group, callback):
+def get_zipped_content(camera_config: dict, media_type: str, group: str) -> typing.Awaitable:
+    fut = Future()
     target_dir = camera_config.get('target_dir')
 
     if media_type == 'picture':
@@ -572,7 +574,7 @@ def get_zipped_content(camera_config, media_type, group, callback):
                 except:
                     pass  # nevermind
 
-                callback(None)
+                fut.set_result(None)
 
         else:  # finished
             try:
@@ -582,9 +584,10 @@ def get_zipped_content(camera_config, media_type, group, callback):
             except:
                 data = None
 
-            callback(data)
+            fut.set_result(data)
 
     poll_process()
+    return fut
 
 
 def make_timelapse_movie(camera_config, framerate, interval, group):

@@ -144,17 +144,15 @@ class PictureHandler(BaseHandler):
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
-            def on_media_list(media_list):
-                if media_list is None:
-                    return self.finish_json({'error': 'Failed to get pictures list.'})
+            media_list = await mediafiles.list_media(camera_config, media_type='picture',
+                                                     prefix=self.get_argument('prefix', None))
+            if media_list is None:
+                self.finish_json({'error': 'Failed to get movies list.'})
 
-                return self.finish_json({
-                    'mediaList': media_list,
-                    'cameraName': camera_config['camera_name']
-                })
-
-            mediafiles.list_media(camera_config, media_type='picture',
-                                  callback=on_media_list, prefix=self.get_argument('prefix', None))
+            return self.finish_json({
+                'mediaList': media_list,
+                'cameraName': camera_config['camera_name']
+            })
 
         elif utils.is_remote_camera(camera_config):
             resp = await remote.list_media(camera_config, media_type='picture',
@@ -330,16 +328,14 @@ class PictureHandler(BaseHandler):
                 'group': group or 'ungrouped', 'id': camera_id})
 
             if utils.is_local_motion_camera(camera_config):
-                def on_zip(data):
-                    if data is None:
-                        return self.finish_json({'error': 'Failed to create zip file.'})
+                data = await mediafiles.get_zipped_content(camera_config, media_type='picture', group=group)
+                if data is None:
+                    return self.finish_json({'error': 'Failed to create zip file.'})
 
-                    key = mediafiles.set_prepared_cache(data)
-                    logging.debug('prepared zip file for group "%(group)s" of camera %(id)s with key %(key)s' % {
-                        'group': group or 'ungrouped', 'id': camera_id, 'key': key})
-                    self.finish_json({'key': key})
-
-                mediafiles.get_zipped_content(camera_config, media_type='picture', group=group, callback=on_zip)
+                key = mediafiles.set_prepared_cache(data)
+                logging.debug('prepared zip file for group "%(group)s" of camera %(id)s with key %(key)s' % {
+                    'group': group or 'ungrouped', 'id': camera_id, 'key': key})
+                self.finish_json({'key': key})
 
             elif utils.is_remote_camera(camera_config):
                 resp = await remote.make_zipped_content(camera_config, media_type='picture', group=group)

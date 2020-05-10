@@ -42,9 +42,11 @@ class MovieHandler(BaseHandler):
 
         if op == 'list':
             await self.list(camera_id)
+            return
 
         elif op == 'preview':
             await self.preview(camera_id, filename)
+            return
 
         else:
             raise HTTPError(400, 'unknown operation')
@@ -60,9 +62,11 @@ class MovieHandler(BaseHandler):
 
         if op == 'delete':
             await self.delete(camera_id, filename)
+            return
 
         elif op == 'delete_all':
             await self.delete_all(camera_id, group)
+            return
 
         else:
             raise HTTPError(400, 'unknown operation')
@@ -73,17 +77,15 @@ class MovieHandler(BaseHandler):
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
-            def on_media_list(media_list):
-                if media_list is None:
-                    return self.finish_json({'error': 'Failed to get movies list.'})
+            media_list = await mediafiles.list_media(camera_config, media_type='movie',
+                                                     prefix=self.get_argument('prefix', None))
+            if media_list is None:
+                self.finish_json({'error': 'Failed to get movies list.'})
 
-                return self.finish_json({
-                    'mediaList': media_list,
-                    'cameraName': camera_config['camera_name']
-                })
-
-            mediafiles.list_media(camera_config, media_type='movie',
-                                  callback=on_media_list, prefix=self.get_argument('prefix', None))
+            return self.finish_json({
+                'mediaList': media_list,
+                'cameraName': camera_config['camera_name']
+            })
 
         elif utils.is_remote_camera(camera_config):
             resp = await remote.list_media(camera_config, media_type='movie', prefix=self.get_argument('prefix', None))

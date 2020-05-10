@@ -36,6 +36,7 @@ from motioneye import settings
 from motioneye import config
 from motioneye import mediafiles
 from motioneye import motionctl
+from motioneye import utils
 from motioneye.controls import tzctl
 
 messages = {
@@ -139,7 +140,8 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
         prefix = moment.strftime('%Y-%m-%d')
         logging.debug('narrowing down still images path lookup to %s' % prefix)
 
-    mediafiles.list_media(camera_config, media_type='picture', prefix=prefix, callback=on_media_files)
+    fut = utils.cast_future(mediafiles.list_media(camera_config, media_type='picture', prefix=prefix))
+    fut.add_done_callback(on_media_files)
 
     io_loop.start()
 
