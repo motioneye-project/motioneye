@@ -33,7 +33,7 @@ __all__ = ('test_mjpeg_url',)
 
 
 def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool) -> 'Future[GetCamerasResponse]':
-    url_obj = MjpegUrl(**data)
+    url_obj = MjpegUrl.from_dict(data)
     url = str(url_obj)
 
     called = [False]

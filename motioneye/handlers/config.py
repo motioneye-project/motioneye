@@ -76,7 +76,8 @@ class ConfigHandler(BaseHandler):
             return
 
         elif op == 'add':
-            return self.add_camera()
+            await self.add_camera()
+            return
 
         elif op == 'rem':
             return self.rem_camera(camera_id)
@@ -85,7 +86,8 @@ class ConfigHandler(BaseHandler):
             return self.restore()
 
         elif op == 'test':
-            return self.test(camera_id)
+            await self.test(camera_id)
+            return
 
         else:
             raise HTTPError(400, 'unknown operation')

@@ -1,5 +1,6 @@
+import inspect
 from dataclasses import dataclass
-from typing import Union
+from typing import Union, Any, Hashable
 
 
 __all__ = ('RtmpUrl', 'RtspUrl', 'MjpegUrl')
@@ -19,6 +20,20 @@ class StreamUrl:
     def __str__(self):
         return self._tpl % dict(scheme=self.scheme, host=self.host, port=(':' + str(self.port)) if self.port else '',
                                 path=self.path, username=self.username, password=self.password)
+
+    @classmethod
+    def _get_dict_field_val(cls, k: Union[str, Hashable], v: Any) -> Any:
+        try:
+            return v or getattr(cls, k)
+        except AttributeError:
+            return v
+
+    @classmethod
+    def from_dict(cls, d: dict) -> __qualname__:
+        return cls(**{
+            k: cls._get_dict_field_val(k, v) for k, v in d.items()
+            if k in inspect.signature(cls).parameters
+        })
 
 
 @dataclass

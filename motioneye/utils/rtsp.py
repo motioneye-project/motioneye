@@ -35,7 +35,7 @@ __all__ = ('test_rtsp_url',)
 
 
 def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
-    url_obj = RtspUrl(**data)
+    url_obj = RtspUrl.from_dict(data)
     url = str(url_obj)
 
     called = [False]
