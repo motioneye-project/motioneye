@@ -991,16 +991,6 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
         on_event_start.append(line)
 
-    if ui['telegram_notifications_enabled']:
-        line = "%(script)s '%(api)s' '%(chatid)s' " \
-               "'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'" % {
-                   'script': meyectl.find_command('sendtelegram'),
-                   'api': ui['telegram_notifications_api'],
-                   'chatid': ui['telegram_notifications_chat_id'],
-                   'timespan': ui['telegram_notifications_picture_time_span']}
-
-        on_event_start.append(line)
-
     if ui['web_hook_notifications_enabled']:
         url = re.sub('\\s', '+', ui['web_hook_notifications_url'])
 
@@ -1016,6 +1006,16 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     # event end
     on_event_end = ['%(script)s stop %%t' % {'script': meyectl.find_command('relayevent')}]
+
+    if ui['telegram_notifications_enabled']:
+        line = "%(script)s '%(api)s' '%(chatid)s' " \
+               "'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'" % {
+                   'script': meyectl.find_command('sendtelegram'),
+                   'api': ui['telegram_notifications_api'],
+                   'chatid': ui['telegram_notifications_chat_id'],
+                   'timespan': ui['telegram_notifications_picture_time_span']}
+
+        on_event_end.append(line)
 
     if ui['command_end_notifications_enabled']:
         on_event_end += utils.split_semicolon(ui['command_end_notifications_exec'])

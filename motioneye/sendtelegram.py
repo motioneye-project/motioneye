@@ -62,11 +62,9 @@ def send_message(api_key, chat_id, message, files):
         c.perform()
     else:
         logging.info('files present')
-        c.setopt(c.HTTPPOST, [("chat_id", chat_id), ("text", message)])  # Send first message
-        c.perform()
         for f in files:
             c.setopt(c.URL, telegram_photo_url)
-            c.setopt(c.HTTPPOST, [("chat_id", chat_id), ("photo", (c.FORM_FILE, f))]) # Send photos
+            c.setopt(c.HTTPPOST, [("chat_id", chat_id), ("caption", message), ("photo", (c.FORM_FILE, f))]) # Send photos
             c.perform()
     c.close()
     logging.debug('sending email message')
@@ -104,8 +102,6 @@ def make_message(message, camera_id, moment, timespan, callback):
         logging.debug('creating email message')
     
         m = message % format_dict
-        m += '\n\n'
-        m += 'motionEye.'
 
         callback(m, media_files)
 
