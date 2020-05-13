@@ -62,11 +62,9 @@ def send_message(api_key, chat_id, message, files):
         c.perform()
     else:
         logging.info('files present')
-        c.setopt(c.HTTPPOST, [("chat_id", chat_id), ("text", message)])  # Send first message
-        c.perform()
         for f in files:
             c.setopt(c.URL, telegram_photo_url)
-            c.setopt(c.HTTPPOST, [("chat_id", chat_id), ("photo", (c.FORM_FILE, f))]) # Send photos
+            c.setopt(c.HTTPPOST, [("chat_id", chat_id), ("caption", message), ("photo", (c.FORM_FILE, f))]) # Send photos
             c.perform()
     c.close()
     logging.debug('sending email message')
@@ -84,13 +82,6 @@ def make_message(message, camera_id, moment, timespan, callback):
         timestamp = time.mktime(moment.timetuple())
         if media_files:
             logging.debug('got media files')
-            # filter out non-recent media files
-            #for m in media_files:
-            #    compare = abs(m['timestamp'] - timestamp)
-            #    print compare
-            #    print float(timespan)
-            #    if (m['timestamp'] - timestamp) < float(timespan):
-            #        photos.append(m)
             media_files = [m for m in media_files if abs(m['timestamp'] - timestamp) < float(timespan)]
             media_files.sort(key=lambda m: m['timestamp'], reverse=True)
             media_files = [os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path'])) for m in media_files]
@@ -111,8 +102,6 @@ def make_message(message, camera_id, moment, timespan, callback):
         logging.debug('creating email message')
     
         m = message % format_dict
-        m += '\n\n'
-        m += 'motionEye.'
 
         callback(m, media_files)
 
