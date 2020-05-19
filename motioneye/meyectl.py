@@ -49,8 +49,8 @@ else:
 #logging.info(_('lingvo : ') + lingvo)
     
 # make sure motioneye is on python path
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    
+sys.path.insert(0,os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 import settings
 
 _LOG_FILE = 'motioneye.log'
