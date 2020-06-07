@@ -1,4 +1,4 @@
-**motionEye** is a web-based frontend for `motion <https://motion-project.github.io>`_. Check out the `wiki <https://github.com/ccrisan/motioneye/wiki>`_ for more details.
+**motionEye** is a web-based frontend for `motion <https://motion-project.github.io>`_. Check out the `wiki <https://github.com/ccrisan/motioneye/wiki>`_ for more details. Changelog is available on the `releases page <https://github.com/ccrisan/motioneye/releases>`_.
 
 
 .. image:: https://badges.gitter.im/Join%20Chat.svg
