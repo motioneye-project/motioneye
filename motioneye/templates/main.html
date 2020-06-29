@@ -222,7 +222,7 @@
                     <!-- Additional Main Sections -->
                     {% for section in main_sections.values() %}
                     {% if section.get('label') and section.get('configs') %}
-                    <div class="settings-section-title">
+                    <div class="settings-section-title additional-section">
                         {% if section.get('onoff') %}<input type="checkbox" class="styled section additional-section {{section['name']}} main-config" id="{{section['name']}}Switch">{% endif %}
                         {% if section.get('description') %}<span class="help-mark" title="{{section['description']}}">?</span>{% endif %}
                         <a class="settings-section-title">{{section['label']}}</a>
@@ -774,6 +774,11 @@
                             <td><span class="help-mark" title="sets the name pattern for the movie files; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number, / = subfolder">?</span></td>
                         </tr>
                         <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">Movie Passthrough</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled movies camera-config" id="moviePassthroughSwitch"></td>
+                            <td><span class="help-mark" title="Create movie files of the motion directly from the camera. This option should reduce CPU usage but does increase memory requirements. No image processing is performed so text overlays, privacy masks etc will not be on the resulting video.">?</span></td>
+                        </tr>
+                        <tr class="settings-item" depends="!moviePassthrough">
                             <td class="settings-item-label"><span class="settings-item-label">Movie Format</span></td>
                             <td class="settings-item-value">
                                 <select class="styled movies camera-config" id="movieFormatSelect">
@@ -783,13 +788,37 @@
                                     <option value="flv">Flash Video (.flv)</option>
                                     <option value="mov">QuickTime (.mov)</option>
                                     <option value="mp4">H.264 (.mp4)</option>
+                                    {% if has_h264_nvenc_support %}
+                                    <option value="mp4:h264_nvenc">H.264/NVENC (.mp4)</option>
+                                    {% endif %}
+                                    {% if has_h264_nvmpi_support %}
+                                    <option value="mp4:h264_nvmpi">H.264/NVMPI (.mp4)</option>
+                                    {% endif %}
+                                    {% if has_h264_qsv_support %}
+                                    <option value="mp4:h264_qsv">H.264/QSV (.mp4)</option>
+                                    {% endif %}
                                     {% if has_h264_omx_support %}
                                     <option value="mp4:h264_omx">H.264/OMX (.mp4)</option>
                                     {% endif %}
+                                    {% if has_h264_v4l2m2m_support %}
+                                    <option value="mp4:h264_v4l2m2m">H.264/V4L2M2M (.mp4)</option>
+                                    {% endif %}
                                     <option value="hevc">HEVC (.mp4)</option>
+                                    {% if has_hevc_nvenc_support %}
+                                    <option value="mp4:hevc_nvenc">HEVC/NVENC (.mp4)</option>
+                                    {% endif %}
+                                    {% if has_hevc_nvmpi_support %}
+                                    <option value="mp4:hevc_nvmpi">HEVC/NVMPI (.mp4)</option>
+                                    {% endif %}
+                                    {% if has_hevc_qsv_support %}
+                                    <option value="mp4:hevc_qsv">HEVC/QSV (.mp4)</option>
+                                    {% endif %}
                                     <option value="mkv">Matroska Video (.mkv)</option>
                                     {% if has_h264_omx_support %}
                                     <option value="mkv:h264_omx">Matroska Video/OMX (.mkv)</option>
+                                    {% endif %}
+                                    {% if has_h264_v4l2m2m_support %}
+                                    <option value="mkv:h264_v4l2m2m">Matroska Video/V4L2M2M (.mkv)</option>
                                     {% endif %}
                                 </select>
                             </td>
@@ -926,7 +955,7 @@
                         <tr class="settings-item" min="1" max="10" snap="1" ticksnum="10" decimals="0" unit="" depends="motionMask motionMaskType=smart">
                             <td class="settings-item-label"><span class="settings-item-label">Smart Mask Sluggishness</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="smartMaskSluggishnessSlider"></td>
-                            <td><span class="help-mark" title="lower values result in a longer-lasting smart mask with a slower building process">?</span></td>
+                            <td><span class="help-mark" title="higher values result in a longer-lasting smart mask with a slower building process">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionMask motionMaskType=editable">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
@@ -1184,13 +1213,13 @@
         <div class="page-container"></div>
         <div class="footer">
             <div class="copyright-note">copyright &copy; Calin Crisan</div>
-        </div> 
+        </div>
     </div>
     {% else %}
         <div class="camera-frame" id="camera{{camera_id}}"
                 streaming_framerate="{{camera_config['stream_maxrate']}}" streaming_server_resize="{{camera_config['@webcam_server_resize']|string|lower}}"
                 proto="{{camera_config['@proto']}}" url="{{camera_config['@url']}}">
-            
+
             <div class="camera-container">
                 <div class="camera-placeholder"><img class="no-camera" src="{{static_path}}img/no-camera.svg"></div><img
                     class="camera"><div class="camera-progress"><img class="camera-progress"></div>

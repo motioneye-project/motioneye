@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [ -z "$3" ]; then
     echo "Usage: $0 <motioneye.conf> <event> <motion_camera_id> [filename]"

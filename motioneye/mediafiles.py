@@ -54,6 +54,8 @@ FFMPEG_CODEC_MAPPING = {
     'mkv': 'h264',
     'mp4:h264_omx': 'h264_omx',
     'mkv:h264_omx': 'h264_omx',
+    'mp4:h264_v4l2m2m': 'h264_v4l2m2m',
+    'mkv:h264_v4l2m2m': 'h264_v4l2m2m',
     'hevc': 'h265'
 }
 
@@ -466,6 +468,9 @@ def get_media_path(camera_config, path, media_type):
 def get_media_content(camera_config, path, media_type):
     target_dir = camera_config.get('target_dir')
 
+    if '..' in path:
+        raise Exception('invalid media path')
+
     full_path = os.path.join(target_dir, path)
 
     try:
@@ -828,8 +833,8 @@ def get_media_preview(camera_config, path, media_type, width, height):
         logging.error('failed to open media preview image file: %s' % e)
         return None
 
-    width = width and int(width) or image.size[0]
-    height = height and int(height) or image.size[1]
+    width = width and int(float(width)) or image.size[0]
+    height = height and int(float(height)) or image.size[1]
 
     image.thumbnail((width, height), Image.LINEAR)
 

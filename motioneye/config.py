@@ -5,14 +5,14 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import collections
 import datetime
@@ -70,6 +70,7 @@ _USED_MOTION_OPTIONS = {
     'movie_output_motion',
     'movie_output',
     'movie_quality',
+    'movie_passthrough',
     'minimum_motion_frames',
     'mmalcam_name',
     'netcam_keepalive',
@@ -554,7 +555,7 @@ def add_camera(device_details):
         if device_details.get('camera_index') == 'udp':
             camera_config['netcam_use_tcp'] = False
 
-        if camera_config['netcam_url'].startswith('rtsp'):
+        if re.match(r'^rtsp|^rtmp', camera_config['netcam_url']):
             camera_config['width'] = 640
             camera_config['height'] = 480
 
@@ -752,6 +753,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
         # movies
         'movie_output': False,
+        'movie_passthrough': bool(ui['movie_passthrough']),
         'movie_filename': ui['movie_file_name'],
         'movie_max_time': ui['max_movie_length'],
         '@preserve_movies': int(ui['preserve_movies']),
@@ -789,8 +791,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         proto = 'v4l2'
 
     elif utils.is_mmal_camera(prev_config):
-        proto = 'mmal'     
-   
+        proto = 'mmal'
+
     else:
         proto = 'netcam'
 
@@ -814,8 +816,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             data['vid_control_params'] = ','.join(vid_control_params)
 
     else:  # assuming netcam
-        if data.get('netcam_url', prev_config.get('netcam_url', '')).startswith('rtsp'):
-            # motion uses the configured width and height for RTSP cameras
+        if re.match(r'^rtsp|^rtmp', data.get('netcam_url', prev_config.get('netcam_url', ''))):
+            # motion uses the configured width and height for RTSP/RTMP cameras
             width = int(ui['resolution'].split('x')[0])
             height = int(ui['resolution'].split('x')[1])
             data['width'] = width
@@ -827,7 +829,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             threshold = int(float(ui['frame_change_threshold']) * 640 * 480 / 100)
 
     data['threshold'] = threshold
-    
+
 
     if ui['privacy_mask']:
         capture_width, capture_height = data.get('width'), data.get('height')
@@ -947,7 +949,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     if ui['motion_mask']:
         if ui['motion_mask_type'] == 'smart':
-            data['smart_mask_speed'] = 10 - int(ui['smart_mask_sluggishness'])
+            data['smart_mask_speed'] = 11 - int(ui['smart_mask_sluggishness'])
 
         elif ui['motion_mask_type'] == 'editable':
             capture_width, capture_height = data.get('width'), data.get('height')
@@ -1007,7 +1009,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     if ui['command_end_notifications_enabled']:
         on_event_end += utils.split_semicolon(ui['command_end_notifications_exec'])
-    
+
     data['on_event_end'] = '; '.join(on_event_end)
 
     # movie end
@@ -1136,6 +1138,7 @@ def motion_camera_dict_to_ui(data):
         'movie_file_name': data['movie_filename'],
         'max_movie_length': data['movie_max_time'],
         'preserve_movies': data['@preserve_movies'],
+        'movie_passthrough': data['movie_passthrough'],
 
         # motion detection
         'motion_detection': data['@motion_detection'],
@@ -1161,7 +1164,7 @@ def motion_camera_dict_to_ui(data):
         'web_hook_notifications_enabled': False,
         'command_notifications_enabled': False,
         'command_end_notifications_enabled': False,
-        
+
         # working schedule
         'working_schedule': False,
         'working_schedule_type': 'during',
@@ -1179,8 +1182,8 @@ def motion_camera_dict_to_ui(data):
         ui['proto'] = 'netcam'
 
         # resolutions
-        if data['netcam_url'].startswith('rtsp'):
-            # motion uses the configured width and height for RTSP cameras
+        if re.match(r'^rtsp|^rtmp', data['netcam_url']):
+            # motion uses the configured width and height for RTSP/RTMP cameras
             resolutions = utils.COMMON_RESOLUTIONS
             resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
             ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
@@ -1195,7 +1198,7 @@ def motion_camera_dict_to_ui(data):
     elif utils.is_mmal_camera(data):
         ui['device_url'] = data['mmalcam_name']
         ui['proto'] = 'mmal'
-        
+
         resolutions = utils.COMMON_RESOLUTIONS
         resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
         ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
@@ -1366,7 +1369,7 @@ def motion_camera_dict_to_ui(data):
     elif data['smart_mask_speed']:
         ui['motion_mask'] = True
         ui['motion_mask_type'] = 'smart'
-        ui['smart_mask_sluggishness'] = 10 - data['smart_mask_speed']
+        ui['smart_mask_sluggishness'] = 11 - data['smart_mask_speed']
 
     if data['mask_privacy']:
         ui['privacy_mask'] = True
@@ -1400,7 +1403,7 @@ def motion_camera_dict_to_ui(data):
     command_notifications = []
     for e in on_event_start:
         if e.count(' sendmail '):
-            e = shlex.split(e)
+            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
 
             if len(e) < 10:
                 continue
@@ -1424,7 +1427,7 @@ def motion_camera_dict_to_ui(data):
                 ui['email_notifications_picture_time_span'] = 0
 
         elif e.count(' webhook '):
-            e = shlex.split(e)
+            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
 
             if len(e) < 3:
                 continue
@@ -1468,7 +1471,7 @@ def motion_camera_dict_to_ui(data):
     command_storage = []
     for e in on_movie_end:
         if e.count(' webhook '):
-            e = shlex.split(e)
+            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
 
             if len(e) < 3:
                 continue
@@ -1951,9 +1954,13 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('movie_filename', '%Y-%m-%d/%H-%M-%S')
     data.setdefault('movie_max_time', 0)
     data.setdefault('movie_output', False)
+    data.setdefault('movie_passthrough', False)
 
     if motionctl.has_h264_omx_support():
         data.setdefault('movie_codec', 'mp4:h264_omx')  # will use h264 codec
+
+    elif motionctl.has_h264_v4l2m2m_support():
+        data.setdefault('movie_codec', 'mp4:h264_v4l2m2m')  # will use h264 codec
 
     else:
         data.setdefault('movie_codec', 'mp4')  # will use h264 codec

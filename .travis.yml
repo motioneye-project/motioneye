@@ -1,6 +1,3 @@
-dist: trusty
-sudo: true
-
 notifications:
   email:
     recipients:
@@ -19,4 +16,3 @@ script:
   - docker run --rm $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET uname -a
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then echo $DOCKER_PASSWORD | docker login -u "$DOCKER_USERNAME" --password-stdin; fi'
   - 'if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then docker push $DOCKER_REPO:$TRAVIS_BRANCH-$TARGET; fi'
-
