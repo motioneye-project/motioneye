@@ -1,4 +1,4 @@
-FROM ubuntu:19.10
+FROM debian:buster-slim
 LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
 ARG BUILD_DATE
@@ -14,17 +14,15 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 COPY . /tmp/motioneye
 
-RUN apt-get update && \
-    apt-get upgrade --yes && \
-    DEBIAN_FRONTEND="noninteractive" apt-get --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+RUN echo "deb http://snapshot.debian.org/archive/debian/20200630T024205Z sid main contrib non-free" >>/etc/apt/sources.list && \
+    apt-get update && \
+    DEBIAN_FRONTEND="noninteractive" apt-get -t stable --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
     curl \
     ffmpeg \
     libmicrohttpd12 \
-    libmysqlclient21 \
     libpq5 \
     lsb-release \
     mosquitto-clients \
-    motion \
     python3-jinja2 \
     python3-pil \
     python3-pip \
@@ -38,6 +36,9 @@ RUN apt-get update && \
     v4l-utils && \
     pip3 install /tmp/motioneye && \
     rm -rf /tmp/motioneye && \
+    DEBIAN_FRONTEND="noninteractive" apt-get -t sid --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+      motion \
+      libmysqlclient21 && \
     apt-get purge --yes \
     python3-pip \
     python3-setuptools \
@@ -56,7 +57,7 @@ VOLUME /var/lib/motioneye
 
 ADD extra/motioneye.conf.sample /usr/share/motioneye/extra/
 
-CMD test -e /etc/motioneye/motioneye.conf || \    
+CMD test -e /etc/motioneye/motioneye.conf || \
     cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
     /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
 
