@@ -331,18 +331,18 @@
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">Privacy Mask</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Privateca masko") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled device camera-config" id="privacyMaskSwitch"></td>
-                            <td><span class="help-mark" title="enables image masking to prevent some image areas from being recorded to protect privacy">?</span></td>
+                            <td><span class="help-mark" title="{{ _("ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="privacyMask">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
                             <td class="settings-item-value">
-                                <div class="button normal-button edit-mask-button" id="privacyMaskEditButton">Edit Mask</div>
-                                <div class="button normal-button save-mask-button" id="privacyMaskSaveButton">Save Mask</div>
+                                <div class="button normal-button edit-mask-button" id="privacyMaskEditButton">{{ _("Redakti maskon") }}</div>
+                                <div class="button normal-button save-mask-button" id="privacyMaskSaveButton">{{ _("Konservi maskon") }}</div>
                                 <input type="text" class="device camera-config" id="privacyMaskLinesEntry">
                             </td>
-                            <td><span class="help-mark" title="click this button to enable/disable the mask editor">?</span></td>
+                            <td><span class="help-mark" title="{{ _("alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="privacyMask">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
