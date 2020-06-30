@@ -328,6 +328,31 @@
                             <td><span class="help-mark" title="{{ _("agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
+                            <td colspan="100"><div class="settings-item-separator"></div></td>
+                        </tr>
+                        <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">Privacy Mask</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled device camera-config" id="privacyMaskSwitch"></td>
+                            <td><span class="help-mark" title="enables image masking to prevent some image areas from being recorded to protect privacy">?</span></td>
+                        </tr>
+                        <tr class="settings-item" depends="privacyMask">
+                            <td class="settings-item-label"><span class="settings-item-label"></span></td>
+                            <td class="settings-item-value">
+                                <div class="button normal-button edit-mask-button" id="privacyMaskEditButton">Edit Mask</div>
+                                <div class="button normal-button save-mask-button" id="privacyMaskSaveButton">Save Mask</div>
+                                <input type="text" class="device camera-config" id="privacyMaskLinesEntry">
+                            </td>
+                            <td><span class="help-mark" title="click this button to enable/disable the mask editor">?</span></td>
+                        </tr>
+                        <tr class="settings-item" depends="privacyMask">
+                            <td class="settings-item-label"><span class="settings-item-label"></span></td>
+                            <td class="settings-item-value"><div class="button normal-button clear-mask-button" id="privacyMaskClearButton">Clear Mask</div></td>
+                            <td><span class="help-mark" title="click this button to clear the current mask">?</span></td>
+                        </tr>
+                        <tr class="settings-item">
+                            <td colspan="100"><div class="settings-item-separator"></div></td>
+                        </tr>
+                        <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Ekstraj Elektoj") }}</span></td>
                             <td class="settings-item-value"><textarea class="styled device camera-config" id="extraOptionsEntry" rows="3"></textarea></td>
                             <td><span class="help-mark" title="{{ _("vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)") }}">?</span></td>
@@ -929,36 +954,36 @@
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Masko") }}</span></td>
-                            <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="maskSwitch"></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled motion-detection camera-config" id="motionMaskSwitch"></td>
                             <td><span class="help-mark" title="{{ _("Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto.") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" depends="mask">
+                        <tr class="settings-item" depends="motionMask">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Tipo de masko") }}</span></td>
                             <td class="settings-item-value">
-                                <select class="styled motion-detection camera-config" id="maskTypeSelect">
+                                <select class="styled motion-detection camera-config" id="motionMaskTypeSelect">
                                     <option value="smart">{{ _("Inteligenta") }}</option>
                                     <option value="editable">"{{ _("Redaktebla") }}"</option>
                                 </select>
                             </td>
                             <td><span class="help-mark" title="{{ _("La ""Inteligenta"" opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la ""Redaktebla"" opcio permesas permane konstrui ĝin mem.") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" min="1" max="10" snap="1" ticksnum="10" decimals="0" unit="" depends="mask maskType=smart">
+                        <tr class="settings-item" min="1" max="10" snap="1" ticksnum="10" decimals="0" unit="" depends="motionMask motionMaskType=smart">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Inteligenta-maska Malrapideco") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="smartMaskSluggishnessSlider"></td>
                             <td><span class="help-mark" title="{{ _("Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo.") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" depends="mask maskType=editable">
+                        <tr class="settings-item" depends="motionMask motionMaskType=editable">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
                             <td class="settings-item-value">
-                                <div class="button normal-button edit-mask-button" id="editMaskButton">{{ _("Redakti maskon") }}</div>
-                                <div class="button normal-button save-mask-button" id="saveMaskButton">{{ _("Konservi maskon") }}</div>
-                                <input type="text" class="motion-detection camera-config" id="maskLinesEntry">
+                                <div class="button normal-button edit-mask-button" id="motionMaskEditButton">{{ _("Redakti maskon") }}</div>
+                                <div class="button normal-button save-mask-button" id="motionMaskSaveButton">{{ _("Konservi maskon") }}</div>
+                                <input type="text" class="motion-detection camera-config" id="motionMaskLinesEntry">
                             </td>
                             <td><span class="help-mark" title="{{ _("Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon.") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" depends="mask maskType=editable">
+                        <tr class="settings-item" depends="motionMask motionMaskType=editable">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
-                            <td class="settings-item-value"><div class="button normal-button clear-mask-button" id="clearMaskButton">{{ _("Purigi maskon") }}</div></td>
+                            <td class="settings-item-value"><div class="button normal-button clear-mask-button" id="motionMaskClearButton">{{ _("Purigi maskon") }}</div></td>
                             <td><span class="help-mark" title="{{ _("Alklaku ĉi tiun butonon por malplenigi la nunan maskon.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
