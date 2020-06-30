@@ -841,16 +841,16 @@ def urlopen(*args, **kwargs):
     return urllib2.urlopen(*args, **kwargs)
 
 
-def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_height=None):
+def build_editable_mask_file(camera_id, mask_class, mask_lines, capture_width=None, capture_height=None):
     if not mask_lines:
         return ''
 
     width = mask_lines[0]
     height = mask_lines[1]
     mask_lines = mask_lines[2:]
-
-    logging.debug('building editable mask for camera with id %s (%sx%s)' %
-                  (camera_id, width, height))
+    
+    logging.debug('building editable %s mask for camera with id %s (%sx%s)' %
+                  (mask_class, camera_id, width, height))
 
     # horizontal rectangles
     nx = MASK_WIDTH  # number of rectangles
@@ -908,8 +908,8 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
         if rx and line & 1:
             dr.rectangle((nx * rw, ny * rh, nx * rw + rx - 1, ny * rh + ry - 1), fill=0)
 
-    file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
-
+    file_name = build_mask_file_name(camera_id, mask_class)
+    
     # resize the image if necessary
     if capture_width and capture_height and im.size != (capture_width, capture_height):
         logging.debug('editable mask needs resizing from %sx%s to %sx%s' %
@@ -921,15 +921,20 @@ def build_editable_mask_file(camera_id, mask_lines, capture_width=None, capture_
 
     return file_name
 
+def build_mask_file_name(camera_id, mask_class):
+    file_name = 'mask_%s.pgm' % (camera_id) if mask_class == 'motion' else 'mask_%s_%s.pgm' % (camera_id, mask_class)
+    full_path = os.path.join(settings.CONF_PATH, file_name)
 
-def parse_editable_mask_file(camera_id, capture_width=None, capture_height=None):
+    return full_path
+
+def parse_editable_mask_file(camera_id, mask_class, capture_width=None, capture_height=None):
     # capture_width and capture_height arguments represent the current size
     # of the camera image, as it might be different from that of the associated mask;
     # they can be null (e.g. netcams)
 
-    file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
+    file_name = build_mask_file_name(camera_id, mask_class)
 
-    logging.debug('parsing editable mask for camera with id %s: %s' % (camera_id, file_name))
+    logging.debug('parsing editable mask %s for camera with id %s: %s' % (mask_class, camera_id, file_name))
 
     # read the image file
     try:

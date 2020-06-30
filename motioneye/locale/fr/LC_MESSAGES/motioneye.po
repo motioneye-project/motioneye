@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-04-18 13:44+0200\n"
+"POT-Creation-Date: 2020-06-30 18:48+0200\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: server.py:198
 msgid "interrompa signalo ricevita, fermanta ..."
@@ -214,7 +214,7 @@ msgstr "Administrateur"
 msgid "la uzantnomo uzata por agordi la sistemon"
 msgstr "le nom d'utilisateur utilisé pour configurer le système"
 
-#: templates/main.html:172 templates/main.html:182 templates/main.html:482
+#: templates/main.html:172 templates/main.html:182 templates/main.html:507
 msgid "Pasvorto"
 msgstr "Mot de passe"
 
@@ -302,7 +302,7 @@ msgstr "activez ceci si vous souhaitez utiliser cette caméra"
 msgid "Video-Aparato"
 msgstr "Périphérique vidéo"
 
-#: templates/main.html:266 templates/main.html:560 templates/main.html:577
+#: templates/main.html:266 templates/main.html:585 templates/main.html:602
 msgid "Kamerao Nomo"
 msgstr "Nom de la caméra"
 
@@ -382,1053 +382,1065 @@ msgstr "Fréquence d'images"
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
 msgstr "Définit le nombre d'images capturées par la caméra par seconde (des valeurs plus élevées produisent des vidéos plus fluides mais nécessitent plus de puissance CPU, plus de stockage et de bande passante)"
 
-#: templates/main.html:331
+#: templates/main.html:334
+msgid "Privateca masko"
+msgstr "Masque de confidentialité"
+
+#: templates/main.html:336
+msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
+msgstr "permet de masquer les images pour éviter d'enregistrer certaines zones d'image pour protéger la confidentialité"
+
+#: templates/main.html:341 templates/main.html:978
+msgid "Redakti maskon"
+msgstr "Modifier le masque"
+
+#: templates/main.html:342 templates/main.html:979
+msgid "Konservi maskon"
+msgstr "Sauver le masque"
+
+#: templates/main.html:345
+msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
+msgstr "cliquez sur ce bouton pour activer/désactiver l'éditeur de masques"
+
+#: templates/main.html:356
 msgid "Ekstraj Elektoj"
 msgstr "Options supplémentaires"
 
-#: templates/main.html:333
+#: templates/main.html:358
 msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
 msgstr "vous pouvez ajouter ici des options supplémentaires pour le démon \"motion\" (utilisez le format \"valeur de nom\", une option par ligne)"
 
-#: templates/main.html:342
+#: templates/main.html:367
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
 msgstr "choisissez où et comment vos médias sont stockés"
 
-#: templates/main.html:343
+#: templates/main.html:368
 msgid "Stokado de dosieroj"
 msgstr "Stockage de fichiers"
 
-#: templates/main.html:348
+#: templates/main.html:373
 msgid "Stokada Aparato"
 msgstr "Périphérique de stockage"
 
-#: templates/main.html:353
+#: templates/main.html:378
 msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
 msgstr "indique le périphérique de stockage où les fichiers image et vidéo seront sauvés"
 
-#: templates/main.html:356
+#: templates/main.html:381
 msgid "Retservilo"
 msgstr "Serveur Réseau"
 
-#: templates/main.html:358
+#: templates/main.html:383
 msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
 msgstr "l'adresse du serveur réseau (adresse IP ou nom)"
 
-#: templates/main.html:361
+#: templates/main.html:386
 msgid "SMB Protokolo-Versio"
 msgstr "Version du protocole SMB"
 
-#: templates/main.html:371
+#: templates/main.html:396
 msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
 msgstr "sélectionnez la version SMB que vous pouvez utiliser (testez les différentes options et voyez celle qui fonctionne le mieux avec votre NAS)"
 
-#: templates/main.html:374
+#: templates/main.html:399
 msgid "Kunhava nomo"
 msgstr "Nom partagé"
 
-#: templates/main.html:376
+#: templates/main.html:401
 msgid "la nomo de la interŝanĝa reto"
 msgstr "le nom du partage réseau"
 
-#: templates/main.html:379 templates/main.html:477
+#: templates/main.html:404 templates/main.html:502
 msgid "Uzantnomo"
 msgstr "Identifiant"
 
-#: templates/main.html:381
+#: templates/main.html:406
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
 msgstr "le nom d'utilisateur à fournir lors de l'accès au répertoire réseau (laissez vide si aucun nom d'utilisateur n'est requis)"
 
-#: templates/main.html:384
+#: templates/main.html:409
 msgid "Pasvorton"
 msgstr "Mot de passe"
 
-#: templates/main.html:386
+#: templates/main.html:411
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
 msgstr "le mot de passe requis par le répertoire réseau (laissez vide si aucun mot de passe n'est requis)"
 
-#: templates/main.html:389
+#: templates/main.html:414
 msgid "Radika dosierujo"
 msgstr "Répertoire racine"
 
-#: templates/main.html:391
+#: templates/main.html:416
 msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
 msgstr "le chemin racine (sur le périphérique de stockage sélectionné) où les fichiers seront stockés"
 
-#: templates/main.html:395
+#: templates/main.html:420
 msgid "Testi la reton dosierujon"
 msgstr "Testez le répertoire réseau"
 
-#: templates/main.html:396
+#: templates/main.html:421
 msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
 msgstr "cliquez sur ce bouton pour tester la connexion réseau après avoir rempli les détails requis"
 
-#: templates/main.html:402
+#: templates/main.html:427
 msgid "Uzado de Disko"
 msgstr "Utilisation du disque"
 
-#: templates/main.html:406
+#: templates/main.html:431
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
 msgstr "la taille utilisée/totale du lecteur où réside le répertoire racine"
 
-#: templates/main.html:412
+#: templates/main.html:437
 msgid "Alŝutu Mediajn Dosierojn"
 msgstr "Télécharger des fichiers multimédias"
 
-#: templates/main.html:414
+#: templates/main.html:439
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
 msgstr "activez cette option si vous souhaitez que vos médias soient téléchargés vers un service externe"
 
-#: templates/main.html:417
+#: templates/main.html:442
 msgid "Alŝutu Bildojn"
 msgstr "Télécharger des images"
 
-#: templates/main.html:419
+#: templates/main.html:444
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
 msgstr "activez cette option si vous souhaitez que les images soient téléchargées sur un service externe"
 
-#: templates/main.html:422
+#: templates/main.html:447
 msgid "Alŝutu Filmojn"
 msgstr "Télécharger des vidéos"
 
-#: templates/main.html:424
+#: templates/main.html:449
 msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
 msgstr "activez cette option si vous souhaitez que les vidéos soient téléchargées sur un service externe"
 
-#: templates/main.html:427
+#: templates/main.html:452
 msgid "Alŝuta Servo"
 msgstr "Service de téléchargement"
 
-#: templates/main.html:430
+#: templates/main.html:455
 msgid "Servilo FTP"
 msgstr "Serveur FTP"
 
-#: templates/main.html:431
+#: templates/main.html:456
 msgid "Servilo SFTP"
 msgstr "Serveur SFTP"
 
-#: templates/main.html:432
+#: templates/main.html:457
 msgid "Servilo HTTP"
 msgstr "Serveur HTTP"
 
-#: templates/main.html:433
+#: templates/main.html:458
 msgid "Servilo HTTPS"
 msgstr "Serveur HTTPS"
 
-#: templates/main.html:439
+#: templates/main.html:464
 msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
 msgstr "sélectionnez un service vers lequel les fichiers multimédias seront téléchargés"
 
-#: templates/main.html:442
+#: templates/main.html:467
 msgid "Servila Adreso"
 msgstr "Adresse du serveur"
 
-#: templates/main.html:444
+#: templates/main.html:469
 msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
 msgstr "le nom de domaine ou l'adresse IP du serveur (par exemple ftp.example.com ou 192.168.1.3)"
 
-#: templates/main.html:447
+#: templates/main.html:472
 msgid "Servila haveno"
 msgstr "Port du serveur"
 
-#: templates/main.html:449
+#: templates/main.html:474
 msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
 msgstr "le port à utiliser pour se connecter au service (laissez ce champ vide pour utiliser la valeur par défaut)"
 
-#: templates/main.html:452
+#: templates/main.html:477
 msgid "Metodo"
 msgstr "Méthode"
 
-#: templates/main.html:459
+#: templates/main.html:484
 msgid "la HTTP-metodo uzi por alŝuti dosierojn"
 msgstr "la méthode HTTP à utiliser pour télécharger des fichiers"
 
-#: templates/main.html:462
+#: templates/main.html:487
 msgid "Loko"
 msgstr "Emplacement"
 
-#: templates/main.html:464
+#: templates/main.html:489
 msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
 msgstr "l'endroit (chemin racine) où les médias doivent être téléchargés (par exemple /files/cam1/)"
 
-#: templates/main.html:467
+#: templates/main.html:492
 msgid "Inkluzivi Subdosierujojn"
 msgstr "Inclure les sous-dossiers"
 
-#: templates/main.html:469
+#: templates/main.html:494
 msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
 msgstr "Activez cette option pour télécharger des fichiers multimédias avec leurs sous-répertoires, au lieu de les placer directement à l'emplacement racine"
 
-#: templates/main.html:472
+#: templates/main.html:497
 msgid "Purigi la nubon"
 msgstr "Nettoyer le cloud"
 
-#: templates/main.html:474
+#: templates/main.html:499
 msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
 msgstr "activez cette option pour supprimer les fichiers multimédias téléchargés sur le cloud également lorsque le média local est supprimé, conformément au paramètre de persistance des fichiers. Actuellement, cette option n'est disponible que pour gdrive."
 
-#: templates/main.html:479
+#: templates/main.html:504
 msgid "la uzantnomo por la alŝuta servo-konto"
 msgstr "le nom d'utilisateur du compte du service de téléchargement"
 
-#: templates/main.html:484
+#: templates/main.html:509
 msgid "la pasvorto por la alŝuta servo-konto"
 msgstr "le mot de passe du compte du service de téléchargement"
 
-#: templates/main.html:487
+#: templates/main.html:512
 msgid "Rajtiga ŝlosilo"
 msgstr "Clé d'autorisation"
 
-#: templates/main.html:489
+#: templates/main.html:514
 msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr "la clé utilisée pour s'authentifier auprès du service de téléchargement (généralement requise uniquement lors de la configuration)"
 
-#: templates/main.html:495
+#: templates/main.html:520
 msgid "Akiri ŝlosilon"
 msgstr "Obtenez une clé"
 
-#: templates/main.html:498
+#: templates/main.html:523
 msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
 msgstr "cliquez ici pour obtenir la clé d'autorisation du service"
 
-#: templates/main.html:502
+#: templates/main.html:527
 msgid "Testi la servon"
 msgstr "Testez le service"
 
-#: templates/main.html:503
+#: templates/main.html:528
 msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
 msgstr "cliquez sur ce bouton pour tester le service de téléchargement après avoir rempli les informations requises"
 
-#: templates/main.html:509
+#: templates/main.html:534
 msgid "alvoki URL"
 msgstr "invoquer une URL"
 
-#: templates/main.html:511
+#: templates/main.html:536
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "activez cette option si vous souhaitez qu'une URL soit requêtée après la création d'un fichier multimédia"
 
-#: templates/main.html:514 templates/main.html:1030
+#: templates/main.html:539 templates/main.html:1073
 msgid "Reteja URL"
 msgstr "URL du site Web"
 
-#: templates/main.html:515
+#: templates/main.html:540
 msgid "ekz. http://example.com/notify/"
 msgstr "ex. http://example.com/notify/"
 
-#: templates/main.html:516
+#: templates/main.html:541
 #, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL à déclencher lorsqu'un mouvement est détecté; les raccourcis spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événements, %%f = chemin du fichier"
 
-#: templates/main.html:519 templates/main.html:1035
+#: templates/main.html:544 templates/main.html:1078
 msgid "Metodo HTTP"
 msgstr "Méthode HTTP"
 
-#: templates/main.html:528
+#: templates/main.html:553
 msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
 msgstr "la méthode HTTP à utiliser lors de la demande d'une URL de raccordement au réseau (les paramètres envoyés à l'URL seront fournis comme indiqué ici)"
 
-#: templates/main.html:534
+#: templates/main.html:559
 msgid "Kuri Komando"
 msgstr "Exécuter une commande"
 
-#: templates/main.html:536
+#: templates/main.html:561
 msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
 msgstr "activez cette option si vous souhaitez exécuter une commande après la création d'un fichier multimédia"
 
-#: templates/main.html:539
+#: templates/main.html:564
 msgid "Ordono"
 msgstr "Commande"
 
-#: templates/main.html:540
+#: templates/main.html:565
 msgid "ordono..."
 msgstr "commande ..."
 
-#: templates/main.html:541
+#: templates/main.html:566
 #, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
 msgstr "Commande à exécuter après la création d'un fichier multimédia. Plusieurs commandes peuvent être séparées par un point-virgule ; n'utilisez pas de point-virgule dans les commandes ; les jetons spéciaux suivants sont acceptés : %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événement, %%f = chemin du fichier"
 
-#: templates/main.html:551
+#: templates/main.html:576
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
 msgstr "sélectionner les informations à afficher sur les images capturées"
 
-#: templates/main.html:552
+#: templates/main.html:577
 msgid "Teksto Superkovrita"
 msgstr "Superposition de texte"
 
-#: templates/main.html:557
+#: templates/main.html:582
 msgid "Maldekstra Teksto"
 msgstr "Texte de gauche"
 
-#: templates/main.html:561 templates/main.html:578
+#: templates/main.html:586 templates/main.html:603
 msgid "Tempostampo"
 msgstr "Horodatage"
 
-#: templates/main.html:562 templates/main.html:579
+#: templates/main.html:587 templates/main.html:604
 msgid "Propra Teksto"
 msgstr "Texte personnalisé"
 
-#: templates/main.html:563 templates/main.html:580 templates/main.html:637
+#: templates/main.html:588 templates/main.html:605 templates/main.html:662
 msgid "Malebligita"
 msgstr "Désactivé"
 
-#: templates/main.html:566
+#: templates/main.html:591
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
 msgstr "Définit le texte affiché sur les films et les images, dans le coin inférieur gauche"
 
-#: templates/main.html:570 templates/main.html:587
+#: templates/main.html:595 templates/main.html:612
 msgid "propra teksto..."
 msgstr "texte personnalisé..."
 
-#: templates/main.html:571
+#: templates/main.html:596
 #, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "Définit le texte personnalisé de gauche; les jetons spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événements, %%T = HH:MM:SS, \\n = nouvelle ligne"
 
-#: templates/main.html:574
+#: templates/main.html:599
 msgid "Dekstra Teksto"
 msgstr "Texte de droite"
 
-#: templates/main.html:583
+#: templates/main.html:608
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
 msgstr "Définit le texte affiché sur les films et les images, dans le coin inférieur droit"
 
-#: templates/main.html:588
+#: templates/main.html:613
 #, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "Définit le texte de droite personnalisé ; les jetons spéciaux suivants sont acceptés : %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événements, %%T = HH:MM:SS, \\n = nouvelle ligne"
 
-#: templates/main.html:591
+#: templates/main.html:616
 msgid "Teksta Skalo"
 msgstr "Taille du texte"
 
-#: templates/main.html:593
+#: templates/main.html:618
 msgid "Difinas la grandecon de la superkovrita teksto"
 msgstr "Définit la taille du texte superposé"
 
-#: templates/main.html:603
+#: templates/main.html:628
 msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
 msgstr "Activez ceci si vous souhaitez un flux vidéo pour cette caméra"
 
-#: templates/main.html:604
+#: templates/main.html:629
 msgid "Videofluo"
 msgstr "Flux vidéo"
 
-#: templates/main.html:609
+#: templates/main.html:634
 msgid "Framo frekvencon"
 msgstr "Fréquence d'images"
 
-#: templates/main.html:611
+#: templates/main.html:636
 msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
 msgstr "Définit le nombre de trames transmises par seconde dans le flux en direct."
 
-#: templates/main.html:614
+#: templates/main.html:639
 msgid "Flua Kvalito"
 msgstr "Qualité du débit"
 
-#: templates/main.html:616
+#: templates/main.html:641
 msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
 msgstr "la résolution vidéo (des valeurs plus grandes produisent une meilleure qualité, mais nécessitent plus de puissance CPU, plus de stockage et de bande passante)"
 
-#: templates/main.html:619
+#: templates/main.html:644
 msgid "Bilda Redimensionado"
 msgstr "Redimensionnement de l'image"
 
-#: templates/main.html:621
+#: templates/main.html:646
 msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
 msgstr "Lorsque cette option est activée, les images sont redimensionnées avant d'être envoyées au navigateur (désactivez-la lorsque vous utilisez un processeur lent)."
 
-#: templates/main.html:624
+#: templates/main.html:649
 msgid "Flua rezolucio"
 msgstr "Résolution vidéo"
 
-#: templates/main.html:626
+#: templates/main.html:651
 msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
 msgstr "la résolution vidéo du flux (des valeurs plus grandes produisent une meilleure qualité, mais nécessitent plus de puissance CPU, plus de stockage et de bande passante)"
 
-#: templates/main.html:629
+#: templates/main.html:654
 msgid "Flua haveno"
 msgstr "Port du serveur"
 
-#: templates/main.html:631
+#: templates/main.html:656
 msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
 msgstr "configure le port TCP sur lequel le serveur Web écoute pour le flux vidéo"
 
-#: templates/main.html:634
+#: templates/main.html:659
 msgid "Aŭtentiga reĝimo"
 msgstr "Mode d'authentification"
 
-#: templates/main.html:642
+#: templates/main.html:667
 msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
 msgstr "la méthode d'authentification utilisée par le flux (choisissez «Basic» au lieu de «Digest» si vous rencontrez des problèmes avec des programmes tiers); l'authentification de surveillance sera utilisée"
 
-#: templates/main.html:645
+#: templates/main.html:670
 msgid "Movado-Optimigo"
 msgstr "Optimisation du mouvement"
 
-#: templates/main.html:647
+#: templates/main.html:672
 msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
 msgstr "activez cette option si vous souhaitez une fréquence d'images inférieure pour le flux en direct lorsqu'aucun mouvement n'est détecté"
 
-#: templates/main.html:653
+#: templates/main.html:678
 msgid "Utilaj URLoj"
 msgstr "URLs utiles"
 
-#: templates/main.html:656
+#: templates/main.html:681
 msgid "Instantara URL"
 msgstr "URL d'instantané"
 
-#: templates/main.html:659
+#: templates/main.html:684
 msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
 msgstr "Une URL qui fournit une image JPEG de la dernière capture de la caméra"
 
-#: templates/main.html:665
+#: templates/main.html:690
 msgid "Flua URL"
 msgstr "URL de flux"
 
-#: templates/main.html:668
+#: templates/main.html:693
 msgid "URL kiu provizas MJPEG-fluon de la kamerao"
 msgstr "Une URL qui fournit le flux MJPEG de la caméra"
 
-#: templates/main.html:674
+#: templates/main.html:699
 msgid "Enigita URL"
 msgstr "URL d'intégration"
 
-#: templates/main.html:677
+#: templates/main.html:702
 msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
 msgstr "Une URL qui fournit un document HTML minimal contenant le cadre de la caméra, prêt à être intégré"
 
-#: templates/main.html:687
+#: templates/main.html:712
 msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
 msgstr "Activez ceci si vous souhaitez des captures d'images."
 
-#: templates/main.html:688
+#: templates/main.html:713
 msgid "Kaptitaj Bildoj"
 msgstr "Capture d'images"
 
-#: templates/main.html:693
+#: templates/main.html:718
 msgid "Nomo Bildo-Dosiero"
 msgstr "Nom du fichier image"
 
-#: templates/main.html:694 templates/main.html:763
+#: templates/main.html:719 templates/main.html:788
 msgid "ŝablona nomo de dosiero..."
 msgstr "modèle de nom de fichier..."
 
-#: templates/main.html:695
+#: templates/main.html:720
 #, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "Définit le modèle de nom pour les fichiers JPEG; les jetons spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événement, / = sous-répertoire."
 
-#: templates/main.html:698
+#: templates/main.html:723
 msgid "Bildkvalito"
 msgstr "Qualité d'image"
 
-#: templates/main.html:700
+#: templates/main.html:725
 msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
 msgstr "définit la qualité d'image JPEG (des valeurs plus élevées produisent une meilleure qualité d'image mais nécessitent plus de stockage)"
 
-#: templates/main.html:703
+#: templates/main.html:728
 msgid "Kaptila reĝimo"
 msgstr "Mode de capture"
 
-#: templates/main.html:706 templates/main.html:808
+#: templates/main.html:731 templates/main.html:851
 msgid "Moviĝa deĉenigo"
 msgstr "Déclencheur de mouvement"
 
-#: templates/main.html:707
+#: templates/main.html:732
 msgid "Moviĝa deĉenigo (Unu bildo)"
 msgstr "Déclencheur de mouvement (une image)"
 
-#: templates/main.html:708
+#: templates/main.html:733
 msgid "Intertempe"
 msgstr "À intervalle"
 
-#: templates/main.html:709
+#: templates/main.html:734
 msgid "Ĉiuj bildoj"
 msgstr "Toutes les images"
 
-#: templates/main.html:710
+#: templates/main.html:735
 msgid "Mane"
 msgstr "Manuel"
 
-#: templates/main.html:713
+#: templates/main.html:738
 msgid "Difinas la kapta reĝimon:"
 msgstr "Définit le mode de capture:"
 
-#: templates/main.html:714
+#: templates/main.html:739
 msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
 msgstr "Déclencheur de mouvement = image capturée chaque fois qu'un mouvement est détecté,"
 
-#: templates/main.html:715
+#: templates/main.html:740
 msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
 msgstr "À intervalle = image capturée toutes les x secondes,"
 
-#: templates/main.html:716
+#: templates/main.html:741
 msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
 msgstr "Toutes les images = enregistrer chaque image dans un fichier,"
 
-#: templates/main.html:717
+#: templates/main.html:742
 msgid "Mane = mana kapto kun dediĉita butono."
 msgstr "Manuel = capture par clic sur le bouton dédié."
 
-#: templates/main.html:720
+#: templates/main.html:745
 msgid "Interkapto-Intervalo"
 msgstr "Intervalle de capture"
 
-#: templates/main.html:721 templates/main.html:816 templates/main.html:891
-#: templates/main.html:1013
+#: templates/main.html:746 templates/main.html:859 templates/main.html:934
+#: templates/main.html:1056
 msgid "sekundoj"
 msgstr "secondes"
 
-#: templates/main.html:722
+#: templates/main.html:747
 msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
 msgstr "définit l'intervalle (en secondes) pour les captures"
 
-#: templates/main.html:725
+#: templates/main.html:750
 msgid "Konservi bildojn"
 msgstr "Conserver les images"
 
-#: templates/main.html:728 templates/main.html:823
+#: templates/main.html:753 templates/main.html:866
 msgid "Dum unu tago"
 msgstr "Pendant un jour"
 
-#: templates/main.html:729 templates/main.html:824
+#: templates/main.html:754 templates/main.html:867
 msgid "Dum unu semajno"
 msgstr "Pendant une semaine"
 
-#: templates/main.html:730 templates/main.html:825
+#: templates/main.html:755 templates/main.html:868
 msgid "Dum unu monato"
 msgstr "Pendant un mois"
 
-#: templates/main.html:731 templates/main.html:826
+#: templates/main.html:756 templates/main.html:869
 msgid "Dum unu jaro"
 msgstr "Pendant un an"
 
-#: templates/main.html:732 templates/main.html:827
+#: templates/main.html:757 templates/main.html:870
 msgid "Porĉiame"
 msgstr "Pour toujours"
 
-#: templates/main.html:733 templates/main.html:828
+#: templates/main.html:758 templates/main.html:871
 msgid "Propra"
 msgstr "Personnalisé"
 
-#: templates/main.html:736
+#: templates/main.html:761
 msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
 msgstr "Les images antérieures à la durée définie sont automatiquement supprimées pour libérer de l'espace de stockage."
 
-#: templates/main.html:739
+#: templates/main.html:764
 msgid "Bildaj Vivdaŭro"
 msgstr "Durée de conservation des images"
 
-#: templates/main.html:741
+#: templates/main.html:766
 msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
 msgstr "Définit le nombre de jours après lesquels les images seront supprimées automatiquement."
 
-#: templates/main.html:744
+#: templates/main.html:769
 msgid "Ebligu manaj kaptoj"
 msgstr "Activer les captures manuelles"
 
-#: templates/main.html:746
+#: templates/main.html:771
 msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
 msgstr "Lorsque cette option est activée, un bouton sur le cadre de la caméra vous permettra de prendre manuellement des captures."
 
-#: templates/main.html:756
+#: templates/main.html:781
 msgid "ebligu ĉi tion, se vi volas registri filmojn"
 msgstr "activez ceci vous souhaitez enregistrer des films"
 
-#: templates/main.html:757
+#: templates/main.html:782
 msgid "Filmoj"
 msgstr "Vidéos"
 
-#: templates/main.html:762
+#: templates/main.html:787
 msgid "Filma Dosiernomo"
 msgstr "Nom du fichier vidéo"
 
-#: templates/main.html:764
+#: templates/main.html:789
 #, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "Définit le modèle de nom pour les fichiers vidéo ; les jetons spéciaux suivants sont acceptés : %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événement, / = sous-répertoire."
 
-#: templates/main.html:767
+#: templates/main.html:792
 msgid "Rekta kopia filmeto"
 msgstr "Copie directe de vidéo"
 
-#: templates/main.html:769
+#: templates/main.html:794
 msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
 msgstr "Créez des films directement depuis la caméra. Cette option devrait réduire l'utilisation du processeur mais augmenter les besoins de mémoire. Aucun traitement d'image n'est effectué, donc les textes superposés, les masques de confidentialité, etc. n'apparaîtront pas sur la vidéo résultante."
 
-#: templates/main.html:772
+#: templates/main.html:797
 msgid "Filmformato"
 msgstr "Format de vidéo"
 
-#: templates/main.html:797
+#: templates/main.html:840
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
 msgstr "Personnalise le fichier vidéo; tous les formats ne sont pas garantis fonctionner sur tous les systèmes; en cas de doute, testez chaque format et choisissez celui qui convient le mieux à votre visionneur."
 
-#: templates/main.html:800
+#: templates/main.html:843
 msgid "Filma Kvalito"
 msgstr "Qualité du film"
 
-#: templates/main.html:802
+#: templates/main.html:845
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
 msgstr "Définit la qualité vidéo MPEG (des valeurs plus élevées produisent une meilleure qualité vidéo mais nécessitent plus de stockage)."
 
-#: templates/main.html:805
+#: templates/main.html:848
 msgid "Rekorda reĝimo"
 msgstr "Mode d'enregistrement"
 
-#: templates/main.html:809
+#: templates/main.html:852
 msgid "Kontinua registrado"
 msgstr "Enregistrement continu"
 
-#: templates/main.html:812
+#: templates/main.html:855
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
 msgstr "Définit le mode d'enregistrement: Déclencheur de mouvement = nouveau film créé chaque fois qu'un mouvement est détecté, Enregistrement continu = un grand fichier de film."
 
-#: templates/main.html:815
+#: templates/main.html:858
 msgid "Maksimuma filma daŭro"
 msgstr "Durée maximale du film"
 
-#: templates/main.html:817
+#: templates/main.html:860
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
 msgstr "Définit la durée maximale des films en secondes; si l'événement dure plus longtemps, un nouveau fichier vidéo est créé; utilisez 0 pour une longueur illimitée."
 
-#: templates/main.html:820
+#: templates/main.html:863
 msgid "Konservi filmojn"
 msgstr "Conserver les films"
 
-#: templates/main.html:831
+#: templates/main.html:874
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
 msgstr "Les films plus anciens que la durée définie sont automatiquement supprimés pour libérer de l'espace de stockage."
 
-#: templates/main.html:834
+#: templates/main.html:877
 msgid "Filmoj Vivdaŭro"
 msgstr "Films conservés à vie"
 
-#: templates/main.html:835
+#: templates/main.html:878
 msgid "tagoj"
 msgstr "jours"
 
-#: templates/main.html:836
+#: templates/main.html:879
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
 msgstr "Définit le nombre de jours après lesquels les films seront automatiquement supprimés."
 
-#: templates/main.html:846
+#: templates/main.html:889
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
 msgstr "Activez cette option pour utiliser et configurer le mécanisme de détection des mouvements."
 
-#: templates/main.html:847
+#: templates/main.html:890
 msgid "Movado-Detekto"
 msgstr "Détection de mouvement"
 
-#: templates/main.html:852
+#: templates/main.html:895
 msgid "Kadra ŝanĝo sojlo"
 msgstr "Seuil de changement de trame"
 
-#: templates/main.html:854
+#: templates/main.html:897
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
 msgstr "Indique le pourcentage minimum de l'image qui doit changer entre deux images successives pour détecter un mouvement (des valeurs plus petites donnent une détection plus sensible, mais ont tendance à donner des faux positifs)."
 
-#: templates/main.html:857
+#: templates/main.html:900
 msgid "Maksimuma ŝanĝo sojlo"
 msgstr "Seuil de changement maximum"
 
-#: templates/main.html:859
+#: templates/main.html:902
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
 msgstr "Définit le nombre de pixels modifiés entre deux images au-delà duquel on ne déclenche plus une détection (0 désactive la limite)."
 
-#: templates/main.html:862
+#: templates/main.html:905
 msgid "Aŭtomata sojla agordo"
 msgstr "Réglage automatique du seuil"
 
-#: templates/main.html:864
+#: templates/main.html:907
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
 msgstr "Activez cette option pour ajuster automatiquement le seuil."
 
-#: templates/main.html:867
+#: templates/main.html:910
 msgid "Aŭtomata bruo-detekto"
 msgstr "Détection automatique du bruit"
 
-#: templates/main.html:869
+#: templates/main.html:912
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
 msgstr "Activez cette option pour régler automatiquement le niveau de bruit."
 
-#: templates/main.html:872
+#: templates/main.html:915
 msgid "Bruo-nivelo"
 msgstr "Niveau de bruit"
 
-#: templates/main.html:874
+#: templates/main.html:917
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
 msgstr "Définit de manière permanente le niveau de bruit à une valeur définie."
 
-#: templates/main.html:877
+#: templates/main.html:920
 msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Détection des changements de lumière"
 
-#: templates/main.html:879
+#: templates/main.html:922
 #, python-format
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
 msgstr "Définit le pourcentage de l'image qui a besoin d'être modifiée pour que l'événement soit traité comme un changement de lumière soudain au lieu d'un mouvement (0%% désactive la fonction)."
 
-#: templates/main.html:882
+#: templates/main.html:925
 msgid "Makula filtrilo"
 msgstr "Filtre anti-taches"
 
-#: templates/main.html:884
+#: templates/main.html:927
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
 msgstr "Activez cela pour appliquer un filtre anti-taches aux images avant la détection de mouvement."
 
-#: templates/main.html:890
+#: templates/main.html:933
 msgid "Senmovada daŭro"
 msgstr "Temps d'inactivité"
 
-#: templates/main.html:892
+#: templates/main.html:935
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
 msgstr "Définit le nombre de secondes de silence (c'est-à-dire sans mouvement) qui marque la fin d'un événement."
 
-#: templates/main.html:895
+#: templates/main.html:938
 msgid "Kaptita Antaŭe"
 msgstr "Prévisualisation"
 
-#: templates/main.html:896 templates/main.html:901 templates/main.html:906
+#: templates/main.html:939 templates/main.html:944 templates/main.html:949
 msgid "kadroj"
 msgstr "trames"
 
-#: templates/main.html:897
+#: templates/main.html:940
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
 msgstr "Définit le nombre d'images capturées (et incluses dans le film) avant qu'un incident de mouvement ne soit détecté."
 
-#: templates/main.html:900
+#: templates/main.html:943
 msgid "Kaptita Post"
 msgstr "Images après"
 
-#: templates/main.html:902
+#: templates/main.html:945
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
 msgstr "Définit le nombre d'images à capturer (et à inclure dans le film) après la fin d'un événement de mouvement."
 
-#: templates/main.html:905
+#: templates/main.html:948
 msgid "Minimumaj movaj kadroj"
 msgstr "Minimum d'images détectées"
 
-#: templates/main.html:907
+#: templates/main.html:950
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
 msgstr "Définit le nombre minimum d'images de mouvement successives nécessaires pour démarrer un événement de mouvement."
 
-#: templates/main.html:913
+#: templates/main.html:956
 msgid "Masko"
 msgstr "Masque"
 
-#: templates/main.html:915
+#: templates/main.html:958
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
 msgstr "Permet le masquage d'image pour une détection de mouvement plus sélective et précise."
 
-#: templates/main.html:918
+#: templates/main.html:961
 msgid "Tipo de masko"
 msgstr "Type de masque"
 
-#: templates/main.html:921
+#: templates/main.html:964
 msgid "Inteligenta"
 msgstr "Intelligent"
 
-#: templates/main.html:922
+#: templates/main.html:965
 msgid "Redaktebla"
 msgstr "Modifiable"
 
-#: templates/main.html:925
+#: templates/main.html:968
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
 msgstr "L'option Intelligente détecte automatiquement les régions avec un mouvement régulier et crée dynamiquement un masque interne, tandis que l'option Modifiable vous permet de le construire manuellement vous-même."
 
-#: templates/main.html:928
+#: templates/main.html:971
 msgid "Inteligenta-maska Malrapideco"
 msgstr "Lenteur du masque intelligent"
 
-#: templates/main.html:930
+#: templates/main.html:973
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr "Des valeurs plus élevées donnent un masque plus durable avec un processus de construction plus lent."
 
-#: templates/main.html:935
-msgid "Redakti maskon"
-msgstr "Modifier le masque"
-
-#: templates/main.html:936
-msgid "Konservi maskon"
-msgstr "Sauver le masque"
-
-#: templates/main.html:939
+#: templates/main.html:982
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
 msgstr "Cliquez sur ce bouton pour activer/désactiver l'éditeur de masque."
 
-#: templates/main.html:943
+#: templates/main.html:986
 msgid "Purigi maskon"
 msgstr "Effacer le masque"
 
-#: templates/main.html:944
+#: templates/main.html:987
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
 msgstr "Cliquez sur ce bouton pour vider le masque actuel."
 
-#: templates/main.html:950
+#: templates/main.html:993
 msgid "Montri Kadro-Ŝanĝojn"
 msgstr "Afficher les modifications d'image"
 
-#: templates/main.html:952
+#: templates/main.html:995
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
 msgstr "Si cette option est active, les changements d'image (nombre de pixels et zone modifiée) sont affichés dans la vidéo; activez-le temporairement pour ajuster les paramètres de détection de mouvement."
 
-#: templates/main.html:955
+#: templates/main.html:998
 msgid "Krei debug media files"
 msgstr "Créer des fichiers multimédias de débogage"
 
-#: templates/main.html:957
+#: templates/main.html:1000
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
 msgstr "Quand c'est activé, des films et des images spéciaux sont créés, qui aident à déboguer les problèmes de détection de mouvement."
 
-#: templates/main.html:966
+#: templates/main.html:1009
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
 msgstr "Activez cette option si vous souhaitez être averti lorsqu'un mouvement est détecté."
 
-#: templates/main.html:967
+#: templates/main.html:1010
 msgid "Moviĝaj sciigoj"
 msgstr "Notifications de mouvement"
 
-#: templates/main.html:972
+#: templates/main.html:1015
 msgid "Sendi retpoŝton"
 msgstr "Envoyer un e-mail"
 
-#: templates/main.html:974
+#: templates/main.html:1017
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "Activez cette option si vous souhaitez recevoir un e-mail chaque fois qu'un mouvement est détecté."
 
-#: templates/main.html:977
+#: templates/main.html:1020
 msgid "Retpoŝtadresoj"
 msgstr "Adresses e-mail"
 
-#: templates/main.html:978
+#: templates/main.html:1021
 msgid "retpoŝtadresoj..."
 msgstr "adresses e-mail ..."
 
-#: templates/main.html:979
+#: templates/main.html:1022
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
 msgstr "Les adresses e-mail (séparées par des virgules) ajoutées ici recevront des notifications chaque fois qu'un mouvement est détecté."
 
-#: templates/main.html:982
+#: templates/main.html:1025
 msgid "Servilo SMTP"
 msgstr "Serveur SMTP"
 
-#: templates/main.html:983
+#: templates/main.html:1026
 msgid "ekz. smtp.gmail.com"
 msgstr "ex. smtp.gmail.com"
 
-#: templates/main.html:984
+#: templates/main.html:1027
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
 msgstr "Saisissez le nom d'hôte ou l'adresse IP de votre serveur SMTP (pour utiliser Gmail : smtp.gmail.com)."
 
-#: templates/main.html:987
+#: templates/main.html:1030
 msgid "SMTP Haveno"
 msgstr "Port SMTP"
 
-#: templates/main.html:988
+#: templates/main.html:1031
 msgid "ekz. 587"
 msgstr "ex. 587"
 
-#: templates/main.html:989
+#: templates/main.html:1032
 msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
 msgstr "Entrez le port utilisé par votre serveur SMTP (généralement 465 pour les connexions non TLS et 587 pour les connexions TLS)."
 
-#: templates/main.html:992
+#: templates/main.html:1035
 msgid "SMTP-Konto"
 msgstr "compte SMTP"
 
-#: templates/main.html:993
+#: templates/main.html:1036
 msgid "konto@gmail.com..."
 msgstr "compte@gmail.com ..."
 
-#: templates/main.html:994
+#: templates/main.html:1037
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
 msgstr "Saisissez votre compte SMTP (généralement votre adresse e-mail)."
 
-#: templates/main.html:997
+#: templates/main.html:1040
 msgid "SMTP Pasvorto"
 msgstr "Mot de passe SMTP"
 
-#: templates/main.html:999
+#: templates/main.html:1042
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
 msgstr "Saisissez votre mot de passe SMTP (pour Gmail, utilisez votre mot de passe Google ou un mot de passe généré par l'application)."
 
-#: templates/main.html:1002
+#: templates/main.html:1045
 msgid "De adreso"
 msgstr "Adresse «de:»"
 
-#: templates/main.html:1003
+#: templates/main.html:1046
 msgid "retpoŝta adreso..."
 msgstr "adresse e-mail ..."
 
-#: templates/main.html:1004
+#: templates/main.html:1047
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
 msgstr "Définissez l'adresse d'expéditeur personnalisée si votre service SMTP en requiert une (la première adresse e-mail de destination sera utilisée si elle est laissée vierge)."
 
-#: templates/main.html:1007
+#: templates/main.html:1050
 msgid "Uzi TLS"
 msgstr "Utiliser TLS"
 
-#: templates/main.html:1009
+#: templates/main.html:1052
 msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
 msgstr "Activez cette option si votre serveur SMTP nécessite TLS (Gmail requiert que cela soit activé)."
 
-#: templates/main.html:1012
+#: templates/main.html:1055
 msgid "Aldonitaj bildoj tempo-intervalo"
 msgstr "Intervalle de temps des images jointes"
 
-#: templates/main.html:1014
+#: templates/main.html:1057
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "Définit l'intervalle de recherche de temps à utiliser lors de la création des pièces jointes (des valeurs plus élevées génèrent des e-mails avec plus d'images au détriment d'un délai de notification accru); mettre à 0 pour désactiver les images jointes; vous devez également activer «Capture d'images» pour que cela fonctionne."
 
-#: templates/main.html:1018
+#: templates/main.html:1061
 msgid "Testi retpoŝto"
 msgstr "Tester l'e-mail"
 
-#: templates/main.html:1019
+#: templates/main.html:1062
 msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
 msgstr "Cliquez sur ce bouton pour tester les notifications par e-mail après avoir rempli les détails requis."
 
-#: templates/main.html:1025
+#: templates/main.html:1068
 msgid "Alvoki URL"
 msgstr "Invoquer une URL"
 
-#: templates/main.html:1027
+#: templates/main.html:1070
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "Activez cette option si vous souhaitez qu'une URL soit activée chaque fois qu'un événement de mouvement est détecté."
 
-#: templates/main.html:1031
+#: templates/main.html:1074
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "ex. http://exemple.com/notifier/"
 
-#: templates/main.html:1032
+#: templates/main.html:1075
 #, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "URL à déclencher lorsqu'un mouvement est détecté; les raccourcis spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame , %%v = numéro d'événement"
 
-#: templates/main.html:1044
+#: templates/main.html:1087
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "La méthode HTTP à utiliser lors de l'envoi d'une URL (les paramètres d'URL donnés seront fournis comme indiqué ici)."
 
-#: templates/main.html:1050
+#: templates/main.html:1093
 msgid "Lanĉi komando"
 msgstr "Lancer une commande"
 
-#: templates/main.html:1052
+#: templates/main.html:1095
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "Activez cette option si vous souhaitez exécuter une commande chaque fois qu'un événement de mouvement est détecté."
 
-#: templates/main.html:1055 templates/main.html:1068
+#: templates/main.html:1098 templates/main.html:1111
 msgid "Komando"
 msgstr "Commande"
 
-#: templates/main.html:1056 templates/main.html:1069
+#: templates/main.html:1099 templates/main.html:1112
 msgid "komando..."
 msgstr "commande ..."
 
-#: templates/main.html:1057
+#: templates/main.html:1100
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "Commande à lancer lorsqu'un mouvement est détecté ; plusieurs commandes peuvent être séparées par deux-points; n'utilisez pas de points-virgules avec les commandes; les jetons spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame , %%v = numéro d'événement"
 
-#: templates/main.html:1063
+#: templates/main.html:1106
 msgid "Lanĉi fina komando"
 msgstr "Lancer une commande finale"
 
-#: templates/main.html:1065
+#: templates/main.html:1108
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "Activez cette option si vous souhaitez lancer une commande chaque fois qu'un événement de déplacement se termine."
 
-#: templates/main.html:1070
+#: templates/main.html:1113
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "Commande à lancer à la fin de l'événement de mouvement; plusieurs commandes peuvent être séparées par deux-points ; n'utilisez pas de points-virgules avec les commandes; les jetons spéciaux suivants sont acceptés : %%Y = année, %%m = mois, %%d = date, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame."
 
-#: templates/main.html:1080
+#: templates/main.html:1123
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "Activez cette option si vous souhaitez définir un programme hebdomadaire de détection de mouvement."
 
-#: templates/main.html:1081
+#: templates/main.html:1124
 msgid "Laboranta horaro"
 msgstr "Horaire de travail"
 
-#: templates/main.html:1086
+#: templates/main.html:1129
 msgid "Lundo"
 msgstr "Lundi"
 
-#: templates/main.html:1089
+#: templates/main.html:1132
 msgid "de"
 msgstr "de"
 
-#: templates/main.html:1090
+#: templates/main.html:1133
 msgid "ĝis"
 msgstr "à"
 
-#: templates/main.html:1092
+#: templates/main.html:1135
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "Définit la plage horaire pour les lundis."
 
-#: templates/main.html:1095
+#: templates/main.html:1138
 msgid "Mardo"
 msgstr "Mardi"
 
-#: templates/main.html:1101
+#: templates/main.html:1144
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "Définit la plage horaire pour les mardis."
 
-#: templates/main.html:1104
+#: templates/main.html:1147
 msgid "Merkredo"
 msgstr "Mercredi"
 
-#: templates/main.html:1110
+#: templates/main.html:1153
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "Définit la plage horaire pour les mercredis."
 
-#: templates/main.html:1113
+#: templates/main.html:1156
 msgid "Ĵaŭdo"
 msgstr "Jeudi"
 
-#: templates/main.html:1119
+#: templates/main.html:1162
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "Définit la plage horaire pour les jeudis."
 
-#: templates/main.html:1122
+#: templates/main.html:1165
 msgid "Vendredo"
 msgstr "Vendredi"
 
-#: templates/main.html:1128
+#: templates/main.html:1171
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "Définit la plage horaire pour les vendredis."
 
-#: templates/main.html:1131
+#: templates/main.html:1174
 msgid "Sabato"
 msgstr "Samedi"
 
-#: templates/main.html:1137
+#: templates/main.html:1180
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "Définit la plage horaire pour les samedis."
 
-#: templates/main.html:1140
+#: templates/main.html:1183
 msgid "Dimanĉo"
 msgstr "Dimanche"
 
-#: templates/main.html:1146
+#: templates/main.html:1189
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "Définit la plage horaire pour le dimanche."
 
-#: templates/main.html:1149
+#: templates/main.html:1192
 msgid "Detekti movadon"
 msgstr "Détecter le mouvement"
 
-#: templates/main.html:1152
+#: templates/main.html:1195
 msgid "Dum laborista horaro"
 msgstr "Pendant les heures de travail"
 
-#: templates/main.html:1153
+#: templates/main.html:1196
 msgid "Ekster laborista horaro"
 msgstr "En dehors des heures de travail"
 
-#: templates/main.html:1156
+#: templates/main.html:1199
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "Définit si la détection de mouvement doit être active pendant ou en dehors des heures de travail."
