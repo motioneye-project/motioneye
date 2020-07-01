@@ -12,6 +12,10 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-url="https://github.com/ccrisan/motioneye.git"
 
+# By default, run as root.
+ARG RUN_UID=0
+ARG RUN_GID=0
+
 COPY . /tmp/motioneye
 
 RUN echo "deb http://snapshot.debian.org/archive/debian/20200630T024205Z sid main contrib non-free" >>/etc/apt/sources.list && \
@@ -34,11 +38,16 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/20200630T024205Z sid mai
     python3-wheel \
     tzdata \
     v4l-utils && \
-    pip3 install /tmp/motioneye && \
-    rm -rf /tmp/motioneye && \
     DEBIAN_FRONTEND="noninteractive" apt-get -t sid --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
       motion \
       libmysqlclient21 && \
+    # Change uid/gid of user/group motion to match our desired IDs.  This will
+    # make it easier to use execute motion as our desired user later.
+    sed -i -e "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
+    sed -i -e "s/^\(motion:[^:]*\):[0-9]*:\(.*\)/\1:${RUN_GID}:\2/" /etc/group && \
+    pip3 install /tmp/motioneye && \
+    # Cleanup
+    rm -rf /tmp/motioneye && \
     apt-get purge --yes \
     python3-pip \
     python3-setuptools \
@@ -46,19 +55,18 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/20200630T024205Z sid mai
     apt-get autoremove --yes && \
     apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
+ADD extra/motioneye.conf.sample /usr/share/motioneye/extra/
+
 # R/W needed for motioneye to update configurations
 VOLUME /etc/motioneye
-
-# PIDs
-VOLUME /var/run/motion
 
 # Video & images
 VOLUME /var/lib/motioneye
 
-ADD extra/motioneye.conf.sample /usr/share/motioneye/extra/
-
 CMD test -e /etc/motioneye/motioneye.conf || \
     cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
-    /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
+    # We need to chown at startup time since volumes are mounted as root. This is fugly.
+    chown motion:motion /var/run /var/log /etc/motioneye /var/lib/motioneye /usr/share/motioneye/extra ; \
+    su -g motion motion -s /bin/bash -c "/usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf"
 
 EXPOSE 8765
