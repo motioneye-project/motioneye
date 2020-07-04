@@ -894,7 +894,7 @@ def del_media_group(camera_config, group, media_type):
         exts = _PICTURE_EXTS
 
     else:  # media_type == 'movie'
-        exts = _MOVIE_EXTS
+        exts = _MOVIE_EXTS + ['.thumb']
 
     target_dir = camera_config.get('target_dir')
     full_path = os.path.join(target_dir, group)
