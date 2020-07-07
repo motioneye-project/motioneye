@@ -1859,6 +1859,7 @@ function cameraUi2Dict() {
 	'upload_access_key_id': $('#uploadAccessKeyIDEntry').val(),
         'upload_secret_access_key': $('#uploadSecretAccessKeyEntry').val(),
         'upload_bucket': $('#uploadBucketEntry').val(),
+	'upload_bucket_region': $('#uploadBucketRegionEntry').val(),
         'web_hook_storage_enabled': $('#webHookStorageEnabledSwitch')[0].checked,
         'web_hook_storage_url': $('#webHookStorageUrlEntry').val(),
         'web_hook_storage_http_method': $('#webHookStorageHttpMethodSelect').val(),

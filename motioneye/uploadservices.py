@@ -841,6 +841,7 @@ class SFTP(UploadService):
         's3',
         aws_access_key_id='xxxxxxxx',
         aws_secret_access_key='xxxxxxxx'
+	region_name='xxxxxxxx'
     )
 
    filename = 'xxxxxxxx'
