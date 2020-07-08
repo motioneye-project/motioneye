@@ -849,6 +849,10 @@ div.media-dialog-delete-all-button:ACTIVE {
     background-color: #B03427;
 }
 
+div.button.dialog.delete {
+    background-color: #c0392b;
+}
+
 td.login-dialog-error {
     color: red;
     display: none;

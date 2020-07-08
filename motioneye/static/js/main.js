@@ -2547,6 +2547,11 @@ function downloadFile(path) {
     $('body').append(frame);
 }
 
+function deleteFile(path, callback) {
+    path = basePath + path;
+    doDeleteFile(path, callback);
+}
+
 function uploadFile(path, input, callback) {
     if (!window.FormData) {
         showErrorMessage("Your browser doesn't implement this function!");
@@ -3520,7 +3525,7 @@ function runLoginDialog(retry) {
     runModalDialog(params);
 }
 
-function runPictureDialog(entries, pos, mediaType) {
+function runPictureDialog(entries, pos, mediaType, onDelete) {
     var content = $('<div class="picture-dialog-content"></div>');
 
     var img = $('<img class="picture-dialog-content">');
@@ -3666,18 +3671,43 @@ function runPictureDialog(entries, pos, mediaType) {
 
     img.load(updateModalDialogPosition);
 
-    runModalDialog({
-        title: ' ',
-        closeButton: true,
-        buttons: [
+    var buttons = [
             {caption: 'Close'},
             {caption: 'Download', isDefault: true, click: function () {
                 var entry = entries[pos];
                 downloadFile(mediaType + '/' + entry.cameraId + '/download' + entry.path);
 
                 return false;
-            }}
-        ],
+            }}];
+    if (isAdmin()) {
+        buttons.push({
+                caption: 'Delete',
+                isDefault: false,
+                className: 'delete',
+                click: function () {
+                    var entry = entries[pos];
+                    var callback = function() {
+                        onDelete(entry);
+                        if (entries.length > 0) {
+                            if (pos > entries.length -1) {
+                                pos--;
+                            }
+                            updatePicture();
+                        } else {
+                            hideModalDialog(); /* Close dialog after deleting the only remaining entry */
+                        }
+                    }
+                    deleteFile(mediaType + '/' + entry.cameraId + '/delete' + entry.path, callback);
+
+                    return false;
+                }
+            });
+    }
+
+    runModalDialog({
+        title: ' ',
+        closeButton: true,
+        buttons: buttons,
         content: content,
         stack: true,
         onShow: updatePicture,
@@ -4225,6 +4255,17 @@ function runMediaDialog(cameraId, mediaType) {
                     detailsDiv = $('<div class="media-list-entry-details"></div>');
                     entryDiv.append(detailsDiv);
 
+                    function updateGroupEntryCounter() {
+                        groupsDiv.find('div.media-dialog-group-button').each(function () {
+                            if (this.key == groupKey) {
+                                var text = this.innerHTML;
+                                text = text.substring(0, text.lastIndexOf(' '));
+                                text += ' (' + entries.length + ')';
+                                this.innerHTML = text;
+                            }
+                        });
+                    }
+
                     downloadButton.click(function () {
                         downloadFile(mediaType + '/' + cameraId + '/download' + entry.path);
                         return false;
@@ -4236,18 +4277,8 @@ function runMediaDialog(cameraId, mediaType) {
                             var pos = entries.indexOf(entry);
                             if (pos >= 0) {
                                 entries.splice(pos, 1); /* remove entry from group */
+                                updateGroupEntryCounter();
                             }
-
-                            /* update text on group button */
-                            groupsDiv.find('div.media-dialog-group-button').each(function () {
-                                var $this = $(this);
-                                if (this.key == groupKey) {
-                                    var text = this.innerHTML;
-                                    text = text.substring(0, text.lastIndexOf(' '));
-                                    text += ' (' + entries.length + ')';
-                                    this.innerHTML = text;
-                                }
-                            });
                         });
 
                         return false;
@@ -4255,7 +4286,19 @@ function runMediaDialog(cameraId, mediaType) {
 
                     entryDiv.click(function () {
                         var pos = entries.indexOf(entry);
-                        runPictureDialog(entries, pos, mediaType);
+                        var onDelete = function(deletedEntry) {
+                            var pos = entries.indexOf(deletedEntry);
+                            if (pos >= 0) {
+                                entries.splice(pos, 1); /* remove entry from group */
+                                $('.media-list-entry')[pos].remove(); /* remove entry from list in DOM */
+                                if (entries.length > 0) {
+                                    updateGroupEntryCounter();
+                                } else {
+                                    deleteGroup();
+                                }
+                            }
+                        };
+                        runPictureDialog(entries, pos, mediaType, onDelete);
                     });
 
                     entry.div = entryDiv;
@@ -4350,31 +4393,32 @@ function runMediaDialog(cameraId, mediaType) {
 
         deleteAllButton.click(function () {
             if (groupKey != null) {
-                doDeleteAllFiles(mediaType, cameraId, groupKey, function () {
-                    /* delete th group button */
-                    groupsDiv.find('div.media-dialog-group-button').each(function () {
-                        var $this = $(this);
-                        if (this.key == groupKey) {
-                            $this.remove();
-                        }
-                    });
-
-                    /* delete the group itself */
-                    delete groups[groupKey];
-
-                    /* show the first existing group, if any */
-                    var keys = Object.keys(groups);
-                    if (keys.length) {
-                        showGroup(keys[0]);
-                    }
-                    else {
-                        hideModalDialog();
-                    }
-                });
+                doDeleteAllFiles(mediaType, cameraId, groupKey, deleteGroup);
             }
         });
     }
 
+    function deleteGroup() {
+        /* delete the group button */
+        groupsDiv.find('div.media-dialog-group-button').each(function () {
+            var $this = $(this);
+            if (this.key == groupKey) {
+                $this.remove();
+            }
+        });
+
+        /* delete the group itself */
+        delete groups[groupKey];
+
+        /* show the first existing group, if any */
+        var keys = Object.keys(groups);
+        if (keys.length) {
+            showGroup(keys[0]);
+        }
+        else {
+            hideModalDialog();
+        }
+    }
     function updateDialogSize() {
         var windowWidth = $(window).width();
         var windowHeight = $(window).height();
