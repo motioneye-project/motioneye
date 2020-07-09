@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-30 18:48+0200\n"
+"POT-Creation-Date: 2020-07-09 17:44+0200\n"
 "PO-Revision-Date: 2020-02-11 22:23+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -107,488 +107,488 @@ msgstr "اسم ملف مخصص"
 msgid "Retan kunlokon"
 msgstr "الاتصال عبر الإنترنت"
 
-#: static/js/main.js:2569
+#: static/js/main.js:2574
 #, fuzzy
 msgid "Apliki"
 msgstr "تطبيق"
 
-#: static/js/main.js:2596 static/js/main.js:2957 static/js/main.js:3008
-#: static/js/main.js:3048
+#: static/js/main.js:2601 static/js/main.js:2962 static/js/main.js:3013
+#: static/js/main.js:3053
 #, fuzzy
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
 msgstr "تأكد من أن جميع خيارات التكوين صالحة!"
 
-#: static/js/main.js:2698
+#: static/js/main.js:2703
 #, fuzzy
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
 msgstr "سيؤدي ذلك إلى إعادة تشغيل النظام. تواصل؟"
 
-#: static/js/main.js:2708
+#: static/js/main.js:2713
 #, fuzzy
 msgid "Vere fermiti sistemon?"
 msgstr "حقا اغلاق النظام؟"
 
-#: static/js/main.js:2720
+#: static/js/main.js:2725
 #, fuzzy
 msgid "Malŝaltita"
 msgstr "متوقف"
 
-#: static/js/main.js:2735
+#: static/js/main.js:2740
 #, fuzzy
 msgid "Ĉu vere restartigi ?"
 msgstr "هل تريد إعادة التشغيل حقًا؟"
 
-#: static/js/main.js:2749
+#: static/js/main.js:2754
 #, fuzzy
 msgid "La sistemo rekomencis!"
 msgstr "تمت إعادة تشغيل النظام!"
 
-#: static/js/main.js:2769 static/js/main.js:2802 static/js/main.js:3695
+#: static/js/main.js:2774 static/js/main.js:2807 static/js/main.js:3725
 #, fuzzy
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
 msgstr "يرجى تطبيق الإعدادات المعدلة أولاً!"
 
-#: static/js/main.js:2774
+#: static/js/main.js:2779
 #, fuzzy
 msgid "Neniu fotilo por forigi!"
 msgstr "لا توجد كاميرا لإزالتها!"
 
-#: static/js/main.js:2780
+#: static/js/main.js:2785
 #, fuzzy
 msgid "Ĉu forigi kameraon "
 msgstr "يمكن إزالة الكاميرا"
 
-#: static/js/main.js:2808
+#: static/js/main.js:2813
 #, fuzzy
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
 msgstr "يتم تحديث motionEye (الإصدار الحالي:"
 
-#: static/js/main.js:2811
+#: static/js/main.js:2816
 #, fuzzy
 msgid "Nova versio havebla: "
 msgstr "يتوفر إصدار جديد:"
 
-#: static/js/main.js:2811
+#: static/js/main.js:2816
 #, fuzzy
 msgid ". Ĝisdatigi?"
 msgstr ". تحديث؟"
 
-#: static/js/main.js:2819
+#: static/js/main.js:2824
 #, fuzzy
 msgid "motionEye estis sukcese ĝisdatigita!"
 msgstr "تم تحديث motionEye بنجاح!"
 
-#: static/js/main.js:2829
+#: static/js/main.js:2834
 #, fuzzy
 msgid "Ĝisdatigo malsukcesis!"
 msgstr "فشل التحديث!"
 
-#: static/js/main.js:2840
+#: static/js/main.js:2845
 #, fuzzy
 msgid "La ĝisdatiga procezo malsukcesis!"
 msgstr "فشلت عملية الترقية!"
 
-#: static/js/main.js:2859
+#: static/js/main.js:2864
 #, fuzzy
 msgid "Rezerva dosiero"
 msgstr "ملف النسخ الاحتياطي"
 
-#: static/js/main.js:2861
+#: static/js/main.js:2866
 #, fuzzy
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
 msgstr "ملف النسخ الاحتياطي الذي قمت بتنزيله مسبقًا."
 
-#: static/js/main.js:2890
+#: static/js/main.js:2895
 #, fuzzy
 msgid "Restaŭrigi Agordon"
 msgstr "استعادة التكوين"
 
-#: static/js/main.js:2902
+#: static/js/main.js:2907
 #, fuzzy
 msgid "Restaŭriganta agordon ..."
 msgstr "جاري استعادة التكوين ..."
 
-#: static/js/main.js:2909
+#: static/js/main.js:2914
 #, fuzzy
 msgid "La agordo restaŭrigis!"
 msgstr "تمت استعادة التكوين!"
 
-#: static/js/main.js:2919 static/js/main.js:2938
+#: static/js/main.js:2924 static/js/main.js:2943
 #, fuzzy
 msgid "Malsukcesis restaŭri la agordon!"
 msgstr "فشل في استعادة التكوين!"
 
-#: static/js/main.js:2989
+#: static/js/main.js:2994
 #, fuzzy
 msgid "Aliri la alŝutan servon malsukcesis: "
 msgstr "فشل الوصول إلى خدمة التحميل:"
 
-#: static/js/main.js:2992
+#: static/js/main.js:2997
 #, fuzzy
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "كان الوصول إلى خدمة التحميل ناجحًا!"
 
-#: static/js/main.js:3095
+#: static/js/main.js:3100
 #, fuzzy
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
 msgstr "هل تريد حقًا حذف هذا الملف؟"
 
-#: static/js/main.js:3119
+#: static/js/main.js:3124
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
 msgstr "هل تريد حقًا حذف جميع الصور من \"%(group)s\"؟"
 
-#: static/js/main.js:3122
+#: static/js/main.js:3127
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
 msgstr "هل تريد حقًا حذف جميع الأفلام من \"%(group)s\"؟"
 
-#: static/js/main.js:3127
+#: static/js/main.js:3132
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
 msgstr "هل تريد حقًا حذف جميع الصور غير المجمعة؟"
 
-#: static/js/main.js:3130
+#: static/js/main.js:3135
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
 msgstr "هل تريد حقًا حذف جميع الأفلام غير المجمعة؟"
 
-#: static/js/main.js:3241
+#: static/js/main.js:3246
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "إضافة كاميرا ..."
 
-#: static/js/main.js:3429
+#: static/js/main.js:3434
 #, fuzzy
 msgid "bone"
 msgstr "حسنًا"
 
-#: static/js/main.js:3466 static/js/main.js:3717
+#: static/js/main.js:3471 static/js/main.js:3747
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "اسم المستخدم"
 
-#: static/js/main.js:3471 static/js/main.js:3722
+#: static/js/main.js:3476 static/js/main.js:3752
 #, fuzzy
 msgid "Pasvorto"
 msgstr "كلمة المرور"
 
-#: static/js/main.js:3477
+#: static/js/main.js:3482
 #, fuzzy
 msgid "Memoru min"
 msgstr "تذكرني"
 
-#: static/js/main.js:3495 static/js/main.js:3501
+#: static/js/main.js:3500 static/js/main.js:3506
 #, fuzzy
 msgid "Ensaluti"
 msgstr "تسجيل الدخول"
 
-#: static/js/main.js:3498 static/js/ui.js:1018 static/js/ui.js:1025
+#: static/js/main.js:3503 static/js/ui.js:1023 static/js/ui.js:1030
 #, fuzzy
 msgid "Nuligi"
 msgstr "الإلغاء"
 
-#: static/js/main.js:3540
+#: static/js/main.js:3545
 #, fuzzy
 msgid "Vi abortis la filmeton."
 msgstr "لقد أجهضت الفيديو."
 
-#: static/js/main.js:3543
+#: static/js/main.js:3548
 #, fuzzy
 msgid "Reto eraro okazis."
 msgstr "حدث خطأ في الشبكة."
 
-#: static/js/main.js:3546
+#: static/js/main.js:3551
 #, fuzzy
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
 msgstr "خطأ في فك التشفير أو وظيفة غير متوقعة."
 
-#: static/js/main.js:3549
+#: static/js/main.js:3554
 #, fuzzy
 msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
 msgstr "التنسيق غير مدعوم أو غير قابل للاستخدام / غير قابل للاستخدام في اللعب."
 
-#: static/js/main.js:3552
+#: static/js/main.js:3557
 #, fuzzy
 msgid "Nekonata eraro okazis."
 msgstr "حدث خطأ غير معروف."
 
-#: static/js/main.js:3555
+#: static/js/main.js:3560
 #, fuzzy
 msgid "Eraro : "
 msgstr "خطأ:"
 
-#: static/js/main.js:3560
+#: static/js/main.js:3565
 #, fuzzy
 msgid "antaŭa bildo"
 msgstr "الصورة السابقة"
 
-#: static/js/main.js:3563
+#: static/js/main.js:3568
 #, fuzzy
 msgid "ludi"
 msgstr "للعب"
 
-#: static/js/main.js:3566
+#: static/js/main.js:3571
 #, fuzzy
 msgid "sekva bildo"
 msgstr "الصورة التالية"
 
-#: static/js/main.js:3676
+#: static/js/main.js:3678
 #, fuzzy
 msgid "Fermi"
 msgstr "أغلق"
 
-#: static/js/main.js:3677 static/js/main.js:4210
+#: static/js/main.js:3679 static/js/main.js:4240
 #, fuzzy
 msgid "Elŝuti"
 msgstr "تنزيل"
 
-#: static/js/main.js:3701
-#, fuzzy
-msgid "Kamerao tipo"
-msgstr "نوع الكاميرا"
-
-#: static/js/main.js:3703
-#, fuzzy
-msgid "Loka V4L2-kamerao"
-msgstr "كاميرا V4L2 محلية"
-
-#: static/js/main.js:3704
-#, fuzzy
-msgid "Loka MMAL-kamerao"
-msgstr "كاميرا MMAL محلية"
-
-#: static/js/main.js:3705
-#, fuzzy
-msgid "Reta kamerao"
-msgstr "كاميرا ويب"
-
-#: static/js/main.js:3706
-#, fuzzy
-msgid "Fora motionEye kamerao"
-msgstr "كاميرا خارجية"
-
-#: static/js/main.js:3707
-#, fuzzy
-msgid "Simpla MJPEG-kamerao"
-msgstr "كاميرا MJPEG بسيطة"
-
-#: static/js/main.js:3709
-#, fuzzy
-msgid "la speco de kamerao, kiun vi volas aldoni"
-msgstr "نوع الكاميرا التي تريد إضافتها"
-
-#: static/js/main.js:3712
-#, fuzzy
-msgid "URL"
-msgstr "URL"
-
-#: static/js/main.js:3713
-#, fuzzy
-msgid "http://ekzemplo.com:8765/cams/..."
-msgstr "http: //example.com: 8765 / كاميرات / ..."
-
-#: static/js/main.js:3714
-#, fuzzy
-msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
-msgstr "عنوان URL للكاميرا (مثل http://example.com:8080/cam/)"
-
-#: static/js/main.js:3718
-#, fuzzy
-msgid "uzantnomo..."
-msgstr "اسم المستخدم ..."
-
-#: static/js/main.js:3719
-#, fuzzy
-msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
-msgstr "اسم المستخدم لعنوان URL ، إذا لزم الأمر (مثل المشرف)"
-
-#: static/js/main.js:3723
-#, fuzzy
-msgid "pasvorto..."
-msgstr "كلمة المرور ..."
-
-#: static/js/main.js:3724
-#, fuzzy
-msgid "la pasvorto por la URL, se bezonata"
-msgstr "كلمة المرور لعنوان URL ، إذا لزم الأمر"
-
-#: static/js/main.js:3727
-#, fuzzy
-msgid "Kamerao"
-msgstr "الكاميرا"
-
-#: static/js/main.js:3729
-#, fuzzy
-msgid "la kameraon, kiun vi volas aldoni"
-msgstr "الكاميرا التي تريد إضافتها"
-
-#: static/js/main.js:3765
-#, fuzzy
-msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
-msgstr "كاميرا MotionEye عن بعد هي كاميرا مثبتة خلف خادم MotionEye آخر. ستسمح لك إضافتها هنا بمشاهدتها وإدارتها من مسافة بعيدة."
-
-#: static/js/main.js:3780
-#, fuzzy
-msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
-msgstr "كاميرات الشبكة (أو كاميرات IP) هي الأجهزة التي تقوم بدفق مقاطع فيديو RTSP / RTMP أو MJPEG أو صور JPEG البسيطة. راجع دليل جهازك لمعرفة عنوان URL RTSP أو RTMP أو MJPEG أو JPEG الصحيح."
-
-#: static/js/main.js:3785
-#, fuzzy
-msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr "كاميرات MMAL المحلية هي أجهزة متصلة مباشرة بنظام motionEye الخاص بك. عادة ما تكون هذه الكاميرات خاصة بالبطاقة."
-
-#: static/js/main.js:3800
-#, fuzzy
-msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
-msgstr "ستؤدي إضافة جهازك ككاميرا MJPEG بسيطة بدلاً من ككاميرا ويب إلى تحسين التصوير الفوتوغرافي ، ولكن لن يتوفر أي كشف عن الحركة أو التقاط الصور أو تسجيل الأفلام. يجب أن تكون الكاميرا متاحة لخادمك ومتصفحك. لا يتطابق هذا النوع من الكاميرا مع Internet Explorer."
-
-#: static/js/main.js:3805
-#, fuzzy
-msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
-msgstr "كاميرات V4L2 المحلية عبارة عن أجهزة كاميرا متصلة مباشرة بنظام motionEye الخاص بك ، عادةً عبر USB."
-
-#: static/js/main.js:3956
-#, fuzzy
-msgid "Aldonadi kameraon..."
-msgstr "إضافة كاميرا ..."
-
-#: static/js/main.js:4028
-#, fuzzy
-msgid "Grupo"
-msgstr "مجموعة"
-
-#: static/js/main.js:4032
-#, fuzzy
-msgid "Inkluzivi foton prenitan ĉiun"
-msgstr "تضمين صورة تم التقاطها لكل منها"
-
-#: static/js/main.js:4035
-#, fuzzy
-msgid "sekundo"
-msgstr "الثانية"
-
-#: static/js/main.js:4036
-#, fuzzy
-msgid "5 sekundoj"
-msgstr "5 ثواني"
-
-#: static/js/main.js:4037
-#, fuzzy
-msgid "10 sekundoj"
-msgstr "10 ثواني"
-
-#: static/js/main.js:4038
-#, fuzzy
-msgid "30 sekundoj"
-msgstr "30 ثانية"
-
-#: static/js/main.js:4039
-#, fuzzy
-msgid "minuto"
-msgstr "دقيقة"
-
-#: static/js/main.js:4040
-#, fuzzy
-msgid "5 minutoj"
-msgstr "5 دقائق"
-
-#: static/js/main.js:4041
-#, fuzzy
-msgid "10 minutoj"
-msgstr "10 دقائق"
-
-#: static/js/main.js:4042
-#, fuzzy
-msgid "30 minutoj"
-msgstr "30 دقيقة"
-
-#: static/js/main.js:4043
-#, fuzzy
-msgid "horo"
-msgstr "ساعة"
-
-#: static/js/main.js:4046
-#, fuzzy
-msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
-msgstr "حدد الفترة الزمنية بين صورتين محددتين."
-
-#: static/js/main.js:4049
-#, fuzzy
-msgid "Filmo framfrekvenco"
-msgstr "معدل إطار الفيلم"
-
-#: static/js/main.js:4051
-#, fuzzy
-msgid "Elektu kiom rapide vi volas ke la akselita video estu."
-msgstr "اختر مدى السرعة التي تريدها لتسريع الفيديو."
-
-#: static/js/main.js:4060
-#, fuzzy
-msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr "بالنظر إلى العدد الكبير من الصور ، قد يستغرق إنشاء الفيديو بعض الوقت!"
-
-#: static/js/main.js:4077
-#, fuzzy
-msgid "Krei akselita video"
-msgstr "إنشاء فيديو مسرع"
-
-#: static/js/main.js:4086
-#, fuzzy
-msgid "Filmo kreanta en progreso..."
-msgstr "فيلم قيد التقدم ..."
-
-#: static/js/main.js:4213
+#: static/js/main.js:3687 static/js/main.js:4243
 #, fuzzy
 msgid "Forigi"
 msgstr "إزالة"
 
-#: static/js/main.js:4324
+#: static/js/main.js:3731
+#, fuzzy
+msgid "Kamerao tipo"
+msgstr "نوع الكاميرا"
+
+#: static/js/main.js:3733
+#, fuzzy
+msgid "Loka V4L2-kamerao"
+msgstr "كاميرا V4L2 محلية"
+
+#: static/js/main.js:3734
+#, fuzzy
+msgid "Loka MMAL-kamerao"
+msgstr "كاميرا MMAL محلية"
+
+#: static/js/main.js:3735
+#, fuzzy
+msgid "Reta kamerao"
+msgstr "كاميرا ويب"
+
+#: static/js/main.js:3736
+#, fuzzy
+msgid "Fora motionEye kamerao"
+msgstr "كاميرا خارجية"
+
+#: static/js/main.js:3737
+#, fuzzy
+msgid "Simpla MJPEG-kamerao"
+msgstr "كاميرا MJPEG بسيطة"
+
+#: static/js/main.js:3739
+#, fuzzy
+msgid "la speco de kamerao, kiun vi volas aldoni"
+msgstr "نوع الكاميرا التي تريد إضافتها"
+
+#: static/js/main.js:3742
+#, fuzzy
+msgid "URL"
+msgstr "URL"
+
+#: static/js/main.js:3743
+#, fuzzy
+msgid "http://ekzemplo.com:8765/cams/..."
+msgstr "http: //example.com: 8765 / كاميرات / ..."
+
+#: static/js/main.js:3744
+#, fuzzy
+msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
+msgstr "عنوان URL للكاميرا (مثل http://example.com:8080/cam/)"
+
+#: static/js/main.js:3748
+#, fuzzy
+msgid "uzantnomo..."
+msgstr "اسم المستخدم ..."
+
+#: static/js/main.js:3749
+#, fuzzy
+msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
+msgstr "اسم المستخدم لعنوان URL ، إذا لزم الأمر (مثل المشرف)"
+
+#: static/js/main.js:3753
+#, fuzzy
+msgid "pasvorto..."
+msgstr "كلمة المرور ..."
+
+#: static/js/main.js:3754
+#, fuzzy
+msgid "la pasvorto por la URL, se bezonata"
+msgstr "كلمة المرور لعنوان URL ، إذا لزم الأمر"
+
+#: static/js/main.js:3757
+#, fuzzy
+msgid "Kamerao"
+msgstr "الكاميرا"
+
+#: static/js/main.js:3759
+#, fuzzy
+msgid "la kameraon, kiun vi volas aldoni"
+msgstr "الكاميرا التي تريد إضافتها"
+
+#: static/js/main.js:3795
+#, fuzzy
+msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
+msgstr "كاميرا MotionEye عن بعد هي كاميرا مثبتة خلف خادم MotionEye آخر. ستسمح لك إضافتها هنا بمشاهدتها وإدارتها من مسافة بعيدة."
+
+#: static/js/main.js:3810
+#, fuzzy
+msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
+msgstr "كاميرات الشبكة (أو كاميرات IP) هي الأجهزة التي تقوم بدفق مقاطع فيديو RTSP / RTMP أو MJPEG أو صور JPEG البسيطة. راجع دليل جهازك لمعرفة عنوان URL RTSP أو RTMP أو MJPEG أو JPEG الصحيح."
+
+#: static/js/main.js:3815
+#, fuzzy
+msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
+msgstr "كاميرات MMAL المحلية هي أجهزة متصلة مباشرة بنظام motionEye الخاص بك. عادة ما تكون هذه الكاميرات خاصة بالبطاقة."
+
+#: static/js/main.js:3830
+#, fuzzy
+msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
+msgstr "ستؤدي إضافة جهازك ككاميرا MJPEG بسيطة بدلاً من ككاميرا ويب إلى تحسين التصوير الفوتوغرافي ، ولكن لن يتوفر أي كشف عن الحركة أو التقاط الصور أو تسجيل الأفلام. يجب أن تكون الكاميرا متاحة لخادمك ومتصفحك. لا يتطابق هذا النوع من الكاميرا مع Internet Explorer."
+
+#: static/js/main.js:3835
+#, fuzzy
+msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
+msgstr "كاميرات V4L2 المحلية عبارة عن أجهزة كاميرا متصلة مباشرة بنظام motionEye الخاص بك ، عادةً عبر USB."
+
+#: static/js/main.js:3986
+#, fuzzy
+msgid "Aldonadi kameraon..."
+msgstr "إضافة كاميرا ..."
+
+#: static/js/main.js:4058
+#, fuzzy
+msgid "Grupo"
+msgstr "مجموعة"
+
+#: static/js/main.js:4062
+#, fuzzy
+msgid "Inkluzivi foton prenitan ĉiun"
+msgstr "تضمين صورة تم التقاطها لكل منها"
+
+#: static/js/main.js:4065
+#, fuzzy
+msgid "sekundo"
+msgstr "الثانية"
+
+#: static/js/main.js:4066
+#, fuzzy
+msgid "5 sekundoj"
+msgstr "5 ثواني"
+
+#: static/js/main.js:4067
+#, fuzzy
+msgid "10 sekundoj"
+msgstr "10 ثواني"
+
+#: static/js/main.js:4068
+#, fuzzy
+msgid "30 sekundoj"
+msgstr "30 ثانية"
+
+#: static/js/main.js:4069
+#, fuzzy
+msgid "minuto"
+msgstr "دقيقة"
+
+#: static/js/main.js:4070
+#, fuzzy
+msgid "5 minutoj"
+msgstr "5 دقائق"
+
+#: static/js/main.js:4071
+#, fuzzy
+msgid "10 minutoj"
+msgstr "10 دقائق"
+
+#: static/js/main.js:4072
+#, fuzzy
+msgid "30 minutoj"
+msgstr "30 دقيقة"
+
+#: static/js/main.js:4073
+#, fuzzy
+msgid "horo"
+msgstr "ساعة"
+
+#: static/js/main.js:4076
+#, fuzzy
+msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
+msgstr "حدد الفترة الزمنية بين صورتين محددتين."
+
+#: static/js/main.js:4079
+#, fuzzy
+msgid "Filmo framfrekvenco"
+msgstr "معدل إطار الفيلم"
+
+#: static/js/main.js:4081
+#, fuzzy
+msgid "Elektu kiom rapide vi volas ke la akselita video estu."
+msgstr "اختر مدى السرعة التي تريدها لتسريع الفيديو."
+
+#: static/js/main.js:4090
+#, fuzzy
+msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
+msgstr "بالنظر إلى العدد الكبير من الصور ، قد يستغرق إنشاء الفيديو بعض الوقت!"
+
+#: static/js/main.js:4107
+#, fuzzy
+msgid "Krei akselita video"
+msgstr "إنشاء فيديو مسرع"
+
+#: static/js/main.js:4116
+#, fuzzy
+msgid "Filmo kreanta en progreso..."
+msgstr "فيلم قيد التقدم ..."
+
+#: static/js/main.js:4367
 #, fuzzy
 msgid "Zipitaj"
 msgstr "انغلق"
 
-#: static/js/main.js:4333
+#: static/js/main.js:4376
 #, fuzzy
 msgid "Akselita video"
 msgstr "فيديو معجل"
 
-#: static/js/main.js:4344
+#: static/js/main.js:4387
 #, fuzzy
 msgid "Forigi ĉiujn"
 msgstr "قم بإزالتها جميعًا"
 
-#: static/js/main.js:4485
+#: static/js/main.js:4529
 #, fuzzy
 msgid "Bildoj prenitaj de "
 msgstr "الصور الملتقطة"
 
-#: static/js/main.js:4488
+#: static/js/main.js:4532
 #, fuzzy
 msgid "Filmoj registritaj de "
 msgstr "الأفلام المسجلة بواسطة"
 
-#: static/js/main.js:4550
+#: static/js/main.js:4594
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "كاميرا ملء الشاشة"
 
-#: static/js/main.js:4551
+#: static/js/main.js:4595
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "فتح متصفح الصور"
 
-#: static/js/main.js:4552
+#: static/js/main.js:4596
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "فتح متصفح الفيديو"
 
-#: static/js/main.js:4553
+#: static/js/main.js:4597
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "ضبط هذه الكاميرا"
 
-#: static/js/main.js:4569
+#: static/js/main.js:4613
 #, fuzzy
 msgid "preni instantaron"
 msgstr "أخذ لقطة"
@@ -643,22 +643,22 @@ msgstr "أدخل وقتًا صالحًا بالتنسيق التالي: HH: MM"
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
 msgstr "أدخل عنوان URL صالحًا (مثل http://example.com:8080/cams/)"
 
-#: static/js/ui.js:966
+#: static/js/ui.js:971
 #, fuzzy
 msgid "fermi"
 msgstr "ليغلق"
 
-#: static/js/ui.js:1012 static/js/ui.js:1019
+#: static/js/ui.js:1017 static/js/ui.js:1024
 #, fuzzy
 msgid "Ne"
 msgstr "لا"
 
-#: static/js/ui.js:1013 static/js/ui.js:1020
+#: static/js/ui.js:1018 static/js/ui.js:1025
 #, fuzzy
 msgid "Jes"
 msgstr "نعم"
 
-#: static/js/ui.js:1026 static/js/ui.js:1031
+#: static/js/ui.js:1031 static/js/ui.js:1036
 #, fuzzy
 msgid "Bone"
 msgstr "حسنًا"

@@ -12,7 +12,7 @@ here = os.path.abspath(os.path.dirname(__file__))
 name = 'motioneye'
 version = motioneye.VERSION
 
-with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
+with open(os.path.join(here, 'ReadMe.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 
