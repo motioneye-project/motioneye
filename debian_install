@@ -1,0 +1,17 @@
+#!/bin/bash
+
+mkdir -p /etc/motioneye
+if [ ! -f /etc/motioneye/motioneye.conf ]
+then
+  cp /usr/local/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
+fi
+mkdir -p /var/lib/motioneye
+chown -R motion.motion /etc/motioneye /var/lib/motioneye
+
+if [ ! -f /etc/systemd/system/motioneye.service ]
+then
+  cp /usr/local/share/motioneye/extra/motioneye.systemd-unit-local /etc/systemd/system/motioneye.service
+fi
+systemctl daemon-reload
+systemctl enable motioneye
+systemctl start motioneye

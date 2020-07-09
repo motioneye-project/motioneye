@@ -3,10 +3,10 @@
 conf_path /etc/motioneye
 
 # path to the directory where pid files go (must be writable by motionEye)
-run_path /var/run
+run_path /var/run/motioneye
 
 # path to the directory where log files go (must be writable by motionEye)
-log_path /var/log
+log_path /var/log/motioneye
 
 # default output path for media files (must be writable by motionEye)
 media_path /var/lib/motioneye

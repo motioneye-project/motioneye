@@ -4,6 +4,9 @@ Description=motionEye Server
 [Service]
 #Environment=LANGUAGE=en
 ExecStart=/usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf
+User=motion
+RuntimeDirectory=motioneye
+LogsDirectory=motioneye
 Restart=on-abort
 
 [Install]
