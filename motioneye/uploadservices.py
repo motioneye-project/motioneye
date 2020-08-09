@@ -20,15 +20,15 @@ import logging
 import mimetypes
 import os
 import os.path
-import StringIO
+import io
 import time
-import urllib
-import urllib2
+import urllib.request
+import urllib.error
+import urllib.parse
 import pycurl
 
-import settings
-import utils
-import config
+from motioneye import settings
+from motioneye import utils
 import datetime
 
 _STATE_FILE_NAME = 'uploadservices.json'
@@ -167,7 +167,7 @@ class GoogleBase:
             'access_type': 'offline'
         }
 
-        return cls.AUTH_URL + '?' + urllib.urlencode(query)
+        return cls.AUTH_URL + '?' + urllib.parse.urlencode(query)
 
     def _test_access(self):
         try:
@@ -215,13 +215,13 @@ class GoogleBase:
         headers['Authorization'] = 'Bearer %s' % self._credentials['access_token']
 
         self.debug('requesting %s' % url)
-        request = urllib2.Request(url, data=body, headers=headers)
+        request = urllib.request.Request(url, data=body, headers=headers)
         if method:
             request.get_method = lambda: method
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except urllib.error.HTTPError as e:
             if e.code == 401 and retry_auth:  # unauthorized, access token may have expired
                 try:
                     self.debug('credentials have probably expired, refreshing them')
@@ -275,14 +275,14 @@ class GoogleBase:
             'scope': self.SCOPE,
             'grant_type': 'authorization_code'
         }
-        body = urllib.urlencode(body)
+        body = urllib.parse.urlencode(body)
 
-        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
+        request = urllib.request.Request(self.TOKEN_URL, data=body, headers=headers)
 
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except urllib.error.HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
 
@@ -304,14 +304,14 @@ class GoogleBase:
             'client_secret': self.CLIENT_NOT_SO_SECRET,
             'grant_type': 'refresh_token'
         }
-        body = urllib.urlencode(body)
+        body = urllib.parse.urlencode(body)
 
-        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
+        request = urllib.request.Request(self.TOKEN_URL, data=body, headers=headers)
 
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except urllib.error.HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
 
@@ -357,16 +357,9 @@ class GoogleDrive(UploadService, GoogleBase):
             'parents': [{'id': self._get_folder_id(path)}]
         }
 
-        body = ['--' + self.BOUNDARY]
-        body.append('Content-Type: application/json; charset=UTF-8')
-        body.append('')
-        body.append(json.dumps(metadata))
-        body.append('')
+        body = ['--' + self.BOUNDARY, 'Content-Type: application/json; charset=UTF-8', '', json.dumps(metadata), '',
+                '--' + self.BOUNDARY, 'Content-Type: %s' % mime_type, '', '']
 
-        body.append('--' + self.BOUNDARY)
-        body.append('Content-Type: %s' % mime_type)
-        body.append('')
-        body.append('')
         body = '\r\n'.join(body)
         body += data
         body += '\r\n--%s--' % self.BOUNDARY
@@ -420,7 +413,7 @@ class GoogleDrive(UploadService, GoogleBase):
     def _get_folder_id_by_name(self, parent_id, child_name, create=True):
         if parent_id:
             query = self.CHILDREN_QUERY % {'parent_id': parent_id, 'child_name': child_name}
-            query = urllib.quote(query)
+            query = urllib.parse.quote(query)
 
         else:
             query = ''
@@ -477,8 +470,7 @@ class GoogleDrive(UploadService, GoogleBase):
         removed_count = 0
         folder_id = self._get_folder_id_by_name('root', cloud_dir, False)
         children = self._get_children(folder_id)
-        self.info('found %s/%s folder(s) in local/cloud' % \
-            (len(local_folders), len(children)))
+        self.info('found %s/%s folder(s) in local/cloud' % (len(local_folders), len(children)))
         self.debug('local %s' % local_folders)
         for child in children:
             id = child['id']
@@ -684,7 +676,7 @@ class Dropbox(UploadService):
             'client_id': cls.CLIENT_ID
         }
 
-        return cls.AUTH_URL + '?' + urllib.urlencode(query)
+        return cls.AUTH_URL + '?' + urllib.parse.urlencode(query)
 
     def test_access(self):
         body = {
@@ -771,11 +763,11 @@ class Dropbox(UploadService):
         headers['Authorization'] = 'Bearer %s' % self._credentials['access_token']
 
         self.debug('requesting %s' % url)
-        request = urllib2.Request(url, data=body, headers=headers)
+        request = urllib.request.Request(url, data=body, headers=headers)
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except urllib.error.HTTPError as e:
             if e.code == 401 and retry_auth:  # unauthorized, access token may have expired
                 try:
                     self.debug('credentials have probably expired, refreshing them')
@@ -815,14 +807,14 @@ class Dropbox(UploadService):
             'client_secret': self.CLIENT_NOT_SO_SECRET,
             'grant_type': 'authorization_code'
         }
-        body = urllib.urlencode(body)
+        body = urllib.parse.urlencode(body)
 
-        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
+        request = urllib.request.Request(self.TOKEN_URL, data=body, headers=headers)
 
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except urllib.error.HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
 
@@ -877,7 +869,7 @@ class FTP(UploadService):
         conn.cwd(path)
 
         self.debug('uploading %s of %s bytes' % (filename, len(data)))
-        conn.storbinary('STOR %s' % filename, StringIO.StringIO(data))
+        conn.storbinary('STOR %s' % filename, io.StringIO(data))
 
         self.debug('upload done')
 
@@ -974,7 +966,7 @@ class SFTP(UploadService):
 
         conn = self._get_conn(test_file)
         conn.setopt(conn.POSTQUOTE, rm_operations)  # Executed after transfer.
-        conn.setopt(pycurl.READFUNCTION, StringIO.StringIO().read)
+        conn.setopt(pycurl.READFUNCTION, io.StringIO().read)
 
         try:
             self.curl_perform_filetransfer(conn)
@@ -987,7 +979,7 @@ class SFTP(UploadService):
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         conn = self._get_conn(filename)
-        conn.setopt(pycurl.READFUNCTION, StringIO.StringIO(data).read)
+        conn.setopt(pycurl.READFUNCTION, io.StringIO(data).read)
 
         self.curl_perform_filetransfer(conn)
 
@@ -1133,8 +1125,8 @@ def _load():
         finally:
             f.close()
 
-        for camera_id, d in data.iteritems():
-            for name, state in d.iteritems():
+        for camera_id, d in list(data.items()):
+            for name, state in list(d.items()):
                 camera_services = services.setdefault(camera_id, {})
                 cls = UploadService.get_service_classes().get(name)
 
@@ -1155,8 +1147,8 @@ def _save(services):
     logging.debug('saving upload services state to "%s"...' % file_path)
 
     data = {}
-    for camera_id, camera_services in services.iteritems():
-        for name, service in camera_services.iteritems():
+    for camera_id, camera_services in list(services.items()):
+        for name, service in list(camera_services.items()):
             data.setdefault(str(camera_id), {})[name] = service.dump()
 
     try:
@@ -1176,6 +1168,7 @@ def _save(services):
     finally:
         f.close()
 
+
 def clean_cloud(local_dir, data, info):
     camera_id = info['camera_id']
     service_name = info['service_name']
@@ -1190,6 +1183,7 @@ def clean_cloud(local_dir, data, info):
         service.load(data)
         service.clean_cloud(cloud_dir, local_folders)
 
+
 def exist_in_local(folder, local_folders):
     if not local_folders:
         local_folders = []
@@ -1199,6 +1193,7 @@ def exist_in_local(folder, local_folders):
 
     return folder in local_folders
 
-def get_local_folders(dir):
-    folders = next(os.walk(dir))[1]
+
+def get_local_folders(dirpath):
+    folders = next(os.walk(dirpath))[1]
     return folders

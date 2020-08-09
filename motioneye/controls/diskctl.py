@@ -18,8 +18,7 @@
 import logging
 import os
 import re
-import subprocess
-import utils
+from motioneye import utils
 
 
 def _list_mounts():
@@ -87,10 +86,10 @@ def _list_disks_dev_by_id():
         target = os.path.realpath(os.path.join('/dev/disk/by-id/', entry))
         
         bus, entry = parts
-        m = re.search('-part(\d+)$', entry)
+        m = re.search(r'-part(\d+)$', entry)
         if m:
             part_no = int(m.group(1))
-            entry = re.sub('-part\d+$', '', entry)
+            entry = re.sub(r'-part\d+$', '', entry)
         
         else:
             part_no = None
@@ -127,20 +126,20 @@ def _list_disks_dev_by_id():
             }
         
     # group partitions by disk
-    for dev, partition in partitions_by_dev.items():
-        for disk_dev, disk in disks_by_dev.items():
+    for dev, partition in list(partitions_by_dev.items()):
+        for disk_dev, disk in list(disks_by_dev.items()):
             if dev.startswith(disk_dev):
                 disk['partitions'].append(partition)
                 partition.pop('unmatched', None)
             
     # add separate partitions that did not match any disk
-    for partition in partitions_by_dev.values():
+    for partition in list(partitions_by_dev.values()):
         if partition.pop('unmatched', False):
             disks_by_dev[partition['target']] = partition
             partition['partitions'] = [dict(partition)]
 
     # prepare flat list of disks
-    disks = disks_by_dev.values()
+    disks = list(disks_by_dev.values())
     disks.sort(key=lambda d: d['vendor'])
     
     for disk in disks:
@@ -151,7 +150,7 @@ def _list_disks_dev_by_id():
 
 def _list_disks_fdisk():
     try:
-        output = subprocess.check_output(['fdisk', '-l'], stderr=utils.DEV_NULL)
+        output = utils.call_subprocess(['fdisk', '-l'], stderr=utils.DEV_NULL)
     
     except Exception as e:
         logging.error('failed to list disks using "fdisk -l": %s' % e, exc_info=True)
@@ -163,11 +162,11 @@ def _list_disks_fdisk():
     
     def add_disk(d):
         logging.debug('found disk at "%s" on bus "%s": "%s %s"' %
-                (d['target'], d['bus'], d['vendor'], d['model']))
+                      (d['target'], d['bus'], d['vendor'], d['model']))
 
         for part in d['partitions']:
             logging.debug('found partition "%s" at "%s" on bus "%s": "%s %s"' %
-                    (part['part_no'], part['target'], part['bus'], part['vendor'], part['model']))
+                          (part['part_no'], part['target'], part['bus'], part['vendor'], part['model']))
 
         disks.append(d)
 
@@ -193,7 +192,7 @@ def _list_disks_fdisk():
             
         elif line.startswith('/dev/') and disk:
             parts = line.split()
-            part_no = re.findall('\d+$', parts[0])
+            part_no = re.findall(r'\d+$', parts[0])
             partition = {
                 'part_no': int(part_no[0]) if part_no else None,
                 'target': parts[0],

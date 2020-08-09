@@ -1,5 +1,4 @@
-# This Python file uses the following encoding: utf-8
-
+# coding: utf-8
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -28,11 +27,25 @@ import time
 
 from tornado.ioloop import IOLoop
 from tornado.web import Application
-from meyectl import lingvo
+from .meyectl import lingvo
 
-import handlers
-import settings
-import template
+from motioneye import settings
+from motioneye import template
+from motioneye.controls import smbctl, v4l2ctl
+from motioneye.handlers.main import MainHandler
+from motioneye.handlers.action import ActionHandler
+from motioneye.handlers.update import UpdateHandler
+from motioneye.handlers.movie import MovieHandler
+from motioneye.handlers.movie_playback import MovieDownloadHandler, MoviePlaybackHandler
+from motioneye.handlers.log import LogHandler
+from motioneye.handlers.login import LoginHandler
+from motioneye.handlers.config import ConfigHandler
+from motioneye.handlers.base import ManifestHandler, NotFoundHandler
+from motioneye.handlers.picture import PictureHandler
+from motioneye.handlers.prefs import PrefsHandler
+from motioneye.handlers.power import PowerHandler
+from motioneye.handlers.relay_event import RelayEventHandler
+from motioneye.handlers.version import VersionHandler
 
 
 _PID_FILE = 'motioneye.pid'
@@ -46,33 +59,33 @@ class Daemon(object):
 
     def daemonize(self):
         # first fork
-        try: 
+        try:
             if os.fork() > 0:  # parent
                 sys.exit(0)
 
-        except OSError, e: 
+        except OSError as e:
             sys.stderr.write('fork() failed: %s\n' % e.strerror)
             sys.exit(-1)
 
         # separate from parent
         os.setsid()
-        os.umask(0) 
+        os.umask(0)
 
         # second fork
-        try: 
+        try:
             if os.fork() > 0:  # parent
-                sys.exit(0) 
-        
-        except OSError, e: 
-            sys.stderr.write('fork() failed: %s\n' % e.strerror)
-            sys.exit(-1) 
+                sys.exit(0)
 
-        # redirect standard file descriptors
+        except OSError as e:
+            sys.stderr.write('fork() failed: %s\n' % e.strerror)
+            sys.exit(-1)
+
+            # redirect standard file descriptors
         sys.stdout.flush()
         sys.stderr.flush()
-        si = file('/dev/null', 'r')
-        so = file('/dev/null', 'a+')
-        se = file('/dev/null', 'a+', 0)
+        si = open('/dev/null', 'r')
+        so = open('/dev/null', 'a+')
+        se = open('/dev/null', 'a+', 0)
         os.dup2(si.fileno(), sys.stdin.fileno())
         os.dup2(so.fileno(), sys.stdout.fileno())
         os.dup2(se.fileno(), sys.stderr.fileno())
@@ -85,10 +98,10 @@ class Daemon(object):
     def del_pid(self):
         try:
             os.remove(self.pid_file)
-        
+
         except:
             pass
-    
+
     def running(self):
         try:
             with open(self.pid_file) as f:
@@ -100,7 +113,7 @@ class Daemon(object):
         try:
             os.kill(pid, 0)
             return pid
-        
+
         except:
             return None
 
@@ -121,11 +134,11 @@ class Daemon(object):
 
         try:
             os.kill(pid, signal.SIGTERM)
-        
+
         except Exception as e:
             sys.stderr.write('failed to terminate server: %s\n' % e)
 
-        for i in xrange(50):  # @UnusedVariable
+        for i in range(50):  # @UnusedVariable
             try:
                 os.kill(pid, 0)
                 time.sleep(0.1)
@@ -139,7 +152,7 @@ class Daemon(object):
                 else:
                     sys.stderr.write('failed to terminate server: %s\n' % e)
                     sys.exit(-11)
-        
+
         else:
             sys.stderr.write('server failed to stop, killing it\n')
             try:
@@ -155,52 +168,53 @@ def _log_request(handler):
     if handler.get_status() < 400:
         if not _CURRENT_PICTURE_REGEX.match(handler.request.uri):
             log_method = logging.debug
-    
+
     elif handler.get_status() < 500:
         log_method = logging.warning
-    
+
     else:
         log_method = logging.error
-    
+
     if log_method:
         request_time = 1000.0 * handler.request.request_time()
         log_method("%d %s %.2fms", handler.get_status(),
                    handler._request_summary(), request_time)
 
+
 handler_mapping = [
-    (r'^/$', handlers.MainHandler),
-    (r'^/manifest.json$', handlers.ManifestHandler),
-    (r'^/config/main/(?P<op>set|get)/?$', handlers.ConfigHandler),
-    (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize)/?$', handlers.ConfigHandler),
-    (r'^/config/(?P<op>add|list|backup|restore)/?$', handlers.ConfigHandler),
-    (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', handlers.PictureHandler),
-    (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', handlers.PictureHandler),
-    (r'^/picture/(?P<camera_id>\d+)/(?P<op>zipped|timelapse|delete_all)/(?P<group>.*?)/?$', handlers.PictureHandler),
-    (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', handlers.MovieHandler),
-    (r'^/movie/(?P<camera_id>\d+)/(?P<op>preview|delete)/(?P<filename>.+?)/?$', handlers.MovieHandler),
-    (r'^/movie/(?P<camera_id>\d+)/(?P<op>delete_all)/(?P<group>.*?)/?$', handlers.MovieHandler),
-    (r'^/movie/(?P<camera_id>\d+)/playback/(?P<filename>.+?)/?$', handlers.MoviePlaybackHandler,{'path':r''}),
-    (r'^/movie/(?P<camera_id>\d+)/download/(?P<filename>.+?)/?$', handlers.MovieDownloadHandler,{'path':r''}),
-    (r'^/action/(?P<camera_id>\d+)/(?P<action>\w+)/?$', handlers.ActionHandler),
-    (r'^/prefs/(?P<key>\w+)?/?$', handlers.PrefsHandler),
-    (r'^/_relay_event/?$', handlers.RelayEventHandler),
-    (r'^/log/(?P<name>\w+)/?$', handlers.LogHandler),
-    (r'^/update/?$', handlers.UpdateHandler),
-    (r'^/power/(?P<op>shutdown|reboot)/?$', handlers.PowerHandler),
-    (r'^/version/?$', handlers.VersionHandler),
-    (r'^/login/?$', handlers.LoginHandler),
-    (r'^.*$', handlers.NotFoundHandler),
+    (r'^/$', MainHandler),
+    (r'^/manifest.json$', ManifestHandler),
+    (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),
+    (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize)/?$', ConfigHandler),
+    (r'^/config/(?P<op>add|list|backup|restore)/?$', ConfigHandler),
+    (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', PictureHandler),
+    (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', PictureHandler),
+    (r'^/picture/(?P<camera_id>\d+)/(?P<op>zipped|timelapse|delete_all)/(?P<group>.*?)/?$', PictureHandler),
+    (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', MovieHandler),
+    (r'^/movie/(?P<camera_id>\d+)/(?P<op>preview|delete)/(?P<filename>.+?)/?$', MovieHandler),
+    (r'^/movie/(?P<camera_id>\d+)/(?P<op>delete_all)/(?P<group>.*?)/?$', MovieHandler),
+    (r'^/movie/(?P<camera_id>\d+)/playback/(?P<filename>.+?)/?$', MoviePlaybackHandler, {'path': r''}),
+    (r'^/movie/(?P<camera_id>\d+)/download/(?P<filename>.+?)/?$', MovieDownloadHandler, {'path': r''}),
+    (r'^/action/(?P<camera_id>\d+)/(?P<action>\w+)/?$', ActionHandler),
+    (r'^/prefs/(?P<key>\w+)?/?$', PrefsHandler),
+    (r'^/_relay_event/?$', RelayEventHandler),
+    (r'^/log/(?P<name>\w+)/?$', LogHandler),
+    (r'^/update/?$', UpdateHandler),
+    (r'^/power/(?P<op>shutdown|reboot)/?$', PowerHandler),
+    (r'^/version/?$', VersionHandler),
+    (r'^/login/?$', LoginHandler),
+    (r'^.*$', NotFoundHandler),
 ]
 
 
 def configure_signals():
     def bye_handler(signal, frame):
-        logging.info(_(u'interrompa signalo ricevita, fermanta ...'))
+        logging.info(_('interrompa signalo ricevita, fermanta ...'))
 
         # shut down the IO loop if it has been started
         io_loop = IOLoop.instance()
         io_loop.stop()
-        
+
     def child_handler(signal, frame):
         # this is required for the multiprocessing mechanism to work
         multiprocessing.active_children()
@@ -214,7 +228,7 @@ def test_requirements():
     if not os.access(settings.CONF_PATH, os.W_OK):
         logging.fatal('config directory "%s" does not exist or is not writable' % settings.CONF_PATH)
         sys.exit(-1)
-    
+
     if not os.access(settings.RUN_PATH, os.W_OK):
         logging.fatal('pid directory "%s" does not exist or is not writable' % settings.RUN_PATH)
         sys.exit(-1)
@@ -229,47 +243,45 @@ def test_requirements():
 
     if os.geteuid() != 0:
         if settings.SMB_SHARES:
-            logging.fatal(_(u'smb-akcioj postulas radikajn privilegiojn'))
+            logging.fatal(_('smb-akcioj postulas radikajn privilegiojn'))
             sys.exit(-1)
 
     try:
         import tornado  # @UnusedImport
 
     except ImportError:
-        logging.fatal(_(u'bonvolu instali tornado version 3.1 aŭ pli'))
+        logging.fatal(_('bonvolu instali tornado version 3.1 aŭ pli'))
         sys.exit(-1)
 
     try:
         import jinja2  # @UnusedImport
 
     except ImportError:
-        logging.fatal(_(u'bonvolu instali jinja2'))
+        logging.fatal(_('bonvolu instali jinja2'))
         sys.exit(-1)
 
     try:
         import PIL.Image  # @UnusedImport
 
     except ImportError:
-        logging.fatal(_(u'bonvolu instali pillow aŭ PIL'))
+        logging.fatal(_('bonvolu instali pillow aŭ PIL'))
         sys.exit(-1)
 
     try:
         import pycurl  # @UnusedImport
 
     except ImportError:
-        logging.fatal(_(u'bonvolu instali pycurl'))
+        logging.fatal(_('bonvolu instali pycurl'))
         sys.exit(-1)
-    
-    import motionctl
+
+    from motioneye import motionctl
     has_motion = motionctl.find_motion()[0] is not None
-    
-    import mediafiles
+
+    from motioneye import mediafiles
     has_ffmpeg = mediafiles.find_ffmpeg() is not None
-    
-    import v4l2ctl
+
     has_v4lutils = v4l2ctl.find_v4l2_ctl() is not None
 
-    import smbctl
     if settings.SMB_SHARES and smbctl.find_mount_cifs() is None:
         logging.fatal('please install cifs-utils')
         sys.exit(-1)
@@ -279,24 +291,24 @@ def test_requirements():
 
     if not has_ffmpeg:
         if has_motion:
-            logging.warn('you have motion installed, but no ffmpeg')
-        
+            logging.warning('you have motion installed, but no ffmpeg')
+
         else:
             logging.info('ffmpeg not installed')
 
     if not has_v4lutils:
         if has_motion:
-            logging.warn('you have motion installed, but no v4l-utils')
+            logging.warning('you have motion installed, but no v4l-utils')
 
         else:
             logging.info('v4l-utils not installed')
 
 
 def make_media_folders():
-    import config
-    
+    from motioneye import config
+
     config.get_main()  # just to have main config already loaded
-    
+
     camera_ids = config.get_camera_ids()
     for camera_id in camera_ids:
         camera_config = config.get_camera(camera_id)
@@ -304,40 +316,38 @@ def make_media_folders():
             if not os.path.exists(camera_config['target_dir']):
                 try:
                     os.makedirs(camera_config['target_dir'])
-                
+
                 except Exception as e:
                     logging.error('failed to create root media folder "%s" for camera with id %s: %s' % (
-                            camera_config['target_dir'], camera_id, e))
+                        camera_config['target_dir'], camera_id, e))
 
 
 def start_motion():
-    import config
-    import motionctl
+    from motioneye import config
+    from motioneye import motionctl
 
     io_loop = IOLoop.instance()
-    
+
     # add a motion running checker
     def checker():
-        if io_loop._stopped:
-            return
-            
+
         if not motionctl.running() and motionctl.started() and config.get_enabled_local_motion_cameras():
             try:
                 logging.error('motion not running, starting it')
                 motionctl.start()
-            
+
             except Exception as e:
                 logging.error('failed to start motion: %(msg)s' % {
-                        'msg': unicode(e)}, exc_info=True)
+                    'msg': str(e)}, exc_info=True)
 
         io_loop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
-    
+
     try:
         motionctl.start()
-    
+
     except Exception as e:
         logging.error(str(e), exc_info=True)
-        
+
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
 
 
@@ -348,17 +358,22 @@ def parse_options(parser, args):
     return parser.parse_args(args)
 
 
+def make_app(debug: bool = False) -> Application:
+    return Application(handler_mapping, debug=debug, log_function=_log_request, static_path=settings.STATIC_PATH,
+                       static_url_prefix='/static/')
+
+
 def run():
-    import cleanup
-    import mjpgclient
-    import motionctl
     import motioneye
-    import smbctl
-    import tasks
-    import wsswitch
+    from motioneye import cleanup
+    from motioneye import mjpgclient
+    from motioneye import motionctl
+    from motioneye import tasks
+    from motioneye import wsswitch
+    from motioneye.controls import smbctl
 
     configure_signals()
-    logging.info(_(u'saluton! ĉi tio estas motionEye-servilo ') + motioneye.VERSION)
+    logging.info(_('saluton! ĉi tio estas motionEye-servilo ') + motioneye.VERSION)
 
     test_requirements()
     make_media_folders()
@@ -373,17 +388,16 @@ def run():
 
     if settings.CLEANUP_INTERVAL:
         cleanup.start()
-        logging.info(_(u'purigado komenciĝis'))
-        
+        logging.info(_('purigado komenciĝis'))
     wsswitch.start()
-    logging.info(_(u'wsswitch komenciĝis'))
+    logging.info(_('wsswitch komenciĝis'))
 
     tasks.start()
-    logging.info(_(u'taskoj komenciĝis'))
+    logging.info(_('taskoj komenciĝis'))
 
     if settings.MJPG_CLIENT_TIMEOUT:
         mjpgclient.start()
-        logging.info(_(u'mjpg klienta rubo-kolektanto komenciĝis'))
+        logging.info(_('mjpg klienta rubo-kolektanto komenciĝis'))
 
     if settings.SMB_SHARES:
         smbctl.start()
@@ -396,17 +410,15 @@ def run():
                               static_path=settings.STATIC_PATH, static_url_prefix='/static/')
     
     application.listen(settings.PORT, settings.LISTEN)
-    logging.info(_(u'servilo komenciĝis'))
-    
+    logging.info(_('servilo komenciĝis'))
     io_loop = IOLoop.instance()
     # we need to reset the loop's PID to fix PID checks when running in daemon mode
     io_loop._pid = os.getpid()
     io_loop.start()
 
-    logging.info(_(u'servilo haltis'))
-    
+    logging.info(_('servilo haltis'))
     tasks.stop()
-    logging.info(_(u'taskoj haltis'))
+    logging.info(_('taskoj haltis'))
 
     if cleanup.running():
         cleanup.stop()
@@ -415,29 +427,28 @@ def run():
     if motionctl.running():
         motionctl.stop()
         logging.info(_('motion haltis'))
-    
     if settings.SMB_SHARES:
         smbctl.stop()
         logging.info('smb mounts stopped')
 
-    logging.info(_(u'adiaŭ!'))
+    logging.info(_('adiaŭ!'))
 
 
 def main(parser, args, command):
-    import meyectl
-    
+    from motioneye import meyectl
+
     options = parse_options(parser, args)
-    
+
     meyectl.configure_logging('motioneye', options.background or options.log_to_file)
     meyectl.configure_tornado()
 
     if command == 'start':
         if options.background:
             daemon = Daemon(
-                    pid_file=os.path.join(settings.RUN_PATH, _PID_FILE),
-                    run_callback=run)
+                pid_file=os.path.join(settings.RUN_PATH, _PID_FILE),
+                run_callback=run)
             daemon.start()
-            
+
         else:
             run()
 

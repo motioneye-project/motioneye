@@ -18,9 +18,10 @@
 import datetime
 import logging
 import re
-import subprocess
 
 from tornado import ioloop
+
+from motioneye import utils
 
 
 def get_os_version():
@@ -35,7 +36,7 @@ def get_os_version():
 
 def _get_os_version_lsb_release():
     try:
-        output = subprocess.check_output('lsb_release -sri', shell=True)
+        output = utils.call_subprocess('lsb_release -sri', shell=True)
         lines = output.strip().split()
         name, version = lines
         if version.lower() == 'rolling':
@@ -49,7 +50,7 @@ def _get_os_version_lsb_release():
 
 def _get_os_version_uname():
     try:
-        output = subprocess.check_output('uname -rs', shell=True)
+        output = utils.call_subprocess('uname -rs', shell=True)
         lines = output.strip().split()
         name, version = lines
         
@@ -76,7 +77,7 @@ def compare_versions(version1, version2):
     len1 = len(version1)
     len2 = len(version2)
     length = min(len1, len2)
-    for i in xrange(length):
+    for i in range(length):
         p1 = version1[i]
         p2 = version2[i]
         
@@ -121,4 +122,3 @@ def perform_update(version):
     # since we want to be able to respond to the request right away
     ioloop.IOLoop.instance().add_timeout(datetime.timedelta(seconds=2),
                                          platformupdate.perform_update, version=version)
-

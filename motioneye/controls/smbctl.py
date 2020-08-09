@@ -21,12 +21,12 @@ import os
 import re
 import subprocess
 import time
-import utils
+from motioneye import utils
 
 from tornado.ioloop import IOLoop
 
-import config
-import settings
+from motioneye import config
+from motioneye import settings
 
 
 def start():
@@ -40,7 +40,7 @@ def stop():
 
 def find_mount_cifs():
     try:
-        return subprocess.check_output(['which', 'mount.cifs'], stderr=utils.DEV_NULL).strip()
+        return utils.call_subprocess(['which', 'mount.cifs'])
     
     except subprocess.CalledProcessError:  # not found
         return None
@@ -94,14 +94,14 @@ def list_mounts():
             server, share = match.groups()
             share = share.replace('\\040', ' ')  # spaces are reported oddly by /proc/mounts
             
-            match = re.search('username=([a-z][-\w]*)', opts)
+            match = re.search(r'username=([a-z][-\w]*)', opts)
             if match:
                 username = match.group(1)
             
             else:
                 username = ''
 
-            match = re.search('vers=([\w.]+)', opts)
+            match = re.search(r'vers=([\w.]+)', opts)
             if match:
                 smb_ver = match.group(1)
 
@@ -144,7 +144,7 @@ def update_mounts():
                 should_start = False
     
     # unmount the no longer necessary mounts
-    for (server, share, smb_ver, username), required in mounts.items():
+    for (server, share, smb_ver, username), required in list(mounts.items()):
         if not required:
             _umount(server, share, username)
             should_stop = True
@@ -212,7 +212,7 @@ def _mount(server, share, smb_ver, username, password):
 
         try:
             logging.debug('mounting "//%s/%s" at "%s" (sec=%s)' % (server, share, mount_point, sec))
-            subprocess.check_call(['mount.cifs', '//%s/%s' % (server, share), mount_point, '-o', actual_opts])
+            subprocess.run(['mount.cifs', '//%s/%s' % (server, share), mount_point, '-o', actual_opts], check=True)
             break
 
         except subprocess.CalledProcessError:
@@ -242,7 +242,7 @@ def _umount(server, share, username):
     logging.debug('unmounting "//%s/%s" from "%s"' % (server, share, mount_point))
     
     try:
-        subprocess.check_call(['umount', mount_point])
+        subprocess.run(['umount', mount_point], check=True)
 
     except subprocess.CalledProcessError:
         logging.error('failed to unmount smb share "//%s/%s" from "%s"' % (server, share, mount_point))
@@ -271,7 +271,7 @@ def _umount_all():
 
 
 def _check_mounts():
-    import motionctl
+    from motioneye import motionctl
     
     logging.debug('checking SMB mounts...')
     

@@ -23,8 +23,8 @@ import signal
 
 from tornado.ioloop import IOLoop
 
-import mediafiles
-import settings
+from motioneye import mediafiles
+from motioneye import settings
 
 
 _process = None
@@ -89,4 +89,4 @@ def _do_cleanup():
          
     except Exception as e:
         logging.error('failed to cleanup media files: %(msg)s' % {
-                'msg': unicode(e)}, exc_info=True)
+                'msg': str(e)}, exc_info=True)
