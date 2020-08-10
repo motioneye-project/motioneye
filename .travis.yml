@@ -1,3 +1,5 @@
+language: python
+
 notifications:
   email:
     recipients:
@@ -8,6 +10,10 @@ notifications:
 env:
   - TARGET=amd64 EXT=""
   - TARGET=armhf EXT=".armv7-armhf"
+
+before_script:
+  - pip install flake8
+  - flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
 
 script:
   - docker info

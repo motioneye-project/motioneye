@@ -22,13 +22,14 @@ import re
 import socket
 import time
 
+from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 from tornado.iostream import IOStream
 
-import config
-import motionctl
-import settings
-import utils
+from motioneye import config
+from motioneye import motionctl
+from motioneye import settings
+from motioneye import utils
 
 
 class MjpgClient(IOStream):
@@ -54,8 +55,10 @@ class MjpgClient(IOStream):
 
         self.set_close_callback(self.on_close)
 
-    def do_connect(self):
-        IOStream.connect(self, ('localhost', self._port), self._on_connect)
+    def do_connect(self) -> "Future[MjpgClient]":
+        f = self.connect(('localhost', self._port))
+        f.add_done_callback(self._on_connect)
+        return f
 
     def get_port(self):
         return self._port
@@ -104,7 +107,7 @@ class MjpgClient(IOStream):
 
         return (len(self._last_jpg_times) - 1) / (self._last_jpg_times[-1] - self._last_jpg_times[0])
 
-    def _check_error(self):
+    def _check_error(self) -> bool:
         if self.socket is None:
             logging.warning('mjpg client connection for camera %(camera_id)s on port %(port)s is closed' % {
                     'port': self._port, 'camera_id': self._camera_id})
@@ -121,127 +124,168 @@ class MjpgClient(IOStream):
 
         return True
 
-    def _error(self, error):
+    def _error(self, error) -> None:
         logging.error('mjpg client for camera %(camera_id)s on port %(port)s error: %(msg)s' % {
-                'port': self._port, 'camera_id': self._camera_id, 'msg': unicode(error)})
+                'port': self._port, 'camera_id': self._camera_id, 'msg': str(error)}, exc_info=True)
 
         try:
             self.close()
 
-        except:
+        except Exception:
             pass
 
-    def _on_connect(self):
-        logging.debug('mjpg client for camera %(camera_id)s connected on port %(port)s' % {
-                'port': self._port, 'camera_id': self._camera_id})
+    def _on_connect(self, future: Future) -> None:
+        try:
+            future.result()
+        except Exception as e:
+            self._error(e)
+        else:
+            logging.debug('mjpg client for camera %(camera_id)s connected on port %(port)s' % {
+                    'port': self._port, 'camera_id': self._camera_id})
 
-        if self._auth_mode == 'basic':
-            logging.debug('mjpg client using basic authentication')
+            if self._auth_mode == 'basic':
+                logging.debug('mjpg client using basic authentication')
 
-            auth_header = utils.build_basic_header(self._username, self._password)
-            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
+                auth_header = utils.build_basic_header(self._username, self._password)
+                self.write(b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
 
-        elif self._auth_mode == 'digest':  # in digest auth mode, the header is built upon receiving 401
-            self.write('GET / HTTP/1.1\r\n\r\n')
+            elif self._auth_mode == 'digest':  # in digest auth mode, the header is built upon receiving 401
+                self.write(b'GET / HTTP/1.1\r\n\r\n')
 
-        else:  # no authentication
-            self.write('GET / HTTP/1.1\r\nConnection: close\r\n\r\n')
+            else:  # no authentication
+                self.write(b'GET / HTTP/1.1\r\nConnection: close\r\n\r\n')
 
-        self._seek_http()
+            self._seek_http()
 
-    def _seek_http(self):
+    def _seek_http(self) -> None:
         if self._check_error():
             return
 
-        self.read_until_regex('HTTP/1.\d \d+ ', self._on_http)
+        future = utils.cast_future(self.read_until_regex(b'HTTP/1.\d \d+ '))
+        future.add_done_callback(self._on_http)
 
-    def _on_http(self, data):
-        if data.endswith('401 '):
-            self._seek_www_authenticate()
+    def _on_http(self, future: Future) -> None:
+        try:
+            data = future.result()
+        except Exception as e:
+            self._error(e)
+        else:
+            if data.endswith(b'401 '):
+                self._seek_www_authenticate()
 
-        else:  # no authorization required, skip to content length
+            else:  # no authorization required, skip to content length
+                self._seek_content_length()
+
+    def _seek_www_authenticate(self) -> None:
+        future = utils.cast_future(self.read_until(b'WWW-Authenticate:'))
+        future.add_done_callback(self._on_before_www_authenticate)
+
+    def _on_before_www_authenticate(self, future: Future) -> None:
+        try:
+            future.result()
+        except Exception as e:
+            self._error(e)
+        else:
+            if self._check_error():
+                return
+
+            r_future = utils.cast_future(self.read_until(b'\r\n'))
+            r_future.add_done_callback(self._on_www_authenticate)
+
+    def _on_www_authenticate(self, future: Future) -> None:
+        try:
+            data = future.result()
+        except Exception as e:
+            self._error(e)
+        else:
+            if self._check_error():
+                return
+
+            data = data.strip()
+
+            m = re.match(b'Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data)
+            if m:
+                logging.debug('mjpg client using basic authentication')
+
+                auth_header = utils.build_basic_header(self._username, self._password)
+                w_data = b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header
+                w_future = utils.cast_future(self.write(w_data))
+                w_future.add_done_callback(self._seek_http)
+
+                return
+
+            if data.startswith('Digest'):
+                logging.debug('mjpg client using digest authentication')
+
+                parts = data[7:].split(',')
+                parts_dict = dict(p.split('=', 1) for p in parts)
+                parts_dict = {p[0]: p[1].strip('"') for p in list(parts_dict.items())}
+
+                self._auth_digest_state = parts_dict
+
+                auth_header = utils.build_digest_header('GET', '/', self._username, self._password,
+                                                        self._auth_digest_state)
+                w_data = b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header
+                w_future = utils.cast_future(self.write(w_data))
+                w_future.add_done_callback(self._seek_http)
+
+                return
+
+            logging.error('mjpg client unknown authentication header: "%s"' % data)
             self._seek_content_length()
-
-    def _seek_www_authenticate(self):
-        if self._check_error():
-            return
-
-        self.read_until('WWW-Authenticate:', self._on_before_www_authenticate)
-
-    def _on_before_www_authenticate(self, data):
-        if self._check_error():
-            return
-
-        self.read_until('\r\n', self._on_www_authenticate)
-
-    def _on_www_authenticate(self, data):
-        if self._check_error():
-            return
-
-        data = data.strip()
-
-        m = re.match('Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data)
-        if m:
-            logging.debug('mjpg client using basic authentication')
-
-            auth_header = utils.build_basic_header(self._username, self._password)
-            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
-            self._seek_http()
-
-            return
-
-        if data.startswith('Digest'):
-            logging.debug('mjpg client using digest authentication')
-
-            parts = data[7:].split(',')
-            parts_dict = dict(p.split('=', 1) for p in parts)
-            parts_dict = {p[0]: p[1].strip('"') for p in parts_dict.items()}
-
-            self._auth_digest_state = parts_dict
-
-            auth_header = utils.build_digest_header('GET', '/', self._username, self._password, self._auth_digest_state)
-            self.write('GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
-            self._seek_http()
-
-            return
-
-        logging.error('mjpg client unknown authentication header: "%s"' % data)
-        self._seek_content_length()
 
     def _seek_content_length(self):
         if self._check_error():
             return
 
-        self.read_until('Content-Length:', self._on_before_content_length)
+        r_future = utils.cast_future(self.read_until(b'Content-Length:'))
+        r_future.add_done_callback(self._on_before_content_length)
 
-    def _on_before_content_length(self, data):
-        if self._check_error():
-            return
+    def _on_before_content_length(self, future: Future):
+        try:
+            future.result()
+        except Exception as e:
+            self._error(e)
+        else:
+            if self._check_error():
+                return
 
-        self.read_until('\r\n\r\n', self._on_content_length)
+            r_future = utils.cast_future(self.read_until(b'\r\n\r\n'))
+            r_future.add_done_callback(self._on_content_length)
 
-    def _on_content_length(self, data):
-        if self._check_error():
-            return
+    def _on_content_length(self, future: Future):
+        try:
+            data = future.result()
+        except Exception as e:
+            self._error(e)
+        else:
+            if self._check_error():
+                return
 
-        matches = re.findall('(\d+)', data)
-        if not matches:
-            self._error('could not find content length in mjpg header line "%(header)s"' % {
-                    'header': data})
+            matches = re.findall(rb'(\d+)', data)
+            if not matches:
+                self._error('could not find content length in mjpg header line "%(header)s"' % {
+                        'header': data})
 
-            return
+                return
 
-        length = int(matches[0])
+            length = int(matches[0])
 
-        self.read_bytes(length, self._on_jpg)
+            r_future = utils.cast_future(self.read_bytes(length))
+            r_future.add_done_callback(self._on_jpg)
 
-    def _on_jpg(self, data):
-        self._last_jpg = data
-        self._last_jpg_times.append(time.time())
-        while len(self._last_jpg_times) > self._FPS_LEN:
-            self._last_jpg_times.pop(0)
+    def _on_jpg(self, future: Future):
+        try:
+            data = future.result()
+        except Exception as e:
+            self._error(e)
+        else:
+            self._last_jpg = data
+            self._last_jpg_times.append(time.time())
+            while len(self._last_jpg_times) > self._FPS_LEN:
+                self._last_jpg_times.pop(0)
 
-        self._seek_content_length()
+            self._seek_content_length()
 
 
 def start():
@@ -290,7 +334,7 @@ def get_fps(camera_id):
 
 
 def close_all(invalidate=False):
-    for client in MjpgClient.clients.values():
+    for client in list(MjpgClient.clients.values()):
         client.close()
 
     if invalidate:
@@ -303,7 +347,7 @@ def _garbage_collector():
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
 
     now = time.time()
-    for camera_id, client in MjpgClient.clients.items():
+    for camera_id, client in list(MjpgClient.clients.items()):
         port = client.get_port()
 
         if client.closed():

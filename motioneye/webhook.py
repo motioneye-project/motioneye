@@ -17,10 +17,11 @@
 
 import json
 import logging
-import urllib2
-import urlparse
+import urllib.request
+import urllib.error
+import urllib.parse
 
-import settings
+from motioneye import settings
 
 
 def parse_options(parser, args):
@@ -31,8 +32,8 @@ def parse_options(parser, args):
 
 
 def main(parser, args):
-    import meyectl
-    import utils
+    from motioneye import meyectl
+    from motioneye import utils
     
     options = parse_options(parser, args)
     
@@ -44,7 +45,7 @@ def main(parser, args):
     logging.debug('url = %s' % options.url)
     
     headers = {}    
-    parts = urlparse.urlparse(options.url)
+    parts = urllib.parse.urlparse(options.url)
     url = options.url
     data = None
 
@@ -59,15 +60,15 @@ def main(parser, args):
 
     elif options.method == 'POSTj':  # json
         headers['Content-Type'] = 'application/json'
-        data = urlparse.parse_qs(parts.query)
-        data = {k: v[0] for (k, v) in data.iteritems()}
+        data = urllib.parse.parse_qs(parts.query)
+        data = {k: v[0] for (k, v) in list(data.items())}
         data = json.dumps(data)
         url = options.url.split('?')[0]
 
     else:  # GET
         pass
 
-    request = urllib2.Request(url, data, headers=headers)
+    request = urllib.request.Request(url, data, headers=headers)
     try:
         utils.urlopen(request, timeout=settings.REMOTE_REQUEST_TIMEOUT)
         logging.debug('webhook successfully called')
