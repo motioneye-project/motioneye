@@ -26,6 +26,7 @@ import urllib.request
 import urllib.error
 import urllib.parse
 import pycurl
+import boto3
 
 from motioneye import settings
 from motioneye import utils
@@ -1035,6 +1036,71 @@ class SFTP(UploadService):
         self._conn.setopt(self._conn.UPLOAD, 1)
 
         return self._conn
+
+class S3(UploadService):
+    NAME = 's3'
+
+    def __init__(self, camera_id):
+        self._location = None
+        self._authorization_key = None
+        self._secret_access_key = None
+        self._bucket = None
+        UploadService.__init__(self, camera_id)
+
+
+    @classmethod
+    def dump(self):
+        return {
+            'location': self._location,
+            'authorization_key': self._authorization_key,
+            'secret_access_key': self._secret_access_key,
+            'bucket': self._bucket
+        }
+
+    def load(self, data):
+        if data.get('location') is not None:
+            self._location = data['location']
+        if data.get('authorization_key') is not None:
+            self._authorization_key = data['authorization_key']
+        if data.get('secret_access_key') is not None:
+            self._secret_access_key = data['secret_access_key']
+        if data.get('bucket') is not None:
+            self._bucket = data['bucket']
+ 
+    def upload_data(self, filename, mime_type, data, ctime, camera_name):
+      path = os.path.dirname(filename)
+      basename = os.path.basename(filename)
+
+      # Create an S3 client
+      s3 = boto3.client(
+        's3',
+        aws_access_key_id=self._authorization_key,
+        aws_secret_access_key=self._secret_access_key,
+	region_name=self._location 
+      )
+
+      # Uploads the given file using a managed uploader, which will split up
+      # large files automatically and upload parts in parallel.
+      s3.upload_file(filename, self._bucket, basename)
+
+    def test_access(self):
+      try:
+        # Create an S3 client
+        s3 = boto3.client(
+          's3',
+          aws_access_key_id=self._authorization_key,
+          aws_secret_access_key=self._secret_access_key,
+          region_name=self._location 
+        )
+        response = s3.list_buckets()
+        logging.debug('Existing buckets:')
+        for bucket in response['Buckets']:
+            logging.debug(f'  {bucket["Name"]}')
+        return True
+      except Exception as e:
+            logging.error('S3 connection failed: %s' % e)
+            return str(e)
+
 
 
 def get_authorize_url(service_name):

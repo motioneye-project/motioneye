@@ -459,6 +459,7 @@
                                     <option value="gdrive">Google Drive</option>
                                     <option value="gphoto">Google Photo</option>
                                     <option value="dropbox">Dropbox</option>
+                                    <option value="s3">AWS S3</option>
                                 </select>
                             </td>
                             <td><span class="help-mark" title="{{ _("elektu servon, al kiu la mediadosieroj estu alŝutitaj") }}">?</span></td>
@@ -508,7 +509,7 @@
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled storage camera-config" id="uploadPasswordEntry"></td>
                             <td><span class="help-mark" title="{{ _("la pasvorto por la alŝuta servo-konto") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" depends="uploadEnabled uploadService=(gdrive|gphoto|dropbox)">
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(gdrive|gphoto|dropbox|s3)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Rajtiga ŝlosilo") }}</span></td>
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled storage camera-config" id="uploadAuthorizationKeyEntry"></td>
                             <td><span class="help-mark" title="{{ _("la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)") }}">?</span></td>
@@ -521,6 +522,16 @@
                                 </div>
                             </td>
                             <td><span class="help-mark" title="{{ _("alklaku ĉi tie por akiri la ŝlosilan rajtigan servon") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(s3)">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Sekreta Alira Ŝlosilo") }}</span></td>
+                            <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled storage camera-config" id="uploadSecretAccessKeyEntry"></td>
+                            <td><span class="help-mark" title="{{ _("la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(s3)">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Sitelo") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadBucketEntry"></td>
+                            <td><span class="help-mark" title="{{ _("la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="uploadEnabled">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>

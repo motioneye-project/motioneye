@@ -1,5 +1,17 @@
 #!/bin/bash
 
+## Instali ffmpeg kaj aliajn dependojn:
+apt install ffmpeg libmariadb3 libpq5 libmicrohttpd12 python3-pip python3-dev libssl-dev libcurl4-openssl-dev libjpeg-dev libz-dev python3-boto3
+
+## Instali motion:
+wget https://github.com/Motion-Project/motion/releases/download/release-4.2.2/pi_buster_motion_4.2.2-1_armhf.deb
+dpkg -i pi_buster_motion_4.2.2-1_armhf.deb
+
+## Instalu motioneye.eo:
+pip3 install .
+
+
+## krei agordon kaj dosierujojn:
 mkdir -p /etc/motioneye
 if [ ! -f /etc/motioneye/motioneye.conf ]
 then
@@ -8,6 +20,7 @@ fi
 mkdir -p /var/lib/motioneye
 chown -R motion.motion /etc/motioneye /var/lib/motioneye
 
+## krei la servon:
 if [ ! -f /etc/systemd/system/motioneye.service ]
 then
   cp /usr/local/share/motioneye/extra/motioneye.systemd-unit-local /etc/systemd/system/motioneye.service

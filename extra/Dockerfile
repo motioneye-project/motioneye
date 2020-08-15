@@ -39,6 +39,7 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/20200630T024205Z sid mai
       python-tz \
       tzdata \
       python-wheel \
+      python-boto3 \
       v4l-utils && \
     DEBIAN_FRONTEND="noninteractive" apt-get -t sid --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
       motion \

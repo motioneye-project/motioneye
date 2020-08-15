@@ -558,7 +558,7 @@ class ConfigHandler(BaseHandler):
         (request_handler, service_name) = upload_service_test_info
 
         if result is True:
-            logging.debug('accessing %s succeeded' % service_name)
+            logging.info('accessing %s succeeded' % service_name)
             return request_handler.finish_json()
 
         else:

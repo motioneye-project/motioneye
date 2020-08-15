@@ -9,7 +9,7 @@ import motioneye
 
 
 here = os.path.abspath(os.path.dirname(__file__))
-name = 'motioneye'
+name = 'motioneye.eo'
 version = motioneye.VERSION
 
 with open(os.path.join(here, 'ReadMe.md'), encoding='utf-8') as f:
@@ -54,7 +54,7 @@ setup(
         'Intended Audience :: End Users/Desktop',
         'Topic :: Multimedia :: Video',
 
-        'License :: OSI Approved :: GNU Lesser General Public License v3 (LGPLv3)',
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
 
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8'

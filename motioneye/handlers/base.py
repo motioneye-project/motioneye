@@ -100,7 +100,6 @@ class BaseHandler(RequestHandler):
     def finish_json(self, data=None):
         if data is None:
             data = {}
-
         self.set_header('Content-Type', 'application/json')
         return self.finish(json.dumps(data))
 
