@@ -9,7 +9,7 @@ across motionEye restarts.
 ```bash
 docker pull ccrisan/motioneye:master-amd64
 docker run \
-  -rm \
+  --rm \
   -d \
   -p 8765:8765 \
   --hostname="motioneye" \
