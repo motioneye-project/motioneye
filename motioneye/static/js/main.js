@@ -21,6 +21,7 @@ var deviceNameValidRegExp = new RegExp('^[A-Za-z0-9\-\_\+\ ]+$');
 var filenameValidRegExp = new RegExp('^([A-Za-z0-9 \(\)/._-]|%[CYmdHMSqv])+$');
 var dirnameValidRegExp = new RegExp('^[A-Za-z0-9 \(\)/._-]+$');
 var emailValidRegExp = new RegExp('^[A-Za-z0-9 _+.@^~<>,-]+$');
+var webHookUrlValidRegExp = new RegExp('^[^;\']+$');
 var initialConfigFetched = false; /* used to workaround browser extensions that trigger stupid change events */
 var pageContainer = null;
 var overlayVisible = false;
@@ -636,6 +637,13 @@ function initUI() {
     makeCustomValidator($('#imageFileNameEntry, #movieFileNameEntry'), function (value) {
         if (!value.match(filenameValidRegExp)) {
             return i18n.gettext("specialaj signoj ne rajtas en dosiernomo");
+        }
+
+        return true;
+    }, '');
+    makeCustomValidator($('#webHookNotificationsUrlEntry'), function (value) {
+        if (!value.match(webHookUrlValidRegExp)) {
+            return "use of semicolon (;) or single quote (\') is not allowed in web hook URL";
         }
 
         return true;
