@@ -1184,6 +1184,14 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
         on_event_end.append(line)
 
+    if ui['web_hook_end_notifications_enabled']:
+        url = re.sub('\\s', '+', ui['web_hook_end_notifications_url'])
+
+        on_event_end.append("%(script)s '%(method)s' '%(url)s'" % {
+            'script': meyectl.find_command('webhook'),
+            'method': ui['web_hook_end_notifications_http_method'],
+            'url': url})
+
     if ui['command_end_notifications_enabled']:
         on_event_end += utils.split_semicolon(ui['command_end_notifications_exec'])
 
@@ -1346,6 +1354,7 @@ def motion_camera_dict_to_ui(data):
         'email_notifications_enabled': False,
         'telegram_notifications_enabled': False,
         'web_hook_notifications_enabled': False,
+        'web_hook_end_notifications_enabled': False,
         'command_notifications_enabled': False,
         'command_end_notifications_enabled': False,
         # working schedule
@@ -1690,7 +1699,17 @@ def motion_camera_dict_to_ui(data):
 
     command_end_notifications = []
     for e in on_event_end:
-        if e.count('relayevent') or e.count('eventrelay.py'):
+        if e.count(' webhook '):
+            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
+
+            if len(e) < 3:
+                continue
+
+            ui['web_hook_end_notifications_enabled'] = True
+            ui['web_hook_end_notifications_http_method'] = e[-2]
+            ui['web_hook_end_notifications_url'] = e[-1]
+
+        elif e.count('relayevent') or e.count('eventrelay.py'):
             continue  # ignore internal relay script
 
         else:  # custom command
