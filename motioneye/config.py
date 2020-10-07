@@ -1007,6 +1007,16 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     # event end
     on_event_end = ['%(script)s stop %%t' % {'script': meyectl.find_command('relayevent')}]
 
+    if ui['telegram_notifications_enabled']:
+        line = "%(script)s '%(api)s' '%(chatid)s' " \
+               "'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'" % {
+                   'script': meyectl.find_command('sendtelegram'),
+                   'api': ui['telegram_notifications_api'],
+                   'chatid': ui['telegram_notifications_chat_id'],
+                   'timespan': ui['telegram_notifications_picture_time_span']}
+
+        on_event_end.append(line)
+
     if ui['command_end_notifications_enabled']:
         on_event_end += utils.split_semicolon(ui['command_end_notifications_exec'])
 
@@ -1161,6 +1171,7 @@ def motion_camera_dict_to_ui(data):
 
         # motion notifications
         'email_notifications_enabled': False,
+        'telegram_notifications_enabled': False,
         'web_hook_notifications_enabled': False,
         'command_notifications_enabled': False,
         'command_end_notifications_enabled': False,
@@ -1400,6 +1411,7 @@ def motion_camera_dict_to_ui(data):
         on_event_start = utils.split_semicolon(on_event_start)
 
     ui['email_notifications_picture_time_span'] = 0
+    ui['telegram_notifications_picture_time_span'] = 0
     command_notifications = []
     for e in on_event_start:
         if e.count(' sendmail '):
@@ -1425,6 +1437,21 @@ def motion_camera_dict_to_ui(data):
 
             except:
                 ui['email_notifications_picture_time_span'] = 0
+
+        elif e.count(' sendtelegram '):
+            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
+
+            if len(e) < 7:
+                continue
+
+            ui['telegram_notifications_enabled'] = True
+            ui['telegram_notifications_api'] = e[-6]
+            ui['telegram_notifications_chat_id'] = e[-5]
+            try:
+                ui['telegram_notifications_picture_time_span'] = int(e[-1])
+
+            except:
+                ui['telegram_notifications_picture_time_span'] = 0
 
         elif e.count(' webhook '):
             e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
