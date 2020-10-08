@@ -635,6 +635,25 @@ class ConfigHandler(BaseHandler):
                     logging.error('notification email test failed: %s' % msg, exc_info=True)
                     return self.finish_json({'error': str(msg)})
 
+            elif what == 'telegram':
+                from motioneye import sendtelegram
+
+                logging.debug('testing telegram notification')
+
+                try:
+                    message = 'This is a test of motionEye\'s telegram messaging'
+                    sendtelegram.send_message(data['api'], int(data['chatid']), message=message, files=[])
+
+                    logging.debug('telegram notification test succeeded')
+                    return self.finish_json()
+
+                except Exception as e:
+                    msg = str(e)
+
+                    msg_lower = msg.lower()
+                    logging.error('telegram notification test failed: %s' % msg, exc_info=True)
+                    return self.finish_json({'error': str(msg)})
+
             elif what == 'network_share':
                 logging.debug('testing access to network share //%s/%s' % (data['server'], data['share']))
 

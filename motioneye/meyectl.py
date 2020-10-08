@@ -223,6 +223,7 @@ def make_arg_parser(command=None):
         description += '  startserver\n'
         description += '  stopserver\n'
         description += '  sendmail\n'
+        description += '  sendtelegram\n'
         description += '  webhook\n'
         description += '  shell\n\n'
 
@@ -276,7 +277,9 @@ def main():
     elif command == 'sendmail':
         from motioneye import sendmail
         sendmail.main(arg_parser, sys.argv[2:])
-
+    elif command == 'sendtelegram':
+        from motioneye import sendtelegram
+        sendtelegram.main(arg_parser, sys.argv[2:])
     elif command == 'webhook':
         from motioneye import webhook
         webhook.main(arg_parser, sys.argv[2:])

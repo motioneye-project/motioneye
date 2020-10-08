@@ -1076,6 +1076,33 @@
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Sendu Telegraman Sciigon") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="telegramNotificationsEnabledSwitch"></td>
+                            <td><span class="help-mark" title="{{ _("ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("HTTP API ĵetono") }}</span></td>
+                            <td class="settings-item-value"><input type="text" autocomplete="new-password" class="styled notifications camera-config" id="telegramAPIEntry" placeholder="{{ _("Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W") }}"></td>
+                            <td><span class="help-mark" title="{{ _("Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn.") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Babileja ID") }}</span></td>
+                            <td class="settings-item-value"><input type="text" autocomplete="new-password" class="styled notifications camera-config" id="telegramCIDEntry" placeholder="{{ _("Ekzemplo: 938272312") }}"></td>
+                            <td><span class="help-mark" title="{{ _("Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo.") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" min="0" max="60" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Alkroĉitaj Bildoj Tempo") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="number styled notifications camera-config" id="telegramPictureTimeSpanEntry"><span class="settings-item-unit">seconds</span></td>
+                            <td><span class="help-mark" title="{{ _("difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte.") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
+				<td class="settings-item-label"><a href="https://core.telegram.org/bots#6-botfather" target="_blank"><div class="button normal-button test-button" id="apiInstructionButton" style="opacity: 1; display: inline-block;">{{ _("API-Informoj") }}</div></a></td>
+				<td class="settings-item-label"><div class="button normal-button test-button" id="telegramTestButton" style="opacity: 1; display: inline-block;">{{ _("Testo") }}</div></td>
+                        </tr>
+                        <tr class="settings-item" depends="motionDetectionEnabled">
+                            <td colspan="100"><div class="settings-item-separator"></div></td>
+                        </tr>
+                        <tr class="settings-item" depends="motionDetectionEnabled">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Alvoki URL") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="webHookNotificationsEnabledSwitch"></td>
                             <td><span class="help-mark" title="{{ _("Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita.") }}">?</span></td>

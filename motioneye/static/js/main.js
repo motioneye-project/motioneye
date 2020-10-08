@@ -958,6 +958,7 @@ function initUI() {
     /* test buttons */
     $('div#uploadTestButton').click(doTestUpload);
     $('div#emailTestButton').click(doTestEmail);
+    $('div#telegramTestButton').click(doTestTelegram);
     $('div#networkShareTestButton').click(doTestNetworkShare);
 
     /* mask editor buttons */
@@ -2005,6 +2006,10 @@ function cameraUi2Dict() {
         'email_notifications_smtp_password': $('#smtpPasswordEntry').val(),
         'email_notifications_smtp_tls': $('#smtpTlsSwitch')[0].checked,
         'email_notifications_picture_time_span': $('#emailPictureTimeSpanEntry').val(),
+        'telegram_notifications_enabled': $('#telegramNotificationsEnabledSwitch')[0].checked,
+        'telegram_notifications_api': $('#telegramAPIEntry').val(),
+        'telegram_notifications_chat_id': $('#telegramCIDEntry').val(),
+        'telegram_notifications_picture_time_span': $('#telegramPictureTimeSpanEntry').val(),
         'web_hook_notifications_enabled': $('#webHookNotificationsEnabledSwitch')[0].checked,
         'web_hook_notifications_url': $('#webHookNotificationsUrlEntry').val(),
         'web_hook_notifications_http_method': $('#webHookNotificationsHttpMethodSelect').val(),
@@ -2376,6 +2381,11 @@ function dict2CameraUi(dict) {
     $('#smtpPasswordEntry').val(dict['email_notifications_smtp_password']);
     $('#smtpTlsSwitch')[0].checked = dict['email_notifications_smtp_tls'];
     $('#emailPictureTimeSpanEntry').val(dict['email_notifications_picture_time_span']);
+
+    $('#telegramNotificationsEnabledSwitch')[0].checked = dict['telegram_notifications_enabled']; markHideIfNull('telegram_notifications_enabled', 'telegramNotificationsEnabledSwitch');
+    $('#telegramAPIEntry').val(dict['telegram_notifications_api']);
+    $('#telegramCIDEntry').val(dict['telegram_notifications_chat_id']);
+    $('#telegramPictureTimeSpanEntry').val(dict['telegram_notifications_picture_time_span']);
 
     $('#webHookNotificationsEnabledSwitch')[0].checked = dict['web_hook_notifications_enabled']; markHideIfNull('web_hook_notifications_enabled', 'webHookNotificationsEnabledSwitch');
     $('#webHookNotificationsUrlEntry').val(dict['web_hook_notifications_url']);
@@ -3050,6 +3060,41 @@ function doTestEmail() {
         }
         else {
             showPopupMessage('Notification email succeeded!', 'info');
+        }
+    });
+}
+
+function doTestTelegram() {
+    var q = $('#telegramAPIEntry, #telegramCIDEntry');
+    var valid = true;
+    q.each(function() {
+        this.validate();
+        if (this.invalid) {
+            valid = false;
+        }
+    });
+
+    if (!valid) {
+        return runAlertDialog('Make sure all the configuration options are valid!');
+    }
+
+    showModalDialog('<div class="modal-progress"></div>', null, null, true);
+
+    var data = {
+        what: 'telegram',
+        api: $('#telegramAPIEntry').val(),
+        chatid: $('#telegramCIDEntry').val(),
+    };
+
+    var cameraId = $('#cameraSelect').val();
+
+    ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
+        hideModalDialog(); /* progress */
+        if (data.error) {
+            showErrorMessage('Telegram notification failed: ' + data.error + '!');
+        }
+        else {
+            showPopupMessage('Telegram notification succeeded!', 'info');
         }
     });
 }
