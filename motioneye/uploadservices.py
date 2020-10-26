@@ -326,7 +326,7 @@ class GoogleBase:
 class GoogleDrive(UploadService, GoogleBase):
     NAME = 'gdrive'
 
-    SCOPE = 'https://www.googleapis.com/auth/drive'
+    SCOPE = 'https://www.googleapis.com/auth/drive.file'
     CHILDREN_URL = 'https://www.googleapis.com/drive/v2/files/%(parent_id)s/children?q=%(query)s'
     CHILDREN_QUERY = "'%(parent_id)s' in parents and title = '%(child_name)s' and trashed = false"
     UPLOAD_URL = 'https://www.googleapis.com/upload/drive/v2/files?uploadType=multipart'
