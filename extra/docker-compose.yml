@@ -2,6 +2,13 @@
 version: "3.5"
 services:
   motioneye:
+    container_name: motioneye
+    hostname: motioneye
+    build:
+      context: ..
+      dockerfile: extra/Dockerfile
+      args:
+        MOTION_RELEASE: "4.3.2"
     image: ccrisan/motioneye:master-amd64  # Change to ccrisan/motioneye:master-armhf for ARM chips (Pi etc.)
     ports:
       - "8081:8081"
