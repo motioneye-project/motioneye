@@ -25,6 +25,7 @@ RUN apt-get update && \
       libpq5 \
       lsb-release \
       mosquitto-clients \
+      procps \
       python-jinja2 \
       python-pil \
       python-pip \
