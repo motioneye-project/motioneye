@@ -13,9 +13,9 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.vcs-type="Git" \
     org.label-schema.vcs-url="https://github.com/ccrisan/motioneye.git"
 
-# By default, run as root.
-ARG RUN_UID=0
-ARG RUN_GID=0
+# default motion user is 101:101
+ARG RUN_UID=101
+ARG RUN_GID=101
 
 RUN apt-get update && \
     DEBIAN_FRONTEND="noninteractive" apt-get --yes --no-install-recommends install \
@@ -50,7 +50,13 @@ RUN pip install /tmp/motioneye && \
     apt-get autoremove --yes && \
     apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
-ADD extra/motioneye.conf.sample /usr/share/motioneye/extra/
+# Change uid/gid of user/group motion to match our desired IDs.  This will
+# make it easier to use execute motion as our desired user later.
+RUN sed -i -e "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
+    sed -i -e "s/^\(motion:[^:]*\):[0-9]*:\(.*\)/\1:${RUN_GID}:\2/" /etc/group
+
+COPY extra/motioneye.conf.sample /usr/share/motioneye/extra/
+COPY extra/docker-entrypoint.sh /docker-entrypoint.sh
 
 # R/W needed for motioneye to update configurations
 VOLUME /etc/motioneye
