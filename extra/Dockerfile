@@ -1,6 +1,7 @@
 FROM debian:buster-slim
 LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
+ARG MOTION_RELEASE=4.3.2
 ARG BUILD_DATE
 ARG VCS_REF
 LABEL org.label-schema.build-date=$BUILD_DATE \
@@ -16,11 +17,8 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 ARG RUN_UID=0
 ARG RUN_GID=0
 
-COPY . /tmp/motioneye
-
-RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) sid main contrib non-free" >>/etc/apt/sources.list && \
-    apt-get update && \
-    DEBIAN_FRONTEND="noninteractive" apt-get -t stable --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+RUN apt-get update && \
+    DEBIAN_FRONTEND="noninteractive" apt-get --yes --no-install-recommends install \
       curl \
       ffmpeg \
       libmicrohttpd12 \
@@ -36,16 +34,17 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) sid main
       python-tornado \
       python-tz \
       python-wheel \
-      v4l-utils && \
-    DEBIAN_FRONTEND="noninteractive" apt-get -t sid --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
-      motion \
-      libmysqlclient20 && \
-    # Change uid/gid of user/group motion to match our desired IDs.  This will
-    # make it easier to use execute motion as our desired user later.
-    sed -i -e "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
-    sed -i -e "s/^\(motion:[^:]*\):[0-9]*:\(.*\)/\1:${RUN_GID}:\2/" /etc/group && \
-    pip install /tmp/motioneye && \
-    # Cleanup
+      tini \
+      v4l-utils
+
+RUN export TARGET=$(dpkg --print-architecture); \
+    curl -LO https://github.com/Motion-Project/motion/releases/download/release-${MOTION_RELEASE}/buster_motion_${MOTION_RELEASE}-1_${TARGET}.deb && \
+    apt-get -y install ./buster_motion_${MOTION_RELEASE}-1_${TARGET}.deb && \
+    rm -f ./buster_motion_${MOTION_RELEASE}-1_${TARGET}.deb
+
+COPY . /tmp/motioneye
+
+RUN pip install /tmp/motioneye && \
     rm -rf /tmp/motioneye && \
     apt-get purge --yes python-setuptools python-wheel && \
     apt-get autoremove --yes && \
