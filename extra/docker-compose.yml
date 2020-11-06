@@ -9,6 +9,7 @@ services:
     volumes:
       - etc_motioneye:/etc/motioneye
       - var_lib_motioneye:/var/lib/motioneye
+      - /etc/localtime:/etc/localtime:ro
 
 volumes:
   etc_motioneye:
