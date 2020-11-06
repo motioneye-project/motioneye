@@ -19,6 +19,8 @@ docker run \
   ccrisan/motioneye:master-amd64
 ```
 
+Alternatively, the provided `docker-compose.yml` manifest can be used instead.
+
 This configuration maps motionEye configs into the `/data/motioneye/config`
 directory on the host. Videos will be saved under `/data/motioneye/videos`.
 Change the directories to suit your particular needs and make sure those
@@ -47,9 +49,9 @@ Use `docker volume ls` to view existing volumes.
 ## Building your own image
 
 It's also possible to build your own motionEye docker image. This allows the
-use of UIDs other than root for the `motion` and `meyectl` daemons (the default
-on official images). If you want to use a non-privileged user/group for
-motionEye, *please make sure that user/group exist on the host* before running
+use of UIDs other than the default (101:101) for the `motion` and `meyectl` daemons.
+If you want to use a non-privileged user/group for motionEye, 
+*please make sure that user/group exist on the host* before running
 the commands below.
 
 For the examples below, we assume user `motion` and group `motion` exist on the host server.
@@ -66,6 +68,8 @@ cd motioneye && \
 docker build \
   --build-arg="RUN_UID=${RUN_UID?}" \
   --build-arg="RUN_GID=${RUN_GID?}" \
+  --build-arg="VCS_REF=$(git rev-parse HEAD)" \
+  --build-arg="BUILD_DATE=${TIMESTAMP}" \
   -t "${USER?}/motioneye:${TIMESTAMP}" \
   --no-cache \
   -f extra/Dockerfile .
