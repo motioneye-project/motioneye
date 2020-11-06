@@ -59,15 +59,14 @@ COPY extra/motioneye.conf.sample /usr/share/motioneye/extra/
 COPY extra/docker-entrypoint.sh /docker-entrypoint.sh
 
 # R/W needed for motioneye to update configurations
+RUN mkdir /etc/motioneye && chown motion:motion /etc/motioneye
 VOLUME /etc/motioneye
 
 # Video & images
+RUN mkdir /var/lib/motioneye && chown motion:motion /var/lib/motioneye
 VOLUME /var/lib/motioneye
 
-CMD test -e /etc/motioneye/motioneye.conf || \
-    cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
-    # We need to chown at startup time since volumes are mounted as root. This is fugly.
-    chown motion:motion /var/run /var/log /etc/motioneye /var/lib/motioneye /usr/share/motioneye/extra ; \
-    su -g motion motion -s /bin/bash -c "/usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf"
-
-EXPOSE 8765
+RUN chmod a+rwx /var/run /var/log
+USER motion
+EXPOSE 8765 8081
+CMD ["/docker-entrypoint.sh"]
