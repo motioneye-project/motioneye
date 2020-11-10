@@ -72,7 +72,10 @@ setup(
             'static/*.*',
             'static/*/*',
             'templates/*',
-            'scripts/*'
+            'scripts/*',
+            'controls/*',
+            'handlers/*',
+            'utils/*'
         ]
     },
 
