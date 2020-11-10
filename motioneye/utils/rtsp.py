@@ -106,7 +106,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         else:
             r_future = cast_future(stream.read_until_regex(b'RTSP/1.0 \d+ '))
             r_future.add_done_callback(on_rtsp)
-            timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), on_rtsp)
+            timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
+                                             functools.partial(on_rtsp, r_future))
 
     def on_rtsp(f: Future):
         try:
@@ -139,7 +140,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
 
         r_future = cast_future(stream.read_until_regex(b'Server: .*'))
         r_future.add_done_callback(on_server)
-        timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_server)
+        timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), functools.partial(on_server, r_future))
 
     def on_server(f: Future):
         try:
@@ -150,7 +151,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             handle_error(e)
         else:
             if data:
-                identifier = re.findall('Server: (.*)', data)[0].strip()
+                identifier = re.findall('Server: (.*)', data.decode())[0].strip()
                 logging.debug('rtsp netcam identifier is "%s"' % identifier)
 
             else:
