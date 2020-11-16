@@ -650,7 +650,7 @@ def main_ui_to_dict(ui):
 
     if ui.get('admin_password') is not None:
         if ui['admin_password']:
-            data['@admin_password'] = hashlib.sha1(ui['admin_password']).hexdigest()
+            data['@admin_password'] = hashlib.sha1(ui['admin_password'].encode('utf-8')).hexdigest()
 
         else:
             data['@admin_password'] = ''
