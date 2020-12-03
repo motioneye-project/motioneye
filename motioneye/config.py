@@ -1618,7 +1618,7 @@ def backup():
         cmd = ['tar', 'zc', 'motion.conf']
         cmd += list(map(os.path.basename, glob.glob(os.path.join(settings.CONF_PATH, 'camera-*.conf'))))
         try:
-            content = utils.call_subprocess(cmd, cwd=settings.CONF_PATH)
+            content = utils.call_subprocess(cmd, cwd=settings.CONF_PATH, encoding=None)
             logging.debug('backup file created (%s bytes)' % len(content))
 
             return content
@@ -1633,7 +1633,7 @@ def backup():
                       settings.CONF_PATH)
 
         try:
-            content = utils.call_subprocess(['tar', 'zc', '.'], cwd=settings.CONF_PATH)
+            content = utils.call_subprocess(['tar', 'zc', '.'], cwd=settings.CONF_PATH, encoding=None)
             logging.debug('backup file created (%s bytes)' % len(content))
 
             return content
