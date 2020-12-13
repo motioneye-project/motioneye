@@ -6,7 +6,8 @@ permalink:        pretty
 
 # Setup
 title:            Ĝi estas Blogo
-baseurl:          /motioneye.eo
+baseurl:          "/motioneye.eo"
+auxtoro: Jean Michault
 
 exclude: [ _locale , _scripts , "*.backup" ]
 

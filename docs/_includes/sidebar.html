@@ -16,6 +16,10 @@
         </div>
     </div>
     {% endif %}
+<form method="get" action="http://www.google.com/search" target="_blank">
+	<input type="hidden" name="sitesearch" value="{{ site.url }}{{ site.baseurl}}" />
+	<input type="text" name="q" maxlength="255" placeholder="{{ site.data.translations['serĉi'][page.lang] }}" />
+</form>
 
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
@@ -44,6 +48,6 @@
         {% endif %}
       {% endfor %}
     </nav>
-    <p>&copy; {{ site.time | date: '%Y' }}. {{ site.data.translations['rajtoj'][page.lang] }}</p>
+    <p>&copy; {{ site.auxtoro }} {{ site.time | date: '%Y' }}. {{ site.data.translations['rajtoj'][page.lang] }}</p>
   </div>
 </div>
