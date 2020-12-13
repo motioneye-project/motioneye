@@ -6,11 +6,9 @@ permalink:        pretty
 
 # Setup
 title:            Ĝi estas Blogo
-baseurl:          /
+baseurl:          /motioneye.eo
 
 exclude: [ _locale , _scripts , "*.backup" ]
-
-url: "https://jmichault.github.io/motioneye.eo"
 
 plugins:
   - jekyll-relative-links

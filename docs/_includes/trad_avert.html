@@ -12,10 +12,10 @@
         <em>{{ site.data.translations['tradukoAverto'][page.lang] }}</em>
         <ul>
         {% for post in posteo %}
-        <li><a title="{{ site.data.translations['viewIn'][page.lang] }}" class="{{post.lang}}" href="{{ site.base-url }}{{ post.url }}">{{ site.data.languages[post.lang].icon }} {{ site.data.languages[post.lang].label }}</a></li>
+        <li><a title="{{ site.data.translations['viewIn'][page.lang] }}" class="{{post.lang}}" href="{{ site.baseurl }}{{ post.url }}">{{ site.data.languages[post.lang].icon }} {{ site.data.languages[post.lang].label }}</a></li>
         {% endfor %}
         {% for post in postsok %}
-        <li><a title="{{ site.data.translations['viewIn'][page.lang] }}" class="{{post.lang}}" href="{{ site.base-url }}{{ post.url }}">{{ site.data.languages[post.lang].icon }} {{ site.data.languages[post.lang].label }}</a></li>
+        <li><a title="{{ site.data.translations['viewIn'][page.lang] }}" class="{{post.lang}}" href="{{ site.baseurl }}{{ post.url }}">{{ site.data.languages[post.lang].icon }} {{ site.data.languages[post.lang].label }}</a></li>
         {% endfor %}
         </ul>
        </div>
