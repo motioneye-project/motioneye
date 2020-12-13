@@ -10,7 +10,7 @@ baseurl:          /
 
 exclude: [ _locale , _scripts , "*.backup" ]
 
-url: "https://xxx.github.io"
+url: "https://jmichault.github.io/motioneye.eo"
 
 plugins:
   - jekyll-relative-links
