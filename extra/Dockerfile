@@ -28,18 +28,18 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) sid main
       libpq5 \
       lsb-release \
       mosquitto-clients \
-      python-babel \
-      python-jinja2 \
-      python-pil \
-      python-pip \
-      python-pip-whl \
-      python-pycurl \
-      python-setuptools \
-      python-tornado \
-      python-tz \
+      python3-babel \
+      python3-jinja2 \
+      python3-pil \
+      python3-pip \
+      python3-pip-whl \
+      python3-pycurl \
+      python3-setuptools \
+      python3-tornado \
+      python3-tz \
+      python3-wheel \
+      python3-boto3 \
       tzdata \
-      python-wheel \
-      python-boto3 \
       v4l-utils && \
     DEBIAN_FRONTEND="noninteractive" apt-get -t sid --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
       motion \
@@ -48,10 +48,10 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) sid main
     # make it easier to use execute motion as our desired user later.
     sed -i -e "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
     sed -i -e "s/^\(motion:[^:]*\):[0-9]*:\(.*\)/\1:${RUN_GID}:\2/" /etc/group && \
-    pip install /tmp/motioneye && \
+    pip3 install /tmp/motioneye && \
     # Cleanup
     rm -rf /tmp/motioneye && \
-    apt-get purge --yes python-setuptools python-wheel && \
+    apt-get purge --yes python3-setuptools python3-wheel && \
     apt-get autoremove --yes && \
     apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 

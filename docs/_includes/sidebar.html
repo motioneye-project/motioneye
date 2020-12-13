@@ -1,0 +1,49 @@
+<div class="sidebar">
+   {% assign posts=site.posts | where:"lang-ref", page.lang-ref | sort: 'lang' %}
+    {% if posts.size == 0 %}
+        {% assign posts=site.pages | where:"lang-ref", page.lang-ref | sort: 'lang' %}
+    {% endif %}
+    {% if posts.size > 1 %}
+    <div>
+    <header class="lang-options">
+        <div class="dropdown" >
+         <button class="dropbtn">{{ site.data.languages[page.lang].icon }} {{ site.data.languages[page.lang].label }} 🔽</button>
+         <div class="dropdown-content">
+           {% for post in posts %}
+             <a href="{{ site.base-url }}{{ post.url }}">{{ site.data.languages[post.lang].icon }} {{ site.data.languages[post.lang].label }}</a>
+           {% endfor %}
+         </div>
+        </div>
+    </div>
+    {% endif %}
+
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <h1>
+        <a href="/{{page.lang}}">
+          {{ site.data.translations['titolo'][page.lang] }}
+        </a>
+      </h1>
+      <p class="lead">{{ site.data.translations['priskribo'][page.lang] }}</p>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}" href="/{{ page.lang }}">{{ site.data.translations['cxiujAfisxoj'][page.lang] }}</a>
+
+      {% comment %}
+        The code below dynamically generates a sidebar nav of pages with
+        `layout: page` in the front-matter. See readme for usage.
+      {% endcomment %}
+
+      {% assign pages_list = site.pages | where:"lang", page.lang %}
+      {% for node in pages_list %}
+        {% if node.title != null %}
+          {% if node.layout == "page" %}
+            <a class="sidebar-nav-item{% if page.url == node.url %} active{% endif %}" href="{{ node.url }}">{{ node.title }}</a>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </nav>
+    <p>&copy; {{ site.time | date: '%Y' }}. {{ site.data.translations['rajtoj'][page.lang] }}</p>
+  </div>
+</div>

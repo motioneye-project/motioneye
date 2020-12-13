@@ -1,0 +1,57 @@
+# SOME DESCRIPTIVE TITLE
+# Copyright (C) YEAR Free Software Foundation, Inc.
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2020-12-13 12:39+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. type: YAML Front Matter: lang
+#: pri.md:1
+#, no-wrap
+msgid "eo"
+msgstr "hi"
+
+#. type: YAML Front Matter: lang-niv
+#: pri.md:1
+#, no-wrap
+msgid "fonto"
+msgstr "auto"
+
+#. type: YAML Front Matter: lang-ref
+#: pri.md:1
+#, no-wrap
+msgid "pri"
+msgstr "pri"
+
+#. type: YAML Front Matter: layout
+#: pri.md:1
+#, no-wrap
+msgid "page"
+msgstr "page"
+
+#. type: YAML Front Matter: title
+#: pri.md:1
+#, fuzzy, no-wrap
+msgid "Pri la Aŭtoro"
+msgstr "लेखक के बारे में"
+
+#. type: Plain text
+#: pri.md:11
+#, no-wrap
+msgid "Pasia pri elektroniko ekde 10-jara kaj toksomaniulo al komputiloj ekde 18-jara. Mi partoprenas malfermfontecon ekde la fino de la 20a jarcento.\n"
+msgstr "10 साल की उम्र से इलेक्ट्रॉनिक्स के बारे में जुनून और 18 साल की उम्र से कंप्यूटर के आदी। मैं 20 वीं शताब्दी के अंत से खुले स्रोत में शामिल था।\n"
+
+#, fuzzy
+#~ msgid "Metu kelkajn vortojn de prezento ĉi tie.\n"
+#~ msgstr "परिचय के कुछ शब्द यहाँ रखें।\n"

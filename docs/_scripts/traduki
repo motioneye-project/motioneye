@@ -1,0 +1,60 @@
+
+cd eo
+
+#for FIC in pri.md
+for FIC in `find . -type f ! -name "_*"`
+do
+  if [ ! -f ../_locale/${FIC}.pot ]
+  then
+    po4a-gettextize -f text -m ${FIC} --master-charset "UTF-8" --option markdown -o neverwrap --po ../_locale/${FIC}.pot 
+  else
+    if [ ../_locale/${FIC}.pot -ot ${FIC} ]
+    then
+      po4a-updatepo --wrap-po no -f text -m ${FIC} --master-charset "UTF-8" --option markdown -o neverwrap --po ../_locale/${FIC}.pot 
+    fi
+  fi
+  #for lang in fr
+  for lang in `grep "^..:$" ../_data/languages.yml|sed "s/:$//"|grep -v eo`
+  do
+    if [ ! -f ../_locale/${lang}/${FIC}.po -a -f ../${lang}/${FIC} ]
+    then
+      continue;
+    fi
+    if [ ! -f ../_locale/${lang}/${FIC}.po ]
+    then
+      echo "krei traduko ${FIC} al ${lang}"
+      cat ../_locale/${FIC}.pot|sed "s/^\"Language: \\\n\"/\"Language: "${lang}"\\\n\"/" > ../_locale/${lang}/${FIC}.po
+    fi
+    if [ ../_locale/${lang}/${FIC}.po -ot ../_locale/${FIC}.pot ]
+    then
+      echo "ĝisdatigi traduko ${FIC} al ${lang}"
+      po4a-updatepo --msgmerge-opt --no-fuzzy-matching --wrap-po no -f text -m ${FIC} --master-charset "UTF-8" --option markdown -o neverwrap --po ../_locale/${lang}/${FIC}.po
+    fi
+    ../_scripts/traduki_po.sh ../_locale/${lang}/${FIC}.po
+    if diff ../_locale/${lang}/${FIC}.po.nova ../_locale/${lang}/${FIC}.po >/dev/null
+    then
+      rm ../_locale/${lang}/${FIC}.po.nova
+    else
+      echo ĝisdatigi _locale/${lang}/${FIC}.po
+      mv ../_locale/${lang}/${FIC}.po.nova ../_locale/${lang}/${FIC}.po
+    fi
+    if [ ../${lang}/${FIC} -ot ../_locale/${lang}/${FIC}.po ]
+    then
+      echo "tradukante ${FIC} al ${lang}"
+      #grep -v "^#, fuzzy" ../_locale/${lang}/${FIC}.po >../_locale/temp$$.po
+      cat ../_locale/${lang}/${FIC}.po|sed "s/^#, fuzzy/#/" >../_locale/temp$$.po
+      po4a-translate -f text --option markdown -o neverwrap -m ${FIC} --master-charset "UTF-8"  --po ../_locale/temp$$.po --localized ../${lang}/${FIC} --localized-charset "UTF-8" -k 0
+      if egrep -m 1 "^#.*, fuzzy" ../_locale/${lang}/${FIC}.po >/dev/null
+      then
+       true
+      else
+       sed -i "s/^lang-niv: auto$/lang-niv: homa/" ../${lang}/${FIC}
+      fi
+      rm ../_locale/temp$$.po
+    fi
+  done
+done
+
+
+
+

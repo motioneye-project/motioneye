@@ -179,6 +179,7 @@ def load_settings():
 
 
 def configure_logging(cmd, log_to_file=False):
+    sys.stderr.write('configure_logging cmd %s: %s\n' % (cmd,log_to_file))
     if log_to_file or cmd != 'motioneye':
         fmt = '%(asctime)s: [{cmd}] %(levelname)8s: %(message)s'.format(cmd=cmd)
 
@@ -195,6 +196,7 @@ def configure_logging(cmd, log_to_file=False):
         else:
             log_file = None
 
+        sys.stderr.write('configure logging to file: %s\n' % log_file)
         logging.basicConfig(filename=log_file, level=settings.LOG_LEVEL,
                             format=fmt, datefmt='%Y-%m-%d %H:%M:%S')
 

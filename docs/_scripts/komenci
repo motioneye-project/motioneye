@@ -1,0 +1,38 @@
+if [ -f _data/translations.yml ]
+then
+  echo "init-skripto jam ekzekutita."
+  exit 1
+fi
+
+if [ $# -ge 1 ]
+then
+  titolo="$1"
+else
+  read -p "Titolo : " titolo
+fi
+
+if [ $# -ge 2 ]
+then
+  priskribo="$2"
+else
+  read -p "Priskribo:" priskribo
+fi
+
+echo "titolo:"  >_data/translations.yml
+for x in `grep "^..:$" _data/languages.yml|sed "s/:$//"`
+do
+  ( echo -n "  $x: \"";_scripts/traduko.sh eo $x "$titolo";echo "\""; )>>_data/translations.yml
+done
+echo "priskribo:" >>_data/translations.yml
+for x in `grep "^..:$" _data/languages.yml|sed "s/:$//"`
+do
+  ( echo -n "  $x: \"";_scripts/traduko.sh eo $x "$priskribo";echo "\""; )>>_data/translations.yml
+done
+cat _data/translations.yml.0 >>_data/translations.yml
+
+for x in `grep "^..:$" _data/languages.yml|sed "s/:$//"|grep -v eo`
+do
+  mkdir -p $x/_posts _locale/$x _locale/$x/_posts
+done
+
+_scripts/traduki

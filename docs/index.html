@@ -1,0 +1,30 @@
+---
+layout: home
+title: Home
+---
+<script type="text/javascript">
+        var userLang = navigator.languages && navigator.languages[0] ||
+               navigator.language ||
+               navigator.userLanguage;
+	if(userLang.indexOf('eo') > -1) { window.location.href = "./eo/"; }
+{% for lang in site.data.languages %}
+  {% assign langCode = lang[0] %}
+  {% if langCode == 'eo' %}{% continue %}{% endif %}
+        else if(userLang.indexOf('{{ langCode }}') > -1 ) { window.location.href = "./{{ langCode }}/"; }
+{% endfor %}
+	else { window.location.href = "./eo/"; }
+</script>
+
+<h1>Select Your Language</h1>
+{% for lang in site.data.languages %}
+  {% assign langCode = lang[0] %}
+  {% if langCode == 'eo' %}{% continue %}{% endif %}
+  <em>{{ site.data.translations.elektuLingvon[langCode] }}</em><br />
+{% endfor %}
+
+<ul class="languages">
+{% for lang in site.data.languages %}
+{% assign language = lang[1] %}
+<li><a href="/{{lang[0]}}">{{language.icon}} {{ language.label }} ({{ lang[0] }})</a></li>
+{% endfor %}
+</ul>

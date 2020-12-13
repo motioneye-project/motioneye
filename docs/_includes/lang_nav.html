@@ -1,0 +1,32 @@
+<nav>
+    {% for block in site.data.map %}
+    {% for item in block[page.lang] %}
+    {% if item == page.path %}
+    {% for trans in block %}
+    {% assign trans_path = trans[1] %}
+    {% assign posts = site.posts | where:"path",trans_path %} 
+
+    {% for item in posts %}
+    {% if item.path == page.path %}
+    <a hreflang="{{item.lang}}" class="active">{{site.data.locales[item.lang].title}}</a>
+    {% else %}
+    <a hreflang="{{item.lang}}" href="{{item.url|absolute_url}}">{{site.data.locales[item.lang].title}}</a>
+    {% endif %}
+    {% endfor %}
+
+    {% assign pages = site.pages | where:"path",trans_path %}
+
+    {% for item in pages %}
+    {% if item.path == page.path %}
+    <a hreflang="{{item.lang}}" class="active">{{site.data.locales[item.lang].title}}</a>
+    {% else %}
+    <a hreflang="{{item.lang}}" href="{{item.url|absolute_url}}">{{site.data.locales[item.lang].title}}</a>
+    {% endif %}
+    {% endfor %}
+    
+    {% endfor %}
+    {% endif %}
+    {% endfor %}
+    {% endfor %}
+
+</nav>

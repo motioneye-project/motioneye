@@ -1,0 +1,45 @@
+ar:
+  label: <span class="lang-ar" dir="rtl" lang="ar">العربية</span>
+  icon: 🇦🇪
+bn:
+  label: <span class="lang-bn" dir="ltr" lang="bn">বাংলা</span>
+  icon: 🇧🇳
+de:
+  label: Deutsch
+  icon: 🇩🇪
+en:
+  label: English
+  icon: 🇺🇸
+eo:
+  label: Esperanto
+  icon: 🏳️
+es:
+  label: Español
+  icon: 🇪🇸
+fr:
+  label: Français
+  icon: 🇫🇷
+hi:
+  label: <span class="lang-hi" dir="ltr" lang="hi">हिन्दी&nbsp;; हिंदी</span>
+  icon: 🏳️
+it:
+  label: Italiano
+  icon: 🇮🇹
+ja:
+  label: <span class="lang-ja-hani" dir="ltr" lang="ja-hani">日本語</span> (<span class="lang-ja-hira" dir="ltr" lang="ja-hira">にほんご</span>)
+  icon: 🇯🇵
+ms:
+  label: <span class="lang-ms" dir="ltr" lang="ms">Bahasa Melayu</span>&nbsp;; <span class="lang-ms-arab" dir="rtl" lang="ms-arab">بهاس ملايو</span>
+  icon: 🏳️
+pa:
+  label: <span class="lang-pa" dir="ltr" lang="pa">ਪੰਜਾਬੀ</span>&nbsp;; <span class="lang-pa-arab" dir="rtl" lang="pa-arab">پنجابی</span>
+  icon: 🏳️
+pt:
+  label: Portugues
+  icon: 🇧🇷
+ru:
+  label: <span class="lang-ru" dir="ltr" lang="ru">русский язык</span>
+  icon: 🇷🇺
+zh:
+  label: <span class="lang-zh-hani" dir="ltr" lang="zh-hani">中文</span>, <span class="lang-zh-hans" dir="ltr" lang="zh-hans">汉语</span>, <span class="lang-zh-hant" dir="ltr" lang="zh-hant">漢語</span>
+  icon: 🏳️

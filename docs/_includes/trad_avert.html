@@ -1,0 +1,25 @@
+{% if page.layout != 'index' %}
+  {% if page.lang-niv == 'auto' %}
+    {% assign posts=site.posts | where:"lang-ref", page.lang-ref | sort: 'lang' %}
+    {% if posts.size == 0 %}
+        {% assign posts=site.pages | where:"lang-ref", page.lang-ref | sort: 'lang' %}
+    {% endif %}
+    {% if posts.size > 1 %}
+      {% assign posteo=posts | where:"lang", 'eo' %}
+      {% assign postsok= posts | where:"lang-niv", 'homa' | sort: 'lang' %}
+      {% assign postsnok= posts | where:"lang-niv", 'auto' | sort: 'lang' %}
+      <div class="lang-options">
+        <em>{{ site.data.translations['tradukoAverto'][page.lang] }}</em>
+        <ul>
+        {% for post in posteo %}
+        <li><a title="{{ site.data.translations['viewIn'][page.lang] }}" class="{{post.lang}}" href="{{ site.base-url }}{{ post.url }}">{{ site.data.languages[post.lang].icon }} {{ site.data.languages[post.lang].label }}</a></li>
+        {% endfor %}
+        {% for post in postsok %}
+        <li><a title="{{ site.data.translations['viewIn'][page.lang] }}" class="{{post.lang}}" href="{{ site.base-url }}{{ post.url }}">{{ site.data.languages[post.lang].icon }} {{ site.data.languages[post.lang].label }}</a></li>
+        {% endfor %}
+        </ul>
+       </div>
+      {% endif %}
+  {% endif %}
+{% endif %}
+
