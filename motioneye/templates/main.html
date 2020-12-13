@@ -62,8 +62,19 @@
 
 {% block script %}
     {{super()}}
+    <script defer src="{{static_path}}js/ui.js?v={{version}}"></script>
+    <script defer src="{{static_path}}js/main.js?v={{version}}"></script>
+    {% if frame %}
+        <script defer src="{{static_path}}js/frame.js?v={{version}}"></script>
+    {% endif %}
+{% endblock %}
+
+{% block inline %}
+    {{super()}}
+    <!-- gettext.js required for setting language -->
     <script src="{{static_path}}js/gettext.min.js"></script>
     <script>
+        // Set language for JavaScript
         function Get(yourUrl){
             var Httpreq = new XMLHttpRequest(); // a new request
             Httpreq.open("GET",yourUrl,false);
@@ -74,20 +85,12 @@
         var i18njson=Get("{{static_path}}js/motioneye.{{lingvo}}.json");
         i18n.loadJSON(i18njson, 'messages');
         i18n.setLocale('{{lingvo}}');
-    </script>
-    <script src="{{static_path}}js/ui.js?v={{version}} async"></script>
-    <script src="{{static_path}}js/main.js?v={{version}}"></script>
-    {% if frame %}
-        <script src="{{static_path}}js/frame.js?v={{version}}" async></script>
-    {% endif %}
-    <script>
+        // Pass variables to JavaScript
         var adminUsername = '{{admin_username}}';
         var frame = {% if frame %}true{% else %}false{% endif %};
         var hasLocalCamSupport = {% if has_motion %}true{% else %}false{% endif %};
         var hasNetCamSupport = {% if has_motion %}true{% else %}false{% endif %};
-        {% if mask_width %}
-        var maskWidth = {{mask_width}};
-        {% endif %}
+        {% if mask_width %}var maskWidth = {{mask_width}};{% endif %}
     </script>
 {% endblock %}
 
