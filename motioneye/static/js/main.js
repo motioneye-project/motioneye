@@ -648,6 +648,13 @@ function initUI() {
 
         return true;
     }, '');
+    makeCustomValidator($('#webHookNotificationsUrlEntry'), function (value) {
+        if (!value.match(webHookUrlValidRegExp)) {
+            return "use of semicolon (;) or single quote (\') is not allowed in web hook URL";
+        }
+
+        return true;
+    }, '');
     $('tr[validate] input[type=text]').each(function () {
         var $this = $(this);
         var $tr = $this.parent().parent();
@@ -3745,6 +3752,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
     if (isAdmin()) {
         buttons.push({
                 caption: i18n.gettext("Forigi"),
+                caption: 'Delete',
                 isDefault: false,
                 className: 'delete',
                 click: function () {

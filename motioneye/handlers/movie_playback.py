@@ -56,8 +56,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
         if utils.is_local_motion_camera(camera_config):
             filename = mediafiles.get_media_path(camera_config, filename, 'movie')
             self.pretty_filename = camera_config['camera_name'] + '_' + self.pretty_filename
-            static_file_get_result = await StaticFileHandler.get(self, filename, include_body=include_body)
-            return static_file_get_result
+            await StaticFileHandler.get(self, filename, include_body=include_body)
+            return
 
         elif utils.is_remote_camera(camera_config):
             # we will cache the movie since it takes a while to fetch from the remote camera
@@ -68,8 +68,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
                 import time
                 mtime = os.stat(tmpfile).st_mtime
                 os.utime(tmpfile, (time.time(), mtime))
-                static_file_get_result = await StaticFileHandler.get(self, tmpfile, include_body=include_body)
-                return static_file_get_result
+                await StaticFileHandler.get(self, tmpfile, include_body=include_body)
+                return
 
             resp = await remote.get_media_content(camera_config, filename, media_type='movie')
             if resp.error:
@@ -82,8 +82,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
                 tmp.write(resp.result)
                 tmp.close()
 
-            static_file_get_result = await StaticFileHandler.get(self, tmpfile, include_body=include_body)
-            return static_file_get_result
+            await StaticFileHandler.get(self, tmpfile, include_body=include_body)
+            return
 
         else:  # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')

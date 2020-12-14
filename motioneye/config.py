@@ -651,7 +651,7 @@ def main_ui_to_dict(ui):
 
     if ui.get('admin_password') is not None:
         if ui['admin_password']:
-            data['@admin_password'] = hashlib.sha1(ui['admin_password']).hexdigest()
+            data['@admin_password'] = hashlib.sha1(ui['admin_password'].encode('utf-8')).hexdigest()
 
         else:
             data['@admin_password'] = ''
@@ -1640,7 +1640,7 @@ def backup():
         cmd = ['tar', 'zc', 'motion.conf']
         cmd += list(map(os.path.basename, glob.glob(os.path.join(settings.CONF_PATH, 'camera-*.conf'))))
         try:
-            content = utils.call_subprocess(cmd, cwd=settings.CONF_PATH)
+            content = utils.call_subprocess(cmd, cwd=settings.CONF_PATH, encoding=None)
             logging.debug('backup file created (%s bytes)' % len(content))
 
             return content
@@ -1655,7 +1655,7 @@ def backup():
                       settings.CONF_PATH)
 
         try:
-            content = utils.call_subprocess(['tar', 'zc', '.'], cwd=settings.CONF_PATH)
+            content = utils.call_subprocess(['tar', 'zc', '.'], cwd=settings.CONF_PATH, encoding=None)
             logging.debug('backup file created (%s bytes)' % len(content))
 
             return content

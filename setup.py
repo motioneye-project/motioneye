@@ -72,9 +72,9 @@ setup(
             'static/*/*',
             'templates/*',
             'scripts/*',
-            'utils/*',
             'controls/*',
             'handlers/*',
+            'utils/*',
             'locale/*/LC_MESSAGES/*.mo'
         ]
     },

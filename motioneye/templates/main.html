@@ -1103,6 +1103,33 @@
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">Send A Telegram Notification</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="telegramNotificationsEnabledSwitch"></td>
+                            <td><span class="help-mark" title="enable this if you want to receive a telegram message whenever a motion event is detected">?</span></td>
+                        </tr>
+                        <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
+                            <td class="settings-item-label"><span class="settings-item-label">HTTP API Token</span></td>
+                            <td class="settings-item-value"><input type="text" autocomplete="new-password" class="styled notifications camera-config" id="telegramAPIEntry" placeholder="Example: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"></td>
+                            <td><span class="help-mark" title="When creating the telegram bot chat, you will receive an API token which you need to enter here. Click the API Info button below for a step-by-step guide on how to get your API Token. Also be sure to chat your newly created bot after your key is generated, to ensure you receive messages.">?</span></td>
+                        </tr>
+                        <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
+                            <td class="settings-item-label"><span class="settings-item-label">Chat ID</span></td>
+                            <td class="settings-item-value"><input type="text" autocomplete="new-password" class="styled notifications camera-config" id="telegramCIDEntry" placeholder="Example: 938272312"></td>
+                            <td><span class="help-mark" title="Create a new chat to id_chatbot (@id_chatbot) and select start. The chatbot will return the number you need for this field.">?</span></td>
+                        </tr>
+                        <tr class="settings-item" min="0" max="60" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">Attached Pictures Time Span</span></td>
+                            <td class="settings-item-value"><input type="text" class="number styled notifications camera-config" id="telegramPictureTimeSpanEntry"><span class="settings-item-unit">seconds</span></td>
+                            <td><span class="help-mark" title="defines the picture search time interval to use when creating telegram photo attachments (higher values generate more pictures at the cost of an increased notification delay); set to 0 to disable picture attachments; you must also enable Still Images for this to work; you will want to play with this number until an image is sent. A good starting number is 30 if you set still images to one picture motion triggered. For standard motion triggered, set this much lower.">?</span></td>
+                        </tr>
+                        <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
+				<td class="settings-item-label"><a href="https://core.telegram.org/bots#6-botfather" target="_blank"><div class="button normal-button test-button" id="apiInstructionButton" style="opacity: 1; display: inline-block;">API Info</div></a></td>
+				<td class="settings-item-label"><div class="button normal-button test-button" id="telegramTestButton" style="opacity: 1; display: inline-block;">Test</div></td>
+                        </tr>
+                        <tr class="settings-item" depends="motionDetectionEnabled">
+                            <td colspan="100"><div class="settings-item-separator"></div></td>
+                        </tr>
+                        <tr class="settings-item" depends="motionDetectionEnabled">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Alvoki URL") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="webHookNotificationsEnabledSwitch"></td>
                             <td><span class="help-mark" title="{{ _("Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita.") }}">?</span></td>

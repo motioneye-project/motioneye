@@ -21,29 +21,29 @@ COPY . /tmp/motioneye
 RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) sid main contrib non-free" >>/etc/apt/sources.list && \
     apt-get update && \
     DEBIAN_FRONTEND="noninteractive" apt-get -t stable --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
-      curl \
-      ffmpeg \
-      libmicrohttpd12 \
-      libmysqlclient20 \
-      libpq5 \
-      lsb-release \
-      mosquitto-clients \
-      python3-babel \
-      python3-jinja2 \
-      python3-pil \
-      python3-pip \
-      python3-pip-whl \
-      python3-pycurl \
-      python3-setuptools \
-      python3-tornado \
-      python3-tz \
-      python3-wheel \
-      python3-boto3 \
-      tzdata \
-      v4l-utils && \
+    curl \
+    ffmpeg \
+    libmicrohttpd12 \
+    libpq5 \
+    lsb-release \
+    mosquitto-clients \
+    python3-babel \
+    python3-jinja2 \
+    python3-pil \
+    python3-pip \
+    python3-pip-whl \
+    python3-pycurl \
+    python3-setuptools \
+    python3-six \
+    python3-tornado \
+    python3-tz \
+    python3-wheel \
+    python3-boto3 \
+    tzdata \
+    v4l-utils && \
     DEBIAN_FRONTEND="noninteractive" apt-get -t sid --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
       motion \
-      libmysqlclient20 && \
+      libmysqlclient21 && \
     # Change uid/gid of user/group motion to match our desired IDs.  This will
     # make it easier to use execute motion as our desired user later.
     sed -i -e "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
