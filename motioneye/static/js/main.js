@@ -3584,7 +3584,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
     var img = $('<img class="picture-dialog-content">');
     content.append(img);
 
-    var video_container = $('<video class="picture-dialog-content" controls="true">');
+    var video_container = $('<video id="mPlayer" class="picture-dialog-content" controls="true">');
     var video_loader = $('<img>');
     video_container.on('error', function(err) {
         var msg = '';
@@ -3615,8 +3615,15 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
     var prevArrow = $('<div class="picture-dialog-prev-arrow button mouse-effect" title="previous picture"></div>');
     content.append(prevArrow);
 
-    var playButton = $('<div class="picture-dialog-play button mouse-effect" title="play"></div>');
-    content.append(playButton);
+    var playButtonContainer = $('<div class="picture-dialog-playbuttons"></div>');
+
+      var playButton = $('<div class="picture-dialog-play button mouse-effect" title="play"></div>');
+      playButtonContainer.append(playButton);
+    
+      var timelapseButton = $('<div class="picture-dialog-timelapse button mouse-effect" title="play"></div>');
+      playButtonContainer.append(timelapseButton);
+
+    content.append(playButtonContainer);
 
     var nextArrow = $('<div class="picture-dialog-next-arrow button mouse-effect" title="next picture"></div>');
     content.append(nextArrow);
@@ -3636,7 +3643,9 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
         prevArrow.css('display', 'none');
         nextArrow.css('display', 'none');
 
-        var playable = video_container.get(0).canPlayType(entry.mimeType) != ''
+        var mPlayer = document.getElementById('mPlayer');
+        var playable = video_container.get(0).canPlayType(entry.mimeType) != '';
+        timelapseButton.hide();
         playButton.hide();
         video_container.hide();
         img.show();
@@ -3654,12 +3663,26 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
                 video_container.get(0).load();  /* Must call load() after changing <video> source */
                 img.hide();
                 playButton.hide();
+                timelapseButton.hide();
                 video_container.on('canplay', function() {
                    video_container.get(0).play();  /* Automatically play the video once the browser is ready */
                 });
             });
 
+            timelapseButton.on('click', function() {
+                playButton.click();
+                mPlayer.playbackRate = 5;
+                video_container.on('ended', function() {
+                    if( pos > 0 ) {
+                        nextArrow.click();
+                        playButton.click();
+                        mPlayer.playbackRate = 5;
+                    }
+                });
+            });
+
             playButton.show();
+            timelapseButton.show();
         }
 
         img.load(function () {
