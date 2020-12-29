@@ -69,7 +69,7 @@ def main(parser, args):
     else:  # GET
         pass
 
-    request = Request(url, data, headers=headers)
+    request = Request(url, data.encode(), headers=headers)
     try:
         utils.urlopen(request, timeout=settings.REMOTE_REQUEST_TIMEOUT)
         logging.debug('webhook successfully called')
