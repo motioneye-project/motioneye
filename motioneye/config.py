@@ -144,7 +144,7 @@ _MOTION_POST_TO_PRE_42_OPTIONS_MAPPING = {
     'picture_output_motion': 'output_debug_pictures',
     'picture_quality': 'quality',
     'netcam_use_tcp': 'rtsp_uses_tcp',
-    'text_scale': lambda v, data: {'text_double': True if v > 1 else False},
+    'text_scale': lambda v, data: {'text_double': True if int(v) > 1 else False},
     'webcontrol_interface': lambda v, data: {'webcontrol_html_output': bool(v)},
     'webcontrol_parms': None
 }
