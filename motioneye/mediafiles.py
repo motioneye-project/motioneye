@@ -477,7 +477,7 @@ def get_media_content(camera_config, path, media_type):
     full_path = os.path.join(target_dir, path)
 
     try:
-        with open(full_path) as f:
+        with open(full_path, "rb") as f:
             return f.read()
 
     except Exception as e:
@@ -531,7 +531,7 @@ def get_zipped_content(camera_config, media_type, group, callback):
         logging.debug('reading zip file "%s" into memory' % zip_filename)
 
         try:
-            with open(zip_filename, mode='r') as f:
+            with open(zip_filename, mode='rb') as f:
                 data = f.read()
 
             working.value = False
@@ -768,7 +768,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
                 logging.debug('reading timelapse movie file "%s" into memory' % tmp_filename)
 
                 try:
-                    with open(tmp_filename, mode='r') as f:
+                    with open(tmp_filename, mode='rb') as f:
                         _timelapse_data = f.read()
 
                     logging.debug('timelapse movie process has returned %d bytes' % len(_timelapse_data))
@@ -816,7 +816,7 @@ def get_media_preview(camera_config, path, media_type, width, height):
         full_path += '.thumb'
 
     try:
-        with open(full_path) as f:
+        with open(full_path, "rb") as f:
             content = f.read()
 
     except Exception as e:
@@ -828,9 +828,8 @@ def get_media_preview(camera_config, path, media_type, width, height):
     if width is height is None:
         return content
 
-    sio = StringIO(content)
     try:
-        image = Image.open(sio)
+        image = Image.open(content)
 
     except Exception as e:
         logging.error('failed to open media preview image file: %s' % e)
