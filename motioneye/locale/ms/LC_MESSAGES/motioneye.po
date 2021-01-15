@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-08-15 14:52+0200\n"
+"POT-Creation-Date: 2021-01-15 21:07+0100\n"
 "PO-Revision-Date: 2020-04-08 21:44+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -732,7 +732,7 @@ msgstr "memohon URL"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "dayakan ini jika anda mahu URL yang diminta selepas membuat fail media"
 
-#: templates/main.html:550 templates/main.html:1084
+#: templates/main.html:550 templates/main.html:1138
 #, fuzzy
 msgid "Reteja URL"
 msgstr "URL laman web"
@@ -747,7 +747,7 @@ msgstr "contohnya. http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL untuk dihantar apabila gerakan dikesan; pintasan khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = %% v = nombor acara, %% f = laluan fail"
 
-#: templates/main.html:555 templates/main.html:1089
+#: templates/main.html:555 templates/main.html:1143
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "Kaedah HTTP"
@@ -1570,175 +1570,235 @@ msgstr "Klik pada butang ini untuk menguji pemberitahuan e-mel selepas anda meng
 
 #: templates/main.html:1079
 #, fuzzy
+msgid "Sendu Telegraman Sciigon"
+msgstr "Hantar Pemberitahuan Telegram"
+
+#: templates/main.html:1081
+#, fuzzy
+msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
+msgstr "aktifkan ini jika anda ingin menerima mesej telegram setiap kali peristiwa bergerak dikesan"
+
+#: templates/main.html:1084
+#, fuzzy
+msgid "HTTP API ĵetono"
+msgstr "Token API HTTP"
+
+#: templates/main.html:1085
+#, fuzzy
+msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+msgstr "Contoh: 93847672: AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+
+#: templates/main.html:1086
+#, fuzzy
+msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
+msgstr "Dengan membuat sembang bot telegram, anda akan mendapat token API yang perlu anda masukkan di sini. Klik butang API di bawah untuk panduan langkah demi langkah mengenai cara mendapatkan token API anda. Juga pastikan untuk berbual dengan but yang baru anda buat setelah kunci anda dihasilkan, untuk memastikan anda mendapat mesej."
+
+#: templates/main.html:1089
+#, fuzzy
+msgid "Babileja ID"
+msgstr "ID Sembang"
+
+#: templates/main.html:1090
+#, fuzzy
+msgid "Ekzemplo: 938272312"
+msgstr "Contoh: 938272312"
+
+#: templates/main.html:1091
+#, fuzzy
+msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
+msgstr "Buat sembang baru ke id_chatbot (@id_chatbot) dan pilih untuk memulakan. Sembang akan mengembalikan nombor yang diperlukan untuk bidang ini."
+
+#: templates/main.html:1094
+#, fuzzy
+msgid "Alkroĉitaj Bildoj Tempo"
+msgstr "Masa Imej Dilampirkan"
+
+#: templates/main.html:1096
+#, fuzzy
+msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
+msgstr "mentakrifkan selang masa carian gambar untuk membuat lampiran telegram (nilai yang lebih tinggi menghasilkan lebih banyak gambar dengan kos penangguhan pemberitahuan yang meningkat); tetapkan ke 0 untuk melumpuhkan lampiran gambar; anda juga mesti mengaktifkan Imej Pegun untuk berfungsi; anda akan mahu bermain dengan nombor ini sehingga gambar dihantar. Nombor permulaan yang baik adalah 30 jika anda menetapkan gambar pegun pada satu gerakan yang dicetuskan. Untuk langkah standard yang dicetuskan, tetapkan ini jauh lebih rendah."
+
+#: templates/main.html:1099
+#, fuzzy
+msgid "API-Informoj"
+msgstr "Maklumat API"
+
+#: templates/main.html:1100
+#, fuzzy
+msgid "Testo"
+msgstr "Uji"
+
+#: templates/main.html:1133
+#, fuzzy
 msgid "Alvoki URL"
 msgstr "Memohon URL"
 
-#: templates/main.html:1081
+#: templates/main.html:1135
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "Aktifkan ini jika anda mahu URL diminta setiap kali peristiwa gerakan dikesan."
 
-#: templates/main.html:1085
+#: templates/main.html:1139
 #, fuzzy
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "contohnya. http://contoh.com/search/"
 
-#: templates/main.html:1086
+#: templates/main.html:1140
 #, fuzzy, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "URL yang diminta apabila gerakan dikesan; jalan pintas khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = nombor bingkai , %% v = nombor acara"
 
-#: templates/main.html:1098
+#: templates/main.html:1152
 #, fuzzy
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "Kaedah HTTP untuk digunakan ketika meminta URL (parameter URL yang diberikan akan dikirimkan seperti yang ditunjukkan di sini)."
 
-#: templates/main.html:1104
+#: templates/main.html:1158
 #, fuzzy
 msgid "Lanĉi komando"
 msgstr "Lancarkan arahan"
 
-#: templates/main.html:1106
+#: templates/main.html:1160
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "Aktifkan ini jika anda ingin menjalankan perintah setiap kali peristiwa gerakan dikesan."
 
-#: templates/main.html:1109 templates/main.html:1122
+#: templates/main.html:1163 templates/main.html:1176
 #, fuzzy
 msgid "Komando"
 msgstr "Perintah"
 
-#: templates/main.html:1110 templates/main.html:1123
+#: templates/main.html:1164 templates/main.html:1177
 #, fuzzy
 msgid "komando..."
 msgstr "perintah ..."
 
-#: templates/main.html:1111
+#: templates/main.html:1165
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "Perintah untuk dilancarkan semasa gerakan dikesan; pelbagai arahan boleh dipisahkan dengan titik dua; jangan gunakan titik koma dengan perintah; token khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = nombor bingkai , %% v = nombor acara"
 
-#: templates/main.html:1117
+#: templates/main.html:1171
 #, fuzzy
 msgid "Lanĉi fina komando"
 msgstr "Lancarkan arahan akhir"
 
-#: templates/main.html:1119
+#: templates/main.html:1173
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "Aktifkan ini jika anda ingin melancarkan perintah setiap kali peristiwa bergerak berakhir."
 
-#: templates/main.html:1124
+#: templates/main.html:1178
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "Perintah untuk dilancarkan apabila acara gerakan berakhir; pelbagai arahan boleh dipisahkan dengan titik dua; jangan gunakan dot com dengan arahan; token khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = tarikh, %% H = jam, %% M = minit, %% S = kedua, %% q = nombor bingkai."
 
-#: templates/main.html:1134
+#: templates/main.html:1188
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "Aktifkan ini jika anda ingin menetapkan jadual mingguan untuk pengesanan gerakan."
 
-#: templates/main.html:1135
+#: templates/main.html:1189
 #, fuzzy
 msgid "Laboranta horaro"
 msgstr "Jadual kerja"
 
-#: templates/main.html:1140
+#: templates/main.html:1194
 #, fuzzy
 msgid "Lundo"
 msgstr "Isnin"
 
-#: templates/main.html:1143
+#: templates/main.html:1197
 #, fuzzy
 msgid "de"
 msgstr "daripada"
 
-#: templates/main.html:1144
+#: templates/main.html:1198
 #, fuzzy
 msgid "ĝis"
 msgstr "hingga"
 
-#: templates/main.html:1146
+#: templates/main.html:1200
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "Menetapkan julat waktu hari bekerja untuk hari Isnin."
 
-#: templates/main.html:1149
+#: templates/main.html:1203
 #, fuzzy
 msgid "Mardo"
 msgstr "Selasa"
 
-#: templates/main.html:1155
+#: templates/main.html:1209
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "Menetapkan julat waktu hari bekerja untuk hari Selasa."
 
-#: templates/main.html:1158
+#: templates/main.html:1212
 #, fuzzy
 msgid "Merkredo"
 msgstr "Hari Rabu"
 
-#: templates/main.html:1164
+#: templates/main.html:1218
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "Menetapkan julat waktu hari bekerja untuk hari Rabu."
 
-#: templates/main.html:1167
+#: templates/main.html:1221
 #, fuzzy
 msgid "Ĵaŭdo"
 msgstr "Khamis"
 
-#: templates/main.html:1173
+#: templates/main.html:1227
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "Menetapkan julat waktu hari bekerja untuk hari Khamis."
 
-#: templates/main.html:1176
+#: templates/main.html:1230
 #, fuzzy
 msgid "Vendredo"
 msgstr "Jumaat"
 
-#: templates/main.html:1182
+#: templates/main.html:1236
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "Menetapkan julat waktu hari bekerja untuk hari Jumaat."
 
-#: templates/main.html:1185
+#: templates/main.html:1239
 #, fuzzy
 msgid "Sabato"
 msgstr "Sabtu"
 
-#: templates/main.html:1191
+#: templates/main.html:1245
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "Menetapkan julat waktu hari bekerja untuk hari Sabtu."
 
-#: templates/main.html:1194
+#: templates/main.html:1248
 #, fuzzy
 msgid "Dimanĉo"
 msgstr "Ahad"
 
-#: templates/main.html:1200
+#: templates/main.html:1254
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "Menetapkan julat waktu hari bekerja untuk hari Ahad."
 
-#: templates/main.html:1203
+#: templates/main.html:1257
 #, fuzzy
 msgid "Detekti movadon"
 msgstr "Mengesan pergerakan"
 
-#: templates/main.html:1206
+#: templates/main.html:1260
 #, fuzzy
 msgid "Dum laborista horaro"
 msgstr "Semasa waktu bekerja"
 
-#: templates/main.html:1207
+#: templates/main.html:1261
 #, fuzzy
 msgid "Ekster laborista horaro"
 msgstr "Di luar waktu bekerja"
 
-#: templates/main.html:1210
+#: templates/main.html:1264
 #, fuzzy
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "Mentakrifkan sama ada pengesanan gerakan harus aktif semasa atau di luar waktu bekerja."

@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2020 ORGANIZATION
+# Copyright (C) 2021 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2020.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-08-15 14:52+0200\n"
+"POT-Creation-Date: 2021-01-15 21:07+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -647,7 +647,7 @@ msgid ""
 "amaskomunikila dosiero"
 msgstr ""
 
-#: templates/main.html:550 templates/main.html:1084
+#: templates/main.html:550 templates/main.html:1138
 msgid "Reteja URL"
 msgstr ""
 
@@ -664,7 +664,7 @@ msgid ""
 "numero,%%f = dosiera vojo"
 msgstr ""
 
-#: templates/main.html:555 templates/main.html:1089
+#: templates/main.html:555 templates/main.html:1143
 msgid "Metodo HTTP"
 msgstr ""
 
@@ -1439,20 +1439,83 @@ msgid ""
 msgstr ""
 
 #: templates/main.html:1079
-msgid "Alvoki URL"
+msgid "Sendu Telegraman Sciigon"
 msgstr ""
 
 #: templates/main.html:1081
+msgid ""
+"ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento "
+"estas detektita"
+msgstr ""
+
+#: templates/main.html:1084
+msgid "HTTP API ĵetono"
+msgstr ""
+
+#: templates/main.html:1085
+msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+msgstr ""
+
+#: templates/main.html:1086
+msgid ""
+"Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi "
+"devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel"
+" akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post "
+"kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
+msgstr ""
+
+#: templates/main.html:1089
+msgid "Babileja ID"
+msgstr ""
+
+#: templates/main.html:1090
+msgid "Ekzemplo: 938272312"
+msgstr ""
+
+#: templates/main.html:1091
+msgid ""
+"Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La "
+"babilejo redonos la necesan numeron por ĉi tiu kampo."
+msgstr ""
+
+#: templates/main.html:1094
+msgid "Alkroĉitaj Bildoj Tempo"
+msgstr ""
+
+#: templates/main.html:1096
+msgid ""
+"difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn "
+"(pli altaj valoroj generas pli da bildoj koste de pliigita sciiga "
+"prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ "
+"ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu "
+"numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi "
+"agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado "
+"ekigita, starigu ĉi tion multe pli malalte."
+msgstr ""
+
+#: templates/main.html:1099
+msgid "API-Informoj"
+msgstr ""
+
+#: templates/main.html:1100
+msgid "Testo"
+msgstr ""
+
+#: templates/main.html:1133
+msgid "Alvoki URL"
+msgstr ""
+
+#: templates/main.html:1135
 msgid ""
 "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo "
 "estas detektita."
 msgstr ""
 
-#: templates/main.html:1085
+#: templates/main.html:1139
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr ""
 
-#: templates/main.html:1086
+#: templates/main.html:1140
 #, python-format
 msgid ""
 "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj "
@@ -1460,31 +1523,31 @@ msgid ""
 "horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr ""
 
-#: templates/main.html:1098
+#: templates/main.html:1152
 msgid ""
 "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos"
 " transdonitaj kiel indikite ĉi tie)."
 msgstr ""
 
-#: templates/main.html:1104
+#: templates/main.html:1158
 msgid "Lanĉi komando"
 msgstr ""
 
-#: templates/main.html:1106
+#: templates/main.html:1160
 msgid ""
 "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo "
 "estas detektita."
 msgstr ""
 
-#: templates/main.html:1109 templates/main.html:1122
+#: templates/main.html:1163 templates/main.html:1176
 msgid "Komando"
 msgstr ""
 
-#: templates/main.html:1110 templates/main.html:1123
+#: templates/main.html:1164 templates/main.html:1177
 msgid "komando..."
 msgstr ""
 
-#: templates/main.html:1111
+#: templates/main.html:1165
 #, python-format
 msgid ""
 "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj "
@@ -1494,17 +1557,17 @@ msgid ""
 "%%v = okaza numero"
 msgstr ""
 
-#: templates/main.html:1117
+#: templates/main.html:1171
 msgid "Lanĉi fina komando"
 msgstr ""
 
-#: templates/main.html:1119
+#: templates/main.html:1173
 msgid ""
 "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento "
 "finiĝos."
 msgstr ""
 
-#: templates/main.html:1124
+#: templates/main.html:1178
 #, python-format
 msgid ""
 "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj "
@@ -1513,93 +1576,93 @@ msgid ""
 "%%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr ""
 
-#: templates/main.html:1134
+#: templates/main.html:1188
 msgid ""
 "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de "
 "moviĝo."
 msgstr ""
 
-#: templates/main.html:1135
+#: templates/main.html:1189
 msgid "Laboranta horaro"
 msgstr ""
 
-#: templates/main.html:1140
+#: templates/main.html:1194
 msgid "Lundo"
 msgstr ""
 
-#: templates/main.html:1143
+#: templates/main.html:1197
 msgid "de"
 msgstr ""
 
-#: templates/main.html:1144
+#: templates/main.html:1198
 msgid "ĝis"
 msgstr ""
 
-#: templates/main.html:1146
+#: templates/main.html:1200
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr ""
 
-#: templates/main.html:1149
+#: templates/main.html:1203
 msgid "Mardo"
 msgstr ""
 
-#: templates/main.html:1155
+#: templates/main.html:1209
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr ""
 
-#: templates/main.html:1158
+#: templates/main.html:1212
 msgid "Merkredo"
 msgstr ""
 
-#: templates/main.html:1164
+#: templates/main.html:1218
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr ""
 
-#: templates/main.html:1167
+#: templates/main.html:1221
 msgid "Ĵaŭdo"
 msgstr ""
 
-#: templates/main.html:1173
+#: templates/main.html:1227
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr ""
 
-#: templates/main.html:1176
+#: templates/main.html:1230
 msgid "Vendredo"
 msgstr ""
 
-#: templates/main.html:1182
+#: templates/main.html:1236
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr ""
 
-#: templates/main.html:1185
+#: templates/main.html:1239
 msgid "Sabato"
 msgstr ""
 
-#: templates/main.html:1191
+#: templates/main.html:1245
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr ""
 
-#: templates/main.html:1194
+#: templates/main.html:1248
 msgid "Dimanĉo"
 msgstr ""
 
-#: templates/main.html:1200
+#: templates/main.html:1254
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr ""
 
-#: templates/main.html:1203
+#: templates/main.html:1257
 msgid "Detekti movadon"
 msgstr ""
 
-#: templates/main.html:1206
+#: templates/main.html:1260
 msgid "Dum laborista horaro"
 msgstr ""
 
-#: templates/main.html:1207
+#: templates/main.html:1261
 msgid "Ekster laborista horaro"
 msgstr ""
 
-#: templates/main.html:1210
+#: templates/main.html:1264
 msgid ""
 "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista "
 "horaro."

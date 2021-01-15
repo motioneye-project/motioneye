@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-15 14:53+0200\n"
+"POT-Creation-Date: 2021-01-15 21:10+0100\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -16,579 +16,584 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: static/js/main.js:584
+#: static/js/main.js:585
 #, fuzzy
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "密码中不允许使用特殊字符"
 
-#: static/js/main.js:591 static/js/main.js:602 static/js/main.js:654
+#: static/js/main.js:592 static/js/main.js:603 static/js/main.js:669
 #: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:687
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "必填项"
 
-#: static/js/main.js:595
+#: static/js/main.js:596
 #, fuzzy
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
 msgstr "相机名称中不允许使用特殊字符"
 
-#: static/js/main.js:607
+#: static/js/main.js:608
 #, fuzzy
 msgid "valoro devas esti multoblo de 8"
 msgstr "值必须是8的倍数"
 
-#: static/js/main.js:614
+#: static/js/main.js:615
 #, fuzzy
 msgid "specialaj signoj ne rajtas en radika voja nomo"
 msgstr "根路径名中不允许使用特殊字符"
 
-#: static/js/main.js:617
+#: static/js/main.js:618
 #, fuzzy
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "文件不能直接在系统根目录中创建"
 
-#: static/js/main.js:624
+#: static/js/main.js:625
 #, fuzzy
 msgid "enigu validan retpoŝtadreson"
 msgstr "输入有效的电子邮件地址"
 
-#: static/js/main.js:631
+#: static/js/main.js:632
 #, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "输入以逗号分隔的有效电子邮件地址列表"
 
-#: static/js/main.js:638
+#: static/js/main.js:639
 #, fuzzy
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "文件名中不允许使用特殊字符"
 
-#: static/js/main.js:658
+#: static/js/main.js:673
 #, fuzzy
 msgid "enigu validan valoron"
 msgstr "输入有效值"
 
-#: static/js/main.js:812
+#: static/js/main.js:827
 #, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
 msgstr "这将递归删除云文件夹中的所有文件“"
 
-#: static/js/main.js:813
+#: static/js/main.js:828
 #, fuzzy
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
 msgstr "”，而不仅仅是motionEye上传的那些！"
 
-#: static/js/main.js:894
+#: static/js/main.js:909
 #, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
 msgstr "这将以递归方式删除“”文件夹中的所有旧媒体文件。"
 
-#: static/js/main.js:895
+#: static/js/main.js:910
 #, fuzzy
 msgid "\", ne nur tiuj kreitaj de motionEye!"
 msgstr "”，而不仅仅是由motionEye创建的！"
 
-#: static/js/main.js:960
+#: static/js/main.js:976
 #, fuzzy
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
 msgstr "没有有效的相机图像，无法编辑蒙版！"
 
-#: static/js/main.js:2173
+#: static/js/main.js:2193
 #, fuzzy
 msgid "Propra"
 msgstr "自己的"
 
-#: static/js/main.js:2211
+#: static/js/main.js:2231
 #, fuzzy
 msgid "Propra dosierindiko"
 msgstr "自定义文件名"
 
-#: static/js/main.js:2213
+#: static/js/main.js:2233
 #, fuzzy
 msgid "Retan kunlokon"
 msgstr "在线交流"
 
-#: static/js/main.js:2579
+#: static/js/main.js:2604
 #, fuzzy
 msgid "Apliki"
 msgstr "申请"
 
-#: static/js/main.js:2606 static/js/main.js:2967 static/js/main.js:3020
-#: static/js/main.js:3060
+#: static/js/main.js:2631 static/js/main.js:2992 static/js/main.js:3045
+#: static/js/main.js:3120
 #, fuzzy
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
 msgstr "确保所有配置选项均有效！"
 
-#: static/js/main.js:2708
+#: static/js/main.js:2733
 #, fuzzy
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
 msgstr "这将重新启动系统。继续吗"
 
-#: static/js/main.js:2718
+#: static/js/main.js:2743
 #, fuzzy
 msgid "Vere fermiti sistemon?"
 msgstr "真的关机了吗？"
 
-#: static/js/main.js:2730
+#: static/js/main.js:2755
 #, fuzzy
 msgid "Malŝaltita"
 msgstr "关"
 
-#: static/js/main.js:2745
+#: static/js/main.js:2770
 #, fuzzy
 msgid "Ĉu vere restartigi ?"
 msgstr "真的重启？"
 
-#: static/js/main.js:2759
+#: static/js/main.js:2784
 #, fuzzy
 msgid "La sistemo rekomencis!"
 msgstr "系统重启！"
 
-#: static/js/main.js:2779 static/js/main.js:2812 static/js/main.js:3732
+#: static/js/main.js:2804 static/js/main.js:2837 static/js/main.js:3816
 #, fuzzy
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
 msgstr "请首先应用修改后的设置！"
 
-#: static/js/main.js:2784
+#: static/js/main.js:2809
 #, fuzzy
 msgid "Neniu fotilo por forigi!"
 msgstr "无需拆卸相机！"
 
-#: static/js/main.js:2790
+#: static/js/main.js:2815
 #, fuzzy
 msgid "Ĉu forigi kameraon "
 msgstr "可以取出相机"
 
-#: static/js/main.js:2818
+#: static/js/main.js:2843
 #, fuzzy
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
 msgstr "motionEye已更新（当前版本："
 
-#: static/js/main.js:2821
+#: static/js/main.js:2846
 #, fuzzy
 msgid "Nova versio havebla: "
 msgstr "新版本可用："
 
-#: static/js/main.js:2821
+#: static/js/main.js:2846
 #, fuzzy
 msgid ". Ĝisdatigi?"
 msgstr "。更新？"
 
-#: static/js/main.js:2829
+#: static/js/main.js:2854
 #, fuzzy
 msgid "motionEye estis sukcese ĝisdatigita!"
 msgstr "motionEye已成功更新！"
 
-#: static/js/main.js:2839
+#: static/js/main.js:2864
 #, fuzzy
 msgid "Ĝisdatigo malsukcesis!"
 msgstr "更新失败！"
 
-#: static/js/main.js:2850
+#: static/js/main.js:2875
 #, fuzzy
 msgid "La ĝisdatiga procezo malsukcesis!"
 msgstr "升级过程失败！"
 
-#: static/js/main.js:2869
+#: static/js/main.js:2894
 #, fuzzy
 msgid "Rezerva dosiero"
 msgstr "备份档案"
 
-#: static/js/main.js:2871
+#: static/js/main.js:2896
 #, fuzzy
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
 msgstr "您先前下载的备份文件。"
 
-#: static/js/main.js:2900
+#: static/js/main.js:2925
 #, fuzzy
 msgid "Restaŭrigi Agordon"
 msgstr "恢复配置"
 
-#: static/js/main.js:2912
+#: static/js/main.js:2937
 #, fuzzy
 msgid "Restaŭriganta agordon ..."
 msgstr "恢复配置..."
 
-#: static/js/main.js:2919
+#: static/js/main.js:2944
 #, fuzzy
 msgid "La agordo restaŭrigis!"
 msgstr "配置已恢复！"
 
-#: static/js/main.js:2929 static/js/main.js:2948
+#: static/js/main.js:2954 static/js/main.js:2973
 #, fuzzy
 msgid "Malsukcesis restaŭri la agordon!"
 msgstr "恢复配置失败！"
 
-#: static/js/main.js:3001
+#: static/js/main.js:3026
 #, fuzzy
 msgid "Aliri la alŝutan servon malsukcesis: "
 msgstr "访问上传​​服务失败："
 
-#: static/js/main.js:3004
+#: static/js/main.js:3029
 #, fuzzy
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "访问上传​​服务成功！"
 
-#: static/js/main.js:3107
+#: static/js/main.js:3167
 #, fuzzy
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
 msgstr "真的要删除此文件吗？"
 
-#: static/js/main.js:3131
+#: static/js/main.js:3191
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
 msgstr "真的要删除“\"%(group)s\"（组）s”中的所有图像吗？"
 
-#: static/js/main.js:3134
+#: static/js/main.js:3194
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
 msgstr "真的要删除“\"%(group)s\"（组）s”中的所有电影吗？"
 
-#: static/js/main.js:3139
+#: static/js/main.js:3199
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
 msgstr "真的要删除所有未分组的图像吗？"
 
-#: static/js/main.js:3142
+#: static/js/main.js:3202
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
 msgstr "真的要删除所有未分组的电影吗？"
 
-#: static/js/main.js:3253
+#: static/js/main.js:3313
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "添加相机..."
 
-#: static/js/main.js:3441
+#: static/js/main.js:3501
 #, fuzzy
 msgid "bone"
 msgstr "好吧"
 
-#: static/js/main.js:3478 static/js/main.js:3754
+#: static/js/main.js:3538 static/js/main.js:3838
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "用户名"
 
-#: static/js/main.js:3483 static/js/main.js:3759
+#: static/js/main.js:3543 static/js/main.js:3843
 #, fuzzy
 msgid "Pasvorto"
 msgstr "密码"
 
-#: static/js/main.js:3489
+#: static/js/main.js:3549
 #, fuzzy
 msgid "Memoru min"
 msgstr "记住我"
 
-#: static/js/main.js:3507 static/js/main.js:3513
+#: static/js/main.js:3567 static/js/main.js:3573
 #, fuzzy
 msgid "Ensaluti"
 msgstr "登入"
 
-#: static/js/main.js:3510 static/js/ui.js:1023 static/js/ui.js:1030
+#: static/js/main.js:3570 static/js/ui.js:1023 static/js/ui.js:1030
 #, fuzzy
 msgid "Nuligi"
 msgstr "取消"
 
-#: static/js/main.js:3552
+#: static/js/main.js:3612
 #, fuzzy
 msgid "Vi abortis la filmeton."
 msgstr "您中止了视频。"
 
-#: static/js/main.js:3555
+#: static/js/main.js:3615
 #, fuzzy
 msgid "Reto eraro okazis."
 msgstr "发生网络错误。"
 
-#: static/js/main.js:3558
+#: static/js/main.js:3618
 #, fuzzy
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
 msgstr "解码错误或非投影功能。"
 
-#: static/js/main.js:3561
+#: static/js/main.js:3621
 #, fuzzy
 msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
 msgstr "格式不受支持，否则将无法使用/无法播放。"
 
-#: static/js/main.js:3564
+#: static/js/main.js:3624
 #, fuzzy
 msgid "Nekonata eraro okazis."
 msgstr "发生未知错误。"
 
-#: static/js/main.js:3567
+#: static/js/main.js:3627
 #, fuzzy
 msgid "Eraro : "
 msgstr "错误："
 
-#: static/js/main.js:3572
+#: static/js/main.js:3632
 #, fuzzy
 msgid "antaŭa bildo"
 msgstr "上一张图片"
 
-#: static/js/main.js:3575
+#: static/js/main.js:3637
 #, fuzzy
 msgid "ludi"
 msgstr "玩"
 
-#: static/js/main.js:3578
+#: static/js/main.js:3640
+#, fuzzy
+msgid "ludi * 5 kaj enĉenigi"
+msgstr "玩* 5和链"
+
+#: static/js/main.js:3645
 #, fuzzy
 msgid "sekva bildo"
 msgstr "下一张图片"
 
-#: static/js/main.js:3685
+#: static/js/main.js:3768
 #, fuzzy
 msgid "Fermi"
 msgstr "关门"
 
-#: static/js/main.js:3686 static/js/main.js:4247
+#: static/js/main.js:3769 static/js/main.js:4331
 #, fuzzy
 msgid "Elŝuti"
 msgstr "资料下载"
 
-#: static/js/main.js:3694 static/js/main.js:4250
+#: static/js/main.js:3777 static/js/main.js:4334
 #, fuzzy
 msgid "Forigi"
 msgstr "删除"
 
-#: static/js/main.js:3738
+#: static/js/main.js:3822
 #, fuzzy
 msgid "Kamerao tipo"
 msgstr "相机类型"
 
-#: static/js/main.js:3740
+#: static/js/main.js:3824
 #, fuzzy
 msgid "Loka V4L2-kamerao"
 msgstr "本地V4L2相机"
 
-#: static/js/main.js:3741
+#: static/js/main.js:3825
 #, fuzzy
 msgid "Loka MMAL-kamerao"
 msgstr "本地MMAL相机"
 
-#: static/js/main.js:3742
+#: static/js/main.js:3826
 #, fuzzy
 msgid "Reta kamerao"
 msgstr "网路摄影机"
 
-#: static/js/main.js:3743
+#: static/js/main.js:3827
 #, fuzzy
 msgid "Fora motionEye kamerao"
 msgstr "外部运动眼相机"
 
-#: static/js/main.js:3744
+#: static/js/main.js:3828
 #, fuzzy
 msgid "Simpla MJPEG-kamerao"
 msgstr "简单的MJPEG相机"
 
-#: static/js/main.js:3746
+#: static/js/main.js:3830
 #, fuzzy
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "您要添加的摄像头类型"
 
-#: static/js/main.js:3749
+#: static/js/main.js:3833
 #, fuzzy
 msgid "URL"
 msgstr "网址"
 
-#: static/js/main.js:3750
+#: static/js/main.js:3834
 #, fuzzy
 msgid "http://ekzemplo.com:8765/cams/..."
 msgstr "http：//example.com：8765 / cams / ..."
 
-#: static/js/main.js:3751
+#: static/js/main.js:3835
 #, fuzzy
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
 msgstr "相机网址（例如http://example.com:8080/cam/）"
 
-#: static/js/main.js:3755
+#: static/js/main.js:3839
 #, fuzzy
 msgid "uzantnomo..."
 msgstr "用户名..."
 
-#: static/js/main.js:3756
+#: static/js/main.js:3840
 #, fuzzy
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
 msgstr "URL的用户名（如果需要）（例如admin）"
 
-#: static/js/main.js:3760
+#: static/js/main.js:3844
 #, fuzzy
 msgid "pasvorto..."
 msgstr "密码..."
 
-#: static/js/main.js:3761
+#: static/js/main.js:3845
 #, fuzzy
 msgid "la pasvorto por la URL, se bezonata"
 msgstr "URL的密码（如果需要）"
 
-#: static/js/main.js:3764
+#: static/js/main.js:3848
 #, fuzzy
 msgid "Kamerao"
 msgstr "摄影机"
 
-#: static/js/main.js:3766
+#: static/js/main.js:3850
 #, fuzzy
 msgid "la kameraon, kiun vi volas aldoni"
 msgstr "您要添加的相机"
 
-#: static/js/main.js:3802
+#: static/js/main.js:3886
 #, fuzzy
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr "远程MotionEye摄像机是安装在另一台MotionEye服务器后面的摄像机。在此处添加它们将使您可以远距离观看和管理它们。"
 
-#: static/js/main.js:3817
+#: static/js/main.js:3901
 #, fuzzy
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr "网络摄像机（或IP摄像机）是本地流式传输RTSP / RTMP或MJPEG视频或简单JPEG图像的设备。请查阅您的设备手册，以找到正确的RTSP，RTMP，MJPEG或JPEG URL。"
 
-#: static/js/main.js:3822
+#: static/js/main.js:3906
 #, fuzzy
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr "本地MMAL摄像机是直接连接到motionEye系统的设备。这些通常是特定于卡的相机。"
 
-#: static/js/main.js:3837
+#: static/js/main.js:3921
 #, fuzzy
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr "将设备添加为简单的MJPEG摄像头而不是网络摄像头可以改善摄影效果，但是无法进行运动检测，图像捕获或动画录制。您的服务器和浏览器必须可以访问该相机。这类相机与Internet Explorer不匹配。"
 
-#: static/js/main.js:3842
+#: static/js/main.js:3926
 #, fuzzy
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr "本地V4L2摄像机是通常通过USB直接连接到motionEye系统的摄像机设备。"
 
-#: static/js/main.js:3993
+#: static/js/main.js:4077
 #, fuzzy
 msgid "Aldonadi kameraon..."
 msgstr "添加相机..."
 
-#: static/js/main.js:4065
+#: static/js/main.js:4149
 #, fuzzy
 msgid "Grupo"
 msgstr "组别"
 
-#: static/js/main.js:4069
+#: static/js/main.js:4153
 #, fuzzy
 msgid "Inkluzivi foton prenitan ĉiun"
 msgstr "包括每张照片"
 
-#: static/js/main.js:4072
+#: static/js/main.js:4156
 #, fuzzy
 msgid "sekundo"
 msgstr "第二"
 
-#: static/js/main.js:4073
+#: static/js/main.js:4157
 #, fuzzy
 msgid "5 sekundoj"
 msgstr "5秒"
 
-#: static/js/main.js:4074
+#: static/js/main.js:4158
 #, fuzzy
 msgid "10 sekundoj"
 msgstr "10秒"
 
-#: static/js/main.js:4075
+#: static/js/main.js:4159
 #, fuzzy
 msgid "30 sekundoj"
 msgstr "30秒"
 
-#: static/js/main.js:4076
+#: static/js/main.js:4160
 #, fuzzy
 msgid "minuto"
 msgstr "分钟"
 
-#: static/js/main.js:4077
+#: static/js/main.js:4161
 #, fuzzy
 msgid "5 minutoj"
 msgstr "5分钟"
 
-#: static/js/main.js:4078
+#: static/js/main.js:4162
 #, fuzzy
 msgid "10 minutoj"
 msgstr "10分钟"
 
-#: static/js/main.js:4079
+#: static/js/main.js:4163
 #, fuzzy
 msgid "30 minutoj"
 msgstr "30分钟"
 
-#: static/js/main.js:4080
+#: static/js/main.js:4164
 #, fuzzy
 msgid "horo"
 msgstr "一个小时"
 
-#: static/js/main.js:4083
+#: static/js/main.js:4167
 #, fuzzy
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
 msgstr "选择两个选定图像之间的时间间隔。"
 
-#: static/js/main.js:4086
+#: static/js/main.js:4170
 #, fuzzy
 msgid "Filmo framfrekvenco"
 msgstr "电影帧率"
 
-#: static/js/main.js:4088
+#: static/js/main.js:4172
 #, fuzzy
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr "选择您想要加速视频的速度。"
 
-#: static/js/main.js:4097
+#: static/js/main.js:4181
 #, fuzzy
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr "考虑到大量图片，创建视频可能需要一些时间！"
 
-#: static/js/main.js:4114
+#: static/js/main.js:4198
 #, fuzzy
 msgid "Krei akselita video"
 msgstr "创建加速视频"
 
-#: static/js/main.js:4123
+#: static/js/main.js:4207
 #, fuzzy
 msgid "Filmo kreanta en progreso..."
 msgstr "电影正在进行中..."
 
-#: static/js/main.js:4374
+#: static/js/main.js:4458
 #, fuzzy
 msgid "Zipitaj"
 msgstr "拉链式"
 
-#: static/js/main.js:4383
+#: static/js/main.js:4467
 #, fuzzy
 msgid "Akselita video"
 msgstr "加速影片"
 
-#: static/js/main.js:4394
+#: static/js/main.js:4478
 #, fuzzy
 msgid "Forigi ĉiujn"
 msgstr "全部删除"
 
-#: static/js/main.js:4536
+#: static/js/main.js:4620
 #, fuzzy
 msgid "Bildoj prenitaj de "
 msgstr "拍摄的照片"
 
-#: static/js/main.js:4539
+#: static/js/main.js:4623
 #, fuzzy
 msgid "Filmoj registritaj de "
 msgstr "记录的电影"
 
-#: static/js/main.js:4601
+#: static/js/main.js:4685
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "全屏摄像头"
 
-#: static/js/main.js:4602
+#: static/js/main.js:4686
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "打开图像浏览器"
 
-#: static/js/main.js:4603
+#: static/js/main.js:4687
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "打开视频浏览器"
 
-#: static/js/main.js:4604
+#: static/js/main.js:4688
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "设置这台相机"
 
-#: static/js/main.js:4620
+#: static/js/main.js:4704
 #, fuzzy
 msgid "preni instantaron"
 msgstr "拍摄快照"

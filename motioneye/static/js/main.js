@@ -3637,7 +3637,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
       var playButton = $('<div class="picture-dialog-play button mouse-effect" title="'+i18n.gettext("ludi")+'"></div>');
       playButtonContainer.append(playButton);
     
-      var timelapseButton = $('<div class="picture-dialog-timelapse button mouse-effect" title="'+i18n.gettext("ludi")+'"></div>');
+      var timelapseButton = $('<div class="picture-dialog-timelapse button mouse-effect" title="'+i18n.gettext("ludi * 5 kaj enĉenigi")+'"></div>');
       playButtonContainer.append(timelapseButton);
 
     content.append(playButtonContainer);
