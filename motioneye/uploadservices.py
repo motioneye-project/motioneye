@@ -257,7 +257,7 @@ class GoogleBase:
         try:
             response = json.loads(response)
         except Exception:
-            self.error("reponse doesn't seem to be a valid json")
+            self.error("response doesn't seem to be a valid json")
             raise
 
         return response
