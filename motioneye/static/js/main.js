@@ -622,7 +622,7 @@ function initUI() {
     }, '');
     makeCustomValidator($('#emailFromEntry'), function (value) {
         if (value && !value.match(emailValidRegExp)) {
-            return 'enter a vaild email address';
+            return 'enter a valid email address';
         }
 
         return true;
@@ -3601,7 +3601,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
                 msg = 'Media decode error or unsupported media features.';
                 break;
             case err.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-                msg = 'Media format unsupported or otherwise unavilable/unsuitable for playing.';
+                msg = 'Media format unsupported or otherwise unavailable/unsuitable for playing.';
                 break;
             default:
                 msg = 'Unknown error occurred.'
