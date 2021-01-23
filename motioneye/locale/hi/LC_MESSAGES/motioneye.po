@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-08-15 14:52+0200\n"
+"POT-Creation-Date: 2021-01-15 21:07+0100\n"
 "PO-Revision-Date: 2020-04-07 17:41+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -732,7 +732,7 @@ msgstr "एक URL आह्वान करें"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "यदि आप चाहते हैं कि मीडिया फ़ाइल बनाने के बाद URL का अनुरोध किया जाए तो इसे सक्षम करें"
 
-#: templates/main.html:550 templates/main.html:1084
+#: templates/main.html:550 templates/main.html:1138
 #, fuzzy
 msgid "Reteja URL"
 msgstr "वेबसाइट यूआरएल"
@@ -747,7 +747,7 @@ msgstr "जैसे। http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "गति का पता लगने पर संचारित होने वाला URL; निम्नलिखित विशेष शॉर्टकट स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या। %% v = घटना संख्या, %% f = फ़ाइल पथ"
 
-#: templates/main.html:555 templates/main.html:1089
+#: templates/main.html:555 templates/main.html:1143
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "HTTP विधि"
@@ -1570,175 +1570,235 @@ msgstr "आवश्यक विवरणों को भरने के ब�
 
 #: templates/main.html:1079
 #, fuzzy
+msgid "Sendu Telegraman Sciigon"
+msgstr "टेलीग्राम अधिसूचना भेजें"
+
+#: templates/main.html:1081
+#, fuzzy
+msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
+msgstr "जब भी आप किसी टेलीग्राम संदेश को प्राप्त करना चाहते हैं, तब इसे सक्षम करें"
+
+#: templates/main.html:1084
+#, fuzzy
+msgid "HTTP API ĵetono"
+msgstr "HTTP एपीआई टोकन"
+
+#: templates/main.html:1085
+#, fuzzy
+msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+msgstr "उदाहरण: 93847672: AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+
+#: templates/main.html:1086
+#, fuzzy
+msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
+msgstr "टेलीग्राम बॉट चैट बनाने से, आपको एक एपीआई टोकन मिलेगा जिसे आपको यहां दर्ज करना होगा। अपने एपीआई टोकन प्राप्त करने के बारे में चरण-दर-चरण मार्गदर्शिका के लिए नीचे एपीआई बटन पर क्लिक करें। यह भी सुनिश्चित करें कि आपकी कुंजी उत्पन्न होने के बाद अपने नए बनाए गए बूट के साथ चैट करें, यह सुनिश्चित करने के लिए कि आपको संदेश मिल रहे हैं।"
+
+#: templates/main.html:1089
+#, fuzzy
+msgid "Babileja ID"
+msgstr "चैट आईडी"
+
+#: templates/main.html:1090
+#, fuzzy
+msgid "Ekzemplo: 938272312"
+msgstr "उदाहरण: 938272312"
+
+#: templates/main.html:1091
+#, fuzzy
+msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
+msgstr "Id_chatbot (@id_chatbot) के लिए एक नई चैट बनाएँ और शुरू करने के लिए चुनें। चैट इस फ़ील्ड के लिए आवश्यक नंबर लौटाएगा।"
+
+#: templates/main.html:1094
+#, fuzzy
+msgid "Alkroĉitaj Bildoj Tempo"
+msgstr "संलग्न छवियाँ समय"
+
+#: templates/main.html:1096
+#, fuzzy
+msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
+msgstr "टेलीग्राम अटैचमेंट बनाने के लिए छवि खोज समय अंतराल को परिभाषित करता है (उच्च मूल्य वृद्धि की देरी की कीमत पर अधिक छवियां उत्पन्न करता है); छवि अनुलग्नकों को अक्षम करने के लिए 0 पर सेट; आपको इसके लिए स्टिल इमेजेस को भी काम करने के लिए सक्षम करना होगा; आप इस नंबर के साथ खेलना चाहेंगे जब तक कोई इमेज नहीं भेजेगा। एक अच्छी शुरुआत संख्या 30 है यदि आप अभी भी छवियों को गति के लिए सेट करते हैं। ट्रिगर किए गए एक मानक कदम के लिए, इसे बहुत कम सेट करें।"
+
+#: templates/main.html:1099
+#, fuzzy
+msgid "API-Informoj"
+msgstr "एपीआई सूचना"
+
+#: templates/main.html:1100
+#, fuzzy
+msgid "Testo"
+msgstr "परीक्षा"
+
+#: templates/main.html:1133
+#, fuzzy
 msgid "Alvoki URL"
 msgstr "URL आमंत्रित करें"
 
-#: templates/main.html:1081
+#: templates/main.html:1135
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "अगर आप चाहते हैं कि जब भी मोशन ईवेंट का पता चले तो आप एक URL का अनुरोध करें।"
 
-#: templates/main.html:1085
+#: templates/main.html:1139
 #, fuzzy
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "जैसे। http://ekzemplo.com/sciigi/"
 
-#: templates/main.html:1086
+#: templates/main.html:1140
 #, fuzzy, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "गति का पता चलने पर URL का अनुरोध किया जाना; निम्नलिखित विशेष शॉर्टकट स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या , %% v = घटना संख्या"
 
-#: templates/main.html:1098
+#: templates/main.html:1152
 #, fuzzy
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "URL का अनुरोध करते समय उपयोग करने के लिए HTTP विधि (दिए गए URL मापदंडों को यहां बताए अनुसार वितरित किया जाएगा)।"
 
-#: templates/main.html:1104
+#: templates/main.html:1158
 #, fuzzy
 msgid "Lanĉi komando"
 msgstr "एक कमांड लॉन्च करें"
 
-#: templates/main.html:1106
+#: templates/main.html:1160
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "यदि आप हर बार एक गति घटना का पता लगाने के लिए कमांड चलाना चाहते हैं तो इसे सक्षम करें।"
 
-#: templates/main.html:1109 templates/main.html:1122
+#: templates/main.html:1163 templates/main.html:1176
 #, fuzzy
 msgid "Komando"
 msgstr "आदेश"
 
-#: templates/main.html:1110 templates/main.html:1123
+#: templates/main.html:1164 templates/main.html:1177
 #, fuzzy
 msgid "komando..."
 msgstr "कमांड ..."
 
-#: templates/main.html:1111
+#: templates/main.html:1165
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "गति का पता चलने पर कमांड लॉन्च किया जाना; कई आदेशों को एक बृहदान्त्र द्वारा अलग किया जा सकता है; आदेशों के साथ अर्धविराम का उपयोग न करें; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या , %% v = घटना संख्या"
 
-#: templates/main.html:1117
+#: templates/main.html:1171
 #, fuzzy
 msgid "Lanĉi fina komando"
 msgstr "अंतिम कमांड लॉन्च करें"
 
-#: templates/main.html:1119
+#: templates/main.html:1173
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "यदि आप हर बार किसी मूव इवेंट को समाप्त करने के लिए कमांड लॉन्च करना चाहते हैं तो इसे सक्षम करें।"
 
-#: templates/main.html:1124
+#: templates/main.html:1178
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "मोशन इवेंट समाप्त होने पर लॉन्च होने की कमांड; कई आदेशों को एक बृहदान्त्र द्वारा अलग किया जा सकता है; आदेशों के साथ डॉट कॉम का उपयोग न करें; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिनांक, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या।"
 
-#: templates/main.html:1134
+#: templates/main.html:1188
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "यदि आप गति का पता लगाने के लिए साप्ताहिक शेड्यूल सेट करना चाहते हैं तो इसे सक्षम करें।"
 
-#: templates/main.html:1135
+#: templates/main.html:1189
 #, fuzzy
 msgid "Laboranta horaro"
 msgstr "काम करने का कार्यक्रम"
 
-#: templates/main.html:1140
+#: templates/main.html:1194
 #, fuzzy
 msgid "Lundo"
 msgstr "सोमवार"
 
-#: templates/main.html:1143
+#: templates/main.html:1197
 #, fuzzy
 msgid "de"
 msgstr "की"
 
-#: templates/main.html:1144
+#: templates/main.html:1198
 #, fuzzy
 msgid "ĝis"
 msgstr "तक"
 
-#: templates/main.html:1146
+#: templates/main.html:1200
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "सोमवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
 
-#: templates/main.html:1149
+#: templates/main.html:1203
 #, fuzzy
 msgid "Mardo"
 msgstr "मंगलवार"
 
-#: templates/main.html:1155
+#: templates/main.html:1209
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "मंगलवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
 
-#: templates/main.html:1158
+#: templates/main.html:1212
 #, fuzzy
 msgid "Merkredo"
 msgstr "बुधवार"
 
-#: templates/main.html:1164
+#: templates/main.html:1218
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "बुधवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
 
-#: templates/main.html:1167
+#: templates/main.html:1221
 #, fuzzy
 msgid "Ĵaŭdo"
 msgstr "बृहस्पतिवार"
 
-#: templates/main.html:1173
+#: templates/main.html:1227
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "गुरुवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
 
-#: templates/main.html:1176
+#: templates/main.html:1230
 #, fuzzy
 msgid "Vendredo"
 msgstr "शुक्रवार"
 
-#: templates/main.html:1182
+#: templates/main.html:1236
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "शुक्रवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
 
-#: templates/main.html:1185
+#: templates/main.html:1239
 #, fuzzy
 msgid "Sabato"
 msgstr "शनिवार"
 
-#: templates/main.html:1191
+#: templates/main.html:1245
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "शनिवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
 
-#: templates/main.html:1194
+#: templates/main.html:1248
 #, fuzzy
 msgid "Dimanĉo"
 msgstr "रविवार"
 
-#: templates/main.html:1200
+#: templates/main.html:1254
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "रविवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
 
-#: templates/main.html:1203
+#: templates/main.html:1257
 #, fuzzy
 msgid "Detekti movadon"
 msgstr "आंदोलन का पता लगाएं"
 
-#: templates/main.html:1206
+#: templates/main.html:1260
 #, fuzzy
 msgid "Dum laborista horaro"
 msgstr "काम के घंटों के दौरान"
 
-#: templates/main.html:1207
+#: templates/main.html:1261
 #, fuzzy
 msgid "Ekster laborista horaro"
 msgstr "बाहर काम के घंटे"
 
-#: templates/main.html:1210
+#: templates/main.html:1264
 #, fuzzy
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "परिभाषित करता है कि गति का पता लगाने के काम के घंटों के दौरान या बाहर सक्रिय होना चाहिए।"

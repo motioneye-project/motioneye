@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-08-15 14:52+0200\n"
+"POT-Creation-Date: 2021-01-15 21:07+0100\n"
 "PO-Revision-Date: 2020-04-04 12:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -733,7 +733,7 @@ msgstr "Rufen Sie eine URL auf"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "Aktivieren Sie diese Option, wenn nach dem Erstellen einer Mediendatei eine URL angefordert werden soll"
 
-#: templates/main.html:550 templates/main.html:1084
+#: templates/main.html:550 templates/main.html:1138
 #, fuzzy
 msgid "Reteja URL"
 msgstr "Website-URL"
@@ -748,7 +748,7 @@ msgstr "z.B. http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL, die gesendet werden soll, wenn eine Bewegung erkannt wird; Die folgenden speziellen Verknüpfungen werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Bildnummer, %% v = Ereignisnummer, %% f = Dateipfad"
 
-#: templates/main.html:555 templates/main.html:1089
+#: templates/main.html:555 templates/main.html:1143
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "HTTP-Methode"
@@ -1571,175 +1571,235 @@ msgstr "Klicken Sie auf diese Schaltfläche, um E-Mail-Benachrichtigungen zu tes
 
 #: templates/main.html:1079
 #, fuzzy
+msgid "Sendu Telegraman Sciigon"
+msgstr "Telegrammbenachrichtigung senden"
+
+#: templates/main.html:1081
+#, fuzzy
+msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
+msgstr "Aktivieren Sie diese Option, wenn Sie eine Telegrammnachricht erhalten möchten, wenn ein sich bewegendes Ereignis erkannt wird"
+
+#: templates/main.html:1084
+#, fuzzy
+msgid "HTTP API ĵetono"
+msgstr "HTTP-API-Token"
+
+#: templates/main.html:1085
+#, fuzzy
+msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+msgstr "Beispiel: 93847672: AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+
+#: templates/main.html:1086
+#, fuzzy
+msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
+msgstr "Wenn Sie den Telegramm-Bot-Chat erstellen, erhalten Sie ein API-Token, das Sie hier eingeben müssen. Klicken Sie unten auf die API-Schaltfläche, um eine schrittweise Anleitung zum Abrufen Ihres API-Tokens zu erhalten. Stellen Sie außerdem sicher, dass Sie nach der Generierung Ihres Schlüssels mit Ihrem neu erstellten Boot chatten, um sicherzustellen, dass Sie Nachrichten erhalten."
+
+#: templates/main.html:1089
+#, fuzzy
+msgid "Babileja ID"
+msgstr "Chat ID"
+
+#: templates/main.html:1090
+#, fuzzy
+msgid "Ekzemplo: 938272312"
+msgstr "Beispiel: 938272312"
+
+#: templates/main.html:1091
+#, fuzzy
+msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
+msgstr "Erstellen Sie einen neuen Chat für id_chatbot (@id_chatbot) und starten Sie. Der Chat gibt die erforderliche Nummer für dieses Feld zurück."
+
+#: templates/main.html:1094
+#, fuzzy
+msgid "Alkroĉitaj Bildoj Tempo"
+msgstr "Angehängte Bilder Zeit"
+
+#: templates/main.html:1096
+#, fuzzy
+msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
+msgstr "definiert das Bildsuchzeitintervall zum Erstellen von Telegrammanhängen (höhere Werte erzeugen mehr Bilder auf Kosten einer erhöhten Benachrichtigungsverzögerung); auf 0 setzen, um Bildanhänge zu deaktivieren; Sie müssen auch Standbilder aktivieren, damit dies funktioniert. Sie möchten mit dieser Nummer spielen, bis ein Bild gesendet wird. Eine gute Startnummer ist 30, wenn Sie Standbilder auf eine ausgelöste Bewegung einstellen. Stellen Sie für einen ausgelösten Standardzug diesen Wert viel niedriger ein."
+
+#: templates/main.html:1099
+#, fuzzy
+msgid "API-Informoj"
+msgstr "API-Informationen"
+
+#: templates/main.html:1100
+#, fuzzy
+msgid "Testo"
+msgstr "Prüfung"
+
+#: templates/main.html:1133
+#, fuzzy
 msgid "Alvoki URL"
 msgstr "URL aufrufen"
 
-#: templates/main.html:1081
+#: templates/main.html:1135
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "Aktivieren Sie diese Option, wenn bei jedem Erkennen eines Bewegungsereignisses eine URL angefordert werden soll."
 
-#: templates/main.html:1085
+#: templates/main.html:1139
 #, fuzzy
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "z.B. http://example.com/search/"
 
-#: templates/main.html:1086
+#: templates/main.html:1140
 #, fuzzy, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "URL, die angefordert werden soll, wenn eine Bewegung erkannt wird; Die folgenden speziellen Verknüpfungen werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Bildnummer , %% v = Ereignisnummer"
 
-#: templates/main.html:1098
+#: templates/main.html:1152
 #, fuzzy
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "Die HTTP-Methode, die beim Anfordern einer URL verwendet werden soll (die angegebenen URL-Parameter werden wie hier angegeben geliefert)."
 
-#: templates/main.html:1104
+#: templates/main.html:1158
 #, fuzzy
 msgid "Lanĉi komando"
 msgstr "Starten Sie einen Befehl"
 
-#: templates/main.html:1106
+#: templates/main.html:1160
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "Aktivieren Sie diese Option, wenn Sie jedes Mal, wenn ein Bewegungsereignis erkannt wird, einen Befehl ausführen möchten."
 
-#: templates/main.html:1109 templates/main.html:1122
+#: templates/main.html:1163 templates/main.html:1176
 #, fuzzy
 msgid "Komando"
 msgstr "Befehl"
 
-#: templates/main.html:1110 templates/main.html:1123
+#: templates/main.html:1164 templates/main.html:1177
 #, fuzzy
 msgid "komando..."
 msgstr "Befehl ..."
 
-#: templates/main.html:1111
+#: templates/main.html:1165
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "Befehl, der gestartet werden soll, wenn eine Bewegung erkannt wird; Mehrere Befehle können durch einen Doppelpunkt getrennt werden. Verwenden Sie keine Semikolons mit Befehlen. Die folgenden speziellen Token werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Tag, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Rahmennummer , %% v = Ereignisnummer"
 
-#: templates/main.html:1117
+#: templates/main.html:1171
 #, fuzzy
 msgid "Lanĉi fina komando"
 msgstr "Starten Sie den letzten Befehl"
 
-#: templates/main.html:1119
+#: templates/main.html:1173
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "Aktivieren Sie diese Option, wenn Sie bei jedem Ende eines Verschiebungsereignisses einen Befehl starten möchten."
 
-#: templates/main.html:1124
+#: templates/main.html:1178
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "Befehl, der gestartet werden soll, wenn das Bewegungsereignis endet; Mehrere Befehle können durch einen Doppelpunkt getrennt werden. Verwenden Sie keine Dotcoms mit Befehlen. Die folgenden speziellen Token werden akzeptiert: %% Y = Jahr, %% m = Monat, %% d = Datum, %% H = Stunde, %% M = Minute, %% S = Sekunde, %% q = Rahmennummer."
 
-#: templates/main.html:1134
+#: templates/main.html:1188
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "Aktivieren Sie diese Option, wenn Sie einen wöchentlichen Zeitplan für die Bewegungserkennung festlegen möchten."
 
-#: templates/main.html:1135
+#: templates/main.html:1189
 #, fuzzy
 msgid "Laboranta horaro"
 msgstr "Arbeitsplan"
 
-#: templates/main.html:1140
+#: templates/main.html:1194
 #, fuzzy
 msgid "Lundo"
 msgstr "Montag"
 
-#: templates/main.html:1143
+#: templates/main.html:1197
 #, fuzzy
 msgid "de"
 msgstr "von"
 
-#: templates/main.html:1144
+#: templates/main.html:1198
 #, fuzzy
 msgid "ĝis"
 msgstr "bis zu"
 
-#: templates/main.html:1146
+#: templates/main.html:1200
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "Legt den Zeitbereich für den Arbeitstag für Montag fest."
 
-#: templates/main.html:1149
+#: templates/main.html:1203
 #, fuzzy
 msgid "Mardo"
 msgstr "Dienstag"
 
-#: templates/main.html:1155
+#: templates/main.html:1209
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "Legt den Zeitbereich für den Arbeitstag für Dienstag fest."
 
-#: templates/main.html:1158
+#: templates/main.html:1212
 #, fuzzy
 msgid "Merkredo"
 msgstr "Mittwoch"
 
-#: templates/main.html:1164
+#: templates/main.html:1218
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "Legt den Zeitbereich für den Arbeitstag für Mittwoch fest."
 
-#: templates/main.html:1167
+#: templates/main.html:1221
 #, fuzzy
 msgid "Ĵaŭdo"
 msgstr "Donnerstag"
 
-#: templates/main.html:1173
+#: templates/main.html:1227
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "Legt den Zeitbereich für den Arbeitstag für Donnerstag fest."
 
-#: templates/main.html:1176
+#: templates/main.html:1230
 #, fuzzy
 msgid "Vendredo"
 msgstr "Freitag"
 
-#: templates/main.html:1182
+#: templates/main.html:1236
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "Legt den Zeitbereich für den Arbeitstag für Freitag fest."
 
-#: templates/main.html:1185
+#: templates/main.html:1239
 #, fuzzy
 msgid "Sabato"
 msgstr "Samstag"
 
-#: templates/main.html:1191
+#: templates/main.html:1245
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "Legt den Arbeitszeitbereich für Samstage fest."
 
-#: templates/main.html:1194
+#: templates/main.html:1248
 #, fuzzy
 msgid "Dimanĉo"
 msgstr "Sonntag"
 
-#: templates/main.html:1200
+#: templates/main.html:1254
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "Legt den Arbeitszeitbereich für Sonntage fest."
 
-#: templates/main.html:1203
+#: templates/main.html:1257
 #, fuzzy
 msgid "Detekti movadon"
 msgstr "Bewegung erkennen"
 
-#: templates/main.html:1206
+#: templates/main.html:1260
 #, fuzzy
 msgid "Dum laborista horaro"
 msgstr "Während der Arbeitszeit"
 
-#: templates/main.html:1207
+#: templates/main.html:1261
 #, fuzzy
 msgid "Ekster laborista horaro"
 msgstr "Außerhalb der Arbeitszeit"
 
-#: templates/main.html:1210
+#: templates/main.html:1264
 #, fuzzy
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "Legt fest, ob die Bewegungserkennung während oder außerhalb der Arbeitszeit aktiv sein soll."

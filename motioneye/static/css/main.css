@@ -804,7 +804,7 @@ div.picture-dialog-play {
 
 div.picture-dialog-timelapse {
     background-image: url(../img/camera-top-buttons.svg);
-    background-position: -300% 0px;
+    background-position: -500% 0px;
     position: absolute;
     right: 0px;
 }
