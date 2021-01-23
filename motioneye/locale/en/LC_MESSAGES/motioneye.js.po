@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-15 21:10+0100\n"
+"POT-Creation-Date: 2021-01-23 15:18+0100\n"
 "PO-Revision-Date: 2020-02-11 19:28+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -248,8 +248,8 @@ msgid "Malkodado-eraro aŭ neprogresinta funkcio."
 msgstr "Media decode error or unsupported media features."
 
 #: static/js/main.js:3621
-msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
-msgstr "Media format unsupported or otherwise unavilable/unsuitable for playing."
+msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
+msgstr "Format not supported or inaccessible/unsuitable for playback."
 
 #: static/js/main.js:3624
 msgid "Nekonata eraro okazis."
@@ -268,7 +268,6 @@ msgid "ludi"
 msgstr "play"
 
 #: static/js/main.js:3640
-#, fuzzy
 msgid "ludi * 5 kaj enĉenigi"
 msgstr "play * 5 and chain"
 
@@ -539,3 +538,6 @@ msgstr "Yes"
 #: static/js/ui.js:1031 static/js/ui.js:1036
 msgid "Bone"
 msgstr "OK"
+
+#~ msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
+#~ msgstr "Media format unsupported or otherwise unavilable/unsuitable for playing."

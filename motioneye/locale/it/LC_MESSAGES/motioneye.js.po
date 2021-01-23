@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-15 21:10+0100\n"
+"POT-Creation-Date: 2021-01-23 15:18+0100\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -306,8 +306,8 @@ msgstr "Errore di decodifica o funzione non proiettata."
 
 #: static/js/main.js:3621
 #, fuzzy
-msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
-msgstr "Formato non supportato o altrimenti inutilizzabile / inutilizzabile per la riproduzione."
+msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
+msgstr "Formato non supportato o inaccessibile / non adatto alla riproduzione."
 
 #: static/js/main.js:3624
 #, fuzzy
@@ -668,3 +668,7 @@ msgstr "sì"
 #, fuzzy
 msgid "Bone"
 msgstr "bene"
+
+#, fuzzy
+#~ msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
+#~ msgstr "Formato non supportato o altrimenti inutilizzabile / inutilizzabile per la riproduzione."

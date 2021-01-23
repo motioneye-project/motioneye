@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-15 21:10+0100\n"
+"POT-Creation-Date: 2021-01-23 15:18+0100\n"
 "PO-Revision-Date: 2020-02-11 22:23+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -305,8 +305,8 @@ msgstr "خطأ في فك التشفير أو وظيفة غير متوقعة."
 
 #: static/js/main.js:3621
 #, fuzzy
-msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
-msgstr "التنسيق غير مدعوم أو غير قابل للاستخدام / غير قابل للاستخدام في اللعب."
+msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
+msgstr "التنسيق غير مدعوم أو يتعذر الوصول إليه / غير مناسب للتشغيل."
 
 #: static/js/main.js:3624
 #, fuzzy
@@ -667,3 +667,7 @@ msgstr "نعم"
 #, fuzzy
 msgid "Bone"
 msgstr "حسنًا"
+
+#, fuzzy
+#~ msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
+#~ msgstr "التنسيق غير مدعوم أو غير قابل للاستخدام / غير قابل للاستخدام في اللعب."

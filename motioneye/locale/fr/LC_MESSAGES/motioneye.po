@@ -1267,24 +1267,20 @@ msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plen
 msgstr "Cliquez sur ce bouton pour tester les notifications par e-mail après avoir rempli les détails requis."
 
 #: templates/main.html:1079
-#, fuzzy
 msgid "Sendu Telegraman Sciigon"
-msgstr "Envoyer une notification par télégramme"
+msgstr "Envoyer une notification par Telegram"
 
 #: templates/main.html:1081
-#, fuzzy
 msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
 msgstr "activez cette option si vous souhaitez recevoir un télégramme chaque fois qu'un événement en mouvement est détecté"
 
 #: templates/main.html:1084
-#, fuzzy
 msgid "HTTP API ĵetono"
 msgstr "Jeton d'API HTTP"
 
 #: templates/main.html:1085
-#, fuzzy
 msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
-msgstr "Exemple: 93847672: AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+msgstr "Exemple: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 
 #: templates/main.html:1086
 #, fuzzy
@@ -1292,12 +1288,10 @@ msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi dev
 msgstr "En créant le chat du bot de télégramme, vous obtiendrez un jeton API que vous devez entrer ici. Cliquez sur le bouton API ci-dessous pour obtenir un guide étape par étape sur la façon d'obtenir votre jeton API. Assurez-vous également de discuter avec votre démarrage nouvellement créé une fois votre clé générée, pour vous assurer que vous recevez des messages."
 
 #: templates/main.html:1089
-#, fuzzy
 msgid "Babileja ID"
 msgstr "ID de chat"
 
 #: templates/main.html:1090
-#, fuzzy
 msgid "Ekzemplo: 938272312"
 msgstr "Exemple: 938272312"
 
@@ -1317,12 +1311,10 @@ msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (p
 msgstr "définit l'intervalle de temps de recherche d'image pour créer des pièces jointes de télégramme (des valeurs plus élevées génèrent plus d'images au prix d'un délai de notification accru); mis à 0 pour désactiver les pièces jointes d'image; vous devez également activer les images fixes pour que cela fonctionne; vous voudrez jouer avec ce numéro jusqu'à ce qu'une image soit envoyée. Un bon nombre de départ est 30 si vous définissez les images fixes sur un mouvement déclenché. Pour un mouvement standard déclenché, réglez ce paramètre beaucoup plus bas."
 
 #: templates/main.html:1099
-#, fuzzy
 msgid "API-Informoj"
 msgstr "Informations sur l'API"
 
 #: templates/main.html:1100
-#, fuzzy
 msgid "Testo"
 msgstr "Tester"
 
