@@ -3618,7 +3618,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
                 msg = i18n.gettext('Malkodado-eraro aŭ neprogresinta funkcio.');
                 break;
             case err.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED:
-                msg = i18n.gettext('Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado.');
+                msg = i18n.gettext('Formato ne subtenata aŭ neatingebla/netaŭga por ludado.');
                 break;
             default:
                 msg = i18n.gettext('Nekonata eraro okazis.');
