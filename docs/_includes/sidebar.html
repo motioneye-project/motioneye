@@ -1,11 +1,14 @@
 <div class="sidebar">
-   {% assign posts=site.posts | where:"lang-ref", page.lang-ref | sort: 'lang' %}
+  {% assign posts=site.posts | where:"lang-ref", page.lang-ref | sort: 'lang' %}
+
+  <div class="container">
+    <nav class="sidebar-nav">
     {% if posts.size == 0 %}
         {% assign posts=site.pages | where:"lang-ref", page.lang-ref | sort: 'lang' %}
     {% endif %}
     {% if posts.size > 1 %}
     <div>
-    <header class="lang-options">
+      <header class="lang-options">
         <div class="dropdown" >
          <button class="dropbtn">{{ site.data.languages[page.lang].icon }} {{ site.data.languages[page.lang].label }} 🔽</button>
          <div class="dropdown-content">
@@ -14,14 +17,19 @@
            {% endfor %}
          </div>
         </div>
+      </header>
     </div>
     {% endif %}
-<form method="get" action="http://www.google.com/search" target="_blank">
-	<input type="hidden" name="sitesearch" value="{{ site.url }}{{ site.baseurl}}" />
+    <div>
+      <header class="lang-options">
+      <form method="get" action="http://www.google.com/search" target="_blank">
+	<input type="hidden" name="sitesearch" value="{{ site.url }}" />
 	<input type="text" name="q" maxlength="255" placeholder="{{ site.data.translations['serĉi'][page.lang] }}" />
-</form>
+      </form>
+      </header>
+    </div>
+    <br>
 
-  <div class="container sidebar-sticky">
     <div class="sidebar-about">
       <h1>
         <a href="{{site.baseurl}}/{{page.lang}}">
@@ -31,15 +39,13 @@
       <p class="lead">{{ site.data.translations['priskribo'][page.lang] }}</p>
     </div>
 
-    <nav class="sidebar-nav">
-      <a class="sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}" href="{{site.baseurl}}/{{ page.lang }}">{{ site.data.translations['cxiujAfisxoj'][page.lang] }}</a>
 
       {% comment %}
         The code below dynamically generates a sidebar nav of pages with
         `layout: page` in the front-matter. See readme for usage.
       {% endcomment %}
 
-      {% assign pages_list = site.pages | where:"lang", page.lang %}
+      {% assign pages_list = site.pages | where:"lang", page.lang | sort:"lang-ref" %}
       {% for node in pages_list %}
         {% if node.title != null %}
           {% if node.layout == "page" %}
@@ -48,6 +54,7 @@
         {% endif %}
       {% endfor %}
     </nav>
-    <p>&copy; {{ site.auxtoro }} {{ site.time | date: '%Y' }}. {{ site.data.translations['rajtoj'][page.lang] }}</p>
+    <p>&copy; {{ site.auxtoro }} {{ site.time | date: '%Y' }}.<br>{{ site.data.translations['rajtoj'][page.lang] }}
+    <br> {{ site.data.translations['Funkciigita'][page.lang] }} <a href="https://github.com/jmichault/jekyll-plurlingva">jekyll-plurlingva</a> </p>
   </div>
 </div>

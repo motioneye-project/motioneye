@@ -55,9 +55,17 @@ html {
 
 .sidebar {
   text-align: center;
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
   color: rgba(255,255,255,.5);
   background-color: #202020;
+  height: 100%; /* 100% Full-height */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Stay on top */
+  top: 0;
+  left: 0;
+  background-color: #111; /* Black*/
+  overflow-x: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }
 @media (min-width: 48em) {
   .sidebar {
@@ -279,8 +287,8 @@ footer.lang-options ul > li {
 
 header.lang-options {
   border-bottom: 1px solid #eee;
-  margin-bottom: 2em;
-  padding-bottom: 1em;
+  margin-bottom: 0.2em;
+  padding-bottom: 0.5em;
 }
 
 header.lang-options ul {
