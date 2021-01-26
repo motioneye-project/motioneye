@@ -58,16 +58,13 @@ def list_devices():
         fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
         while True:
-            try:
-                data = p.stdout.read(1024)
-                if not data:
-                    break
-
-            except IOError:
-                data = ''
+            data = p.stdout.read(1024)
+            if data == b'':
+                break
+            if not data:
                 time.sleep(0.01)
-
-            output += data
+            else:
+                output += data
 
             if len(output) > 10240:
                 logging.warn('v4l2-ctl command returned more than 10k of output')
@@ -90,6 +87,7 @@ def list_devices():
 
     name = None
     devices = []
+    output = utils.make_str(output)
     for line in output.split('\n'):
         if line.startswith('\t'):
             device = line.strip()
@@ -135,16 +133,14 @@ def list_resolutions(device):
     fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
     while True:
-        try:
-            data = p.stdout.read(1024)
-            if not data:
-                break
-
-        except IOError:
+        data = p.stdout.read(1024)
+        if data == b'':
+            break
+        if not data:
             data = ''
             time.sleep(0.01)
-
-        output += data
+        else:
+            output += data
 
         if len(output) > 10240:
             logging.warn('v4l2-ctl command returned more than 10k of output')
@@ -160,6 +156,7 @@ def list_resolutions(device):
 
     except OSError:
         pass  # nevermind
+    output = utils.make_str(output)
 
     for pair in output.split('\n'):
         pair = pair.strip()
@@ -243,16 +240,14 @@ def list_ctrls(device):
     fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
     while True:
-        try:
-            data = p.stdout.read(1024)
-            if not data:
-                break
-
-        except IOError:
+        data = p.stdout.read(1024)
+        if data == b'':
+            break
+        if not data:
             data = ''
             time.sleep(0.01)
-
-        output += data
+        else:
+            output += data
 
         if len(output) > 10240:
             logging.warn('v4l2-ctl command returned more than 10k of output')
@@ -270,6 +265,7 @@ def list_ctrls(device):
         pass  # nevermind
 
     controls = {}
+    output = utils.make_str(output)
     for line in output.split('\n'):
         if not line:
             continue
