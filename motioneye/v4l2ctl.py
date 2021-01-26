@@ -49,7 +49,7 @@ def list_devices():
     logging.debug('listing V4L2 devices')
 
     try:
-        output = ''
+        output = b''
         started = time.time()
         p = subprocess.Popen(['v4l2-ctl', '--list-devices'], stdout=subprocess.PIPE, bufsize=1)
 
@@ -121,7 +121,7 @@ def list_resolutions(device):
     logging.debug('listing resolutions of device %(device)s...' % {'device': device})
 
     resolutions = set()
-    output = ''
+    output = b''
     started = time.time()
     cmd = 'v4l2-ctl -d %(device)s --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true' % {
             'device': pipes.quote(device)}
@@ -230,7 +230,7 @@ def list_ctrls(device):
     if device in _ctrls_cache:
         return _ctrls_cache[device]
 
-    output = ''
+    output = b''
     started = time.time()
     p = subprocess.Popen('v4l2-ctl -d %(device)s --list-ctrls' % {
             'device': pipes.quote(device)}, shell=True, stdout=subprocess.PIPE, bufsize=1)
