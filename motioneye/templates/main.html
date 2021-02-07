@@ -76,10 +76,10 @@
       i18n.setLocale('{{lingvo}}');
 
     </script>
-    <script type="text/javascript" src="{{static_path}}js/ui.js?v={{version}}"></script>
-    <script type="text/javascript" src="{{static_path}}js/main.js?v={{version}}"></script>
+    <script type="text/javascript" src="{{static_path}}js/ui.js?v={{version}} charset="utf-8" async"></script>
+    <script type="text/javascript" src="{{static_path}}js/main.js?v={{version}}" charset="utf-8" async></script>
     {% if frame %}
-        <script type="text/javascript" src="{{static_path}}js/frame.js?v={{version}}"></script>
+        <script type="text/javascript" src="{{static_path}}js/frame.js?v={{version}}" charset="utf-8" async></script>
     {% endif %}
     <script type="text/javascript">
         var adminUsername = '{{admin_username}}';
