@@ -533,7 +533,7 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> typi
         logging.debug('reading zip file "%s" into memory' % zip_filename)
 
         try:
-            with open(zip_filename, mode='r') as f:
+            with open(zip_filename, mode='rb') as f:
                 data = f.read()
 
             working.value = False
@@ -771,7 +771,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
                 logging.debug('reading timelapse movie file "%s" into memory' % tmp_filename)
 
                 try:
-                    with open(tmp_filename, mode='r') as f:
+                    with open(tmp_filename, mode='rb') as f:
                         _timelapse_data = f.read()
 
                     logging.debug('timelapse movie process has returned %d bytes' % len(_timelapse_data))
