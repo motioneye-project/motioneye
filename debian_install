@@ -1,11 +1,17 @@
 #!/bin/bash
 
 ## Instali ffmpeg kaj aliajn dependojn:
-apt install ffmpeg libmariadb3 libpq5 libmicrohttpd12 python3-pip python3-dev libssl-dev libcurl4-openssl-dev libjpeg-dev libz-dev python3-boto3
+apt update
+apt -y install ffmpeg libmariadb3 libpq5 libmicrohttpd12 python3-pip python3-dev libssl-dev libcurl4-openssl-dev libjpeg-dev libz-dev python3-boto3
 
 ## Instali motion:
-wget https://github.com/Motion-Project/motion/releases/download/release-4.2.2/pi_buster_motion_4.2.2-1_armhf.deb
-dpkg -i pi_buster_motion_4.2.2-1_armhf.deb
+MOTION_REL=4.3.2
+MOTION_SUBREL=-1
+DEBIAN_REL=$(lsb_release -sc)
+ARCH=$( dpkg --print-architecture )
+PI=$(test -f /sys/firmware/devicetree/base/model && grep aspberry /sys/firmware/devicetree/base/model >/dev/null && echo pi_)
+wget https://github.com/Motion-Project/motion/releases/download/release-${MOTION_REL}/${PI}${DEBIAN_REL}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb
+dpkg -i ${PI}${DEBIAN_REL}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb
 
 ## Instalu motioneye.eo:
 pip3 install .
@@ -15,7 +21,7 @@ pip3 install .
 mkdir -p /etc/motioneye
 if [ ! -f /etc/motioneye/motioneye.conf ]
 then
-  cp /usr/local/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
+  cp /usr/local/share/motioneye.eo/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
 fi
 mkdir -p /var/lib/motioneye
 chown -R motion.motion /etc/motioneye /var/lib/motioneye
@@ -23,7 +29,7 @@ chown -R motion.motion /etc/motioneye /var/lib/motioneye
 ## krei la servon:
 if [ ! -f /etc/systemd/system/motioneye.service ]
 then
-  cp /usr/local/share/motioneye/extra/motioneye.systemd-unit-local /etc/systemd/system/motioneye.service
+  cp /usr/local/share/motioneye.eo/extra/motioneye.systemd-unit-local /etc/systemd/system/motioneye.service
 fi
 systemctl daemon-reload
 systemctl enable motioneye
