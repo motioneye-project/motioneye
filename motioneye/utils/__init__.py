@@ -235,7 +235,7 @@ def compute_signature(method, path, body: bytes, key):
     key = _SIGNATURE_REGEX.sub('-', key)
 
     body_str = body.decode('utf-8')
-    if body_str and body_str.startswith('---'):
+    if body_str and body_str.startswith(b'---'):
         body_str = None  # file attachment
 
     body_str = body_str and _SIGNATURE_REGEX.sub('-', body_str)
