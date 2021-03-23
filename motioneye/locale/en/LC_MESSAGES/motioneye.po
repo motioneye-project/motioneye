@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-01-15 21:07+0100\n"
+"POT-Creation-Date: 2021-03-23 22:22+0100\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -590,7 +590,7 @@ msgstr "Call A Web Hook"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "enable this if you want a URL to be requested after a media file is created"
 
-#: templates/main.html:550 templates/main.html:1138
+#: templates/main.html:550 templates/main.html:1111
 msgid "Reteja URL"
 msgstr "Web Hook URL"
 
@@ -603,7 +603,7 @@ msgstr "e.g. http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "a URL to be requested when motion is detected; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number, %%f = file path"
 
-#: templates/main.html:555 templates/main.html:1143
+#: templates/main.html:555 templates/main.html:1116
 msgid "Metodo HTTP"
 msgstr "HTTP method"
 
@@ -1314,146 +1314,146 @@ msgstr "API Information"
 msgid "Testo"
 msgstr "Test"
 
-#: templates/main.html:1133
+#: templates/main.html:1106
 msgid "Alvoki URL"
 msgstr "Call A Web Hook"
 
-#: templates/main.html:1135
+#: templates/main.html:1108
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "enable this if you want a URL to be requested whenever a motion event is detected"
 
-#: templates/main.html:1139
+#: templates/main.html:1112
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "e.g. http://example.com/notify/"
 
-#: templates/main.html:1140
+#: templates/main.html:1113
 #, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "a URL to be requested when motion is detected; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number"
 
-#: templates/main.html:1152
+#: templates/main.html:1125
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "the HTTP method to use when requesting the web hook URL (the given URL-encoded parameters will in fact be transmitted as indicated here"
 
-#: templates/main.html:1158
+#: templates/main.html:1131
 msgid "Lanĉi komando"
 msgstr "Run A Command"
 
-#: templates/main.html:1160
+#: templates/main.html:1133
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "enable this if you want to execute a command whenever a motion event is detected"
 
-#: templates/main.html:1163 templates/main.html:1176
+#: templates/main.html:1136 templates/main.html:1149
 msgid "Komando"
 msgstr "Command"
 
-#: templates/main.html:1164 templates/main.html:1177
+#: templates/main.html:1137 templates/main.html:1150
 msgid "komando..."
 msgstr "command ..."
 
-#: templates/main.html:1165
+#: templates/main.html:1138
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number"
 
-#: templates/main.html:1171
+#: templates/main.html:1144
 msgid "Lanĉi fina komando"
 msgstr "Run An End Command"
 
-#: templates/main.html:1173
+#: templates/main.html:1146
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "enable this if you want to execute a command whenever a motion event ends"
 
-#: templates/main.html:1178
+#: templates/main.html:1151
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "a command to be executed when motion event ends; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %%Y = year, %%m = month, %%d = date, %%H = hour, %%M = minute, %%S = second, %%q = frame number"
 
-#: templates/main.html:1188
+#: templates/main.html:1161
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "enable this if you want to define a weekly working schedule for motion detection"
 
-#: templates/main.html:1189
+#: templates/main.html:1162
 msgid "Laboranta horaro"
 msgstr "Working Schedule"
 
-#: templates/main.html:1194
+#: templates/main.html:1167
 msgid "Lundo"
 msgstr "Monday"
 
-#: templates/main.html:1197
+#: templates/main.html:1170
 msgid "de"
 msgstr "from"
 
-#: templates/main.html:1198
+#: templates/main.html:1171
 msgid "ĝis"
 msgstr "to"
 
-#: templates/main.html:1200
+#: templates/main.html:1173
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "sets the working schedule time interval for Mondays"
 
-#: templates/main.html:1203
+#: templates/main.html:1176
 msgid "Mardo"
 msgstr "Tuesday"
 
-#: templates/main.html:1209
+#: templates/main.html:1182
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "sets the working schedule time interval for Tuesdays"
 
-#: templates/main.html:1212
+#: templates/main.html:1185
 msgid "Merkredo"
 msgstr "Wednesday"
 
-#: templates/main.html:1218
+#: templates/main.html:1191
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "sets the working schedule time interval for Wednesdays"
 
-#: templates/main.html:1221
+#: templates/main.html:1194
 msgid "Ĵaŭdo"
 msgstr "Thursday"
 
-#: templates/main.html:1227
+#: templates/main.html:1200
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "sets the working schedule time interval for Thursdays"
 
-#: templates/main.html:1230
+#: templates/main.html:1203
 msgid "Vendredo"
 msgstr "Friday"
 
-#: templates/main.html:1236
+#: templates/main.html:1209
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "sets the working schedule time interval for Fridays"
 
-#: templates/main.html:1239
+#: templates/main.html:1212
 msgid "Sabato"
 msgstr "Saturday"
 
-#: templates/main.html:1245
+#: templates/main.html:1218
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "sets the working schedule time interval for Saturdays"
 
-#: templates/main.html:1248
+#: templates/main.html:1221
 msgid "Dimanĉo"
 msgstr "Sunday"
 
-#: templates/main.html:1254
+#: templates/main.html:1227
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "sets the working schedule time interval for Sundays"
 
-#: templates/main.html:1257
+#: templates/main.html:1230
 msgid "Detekti movadon"
 msgstr "Detect Motion"
 
-#: templates/main.html:1260
+#: templates/main.html:1233
 msgid "Dum laborista horaro"
 msgstr "During Working Schedule"
 
-#: templates/main.html:1261
+#: templates/main.html:1234
 msgid "Ekster laborista horaro"
 msgstr "Outside Working Schedule"
 
-#: templates/main.html:1264
+#: templates/main.html:1237
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "sets whether motion detection should be active during or outside the working schedule"
 

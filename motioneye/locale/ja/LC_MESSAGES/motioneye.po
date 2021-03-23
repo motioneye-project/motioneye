@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-01-15 21:07+0100\n"
+"POT-Creation-Date: 2021-03-23 22:22+0100\n"
 "PO-Revision-Date: 2020-04-08 17:45+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -733,7 +733,7 @@ msgstr "URLを呼び出す"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "メディアファイルの作成後にURLを要求する場合は、これを有効にします"
 
-#: templates/main.html:550 templates/main.html:1138
+#: templates/main.html:550 templates/main.html:1111
 #, fuzzy
 msgid "Reteja URL"
 msgstr "ウェブサイトURL"
@@ -748,7 +748,7 @@ msgstr "例http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "動きが検出されたときに送信するURL。次の特別なショートカットを使用できます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、 %% v =イベント番号、%% f =ファイルパス"
 
-#: templates/main.html:555 templates/main.html:1143
+#: templates/main.html:555 templates/main.html:1116
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "HTTPメソッド"
@@ -1629,177 +1629,177 @@ msgstr "API情報"
 msgid "Testo"
 msgstr "テスト"
 
-#: templates/main.html:1133
+#: templates/main.html:1106
 #, fuzzy
 msgid "Alvoki URL"
 msgstr "URLを呼び出す"
 
-#: templates/main.html:1135
+#: templates/main.html:1108
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "モーションイベントが検出されたときにURLが要求されるようにするには、これを有効にします。"
 
-#: templates/main.html:1139
+#: templates/main.html:1112
 #, fuzzy
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "例http://example.com/search/"
 
-#: templates/main.html:1140
+#: templates/main.html:1113
 #, fuzzy, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "動きが検出されたときに要求されるURL。次の特別なショートカットを使用できます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、%% v =イベント番号"
 
-#: templates/main.html:1152
+#: templates/main.html:1125
 #, fuzzy
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "URLを要求するときに使用するHTTPメソッド（指定されたURLパラメーターは、ここに示されているように配信されます）。"
 
-#: templates/main.html:1158
+#: templates/main.html:1131
 #, fuzzy
 msgid "Lanĉi komando"
 msgstr "コマンドを起動する"
 
-#: templates/main.html:1160
+#: templates/main.html:1133
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "モーションイベントが検出されるたびにコマンドを実行する場合は、これを有効にします。"
 
-#: templates/main.html:1163 templates/main.html:1176
+#: templates/main.html:1136 templates/main.html:1149
 #, fuzzy
 msgid "Komando"
 msgstr "コマンド"
 
-#: templates/main.html:1164 templates/main.html:1177
+#: templates/main.html:1137 templates/main.html:1150
 #, fuzzy
 msgid "komando..."
 msgstr "コマンド..."
 
-#: templates/main.html:1165
+#: templates/main.html:1138
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "動きが検出されたときに起動するコマンド。複数のコマンドはコロンで区切ることができます。コマンドでセミコロンを使用しないでください。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、%% v =イベント番号"
 
-#: templates/main.html:1171
+#: templates/main.html:1144
 #, fuzzy
 msgid "Lanĉi fina komando"
 msgstr "最終コマンドを起動"
 
-#: templates/main.html:1173
+#: templates/main.html:1146
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "moveイベントが終了するたびにコマンドを起動する場合は、これを有効にします。"
 
-#: templates/main.html:1178
+#: templates/main.html:1151
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "モーションイベントの終了時に起動するコマンド。複数のコマンドはコロンで区切ることができます。コマンドでドットコムを使用しないでください。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日付、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号。"
 
-#: templates/main.html:1188
+#: templates/main.html:1161
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "モーション検出の週間スケジュールを設定する場合は、これを有効にします。"
 
-#: templates/main.html:1189
+#: templates/main.html:1162
 #, fuzzy
 msgid "Laboranta horaro"
 msgstr "勤務スケジュール"
 
-#: templates/main.html:1194
+#: templates/main.html:1167
 #, fuzzy
 msgid "Lundo"
 msgstr "月曜日"
 
-#: templates/main.html:1197
+#: templates/main.html:1170
 #, fuzzy
 msgid "de"
 msgstr "の"
 
-#: templates/main.html:1198
+#: templates/main.html:1171
 #, fuzzy
 msgid "ĝis"
 msgstr "まで"
 
-#: templates/main.html:1200
+#: templates/main.html:1173
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "月曜日の営業日の時間範囲を設定します。"
 
-#: templates/main.html:1203
+#: templates/main.html:1176
 #, fuzzy
 msgid "Mardo"
 msgstr "火曜日"
 
-#: templates/main.html:1209
+#: templates/main.html:1182
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "火曜日の営業日の時間範囲を設定します。"
 
-#: templates/main.html:1212
+#: templates/main.html:1185
 #, fuzzy
 msgid "Merkredo"
 msgstr "水曜日"
 
-#: templates/main.html:1218
+#: templates/main.html:1191
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "水曜日の営業日の時間範囲を設定します。"
 
-#: templates/main.html:1221
+#: templates/main.html:1194
 #, fuzzy
 msgid "Ĵaŭdo"
 msgstr "木曜日"
 
-#: templates/main.html:1227
+#: templates/main.html:1200
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "木曜日の営業日の時間範囲を設定します。"
 
-#: templates/main.html:1230
+#: templates/main.html:1203
 #, fuzzy
 msgid "Vendredo"
 msgstr "金曜日"
 
-#: templates/main.html:1236
+#: templates/main.html:1209
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "金曜日の営業日の時間範囲を設定します。"
 
-#: templates/main.html:1239
+#: templates/main.html:1212
 #, fuzzy
 msgid "Sabato"
 msgstr "土曜日"
 
-#: templates/main.html:1245
+#: templates/main.html:1218
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "土曜日の営業日の時間範囲を設定します。"
 
-#: templates/main.html:1248
+#: templates/main.html:1221
 #, fuzzy
 msgid "Dimanĉo"
 msgstr "日曜日"
 
-#: templates/main.html:1254
+#: templates/main.html:1227
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "日曜日の稼働日の時間範囲を設定します。"
 
-#: templates/main.html:1257
+#: templates/main.html:1230
 #, fuzzy
 msgid "Detekti movadon"
 msgstr "動きを検出"
 
-#: templates/main.html:1260
+#: templates/main.html:1233
 #, fuzzy
 msgid "Dum laborista horaro"
 msgstr "勤務時間中"
 
-#: templates/main.html:1261
+#: templates/main.html:1234
 #, fuzzy
 msgid "Ekster laborista horaro"
 msgstr "勤務時間外"
 
-#: templates/main.html:1264
+#: templates/main.html:1237
 #, fuzzy
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "勤務時間中または勤務時間外にモーション検知をアクティブにするかどうかを定義します。"

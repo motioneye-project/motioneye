@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-01-15 21:07+0100\n"
+"POT-Creation-Date: 2021-03-23 22:22+0100\n"
 "PO-Revision-Date: 2020-03-25 16:20+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -732,7 +732,7 @@ msgstr "استدعاء URL"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "قم بتمكين هذا إذا كنت تريد طلب عنوان URL بعد إنشاء ملف وسائط"
 
-#: templates/main.html:550 templates/main.html:1138
+#: templates/main.html:550 templates/main.html:1111
 #, fuzzy
 msgid "Reteja URL"
 msgstr "URL الموقع"
@@ -747,7 +747,7 @@ msgstr "على سبيل المثال http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "عنوان URL للإرسال عند اكتشاف الحركة ؛ يتم قبول الاختصارات الخاصة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = day، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number، ٪٪ v = رقم الحدث ، ٪٪ f = مسار الملف"
 
-#: templates/main.html:555 templates/main.html:1143
+#: templates/main.html:555 templates/main.html:1116
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "طريقة HTTP"
@@ -1628,177 +1628,177 @@ msgstr "معلومات API"
 msgid "Testo"
 msgstr "اختبار"
 
-#: templates/main.html:1133
+#: templates/main.html:1106
 #, fuzzy
 msgid "Alvoki URL"
 msgstr "استدعاء URL"
 
-#: templates/main.html:1135
+#: templates/main.html:1108
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "قم بتمكين هذا إذا كنت تريد طلب عنوان URL كلما تم الكشف عن حدث الحركة."
 
-#: templates/main.html:1139
+#: templates/main.html:1112
 #, fuzzy
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "على سبيل المثال http://example.com/search/"
 
-#: templates/main.html:1140
+#: templates/main.html:1113
 #, fuzzy, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "عنوان URL المطلوب عند الكشف عن الحركة ؛ يتم قبول الاختصارات الخاصة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = day، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number ، ٪٪ v = رقم الحدث"
 
-#: templates/main.html:1152
+#: templates/main.html:1125
 #, fuzzy
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "طريقة HTTP المستخدمة عند طلب عنوان URL (سيتم تسليم معلمات عنوان URL المحددة كما هو موضح هنا)."
 
-#: templates/main.html:1158
+#: templates/main.html:1131
 #, fuzzy
 msgid "Lanĉi komando"
 msgstr "قم بتشغيل أمر"
 
-#: templates/main.html:1160
+#: templates/main.html:1133
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "قم بتمكين هذا إذا كنت تريد تشغيل أمر في كل مرة يتم فيها اكتشاف حدث الحركة."
 
-#: templates/main.html:1163 templates/main.html:1176
+#: templates/main.html:1136 templates/main.html:1149
 #, fuzzy
 msgid "Komando"
 msgstr "أمر"
 
-#: templates/main.html:1164 templates/main.html:1177
+#: templates/main.html:1137 templates/main.html:1150
 #, fuzzy
 msgid "komando..."
 msgstr "أمر ..."
 
-#: templates/main.html:1165
+#: templates/main.html:1138
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "الأمر الذي سيبدأ عندما يتم الكشف عن الحركة ؛ يمكن فصل أوامر متعددة بنقطتين ؛ لا تستخدم الفواصل المنقوطة مع الأوامر ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = day، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number ، ٪٪ v = رقم الحدث"
 
-#: templates/main.html:1171
+#: templates/main.html:1144
 #, fuzzy
 msgid "Lanĉi fina komando"
 msgstr "إطلاق الأمر النهائي"
 
-#: templates/main.html:1173
+#: templates/main.html:1146
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "قم بتمكين هذا إذا كنت تريد تشغيل أمر في كل مرة ينتهي فيها حدث نقل."
 
-#: templates/main.html:1178
+#: templates/main.html:1151
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "يتم إطلاق الأمر عند انتهاء حدث الحركة ؛ يمكن فصل أوامر متعددة بنقطتين ؛ لا تستخدم نقاط كومز مع الأوامر ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = date، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number."
 
-#: templates/main.html:1188
+#: templates/main.html:1161
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "قم بتمكين هذا إذا كنت تريد تعيين جدول أسبوعي لاكتشاف الحركة."
 
-#: templates/main.html:1189
+#: templates/main.html:1162
 #, fuzzy
 msgid "Laboranta horaro"
 msgstr "جدول العمل"
 
-#: templates/main.html:1194
+#: templates/main.html:1167
 #, fuzzy
 msgid "Lundo"
 msgstr "الإثنين"
 
-#: templates/main.html:1197
+#: templates/main.html:1170
 #, fuzzy
 msgid "de"
 msgstr "من"
 
-#: templates/main.html:1198
+#: templates/main.html:1171
 #, fuzzy
 msgid "ĝis"
 msgstr "حتى"
 
-#: templates/main.html:1200
+#: templates/main.html:1173
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "يضبط النطاق الزمني ليوم العمل ليوم الاثنين."
 
-#: templates/main.html:1203
+#: templates/main.html:1176
 #, fuzzy
 msgid "Mardo"
 msgstr "الثلاثاء"
 
-#: templates/main.html:1209
+#: templates/main.html:1182
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "يضبط النطاق الزمني ليوم العمل ليوم الثلاثاء."
 
-#: templates/main.html:1212
+#: templates/main.html:1185
 #, fuzzy
 msgid "Merkredo"
 msgstr "الأربعاء"
 
-#: templates/main.html:1218
+#: templates/main.html:1191
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "يضبط نطاق وقت العمل ليوم الأربعاء."
 
-#: templates/main.html:1221
+#: templates/main.html:1194
 #, fuzzy
 msgid "Ĵaŭdo"
 msgstr "الخميس"
 
-#: templates/main.html:1227
+#: templates/main.html:1200
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "يضبط نطاق يوم العمل ليوم الخميس."
 
-#: templates/main.html:1230
+#: templates/main.html:1203
 #, fuzzy
 msgid "Vendredo"
 msgstr "الجمعة"
 
-#: templates/main.html:1236
+#: templates/main.html:1209
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "يضبط النطاق الزمني ليوم العمل ليوم الجمعة."
 
-#: templates/main.html:1239
+#: templates/main.html:1212
 #, fuzzy
 msgid "Sabato"
 msgstr "السبت"
 
-#: templates/main.html:1245
+#: templates/main.html:1218
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "يضبط النطاق الزمني ليوم العمل ليوم السبت."
 
-#: templates/main.html:1248
+#: templates/main.html:1221
 #, fuzzy
 msgid "Dimanĉo"
 msgstr "الأحد"
 
-#: templates/main.html:1254
+#: templates/main.html:1227
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "يضبط النطاق الزمني ليوم العمل أيام الأحد."
 
-#: templates/main.html:1257
+#: templates/main.html:1230
 #, fuzzy
 msgid "Detekti movadon"
 msgstr "كشف الحركة"
 
-#: templates/main.html:1260
+#: templates/main.html:1233
 #, fuzzy
 msgid "Dum laborista horaro"
 msgstr "خلال ساعات العمل"
 
-#: templates/main.html:1261
+#: templates/main.html:1234
 #, fuzzy
 msgid "Ekster laborista horaro"
 msgstr "خارج ساعات العمل"
 
-#: templates/main.html:1264
+#: templates/main.html:1237
 #, fuzzy
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "يحدد ما إذا كان الكشف عن الحركة يجب أن يكون نشطًا أثناء أو خارج ساعات العمل."

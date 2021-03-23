@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-23 15:18+0100\n"
+"POT-Creation-Date: 2021-03-23 22:22+0100\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -144,7 +144,7 @@ msgstr "本当に再起動しますか？"
 msgid "La sistemo rekomencis!"
 msgstr "システムが再起動しました！"
 
-#: static/js/main.js:2804 static/js/main.js:2837 static/js/main.js:3816
+#: static/js/main.js:2804 static/js/main.js:2837 static/js/main.js:3815
 #, fuzzy
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
 msgstr "最初に変更した設定を適用してください！"
@@ -264,12 +264,12 @@ msgstr "カメラを追加..."
 msgid "bone"
 msgstr "大丈夫"
 
-#: static/js/main.js:3538 static/js/main.js:3838
+#: static/js/main.js:3538 static/js/main.js:3837
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "ユーザー名"
 
-#: static/js/main.js:3543 static/js/main.js:3843
+#: static/js/main.js:3543 static/js/main.js:3842
 #, fuzzy
 msgid "Pasvorto"
 msgstr "パスワード"
@@ -344,257 +344,257 @@ msgstr "次の画像"
 msgid "Fermi"
 msgstr "閉じる"
 
-#: static/js/main.js:3769 static/js/main.js:4331
+#: static/js/main.js:3769 static/js/main.js:4330
 #, fuzzy
 msgid "Elŝuti"
 msgstr "ダウンロードする"
 
-#: static/js/main.js:3777 static/js/main.js:4334
+#: static/js/main.js:3777 static/js/main.js:4333
 #, fuzzy
 msgid "Forigi"
 msgstr "取り除く"
 
-#: static/js/main.js:3822
+#: static/js/main.js:3821
 #, fuzzy
 msgid "Kamerao tipo"
 msgstr "カメラタイプ"
 
-#: static/js/main.js:3824
+#: static/js/main.js:3823
 #, fuzzy
 msgid "Loka V4L2-kamerao"
 msgstr "ローカルV4L2カメラ"
 
-#: static/js/main.js:3825
+#: static/js/main.js:3824
 #, fuzzy
 msgid "Loka MMAL-kamerao"
 msgstr "ローカルMMALカメラ"
 
-#: static/js/main.js:3826
+#: static/js/main.js:3825
 #, fuzzy
 msgid "Reta kamerao"
 msgstr "ウェブカメラ"
 
-#: static/js/main.js:3827
+#: static/js/main.js:3826
 #, fuzzy
 msgid "Fora motionEye kamerao"
 msgstr "外のモーションアイカメラ"
 
-#: static/js/main.js:3828
+#: static/js/main.js:3827
 #, fuzzy
 msgid "Simpla MJPEG-kamerao"
 msgstr "シンプルなMJPEGカメラ"
 
-#: static/js/main.js:3830
+#: static/js/main.js:3829
 #, fuzzy
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "追加するカメラのタイプ"
 
-#: static/js/main.js:3833
+#: static/js/main.js:3832
 #, fuzzy
 msgid "URL"
 msgstr "URL"
 
-#: static/js/main.js:3834
+#: static/js/main.js:3833
 #, fuzzy
 msgid "http://ekzemplo.com:8765/cams/..."
 msgstr "http：//example.com：8765 / cams / ..."
 
-#: static/js/main.js:3835
+#: static/js/main.js:3834
 #, fuzzy
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
 msgstr "カメラのURL（例：http://example.com:8080/cam/）"
 
-#: static/js/main.js:3839
+#: static/js/main.js:3838
 #, fuzzy
 msgid "uzantnomo..."
 msgstr "ユーザー名..."
 
-#: static/js/main.js:3840
+#: static/js/main.js:3839
 #, fuzzy
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
 msgstr "必要に応じて、URLのユーザー名（例：admin）"
 
-#: static/js/main.js:3844
+#: static/js/main.js:3843
 #, fuzzy
 msgid "pasvorto..."
 msgstr "パスワード..."
 
-#: static/js/main.js:3845
+#: static/js/main.js:3844
 #, fuzzy
 msgid "la pasvorto por la URL, se bezonata"
 msgstr "必要に応じて、URLのパスワード"
 
-#: static/js/main.js:3848
+#: static/js/main.js:3847
 #, fuzzy
 msgid "Kamerao"
 msgstr "カメラ"
 
-#: static/js/main.js:3850
+#: static/js/main.js:3849
 #, fuzzy
 msgid "la kameraon, kiun vi volas aldoni"
 msgstr "追加するカメラ"
 
-#: static/js/main.js:3886
+#: static/js/main.js:3885
 #, fuzzy
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr "リモートmotionEyeカメラは、別のMotionEyeサーバーの背後に設置されたカメラです。ここに追加すると、離れた場所から監視および管理できます。"
 
-#: static/js/main.js:3901
+#: static/js/main.js:3900
 #, fuzzy
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr "ネットワークカメラ（またはIPカメラ）は、RTSP / RTMPまたはMJPEGビデオまたは単純なJPEG画像をネイティブにストリーミングするデバイスです。デバイスのマニュアルを参照して、正しいRTSP、RTMP、MJPEG、またはJPEG URLを確認してください。"
 
-#: static/js/main.js:3906
+#: static/js/main.js:3905
 #, fuzzy
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr "ローカルMMALカメラは、motionEyeシステムに直接接続されているデバイスです。これらは通常、カード固有のカメラです。"
 
-#: static/js/main.js:3921
+#: static/js/main.js:3920
 #, fuzzy
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr "デバイスをWebカメラとしてではなく、単純なMJPEGカメラとして追加すると、写真が改善されますが、動きの検出、画像のキャプチャ、または動画の記録は利用できません。カメラは、サーバーとブラウザーにアクセスできる必要があります。このタイプのカメラはInternet Explorerと一致しません。"
 
-#: static/js/main.js:3926
+#: static/js/main.js:3925
 #, fuzzy
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr "ローカルV4L2カメラは、通常USBを介してモーションアイシステムに直接接続されたカメラデバイスです。"
 
-#: static/js/main.js:4077
+#: static/js/main.js:4076
 #, fuzzy
 msgid "Aldonadi kameraon..."
 msgstr "カメラを追加..."
 
-#: static/js/main.js:4149
+#: static/js/main.js:4148
 #, fuzzy
 msgid "Grupo"
 msgstr "団体"
 
-#: static/js/main.js:4153
+#: static/js/main.js:4152
 #, fuzzy
 msgid "Inkluzivi foton prenitan ĉiun"
 msgstr "それぞれ撮影した写真を含める"
 
-#: static/js/main.js:4156
+#: static/js/main.js:4155
 #, fuzzy
 msgid "sekundo"
 msgstr "二番目"
 
-#: static/js/main.js:4157
+#: static/js/main.js:4156
 #, fuzzy
 msgid "5 sekundoj"
 msgstr "5秒"
 
-#: static/js/main.js:4158
+#: static/js/main.js:4157
 #, fuzzy
 msgid "10 sekundoj"
 msgstr "10秒"
 
-#: static/js/main.js:4159
+#: static/js/main.js:4158
 #, fuzzy
 msgid "30 sekundoj"
 msgstr "30秒"
 
-#: static/js/main.js:4160
+#: static/js/main.js:4159
 #, fuzzy
 msgid "minuto"
 msgstr "分"
 
-#: static/js/main.js:4161
+#: static/js/main.js:4160
 #, fuzzy
 msgid "5 minutoj"
 msgstr "5分"
 
-#: static/js/main.js:4162
+#: static/js/main.js:4161
 #, fuzzy
 msgid "10 minutoj"
 msgstr "10分"
 
-#: static/js/main.js:4163
+#: static/js/main.js:4162
 #, fuzzy
 msgid "30 minutoj"
 msgstr "30分"
 
-#: static/js/main.js:4164
+#: static/js/main.js:4163
 #, fuzzy
 msgid "horo"
 msgstr "一時間"
 
-#: static/js/main.js:4167
+#: static/js/main.js:4166
 #, fuzzy
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
 msgstr "選択した2つの画像間の時間間隔を選択します。"
 
-#: static/js/main.js:4170
+#: static/js/main.js:4169
 #, fuzzy
 msgid "Filmo framfrekvenco"
 msgstr "映画のフレームレート"
 
-#: static/js/main.js:4172
+#: static/js/main.js:4171
 #, fuzzy
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr "アクセラレーションビデオの速度を選択します。"
 
-#: static/js/main.js:4181
+#: static/js/main.js:4180
 #, fuzzy
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr "画像の数が多いため、動画の作成には時間がかかる場合があります。"
 
-#: static/js/main.js:4198
+#: static/js/main.js:4197
 #, fuzzy
 msgid "Krei akselita video"
 msgstr "加速したビデオを作成する"
 
-#: static/js/main.js:4207
+#: static/js/main.js:4206
 #, fuzzy
 msgid "Filmo kreanta en progreso..."
 msgstr "進行中の映画..."
 
-#: static/js/main.js:4458
+#: static/js/main.js:4457
 #, fuzzy
 msgid "Zipitaj"
 msgstr "ジッパー付き"
 
-#: static/js/main.js:4467
+#: static/js/main.js:4466
 #, fuzzy
 msgid "Akselita video"
 msgstr "加速ビデオ"
 
-#: static/js/main.js:4478
+#: static/js/main.js:4477
 #, fuzzy
 msgid "Forigi ĉiujn"
 msgstr "それらをすべて削除します"
 
-#: static/js/main.js:4620
+#: static/js/main.js:4619
 #, fuzzy
 msgid "Bildoj prenitaj de "
 msgstr "撮影した写真"
 
-#: static/js/main.js:4623
+#: static/js/main.js:4622
 #, fuzzy
 msgid "Filmoj registritaj de "
 msgstr "によって記録された映画"
 
-#: static/js/main.js:4685
+#: static/js/main.js:4684
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "全画面カメラ"
 
-#: static/js/main.js:4686
+#: static/js/main.js:4685
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "画像ブラウザを開く"
 
-#: static/js/main.js:4687
+#: static/js/main.js:4686
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "動画ブラウザを開く"
 
-#: static/js/main.js:4688
+#: static/js/main.js:4687
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "このカメラをセット"
 
-#: static/js/main.js:4704
+#: static/js/main.js:4703
 #, fuzzy
 msgid "preni instantaron"
 msgstr "スナップショットを撮る"

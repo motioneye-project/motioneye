@@ -3775,7 +3775,6 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
     if (isAdmin()) {
         buttons.push({
                 caption: i18n.gettext("Forigi"),
-                caption: 'Delete',
                 isDefault: false,
                 className: 'delete',
                 click: function () {

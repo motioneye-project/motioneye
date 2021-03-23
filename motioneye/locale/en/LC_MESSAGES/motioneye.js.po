@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-23 15:18+0100\n"
+"POT-Creation-Date: 2021-03-23 22:22+0100\n"
 "PO-Revision-Date: 2020-02-11 19:28+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -119,7 +119,7 @@ msgstr "Really reboot?"
 msgid "La sistemo rekomencis!"
 msgstr "The system has been rebooted!"
 
-#: static/js/main.js:2804 static/js/main.js:2837 static/js/main.js:3816
+#: static/js/main.js:2804 static/js/main.js:2837 static/js/main.js:3815
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
 msgstr "Please apply the modified settings first!"
 
@@ -215,11 +215,11 @@ msgstr "add camera ..."
 msgid "bone"
 msgstr "ok"
 
-#: static/js/main.js:3538 static/js/main.js:3838
+#: static/js/main.js:3538 static/js/main.js:3837
 msgid "Uzantnomo"
 msgstr "Username"
 
-#: static/js/main.js:3543 static/js/main.js:3843
+#: static/js/main.js:3543 static/js/main.js:3842
 msgid "Pasvorto"
 msgstr "Password"
 
@@ -279,207 +279,207 @@ msgstr "next picture"
 msgid "Fermi"
 msgstr "Close"
 
-#: static/js/main.js:3769 static/js/main.js:4331
+#: static/js/main.js:3769 static/js/main.js:4330
 msgid "Elŝuti"
 msgstr "Download"
 
-#: static/js/main.js:3777 static/js/main.js:4334
+#: static/js/main.js:3777 static/js/main.js:4333
 msgid "Forigi"
 msgstr "Remove"
 
-#: static/js/main.js:3822
+#: static/js/main.js:3821
 msgid "Kamerao tipo"
 msgstr "Camera Type"
 
-#: static/js/main.js:3824
+#: static/js/main.js:3823
 msgid "Loka V4L2-kamerao"
 msgstr "Local V4L2 Camera"
 
-#: static/js/main.js:3825
+#: static/js/main.js:3824
 msgid "Loka MMAL-kamerao"
 msgstr "Local MMAL Camera"
 
-#: static/js/main.js:3826
+#: static/js/main.js:3825
 msgid "Reta kamerao"
 msgstr "Network Camera"
 
-#: static/js/main.js:3827
+#: static/js/main.js:3826
 msgid "Fora motionEye kamerao"
 msgstr "Remote motionEye Camera"
 
-#: static/js/main.js:3828
+#: static/js/main.js:3827
 msgid "Simpla MJPEG-kamerao"
 msgstr "Simple MJPEG Camera"
 
-#: static/js/main.js:3830
+#: static/js/main.js:3829
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "the type of camera you wish to add"
 
-#: static/js/main.js:3833
+#: static/js/main.js:3832
 msgid "URL"
 msgstr "URL"
 
-#: static/js/main.js:3834
+#: static/js/main.js:3833
 msgid "http://ekzemplo.com:8765/cams/..."
 msgstr "http://example.com:8765/cams/..."
 
-#: static/js/main.js:3835
+#: static/js/main.js:3834
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
 msgstr "the camera URL (eg http://example.com:8080/cam/)"
 
-#: static/js/main.js:3839
+#: static/js/main.js:3838
 msgid "uzantnomo..."
 msgstr "username ..."
 
-#: static/js/main.js:3840
+#: static/js/main.js:3839
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
 msgstr "the username for the URL, if needed (eg admin)"
 
-#: static/js/main.js:3844
+#: static/js/main.js:3843
 msgid "pasvorto..."
 msgstr "password ..."
 
-#: static/js/main.js:3845
+#: static/js/main.js:3844
 msgid "la pasvorto por la URL, se bezonata"
 msgstr "the password for the URL, if needed"
 
-#: static/js/main.js:3848
+#: static/js/main.js:3847
 msgid "Kamerao"
 msgstr "Camera"
 
-#: static/js/main.js:3850
+#: static/js/main.js:3849
 msgid "la kameraon, kiun vi volas aldoni"
 msgstr "the camera you want to add"
 
-#: static/js/main.js:3886
+#: static/js/main.js:3885
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr "Remote motionEye cameras are cameras installed behind another motionEye server. Adding them here will allow you to view and manage them remotely."
 
-#: static/js/main.js:3901
+#: static/js/main.js:3900
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr "Network cameras (or IP cameras) are devices that natively stream RTSP/RTMP or MJPEG videos or plain JPEG images. Consult your device's manual to find out the correct RTSP, RTMP, MJPEG or JPEG URL."
 
-#: static/js/main.js:3906
+#: static/js/main.js:3905
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr "Local MMAL cameras are devices that are connected directly to your motionEye system. These are usually board-specific cameras."
 
-#: static/js/main.js:3921
+#: static/js/main.js:3920
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr "Adding your device as a simple MJPEG camera instead of as a network camera will improve the framerate, but no motion detection, picture capturing or movie recording will be available for it. The camera must be accessible to both your server and your browser. This type of camera is not compatible with Internet Explorer."
 
-#: static/js/main.js:3926
+#: static/js/main.js:3925
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr "Local V4L2 cameras are camera devices that are connected directly to your motionEye system, usually via USB."
 
-#: static/js/main.js:4077
+#: static/js/main.js:4076
 msgid "Aldonadi kameraon..."
 msgstr "Add Camera ..."
 
-#: static/js/main.js:4149
+#: static/js/main.js:4148
 msgid "Grupo"
 msgstr "Group"
 
-#: static/js/main.js:4153
+#: static/js/main.js:4152
 msgid "Inkluzivi foton prenitan ĉiun"
 msgstr "Include a picture taken every"
 
-#: static/js/main.js:4156
+#: static/js/main.js:4155
 msgid "sekundo"
 msgstr "second"
 
-#: static/js/main.js:4157
+#: static/js/main.js:4156
 msgid "5 sekundoj"
 msgstr "5 seconds"
 
-#: static/js/main.js:4158
+#: static/js/main.js:4157
 msgid "10 sekundoj"
 msgstr "10 seconds"
 
-#: static/js/main.js:4159
+#: static/js/main.js:4158
 msgid "30 sekundoj"
 msgstr "30 seconds"
 
-#: static/js/main.js:4160
+#: static/js/main.js:4159
 msgid "minuto"
 msgstr "minute"
 
-#: static/js/main.js:4161
+#: static/js/main.js:4160
 msgid "5 minutoj"
 msgstr "5 minutes"
 
-#: static/js/main.js:4162
+#: static/js/main.js:4161
 msgid "10 minutoj"
 msgstr "10 minutes"
 
-#: static/js/main.js:4163
+#: static/js/main.js:4162
 msgid "30 minutoj"
 msgstr "30 minutes"
 
-#: static/js/main.js:4164
+#: static/js/main.js:4163
 msgid "horo"
 msgstr "hour"
 
-#: static/js/main.js:4167
+#: static/js/main.js:4166
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
 msgstr "choose the interval of time between two selected pictures"
 
-#: static/js/main.js:4170
+#: static/js/main.js:4169
 msgid "Filmo framfrekvenco"
 msgstr "Movie framerate"
 
-#: static/js/main.js:4172
+#: static/js/main.js:4171
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr "choose how fast you want the timelapse playback to be"
 
-#: static/js/main.js:4181
+#: static/js/main.js:4180
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr "Given the large number of pictures, creating your timelapse might take a while!"
 
-#: static/js/main.js:4198
+#: static/js/main.js:4197
 msgid "Krei akselita video"
 msgstr "Create Timelapse Movie"
 
-#: static/js/main.js:4207
+#: static/js/main.js:4206
 msgid "Filmo kreanta en progreso..."
 msgstr "Creating Timelapse Movie..."
 
-#: static/js/main.js:4458
+#: static/js/main.js:4457
 msgid "Zipitaj"
 msgstr "Zipped"
 
-#: static/js/main.js:4467
+#: static/js/main.js:4466
 msgid "Akselita video"
 msgstr "Timelapse"
 
-#: static/js/main.js:4478
+#: static/js/main.js:4477
 msgid "Forigi ĉiujn"
 msgstr "Delete all"
 
-#: static/js/main.js:4620
+#: static/js/main.js:4619
 msgid "Bildoj prenitaj de "
 msgstr "Pictures taken by "
 
-#: static/js/main.js:4623
+#: static/js/main.js:4622
 msgid "Filmoj registritaj de "
 msgstr "Movies recorded by "
 
-#: static/js/main.js:4685
+#: static/js/main.js:4684
 msgid "plena ekrano kamerao"
 msgstr "toggle full-screen camera"
 
-#: static/js/main.js:4686
+#: static/js/main.js:4685
 msgid "malfermaj bildoj retumilo"
 msgstr "open pictures browser"
 
-#: static/js/main.js:4687
+#: static/js/main.js:4686
 msgid "malferma videoj retumilo"
 msgstr "open movies browser"
 
-#: static/js/main.js:4688
+#: static/js/main.js:4687
 msgid "agordi ĉi tiun kameraon"
 msgstr "configure this camera"
 
-#: static/js/main.js:4704
+#: static/js/main.js:4703
 msgid "preni instantaron"
 msgstr "take a snapshot"
 

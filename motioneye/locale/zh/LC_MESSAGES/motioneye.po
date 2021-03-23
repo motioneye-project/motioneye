@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-01-15 21:07+0100\n"
+"POT-Creation-Date: 2021-03-23 22:22+0100\n"
 "PO-Revision-Date: 2020-04-13 15:20+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -732,7 +732,7 @@ msgstr "调用URL"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "如果要在创建媒体文件后请求URL，请启用此选项"
 
-#: templates/main.html:550 templates/main.html:1138
+#: templates/main.html:550 templates/main.html:1111
 #, fuzzy
 msgid "Reteja URL"
 msgstr "网站网址"
@@ -747,7 +747,7 @@ msgstr "例如http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "检测到运动时要传输的URL；接受以下特殊快捷方式：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，%% f =文件路径"
 
-#: templates/main.html:555 templates/main.html:1143
+#: templates/main.html:555 templates/main.html:1116
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "HTTP方法"
@@ -1628,177 +1628,177 @@ msgstr "API信息"
 msgid "Testo"
 msgstr "测试"
 
-#: templates/main.html:1133
+#: templates/main.html:1106
 #, fuzzy
 msgid "Alvoki URL"
 msgstr "调用网址"
 
-#: templates/main.html:1135
+#: templates/main.html:1108
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "如果希望在检测到运动事件时都请求URL，请启用此选项。"
 
-#: templates/main.html:1139
+#: templates/main.html:1112
 #, fuzzy
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "例如http://example.com/search/"
 
-#: templates/main.html:1140
+#: templates/main.html:1113
 #, fuzzy, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "检测到运动时要请求的URL；接受以下特殊快捷方式：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号，%% v =事件编号"
 
-#: templates/main.html:1152
+#: templates/main.html:1125
 #, fuzzy
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "请求URL时使用的HTTP方法（给定的URL参数将按此处指示的方式传递）。"
 
-#: templates/main.html:1158
+#: templates/main.html:1131
 #, fuzzy
 msgid "Lanĉi komando"
 msgstr "启动命令"
 
-#: templates/main.html:1160
+#: templates/main.html:1133
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "如果要在每次检测到运动事件时运行命令，请启用此选项。"
 
-#: templates/main.html:1163 templates/main.html:1176
+#: templates/main.html:1136 templates/main.html:1149
 #, fuzzy
 msgid "Komando"
 msgstr "指挥部"
 
-#: templates/main.html:1164 templates/main.html:1177
+#: templates/main.html:1137 templates/main.html:1150
 #, fuzzy
 msgid "komando..."
 msgstr "命令..."
 
-#: templates/main.html:1165
+#: templates/main.html:1138
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "当检测到运动时要启动的命令；多个命令可以用冒号分隔；不要在命令中使用分号；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号，%% v =事件编号"
 
-#: templates/main.html:1171
+#: templates/main.html:1144
 #, fuzzy
 msgid "Lanĉi fina komando"
 msgstr "启动最终命令"
 
-#: templates/main.html:1173
+#: templates/main.html:1146
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "如果要在每次移动事件结束时启动命令，请启用此选项。"
 
-#: templates/main.html:1178
+#: templates/main.html:1151
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "运动事件结束时要启动的命令；多个命令可以用冒号分隔；不要在命令中使用点coms；接受以下特殊标记：%% Y =年，%% m =月，%% d =日期，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号。"
 
-#: templates/main.html:1188
+#: templates/main.html:1161
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "如果要设置运动检测的每周时间表，请启用此功能。"
 
-#: templates/main.html:1189
+#: templates/main.html:1162
 #, fuzzy
 msgid "Laboranta horaro"
 msgstr "工作时间表"
 
-#: templates/main.html:1194
+#: templates/main.html:1167
 #, fuzzy
 msgid "Lundo"
 msgstr "星期一"
 
-#: templates/main.html:1197
+#: templates/main.html:1170
 #, fuzzy
 msgid "de"
 msgstr "的"
 
-#: templates/main.html:1198
+#: templates/main.html:1171
 #, fuzzy
 msgid "ĝis"
 msgstr "直到"
 
-#: templates/main.html:1200
+#: templates/main.html:1173
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "设置星期一的工作日时间范围。"
 
-#: templates/main.html:1203
+#: templates/main.html:1176
 #, fuzzy
 msgid "Mardo"
 msgstr "周二"
 
-#: templates/main.html:1209
+#: templates/main.html:1182
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "设置星期二的工作日时间范围。"
 
-#: templates/main.html:1212
+#: templates/main.html:1185
 #, fuzzy
 msgid "Merkredo"
 msgstr "星期三"
 
-#: templates/main.html:1218
+#: templates/main.html:1191
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "设置星期三的工作日时间范围。"
 
-#: templates/main.html:1221
+#: templates/main.html:1194
 #, fuzzy
 msgid "Ĵaŭdo"
 msgstr "星期四"
 
-#: templates/main.html:1227
+#: templates/main.html:1200
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "设置星期四的工作日时间范围。"
 
-#: templates/main.html:1230
+#: templates/main.html:1203
 #, fuzzy
 msgid "Vendredo"
 msgstr "星期五"
 
-#: templates/main.html:1236
+#: templates/main.html:1209
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "设置星期五的工作日时间范围。"
 
-#: templates/main.html:1239
+#: templates/main.html:1212
 #, fuzzy
 msgid "Sabato"
 msgstr "周六"
 
-#: templates/main.html:1245
+#: templates/main.html:1218
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "设置星期六的工作日时间范围。"
 
-#: templates/main.html:1248
+#: templates/main.html:1221
 #, fuzzy
 msgid "Dimanĉo"
 msgstr "周日"
 
-#: templates/main.html:1254
+#: templates/main.html:1227
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "设置星期日的工作日时间范围。"
 
-#: templates/main.html:1257
+#: templates/main.html:1230
 #, fuzzy
 msgid "Detekti movadon"
 msgstr "检测运动"
 
-#: templates/main.html:1260
+#: templates/main.html:1233
 #, fuzzy
 msgid "Dum laborista horaro"
 msgstr "在工作时间"
 
-#: templates/main.html:1261
+#: templates/main.html:1234
 #, fuzzy
 msgid "Ekster laborista horaro"
 msgstr "工作时间以外"
 
-#: templates/main.html:1264
+#: templates/main.html:1237
 #, fuzzy
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "定义在工作时间内还是在工作时间之外应启用运动检测。"

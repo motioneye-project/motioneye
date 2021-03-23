@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2021-01-15 21:07+0100\n"
+"POT-Creation-Date: 2021-03-23 22:22+0100\n"
 "PO-Revision-Date: 2020-02-10 19:02+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -590,7 +590,7 @@ msgstr "invoquer une URL"
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "activez cette option si vous souhaitez qu'une URL soit requêtée après la création d'un fichier multimédia"
 
-#: templates/main.html:550 templates/main.html:1138
+#: templates/main.html:550 templates/main.html:1111
 msgid "Reteja URL"
 msgstr "URL du site Web"
 
@@ -603,7 +603,7 @@ msgstr "ex. http://example.com/notify/"
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL à déclencher lorsqu'un mouvement est détecté; les raccourcis spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événements, %%f = chemin du fichier"
 
-#: templates/main.html:555 templates/main.html:1143
+#: templates/main.html:555 templates/main.html:1116
 msgid "Metodo HTTP"
 msgstr "Méthode HTTP"
 
@@ -1318,146 +1318,146 @@ msgstr "Informations sur l'API"
 msgid "Testo"
 msgstr "Tester"
 
-#: templates/main.html:1133
+#: templates/main.html:1106
 msgid "Alvoki URL"
 msgstr "Invoquer une URL"
 
-#: templates/main.html:1135
+#: templates/main.html:1108
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "Activez cette option si vous souhaitez qu'une URL soit activée chaque fois qu'un événement de mouvement est détecté."
 
-#: templates/main.html:1139
+#: templates/main.html:1112
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "ex. http://exemple.com/notifier/"
 
-#: templates/main.html:1140
+#: templates/main.html:1113
 #, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "URL à déclencher lorsqu'un mouvement est détecté; les raccourcis spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame , %%v = numéro d'événement"
 
-#: templates/main.html:1152
+#: templates/main.html:1125
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "La méthode HTTP à utiliser lors de l'envoi d'une URL (les paramètres d'URL donnés seront fournis comme indiqué ici)."
 
-#: templates/main.html:1158
+#: templates/main.html:1131
 msgid "Lanĉi komando"
 msgstr "Lancer une commande"
 
-#: templates/main.html:1160
+#: templates/main.html:1133
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "Activez cette option si vous souhaitez exécuter une commande chaque fois qu'un événement de mouvement est détecté."
 
-#: templates/main.html:1163 templates/main.html:1176
+#: templates/main.html:1136 templates/main.html:1149
 msgid "Komando"
 msgstr "Commande"
 
-#: templates/main.html:1164 templates/main.html:1177
+#: templates/main.html:1137 templates/main.html:1150
 msgid "komando..."
 msgstr "commande ..."
 
-#: templates/main.html:1165
+#: templates/main.html:1138
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "Commande à lancer lorsqu'un mouvement est détecté ; plusieurs commandes peuvent être séparées par deux-points; n'utilisez pas de points-virgules avec les commandes; les jetons spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame , %%v = numéro d'événement"
 
-#: templates/main.html:1171
+#: templates/main.html:1144
 msgid "Lanĉi fina komando"
 msgstr "Lancer une commande finale"
 
-#: templates/main.html:1173
+#: templates/main.html:1146
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "Activez cette option si vous souhaitez lancer une commande chaque fois qu'un événement de déplacement se termine."
 
-#: templates/main.html:1178
+#: templates/main.html:1151
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "Commande à lancer à la fin de l'événement de mouvement; plusieurs commandes peuvent être séparées par deux-points ; n'utilisez pas de points-virgules avec les commandes; les jetons spéciaux suivants sont acceptés : %%Y = année, %%m = mois, %%d = date, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame."
 
-#: templates/main.html:1188
+#: templates/main.html:1161
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "Activez cette option si vous souhaitez définir un programme hebdomadaire de détection de mouvement."
 
-#: templates/main.html:1189
+#: templates/main.html:1162
 msgid "Laboranta horaro"
 msgstr "Horaire de travail"
 
-#: templates/main.html:1194
+#: templates/main.html:1167
 msgid "Lundo"
 msgstr "Lundi"
 
-#: templates/main.html:1197
+#: templates/main.html:1170
 msgid "de"
 msgstr "de"
 
-#: templates/main.html:1198
+#: templates/main.html:1171
 msgid "ĝis"
 msgstr "à"
 
-#: templates/main.html:1200
+#: templates/main.html:1173
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "Définit la plage horaire pour les lundis."
 
-#: templates/main.html:1203
+#: templates/main.html:1176
 msgid "Mardo"
 msgstr "Mardi"
 
-#: templates/main.html:1209
+#: templates/main.html:1182
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "Définit la plage horaire pour les mardis."
 
-#: templates/main.html:1212
+#: templates/main.html:1185
 msgid "Merkredo"
 msgstr "Mercredi"
 
-#: templates/main.html:1218
+#: templates/main.html:1191
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "Définit la plage horaire pour les mercredis."
 
-#: templates/main.html:1221
+#: templates/main.html:1194
 msgid "Ĵaŭdo"
 msgstr "Jeudi"
 
-#: templates/main.html:1227
+#: templates/main.html:1200
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "Définit la plage horaire pour les jeudis."
 
-#: templates/main.html:1230
+#: templates/main.html:1203
 msgid "Vendredo"
 msgstr "Vendredi"
 
-#: templates/main.html:1236
+#: templates/main.html:1209
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "Définit la plage horaire pour les vendredis."
 
-#: templates/main.html:1239
+#: templates/main.html:1212
 msgid "Sabato"
 msgstr "Samedi"
 
-#: templates/main.html:1245
+#: templates/main.html:1218
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "Définit la plage horaire pour les samedis."
 
-#: templates/main.html:1248
+#: templates/main.html:1221
 msgid "Dimanĉo"
 msgstr "Dimanche"
 
-#: templates/main.html:1254
+#: templates/main.html:1227
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "Définit la plage horaire pour le dimanche."
 
-#: templates/main.html:1257
+#: templates/main.html:1230
 msgid "Detekti movadon"
 msgstr "Détecter le mouvement"
 
-#: templates/main.html:1260
+#: templates/main.html:1233
 msgid "Dum laborista horaro"
 msgstr "Pendant les heures de travail"
 
-#: templates/main.html:1261
+#: templates/main.html:1234
 msgid "Ekster laborista horaro"
 msgstr "En dehors des heures de travail"
 
-#: templates/main.html:1264
+#: templates/main.html:1237
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "Définit si la détection de mouvement doit être active pendant ou en dehors des heures de travail."
 

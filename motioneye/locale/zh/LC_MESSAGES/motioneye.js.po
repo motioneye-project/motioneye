@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-23 15:18+0100\n"
+"POT-Creation-Date: 2021-03-23 22:22+0100\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -143,7 +143,7 @@ msgstr "真的重启？"
 msgid "La sistemo rekomencis!"
 msgstr "系统重启！"
 
-#: static/js/main.js:2804 static/js/main.js:2837 static/js/main.js:3816
+#: static/js/main.js:2804 static/js/main.js:2837 static/js/main.js:3815
 #, fuzzy
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
 msgstr "请首先应用修改后的设置！"
@@ -263,12 +263,12 @@ msgstr "添加相机..."
 msgid "bone"
 msgstr "好吧"
 
-#: static/js/main.js:3538 static/js/main.js:3838
+#: static/js/main.js:3538 static/js/main.js:3837
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "用户名"
 
-#: static/js/main.js:3543 static/js/main.js:3843
+#: static/js/main.js:3543 static/js/main.js:3842
 #, fuzzy
 msgid "Pasvorto"
 msgstr "密码"
@@ -343,257 +343,257 @@ msgstr "下一张图片"
 msgid "Fermi"
 msgstr "关门"
 
-#: static/js/main.js:3769 static/js/main.js:4331
+#: static/js/main.js:3769 static/js/main.js:4330
 #, fuzzy
 msgid "Elŝuti"
 msgstr "资料下载"
 
-#: static/js/main.js:3777 static/js/main.js:4334
+#: static/js/main.js:3777 static/js/main.js:4333
 #, fuzzy
 msgid "Forigi"
 msgstr "删除"
 
-#: static/js/main.js:3822
+#: static/js/main.js:3821
 #, fuzzy
 msgid "Kamerao tipo"
 msgstr "相机类型"
 
-#: static/js/main.js:3824
+#: static/js/main.js:3823
 #, fuzzy
 msgid "Loka V4L2-kamerao"
 msgstr "本地V4L2相机"
 
-#: static/js/main.js:3825
+#: static/js/main.js:3824
 #, fuzzy
 msgid "Loka MMAL-kamerao"
 msgstr "本地MMAL相机"
 
-#: static/js/main.js:3826
+#: static/js/main.js:3825
 #, fuzzy
 msgid "Reta kamerao"
 msgstr "网路摄影机"
 
-#: static/js/main.js:3827
+#: static/js/main.js:3826
 #, fuzzy
 msgid "Fora motionEye kamerao"
 msgstr "外部运动眼相机"
 
-#: static/js/main.js:3828
+#: static/js/main.js:3827
 #, fuzzy
 msgid "Simpla MJPEG-kamerao"
 msgstr "简单的MJPEG相机"
 
-#: static/js/main.js:3830
+#: static/js/main.js:3829
 #, fuzzy
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "您要添加的摄像头类型"
 
-#: static/js/main.js:3833
+#: static/js/main.js:3832
 #, fuzzy
 msgid "URL"
 msgstr "网址"
 
-#: static/js/main.js:3834
+#: static/js/main.js:3833
 #, fuzzy
 msgid "http://ekzemplo.com:8765/cams/..."
 msgstr "http：//example.com：8765 / cams / ..."
 
-#: static/js/main.js:3835
+#: static/js/main.js:3834
 #, fuzzy
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
 msgstr "相机网址（例如http://example.com:8080/cam/）"
 
-#: static/js/main.js:3839
+#: static/js/main.js:3838
 #, fuzzy
 msgid "uzantnomo..."
 msgstr "用户名..."
 
-#: static/js/main.js:3840
+#: static/js/main.js:3839
 #, fuzzy
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
 msgstr "URL的用户名（如果需要）（例如admin）"
 
-#: static/js/main.js:3844
+#: static/js/main.js:3843
 #, fuzzy
 msgid "pasvorto..."
 msgstr "密码..."
 
-#: static/js/main.js:3845
+#: static/js/main.js:3844
 #, fuzzy
 msgid "la pasvorto por la URL, se bezonata"
 msgstr "URL的密码（如果需要）"
 
-#: static/js/main.js:3848
+#: static/js/main.js:3847
 #, fuzzy
 msgid "Kamerao"
 msgstr "摄影机"
 
-#: static/js/main.js:3850
+#: static/js/main.js:3849
 #, fuzzy
 msgid "la kameraon, kiun vi volas aldoni"
 msgstr "您要添加的相机"
 
-#: static/js/main.js:3886
+#: static/js/main.js:3885
 #, fuzzy
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr "远程MotionEye摄像机是安装在另一台MotionEye服务器后面的摄像机。在此处添加它们将使您可以远距离观看和管理它们。"
 
-#: static/js/main.js:3901
+#: static/js/main.js:3900
 #, fuzzy
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr "网络摄像机（或IP摄像机）是本地流式传输RTSP / RTMP或MJPEG视频或简单JPEG图像的设备。请查阅您的设备手册，以找到正确的RTSP，RTMP，MJPEG或JPEG URL。"
 
-#: static/js/main.js:3906
+#: static/js/main.js:3905
 #, fuzzy
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr "本地MMAL摄像机是直接连接到motionEye系统的设备。这些通常是特定于卡的相机。"
 
-#: static/js/main.js:3921
+#: static/js/main.js:3920
 #, fuzzy
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr "将设备添加为简单的MJPEG摄像头而不是网络摄像头可以改善摄影效果，但是无法进行运动检测，图像捕获或动画录制。您的服务器和浏览器必须可以访问该相机。这类相机与Internet Explorer不匹配。"
 
-#: static/js/main.js:3926
+#: static/js/main.js:3925
 #, fuzzy
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr "本地V4L2摄像机是通常通过USB直接连接到motionEye系统的摄像机设备。"
 
-#: static/js/main.js:4077
+#: static/js/main.js:4076
 #, fuzzy
 msgid "Aldonadi kameraon..."
 msgstr "添加相机..."
 
-#: static/js/main.js:4149
+#: static/js/main.js:4148
 #, fuzzy
 msgid "Grupo"
 msgstr "组别"
 
-#: static/js/main.js:4153
+#: static/js/main.js:4152
 #, fuzzy
 msgid "Inkluzivi foton prenitan ĉiun"
 msgstr "包括每张照片"
 
-#: static/js/main.js:4156
+#: static/js/main.js:4155
 #, fuzzy
 msgid "sekundo"
 msgstr "第二"
 
-#: static/js/main.js:4157
+#: static/js/main.js:4156
 #, fuzzy
 msgid "5 sekundoj"
 msgstr "5秒"
 
-#: static/js/main.js:4158
+#: static/js/main.js:4157
 #, fuzzy
 msgid "10 sekundoj"
 msgstr "10秒"
 
-#: static/js/main.js:4159
+#: static/js/main.js:4158
 #, fuzzy
 msgid "30 sekundoj"
 msgstr "30秒"
 
-#: static/js/main.js:4160
+#: static/js/main.js:4159
 #, fuzzy
 msgid "minuto"
 msgstr "分钟"
 
-#: static/js/main.js:4161
+#: static/js/main.js:4160
 #, fuzzy
 msgid "5 minutoj"
 msgstr "5分钟"
 
-#: static/js/main.js:4162
+#: static/js/main.js:4161
 #, fuzzy
 msgid "10 minutoj"
 msgstr "10分钟"
 
-#: static/js/main.js:4163
+#: static/js/main.js:4162
 #, fuzzy
 msgid "30 minutoj"
 msgstr "30分钟"
 
-#: static/js/main.js:4164
+#: static/js/main.js:4163
 #, fuzzy
 msgid "horo"
 msgstr "一个小时"
 
-#: static/js/main.js:4167
+#: static/js/main.js:4166
 #, fuzzy
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
 msgstr "选择两个选定图像之间的时间间隔。"
 
-#: static/js/main.js:4170
+#: static/js/main.js:4169
 #, fuzzy
 msgid "Filmo framfrekvenco"
 msgstr "电影帧率"
 
-#: static/js/main.js:4172
+#: static/js/main.js:4171
 #, fuzzy
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr "选择您想要加速视频的速度。"
 
-#: static/js/main.js:4181
+#: static/js/main.js:4180
 #, fuzzy
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr "考虑到大量图片，创建视频可能需要一些时间！"
 
-#: static/js/main.js:4198
+#: static/js/main.js:4197
 #, fuzzy
 msgid "Krei akselita video"
 msgstr "创建加速视频"
 
-#: static/js/main.js:4207
+#: static/js/main.js:4206
 #, fuzzy
 msgid "Filmo kreanta en progreso..."
 msgstr "电影正在进行中..."
 
-#: static/js/main.js:4458
+#: static/js/main.js:4457
 #, fuzzy
 msgid "Zipitaj"
 msgstr "拉链式"
 
-#: static/js/main.js:4467
+#: static/js/main.js:4466
 #, fuzzy
 msgid "Akselita video"
 msgstr "加速影片"
 
-#: static/js/main.js:4478
+#: static/js/main.js:4477
 #, fuzzy
 msgid "Forigi ĉiujn"
 msgstr "全部删除"
 
-#: static/js/main.js:4620
+#: static/js/main.js:4619
 #, fuzzy
 msgid "Bildoj prenitaj de "
 msgstr "拍摄的照片"
 
-#: static/js/main.js:4623
+#: static/js/main.js:4622
 #, fuzzy
 msgid "Filmoj registritaj de "
 msgstr "记录的电影"
 
-#: static/js/main.js:4685
+#: static/js/main.js:4684
 #, fuzzy
 msgid "plena ekrano kamerao"
 msgstr "全屏摄像头"
 
-#: static/js/main.js:4686
+#: static/js/main.js:4685
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "打开图像浏览器"
 
-#: static/js/main.js:4687
+#: static/js/main.js:4686
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "打开视频浏览器"
 
-#: static/js/main.js:4688
+#: static/js/main.js:4687
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "设置这台相机"
 
-#: static/js/main.js:4704
+#: static/js/main.js:4703
 #, fuzzy
 msgid "preni instantaron"
 msgstr "拍摄快照"
