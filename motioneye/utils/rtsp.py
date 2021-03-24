@@ -138,27 +138,20 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         if check_error():
             return
 
-        r_future = cast_future(stream.read_until_regex(b'Server: .*'))
-        r_future.add_done_callback(on_server)
-        timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), functools.partial(on_server, r_future))
+        stream.read_until_regex(b'Server: .*', on_server)
+        timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_server)
 
-    def on_server(f: Future):
-        try:
-            io_loop.remove_timeout(timeout[0])
-            data = f.result()
-        except Exception as e:
-            logging.error(f'[ON_SERVER] On RTSP server connection error occurred: {e}', exc_info=True)
-            handle_error(e)
+    def on_server(data=None):
+        io_loop.remove_timeout(timeout[0])
+        if data:
+            identifier = re.findall('Server: (.*)', data.decode())[0].strip()
+            logging.debug('rtsp netcam identifier is "%s"' % identifier)
+
         else:
-            if data:
-                identifier = re.findall('Server: (.*)', data.decode())[0].strip()
-                logging.debug('rtsp netcam identifier is "%s"' % identifier)
+            identifier = None
+            logging.debug('no rtsp netcam identifier')
 
-            else:
-                identifier = None
-                logging.debug('no rtsp netcam identifier')
-
-            handle_success(identifier)
+        handle_success(identifier)
 
     def seek_www_authenticate():
         if check_error():

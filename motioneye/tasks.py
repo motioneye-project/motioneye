@@ -81,7 +81,6 @@ def add(when, func, tag=None, callback=None, **params):
     while i < len(_tasks) and _tasks[i][0] <= when:
         i += 1
 
-    logging.error('adding task "%s" in %d seconds' % (tag or func.__name__, when - now))
     logging.debug('adding task "%s" in %d seconds' % (tag or func.__name__, when - now))
     _tasks.insert(i, (when, func, tag, callback, params))
 
