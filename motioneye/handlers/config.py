@@ -87,7 +87,6 @@ class ConfigHandler(BaseHandler):
 
         elif op == 'test':
             await self.test(camera_id)
-            return
 
         else:
             raise HTTPError(400, 'unknown operation')
@@ -576,8 +575,14 @@ class ConfigHandler(BaseHandler):
                 service_name = data['service']
                 ConfigHandler._upload_service_test_info = (self, service_name)
 
-                tasks.add(0, uploadservices.test_access, tag='uploadservices.test(%s)' % service_name,
-                          camera_id=camera_id, service_name=service_name, data=data, callback=self._on_test_result)
+                result = uploadservices.test_access(camera_id=camera_id, service_name=service_name, data=data)
+                logging.debug('test access %s result %s' % (service_name, result))
+                if result is True:
+                    logging.info('accessing %s succeeded.result %s' % (service_name, result))
+                    return self.finish_json()
+                else:
+                    logging.warning('accessing %s failed: %s' % (service_name, result))
+                    return self.finish_json({'error': result})
 
             elif what == 'email':
                 from motioneye import sendmail

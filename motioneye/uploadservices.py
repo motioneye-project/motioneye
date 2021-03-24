@@ -1014,6 +1014,7 @@ class SFTP(UploadService):
 
         self._conn = pycurl.Curl()
         self._conn.setopt(self._conn.URL, sftp_url)
+        self._conn.setopt(pycurl.CONNECTTIMEOUT, 10)
         self._conn.setopt(self._conn.FTP_CREATE_MISSING_DIRS, 2)  # retry once if MKD fails
 
         auth_types = {
