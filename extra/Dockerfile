@@ -39,7 +39,7 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) sid main
       v4l-utils && \
     DEBIAN_FRONTEND="noninteractive" apt-get -t sid --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
       motion \
-      libmysqlclient20 && \
+      libmysqlclient21 && \
     # Change uid/gid of user/group motion to match our desired IDs.  This will
     # make it easier to use execute motion as our desired user later.
     sed -i -e "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
