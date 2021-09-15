@@ -1680,6 +1680,7 @@ class ActionHandler(BaseHandler):
         self.run_command_bg(command)
 
     def run_command_bg(self, command):
+        logging.debug(f'run_command_bg {command}')
         self.p = subprocess.Popen(command, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
         self.command = command
 

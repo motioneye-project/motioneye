@@ -22,6 +22,7 @@ import re
 import signal
 import subprocess
 import time
+import socket
 
 from tornado.ioloop import IOLoop
 
@@ -162,6 +163,7 @@ def stop(invalidate=False):
     pid = _get_pid()
     if pid is not None:
         try:
+            logging.debug('sending SIGTERM to motion and wait up to 5s')
             # send the TERM signal once
             os.kill(pid, signal.SIGTERM)
 
@@ -170,6 +172,8 @@ def stop(invalidate=False):
                 os.waitpid(pid, os.WNOHANG)
                 time.sleep(0.1)
 
+            logging.debug('sending SIGKILL to motion and wait up to 2s')
+
             # send the KILL signal once
             os.kill(pid, signal.SIGKILL)
 
@@ -177,6 +181,8 @@ def stop(invalidate=False):
             for i in range(20):  # @UnusedVariable
                 time.sleep(0.1)
                 os.waitpid(pid, os.WNOHANG)
+
+            logging.debug('process did not die, powerctl.reboot() ...')
 
             # the process still did not exit
             if settings.ENABLE_REBOOT:
@@ -189,6 +195,27 @@ def stop(invalidate=False):
         except OSError as e:
             if e.errno not in (errno.ESRCH, errno.ECHILD):
                 raise
+            else:
+                # even if motion is killed, the port is not always free
+                # so we wait until we are able to bind it again
+                s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                freed = False
+                max_wait = 30
+                waited_for = 0
+                while not (freed or waited_for > max_wait):
+                    try:
+                        s.bind(('127.0.0.1', settings.MOTION_CONTROL_PORT))
+                        freed = True
+                        s.close()
+                        logging.debug('motion stopped correctly')
+                        return
+                    except OSError as e:
+                        logging.debug(f'motion port still not freed: {e}')
+                        waited_for += 1
+                        time.sleep(1)
+                logging.debug('motion ports not released in time')
+                raise
+
 
 
 def running():
@@ -225,6 +252,8 @@ def get_motion_detection(camera_id, callback):
 
     url = 'http://127.0.0.1:%(port)s/%(id)s/detection/status' % {
             'port': settings.MOTION_CONTROL_PORT, 'id': motion_camera_id}
+
+    logging.debug(f'get motion detection on url {url}')
 
     def on_response(response):
         if response.error:
@@ -326,6 +355,8 @@ def camera_id_to_motion_camera_id(camera_id):
     # find the corresponding motion camera_id
     # (which can be different from camera_id)
 
+    # @TODO: make this use an absolute path
+
     main_config = config.get_main()
     cameras = main_config.get('camera', [])
 
@@ -344,6 +375,8 @@ def motion_camera_id_to_camera_id(motion_camera_id):
 
     main_config = config.get_main()
     cameras = main_config.get('camera', [])
+
+    # @TODO: make this use an absolute path
 
     try:
         return int(re.search(r'camera-(\d+).conf', cameras[int(motion_camera_id) - 1]).group(1))

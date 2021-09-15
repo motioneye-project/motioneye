@@ -48,45 +48,47 @@ def list_devices():
 
     logging.debug('listing V4L2 devices')
 
+    output = ''
     try:
-        output = ''
-        started = time.time()
-        p = subprocess.Popen(['v4l2-ctl', '--list-devices'], stdout=subprocess.PIPE, bufsize=1)
+        output = subprocess.check_output('v4l2-ctl --list-devices', shell=True).decode()
+        logging.debug(output)
+        # started = time.time()
+        # p = subprocess.Popen(['v4l2-ctl', '--list-devices'], stdout=subprocess.PIPE, bufsize=1)
 
-        fd = p.stdout.fileno()
-        fl = fcntl.fcntl(fd, fcntl.F_GETFL)
-        fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+        # fd = p.stdout.fileno()
+        # fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+        # fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
-        while True:
-            try:
-                data = p.stdout.read(1024)
-                if not data:
-                    break
+        # while True:
+        #     try:
+        #         data = p.stdout.read(1024)
+        #         if not data:
+        #             break
 
-            except IOError:
-                data = ''
-                time.sleep(0.01)
+        #     except IOError:
+        #         data = ''
+        #         time.sleep(0.01)
 
-            output += data
+        #     output += data
 
-            if len(output) > 10240:
-                logging.warn('v4l2-ctl command returned more than 10k of output')
-                break
+        #     if len(output) > 10240:
+        #         logging.warn('v4l2-ctl command returned more than 10k of output')
+        #         break
 
-            if time.time() - started > _V4L2_TIMEOUT:
-                logging.warn('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
-                break
+        #     if time.time() - started > _V4L2_TIMEOUT:
+        #         logging.warn('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
+        #         break
 
     except subprocess.CalledProcessError:
         logging.debug('failed to list devices (probably no devices installed)')
         return []
 
-    try:
-        # try to kill the v4l2-ctl subprocess
-        p.kill()
+    # try:
+    #     # try to kill the v4l2-ctl subprocess
+    #     p.kill()
 
-    except OSError:
-        pass  # nevermind
+    # except OSError:
+    #     pass  # nevermind
 
     name = None
     devices = []
@@ -128,38 +130,39 @@ def list_resolutions(device):
     cmd = 'v4l2-ctl -d %(device)s --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true' % {
             'device': pipes.quote(device)}
 
-    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, bufsize=1)
+    #p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, bufsize=1)
+    output = subprocess.check_output(cmd, shell=True).decode()
 
-    fd = p.stdout.fileno()
-    fl = fcntl.fcntl(fd, fcntl.F_GETFL)
-    fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+    # fd = p.stdout.fileno()
+    # fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+    # fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
-    while True:
-        try:
-            data = p.stdout.read(1024)
-            if not data:
-                break
+    # while True:
+    #     try:
+    #         data = p.stdout.read(1024)
+    #         if not data:
+    #             break
 
-        except IOError:
-            data = ''
-            time.sleep(0.01)
+    #     except IOError:
+    #         data = ''
+    #         time.sleep(0.01)
 
-        output += data
+    #     output += data
 
-        if len(output) > 10240:
-            logging.warn('v4l2-ctl command returned more than 10k of output')
-            break
+    #     if len(output) > 10240:
+    #         logging.warn('v4l2-ctl command returned more than 10k of output')
+    #         break
 
-        if time.time() - started > _V4L2_TIMEOUT:
-            logging.warn('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
-            break
+    #     if time.time() - started > _V4L2_TIMEOUT:
+    #         logging.warn('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
+    #         break
 
-    try:
-        # try to kill the v4l2-ctl subprocess
-        p.kill()
+    # try:
+    #     # try to kill the v4l2-ctl subprocess
+    #     p.kill()
 
-    except OSError:
-        pass  # nevermind
+    # except OSError:
+    #     pass  # nevermind
 
     for pair in output.split('\n'):
         pair = pair.strip()
@@ -235,39 +238,42 @@ def list_ctrls(device):
 
     output = ''
     started = time.time()
-    p = subprocess.Popen('v4l2-ctl -d %(device)s --list-ctrls' % {
-            'device': pipes.quote(device)}, shell=True, stdout=subprocess.PIPE, bufsize=1)
+    cmd = 'v4l2-ctl -d %(device)s --list-ctrls' % {'device': pipes.quote(device)}
+    # p = subprocess.Popen('v4l2-ctl -d %(device)s --list-ctrls' % {
+    #         'device': pipes.quote(device)}, shell=True, stdout=subprocess.PIPE, bufsize=1)
+    logging.debug('listing v4l2 device controls')
+    output = subprocess.check_output(cmd, shell=True).decode()
 
-    fd = p.stdout.fileno()
-    fl = fcntl.fcntl(fd, fcntl.F_GETFL)
-    fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
+    # fd = p.stdout.fileno()
+    # fl = fcntl.fcntl(fd, fcntl.F_GETFL)
+    # fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
-    while True:
-        try:
-            data = p.stdout.read(1024)
-            if not data:
-                break
+    # while True:
+    #     try:
+    #         data = p.stdout.read(1024)
+    #         if not data:
+    #             break
 
-        except IOError:
-            data = ''
-            time.sleep(0.01)
+    #     except IOError:
+    #         data = ''
+    #         time.sleep(0.01)
 
-        output += data
+    #     output += data
 
-        if len(output) > 10240:
-            logging.warn('v4l2-ctl command returned more than 10k of output')
-            break
+    #     if len(output) > 10240:
+    #         logging.warn('v4l2-ctl command returned more than 10k of output')
+    #         break
 
-        if time.time() - started > 3:
-            logging.warn('v4l2-ctl command ran for more than 3 seconds')
-            break
+    #     if time.time() - started > 3:
+    #         logging.warn('v4l2-ctl command ran for more than 3 seconds')
+    #         break
 
-    try:
-        # try to kill the v4l2-ctl subprocess
-        p.kill()
+    # try:
+    #     # try to kill the v4l2-ctl subprocess
+    #     p.kill()
 
-    except OSError:
-        pass  # nevermind
+    # except OSError:
+    #     pass  # nevermind
 
     controls = {}
     for line in output.split('\n'):
@@ -281,6 +287,7 @@ def list_ctrls(device):
         (control, _, properties) = match.groups()
         properties = dict([v.split('=', 1) for v in properties.split(' ') if v.count('=')])
         controls[control] = properties
+        logging.debug(f'control {control}: {properties}')
 
     _ctrls_cache[device] = controls
 

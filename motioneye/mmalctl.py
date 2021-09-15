@@ -28,13 +28,13 @@ def list_devices():
     logging.debug('listing MMAL devices')
 
     try:
-        binary = subprocess.check_output(['which', 'vcgencmd'], stderr=utils.DEV_NULL).strip()
+        binary = subprocess.check_output(['which', 'vcgencmd'], stderr=utils.DEV_NULL).strip().decode('ascii')
 
     except subprocess.CalledProcessError:  # not found
         return []
 
     try:
-        support = subprocess.check_output([binary, 'get_camera']).strip()
+        support = subprocess.check_output([binary, 'get_camera']).strip().decode('ascii')
 
     except subprocess.CalledProcessError:  # not found
         return []

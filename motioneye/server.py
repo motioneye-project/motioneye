@@ -210,6 +210,7 @@ def configure_signals():
 
 
 def test_requirements():
+
     if not os.access(settings.CONF_PATH, os.W_OK):
         logging.fatal('config directory "%s" does not exist or is not writable' % settings.CONF_PATH)
         sys.exit(-1)
