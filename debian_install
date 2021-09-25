@@ -2,16 +2,21 @@
 
 ## Instali ffmpeg kaj aliajn dependojn:
 apt update
-apt -y install ffmpeg libmariadb3 libpq5 libmicrohttpd12 python3-pip python3-dev libssl-dev libcurl4-openssl-dev libjpeg-dev libz-dev python3-boto3
+apt -y install curl ffmpeg libmariadb3 libpq5 libmicrohttpd12 python3-pip python3-dev libssl-dev libcurl4-openssl-dev libjpeg-dev libz-dev python3-boto3 v4l-utils
 
 ## Instali motion:
-MOTION_REL=4.3.2
-MOTION_SUBREL=-1
 DEBIAN_REL=$(lsb_release -sc)
-ARCH=$( dpkg --print-architecture )
-PI=$(test -f /sys/firmware/devicetree/base/model && grep aspberry /sys/firmware/devicetree/base/model >/dev/null && echo pi_)
-wget https://github.com/Motion-Project/motion/releases/download/release-${MOTION_REL}/${PI}${DEBIAN_REL}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb
-dpkg -i ${PI}${DEBIAN_REL}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb
+if [ "$DEBIAN_REL" = "buster" ]
+then
+  MOTION_REL=4.3.2
+  MOTION_SUBREL=-1
+  ARCH=$( dpkg --print-architecture )
+  PI=$(test -f /sys/firmware/devicetree/base/model && grep aspberry /sys/firmware/devicetree/base/model >/dev/null && echo pi_)
+  wget https://github.com/Motion-Project/motion/releases/download/release-${MOTION_REL}/${PI}${DEBIAN_REL}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb
+  dpkg -i ${PI}${DEBIAN_REL}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb
+else
+  apt -y install motion
+fi
 
 ## Instalu motioneye.eo:
 pip3 install .

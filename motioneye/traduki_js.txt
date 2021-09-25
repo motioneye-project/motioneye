@@ -1,10 +1,16 @@
 
 
 Ni uzas por ĉiu lingvo json-dosieron, kiu enhavas la tradukojn.
-Ni ŝarĝas ĉi tiun dosieron en "template/main.html":
+Ni ŝarĝas ĉi tiun dosieron en "templates/main.html":
 
     <script type="text/javascript" src="{{static_path}}js/gettext.min.js"></script>
     <script type="text/javascript">
+      function Get(yourUrl){
+          var Httpreq = new XMLHttpRequest(); // a new request
+          Httpreq.open("GET",yourUrl,false);
+          Httpreq.send(null);
+          return Httpreq.responseText;
+      }
       var i18n = window.i18n();
       var i18njson=Get("{{static_path}}js/motioneye.{{lingvo}}.json");
       i18n.loadJSON(i18njson, 'messages');
