@@ -18,9 +18,9 @@ ARG RUN_GID=0
 
 COPY . /tmp/motioneye
 
-RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) sid main contrib non-free" >>/etc/apt/sources.list && \
+RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) buster contrib non-free" >>/etc/apt/sources.list && \
     apt-get update && \
-    DEBIAN_FRONTEND="noninteractive" apt-get -t stable --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+    DEBIAN_FRONTEND="noninteractive" apt-get -t buster --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
       curl \
       ffmpeg \
       libmicrohttpd12 \
@@ -36,10 +36,9 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) sid main
       python-tornado \
       python-tz \
       python-wheel \
-      v4l-utils && \
-    DEBIAN_FRONTEND="noninteractive" apt-get -t sid --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+      v4l-utils \
       motion \
-      libmysqlclient20 && \
+      default-libmysqlclient-dev && \
     # Change uid/gid of user/group motion to match our desired IDs.  This will
     # make it easier to use execute motion as our desired user later.
     sed -i -e "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
