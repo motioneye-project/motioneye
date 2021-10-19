@@ -465,7 +465,10 @@ function ajax(method, url, data, callback, error, timeout) {
         processData: processData,
         error: error || function (request, options, error) {
             if (request.status == 403) {
-                return onResponse(request.responseJSON);
+                /* Proxies may respond with custom non-JSON 403 documents,
+                 * so that request.responseJSON causes an error.
+                 * We hence respond with the hardcoded JSON here. */
+                return onResponse({prompt: true, error: "unauthorized"});
             }
 
             showErrorMessage();
