@@ -109,8 +109,8 @@ _USED_MOTION_OPTIONS = {
     'threshold',
     'threshold_maximum',
     'threshold_tune',
-    'videodevice',
-    'vid_control_params',
+    'video_device',
+    'video_params',
     'webcontrol_interface',
     'webcontrol_localhost',
     'webcontrol_parms',
@@ -395,7 +395,7 @@ def get_camera(camera_id, as_lines=False):
         # determine the enabled status
         main_config = get_main()
         cameras = main_config.get('camera', [])
-        camera_config['@enabled'] = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id} in cameras
+        camera_config['@enabled'] = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id} in cameras
         camera_config['@id'] = camera_id
 
         # adapt directives from pre-4.2 configuration
@@ -437,7 +437,7 @@ def set_camera(camera_id, camera_config):
         # set the enabled status in main config
         main_config = get_main()
         cameras = main_config.setdefault('camera', [])
-        config_file_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
+        config_file_name = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
         if camera_config['@enabled'] and config_file_name not in cameras:
             cameras.append(config_file_name)
 
@@ -522,7 +522,7 @@ def add_camera(device_details):
                 camera_config['height'] = h
                 break
 
-        camera_config['videodevice'] = device_details['path']
+        camera_config['video_device'] = device_details['path']
 
     elif proto == 'motioneye':
         camera_config['@proto'] = 'motioneye'
@@ -634,7 +634,7 @@ def main_ui_to_dict(ui):
 
     if ui.get('admin_password') is not None:
         if ui['admin_password']:
-            data['@admin_password'] = hashlib.sha1(ui['admin_password']).hexdigest()
+            data['@admin_password'] = hashlib.sha1(ui['admin_password'].encode('utf-8')).hexdigest()
 
         else:
             data['@admin_password'] = ''
@@ -792,7 +792,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         proto = 'netcam'
 
     if proto in ('v4l2', 'mmal'):
-        # leave videodevice unchanged
+        # leave video_device unchanged
 
         # resolution
         if not ui['resolution']:
@@ -808,7 +808,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         if proto == 'v4l2':
             # video controls
             vid_control_params = (('%s=%s' % (n, c['value'])) for n, c in ui['video_controls'].items())
-            data['vid_control_params'] = ','.join(vid_control_params)
+            data['video_params'] = ','.join(vid_control_params)
 
     else:  # assuming netcam
         if re.match(r'^rtsp|^rtmp', data.get('netcam_url', prev_config.get('netcam_url', ''))):
@@ -1192,19 +1192,19 @@ def motion_camera_dict_to_ui(data):
         threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
 
     else:  # assuming v4l2
-        ui['device_url'] = data['videodevice']
+        ui['device_url'] = data['video_device']
         ui['proto'] = 'v4l2'
 
         # resolutions
-        resolutions = v4l2ctl.list_resolutions(data['videodevice'])
+        resolutions = v4l2ctl.list_resolutions(data['video_device'])
         ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
         ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
 
-        video_controls = v4l2ctl.list_ctrls(data['videodevice'])
+        video_controls = v4l2ctl.list_ctrls(data['video_device'])
         video_controls = [(n, c) for (n, c) in video_controls.items()
                           if 'min' in c and 'max' in c and 'value' in c]
 
-        vid_control_params = data['vid_control_params'].split(',')
+        vid_control_params = data['video_params'].split(',')
         vid_control_values = {}
         for param in vid_control_params:
             parts = param.split('=')
@@ -1851,8 +1851,8 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@id', camera_id)
 
     if utils.is_v4l2_camera(data):
-        data.setdefault('videodevice', '/dev/video0')
-        data.setdefault('vid_control_params', '')
+        data.setdefault('video_device', '/dev/video0')
+        data.setdefault('video_params', '')
         data.setdefault('width', 352)
         data.setdefault('height', 288)
 

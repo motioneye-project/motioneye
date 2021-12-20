@@ -591,7 +591,7 @@ class ConfigHandler(BaseHandler):
             for camera_id in config.get_camera_ids():
                 data = config.get_camera(camera_id)
                 if utils.is_v4l2_camera(data):
-                    configured_devices.add(data['videodevice'])
+                    configured_devices.add(data['video_device'])
 
             cameras = [{'id': d[1], 'name': d[2]} for d in v4l2ctl.list_devices()
                        if (d[0] not in configured_devices) and (d[1] not in configured_devices)]
