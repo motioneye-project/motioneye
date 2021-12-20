@@ -17,4 +17,4 @@ Test environment:
 * Debian bullseye 32bit (DietPi v7.9.3 distribution)
 * motion v4.4.0 bullseye armhf release
 * Python v3.9.2 (with pip3, tornado v5.1.1, jinja2, pillow, pycurl, six)
-* Pi camera setup as v4l2 in motioneye
+* Pi camera setup as v4l2 or MMAL in motioneye
