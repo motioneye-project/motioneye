@@ -173,8 +173,6 @@ def main(parser, args):
             socket.gethostname(), args[7].split(',')[0])
         args = args[:7] + [_from] + args[7:]
 
-    print('->> %d' % len(args))
-
     if not args[7]:
         args[7] = 'motionEye on %s <%s>' % (
             socket.gethostname(), args[8].split(',')[0])
