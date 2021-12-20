@@ -139,13 +139,13 @@ class MjpgClient(IOStream):
             logging.debug('mjpg client using basic authentication')
 
             auth_header = utils.build_basic_header(self._username, self._password)
-            self.write(b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
+            self.write(b'GET /%(camera_id)/stream HTTP/1.1\r\nAuthorization: %(header)\r\nConnection: close\r\n\r\n' % {'camera_id': self._camera_id, 'header': auth_header})
 
         elif self._auth_mode == 'digest':  # in digest auth mode, the header is built upon receiving 401
-            self.write(b'GET / HTTP/1.1\r\n\r\n')
+            self.write(b'GET /%d/stream HTTP/1.1\r\n\r\n' % self._camera_id)
 
         else:  # no authentication
-            self.write(b'GET / HTTP/1.1\r\nConnection: close\r\n\r\n')
+            self.write(b'GET /%d/stream HTTP/1.1\r\nConnection: close\r\n\r\n' % self._camera_id)
 
         self._seek_http()
 
@@ -185,7 +185,7 @@ class MjpgClient(IOStream):
             logging.debug('mjpg client using basic authentication')
 
             auth_header = utils.build_basic_header(self._username, self._password)
-            self.write(b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
+            self.write(b'GET /%(camera_id)/stream HTTP/1.1\r\nAuthorization: %(header)\r\nConnection: close\r\n\r\n' % {'camera_id': self._camera_id, 'header': auth_header})
             self._seek_http()
 
             return
@@ -200,7 +200,7 @@ class MjpgClient(IOStream):
             self._auth_digest_state = parts_dict
 
             auth_header = utils.build_digest_header('GET', '/', self._username, self._password, self._auth_digest_state)
-            self.write(b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
+            self.write(b'GET /%(camera_id)/stream HTTP/1.1\r\nAuthorization: %(header)\r\nConnection: close\r\n\r\n' % {'camera_id': self._camera_id, 'header': auth_header})
             self._seek_http()
 
             return
