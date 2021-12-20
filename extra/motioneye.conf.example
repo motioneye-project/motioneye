@@ -9,17 +9,17 @@ run_path /var/run
 log_path /var/log
 
 # default output path for media files (must be writable by motionEye)
-media_path /var/lib/motioneye
+media_path /mnt/dietpi_userdata/motioneye
 
 # the log level (use quiet, error, warning, info or debug)
-log_level info
+log_level warning
 
 # the IP address to listen on
 # (0.0.0.0 for all interfaces, 127.0.0.1 for localhost)
 listen 0.0.0.0
 
 # the TCP port to listen on
-port 8765
+port 80
 
 # path to the motion binary to use (automatically detected if commented)
 #motion_binary /usr/bin/motion
@@ -29,7 +29,7 @@ port 8765
 motion_control_localhost true
 
 # the TCP port that motion HTTP control interface listens on
-motion_control_port 7999
+motion_control_port 9090
 
 # interval in seconds at which motionEye checks if motion is running
 motion_check_interval 10
