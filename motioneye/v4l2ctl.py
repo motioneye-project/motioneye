@@ -49,7 +49,7 @@ def list_devices():
     logging.debug('listing V4L2 devices')
 
     try:
-        output = ''
+        output = b''
         started = time.time()
         p = subprocess.Popen(['v4l2-ctl', '--list-devices'], stdout=subprocess.PIPE, bufsize=1)
 
@@ -58,16 +58,13 @@ def list_devices():
         fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
         while True:
-            try:
-                data = p.stdout.read(1024)
-                if not data:
-                    break
-
-            except IOError:
-                data = ''
+            data = p.stdout.read(1024)
+            if data == b'':
+                break
+            if not data:
                 time.sleep(0.01)
-
-            output += data
+            else:
+                output += data
 
             if len(output) > 10240:
                 logging.warn('v4l2-ctl command returned more than 10k of output')
@@ -90,7 +87,8 @@ def list_devices():
 
     name = None
     devices = []
-    for line in output.split('\n'):
+
+    for line in output.decode('utf-8').split('\n'):
         if line.startswith('\t'):
             device = line.strip()
             persistent_device = find_persistent_device(device)
@@ -123,7 +121,7 @@ def list_resolutions(device):
     logging.debug('listing resolutions of device %(device)s...' % {'device': device})
 
     resolutions = set()
-    output = ''
+    output = b''
     started = time.time()
     cmd = 'v4l2-ctl -d %(device)s --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true' % {
             'device': pipes.quote(device)}
@@ -135,16 +133,14 @@ def list_resolutions(device):
     fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
     while True:
-        try:
-            data = p.stdout.read(1024)
-            if not data:
-                break
-
-        except IOError:
+        data = p.stdout.read(1024)
+        if data == b'':
+            break
+        if not data:
             data = ''
             time.sleep(0.01)
-
-        output += data
+        else:
+            output += data
 
         if len(output) > 10240:
             logging.warn('v4l2-ctl command returned more than 10k of output')
@@ -161,7 +157,7 @@ def list_resolutions(device):
     except OSError:
         pass  # nevermind
 
-    for pair in output.split('\n'):
+    for pair in output.decode('utf-8').split('\n'):
         pair = pair.strip()
         if not pair:
             continue
@@ -233,7 +229,7 @@ def list_ctrls(device):
     if device in _ctrls_cache:
         return _ctrls_cache[device]
 
-    output = ''
+    output = b''
     started = time.time()
     p = subprocess.Popen('v4l2-ctl -d %(device)s --list-ctrls' % {
             'device': pipes.quote(device)}, shell=True, stdout=subprocess.PIPE, bufsize=1)
@@ -243,16 +239,14 @@ def list_ctrls(device):
     fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
     while True:
-        try:
-            data = p.stdout.read(1024)
-            if not data:
-                break
-
-        except IOError:
+        data = p.stdout.read(1024)
+        if data == b'':
+            break
+        if not data:
             data = ''
             time.sleep(0.01)
-
-        output += data
+        else:
+            output += data
 
         if len(output) > 10240:
             logging.warn('v4l2-ctl command returned more than 10k of output')
@@ -270,7 +264,7 @@ def list_ctrls(device):
         pass  # nevermind
 
     controls = {}
-    for line in output.split('\n'):
+    for line in output.decode('utf-8').split('\n'):
         if not line:
             continue
 
