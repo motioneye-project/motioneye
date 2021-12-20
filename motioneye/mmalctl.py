@@ -34,7 +34,7 @@ def list_devices():
         return []
 
     try:
-        support = subprocess.check_output([binary, 'get_camera']).strip()
+        support = subprocess.check_output([binary, 'get_camera']).strip().decode('utf-8')
 
     except subprocess.CalledProcessError:  # not found
         return []
