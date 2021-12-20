@@ -1,0 +1,84 @@
+# @enabled on
+# @id 1
+# @storage_device custom-path
+# @network_server 
+# @network_share_name 
+# @network_smb_ver 1.0
+# @network_username 
+# @network_password 
+# @upload_enabled off
+# @upload_picture on
+# @upload_movie on
+# @upload_service ftp
+# @upload_server 
+# @upload_port 
+# @upload_method post
+# @upload_location 
+# @upload_subfolders on
+# @upload_username 
+# @upload_password 
+# @clean_cloud_enabled off
+# @webcam_resolution 100
+# @webcam_server_resize off
+# @motion_detection off
+# @preserve_pictures 0
+# @manual_snapshots on
+# @preserve_movies 0
+# @manual_record off
+# @working_schedule 
+# @working_schedule_type outside
+
+
+width 1280
+height 720
+video_device /dev/video0
+camera_name Camera1
+video_params auto_exposure=0,auto_exposure_bias=12,blue_balance=1000,brightness=50,color_effects=0,color_effects_cbcr=32896,compression_quality=30,contrast=0,exposure_metering_mode=0,exposure_time_absolute=1000,h264_i_frame_period=60,h264_level=11,h264_profile=4,iso_sensitivity=0,iso_sensitivity_auto=1,power_line_frequency=1,red_balance=1000,rotate=0,saturation=0,scene_mode=0,sharpness=0,video_bitrate=10000000,video_bitrate_mode=0,white_balance_auto_preset=1
+auto_brightness off
+framerate 5
+rotate 0
+target_dir /var/lib/motioneye/Camera1
+stream_localhost off
+stream_port 8081
+stream_maxrate 10
+stream_quality 85
+stream_motion off
+stream_auth_method 0
+text_left Camera1
+text_right %Y-%m-%d\n%T
+text_scale 1
+text_changes off
+locate_motion_mode off
+locate_motion_style redbox
+threshold 28800
+threshold_maximum 0
+threshold_tune off
+noise_tune on
+noise_level 31
+lightswitch_percent 0
+despeckle_filter 
+minimum_motion_frames 20
+smart_mask_speed 0
+mask_file 
+movie_output_motion off
+picture_output_motion off
+pre_capture 1
+post_capture 1
+picture_output off
+picture_filename 
+emulate_motion off
+event_gap 30
+snapshot_interval 0
+snapshot_filename 
+picture_quality 85
+movie_filename %Y-%m-%d/%H-%M-%S
+movie_max_time 0
+movie_output off
+movie_passthrough off
+movie_codec mp4
+movie_quality 75
+on_event_start /home/dietpi/motioneye/motioneye/scripts/relayevent.sh "" start %t
+on_event_end /home/dietpi/motioneye/motioneye/scripts/relayevent.sh "" stop %t
+on_movie_end /home/dietpi/motioneye/motioneye/scripts/relayevent.sh "" movie_end %t %f
+on_picture_save /home/dietpi/motioneye/motioneye/scripts/relayevent.sh "" picture_save %t %f
+stream_authentication user:user
