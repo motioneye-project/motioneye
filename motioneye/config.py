@@ -181,7 +181,8 @@ def get_main(as_lines=False):
 
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
 
-    logging.debug('reading main config from file %(path)s...' % {'path': config_file_path})
+    logging.debug('reading main config from file %(path)s...' %
+                  {'path': config_file_path})
 
     lines = None
     try:
@@ -189,7 +190,8 @@ def get_main(as_lines=False):
 
     except IOError as e:
         if e.errno == errno.ENOENT:  # file does not exist
-            logging.info('main config file %(path)s does not exist, using default values' % {'path': config_file_path})
+            logging.info('main config file %(path)s does not exist, using default values' % {
+                         'path': config_file_path})
 
             lines = []
             f = None
@@ -220,7 +222,8 @@ def get_main(as_lines=False):
                                 '@admin_username', '@admin_password', '@normal_username', '@normal_password'])
 
     # adapt directives from pre-4.2 configuration
-    adapt_config_directives(main_config, _MOTION_PRE_TO_POST_42_OPTIONS_MAPPING)
+    adapt_config_directives(
+        main_config, _MOTION_PRE_TO_POST_42_OPTIONS_MAPPING)
 
     _get_additional_config(main_config)
     _set_default_motion(main_config)
@@ -243,7 +246,8 @@ def set_main(main_config):
 
     # adapt directives to pre-4.2 configuration, if needed
     if motionctl.is_motion_pre42():
-        adapt_config_directives(main_config, _MOTION_POST_TO_PRE_42_OPTIONS_MAPPING)
+        adapt_config_directives(
+            main_config, _MOTION_POST_TO_PRE_42_OPTIONS_MAPPING)
 
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
 
@@ -251,7 +255,8 @@ def set_main(main_config):
     lines = get_main(as_lines=True)
 
     # write the configuration to file
-    logging.debug('writing main config to %(path)s...' % {'path': config_file_path})
+    logging.debug('writing main config to %(path)s...' %
+                  {'path': config_file_path})
 
     try:
         f = open(config_file_path, 'w')
@@ -359,15 +364,18 @@ def get_camera(camera_id, as_lines=False):
     if not as_lines and camera_id in _camera_config_cache:
         return _camera_config_cache[camera_id]
 
-    camera_config_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
+    camera_config_path = os.path.join(
+        settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
 
-    logging.debug('reading camera config from %(path)s...' % {'path': camera_config_path})
+    logging.debug('reading camera config from %(path)s...' %
+                  {'path': camera_config_path})
 
     try:
         f = open(camera_config_path, 'r')
 
     except Exception as e:
-        logging.error('could not open camera config file: %(msg)s' % {'msg': six.u(e)})
+        logging.error('could not open camera config file: %(msg)s' %
+                      {'msg': six.u(e)})
 
         raise
 
@@ -395,11 +403,13 @@ def get_camera(camera_id, as_lines=False):
         # determine the enabled status
         main_config = get_main()
         cameras = main_config.get('camera', [])
-        camera_config['@enabled'] = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id} in cameras
+        camera_config['@enabled'] = os.path.join(
+            settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id} in cameras
         camera_config['@id'] = camera_id
 
         # adapt directives from pre-4.2 configuration
-        adapt_config_directives(camera_config, _MOTION_PRE_TO_POST_42_OPTIONS_MAPPING)
+        adapt_config_directives(
+            camera_config, _MOTION_PRE_TO_POST_42_OPTIONS_MAPPING)
 
         _get_additional_config(camera_config, camera_id=camera_id)
 
@@ -414,7 +424,8 @@ def get_camera(camera_id, as_lines=False):
         _set_default_simple_mjpeg_camera(camera_id, camera_config)
 
     else:  # incomplete configuration
-        logging.warn('camera config file at %s is incomplete, ignoring' % camera_config_path)
+        logging.warn('camera config file at %s is incomplete, ignoring' %
+                     camera_config_path)
 
         return None
 
@@ -432,12 +443,14 @@ def set_camera(camera_id, camera_config):
     if utils.is_local_motion_camera(camera_config):
         # adapt directives to pre-4.2 configuration, if needed
         if motionctl.is_motion_pre42():
-            adapt_config_directives(camera_config, _MOTION_POST_TO_PRE_42_OPTIONS_MAPPING)
+            adapt_config_directives(
+                camera_config, _MOTION_POST_TO_PRE_42_OPTIONS_MAPPING)
 
         # set the enabled status in main config
         main_config = get_main()
         cameras = main_config.setdefault('camera', [])
-        config_file_name = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
+        config_file_name = os.path.join(
+            settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
         if camera_config['@enabled'] and config_file_name not in cameras:
             cameras.append(config_file_name)
 
@@ -456,7 +469,8 @@ def set_camera(camera_id, camera_config):
         _set_additional_config(camera_config, camera_id=camera_id)
 
     # read the actual configuration from file
-    config_file_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
+    config_file_path = os.path.join(
+        settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
     if os.path.isfile(config_file_path):
         lines = get_camera(camera_id, as_lines=True)
 
@@ -464,8 +478,10 @@ def set_camera(camera_id, camera_config):
         lines = []
 
     # write the configuration to file
-    camera_config_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
-    logging.debug('writing camera config to %(path)s...' % {'path': camera_config_path})
+    camera_config_path = os.path.join(
+        settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
+    logging.debug('writing camera config to %(path)s...' %
+                  {'path': camera_config_path})
 
     try:
         f = open(camera_config_path, 'w')
@@ -501,7 +517,7 @@ def add_camera(device_details):
             host += ':' + str(device_details['port'])
 
         device_details['url'] = urlparse.urlunparse(
-                (device_details['scheme'], host, device_details['path'], '', '', ''))
+            (device_details['scheme'], host, device_details['path'], '', '', ''))
 
     # determine the last camera id
     camera_ids = get_camera_ids()
@@ -510,7 +526,8 @@ def add_camera(device_details):
     while camera_id in camera_ids:
         camera_id += 1
 
-    logging.info('adding new %(proto)s camera with id %(id)s...' % {'proto': proto, 'id': camera_id})
+    logging.info('adding new %(proto)s camera with id %(id)s...' %
+                 {'proto': proto, 'id': camera_id})
 
     # prepare a default camera config
     camera_config = {'@enabled': True}
@@ -543,9 +560,11 @@ def add_camera(device_details):
         camera_config['netcam_url'] = device_details['url']
 
         if device_details['username']:
-            camera_config['netcam_userpass'] = device_details['username'] + ':' + device_details['password']
+            camera_config['netcam_userpass'] = device_details['username'] + \
+                ':' + device_details['password']
 
-        camera_config['netcam_keepalive'] = device_details.get('keep_alive', False)
+        camera_config['netcam_keepalive'] = device_details.get(
+            'keep_alive', False)
         camera_config['netcam_tolerant_check'] = True
 
         if device_details.get('camera_index') == 'udp':
@@ -563,13 +582,15 @@ def add_camera(device_details):
         _set_default_motion_camera(camera_id, camera_config)
 
         # go through the config conversion functions back and forth once
-        camera_config = motion_camera_ui_to_dict(motion_camera_dict_to_ui(camera_config), camera_config)
+        camera_config = motion_camera_ui_to_dict(
+            motion_camera_dict_to_ui(camera_config), camera_config)
 
     elif utils.is_simple_mjpeg_camera(camera_config):
         _set_default_simple_mjpeg_camera(camera_id, camera_config)
 
         # go through the config conversion functions back and forth once
-        camera_config = simple_mjpeg_camera_ui_to_dict(simple_mjpeg_camera_dict_to_ui(camera_config), camera_config)
+        camera_config = simple_mjpeg_camera_ui_to_dict(
+            simple_mjpeg_camera_dict_to_ui(camera_config), camera_config)
 
     # write the configuration to file
     set_camera(camera_id, camera_config)
@@ -586,18 +607,20 @@ def rem_camera(camera_id):
     global _camera_ids_cache
 
     camera_config_name = _CAMERA_CONFIG_FILE_NAME % {'id': camera_id}
-    camera_config_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
+    camera_config_path = os.path.join(
+        settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
 
     # remove the camera from the main config
     main_config = get_main()
     cameras = main_config.setdefault('camera', [])
-    cameras = [t for t in cameras if t != camera_config_name]
+    cameras = [t for t in cameras if t != camera_config_path]
 
     main_config['camera'] = cameras
 
     set_main(main_config)
 
-    logging.info('removing camera config file %(path)s...' % {'path': camera_config_path})
+    logging.info('removing camera config file %(path)s...' %
+                 {'path': camera_config_path})
 
     _camera_ids_cache = None
     _camera_config_cache.clear()
@@ -626,7 +649,8 @@ def main_ui_to_dict(ui):
             }
 
             try:
-                subprocess.check_output(settings.PASSWORD_HOOK, env=env, stderr=subprocess.STDOUT)
+                subprocess.check_output(
+                    settings.PASSWORD_HOOK, env=env, stderr=subprocess.STDOUT)
                 logging.debug('password hook exec succeeded')
 
             except Exception as e:
@@ -634,7 +658,8 @@ def main_ui_to_dict(ui):
 
     if ui.get('admin_password') is not None:
         if ui['admin_password']:
-            data['@admin_password'] = hashlib.sha1(ui['admin_password'].encode('utf-8')).hexdigest()
+            data['@admin_password'] = hashlib.sha1(
+                ui['admin_password'].encode('utf-8')).hexdigest()
 
         else:
             data['@admin_password'] = ''
@@ -803,11 +828,13 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         data['width'] = width
         data['height'] = height
 
-        threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
+        threshold = int(
+            float(ui['frame_change_threshold']) * width * height / 100)
 
         if proto == 'v4l2':
             # video controls
-            vid_control_params = (('%s=%s' % (n, c['value'])) for n, c in ui['video_controls'].items())
+            vid_control_params = (
+                ('%s=%s' % (n, c['value'])) for n, c in ui['video_controls'].items())
             data['video_params'] = ','.join(vid_control_params)
 
     else:  # assuming netcam
@@ -818,19 +845,22 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             data['width'] = width
             data['height'] = height
 
-            threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
+            threshold = int(
+                float(ui['frame_change_threshold']) * width * height / 100)
 
         else:  # width & height are not available for other netcams
-            threshold = int(float(ui['frame_change_threshold']) * 640 * 480 / 100)
+            threshold = int(
+                float(ui['frame_change_threshold']) * 640 * 480 / 100)
 
     data['threshold'] = threshold
 
-
     if (ui['storage_device'] == 'network-share') and settings.SMB_SHARES:
-        mount_point = smbctl.make_mount_point(ui['network_server'], ui['network_share_name'], ui['network_username'])
+        mount_point = smbctl.make_mount_point(
+            ui['network_server'], ui['network_share_name'], ui['network_username'])
         if ui['root_directory'].startswith('/'):
             ui['root_directory'] = ui['root_directory'][1:]
-        data['target_dir'] = os.path.normpath(os.path.join(mount_point, ui['root_directory']))
+        data['target_dir'] = os.path.normpath(
+            os.path.join(mount_point, ui['root_directory']))
 
     elif ui['storage_device'].startswith('local-disk'):
         target_dev = ui['storage_device'][10:].replace('-', '/')
@@ -840,7 +870,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
         if ui['root_directory'].startswith('/'):
             ui['root_directory'] = ui['root_directory'][1:]
-        data['target_dir'] = os.path.normpath(os.path.join(mount_point, ui['root_directory']))
+        data['target_dir'] = os.path.normpath(
+            os.path.join(mount_point, ui['root_directory']))
 
     else:
         data['target_dir'] = ui['root_directory']
@@ -848,17 +879,20 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     # try to create the target dir
     try:
         os.makedirs(data['target_dir'])
-        logging.debug('created root directory %s for camera %s' % (data['target_dir'], data['camera_name']))
+        logging.debug('created root directory %s for camera %s' %
+                      (data['target_dir'], data['camera_name']))
 
     except OSError as e:
         if isinstance(e, OSError) and e.errno == errno.EEXIST:
             pass  # already exists, things should be just fine
 
         else:
-            logging.error('failed to create root directory "%s": %s' % (data['target_dir'], e), exc_info=True)
+            logging.error('failed to create root directory "%s": %s' %
+                          (data['target_dir'], e), exc_info=True)
 
     if ui['upload_enabled'] and '@id' in prev_config:
-        upload_settings = {k[7:]: ui[k] for k in six.iterkeys(ui) if k.startswith('upload_')}
+        upload_settings = {k[7:]: ui[k]
+                           for k in six.iterkeys(ui) if k.startswith('upload_')}
 
         tasks.add(0, uploadservices.update, tag='uploadservices.update(%s)' % ui['upload_service'],
                   camera_id=prev_config['@id'], service_name=ui['upload_service'], settings=upload_settings)
@@ -939,7 +973,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             data['smart_mask_speed'] = 10 - int(ui['smart_mask_sluggishness'])
 
         elif ui['mask_type'] == 'editable':
-            capture_width, capture_height = data.get('width'), data.get('height')
+            capture_width, capture_height = data.get(
+                'width'), data.get('height')
             if data.get('rotate') in [90, 270]:
                 capture_width, capture_height = capture_height, capture_width
 
@@ -960,7 +995,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         data['@working_schedule_type'] = ui['working_schedule_type']
 
     # event start
-    on_event_start = ['%(script)s start %%t' % {'script': meyectl.find_command('relayevent')}]
+    on_event_start = ['%(script)s start %%t' %
+                      {'script': meyectl.find_command('relayevent')}]
     if ui['email_notifications_enabled']:
         emails = re.sub('\\s', '', ui['email_notifications_addresses'])
 
@@ -987,20 +1023,24 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             'url': url})
 
     if ui['command_notifications_enabled']:
-        on_event_start += utils.split_semicolon(ui['command_notifications_exec'])
+        on_event_start += utils.split_semicolon(
+            ui['command_notifications_exec'])
 
     data['on_event_start'] = '; '.join(on_event_start)
 
     # event end
-    on_event_end = ['%(script)s stop %%t' % {'script': meyectl.find_command('relayevent')}]
+    on_event_end = ['%(script)s stop %%t' %
+                    {'script': meyectl.find_command('relayevent')}]
 
     if ui['command_end_notifications_enabled']:
-        on_event_end += utils.split_semicolon(ui['command_end_notifications_exec'])
+        on_event_end += utils.split_semicolon(
+            ui['command_end_notifications_exec'])
 
     data['on_event_end'] = '; '.join(on_event_end)
 
     # movie end
-    on_movie_end = ['%(script)s movie_end %%t %%f' % {'script': meyectl.find_command('relayevent')}]
+    on_movie_end = ['%(script)s movie_end %%t %%f' %
+                    {'script': meyectl.find_command('relayevent')}]
 
     if ui['web_hook_storage_enabled']:
         url = re.sub('\\s', '+', ui['web_hook_storage_url'])
@@ -1016,7 +1056,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     data['on_movie_end'] = '; '.join(on_movie_end)
 
     # picture save
-    on_picture_save = ['%(script)s picture_save %%t %%f' % {'script': meyectl.find_command('relayevent')}]
+    on_picture_save = ['%(script)s picture_save %%t %%f' %
+                       {'script': meyectl.find_command('relayevent')}]
 
     if ui['web_hook_storage_enabled']:
         url = re.sub('\\s', '+', ui['web_hook_storage_url'])
@@ -1170,11 +1211,14 @@ def motion_camera_dict_to_ui(data):
         if re.match(r'^rtsp|^rtmp', data['netcam_url']):
             # motion uses the configured width and height for RTSP/RTMP cameras
             resolutions = utils.COMMON_RESOLUTIONS
-            resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
-            ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
+            resolutions = [
+                r for r in resolutions if motionctl.resolution_is_valid(*r)]
+            ui['available_resolutions'] = [
+                (str(w) + 'x' + str(h)) for (w, h) in resolutions]
             ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
 
-            threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
+            threshold = data['threshold'] * 100.0 / \
+                (data['width'] * data['height'])
 
         else:  # width & height are not available for other netcams
             # we have no other choice but use something like 640x480 as reference
@@ -1185,11 +1229,14 @@ def motion_camera_dict_to_ui(data):
         ui['proto'] = 'mmal'
 
         resolutions = utils.COMMON_RESOLUTIONS
-        resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
-        ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
+        resolutions = [
+            r for r in resolutions if motionctl.resolution_is_valid(*r)]
+        ui['available_resolutions'] = [
+            (str(w) + 'x' + str(h)) for (w, h) in resolutions]
         ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
 
-        threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
+        threshold = data['threshold'] * 100.0 / \
+            (data['width'] * data['height'])
 
     else:  # assuming v4l2
         ui['device_url'] = data['video_device']
@@ -1197,7 +1244,8 @@ def motion_camera_dict_to_ui(data):
 
         # resolutions
         resolutions = v4l2ctl.list_resolutions(data['video_device'])
-        ui['available_resolutions'] = [(str(w) + 'x' + str(h)) for (w, h) in resolutions]
+        ui['available_resolutions'] = [
+            (str(w) + 'x' + str(h)) for (w, h) in resolutions]
         ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
 
         video_controls = v4l2ctl.list_ctrls(data['video_device'])
@@ -1228,7 +1276,8 @@ def motion_camera_dict_to_ui(data):
             } for n, c in video_controls
         }
 
-        threshold = data['threshold'] * 100.0 / (data['width'] * data['height'])
+        threshold = data['threshold'] * 100.0 / \
+            (data['width'] * data['height'])
 
     ui['frame_change_threshold'] = threshold
 
@@ -1243,7 +1292,8 @@ def motion_camera_dict_to_ui(data):
         mounted_partitions = diskctl.list_mounted_partitions()
         for partition in mounted_partitions.values():
             if partition['target'] == target_dev and data['target_dir'].startswith(partition['mount_point']):
-                ui['root_directory'] = data['target_dir'][len(partition['mount_point']):] or '/'
+                ui['root_directory'] = data['target_dir'][len(
+                    partition['mount_point']):] or '/'
                 break
 
         else:  # not found for some reason
@@ -1349,7 +1399,8 @@ def motion_camera_dict_to_ui(data):
         if int(data.get('rotate')) in [90, 270]:
             capture_width, capture_height = capture_height, capture_width
 
-        ui['mask_lines'] = utils.parse_editable_mask_file(data['@id'], capture_width, capture_height)
+        ui['mask_lines'] = utils.parse_editable_mask_file(
+            data['@id'], capture_width, capture_height)
 
     elif data['smart_mask_speed']:
         ui['mask'] = True
@@ -1379,7 +1430,8 @@ def motion_camera_dict_to_ui(data):
     command_notifications = []
     for e in on_event_start:
         if e.count(' sendmail '):
-            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
+            # poor shlex can't deal with unicode properly
+            e = shlex.split(utils.make_str(e))
 
             if len(e) < 10:
                 continue
@@ -1392,7 +1444,8 @@ def motion_camera_dict_to_ui(data):
             ui['email_notifications_smtp_server'] = e[-11]
             ui['email_notifications_smtp_port'] = e[-10]
             ui['email_notifications_smtp_account'] = e[-9]
-            ui['email_notifications_smtp_password'] = e[-8].replace('\\;', ';').replace('%%', '%')
+            ui['email_notifications_smtp_password'] = e[-8].replace(
+                '\\;', ';').replace('%%', '%')
             ui['email_notifications_smtp_tls'] = e[-7].lower() == 'true'
             ui['email_notifications_from'] = e[-6]
             ui['email_notifications_addresses'] = e[-5]
@@ -1403,7 +1456,8 @@ def motion_camera_dict_to_ui(data):
                 ui['email_notifications_picture_time_span'] = 0
 
         elif e.count(' webhook '):
-            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
+            # poor shlex can't deal with unicode properly
+            e = shlex.split(utils.make_str(e))
 
             if len(e) < 3:
                 continue
@@ -1437,7 +1491,8 @@ def motion_camera_dict_to_ui(data):
 
     if command_end_notifications:
         ui['command_end_notifications_enabled'] = True
-        ui['command_end_notifications_exec'] = '; '.join(command_end_notifications)
+        ui['command_end_notifications_exec'] = '; '.join(
+            command_end_notifications)
 
     # movie end
     on_movie_end = data.get('on_movie_end') or []
@@ -1447,7 +1502,8 @@ def motion_camera_dict_to_ui(data):
     command_storage = []
     for e in on_movie_end:
         if e.count(' webhook '):
-            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
+            # poor shlex can't deal with unicode properly
+            e = shlex.split(utils.make_str(e))
 
             if len(e) < 3:
                 continue
@@ -1478,7 +1534,8 @@ def motion_camera_dict_to_ui(data):
     for name, value in six.iteritems(data):
         if name not in _USED_MOTION_OPTIONS and not name.startswith('@'):
             if isinstance(value, bool):
-                value = ['off', 'on'][value]  # boolean values should be transferred as on/off
+                # boolean values should be transferred as on/off
+                value = ['off', 'on'][value]
 
             extra_options.append((name, value))
 
@@ -1577,7 +1634,8 @@ def backup():
                       settings.CONF_PATH)
 
         cmd = ['tar', 'zc', 'motion.conf']
-        cmd += map(os.path.basename, glob.glob(os.path.join(settings.CONF_PATH, 'camera-*.conf')))
+        cmd += map(os.path.basename,
+                   glob.glob(os.path.join(settings.CONF_PATH, 'camera-*.conf')))
         try:
             content = subprocess.check_output(cmd, cwd=settings.CONF_PATH)
             logging.debug('backup file created (%s bytes)' % len(content))
@@ -1594,7 +1652,8 @@ def backup():
                       settings.CONF_PATH)
 
         try:
-            content = subprocess.check_output(['tar', 'zc', '.'], cwd=settings.CONF_PATH)
+            content = subprocess.check_output(
+                ['tar', 'zc', '.'], cwd=settings.CONF_PATH)
             logging.debug('backup file created (%s bytes)' % len(content))
 
             return content
@@ -1616,7 +1675,8 @@ def restore(content):
     cmd = ['tar', 'zxC', settings.CONF_PATH]
 
     try:
-        p = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        p = subprocess.Popen(cmd, stdin=subprocess.PIPE,
+                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         msg = p.communicate(content)[0]
         if msg:
             logging.error('failed to restore configuration: %s' % msg)
@@ -1843,7 +1903,8 @@ def _set_default_motion(data):
     data.setdefault('webcontrol_port', settings.MOTION_CONTROL_PORT)
     data.setdefault('webcontrol_interface', 1)
     data.setdefault('webcontrol_localhost', settings.MOTION_CONTROL_LOCALHOST)
-    data.setdefault('webcontrol_parms', 2)  # the advanced list of parameters will be available
+    # the advanced list of parameters will be available
+    data.setdefault('webcontrol_parms', 2)
 
 
 def _set_default_motion_camera(camera_id, data):
@@ -1866,7 +1927,8 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@network_smb_ver', '1.0')
     data.setdefault('@network_username', '')
     data.setdefault('@network_password', '')
-    data.setdefault('target_dir', os.path.join(settings.MEDIA_PATH, data['camera_name']))
+    data.setdefault('target_dir', os.path.join(
+        settings.MEDIA_PATH, data['camera_name']))
     data.setdefault('@upload_enabled', False)
     data.setdefault('@upload_picture', True)
     data.setdefault('@upload_movie', True)
@@ -1935,7 +1997,8 @@ def _set_default_motion_camera(camera_id, data):
         data.setdefault('movie_codec', 'mp4:h264_omx')  # will use h264 codec
 
     elif motionctl.has_h264_v4l2m2m_support():
-        data.setdefault('movie_codec', 'mp4:h264_v4l2m2m')  # will use h264 codec
+        # will use h264 codec
+        data.setdefault('movie_codec', 'mp4:h264_v4l2m2m')
 
     else:
         data.setdefault('movie_codec', 'mp4')  # will use h264 codec
@@ -2015,7 +2078,8 @@ def _get_additional_config(data, camera_id=None):
     args = [camera_id] if camera_id else []
 
     (sections, configs) = get_additional_structure(camera=bool(camera_id))
-    get_funcs = set([c.get('get') for c in six.itervalues(configs) if c.get('get')])
+    get_funcs = set([c.get('get')
+                     for c in six.itervalues(configs) if c.get('get')])
     get_func_values = collections.OrderedDict((f, f(*args)) for f in get_funcs)
 
     for name, section in six.iteritems(sections):
@@ -2023,7 +2087,8 @@ def _get_additional_config(data, camera_id=None):
             continue
 
         if section.get('get_set_dict'):
-            data['@_' + name] = get_func_values.get(section['get'], {}).get(name)
+            data['@_' +
+                 name] = get_func_values.get(section['get'], {}).get(name)
 
         else:
             data['@_' + name] = get_func_values.get(section['get'])
@@ -2033,7 +2098,8 @@ def _get_additional_config(data, camera_id=None):
             continue
 
         if config.get('get_set_dict'):
-            data['@_' + name] = get_func_values.get(config['get'], {}).get(name)
+            data['@_' +
+                 name] = get_func_values.get(config['get'], {}).get(name)
 
         else:
             data['@_' + name] = get_func_values.get(config['get'])
@@ -2053,7 +2119,8 @@ def _set_additional_config(data, camera_id=None):
             continue
 
         if section.get('get_set_dict'):
-            set_func_values.setdefault(section['set'], {})[name] = data['@_' + name]
+            set_func_values.setdefault(section['set'], {})[
+                name] = data['@_' + name]
 
         else:
             set_func_values[section['set']] = data['@_' + name]
@@ -2066,7 +2133,8 @@ def _set_additional_config(data, camera_id=None):
             continue
 
         if config.get('get_set_dict'):
-            set_func_values.setdefault(config['set'], {})[name] = data['@_' + name]
+            set_func_values.setdefault(config['set'], {})[
+                name] = data['@_' + name]
 
         else:
             set_func_values[config['set']] = data['@_' + name]
