@@ -51,7 +51,8 @@ def list_devices():
     try:
         output = b''
         started = time.time()
-        p = subprocess.Popen(['v4l2-ctl', '--list-devices'], stdout=subprocess.PIPE, bufsize=1)
+        p = subprocess.Popen(
+            ['v4l2-ctl', '--list-devices'], stdout=subprocess.PIPE)
 
         fd = p.stdout.fileno()
         fl = fcntl.fcntl(fd, fcntl.F_GETFL)
@@ -67,11 +68,13 @@ def list_devices():
                 output += data
 
             if len(output) > 10240:
-                logging.warn('v4l2-ctl command returned more than 10k of output')
+                logging.warn(
+                    'v4l2-ctl command returned more than 10k of output')
                 break
 
             if time.time() - started > _V4L2_TIMEOUT:
-                logging.warn('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
+                logging.warn(
+                    'v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
                 break
 
     except subprocess.CalledProcessError:
@@ -118,15 +121,16 @@ def list_resolutions(device):
     if device in _resolutions_cache:
         return _resolutions_cache[device]
 
-    logging.debug('listing resolutions of device %(device)s...' % {'device': device})
+    logging.debug('listing resolutions of device %(device)s...' %
+                  {'device': device})
 
     resolutions = set()
     output = b''
     started = time.time()
     cmd = 'v4l2-ctl -d %(device)s --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true' % {
-            'device': pipes.quote(device)}
+        'device': pipes.quote(device)}
 
-    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, bufsize=1)
+    p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
 
     fd = p.stdout.fileno()
     fl = fcntl.fcntl(fd, fcntl.F_GETFL)
@@ -147,7 +151,8 @@ def list_resolutions(device):
             break
 
         if time.time() - started > _V4L2_TIMEOUT:
-            logging.warn('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
+            logging.warn(
+                'v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
             break
 
     try:
@@ -178,14 +183,16 @@ def list_resolutions(device):
         resolutions.add((width, height))
 
         logging.debug('found resolution %(width)sx%(height)s for device %(device)s' % {
-                'device': device, 'width': width, 'height': height})
+            'device': device, 'width': width, 'height': height})
 
     if not resolutions:
-        logging.debug('no resolutions found for device %(device)s, using common values' % {'device': device})
+        logging.debug('no resolutions found for device %(device)s, using common values' % {
+                      'device': device})
 
         # no resolution returned by v4l2-ctl call, add common default resolutions
         resolutions = utils.COMMON_RESOLUTIONS
-        resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
+        resolutions = [
+            r for r in resolutions if motionctl.resolution_is_valid(*r)]
 
     resolutions = list(sorted(resolutions, key=lambda r: (r[0], r[1])))
     _resolutions_cache[device] = resolutions
@@ -232,7 +239,7 @@ def list_ctrls(device):
     output = b''
     started = time.time()
     p = subprocess.Popen('v4l2-ctl -d %(device)s --list-ctrls' % {
-            'device': pipes.quote(device)}, shell=True, stdout=subprocess.PIPE, bufsize=1)
+        'device': pipes.quote(device)}, shell=True, stdout=subprocess.PIPE)
 
     fd = p.stdout.fileno()
     fl = fcntl.fcntl(fd, fcntl.F_GETFL)
@@ -268,12 +275,14 @@ def list_ctrls(device):
         if not line:
             continue
 
-        match = re.match(r'^\s*(\w+)\s+([a-f0-9x\s]+)?\(\w+\)\s*:\s*(.+)\s*', line)
+        match = re.match(
+            r'^\s*(\w+)\s+([a-f0-9x\s]+)?\(\w+\)\s*:\s*(.+)\s*', line)
         if not match:
             continue
 
         (control, _, properties) = match.groups()
-        properties = dict([v.split('=', 1) for v in properties.split(' ') if v.count('=')])
+        properties = dict([v.split('=', 1)
+                           for v in properties.split(' ') if v.count('=')])
         controls[control] = properties
 
     _ctrls_cache[device] = controls
