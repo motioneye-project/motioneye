@@ -1441,13 +1441,13 @@ def motion_camera_dict_to_ui(data):
                 e.insert(-5, '')
 
             ui['email_notifications_enabled'] = True
-            ui['email_notifications_smtp_server'] = e[-12]
-            ui['email_notifications_smtp_port'] = e[-11]
-            ui['email_notifications_smtp_account'] = e[-10]
-            ui['email_notifications_smtp_password'] = e[-9].replace(
+            ui['email_notifications_smtp_server'] = e[-11]
+            ui['email_notifications_smtp_port'] = e[-10]
+            ui['email_notifications_smtp_account'] = e[-9]
+            ui['email_notifications_smtp_password'] = e[-8].replace(
                 '\\;', ';').replace('%%', '%')
-            ui['email_notifications_smtp_tls'] = e[-8].lower() == 'true'
-            ui['email_notifications_from'] = e[-7]
+            ui['email_notifications_smtp_tls'] = e[-7].lower() == 'true'
+            ui['email_notifications_from'] = e[-6]
             ui['email_notifications_addresses'] = e[-5]
             try:
                 ui['email_notifications_picture_time_span'] = int(e[-1])
