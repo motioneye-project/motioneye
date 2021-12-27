@@ -59,7 +59,7 @@ MOTION_BINARY = None
 MOTION_CONTROL_LOCALHOST = True
 
 # the TCP port that motion HTTP control interface listens on
-MOTION_CONTROL_PORT = 7999
+MOTION_CONTROL_PORT = 8080
 
 # interval in seconds at which motionEye checks if motion is running
 MOTION_CHECK_INTERVAL = 10
