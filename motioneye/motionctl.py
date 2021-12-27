@@ -228,7 +228,15 @@ def get_motion_detection(camera_id, callback):
     url = 'http://127.0.0.1:%(port)s/%(id)s/detection/status' % {
         'port': settings.MOTION_CONTROL_PORT, 'id': motion_camera_id}
 
-    def on_response(response):
+    def on_response(future):
+        ex = future.exception()
+        response = ex
+        if hasattr(response, 'message'):
+            setattr(response, 'error', response.message)
+        # Deal with HTTPResponse of HTTPError depending on fetch result
+        if ex is None:
+            response = future.result()
+
         if response.error:
             return callback(error=utils.pretty_http_error(response))
 
@@ -243,7 +251,7 @@ def get_motion_detection(camera_id, callback):
     request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT,
                           request_timeout=_MOTION_CONTROL_TIMEOUT)
     http_client = AsyncHTTPClient()
-    http_client.fetch(request, callback=on_response)
+    http_client.fetch(request).add_done_callback(on_response)
 
 
 def set_motion_detection(camera_id, enabled):
@@ -268,7 +276,15 @@ def set_motion_detection(camera_id, enabled):
         'id': motion_camera_id,
         'enabled': ['pause', 'start'][enabled]}
 
-    def on_response(response):
+    def on_response(future):
+        ex = future.exception()
+        response = ex
+        if hasattr(response, 'message'):
+            setattr(response, 'error', response.message)
+        # Deal with HTTPResponse of HTTPError depending on fetch result
+        if ex is None:
+            response = future.result()
+
         if response.error:
             logging.error('failed to %(what)s motion detection for camera with id %(id)s: %(msg)s' % {
                 'what': ['disable', 'enable'][enabled],
@@ -283,7 +299,7 @@ def set_motion_detection(camera_id, enabled):
     request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT,
                           request_timeout=_MOTION_CONTROL_TIMEOUT)
     http_client = AsyncHTTPClient()
-    http_client.fetch(request, on_response)
+    http_client.fetch(request).add_done_callback(on_response)
 
 
 def take_snapshot(camera_id):
@@ -300,7 +316,15 @@ def take_snapshot(camera_id):
         'port': settings.MOTION_CONTROL_PORT,
         'id': motion_camera_id}
 
-    def on_response(response):
+    def on_response(future):
+        ex = future.exception()
+        response = ex
+        if hasattr(response, 'message'):
+            setattr(response, 'error', response.message)
+        # Deal with HTTPResponse of HTTPError depending on fetch result
+        if ex is None:
+            response = future.result()
+
         if response.error:
             logging.error('failed to take snapshot for camera with id %(id)s: %(msg)s' % {
                 'id': camera_id,
@@ -313,7 +337,7 @@ def take_snapshot(camera_id):
     request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT,
                           request_timeout=_MOTION_CONTROL_TIMEOUT)
     http_client = AsyncHTTPClient()
-    http_client.fetch(request, on_response)
+    http_client.fetch(request).add_done_callback(on_response)
 
 
 def is_motion_detected(camera_id):
@@ -341,7 +365,7 @@ def camera_id_to_motion_camera_id(camera_id):
     main_config = config.get_main()
     cameras = main_config.get('camera', [])
 
-    camera_filename = 'camera-%d.conf' % camera_id
+    camera_filename = os.path.join(settings.CONF_PATH, 'camera-%d.conf') % camera_id
     for i, camera in enumerate(cameras):
         if camera != camera_filename:
             continue

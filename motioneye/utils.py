@@ -462,7 +462,7 @@ def test_rtsp_url(data, callback):
         s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
         stream = IOStream(s)
         stream.set_close_callback(on_close)
-        stream.connect((host, int(port)), on_connect)
+        stream.connect((host, int(port))).add_done_callback(on_connect)
 
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
                                          functools.partial(on_connect, _timeout=True))
@@ -504,14 +504,15 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex(b'RTSP/1.0 \d+ ', on_rtsp)
+        stream.read_until_regex(b'RTSP/1.0 \d+ ').add_done_callback(on_rtsp)
         timeout[0] = io_loop.add_timeout(datetime.timedelta(
             seconds=settings.MJPG_CLIENT_TIMEOUT), on_rtsp)
 
-    def on_rtsp(data=None):
+    def on_rtsp(self, future = None):
         io_loop.remove_timeout(timeout[0])
-
-        if data:
+        
+        if future:
+            data = future.result()
             if data.endswith(b'200 '):
                 seek_server()
 
@@ -534,14 +535,15 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex(b'Server: .*', on_server)
+        stream.read_until_regex(b'Server: .*').add_done_callback(on_server)
         timeout[0] = io_loop.add_timeout(
             datetime.timedelta(seconds=1), on_server)
 
-    def on_server(data=None):
+    def on_server(self, future=None):
         io_loop.remove_timeout(timeout[0])
 
-        if data:
+        if future:
+            data = future.result()
             identifier = re.findall('Server: (.*)', data)[0].strip()
             logging.debug('rtsp netcam identifier is "%s"' % identifier)
 
@@ -555,14 +557,15 @@ def test_rtsp_url(data, callback):
         if check_error():
             return
 
-        stream.read_until_regex(b'WWW-Authenticate: .*', on_www_authenticate)
+        stream.read_until_regex(b'WWW-Authenticate: .*').add_done_callback(on_www_authenticate)
         timeout[0] = io_loop.add_timeout(
             datetime.timedelta(seconds=1), on_www_authenticate)
 
-    def on_www_authenticate(data=None):
+    def on_www_authenticate(self, future=None):
         io_loop.remove_timeout(timeout[0])
 
-        if data:
+        if future:
+            data = future.result()
             scheme = re.findall(b'WWW-Authenticate: ([^\s]+)', data)[0].strip()
             logging.debug('rtsp netcam auth scheme: %s' % scheme)
             if scheme.lower() == 'basic':
