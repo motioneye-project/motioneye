@@ -1243,6 +1243,7 @@ class PictureHandler(BaseHandler):
                         'group': group or 'ungrouped', 'id': camera_id, 'key': key})
                     self.finish_json({'key': key})
 
+                self.set_pending_request(True)
                 mediafiles.get_zipped_content(camera_config, media_type='picture', group=group, callback=on_zip)
 
             elif utils.is_remote_camera(camera_config):
@@ -1253,6 +1254,7 @@ class PictureHandler(BaseHandler):
 
                     self.finish_json({'key': response['key']})
 
+                self.set_pending_request(True)
                 remote.make_zipped_content(camera_config, media_type='picture', group=group, callback=on_response)
 
             else:  # assuming simple mjpeg camera
