@@ -305,7 +305,7 @@ def cleanup_media(media_type):
         service_name = camera_config.get('@upload_service')
         clean_cloud_info = None
         if cloud_enabled and clean_cloud_enabled and camera_id and service_name and cloud_dir:
-            clean_cloud_info = { 'camera_id': camera_id, 'service_name': service_name, 'cloud_dir': cloud_dir }
+            clean_cloud_info = {'camera_id': camera_id, 'service_name': service_name, 'cloud_dir': cloud_dir}
         if os.path.exists(target_dir):
             # create a sentinel file to make sure the target dir is never removed
             open(os.path.join(target_dir, '.keep'), 'w').close()
@@ -322,7 +322,7 @@ def make_movie_preview(camera_config, full_path):
     thumb_path = full_path + '.thumb'
 
     logging.debug('creating movie preview for %(path)s with an offset of %(offs)s seconds...' % {
-            'path': full_path, 'offs': offs})
+        'path': full_path, 'offs': offs})
 
     cmd = 'ffmpeg -i %(path)s -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb'
     actual_cmd = cmd % {'path': pipes.quote(full_path), 'offs': offs}
@@ -333,7 +333,7 @@ def make_movie_preview(camera_config, full_path):
 
     except subprocess.CalledProcessError as e:
         logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
-                'path': full_path, 'msg': utils.make_str(e)})
+            'path': full_path, 'msg': utils.make_str(e)})
 
         return None
 
@@ -357,7 +357,7 @@ def make_movie_preview(camera_config, full_path):
 
         except subprocess.CalledProcessError as e:
             logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
-                    'path': full_path, 'msg': utils.make_str(e)})
+                'path': full_path, 'msg': utils.make_str(e)})
 
             return None
 
@@ -482,7 +482,7 @@ def get_media_content(camera_config, path, media_type):
 
     except Exception as e:
         logging.error('failed to read file %(path)s: %(msg)s' % {
-                'path': full_path, 'msg': utils.make_str(e)})
+            'path': full_path, 'msg': utils.make_str(e)})
 
         return None
 
@@ -789,7 +789,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 def check_timelapse_movie():
     if _timelapse_process:
         if ((hasattr(_timelapse_process, 'poll') and _timelapse_process.poll() is None) or
-            (hasattr(_timelapse_process, 'is_alive') and _timelapse_process.is_alive())):
+                (hasattr(_timelapse_process, 'is_alive') and _timelapse_process.is_alive())):
 
             return {'progress': _timelapse_process.progress, 'data': None}
 
@@ -821,7 +821,7 @@ def get_media_preview(camera_config, path, media_type, width, height):
 
     except Exception as e:
         logging.error('failed to read file %(path)s: %(msg)s' % {
-                'path': full_path, 'msg': utils.make_str(e)})
+            'path': full_path, 'msg': utils.make_str(e)})
 
         return None
 
@@ -880,7 +880,7 @@ def del_media_content(camera_config, path, media_type):
 
     except Exception as e:
         logging.error('failed to remove file %(path)s: %(msg)s' % {
-                'path': full_path, 'msg': utils.make_str(e)})
+            'path': full_path, 'msg': utils.make_str(e)})
 
         raise
 
@@ -905,7 +905,7 @@ def del_media_group(camera_config, group, media_type):
 
         except Exception as e:
             logging.error('failed to remove file %(path)s: %(msg)s' % {
-                    'path': full_path, 'msg': utils.make_str(e)})
+                'path': full_path, 'msg': utils.make_str(e)})
 
             raise
 
@@ -967,7 +967,7 @@ def get_prepared_cache(key):
 
 
 def set_prepared_cache(data):
-    key = hashlib.sha1(str(time.time())).hexdigest()
+    key = hashlib.sha1(str(time.time()).encode('utf-8')).hexdigest()
 
     if key in _prepared_files:
         logging.warn('key "%s" already present in prepared cache' % key)
