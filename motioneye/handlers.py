@@ -1815,7 +1815,7 @@ class RelayEventHandler(BaseHandler):
         tasks.add(5, uploadservices.upload_media_file, tag='upload_media_file(%s)' % filename,
                   camera_id=camera_id, service_name=service_name,
                   camera_name=camera_config['camera_name'],
-                  target_dir=camera_config['@upload_subfolders'] and camera_config['target_dir'],
+                  target_dir=camera_config['@upload_subfolders'] and camera_config['@upload_location'],
                   filename=filename)
 
 
