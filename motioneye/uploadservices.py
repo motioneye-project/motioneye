@@ -85,20 +85,20 @@ class UploadService(object):
 
         if st.st_size > self.MAX_FILE_SIZE:
             msg = 'file "%s" is too large (%sMB/%sMB)' % \
-                    (filename, st.st_size / 1024 / 1024, self.MAX_FILE_SIZE / 1024 / 1024)
+                (filename, st.st_size / 1024 / 1024, self.MAX_FILE_SIZE / 1024 / 1024)
 
             self.error(msg)
             raise Exception(msg)
 
         try:
-            f = open(filename)
+            f = open(filename, 'rb')
+            data = f.read()
 
         except Exception as e:
             msg = 'failed to open file "%s": %s' % (filename, e)
             self.error(msg)
             raise Exception(msg)
 
-        data = f.read()
         self.debug('size of "%s" is %.3fMB' % (filename, len(data) / 1024.0 / 1024))
 
         mime_type = mimetypes.guess_type(filename)[0] or 'image/jpeg'
@@ -481,8 +481,8 @@ class GoogleDrive(UploadService, GoogleBase):
         removed_count = 0
         folder_id = self._get_folder_id_by_name('root', cloud_dir, False)
         children = self._get_children(folder_id)
-        self.info('found %s/%s folder(s) in local/cloud' % \
-            (len(local_folders), len(children)))
+        self.info('found %s/%s folder(s) in local/cloud' %
+                  (len(local_folders), len(children)))
         self.debug('local %s' % local_folders)
         for child in children:
             id = child['id']
@@ -1021,7 +1021,7 @@ class SFTP(UploadService):
                                                self._location, filename)
 
         self.debug('creating sftp connection to {}@{}:{}'.format(
-                self._username, self._server, self._port))
+            self._username, self._server, self._port))
 
         self._conn = pycurl.Curl()
         self._conn.setopt(self._conn.URL, sftp_url)
@@ -1180,6 +1180,7 @@ def _save(services):
     finally:
         f.close()
 
+
 def clean_cloud(local_dir, data, info):
     camera_id = info['camera_id']
     service_name = info['service_name']
@@ -1194,6 +1195,7 @@ def clean_cloud(local_dir, data, info):
         service.load(data)
         service.clean_cloud(cloud_dir, local_folders)
 
+
 def exist_in_local(folder, local_folders):
     if not local_folders:
         local_folders = []
@@ -1202,6 +1204,7 @@ def exist_in_local(folder, local_folders):
         return False
 
     return folder in local_folders
+
 
 def get_local_folders(dir):
     folders = next(os.walk(dir))[1]
