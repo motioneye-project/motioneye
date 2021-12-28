@@ -24,6 +24,7 @@ import os.path
 import time
 import pycurl
 import six
+import io
 
 from six.moves import StringIO
 from six.moves.urllib.error import HTTPError
@@ -95,7 +96,7 @@ class UploadService(object):
             data = f.read()
 
         except Exception as e:
-            msg = 'failed to open file "%s": %s' % (filename, e)
+            msg = 'failed to open and read file "%s": %s' % (filename, e)
             self.error(msg)
             raise Exception(msg)
 
@@ -551,7 +552,6 @@ class GooglePhoto(UploadService, GoogleBase):
         return self._test_access()
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
-        path = os.path.dirname(filename)
         filename = os.path.basename(filename)
         dayinfo = datetime.datetime.fromtimestamp(ctime).strftime('%Y-%m-%d')
         uploadname = dayinfo + '-' + filename
@@ -978,7 +978,7 @@ class SFTP(UploadService):
 
         conn = self._get_conn(test_file)
         conn.setopt(conn.POSTQUOTE, rm_operations)  # Executed after transfer.
-        conn.setopt(pycurl.READFUNCTION, StringIO.StringIO().read)
+        conn.setopt(pycurl.READFUNCTION, io.BytesIO().read)
 
         try:
             self.curl_perform_filetransfer(conn)
@@ -991,7 +991,8 @@ class SFTP(UploadService):
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         conn = self._get_conn(filename)
-        conn.setopt(pycurl.READFUNCTION, StringIO.StringIO(data).read)
+
+        conn.setopt(pycurl.READDATA, io.BytesIO(data))
 
         self.curl_perform_filetransfer(conn)
 
