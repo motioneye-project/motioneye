@@ -739,6 +739,9 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
                 else:
                     raise
 
+            if output is None:
+                output = ''
+
             frame_index = re.findall('frame=\s*(\d+)', output)
             try:
                 frame_index = int(frame_index[-1])
