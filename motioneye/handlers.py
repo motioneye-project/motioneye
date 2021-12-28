@@ -48,6 +48,9 @@ from motioneye import v4l2ctl
 
 
 class BaseHandler(RequestHandler):
+
+    _pending_request = False
+
     def get_all_arguments(self):
         keys = self.request.arguments.keys()
         arguments = dict([(key, self.get_argument(key)) for key in keys])
@@ -92,16 +95,19 @@ class BaseHandler(RequestHandler):
 
         return argument
 
+    # Overrides finish in RequestHandler
+    # Called in _execute due to _auto_finish, see tornado web.py, line 1706
     def finish(self, chunk=None):
+        # Do not finish a pending request via _auto_finish
+        if self._pending_request:
+            return
+
         import motioneye
 
         self.set_header('Server', 'motionEye/%s' % motioneye.VERSION)
-        try:
-            RequestHandler.finish(self, chunk=chunk)
 
-        except:
-            # Never mind error finish() called twice
-            pass
+        RequestHandler.finish(self, chunk=chunk)
+        self._pending_request = False
 
     def render(self, template_name, content_type='text/html', **context):
         import motioneye
@@ -111,6 +117,7 @@ class BaseHandler(RequestHandler):
         context.setdefault('version', motioneye.VERSION)
 
         content = template.render(template_name, **context)
+        self._pending_request = False
         self.finish(content)
 
     def finish_json(self, data=None):
@@ -118,6 +125,7 @@ class BaseHandler(RequestHandler):
             data = {}
 
         self.set_header('Content-Type', 'application/json')
+        self._pending_request = False
         self.finish(json.dumps(data))
 
     def get_current_user(self):
@@ -222,6 +230,9 @@ class BaseHandler(RequestHandler):
 
     def head(self, *args, **kwargs):
         self.finish()
+
+    def set_pending_request(self, pending=True):
+        self._pending_request = pending
 
 
 class NotFoundHandler(BaseHandler):
@@ -977,6 +988,7 @@ class PictureHandler(BaseHandler):
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
+            self.set_pending_request(True)
             picture = mediafiles.get_current_picture(camera_config, width=width, height=height)
 
             # picture is not available usually when the corresponding internal mjpeg client has been closed;
@@ -1003,6 +1015,7 @@ class PictureHandler(BaseHandler):
 
                 self.try_finish(picture)
 
+            self.set_pending_request(True)
             remote.get_current_picture(camera_config, width=width, height=height, callback=on_response)
 
         else:  # assuming simple mjpeg camera
@@ -1023,6 +1036,7 @@ class PictureHandler(BaseHandler):
                     'cameraName': camera_config['camera_name']
                 })
 
+            self.set_pending_request(True)
             mediafiles.list_media(camera_config, media_type='picture',
                                   callback=on_media_list, prefix=self.get_argument('prefix', None))
 
@@ -1034,6 +1048,7 @@ class PictureHandler(BaseHandler):
 
                 self.finish_json(remote_list)
 
+            self.set_pending_request(True)
             remote.list_media(camera_config, media_type='picture', prefix=self.get_argument('prefix', None),
                               callback=on_response)
 
@@ -1388,6 +1403,7 @@ class PictureHandler(BaseHandler):
 
     def try_finish(self, content):
         try:
+            self.set_pending_request(False)
             self.finish(content)
 
         except IOError as e:
@@ -1444,6 +1460,7 @@ class MovieHandler(BaseHandler):
                     'cameraName': camera_config['camera_name']
                 })
 
+            self.set_pending_request(True)
             mediafiles.list_media(camera_config, media_type='movie',
                                   callback=on_media_list, prefix=self.get_argument('prefix', None))
 
@@ -1455,6 +1472,7 @@ class MovieHandler(BaseHandler):
 
                 self.finish_json(remote_list)
 
+            self.set_pending_request(True)
             remote.list_media(camera_config, media_type='movie', prefix=self.get_argument('prefix', None),
                               callback=on_response)
 
