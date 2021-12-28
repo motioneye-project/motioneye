@@ -30,9 +30,9 @@ import stat
 import subprocess
 import time
 import zipfile
+import io
 
 from PIL import Image
-from six.moves import StringIO
 from tornado.ioloop import IOLoop
 
 from motioneye import config
@@ -832,21 +832,21 @@ def get_media_preview(camera_config, path, media_type, width, height):
         return content
 
     try:
-        image = Image.open(content)
+        with Image.open(full_path, 'r', ['JPEG']) as image:
+
+            width = width and int(width) or image.size[0]
+            height = height and int(height) or image.size[1]
+
+            image.thumbnail((width, height), Image.LINEAR)
+
+            sio = io.BytesIO()
+            image.save(sio, format='JPEG')
+
+            return sio.getvalue()
 
     except Exception as e:
         logging.error('failed to open media preview image file: %s' % e)
         return None
-
-    width = width and int(width) or image.size[0]
-    height = height and int(height) or image.size[1]
-
-    image.thumbnail((width, height), Image.LINEAR)
-
-    sio = StringIO()
-    image.save(sio, format='JPEG')
-
-    return sio.getvalue()
 
 
 def del_media_content(camera_config, path, media_type):
@@ -936,8 +936,7 @@ def get_current_picture(camera_config, width, height):
     if width is height is None:
         return jpg  # no server-side resize needed
 
-    sio = StringIO(jpg)
-    image = Image.open(sio)
+    image = Image.open(io.BytesIO(jpg))
 
     if width and width < 1:  # given as percent
         width = int(width * image.size[0])
@@ -959,10 +958,9 @@ def get_current_picture(camera_config, width, height):
 
     image.thumbnail((width, height), Image.CUBIC)
 
-    sio = StringIO()
-    image.save(sio, format='JPEG')
-
-    return sio.getvalue()
+    with io.BytesIO() as bio:
+        image.save(bio, format='JPEG')
+        return bio.getvalue()
 
 
 def get_prepared_cache(key):
