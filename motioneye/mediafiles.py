@@ -79,6 +79,15 @@ FFMPEG_EXT_MAPPING = {
     'hevc': 'mp4'
 }
 
+MOVIE_EXT_TYPE_MAPPING = {
+    'avi': 'video/x-msvideo',
+    'mp4': 'video/mp4',
+    'mov': 'video/quicktime',
+    'swf': 'application/x-shockwave-flash',
+    'flv': 'video/x-flv',
+    'mkv': 'video/x-matroska'
+}
+
 # a cache of prepared files (whose preparing time is significant)
 _prepared_files = {}
 
@@ -592,10 +601,12 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     global _timelapse_data
 
     target_dir = camera_config.get('target_dir')
-    codec = camera_config.get('movie_codec')
+    # save movie_codec as a different variable so it doesn't get lost in the CODEC_MAPPING
+    movie_codec = camera_config.get('movie_codec')
 
-    codec = FFMPEG_CODEC_MAPPING.get(codec, codec)
-    fmt = FFMPEG_FORMAT_MAPPING.get(codec, codec)
+    codec = FFMPEG_CODEC_MAPPING.get(movie_codec, movie_codec)
+    fmt = FFMPEG_FORMAT_MAPPING.get(movie_codec, movie_codec)
+    file_format = FFMPEG_EXT_MAPPING.get(movie_codec, movie_codec)
 
     # create a subprocess to retrieve media files
     def do_list_media(pipe):
@@ -625,7 +636,9 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     started = [datetime.datetime.now()]
     media_list = []
 
-    tmp_filename = os.path.join(settings.MEDIA_PATH, '.%s.avi' % int(time.time()))
+    # use correct extension for the movie_codec
+    tmp_filename = os.path.join(settings.MEDIA_PATH, '.%(name)s.%(ext)s')
+    tmp_filename = tmp_filename % { 'name': int(time.time()), 'ext': file_format }
 
     def read_media_list():
         while parent_pipe.poll():
@@ -694,9 +707,10 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     def make_movie(pictures):
         global _timelapse_process
 
+         # don't specify file format with -f, let ffmpeg work it out from the extension
         cmd = 'rm -f %(tmp_filename)s;'
         cmd += 'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec %(codec)s ' \
-               '-format %(format)s -b:v %(bitrate)s -qscale:v 0.1 -f avi %(tmp_filename)s'
+               '-format %(format)s -b:v %(bitrate)s -qscale:v 0.1 %(tmp_filename)s'
 
         bitrate = 9999999
 
