@@ -25,6 +25,7 @@ import smtplib
 import socket
 import subprocess
 
+from tornado import iostream
 from tornado.ioloop import IOLoop
 from tornado.web import RequestHandler, StaticFileHandler, HTTPError
 
@@ -1584,9 +1585,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
         os.mkdir(tmpdir)
 
     @BaseHandler.auth()
-    async def get(self,  camera_id, filename=None, include_body=True):
-        logging.debug('downloading movie %(filename)s of camera %(id)s' % {
-            'filename': filename, 'id': camera_id})
+    async def get(self, camera_id, filename=None, include_body=True):
+        logging.debug('downloading movie %(filename)s of camera %(id)s' % {'filename': filename, 'id': camera_id})
 
         self.pretty_filename = os.path.basename(filename)
 
@@ -1600,7 +1600,29 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
         if utils.is_local_motion_camera(camera_config):
             filename = mediafiles.get_media_path(camera_config, filename, 'movie')
             self.pretty_filename = camera_config['camera_name'] + '_' + self.pretty_filename
-            return StaticFileHandler.get(self, filename, include_body=include_body)
+
+            self.path = self.parse_url_path(filename)
+            self.absolute_path = self.validate_absolute_path(self.root, filename)
+            if self.absolute_path is None:
+                return
+
+            self.modified = self.get_modified_time()
+            self.set_headers()
+
+            if self.should_return_304():
+                self.set_status(304)
+                return
+
+            self.set_header("Content-Length", self.get_content_size())
+            content = self.get_content(self.absolute_path, None, None)
+            if isinstance(content, bytes):
+                content = [content]
+            for chunk in content:
+                try:
+                    self.write(chunk)
+                    await self.flush()
+                except iostream.StreamClosedError:
+                    return
 
         elif utils.is_remote_camera(camera_config):
 
