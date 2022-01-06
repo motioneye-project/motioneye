@@ -13,6 +13,7 @@ toto*
 .idea
 run
 dist
-motioneye.egg-info
 dropbox.keys
 .venv
+motioneye.eo.egg-info
+motioneye/motioney.eo.egg-info/
