@@ -1943,7 +1943,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@clean_cloud_enabled', False)
 
     data.setdefault('stream_localhost', False)
-    data.setdefault('stream_port', 8080 + camera_id)
+    data.setdefault('stream_port', 9080 + camera_id)
     data.setdefault('stream_maxrate', 5)
     data.setdefault('stream_quality', 85)
     data.setdefault('stream_motion', False)
