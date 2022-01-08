@@ -1,0 +1,46 @@
+#!/bin/bash
+
+if which apt ; then
+
+  ## Instali ffmpeg kaj aliajn dependojn:
+  apt update
+  apt -y install curl ffmpeg libmariadb3 libpq5 libmicrohttpd12 libssl-dev libcurl4-openssl-dev libjpeg-dev libz-dev python3-boto3 v4l-utils
+
+  ## Instali motion:
+  DEBIAN_REL=$(lsb_release -sc)
+  if [ "$DEBIAN_REL" = "buster" ]
+  then
+    MOTION_REL=4.3.2
+    MOTION_SUBREL=-1
+    ARCH=$( dpkg --print-architecture )
+    PI=$(test -f /sys/firmware/devicetree/base/model && grep aspberry /sys/firmware/devicetree/base/model >/dev/null && echo pi_)
+    wget https://github.com/Motion-Project/motion/releases/download/release-${MOTION_REL}/${PI}${DEBIAN_REL}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb
+    dpkg -i ${PI}${DEBIAN_REL}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb
+  else
+    apt -y install motion
+  fi
+elif which yum ; then
+  ## ne provita !!!
+  yum -y install curl ffmpeg mariadb-libs postgresql-libs libmicrohttpd openssl-libs libcurl libjpeg libzstd python-boto3 v4l-utils motion
+else
+  echo 'Ĉi tiu sistemo ne uzas apt. Bonvolu instali mem la antaŭkondiĉojn:'
+  echo '  curl ffmpeg libmariadb3 libpq5 libmicrohttpd12 libssl libcurl4-openssl libjpeg libz python3-boto3 v4l-utils'
+fi
+
+## krei agordon kaj dosierujojn:
+mkdir -p /etc/motioneye
+if [ ! -f /etc/motioneye/motioneye.conf ]
+then
+  cp motioneye.conf.sample /etc/motioneye/motioneye.conf
+fi
+mkdir -p /var/lib/motioneye
+chown -R motion.motion /etc/motioneye /var/lib/motioneye
+
+## krei la servon:
+if [ ! -f /etc/systemd/system/motioneye.service ]
+then
+  cp motioneye.systemd-unit-local /etc/systemd/system/motioneye.service
+fi
+systemctl daemon-reload
+systemctl enable motioneye
+systemctl start motioneye
