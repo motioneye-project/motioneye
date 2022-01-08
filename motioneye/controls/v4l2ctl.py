@@ -46,43 +46,13 @@ def list_devices():
     global _resolutions_cache, _ctrls_cache, _ctrl_values_cache
     
     logging.debug('listing V4L2 devices')
+    output=b''
     
     try:
-        output = b''
-        started = time.time()
-        p = subprocess.Popen(['v4l2-ctl', '--list-devices'], stdout=subprocess.PIPE, bufsize=1)
-
-        fd = p.stdout.fileno()
-        fl = fcntl.fcntl(fd, fcntl.F_GETFL)
-        fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
-
-        while True:
-            data = p.stdout.read(1024)
-            if data == b'':
-                break
-            if not data:
-                time.sleep(0.01)
-            else:
-                output += data
-
-            if len(output) > 10240:
-                logging.warning('v4l2-ctl command returned more than 10k of output')
-                break
-            
-            if time.time() - started > _V4L2_TIMEOUT:
-                logging.warning('v4l2-ctl command ran for more than %s seconds' % _V4L2_TIMEOUT)
-                break
-
-    except subprocess.CalledProcessError:
-        logging.debug('failed to list devices (probably no devices installed)')
-        return []
-
-    try:
-        # try to kill the v4l2-ctl subprocess
-        p.kill()
+        output=utils.call_subprocess(['v4l2-ctl','--list-devices'],stderr=subprocess.STDOUT)
 
     except:
-        pass  # nevermind
+        logging.debug('v4l2-ctl  error : %s ' % output)
 
     name = None
     devices = []
