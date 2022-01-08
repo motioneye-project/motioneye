@@ -177,39 +177,17 @@ def list_ctrls(device):
 
     output = b''
     started = time.time()
-    p = subprocess.Popen('v4l2-ctl -d %(device)s --list-ctrls' % {
-            'device': pipes.quote(device)}, shell=True, stdout=subprocess.PIPE, bufsize=1)
-
-    fd = p.stdout.fileno()
-    fl = fcntl.fcntl(fd, fcntl.F_GETFL)
-    fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
-
-    while True:
-        data = p.stdout.read(1024)
-        if data == b'':
-            break
-        if not data:
-            data = ''
-            time.sleep(0.01)
-        else:
-            output += data
-
-        if len(output) > 10240:
-            logging.warning('v4l2-ctl command returned more than 10k of output')
-            break
-
-        if time.time() - started > 3:
-            logging.warning('v4l2-ctl command ran for more than 3 seconds')
-            break
+    cmd = 'v4l2-ctl -d %(device)s --list-ctrls'
+    actual_cmd = cmd % { 'device': pipes.quote(device)}
+    logging.debug('running command "%s"' % actual_cmd)
 
     try:
-        # try to kill the v4l2-ctl subprocess
-        p.kill()
-
+        output = utils.call_subprocess(actual_cmd, shell=True, stderr=subprocess.STDOUT)
     except:
-        pass  # nevermind
+        logging.error('failed to list controls of device %(device)s...' % {'device': device})
 
     controls = {}
+    logging.debug(' command output "%s"' % output)
     output = utils.make_str(output)
     for line in output.split('\n'):
         if not line:
