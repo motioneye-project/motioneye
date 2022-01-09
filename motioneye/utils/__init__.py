@@ -450,7 +450,7 @@ def build_editable_mask_file(camera_id, mask_class, mask_lines, capture_width=No
     dr = ImageDraw.Draw(im)
 
     for y in numpy.arange(ny):
-        line = mask_lines[line_index_func(y)]
+        line = mask_lines[int(line_index_func(y))]
         for x in numpy.arange(nx):
             if line & (1 << (MASK_WIDTH - 1 - x)):
                 dr.rectangle((x * rw, y * rh, (x + 1) * rw - 1, (y + 1) * rh - 1), fill=0)
@@ -459,7 +459,7 @@ def build_editable_mask_file(camera_id, mask_class, mask_lines, capture_width=No
             dr.rectangle((nx * rw, y * rh, nx * rw + rx - 1, (y + 1) * rh - 1), fill=0)
 
     if ry:
-        line = mask_lines[line_index_func(ny)]
+        line = mask_lines[int(line_index_func(ny))]
         for x in numpy.arange(nx):
             if line & (1 << (MASK_WIDTH - 1 - x)):
                 dr.rectangle((x * rw, ny * rh, (x + 1) * rw - 1, ny * rh + ry - 1), fill=0)
