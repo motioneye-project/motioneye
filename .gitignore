@@ -12,6 +12,7 @@ toto*
 .settings
 .idea
 run
+build
 dist
 dropbox.keys
 .venv

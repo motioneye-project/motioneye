@@ -2,7 +2,7 @@
 
 motionEye.eo is an online interface for the software [ _motion_ ](https://motion-project.github.io/), a video surveillance program with motion detection.
 
-It's a split of [ _motionEye_ ](https://github.com/ccrisan/motioneye) with the addition of internationalization.  
+It's a fork of [ _motionEye_ ](https://github.com/ccrisan/motioneye) with the addition of internationalization.  
 The supported languages are:
 * French
 * Esperanto
