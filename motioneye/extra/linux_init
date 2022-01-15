@@ -31,15 +31,15 @@ fi
 mkdir -p /etc/motioneye
 if [ ! -f /etc/motioneye/motioneye.conf ]
 then
-  cp motioneye.conf.sample /etc/motioneye/motioneye.conf
+  cp extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
 fi
-mkdir -p /var/lib/motioneye
-chown -R motion.motion /etc/motioneye /var/lib/motioneye
+mkdir -p /var/lib/motioneye /var/log/motioneye
+chown -R motion.motion /etc/motioneye /var/lib/motioneye /var/log/motioneye
 
 ## krei la servon:
 if [ ! -f /etc/systemd/system/motioneye.service ]
 then
-  cp motioneye.systemd-unit-local /etc/systemd/system/motioneye.service
+  cp extra/motioneye.systemd-unit-local /etc/systemd/system/motioneye.service
 fi
 systemctl daemon-reload
 systemctl enable motioneye
