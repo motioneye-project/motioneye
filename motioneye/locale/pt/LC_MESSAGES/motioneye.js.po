@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-23 22:22+0100\n"
+"POT-Creation-Date: 2022-01-16 11:54+0100\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -107,6 +107,11 @@ msgstr "Nome de arquivo personalizado"
 #, fuzzy
 msgid "Retan kunlokon"
 msgstr "Comunicação online"
+
+#: static/js/main.js:2587
+#, fuzzy
+msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
+msgstr "Seu navegador não realiza esse recurso!"
 
 #: static/js/main.js:2604
 #, fuzzy
@@ -228,6 +233,36 @@ msgstr "O acesso ao serviço de upload falhou:"
 #, fuzzy
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "O acesso ao serviço de upload foi bem-sucedido!"
+
+#: static/js/main.js:3066 static/js/main.js:3069
+#, fuzzy
+msgid "Sciiga retpoŝto fiaskis:"
+msgstr "E-mail de notícias falhou:"
+
+#: static/js/main.js:3085
+#, fuzzy
+msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
+msgstr "Verifique se todas as opções de configuração são válidas!"
+
+#: static/js/main.js:3101
+#, fuzzy
+msgid "Sciiga Telegramo fiaskis:"
+msgstr "O telegrama de notificação falhou:"
+
+#: static/js/main.js:3104
+#, fuzzy
+msgid "Sciiga Telegramo sukcesis!"
+msgstr "O telegrama de notificação foi bem sucedido!"
+
+#: static/js/main.js:3140
+#, fuzzy
+msgid "Aliro al retdividado fiaskis: "
+msgstr "O acesso à transmissão de rede falhou:"
+
+#: static/js/main.js:3143
+#, fuzzy
+msgid "Aliro al retdividado sukcesis!"
+msgstr "O acesso ao retardo foi bem sucedido!"
 
 #: static/js/main.js:3167
 #, fuzzy
@@ -598,6 +633,11 @@ msgstr "coloque esta câmera"
 #, fuzzy
 msgid "preni instantaron"
 msgstr "tirar uma foto"
+
+#: static/js/main.js:5051
+#, fuzzy
+msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
+msgstr "Você ainda não configurou nenhuma câmera. Clique aqui para adicionar ..."
 
 #: static/js/ui.js:503
 #, fuzzy

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-23 22:22+0100\n"
+"POT-Creation-Date: 2022-01-16 11:54+0100\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -106,6 +106,11 @@ msgstr "कस्टम फ़ाइल नाम"
 #, fuzzy
 msgid "Retan kunlokon"
 msgstr "ऑनलाइन संचार"
+
+#: static/js/main.js:2587
+#, fuzzy
+msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
+msgstr "आपका ब्राउज़र इस सुविधा को नहीं ले जाता है!"
 
 #: static/js/main.js:2604
 #, fuzzy
@@ -227,6 +232,36 @@ msgstr "अपलोड सेवा तक पहुँच विफल रह�
 #, fuzzy
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "अपलोड सेवा तक पहुँच सफल रही!"
+
+#: static/js/main.js:3066 static/js/main.js:3069
+#, fuzzy
+msgid "Sciiga retpoŝto fiaskis:"
+msgstr "समाचार ईमेल विफल:"
+
+#: static/js/main.js:3085
+#, fuzzy
+msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
+msgstr "सुनिश्चित करें कि सभी कॉन्फ़िगरेशन विकल्प मान्य हैं!"
+
+#: static/js/main.js:3101
+#, fuzzy
+msgid "Sciiga Telegramo fiaskis:"
+msgstr "अधिसूचना टेलीग्राम विफल:"
+
+#: static/js/main.js:3104
+#, fuzzy
+msgid "Sciiga Telegramo sukcesis!"
+msgstr "अधिसूचना टेलीग्राम सफल रहा!"
+
+#: static/js/main.js:3140
+#, fuzzy
+msgid "Aliro al retdividado fiaskis: "
+msgstr "नेटवर्क ट्रांसमिटिंग तक पहुंच विफल:"
+
+#: static/js/main.js:3143
+#, fuzzy
+msgid "Aliro al retdividado sukcesis!"
+msgstr "मंदता तक पहुंच सफल रही है!"
 
 #: static/js/main.js:3167
 #, fuzzy
@@ -597,6 +632,11 @@ msgstr "इस कैमरे को सेट करें"
 #, fuzzy
 msgid "preni instantaron"
 msgstr "एक स्नैपशॉट ले लो"
+
+#: static/js/main.js:5051
+#, fuzzy
+msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
+msgstr "आपने अभी तक कोई कैमरा कॉन्फ़िगर नहीं किया है। एक जोड़ने के लिए यहां क्लिक करें ..."
 
 #: static/js/ui.js:503
 #, fuzzy

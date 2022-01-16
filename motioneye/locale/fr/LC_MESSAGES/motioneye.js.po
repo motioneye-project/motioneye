@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-23 22:22+0100\n"
+"POT-Creation-Date: 2022-01-16 11:54+0100\n"
 "PO-Revision-Date: 2020-02-11 18:54+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -89,6 +89,10 @@ msgstr "Dossier personnalisé"
 #: static/js/main.js:2233
 msgid "Retan kunlokon"
 msgstr "Partage réseau"
+
+#: static/js/main.js:2587
+msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
+msgstr "Votre navigateur ne gère pas cette fonctionnalité!"
 
 #: static/js/main.js:2604
 msgid "Apliki"
@@ -186,6 +190,30 @@ msgstr "Échec de l'accès au service de téléchargement: "
 #: static/js/main.js:3029
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "L'accès au service de téléchargement a réussi!"
+
+#: static/js/main.js:3066 static/js/main.js:3069
+msgid "Sciiga retpoŝto fiaskis:"
+msgstr "L'e-mail de notification a échoué:"
+
+#: static/js/main.js:3085
+msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
+msgstr "Assurez-vous que toutes les options de configuration sont valides!"
+
+#: static/js/main.js:3101
+msgid "Sciiga Telegramo fiaskis:"
+msgstr "Le «Telegrem» de notification a échoué:"
+
+#: static/js/main.js:3104
+msgid "Sciiga Telegramo sukcesis!"
+msgstr "Le «Telegram» de notification a réussi!"
+
+#: static/js/main.js:3140
+msgid "Aliro al retdividado fiaskis: "
+msgstr "L'accès au partage réseau a échoué:"
+
+#: static/js/main.js:3143
+msgid "Aliro al retdividado sukcesis!"
+msgstr "L'accès au partage réseau a réussi!"
 
 #: static/js/main.js:3167
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
@@ -482,6 +510,10 @@ msgstr "régler cette caméra"
 #: static/js/main.js:4703
 msgid "preni instantaron"
 msgstr "prendre un instantané"
+
+#: static/js/main.js:5051
+msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
+msgstr "Vous n'avez pas encore configuré de caméra. Cliquez ici pour en ajouter une ..."
 
 #: static/js/ui.js:503
 msgid "enigu pozitivan nombron"

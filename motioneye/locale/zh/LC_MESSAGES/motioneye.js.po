@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-23 22:22+0100\n"
+"POT-Creation-Date: 2022-01-16 11:54+0100\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -106,6 +106,11 @@ msgstr "自定义文件名"
 #, fuzzy
 msgid "Retan kunlokon"
 msgstr "在线交流"
+
+#: static/js/main.js:2587
+#, fuzzy
+msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
+msgstr "您的浏览器无法执行此功能！"
 
 #: static/js/main.js:2604
 #, fuzzy
@@ -227,6 +232,36 @@ msgstr "访问上传​​服务失败："
 #, fuzzy
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "访问上传​​服务成功！"
+
+#: static/js/main.js:3066 static/js/main.js:3069
+#, fuzzy
+msgid "Sciiga retpoŝto fiaskis:"
+msgstr "新闻电子邮件失败："
+
+#: static/js/main.js:3085
+#, fuzzy
+msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
+msgstr "确保所有配置选项都有效！"
+
+#: static/js/main.js:3101
+#, fuzzy
+msgid "Sciiga Telegramo fiaskis:"
+msgstr "通知电报失败："
+
+#: static/js/main.js:3104
+#, fuzzy
+msgid "Sciiga Telegramo sukcesis!"
+msgstr "通知电报成功！"
+
+#: static/js/main.js:3140
+#, fuzzy
+msgid "Aliro al retdividado fiaskis: "
+msgstr "访问网络发送失败："
+
+#: static/js/main.js:3143
+#, fuzzy
+msgid "Aliro al retdividado sukcesis!"
+msgstr "访问迟滞已经成功！"
 
 #: static/js/main.js:3167
 #, fuzzy
@@ -597,6 +632,11 @@ msgstr "设置这台相机"
 #, fuzzy
 msgid "preni instantaron"
 msgstr "拍摄快照"
+
+#: static/js/main.js:5051
+#, fuzzy
+msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
+msgstr "您尚未配置任何相机。点击这里添加一个..."
 
 #: static/js/ui.js:503
 #, fuzzy

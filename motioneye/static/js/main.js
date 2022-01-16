@@ -2584,7 +2584,7 @@ function deleteFile(path, callback) {
 
 function uploadFile(path, input, callback) {
     if (!window.FormData) {
-        showErrorMessage("Your browser doesn't implement this function!");
+        showErrorMessage(i18n.gettext("Via retumilo ne efektivigas ĉi tiun funkcion!"));
         callback();
     }
 
@@ -3063,10 +3063,10 @@ function doTestEmail() {
     ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
         hideModalDialog(); /* progress */
         if (data.error) {
-            showErrorMessage('Notification email failed: ' + data.error + '!');
+            showErrorMessage(i18n.gettext("Sciiga retpoŝto fiaskis:") + data.error + '!');
         }
         else {
-            showPopupMessage('Notification email succeeded!', 'info');
+            showPopupMessage(i18n.gettext("Sciiga retpoŝto fiaskis:"), 'info');
         }
     });
 }
@@ -3082,7 +3082,7 @@ function doTestTelegram() {
     });
 
     if (!valid) {
-        return runAlertDialog('Make sure all the configuration options are valid!');
+        return runAlertDialog(i18n.gettext("Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"));
     }
 
     showModalDialog('<div class="modal-progress"></div>', null, null, true);
@@ -3098,10 +3098,10 @@ function doTestTelegram() {
     ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
         hideModalDialog(); /* progress */
         if (data.error) {
-            showErrorMessage('Telegram notification failed: ' + data.error + '!');
+            showErrorMessage(i18n.gettext("Sciiga Telegramo fiaskis:") + data.error + '!');
         }
         else {
-            showPopupMessage('Telegram notification succeeded!', 'info');
+            showPopupMessage(i18n.gettext("Sciiga Telegramo sukcesis!"), 'info');
         }
     });
 }
@@ -3137,10 +3137,10 @@ function doTestNetworkShare() {
     ajax('POST', basePath + 'config/' + cameraId + '/test/', data, function (data) {
         hideModalDialog(); /* progress */
         if (data.error) {
-            showErrorMessage('Accessing network share failed: ' + data.error + '!');
+            showErrorMessage(i18n.gettext("Aliro al retdividado fiaskis: ") + data.error + '!');
         }
         else {
-            showPopupMessage('Accessing network share succeeded!', 'info');
+            showPopupMessage(i18n.gettext("Aliro al retdividado sukcesis!"), 'info');
         }
     });
 }
@@ -5047,7 +5047,9 @@ function recreateCameraFrames(cameras) {
         if ($('#cameraSelect').find('option').length < 2 && isAdmin() && !query.camera_ids) {
             /* invite the user to add a camera */
             var addCameraLink = $('<div class="add-camera-message">' +
-                    '<a href="javascript:runAddCameraDialog()">You have not configured any camera yet. Click here to add one...</a></div>');
+                    '<a href="javascript:runAddCameraDialog()">' +
+                    i18n.gettext('Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...') +
+                    '</a></div>');
             getPageContainer().append(addCameraLink);
         }
     }
