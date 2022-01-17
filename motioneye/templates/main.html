@@ -246,13 +246,13 @@
                         {% for config in section['configs'] %}
                             {{config_item(config)}}
                         {% endfor %}
+                        <tr class="settings-item">
+                            <td colspan="100"><div class="settings-item-separator" style="margin: 0px 0px 1.5em 0px;"></div></td>
+                        </tr>
                     </table>
                     {% endif %}
                     {% endfor %}
 
-                    <tr class="settings-item">
-                        <td colspan="100"><div class="settings-item-separator" style="margin: 0px 0px 1.5em 0px;"></div></td>
-                    </tr>
 
                     <!-- Video Device -->
                     <div class="settings-section-title" id="deviceSectionDiv">
