@@ -1,0 +1,1400 @@
+
+
+    /* basic */
+
+* {
+    padding: 0px;
+    border: 0px solid black;
+    margin: 0px;
+    outline: 0px;
+    border-spacing: 0px;
+    border-collapse: separate;
+}
+
+html {
+    height: 100%;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    height: 100%;
+    color: #dddddd;
+    font-size: 22px;
+    background-color: #212121;
+}
+
+select,
+input[type=text],
+input[type=password],
+textarea {
+    box-sizing: border-box;
+}
+
+
+    /* fonts */
+
+@font-face {
+    font-family: 'Maven Pro';
+    src: url('../fnt/mavenpro-regular-webfont.eot');
+    src: url('../fnt/mavenpro-regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fnt/mavenpro-regular-webfont.woff') format('woff'),
+         url('../fnt/mavenpro-regular-webfont.ttf') format('truetype'),
+         url('../fnt/mavenpro-regular-webfont.svg#maven_proregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+ 
+@font-face {
+    font-family: 'Maven Pro';
+    src: url('../fnt/mavenpro-bold-webfont.eot');
+    src: url('../fnt/mavenpro-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../fnt/mavenpro-bold-webfont.woff') format('woff'),
+         url('../fnt/mavenpro-bold-webfont.ttf') format('truetype'),
+         url('../fnt/mavenpro-bold-webfont.svg#maven_probold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+ 
+    /* layout */
+
+html {
+    font-family: 'Maven Pro';
+}
+
+div.page,
+div.header-container {
+    position: relative;
+    min-width: 320px;
+    width: 100%;
+}
+
+div.page {
+    font-size: 1em;
+    transition: all 0.5s ease;
+    min-height: 100%;
+}
+
+div.header {
+    background-color: rgba(64, 64, 64, 0.5);
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+    top: 0px;
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    overflow: hidden;
+    z-index: 10000;
+    transition: all 0.2s ease;
+}
+
+div.header.full-screen {
+    height: 0px;
+}
+
+div.header-container {
+    transition: all 0.5s ease;
+}
+
+div.footer {
+    position: absolute;
+    bottom: 5px;
+    width: 100%;
+    height: 3em;
+    font-size: 0.7em;
+    color: #aaa;
+    text-align: center;
+    transition: all 0.2s ease;
+    overflow: hidden;
+}
+
+div.footer.full-screen {
+    height: 0px;
+}
+
+div.copyright-note {
+    border-top: 1px solid #333;
+    padding-top: 0.2em;
+    margin: 0px 15%;
+}
+
+div.page-container {
+    transition: all 0.2s ease;
+    padding: 50px 0.2em 50px 0px;
+    margin: auto;
+}
+
+div.page-container.stretched {
+    margin-left: 40%;
+    font-size: 16px;
+}
+
+div.page-container.three-columns.stretched {
+    font-size: 12px;
+}
+
+div.page-container.four-columns.stretched {
+    font-size: 10px;
+}
+
+div.page-container.full-screen {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+
+    /* icons & icon buttons */
+
+div.button.settings-button {
+    border: 1px solid transparent;
+    vertical-align: middle;
+    background-image: url(../img/top-bar-buttons.svg);
+    background-size: cover;
+    width: 48px;
+    height: 48px;
+    transition: transform 0.1s linear;    
+}
+
+div.settings-top-bar.open div.button.settings-button {
+    transform: rotate(90deg);
+}
+
+div.button.logout-button {
+    border: 1px solid transparent;
+    vertical-align: middle;
+    background-image: url(../img/top-bar-buttons.svg);
+    background-size: cover;
+    background-position: -100% 0px;
+    width: 48px;
+    height: 48px;
+}
+
+div.button.rem-camera-button {
+    display: none;
+    border: 1px solid transparent;
+    vertical-align: middle;
+    background-image: url(../img/top-bar-buttons.svg);
+    background-size: cover;
+    background-position: -200% 0px;
+    width: 48px;
+    height: 48px;
+}
+
+div.settings-top-bar.open div.button.rem-camera-button {
+    display: inline-block;
+}
+
+div.logo {
+    float: right;
+    display: inline-block;
+    white-space: nowrap;
+    opacity: 0.86;
+}
+
+span.logo {
+    color: white;
+    vertical-align: middle;
+    font-size: 27px;
+    font-weight: bold;
+    position: relative;
+    top: 3px;
+}
+
+img.logo {
+    width: 36px;
+    height: 36px;
+    padding: 7px 3px;
+    vertical-align: middle;
+}
+
+img.background-logo {
+    position: absolute;
+    width: 30%;
+    left: 35%;
+    top: 10em;
+    opacity: 0.03;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+img.main-loading-progress {
+    display: block;
+    margin: auto;
+    margin-top: 50px;
+}
+
+div.add-camera-message {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 1rem;
+}
+
+div.hostname {
+    vertical-align: middle;
+    display: inline-block;
+    font-size: 27px;
+}
+
+
+    /* settings */
+
+div.settings {
+    background-color: #313131;
+    position: fixed;
+    z-index: 2;
+    top: 50px;
+    left: 0px;
+    width: 0px;
+    bottom: 0px;
+    transition: all 0.2s ease;
+    overflow: auto;
+}
+
+div.settings.open {
+    width: 40%;
+    min-width: 360px;
+}
+
+div.settings-container {
+    position: relative;
+    padding-top: 10px;
+    display: none;
+    white-space: nowrap;
+}
+
+div.settings.open div.settings-container {
+    display: block;
+}
+
+div.settings-progress {
+    position: absolute;
+    top: 0px;
+    width: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: #313131;
+    opacity: 0;
+    transition: opacity 0.1s linear;
+}
+
+div.settings-top-bar {
+    position: relative;
+    display: inline-block;
+    width: 40%;
+    height: 50px;
+}
+
+div.settings-top-bar.open {
+    background-color: #414141;
+    min-width: 360px;
+}
+
+div.settings-top-bar.closed div.apply-button {
+    display: none !important;
+}
+
+div.settings-section-title {
+    position: relative;
+    text-align: right;
+    background-color: rgba(100, 100, 100, 0.3);
+    padding: 5px 0.5em 5px 5px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+a.settings-section-title {
+}
+
+table.settings {
+    width: 100%;
+    padding: 0.5em 0.5em 1em 0.5em;
+}
+
+td.settings-item-label {
+    width: 50%;
+    text-align: right;
+    padding-right: 5px;
+}
+
+td.settings-item-value {
+    width: 50%;
+    text-align: left;
+    padding-left: 5px;
+}
+
+span.settings-item-label {
+    font-size: 0.9em;
+}
+
+span.settings-item-unit {
+    font-size: 0.6em;
+    padding: 0px 0.2em;
+}
+
+div.settings-item-separator {
+    height: 1px;
+    border-top: 1px solid #414141;
+    margin: 0.5em 1em;
+}
+
+#cameraSelect {
+    display: none;
+    padding: 2px 1.5em 2px 2px;
+    vertical-align: middle;
+    font-size: 1.2em;
+    width: auto;
+    max-width: 35%;
+}
+
+div.apply-button {
+    position: relative;
+    display: none;
+    opacity: 0;
+    float: right;
+    width: 4em;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    margin: 10px;
+    color: white;
+    background-color: #FF6F00;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+}
+
+div.apply-button:HOVER {
+    background-color: #FF7D19;
+}
+
+div.apply-button:ACTIVE {
+    background-color: #F06800;
+}
+
+div.apply-button.progress {
+    background-color: #FF6F00;
+}
+
+img.apply-progress {
+    margin-top: 3px;
+}
+
+div.normal-button {
+    position: relative;
+    height: 1.5em;
+    line-height: 1.5em;
+    text-align: center;
+    margin: 2px 0px;
+    color: white;
+    font-size: 0.9em;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+    width: 7em;
+}
+
+div.update-button,
+div.backup-button,
+div.restore-button,
+div.edit-mask-button,
+div.save-mask-button,
+div.clear-mask-button,
+div.test-button {
+    background: #317CAD;
+}
+
+div.save-mask-button,
+div.clear-mask-button {
+    display: none;
+}
+
+div.shut-down-button,
+div.reboot-button {
+    background: #c0392b;
+}
+
+div.update-button:HOVER,
+div.backup-button:HOVER,
+div.restore-button:HOVER,
+div.edit-mask-button:HOVER,
+div.save-mask-button:HOVER,
+div.clear-mask-button:HOVER,
+div.test-button:HOVER {
+    background: #3498db;
+}
+
+div.shut-down-button:HOVER,
+div.reboot-button:HOVER {
+    background: #D43F2F;
+}
+
+div.update-button:ACTIVE,
+div.backup-button:ACTIVE,
+div.restore-button:ACTIVE,
+div.edit-mask-button:ACTIVE,
+div.save-mask-button:ACTIVE,
+div.clear-mask-button:ACTIVE,
+div.test-button:ACTIVE {
+    background: #317CAD;
+}
+
+div.shut-down-button:ACTIVE,
+div.reboot-button:ACTIVE {
+    background: #B03427;
+}
+
+div.settings-top-bar.open #cameraSelect {
+    display: inline;
+}
+
+div.settings-top-bar.open div.logout-button {
+    display: none;
+}
+
+div.check-box.section {
+    margin: 0px;
+    float: left;
+}
+
+div.check-box.section div.check-box-button {
+    background-color: #515151;
+}
+
+div.check-box.on.section div.check-box-button {
+    background-color: #317CAD;
+}
+
+div.check-box.on.section:FOCUS div.check-box-button,
+div.check-box.on.section:HOVER div.check-box-button {
+    background-color: #3498db;
+}
+
+input[type=text].working-schedule.number {
+    width: 50px;
+}
+
+#diskUsageProgressBar {
+    width: 90%;
+}
+
+#motionMaskLinesEntry, #privacyMaskLinesEntry {
+    display: none;
+}
+
+div.hidden,
+tr.hidden {
+    display: none !important;
+}
+
+span.help-mark {
+    display: inline-block;
+    visibility: hidden;
+    text-align: center;
+    background-color: #414141;
+    color: #3498db;
+    font-size: 0.75em;
+    font-family: monospace;
+    width: 1.2em;
+    height: 1.2em;
+    border-radius: 100em;
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+    top: -0.1em;
+}
+
+div.settings-section-title > span.help-mark {
+    background-color: #515151;
+}
+
+div.settings-section-title:HOVER > span.help-mark,
+tr:HOVER span.help-mark {
+    visibility: visible;
+}
+
+span.minimize {
+    display: inline-block;
+    background-image: url(../img/combo-box-arrow.svg);
+    background-size: cover;
+    width: 0.8em;
+    height: 0.8em;
+    cursor: pointer;
+    vertical-align: middle;
+    position: relative;
+    top: -0.1em;
+    transition: transform 0.1s linear;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    transform: rotate(90deg);
+}
+
+span.minimize.open {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+}
+
+
+    /* dialogs */
+    
+table.login-dialog {
+    margin: auto;
+    font-size: 22px; /* always bigger, regardless of screen size */
+}
+
+table.add-camera-dialog {
+    margin: auto;
+}
+
+table.add-camera-dialog select,
+table.add-camera-dialog input[type=text],
+table.add-camera-dialog input[type=password] {
+    width: 17em;
+}
+
+span#cameraMsgLabel {
+    color: red;
+    font-size: 0.7em;
+}
+
+div#addCameraInfo {
+    font-size: 0.7em;
+    max-width: 33em;
+}
+
+div.media-dialog {
+}
+
+div.media-dialog-groups {
+    float: left;
+    width: 11em;
+    text-align: center;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+div.media-dialog-groups.small-screen {
+    float: none;
+}
+
+div.media-dialog-group-button {
+    height: 1.5em;
+    width: 10.5em;
+    box-sizing: border-box;
+    line-height: 1.5em;
+    text-align: center;
+    margin: 0em 0.2em 0.2em 0.2em;
+    padding: 0px 0.5em;
+    background-color: #414141;
+    color: #3498db;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+div.media-dialog-groups.small-screen div.media-dialog-group-button {
+    display: inline-block;
+}
+
+div.media-dialog-group-button:HOVER {
+    background-color: #515151;
+}
+
+div.media-dialog-group-button:ACTIVE {
+    background-color: #414141;
+}
+
+div.media-dialog-group-button.current {
+    background-color: #317CAD;
+    color: white;
+}
+
+div.media-dialog-group-button.current:HOVER {
+    background-color: #3498db;
+}
+
+div.media-dialog-group-button.current:ACTIVE {
+    background-color: #317CAD;
+}
+
+div.media-dialog-list {
+    overflow: auto;
+    position: relative;
+    display: inline-block;
+}
+
+div.media-list-group-title {
+    background-color: #313131;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-align: center;
+    padding: 1em 0px 0.2em 0px;
+}
+
+img.media-list-progress {
+    position: relative;
+    top: 35%;
+    display: block;
+    margin: auto;
+}
+
+div.media-list-entry {
+    height: 4em;
+    background-color: #414141;
+    border-bottom: 1px solid #313131;
+    cursor: pointer;
+    transition: background-color 0.1s linear;
+}
+
+div.media-list-entry:HOVER {
+    background-color: #494949;
+}
+
+div.media-list-entry:ACTIVE {
+    background-color: #3b3b3b;
+}
+
+img.media-list-preview {
+    float: left;
+    height: 3em;
+    margin: 0.45em;
+    border: 1px solid #212121;
+    box-shadow: 1px 1px 6px rgba(0,0,0,0.3);
+}
+
+div.media-list-entry-name {
+    font-weight: bold;
+    font-size: 1.3em;
+    padding: 0.4em 0em;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+div.media-list-entry-details {
+    font-size: 1em;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+div.media-list-entry-details span.details-moment-short {
+    display: none;
+}
+
+div.media-list-download-button,
+div.media-list-delete-button {
+    float: right;
+    clear: right;
+    height: 1.5em;
+    width: 5em;
+    line-height: 1.5em;
+    text-align: center;
+    margin: 0px 0.5em;
+    padding: 0px 0.5em;
+    color: white;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+}
+
+div.media-list-download-button {
+    margin-top: 0.4em;
+    margin-bottom: 0.1em;
+    background: #317CAD;
+}
+
+div.media-list-download-button:HOVER {
+    background-color: #3498db;
+}
+
+div.media-list-download-button:ACTIVE {
+    background-color: #317CAD;
+}
+
+div.media-list-delete-button {
+    margin-top: 0.1em;
+    margin-bottom: 0.4em;
+    background: #c0392b;
+}
+
+div.media-list-delete-button:HOVER {
+    background-color: #D43F2F;
+}
+
+div.media-list-delete-button:ACTIVE {
+    background-color: #B03427;
+}
+
+div.media-dialog-buttons {
+    margin: 0.5em 0px 0px 0px;
+    text-align: center;
+}
+
+div.media-dialog-button {
+    cursor: pointer;
+    display: inline-block;
+    height: 1.5em;
+    line-height: 1.5em;
+    text-align: center;
+    padding: 0px 0.5em;
+    margin: 0px 5px 0px 0px;
+    color: white;
+    background-color: #317CAD;
+    border-radius: 3px;
+    transition: all 0.1s linear;
+}
+
+div.media-dialog-button:HOVER {
+    background-color: #3498db;
+}
+
+div.media-dialog-button:ACTIVE {
+    background-color: #317CAD;
+}
+
+div.picture-dialog-content {
+    position: relative;
+    text-align: center;
+    min-height: 100px;
+}
+
+div.picture-dialog-prev-arrow,
+div.picture-dialog-next-arrow,
+div.picture-dialog-play,
+div.picture-dialog-progress {
+    position: absolute;
+    top: 50%;
+    margin-top: -1.5em;
+    background-color: rgba(0, 0, 0, 0.6);
+    background-size: cover;
+    width: 3em;
+    height: 3em;
+    border-radius: 0.3em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    cursor: pointer;
+}
+
+div.picture-dialog-prev-arrow,
+div.picture-dialog-next-arrow {
+    background-image: url(../img/arrows.svg);
+}
+
+div.picture-dialog-play {
+    background-image: url(../img/camera-top-buttons.svg);
+    background-position: -300% 0px;
+    left: 50%;
+    margin-left: -1.5em;
+}
+
+div.picture-dialog-prev-arrow {
+    left: 1em;
+}
+
+div.picture-dialog-next-arrow {
+    right: 1em;
+    background-position: -100% 0%;
+}
+
+img.picture-dialog-content,
+video.picture-dialog-content {
+    display: block;
+    margin: 0 auto;
+    border: 1px solid #292929;
+}
+
+div.picture-dialog-progress {
+    left: 50%;
+    margin: -32px 0 0 -32px;
+    width: 64px;
+    height: 64px;
+    border-radius: 10px;
+    background-image: url(../img/modal-progress.gif);
+    opacity: 0.7;
+}
+
+table.timelapse-dialog select {
+    width: 10em;
+}
+
+td.timelapse-warning {
+    font-size: 80%;
+    display: none;
+    color: red;
+    max-width: 20em;
+    text-align: center;
+    white-space: normal;
+    padding-bottom: 1em;
+}
+
+div.media-dialog-delete-all-button {
+    margin-top: 0.1em;
+    margin-bottom: 0.4em;
+    background: #c0392b;
+}
+
+div.media-dialog-delete-all-button:HOVER {
+    background-color: #D43F2F;
+}
+
+div.media-dialog-delete-all-button:ACTIVE {
+    background-color: #B03427;
+}
+
+div.button.dialog.delete {
+    background-color: #c0392b;
+}
+
+td.login-dialog-error {
+    color: red;
+    display: none;
+}
+
+
+    /* camera frames */
+
+div.camera-list {
+    text-align: center;
+}
+
+div.camera-frame {
+    width: 100%;
+    position: relative;
+    box-sizing: border-box;
+    text-align: left;
+    background-color: #313131;
+    display: inline-block;
+    padding: 0.2em;
+    border-radius: 0.1em;
+    border: 0.2em solid #212121;
+    border-right-width: 0px;
+    border-bottom-width: 0px;
+    transition: all 0.1s ease, opacity 0s;
+    opacity: 0;
+    vertical-align: top;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+    overflow: hidden;
+}
+
+div.camera-frame:HOVER {
+    background-color: #414141;
+}
+
+div.camera-frame.motion-detected {
+    background-color: #712727;
+}
+
+div.page-container.one-column div.camera-frame {
+    width: 100%;
+}
+
+div.page-container.two-columns div.camera-frame {
+    width: 50%;
+}
+
+div.page-container.three-columns div.camera-frame {
+    width: 33.3333%;
+}
+
+div.page-container.four-columns div.camera-frame {
+    width: 25%;
+}
+
+div.page-container div.camera-frame.full-screen-hidden {
+    width: 0px !important;
+    height: 0px !important;
+    padding: 0px;
+    border: 0px;
+    margin: 0px;
+}
+
+div.page-container div.camera-frame.full-screen {
+    width: 100%;
+    height: auto;
+    transition: all 0.4s ease; /* prevents unwanted camera frame line wrapping */
+}
+
+div.camera-overlay {
+    position: absolute;
+    top: 0.2em;
+    right: 0.2em;
+    left: 0.2em;
+    bottom: 0.2em;
+    opacity: 0;
+    transition: all 0.2s ease;
+}
+
+div.camera-overlay.visible {
+    opacity: 1;
+}
+
+div.camera-overlay-top,
+div.camera-overlay-bottom {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.7);
+    transition: background-color 0.1s ease;
+    left: 0px;
+    width: 100%;
+    z-index: 1;
+    transition: height 0.2s ease;
+}
+
+div.camera-frame:HOVER div.camera-overlay-top,
+div.camera-frame:HOVER div.camera-overlay-bottom {
+    background-color: rgba(30, 30, 30, 0.8);
+}
+
+div.camera-frame.motion-detected div.camera-overlay-top,
+div.camera-frame.motion-detected div.camera-overlay-bottom {
+    background-color: rgba(113, 39, 39, 0.8);
+}
+
+div.camera-overlay-top {
+    top: 0px;
+    height: 2.5em;
+    line-height: 2.5em;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+div.camera-overlay-mask {
+    background: rgba(255, 255, 255, 0.2);
+    opacity: 0;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    z-index: 0;
+    transition: opacity 0.2s ease;
+}
+
+div.camera-overlay.mask-edit > div.camera-overlay-top {
+    height: 0px;
+    bottom: auto;
+}
+
+div.camera-overlay.mask-edit > div.camera-overlay-bottom {
+    height: 0px;
+    top: auto;
+}
+
+div.camera-overlay.mask-edit > div.camera-overlay-mask {
+    opacity: 1;
+}
+
+div.mask-element {
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-width: 0px 1px 1px 0px;
+    background: transparent;
+}
+
+div.mask-element.last-row {
+    border-right-width: 0px;
+}
+
+div.mask-element.last-line {
+    border-bottom-width: 0px;
+}
+
+div.mask-element.on {
+    background: rgba(255, 0, 0, 0.5);
+}
+
+div.camera-name {
+    display: inline-block;
+    font-size: 1.2em;
+    font-weight: bold;
+    white-space: nowrap;
+    width: 33.33%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+}
+
+span.camera-name {
+    padding-left: 0.4em;
+}
+
+div.camera-top-buttons {
+    display: inline-block;
+    width: 66.66%;
+    vertical-align: top;
+    text-align: right;
+}
+
+div.camera-top-button {
+    background-image: url(../img/camera-top-buttons.svg);
+    background-size: cover;
+    width: 2.5em;
+    height: 2.5em;
+    vertical-align: top;
+}
+
+div.camera-top-button.full-screen {
+    background-position: -100% 0px;
+}
+
+div.camera-top-button.configure {
+    background-position: 0px 0px;
+}
+
+div.camera-top-button.media-pictures {
+    background-position: -200% 0px;
+}
+
+div.camera-top-button.media-movies {
+    background-position: -300% 0px;
+}
+
+div.camera-overlay-bottom {
+    bottom: 0px;
+    white-space: nowrap;
+    height: 5em;
+}
+
+div.camera-overlay-bottom.few-buttons {
+    height: 2.5em;
+}
+
+div.camera-info {
+    display: inline-block;
+    white-space: nowrap;
+    font-family: monospace;
+    font-size: 1em;
+    font-weight: bold;
+    width: 40%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: top;
+    text-align: left;
+    line-height: 5em;
+}
+
+div.camera-info.two-lines {
+    line-height: 1.2em;
+}
+
+div.camera-overlay-bottom.few-buttons div.camera-info {
+    line-height: 2.5em;
+}
+
+div.camera-overlay-bottom.few-buttons div.camera-info.two-lines {
+    line-height: 1.2em;
+    font-size: 0.8em;
+}
+
+span.camera-info {
+    display: inline-block;
+    margin-left: 1em;
+}
+
+div.camera-info.two-lines > span.camera-info {
+    margin-left: 1em;
+    margin-top: 1.5em;
+}
+
+div.camera-overlay-bottom.few-buttons div.camera-info.two-lines > span.camera-info {
+    margin-left: 0.5em;
+    margin-top: 0.5em;
+}
+
+div.camera-action-buttons {
+    display: inline-block;
+    width: 60%;
+    vertical-align: top;
+    text-align: right;
+}
+
+div.camera-action-buttons-wrapper {
+    display: inline-block;
+    white-space: normal;
+}
+
+div.camera-action-button {
+    background-image: url(../img/camera-action-buttons.svg);
+    background-size: cover;
+    width: 2.5em;
+    height: 2.5em;
+    vertical-align: top;
+}
+
+div.camera-action-button.pending {
+    opacity: 0.5 !important;
+}
+
+div.camera-action-button.lock {
+    background-position: 0px 0px;
+}
+
+div.camera-action-button.unlock {
+    background-position: -100% 0px;
+}
+
+div.camera-action-button.light-on {
+    background-position: -200% 0px;
+}
+
+div.camera-action-button.light-off {
+    background-position: -300% 0px;
+}
+
+div.camera-action-button.alarm-on {
+    background-position: -400% 0px;
+}
+
+div.camera-action-button.alarm-off {
+    background-position: -500% 0px;
+}
+
+div.camera-action-button.snapshot {
+    background-position: -600% 0px;
+}
+
+div.camera-action-button.record-start {
+    background-position: -700% 0px;
+}
+
+div.camera-action-button.record-stop {
+    background-position: -800% 0px;
+}
+
+div.camera-action-button.up {
+    background-position: -900% 0px;
+}
+
+div.camera-action-button.right {
+    background-position: -1000% 0px;
+}
+
+div.camera-action-button.down {
+    background-position: -1100% 0px;
+}
+
+div.camera-action-button.left {
+    background-position: -1200% 0px;
+}
+
+div.camera-action-button.zoom-in {
+    background-position: -1300% 0px;
+}
+
+div.camera-action-button.zoom-out {
+    background-position: -1400% 0px;
+}
+
+div.camera-action-button.preset {
+    background-position: -1500% 0px;
+    text-align: center;
+    line-height: 2.5em;
+    color: #3498db;
+    font-weight: bold;
+}
+
+div.camera-action-button.preset1:BEFORE {
+    content: '1';
+}
+
+div.camera-action-button.preset2:BEFORE {
+    content: '2';
+}
+
+div.camera-action-button.preset3:BEFORE {
+    content: '3';
+}
+
+div.camera-action-button.preset4:BEFORE {
+    content: '4';
+}
+
+div.camera-action-button.preset5:BEFORE {
+    content: '5';
+}
+
+div.camera-action-button.preset6:BEFORE {
+    content: '6';
+}
+
+div.camera-action-button.preset7:BEFORE {
+    content: '7';
+}
+
+div.camera-action-button.preset8:BEFORE {
+    content: '8';
+}
+
+div.camera-action-button.preset9:BEFORE {
+    content: '9';
+}
+
+div.camera-container {
+    position: relative;
+    padding: 0px;
+}
+
+img.camera {
+    position: relative;
+    width: 100%;
+    display: block;
+    transition: opacity 0.2s ease;
+    opacity: 1;
+}
+
+img.camera.error,
+img.camera.initializing {
+    opacity: 0;
+}
+
+div.camera-placeholder {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    text-align: center;
+    transition: opacity 0.2s ease;
+}
+
+img.no-camera {
+    margin-top: 20%;
+    width: 30%;
+    opacity: 0.8;
+}
+
+div.camera-progress {
+    background: rgba(0, 0, 0, 0.001); /* otherwise IE would not extend this as expected */
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    opacity: 0;
+    transition: all 0.2s ease;
+    text-align: center;
+    cursor: pointer;
+    pointer-events: none;
+}
+
+div.camera-progress.visible {
+    opacity: 0.4;
+}
+
+img.camera-progress {
+    border: 10px solid white;
+    border-radius: 10px;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    margin: auto;
+}
+
+
+    /* media queries */
+
+@media all and (max-width: 1440px) {
+    /* smaller screens */
+    
+    body {
+        font-size: 16px;
+    }
+}
+
+@media all and (max-width: 1000px) {
+    /* small screens (mobile devices, including tablets) */
+    
+    div.page-container.stretched {
+        margin-left: 0px;
+        font-size: 16px;
+    }
+
+    div.settings.open {
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+        background-color: rgba(40, 40, 40, 0.9);
+    }
+    
+    div.hostname {
+        display: none;
+    }
+
+    div.media-list-entry-name {
+        font-size: 1em;
+        padding: 0.2em 0em 0em 0em;
+    }
+
+    div.media-list-entry-details {
+        padding-top: 0.2em;
+        font-size: 1em;
+        text-align: center;
+        white-space: normal;
+    }
+
+    div.media-list-entry-details span.details-moment {
+        display: none;
+    }
+
+    div.media-list-entry-details span.details-moment-short {
+        display: block;
+    }
+}
+
+@media all and (max-width: 400px) {
+    /* very small screens (older phones) */
+    
+    body {
+        font-size: 16px;
+    }
+    
+    div.settings.open {
+        min-width: 100%;
+    }
+
+    div.settings-top-bar.open {
+        min-width: 100%;
+    }
+
+    div.page-container.stretched {
+        font-size: 16px;
+    }
+
+    span.url-message-span {
+        font-size: 0.75em;
+    }
+}
+
+@media all and (max-width: 1200px) {
+    div.page-container {
+        font-size: 16px !important;
+        margin-left: auto !important;
+    }
+
+    div.camera-frame {
+        width: 100% !important;
+    }
+    
+    #layoutColumnsRow {
+        /* layout columns are ignored on small screens,
+         * so hide the prefs row as well */
+        display: none !important;
+    }
+}
+
+@media all and (max-height: 320px) {
+    div.page-container {
+        font-size: 14px !important;
+    }
+}
