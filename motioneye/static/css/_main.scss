@@ -18,9 +18,9 @@ html {
 
 body {
     height: 100%;
-    color: #dddddd;
+    color: $body-default-color;
     font-size: 22px;
-    background-color: #212121;
+    background-color: $body-default-background;
 }
 
 select,
