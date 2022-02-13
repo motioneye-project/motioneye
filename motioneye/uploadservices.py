@@ -88,7 +88,7 @@ class UploadService(object):
             raise Exception(msg)
 
         try:
-            f = open(filename)
+            f = open(filename, 'rb')
 
         except Exception as e:
             msg = 'failed to open file "%s": %s' % (filename, e)
@@ -980,7 +980,7 @@ class SFTP(UploadService):
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         conn = self._get_conn(filename)
-        conn.setopt(pycurl.READFUNCTION, io.StringIO(data).read)
+        conn.setopt(pycurl.READFUNCTION, io.BytesIO(data).read)
 
         self.curl_perform_filetransfer(conn)
 
