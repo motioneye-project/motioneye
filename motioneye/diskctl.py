@@ -21,8 +21,48 @@ import re
 import subprocess
 import utils
 
-
 def _list_mounts():
+    if os.path.exists('/proc/mounts'):
+        return _list_mounts_proc_mounts()
+    else: # Use mount command
+        return _list_mounts_mount()
+
+def _list_mounts_mount():
+    try:
+        output = subprocess.check_output(['mount'], stderr=utils.DEV_NULL)
+    
+    except Exception as e:
+        logging.error('failed to list mounts using "mount": %s' % e, exc_info=True)
+        
+        return []
+
+    mounts = []
+    # Line should be something like (on FreeBSD): 
+    # target on mountpoint (fstype, option1, option2...)
+    # On Linux it would look different, but linux has /proc/mounts so we should not get here
+    # So regex out the target, mountpoint, fstype and whatever options
+    regex = re.compile('(\S+)\s+on\s+(\S+)\s+\((\w+),\s+([\S\s]+).*\)')
+    for line in output.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        parts = regex.split(line)
+
+        target = parts[1]
+        mount_point = parts[2]
+        fstype = parts[3]
+        opts = parts[4]
+
+        mounts.append({
+            'target': target,
+            'mount_point': mount_point,
+            'fstype': fstype,
+            'opts': opts
+        })
+    return mounts
+
+
+def _list_mounts_proc_mounts():
     logging.debug('listing mounts...')
     
     seen_targets = set()
@@ -68,10 +108,20 @@ def _list_mounts():
 def _list_disks():
     if os.path.exists('/dev/disk/by-id/'):
         return _list_disks_dev_by_id()
-    
-    else:  # fall back to fdisk -l
+    if os.path.exists('/proc/mounts'):
         return _list_disks_fdisk()
+    else:  # fall back to gpart command - Linux should never get here
+        return _list_disks_gpart()
 
+def _list_disks_gpart():
+    try:
+        output = subprocess.check_output(['gpart', 'status'], stderr=utils.DEV_NULL)
+    except Exception as e:
+        logging.error('failed to list disks using "gpart status": %s' % e, exc_info=True)
+
+    disks = []
+
+    return disks
 
 def _list_disks_dev_by_id():
     logging.debug('listing disks using /dev/disk/by-id/')

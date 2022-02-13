@@ -1,0 +1,46 @@
+#!/bin/sh
+
+# $FreeBSD$
+#
+# PROVIDE: motioneye
+# REQUIRE: LOGIN
+# KEYWORD: shutdown
+#
+# Add the following line(s) to /etc/rc.conf to enable motioneye:
+#
+#  motioneye_enable="YES"
+#  # optional
+#  motioneye_flags="-l startserver -c $motioneye_config"
+#  motioneye_user="root"
+#  motioneye_config="/usr/local/etc/motioneye/motioneye.conf"
+
+. /etc/rc.subr
+
+name=motioneye
+rcvar=motioneye_enable
+load_rc_config $name
+
+# Set defaults
+motioneye_enable=${motioneye_enable:-"NO"}
+motioneye_config=${motioneye_config:-"/usr/local/etc/motioneye/motioneye.conf"}
+motioneye_flags=${motioneye_flags:-"startserver -l -c $motioneye_config"}
+motioneye_user=${motioneye_user:-"root"}
+
+pidfile=/var/run/motioneye.pid
+command_interpreter=/usr/local/bin/python2.7
+command=/usr/local/bin/meyectl
+
+start_cmd=motioneye_start
+stop_postcmd=motioneye_cleanup
+
+motioneye_start() {
+    echo "Starting motioneye."
+    /usr/sbin/daemon -cf -p ${pidfile} -u ${motioneye_user} ${command} ${motioneye_flags}
+}
+
+motioneye_cleanup() {
+    [ -f ${pidfile} ] && rm ${pidfile}
+}
+
+run_rc_command "$1"
+
