@@ -542,7 +542,7 @@ class ConfigHandler(BaseHandler):
             reboot[0] = result['reboot']
             restart[0] = result['restart']
 
-    @BaseHandler.auth()
+    @BaseHandler.auth(admin=True)
     def list(self):
         logging.debug('listing cameras')
 
