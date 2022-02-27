@@ -1381,16 +1381,6 @@ img.camera-progress {
         font-size: 16px !important;
         margin-left: auto !important;
     }
-
-    div.camera-frame {
-        width: 100% !important;
-    }
-    
-    #layoutColumnsRow {
-        /* layout columns are ignored on small screens,
-         * so hide the prefs row as well */
-        display: none !important;
-    }
 }
 
 @media all and (max-height: 320px) {
