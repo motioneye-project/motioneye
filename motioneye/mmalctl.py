@@ -42,6 +42,7 @@ def list_devices():
     # Temporary patch for camera detection on MMAL going wrong due to split failing
     # The response from vcgencmd is "supported=1 detected=1, libcamera interfaces=0"
     # split fails on the "libcamera interfaces" part originally. The comma was overlooked too.
+    # see https://github.com/ccrisan/motioneye/pull/2305#issuecomment-1058584622
     d = dict(p.split('=', 1) for p in support.split(' ', 2))
     if d.get('detected').strip(',') == d.get('supported').strip(',') == '1':
         logging.debug('MMAL camera detected')
