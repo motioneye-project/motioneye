@@ -1,8 +1,9 @@
 # What is motionEye.eo?
 
-motionEye.eo is an online interface for the software [ _motion_ ](https://motion-project.github.io/), a video surveillance program with motion detection.
+**motionEye** is an online interface for the software [ _motion_ ](https://motion-project.github.io/), a video surveillance program with motion detection.
 
-It's a fork of [ _motionEye_ ](https://github.com/ccrisan/motioneye) with the addition of internationalization.  
+Check out the `wiki https://github.com/motioneye-project/motioneye/wiki`_ for more details. Changelog is available on the `releases page https://github.com/motioneye-project/motioneye/releases`_.
+
 The supported languages are:
 * French
 * Esperanto
@@ -31,17 +32,15 @@ You need :
 * recommended : python3-tornado ,python3-jinja2 ,python3-pillow ,python3-pycurl ,python3-babel ,python3-numpy ,python3-boto3
 
 ```
-sudo pip install motioneye.eo
+sudo pip install motioneye
 sudo motioneye_init
 ```
 
 # Upgrade
 ```
 sudo systemctl stop motioneye
-sudo pip install motioneye.eo --upgrade
+sudo pip install motioneye --upgrade
 sudo systemctl start motioneye
 ```
 
-# Documentation
-[Clik here to view documentation](https://jmichault.github.io/motioneye.eo-dok/)
 
