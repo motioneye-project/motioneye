@@ -2,7 +2,7 @@
 
 **motionEye** is an online interface for the software [ _motion_ ](https://motion-project.github.io/), a video surveillance program with motion detection.
 
-Check out the `wiki https://github.com/motioneye-project/motioneye/wiki`_ for more details. Changelog is available on the `releases page https://github.com/motioneye-project/motioneye/releases`_.
+Check out the [__wiki__](https://github.com/motioneye-project/motioneye/wiki) for more details. Changelog is available on the [__releases page__](https://github.com/motioneye-project/motioneye/releases).
 
 The supported languages are:
 * French
