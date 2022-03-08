@@ -48,7 +48,7 @@ class Daemon(object):
             if os.fork() > 0:  # parent
                 sys.exit(0)
 
-        except OSError, e: 
+        except OSError as e: 
             sys.stderr.write('fork() failed: %s\n' % e.strerror)
             sys.exit(-1)
 
@@ -61,7 +61,7 @@ class Daemon(object):
             if os.fork() > 0:  # parent
                 sys.exit(0) 
         
-        except OSError, e: 
+        except OSError as e: 
             sys.stderr.write('fork() failed: %s\n' % e.strerror)
             sys.exit(-1) 
 
