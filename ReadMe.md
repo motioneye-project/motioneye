@@ -1,4 +1,4 @@
-# What is motionEye.eo?
+# What is motionEye?
 
 **motionEye** is an online interface for the software [ _motion_ ](https://motion-project.github.io/), a video surveillance program with motion detection.
 
