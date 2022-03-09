@@ -10,8 +10,8 @@ jobs:
            sudo apt-get -q update
            sudo apt-get -qq upgrade
            sudo apt-get -qq install curl ffmpeg libcurl4-openssl-dev libssl-dev motion ssh v4l-utils
-      - run: pip3 install --upgrade pip wheel
-      - run: pip3 install bandit black codespell flake8 flake8-2020 flake8-bugbear
+      - run: pip install --upgrade pip wheel
+      - run: pip install bandit black codespell flake8 flake8-2020 flake8-bugbear
                           flake8-comprehensions isort mypy pytest pyupgrade safety
       # https://bandit.readthedocs.io/en/latest/plugins/index.html
       - run: bandit --recursive --skip B102,B104,B105,B108,B110,B301,B310,B321,B324,B402,B403,B404,B602,B603,B604,B605,B607,B701 .
@@ -22,7 +22,7 @@ jobs:
       - run: flake8 . --count --exit-zero --max-complexity=10
                       --max-line-length=88 --show-source --statistics
       - run: isort --check-only --profile black . || true
-      - run: pip3 install -r requirements.txt
+      - run: pip install -r requirements.txt
       - run: mkdir --parents --verbose .mypy_cache
       - run: mypy --ignore-missing-imports --install-types --non-interactive . || true
       - run: pytest . || pytest --doctest-modules . || true
