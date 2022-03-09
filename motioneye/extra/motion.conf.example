@@ -118,16 +118,16 @@ locate_motion_mode off
 # Set the look and style of the locate box.
 locate_motion_style box
 
-# Text to be overlayed in the lower left corner of images
+# Text to be overlaid in the lower left corner of images
 text_left CAMERA1
 
-# Text to be overlayed in the lower right corner of images.
+# Text to be overlaid in the lower right corner of images.
 text_right %d.%m.%Y\n%T
 
 # Overlay number of changed pixels in upper right corner of images.
 text_changes off
 
-# Scale factor for text overlayed on images.
+# Scale factor for text overlaid on images.
 text_scale 1
 
 # The special event conversion specifier %C
