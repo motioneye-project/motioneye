@@ -16,7 +16,7 @@ jobs:
       # https://bandit.readthedocs.io/en/latest/plugins/index.html
       - run: bandit --recursive --skip B104,B105,B108,B110,B301,B310,B321,B324,B402,B403,B404,B602,B603,B605,B607,B701 .
       - run: black --check . || true
-      - run: codespell --ignore-words-list="files',ot,process'"
+      - run: codespell --ignore-words-list=ot
       - run: flake8 . --count --max-complexity=66 --max-line-length=125
                       --select=E9,F63,F7 --show-source --statistics  # Add F82
       # TODO: F821: execfile(), file(), unicode() and xrange() were removed in Python 3

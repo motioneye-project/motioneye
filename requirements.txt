@@ -1,4 +1,5 @@
 jinja2
 pillow
 pycurl
+six
 tornado
