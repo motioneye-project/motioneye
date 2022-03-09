@@ -8,7 +8,10 @@ jobs:
        - uses: actions/setup-python@v3
          with:
            python-version: 2.7
-       - run: sudo apt upgrade -y && sudo apt-get install curl ffmpeg libcurl4-openssl-dev libssl-dev motion ssh v4l-utils -y 
+       - run: |
+           sudo apt-get -q update
+           sudo apt-get -qq upgrade
+           sudo apt-get -qq install curl ffmpeg libcurl4-openssl-dev libssl-dev motion ssh v4l-utils
        - run: pip install --upgrade pip wheel
        - run: pip install codespell flake8 flake8-comprehensions pytest
        - run: codespell --ignore-words-list="files',ot,process'" --skip="./.*,*.eot,*.gif,*.ico,*.png,*.ttf,*.woff"
