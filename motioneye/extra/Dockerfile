@@ -1,4 +1,4 @@
-FROM debian:buster-slim
+FROM debian:bullseye-slim
 LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
 ARG BUILD_DATE
@@ -7,10 +7,10 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
     org.label-schema.docker.dockerfile="extra/Dockerfile" \
     org.label-schema.license="GPLv3" \
     org.label-schema.name="motioneye" \
-    org.label-schema.url="https://github.com/ccrisan/motioneye/wiki" \
+    org.label-schema.url="https://github.com/motion-project/motioneye/wiki" \
     org.label-schema.vcs-ref=$VCS_REF \
     org.label-schema.vcs-type="Git" \
-    org.label-schema.vcs-url="https://github.com/ccrisan/motioneye.git"
+    org.label-schema.vcs-url="https://github.com/motion-project/motioneye.git"
 
 # By default, run as root.
 ARG RUN_UID=0
@@ -18,39 +18,38 @@ ARG RUN_GID=0
 
 COPY . /tmp/motioneye
 
-RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) sid main contrib non-free" >>/etc/apt/sources.list && \
+RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) bullseye main contrib non-free" >>/etc/apt/sources.list && \
+    chmod o+r /etc/resolv.conf && \
     apt-get update && \
-    DEBIAN_FRONTEND="noninteractive" apt-get -t stable --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
-    curl \
-    ffmpeg \
-    libmicrohttpd12 \
-    libpq5 \
-    lsb-release \
-    mosquitto-clients \
-    python3-babel \
-    python3-jinja2 \
-    python3-pil \
-    python3-pip \
-    python3-pip-whl \
-    python3-pycurl \
-    python3-setuptools \
-    python3-six \
-    python3-tornado \
-    python3-tz \
-    python3-wheel \
-    python3-boto3 \
-    tzdata \
-    v4l-utils && \
-    DEBIAN_FRONTEND="noninteractive" apt-get -t sid --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+    DEBIAN_FRONTEND="noninteractive" apt-get -t bullseye --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+      curl \
+      default-libmysqlclient-dev \
+      ffmpeg \
+      libmicrohttpd12 \
+      libpq5 \
+      lsb-release \
+      mosquitto-clients \
       motion \
-      libmysqlclient21 && \
+      python3-babel \
+      python3-jinja2 \
+      python3-pil \
+      python3-pip \
+      python3-pycurl \
+      python3-setuptools \
+      python3-six \
+      python3-tornado \
+      python3-tz \
+      python3-wheel \
+      python3-boto3 \
+      tzdata \
+      v4l-utils && \
     # Change uid/gid of user/group motion to match our desired IDs.  This will
     # make it easier to use execute motion as our desired user later.
     sed -i -e "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
     sed -i -e "s/^\(motion:[^:]*\):[0-9]*:\(.*\)/\1:${RUN_GID}:\2/" /etc/group && \
-    pip3 install /tmp/motioneye && \
+    pip install motioneye && \
     # Cleanup
-    rm -rf /tmp/motioneye && \
+    rm -rf motioneye && \
     apt-get purge --yes python3-setuptools python3-wheel && \
     apt-get autoremove --yes && \
     apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin

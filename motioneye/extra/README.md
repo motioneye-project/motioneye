@@ -31,8 +31,8 @@ host. You can easily accomplish this by using the commands below:
 docker volume create motioneye-config
 docker volume create motioneye-videos
 docker pull ccrisan/motioneye:master-amd64
-docker run
-  -rm \
+docker run \
+  --rm \
   -d \
   -p 8765:8765 \
   --hostname="motioneye" =
@@ -61,9 +61,10 @@ RUN_GID="id -g ${RUN_USER}"
 TIMESTAMP="$(date '+%Y%m%d-%H%M')"
 
 cd /tmp && \
-git clone https://github.com/ccrisan/motioneye.git && \
-cd motioneye && \
+git clone https://github.com/motioneye-project/motioneye.git && \
+cd motioneye/motioneye && \
 docker build \
+  --network host \
   --build-arg="RUN_UID=${RUN_UID?}" \
   --build-arg="RUN_GID=${RUN_GID?}" \
   -t "${USER?}/motioneye:${TIMESTAMP}" \
@@ -75,3 +76,4 @@ This will create a local image called `your_username/motioneye:YYYYMMDD-HHMM`.
 You can run this image using the examples under "Running official images", but
 omitting the `docker pull` command and replacing
 `ccrisan/motioneye:master-amd64` with the name of the local image you just built.
+
