@@ -16,7 +16,7 @@ jobs:
       - run: bandit --recursive --skip B104,B105,B108,B110,B301,B310,B321,B324,B402,B403,B404,B602,B603,B604,B605,B607,B701 .
       - run: black --check . || true
       - run: codespell --ignore-words-list=ot --skip="*.html,*.js,*.json,*.po,*.pot"
-      - run: flake8 . builtins="_" --count --max-complexity=66 --max-line-length=125
+      - run: flake8 . --builtins="_" --count --max-complexity=66 --max-line-length=125
                       --select=E9,F63,F7,F82 --show-source --statistics  # Add F82
       - run: flake8 . --count --exit-zero --max-complexity=10
                       --max-line-length=88 --show-source --statistics
