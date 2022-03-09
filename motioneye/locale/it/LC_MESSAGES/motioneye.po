@@ -1,0 +1,1890 @@
+# Translations template for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# Automatically generated, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-03-23 22:22+0100\n"
+"PO-Revision-Date: 2020-04-07 17:41+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: server.py:212
+#, fuzzy
+msgid "interrompa signalo ricevita, fermanta ..."
+msgstr "segnale di interruzione ricevuto, chiusura ..."
+
+#: server.py:246
+#, fuzzy
+msgid "smb-akcioj postulas radikajn privilegiojn"
+msgstr "le condivisioni smb richiedono i privilegi di root"
+
+#: server.py:253
+#, fuzzy
+msgid "bonvolu instali tornado version 3.1 aŭ pli"
+msgstr "installare Tornado versione 3.1 o successiva"
+
+#: server.py:260
+#, fuzzy
+msgid "bonvolu instali jinja2"
+msgstr "installa jinja2"
+
+#: server.py:267
+#, fuzzy
+msgid "bonvolu instali pillow aŭ PIL"
+msgstr "si prega di installare cuscino o PIL"
+
+#: server.py:274
+#, fuzzy
+msgid "bonvolu instali pycurl"
+msgstr "si prega di installare pycurl"
+
+#: server.py:376
+#, fuzzy
+msgid "saluton! ĉi tio estas motionEye-servilo "
+msgstr "ciao! questo è un server motionEye"
+
+#: server.py:391
+#, fuzzy
+msgid "purigado komenciĝis"
+msgstr "pulizia iniziata"
+
+#: server.py:393
+#, fuzzy
+msgid "wsswitch komenciĝis"
+msgstr "wsswitch è stato avviato"
+
+#: server.py:396
+#, fuzzy
+msgid "taskoj komenciĝis"
+msgstr "attività avviate"
+
+#: server.py:400
+#, fuzzy
+msgid "mjpg klienta rubo-kolektanto komenciĝis"
+msgstr "mjpg il garbage collector del cliente è stato avviato"
+
+#: server.py:413
+#, fuzzy
+msgid "servilo komenciĝis"
+msgstr "server avviato"
+
+#: server.py:419
+#, fuzzy
+msgid "servilo haltis"
+msgstr "server arrestato"
+
+#: server.py:421
+#, fuzzy
+msgid "taskoj haltis"
+msgstr "attività interrotte"
+
+#: server.py:429
+#, fuzzy
+msgid "motion haltis"
+msgstr "il movimento si è fermato"
+
+#: server.py:434
+#, fuzzy
+msgid "adiaŭ!"
+msgstr "addio!"
+
+#: templates/main.html:100
+#, fuzzy
+msgid "agordojn"
+msgstr "impostazioni"
+
+#: templates/main.html:101
+#, fuzzy
+msgid "ŝanĝi uzanton"
+msgstr "cambia utente"
+
+#: templates/main.html:103
+#, fuzzy
+msgid "forigi kameraon"
+msgstr "rimuovere la fotocamera"
+
+#: templates/main.html:104
+#, fuzzy
+msgid "Apliki"
+msgstr "applicare"
+
+#: templates/main.html:123
+#, fuzzy
+msgid "preferoj de uzanto"
+msgstr "preferenze dell'utente"
+
+#: templates/main.html:124
+#, fuzzy
+msgid "Preferoj"
+msgstr "preferenze"
+
+#: templates/main.html:129
+#, fuzzy
+msgid "Aranĝo Kolumnoj"
+msgstr "Colonne di layout"
+
+#: templates/main.html:131
+#, fuzzy
+msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
+msgstr "imposta il numero di colonne utilizzate per disporre le telecamere"
+
+#: templates/main.html:134
+#, fuzzy
+msgid "Fiksi Kadrojn Vertikale"
+msgstr "Imposta le cornici in verticale"
+
+#: templates/main.html:136
+#, fuzzy
+msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
+msgstr "controlla se i tempi dei fotogrammi possono essere ridotti per adattarsi o meno alla finestra in verticale"
+
+#: templates/main.html:139
+#, fuzzy
+msgid "Aranĝo linioj"
+msgstr "Linee di layout"
+
+#: templates/main.html:141
+#, fuzzy
+msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
+msgstr "imposta il numero di linee utilizzate per disporre le telecamere"
+
+#: templates/main.html:144
+#, fuzzy
+msgid "kadro-variatoro"
+msgstr "variatore di telaio"
+
+#: templates/main.html:146
+#, fuzzy
+msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
+msgstr "riduce la frequenza dei fotogrammi per risparmiare larghezza di banda e traffico di rete (non funziona con semplici telecamere MJPEG)"
+
+#: templates/main.html:149
+#, fuzzy
+msgid "Rezolucio-variatoro"
+msgstr "Variatore di risoluzione"
+
+#: templates/main.html:151
+#, fuzzy
+msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+msgstr "riduce la risoluzione effettiva di tutte le telecamere per risparmiare larghezza di banda e traffico di rete (non funziona con semplici telecamere MJPEG)"
+
+#: templates/main.html:161
+#, fuzzy
+msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
+msgstr "parametri generali, comuni a tutte le telecamere"
+
+#: templates/main.html:162
+#, fuzzy
+msgid "Ĝeneralaj Agordoj"
+msgstr "Impostazioni generali"
+
+#: templates/main.html:167
+#, fuzzy
+msgid "Administranto"
+msgstr "amministratore"
+
+#: templates/main.html:169
+#, fuzzy
+msgid "la uzantnomo uzata por agordi la sistemon"
+msgstr "il nome utente utilizzato per configurare il sistema"
+
+#: templates/main.html:172 templates/main.html:182 templates/main.html:508
+#, fuzzy
+msgid "Pasvorto"
+msgstr "password"
+
+#: templates/main.html:174
+#, fuzzy
+msgid "pasvorto de administranto"
+msgstr "password amministratore"
+
+#: templates/main.html:177
+#, fuzzy
+msgid "Observanto"
+msgstr "osservatore"
+
+#: templates/main.html:179
+#, fuzzy
+msgid "la uzantnomo por uzi por la monitorado"
+msgstr "il nome utente da utilizzare per il monitoraggio"
+
+#: templates/main.html:184
+#, fuzzy
+msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
+msgstr "la password dell'utente di monitoraggio (lasciare vuoto per il monitoraggio senza password)"
+
+#: templates/main.html:193
+#, fuzzy
+msgid "motionEye Versio"
+msgstr "Versione motionEye"
+
+#: templates/main.html:197
+#, fuzzy
+msgid "Motion Versio"
+msgstr "Versione Motion"
+
+#: templates/main.html:201
+#, fuzzy
+msgid "Operaciumo Versio"
+msgstr "Versione del sistema operativo"
+
+#: templates/main.html:206
+#, fuzzy
+msgid "Programara Ĝisdatigo"
+msgstr "Aggiornamento software"
+
+#: templates/main.html:208
+#, fuzzy
+msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
+msgstr "verifica la presenza di nuove versioni ed esegue gli aggiornamenti"
+
+#: templates/main.html:212
+#, fuzzy
+msgid "Nutro"
+msgstr "cibo"
+
+#: templates/main.html:213
+#, fuzzy
+msgid "Fermu"
+msgstr "vicino"
+
+#: templates/main.html:214
+#, fuzzy
+msgid "malŝaltas la sistemon"
+msgstr "spegne il sistema"
+
+#: templates/main.html:218
+#, fuzzy
+msgid "Rekomencu"
+msgstr "nuovo inizio"
+
+#: templates/main.html:219
+#, fuzzy
+msgid "rekomencas la sistemon"
+msgstr "riavvia il sistema"
+
+#: templates/main.html:225
+#, fuzzy
+msgid "Agordo"
+msgstr "configurazione"
+
+#: templates/main.html:226
+#, fuzzy
+msgid "Sekurkopio"
+msgstr "di riserva"
+
+#: templates/main.html:227
+#, fuzzy
+msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
+msgstr "crea un file con la configurazione corrente in modo da poterlo salvare localmente"
+
+#: templates/main.html:231
+#, fuzzy
+msgid "Restaŭri"
+msgstr "ripristinare"
+
+#: templates/main.html:232
+#, fuzzy
+msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
+msgstr "ripristina la configurazione da un file di backup salvato in precedenza"
+
+#: templates/main.html:260
+#, fuzzy
+msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
+msgstr "attivare questo se si desidera utilizzare questa fotocamera"
+
+#: templates/main.html:261
+#, fuzzy
+msgid "Video-Aparato"
+msgstr "Dispositivo video"
+
+#: templates/main.html:266 templates/main.html:596 templates/main.html:613
+#, fuzzy
+msgid "Kamerao Nomo"
+msgstr "Nome della telecamera"
+
+#: templates/main.html:267
+#, fuzzy
+msgid "kameraa nomo..."
+msgstr "nome della telecamera ..."
+
+#: templates/main.html:268
+#, fuzzy
+msgid "alias pri ĉi tiu kamera aparato"
+msgstr "alias su questo dispositivo fotocamera"
+
+#: templates/main.html:271
+#, fuzzy
+msgid "Kamerao ID"
+msgstr "ID fotocamera"
+
+#: templates/main.html:273
+#, fuzzy
+msgid "la kamerao identiga numero"
+msgstr "il numero di identificazione della fotocamera"
+
+#: templates/main.html:276
+#, fuzzy
+msgid "Kamerao aparato"
+msgstr "Dispositivo fotocamera"
+
+#: templates/main.html:278
+#, fuzzy
+msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
+msgstr "Dispositivo di input (ad esempio: / dev / video) o URL (ad esempio: rtsp: //192.168.1.1/stream)"
+
+#: templates/main.html:281
+#, fuzzy
+msgid "Kamerao Tipo"
+msgstr "Tipo di telecamera"
+
+#: templates/main.html:288
+#, fuzzy
+msgid "Aŭtomata Brilo"
+msgstr "Luminosità automatica"
+
+#: templates/main.html:290
+#, fuzzy
+msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
+msgstr "Abilita il software di abbagliamento automatico (consigliato solo per le fotocamere senza abbagliamento automatico)"
+
+#: templates/main.html:296
+#, fuzzy
+msgid "Video-rezolucio"
+msgstr "Risoluzione video"
+
+#: templates/main.html:301
+#, fuzzy
+msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
+msgstr "la risoluzione video (valori più grandi producono una qualità migliore, ma richiedono più potenza della CPU, maggiore memoria e larghezza di banda)"
+
+#: templates/main.html:304
+#, fuzzy
+msgid "Larĝeco"
+msgstr "larghezza"
+
+#: templates/main.html:306
+#, fuzzy
+msgid "enigu kutiman rezolucian larĝon"
+msgstr "inserisci una larghezza di risoluzione personalizzata"
+
+#: templates/main.html:309
+#, fuzzy
+msgid "Alteco"
+msgstr "altezza"
+
+#: templates/main.html:311
+#, fuzzy
+msgid "enigu kutiman rezolucian altecon"
+msgstr "inserisci un'altezza di risoluzione personalizzata"
+
+#: templates/main.html:314
+#, fuzzy
+msgid "Video-Rotacio"
+msgstr "Rotazione video"
+
+#: templates/main.html:323
+#, fuzzy
+msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
+msgstr "usalo per ruotare l'immagine catturata se la tua fotocamera non è posizionata correttamente"
+
+#: templates/main.html:326
+#, fuzzy
+msgid "Kadrofrekvenco"
+msgstr "Frame rate"
+
+#: templates/main.html:328
+#, fuzzy
+msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
+msgstr "Imposta il numero di fotogrammi acquisiti dalla fotocamera al secondo (valori più alti producono video più fluidi ma richiedono più potenza della CPU, maggiore spazio di archiviazione e larghezza di banda)"
+
+#: templates/main.html:334
+#, fuzzy
+msgid "Privateca masko"
+msgstr "Maschera per la privacy"
+
+#: templates/main.html:336
+#, fuzzy
+msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
+msgstr "consente il mascheramento delle immagini per evitare di registrare determinate aree dell'immagine per proteggere la privacy"
+
+#: templates/main.html:341 templates/main.html:989
+#, fuzzy
+msgid "Redakti maskon"
+msgstr "Modifica maschera"
+
+#: templates/main.html:342 templates/main.html:990
+#, fuzzy
+msgid "Konservi maskon"
+msgstr "Mantieni una maschera"
+
+#: templates/main.html:345
+#, fuzzy
+msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
+msgstr "fare clic su questo pulsante per abilitare / disabilitare l'editor delle maschere"
+
+#: templates/main.html:356
+#, fuzzy
+msgid "Ekstraj Elektoj"
+msgstr "Opzioni extra"
+
+#: templates/main.html:358
+#, fuzzy
+msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
+msgstr "puoi aggiungere qui eventuali opzioni aggiuntive per il demone \"motion\" (usa il formato \"nome valore\", un'opzione per riga)"
+
+#: templates/main.html:367
+#, fuzzy
+msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
+msgstr "scegli dove e come vengono archiviati i tuoi file multimediali"
+
+#: templates/main.html:368
+#, fuzzy
+msgid "Stokado de dosieroj"
+msgstr "Archiviazione dei file"
+
+#: templates/main.html:373
+#, fuzzy
+msgid "Stokada Aparato"
+msgstr "Dispositivo di archiviazione"
+
+#: templates/main.html:378
+#, fuzzy
+msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
+msgstr "indica il dispositivo di archiviazione in cui verranno archiviati i file di immagini e video"
+
+#: templates/main.html:381
+#, fuzzy
+msgid "Retservilo"
+msgstr "Server Web"
+
+#: templates/main.html:383
+#, fuzzy
+msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
+msgstr "l'indirizzo del server web (indirizzo IP o nome)"
+
+#: templates/main.html:386
+#, fuzzy
+msgid "SMB Protokolo-Versio"
+msgstr "Versione protocollo SMB"
+
+#: templates/main.html:396
+#, fuzzy
+msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
+msgstr "selezionare la versione SMB che è possibile utilizzare (testare le diverse opzioni e vedere quale funziona meglio con il NAS)"
+
+#: templates/main.html:399
+#, fuzzy
+msgid "Kunhava nomo"
+msgstr "Nome condiviso"
+
+#: templates/main.html:401
+#, fuzzy
+msgid "la nomo de la interŝanĝa reto"
+msgstr "il nome della rete di scambio"
+
+#: templates/main.html:404 templates/main.html:503
+#, fuzzy
+msgid "Uzantnomo"
+msgstr "nome utente"
+
+#: templates/main.html:406
+#, fuzzy
+msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
+msgstr "il nome utente da fornire quando si accede alla directory di rete (lasciare vuoto se non è richiesto alcun nome utente)"
+
+#: templates/main.html:409
+#, fuzzy
+msgid "Pasvorton"
+msgstr "password"
+
+#: templates/main.html:411
+#, fuzzy
+msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
+msgstr "la password richiesta dalla directory di rete (lasciare vuota se non è richiesta la password)"
+
+#: templates/main.html:414
+#, fuzzy
+msgid "Radika dosierujo"
+msgstr "Directory principale"
+
+#: templates/main.html:416
+#, fuzzy
+msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
+msgstr "il percorso principale (sul dispositivo di archiviazione selezionato) in cui verranno archiviati i file"
+
+#: templates/main.html:420
+#, fuzzy
+msgid "Testi la reton dosierujon"
+msgstr "Testare la directory di rete"
+
+#: templates/main.html:421
+#, fuzzy
+msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
+msgstr "fare clic su questo pulsante per testare la connessione di rete dopo aver inserito i dettagli richiesti"
+
+#: templates/main.html:427
+#, fuzzy
+msgid "Uzado de Disko"
+msgstr "Utilizzo del disco"
+
+#: templates/main.html:431
+#, fuzzy
+msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
+msgstr "la dimensione / dimensione dell'unità in cui risiede la directory principale"
+
+#: templates/main.html:437
+#, fuzzy
+msgid "Alŝutu Mediajn Dosierojn"
+msgstr "Carica file multimediali"
+
+#: templates/main.html:439
+#, fuzzy
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
+msgstr "attivare questa opzione se si desidera che i file multimediali vengano caricati su un servizio esterno"
+
+#: templates/main.html:442
+#, fuzzy
+msgid "Alŝutu Bildojn"
+msgstr "Carica immagini"
+
+#: templates/main.html:444
+#, fuzzy
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
+msgstr "attivare questa opzione se si desidera che le immagini vengano scaricate su un servizio esterno"
+
+#: templates/main.html:447
+#, fuzzy
+msgid "Alŝutu Filmojn"
+msgstr "Carica film"
+
+#: templates/main.html:449
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
+msgstr "abilitare questo se si desidera che i video vengano caricati su un servizio esterno"
+
+#: templates/main.html:452
+#, fuzzy
+msgid "Alŝuta Servo"
+msgstr "Servizio di caricamento"
+
+#: templates/main.html:455
+#, fuzzy
+msgid "Servilo FTP"
+msgstr "Server FTP"
+
+#: templates/main.html:456
+#, fuzzy
+msgid "Servilo SFTP"
+msgstr "Server SFTP"
+
+#: templates/main.html:457
+#, fuzzy
+msgid "Servilo HTTP"
+msgstr "Server HTTP"
+
+#: templates/main.html:458
+#, fuzzy
+msgid "Servilo HTTPS"
+msgstr "Server HTTPS"
+
+#: templates/main.html:465
+#, fuzzy
+msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
+msgstr "selezionare un servizio in cui verranno caricati i file multimediali"
+
+#: templates/main.html:468
+#, fuzzy
+msgid "Servila Adreso"
+msgstr "Indirizzo del server"
+
+#: templates/main.html:470
+#, fuzzy
+msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
+msgstr "il nome di dominio o l'indirizzo IP del server (ad esempio ftp.example.com o 192.168.1.3)"
+
+#: templates/main.html:473
+#, fuzzy
+msgid "Servila haveno"
+msgstr "Porta del server"
+
+#: templates/main.html:475
+#, fuzzy
+msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
+msgstr "la porta da utilizzare per connettersi al servizio (lasciare vuoto questo campo per utilizzare il valore predefinito)"
+
+#: templates/main.html:478
+#, fuzzy
+msgid "Metodo"
+msgstr "metodo"
+
+#: templates/main.html:485
+#, fuzzy
+msgid "la HTTP-metodo uzi por alŝuti dosierojn"
+msgstr "il metodo HTTP da utilizzare per caricare i file"
+
+#: templates/main.html:488
+#, fuzzy
+msgid "Loko"
+msgstr "posto"
+
+#: templates/main.html:490
+#, fuzzy
+msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
+msgstr "il luogo (percorso principale) in cui caricare i file multimediali (ad es. / files / cam1 /)"
+
+#: templates/main.html:493
+#, fuzzy
+msgid "Inkluzivi Subdosierujojn"
+msgstr "Includi sottocartelle"
+
+#: templates/main.html:495
+#, fuzzy
+msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
+msgstr "Attivalo per scaricare i file multimediali con le loro sottodirectory, invece di posizionarli direttamente nella posizione principale"
+
+#: templates/main.html:498
+#, fuzzy
+msgid "Purigi la nubon"
+msgstr "Pulisci il cloud"
+
+#: templates/main.html:500
+#, fuzzy
+msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
+msgstr "abilitare ciò per eliminare i file multimediali caricati nel cloud anche quando i media locali vengono eliminati in base all'impostazione della persistenza dei file. Attualmente questa opzione è disponibile solo per gdrive."
+
+#: templates/main.html:505
+#, fuzzy
+msgid "la uzantnomo por la alŝuta servo-konto"
+msgstr "il nome utente per l'account del servizio di caricamento"
+
+#: templates/main.html:510
+#, fuzzy
+msgid "la pasvorto por la alŝuta servo-konto"
+msgstr "la password per l'account del servizio di caricamento"
+
+#: templates/main.html:513
+#, fuzzy
+msgid "Rajtiga ŝlosilo"
+msgstr "Chiave di autorizzazione"
+
+#: templates/main.html:515
+#, fuzzy
+msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "la chiave utilizzata per l'autenticazione con il servizio di caricamento (di solito richiesto solo durante la configurazione)"
+
+#: templates/main.html:521
+#, fuzzy
+msgid "Akiri ŝlosilon"
+msgstr "Ottieni una chiave"
+
+#: templates/main.html:524
+#, fuzzy
+msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
+msgstr "fai clic qui per ottenere il servizio di autorizzazione delle chiavi"
+
+#: templates/main.html:527
+#, fuzzy
+msgid "Sekreta Alira Ŝlosilo"
+msgstr "Chiave di accesso segreta"
+
+#: templates/main.html:529
+#, fuzzy
+msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "la chiave di accesso segreta AWS utilizzata per l'autenticazione con il servizio di caricamento (solitamente richiesta solo durante la configurazione)"
+
+#: templates/main.html:532
+#, fuzzy
+msgid "Sitelo"
+msgstr "Secchio"
+
+#: templates/main.html:534
+#, fuzzy
+msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "il nome S3 bucket per il servizio di upload (solitamente richiesto solo durante la configurazione)"
+
+#: templates/main.html:538
+#, fuzzy
+msgid "Testi la servon"
+msgstr "Prova il servizio"
+
+#: templates/main.html:539
+#, fuzzy
+msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
+msgstr "fai clic su questo pulsante per testare il servizio di caricamento dopo aver inserito i dettagli richiesti"
+
+#: templates/main.html:545
+#, fuzzy
+msgid "alvoki URL"
+msgstr "invocare un URL"
+
+#: templates/main.html:547
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
+msgstr "abilitare questo se si desidera che venga richiesto un URL dopo aver creato un file multimediale"
+
+#: templates/main.html:550 templates/main.html:1111
+#, fuzzy
+msgid "Reteja URL"
+msgstr "URL del sito Web"
+
+#: templates/main.html:551
+#, fuzzy
+msgid "ekz. http://example.com/notify/"
+msgstr "ad es. http://example.com/notify/"
+
+#: templates/main.html:552
+#, fuzzy, python-format
+msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
+msgstr "URL da trasmettere quando viene rilevato un movimento; sono accettate le seguenti scorciatoie speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame, %% v = numero dell'evento, %% f = percorso del file"
+
+#: templates/main.html:555 templates/main.html:1116
+#, fuzzy
+msgid "Metodo HTTP"
+msgstr "Metodo HTTP"
+
+#: templates/main.html:564
+#, fuzzy
+msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
+msgstr "il metodo HTTP da utilizzare quando si richiede un URL hook di rete (i parametri codificati URL forniti verranno effettivamente consegnati come indicato qui)"
+
+#: templates/main.html:570
+#, fuzzy
+msgid "Kuri Komando"
+msgstr "Esegui comando"
+
+#: templates/main.html:572
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
+msgstr "abilitare questa opzione se si desidera eseguire un comando dopo aver creato un file multimediale"
+
+#: templates/main.html:575
+#, fuzzy
+msgid "Ordono"
+msgstr "ordine"
+
+#: templates/main.html:576
+#, fuzzy
+msgid "ordono..."
+msgstr "ordina ..."
+
+#: templates/main.html:577
+#, fuzzy, python-format
+msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
+msgstr "Comando da eseguire dopo aver creato un file multimediale. Diversi comandi possono essere separati da un punto e virgola; non usare il punto e virgola nei comandi; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame, %% v = numero dell'evento, %% f = percorso del file"
+
+#: templates/main.html:587
+#, fuzzy
+msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
+msgstr "selezionare quali informazioni vengono visualizzate sui frame acquisiti"
+
+#: templates/main.html:588
+#, fuzzy
+msgid "Teksto Superkovrita"
+msgstr "Sovrapposizione di testo"
+
+#: templates/main.html:593
+#, fuzzy
+msgid "Maldekstra Teksto"
+msgstr "Testo sinistro"
+
+#: templates/main.html:597 templates/main.html:614
+#, fuzzy
+msgid "Tempostampo"
+msgstr "Timestamp"
+
+#: templates/main.html:598 templates/main.html:615
+#, fuzzy
+msgid "Propra Teksto"
+msgstr "Testo personalizzato"
+
+#: templates/main.html:599 templates/main.html:616 templates/main.html:673
+#, fuzzy
+msgid "Malebligita"
+msgstr "disabile"
+
+#: templates/main.html:602
+#, fuzzy
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
+msgstr "Imposta il testo visualizzato su filmati e immagini, nell'angolo in basso a sinistra"
+
+#: templates/main.html:606 templates/main.html:623
+#, fuzzy
+msgid "propra teksto..."
+msgstr "proprio testo ..."
+
+#: templates/main.html:607
+#, fuzzy, python-format
+msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgstr "Definisce il testo sinistro personalizzato; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame, %% v = numero evento, %% T = HH: MM: SS, \\ n = nuova riga"
+
+#: templates/main.html:610
+#, fuzzy
+msgid "Dekstra Teksto"
+msgstr "Testo giusto"
+
+#: templates/main.html:619
+#, fuzzy
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
+msgstr "Imposta il testo visualizzato su filmati e immagini, nell'angolo in basso a destra"
+
+#: templates/main.html:624
+#, fuzzy, python-format
+msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgstr "Definisce il testo corretto personalizzato; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame, %% v = numero evento, %% T = HH: MM: SS, \\ n = nuova riga"
+
+#: templates/main.html:627
+#, fuzzy
+msgid "Teksta Skalo"
+msgstr "Scala del testo"
+
+#: templates/main.html:629
+#, fuzzy
+msgid "Difinas la grandecon de la superkovrita teksto"
+msgstr "Definisce la dimensione del testo sovrapposto"
+
+#: templates/main.html:639
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
+msgstr "Abilitare questo se si desidera un flusso video per questa videocamera"
+
+#: templates/main.html:640
+#, fuzzy
+msgid "Videofluo"
+msgstr "Streaming video"
+
+#: templates/main.html:645
+#, fuzzy
+msgid "Framo frekvencon"
+msgstr "Frequenza dei fotogrammi"
+
+#: templates/main.html:647
+#, fuzzy
+msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
+msgstr "Imposta il numero di frame trasmessi al secondo nel flusso live."
+
+#: templates/main.html:650
+#, fuzzy
+msgid "Flua Kvalito"
+msgstr "Qualità del flusso"
+
+#: templates/main.html:652
+#, fuzzy
+msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
+msgstr "Sintonizzati sulla qualità dello streaming live (valori più alti producono una qualità video migliore ma richiedono una maggiore larghezza di banda)."
+
+#: templates/main.html:655
+#, fuzzy
+msgid "Bilda Redimensionado"
+msgstr "Ridimensionamento dell'immagine"
+
+#: templates/main.html:657
+#, fuzzy
+msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
+msgstr "Quando questa opzione è attivata, le immagini vengono ridimensionate prima di essere inviate al browser (disabilitate quando vengono eseguite su CPU lente)."
+
+#: templates/main.html:660
+#, fuzzy
+msgid "Flua rezolucio"
+msgstr "Risoluzione del flusso"
+
+#: templates/main.html:662
+#, fuzzy
+msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
+msgstr "la risoluzione indicata come percentuale della risoluzione del dispositivo video (valori più alti producono una qualità video migliore ma richiedono una maggiore larghezza di banda)"
+
+#: templates/main.html:665
+#, fuzzy
+msgid "Flua haveno"
+msgstr "Porta di flusso"
+
+#: templates/main.html:667
+#, fuzzy
+msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
+msgstr "imposta la porta TCP su cui è in ascolto il server Web"
+
+#: templates/main.html:670
+#, fuzzy
+msgid "Aŭtentiga reĝimo"
+msgstr "Modalità di autenticazione"
+
+#: templates/main.html:678
+#, fuzzy
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
+msgstr "il metodo di autenticazione utilizzato dallo stream (scegli \"Bazic\" anziché \"Digest\" se riscontri problemi con programmi di terze parti); Verranno utilizzati i controlli di accreditamento"
+
+#: templates/main.html:681
+#, fuzzy
+msgid "Movado-Optimigo"
+msgstr "Ottimizzazione del movimento"
+
+#: templates/main.html:683
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
+msgstr "abilitare questa opzione se si desidera una frequenza fotogrammi inferiore per il flusso di consegna quando non viene rilevato alcun movimento"
+
+#: templates/main.html:689
+#, fuzzy
+msgid "Utilaj URLoj"
+msgstr "URL utili"
+
+#: templates/main.html:692
+#, fuzzy
+msgid "Instantara URL"
+msgstr "URL istantaneo"
+
+#: templates/main.html:695
+#, fuzzy
+msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
+msgstr "Un URL che fornisce un'immagine JPEG con l'ultima acquisizione della videocamera"
+
+#: templates/main.html:701
+#, fuzzy
+msgid "Flua URL"
+msgstr "URL di flusso"
+
+#: templates/main.html:704
+#, fuzzy
+msgid "URL kiu provizas MJPEG-fluon de la kamerao"
+msgstr "Un URL che fornisce il flusso MJPEG dalla telecamera"
+
+#: templates/main.html:710
+#, fuzzy
+msgid "Enigita URL"
+msgstr "URL di input"
+
+#: templates/main.html:713
+#, fuzzy
+msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
+msgstr "Un URL che fornisce un documento HTML minimo contenente la cornice della videocamera, pronto per essere incorporato"
+
+#: templates/main.html:723
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
+msgstr "Abilitare questa opzione se si desidera acquisire immagini statiche."
+
+#: templates/main.html:724
+#, fuzzy
+msgid "Kaptitaj Bildoj"
+msgstr "Immagini catturate"
+
+#: templates/main.html:729
+#, fuzzy
+msgid "Nomo Bildo-Dosiero"
+msgstr "Nome file immagine"
+
+#: templates/main.html:730 templates/main.html:799
+#, fuzzy
+msgid "ŝablona nomo de dosiero..."
+msgstr "nome file modello ..."
+
+#: templates/main.html:731
+#, fuzzy, python-format
+msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgstr "Definisce il modello di nome per i file JPEG; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame, %% v = numero evento, / = sottodirectory."
+
+#: templates/main.html:734
+#, fuzzy
+msgid "Bildkvalito"
+msgstr "Qualità delle immagini"
+
+#: templates/main.html:736
+#, fuzzy
+msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
+msgstr "imposta la qualità dell'immagine JPEG (valori più alti producono una migliore qualità dell'immagine ma richiedono più spazio di archiviazione)"
+
+#: templates/main.html:739
+#, fuzzy
+msgid "Kaptila reĝimo"
+msgstr "Modalità di acquisizione"
+
+#: templates/main.html:742 templates/main.html:862
+#, fuzzy
+msgid "Moviĝa deĉenigo"
+msgstr "Trigger di movimento"
+
+#: templates/main.html:743
+#, fuzzy
+msgid "Moviĝa deĉenigo (Unu bildo)"
+msgstr "Motion Trigger (Un'immagine)"
+
+#: templates/main.html:744
+#, fuzzy
+msgid "Intertempe"
+msgstr "Nel frattempo"
+
+#: templates/main.html:745
+#, fuzzy
+msgid "Ĉiuj bildoj"
+msgstr "Tutte le foto"
+
+#: templates/main.html:746
+#, fuzzy
+msgid "Mane"
+msgstr "manuale"
+
+#: templates/main.html:749
+#, fuzzy
+msgid "Difinas la kapta reĝimon:"
+msgstr "Definisce la modalità di acquisizione:"
+
+#: templates/main.html:750
+#, fuzzy
+msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
+msgstr "Motion Trigger = immagine catturata ogni volta che viene rilevato un movimento,"
+
+#: templates/main.html:751
+#, fuzzy
+msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
+msgstr "Nel frattempo = immagine catturata ogni x secondi,"
+
+#: templates/main.html:752
+#, fuzzy
+msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
+msgstr "Tutte le immagini = salva ogni fotogramma in un file di immagine,"
+
+#: templates/main.html:753
+#, fuzzy
+msgid "Mane = mana kapto kun dediĉita butono."
+msgstr "Mane = acquisizione manuale con un pulsante dedicato."
+
+#: templates/main.html:756
+#, fuzzy
+msgid "Interkapto-Intervalo"
+msgstr "Intervallo di intercettazione"
+
+#: templates/main.html:757 templates/main.html:870 templates/main.html:945
+#: templates/main.html:1067
+#, fuzzy
+msgid "sekundoj"
+msgstr "secondi"
+
+#: templates/main.html:758
+#, fuzzy
+msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
+msgstr "imposta l'intervallo (in secondi) per le istantanee"
+
+#: templates/main.html:761
+#, fuzzy
+msgid "Konservi bildojn"
+msgstr "Salva immagini"
+
+#: templates/main.html:764 templates/main.html:877
+#, fuzzy
+msgid "Dum unu tago"
+msgstr "Per un giorno"
+
+#: templates/main.html:765 templates/main.html:878
+#, fuzzy
+msgid "Dum unu semajno"
+msgstr "Per una settimana"
+
+#: templates/main.html:766 templates/main.html:879
+#, fuzzy
+msgid "Dum unu monato"
+msgstr "Per un mese"
+
+#: templates/main.html:767 templates/main.html:880
+#, fuzzy
+msgid "Dum unu jaro"
+msgstr "Per un anno"
+
+#: templates/main.html:768 templates/main.html:881
+#, fuzzy
+msgid "Porĉiame"
+msgstr "perennemente"
+
+#: templates/main.html:769 templates/main.html:882
+#, fuzzy
+msgid "Propra"
+msgstr "costume"
+
+#: templates/main.html:772
+#, fuzzy
+msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
+msgstr "Le immagini più vecchie della durata definita vengono automaticamente eliminate per liberare spazio di archiviazione."
+
+#: templates/main.html:775
+#, fuzzy
+msgid "Bildaj Vivdaŭro"
+msgstr "Immagine a vita"
+
+#: templates/main.html:777
+#, fuzzy
+msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
+msgstr "Definisce il numero di giorni dopo i quali le immagini verranno eliminate automaticamente."
+
+#: templates/main.html:780
+#, fuzzy
+msgid "Ebligu manaj kaptoj"
+msgstr "Abilita le catture manuali"
+
+#: templates/main.html:782
+#, fuzzy
+msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
+msgstr "Quando è attivato, un pulsante sulla cornice della fotocamera ti consentirà di scattare manualmente."
+
+#: templates/main.html:792
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas registri filmojn"
+msgstr "abilitare questo se si desidera registrare filmati"
+
+#: templates/main.html:793
+#, fuzzy
+msgid "Filmoj"
+msgstr "film"
+
+#: templates/main.html:798
+#, fuzzy
+msgid "Filma Dosiernomo"
+msgstr "Nome file filmato"
+
+#: templates/main.html:800
+#, fuzzy, python-format
+msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgstr "Definisce il modello di nome per i file di film; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame, %% v = numero evento, / = sottodirectory."
+
+#: templates/main.html:803
+#, fuzzy
+msgid "Rekta kopia filmeto"
+msgstr "Copia diretta del video"
+
+#: templates/main.html:805
+#, fuzzy
+msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
+msgstr "Crea filmati direttamente dalla fotocamera. Questa opzione dovrebbe ridurre l'utilizzo della CPU ma aumentare le esigenze di memoria. Non viene eseguita l'elaborazione delle immagini, quindi i testi si sovrappongono, le maschere sulla privacy, ecc. non sarà sul video risultante."
+
+#: templates/main.html:808
+#, fuzzy
+msgid "Filmformato"
+msgstr "Formato del film"
+
+#: templates/main.html:851
+#, fuzzy
+msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
+msgstr "Personalizza il filmato; non tutti i formati sono garantiti per funzionare su tutti i sistemi; in caso di dubbi, testa ogni formato e scegli quello che funziona meglio con il tuo video."
+
+#: templates/main.html:854
+#, fuzzy
+msgid "Filma Kvalito"
+msgstr "Qualità del film"
+
+#: templates/main.html:856
+#, fuzzy
+msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
+msgstr "Imposta la qualità video MPEG (valori più alti producono una qualità video migliore ma richiedono più spazio di archiviazione)."
+
+#: templates/main.html:859
+#, fuzzy
+msgid "Rekorda reĝimo"
+msgstr "Modalità di registrazione"
+
+#: templates/main.html:863
+#, fuzzy
+msgid "Kontinua registrado"
+msgstr "Registrazione continua"
+
+#: templates/main.html:866
+#, fuzzy
+msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
+msgstr "Imposta la modalità di registrazione: Motion Trigger = nuovo filmato creato ogni volta che viene rilevato un movimento, Registrazione continua = un file di film di grandi dimensioni."
+
+#: templates/main.html:869
+#, fuzzy
+msgid "Maksimuma filma daŭro"
+msgstr "Durata massima del film"
+
+#: templates/main.html:871
+#, fuzzy
+msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
+msgstr "Imposta la durata massima dei filmati in secondi; se l'evento di movimento dura più a lungo, viene creato un nuovo file di filmato; usa 0 per lunghezza illimitata."
+
+#: templates/main.html:874
+#, fuzzy
+msgid "Konservi filmojn"
+msgstr "Salva film"
+
+#: templates/main.html:885
+#, fuzzy
+msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
+msgstr "I filmati più vecchi della durata impostata vengono automaticamente eliminati per liberare memoria."
+
+#: templates/main.html:888
+#, fuzzy
+msgid "Filmoj Vivdaŭro"
+msgstr "Lifetime di film"
+
+#: templates/main.html:889
+#, fuzzy
+msgid "tagoj"
+msgstr "giorni"
+
+#: templates/main.html:890
+#, fuzzy
+msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
+msgstr "Imposta il numero di giorni dopo i quali i filmati verranno automaticamente eliminati."
+
+#: templates/main.html:900
+#, fuzzy
+msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
+msgstr "Attivalo per utilizzare e configurare il dispositivo di rilevamento del movimento."
+
+#: templates/main.html:901
+#, fuzzy
+msgid "Movado-Detekto"
+msgstr "Motion Detection"
+
+#: templates/main.html:906
+#, fuzzy
+msgid "Kadra ŝanĝo sojlo"
+msgstr "Soglia di cambio frame"
+
+#: templates/main.html:908
+#, fuzzy
+msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
+msgstr "Indica la percentuale minima dell'immagine che deve passare tra due fotogrammi successivi per rilevare il movimento (valori più piccoli danno un rilevamento più sensibile, ma tendono a falsi positivi)."
+
+#: templates/main.html:911
+#, fuzzy
+msgid "Maksimuma ŝanĝo sojlo"
+msgstr "Soglia di variazione massima"
+
+#: templates/main.html:913
+#, fuzzy
+msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
+msgstr "Imposta il numero di pixel che vengono commutati tra i frame su cui non viene più attivato uno scorrimento (0 disabilita il bordo)."
+
+#: templates/main.html:916
+#, fuzzy
+msgid "Aŭtomata sojla agordo"
+msgstr "Impostazione automatica della soglia"
+
+#: templates/main.html:918
+#, fuzzy
+msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
+msgstr "Abilitare questo per regolare automaticamente la soglia."
+
+#: templates/main.html:921
+#, fuzzy
+msgid "Aŭtomata bruo-detekto"
+msgstr "Rilevazione automatica del rumore"
+
+#: templates/main.html:923
+#, fuzzy
+msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
+msgstr "Abilitare questo per regolare automaticamente il livello di rumore."
+
+#: templates/main.html:926
+#, fuzzy
+msgid "Bruo-nivelo"
+msgstr "Livello di rumore"
+
+#: templates/main.html:928
+#, fuzzy
+msgid "Permane agordas la bruan nivelon al fiksita valoro."
+msgstr "Imposta in modo permanente il livello di rumore su un valore impostato."
+
+#: templates/main.html:931
+#, fuzzy
+msgid "Detekto de lumaj ŝanĝoj"
+msgstr "Rilevazione di cambiamenti di luce"
+
+#: templates/main.html:933
+#, fuzzy, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "Definisce la percentuale dell'immagine che deve essere modificata in modo che l'evento venga trattato come un improvviso cambio di luce anziché come movimento (0 %% disabilita la funzione)."
+
+#: templates/main.html:936
+#, fuzzy
+msgid "Makula filtrilo"
+msgstr "Filtro antimacchia"
+
+#: templates/main.html:938
+#, fuzzy
+msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
+msgstr "Abilitare questo applicando un filtro spot ai frame prima del rilevamento del movimento."
+
+#: templates/main.html:944
+#, fuzzy
+msgid "Senmovada daŭro"
+msgstr "Movimento continuo"
+
+#: templates/main.html:946
+#, fuzzy
+msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
+msgstr "Imposta il numero di secondi di silenzio (ovvero nessun movimento) che segna la fine di un evento di movimento."
+
+#: templates/main.html:949
+#, fuzzy
+msgid "Kaptita Antaŭe"
+msgstr "Catturato prima"
+
+#: templates/main.html:950 templates/main.html:955 templates/main.html:960
+#, fuzzy
+msgid "kadroj"
+msgstr "votazione"
+
+#: templates/main.html:951
+#, fuzzy
+msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
+msgstr "Imposta il numero di fotogrammi catturati (e inclusi nel filmato) prima che venga rilevato un incidente di movimento."
+
+#: templates/main.html:954
+#, fuzzy
+msgid "Kaptita Post"
+msgstr "Catturato dopo"
+
+#: templates/main.html:956
+#, fuzzy
+msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
+msgstr "Imposta il numero di fotogrammi da acquisire (e inclusi nel filmato) dopo la fine di un evento di movimento."
+
+#: templates/main.html:959
+#, fuzzy
+msgid "Minimumaj movaj kadroj"
+msgstr "Fotogrammi di movimento minimi"
+
+#: templates/main.html:961
+#, fuzzy
+msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
+msgstr "Imposta il numero minimo di fotogrammi di movimento successivi necessari per avviare un evento di movimento."
+
+#: templates/main.html:967
+#, fuzzy
+msgid "Masko"
+msgstr "mascherare"
+
+#: templates/main.html:969
+#, fuzzy
+msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
+msgstr "Abilita il mascheramento delle immagini per un rilevamento del movimento più selettivo e accurato."
+
+#: templates/main.html:972
+#, fuzzy
+msgid "Tipo de masko"
+msgstr "Tipo di maschera"
+
+#: templates/main.html:975
+#, fuzzy
+msgid "Inteligenta"
+msgstr "intelligente"
+
+#: templates/main.html:976
+#, fuzzy
+msgid "Redaktebla"
+msgstr "modificabile"
+
+#: templates/main.html:979
+#, fuzzy
+msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
+msgstr "L'opzione Intelligente rileva automaticamente le regioni con movimento regolare e crea dinamicamente una maschera interna, mentre l'opzione Modificabile ti consente di costruirla manualmente da solo."
+
+#: templates/main.html:982
+#, fuzzy
+msgid "Inteligenta-maska Malrapideco"
+msgstr "Lentezza maschera intelligente"
+
+#: templates/main.html:984
+#, fuzzy
+msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
+msgstr "Valori più alti danno una maschera più duratura con un processo di costruzione più lento."
+
+#: templates/main.html:993
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
+msgstr "Fare clic su questo pulsante per abilitare / disabilitare l'editor delle maschere."
+
+#: templates/main.html:997
+#, fuzzy
+msgid "Purigi maskon"
+msgstr "Maschera pulita"
+
+#: templates/main.html:998
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
+msgstr "Fare clic su questo pulsante per svuotare la maschera corrente."
+
+#: templates/main.html:1004
+#, fuzzy
+msgid "Montri Kadro-Ŝanĝojn"
+msgstr "Mostra modifiche ai frame"
+
+#: templates/main.html:1006
+#, fuzzy
+msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
+msgstr "Se questo è attivo, l'immagine cambia (numero di pixel e area modificata) sono mostrati nel video; abilitarlo temporaneamente per regolare le impostazioni di rilevamento del movimento."
+
+#: templates/main.html:1009
+#, fuzzy
+msgid "Krei debug media files"
+msgstr "Creare file multimediali di debug"
+
+#: templates/main.html:1011
+#, fuzzy
+msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
+msgstr "Se abilitato, crea filmati e immagini speciali che aiutano a eseguire il debug dei problemi di rilevamento del movimento."
+
+#: templates/main.html:1020
+#, fuzzy
+msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
+msgstr "Abilitare questa opzione se si desidera ricevere una notifica quando viene rilevato un movimento."
+
+#: templates/main.html:1021
+#, fuzzy
+msgid "Moviĝaj sciigoj"
+msgstr "Notifiche di movimento"
+
+#: templates/main.html:1026
+#, fuzzy
+msgid "Sendi retpoŝton"
+msgstr "Invia una email"
+
+#: templates/main.html:1028
+#, fuzzy
+msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "Attiva questa opzione se desideri ricevere un'e-mail ogni volta che viene rilevato un incidente di movimento."
+
+#: templates/main.html:1031
+#, fuzzy
+msgid "Retpoŝtadresoj"
+msgstr "Indirizzi email"
+
+#: templates/main.html:1032
+#, fuzzy
+msgid "retpoŝtadresoj..."
+msgstr "indirizzi email ..."
+
+#: templates/main.html:1033
+#, fuzzy
+msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
+msgstr "Gli indirizzi e-mail (separati da virgole) aggiunti qui riceveranno notifiche ogni volta che viene rilevato un incidente di movimento."
+
+#: templates/main.html:1036
+#, fuzzy
+msgid "Servilo SMTP"
+msgstr "Server SMTP"
+
+#: templates/main.html:1037
+#, fuzzy
+msgid "ekz. smtp.gmail.com"
+msgstr "ad es. smtp.gmail.com"
+
+#: templates/main.html:1038
+#, fuzzy
+msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
+msgstr "Immettere il nome host o l'indirizzo IP del server SMTP (per l'utilizzo di Gmail smtp.gmail.com)."
+
+#: templates/main.html:1041
+#, fuzzy
+msgid "SMTP Haveno"
+msgstr "Porta SMTP"
+
+#: templates/main.html:1042
+#, fuzzy
+msgid "ekz. 587"
+msgstr "ad es. 587"
+
+#: templates/main.html:1043
+#, fuzzy
+msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
+msgstr "Immettere la porta utilizzata dal server SMTP (in genere 465 per connessioni non TLS e 587 per connessioni TLS)."
+
+#: templates/main.html:1046
+#, fuzzy
+msgid "SMTP-Konto"
+msgstr "Account SMTP"
+
+#: templates/main.html:1047
+#, fuzzy
+msgid "konto@gmail.com..."
+msgstr "account@gmail.com ..."
+
+#: templates/main.html:1048
+#, fuzzy
+msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
+msgstr "Inserisci il tuo account SMTP (di solito il tuo indirizzo e-mail)."
+
+#: templates/main.html:1051
+#, fuzzy
+msgid "SMTP Pasvorto"
+msgstr "Password SMTP"
+
+#: templates/main.html:1053
+#, fuzzy
+msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
+msgstr "Inserisci la tua password SMTP (per Gmail usa la tua password di Google o una password generata dall'app)."
+
+#: templates/main.html:1056
+#, fuzzy
+msgid "De adreso"
+msgstr "Dall'indirizzo"
+
+#: templates/main.html:1057
+#, fuzzy
+msgid "retpoŝta adreso..."
+msgstr "indirizzo email ..."
+
+#: templates/main.html:1058
+#, fuzzy
+msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
+msgstr "Imposta l'indirizzo mittente personalizzato se il tuo servizio SMTP ne richiede uno (il primo indirizzo email di destinazione verrà utilizzato se lasciato vuoto)."
+
+#: templates/main.html:1061
+#, fuzzy
+msgid "Uzi TLS"
+msgstr "Usa TLS"
+
+#: templates/main.html:1063
+#, fuzzy
+msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
+msgstr "Abilita questo se il tuo server SMTP richiede TLS (Gmail richiede che questo sia abilitato)."
+
+#: templates/main.html:1066
+#, fuzzy
+msgid "Aldonitaj bildoj tempo-intervalo"
+msgstr "Aggiunto intervallo di immagini"
+
+#: templates/main.html:1068
+#, fuzzy
+msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgstr "Definisce l'intervallo di ricerca del tempo da utilizzare durante la creazione di collegamenti e-mail (valori più alti generano e-mail con più immagini a scapito di una maggiore notifica di rinvio); impostato su 0 per disabilitare le immagini aggiunte; devi anche avere “Capture Images” abilitato per farlo funzionare."
+
+#: templates/main.html:1072
+#, fuzzy
+msgid "Testi retpoŝto"
+msgstr "Email di prova"
+
+#: templates/main.html:1073
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "Fare clic su questo pulsante per testare le notifiche e-mail dopo aver compilato i dettagli richiesti."
+
+#: templates/main.html:1079
+#, fuzzy
+msgid "Sendu Telegraman Sciigon"
+msgstr "Invia una notifica di Telegram"
+
+#: templates/main.html:1081
+#, fuzzy
+msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
+msgstr "abilitalo se vuoi ricevere un messaggio telegramma ogni volta che viene rilevato un evento in movimento"
+
+#: templates/main.html:1084
+#, fuzzy
+msgid "HTTP API ĵetono"
+msgstr "Token API HTTP"
+
+#: templates/main.html:1085
+#, fuzzy
+msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+msgstr "Esempio: 93847672: AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+
+#: templates/main.html:1086
+#, fuzzy
+msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
+msgstr "Creando la chat bot di Telegram, otterrai un token API che devi inserire qui. Fai clic sul pulsante API di seguito per una guida passo passo su come ottenere il tuo token API. Assicurati anche di chattare con il tuo avvio appena creato dopo che la tua chiave è stata generata, per assicurarti di ricevere messaggi."
+
+#: templates/main.html:1089
+#, fuzzy
+msgid "Babileja ID"
+msgstr "ID chat"
+
+#: templates/main.html:1090
+#, fuzzy
+msgid "Ekzemplo: 938272312"
+msgstr "Esempio: 938272312"
+
+#: templates/main.html:1091
+#, fuzzy
+msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
+msgstr "Crea una nuova chat su id_chatbot (@id_chatbot) e scegli di iniziare. La chat restituirà il numero richiesto per questo campo."
+
+#: templates/main.html:1094
+#, fuzzy
+msgid "Alkroĉitaj Bildoj Tempo"
+msgstr "Tempo immagini allegate"
+
+#: templates/main.html:1096
+#, fuzzy
+msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
+msgstr "definisce l'intervallo di tempo di ricerca delle immagini per creare allegati al telegramma (valori più alti generano più immagini a costo di un maggiore ritardo nella notifica); impostare a 0 per disabilitare gli allegati delle immagini; è necessario abilitare anche le Immagini fisse affinché funzioni; vorrai giocare con questo numero fino a quando non verrà inviata un'immagine. Un buon numero di partenza è 30 se imposti le immagini fisse su un movimento attivato. Per una mossa standard attivata, impostala molto più in basso."
+
+#: templates/main.html:1099
+#, fuzzy
+msgid "API-Informoj"
+msgstr "Informazioni API"
+
+#: templates/main.html:1100
+#, fuzzy
+msgid "Testo"
+msgstr "Test"
+
+#: templates/main.html:1106
+#, fuzzy
+msgid "Alvoki URL"
+msgstr "Richiama URL"
+
+#: templates/main.html:1108
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "Abilitare questa opzione se si desidera che venga richiesto un URL ogni volta che viene rilevato un evento di movimento."
+
+#: templates/main.html:1112
+#, fuzzy
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "ad es. http://ekzemplo.com/sciigi/"
+
+#: templates/main.html:1113
+#, fuzzy, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "URL da richiedere quando viene rilevato un movimento; sono accettate le seguenti scorciatoie speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame , %% v = numero evento"
+
+#: templates/main.html:1125
+#, fuzzy
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "Il metodo HTTP da utilizzare quando si richiede un URL (i parametri URL forniti verranno consegnati come indicato qui)."
+
+#: templates/main.html:1131
+#, fuzzy
+msgid "Lanĉi komando"
+msgstr "Avvia un comando"
+
+#: templates/main.html:1133
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "Abilitare questo se si desidera eseguire un comando ogni volta che viene rilevato un evento di movimento."
+
+#: templates/main.html:1136 templates/main.html:1149
+#, fuzzy
+msgid "Komando"
+msgstr "comando"
+
+#: templates/main.html:1137 templates/main.html:1150
+#, fuzzy
+msgid "komando..."
+msgstr "comando ..."
+
+#: templates/main.html:1138
+#, fuzzy, python-format
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "Comando da lanciare quando viene rilevato un movimento; più comandi possono essere separati da due punti; non usare i punti e virgola con i comandi; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame , %% v = numero evento"
+
+#: templates/main.html:1144
+#, fuzzy
+msgid "Lanĉi fina komando"
+msgstr "Avvia il comando finale"
+
+#: templates/main.html:1146
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "Abilitare questo se si desidera avviare un comando ogni volta che termina un evento in movimento."
+
+#: templates/main.html:1151
+#, fuzzy, python-format
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "Comando da lanciare al termine dell'evento di movimento; più comandi possono essere separati da due punti; non usare dot com con i comandi; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = data, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame."
+
+#: templates/main.html:1161
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
+msgstr "Abilitare questa opzione se si desidera impostare un programma settimanale per il rilevamento del movimento."
+
+#: templates/main.html:1162
+#, fuzzy
+msgid "Laboranta horaro"
+msgstr "Orario di lavoro"
+
+#: templates/main.html:1167
+#, fuzzy
+msgid "Lundo"
+msgstr "lunedi"
+
+#: templates/main.html:1170
+#, fuzzy
+msgid "de"
+msgstr "di"
+
+#: templates/main.html:1171
+#, fuzzy
+msgid "ĝis"
+msgstr "fino a"
+
+#: templates/main.html:1173
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por lundoj."
+msgstr "Imposta l'intervallo di tempo del giorno lavorativo per il lunedì."
+
+#: templates/main.html:1176
+#, fuzzy
+msgid "Mardo"
+msgstr "martedì"
+
+#: templates/main.html:1182
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por mardoj."
+msgstr "Imposta l'intervallo di tempo del giorno lavorativo per il martedì."
+
+#: templates/main.html:1185
+#, fuzzy
+msgid "Merkredo"
+msgstr "mercoledì"
+
+#: templates/main.html:1191
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por merkredoj."
+msgstr "Imposta l'intervallo di tempo del giorno lavorativo per il mercoledì."
+
+#: templates/main.html:1194
+#, fuzzy
+msgid "Ĵaŭdo"
+msgstr "giovedi"
+
+#: templates/main.html:1200
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
+msgstr "Imposta l'intervallo di tempo del giorno lavorativo per il giovedì."
+
+#: templates/main.html:1203
+#, fuzzy
+msgid "Vendredo"
+msgstr "venerdì"
+
+#: templates/main.html:1209
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por vendredoj."
+msgstr "Imposta l'intervallo di tempo del giorno lavorativo per il venerdì."
+
+#: templates/main.html:1212
+#, fuzzy
+msgid "Sabato"
+msgstr "sabato"
+
+#: templates/main.html:1218
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por sabatoj."
+msgstr "Imposta l'intervallo di tempo del giorno lavorativo per il sabato."
+
+#: templates/main.html:1221
+#, fuzzy
+msgid "Dimanĉo"
+msgstr "domenica"
+
+#: templates/main.html:1227
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
+msgstr "Imposta l'intervallo di tempo del giorno lavorativo per la domenica."
+
+#: templates/main.html:1230
+#, fuzzy
+msgid "Detekti movadon"
+msgstr "Rileva i movimenti"
+
+#: templates/main.html:1233
+#, fuzzy
+msgid "Dum laborista horaro"
+msgstr "Durante l'orario di lavoro"
+
+#: templates/main.html:1234
+#, fuzzy
+msgid "Ekster laborista horaro"
+msgstr "Fuori dall'orario di lavoro"
+
+#: templates/main.html:1237
+#, fuzzy
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
+msgstr "Definisce se il rilevamento del movimento deve essere attivo durante o al di fuori dell'orario di lavoro."
+
+#: utils/dtconv.py:29 utils/dtconv.py:68
+#, fuzzy
+msgid "never"
+msgstr "mai"
+
+#: utils/dtconv.py:120
+#, fuzzy
+msgid "day"
+msgstr "giorno"
+
+#: utils/dtconv.py:123
+#, fuzzy
+msgid "week"
+msgstr "settimana"
+
+#: utils/dtconv.py:126
+#, fuzzy
+msgid "month"
+msgstr "mese"
+
+#: utils/dtconv.py:129
+#, fuzzy
+msgid "year"
+msgstr "anno"
+
+#: utils/dtconv.py:132
+#, fuzzy
+msgid "days"
+msgstr "giorni"
+
+#: utils/dtconv.py:136
+#, fuzzy
+msgid "hour"
+msgstr "ora"
+
+#: utils/dtconv.py:139
+#, fuzzy
+msgid "hours"
+msgstr "orario"
+
+#: utils/dtconv.py:143
+#, fuzzy
+msgid "minute"
+msgstr "minuto"
+
+#: utils/dtconv.py:146
+#, fuzzy
+msgid "minutes"
+msgstr "verbale"
+
+#: utils/dtconv.py:150
+#, fuzzy
+msgid "second"
+msgstr "secondo"
+
+#: utils/dtconv.py:153 utils/dtconv.py:156
+#, fuzzy
+msgid "seconds"
+msgstr "secondi"
+
+#: utils/dtconv.py:160
+#, fuzzy
+msgid "minus"
+msgstr "meno"
+
+#, fuzzy
+#~ msgid "Alira Ŝlosila Id"
+#~ msgstr "ID chiave di accesso"
+
+#, fuzzy
+#~ msgid "la AWS-ŝlosila identigilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+#~ msgstr "l'identificatore della chiave AWS utilizzato per l'autenticazione con il servizio di caricamento (solitamente richiesto solo durante la configurazione)"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+#~ msgstr "Comando da lanciare quando viene rilevato un movimento; più comandi possono essere separati da un punto e virgola; non usare i punti e virgola con i comandi; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = giorno, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame , %% v = numero evento"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
+#~ msgstr "Comando da lanciare al termine dell'evento di movimento; più comandi possono essere separati da un punto e virgola; non usare dot com con i comandi; sono accettati i seguenti token speciali: %% Y = anno, %% m = mese, %% d = data, %% H = ora, %% M = minuto, %% S = secondo, %% q = numero di frame."
+
+#, fuzzy
+#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
+#~ msgstr "Definisce la percentuale dell'immagine che deve essere modificata in modo che l'evento venga trattato come un improvviso cambio di luce anziché come movimento (lo 0% disabilita la funzione)."

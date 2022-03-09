@@ -1,0 +1,1889 @@
+# Translations template for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# Automatically generated, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-03-23 22:22+0100\n"
+"PO-Revision-Date: 2020-04-02 18:36+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: bn\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: server.py:212
+#, fuzzy
+msgid "interrompa signalo ricevita, fermanta ..."
+msgstr "বাধা সংকেত পেয়েছে, বন্ধ হচ্ছে ..."
+
+#: server.py:246
+#, fuzzy
+msgid "smb-akcioj postulas radikajn privilegiojn"
+msgstr "এসএমবি শেয়ারের রুট সুবিধার দরকার"
+
+#: server.py:253
+#, fuzzy
+msgid "bonvolu instali tornado version 3.1 aŭ pli"
+msgstr "টর্নেডো সংস্করণ 3.1 বা ততোধিক ইনস্টল করুন"
+
+#: server.py:260
+#, fuzzy
+msgid "bonvolu instali jinja2"
+msgstr "jinja2 ইনস্টল করুন"
+
+#: server.py:267
+#, fuzzy
+msgid "bonvolu instali pillow aŭ PIL"
+msgstr "বালিশ বা পিআইএল ইনস্টল করুন"
+
+#: server.py:274
+#, fuzzy
+msgid "bonvolu instali pycurl"
+msgstr "পাইকারল ইনস্টল করুন"
+
+#: server.py:376
+#, fuzzy
+msgid "saluton! ĉi tio estas motionEye-servilo "
+msgstr "হ্যালো! এটি একটি মোশনই সার্ভার"
+
+#: server.py:391
+#, fuzzy
+msgid "purigado komenciĝis"
+msgstr "পরিস্কার করা শুরু"
+
+#: server.py:393
+#, fuzzy
+msgid "wsswitch komenciĝis"
+msgstr "wsswitch শুরু হয়েছে itch"
+
+#: server.py:396
+#, fuzzy
+msgid "taskoj komenciĝis"
+msgstr "কাজ শুরু"
+
+#: server.py:400
+#, fuzzy
+msgid "mjpg klienta rubo-kolektanto komenciĝis"
+msgstr "mjpg গ্রাহকের আবর্জনা সংগ্রহকারী শুরু হয়েছে"
+
+#: server.py:413
+#, fuzzy
+msgid "servilo komenciĝis"
+msgstr "সার্ভার শুরু হয়েছে"
+
+#: server.py:419
+#, fuzzy
+msgid "servilo haltis"
+msgstr "সার্ভার বন্ধ"
+
+#: server.py:421
+#, fuzzy
+msgid "taskoj haltis"
+msgstr "কাজ বন্ধ"
+
+#: server.py:429
+#, fuzzy
+msgid "motion haltis"
+msgstr "গতি বন্ধ"
+
+#: server.py:434
+#, fuzzy
+msgid "adiaŭ!"
+msgstr "বিদায়!"
+
+#: templates/main.html:100
+#, fuzzy
+msgid "agordojn"
+msgstr "সেটিংস"
+
+#: templates/main.html:101
+#, fuzzy
+msgid "ŝanĝi uzanton"
+msgstr "ব্যবহারকারী পরিবর্তন করুন"
+
+#: templates/main.html:103
+#, fuzzy
+msgid "forigi kameraon"
+msgstr "ক্যামেরা সরান"
+
+#: templates/main.html:104
+#, fuzzy
+msgid "Apliki"
+msgstr "প্রয়োগ করা"
+
+#: templates/main.html:123
+#, fuzzy
+msgid "preferoj de uzanto"
+msgstr "ব্যবহারকারীর পছন্দসমূহ"
+
+#: templates/main.html:124
+#, fuzzy
+msgid "Preferoj"
+msgstr "পছন্দগুলি"
+
+#: templates/main.html:129
+#, fuzzy
+msgid "Aranĝo Kolumnoj"
+msgstr "লেআউট কলাম"
+
+#: templates/main.html:131
+#, fuzzy
+msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
+msgstr "ক্যামেরাগুলি সাজানোর জন্য ব্যবহৃত কলামগুলির সংখ্যা নির্ধারণ করে"
+
+#: templates/main.html:134
+#, fuzzy
+msgid "Fiksi Kadrojn Vertikale"
+msgstr "উল্লম্বভাবে ফ্রেম সেট করুন"
+
+#: templates/main.html:136
+#, fuzzy
+msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
+msgstr "উইন্ডোটিকে উল্লম্বভাবে ফিট করার জন্য ফ্রেমের সময়গুলি হ্রাস করা যায় কিনা তা নিয়ন্ত্রণ করে"
+
+#: templates/main.html:139
+#, fuzzy
+msgid "Aranĝo linioj"
+msgstr "লেআউট লাইন"
+
+#: templates/main.html:141
+#, fuzzy
+msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
+msgstr "ক্যামেরাগুলি সাজানোর জন্য ব্যবহৃত লাইনগুলির সংখ্যা নির্ধারণ করে"
+
+#: templates/main.html:144
+#, fuzzy
+msgid "kadro-variatoro"
+msgstr "ফ্রেম ভেরিয়েটার"
+
+#: templates/main.html:146
+#, fuzzy
+msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
+msgstr "নেটওয়ার্ক ব্যান্ডউইথ এবং ট্র্যাফিক বাঁচাতে ফ্রেম রেট হ্রাস করে (সাধারণ এমজেপিইজি ক্যামেরা নিয়ে কাজ করে না)"
+
+#: templates/main.html:149
+#, fuzzy
+msgid "Rezolucio-variatoro"
+msgstr "রেজোলিউশন ভেরিয়েটার"
+
+#: templates/main.html:151
+#, fuzzy
+msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+msgstr "নেটওয়ার্ক ব্যান্ডউইথ এবং ট্র্যাফিক সংরক্ষণের জন্য সমস্ত ক্যামেরার কার্যকর রেজোলিউশন হ্রাস করে (সাধারণ এমজেপিইজি ক্যামেরায় কাজ করে না)"
+
+#: templates/main.html:161
+#, fuzzy
+msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
+msgstr "সাধারণ পরামিতি, সমস্ত ক্যামেরার জন্য সাধারণ"
+
+#: templates/main.html:162
+#, fuzzy
+msgid "Ĝeneralaj Agordoj"
+msgstr "সাধারণ সেটিংস"
+
+#: templates/main.html:167
+#, fuzzy
+msgid "Administranto"
+msgstr "প্রশাসক"
+
+#: templates/main.html:169
+#, fuzzy
+msgid "la uzantnomo uzata por agordi la sistemon"
+msgstr "সিস্টেমটি কনফিগার করতে ব্যবহৃত ব্যবহারকারী নাম"
+
+#: templates/main.html:172 templates/main.html:182 templates/main.html:508
+#, fuzzy
+msgid "Pasvorto"
+msgstr "পাসওয়ার্ড"
+
+#: templates/main.html:174
+#, fuzzy
+msgid "pasvorto de administranto"
+msgstr "অ্যাডমিন পাসওয়ার্ড"
+
+#: templates/main.html:177
+#, fuzzy
+msgid "Observanto"
+msgstr "পর্যবেক্ষক"
+
+#: templates/main.html:179
+#, fuzzy
+msgid "la uzantnomo por uzi por la monitorado"
+msgstr "নিরীক্ষণের জন্য ব্যবহারকারীর ব্যবহারকারীর নাম"
+
+#: templates/main.html:184
+#, fuzzy
+msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
+msgstr "নিরীক্ষণ ব্যবহারকারীর পাসওয়ার্ড (একটি পাসওয়ার্ড ছাড়া নিরীক্ষণের জন্য ফাঁকা ছেড়ে দিন)"
+
+#: templates/main.html:193
+#, fuzzy
+msgid "motionEye Versio"
+msgstr "গতিময় সংস্করণ"
+
+#: templates/main.html:197
+#, fuzzy
+msgid "Motion Versio"
+msgstr "মোশন ভার্সন"
+
+#: templates/main.html:201
+#, fuzzy
+msgid "Operaciumo Versio"
+msgstr "অপারেটিং সিস্টেম সংস্করণ"
+
+#: templates/main.html:206
+#, fuzzy
+msgid "Programara Ĝisdatigo"
+msgstr "সফ্টওয়্যার আপডেট"
+
+#: templates/main.html:208
+#, fuzzy
+msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
+msgstr "নতুন প্রকাশের জন্য পরীক্ষা করে আপডেটগুলি করে"
+
+#: templates/main.html:212
+#, fuzzy
+msgid "Nutro"
+msgstr "খাদ্য"
+
+#: templates/main.html:213
+#, fuzzy
+msgid "Fermu"
+msgstr "ঘনিষ্ঠ"
+
+#: templates/main.html:214
+#, fuzzy
+msgid "malŝaltas la sistemon"
+msgstr "সিস্টেম বন্ধ করে দেয়"
+
+#: templates/main.html:218
+#, fuzzy
+msgid "Rekomencu"
+msgstr "পুনরারম্ভ"
+
+#: templates/main.html:219
+#, fuzzy
+msgid "rekomencas la sistemon"
+msgstr "সিস্টেমটি পুনরায় চালু করুন"
+
+#: templates/main.html:225
+#, fuzzy
+msgid "Agordo"
+msgstr "কনফিগারেশন"
+
+#: templates/main.html:226
+#, fuzzy
+msgid "Sekurkopio"
+msgstr "ব্যাকআপ"
+
+#: templates/main.html:227
+#, fuzzy
+msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
+msgstr "বর্তমান কনফিগারেশন সহ একটি ফাইল তৈরি করে যাতে আপনি এটি স্থানীয়ভাবে সংরক্ষণ করতে পারেন"
+
+#: templates/main.html:231
+#, fuzzy
+msgid "Restaŭri"
+msgstr "প্রত্যর্পণ করা"
+
+#: templates/main.html:232
+#, fuzzy
+msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
+msgstr "পূর্ববর্তী সংরক্ষিত ব্যাকআপ ফাইল থেকে কনফিগারেশনটি পুনরুদ্ধার করে"
+
+#: templates/main.html:260
+#, fuzzy
+msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
+msgstr "আপনি যদি এই ক্যামেরাটি ব্যবহার করতে চান তবে এটি সক্রিয় করুন"
+
+#: templates/main.html:261
+#, fuzzy
+msgid "Video-Aparato"
+msgstr "ভিডিও ডিভাইস"
+
+#: templates/main.html:266 templates/main.html:596 templates/main.html:613
+#, fuzzy
+msgid "Kamerao Nomo"
+msgstr "ক্যামেরার নাম"
+
+#: templates/main.html:267
+#, fuzzy
+msgid "kameraa nomo..."
+msgstr "ক্যামেরার নাম ..."
+
+#: templates/main.html:268
+#, fuzzy
+msgid "alias pri ĉi tiu kamera aparato"
+msgstr "এই ক্যামেরা ডিভাইসে উপন্যাস"
+
+#: templates/main.html:271
+#, fuzzy
+msgid "Kamerao ID"
+msgstr "ক্যামেরা আইডি"
+
+#: templates/main.html:273
+#, fuzzy
+msgid "la kamerao identiga numero"
+msgstr "ক্যামেরা সনাক্তকরণ নম্বর"
+
+#: templates/main.html:276
+#, fuzzy
+msgid "Kamerao aparato"
+msgstr "ক্যামেরা ডিভাইস"
+
+#: templates/main.html:278
+#, fuzzy
+msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
+msgstr "ইনপুট ডিভাইস (যেমন: / dev / ভিডিও) বা URL (যেমন: rtsp: //192.168.1.1/stream)"
+
+#: templates/main.html:281
+#, fuzzy
+msgid "Kamerao Tipo"
+msgstr "ক্যামেরার প্রকার"
+
+#: templates/main.html:288
+#, fuzzy
+msgid "Aŭtomata Brilo"
+msgstr "স্বয়ংক্রিয় উজ্জ্বলতা"
+
+#: templates/main.html:290
+#, fuzzy
+msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
+msgstr "সফ্টওয়্যারটির স্বয়ংক্রিয় উজ্জ্বলতা সক্ষম করে (কেবলমাত্র স্বয়ংক্রিয় উজ্জ্বলতা ছাড়া ক্যামেরাগুলির জন্য প্রস্তাবিত)"
+
+#: templates/main.html:296
+#, fuzzy
+msgid "Video-rezolucio"
+msgstr "ভিডিও রেজোলিউশন"
+
+#: templates/main.html:301
+#, fuzzy
+msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
+msgstr "ভিডিও রেজোলিউশন (বৃহত্তর মানগুলি উন্নত মানের উত্পাদন করে তবে আরও সিপিইউ পাওয়ার, বৃহত্তর স্টোরেজ এবং ব্যান্ডউইথের প্রয়োজন হয়)"
+
+#: templates/main.html:304
+#, fuzzy
+msgid "Larĝeco"
+msgstr "প্রস্থ"
+
+#: templates/main.html:306
+#, fuzzy
+msgid "enigu kutiman rezolucian larĝon"
+msgstr "একটি কাস্টম রেজোলিউশন প্রস্থ লিখুন"
+
+#: templates/main.html:309
+#, fuzzy
+msgid "Alteco"
+msgstr "উচ্চতা"
+
+#: templates/main.html:311
+#, fuzzy
+msgid "enigu kutiman rezolucian altecon"
+msgstr "একটি কাস্টম রেজোলিউশন উচ্চতা লিখুন"
+
+#: templates/main.html:314
+#, fuzzy
+msgid "Video-Rotacio"
+msgstr "ভিডিও ঘূর্ণন"
+
+#: templates/main.html:323
+#, fuzzy
+msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
+msgstr "আপনার ক্যামেরাটি সঠিকভাবে অবস্থান না করা থাকলে ক্যাপচার করা চিত্রটি ঘোরানোর জন্য এটি ব্যবহার করুন"
+
+#: templates/main.html:326
+#, fuzzy
+msgid "Kadrofrekvenco"
+msgstr "ফ্রেম রেট"
+
+#: templates/main.html:328
+#, fuzzy
+msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
+msgstr "প্রতি সেকেন্ডে ক্যামেরায় ক্যাপচার হওয়া ফ্রেমের সংখ্যা সেট করে (উচ্চতর মানগুলি মসৃণ ভিডিও তৈরি করে তবে আরও সিপিইউ শক্তি, বৃহত্তর স্টোরেজ এবং ব্যান্ডউইথ প্রয়োজন)"
+
+#: templates/main.html:334
+#, fuzzy
+msgid "Privateca masko"
+msgstr "গোপনীয়তার মুখোশ"
+
+#: templates/main.html:336
+#, fuzzy
+msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
+msgstr "গোপনীয়তা রক্ষা করতে কিছু চিত্রের অঞ্চল রেকর্ডিং এড়ানোর জন্য চিত্রগুলি মাস্কিং সক্ষম করে"
+
+#: templates/main.html:341 templates/main.html:989
+#, fuzzy
+msgid "Redakti maskon"
+msgstr "মুখোশ সম্পাদনা করুন"
+
+#: templates/main.html:342 templates/main.html:990
+#, fuzzy
+msgid "Konservi maskon"
+msgstr "একটি মুখোশ রাখুন"
+
+#: templates/main.html:345
+#, fuzzy
+msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
+msgstr "মাস্ক সম্পাদক সক্ষম / অক্ষম করতে এই বোতামটি ক্লিক করুন"
+
+#: templates/main.html:356
+#, fuzzy
+msgid "Ekstraj Elektoj"
+msgstr "অতিরিক্ত বিকল্প"
+
+#: templates/main.html:358
+#, fuzzy
+msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
+msgstr "\"গতি\" ডিমনটির জন্য আপনি এখানে কোনও অতিরিক্ত বিকল্প যুক্ত করতে পারেন (\"নাম মান\" ফর্ম্যাট ব্যবহার করুন, প্রতি লাইনে একটি বিকল্প)"
+
+#: templates/main.html:367
+#, fuzzy
+msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
+msgstr "আপনার মিডিয়াটি কোথায় এবং কীভাবে সঞ্চিত রয়েছে তা চয়ন করুন"
+
+#: templates/main.html:368
+#, fuzzy
+msgid "Stokado de dosieroj"
+msgstr "ফাইল স্টোরেজ"
+
+#: templates/main.html:373
+#, fuzzy
+msgid "Stokada Aparato"
+msgstr "স্টোরেজ ডিভাইস"
+
+#: templates/main.html:378
+#, fuzzy
+msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
+msgstr "চিত্র এবং ভিডিও ফাইলগুলি সংরক্ষণ করা হবে এমন স্টোরেজ ডিভাইসটিকে নির্দেশ করে"
+
+#: templates/main.html:381
+#, fuzzy
+msgid "Retservilo"
+msgstr "ওয়েব সার্ভার"
+
+#: templates/main.html:383
+#, fuzzy
+msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
+msgstr "ওয়েব সার্ভারের ঠিকানা (আইপি ঠিকানা বা নাম)"
+
+#: templates/main.html:386
+#, fuzzy
+msgid "SMB Protokolo-Versio"
+msgstr "এসএমবি প্রোটোকল সংস্করণ"
+
+#: templates/main.html:396
+#, fuzzy
+msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
+msgstr "আপনি যে এসএমবি সংস্করণটি ব্যবহার করতে পারেন তা নির্বাচন করুন (বিভিন্ন বিকল্পের পরীক্ষা করে দেখুন এবং আপনার এনএএস-এর সাথে কোনটি সবচেয়ে ভাল কাজ করে তা দেখুন)"
+
+#: templates/main.html:399
+#, fuzzy
+msgid "Kunhava nomo"
+msgstr "ভাগ করা নাম"
+
+#: templates/main.html:401
+#, fuzzy
+msgid "la nomo de la interŝanĝa reto"
+msgstr "এক্সচেঞ্জ নেটওয়ার্কের নাম"
+
+#: templates/main.html:404 templates/main.html:503
+#, fuzzy
+msgid "Uzantnomo"
+msgstr "ব্যবহারকারীর নাম"
+
+#: templates/main.html:406
+#, fuzzy
+msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
+msgstr "আপনি যখন নেটওয়ার্ক ডিরেক্টরি অ্যাক্সেস করবেন তখন ব্যবহারকারীর নামটি সরবরাহ করতে হবে (কোনও ব্যবহারকারীর প্রয়োজন না হলে খালি রেখে দিন)"
+
+#: templates/main.html:409
+#, fuzzy
+msgid "Pasvorton"
+msgstr "পাসওয়ার্ড"
+
+#: templates/main.html:411
+#, fuzzy
+msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
+msgstr "নেটওয়ার্ক ডিরেক্টরি দ্বারা প্রয়োজনীয় পাসওয়ার্ড (পাসওয়ার্ডের প্রয়োজন না হলে খালি ছেড়ে দিন)"
+
+#: templates/main.html:414
+#, fuzzy
+msgid "Radika dosierujo"
+msgstr "রুট ডিরেক্টরি"
+
+#: templates/main.html:416
+#, fuzzy
+msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
+msgstr "মূল পাথ (নির্বাচিত স্টোরেজ ডিভাইসে) যেখানে ফাইলগুলি সংরক্ষণ করা হবে"
+
+#: templates/main.html:420
+#, fuzzy
+msgid "Testi la reton dosierujon"
+msgstr "নেটওয়ার্ক ডিরেক্টরি পরীক্ষা করুন"
+
+#: templates/main.html:421
+#, fuzzy
+msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
+msgstr "আপনি প্রয়োজনীয় বিশদ পূরণ করার পরে নেটওয়ার্ক সংযোগ পরীক্ষা করতে এই বোতামটি ক্লিক করুন"
+
+#: templates/main.html:427
+#, fuzzy
+msgid "Uzado de Disko"
+msgstr "ডিস্কের ব্যবহার"
+
+#: templates/main.html:431
+#, fuzzy
+msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
+msgstr "মূল ডিরেক্টরিটি যেখানে ড্রাইভের আকার / আকার /"
+
+#: templates/main.html:437
+#, fuzzy
+msgid "Alŝutu Mediajn Dosierojn"
+msgstr "মিডিয়া ফাইলগুলি আপলোড করুন"
+
+#: templates/main.html:439
+#, fuzzy
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
+msgstr "আপনি যদি আপনার মিডিয়াটি কোনও বাহ্যিক পরিষেবাদিতে আপলোড করতে চান তবে এই বিকল্পটি সক্রিয় করুন"
+
+#: templates/main.html:442
+#, fuzzy
+msgid "Alŝutu Bildojn"
+msgstr "চিত্রগুলি আপলোড করুন"
+
+#: templates/main.html:444
+#, fuzzy
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
+msgstr "আপনি যদি কোনও বহিরাগত পরিষেবাতে চিত্রগুলি ডাউনলোড করতে চান তবে এই বিকল্পটি সক্রিয় করুন"
+
+#: templates/main.html:447
+#, fuzzy
+msgid "Alŝutu Filmojn"
+msgstr "চলচ্চিত্রগুলি আপলোড করুন"
+
+#: templates/main.html:449
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
+msgstr "আপনি যদি কোনও বাহ্যিক পরিষেবাতে ভিডিও আপলোড করতে চান তবে এটি সক্ষম করুন"
+
+#: templates/main.html:452
+#, fuzzy
+msgid "Alŝuta Servo"
+msgstr "আপলোড পরিষেবা"
+
+#: templates/main.html:455
+#, fuzzy
+msgid "Servilo FTP"
+msgstr "এফটিপি সার্ভার"
+
+#: templates/main.html:456
+#, fuzzy
+msgid "Servilo SFTP"
+msgstr "এসএফটিপি সার্ভার"
+
+#: templates/main.html:457
+#, fuzzy
+msgid "Servilo HTTP"
+msgstr "এইচটিটিপি সার্ভার"
+
+#: templates/main.html:458
+#, fuzzy
+msgid "Servilo HTTPS"
+msgstr "এইচটিটিপিএস সার্ভার"
+
+#: templates/main.html:465
+#, fuzzy
+msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
+msgstr "এমন একটি পরিষেবা নির্বাচন করুন যেখানে মিডিয়া ফাইলগুলি আপলোড করা হবে"
+
+#: templates/main.html:468
+#, fuzzy
+msgid "Servila Adreso"
+msgstr "সার্ভারের ঠিকানা"
+
+#: templates/main.html:470
+#, fuzzy
+msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
+msgstr "সার্ভারের ডোমেন নাম বা আইপি ঠিকানা (যেমন ftp.example.com বা 192.168.1.3)"
+
+#: templates/main.html:473
+#, fuzzy
+msgid "Servila haveno"
+msgstr "সার্ভার পোর্ট"
+
+#: templates/main.html:475
+#, fuzzy
+msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
+msgstr "পরিষেবাতে সংযোগ করতে ব্যবহৃত পোর্ট (ডিফল্ট মানটি ব্যবহার করার জন্য এই ক্ষেত্রটি ফাঁকা ছেড়ে দিন)"
+
+#: templates/main.html:478
+#, fuzzy
+msgid "Metodo"
+msgstr "পদ্ধতি"
+
+#: templates/main.html:485
+#, fuzzy
+msgid "la HTTP-metodo uzi por alŝuti dosierojn"
+msgstr "ফাইলগুলি আপলোড করতে ব্যবহার করতে HTTP পদ্ধতি"
+
+#: templates/main.html:488
+#, fuzzy
+msgid "Loko"
+msgstr "জায়গা"
+
+#: templates/main.html:490
+#, fuzzy
+msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
+msgstr "স্থান (মূল পাথ) যেখানে মিডিয়া আপলোড করা উচিত (যেমন / ফাইল / ক্যাম 1 /)"
+
+#: templates/main.html:493
+#, fuzzy
+msgid "Inkluzivi Subdosierujojn"
+msgstr "সাবফোল্ডার অন্তর্ভুক্ত করুন"
+
+#: templates/main.html:495
+#, fuzzy
+msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
+msgstr "মাল্টিমিডিয়া ফাইলগুলিকে তাদের সরাসরি ডিরেক্টরিতে না রেখে সরাসরি তাদের সাব-ডিরেক্টরিতে ডাউনলোড করার জন্য এটি সক্রিয় করুন"
+
+#: templates/main.html:498
+#, fuzzy
+msgid "Purigi la nubon"
+msgstr "মেঘ পরিষ্কার করুন"
+
+#: templates/main.html:500
+#, fuzzy
+msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
+msgstr "মেঘে আপলোড করা মিডিয়া ফাইলগুলি মুছতে সক্ষম করুন যখন স্থানীয় মিডিয়া ফাইল অধ্যবসায় সেটিং অনুসারে মোছা হয়। বর্তমানে এই বিকল্পটি কেবল জিড্রাইভের জন্য উপলব্ধ।"
+
+#: templates/main.html:505
+#, fuzzy
+msgid "la uzantnomo por la alŝuta servo-konto"
+msgstr "আপলোড পরিষেবা অ্যাকাউন্টের জন্য ব্যবহারকারীর নাম"
+
+#: templates/main.html:510
+#, fuzzy
+msgid "la pasvorto por la alŝuta servo-konto"
+msgstr "আপলোড পরিষেবা অ্যাকাউন্টের জন্য পাসওয়ার্ড"
+
+#: templates/main.html:513
+#, fuzzy
+msgid "Rajtiga ŝlosilo"
+msgstr "অনুমোদনের কী"
+
+#: templates/main.html:515
+#, fuzzy
+msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "আপলোড পরিষেবার সাথে প্রমাণীকরণ করতে ব্যবহৃত কী (সাধারণত কেবলমাত্র কনফিগারেশনের সময় প্রয়োজন)"
+
+#: templates/main.html:521
+#, fuzzy
+msgid "Akiri ŝlosilon"
+msgstr "একটি চাবি পান"
+
+#: templates/main.html:524
+#, fuzzy
+msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
+msgstr "কী অনুমোদন পরিষেবা পেতে এখানে ক্লিক করুন"
+
+#: templates/main.html:527
+#, fuzzy
+msgid "Sekreta Alira Ŝlosilo"
+msgstr "গোপন অ্যাক্সেস কী"
+
+#: templates/main.html:529
+#, fuzzy
+msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "অ্যাডাব্লুএস গোপন অ্যাক্সেস কীটি আপলোড পরিষেবা দিয়ে প্রমাণীকরণ করতে ব্যবহৃত হয় (সাধারণত কেবলমাত্র কনফিগারেশনের সময় প্রয়োজন)"
+
+#: templates/main.html:532
+#, fuzzy
+msgid "Sitelo"
+msgstr "বালতি"
+
+#: templates/main.html:534
+#, fuzzy
+msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "আপলোড পরিষেবার জন্য নাম এস 3 বালতি (সাধারণত কেবলমাত্র কনফিগারেশনের সময় প্রয়োজন)"
+
+#: templates/main.html:538
+#, fuzzy
+msgid "Testi la servon"
+msgstr "পরিষেবা পরীক্ষা করুন"
+
+#: templates/main.html:539
+#, fuzzy
+msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
+msgstr "আপনি প্রয়োজনীয় বিশদ পূরণ করার পরে আপলোড পরিষেবাটি পরীক্ষা করতে এই বোতামটি ক্লিক করুন"
+
+#: templates/main.html:545
+#, fuzzy
+msgid "alvoki URL"
+msgstr "একটি ইউআরএল প্রার্থনা করুন"
+
+#: templates/main.html:547
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
+msgstr "আপনি যদি মিডিয়া ফাইল তৈরির পরে কোনও URL অনুরোধ করতে চান তবে এটি সক্ষম করুন"
+
+#: templates/main.html:550 templates/main.html:1111
+#, fuzzy
+msgid "Reteja URL"
+msgstr "ওয়েবসাইট ইউআরএল"
+
+#: templates/main.html:551
+#, fuzzy
+msgid "ekz. http://example.com/notify/"
+msgstr "যেমন। http://example.com/notify/"
+
+#: templates/main.html:552
+#, fuzzy, python-format
+msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
+msgstr "গতি সনাক্ত হওয়ার পরে প্রেরণে ইউআরএল; নিম্নলিখিত বিশেষ শর্টকাটগুলি গ্রহণ করা হয়েছে: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = = ফ্রেম নম্বর, %% v = ইভেন্ট সংখ্যা, %% f = ফাইলের পথ"
+
+#: templates/main.html:555 templates/main.html:1116
+#, fuzzy
+msgid "Metodo HTTP"
+msgstr "এইচটিটিপি পদ্ধতি"
+
+#: templates/main.html:564
+#, fuzzy
+msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
+msgstr "কোনও নেটওয়ার্ক হুক ইউআরএল অনুরোধ করার সময় HTTP পদ্ধতিটি ব্যবহার করতে হবে (প্রদত্ত URL- এনকোডযুক্ত প্যারামিটারগুলি এখানে নির্দেশিত হিসাবে প্রদান করা হবে)"
+
+#: templates/main.html:570
+#, fuzzy
+msgid "Kuri Komando"
+msgstr "কমান্ড রান করুন"
+
+#: templates/main.html:572
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
+msgstr "মিডিয়া ফাইল তৈরির পরে আপনি যদি কোনও আদেশ চালাতে চান তবে এটি সক্ষম করুন"
+
+#: templates/main.html:575
+#, fuzzy
+msgid "Ordono"
+msgstr "ক্রম"
+
+#: templates/main.html:576
+#, fuzzy
+msgid "ordono..."
+msgstr "অর্ডার ..."
+
+#: templates/main.html:577
+#, fuzzy, python-format
+msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
+msgstr "মাল্টিমিডিয়া ফাইল তৈরির পরে কার্যকর করার আদেশ। বেশ কয়েকটি কমান্ড একটি সেমিকোলন দ্বারা পৃথক করা যেতে পারে; কমান্ডগুলিতে সেমিকোলন ব্যবহার করবেন না; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর, %% v = ইভেন্ট সংখ্যা, %% f = ফাইলের পথ"
+
+#: templates/main.html:587
+#, fuzzy
+msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
+msgstr "ক্যাপচার করা ফ্রেমগুলিতে কী তথ্য প্রদর্শিত হবে তা নির্বাচন করুন"
+
+#: templates/main.html:588
+#, fuzzy
+msgid "Teksto Superkovrita"
+msgstr "পাঠ্য ওভারলে"
+
+#: templates/main.html:593
+#, fuzzy
+msgid "Maldekstra Teksto"
+msgstr "বাম পাঠ্য"
+
+#: templates/main.html:597 templates/main.html:614
+#, fuzzy
+msgid "Tempostampo"
+msgstr "টাইম স্ট্যাম্প"
+
+#: templates/main.html:598 templates/main.html:615
+#, fuzzy
+msgid "Propra Teksto"
+msgstr "কাস্টম পাঠ্য"
+
+#: templates/main.html:599 templates/main.html:616 templates/main.html:673
+#, fuzzy
+msgid "Malebligita"
+msgstr "অক্ষম"
+
+#: templates/main.html:602
+#, fuzzy
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
+msgstr "সিনেমা এবং ছবিতে প্রদর্শিত টেক্সটটি নীচের বাম কোণে সেট করে"
+
+#: templates/main.html:606 templates/main.html:623
+#, fuzzy
+msgid "propra teksto..."
+msgstr "নিজস্ব পাঠ্য ..."
+
+#: templates/main.html:607
+#, fuzzy, python-format
+msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgstr "কাস্টম বাম পাঠ্য সংজ্ঞা দেয়; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর, %% ভি = ইভেন্ট সংখ্যা, %% টি = এইচএইচ: এমএম: এসএস, \\ n = নতুন লাইন"
+
+#: templates/main.html:610
+#, fuzzy
+msgid "Dekstra Teksto"
+msgstr "ডান পাঠ্য"
+
+#: templates/main.html:619
+#, fuzzy
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
+msgstr "সিনেমা এবং ছবিতে প্রদর্শিত টেক্সটটি নীচের ডানদিকে কোণায় সেট করে"
+
+#: templates/main.html:624
+#, fuzzy, python-format
+msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgstr "কাস্টম ডান পাঠ্য সংজ্ঞা দেয়; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর, %% ভি = ইভেন্ট সংখ্যা, %% টি = এইচএইচ: এমএম: এসএস, \\ n = নতুন লাইন"
+
+#: templates/main.html:627
+#, fuzzy
+msgid "Teksta Skalo"
+msgstr "পাঠ্য স্কেল"
+
+#: templates/main.html:629
+#, fuzzy
+msgid "Difinas la grandecon de la superkovrita teksto"
+msgstr "ওভারলে পাঠ্যের আকার নির্ধারণ করে"
+
+#: templates/main.html:639
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
+msgstr "আপনি যদি এই ক্যামেরার জন্য কোনও ভিডিও স্ট্রিম চান তবে এটি সক্ষম করুন"
+
+#: templates/main.html:640
+#, fuzzy
+msgid "Videofluo"
+msgstr "ভিডিও স্ট্রিম"
+
+#: templates/main.html:645
+#, fuzzy
+msgid "Framo frekvencon"
+msgstr "ফ্রেমের ফ্রিকোয়েন্সি"
+
+#: templates/main.html:647
+#, fuzzy
+msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
+msgstr "লাইভ স্ট্রিমে প্রতি সেকেন্ডে প্রেরণ করা ফ্রেমের সংখ্যা নির্ধারণ করে।"
+
+#: templates/main.html:650
+#, fuzzy
+msgid "Flua Kvalito"
+msgstr "ফ্লো কোয়ালিটি"
+
+#: templates/main.html:652
+#, fuzzy
+msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
+msgstr "লাইভ স্ট্রিমিং মানের টিউন করুন (উচ্চতর মান আরও ভাল মানের ভিডিও তৈরি করে তবে আরও বেশি ব্যান্ডউইথ প্রয়োজন)।"
+
+#: templates/main.html:655
+#, fuzzy
+msgid "Bilda Redimensionado"
+msgstr "চিত্র পুনরায় আকার দেওয়া হচ্ছে"
+
+#: templates/main.html:657
+#, fuzzy
+msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
+msgstr "এটি চালু থাকলে চিত্রগুলি ব্রাউজারে প্রেরণের আগে সেগুলি পুনরায় আকার দেওয়া হয় (ধীরে সিপিইউতে চলার সময় অক্ষম করুন)।"
+
+#: templates/main.html:660
+#, fuzzy
+msgid "Flua rezolucio"
+msgstr "প্রবাহ রেজোলিউশন"
+
+#: templates/main.html:662
+#, fuzzy
+msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
+msgstr "ভিডিও ডিভাইসটির রেজোলিউশনের শতাংশ হিসাবে প্রদত্ত রেজোলিউশন (উচ্চতর মান আরও ভাল মানের ভিডিও তৈরি করে তবে আরও বেশি ব্যান্ডউইথ প্রয়োজন)"
+
+#: templates/main.html:665
+#, fuzzy
+msgid "Flua haveno"
+msgstr "ফ্লো বন্দর"
+
+#: templates/main.html:667
+#, fuzzy
+msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
+msgstr "টিসিপি পোর্ট সেট আপ করে যেখানে ওয়েব সার্ভারটি শুনছে"
+
+#: templates/main.html:670
+#, fuzzy
+msgid "Aŭtentiga reĝimo"
+msgstr "প্রমাণীকরণ মোড"
+
+#: templates/main.html:678
+#, fuzzy
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
+msgstr "স্ট্রিম দ্বারা ব্যবহৃত প্রমাণীকরণ পদ্ধতি (তৃতীয় পক্ষের প্রোগ্রামগুলির সাথে সমস্যা দেখা দিলে 'ডাইজেস্ট'-এর পরিবর্তে' বাজিক ​​'চয়ন করুন); স্বীকৃতি চেক ব্যবহার করা হবে"
+
+#: templates/main.html:681
+#, fuzzy
+msgid "Movado-Optimigo"
+msgstr "গতি অপ্টিমাইজেশন"
+
+#: templates/main.html:683
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
+msgstr "যখন কোনও গতিবিধি সনাক্ত না করা হয় আপনি যদি প্রসবের প্রবাহের জন্য নিম্ন ফ্রেমের হার চান তবে এটি সক্ষম করুন"
+
+#: templates/main.html:689
+#, fuzzy
+msgid "Utilaj URLoj"
+msgstr "দরকারী ইউআরএল"
+
+#: templates/main.html:692
+#, fuzzy
+msgid "Instantara URL"
+msgstr "তাত্ক্ষণিক ইউআরএল"
+
+#: templates/main.html:695
+#, fuzzy
+msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
+msgstr "একটি ইউআরএল যা ক্যামেরায় সর্বশেষ ক্যাপচারের সাথে একটি জেপিইজি চিত্র সরবরাহ করে"
+
+#: templates/main.html:701
+#, fuzzy
+msgid "Flua URL"
+msgstr "প্রবাহ URL"
+
+#: templates/main.html:704
+#, fuzzy
+msgid "URL kiu provizas MJPEG-fluon de la kamerao"
+msgstr "একটি ইউআরএল যা ক্যামেরা থেকে এমজেপিইগ প্রবাহ সরবরাহ করে"
+
+#: templates/main.html:710
+#, fuzzy
+msgid "Enigita URL"
+msgstr "ইনপুট ইউআরএল"
+
+#: templates/main.html:713
+#, fuzzy
+msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
+msgstr "একটি ইউআরএল যা ক্যামেরা ফ্রেমযুক্ত একটি ন্যূনতম এইচটিএমএল ডকুমেন্ট সরবরাহ করে, এম্বেড করার জন্য প্রস্তুত"
+
+#: templates/main.html:723
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
+msgstr "আপনি যদি স্থির চিত্রগুলি ক্যাপচার করতে চান তবে এটি সক্ষম করুন।"
+
+#: templates/main.html:724
+#, fuzzy
+msgid "Kaptitaj Bildoj"
+msgstr "বন্দী চিত্রসমূহ"
+
+#: templates/main.html:729
+#, fuzzy
+msgid "Nomo Bildo-Dosiero"
+msgstr "নাম চিত্র ফাইল"
+
+#: templates/main.html:730 templates/main.html:799
+#, fuzzy
+msgid "ŝablona nomo de dosiero..."
+msgstr "টেমপ্লেট ফাইলের নাম ..."
+
+#: templates/main.html:731
+#, fuzzy, python-format
+msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgstr "জেপিইজি ফাইলগুলির জন্য নাম টেম্পলেট সংজ্ঞা দেয়; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর, %% v = ইভেন্ট নম্বর, / = উপ-ডিরেক্টরি।"
+
+#: templates/main.html:734
+#, fuzzy
+msgid "Bildkvalito"
+msgstr "চিত্রের গুণমান"
+
+#: templates/main.html:736
+#, fuzzy
+msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
+msgstr "জেপিইজি চিত্রের মান সেট করে (উচ্চতর মান আরও ভাল মানের মানের উৎপন্ন করে তবে আরও স্টোরেজ প্রয়োজন)"
+
+#: templates/main.html:739
+#, fuzzy
+msgid "Kaptila reĝimo"
+msgstr "ক্যাপচার মোড"
+
+#: templates/main.html:742 templates/main.html:862
+#, fuzzy
+msgid "Moviĝa deĉenigo"
+msgstr "গতি ট্রিগার"
+
+#: templates/main.html:743
+#, fuzzy
+msgid "Moviĝa deĉenigo (Unu bildo)"
+msgstr "মোশন ট্রিগার (একটি চিত্র)"
+
+#: templates/main.html:744
+#, fuzzy
+msgid "Intertempe"
+msgstr "এরই মধ্যে"
+
+#: templates/main.html:745
+#, fuzzy
+msgid "Ĉiuj bildoj"
+msgstr "সমস্ত ছবি"
+
+#: templates/main.html:746
+#, fuzzy
+msgid "Mane"
+msgstr "হাতে"
+
+#: templates/main.html:749
+#, fuzzy
+msgid "Difinas la kapta reĝimon:"
+msgstr "ক্যাপচার মোড সংজ্ঞা দেয়:"
+
+#: templates/main.html:750
+#, fuzzy
+msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
+msgstr "মোশন ট্রিগার = প্রতিবার ক্যাপচার করা চিত্রটি মোশন সনাক্ত করা হয়েছে,"
+
+#: templates/main.html:751
+#, fuzzy
+msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
+msgstr "ইতিমধ্যে = চিত্র প্রতি x সেকেন্ডে ক্যাপচার করেছে,"
+
+#: templates/main.html:752
+#, fuzzy
+msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
+msgstr "সমস্ত চিত্র = একটি চিত্র ফাইলে প্রতিটি ফ্রেম সংরক্ষণ করে,"
+
+#: templates/main.html:753
+#, fuzzy
+msgid "Mane = mana kapto kun dediĉita butono."
+msgstr "মানে = একটি উত্সর্গীকৃত বোতাম সহ হাত ক্যাপচার।"
+
+#: templates/main.html:756
+#, fuzzy
+msgid "Interkapto-Intervalo"
+msgstr "বিরতি বিরতি"
+
+#: templates/main.html:757 templates/main.html:870 templates/main.html:945
+#: templates/main.html:1067
+#, fuzzy
+msgid "sekundoj"
+msgstr "সেকেন্ড"
+
+#: templates/main.html:758
+#, fuzzy
+msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
+msgstr "স্ন্যাপশটের জন্য ব্যবধান (সেকেন্ডে) সেট করে"
+
+#: templates/main.html:761
+#, fuzzy
+msgid "Konservi bildojn"
+msgstr "ছবি সংরক্ষণ করুন"
+
+#: templates/main.html:764 templates/main.html:877
+#, fuzzy
+msgid "Dum unu tago"
+msgstr "এক দিনের জন্য"
+
+#: templates/main.html:765 templates/main.html:878
+#, fuzzy
+msgid "Dum unu semajno"
+msgstr "এক সপ্তাহের জন্য"
+
+#: templates/main.html:766 templates/main.html:879
+#, fuzzy
+msgid "Dum unu monato"
+msgstr "একমাস ধরে"
+
+#: templates/main.html:767 templates/main.html:880
+#, fuzzy
+msgid "Dum unu jaro"
+msgstr "এক বছরের জন্য"
+
+#: templates/main.html:768 templates/main.html:881
+#, fuzzy
+msgid "Porĉiame"
+msgstr "চির"
+
+#: templates/main.html:769 templates/main.html:882
+#, fuzzy
+msgid "Propra"
+msgstr "প্রথা"
+
+#: templates/main.html:772
+#, fuzzy
+msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
+msgstr "নির্ধারিত সময়কালের চেয়ে পুরানো চিত্রগুলি সঞ্চয় স্থানটি খালি করতে স্বয়ংক্রিয়ভাবে মোছা হয়।"
+
+#: templates/main.html:775
+#, fuzzy
+msgid "Bildaj Vivdaŭro"
+msgstr "ছবি লাইফটাইম"
+
+#: templates/main.html:777
+#, fuzzy
+msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
+msgstr "দিনগুলির সংখ্যা নির্ধারণ করে যার পরে চিত্রগুলি স্বয়ংক্রিয়ভাবে মোছা হবে।"
+
+#: templates/main.html:780
+#, fuzzy
+msgid "Ebligu manaj kaptoj"
+msgstr "হাতের ক্যাচ সক্ষম করুন"
+
+#: templates/main.html:782
+#, fuzzy
+msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
+msgstr "এটি চালু থাকলে, ক্যামেরা ফ্রেমের একটি বোতাম আপনাকে ম্যানুয়ালি ক্যাপচারগুলি গ্রহণ করতে দেয়।"
+
+#: templates/main.html:792
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas registri filmojn"
+msgstr "আপনি যদি সিনেমা রেকর্ড করতে চান তবে এটি সক্ষম করুন"
+
+#: templates/main.html:793
+#, fuzzy
+msgid "Filmoj"
+msgstr "চলচ্চিত্র"
+
+#: templates/main.html:798
+#, fuzzy
+msgid "Filma Dosiernomo"
+msgstr "চলচ্চিত্রের ফাইলের নাম"
+
+#: templates/main.html:800
+#, fuzzy, python-format
+msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgstr "চলচ্চিত্রের ফাইলগুলির জন্য নাম টেম্পলেট সংজ্ঞা দেয়; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর, %% v = ইভেন্ট নম্বর, / = উপ-ডিরেক্টরি।"
+
+#: templates/main.html:803
+#, fuzzy
+msgid "Rekta kopia filmeto"
+msgstr "সরাসরি কপির ভিডিও"
+
+#: templates/main.html:805
+#, fuzzy
+msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
+msgstr "সরাসরি ক্যামেরা থেকে সিনেমা তৈরি করুন। এই বিকল্পটি সিপিইউর ব্যবহার হ্রাস করতে পারে তবে মেমরির চাহিদা বাড়ায়। কোনও চিত্র প্রক্রিয়াকরণ করা হয় না, সুতরাং পাঠ্যগুলি ওভারল্যাপ, গোপনীয়তার মুখোশ ইত্যাদি ফলাফল ভিডিওতে হবে না।"
+
+#: templates/main.html:808
+#, fuzzy
+msgid "Filmformato"
+msgstr "চলচ্চিত্রের ফর্ম্যাট"
+
+#: templates/main.html:851
+#, fuzzy
+msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
+msgstr "মুভি ফাইলটি কাস্টমাইজ করে; সমস্ত ফর্ম্যাটগুলি সমস্ত সিস্টেমে কাজ করার গ্যারান্টিযুক্ত নয়; যদি সন্দেহ হয়, প্রতিটি ফর্ম্যাটটি পরীক্ষা করুন এবং আপনার ভিডিওর সাথে সবচেয়ে ভাল কাজ করে এমন একটি চয়ন করুন।"
+
+#: templates/main.html:854
+#, fuzzy
+msgid "Filma Kvalito"
+msgstr "ফিল্ম কোয়ালিটি"
+
+#: templates/main.html:856
+#, fuzzy
+msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
+msgstr "এমপিইজি ভিডিওর মান সেট করে (উচ্চতর মান আরও ভাল মানের ভিডিও উত্পাদন করে তবে আরও স্টোরেজ প্রয়োজন)।"
+
+#: templates/main.html:859
+#, fuzzy
+msgid "Rekorda reĝimo"
+msgstr "রেকর্ড মোড"
+
+#: templates/main.html:863
+#, fuzzy
+msgid "Kontinua registrado"
+msgstr "অবিচ্ছিন্ন রেকর্ডিং"
+
+#: templates/main.html:866
+#, fuzzy
+msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
+msgstr "রেকর্ডিং মোড সেট করে: মোশন ট্রিগার = নতুন মুভি তৈরি করা হয় যখনই মোশন সনাক্ত হয়, ক্রমাগত রেকর্ডিং = একটি বড় মুভি ফাইল।"
+
+#: templates/main.html:869
+#, fuzzy
+msgid "Maksimuma filma daŭro"
+msgstr "সর্বাধিক চলচ্চিত্র সময়কাল"
+
+#: templates/main.html:871
+#, fuzzy
+msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
+msgstr "সেকেন্ডে চলচ্চিত্রের সর্বোচ্চ দৈর্ঘ্য নির্ধারণ করে; যদি গতির ইভেন্টটি বেশি দিন স্থায়ী হয় তবে একটি নতুন চলচ্চিত্রের ফাইল তৈরি হবে; সীমাহীন দৈর্ঘ্যের জন্য 0 ব্যবহার করুন।"
+
+#: templates/main.html:874
+#, fuzzy
+msgid "Konservi filmojn"
+msgstr "চলচ্চিত্রগুলি সংরক্ষণ করুন"
+
+#: templates/main.html:885
+#, fuzzy
+msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
+msgstr "সেট সময়কালের চেয়ে পুরানো সিনেমাগুলি স্টোরেজ প্রকাশের জন্য স্বয়ংক্রিয়ভাবে মোছা হয়।"
+
+#: templates/main.html:888
+#, fuzzy
+msgid "Filmoj Vivdaŭro"
+msgstr "চলচ্চিত্র লাইফটাইম"
+
+#: templates/main.html:889
+#, fuzzy
+msgid "tagoj"
+msgstr "দিন"
+
+#: templates/main.html:890
+#, fuzzy
+msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
+msgstr "দিনগুলি নির্ধারণ করে যার পরে সিনেমাগুলি স্বয়ংক্রিয়ভাবে মোছা হবে।"
+
+#: templates/main.html:900
+#, fuzzy
+msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
+msgstr "চলন সনাক্ত করতে ডিভাইসটি ব্যবহার এবং কনফিগার করতে এটি সক্রিয় করুন।"
+
+#: templates/main.html:901
+#, fuzzy
+msgid "Movado-Detekto"
+msgstr "গতি সনাক্তকরণ"
+
+#: templates/main.html:906
+#, fuzzy
+msgid "Kadra ŝanĝo sojlo"
+msgstr "ফ্রেম পরিবর্তন থ্রেশহোল্ড"
+
+#: templates/main.html:908
+#, fuzzy
+msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
+msgstr "চিত্রটি ন্যূনতম শতাংশের নির্দেশ করে যা চলন সনাক্তকরণের জন্য দুটি ক্রমাগত ফ্রেমের মধ্যে স্যুইচ করতে হবে (ছোট মান আরও সংবেদনশীল সনাক্তকরণ দেয় তবে মিথ্যা ধনাত্মক হয়)।"
+
+#: templates/main.html:911
+#, fuzzy
+msgid "Maksimuma ŝanĝo sojlo"
+msgstr "সর্বাধিক পরিবর্তন থ্রেশহোল্ড"
+
+#: templates/main.html:913
+#, fuzzy
+msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
+msgstr "ফ্রেমের মধ্যে পরিবর্তিত পিক্সেলগুলির সংখ্যা নির্ধারণ করে যার উপরে কোনও স্ক্রোল আর ট্রিগার করা হয় না (0 সীমানা অক্ষম করে)।"
+
+#: templates/main.html:916
+#, fuzzy
+msgid "Aŭtomata sojla agordo"
+msgstr "স্বয়ংক্রিয় থ্রেশহোল্ড সেটিংস"
+
+#: templates/main.html:918
+#, fuzzy
+msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
+msgstr "দোরগোড়াকে স্বয়ংক্রিয়ভাবে সামঞ্জস্য করতে এটি সক্ষম করুন।"
+
+#: templates/main.html:921
+#, fuzzy
+msgid "Aŭtomata bruo-detekto"
+msgstr "স্বয়ংক্রিয় শব্দ সনাক্তকরণ"
+
+#: templates/main.html:923
+#, fuzzy
+msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
+msgstr "শব্দ স্তরটি স্বয়ংক্রিয়ভাবে সামঞ্জস্য করতে এটি সক্ষম করুন।"
+
+#: templates/main.html:926
+#, fuzzy
+msgid "Bruo-nivelo"
+msgstr "গোলমাল স্তর"
+
+#: templates/main.html:928
+#, fuzzy
+msgid "Permane agordas la bruan nivelon al fiksita valoro."
+msgstr "স্থিরভাবে শব্দের স্তরটি একটি সেট মানকে সেট করে।"
+
+#: templates/main.html:931
+#, fuzzy
+msgid "Detekto de lumaj ŝanĝoj"
+msgstr "আলোক পরিবর্তনের সনাক্তকরণ"
+
+#: templates/main.html:933
+#, fuzzy, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "যে চিত্রটি পরিবর্তন করা দরকার তার শতাংশ নির্ধারণ করে যাতে ইভেন্টটিকে গতির চেয়ে আকস্মিক আলো পরিবর্তনের হিসাবে বিবেচনা করা হয় (0%% বৈশিষ্ট্যটি অক্ষম করে)।"
+
+#: templates/main.html:936
+#, fuzzy
+msgid "Makula filtrilo"
+msgstr "দাগ ফিল্টার"
+
+#: templates/main.html:938
+#, fuzzy
+msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
+msgstr "গতি সনাক্তকরণের আগে ফ্রেমে একটি স্পট ফিল্টার প্রয়োগ করে এটি সক্ষম করুন।"
+
+#: templates/main.html:944
+#, fuzzy
+msgid "Senmovada daŭro"
+msgstr "অবিচ্ছিন্ন চলাচল"
+
+#: templates/main.html:946
+#, fuzzy
+msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
+msgstr "সেকেন্ডের নীরবতার সংখ্যা নির্ধারণ করে (অর্থাত্ কোনও আন্দোলন নয়) যা কোনও আন্দোলনের ইভেন্টের সমাপ্তি চিহ্নিত করে।"
+
+#: templates/main.html:949
+#, fuzzy
+msgid "Kaptita Antaŭe"
+msgstr "আগে ধরা"
+
+#: templates/main.html:950 templates/main.html:955 templates/main.html:960
+#, fuzzy
+msgid "kadroj"
+msgstr "চিহ্ন"
+
+#: templates/main.html:951
+#, fuzzy
+msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
+msgstr "গতিবেগের ঘটনা সনাক্ত হওয়ার আগে ক্যাপচার করা ফ্রেমের সংখ্যা নির্ধারণ করে (এবং সিনেমায় অন্তর্ভুক্ত)।"
+
+#: templates/main.html:954
+#, fuzzy
+msgid "Kaptita Post"
+msgstr "পরে ধরা"
+
+#: templates/main.html:956
+#, fuzzy
+msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
+msgstr "কোনও আন্দোলনের ইভেন্ট শেষ হওয়ার পরে ক্যাপচার হওয়ার জন্য ফ্রেমগুলির সংখ্যা নির্ধারণ করে (এবং সিনেমায় অন্তর্ভুক্ত)।"
+
+#: templates/main.html:959
+#, fuzzy
+msgid "Minimumaj movaj kadroj"
+msgstr "ন্যূনতম গতি ফ্রেম"
+
+#: templates/main.html:961
+#, fuzzy
+msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
+msgstr "একটি মোশন ইভেন্ট শুরু করতে প্রয়োজনীয় ন্যূনতম গতি ফ্রেমের সংখ্যা নির্ধারণ করে।"
+
+#: templates/main.html:967
+#, fuzzy
+msgid "Masko"
+msgstr "মাস্ক"
+
+#: templates/main.html:969
+#, fuzzy
+msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
+msgstr "আরও নির্বাচনী এবং সঠিক গতি সনাক্তকরণের জন্য চিত্র মাস্কিং সক্ষম করে।"
+
+#: templates/main.html:972
+#, fuzzy
+msgid "Tipo de masko"
+msgstr "মুখোশের ধরণ"
+
+#: templates/main.html:975
+#, fuzzy
+msgid "Inteligenta"
+msgstr "বুদ্ধিমান"
+
+#: templates/main.html:976
+#, fuzzy
+msgid "Redaktebla"
+msgstr "সম্পাদনাযোগ্য"
+
+#: templates/main.html:979
+#, fuzzy
+msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
+msgstr "বুদ্ধিমান বিকল্পটি নিয়মিত গতির সাথে অঞ্চলগুলি স্বয়ংক্রিয়ভাবে সনাক্ত করে এবং গতিশীলভাবে একটি অভ্যন্তরীণ মুখোশ তৈরি করে, অন্যদিকে সম্পাদনাযোগ্য বিকল্পটি আপনাকে এটি নিজে নিজে তৈরি করতে দেয়।"
+
+#: templates/main.html:982
+#, fuzzy
+msgid "Inteligenta-maska Malrapideco"
+msgstr "স্মার্ট-মাস্ক স্লোনেস"
+
+#: templates/main.html:984
+#, fuzzy
+msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
+msgstr "উচ্চতর মান ধীর গতির বিল্ডিং প্রক্রিয়া সহ আরও টেকসই মাস্ক দেয়।"
+
+#: templates/main.html:993
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
+msgstr "মাস্ক সম্পাদক সক্ষম / অক্ষম করতে এই বোতামটি ক্লিক করুন।"
+
+#: templates/main.html:997
+#, fuzzy
+msgid "Purigi maskon"
+msgstr "পরিষ্কার মুখোশ"
+
+#: templates/main.html:998
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
+msgstr "বর্তমান মুখোশটি খালি করতে এই বোতামটি ক্লিক করুন।"
+
+#: templates/main.html:1004
+#, fuzzy
+msgid "Montri Kadro-Ŝanĝojn"
+msgstr "ফ্রেম পরিবর্তনগুলি দেখান"
+
+#: templates/main.html:1006
+#, fuzzy
+msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
+msgstr "যদি এটি সক্রিয় থাকে তবে ভিডিওতে চিত্রের পরিবর্তনগুলি (পিক্সেলের সংখ্যা এবং পরিবর্তিত অঞ্চল) প্রদর্শিত হবে; মোশন সনাক্তকরণ সেটিংস সামঞ্জস্য করতে সাময়িকভাবে এটিকে সক্ষম করুন।"
+
+#: templates/main.html:1009
+#, fuzzy
+msgid "Krei debug media files"
+msgstr "ডিবাগ মিডিয়া ফাইলগুলি তৈরি করুন"
+
+#: templates/main.html:1011
+#, fuzzy
+msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
+msgstr "সক্ষম করা থাকলে, বিশেষ চলচ্চিত্র এবং চিত্রগুলি তৈরি করুন যা গতি সনাক্তকরণের সমস্যাগুলিকে ডিবাগ করতে সহায়তা করে।"
+
+#: templates/main.html:1020
+#, fuzzy
+msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
+msgstr "মোশন সনাক্ত করার পরে আপনি যদি অবহিত হতে চান তবে এটি সক্ষম করুন।"
+
+#: templates/main.html:1021
+#, fuzzy
+msgid "Moviĝaj sciigoj"
+msgstr "গতি বিজ্ঞপ্তি"
+
+#: templates/main.html:1026
+#, fuzzy
+msgid "Sendi retpoŝton"
+msgstr "একটি ইমেল প্রেরণ করুন"
+
+#: templates/main.html:1028
+#, fuzzy
+msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "আপনি যখন কোনও মোশন ইভেন্ট সনাক্ত করে প্রতিবার কোনও ইমেল পেতে চান তবে এই বিকল্পটি সক্রিয় করুন।"
+
+#: templates/main.html:1031
+#, fuzzy
+msgid "Retpoŝtadresoj"
+msgstr "ইমেল ঠিকানা"
+
+#: templates/main.html:1032
+#, fuzzy
+msgid "retpoŝtadresoj..."
+msgstr "ইমেল ঠিকানা ..."
+
+#: templates/main.html:1033
+#, fuzzy
+msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
+msgstr "এখানে যুক্ত ইমেল ঠিকানাগুলি (কমা দ্বারা পৃথক করা) যখনই কোনও গতির ঘটনা সনাক্ত হয় তখন বিজ্ঞপ্তিগুলি প্রাপ্ত হবে।"
+
+#: templates/main.html:1036
+#, fuzzy
+msgid "Servilo SMTP"
+msgstr "এসএমটিপি সার্ভার"
+
+#: templates/main.html:1037
+#, fuzzy
+msgid "ekz. smtp.gmail.com"
+msgstr "যেমন। smtp.gmail.com"
+
+#: templates/main.html:1038
+#, fuzzy
+msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
+msgstr "আপনার এসএমটিপি সার্ভারের হোস্টনাম বা আইপি ঠিকানা লিখুন (জিএমএল smtp.gmail.com ব্যবহারের জন্য)।"
+
+#: templates/main.html:1041
+#, fuzzy
+msgid "SMTP Haveno"
+msgstr "এসএমটিপি পোর্ট"
+
+#: templates/main.html:1042
+#, fuzzy
+msgid "ekz. 587"
+msgstr "যেমন। 587"
+
+#: templates/main.html:1043
+#, fuzzy
+msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
+msgstr "আপনার এসএমটিপি সার্ভার দ্বারা ব্যবহৃত পোর্টটি প্রবেশ করান (সাধারণত টিএলএস সংযোগের জন্য 465 এবং টিএলএস সংযোগের জন্য 587)।"
+
+#: templates/main.html:1046
+#, fuzzy
+msgid "SMTP-Konto"
+msgstr "এসএমটিপি অ্যাকাউন্ট"
+
+#: templates/main.html:1047
+#, fuzzy
+msgid "konto@gmail.com..."
+msgstr "অ্যাকাউন্ট@gmail.com ..."
+
+#: templates/main.html:1048
+#, fuzzy
+msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
+msgstr "আপনার এসএমটিপি অ্যাকাউন্ট লিখুন (সাধারণত আপনার ইমেল ঠিকানা)।"
+
+#: templates/main.html:1051
+#, fuzzy
+msgid "SMTP Pasvorto"
+msgstr "এসএমটিপি পাসওয়ার্ড"
+
+#: templates/main.html:1053
+#, fuzzy
+msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
+msgstr "আপনার এসএমটিপি পাসওয়ার্ড লিখুন (জিমেইলের জন্য আপনার গুগল পাসওয়ার্ড বা একটি অ্যাপ্লিকেশন-উত্পন্ন পাসওয়ার্ড ব্যবহার করুন)।"
+
+#: templates/main.html:1056
+#, fuzzy
+msgid "De adreso"
+msgstr "ঠিকানা থেকে"
+
+#: templates/main.html:1057
+#, fuzzy
+msgid "retpoŝta adreso..."
+msgstr "ইমেল ঠিকানা ..."
+
+#: templates/main.html:1058
+#, fuzzy
+msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
+msgstr "ঠিকানা থেকে একটি কাস্টম সেট করা যদি আপনার এসএমটিপি পরিষেবায় একটির প্রয়োজন হয় (ফাঁকা ছেড়ে গেলে প্রথম গন্তব্য ইমেল ঠিকানা ব্যবহার করা হবে)।"
+
+#: templates/main.html:1061
+#, fuzzy
+msgid "Uzi TLS"
+msgstr "টিএলএস ব্যবহার করুন"
+
+#: templates/main.html:1063
+#, fuzzy
+msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
+msgstr "আপনার এসএমটিপি সার্ভারের টিএলএস প্রয়োজন হলে এটি সক্ষম করুন (Gmail এটি সক্ষম করার প্রয়োজন হয়)।"
+
+#: templates/main.html:1066
+#, fuzzy
+msgid "Aldonitaj bildoj tempo-intervalo"
+msgstr "ছবি সময় ব্যবধান যুক্ত"
+
+#: templates/main.html:1068
+#, fuzzy
+msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgstr "ইমেল লিঙ্কগুলি তৈরি করার সময় ব্যবহারের জন্য সময় অনুসন্ধান ব্যবধানটি সংজ্ঞায়িত করে (উচ্চতর মানগুলি বর্ধিত স্থগিতকরণ বিজ্ঞপ্তির ব্যয়ে আরও চিত্র সহ ইমেল উত্পন্ন করে); যুক্ত চিত্রগুলি অক্ষম করতে 0 তে সেট করুন; এই কাজটি করার জন্য আপনার \"ক্যাপচার চিত্রগুলি\" সক্ষম হওয়াও দরকার।"
+
+#: templates/main.html:1072
+#, fuzzy
+msgid "Testi retpoŝto"
+msgstr "পরীক্ষা ইমেল"
+
+#: templates/main.html:1073
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "আপনি প্রয়োজনীয় বিশদ পূরণ করার পরে ইমেল বিজ্ঞপ্তিগুলি পরীক্ষা করতে এই বোতামটিতে ক্লিক করুন।"
+
+#: templates/main.html:1079
+#, fuzzy
+msgid "Sendu Telegraman Sciigon"
+msgstr "টেলিগ্রাম বিজ্ঞপ্তি পাঠান"
+
+#: templates/main.html:1081
+#, fuzzy
+msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
+msgstr "আপনি যখনই কোনও টেলিগ্রাম মেসেজ পেতে চান যখনই কোনও চলমান ইভেন্ট সনাক্ত হয় এটি সক্ষম করুন"
+
+#: templates/main.html:1084
+#, fuzzy
+msgid "HTTP API ĵetono"
+msgstr "HTTP এপিআই টোকেন"
+
+#: templates/main.html:1085
+#, fuzzy
+msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+msgstr "উদাহরণ: 93847672: AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+
+#: templates/main.html:1086
+#, fuzzy
+msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
+msgstr "টেলিগ্রাম বট চ্যাটটি তৈরি করে আপনি এমন একটি এপিআই টোকেন পাবেন যা আপনাকে এখানে প্রবেশ করতে হবে। কীভাবে আপনার এপিআই টোকেন পাবেন সেই ধাপে ধাপে গাইডের জন্য নীচের এপিআই বোতামটি ক্লিক করুন। আপনার কী তৈরি হওয়ার পরে আপনার নতুন নির্মিত বুটের সাথে চ্যাট করতে ভুলবেন না তা নিশ্চিত করতে আপনি বার্তা পাচ্ছেন।"
+
+#: templates/main.html:1089
+#, fuzzy
+msgid "Babileja ID"
+msgstr "চ্যাট আইডি"
+
+#: templates/main.html:1090
+#, fuzzy
+msgid "Ekzemplo: 938272312"
+msgstr "উদাহরণ: 938272312"
+
+#: templates/main.html:1091
+#, fuzzy
+msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
+msgstr "আইডি_চ্যাটবট (@ আইডি_চ্যাটবট) এ একটি নতুন চ্যাট তৈরি করুন এবং শুরু করতে বেছে নিন। চ্যাট এই ক্ষেত্রের জন্য প্রয়োজনীয় নম্বর প্রদান করবে।"
+
+#: templates/main.html:1094
+#, fuzzy
+msgid "Alkroĉitaj Bildoj Tempo"
+msgstr "সংযুক্ত চিত্রগুলির সময়"
+
+#: templates/main.html:1096
+#, fuzzy
+msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
+msgstr "টেলিগ্রাম সংযুক্তি তৈরি করতে চিত্র অনুসন্ধানের সময় ব্যবধানটি সংজ্ঞায়িত করা হয় (বর্ধিত বিজ্ঞপ্তি বিলম্বের ফলে উচ্চতর মান আরও চিত্র উত্পন্ন করে); চিত্র সংযুক্তি অক্ষম করতে 0 তে সেট করুন; এটি কাজ করার জন্য আপনাকে অবশ্যই স্থির চিত্রগুলি সক্ষম করতে হবে; কোনও চিত্র না পাঠানো পর্যন্ত আপনি এই নম্বরটি নিয়ে খেলতে চাইবেন। একটি ভাল প্রারম্ভিক নম্বর 30 হয় যদি আপনি স্থিরভাবে একটি গতিতে চিত্রগুলি সেট করেন। ট্রিগারযুক্ত একটি মানক পদক্ষেপের জন্য, এটি অনেক কম সেট করুন।"
+
+#: templates/main.html:1099
+#, fuzzy
+msgid "API-Informoj"
+msgstr "এপিআই তথ্য"
+
+#: templates/main.html:1100
+#, fuzzy
+msgid "Testo"
+msgstr "পরীক্ষা"
+
+#: templates/main.html:1106
+#, fuzzy
+msgid "Alvoki URL"
+msgstr "ইউআরএল চালু করুন"
+
+#: templates/main.html:1108
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "যখনই কোনও মোশন ইভেন্ট সনাক্ত হয় আপনি কোনও URL- এর অনুরোধ করতে চাইলে এটি সক্ষম করুন।"
+
+#: templates/main.html:1112
+#, fuzzy
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "যেমন। http://ekzemplo.com/sciigi/"
+
+#: templates/main.html:1113
+#, fuzzy, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "মোশনটি সনাক্ত হওয়ার পরে ইউআরএল অনুরোধ করা হবে; নিম্নলিখিত বিশেষ শর্টকাটগুলি গ্রহণ করা হয়েছে: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর , %% v = ইভেন্ট নম্বর"
+
+#: templates/main.html:1125
+#, fuzzy
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "URL টি অনুরোধ করার সময় ব্যবহার করতে হবে HTTP পদ্ধতি (প্রদত্ত URL প্যারামিটারগুলি এখানে বর্ণিত হিসাবে বিতরণ করা হবে)।"
+
+#: templates/main.html:1131
+#, fuzzy
+msgid "Lanĉi komando"
+msgstr "কমান্ড চালু করুন"
+
+#: templates/main.html:1133
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "আপনি যখন কোনও মোশন ইভেন্ট সনাক্ত করে প্রতিবার কোনও কমান্ড চালাতে চান তবে এটি সক্ষম করুন।"
+
+#: templates/main.html:1136 templates/main.html:1149
+#, fuzzy
+msgid "Komando"
+msgstr "হুকুম"
+
+#: templates/main.html:1137 templates/main.html:1150
+#, fuzzy
+msgid "komando..."
+msgstr "আদেশ ..."
+
+#: templates/main.html:1138
+#, fuzzy, python-format
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "মোশন সনাক্ত হওয়ার পরে চালু করার আদেশ; একাধিক কমান্ড একটি কোলন দ্বারা পৃথক করা যেতে পারে; কমান্ড সহ সেমিকোলন ব্যবহার করবেন না; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়েছে: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর , %% v = ইভেন্ট নম্বর"
+
+#: templates/main.html:1144
+#, fuzzy
+msgid "Lanĉi fina komando"
+msgstr "ফাইনাল কমান্ড চালু করুন"
+
+#: templates/main.html:1146
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "আপনি প্রতিবার কোনও মুভি ইভেন্ট শেষ হওয়ার পরে কোনও কমান্ড চালু করতে চাইলে এটি সক্ষম করুন।"
+
+#: templates/main.html:1151
+#, fuzzy, python-format
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "মোশন ইভেন্ট শেষ হওয়ার পরে চালু করার আদেশ; একাধিক কমান্ড একটি কোলন দ্বারা পৃথক করা যেতে পারে; কমান্ড সহ ডট কমস ব্যবহার করবেন না; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়: %% Y = বছর, %% মি = মাস, %% d = তারিখ, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর।"
+
+#: templates/main.html:1161
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
+msgstr "আপনি যদি গতি সনাক্তকরণের জন্য একটি সাপ্তাহিক সময়সূচী সেট করতে চান তবে এটি সক্ষম করুন।"
+
+#: templates/main.html:1162
+#, fuzzy
+msgid "Laboranta horaro"
+msgstr "কাজের সময়সূচী"
+
+#: templates/main.html:1167
+#, fuzzy
+msgid "Lundo"
+msgstr "সোমবার"
+
+#: templates/main.html:1170
+#, fuzzy
+msgid "de"
+msgstr "এর"
+
+#: templates/main.html:1171
+#, fuzzy
+msgid "ĝis"
+msgstr "অবধি"
+
+#: templates/main.html:1173
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por lundoj."
+msgstr "সোমবারের জন্য কার্যদিবসের সময়সীমা নির্ধারণ করে।"
+
+#: templates/main.html:1176
+#, fuzzy
+msgid "Mardo"
+msgstr "মঙ্গলবার"
+
+#: templates/main.html:1182
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por mardoj."
+msgstr "মঙ্গলবারের জন্য কার্যদিবসের সময়সীমা নির্ধারণ করে।"
+
+#: templates/main.html:1185
+#, fuzzy
+msgid "Merkredo"
+msgstr "বুধবার"
+
+#: templates/main.html:1191
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por merkredoj."
+msgstr "বুধবারের জন্য কার্যদিবসের সময়সীমা নির্ধারণ করে।"
+
+#: templates/main.html:1194
+#, fuzzy
+msgid "Ĵaŭdo"
+msgstr "বৃহস্পতিবার"
+
+#: templates/main.html:1200
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
+msgstr "বৃহস্পতিবারের জন্য কার্যদিবসের সময়সীমা নির্ধারণ করে।"
+
+#: templates/main.html:1203
+#, fuzzy
+msgid "Vendredo"
+msgstr "শুক্রবার"
+
+#: templates/main.html:1209
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por vendredoj."
+msgstr "শুক্রবারের জন্য কার্যদিবসের সময়সীমা নির্ধারণ করে।"
+
+#: templates/main.html:1212
+#, fuzzy
+msgid "Sabato"
+msgstr "শনিবার"
+
+#: templates/main.html:1218
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por sabatoj."
+msgstr "শনিবারের জন্য কার্যদিবসের সময়সীমা নির্ধারণ করে।"
+
+#: templates/main.html:1221
+#, fuzzy
+msgid "Dimanĉo"
+msgstr "রবিবার"
+
+#: templates/main.html:1227
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
+msgstr "রবিবারের জন্য কার্যদিবসের সময়সীমা নির্ধারণ করে।"
+
+#: templates/main.html:1230
+#, fuzzy
+msgid "Detekti movadon"
+msgstr "চলাচল সনাক্ত করুন"
+
+#: templates/main.html:1233
+#, fuzzy
+msgid "Dum laborista horaro"
+msgstr "কাজের সময়"
+
+#: templates/main.html:1234
+#, fuzzy
+msgid "Ekster laborista horaro"
+msgstr "বাইরে কাজের সময়"
+
+#: templates/main.html:1237
+#, fuzzy
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
+msgstr "কাজের সময় চলাকালীন বা তার বাইরে গতি সনাক্তকরণ সক্রিয় হওয়া উচিত কিনা তা নির্ধারণ করে।"
+
+#: utils/dtconv.py:29 utils/dtconv.py:68
+#, fuzzy
+msgid "never"
+msgstr "না"
+
+#: utils/dtconv.py:120
+#, fuzzy
+msgid "day"
+msgstr "দিন"
+
+#: utils/dtconv.py:123
+#, fuzzy
+msgid "week"
+msgstr "সপ্তাহ"
+
+#: utils/dtconv.py:126
+#, fuzzy
+msgid "month"
+msgstr "মাস"
+
+#: utils/dtconv.py:129
+#, fuzzy
+msgid "year"
+msgstr "বছর"
+
+#: utils/dtconv.py:132
+#, fuzzy
+msgid "days"
+msgstr "দিন"
+
+#: utils/dtconv.py:136
+#, fuzzy
+msgid "hour"
+msgstr "ঘন্টা"
+
+#: utils/dtconv.py:139
+#, fuzzy
+msgid "hours"
+msgstr "ঘন্টা"
+
+#: utils/dtconv.py:143
+#, fuzzy
+msgid "minute"
+msgstr "মিনিট"
+
+#: utils/dtconv.py:146
+#, fuzzy
+msgid "minutes"
+msgstr "মিনিট"
+
+#: utils/dtconv.py:150
+#, fuzzy
+msgid "second"
+msgstr "দ্বিতীয়"
+
+#: utils/dtconv.py:153 utils/dtconv.py:156
+#, fuzzy
+msgid "seconds"
+msgstr "সেকেন্ড"
+
+#: utils/dtconv.py:160
+#, fuzzy
+msgid "minus"
+msgstr "ঋণচিহ্ন"
+
+#, fuzzy
+#~ msgid "Alira Ŝlosila Id"
+#~ msgstr "কী আইডি অ্যাক্সেস করুন"
+
+#, fuzzy
+#~ msgid "la AWS-ŝlosila identigilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+#~ msgstr "অ্যাডাব্লুএস কী শনাক্তকারী আপলোড পরিষেবার সাথে প্রমাণীকরণ করতে ব্যবহৃত হয় (সাধারণত কেবলমাত্র কনফিগারেশনের সময় প্রয়োজন)"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+#~ msgstr "মোশন সনাক্ত হওয়ার পরে চালু করার আদেশ; একাধিক কমান্ড একটি সেমিকোলন দ্বারা পৃথক করা যেতে পারে; কমান্ড সহ সেমিকোলন ব্যবহার করবেন না; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়েছে: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর , %% v = ইভেন্ট নম্বর"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
+#~ msgstr "মোশন ইভেন্ট শেষ হওয়ার পরে চালু করার আদেশ; একাধিক কমান্ড একটি সেমিকোলন দ্বারা পৃথক করা যেতে পারে; কমান্ড সহ ডট কমস ব্যবহার করবেন না; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়েছে: %% Y = বছর, %% মি = মাস, %% d = তারিখ, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর।"
+
+#, fuzzy
+#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
+#~ msgstr "যে চিত্রটি পরিবর্তন করা দরকার তার শতাংশ নির্ধারণ করে যাতে ইভেন্টটি গতির পরিবর্তে আকস্মিক আলো পরিবর্তনের হিসাবে বিবেচিত হয় (0% বৈশিষ্ট্যটি অক্ষম করে)।"

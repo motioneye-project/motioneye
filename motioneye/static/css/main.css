@@ -352,7 +352,7 @@ div.apply-button {
     display: none;
     opacity: 0;
     float: right;
-    width: 4em;
+    width: 5em;
     height: 30px;
     line-height: 30px;
     text-align: center;
@@ -389,7 +389,7 @@ div.normal-button {
     font-size: 0.9em;
     border-radius: 3px;
     transition: all 0.1s linear;
-    width: 7em;
+    width: 8em;
 }
 
 div.update-button,
@@ -767,7 +767,9 @@ div.picture-dialog-content {
 
 div.picture-dialog-prev-arrow,
 div.picture-dialog-next-arrow,
+div.picture-dialog-playbuttons,
 div.picture-dialog-play,
+div.picture-dialog-timelapse,
 div.picture-dialog-progress {
     position: absolute;
     top: 50%;
@@ -788,11 +790,23 @@ div.picture-dialog-next-arrow {
     background-image: url(../img/arrows.svg);
 }
 
+div.picture-dialog-playbuttons {
+    left: 50%;
+    width: 6.4em;
+    margin-left: -3.2em;
+    background: none;
+}
+
 div.picture-dialog-play {
     background-image: url(../img/camera-top-buttons.svg);
     background-position: -300% 0px;
-    left: 50%;
-    margin-left: -1.5em;
+}
+
+div.picture-dialog-timelapse {
+    background-image: url(../img/camera-top-buttons.svg);
+    background-position: -500% 0px;
+    position: absolute;
+    right: 0px;
 }
 
 div.picture-dialog-prev-arrow {

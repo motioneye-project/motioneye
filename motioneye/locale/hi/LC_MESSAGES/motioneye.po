@@ -1,0 +1,1889 @@
+# Translations template for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# Automatically generated, 2020.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-03-23 22:22+0100\n"
+"PO-Revision-Date: 2020-04-07 17:41+0200\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: server.py:212
+#, fuzzy
+msgid "interrompa signalo ricevita, fermanta ..."
+msgstr "अवरोध संकेत प्राप्त हुआ, बंद हो रहा है ..."
+
+#: server.py:246
+#, fuzzy
+msgid "smb-akcioj postulas radikajn privilegiojn"
+msgstr "smb शेयरों के लिए विशेषाधिकारों की आवश्यकता होती है"
+
+#: server.py:253
+#, fuzzy
+msgid "bonvolu instali tornado version 3.1 aŭ pli"
+msgstr "कृपया तूफान संस्करण 3.1 या उच्चतर स्थापित करें"
+
+#: server.py:260
+#, fuzzy
+msgid "bonvolu instali jinja2"
+msgstr "कृपया jinja2 स्थापित करें"
+
+#: server.py:267
+#, fuzzy
+msgid "bonvolu instali pillow aŭ PIL"
+msgstr "कृपया तकिया या पीआईएल स्थापित करें"
+
+#: server.py:274
+#, fuzzy
+msgid "bonvolu instali pycurl"
+msgstr "कृपया pycurl स्थापित करें"
+
+#: server.py:376
+#, fuzzy
+msgid "saluton! ĉi tio estas motionEye-servilo "
+msgstr "हैलो! यह एक मोशन सर्वर है"
+
+#: server.py:391
+#, fuzzy
+msgid "purigado komenciĝis"
+msgstr "सफाई शुरू हुई"
+
+#: server.py:393
+#, fuzzy
+msgid "wsswitch komenciĝis"
+msgstr "wsswitch शुरू हो गया है"
+
+#: server.py:396
+#, fuzzy
+msgid "taskoj komenciĝis"
+msgstr "कार्य शुरू हो गए"
+
+#: server.py:400
+#, fuzzy
+msgid "mjpg klienta rubo-kolektanto komenciĝis"
+msgstr "mjpg ग्राहक कचरा कलेक्टर शुरू हो गया है"
+
+#: server.py:413
+#, fuzzy
+msgid "servilo komenciĝis"
+msgstr "सर्वर शुरू हुआ"
+
+#: server.py:419
+#, fuzzy
+msgid "servilo haltis"
+msgstr "सर्वर बंद हो गया"
+
+#: server.py:421
+#, fuzzy
+msgid "taskoj haltis"
+msgstr "कार्य रुक गए"
+
+#: server.py:429
+#, fuzzy
+msgid "motion haltis"
+msgstr "गति बंद हो गई"
+
+#: server.py:434
+#, fuzzy
+msgid "adiaŭ!"
+msgstr "अलविदा!"
+
+#: templates/main.html:100
+#, fuzzy
+msgid "agordojn"
+msgstr "सेटिंग्स"
+
+#: templates/main.html:101
+#, fuzzy
+msgid "ŝanĝi uzanton"
+msgstr "उपयोगकर्ता बदलें"
+
+#: templates/main.html:103
+#, fuzzy
+msgid "forigi kameraon"
+msgstr "कैमरा हटाओ"
+
+#: templates/main.html:104
+#, fuzzy
+msgid "Apliki"
+msgstr "लागू"
+
+#: templates/main.html:123
+#, fuzzy
+msgid "preferoj de uzanto"
+msgstr "उपयोगकर्ता प्राथमिकताएं"
+
+#: templates/main.html:124
+#, fuzzy
+msgid "Preferoj"
+msgstr "वरीयताओं"
+
+#: templates/main.html:129
+#, fuzzy
+msgid "Aranĝo Kolumnoj"
+msgstr "लेआउट कॉलम"
+
+#: templates/main.html:131
+#, fuzzy
+msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
+msgstr "कैमरों की व्यवस्था के लिए उपयोग किए जाने वाले स्तंभों की संख्या निर्धारित करता है"
+
+#: templates/main.html:134
+#, fuzzy
+msgid "Fiksi Kadrojn Vertikale"
+msgstr "ऊर्ध्वाधर फ्रेम सेट करें"
+
+#: templates/main.html:136
+#, fuzzy
+msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
+msgstr "यह नियंत्रित करता है कि खिड़की को फिट करने के लिए फ्रेम टाइम को कम किया जा सकता है या नहीं"
+
+#: templates/main.html:139
+#, fuzzy
+msgid "Aranĝo linioj"
+msgstr "लेआउट लाइनों"
+
+#: templates/main.html:141
+#, fuzzy
+msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
+msgstr "कैमरों की व्यवस्था के लिए उपयोग की जाने वाली लाइनों की संख्या निर्धारित करता है"
+
+#: templates/main.html:144
+#, fuzzy
+msgid "kadro-variatoro"
+msgstr "फ्रेम चर"
+
+#: templates/main.html:146
+#, fuzzy
+msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
+msgstr "नेटवर्क बैंडविड्थ और ट्रैफ़िक को बचाने के लिए फ्रेम दर को कम करता है (सरल MJPEG कैमरों के साथ काम नहीं करता है)"
+
+#: templates/main.html:149
+#, fuzzy
+msgid "Rezolucio-variatoro"
+msgstr "संकल्प चर"
+
+#: templates/main.html:151
+#, fuzzy
+msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+msgstr "नेटवर्क बैंडविड्थ और ट्रैफ़िक को बचाने के लिए सभी कैमरों के प्रभावी रिज़ॉल्यूशन को कम करता है (सरल MJPEG कैमरों पर काम नहीं करता है)"
+
+#: templates/main.html:161
+#, fuzzy
+msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
+msgstr "सामान्य पैरामीटर, सभी कैमरों के लिए सामान्य"
+
+#: templates/main.html:162
+#, fuzzy
+msgid "Ĝeneralaj Agordoj"
+msgstr "सामान्य सेटिंग्स"
+
+#: templates/main.html:167
+#, fuzzy
+msgid "Administranto"
+msgstr "प्रशासक"
+
+#: templates/main.html:169
+#, fuzzy
+msgid "la uzantnomo uzata por agordi la sistemon"
+msgstr "सिस्टम को कॉन्फ़िगर करने के लिए उपयोग किया जाने वाला उपयोगकर्ता नाम"
+
+#: templates/main.html:172 templates/main.html:182 templates/main.html:508
+#, fuzzy
+msgid "Pasvorto"
+msgstr "पासवर्ड"
+
+#: templates/main.html:174
+#, fuzzy
+msgid "pasvorto de administranto"
+msgstr "व्यवस्थापक पासवर्ड"
+
+#: templates/main.html:177
+#, fuzzy
+msgid "Observanto"
+msgstr "प्रेक्षक"
+
+#: templates/main.html:179
+#, fuzzy
+msgid "la uzantnomo por uzi por la monitorado"
+msgstr "निगरानी के लिए उपयोग करने वाला उपयोगकर्ता नाम"
+
+#: templates/main.html:184
+#, fuzzy
+msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
+msgstr "निगरानी उपयोगकर्ता का पासवर्ड (पासवर्ड के बिना निगरानी के लिए खाली छोड़ दें)"
+
+#: templates/main.html:193
+#, fuzzy
+msgid "motionEye Versio"
+msgstr "गति संस्करण"
+
+#: templates/main.html:197
+#, fuzzy
+msgid "Motion Versio"
+msgstr "मोशन संस्करण"
+
+#: templates/main.html:201
+#, fuzzy
+msgid "Operaciumo Versio"
+msgstr "ऑपरेटिंग सिस्टम संस्करण"
+
+#: templates/main.html:206
+#, fuzzy
+msgid "Programara Ĝisdatigo"
+msgstr "सॉफ्टवेयर अद्यतन"
+
+#: templates/main.html:208
+#, fuzzy
+msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
+msgstr "नई रिलीज़ की जाँच करता है और अपडेट करता है"
+
+#: templates/main.html:212
+#, fuzzy
+msgid "Nutro"
+msgstr "भोजन"
+
+#: templates/main.html:213
+#, fuzzy
+msgid "Fermu"
+msgstr "पास"
+
+#: templates/main.html:214
+#, fuzzy
+msgid "malŝaltas la sistemon"
+msgstr "सिस्टम को बंद कर देता है"
+
+#: templates/main.html:218
+#, fuzzy
+msgid "Rekomencu"
+msgstr "पुनः प्रारंभ"
+
+#: templates/main.html:219
+#, fuzzy
+msgid "rekomencas la sistemon"
+msgstr "सिस्टम को पुनरारंभ करें"
+
+#: templates/main.html:225
+#, fuzzy
+msgid "Agordo"
+msgstr "विन्यास"
+
+#: templates/main.html:226
+#, fuzzy
+msgid "Sekurkopio"
+msgstr "बैकअप"
+
+#: templates/main.html:227
+#, fuzzy
+msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
+msgstr "वर्तमान कॉन्फ़िगरेशन के साथ एक फ़ाइल बनाता है ताकि आप इसे स्थानीय रूप से सहेज सकें"
+
+#: templates/main.html:231
+#, fuzzy
+msgid "Restaŭri"
+msgstr "बहाल"
+
+#: templates/main.html:232
+#, fuzzy
+msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
+msgstr "पहले से सहेजी गई बैकअप फ़ाइल से कॉन्फ़िगरेशन को पुनर्स्थापित करता है"
+
+#: templates/main.html:260
+#, fuzzy
+msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
+msgstr "यदि आप इस कैमरे का उपयोग करना चाहते हैं तो इसे सक्रिय करें"
+
+#: templates/main.html:261
+#, fuzzy
+msgid "Video-Aparato"
+msgstr "वीडियो डिवाइस"
+
+#: templates/main.html:266 templates/main.html:596 templates/main.html:613
+#, fuzzy
+msgid "Kamerao Nomo"
+msgstr "कैमरा नाम"
+
+#: templates/main.html:267
+#, fuzzy
+msgid "kameraa nomo..."
+msgstr "कैमरा नाम ..."
+
+#: templates/main.html:268
+#, fuzzy
+msgid "alias pri ĉi tiu kamera aparato"
+msgstr "इस कैमरा डिवाइस पर उर्फ"
+
+#: templates/main.html:271
+#, fuzzy
+msgid "Kamerao ID"
+msgstr "कैमरा आईडी"
+
+#: templates/main.html:273
+#, fuzzy
+msgid "la kamerao identiga numero"
+msgstr "कैमरा पहचान संख्या"
+
+#: templates/main.html:276
+#, fuzzy
+msgid "Kamerao aparato"
+msgstr "कैमरा डिवाइस"
+
+#: templates/main.html:278
+#, fuzzy
+msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
+msgstr "इनपुट डिवाइस (जैसे: / dev / वीडियो) या URL (जैसे: rtsp: //192.168.1.1/stream)"
+
+#: templates/main.html:281
+#, fuzzy
+msgid "Kamerao Tipo"
+msgstr "कैमरा प्रकार"
+
+#: templates/main.html:288
+#, fuzzy
+msgid "Aŭtomata Brilo"
+msgstr "स्वचालित चमक"
+
+#: templates/main.html:290
+#, fuzzy
+msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
+msgstr "स्वतः-चमक सॉफ़्टवेयर सक्षम करता है (केवल ऑटो-चमक के बिना कैमरों के लिए अनुशंसित)"
+
+#: templates/main.html:296
+#, fuzzy
+msgid "Video-rezolucio"
+msgstr "वीडियो संकल्प"
+
+#: templates/main.html:301
+#, fuzzy
+msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
+msgstr "वीडियो रिज़ॉल्यूशन (बड़े मान बेहतर गुणवत्ता का उत्पादन करते हैं, लेकिन अधिक CPU शक्ति, अधिक संग्रहण और बैंडविड्थ की आवश्यकता होती है)"
+
+#: templates/main.html:304
+#, fuzzy
+msgid "Larĝeco"
+msgstr "चौड़ाई"
+
+#: templates/main.html:306
+#, fuzzy
+msgid "enigu kutiman rezolucian larĝon"
+msgstr "एक कस्टम रिज़ॉल्यूशन चौड़ाई दर्ज करें"
+
+#: templates/main.html:309
+#, fuzzy
+msgid "Alteco"
+msgstr "ऊंचाई"
+
+#: templates/main.html:311
+#, fuzzy
+msgid "enigu kutiman rezolucian altecon"
+msgstr "एक कस्टम रिज़ॉल्यूशन ऊँचाई दर्ज करें"
+
+#: templates/main.html:314
+#, fuzzy
+msgid "Video-Rotacio"
+msgstr "वीडियो रोटेशन"
+
+#: templates/main.html:323
+#, fuzzy
+msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
+msgstr "यदि आपका कैमरा सही तरीके से पोस्ट नहीं किया गया है, तो कैप्चर की गई छवि को घुमाने के लिए इसका उपयोग करें"
+
+#: templates/main.html:326
+#, fuzzy
+msgid "Kadrofrekvenco"
+msgstr "फ्रेम दर"
+
+#: templates/main.html:328
+#, fuzzy
+msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
+msgstr "हर सेकंड कैमरे द्वारा कैप्चर किए गए फ़्रेमों की संख्या निर्धारित करता है (उच्च मूल्य चिकनी वीडियो का उत्पादन करते हैं लेकिन अधिक सीपीयू शक्ति, अधिक भंडारण और बैंडविड्थ की आवश्यकता होती है)"
+
+#: templates/main.html:334
+#, fuzzy
+msgid "Privateca masko"
+msgstr "गोपनीयता का मुखौटा"
+
+#: templates/main.html:336
+#, fuzzy
+msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
+msgstr "गोपनीयता की रक्षा के लिए कुछ छवि क्षेत्रों की रिकॉर्डिंग से बचने के लिए छवियों के मास्किंग को सक्षम बनाता है"
+
+#: templates/main.html:341 templates/main.html:989
+#, fuzzy
+msgid "Redakti maskon"
+msgstr "मुखौटा संपादित करें"
+
+#: templates/main.html:342 templates/main.html:990
+#, fuzzy
+msgid "Konservi maskon"
+msgstr "मास्क लगाकर रखें"
+
+#: templates/main.html:345
+#, fuzzy
+msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
+msgstr "मास्क संपादक को सक्षम / अक्षम करने के लिए इस बटन पर क्लिक करें"
+
+#: templates/main.html:356
+#, fuzzy
+msgid "Ekstraj Elektoj"
+msgstr "अतिरिक्त विकल्प"
+
+#: templates/main.html:358
+#, fuzzy
+msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
+msgstr "आप \"गति\" डेमॉन के लिए यहां कोई अतिरिक्त विकल्प जोड़ सकते हैं (\"नाम मान\" प्रारूप, प्रति पंक्ति एक विकल्प का उपयोग करें)"
+
+#: templates/main.html:367
+#, fuzzy
+msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
+msgstr "चुनें कि आपका मीडिया कहां और कैसे संग्रहीत है"
+
+#: templates/main.html:368
+#, fuzzy
+msgid "Stokado de dosieroj"
+msgstr "फ़ाइल भंडारण"
+
+#: templates/main.html:373
+#, fuzzy
+msgid "Stokada Aparato"
+msgstr "स्टोरेज डिवाइस"
+
+#: templates/main.html:378
+#, fuzzy
+msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
+msgstr "स्टोरेज डिवाइस को इंगित करता है जहां छवि और वीडियो फ़ाइलों को संग्रहीत किया जाएगा"
+
+#: templates/main.html:381
+#, fuzzy
+msgid "Retservilo"
+msgstr "वेब सर्वर"
+
+#: templates/main.html:383
+#, fuzzy
+msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
+msgstr "वेब सर्वर का पता (आईपी पता या नाम)"
+
+#: templates/main.html:386
+#, fuzzy
+msgid "SMB Protokolo-Versio"
+msgstr "SMB प्रोटोकॉल संस्करण"
+
+#: templates/main.html:396
+#, fuzzy
+msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
+msgstr "SMB संस्करण का चयन करें जिसका आप उपयोग कर सकते हैं (विभिन्न विकल्पों का परीक्षण करें और देखें कि आपके NAS के साथ कौन सा काम सबसे अच्छा है)"
+
+#: templates/main.html:399
+#, fuzzy
+msgid "Kunhava nomo"
+msgstr "साझा नाम"
+
+#: templates/main.html:401
+#, fuzzy
+msgid "la nomo de la interŝanĝa reto"
+msgstr "एक्सचेंज नेटवर्क का नाम"
+
+#: templates/main.html:404 templates/main.html:503
+#, fuzzy
+msgid "Uzantnomo"
+msgstr "प्रयोक्ता नाम"
+
+#: templates/main.html:406
+#, fuzzy
+msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
+msgstr "नेटवर्क निर्देशिका तक पहुँचते समय दिया जाने वाला उपयोगकर्ता नाम (यदि कोई उपयोगकर्ता नाम आवश्यक नहीं है तो खाली छोड़ दें)"
+
+#: templates/main.html:409
+#, fuzzy
+msgid "Pasvorton"
+msgstr "पासवर्ड"
+
+#: templates/main.html:411
+#, fuzzy
+msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
+msgstr "नेटवर्क निर्देशिका द्वारा आवश्यक पासवर्ड (यदि कोई पासवर्ड की आवश्यकता हो तो खाली छोड़ दें)"
+
+#: templates/main.html:414
+#, fuzzy
+msgid "Radika dosierujo"
+msgstr "रूट डायरेक्टरी"
+
+#: templates/main.html:416
+#, fuzzy
+msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
+msgstr "रूट पथ (चयनित संग्रहण डिवाइस पर) जहां फ़ाइलें संग्रहीत की जाएंगी"
+
+#: templates/main.html:420
+#, fuzzy
+msgid "Testi la reton dosierujon"
+msgstr "नेटवर्क निर्देशिका का परीक्षण करें"
+
+#: templates/main.html:421
+#, fuzzy
+msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
+msgstr "आवश्यक विवरणों को भरने के बाद नेटवर्क कनेक्शन का परीक्षण करने के लिए इस बटन पर क्लिक करें"
+
+#: templates/main.html:427
+#, fuzzy
+msgid "Uzado de Disko"
+msgstr "डिस्क का उपयोग"
+
+#: templates/main.html:431
+#, fuzzy
+msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
+msgstr "ड्राइव का आकार / आकार जहाँ रूट डायरेक्टरी रहता है"
+
+#: templates/main.html:437
+#, fuzzy
+msgid "Alŝutu Mediajn Dosierojn"
+msgstr "मीडिया फ़ाइलें अपलोड करें"
+
+#: templates/main.html:439
+#, fuzzy
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
+msgstr "यदि आप चाहते हैं कि आपका मीडिया किसी बाहरी सेवा पर अपलोड किया जाए तो इस विकल्प को सक्षम करें"
+
+#: templates/main.html:442
+#, fuzzy
+msgid "Alŝutu Bildojn"
+msgstr "छवियाँ अपलोड करें"
+
+#: templates/main.html:444
+#, fuzzy
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
+msgstr "यदि आप चाहते हैं कि छवियों को किसी बाहरी सेवा में डाउनलोड किया जाए तो इस विकल्प को सक्रिय करें"
+
+#: templates/main.html:447
+#, fuzzy
+msgid "Alŝutu Filmojn"
+msgstr "मूवीज अपलोड करें"
+
+#: templates/main.html:449
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
+msgstr "यदि आप वीडियो को किसी बाहरी सेवा पर अपलोड करना चाहते हैं तो इसे सक्षम करें"
+
+#: templates/main.html:452
+#, fuzzy
+msgid "Alŝuta Servo"
+msgstr "सेवा अपलोड करें"
+
+#: templates/main.html:455
+#, fuzzy
+msgid "Servilo FTP"
+msgstr "एफ़टीपी सर्वर"
+
+#: templates/main.html:456
+#, fuzzy
+msgid "Servilo SFTP"
+msgstr "SFTP सर्वर"
+
+#: templates/main.html:457
+#, fuzzy
+msgid "Servilo HTTP"
+msgstr "HTTP सर्वर"
+
+#: templates/main.html:458
+#, fuzzy
+msgid "Servilo HTTPS"
+msgstr "HTTPS सर्वर"
+
+#: templates/main.html:465
+#, fuzzy
+msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
+msgstr "ऐसी सेवा का चयन करें जिसमें मीडिया फ़ाइलों को अपलोड किया जाएगा"
+
+#: templates/main.html:468
+#, fuzzy
+msgid "Servila Adreso"
+msgstr "सर्वर का पता"
+
+#: templates/main.html:470
+#, fuzzy
+msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
+msgstr "सर्वर का डोमेन नाम या आईपी पता (जैसे ftp.example.com या 192.168.1.3)"
+
+#: templates/main.html:473
+#, fuzzy
+msgid "Servila haveno"
+msgstr "सर्वर पोर्ट"
+
+#: templates/main.html:475
+#, fuzzy
+msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
+msgstr "पोर्ट सेवा से कनेक्ट करने के लिए उपयोग करने के लिए (डिफ़ॉल्ट मान का उपयोग करने के लिए इस फ़ील्ड को खाली छोड़ दें)"
+
+#: templates/main.html:478
+#, fuzzy
+msgid "Metodo"
+msgstr "विधि"
+
+#: templates/main.html:485
+#, fuzzy
+msgid "la HTTP-metodo uzi por alŝuti dosierojn"
+msgstr "फ़ाइलों को अपलोड करने के लिए उपयोग करने के लिए HTTP विधि"
+
+#: templates/main.html:488
+#, fuzzy
+msgid "Loko"
+msgstr "जगह"
+
+#: templates/main.html:490
+#, fuzzy
+msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
+msgstr "वह स्थान (रूट पथ) जहाँ मीडिया को अपलोड किया जाना चाहिए (जैसे / फाइलें / कैम 1 /)"
+
+#: templates/main.html:493
+#, fuzzy
+msgid "Inkluzivi Subdosierujojn"
+msgstr "सबफ़ोल्डर्स शामिल करें"
+
+#: templates/main.html:495
+#, fuzzy
+msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
+msgstr "इसे सीधे रूट स्थान में रखने के बजाय, अपनी उपनिर्देशिकाओं के साथ मल्टीमीडिया फ़ाइलों को डाउनलोड करने के लिए सक्रिय करें"
+
+#: templates/main.html:498
+#, fuzzy
+msgid "Purigi la nubon"
+msgstr "बादल को साफ करें"
+
+#: templates/main.html:500
+#, fuzzy
+msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
+msgstr "क्लाउड पर अपलोड की गई मीडिया फ़ाइलों को हटाने के लिए इसे तब भी सक्षम करें जब स्थानीय मीडिया फ़ाइल दृढ़ता सेटिंग के अनुसार हटा दिया जाए। वर्तमान में यह विकल्प केवल gdrive के लिए उपलब्ध है।"
+
+#: templates/main.html:505
+#, fuzzy
+msgid "la uzantnomo por la alŝuta servo-konto"
+msgstr "अपलोड सेवा खाते के लिए उपयोगकर्ता नाम"
+
+#: templates/main.html:510
+#, fuzzy
+msgid "la pasvorto por la alŝuta servo-konto"
+msgstr "अपलोड सेवा खाते के लिए पासवर्ड"
+
+#: templates/main.html:513
+#, fuzzy
+msgid "Rajtiga ŝlosilo"
+msgstr "प्राधिकरण कुंजी"
+
+#: templates/main.html:515
+#, fuzzy
+msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "अपलोड सेवा के साथ प्रमाणित करने के लिए उपयोग की जाने वाली कुंजी (आमतौर पर केवल कॉन्फ़िगरेशन के दौरान आवश्यक)"
+
+#: templates/main.html:521
+#, fuzzy
+msgid "Akiri ŝlosilon"
+msgstr "एक कुंजी प्राप्त करें"
+
+#: templates/main.html:524
+#, fuzzy
+msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
+msgstr "कुंजी प्राधिकरण सेवा प्राप्त करने के लिए यहां क्लिक करें"
+
+#: templates/main.html:527
+#, fuzzy
+msgid "Sekreta Alira Ŝlosilo"
+msgstr "गुप्त पहुँच कुंजी"
+
+#: templates/main.html:529
+#, fuzzy
+msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "AWS गुप्त एक्सेस कुंजी का उपयोग अपलोड सेवा के साथ प्रमाणित करने के लिए किया जाता है (आमतौर पर केवल कॉन्फ़िगरेशन के दौरान आवश्यक)"
+
+#: templates/main.html:532
+#, fuzzy
+msgid "Sitelo"
+msgstr "बाल्टी"
+
+#: templates/main.html:534
+#, fuzzy
+msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "अपलोड सेवा के लिए नाम S3 बाल्टी (आमतौर पर केवल कॉन्फ़िगरेशन के दौरान आवश्यक)"
+
+#: templates/main.html:538
+#, fuzzy
+msgid "Testi la servon"
+msgstr "सेवा का परीक्षण करें"
+
+#: templates/main.html:539
+#, fuzzy
+msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
+msgstr "आवश्यक विवरणों को भरने के बाद अपलोड सेवा का परीक्षण करने के लिए इस बटन पर क्लिक करें"
+
+#: templates/main.html:545
+#, fuzzy
+msgid "alvoki URL"
+msgstr "एक URL आह्वान करें"
+
+#: templates/main.html:547
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
+msgstr "यदि आप चाहते हैं कि मीडिया फ़ाइल बनाने के बाद URL का अनुरोध किया जाए तो इसे सक्षम करें"
+
+#: templates/main.html:550 templates/main.html:1111
+#, fuzzy
+msgid "Reteja URL"
+msgstr "वेबसाइट यूआरएल"
+
+#: templates/main.html:551
+#, fuzzy
+msgid "ekz. http://example.com/notify/"
+msgstr "जैसे। http://example.com/notify/"
+
+#: templates/main.html:552
+#, fuzzy, python-format
+msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
+msgstr "गति का पता लगने पर संचारित होने वाला URL; निम्नलिखित विशेष शॉर्टकट स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या। %% v = घटना संख्या, %% f = फ़ाइल पथ"
+
+#: templates/main.html:555 templates/main.html:1116
+#, fuzzy
+msgid "Metodo HTTP"
+msgstr "HTTP विधि"
+
+#: templates/main.html:564
+#, fuzzy
+msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
+msgstr "नेटवर्क हुक URL का अनुरोध करते समय उपयोग करने के लिए HTTP विधि (दिए गए URL-एनकोडेड पैरामीटर वास्तव में यहां दिए गए अनुसार दिए जाएंगे)"
+
+#: templates/main.html:570
+#, fuzzy
+msgid "Kuri Komando"
+msgstr "कमांड चलाएं"
+
+#: templates/main.html:572
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
+msgstr "यदि आप मीडिया फ़ाइल बनाने के बाद किसी कमांड को निष्पादित करना चाहते हैं तो इसे सक्षम करें"
+
+#: templates/main.html:575
+#, fuzzy
+msgid "Ordono"
+msgstr "क्रम"
+
+#: templates/main.html:576
+#, fuzzy
+msgid "ordono..."
+msgstr "आदेश ..."
+
+#: templates/main.html:577
+#, fuzzy, python-format
+msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
+msgstr "मल्टीमीडिया फ़ाइल बनाने के बाद निष्पादित किया जाने वाला कमांड। कई आदेशों को एक अर्धविराम द्वारा अलग किया जा सकता है; आदेशों में अर्धविराम का उपयोग न करें; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या, %% v = घटना संख्या, %% f = फ़ाइल पथ"
+
+#: templates/main.html:587
+#, fuzzy
+msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
+msgstr "चयनित फ़्रेम पर कौन सी जानकारी प्रदर्शित होती है, इसका चयन करें"
+
+#: templates/main.html:588
+#, fuzzy
+msgid "Teksto Superkovrita"
+msgstr "पाठ ओवरले"
+
+#: templates/main.html:593
+#, fuzzy
+msgid "Maldekstra Teksto"
+msgstr "पाठ छोड़ दिया"
+
+#: templates/main.html:597 templates/main.html:614
+#, fuzzy
+msgid "Tempostampo"
+msgstr "समय की मोहर"
+
+#: templates/main.html:598 templates/main.html:615
+#, fuzzy
+msgid "Propra Teksto"
+msgstr "कस्टम पाठ"
+
+#: templates/main.html:599 templates/main.html:616 templates/main.html:673
+#, fuzzy
+msgid "Malebligita"
+msgstr "विकलांग"
+
+#: templates/main.html:602
+#, fuzzy
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
+msgstr "फिल्मों और चित्रों पर प्रदर्शित पाठ को निचले बाएँ कोने में सेट करता है"
+
+#: templates/main.html:606 templates/main.html:623
+#, fuzzy
+msgid "propra teksto..."
+msgstr "स्वयं का पाठ ..."
+
+#: templates/main.html:607
+#, fuzzy, python-format
+msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgstr "कस्टम बाएँ पाठ को परिभाषित करता है; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या, %% v = घटना संख्या, %% T = HH: MM: SS, \\ n = नई पंक्ति"
+
+#: templates/main.html:610
+#, fuzzy
+msgid "Dekstra Teksto"
+msgstr "सही पाठ"
+
+#: templates/main.html:619
+#, fuzzy
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
+msgstr "फिल्मों और चित्रों पर प्रदर्शित पाठ को निचले दाएं कोने में सेट करता है"
+
+#: templates/main.html:624
+#, fuzzy, python-format
+msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgstr "कस्टम सही पाठ को परिभाषित करता है; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या, %% v = घटना संख्या, %% T = HH: MM: SS, \\ n = नई पंक्ति"
+
+#: templates/main.html:627
+#, fuzzy
+msgid "Teksta Skalo"
+msgstr "पाठ का पैमाना"
+
+#: templates/main.html:629
+#, fuzzy
+msgid "Difinas la grandecon de la superkovrita teksto"
+msgstr "ओवरले टेक्स्ट के आकार को परिभाषित करता है"
+
+#: templates/main.html:639
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
+msgstr "यदि आप इस कैमरे के लिए वीडियो स्ट्रीम चाहते हैं तो इसे सक्षम करें"
+
+#: templates/main.html:640
+#, fuzzy
+msgid "Videofluo"
+msgstr "वीडियो स्ट्रीम"
+
+#: templates/main.html:645
+#, fuzzy
+msgid "Framo frekvencon"
+msgstr "फ्रेम आवृत्ति"
+
+#: templates/main.html:647
+#, fuzzy
+msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
+msgstr "लाइव स्ट्रीम में प्रति सेकंड प्रेषित फ़्रेम की संख्या निर्धारित करता है।"
+
+#: templates/main.html:650
+#, fuzzy
+msgid "Flua Kvalito"
+msgstr "प्रवाह की गुणवत्ता"
+
+#: templates/main.html:652
+#, fuzzy
+msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
+msgstr "लाइव स्ट्रीमिंग गुणवत्ता के लिए ट्यून करें (उच्च मान बेहतर वीडियो गुणवत्ता का उत्पादन करते हैं लेकिन अधिक बैंडविड्थ की आवश्यकता होती है)।"
+
+#: templates/main.html:655
+#, fuzzy
+msgid "Bilda Redimensionado"
+msgstr "छवि का आकार बदलना"
+
+#: templates/main.html:657
+#, fuzzy
+msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
+msgstr "जब इसे चालू किया जाता है, तो छवियों को ब्राउज़र में भेजे जाने से पहले आकार बदल दिया जाता है (धीमी सीपीयू पर चलने पर अक्षम करें)।"
+
+#: templates/main.html:660
+#, fuzzy
+msgid "Flua rezolucio"
+msgstr "प्रवाह संकल्प"
+
+#: templates/main.html:662
+#, fuzzy
+msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
+msgstr "वीडियो डिवाइस के रिज़ॉल्यूशन के प्रतिशत के रूप में दिए गए रिज़ॉल्यूशन (उच्च मान बेहतर वीडियो गुणवत्ता का उत्पादन करते हैं लेकिन अधिक बैंडविड्थ की आवश्यकता होती है)"
+
+#: templates/main.html:665
+#, fuzzy
+msgid "Flua haveno"
+msgstr "प्रवाह बंदरगाह"
+
+#: templates/main.html:667
+#, fuzzy
+msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
+msgstr "टीसीपी पोर्ट सेट करता है जिस पर वेब सर्वर सुन रहा है"
+
+#: templates/main.html:670
+#, fuzzy
+msgid "Aŭtentiga reĝimo"
+msgstr "प्रमाणीकरण मोड"
+
+#: templates/main.html:678
+#, fuzzy
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
+msgstr "स्ट्रीम द्वारा उपयोग की जाने वाली प्रमाणीकरण विधि ('डाइजेस्ट' के स्थान पर 'बैज़िक' चुनें, यदि आप तृतीय पक्ष कार्यक्रमों के साथ समस्याएँ उठाते हैं); मान्यता जाँच का उपयोग किया जाएगा"
+
+#: templates/main.html:681
+#, fuzzy
+msgid "Movado-Optimigo"
+msgstr "मोशन ऑप्टिमाइज़ेशन"
+
+#: templates/main.html:683
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
+msgstr "यदि आप किसी गतिविधि का पता नहीं लगाते हैं, तो वितरण स्ट्रीम के लिए निम्न फ़्रेम दर चाहते हैं, तो इसे सक्षम करें"
+
+#: templates/main.html:689
+#, fuzzy
+msgid "Utilaj URLoj"
+msgstr "उपयोगी यूआरएल"
+
+#: templates/main.html:692
+#, fuzzy
+msgid "Instantara URL"
+msgstr "तात्कालिक यूआरएल"
+
+#: templates/main.html:695
+#, fuzzy
+msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
+msgstr "एक URL जो कैमरे के नवीनतम कैप्चर के साथ JPEG छवि प्रदान करता है"
+
+#: templates/main.html:701
+#, fuzzy
+msgid "Flua URL"
+msgstr "URL को प्रवाहित करें"
+
+#: templates/main.html:704
+#, fuzzy
+msgid "URL kiu provizas MJPEG-fluon de la kamerao"
+msgstr "एक URL जो कैमरे से MJPEG प्रवाह प्रदान करता है"
+
+#: templates/main.html:710
+#, fuzzy
+msgid "Enigita URL"
+msgstr "इनपुट URL"
+
+#: templates/main.html:713
+#, fuzzy
+msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
+msgstr "एक URL जो एक न्यूनतम HTML दस्तावेज़ प्रदान करता है, जिसमें कैमरा फ़्रेम होता है, जो एम्बेडेड होने के लिए तैयार होता है"
+
+#: templates/main.html:723
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
+msgstr "यदि आप स्थैतिक चित्र कैप्चर करना चाहते हैं तो इसे सक्षम करें।"
+
+#: templates/main.html:724
+#, fuzzy
+msgid "Kaptitaj Bildoj"
+msgstr "कैप्चर की गई छवियाँ"
+
+#: templates/main.html:729
+#, fuzzy
+msgid "Nomo Bildo-Dosiero"
+msgstr "नाम छवि फ़ाइल"
+
+#: templates/main.html:730 templates/main.html:799
+#, fuzzy
+msgid "ŝablona nomo de dosiero..."
+msgstr "टेम्पलेट फ़ाइल नाम ..."
+
+#: templates/main.html:731
+#, fuzzy, python-format
+msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgstr "JPEG फ़ाइलों के लिए नाम टेम्पलेट को परिभाषित करता है; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या, %% v = घटना संख्या, / = उपनिर्देशिका।"
+
+#: templates/main.html:734
+#, fuzzy
+msgid "Bildkvalito"
+msgstr "छवि गुणवत्ता"
+
+#: templates/main.html:736
+#, fuzzy
+msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
+msgstr "सेट JPEG छवि गुणवत्ता (उच्च मान बेहतर छवि गुणवत्ता का उत्पादन करते हैं लेकिन अधिक संग्रहण की आवश्यकता होती है)"
+
+#: templates/main.html:739
+#, fuzzy
+msgid "Kaptila reĝimo"
+msgstr "कैप्चर मोड"
+
+#: templates/main.html:742 templates/main.html:862
+#, fuzzy
+msgid "Moviĝa deĉenigo"
+msgstr "मोशन ट्रिगर"
+
+#: templates/main.html:743
+#, fuzzy
+msgid "Moviĝa deĉenigo (Unu bildo)"
+msgstr "मोशन ट्रिगर (एक छवि)"
+
+#: templates/main.html:744
+#, fuzzy
+msgid "Intertempe"
+msgstr "इस बीच"
+
+#: templates/main.html:745
+#, fuzzy
+msgid "Ĉiuj bildoj"
+msgstr "सभी चित्र"
+
+#: templates/main.html:746
+#, fuzzy
+msgid "Mane"
+msgstr "हाथ से"
+
+#: templates/main.html:749
+#, fuzzy
+msgid "Difinas la kapta reĝimon:"
+msgstr "कैप्चर मोड को परिभाषित करता है:"
+
+#: templates/main.html:750
+#, fuzzy
+msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
+msgstr "मोशन ट्रिगर = हर बार गति का पता लगाने पर छवि का पता लगाया जाता है,"
+
+#: templates/main.html:751
+#, fuzzy
+msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
+msgstr "इस बीच = छवि हर x सेकंड पर कब्जा कर लिया,"
+
+#: templates/main.html:752
+#, fuzzy
+msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
+msgstr "सभी चित्र = प्रत्येक फ़्रेम को एक छवि फ़ाइल में सहेजें,"
+
+#: templates/main.html:753
+#, fuzzy
+msgid "Mane = mana kapto kun dediĉita butono."
+msgstr "माने = समर्पित बटन के साथ हाथ पकड़ना।"
+
+#: templates/main.html:756
+#, fuzzy
+msgid "Interkapto-Intervalo"
+msgstr "अवरोधन अंतराल"
+
+#: templates/main.html:757 templates/main.html:870 templates/main.html:945
+#: templates/main.html:1067
+#, fuzzy
+msgid "sekundoj"
+msgstr "सेकंड"
+
+#: templates/main.html:758
+#, fuzzy
+msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
+msgstr "स्नैपशॉट के लिए अंतराल (सेकंड में) सेट करता है"
+
+#: templates/main.html:761
+#, fuzzy
+msgid "Konservi bildojn"
+msgstr "छवियों को बचाओ"
+
+#: templates/main.html:764 templates/main.html:877
+#, fuzzy
+msgid "Dum unu tago"
+msgstr "एक दिन के लिए"
+
+#: templates/main.html:765 templates/main.html:878
+#, fuzzy
+msgid "Dum unu semajno"
+msgstr "एक हफ्ते के लिए"
+
+#: templates/main.html:766 templates/main.html:879
+#, fuzzy
+msgid "Dum unu monato"
+msgstr "एक महीने के लिए"
+
+#: templates/main.html:767 templates/main.html:880
+#, fuzzy
+msgid "Dum unu jaro"
+msgstr "एक साल के लिए"
+
+#: templates/main.html:768 templates/main.html:881
+#, fuzzy
+msgid "Porĉiame"
+msgstr "नित्य"
+
+#: templates/main.html:769 templates/main.html:882
+#, fuzzy
+msgid "Propra"
+msgstr "रिवाज"
+
+#: templates/main.html:772
+#, fuzzy
+msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
+msgstr "निर्धारित अवधि से अधिक पुरानी छवियां स्वचालित रूप से संग्रहण स्थान खाली करने के लिए हटा दी जाती हैं।"
+
+#: templates/main.html:775
+#, fuzzy
+msgid "Bildaj Vivdaŭro"
+msgstr "चित्र आजीवन"
+
+#: templates/main.html:777
+#, fuzzy
+msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
+msgstr "उन दिनों की संख्या को परिभाषित करता है जिसके बाद चित्र स्वचालित रूप से हटा दिए जाएंगे।"
+
+#: templates/main.html:780
+#, fuzzy
+msgid "Ebligu manaj kaptoj"
+msgstr "हैंड कैच सक्षम करें"
+
+#: templates/main.html:782
+#, fuzzy
+msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
+msgstr "जब इसे चालू किया जाता है, तो कैमरा फ़्रेम पर एक बटन आपको मैन्युअल रूप से कैप्चर लेने की अनुमति देगा।"
+
+#: templates/main.html:792
+#, fuzzy
+msgid "ebligu ĉi tion, se vi volas registri filmojn"
+msgstr "यदि आप फिल्में रिकॉर्ड करना चाहते हैं तो इसे सक्षम करें"
+
+#: templates/main.html:793
+#, fuzzy
+msgid "Filmoj"
+msgstr "फिल्में"
+
+#: templates/main.html:798
+#, fuzzy
+msgid "Filma Dosiernomo"
+msgstr "मूवी फ़ाइल का नाम"
+
+#: templates/main.html:800
+#, fuzzy, python-format
+msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgstr "फिल्म फ़ाइलों के लिए नाम टेम्पलेट को परिभाषित करता है; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या, %% v = घटना संख्या, / = उपनिर्देशिका।"
+
+#: templates/main.html:803
+#, fuzzy
+msgid "Rekta kopia filmeto"
+msgstr "प्रत्यक्ष प्रति वीडियो"
+
+#: templates/main.html:805
+#, fuzzy
+msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
+msgstr "सीधे कैमरे से फिल्में बनाएं। इस विकल्प से सीपीयू का उपयोग कम होना चाहिए लेकिन मेमोरी की मांग बढ़ जाती है। कोई छवि प्रसंस्करण नहीं किया जाता है, इसलिए ग्रंथ ओवरलैप, गोपनीयता मास्क, आदि। परिणामी वीडियो पर नहीं होगा।"
+
+#: templates/main.html:808
+#, fuzzy
+msgid "Filmformato"
+msgstr "मूवी प्रारूप"
+
+#: templates/main.html:851
+#, fuzzy
+msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
+msgstr "फिल्म फ़ाइल को अनुकूलित करता है; सभी प्रारूपों को सभी प्रणालियों पर काम करने की गारंटी नहीं है; यदि संदेह है, तो प्रत्येक प्रारूप का परीक्षण करें और वह चुनें जो आपके वीडियो के साथ सबसे अच्छा काम करता है।"
+
+#: templates/main.html:854
+#, fuzzy
+msgid "Filma Kvalito"
+msgstr "फिल्म की गुणवत्ता"
+
+#: templates/main.html:856
+#, fuzzy
+msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
+msgstr "एमपीईजी वीडियो गुणवत्ता सेट करता है (उच्च मान बेहतर वीडियो गुणवत्ता का उत्पादन करते हैं लेकिन अधिक भंडारण की आवश्यकता होती है)।"
+
+#: templates/main.html:859
+#, fuzzy
+msgid "Rekorda reĝimo"
+msgstr "रिकॉर्ड मोड"
+
+#: templates/main.html:863
+#, fuzzy
+msgid "Kontinua registrado"
+msgstr "निरंतर रिकॉर्डिंग"
+
+#: templates/main.html:866
+#, fuzzy
+msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
+msgstr "रिकॉर्डिंग मोड सेट करता है: मोशन ट्रिगर = नई फिल्म जब भी गति का पता लगाया जाता है, कंटीन्यूअस रिकॉर्डिंग = एक बड़ी फिल्म फ़ाइल।"
+
+#: templates/main.html:869
+#, fuzzy
+msgid "Maksimuma filma daŭro"
+msgstr "अधिकतम फिल्म अवधि"
+
+#: templates/main.html:871
+#, fuzzy
+msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
+msgstr "सेकंड में फिल्मों की अधिकतम लंबाई सेट करता है; यदि गति घटना अधिक समय तक रहती है, तो एक नई फिल्म फ़ाइल बनाई जाती है; असीमित लंबाई के लिए 0 का उपयोग करें।"
+
+#: templates/main.html:874
+#, fuzzy
+msgid "Konservi filmojn"
+msgstr "फिल्मों को बचाओ"
+
+#: templates/main.html:885
+#, fuzzy
+msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
+msgstr "सेट अवधि से अधिक पुरानी फ़िल्में स्वचालित रूप से संग्रहण जारी करने के लिए हटा दी जाती हैं।"
+
+#: templates/main.html:888
+#, fuzzy
+msgid "Filmoj Vivdaŭro"
+msgstr "फिल्में लाइफटाइम"
+
+#: templates/main.html:889
+#, fuzzy
+msgid "tagoj"
+msgstr "दिन"
+
+#: templates/main.html:890
+#, fuzzy
+msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
+msgstr "उन दिनों की संख्या निर्धारित करता है जिसके बाद फिल्में स्वचालित रूप से हटा दी जाएंगी।"
+
+#: templates/main.html:900
+#, fuzzy
+msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
+msgstr "आंदोलन का पता लगाने के लिए डिवाइस का उपयोग करने और कॉन्फ़िगर करने के लिए इसे सक्रिय करें।"
+
+#: templates/main.html:901
+#, fuzzy
+msgid "Movado-Detekto"
+msgstr "मोशन डिटेक्शन"
+
+#: templates/main.html:906
+#, fuzzy
+msgid "Kadra ŝanĝo sojlo"
+msgstr "फ़्रेम परिवर्तन सीमा"
+
+#: templates/main.html:908
+#, fuzzy
+msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
+msgstr "छवि का न्यूनतम प्रतिशत इंगित करता है जो आंदोलन का पता लगाने के लिए दो क्रमिक फ़्रेमों के बीच स्विच करना चाहिए (छोटे मान अधिक संवेदनशील पहचान देते हैं, लेकिन झूठी सकारात्मकता देते हैं)।"
+
+#: templates/main.html:911
+#, fuzzy
+msgid "Maksimuma ŝanĝo sojlo"
+msgstr "अधिकतम परिवर्तन सीमा"
+
+#: templates/main.html:913
+#, fuzzy
+msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
+msgstr "उन पिक्सेल्स की संख्या सेट करता है, जिन्हें फ्रेम के बीच स्विच किया जाता है, जिस पर स्क्रॉल नहीं होता है (0 बॉर्डर को निष्क्रिय करता है)।"
+
+#: templates/main.html:916
+#, fuzzy
+msgid "Aŭtomata sojla agordo"
+msgstr "स्वचालित थ्रेशोल्ड सेटिंग"
+
+#: templates/main.html:918
+#, fuzzy
+msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
+msgstr "दहलीज को स्वचालित रूप से समायोजित करने के लिए इसे सक्षम करें।"
+
+#: templates/main.html:921
+#, fuzzy
+msgid "Aŭtomata bruo-detekto"
+msgstr "स्वचालित शोर का पता लगाना"
+
+#: templates/main.html:923
+#, fuzzy
+msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
+msgstr "शोर स्तर को स्वचालित रूप से समायोजित करने के लिए इसे सक्षम करें।"
+
+#: templates/main.html:926
+#, fuzzy
+msgid "Bruo-nivelo"
+msgstr "शोर का स्तर"
+
+#: templates/main.html:928
+#, fuzzy
+msgid "Permane agordas la bruan nivelon al fiksita valoro."
+msgstr "स्थायी रूप से शोर स्तर को एक निर्धारित मान पर सेट करता है।"
+
+#: templates/main.html:931
+#, fuzzy
+msgid "Detekto de lumaj ŝanĝoj"
+msgstr "प्रकाश के परिवर्तन का पता लगाना"
+
+#: templates/main.html:933
+#, fuzzy, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "उस छवि का प्रतिशत निर्धारित करता है जिसे बदलने की आवश्यकता है ताकि घटना को गति के बजाय अचानक प्रकाश परिवर्तन के रूप में माना जाए (0 %% सुविधा को निष्क्रिय करता है)।"
+
+#: templates/main.html:936
+#, fuzzy
+msgid "Makula filtrilo"
+msgstr "दाग छान लें"
+
+#: templates/main.html:938
+#, fuzzy
+msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
+msgstr "मोशन डिटेक्शन से पहले फ्रेम में स्पॉट फिल्टर लगाकर इसे सक्षम करें।"
+
+#: templates/main.html:944
+#, fuzzy
+msgid "Senmovada daŭro"
+msgstr "निरंतर आंदोलन"
+
+#: templates/main.html:946
+#, fuzzy
+msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
+msgstr "चुप्पी के सेकंड की संख्या सेट करता है (यानी कोई आंदोलन नहीं) जो एक आंदोलन घटना के अंत को चिह्नित करता है।"
+
+#: templates/main.html:949
+#, fuzzy
+msgid "Kaptita Antaŭe"
+msgstr "पहले पकड़ा गया"
+
+#: templates/main.html:950 templates/main.html:955 templates/main.html:960
+#, fuzzy
+msgid "kadroj"
+msgstr "अंक"
+
+#: templates/main.html:951
+#, fuzzy
+msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
+msgstr "गति की घटना का पता चलने से पहले (और फिल्म में शामिल) फ्रेम की संख्या निर्धारित करता है।"
+
+#: templates/main.html:954
+#, fuzzy
+msgid "Kaptita Post"
+msgstr "के बाद पकड़ा गया"
+
+#: templates/main.html:956
+#, fuzzy
+msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
+msgstr "एक आंदोलन की घटना के अंत के बाद (और फिल्म में शामिल) फ़्रेमों की संख्या निर्धारित करता है।"
+
+#: templates/main.html:959
+#, fuzzy
+msgid "Minimumaj movaj kadroj"
+msgstr "न्यूनतम गति फ्रेम"
+
+#: templates/main.html:961
+#, fuzzy
+msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
+msgstr "गति घटना शुरू करने के लिए आवश्यक क्रमिक गति फ्रेम की न्यूनतम संख्या निर्धारित करता है।"
+
+#: templates/main.html:967
+#, fuzzy
+msgid "Masko"
+msgstr "मुखौटा"
+
+#: templates/main.html:969
+#, fuzzy
+msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
+msgstr "अधिक चयनात्मक और सटीक गति का पता लगाने के लिए छवि मास्किंग सक्षम करता है।"
+
+#: templates/main.html:972
+#, fuzzy
+msgid "Tipo de masko"
+msgstr "मास्क का प्रकार"
+
+#: templates/main.html:975
+#, fuzzy
+msgid "Inteligenta"
+msgstr "बुद्धिमान"
+
+#: templates/main.html:976
+#, fuzzy
+msgid "Redaktebla"
+msgstr "संपादन योग्य"
+
+#: templates/main.html:979
+#, fuzzy
+msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
+msgstr "बुद्धिमान विकल्प स्वचालित रूप से नियमित गति वाले क्षेत्रों का पता लगाता है और गतिशील रूप से एक आंतरिक मुखौटा बनाता है, जबकि संपादन योग्य विकल्प आपको इसे स्वयं बनाने की अनुमति देता है।"
+
+#: templates/main.html:982
+#, fuzzy
+msgid "Inteligenta-maska Malrapideco"
+msgstr "स्मार्ट-मास्क सुस्ती"
+
+#: templates/main.html:984
+#, fuzzy
+msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
+msgstr "उच्च मूल्य धीमी निर्माण प्रक्रिया के साथ अधिक टिकाऊ मुखौटा देते हैं।"
+
+#: templates/main.html:993
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
+msgstr "मास्क संपादक को सक्षम / अक्षम करने के लिए इस बटन पर क्लिक करें।"
+
+#: templates/main.html:997
+#, fuzzy
+msgid "Purigi maskon"
+msgstr "साफ मुखौटा"
+
+#: templates/main.html:998
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
+msgstr "वर्तमान मुखौटा खाली करने के लिए इस बटन पर क्लिक करें।"
+
+#: templates/main.html:1004
+#, fuzzy
+msgid "Montri Kadro-Ŝanĝojn"
+msgstr "फ़्रेम परिवर्तन दिखाएं"
+
+#: templates/main.html:1006
+#, fuzzy
+msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
+msgstr "यदि यह सक्रिय है, तो वीडियो में छवि परिवर्तन (पिक्सेल की संख्या और संशोधित क्षेत्र) दिखाए जाते हैं; गति का पता लगाने की सेटिंग को समायोजित करने के लिए इसे अस्थायी रूप से सक्षम करें।"
+
+#: templates/main.html:1009
+#, fuzzy
+msgid "Krei debug media files"
+msgstr "डीबग मीडिया फ़ाइलें बनाएँ"
+
+#: templates/main.html:1011
+#, fuzzy
+msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
+msgstr "सक्षम होने पर, विशेष फिल्में और छवियां बनाएं जो डिबग गति का पता लगाने में मदद करती हैं।"
+
+#: templates/main.html:1020
+#, fuzzy
+msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
+msgstr "गति का पता चलने पर आपको इसे सूचित करना होगा।"
+
+#: templates/main.html:1021
+#, fuzzy
+msgid "Moviĝaj sciigoj"
+msgstr "मोशन नोटिफिकेशन"
+
+#: templates/main.html:1026
+#, fuzzy
+msgid "Sendi retpoŝton"
+msgstr "एक ईमेल भेजें"
+
+#: templates/main.html:1028
+#, fuzzy
+msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "यदि आप एक गति की घटना का पता लगाने के लिए हर बार ईमेल प्राप्त करना चाहते हैं तो इस विकल्प को सक्रिय करें।"
+
+#: templates/main.html:1031
+#, fuzzy
+msgid "Retpoŝtadresoj"
+msgstr "ईमेल पते"
+
+#: templates/main.html:1032
+#, fuzzy
+msgid "retpoŝtadresoj..."
+msgstr "ईमेल पते ..."
+
+#: templates/main.html:1033
+#, fuzzy
+msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
+msgstr "ईमेल पते (अल्पविराम से अलग) यहां जोड़े जाने पर गति की घटना का पता चलने पर सूचनाएं प्राप्त होंगी।"
+
+#: templates/main.html:1036
+#, fuzzy
+msgid "Servilo SMTP"
+msgstr "SMTP सर्वर"
+
+#: templates/main.html:1037
+#, fuzzy
+msgid "ekz. smtp.gmail.com"
+msgstr "जैसे। smtp.gmail.com"
+
+#: templates/main.html:1038
+#, fuzzy
+msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
+msgstr "अपने SMTP सर्वर का होस्टनाम या IP पता (Gmail smtp.gmail.com का उपयोग करने के लिए) दर्ज करें।"
+
+#: templates/main.html:1041
+#, fuzzy
+msgid "SMTP Haveno"
+msgstr "SMTP पोर्ट"
+
+#: templates/main.html:1042
+#, fuzzy
+msgid "ekz. 587"
+msgstr "जैसे। 587"
+
+#: templates/main.html:1043
+#, fuzzy
+msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
+msgstr "अपने SMTP सर्वर (आमतौर पर गैर-टीएलएस कनेक्शन के लिए 465 और टीएलएस कनेक्शन के लिए 587) द्वारा उपयोग किया जाने वाला पोर्ट दर्ज करें।"
+
+#: templates/main.html:1046
+#, fuzzy
+msgid "SMTP-Konto"
+msgstr "SMTP खाता"
+
+#: templates/main.html:1047
+#, fuzzy
+msgid "konto@gmail.com..."
+msgstr "account@gmail.com ..."
+
+#: templates/main.html:1048
+#, fuzzy
+msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
+msgstr "अपना SMTP खाता (आमतौर पर आपका ईमेल पता) दर्ज करें।"
+
+#: templates/main.html:1051
+#, fuzzy
+msgid "SMTP Pasvorto"
+msgstr "SMTP पासवर्ड"
+
+#: templates/main.html:1053
+#, fuzzy
+msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
+msgstr "अपना एसएमटीपी पासवर्ड दर्ज करें (जीमेल के लिए अपने Google पासवर्ड या ऐप-जनरेट किए गए पासवर्ड का उपयोग करें)।"
+
+#: templates/main.html:1056
+#, fuzzy
+msgid "De adreso"
+msgstr "पते से"
+
+#: templates/main.html:1057
+#, fuzzy
+msgid "retpoŝta adreso..."
+msgstr "ईमेल पता ..."
+
+#: templates/main.html:1058
+#, fuzzy
+msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
+msgstr "कस्टम से पता सेट करें यदि आपकी एसएमटीपी सेवा को एक की आवश्यकता है (यदि खाली छोड़ दिया गया है तो पहले गंतव्य ईमेल पते का उपयोग किया जाएगा)।"
+
+#: templates/main.html:1061
+#, fuzzy
+msgid "Uzi TLS"
+msgstr "TLS का प्रयोग करें"
+
+#: templates/main.html:1063
+#, fuzzy
+msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
+msgstr "यदि आपके SMTP सर्वर को TLS की आवश्यकता है (Gmail को इसे सक्षम करने की आवश्यकता है) तो इसे सक्षम करें।"
+
+#: templates/main.html:1066
+#, fuzzy
+msgid "Aldonitaj bildoj tempo-intervalo"
+msgstr "जोड़ा गया चित्र समय अंतराल"
+
+#: templates/main.html:1068
+#, fuzzy
+msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgstr "ईमेल लिंक बनाते समय उपयोग करने के लिए समय खोज अंतराल को परिभाषित करता है (उच्च मान वृद्धि की गई अधिसूचना की कीमत पर अधिक छवियों के साथ ईमेल उत्पन्न करता है); जोड़ा छवियों को निष्क्रिय करने के लिए 0 पर सेट; आपको इस कार्य को करने के लिए \"कैप्चर इमेज\" को सक्षम करने की भी आवश्यकता है।"
+
+#: templates/main.html:1072
+#, fuzzy
+msgid "Testi retpoŝto"
+msgstr "ईमेल का परीक्षण करें"
+
+#: templates/main.html:1073
+#, fuzzy
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "आवश्यक विवरणों को भरने के बाद ईमेल सूचनाओं का परीक्षण करने के लिए इस बटन पर क्लिक करें।"
+
+#: templates/main.html:1079
+#, fuzzy
+msgid "Sendu Telegraman Sciigon"
+msgstr "टेलीग्राम अधिसूचना भेजें"
+
+#: templates/main.html:1081
+#, fuzzy
+msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
+msgstr "जब भी आप किसी टेलीग्राम संदेश को प्राप्त करना चाहते हैं, तब इसे सक्षम करें"
+
+#: templates/main.html:1084
+#, fuzzy
+msgid "HTTP API ĵetono"
+msgstr "HTTP एपीआई टोकन"
+
+#: templates/main.html:1085
+#, fuzzy
+msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+msgstr "उदाहरण: 93847672: AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+
+#: templates/main.html:1086
+#, fuzzy
+msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
+msgstr "टेलीग्राम बॉट चैट बनाने से, आपको एक एपीआई टोकन मिलेगा जिसे आपको यहां दर्ज करना होगा। अपने एपीआई टोकन प्राप्त करने के बारे में चरण-दर-चरण मार्गदर्शिका के लिए नीचे एपीआई बटन पर क्लिक करें। यह भी सुनिश्चित करें कि आपकी कुंजी उत्पन्न होने के बाद अपने नए बनाए गए बूट के साथ चैट करें, यह सुनिश्चित करने के लिए कि आपको संदेश मिल रहे हैं।"
+
+#: templates/main.html:1089
+#, fuzzy
+msgid "Babileja ID"
+msgstr "चैट आईडी"
+
+#: templates/main.html:1090
+#, fuzzy
+msgid "Ekzemplo: 938272312"
+msgstr "उदाहरण: 938272312"
+
+#: templates/main.html:1091
+#, fuzzy
+msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
+msgstr "Id_chatbot (@id_chatbot) के लिए एक नई चैट बनाएँ और शुरू करने के लिए चुनें। चैट इस फ़ील्ड के लिए आवश्यक नंबर लौटाएगा।"
+
+#: templates/main.html:1094
+#, fuzzy
+msgid "Alkroĉitaj Bildoj Tempo"
+msgstr "संलग्न छवियाँ समय"
+
+#: templates/main.html:1096
+#, fuzzy
+msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
+msgstr "टेलीग्राम अटैचमेंट बनाने के लिए छवि खोज समय अंतराल को परिभाषित करता है (उच्च मूल्य वृद्धि की देरी की कीमत पर अधिक छवियां उत्पन्न करता है); छवि अनुलग्नकों को अक्षम करने के लिए 0 पर सेट; आपको इसके लिए स्टिल इमेजेस को भी काम करने के लिए सक्षम करना होगा; आप इस नंबर के साथ खेलना चाहेंगे जब तक कोई इमेज नहीं भेजेगा। एक अच्छी शुरुआत संख्या 30 है यदि आप अभी भी छवियों को गति के लिए सेट करते हैं। ट्रिगर किए गए एक मानक कदम के लिए, इसे बहुत कम सेट करें।"
+
+#: templates/main.html:1099
+#, fuzzy
+msgid "API-Informoj"
+msgstr "एपीआई सूचना"
+
+#: templates/main.html:1100
+#, fuzzy
+msgid "Testo"
+msgstr "परीक्षा"
+
+#: templates/main.html:1106
+#, fuzzy
+msgid "Alvoki URL"
+msgstr "URL आमंत्रित करें"
+
+#: templates/main.html:1108
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "अगर आप चाहते हैं कि जब भी मोशन ईवेंट का पता चले तो आप एक URL का अनुरोध करें।"
+
+#: templates/main.html:1112
+#, fuzzy
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "जैसे। http://ekzemplo.com/sciigi/"
+
+#: templates/main.html:1113
+#, fuzzy, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "गति का पता चलने पर URL का अनुरोध किया जाना; निम्नलिखित विशेष शॉर्टकट स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या , %% v = घटना संख्या"
+
+#: templates/main.html:1125
+#, fuzzy
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "URL का अनुरोध करते समय उपयोग करने के लिए HTTP विधि (दिए गए URL मापदंडों को यहां बताए अनुसार वितरित किया जाएगा)।"
+
+#: templates/main.html:1131
+#, fuzzy
+msgid "Lanĉi komando"
+msgstr "एक कमांड लॉन्च करें"
+
+#: templates/main.html:1133
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "यदि आप हर बार एक गति घटना का पता लगाने के लिए कमांड चलाना चाहते हैं तो इसे सक्षम करें।"
+
+#: templates/main.html:1136 templates/main.html:1149
+#, fuzzy
+msgid "Komando"
+msgstr "आदेश"
+
+#: templates/main.html:1137 templates/main.html:1150
+#, fuzzy
+msgid "komando..."
+msgstr "कमांड ..."
+
+#: templates/main.html:1138
+#, fuzzy, python-format
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "गति का पता चलने पर कमांड लॉन्च किया जाना; कई आदेशों को एक बृहदान्त्र द्वारा अलग किया जा सकता है; आदेशों के साथ अर्धविराम का उपयोग न करें; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या , %% v = घटना संख्या"
+
+#: templates/main.html:1144
+#, fuzzy
+msgid "Lanĉi fina komando"
+msgstr "अंतिम कमांड लॉन्च करें"
+
+#: templates/main.html:1146
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "यदि आप हर बार किसी मूव इवेंट को समाप्त करने के लिए कमांड लॉन्च करना चाहते हैं तो इसे सक्षम करें।"
+
+#: templates/main.html:1151
+#, fuzzy, python-format
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "मोशन इवेंट समाप्त होने पर लॉन्च होने की कमांड; कई आदेशों को एक बृहदान्त्र द्वारा अलग किया जा सकता है; आदेशों के साथ डॉट कॉम का उपयोग न करें; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिनांक, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या।"
+
+#: templates/main.html:1161
+#, fuzzy
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
+msgstr "यदि आप गति का पता लगाने के लिए साप्ताहिक शेड्यूल सेट करना चाहते हैं तो इसे सक्षम करें।"
+
+#: templates/main.html:1162
+#, fuzzy
+msgid "Laboranta horaro"
+msgstr "काम करने का कार्यक्रम"
+
+#: templates/main.html:1167
+#, fuzzy
+msgid "Lundo"
+msgstr "सोमवार"
+
+#: templates/main.html:1170
+#, fuzzy
+msgid "de"
+msgstr "की"
+
+#: templates/main.html:1171
+#, fuzzy
+msgid "ĝis"
+msgstr "तक"
+
+#: templates/main.html:1173
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por lundoj."
+msgstr "सोमवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1176
+#, fuzzy
+msgid "Mardo"
+msgstr "मंगलवार"
+
+#: templates/main.html:1182
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por mardoj."
+msgstr "मंगलवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1185
+#, fuzzy
+msgid "Merkredo"
+msgstr "बुधवार"
+
+#: templates/main.html:1191
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por merkredoj."
+msgstr "बुधवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1194
+#, fuzzy
+msgid "Ĵaŭdo"
+msgstr "बृहस्पतिवार"
+
+#: templates/main.html:1200
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
+msgstr "गुरुवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1203
+#, fuzzy
+msgid "Vendredo"
+msgstr "शुक्रवार"
+
+#: templates/main.html:1209
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por vendredoj."
+msgstr "शुक्रवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1212
+#, fuzzy
+msgid "Sabato"
+msgstr "शनिवार"
+
+#: templates/main.html:1218
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por sabatoj."
+msgstr "शनिवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1221
+#, fuzzy
+msgid "Dimanĉo"
+msgstr "रविवार"
+
+#: templates/main.html:1227
+#, fuzzy
+msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
+msgstr "रविवार के लिए कार्य दिवस की समय सीमा निर्धारित करता है।"
+
+#: templates/main.html:1230
+#, fuzzy
+msgid "Detekti movadon"
+msgstr "आंदोलन का पता लगाएं"
+
+#: templates/main.html:1233
+#, fuzzy
+msgid "Dum laborista horaro"
+msgstr "काम के घंटों के दौरान"
+
+#: templates/main.html:1234
+#, fuzzy
+msgid "Ekster laborista horaro"
+msgstr "बाहर काम के घंटे"
+
+#: templates/main.html:1237
+#, fuzzy
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
+msgstr "परिभाषित करता है कि गति का पता लगाने के काम के घंटों के दौरान या बाहर सक्रिय होना चाहिए।"
+
+#: utils/dtconv.py:29 utils/dtconv.py:68
+#, fuzzy
+msgid "never"
+msgstr "कभी नहीं"
+
+#: utils/dtconv.py:120
+#, fuzzy
+msgid "day"
+msgstr "दिन"
+
+#: utils/dtconv.py:123
+#, fuzzy
+msgid "week"
+msgstr "सप्ताह"
+
+#: utils/dtconv.py:126
+#, fuzzy
+msgid "month"
+msgstr "माह"
+
+#: utils/dtconv.py:129
+#, fuzzy
+msgid "year"
+msgstr "साल"
+
+#: utils/dtconv.py:132
+#, fuzzy
+msgid "days"
+msgstr "दिन"
+
+#: utils/dtconv.py:136
+#, fuzzy
+msgid "hour"
+msgstr "घंटा"
+
+#: utils/dtconv.py:139
+#, fuzzy
+msgid "hours"
+msgstr "घंटे"
+
+#: utils/dtconv.py:143
+#, fuzzy
+msgid "minute"
+msgstr "मिनट"
+
+#: utils/dtconv.py:146
+#, fuzzy
+msgid "minutes"
+msgstr "मिनट"
+
+#: utils/dtconv.py:150
+#, fuzzy
+msgid "second"
+msgstr "दूसरा"
+
+#: utils/dtconv.py:153 utils/dtconv.py:156
+#, fuzzy
+msgid "seconds"
+msgstr "सेकंड"
+
+#: utils/dtconv.py:160
+#, fuzzy
+msgid "minus"
+msgstr "ऋण"
+
+#, fuzzy
+#~ msgid "Alira Ŝlosila Id"
+#~ msgstr "पहुंच कुंजी आईडी"
+
+#, fuzzy
+#~ msgid "la AWS-ŝlosila identigilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+#~ msgstr "AWS कुंजी पहचानकर्ता को अपलोड सेवा के साथ प्रमाणित करने के लिए उपयोग किया जाता है (आमतौर पर केवल कॉन्फ़िगरेशन के दौरान आवश्यक)"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+#~ msgstr "गति का पता चलने पर कमांड लॉन्च किया जाना; कई आदेशों को एक अर्धविराम द्वारा अलग किया जा सकता है; आदेशों के साथ अर्धविराम का उपयोग न करें; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या , %% v = घटना संख्या"
+
+#, fuzzy
+#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
+#~ msgstr "मोशन इवेंट समाप्त होने पर लॉन्च होने की कमांड; कई आदेशों को एक अर्धविराम द्वारा अलग किया जा सकता है; आदेशों के साथ डॉट कॉम का उपयोग न करें; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिनांक, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या।"
+
+#, fuzzy
+#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
+#~ msgstr "उस छवि के प्रतिशत को परिभाषित करता है जिसे बदलने की आवश्यकता है ताकि घटना को गति के बजाय अचानक प्रकाश परिवर्तन के रूप में माना जाए (0% सुविधा को निष्क्रिय करता है)।"

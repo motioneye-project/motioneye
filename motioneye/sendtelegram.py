@@ -16,33 +16,43 @@ from __future__ import print_function
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
-import datetime
 import logging
-import io
 import os
+import io
 import sys
 import re
 import signal
 import socket
 import time
-import urllib
-import urllib2
+#<<<<<<< HEAD
+#import urllib
+#import urllib2
+#import random
+#import codecs
+#import uuid
+#import binascii
+#import json
+#
+#
+#import settings
+#
+#import config
+#import mediafiles
+#import motionctl
+#import tzctl
+#=======
 import pycurl
-import random
-import codecs
-import uuid
-import binascii
 import datetime
-import json
 
 from tornado.ioloop import IOLoop
 
-import settings
+from motioneye import config
+from motioneye import mediafiles
+from motioneye import motionctl
+from motioneye import settings
+from motioneye import utils
+from motioneye.controls import tzctl
 
-import config
-import mediafiles
-import motionctl
-import tzctl
 
 messages = {
     'motion_start': 'Motion has been detected by camera "%(camera)s/%(hostname)s" at %(moment)s (%(timezone)s).'
@@ -65,7 +75,8 @@ def send_message(api_key, chat_id, message, files):
         logging.info('files present')
         for f in files:
             c.setopt(c.URL, telegram_photo_url)
-            c.setopt(c.HTTPPOST, [("chat_id", chat_id), ("caption", message), ("photo", (c.FORM_FILE, f))]) # Send photos
+            # Send photos
+            c.setopt(c.HTTPPOST, [("chat_id", chat_id), ("caption", message), ("photo", (c.FORM_FILE, f))])
             c.perform()
     c.close()
     logging.debug('sending email message')
@@ -123,7 +134,9 @@ def make_message(message, camera_id, moment, timespan, callback):
         prefix = moment.strftime('%Y-%m-%d')
         logging.debug('narrowing down still images path lookup to %s' % prefix)
 
-    mediafiles.list_media(camera_config, media_type='picture', prefix=prefix, callback=on_media_files)
+    ## mediafiles.list_media(camera_config, media_type='picture', prefix=prefix, callback=on_media_files)
+    fut = utils.cast_future(mediafiles.list_media(camera_config, media_type='picture', prefix=prefix))
+    fut.add_done_callback(on_media_files)
     
     io_loop.start()
 

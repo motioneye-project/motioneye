@@ -15,11 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
-from jinja2 import Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-import settings
-import utils
-
+from motioneye import settings
+from motioneye.utils.dtconv import pretty_date_time, pretty_date, pretty_time, pretty_duration
+import gettext
+from babel.support import Translations
+from .meyectl import traduction
 
 _jinja_env = None
 
@@ -27,18 +29,21 @@ _jinja_env = None
 def _init_jinja():
     global _jinja_env
     
+#            loader=FileSystemLoader(searchpath="templates" ),
     _jinja_env = Environment(
             loader=FileSystemLoader(settings.TEMPLATE_PATH),
-            trim_blocks=False)
+            trim_blocks=False,extensions=['jinja2.ext.i18n'],
+	    autoescape=select_autoescape(['html', 'xml']))
+    _jinja_env.install_gettext_translations(traduction,newstyle=True)
 
     # globals
     _jinja_env.globals['settings'] = settings
     
     # filters
-    _jinja_env.filters['pretty_date_time'] = utils.pretty_date_time
-    _jinja_env.filters['pretty_date'] = utils.pretty_date
-    _jinja_env.filters['pretty_time'] = utils.pretty_time
-    _jinja_env.filters['pretty_duration'] = utils.pretty_duration
+    _jinja_env.filters['pretty_date_time'] = pretty_date_time
+    _jinja_env.filters['pretty_date'] = pretty_date
+    _jinja_env.filters['pretty_time'] = pretty_time
+    _jinja_env.filters['pretty_duration'] = pretty_duration
 
 
 def add_template_path(path):
