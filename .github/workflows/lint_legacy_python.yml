@@ -16,5 +16,7 @@ jobs:
        - run: flake8 . --count --exit-zero --max-complexity=12 --max-line-length=125
                        --show-source --statistics
        - run: pip install -r requirements.txt
-       - run: pip install pycurl || true
+       - run: pip install pycurl || true  # 7.43.0.5 fails on legacy Python!
+       - run: pip install pycurl==7.44.1 || true
+       - run: pip install pycurl==7.43.0.3 || true
        - run: pytest . || pytest --doctest-modules . || true
