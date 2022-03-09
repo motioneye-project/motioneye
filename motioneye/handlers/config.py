@@ -368,7 +368,7 @@ class ConfigHandler(BaseHandler):
         finished = self.check_finished(cameras, length)
         return
 
-    @BaseHandler.auth()
+    @BaseHandler.auth(admin=True)
     async def list(self):
         logging.debug('listing cameras')
 
