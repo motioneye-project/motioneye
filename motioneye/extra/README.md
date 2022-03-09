@@ -56,20 +56,20 @@ For the examples below, we assume user `motion` and group `motion` exist on the 
 
 ```bash
 RUN_USER="motion"
-RUN_UID="id -u ${RUN_USER}"
-RUN_GID="id -g ${RUN_USER}"
+RUN_UID=$(id -u ${RUN_USER})
+RUN_GID=$(id -g ${RUN_USER})
 TIMESTAMP="$(date '+%Y%m%d-%H%M')"
 
 cd /tmp && \
 git clone https://github.com/motioneye-project/motioneye.git && \
-cd motioneye/motioneye && \
+cd motioneye && \
 docker build \
   --network host \
   --build-arg="RUN_UID=${RUN_UID?}" \
   --build-arg="RUN_GID=${RUN_GID?}" \
   -t "${USER?}/motioneye:${TIMESTAMP}" \
   --no-cache \
-  -f extra/Dockerfile .
+  -f motioneye/extra/Dockerfile .
 ```
 
 This will create a local image called `your_username/motioneye:YYYYMMDD-HHMM`.

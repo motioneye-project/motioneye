@@ -47,14 +47,14 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) bullseye
     # make it easier to use execute motion as our desired user later.
     sed -i -e "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
     sed -i -e "s/^\(motion:[^:]*\):[0-9]*:\(.*\)/\1:${RUN_GID}:\2/" /etc/group && \
-    pip install motioneye && \
+    pip install /tmp/motioneye && \
     # Cleanup
     rm -rf motioneye && \
     apt-get purge --yes python3-setuptools python3-wheel && \
     apt-get autoremove --yes && \
     apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
-ADD extra/motioneye.conf.sample /usr/share/motioneye/extra/
+ADD motioneye/extra/motioneye.conf.sample /usr/share/motioneye/extra/
 
 # R/W needed for motioneye to update configurations
 VOLUME /etc/motioneye
@@ -65,7 +65,8 @@ VOLUME /var/lib/motioneye
 CMD test -e /etc/motioneye/motioneye.conf || \
     cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
     # We need to chown at startup time since volumes are mounted as root. This is fugly.
-    chown motion:motion /var/run /var/log /etc/motioneye /var/lib/motioneye /usr/share/motioneye/extra ; \
-    su -g motion motion -s /bin/bash -c "/usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf"
+    mkdir -p /var/run/motioneye /var/log/motioneye ; \
+    chown motion:motion /var/run /var/run/motioneye /var/log /etc/motioneye /var/lib/motioneye /var/log/motioneye /usr/share/motioneye/extra ; \
+    su -g motion motion -s /bin/bash -c "LANGUAGE=en /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf"
 
 EXPOSE 8765
