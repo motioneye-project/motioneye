@@ -8,7 +8,7 @@ jobs:
        - uses: actions/setup-python@v3
          with:
            python-version: 2.7
-       - run: sudo apt upgrade -y && sudo apt-get install ssh curl motion ffmpeg v4l-utils -y
+       - run: sudo apt upgrade -y && sudo apt-get install curl ffmpeg libcurl4-openssl-dev libssl-dev motion ssh v4l-utils -y 
        - run: pip install --upgrade pip wheel
        - run: pip install codespell flake8 flake8-comprehensions pytest
        - run: codespell --ignore-words-list="files',ot,process'" --skip="./.*,*.eod,*.gif,*.png,*.ttf,*.woff"
@@ -17,6 +17,6 @@ jobs:
                        --show-source --statistics
        - run: pip install -r requirements.txt
        - run: pip install pycurl || true  # 7.43.0.5 fails on legacy Python!
-       - run: pip install pycurl==7.44.1 || true
-       - run: pip install pycurl==7.43.0.3 || true
+       # - run: pip install pycurl==7.44.1 || true
+       # - run: pip install pycurl==7.43.0.3 || true
        - run: pytest . || pytest --doctest-modules . || true
