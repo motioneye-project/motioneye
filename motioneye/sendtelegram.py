@@ -168,7 +168,7 @@ def main(parser, args):
         args[7] = 'motionEye on %s <%s>' % (socket.gethostname(), args[8].split(',')[0])
 
     options = parse_options(parser, args)
-    print(options) 
+    print(options)
     meyectl.configure_logging('telegram', options.log_to_file)
 
     logging.debug('hello!')
