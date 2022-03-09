@@ -1,5 +1,7 @@
+babel
+boto3
 jinja2
+numpy
 pillow
 pycurl
-six
 tornado
