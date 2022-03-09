@@ -184,7 +184,7 @@ def _remove_older_files(directory: str, moment: datetime.datetime, clean_cloud_i
                     try:
                         os.remove(os.path.join(dir_path, p))
 
-                    except:
+                    except Exception as e:
                         logging.error('failed to remove %s: %s' % (p, e))
 
             if not listing or len(listing) == len(thumbs):
@@ -195,7 +195,7 @@ def _remove_older_files(directory: str, moment: datetime.datetime, clean_cloud_i
                     os.removedirs(dir_path)
                     removed_folder_count += 1
 
-                except:
+                except Exception as e:
                     logging.error('failed to remove %s: %s' % (dir_path, e))
 
     if clean_cloud_info and removed_folder_count > 0:
