@@ -8,7 +8,7 @@ jobs:
        - uses: actions/setup-python@v3
          with:
            python-version: 2.7
-       - run: apt update && sudo apt upgrade -y
+       - run: sudo apt update && sudo apt upgrade -y
        - run: sudo apt-get install ssh curl motion ffmpeg v4l-utils -y
        - run: pip install --upgrade pip wheel
        - run: pip install codespell flake8 flake8-comprehensions pytest
