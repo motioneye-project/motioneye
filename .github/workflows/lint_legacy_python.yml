@@ -1,0 +1,22 @@
+name: lint_legacy_python
+on: [pull_request, push]
+jobs:
+   lint_legacy_python:
+     runs-on: ubuntu-latest
+     steps:
+       - uses: actions/checkout@v3
+       - uses: actions/setup-python@v3
+         with:
+           python-version: 2.7
+       - run: |
+           sudo apt-get -q update
+           sudo apt-get -qq upgrade
+           sudo apt-get -qq install curl ffmpeg libcurl4-openssl-dev libssl-dev motion ssh v4l-utils
+       - run: pip install --upgrade pip wheel
+       - run: pip install codespell flake8 flake8-comprehensions pytest
+       - run: codespell --ignore-words-list="files',ot,process'" --skip="./.*,*.eot,*.gif,*.ico,*.png,*.ttf,*.woff"
+       - run: flake8 . --count --max-complexity=66 --max-line-length=125
+                       --select=E9,F63,F7,F82 --show-source --statistics
+       - run: flake8 . --count --exit-zero --show-source --statistics
+       - run: pip install -r requirements.txt
+       - run: pytest . || pytest --doctest-modules . || true
