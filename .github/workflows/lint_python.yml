@@ -18,9 +18,7 @@ jobs:
       - run: black --check . || true
       - run: codespell --ignore-words-list=ot
       - run: flake8 . --count --max-complexity=60 --max-line-length=125
-                      --select=E9,F63,F7 --show-source --statistics  # Add F82
-      # TODO: F821: execfile() and unicode() were removed in Python 3
-      - run: flake8 . --count --exit-zero --select=F82 --show-source
+                      --select=E9,F63,F7,F82 --show-source --statistics
       - run: flake8 . --count --exit-zero --max-complexity=10
                       --max-line-length=88 --show-source --statistics
       - run: isort --check-only --profile black . || true
