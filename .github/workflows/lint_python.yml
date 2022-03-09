@@ -1,0 +1,32 @@
+name: lint_python
+on: [pull_request, push]
+jobs:
+  lint_python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - run: |
+           sudo apt-get -q update
+           sudo apt-get -qq upgrade
+           sudo apt-get -qq install curl ffmpeg libcurl4-openssl-dev libssl-dev motion ssh v4l-utils
+      - run: pip install --upgrade pip wheel
+      - run: pip install bandit black codespell flake8 flake8-2020 flake8-bugbear
+                         flake8-comprehensions isort mypy pytest pyupgrade safety
+      # https://bandit.readthedocs.io/en/latest/plugins/index.html
+      - run: bandit --recursive --skip B104,B105,B108,B110,B301,B310,B321,B324,B402,B403,B404,B602,B603,B605,B607,B701 .
+      - run: black --check . || true
+      - run: codespell --ignore-words-list="files',ot,process'"
+      - run: flake8 . --count --max-complexity=66 --max-line-length=125
+                      --select=E9,F63,F7 --show-source --statistics  # Add F82
+      # TODO: F821: execfile(), file(), unicode() and xrange() were removed in Python 3
+      - run: flake8 . --count --exit-zero --select=F82 --show-source
+      - run: flake8 . --count --exit-zero --max-complexity=10
+                      --max-line-length=88 --show-source --statistics
+      - run: isort --check-only --profile black . || true
+      - run: pip install -r requirements.txt
+      - run: mkdir --parents --verbose .mypy_cache
+      - run: mypy --ignore-missing-imports --install-types --non-interactive . || true
+      - run: pytest . || pytest --doctest-modules . || true
+      - run: shopt -s globstar && pyupgrade --py37-plus **/*.py || true
+      - run: safety check

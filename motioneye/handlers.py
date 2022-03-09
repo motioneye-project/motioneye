@@ -515,7 +515,7 @@ class ConfigHandler(BaseHandler):
 
                 # make sure main config is handled first
                 items = ui_config.items()
-                items.sort(key=lambda (key, cfg): key != 'main')
+                items.sort(key=lambda key__cfg: key__cfg[0] != 'main')
 
                 for key, cfg in items:
                     if key == 'main':
