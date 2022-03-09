@@ -1,0 +1,20 @@
+name: lint_python
+ on: [pull_request, push]
+ jobs:
+   lint_python:
+     runs-on: ubuntu-latest
+     steps:
+       - uses: actions/checkout@v2
+       - uses: actions/setup-python@v3
+         with:
+           python-version: 2.7
+       - run: pip install --upgrade pip wheel
+       - run: pip install bandit codespell flake8 flake8-2020 flake8-bugbear flake8-comprehensions pytest
+       - run: bandit --recursive --skip B101 . || true  # B101 is assert statements
+       - run: codespell || true  # --ignore-words-list="" --skip="*.css,*.js,*.lock"
+       - run: flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+       - run: flake8 . --count --exit-zero --max-complexity=10 --max-line-length=88
+                       --show-source --statistics
+       - run: pip install -r requirements.txt || pip install --editable . || true
+       - run: pytest . || true
+       - run: pytest --doctest-modules . || true
