@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -18,8 +17,7 @@
 
 from motioneye.handlers.base import BaseHandler
 
-
-__all__ = ('LoginHandler',)
+__all__ = ("LoginHandler",)
 
 
 # this will only trigger the login mechanism on the client side, if required
@@ -29,5 +27,5 @@ class LoginHandler(BaseHandler):
         self.finish_json()
 
     def post(self):
-        self.set_header('Content-Type', 'text/html')
+        self.set_header("Content-Type", "text/html")
         self.finish()

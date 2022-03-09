@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -24,84 +23,97 @@ import subprocess
 from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
 
-from motioneye import config
-from motioneye import motionctl
-from motioneye import remote
-from motioneye import utils
+from motioneye import config, motionctl, remote, utils
 from motioneye.handlers.base import BaseHandler
 
-
-__all__ = ('ActionHandler',)
+__all__ = ("ActionHandler",)
 
 
 class ActionHandler(BaseHandler):
-
     async def post(self, camera_id, action):
         camera_id = int(camera_id)
         if camera_id not in config.get_camera_ids():
-            raise HTTPError(404, 'no such camera')
+            raise HTTPError(404, "no such camera")
 
         local_config = config.get_camera(camera_id)
         if utils.is_remote_camera(local_config):
             resp = await remote.exec_action(local_config, action)
             if resp.error:
-                msg = 'Failed to execute action on remote camera at %(url)s: %(msg)s.' % {
-                    'url': remote.pretty_camera_url(local_config), 'msg': resp.error}
+                msg = (
+                    "Failed to execute action on remote camera at %(url)s: %(msg)s."
+                    % {"url": remote.pretty_camera_url(local_config), "msg": resp.error}
+                )
 
-                return self.finish_json({'error': msg})
+                return self.finish_json({"error": msg})
 
             return self.finish_json()
 
-        if action == 'snapshot':
-            logging.debug('executing snapshot action for camera with id %s' % camera_id)
+        if action == "snapshot":
+            logging.debug("executing snapshot action for camera with id %s" % camera_id)
             await self.snapshot(camera_id)
             return
 
-        elif action == 'record_start':
-            logging.debug('executing record_start action for camera with id %s' % camera_id)
+        elif action == "record_start":
+            logging.debug(
+                "executing record_start action for camera with id %s" % camera_id
+            )
             return self.record_start(camera_id)
 
-        elif action == 'record_stop':
-            logging.debug('executing record_stop action for camera with id %s' % camera_id)
+        elif action == "record_stop":
+            logging.debug(
+                "executing record_stop action for camera with id %s" % camera_id
+            )
             return self.record_stop(camera_id)
 
         action_commands = config.get_action_commands(local_config)
         command = action_commands.get(action)
         if not command:
-            raise HTTPError(400, 'unknown action')
+            raise HTTPError(400, "unknown action")
 
-        logging.debug('executing %s action for camera with id %s: "%s"' % (action, camera_id, command))
+        logging.debug(
+            'executing %s action for camera with id %s: "%s"'
+            % (action, camera_id, command)
+        )
         self.run_command_bg(command)
 
     def run_command_bg(self, command):
-        self.p = subprocess.Popen(command, stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
+        self.p = subprocess.Popen(
+            command, stderr=subprocess.STDOUT, stdout=subprocess.PIPE
+        )
         self.command = command
 
         self.io_loop = IOLoop.instance()
-        self.io_loop.add_timeout(datetime.timedelta(milliseconds=100), self.check_command)
+        self.io_loop.add_timeout(
+            datetime.timedelta(milliseconds=100), self.check_command
+        )
 
     def check_command(self):
         exit_status = self.p.poll()
         if exit_status is not None:
             output = self.p.stdout.read()
-            lines = output.decode('utf-8').split('\n')
+            lines = output.decode("utf-8").split("\n")
             if not lines[-1]:
                 lines = lines[:-1]
             command = os.path.basename(self.command)
             if exit_status:
-                logging.warning('%s: command has finished with non-zero exit status: %s' % (command, exit_status))
+                logging.warning(
+                    "%s: command has finished with non-zero exit status: %s"
+                    % (command, exit_status)
+                )
                 for line in lines:
-                    logging.warning('%s: %s' % (command, line))
+                    logging.warning("%s: %s" % (command, line))
 
             else:
-                logging.debug('%s: command has finished' % command)
+                logging.debug("%s: command has finished" % command)
                 for line in lines:
-                    logging.debug('%s: %s' % (command, line))
+                    logging.debug("%s: %s" % (command, line))
 
-            return self.finish_json({'status': exit_status})
+            return self.finish_json({"status": exit_status})
 
         else:
-            self.io_loop.add_timeout(datetime.timedelta(milliseconds=100), self.check_command)
+            self.io_loop.add_timeout(
+                datetime.timedelta(milliseconds=100), self.check_command
+            )
 
     async def snapshot(self, camera_id):
         await motionctl.take_snapshot(camera_id)

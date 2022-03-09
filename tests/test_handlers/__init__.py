@@ -1,16 +1,15 @@
 from typing import Type, TypeVar
-
 from unittest.mock import MagicMock
-from tornado.web import Application, RequestHandler
+
 from tornado.testing import AsyncHTTPTestCase
+from tornado.web import Application, RequestHandler
 
 from motioneye.server import make_app
 
+__all__ = ("HandlerTestCase",)
 
-__all__ = ('HandlerTestCase',)
 
-
-T = TypeVar('T', bound=RequestHandler)
+T = TypeVar("T", bound=RequestHandler)
 
 
 class HandlerTestCase(AsyncHTTPTestCase):

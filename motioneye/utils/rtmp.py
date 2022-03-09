@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -19,8 +18,7 @@
 from motioneye.utils import GetCamerasResponse
 from motioneye.utils.http import RtmpUrl
 
-
-__all__ = ('test_rtmp_url',)
+__all__ = ("test_rtmp_url",)
 
 
 def test_rtmp_url(data: dict) -> GetCamerasResponse:
@@ -30,5 +28,5 @@ def test_rtmp_url(data: dict) -> GetCamerasResponse:
     # For now lets just check if a TCP socket is open on the target IP:PORT
     # TODO: Actually do the TCP SYN/ACK check...
 
-    cameras = [{'id': 'tcp', 'name': 'RTMP/TCP Camera'}]
+    cameras = [{"id": "tcp", "name": "RTMP/TCP Camera"}]
     return GetCamerasResponse(cameras, None)

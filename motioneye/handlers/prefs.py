@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -21,8 +20,7 @@ import logging
 
 from motioneye.handlers.base import BaseHandler
 
-
-__all__ = ('PrefsHandler',)
+__all__ = ("PrefsHandler",)
 
 
 class PrefsHandler(BaseHandler):
@@ -34,7 +32,7 @@ class PrefsHandler(BaseHandler):
             value = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error('could not decode json: %s' % e)
+            logging.error("could not decode json: %s" % e)
 
             raise
 

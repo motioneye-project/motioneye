@@ -1,8 +1,7 @@
-
 import logging
 import os.path
-import sys
 import socket
+import sys
 
 import motioneye
 
@@ -12,41 +11,41 @@ config_file = None
 PROJECT_PATH = os.path.dirname(motioneye.__file__)
 
 # the templates directory
-TEMPLATE_PATH = os.path.join(PROJECT_PATH, 'templates')
+TEMPLATE_PATH = os.path.join(PROJECT_PATH, "templates")
 
 # the static files directory
-STATIC_PATH = os.path.join(PROJECT_PATH, 'static')
+STATIC_PATH = os.path.join(PROJECT_PATH, "static")
 
 # path to the configuration directory (must be writable by motionEye)
-CONF_PATH = [sys.prefix, ''][sys.prefix == '/usr'] + '/etc/motioneye'
+CONF_PATH = [sys.prefix, ""][sys.prefix == "/usr"] + "/etc/motioneye"
 
 # path to the directory where pid files go (must be writable by motionEye)
-for d in ['/run', '/var/run', '/tmp', '/var/tmp']:
+for d in ["/run", "/var/run", "/tmp", "/var/tmp"]:
     if os.path.exists(d):
         RUN_PATH = d
         break
-    
+
 else:
     RUN_PATH = PROJECT_PATH
 
 # path to the directory where log files go (must be writable by motionEye)
-for d in ['/log', '/var/log', '/tmp', '/var/tmp']:
+for d in ["/log", "/var/log", "/tmp", "/var/tmp"]:
     if os.path.exists(d):
         LOG_PATH = d
         break
-    
+
 else:
     LOG_PATH = RUN_PATH
 
 # default output path for media files (must be writable by motionEye)
-MEDIA_PATH = '/var/lib/motioneye'
+MEDIA_PATH = "/var/lib/motioneye"
 
 # the log level (use FATAL, ERROR, WARNING, INFO or DEBUG)
 LOG_LEVEL = logging.INFO
 
 # the IP address to listen on
 # (0.0.0.0 for all interfaces, 127.0.0.1 for localhost)
-LISTEN = '0.0.0.0'
+LISTEN = "0.0.0.0"
 
 # the TCP port to listen on
 PORT = 8765
@@ -84,11 +83,11 @@ MJPG_CLIENT_TIMEOUT = 10
 # (set to 0 to disable)
 MJPG_CLIENT_IDLE_TIMEOUT = 10
 
-# enable SMB shares (requires motionEye to run as root) 
+# enable SMB shares (requires motionEye to run as root)
 SMB_SHARES = False
 
 # the directory where the SMB mount points will be created
-SMB_MOUNT_ROOT = '/media'
+SMB_MOUNT_ROOT = "/media"
 
 # path to the wpa_supplicant.conf file
 # (enable this to configure wifi settings from the UI)

@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -21,31 +20,29 @@ import os
 
 from tornado.web import HTTPError
 
-from motioneye import settings
-from motioneye import utils
+from motioneye import settings, utils
 from motioneye.handlers.base import BaseHandler
 
-
-__all__ = ('LogHandler',)
+__all__ = ("LogHandler",)
 
 
 class LogHandler(BaseHandler):
     LOGS = {
-        'motion': (os.path.join(settings.LOG_PATH, 'motion.log'), 'motion.log'),
+        "motion": (os.path.join(settings.LOG_PATH, "motion.log"), "motion.log"),
     }
 
     @BaseHandler.auth(admin=True)
     def get(self, name):
         log = self.LOGS.get(name)
         if log is None:
-            raise HTTPError(404, 'no such log')
+            raise HTTPError(404, "no such log")
 
         (path, filename) = log
 
-        self.set_header('Content-Type', 'text/plain')
-        self.set_header('Content-Disposition', 'attachment; filename=' + filename + ';')
+        self.set_header("Content-Type", "text/plain")
+        self.set_header("Content-Disposition", "attachment; filename=" + filename + ";")
 
-        if path.startswith('/'):  # an actual path
+        if path.startswith("/"):  # an actual path
             logging.debug('serving log file "%s" from "%s"' % (filename, path))
 
             with open(path) as f:
@@ -58,6 +55,6 @@ class LogHandler(BaseHandler):
                 output = utils.call_subprocess(path.split())
 
             except Exception as e:
-                output = 'failed to execute command: %s' % e
+                output = "failed to execute command: %s" % e
 
             self.finish(output)

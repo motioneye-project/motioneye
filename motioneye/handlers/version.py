@@ -17,12 +17,11 @@
 
 import socket
 
+from motioneye.handlers.base import BaseHandler
 from motioneye.motionctl import find_motion
 from motioneye.update import get_os_version
-from motioneye.handlers.base import BaseHandler
 
-
-__all__ = ('VersionHandler',)
+__all__ = ("VersionHandler",)
 
 
 class VersionHandler(BaseHandler):
@@ -30,9 +29,11 @@ class VersionHandler(BaseHandler):
         motion_info = find_motion()
         os_version = get_os_version()
 
-        self.render('version.html',
-                    os_version=' '.join(os_version),
-                    motion_version=motion_info[1] if motion_info else '',
-                    hostname=socket.gethostname())
+        self.render(
+            "version.html",
+            os_version=" ".join(os_version),
+            motion_version=motion_info[1] if motion_info else "",
+            hostname=socket.gethostname(),
+        )
 
     post = get

@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -23,17 +22,16 @@ from tornado.ioloop import IOLoop
 from motioneye.controls.powerctl import PowerControl
 from motioneye.handlers.base import BaseHandler
 
-
-__all__ = ('PowerHandler',)
+__all__ = ("PowerHandler",)
 
 
 class PowerHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
     def post(self, op):
-        if op == 'shutdown':
+        if op == "shutdown":
             self.shut_down()
 
-        elif op == 'reboot':
+        elif op == "reboot":
             self.reboot()
 
     def shut_down(self):

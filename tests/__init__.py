@@ -1,19 +1,18 @@
 from unittest import mock
 
-from tornado.web import Application
 from tornado.testing import AsyncHTTPTestCase
+from tornado.web import Application
 
-
-__all__ = ('AsyncMock', 'WebTestCase')
+__all__ = ("AsyncMock", "WebTestCase")
 
 
 class AsyncMock(mock.MagicMock):
-
     def __call__(self, *args, **kwargs):
         sup = super(AsyncMock, self)
 
         async def coro():
             return sup.__call__(*args, **kwargs)
+
         return coro()
 
     def __await__(self):
@@ -29,7 +28,7 @@ class WebTestCase(AsyncHTTPTestCase):
         return self.app
 
     def get_handlers(self):
-        return [('/', self.handler)]
+        return [("/", self.handler)]
 
     def get_app_kwargs(self):
         return {}
