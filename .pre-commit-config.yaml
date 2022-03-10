@@ -11,7 +11,7 @@ repos:
         types: [html, javascript, json, python, text, xml, yaml]
       - id: mixed-line-ending
       - id: requirements-txt-fixer
-      - id: trailing-whitespace
+      # - id: trailing-whitespace
   - repo: https://github.com/PyCQA/bandit
     rev: 1.7.4
     hooks:
