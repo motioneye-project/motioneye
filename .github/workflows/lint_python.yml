@@ -23,6 +23,7 @@ jobs:
       - run: isort --check-only --profile black . || true
       - run: pip install build
       - run: python3 -m build
+      - run: pip install .
       - run: mkdir --parents --verbose .mypy_cache
       - run: mypy --ignore-missing-imports --install-types --non-interactive . || true
       - run: pytest . || pytest --doctest-modules . || true
