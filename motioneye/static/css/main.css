@@ -35,22 +35,14 @@ textarea {
 
 @font-face {
     font-family: 'Maven Pro';
-    src: url('../fnt/mavenpro-regular-webfont.eot');
-    src: url('../fnt/mavenpro-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fnt/mavenpro-regular-webfont.woff') format('woff'),
-         url('../fnt/mavenpro-regular-webfont.ttf') format('truetype'),
-         url('../fnt/mavenpro-regular-webfont.svg#maven_proregular') format('svg');
+    src: url('../fnt/mavenpro-regular-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
  
 @font-face {
     font-family: 'Maven Pro';
-    src: url('../fnt/mavenpro-bold-webfont.eot');
-    src: url('../fnt/mavenpro-bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fnt/mavenpro-bold-webfont.woff') format('woff'),
-         url('../fnt/mavenpro-bold-webfont.ttf') format('truetype'),
-         url('../fnt/mavenpro-bold-webfont.svg#maven_probold') format('svg');
+    src: url('../fnt/mavenpro-bold-webfont.woff') format('woff');
     font-weight: bold;
     font-style: normal;
 }
