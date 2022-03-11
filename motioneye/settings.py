@@ -25,7 +25,7 @@ for d in ['/run', '/var/run', '/tmp', '/var/tmp']:
     if os.path.exists(d):
         RUN_PATH = d
         break
-    
+
 else:
     RUN_PATH = PROJECT_PATH
 
@@ -34,7 +34,7 @@ for d in ['/log', '/var/log', '/tmp', '/var/tmp']:
     if os.path.exists(d):
         LOG_PATH = d
         break
-    
+
 else:
     LOG_PATH = RUN_PATH
 
@@ -84,7 +84,7 @@ MJPG_CLIENT_TIMEOUT = 10
 # (set to 0 to disable)
 MJPG_CLIENT_IDLE_TIMEOUT = 10
 
-# enable SMB shares (requires motionEye to run as root) 
+# enable SMB shares (requires motionEye to run as root)
 SMB_SHARES = False
 
 # the directory where the SMB mount points will be created

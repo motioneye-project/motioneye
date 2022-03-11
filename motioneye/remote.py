@@ -5,14 +5,14 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
 import logging
@@ -157,14 +157,14 @@ async def list_cameras(local_config) -> utils.GetCamerasResponse:
             'msg': str(e)})
 
         return utils.GetCamerasResponse(None, str(e))
-    
+
     else:
 
         cameras = response['cameras']
-    
+
         # filter out simple mjpeg cameras
         cameras = [make_camera_response(c) for c in cameras if c['proto'] != 'mjpeg' and c.get('enabled')]
-    
+
         return utils.GetCamerasResponse(cameras, None)
 
 
@@ -196,7 +196,7 @@ async def get_config(local_config) -> utils.GetConfigResponse:
             'msg': str(e)})
 
         return utils.GetConfigResponse(None, error=str(e))
-    
+
     else:
         response['host'] = host
         response['port'] = port
@@ -279,10 +279,10 @@ async def get_current_picture(local_config, width, height) -> utils.GetCurrentPi
         query['height'] = str(height)
 
     p = path + '/picture/%(id)s/current/' % {'id': camera_id}
-    
+
     request = _make_request(scheme, host, port, username, password, p, query=query)
     response = await _send_request(request)
-    
+
     cookies = utils.parse_cookies(response.headers.get_list('Set-Cookie'))
     motion_detected = cookies.get('motion_detected_' + str(camera_id)) == 'true'
     capture_fps = cookies.get('capture_fps_' + str(camera_id))
@@ -502,7 +502,7 @@ async def check_timelapse_movie(local_config, group) -> utils.CommonExternalResp
         'group': group}
     request = _make_request(scheme, host, port, username, password, p)
     response = await _send_request(request)
-    
+
     if response.error:
         logging.error('failed to check timelapse movie status for remote camera %(id)s on %(url)s: %(msg)s' % {
             'id': camera_id,

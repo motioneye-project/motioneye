@@ -545,7 +545,7 @@ class GooglePhoto(UploadService, GoogleBase):
         dayinfo = datetime.datetime.fromtimestamp(ctime).strftime('%Y-%m-%d')
         uploadname = dayinfo + '-' + filename
 
-        body = data 
+        body = data
 
         headers = {
             'Content-Type': 'application/octet-stream',
@@ -1067,7 +1067,7 @@ class S3(UploadService):
             self._secret_access_key = data['secret_access_key']
         if data.get('bucket') is not None:
             self._bucket = data['bucket']
- 
+
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
       path = os.path.dirname(filename)
       basename = os.path.basename(filename)
@@ -1077,7 +1077,7 @@ class S3(UploadService):
         's3',
         aws_access_key_id=self._authorization_key,
         aws_secret_access_key=self._secret_access_key,
-	region_name=self._location 
+	region_name=self._location
       )
 
       # Uploads the given file using a managed uploader, which will split up
@@ -1091,7 +1091,7 @@ class S3(UploadService):
           's3',
           aws_access_key_id=self._authorization_key,
           aws_secret_access_key=self._secret_access_key,
-          region_name=self._location 
+          region_name=self._location
         )
         response = s3.list_buckets()
         logging.debug('Existing buckets:')
