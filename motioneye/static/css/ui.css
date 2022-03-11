@@ -24,9 +24,6 @@ a {
     cursor: pointer;
 }
 
-a:HOVER {
-}
-
 a:ACTIVE {
     color: #317CAD;
 }
@@ -104,7 +101,7 @@ div.check-box:HOVER {
 div.check-box-button {
     width: 50%;
     height: 100%;
-    left: 0px;
+    left: 0;
     background-color: #414141;
     color: #aaaaaa;
     position: absolute;
@@ -241,7 +238,7 @@ div.slider {
     width: 82%;
     height: 1.7em;
     position: relative;
-    padding: 0.2em 0px;
+    padding: 0.2em 0;
     margin-left: 5%;
 }
 
@@ -290,7 +287,7 @@ div.slider-cursor {
     width: 11px;
     height: 18px;
     position: absolute;
-    left: 0px;
+    left: 0;
     top: -5px;
     cursor: pointer;
 }
@@ -314,16 +311,16 @@ div.progress-bar-container {
     height: 1em;
     border: 1px solid #555;
     vertical-align: middle;
-    margin: 0px 0.2em;
+    margin: 0 0.2em;
     text-align: center;
     line-height: 1em;
 }
 
 div.progress-bar-fill {
     position: absolute;
-    left: 0px;
-    top: 0px;
-    bottom: 0px;
+    left: 0;
+    top: 0;
+    bottom: 0;
     width: 0%;
     background-color: #555;
     transition: width 0.1s ease;
@@ -342,10 +339,10 @@ div.modal-glass {
     display: none;
     position: fixed;
     z-index: 10000;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     background-color: black;
     opacity: 0;
 }
@@ -358,7 +355,7 @@ div.modal-container {
     border-radius: 3px;
     opacity: 0;
     padding: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
 div.modal-title-bar {
@@ -378,15 +375,15 @@ span.modal-title {
 
 div.modal-close-button {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
     margin-top: -5px;
     margin-right: -5px;
     width: 2.5em;
     height: 2.5em;
     background-image: url(../img/camera-top-buttons.svg);
     background-size: cover;
-    background-position: -400% 0px;
+    background-position: -400% 0;
     cursor: pointer;
 }
 
@@ -447,12 +444,8 @@ div.popup-message-container {
     border-radius: 3px;
     opacity: 0;
     padding: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     top: 60px;
-}
-
-span.popup-message {
-
 }
 
 span.popup-message.info {
