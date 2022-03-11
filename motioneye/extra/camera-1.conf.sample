@@ -77,8 +77,8 @@ movie_output off
 movie_passthrough off
 movie_codec mp4
 movie_quality 75
-on_event_start /home/dietpi/motioneye/motioneye/scripts/relayevent.sh "" start %t
-on_event_end /home/dietpi/motioneye/motioneye/scripts/relayevent.sh "" stop %t
-on_movie_end /home/dietpi/motioneye/motioneye/scripts/relayevent.sh "" movie_end %t %f
-on_picture_save /home/dietpi/motioneye/motioneye/scripts/relayevent.sh "" picture_save %t %f
+on_event_start /usr/local/share/motioneye/extra/scripts/relayevent.sh "" start %t
+on_event_end /usr/local/share/motioneye/extra/scripts/relayevent.sh "" stop %t
+on_movie_end /usr/local/share/motioneye/extra/scripts/relayevent.sh "" movie_end %t %f
+on_picture_save /usr/local/share/motioneye/extra/scripts/relayevent.sh "" picture_save %t %f
 stream_authentication user:user
