@@ -1,22 +1,22 @@
 # @enabled on
 # @id 1
 # @storage_device custom-path
-# @network_server 
-# @network_share_name 
+# @network_server
+# @network_share_name
 # @network_smb_ver 1.0
-# @network_username 
-# @network_password 
+# @network_username
+# @network_password
 # @upload_enabled off
 # @upload_picture on
 # @upload_movie on
 # @upload_service ftp
-# @upload_server 
-# @upload_port 
+# @upload_server
+# @upload_port
 # @upload_method post
-# @upload_location 
+# @upload_location
 # @upload_subfolders on
-# @upload_username 
-# @upload_password 
+# @upload_username
+# @upload_password
 # @clean_cloud_enabled off
 # @webcam_resolution 100
 # @webcam_server_resize off
@@ -25,7 +25,7 @@
 # @manual_snapshots on
 # @preserve_movies 0
 # @manual_record off
-# @working_schedule 
+# @working_schedule
 # @working_schedule_type outside
 
 
@@ -56,20 +56,20 @@ threshold_tune off
 noise_tune on
 noise_level 31
 lightswitch_percent 0
-despeckle_filter 
+despeckle_filter
 minimum_motion_frames 20
 smart_mask_speed 0
-mask_file 
+mask_file
 movie_output_motion off
 picture_output_motion off
 pre_capture 1
 post_capture 1
 picture_output off
-picture_filename 
+picture_filename
 emulate_motion off
 event_gap 30
 snapshot_interval 0
-snapshot_filename 
+snapshot_filename
 picture_quality 85
 movie_filename %Y-%m-%d/%H-%M-%S
 movie_max_time 0
