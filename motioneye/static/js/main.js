@@ -910,19 +910,19 @@ function initUI() {
                     i18n.gettext('", ne nur tiuj kreitaj de motionEye!')));
         }
     });
-    
+
     /* disable corresponding mask editor when the mask gets disabled */
     $('#motionMaskSwitch').change(function () {
        if (!this.checked) {
             disableMaskEdit('motion');
-       } 
+       }
     });
     $('#privacyMaskSwitch').change(function () {
         if (!this.checked) {
              disableMaskEdit('privacy');
-        } 
+        }
      });
-     
+
     /* disable motion detection mask editor when mask type is no longer editable */
     $('#motionMaskTypeSelect').change(function () {
         if ($(this).val() != 'editable') {
@@ -1248,7 +1248,7 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
 
             maskLines.push(line);
         }
-        
+
         $('#'+maskClass+'MaskLinesEntry').val(maskLines.join(',')).change();
     }
 
@@ -2268,7 +2268,7 @@ function dict2CameraUi(dict) {
     $('#uploadUsernameEntry').val(dict['upload_username']); markHideIfNull('upload_username', 'uploadUsernameEntry');
     $('#uploadPasswordEntry').val(dict['upload_password']); markHideIfNull('upload_password', 'uploadPasswordEntry');
     $('#uploadAuthorizationKeyEntry').val(dict['upload_authorization_key']); markHideIfNull('upload_authorization_key', 'uploadAuthorizationKeyEntry');
-    $('#uploadSecretAccessKeyEntry').val(dict['upload_secret_access_key']); 
+    $('#uploadSecretAccessKeyEntry').val(dict['upload_secret_access_key']);
     $('#uploadBucketEntry').val(dict['upload_bucket']);
     $('#cleanCloudEnabledSwitch')[0].checked = dict['clean_cloud_enabled']; markHideIfNull('clean_cloud_enabled', 'cleanCloudEnabledSwitch');
 
@@ -3636,7 +3636,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
 
       var playButton = $('<div class="picture-dialog-play button mouse-effect" title="'+i18n.gettext("ludi")+'"></div>');
       playButtonContainer.append(playButton);
-    
+
       var timelapseButton = $('<div class="picture-dialog-timelapse button mouse-effect" title="'+i18n.gettext("ludi * 5 kaj enĉenigi")+'"></div>');
       playButtonContainer.append(timelapseButton);
 

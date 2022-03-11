@@ -6,12 +6,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -63,7 +63,7 @@ class Daemon(object):
             if os.fork() > 0:  # parent
                 sys.exit(0)
 
-        except OSError as e: 
+        except OSError as e:
             sys.stderr.write('fork() failed: %s\n' % e.strerror)
             sys.exit(-1)
 
@@ -74,9 +74,9 @@ class Daemon(object):
         # second fork
         try:
             if os.fork() > 0:  # parent
-                sys.exit(0) 
-        
-        except OSError as e: 
+                sys.exit(0)
+
+        except OSError as e:
             sys.stderr.write('fork() failed: %s\n' % e.strerror)
             sys.exit(-1)
 
@@ -405,10 +405,10 @@ def run():
 
     template.add_context('static_path', 'static/')
     template.add_context('lingvo', lingvo)
-    
+
     application = Application(handler_mapping, debug=False, log_function=_log_request,
                               static_path=settings.STATIC_PATH, static_url_prefix='/static/')
-    
+
     application.listen(settings.PORT, settings.LISTEN)
     logging.info(_('servilo komenciĝis'))
     io_loop = IOLoop.instance()

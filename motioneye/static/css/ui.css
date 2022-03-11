@@ -39,7 +39,7 @@ div.button {
     -moz-user-select: none;
     user-select: none;
     cursor: pointer;
-    display: inline-block;    
+    display: inline-block;
 }
 
 div.button.dialog {
@@ -337,7 +337,7 @@ span.progress-bar-text {
 
 
     /* modal dialogs */
-    
+
 div.modal-glass {
     display: none;
     position: fixed;
@@ -427,7 +427,7 @@ td.dialog-item-value {
 }
 
 span.dialog-item-label {
-    font-size: 0.9em;    
+    font-size: 0.9em;
 }
 
 div.dialog-item-separator {
@@ -436,7 +436,7 @@ div.dialog-item-separator {
     margin: 0.5em 1em;
 }
 
-   
+
     /* popup message */
 
 div.popup-message-container {
@@ -452,7 +452,7 @@ div.popup-message-container {
 }
 
 span.popup-message {
-    
+
 }
 
 span.popup-message.info {
@@ -469,9 +469,9 @@ span.popup-message.error {
 @media all and (max-width: 400px) {
     span.modal-title {
         font-size: 1.5em;
-        
+
     }
-    
+
     div.modal-title-bar {
         min-height: 2em;
         line-height: 2em;

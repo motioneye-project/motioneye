@@ -6,14 +6,14 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-# 
+#
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>. 
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import calendar
 import pickle
@@ -45,7 +45,7 @@ def start():
 
     io_loop = IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=_INTERVAL), _check_tasks)
-    
+
     def init_pool_process():
         import signal
 
@@ -58,22 +58,22 @@ def start():
 
 def stop():
     global _pool
-    
+
     _pool = None
 
 
 def add(when, func, tag=None, callback=None, **params):
     if len(_tasks) >= _MAX_TASKS:
         return logging.error('the maximum number of tasks (%d) has been reached' % _MAX_TASKS)
-    
+
     now = time.time()
-    
+
     if isinstance(when, int):  # delay, in seconds
         when += now
-        
+
     elif isinstance(when, datetime.timedelta):
         when = now + when.total_seconds()
-        
+
     elif isinstance(when, datetime.datetime):
         when = calendar.timegm(when.timetuple())
 
@@ -90,7 +90,7 @@ def add(when, func, tag=None, callback=None, **params):
 def _check_tasks():
     io_loop = IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=_INTERVAL), _check_tasks)
-    
+
     now = time.time()
     changed = False
     while _tasks and _tasks[0][0] <= now:
@@ -100,29 +100,29 @@ def _check_tasks():
         _pool.apply_async(func, kwds=params, callback=callback if callable(callback) else None)
 
         changed = True
-    
+
     if changed:
         _save()
 
 
 def _load():
     global _tasks
-    
+
     _tasks = []
 
     file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
-    
+
     if os.path.exists(file_path):
         logging.debug('loading tasks from "%s"...' % file_path)
-    
+
         try:
             f = open(file_path, 'rb')
 
         except Exception as e:
             logging.error('could not open tasks file "%s": %s' % (file_path, e))
-            
+
             return
-        
+
         try:
             _tasks = pickle.load(f)
 
@@ -131,7 +131,7 @@ def _load():
 
         finally:
             f.close()
-            
+
 
 def _save():
     file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
@@ -143,7 +143,7 @@ def _save():
 
     except Exception as e:
         logging.error('could not open tasks file "%s": %s' % (file_path, e))
-        
+
         return
 
     try:

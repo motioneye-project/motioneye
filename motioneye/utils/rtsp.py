@@ -144,7 +144,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             on_server(f.result())
 
         future.add_done_callback(f)
-        
+
         timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_server)
 
     def on_server(data=None):
