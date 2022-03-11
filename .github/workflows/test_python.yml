@@ -1,0 +1,19 @@
+name: test_python
+on: [pull_request, push]
+jobs:
+  test_python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - run: sudo apt-get -q update
+      - run: sudo apt-get -qq upgrade
+      - run: sudo apt-get -qq install curl ffmpeg libcurl4-openssl-dev libssl-dev motion ssh v4l-utils
+      - run: pip install --upgrade pip wheel
+      - run: pip install build mypy pytest safety
+      - run: python3 -m build
+      - run: pip install .
+      - run: mkdir --parents --verbose .mypy_cache
+      - run: mypy --ignore-missing-imports --install-types --non-interactive . || true
+      - run: pytest . || pytest --doctest-modules . || true
+      - run: safety check
