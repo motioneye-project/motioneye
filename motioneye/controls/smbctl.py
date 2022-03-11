@@ -284,4 +284,3 @@ def _check_mounts():
 
     io_loop = IOLoop.instance()
     io_loop.add_timeout(datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts)
-

@@ -1719,4 +1719,3 @@ msgstr ""
 #: utils/dtconv.py:160
 msgid "minus"
 msgstr ""
-

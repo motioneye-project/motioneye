@@ -8,7 +8,6 @@ repos:
       - id: check-yaml
       - id: detect-private-key
       - id: end-of-file-fixer
-        types: [html, javascript, json, python, text, xml, yaml]
       - id: mixed-line-ending
       - id: requirements-txt-fixer
       - id: trailing-whitespace
