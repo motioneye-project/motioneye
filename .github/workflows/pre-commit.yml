@@ -1,11 +1,10 @@
 # https://pre-commit.com
 # This GitHub Action assumes that the repo contains a valid .pre-commit-config.yaml file.
 name: pre-commit
-on:
-  pull_request:
-  push:
+on: [pull_request, push]
 jobs:
   pre-commit:
+    if: ${{ github.event_name != 'pull_request' || !startsWith(github.action.repository, github.repository.owner) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

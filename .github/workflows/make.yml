@@ -2,6 +2,7 @@ name: make
 on: [pull_request, push]
 jobs:
   make:
+    if: ${{ github.event_name != 'pull_request' || !startsWith(github.action.repository, github.repository.owner) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
