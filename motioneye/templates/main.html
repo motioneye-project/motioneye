@@ -53,35 +53,34 @@
 
 {% block style %}
     {{super()}}
-    <link rel="stylesheet" type="text/css" href="{{static_path}}css/ui.css?v={{version}}" />
-    <link rel="stylesheet" type="text/css" href="{{static_path}}css/main.css?v={{version}}" />
+    <link rel="stylesheet" type="text/css" href="{{static_path}}css/ui.css?v={{version}}">
+    <link rel="stylesheet" type="text/css" href="{{static_path}}css/main.css?v={{version}}">
     {% if frame %}
-        <link rel="stylesheet" type="text/css" href="{{static_path}}css/frame.css?v={{version}}" />
+        <link rel="stylesheet" type="text/css" href="{{static_path}}css/frame.css?v={{version}}">
     {% endif %}
 {% endblock %}
 
 {% block script %}
     {{super()}}
-    <script type="text/javascript" src="{{static_path}}js/gettext.min.js"></script>
-    <script type="text/javascript">
-      function Get(yourUrl){
-          var Httpreq = new XMLHttpRequest(); // a new request
-          Httpreq.open("GET",yourUrl,false);
-          Httpreq.send(null);
-          return Httpreq.responseText;
-      }
-      var i18n = window.i18n();
-      var i18njson=Get("{{static_path}}js/motioneye.{{lingvo}}.json");
-      i18n.loadJSON(i18njson, 'messages');
-      i18n.setLocale('{{lingvo}}');
-
+    <script src="{{static_path}}js/gettext.min.js"></script>
+    <script>
+        function Get(yourUrl){
+            var Httpreq = new XMLHttpRequest(); // a new request
+            Httpreq.open("GET",yourUrl,false);
+            Httpreq.send(null);
+            return Httpreq.responseText;
+        }
+        var i18n = window.i18n();
+        var i18njson=Get("{{static_path}}js/motioneye.{{lingvo}}.json");
+        i18n.loadJSON(i18njson, 'messages');
+        i18n.setLocale('{{lingvo}}');
     </script>
-    <script type="text/javascript" src="{{static_path}}js/ui.js?v={{version}} charset="utf-8" async"></script>
-    <script type="text/javascript" src="{{static_path}}js/main.js?v={{version}}" charset="utf-8"></script>
+    <script src="{{static_path}}js/ui.js?v={{version}} async"></script>
+    <script src="{{static_path}}js/main.js?v={{version}}"></script>
     {% if frame %}
-        <script type="text/javascript" src="{{static_path}}js/frame.js?v={{version}}" charset="utf-8" async></script>
+        <script src="{{static_path}}js/frame.js?v={{version}}" async></script>
     {% endif %}
-    <script type="text/javascript">
+    <script>
         var adminUsername = '{{admin_username}}';
         var frame = {% if frame %}true{% else %}false{% endif %};
         var hasLocalCamSupport = {% if has_motion %}true{% else %}false{% endif %};
@@ -97,8 +96,8 @@
     <div class="header">
         <div class="header-container">
             <div class="settings-top-bar closed">
-                <div class="button icon settings-button mouse-effect" title="{{ _("agordojn")}}"></div
-                ><div class="button icon logout-button mouse-effect" title="{{ _("ŝanĝi uzanton")}}"></div>
+                <div class="button icon settings-button mouse-effect" title="{{ _("agordojn")}}"></div>
+                <div class="button icon logout-button mouse-effect" title="{{ _("ŝanĝi uzanton")}}"></div>
                 <select class="styled" id="cameraSelect" {% if not add_remove_cameras %}style="display: none;"{% endif %}></select>
                 <div class="button icon rem-camera-button mouse-effect" id="remCameraButton" title="{{ _("forigi kameraon")}}" {% if not add_remove_cameras %}style="display: none;"{% endif %}></div>
                 <div class="button apply-button" id="applyButton">{{ _("Apliki")}}</div>
@@ -1266,8 +1265,9 @@
                 proto="{{camera_config['@proto']}}" url="{{camera_config['@url']}}">
 
             <div class="camera-container">
-                <div class="camera-placeholder"><img class="no-camera" src="{{static_path}}img/no-camera.svg"></div><img
-                    class="camera"><div class="camera-progress"><img class="camera-progress"></div>
+                <div class="camera-placeholder"><img class="no-camera" src="{{static_path}}img/no-camera.svg"></div>
+                <img class="camera">
+                <div class="camera-progress"><img class="camera-progress"></div>
             </div>
         </div>
     {% endif %}
