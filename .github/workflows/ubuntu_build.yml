@@ -15,9 +15,8 @@ jobs:
       - run: sudo python3 -m pip install .  # Must be sudo.  See #1371
       - run: sudo mkdir -p /etc/motioneye
       - run: sudo cp motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
-      - run: sudo chown --recursive motion:motion /etc/motioneye
       - run: sudo mkdir -p /var/lib/motioneye
-      - run: sudo chown --recursive motion:motion /var/lib/motioneye
+      - run: sudo chown --recursive motion /{etc,var/lib}/motioneye
       - run: sudo cp motioneye/extra/motioneye.systemd-unit-local /etc/systemd/system/motioneye.service
       - run: sudo systemctl daemon-reload
       - run: sudo systemctl enable --now motioneye
