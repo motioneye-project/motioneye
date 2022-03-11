@@ -1,0 +1,15 @@
+name: make
+on: [pull_request, push]
+jobs:
+  make:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - run: sudo apt-get -q update
+      - run: sudo apt-get -qq upgrade
+      - run: sudo apt-get -qq install gettext python3 python3-pip python3-babel python3-boto3 python3-jinja2
+                                      python3-numpy python3-pillow python3-pycurl python3-tornado
+      - run: cd motioneye && make
+      - run: pip install build && python3 -m build  # Stores .tar.gz and .whl files into ./dist
+      - run: pip install .
+      - run: sudo motioneye_init || true  # Fails with "sudo: motioneye_init: command not found"
