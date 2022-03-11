@@ -48,4 +48,3 @@ cat $FICIN|awk '{
 END {
   print ("}");
 }' >$FICOUT
-

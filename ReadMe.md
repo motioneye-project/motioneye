@@ -42,5 +42,3 @@ sudo systemctl stop motioneye
 sudo pip install motioneye --upgrade
 sudo systemctl start motioneye
 ```
-
-

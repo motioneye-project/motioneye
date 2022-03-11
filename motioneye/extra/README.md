@@ -76,4 +76,3 @@ This will create a local image called `your_username/motioneye:YYYYMMDD-HHMM`.
 You can run this image using the examples under "Running official images", but
 omitting the `docker pull` command and replacing
 `ccrisan/motioneye:master-amd64` with the name of the local image you just built.
-
