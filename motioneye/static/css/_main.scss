@@ -1,11 +1,11 @@
 /* basic */
 
 * {
-    padding: 0px;
-    border: 0px solid black;
-    margin: 0px;
-    outline: 0px;
-    border-spacing: 0px;
+    padding: 0;
+    border: 0 solid black;
+    margin: 0;
+    outline: 0;
+    border-spacing: 0;
     border-collapse: separate;
 }
 
@@ -73,8 +73,8 @@ div.page {
 
 div.header {
     background-color: rgba(64, 64, 64, 0.5);
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
-    top: 0px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    top: 0;
     width: 100%;
     height: 50px;
     position: fixed;
@@ -84,7 +84,7 @@ div.header {
 }
 
 div.header.full-screen {
-    height: 0px;
+    height: 0;
 }
 
 div.header-container {
@@ -104,18 +104,18 @@ div.footer {
 }
 
 div.footer.full-screen {
-    height: 0px;
+    height: 0;
 }
 
 div.copyright-note {
     border-top: 1px solid #333;
     padding-top: 0.2em;
-    margin: 0px 15%;
+    margin: 0 15%;
 }
 
 div.page-container {
     transition: all 0.2s ease;
-    padding: 50px 0.2em 50px 0px;
+    padding: 50px 0.2em 50px 0;
     margin: auto;
 }
 
@@ -133,8 +133,8 @@ div.page-container.four-columns.stretched {
 }
 
 div.page-container.full-screen {
-    padding-top: 0px;
-    padding-bottom: 0px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 /* icons & icon buttons */
@@ -158,7 +158,7 @@ div.button.logout-button {
     vertical-align: middle;
     background-image: url(../img/top-bar-buttons.svg);
     background-size: cover;
-    background-position: -100% 0px;
+    background-position: -100% 0;
     width: 48px;
     height: 48px;
 }
@@ -169,7 +169,7 @@ div.button.rem-camera-button {
     vertical-align: middle;
     background-image: url(../img/top-bar-buttons.svg);
     background-size: cover;
-    background-position: -200% 0px;
+    background-position: -200% 0;
     width: 48px;
     height: 48px;
 }
@@ -237,9 +237,9 @@ div.settings {
     position: fixed;
     z-index: 2;
     top: 50px;
-    left: 0px;
-    width: 0px;
-    bottom: 0px;
+    left: 0;
+    width: 0;
+    bottom: 0;
     transition: all 0.2s ease;
     overflow: auto;
 }
@@ -262,10 +262,10 @@ div.settings.open div.settings-container {
 
 div.settings-progress {
     position: absolute;
-    top: 0px;
-    width: 0px;
-    bottom: 0px;
-    left: 0px;
+    top: 0;
+    width: 0;
+    bottom: 0;
+    left: 0;
     background-color: #313131;
     opacity: 0;
     transition: opacity 0.1s linear;
@@ -320,7 +320,7 @@ span.settings-item-label {
 
 span.settings-item-unit {
     font-size: 0.6em;
-    padding: 0px 0.2em;
+    padding: 0 0.2em;
 }
 
 div.settings-item-separator {
@@ -375,7 +375,7 @@ div.normal-button {
     height: 1.5em;
     line-height: 1.5em;
     text-align: center;
-    margin: 2px 0px;
+    margin: 2px 0;
     color: white;
     font-size: 0.9em;
     border-radius: 3px;
@@ -442,7 +442,7 @@ div.settings-top-bar.open div.logout-button {
 }
 
 div.check-box.section {
-    margin: 0px;
+    margin: 0;
     float: left;
 }
 
@@ -575,7 +575,7 @@ div.media-dialog-group-button {
     line-height: 1.5em;
     text-align: center;
     margin: 0em 0.2em 0.2em 0.2em;
-    padding: 0px 0.5em;
+    padding: 0 0.5em;
     background-color: #414141;
     color: #3498db;
     border-radius: 3px;
@@ -621,7 +621,7 @@ div.media-list-group-title {
     font-size: 1.3em;
     font-weight: bold;
     text-align: center;
-    padding: 1em 0px 0.2em 0px;
+    padding: 1em 0 0.2em 0;
 }
 
 img.media-list-progress {
@@ -685,8 +685,8 @@ div.media-list-delete-button {
     width: 5em;
     line-height: 1.5em;
     text-align: center;
-    margin: 0px 0.5em;
-    padding: 0px 0.5em;
+    margin: 0 0.5em;
+    padding: 0 0.5em;
     color: white;
     border-radius: 3px;
     transition: all 0.1s linear;
@@ -721,7 +721,7 @@ div.media-list-delete-button:active {
 }
 
 div.media-dialog-buttons {
-    margin: 0.5em 0px 0px 0px;
+    margin: 0.5em 0 0 0;
     text-align: center;
 }
 
@@ -731,8 +731,8 @@ div.media-dialog-button {
     height: 1.5em;
     line-height: 1.5em;
     text-align: center;
-    padding: 0px 0.5em;
-    margin: 0px 5px 0px 0px;
+    padding: 0 0.5em;
+    margin: 0 5px 0 0;
     color: white;
     background-color: #317cad;
     border-radius: 3px;
@@ -778,7 +778,7 @@ div.picture-dialog-next-arrow {
 
 div.picture-dialog-play {
     background-image: url(../img/camera-top-buttons.svg);
-    background-position: -300% 0px;
+    background-position: -300% 0;
     left: 50%;
     margin-left: -1.5em;
 }
@@ -862,8 +862,8 @@ div.camera-frame {
     padding: 0.2em;
     border-radius: 0.1em;
     border: 0.2em solid #212121;
-    border-right-width: 0px;
-    border-bottom-width: 0px;
+    border-right-width: 0;
+    border-bottom-width: 0;
     transition: all 0.1s ease, opacity 0s;
     opacity: 0;
     vertical-align: top;
@@ -899,11 +899,11 @@ div.page-container.four-columns div.camera-frame {
 }
 
 div.page-container div.camera-frame.full-screen-hidden {
-    width: 0px !important;
-    height: 0px !important;
-    padding: 0px;
-    border: 0px;
-    margin: 0px;
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0;
+    border: 0;
+    margin: 0;
 }
 
 div.page-container div.camera-frame.full-screen {
@@ -931,7 +931,7 @@ div.camera-overlay-bottom {
     position: absolute;
     background-color: rgba(0, 0, 0, 0.7);
     transition: background-color 0.1s ease;
-    left: 0px;
+    left: 0;
     width: 100%;
     z-index: 1;
     transition: height 0.2s ease;
@@ -948,7 +948,7 @@ div.camera-frame.motion-detected div.camera-overlay-bottom {
 }
 
 div.camera-overlay-top {
-    top: 0px;
+    top: 0;
     height: 2.5em;
     line-height: 2.5em;
     white-space: nowrap;
@@ -959,21 +959,21 @@ div.camera-overlay-mask {
     background: rgba(255, 255, 255, 0.2);
     opacity: 0;
     position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 0;
     transition: opacity 0.2s ease;
 }
 
 div.camera-overlay.mask-edit > div.camera-overlay-top {
-    height: 0px;
+    height: 0;
     bottom: auto;
 }
 
 div.camera-overlay.mask-edit > div.camera-overlay-bottom {
-    height: 0px;
+    height: 0;
     top: auto;
 }
 
@@ -985,16 +985,16 @@ div.mask-element {
     position: absolute;
     box-sizing: border-box;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    border-width: 0px 1px 1px 0px;
+    border-width: 0 1px 1px 0;
     background: transparent;
 }
 
 div.mask-element.last-row {
-    border-right-width: 0px;
+    border-right-width: 0;
 }
 
 div.mask-element.last-line {
-    border-bottom-width: 0px;
+    border-bottom-width: 0;
 }
 
 div.mask-element.on {
@@ -1032,23 +1032,23 @@ div.camera-top-button {
 }
 
 div.camera-top-button.full-screen {
-    background-position: -100% 0px;
+    background-position: -100% 0;
 }
 
 div.camera-top-button.configure {
-    background-position: 0px 0px;
+    background-position: 0 0;
 }
 
 div.camera-top-button.media-pictures {
-    background-position: -200% 0px;
+    background-position: -200% 0;
 }
 
 div.camera-top-button.media-movies {
-    background-position: -300% 0px;
+    background-position: -300% 0;
 }
 
 div.camera-overlay-bottom {
-    bottom: 0px;
+    bottom: 0;
     white-space: nowrap;
     height: 5em;
 }
@@ -1124,67 +1124,67 @@ div.camera-action-button.pending {
 }
 
 div.camera-action-button.lock {
-    background-position: 0px 0px;
+    background-position: 0 0;
 }
 
 div.camera-action-button.unlock {
-    background-position: -100% 0px;
+    background-position: -100% 0;
 }
 
 div.camera-action-button.light-on {
-    background-position: -200% 0px;
+    background-position: -200% 0;
 }
 
 div.camera-action-button.light-off {
-    background-position: -300% 0px;
+    background-position: -300% 0;
 }
 
 div.camera-action-button.alarm-on {
-    background-position: -400% 0px;
+    background-position: -400% 0;
 }
 
 div.camera-action-button.alarm-off {
-    background-position: -500% 0px;
+    background-position: -500% 0;
 }
 
 div.camera-action-button.snapshot {
-    background-position: -600% 0px;
+    background-position: -600% 0;
 }
 
 div.camera-action-button.record-start {
-    background-position: -700% 0px;
+    background-position: -700% 0;
 }
 
 div.camera-action-button.record-stop {
-    background-position: -800% 0px;
+    background-position: -800% 0;
 }
 
 div.camera-action-button.up {
-    background-position: -900% 0px;
+    background-position: -900% 0;
 }
 
 div.camera-action-button.right {
-    background-position: -1000% 0px;
+    background-position: -1000% 0;
 }
 
 div.camera-action-button.down {
-    background-position: -1100% 0px;
+    background-position: -1100% 0;
 }
 
 div.camera-action-button.left {
-    background-position: -1200% 0px;
+    background-position: -1200% 0;
 }
 
 div.camera-action-button.zoom-in {
-    background-position: -1300% 0px;
+    background-position: -1300% 0;
 }
 
 div.camera-action-button.zoom-out {
-    background-position: -1400% 0px;
+    background-position: -1400% 0;
 }
 
 div.camera-action-button.preset {
-    background-position: -1500% 0px;
+    background-position: -1500% 0;
     text-align: center;
     line-height: 2.5em;
     color: #3498db;
@@ -1229,7 +1229,7 @@ div.camera-action-button.preset9:before {
 
 div.camera-container {
     position: relative;
-    padding: 0px;
+    padding: 0;
 }
 
 img.camera {
@@ -1247,10 +1247,10 @@ img.camera.initializing {
 
 div.camera-placeholder {
     position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     text-align: center;
     transition: opacity 0.2s ease;
 }
@@ -1264,10 +1264,10 @@ img.no-camera {
 div.camera-progress {
     background: rgba(0, 0, 0, 0.001); /* otherwise IE would not extend this as expected */
     position: absolute;
-    top: 0px;
-    right: 0px;
-    bottom: 0px;
-    left: 0px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
     opacity: 0;
     transition: all 0.2s ease;
     text-align: center;
@@ -1283,10 +1283,10 @@ img.camera-progress {
     border: 10px solid white;
     border-radius: 10px;
     position: absolute;
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
     margin: auto;
 }
 
@@ -1304,12 +1304,12 @@ img.camera-progress {
     /* small screens (mobile devices, including tablets) */
 
     div.page-container.stretched {
-        margin-left: 0px;
+        margin-left: 0;
         font-size: 16px;
     }
 
     div.settings.open {
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
         background-color: rgba(40, 40, 40, 0.9);
     }
 
