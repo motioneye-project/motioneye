@@ -12,6 +12,7 @@
 html {
     height: 100%;
     -webkit-tap-highlight-color: transparent;
+    font-family: "Maven Pro";
 }
 
 body {
@@ -53,10 +54,6 @@ textarea {
 }
 
 /* layout */
-
-html {
-    font-family: "Maven Pro";
-}
 
 div.page,
 div.header-container {
