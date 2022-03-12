@@ -1,44 +1,43 @@
-@import '_variables';
+@import "_variables";
 
-    /* basic */
+/* basic */
 
-    body {
-        color: $body-default-color;
-        background-color: $body-default-background;
-    }
-    
-    
-        /* camera frame */
-    
-    div.camera-frame {
-        position: relative;
-        padding: 0px;
-        margin: 0px;
-        border: 0px;
-        width: 100%;
-        height: 100%;
-    }
-    
-    div.camera-container {
-        height: 100%;
-        text-align: center;
-        overflow: hidden;
-    }
-    
-    img.camera {
-        height: auto;
-        margin: auto;
-    }
-    
-    img.camera.error,
-    img.camera.loading {
-        height: 100% !important;
-    }
-    
-    div.camera-placeholder {
-        overflow: hidden;
-    }
-    
-    div.camera-progress {
-        cursor: default;
-    }
+body {
+    color: $body-default-color;
+    background-color: $body-default-background;
+}
+
+/* camera frame */
+
+div.camera-frame {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
+}
+
+div.camera-container {
+    height: 100%;
+    text-align: center;
+    overflow: hidden;
+}
+
+img.camera {
+    height: auto;
+    margin: auto;
+}
+
+img.camera.error,
+img.camera.loading {
+    height: 100% !important;
+}
+
+div.camera-placeholder {
+    overflow: hidden;
+}
+
+div.camera-progress {
+    cursor: default;
+}
