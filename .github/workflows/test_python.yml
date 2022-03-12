@@ -16,5 +16,9 @@ jobs:
       - run: pip install .
       - run: mkdir --parents --verbose .mypy_cache
       - run: mypy --ignore-missing-imports --install-types --non-interactive . || true
+      - run: pytest --ignore=tests/test_utils/test_mjpeg.py
+                    --ignore=tests/test_utils/test_rtmp.py .
+      - run: pytest --fixtures tests/test_utils/test_mjpeg.py || true
+      - run: pytest --fixtures tests/test_utils/test_rtmp.py  || true
       - run: pytest . || pytest --doctest-modules . || true
       - run: safety check
