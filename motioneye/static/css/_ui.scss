@@ -1,5 +1,4 @@
-
-    /* general */
+/* general */
 
 ::selection,
 ::-moz-selection,
@@ -13,7 +12,7 @@ option::-webkit-selection {
     background: transparent;
 }
 
-input[type=checkbox].styled {
+input[type="checkbox"].styled {
     display: none;
 }
 
@@ -24,22 +23,18 @@ a {
     cursor: pointer;
 }
 
-a:HOVER {
+a:active {
+    color: #317cad;
 }
 
-a:ACTIVE {
-    color: #317CAD;
-}
-
-
-    /* buttons */
+/* buttons */
 
 div.button {
     -webkit-user-select: none;
     -moz-user-select: none;
     user-select: none;
     cursor: pointer;
-    display: inline-block;    
+    display: inline-block;
 }
 
 div.button.dialog {
@@ -49,14 +44,14 @@ div.button.dialog {
     line-height: 1.2em;
     text-align: center;
     padding: 0.2em 0.4em;
-    border: 1px solid #317CAD;
+    border: 1px solid #317cad;
     border-radius: 2px;
     color: white;
     transition: all 0.1s ease;
 }
 
 div.button.dialog.default {
-    background-color: #317CAD;
+    background-color: #317cad;
 }
 
 div.button.mouse-effect {
@@ -64,27 +59,26 @@ div.button.mouse-effect {
     transition: opacity 0.1s ease;
 }
 
-div.button.mouse-effect:HOVER {
+div.button.mouse-effect:hover {
     opacity: 1;
 }
 
-div.button.mouse-effect:ACTIVE {
+div.button.mouse-effect:active {
     opacity: 0.7;
 }
 
-div.icon.mouse-effect:ACTIVE {
+div.icon.mouse-effect:active {
     background-color: rgba(0, 0, 0, 0.5);
 }
 
-
-    /* check box */
+/* check box */
 
 div.check-box {
     display: inline-block;
     position: relative;
     width: 2.5em;
     height: 1em;
-    border: 1px solid #317CAD;
+    border: 1px solid #317cad;
     border-radius: 2px;
     color: #aaaaaa;
     vertical-align: middle;
@@ -96,8 +90,8 @@ div.check-box {
     transition: all 0.2s ease;
 }
 
-div.check-box:FOCUS,
-div.check-box:HOVER {
+div.check-box:focus,
+div.check-box:hover {
     border-color: #3498db;
 }
 
@@ -121,23 +115,22 @@ span.check-box-text {
 
 div.check-box.on div.check-box-button {
     left: 50%;
-    background-color: #317CAD;
+    background-color: #317cad;
     color: white;
 }
 
-div.check-box.on:FOCUS div.check-box-button,
-div.check-box.on:HOVER div.check-box-button {
+div.check-box.on:focus div.check-box-button,
+div.check-box.on:hover div.check-box-button {
     background-color: #3498db;
 }
 
+/* input boxes */
 
-    /* input boxes */
-
-input[type=password].styled,
-input[type=text].styled,
+input[type="password"].styled,
+input[type="text"].styled,
 textarea.styled {
     width: 90%;
-    border: 1px solid #317CAD;
+    border: 1px solid #317cad;
     border-radius: 2px;
     background-color: transparent;
     padding: 1px;
@@ -155,36 +148,36 @@ textarea.styled {
     white-space: pre;
 }
 
-input[type=password].styled:FOCUS,
-input[type=text].styled:FOCUS,
-textarea.styled:FOCUS {
+input[type="password"].styled:focus,
+input[type="text"].styled:focus,
+textarea.styled:focus {
     background-color: #414141;
 }
 
-input[type=password].styled:HOVER,
-input[type=password].styled:FOCUS,
-input[type=text].styled:HOVER,
-input[type=text].styled:FOCUS,
-textarea.styled:HOVER,
-textarea.styled:FOCUS {
+input[type="password"].styled:hover,
+input[type="password"].styled:focus,
+input[type="text"].styled:hover,
+input[type="text"].styled:focus,
+textarea.styled:hover,
+textarea.styled:focus {
     border-color: #3498db;
     color: white;
 }
 
-input[type=text].number {
+input[type="text"].number {
     width: 5em;
 }
 
-input[type=text].error,
-input[type=password].error,
-input[type=file].error,
+input[type="text"].error,
+input[type="password"].error,
+input[type="file"].error,
 select.error {
     background-image: url(../img/validation-error.svg) !important;
     background-position: center right;
     background-repeat: no-repeat;
 }
 
-input[type=text].time {
+input[type="text"].time {
     width: 3.5em;
 }
 
@@ -192,14 +185,13 @@ input[readonly] {
     border: 1px solid #555 !important;
 }
 
-
-    /* combo box */
+/* combo box */
 
 select.styled {
     -webkit-appearance: none;
     appearance: none;
     width: 90%;
-    border: 1px solid #317CAD;
+    border: 1px solid #317cad;
     border-radius: 2px;
     background-color: transparent;
     padding: 1px 1.25em 1px 1px;
@@ -214,13 +206,13 @@ select.styled {
     vertical-align: middle;
 }
 
-select.styled:FOCUS {
+select.styled:focus {
     background-color: #414141;
     appearance: auto;
 }
 
-select.styled:HOVER,
-select.styled:FOCUS {
+select.styled:hover,
+select.styled:focus {
     border-color: #3498db;
     color: white;
 }
@@ -230,10 +222,9 @@ select.styled:FOCUS {
     padding-right: 1px;
 }
 
+/* slider */
 
-    /* slider */
-
-input[type=text].range {
+input[type="text"].range {
     display: none;
 }
 
@@ -268,7 +259,7 @@ div.slider-bar {
 }
 
 div.slider-bar-inside {
-    border: 1px solid #317CAD;
+    border: 1px solid #317cad;
     height: 3px;
     position: relative;
     top: 3px;
@@ -276,12 +267,12 @@ div.slider-bar-inside {
     transition: all 0.1s ease;
 }
 
-div.slider:HOVER div.slider-bar-inside,
-div.slider:FOCUS div.slider-bar-inside {
+div.slider:hover div.slider-bar-inside,
+div.slider:focus div.slider-bar-inside {
     border-color: #3498db;
 }
 
-div.slider:FOCUS div.slider-bar-inside {
+div.slider:focus div.slider-bar-inside {
     background-color: #414141;
 }
 
@@ -306,8 +297,7 @@ div.slider-cursor-label {
     display: none;
 }
 
-
-    /* progress bar */
+/* progress bar */
 
 div.progress-bar-container {
     position: relative;
@@ -335,9 +325,8 @@ span.progress-bar-text {
     position: relative;
 }
 
+/* modal dialogs */
 
-    /* modal dialogs */
-    
 div.modal-glass {
     display: none;
     position: fixed;
@@ -400,7 +389,7 @@ table.modal-buttons-container {
     user-select: none;
 }
 
-table.modal-buttons-container td:not(:FIRST-CHILD) {
+table.modal-buttons-container td:not(:first-child) {
     padding-left: 5px;
 }
 
@@ -427,7 +416,7 @@ td.dialog-item-value {
 }
 
 span.dialog-item-label {
-    font-size: 0.9em;    
+    font-size: 0.9em;
 }
 
 div.dialog-item-separator {
@@ -436,8 +425,7 @@ div.dialog-item-separator {
     margin: 0.5em 1em;
 }
 
-   
-    /* popup message */
+/* popup message */
 
 div.popup-message-container {
     position: fixed;
@@ -451,27 +439,21 @@ div.popup-message-container {
     top: 60px;
 }
 
-span.popup-message {
-    
-}
-
 span.popup-message.info {
     color: white;
 }
 
 span.popup-message.error {
-    color: #FF6D55;
+    color: #ff6d55;
 }
 
-
-    /* media queries */
+/* media queries */
 
 @media all and (max-width: 400px) {
     span.modal-title {
         font-size: 1.5em;
-        
     }
-    
+
     div.modal-title-bar {
         min-height: 2em;
         line-height: 2em;
