@@ -39,8 +39,7 @@ def list_devices():
     except subprocess.CalledProcessError:  # not found
         return []
 
-    d = dict(p.split('=', 1) for p in support.split())
-    if d.get('detected') == d.get('supported') == '1':
+    if support.startswith('supported=1 detected=1'):
         logging.debug('MMAL camera detected')
         return [('vc.ril.camera', 'VideoCore Camera')]
 
