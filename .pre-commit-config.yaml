@@ -3,7 +3,7 @@ repos:
     rev: v4.1.0
     hooks:
       - id: check-builtin-literals
-      # - id: check-executables-have-shebangs
+      - id: check-executables-have-shebangs
       - id: check-shebang-scripts-are-executable
       - id: check-yaml
       - id: detect-private-key

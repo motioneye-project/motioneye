@@ -1,3 +1,4 @@
+#!/bin/sh
 
 FICIN=$1
 FICOUT=$2
