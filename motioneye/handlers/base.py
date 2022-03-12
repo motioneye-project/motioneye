@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -35,7 +34,7 @@ __all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')
 class BaseHandler(RequestHandler):
     def get_all_arguments(self) -> dict:
         keys = list(self.request.arguments.keys())
-        arguments = dict([(key, self.get_argument(key)) for key in keys])
+        arguments = {key: self.get_argument(key) for key in keys}
 
         for key in self.request.files:
             files = self.request.files[key]
@@ -83,7 +82,7 @@ class BaseHandler(RequestHandler):
 
             self.set_header('Server', 'motionEye/%s' % motioneye.VERSION)
 
-            return super(BaseHandler, self).finish(chunk=chunk)
+            return super().finish(chunk=chunk)
         else:
             logging.debug('Already finished')
 
@@ -148,7 +147,7 @@ class BaseHandler(RequestHandler):
             return 'normal'
 
         if username and username != '_' and login:
-            logging.error('authentication failed for user %(user)s' % {'user': username})
+            logging.error(f'authentication failed for user {username}')
 
         return None
 

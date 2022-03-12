@@ -36,7 +36,7 @@ _STATE_FILE_NAME = 'uploadservices.json'
 _services = None
 
 
-class UploadService(object):
+class UploadService:
     MAX_FILE_SIZE = 1024 * 1024 * 1024  # 1GB
 
     NAME = 'base'
@@ -65,18 +65,18 @@ class UploadService(object):
             while rel_filename.startswith('/'):
                 rel_filename = rel_filename[1:]
 
-            self.debug('uploading file "%s/%s" to %s' % (target_dir, rel_filename, self))
+            self.debug(f'uploading file "{target_dir}/{rel_filename}" to {self}')
 
         else:
             rel_filename = os.path.basename(filename)
 
-            self.debug('uploading file "%s" to %s' % (filename, self))
+            self.debug(f'uploading file "{filename}" to {self}')
 
         try:
             st = os.stat(filename)
 
         except Exception as e:
-            msg = 'failed to open file "%s": %s' % (filename, e)
+            msg = f'failed to open file "{filename}": {e}'
             self.error(msg)
             raise Exception(msg)
 
@@ -91,15 +91,15 @@ class UploadService(object):
             f = open(filename, 'rb')
 
         except Exception as e:
-            msg = 'failed to open file "%s": %s' % (filename, e)
+            msg = f'failed to open file "{filename}": {e}'
             self.error(msg)
             raise Exception(msg)
 
         data = f.read()
-        self.debug('size of "%s" is %.3fMB' % (filename, len(data) / 1024.0 / 1024))
+        self.debug(f'size of "{filename}" is {len(data) / 1024.0 / 1024:.3f}MB')
 
         mime_type = mimetypes.guess_type(filename)[0] or 'image/jpeg'
-        self.debug('mime type of "%s" is "%s"' % (filename, mime_type))
+        self.debug(f'mime type of "{filename}" is "{mime_type}"')
 
         self.upload_data(rel_filename, mime_type, data, ctime, camera_name)
 
@@ -471,7 +471,7 @@ class GoogleDrive(UploadService, GoogleBase):
         removed_count = 0
         folder_id = self._get_folder_id_by_name('root', cloud_dir, False)
         children = self._get_children(folder_id)
-        self.info('found %s/%s folder(s) in local/cloud' % (len(local_folders), len(children)))
+        self.info(f'found {len(local_folders)}/{len(children)} folder(s) in local/cloud')
         self.debug('local %s' % local_folders)
         for child in children:
             id = child['id']
@@ -486,7 +486,7 @@ class GoogleDrive(UploadService, GoogleBase):
         return removed_count
 
     def _get_children(self, file_id):
-        url = '%s/%s/children' % (self.CREATE_FOLDER_URL, file_id)
+        url = f'{self.CREATE_FOLDER_URL}/{file_id}/children'
         response = self._request(url)
 
         try:
@@ -499,13 +499,13 @@ class GoogleDrive(UploadService, GoogleBase):
         return response['items']
 
     def _delete_file(self, file_id):
-        url = '%s/%s' % (self.CREATE_FOLDER_URL, file_id)
+        url = f'{self.CREATE_FOLDER_URL}/{file_id}'
         response = self._request(url, None, None, True, 'DELETE')
         succeeded = response == ""
         return succeeded
 
     def _get_file_metadata(self, file_id):
-        url = '%s/%s' % (self.CREATE_FOLDER_URL, file_id)
+        url = f'{self.CREATE_FOLDER_URL}/{file_id}'
         response = self._request(url)
 
         try:
@@ -568,7 +568,7 @@ class GooglePhoto(UploadService, GoogleBase):
 
         folder_id = self._folder_ids.get(location)
 
-        self.debug('_get_folder_id(%s, %s, %s)' % (path, location, folder_id))
+        self.debug(f'_get_folder_id({path}, {location}, {folder_id})')
 
         if not folder_id:
             self.debug('finding album with title "%s"' % location)
@@ -587,13 +587,13 @@ class GooglePhoto(UploadService, GoogleBase):
                 count = len(albumsWithName)
                 if count > 0:
                     albumId = albumsWithName[0].get('id')
-                    self.debug('found %s existing album(s) "%s" taking first id "%s"' % (count, name, albumId))
+                    self.debug(f'found {count} existing album(s) "{name}" taking first id "{albumId}"')
                     return albumId
 
             # create album
             response = self._create_folder(None, name)
             albumId = response.get('id')
-            self.info('Album "%s" was created successfully with id "%s"' % (name, albumId))
+            self.info(f'Album "{name}" was created successfully with id "{albumId}"')
             return albumId
 
         except Exception as e:
@@ -850,7 +850,7 @@ class FTP(UploadService):
             conn.cwd(path)
 
             d = '%s' % int(time.time())
-            self.debug('creating test directory %s/%s' % (path, d))
+            self.debug(f'creating test directory {path}/{d}')
             conn.mkd(d)
             conn.rmd(d)
 
@@ -869,7 +869,7 @@ class FTP(UploadService):
         path = self._make_dirs(self._location + '/' + path, conn=conn)
         conn.cwd(path)
 
-        self.debug('uploading %s of %s bytes' % (filename, len(data)))
+        self.debug(f'uploading {filename} of {len(data)} bytes')
         conn.storbinary('STOR %s' % filename, io.StringIO(data))
 
         self.debug('upload done')
@@ -898,7 +898,7 @@ class FTP(UploadService):
     def _get_conn(self, create=False):
         now = time.time()
         if self._conn is None or now - self._conn_time > self.CONN_LIFE_TIME or create:
-            self.debug('creating connection to %s@%s:%s' % (self._username or 'anonymous', self._server, self._port))
+            self.debug('creating connection to {}@{}:{}'.format(self._username or 'anonymous', self._server, self._port))
             self._conn = ftplib.FTP()
             self._conn.set_pasv(True)
             self._conn.connect(self._server, port=self._port)
@@ -946,12 +946,12 @@ class SFTP(UploadService):
 
         except pycurl.error:
             curl_error = conn.errstr()
-            msg = 'cURL upload failed on {}: {}'.format(curl_url, curl_error)
+            msg = f'cURL upload failed on {curl_url}: {curl_error}'
             self.error(msg)
             raise
 
         else:
-            self.debug('upload done: {}'.format(curl_url))
+            self.debug(f'upload done: {curl_url}')
 
         finally:
             conn.close()
@@ -959,11 +959,11 @@ class SFTP(UploadService):
     def test_access(self):
         filename = time.time()
         test_folder = "motioneye_test"
-        test_file = "/{}/{}".format(test_folder, filename)
+        test_file = f"/{test_folder}/{filename}"
 
         # list of commands to send after upload.
-        rm_operations = ['RM {}/{}'.format(self._location, test_file),
-                         'RMDIR {}/{}'.format(self._location, test_folder)]
+        rm_operations = [f'RM {self._location}/{test_file}',
+                         f'RMDIR {self._location}/{test_folder}']
 
         conn = self._get_conn(test_file)
         conn.setopt(conn.POSTQUOTE, rm_operations)  # Executed after transfer.
@@ -1027,7 +1027,7 @@ class SFTP(UploadService):
             self._conn.setopt(self._conn.SSH_AUTH_TYPES, auth_types[auth_type])
 
         except KeyError:
-            self.error("invalid SSH auth type: {}".format(auth_type))
+            self.error(f"invalid SSH auth type: {auth_type}")
             raise
 
         if auth_type == 'password':
@@ -1131,7 +1131,7 @@ def get(camera_id, service_name):
             service = cls(camera_id=camera_id)
             _services.setdefault(camera_id, {})[service_name] = service
 
-            logging.debug('created default upload service "%s" for camera with id "%s"' % (service_name, camera_id))
+            logging.debug(f'created default upload service "{service_name}" for camera with id "{camera_id}"')
 
     return service
 
@@ -1156,13 +1156,13 @@ def update(camera_id, service_name, settings):
 def upload_media_file(camera_id, camera_name, target_dir, service_name, filename):
     service = get(camera_id, service_name)
     if not service:
-        return logging.error('service "%s" not initialized for camera with id %s' % (service_name, camera_id))
+        return logging.error(f'service "{service_name}" not initialized for camera with id {camera_id}')
 
     try:
         service.upload_file(target_dir, filename, camera_name)
 
     except Exception as e:
-        logging.error('failed to upload file "%s" with service %s: %s' % (filename, service, e), exc_info=True)
+        logging.error(f'failed to upload file "{filename}" with service {service}: {e}', exc_info=True)
 
 
 def _load():
@@ -1174,10 +1174,10 @@ def _load():
         logging.debug('loading upload services state from "%s"...' % file_path)
 
         try:
-            f = open(file_path, 'r')
+            f = open(file_path)
 
         except Exception as e:
-            logging.error('could not open upload services state file "%s": %s' % (file_path, e))
+            logging.error(f'could not open upload services state file "{file_path}": {e}')
 
             return services
 
@@ -1185,7 +1185,7 @@ def _load():
             data = json.load(f)
 
         except Exception as e:
-            logging.error('could not read upload services state from file "%s": %s' % (file_path, e))
+            logging.error(f'could not read upload services state from file "{file_path}": {e}')
 
             return services
 
@@ -1203,7 +1203,7 @@ def _load():
 
                     camera_services[name] = service
 
-                    logging.debug('loaded upload service "%s" for camera with id "%s"' % (name, camera_id))
+                    logging.debug(f'loaded upload service "{name}" for camera with id "{camera_id}"')
 
     return services
 
@@ -1222,7 +1222,7 @@ def _save(services):
         f = open(file_path, 'w')
 
     except Exception as e:
-        logging.error('could not open upload services state file "%s": %s' % (file_path, e))
+        logging.error(f'could not open upload services state file "{file_path}": {e}')
 
         return
 
@@ -1230,7 +1230,7 @@ def _save(services):
         json.dump(data, f, sort_keys=True, indent=4)
 
     except Exception as e:
-        logging.error('could not save upload services state to file "%s": %s' % (file_path, e))
+        logging.error(f'could not save upload services state to file "{file_path}": {e}')
 
     finally:
         f.close()
@@ -1242,7 +1242,7 @@ def clean_cloud(local_dir, data, info):
     cloud_dir_user = info['cloud_dir']
     cloud_dir = [p.strip() for p in cloud_dir_user.split('/') if p.strip()][0]
 
-    logging.debug('clean_cloud(%s, %s, %s, %s)' % (camera_id, service_name, local_dir, cloud_dir))
+    logging.debug(f'clean_cloud({camera_id}, {service_name}, {local_dir}, {cloud_dir})')
 
     if service_name and local_dir and cloud_dir:
         local_folders = get_local_folders(local_dir)

@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -104,7 +103,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             if check_error():
                 return
         else:
-            r_future = cast_future(stream.read_until_regex(b'RTSP/1.0 \d+ '))
+            r_future = cast_future(stream.read_until_regex(br'RTSP/1.0 \d+ '))
             r_future.add_done_callback(on_rtsp)
             timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
                                              functools.partial(on_rtsp, r_future))
@@ -179,7 +178,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             handle_error(f'{auth_timeout_msg}')
         else:
             if data:
-                scheme = re.findall(b'WWW-Authenticate: ([^\s]+)', data)[0].strip()
+                scheme = re.findall(br'WWW-Authenticate: ([^\s]+)', data)[0].strip()
                 logging.debug('rtsp netcam auth scheme: %s' % scheme)
                 if scheme.lower() == 'basic':
                     send_auth[0] = True

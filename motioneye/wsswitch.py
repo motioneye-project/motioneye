@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -78,20 +77,20 @@ def _during_working_schedule(now, working_schedule) -> bool:
 async def _switch_motion_detection_status(camera_id, must_be_enabled, working_schedule_type,
                                           motion_detection_resp: utils.GetMotionDetectionResult) -> None:
     if motion_detection_resp.error:  # could not detect current status
-        return logging.warning('skipping motion detection status update for camera with id %(id)s: %(error)s' % {
-            'id': camera_id, 'error': motion_detection_resp.error})
+        return logging.warning('skipping motion detection status update for camera with id {id}: {error}'.format(
+            id=camera_id, error=motion_detection_resp.error))
 
     if motion_detection_resp.enabled and not must_be_enabled:
-        logging.debug('must disable motion detection for camera with id %(id)s (%(what)s working schedule)' % {
-            'id': camera_id,
-            'what': working_schedule_type})
+        logging.debug('must disable motion detection for camera with id {id} ({what} working schedule)'.format(
+            id=camera_id,
+            what=working_schedule_type))
 
         await motionctl.set_motion_detection(camera_id, False)
 
     elif not motion_detection_resp.enabled and must_be_enabled:
-        logging.debug('must enable motion detection for camera with id %(id)s (%(what)s working schedule)' % {
-            'id': camera_id,
-            'what': working_schedule_type})
+        logging.debug('must enable motion detection for camera with id {id} ({what} working schedule)'.format(
+            id=camera_id,
+            what=working_schedule_type))
 
         await motionctl.set_motion_detection(camera_id, True)
 

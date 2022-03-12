@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -88,5 +87,5 @@ def _do_cleanup():
         logging.debug('cleanup done')
 
     except Exception as e:
-        logging.error('failed to cleanup media files: %(msg)s' % {
-                'msg': str(e)}, exc_info=True)
+        logging.error('failed to cleanup media files: {msg}'.format(
+                msg=str(e)), exc_info=True)

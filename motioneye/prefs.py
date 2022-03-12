@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -45,10 +44,10 @@ def _load():
         logging.debug('loading preferences from "%s"...' % file_path)
 
         try:
-            f = open(file_path, 'r')
+            f = open(file_path)
 
         except Exception as e:
-            logging.error('could not open preferences file "%s": %s' % (file_path, e))
+            logging.error(f'could not open preferences file "{file_path}": {e}')
 
             return
 
@@ -56,7 +55,7 @@ def _load():
             _prefs = json.load(f)
 
         except Exception as e:
-            logging.error('could not read preferences from file "%s": %s' % (file_path, e))
+            logging.error(f'could not read preferences from file "{file_path}": {e}')
 
         finally:
             f.close()
@@ -74,7 +73,7 @@ def _save():
         f = open(file_path, 'w')
 
     except Exception as e:
-        logging.error('could not open preferences file "%s": %s' % (file_path, e))
+        logging.error(f'could not open preferences file "{file_path}": {e}')
 
         return
 
@@ -82,7 +81,7 @@ def _save():
         json.dump(_prefs, f, sort_keys=True, indent=4)
 
     except Exception as e:
-        logging.error('could not save preferences to file "%s": %s' % (file_path, e))
+        logging.error(f'could not save preferences to file "{file_path}": {e}')
 
     finally:
         f.close()

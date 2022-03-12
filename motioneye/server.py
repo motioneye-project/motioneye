@@ -1,4 +1,3 @@
-# coding: utf-8
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -49,10 +48,10 @@ from motioneye.handlers.version import VersionHandler
 
 
 _PID_FILE = 'motioneye.pid'
-_CURRENT_PICTURE_REGEX = re.compile('^/picture/\d+/current')
+_CURRENT_PICTURE_REGEX = re.compile(r'^/picture/\d+/current')
 
 
-class Daemon(object):
+class Daemon:
     def __init__(self, pid_file, run_callback=None):
         self.pid_file = pid_file
         self.run_callback = run_callback
@@ -83,7 +82,7 @@ class Daemon(object):
             # redirect standard file descriptors
         sys.stdout.flush()
         sys.stderr.flush()
-        si = open('/dev/null', 'r')
+        si = open('/dev/null')
         so = open('/dev/null', 'a+')
         se = open('/dev/null', 'a+')
         os.dup2(si.fileno(), sys.stdin.fileno())
@@ -318,7 +317,7 @@ def make_media_folders():
                     os.makedirs(camera_config['target_dir'])
 
                 except Exception as e:
-                    logging.error('failed to create root media folder "%s" for camera with id %s: %s' % (
+                    logging.error('failed to create root media folder "{}" for camera with id {}: {}'.format(
                         camera_config['target_dir'], camera_id, e))
 
 
@@ -337,8 +336,8 @@ def start_motion():
                 motionctl.start()
 
             except Exception as e:
-                logging.error('failed to start motion: %(msg)s' % {
-                    'msg': str(e)}, exc_info=True)
+                logging.error('failed to start motion: {msg}'.format(
+                    msg=str(e)), exc_info=True)
 
         io_loop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
 

@@ -158,7 +158,7 @@ def _remove_older_files(directory: str, moment: datetime.datetime, clean_cloud_i
     for (full_path, st) in _list_media_files(directory, exts):
         file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
         if file_moment < moment:
-            logging.debug('removing file %(path)s...' % {'path': full_path})
+            logging.debug(f'removing file {full_path}...')
 
             # remove the file itself
             try:
@@ -169,7 +169,7 @@ def _remove_older_files(directory: str, moment: datetime.datetime, clean_cloud_i
                     pass  # the file might have been removed in the meantime
 
                 else:
-                    logging.error('failed to remove %s: %s' % (full_path, e))
+                    logging.error(f'failed to remove {full_path}: {e}')
 
             # remove the parent directories if empty or contain only thumb files
             dir_path = os.path.dirname(full_path)
@@ -185,18 +185,18 @@ def _remove_older_files(directory: str, moment: datetime.datetime, clean_cloud_i
                         os.remove(os.path.join(dir_path, p))
 
                     except Exception as e:
-                        logging.error('failed to remove %s: %s' % (p, e))
+                        logging.error(f'failed to remove {p}: {e}')
 
             if not listing or len(listing) == len(thumbs):
                 # this will possibly cause following paths that are in the media files for loop
                 # to be removed in advance; the os.remove call will raise ENOENT which is silently ignored
-                logging.debug('removing empty directory %(path)s...' % {'path': dir_path})
+                logging.debug(f'removing empty directory {dir_path}...')
                 try:
                     os.removedirs(dir_path)
                     removed_folder_count += 1
 
                 except Exception as e:
-                    logging.error('failed to remove %s: %s' % (dir_path, e))
+                    logging.error(f'failed to remove {dir_path}: {e}')
 
     if clean_cloud_info and removed_folder_count > 0:
         uploadservices.clean_cloud(directory, {}, clean_cloud_info)
@@ -238,7 +238,7 @@ def find_ffmpeg() -> tuple:
 
     codecs = {}
     for line in lines:
-        m = re.match('^ [DEVILSA.]{6} ([\w+_]+)', line)
+        m = re.match(r'^ [DEVILSA.]{6} ([\w+_]+)', line)
         if not m:
             continue
 
@@ -247,11 +247,11 @@ def find_ffmpeg() -> tuple:
         decoders = set()
         encoders = set()
 
-        m = re.search('decoders: ([\w\s_]+)+', line)
+        m = re.search(r'decoders: ([\w\s_]+)+', line)
         if m:
             decoders = set(m.group(1).split())
 
-        m = re.search('encoders: ([\w\s_]+)+', line)
+        m = re.search(r'encoders: ([\w\s_]+)+', line)
         if m:
             encoders = set(m.group(1).split())
 
@@ -268,7 +268,7 @@ def find_ffmpeg() -> tuple:
 
 
 def cleanup_media(media_type: str) -> None:
-    logging.debug('cleaning up %(media_type)ss...' % {'media_type': media_type})
+    logging.debug(f'cleaning up {media_type}s...')
 
     if media_type == 'picture':
         exts = _PICTURE_EXTS
@@ -281,7 +281,7 @@ def cleanup_media(media_type: str) -> None:
         if not utils.is_local_motion_camera(camera_config):
             continue
 
-        preserve_media = camera_config.get('@preserve_%(media_type)ss' % {'media_type': media_type}, 0)
+        preserve_media = camera_config.get(f'@preserve_{media_type}s', 0)
         if preserve_media == 0:
             continue  # preserve forever
 
@@ -308,7 +308,7 @@ def cleanup_media(media_type: str) -> None:
             # create a sentinel file to make sure the target dir is never removed
             open(os.path.join(target_dir, '.keep'), 'w').close()
 
-        logging.debug('calling _remove_older_files: %s %s %s' % (cloud_enabled, clean_cloud_enabled, clean_cloud_info))
+        logging.debug(f'calling _remove_older_files: {cloud_enabled} {clean_cloud_enabled} {clean_cloud_info}')
         _remove_older_files(target_dir, preserve_moment, clean_cloud_info, exts=exts)
 
 
@@ -319,8 +319,8 @@ def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str,
     offs = max(4, offs * 2)
     thumb_path = full_path + '.thumb'
 
-    logging.debug('creating movie preview for %(path)s with an offset of %(offs)s seconds...' % {
-        'path': full_path, 'offs': offs})
+    logging.debug('creating movie preview for {path} with an offset of {offs} seconds...'.format(
+        path=full_path, offs=offs))
 
     cmd = 'ffmpeg -i %(path)s -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb'
     actual_cmd = cmd % {'path': pipes.quote(full_path), 'offs': offs}
@@ -330,8 +330,8 @@ def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str,
         utils.call_subprocess(actual_cmd.split(), stderr=subprocess.STDOUT)
 
     except subprocess.CalledProcessError as e:
-        logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
-            'path': full_path, 'msg': str(e)})
+        logging.error('failed to create movie preview for {path}: {msg}'.format(
+            path=full_path, msg=str(e)))
 
         return None
 
@@ -339,12 +339,12 @@ def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str,
         st = os.stat(thumb_path)
 
     except os.error:
-        logging.error('failed to create movie preview for %(path)s' % {'path': full_path})
+        logging.error(f'failed to create movie preview for {full_path}')
 
         return None
 
     if st.st_size == 0:
-        logging.debug('movie probably too short, grabbing first frame from %(path)s...' % {'path': full_path})
+        logging.debug(f'movie probably too short, grabbing first frame from {full_path}...')
 
         actual_cmd = cmd % {'path': full_path, 'offs': 0}
         logging.debug('running command "%s"' % actual_cmd)
@@ -354,8 +354,8 @@ def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str,
             utils.call_subprocess(actual_cmd.split(), stderr=subprocess.STDOUT)
 
         except subprocess.CalledProcessError as e:
-            logging.error('failed to create movie preview for %(path)s: %(msg)s' % {
-                'path': full_path, 'msg': str(e)})
+            logging.error('failed to create movie preview for {path}: {msg}'.format(
+                path=full_path, msg=str(e)))
 
             return None
 
@@ -363,12 +363,12 @@ def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str,
             st = os.stat(thumb_path)
 
         except os.error:
-            logging.error('failed to create movie preview for %(path)s' % {'path': full_path})
+            logging.error(f'failed to create movie preview for {full_path}')
 
             return None
 
     if st.st_size == 0:
-        logging.error('failed to create movie preview for %(path)s' % {'path': full_path})
+        logging.error(f'failed to create movie preview for {full_path}')
         try:
             os.remove(thumb_path)
 
@@ -456,7 +456,7 @@ def list_media(camera_config: dict, media_type: str, prefix=None) -> typing.Awai
 
         else:  # finished
             read_media_list()
-            logging.debug('media listing process has returned %(count)s files' % {'count': len(media_list)})
+            logging.debug(f'media listing process has returned {len(media_list)} files')
             fut.set_result(media_list)
 
     poll_process()
@@ -482,8 +482,8 @@ def get_media_content(camera_config, path, media_type):
             return f.read()
 
     except Exception as e:
-        logging.error('failed to read file %(path)s: %(msg)s' % {
-            'path': full_path, 'msg': str(e)})
+        logging.error('failed to read file {path}: {msg}'.format(
+            path=full_path, msg=str(e)))
 
         return None
 
@@ -524,7 +524,7 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> typi
                     f.write(full_path, path)
 
         except Exception as e:
-            logging.error('failed to create zip file "%s": %s' % (zip_filename, e))
+            logging.error(f'failed to create zip file "{zip_filename}": {e}')
 
             working.value = False
             pipe.close()
@@ -541,7 +541,7 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> typi
             logging.debug('zip data ready')
 
         except Exception as e:
-            logging.error('failed to read zip file "%s": %s' % (zip_filename, e))
+            logging.error(f'failed to read zip file "{zip_filename}": {e}')
             working.value = False
 
         finally:
@@ -659,7 +659,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
         else:  # finished
             read_media_list()
-            logging.debug('media listing process has returned %(count)s files' % {'count': len(media_list)})
+            logging.debug(f'media listing process has returned {len(media_list)} files')
 
             if not media_list:
                 _timelapse_process.progress = -1
@@ -705,7 +705,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
         cmd = cmd % {
             'tmp_filename': tmp_filename,
-            'jpegs': ' '.join((('"' + p['path'] + '"') for p in pictures)),
+            'jpegs': ' '.join(('"' + p['path'] + '"') for p in pictures),
             'framerate': framerate,
             'codec': codec,
             'format': fmt,
@@ -735,14 +735,14 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
             try:
                 output = _timelapse_process.stdout.read()
 
-            except IOError as e:
+            except OSError as e:
                 if e.errno == errno.EAGAIN:
                     output = ''
 
                 else:
                     raise
 
-            frame_index = re.findall('frame=\s*(\d+)', output)
+            frame_index = re.findall(r'frame=\s*(\d+)', output)
             try:
                 frame_index = int(frame_index[-1])
 
@@ -777,7 +777,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
                     logging.debug('timelapse movie process has returned %d bytes' % len(_timelapse_data))
 
                 except Exception as e:
-                    logging.error('failed to read timelapse movie file "%s": %s' % (tmp_filename, e))
+                    logging.error(f'failed to read timelapse movie file "{tmp_filename}": {e}')
 
                 finally:
                     try:
@@ -823,8 +823,8 @@ def get_media_preview(camera_config, path, media_type, width, height):
             content = f.read()
 
     except Exception as e:
-        logging.error('failed to read file %(path)s: %(msg)s' % {
-            'path': full_path, 'msg': str(e)})
+        logging.error('failed to read file {path}: {msg}'.format(
+            path=full_path, msg=str(e)))
 
         return None
 
@@ -879,12 +879,12 @@ def del_media_content(camera_config, path, media_type):
                 os.remove(os.path.join(dir_path, p))
 
         if not listing or len(listing) == len(thumbs):
-            logging.debug('removing empty directory %(path)s...' % {'path': dir_path})
+            logging.debug(f'removing empty directory {dir_path}...')
             os.removedirs(dir_path)
 
     except Exception as e:
-        logging.error('failed to remove file %(path)s: %(msg)s' % {
-            'path': full_path, 'msg': str(e)})
+        logging.error('failed to remove file {path}: {msg}'.format(
+            path=full_path, msg=str(e)))
 
         raise
 
@@ -908,8 +908,8 @@ def del_media_group(camera_config, group, media_type):
             os.remove(path)
 
         except Exception as e:
-            logging.error('failed to remove file %(path)s: %(msg)s' % {
-                'path': full_path, 'msg': str(e)})
+            logging.error('failed to remove file {path}: {msg}'.format(
+                path=full_path, msg=str(e)))
 
             raise
 
@@ -922,7 +922,7 @@ def del_media_group(camera_config, group, media_type):
             os.remove(os.path.join(full_path, p))
 
     if not listing or len(listing) == len(thumbs):
-        logging.debug('removing empty directory %(path)s...' % {'path': full_path})
+        logging.debug(f'removing empty directory {full_path}...')
         os.removedirs(full_path)
 
 

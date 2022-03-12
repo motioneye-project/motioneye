@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -52,10 +51,10 @@ def make_mount_point(server, share, username):
 
     if username:
         username = re.sub('[^a-zA-Z0-9]', '_', username).lower()
-        mount_point = os.path.join(settings.SMB_MOUNT_ROOT, 'motioneye_%s_%s_%s' % (server, share, username))
+        mount_point = os.path.join(settings.SMB_MOUNT_ROOT, f'motioneye_{server}_{share}_{username}')
 
     else:
-        mount_point = os.path.join(settings.SMB_MOUNT_ROOT, 'motioneye_%s_%s' % (server, share))
+        mount_point = os.path.join(settings.SMB_MOUNT_ROOT, f'motioneye_{server}_{share}')
 
     return mount_point
 
@@ -64,7 +63,7 @@ def list_mounts():
     logging.debug('listing smb mounts...')
 
     mounts = []
-    with open('/proc/mounts', 'r') as f:
+    with open('/proc/mounts') as f:
         for line in f:
             line = line.strip()
             if not line:
@@ -108,7 +107,7 @@ def list_mounts():
             else:
                 smb_ver = '1.0'
 
-            logging.debug('found smb mount "//%s/%s" at "%s"' % (server, share, mount_point))
+            logging.debug(f'found smb mount "//{server}/{share}" at "{mount_point}"')
 
             mounts.append({
                 'server': server.lower(),
@@ -125,7 +124,7 @@ def update_mounts():
     network_shares = config.get_network_shares()
 
     mounts = list_mounts()
-    mounts = dict(((m['server'], m['share'], m['smb_ver'], m['username'] or ''), False) for m in mounts)
+    mounts = {(m['server'], m['share'], m['smb_ver'], m['username'] or ''): False for m in mounts}
 
     should_stop = False  # indicates that motion should be stopped immediately
     should_start = True  # indicates that motion can be started afterwards
@@ -154,7 +153,7 @@ def update_mounts():
 
 def test_share(server, share, smb_ver, username, password, root_directory):
     mounts = list_mounts()
-    mounts = dict(((m['server'], m['share'], m['smb_ver'], m['username'] or ''), m['mount_point']) for m in mounts)
+    mounts = {(m['server'], m['share'], m['smb_ver'], m['username'] or ''): m['mount_point'] for m in mounts}
 
     key = (server, share, smb_ver, username or '')
     mounted = False
@@ -194,7 +193,7 @@ def _mount(server, share, smb_ver, username, password):
         os.makedirs(mount_point)
 
     if username:
-        opts = 'username=%s,password=%s' % (username, password)
+        opts = f'username={username},password={password}'
         sec_types = [None, 'ntlm', 'ntlmv2', 'ntlmv2i', 'ntlmsspi', 'none']
 
     else:
@@ -211,15 +210,15 @@ def _mount(server, share, smb_ver, username, password):
             actual_opts = opts
 
         try:
-            logging.debug('mounting "//%s/%s" at "%s" (sec=%s)' % (server, share, mount_point, sec))
-            subprocess.run(['mount.cifs', '//%s/%s' % (server, share), mount_point, '-o', actual_opts], check=True)
+            logging.debug(f'mounting "//{server}/{share}" at "{mount_point}" (sec={sec})')
+            subprocess.run(['mount.cifs', f'//{server}/{share}', mount_point, '-o', actual_opts], check=True)
             break
 
         except subprocess.CalledProcessError:
             pass
 
     else:
-        logging.error('failed to mount smb share "//%s/%s" at "%s"' % (server, share, mount_point))
+        logging.error(f'failed to mount smb share "//{server}/{share}" at "{mount_point}"')
         return None
 
     # test to see if mount point is writable
@@ -239,13 +238,13 @@ def _mount(server, share, smb_ver, username, password):
 
 def _umount(server, share, username):
     mount_point = make_mount_point(server, share, username)
-    logging.debug('unmounting "//%s/%s" from "%s"' % (server, share, mount_point))
+    logging.debug(f'unmounting "//{server}/{share}" from "{mount_point}"')
 
     try:
         subprocess.run(['umount', mount_point], check=True)
 
     except subprocess.CalledProcessError:
-        logging.error('failed to unmount smb share "//%s/%s" from "%s"' % (server, share, mount_point))
+        logging.error(f'failed to unmount smb share "//{server}/{share}" from "{mount_point}"')
 
         return False
 
@@ -253,7 +252,7 @@ def _umount(server, share, username):
         os.rmdir(mount_point)
 
     except Exception as e:
-        logging.error('failed to remove smb mount point "%s": %s' % (mount_point, e))
+        logging.error(f'failed to remove smb mount point "{mount_point}": {e}')
 
         return False
 
@@ -262,7 +261,7 @@ def _umount(server, share, username):
 
 def _is_motioneye_mount(mount_point):
     mount_point_root = os.path.join(settings.SMB_MOUNT_ROOT, 'motioneye_')
-    return bool(re.match('^' + mount_point_root + '\w+$', mount_point))
+    return bool(re.match('^' + mount_point_root + r'\w+$', mount_point))
 
 
 def _umount_all():

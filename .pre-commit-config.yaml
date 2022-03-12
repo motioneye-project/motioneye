@@ -51,9 +51,8 @@ repos:
   #  hooks:
   #    - id: mypy
   #      args: [--ignore-missing-imports, --install-types, --non-interactive]
-  #- repo: https://github.com/asottile/pyupgrade
-  #  rev: v2.31.0
-  #  hooks:
-  #    - id: pyupgrade
-  #      args:
-  #        - --py37-plus
+  - repo: https://github.com/asottile/pyupgrade
+    rev: v2.31.0
+    hooks:
+      - id: pyupgrade
+        args: [--py37-plus]

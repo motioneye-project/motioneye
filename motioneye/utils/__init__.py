@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -114,7 +113,7 @@ def pretty_size(size):
     else:  # greater than or equal to 1GB
         size, unit = size / 1024.0 / 1024 / 1024, 'GB'
 
-    return '%.1f %s' % (size, unit)
+    return f'{size:.1f} {unit}'
 
 
 def pretty_http_error(response):
@@ -169,14 +168,14 @@ def split_semicolon(s):
 
 
 def get_disk_usage(path):
-    logging.debug('getting disk usage for path %(path)s...' % {
-        'path': path})
+    logging.debug('getting disk usage for path {path}...'.format(
+        path=path))
 
     try:
         result = os.statvfs(path)
 
     except OSError as e:
-        logging.error('failed to execute statvfs: %(msg)s' % {'msg': str(e)})
+        logging.error(f'failed to execute statvfs: {str(e)}')
 
         return None
 
@@ -244,7 +243,7 @@ def compute_signature(method, path, body: bytes, key):
 
     body_str = body_str and _SIGNATURE_REGEX.sub('-', body_str)
 
-    return hashlib.sha1(('%s:%s:%s:%s' % (method, path, body_str or '', key)).encode('utf-8')).hexdigest().lower()
+    return hashlib.sha1(('{}:{}:{}:{}'.format(method, path, body_str or '', key)).encode('utf-8')).hexdigest().lower()
 
 
 def parse_cookies(cookies_headers):
@@ -266,7 +265,7 @@ def parse_cookies(cookies_headers):
 
 
 def build_basic_header(username, password):
-    return 'Basic ' + base64.encodebytes('%s:%s' % (username, password)).replace('\n', '')
+    return 'Basic ' + base64.encodebytes(f'{username}:{password}').replace('\n', '')
 
 
 def parse_basic_header(header):
@@ -326,7 +325,7 @@ def build_digest_header(method, url, username, password, state):
 
         hash_utf8 = sha_utf8
 
-    KD = lambda s, d: hash_utf8("%s:%s" % (s, d))
+    KD = lambda s, d: hash_utf8(f"{s}:{d}")
 
     if hash_utf8 is None:
         return None
@@ -337,8 +336,8 @@ def build_digest_header(method, url, username, password, state):
     if p_parsed.query:
         path += '?' + p_parsed.query
 
-    A1 = '%s:%s:%s' % (username, realm, password)
-    A2 = '%s:%s' % (method, path)
+    A1 = f'{username}:{realm}:{password}'
+    A2 = f'{method}:{path}'
 
     HA1 = hash_utf8(A1)
     HA2 = hash_utf8(A2)
@@ -357,13 +356,13 @@ def build_digest_header(method, url, username, password, state):
 
     cnonce = (hashlib.sha1(s).hexdigest()[:16])
     if _algorithm == 'MD5-SESS':
-        HA1 = hash_utf8('%s:%s:%s' % (HA1, nonce, cnonce))
+        HA1 = hash_utf8(f'{HA1}:{nonce}:{cnonce}')
 
     if qop is None:
-        respdig = KD(HA1, "%s:%s" % (nonce, HA2))
+        respdig = KD(HA1, f"{nonce}:{HA2}")
 
     elif qop == 'auth' or 'auth' in qop.split(','):
-        noncebit = "%s:%s:%s:%s:%s" % (nonce, ncvalue, cnonce, 'auth', HA2)
+        noncebit = "{}:{}:{}:{}:{}".format(nonce, ncvalue, cnonce, 'auth', HA2)
         respdig = KD(HA1, noncebit)
 
     else:
@@ -380,7 +379,7 @@ def build_digest_header(method, url, username, password, state):
     if entdig:
         base += ', digest="%s"' % entdig
     if qop:
-        base += ', qop=auth, nc=%s, cnonce="%s"' % (ncvalue, cnonce)
+        base += f', qop=auth, nc={ncvalue}, cnonce="{cnonce}"'
 
     state['last_nonce'] = last_nonce
     state['nonce_count'] = nonce_count
@@ -486,7 +485,7 @@ def build_editable_mask_file(camera_id, mask_class, mask_lines, capture_width=No
     return file_name
 
 def build_mask_file_name(camera_id, mask_class):
-    file_name = 'mask_%s.pgm' % (camera_id) if mask_class == 'motion' else 'mask_%s_%s.pgm' % (camera_id, mask_class)
+    file_name = 'mask_%s.pgm' % (camera_id) if mask_class == 'motion' else f'mask_{camera_id}_{mask_class}.pgm'
     full_path = os.path.join(settings.CONF_PATH, file_name)
 
     return full_path
@@ -498,14 +497,14 @@ def parse_editable_mask_file(camera_id, mask_class, capture_width=None, capture_
 
     file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
 
-    logging.debug('parsing editable mask %s for camera with id %s: %s' % (mask_class, camera_id, file_name))
+    logging.debug(f'parsing editable mask {mask_class} for camera with id {camera_id}: {file_name}')
 
     # read the image file
     try:
         im = Image.open(file_name)
 
     except Exception as e:
-        logging.error('failed to read mask file %s: %s' % (file_name, e))
+        logging.error(f'failed to read mask file {file_name}: {e}')
 
         # empty mask
         return [0] * (MASK_WIDTH * 10)
@@ -521,7 +520,7 @@ def parse_editable_mask_file(camera_id, mask_class, capture_width=None, capture_
         width, height = capture_width, capture_height
 
     else:
-        logging.debug('using mask size from file: %sx%s' % (im.size[0], im.size[1]))
+        logging.debug(f'using mask size from file: {im.size[0]}x{im.size[1]}')
 
         width, height = im.size
 
@@ -605,5 +604,5 @@ def call_subprocess(args, stdin=None, input=None, stdout=subprocess.PIPE, stderr
     return subprocess.run(
         args, stdin=stdin, input=input, stdout=stdout, stderr=stderr, capture_output=capture_output, shell=shell,
         cwd=cwd, timeout=timeout, check=check, encoding=encoding, errors=errors, text=text, env=env,
-        universal_newlines=universal_newlines
+        text=universal_newlines
     ).stdout.strip()

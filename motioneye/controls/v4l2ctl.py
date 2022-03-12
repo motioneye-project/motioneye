@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -63,8 +62,8 @@ def list_devices():
             persistent_device = find_persistent_device(device)
             devices.append((device, persistent_device, name))
 
-            logging.debug('found device %(name)s: %(device)s, %(persistent_device)s' % {
-                          'name': name, 'device': device, 'persistent_device': persistent_device})
+            logging.debug('found device {name}: {device}, {persistent_device}'.format(
+                          name=name, device=device, persistent_device=persistent_device))
 
         else:
             name = line.split('(')[0].strip()
@@ -87,7 +86,7 @@ def list_resolutions(device):
     if device in _resolutions_cache:
         return _resolutions_cache[device]
 
-    logging.debug('listing resolutions of device %(device)s...' % {'device': device})
+    logging.debug(f'listing resolutions of device {device}...')
 
     resolutions = set()
     output = b''
@@ -99,7 +98,7 @@ def list_resolutions(device):
     try:
         output = utils.call_subprocess(actual_cmd, shell=True, stderr=utils.DEV_NULL)
     except:
-        logging.error('failed to list resolutions of device %(device)s...' % {'device': device})
+        logging.error(f'failed to list resolutions of device {device}...')
 
     output = utils.make_str(output)
 
@@ -123,11 +122,11 @@ def list_resolutions(device):
 
         resolutions.add((width, height))
 
-        logging.debug('found resolution %(width)sx%(height)s for device %(device)s' % {
-                'device': device, 'width': width, 'height': height})
+        logging.debug('found resolution {width}x{height} for device {device}'.format(
+                device=device, width=width, height=height))
 
     if not resolutions:
-        logging.debug('no resolutions found for device %(device)s, using common values' % {'device': device})
+        logging.debug(f'no resolutions found for device {device}, using common values')
 
         # no resolution returned by v4l2-ctl call, add common default resolutions
         resolutions = utils.COMMON_RESOLUTIONS
@@ -184,7 +183,7 @@ def list_ctrls(device):
     try:
         output = utils.call_subprocess(actual_cmd, shell=True, stderr=subprocess.STDOUT)
     except:
-        logging.error('failed to list controls of device %(device)s...' % {'device': device})
+        logging.error(f'failed to list controls of device {device}...')
 
     controls = {}
     logging.debug(' command output "%s"' % output)

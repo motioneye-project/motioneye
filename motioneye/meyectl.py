@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# coding: utf-8
 
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -151,7 +150,7 @@ def load_settings():
                     parse_conf_line(line)
 
         except Exception as e:
-            logging.fatal('failed to read settings from "%s": %s' % (config_file, e))
+            logging.fatal(f'failed to read settings from "{config_file}": {e}')
             sys.exit(-1)
 
         # use the config file directory as base dir
@@ -179,12 +178,12 @@ def load_settings():
 
 
 def configure_logging(cmd, log_to_file=False):
-    sys.stderr.write('configure_logging cmd %s: %s\n' % (cmd,log_to_file))
+    sys.stderr.write(f'configure_logging cmd {cmd}: {log_to_file}\n')
     if log_to_file or cmd != 'motioneye':
-        fmt = '%(asctime)s: [{cmd}] %(levelname)8s: %(message)s'.format(cmd=cmd)
+        fmt = f'%(asctime)s: [{cmd}] %(levelname)8s: %(message)s'
 
     else:
-        fmt = '%(levelname)8s: %(message)s'.format(cmd=cmd)
+        fmt = f'%(levelname)8s: %(message)s'
 
     for h in logging.getLogger().handlers:
         logging.getLogger().removeHandler(h)

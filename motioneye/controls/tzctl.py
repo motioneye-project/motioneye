@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -98,7 +97,7 @@ def _set_time_zone(time_zone):
 
         return False
 
-    logging.debug('linking "%s" to "%s"' % (settings.LOCAL_TIME_FILE, zoneinfo_file))
+    logging.debug(f'linking "{settings.LOCAL_TIME_FILE}" to "{zoneinfo_file}"')
 
     try:
         os.remove(settings.LOCAL_TIME_FILE)
@@ -112,7 +111,7 @@ def _set_time_zone(time_zone):
         return True
 
     except Exception as e:
-        logging.error('failed to link "%s" to "%s": %s' % (settings.LOCAL_TIME_FILE, zoneinfo_file, e))
+        logging.error(f'failed to link "{settings.LOCAL_TIME_FILE}" to "{zoneinfo_file}": {e}')
 
         return False
 
