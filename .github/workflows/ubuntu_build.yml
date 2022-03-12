@@ -3,6 +3,7 @@ name: ubuntu_build
 on: [pull_request, push]
 jobs:
   ubuntu_build:
+    if: ${{ github.event_name != 'pull_request' || !startsWith(github.action.repository, github.repository.owner) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

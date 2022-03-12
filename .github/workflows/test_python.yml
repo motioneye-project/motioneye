@@ -2,6 +2,7 @@ name: test_python
 on: [pull_request, push]
 jobs:
   test_python:
+    if: ${{ github.event_name != 'pull_request' || !startsWith(github.action.repository, github.repository.owner) }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
