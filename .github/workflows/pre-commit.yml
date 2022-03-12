@@ -4,7 +4,7 @@ name: pre-commit
 on: [pull_request, push]
 jobs:
   pre-commit:
-    if: ${{ github.event_name != 'pull_request' || !startsWith(github.action.repository, github.repository.owner) }}
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
