@@ -1,6 +1,4 @@
-
-
-    /* basic */
+/* basic */
 
 * {
     padding: 0px;
@@ -24,42 +22,40 @@ body {
 }
 
 select,
-input[type=text],
-input[type=password],
+input[type="text"],
+input[type="password"],
 textarea {
     box-sizing: border-box;
 }
 
-
-    /* fonts */
+/* fonts */
 
 @font-face {
-    font-family: 'Maven Pro';
-    src: url('../fnt/mavenpro-regular-webfont.eot');
-    src: url('../fnt/mavenpro-regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fnt/mavenpro-regular-webfont.woff') format('woff'),
-         url('../fnt/mavenpro-regular-webfont.ttf') format('truetype'),
-         url('../fnt/mavenpro-regular-webfont.svg#maven_proregular') format('svg');
+    font-family: "Maven Pro";
+    src: url("../fnt/mavenpro-regular-webfont.eot");
+    src: url("../fnt/mavenpro-regular-webfont.eot?#iefix") format("embedded-opentype"),
+        url("../fnt/mavenpro-regular-webfont.woff") format("woff"),
+        url("../fnt/mavenpro-regular-webfont.ttf") format("truetype"),
+        url("../fnt/mavenpro-regular-webfont.svg#maven_proregular") format("svg");
     font-weight: normal;
     font-style: normal;
 }
- 
+
 @font-face {
-    font-family: 'Maven Pro';
-    src: url('../fnt/mavenpro-bold-webfont.eot');
-    src: url('../fnt/mavenpro-bold-webfont.eot?#iefix') format('embedded-opentype'),
-         url('../fnt/mavenpro-bold-webfont.woff') format('woff'),
-         url('../fnt/mavenpro-bold-webfont.ttf') format('truetype'),
-         url('../fnt/mavenpro-bold-webfont.svg#maven_probold') format('svg');
+    font-family: "Maven Pro";
+    src: url("../fnt/mavenpro-bold-webfont.eot");
+    src: url("../fnt/mavenpro-bold-webfont.eot?#iefix") format("embedded-opentype"),
+        url("../fnt/mavenpro-bold-webfont.woff") format("woff"),
+        url("../fnt/mavenpro-bold-webfont.ttf") format("truetype"),
+        url("../fnt/mavenpro-bold-webfont.svg#maven_probold") format("svg");
     font-weight: bold;
     font-style: normal;
 }
 
- 
-    /* layout */
+/* layout */
 
 html {
-    font-family: 'Maven Pro';
+    font-family: "Maven Pro";
 }
 
 div.page,
@@ -77,7 +73,7 @@ div.page {
 
 div.header {
     background-color: rgba(64, 64, 64, 0.5);
-    box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
     top: 0px;
     width: 100%;
     height: 50px;
@@ -141,8 +137,7 @@ div.page-container.full-screen {
     padding-bottom: 0px;
 }
 
-
-    /* icons & icon buttons */
+/* icons & icon buttons */
 
 div.button.settings-button {
     border: 1px solid transparent;
@@ -151,7 +146,7 @@ div.button.settings-button {
     background-size: cover;
     width: 48px;
     height: 48px;
-    transition: transform 0.1s linear;    
+    transition: transform 0.1s linear;
 }
 
 div.settings-top-bar.open div.button.settings-button {
@@ -235,8 +230,7 @@ div.hostname {
     font-size: 27px;
 }
 
-
-    /* settings */
+/* settings */
 
 div.settings {
     background-color: #313131;
@@ -303,9 +297,6 @@ div.settings-section-title {
     user-select: none;
 }
 
-a.settings-section-title {
-}
-
 table.settings {
     width: 100%;
     padding: 0.5em 0.5em 1em 0.5em;
@@ -358,21 +349,21 @@ div.apply-button {
     text-align: center;
     margin: 10px;
     color: white;
-    background-color: #FF6F00;
+    background-color: #ff6f00;
     border-radius: 3px;
     transition: all 0.1s linear;
 }
 
-div.apply-button:HOVER {
-    background-color: #FF7D19;
+div.apply-button:hover {
+    background-color: #ff7d19;
 }
 
-div.apply-button:ACTIVE {
-    background-color: #F06800;
+div.apply-button:active {
+    background-color: #f06800;
 }
 
 div.apply-button.progress {
-    background-color: #FF6F00;
+    background-color: #ff6f00;
 }
 
 img.apply-progress {
@@ -399,7 +390,7 @@ div.edit-mask-button,
 div.save-mask-button,
 div.clear-mask-button,
 div.test-button {
-    background: #317CAD;
+    background: #317cad;
 }
 
 div.save-mask-button,
@@ -412,34 +403,34 @@ div.reboot-button {
     background: #c0392b;
 }
 
-div.update-button:HOVER,
-div.backup-button:HOVER,
-div.restore-button:HOVER,
-div.edit-mask-button:HOVER,
-div.save-mask-button:HOVER,
-div.clear-mask-button:HOVER,
-div.test-button:HOVER {
+div.update-button:hover,
+div.backup-button:hover,
+div.restore-button:hover,
+div.edit-mask-button:hover,
+div.save-mask-button:hover,
+div.clear-mask-button:hover,
+div.test-button:hover {
     background: #3498db;
 }
 
-div.shut-down-button:HOVER,
-div.reboot-button:HOVER {
-    background: #D43F2F;
+div.shut-down-button:hover,
+div.reboot-button:hover {
+    background: #d43f2f;
 }
 
-div.update-button:ACTIVE,
-div.backup-button:ACTIVE,
-div.restore-button:ACTIVE,
-div.edit-mask-button:ACTIVE,
-div.save-mask-button:ACTIVE,
-div.clear-mask-button:ACTIVE,
-div.test-button:ACTIVE {
-    background: #317CAD;
+div.update-button:active,
+div.backup-button:active,
+div.restore-button:active,
+div.edit-mask-button:active,
+div.save-mask-button:active,
+div.clear-mask-button:active,
+div.test-button:active {
+    background: #317cad;
 }
 
-div.shut-down-button:ACTIVE,
-div.reboot-button:ACTIVE {
-    background: #B03427;
+div.shut-down-button:active,
+div.reboot-button:active {
+    background: #b03427;
 }
 
 div.settings-top-bar.open #cameraSelect {
@@ -460,15 +451,15 @@ div.check-box.section div.check-box-button {
 }
 
 div.check-box.on.section div.check-box-button {
-    background-color: #317CAD;
+    background-color: #317cad;
 }
 
-div.check-box.on.section:FOCUS div.check-box-button,
-div.check-box.on.section:HOVER div.check-box-button {
+div.check-box.on.section:focus div.check-box-button,
+div.check-box.on.section:hover div.check-box-button {
     background-color: #3498db;
 }
 
-input[type=text].working-schedule.number {
+input[type="text"].working-schedule.number {
     width: 50px;
 }
 
@@ -476,7 +467,8 @@ input[type=text].working-schedule.number {
     width: 90%;
 }
 
-#motionMaskLinesEntry, #privacyMaskLinesEntry {
+#motionMaskLinesEntry,
+#privacyMaskLinesEntry {
     display: none;
 }
 
@@ -506,8 +498,8 @@ div.settings-section-title > span.help-mark {
     background-color: #515151;
 }
 
-div.settings-section-title:HOVER > span.help-mark,
-tr:HOVER span.help-mark {
+div.settings-section-title:hover > span.help-mark,
+tr:hover span.help-mark {
     visibility: visible;
 }
 
@@ -537,9 +529,8 @@ span.minimize.open {
     transform: rotate(0deg);
 }
 
+/* dialogs */
 
-    /* dialogs */
-    
 table.login-dialog {
     margin: auto;
     font-size: 22px; /* always bigger, regardless of screen size */
@@ -550,8 +541,8 @@ table.add-camera-dialog {
 }
 
 table.add-camera-dialog select,
-table.add-camera-dialog input[type=text],
-table.add-camera-dialog input[type=password] {
+table.add-camera-dialog input[type="text"],
+table.add-camera-dialog input[type="password"] {
     width: 17em;
 }
 
@@ -563,9 +554,6 @@ span#cameraMsgLabel {
 div#addCameraInfo {
     font-size: 0.7em;
     max-width: 33em;
-}
-
-div.media-dialog {
 }
 
 div.media-dialog-groups {
@@ -601,25 +589,25 @@ div.media-dialog-groups.small-screen div.media-dialog-group-button {
     display: inline-block;
 }
 
-div.media-dialog-group-button:HOVER {
+div.media-dialog-group-button:hover {
     background-color: #515151;
 }
 
-div.media-dialog-group-button:ACTIVE {
+div.media-dialog-group-button:active {
     background-color: #414141;
 }
 
 div.media-dialog-group-button.current {
-    background-color: #317CAD;
+    background-color: #317cad;
     color: white;
 }
 
-div.media-dialog-group-button.current:HOVER {
+div.media-dialog-group-button.current:hover {
     background-color: #3498db;
 }
 
-div.media-dialog-group-button.current:ACTIVE {
-    background-color: #317CAD;
+div.media-dialog-group-button.current:active {
+    background-color: #317cad;
 }
 
 div.media-dialog-list {
@@ -651,11 +639,11 @@ div.media-list-entry {
     transition: background-color 0.1s linear;
 }
 
-div.media-list-entry:HOVER {
+div.media-list-entry:hover {
     background-color: #494949;
 }
 
-div.media-list-entry:ACTIVE {
+div.media-list-entry:active {
     background-color: #3b3b3b;
 }
 
@@ -664,7 +652,7 @@ img.media-list-preview {
     height: 3em;
     margin: 0.45em;
     border: 1px solid #212121;
-    box-shadow: 1px 1px 6px rgba(0,0,0,0.3);
+    box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.3);
 }
 
 div.media-list-entry-name {
@@ -707,15 +695,15 @@ div.media-list-delete-button {
 div.media-list-download-button {
     margin-top: 0.4em;
     margin-bottom: 0.1em;
-    background: #317CAD;
+    background: #317cad;
 }
 
-div.media-list-download-button:HOVER {
+div.media-list-download-button:hover {
     background-color: #3498db;
 }
 
-div.media-list-download-button:ACTIVE {
-    background-color: #317CAD;
+div.media-list-download-button:active {
+    background-color: #317cad;
 }
 
 div.media-list-delete-button {
@@ -724,12 +712,12 @@ div.media-list-delete-button {
     background: #c0392b;
 }
 
-div.media-list-delete-button:HOVER {
-    background-color: #D43F2F;
+div.media-list-delete-button:hover {
+    background-color: #d43f2f;
 }
 
-div.media-list-delete-button:ACTIVE {
-    background-color: #B03427;
+div.media-list-delete-button:active {
+    background-color: #b03427;
 }
 
 div.media-dialog-buttons {
@@ -746,17 +734,17 @@ div.media-dialog-button {
     padding: 0px 0.5em;
     margin: 0px 5px 0px 0px;
     color: white;
-    background-color: #317CAD;
+    background-color: #317cad;
     border-radius: 3px;
     transition: all 0.1s linear;
 }
 
-div.media-dialog-button:HOVER {
+div.media-dialog-button:hover {
     background-color: #3498db;
 }
 
-div.media-dialog-button:ACTIVE {
-    background-color: #317CAD;
+div.media-dialog-button:active {
+    background-color: #317cad;
 }
 
 div.picture-dialog-content {
@@ -841,12 +829,12 @@ div.media-dialog-delete-all-button {
     background: #c0392b;
 }
 
-div.media-dialog-delete-all-button:HOVER {
-    background-color: #D43F2F;
+div.media-dialog-delete-all-button:hover {
+    background-color: #d43f2f;
 }
 
-div.media-dialog-delete-all-button:ACTIVE {
-    background-color: #B03427;
+div.media-dialog-delete-all-button:active {
+    background-color: #b03427;
 }
 
 div.button.dialog.delete {
@@ -858,8 +846,7 @@ td.login-dialog-error {
     display: none;
 }
 
-
-    /* camera frames */
+/* camera frames */
 
 div.camera-list {
     text-align: center;
@@ -887,7 +874,7 @@ div.camera-frame {
     overflow: hidden;
 }
 
-div.camera-frame:HOVER {
+div.camera-frame:hover {
     background-color: #414141;
 }
 
@@ -950,8 +937,8 @@ div.camera-overlay-bottom {
     transition: height 0.2s ease;
 }
 
-div.camera-frame:HOVER div.camera-overlay-top,
-div.camera-frame:HOVER div.camera-overlay-bottom {
+div.camera-frame:hover div.camera-overlay-top,
+div.camera-frame:hover div.camera-overlay-bottom {
     background-color: rgba(30, 30, 30, 0.8);
 }
 
@@ -1204,40 +1191,40 @@ div.camera-action-button.preset {
     font-weight: bold;
 }
 
-div.camera-action-button.preset1:BEFORE {
-    content: '1';
+div.camera-action-button.preset1:before {
+    content: "1";
 }
 
-div.camera-action-button.preset2:BEFORE {
-    content: '2';
+div.camera-action-button.preset2:before {
+    content: "2";
 }
 
-div.camera-action-button.preset3:BEFORE {
-    content: '3';
+div.camera-action-button.preset3:before {
+    content: "3";
 }
 
-div.camera-action-button.preset4:BEFORE {
-    content: '4';
+div.camera-action-button.preset4:before {
+    content: "4";
 }
 
-div.camera-action-button.preset5:BEFORE {
-    content: '5';
+div.camera-action-button.preset5:before {
+    content: "5";
 }
 
-div.camera-action-button.preset6:BEFORE {
-    content: '6';
+div.camera-action-button.preset6:before {
+    content: "6";
 }
 
-div.camera-action-button.preset7:BEFORE {
-    content: '7';
+div.camera-action-button.preset7:before {
+    content: "7";
 }
 
-div.camera-action-button.preset8:BEFORE {
-    content: '8';
+div.camera-action-button.preset8:before {
+    content: "8";
 }
 
-div.camera-action-button.preset9:BEFORE {
-    content: '9';
+div.camera-action-button.preset9:before {
+    content: "9";
 }
 
 div.camera-container {
@@ -1303,12 +1290,11 @@ img.camera-progress {
     margin: auto;
 }
 
-
-    /* media queries */
+/* media queries */
 
 @media all and (max-width: 1440px) {
     /* smaller screens */
-    
+
     body {
         font-size: 16px;
     }
@@ -1316,17 +1302,17 @@ img.camera-progress {
 
 @media all and (max-width: 1000px) {
     /* small screens (mobile devices, including tablets) */
-    
+
     div.page-container.stretched {
         margin-left: 0px;
         font-size: 16px;
     }
 
     div.settings.open {
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
         background-color: rgba(40, 40, 40, 0.9);
     }
-    
+
     div.hostname {
         display: none;
     }
@@ -1354,11 +1340,11 @@ img.camera-progress {
 
 @media all and (max-width: 400px) {
     /* very small screens (older phones) */
-    
+
     body {
         font-size: 16px;
     }
-    
+
     div.settings.open {
         min-width: 100%;
     }
@@ -1385,7 +1371,7 @@ img.camera-progress {
     div.camera-frame {
         width: 100% !important;
     }
-    
+
     #layoutColumnsRow {
         /* layout columns are ignored on small screens,
          * so hide the prefs row as well */
