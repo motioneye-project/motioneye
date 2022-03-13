@@ -15,17 +15,16 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import calendar
-import pickle
 import datetime
 import logging
 import multiprocessing
 import os
+import pickle
 import time
 
 from tornado.ioloop import IOLoop
 
 from motioneye import settings
-
 
 _INTERVAL = 2
 _STATE_FILE_NAME = 'tasks.pickle'

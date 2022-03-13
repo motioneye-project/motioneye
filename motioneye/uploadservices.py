@@ -14,23 +14,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
 import ftplib
+import io
 import json
 import logging
 import mimetypes
 import os
 import os.path
-import io
 import time
-import urllib.request
 import urllib.error
 import urllib.parse
-import pycurl
-import boto3
+import urllib.request
 
-from motioneye import settings
-from motioneye import utils
-import datetime
+import boto3
+import pycurl
+
+from motioneye import settings, utils
 
 _STATE_FILE_NAME = 'uploadservices.json'
 _services = None

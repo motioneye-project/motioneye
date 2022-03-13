@@ -14,12 +14,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import gettext
+
+from babel.support import Translations
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from motioneye import settings
-from motioneye.utils.dtconv import pretty_date_time, pretty_date, pretty_time, pretty_duration
-import gettext
-from babel.support import Translations
+from motioneye.utils.dtconv import (
+    pretty_date,
+    pretty_date_time,
+    pretty_duration,
+    pretty_time,
+)
+
 from .meyectl import traduction
 
 _jinja_env = None

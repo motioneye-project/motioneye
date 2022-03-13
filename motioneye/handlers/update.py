@@ -16,12 +16,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-
 from functools import cmp_to_key
 
-from motioneye.update import get_all_versions, get_os_version, compare_versions, perform_update
 from motioneye.handlers.base import BaseHandler
-
+from motioneye.update import (
+    compare_versions,
+    get_all_versions,
+    get_os_version,
+    perform_update,
+)
 
 __all__ = ('UpdateHandler',)
 

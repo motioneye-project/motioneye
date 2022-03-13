@@ -26,9 +26,8 @@ from tornado.ioloop import IOLoop
 from tornado.iostream import IOStream
 
 from motioneye import settings
-from motioneye.utils import build_basic_header, GetCamerasResponse, cast_future
+from motioneye.utils import GetCamerasResponse, build_basic_header, cast_future
 from motioneye.utils.http import RtspUrl
-
 
 __all__ = ('test_rtsp_url',)
 

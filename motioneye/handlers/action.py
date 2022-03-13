@@ -23,12 +23,8 @@ import subprocess
 from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
 
-from motioneye import config
-from motioneye import motionctl
-from motioneye import remote
-from motioneye import utils
+from motioneye import config, motionctl, remote, utils
 from motioneye.handlers.base import BaseHandler
-
 
 __all__ = ('ActionHandler',)
 

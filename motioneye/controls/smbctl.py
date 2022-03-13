@@ -20,12 +20,10 @@ import os
 import re
 import subprocess
 import time
-from motioneye import utils
 
 from tornado.ioloop import IOLoop
 
-from motioneye import config
-from motioneye import settings
+from motioneye import config, settings, utils
 
 
 def start():

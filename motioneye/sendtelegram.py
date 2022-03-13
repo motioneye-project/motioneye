@@ -14,14 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import datetime
+import io
 import logging
 import os
-import io
-import sys
 import re
 import signal
 import socket
+import sys
 import time
+
 #<<<<<<< HEAD
 #import urllib
 #import urllib2
@@ -40,17 +42,10 @@ import time
 #import tzctl
 #=======
 import pycurl
-import datetime
-
 from tornado.ioloop import IOLoop
 
-from motioneye import config
-from motioneye import mediafiles
-from motioneye import motionctl
-from motioneye import settings
-from motioneye import utils
+from motioneye import config, mediafiles, motionctl, settings, utils
 from motioneye.controls import tzctl
-
 
 messages = {
     'motion_start': 'Motion has been detected by camera "%(camera)s/%(hostname)s" at %(moment)s (%(timezone)s).'

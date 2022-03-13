@@ -22,21 +22,15 @@ import signal
 import smtplib
 import socket
 import time
-
 from email.encoders import encode_base64
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
 from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 from email.utils import formatdate
 
 from tornado.ioloop import IOLoop
 
-from motioneye import settings
-
-from motioneye import config
-from motioneye import mediafiles
-from motioneye import motionctl
-from motioneye import utils
+from motioneye import config, mediafiles, motionctl, settings, utils
 from motioneye.controls import tzctl
 
 messages = {

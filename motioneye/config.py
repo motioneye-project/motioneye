@@ -28,12 +28,7 @@ import urllib.parse
 
 from tornado.ioloop import IOLoop
 
-from motioneye import meyectl
-from motioneye import motionctl
-from motioneye import settings
-from motioneye import tasks
-from motioneye import uploadservices
-from motioneye import utils
+from motioneye import meyectl, motionctl, settings, tasks, uploadservices, utils
 from motioneye.controls import diskctl, smbctl, v4l2ctl
 from motioneye.controls.powerctl import PowerControl
 

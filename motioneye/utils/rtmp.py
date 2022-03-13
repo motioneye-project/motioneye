@@ -18,7 +18,6 @@
 from motioneye.utils import GetCamerasResponse
 from motioneye.utils.http import RtmpUrl
 
-
 __all__ = ('test_rtmp_url',)
 
 

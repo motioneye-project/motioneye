@@ -20,9 +20,7 @@ import logging
 
 from tornado.ioloop import IOLoop
 
-from motioneye import config
-from motioneye import motionctl
-from motioneye import utils
+from motioneye import config, motionctl, utils
 
 
 def _start_check_ws() -> None:

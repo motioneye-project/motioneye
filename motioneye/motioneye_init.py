@@ -17,7 +17,9 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import subprocess
+
 import motioneye
+
 
 def main():
     cmd = 'cd ' + motioneye.__path__[0] + ';sudo extra/linux_init'

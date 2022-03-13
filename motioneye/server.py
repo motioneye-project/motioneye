@@ -26,26 +26,25 @@ import time
 
 from tornado.ioloop import IOLoop
 from tornado.web import Application
-from .meyectl import lingvo
 
-from motioneye import settings
-from motioneye import template
+from motioneye import settings, template
 from motioneye.controls import smbctl, v4l2ctl
-from motioneye.handlers.main import MainHandler
 from motioneye.handlers.action import ActionHandler
-from motioneye.handlers.update import UpdateHandler
-from motioneye.handlers.movie import MovieHandler
-from motioneye.handlers.movie_playback import MovieDownloadHandler, MoviePlaybackHandler
+from motioneye.handlers.base import ManifestHandler, NotFoundHandler
+from motioneye.handlers.config import ConfigHandler
 from motioneye.handlers.log import LogHandler
 from motioneye.handlers.login import LoginHandler
-from motioneye.handlers.config import ConfigHandler
-from motioneye.handlers.base import ManifestHandler, NotFoundHandler
+from motioneye.handlers.main import MainHandler
+from motioneye.handlers.movie import MovieHandler
+from motioneye.handlers.movie_playback import MovieDownloadHandler, MoviePlaybackHandler
 from motioneye.handlers.picture import PictureHandler
-from motioneye.handlers.prefs import PrefsHandler
 from motioneye.handlers.power import PowerHandler
+from motioneye.handlers.prefs import PrefsHandler
 from motioneye.handlers.relay_event import RelayEventHandler
+from motioneye.handlers.update import UpdateHandler
 from motioneye.handlers.version import VersionHandler
 
+from .meyectl import lingvo
 
 _PID_FILE = 'motioneye.pid'
 _CURRENT_PICTURE_REGEX = re.compile(r'^/picture/\d+/current')
@@ -322,8 +321,7 @@ def make_media_folders():
 
 
 def start_motion():
-    from motioneye import config
-    from motioneye import motionctl
+    from motioneye import config, motionctl
 
     io_loop = IOLoop.instance()
 
@@ -364,11 +362,7 @@ def make_app(debug: bool = False) -> Application:
 
 def run():
     import motioneye
-    from motioneye import cleanup
-    from motioneye import mjpgclient
-    from motioneye import motionctl
-    from motioneye import tasks
-    from motioneye import wsswitch
+    from motioneye import cleanup, mjpgclient, motionctl, tasks, wsswitch
     from motioneye.controls import smbctl
 
     configure_signals()

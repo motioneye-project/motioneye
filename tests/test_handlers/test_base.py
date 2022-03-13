@@ -1,7 +1,7 @@
 import json
-import tornado.testing
-
 from unittest.mock import MagicMock
+
+import tornado.testing
 
 from motioneye.handlers.base import BaseHandler
 from tests.test_handlers import HandlerTestCase

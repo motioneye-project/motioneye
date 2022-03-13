@@ -16,9 +16,9 @@
 
 import json
 import logging
-import urllib.request
 import urllib.error
 import urllib.parse
+import urllib.request
 
 from motioneye import settings
 
@@ -31,8 +31,7 @@ def parse_options(parser, args):
 
 
 def main(parser, args):
-    from motioneye import meyectl
-    from motioneye import utils
+    from motioneye import meyectl, utils
 
     options = parse_options(parser, args)
 

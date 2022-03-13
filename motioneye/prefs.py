@@ -20,7 +20,6 @@ import os.path
 
 from motioneye import settings
 
-
 _PREFS_FILE_NAME = 'prefs.json'
 _DEFAULT_PREFS = {
     'layout_columns': 3,

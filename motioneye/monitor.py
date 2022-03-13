@@ -17,12 +17,11 @@
 import logging
 import subprocess
 import time
-import urllib.request
-import urllib.parse
 import urllib.error
+import urllib.parse
+import urllib.request
 
 from motioneye import config
-
 
 DEFAULT_INTERVAL = 1  # seconds
 

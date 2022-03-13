@@ -19,6 +19,7 @@ import errno
 import fcntl
 import functools
 import hashlib
+import io
 import logging
 import multiprocessing
 import os.path
@@ -26,7 +27,6 @@ import pipes
 import re
 import signal
 import stat
-import io
 import subprocess
 import time
 import typing
@@ -36,10 +36,7 @@ from PIL import Image
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 
-from motioneye import config
-from motioneye import settings
-from motioneye import utils
-from motioneye import uploadservices
+from motioneye import config, settings, uploadservices, utils
 from motioneye.utils.dtconv import pretty_date_time
 
 _PICTURE_EXTS = ['.jpg']

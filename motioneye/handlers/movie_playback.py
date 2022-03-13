@@ -22,12 +22,8 @@ import time
 
 from tornado.web import HTTPError, StaticFileHandler
 
-from motioneye import config
-from motioneye import remote
-from motioneye import mediafiles
-from motioneye import utils
+from motioneye import config, mediafiles, remote, utils
 from motioneye.handlers.base import BaseHandler
-
 
 __all__ = ('MoviePlaybackHandler', 'MovieDownloadHandler')
 

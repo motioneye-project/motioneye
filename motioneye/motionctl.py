@@ -22,13 +22,10 @@ import signal
 import subprocess
 import time
 
+from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.ioloop import IOLoop
-from tornado.httpclient import HTTPRequest, AsyncHTTPClient
 
-from motioneye import mediafiles
-from motioneye import settings
-from motioneye import update
-from motioneye import utils
+from motioneye import mediafiles, settings, update, utils
 from motioneye.controls.powerctl import PowerControl
 
 _MOTION_CONTROL_TIMEOUT = 5
@@ -74,8 +71,7 @@ def find_motion():
 
 
 def start(deferred=False):
-    from motioneye import config
-    from motioneye import mjpgclient
+    from motioneye import config, mjpgclient
 
     if deferred:
         io_loop = IOLoop.instance()

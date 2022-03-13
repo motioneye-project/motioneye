@@ -1,11 +1,10 @@
 from typing import Type, TypeVar
-
 from unittest.mock import MagicMock
-from tornado.web import Application, RequestHandler
+
 from tornado.testing import AsyncHTTPTestCase
+from tornado.web import Application, RequestHandler
 
 from motioneye.server import make_app
-
 
 __all__ = ('HandlerTestCase',)
 

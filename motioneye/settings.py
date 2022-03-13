@@ -1,7 +1,7 @@
 import logging
 import os.path
-import sys
 import socket
+import sys
 
 import motioneye
 

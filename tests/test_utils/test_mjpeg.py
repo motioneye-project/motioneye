@@ -2,8 +2,8 @@ import tornado.testing
 from tornado.concurrent import Future
 from tornado.web import RequestHandler
 
-from tests import WebTestCase
 from motioneye.utils.mjpeg import test_mjpeg_url
+from tests import WebTestCase
 
 
 class UtilsMjpegTest(WebTestCase):
