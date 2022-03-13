@@ -172,11 +172,11 @@ def main(parser, args):
 
     if len(args) == 12:
         # backwards compatibility with older configs lacking "from" field
-        _from = 'motionEye on %s <%s>' % (socket.gethostname(), args[7].split(',')[0])
+        _from = 'motionEye on {} <{}>'.format(socket.gethostname(), args[7].split(',')[0])
         args = args[:7] + [_from] + args[7:]
 
     if not args[7]:
-        args[7] = 'motionEye on %s <%s>' % (socket.gethostname(), args[8].split(',')[0])
+        args[7] = 'motionEye on {} <{}>'.format(socket.gethostname(), args[8].split(',')[0])
 
     options = parse_options(parser, args)
 

@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -220,8 +219,8 @@ async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
         logging.error(error)
         return utils.GetMotionDetectionResult(None, error=error)
 
-    url = 'http://127.0.0.1:%(port)s/%(id)s/detection/status' % {
-            'port': settings.MOTION_CONTROL_PORT, 'id': motion_camera_id}
+    url = 'http://127.0.0.1:{port}/{id}/detection/status'.format(
+            port=settings.MOTION_CONTROL_PORT, id=motion_camera_id)
 
     request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT, request_timeout=_MOTION_CONTROL_TIMEOUT)
     resp = await AsyncHTTPClient().fetch(request)
@@ -231,9 +230,9 @@ async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
     resp_body = resp.body.decode('utf-8')
     enabled = bool(resp_body.count('active'))
 
-    logging.debug('motion detection is %(what)s for camera with id %(id)s' % {
-        'what': ['disabled', 'enabled'][enabled],
-        'id': camera_id})
+    logging.debug('motion detection is {what} for camera with id {id}'.format(
+        what=['disabled', 'enabled'][enabled],
+        id=camera_id))
 
     return utils.GetMotionDetectionResult(enabled, None)
 
@@ -246,27 +245,27 @@ async def set_motion_detection(camera_id, enabled):
     if not enabled:
         _motion_detected[camera_id] = False
 
-    logging.debug('%(what)s motion detection for camera with id %(id)s' % {
-            'what': ['disabling', 'enabling'][enabled],
-            'id': camera_id})
+    logging.debug('{what} motion detection for camera with id {id}'.format(
+            what=['disabling', 'enabling'][enabled],
+            id=camera_id))
 
-    url = 'http://127.0.0.1:%(port)s/%(id)s/detection/%(enabled)s' % {
-            'port': settings.MOTION_CONTROL_PORT,
-            'id': motion_camera_id,
-            'enabled': ['pause', 'start'][enabled]}
+    url = 'http://127.0.0.1:{port}/{id}/detection/{enabled}'.format(
+            port=settings.MOTION_CONTROL_PORT,
+            id=motion_camera_id,
+            enabled=['pause', 'start'][enabled])
 
     request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT, request_timeout=_MOTION_CONTROL_TIMEOUT)
     resp = await AsyncHTTPClient().fetch(request)
     if resp.error:
-        logging.error('failed to %(what)s motion detection for camera with id %(id)s: %(msg)s' % {
-            'what': ['disable', 'enable'][enabled],
-            'id': camera_id,
-            'msg': utils.pretty_http_error(resp)})
+        logging.error('failed to {what} motion detection for camera with id {id}: {msg}'.format(
+            what=['disable', 'enable'][enabled],
+            id=camera_id,
+            msg=utils.pretty_http_error(resp)))
 
     else:
-        logging.debug('successfully %(what)s motion detection for camera with id %(id)s' % {
-            'what': ['disabled', 'enabled'][enabled],
-            'id': camera_id})
+        logging.debug('successfully {what} motion detection for camera with id {id}'.format(
+            what=['disabled', 'enabled'][enabled],
+            id=camera_id))
 
 
 async def take_snapshot(camera_id):
@@ -274,21 +273,21 @@ async def take_snapshot(camera_id):
     if motion_camera_id is None:
         return logging.error('could not find motion camera id for camera with id %s' % camera_id)
 
-    logging.debug('taking snapshot for camera with id %(id)s' % {'id': camera_id})
+    logging.debug(f'taking snapshot for camera with id {camera_id}')
 
-    url = 'http://127.0.0.1:%(port)s/%(id)s/action/snapshot' % {
-            'port': settings.MOTION_CONTROL_PORT,
-            'id': motion_camera_id}
+    url = 'http://127.0.0.1:{port}/{id}/action/snapshot'.format(
+            port=settings.MOTION_CONTROL_PORT,
+            id=motion_camera_id)
 
     request = HTTPRequest(url, connect_timeout=_MOTION_CONTROL_TIMEOUT, request_timeout=_MOTION_CONTROL_TIMEOUT)
     resp = await AsyncHTTPClient().fetch(request)
     if resp.error:
-        logging.error('failed to take snapshot for camera with id %(id)s: %(msg)s' % {
-            'id': camera_id,
-            'msg': utils.pretty_http_error(resp)})
+        logging.error('failed to take snapshot for camera with id {id}: {msg}'.format(
+            id=camera_id,
+            msg=utils.pretty_http_error(resp)))
 
     else:
-        logging.debug('successfully took snapshot for camera with id %(id)s' % {'id': camera_id})
+        logging.debug(f'successfully took snapshot for camera with id {camera_id}')
 
 
 def is_motion_detected(camera_id):
@@ -508,8 +507,8 @@ def _get_pid():
 
     # read the pid from file
     try:
-        with open(motion_pid_path, 'r') as f:
+        with open(motion_pid_path) as f:
             return int(f.readline().strip())
 
-    except (IOError, ValueError):
+    except (OSError, ValueError):
         return None

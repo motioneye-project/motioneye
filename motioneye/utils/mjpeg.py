@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -49,7 +48,7 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool) -> 'Futu
         else:
             auth = 'no'
 
-        logging.debug('testing (m)jpg netcam at %s using %s authentication' % (url, auth))
+        logging.debug(f'testing (m)jpg netcam at {url} using {auth} authentication')
 
         request = HTTPRequest(url, auth_username=url_obj.username, auth_password=url_obj.password or '',
                               auth_mode=auth_modes.pop(0),
@@ -86,7 +85,7 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool) -> 'Futu
 
         else:
             # check for the status header
-            m = re.match('^http/1.(\d) (\d+) ', header)
+            m = re.match(r'^http/1.(\d) (\d+) ', header)
             if m:
                 if int(m.group(2)) / 100 == 2:
                     status_2xx[0] = True

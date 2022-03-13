@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -42,8 +41,8 @@ class RelayEventHandler(BaseHandler):
             return self.finish_json()
 
         else:
-            logging.debug('received relayed event %(event)s for motion camera id %(id)s (camera id %(cid)s)' % {
-                'event': event, 'id': motion_camera_id, 'cid': camera_id})
+            logging.debug('received relayed event {event} for motion camera id {id} (camera id {cid})'.format(
+                event=event, id=motion_camera_id, cid=camera_id))
 
         camera_config = config.get_camera(camera_id)
         if not utils.is_local_motion_camera(camera_config):

@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -119,7 +118,7 @@ def _load():
             f = open(file_path, 'rb')
 
         except Exception as e:
-            logging.error('could not open tasks file "%s": %s' % (file_path, e))
+            logging.error(f'could not open tasks file "{file_path}": {e}')
 
             return
 
@@ -127,7 +126,7 @@ def _load():
             _tasks = pickle.load(f)
 
         except Exception as e:
-            logging.error('could not read tasks from file "%s": %s' % (file_path, e))
+            logging.error(f'could not read tasks from file "{file_path}": {e}')
 
         finally:
             f.close()
@@ -142,7 +141,7 @@ def _save():
         f = open(file_path, 'wb')
 
     except Exception as e:
-        logging.error('could not open tasks file "%s": %s' % (file_path, e))
+        logging.error(f'could not open tasks file "{file_path}": {e}')
 
         return
 
@@ -152,7 +151,7 @@ def _save():
         pickle.dump(tasks, f)
 
     except Exception as e:
-        logging.error('could not save tasks to file "%s": %s' % (file_path, e))
+        logging.error(f'could not save tasks to file "{file_path}": {e}')
 
     finally:
         f.close()

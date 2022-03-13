@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -27,7 +26,7 @@ def _list_mounts():
     seen_targets = set()
 
     mounts = []
-    with open('/proc/mounts', 'r') as f:
+    with open('/proc/mounts') as f:
         for line in f:
             line = line.strip()
             if not line:
@@ -52,7 +51,7 @@ def _list_mounts():
             if fstype == 'fuseblk':
                 fstype = 'ntfs'  # most likely
 
-            logging.debug('found mount "%s" at "%s"' % (target, mount_point))
+            logging.debug(f'found mount "{target}" at "{mount_point}"')
 
             mounts.append({
                 'target': target,
@@ -103,7 +102,7 @@ def _list_disks_dev_by_id():
             vendor, model = parts[:2]
 
         if part_no is not None:
-            logging.debug('found partition "%s" at "%s" on bus "%s": "%s %s"' % (part_no, target, bus, vendor, model))
+            logging.debug(f'found partition "{part_no}" at "{target}" on bus "{bus}": "{vendor} {model}"')
 
             partitions_by_dev[target] = {
                 'target': target,
@@ -115,7 +114,7 @@ def _list_disks_dev_by_id():
             }
 
         else:
-            logging.debug('found disk at "%s" on bus "%s": "%s %s"' % (target, bus, vendor, model))
+            logging.debug(f'found disk at "{target}" on bus "{bus}": "{vendor} {model}"')
 
             disks_by_dev[target] = {
                 'target': target,
@@ -172,7 +171,7 @@ def _list_disks_fdisk():
 
     for line in output.split('\n'):
         line = line.replace('*', '')
-        line = re.sub('\s+', ' ', line.strip())
+        line = re.sub(r'\s+', ' ', line.strip())
         if not line:
             continue
 
@@ -219,7 +218,7 @@ def list_mounted_disks():
 
     try:
         disks = _list_disks()
-        mounts_by_target = dict((m['target'], m) for m in _list_mounts())
+        mounts_by_target = {m['target']: m for m in _list_mounts()}
 
         for disk in disks:
             for partition in disk['partitions']:
@@ -244,7 +243,7 @@ def list_mounted_partitions():
 
     try:
         disks = _list_disks()
-        mounts_by_target = dict((m['target'], m) for m in _list_mounts())
+        mounts_by_target = {m['target']: m for m in _list_mounts()}
 
         for disk in disks:
             for partition in disk['partitions']:

@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -62,6 +61,6 @@ def _exec_monitor_command(command):
         interval = DEFAULT_INTERVAL
 
     out = out.strip()
-    logging.debug('monitoring command "%s" returned "%s"' % (command, out))
+    logging.debug(f'monitoring command "{command}" returned "{out}"')
 
     return out, interval

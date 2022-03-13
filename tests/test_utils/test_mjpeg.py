@@ -9,7 +9,7 @@ from motioneye.utils.mjpeg import test_mjpeg_url
 class UtilsMjpegTest(WebTestCase):
 
     def setUp(self) -> None:
-        super(UtilsMjpegTest, self).setUp()
+        super().setUp()
         self.data = None
 
     def get_handlers(self):

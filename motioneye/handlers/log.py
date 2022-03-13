@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -46,13 +45,13 @@ class LogHandler(BaseHandler):
         self.set_header('Content-Disposition', 'attachment; filename=' + filename + ';')
 
         if path.startswith('/'):  # an actual path
-            logging.debug('serving log file "%s" from "%s"' % (filename, path))
+            logging.debug(f'serving log file "{filename}" from "{path}"')
 
             with open(path) as f:
                 self.finish(f.read())
 
         else:  # a command to execute
-            logging.debug('serving log file "%s" from command "%s"' % (filename, path))
+            logging.debug(f'serving log file "{filename}" from command "{path}"')
 
             try:
                 output = utils.call_subprocess(path.split())

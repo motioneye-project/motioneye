@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -30,10 +29,10 @@ def _get_wifi_settings():
     logging.debug('reading wifi settings from %s' % WPA_SUPPLICANT_CONF)
 
     try:
-        conf_file = open(WPA_SUPPLICANT_CONF, 'r')
+        conf_file = open(WPA_SUPPLICANT_CONF)
 
     except Exception as e:
-        logging.error('could open wifi settings file %(path)s: %(msg)s' % {'path': WPA_SUPPLICANT_CONF, 'msg': str(e)})
+        logging.error(f'could open wifi settings file {WPA_SUPPLICANT_CONF}: {str(e)}')
 
         return {
             'wifiEnabled': False,
@@ -91,7 +90,7 @@ def _set_wifi_settings(s):
     s.setdefault('wifiNetworkName', '')
     s.setdefault('wifiNetworkKey', '')
 
-    logging.debug('writing wifi settings to %s: enabled=%s, ssid="%s"' % (
+    logging.debug('writing wifi settings to {}: enabled={}, ssid="{}"'.format(
             WPA_SUPPLICANT_CONF, s['wifiEnabled'], s['wifiNetworkName']))
 
     enabled = s['wifiEnabled']
@@ -102,11 +101,11 @@ def _set_wifi_settings(s):
 
     # will update the first configured network
     try:
-        conf_file = open(WPA_SUPPLICANT_CONF, 'r')
+        conf_file = open(WPA_SUPPLICANT_CONF)
 
     except Exception as e:
-        logging.error('could open wifi settings file %(path)s: %(msg)s' % {
-                'path': WPA_SUPPLICANT_CONF, 'msg': str(e)})
+        logging.error('could open wifi settings file {path}: {msg}'.format(
+                path=WPA_SUPPLICANT_CONF, msg=str(e)))
 
         return
 
@@ -192,8 +191,8 @@ def _set_wifi_settings(s):
         conf_file = open(WPA_SUPPLICANT_CONF, 'w')
 
     except Exception as e:
-        logging.error('could open wifi settings file %(path)s: %(msg)s' % {
-                'path': WPA_SUPPLICANT_CONF, 'msg': str(e)})
+        logging.error('could open wifi settings file {path}: {msg}'.format(
+                path=WPA_SUPPLICANT_CONF, msg=str(e)))
 
         return
 

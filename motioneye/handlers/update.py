@@ -46,7 +46,7 @@ class UpdateHandler(BaseHandler):
     def post(self):
         version = self.get_argument('version')
 
-        logging.debug('performing update to version %(version)s' % {'version': version})
+        logging.debug(f'performing update to version {version}')
 
         result = perform_update(version)
 

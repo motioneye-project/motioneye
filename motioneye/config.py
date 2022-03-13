@@ -198,22 +198,22 @@ def get_main(as_lines=False):
 
     config_file_path = os.path.join(settings.CONF_PATH, _MAIN_CONFIG_FILE_NAME)
 
-    logging.debug('reading main config from file %(path)s...' % {'path': config_file_path})
+    logging.debug(f'reading main config from file {config_file_path}...')
 
     lines = None
     try:
-        f = open(config_file_path, 'r')
+        f = open(config_file_path)
 
-    except IOError as e:
+    except OSError as e:
         if e.errno == errno.ENOENT:  # file does not exist
-            logging.info('main config file %(path)s does not exist, using default values' % {'path': config_file_path})
+            logging.info(f'main config file {config_file_path} does not exist, using default values')
 
             lines = []
             f = None
 
         else:
-            logging.error('could not open main config file %(path)s: %(msg)s' % {
-                'path': config_file_path, 'msg': str(e)})
+            logging.error('could not open main config file {path}: {msg}'.format(
+                path=config_file_path, msg=str(e)))
 
             raise
 
@@ -222,8 +222,8 @@ def get_main(as_lines=False):
             lines = [l[:-1] for l in f.readlines()]
 
         except Exception as e:
-            logging.error('could not read main config file %(path)s: %(msg)s' % {
-                'path': config_file_path, 'msg': str(e)})
+            logging.error('could not read main config file {path}: {msg}'.format(
+                path=config_file_path, msg=str(e)))
 
             raise
 
@@ -268,14 +268,14 @@ def set_main(main_config):
     lines = get_main(as_lines=True)
 
     # write the configuration to file
-    logging.debug('writing main config to %(path)s...' % {'path': config_file_path})
+    logging.debug(f'writing main config to {config_file_path}...')
 
     try:
         f = open(config_file_path, 'w')
 
     except Exception as e:
-        logging.error('could not open main config file %(path)s for writing: %(msg)s' % {
-            'path': config_file_path, 'msg': str(e)})
+        logging.error('could not open main config file {path} for writing: {msg}'.format(
+            path=config_file_path, msg=str(e)))
 
         raise
 
@@ -285,8 +285,8 @@ def set_main(main_config):
         f.writelines([utils.make_str(line) + '\n' for line in lines])
 
     except Exception as e:
-        logging.error('could not write main config file %(path)s: %(msg)s' % {
-            'path': config_file_path, 'msg': str(e)})
+        logging.error('could not write main config file {path}: {msg}'.format(
+            path=config_file_path, msg=str(e)))
 
         raise
 
@@ -302,7 +302,7 @@ def get_camera_ids(filter_valid=True):
 
     config_path = settings.CONF_PATH
 
-    logging.debug('listing config dir %(path)s...' % {'path': config_path})
+    logging.debug(f'listing config dir {config_path}...')
 
     try:
         ls = os.listdir(config_path)
@@ -315,13 +315,13 @@ def get_camera_ids(filter_valid=True):
 
     camera_ids = []
 
-    pattern = '^' + _CAMERA_CONFIG_FILE_NAME.replace('%(id)s', '(\d+)') + '$'
+    pattern = '^' + _CAMERA_CONFIG_FILE_NAME.replace('%(id)s', r'(\d+)') + '$'
     for name in ls:
         match = re.match(pattern, name)
         if match:
             camera_id = int(match.groups()[0])
-            logging.debug('found camera with id %(id)s' % {
-                'id': camera_id})
+            logging.debug('found camera with id {id}'.format(
+                id=camera_id))
 
             camera_ids.append(camera_id)
 
@@ -378,13 +378,13 @@ def get_camera(camera_id, as_lines=False):
 
     camera_config_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
 
-    logging.debug('reading camera config from %(path)s...' % {'path': camera_config_path})
+    logging.debug(f'reading camera config from {camera_config_path}...')
 
     try:
-        f = open(camera_config_path, 'r')
+        f = open(camera_config_path)
 
     except Exception as e:
-        logging.error('could not open camera config file: %(msg)s' % {'msg': str(e)})
+        logging.error(f'could not open camera config file: {str(e)}')
 
         raise
 
@@ -392,8 +392,8 @@ def get_camera(camera_id, as_lines=False):
         lines = [line.strip() for line in f.readlines()]
 
     except Exception as e:
-        logging.error('could not read camera config file %(path)s: %(msg)s' % {
-            'path': camera_config_path, 'msg': str(e)})
+        logging.error('could not read camera config file {path}: {msg}'.format(
+            path=camera_config_path, msg=str(e)))
 
         raise
 
@@ -482,14 +482,14 @@ def set_camera(camera_id, camera_config):
 
     # write the configuration to file
     camera_config_path = os.path.join(settings.CONF_PATH, _CAMERA_CONFIG_FILE_NAME) % {'id': camera_id}
-    logging.debug('writing camera config to %(path)s...' % {'path': camera_config_path})
+    logging.debug(f'writing camera config to {camera_config_path}...')
 
     try:
         f = open(camera_config_path, 'w')
 
     except Exception as e:
-        logging.error('could not open camera config file %(path)s for writing: %(msg)s' % {
-            'path': camera_config_path, 'msg': str(e)})
+        logging.error('could not open camera config file {path} for writing: {msg}'.format(
+            path=camera_config_path, msg=str(e)))
 
         raise
 
@@ -499,8 +499,8 @@ def set_camera(camera_id, camera_config):
         f.writelines([utils.make_str(line) + '\n' for line in lines])
 
     except Exception as e:
-        logging.error('could not write camera config file %(path)s: %(msg)s' % {
-            'path': camera_config_path, 'msg': str(e)})
+        logging.error('could not write camera config file {path}: {msg}'.format(
+            path=camera_config_path, msg=str(e)))
 
         raise
 
@@ -527,7 +527,7 @@ def add_camera(device_details):
     while camera_id in camera_ids:
         camera_id += 1
 
-    logging.info('adding new %(proto)s camera with id %(id)s...' % {'proto': proto, 'id': camera_id})
+    logging.info(f'adding new {proto} camera with id {camera_id}...')
 
     # prepare a default camera config
     camera_config = {'@enabled': True}
@@ -614,7 +614,7 @@ def rem_camera(camera_id):
 
     set_main(main_config)
 
-    logging.info('removing camera config file %(path)s...' % {'path': camera_config_path})
+    logging.info(f'removing camera config file {camera_config_path}...')
 
     _camera_ids_cache = None
     _camera_config_cache.clear()
@@ -623,8 +623,8 @@ def rem_camera(camera_id):
         os.remove(camera_config_path)
 
     except Exception as e:
-        logging.error('could not remove camera config file %(path)s: %(msg)s' % {
-            'path': camera_config_path, 'msg': str(e)})
+        logging.error('could not remove camera config file {path}: {msg}'.format(
+            path=camera_config_path, msg=str(e)))
 
         raise
 
@@ -823,7 +823,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
         if proto == 'v4l2':
             # video controls
-            vid_control_params = (('%s=%s' % (n, c['value'])) for n, c in list(ui['video_controls'].items()))
+            vid_control_params = (('{}={}'.format(n, c['value'])) for n, c in list(ui['video_controls'].items()))
             data['vid_control_params'] = ','.join(vid_control_params)
 
     else:  # assuming netcam
@@ -872,14 +872,14 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     # try to create the target dir
     try:
         os.makedirs(data['target_dir'])
-        logging.debug('created root directory %s for camera %s' % (data['target_dir'], data['camera_name']))
+        logging.debug('created root directory {} for camera {}'.format(data['target_dir'], data['camera_name']))
 
     except OSError as e:
         if isinstance(e, OSError) and e.errno == errno.EEXIST:
             pass  # already exists, things should be just fine
 
         else:
-            logging.error('failed to create root directory "%s": %s' % (data['target_dir'], e), exc_info=True)
+            logging.error('failed to create root directory "{}": {}'.format(data['target_dir'], e), exc_info=True)
 
     if ui['upload_enabled'] and '@id' in prev_config:
         upload_settings = {k[7:]: ui[k] for k in list(ui.keys()) if k.startswith('upload_')}
@@ -1005,10 +1005,10 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     if ui['web_hook_notifications_enabled']:
         url = re.sub('\\s', '+', ui['web_hook_notifications_url'])
 
-        on_event_start.append("%(script)s '%(method)s' '%(url)s'" % {
-            'script': meyectl.find_command('webhook'),
-            'method': ui['web_hook_notifications_http_method'],
-            'url': url})
+        on_event_start.append("{script} '{method}' '{url}'".format(
+            script=meyectl.find_command('webhook'),
+            method=ui['web_hook_notifications_http_method'],
+            url=url))
 
     if ui['command_notifications_enabled']:
         on_event_start += utils.split_semicolon(ui['command_notifications_exec'])
@@ -1039,10 +1039,10 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     if ui['web_hook_storage_enabled']:
         url = re.sub('\\s', '+', ui['web_hook_storage_url'])
 
-        on_movie_end.append("%(script)s '%(method)s' '%(url)s'" % {
-            'script': meyectl.find_command('webhook'),
-            'method': ui['web_hook_storage_http_method'],
-            'url': url})
+        on_movie_end.append("{script} '{method}' '{url}'".format(
+            script=meyectl.find_command('webhook'),
+            method=ui['web_hook_storage_http_method'],
+            url=url))
 
     if ui['command_storage_enabled']:
         on_movie_end += utils.split_semicolon(ui['command_storage_exec'])
@@ -1055,10 +1055,10 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     if ui['web_hook_storage_enabled']:
         url = re.sub('\\s', '+', ui['web_hook_storage_url'])
 
-        on_picture_save.append("%(script)s '%(method)s' '%(url)s'" % {
-            'script': meyectl.find_command('webhook'),
-            'method': ui['web_hook_storage_http_method'],
-            'url': url})
+        on_picture_save.append("{script} '{method}' '{url}'".format(
+            script=meyectl.find_command('webhook'),
+            method=ui['web_hook_storage_http_method'],
+            url=url))
 
     if ui['command_storage_enabled']:
         on_picture_save += utils.split_semicolon(ui['command_storage_exec'])
@@ -1601,7 +1601,7 @@ def get_action_commands(camera_config):
 
     action_commands = {}
     for action in _ACTIONS:
-        path = os.path.join(settings.CONF_PATH, '%s_%s' % (action, camera_id))
+        path = os.path.join(settings.CONF_PATH, f'{action}_{camera_id}')
         if os.access(path, os.X_OK):
             action_commands[action] = path
 
@@ -1763,7 +1763,7 @@ def _conf_to_dict(lines, list_names=None, no_convert=None):
         if len(line) == 0:  # empty line
             continue
 
-        match = re.match('^#\s*(@\w+)\s*(.*)', line)
+        match = re.match(r'^#\s*(@\w+)\s*(.*)', line)
         if match:
             name, value = match.groups()[:2]
 
@@ -1807,7 +1807,7 @@ def _dict_to_conf(lines, data, list_names=None):
             conf_lines.append(line)
             continue
 
-        match = re.match('^#\s*(@\w+)\s*(.*)', line)
+        match = re.match(r'^#\s*(@\w+)\s*(.*)', line)
         if match:  # @line
             (name, value) = match.groups()[:2]
 
@@ -2023,7 +2023,7 @@ def _set_default_simple_mjpeg_camera(camera_id, data):
 
 def get_additional_structure(camera, separators=False):
     if _additional_structure_cache.get((camera, separators)) is None:
-        logging.debug('loading additional config structure for %s, %s separators' % (
+        logging.debug('loading additional config structure for {}, {} separators'.format(
             'camera' if camera else 'main',
             'with' if separators else 'without'))
 
@@ -2077,7 +2077,7 @@ def _get_additional_config(data, camera_id=None):
     args = [camera_id] if camera_id else []
 
     (sections, configs) = get_additional_structure(camera=bool(camera_id))
-    get_funcs = set([c.get('get') for c in list(configs.values()) if c.get('get')])
+    get_funcs = {c.get('get') for c in list(configs.values()) if c.get('get')}
     get_func_values = collections.OrderedDict((f, f(*args)) for f in get_funcs)
 
     for name, section in list(sections.items()):

@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -64,18 +63,18 @@ class MjpgClient(IOStream):
         return self._port
 
     def on_close(self):
-        logging.debug('connection closed for mjpg client for camera %(camera_id)s on port %(port)s' % {
-                'port': self._port, 'camera_id': self._camera_id})
+        logging.debug('connection closed for mjpg client for camera {camera_id} on port {port}'.format(
+                port=self._port, camera_id=self._camera_id))
 
         if MjpgClient.clients.pop(self._camera_id, None):
-            logging.debug('mjpg client for camera %(camera_id)s on port %(port)s removed' % {
-                    'port': self._port, 'camera_id': self._camera_id})
+            logging.debug('mjpg client for camera {camera_id} on port {port} removed'.format(
+                    port=self._port, camera_id=self._camera_id))
 
         if getattr(self, 'error', None) and self.error.errno != errno.ECONNREFUSED:
             now = time.time()
             if now - MjpgClient._last_erroneous_close_time < settings.MJPG_CLIENT_TIMEOUT:
-                msg = 'connection problem detected for mjpg client for camera %(camera_id)s on port %(port)s' % {
-                        'port': self._port, 'camera_id': self._camera_id}
+                msg = 'connection problem detected for mjpg client for camera {camera_id} on port {port}'.format(
+                        port=self._port, camera_id=self._camera_id)
 
                 logging.error(msg)
 
@@ -109,8 +108,8 @@ class MjpgClient(IOStream):
 
     def _check_error(self) -> bool:
         if self.socket is None:
-            logging.warning('mjpg client connection for camera %(camera_id)s on port %(port)s is closed' % {
-                    'port': self._port, 'camera_id': self._camera_id})
+            logging.warning('mjpg client connection for camera {camera_id} on port {port} is closed'.format(
+                    port=self._port, camera_id=self._camera_id))
 
             self.close()
 
@@ -125,8 +124,8 @@ class MjpgClient(IOStream):
         return True
 
     def _error(self, error) -> None:
-        logging.error('mjpg client for camera %(camera_id)s on port %(port)s error: %(msg)s' % {
-                'port': self._port, 'camera_id': self._camera_id, 'msg': str(error)}, exc_info=True)
+        logging.error('mjpg client for camera {camera_id} on port {port} error: {msg}'.format(
+                port=self._port, camera_id=self._camera_id, msg=str(error)), exc_info=True)
 
         try:
             self.close()
@@ -140,8 +139,8 @@ class MjpgClient(IOStream):
         except Exception as e:
             self._error(e)
         else:
-            logging.debug('mjpg client for camera %(camera_id)s connected on port %(port)s' % {
-                    'port': self._port, 'camera_id': self._camera_id})
+            logging.debug('mjpg client for camera {camera_id} connected on port {port}'.format(
+                    port=self._port, camera_id=self._camera_id))
 
             if self._auth_mode == 'basic':
                 logging.debug('mjpg client using basic authentication')
@@ -161,7 +160,7 @@ class MjpgClient(IOStream):
         if self._check_error():
             return
 
-        future = utils.cast_future(self.read_until_regex(b'HTTP/1.\d \d+ '))
+        future = utils.cast_future(self.read_until_regex(br'HTTP/1.\d \d+ '))
         future.add_done_callback(self._on_http)
 
     def _on_http(self, future: Future) -> None:
@@ -203,7 +202,7 @@ class MjpgClient(IOStream):
 
             data = data.strip()
 
-            m = re.match(b'Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data)
+            m = re.match(br'Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data)
             if m:
                 logging.debug('mjpg client using basic authentication')
 
@@ -264,8 +263,8 @@ class MjpgClient(IOStream):
 
             matches = re.findall(rb'(\d+)', data)
             if not matches:
-                self._error('could not find content length in mjpg header line "%(header)s"' % {
-                        'header': data})
+                self._error('could not find content length in mjpg header line "{header}"'.format(
+                        header=data))
 
                 return
 
@@ -298,13 +297,13 @@ def get_jpg(camera_id):
     if camera_id not in MjpgClient.clients:
         # mjpg client not started yet for this camera
 
-        logging.debug('creating mjpg client for camera %(camera_id)s' % {
-                'camera_id': camera_id})
+        logging.debug('creating mjpg client for camera {camera_id}'.format(
+                camera_id=camera_id))
 
         camera_config = config.get_camera(camera_id)
         if not camera_config['@enabled'] or not utils.is_local_motion_camera(camera_config):
-            logging.error('could not start mjpg client for camera id %(camera_id)s: not enabled or not local' % {
-                    'camera_id': camera_id})
+            logging.error('could not start mjpg client for camera id {camera_id}: not enabled or not local'.format(
+                    camera_id=camera_id))
 
             return None
 
@@ -357,8 +356,8 @@ def _garbage_collector():
         last_jpg_time = client.get_last_jpg_time()
         delta = now - last_jpg_time
         if delta > settings.MJPG_CLIENT_TIMEOUT:
-            logging.error('mjpg client timed out receiving data for camera %(camera_id)s on port %(port)s' % {
-                    'camera_id': camera_id, 'port': port})
+            logging.error('mjpg client timed out receiving data for camera {camera_id} on port {port}'.format(
+                    camera_id=camera_id, port=port))
 
             if settings.MOTION_RESTART_ON_ERRORS:
                 motionctl.stop(invalidate=True)  # this will close all the mjpg clients

@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -94,7 +93,7 @@ class ConfigHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
     async def get_config(self, camera_id):
         if camera_id:
-            logging.debug('getting config for camera %(id)s' % {'id': camera_id})
+            logging.debug(f'getting config for camera {camera_id}')
 
             if camera_id not in config.get_camera_ids():
                 raise HTTPError(404, 'no such camera')
@@ -108,8 +107,8 @@ class ConfigHandler(BaseHandler):
             elif utils.is_remote_camera(local_config):
                 resp = await remote.get_config(local_config)
                 if resp.error:
-                    msg = 'Failed to get remote camera configuration for %(url)s: %(msg)s.' % {
-                        'url': remote.pretty_camera_url(local_config), 'msg': resp.error}
+                    msg = 'Failed to get remote camera configuration for {url}: {msg}.'.format(
+                        url=remote.pretty_camera_url(local_config), msg=resp.error)
                     return self.finish_json_with_error(msg)
 
                 for key, value in list(local_config.items()):
@@ -136,14 +135,14 @@ class ConfigHandler(BaseHandler):
             ui_config = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error('could not decode json: %(msg)s' % {'msg': str(e)})
+            logging.error(f'could not decode json: {str(e)}')
 
             raise
 
         camera_ids = config.get_camera_ids()
 
         async def set_camera_config(camera_id, ui_config, on_finish):
-            logging.debug('setting config for camera %(id)s...' % {'id': camera_id})
+            logging.debug(f'setting config for camera {camera_id}...')
 
             if camera_id not in camera_ids:
                 raise HTTPError(404, 'no such camera')
@@ -468,7 +467,7 @@ class ConfigHandler(BaseHandler):
             device_details = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error('could not decode json: %(msg)s' % {'msg': str(e)})
+            logging.error(f'could not decode json: {str(e)}')
 
             raise
 
@@ -507,7 +506,7 @@ class ConfigHandler(BaseHandler):
 
     @BaseHandler.auth(admin=True)
     def rem_camera(self, camera_id):
-        logging.debug('removing camera %(id)s' % {'id': camera_id})
+        logging.debug(f'removing camera {camera_id}')
 
         local = utils.is_local_motion_camera(config.get_camera(camera_id))
         config.rem_camera(camera_id)
@@ -557,11 +556,11 @@ class ConfigHandler(BaseHandler):
         (request_handler, service_name) = upload_service_test_info
 
         if result is True:
-            logging.info('accessing %s succeeded.result %s' % (service_name, result))
+            logging.info(f'accessing {service_name} succeeded.result {result}')
             return request_handler.finish_json()
 
         else:
-            logging.warning('accessing %s failed: %s' % (service_name, result))
+            logging.warning(f'accessing {service_name} failed: {result}')
             return request_handler.finish_json({'error': result})
 
     @BaseHandler.auth(admin=True)
@@ -576,12 +575,12 @@ class ConfigHandler(BaseHandler):
                 ConfigHandler._upload_service_test_info = (self, service_name)
 
                 result = uploadservices.test_access(camera_id=camera_id, service_name=service_name, data=data)
-                logging.debug('test access %s result %s' % (service_name, result))
+                logging.debug(f'test access {service_name} result {result}')
                 if result is True:
-                    logging.info('accessing %s succeeded.result %s' % (service_name, result))
+                    logging.info(f'accessing {service_name} succeeded.result {result}')
                     return self.finish_json()
                 else:
-                    logging.warning('accessing %s failed: %s' % (service_name, result))
+                    logging.warning(f'accessing {service_name} failed: {result}')
                     return self.finish_json({'error': result})
 
             elif what == 'email':
@@ -661,17 +660,17 @@ class ConfigHandler(BaseHandler):
                     self.finish_json({'error': str(msg)})
 
             elif what == 'network_share':
-                logging.debug('testing access to network share //%s/%s' % (data['server'], data['share']))
+                logging.debug('testing access to network share //{}/{}'.format(data['server'], data['share']))
 
                 try:
                     smbctl.test_share(data['server'], data['share'], data['smb_ver'], data['username'],
                                       data['password'], data['root_directory'])
 
-                    logging.debug('access to network share //%s/%s succeeded' % (data['server'], data['share']))
+                    logging.debug('access to network share //{}/{} succeeded'.format(data['server'], data['share']))
                     return self.finish_json()
 
                 except Exception as e:
-                    logging.error('access to network share //%s/%s failed: %s' % (data['server'], data['share'], e))
+                    logging.error('access to network share //{}/{} failed: {}'.format(data['server'], data['share'], e))
                     return self.finish_json({'error': str(e)})
 
             else:

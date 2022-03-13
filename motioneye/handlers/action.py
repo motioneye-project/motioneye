@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -45,8 +44,8 @@ class ActionHandler(BaseHandler):
         if utils.is_remote_camera(local_config):
             resp = await remote.exec_action(local_config, action)
             if resp.error:
-                msg = 'Failed to execute action on remote camera at %(url)s: %(msg)s.' % {
-                    'url': remote.pretty_camera_url(local_config), 'msg': resp.error}
+                msg = 'Failed to execute action on remote camera at {url}: {msg}.'.format(
+                    url=remote.pretty_camera_url(local_config), msg=resp.error)
 
                 return self.finish_json({'error': msg})
 
@@ -70,7 +69,7 @@ class ActionHandler(BaseHandler):
         if not command:
             raise HTTPError(400, 'unknown action')
 
-        logging.debug('executing %s action for camera with id %s: "%s"' % (action, camera_id, command))
+        logging.debug(f'executing {action} action for camera with id {camera_id}: "{command}"')
         self.run_command_bg(command)
 
     def run_command_bg(self, command):
@@ -89,14 +88,14 @@ class ActionHandler(BaseHandler):
                 lines = lines[:-1]
             command = os.path.basename(self.command)
             if exit_status:
-                logging.warning('%s: command has finished with non-zero exit status: %s' % (command, exit_status))
+                logging.warning(f'{command}: command has finished with non-zero exit status: {exit_status}')
                 for line in lines:
-                    logging.warning('%s: %s' % (command, line))
+                    logging.warning(f'{command}: {line}')
 
             else:
                 logging.debug('%s: command has finished' % command)
                 for line in lines:
-                    logging.debug('%s: %s' % (command, line))
+                    logging.debug(f'{command}: {line}')
 
             return self.finish_json({'status': exit_status})
 

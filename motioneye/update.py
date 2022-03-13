@@ -1,4 +1,3 @@
-
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
 #
@@ -108,7 +107,7 @@ def get_all_versions():
 
 
 def perform_update(version):
-    logging.info('updating to version %(version)s...' % {'version': version})
+    logging.info(f'updating to version {version}...')
 
     try:
         import platformupdate

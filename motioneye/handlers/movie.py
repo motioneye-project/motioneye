@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -73,7 +72,7 @@ class MovieHandler(BaseHandler):
 
     @BaseHandler.auth()
     async def list(self, camera_id):
-        logging.debug('listing movies for camera %(id)s' % {'id': camera_id})
+        logging.debug(f'listing movies for camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
@@ -90,8 +89,8 @@ class MovieHandler(BaseHandler):
         elif utils.is_remote_camera(camera_config):
             resp = await remote.list_media(camera_config, media_type='movie', prefix=self.get_argument('prefix', None))
             if resp.error:
-                return self.finish_json({'error': 'Failed to get movie list for %(url)s: %(msg)s.' % {
-                    'url': remote.pretty_camera_url(camera_config), 'msg': resp.error}})
+                return self.finish_json({'error': 'Failed to get movie list for {url}: {msg}.'.format(
+                    url=remote.pretty_camera_url(camera_config), msg=resp.error)})
 
             return self.finish_json(resp.media_list)
 
@@ -100,8 +99,8 @@ class MovieHandler(BaseHandler):
 
     @BaseHandler.auth()
     async def preview(self, camera_id, filename):
-        logging.debug('previewing movie %(filename)s of camera %(id)s' % {
-            'filename': filename, 'id': camera_id})
+        logging.debug('previewing movie {filename} of camera {id}'.format(
+            filename=filename, id=camera_id))
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
@@ -138,8 +137,8 @@ class MovieHandler(BaseHandler):
 
     @BaseHandler.auth(admin=True)
     async def delete(self, camera_id, filename):
-        logging.debug('deleting movie %(filename)s of camera %(id)s' % {
-            'filename': filename, 'id': camera_id})
+        logging.debug('deleting movie {filename} of camera {id}'.format(
+            filename=filename, id=camera_id))
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
@@ -153,8 +152,8 @@ class MovieHandler(BaseHandler):
         elif utils.is_remote_camera(camera_config):
             resp = await remote.del_media_content(camera_config, filename=filename, media_type='movie')
             if resp.error:
-                return self.finish_json({'error': 'Failed to delete movie from %(url)s: %(msg)s.' % {
-                    'url': remote.pretty_camera_url(camera_config), 'msg': resp.error}})
+                return self.finish_json({'error': 'Failed to delete movie from {url}: {msg}.'.format(
+                    url=remote.pretty_camera_url(camera_config), msg=resp.error)})
 
             return self.finish_json()
 
@@ -163,8 +162,8 @@ class MovieHandler(BaseHandler):
 
     @BaseHandler.auth(admin=True)
     async def delete_all(self, camera_id, group):
-        logging.debug('deleting movie group "%(group)s" of camera %(id)s' % {
-            'group': group or 'ungrouped', 'id': camera_id})
+        logging.debug('deleting movie group "{group}" of camera {id}'.format(
+            group=group or 'ungrouped', id=camera_id))
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
@@ -178,8 +177,8 @@ class MovieHandler(BaseHandler):
         elif utils.is_remote_camera(camera_config):
             resp = await remote.del_media_group(camera_config, group=group, media_type='movie')
             if resp.error:
-                return self.finish_json({'error': 'Failed to delete movie group at %(url)s: %(msg)s.' % {
-                    'url': remote.pretty_camera_url(camera_config), 'msg': resp.error}})
+                return self.finish_json({'error': 'Failed to delete movie group at {url}: {msg}.'.format(
+                    url=remote.pretty_camera_url(camera_config), msg=resp.error)})
 
             return self.finish_json()
 

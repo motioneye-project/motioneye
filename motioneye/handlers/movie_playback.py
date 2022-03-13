@@ -1,4 +1,3 @@
-
 # Copyright (c) 2020 Vlsarro
 # Copyright (c) 2013 Calin Crisan
 # This file is part of motionEye.
@@ -41,8 +40,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
     @BaseHandler.auth()
     async def get(self, camera_id, filename=None, include_body=True):
-        logging.debug('downloading movie %(filename)s of camera %(id)s' % {
-            'filename': filename, 'id': camera_id})
+        logging.debug('downloading movie {filename} of camera {id}'.format(
+            filename=filename, id=camera_id))
 
         self.pretty_filename = os.path.basename(filename)
 
@@ -73,8 +72,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
             resp = await remote.get_media_content(camera_config, filename, media_type='movie')
             if resp.error:
-                return self.finish_json({'error': 'Failed to download movie from %(url)s: %(msg)s.' % {
-                    'url': remote.pretty_camera_url(camera_config), 'msg': resp.error}})
+                return self.finish_json({'error': 'Failed to download movie from {url}: {msg}.'.format(
+                    url=remote.pretty_camera_url(camera_config), msg=resp.error)})
 
             # check if the file has been created by another request while we were fetching the movie
             if not os.path.isfile(tmpfile):
