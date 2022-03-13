@@ -603,6 +603,4 @@ def call_subprocess(args, stdin=None, input=None, stdout=subprocess.PIPE, stderr
     """subprocess.run wrapper to return output as a decoded string"""
     return subprocess.run(
         args, stdin=stdin, input=input, stdout=stdout, stderr=stderr, capture_output=capture_output, shell=shell,
-        cwd=cwd, timeout=timeout, check=check, encoding=encoding, errors=errors, text=text, env=env,
-        text=universal_newlines
-    ).stdout.strip()
+        cwd=cwd, timeout=timeout, check=check, encoding=encoding, errors=errors, text=text, env=env).stdout.strip()
