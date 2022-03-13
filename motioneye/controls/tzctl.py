@@ -17,10 +17,9 @@
 import hashlib
 import logging
 import os
-from motioneye import settings
-from motioneye import utils
-from motioneye.config import additional_config
 
+from motioneye import settings, utils
+from motioneye.config import additional_config
 
 LOCAL_TIME_FILE = settings.LOCAL_TIME_FILE  # @UndefinedVariable
 

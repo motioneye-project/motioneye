@@ -22,7 +22,6 @@ from tornado.ioloop import IOLoop
 from motioneye.controls.powerctl import PowerControl
 from motioneye.handlers.base import BaseHandler
 
-
 __all__ = ('PowerHandler',)
 
 

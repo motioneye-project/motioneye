@@ -17,13 +17,11 @@
 import json
 import logging
 import re
-
 from typing import Union
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPResponse
 
-from motioneye import settings
-from motioneye import utils
+from motioneye import settings, utils
 
 _DOUBLE_SLASH_REGEX = re.compile('//+')
 

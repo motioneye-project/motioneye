@@ -22,8 +22,8 @@ import re
 import stat
 import subprocess
 import time
-from motioneye import utils
 
+from motioneye import utils
 
 _resolutions_cache = {}
 _ctrls_cache = {}

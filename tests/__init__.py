@@ -1,8 +1,7 @@
 from unittest import mock
 
-from tornado.web import Application
 from tornado.testing import AsyncHTTPTestCase
-
+from tornado.web import Application
 
 __all__ = ('AsyncMock', 'WebTestCase')
 

@@ -20,7 +20,6 @@ import logging
 
 from motioneye.handlers.base import BaseHandler
 
-
 __all__ = ('PrefsHandler',)
 
 

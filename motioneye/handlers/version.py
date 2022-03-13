@@ -17,10 +17,9 @@
 
 import socket
 
+from motioneye.handlers.base import BaseHandler
 from motioneye.motionctl import find_motion
 from motioneye.update import get_os_version
-from motioneye.handlers.base import BaseHandler
-
 
 __all__ = ('VersionHandler',)
 

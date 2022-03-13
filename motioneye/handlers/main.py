@@ -15,13 +15,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from motioneye import config
-from motioneye import motionctl
-from motioneye import settings
-from motioneye import update
-from motioneye import utils
+from motioneye import config, motionctl, settings, update, utils
 from motioneye.handlers.base import BaseHandler
-
 
 __all__ = ('MainHandler',)
 

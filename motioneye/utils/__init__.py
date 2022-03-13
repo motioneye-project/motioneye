@@ -24,19 +24,18 @@ import subprocess
 import sys
 import time
 import typing
-import urllib.request
 import urllib.error
 import urllib.parse
-import numpy
-
-from dataclasses import dataclass
+import urllib.request
 from collections import namedtuple
+from dataclasses import dataclass
+
+import numpy
 from PIL import Image, ImageDraw
-from tornado.ioloop import IOLoop
 from tornado.concurrent import Future
+from tornado.ioloop import IOLoop
 
 from motioneye import settings
-
 
 _SIGNATURE_REGEX = re.compile(r'[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}

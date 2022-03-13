@@ -20,10 +20,8 @@ import os
 
 from tornado.web import HTTPError
 
-from motioneye import settings
-from motioneye import utils
+from motioneye import settings, utils
 from motioneye.handlers.base import BaseHandler
-
 
 __all__ = ('LogHandler',)
 

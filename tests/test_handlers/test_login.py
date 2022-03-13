@@ -1,4 +1,5 @@
 import json
+
 import tornado.testing
 
 from motioneye.handlers.login import LoginHandler

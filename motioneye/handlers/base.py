@@ -19,14 +19,9 @@ import hashlib
 import json
 import logging
 
-from tornado.web import RequestHandler, HTTPError
+from tornado.web import HTTPError, RequestHandler
 
-from motioneye import config
-from motioneye import prefs
-from motioneye import settings
-from motioneye import template
-from motioneye import utils
-
+from motioneye import config, prefs, settings, template, utils
 
 __all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')
 

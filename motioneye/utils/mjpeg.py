@@ -17,16 +17,14 @@
 
 import logging
 import re
-
 from typing import List
 
 from tornado.concurrent import Future
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPResponse
 
 from motioneye import settings
-from motioneye.utils import pretty_http_error, GetCamerasResponse, cast_future
+from motioneye.utils import GetCamerasResponse, cast_future, pretty_http_error
 from motioneye.utils.http import MjpegUrl
-
 
 __all__ = ('test_mjpeg_url',)
 

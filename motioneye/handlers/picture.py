@@ -23,16 +23,17 @@ import re
 from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
 
-from motioneye import config
-from motioneye import remote
-from motioneye import mediafiles
-from motioneye import monitor
-from motioneye import motionctl
-from motioneye import mjpgclient
-from motioneye import settings
-from motioneye import utils
+from motioneye import (
+    config,
+    mediafiles,
+    mjpgclient,
+    monitor,
+    motionctl,
+    remote,
+    settings,
+    utils,
+)
 from motioneye.handlers.base import BaseHandler
-
 
 __all__ = ('PictureHandler',)
 

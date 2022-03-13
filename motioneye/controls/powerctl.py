@@ -22,7 +22,6 @@ from typing import Dict
 
 from motioneye import utils
 
-
 __all__ = ('PowerControl',)
 
 

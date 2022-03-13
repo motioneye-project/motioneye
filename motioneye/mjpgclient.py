@@ -25,10 +25,7 @@ from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 from tornado.iostream import IOStream
 
-from motioneye import config
-from motioneye import motionctl
-from motioneye import settings
-from motioneye import utils
+from motioneye import config, motionctl, settings, utils
 
 
 class MjpgClient(IOStream):

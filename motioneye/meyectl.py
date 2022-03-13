@@ -17,12 +17,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import argparse
+import gettext
+import locale
 import logging
 import os.path
 import pipes
 import sys
-import locale
-import gettext
 
 # ŝarĝante tradukojn
 locale.setlocale(locale.LC_ALL, '')

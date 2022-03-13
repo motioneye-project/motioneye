@@ -1,7 +1,6 @@
 import inspect
 from dataclasses import dataclass
-from typing import Union, Any, Hashable
-
+from typing import Any, Hashable, Union
 
 __all__ = ('RtmpUrl', 'RtspUrl', 'MjpegUrl')
 

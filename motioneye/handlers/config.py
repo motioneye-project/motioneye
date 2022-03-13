@@ -23,20 +23,13 @@ import socket
 from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
 
-from motioneye import config
-from motioneye import utils
-from motioneye import remote
-from motioneye import settings
-from motioneye import motionctl
-from motioneye import tasks
-from motioneye import uploadservices
+from motioneye import config, motionctl, remote, settings, tasks, uploadservices, utils
 from motioneye.controls import mmalctl, smbctl, tzctl, v4l2ctl
 from motioneye.controls.powerctl import PowerControl
 from motioneye.handlers.base import BaseHandler
 from motioneye.utils.mjpeg import test_mjpeg_url
 from motioneye.utils.rtmp import test_rtmp_url
 from motioneye.utils.rtsp import test_rtsp_url
-
 
 __all__ = ('ConfigHandler',)
 
@@ -584,8 +577,9 @@ class ConfigHandler(BaseHandler):
                     return self.finish_json({'error': result})
 
             elif what == 'email':
-                from motioneye import sendmail
                 import smtplib
+
+                from motioneye import sendmail
 
                 logging.debug('testing notification email')
 
