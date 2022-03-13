@@ -31,21 +31,31 @@ class RelayEventHandler(BaseHandler):
 
         camera_id = motionctl.motion_camera_id_to_camera_id(motion_camera_id)
         if camera_id is None:
-            logging.debug('ignoring event for unknown motion camera id %s' % motion_camera_id)
+            logging.debug(
+                'ignoring event for unknown motion camera id %s' % motion_camera_id
+            )
             return self.finish_json()
 
         else:
-            logging.debug('received relayed event {event} for motion camera id {id} (camera id {cid})'.format(
-                event=event, id=motion_camera_id, cid=camera_id))
+            logging.debug(
+                'received relayed event {event} for motion camera id {id} (camera id {cid})'.format(
+                    event=event, id=motion_camera_id, cid=camera_id
+                )
+            )
 
         camera_config = config.get_camera(camera_id)
         if not utils.is_local_motion_camera(camera_config):
-            logging.warning('ignoring event for non-local camera with id %s' % camera_id)
+            logging.warning(
+                'ignoring event for non-local camera with id %s' % camera_id
+            )
             return self.finish_json()
 
         if event == 'start':
             if not camera_config['@motion_detection']:
-                logging.debug('ignoring start event for camera with id %s and motion detection disabled' % camera_id)
+                logging.debug(
+                    'ignoring start event for camera with id %s and motion detection disabled'
+                    % camera_id
+                )
                 return self.finish_json()
 
             motionctl.set_motion_detected(camera_id, True)
@@ -57,8 +67,13 @@ class RelayEventHandler(BaseHandler):
             filename = self.get_argument('filename')
 
             # generate preview (thumbnail)
-            tasks.add(5, mediafiles.make_movie_preview, tag='make_movie_preview(%s)' % filename,
-                      camera_config=camera_config, full_path=filename)
+            tasks.add(
+                5,
+                mediafiles.make_movie_preview,
+                tag='make_movie_preview(%s)' % filename,
+                camera_config=camera_config,
+                full_path=filename,
+            )
 
             # upload to external service
             if camera_config['@upload_enabled'] and camera_config['@upload_movie']:
@@ -79,8 +94,14 @@ class RelayEventHandler(BaseHandler):
     def upload_media_file(self, filename, camera_id, camera_config):
         service_name = camera_config['@upload_service']
 
-        tasks.add(5, uploadservices.upload_media_file, tag='upload_media_file(%s)' % filename,
-                  camera_id=camera_id, service_name=service_name,
-                  camera_name=camera_config['camera_name'],
-                  target_dir=camera_config['@upload_subfolders'] and camera_config['target_dir'],
-                  filename=filename)
+        tasks.add(
+            5,
+            uploadservices.upload_media_file,
+            tag='upload_media_file(%s)' % filename,
+            camera_id=camera_id,
+            service_name=service_name,
+            camera_name=camera_config['camera_name'],
+            target_dir=camera_config['@upload_subfolders']
+            and camera_config['target_dir'],
+            filename=filename,
+        )

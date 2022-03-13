@@ -27,19 +27,23 @@ __all__ = ('PowerControl',)
 
 class PowerControl:
 
-    _shut_down_cmd_sequence = OrderedDict([
-        ('poweroff', ''),
-        ('shutdown', ' -h now'),
-        ('systemctl', ' poweroff'),
-        ('init', ' 0')
-    ])
+    _shut_down_cmd_sequence = OrderedDict(
+        [
+            ('poweroff', ''),
+            ('shutdown', ' -h now'),
+            ('systemctl', ' poweroff'),
+            ('init', ' 0'),
+        ]
+    )
 
-    _reboot_cmd_sequence = OrderedDict([
-        ('reboot', ''),
-        ('shutdown', ' -r now'),
-        ('systemctl', ' reboot'),
-        ('init', ' 6'),
-    ])
+    _reboot_cmd_sequence = OrderedDict(
+        [
+            ('reboot', ''),
+            ('shutdown', ' -r now'),
+            ('systemctl', ' reboot'),
+            ('init', ' 6'),
+        ]
+    )
 
     @staticmethod
     def _find_prog(prog: str) -> str:

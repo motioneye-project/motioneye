@@ -32,7 +32,9 @@ class MjpgClient(IOStream):
     _FPS_LEN = 10
 
     clients = {}  # dictionary of clients indexed by camera id
-    _last_erroneous_close_time = 0  # helps detecting erroneous connections and restart motion
+    _last_erroneous_close_time = (
+        0  # helps detecting erroneous connections and restart motion
+    )
 
     def __init__(self, camera_id, port, username, password, auth_mode):
         self._camera_id = camera_id
@@ -60,23 +62,35 @@ class MjpgClient(IOStream):
         return self._port
 
     def on_close(self):
-        logging.debug('connection closed for mjpg client for camera {camera_id} on port {port}'.format(
-                port=self._port, camera_id=self._camera_id))
+        logging.debug(
+            'connection closed for mjpg client for camera {camera_id} on port {port}'.format(
+                port=self._port, camera_id=self._camera_id
+            )
+        )
 
         if MjpgClient.clients.pop(self._camera_id, None):
-            logging.debug('mjpg client for camera {camera_id} on port {port} removed'.format(
-                    port=self._port, camera_id=self._camera_id))
+            logging.debug(
+                'mjpg client for camera {camera_id} on port {port} removed'.format(
+                    port=self._port, camera_id=self._camera_id
+                )
+            )
 
         if getattr(self, 'error', None) and self.error.errno != errno.ECONNREFUSED:
             now = time.time()
-            if now - MjpgClient._last_erroneous_close_time < settings.MJPG_CLIENT_TIMEOUT:
+            if (
+                now - MjpgClient._last_erroneous_close_time
+                < settings.MJPG_CLIENT_TIMEOUT
+            ):
                 msg = 'connection problem detected for mjpg client for camera {camera_id} on port {port}'.format(
-                        port=self._port, camera_id=self._camera_id)
+                    port=self._port, camera_id=self._camera_id
+                )
 
                 logging.error(msg)
 
                 if settings.MOTION_RESTART_ON_ERRORS:
-                    motionctl.stop(invalidate=True)  # this will close all the mjpg clients
+                    motionctl.stop(
+                        invalidate=True
+                    )  # this will close all the mjpg clients
                     motionctl.start(deferred=True)
 
             MjpgClient._last_erroneous_close_time = now
@@ -101,19 +115,26 @@ class MjpgClient(IOStream):
         if time.time() - self._last_jpg_times[-1] > 1:
             return 0  # everything below 1 fps is considered 0
 
-        return (len(self._last_jpg_times) - 1) / (self._last_jpg_times[-1] - self._last_jpg_times[0])
+        return (len(self._last_jpg_times) - 1) / (
+            self._last_jpg_times[-1] - self._last_jpg_times[0]
+        )
 
     def _check_error(self) -> bool:
         if self.socket is None:
-            logging.warning('mjpg client connection for camera {camera_id} on port {port} is closed'.format(
-                    port=self._port, camera_id=self._camera_id))
+            logging.warning(
+                'mjpg client connection for camera {camera_id} on port {port} is closed'.format(
+                    port=self._port, camera_id=self._camera_id
+                )
+            )
 
             self.close()
 
             return True
 
         error = getattr(self, 'error', None)
-        if (error is None) or (getattr(error, 'errno', None) == 0):  # error could also be ESUCCESS for some reason
+        if (error is None) or (
+            getattr(error, 'errno', None) == 0
+        ):  # error could also be ESUCCESS for some reason
             return False
 
         self._error(error)
@@ -121,8 +142,12 @@ class MjpgClient(IOStream):
         return True
 
     def _error(self, error) -> None:
-        logging.error('mjpg client for camera {camera_id} on port {port} error: {msg}'.format(
-                port=self._port, camera_id=self._camera_id, msg=str(error)), exc_info=True)
+        logging.error(
+            'mjpg client for camera {camera_id} on port {port} error: {msg}'.format(
+                port=self._port, camera_id=self._camera_id, msg=str(error)
+            ),
+            exc_info=True,
+        )
 
         try:
             self.close()
@@ -136,16 +161,24 @@ class MjpgClient(IOStream):
         except Exception as e:
             self._error(e)
         else:
-            logging.debug('mjpg client for camera {camera_id} connected on port {port}'.format(
-                    port=self._port, camera_id=self._camera_id))
+            logging.debug(
+                'mjpg client for camera {camera_id} connected on port {port}'.format(
+                    port=self._port, camera_id=self._camera_id
+                )
+            )
 
             if self._auth_mode == 'basic':
                 logging.debug('mjpg client using basic authentication')
 
                 auth_header = utils.build_basic_header(self._username, self._password)
-                self.write(b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header)
+                self.write(
+                    b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
+                    % auth_header
+                )
 
-            elif self._auth_mode == 'digest':  # in digest auth mode, the header is built upon receiving 401
+            elif (
+                self._auth_mode == 'digest'
+            ):  # in digest auth mode, the header is built upon receiving 401
                 self.write(b'GET / HTTP/1.1\r\n\r\n')
 
             else:  # no authentication
@@ -204,7 +237,10 @@ class MjpgClient(IOStream):
                 logging.debug('mjpg client using basic authentication')
 
                 auth_header = utils.build_basic_header(self._username, self._password)
-                w_data = b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header
+                w_data = (
+                    b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
+                    % auth_header
+                )
                 w_future = utils.cast_future(self.write(w_data))
                 w_future.add_done_callback(self._seek_http)
 
@@ -219,9 +255,13 @@ class MjpgClient(IOStream):
 
                 self._auth_digest_state = parts_dict
 
-                auth_header = utils.build_digest_header('GET', '/', self._username, self._password,
-                                                        self._auth_digest_state)
-                w_data = b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n' % auth_header
+                auth_header = utils.build_digest_header(
+                    'GET', '/', self._username, self._password, self._auth_digest_state
+                )
+                w_data = (
+                    b'GET / HTTP/1.1\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
+                    % auth_header
+                )
                 w_future = utils.cast_future(self.write(w_data))
                 w_future.add_done_callback(self._seek_http)
 
@@ -260,8 +300,11 @@ class MjpgClient(IOStream):
 
             matches = re.findall(rb'(\d+)', data)
             if not matches:
-                self._error('could not find content length in mjpg header line "{header}"'.format(
-                        header=data))
+                self._error(
+                    'could not find content length in mjpg header line "{header}"'.format(
+                        header=data
+                    )
+                )
 
                 return
 
@@ -287,20 +330,26 @@ class MjpgClient(IOStream):
 def start():
     # schedule the garbage collector
     io_loop = IOLoop.instance()
-    io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
+    io_loop.add_timeout(
+        datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector
+    )
 
 
 def get_jpg(camera_id):
     if camera_id not in MjpgClient.clients:
         # mjpg client not started yet for this camera
 
-        logging.debug('creating mjpg client for camera {camera_id}'.format(
-                camera_id=camera_id))
+        logging.debug(f'creating mjpg client for camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
-        if not camera_config['@enabled'] or not utils.is_local_motion_camera(camera_config):
-            logging.error('could not start mjpg client for camera id {camera_id}: not enabled or not local'.format(
-                    camera_id=camera_id))
+        if not camera_config['@enabled'] or not utils.is_local_motion_camera(
+            camera_config
+        ):
+            logging.error(
+                'could not start mjpg client for camera id {camera_id}: not enabled or not local'.format(
+                    camera_id=camera_id
+                )
+            )
 
             return None
 
@@ -308,8 +357,12 @@ def get_jpg(camera_id):
         username, password = None, None
         auth_mode = None
         if camera_config.get('stream_auth_method') > 0:
-            username, password = camera_config.get('stream_authentication', ':').split(':')
-            auth_mode = 'digest' if camera_config.get('stream_auth_method') > 1 else 'basic'
+            username, password = camera_config.get('stream_authentication', ':').split(
+                ':'
+            )
+            auth_mode = (
+                'digest' if camera_config.get('stream_auth_method') > 1 else 'basic'
+            )
 
         client = MjpgClient(camera_id, port, username, password, auth_mode)
         client.do_connect()
@@ -340,7 +393,9 @@ def close_all(invalidate=False):
 
 def _garbage_collector():
     io_loop = IOLoop.instance()
-    io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector)
+    io_loop.add_timeout(
+        datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector
+    )
 
     now = time.time()
     for camera_id, client in list(MjpgClient.clients.items()):
@@ -353,8 +408,11 @@ def _garbage_collector():
         last_jpg_time = client.get_last_jpg_time()
         delta = now - last_jpg_time
         if delta > settings.MJPG_CLIENT_TIMEOUT:
-            logging.error('mjpg client timed out receiving data for camera {camera_id} on port {port}'.format(
-                    camera_id=camera_id, port=port))
+            logging.error(
+                'mjpg client timed out receiving data for camera {camera_id} on port {port}'.format(
+                    camera_id=camera_id, port=port
+                )
+            )
 
             if settings.MOTION_RESTART_ON_ERRORS:
                 motionctl.stop(invalidate=True)  # this will close all the mjpg clients
@@ -364,10 +422,19 @@ def _garbage_collector():
 
         # check for last access timeout
         delta = now - client.get_last_access()
-        if settings.MJPG_CLIENT_IDLE_TIMEOUT and delta > settings.MJPG_CLIENT_IDLE_TIMEOUT:
-            msg = ('mjpg client for camera %(camera_id)s on port %(port)s has been idle '
-                   'for %(timeout)s seconds, removing it' % {
-                    'camera_id': camera_id, 'port': port, 'timeout': settings.MJPG_CLIENT_IDLE_TIMEOUT})
+        if (
+            settings.MJPG_CLIENT_IDLE_TIMEOUT
+            and delta > settings.MJPG_CLIENT_IDLE_TIMEOUT
+        ):
+            msg = (
+                'mjpg client for camera %(camera_id)s on port %(port)s has been idle '
+                'for %(timeout)s seconds, removing it'
+                % {
+                    'camera_id': camera_id,
+                    'port': port,
+                    'timeout': settings.MJPG_CLIENT_IDLE_TIMEOUT,
+                }
+            )
 
             logging.debug(msg)
 

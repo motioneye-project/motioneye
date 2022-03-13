@@ -62,7 +62,9 @@ def stop():
 
 def add(when, func, tag=None, callback=None, **params):
     if len(_tasks) >= _MAX_TASKS:
-        return logging.error('the maximum number of tasks (%d) has been reached' % _MAX_TASKS)
+        return logging.error(
+            'the maximum number of tasks (%d) has been reached' % _MAX_TASKS
+        )
 
     now = time.time()
 
@@ -95,7 +97,9 @@ def _check_tasks():
         (when, func, tag, callback, params) = _tasks.pop(0)  # @UnusedVariable
 
         logging.debug('executing task "%s"' % tag or func.__name__)
-        _pool.apply_async(func, kwds=params, callback=callback if callable(callback) else None)
+        _pool.apply_async(
+            func, kwds=params, callback=callback if callable(callback) else None
+        )
 
         changed = True
 

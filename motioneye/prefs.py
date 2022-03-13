@@ -26,7 +26,7 @@ _DEFAULT_PREFS = {
     'fit_frames_vertically': True,
     'layout_rows': 1,
     'framerate_factor': 1,
-    'resolution_factor': 1
+    'resolution_factor': 1,
 }
 
 _prefs = None
@@ -60,7 +60,10 @@ def _load():
             f.close()
 
     else:
-        logging.debug('preferences file "%s" does not exist, using default preferences' % file_path)
+        logging.debug(
+            'preferences file "%s" does not exist, using default preferences'
+            % file_path
+        )
 
 
 def _save():

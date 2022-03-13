@@ -29,7 +29,9 @@ from motioneye.utils.http import MjpegUrl
 __all__ = ('test_mjpeg_url',)
 
 
-def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool) -> 'Future[GetCamerasResponse]':
+def test_mjpeg_url(
+    data: dict, auth_modes: List[str], allow_jpeg: bool
+) -> 'Future[GetCamerasResponse]':
     url_obj = MjpegUrl.from_dict(data)
     url = str(url_obj)
 
@@ -48,11 +50,16 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool) -> 'Futu
 
         logging.debug(f'testing (m)jpg netcam at {url} using {auth} authentication')
 
-        request = HTTPRequest(url, auth_username=url_obj.username, auth_password=url_obj.password or '',
-                              auth_mode=auth_modes.pop(0),
-                              connect_timeout=settings.REMOTE_REQUEST_TIMEOUT,
-                              request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
-                              header_callback=on_header, validate_cert=settings.VALIDATE_CERTS)
+        request = HTTPRequest(
+            url,
+            auth_username=url_obj.username,
+            auth_password=url_obj.password or '',
+            auth_mode=auth_modes.pop(0),
+            connect_timeout=settings.REMOTE_REQUEST_TIMEOUT,
+            request_timeout=settings.REMOTE_REQUEST_TIMEOUT,
+            header_callback=on_header,
+            validate_cert=settings.VALIDATE_CERTS,
+        )
 
         fetch_future = cast_future(AsyncHTTPClient(force_instance=True).fetch(request))
         fetch_future.add_done_callback(on_response)
@@ -65,21 +72,37 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool) -> 'Futu
             called[0] = True
 
             if content_type in ['image/jpg', 'image/jpeg', 'image/pjpg'] and allow_jpeg:
-                future.set_result(GetCamerasResponse([{
-                    'id': 1,
-                    'name': 'JPEG Network Camera',
-                    'keep_alive': http_11[0]
-                }], None))
+                future.set_result(
+                    GetCamerasResponse(
+                        [
+                            {
+                                'id': 1,
+                                'name': 'JPEG Network Camera',
+                                'keep_alive': http_11[0],
+                            }
+                        ],
+                        None,
+                    )
+                )
 
             elif content_type.startswith('multipart/x-mixed-replace'):
-                future.set_result(GetCamerasResponse([{
-                    'id': 1,
-                    'name': 'MJPEG Network Camera',
-                    'keep_alive': http_11[0]
-                }], None))
+                future.set_result(
+                    GetCamerasResponse(
+                        [
+                            {
+                                'id': 1,
+                                'name': 'MJPEG Network Camera',
+                                'keep_alive': http_11[0],
+                            }
+                        ],
+                        None,
+                    )
+                )
 
             else:
-                future.set_result(GetCamerasResponse(None, error='not a supported network camera'))
+                future.set_result(
+                    GetCamerasResponse(None, error='not a supported network camera')
+                )
 
         else:
             # check for the status header
@@ -99,7 +122,11 @@ def test_mjpeg_url(data: dict, auth_modes: List[str], allow_jpeg: bool) -> 'Futu
 
             else:
                 called[0] = True
-                error = pretty_http_error(response) if response.error else 'not a supported network camera'
+                error = (
+                    pretty_http_error(response)
+                    if response.error
+                    else 'not a supported network camera'
+                )
                 future.set_result(GetCamerasResponse(None, error=error))
 
     do_request()

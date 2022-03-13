@@ -35,7 +35,6 @@ __all__ = ('ConfigHandler',)
 
 
 class ConfigHandler(BaseHandler):
-
     async def get(self, camera_id=None, op=None):
         config.invalidate_monitor_commands()
 
@@ -101,14 +100,17 @@ class ConfigHandler(BaseHandler):
                 resp = await remote.get_config(local_config)
                 if resp.error:
                     msg = 'Failed to get remote camera configuration for {url}: {msg}.'.format(
-                        url=remote.pretty_camera_url(local_config), msg=resp.error)
+                        url=remote.pretty_camera_url(local_config), msg=resp.error
+                    )
                     return self.finish_json_with_error(msg)
 
                 for key, value in list(local_config.items()):
                     resp.remote_ui_config[key.replace('@', '')] = value
 
                 # replace the real device url with the remote camera path
-                resp.remote_ui_config['device_url'] = remote.pretty_camera_url(local_config)
+                resp.remote_ui_config['device_url'] = remote.pretty_camera_url(
+                    local_config
+                )
                 return self.finish_json(resp.remote_ui_config)
 
             else:  # assuming simple mjpeg camera
@@ -154,6 +156,7 @@ class ConfigHandler(BaseHandler):
                 config.set_camera(camera_id, local_config)
 
                 if 'name' in ui_config:
+
                     def on_finish_wrapper(e=None):
                         return on_finish(e, False)
 
@@ -168,7 +171,9 @@ class ConfigHandler(BaseHandler):
                     on_finish(None, False)
 
             else:  # assuming simple mjpeg camera
-                local_config = config.simple_mjpeg_camera_ui_to_dict(ui_config, local_config)
+                local_config = config.simple_mjpeg_camera_ui_to_dict(
+                    ui_config, local_config
+                )
 
                 config.set_camera(camera_id, local_config)
 
@@ -191,8 +196,18 @@ class ConfigHandler(BaseHandler):
             normal_password = main_config.get('@normal_password')
 
             additional_configs = config.get_additional_structure(camera=False)[1]
-            reboot_config_names = [('@_' + c['name']) for c in list(additional_configs.values()) if c.get('reboot')]
-            reboot = bool([k for k in reboot_config_names if old_main_config.get(k) != main_config.get(k)])
+            reboot_config_names = [
+                ('@_' + c['name'])
+                for c in list(additional_configs.values())
+                if c.get('reboot')
+            ]
+            reboot = bool(
+                [
+                    k
+                    for k in reboot_config_names
+                    if old_main_config.get(k) != main_config.get(k)
+                ]
+            )
 
             config.set_main(main_config)
 
@@ -205,7 +220,9 @@ class ConfigHandler(BaseHandler):
                 reload = True
 
             if normal_username != old_normal_username or normal_password is not None:
-                logging.debug('surveillance credentials changed, all camera configs must be updated')
+                logging.debug(
+                    'surveillance credentials changed, all camera configs must be updated'
+                )
 
                 # reconfigure all local cameras to update the stream authentication options
                 for camera_id in config.get_camera_ids():
@@ -214,7 +231,9 @@ class ConfigHandler(BaseHandler):
                         continue
 
                     ui_config = config.motion_camera_dict_to_ui(local_config)
-                    local_config = config.motion_camera_ui_to_dict(ui_config, local_config)
+                    local_config = config.motion_camera_ui_to_dict(
+                        ui_config, local_config
+                    )
 
                     config.set_camera(camera_id, local_config)
 
@@ -230,12 +249,15 @@ class ConfigHandler(BaseHandler):
 
         reload = False  # indicates that browser should reload the page
         reboot = [False]  # indicates that the server will reboot immediately
-        restart = [False]  # indicates that the local motion instance was modified and needs to be restarted
+        restart = [
+            False
+        ]  # indicates that the local motion instance was modified and needs to be restarted
         error = [None]
 
         def finish():
             if reboot[0]:
                 if settings.ENABLE_REBOOT:
+
                     def call_reboot():
                         PowerControl.reboot()
 
@@ -299,6 +321,7 @@ class ConfigHandler(BaseHandler):
                         await set_camera_config(int(key), cfg, check_finished)
 
             else:  # single camera config
+
                 def on_finish(e, r):
                     error[0] = e
                     restart[0] = r
@@ -329,16 +352,24 @@ class ConfigHandler(BaseHandler):
         else:
             return False
 
-    def _handle_get_config_response(self, camera_id, local_config, resp: utils.GetConfigResponse, cameras: list,
-                                    length: list) -> None:
+    def _handle_get_config_response(
+        self,
+        camera_id,
+        local_config,
+        resp: utils.GetConfigResponse,
+        cameras: list,
+        length: list,
+    ) -> None:
         if resp.error:
-            cameras.append({
-                'id': camera_id,
-                'name': '&lt;' + remote.pretty_camera_url(local_config) + '&gt;',
-                'enabled': False,
-                'streaming_framerate': 1,
-                'framerate': 1
-            })
+            cameras.append(
+                {
+                    'id': camera_id,
+                    'name': '&lt;' + remote.pretty_camera_url(local_config) + '&gt;',
+                    'enabled': False,
+                    'streaming_framerate': 1,
+                    'framerate': 1,
+                }
+            )
 
         else:
             resp.remote_ui_config['id'] = camera_id
@@ -366,13 +397,17 @@ class ConfigHandler(BaseHandler):
 
         proto = self.get_argument('proto')
         if proto == 'motioneye':  # remote listing
-            return self._handle_list_cameras_response(await remote.list_cameras(self.get_all_arguments()))
+            return self._handle_list_cameras_response(
+                await remote.list_cameras(self.get_all_arguments())
+            )
 
         elif proto == 'netcam':
             scheme = self.get_argument('scheme', 'http')
 
             if scheme in ['http', 'https', 'mjpeg']:
-                resp = await test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic'], allow_jpeg=True)
+                resp = await test_mjpeg_url(
+                    self.get_all_arguments(), auth_modes=['basic'], allow_jpeg=True
+                )
                 return self._handle_list_cameras_response(resp)
 
             elif scheme == 'rtsp':
@@ -387,7 +422,11 @@ class ConfigHandler(BaseHandler):
                 return self.finish_json_with_error(f'protocol {scheme} not supported')
 
         elif proto == 'mjpeg':
-            resp = await test_mjpeg_url(self.get_all_arguments(), auth_modes=['basic', 'digest'], allow_jpeg=False)
+            resp = await test_mjpeg_url(
+                self.get_all_arguments(),
+                auth_modes=['basic', 'digest'],
+                allow_jpeg=False,
+            )
             return self._handle_list_cameras_response(resp)
 
         elif proto == 'v4l2':
@@ -397,8 +436,11 @@ class ConfigHandler(BaseHandler):
                 if utils.is_v4l2_camera(data):
                     configured_devices.add(data['videodevice'])
 
-            cameras = [{'id': d[1], 'name': d[2]} for d in v4l2ctl.list_devices()
-                       if (d[0] not in configured_devices) and (d[1] not in configured_devices)]
+            cameras = [
+                {'id': d[1], 'name': d[2]}
+                for d in v4l2ctl.list_devices()
+                if (d[0] not in configured_devices) and (d[1] not in configured_devices)
+            ]
 
             return self.finish_json({'cameras': cameras})
 
@@ -409,8 +451,11 @@ class ConfigHandler(BaseHandler):
                 if utils.is_mmal_camera(data):
                     configured_devices.add(data['mmalcam_name'])
 
-            cameras = [{'id': d[0], 'name': d[1]} for d in mmalctl.list_devices()
-                       if (d[0] not in configured_devices)]
+            cameras = [
+                {'id': d[0], 'name': d[1]}
+                for d in mmalctl.list_devices()
+                if (d[0] not in configured_devices)
+            ]
 
             return self.finish_json({'cameras': cameras})
 
@@ -435,14 +480,23 @@ class ConfigHandler(BaseHandler):
                         return
 
                 elif utils.is_remote_camera(local_config):
-                    if local_config.get('@enabled') or self.get_argument('force', None) == 'true':
+                    if (
+                        local_config.get('@enabled')
+                        or self.get_argument('force', None) == 'true'
+                    ):
                         resp = await remote.get_config(local_config)
-                        return self._handle_get_config_response(camera_id, local_config, resp, cameras, length)
+                        return self._handle_get_config_response(
+                            camera_id, local_config, resp, cameras, length
+                        )
 
                     else:  # don't try to reach the remote of the camera is disabled
-                        return self._handle_get_config_response(camera_id, local_config,
-                                                                utils.GetConfigResponse(None, error=True), cameras,
-                                                                length)
+                        return self._handle_get_config_response(
+                            camera_id,
+                            local_config,
+                            utils.GetConfigResponse(None, error=True),
+                            cameras,
+                            length,
+                        )
 
                 else:  # assuming simple mjpeg camera
                     ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
@@ -536,7 +590,7 @@ class ConfigHandler(BaseHandler):
             return self.finish_json({'ok': True, 'reboot': result['reboot']})
 
         else:
-            return  self.finish_json({'ok': False})
+            return self.finish_json({'ok': False})
 
     @classmethod
     def _on_test_result(cls, result):
@@ -567,7 +621,9 @@ class ConfigHandler(BaseHandler):
                 service_name = data['service']
                 ConfigHandler._upload_service_test_info = (self, service_name)
 
-                result = uploadservices.test_access(camera_id=camera_id, service_name=service_name, data=data)
+                result = uploadservices.test_access(
+                    camera_id=camera_id, service_name=service_name, data=data
+                )
                 logging.debug(f'test access {service_name} result {result}')
                 if result is True:
                     logging.info(f'accessing {service_name} succeeded.result {result}')
@@ -602,9 +658,18 @@ class ConfigHandler(BaseHandler):
 
                     old_timeout = settings.SMTP_TIMEOUT
                     settings.SMTP_TIMEOUT = 10
-                    sendmail.send_mail(data['smtp_server'], int(data['smtp_port']), data['smtp_account'],
-                                       data['smtp_password'], data['smtp_tls'], data['from'], [data['addresses']],
-                                       subject=subject, message=message, files=[])
+                    sendmail.send_mail(
+                        data['smtp_server'],
+                        int(data['smtp_port']),
+                        data['smtp_account'],
+                        data['smtp_password'],
+                        data['smtp_tls'],
+                        data['from'],
+                        [data['addresses']],
+                        subject=subject,
+                        message=message,
+                        files=[],
+                    )
 
                     settings.SMTP_TIMEOUT = old_timeout
                     logging.debug('notification email test succeeded')
@@ -630,7 +695,9 @@ class ConfigHandler(BaseHandler):
                     elif msg_lower.count('connection refused'):
                         msg = 'check SMTP port'
 
-                    logging.error('notification email test failed: %s' % msg, exc_info=True)
+                    logging.error(
+                        'notification email test failed: %s' % msg, exc_info=True
+                    )
                     return self.finish_json({'error': str(msg)})
 
             elif what == 'telegram':
@@ -640,7 +707,9 @@ class ConfigHandler(BaseHandler):
 
                 try:
                     message = 'This is a test of motionEye\'s telegram messaging'
-                    sendtelegram.send_message(data['api'], int(data['chatid']), message=message, files=[])
+                    sendtelegram.send_message(
+                        data['api'], int(data['chatid']), message=message, files=[]
+                    )
 
                     self.finish_json()
 
@@ -650,21 +719,41 @@ class ConfigHandler(BaseHandler):
                     msg = str(e)
 
                     msg_lower = msg.lower()
-                    logging.error('telegram notification test failed: %s' % msg, exc_info=True)
+                    logging.error(
+                        'telegram notification test failed: %s' % msg, exc_info=True
+                    )
                     self.finish_json({'error': str(msg)})
 
             elif what == 'network_share':
-                logging.debug('testing access to network share //{}/{}'.format(data['server'], data['share']))
+                logging.debug(
+                    'testing access to network share //{}/{}'.format(
+                        data['server'], data['share']
+                    )
+                )
 
                 try:
-                    smbctl.test_share(data['server'], data['share'], data['smb_ver'], data['username'],
-                                      data['password'], data['root_directory'])
+                    smbctl.test_share(
+                        data['server'],
+                        data['share'],
+                        data['smb_ver'],
+                        data['username'],
+                        data['password'],
+                        data['root_directory'],
+                    )
 
-                    logging.debug('access to network share //{}/{} succeeded'.format(data['server'], data['share']))
+                    logging.debug(
+                        'access to network share //{}/{} succeeded'.format(
+                            data['server'], data['share']
+                        )
+                    )
                     return self.finish_json()
 
                 except Exception as e:
-                    logging.error('access to network share //{}/{} failed: {}'.format(data['server'], data['share'], e))
+                    logging.error(
+                        'access to network share //{}/{} failed: {}'.format(
+                            data['server'], data['share'], e
+                        )
+                    )
                     return self.finish_json({'error': str(e)})
 
             else:
@@ -689,7 +778,9 @@ class ConfigHandler(BaseHandler):
 
         url = uploadservices.get_authorize_url(service_name)
         if not url:
-            raise HTTPError(400, 'no authorization url for upload service %s' % service_name)
+            raise HTTPError(
+                400, 'no authorization url for upload service %s' % service_name
+            )
 
         logging.debug('redirected to authorization url %s' % url)
         self.redirect(url)

@@ -175,24 +175,48 @@ def _log_request(handler):
 
     if log_method:
         request_time = 1000.0 * handler.request.request_time()
-        log_method("%d %s %.2fms", handler.get_status(),
-                   handler._request_summary(), request_time)
+        log_method(
+            "%d %s %.2fms",
+            handler.get_status(),
+            handler._request_summary(),
+            request_time,
+        )
 
 
 handler_mapping = [
     (r'^/$', MainHandler),
     (r'^/manifest.json$', ManifestHandler),
     (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),
-    (r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize)/?$', ConfigHandler),
+    (
+        r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize)/?$',
+        ConfigHandler,
+    ),
     (r'^/config/(?P<op>add|list|backup|restore)/?$', ConfigHandler),
     (r'^/picture/(?P<camera_id>\d+)/(?P<op>current|list|frame)/?$', PictureHandler),
-    (r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$', PictureHandler),
-    (r'^/picture/(?P<camera_id>\d+)/(?P<op>zipped|timelapse|delete_all)/(?P<group>.*?)/?$', PictureHandler),
+    (
+        r'^/picture/(?P<camera_id>\d+)/(?P<op>download|preview|delete)/(?P<filename>.+?)/?$',
+        PictureHandler,
+    ),
+    (
+        r'^/picture/(?P<camera_id>\d+)/(?P<op>zipped|timelapse|delete_all)/(?P<group>.*?)/?$',
+        PictureHandler,
+    ),
     (r'^/movie/(?P<camera_id>\d+)/(?P<op>list)/?$', MovieHandler),
-    (r'^/movie/(?P<camera_id>\d+)/(?P<op>preview|delete)/(?P<filename>.+?)/?$', MovieHandler),
+    (
+        r'^/movie/(?P<camera_id>\d+)/(?P<op>preview|delete)/(?P<filename>.+?)/?$',
+        MovieHandler,
+    ),
     (r'^/movie/(?P<camera_id>\d+)/(?P<op>delete_all)/(?P<group>.*?)/?$', MovieHandler),
-    (r'^/movie/(?P<camera_id>\d+)/playback/(?P<filename>.+?)/?$', MoviePlaybackHandler, {'path': r''}),
-    (r'^/movie/(?P<camera_id>\d+)/download/(?P<filename>.+?)/?$', MovieDownloadHandler, {'path': r''}),
+    (
+        r'^/movie/(?P<camera_id>\d+)/playback/(?P<filename>.+?)/?$',
+        MoviePlaybackHandler,
+        {'path': r''},
+    ),
+    (
+        r'^/movie/(?P<camera_id>\d+)/download/(?P<filename>.+?)/?$',
+        MovieDownloadHandler,
+        {'path': r''},
+    ),
     (r'^/action/(?P<camera_id>\d+)/(?P<action>\w+)/?$', ActionHandler),
     (r'^/prefs/(?P<key>\w+)?/?$', PrefsHandler),
     (r'^/_relay_event/?$', RelayEventHandler),
@@ -224,19 +248,29 @@ def configure_signals():
 
 def test_requirements():
     if not os.access(settings.CONF_PATH, os.W_OK):
-        logging.fatal('config directory "%s" does not exist or is not writable' % settings.CONF_PATH)
+        logging.fatal(
+            'config directory "%s" does not exist or is not writable'
+            % settings.CONF_PATH
+        )
         sys.exit(-1)
 
     if not os.access(settings.RUN_PATH, os.W_OK):
-        logging.fatal('pid directory "%s" does not exist or is not writable' % settings.RUN_PATH)
+        logging.fatal(
+            'pid directory "%s" does not exist or is not writable' % settings.RUN_PATH
+        )
         sys.exit(-1)
 
     if not os.access(settings.LOG_PATH, os.W_OK):
-        logging.fatal('log directory "%s" does not exist or is not writable' % settings.LOG_PATH)
+        logging.fatal(
+            'log directory "%s" does not exist or is not writable' % settings.LOG_PATH
+        )
         sys.exit(-1)
 
     if not os.access(settings.MEDIA_PATH, os.W_OK):
-        logging.fatal('media directory "%s" does not exist or is not writable' % settings.MEDIA_PATH)
+        logging.fatal(
+            'media directory "%s" does not exist or is not writable'
+            % settings.MEDIA_PATH
+        )
         sys.exit(-1)
 
     if os.geteuid() != 0:
@@ -273,9 +307,11 @@ def test_requirements():
         sys.exit(-1)
 
     from motioneye import motionctl
+
     has_motion = motionctl.find_motion()[0] is not None
 
     from motioneye import mediafiles
+
     has_ffmpeg = mediafiles.find_ffmpeg() is not None
 
     has_v4lutils = v4l2ctl.find_v4l2_ctl() is not None
@@ -316,8 +352,11 @@ def make_media_folders():
                     os.makedirs(camera_config['target_dir'])
 
                 except Exception as e:
-                    logging.error('failed to create root media folder "{}" for camera with id {}: {}'.format(
-                        camera_config['target_dir'], camera_id, e))
+                    logging.error(
+                        'failed to create root media folder "{}" for camera with id {}: {}'.format(
+                            camera_config['target_dir'], camera_id, e
+                        )
+                    )
 
 
 def start_motion():
@@ -328,16 +367,21 @@ def start_motion():
     # add a motion running checker
     def checker():
 
-        if not motionctl.running() and motionctl.started() and config.get_enabled_local_motion_cameras():
+        if (
+            not motionctl.running()
+            and motionctl.started()
+            and config.get_enabled_local_motion_cameras()
+        ):
             try:
                 logging.error('motion not running, starting it')
                 motionctl.start()
 
             except Exception as e:
-                logging.error('failed to start motion: {msg}'.format(
-                    msg=str(e)), exc_info=True)
+                logging.error(f'failed to start motion: {str(e)}', exc_info=True)
 
-        io_loop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
+        io_loop.add_timeout(
+            datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker
+        )
 
     try:
         motionctl.start()
@@ -345,19 +389,31 @@ def start_motion():
     except Exception as e:
         logging.error(str(e), exc_info=True)
 
-    io_loop.add_timeout(datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker)
+    io_loop.add_timeout(
+        datetime.timedelta(seconds=settings.MOTION_CHECK_INTERVAL), checker
+    )
 
 
 def parse_options(parser, args):
-    parser.add_argument('-b', help='start the server in background (daemonize)',
-                        action='store_true', dest='background', default=False)
+    parser.add_argument(
+        '-b',
+        help='start the server in background (daemonize)',
+        action='store_true',
+        dest='background',
+        default=False,
+    )
 
     return parser.parse_args(args)
 
 
 def make_app(debug: bool = False) -> Application:
-    return Application(handler_mapping, debug=debug, log_function=_log_request, static_path=settings.STATIC_PATH,
-                       static_url_prefix='/static/')
+    return Application(
+        handler_mapping,
+        debug=debug,
+        log_function=_log_request,
+        static_path=settings.STATIC_PATH,
+        static_url_prefix='/static/',
+    )
 
 
 def run():
@@ -399,8 +455,13 @@ def run():
     template.add_context('static_path', 'static/')
     template.add_context('lingvo', lingvo)
 
-    application = Application(handler_mapping, debug=False, log_function=_log_request,
-                              static_path=settings.STATIC_PATH, static_url_prefix='/static/')
+    application = Application(
+        handler_mapping,
+        debug=False,
+        log_function=_log_request,
+        static_path=settings.STATIC_PATH,
+        static_url_prefix='/static/',
+    )
 
     application.listen(settings.PORT, settings.LISTEN)
     logging.info(_('servilo komenciĝis'))
@@ -438,8 +499,8 @@ def main(parser, args, command):
     if command == 'start':
         if options.background:
             daemon = Daemon(
-                pid_file=os.path.join(settings.RUN_PATH, _PID_FILE),
-                run_callback=run)
+                pid_file=os.path.join(settings.RUN_PATH, _PID_FILE), run_callback=run
+            )
             daemon.start()
 
         else:

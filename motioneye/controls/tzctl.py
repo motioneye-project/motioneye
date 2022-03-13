@@ -58,7 +58,9 @@ def _get_time_zone_md5():
         return None
 
     try:
-        output = utils.call_subprocess('find * -type f | xargs md5sum', shell=True, cwd='/usr/share/zoneinfo')
+        output = utils.call_subprocess(
+            'find * -type f | xargs md5sum', shell=True, cwd='/usr/share/zoneinfo'
+        )
 
     except Exception as e:
         logging.error('getting md5 of zoneinfo files failed: %s' % e)
@@ -110,7 +112,9 @@ def _set_time_zone(time_zone):
         return True
 
     except Exception as e:
-        logging.error(f'failed to link "{settings.LOCAL_TIME_FILE}" to "{zoneinfo_file}": {e}')
+        logging.error(
+            f'failed to link "{settings.LOCAL_TIME_FILE}" to "{zoneinfo_file}": {e}'
+        )
 
         return False
 
@@ -121,6 +125,7 @@ def timeZone():
         return
 
     import pytz
+
     timezones = pytz.common_timezones
 
     return {
@@ -131,5 +136,5 @@ def timeZone():
         'section': 'general',
         'reboot': True,
         'get': get_time_zone,
-        'set': _set_time_zone
+        'set': _set_time_zone,
     }

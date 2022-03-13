@@ -52,7 +52,9 @@ class BaseHandler(RequestHandler):
     def get_json(self):
         if not hasattr(self, '_json'):
             self._json = None
-            if self.request.headers.get('Content-Type', '').startswith('application/json'):
+            if self.request.headers.get('Content-Type', '').startswith(
+                'application/json'
+            ):
                 self._json = json.loads(self.request.body)
 
         return self._json
@@ -110,35 +112,58 @@ class BaseHandler(RequestHandler):
         admin_password = main_config.get('@admin_password')
         normal_password = main_config.get('@normal_password')
 
-        admin_hash = hashlib.sha1(main_config['@admin_password'].encode('utf-8')).hexdigest()
-        normal_hash = hashlib.sha1(main_config['@normal_password'].encode('utf-8')).hexdigest()
+        admin_hash = hashlib.sha1(
+            main_config['@admin_password'].encode('utf-8')
+        ).hexdigest()
+        normal_hash = hashlib.sha1(
+            main_config['@normal_password'].encode('utf-8')
+        ).hexdigest()
 
         if settings.HTTP_BASIC_AUTH and 'Authorization' in self.request.headers:
             up = utils.parse_basic_header(self.request.headers['Authorization'])
             if up:
-                if (up['username'] == admin_username and
-                        admin_password in (up['password'], hashlib.sha1(up['password'].encode('utf-8')).hexdigest())):
+                if up['username'] == admin_username and admin_password in (
+                    up['password'],
+                    hashlib.sha1(up['password'].encode('utf-8')).hexdigest(),
+                ):
                     return 'admin'
 
-                if (up['username'] == normal_username and
-                        normal_password in (up['password'], hashlib.sha1(up['password'].encode('utf-8')).hexdigest())):
+                if up['username'] == normal_username and normal_password in (
+                    up['password'],
+                    hashlib.sha1(up['password'].encode('utf-8')).hexdigest(),
+                ):
                     return 'normal'
 
-        if (username == admin_username and
-                (signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                      self.request.body, admin_password) or
-                 signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                      self.request.body, admin_hash))):
+        if username == admin_username and (
+            signature
+            == utils.compute_signature(
+                self.request.method, self.request.uri, self.request.body, admin_password
+            )
+            or signature
+            == utils.compute_signature(
+                self.request.method, self.request.uri, self.request.body, admin_hash
+            )
+        ):
             return 'admin'
 
-        if not username and not normal_password:  # no authentication required for normal user
+        if (
+            not username and not normal_password
+        ):  # no authentication required for normal user
             return 'normal'
 
-        if (username == normal_username and
-                (signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                      self.request.body, normal_password) or
-                 signature == utils.compute_signature(self.request.method, self.request.uri,
-                                                      self.request.body, normal_hash))):
+        if username == normal_username and (
+            signature
+            == utils.compute_signature(
+                self.request.method,
+                self.request.uri,
+                self.request.body,
+                normal_password,
+            )
+            or signature
+            == utils.compute_signature(
+                self.request.method, self.request.uri, self.request.body, normal_hash
+            )
+        ):
             return 'normal'
 
         if username and username != '_' and login:
@@ -157,8 +182,13 @@ class BaseHandler(RequestHandler):
             if isinstance(exception, HTTPError):
                 logging.error(str(exception))
                 self.set_status(exception.status_code)
-                self.finish_json({'error': exception.log_message or
-                                           getattr(exception, 'reason', None) or str(exception)})
+                self.finish_json(
+                    {
+                        'error': exception.log_message
+                        or getattr(exception, 'reason', None)
+                        or str(exception)
+                    }
+                )
 
             else:
                 logging.error(str(exception), exc_info=True)

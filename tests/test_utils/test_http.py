@@ -4,7 +4,6 @@ from motioneye.utils.http import RtspUrl
 
 
 class TestRTSP(unittest.TestCase):
-
     def test_url_construction(self):
         host = '102.170.91.135'
         scheme = 'rtsp'
@@ -20,7 +19,7 @@ class TestRTSP(unittest.TestCase):
             'password': password,
             'proto': 'netcam',
             '_username': 'admin',
-            '_signature': 'e06ef15af4e73086df6bfa90da0312641a5a2b10'
+            '_signature': 'e06ef15af4e73086df6bfa90da0312641a5a2b10',
         }
         url_obj = RtspUrl.from_dict(test_data)
         self.assertEqual(host, url_obj.host)

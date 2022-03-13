@@ -24,7 +24,9 @@ class LoginHandlerTest(HandlerTestCase):
         response = self.fetch('/login?_admin=true')
         self.assertEqual(403, response.code)
         self.assertEqual('application/json', response.headers.get('Content-Type'))
-        self.assertEqual({'error': 'unauthorized', 'prompt': True}, json.loads(response.body))
+        self.assertEqual(
+            {'error': 'unauthorized', 'prompt': True}, json.loads(response.body)
+        )
 
     def test_post(self):
         response = self.fetch('/login', method='POST', body='')
