@@ -18,13 +18,13 @@ import datetime
 import io
 import logging
 import os
-import pycurl
 import re
 import signal
 import socket
 import sys
 import time
 
+import pycurl
 from tornado.ioloop import IOLoop
 
 from motioneye import config, mediafiles, motionctl, settings, utils

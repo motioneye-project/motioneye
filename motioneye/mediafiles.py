@@ -93,7 +93,7 @@ MOVIE_EXT_TYPE_MAPPING = {
     'mov': 'video/quicktime',
     'swf': 'application/x-shockwave-flash',
     'flv': 'video/x-flv',
-    'mkv': 'video/x-matroska'
+    'mkv': 'video/x-matroska',
 }
 
 # a cache of prepared files (whose preparing time is significant)
@@ -685,7 +685,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
     # use correct extension for the movie_codec
     tmp_filename = os.path.join(settings.MEDIA_PATH, '.%(name)s.%(ext)s')
-    tmp_filename = tmp_filename % { 'name': int(time.time()), 'ext': file_format }
+    tmp_filename = tmp_filename % {'name': int(time.time()), 'ext': file_format}
 
     def read_media_list():
         while parent_pipe.poll():
