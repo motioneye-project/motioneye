@@ -8,11 +8,11 @@ jobs:
       - uses: actions/checkout@v3
       - run: shellcheck --version  # https://github.com/koalaman/shellcheck/wiki/Recursiveness
       - run: |
-          mapfile -t FILES < <(find . -type f)  # read all files to array
+          mapfile -t FILES < <(find -type f)  # read all files to array
           for i in "${!FILES[@]}"
           do
               [[ ${FILES[$i]} == *'.'*'sh' ]] && continue  # file has shell extension
-              awk 'NR==1 && $1 ~ /^#!.*sh$/' "${FILES[$i]}" && continue  # file has shell shebang
+              [[ $(awk 'NR==1 && $1 ~ /^#!.*sh$/' "${FILES[$i]}") ]] && continue  # file has shell shebang
               unset -v "FILES[$i]"  # else remove from array
           done
-          shellcheck "${!FILES[@]}"
+          shellcheck "${FILES[@]}"
