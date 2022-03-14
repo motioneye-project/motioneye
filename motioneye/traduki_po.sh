@@ -7,9 +7,9 @@ src=eo
 
 #FIC=locale/en/LC_MESSAGES/motioneye.po
 FIC=$1
-dst=`grep "^\"Language: .*\\n\"$" $FIC|sed "s/^\"Language: //;s/.n\"$//"`
+dst=$(grep '^"Language: .*\n"$' "$FIC" | sed 's/^"Language: //;s/.n"$//')
 
-cat $FIC|awk -v src=$src -v dst=$dst '{
+awk -v "src=$src" -v "dst=$dst" '{
   if ( CONTMSG==1 && substr($1,1,1) != "\"")
   {
     CONTMSG=0;
@@ -42,6 +42,6 @@ cat $FIC|awk -v src=$src -v dst=$dst '{
   }
   else
     print $0;
-}' >$FIC.$$
-mv $FIC $FIC.old
-mv $FIC.$$ $FIC
+}' "$FIC" > "$FIC.$$"
+mv "$FIC" "$FIC.old"
+mv "$FIC.$$" "$FIC"

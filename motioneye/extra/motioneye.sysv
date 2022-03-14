@@ -12,24 +12,25 @@
 # Description: Start the motionEye server
 ### END INIT INFO
 
-NAME="motioneye"
-PATH="/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin"
-DAEMON="/usr/local/bin/meyectl"
+NAME='motioneye'
+PATH='/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/local/sbin'
+DAEMON='/usr/local/bin/meyectl'
 PIDFILE="/run/$NAME.pid"
-DESC="motionEye server"
-USER="root"
-OPTIONS="startserver -c /etc/motioneye/motioneye.conf -l -b"
+DESC='motionEye server'
+USER='root'
+OPTIONS='startserver -c /etc/motioneye/motioneye.conf -l -b'
 
 . /lib/lsb/init-functions
 
-test -x $DAEMON || exit 0
+test -x "$DAEMON" || exit 0
 
 RET=0
 
 case "$1" in
     start)
         log_daemon_msg "Starting $DESC"
-        if start-stop-daemon --start --oknodo --exec $DAEMON --chuid $USER -- $OPTIONS; then
+	# shellcheck disable=SC2086
+        if start-stop-daemon --start --oknodo --exec "$DAEMON" --chuid "$USER" -- $OPTIONS; then
             log_end_msg 0
         else
             log_end_msg 1
@@ -39,7 +40,7 @@ case "$1" in
 
     stop)
         log_daemon_msg "Stopping $DESC"
-        if start-stop-daemon --stop --oknodo --pidfile $PIDFILE --retry 5; then
+        if start-stop-daemon --stop --oknodo --pidfile "$PIDFILE" --retry 5; then
             log_end_msg 0
         else
             log_end_msg 1
@@ -49,16 +50,16 @@ case "$1" in
 
     restart|force-reload)
         log_action_begin_msg "Restarting $DESC"
-        if $0 stop && $0 start; then
+        if "$0" stop && "$0" start; then
             log_action_end_msg 0
         else
-            log_action_cont_msg "(failed)"
+            log_action_cont_msg '(failed)'
             RET=1
         fi
         ;;
 
     status)
-        status_of_proc $DAEMON $NAME
+        status_of_proc "$DAEMON" "$NAME"
         ;;
 
     *)
@@ -67,4 +68,4 @@ case "$1" in
         ;;
 esac
 
-exit $RET
+exit "$RET"
