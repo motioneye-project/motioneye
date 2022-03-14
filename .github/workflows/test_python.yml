@@ -9,7 +9,10 @@ jobs:
       - uses: actions/setup-python@v3
       - run: sudo apt-get -q update
       - run: sudo apt-get -qq upgrade
-      - run: sudo apt-get -qq install curl ffmpeg libcurl4-openssl-dev libssl-dev motion ssh v4l-utils
+      - run: shellcheck --version || true
+      - run: sudo apt-get -qq install curl ffmpeg libcurl4-openssl-dev libssl-dev motion shellcheck ssh v4l-utils
+      - run: shellcheck --version || true
+      - run: shellcheck .
       - run: pip install --upgrade pip wheel
       - run: pip install build mypy pytest safety
       - run: python3 -m build
