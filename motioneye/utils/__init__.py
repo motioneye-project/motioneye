@@ -598,7 +598,7 @@ def parse_editable_mask_file(camera_id, mask_class, capture_width=None, capture_
 
 def call_subprocess(args, stdin=None, input=None, stdout=subprocess.PIPE, stderr=DEV_NULL, capture_output=False,
                     shell=False, cwd=None, timeout=None, check=True, encoding='utf-8', errors=None,
-                    text=None, env=None, universal_newlines=None) -> str:
+                    text=None, env=None) -> str:
     """subprocess.run wrapper to return output as a decoded string"""
     return subprocess.run(
         args, stdin=stdin, input=input, stdout=stdout, stderr=stderr, capture_output=capture_output, shell=shell,
