@@ -7,7 +7,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - run: shellcheck --version  # https://github.com/koalaman/shellcheck/wiki/Recursiveness
-      - run: find . -type f -exec grep -Eq '^#!(.*/|.*env +)(sh|bash|ksh)' {} \; | xargs shellcheck
+      - run: find . -type f \( -name '*.sh' -o -name '*.bash' -o -name '*.ksh' -o -name '*.bashrc' -o -name '*.bash_profile' -o -name '*.bash_login' -o -name '*.bash_logout' \) | xargs shellcheck
       - uses: actions/setup-python@v3
       - run: sudo apt-get -q update
       - run: sudo apt-get -qq upgrade
