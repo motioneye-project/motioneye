@@ -53,7 +53,7 @@ if [ -z "$MSG" ]
 then
   cook=''
 else
-  echo "$MSG"
+  printf '%s' "$MSG"
   break;
 fi
 

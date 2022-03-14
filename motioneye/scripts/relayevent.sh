@@ -29,6 +29,6 @@ filename=$4
 
 uri="/_relay_event/?_username=$username&event=$event&motion_camera_id=$motion_camera_id"
 data="{\"filename\": \"$filename\"}"
-signature=$(echo "POST:$uri:$data:$password" | sha1sum | cut -d ' ' -f 1)
+signature=$(printf '%s' "POST:$uri:$data:$password" | sha1sum | cut -d ' ' -f 1)
 
 curl -sSfm "$timeout" -H 'Content-Type: application/json' -X POST "http://127.0.0.1:$port$uri&_signature=$signature" -d "$data" -o /dev/null
