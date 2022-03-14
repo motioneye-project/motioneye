@@ -6,7 +6,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - run: shellcheck --version  # https://github.com/koalaman/shellcheck/wiki/Recursiveness
+      - run: |
+          curl -sSfL "$(curl -sSf 'https://api.github.com/repos/koalaman/shellcheck/releases/latest' | mawk -F\" '/"browser_download_url.*\.linux\.x86_64\.tar\.xz"/{print $4;exit}')" -o shellcheck.tar.xz
+          tar --wildcards --strip-components=1 -xf shellcheck.tar.xz '*/shellcheck'
+          rm shellcheck.tar.xz
       - run: |
           mapfile -t FILES < <(find . -not \( -path './.git' -prune \) -type f)  # read all files to array
           for i in "${!FILES[@]}"
@@ -15,4 +18,4 @@ jobs:
               [[ $(awk 'NR==1 && $1 ~ /^#!.*sh$/' "${FILES[$i]}") ]] && continue  # file has shell shebang
               unset -v "FILES[$i]"  # else remove from array
           done
-          shellcheck -x "${FILES[@]}"
+          ./shellcheck -x "${FILES[@]}"

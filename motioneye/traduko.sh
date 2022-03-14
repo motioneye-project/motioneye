@@ -16,7 +16,7 @@ PROVO=0
 while [ "$PROVO" -lt 3 ]
 do
 
-if [ "x$cook" = 'x' ]
+if [ -z "$cook" ]
 then
   curl -c _traduko.jar -A 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' \
   'https://translate.google.com' -o /dev/null 2>/dev/null
@@ -49,7 +49,7 @@ else
 fi
 [ "$DEBUG" ] && echo "$dst txt=$MSG" >&2
 
-if [ "x$MSG" = 'x' ]
+if [ -z "$MSG" ]
 then
   cook=''
 else
