@@ -3,7 +3,7 @@
 FICIN=$1
 FICOUT=$2
 
-cat $FICIN|awk '{
+awk '{
   if ( CONTMSG==1 && substr($1,1,1) != "\"")
   {
     CONTMSG=0;
@@ -48,4 +48,4 @@ cat $FICIN|awk '{
 }
 END {
   print ("}");
-}' >$FICOUT
+}' "$FICIN" > "$FICOUT"

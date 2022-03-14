@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 if [[ -z "$1" ]]; then
     echo "Usage: $0 <motion.conf|thread-*.conf>"
-    exit -1
+    exit 1
 fi
 
 file=$1
@@ -91,8 +91,8 @@ remove_directive "saturation"
 
 
 # rename thread file
-bn=$(basename ${file})
-dn=$(dirname ${file})
+bn=$(basename "${file}")
+dn=$(dirname "${file}")
 if [[ ${bn} =~ thread-(.*)\.conf ]]; then
     mv "${file}" "${dn}/camera-${BASH_REMATCH[1]}.conf"
 fi
