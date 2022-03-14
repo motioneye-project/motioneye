@@ -6,13 +6,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - run: shellcheck --version  # https://github.com/koalaman/shellcheck/wiki/Recursiveness
+      - run: find . -type f -exec grep -Eq '^#!(.*/|.*env +)(sh|bash|ksh)' {} \; | xargs shellcheck
       - uses: actions/setup-python@v3
       - run: sudo apt-get -q update
       - run: sudo apt-get -qq upgrade
-      - run: shellcheck --version || true
-      - run: sudo apt-get -qq install curl ffmpeg libcurl4-openssl-dev libssl-dev motion shellcheck ssh v4l-utils
-      - run: shellcheck --version || true
-      - run: shellcheck .
+      - run: sudo apt-get -qq install curl ffmpeg libcurl4-openssl-dev libssl-dev motion ssh v4l-utils
       - run: pip install --upgrade pip wheel
       - run: pip install build mypy pytest safety
       - run: python3 -m build
