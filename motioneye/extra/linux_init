@@ -1,46 +1,40 @@
 #!/bin/bash
 
-if which apt ; then
-
-  ## Instali ffmpeg kaj aliajn dependojn:
-  apt update
-  apt -y install curl ffmpeg libmariadb3 libpq5 libmicrohttpd12 libssl-dev libcurl4-openssl-dev libjpeg-dev libz-dev python3-boto3 v4l-utils
-
-  ## Instali motion:
-  DEBIAN_REL=$(lsb_release -sc)
-  if [ "$DEBIAN_REL" = "buster" ]
-  then
-    MOTION_REL=4.3.2
-    MOTION_SUBREL=-1
-    ARCH=$( dpkg --print-architecture )
-    PI=$(test -f /sys/firmware/devicetree/base/model && grep aspberry /sys/firmware/devicetree/base/model >/dev/null && echo pi_)
-    wget https://github.com/Motion-Project/motion/releases/download/release-${MOTION_REL}/${PI}${DEBIAN_REL}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb
-    dpkg -i ${PI}${DEBIAN_REL}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb
-  else
-    apt -y install motion
+# Install dependencies
+if command -v apt-get > /dev/null; then
+  apt-get update
+  # On Debian Buster and Ubuntu Focal, install newer motion from GitHub
+  FILE=''
+  MOTION='motion'
+  DISTRO=''
+  [[ -f '/etc/os-release' ]] && DISTRO=$(sed -n '/^VERSION_CODENAME=/{s/^[^=]*=//p;q}' /etc/os-release)
+  if [[ $DISTRO == 'buster' || $DISTRO == 'focal' ]]; then
+    MOTION_REL='4.3.2'
+    MOTION_SUBREL='-1'
+    ARCH=$(dpkg --print-architecture)
+    # On ARMv6 Raspberry Pi models, download armv6hf package
+    PI=''
+    [[ $(uname -m) == 'armv6l' && -f '/sys/firmware/devicetree/base/model' ]] && grep -q 'aspberry' /sys/firmware/devicetree/base/model && PI='pi_'
+    FILE="${PI}${DISTRO}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb"
+    command -v curl > /dev/null || apt-get -y install curl
+    curl -fLO "https://github.com/Motion-Project/motion/releases/download/release-${MOTION_REL}/${FILE}"
+    MOTION="./${FILE}"
   fi
-elif which yum ; then
-  ## ne provita !!!
-  yum -y install curl ffmpeg mariadb-libs postgresql-libs libmicrohttpd openssl-libs libcurl libjpeg libzstd python-boto3 v4l-utils motion
+  apt-get -y install "${MOTION}" curl v4l-utils ffmpeg curl python3-boto3
+  [[ ${FILE} ]] && rm "${FILE}"
+elif command -v yum > /dev/null; then
+  yum -y install motion v4l-utils ffmpeg curl python3-boto3
 else
-  echo 'Ĉi tiu sistemo ne uzas apt. Bonvolu instali mem la antaŭkondiĉojn:'
-  echo '  curl ffmpeg libmariadb3 libpq5 libmicrohttpd12 libssl libcurl4-openssl libjpeg libz python3-boto3 v4l-utils'
+  echo 'This system uses neither apt nor yum. Please install these dependencies manually:
+  motion v4l-utils ffmpeg curl python3-boto3'
 fi
 
-## krei agordon kaj dosierujojn:
-mkdir -p /etc/motioneye
-if [ ! -f /etc/motioneye/motioneye.conf ]
-then
-  cp extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
-fi
-mkdir -p /var/lib/motioneye /var/log/motioneye
-chown -R motion.motion /etc/motioneye /var/lib/motioneye /var/log/motioneye
+# Pre-create config and data dirs and install configuration files
+[[ -d '/etc/motioneye' ]] || mkdir /etc/motioneye
+[[ -f '/etc/motioneye/motioneye.conf' ]] || cp extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
+chown -R motion.motion /etc/motioneye
 
-## krei la servon:
-if [ ! -f /etc/systemd/system/motioneye.service ]
-then
-  cp extra/motioneye.systemd-unit-local /etc/systemd/system/motioneye.service
-fi
+# Install service
+[[ -f '/etc/systemd/system/motioneye.service' ]] || cp extra/motioneye.systemd /etc/systemd/system/motioneye.service
 systemctl daemon-reload
-systemctl enable motioneye
-systemctl start motioneye
+systemctl enable --now motioneye
