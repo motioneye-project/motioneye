@@ -1,9 +1,8 @@
-
 # path to the configuration directory (must be writable by motionEye)
 conf_path /etc/motioneye
 
 # path to the directory where pid files go (must be writable by motionEye)
-run_path /var/run/motioneye
+run_path /run/motioneye
 
 # path to the directory where log files go (must be writable by motionEye)
 log_path /var/log/motioneye
@@ -94,4 +93,4 @@ add_remove_cameras true
 http_basic_auth false
 
 # overrides the hostname (useful if motionEye runs behind a reverse proxy)
-# server_name motionEye
+#server_name motionEye

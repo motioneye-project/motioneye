@@ -11,6 +11,9 @@ jobs:
       - run: sudo apt-get -qq install gettext python3 python3-pip python3-babel python3-boto3 python3-jinja2
                                       python3-numpy python3-pillow python3-pycurl python3-tornado
       - run: cd motioneye && make
-      - run: pip install build && python3 -m build  # Stores .tar.gz and .whl files into ./dist
-      - run: pip install .
-      - run: sudo motioneye_init || true  # Fails with "sudo: motioneye_init: command not found"
+      - run: python3 -m pip install build && python3 -m build  # Stores .tar.gz and .whl files into ./dist
+      - run: sudo python3 -m pip install .
+      - run: sudo motioneye_init
+      - run: i=0; until ss -tln | grep 8765; do [ $i -le 10 ] || exit 0; sleep 1; i=$(expr $i + 1); done
+      - run: sudo systemctl status motioneye
+      - run: sudo systemctl is-active motioneye

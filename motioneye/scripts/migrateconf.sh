@@ -6,8 +6,8 @@ if [[ -z "$1" ]]; then
 fi
 
 file=$1
-tmp_file=${file}.tmp
-bak_file=${file}.bak
+tmp_file="${file}.tmp"
+bak_file="${file}.bak"
 
 # make a backup
 echo "backing up ${file}"
@@ -17,7 +17,7 @@ function adjust_directive() {
     # $1 - old directive
     # $2 - new directive
 
-    if ! grep -E "^$1" "${file}" &>/dev/null; then
+    if ! grep -q "^$1" "${file}"; then
         return
     fi
 
@@ -28,7 +28,7 @@ function adjust_directive() {
 function remove_directive() {
     # $1 - old directive
 
-    if ! grep -E "^$1 " "${file}" &>/dev/null; then
+    if ! grep -q "^$1 " "${file}"; then
         return
     fi
 
@@ -94,5 +94,5 @@ remove_directive "saturation"
 bn=$(basename ${file})
 dn=$(dirname ${file})
 if [[ ${bn} =~ thread-(.*)\.conf ]]; then
-    mv ${file} ${dn}/camera-${BASH_REMATCH[1]}.conf
+    mv "${file}" "${dn}/camera-${BASH_REMATCH[1]}.conf"
 fi
