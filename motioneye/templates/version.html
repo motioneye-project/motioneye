@@ -2,11 +2,11 @@
 
 {% block script %}
     {{super()}}
-    <script type="text/javascript">
+    <script>
         var hostname = '{{hostname}}';
         var version = '{{version}}';
     </script>
-    <script type="text/javascript" src="{{static_path}}js/version.js?v={{version}}"></script>
+    <script src="{{static_path}}js/version.js?v={{version}}"></script>
 {% endblock %}
 
 {% block body %}
