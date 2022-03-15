@@ -7,26 +7,18 @@ ARG RUN_GID=0
 
 COPY . /tmp/motioneye
 
-RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) bullseye main contrib non-free" >>/etc/apt/sources.list && \
-    #chmod o+r /etc/resolv.conf && \
-    apt-get update && \
+RUN apt-get update && \
     DEBIAN_FRONTEND="noninteractive" apt-get --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
-      curl \
       ffmpeg \
-      lsb-release \
       motion \
-      python3-babel \
+      python3-pip \
+      python3-tornado \
       python3-jinja2 \
       python3-pil \
-      python3-pip \
       python3-pycurl \
-      python3-setuptools \
-      python3-six \
-      python3-tornado \
-      python3-tz \
-      python3-wheel \
-      python3-boto3 \
+      python3-babel \
       python3-numpy \
+      python3-boto3 \
       tzdata \
       v4l-utils && \
     # Change uid/gid of user/group motion to match our desired IDs.  This will
@@ -36,11 +28,11 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) bullseye
     pip install /tmp/motioneye && \
     # Cleanup
     rm -rf motioneye && \
-    apt-get purge --yes python3-setuptools python3-wheel python3-pip && \
+    apt-get --yes purge python3-pip && \
     apt-get --yes autopurge && \
     apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
-ADD motioneye/extra/motioneye.conf.sample /usr/share/motioneye/extra/
+COPY motioneye/extra/motioneye.conf.sample /usr/share/motioneye/extra/motioneye.conf.sample
 
 # R/W needed for motioneye to update configurations
 VOLUME /etc/motioneye
@@ -48,6 +40,6 @@ VOLUME /etc/motioneye
 # Video & images
 VOLUME /var/lib/motioneye
 
-ENTRYPOINT ["/entrypoint.sh"]
-
 EXPOSE 8765
+
+ENTRYPOINT ["/entrypoint.sh"]
