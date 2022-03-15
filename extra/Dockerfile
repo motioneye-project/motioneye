@@ -39,7 +39,7 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) bullseye
     pip install /tmp/motioneye && \
     # Cleanup
     rm -rf motioneye && \
-    apt-get purge --yes python3-setuptools python3-wheel && \
+    apt-get purge --yes python3-setuptools python3-wheel python3-pip && \
     apt-get autoremove --yes && \
     apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
@@ -51,11 +51,6 @@ VOLUME /etc/motioneye
 # Video & images
 VOLUME /var/lib/motioneye
 
-CMD test -e /etc/motioneye/motioneye.conf || \
-    cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
-    # We need to chown at startup time since volumes are mounted as root. This is fugly.
-    mkdir -p /var/run/motioneye /var/log/motioneye ; \
-    chown motion:motion /var/run /var/run/motioneye /var/log /etc/motioneye /var/lib/motioneye /var/log/motioneye /usr/share/motioneye/extra ; \
-    su -g motion motion -s /bin/bash -c "LANGUAGE=en /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf"
+ENTRYPOINT ["/entrypoint.sh"]
 
 EXPOSE 8765
