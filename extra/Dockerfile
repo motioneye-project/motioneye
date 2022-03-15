@@ -10,7 +10,7 @@ COPY . /tmp/motioneye
 RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) bullseye main contrib non-free" >>/etc/apt/sources.list && \
     #chmod o+r /etc/resolv.conf && \
     apt-get update && \
-    DEBIAN_FRONTEND="noninteractive" apt-get -t bullseye --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+    DEBIAN_FRONTEND="noninteractive" apt-get --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
       curl \
       ffmpeg \
       lsb-release \
