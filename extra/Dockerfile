@@ -1,17 +1,6 @@
 FROM debian:bullseye-slim
 LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
-ARG BUILD_DATE
-ARG VCS_REF
-LABEL org.label-schema.build-date=$BUILD_DATE \
-    org.label-schema.docker.dockerfile="extra/Dockerfile" \
-    org.label-schema.license="GPLv3" \
-    org.label-schema.name="motioneye" \
-    org.label-schema.url="https://github.com/motion-project/motioneye/wiki" \
-    org.label-schema.vcs-ref=$VCS_REF \
-    org.label-schema.vcs-type="Git" \
-    org.label-schema.vcs-url="https://github.com/motion-project/motioneye.git"
-
 # By default, run as root.
 ARG RUN_UID=0
 ARG RUN_GID=0
@@ -19,7 +8,7 @@ ARG RUN_GID=0
 COPY . /tmp/motioneye
 
 RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) bullseye main contrib non-free" >>/etc/apt/sources.list && \
-    chmod o+r /etc/resolv.conf && \
+    #chmod o+r /etc/resolv.conf && \
     apt-get update && \
     DEBIAN_FRONTEND="noninteractive" apt-get -t bullseye --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
       curl \
