@@ -30,6 +30,7 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) bullseye
       python3-tz \
       python3-wheel \
       python3-boto3 \
+      python3-numpy \
       tzdata \
       v4l-utils && \
     # Change uid/gid of user/group motion to match our desired IDs.  This will
