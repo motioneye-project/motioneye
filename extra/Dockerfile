@@ -1,40 +1,34 @@
 FROM debian:bullseye-slim
 LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
-# By default, run as root.
+# By default, run as root
 ARG RUN_UID=0
 ARG RUN_GID=0
 
 COPY . /tmp/motioneye
 
-RUN apt-get update && \
-    DEBIAN_FRONTEND="noninteractive" apt-get --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
-      ffmpeg \
-      motion \
-      python3-pip \
-      python3-tornado \
-      python3-jinja2 \
-      python3-pil \
-      python3-pycurl \
-      python3-babel \
-      python3-numpy \
-      python3-boto3 \
-      tzdata \
-      v4l-utils && \
-    # Change uid/gid of user/group motion to match our desired IDs.  This will
+RUN case "$(dpkg --print-architecture)" in \
+      'armhf') PACKAGES=''; printf '%b' '[global]\nextra-index-url=https://www.piwheels.org/simple/\n' > /etc/pip.conf;; \
+      *) PACKAGES='python3-dev libcurl4-openssl-dev gcc libssl-dev';; \
+    esac && \
+    apt-get update && \
+    DEBIAN_FRONTEND="noninteractive" apt-get -y --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+      python3 python3-pip $PACKAGES tzdata && \
+    # Change uid/gid of user/group motion to match our desired IDs. This will
     # make it easier to use execute motion as our desired user later.
-    sed -i -e "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
-    sed -i -e "s/^\(motion:[^:]*\):[0-9]*:\(.*\)/\1:${RUN_GID}:\2/" /etc/group && \
-    pip install /tmp/motioneye && \
+    sed -i "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
+    sed -i "s/^\(motion:[^:]*\):[0-9]*:\(.*\)/\1:${RUN_GID}:\2/" /etc/group && \
+    pip3 install --no-cache-dir /tmp/motioneye && \
+    motioneye_init --skip-systemd --skip-apt-update && \
+    mv /etc/motioneye/motioneye.conf /etc/motioneye.conf.sample && \
+    mkdir /var/log/motioneye /var/lib/motioneye && \
+    chown motion:motion /var/log/motioneye /var/lib/motioneye && \
     # Cleanup
-    rm -rf motioneye && \
-    apt-get --yes purge python3-pip && \
-    apt-get --yes autopurge && \
-    apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
+    DEBIAN_FRONTEND="noninteractive" apt-get -y autopurge python3-pip $PACKAGES && \
+    apt-get clean && \
+    rm -r /var/lib/apt/lists /var/cache/apt /tmp/motioneye
 
-COPY motioneye/extra/motioneye.conf.sample /usr/share/motioneye/extra/motioneye.conf.sample
-
-# R/W needed for motioneye to update configurations
+# R/W needed for motionEye to update configurations
 VOLUME /etc/motioneye
 
 # Video & images

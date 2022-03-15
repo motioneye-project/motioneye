@@ -1,10 +1,6 @@
 name: Docker
 
-on:
-  push:
-    branches: [ main ]
-    tags: [ '*' ]
-  pull_request:
+on: [pull_request, push]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -12,6 +8,7 @@ concurrency:
 
 jobs:
   docker:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     runs-on: ubuntu-latest
 
     permissions:
@@ -53,7 +50,7 @@ jobs:
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
-        if: github.event_name != 'pull_request'
+        if: github.event_name == 'push' && github.repository.full_name == 'motioneye-project/motioneye' && github.base_ref == 'refs/heads/main' && steps.meta.outputs.tags
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -65,7 +62,7 @@ jobs:
           context: .
           file: ./extra/Dockerfile
           platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
-          push: ${{ github.event_name != 'pull_request' }}
+          push: ${{ github.event_name == 'push' && github.repository.full_name == 'motioneye-project/motioneye' && github.base_ref == 'refs/heads/main' && steps.meta.outputs.tags }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           # build-args: |

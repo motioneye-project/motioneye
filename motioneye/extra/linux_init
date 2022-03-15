@@ -1,8 +1,25 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+if (( UID )); then
+  echo 'ERROR: Root permissions required. Please run this command as root user, via "sudo" or "su". Aborting...'
+  exit 1
+fi
+
+# Process CLI arguments
+SKIP_SYSTEMD=0
+SKIP_APT_UPDATE=0
+while (( $# )); do
+  case "$1" in
+    '--skip-systemd') SKIP_SYSTEMD=1;;
+    '--skip-apt-update') SKIP_APT_UPDATE=1;;
+    *) echo "ERROR: Invalid command-line argument \"$1\". Aborting..."; exit 1;;
+  esac
+  shift
+done
 
 # Install dependencies
 if command -v apt-get > /dev/null; then
-  apt-get update
+  (( SKIP_APT_UPDATE )) || apt-get update
   # On Debian Buster and Ubuntu Focal, install newer motion from GitHub
   FILE=''
   MOTION='motion'
@@ -20,19 +37,21 @@ if command -v apt-get > /dev/null; then
     curl -fLO "https://github.com/Motion-Project/motion/releases/download/release-${MOTION_REL}/${FILE}"
     MOTION="./${FILE}"
   fi
-  apt-get -y install "${MOTION}" curl v4l-utils ffmpeg curl python3-boto3
+  apt-get -y --no-install-recommends install "${MOTION}" curl v4l-utils ffmpeg curl
   [[ ${FILE} ]] && rm "${FILE}"
 elif command -v yum > /dev/null; then
-  yum -y install motion v4l-utils ffmpeg curl python3-boto3
+  yum -y install motion v4l-utils ffmpeg curl
 else
   echo 'This system uses neither apt nor yum. Please install these dependencies manually:
-  motion v4l-utils ffmpeg curl python3-boto3'
+  motion v4l-utils ffmpeg curl'
 fi
 
 # Pre-create config and data dirs and install configuration files
 [[ -d '/etc/motioneye' ]] || mkdir /etc/motioneye
 [[ -f '/etc/motioneye/motioneye.conf' ]] || cp extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
-chown -R motion.motion /etc/motioneye
+chown -R motion:motion /etc/motioneye
+
+(( SKIP_SYSTEMD )) && exit 0
 
 # Install service
 [[ -f '/etc/systemd/system/motioneye.service' ]] || cp extra/motioneye.systemd /etc/systemd/system/motioneye.service
