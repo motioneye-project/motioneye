@@ -360,7 +360,7 @@ class ConfigHandler(BaseHandler):
         finished = self.check_finished(cameras, length)
         return
 
-    @BaseHandler.auth(admin=True)
+    @BaseHandler.auth()
     async def list(self):
         logging.debug('listing cameras')
 
