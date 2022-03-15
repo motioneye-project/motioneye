@@ -1,6 +1,12 @@
 # https://github.com/motioneye-project/motioneye/wiki/%28Install-On-Ubuntu-%2820.04-or-Newer%29
 name: ubuntu_build
+
 on: [pull_request, push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   ubuntu_build:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
