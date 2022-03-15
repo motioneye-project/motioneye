@@ -22,7 +22,7 @@ import motioneye
 
 
 def main():
-    cmd = 'cd ' + motioneye.__path__[0] + ';sudo extra/linux_init'
+    cmd = f'cd "{motioneye.__path__[0]}" && sudo extra/linux_init'
     subprocess.run(cmd , shell=True)
 
 
