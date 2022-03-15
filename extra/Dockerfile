@@ -12,12 +12,8 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) bullseye
     apt-get update && \
     DEBIAN_FRONTEND="noninteractive" apt-get -t bullseye --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
       curl \
-      default-libmysqlclient-dev \
       ffmpeg \
-      libmicrohttpd12 \
-      libpq5 \
       lsb-release \
-      mosquitto-clients \
       motion \
       python3-babel \
       python3-jinja2 \
