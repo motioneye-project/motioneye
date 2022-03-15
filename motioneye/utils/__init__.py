@@ -62,6 +62,7 @@ COMMON_RESOLUTIONS = [
     (1440, 1024),
     (1600, 1200),
     (1920, 1080),
+    (3840, 2160),
 ]
 
 GetCamerasResponse = namedtuple('GetCamerasResponse', ('cameras', 'error'))
