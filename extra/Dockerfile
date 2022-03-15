@@ -37,7 +37,7 @@ RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) bullseye
     # Cleanup
     rm -rf motioneye && \
     apt-get purge --yes python3-setuptools python3-wheel python3-pip && \
-    apt-get autoremove --yes && \
+    apt-get --yes autopurge && \
     apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
 
 ADD motioneye/extra/motioneye.conf.sample /usr/share/motioneye/extra/
