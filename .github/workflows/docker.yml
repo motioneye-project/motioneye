@@ -42,14 +42,14 @@ jobs:
 
       # - name: Login to Docker Hub
       #   uses: docker/login-action@v1
-      #   if: github.event_name == 'push' && github.repository.full_name == 'motioneye-project/motioneye' && (steps.meta.outputs.tags != null)
+      #   if: github.event_name == 'push' && github.repository == 'motioneye-project/motioneye' && steps.meta.outputs.tags != null
       #   with:
       #     username: ${{ secrets.DOCKER_USERNAME }}
       #     password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
-        if: github.event_name == 'push' && github.repository.full_name == 'motioneye-project/motioneye' && (steps.meta.outputs.tags != null)
+        if: github.event_name == 'push' && github.repository == 'motioneye-project/motioneye' && steps.meta.outputs.tags != null
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
@@ -61,7 +61,7 @@ jobs:
           context: .
           file: ./extra/Dockerfile
           platforms: linux/amd64,linux/arm64/v8,linux/arm/v7
-          push: ${{ github.event_name == 'push' && github.repository.full_name == 'motioneye-project/motioneye' && (steps.meta.outputs.tags != null) }}
+          push: ${{ github.event_name == 'push' && github.repository == 'motioneye-project/motioneye' && steps.meta.outputs.tags != null }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           # build-args: |
