@@ -1,72 +1,39 @@
 FROM debian:bullseye-slim
 LABEL maintainer="Marcus Klein <himself@kleini.org>"
 
-ARG BUILD_DATE
-ARG VCS_REF
-LABEL org.label-schema.build-date=$BUILD_DATE \
-    org.label-schema.docker.dockerfile="extra/Dockerfile" \
-    org.label-schema.license="GPLv3" \
-    org.label-schema.name="motioneye" \
-    org.label-schema.url="https://github.com/motion-project/motioneye/wiki" \
-    org.label-schema.vcs-ref=$VCS_REF \
-    org.label-schema.vcs-type="Git" \
-    org.label-schema.vcs-url="https://github.com/motion-project/motioneye.git"
-
-# By default, run as root.
+# By default, run as root
 ARG RUN_UID=0
 ARG RUN_GID=0
 
 COPY . /tmp/motioneye
 
-RUN echo "deb http://snapshot.debian.org/archive/debian/$(date +%Y%m%d) bullseye main contrib non-free" >>/etc/apt/sources.list && \
-    chmod o+r /etc/resolv.conf && \
+RUN case "$(dpkg --print-architecture)" in \
+      'armhf') PACKAGES=''; printf '%b' '[global]\nextra-index-url=https://www.piwheels.org/simple/\n' > /etc/pip.conf;; \
+      *) PACKAGES='python3-dev libcurl4-openssl-dev gcc libssl-dev';; \
+    esac && \
     apt-get update && \
-    DEBIAN_FRONTEND="noninteractive" apt-get -t bullseye --yes --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
-      curl \
-      default-libmysqlclient-dev \
-      ffmpeg \
-      libmicrohttpd12 \
-      libpq5 \
-      lsb-release \
-      mosquitto-clients \
-      motion \
-      python3-babel \
-      python3-jinja2 \
-      python3-pil \
-      python3-pip \
-      python3-pycurl \
-      python3-setuptools \
-      python3-six \
-      python3-tornado \
-      python3-tz \
-      python3-wheel \
-      python3-boto3 \
-      tzdata \
-      v4l-utils && \
-    # Change uid/gid of user/group motion to match our desired IDs.  This will
+    DEBIAN_FRONTEND="noninteractive" apt-get -y --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+      python3 python3-pip $PACKAGES tzdata && \
+    # Change uid/gid of user/group motion to match our desired IDs. This will
     # make it easier to use execute motion as our desired user later.
-    sed -i -e "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
-    sed -i -e "s/^\(motion:[^:]*\):[0-9]*:\(.*\)/\1:${RUN_GID}:\2/" /etc/group && \
-    pip install /tmp/motioneye && \
+    sed -i "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
+    sed -i "s/^\(motion:[^:]*\):[0-9]*:\(.*\)/\1:${RUN_GID}:\2/" /etc/group && \
+    pip3 install --no-cache-dir /tmp/motioneye && \
+    motioneye_init --skip-systemd --skip-apt-update && \
+    mv /etc/motioneye/motioneye.conf /etc/motioneye.conf.sample && \
+    mkdir /var/log/motioneye /var/lib/motioneye && \
+    chown motion:motion /var/log/motioneye /var/lib/motioneye && \
     # Cleanup
-    rm -rf motioneye && \
-    apt-get purge --yes python3-setuptools python3-wheel && \
-    apt-get autoremove --yes && \
-    apt-get --yes clean && rm -rf /var/lib/apt/lists/* && rm -f /var/cache/apt/*.bin
+    DEBIAN_FRONTEND="noninteractive" apt-get -y autopurge python3-pip $PACKAGES && \
+    apt-get clean && \
+    rm -r /var/lib/apt/lists /var/cache/apt /tmp/motioneye
 
-ADD motioneye/extra/motioneye.conf.sample /usr/share/motioneye/extra/
-
-# R/W needed for motioneye to update configurations
+# R/W needed for motionEye to update configurations
 VOLUME /etc/motioneye
 
 # Video & images
 VOLUME /var/lib/motioneye
 
-CMD test -e /etc/motioneye/motioneye.conf || \
-    cp /usr/share/motioneye/extra/motioneye.conf.sample /etc/motioneye/motioneye.conf ; \
-    # We need to chown at startup time since volumes are mounted as root. This is fugly.
-    mkdir -p /var/run/motioneye /var/log/motioneye ; \
-    chown motion:motion /var/run /var/run/motioneye /var/log /etc/motioneye /var/lib/motioneye /var/log/motioneye /usr/share/motioneye/extra ; \
-    su -g motion motion -s /bin/bash -c "LANGUAGE=en /usr/local/bin/meyectl startserver -c /etc/motioneye/motioneye.conf"
-
 EXPOSE 8765
+
+ENTRYPOINT ["/entrypoint.sh"]

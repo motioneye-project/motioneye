@@ -17,13 +17,17 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import subprocess
+import sys
 
 import motioneye
 
 
 def main():
-    cmd = f'cd "{motioneye.__path__[0]}" && sudo extra/linux_init'
-    subprocess.run(cmd , shell=True)
+    cmd = f"cd '{motioneye.__path__[0]}' && extra/linux_init"
+    for arg in sys.argv[1:]:
+        cmd += f" '{arg}'"
+
+    subprocess.run(cmd, shell=True)
 
 
 if __name__ == '__main__':
