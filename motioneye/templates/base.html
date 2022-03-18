@@ -11,16 +11,16 @@
         {% endblock %}
         <title>{% block title %}{% endblock %}</title>
         {% block style %}
-            <link rel="stylesheet" type="text/css" href="{{static_path}}css/jquery.timepicker.css?v={{version}}">
+            <link rel="stylesheet" type="text/css" href="{{static_path}}css/jquery.timepicker.min.css?v={{version}}">
             <link rel="shortcut icon" href="{{static_path}}img/motioneye-logo.svg">
             <link rel="apple-touch-icon" href="{{static_path}}img/motioneye-logo.svg">
             <link rel="manifest" href="{{static_path}}../manifest.json?v={{version}}">
         {% endblock %}
         {% block script %}
-            <script defer src="{{static_path}}js/css-browser-selector.js?v={{version}}"></script>
+            <script defer src="{{static_path}}js/css-browser-selector.min.js?v={{version}}"></script>
             <script defer src="{{static_path}}js/jquery.min.js?v={{version}}"></script>
             <script defer src="{{static_path}}js/jquery.timepicker.min.js?v={{version}}"></script>
-            <script defer src="{{static_path}}js/jquery.mousewheel.js?v={{version}}"></script>
+            <script defer src="{{static_path}}js/jquery.mousewheel.min.js?v={{version}}"></script>
         {% endblock %}
     </head>
     <body>
