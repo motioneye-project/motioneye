@@ -53,7 +53,7 @@ mjpg_client_timeout 10
 # (set to 0 to disable)
 mjpg_client_idle_timeout 10
 
-# enable SMB shares (requires motionEye to run as root)
+# enable SMB shares (requires motionEye to run as root and cifs-utils installed)
 smb_shares false
 
 # the directory where the SMB mount points will be created
