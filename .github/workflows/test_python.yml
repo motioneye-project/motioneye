@@ -14,12 +14,13 @@ jobs:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
       - run: sudo apt-get -q update
-      - run: sudo apt-get -qq upgrade
-      - run: sudo apt-get -qq install curl ffmpeg libcurl4-openssl-dev libssl-dev motion ssh v4l-utils
-      - run: pip install --upgrade pip wheel
-      - run: pip install build mypy pytest safety
+      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends dist-upgrade
+      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
+             curl gcc ffmpeg libcurl4-openssl-dev libssl-dev motion v4l-utils
+      - run: sudo python3 -m pip install --upgrade pip setuptools wheel
+      - run: python3 -m pip install --upgrade build mypy pytest safety
       - run: python3 -m build
-      - run: pip install .
+      - run: python3 -m pip install .
       - run: mkdir --parents --verbose .mypy_cache
       - run: mypy --ignore-missing-imports --install-types --non-interactive . || true
       - run: pytest --ignore=tests/test_utils/test_mjpeg.py
