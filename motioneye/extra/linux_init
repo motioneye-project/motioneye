@@ -33,11 +33,11 @@ if command -v apt-get > /dev/null; then
     PI=''
     [[ $(uname -m) == 'armv6l' && -f '/sys/firmware/devicetree/base/model' ]] && grep -q 'aspberry' /sys/firmware/devicetree/base/model && PI='pi_'
     FILE="${PI}${DISTRO}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb"
-    command -v curl > /dev/null || apt-get -y install curl
+    command -v curl > /dev/null || DEBIAN_FRONTEND="noninteractive" apt-get -y --no-install-recommends install curl
     curl -fLO "https://github.com/Motion-Project/motion/releases/download/release-${MOTION_REL}/${FILE}"
     MOTION="./${FILE}"
   fi
-  apt-get -y --no-install-recommends install "${MOTION}" curl v4l-utils ffmpeg curl
+  DEBIAN_FRONTEND="noninteractive" apt-get -y --no-install-recommends install "${MOTION}" v4l-utils ffmpeg curl
   [[ ${FILE} ]] && rm "${FILE}"
 elif command -v yum > /dev/null; then
   yum -y install motion v4l-utils ffmpeg curl

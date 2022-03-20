@@ -13,9 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: sudo apt-get -q update
-      - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq upgrade
-      - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq install
-             libcurl4-openssl-dev libssl-dev python3-dev python3-pip
+      - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends dist-upgrade
+      - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends install
+                  ca-certificates curl gcc libcurl4-openssl-dev libssl-dev python3-dev
+      - run: curl -sSfO 'https://bootstrap.pypa.io/get-pip.py'
+      - run: sudo python3 get-pip.py
+      - run: sudo python3 -m pip install --upgrade pip setuptools wheel
       - run: |
           REPO=$GITHUB_REPOSITORY BRANCH=$GITHUB_REF_NAME
           [ ${{ github.event_name }} = 'pull_request' ] && REPO=${{ github.event.pull_request.head.repo.full_name }} BRANCH=${{ github.event.pull_request.head.ref }}
