@@ -37,9 +37,7 @@ messages = {
     'motion_start': 'Motion has been detected by camera "%(camera)s/%(hostname)s" at %(moment)s (%(timezone)s).'
 }
 
-subjects = {
-    'motion_start': 'motionEye: motion detected by "%(camera)s"'
-}
+subjects = {'motion_start': 'motionEye: motion detected by "%(camera)s"'}
 
 
 def send_mail(server, port, account, password, tls, _from, to, subject, message, files):
@@ -63,7 +61,9 @@ def send_mail(server, port, account, password, tls, _from, to, subject, message,
             part.set_payload(f.read())
 
         encode_base64(part)
-        part.add_header('Content-Disposition', 'attachment; filename="%s"' % os.path.basename(name))
+        part.add_header(
+            'Content-Disposition', 'attachment; filename="%s"' % os.path.basename(name)
+        )
         email.attach(part)
 
     if files:
@@ -89,9 +89,14 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
             logging.debug('got media files')
 
             # filter out non-recent media files
-            media_files = [m for m in media_files if abs(m['timestamp'] - timestamp) < timespan]
+            media_files = [
+                m for m in media_files if abs(m['timestamp'] - timestamp) < timespan
+            ]
             media_files.sort(key=lambda m: m['timestamp'], reverse=True)
-            media_files = [os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path'])) for m in media_files]
+            media_files = [
+                os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path']))
+                for m in media_files
+            ]
 
             logging.debug('selected %d pictures' % len(media_files))
 
@@ -128,13 +133,19 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
     picture_filename = camera_config.get('picture_filename')
     snapshot_filename = camera_config.get('snapshot_filename')
 
-    if ((picture_filename or snapshot_filename) and
-            not picture_filename or picture_filename.startswith('%Y-%m-%d/') and
-            not snapshot_filename or snapshot_filename.startswith('%Y-%m-%d/')):
+    if (
+        (picture_filename or snapshot_filename)
+        and not picture_filename
+        or picture_filename.startswith('%Y-%m-%d/')
+        and not snapshot_filename
+        or snapshot_filename.startswith('%Y-%m-%d/')
+    ):
         prefix = moment.strftime('%Y-%m-%d')
         logging.debug('narrowing down still images path lookup to %s' % prefix)
 
-    fut = utils.cast_future(mediafiles.list_media(camera_config, media_type='picture', prefix=prefix))
+    fut = utils.cast_future(
+        mediafiles.list_media(camera_config, media_type='picture', prefix=prefix)
+    )
     fut.add_done_callback(on_media_files)
 
     io_loop.start()
@@ -166,11 +177,15 @@ def main(parser, args):
 
     if len(args) == 12:
         # backwards compatibility with older configs lacking "from" field
-        _from = 'motionEye on {} <{}>'.format(socket.gethostname(), args[7].split(',')[0])
+        _from = 'motionEye on {} <{}>'.format(
+            socket.gethostname(), args[7].split(',')[0]
+        )
         args = args[:7] + [_from] + args[7:]
 
     if not args[7]:
-        args[7] = 'motionEye on {} <{}>'.format(socket.gethostname(), args[8].split(',')[0])
+        args[7] = 'motionEye on {} <{}>'.format(
+            socket.gethostname(), args[8].split(',')[0]
+        )
 
     options = parse_options(parser, args)
 
@@ -214,8 +229,18 @@ def main(parser, args):
     def on_message(subject, message, files):
         try:
             logging.info('sending email')
-            send_mail(options.server, options.port, options.account, options.password,
-                      options.tls, _from, to, subject, message, files or [])
+            send_mail(
+                options.server,
+                options.port,
+                options.account,
+                options.password,
+                options.tls,
+                _from,
+                to,
+                subject,
+                message,
+                files or [],
+            )
             logging.info('email sent')
 
         except Exception as e:
@@ -223,4 +248,6 @@ def main(parser, args):
 
         logging.debug('bye!')
 
-    make_message(subject, message, camera_id, options.moment, options.timespan, on_message)
+    make_message(
+        subject, message, camera_id, options.moment, options.timespan, on_message
+    )

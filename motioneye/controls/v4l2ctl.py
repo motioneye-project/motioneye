@@ -45,10 +45,12 @@ def list_devices():
     global _resolutions_cache, _ctrls_cache, _ctrl_values_cache
 
     logging.debug('listing V4L2 devices')
-    output=b''
+    output = b''
 
     try:
-        output=utils.call_subprocess(['v4l2-ctl','--list-devices'],stderr=subprocess.STDOUT)
+        output = utils.call_subprocess(
+            ['v4l2-ctl', '--list-devices'], stderr=subprocess.STDOUT
+        )
 
     except:
         logging.debug('v4l2-ctl  error : %s ' % output)
@@ -62,8 +64,11 @@ def list_devices():
             persistent_device = find_persistent_device(device)
             devices.append((device, persistent_device, name))
 
-            logging.debug('found device {name}: {device}, {persistent_device}'.format(
-                          name=name, device=device, persistent_device=persistent_device))
+            logging.debug(
+                'found device {name}: {device}, {persistent_device}'.format(
+                    name=name, device=device, persistent_device=persistent_device
+                )
+            )
 
         else:
             name = line.split('(')[0].strip()
@@ -92,7 +97,7 @@ def list_resolutions(device):
     output = b''
     started = time.time()
     cmd = 'v4l2-ctl -d %(device)s --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true'
-    actual_cmd = cmd % { 'device': pipes.quote(device)}
+    actual_cmd = cmd % {'device': pipes.quote(device)}
     logging.debug('running command "%s"' % actual_cmd)
 
     try:
@@ -122,8 +127,11 @@ def list_resolutions(device):
 
         resolutions.add((width, height))
 
-        logging.debug('found resolution {width}x{height} for device {device}'.format(
-                device=device, width=width, height=height))
+        logging.debug(
+            'found resolution {width}x{height} for device {device}'.format(
+                device=device, width=width, height=height
+            )
+        )
 
     if not resolutions:
         logging.debug(f'no resolutions found for device {device}, using common values')
@@ -177,7 +185,7 @@ def list_ctrls(device):
     output = b''
     started = time.time()
     cmd = 'v4l2-ctl -d %(device)s --list-ctrls'
-    actual_cmd = cmd % { 'device': pipes.quote(device)}
+    actual_cmd = cmd % {'device': pipes.quote(device)}
     logging.debug('running command "%s"' % actual_cmd)
 
     try:
@@ -197,7 +205,9 @@ def list_ctrls(device):
             continue
 
         (control, _, properties) = match.groups()
-        properties = dict([v.split('=', 1) for v in properties.split(' ') if v.count('=')])
+        properties = dict(
+            [v.split('=', 1) for v in properties.split(' ') if v.count('=')]
+        )
         controls[control] = properties
 
     _ctrls_cache[device] = controls

@@ -62,7 +62,7 @@ COMMON_RESOLUTIONS = [
     (1440, 960),
     (1440, 1024),
     (1600, 1200),
-    (1920, 1080)
+    (1920, 1080),
 ]
 
 GetCamerasResponse = namedtuple('GetCamerasResponse', ('cameras', 'error'))
@@ -95,7 +95,9 @@ def cast_future(obj: typing.Awaitable[typing.Any]) -> Future:
     return typing.cast(Future, obj)
 
 
-def spawn_callback_timeout_wrapper(callback: typing.Callable, *args: typing.Any, **kwargs: typing.Any) -> None:
+def spawn_callback_timeout_wrapper(
+    callback: typing.Callable, *args: typing.Any, **kwargs: typing.Any
+) -> None:
     IOLoop.current().spawn_callback(callback, *args, **kwargs)
 
 
@@ -167,8 +169,7 @@ def split_semicolon(s):
 
 
 def get_disk_usage(path):
-    logging.debug('getting disk usage for path {path}...'.format(
-        path=path))
+    logging.debug(f'getting disk usage for path {path}...')
 
     try:
         result = os.statvfs(path)
@@ -191,7 +192,11 @@ def get_disk_usage(path):
 
 def is_local_motion_camera(config):
     """Tells if a camera is managed by the local motion instance."""
-    return bool(config.get('videodevice') or config.get('netcam_url') or config.get('mmalcam_name'))
+    return bool(
+        config.get('videodevice')
+        or config.get('netcam_url')
+        or config.get('mmalcam_name')
+    )
 
 
 def is_remote_camera(config):
@@ -221,7 +226,11 @@ def is_simple_mjpeg_camera(config):
 
 def compute_signature(method, path, body: bytes, key):
     parts = list(urllib.parse.urlsplit(path))
-    query = [q for q in urllib.parse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
+    query = [
+        q
+        for q in urllib.parse.parse_qsl(parts[3], keep_blank_values=True)
+        if (q[0] != '_signature')
+    ]
     query.sort(key=lambda q: q[0])
     # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
     query = [(n, urllib.parse.quote(v, safe="!'()*~")) for (n, v) in query]
@@ -242,7 +251,13 @@ def compute_signature(method, path, body: bytes, key):
 
     body_str = body_str and _SIGNATURE_REGEX.sub('-', body_str)
 
-    return hashlib.sha1(('{}:{}:{}:{}'.format(method, path, body_str or '', key)).encode('utf-8')).hexdigest().lower()
+    return (
+        hashlib.sha1(
+            ('{}:{}:{}:{}'.format(method, path, body_str or '', key)).encode('utf-8')
+        )
+        .hexdigest()
+        .lower()
+    )
 
 
 def parse_cookies(cookies_headers):
@@ -287,10 +302,7 @@ def parse_basic_header(header):
     if len(parts) < 2:
         return None
 
-    return {
-        'username': parts[0],
-        'password': parts[1]
-    }
+    return {'username': parts[0], 'password': parts[1]}
 
 
 def build_digest_header(method, url, username, password, state):
@@ -309,6 +321,7 @@ def build_digest_header(method, url, username, password, state):
         _algorithm = algorithm.upper()
 
     if _algorithm == 'MD5' or _algorithm == 'MD5-SESS':
+
         def md5_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
@@ -317,6 +330,7 @@ def build_digest_header(method, url, username, password, state):
         hash_utf8 = md5_utf8
 
     else:  # _algorithm == 'SHA'
+
         def sha_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
@@ -353,7 +367,7 @@ def build_digest_header(method, url, username, password, state):
     s += time.ctime().encode('utf-8')
     s += os.urandom(8)
 
-    cnonce = (hashlib.sha1(s).hexdigest()[:16])
+    cnonce = hashlib.sha1(s).hexdigest()[:16]
     if _algorithm == 'MD5-SESS':
         HA1 = hash_utf8(f'{HA1}:{nonce}:{cnonce}')
 
@@ -369,8 +383,13 @@ def build_digest_header(method, url, username, password, state):
 
     last_nonce = nonce
 
-    base = 'username="%s", realm="%s", nonce="%s", uri="%s", ' \
-           'response="%s"' % (username, realm, nonce, path, respdig)
+    base = 'username="%s", realm="%s", nonce="%s", uri="%s", ' 'response="%s"' % (
+        username,
+        realm,
+        nonce,
+        path,
+        respdig,
+    )
     if opaque:
         base += ', opaque="%s"' % opaque
     if algorithm:
@@ -402,7 +421,9 @@ def urlopen(*args, **kwargs):
     return urllib.request.urlopen(*args, **kwargs)
 
 
-def build_editable_mask_file(camera_id, mask_class, mask_lines, capture_width=None, capture_height=None):
+def build_editable_mask_file(
+    camera_id, mask_class, mask_lines, capture_width=None, capture_height=None
+):
     if not mask_lines:
         return ''
 
@@ -410,8 +431,10 @@ def build_editable_mask_file(camera_id, mask_class, mask_lines, capture_width=No
     height = mask_lines[1]
     mask_lines = mask_lines[2:]
 
-    logging.debug('building editable %s mask for camera with id %s (%sx%s)' %
-                  (mask_class, camera_id, width, height))
+    logging.debug(
+        'building editable %s mask for camera with id %s (%sx%s)'
+        % (mask_class, camera_id, width, height)
+    )
 
     # horizontal rectangles
     nx = MASK_WIDTH  # number of rectangles
@@ -455,7 +478,9 @@ def build_editable_mask_file(camera_id, mask_class, mask_lines, capture_width=No
         line = mask_lines[int(line_index_func(y))]
         for x in numpy.arange(nx):
             if line & (1 << (MASK_WIDTH - 1 - x)):
-                dr.rectangle((x * rw, y * rh, (x + 1) * rw - 1, (y + 1) * rh - 1), fill=0)
+                dr.rectangle(
+                    (x * rw, y * rh, (x + 1) * rw - 1, (y + 1) * rh - 1), fill=0
+                )
 
         if rx and line & 1:
             dr.rectangle((nx * rw, y * rh, nx * rw + rx - 1, (y + 1) * rh - 1), fill=0)
@@ -464,18 +489,22 @@ def build_editable_mask_file(camera_id, mask_class, mask_lines, capture_width=No
         line = mask_lines[int(line_index_func(ny))]
         for x in numpy.arange(nx):
             if line & (1 << (MASK_WIDTH - 1 - x)):
-                dr.rectangle((x * rw, ny * rh, (x + 1) * rw - 1, ny * rh + ry - 1), fill=0)
+                dr.rectangle(
+                    (x * rw, ny * rh, (x + 1) * rw - 1, ny * rh + ry - 1), fill=0
+                )
 
         if rx and line & 1:
             dr.rectangle((nx * rw, ny * rh, nx * rw + rx - 1, ny * rh + ry - 1), fill=0)
 
-#    file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
+    #    file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
     file_name = build_mask_file_name(camera_id, mask_class)
 
     # resize the image if necessary
     if capture_width and capture_height and im.size != (capture_width, capture_height):
-        logging.debug('editable mask needs resizing from %sx%s to %sx%s' %
-                      (im.size[0], im.size[1], capture_width, capture_height))
+        logging.debug(
+            'editable mask needs resizing from %sx%s to %sx%s'
+            % (im.size[0], im.size[1], capture_width, capture_height)
+        )
 
         im = im.resize((capture_width, capture_height))
 
@@ -483,20 +512,30 @@ def build_editable_mask_file(camera_id, mask_class, mask_lines, capture_width=No
 
     return file_name
 
+
 def build_mask_file_name(camera_id, mask_class):
-    file_name = 'mask_%s.pgm' % (camera_id) if mask_class == 'motion' else f'mask_{camera_id}_{mask_class}.pgm'
+    file_name = (
+        'mask_%s.pgm' % (camera_id)
+        if mask_class == 'motion'
+        else f'mask_{camera_id}_{mask_class}.pgm'
+    )
     full_path = os.path.join(settings.CONF_PATH, file_name)
 
     return full_path
 
-def parse_editable_mask_file(camera_id, mask_class, capture_width=None, capture_height=None):
+
+def parse_editable_mask_file(
+    camera_id, mask_class, capture_width=None, capture_height=None
+):
     # capture_width and capture_height arguments represent the current size
     # of the camera image, as it might be different from that of the associated mask;
     # they can be null (e.g. netcams)
 
     file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
 
-    logging.debug(f'parsing editable mask {mask_class} for camera with id {camera_id}: {file_name}')
+    logging.debug(
+        f'parsing editable mask {mask_class} for camera with id {camera_id}: {file_name}'
+    )
 
     # read the image file
     try:
@@ -511,8 +550,10 @@ def parse_editable_mask_file(camera_id, mask_class, capture_width=None, capture_
     if capture_width and capture_height:
         # resize the image if necessary
         if im.size != (capture_width, capture_height):
-            logging.debug('editable mask needs resizing from %sx%s to %sx%s' %
-                          (im.size[0], im.size[1], capture_width, capture_height))
+            logging.debug(
+                'editable mask needs resizing from %sx%s to %sx%s'
+                % (im.size[0], im.size[1], capture_width, capture_height)
+            )
 
             im = im.resize((capture_width, capture_height))
 
@@ -596,10 +637,36 @@ def parse_editable_mask_file(camera_id, mask_class, capture_width=None, capture_
     return mask_lines
 
 
-def call_subprocess(args, stdin=None, input=None, stdout=subprocess.PIPE, stderr=DEV_NULL, capture_output=False,
-                    shell=False, cwd=None, timeout=None, check=True, encoding='utf-8', errors=None,
-                    text=None, env=None) -> str:
+def call_subprocess(
+    args,
+    stdin=None,
+    input=None,
+    stdout=subprocess.PIPE,
+    stderr=DEV_NULL,
+    capture_output=False,
+    shell=False,
+    cwd=None,
+    timeout=None,
+    check=True,
+    encoding='utf-8',
+    errors=None,
+    text=None,
+    env=None,
+) -> str:
     """subprocess.run wrapper to return output as a decoded string"""
     return subprocess.run(
-        args, stdin=stdin, input=input, stdout=stdout, stderr=stderr, capture_output=capture_output, shell=shell,
-        cwd=cwd, timeout=timeout, check=check, encoding=encoding, errors=errors, text=text, env=env).stdout.strip()
+        args,
+        stdin=stdin,
+        input=input,
+        stdout=stdout,
+        stderr=stderr,
+        capture_output=capture_output,
+        shell=shell,
+        cwd=cwd,
+        timeout=timeout,
+        check=check,
+        encoding=encoding,
+        errors=errors,
+        text=text,
+        env=env,
+    ).stdout.strip()

@@ -54,12 +54,14 @@ def _list_mounts():
 
             logging.debug(f'found mount "{target}" at "{mount_point}"')
 
-            mounts.append({
-                'target': target,
-                'mount_point': mount_point,
-                'fstype': fstype,
-                'opts': opts,
-            })
+            mounts.append(
+                {
+                    'target': target,
+                    'mount_point': mount_point,
+                    'fstype': fstype,
+                    'opts': opts,
+                }
+            )
 
     return mounts
 
@@ -103,7 +105,9 @@ def _list_disks_dev_by_id():
             vendor, model = parts[:2]
 
         if part_no is not None:
-            logging.debug(f'found partition "{part_no}" at "{target}" on bus "{bus}": "{vendor} {model}"')
+            logging.debug(
+                f'found partition "{part_no}" at "{target}" on bus "{bus}": "{vendor} {model}"'
+            )
 
             partitions_by_dev[target] = {
                 'target': target,
@@ -111,18 +115,20 @@ def _list_disks_dev_by_id():
                 'vendor': vendor,
                 'model': model,
                 'part_no': part_no,
-                'unmatched': True
+                'unmatched': True,
             }
 
         else:
-            logging.debug(f'found disk at "{target}" on bus "{bus}": "{vendor} {model}"')
+            logging.debug(
+                f'found disk at "{target}" on bus "{bus}": "{vendor} {model}"'
+            )
 
             disks_by_dev[target] = {
                 'target': target,
                 'bus': bus,
                 'vendor': vendor,
                 'model': model,
-                'partitions': []
+                'partitions': [],
             }
 
     # group partitions by disk
@@ -161,12 +167,22 @@ def _list_disks_fdisk():
     disk = None
 
     def add_disk(d):
-        logging.debug('found disk at "%s" on bus "%s": "%s %s"' %
-                      (d['target'], d['bus'], d['vendor'], d['model']))
+        logging.debug(
+            'found disk at "%s" on bus "%s": "%s %s"'
+            % (d['target'], d['bus'], d['vendor'], d['model'])
+        )
 
         for part in d['partitions']:
-            logging.debug('found partition "%s" at "%s" on bus "%s": "%s %s"' %
-                          (part['part_no'], part['target'], part['bus'], part['vendor'], part['model']))
+            logging.debug(
+                'found partition "%s" at "%s" on bus "%s": "%s %s"'
+                % (
+                    part['part_no'],
+                    part['target'],
+                    part['bus'],
+                    part['vendor'],
+                    part['model'],
+                )
+            )
 
         disks.append(d)
 
@@ -187,7 +203,7 @@ def _list_disks_fdisk():
                 'bus': '',
                 'vendor': '',
                 'model': parts[2] + ' ' + parts[3].strip(','),
-                'partitions': []
+                'partitions': [],
             }
 
         elif line.startswith('/dev/') and disk:

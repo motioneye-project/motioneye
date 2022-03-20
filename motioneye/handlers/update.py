@@ -35,15 +35,18 @@ class UpdateHandler(BaseHandler):
         logging.debug('listing versions')
 
         versions = get_all_versions()
-        current_version = get_os_version()[1]  # os version is returned as (name, version) tuple
-        recent_versions = [v for v in versions if compare_versions(v, current_version) > 0]
+        current_version = get_os_version()[
+            1
+        ]  # os version is returned as (name, version) tuple
+        recent_versions = [
+            v for v in versions if compare_versions(v, current_version) > 0
+        ]
         recent_versions.sort(key=cmp_to_key(compare_versions))
         update_version = recent_versions[-1] if recent_versions else None
 
-        self.finish_json({
-            'update_version': update_version,
-            'current_version': current_version
-        })
+        self.finish_json(
+            {'update_version': update_version, 'current_version': current_version}
+        )
 
     @BaseHandler.auth(admin=True)
     def post(self):

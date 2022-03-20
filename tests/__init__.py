@@ -7,12 +7,12 @@ __all__ = ('AsyncMock', 'WebTestCase')
 
 
 class AsyncMock(mock.MagicMock):
-
     def __call__(self, *args, **kwargs):
         sup = super()
 
         async def coro():
             return sup.__call__(*args, **kwargs)
+
         return coro()
 
     def __await__(self):

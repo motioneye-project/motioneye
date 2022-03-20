@@ -32,7 +32,7 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
         text = '{day} {month}, {hm}'.format(
             day=date_time.day,
             month=date_time.strftime('%b'),
-            hm=date_time.strftime('%H:%M')
+            hm=date_time.strftime('%H:%M'),
         )
 
     else:
@@ -40,7 +40,7 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
             day=date_time.day,
             month=date_time.strftime('%B'),
             year=date_time.year,
-            hm=date_time.strftime('%H:%M')
+            hm=date_time.strftime('%H:%M'),
         )
 
     if tzinfo:
@@ -68,9 +68,7 @@ def pretty_date(d: Union[datetime.date, int]) -> str:
         return pretty_date(datetime.datetime.fromtimestamp(d))
 
     return '{day} {month} {year}'.format(
-        day=d.day,
-        month=_(d.strftime('%B')),
-        year=d.year
+        day=d.day, month=_(d.strftime('%B')), year=d.year
     )
 
 
@@ -83,9 +81,7 @@ def pretty_time(t: Union[datetime.time, datetime.timedelta]) -> str:
         minute = int((t.seconds % 3600) / 60)
         t = datetime.time(hour=hour, minute=minute)
 
-    return '{hm}'.format(
-        hm=t.strftime('%H:%M')
-    )
+    return '{hm}'.format(hm=t.strftime('%H:%M'))
 
 
 def pretty_duration(duration):

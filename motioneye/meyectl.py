@@ -28,25 +28,25 @@ import sys
 locale.setlocale(locale.LC_ALL, '')
 lingvo = 'eo'
 traduction = None
-pathname=os.path.dirname(__file__)
+pathname = os.path.dirname(__file__)
 try:
-  gettext.find('motioneye',pathname+'/locale')
-  traduction = gettext.translation('motioneye',pathname+'/locale')
-  traduction.install();
+    gettext.find('motioneye', pathname + '/locale')
+    traduction = gettext.translation('motioneye', pathname + '/locale')
+    traduction.install()
 except:
-  traduction = gettext
-  gettext.install('motioneye')
+    traduction = gettext
+    gettext.install('motioneye')
 
-file = gettext.find('motioneye', pathname+'/locale')
+file = gettext.find('motioneye', pathname + '/locale')
 if file:
-  lgrpath = len(pathname)
-  lingvo = file[lgrpath+8:lgrpath+10]
+    lgrpath = len(pathname)
+    lingvo = file[lgrpath + 8 : lgrpath + 10]
 else:
-  lingvo = 'eo'
-#logging.info(_('lingvo : ') + lingvo)
+    lingvo = 'eo'
+# logging.info(_('lingvo : ') + lingvo)
 
 # make sure motioneye is on python path
-sys.path.insert(0,os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from motioneye import settings
 
@@ -64,8 +64,7 @@ def find_command(command):
         cmd = sys.executable + ' ' + cmd
         cmd = cmd.replace('-b', '')  # remove server-specific options
         cmd += ' %s ' % command
-        cmd += ' '.join([pipes.quote(arg) for arg in sys.argv[2:]
-                         if arg not in ['-b']])
+        cmd += ' '.join([pipes.quote(arg) for arg in sys.argv[2:] if arg not in ['-b']])
 
     return cmd
 
@@ -196,8 +195,12 @@ def configure_logging(cmd, log_to_file=False):
             log_file = None
 
         sys.stderr.write('configure logging to file: %s\n' % log_file)
-        logging.basicConfig(filename=log_file, level=settings.LOG_LEVEL,
-                            format=fmt, datefmt='%Y-%m-%d %H:%M:%S')
+        logging.basicConfig(
+            filename=log_file,
+            level=settings.LOG_LEVEL,
+            format=fmt,
+            datefmt='%Y-%m-%d %H:%M:%S',
+        )
 
     except Exception as e:
         sys.stderr.write('failed to configure logging: %s\n' % e)
@@ -210,7 +213,9 @@ def configure_logging(cmd, log_to_file=False):
 def configure_tornado():
     from tornado.httpclient import AsyncHTTPClient
 
-    AsyncHTTPClient.configure('tornado.curl_httpclient.CurlAsyncHTTPClient', max_clients=16)
+    AsyncHTTPClient.configure(
+        'tornado.curl_httpclient.CurlAsyncHTTPClient', max_clients=16
+    )
 
 
 def make_arg_parser(command=None):
@@ -230,16 +235,42 @@ def make_arg_parser(command=None):
 
         epilog = 'type "%(prog)s [command] -h" for help on a specific command\n\n'
 
-    parser = argparse.ArgumentParser(prog='meyectl%s' % ((' ' + command) if command else ''), usage=usage,
-                                     description=description, epilog=epilog, add_help=False,
-                                     formatter_class=argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(
+        prog='meyectl%s' % ((' ' + command) if command else ''),
+        usage=usage,
+        description=description,
+        epilog=epilog,
+        add_help=False,
+        formatter_class=argparse.RawTextHelpFormatter,
+    )
 
-    parser.add_argument('-c', help='use a config file instead of built-in defaults', type=str, dest='config_file')
-    parser.add_argument('-d', help='enable debugging, overriding log level from config file', action='store_true',
-                        dest='debug')
-    parser.add_argument('-h', help='print this help and exit', action='help', default=argparse.SUPPRESS)
-    parser.add_argument('-l', help='log to file instead of standard error', action='store_true', dest='log_to_file')
-    parser.add_argument('-v', help='print program version and exit', action='version', default=argparse.SUPPRESS)
+    parser.add_argument(
+        '-c',
+        help='use a config file instead of built-in defaults',
+        type=str,
+        dest='config_file',
+    )
+    parser.add_argument(
+        '-d',
+        help='enable debugging, overriding log level from config file',
+        action='store_true',
+        dest='debug',
+    )
+    parser.add_argument(
+        '-h', help='print this help and exit', action='help', default=argparse.SUPPRESS
+    )
+    parser.add_argument(
+        '-l',
+        help='log to file instead of standard error',
+        action='store_true',
+        dest='log_to_file',
+    )
+    parser.add_argument(
+        '-v',
+        help='print program version and exit',
+        action='version',
+        default=argparse.SUPPRESS,
+    )
 
     return parser
 
@@ -273,20 +304,25 @@ def main():
 
     if command in ('startserver', 'stopserver'):
         from motioneye import server
+
         server.main(arg_parser, sys.argv[2:], command[:-6])
 
     elif command == 'sendmail':
         from motioneye import sendmail
+
         sendmail.main(arg_parser, sys.argv[2:])
     elif command == 'sendtelegram':
         from motioneye import sendtelegram
+
         sendtelegram.main(arg_parser, sys.argv[2:])
     elif command == 'webhook':
         from motioneye import webhook
+
         webhook.main(arg_parser, sys.argv[2:])
 
     elif command == 'shell':
         from motioneye import shell
+
         shell.main(arg_parser, sys.argv[2:])
 
     else:

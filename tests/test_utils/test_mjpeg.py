@@ -7,7 +7,6 @@ from tests import WebTestCase
 
 
 class UtilsMjpegTest(WebTestCase):
-
     def setUp(self) -> None:
         super().setUp()
         self.data = None
@@ -37,7 +36,9 @@ class UtilsMjpegTest(WebTestCase):
             self.stop()
             callback_result.append((resp.cameras, resp.error))
 
-        future = test_mjpeg_url({'port': self.get_http_port()}, auth_modes=['basic'], allow_jpeg=True)
+        future = test_mjpeg_url(
+            {'port': self.get_http_port()}, auth_modes=['basic'], allow_jpeg=True
+        )
         future.add_done_callback(mock_on_response)
 
         self.wait()
@@ -54,7 +55,9 @@ class UtilsMjpegTest(WebTestCase):
             self.stop()
             callback_result.append((resp.cameras, resp.error))
 
-        future = test_mjpeg_url({'port': self.get_http_port()}, auth_modes=['basic'], allow_jpeg=True)
+        future = test_mjpeg_url(
+            {'port': self.get_http_port()}, auth_modes=['basic'], allow_jpeg=True
+        )
         future.add_done_callback(mock_on_response)
 
         self.wait()
@@ -65,11 +68,9 @@ class UtilsMjpegTest(WebTestCase):
         self.assertEqual(1, len(cams))
 
         cam = cams[0]
-        self.assertDictEqual({
-            'id': 1,
-            'name': 'JPEG Network Camera',
-            'keep_alive': True
-        }, cam)
+        self.assertDictEqual(
+            {'id': 1, 'name': 'JPEG Network Camera', 'keep_alive': True}, cam
+        )
 
     def test_test_mjpeg_url_mjpeg_cam(self):
         self.data = 'mjpeg camera'
@@ -80,7 +81,9 @@ class UtilsMjpegTest(WebTestCase):
             self.stop()
             callback_result.append((resp.cameras, resp.error))
 
-        future = test_mjpeg_url({'port': self.get_http_port()}, auth_modes=['basic'], allow_jpeg=True)
+        future = test_mjpeg_url(
+            {'port': self.get_http_port()}, auth_modes=['basic'], allow_jpeg=True
+        )
         future.add_done_callback(mock_on_response)
 
         self.wait()
@@ -91,11 +94,9 @@ class UtilsMjpegTest(WebTestCase):
         self.assertEqual(1, len(cams))
 
         cam = cams[0]
-        self.assertDictEqual({
-            'id': 1,
-            'name': 'MJPEG Network Camera',
-            'keep_alive': True
-        }, cam)
+        self.assertDictEqual(
+            {'id': 1, 'name': 'MJPEG Network Camera', 'keep_alive': True}, cam
+        )
 
 
 if __name__ == '__main__':

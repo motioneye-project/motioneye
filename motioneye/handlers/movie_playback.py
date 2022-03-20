@@ -36,8 +36,11 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
     @BaseHandler.auth()
     async def get(self, camera_id, filename=None, include_body=True):
-        logging.debug('downloading movie {filename} of camera {id}'.format(
-            filename=filename, id=camera_id))
+        logging.debug(
+            'downloading movie {filename} of camera {id}'.format(
+                filename=filename, id=camera_id
+            )
+        )
 
         self.pretty_filename = os.path.basename(filename)
 
@@ -50,7 +53,9 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
         if utils.is_local_motion_camera(camera_config):
             filename = mediafiles.get_media_path(camera_config, filename, 'movie')
-            self.pretty_filename = camera_config['camera_name'] + '_' + self.pretty_filename
+            self.pretty_filename = (
+                camera_config['camera_name'] + '_' + self.pretty_filename
+            )
             await StaticFileHandler.get(self, filename, include_body=include_body)
             return
 
@@ -61,15 +66,23 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
             if os.path.isfile(tmpfile):
                 # have a cached copy, update the timestamp so it's not flushed
                 import time
+
                 mtime = os.stat(tmpfile).st_mtime
                 os.utime(tmpfile, (time.time(), mtime))
                 await StaticFileHandler.get(self, tmpfile, include_body=include_body)
                 return
 
-            resp = await remote.get_media_content(camera_config, filename, media_type='movie')
+            resp = await remote.get_media_content(
+                camera_config, filename, media_type='movie'
+            )
             if resp.error:
-                return self.finish_json({'error': 'Failed to download movie from {url}: {msg}.'.format(
-                    url=remote.pretty_camera_url(camera_config), msg=resp.error)})
+                return self.finish_json(
+                    {
+                        'error': 'Failed to download movie from {url}: {msg}.'.format(
+                            url=remote.pretty_camera_url(camera_config), msg=resp.error
+                        )
+                    }
+                )
 
             # check if the file has been created by another request while we were fetching the movie
             if not os.path.isfile(tmpfile):
@@ -105,5 +118,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 class MovieDownloadHandler(MoviePlaybackHandler):
     def set_extra_headers(self, filename):
         if self.get_status() in (200, 304):
-            self.set_header('Content-Disposition', 'attachment; filename=' + self.pretty_filename + ';')
+            self.set_header(
+                'Content-Disposition',
+                'attachment; filename=' + self.pretty_filename + ';',
+            )
             self.set_header('Expires', '0')

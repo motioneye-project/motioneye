@@ -28,7 +28,9 @@ from motioneye import config, settings, utils
 
 def start():
     io_loop = IOLoop.instance()
-    io_loop.add_timeout(datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts)
+    io_loop.add_timeout(
+        datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts
+    )
 
 
 def stop():
@@ -49,10 +51,14 @@ def make_mount_point(server, share, username):
 
     if username:
         username = re.sub('[^a-zA-Z0-9]', '_', username).lower()
-        mount_point = os.path.join(settings.SMB_MOUNT_ROOT, f'motioneye_{server}_{share}_{username}')
+        mount_point = os.path.join(
+            settings.SMB_MOUNT_ROOT, f'motioneye_{server}_{share}_{username}'
+        )
 
     else:
-        mount_point = os.path.join(settings.SMB_MOUNT_ROOT, f'motioneye_{server}_{share}')
+        mount_point = os.path.join(
+            settings.SMB_MOUNT_ROOT, f'motioneye_{server}_{share}'
+        )
 
     return mount_point
 
@@ -89,7 +95,9 @@ def list_mounts():
                 continue
 
             server, share = match.groups()
-            share = share.replace('\\040', ' ')  # spaces are reported oddly by /proc/mounts
+            share = share.replace(
+                '\\040', ' '
+            )  # spaces are reported oddly by /proc/mounts
 
             match = re.search(r'username=([a-z][-\w]*)', opts)
             if match:
@@ -107,13 +115,15 @@ def list_mounts():
 
             logging.debug(f'found smb mount "//{server}/{share}" at "{mount_point}"')
 
-            mounts.append({
-                'server': server.lower(),
-                'share': share.lower(),
-                'smb_ver': smb_ver,
-                'username': username,
-                'mount_point': mount_point
-            })
+            mounts.append(
+                {
+                    'server': server.lower(),
+                    'share': share.lower(),
+                    'smb_ver': smb_ver,
+                    'username': username,
+                    'mount_point': mount_point,
+                }
+            )
 
     return mounts
 
@@ -122,21 +132,33 @@ def update_mounts():
     network_shares = config.get_network_shares()
 
     mounts = list_mounts()
-    mounts = {(m['server'], m['share'], m['smb_ver'], m['username'] or ''): False for m in mounts}
+    mounts = {
+        (m['server'], m['share'], m['smb_ver'], m['username'] or ''): False
+        for m in mounts
+    }
 
     should_stop = False  # indicates that motion should be stopped immediately
     should_start = True  # indicates that motion can be started afterwards
     for network_share in network_shares:
-        key = (network_share['server'].lower(), network_share['share'].lower(),
-               network_share['smb_ver'], network_share['username'].lower() or '')
+        key = (
+            network_share['server'].lower(),
+            network_share['share'].lower(),
+            network_share['smb_ver'],
+            network_share['username'].lower() or '',
+        )
 
         if key in mounts:  # found
             mounts[key] = True
 
         else:  # needs to be mounted
             should_stop = True
-            if not _mount(network_share['server'], network_share['share'], network_share['smb_ver'],
-                          network_share['username'], network_share['password']):
+            if not _mount(
+                network_share['server'],
+                network_share['share'],
+                network_share['smb_ver'],
+                network_share['username'],
+                network_share['password'],
+            ):
 
                 should_start = False
 
@@ -151,7 +173,10 @@ def update_mounts():
 
 def test_share(server, share, smb_ver, username, password, root_directory):
     mounts = list_mounts()
-    mounts = {(m['server'], m['share'], m['smb_ver'], m['username'] or ''): m['mount_point'] for m in mounts}
+    mounts = {
+        (m['server'], m['share'], m['smb_ver'], m['username'] or ''): m['mount_point']
+        for m in mounts
+    }
 
     key = (server, share, smb_ver, username or '')
     mounted = False
@@ -208,15 +233,22 @@ def _mount(server, share, smb_ver, username, password):
             actual_opts = opts
 
         try:
-            logging.debug(f'mounting "//{server}/{share}" at "{mount_point}" (sec={sec})')
-            subprocess.run(['mount.cifs', f'//{server}/{share}', mount_point, '-o', actual_opts], check=True)
+            logging.debug(
+                f'mounting "//{server}/{share}" at "{mount_point}" (sec={sec})'
+            )
+            subprocess.run(
+                ['mount.cifs', f'//{server}/{share}', mount_point, '-o', actual_opts],
+                check=True,
+            )
             break
 
         except subprocess.CalledProcessError:
             pass
 
     else:
-        logging.error(f'failed to mount smb share "//{server}/{share}" at "{mount_point}"')
+        logging.error(
+            f'failed to mount smb share "//{server}/{share}" at "{mount_point}"'
+        )
         return None
 
     # test to see if mount point is writable
@@ -242,7 +274,9 @@ def _umount(server, share, username):
         subprocess.run(['umount', mount_point], check=True)
 
     except subprocess.CalledProcessError:
-        logging.error(f'failed to unmount smb share "//{server}/{share}" from "{mount_point}"')
+        logging.error(
+            f'failed to unmount smb share "//{server}/{share}" from "{mount_point}"'
+        )
 
         return False
 
@@ -280,4 +314,6 @@ def _check_mounts():
         motionctl.start()
 
     io_loop = IOLoop.instance()
-    io_loop.add_timeout(datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts)
+    io_loop.add_timeout(
+        datetime.timedelta(seconds=settings.MOUNT_CHECK_INTERVAL), _check_mounts
+    )

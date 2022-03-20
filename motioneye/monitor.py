@@ -50,7 +50,9 @@ def get_monitor_info(camera_id):
 
 
 def _exec_monitor_command(command):
-    process = subprocess.Popen([command], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.Popen(
+        [command], stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    )
     out, err = process.communicate()
 
     try:

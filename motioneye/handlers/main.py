@@ -24,31 +24,37 @@ __all__ = ('MainHandler',)
 class MainHandler(BaseHandler):
     def get(self):
         # additional config
-        main_sections = config.get_additional_structure(camera=False, separators=True)[0]
-        camera_sections = config.get_additional_structure(camera=True, separators=True)[0]
+        main_sections = config.get_additional_structure(camera=False, separators=True)[
+            0
+        ]
+        camera_sections = config.get_additional_structure(camera=True, separators=True)[
+            0
+        ]
 
         motion_info = motionctl.find_motion()
         os_version = update.get_os_version()
 
-        self.render('main.html',
-                    frame=False,
-                    motion_version=motion_info[1] if motion_info else '(none)',
-                    os_version=' '.join(os_version),
-                    enable_update=settings.ENABLE_UPDATE,
-                    enable_reboot=settings.ENABLE_REBOOT,
-                    add_remove_cameras=settings.ADD_REMOVE_CAMERAS,
-                    main_sections=main_sections,
-                    camera_sections=camera_sections,
-                    hostname=settings.SERVER_NAME,
-                    title=self.get_argument('title', None),
-                    admin_username=config.get_main().get('@admin_username'),
-                    has_h264_omx_support=motionctl.has_h264_omx_support(),
-                    has_h264_v4l2m2m_support=motionctl.has_h264_v4l2m2m_support(),
-                    has_h264_nvenc_support=motionctl.has_h264_nvenc_support(),
-                    has_h264_nvmpi_support=motionctl.has_h264_nvmpi_support(),
-                    has_hevc_nvenc_support=motionctl.has_hevc_nvenc_support(),
-                    has_hevc_nvmpi_support=motionctl.has_hevc_nvmpi_support(),
-                    has_h264_qsv_support=motionctl.has_h264_qsv_support(),
-                    has_hevc_qsv_support=motionctl.has_hevc_qsv_support(),
-                    has_motion=bool(motionctl.find_motion()[0]),
-                    mask_width=utils.MASK_WIDTH)
+        self.render(
+            'main.html',
+            frame=False,
+            motion_version=motion_info[1] if motion_info else '(none)',
+            os_version=' '.join(os_version),
+            enable_update=settings.ENABLE_UPDATE,
+            enable_reboot=settings.ENABLE_REBOOT,
+            add_remove_cameras=settings.ADD_REMOVE_CAMERAS,
+            main_sections=main_sections,
+            camera_sections=camera_sections,
+            hostname=settings.SERVER_NAME,
+            title=self.get_argument('title', None),
+            admin_username=config.get_main().get('@admin_username'),
+            has_h264_omx_support=motionctl.has_h264_omx_support(),
+            has_h264_v4l2m2m_support=motionctl.has_h264_v4l2m2m_support(),
+            has_h264_nvenc_support=motionctl.has_h264_nvenc_support(),
+            has_h264_nvmpi_support=motionctl.has_h264_nvmpi_support(),
+            has_hevc_nvenc_support=motionctl.has_hevc_nvenc_support(),
+            has_hevc_nvmpi_support=motionctl.has_hevc_nvmpi_support(),
+            has_h264_qsv_support=motionctl.has_h264_qsv_support(),
+            has_hevc_qsv_support=motionctl.has_hevc_qsv_support(),
+            has_motion=bool(motionctl.find_motion()[0]),
+            mask_width=utils.MASK_WIDTH,
+        )

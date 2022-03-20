@@ -46,7 +46,9 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
 
     def connect():
         if send_auth[0]:
-            logging.debug('testing rtsp netcam at %s (this time with credentials)' % url)
+            logging.debug(
+                'testing rtsp netcam at %s (this time with credentials)' % url
+            )
 
         else:
             logging.debug('testing rtsp netcam at %s' % url)
@@ -58,8 +60,10 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         f = stream.connect((url_obj.host, int(url_obj.port)))
         f.add_done_callback(on_connect)
 
-        timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
-                                         functools.partial(on_connect, _timeout=True))
+        timeout[0] = io_loop.add_timeout(
+            datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
+            functools.partial(on_connect, _timeout=True),
+        )
 
         return stream
 
@@ -68,7 +72,9 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             io_loop.remove_timeout(timeout[0])
             s = f.result()
         except Exception as e:
-            logging.error(f'[ON_CONNECT] Stream connection error occurred: {e}', exc_info=True)
+            logging.error(
+                f'[ON_CONNECT] Stream connection error occurred: {e}', exc_info=True
+            )
             if _timeout:
                 return handle_error('timeout connecting to rtsp netcam')
             else:
@@ -76,20 +82,15 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         else:
             logging.debug('connected to rtsp netcam')
 
-            lines = [
-                'OPTIONS %s RTSP/1.0' % url,
-                'CSeq: 1',
-                'User-Agent: motionEye'
-            ]
+            lines = ['OPTIONS %s RTSP/1.0' % url, 'CSeq: 1', 'User-Agent: motionEye']
 
             if url_obj.username and send_auth[0]:
-                auth_header = 'Authorization: ' + build_basic_header(url_obj.username, url_obj.password)
+                auth_header = 'Authorization: ' + build_basic_header(
+                    url_obj.username, url_obj.password
+                )
                 lines.append(auth_header)
 
-            lines += [
-                '',
-                ''
-            ]
+            lines += ['', '']
 
             write_future = s.write('\r\n'.join(lines).encode('utf-8'))
             write_future.add_done_callback(seek_rtsp)
@@ -104,8 +105,10 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         else:
             r_future = cast_future(stream.read_until_regex(br'RTSP/1.0 \d+ '))
             r_future.add_done_callback(on_rtsp)
-            timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
-                                             functools.partial(on_rtsp, r_future))
+            timeout[0] = io_loop.add_timeout(
+                datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
+                functools.partial(on_rtsp, r_future),
+            )
 
     def on_rtsp(f: Future):
         try:
@@ -164,7 +167,9 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         f = cast_future(stream.read_until_regex(b'WWW-Authenticate: .*'))
         f.add_done_callback(on_www_authenticate)
 
-        timeout[0] = io_loop.add_timeout(datetime.timedelta(seconds=1), on_www_authenticate)
+        timeout[0] = io_loop.add_timeout(
+            datetime.timedelta(seconds=1), on_www_authenticate
+        )
 
     def on_www_authenticate(f: Future):
         auth_timeout_msg = 'timeout waiting for rtsp netcam response'
@@ -184,7 +189,9 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
                     connect()
 
                 else:
-                    logging.debug('rtsp auth scheme digest not supported, considering credentials ok')
+                    logging.debug(
+                        'rtsp auth scheme digest not supported, considering credentials ok'
+                    )
                     handle_success('(unknown) ')
 
             else:

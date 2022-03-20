@@ -24,23 +24,6 @@ import socket
 import sys
 import time
 
-#<<<<<<< HEAD
-#import urllib
-#import urllib2
-#import random
-#import codecs
-#import uuid
-#import binascii
-#import json
-#
-#
-#import settings
-#
-#import config
-#import mediafiles
-#import motionctl
-#import tzctl
-#=======
 import pycurl
 from tornado.ioloop import IOLoop
 
@@ -69,10 +52,18 @@ def send_message(api_key, chat_id, message, files):
         for f in files:
             c.setopt(c.URL, telegram_photo_url)
             # Send photos
-            c.setopt(c.HTTPPOST, [("chat_id", chat_id), ("caption", message), ("photo", (c.FORM_FILE, f))])
+            c.setopt(
+                c.HTTPPOST,
+                [
+                    ("chat_id", chat_id),
+                    ("caption", message),
+                    ("photo", (c.FORM_FILE, f)),
+                ],
+            )
             c.perform()
     c.close()
     logging.debug('sending email message')
+
 
 def make_message(message, camera_id, moment, timespan, callback):
     camera_config = config.get_camera(camera_id)
@@ -87,9 +78,16 @@ def make_message(message, camera_id, moment, timespan, callback):
         timestamp = time.mktime(moment.timetuple())
         if media_files:
             logging.debug('got media files')
-            media_files = [m for m in media_files if abs(m['timestamp'] - timestamp) < float(timespan)]
+            media_files = [
+                m
+                for m in media_files
+                if abs(m['timestamp'] - timestamp) < float(timespan)
+            ]
             media_files.sort(key=lambda m: m['timestamp'], reverse=True)
-            media_files = [os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path'])) for m in media_files]
+            media_files = [
+                os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path']))
+                for m in media_files
+            ]
             logging.debug('selected %d pictures' % len(media_files))
 
         format_dict = {
@@ -120,15 +118,21 @@ def make_message(message, camera_id, moment, timespan, callback):
     picture_filename = camera_config.get('picture_filename')
     snapshot_filename = camera_config.get('snapshot_filename')
 
-    if ((picture_filename or snapshot_filename) and
-        not picture_filename or picture_filename.startswith('%Y-%m-%d/') and
-        not snapshot_filename or snapshot_filename .startswith('%Y-%m-%d/')):
+    if (
+        (picture_filename or snapshot_filename)
+        and not picture_filename
+        or picture_filename.startswith('%Y-%m-%d/')
+        and not snapshot_filename
+        or snapshot_filename.startswith('%Y-%m-%d/')
+    ):
         moment = datetime.datetime.strptime(moment, '%Y-%m-%dT%H:%M:%S')
         prefix = moment.strftime('%Y-%m-%d')
         logging.debug('narrowing down still images path lookup to %s' % prefix)
 
     ## mediafiles.list_media(camera_config, media_type='picture', prefix=prefix, callback=on_media_files)
-    fut = utils.cast_future(mediafiles.list_media(camera_config, media_type='picture', prefix=prefix))
+    fut = utils.cast_future(
+        mediafiles.list_media(camera_config, media_type='picture', prefix=prefix)
+    )
     fut.add_done_callback(on_media_files)
 
     io_loop.start()
@@ -154,11 +158,15 @@ def main(parser, args):
 
     if len(args) == 12:
         # backwards compatibility with older configs lacking "from" field
-        _from = 'motionEye on {} <{}>'.format(socket.gethostname(), args[7].split(',')[0])
+        _from = 'motionEye on {} <{}>'.format(
+            socket.gethostname(), args[7].split(',')[0]
+        )
         args = args[:7] + [_from] + args[7:]
 
     if not args[7]:
-        args[7] = 'motionEye on {} <{}>'.format(socket.gethostname(), args[8].split(',')[0])
+        args[7] = 'motionEye on {} <{}>'.format(
+            socket.gethostname(), args[8].split(',')[0]
+        )
 
     options = parse_options(parser, args)
     print(options)

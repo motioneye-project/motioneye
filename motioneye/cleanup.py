@@ -33,7 +33,9 @@ def start():
 
     # schedule the first call a bit later to improve performance at startup
     io_loop = IOLoop.instance()
-    io_loop.add_timeout(datetime.timedelta(seconds=min(settings.CLEANUP_INTERVAL, 60)), _run_process)
+    io_loop.add_timeout(
+        datetime.timedelta(seconds=min(settings.CLEANUP_INTERVAL, 60)), _run_process
+    )
 
 
 def stop():
@@ -63,7 +65,9 @@ def _run_process():
     io_loop = IOLoop.instance()
 
     # schedule the next call
-    io_loop.add_timeout(datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), _run_process)
+    io_loop.add_timeout(
+        datetime.timedelta(seconds=settings.CLEANUP_INTERVAL), _run_process
+    )
 
     if not running():  # check that the previous process has finished
         logging.debug('running cleanup process...')
@@ -85,5 +89,4 @@ def _do_cleanup():
         logging.debug('cleanup done')
 
     except Exception as e:
-        logging.error('failed to cleanup media files: {msg}'.format(
-                msg=str(e)), exc_info=True)
+        logging.error(f'failed to cleanup media files: {str(e)}', exc_info=True)
