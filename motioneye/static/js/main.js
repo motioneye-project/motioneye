@@ -1932,9 +1932,10 @@ function cameraUi2Dict() {
         'upload_username': $('#uploadUsernameEntry').val(),
         'upload_password': $('#uploadPasswordEntry').val(),
         'upload_authorization_key': $('#uploadAuthorizationKeyEntry').val(),
-        'upload_secret_access_key': $('#uploadSecretAccessKeyEntry').val(),
+        'upload_endpoint_url': $('#uploadEndpointUrlEntry').val(),
+        'upload_access_key': $('#uploadAccessKeyEntry').val(),
+        'upload_secret_key': $('#uploadSecretKeyEntry').val(),
         'upload_bucket': $('#uploadBucketEntry').val(),
-	'upload_bucket_region': $('#uploadBucketRegionEntry').val(),
         'clean_cloud_enabled': $('#cleanCloudEnabledSwitch')[0].checked,
         'web_hook_storage_enabled': $('#webHookStorageEnabledSwitch')[0].checked,
         'web_hook_storage_url': $('#webHookStorageUrlEntry').val(),
@@ -2267,8 +2268,10 @@ function dict2CameraUi(dict) {
     $('#uploadUsernameEntry').val(dict['upload_username']); markHideIfNull('upload_username', 'uploadUsernameEntry');
     $('#uploadPasswordEntry').val(dict['upload_password']); markHideIfNull('upload_password', 'uploadPasswordEntry');
     $('#uploadAuthorizationKeyEntry').val(dict['upload_authorization_key']); markHideIfNull('upload_authorization_key', 'uploadAuthorizationKeyEntry');
-    $('#uploadSecretAccessKeyEntry').val(dict['upload_secret_access_key']);
-    $('#uploadBucketEntry').val(dict['upload_bucket']);
+    $('#uploadEndpointUrlEntry').val(dict['upload_endpoint_url']); markHideIfNull('upload_endpoint_url', 'uploadEndpointUrlEntry');
+    $('#uploadAccessKeyEntry').val(dict['upload_access_key']); markHideIfNull('upload_access_key', 'uploadAccessKeyEntry');
+    $('#uploadSecretKeyEntry').val(dict['upload_secret_key']); markHideIfNull('upload_secret_key', 'uploadSecretKeyEntry');
+    $('#uploadBucketEntry').val(dict['upload_bucket']); markHideIfNull('upload_bucket', 'uploadBucketEntry');
     $('#cleanCloudEnabledSwitch')[0].checked = dict['clean_cloud_enabled']; markHideIfNull('clean_cloud_enabled', 'cleanCloudEnabledSwitch');
 
     $('#webHookStorageEnabledSwitch')[0].checked = dict['web_hook_storage_enabled']; markHideIfNull('web_hook_storage_enabled', 'webHookStorageEnabledSwitch');
@@ -3008,8 +3011,10 @@ function doTestUpload() {
         username: $('#uploadUsernameEntry').val(),
         password: $('#uploadPasswordEntry').val(),
         authorization_key: $('#uploadAuthorizationKeyEntry').val(),
-        secret_access_key: $('#uploadSecretAccessKeyEntry').val,
-        bucket: $('#uploadBucketEntry').val
+        endpoint_url: $('#uploadEndpointUrlEntry').val(),
+        access_key: $('#uploadAccessKeyEntry').val(),
+        secret_key: $('#uploadSecretKeyEntry').val(),
+        bucket: $('#uploadBucketEntry').val()
     };
 
     var cameraId = $('#cameraSelect').val();

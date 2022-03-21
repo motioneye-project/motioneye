@@ -460,6 +460,10 @@ def get_camera(camera_id, as_lines=False):
             '@upload_server',
             '@upload_username',
             '@upload_password',
+            '@upload_endpoint_url',
+            '@upload_access_key',
+            '@upload_secret_key',
+            '@upload_bucket',
             'camera_name',
         ],
     )
@@ -819,6 +823,10 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         '@upload_subfolders': ui['upload_subfolders'],
         '@upload_username': ui['upload_username'],
         '@upload_password': ui['upload_password'],
+        '@upload_endpoint_url': ui['upload_endpoint_url'],
+        '@upload_access_key': ui['upload_access_key'],
+        '@upload_secret_key': ui['upload_secret_key'],
+        '@upload_bucket': ui['upload_bucket'],
         '@clean_cloud_enabled': ui['clean_cloud_enabled'],
         # text overlay
         'text_left': '',
@@ -1300,6 +1308,10 @@ def motion_camera_dict_to_ui(data):
         'upload_username': data['@upload_username'],
         'upload_password': data['@upload_password'],
         'upload_authorization_key': '',  # needed, otherwise the field is hidden
+        'upload_endpoint_url': data['@upload_endpoint_url'],
+        'upload_access_key': data['@upload_access_key'],
+        'upload_secret_key': data['@upload_secret_key'],
+        'upload_bucket': data['@upload_bucket'],
         'clean_cloud_enabled': data['@clean_cloud_enabled'],
         'web_hook_storage_enabled': False,
         'command_storage_enabled': False,
@@ -2176,6 +2188,10 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@upload_subfolders', True)
     data.setdefault('@upload_username', '')
     data.setdefault('@upload_password', '')
+    data.setdefault('@upload_endpoint_url', '')
+    data.setdefault('@upload_access_key', '')
+    data.setdefault('@upload_secret_key', '')
+    data.setdefault('@upload_bucket', '')
     data.setdefault('@clean_cloud_enabled', False)
 
     data.setdefault('stream_localhost', False)
