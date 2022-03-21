@@ -1630,9 +1630,7 @@ def motion_camera_dict_to_ui(data):
     command_notifications = []
     for e in on_event_start:
         if ' sendmail ' in e:
-            e = shlex.split(
-                utils.make_str(e)
-            )  # poor shlex can't deal with unicode properly
+            e = shlex.split(e)
 
             if len(e) < 10:
                 continue
@@ -1658,9 +1656,7 @@ def motion_camera_dict_to_ui(data):
                 ui['email_notifications_picture_time_span'] = 0
 
         elif ' sendtelegram ' in e:
-            e = shlex.split(
-                utils.make_str(e)
-            )  # poor shlex can't deal with unicode properly
+            e = shlex.split(e)
 
             if len(e) < 7:
                 continue
@@ -1675,9 +1671,7 @@ def motion_camera_dict_to_ui(data):
                 ui['telegram_notifications_picture_time_span'] = 0
 
         elif ' webhook ' in e:
-            e = shlex.split(
-                utils.make_str(e)
-            )  # poor shlex can't deal with unicode properly
+            e = shlex.split(e)
 
             if len(e) < 3:
                 continue
@@ -1704,9 +1698,7 @@ def motion_camera_dict_to_ui(data):
     command_end_notifications = []
     for e in on_event_end:
         if ' webhook ' in e:
-            e = shlex.split(
-                utils.make_str(e)
-            )  # poor shlex can't deal with unicode properly
+            e = shlex.split(e)
 
             if len(e) < 3:
                 continue
@@ -1733,9 +1725,7 @@ def motion_camera_dict_to_ui(data):
     command_storage = []
     for e in on_movie_end:
         if ' webhook ' in e:
-            e = shlex.split(
-                utils.make_str(e)
-            )  # poor shlex can't deal with unicode properly
+            e = shlex.split(e)
 
             if len(e) < 3:
                 continue
@@ -1766,9 +1756,8 @@ def motion_camera_dict_to_ui(data):
     for name, value in list(data.items()):
         if name not in _USED_MOTION_OPTIONS and not name.startswith('@'):
             if isinstance(value, bool):
-                value = ['off', 'on'][
-                    value
-                ]  # boolean values should be transferred as on/off
+                # boolean values should be transferred as on/off
+                value = ['off', 'on'][value]
 
             extra_options.append((name, value))
 
@@ -2097,7 +2086,6 @@ def _dict_to_conf(lines, data, list_names=None):
         remaining.pop(name, None)
 
     # add the remaining config values not covered by existing lines
-
     if len(remaining) and len(lines):
         conf_lines.append('')  # add a blank line
 
@@ -2149,9 +2137,8 @@ def _set_default_motion(data):
     data.setdefault('webcontrol_port', settings.MOTION_CONTROL_PORT)
     data.setdefault('webcontrol_interface', 1)
     data.setdefault('webcontrol_localhost', settings.MOTION_CONTROL_LOCALHOST)
-    data.setdefault(
-        'webcontrol_parms', 2
-    )  # the advanced list of parameters will be available
+    # the advanced list of parameters will be available
+    data.setdefault('webcontrol_parms', 2)
 
 
 def _set_default_motion_camera(camera_id, data):

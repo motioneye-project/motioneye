@@ -1017,6 +1017,13 @@
                     </div>
                     <table class="settings">
                         <tr class="settings-item" depends="motionDetectionEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label"><strong>Actions when motion</strong></span></td>
+                            <td class="settings-item-value"><span class="settings-item-label"><strong>has started:</strong></span></td>
+                        </tr>
+                        <tr class="settings-item" depends="motionDetectionEnabled">
+                            <td colspan="100"><div class="settings-item-separator"></div></td>
+                        </tr>
+                        <tr class="settings-item" depends="motionDetectionEnabled">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Sendi retpoŝton") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="emailNotificationsEnabledSwitch"></td>
                             <td><span class="help-mark" title="{{ _("Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita.") }}">?</span></td>
@@ -1135,17 +1142,24 @@
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">Call A End Web Hook</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label"><strong>Actions when motion</strong></span></td>
+                            <td class="settings-item-value"><span class="settings-item-label"><strong>has ended:</strong></span></td>
+                        </tr>
+                        <tr class="settings-item" depends="motionDetectionEnabled">
+                            <td colspan="100"><div class="settings-item-separator"></div></td>
+                        </tr>
+                        <tr class="settings-item" depends="motionDetectionEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Alvoki URL") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="webHookEndNotificationsEnabledSwitch"></td>
                             <td><span class="help-mark" title="enable this if you want a URL to be requested whenever a motion event ends">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="webHookEndNotificationsEnabled motionDetectionEnabled" strip="true">
-                            <td class="settings-item-label"><span class="settings-item-label">Web Hook URL</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Reteja URL") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="webHookEndNotificationsUrlEntry" placeholder="e.g. http://example.com/notify/"></td>
-                            <td><span class="help-mark" title="a single URL to be requested when motion event ends the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number">?</span></td>
+                            <td><span class="help-mark" title="a single URL to be requested when motion event ends; the following special tokens are accepted: %Y = year, %m = month, %d = day, %H = hour, %M = minute, %S = second, %q = frame number, %v = event number">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="webHookEndNotificationsEnabled motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">HTTP Method</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Metodo HTTP") }}</span></td>
                             <td class="settings-item-value">
                                 <select class="styled notifications camera-config" id="webHookEndNotificationsHttpMethodSelect">
                                     <option value="GET">GET</option>
@@ -1154,13 +1168,13 @@
                                     <option value="POSTj">POST (json)</option>
                                 </select>
                             </td>
-                            <td><span class="help-mark" title="the HTTP method to use when requesting the web hook URL (the given URL-encoded parameters will in fact be transmitted as indicated here)">?</span></td>
+                            <td><span class="help-mark" title="{{ _("La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
-                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Lanĉi fina komando") }}</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Lanĉi komando") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled notifications camera-config" id="commandEndNotificationsEnabledSwitch"></td>
                             <td><span class="help-mark" title="{{ _("Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos.") }}">?</span></td>
                         </tr>
