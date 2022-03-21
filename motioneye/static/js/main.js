@@ -646,21 +646,21 @@ function initUI() {
     }, '');
     makeCustomValidator($('#webHookNotificationsUrlEntry'), function (value) {
         if (!value.match(webHookUrlValidRegExp)) {
-            return "use of semicolon (;) or single quote (\') is not allowed in web hook URL";
+            return "use of semicolon (;) or single quote (') is not allowed in web hook URL";
         }
 
         return true;
     }, '');
     makeCustomValidator($('#webHookNotificationsUrlEntry'), function (value) {
         if (!value.match(webHookUrlValidRegExp)) {
-            return "use of semicolon (;) or single quote (\') is not allowed in web hook URL";
+            return "use of semicolon (;) or single quote (') is not allowed in web hook URL";
         }
 
         return true;
     }, '');
     makeCustomValidator($('#webHookEndNotificationsUrlEntry'), function (value) {
         if (!value.match(webHookUrlValidRegExp)) {
-            return "use of semicolon (;) or single quote (\') is not allowed in web hook URL";
+            return "use of semicolon (;) or single quote (') is not allowed in web hook URL";
         }
 
         return true;
