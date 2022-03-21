@@ -53,7 +53,7 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
             tz += '-'
             offset = -offset
 
-        tz += '%.2d' % (offset / 3600) + ':%.2d' % ((offset % 3600) / 60)
+        tz += '%.2d' % (offset // 3600) + ':%.2d' % ((offset % 3600) // 60)
 
         text += ' (' + tz + ')'
 
@@ -77,8 +77,8 @@ def pretty_time(t: Union[datetime.time, datetime.timedelta]) -> str:
         return ''
 
     if isinstance(t, datetime.timedelta):
-        hour = int(t.seconds / 3600)
-        minute = int((t.seconds % 3600) / 60)
+        hour = t.seconds // 3600
+        minute = (t.seconds % 3600) // 60
         t = datetime.time(hour=hour, minute=minute)
 
     return '{hm}'.format(hm=t.strftime('%H:%M'))
@@ -98,11 +98,11 @@ def pretty_duration(duration):
     else:
         negative = False
 
-    days = int(duration / 86400)
+    days = duration // 86400
     duration %= 86400
-    hours = int(duration / 3600)
+    hours = duration // 3600
     duration %= 3600
-    minutes = int(duration / 60)
+    minutes = duration // 60
     duration %= 60
     seconds = duration
 
