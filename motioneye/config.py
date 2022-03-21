@@ -1185,12 +1185,16 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         on_event_end.append(line)
 
     if ui['web_hook_end_notifications_enabled']:
-        url = re.sub('\\s', '+', ui['web_hook_end_notifications_url'])
+        url = re.sub(r'\s', '+', ui['web_hook_end_notifications_url'])
 
-        on_event_end.append("%(script)s '%(method)s' '%(url)s'" % {
-            'script': meyectl.find_command('webhook'),
-            'method': ui['web_hook_end_notifications_http_method'],
-            'url': url})
+        on_event_end.append(
+            "%(script)s '%(method)s' '%(url)s'"
+            % {
+                'script': meyectl.find_command('webhook'),
+                'method': ui['web_hook_end_notifications_http_method'],
+                'url': url,
+            }
+        )
 
     if ui['command_end_notifications_enabled']:
         on_event_end += utils.split_semicolon(ui['command_end_notifications_exec'])
@@ -1625,7 +1629,7 @@ def motion_camera_dict_to_ui(data):
     ui['telegram_notifications_picture_time_span'] = 0
     command_notifications = []
     for e in on_event_start:
-        if e.count(' sendmail '):
+        if ' sendmail ' in e:
             e = shlex.split(
                 utils.make_str(e)
             )  # poor shlex can't deal with unicode properly
@@ -1653,7 +1657,7 @@ def motion_camera_dict_to_ui(data):
             except:
                 ui['email_notifications_picture_time_span'] = 0
 
-        elif e.count(' sendtelegram '):
+        elif ' sendtelegram ' in e:
             e = shlex.split(
                 utils.make_str(e)
             )  # poor shlex can't deal with unicode properly
@@ -1670,7 +1674,7 @@ def motion_camera_dict_to_ui(data):
             except:
                 ui['telegram_notifications_picture_time_span'] = 0
 
-        elif e.count(' webhook '):
+        elif ' webhook ' in e:
             e = shlex.split(
                 utils.make_str(e)
             )  # poor shlex can't deal with unicode properly
@@ -1682,7 +1686,7 @@ def motion_camera_dict_to_ui(data):
             ui['web_hook_notifications_http_method'] = e[-2]
             ui['web_hook_notifications_url'] = e[-1]
 
-        elif e.count('relayevent'):
+        elif 'relayevent' in e:
             continue  # ignore internal relay script
 
         else:  # custom command
@@ -1699,8 +1703,10 @@ def motion_camera_dict_to_ui(data):
 
     command_end_notifications = []
     for e in on_event_end:
-        if e.count(' webhook '):
-            e = shlex.split(utils.make_str(e)) # poor shlex can't deal with unicode properly
+        if ' webhook ' in e:
+            e = shlex.split(
+                utils.make_str(e)
+            )  # poor shlex can't deal with unicode properly
 
             if len(e) < 3:
                 continue
@@ -1709,7 +1715,7 @@ def motion_camera_dict_to_ui(data):
             ui['web_hook_end_notifications_http_method'] = e[-2]
             ui['web_hook_end_notifications_url'] = e[-1]
 
-        elif e.count('relayevent') or e.count('eventrelay.py'):
+        elif 'relayevent' in e or 'eventrelay.py' in e:
             continue  # ignore internal relay script
 
         else:  # custom command
@@ -1726,7 +1732,7 @@ def motion_camera_dict_to_ui(data):
 
     command_storage = []
     for e in on_movie_end:
-        if e.count(' webhook '):
+        if ' webhook ' in e:
             e = shlex.split(
                 utils.make_str(e)
             )  # poor shlex can't deal with unicode properly
@@ -1738,7 +1744,7 @@ def motion_camera_dict_to_ui(data):
             ui['web_hook_storage_http_method'] = e[-2]
             ui['web_hook_storage_url'] = e[-1]
 
-        elif e.count('relayevent'):
+        elif 'relayevent' in e:
             continue  # ignore internal relay script
 
         else:  # custom command
