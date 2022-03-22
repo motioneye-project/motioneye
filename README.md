@@ -61,7 +61,7 @@ These install instructions are constantly tested via CI/CD pipeline on Debian Bu
     sudo python3 -m pip install 'https://github.com/motioneye-project/motioneye/archive/dev.tar.gz'
     sudo motioneye_init
     ```
-    _NB: `motioneye_init` currently assumes either an APT- or RPM-based distribution with `systemd` as init system. For a manual setup, config and service files can be found here: <https://github.com/motioneye-project/motioneye/tree/dev/motioneye/extra> _
+    _NB: `motioneye_init` currently assumes either an APT- or RPM-based distribution with `systemd` as init system. For a manual setup, config and service files can be found here: <https://github.com/motioneye-project/motioneye/tree/dev/motioneye/extra>_
 
 # Upgrade
 
