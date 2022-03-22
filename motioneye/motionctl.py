@@ -19,6 +19,7 @@ import logging
 import os.path
 import re
 import signal
+import socket
 import subprocess
 import time
 
@@ -185,6 +186,26 @@ def stop(invalidate=False):
         except OSError as e:
             if e.errno not in (errno.ESRCH, errno.ECHILD):
                 raise
+
+            # even if motion is killed, the port is not always free
+            # so we wait until we are able to bind it again
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            max_wait = 30
+            waited_for = 0
+            while waited_for <= max_wait:
+                try:
+                    s.bind(('127.0.0.1', settings.MOTION_CONTROL_PORT))
+                    s.close()
+                    logging.debug('motion port has been released')
+                    return
+
+                except OSError as e:
+                    logging.debug(f'motion port has not been released yet: {e}')
+                    waited_for += 1
+                    time.sleep(1)
+
+            logging.debug('motion port has not been released in 30 seconds')
+            raise
 
 
 def running():
