@@ -36,7 +36,7 @@ awk -v "src=$src" -v "dst=$dst" '{
       print ("#, fuzzy");
       print ("msgid " MSGID);
       printf("msgstr \"");
-      MSG=system("./traduko.sh " src " " dst " " MSGID )
+      MSG=system("l10n_scripts/traduko.sh " src " " dst " " MSGID )
       printf("\"\n");
     }
   }
