@@ -20,7 +20,7 @@ jobs:
       - run: sudo python3 get-pip.py
       - run: sudo python3 -m pip install --upgrade pip setuptools wheel
       - run: python3 -m pip install --upgrade babel build
-      - run: cd motioneye && make
+      - run: make
       - run: python3 -m build  # Stores .tar.gz and .whl files into ./dist
       - run: sudo python3 -m pip install .
       - run: sudo motioneye_init --skip-apt-update
