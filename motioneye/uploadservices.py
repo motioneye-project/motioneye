@@ -14,7 +14,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from base64 import b64encode
 import datetime
 import ftplib
 import io
@@ -24,6 +23,7 @@ import mimetypes
 import os
 import os.path
 import time
+from base64 import b64encode
 from urllib.error import HTTPError
 from urllib.parse import quote, urlencode
 from urllib.request import Request
@@ -896,7 +896,7 @@ class Webdav(UploadService):
 
     def _request(self, url, method, body=None):
         base64string = b64encode(f'{self._username}:{self._password}')
-        headers = { 'Authorization' : 'Basic %s' % base64string }
+        headers = {'Authorization': 'Basic %s' % base64string}
         if body is not None:
             headers.update('Content-Length', '%d' % len(body))
         self.debug('request: ' + method + ' ' + url)
@@ -906,7 +906,9 @@ class Webdav(UploadService):
             utils.urlopen(request)
         except urllib.HTTPError as e:
             if method == 'MKCOL' and e.code == 405:
-                self.debug('MKCOL failed with code 405, this is normal if the folder exists')
+                self.debug(
+                    'MKCOL failed with code 405, this is normal if the folder exists'
+                )
             else:
                 raise e
 
@@ -930,7 +932,7 @@ class Webdav(UploadService):
         path = self._location.strip('/') + '/' + os.path.dirname(filename) + '/'
         filename = os.path.basename(filename)
         self._make_dirs(path)
-        self.debug('uploading %s of %s bytes' % (filename, len(data)))
+        self.debug(f'uploading {filename} of {len(data)} bytes')
         self._request(self._server + path + filename, 'PUT', bytearray(data))
         self.debug('upload done')
 
@@ -939,7 +941,7 @@ class Webdav(UploadService):
             'server': self._server,
             'username': self._username,
             'password': self._password,
-            'location': self._location
+            'location': self._location,
         }
 
     def load(self, data):
