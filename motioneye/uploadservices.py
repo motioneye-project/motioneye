@@ -14,6 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from base64 import b64encode
 import datetime
 import ftplib
 import io
@@ -29,7 +30,6 @@ from urllib.request import Request
 
 import boto3
 import pycurl
-import base64
 
 from motioneye import settings, utils
 
@@ -882,8 +882,8 @@ class Dropbox(UploadService):
         }
 
 
-class Nextcloud(UploadService):
-    NAME = 'nextcloud'
+class Webdav(UploadService):
+    NAME = 'webdav'
 
     def __init__(self, camera_id):
         self._server = None
@@ -894,31 +894,24 @@ class Nextcloud(UploadService):
 
         UploadService.__init__(self, camera_id)
 
-    def _get_base_url(self):
-        scheme = 'http://'
-        if self._port == 443:
-            scheme = 'https://'
-        url = scheme + self._server + ':' + str(self._port) + '/remote.php/dav/files/' + self._username + '/'
-        return url
-
-    def _request(self, url, method, data=None):
+    def _request(self, url, method, body=None):
+        base64string = b64encode(f'{self._username}:{self._password}')
+        headers = { 'Authorization' : 'Basic %s' % base64string }
+        if body is not None:
+            headers.update('Content-Length', '%d' % len(body))
         self.debug('request: ' + method + ' ' + url)
-        request = urllib2.Request(url, data=data)
+        request = urllib.request.Request(url, data=body, headers=headers)
         request.get_method = lambda: method
-        base64string = base64.b64encode('%s:%s' % (self._username, self._password))
-        request.add_header("Authorization", "Basic %s" % base64string)
-        if data is not None:
-            request.add_header('Content-Length', '%d' % len(data))
         try:
             utils.urlopen(request)
-        except urllib2.HTTPError as e:
+        except urllib.HTTPError as e:
             if method == 'MKCOL' and e.code == 405:
                 self.debug('MKCOL failed with code 405, this is normal if the folder exists')
             else:
                 raise e
 
     def _make_dirs(self, path):
-        dir_url = self._get_base_url()
+        dir_url = self._server
         for folder in path.strip('/').split('/'):
             dir_url = dir_url + folder + '/'
             self._request(dir_url, 'MKCOL')
@@ -927,7 +920,7 @@ class Nextcloud(UploadService):
         try:
             test_path = self._location.strip('/') + '/' + str(time.time())
             self._make_dirs(test_path)
-            self._request(self._get_base_url() + test_path, 'DELETE')
+            self._request(self._server + test_path, 'DELETE')
             return True
         except Exception as e:
             self.error(str(e), exc_info=True)
@@ -938,13 +931,12 @@ class Nextcloud(UploadService):
         filename = os.path.basename(filename)
         self._make_dirs(path)
         self.debug('uploading %s of %s bytes' % (filename, len(data)))
-        self._request(self._get_base_url() + path + filename, 'PUT', bytearray(data))
+        self._request(self._server + path + filename, 'PUT', bytearray(data))
         self.debug('upload done')
 
     def dump(self):
         return {
             'server': self._server,
-            'port': self._port,
             'username': self._username,
             'password': self._password,
             'location': self._location
@@ -953,8 +945,6 @@ class Nextcloud(UploadService):
     def load(self, data):
         if data.get('server') is not None:
             self._server = data['server']
-        if data.get('port') is not None:
-            self._port = int(data['port'])
         if data.get('username') is not None:
             self._username = data['username']
         if data.get('password') is not None:
