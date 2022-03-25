@@ -200,7 +200,7 @@ def stop(invalidate=False):
                     return
 
                 except OSError as e:
-                    logging.debug(f'motion port has not been released yet: {e}')
+                    logging.debug(f'motion port has not yet been released: {e!r}')
                     waited_for += 1
                     time.sleep(1)
 
