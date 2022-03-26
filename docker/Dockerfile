@@ -6,7 +6,7 @@ ARG RUN_UID=0
 ARG RUN_GID=0
 
 COPY . /tmp/motioneye
-COPY extra/entrypoint.sh /entrypoint.sh
+COPY docker/entrypoint.sh /entrypoint.sh
 
 RUN case "$(dpkg --print-architecture)" in \
       'armhf') PACKAGES='python3-distutils'; printf '%b' '[global]\nextra-index-url=https://www.piwheels.org/simple/\n' > /etc/pip.conf;; \
