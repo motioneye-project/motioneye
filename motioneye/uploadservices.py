@@ -862,7 +862,7 @@ class Dropbox(UploadService):
         }
         body = urllib.urlencode(body)
 
-        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
+        request = urllib.request.Request(self.TOKEN_URL, data=body, headers=headers)
 
         try:
             response = utils.urlopen(request)
