@@ -867,7 +867,7 @@ class Dropbox(UploadService):
         try:
             response = utils.urlopen(request)
 
-        except urllib2.HTTPError as e:
+        except urllib.error.HTTPError as e:
             error = json.load(e)
             raise Exception(error.get('error_description') or error.get('error') or str(e))
 
