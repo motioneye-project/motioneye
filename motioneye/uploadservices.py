@@ -552,7 +552,7 @@ class GooglePhoto(UploadService, GoogleBase):
         dayinfo = datetime.datetime.fromtimestamp(ctime).strftime('%Y-%m-%d')
         uploadname = dayinfo + '-' + filename
 
-        body = data 
+        body = data
 
         headers = {
             'Content-Type': 'application/octet-stream',
@@ -681,7 +681,8 @@ class Dropbox(UploadService):
     def get_authorize_url(cls):
         query = {
             'response_type': 'code',
-            'client_id': cls.CLIENT_ID
+            'client_id': cls.CLIENT_ID,
+            'token_access_type': 'offline'
         }
 
         return cls.AUTH_URL + '?' + urllib.urlencode(query)
@@ -779,7 +780,7 @@ class Dropbox(UploadService):
             if e.code == 401 and retry_auth:  # unauthorized, access token may have expired
                 try:
                     self.debug('credentials have probably expired, refreshing them')
-                    self._credentials = self._request_credentials(self._authorization_key)
+                    self._credentials = self._refresh_credentials(self._credentials['refresh_token'])
                     self.save()
 
                     # retry the request with refreshed credentials
@@ -829,8 +830,39 @@ class Dropbox(UploadService):
         data = json.load(response)
 
         return {
-            'access_token': data['access_token']
+            'access_token': data['access_token'],
+            'refresh_token': data['refresh_token']
         }
+
+    def _refresh_credentials(self, refresh_token):
+        headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+
+        body = {
+            'refresh_token': refresh_token,
+            'client_id': self.CLIENT_ID,
+            'client_secret': self.CLIENT_NOT_SO_SECRET,
+            'grant_type': 'refresh_token'
+        }
+        body = urllib.urlencode(body)
+
+        request = urllib2.Request(self.TOKEN_URL, data=body, headers=headers)
+
+        try:
+            response = utils.urlopen(request)
+
+        except urllib2.HTTPError as e:
+            error = json.load(e)
+            raise Exception(error.get('error_description') or error.get('error') or str(e))
+
+        data = json.load(response)
+
+        return {
+            'access_token': data['access_token'],
+            'refresh_token': data.get('refresh_token', refresh_token)
+        }
+
 
 
 class FTP(UploadService):
