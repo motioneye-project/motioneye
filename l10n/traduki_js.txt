@@ -21,12 +21,12 @@ Kaj ni uzas la funkcion i18n.gettext donitan de gettext.min.js por traduki, ekz.
      return i18n.gettext("Ĉi tiu kampo estas deviga");
 
 La dosiero "pot" estas ĝisdatigita per la komando xgettext, ekz. :
-	xgettext --from-code=UTF-8 --no-wrap -o locale/motioneye.js.pot static/js/*.js
+	xgettext --from-code=UTF-8 --no-wrap -o motioneye/locale/motioneye.js.pot static/js/*.js
 La dosiero "po" estas ĝisdatigita per la komando msgmerge, ekz. :
-	msgmerge --no-wrap -N -U locale/en/LC_MESSAGES/motioneye.js.po locale/motioneye.js.pot
+	msgmerge --no-wrap -N -U motioneye/locale/en/LC_MESSAGES/motioneye.js.po motioneye/locale/motioneye.js.pot
 Tradukoj povas esti ĝisdatigitaj per teksta redaktilo aŭ per poedit.
 La dosiero "json" estas ĝisdatigita per la komando scripts/po2json, ekz. :
-	./scripts/po2json locale/en/LC_MESSAGES/motioneye.js.po static/js/motioneye.en.json
+	l10n/po2json motioneye/locale/en/LC_MESSAGES/motioneye.js.po motioneye/static/js/motioneye.en.json
 
 La dosiero "Makefile" permesas aŭtomate administri xgettext, msgmerge kaj po2json. Simple enigu "make" post modifi dosieron "js" aŭ "po".
 
