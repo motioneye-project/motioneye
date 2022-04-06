@@ -695,7 +695,7 @@ class Dropbox(UploadService):
         query = {
             'response_type': 'code',
             'client_id': cls.CLIENT_ID,
-            'token_access_type': 'offline'
+            'token_access_type': 'offline',
         }
 
         return cls.AUTH_URL + '?' + urllib.parse.urlencode(query)
@@ -795,7 +795,9 @@ class Dropbox(UploadService):
             ):  # unauthorized, access token may have expired
                 try:
                     self.debug('credentials have probably expired, refreshing them')
-                    self._credentials = self._refresh_credentials(self._credentials['refresh_token'])
+                    self._credentials = self._refresh_credentials(
+                        self._credentials['refresh_token']
+                    )
                     self.save()
 
                     # retry the request with refreshed credentials
@@ -846,19 +848,17 @@ class Dropbox(UploadService):
 
         return {
             'access_token': data['access_token'],
-            'refresh_token': data['refresh_token']
+            'refresh_token': data['refresh_token'],
         }
 
     def _refresh_credentials(self, refresh_token):
-        headers = {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
+        headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 
         body = {
             'refresh_token': refresh_token,
             'client_id': self.CLIENT_ID,
             'client_secret': self.CLIENT_NOT_SO_SECRET,
-            'grant_type': 'refresh_token'
+            'grant_type': 'refresh_token',
         }
         body = urllib.urlencode(body)
 
@@ -869,15 +869,16 @@ class Dropbox(UploadService):
 
         except urllib.error.HTTPError as e:
             error = json.load(e)
-            raise Exception(error.get('error_description') or error.get('error') or str(e))
+            raise Exception(
+                error.get('error_description') or error.get('error') or str(e)
+            )
 
         data = json.load(response)
 
         return {
             'access_token': data['access_token'],
-            'refresh_token': data.get('refresh_token', refresh_token)
+            'refresh_token': data.get('refresh_token', refresh_token),
         }
-
 
 
 class FTP(UploadService):
