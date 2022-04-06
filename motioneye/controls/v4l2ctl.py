@@ -17,7 +17,6 @@
 import fcntl
 import logging
 import os.path
-import pipes
 import re
 import stat
 import subprocess
@@ -35,7 +34,7 @@ _V4L2_TIMEOUT = 10
 
 def find_v4l2_ctl():
     try:
-        return utils.call_subprocess(['which', 'v4l2-ctl'], stderr=utils.DEV_NULL)
+        return utils.call_subprocess(['which', 'v4l2-ctl'])
 
     except subprocess.CalledProcessError:  # not found
         return None
@@ -53,7 +52,7 @@ def list_devices():
         )
 
     except:
-        logging.debug('v4l2-ctl  error : %s ' % output)
+        logging.debug(f'v4l2-ctl error: {output}')
 
     name = None
     devices = []
@@ -64,11 +63,7 @@ def list_devices():
             persistent_device = find_persistent_device(device)
             devices.append((device, persistent_device, name))
 
-            logging.debug(
-                'found device {name}: {device}, {persistent_device}'.format(
-                    name=name, device=device, persistent_device=persistent_device
-                )
-            )
+            logging.debug(f'found device {name}: {device}, {persistent_device}')
 
         else:
             name = line.split('(')[0].strip()
@@ -96,14 +91,13 @@ def list_resolutions(device):
     resolutions = set()
     output = b''
     started = time.time()
-    cmd = 'v4l2-ctl -d %(device)s --list-formats-ext | grep -vi stepwise | grep -oE "[0-9]+x[0-9]+" || true'
-    actual_cmd = cmd % {'device': pipes.quote(device)}
-    logging.debug('running command "%s"' % actual_cmd)
+    cmd = f"v4l2-ctl -d '{device}' --list-formats-ext | grep -vi stepwise | grep -oE '[0-9]+x[0-9]+' || true"
+    logging.debug(f'running command "{cmd}"')
 
     try:
-        output = utils.call_subprocess(actual_cmd, shell=True, stderr=utils.DEV_NULL)
+        output = utils.call_subprocess(cmd, shell=True, stderr=utils.DEV_NULL)
     except:
-        logging.error(f'failed to list resolutions of device {device}...')
+        logging.error(f'failed to list resolutions of device "{device}"')
 
     output = utils.make_str(output)
 
@@ -127,11 +121,7 @@ def list_resolutions(device):
 
         resolutions.add((width, height))
 
-        logging.debug(
-            'found resolution {width}x{height} for device {device}'.format(
-                device=device, width=width, height=height
-            )
-        )
+        logging.debug(f'found resolution {width}x{height} for device {device}')
 
     if not resolutions:
         logging.debug(f'no resolutions found for device {device}, using common values')
@@ -184,17 +174,16 @@ def list_ctrls(device):
 
     output = b''
     started = time.time()
-    cmd = 'v4l2-ctl -d %(device)s --list-ctrls'
-    actual_cmd = cmd % {'device': pipes.quote(device)}
-    logging.debug('running command "%s"' % actual_cmd)
+    cmd = ['v4l2-ctl', '-d', device, '--list-ctrls']
+    logging.debug(f'running command "{" ".join(cmd)}"')
 
     try:
-        output = utils.call_subprocess(actual_cmd, shell=True, stderr=subprocess.STDOUT)
+        output = utils.call_subprocess(cmd, stderr=subprocess.STDOUT)
     except:
-        logging.error(f'failed to list controls of device {device}...')
+        logging.error(f'failed to list controls of device "{device}"')
 
     controls = {}
-    logging.debug(' command output "%s"' % output)
+    logging.debug(f'command output: "{output}"')
     output = utils.make_str(output)
     for line in output.split('\n'):
         if not line:

@@ -77,7 +77,7 @@ class BaseHandler(RequestHandler):
         if not self._finished:
             import motioneye
 
-            self.set_header('Server', 'motionEye/%s' % motioneye.VERSION)
+            self.set_header('Server', f'motionEye/{motioneye.VERSION}')
 
             return super().finish(chunk=chunk)
         else:
@@ -146,9 +146,8 @@ class BaseHandler(RequestHandler):
         ):
             return 'admin'
 
-        if (
-            not username and not normal_password
-        ):  # no authentication required for normal user
+        # no authentication required for normal user
+        if not username and not normal_password:
             return 'normal'
 
         if username == normal_username and (
