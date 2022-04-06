@@ -1110,55 +1110,53 @@ class S3(UploadService):
     NAME = 's3'
 
     def __init__(self, camera_id):
-        self._location = None
-        self._authorization_key = None
-        self._secret_access_key = None
+        self._endpoint_url = None
+        self._access_key = None
+        self._secret_key = None
         self._bucket = None
         UploadService.__init__(self, camera_id)
 
     @classmethod
     def dump(self):
         return {
-            'location': self._location,
-            'authorization_key': self._authorization_key,
-            'secret_access_key': self._secret_access_key,
+            'endpoint_url': self._endpoint_url,
+            'access_key': self._access_key,
+            'secret_key': self._secret_key,
             'bucket': self._bucket,
         }
 
     def load(self, data):
-        if data.get('location') is not None:
-            self._location = data['location']
-        if data.get('authorization_key') is not None:
-            self._authorization_key = data['authorization_key']
-        if data.get('secret_access_key') is not None:
-            self._secret_access_key = data['secret_access_key']
+        if data.get('endpoint_url'):
+            self._endpoint_url = data['endpoint_url']
+        if data.get('access_key') is not None:
+            self._access_key = data['access_key']
+        if data.get('secret_key') is not None:
+            self._secret_key = data['secret_key']
         if data.get('bucket') is not None:
             self._bucket = data['bucket']
 
-    def upload_data(self, filename, mime_type, data, ctime, camera_name):
-        path = os.path.dirname(filename)
-        basename = os.path.basename(filename)
-
+    def upload_file(self, target_dir, filename, camera_name):
         # Create an S3 client
         s3 = boto3.client(
             's3',
-            aws_access_key_id=self._authorization_key,
-            aws_secret_access_key=self._secret_access_key,
-            region_name=self._location,
+            endpoint_url=self._endpoint_url,
+            aws_access_key_id=self._access_key,
+            aws_secret_access_key=self._secret_key,
         )
 
         # Uploads the given file using a managed uploader, which will split up
         # large files automatically and upload parts in parallel.
-        s3.upload_file(filename, self._bucket, basename)
+        self.debug(f'uploading file "{filename}" to S3 bucket "{self._bucket}"')
+        s3.upload_file(filename, self._bucket, filename[len(target_dir) :])
 
     def test_access(self):
         try:
             # Create an S3 client
             s3 = boto3.client(
                 's3',
-                aws_access_key_id=self._authorization_key,
-                aws_secret_access_key=self._secret_access_key,
-                region_name=self._location,
+                endpoint_url=self._endpoint_url,
+                aws_access_key_id=self._access_key,
+                aws_secret_access_key=self._secret_key,
             )
             response = s3.list_buckets()
             logging.debug('Existing buckets:')
@@ -1166,7 +1164,7 @@ class S3(UploadService):
                 logging.debug(f'  {bucket["Name"]}')
             return True
         except Exception as e:
-            logging.error('S3 connection failed: %s' % e)
+            logging.error(f'S3 connection failed: {e}')
             return str(e)
 
 
