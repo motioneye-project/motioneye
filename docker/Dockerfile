@@ -9,7 +9,7 @@ COPY . /tmp/motioneye
 COPY docker/entrypoint.sh /entrypoint.sh
 
 RUN case "$(dpkg --print-architecture)" in \
-      'armhf') PACKAGES='python3-distutils'; printf '%b' '[global]\nextra-index-url=https://www.piwheels.org/simple/\n' > /etc/pip.conf;; \
+      'armhf') PACKAGES='gcc libjpeg-dev python3-distutils python3-dev'; printf '%b' '[global]\nextra-index-url=https://www.piwheels.org/simple/\n' > /etc/pip.conf;; \
       *) PACKAGES='gcc libcurl4-openssl-dev libssl-dev python3-dev';; \
     esac && \
     apt-get -q update && \
