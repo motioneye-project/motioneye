@@ -18,12 +18,12 @@ RUN case "$(dpkg --print-architecture)" in \
     curl -sSfO 'https://bootstrap.pypa.io/get-pip.py' && \
     python3 get-pip.py && \
     python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel && \
+    python3 -m pip install --no-cache-dir /tmp/motioneye && \
+    motioneye_init --skip-systemd --skip-apt-update && \
     # Change uid/gid of user/group motion to match our desired IDs. This will
     # make it easier to use execute motion as our desired user later.
     sed -i "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
     sed -i "s/^\(motion:[^:]*\):[0-9]*:\(.*\)/\1:${RUN_GID}:\2/" /etc/group && \
-    python3 -m pip install --no-cache-dir /tmp/motioneye && \
-    motioneye_init --skip-systemd --skip-apt-update && \
     mv /etc/motioneye/motioneye.conf /etc/motioneye.conf.sample && \
     mkdir /var/log/motioneye /var/lib/motioneye && \
     chown motion:motion /var/log/motioneye /var/lib/motioneye && \
