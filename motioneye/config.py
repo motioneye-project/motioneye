@@ -1156,7 +1156,6 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         )
 
         on_event_start.append(line)
-        
     if ui['telegram_notifications_enabled']:
         line = (
             "%(script)s '%(api)s' '%(chatid)s' "
