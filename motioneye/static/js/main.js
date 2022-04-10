@@ -4858,7 +4858,7 @@ function addCameraFrameUi(cameraConfig) {
         };
     }(cameraId));
 
-    multiCameraButton.click(function (cameraId) {
+    multiCameraButton.click(function () {
         return function () {
             if (fullScreenMode) {
                 doExitFullScreenCamera(false);
@@ -4866,7 +4866,7 @@ function addCameraFrameUi(cameraConfig) {
                 doExitSingleViewCamera();
             }
         };
-    }(cameraId));
+    }());
 
     singleCameraButton.click(function (cameraId) {
         return function () {
@@ -5380,7 +5380,7 @@ function refreshCameraFrames() {
             this.refreshDivider = 0;
         }
 
-        cameraFrameRatios[cameraId] = !!this.img.naturalWidth ? this.img.naturalHeight / this.img.naturalWidth : 1;
+        cameraFrameRatios[cameraId] = this.img.naturalWidth > 0 ? this.img.naturalHeight / this.img.naturalWidth : 1;
     });
 
     setTimeout(refreshCameraFrames, refreshInterval);
