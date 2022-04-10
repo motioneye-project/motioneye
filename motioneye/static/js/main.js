@@ -1418,7 +1418,7 @@ function openSettings(cameraId) {
     $('div.settings-top-bar').addClass('open').removeClass('closed');
 
     updateConfigUI();
-    doExitFullScreenCamera(true); // TODO: should this be called earlier in this func?
+    doExitFullScreenCamera(true);
     updateLayout();
 }
 
