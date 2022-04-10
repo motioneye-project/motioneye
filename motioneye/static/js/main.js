@@ -10,7 +10,7 @@ var normalPasswordChanged = {};
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var singleViewCameraId = null;
 var fullScreenMode = false;
-var remainInSingleViewAfterFullScreen = false;
+var wasInSingleModeBeforeFullScreen = false;
 var inProgress = false;
 var refreshInterval = 15; /* milliseconds */
 var framerateFactor = 1;
@@ -34,6 +34,7 @@ var modalContainer = null;
 var cameraFramesCached = null;
 var cameraFramesTime = 0;
 var qualifyURLElement;
+var cameraFrameRatios = [];
 
 
     /* Object utilities */
@@ -1092,8 +1093,8 @@ function updateLayout() {
         var maxRatio = 0;
 
         frames.each(function () {
-            var img = $(this).find('img.camera');
-            var ratio = img.height() / img.width();
+            var cameraId = this.id.substring(6);
+            var ratio = cameraFrameRatios[cameraId];
             if (ratio > maxRatio) {
                 maxRatio = ratio;
             }
@@ -1144,6 +1145,7 @@ function showCameraOverlay() {
     getCameraFrames().find('div.camera-overlay').css('display', '');
     setTimeout(function () {
         getCameraFrames().find('div.camera-overlay').addClass('visible');
+        updateCameraTopButtonState();
     }, 10);
 
     overlayVisible = true;
@@ -1416,12 +1418,14 @@ function openSettings(cameraId) {
     $('div.settings-top-bar').addClass('open').removeClass('closed');
 
     updateConfigUI();
-    doExitFullScreenCamera(true);
+    doExitFullScreenCamera(true); // TODO: should this be called earlier in this func?
     updateLayout();
-    setTimeout(updateLayout, 200);
 }
 
 function closeSettings() {
+    if (!isSettingsOpen()) {
+        return;
+    }
     hideApply();
     pushConfigs = {};
     pushConfigReboot = false;
@@ -4692,7 +4696,8 @@ function addCameraFrameUi(cameraConfig) {
                         '<div class="camera-name"><span class="camera-name"></span></div>' +
                         '<div class="camera-top-buttons">' +
                             '<div class="button icon camera-top-button mouse-effect full-screen" title="' + i18n.gettext("plena ekrano kamerao") +'"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect single-camera" title="toggle single-camera camera"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect multi-camera" title="show all cameras"></div>' +
+                            '<div class="button icon camera-top-button mouse-effect single-camera" title="show only this camera"></div>' +
                             '<div class="button icon camera-top-button mouse-effect media-pictures" title="' + i18n.gettext("malfermaj bildoj retumilo") + '"></div>' +
                             '<div class="button icon camera-top-button mouse-effect media-movies" title="' + i18n.gettext("malferma videoj retumilo") + '"></div>' +
                             '<div class="button icon camera-top-button mouse-effect configure" title="' + i18n.gettext("agordi ĉi tiun kameraon") + '"></div>' +
@@ -4740,6 +4745,7 @@ function addCameraFrameUi(cameraConfig) {
     var picturesButton = cameraFrameDiv.find('div.camera-top-button.media-pictures');
     var moviesButton = cameraFrameDiv.find('div.camera-top-button.media-movies');
     var fullScreenButton = cameraFrameDiv.find('div.camera-top-button.full-screen');
+    var multiCameraButton = cameraFrameDiv.find('div.camera-top-button.multi-camera');
     var singleCameraButton = cameraFrameDiv.find('div.camera-top-button.single-camera');
 
     var cameraInfoDiv = cameraFrameDiv.find('div.camera-info');
@@ -4848,11 +4854,16 @@ function addCameraFrameUi(cameraConfig) {
 
     fullScreenButton.click(function (cameraId) {
         return function () {
-            if (fullScreenMode && singleViewCameraId == cameraId) {
-                doExitFullScreenCamera(true);
-            }
-            else {
-                doFullScreenCamera(cameraId);
+            doFullScreenCamera(cameraId);
+        };
+    }(cameraId));
+
+    multiCameraButton.click(function (cameraId) {
+        return function () {
+            if (fullScreenMode) {
+                doExitFullScreenCamera(false);
+            } else if (isSingleView()) {
+                doExitSingleViewCamera();
             }
         };
     }(cameraId));
@@ -4861,10 +4872,9 @@ function addCameraFrameUi(cameraConfig) {
         return function () {
             if (fullScreenMode) {
                 doExitFullScreenCamera(true);
-            } else if (isSingleView() && singleViewCameraId == cameraId) {
+            } else if (isSingleView()) {
                 doExitSingleViewCamera();
-            }
-            else {
+            } else {
                 doSingleViewCamera(cameraId);
             }
         };
@@ -5113,6 +5123,15 @@ function doConfigureCamera(cameraId) {
     openSettings(cameraId);
 }
 
+function isBrowserFullScreen() {
+    return !(
+        document.fullscreenElement === null ||
+        document.mozFullScreenElement === null ||
+        document.webkitFullscreenElement === null ||
+        document.msFullscreenElement === null
+    );
+}
+
 function doFullScreenCamera(cameraId) {
     if (inProgress) {
         return;
@@ -5120,9 +5139,9 @@ function doFullScreenCamera(cameraId) {
 
     if (!isSingleView()) {
         doSingleViewCamera(cameraId);
-        remainInSingleViewAfterFullScreen = false;
+        wasInSingleModeBeforeFullScreen = false;
     } else {
-        remainInSingleViewAfterFullScreen = true;
+        wasInSingleModeBeforeFullScreen = true;
     }
     /* try to make browser window full screen */
     var element = document.documentElement;
@@ -5140,13 +5159,8 @@ function doFullScreenCamera(cameraId) {
         requestFullScreen.call(element);
         fullScreenMode = true;
     }
-
-    /* calling updateLayout like this fixes wrong frame size
-     * after the window as actually been put into full screen mode */
+    updateCameraTopButtonState();
     updateLayout();
-    setTimeout(updateLayout, 200);
-    setTimeout(updateLayout, 400);
-    setTimeout(updateLayout, 1000);
 }
 
 function doSingleViewCamera(cameraId) {
@@ -5186,6 +5200,7 @@ function doSingleViewCamera(cameraId) {
     $('div.header').addClass('single-cam');
     $('div.footer').addClass('single-cam');
 
+    updateCameraTopButtonState();
     updateLayout();
 }
 
@@ -5216,15 +5231,16 @@ function doExitSingleViewCamera() {
 
     singleViewCameraId = null;
 
+    updateCameraTopButtonState();
     updateLayout();
 }
 
-function doExitFullScreenCamera(triggeredByUiButton = true) {
+function doExitFullScreenCamera(remainInSingleView = true) {
     if (!fullScreenMode) {
         return;
     }
 
-    if (triggeredByUiButton) {
+    if (isBrowserFullScreen()) {
         /* exit browser window full screen unless supposedly already
            done by the browser (when using browser controls) */
         var exitFullScreen = (
@@ -5243,10 +5259,27 @@ function doExitFullScreenCamera(triggeredByUiButton = true) {
     }
     fullScreenMode = false;
 
-    if (!remainInSingleViewAfterFullScreen) {
+    if (!remainInSingleView) {
         doExitSingleViewCamera();
     } else {
+        updateCameraTopButtonState();
         updateLayout();
+    }
+}
+
+function updateCameraTopButtonState() {
+    if (!fullScreenMode && !isSingleView()) {
+        $('div.camera-top-button.full-screen').show();
+        $('div.camera-top-button.single-camera').show();
+        $('div.camera-top-button.multi-camera').hide();
+    } else if (!fullScreenMode && isSingleView()) {
+        $('div.camera-top-button.full-screen').show();
+        $('div.camera-top-button.single-camera').hide();
+        $('div.camera-top-button.multi-camera').show();
+    } else {
+        $('div.camera-top-button.full-screen').hide();
+        $('div.camera-top-button.single-camera').show();
+        $('div.camera-top-button.multi-camera').show();
     }
 }
 
@@ -5346,6 +5379,8 @@ function refreshCameraFrames() {
             refreshCameraFrame(cameraId, this.img, serverSideResize);
             this.refreshDivider = 0;
         }
+
+        cameraFrameRatios[cameraId] = !!this.img.naturalWidth ? this.img.naturalHeight / this.img.naturalWidth : 1;
     });
 
     setTimeout(refreshCameraFrames, refreshInterval);
@@ -5418,14 +5453,9 @@ $(document).ready(function () {
     });
 
     document.addEventListener('fullscreenchange', function() {
-        var fullscreenElementIsNull = (
-            document.fullscreenElement === null ||
-            document.mozFullScreenElement === null ||
-            document.webkitFullscreenElement === null ||
-            document.msFullscreenElement === null
-        );
-        if (fullscreenElementIsNull) {
-            doExitFullScreenCamera(false);
+        if (!isBrowserFullScreen()) {
+            // Fullscreen mode end via browser controls
+            doExitFullScreenCamera(wasInSingleModeBeforeFullScreen);
         }
     });
 });

@@ -7,7 +7,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
-   sodipodi:docname="dev-camera-top-buttons.svg"
+   sodipodi:docname="camera-top-buttons.svg"
    inkscape:export-filename="/media/data/projects/motioneye/static/img/top-bar-buttons.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90"
@@ -27,9 +27,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.74509804"
      inkscape:pageshadow="2"
-     inkscape:zoom="4"
-     inkscape:cx="127.125"
-     inkscape:cy="8"
+     inkscape:zoom="5.6568542"
+     inkscape:cx="231.31231"
+     inkscape:cy="41.542523"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -172,35 +172,41 @@
        id="path4153"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc" />
-    <path
-       style="fill:#3498db;fill-opacity:1;stroke:#3498db;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 212,1026.3622 10,6 -10,6 z"
-       id="path3819-3"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
-    <circle
-       r="13"
-       cy="1032.3624"
-       cx="219"
-       id="circle4192-6"
-       style="fill:none;stroke:#3498db;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-    <path
-       style="display:inline;fill:#3498db;fill-opacity:1;stroke:#3498db;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 219,1026.3622 10,6 -10,6 z"
-       id="path3819-3-7"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccc" />
     <circle
        r="13"
        cy="1032.3622"
-       cx="260"
+       cx="220"
        id="path3863-3"
-       style="display:inline;fill:none;stroke:#3498db;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:none;stroke:#3498db;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     <path
        sodipodi:nodetypes="ccccc"
        inkscape:connector-curvature="0"
        id="path4213-5"
-       d="m 253,1026.3622 h 14 v 12 h -14 z"
-       style="display:inline;fill:none;stroke:#3498db;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       d="m 213,1026.3622 h 14 v 12 h -14 z"
+       style="fill:none;stroke:#3498db;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <circle
+       r="13"
+       cy="1032.3622"
+       cx="260"
+       id="path3863-3-7"
+       style="display:inline;fill:none;stroke:#3498db;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="path4213-5-5"
+       d="m 252,1025.3622 h 6.13408 v 5.134 H 252 Z"
+       style="display:inline;fill:none;stroke:#3498db;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="path4213-5-5-5"
+       d="m 252,1034.1122 h 6.13408 v 5.134 H 252 Z"
+       style="display:inline;fill:none;stroke:#3498db;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       sodipodi:nodetypes="ccccc"
+       inkscape:connector-curvature="0"
+       id="path4213-5-5-3"
+       d="m 261.75,1025.3622 h 6.13408 v 5.134 H 261.75 Z"
+       style="display:inline;fill:none;stroke:#3498db;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
   </g>
 </svg>

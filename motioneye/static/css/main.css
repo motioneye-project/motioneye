@@ -1077,6 +1077,10 @@ div.camera-top-button.media-movies {
 }
 
 div.camera-top-button.single-camera {
+    background-position: -500% 0;
+}
+
+div.camera-top-button.multi-camera {
     background-position: -600% 0;
 }
 
