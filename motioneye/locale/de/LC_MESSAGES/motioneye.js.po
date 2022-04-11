@@ -615,7 +615,7 @@ msgstr "Filme aufgenommen von"
 #: motioneye/static/js/main.js:4705
 #, fuzzy
 msgid "montru ĉi tiun fotilon plenekranan"
-msgstr "Zeigen Sie diese Kamera Vollzeit"
+msgstr "Diese Kamera im Vollbildmodus anzeigen"
 
 #: motioneye/static/js/main.js:4706
 #, fuzzy
