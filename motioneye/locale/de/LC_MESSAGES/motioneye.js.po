@@ -620,7 +620,7 @@ msgstr "Diese Kamera im Vollbildmodus anzeigen"
 #: motioneye/static/js/main.js:4706
 #, fuzzy
 msgid "montri ĉiujn fotilojn"
-msgstr "Alle Kameras anzeigen."
+msgstr "Alle Kameras anzeigen"
 
 #: motioneye/static/js/main.js:4707
 #, fuzzy
