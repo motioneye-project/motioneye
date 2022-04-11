@@ -625,7 +625,7 @@ msgstr "Alle Kameras anzeigen"
 #: motioneye/static/js/main.js:4707
 #, fuzzy
 msgid "montru nur ĉi tiun fotilon"
-msgstr "Zeigen Sie nur diese Kamera"
+msgstr "Nur diese Kamera anzeigen"
 
 #: motioneye/static/js/main.js:4708
 #, fuzzy
