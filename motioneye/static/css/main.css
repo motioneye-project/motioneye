@@ -79,7 +79,10 @@ div.header {
     transition: all 0.2s ease;
 }
 
-div.header.full-screen {
+div.header.full-screen,
+div.header.single-cam,
+div.footer.full-screen,
+div.footer.single-cam {
     height: 0;
 }
 
@@ -97,10 +100,6 @@ div.footer {
     text-align: center;
     transition: all 0.2s ease;
     overflow: hidden;
-}
-
-div.footer.full-screen {
-    height: 0;
 }
 
 div.copyright-note {
@@ -128,7 +127,8 @@ div.page-container.four-columns.stretched {
     font-size: 10px;
 }
 
-div.page-container.full-screen {
+div.page-container.full-screen,
+div.page-container.single-cam {
     padding-top: 0;
     padding-bottom: 0;
 }
@@ -918,8 +918,15 @@ div.page-container div.camera-frame.full-screen-hidden {
     border: 0;
     margin: 0;
 }
+div.page-container div.camera-frame.single-cam-hidden {
+    width: 0 !important;
+    height: 0 !important;
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
 
-div.page-container div.camera-frame.full-screen {
+div.page-container div.camera-frame.single-cam {
     width: 100%;
     height: auto;
     transition: all 0.4s ease; /* prevents unwanted camera frame line wrapping */
@@ -1057,6 +1064,14 @@ div.camera-top-button.media-pictures {
 
 div.camera-top-button.media-movies {
     background-position: -300% 0;
+}
+
+div.camera-top-button.single-camera {
+    background-position: -500% 0;
+}
+
+div.camera-top-button.multi-camera {
+    background-position: -600% 0;
 }
 
 div.camera-overlay-bottom {
