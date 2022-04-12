@@ -895,16 +895,18 @@ class Webdav(UploadService):
         UploadService.__init__(self, camera_id)
 
     def _request(self, url, method, body=None):
-        base64string = b64encode(f'{self._username}:{self._password}')
-        headers = {'Authorization': 'Basic %s' % base64string}
+        base64string = b64encode(f'{self._username}:{self._password}'.encode()).decode(
+            'ascii'
+        )
+        headers = {'Authorization': f'Basic {base64string}'}
         if body is not None:
-            headers.update('Content-Length', '%d' % len(body))
-        self.debug('request: ' + method + ' ' + url)
+            headers.update({'Content-Length': len(body)})
+        self.debug(f'request: {method} {url}')
         request = urllib.request.Request(url, data=body, headers=headers)
         request.get_method = lambda: method
         try:
             utils.urlopen(request)
-        except urllib.HTTPError as e:
+        except urllib.error.HTTPError as e:
             if method == 'MKCOL' and e.code == 405:
                 self.debug(
                     'MKCOL failed with code 405, this is normal if the folder exists'
