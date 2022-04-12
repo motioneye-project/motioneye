@@ -79,10 +79,10 @@ div.header {
     transition: all 0.2s ease;
 }
 
-div.header.full-screen {
-    height: 0;
-}
-div.header.single-cam {
+div.header.full-screen,
+div.header.single-cam,
+div.footer.full-screen,
+div.footer.single-cam {
     height: 0;
 }
 
@@ -100,13 +100,6 @@ div.footer {
     text-align: center;
     transition: all 0.2s ease;
     overflow: hidden;
-}
-
-div.footer.full-screen {
-    height: 0;
-}
-div.footer.single-cam {
-    height: 0;
 }
 
 div.copyright-note {
@@ -134,10 +127,7 @@ div.page-container.four-columns.stretched {
     font-size: 10px;
 }
 
-div.page-container.full-screen {
-    padding-top: 0;
-    padding-bottom: 0;
-}
+div.page-container.full-screen,
 div.page-container.single-cam {
     padding-top: 0;
     padding-bottom: 0;
