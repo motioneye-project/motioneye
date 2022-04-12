@@ -14,7 +14,7 @@ RUN case "$(dpkg --print-architecture)" in \
     esac && \
     apt-get -q update && \
     DEBIAN_FRONTEND="noninteractive" apt-get -qq --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
-      ca-certificates curl python3 $PACKAGES && \
+      ca-certificates curl python3 fdisk $PACKAGES && \
     curl -sSfO 'https://bootstrap.pypa.io/get-pip.py' && \
     python3 get-pip.py && \
     python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel && \
