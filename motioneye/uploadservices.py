@@ -23,9 +23,9 @@ import mimetypes
 import os
 import os.path
 import time
-import urllib.error
-import urllib.parse
-import urllib.request
+from urllib.error import HTTPError
+from urllib.parse import quote, urlencode
+from urllib.request import Request
 
 import boto3
 import pycurl
@@ -106,7 +106,7 @@ class UploadService:
 
         self.upload_data(rel_filename, mime_type, data, ctime, camera_name)
 
-        self.debug('file "%s" successfully uploaded' % filename)
+        self.debug(f'file "{filename}" successfully uploaded')
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
         pass
@@ -173,7 +173,7 @@ class GoogleBase:
             'access_type': 'offline',
         }
 
-        return cls.AUTH_URL + '?' + urllib.parse.urlencode(query)
+        return cls.AUTH_URL + '?' + urlencode(query)
 
     def _test_access(self):
         try:
@@ -214,20 +214,20 @@ class GoogleBase:
                 self.save()
 
             except Exception as e:
-                self.error('failed to obtain credentials: %s' % e)
+                self.error(f'failed to obtain credentials: {e}')
                 raise
 
         headers = headers or {}
-        headers['Authorization'] = 'Bearer %s' % self._credentials['access_token']
+        headers['Authorization'] = f'Bearer {self._credentials["access_token"]}'
 
-        self.debug('requesting %s' % url)
-        request = urllib.request.Request(url, data=body, headers=headers)
+        self.debug(f'requesting {url}')
+        request = Request(url, data=body, headers=headers)
         if method:
             request.get_method = lambda: method
         try:
             response = utils.urlopen(request)
 
-        except urllib.error.HTTPError as e:
+        except HTTPError as e:
             if (
                 e.code == 401 and retry_auth
             ):  # unauthorized, access token may have expired
@@ -253,11 +253,11 @@ class GoogleBase:
                 except Exception:
                     msg = str(e)
 
-                self.error('request failed: %s' % msg)
+                self.error(f'request failed: {msg}')
                 raise Exception(msg)
 
         except Exception as e:
-            self.error('request failed: %s' % e)
+            self.error(f'request failed: {e}')
             raise
 
         return response.read()
@@ -283,14 +283,14 @@ class GoogleBase:
             'scope': self.SCOPE,
             'grant_type': 'authorization_code',
         }
-        body = urllib.parse.urlencode(body)
+        body = urlencode(body).encode()
 
-        request = urllib.request.Request(self.TOKEN_URL, data=body, headers=headers)
+        request = Request(self.TOKEN_URL, data=body, headers=headers)
 
         try:
             response = utils.urlopen(request)
 
-        except urllib.error.HTTPError as e:
+        except HTTPError as e:
             error = json.load(e)
             raise Exception(
                 error.get('error_description') or error.get('error') or str(e)
@@ -312,14 +312,14 @@ class GoogleBase:
             'client_secret': self.CLIENT_NOT_SO_SECRET,
             'grant_type': 'refresh_token',
         }
-        body = urllib.parse.urlencode(body)
+        body = urlencode(body).encode()
 
-        request = urllib.request.Request(self.TOKEN_URL, data=body, headers=headers)
+        request = Request(self.TOKEN_URL, data=body, headers=headers)
 
         try:
             response = utils.urlopen(request)
 
-        except urllib.error.HTTPError as e:
+        except HTTPError as e:
             error = json.load(e)
             raise Exception(
                 error.get('error_description') or error.get('error') or str(e)
@@ -375,17 +375,17 @@ class GoogleDrive(UploadService, GoogleBase):
             json.dumps(metadata),
             '',
             '--' + self.BOUNDARY,
-            'Content-Type: %s' % mime_type,
+            f'Content-Type: {mime_type}',
             '',
             '',
         ]
 
         body = '\r\n'.join(body)
         body += data
-        body += '\r\n--%s--' % self.BOUNDARY
+        body += f'\r\n--{self.BOUNDARY}--'
 
         headers = {
-            'Content-Type': 'multipart/related; boundary="%s"' % self.BOUNDARY,
+            'Content-Type': f'multipart/related; boundary="{self.BOUNDARY}"',
             'Content-Length': len(body),
         }
 
@@ -410,7 +410,7 @@ class GoogleDrive(UploadService, GoogleBase):
         location += path
 
         if not folder_id or (now - folder_id_time > self.FOLDER_ID_LIFE_TIME):
-            self.debug('finding folder id for location "%s"' % location)
+            self.debug(f'finding folder id for location "{location}"')
             folder_id = self._get_folder_id_by_path(location)
 
             self._folder_ids[path] = folder_id
@@ -436,7 +436,7 @@ class GoogleDrive(UploadService, GoogleBase):
                 'parent_id': parent_id,
                 'child_name': child_name,
             }
-            query = urllib.parse.quote(query)
+            query = quote(query)
 
         else:
             query = ''
@@ -461,13 +461,13 @@ class GoogleDrive(UploadService, GoogleBase):
         if not items:
             if create:
                 self.debug(
-                    'folder with name "%s" does not exist, creating it' % child_name
+                    f'folder with name "{child_name}" does not exist, creating it'
                 )
                 self._create_folder(parent_id, child_name)
                 return self._get_folder_id_by_name(parent_id, child_name, create=False)
 
             else:
-                msg = 'folder with name "%s" does not exist' % child_name
+                msg = f'folder with name "{child_name}" does not exist'
                 self.error(msg)
                 raise Exception(msg)
 
@@ -496,17 +496,17 @@ class GoogleDrive(UploadService, GoogleBase):
         self.info(
             f'found {len(local_folders)}/{len(children)} folder(s) in local/cloud'
         )
-        self.debug('local %s' % local_folders)
+        self.debug(f'local {local_folders}')
         for child in children:
             id = child['id']
             name = self._get_file_title(id)
-            self.debug("cloud '%s'" % name)
+            self.debug(f"cloud '{name}'")
             to_delete = not exist_in_local(name, local_folders)
             if to_delete and self._delete_file(id):
                 removed_count += 1
-                self.info("deleted a cloud folder '%s'" % name)
+                self.info(f"deleted a cloud folder '{name}'")
 
-        self.info('deleted %s cloud folder(s)' % removed_count)
+        self.info(f'deleted {removed_count} cloud folder(s)')
         return removed_count
 
     def _get_children(self, file_id):
@@ -579,7 +579,7 @@ class GooglePhoto(UploadService, GoogleBase):
 
         uploadToken = self._request(self.GOOGLE_PHOTO_API + 'uploads', body, headers)
         response = self._create_media(uploadToken, camera_name)
-        self.debug('response %s' % response['mediaItem'])
+        self.debug(f'response {response["mediaItem"]}')
 
     def dump(self):
         return self._dump()
@@ -595,7 +595,7 @@ class GooglePhoto(UploadService, GoogleBase):
         self.debug(f'_get_folder_id({path}, {location}, {folder_id})')
 
         if not folder_id:
-            self.debug('finding album with title "%s"' % location)
+            self.debug(f'finding album with title "{location}"')
             folder_id = self._get_folder_id_by_name(location)
 
             self._folder_ids[location] = folder_id
@@ -623,7 +623,7 @@ class GooglePhoto(UploadService, GoogleBase):
             return albumId
 
         except Exception as e:
-            self.error("_get_folder_id_by_name() failed: %s" % e)
+            self.error(f"_get_folder_id_by_name() failed: {e}")
             raise
 
     def _create_folder(self, parent_id, child_name):
@@ -638,7 +638,7 @@ class GooglePhoto(UploadService, GoogleBase):
 
     def _create_media(self, uploadToken, camera_name):
         description = 'captured by motionEye camera' + (
-            ' "%s"' % camera_name if camera_name else ''
+            f' "{camera_name}"' if camera_name else ''
         )
 
         metadata = {
@@ -664,7 +664,7 @@ class GooglePhoto(UploadService, GoogleBase):
         response = self._request_json(self.GOOGLE_PHOTO_API + 'albums')
 
         albums = response.get('albums')
-        self.debug('got %s album(s)' % len(albums))
+        self.debug(f'got {len(albums)} album(s)')
         return albums
 
     def _filter_albums(self, albums, title):
@@ -698,7 +698,7 @@ class Dropbox(UploadService):
             'token_access_type': 'offline',
         }
 
-        return cls.AUTH_URL + '?' + urllib.parse.urlencode(query)
+        return cls.AUTH_URL + '?' + urlencode(query)
 
     def test_access(self):
         body = {
@@ -778,18 +778,18 @@ class Dropbox(UploadService):
                 self.save()
 
             except Exception as e:
-                self.error('failed to obtain credentials: %s' % e)
+                self.error(f'failed to obtain credentials: {e}')
                 raise
 
         headers = headers or {}
-        headers['Authorization'] = 'Bearer %s' % self._credentials['access_token']
+        headers['Authorization'] = f'Bearer {self._credentials["access_token"]}'
 
-        self.debug('requesting %s' % url)
-        request = urllib.request.Request(url, data=body, headers=headers)
+        self.debug(f'requesting {url}')
+        request = Request(url, data=body, headers=headers)
         try:
             response = utils.urlopen(request)
 
-        except urllib.error.HTTPError as e:
+        except HTTPError as e:
             if (
                 e.code == 401 and retry_auth
             ):  # unauthorized, access token may have expired
@@ -808,16 +808,16 @@ class Dropbox(UploadService):
                     raise
 
             elif str(e).count('not_found'):
-                msg = 'folder "%s" not found' % self._location
+                msg = f'folder "{self._location}" not found'
                 self.error(msg)
                 raise Exception(msg)
 
             else:
-                self.error('request failed: %s' % e)
+                self.error(f'request failed: {e}')
                 raise
 
         except Exception as e:
-            self.error('request failed: %s' % e)
+            self.error(f'request failed: {e}')
             raise
 
         return response.read()
@@ -831,14 +831,14 @@ class Dropbox(UploadService):
             'client_secret': self.CLIENT_NOT_SO_SECRET,
             'grant_type': 'authorization_code',
         }
-        body = urllib.parse.urlencode(body)
+        body = urlencode(body).encode()
 
-        request = urllib.request.Request(self.TOKEN_URL, data=body, headers=headers)
+        request = Request(self.TOKEN_URL, data=body, headers=headers)
 
         try:
             response = utils.urlopen(request)
 
-        except urllib.error.HTTPError as e:
+        except HTTPError as e:
             error = json.load(e)
             raise Exception(
                 error.get('error_description') or error.get('error') or str(e)
@@ -860,14 +860,14 @@ class Dropbox(UploadService):
             'client_secret': self.CLIENT_NOT_SO_SECRET,
             'grant_type': 'refresh_token',
         }
-        body = urllib.urlencode(body)
+        body = urlencode(body).encode()
 
-        request = urllib.request.Request(self.TOKEN_URL, data=body, headers=headers)
+        request = Request(self.TOKEN_URL, data=body, headers=headers)
 
         try:
             response = utils.urlopen(request)
 
-        except urllib.error.HTTPError as e:
+        except HTTPError as e:
             error = json.load(e)
             raise Exception(
                 error.get('error_description') or error.get('error') or str(e)
@@ -925,7 +925,7 @@ class FTP(UploadService):
         conn.cwd(path)
 
         self.debug(f'uploading {filename} of {len(data)} bytes')
-        conn.storbinary('STOR %s' % filename, io.StringIO(data))
+        conn.storbinary(f'STOR {filename}', io.StringIO(data))
 
         self.debug('upload done')
 
@@ -1035,7 +1035,7 @@ class SFTP(UploadService):
             return True
 
         except Exception as e:
-            logging.error('sftp connection failed: %s' % e)
+            logging.error(f'sftp connection failed: {e}')
 
             return str(e)
 
@@ -1203,12 +1203,12 @@ def get(camera_id, service_name):
 
 
 def test_access(camera_id, service_name, data):
-    logging.debug('testing access to %s' % service_name)
+    logging.debug(f'testing access to {service_name}')
 
     service = get(camera_id, service_name)
     service.load(data)
     if not service:
-        return 'unknown upload service %s' % service_name
+        return f'unknown upload service {service_name}'
 
     return service.test_access()
 
@@ -1242,7 +1242,7 @@ def _load():
     file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
 
     if os.path.exists(file_path):
-        logging.debug('loading upload services state from "%s"...' % file_path)
+        logging.debug(f'loading upload services state from "{file_path}"...')
 
         try:
             f = open(file_path)
@@ -1288,7 +1288,7 @@ def _load():
 def _save(services):
     file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
 
-    logging.debug('saving upload services state to "%s"...' % file_path)
+    logging.debug(f'saving upload services state to "{file_path}"...')
 
     data = {}
     for camera_id, camera_services in list(services.items()):
