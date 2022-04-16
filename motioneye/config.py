@@ -1668,12 +1668,12 @@ def motion_camera_dict_to_ui(data):
         elif ' sendtelegram ' in e:
             e = shlex.split(e)
 
-            if len(e) < 5:
+            if len(e) < 6:
                 continue
 
             ui['telegram_notifications_enabled'] = True
-            ui['telegram_notifications_api'] = e[-4]
-            ui['telegram_notifications_chat_id'] = e[-3]
+            ui['telegram_notifications_api'] = e[-5]
+            ui['telegram_notifications_chat_id'] = e[-4]
             try:
                 ui['telegram_notifications_picture_time_span'] = int(e[-1])
 
