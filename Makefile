@@ -20,7 +20,7 @@ motioneye/locale/motioneye.js.pot : motioneye/static/js/*.js
 	xgettext --from-code=UTF-8 --no-wrap -o motioneye/locale/motioneye.js.pot motioneye/static/js/*.js
 
 motioneye/locale/motioneye.pot : motioneye/*.py motioneye/templates/*.html
-	pybabel extract -F l10n/babel.cfg -o motioneye/locale/motioneye.pot .
+	pybabel extract -F l10n/babel.cfg -o motioneye/locale/motioneye.pot motioneye/
 #####
 # regulo por krei novan tradukon
 # ekz. : uzi "make initro" por krei la rumana traduko.
