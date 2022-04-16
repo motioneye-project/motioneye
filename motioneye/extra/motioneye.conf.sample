@@ -80,6 +80,9 @@ list_media_timeout 120
 # timeout in seconds to wait for media files list, when sending emails
 list_media_timeout_email 10
 
+# timeout in seconds to wait for media files list, when sending a telegram
+list_media_timeout_telegram 10
+
 # timeout in seconds to wait for zip file creation
 zip_timeout 500
 
