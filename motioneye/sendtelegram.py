@@ -25,7 +25,7 @@ import time
 import pycurl
 from tornado.ioloop import IOLoop
 
-from motioneye import config, mediafiles, motionctl, settings, utils, meyectl
+from motioneye import config, mediafiles, meyectl, motionctl, settings, utils
 from motioneye.controls import tzctl
 
 
