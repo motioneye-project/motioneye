@@ -150,7 +150,6 @@ def main(parser, args):
     options = parse_options(parser, args)
     meyectl.configure_logging('telegram', options.log_to_file)
     logging.debug(options)
-    
     message = 'Motion has been detected by camera "%(camera)s/%(hostname)s" at %(moment)s (%(timezone)s).'
 
     # do not wait too long for media list,
