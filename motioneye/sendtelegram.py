@@ -159,7 +159,7 @@ def main(parser, args):
 
     def on_message(message, files):
         try:
-            logging.info('sending telegram : %s' % message)
+            logging.info(f'sending telegram : {message}')
             send_message(options.api, options.chatid, message, files or [])
             logging.info('telegram sent')
 
