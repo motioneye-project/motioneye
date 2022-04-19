@@ -131,7 +131,11 @@ def parse_options(parser, args):
     parser.add_argument('api', help='telegram api key')
     parser.add_argument('chatid', help='telegram chat room id')
     parser.add_argument('motion_camera_id', help='the id of the motion camera')
-    parser.add_argument('moment', help='the moment in ISO-8601 format', type=datetime.datetime.fromisoformat)
+    parser.add_argument(
+        'moment',
+        help='the moment in ISO-8601 format',
+        type=datetime.datetime.fromisoformat,
+    )
     parser.add_argument('timespan', help='picture collection time span')
     return parser.parse_args(args)
 
