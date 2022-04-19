@@ -148,7 +148,6 @@ def main(parser, args):
     signal.signal(signal.SIGCHLD, signal.SIG_DFL)
 
     options = parse_options(parser, args)
-    
     meyectl.configure_logging('telegram', options.log_to_file)
     logging.debug(options)
     
