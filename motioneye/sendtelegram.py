@@ -127,7 +127,7 @@ def make_message(message, camera_id, moment, timespan, callback):
 
 
 def parse_options(parser, args):
-    parser.description='Send Telegram using bot api'
+    parser.description = 'Send Telegram using bot api'
     parser.add_argument('api', help='telegram api key')
     parser.add_argument('chatid', help='telegram chat room id')
     parser.add_argument('motion_camera_id', help='the id of the motion camera')
