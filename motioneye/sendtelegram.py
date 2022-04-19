@@ -102,7 +102,7 @@ def make_message(message, camera_id, moment, timespan, callback):
     if not timespan:
         return on_media_files([])
 
-    logging.debug('waiting %ds for pictures to be taken' % float(timespan))
+    logging.debug(f'waiting {float(timespan)}s for pictures to be taken')
     time.sleep(float(timespan))  # give motion some time to create motion pictures
 
     prefix = None
