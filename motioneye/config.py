@@ -1158,8 +1158,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         on_event_start.append(line)
     if ui['telegram_notifications_enabled']:
         line = (
-            "%(script)s '%(api)s' '%(chatid)s' "
-            "'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'"
+            "%(script)s '%(api)s' '%(chatid)s' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'"
             % {
                 'script': meyectl.find_command('sendtelegram'),
                 'api': ui['telegram_notifications_api'],
@@ -1669,12 +1668,12 @@ def motion_camera_dict_to_ui(data):
         elif ' sendtelegram ' in e:
             e = shlex.split(e)
 
-            if len(e) < 7:
+            if len(e) < 6:
                 continue
 
             ui['telegram_notifications_enabled'] = True
-            ui['telegram_notifications_api'] = e[-6]
-            ui['telegram_notifications_chat_id'] = e[-5]
+            ui['telegram_notifications_api'] = e[-5]
+            ui['telegram_notifications_chat_id'] = e[-4]
             try:
                 ui['telegram_notifications_picture_time_span'] = int(e[-1])
 

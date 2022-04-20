@@ -15,26 +15,18 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
-import io
 import logging
 import os
 import re
 import signal
 import socket
-import sys
 import time
 
 import pycurl
 from tornado.ioloop import IOLoop
 
-from motioneye import config, mediafiles, motionctl, settings, utils
+from motioneye import config, mediafiles, meyectl, motionctl, settings, utils
 from motioneye.controls import tzctl
-
-messages = {
-    'motion_start': 'Motion has been detected by camera "%(camera)s/%(hostname)s" at %(moment)s (%(timezone)s).'
-}
-
-user_agent = 'motionEye'
 
 
 def send_message(api_key, chat_id, message, files):
@@ -62,7 +54,7 @@ def send_message(api_key, chat_id, message, files):
             )
             c.perform()
     c.close()
-    logging.debug('sending email message')
+    logging.debug('sending telegram')
 
 
 def make_message(message, camera_id, moment, timespan, callback):
@@ -80,7 +72,7 @@ def make_message(message, camera_id, moment, timespan, callback):
             logging.debug('got media files')
             media_files = [
                 m
-                for m in media_files
+                for m in media_files.result()
                 if abs(m['timestamp'] - timestamp) < float(timespan)
             ]
             media_files.sort(key=lambda m: m['timestamp'], reverse=True)
@@ -98,11 +90,10 @@ def make_message(message, camera_id, moment, timespan, callback):
 
         if settings.LOCAL_TIME_FILE:
             format_dict['timezone'] = tzctl.get_time_zone()
-
         else:
             format_dict['timezone'] = 'local time'
 
-        logging.debug('creating email message')
+        logging.debug('creating telegram message')
 
         m = message % format_dict
 
@@ -111,7 +102,7 @@ def make_message(message, camera_id, moment, timespan, callback):
     if not timespan:
         return on_media_files([])
 
-    logging.debug('waiting for pictures to be taken')
+    logging.debug(f'waiting {float(timespan)}s for pictures to be taken')
     time.sleep(float(timespan))  # give motion some time to create motion pictures
 
     prefix = None
@@ -125,55 +116,41 @@ def make_message(message, camera_id, moment, timespan, callback):
         and not snapshot_filename
         or snapshot_filename.startswith('%Y-%m-%d/')
     ):
-        moment = datetime.datetime.strptime(moment, '%Y-%m-%dT%H:%M:%S')
         prefix = moment.strftime('%Y-%m-%d')
         logging.debug('narrowing down still images path lookup to %s' % prefix)
 
-    ## mediafiles.list_media(camera_config, media_type='picture', prefix=prefix, callback=on_media_files)
     fut = utils.cast_future(
         mediafiles.list_media(camera_config, media_type='picture', prefix=prefix)
     )
     fut.add_done_callback(on_media_files)
-
     io_loop.start()
 
 
 def parse_options(parser, args):
+    parser.description = 'Send Telegram using bot api'
     parser.add_argument('api', help='telegram api key')
     parser.add_argument('chatid', help='telegram chat room id')
-    parser.add_argument('msg_id', help='the identifier of the message')
     parser.add_argument('motion_camera_id', help='the id of the motion camera')
-    parser.add_argument('moment', help='the moment in ISO-8601 format')
+    parser.add_argument(
+        'moment',
+        help='the moment in ISO-8601 format',
+        type=datetime.datetime.fromisoformat,
+    )
     parser.add_argument('timespan', help='picture collection time span')
     return parser.parse_args(args)
 
 
 def main(parser, args):
-    import meyectl
 
     # the motion daemon overrides SIGCHLD,
     # so we must restore it here,
     # or otherwise media listing won't work
     signal.signal(signal.SIGCHLD, signal.SIG_DFL)
 
-    if len(args) == 12:
-        # backwards compatibility with older configs lacking "from" field
-        _from = 'motionEye on {} <{}>'.format(
-            socket.gethostname(), args[7].split(',')[0]
-        )
-        args = args[:7] + [_from] + args[7:]
-
-    if not args[7]:
-        args[7] = 'motionEye on {} <{}>'.format(
-            socket.gethostname(), args[8].split(',')[0]
-        )
-
     options = parse_options(parser, args)
-    print(options)
     meyectl.configure_logging('telegram', options.log_to_file)
-
-    logging.debug('hello!')
-    message = messages.get(options.msg_id)
+    logging.debug(options)
+    message = 'Motion has been detected by camera "%(camera)s/%(hostname)s" at %(moment)s (%(timezone)s).'
 
     # do not wait too long for media list,
     # telegram notifications are critical
@@ -181,12 +158,9 @@ def main(parser, args):
 
     camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
 
-    logging.debug('timespan = %d' % int(options.timespan))
-
     def on_message(message, files):
         try:
-            print(message)
-            logging.info('sending telegram')
+            logging.info(f'sending telegram : {message}')
             send_message(options.api, options.chatid, message, files or [])
             logging.info('telegram sent')
 
