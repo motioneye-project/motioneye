@@ -887,7 +887,6 @@ class Webdav(UploadService):
 
     def __init__(self, camera_id):
         self._server = None
-        self._port = None
         self._username = None
         self._password = None
         self._location = None
@@ -902,11 +901,11 @@ class Webdav(UploadService):
         if body is not None:
             headers.update({'Content-Length': len(body)})
         self.debug(f'request: {method} {url}')
-        request = urllib.request.Request(url, data=body, headers=headers)
+        request = Request(url, data=body, headers=headers)
         request.get_method = lambda: method
         try:
             utils.urlopen(request)
-        except urllib.error.HTTPError as e:
+        except HTTPError as e:
             if method == 'MKCOL' and e.code == 405:
                 self.debug(
                     'MKCOL failed with code 405, this is normal if the folder exists'
@@ -915,27 +914,31 @@ class Webdav(UploadService):
                 raise e
 
     def _make_dirs(self, path):
-        dir_url = self._server
-        for folder in path.strip('/').split('/'):
+        dir_url = self._server.rstrip('/') + '/'
+        for folder in path.split('/'):
             dir_url = dir_url + folder + '/'
             self._request(dir_url, 'MKCOL')
 
     def test_access(self):
         try:
-            test_path = self._location.strip('/') + '/' + str(time.time())
-            self._make_dirs(test_path)
-            self._request(self._server + test_path, 'DELETE')
+            path = self._location.strip('/') + '/' + str(time.time())
+            self._make_dirs(path)
+            self._request(self._server.rstrip('/') + '/' + path, 'DELETE')
             return True
         except Exception as e:
             self.error(str(e), exc_info=True)
             return str(e)
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
-        path = self._location.strip('/') + '/' + os.path.dirname(filename) + '/'
+        path = self._location.strip('/') + '/' + os.path.dirname(filename)
         filename = os.path.basename(filename)
         self._make_dirs(path)
         self.debug(f'uploading {filename} of {len(data)} bytes')
-        self._request(self._server + path + filename, 'PUT', bytearray(data))
+        self._request(
+            self._server.rstrip('/') + '/' + path + '/' + filename,
+            'PUT',
+            bytearray(data),
+        )
         self.debug('upload done')
 
     def dump(self):

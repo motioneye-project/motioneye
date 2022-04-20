@@ -464,7 +464,7 @@
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadServerEntry"></td>
                             <td><span class="help-mark" title="{{ _("la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" required="true" min="1" max="65535" depends="uploadEnabled uploadService=(ftp|sftp|http|https|webdav)">
+                        <tr class="settings-item" required="true" min="1" max="65535" depends="uploadEnabled uploadService=(ftp|sftp|http|https)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Servila haveno") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="number styled storage camera-config" id="uploadPortEntry"></td>
                             <td><span class="help-mark" title="{{ _("la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)") }}">?</span></td>
