@@ -5229,13 +5229,10 @@ function doExitSingleViewCamera() {
     var cameraFrame = getCameraFrame(singleViewCameraId);
     var pageContainer = getPageContainer();
 
-    if (pageContainer.hasClass('single-cam-edit')) {
-        pageContainer.removeClass('single-cam-edit');
-    }
-
     $('div.header').removeClass('single-cam');
     $('div.footer').removeClass('single-cam');
     pageContainer.removeClass('single-cam');
+    pageContainer.removeClass('single-cam-edit');
     cameraFrame.removeClass('single-cam');
 
     var cameraIds = getCameraIds();
