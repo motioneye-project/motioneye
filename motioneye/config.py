@@ -752,6 +752,9 @@ def main_ui_to_dict(ui):
 
         call_hook(ui['normal_username'], ui['normal_password'])
 
+    if ui.get('lang') is not None:
+        data['@lang'] = ui['lang']
+
     # additional configs
     for name, value in list(ui.items()):
         if not name.startswith('_'):
@@ -767,6 +770,9 @@ def main_dict_to_ui(data):
         'admin_username': data['@admin_username'],
         'normal_username': data['@normal_username'],
     }
+
+    if data['@lang']:
+        ui['lang'] = data['@lang']
 
     # don't transmit password (or its hash) to the client;
     # instead transmit an indication of password being set
@@ -845,7 +851,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         ),
         'stream_authentication': main_config['@normal_username']
         + ':'
-        + main_config['@normal_password'],
+        + main_config['@normal_password']
+        + main_config['@lang'],
         # still images
         'picture_output': False,
         'snapshot_interval': 0,
@@ -2142,6 +2149,7 @@ def _set_default_motion(data):
     data.setdefault('@admin_password', '')
     data.setdefault('@normal_username', 'user')
     data.setdefault('@normal_password', '')
+    data.setdefault('@lang', '')
 
     data.setdefault('setup_mode', False)
     data.setdefault('webcontrol_port', settings.MOTION_CONTROL_PORT)

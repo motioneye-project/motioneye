@@ -1759,7 +1759,8 @@ function savePrefs() {
 function mainUi2Dict() {
     var dict = {
         'admin_username': $('#adminUsernameEntry').val(),
-        'normal_username': $('#normalUsernameEntry').val()
+        'normal_username': $('#normalUsernameEntry').val(),
+        'lang': $('#langEntry').val()
     };
 
     if (adminPasswordChanged.change && adminPasswordChanged.keydown && $('#adminPasswordEntry').val() !== '*****') {
@@ -1828,6 +1829,7 @@ function dict2MainUi(dict) {
         }
     }
 
+    $('#langEntry').val(dict['lang']); markHideIfNull('lang', 'langEntry');
     $('#adminUsernameEntry').val(dict['admin_username']); markHideIfNull('admin_username', 'adminUsernameEntry');
     $('#adminPasswordEntry').val(dict['admin_password']); markHideIfNull('admin_password', 'adminPasswordEntry');
     $('#normalUsernameEntry').val(dict['normal_username']); markHideIfNull('normal_username', 'normalUsernameEntry');
