@@ -24,8 +24,7 @@ import os.path
 import pipes
 import sys
 
-from motioneye import settings
-from motioneye import config
+from motioneye import config, settings
 
 _LOG_FILE = 'motioneye.log'
 
@@ -44,12 +43,14 @@ def load_l10n():
     lang = main_config.get('@lang')
     try:
         gettext.find('motioneye', pathname + '/locale')
-        traduction = gettext.translation('motioneye', pathname + '/locale',languages=[lang])
+        traduction = gettext.translation(
+            'motioneye', pathname + '/locale', languages=[lang]
+        )
         traduction.install()
     except:
         traduction = gettext
         gettext.install('motioneye')
-    
+
     file = gettext.find('motioneye', pathname + '/locale')
     if file:
         lgrpath = len(pathname)
