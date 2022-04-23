@@ -26,37 +26,32 @@ import sys
 
 from motioneye import config, settings
 
-_LOG_FILE = 'motioneye.log'
-
 # make sure motioneye is on python path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-lingvo = 'eo'
-traduction = None
 
 # ŝarĝante tradukojn
 def load_l10n():
-    global lingvo, traduction
     locale.setlocale(locale.LC_ALL, '')
     pathname = os.path.dirname(__file__)
     main_config = config.get_main()
     lang = main_config.get('@lang')
     try:
         gettext.find('motioneye', pathname + '/locale')
-        traduction = gettext.translation(
+        settings.traduction = gettext.translation(
             'motioneye', pathname + '/locale', languages=[lang]
         )
-        traduction.install()
+        settings.traduction.install()
     except:
-        traduction = gettext
+        settings.traduction = gettext
         gettext.install('motioneye')
 
     file = gettext.find('motioneye', pathname + '/locale')
     if file:
         lgrpath = len(pathname)
-        lingvo = file[lgrpath + 8 : lgrpath + 10]
+        settings.lingvo = file[lgrpath + 8 : lgrpath + 10]
     else:
-        lingvo = 'eo'
+        settings.lingvo = 'eo'
     # logging.info(_('lingvo : ') + lingvo)
 
 
@@ -196,7 +191,7 @@ def configure_logging(cmd, log_to_file=False):
 
     try:
         if log_to_file:
-            log_file = os.path.join(settings.LOG_PATH, _LOG_FILE)
+            log_file = os.path.join(settings.LOG_PATH, 'motioneye.log')
 
         else:
             log_file = None
