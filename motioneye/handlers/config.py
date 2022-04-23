@@ -19,6 +19,7 @@ import datetime
 import json
 import logging
 import socket
+import os
 
 from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
@@ -217,9 +218,10 @@ class ConfigHandler(BaseHandler):
             restart = False
 
             if lang != old_lang:
-                logging.debug('lang changed, reload needed')
+                logging.debug('lang changed, restart needed')
+                # kill myself to force restart. Not very elegant...
+                os.kill(os.getpid(), 9)
 
-                reload = True
 
             if admin_username != old_admin_username or admin_password is not None:
                 logging.debug('admin credentials changed, reload needed')
