@@ -1829,7 +1829,7 @@ function dict2MainUi(dict) {
         }
     }
 
-    $('#langEntry').val(dict['lang']); markHideIfNull('lang', 'langEntry');
+    $('#langEntry').val(dict['lang']);
     $('#adminUsernameEntry').val(dict['admin_username']); markHideIfNull('admin_username', 'adminUsernameEntry');
     $('#adminPasswordEntry').val(dict['admin_password']); markHideIfNull('admin_password', 'adminPasswordEntry');
     $('#normalUsernameEntry').val(dict['normal_username']); markHideIfNull('normal_username', 'normalUsernameEntry');
