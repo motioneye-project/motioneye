@@ -24,33 +24,36 @@ import os.path
 import pipes
 import sys
 
-# ŝarĝante tradukojn
-locale.setlocale(locale.LC_ALL, '')
-lingvo = 'eo'
-traduction = None
-pathname = os.path.dirname(__file__)
-try:
-    gettext.find('motioneye', pathname + '/locale')
-    traduction = gettext.translation('motioneye', pathname + '/locale')
-    traduction.install()
-except:
-    traduction = gettext
-    gettext.install('motioneye')
+from motioneye import settings
 
-file = gettext.find('motioneye', pathname + '/locale')
-if file:
-    lgrpath = len(pathname)
-    lingvo = file[lgrpath + 8 : lgrpath + 10]
-else:
-    lingvo = 'eo'
-# logging.info(_('lingvo : ') + lingvo)
+_LOG_FILE = 'motioneye.log'
 
 # make sure motioneye is on python path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from motioneye import settings
+lingvo = 'eo'
+traduction = None
 
-_LOG_FILE = 'motioneye.log'
+# ŝarĝante tradukojn
+def load_l10n():
+    global lingvo, traduction
+    locale.setlocale(locale.LC_ALL, '')
+    pathname = os.path.dirname(__file__)
+    try:
+        gettext.find('motioneye', pathname + '/locale')
+        traduction = gettext.translation('motioneye', pathname + '/locale')
+        traduction.install()
+    except:
+        traduction = gettext
+        gettext.install('motioneye')
+    
+    file = gettext.find('motioneye', pathname + '/locale')
+    if file:
+        lgrpath = len(pathname)
+        lingvo = file[lgrpath + 8 : lgrpath + 10]
+    else:
+        lingvo = 'eo'
+    # logging.info(_('lingvo : ') + lingvo)
 
 
 def find_command(command):
@@ -301,6 +304,8 @@ def main():
 
     command = sys.argv[1]
     arg_parser = make_arg_parser(command)
+
+    load_l10n()
 
     if command in ('startserver', 'stopserver'):
         from motioneye import server
