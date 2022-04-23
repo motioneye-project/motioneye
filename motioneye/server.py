@@ -96,7 +96,7 @@ class Daemon:
             os.remove(self.pid_file)
 
         except:
-            pass
+            sys.stderr.write('failed to remove pid file.\n')
 
     def running(self):
         try:
@@ -155,7 +155,7 @@ class Daemon:
                 os.kill(pid, signal.SIGKILL)
 
             except:
-                pass
+                sys.stderr.write('failed to kill...\n')
 
 
 def _log_request(handler):
