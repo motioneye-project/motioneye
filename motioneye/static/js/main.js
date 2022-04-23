@@ -3716,7 +3716,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
             timelapseButton.show();
         }
 
-        img.load(function () {
+        img.on('load', function () {
             var aspectRatio = this.naturalWidth / this.naturalHeight;
             var sizeWidth = width * width / aspectRatio;
             var sizeHeight = height * aspectRatio * height;
@@ -3776,7 +3776,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
 
     $('body').on('keydown', bodyKeyDown);
 
-    img.load(updateModalDialogPosition);
+    img.on('load', updateModalDialogPosition);
 
     var buttons = [
             {caption: i18n.gettext("Fermi")},
