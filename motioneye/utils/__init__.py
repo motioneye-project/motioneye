@@ -531,7 +531,8 @@ def parse_editable_mask_file(
     # of the camera image, as it might be different from that of the associated mask;
     # they can be null (e.g. netcams)
 
-    file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
+    postfix = "_privacy" if mask_class == "privacy" else ""
+    file_name = os.path.join(settings.CONF_PATH, f'mask_{camera_id}{postfix}.pgm')
 
     logging.debug(
         f'parsing editable mask {mask_class} for camera with id {camera_id}: {file_name}'
