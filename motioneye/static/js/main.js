@@ -5157,6 +5157,7 @@ function doFullScreenCamera(cameraId) {
     } else {
         wasInSingleModeBeforeFullScreen = true;
     }
+    closeSettings();
     /* try to make browser window full screen */
     var element = document.documentElement;
     var requestFullScreen = (
