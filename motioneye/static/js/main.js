@@ -736,7 +736,7 @@ function initUI() {
     $('#sundayEnabledSwitch').change(updateConfigUI);
 
     /* minimizable sections */
-    $('span.minimize').click(function () {
+    $('span.minimize').on('click', function () {
         $(this).toggleClass('open');
 
         /* enable the section switch when unminimizing */
@@ -755,8 +755,8 @@ function initUI() {
         updateConfigUI();
     });
 
-    $('a.settings-section-title').click(function () {
-        $(this).parent().find('span.minimize').click();
+    $('a.settings-section-title').on('click', function () {
+        $(this).parent().find('span.minimize').trigger('click');
     });
 
     /* additional configs */
@@ -930,7 +930,7 @@ function initUI() {
     });
 
     /* apply button */
-    $('#applyButton').click(function () {
+    $('#applyButton').on('click', function () {
         if ($(this).hasClass('progress')) {
             return; /* in progress */
         }
@@ -939,36 +939,36 @@ function initUI() {
     });
 
     /* shut down button */
-    $('#shutDownButton').click(function () {
+    $('#shutDownButton').on('click', function () {
         doShutDown();
     });
 
     /* reboot button */
-    $('#rebootButton').click(function () {
+    $('#rebootButton').on('click', function () {
         doReboot();
     });
 
     /* remove camera button */
-    $('div.button.rem-camera-button').click(doRemCamera);
+    $('div.button.rem-camera-button').on('click', doRemCamera);
 
     /* logout button */
-    $('div.button.logout-button').click(doLogout);
+    $('div.button.logout-button').on('click', doLogout);
 
     /* software update button */
-    $('div#updateButton').click(doUpdate);
+    $('div#updateButton').on('click', doUpdate);
 
     /* backup/restore */
-    $('div#backupButton').click(doBackup);
-    $('div#restoreButton').click(doRestore);
+    $('div#backupButton').on('click', doBackup);
+    $('div#restoreButton').on('click', doRestore);
 
     /* test buttons */
-    $('div#uploadTestButton').click(doTestUpload);
-    $('div#emailTestButton').click(doTestEmail);
-    $('div#telegramTestButton').click(doTestTelegram);
-    $('div#networkShareTestButton').click(doTestNetworkShare);
+    $('div#uploadTestButton').on('click', doTestUpload);
+    $('div#emailTestButton').on('click', doTestEmail);
+    $('div#telegramTestButton').on('click', doTestTelegram);
+    $('div#networkShareTestButton').on('click', doTestNetworkShare);
 
     /* mask editor buttons */
-    $('div#motionMaskEditButton, div#privacyMaskEditButton').click(function (event) {
+    $('div#motionMaskEditButton, div#privacyMaskEditButton').on('click', function (event) {
         var cameraId = $('#cameraSelect').val();
         var img = getCameraFrame(cameraId).find('img.camera')[0];
         if (!img._naturalWidth || !img._naturalHeight) {
@@ -978,10 +978,10 @@ function initUI() {
         var maskClass = event.target.id.substring(0, event.target.id.indexOf('MaskEditButton'));
         enableMaskEdit(cameraId, maskClass, img._naturalWidth, img._naturalHeight);
     });
-    $('div#motionMaskSaveButton, div#privacyMaskSaveButton').click(function () {
+    $('div#motionMaskSaveButton, div#privacyMaskSaveButton').on('click', function () {
         disableMaskEdit();
     });
-    $('div#motionMaskClearButton, div#privacyMaskClearButton').click(function () {
+    $('div#motionMaskClearButton, div#privacyMaskClearButton').on('click', function () {
         var cameraId = $('#cameraSelect').val();
         if (!cameraId) {
             return;
@@ -1301,7 +1301,7 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
     maskDiv.html('');
 
     /* prevent editor closing by accidental click on mask container */
-    maskDiv.click(function () {
+    maskDiv.on('click', function () {
         return false;
     });
 
@@ -3701,12 +3701,12 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
             });
 
             timelapseButton.on('click', function() {
-                playButton.click();
+                playButton.trigger('click');
                 mPlayer.playbackRate = 5;
                 video_container.on('ended', function() {
                     if( pos > 0 ) {
-                        nextArrow.click();
-                        playButton.click();
+                        nextArrow.trigger('click');
+                        playButton.trigger('click');
                         mPlayer.playbackRate = 5;
                     }
                 });
@@ -3716,7 +3716,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
             timelapseButton.show();
         }
 
-        img.load(function () {
+        img.on('load', function () {
             var aspectRatio = this.naturalWidth / this.naturalHeight;
             var sizeWidth = width * width / aspectRatio;
             var sizeHeight = height * aspectRatio * height;
@@ -3742,7 +3742,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
         updateModalDialogPosition();
     }
 
-    prevArrow.click(function () {
+    prevArrow.on('click', function () {
         if (pos < entries.length - 1) {
             pos++;
         }
@@ -3750,7 +3750,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
         updatePicture();
     });
 
-    nextArrow.click(function () {
+    nextArrow.on('click', function () {
         if (pos > 0) {
             pos--;
         }
@@ -3762,13 +3762,13 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
         switch (e.which) {
             case 37:
                 if (prevArrow.is(':visible')) {
-                    prevArrow.click();
+                    prevArrow.trigger('click');
                 }
                 break;
 
             case 39:
                 if (nextArrow.is(':visible')) {
-                    nextArrow.click();
+                    nextArrow.trigger('click');
                 }
                 break;
         }
@@ -3776,7 +3776,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
 
     $('body').on('keydown', bodyKeyDown);
 
-    img.load(updateModalDialogPosition);
+    img.on('load', updateModalDialogPosition);
 
     var buttons = [
             {caption: i18n.gettext("Fermi")},
@@ -4366,12 +4366,12 @@ function runMediaDialog(cameraId, mediaType) {
                         });
                     }
 
-                    downloadButton.click(function () {
+                    downloadButton.on('click', function () {
                         downloadFile(mediaType + '/' + cameraId + '/download' + entry.path);
                         return false;
                     });
 
-                    deleteButton.click(function () {
+                    deleteButton.on('click', function () {
                         doDeleteFile(basePath + mediaType + '/' + cameraId + '/delete' + entry.path, function () {
                             entryDiv.remove();
                             var pos = entries.indexOf(entry);
@@ -4384,7 +4384,7 @@ function runMediaDialog(cameraId, mediaType) {
                         return false;
                     });
 
-                    entryDiv.click(function () {
+                    entryDiv.on('click', function () {
                         var pos = entries.indexOf(entry);
                         var onDelete = function(deletedEntry) {
                             var pos = entries.indexOf(deletedEntry);
@@ -4471,7 +4471,7 @@ function runMediaDialog(cameraId, mediaType) {
         var zippedButton = $('<div class="media-dialog-button">'+i18n.gettext("Zipitaj")+'</div>');
         buttonsDiv.append(zippedButton);
 
-        zippedButton.click(function () {
+        zippedButton.on('click', function () {
             if (groupKey != null) {
                 doDownloadZipped(cameraId, groupKey);
             }
@@ -4480,7 +4480,7 @@ function runMediaDialog(cameraId, mediaType) {
         var timelapseButton = $('<div class="media-dialog-button">'+i18n.gettext("Akselita video")+'</div>');
         buttonsDiv.append(timelapseButton);
 
-        timelapseButton.click(function () {
+        timelapseButton.on('click', function () {
             if (groupKey != null) {
                 runTimelapseDialog(cameraId, groupKey, groups[groupKey]);
             }
@@ -4491,7 +4491,7 @@ function runMediaDialog(cameraId, mediaType) {
         var deleteAllButton = $('<div class="media-dialog-button media-dialog-delete-all-button">'+i18n.gettext("Forigi ĉiujn")+'</div>');
         buttonsDiv.append(deleteAllButton);
 
-        deleteAllButton.click(function () {
+        deleteAllButton.on('click', function () {
             if (groupKey != null) {
                 doDeleteAllFiles(mediaType, cameraId, groupKey, deleteGroup);
             }
@@ -4604,7 +4604,7 @@ function runMediaDialog(cameraId, mediaType) {
                 groupButton.text((key || '(ungrouped)') + ' (' + groups[key].length + ')');
                 groupButton[0].key = key;
 
-                groupButton.click(function () {
+                groupButton.on('click', function () {
                     showGroup(key);
                 });
 
@@ -4798,15 +4798,15 @@ function addCameraFrameUi(cameraConfig) {
     nameSpan.html(cameraConfig.name);
     progressImg.attr('src', staticPath + 'img/camera-progress.gif');
 
-    cameraImg.click(function () {
+    cameraImg.on('click', function () {
         showCameraOverlay();
     });
 
-    cameraOverlay.click(function () {
+    cameraOverlay.on('click', function () {
         hideCameraOverlay();
     });
 
-    cameraOverlay.find('div.camera-overlay-top, div.camera-overlay-bottom').click(function () {
+    cameraOverlay.find('div.camera-overlay-top, div.camera-overlay-bottom').on('click', function () {
         return false;
     });
 
@@ -4836,29 +4836,29 @@ function addCameraFrameUi(cameraConfig) {
     cameraFrameDiv.animate({'opacity': 1}, 100);
 
     /* add the top buttons handlers */
-    configureButton.click(function () {
+    configureButton.on('click', function () {
         doConfigureCamera(cameraId);
     });
 
-    picturesButton.click(function (cameraId) {
+    picturesButton.on('click', function (cameraId) {
         return function () {
             runMediaDialog(cameraId, 'picture');
         };
     }(cameraId));
 
-    moviesButton.click(function (cameraId) {
+    moviesButton.on('click', function (cameraId) {
         return function () {
             runMediaDialog(cameraId, 'movie');
         };
     }(cameraId));
 
-    fullScreenButton.click(function (cameraId) {
+    fullScreenButton.on('click', function (cameraId) {
         return function () {
             doFullScreenCamera(cameraId);
         };
     }(cameraId));
 
-    multiCameraButton.click(function () {
+    multiCameraButton.on('click', function () {
         return function () {
             if (fullScreenMode) {
                 doExitFullScreenCamera(false);
@@ -4868,7 +4868,7 @@ function addCameraFrameUi(cameraConfig) {
         };
     }());
 
-    singleCameraButton.click(function (cameraId) {
+    singleCameraButton.on('click', function (cameraId) {
         return function () {
             if (fullScreenMode) {
                 doExitFullScreenCamera(true);
@@ -4916,7 +4916,7 @@ function addCameraFrameUi(cameraConfig) {
         }
 
         button.css('display', '');
-        button.click(function () {
+        button.on('click', function () {
             if (button.hasClass('pending')) {
                 return;
             }
@@ -5427,7 +5427,7 @@ $(document).ready(function () {
     }
 
     /* open/close settings */
-    $('div.settings-button').click(function () {
+    $('div.settings-button').on('click', function () {
         if (isSettingsOpen()) {
             closeSettings();
         }
