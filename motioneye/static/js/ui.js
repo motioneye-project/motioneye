@@ -43,7 +43,7 @@ function makeCheckBox($input) {
         /* add event handers */
         $this.change(update).change();
 
-        mainDiv.click(function () {
+        mainDiv.on('click', function () {
             $this[0].checked = !$this[0].checked;
             $this.change();
         });
@@ -938,7 +938,7 @@ function makeModalDialogButtons(buttonsInfo) {
             buttonDiv.addClass(info.className);
         }
 
-        buttonDiv.click(info.click);
+        buttonDiv.on('click', info.click);
 
         var td = $('<td></td>');
         td.append(buttonDiv);
@@ -969,7 +969,7 @@ function makeModalDialogTitleBar(options) {
 
     if (options.closeButton) {
         var closeButton = $('<div class="button icon modal-close-button mouse-effect" title="'+i18n.gettext("fermi")+'"></div>');
-        closeButton.click(hideModalDialog);
+        closeButton.on('click', hideModalDialog);
         titleBar.append(closeButton);
     }
 
