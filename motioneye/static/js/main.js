@@ -1414,8 +1414,14 @@ function openSettings(cameraId) {
     }
 
     $('div.settings').addClass('open').removeClass('closed');
-    getPageContainer().addClass('stretched');
+    var pageContainer = getPageContainer();
+    pageContainer.addClass('stretched');
     $('div.settings-top-bar').addClass('open').removeClass('closed');
+
+    if (isSingleView()) {
+        pageContainer.addClass('single-cam-edit');
+        $('div.header').removeClass('single-cam');
+    }
 
     updateConfigUI();
     doExitFullScreenCamera(true);
@@ -1431,8 +1437,14 @@ function closeSettings() {
     pushConfigReboot = false;
 
     $('div.settings').removeClass('open').addClass('closed');
-    getPageContainer().removeClass('stretched');
+    var pageContainer = getPageContainer();
+    pageContainer.removeClass('stretched');
     $('div.settings-top-bar').removeClass('open').addClass('closed');
+
+    if (isSingleView()) {
+	    pageContainer.removeClass('single-cam-edit');
+	    $('div.header').addClass('single-cam');
+    }
 
     updateLayout();
 }
@@ -2612,7 +2624,6 @@ function uploadFile(path, input, callback) {
 
 function showApply() {
     var applyButton = $('#applyButton');
-
     applyButton.html(i18n.gettext("Apliki"));
     applyButton.css('display', 'inline-block');
     applyButton.removeClass('progress');
@@ -5093,12 +5104,15 @@ function recreateCameraFrames(cameras) {
         updateCameras(cameras);
     }
     else {
+        if (isSingleView()) {
+            doExitSingleViewCamera();
+        }
+
         ajax('GET', basePath + 'config/list/', null, function (data) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 return;
             }
-
             updateCameras(data.cameras);
         });
     }
@@ -5143,6 +5157,7 @@ function doFullScreenCamera(cameraId) {
     } else {
         wasInSingleModeBeforeFullScreen = true;
     }
+    closeSettings();
     /* try to make browser window full screen */
     var element = document.documentElement;
     var requestFullScreen = (
@@ -5217,7 +5232,7 @@ function doExitSingleViewCamera() {
 
     $('div.header').removeClass('single-cam');
     $('div.footer').removeClass('single-cam');
-    pageContainer.removeClass('single-cam');
+    pageContainer.removeClass('single-cam single-cam-edit');
     cameraFrame.removeClass('single-cam');
 
     var cameraIds = getCameraIds();
