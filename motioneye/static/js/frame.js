@@ -27,7 +27,7 @@ function setupCameraFrame() {
     cameraFrameDiv.animate({'opacity': 1}, 100);
 
     /* error and load handlers */
-    cameraImg.error(function () {
+    cameraImg.on('error', function () {
         this.error = true;
         this.loading_count = 0;
 
@@ -36,7 +36,7 @@ function setupCameraFrame() {
         cameraProgress.removeClass('visible');
         cameraFrameDiv.removeClass('motion-detected');
     });
-    cameraImg.load(function () {
+    cameraImg.on('load', function () {
         if (refreshDisabled) {
             return; /* refresh temporarily disabled for updating */
         }

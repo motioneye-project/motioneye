@@ -133,6 +133,10 @@ div.page-container.single-cam {
     padding-bottom: 0;
 }
 
+div.page-container.single-cam-edit {
+    padding-bottom: 0;
+    padding-top: 50px;
+}
 
     /* icons & icon buttons */
 
