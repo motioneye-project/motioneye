@@ -23,7 +23,6 @@ import io
 import logging
 import multiprocessing
 import os.path
-import pipes
 import re
 import signal
 import stat
@@ -31,6 +30,7 @@ import subprocess
 import time
 import typing
 import zipfile
+from shlex import quote
 
 from PIL import Image
 from tornado.concurrent import Future
@@ -230,17 +230,17 @@ def find_ffmpeg() -> tuple:
 
     # binary
     try:
-        binary = utils.call_subprocess(['which', 'ffmpeg'], stderr=utils.DEV_NULL)
+        binary = utils.call_subprocess(['which', 'ffmpeg'])
 
     except subprocess.CalledProcessError:  # not found
         return None, None, None
 
     # version
     try:
-        output = utils.call_subprocess(binary + ' -version', shell=True)
+        output = utils.call_subprocess([quote(binary), '-version'])
 
     except subprocess.CalledProcessError as e:
-        logging.error('ffmpeg: could find version: %s' % e)
+        logging.error(f'ffmpeg: could find version: {e}')
         return None, None, None
 
     result = re.findall('ffmpeg version (.+?) ', output, re.IGNORECASE)
@@ -251,7 +251,7 @@ def find_ffmpeg() -> tuple:
         output = utils.call_subprocess(binary + ' -codecs -hide_banner', shell=True)
 
     except subprocess.CalledProcessError as e:
-        logging.error('ffmpeg: could not list supported codecs: %s' % e)
+        logging.error(f'ffmpeg: could not list supported codecs: {e}')
         return None, None, None
 
     lines = output.split('\n')
@@ -278,7 +278,7 @@ def find_ffmpeg() -> tuple:
 
         codecs[codec] = {'encoders': encoders, 'decoders': decoders}
 
-    logging.debug('using ffmpeg version %s' % version)
+    logging.debug(f'using ffmpeg version {version}')
 
     _ffmpeg_binary_cache = (binary, version, codecs)
 
@@ -351,27 +351,21 @@ def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str,
     pre_capture = camera_config['pre_capture']
     offs = pre_capture / framerate
     offs = max(4, offs * 2)
+    path = quote(full_path)
     thumb_path = full_path + '.thumb'
 
     logging.debug(
-        'creating movie preview for {path} with an offset of {offs} seconds...'.format(
-            path=full_path, offs=offs
-        )
+        f'creating movie preview for {full_path} with an offset of {offs} seconds...'
     )
 
-    cmd = 'ffmpeg -i %(path)s -f mjpeg -vframes 1 -ss %(offs)s -y %(path)s.thumb'
-    actual_cmd = cmd % {'path': pipes.quote(full_path), 'offs': offs}
-    logging.debug('running command "%s"' % actual_cmd)
+    cmd = f'ffmpeg -i {path} -f mjpeg -vframes 1 -ss {offs} -y {path}.thumb'
+    logging.debug(f'running command "{cmd}"')
 
     try:
-        utils.call_subprocess(actual_cmd.split(), stderr=subprocess.STDOUT)
+        utils.call_subprocess(cmd.split(), stderr=subprocess.STDOUT)
 
     except subprocess.CalledProcessError as e:
-        logging.error(
-            'failed to create movie preview for {path}: {msg}'.format(
-                path=full_path, msg=str(e)
-            )
-        )
+        logging.error(f'failed to create movie preview for {full_path}: {e}')
 
         return None
 
@@ -388,19 +382,15 @@ def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str,
             f'movie probably too short, grabbing first frame from {full_path}...'
         )
 
-        actual_cmd = cmd % {'path': full_path, 'offs': 0}
-        logging.debug('running command "%s"' % actual_cmd)
+        cmd = f'ffmpeg -i {path} -f mjpeg -vframes 1 -ss 0 -y {path}.thumb'
+        logging.debug(f'running command "{cmd}"')
 
         # try again, this time grabbing the very first frame
         try:
-            utils.call_subprocess(actual_cmd.split(), stderr=subprocess.STDOUT)
+            utils.call_subprocess(cmd.split(), stderr=subprocess.STDOUT)
 
         except subprocess.CalledProcessError as e:
-            logging.error(
-                'failed to create movie preview for {path}: {msg}'.format(
-                    path=full_path, msg=str(e)
-                )
-            )
+            logging.error(f'failed to create movie preview for {full_path}: {e}')
 
             return None
 
@@ -568,8 +558,8 @@ def get_zipped_content(
 
             paths.append(path)
 
-        zip_filename = os.path.join(settings.MEDIA_PATH, '.zip-%s' % int(time.time()))
-        logging.debug('adding %d files to zip file "%s"' % (len(paths), zip_filename))
+        zip_filename = os.path.join(settings.MEDIA_PATH, f'.zip-{int(time.time())}')
+        logging.debug(f'adding {len(paths)} files to zip file "{zip_filename}"')
 
         try:
             with zipfile.ZipFile(zip_filename, mode='w') as f:
@@ -584,7 +574,7 @@ def get_zipped_content(
             pipe.close()
             return
 
-        logging.debug('reading zip file "%s" into memory' % zip_filename)
+        logging.debug(f'reading zip file "{zip_filename}" into memory')
 
         try:
             with open(zip_filename, mode='rb') as f:
@@ -633,7 +623,7 @@ def get_zipped_content(
         else:  # finished
             try:
                 data = parent_pipe.recv()
-                logging.debug('zip process has returned %d bytes' % len(data))
+                logging.debug(f'zip process has returned {len(data)} bytes')
 
             except:
                 data = None
@@ -684,8 +674,9 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     media_list = []
 
     # use correct extension for the movie_codec
-    tmp_filename = os.path.join(settings.MEDIA_PATH, '.%(name)s.%(ext)s')
-    tmp_filename = tmp_filename % {'name': int(time.time()), 'ext': file_format}
+    tmp_filename = os.path.join(
+        settings.MEDIA_PATH, f'.{int(time.time())}.{file_format}'
+    )
 
     def read_media_list():
         while parent_pipe.poll():
@@ -751,7 +742,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
             selected.append(min(s, key=lambda m: m['delta']))
 
-        logging.debug('selected %d/%d media files' % (len(selected), len(media_list)))
+        logging.debug(f'selected {len(selected)}/{len(media_list)} media files')
 
         return selected
 
@@ -776,7 +767,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
             'bitrate': bitrate,
         }
 
-        logging.debug('executing "%s"' % cmd)
+        logging.debug(f'executing "{cmd}"')
 
         _timelapse_process = subprocess.Popen(
             cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True
@@ -803,15 +794,16 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
             try:
                 output = _timelapse_process.stdout.read()
+                if not output:
+                    return
 
             except OSError as e:
                 if e.errno == errno.EAGAIN:
-                    output = ''
+                    return
 
-                else:
-                    raise
+                raise
 
-            frame_index = re.findall(r'frame=\s*(\d+)', output)
+            frame_index = re.findall(br'frame=\s*(\d+)', output)
             try:
                 frame_index = int(frame_index[-1])
 
@@ -821,7 +813,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
             _timelapse_process.progress = max(0.01, float(frame_index) / len(pictures))
 
             logging.debug(
-                'timelapse progress: %s' % int(100 * _timelapse_process.progress)
+                f'timelapse progress: {int(100 * _timelapse_process.progress)} %'
             )
 
         else:  # finished
@@ -840,7 +832,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
             else:
                 logging.debug(
-                    'reading timelapse movie file "%s" into memory' % tmp_filename
+                    f'reading timelapse movie file "{tmp_filename}" into memory'
                 )
 
                 try:
@@ -848,8 +840,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
                         _timelapse_data = f.read()
 
                     logging.debug(
-                        'timelapse movie process has returned %d bytes'
-                        % len(_timelapse_data)
+                        f'timelapse movie process has returned {len(_timelapse_data)} bytes'
                     )
 
                 except Exception as e:
@@ -916,7 +907,7 @@ def get_media_preview(camera_config, path, media_type, width, height):
         image = Image.open(bio)
 
     except Exception as e:
-        logging.error('failed to open media preview image file: %s' % e)
+        logging.error(f'failed to open media preview image file: {e}')
         return None
 
     width = width and int(float(width)) or image.size[0]
@@ -1049,17 +1040,17 @@ def get_prepared_cache(key):
 
 
 def set_prepared_cache(data):
-    key = hashlib.sha1(bytes(str(time.time()))).hexdigest()
+    key = hashlib.sha1(str(time.time()).encode()).hexdigest()
 
     if key in _prepared_files:
-        logging.warning('key "%s" already present in prepared cache' % key)
+        logging.warning(f'key "{key}" already present in prepared cache')
 
     _prepared_files[key] = data
 
     def clear():
         if _prepared_files.pop(key, None) is not None:
             logging.warning(
-                'key "%s" was still present in the prepared cache, removed' % key
+                f'key "{key}" was still present in the prepared cache, removed'
             )
 
     timeout = 3600  # the user has 1 hour to download the file after creation
