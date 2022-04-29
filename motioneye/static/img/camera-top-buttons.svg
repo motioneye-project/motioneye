@@ -2,11 +2,11 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="280"
+   width="320"
    height="40"
    id="svg2"
    version="1.1"
-   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
    sodipodi:docname="camera-top-buttons.svg"
    inkscape:export-filename="/media/data/projects/motioneye/static/img/top-bar-buttons.png"
    inkscape:export-xdpi="90"
@@ -27,16 +27,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.74509804"
      inkscape:pageshadow="2"
-     inkscape:zoom="5.6568542"
-     inkscape:cx="231.31231"
-     inkscape:cy="41.542523"
+     inkscape:zoom="2"
+     inkscape:cx="183.5"
+     inkscape:cy="-15.25"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
      inkscape:window-width="1920"
-     inkscape:window-height="1155"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="true"
      inkscape:bbox-nodes="true"
@@ -54,7 +54,7 @@
      showguides="false"
      inkscape:guide-bbox="true"
      inkscape:pagecheckerboard="0"
-     width="280px">
+     width="310px">
     <inkscape:grid
        type="xygrid"
        id="grid4156"
@@ -208,5 +208,23 @@
        id="path4213-5-5-3"
        d="m 261.75,1025.3622 h 6.13408 v 5.134 H 261.75 Z"
        style="display:inline;fill:none;stroke:#3498db;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       style="display:inline;fill:#3498db;fill-opacity:1;stroke:#3498db;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 293,1026.362 10,6 -10,6 z"
+       id="path3819-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
+    <circle
+       r="13"
+       cy="1032.3622"
+       cx="300"
+       id="circle4192-6"
+       style="display:inline;fill:none;stroke:#3498db;stroke-width:2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <path
+       style="display:inline;fill:#3498db;fill-opacity:1;stroke:#3498db;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 300,1026.362 10,6 -10,6 z"
+       id="path3819-3-7"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccc" />
   </g>
 </svg>
