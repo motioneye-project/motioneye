@@ -790,11 +790,13 @@ div.picture-dialog-playbuttons {
 div.picture-dialog-play {
     background-image: url(../img/camera-top-buttons.svg);
     background-position: -300% 0;
+    position: absolute;
+    left: 0;
 }
 
 div.picture-dialog-timelapse {
     background-image: url(../img/camera-top-buttons.svg);
-    background-position: -500% 0;
+    background-position: -700% 0;
     position: absolute;
     right: 0;
 }
