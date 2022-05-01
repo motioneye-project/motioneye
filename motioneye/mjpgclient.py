@@ -187,7 +187,7 @@ class MjpgClient(IOStream):
                 self.write(b'GET / HTTP/1.0\r\n\r\n')
 
             else:  # no authentication
-                logging.debug(f"no authentication _on_connect")
+                logging.debug('no authentication _on_connect')
                 self.write(b'GET / HTTP/1.0\r\nConnection: close\r\n\r\n')
 
             self._seek_http()
