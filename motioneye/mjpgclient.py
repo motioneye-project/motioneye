@@ -157,6 +157,11 @@ class MjpgClient(IOStream):
 
     def _on_connect(self, future: Future) -> None:
         try:
+            if self.closed():
+                future.cancel()
+                logging.debug("_on_connect: Stream is closed. Future cancelled.")
+                return
+
             future.result()
         except Exception as e:
             self._error(e)
@@ -169,7 +174,6 @@ class MjpgClient(IOStream):
 
             if self._auth_mode == 'basic':
                 logging.debug('mjpg client using basic authentication')
-
                 auth_header = utils.build_basic_header(self._username, self._password)
                 self.write(
                     b'GET / HTTP/1.0\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
@@ -179,9 +183,11 @@ class MjpgClient(IOStream):
             elif (
                 self._auth_mode == 'digest'
             ):  # in digest auth mode, the header is built upon receiving 401
+                logging.debug("digest authentication _on_connect")
                 self.write(b'GET / HTTP/1.0\r\n\r\n')
 
             else:  # no authentication
+                logging.debug(f"no authentication _on_connect")
                 self.write(b'GET / HTTP/1.0\r\nConnection: close\r\n\r\n')
 
             self._seek_http()
@@ -195,6 +201,11 @@ class MjpgClient(IOStream):
 
     def _on_http(self, future: Future) -> None:
         try:
+            if self.closed():
+                future.cancel()
+                logging.debug("_on_http: Stream is closed. Future cancelled.")
+                return
+
             data = future.result()
         except Exception as e:
             self._error(e)
@@ -211,6 +222,11 @@ class MjpgClient(IOStream):
 
     def _on_before_www_authenticate(self, future: Future) -> None:
         try:
+            if self.closed():
+                future.cancel()
+                logging.debug("_on_before_www_authenticate: Stream is closed. Future cancelled.")
+                return
+
             future.result()
         except Exception as e:
             self._error(e)
@@ -223,6 +239,11 @@ class MjpgClient(IOStream):
 
     def _on_www_authenticate(self, future: Future) -> None:
         try:
+            if self.closed():
+                future.cancel()
+                logging.debug("_on_www_authenticate: Stream is closed. Future cancelled.")
+                return
+
             data = future.result()
         except Exception as e:
             self._error(e)
@@ -279,6 +300,11 @@ class MjpgClient(IOStream):
 
     def _on_before_content_length(self, future: Future):
         try:
+            if self.closed():
+                future.cancel()
+                logging.debug("_on_before_content_length: Stream is closed. Future cancelled.")
+                return
+
             future.result()
         except Exception as e:
             self._error(e)
@@ -291,6 +317,11 @@ class MjpgClient(IOStream):
 
     def _on_content_length(self, future: Future):
         try:
+            if self.closed():
+                future.cancel()
+                logging.debug("_on_content_length: Stream is closed. Future cancelled.")
+                return
+
             data = future.result()
         except Exception as e:
             self._error(e)
@@ -315,6 +346,11 @@ class MjpgClient(IOStream):
 
     def _on_jpg(self, future: Future):
         try:
+            if self.closed():
+                future.cancel()
+                logging.debug("_on_jpg: Stream is closed. Future cancelled.")
+                return
+
             data = future.result()
         except Exception as e:
             self._error(e)
@@ -399,6 +435,7 @@ def _garbage_collector():
 
     now = time.time()
     for camera_id, client in list(MjpgClient.clients.items()):
+        logging.debug(f"_garbage_collector checking camera. id: {camera_id}")
         port = client.get_port()
 
         if client.closed():
