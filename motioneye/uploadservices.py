@@ -886,7 +886,7 @@ class Webdav(UploadService):
     NAME = 'webdav'
 
     def __init__(self, camera_id):
-        self._server = None
+        self._endpoint_url = None
         self._username = None
         self._password = None
         self._location = None
@@ -914,7 +914,7 @@ class Webdav(UploadService):
                 raise e
 
     def _make_dirs(self, path):
-        dir_url = self._server.rstrip('/') + '/'
+        dir_url = self._endpoint_url.rstrip('/') + '/'
         for folder in path.split('/'):
             dir_url = dir_url + folder + '/'
             self._request(dir_url, 'MKCOL')
@@ -923,7 +923,7 @@ class Webdav(UploadService):
         try:
             path = self._location.strip('/') + '/' + str(time.time())
             self._make_dirs(path)
-            self._request(self._server.rstrip('/') + '/' + path, 'DELETE')
+            self._request(self._endpoint_url.rstrip('/') + '/' + path, 'DELETE')
             return True
         except Exception as e:
             self.error(str(e), exc_info=True)
@@ -935,7 +935,7 @@ class Webdav(UploadService):
         self._make_dirs(path)
         self.debug(f'uploading {filename} of {len(data)} bytes')
         self._request(
-            self._server.rstrip('/') + '/' + path + '/' + filename,
+            self._endpoint_url.rstrip('/') + '/' + path + '/' + filename,
             'PUT',
             bytearray(data),
         )
@@ -943,15 +943,15 @@ class Webdav(UploadService):
 
     def dump(self):
         return {
-            'server': self._server,
+            'endpoint_url': self._endpoint_url,
             'username': self._username,
             'password': self._password,
             'location': self._location,
         }
 
     def load(self, data):
-        if data.get('server') is not None:
-            self._server = data['server']
+        if data.get('endpoint_url') is not None:
+            self._endpoint_url = data['endpoint_url']
         if data.get('username') is not None:
             self._username = data['username']
         if data.get('password') is not None:
