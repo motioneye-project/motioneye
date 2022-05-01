@@ -224,7 +224,9 @@ class MjpgClient(IOStream):
         try:
             if self.closed():
                 future.cancel()
-                logging.debug("_on_before_www_authenticate: Stream is closed. Future cancelled.")
+                logging.debug(
+                    "_on_before_www_authenticate: Stream is closed. Future cancelled."
+                )
                 return
 
             future.result()
@@ -241,7 +243,9 @@ class MjpgClient(IOStream):
         try:
             if self.closed():
                 future.cancel()
-                logging.debug("_on_www_authenticate: Stream is closed. Future cancelled.")
+                logging.debug(
+                    "_on_www_authenticate: Stream is closed. Future cancelled."
+                )
                 return
 
             data = future.result()
@@ -302,7 +306,9 @@ class MjpgClient(IOStream):
         try:
             if self.closed():
                 future.cancel()
-                logging.debug("_on_before_content_length: Stream is closed. Future cancelled.")
+                logging.debug(
+                    "_on_before_content_length: Stream is closed. Future cancelled."
+                )
                 return
 
             future.result()
