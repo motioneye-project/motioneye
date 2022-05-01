@@ -2149,7 +2149,7 @@ def _set_default_motion(data):
     data.setdefault('@admin_password', '')
     data.setdefault('@normal_username', 'user')
     data.setdefault('@normal_password', '')
-    data.setdefault('@lang', '')
+    data.setdefault('@lang', 'en')
 
     data.setdefault('setup_mode', False)
     data.setdefault('webcontrol_port', settings.MOTION_CONTROL_PORT)
