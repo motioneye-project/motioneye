@@ -25,6 +25,8 @@ from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 from tornado.iostream import IOStream
 
+from typing import Any, Tuple
+
 from motioneye import config, motionctl, settings, utils
 
 
@@ -155,42 +157,48 @@ class MjpgClient(IOStream):
         except Exception:
             pass
 
-    def _on_connect(self, future: Future) -> None:
+    def _get_future_result(self, future: Future) -> Tuple[bool, Any]:
         try:
             if self.closed():
                 future.cancel()
-                logging.debug("_on_connect: Stream is closed. Future cancelled.")
-                return
+                logging.debug('_on_connect: Stream is closed. Future cancelled.')
+                return False, None
 
-            future.result()
+            return True, future.result()
         except Exception as e:
             self._error(e)
-        else:
-            logging.debug(
-                'mjpg client for camera {camera_id} connected on port {port}'.format(
-                    port=self._port, camera_id=self._camera_id
-                )
+            return False, None
+
+    def _on_connect(self, future: Future) -> None:
+        result, _ = self._get_future_result(future)
+        if not result:
+            return
+
+        logging.debug(
+            'mjpg client for camera {camera_id} connected on port {port}'.format(
+                port=self._port, camera_id=self._camera_id
+            )
+        )
+
+        if self._auth_mode == 'basic':
+            logging.debug('mjpg client using basic authentication')
+            auth_header = utils.build_basic_header(self._username, self._password)
+            self.write(
+                b'GET / HTTP/1.0\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
+                % auth_header
             )
 
-            if self._auth_mode == 'basic':
-                logging.debug('mjpg client using basic authentication')
-                auth_header = utils.build_basic_header(self._username, self._password)
-                self.write(
-                    b'GET / HTTP/1.0\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
-                    % auth_header
-                )
+        elif (
+            self._auth_mode == 'digest'
+        ):  # in digest auth mode, the header is built upon receiving 401
+            logging.debug('digest authentication _on_connect')
+            self.write(b'GET / HTTP/1.0\r\n\r\n')
 
-            elif (
-                self._auth_mode == 'digest'
-            ):  # in digest auth mode, the header is built upon receiving 401
-                logging.debug("digest authentication _on_connect")
-                self.write(b'GET / HTTP/1.0\r\n\r\n')
+        else:  # no authentication
+            logging.debug('no authentication _on_connect')
+            self.write(b'GET / HTTP/1.0\r\nConnection: close\r\n\r\n')
 
-            else:  # no authentication
-                logging.debug('no authentication _on_connect')
-                self.write(b'GET / HTTP/1.0\r\nConnection: close\r\n\r\n')
-
-            self._seek_http()
+        self._seek_http()
 
     def _seek_http(self) -> None:
         if self._check_error():
@@ -200,100 +208,78 @@ class MjpgClient(IOStream):
         future.add_done_callback(self._on_http)
 
     def _on_http(self, future: Future) -> None:
-        try:
-            if self.closed():
-                future.cancel()
-                logging.debug("_on_http: Stream is closed. Future cancelled.")
-                return
+        result, data = self._get_future_result(future)
+        if not result:
+            return
 
-            data = future.result()
-        except Exception as e:
-            self._error(e)
-        else:
-            if data.endswith(b'401 '):
-                self._seek_www_authenticate()
+        if data.endswith(b'401 '):
+            self._seek_www_authenticate()
 
-            else:  # no authorization required, skip to content length
-                self._seek_content_length()
+        else:  # no authorization required, skip to content length
+            self._seek_content_length()
 
     def _seek_www_authenticate(self) -> None:
         future = utils.cast_future(self.read_until(b'WWW-Authenticate:'))
         future.add_done_callback(self._on_before_www_authenticate)
 
     def _on_before_www_authenticate(self, future: Future) -> None:
-        try:
-            if self.closed():
-                future.cancel()
-                logging.debug(
-                    "_on_before_www_authenticate: Stream is closed. Future cancelled."
-                )
-                return
+        result, _ = self._get_future_result(future)
+        if not result:
+            return
 
-            future.result()
-        except Exception as e:
-            self._error(e)
-        else:
-            if self._check_error():
-                return
+        if self._check_error():
+            return
 
-            r_future = utils.cast_future(self.read_until(b'\r\n'))
-            r_future.add_done_callback(self._on_www_authenticate)
+        r_future = utils.cast_future(self.read_until(b'\r\n'))
+        r_future.add_done_callback(self._on_www_authenticate)
 
     def _on_www_authenticate(self, future: Future) -> None:
-        try:
-            if self.closed():
-                future.cancel()
-                logging.debug(
-                    "_on_www_authenticate: Stream is closed. Future cancelled."
-                )
-                return
+        result, data = self._get_future_result(future)
+        if not result:
+            return
 
-            data = future.result()
-        except Exception as e:
-            self._error(e)
-        else:
-            if self._check_error():
-                return
+        if self._check_error():
+            return
 
-            data = data.strip()
+        data = data.strip()
 
-            m = re.match(br'Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data)
-            if m:
-                logging.debug('mjpg client using basic authentication')
+        m = re.match(br'Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data)
+        if m:
+            logging.debug('mjpg client using basic authentication')
 
-                auth_header = utils.build_basic_header(self._username, self._password)
-                w_data = (
-                    b'GET / HTTP/1.0\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
-                    % auth_header
-                )
-                w_future = utils.cast_future(self.write(w_data))
-                w_future.add_done_callback(self._seek_http)
+            auth_header = utils.build_basic_header(self._username, self._password)
+            w_data = (
+                b'GET / HTTP/1.0\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
+                % auth_header
+            )
+            w_future = utils.cast_future(self.write(w_data))
+            w_future.add_done_callback(self._seek_http)
 
-                return
+            return
 
-            if data.startswith('Digest'):
-                logging.debug('mjpg client using digest authentication')
+        if data.startswith('Digest'):
+            logging.debug('mjpg client using digest authentication')
 
-                parts = data[7:].split(',')
-                parts_dict = dict(p.split('=', 1) for p in parts)
-                parts_dict = {p[0]: p[1].strip('"') for p in list(parts_dict.items())}
+            parts = data[7:].split(',')
+            parts_dict = dict(p.split('=', 1) for p in parts)
+            parts_dict = {p[0]: p[1].strip('"') for p in list(parts_dict.items())}
 
-                self._auth_digest_state = parts_dict
+            self._auth_digest_state = parts_dict
 
-                auth_header = utils.build_digest_header(
-                    'GET', '/', self._username, self._password, self._auth_digest_state
-                )
-                w_data = (
-                    b'GET / HTTP/1.0\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
-                    % auth_header
-                )
-                w_future = utils.cast_future(self.write(w_data))
-                w_future.add_done_callback(self._seek_http)
+            auth_header = utils.build_digest_header(
+                'GET', '/', self._username, self._password, self._auth_digest_state
+            )
+            w_data = (
+                b'GET / HTTP/1.0\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
+                % auth_header
+            )
+            w_future = utils.cast_future(self.write(w_data))
+            w_future.add_done_callback(self._seek_http)
 
-                return
+            return
 
-            logging.error('mjpg client unknown authentication header: "%s"' % data)
-            self._seek_content_length()
+        logging.error('mjpg client unknown authentication header: "%s"' % data)
+        self._seek_content_length()
 
     def _seek_content_length(self):
         if self._check_error():
@@ -303,70 +289,50 @@ class MjpgClient(IOStream):
         r_future.add_done_callback(self._on_before_content_length)
 
     def _on_before_content_length(self, future: Future):
-        try:
-            if self.closed():
-                future.cancel()
-                logging.debug(
-                    "_on_before_content_length: Stream is closed. Future cancelled."
-                )
-                return
+        result, _ = self._get_future_result(future)
+        if not result:
+            return
 
-            future.result()
-        except Exception as e:
-            self._error(e)
-        else:
-            if self._check_error():
-                return
+        if self._check_error():
+            return
 
-            r_future = utils.cast_future(self.read_until(b'\r\n\r\n'))
-            r_future.add_done_callback(self._on_content_length)
+        r_future = utils.cast_future(self.read_until(b'\r\n\r\n'))
+        r_future.add_done_callback(self._on_content_length)
 
     def _on_content_length(self, future: Future):
-        try:
-            if self.closed():
-                future.cancel()
-                logging.debug("_on_content_length: Stream is closed. Future cancelled.")
-                return
+        result, data = self._get_future_result(future)
+        if not result:
+            return
 
-            data = future.result()
-        except Exception as e:
-            self._error(e)
-        else:
-            if self._check_error():
-                return
+        if self._check_error():
+            return
 
-            matches = re.findall(rb'(\d+)', data)
-            if not matches:
-                self._error(
-                    'could not find content length in mjpg header line "{header}"'.format(
-                        header=data
-                    )
+        matches = re.findall(rb'(\d+)', data)
+        if not matches:
+            self._error(
+                'could not find content length in mjpg header line "{header}"'.format(
+                    header=data
                 )
+            )
 
-                return
+            return
 
-            length = int(matches[0])
+        length = int(matches[0])
 
-            r_future = utils.cast_future(self.read_bytes(length))
-            r_future.add_done_callback(self._on_jpg)
+        r_future = utils.cast_future(self.read_bytes(length))
+        r_future.add_done_callback(self._on_jpg)
 
     def _on_jpg(self, future: Future):
-        try:
-            if self.closed():
-                future.cancel()
-                logging.debug("_on_jpg: Stream is closed. Future cancelled.")
-                return
+        result, data = self._get_future_result(future)
+        if not result:
+            return
 
-            data = future.result()
-        except Exception as e:
-            self._error(e)
-        else:
-            self._last_jpg = data
-            self._last_jpg_times.append(time.time())
-            while len(self._last_jpg_times) > self._FPS_LEN:
-                self._last_jpg_times.pop(0)
+        self._last_jpg = data
+        self._last_jpg_times.append(time.time())
+        while len(self._last_jpg_times) > self._FPS_LEN:
+            self._last_jpg_times.pop(0)
 
-            self._seek_content_length()
+        self._seek_content_length()
 
 
 def start():
