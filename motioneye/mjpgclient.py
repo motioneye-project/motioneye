@@ -20,12 +20,11 @@ import logging
 import re
 import socket
 import time
+from typing import Any, Tuple
 
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
 from tornado.iostream import IOStream
-
-from typing import Any, Tuple
 
 from motioneye import config, motionctl, settings, utils
 
