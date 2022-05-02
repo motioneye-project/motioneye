@@ -297,10 +297,7 @@ class MjpgClient(IOStream):
 
     def _on_content_length(self, future: Future):
         result, data = self._get_future_result(future)
-        if not result:
-            return
-
-        if self._check_error():
+        if not result or self._check_error():
             return
 
         matches = re.findall(rb'(\d+)', data)
