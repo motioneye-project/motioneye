@@ -223,10 +223,7 @@ class MjpgClient(IOStream):
 
     def _on_before_www_authenticate(self, future: Future) -> None:
         result, _ = self._get_future_result(future)
-        if not result:
-            return
-
-        if self._check_error():
+        if not result or self._check_error():
             return
 
         r_future = utils.cast_future(self.read_until(b'\r\n'))
@@ -286,10 +283,7 @@ class MjpgClient(IOStream):
 
     def _on_before_content_length(self, future: Future):
         result, _ = self._get_future_result(future)
-        if not result:
-            return
-
-        if self._check_error():
+        if not result or self._check_error():
             return
 
         r_future = utils.cast_future(self.read_until(b'\r\n\r\n'))
