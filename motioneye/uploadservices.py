@@ -23,6 +23,7 @@ import mimetypes
 import os
 import os.path
 import time
+from base64 import b64encode
 from urllib.error import HTTPError
 from urllib.parse import quote, urlencode
 from urllib.request import Request
@@ -879,6 +880,84 @@ class Dropbox(UploadService):
             'access_token': data['access_token'],
             'refresh_token': data.get('refresh_token', refresh_token),
         }
+
+
+class Webdav(UploadService):
+    NAME = 'webdav'
+
+    def __init__(self, camera_id):
+        self._endpoint_url = None
+        self._username = None
+        self._password = None
+        self._location = None
+
+        UploadService.__init__(self, camera_id)
+
+    def _request(self, url, method, body=None):
+        base64string = b64encode(f'{self._username}:{self._password}'.encode()).decode(
+            'ascii'
+        )
+        headers = {'Authorization': f'Basic {base64string}'}
+        if body is not None:
+            headers.update({'Content-Length': len(body)})
+        self.debug(f'request: {method} {url}')
+        request = Request(url, data=body, headers=headers)
+        request.get_method = lambda: method
+        try:
+            utils.urlopen(request)
+        except HTTPError as e:
+            if method == 'MKCOL' and e.code == 405:
+                self.debug(
+                    'MKCOL failed with code 405, this is normal if the folder exists'
+                )
+            else:
+                raise e
+
+    def _make_dirs(self, path):
+        dir_url = self._endpoint_url.rstrip('/') + '/'
+        for folder in path.split('/'):
+            dir_url = dir_url + folder + '/'
+            self._request(dir_url, 'MKCOL')
+
+    def test_access(self):
+        try:
+            path = self._location.strip('/') + '/' + str(time.time())
+            self._make_dirs(path)
+            self._request(self._endpoint_url.rstrip('/') + '/' + path, 'DELETE')
+            return True
+        except Exception as e:
+            self.error(str(e), exc_info=True)
+            return str(e)
+
+    def upload_data(self, filename, mime_type, data, ctime, camera_name):
+        path = self._location.strip('/') + '/' + os.path.dirname(filename)
+        filename = os.path.basename(filename)
+        self._make_dirs(path)
+        self.debug(f'uploading {filename} of {len(data)} bytes')
+        self._request(
+            self._endpoint_url.rstrip('/') + '/' + path + '/' + filename,
+            'PUT',
+            bytearray(data),
+        )
+        self.debug('upload done')
+
+    def dump(self):
+        return {
+            'endpoint_url': self._endpoint_url,
+            'username': self._username,
+            'password': self._password,
+            'location': self._location,
+        }
+
+    def load(self, data):
+        if data.get('endpoint_url') is not None:
+            self._endpoint_url = data['endpoint_url']
+        if data.get('username') is not None:
+            self._username = data['username']
+        if data.get('password') is not None:
+            self._password = data['password']
+        if data.get('location'):
+            self._location = data['location']
 
 
 class FTP(UploadService):
