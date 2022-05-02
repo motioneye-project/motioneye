@@ -14,8 +14,8 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import logging
-import subprocess
+from logging import debug
+from subprocess import CalledProcessError
 
 from motioneye import utils
 
@@ -24,22 +24,24 @@ def list_devices():
     # currently MMAL support is designed specifically for the RPi;
     # therefore we can rely on the vcgencmd to report MMAL cameras
 
-    logging.debug('listing MMAL devices')
+    debug('detecting MMAL camera')
 
     try:
-        binary = utils.call_subprocess(['which', 'vcgencmd'], stderr=utils.DEV_NULL)
+        binary = utils.call_subprocess(['which', 'vcgencmd'])
 
-    except subprocess.CalledProcessError:  # not found
+    except CalledProcessError:  # not found
+        debug('unable to detect MMAL camera: vcgencmd has not been found')
         return []
 
     try:
         support = utils.call_subprocess([binary, 'get_camera'])
 
-    except subprocess.CalledProcessError:  # not found
+    except CalledProcessError:  # not found
+        debug('unable to detect MMAL camera: "vcgencmd get_camera" failed')
         return []
 
     if support.startswith('supported=1 detected=1'):
-        logging.debug('MMAL camera detected')
+        debug('MMAL camera detected')
         return [('vc.ril.camera', 'VideoCore Camera')]
 
     return []

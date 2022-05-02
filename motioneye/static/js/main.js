@@ -4850,7 +4850,12 @@ function addCameraFrameUi(cameraConfig) {
 
     /* add the top buttons handlers */
     configureButton.on('click', function () {
-        doConfigureCamera(cameraId);
+        if (isSettingsOpen()) {
+            closeSettings();
+        }
+        else {
+            doConfigureCamera(cameraId);
+        }
     });
 
     picturesButton.on('click', function (cameraId) {
