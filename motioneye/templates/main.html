@@ -258,7 +258,7 @@
                     <table class="settings">
                         <tr class="settings-item" required="true" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Kamerao Nomo") }}</span></td>
-                            <td class="settings-item-value"><input type="text" class="styled device camera-config" id="deviceNameEntry" placeholder="{{ _("kameraa nomo...") }}"></td>
+                            <td class="settings-item-value"><input type="text" class="styled device camera-config" id="deviceNameEntry" placeholder="{{ _("kameraa nomo…") }}"></td>
                             <td><span class="help-mark" title="{{ _("alias pri ĉi tiu kamera aparato") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" strip="true">
@@ -349,7 +349,7 @@
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Ekstraj Elektoj") }}</span></td>
                             <td class="settings-item-value"><textarea class="styled device camera-config" id="extraOptionsEntry" rows="3"></textarea></td>
-                            <td><span class="help-mark" title="{{ _("vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)") }}">?</span></td>
                         </tr>
                         {% for config in camera_sections.get('device', {}).get('configs', []) %}
                             {{config_item(config)}}
@@ -1097,7 +1097,7 @@
                         <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("HTTP API ĵetono") }}</span></td>
                             <td class="settings-item-value"><input type="text" autocomplete="new-password" class="styled notifications camera-config" id="telegramAPIEntry" placeholder="{{ _("Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W") }}"></td>
-                            <td><span class="help-mark" title="{{ _("Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn.") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Babileja ID") }}</span></td>

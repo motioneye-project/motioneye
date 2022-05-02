@@ -231,7 +231,7 @@ handler_mapping = [
 
 def configure_signals():
     def bye_handler(signal, frame):
-        logging.info(_('interrompa signalo ricevita, fermanta ...'))
+        logging.info(_('interrompa signalo ricevita, fermanta …'))
 
         # shut down the IO loop if it has been started
         io_loop = IOLoop.instance()
