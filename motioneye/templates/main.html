@@ -454,6 +454,7 @@
                                     <option value="gphoto">Google Photo</option>
                                     <option value="dropbox">Dropbox</option>
                                     <option value="s3">S3 (AWS/MinIO/...)</option>
+                                    <option value="webdav">WebDAV</option>
                                 </select>
                             </td>
                             <td><span class="help-mark" title="{{ _("elektu servon, al kiu la mediadosieroj estu alŝutitaj") }}">?</span></td>
@@ -478,6 +479,13 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("la HTTP-metodo uzi por alŝuti dosierojn") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(s3|webdav)">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Endpoint URL") }}</span></td>
+                            <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadEndpointUrlEntry"></td>
+                            <td><span class="help-mark" title="{{ _("The complete URL to the upload server endpoint:") }}
+      {{ _("For S3: E.g. http://my.minio:9000. Leave it empty for AWS!") }}
+      {{ _("For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item" required="true" depends="uploadEnabled uploadService!=(s3)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Loko") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadLocationEntry"></td>
@@ -493,12 +501,12 @@
                             <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="cleanCloudEnabledSwitch"></td>
                             <td><span class="help-mark" title="{{ _("ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo.") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" depends="uploadEnabled uploadService=(ftp|sftp|http|https)">
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(ftp|sftp|http|https|webdav)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Uzantnomo") }}</span></td>
                             <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled storage camera-config" id="uploadUsernameEntry"></td>
                             <td><span class="help-mark" title="{{ _("la uzantnomo por la alŝuta servo-konto") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" depends="uploadEnabled uploadService=(ftp|sftp|http|https)">
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(ftp|sftp|http|https|webdav)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Pasvorto") }}</span></td>
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled storage camera-config" id="uploadPasswordEntry"></td>
                             <td><span class="help-mark" title="{{ _("la pasvorto por la alŝuta servo-konto") }}">?</span></td>
@@ -516,11 +524,6 @@
                                 </div>
                             </td>
                             <td><span class="help-mark" title="{{ _("alklaku ĉi tie por akiri la ŝlosilan rajtigan servon") }}">?</span></td>
-                        </tr>
-                        <tr class="settings-item" depends="uploadEnabled uploadService=(s3)">
-                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Endpoint URL") }}</span></td>
-                            <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadEndpointUrlEntry"></td>
-                            <td><span class="help-mark" title="{{ _("The complete URL to the S3 server endpoint, e.g. http://my.minio:9000. Leave this empty for AWS!") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="uploadEnabled uploadService=(s3)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Access Key") }}</span></td>
@@ -1107,8 +1110,8 @@
                             <td><span class="help-mark" title="{{ _("difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
-				<td class="settings-item-label"><a href="https://core.telegram.org/bots#6-botfather" target="_blank"><div class="button normal-button test-button" id="apiInstructionButton" style="opacity: 1; display: inline-block;">{{ _("API-Informoj") }}</div></a></td>
-				<td class="settings-item-label"><div class="button normal-button test-button" id="telegramTestButton" style="opacity: 1; display: inline-block;">{{ _("Testo") }}</div></td>
+                            <td class="settings-item-label"><a href="https://core.telegram.org/bots#6-botfather" target="_blank"><div class="button normal-button test-button" id="apiInstructionButton" style="opacity: 1; display: inline-block;">{{ _("API-Informoj") }}</div></a></td>
+                            <td class="settings-item-label"><div class="button normal-button test-button" id="telegramTestButton" style="opacity: 1; display: inline-block;">{{ _("Testo") }}</div></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
@@ -1300,7 +1303,6 @@
                     </table>
                     {% endif %}
                     {% endfor %}
-
                     <div class="settings-progress"></div>
                 </form>
             </div>
@@ -1313,9 +1315,8 @@
     </div>
     {% else %}
         <div class="camera-frame" id="camera{{camera_id}}"
-                streaming_framerate="{{camera_config['stream_maxrate']}}" streaming_server_resize="{{camera_config['@webcam_server_resize']|string|lower}}"
-                proto="{{camera_config['@proto']}}" url="{{camera_config['@url']}}">
-
+            streaming_framerate="{{camera_config['stream_maxrate']}}" streaming_server_resize="{{camera_config['@webcam_server_resize']|string|lower}}"
+            proto="{{camera_config['@proto']}}" url="{{camera_config['@url']}}">
             <div class="camera-container">
                 <div class="camera-placeholder"><img class="no-camera" src="{{static_path}}img/no-camera.svg"></div>
                 <img class="camera">
