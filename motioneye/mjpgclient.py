@@ -234,10 +234,7 @@ class MjpgClient(IOStream):
 
     def _on_www_authenticate(self, future: Future) -> None:
         result, data = self._get_future_result(future)
-        if not result:
-            return
-
-        if self._check_error():
+        if not result or self._check_error():
             return
 
         data = data.strip()
