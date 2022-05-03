@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-02 23:01+0200\n"
-"PO-Revision-Date: 2022-05-03 15:13+0000\n"
+"PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Bengali <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye/bn/>\n"
@@ -811,7 +811,7 @@ msgstr "ক্রম"
 #: motioneye/templates/main.html:583
 #, fuzzy
 msgid "ordono…"
-msgstr "অর্ডার ..."
+msgstr "অর্ডার…"
 
 #: motioneye/templates/main.html:584
 #, fuzzy, python-format
@@ -857,7 +857,7 @@ msgstr "সিনেমা এবং ছবিতে প্রদর্শিত
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
 #, fuzzy
 msgid "propra teksto…"
-msgstr "কাস্টম পাঠ্য ..."
+msgstr "কাস্টম পাঠ্য…"
 
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
@@ -1035,7 +1035,7 @@ msgstr "নাম চিত্র ফাইল"
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
 #, fuzzy
 msgid "ŝablona nomo de dosiero…"
-msgstr "একটি ফাইলের টেমপ্লেট নাম ..."
+msgstr "একটি ফাইলের টেমপ্লেট নাম…"
 
 #: motioneye/templates/main.html:738
 #, fuzzy, python-format
@@ -1517,7 +1517,7 @@ msgstr "ইমেল ঠিকানা"
 #: motioneye/templates/main.html:1046
 #, fuzzy
 msgid "retpoŝtadresoj…"
-msgstr "ইমেইল ঠিকানা ..."
+msgstr "ইমেইল ঠিকানা…"
 
 #: motioneye/templates/main.html:1047
 #, fuzzy
@@ -1587,7 +1587,7 @@ msgstr "ঠিকানা থেকে"
 #: motioneye/templates/main.html:1071
 #, fuzzy
 msgid "retpoŝta adreso…"
-msgstr "ইমেল ঠিকানা ..."
+msgstr "ইমেল ঠিকানা…"
 
 #: motioneye/templates/main.html:1072
 #, fuzzy
@@ -1731,7 +1731,7 @@ msgstr "হুকুম"
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
 #, fuzzy
 msgid "komando…"
-msgstr "কমান্ড ..."
+msgstr "কমান্ড…"
 
 #: motioneye/templates/main.html:1152
 #, fuzzy, python-format
