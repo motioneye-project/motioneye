@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-02 23:01+0200\n"
-"PO-Revision-Date: 2022-05-03 15:13+0000\n"
+"PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye/ar/>\n"
@@ -813,7 +813,7 @@ msgstr "أجل"
 #: motioneye/templates/main.html:583
 #, fuzzy
 msgid "ordono…"
-msgstr "طلب ..."
+msgstr "طلب…"
 
 #: motioneye/templates/main.html:584
 #, fuzzy, python-format
@@ -859,7 +859,7 @@ msgstr "يضبط النص المعروض على الأفلام والصور ، �
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
 #, fuzzy
 msgid "propra teksto…"
-msgstr "نص مخصص ..."
+msgstr "نص مخصص…"
 
 #: motioneye/templates/main.html:614
 #, python-format
@@ -1032,7 +1032,7 @@ msgstr "اسم ملف الصورة"
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
 #, fuzzy
 msgid "ŝablona nomo de dosiero…"
-msgstr "اسم قالب ملف ..."
+msgstr "اسم قالب ملف…"
 
 #: motioneye/templates/main.html:738
 #, fuzzy, python-format
@@ -1509,7 +1509,7 @@ msgstr "عناوين البريد الإلكتروني"
 #: motioneye/templates/main.html:1046
 #, fuzzy
 msgid "retpoŝtadresoj…"
-msgstr "عناوين البريد الإلكتروني ..."
+msgstr "عناوين البريد الإلكتروني…"
 
 #: motioneye/templates/main.html:1047
 #, fuzzy
@@ -1579,7 +1579,7 @@ msgstr "من العنوان"
 #: motioneye/templates/main.html:1071
 #, fuzzy
 msgid "retpoŝta adreso…"
-msgstr "عنوان بريد الكتروني ..."
+msgstr "عنوان بريد الكتروني…"
 
 #: motioneye/templates/main.html:1072
 #, fuzzy
@@ -1719,7 +1719,7 @@ msgstr "أمر"
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
 #, fuzzy
 msgid "komando…"
-msgstr "أمر ..."
+msgstr "أمر…"
 
 #: motioneye/templates/main.html:1152
 #, fuzzy, python-format

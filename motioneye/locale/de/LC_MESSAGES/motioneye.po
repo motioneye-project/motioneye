@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-02 23:01+0200\n"
-"PO-Revision-Date: 2022-05-03 15:13+0000\n"
+"PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye/de/>\n"
@@ -321,7 +321,6 @@ msgid "kameraa nomo…"
 msgstr "Kamera Name …"
 
 #: motioneye/templates/main.html:262
-#, fuzzy
 msgid "alias pri ĉi tiu kamera aparato"
 msgstr "Alias auf diesem Kameragerät"
 
@@ -827,7 +826,7 @@ msgstr "Bestellung"
 #: motioneye/templates/main.html:583
 #, fuzzy
 msgid "ordono…"
-msgstr "Befehl ..."
+msgstr "Befehl…"
 
 #: motioneye/templates/main.html:584
 #, fuzzy, python-format
@@ -873,7 +872,7 @@ msgstr "Legt den Text fest, der in den Filmen und Bildern in der unteren linken 
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
 #, fuzzy
 msgid "propra teksto…"
-msgstr "Benutzerdefinierter Text ..."
+msgstr "Benutzerdefinierter Text…"
 
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
@@ -1051,7 +1050,7 @@ msgstr "Name Bilddatei"
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
 #, fuzzy
 msgid "ŝablona nomo de dosiero…"
-msgstr "Vorlagenname einer Datei ..."
+msgstr "Vorlagenname einer Datei…"
 
 #: motioneye/templates/main.html:738
 #, fuzzy, python-format
@@ -1532,7 +1531,7 @@ msgstr "E-Mail-Adressen"
 #: motioneye/templates/main.html:1046
 #, fuzzy
 msgid "retpoŝtadresoj…"
-msgstr "E-mailadressen ..."
+msgstr "E-mailadressen…"
 
 #: motioneye/templates/main.html:1047
 #, fuzzy
@@ -1602,7 +1601,7 @@ msgstr "Von Adresse"
 #: motioneye/templates/main.html:1071
 #, fuzzy
 msgid "retpoŝta adreso…"
-msgstr "E-Mail-Addresse ..."
+msgstr "E-Mail-Addresse…"
 
 #: motioneye/templates/main.html:1072
 #, fuzzy
@@ -1742,7 +1741,7 @@ msgstr "Befehl"
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
 #, fuzzy
 msgid "komando…"
-msgstr "Befehl ..."
+msgstr "Befehl…"
 
 #: motioneye/templates/main.html:1152
 #, fuzzy, python-format
