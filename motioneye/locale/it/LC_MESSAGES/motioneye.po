@@ -8,10 +8,10 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-02 23:01+0200\n"
-"PO-Revision-Date: 2022-05-03 15:14+0000\n"
-"Last-Translator: jmichault <jmt.2000@free.fr>\n"
+"PO-Revision-Date: 2022-05-04 15:15+0000\n"
+"Last-Translator: Filippo Pisano <filippo.pisano@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/"
-"motioneye-project/motioneye/it/>\n"
+"motioneye-project/motioneye-python-texts/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -21,34 +21,28 @@ msgstr ""
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:234
-#, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "Un segnale di interrupt ricevuto, chiusura …"
+msgstr "Ricevuto un segnale di interrupt, chiusura …"
 
 #: motioneye/server.py:278
-#, fuzzy
 msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr "le condivisioni smb richiedono i privilegi di root"
 
 #: motioneye/server.py:285
-#, fuzzy
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr "installare Tornado versione 3.1 o successiva"
+msgstr "per favore installa tornado versione 3.1 o successiva"
 
 #: motioneye/server.py:292
-#, fuzzy
 msgid "bonvolu instali jinja2"
-msgstr "installa jinja2"
+msgstr "per favore installa jinja2"
 
 #: motioneye/server.py:299
-#, fuzzy
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr "si prega di installare cuscino o PIL"
+msgstr "per favore installa pillow o PIL"
 
 #: motioneye/server.py:306
-#, fuzzy
 msgid "bonvolu instali pycurl"
-msgstr "si prega di installare pycurl"
+msgstr "per favore installa pycurl"
 
 #: motioneye/server.py:425
 #, fuzzy
@@ -56,9 +50,8 @@ msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "ciao! questo è un server motionEye "
 
 #: motioneye/server.py:440
-#, fuzzy
 msgid "purigado komenciĝis"
-msgstr "pulizia iniziata"
+msgstr "pulizia avviata"
 
 #: motioneye/server.py:442
 #, fuzzy
@@ -116,9 +109,8 @@ msgid "forigi kameraon"
 msgstr "rimuovere la fotocamera"
 
 #: motioneye/templates/main.html:106
-#, fuzzy
 msgid "Apliki"
-msgstr "applicare"
+msgstr "Applica"
 
 #: motioneye/templates/main.html:125
 #, fuzzy
@@ -202,9 +194,8 @@ msgstr "il nome utente utilizzato per configurare il sistema"
 
 #: motioneye/templates/main.html:170 motioneye/templates/main.html:180
 #: motioneye/templates/main.html:510
-#, fuzzy
 msgid "Pasvorto"
-msgstr "password"
+msgstr "Password"
 
 #: motioneye/templates/main.html:172
 #, fuzzy
@@ -498,9 +489,8 @@ msgid "la nomo de la interŝanĝa reto"
 msgstr "il nome della rete di scambio"
 
 #: motioneye/templates/main.html:398 motioneye/templates/main.html:505
-#, fuzzy
 msgid "Uzantnomo"
-msgstr "nome utente"
+msgstr "Nome utente"
 
 #: motioneye/templates/main.html:400
 #, fuzzy
@@ -1154,9 +1144,8 @@ msgid "Porĉiame"
 msgstr "perennemente"
 
 #: motioneye/templates/main.html:776 motioneye/templates/main.html:889
-#, fuzzy
 msgid "Propra"
-msgstr "costume"
+msgstr "Personalizzato"
 
 #: motioneye/templates/main.html:779
 #, fuzzy
