@@ -8,19 +8,22 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-02 23:01+0200\n"
-"PO-Revision-Date: 2020-04-07 17:41+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-05-03 15:14+0000\n"
+"Last-Translator: jmichault <jmt.2000@free.fr>\n"
+"Language-Team: Hindi <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye/hi/>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 4.12.1\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:234
 #, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "एक रुकावट सिग्नल प्राप्त हुआ, समापन ..."
+msgstr "एक रुकावट सिग्नल प्राप्त हुआ, समापन …"
 
 #: motioneye/server.py:278
 #, fuzzy
@@ -50,7 +53,7 @@ msgstr "कृपया pycurl स्थापित करें"
 #: motioneye/server.py:425
 #, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "हैलो! यह एक मोशन सर्वर है"
+msgstr "हैलो! यह एक मोशन सर्वर है "
 
 #: motioneye/server.py:440
 #, fuzzy
@@ -221,7 +224,8 @@ msgstr "निगरानी के लिए उपयोग करने व�
 #: motioneye/templates/main.html:182
 #, fuzzy
 msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "निगरानी उपयोगकर्ता का पासवर्ड (पासवर्ड के बिना निगरानी के लिए खाली छोड़ दें)"
+msgstr ""
+"निगरानी उपयोगकर्ता के लिए पासवर्ड (पासवर्ड रहित निगरानी के लिए खाली छोड़ दें)"
 
 #: motioneye/templates/main.html:191
 #, fuzzy
@@ -317,7 +321,7 @@ msgstr "कैमरा नाम"
 #: motioneye/templates/main.html:261
 #, fuzzy
 msgid "kameraa nomo…"
-msgstr "कैमरा नाम ..."
+msgstr "कैमरा नाम …"
 
 #: motioneye/templates/main.html:262
 #, fuzzy
@@ -542,7 +546,7 @@ msgstr "डिस्क का उपयोग"
 #: motioneye/templates/main.html:425
 #, fuzzy
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr "ड्राइव का आकार / आकार जहाँ रूट डायरेक्टरी रहता है"
+msgstr "डिस्क का उपयोग/कुल आकार जहां रूट निर्देशिका रहती है"
 
 #: motioneye/templates/main.html:431
 #, fuzzy
@@ -858,9 +862,13 @@ msgid "propra teksto..."
 msgstr "स्वयं का पाठ ..."
 
 #: motioneye/templates/main.html:614
-#, fuzzy, python-format
+#, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "कस्टम बाएँ पाठ को परिभाषित करता है; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या, %% v = घटना संख्या, %% T = HH: MM: SS, \\ n = नई पंक्ति"
+msgstr ""
+"कस्टम बाएँ पाठ को परिभाषित करता है; निम्नलिखित विशेष टोकन स्वीकार किए जाते "
+"हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = "
+"दूसरा, %% q = फ्रेम संख्या, %% v = घटना संख्या, %% T = HH: MM: SS, \\n"
+" = नई पंक्ति"
 
 #: motioneye/templates/main.html:617
 #, fuzzy
@@ -873,9 +881,13 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dek
 msgstr "फिल्मों और चित्रों पर प्रदर्शित पाठ को निचले दाएं कोने में सेट करता है"
 
 #: motioneye/templates/main.html:631
-#, fuzzy, python-format
+#, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "कस्टम सही पाठ को परिभाषित करता है; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या, %% v = घटना संख्या, %% T = HH: MM: SS, \\ n = नई पंक्ति"
+msgstr ""
+"कस्टम सही पाठ को परिभाषित करता है; निम्नलिखित विशेष टोकन स्वीकार किए जाते "
+"हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = "
+"दूसरा, %% q = फ्रेम संख्या, %% v = घटना संख्या, %% T = HH: MM: SS, \\n"
+" = नई पंक्ति"
 
 #: motioneye/templates/main.html:634
 #, fuzzy
