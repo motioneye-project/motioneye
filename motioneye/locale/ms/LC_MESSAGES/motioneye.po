@@ -8,19 +8,22 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-02 23:01+0200\n"
-"PO-Revision-Date: 2020-04-08 21:44+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-05-03 15:14+0000\n"
+"Last-Translator: jmichault <jmt.2000@free.fr>\n"
+"Language-Team: Malay <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye/ms/>\n"
 "Language: ms\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.12.1\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:234
 #, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "Isyarat gangguan yang diterima, ditutup ..."
+msgstr "isyarat gangguan diterima, menutup…"
 
 #: motioneye/server.py:278
 #, fuzzy
@@ -50,7 +53,7 @@ msgstr "sila pasang pycurl"
 #: motioneye/server.py:425
 #, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "hello! ini adalah pelayan motionEye"
+msgstr "hello ini adalah pelayan motionEye "
 
 #: motioneye/server.py:440
 #, fuzzy
@@ -317,7 +320,7 @@ msgstr "Nama Kamera"
 #: motioneye/templates/main.html:261
 #, fuzzy
 msgid "kameraa nomo…"
-msgstr "Nama Kamera ..."
+msgstr "Nama Kamera …"
 
 #: motioneye/templates/main.html:262
 #, fuzzy
@@ -542,7 +545,7 @@ msgstr "Penggunaan cakera"
 #: motioneye/templates/main.html:425
 #, fuzzy
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr "saiz / saiz pemacu di mana direktori root berada"
+msgstr "saiz terpakai / jumlah cakera di mana direktori akar berada"
 
 #: motioneye/templates/main.html:431
 #, fuzzy
@@ -860,7 +863,11 @@ msgstr "teks sendiri ..."
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "Menetapkan teks kiri tersendiri; butiran khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = %% v = nombor acara, %% T = HH: MM: SS, \\ n = baris baru"
+msgstr ""
+"Menetapkan teks kiri tersendiri; butiran khas berikut diterima: %% Y = "
+"tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% "
+"q = %% v = nombor acara, %% T = HH: MM: SS, \\n"
+" = baris baru"
 
 #: motioneye/templates/main.html:617
 #, fuzzy
@@ -875,7 +882,11 @@ msgstr "Menetapkan teks yang dipaparkan pada filem dan gambar, di sudut kanan ba
 #: motioneye/templates/main.html:631
 #, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "Menetapkan teks hak tersuai; butiran khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = %% v = nombor acara, %% T = HH: MM: SS, \\ n = baris baru"
+msgstr ""
+"Menetapkan teks hak tersuai; butiran khas berikut diterima: %% Y = tahun, %% "
+"m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = %% v "
+"= nombor acara, %% T = HH: MM: SS, \\n"
+" = baris baru"
 
 #: motioneye/templates/main.html:634
 #, fuzzy
