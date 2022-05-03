@@ -8,9 +8,10 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-02 23:01+0200\n"
-"PO-Revision-Date: 2022-05-02 18:53+0000\n"
+"PO-Revision-Date: 2022-05-03 15:14+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/motioneye-project/motioneye/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,9 +21,8 @@ msgstr ""
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:234
-#, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "Un signal d'interruption reçu, fermant ..."
+msgstr "signal d'interruption reçu, fermeture …"
 
 #: motioneye/server.py:278
 msgid "smb-akcioj postulas radikajn privilegiojn"
@@ -259,9 +259,8 @@ msgid "Kamerao Nomo"
 msgstr "Nom de la caméra"
 
 #: motioneye/templates/main.html:261
-#, fuzzy
 msgid "kameraa nomo…"
-msgstr "Nom de l'appareil photo ..."
+msgstr "Nom de la caméra…"
 
 #: motioneye/templates/main.html:262
 msgid "alias pri ĉi tiu kamera aparato"
@@ -281,7 +280,9 @@ msgstr "Périphérique"
 
 #: motioneye/templates/main.html:272
 msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
-msgstr "Périphérique d'entrée (ex.: /dev/video) ou URL (ex.: rtsp: //192.168.1.1/stream)"
+msgstr ""
+"Périphérique d'entrée (ex. : /dev/video) ou URL (ex. : rtsp : //192.168.1.1/"
+"stream)"
 
 #: motioneye/templates/main.html:275
 msgid "Kamerao Tipo"
@@ -360,9 +361,10 @@ msgid "Ekstraj Elektoj"
 msgstr "Options supplémentaires"
 
 #: motioneye/templates/main.html:352
-#, fuzzy
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr "Vous pouvez ajouter toutes les options supplémentaires ici pour le démon \"Motion\" (utilisez le format \"Valeur du nom\", une option par ligne)"
+msgstr ""
+"Vous pouvez ajouter ici des options supplémentaires pour le démon \"Motion\" "
+"(utilisez le format \"Valeur nom\", une option par ligne)"
 
 #: motioneye/templates/main.html:361
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
@@ -524,17 +526,15 @@ msgstr "URL du point de terminaison"
 #: motioneye/templates/main.html:485
 #, fuzzy
 msgid "The complete URL to the upload server endpoint:"
-msgstr "L'URL complète au point de terminaison du serveur de téléchargement:"
+msgstr "L'URL complète au point de terminaison du serveur de téléchargement :"
 
 #: motioneye/templates/main.html:486
-#, fuzzy
 msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-msgstr "Pour S3: par ex. http: //my.minio: 9000. Laissez-le vide pour AWS!"
+msgstr "Pour S3 : par ex. http://my.minio:9000. Laissez-le vide pour AWS !"
 
 #: motioneye/templates/main.html:487
-#, fuzzy
 msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
-msgstr "Pour webdav: par exemple https://my.cloud/remote.php/dav/files/me/"
+msgstr "Pour webdav : par exemple https://my.cloud/remote.php/dav/files/me/"
 
 #: motioneye/templates/main.html:490
 msgid "Loko"
@@ -585,14 +585,14 @@ msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
 msgstr "cliquez ici pour obtenir la clé d'autorisation du service"
 
 #: motioneye/templates/main.html:529
-#, fuzzy
 msgid "Access Key"
 msgstr "Clé d'accès"
 
 #: motioneye/templates/main.html:531
-#, fuzzy
 msgid "The AWS access key used to authenticate with the upload service"
-msgstr "La clé d'accès AWS utilisée pour s'authentifier avec le service de téléchargement"
+msgstr ""
+"La clé d'accès AWS utilisée pour s'authentifier avec le service de "
+"téléchargement"
 
 #: motioneye/templates/main.html:534
 msgid "Sekreta Alira Ŝlosilo"
@@ -638,7 +638,11 @@ msgstr "ex. http://example.com/notify/"
 #: motioneye/templates/main.html:559
 #, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
-msgstr "URL à déclencher lorsqu'un mouvement est détecté; les raccourcis spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événements, %%f = chemin du fichier"
+msgstr ""
+"URL à déclencher lorsqu'un mouvement est détecté ; les raccourcis spéciaux "
+"suivants sont acceptés : %%Y = année, %%m = mois, %%d = jour, %%H = heure, "
+"%%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro "
+"d'événements, %%f = chemin du fichier"
 
 #: motioneye/templates/main.html:562 motioneye/templates/main.html:1130
 #: motioneye/templates/main.html:1175
@@ -706,7 +710,12 @@ msgstr "texte personnalisé..."
 #: motioneye/templates/main.html:614
 #, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "Définit le texte personnalisé de gauche; les jetons spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événements, %%T = HH:MM:SS, \\n = nouvelle ligne"
+msgstr ""
+"Définit le texte personnalisé de gauche ; les jetons spéciaux suivants sont "
+"acceptés : %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, "
+"%%S = seconde, %%q = numéro de trame, %%v = numéro d'événements, %%T = HH:MM:"
+"SS, \\n"
+" = nouvelle ligne"
 
 #: motioneye/templates/main.html:617
 msgid "Dekstra Teksto"
@@ -751,7 +760,10 @@ msgstr "Qualité du débit"
 
 #: motioneye/templates/main.html:659
 msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
-msgstr "la résolution vidéo (des valeurs plus grandes produisent une meilleure qualité, mais nécessitent plus de puissance CPU, plus de stockage et de bande passante)"
+msgstr ""
+"la résolution vidéo (des valeurs plus grandes produisent une meilleure "
+"qualité, mais nécessitent plus de puissance CPU, plus de stockage et de "
+"bande passante)."
 
 #: motioneye/templates/main.html:662
 msgid "Bilda Redimensionado"
@@ -783,7 +795,10 @@ msgstr "Mode d'authentification"
 
 #: motioneye/templates/main.html:685
 msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "la méthode d'authentification utilisée par le flux (choisissez «Basic» au lieu de «Digest» si vous rencontrez des problèmes avec des programmes tiers); l'authentification de surveillance sera utilisée"
+msgstr ""
+"la méthode d'authentification utilisée par le flux (choisissez «Basic» au "
+"lieu de «Digest» si vous rencontrez des problèmes avec des programmes tiers) "
+"; l'authentification de surveillance sera utilisée"
 
 #: motioneye/templates/main.html:688
 msgid "Movado-Optimigo"
@@ -840,7 +855,11 @@ msgstr "modèle de nom de fichier..."
 #: motioneye/templates/main.html:738
 #, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr "Définit le modèle de nom pour les fichiers JPEG; les jetons spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro d'événement, / = sous-répertoire."
+msgstr ""
+"Définit le modèle de nom pour les fichiers JPEG ; les jetons spéciaux "
+"suivants sont acceptés : %%Y = année, %%m = mois, %%d = jour, %%H = heure, "
+"%%M = minute, %%S = seconde, %%q = numéro de trame, %%v = numéro "
+"d'événement, / = sous-répertoire."
 
 #: motioneye/templates/main.html:741
 msgid "Bildkvalito"
@@ -876,7 +895,7 @@ msgstr "Manuel"
 
 #: motioneye/templates/main.html:756
 msgid "Difinas la kapta reĝimon:"
-msgstr "Définit le mode de capture:"
+msgstr "Définit le mode de capture :"
 
 #: motioneye/templates/main.html:757
 msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
@@ -986,7 +1005,10 @@ msgstr "Format de vidéo"
 
 #: motioneye/templates/main.html:858
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
-msgstr "Personnalise le fichier vidéo; tous les formats ne sont pas garantis fonctionner sur tous les systèmes; en cas de doute, testez chaque format et choisissez celui qui convient le mieux à votre visionneur."
+msgstr ""
+"Personnalise le fichier vidéo ; tous les formats ne sont pas garantis "
+"fonctionner sur tous les systèmes ; en cas de doute, testez chaque format et "
+"choisissez celui qui convient le mieux à votre visionneur."
 
 #: motioneye/templates/main.html:861
 msgid "Filma Kvalito"
@@ -1006,7 +1028,10 @@ msgstr "Enregistrement continu"
 
 #: motioneye/templates/main.html:873
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
-msgstr "Définit le mode d'enregistrement: Déclencheur de mouvement = nouveau film créé chaque fois qu'un mouvement est détecté, Enregistrement continu = un grand fichier de film."
+msgstr ""
+"Définit le mode d'enregistrement : Déclencheur de mouvement = nouveau film "
+"créé chaque fois qu'un mouvement est détecté, Enregistrement continu = un "
+"grand fichier de film."
 
 #: motioneye/templates/main.html:876
 msgid "Maksimuma filma daŭro"
@@ -1014,7 +1039,10 @@ msgstr "Durée maximale du film"
 
 #: motioneye/templates/main.html:878
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
-msgstr "Définit la durée maximale des films en secondes; si l'événement dure plus longtemps, un nouveau fichier vidéo est créé; utilisez 0 pour une longueur illimitée."
+msgstr ""
+"Définit la durée maximale des films en secondes ; si l'événement dure plus "
+"longtemps, un nouveau fichier vidéo est créé ; utilisez 0 pour une longueur "
+"illimitée."
 
 #: motioneye/templates/main.html:881
 msgid "Konservi filmojn"
@@ -1188,7 +1216,10 @@ msgstr "Afficher les modifications d'image"
 
 #: motioneye/templates/main.html:1013
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
-msgstr "Si cette option est active, les changements d'image (nombre de pixels et zone modifiée) sont affichés dans la vidéo; activez-le temporairement pour ajuster les paramètres de détection de mouvement."
+msgstr ""
+"Si cette option est active, les changements d'image (nombre de pixels et "
+"zone modifiée) sont affichés dans la vidéo ; activez-le temporairement pour "
+"ajuster les paramètres de détection de mouvement."
 
 #: motioneye/templates/main.html:1016
 msgid "Krei debug media files"
@@ -1296,7 +1327,12 @@ msgstr "Intervalle de temps des images jointes"
 
 #: motioneye/templates/main.html:1082
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
-msgstr "Définit l'intervalle de recherche de temps à utiliser lors de la création des pièces jointes (des valeurs plus élevées génèrent des e-mails avec plus d'images au détriment d'un délai de notification accru); mettre à 0 pour désactiver les images jointes; vous devez également activer «Capture d'images» pour que cela fonctionne."
+msgstr ""
+"Définit l'intervalle de recherche de temps à utiliser lors de la création "
+"des pièces jointes (des valeurs plus élevées génèrent des e-mails avec plus "
+"d'images au détriment d'un délai de notification accru) ; mettre à 0 pour "
+"désactiver les images jointes ; vous devez également activer «Capture "
+"d'images» pour que cela fonctionne."
 
 #: motioneye/templates/main.html:1086
 msgid "Testi retpoŝto"
@@ -1320,12 +1356,16 @@ msgstr "Jeton d'API HTTP"
 
 #: motioneye/templates/main.html:1099
 msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
-msgstr "Exemple: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+msgstr "Exemple : 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 
 #: motioneye/templates/main.html:1100
-#, fuzzy
 msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-msgstr "En créant le chat télégramme-bot, vous obtiendrez un jetons API que vous devez entrer ici. Cliquez sur le bouton API ci-dessous pour un guide étape par étape sur la façon d'obtenir vos jetons API. Assurez-vous également de discuter avec votre \"bot\" nouvellement créé après la génération de votre clé, pour vous assurer de recevoir des messages."
+msgstr ""
+"En créant le bot-chat «Telegram», vous obtiendrez un jeton API que vous "
+"devez entrer ici. Cliquez sur le bouton API ci-dessous pour un guide étape "
+"par étape sur la façon d'obtenir vos jetons API. Assurez-vous également de "
+"discuter avec votre \"bot\" nouvellement créé après la génération de votre "
+"clé, pour vous assurer de recevoir des messages."
 
 #: motioneye/templates/main.html:1103
 msgid "Babileja ID"
@@ -1333,12 +1373,13 @@ msgstr "ID de chat"
 
 #: motioneye/templates/main.html:1104
 msgid "Ekzemplo: 938272312"
-msgstr "Exemple: 938272312"
+msgstr "Exemple : 938272312"
 
 #: motioneye/templates/main.html:1105
-#, fuzzy
 msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
-msgstr "Créez un nouveau chat sur id_chatbot (@id_chatbot) et choisissez de commencer. Le chat renverra le numéro requis pour ce champ."
+msgstr ""
+"Créez un nouveau chat sur id_chatbot (@id_chatbot) et choisissez de "
+"commencer. Le chat renverra le numéro requis pour ce champ."
 
 #: motioneye/templates/main.html:1108
 #, fuzzy
@@ -1346,9 +1387,16 @@ msgid "Alkroĉitaj Bildoj Tempo"
 msgstr "Temps des images jointes"
 
 #: motioneye/templates/main.html:1110
-#, fuzzy
 msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
-msgstr "définit l'intervalle de temps de recherche d'image pour créer des pièces jointes de télégramme (des valeurs plus élevées génèrent plus d'images au prix d'un délai de notification accru); mis à 0 pour désactiver les pièces jointes d'image; vous devez également activer les images fixes pour que cela fonctionne; vous voudrez jouer avec ce numéro jusqu'à ce qu'une image soit envoyée. Un bon nombre de départ est 30 si vous définissez les images fixes sur un mouvement déclenché. Pour un mouvement standard déclenché, réglez ce paramètre beaucoup plus bas."
+msgstr ""
+"définit l'intervalle de temps de recherche d'image pour créer des pièces "
+"jointes de «Telegram» (des valeurs plus élevées génèrent plus d'images au "
+"prix d'un délai de notification accru) ; mettre à 0 pour désactiver les "
+"pièces jointes d'image ; vous devez également activer les images fixes pour "
+"que cela fonctionne ; vous voudrez jouer sur ce numéro jusqu'à ce qu'une "
+"image soit envoyée. Un bon nombre de départ est 30 si vous définissez les "
+"images fixes sur un mouvement déclenché. Pour un mouvement standard "
+"déclenché, réglez ce paramètre beaucoup plus bas."
 
 #: motioneye/templates/main.html:1113
 msgid "API-Informoj"
@@ -1373,7 +1421,10 @@ msgstr "ex. http://exemple.com/notifier/"
 #: motioneye/templates/main.html:1127
 #, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-msgstr "URL à déclencher lorsqu'un mouvement est détecté; les raccourcis spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame , %%v = numéro d'événement"
+msgstr ""
+"URL à déclencher lorsqu'un mouvement est détecté ; les raccourcis spéciaux "
+"suivants sont acceptés : %%Y = année, %%m = mois, %%d = jour, %%H = heure, "
+"%%M = minute, %%S = seconde, %%q = numéro de trame , %%v = numéro d'événement"
 
 #: motioneye/templates/main.html:1139 motioneye/templates/main.html:1184
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
@@ -1398,7 +1449,12 @@ msgstr "commande ..."
 #: motioneye/templates/main.html:1152
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-msgstr "Commande à lancer lorsqu'un mouvement est détecté ; plusieurs commandes peuvent être séparées par deux-points; n'utilisez pas de points-virgules avec les commandes; les jetons spéciaux suivants sont acceptés: %%Y = année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame , %%v = numéro d'événement"
+msgstr ""
+"Commande à lancer lorsqu'un mouvement est détecté ; plusieurs commandes "
+"peuvent être séparées par deux-points ; n'utilisez pas de points-virgules "
+"avec les commandes ; les jetons spéciaux suivants sont acceptés : %%Y = "
+"année, %%m = mois, %%d = jour, %%H = heure, %%M = minute, %%S = seconde, %%q "
+"= numéro de trame , %%v = numéro d'événement"
 
 #: motioneye/templates/main.html:1192
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
@@ -1407,7 +1463,12 @@ msgstr "Activez cette option si vous souhaitez lancer une commande chaque fois q
 #: motioneye/templates/main.html:1197
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
-msgstr "Commande à lancer à la fin de l'événement de mouvement; plusieurs commandes peuvent être séparées par deux-points ; n'utilisez pas de points-virgules avec les commandes; les jetons spéciaux suivants sont acceptés : %%Y = année, %%m = mois, %%d = date, %%H = heure, %%M = minute, %%S = seconde, %%q = numéro de trame."
+msgstr ""
+"Commande à lancer à la fin de l'événement de mouvement ; plusieurs commandes "
+"peuvent être séparées par deux-points ; n'utilisez pas de points-virgules "
+"avec les commandes ; les jetons spéciaux suivants sont acceptés : %%Y = "
+"année, %%m = mois, %%d = date, %%H = heure, %%M = minute, %%S = seconde, %%q "
+"= numéro de trame."
 
 #: motioneye/templates/main.html:1207
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
