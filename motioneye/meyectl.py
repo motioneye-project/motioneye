@@ -46,12 +46,22 @@ def load_l10n():
         settings.traduction = gettext
         gettext.install('motioneye')
 
-    file = gettext.find('motioneye', pathname + '/locale')
+    # verify that lang exists
+    file = gettext.find('motioneye', pathname + '/locale', languages=[lang])
     if file:
-        lgrpath = len(pathname)
-        settings.lingvo = file[lgrpath + 8 : lgrpath + 10]
+        settings.lingvo = lang
     else:
-        settings.lingvo = 'eo'
+        # if lang is not defined, try english
+        file = gettext.find('motioneye', pathname + '/locale', languages=['en'])
+        if file:
+            settings.traduction = gettext.translation(
+                'motioneye', pathname + '/locale', languages=['en']
+            )
+            settings.traduction.install()
+            settings.lingvo = 'en'
+        else:
+            # if englishis not defined, use esperanto (should not happen)
+            settings.lingvo = 'eo'
     # logging.info(_('lingvo : ') + lingvo)
 
 
