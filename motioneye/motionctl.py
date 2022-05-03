@@ -63,7 +63,7 @@ def find_motion():
     result = re.findall('motion Version ([^,]+)', help, re.IGNORECASE)
     version = result and result[0] or ''
 
-    logging.debug('using motion version %s' % version)
+    logging.debug(f'using motion version {version}')
 
     _motion_binary_cache = (binary, version)
 
@@ -93,7 +93,7 @@ def start(deferred=False):
 
     program, version = program  # @UnusedVariable
 
-    logging.debug('starting motion binary "%s"' % program)
+    logging.debug(f'starting motion binary "{program}"')
 
     motion_config_path = os.path.join(settings.CONF_PATH, 'motion.conf')
     motion_log_path = os.path.join(settings.LOG_PATH, 'motion.log')
@@ -213,13 +213,11 @@ def started():
 async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
     motion_camera_id = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
-        error = 'could not find motion camera id for camera with id %s' % camera_id
+        error = f'could not find motion camera id for camera with id {camera_id}'
         logging.error(error)
         return utils.GetMotionDetectionResult(None, error=error)
 
-    url = 'http://127.0.0.1:{port}/{id}/detection/status'.format(
-        port=settings.MOTION_CONTROL_PORT, id=motion_camera_id
-    )
+    url = f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/detection/status'
 
     request = HTTPRequest(
         url,
@@ -234,9 +232,7 @@ async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
     enabled = bool(resp_body.count('active'))
 
     logging.debug(
-        'motion detection is {what} for camera with id {id}'.format(
-            what=['disabled', 'enabled'][enabled], id=camera_id
-        )
+        f"motion detection is {['disabled', 'enabled'][enabled]} for camera with id {id}"
     )
 
     return utils.GetMotionDetectionResult(enabled, None)
@@ -246,23 +242,17 @@ async def set_motion_detection(camera_id, enabled):
     motion_camera_id = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
         return logging.error(
-            'could not find motion camera id for camera with id %s' % camera_id
+            f'could not find motion camera id for camera with id {camera_id}'
         )
 
     if not enabled:
         _motion_detected[camera_id] = False
 
     logging.debug(
-        '{what} motion detection for camera with id {id}'.format(
-            what=['disabling', 'enabling'][enabled], id=camera_id
-        )
+        f"{['disabling', 'enabling'][enabled]} motion detection for camera with id {camera_id}"
     )
 
-    url = 'http://127.0.0.1:{port}/{id}/detection/{enabled}'.format(
-        port=settings.MOTION_CONTROL_PORT,
-        id=motion_camera_id,
-        enabled=['pause', 'start'][enabled],
-    )
+    url = f"http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/detection/{['pause', 'start'][enabled]}"
 
     request = HTTPRequest(
         url,
@@ -272,18 +262,16 @@ async def set_motion_detection(camera_id, enabled):
     resp = await AsyncHTTPClient().fetch(request)
     if resp.error:
         logging.error(
-            'failed to {what} motion detection for camera with id {id}: {msg}'.format(
-                what=['disable', 'enable'][enabled],
-                id=camera_id,
-                msg=utils.pretty_http_error(resp),
+            'failed to {} motion detection for camera with id {}: {}'.format(
+                ['disable', 'enable'][enabled],
+                camera_id,
+                utils.pretty_http_error(resp),
             )
         )
 
     else:
         logging.debug(
-            'successfully {what} motion detection for camera with id {id}'.format(
-                what=['disabled', 'enabled'][enabled], id=camera_id
-            )
+            f"successfully {['disabled', 'enabled'][enabled]} motion detection for camera with id {camera_id}"
         )
 
 
@@ -291,14 +279,12 @@ async def take_snapshot(camera_id):
     motion_camera_id = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
         return logging.error(
-            'could not find motion camera id for camera with id %s' % camera_id
+            f'could not find motion camera id for camera with id {camera_id}'
         )
 
     logging.debug(f'taking snapshot for camera with id {camera_id}')
 
-    url = 'http://127.0.0.1:{port}/{id}/action/snapshot'.format(
-        port=settings.MOTION_CONTROL_PORT, id=motion_camera_id
-    )
+    url = f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/action/snapshot'
 
     request = HTTPRequest(
         url,
@@ -308,9 +294,7 @@ async def take_snapshot(camera_id):
     resp = await AsyncHTTPClient().fetch(request)
     if resp.error:
         logging.error(
-            'failed to take snapshot for camera with id {id}: {msg}'.format(
-                id=camera_id, msg=utils.pretty_http_error(resp)
-            )
+            f'failed to take snapshot for camera with id {camera_id}: {utils.pretty_http_error(resp)}'
         )
 
     else:
@@ -323,10 +307,10 @@ def is_motion_detected(camera_id):
 
 def set_motion_detected(camera_id, motion_detected):
     if motion_detected:
-        logging.debug('marking motion detected for camera with id %s' % camera_id)
+        logging.debug(f'marking motion detected for camera with id {camera_id}')
 
     else:
-        logging.debug('clearing motion detected for camera with id %s' % camera_id)
+        logging.debug(f'clearing motion detected for camera with id {camera_id}')
 
     _motion_detected[camera_id] = motion_detected
 
@@ -340,7 +324,7 @@ def camera_id_to_motion_camera_id(camera_id):
     main_config = config.get_main()
     cameras = main_config.get('camera', [])
 
-    camera_filename = 'camera-%d.conf' % camera_id
+    camera_filename = f'camera-{camera_id}.conf'
     for i, camera in enumerate(cameras):
         if camera != camera_filename:
             continue
@@ -371,6 +355,14 @@ def is_motion_pre42():
         return False
 
     return update.compare_versions(version, '4.2') < 0
+
+
+def is_motion_post43():
+    binary, version = find_motion()
+    if not binary:
+        return False
+
+    return update.compare_versions(version, '4.4') >= 0  # 4.3.2 > 4.3
 
 
 def has_h264_omx_support():
@@ -535,7 +527,7 @@ async def _disable_initial_motion_detection():
 
         if not camera_config['@motion_detection']:
             logging.debug(
-                'motion detection disabled by config for camera with id %s' % camera_id
+                f'motion detection disabled by config for camera with id {camera_id}'
             )
             await set_motion_detection(camera_id, False)
 
