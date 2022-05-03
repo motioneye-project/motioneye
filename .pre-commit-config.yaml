@@ -44,7 +44,7 @@ repos:
         args:
           - --builtins=_
           - --count
-          - --max-complexity=66
+          - --max-complexity=68
           - --max-line-length=125
           - --select=C901,E501,E9,F63,F7,F82
           - --show-source
