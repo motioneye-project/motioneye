@@ -8,20 +8,22 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-02 23:01+0200\n"
-"PO-Revision-Date: 2020-04-04 13:20+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-05-03 15:14+0000\n"
+"Last-Translator: jmichault <jmt.2000@free.fr>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.12.1\n"
 "Generated-By: Babel 2.6.0\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: motioneye/server.py:234
 #, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "Una señal de interrupción recibida, cierre ..."
+msgstr "Una señal de interrupción recibida, cierre …"
 
 #: motioneye/server.py:278
 #, fuzzy
@@ -51,7 +53,7 @@ msgstr "por favor instale pycurl"
 #: motioneye/server.py:425
 #, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "hola este es un servidor motionEye"
+msgstr "hola este es un servidor motionEye "
 
 #: motioneye/server.py:440
 #, fuzzy
@@ -96,7 +98,7 @@ msgstr "movimiento detenido"
 #: motioneye/server.py:488
 #, fuzzy
 msgid "adiaŭ!"
-msgstr "adios"
+msgstr "adios!"
 
 #: motioneye/templates/main.html:102
 #, fuzzy
@@ -318,7 +320,7 @@ msgstr "Nombre de la cámara"
 #: motioneye/templates/main.html:261
 #, fuzzy
 msgid "kameraa nomo…"
-msgstr "Camera ..."
+msgstr "nombre de la cámara …"
 
 #: motioneye/templates/main.html:262
 #, fuzzy
@@ -543,7 +545,7 @@ msgstr "Uso del disco"
 #: motioneye/templates/main.html:425
 #, fuzzy
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr "el tamaño / tamaño de la unidad donde reside el directorio raíz"
+msgstr "el tamaño usado/total del disco donde reside el directorio raíz"
 
 #: motioneye/templates/main.html:431
 #, fuzzy
@@ -851,7 +853,9 @@ msgstr "Discapacitados"
 #: motioneye/templates/main.html:609
 #, fuzzy
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
-msgstr "Establece el texto que se muestra en las películas y las imágenes, en la esquina inferior izquierda."
+msgstr ""
+"Establece el texto que se muestra en las películas y las imágenes, en la "
+"esquina inferior izquierda"
 
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
 #, fuzzy
@@ -861,7 +865,12 @@ msgstr "texto propio ..."
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "Define texto izquierdo personalizado; Se aceptan los siguientes tokens especiales: %% Y = año, %% m = mes, %% d = día, %% H = hora, %% M = minuto, %% S = segundo, %% q = número de fotograma, %% v = número de evento, %% T = HH: MM: SS, \\ n = nueva línea"
+msgstr ""
+"Define texto izquierdo personalizado; Se aceptan los siguientes tokens "
+"especiales: %% Y = año, %% m = mes, %% d = día, %% H = hora, %% M = minuto, "
+"%% S = segundo, %% q = número de fotograma, %% v = número de evento, %% T = "
+"HH: MM: SS, \\n"
+" = nueva línea"
 
 #: motioneye/templates/main.html:617
 #, fuzzy
@@ -876,7 +885,12 @@ msgstr "Establece el texto que se muestra en las películas y las imágenes, en 
 #: motioneye/templates/main.html:631
 #, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "Define texto derecho personalizado; Se aceptan los siguientes tokens especiales: %% Y = año, %% m = mes, %% d = día, %% H = hora, %% M = minuto, %% S = segundo, %% q = número de fotograma, %% v = número de evento, %% T = HH: MM: SS, \\ n = nueva línea"
+msgstr ""
+"Define texto derecho personalizado; Se aceptan los siguientes tokens "
+"especiales: %% Y = año, %% m = mes, %% d = día, %% H = hora, %% M = minuto, "
+"%% S = segundo, %% q = número de fotograma, %% v = número de evento, %% T = "
+"HH: MM: SS, \\n"
+" = nueva línea"
 
 #: motioneye/templates/main.html:634
 #, fuzzy
@@ -981,7 +995,8 @@ msgstr "URL instantánea"
 #: motioneye/templates/main.html:702
 #, fuzzy
 msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
-msgstr "Una URL que proporciona una imagen JPEG con la última captura de la cámara."
+msgstr ""
+"Una URL que proporciona una imagen JPEG con la última captura de la cámara"
 
 #: motioneye/templates/main.html:708
 #, fuzzy
@@ -1066,7 +1081,7 @@ msgstr "Todas las fotos"
 #: motioneye/templates/main.html:753
 #, fuzzy
 msgid "Mane"
-msgstr "Mane"
+msgstr "Melena"
 
 #: motioneye/templates/main.html:756
 #, fuzzy
@@ -1332,7 +1347,7 @@ msgstr "Establece permanentemente el nivel de ruido en un valor establecido."
 #: motioneye/templates/main.html:938
 #, fuzzy
 msgid "Detekto de lumaj ŝanĝoj"
-msgstr "Detección de cambios de luz."
+msgstr "Detección de cambios de luz"
 
 #: motioneye/templates/main.html:940
 #, fuzzy, python-format
