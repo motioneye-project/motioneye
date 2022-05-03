@@ -8,20 +8,23 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-02 23:01+0200\n"
-"PO-Revision-Date: 2020-04-13 11:23+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-05-03 15:14+0000\n"
+"Last-Translator: jmichault <jmt.2000@free.fr>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.12.1\n"
 "Generated-By: Babel 2.6.0\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: motioneye/server.py:234
 #, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "Полученный сигнал прерывания, закрытие ..."
+msgstr "получен сигнал прерывания, закрытие…"
 
 #: motioneye/server.py:278
 #, fuzzy
@@ -51,7 +54,7 @@ msgstr "пожалуйста, установите Pycurl"
 #: motioneye/server.py:425
 #, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "привет! это сервер motionEye"
+msgstr "привет! это сервер motionEye "
 
 #: motioneye/server.py:440
 #, fuzzy
@@ -318,7 +321,7 @@ msgstr "Имя камеры"
 #: motioneye/templates/main.html:261
 #, fuzzy
 msgid "kameraa nomo…"
-msgstr "Название камеры ..."
+msgstr "имя камеры…"
 
 #: motioneye/templates/main.html:262
 #, fuzzy
@@ -543,7 +546,8 @@ msgstr "Использование диска"
 #: motioneye/templates/main.html:425
 #, fuzzy
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr "размер / размер диска, на котором находится корневой каталог"
+msgstr ""
+"используемый / общий размер диска, на котором находится корневой каталог"
 
 #: motioneye/templates/main.html:431
 #, fuzzy
@@ -861,7 +865,11 @@ msgstr "собственный текст ..."
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "Определяет пользовательский левый текст; принимаются следующие специальные токены: %% Y = год, %% m = месяц, %% d = день, %% H = час, %% M = минута, %% S = секунда, %% q = номер кадра, %% v = номер события, %% T = ЧЧ: ММ: СС, \\ n = новая строка"
+msgstr ""
+"Определяет пользовательский левый текст; принимаются следующие специальные "
+"токены: %% Y = год, %% m = месяц, %% d = день, %% H = час, %% M = минута, %% "
+"S = секунда, %% q = номер кадра, %% v = номер события, %% T = ЧЧ: ММ: СС, \\n"
+" = новая строка"
 
 #: motioneye/templates/main.html:617
 #, fuzzy
@@ -876,7 +884,12 @@ msgstr "Устанавливает текст, отображаемый на ф�
 #: motioneye/templates/main.html:631
 #, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "Определяет пользовательский правильный текст; принимаются следующие специальные токены: %% Y = год, %% m = месяц, %% d = день, %% H = час, %% M = минута, %% S = секунда, %% q = номер кадра, %% v = номер события, %% T = ЧЧ: ММ: СС, \\ n = новая строка"
+msgstr ""
+"Определяет пользовательский правильный текст; принимаются следующие "
+"специальные токены: %% Y = год, %% m = месяц, %% d = день, %% H = час, %% M "
+"= минута, %% S = секунда, %% q = номер кадра, %% v = номер события, %% T = "
+"ЧЧ: ММ: СС, \\n"
+" = новая строка"
 
 #: motioneye/templates/main.html:634
 #, fuzzy
