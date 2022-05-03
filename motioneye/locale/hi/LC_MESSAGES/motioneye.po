@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-02 23:01+0200\n"
+"POT-Creation-Date: 2022-05-03 17:08+0200\n"
 "PO-Revision-Date: 2020-04-07 17:41+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -808,7 +808,7 @@ msgstr "क्रम"
 
 #: motioneye/templates/main.html:583
 #, fuzzy
-msgid "ordono..."
+msgid "ordono…"
 msgstr "आदेश ..."
 
 #: motioneye/templates/main.html:584
@@ -854,8 +854,8 @@ msgstr "फिल्मों और चित्रों पर प्रद�
 
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
 #, fuzzy
-msgid "propra teksto..."
-msgstr "स्वयं का पाठ ..."
+msgid "propra teksto…"
+msgstr "प्रचलित पाठ ..."
 
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
@@ -1019,8 +1019,8 @@ msgstr "नाम छवि फ़ाइल"
 
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
 #, fuzzy
-msgid "ŝablona nomo de dosiero..."
-msgstr "टेम्पलेट फ़ाइल नाम ..."
+msgid "ŝablona nomo de dosiero…"
+msgstr "एक फ़ाइल का टेम्पलेट नाम ..."
 
 #: motioneye/templates/main.html:738
 #, fuzzy, python-format
@@ -1496,8 +1496,8 @@ msgstr "ईमेल पते"
 
 #: motioneye/templates/main.html:1046
 #, fuzzy
-msgid "retpoŝtadresoj..."
-msgstr "ईमेल पते ..."
+msgid "retpoŝtadresoj…"
+msgstr "ईमेल पता ..."
 
 #: motioneye/templates/main.html:1047
 #, fuzzy
@@ -1541,8 +1541,8 @@ msgstr "SMTP खाता"
 
 #: motioneye/templates/main.html:1061
 #, fuzzy
-msgid "konto@gmail.com..."
-msgstr "account@gmail.com ..."
+msgid "konto@gmail.com…"
+msgstr "खाता@gmail.com…"
 
 #: motioneye/templates/main.html:1062
 #, fuzzy
@@ -1566,7 +1566,7 @@ msgstr "पते से"
 
 #: motioneye/templates/main.html:1071
 #, fuzzy
-msgid "retpoŝta adreso..."
+msgid "retpoŝta adreso…"
 msgstr "ईमेल पता ..."
 
 #: motioneye/templates/main.html:1072
@@ -1706,8 +1706,8 @@ msgstr "आदेश"
 
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
 #, fuzzy
-msgid "komando..."
-msgstr "कमांड ..."
+msgid "komando…"
+msgstr "आज्ञा ..."
 
 #: motioneye/templates/main.html:1152
 #, fuzzy, python-format
@@ -1898,6 +1898,34 @@ msgstr "सेकंड"
 #, fuzzy
 msgid "minus"
 msgstr "ऋण"
+
+#, fuzzy
+#~ msgid "ordono..."
+#~ msgstr "आदेश ..."
+
+#, fuzzy
+#~ msgid "propra teksto..."
+#~ msgstr "स्वयं का पाठ ..."
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero..."
+#~ msgstr "टेम्पलेट फ़ाइल नाम ..."
+
+#, fuzzy
+#~ msgid "retpoŝtadresoj..."
+#~ msgstr "ईमेल पते ..."
+
+#, fuzzy
+#~ msgid "konto@gmail.com..."
+#~ msgstr "account@gmail.com ..."
+
+#, fuzzy
+#~ msgid "retpoŝta adreso..."
+#~ msgstr "ईमेल पता ..."
+
+#, fuzzy
+#~ msgid "komando..."
+#~ msgstr "कमांड ..."
 
 #, fuzzy
 #~ msgid "interrompa signalo ricevita, fermanta ..."

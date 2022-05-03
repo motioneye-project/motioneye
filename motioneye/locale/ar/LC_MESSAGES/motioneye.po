@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-02 23:01+0200\n"
+"POT-Creation-Date: 2022-05-03 17:08+0200\n"
 "PO-Revision-Date: 2020-03-25 16:20+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -808,7 +808,7 @@ msgstr "أجل"
 
 #: motioneye/templates/main.html:583
 #, fuzzy
-msgid "ordono..."
+msgid "ordono…"
 msgstr "طلب ..."
 
 #: motioneye/templates/main.html:584
@@ -854,8 +854,8 @@ msgstr "يضبط النص المعروض على الأفلام والصور ، �
 
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
 #, fuzzy
-msgid "propra teksto..."
-msgstr "نص خاص ..."
+msgid "propra teksto…"
+msgstr "نص مخصص ..."
 
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
@@ -1019,8 +1019,8 @@ msgstr "اسم ملف الصورة"
 
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
 #, fuzzy
-msgid "ŝablona nomo de dosiero..."
-msgstr "اسم ملف القالب ..."
+msgid "ŝablona nomo de dosiero…"
+msgstr "اسم قالب ملف ..."
 
 #: motioneye/templates/main.html:738
 #, fuzzy, python-format
@@ -1496,7 +1496,7 @@ msgstr "عناوين البريد الإلكتروني"
 
 #: motioneye/templates/main.html:1046
 #, fuzzy
-msgid "retpoŝtadresoj..."
+msgid "retpoŝtadresoj…"
 msgstr "عناوين البريد الإلكتروني ..."
 
 #: motioneye/templates/main.html:1047
@@ -1541,8 +1541,8 @@ msgstr "حساب SMTP"
 
 #: motioneye/templates/main.html:1061
 #, fuzzy
-msgid "konto@gmail.com..."
-msgstr "account@gmail.com ..."
+msgid "konto@gmail.com…"
+msgstr "account@gmail.com…"
 
 #: motioneye/templates/main.html:1062
 #, fuzzy
@@ -1566,8 +1566,8 @@ msgstr "من العنوان"
 
 #: motioneye/templates/main.html:1071
 #, fuzzy
-msgid "retpoŝta adreso..."
-msgstr "عنوان البريد الإلكتروني ..."
+msgid "retpoŝta adreso…"
+msgstr "عنوان بريد الكتروني ..."
 
 #: motioneye/templates/main.html:1072
 #, fuzzy
@@ -1706,7 +1706,7 @@ msgstr "أمر"
 
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
 #, fuzzy
-msgid "komando..."
+msgid "komando…"
 msgstr "أمر ..."
 
 #: motioneye/templates/main.html:1152
@@ -1898,6 +1898,34 @@ msgstr "ثواني"
 #, fuzzy
 msgid "minus"
 msgstr "ناقص"
+
+#, fuzzy
+#~ msgid "ordono..."
+#~ msgstr "طلب ..."
+
+#, fuzzy
+#~ msgid "propra teksto..."
+#~ msgstr "نص خاص ..."
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero..."
+#~ msgstr "اسم ملف القالب ..."
+
+#, fuzzy
+#~ msgid "retpoŝtadresoj..."
+#~ msgstr "عناوين البريد الإلكتروني ..."
+
+#, fuzzy
+#~ msgid "konto@gmail.com..."
+#~ msgstr "account@gmail.com ..."
+
+#, fuzzy
+#~ msgid "retpoŝta adreso..."
+#~ msgstr "عنوان البريد الإلكتروني ..."
+
+#, fuzzy
+#~ msgid "komando..."
+#~ msgstr "أمر ..."
 
 #, fuzzy
 #~ msgid "interrompa signalo ricevita, fermanta ..."

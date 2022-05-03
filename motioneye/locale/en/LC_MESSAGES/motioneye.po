@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-02 23:01+0200\n"
+"POT-Creation-Date: 2022-05-03 17:08+0200\n"
 "PO-Revision-Date: 2020-02-11 19:17+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -661,8 +661,9 @@ msgid "Ordono"
 msgstr "Command"
 
 #: motioneye/templates/main.html:583
-msgid "ordono..."
-msgstr "command ..."
+#, fuzzy
+msgid "ordono…"
+msgstr "Order ..."
 
 #: motioneye/templates/main.html:584
 #, python-format
@@ -699,8 +700,9 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra mal
 msgstr "sets the text displayed on the movies and images, on the lower left corner"
 
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
-msgid "propra teksto..."
-msgstr "own text ..."
+#, fuzzy
+msgid "propra teksto…"
+msgstr "Custom text ..."
 
 #: motioneye/templates/main.html:614
 #, python-format
@@ -833,8 +835,9 @@ msgid "Nomo Bildo-Dosiero"
 msgstr "Image File Name"
 
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
-msgid "ŝablona nomo de dosiero..."
-msgstr "file name pattern..."
+#, fuzzy
+msgid "ŝablona nomo de dosiero…"
+msgstr "Template name of a file ..."
 
 #: motioneye/templates/main.html:738
 #, python-format
@@ -1218,8 +1221,9 @@ msgid "Retpoŝtadresoj"
 msgstr "Email Addresses"
 
 #: motioneye/templates/main.html:1046
-msgid "retpoŝtadresoj..."
-msgstr "email addresses ..."
+#, fuzzy
+msgid "retpoŝtadresoj…"
+msgstr "Email addresses ..."
 
 #: motioneye/templates/main.html:1047
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
@@ -1254,8 +1258,9 @@ msgid "SMTP-Konto"
 msgstr "SMTP Account"
 
 #: motioneye/templates/main.html:1061
-msgid "konto@gmail.com..."
-msgstr "account@gmail.com ..."
+#, fuzzy
+msgid "konto@gmail.com…"
+msgstr "account@gmail.com…"
 
 #: motioneye/templates/main.html:1062
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
@@ -1274,8 +1279,9 @@ msgid "De adreso"
 msgstr "From Address"
 
 #: motioneye/templates/main.html:1071
-msgid "retpoŝta adreso..."
-msgstr "email address ..."
+#, fuzzy
+msgid "retpoŝta adreso…"
+msgstr "Email address ..."
 
 #: motioneye/templates/main.html:1072
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
@@ -1388,8 +1394,9 @@ msgid "Komando"
 msgstr "Command"
 
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
-msgid "komando..."
-msgstr "command ..."
+#, fuzzy
+msgid "komando…"
+msgstr "Command ..."
 
 #: motioneye/templates/main.html:1152
 #, python-format
@@ -1544,6 +1551,27 @@ msgstr "seconds"
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
 msgstr "minus"
+
+#~ msgid "ordono..."
+#~ msgstr "command ..."
+
+#~ msgid "propra teksto..."
+#~ msgstr "own text ..."
+
+#~ msgid "ŝablona nomo de dosiero..."
+#~ msgstr "file name pattern..."
+
+#~ msgid "retpoŝtadresoj..."
+#~ msgstr "email addresses ..."
+
+#~ msgid "konto@gmail.com..."
+#~ msgstr "account@gmail.com ..."
+
+#~ msgid "retpoŝta adreso..."
+#~ msgstr "email address ..."
+
+#~ msgid "komando..."
+#~ msgstr "command ..."
 
 #~ msgid "interrompa signalo ricevita, fermanta ..."
 #~ msgstr "interrupt signal received, closing ..."

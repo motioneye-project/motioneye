@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-02 23:01+0200\n"
+"POT-Creation-Date: 2022-05-03 17:08+0200\n"
 "PO-Revision-Date: 2020-04-02 18:36+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -808,7 +808,7 @@ msgstr "ক্রম"
 
 #: motioneye/templates/main.html:583
 #, fuzzy
-msgid "ordono..."
+msgid "ordono…"
 msgstr "অর্ডার ..."
 
 #: motioneye/templates/main.html:584
@@ -854,8 +854,8 @@ msgstr "সিনেমা এবং ছবিতে প্রদর্শিত
 
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
 #, fuzzy
-msgid "propra teksto..."
-msgstr "নিজস্ব পাঠ্য ..."
+msgid "propra teksto…"
+msgstr "কাস্টম পাঠ্য ..."
 
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
@@ -1019,8 +1019,8 @@ msgstr "নাম চিত্র ফাইল"
 
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
 #, fuzzy
-msgid "ŝablona nomo de dosiero..."
-msgstr "টেমপ্লেট ফাইলের নাম ..."
+msgid "ŝablona nomo de dosiero…"
+msgstr "একটি ফাইলের টেমপ্লেট নাম ..."
 
 #: motioneye/templates/main.html:738
 #, fuzzy, python-format
@@ -1496,8 +1496,8 @@ msgstr "ইমেল ঠিকানা"
 
 #: motioneye/templates/main.html:1046
 #, fuzzy
-msgid "retpoŝtadresoj..."
-msgstr "ইমেল ঠিকানা ..."
+msgid "retpoŝtadresoj…"
+msgstr "ইমেইল ঠিকানা ..."
 
 #: motioneye/templates/main.html:1047
 #, fuzzy
@@ -1541,8 +1541,8 @@ msgstr "এসএমটিপি অ্যাকাউন্ট"
 
 #: motioneye/templates/main.html:1061
 #, fuzzy
-msgid "konto@gmail.com..."
-msgstr "অ্যাকাউন্ট@gmail.com ..."
+msgid "konto@gmail.com…"
+msgstr "অ্যাকাউন্ট@gmail.com…"
 
 #: motioneye/templates/main.html:1062
 #, fuzzy
@@ -1566,7 +1566,7 @@ msgstr "ঠিকানা থেকে"
 
 #: motioneye/templates/main.html:1071
 #, fuzzy
-msgid "retpoŝta adreso..."
+msgid "retpoŝta adreso…"
 msgstr "ইমেল ঠিকানা ..."
 
 #: motioneye/templates/main.html:1072
@@ -1706,8 +1706,8 @@ msgstr "হুকুম"
 
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
 #, fuzzy
-msgid "komando..."
-msgstr "আদেশ ..."
+msgid "komando…"
+msgstr "কমান্ড ..."
 
 #: motioneye/templates/main.html:1152
 #, fuzzy, python-format
@@ -1898,6 +1898,34 @@ msgstr "সেকেন্ড"
 #, fuzzy
 msgid "minus"
 msgstr "ঋণচিহ্ন"
+
+#, fuzzy
+#~ msgid "ordono..."
+#~ msgstr "অর্ডার ..."
+
+#, fuzzy
+#~ msgid "propra teksto..."
+#~ msgstr "নিজস্ব পাঠ্য ..."
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero..."
+#~ msgstr "টেমপ্লেট ফাইলের নাম ..."
+
+#, fuzzy
+#~ msgid "retpoŝtadresoj..."
+#~ msgstr "ইমেল ঠিকানা ..."
+
+#, fuzzy
+#~ msgid "konto@gmail.com..."
+#~ msgstr "অ্যাকাউন্ট@gmail.com ..."
+
+#, fuzzy
+#~ msgid "retpoŝta adreso..."
+#~ msgstr "ইমেল ঠিকানা ..."
+
+#, fuzzy
+#~ msgid "komando..."
+#~ msgstr "আদেশ ..."
 
 #, fuzzy
 #~ msgid "interrompa signalo ricevita, fermanta ..."

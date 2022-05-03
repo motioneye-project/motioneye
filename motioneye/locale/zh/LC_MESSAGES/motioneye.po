@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-02 23:01+0200\n"
+"POT-Creation-Date: 2022-05-03 17:08+0200\n"
 "PO-Revision-Date: 2020-04-13 15:20+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -808,8 +808,8 @@ msgstr "订购"
 
 #: motioneye/templates/main.html:583
 #, fuzzy
-msgid "ordono..."
-msgstr "订购..."
+msgid "ordono…"
+msgstr "命令 ..."
 
 #: motioneye/templates/main.html:584
 #, fuzzy, python-format
@@ -854,8 +854,8 @@ msgstr "设置电影和图片上显示的文本，位于左下角"
 
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
 #, fuzzy
-msgid "propra teksto..."
-msgstr "自己的文字..."
+msgid "propra teksto…"
+msgstr "自定义文字..."
 
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
@@ -1019,8 +1019,8 @@ msgstr "名称图像文件"
 
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
 #, fuzzy
-msgid "ŝablona nomo de dosiero..."
-msgstr "模板文件名..."
+msgid "ŝablona nomo de dosiero…"
+msgstr "文件的模板名称..."
 
 #: motioneye/templates/main.html:738
 #, fuzzy, python-format
@@ -1496,8 +1496,8 @@ msgstr "电邮地址"
 
 #: motioneye/templates/main.html:1046
 #, fuzzy
-msgid "retpoŝtadresoj..."
-msgstr "电子邮件地址..."
+msgid "retpoŝtadresoj…"
+msgstr "电子邮件地址 ..."
 
 #: motioneye/templates/main.html:1047
 #, fuzzy
@@ -1541,8 +1541,8 @@ msgstr "SMTP帐号"
 
 #: motioneye/templates/main.html:1061
 #, fuzzy
-msgid "konto@gmail.com..."
-msgstr "account@gmail.com ..."
+msgid "konto@gmail.com…"
+msgstr "account@gmail.com  - "
 
 #: motioneye/templates/main.html:1062
 #, fuzzy
@@ -1566,8 +1566,8 @@ msgstr "发件人地址"
 
 #: motioneye/templates/main.html:1071
 #, fuzzy
-msgid "retpoŝta adreso..."
-msgstr "电子邮件地址..."
+msgid "retpoŝta adreso…"
+msgstr "电子邮件地址 ..."
 
 #: motioneye/templates/main.html:1072
 #, fuzzy
@@ -1706,8 +1706,8 @@ msgstr "指挥部"
 
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
 #, fuzzy
-msgid "komando..."
-msgstr "命令..."
+msgid "komando…"
+msgstr "命令 ..."
 
 #: motioneye/templates/main.html:1152
 #, fuzzy, python-format
@@ -1898,6 +1898,34 @@ msgstr "秒"
 #, fuzzy
 msgid "minus"
 msgstr "减号"
+
+#, fuzzy
+#~ msgid "ordono..."
+#~ msgstr "订购..."
+
+#, fuzzy
+#~ msgid "propra teksto..."
+#~ msgstr "自己的文字..."
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero..."
+#~ msgstr "模板文件名..."
+
+#, fuzzy
+#~ msgid "retpoŝtadresoj..."
+#~ msgstr "电子邮件地址..."
+
+#, fuzzy
+#~ msgid "konto@gmail.com..."
+#~ msgstr "account@gmail.com ..."
+
+#, fuzzy
+#~ msgid "retpoŝta adreso..."
+#~ msgstr "电子邮件地址..."
+
+#, fuzzy
+#~ msgid "komando..."
+#~ msgstr "命令..."
 
 #, fuzzy
 #~ msgid "interrompa signalo ricevita, fermanta ..."

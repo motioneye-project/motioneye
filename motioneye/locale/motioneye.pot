@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-02 23:01+0200\n"
+"POT-Creation-Date: 2022-05-03 17:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -717,7 +717,7 @@ msgid "Ordono"
 msgstr ""
 
 #: motioneye/templates/main.html:583
-msgid "ordono..."
+msgid "ordono…"
 msgstr ""
 
 #: motioneye/templates/main.html:584
@@ -762,7 +762,7 @@ msgid ""
 msgstr ""
 
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
-msgid "propra teksto..."
+msgid "propra teksto…"
 msgstr ""
 
 #: motioneye/templates/main.html:614
@@ -921,7 +921,7 @@ msgid "Nomo Bildo-Dosiero"
 msgstr ""
 
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
-msgid "ŝablona nomo de dosiero..."
+msgid "ŝablona nomo de dosiero…"
 msgstr ""
 
 #: motioneye/templates/main.html:738
@@ -1363,7 +1363,7 @@ msgid "Retpoŝtadresoj"
 msgstr ""
 
 #: motioneye/templates/main.html:1046
-msgid "retpoŝtadresoj..."
+msgid "retpoŝtadresoj…"
 msgstr ""
 
 #: motioneye/templates/main.html:1047
@@ -1405,7 +1405,7 @@ msgid "SMTP-Konto"
 msgstr ""
 
 #: motioneye/templates/main.html:1061
-msgid "konto@gmail.com..."
+msgid "konto@gmail.com…"
 msgstr ""
 
 #: motioneye/templates/main.html:1062
@@ -1427,7 +1427,7 @@ msgid "De adreso"
 msgstr ""
 
 #: motioneye/templates/main.html:1071
-msgid "retpoŝta adreso..."
+msgid "retpoŝta adreso…"
 msgstr ""
 
 #: motioneye/templates/main.html:1072
@@ -1575,7 +1575,7 @@ msgid "Komando"
 msgstr ""
 
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
-msgid "komando..."
+msgid "komando…"
 msgstr ""
 
 #: motioneye/templates/main.html:1152

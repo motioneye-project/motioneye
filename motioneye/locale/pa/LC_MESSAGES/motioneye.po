@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-02 23:01+0200\n"
+"POT-Creation-Date: 2022-05-03 17:08+0200\n"
 "PO-Revision-Date: 2020-04-09 16:58+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -808,7 +808,7 @@ msgstr "ਆਰਡਰ"
 
 #: motioneye/templates/main.html:583
 #, fuzzy
-msgid "ordono..."
+msgid "ordono…"
 msgstr "ਆਰਡਰ ..."
 
 #: motioneye/templates/main.html:584
@@ -854,8 +854,8 @@ msgstr "ਹੇਠਾਂ ਖੱਬੇ ਕੋਨੇ ਵਿਚ, ਫਿਲਮਾਂ 
 
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
 #, fuzzy
-msgid "propra teksto..."
-msgstr "ਆਪਣਾ ਪਾਠ ..."
+msgid "propra teksto…"
+msgstr "ਕਸਟਮ ਟੈਕਸਟ ..."
 
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
@@ -1019,8 +1019,8 @@ msgstr "ਨਾਮ ਚਿੱਤਰ ਫਾਇਲ"
 
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
 #, fuzzy
-msgid "ŝablona nomo de dosiero..."
-msgstr "ਟੈਂਪਲੇਟ ਫਾਈਲ ਦਾ ਨਾਮ ..."
+msgid "ŝablona nomo de dosiero…"
+msgstr "ਇੱਕ ਫਾਈਲ ਦਾ ਟੈਂਪਲੇਟ ਨਾਮ ..."
 
 #: motioneye/templates/main.html:738
 #, fuzzy, python-format
@@ -1496,7 +1496,7 @@ msgstr "ਈਮੇਲ ਪਤੇ"
 
 #: motioneye/templates/main.html:1046
 #, fuzzy
-msgid "retpoŝtadresoj..."
+msgid "retpoŝtadresoj…"
 msgstr "ਈਮੇਲ ਪਤੇ ..."
 
 #: motioneye/templates/main.html:1047
@@ -1541,8 +1541,8 @@ msgstr "SMTP ਖਾਤਾ"
 
 #: motioneye/templates/main.html:1061
 #, fuzzy
-msgid "konto@gmail.com..."
-msgstr "account@gmail.com ..."
+msgid "konto@gmail.com…"
+msgstr "ਖਾਤਾ @ gamil.com..."
 
 #: motioneye/templates/main.html:1062
 #, fuzzy
@@ -1566,7 +1566,7 @@ msgstr "ਪਤੇ ਤੋਂ"
 
 #: motioneye/templates/main.html:1071
 #, fuzzy
-msgid "retpoŝta adreso..."
+msgid "retpoŝta adreso…"
 msgstr "ਈਮੇਲ ਪਤਾ ..."
 
 #: motioneye/templates/main.html:1072
@@ -1706,7 +1706,7 @@ msgstr "ਕਮਾਂਡ"
 
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
 #, fuzzy
-msgid "komando..."
+msgid "komando…"
 msgstr "ਕਮਾਂਡ ..."
 
 #: motioneye/templates/main.html:1152
@@ -1898,6 +1898,34 @@ msgstr "ਸਕਿੰਟ"
 #, fuzzy
 msgid "minus"
 msgstr "ਘਟਾਓ"
+
+#, fuzzy
+#~ msgid "ordono..."
+#~ msgstr "ਆਰਡਰ ..."
+
+#, fuzzy
+#~ msgid "propra teksto..."
+#~ msgstr "ਆਪਣਾ ਪਾਠ ..."
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero..."
+#~ msgstr "ਟੈਂਪਲੇਟ ਫਾਈਲ ਦਾ ਨਾਮ ..."
+
+#, fuzzy
+#~ msgid "retpoŝtadresoj..."
+#~ msgstr "ਈਮੇਲ ਪਤੇ ..."
+
+#, fuzzy
+#~ msgid "konto@gmail.com..."
+#~ msgstr "account@gmail.com ..."
+
+#, fuzzy
+#~ msgid "retpoŝta adreso..."
+#~ msgstr "ਈਮੇਲ ਪਤਾ ..."
+
+#, fuzzy
+#~ msgid "komando..."
+#~ msgstr "ਕਮਾਂਡ ..."
 
 #, fuzzy
 #~ msgid "interrompa signalo ricevita, fermanta ..."

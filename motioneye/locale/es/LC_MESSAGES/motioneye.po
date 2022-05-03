@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-02 23:01+0200\n"
+"POT-Creation-Date: 2022-05-03 17:08+0200\n"
 "PO-Revision-Date: 2020-04-04 13:20+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -809,8 +809,8 @@ msgstr "Orden"
 
 #: motioneye/templates/main.html:583
 #, fuzzy
-msgid "ordono..."
-msgstr "orden ..."
+msgid "ordono…"
+msgstr "Pedido ..."
 
 #: motioneye/templates/main.html:584
 #, fuzzy, python-format
@@ -855,8 +855,8 @@ msgstr "Establece el texto que se muestra en las películas y las imágenes, en 
 
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
 #, fuzzy
-msgid "propra teksto..."
-msgstr "texto propio ..."
+msgid "propra teksto…"
+msgstr "Texto personalizado ..."
 
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
@@ -1020,8 +1020,8 @@ msgstr "Nombre de archivo de imagen"
 
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
 #, fuzzy
-msgid "ŝablona nomo de dosiero..."
-msgstr "nombre del archivo de plantilla ..."
+msgid "ŝablona nomo de dosiero…"
+msgstr "Nombre de la plantilla de un archivo ..."
 
 #: motioneye/templates/main.html:738
 #, fuzzy, python-format
@@ -1497,8 +1497,8 @@ msgstr "Direcciones de correo electrónico"
 
 #: motioneye/templates/main.html:1046
 #, fuzzy
-msgid "retpoŝtadresoj..."
-msgstr "direcciones de correo electrónico ..."
+msgid "retpoŝtadresoj…"
+msgstr "Correos electrónicos ..."
 
 #: motioneye/templates/main.html:1047
 #, fuzzy
@@ -1542,8 +1542,8 @@ msgstr "Cuenta SMTP"
 
 #: motioneye/templates/main.html:1061
 #, fuzzy
-msgid "konto@gmail.com..."
-msgstr "cuenta@gmail.com ..."
+msgid "konto@gmail.com…"
+msgstr "cuenta@gmail.com…"
 
 #: motioneye/templates/main.html:1062
 #, fuzzy
@@ -1567,8 +1567,8 @@ msgstr "De la dirección"
 
 #: motioneye/templates/main.html:1071
 #, fuzzy
-msgid "retpoŝta adreso..."
-msgstr "dirección de correo electrónico ..."
+msgid "retpoŝta adreso…"
+msgstr "Dirección de correo electrónico ..."
 
 #: motioneye/templates/main.html:1072
 #, fuzzy
@@ -1707,8 +1707,8 @@ msgstr "Comando"
 
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
 #, fuzzy
-msgid "komando..."
-msgstr "comando ..."
+msgid "komando…"
+msgstr "Dominio ..."
 
 #: motioneye/templates/main.html:1152
 #, fuzzy, python-format
@@ -1899,6 +1899,34 @@ msgstr "segundos"
 #, fuzzy
 msgid "minus"
 msgstr "menos"
+
+#, fuzzy
+#~ msgid "ordono..."
+#~ msgstr "orden ..."
+
+#, fuzzy
+#~ msgid "propra teksto..."
+#~ msgstr "texto propio ..."
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero..."
+#~ msgstr "nombre del archivo de plantilla ..."
+
+#, fuzzy
+#~ msgid "retpoŝtadresoj..."
+#~ msgstr "direcciones de correo electrónico ..."
+
+#, fuzzy
+#~ msgid "konto@gmail.com..."
+#~ msgstr "cuenta@gmail.com ..."
+
+#, fuzzy
+#~ msgid "retpoŝta adreso..."
+#~ msgstr "dirección de correo electrónico ..."
+
+#, fuzzy
+#~ msgid "komando..."
+#~ msgstr "comando ..."
 
 #, fuzzy
 #~ msgid "interrompa signalo ricevita, fermanta ..."

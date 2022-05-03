@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-02 23:01+0200\n"
+"POT-Creation-Date: 2022-05-03 17:08+0200\n"
 "PO-Revision-Date: 2020-04-08 21:44+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -808,8 +808,8 @@ msgstr "Perintah"
 
 #: motioneye/templates/main.html:583
 #, fuzzy
-msgid "ordono..."
-msgstr "perintah ..."
+msgid "ordono…"
+msgstr "Memerintahkan ..."
 
 #: motioneye/templates/main.html:584
 #, fuzzy, python-format
@@ -854,8 +854,8 @@ msgstr "Menetapkan teks yang dipaparkan pada filem dan gambar, di sudut kiri baw
 
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
 #, fuzzy
-msgid "propra teksto..."
-msgstr "teks sendiri ..."
+msgid "propra teksto…"
+msgstr "Teks tersuai ..."
 
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
@@ -1019,8 +1019,8 @@ msgstr "Nama Fail Imej"
 
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
 #, fuzzy
-msgid "ŝablona nomo de dosiero..."
-msgstr "nama fail templat ..."
+msgid "ŝablona nomo de dosiero…"
+msgstr "Nama templat fail ..."
 
 #: motioneye/templates/main.html:738
 #, fuzzy, python-format
@@ -1496,8 +1496,8 @@ msgstr "Alamat e-mel"
 
 #: motioneye/templates/main.html:1046
 #, fuzzy
-msgid "retpoŝtadresoj..."
-msgstr "alamat e-mel ..."
+msgid "retpoŝtadresoj…"
+msgstr "Alamat e-mel ..."
 
 #: motioneye/templates/main.html:1047
 #, fuzzy
@@ -1541,8 +1541,8 @@ msgstr "Akaun SMTP"
 
 #: motioneye/templates/main.html:1061
 #, fuzzy
-msgid "konto@gmail.com..."
-msgstr "account@gmail.com ..."
+msgid "konto@gmail.com…"
+msgstr "account@gmail.com."
 
 #: motioneye/templates/main.html:1062
 #, fuzzy
@@ -1566,8 +1566,8 @@ msgstr "Daripada alamat"
 
 #: motioneye/templates/main.html:1071
 #, fuzzy
-msgid "retpoŝta adreso..."
-msgstr "alamat e-mel ..."
+msgid "retpoŝta adreso…"
+msgstr "Alamat emel ..."
 
 #: motioneye/templates/main.html:1072
 #, fuzzy
@@ -1706,8 +1706,8 @@ msgstr "Perintah"
 
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
 #, fuzzy
-msgid "komando..."
-msgstr "perintah ..."
+msgid "komando…"
+msgstr "Perintah ..."
 
 #: motioneye/templates/main.html:1152
 #, fuzzy, python-format
@@ -1898,6 +1898,34 @@ msgstr "detik"
 #, fuzzy
 msgid "minus"
 msgstr "tolak"
+
+#, fuzzy
+#~ msgid "ordono..."
+#~ msgstr "perintah ..."
+
+#, fuzzy
+#~ msgid "propra teksto..."
+#~ msgstr "teks sendiri ..."
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero..."
+#~ msgstr "nama fail templat ..."
+
+#, fuzzy
+#~ msgid "retpoŝtadresoj..."
+#~ msgstr "alamat e-mel ..."
+
+#, fuzzy
+#~ msgid "konto@gmail.com..."
+#~ msgstr "account@gmail.com ..."
+
+#, fuzzy
+#~ msgid "retpoŝta adreso..."
+#~ msgstr "alamat e-mel ..."
+
+#, fuzzy
+#~ msgid "komando..."
+#~ msgstr "perintah ..."
 
 #, fuzzy
 #~ msgid "interrompa signalo ricevita, fermanta ..."

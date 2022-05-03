@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-02 23:01+0200\n"
+"POT-Creation-Date: 2022-05-03 17:08+0200\n"
 "PO-Revision-Date: 2020-04-07 17:41+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -809,8 +809,8 @@ msgstr "ordine"
 
 #: motioneye/templates/main.html:583
 #, fuzzy
-msgid "ordono..."
-msgstr "ordina ..."
+msgid "ordono…"
+msgstr "Ordine ..."
 
 #: motioneye/templates/main.html:584
 #, fuzzy, python-format
@@ -855,8 +855,8 @@ msgstr "Imposta il testo visualizzato su filmati e immagini, nell'angolo in bass
 
 #: motioneye/templates/main.html:613 motioneye/templates/main.html:630
 #, fuzzy
-msgid "propra teksto..."
-msgstr "proprio testo ..."
+msgid "propra teksto…"
+msgstr "Testo personalizzato ..."
 
 #: motioneye/templates/main.html:614
 #, fuzzy, python-format
@@ -1020,8 +1020,8 @@ msgstr "Nome file immagine"
 
 #: motioneye/templates/main.html:737 motioneye/templates/main.html:806
 #, fuzzy
-msgid "ŝablona nomo de dosiero..."
-msgstr "nome file modello ..."
+msgid "ŝablona nomo de dosiero…"
+msgstr "Nome modello di un file ..."
 
 #: motioneye/templates/main.html:738
 #, fuzzy, python-format
@@ -1497,8 +1497,8 @@ msgstr "Indirizzi email"
 
 #: motioneye/templates/main.html:1046
 #, fuzzy
-msgid "retpoŝtadresoj..."
-msgstr "indirizzi email ..."
+msgid "retpoŝtadresoj…"
+msgstr "Indirizzi email ..."
 
 #: motioneye/templates/main.html:1047
 #, fuzzy
@@ -1542,8 +1542,8 @@ msgstr "Account SMTP"
 
 #: motioneye/templates/main.html:1061
 #, fuzzy
-msgid "konto@gmail.com..."
-msgstr "account@gmail.com ..."
+msgid "konto@gmail.com…"
+msgstr "account@gmail.com…"
 
 #: motioneye/templates/main.html:1062
 #, fuzzy
@@ -1567,8 +1567,8 @@ msgstr "Dall'indirizzo"
 
 #: motioneye/templates/main.html:1071
 #, fuzzy
-msgid "retpoŝta adreso..."
-msgstr "indirizzo email ..."
+msgid "retpoŝta adreso…"
+msgstr "Indirizzo e-mail ..."
 
 #: motioneye/templates/main.html:1072
 #, fuzzy
@@ -1707,8 +1707,8 @@ msgstr "comando"
 
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
 #, fuzzy
-msgid "komando..."
-msgstr "comando ..."
+msgid "komando…"
+msgstr "Comando ..."
 
 #: motioneye/templates/main.html:1152
 #, fuzzy, python-format
@@ -1899,6 +1899,34 @@ msgstr "secondi"
 #, fuzzy
 msgid "minus"
 msgstr "meno"
+
+#, fuzzy
+#~ msgid "ordono..."
+#~ msgstr "ordina ..."
+
+#, fuzzy
+#~ msgid "propra teksto..."
+#~ msgstr "proprio testo ..."
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero..."
+#~ msgstr "nome file modello ..."
+
+#, fuzzy
+#~ msgid "retpoŝtadresoj..."
+#~ msgstr "indirizzi email ..."
+
+#, fuzzy
+#~ msgid "konto@gmail.com..."
+#~ msgstr "account@gmail.com ..."
+
+#, fuzzy
+#~ msgid "retpoŝta adreso..."
+#~ msgstr "indirizzo email ..."
+
+#, fuzzy
+#~ msgid "komando..."
+#~ msgstr "comando ..."
 
 #, fuzzy
 #~ msgid "interrompa signalo ricevita, fermanta ..."
