@@ -388,8 +388,7 @@ class ConfigHandler(BaseHandler):
 
             cameras.append(resp.remote_ui_config)
 
-        finished = self.check_finished(cameras, length)
-        return
+        return self.check_finished(cameras, length)
 
     @BaseHandler.auth()
     async def list(self):
@@ -475,8 +474,7 @@ class ConfigHandler(BaseHandler):
                 if utils.is_local_motion_camera(local_config):
                     ui_config = config.motion_camera_dict_to_ui(local_config)
                     cameras.append(ui_config)
-                    finished = self.check_finished(cameras, length)
-                    if finished:
+                    if self.check_finished(cameras, length):
                         return
 
                 elif utils.is_remote_camera(local_config):
@@ -485,26 +483,28 @@ class ConfigHandler(BaseHandler):
                         or self.get_argument('force', None) == 'true'
                     ):
                         resp = await remote.get_config(local_config)
-                        return self._handle_get_config_response(
+                        if self._handle_get_config_response(
                             camera_id, local_config, resp, cameras, length
-                        )
+                        ):
+                            return
 
                     else:  # don't try to reach the remote of the camera is disabled
-                        return self._handle_get_config_response(
+                        if self._handle_get_config_response(
                             camera_id,
                             local_config,
                             utils.GetConfigResponse(None, error=True),
                             cameras,
                             length,
-                        )
+                        ):
+                            return
 
                 else:  # assuming simple mjpeg camera
                     ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
                     cameras.append(ui_config)
-                    return self.check_finished(cameras, length)
+                    if self.check_finished(cameras, length):
+                        return
 
-            if length[0] == 0:
-                return self.finish_json({'cameras': []})
+            return self.finish_json({'cameras': cameras})
 
     @BaseHandler.auth(admin=True)
     async def add_camera(self):
