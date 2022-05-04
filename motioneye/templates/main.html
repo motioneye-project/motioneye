@@ -163,7 +163,11 @@
                     <table class="settings">
                         <tr class="settings-item" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Lingvo") }}</span></td>
-                            <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled general main-config" id="langEntry"></td>
+                            <td class="settings-item-value"><select class="styled general main-config" id="langSelect">
+                              {% for lang in settings.langlist %}
+                              <option value="{{lang[0]}}">{{lang[1]}}</option>
+                              {% endfor %}
+                              </select></td>
                             <td><span class="help-mark" title="{{ _("la lingvo de la interfaco (du literoj)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" strip="true">

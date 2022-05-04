@@ -10,6 +10,9 @@ config_file = None
 # interface language
 lingvo = 'eo'
 
+# available languages
+langlist = [('en', 'English'), ('eo', 'esperanto'), ('fr', 'français')]
+
 # gettext translation
 traduction = None
 

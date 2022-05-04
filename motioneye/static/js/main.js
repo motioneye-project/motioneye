@@ -1772,7 +1772,7 @@ function mainUi2Dict() {
     var dict = {
         'admin_username': $('#adminUsernameEntry').val(),
         'normal_username': $('#normalUsernameEntry').val(),
-        'lang': $('#langEntry').val()
+        'lang': $('#langSelect').val()
     };
 
     if (adminPasswordChanged.change && adminPasswordChanged.keydown && $('#adminPasswordEntry').val() !== '*****') {
@@ -1841,7 +1841,7 @@ function dict2MainUi(dict) {
         }
     }
 
-    $('#langEntry').val(dict['lang']);
+    $('#langSelect').val(dict['lang']);
     $('#adminUsernameEntry').val(dict['admin_username']); markHideIfNull('admin_username', 'adminUsernameEntry');
     $('#adminPasswordEntry').val(dict['admin_password']); markHideIfNull('admin_password', 'adminPasswordEntry');
     $('#normalUsernameEntry').val(dict['normal_username']); markHideIfNull('normal_username', 'normalUsernameEntry');
