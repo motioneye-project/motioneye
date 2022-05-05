@@ -1,6 +1,6 @@
 [Unit]
 Description=motionEye Server
-After=network.target
+After=network.target local-fs.target remote-fs.target
 
 [Service]
 User=motion
