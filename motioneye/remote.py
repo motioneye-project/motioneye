@@ -76,18 +76,19 @@ def _make_request(
 
 
 async def _send_request(request: HTTPRequest) -> HTTPResponse:
-    response = await AsyncHTTPClient().fetch(request)
+    response = await AsyncHTTPClient().fetch(request, raise_error=False)
 
-    try:
-        decoded = json.loads(response.body)
-        if decoded['error'] == 'unauthorized':
-            response.error = 'Authentication Error'
+    if response.code != 200:
+        try:
+            decoded = json.loads(response.body)
+            if decoded['error'] == 'unauthorized':
+                response.error = 'Authentication Error'
 
-        elif decoded['error']:
-            response.error = decoded['error']
+            elif decoded['error']:
+                response.error = decoded['error']
 
-    except:
-        pass
+        except Exception as e:
+            logging.error(f"_send_request: {e}")
 
     return response
 
