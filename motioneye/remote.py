@@ -272,7 +272,7 @@ async def set_config(local_config, ui_config) -> Union[str, None]:
         password,
         p,
         method='POST',
-        data=ui_config.encode('utf-8'),
+        data=ui_config.encode(),
         content_type='application/json',
     )
     response = await _send_request(request)
