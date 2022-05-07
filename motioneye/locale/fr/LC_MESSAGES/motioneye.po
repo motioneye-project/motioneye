@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-07 13:38+0200\n"
-"PO-Revision-Date: 2022-05-03 15:14+0000\n"
+"POT-Creation-Date: 2022-05-05 19:03+0200\n"
+"PO-Revision-Date: 2022-05-07 12:31+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/motioneye-project/motioneye/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye-python-texts/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -156,12 +157,10 @@ msgid "Ĝeneralaj Agordoj"
 msgstr "Paramètres généraux"
 
 #: motioneye/templates/main.html:167
-#, fuzzy
 msgid "Lingvo"
 msgstr "Langue"
 
 #: motioneye/templates/main.html:173
-#, fuzzy
 msgid "la lingvo de la interfaco (du literoj)"
 msgstr "la langue de l'interface (deux lettres)"
 
@@ -665,9 +664,8 @@ msgid "Ordono"
 msgstr "Commande"
 
 #: motioneye/templates/main.html:594
-#, fuzzy
 msgid "ordono…"
-msgstr "Commande ..."
+msgstr "Commande …"
 
 #: motioneye/templates/main.html:595
 #, python-format
@@ -704,9 +702,8 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra mal
 msgstr "Définit le texte affiché sur les films et les images, dans le coin inférieur gauche"
 
 #: motioneye/templates/main.html:624 motioneye/templates/main.html:641
-#, fuzzy
 msgid "propra teksto…"
-msgstr "Texte personnalisé ..."
+msgstr "Texte personnalisé …"
 
 #: motioneye/templates/main.html:625
 #, python-format
@@ -1225,9 +1222,8 @@ msgid "Retpoŝtadresoj"
 msgstr "Adresses e-mail"
 
 #: motioneye/templates/main.html:1057
-#, fuzzy
 msgid "retpoŝtadresoj…"
-msgstr "Adresses mail ..."
+msgstr "Adresses mail …"
 
 #: motioneye/templates/main.html:1058
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
@@ -1262,9 +1258,8 @@ msgid "SMTP-Konto"
 msgstr "compte SMTP"
 
 #: motioneye/templates/main.html:1072
-#, fuzzy
 msgid "konto@gmail.com…"
-msgstr "account@gmail.com…"
+msgstr "compte@gmail.com…"
 
 #: motioneye/templates/main.html:1073
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
@@ -1283,9 +1278,8 @@ msgid "De adreso"
 msgstr "Adresse «de:»"
 
 #: motioneye/templates/main.html:1082
-#, fuzzy
 msgid "retpoŝta adreso…"
-msgstr "Adresse e-mail ..."
+msgstr "Adresse e-mail …"
 
 #: motioneye/templates/main.html:1083
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
@@ -1348,7 +1342,6 @@ msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La ba
 msgstr "Créez un nouveau chat sur id_chatbot (@id_chatbot) et choisissez de commencer. Le chat renverra le numéro requis pour ce champ."
 
 #: motioneye/templates/main.html:1119
-#, fuzzy
 msgid "Alkroĉitaj Bildoj Tempo"
 msgstr "Temps des images jointes"
 
@@ -1398,9 +1391,8 @@ msgid "Komando"
 msgstr "Commande"
 
 #: motioneye/templates/main.html:1162 motioneye/templates/main.html:1207
-#, fuzzy
 msgid "komando…"
-msgstr "Commande ..."
+msgstr "Commande …"
 
 #: motioneye/templates/main.html:1163
 #, python-format
