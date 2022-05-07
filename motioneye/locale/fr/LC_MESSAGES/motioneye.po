@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-05 19:03+0200\n"
-"PO-Revision-Date: 2022-05-07 12:31+0000\n"
+"PO-Revision-Date: 2022-05-07 13:40+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/fr/>\n"
@@ -523,14 +523,12 @@ msgid "la HTTP-metodo uzi por alŝuti dosierojn"
 msgstr "la méthode HTTP à utiliser pour télécharger des fichiers"
 
 #: motioneye/templates/main.html:494
-#, fuzzy
 msgid "Finpunkto URL"
 msgstr "URL du point de terminaison"
 
 #: motioneye/templates/main.html:496
-#, fuzzy
 msgid "La kompleta URL al la alŝuta servila finpunkto:"
-msgstr "L'URL complète au point de terminaison du serveur de téléchargement:"
+msgstr "L'URL complète du point de terminaison du serveur de téléversement :"
 
 #: motioneye/templates/main.html:497
 msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
@@ -836,9 +834,8 @@ msgid "Nomo Bildo-Dosiero"
 msgstr "Nom du fichier image"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
-#, fuzzy
 msgid "dosiernomo ŝablono…"
-msgstr "Modèle de nom de fichier ..."
+msgstr "Modèle de nom de fichier…"
 
 #: motioneye/templates/main.html:749
 #, python-format
