@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-05 19:03+0200\n"
+"POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2022-05-04 15:15+0000\n"
 "Last-Translator: Xitee <mato.bartusch123@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/de/>\n"
@@ -543,12 +543,13 @@ msgstr "Die HTTP-Methode zum Hochladen von Dateien"
 
 #: motioneye/templates/main.html:494
 #, fuzzy
-msgid "Endpoint URL"
+msgid "Finpunkto URL"
 msgstr "Endpunkt -URL"
 
 #: motioneye/templates/main.html:496
-msgid "The complete URL to the upload server endpoint:"
-msgstr "Die vollständige URL zum Endpunkt des Upload-Servers:"
+#, fuzzy
+msgid "La kompleta URL al la alŝuta servila finpunkto:"
+msgstr "Die vollständige URL zum Endpunkt des Upload -Servers:"
 
 #: motioneye/templates/main.html:497
 msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
@@ -910,8 +911,8 @@ msgstr "Name Bilddatei"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
 #, fuzzy
-msgid "ŝablona nomo de dosiero…"
-msgstr "Vorlagenname einer Datei…"
+msgid "dosiernomo ŝablono…"
+msgstr "Dateiname Vorlage ..."
 
 #: motioneye/templates/main.html:749
 #, fuzzy, python-format
@@ -1789,6 +1790,17 @@ msgstr "Sekunden"
 #, fuzzy
 msgid "minus"
 msgstr "Minus"
+
+#, fuzzy
+#~ msgid "Endpoint URL"
+#~ msgstr "Endpunkt -URL"
+
+#~ msgid "The complete URL to the upload server endpoint:"
+#~ msgstr "Die vollständige URL zum Endpunkt des Upload-Servers:"
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero…"
+#~ msgstr "Vorlagenname einer Datei…"
 
 #, fuzzy
 #~ msgid "ordono..."

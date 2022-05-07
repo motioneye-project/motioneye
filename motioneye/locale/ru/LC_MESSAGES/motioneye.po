@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-05 19:03+0200\n"
+"POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2022-05-03 15:14+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/motioneye-project/motioneye/ru/>\n"
@@ -648,12 +648,12 @@ msgstr "метод HTTP, используемый для загрузки фай
 
 #: motioneye/templates/main.html:494
 #, fuzzy
-msgid "Endpoint URL"
+msgid "Finpunkto URL"
 msgstr "Конечная точка URL"
 
 #: motioneye/templates/main.html:496
 #, fuzzy
-msgid "The complete URL to the upload server endpoint:"
+msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr "Полный URL -адрес в конечной точке сервера загрузки:"
 
 #: motioneye/templates/main.html:497
@@ -1031,8 +1031,8 @@ msgstr "Имя файла изображения"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
 #, fuzzy
-msgid "ŝablona nomo de dosiero…"
-msgstr "Имя шаблона файла ..."
+msgid "dosiernomo ŝablono…"
+msgstr "Шаблон имени файла ..."
 
 #: motioneye/templates/main.html:749
 #, fuzzy, python-format
@@ -1910,6 +1910,18 @@ msgstr "секунд"
 #, fuzzy
 msgid "minus"
 msgstr "минус"
+
+#, fuzzy
+#~ msgid "Endpoint URL"
+#~ msgstr "Конечная точка URL"
+
+#, fuzzy
+#~ msgid "The complete URL to the upload server endpoint:"
+#~ msgstr "Полный URL -адрес в конечной точке сервера загрузки:"
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero…"
+#~ msgstr "Имя шаблона файла ..."
 
 #, fuzzy
 #~ msgid "ordono..."

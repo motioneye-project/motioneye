@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-05 19:03+0200\n"
+"POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -563,11 +563,11 @@ msgid "la HTTP-metodo uzi por alŝuti dosierojn"
 msgstr ""
 
 #: motioneye/templates/main.html:494
-msgid "Endpoint URL"
+msgid "Finpunkto URL"
 msgstr ""
 
 #: motioneye/templates/main.html:496
-msgid "The complete URL to the upload server endpoint:"
+msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr ""
 
 #: motioneye/templates/main.html:497
@@ -929,7 +929,7 @@ msgid "Nomo Bildo-Dosiero"
 msgstr ""
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
-msgid "ŝablona nomo de dosiero…"
+msgid "dosiernomo ŝablono…"
 msgstr ""
 
 #: motioneye/templates/main.html:749

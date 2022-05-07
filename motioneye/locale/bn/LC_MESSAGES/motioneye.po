@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-05 19:03+0200\n"
+"POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Bengali <https://hosted.weblate.org/projects/motioneye-project/motioneye/bn/>\n"
@@ -647,12 +647,12 @@ msgstr "ফাইলগুলি আপলোড করতে ব্যবহা
 
 #: motioneye/templates/main.html:494
 #, fuzzy
-msgid "Endpoint URL"
+msgid "Finpunkto URL"
 msgstr "শেষ পয়েন্ট ইউআরএল"
 
 #: motioneye/templates/main.html:496
 #, fuzzy
-msgid "The complete URL to the upload server endpoint:"
+msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr "আপলোড সার্ভারের শেষ পয়েন্টে সম্পূর্ণ URL:"
 
 #: motioneye/templates/main.html:497
@@ -1030,8 +1030,8 @@ msgstr "নাম চিত্র ফাইল"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
 #, fuzzy
-msgid "ŝablona nomo de dosiero…"
-msgstr "একটি ফাইলের টেমপ্লেট নাম…"
+msgid "dosiernomo ŝablono…"
+msgstr "ফাইল নাম টেমপ্লেট ..."
 
 #: motioneye/templates/main.html:749
 #, fuzzy, python-format
@@ -1909,6 +1909,18 @@ msgstr "সেকেন্ড"
 #, fuzzy
 msgid "minus"
 msgstr "ঋণচিহ্ন"
+
+#, fuzzy
+#~ msgid "Endpoint URL"
+#~ msgstr "শেষ পয়েন্ট ইউআরএল"
+
+#, fuzzy
+#~ msgid "The complete URL to the upload server endpoint:"
+#~ msgstr "আপলোড সার্ভারের শেষ পয়েন্টে সম্পূর্ণ URL:"
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero…"
+#~ msgstr "একটি ফাইলের টেমপ্লেট নাম…"
 
 #, fuzzy
 #~ msgid "ordono..."

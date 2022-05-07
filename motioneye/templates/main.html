@@ -491,9 +491,9 @@
                             <td><span class="help-mark" title="{{ _("la HTTP-metodo uzi por alŝuti dosierojn") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="uploadEnabled uploadService=(s3|webdav)">
-                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Endpoint URL") }}</span></td>
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Finpunkto URL") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadEndpointUrlEntry"></td>
-                            <td><span class="help-mark" title="{{ _("The complete URL to the upload server endpoint:") }}
+                            <td><span class="help-mark" title="{{ _("La kompleta URL al la alŝuta servila finpunkto:") }}
       {{ _("For S3: E.g. http://my.minio:9000. Leave it empty for AWS!") }}
       {{ _("For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/") }}">?</span></td>
                         </tr>
@@ -745,7 +745,7 @@
                     <table class="settings">
                         <tr class="settings-item" required="true" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Nomo Bildo-Dosiero") }}</span></td>
-                            <td class="settings-item-value"><input type="text" class="styled still-images camera-config" id="imageFileNameEntry" placeholder="{{ _("ŝablona nomo de dosiero…") }}"></td>
+                            <td class="settings-item-value"><input type="text" class="styled still-images camera-config" id="imageFileNameEntry" placeholder="{{ _("dosiernomo ŝablono…") }}"></td>
                             <td><span class="help-mark" title="{{ _("Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
@@ -814,7 +814,7 @@
                     <table class="settings">
                         <tr class="settings-item" required="true" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Filma Dosiernomo") }}</span></td>
-                            <td class="settings-item-value"><input type="text" class="styled movies camera-config" id="movieFileNameEntry" placeholder="{{ _("ŝablona nomo de dosiero…") }}"></td>
+                            <td class="settings-item-value"><input type="text" class="styled movies camera-config" id="movieFileNameEntry" placeholder="{{ _("dosiernomo ŝablono…") }}"></td>
                             <td><span class="help-mark" title="{{ _("Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">

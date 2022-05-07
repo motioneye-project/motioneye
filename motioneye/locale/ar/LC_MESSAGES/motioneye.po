@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-05 19:03+0200\n"
+"POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/motioneye-project/motioneye/ar/>\n"
@@ -648,12 +648,12 @@ msgstr "طريقة HTTP لاستخدامها في تحميل الملفات"
 
 #: motioneye/templates/main.html:494
 #, fuzzy
-msgid "Endpoint URL"
+msgid "Finpunkto URL"
 msgstr "url نقطة النهاية"
 
 #: motioneye/templates/main.html:496
 #, fuzzy
-msgid "The complete URL to the upload server endpoint:"
+msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr "عنوان URL الكامل إلى نقطة نهاية خادم التحميل:"
 
 #: motioneye/templates/main.html:497
@@ -1031,8 +1031,8 @@ msgstr "اسم ملف الصورة"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
 #, fuzzy
-msgid "ŝablona nomo de dosiero…"
-msgstr "اسم قالب ملف…"
+msgid "dosiernomo ŝablono…"
+msgstr "قالب اسم الملف ..."
 
 #: motioneye/templates/main.html:749
 #, fuzzy, python-format
@@ -1910,6 +1910,18 @@ msgstr "ثواني"
 #, fuzzy
 msgid "minus"
 msgstr "ناقص"
+
+#, fuzzy
+#~ msgid "Endpoint URL"
+#~ msgstr "url نقطة النهاية"
+
+#, fuzzy
+#~ msgid "The complete URL to the upload server endpoint:"
+#~ msgstr "عنوان URL الكامل إلى نقطة نهاية خادم التحميل:"
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero…"
+#~ msgstr "اسم قالب ملف…"
 
 #, fuzzy
 #~ msgid "ordono..."

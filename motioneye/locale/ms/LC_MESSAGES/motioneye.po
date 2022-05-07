@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-05 19:03+0200\n"
+"POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2022-05-03 15:14+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Malay <https://hosted.weblate.org/projects/motioneye-project/motioneye/ms/>\n"
@@ -648,12 +648,12 @@ msgstr "kaedah HTTP untuk digunakan untuk memuat naik fail"
 
 #: motioneye/templates/main.html:494
 #, fuzzy
-msgid "Endpoint URL"
+msgid "Finpunkto URL"
 msgstr "URL Endpoint"
 
 #: motioneye/templates/main.html:496
 #, fuzzy
-msgid "The complete URL to the upload server endpoint:"
+msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr "URL lengkap ke titik akhir pelayan muat naik:"
 
 #: motioneye/templates/main.html:497
@@ -1031,8 +1031,8 @@ msgstr "Nama Fail Imej"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
 #, fuzzy
-msgid "ŝablona nomo de dosiero…"
-msgstr "Nama templat fail ..."
+msgid "dosiernomo ŝablono…"
+msgstr "Templat nama fail ..."
 
 #: motioneye/templates/main.html:749
 #, fuzzy, python-format
@@ -1910,6 +1910,18 @@ msgstr "detik"
 #, fuzzy
 msgid "minus"
 msgstr "tolak"
+
+#, fuzzy
+#~ msgid "Endpoint URL"
+#~ msgstr "URL Endpoint"
+
+#, fuzzy
+#~ msgid "The complete URL to the upload server endpoint:"
+#~ msgstr "URL lengkap ke titik akhir pelayan muat naik:"
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero…"
+#~ msgstr "Nama templat fail ..."
 
 #, fuzzy
 #~ msgid "ordono..."

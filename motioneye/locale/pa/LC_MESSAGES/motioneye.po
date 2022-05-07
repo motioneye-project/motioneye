@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-05 19:03+0200\n"
+"POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2020-04-09 16:58+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -646,12 +646,12 @@ msgstr "ਫਾਈਲਾਂ ਅਪਲੋਡ ਕਰਨ ਲਈ ਵਰਤਣ ਲਈ 
 
 #: motioneye/templates/main.html:494
 #, fuzzy
-msgid "Endpoint URL"
+msgid "Finpunkto URL"
 msgstr "ਐਂਡ ਪੁਆਇੰਟ ਯੂਆਰਐਲ"
 
 #: motioneye/templates/main.html:496
 #, fuzzy
-msgid "The complete URL to the upload server endpoint:"
+msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr "ਅਪਲੋਡ ਸਰਵਰ ਐਂਡ ਪੁਆਇੰਟ ਦਾ ਪੂਰਾ URL:"
 
 #: motioneye/templates/main.html:497
@@ -1029,8 +1029,8 @@ msgstr "ਨਾਮ ਚਿੱਤਰ ਫਾਇਲ"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
 #, fuzzy
-msgid "ŝablona nomo de dosiero…"
-msgstr "ਇੱਕ ਫਾਈਲ ਦਾ ਟੈਂਪਲੇਟ ਨਾਮ ..."
+msgid "dosiernomo ŝablono…"
+msgstr "ਫਾਈਲ ਨਾਮ ਟੈਂਪਲੇਟ ..."
 
 #: motioneye/templates/main.html:749
 #, fuzzy, python-format
@@ -1908,6 +1908,18 @@ msgstr "ਸਕਿੰਟ"
 #, fuzzy
 msgid "minus"
 msgstr "ਘਟਾਓ"
+
+#, fuzzy
+#~ msgid "Endpoint URL"
+#~ msgstr "ਐਂਡ ਪੁਆਇੰਟ ਯੂਆਰਐਲ"
+
+#, fuzzy
+#~ msgid "The complete URL to the upload server endpoint:"
+#~ msgstr "ਅਪਲੋਡ ਸਰਵਰ ਐਂਡ ਪੁਆਇੰਟ ਦਾ ਪੂਰਾ URL:"
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero…"
+#~ msgstr "ਇੱਕ ਫਾਈਲ ਦਾ ਟੈਂਪਲੇਟ ਨਾਮ ..."
 
 #, fuzzy
 #~ msgid "ordono..."

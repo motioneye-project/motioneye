@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-05 19:03+0200\n"
+"POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2020-04-08 17:45+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -647,12 +647,12 @@ msgstr "ファイルのアップロードに使用するHTTPメソッド"
 
 #: motioneye/templates/main.html:494
 #, fuzzy
-msgid "Endpoint URL"
+msgid "Finpunkto URL"
 msgstr "エンドポイントURL"
 
 #: motioneye/templates/main.html:496
 #, fuzzy
-msgid "The complete URL to the upload server endpoint:"
+msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr "アップロードサーバーエンドポイントへの完全なURL："
 
 #: motioneye/templates/main.html:497
@@ -1030,8 +1030,8 @@ msgstr "名前画像ファイル"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
 #, fuzzy
-msgid "ŝablona nomo de dosiero…"
-msgstr "ファイルのテンプレート名..."
+msgid "dosiernomo ŝablono…"
+msgstr "ファイル名テンプレート..."
 
 #: motioneye/templates/main.html:749
 #, fuzzy, python-format
@@ -1909,6 +1909,18 @@ msgstr "秒"
 #, fuzzy
 msgid "minus"
 msgstr "マイナス"
+
+#, fuzzy
+#~ msgid "Endpoint URL"
+#~ msgstr "エンドポイントURL"
+
+#, fuzzy
+#~ msgid "The complete URL to the upload server endpoint:"
+#~ msgstr "アップロードサーバーエンドポイントへの完全なURL："
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero…"
+#~ msgstr "ファイルのテンプレート名..."
 
 #, fuzzy
 #~ msgid "ordono..."
