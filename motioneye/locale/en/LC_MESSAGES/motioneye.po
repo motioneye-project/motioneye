@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
-"PO-Revision-Date: 2022-05-07 13:01+0000\n"
+"PO-Revision-Date: 2022-05-07 19:36+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: English <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/en/>\n"
@@ -175,7 +175,7 @@ msgstr "the username to be used for configuring the system"
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
 msgid "Pasvorto"
-msgstr "Admin Password"
+msgstr "Password"
 
 #: motioneye/templates/main.html:183
 msgid "pasvorto de administranto"
@@ -414,7 +414,7 @@ msgstr "the name of the network share"
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
-msgstr "Share Username"
+msgstr "Username"
 
 #: motioneye/templates/main.html:411
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
@@ -668,9 +668,8 @@ msgid "Ordono"
 msgstr "Command"
 
 #: motioneye/templates/main.html:594
-#, fuzzy
 msgid "ordono…"
-msgstr "Order ..."
+msgstr "Order…"
 
 #: motioneye/templates/main.html:595
 #, python-format
@@ -707,9 +706,8 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra mal
 msgstr "sets the text displayed on the movies and images, on the lower left corner"
 
 #: motioneye/templates/main.html:624 motioneye/templates/main.html:641
-#, fuzzy
 msgid "propra teksto…"
-msgstr "Custom text ..."
+msgstr "Custom text…"
 
 #: motioneye/templates/main.html:625
 #, python-format
@@ -842,9 +840,8 @@ msgid "Nomo Bildo-Dosiero"
 msgstr "Image File Name"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
-#, fuzzy
 msgid "dosiernomo ŝablono…"
-msgstr "File name Template ..."
+msgstr "File name Template…"
 
 #: motioneye/templates/main.html:749
 #, python-format
@@ -1228,9 +1225,8 @@ msgid "Retpoŝtadresoj"
 msgstr "Email Addresses"
 
 #: motioneye/templates/main.html:1057
-#, fuzzy
 msgid "retpoŝtadresoj…"
-msgstr "Email addresses ..."
+msgstr "Email addresses…"
 
 #: motioneye/templates/main.html:1058
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
@@ -1265,7 +1261,6 @@ msgid "SMTP-Konto"
 msgstr "SMTP Account"
 
 #: motioneye/templates/main.html:1072
-#, fuzzy
 msgid "konto@gmail.com…"
 msgstr "account@gmail.com…"
 
@@ -1286,9 +1281,8 @@ msgid "De adreso"
 msgstr "From Address"
 
 #: motioneye/templates/main.html:1082
-#, fuzzy
 msgid "retpoŝta adreso…"
-msgstr "Email address ..."
+msgstr "Email address…"
 
 #: motioneye/templates/main.html:1083
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
@@ -1335,9 +1329,12 @@ msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 msgstr "Example: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 
 #: motioneye/templates/main.html:1111
-#, fuzzy
 msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-msgstr "By creating the Telegram-Bot chat, you will get an API tokens that you need to enter here. Click the API button below for a step-by-step guide on how to get your API tokens. Also be sure to chat with your newly created \"bot\" after your key is generated, to make sure you get messages."
+msgstr ""
+"By creating the Telegram-Bot chat, you will get an API token that you need "
+"to enter here. Click the API button below for a step-by-step guide on how to "
+"get your API token. Also be sure to chat with your newly created \"bot\" "
+"after your key is generated, to make sure you get messages."
 
 #: motioneye/templates/main.html:1114
 msgid "Babileja ID"
@@ -1401,9 +1398,8 @@ msgid "Komando"
 msgstr "Command"
 
 #: motioneye/templates/main.html:1162 motioneye/templates/main.html:1207
-#, fuzzy
 msgid "komando…"
-msgstr "Command ..."
+msgstr "Command…"
 
 #: motioneye/templates/main.html:1163
 #, python-format
