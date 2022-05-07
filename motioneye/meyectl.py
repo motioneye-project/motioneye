@@ -49,8 +49,8 @@ def load_l10n():
     languages = [path.split('/')[-3] for path in messagefiles]
     languages.append('eo')
     languages.sort()
-    settings.langlist = zip(
-        languages, [babel.Locale.parse(lang).display_name for lang in languages]
+    settings.langlist = list(
+        zip(languages, [babel.Locale.parse(lang).display_name for lang in languages])
     )
 
     # install lang
