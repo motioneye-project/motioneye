@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-05 19:03+0200\n"
-"PO-Revision-Date: 2020-02-11 19:28+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-05-07 19:25+0000\n"
+"Last-Translator: jmichault <jmt.2000@free.fr>\n"
+"Language-Team: English <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-javascript/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.12.1\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -139,11 +141,11 @@ msgstr "Remove camera "
 
 #: motioneye/static/js/main.js:2883
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr "motionEye is up to date (current version:"
+msgstr "motionEye is up to date (current version: "
 
 #: motioneye/static/js/main.js:2886
 msgid "Nova versio havebla: "
-msgstr "New version available:"
+msgstr "New version available: "
 
 #: motioneye/static/js/main.js:2886
 msgid ". Ĝisdatigi?"
@@ -167,7 +169,7 @@ msgstr "Backup File"
 
 #: motioneye/static/js/main.js:2936
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
-msgstr "the backup file you have previously downloaded"
+msgstr "the backup file you have previously downloaded."
 
 #: motioneye/static/js/main.js:2965
 msgid "Restaŭrigi Agordon"
@@ -187,7 +189,7 @@ msgstr "Failed to restore configuration!"
 
 #: motioneye/static/js/main.js:3068
 msgid "Aliri la alŝutan servon malsukcesis: "
-msgstr "Accessing the upload service failed:"
+msgstr "Accessing the upload service failed: "
 
 #: motioneye/static/js/main.js:3071
 msgid "Aliri la alŝutan servon sukcesis!"
@@ -452,7 +454,7 @@ msgstr "hour"
 
 #: motioneye/static/js/main.js:4208
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
-msgstr "choose the interval of time between two selected pictures"
+msgstr "choose the interval of time between two selected pictures."
 
 #: motioneye/static/js/main.js:4211
 msgid "Filmo framfrekvenco"
@@ -460,7 +462,7 @@ msgstr "Movie framerate"
 
 #: motioneye/static/js/main.js:4213
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
-msgstr "choose how fast you want the timelapse playback to be"
+msgstr "choose how fast you want the timelapse playback to be."
 
 #: motioneye/static/js/main.js:4222
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
@@ -495,17 +497,14 @@ msgid "Filmoj registritaj de "
 msgstr "Movies recorded by "
 
 #: motioneye/static/js/main.js:4726
-#, fuzzy
 msgid "montru ĉi tiun fotilon plenekranan"
 msgstr "Show this camera fullscreen"
 
 #: motioneye/static/js/main.js:4727
-#, fuzzy
 msgid "montri ĉiujn fotilojn"
 msgstr "Show all cameras"
 
 #: motioneye/static/js/main.js:4728
-#, fuzzy
 msgid "montru nur ĉi tiun fotilon"
 msgstr "Show only this camera"
 
