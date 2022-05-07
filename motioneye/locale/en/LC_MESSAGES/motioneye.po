@@ -8,9 +8,10 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
-"PO-Revision-Date: 2022-05-03 15:14+0000\n"
+"PO-Revision-Date: 2022-05-07 13:01+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
-"Language-Team: English <https://hosted.weblate.org/projects/motioneye-project/motioneye/en/>\n"
+"Language-Team: English <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-python-texts/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -156,14 +157,12 @@ msgid "Ĝeneralaj Agordoj"
 msgstr "General Settings"
 
 #: motioneye/templates/main.html:167
-#, fuzzy
 msgid "Lingvo"
 msgstr "Language"
 
 #: motioneye/templates/main.html:173
-#, fuzzy
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr "the language of the interface (two letters)"
+msgstr "the interface language"
 
 #: motioneye/templates/main.html:176
 msgid "Administranto"
@@ -368,9 +367,10 @@ msgid "Ekstraj Elektoj"
 msgstr "Extra Options"
 
 #: motioneye/templates/main.html:363
-#, fuzzy
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr "You can add any additional options here for the \"motion\" demon (use the \"name value\" format, one option per line)"
+msgstr ""
+"You can add any additional options here for the \"motion\" daemon (use the "
+"\"name value\" format, one option per line)"
 
 #: motioneye/templates/main.html:372
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
@@ -525,19 +525,17 @@ msgid "la HTTP-metodo uzi por alŝuti dosierojn"
 msgstr "the HTTP method to use when uploading files"
 
 #: motioneye/templates/main.html:494
-#, fuzzy
 msgid "Finpunkto URL"
-msgstr "Endpoint url"
+msgstr "Endpoint URL"
 
 #: motioneye/templates/main.html:496
-#, fuzzy
 msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr "The complete URL to the upload server endpoint:"
 
 #: motioneye/templates/main.html:497
 #, fuzzy
 msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-msgstr "For S3: E.G. http: //my.minio: 9000. Leave It Empty for AWS!"
+msgstr "For S3: E.G. http://my.minio: 9000. Leave It Empty for AWS!"
 
 #: motioneye/templates/main.html:498
 #, fuzzy
