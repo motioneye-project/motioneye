@@ -75,7 +75,7 @@
     <script src="{{static_path}}js/gettext.min.js"></script>
     <script>
         var i18n = window.i18n();
-      {% if lingvo != 'eo' %}
+      {% if settings.lingvo != 'eo' %}
         // Set language for JavaScript
         function Get(yourUrl){
             var Httpreq = new XMLHttpRequest(); // a new request
@@ -83,10 +83,10 @@
             Httpreq.send(null);
             return Httpreq.responseText;
         }
-        var i18njson=Get("{{static_path}}js/motioneye.{{lingvo}}.json");
+        var i18njson=Get("{{static_path}}js/motioneye.{{settings.lingvo}}.json");
         i18n.loadJSON(i18njson, 'messages');
       {% endif %}
-        i18n.setLocale('{{lingvo}}');
+        i18n.setLocale('{{settings.lingvo}}');
         // Pass variables to JavaScript
         var adminUsername = '{{admin_username}}';
         var frame = {% if frame %}true{% else %}false{% endif %};

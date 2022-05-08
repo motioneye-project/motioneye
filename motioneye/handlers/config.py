@@ -24,7 +24,17 @@ import socket
 from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
 
-from motioneye import config, motionctl, remote, settings, tasks, uploadservices, utils
+from motioneye import (
+    config,
+    meyectl,
+    motionctl,
+    remote,
+    settings,
+    tasks,
+    template,
+    uploadservices,
+    utils,
+)
 from motioneye.controls import mmalctl, smbctl, tzctl, v4l2ctl
 from motioneye.controls.powerctl import PowerControl
 from motioneye.handlers.base import BaseHandler
@@ -218,9 +228,11 @@ class ConfigHandler(BaseHandler):
             restart = False
 
             if lang != old_lang:
-                logging.debug('lang changed, restart needed')
-                # kill myself to force restart. Not very elegant...
-                os.kill(os.getpid(), 9)
+                logging.debug('lang changed, reload needed')
+                meyectl.load_l10n()
+                template._reload_lang()
+
+                reload = True
 
             if admin_username != old_admin_username or admin_password is not None:
                 logging.debug('admin credentials changed, reload needed')
