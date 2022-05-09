@@ -8,9 +8,10 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-05 19:03+0200\n"
-"PO-Revision-Date: 2022-05-04 15:15+0000\n"
+"PO-Revision-Date: 2022-05-09 14:13+0000\n"
 "Last-Translator: Xitee <mato.bartusch123@gmail.com>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/de/>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye-javascript/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -96,9 +97,8 @@ msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
 msgstr "Die Maske kann ohne gültiges Kamerabild nicht bearbeitet werden!"
 
 #: motioneye/static/js/main.js:2228
-#, fuzzy
 msgid "Propra"
-msgstr "Eigen"
+msgstr "Benutzerdefiniert"
 
 #: motioneye/static/js/main.js:2266
 #, fuzzy
