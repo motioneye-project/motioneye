@@ -52,6 +52,12 @@ def _init_jinja():
     _jinja_env.filters['pretty_duration'] = pretty_duration
 
 
+def _reload_lang():
+    global _jinja_env
+    _jinja_env.install_gettext_translations(settings.traduction, newstyle=True)
+    _jinja_env.globals['settings'] = settings
+
+
 def add_template_path(path):
     global _jinja_env
     if _jinja_env is None:
