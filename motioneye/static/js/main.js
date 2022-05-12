@@ -528,8 +528,23 @@ function showErrorMessage(message) {
 }
 
 function doLogout() {
-    setCookie(USERNAME_COOKIE, '_');
+    setCookie(USERNAME_COOKIE, '');
+    setCookie(PASSWORD_COOKIE, '');
     window.location.reload(true);
+}
+
+function isAuthCookiesSet() {
+    var username = getCookie(USERNAME_COOKIE);
+    if(username == null || username == '') {
+        return false;
+    }
+
+    var password = getCookie(PASSWORD_COOKIE);
+    if(password == null || password == '') {
+        return false;
+    }
+
+    return true;
 }
 
 function authorizeUpload() {
@@ -1771,7 +1786,8 @@ function savePrefs() {
 function mainUi2Dict() {
     var dict = {
         'admin_username': $('#adminUsernameEntry').val(),
-        'normal_username': $('#normalUsernameEntry').val()
+        'normal_username': $('#normalUsernameEntry').val(),
+        'lang': $('#langSelect').val()
     };
 
     if (adminPasswordChanged.change && adminPasswordChanged.keydown && $('#adminPasswordEntry').val() !== '*****') {
@@ -1840,6 +1856,7 @@ function dict2MainUi(dict) {
         }
     }
 
+    $('#langSelect').val(dict['lang']);
     $('#adminUsernameEntry').val(dict['admin_username']); markHideIfNull('admin_username', 'adminUsernameEntry');
     $('#adminPasswordEntry').val(dict['admin_password']); markHideIfNull('admin_password', 'adminPasswordEntry');
     $('#normalUsernameEntry').val(dict['normal_username']); markHideIfNull('normal_username', 'normalUsernameEntry');
@@ -5426,6 +5443,13 @@ function checkCameraErrors() {
     setTimeout(checkCameraErrors, 1000);
 }
 
+function doAuth() {
+    ajax('GET', basePath + "login/", null, function() {
+        if (!frame) {
+            fetchCurrentConfig(endProgress);
+        }
+    });
+}
 
     /* startup function */
 
@@ -5459,11 +5483,14 @@ $(document).ready(function () {
     initUI();
     beginProgress();
 
-    ajax('GET', basePath + 'login/', null, function () {
-        if (!frame) {
-            fetchCurrentConfig(endProgress);
-        }
-    });
+    if(isAuthCookiesSet()) {
+        doAuth();
+    } else {
+        runLoginDialog(function () {
+            window._loginRetry = true;
+            doAuth();
+        });
+    }
 
     refreshCameraFrames();
     checkCameraErrors();

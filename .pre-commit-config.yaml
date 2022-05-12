@@ -1,6 +1,15 @@
+# Learn more about this config here: https://pre-commit.com/
+
+# To enable these pre-commit hook run:
+# `brew install pre-commit` or `python3 -m pip install pre-commit`
+# Then in the project root directory run `pre-commit install`
+
+# default_language_version:
+#   python: python3.10
+
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.1.0
+    rev: v4.2.0
     hooks:
       - id: check-builtin-literals
       - id: check-executables-have-shebangs
@@ -28,16 +37,16 @@ repos:
       - id: codespell
       # See args in setup.cfg
   - repo: https://gitlab.com/pycqa/flake8
-    rev: 3.9.2
+    rev: 4.0.1
     hooks:
       - id: flake8
-        additional_dependencies: [flake8-2020, flake8-bugbear, flake8-comprehensions]
+        additional_dependencies: [flake8-2020, flake8-bugbear, flake8-comprehensions, flake8-return]
         args:
           - --builtins=_
           - --count
-          - --max-complexity=66
+          - --max-complexity=68
           - --max-line-length=125
-          - --select=E9,F63,F7,F82
+          - --select=C901,E501,E9,F63,F7,F82
           - --show-source
           - --statistics
   - repo: https://github.com/timothycrosley/isort
@@ -46,7 +55,7 @@ repos:
       - id: isort
         args: ["--profile", "black", "--filter-files"]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.31.1
+    rev: v2.32.0
     hooks:
       - id: pyupgrade
         args: [--py37-plus]

@@ -24,33 +24,60 @@ import os.path
 import pipes
 import sys
 
-# ŝarĝante tradukojn
-locale.setlocale(locale.LC_ALL, '')
-lingvo = 'eo'
-traduction = None
-pathname = os.path.dirname(__file__)
-try:
-    gettext.find('motioneye', pathname + '/locale')
-    traduction = gettext.translation('motioneye', pathname + '/locale')
-    traduction.install()
-except:
-    traduction = gettext
-    gettext.install('motioneye')
+import babel
 
-file = gettext.find('motioneye', pathname + '/locale')
-if file:
-    lgrpath = len(pathname)
-    lingvo = file[lgrpath + 8 : lgrpath + 10]
-else:
-    lingvo = 'eo'
-# logging.info(_('lingvo : ') + lingvo)
+from motioneye import config, settings
 
 # make sure motioneye is on python path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from motioneye import settings
 
-_LOG_FILE = 'motioneye.log'
+# ŝarĝante tradukojn
+def load_l10n():
+    locale.setlocale(locale.LC_ALL, '')
+    pathname = os.path.dirname(__file__)
+    main_config = config.get_main()
+    lang = main_config.get('@lang')
+
+    # get list of all available languages
+    messagefiles = gettext.find(
+        'motioneye',
+        pathname + '/locale',
+        languages=babel.Locale('eo').languages.keys(),
+        all=True,
+    )
+    languages = [path.split('/')[-3] for path in messagefiles]
+    languages.append('eo')
+    languages.sort()
+    settings.langlist = list(
+        zip(languages, [babel.Locale.parse(lang).display_name for lang in languages])
+    )
+
+    # install lang
+    # verify that lang exists
+    if lang == 'eo':
+        settings.lingvo = 'eo'
+    else:
+        file = gettext.find('motioneye', pathname + '/locale', languages=[lang])
+        if file:
+            settings.lingvo = lang
+        else:
+            # if lang is not defined, try english
+            file = gettext.find('motioneye', pathname + '/locale', languages=['en'])
+            if file:
+                settings.lingvo = 'en'
+            else:
+                # if english is not defined, use esperanto (should not happen)
+                settings.lingvo = 'eo'
+    # install lang
+    if settings.lingvo != 'eo':
+        settings.traduction = gettext.translation(
+            'motioneye', pathname + '/locale', languages=[settings.lingvo]
+        )
+        settings.traduction.install()
+    else:
+        settings.traduction = gettext
+        gettext.install('motioneye')
 
 
 def find_command(command):
@@ -189,7 +216,7 @@ def configure_logging(cmd, log_to_file=False):
 
     try:
         if log_to_file:
-            log_file = os.path.join(settings.LOG_PATH, _LOG_FILE)
+            log_file = os.path.join(settings.LOG_PATH, 'motioneye.log')
 
         else:
             log_file = None
@@ -301,6 +328,8 @@ def main():
 
     command = sys.argv[1]
     arg_parser = make_arg_parser(command)
+
+    load_l10n()
 
     if command in ('startserver', 'stopserver'):
         from motioneye import server

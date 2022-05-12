@@ -18,12 +18,23 @@
 import datetime
 import json
 import logging
+import os
 import socket
 
 from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
 
-from motioneye import config, motionctl, remote, settings, tasks, uploadservices, utils
+from motioneye import (
+    config,
+    meyectl,
+    motionctl,
+    remote,
+    settings,
+    tasks,
+    template,
+    uploadservices,
+    utils,
+)
 from motioneye.controls import mmalctl, smbctl, tzctl, v4l2ctl
 from motioneye.controls.powerctl import PowerControl
 from motioneye.handlers.base import BaseHandler
@@ -185,6 +196,7 @@ class ConfigHandler(BaseHandler):
             old_main_config = config.get_main()
             old_admin_username = old_main_config.get('@admin_username')
             old_normal_username = old_main_config.get('@normal_username')
+            old_lang = old_main_config.get('@lang')
 
             main_config = config.main_ui_to_dict(ui_config)
             main_config.setdefault('camera', old_main_config.get('camera', []))
@@ -194,6 +206,7 @@ class ConfigHandler(BaseHandler):
 
             normal_username = main_config.get('@normal_username')
             normal_password = main_config.get('@normal_password')
+            lang = main_config.get('@lang')
 
             additional_configs = config.get_additional_structure(camera=False)[1]
             reboot_config_names = [
@@ -213,6 +226,13 @@ class ConfigHandler(BaseHandler):
 
             reload = False
             restart = False
+
+            if lang != old_lang:
+                logging.debug('lang changed, reload needed')
+                meyectl.load_l10n()
+                template._reload_lang()
+
+                reload = True
 
             if admin_username != old_admin_username or admin_password is not None:
                 logging.debug('admin credentials changed, reload needed')
@@ -388,8 +408,7 @@ class ConfigHandler(BaseHandler):
 
             cameras.append(resp.remote_ui_config)
 
-        finished = self.check_finished(cameras, length)
-        return
+        return self.check_finished(cameras, length)
 
     @BaseHandler.auth()
     async def list(self):
@@ -475,8 +494,7 @@ class ConfigHandler(BaseHandler):
                 if utils.is_local_motion_camera(local_config):
                     ui_config = config.motion_camera_dict_to_ui(local_config)
                     cameras.append(ui_config)
-                    finished = self.check_finished(cameras, length)
-                    if finished:
+                    if self.check_finished(cameras, length):
                         return
 
                 elif utils.is_remote_camera(local_config):
@@ -485,26 +503,28 @@ class ConfigHandler(BaseHandler):
                         or self.get_argument('force', None) == 'true'
                     ):
                         resp = await remote.get_config(local_config)
-                        return self._handle_get_config_response(
+                        if self._handle_get_config_response(
                             camera_id, local_config, resp, cameras, length
-                        )
+                        ):
+                            return
 
                     else:  # don't try to reach the remote of the camera is disabled
-                        return self._handle_get_config_response(
+                        if self._handle_get_config_response(
                             camera_id,
                             local_config,
                             utils.GetConfigResponse(None, error=True),
                             cameras,
                             length,
-                        )
+                        ):
+                            return
 
                 else:  # assuming simple mjpeg camera
                     ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
                     cameras.append(ui_config)
-                    return self.check_finished(cameras, length)
+                    if self.check_finished(cameras, length):
+                        return
 
-            if length[0] == 0:
-                return self.finish_json({'cameras': []})
+            return self.finish_json({'cameras': cameras})
 
     @BaseHandler.auth(admin=True)
     async def add_camera(self):
