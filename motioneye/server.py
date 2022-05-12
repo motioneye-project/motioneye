@@ -44,8 +44,6 @@ from motioneye.handlers.relay_event import RelayEventHandler
 from motioneye.handlers.update import UpdateHandler
 from motioneye.handlers.version import VersionHandler
 
-from .meyectl import lingvo
-
 _PID_FILE = 'motioneye.pid'
 _CURRENT_PICTURE_REGEX = re.compile(r'^/picture/\d+/current')
 
@@ -98,7 +96,7 @@ class Daemon:
             os.remove(self.pid_file)
 
         except:
-            pass
+            sys.stderr.write('failed to remove pid file.\n')
 
     def running(self):
         try:
@@ -157,7 +155,7 @@ class Daemon:
                 os.kill(pid, signal.SIGKILL)
 
             except:
-                pass
+                sys.stderr.write('failed to kill...\n')
 
 
 def _log_request(handler):
@@ -453,7 +451,7 @@ def run():
         logging.info('smb mounts started')
 
     template.add_context('static_path', 'static/')
-    template.add_context('lingvo', lingvo)
+    template.add_context('lingvo', settings.lingvo)
 
     application = Application(
         handler_mapping,

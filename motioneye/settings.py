@@ -7,6 +7,15 @@ import motioneye
 
 config_file = None
 
+# interface language
+lingvo = 'eo'
+
+# available languages
+langlist = [('en', 'English'), ('eo', 'esperanto'), ('fr', 'français')]
+
+# gettext translation
+traduction = None
+
 # the root directory of the project
 PROJECT_PATH = os.path.dirname(motioneye.__file__)
 

@@ -24,6 +24,8 @@ The following languages have been translated by machine translation and must be 
 * Russian ( _русский язык_ )
 * Chinese ( _中文_ )
 
+You can contribute to translations on [__weblate__](https://hosted.weblate.org/projects/motioneye-project)
+
 # Installation
 
 These install instructions are constantly tested via CI/CD pipeline on Debian Bullseye and Ubuntu Focal.

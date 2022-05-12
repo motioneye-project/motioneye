@@ -18,12 +18,23 @@
 import datetime
 import json
 import logging
+import os
 import socket
 
 from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
 
-from motioneye import config, motionctl, remote, settings, tasks, uploadservices, utils
+from motioneye import (
+    config,
+    meyectl,
+    motionctl,
+    remote,
+    settings,
+    tasks,
+    template,
+    uploadservices,
+    utils,
+)
 from motioneye.controls import mmalctl, smbctl, tzctl, v4l2ctl
 from motioneye.controls.powerctl import PowerControl
 from motioneye.handlers.base import BaseHandler
@@ -185,6 +196,7 @@ class ConfigHandler(BaseHandler):
             old_main_config = config.get_main()
             old_admin_username = old_main_config.get('@admin_username')
             old_normal_username = old_main_config.get('@normal_username')
+            old_lang = old_main_config.get('@lang')
 
             main_config = config.main_ui_to_dict(ui_config)
             main_config.setdefault('camera', old_main_config.get('camera', []))
@@ -194,6 +206,7 @@ class ConfigHandler(BaseHandler):
 
             normal_username = main_config.get('@normal_username')
             normal_password = main_config.get('@normal_password')
+            lang = main_config.get('@lang')
 
             additional_configs = config.get_additional_structure(camera=False)[1]
             reboot_config_names = [
@@ -213,6 +226,13 @@ class ConfigHandler(BaseHandler):
 
             reload = False
             restart = False
+
+            if lang != old_lang:
+                logging.debug('lang changed, reload needed')
+                meyectl.load_l10n()
+                template._reload_lang()
+
+                reload = True
 
             if admin_username != old_admin_username or admin_password is not None:
                 logging.debug('admin credentials changed, reload needed')

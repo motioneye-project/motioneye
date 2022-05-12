@@ -27,8 +27,6 @@ from motioneye.utils.dtconv import (
     pretty_time,
 )
 
-from .meyectl import traduction
-
 _jinja_env = None
 
 
@@ -42,7 +40,7 @@ def _init_jinja():
         extensions=['jinja2.ext.i18n'],
         autoescape=select_autoescape(['html', 'xml']),
     )
-    _jinja_env.install_gettext_translations(traduction, newstyle=True)
+    _jinja_env.install_gettext_translations(settings.traduction, newstyle=True)
 
     # globals
     _jinja_env.globals['settings'] = settings
@@ -52,6 +50,12 @@ def _init_jinja():
     _jinja_env.filters['pretty_date'] = pretty_date
     _jinja_env.filters['pretty_time'] = pretty_time
     _jinja_env.filters['pretty_duration'] = pretty_duration
+
+
+def _reload_lang():
+    global _jinja_env
+    _jinja_env.install_gettext_translations(settings.traduction, newstyle=True)
+    _jinja_env.globals['settings'] = settings
 
 
 def add_template_path(path):
