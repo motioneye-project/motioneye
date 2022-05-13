@@ -1004,7 +1004,7 @@ class FTP(UploadService):
         conn.cwd(path)
 
         self.debug(f'uploading {filename} of {len(data)} bytes')
-        conn.storbinary(f'STOR {filename}', io.StringIO(data))
+        conn.storbinary(f'STOR {filename}', io.BytesIO(data))
 
         self.debug('upload done')
 
