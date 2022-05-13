@@ -381,9 +381,9 @@ class GoogleDrive(UploadService, GoogleBase):
             '',
         ]
 
-        body = '\r\n'.join(body)
+        body = '\r\n'.join(body).encode()
         body += data
-        body += f'\r\n--{self.BOUNDARY}--'
+        body += f'\r\n--{self.BOUNDARY}--'.encode()
 
         headers = {
             'Content-Type': f'multipart/related; boundary="{self.BOUNDARY}"',
@@ -481,7 +481,7 @@ class GoogleDrive(UploadService, GoogleBase):
             'mimeType': 'application/vnd.google-apps.folder',
         }
 
-        body = json.dumps(metadata)
+        body = json.dumps(metadata).encode()
 
         headers = {'Content-Type': 'application/json; charset=UTF-8'}
 
