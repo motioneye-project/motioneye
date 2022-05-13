@@ -575,7 +575,7 @@ def parse_editable_mask_file(
     else:
         rx = 0
 
-    rw = width / nx  # rectangle width
+    rw = width // nx  # rectangle width
 
     # vertical rectangles
     ny = height * MASK_WIDTH // width  # number of rectangles
@@ -586,7 +586,7 @@ def parse_editable_mask_file(
     else:
         ry = 0
 
-    rh = height / ny  # rectangle height
+    rh = height // ny  # rectangle height
 
     # parse the image contents and build the mask lines
     mask_lines = [width, height]
