@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
-"PO-Revision-Date: 2022-05-09 14:13+0000\n"
-"Last-Translator: Xitee <mato.bartusch123@gmail.com>\n"
+"PO-Revision-Date: 2022-05-14 12:15+0000\n"
+"Last-Translator: sf-206 <s.firsching@gmx.net>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.13-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -120,9 +120,8 @@ msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
 msgstr "Legt die Anzahl der Spalten fest, die zum Anordnen der Kameras verwendet werden"
 
 #: motioneye/templates/main.html:138
-#, fuzzy
 msgid "Fiksi Kadrojn Vertikale"
-msgstr "Rahmen vertikal einstellen"
+msgstr "Vertikalen Rahmen festlegen"
 
 #: motioneye/templates/main.html:140
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
@@ -148,9 +147,8 @@ msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne 
 msgstr "Reduziert die Bildrate, um Netzwerkbandbreite und Datenverkehr zu sparen (funktioniert nicht mit einfachen MJPEG-Kameras)"
 
 #: motioneye/templates/main.html:153
-#, fuzzy
 msgid "Rezolucio-variatoro"
-msgstr "Auflösungsvariation"
+msgstr "Auflösung"
 
 #: motioneye/templates/main.html:155
 msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
@@ -170,9 +168,8 @@ msgid "Lingvo"
 msgstr "Sprache"
 
 #: motioneye/templates/main.html:173
-#, fuzzy
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr "Die Sprache der Schnittstelle (zwei Buchstaben)"
+msgstr "Spracheinstellung (zwei Buchstaben)"
 
 #: motioneye/templates/main.html:176
 msgid "Administranto"
