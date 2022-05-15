@@ -2,7 +2,7 @@ version: "3.5"
 services:
   motioneye:
     restart: unless-stopped
-    image: ccrisan/motioneye:dev-amd64  # dev image
+    image: ghcr.io/motioneye-project/motioneye:edge  # https://github.com/motioneye-project/motioneye/pkgs/container/motioneye
     devices:
       - "/dev/video0:/dev/video0"
       - "/dev/video1:/dev/video1"
