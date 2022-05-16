@@ -15,22 +15,22 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
-import errno
 import fcntl
 import functools
-import hashlib
-import io
 import logging
 import multiprocessing
 import os.path
 import re
-import signal
-import stat
 import subprocess
-import time
 import typing
-import zipfile
+from errno import ENOENT, EAGAIN
+from hashlib import sha1
+from io import BytesIO
 from shlex import quote
+from signal import SIGTERM
+from stat import S_ISDIR, S_ISREG
+from time import time
+from zipfile import ZipFile
 
 from PIL import Image
 from tornado.concurrent import Future
@@ -114,10 +114,10 @@ def findfiles(path: str) -> typing.List[tuple]:
         pathname = os.path.join(path, name)
         st = os.lstat(pathname)
         mode = st.st_mode
-        if stat.S_ISDIR(mode):
+        if S_ISDIR(mode):
             files.extend(findfiles(pathname))
 
-        elif stat.S_ISREG(mode):
+        elif S_ISREG(mode):
             files.append((pathname, name, st))
 
     return files
@@ -149,7 +149,7 @@ def _list_media_files(
                 logging.error('stat failed: ' + str(e))
                 continue
 
-            if not stat.S_ISREG(st.st_mode):  # not a regular file
+            if not S_ISREG(st.st_mode):  # not a regular file
                 continue
 
             full_path_lower = full_path.lower()
@@ -186,7 +186,7 @@ def _remove_older_files(
                 os.remove(full_path)
 
             except OSError as e:
-                if e.errno == errno.ENOENT:
+                if e.errno == ENOENT:
                     pass  # the file might have been removed in the meantime
 
                 else:
@@ -490,7 +490,7 @@ def list_media(camera_config: dict, media_type: str, prefix=None) -> typing.Awai
             else:  # process did not finish in time
                 logging.error('timeout waiting for the media listing process to finish')
                 try:
-                    os.kill(process.pid, signal.SIGTERM)
+                    os.kill(process.pid, SIGTERM)
 
                 except:
                     pass  # nevermind
@@ -558,11 +558,11 @@ def get_zipped_content(
 
             paths.append(path)
 
-        zip_filename = os.path.join(settings.MEDIA_PATH, f'.zip-{int(time.time())}')
+        zip_filename = os.path.join(settings.MEDIA_PATH, f'.zip-{int(time())}')
         logging.debug(f'adding {len(paths)} files to zip file "{zip_filename}"')
 
         try:
-            with zipfile.ZipFile(zip_filename, mode='w') as f:
+            with ZipFile(zip_filename, mode='w') as f:
                 for path in paths:
                     full_path = os.path.join(target_dir, path)
                     f.write(full_path, path)
@@ -613,7 +613,7 @@ def get_zipped_content(
             else:  # process did not finish in time
                 logging.error('timeout waiting for the zip process to finish')
                 try:
-                    os.kill(process.pid, signal.SIGTERM)
+                    os.kill(process.pid, SIGTERM)
 
                 except:
                     pass  # nevermind
@@ -675,7 +675,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
     # use correct extension for the movie_codec
     tmp_filename = os.path.join(
-        settings.MEDIA_PATH, f'.{int(time.time())}.{file_format}'
+        settings.MEDIA_PATH, f'.{int(time())}.{file_format}'
     )
 
     def read_media_list():
@@ -702,7 +702,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
             else:  # process did not finish in time
                 logging.error('timeout waiting for the media listing process to finish')
                 try:
-                    os.kill(_timelapse_process.pid, signal.SIGTERM)
+                    os.kill(_timelapse_process.pid, SIGTERM)
 
                 except:
                     pass  # nevermind
@@ -798,7 +798,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
                     return
 
             except OSError as e:
-                if e.errno == errno.EAGAIN:
+                if e.errno == EAGAIN:
                     return
 
                 raise
@@ -895,14 +895,13 @@ def get_media_preview(camera_config, path, media_type, width, height):
             content = f.read()
 
     except Exception as e:
-        logging.error(f'failed to read file {full_path}: {str(e)}')
-
+        logging.error(f'failed to read file {full_path}: {e}')
         return None
 
     if width is height is None:
         return content
 
-    bio = io.BytesIO(content)
+    bio = BytesIO(content)
     try:
         image = Image.open(bio)
 
@@ -915,7 +914,7 @@ def get_media_preview(camera_config, path, media_type, width, height):
 
     image.thumbnail((width, height), Image.LINEAR)
 
-    bio = io.BytesIO()
+    bio = BytesIO()
     image.save(bio, format='JPEG')
 
     return bio.getvalue()
@@ -979,7 +978,6 @@ def del_media_group(camera_config, group, media_type):
 
         except Exception as e:
             logging.error(f'failed to remove file {full_path}: {str(e)}')
-
             raise
 
     # remove the group directory if empty or contains only thumb files
@@ -1006,8 +1004,13 @@ def get_current_picture(camera_config, width, height):
     if width is height is None:
         return jpg  # no server-side resize needed
 
-    sio = io.BytesIO(jpg) if isinstance(jpg, bytes) else io.StringIO(jpg)
-    image = Image.open(sio)
+    bio = BytesIO(jpg)
+    try:
+        image = Image.open(bio)
+
+    except Exception as e:
+        logging.error(f'failed to open media image file: {e}')
+        return None
 
     if width and width < 1:  # given as percent
         width = int(width * image.size[0])
@@ -1029,10 +1032,10 @@ def get_current_picture(camera_config, width, height):
 
     image.thumbnail((width, height), Image.CUBIC)
 
-    sio = io.StringIO()
-    image.save(sio, format='JPEG')
+    bio = BytesIO()
+    image.save(bio, format='JPEG')
 
-    return sio.getvalue()
+    return bio.getvalue()
 
 
 def get_prepared_cache(key):
@@ -1040,7 +1043,7 @@ def get_prepared_cache(key):
 
 
 def set_prepared_cache(data):
-    key = hashlib.sha1(str(time.time()).encode()).hexdigest()
+    key = sha1(str(time()).encode()).hexdigest()
 
     if key in _prepared_files:
         logging.warning(f'key "{key}" already present in prepared cache')
