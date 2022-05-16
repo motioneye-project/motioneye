@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-05 19:03+0200\n"
 "PO-Revision-Date: 2022-05-18 09:25+0000\n"
-"Last-Translator: areanod <areanod@gmail.com>\n"
+"Last-Translator: sf-206 <s.firsching@gmx.net>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-javascript/de/>\n"
 "Language: de\n"
@@ -134,9 +134,8 @@ msgid "Bonvolu apliki unue la modifitajn agordojn!"
 msgstr "Bitte übernehmen Sie zuerst die geänderten Einstellungen!"
 
 #: motioneye/static/js/main.js:2849
-#, fuzzy
 msgid "Neniu fotilo por forigi!"
-msgstr "Keine Kamera zu entfernen!"
+msgstr "Keine Kamera zum Entfernen vorhanden!"
 
 #: motioneye/static/js/main.js:2855
 msgid "Ĉu forigi kameraon "
@@ -344,7 +343,6 @@ msgid "Fora motionEye kamerao"
 msgstr "Externe motionEye Kamera"
 
 #: motioneye/static/js/main.js:3869
-#, fuzzy
 msgid "Simpla MJPEG-kamerao"
 msgstr "Einfache MJPEG-Kamera"
 
@@ -369,9 +367,8 @@ msgid "uzantnomo..."
 msgstr "Benutzername ..."
 
 #: motioneye/static/js/main.js:3881
-#, fuzzy
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
-msgstr "bei Bedarf den Benutzernamen für die URL (zB admin)"
+msgstr "bei Bedarf den Benutzernamen für die URL (z.B. admin)"
 
 #: motioneye/static/js/main.js:3885
 msgid "pasvorto..."
