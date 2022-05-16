@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-05 19:03+0200\n"
 "PO-Revision-Date: 2022-05-18 09:25+0000\n"
-"Last-Translator: Filip Krakowski <krakowski@hhu.de>\n"
+"Last-Translator: areanod <areanod@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-javascript/de/>\n"
 "Language: de\n"
@@ -251,7 +251,6 @@ msgid "bone"
 msgstr "alles klar"
 
 #: motioneye/static/js/main.js:3580 motioneye/static/js/main.js:3879
-#, fuzzy
 msgid "Uzantnomo"
 msgstr "Benutzername"
 
