@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2022-05-17 16:07+0000\n"
-"Last-Translator: Filip Krakowski <krakowski@hhu.de>\n"
+"Last-Translator: sf-206 <s.firsching@gmx.net>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
 "Language: de\n"
@@ -127,9 +127,8 @@ msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la
 msgstr "Prüft, ob die Rahmen verkleinert werden können, um sie vertikal an das Fenster anzupassen"
 
 #: motioneye/templates/main.html:143
-#, fuzzy
 msgid "Aranĝo linioj"
-msgstr "Layoutlinien"
+msgstr "Layoutreihen"
 
 #: motioneye/templates/main.html:145
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
