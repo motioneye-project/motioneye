@@ -23,7 +23,7 @@ import os.path
 import re
 import subprocess
 import typing
-from errno import ENOENT, EAGAIN
+from errno import EAGAIN, ENOENT
 from hashlib import sha1
 from io import BytesIO
 from shlex import quote
@@ -674,9 +674,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     media_list = []
 
     # use correct extension for the movie_codec
-    tmp_filename = os.path.join(
-        settings.MEDIA_PATH, f'.{int(time())}.{file_format}'
-    )
+    tmp_filename = os.path.join(settings.MEDIA_PATH, f'.{int(time())}.{file_format}')
 
     def read_media_list():
         while parent_pipe.poll():
