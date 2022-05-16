@@ -1006,7 +1006,7 @@ def get_current_picture(camera_config, width, height):
     if width is height is None:
         return jpg  # no server-side resize needed
 
-    sio = io.BytesIO(jpg) if isinstance(jpg, bytes) else io.StringIO(jpg)
+    sio = io.BytesIO(jpg)
     image = Image.open(sio)
 
     if width and width < 1:  # given as percent
