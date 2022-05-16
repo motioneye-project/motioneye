@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
-"PO-Revision-Date: 2022-05-14 12:15+0000\n"
-"Last-Translator: sf-206 <s.firsching@gmx.net>\n"
+"PO-Revision-Date: 2022-05-17 16:07+0000\n"
+"Last-Translator: areanod <areanod@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
 "Language: de\n"
@@ -115,9 +115,10 @@ msgid "Aranĝo Kolumnoj"
 msgstr "Layoutspalten"
 
 #: motioneye/templates/main.html:135
-#, fuzzy
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr "Legt die Anzahl der Spalten fest, die zum Anordnen der Kameras verwendet werden"
+msgstr ""
+"Legt die Anzahl der Spalten fest, die zum Anordnen der Kameras verwendet "
+"werden"
 
 #: motioneye/templates/main.html:138
 msgid "Fiksi Kadrojn Vertikale"
@@ -138,9 +139,8 @@ msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
 msgstr "Legt die Anzahl der Zeilen fest, die zum Anordnen der Kameras verwendet werden"
 
 #: motioneye/templates/main.html:148
-#, fuzzy
 msgid "kadro-variatoro"
-msgstr "Rahmenvariation"
+msgstr "Bildwiederholratenumwandler"
 
 #: motioneye/templates/main.html:150
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
@@ -163,7 +163,6 @@ msgid "Ĝeneralaj Agordoj"
 msgstr "Allgemeine Einstellungen"
 
 #: motioneye/templates/main.html:167
-#, fuzzy
 msgid "Lingvo"
 msgstr "Sprache"
 
@@ -359,7 +358,6 @@ msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj po
 msgstr "Ermöglicht das ausblenden von Bereichen im Bild, um das Aufzeichnen bestimmter Bildbereiche zum Schutz der Privatsphäre zu vermeiden"
 
 #: motioneye/templates/main.html:346 motioneye/templates/main.html:1007
-#, fuzzy
 msgid "Redakti maskon"
 msgstr "Maske bearbeiten"
 
@@ -368,9 +366,9 @@ msgid "Konservi maskon"
 msgstr "Maske Speichern"
 
 #: motioneye/templates/main.html:350
-#, fuzzy
 msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
-msgstr "Klicken Sie auf diese Schaltfläche, um den Maskeneditor zu aktivieren / deaktivieren"
+msgstr ""
+"Klicken Sie auf diese Schaltfläche um den Maskeneditor zu (de-)aktivieren"
 
 #: motioneye/templates/main.html:361
 msgid "Ekstraj Elektoj"
@@ -422,14 +420,14 @@ msgid "la nomo de la interŝanĝa reto"
 msgstr "der Name des Austauschnetzwerks"
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
-#, fuzzy
 msgid "Uzantnomo"
 msgstr "Benutzername"
 
 #: motioneye/templates/main.html:411
-#, fuzzy
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
-msgstr "Der Benutzername, der beim Zugriff auf das Netzwerkverzeichnis angegeben werden muss (leer lassen, wenn kein Benutzername erforderlich ist)"
+msgstr ""
+"Der Benutzername, der beim Zugriff auf das Netzwerkverzeichnis angegeben "
+"werden muss (leer lassen, wenn kein Benutzername erforderlich ist)"
 
 #: motioneye/templates/main.html:414
 #, fuzzy
@@ -437,9 +435,10 @@ msgid "Pasvorton"
 msgstr "Passwort"
 
 #: motioneye/templates/main.html:416
-#, fuzzy
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
-msgstr "das für das Netzwerkverzeichnis erforderliche Kennwort (leer lassen, wenn kein Kennwort erforderlich ist)"
+msgstr ""
+"das für das Netzwerkverzeichnis erforderliche Kennwort (leer lassen, wenn "
+"kein Kennwort erforderlich ist)"
 
 #: motioneye/templates/main.html:419
 msgid "Radika dosierujo"
@@ -572,7 +571,6 @@ msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, a
 msgstr "Aktivieren Sie diese Option, um Dateien mit Unterverzeichnissen hochzuladen, anstatt sie direkt im Stammverzeichnis abzulegen"
 
 #: motioneye/templates/main.html:511
-#, fuzzy
 msgid "Purigi la nubon"
 msgstr "Clean Cloud"
 
@@ -694,7 +692,6 @@ msgid "Ordono"
 msgstr "Befehl"
 
 #: motioneye/templates/main.html:594
-#, fuzzy
 msgid "ordono…"
 msgstr "Befehl…"
 
@@ -852,7 +849,6 @@ msgstr ""
 "haben); Anmeldeinformationen vom Überwachungs-Benutzer werden verwendet"
 
 #: motioneye/templates/main.html:699
-#, fuzzy
 msgid "Movado-Optimigo"
 msgstr "Bewegungsoptimierung"
 
@@ -934,7 +930,6 @@ msgid "Kaptila reĝimo"
 msgstr "Aufnahmemodus"
 
 #: motioneye/templates/main.html:760 motioneye/templates/main.html:880
-#, fuzzy
 msgid "Moviĝa deĉenigo"
 msgstr "Bewegungsauslöser"
 
@@ -1165,9 +1160,12 @@ msgid "Kadra ŝanĝo sojlo"
 msgstr "Rahmenwechselschwelle"
 
 #: motioneye/templates/main.html:926
-#, fuzzy
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
-msgstr "Gibt den minimalen Prozentsatz des Bildes an, der zwischen zwei aufeinanderfolgenden Bildern wechseln muss, um Bewegungen zu erkennen (kleinere Werte ermöglichen eine empfindlichere Erkennung, neigen jedoch zu falsch positiven Ergebnissen)."
+msgstr ""
+"Gibt den minimalen Prozentsatz des Bildes an, der zwischen zwei "
+"aufeinanderfolgenden Bildern wechseln muss, um Bewegungen zu erkennen ("
+"kleinere Werte ermöglichen eine empfindlichere Erkennung, neigen jedoch zu "
+"falsch positiven Ergebnissen)."
 
 #: motioneye/templates/main.html:929
 #, fuzzy
@@ -1177,7 +1175,9 @@ msgstr "Maximale Änderungsschwelle"
 #: motioneye/templates/main.html:931
 #, fuzzy
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
-msgstr "Legt die Anzahl der Pixel fest, die zwischen Frames geändert wurden, über die kein Bildlauf mehr ausgelöst wird (0 deaktiviert den Rahmen)."
+msgstr ""
+"Legt die Anzahl der veränderten Pixel zwischen Frames fest über welcher "
+"Bewegungstrigger ausgelöst wird (0 deaktiviert das Limit)."
 
 #: motioneye/templates/main.html:934
 #, fuzzy
@@ -1190,22 +1190,19 @@ msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
 msgstr "Aktivieren Sie diese Option, um den Schwellenwert automatisch anzupassen."
 
 #: motioneye/templates/main.html:939
-#, fuzzy
 msgid "Aŭtomata bruo-detekto"
 msgstr "Automatische Geräuscherkennung"
 
 #: motioneye/templates/main.html:941
-#, fuzzy
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
-msgstr "Aktivieren Sie diese Option, um den Geräuschpegel automatisch anzupassen."
+msgstr ""
+"Aktivieren Sie diese Option um den Geräuschpegel automatisch anzupassen."
 
 #: motioneye/templates/main.html:944
-#, fuzzy
 msgid "Bruo-nivelo"
 msgstr "Geräuschpegel"
 
 #: motioneye/templates/main.html:946
-#, fuzzy
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
 msgstr "Stellt den Geräuschpegel dauerhaft auf einen festgelegten Wert ein."
 
@@ -1215,9 +1212,12 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Erkennung von Lichtveränderungen"
 
 #: motioneye/templates/main.html:951
-#, fuzzy, python-format
+#, python-format
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
-msgstr "Definiert den Prozentsatz des Bildes, der geändert werden muss, damit das Ereignis als plötzliche Lichtänderung anstelle von Bewegung behandelt wird (0 %% deaktiviert die Funktion)."
+msgstr ""
+"Definiert den Prozentsatz des Bildes, der geändert werden muss, damit das "
+"Ereignis als plötzliche Lichtänderung anstelle von Bewegung behandelt wird ("
+"0 %% deaktiviert die Funktion)."
 
 #: motioneye/templates/main.html:954
 #, fuzzy
@@ -1246,19 +1246,18 @@ msgstr "Vorher gefangen"
 
 #: motioneye/templates/main.html:968 motioneye/templates/main.html:973
 #: motioneye/templates/main.html:978
-#, fuzzy
 msgid "kadroj"
 msgstr "Frames"
 
 #: motioneye/templates/main.html:969
-#, fuzzy
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
-msgstr "Legt die Anzahl der Bilder fest, die aufgenommen (und im Film enthalten) werden, bevor ein Bewegungsvorfall erkannt wird."
+msgstr ""
+"Legt die Anzahl der Bilder fest die aufgenommen werden und im Film enthalten "
+"sind bevor ein Bewegungsereignis erkannt wird."
 
 #: motioneye/templates/main.html:972
-#, fuzzy
 msgid "Kaptita Post"
-msgstr "Gefangen danach"
+msgstr "Aufgenommen danach"
 
 #: motioneye/templates/main.html:974
 #, fuzzy
@@ -1271,44 +1270,43 @@ msgid "Minimumaj movaj kadroj"
 msgstr "Minimale Bewegungsrahmen"
 
 #: motioneye/templates/main.html:979
-#, fuzzy
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
-msgstr "Legt die Mindestanzahl aufeinanderfolgender Bewegungsrahmen fest, die zum Starten eines Bewegungsereignisses erforderlich sind."
+msgstr ""
+"Legt die Mindestanzahl aufeinanderfolgender Frames mit Bewegung fest, die "
+"zum Starten eines Bewegungsereignisses erforderlich sind."
 
 #: motioneye/templates/main.html:985
-#, fuzzy
 msgid "Masko"
 msgstr "Maske"
 
 #: motioneye/templates/main.html:987
-#, fuzzy
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
-msgstr "Aktiviert die Bildmaskierung für eine selektivere und genauere Bewegungserkennung."
+msgstr ""
+"Aktiviert die Bildmaskierung für eine selektivere und genauere "
+"Bewegungserkennung."
 
 #: motioneye/templates/main.html:990
-#, fuzzy
 msgid "Tipo de masko"
 msgstr "Art der Maske"
 
 #: motioneye/templates/main.html:993
-#, fuzzy
 msgid "Inteligenta"
 msgstr "Smart"
 
 #: motioneye/templates/main.html:994
-#, fuzzy
 msgid "Redaktebla"
 msgstr "Bearbeitbar"
 
 #: motioneye/templates/main.html:997
-#, fuzzy
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
-msgstr "Mit der Option \"Intelligent\" werden Bereiche mit regelmäßiger Bewegung automatisch erkannt und dynamisch eine interne Maske erstellt. Mit der Option \"Bearbeiten\" können Sie sie manuell selbst erstellen."
+msgstr ""
+"Mit der Option \"Smart\" werden Bereiche mit regelmäßiger Bewegung "
+"automatisch erkannt und dynamisch eine interne Maske erstellt. Mit der "
+"Option \"Bearbeiten\" können Sie sie manuell selbst erstellen."
 
 #: motioneye/templates/main.html:1000
-#, fuzzy
 msgid "Inteligenta-maska Malrapideco"
-msgstr "Langsamkeit der intelligenten Maske"
+msgstr "Verzögerung der intelligenten Maske"
 
 #: motioneye/templates/main.html:1002
 #, fuzzy
@@ -1321,19 +1319,16 @@ msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
 msgstr "Klicken Sie auf diese Schaltfläche, um den Maskeneditor zu aktivieren / deaktivieren."
 
 #: motioneye/templates/main.html:1015
-#, fuzzy
 msgid "Purigi maskon"
-msgstr "Maske reinigen"
+msgstr "Maske löschen"
 
 #: motioneye/templates/main.html:1016
-#, fuzzy
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
-msgstr "Klicken Sie auf diese Schaltfläche, um die aktuelle Maske zu leeren."
+msgstr "Klicken Sie auf diese Schaltfläche, um die aktuelle Maske zu löschen."
 
 #: motioneye/templates/main.html:1022
-#, fuzzy
 msgid "Montri Kadro-Ŝanĝojn"
-msgstr "Rahmenänderungen anzeigen"
+msgstr "Frameänderungen anzeigen"
 
 #: motioneye/templates/main.html:1024
 #, fuzzy
@@ -1341,44 +1336,42 @@ msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la mo
 msgstr "Wenn dies aktiv ist, werden die Bildänderungen (Anzahl der Pixel und der geänderte Bereich) im Video angezeigt. Aktivieren Sie diese Option vorübergehend, um die Bewegungserkennungseinstellungen anzupassen."
 
 #: motioneye/templates/main.html:1027
-#, fuzzy
 msgid "Krei debug media files"
-msgstr "Erstellen Sie Debug-Mediendateien"
+msgstr "Debug-Mediendateien erstellen"
 
 #: motioneye/templates/main.html:1029
-#, fuzzy
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
-msgstr "Wenn diese Option aktiviert ist, erstellen Sie spezielle Filme und Bilder, mit denen Sie Probleme bei der Bewegungserkennung beheben können."
+msgstr ""
+"Wenn diese Option aktiviert ist werden spezielle Filme und Bilder zur "
+"Problembehebung bei der Bewegungserkennung generiert."
 
 #: motioneye/templates/main.html:1038
-#, fuzzy
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
-msgstr "Aktivieren Sie diese Option, wenn Sie benachrichtigt werden möchten, wenn eine Bewegung erkannt wird."
+msgstr ""
+"Aktivieren Sie diese Option um im Fall einer erkannten Bewegung eine "
+"Benachrichtigung zu erhalten."
 
 #: motioneye/templates/main.html:1039
-#, fuzzy
 msgid "Moviĝaj sciigoj"
 msgstr "Bewegungsbenachrichtigungen"
 
 #: motioneye/templates/main.html:1051
-#, fuzzy
 msgid "Sendi retpoŝton"
-msgstr "Senden Sie eine E-Mail"
+msgstr "E-Mail senden"
 
 #: motioneye/templates/main.html:1053
-#, fuzzy
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
-msgstr "Aktivieren Sie diese Option, wenn Sie jedes Mal eine E-Mail erhalten möchten, wenn ein Bewegungsvorfall erkannt wird."
+msgstr ""
+"Aktivieren Sie diese Option um bei jedem Bewegungsereignis eine E-Mail zu "
+"erhalten."
 
 #: motioneye/templates/main.html:1056
-#, fuzzy
 msgid "Retpoŝtadresoj"
 msgstr "E-Mail-Adressen"
 
 #: motioneye/templates/main.html:1057
-#, fuzzy
 msgid "retpoŝtadresoj…"
-msgstr "E-mailadressen…"
+msgstr "E-Mail-Adressen…"
 
 #: motioneye/templates/main.html:1058
 #, fuzzy
@@ -1386,89 +1379,85 @@ msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn
 msgstr "Hier hinzugefügte E-Mail-Adressen (durch Kommas getrennt) erhalten Benachrichtigungen, sobald ein Bewegungsvorfall erkannt wird."
 
 #: motioneye/templates/main.html:1061
-#, fuzzy
 msgid "Servilo SMTP"
 msgstr "SMTP-Server"
 
 #: motioneye/templates/main.html:1062
-#, fuzzy
 msgid "ekz. smtp.gmail.com"
 msgstr "z.B. smtp.gmail.com"
 
 #: motioneye/templates/main.html:1063
 #, fuzzy
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
-msgstr "Geben Sie den Hostnamen oder die IP-Adresse Ihres SMTP-Servers ein (für die Verwendung von Google Mail smtp.gmail.com)."
+msgstr ""
+"Geben Sie den Hostnamen oder die IP-Adresse Ihres SMTP-Servers ein (z.B. "
+"smtp.gmail.com für Google Mail)."
 
 #: motioneye/templates/main.html:1066
-#, fuzzy
 msgid "SMTP Haveno"
-msgstr "SMTP-Port"
+msgstr "SMTP Port"
 
 #: motioneye/templates/main.html:1067
-#, fuzzy
 msgid "ekz. 587"
 msgstr "z.B. 587"
 
 #: motioneye/templates/main.html:1068
-#, fuzzy
 msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
-msgstr "Geben Sie den von Ihrem SMTP-Server verwendeten Port ein (normalerweise 465 für Nicht-TLS-Verbindungen und 587 für TLS-Verbindungen)."
+msgstr ""
+"Geben Sie den von Ihrem SMTP Server verwendeten Port ein (normalerweise 465 "
+"für Nicht-TLS-Verbindungen und 587 für TLS-Verbindungen)."
 
 #: motioneye/templates/main.html:1071
-#, fuzzy
 msgid "SMTP-Konto"
-msgstr "SMTP-Konto"
+msgstr "SMTP Konto"
 
 #: motioneye/templates/main.html:1072
-#, fuzzy
 msgid "konto@gmail.com…"
 msgstr "account@gmail.com……"
 
 #: motioneye/templates/main.html:1073
-#, fuzzy
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
-msgstr "Geben Sie Ihr SMTP-Konto ein (normalerweise Ihre E-Mail-Adresse)."
+msgstr "Geben Sie Ihr SMTP-Konto ein (häufig E-Mail-Adresse)."
 
 #: motioneye/templates/main.html:1076
 #, fuzzy
 msgid "SMTP Pasvorto"
-msgstr "SMTP-Passwort"
+msgstr "SMTP Authentifizierungspasswort"
 
 #: motioneye/templates/main.html:1078
-#, fuzzy
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
-msgstr "Geben Sie Ihr SMTP-Passwort ein (für Google Mail verwenden Sie Ihr Google-Passwort oder ein von der App generiertes Passwort)."
+msgstr ""
+"Geben Sie Ihr SMTP Authentifizierungspasswort an (für Google Mail verwenden "
+"Sie Ihr Google-Passwort oder ein von der App generiertes Passwort)."
 
 #: motioneye/templates/main.html:1081
-#, fuzzy
 msgid "De adreso"
-msgstr "Von Adresse"
+msgstr "Absenderadresse"
 
 #: motioneye/templates/main.html:1082
-#, fuzzy
 msgid "retpoŝta adreso…"
 msgstr "E-Mail-Addresse…"
 
 #: motioneye/templates/main.html:1083
-#, fuzzy
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
-msgstr "Festlegen der benutzerdefinierten Absenderadresse, wenn Ihr SMTP-Dienst eine benötigt (die erste Ziel-E-Mail-Adresse wird verwendet, wenn sie leer gelassen wird)."
+msgstr ""
+"Festlegen einer benutzerdefinierten Absenderadresse, wenn Ihr SMTP-Dienst "
+"eine benötigt (die erste Ziel-E-Mail-Adresse wird verwendet, wenn sie leer "
+"gelassen wird)."
 
 #: motioneye/templates/main.html:1086
-#, fuzzy
 msgid "Uzi TLS"
-msgstr "Verwenden Sie TLS"
+msgstr "TLS verwenden"
 
 #: motioneye/templates/main.html:1088
-#, fuzzy
 msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
-msgstr "Aktivieren Sie diese Option, wenn für Ihren SMTP-Server TLS erforderlich ist (für Google Mail muss dies aktiviert sein)."
+msgstr ""
+"Aktivieren Sie diese Option wenn für Ihren SMTP-Server TLS erforderlich ist ("
+"für Google Mail muss dies aktiviert sein)."
 
 #: motioneye/templates/main.html:1091
-#, fuzzy
 msgid "Aldonitaj bildoj tempo-intervalo"
-msgstr "Zeitintervall für Bilder hinzugefügt"
+msgstr "Zeitintervall für angehängte Bilder"
 
 #: motioneye/templates/main.html:1093
 #, fuzzy
