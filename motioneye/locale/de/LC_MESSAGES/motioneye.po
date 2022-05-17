@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
-"PO-Revision-Date: 2022-05-17 16:08+0000\n"
+"PO-Revision-Date: 2022-05-17 16:09+0000\n"
 "Last-Translator: areanod <areanod@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
@@ -538,9 +538,8 @@ msgid "Finpunkto URL"
 msgstr "URL des Endpunktes"
 
 #: motioneye/templates/main.html:496
-#, fuzzy
 msgid "La kompleta URL al la alŝuta servila finpunkto:"
-msgstr "Die vollständige URL zum Endpunkt des Upload -Servers:"
+msgstr "Die vollständige URL zum Endpunkt des Uploadservers:"
 
 #: motioneye/templates/main.html:497
 msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
