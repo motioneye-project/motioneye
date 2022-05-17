@@ -40,8 +40,8 @@ class MjpgClient(IOStream):
     def __init__(self, camera_id, port, username, password, auth_mode):
         self._camera_id = camera_id
         self._port = port
-        self._username = (username or '').encode('utf8')
-        self._password = (password or '').encode('utf8')
+        self._username = username or ''
+        self._password = password or ''
         self._auth_mode = auth_mode
         self._auth_digest_state = {}
 
@@ -183,8 +183,7 @@ class MjpgClient(IOStream):
             logging.debug('mjpg client using basic authentication')
             auth_header = utils.build_basic_header(self._username, self._password)
             self.write(
-                b'GET / HTTP/1.0\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
-                % auth_header
+                f'GET / HTTP/1.0\r\nAuthorization: {auth_header}\r\nConnection: close\r\n\r\n'.encode()
             )
 
         elif (
@@ -242,14 +241,14 @@ class MjpgClient(IOStream):
 
             auth_header = utils.build_basic_header(self._username, self._password)
             w_data = (
-                b'GET / HTTP/1.0\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
-                % auth_header
+                f'GET / HTTP/1.0\r\nAuthorization: {auth_header}\r\nConnection: close\r\n\r\n'.encode()
             )
             w_future = utils.cast_future(self.write(w_data))
             w_future.add_done_callback(self._seek_http)
 
             return
 
+        data = data.decode()
         if data.startswith('Digest'):
             logging.debug('mjpg client using digest authentication')
 
@@ -263,15 +262,14 @@ class MjpgClient(IOStream):
                 'GET', '/', self._username, self._password, self._auth_digest_state
             )
             w_data = (
-                b'GET / HTTP/1.0\r\nAuthorization: %s\r\nConnection: close\r\n\r\n'
-                % auth_header
+                f'GET / HTTP/1.0\r\nAuthorization: {auth_header}\r\nConnection: close\r\n\r\n'.encode()
             )
             w_future = utils.cast_future(self.write(w_data))
             w_future.add_done_callback(self._seek_http)
 
             return
 
-        logging.error('mjpg client unknown authentication header: "%s"' % data)
+        logging.error(f'mjpg client unknown authentication header: {data}')
         self._seek_content_length()
 
     def _seek_content_length(self):
