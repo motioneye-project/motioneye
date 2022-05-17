@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
-"PO-Revision-Date: 2022-05-17 16:23+0000\n"
+"PO-Revision-Date: 2022-05-17 16:24+0000\n"
 "Last-Translator: areanod <areanod@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
@@ -1299,9 +1299,10 @@ msgid "Inteligenta-maska Malrapideco"
 msgstr "Verzögerung der intelligenten Maske"
 
 #: motioneye/templates/main.html:1002
-#, fuzzy
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
-msgstr "Höhere Werte ergeben eine haltbarere Maske mit einem langsameren Erstellungsprozess."
+msgstr ""
+"Höhere Werte ergeben eine haltbarere smarte Maske mit einem langsameren "
+"Erstellungsprozess."
 
 #: motioneye/templates/main.html:1011
 #, fuzzy
