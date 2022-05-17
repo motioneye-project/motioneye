@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2022-05-17 16:08+0000\n"
-"Last-Translator: Filip Krakowski <krakowski@hhu.de>\n"
+"Last-Translator: areanod <areanod@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
 "Language: de\n"
@@ -534,9 +534,8 @@ msgid "la HTTP-metodo uzi por alŝuti dosierojn"
 msgstr "Die HTTP-Methode zum Hochladen von Dateien"
 
 #: motioneye/templates/main.html:494
-#, fuzzy
 msgid "Finpunkto URL"
-msgstr "Endpunkt -URL"
+msgstr "URL des Endpunktes"
 
 #: motioneye/templates/main.html:496
 #, fuzzy
