@@ -616,9 +616,8 @@ msgstr ""
 "normalerweise nur zum konfigurieren erforderlich)"
 
 #: motioneye/templates/main.html:550
-#, fuzzy
 msgid "Sitelo"
-msgstr "Eimer"
+msgstr "Bucket"
 
 #: motioneye/templates/main.html:552
 #, fuzzy
