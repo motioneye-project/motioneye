@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
-"PO-Revision-Date: 2022-05-17 16:13+0000\n"
-"Last-Translator: areanod <areanod@gmail.com>\n"
+"PO-Revision-Date: 2022-05-17 16:27+0000\n"
+"Last-Translator: Filip Krakowski <krakowski@hhu.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
 "Language: de\n"
@@ -1152,7 +1152,7 @@ msgstr "Bewegungserkennung"
 
 #: motioneye/templates/main.html:924
 msgid "Kadra ŝanĝo sojlo"
-msgstr "Framewechselgrenze"
+msgstr "Schwellwert für Frameveränderung"
 
 #: motioneye/templates/main.html:926
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
@@ -1163,26 +1163,23 @@ msgstr ""
 "falsch positiven Ergebnissen)."
 
 #: motioneye/templates/main.html:929
-#, fuzzy
 msgid "Maksimuma ŝanĝo sojlo"
-msgstr "Maximale Änderungsschwelle"
+msgstr "Maximaler Schwellwert für Veränderung"
 
 #: motioneye/templates/main.html:931
-#, fuzzy
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
 msgstr ""
-"Legt die Anzahl der veränderten Pixel zwischen Frames fest über welcher "
+"Legt die Anzahl der veränderten Pixel zwischen Frames fest, über welcher ein "
 "Bewegungstrigger ausgelöst wird (0 deaktiviert das Limit)."
 
 #: motioneye/templates/main.html:934
-#, fuzzy
 msgid "Aŭtomata sojla agordo"
 msgstr "Automatische Schwellenwerteinstellung"
 
 #: motioneye/templates/main.html:936
-#, fuzzy
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
-msgstr "Aktivieren Sie diese Option, um den Schwellenwert automatisch anzupassen."
+msgstr ""
+"Aktivieren Sie diese Option, um den Schwellenwert automatisch anzupassen."
 
 #: motioneye/templates/main.html:939
 msgid "Aŭtomata bruo-detekto"
@@ -1202,7 +1199,6 @@ msgid "Permane agordas la bruan nivelon al fiksita valoro."
 msgstr "Stellt den Geräuschpegel dauerhaft auf einen festgelegten Wert ein."
 
 #: motioneye/templates/main.html:949
-#, fuzzy
 msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Erkennung von Lichtveränderungen"
 
@@ -1215,29 +1211,28 @@ msgstr ""
 "0 %% deaktiviert die Funktion)."
 
 #: motioneye/templates/main.html:954
-#, fuzzy
 msgid "Makula filtrilo"
 msgstr "Fleckenfilter"
 
 #: motioneye/templates/main.html:956
-#, fuzzy
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
-msgstr "Aktivieren Sie dies, indem Sie vor der Bewegungserkennung einen Punktfilter auf Frames anwenden."
+msgstr ""
+"Aktivieren Sie dies, um vor der Bewegungserkennung einen Fleckenfilter auf "
+"die Einzelbilder anzuwenden."
 
 #: motioneye/templates/main.html:962
-#, fuzzy
 msgid "Senmovada daŭro"
-msgstr "Kontinuierliche Bewegung"
+msgstr "Bewegungslos"
 
 #: motioneye/templates/main.html:964
-#, fuzzy
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
-msgstr "Legt die Anzahl der Sekunden der Stille (d. H. Keine Bewegung) fest, die das Ende eines Bewegungsereignisses markiert."
+msgstr ""
+"Legt die Anzahl der Sekunden der Stille (ohne Bewegung) fest, die das Ende "
+"eines Bewegungsereignisses markiert."
 
 #: motioneye/templates/main.html:967
-#, fuzzy
 msgid "Kaptita Antaŭe"
-msgstr "Vorher gefangen"
+msgstr "Vorschau"
 
 #: motioneye/templates/main.html:968 motioneye/templates/main.html:973
 #: motioneye/templates/main.html:978
@@ -1255,14 +1250,14 @@ msgid "Kaptita Post"
 msgstr "Aufgenommen danach"
 
 #: motioneye/templates/main.html:974
-#, fuzzy
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
-msgstr "Legt die Anzahl der Bilder fest, die nach dem Ende eines Bewegungsereignisses aufgenommen (und in den Film aufgenommen) werden sollen."
+msgstr ""
+"Legt die Anzahl der Frames fest, die nach dem Ende eines "
+"Bewegungsereignisses aufgenommen und im Film enthalten sein sollen."
 
 #: motioneye/templates/main.html:977
-#, fuzzy
 msgid "Minimumaj movaj kadroj"
-msgstr "Minimale Bewegungsrahmen"
+msgstr "Mindestanzahl für Frames mit Bewegung"
 
 #: motioneye/templates/main.html:979
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
@@ -1304,14 +1299,14 @@ msgid "Inteligenta-maska Malrapideco"
 msgstr "Verzögerung der intelligenten Maske"
 
 #: motioneye/templates/main.html:1002
-#, fuzzy
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
-msgstr "Höhere Werte ergeben eine haltbarere Maske mit einem langsameren Erstellungsprozess."
+msgstr ""
+"Höhere Werte ergeben ein länger anhaltende smarte Maske mit einem "
+"langsameren Erstellungsprozess."
 
 #: motioneye/templates/main.html:1011
-#, fuzzy
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
-msgstr "Klicken Sie auf diese Schaltfläche, um den Maskeneditor zu aktivieren / deaktivieren."
+msgstr "Klicken Sie auf diese Schaltfläche, um die aktuelle Maske zu entfernen."
 
 #: motioneye/templates/main.html:1015
 msgid "Purigi maskon"
@@ -1326,9 +1321,11 @@ msgid "Montri Kadro-Ŝanĝojn"
 msgstr "Frameänderungen anzeigen"
 
 #: motioneye/templates/main.html:1024
-#, fuzzy
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
-msgstr "Wenn dies aktiv ist, werden die Bildänderungen (Anzahl der Pixel und der geänderte Bereich) im Video angezeigt. Aktivieren Sie diese Option vorübergehend, um die Bewegungserkennungseinstellungen anzupassen."
+msgstr ""
+"Wenn dies aktiv ist, werden die Bildänderungen (Anzahl der Pixel und der "
+"geänderte Bereich) im Video angezeigt. Aktivieren Sie diese Option "
+"vorübergehend, um die Bewegungserkennungseinstellungen anzupassen."
 
 #: motioneye/templates/main.html:1027
 msgid "Krei debug media files"
@@ -1369,9 +1366,10 @@ msgid "retpoŝtadresoj…"
 msgstr "E-Mail-Adressen…"
 
 #: motioneye/templates/main.html:1058
-#, fuzzy
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
-msgstr "Hier hinzugefügte E-Mail-Adressen (durch Kommas getrennt) erhalten Benachrichtigungen, sobald ein Bewegungsvorfall erkannt wird."
+msgstr ""
+"Hier hinzugefügte kommagetrennte E-Mail-Adressen erhalten Benachrichtigungen "
+"bei einem Bewegungsereignis."
 
 #: motioneye/templates/main.html:1061
 msgid "Servilo SMTP"
