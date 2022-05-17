@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2022-05-17 16:08+0000\n"
-"Last-Translator: areanod <areanod@gmail.com>\n"
+"Last-Translator: Filip Krakowski <krakowski@hhu.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
 "Language: de\n"
@@ -415,7 +415,7 @@ msgstr "Share-Name"
 
 #: motioneye/templates/main.html:406
 msgid "la nomo de la interŝanĝa reto"
-msgstr "Name des Netzwerkshares"
+msgstr "der Name der Netzwerkfreigabe"
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
@@ -428,9 +428,8 @@ msgstr ""
 "werden muss (leer lassen, wenn kein Benutzername erforderlich ist)"
 
 #: motioneye/templates/main.html:414
-#, fuzzy
 msgid "Pasvorton"
-msgstr "Passwort"
+msgstr "Passwort teilen"
 
 #: motioneye/templates/main.html:416
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
