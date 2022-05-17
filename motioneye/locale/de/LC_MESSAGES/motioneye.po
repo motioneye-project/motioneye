@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
-"PO-Revision-Date: 2022-05-17 16:24+0000\n"
+"PO-Revision-Date: 2022-05-17 16:27+0000\n"
 "Last-Translator: areanod <areanod@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
@@ -1365,9 +1365,10 @@ msgid "retpoŝtadresoj…"
 msgstr "E-Mail-Adressen…"
 
 #: motioneye/templates/main.html:1058
-#, fuzzy
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
-msgstr "Hier hinzugefügte E-Mail-Adressen (durch Kommas getrennt) erhalten Benachrichtigungen, sobald ein Bewegungsvorfall erkannt wird."
+msgstr ""
+"Hier hinzugefügte kommagetrennte E-Mail-Adressen erhalten Benachrichtigungen "
+"bei einem Bewegungsereignis."
 
 #: motioneye/templates/main.html:1061
 msgid "Servilo SMTP"
