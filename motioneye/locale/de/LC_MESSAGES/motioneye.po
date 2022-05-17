@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2022-05-17 16:11+0000\n"
-"Last-Translator: areanod <areanod@gmail.com>\n"
+"Last-Translator: Filip Krakowski <krakowski@hhu.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
 "Language: de\n"
@@ -671,8 +671,8 @@ msgstr "HTTP-Methode"
 #: motioneye/templates/main.html:582
 msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
 msgstr ""
-"Die HTTP-Methode die beim Anfordern einer Webhook-URL verwendet werden soll ("
-"die angegebenen URL-codierten Parameter werden tatsächlich wie hier "
+"Die HTTP-Methode, die beim Anfordern einer Webhook-URL verwendet werden soll "
+"(die angegebenen URL-codierten Parameter werden tatsächlich wie hier "
 "angegeben geliefert)"
 
 #: motioneye/templates/main.html:588
@@ -940,7 +940,6 @@ msgid "Intertempe"
 msgstr "Intervall Schnappschüsse"
 
 #: motioneye/templates/main.html:763
-#, fuzzy
 msgid "Ĉiuj bildoj"
 msgstr "Alle Bilder"
 
