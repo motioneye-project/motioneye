@@ -971,9 +971,8 @@ msgid "Mane = mana kapto kun dediĉita butono."
 msgstr "Manuell = Manuelle Aufnahmen mit dem Aufnahme-Knopf."
 
 #: motioneye/templates/main.html:774
-#, fuzzy
 msgid "Interkapto-Intervalo"
-msgstr "Abfangintervall"
+msgstr "Snapshotintervall"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
