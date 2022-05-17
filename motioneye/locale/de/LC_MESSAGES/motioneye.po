@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2022-05-17 16:27+0000\n"
-"Last-Translator: areanod <areanod@gmail.com>\n"
+"Last-Translator: Filip Krakowski <krakowski@hhu.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
 "Language: de\n"
@@ -1301,13 +1301,12 @@ msgstr "Verzögerung der intelligenten Maske"
 #: motioneye/templates/main.html:1002
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr ""
-"Höhere Werte ergeben eine haltbarere smarte Maske mit einem langsameren "
-"Erstellungsprozess."
+"Höhere Werte ergeben ein länger anhaltende smarte Maske mit einem "
+"langsameren Erstellungsprozess."
 
 #: motioneye/templates/main.html:1011
-#, fuzzy
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
-msgstr "Klicken Sie auf diese Schaltfläche, um den Maskeneditor zu aktivieren / deaktivieren."
+msgstr "Klicken Sie auf diese Schaltfläche, um die aktuelle Maske zu entfernen."
 
 #: motioneye/templates/main.html:1015
 msgid "Purigi maskon"
@@ -1322,9 +1321,11 @@ msgid "Montri Kadro-Ŝanĝojn"
 msgstr "Frameänderungen anzeigen"
 
 #: motioneye/templates/main.html:1024
-#, fuzzy
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
-msgstr "Wenn dies aktiv ist, werden die Bildänderungen (Anzahl der Pixel und der geänderte Bereich) im Video angezeigt. Aktivieren Sie diese Option vorübergehend, um die Bewegungserkennungseinstellungen anzupassen."
+msgstr ""
+"Wenn dies aktiv ist, werden die Bildänderungen (Anzahl der Pixel und der "
+"geänderte Bereich) im Video angezeigt. Aktivieren Sie diese Option "
+"vorübergehend, um die Bewegungserkennungseinstellungen anzupassen."
 
 #: motioneye/templates/main.html:1027
 msgid "Krei debug media files"
