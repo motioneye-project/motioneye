@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
-"PO-Revision-Date: 2022-05-17 16:10+0000\n"
+"PO-Revision-Date: 2022-05-17 16:11+0000\n"
 "Last-Translator: areanod <areanod@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
@@ -620,9 +620,10 @@ msgid "Sitelo"
 msgstr "Bucket"
 
 #: motioneye/templates/main.html:552
-#, fuzzy
 msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "der Name S3 Bucket für den Upload-Service (normalerweise nur während der Konfiguration erforderlich)"
+msgstr ""
+"der Name vom S3 Bucket für den Upload-Service (normalerweise nur während der "
+"Konfiguration erforderlich)"
 
 #: motioneye/templates/main.html:556
 msgid "Testi la servon"
