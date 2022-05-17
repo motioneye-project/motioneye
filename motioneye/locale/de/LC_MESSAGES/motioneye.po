@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
 "PO-Revision-Date: 2022-05-17 16:07+0000\n"
-"Last-Translator: areanod <areanod@gmail.com>\n"
+"Last-Translator: Filip Krakowski <krakowski@hhu.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
 "Language: de\n"
@@ -61,7 +61,6 @@ msgid "taskoj komenciĝis"
 msgstr "Aufgaben wurden gestartet"
 
 #: motioneye/server.py:447
-#, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "Der mjpg-Client-Garbage-Collector wurde gestartet"
 
@@ -110,7 +109,6 @@ msgid "Preferoj"
 msgstr "Einstellungen"
 
 #: motioneye/templates/main.html:133
-#, fuzzy
 msgid "Aranĝo Kolumnoj"
 msgstr "Layoutspalten"
 
@@ -134,9 +132,10 @@ msgid "Aranĝo linioj"
 msgstr "Layoutlinien"
 
 #: motioneye/templates/main.html:145
-#, fuzzy
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr "Legt die Anzahl der Zeilen fest, die zum Anordnen der Kameras verwendet werden"
+msgstr ""
+"Legt die Anzahl der Zeilen fest, die zum Anordnen der Kameras verwendet "
+"werden"
 
 #: motioneye/templates/main.html:148
 msgid "kadro-variatoro"
@@ -256,9 +255,10 @@ msgid "Restaŭri"
 msgstr "Wiederherstellen"
 
 #: motioneye/templates/main.html:241
-#, fuzzy
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
-msgstr "stellt die Konfiguration aus einer zuvor gespeicherten Sicherungsdatei wieder her"
+msgstr ""
+"stellt die Konfiguration aus einer zuvor gespeicherten Sicherungsdatei "
+"wieder her"
 
 #: motioneye/templates/main.html:265
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
