@@ -61,7 +61,9 @@ def test_mjpeg_url(
             validate_cert=settings.VALIDATE_CERTS,
         )
 
-        fetch_future = cast_future(AsyncHTTPClient(force_instance=True).fetch(request, raise_error=False))
+        fetch_future = cast_future(
+            AsyncHTTPClient(force_instance=True).fetch(request, raise_error=False)
+        )
         fetch_future.add_done_callback(on_response)
         return fetch_future
 
