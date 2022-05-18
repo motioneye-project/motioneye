@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-07 13:38+0200\n"
-"PO-Revision-Date: 2022-05-17 16:27+0000\n"
+"PO-Revision-Date: 2022-05-18 09:25+0000\n"
 "Last-Translator: Filip Krakowski <krakowski@hhu.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
@@ -1368,8 +1368,8 @@ msgstr "E-Mail-Adressen…"
 #: motioneye/templates/main.html:1058
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
 msgstr ""
-"Hier hinzugefügte kommagetrennte E-Mail-Adressen erhalten Benachrichtigungen "
-"bei einem Bewegungsereignis."
+"Hier hinzugefügte (durch Kommata getrennte) E-Mail-Adressen erhalten nach "
+"jedem Bewegungsereignis eine Benachrichtigungen."
 
 #: motioneye/templates/main.html:1061
 msgid "Servilo SMTP"
@@ -1380,7 +1380,6 @@ msgid "ekz. smtp.gmail.com"
 msgstr "z.B. smtp.gmail.com"
 
 #: motioneye/templates/main.html:1063
-#, fuzzy
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
 msgstr ""
 "Geben Sie den Hostnamen oder die IP-Adresse Ihres SMTP-Servers ein (z.B. "
@@ -1413,9 +1412,8 @@ msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
 msgstr "Geben Sie Ihr SMTP-Konto ein (häufig E-Mail-Adresse)."
 
 #: motioneye/templates/main.html:1076
-#, fuzzy
 msgid "SMTP Pasvorto"
-msgstr "SMTP Authentifizierungspasswort"
+msgstr "SMTP Passwort"
 
 #: motioneye/templates/main.html:1078
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
