@@ -7,16 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-18 18:43+0200\n"
-"PO-Revision-Date: 2022-05-04 15:15+0000\n"
+"POT-Creation-Date: 2022-05-07 13:38+0200\n"
+"PO-Revision-Date: 2022-05-18 16:29+0000\n"
 "Last-Translator: Gustavo Velasco-Hernández <gustavo.velascoh@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/es/>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-python-texts/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.13-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -1142,9 +1143,8 @@ msgid "Porĉiame"
 msgstr "Por siempre"
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
-#, fuzzy
 msgid "Propra"
-msgstr "Propio"
+msgstr "Personalizado"
 
 #: motioneye/templates/main.html:790
 #, fuzzy
