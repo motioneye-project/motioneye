@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-16 11:54+0100\n"
+"POT-Creation-Date: 2022-05-18 18:36+0200\n"
 "PO-Revision-Date: 2022-05-18 00:23+0200\n"
 "Last-Translator: Jose Riha <jose1711@gmail.com>\n"
 "Language-Team: none\n"
@@ -18,559 +18,576 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
 "X-Generator: Poedit 3.0.1\n"
 
-#: static/js/main.js:585
+#: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "špeciálne znaky v hesle nie sú povolené"
 
-#: static/js/main.js:592 static/js/main.js:603 static/js/main.js:669
-#: static/js/ui.js:362 static/js/ui.js:419 static/js/ui.js:687
+#: motioneye/static/js/main.js:613 motioneye/static/js/main.js:624
+#: motioneye/static/js/main.js:683 motioneye/static/js/ui.js:362
+#: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "Toto pole je povinné"
 
-#: static/js/main.js:596
+#: motioneye/static/js/main.js:617
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
 msgstr "špeciálne znaky v názve kamery nie sú povolené"
 
-#: static/js/main.js:608
+#: motioneye/static/js/main.js:629
 msgid "valoro devas esti multoblo de 8"
 msgstr "hodnota musí byť násobkom čísla 8"
 
-#: static/js/main.js:615
+#: motioneye/static/js/main.js:636
 msgid "specialaj signoj ne rajtas en radika voja nomo"
 msgstr "špeciálne znaky v názve koreňového adresára nie sú povolené"
 
-#: static/js/main.js:618
+#: motioneye/static/js/main.js:639
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "súbory nesmú byť vytvorené v koreňovom adresári vášho systému"
 
-#: static/js/main.js:625
+#: motioneye/static/js/main.js:646
 msgid "enigu validan retpoŝtadreson"
 msgstr "zadajte platnú e-mailovú adresu"
 
-#: static/js/main.js:632
+#: motioneye/static/js/main.js:653
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "zadajte zoznam čiarkou oddelených platných e-mailových adries"
 
-#: static/js/main.js:639
+#: motioneye/static/js/main.js:660
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "špeciálne znaky v názve súboru nie sú povolené"
 
-#: static/js/main.js:673
+#: motioneye/static/js/main.js:687
 msgid "enigu validan valoron"
 msgstr "zadajte platnú hodnotu"
 
-#: static/js/main.js:827
+#: motioneye/static/js/main.js:841
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
 msgstr "Toto rekurzívne odstráni všetky existujúce súbory v cloudovom priečinku \""
 
-#: static/js/main.js:828
+#: motioneye/static/js/main.js:842
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
 msgstr "\", nielen tie, ktoré boli nahrané motionEye!"
 
-#: static/js/main.js:909
+#: motioneye/static/js/main.js:923
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
 msgstr "Toto rekurzívne odstráni všetky staré multimediálne súbory v adresári \""
 
-#: static/js/main.js:910
+#: motioneye/static/js/main.js:924
 msgid "\", ne nur tiuj kreitaj de motionEye!"
 msgstr "\", nielen tie, ktoré vytvoril motionEye!"
 
-#: static/js/main.js:976
+#: motioneye/static/js/main.js:990
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
 msgstr "Masku nie je možné upraviť bez platného obrázka z kamery!"
 
-#: static/js/main.js:2193
+#: motioneye/static/js/main.js:2228
 msgid "Propra"
 msgstr "Vlastná"
 
-#: static/js/main.js:2231
+#: motioneye/static/js/main.js:2266
 msgid "Propra dosierindiko"
 msgstr "Vlastná cesta"
 
-#: static/js/main.js:2233
+#: motioneye/static/js/main.js:2268
 msgid "Retan kunlokon"
 msgstr "Sieťové zdieľanie"
 
-#: static/js/main.js:2587
+#: motioneye/static/js/main.js:2628
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
 msgstr "Váš prehliadač neimplementuje túto funkciu!"
 
-#: static/js/main.js:2604
+#: motioneye/static/js/main.js:2644
 msgid "Apliki"
 msgstr "Použiť"
 
-#: static/js/main.js:2631 static/js/main.js:2992 static/js/main.js:3045
-#: static/js/main.js:3120
+#: motioneye/static/js/main.js:2671 motioneye/static/js/main.js:3032
+#: motioneye/static/js/main.js:3087 motioneye/static/js/main.js:3162
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
 msgstr "Skontrolute, či sú všetky nastavenia konfigurácie platné!"
 
-#: static/js/main.js:2733
+#: motioneye/static/js/main.js:2773
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
 msgstr "Týmto reštartujete systém. Pokračovať?"
 
-#: static/js/main.js:2743
+#: motioneye/static/js/main.js:2783
 msgid "Vere fermiti sistemon?"
 msgstr "Naozaj vypnúť?"
 
-#: static/js/main.js:2755
+#: motioneye/static/js/main.js:2795
 msgid "Malŝaltita"
 msgstr "Vypnuté"
 
-#: static/js/main.js:2770
+#: motioneye/static/js/main.js:2810
 msgid "Ĉu vere restartigi ?"
 msgstr "Naozaj reštartovať?"
 
-#: static/js/main.js:2784
+#: motioneye/static/js/main.js:2824
 msgid "La sistemo rekomencis!"
 msgstr "Systém bol reštartovaný!"
 
-#: static/js/main.js:2804 static/js/main.js:2837 static/js/main.js:3815
+#: motioneye/static/js/main.js:2844 motioneye/static/js/main.js:2877
+#: motioneye/static/js/main.js:3857
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
 msgstr "Aplikujte najprv zmenené nastavenia!"
 
-#: static/js/main.js:2809
+#: motioneye/static/js/main.js:2849
 msgid "Neniu fotilo por forigi!"
 msgstr "Neexistuje kamera, ktorú by bolo možné odstrániť!"
 
-#: static/js/main.js:2815
+#: motioneye/static/js/main.js:2855
 msgid "Ĉu forigi kameraon "
 msgstr "Odstrániť kameru "
 
-#: static/js/main.js:2843
+#: motioneye/static/js/main.js:2883
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
 msgstr "motionEye je aktuálny (aktuálna verzia:"
 
-#: static/js/main.js:2846
+#: motioneye/static/js/main.js:2886
 msgid "Nova versio havebla: "
 msgstr "Je dostupná nová verzia: "
 
-#: static/js/main.js:2846
+#: motioneye/static/js/main.js:2886
 msgid ". Ĝisdatigi?"
 msgstr ". Aktualizovať?"
 
-#: static/js/main.js:2854
+#: motioneye/static/js/main.js:2894
 msgid "motionEye estis sukcese ĝisdatigita!"
 msgstr "motionEye bol úspešne aktualizovaný!"
 
-#: static/js/main.js:2864
+#: motioneye/static/js/main.js:2904
 msgid "Ĝisdatigo malsukcesis!"
 msgstr "Aktualizácia skončila s chybou!"
 
-#: static/js/main.js:2875
+#: motioneye/static/js/main.js:2915
 msgid "La ĝisdatiga procezo malsukcesis!"
 msgstr "Proces aktualizácie zlyhal!"
 
-#: static/js/main.js:2894
+#: motioneye/static/js/main.js:2934
 msgid "Rezerva dosiero"
 msgstr "Súbor so zálohou"
 
-#: static/js/main.js:2896
+#: motioneye/static/js/main.js:2936
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
 msgstr "súbor so zálohou, ktorú ste v minulosti uložili."
 
-#: static/js/main.js:2925
+#: motioneye/static/js/main.js:2965
 msgid "Restaŭrigi Agordon"
 msgstr "Obnoviť nastavenia"
 
-#: static/js/main.js:2937
+#: motioneye/static/js/main.js:2977
 msgid "Restaŭriganta agordon ..."
 msgstr "Obnovujem nastavenia…"
 
-#: static/js/main.js:2944
+#: motioneye/static/js/main.js:2984
 msgid "La agordo restaŭrigis!"
 msgstr "Nastavenia boli obnovené zo zálohy!"
 
-#: static/js/main.js:2954 static/js/main.js:2973
+#: motioneye/static/js/main.js:2994 motioneye/static/js/main.js:3013
 msgid "Malsukcesis restaŭri la agordon!"
 msgstr "Nepodarilo sa obnoviť nastavenia!"
 
-#: static/js/main.js:3026
+#: motioneye/static/js/main.js:3068
 msgid "Aliri la alŝutan servon malsukcesis: "
 msgstr "Pokus o prístup k nahrávacej službe skončil s chybou: "
 
-#: static/js/main.js:3029
+#: motioneye/static/js/main.js:3071
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "Komunikácia s nahrávacou službou bola úspešne nadviazaná!"
 
-#: static/js/main.js:3066 static/js/main.js:3069
+#: motioneye/static/js/main.js:3108 motioneye/static/js/main.js:3111
 msgid "Sciiga retpoŝto fiaskis:"
 msgstr "E-mail s upozornením zlyhal:"
 
-#: static/js/main.js:3085
+#: motioneye/static/js/main.js:3127
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
 msgstr "Uistite sa, že všetky nastavenia sú platné!"
 
-#: static/js/main.js:3101
+#: motioneye/static/js/main.js:3143
 msgid "Sciiga Telegramo fiaskis:"
 msgstr "Upozornenie na Telegram skončilo s chybou:"
 
-#: static/js/main.js:3104
+#: motioneye/static/js/main.js:3146
 msgid "Sciiga Telegramo sukcesis!"
 msgstr "Upozornenie na Telegram bolo úspešné!"
 
-#: static/js/main.js:3140
+#: motioneye/static/js/main.js:3182
 msgid "Aliro al retdividado fiaskis: "
 msgstr "Pokus o prístup ku sieťovému zdieľaniu skončil s chybou: "
 
-#: static/js/main.js:3143
+#: motioneye/static/js/main.js:3185
 msgid "Aliro al retdividado sukcesis!"
 msgstr "Komunikácia so sieťovým zdieľaním bola úspešne nadviazaná!"
 
-#: static/js/main.js:3167
+#: motioneye/static/js/main.js:3209
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
 msgstr "Naozaj odstrániť tento súbor?"
 
-#: static/js/main.js:3191
+#: motioneye/static/js/main.js:3233
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
 msgstr "Naozaj odstrániť všetky súbory obrázkov z \"%(group)s\"?"
 
-#: static/js/main.js:3194
+#: motioneye/static/js/main.js:3236
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
 msgstr "Naozaj odstrániť všetky videá z \"%(group)s\"?"
 
-#: static/js/main.js:3199
+#: motioneye/static/js/main.js:3241
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
 msgstr "Naozaj odstrániť všetky nezoskupené obrázky?"
 
-#: static/js/main.js:3202
+#: motioneye/static/js/main.js:3244
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
 msgstr "Naozaj odstrániť všetky nezoskupené videá?"
 
-#: static/js/main.js:3313
+#: motioneye/static/js/main.js:3355
 msgid "aldonadi kameraon..."
 msgstr "pridať kameru..."
 
-#: static/js/main.js:3501
+#: motioneye/static/js/main.js:3543
 msgid "bone"
 msgstr "ok"
 
-#: static/js/main.js:3538 static/js/main.js:3837
+#: motioneye/static/js/main.js:3580 motioneye/static/js/main.js:3879
 msgid "Uzantnomo"
 msgstr "Meno používateľa"
 
-#: static/js/main.js:3543 static/js/main.js:3842
+#: motioneye/static/js/main.js:3585 motioneye/static/js/main.js:3884
 msgid "Pasvorto"
 msgstr "Heslo"
 
-#: static/js/main.js:3549
+#: motioneye/static/js/main.js:3591
 msgid "Memoru min"
 msgstr "Pamätaj si ma"
 
-#: static/js/main.js:3567 static/js/main.js:3573
+#: motioneye/static/js/main.js:3609 motioneye/static/js/main.js:3615
 msgid "Ensaluti"
 msgstr "Prihlásiť"
 
-#: static/js/main.js:3570 static/js/ui.js:1023 static/js/ui.js:1030
+#: motioneye/static/js/main.js:3612 motioneye/static/js/ui.js:1023
+#: motioneye/static/js/ui.js:1030
 msgid "Nuligi"
 msgstr "Zrušiť"
 
-#: static/js/main.js:3612
+#: motioneye/static/js/main.js:3654
 msgid "Vi abortis la filmeton."
 msgstr "Video ste zrušili."
 
-#: static/js/main.js:3615
+#: motioneye/static/js/main.js:3657
 msgid "Reto eraro okazis."
 msgstr "Vyskytol sa problém na sieti."
 
-#: static/js/main.js:3618
+#: motioneye/static/js/main.js:3660
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
 msgstr "Chyba dekódovania multimédia alebo nepodporované vlastnosti súboru."
 
-#: static/js/main.js:3621
+#: motioneye/static/js/main.js:3663
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
 msgstr "Formát nie je podporovaný alebo nie je dostupný/vhodný na prehrávanie."
 
-#: static/js/main.js:3624
+#: motioneye/static/js/main.js:3666
 msgid "Nekonata eraro okazis."
 msgstr "Nastala neznáma chyba."
 
-#: static/js/main.js:3627
+#: motioneye/static/js/main.js:3669
 msgid "Eraro : "
 msgstr "Chyba: "
 
-#: static/js/main.js:3632
+#: motioneye/static/js/main.js:3674
 msgid "antaŭa bildo"
 msgstr "predchádzajúci obrázok"
 
-#: static/js/main.js:3637
+#: motioneye/static/js/main.js:3679
 msgid "ludi"
 msgstr "prehrať"
 
-#: static/js/main.js:3640
+#: motioneye/static/js/main.js:3682
 msgid "ludi * 5 kaj enĉenigi"
 msgstr "prehrať * 5 a zreťaziť"
 
-#: static/js/main.js:3645
+#: motioneye/static/js/main.js:3687
 msgid "sekva bildo"
 msgstr "nasledujúci obrázok"
 
-#: static/js/main.js:3768
+#: motioneye/static/js/main.js:3810
 msgid "Fermi"
 msgstr "Zavrieť"
 
-#: static/js/main.js:3769 static/js/main.js:4330
+#: motioneye/static/js/main.js:3811 motioneye/static/js/main.js:4372
 msgid "Elŝuti"
 msgstr "Stiahnuť"
 
-#: static/js/main.js:3777 static/js/main.js:4333
+#: motioneye/static/js/main.js:3819 motioneye/static/js/main.js:4375
 msgid "Forigi"
 msgstr "Odstrániť"
 
-#: static/js/main.js:3821
+#: motioneye/static/js/main.js:3863
 msgid "Kamerao tipo"
 msgstr "Typ kamery"
 
-#: static/js/main.js:3823
+#: motioneye/static/js/main.js:3865
 msgid "Loka V4L2-kamerao"
 msgstr "Miestna V4L2 kamera"
 
-#: static/js/main.js:3824
+#: motioneye/static/js/main.js:3866
 msgid "Loka MMAL-kamerao"
 msgstr "Miestna MMAL kamera"
 
-#: static/js/main.js:3825
+#: motioneye/static/js/main.js:3867
 msgid "Reta kamerao"
 msgstr "Sieťová kamera"
 
-#: static/js/main.js:3826
+#: motioneye/static/js/main.js:3868
 msgid "Fora motionEye kamerao"
 msgstr "Vzdialená motionEye kamera"
 
-#: static/js/main.js:3827
+#: motioneye/static/js/main.js:3869
 msgid "Simpla MJPEG-kamerao"
 msgstr "Jednoduchá MJPEG kamera"
 
-#: static/js/main.js:3829
+#: motioneye/static/js/main.js:3871
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "typ kamery, ktorú si želáte pridať"
 
-#: static/js/main.js:3832
+#: motioneye/static/js/main.js:3874
 msgid "URL"
 msgstr "URL adresa"
 
-#: static/js/main.js:3833
+#: motioneye/static/js/main.js:3875
 msgid "http://ekzemplo.com:8765/cams/..."
 msgstr "http://priklad.com:8765/cams/..."
 
-#: static/js/main.js:3834
+#: motioneye/static/js/main.js:3876
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
 msgstr "URL adresa kamery (napr. http://priklad.com:8080/cam/)"
 
-#: static/js/main.js:3838
+#: motioneye/static/js/main.js:3880
 msgid "uzantnomo..."
 msgstr "meno používateľa ..."
 
-#: static/js/main.js:3839
+#: motioneye/static/js/main.js:3881
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
 msgstr "meno používateľa pre URL adresu, ak je potrebné jeho zadanie (napr. admin)"
 
-#: static/js/main.js:3843
+#: motioneye/static/js/main.js:3885
 msgid "pasvorto..."
 msgstr "heslo ..."
 
-#: static/js/main.js:3844
+#: motioneye/static/js/main.js:3886
 msgid "la pasvorto por la URL, se bezonata"
 msgstr "heslo pre URL adresau, ak je potrebné"
 
-#: static/js/main.js:3847
+#: motioneye/static/js/main.js:3889
 msgid "Kamerao"
 msgstr "Kamera"
 
-#: static/js/main.js:3849
+#: motioneye/static/js/main.js:3891
 msgid "la kameraon, kiun vi volas aldoni"
 msgstr "kamera, ktorú si želáte pridať"
 
-#: static/js/main.js:3885
+#: motioneye/static/js/main.js:3927
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr "Vzdialené kamery motionEye sú kamery nainštalované na inom serveri motionEye. Ak ich sem pridáte, umožní vám to ich prezeranie a vzdialenú správu."
 
-#: static/js/main.js:3900
+#: motioneye/static/js/main.js:3942
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr "Sieťové kamery (alebo IP kamery) sú zariadenia, ktoré natívne vysielajú prúd RTSP/RTMP alebo MJPEG videá prípadne obyčajné obrázky JPEG. Preštudujte si návod k vášmu zariadeniu, kde nájdete správnu URL adresu pre RTSP, RTMP, MJPEG alebo JPEG."
 
-#: static/js/main.js:3905
+#: motioneye/static/js/main.js:3947
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr "Miestne MMAL kamery sú zariadenia pripojené priamo k vášmu motionEye systému. Zvyčajne to bývajú kamery určené pre konkrétnu dosku/čip."
 
-#: static/js/main.js:3920
+#: motioneye/static/js/main.js:3962
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr "Ak pridáte vaše zariadenie ako jednoduchú MJPEG kameru namiesto sieťovej kamery, dosiahnete tak vyššiu snímkovú frekvenciu, ale nebude možné pre ňu dostupná detekcia pohybu, zachytávanie obrázkov alebo nahrávanie videí. Kamera musí byť dostupná z vášho servera aj webového prehliadača. Tento typ kamery nie je kompatibilný s Internet Explorerom."
 
-#: static/js/main.js:3925
+#: motioneye/static/js/main.js:3967
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr "Miestne V4L2 kamery sú kamerové zariadenia pripojené priamo k vášmu motionEye systému, zvyčajne prostredníctvom USB."
 
-#: static/js/main.js:4076
+#: motioneye/static/js/main.js:4118
 msgid "Aldonadi kameraon..."
 msgstr "Pridať kameru..."
 
-#: static/js/main.js:4148
+#: motioneye/static/js/main.js:4190
 msgid "Grupo"
 msgstr "Skupina"
 
-#: static/js/main.js:4152
+#: motioneye/static/js/main.js:4194
 msgid "Inkluzivi foton prenitan ĉiun"
 msgstr "Zahrnúť obrázok každú/ých"
 
-#: static/js/main.js:4155
+#: motioneye/static/js/main.js:4197
 msgid "sekundo"
 msgstr "sekundu"
 
-#: static/js/main.js:4156
+#: motioneye/static/js/main.js:4198
 msgid "5 sekundoj"
 msgstr "5 sekúnd"
 
-#: static/js/main.js:4157
+#: motioneye/static/js/main.js:4199
 msgid "10 sekundoj"
 msgstr "10 sekúnd"
 
-#: static/js/main.js:4158
+#: motioneye/static/js/main.js:4200
 msgid "30 sekundoj"
 msgstr "30 sekúnd"
 
-#: static/js/main.js:4159
+#: motioneye/static/js/main.js:4201
 msgid "minuto"
 msgstr "minútu"
 
-#: static/js/main.js:4160
+#: motioneye/static/js/main.js:4202
 msgid "5 minutoj"
 msgstr "5 minút"
 
-#: static/js/main.js:4161
+#: motioneye/static/js/main.js:4203
 msgid "10 minutoj"
 msgstr "10 minút"
 
-#: static/js/main.js:4162
+#: motioneye/static/js/main.js:4204
 msgid "30 minutoj"
 msgstr "30 minút"
 
-#: static/js/main.js:4163
+#: motioneye/static/js/main.js:4205
 msgid "horo"
 msgstr "hodinu"
 
-#: static/js/main.js:4166
+#: motioneye/static/js/main.js:4208
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
 msgstr "vyberte časový interval medzi dvoma vybranými obrázkami"
 
-#: static/js/main.js:4169
+#: motioneye/static/js/main.js:4211
 msgid "Filmo framfrekvenco"
 msgstr "Snímková frekvencia videí"
 
-#: static/js/main.js:4171
+#: motioneye/static/js/main.js:4213
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr "vyberte rýchlosť prehrávania časozberného videa"
 
-#: static/js/main.js:4180
+#: motioneye/static/js/main.js:4222
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr "Vzhľadom na veľký počet obrázkov môže vytváranie časozberného video nejaký čas trvať!"
 
-#: static/js/main.js:4197
+#: motioneye/static/js/main.js:4239
 msgid "Krei akselita video"
 msgstr "Vytvoriť časozberné video"
 
-#: static/js/main.js:4206
+#: motioneye/static/js/main.js:4248
 msgid "Filmo kreanta en progreso..."
 msgstr "Vytváram časozberné video…"
 
-#: static/js/main.js:4457
+#: motioneye/static/js/main.js:4499
 msgid "Zipitaj"
 msgstr "ZIP archív"
 
-#: static/js/main.js:4466
+#: motioneye/static/js/main.js:4508
 msgid "Akselita video"
 msgstr "Časozber"
 
-#: static/js/main.js:4477
+#: motioneye/static/js/main.js:4519
 msgid "Forigi ĉiujn"
 msgstr "Odstrániť všetko"
 
-#: static/js/main.js:4619
+#: motioneye/static/js/main.js:4661
 msgid "Bildoj prenitaj de "
 msgstr "Obrázky zachytené kamerou "
 
-#: static/js/main.js:4622
+#: motioneye/static/js/main.js:4664
 msgid "Filmoj registritaj de "
 msgstr "Videá nahrané kamerou "
 
-#: static/js/main.js:4684
-msgid "plena ekrano kamerao"
-msgstr "zapnúť/vypnúť kameru na celú obrazovku"
+#: motioneye/static/js/main.js:4726
+#, fuzzy
+msgid "montru ĉi tiun fotilon plenekranan"
+msgstr "Zobraziť tento fotoaparát plnú -skrutku"
 
-#: static/js/main.js:4685
+#: motioneye/static/js/main.js:4727
+#, fuzzy
+msgid "montri ĉiujn fotilojn"
+msgstr "Zobraziť všetky fotoaparáty"
+
+#: motioneye/static/js/main.js:4728
+#, fuzzy
+msgid "montru nur ĉi tiun fotilon"
+msgstr "Zobraziť iba tento fotoaparát"
+
+#: motioneye/static/js/main.js:4729
 msgid "malfermaj bildoj retumilo"
 msgstr "otvoriť prehliadač obrázkov"
 
-#: static/js/main.js:4686
+#: motioneye/static/js/main.js:4730
 msgid "malferma videoj retumilo"
 msgstr "otvoriť prehliadač videí"
 
-#: static/js/main.js:4687
+#: motioneye/static/js/main.js:4731
 msgid "agordi ĉi tiun kameraon"
 msgstr "nastaviť túto kameru"
 
-#: static/js/main.js:4703
+#: motioneye/static/js/main.js:4747
 msgid "preni instantaron"
 msgstr "vytvoriť snímku"
 
-#: static/js/main.js:5051
+#: motioneye/static/js/main.js:5119
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "Ešte ste nenastavili žiadne kamery. Kliknite sem pre pridanie prvej..."
 
-#: static/js/ui.js:503
+#: motioneye/static/js/ui.js:503
 msgid "enigu pozitivan nombron"
 msgstr "zadajte kladné číslo"
 
-#: static/js/ui.js:505
+#: motioneye/static/js/ui.js:505
 msgid "enigu pozitivan entjeran nombron"
 msgstr "zadajte kladné celé číslo"
 
-#: static/js/ui.js:507
+#: motioneye/static/js/ui.js:507
 msgid "enigu nombron"
 msgstr "zadajte číslo"
 
-#: static/js/ui.js:509
+#: motioneye/static/js/ui.js:509
 msgid "enigu entjeran nombron"
 msgstr "zadajte celé číslo"
 
-#: static/js/ui.js:512
+#: motioneye/static/js/ui.js:512
 msgid " inter "
 msgstr " medzi "
 
-#: static/js/ui.js:512
+#: motioneye/static/js/ui.js:512
 msgid " kaj "
 msgstr " a "
 
-#: static/js/ui.js:515
+#: motioneye/static/js/ui.js:515
 msgid " pli ol "
 msgstr " väčšie ako "
 
-#: static/js/ui.js:520
+#: motioneye/static/js/ui.js:520
 msgid " malpli ol "
 msgstr " menšie ako "
 
-#: static/js/ui.js:573
+#: motioneye/static/js/ui.js:573
 msgid "enigu validan tempon en la sekva formato: HH:MM"
 msgstr "zadajte platný čas vo formáte: HH:MM"
 
-#: static/js/ui.js:630
+#: motioneye/static/js/ui.js:630
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
 msgstr "zadajte platnú URL adresu (napr. http://priklad.com:8080/cams/)"
 
-#: static/js/ui.js:971
+#: motioneye/static/js/ui.js:971
 msgid "fermi"
 msgstr "zavrieť"
 
-#: static/js/ui.js:1017 static/js/ui.js:1024
+#: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
 msgid "Ne"
 msgstr "Nie"
 
-#: static/js/ui.js:1018 static/js/ui.js:1025
+#: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
 msgid "Jes"
 msgstr "Áno"
 
-#: static/js/ui.js:1031 static/js/ui.js:1036
+#: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
 msgid "Bone"
 msgstr "OK"
+
+#~ msgid "plena ekrano kamerao"
+#~ msgstr "zapnúť/vypnúť kameru na celú obrazovku"
 
 #~ msgid "Formato ne subtenata aŭ alimaniere neuzebla / neuzebla por ludado."
 #~ msgstr "Media format unsupported or otherwise unavilable/unsuitable for playing."
