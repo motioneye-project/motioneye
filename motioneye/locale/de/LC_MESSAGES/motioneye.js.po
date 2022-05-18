@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-05 19:03+0200\n"
-"PO-Revision-Date: 2022-05-18 09:25+0000\n"
-"Last-Translator: sf-206 <s.firsching@gmx.net>\n"
+"PO-Revision-Date: 2022-05-20 12:14+0000\n"
+"Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-javascript/de/>\n"
 "Language: de\n"
@@ -42,20 +42,18 @@ msgid "specialaj signoj ne rajtas en radika voja nomo"
 msgstr "Der Verzeichnisname darf keine Sonderzeichen enthalten"
 
 #: motioneye/static/js/main.js:639
-#, fuzzy
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr "Dateien können nicht direkt im Root Ihres Systems erstellt werden"
-"Dateien können nicht direkt im Hauptverzeichnis Ihres Systems erstellt werden"
+msgstr ""
+"Dateien können nicht direkt im Stammverzeichnis Ihres Systems erstellt werden"
 
 #: motioneye/static/js/main.js:646
 msgid "enigu validan retpoŝtadreson"
 msgstr "Geben Sie eine gültige E-Mail-Adresse ein"
 
 #: motioneye/static/js/main.js:653
-#, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr "Geben Sie eine Liste von Koma -separaten gültigen E -Mail -Adressen ein"
-"Geben Sie eine Liste, durch Kommas getrennten, gültigen E-Mail-Adressen ein"
+msgstr ""
+"Geben Sie eine Liste der durch Kommas getrennten gültigen E-Mail-Adressen ein"
 
 #: motioneye/static/js/main.js:660
 msgid "specialaj signoj ne rajtas en dosiernomo"
@@ -389,43 +387,38 @@ msgid "la kameraon, kiun vi volas aldoni"
 msgstr "die Kamera, die Sie hinzufügen möchten"
 
 #: motioneye/static/js/main.js:3927
-#, fuzzy
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
-msgstr "Die FORA MotionEye -Kamera sind Kameras, die hinter einem anderen MotionEye -Server installiert sind. Wenn Sie sie hier hinzufügen, können Sie sie aus der Ferne aussehen und verwalten."
-"Eine Externe MotionEye-Kamera ist eine Kamera, die auf einem anderen "
+msgstr ""
+"Eine Remote-MotionEye-Kamera ist eine Kamera, die auf einem anderen "
 "MotionEye-Server installiert ist. Wenn Sie sie hier hinzufügen, können Sie "
 "diese aus der Ferne betrachten und verwalten."
 
 #: motioneye/static/js/main.js:3942
-#, fuzzy
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
-msgstr "Webkameras (oder IP -Kameras) sind Geräte, die nativ RTSP/RTMP- oder MJPEG -Videos oder einfache JPEG -Bilder fließen. Wenden Sie sich an das Handbuch Ihres Geräts, um die richtige URL RTSP, RTMP, MJPEG oder JPEG herauszufinden."
+msgstr ""
 "Netzwerkkameras (oder IP-Kameras) sind Geräte, die RTSP / RTMP- oder MJPEG-"
 "Videos oder einfache JPEG-Bilder nativ streamen. Informationen zur richtigen "
 "RTSP-, RTMP-, MJPEG- oder JPEG-URL finden Sie im Handbuch Ihres Geräts."
 
 #: motioneye/static/js/main.js:3947
-#, fuzzy
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr "Lokale MMAL -Kameras sind Geräte, die direkt mit Ihrem MotionEye -System verbunden sind. Dies sind normalerweise kartenspezifische Kameras."
+msgstr ""
 "Lokale MMAL-Kameras sind Geräte, die direkt an Ihr motionEye-System "
-"angeschlossen sind. Dies sind üblicherweise plattformabhängige Kameras."
+"angeschlossen sind. Dies sind normalerweise kartenspezifische Kameras."
 
 #: motioneye/static/js/main.js:3962
-#, fuzzy
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
-msgstr "Das Hinzufügen Ihres Geräts als einfache MJPEG -Kamera anstatt wie eine Online -Kamera das Foto verbessert, es werden jedoch keine Bewegungserkennung, Bildaufnahme- oder Aufnahmefilme verfügbar sein. Die Kamera muss für Ihren Server und Ihren Browser zugänglich sein. Diese Art von Kamera stimmt nicht mit dem Internet Explorer überein."
+msgstr ""
 "Wenn Sie Ihr Gerät als einfache MJPEG-Kamera anstelle einer Webkamera "
-"hinzufügen, wird die Bildqualität verbessert, es sind jedoch keine "
-"Bewegungserkennung, Bilderfassung oder Videoaufzeichnung verfügbar. Die "
+"hinzufügen, wird die Fotografie verbessert, es sind jedoch keine "
+"Bewegungserkennung, Bilderfassung oder Filmaufzeichnung verfügbar. Die "
 "Kamera muss für Ihren Server und Ihren Browser zugänglich sein. Dieser "
 "Kameratyp passt nicht zum Internet Explorer."
 
 #: motioneye/static/js/main.js:3967
-#, fuzzy
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
-msgstr "Lokale V4L2 -Kameras sind Kamera -Geräte, die direkt mit Ihrem MotionEye -System verbunden sind, normalerweise über USB."
-"Lokale V4L2-Kameras sind Kamerageräte, die üblicherweise über USB direkt an "
+msgstr ""
+"Lokale V4L2-Kameras sind Kamerageräte, die normalerweise über USB direkt an "
 "Ihr motionEye-System angeschlossen sind."
 
 #: motioneye/static/js/main.js:4118
@@ -489,11 +482,10 @@ msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr "Wählen Sie aus, wie schnell der Zeitraffer wiedergegeben werden soll."
 
 #: motioneye/static/js/main.js:4222
-#, fuzzy
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr "In Anbetracht der großen Anzahl von Bildern könnte das Erstellen Ihres Videos einige Zeit in Anspruch nehmen!"
-"Angesichts der großen Anzahl an Bildern, kann das Erstellen Ihres Videos "
-"einige Zeit in Anspruch nehmen!"
+msgstr ""
+"Angesichts der großen Anzahl von Bildern kann das Erstellen Ihres Videos "
+"einige Zeit dauern!"
 
 #: motioneye/static/js/main.js:4239
 msgid "Krei akselita video"
@@ -552,11 +544,8 @@ msgid "preni instantaron"
 msgstr "Foto erstellen"
 
 #: motioneye/static/js/main.js:5119
-#, fuzzy
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr "Sie haben noch keine Kamera gesetzt. Klicken Sie hier, um einen hinzuzufügen ..."
-"Sie haben noch keine Kamera konfiguriert. Klicken Sie hier, um eine "
-"hinzuzufügen ..."
+msgstr "Sie haben noch keine Kamera konfiguriert. Klicken Sie hier, um eine ..."
 
 #: motioneye/static/js/ui.js:503
 msgid "enigu pozitivan nombron"
