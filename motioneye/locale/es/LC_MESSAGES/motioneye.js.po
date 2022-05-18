@@ -8,14 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-05 19:03+0200\n"
-"PO-Revision-Date: 2020-03-28 18:26+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-05-18 16:29+0000\n"
+"Last-Translator: Gustavo Velasco-Hernández <gustavo.velascoh@gmail.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-javascript/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.13-dev\n"
 
 #: motioneye/static/js/main.js:606
 #, fuzzy
@@ -40,9 +42,8 @@ msgid "valoro devas esti multoblo de 8"
 msgstr "el valor debe ser un múltiplo de 8"
 
 #: motioneye/static/js/main.js:636
-#, fuzzy
 msgid "specialaj signoj ne rajtas en radika voja nomo"
-msgstr "no se permiten caracteres especiales en el nombre de la ruta raíz"
+msgstr "no se permiten caracteres especiales en el nombre del directorio raíz"
 
 #: motioneye/static/js/main.js:639
 #, fuzzy
@@ -80,9 +81,10 @@ msgid "\", ne nur tiuj alŝutitaj de motionEye!"
 msgstr "\", no solo los subidos por motionEye!"
 
 #: motioneye/static/js/main.js:923
-#, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
-msgstr "Esto de forma recursiva eliminará todos los archivos multimedia antiguos en la carpeta \""
+msgstr ""
+"Esto eliminará de forma recursiva todos los archivos multimedia antiguos en "
+"la carpeta \""
 
 #: motioneye/static/js/main.js:924
 #, fuzzy
@@ -95,14 +97,12 @@ msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
 msgstr "¡No se puede editar la máscara sin una imagen de cámara válida!"
 
 #: motioneye/static/js/main.js:2228
-#, fuzzy
 msgid "Propra"
-msgstr "Propio"
+msgstr "Personalizado"
 
 #: motioneye/static/js/main.js:2266
-#, fuzzy
 msgid "Propra dosierindiko"
-msgstr "Nombre de archivo personalizado"
+msgstr "Ruta personalizada"
 
 #: motioneye/static/js/main.js:2268
 #, fuzzy
@@ -110,9 +110,8 @@ msgid "Retan kunlokon"
 msgstr "Comunicación en línea"
 
 #: motioneye/static/js/main.js:2628
-#, fuzzy
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
-msgstr "¡Su navegador no realiza esta característica!"
+msgstr "¡Su navegador no implementa esta función!"
 
 #: motioneye/static/js/main.js:2644
 #, fuzzy
@@ -126,14 +125,12 @@ msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
 msgstr "¡Asegúrese de que todas las opciones de configuración sean válidas!"
 
 #: motioneye/static/js/main.js:2773
-#, fuzzy
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
-msgstr "Esto reiniciará el sistema. Continuar?"
+msgstr "Esto reiniciará el sistema. ¿Continuar?"
 
 #: motioneye/static/js/main.js:2783
-#, fuzzy
 msgid "Vere fermiti sistemon?"
-msgstr "¿Realmente apagó el sistema?"
+msgstr "¿Realmente desea apagar el sistema?"
 
 #: motioneye/static/js/main.js:2795
 #, fuzzy
@@ -141,35 +138,29 @@ msgid "Malŝaltita"
 msgstr "Apagado"
 
 #: motioneye/static/js/main.js:2810
-#, fuzzy
 msgid "Ĉu vere restartigi ?"
-msgstr "¿Realmente reiniciar?"
+msgstr "¿Realmente desea reiniciar?"
 
 #: motioneye/static/js/main.js:2824
-#, fuzzy
 msgid "La sistemo rekomencis!"
-msgstr "¡El sistema se reinició!"
+msgstr "¡El sistema ha sido reiniciado!"
 
 #: motioneye/static/js/main.js:2844 motioneye/static/js/main.js:2877
 #: motioneye/static/js/main.js:3857
-#, fuzzy
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
-msgstr "¡Primero aplique la configuración modificada!"
+msgstr "¡Por favor aplique primero la configuración modificada!"
 
 #: motioneye/static/js/main.js:2849
-#, fuzzy
 msgid "Neniu fotilo por forigi!"
-msgstr "No hay cámara para quitar!"
+msgstr "¡No hay cámara para quitar!"
 
 #: motioneye/static/js/main.js:2855
-#, fuzzy
 msgid "Ĉu forigi kameraon "
-msgstr "Puede quitar la cámara"
+msgstr "Quitar cámara "
 
 #: motioneye/static/js/main.js:2883
-#, fuzzy
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr "motionEye se actualiza (versión actual:"
+msgstr "motionEye está actualizado (versión actual: "
 
 #: motioneye/static/js/main.js:2886
 #, fuzzy
