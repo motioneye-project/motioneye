@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-05 19:03+0200\n"
+"POT-Creation-Date: 2022-05-18 18:43+0200\n"
 "PO-Revision-Date: 2022-05-07 13:40+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
-"Language-Team: French <https://hosted.weblate.org/projects/motioneye-project/"
-"motioneye-python-texts/fr/>\n"
+"Language-Team: French <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -531,7 +530,7 @@ msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr "L'URL complète du point de terminaison du serveur de téléversement :"
 
 #: motioneye/templates/main.html:497
-msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
+msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
 msgstr "Pour S3 : par ex. http://my.minio:9000. Laissez-le vide pour AWS !"
 
 #: motioneye/templates/main.html:498
@@ -1544,6 +1543,9 @@ msgstr "secondes"
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
 msgstr "moins"
+
+#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
+#~ msgstr "Pour S3 : par ex. http://my.minio:9000. Laissez-le vide pour AWS !"
 
 #, fuzzy
 #~ msgid "Endpoint URL"

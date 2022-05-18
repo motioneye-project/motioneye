@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-07 13:38+0200\n"
+"POT-Creation-Date: 2022-05-18 18:43+0200\n"
 "PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/motioneye-project/motioneye/ar/>\n"
@@ -658,8 +658,8 @@ msgstr "عنوان URL الكامل إلى نقطة نهاية خادم التح
 
 #: motioneye/templates/main.html:497
 #, fuzzy
-msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-msgstr "لـ S3: على سبيل المثال http: //my.minio: 9000. اتركه فارغًا لـ AWS!"
+msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
+msgstr "لـ S3: على سبيل المثال http://my.minio:9000. اتركه فارغًا لـ AWS!"
 
 #: motioneye/templates/main.html:498
 #, fuzzy
@@ -1910,6 +1910,10 @@ msgstr "ثواني"
 #, fuzzy
 msgid "minus"
 msgstr "ناقص"
+
+#, fuzzy
+#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
+#~ msgstr "لـ S3: على سبيل المثال http: //my.minio: 9000. اتركه فارغًا لـ AWS!"
 
 #, fuzzy
 #~ msgid "Endpoint URL"

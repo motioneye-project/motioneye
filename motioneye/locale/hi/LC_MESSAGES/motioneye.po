@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-07 13:38+0200\n"
+"POT-Creation-Date: 2022-05-18 18:43+0200\n"
 "PO-Revision-Date: 2022-05-03 15:14+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Hindi <https://hosted.weblate.org/projects/motioneye-project/motioneye/hi/>\n"
@@ -658,8 +658,8 @@ msgstr "अपलोड सर्वर एंडपॉइंट के लि�
 
 #: motioneye/templates/main.html:497
 #, fuzzy
-msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-msgstr "S3 के लिए: उदा। http: //my.minio: 9000। इसे AWS के लिए खाली छोड़ दें!"
+msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
+msgstr "S3 के लिए: उदा। http: /my.minio:9000। इसे AWS के लिए खाली छोड़ दें!"
 
 #: motioneye/templates/main.html:498
 #, fuzzy
@@ -1910,6 +1910,10 @@ msgstr "सेकंड"
 #, fuzzy
 msgid "minus"
 msgstr "ऋण"
+
+#, fuzzy
+#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
+#~ msgstr "S3 के लिए: उदा। http: //my.minio: 9000। इसे AWS के लिए खाली छोड़ दें!"
 
 #, fuzzy
 #~ msgid "Endpoint URL"

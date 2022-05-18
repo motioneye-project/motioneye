@@ -42,8 +42,9 @@ msgid "specialaj signoj ne rajtas en radika voja nomo"
 msgstr "Der Verzeichnisname darf keine Sonderzeichen enthalten"
 
 #: motioneye/static/js/main.js:639
+#, fuzzy
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr ""
+msgstr "Dateien können nicht direkt im Root Ihres Systems erstellt werden"
 "Dateien können nicht direkt im Hauptverzeichnis Ihres Systems erstellt werden"
 
 #: motioneye/static/js/main.js:646
@@ -51,8 +52,9 @@ msgid "enigu validan retpoŝtadreson"
 msgstr "Geben Sie eine gültige E-Mail-Adresse ein"
 
 #: motioneye/static/js/main.js:653
+#, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr ""
+msgstr "Geben Sie eine Liste von Koma -separaten gültigen E -Mail -Adressen ein"
 "Geben Sie eine Liste, durch Kommas getrennten, gültigen E-Mail-Adressen ein"
 
 #: motioneye/static/js/main.js:660
@@ -387,28 +389,32 @@ msgid "la kameraon, kiun vi volas aldoni"
 msgstr "die Kamera, die Sie hinzufügen möchten"
 
 #: motioneye/static/js/main.js:3927
+#, fuzzy
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
-msgstr ""
+msgstr "Die FORA MotionEye -Kamera sind Kameras, die hinter einem anderen MotionEye -Server installiert sind. Wenn Sie sie hier hinzufügen, können Sie sie aus der Ferne aussehen und verwalten."
 "Eine Externe MotionEye-Kamera ist eine Kamera, die auf einem anderen "
 "MotionEye-Server installiert ist. Wenn Sie sie hier hinzufügen, können Sie "
 "diese aus der Ferne betrachten und verwalten."
 
 #: motioneye/static/js/main.js:3942
+#, fuzzy
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
-msgstr ""
+msgstr "Webkameras (oder IP -Kameras) sind Geräte, die nativ RTSP/RTMP- oder MJPEG -Videos oder einfache JPEG -Bilder fließen. Wenden Sie sich an das Handbuch Ihres Geräts, um die richtige URL RTSP, RTMP, MJPEG oder JPEG herauszufinden."
 "Netzwerkkameras (oder IP-Kameras) sind Geräte, die RTSP / RTMP- oder MJPEG-"
 "Videos oder einfache JPEG-Bilder nativ streamen. Informationen zur richtigen "
 "RTSP-, RTMP-, MJPEG- oder JPEG-URL finden Sie im Handbuch Ihres Geräts."
 
 #: motioneye/static/js/main.js:3947
+#, fuzzy
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr ""
+msgstr "Lokale MMAL -Kameras sind Geräte, die direkt mit Ihrem MotionEye -System verbunden sind. Dies sind normalerweise kartenspezifische Kameras."
 "Lokale MMAL-Kameras sind Geräte, die direkt an Ihr motionEye-System "
 "angeschlossen sind. Dies sind üblicherweise plattformabhängige Kameras."
 
 #: motioneye/static/js/main.js:3962
+#, fuzzy
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
-msgstr ""
+msgstr "Das Hinzufügen Ihres Geräts als einfache MJPEG -Kamera anstatt wie eine Online -Kamera das Foto verbessert, es werden jedoch keine Bewegungserkennung, Bildaufnahme- oder Aufnahmefilme verfügbar sein. Die Kamera muss für Ihren Server und Ihren Browser zugänglich sein. Diese Art von Kamera stimmt nicht mit dem Internet Explorer überein."
 "Wenn Sie Ihr Gerät als einfache MJPEG-Kamera anstelle einer Webkamera "
 "hinzufügen, wird die Bildqualität verbessert, es sind jedoch keine "
 "Bewegungserkennung, Bilderfassung oder Videoaufzeichnung verfügbar. Die "
@@ -416,8 +422,9 @@ msgstr ""
 "Kameratyp passt nicht zum Internet Explorer."
 
 #: motioneye/static/js/main.js:3967
+#, fuzzy
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
-msgstr ""
+msgstr "Lokale V4L2 -Kameras sind Kamera -Geräte, die direkt mit Ihrem MotionEye -System verbunden sind, normalerweise über USB."
 "Lokale V4L2-Kameras sind Kamerageräte, die üblicherweise über USB direkt an "
 "Ihr motionEye-System angeschlossen sind."
 
@@ -482,8 +489,9 @@ msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr "Wählen Sie aus, wie schnell der Zeitraffer wiedergegeben werden soll."
 
 #: motioneye/static/js/main.js:4222
+#, fuzzy
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr ""
+msgstr "In Anbetracht der großen Anzahl von Bildern könnte das Erstellen Ihres Videos einige Zeit in Anspruch nehmen!"
 "Angesichts der großen Anzahl an Bildern, kann das Erstellen Ihres Videos "
 "einige Zeit in Anspruch nehmen!"
 
@@ -544,8 +552,9 @@ msgid "preni instantaron"
 msgstr "Foto erstellen"
 
 #: motioneye/static/js/main.js:5119
+#, fuzzy
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr ""
+msgstr "Sie haben noch keine Kamera gesetzt. Klicken Sie hier, um einen hinzuzufügen ..."
 "Sie haben noch keine Kamera konfiguriert. Klicken Sie hier, um eine "
 "hinzuzufügen ..."
 

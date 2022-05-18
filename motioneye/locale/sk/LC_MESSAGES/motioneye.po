@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-18 18:37+0200\n"
+"POT-Creation-Date: 2022-05-18 18:43+0200\n"
 "PO-Revision-Date: 2022-05-18 00:03+0200\n"
 "Last-Translator: Jose Riha <jose1711@gmail.com>\n"
 "Language-Team: sk\n"
@@ -538,8 +538,8 @@ msgstr "Kompletná adresa URL na koncový bod servera nahrania:"
 
 #: motioneye/templates/main.html:497
 #, fuzzy
-msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-msgstr "Pre S3: napr. http: //my.minio: 9000. Nechajte to prázdne pre AWS!"
+msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
+msgstr "Pre S3: napr. http://my.minio:9000. Nechajte to prázdne pre AWS!"
 
 #: motioneye/templates/main.html:498
 #, fuzzy
@@ -1562,6 +1562,10 @@ msgstr "sekundy"
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
 msgstr "mínus"
+
+#, fuzzy
+#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
+#~ msgstr "Pre S3: napr. http: //my.minio: 9000. Nechajte to prázdne pre AWS!"
 
 #~ msgid "interrompa signalo ricevita, fermanta ..."
 #~ msgstr "prijatý signál prerušenia, zatváram…"

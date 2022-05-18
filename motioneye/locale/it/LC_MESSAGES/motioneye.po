@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-07 13:38+0200\n"
+"POT-Creation-Date: 2022-05-18 18:43+0200\n"
 "PO-Revision-Date: 2022-05-04 15:15+0000\n"
 "Last-Translator: Filippo Pisano <filippo.pisano@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/it/>\n"
@@ -648,8 +648,8 @@ msgstr "L'URL completo all'endpoint del server di upload:"
 
 #: motioneye/templates/main.html:497
 #, fuzzy
-msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-msgstr "Per S3: ad es. http: //my.minio: 9000. Lascialo vuoto per AWS!"
+msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
+msgstr "Per S3: ad es. http://my.minio:9000. Lascialo vuoto per AWS!"
 
 #: motioneye/templates/main.html:498
 #, fuzzy
@@ -1899,6 +1899,10 @@ msgstr "secondi"
 #, fuzzy
 msgid "minus"
 msgstr "meno"
+
+#, fuzzy
+#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
+#~ msgstr "Per S3: ad es. http: //my.minio: 9000. Lascialo vuoto per AWS!"
 
 #, fuzzy
 #~ msgid "Endpoint URL"

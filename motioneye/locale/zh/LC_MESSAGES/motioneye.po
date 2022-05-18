@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-07 13:38+0200\n"
+"POT-Creation-Date: 2022-05-18 18:43+0200\n"
 "PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/motioneye-project/motioneye/zh_Hans/>\n"
@@ -658,7 +658,7 @@ msgstr "上传服务器端点的完整URL："
 
 #: motioneye/templates/main.html:497
 #, fuzzy
-msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
+msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
 msgstr "对于S3：例如http：//my.minio：9000。将其空白为AWS！"
 
 #: motioneye/templates/main.html:498
@@ -1910,6 +1910,10 @@ msgstr "秒"
 #, fuzzy
 msgid "minus"
 msgstr "减号"
+
+#, fuzzy
+#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
+#~ msgstr "对于S3：例如http：//my.minio：9000。将其空白为AWS！"
 
 #, fuzzy
 #~ msgid "Endpoint URL"

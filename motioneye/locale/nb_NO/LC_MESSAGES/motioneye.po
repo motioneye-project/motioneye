@@ -657,7 +657,7 @@ msgstr "Den komplette URL -en til sluttpunktet for opplasting av serveren:"
 #: motioneye/templates/main.html:497
 #, fuzzy
 msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-msgstr "For S3: f.eks. http: //my.minio: 9000. La det være tomt for AWS!"
+msgstr "For S3: f.eks. http://my.minio:9000. La det være tomt for AWS!"
 
 #: motioneye/templates/main.html:498
 #, fuzzy
