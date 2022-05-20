@@ -6,11 +6,10 @@ Check out the [__wiki__](https://github.com/motioneye-project/motioneye/wiki) fo
 
 From version 0.43, **motioneye** is multilingual :
 
-| supported languages| being translated|
-| :--- | :--- |
-| English            <a href="https://hosted.weblate.org/engage/motioneye-project/en/"><img src="https://hosted.weblate.org/widgets/motioneye-project/en/svg-badge.svg" align=right /></a> | German ( _Deutsch_ )   <a href="https://hosted.weblate.org/engage/motioneye-project/de/"><img src="https://hosted.weblate.org/widgets/motioneye-project/de/svg-badge.svg" align=right /></a> |
-| Esperanto          <a href="https://hosted.weblate.org/engage/motioneye-project/eo/"><img src="https://hosted.weblate.org/widgets/motioneye-project/eo/svg-badge.svg" align=right /></a> | Italian ( _Italiano_ ) <a href="https://hosted.weblate.org/engage/motioneye-project/it/"><img src="https://hosted.weblate.org/widgets/motioneye-project/it/svg-badge.svg" align=right /></a> |
-| French (Français)  <a href="https://hosted.weblate.org/engage/motioneye-project/fr/"><img src="https://hosted.weblate.org/widgets/motioneye-project/fr/svg-badge.svg" align=right /></a> |
+| supported languages| | being translated|
+| :--- | :--- | :--- |
+| English            <a href="https://hosted.weblate.org/engage/motioneye-project/en/"><img src="https://hosted.weblate.org/widgets/motioneye-project/en/svg-badge.svg" align=right /></a> | French (Français)  <a href="https://hosted.weblate.org/engage/motioneye-project/fr/"><img src="https://hosted.weblate.org/widgets/motioneye-project/fr/svg-badge.svg" align=right /></a> | German ( _Deutsch_ )   <a href="https://hosted.weblate.org/engage/motioneye-project/de/"><img src="https://hosted.weblate.org/widgets/motioneye-project/de/svg-badge.svg" align=right /></a> |
+| Esperanto          <a href="https://hosted.weblate.org/engage/motioneye-project/eo/"><img src="https://hosted.weblate.org/widgets/motioneye-project/eo/svg-badge.svg" align=right /></a> | Slovak ( _Slovenčina_ ) <a href="https://hosted.weblate.org/engage/motioneye-project/sk/"><img src="https://hosted.weblate.org/widgets/motioneye-project/sk/svg-badge.svg" align=right /></a> | Italian ( _Italiano_ ) <a href="https://hosted.weblate.org/engage/motioneye-project/it/"><img src="https://hosted.weblate.org/widgets/motioneye-project/it/svg-badge.svg" align=right /></a> |
 
 
 | Machine translated | |
