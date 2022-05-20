@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-18 18:36+0200\n"
-"PO-Revision-Date: 2022-05-18 00:23+0200\n"
+"PO-Revision-Date: 2022-05-20 12:14+0000\n"
 "Last-Translator: Jose Riha <jose1711@gmail.com>\n"
-"Language-Team: none\n"
+"Language-Team: Slovak <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye-javascript/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n>=2 && n<=4 ? 1 : 2);\n"
-"X-Generator: Poedit 3.0.1\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 4.13-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -140,7 +141,7 @@ msgstr "Odstrániť kameru "
 
 #: motioneye/static/js/main.js:2883
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr "motionEye je aktuálny (aktuálna verzia:"
+msgstr "motionEye je aktuálny (aktuálna verzia: "
 
 #: motioneye/static/js/main.js:2886
 msgid "Nova versio havebla: "
@@ -453,7 +454,7 @@ msgstr "hodinu"
 
 #: motioneye/static/js/main.js:4208
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
-msgstr "vyberte časový interval medzi dvoma vybranými obrázkami"
+msgstr "vyberte časový interval medzi dvoma vybranými obrázkami."
 
 #: motioneye/static/js/main.js:4211
 msgid "Filmo framfrekvenco"
@@ -461,7 +462,7 @@ msgstr "Snímková frekvencia videí"
 
 #: motioneye/static/js/main.js:4213
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
-msgstr "vyberte rýchlosť prehrávania časozberného videa"
+msgstr "vyberte rýchlosť prehrávania časozberného videa."
 
 #: motioneye/static/js/main.js:4222
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
@@ -496,19 +497,16 @@ msgid "Filmoj registritaj de "
 msgstr "Videá nahrané kamerou "
 
 #: motioneye/static/js/main.js:4726
-#, fuzzy
 msgid "montru ĉi tiun fotilon plenekranan"
-msgstr "Zobraziť tento fotoaparát plnú -skrutku"
+msgstr "Zobraziť túto kameru na celej obrazovke"
 
 #: motioneye/static/js/main.js:4727
-#, fuzzy
 msgid "montri ĉiujn fotilojn"
-msgstr "Zobraziť všetky fotoaparáty"
+msgstr "Zobraziť všetky kamery"
 
 #: motioneye/static/js/main.js:4728
-#, fuzzy
 msgid "montru nur ĉi tiun fotilon"
-msgstr "Zobraziť iba tento fotoaparát"
+msgstr "Zobraziť iba túto kameru"
 
 #: motioneye/static/js/main.js:4729
 msgid "malfermaj bildoj retumilo"

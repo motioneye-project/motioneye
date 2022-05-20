@@ -8,21 +8,21 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-18 18:43+0200\n"
-"PO-Revision-Date: 2022-05-18 00:03+0200\n"
+"PO-Revision-Date: 2022-05-20 12:14+0000\n"
 "Last-Translator: Jose Riha <jose1711@gmail.com>\n"
-"Language-Team: sk\n"
+"Language-Team: Slovak <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye-python-texts/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 4.13-dev\n"
 "Generated-By: Babel 2.6.0\n"
-"X-Generator: Poedit 3.0.1\n"
 
 #: motioneye/server.py:232
-#, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "Prijatý signál prerušenia, uzatváranie ..."
+msgstr "Prijatý signál prerušenia, zatváram…"
 
 #: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
@@ -157,12 +157,10 @@ msgid "Ĝeneralaj Agordoj"
 msgstr "Všeobecné nastavenia"
 
 #: motioneye/templates/main.html:167
-#, fuzzy
 msgid "Lingvo"
 msgstr "Jazyk"
 
 #: motioneye/templates/main.html:173
-#, fuzzy
 msgid "la lingvo de la interfaco (du literoj)"
 msgstr "Jazyk rozhrania (dve písmená)"
 
@@ -269,9 +267,8 @@ msgid "Kamerao Nomo"
 msgstr "Názov kamery"
 
 #: motioneye/templates/main.html:272
-#, fuzzy
 msgid "kameraa nomo…"
-msgstr "Názov fotoaparátu ..."
+msgstr "Názov kamery…"
 
 #: motioneye/templates/main.html:273
 msgid "alias pri ĉi tiu kamera aparato"
@@ -370,9 +367,10 @@ msgid "Ekstraj Elektoj"
 msgstr "Ďalšie voľby"
 
 #: motioneye/templates/main.html:363
-#, fuzzy
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr "Tu môžete pridať všetky ďalšie možnosti pre démon „Motion“ (použite formát „Názov hodnoty“, jedna možnosť na riadok)"
+msgstr ""
+"sem môžete pridať všetky ďalšie voľby pre démon „Motion“ (použite formát „"
+"Názov hodnoty“, jedna možnosť na riadok)"
 
 #: motioneye/templates/main.html:372
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
@@ -527,22 +525,18 @@ msgid "la HTTP-metodo uzi por alŝuti dosierojn"
 msgstr "HTTP metóda, ktorá sa použije pri nahrávaní súborov"
 
 #: motioneye/templates/main.html:494
-#, fuzzy
 msgid "Finpunkto URL"
 msgstr "Koncová adresa URL"
 
 #: motioneye/templates/main.html:496
-#, fuzzy
 msgid "La kompleta URL al la alŝuta servila finpunkto:"
-msgstr "Kompletná adresa URL na koncový bod servera nahrania:"
+msgstr "Kompletná adresa URL koncového bodu upload servera:"
 
 #: motioneye/templates/main.html:497
-#, fuzzy
 msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
-msgstr "Pre S3: napr. http://my.minio:9000. Nechajte to prázdne pre AWS!"
+msgstr "Pre S3: napr. http://my.minio:9000. Nechajte prázdne pre AWS!"
 
 #: motioneye/templates/main.html:498
-#, fuzzy
 msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
 msgstr "Pre WebDav: napr. https://my.cloud/remote.php/dav/files/me/"
 
@@ -595,14 +589,12 @@ msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
 msgstr "kliknite sem a získajte tak autorizačný kľúč služby"
 
 #: motioneye/templates/main.html:540
-#, fuzzy
 msgid "Access Key"
 msgstr "Prístupový kľúč"
 
 #: motioneye/templates/main.html:542
-#, fuzzy
 msgid "The AWS access key used to authenticate with the upload service"
-msgstr "Kľúč AWS Access použitý na autentifikáciu so službou nahrávania"
+msgstr "Prístupový kľúč AWS použitý na autentifikáciu so službou nahrávania"
 
 #: motioneye/templates/main.html:545
 msgid "Sekreta Alira Ŝlosilo"
@@ -672,9 +664,8 @@ msgid "Ordono"
 msgstr "Príkaz"
 
 #: motioneye/templates/main.html:594
-#, fuzzy
 msgid "ordono…"
-msgstr "Objednať ..."
+msgstr "Objednať…"
 
 #: motioneye/templates/main.html:595
 #, python-format
@@ -711,9 +702,8 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra mal
 msgstr "nastaví text zobrazený na videách a obrázkoch v ľavom spodnom rohu"
 
 #: motioneye/templates/main.html:624 motioneye/templates/main.html:641
-#, fuzzy
 msgid "propra teksto…"
-msgstr "Vlastný text ..."
+msgstr "Vlastný text…"
 
 #: motioneye/templates/main.html:625
 #, python-format
@@ -846,9 +836,8 @@ msgid "Nomo Bildo-Dosiero"
 msgstr "Názov súboru s obrázkom"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
-#, fuzzy
 msgid "dosiernomo ŝablono…"
-msgstr "Šablóna názvu súboru ..."
+msgstr "Šablóna názvu súboru…"
 
 #: motioneye/templates/main.html:749
 #, python-format
@@ -1232,9 +1221,8 @@ msgid "Retpoŝtadresoj"
 msgstr "E-mailové adresy"
 
 #: motioneye/templates/main.html:1057
-#, fuzzy
 msgid "retpoŝtadresoj…"
-msgstr "Emailové adresy ..."
+msgstr "Emailové adresy…"
 
 #: motioneye/templates/main.html:1058
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
@@ -1269,9 +1257,8 @@ msgid "SMTP-Konto"
 msgstr "Účet SMTP"
 
 #: motioneye/templates/main.html:1072
-#, fuzzy
 msgid "konto@gmail.com…"
-msgstr "účtov@gmail.com…"
+msgstr "ucet@gmail.com…"
 
 #: motioneye/templates/main.html:1073
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
@@ -1290,9 +1277,8 @@ msgid "De adreso"
 msgstr "Adresa odosielateľa (From)"
 
 #: motioneye/templates/main.html:1082
-#, fuzzy
 msgid "retpoŝta adreso…"
-msgstr "Emailová adresa ..."
+msgstr "Emailová adresa…"
 
 #: motioneye/templates/main.html:1083
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
@@ -1405,9 +1391,8 @@ msgid "Komando"
 msgstr "Príkaz"
 
 #: motioneye/templates/main.html:1162 motioneye/templates/main.html:1207
-#, fuzzy
 msgid "komando…"
-msgstr "Velenie ..."
+msgstr "príkaz…"
 
 #: motioneye/templates/main.html:1163
 #, python-format
