@@ -1028,6 +1028,8 @@ function addVideoControl(name, min, max, step) {
     });
 
     title = title.substr(0, 1).toUpperCase() + title.substr(1);
+    /* translate name. See v4l2.js for original texts */
+    title = i18n.gettext(title);
 
     controlLabel.text(title);
 
