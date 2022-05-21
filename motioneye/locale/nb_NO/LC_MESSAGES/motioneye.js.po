@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-21 12:17+0200\n"
+"POT-Creation-Date: 2022-05-21 14:55+0200\n"
 "PO-Revision-Date: 2022-05-05 19:03+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -722,117 +722,117 @@ msgstr "Ja"
 msgid "Bone"
 msgstr "Ok"
 
-#: motioneye/static/js/v4l2.js:4
+#: l10n/v4l2.js:4
 #, fuzzy
 msgid "Auto Exposure"
 msgstr "Autoeksponering"
 
-#: motioneye/static/js/v4l2.js:5
+#: l10n/v4l2.js:5
 #, fuzzy
 msgid "Backlight Compensation"
 msgstr "Bakliggende kompensasjon"
 
-#: motioneye/static/js/v4l2.js:6
+#: l10n/v4l2.js:6
 #, fuzzy
 msgid "Brightness"
 msgstr "Lysstyrke"
 
-#: motioneye/static/js/v4l2.js:7
+#: l10n/v4l2.js:7
 #, fuzzy
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: motioneye/static/js/v4l2.js:8
+#: l10n/v4l2.js:8
 #, fuzzy
 msgid "Exposure Absolute"
 msgstr "Eksponering absolutt"
 
-#: motioneye/static/js/v4l2.js:9
+#: l10n/v4l2.js:9
 #, fuzzy
 msgid "Exposure Auto"
 msgstr "Eksponering Auto"
 
-#: motioneye/static/js/v4l2.js:10
+#: l10n/v4l2.js:10
 #, fuzzy
 msgid "Exposure Auto Priority"
 msgstr "Eksponering Auto -prioritet"
 
-#: motioneye/static/js/v4l2.js:11
+#: l10n/v4l2.js:11
 #, fuzzy
 msgid "Exposure Time Absolute"
 msgstr "Eksponeringstid absolutt"
 
-#: motioneye/static/js/v4l2.js:12
+#: l10n/v4l2.js:12
 #, fuzzy
 msgid "Focus Absolute"
 msgstr "Fokuser absolutt"
 
-#: motioneye/static/js/v4l2.js:13
+#: l10n/v4l2.js:13
 #, fuzzy
 msgid "Focus Auto"
 msgstr "Fokus Auto"
 
-#: motioneye/static/js/v4l2.js:14
+#: l10n/v4l2.js:14
 #, fuzzy
 msgid "Gain"
 msgstr "Gevinst"
 
-#: motioneye/static/js/v4l2.js:15
+#: l10n/v4l2.js:15
 #, fuzzy
 msgid "Gamma"
 msgstr "Gamma"
 
-#: motioneye/static/js/v4l2.js:16
+#: l10n/v4l2.js:16
 #, fuzzy
 msgid "Hue"
 msgstr "Fargetone"
 
-#: motioneye/static/js/v4l2.js:17
+#: l10n/v4l2.js:17
 #, fuzzy
 msgid "Led1 Mode"
 msgstr "LED1 -modus"
 
-#: motioneye/static/js/v4l2.js:18
+#: l10n/v4l2.js:18
 #, fuzzy
 msgid "Led1 Frequency"
 msgstr "LED1 -frekvens"
 
-#: motioneye/static/js/v4l2.js:19
+#: l10n/v4l2.js:19
 #, fuzzy
 msgid "Pan Absolute"
 msgstr "Pan absolutt"
 
-#: motioneye/static/js/v4l2.js:20
+#: l10n/v4l2.js:20
 #, fuzzy
 msgid "Power Line Frequency"
 msgstr "Strømfrekvens"
 
-#: motioneye/static/js/v4l2.js:21
+#: l10n/v4l2.js:21
 #, fuzzy
 msgid "Saturation"
 msgstr "Metning"
 
-#: motioneye/static/js/v4l2.js:22
+#: l10n/v4l2.js:22
 #, fuzzy
 msgid "Sharpness"
 msgstr "Skarphet"
 
-#: motioneye/static/js/v4l2.js:23
+#: l10n/v4l2.js:23
 #, fuzzy
 msgid "Tilt Absolute"
 msgstr "Vippe absolutt"
 
-#: motioneye/static/js/v4l2.js:24
+#: l10n/v4l2.js:24
 #, fuzzy
 msgid "White Balance Temperature"
 msgstr "Hvitbalansetemperatur"
 
-#: motioneye/static/js/v4l2.js:25
+#: l10n/v4l2.js:25
 #, fuzzy
 msgid "White Balance Temperature Auto"
 msgstr "Hvitbalanse temperatur auto"
 
-#: motioneye/static/js/v4l2.js:26
+#: l10n/v4l2.js:26
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "Zoom absolutt"

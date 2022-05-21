@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-21 12:17+0200\n"
+"POT-Creation-Date: 2022-05-21 14:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -582,94 +582,94 @@ msgstr ""
 msgid "Bone"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:4
+#: l10n/v4l2.js:4
 msgid "Auto Exposure"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:5
+#: l10n/v4l2.js:5
 msgid "Backlight Compensation"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:6
+#: l10n/v4l2.js:6
 msgid "Brightness"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:7
+#: l10n/v4l2.js:7
 msgid "Contrast"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:8
+#: l10n/v4l2.js:8
 msgid "Exposure Absolute"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:9
+#: l10n/v4l2.js:9
 msgid "Exposure Auto"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:10
+#: l10n/v4l2.js:10
 msgid "Exposure Auto Priority"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:11
+#: l10n/v4l2.js:11
 msgid "Exposure Time Absolute"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:12
+#: l10n/v4l2.js:12
 msgid "Focus Absolute"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:13
+#: l10n/v4l2.js:13
 msgid "Focus Auto"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:14
+#: l10n/v4l2.js:14
 msgid "Gain"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:15
+#: l10n/v4l2.js:15
 msgid "Gamma"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:16
+#: l10n/v4l2.js:16
 msgid "Hue"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:17
+#: l10n/v4l2.js:17
 msgid "Led1 Mode"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:18
+#: l10n/v4l2.js:18
 msgid "Led1 Frequency"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:19
+#: l10n/v4l2.js:19
 msgid "Pan Absolute"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:20
+#: l10n/v4l2.js:20
 msgid "Power Line Frequency"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:21
+#: l10n/v4l2.js:21
 msgid "Saturation"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:22
+#: l10n/v4l2.js:22
 msgid "Sharpness"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:23
+#: l10n/v4l2.js:23
 msgid "Tilt Absolute"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:24
+#: l10n/v4l2.js:24
 msgid "White Balance Temperature"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:25
+#: l10n/v4l2.js:25
 msgid "White Balance Temperature Auto"
 msgstr ""
 
-#: motioneye/static/js/v4l2.js:26
+#: l10n/v4l2.js:26
 msgid "Zoom Absolute"
 msgstr ""

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-21 12:17+0200\n"
+"POT-Creation-Date: 2022-05-21 14:55+0200\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -721,117 +721,117 @@ msgstr "হাঁ"
 msgid "Bone"
 msgstr "ভাল"
 
-#: motioneye/static/js/v4l2.js:4
+#: l10n/v4l2.js:4
 #, fuzzy
 msgid "Auto Exposure"
 msgstr "অটো এক্সপোজার"
 
-#: motioneye/static/js/v4l2.js:5
+#: l10n/v4l2.js:5
 #, fuzzy
 msgid "Backlight Compensation"
 msgstr "ব্যাকলাইট ক্ষতিপূরণ"
 
-#: motioneye/static/js/v4l2.js:6
+#: l10n/v4l2.js:6
 #, fuzzy
 msgid "Brightness"
 msgstr "উজ্জ্বলতা"
 
-#: motioneye/static/js/v4l2.js:7
+#: l10n/v4l2.js:7
 #, fuzzy
 msgid "Contrast"
 msgstr "বিপরীতে"
 
-#: motioneye/static/js/v4l2.js:8
+#: l10n/v4l2.js:8
 #, fuzzy
 msgid "Exposure Absolute"
 msgstr "একেবারে এক্সপোজার"
 
-#: motioneye/static/js/v4l2.js:9
+#: l10n/v4l2.js:9
 #, fuzzy
 msgid "Exposure Auto"
 msgstr "এক্সপোজার অটো"
 
-#: motioneye/static/js/v4l2.js:10
+#: l10n/v4l2.js:10
 #, fuzzy
 msgid "Exposure Auto Priority"
 msgstr "এক্সপোজার অটো অগ্রাধিকার"
 
-#: motioneye/static/js/v4l2.js:11
+#: l10n/v4l2.js:11
 #, fuzzy
 msgid "Exposure Time Absolute"
 msgstr "এক্সপোজার সময় একেবারে"
 
-#: motioneye/static/js/v4l2.js:12
+#: l10n/v4l2.js:12
 #, fuzzy
 msgid "Focus Absolute"
 msgstr "একেবারে ফোকাস"
 
-#: motioneye/static/js/v4l2.js:13
+#: l10n/v4l2.js:13
 #, fuzzy
 msgid "Focus Auto"
 msgstr "ফোকাস অটো"
 
-#: motioneye/static/js/v4l2.js:14
+#: l10n/v4l2.js:14
 #, fuzzy
 msgid "Gain"
 msgstr "লাভ করা"
 
-#: motioneye/static/js/v4l2.js:15
+#: l10n/v4l2.js:15
 #, fuzzy
 msgid "Gamma"
 msgstr "গামা"
 
-#: motioneye/static/js/v4l2.js:16
+#: l10n/v4l2.js:16
 #, fuzzy
 msgid "Hue"
 msgstr "হিউ"
 
-#: motioneye/static/js/v4l2.js:17
+#: l10n/v4l2.js:17
 #, fuzzy
 msgid "Led1 Mode"
 msgstr "LED1 মোড"
 
-#: motioneye/static/js/v4l2.js:18
+#: l10n/v4l2.js:18
 #, fuzzy
 msgid "Led1 Frequency"
 msgstr "এলইডি 1 ফ্রিকোয়েন্সি"
 
-#: motioneye/static/js/v4l2.js:19
+#: l10n/v4l2.js:19
 #, fuzzy
 msgid "Pan Absolute"
 msgstr "একেবারে প্যান"
 
-#: motioneye/static/js/v4l2.js:20
+#: l10n/v4l2.js:20
 #, fuzzy
 msgid "Power Line Frequency"
 msgstr "পাওয়ার লাইন ফ্রিকোয়েন্সি"
 
-#: motioneye/static/js/v4l2.js:21
+#: l10n/v4l2.js:21
 #, fuzzy
 msgid "Saturation"
 msgstr "স্যাচুরেশন"
 
-#: motioneye/static/js/v4l2.js:22
+#: l10n/v4l2.js:22
 #, fuzzy
 msgid "Sharpness"
 msgstr "তীক্ষ্ণতা"
 
-#: motioneye/static/js/v4l2.js:23
+#: l10n/v4l2.js:23
 #, fuzzy
 msgid "Tilt Absolute"
 msgstr "একেবারে কাত"
 
-#: motioneye/static/js/v4l2.js:24
+#: l10n/v4l2.js:24
 #, fuzzy
 msgid "White Balance Temperature"
 msgstr "সাদা ভারসাম্য তাপমাত্রা"
 
-#: motioneye/static/js/v4l2.js:25
+#: l10n/v4l2.js:25
 #, fuzzy
 msgid "White Balance Temperature Auto"
 msgstr "সাদা ভারসাম্য তাপমাত্রা অটো"
 
-#: motioneye/static/js/v4l2.js:26
+#: l10n/v4l2.js:26
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "একেবারে জুম"

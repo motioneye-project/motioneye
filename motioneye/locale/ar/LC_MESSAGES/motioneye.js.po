@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-21 12:17+0200\n"
+"POT-Creation-Date: 2022-05-21 14:55+0200\n"
 "PO-Revision-Date: 2020-02-11 22:23+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -721,117 +721,117 @@ msgstr "نعم"
 msgid "Bone"
 msgstr "حسنًا"
 
-#: motioneye/static/js/v4l2.js:4
+#: l10n/v4l2.js:4
 #, fuzzy
 msgid "Auto Exposure"
 msgstr "التعرض التلقائي"
 
-#: motioneye/static/js/v4l2.js:5
+#: l10n/v4l2.js:5
 #, fuzzy
 msgid "Backlight Compensation"
 msgstr "وتعويض الإضاءة الخلفية"
 
-#: motioneye/static/js/v4l2.js:6
+#: l10n/v4l2.js:6
 #, fuzzy
 msgid "Brightness"
 msgstr "سطوع"
 
-#: motioneye/static/js/v4l2.js:7
+#: l10n/v4l2.js:7
 #, fuzzy
 msgid "Contrast"
 msgstr "التباين"
 
-#: motioneye/static/js/v4l2.js:8
+#: l10n/v4l2.js:8
 #, fuzzy
 msgid "Exposure Absolute"
 msgstr "التعرض بالتأكيد"
 
-#: motioneye/static/js/v4l2.js:9
+#: l10n/v4l2.js:9
 #, fuzzy
 msgid "Exposure Auto"
 msgstr "التعرض التلقائي"
 
-#: motioneye/static/js/v4l2.js:10
+#: l10n/v4l2.js:10
 #, fuzzy
 msgid "Exposure Auto Priority"
 msgstr "تعرض أولوية السيارات"
 
-#: motioneye/static/js/v4l2.js:11
+#: l10n/v4l2.js:11
 #, fuzzy
 msgid "Exposure Time Absolute"
 msgstr "وقت التعرض بالتأكيد"
 
-#: motioneye/static/js/v4l2.js:12
+#: l10n/v4l2.js:12
 #, fuzzy
 msgid "Focus Absolute"
 msgstr "ركز تماما"
 
-#: motioneye/static/js/v4l2.js:13
+#: l10n/v4l2.js:13
 #, fuzzy
 msgid "Focus Auto"
 msgstr "التركيز التلقائي"
 
-#: motioneye/static/js/v4l2.js:14
+#: l10n/v4l2.js:14
 #, fuzzy
 msgid "Gain"
 msgstr "ربح"
 
-#: motioneye/static/js/v4l2.js:15
+#: l10n/v4l2.js:15
 #, fuzzy
 msgid "Gamma"
 msgstr "جاما"
 
-#: motioneye/static/js/v4l2.js:16
+#: l10n/v4l2.js:16
 #, fuzzy
 msgid "Hue"
 msgstr "مسحة"
 
-#: motioneye/static/js/v4l2.js:17
+#: l10n/v4l2.js:17
 #, fuzzy
 msgid "Led1 Mode"
 msgstr "وضع LED1"
 
-#: motioneye/static/js/v4l2.js:18
+#: l10n/v4l2.js:18
 #, fuzzy
 msgid "Led1 Frequency"
 msgstr "تردد LED1"
 
-#: motioneye/static/js/v4l2.js:19
+#: l10n/v4l2.js:19
 #, fuzzy
 msgid "Pan Absolute"
 msgstr "عموم بالتأكيد"
 
-#: motioneye/static/js/v4l2.js:20
+#: l10n/v4l2.js:20
 #, fuzzy
 msgid "Power Line Frequency"
 msgstr "تردد خط الطاقة"
 
-#: motioneye/static/js/v4l2.js:21
+#: l10n/v4l2.js:21
 #, fuzzy
 msgid "Saturation"
 msgstr "التشبع"
 
-#: motioneye/static/js/v4l2.js:22
+#: l10n/v4l2.js:22
 #, fuzzy
 msgid "Sharpness"
 msgstr "حدة"
 
-#: motioneye/static/js/v4l2.js:23
+#: l10n/v4l2.js:23
 #, fuzzy
 msgid "Tilt Absolute"
 msgstr "إمالة تماما"
 
-#: motioneye/static/js/v4l2.js:24
+#: l10n/v4l2.js:24
 #, fuzzy
 msgid "White Balance Temperature"
 msgstr "درجة حرارة التوازن الأبيض"
 
-#: motioneye/static/js/v4l2.js:25
+#: l10n/v4l2.js:25
 #, fuzzy
 msgid "White Balance Temperature Auto"
 msgstr "وايت توازن درجة حرارة السيارات"
 
-#: motioneye/static/js/v4l2.js:26
+#: l10n/v4l2.js:26
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "تكبير بالتأكيد"
