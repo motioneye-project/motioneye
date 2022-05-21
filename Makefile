@@ -1,6 +1,6 @@
 
-all: motioneye/locale/??/LC_MESSAGES/motioneye.mo \
-	motioneye/static/js/motioneye.??.json
+all: motioneye/locale/*/LC_MESSAGES/motioneye.mo \
+	motioneye/static/js/motioneye.*.json
 
 %.mo: %.po
 	msgfmt -f $*.po -o $*.mo
