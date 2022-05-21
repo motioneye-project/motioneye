@@ -367,8 +367,9 @@ msgid "Ekstraj Elektoj"
 msgstr "Ďalšie voľby"
 
 #: motioneye/templates/main.html:363
+#, fuzzy
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr ""
+msgstr "Tu môžete pridať všetky ďalšie možnosti pre démon „Motion“ (použite formát „Názov hodnoty“, jedna možnosť na riadok)"
 "sem môžete pridať všetky ďalšie voľby pre démon „Motion“ (použite formát „"
 "Názov hodnoty“, jedna možnosť na riadok)"
 

@@ -1,6 +1,6 @@
 
-all: motioneye/locale/??/LC_MESSAGES/motioneye.mo \
-	motioneye/static/js/motioneye.??.json
+all: motioneye/locale/*/LC_MESSAGES/motioneye.mo \
+	motioneye/static/js/motioneye.*.json
 
 %.mo: %.po
 	msgfmt -f $*.po -o $*.mo
@@ -16,8 +16,8 @@ motioneye/static/js/motioneye.%.json : motioneye/locale/%/LC_MESSAGES/motioneye.
 	msgmerge --no-wrap -N -U $@ $<
 	l10n/traduki_po.sh $@
 
-motioneye/locale/motioneye.js.pot : motioneye/static/js/*.js
-	xgettext --from-code=UTF-8 --no-wrap -o motioneye/locale/motioneye.js.pot motioneye/static/js/*.js
+motioneye/locale/motioneye.js.pot : motioneye/static/js/*.js l10n/*.js
+	xgettext --from-code=UTF-8 --no-wrap -o motioneye/locale/motioneye.js.pot motioneye/static/js/*.js l10n/*.js
 
 motioneye/locale/motioneye.pot : motioneye/*.py motioneye/templates/*.html
 	pybabel extract -F l10n/babel.cfg -o motioneye/locale/motioneye.pot motioneye/

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-05 19:03+0200\n"
+"POT-Creation-Date: 2022-05-18 18:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -646,18 +646,18 @@ msgstr "HTTP -metoden som skal brukes til å laste opp filer"
 
 #: motioneye/templates/main.html:494
 #, fuzzy
-msgid "Endpoint URL"
+msgid "Finpunkto URL"
 msgstr "Endepunkt url"
 
 #: motioneye/templates/main.html:496
 #, fuzzy
-msgid "The complete URL to the upload server endpoint:"
+msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr "Den komplette URL -en til sluttpunktet for opplasting av serveren:"
 
 #: motioneye/templates/main.html:497
 #, fuzzy
-msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-msgstr "For S3: f.eks. http://my.minio:9000. La det være tomt for AWS!"
+msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
+msgstr "For S3: f.eks. http: //my.minio: 9000. La det være tomt for AWS!"
 
 #: motioneye/templates/main.html:498
 #, fuzzy
@@ -786,8 +786,7 @@ msgid "ekz. http://example.com/notify/"
 msgstr "f.eks. http://example.com/notify/"
 
 #: motioneye/templates/main.html:570
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL for å overføre når bevegelse oppdages; Følgende spesielle snarveier aksepteres: %% y = år, %% m = måned, %% d = dag, %% h = time, %% m = minutt, %% s = sekund, %% Q = ramme nummer, %% v = hendelsesnummer, %% f = fil måte"
 
@@ -823,8 +822,7 @@ msgid "ordono…"
 msgstr "Rekkefølge ..."
 
 #: motioneye/templates/main.html:595
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
 msgstr "Kommando som skal oppnås etter opprettelsen av en multimediafil. Flere kommandoer kan skilles med et punktnavn; Ikke bruk et poengnavn i kommandoer; Følgende spesielle symboler er akseptert: %% y = år, %% m = måned, %% d = dag, %% h = time, %% m = minutt, %% s = sekund, %% Q = rammetall, %% V = sporadisk antall, %% f = fil måte"
 
@@ -1033,12 +1031,11 @@ msgstr "Navn bildefil"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
 #, fuzzy
-msgid "ŝablona nomo de dosiero…"
-msgstr "Mal navn på en fil ..."
+msgid "dosiernomo ŝablono…"
+msgstr "Filnavn mal ..."
 
 #: motioneye/templates/main.html:749
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "Definerer navnemalen for bildefiler (JPEG); Følgende spesielle symboler er akseptert: %% y = år, %% m = måned, %% d = dag, %% h = time, %% m = minutt, %% s = sekund, %% Q = rammetall, %% v = hendelsesnummer, / = underkatalog."
 
@@ -1199,8 +1196,7 @@ msgid "Filma Dosiernomo"
 msgstr "Filmfilnavn"
 
 #: motioneye/templates/main.html:818
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "Definerer navnemalen for filmfilene; Følgende spesielle symboler er akseptert: %% y = år, %% m = måned, %% d = dag, %% h = time, %% m = minutt, %% s = sekund, %% Q = rammetall, %% v = hendelsesnummer, / = underkatalog."
 
@@ -1350,8 +1346,7 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Påvisning av lysendringer"
 
 #: motioneye/templates/main.html:951
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
 msgstr "Definerer prosentandelen av bildet som må endres slik at hendelsen blir behandlet som en plutselig lysendring i stedet for bevegelse (0 %% forhindrer funksjonen)."
 
@@ -1697,8 +1692,7 @@ msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "f.eks. http://ekzemplo.com/sciigi/"
 
 #: motioneye/templates/main.html:1138
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "URL som skal forespørres når bevegelse oppdages; Følgende spesielle snarveier aksepteres: %% y = år, %% m = måned, %% d = dag, %% h = time, %% m = minutt, %% s = sekund, %% Q = ramme nummer, %% V = sporadisk tall"
 
@@ -1728,8 +1722,7 @@ msgid "komando…"
 msgstr "Kommando ..."
 
 #: motioneye/templates/main.html:1163
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "Kommando som skal lanseres når bevegelse oppdages; Tallrike kommandoer kan skilles med en kolon; Ikke bruk semikoloner med kommandoer; Følgende spesielle symboler er akseptert: %% y = år, %% m = måned, %% d = dag, %% h = time, %% m = minutt, %% s = sekund, %% Q = rammetall , %% V = sporadisk tall"
 
@@ -1739,8 +1732,7 @@ msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento 
 msgstr "Aktiver dette hvis du vil starte en kommando hver gang en bevegelseshendelse er over."
 
 #: motioneye/templates/main.html:1208
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "Kommando som skal lanseres når en bevegelseshendelse avsluttes; Tallrike kommandoer kan skilles med en kolon; Ikke bruk punktforbindelser med kommandoer; Følgende spesielle symboler aksepteres: %% y = år, %% m = måned, %% d = dato, %% h = time, %% m = minutt, %% s = sekund, %% Q = ramme nummer."
 
@@ -1918,3 +1910,19 @@ msgstr "Sekunder"
 #, fuzzy
 msgid "minus"
 msgstr "minus"
+
+#, fuzzy
+#~ msgid "Endpoint URL"
+#~ msgstr "Endepunkt url"
+
+#, fuzzy
+#~ msgid "The complete URL to the upload server endpoint:"
+#~ msgstr "Den komplette URL -en til sluttpunktet for opplasting av serveren:"
+
+#, fuzzy
+#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
+#~ msgstr "For S3: f.eks. http://my.minio:9000. La det være tomt for AWS!"
+
+#, fuzzy
+#~ msgid "ŝablona nomo de dosiero…"
+#~ msgstr "Mal navn på en fil ..."
