@@ -8,9 +8,10 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2022-05-20 12:14+0000\n"
+"PO-Revision-Date: 2022-05-22 13:34+0000\n"
 "Last-Translator: Jose Riha <jose1711@gmail.com>\n"
-"Language-Team: Slovak <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/sk/>\n"
+"Language-Team: Slovak <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye-javascript/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -584,119 +585,96 @@ msgid "Bone"
 msgstr "OK"
 
 #: l10n/v4l2.js:4
-#, fuzzy
 msgid "Auto Exposure"
-msgstr "Expozícia"
+msgstr "Automatická expozícia"
 
 #: l10n/v4l2.js:5
-#, fuzzy
 msgid "Backlight Compensation"
 msgstr "Kompenzácia podsvietenia"
 
 #: l10n/v4l2.js:6
-#, fuzzy
 msgid "Brightness"
 msgstr "Jas"
 
 #: l10n/v4l2.js:7
-#, fuzzy
 msgid "Contrast"
 msgstr "Kontrast"
 
 #: l10n/v4l2.js:8
-#, fuzzy
 msgid "Exposure Absolute"
-msgstr "Expozícia absolútne"
+msgstr "Absolútna expozícia"
 
 #: l10n/v4l2.js:9
-#, fuzzy
 msgid "Exposure Auto"
-msgstr "Expozícia"
+msgstr "Automatická expozícia"
 
 #: l10n/v4l2.js:10
-#, fuzzy
 msgid "Exposure Auto Priority"
-msgstr "Expozícia automatická priorita"
+msgstr "Automatická priorita expozície"
 
 #: l10n/v4l2.js:11
-#, fuzzy
 msgid "Exposure Time Absolute"
-msgstr "Čas expozície absolútne"
+msgstr "Absolútny čas expozície"
 
 #: l10n/v4l2.js:12
-#, fuzzy
 msgid "Focus Absolute"
-msgstr "Zamerajte sa"
+msgstr "Absolútny fokus"
 
 #: l10n/v4l2.js:13
-#, fuzzy
 msgid "Focus Auto"
-msgstr "Zaostriť"
+msgstr "Automatický fokus"
 
 #: l10n/v4l2.js:14
-#, fuzzy
 msgid "Gain"
 msgstr "Zisk"
 
 #: l10n/v4l2.js:15
-#, fuzzy
 msgid "Gamma"
 msgstr "Gamma"
 
 #: l10n/v4l2.js:16
-#, fuzzy
 msgid "Hue"
-msgstr "Odtieň"
+msgstr "Zafarbenie"
 
 #: l10n/v4l2.js:17
-#, fuzzy
 msgid "Led1 Mode"
-msgstr "LED1 režim"
+msgstr "Režim LED1"
 
 #: l10n/v4l2.js:18
-#, fuzzy
 msgid "Led1 Frequency"
 msgstr "Frekvencia LED1"
 
 #: l10n/v4l2.js:19
-#, fuzzy
 msgid "Pan Absolute"
-msgstr "Panvica"
+msgstr "Absolútny posun"
 
 #: l10n/v4l2.js:20
-#, fuzzy
 msgid "Power Line Frequency"
-msgstr "Frekvencia elektrického vedenia"
+msgstr "Frekvencia napätia"
 
 #: l10n/v4l2.js:21
-#, fuzzy
 msgid "Saturation"
-msgstr "Nasýtenie"
+msgstr "Sýtosť"
 
 #: l10n/v4l2.js:22
-#, fuzzy
 msgid "Sharpness"
 msgstr "Ostrosť"
 
 #: l10n/v4l2.js:23
-#, fuzzy
 msgid "Tilt Absolute"
-msgstr "Sklon absolútne"
+msgstr "Absolútny sklon"
 
 #: l10n/v4l2.js:24
-#, fuzzy
 msgid "White Balance Temperature"
 msgstr "Teplota vyváženia bielej"
 
 #: l10n/v4l2.js:25
-#, fuzzy
 msgid "White Balance Temperature Auto"
-msgstr "Teplota vyváženia bielej automatického zariadenia"
+msgstr "Automatická teplota vyváženia bielej"
 
 #: l10n/v4l2.js:26
-#, fuzzy
 msgid "Zoom Absolute"
-msgstr "Priblížiť sa"
+msgstr "Absolútne priblíženie"
 
 #~ msgid "plena ekrano kamerao"
 #~ msgstr "zapnúť/vypnúť kameru na celú obrazovku"
