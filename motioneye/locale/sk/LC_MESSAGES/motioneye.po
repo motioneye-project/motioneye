@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-18 18:43+0200\n"
-"PO-Revision-Date: 2022-05-20 12:14+0000\n"
+"PO-Revision-Date: 2022-05-22 13:34+0000\n"
 "Last-Translator: Jose Riha <jose1711@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/sk/>\n"
@@ -367,9 +367,8 @@ msgid "Ekstraj Elektoj"
 msgstr "Ďalšie voľby"
 
 #: motioneye/templates/main.html:363
-#, fuzzy
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr "Tu môžete pridať všetky ďalšie možnosti pre démon „Motion“ (použite formát „Názov hodnoty“, jedna možnosť na riadok)"
+msgstr ""
 "sem môžete pridať všetky ďalšie voľby pre démon „Motion“ (použite formát „"
 "Názov hodnoty“, jedna možnosť na riadok)"
 
