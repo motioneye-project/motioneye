@@ -28,10 +28,10 @@ jobs:
       with:
         ref: dev
     - name: print latest_commit
-      run: echo ${{ github.sha }}
+      run: git log -n 1
     - name: check latest commit is less than a day
       if: ${{ github.event_name == 'schedule' }}
-      run: test -z $(git rev-list  --after="24 hours"  ${{ github.sha }}) && echo "should_run=false" >> $GITHUB_ENV ; true
+      run: test -z "$(git log -n 1  --after='24 hours')" && echo "should_run=false" >> $GITHUB_ENV ; true
     - name: Set up Python
       if: ${{ env.should_run != 'false' }}
       uses: actions/setup-python@v3
