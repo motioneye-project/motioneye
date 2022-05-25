@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-18 18:43+0200\n"
-"PO-Revision-Date: 2022-05-03 15:14+0000\n"
-"Last-Translator: jmichault <jmt.2000@free.fr>\n"
-"Language-Team: Portuguese <https://hosted.weblate.org/projects/motioneye-project/motioneye/pt/>\n"
+"PO-Revision-Date: 2022-05-25 17:05+0000\n"
+"Last-Translator: Tiago Simões Tomé <tiagotome95@gmail.com>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-python-texts/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.13-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -820,7 +821,7 @@ msgstr "Encomendar"
 #: motioneye/templates/main.html:594
 #, fuzzy
 msgid "ordono…"
-msgstr "Pedido ..."
+msgstr "Pedido…"
 
 #: motioneye/templates/main.html:595
 #, fuzzy, python-format
@@ -864,9 +865,8 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra mal
 msgstr "Define o texto exibido nos filmes e fotos, no canto inferior esquerdo"
 
 #: motioneye/templates/main.html:624 motioneye/templates/main.html:641
-#, fuzzy
 msgid "propra teksto…"
-msgstr "Texto personalizado ..."
+msgstr "Texto personalizado…"
 
 #: motioneye/templates/main.html:625
 #, python-format
@@ -1029,9 +1029,8 @@ msgid "Nomo Bildo-Dosiero"
 msgstr "Nome do arquivo de imagem"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
-#, fuzzy
 msgid "dosiernomo ŝablono…"
-msgstr "Modelo de nome do arquivo ..."
+msgstr "Modelo de nome do arquivo…"
 
 #: motioneye/templates/main.html:749
 #, fuzzy, python-format
@@ -1152,7 +1151,7 @@ msgstr "Para sempre"
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
 #, fuzzy
 msgid "Propra"
-msgstr "Próprio"
+msgstr "Personalizado"
 
 #: motioneye/templates/main.html:790
 #, fuzzy
@@ -1506,9 +1505,8 @@ msgid "Retpoŝtadresoj"
 msgstr "Endereços de email"
 
 #: motioneye/templates/main.html:1057
-#, fuzzy
 msgid "retpoŝtadresoj…"
-msgstr "Endereço de e-mail ..."
+msgstr "Endereço de e-mail…"
 
 #: motioneye/templates/main.html:1058
 #, fuzzy
@@ -1576,9 +1574,8 @@ msgid "De adreso"
 msgstr "Do endereço"
 
 #: motioneye/templates/main.html:1082
-#, fuzzy
 msgid "retpoŝta adreso…"
-msgstr "Endereço de email ..."
+msgstr "Endereço de email…"
 
 #: motioneye/templates/main.html:1083
 #, fuzzy
@@ -1716,9 +1713,8 @@ msgid "Komando"
 msgstr "Comando"
 
 #: motioneye/templates/main.html:1162 motioneye/templates/main.html:1207
-#, fuzzy
 msgid "komando…"
-msgstr "Comando ..."
+msgstr "Comando…"
 
 #: motioneye/templates/main.html:1163
 #, fuzzy, python-format
