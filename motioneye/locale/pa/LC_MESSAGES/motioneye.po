@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-18 18:43+0200\n"
+"POT-Creation-Date: 2022-05-26 18:33+0200\n"
 "PO-Revision-Date: 2020-04-09 16:58+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -661,8 +661,8 @@ msgstr "S3 ਲਈ: E.g. HTTP://my.minio:9000. ਇਸ ਨੂੰ aws ਲਈ ਖਾ
 
 #: motioneye/templates/main.html:498
 #, fuzzy
-msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
-msgstr "ਵੈਬਡਾਵ ਲਈ: E.g. https:2mivloud/remeremote.php/dav/files/me//"
+msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
+msgstr "ਵੈਬਡਾਵ ਲਈ: E.g. https:2//my.cloud/remote.php/dav/files/me/"
 
 #: motioneye/templates/main.html:501
 #, fuzzy
@@ -1908,6 +1908,10 @@ msgstr "ਸਕਿੰਟ"
 #, fuzzy
 msgid "minus"
 msgstr "ਘਟਾਓ"
+
+#, fuzzy
+#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
+#~ msgstr "ਵੈਬਡਾਵ ਲਈ: E.g. https:2mivloud/remeremote.php/dav/files/me//"
 
 #, fuzzy
 #~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"

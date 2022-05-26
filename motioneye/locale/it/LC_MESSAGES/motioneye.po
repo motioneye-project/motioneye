@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-18 18:43+0200\n"
+"POT-Creation-Date: 2022-05-26 18:33+0200\n"
 "PO-Revision-Date: 2022-05-04 15:15+0000\n"
 "Last-Translator: Filippo Pisano <filippo.pisano@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/it/>\n"
@@ -653,7 +653,7 @@ msgstr "Per S3: ad es. http://my.minio:9000. Lascialo vuoto per AWS!"
 
 #: motioneye/templates/main.html:498
 #, fuzzy
-msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
+msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
 msgstr "Per Webdav: ad es. https://my.cloud/remote.php/dav/files/me/"
 
 #: motioneye/templates/main.html:501
@@ -1899,6 +1899,10 @@ msgstr "secondi"
 #, fuzzy
 msgid "minus"
 msgstr "meno"
+
+#, fuzzy
+#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
+#~ msgstr "Per Webdav: ad es. https://my.cloud/remote.php/dav/files/me/"
 
 #, fuzzy
 #~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"

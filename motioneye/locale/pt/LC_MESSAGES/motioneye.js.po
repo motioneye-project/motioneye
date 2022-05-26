@@ -78,8 +78,9 @@ msgid "\", ne nur tiuj alŝutitaj de motionEye!"
 msgstr "\", não apenas aqueles enviados por motionEye!"
 
 #: motioneye/static/js/main.js:923
+#, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
-msgstr ""
+msgstr "Esta recursão excluirá todos os arquivos de mídia antigos no diretório \""
 "Isto recursivamente excluirá todos os ficheiros de mídia antigos da pasta \""
 
 #: motioneye/static/js/main.js:924
@@ -442,23 +443,26 @@ msgid "la kameraon, kiun vi volas aldoni"
 msgstr "a câmera que deseja adicionar"
 
 #: motioneye/static/js/main.js:3929
+#, fuzzy
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
-msgstr ""
+msgstr "A câmera Fora Motioneye estão instaladas por trás de outro servidor MotionEye. Adicioná -los aqui permitirá que você os olhe e gerencie de longe."
 "Uma câmera motionEye externa é uma câmera instalada atrás de outro servidor "
 "MotionEye. Adicioná-las aqui lhe permitirá a visualização e administração à "
 "distância."
 
 #: motioneye/static/js/main.js:3944
+#, fuzzy
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
-msgstr ""
+msgstr "As câmeras da Web (ou câmeras IP) são dispositivos que fluem nativamente RTSP/RTMP ou MJPEG Vídeos ou imagens JPEG simples. Consulte o manual do seu dispositivo para descobrir o URL RTSP correto, RTMP, MJPEG ou JPEG."
 "As câmeras de rede (ou câmeras IP) são dispositivos que transmitem "
 "nativamente vídeos RTSP/RTMP ou MJPEG, ou imagens JPEG simples. Consulte o "
 "manual do seu dispositivo para descobrir o URL de RTSP, RTMP, MJPEG ou JPEG "
 "correto."
 
 #: motioneye/static/js/main.js:3949
+#, fuzzy
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr ""
+msgstr "As câmeras MMAL locais são dispositivos conectados diretamente ao seu sistema MotionEye. Geralmente são câmeras específicas de cartões."
 "As câmeras MMAL locais são dispositivos conectados diretamente ao seu "
 "sistema motionEye. Geralmente, são câmeras específicas para cartas."
 
@@ -615,8 +619,9 @@ msgid "preni instantaron"
 msgstr "tirar uma foto"
 
 #: motioneye/static/js/main.js:5121
+#, fuzzy
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr ""
+msgstr "Você ainda não definiu nenhuma câmera. Clique aqui para adicionar ..."
 "Você ainda não configurou nenhuma câmera. Clique aqui para adicionar uma ..."
 
 #: motioneye/static/js/ui.js:503

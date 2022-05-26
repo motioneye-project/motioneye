@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-18 18:43+0200\n"
+"POT-Creation-Date: 2022-05-26 18:33+0200\n"
 "PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/motioneye-project/motioneye/zh_Hans/>\n"
@@ -663,7 +663,7 @@ msgstr "对于S3：例如http：//my.minio：9000。将其空白为AWS！"
 
 #: motioneye/templates/main.html:498
 #, fuzzy
-msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
+msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
 msgstr "对于WebDav：例如https://my.cloud/remote.php/dav/files/me/"
 
 #: motioneye/templates/main.html:501
@@ -1910,6 +1910,10 @@ msgstr "秒"
 #, fuzzy
 msgid "minus"
 msgstr "减号"
+
+#, fuzzy
+#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
+#~ msgstr "对于WebDav：例如https://my.cloud/remote.php/dav/files/me/"
 
 #, fuzzy
 #~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"

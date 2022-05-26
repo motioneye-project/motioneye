@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-18 18:43+0200\n"
+"POT-Creation-Date: 2022-05-26 18:33+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -661,7 +661,7 @@ msgstr "For S3: f.eks. http: //my.minio: 9000. La det være tomt for AWS!"
 
 #: motioneye/templates/main.html:498
 #, fuzzy
-msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
+msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
 msgstr "For WebDAV: f.eks. https://my.cloud/remote.php/dav/files/me/"
 
 #: motioneye/templates/main.html:501
@@ -1910,6 +1910,10 @@ msgstr "Sekunder"
 #, fuzzy
 msgid "minus"
 msgstr "minus"
+
+#, fuzzy
+#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
+#~ msgstr "For WebDAV: f.eks. https://my.cloud/remote.php/dav/files/me/"
 
 #, fuzzy
 #~ msgid "Endpoint URL"

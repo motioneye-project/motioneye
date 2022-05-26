@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-18 18:43+0200\n"
+"POT-Creation-Date: 2022-05-26 18:33+0200\n"
 "PO-Revision-Date: 2022-05-18 09:25+0000\n"
 "Last-Translator: Filip Krakowski <krakowski@hhu.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/de/>\n"
@@ -535,7 +535,8 @@ msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
 msgstr "Für S3: z.B. http://my.minio:9000. Leer lassen für AWS!"
 
 #: motioneye/templates/main.html:498
-msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
+#, fuzzy
+msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
 msgstr "Für WebDAV: z.B. https://my.cloud/remote.php/dav/files/me/"
 
 #: motioneye/templates/main.html:501
@@ -1603,6 +1604,9 @@ msgstr "Sekunden"
 #, fuzzy
 msgid "minus"
 msgstr "Minus"
+
+#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
+#~ msgstr "Für WebDAV: z.B. https://my.cloud/remote.php/dav/files/me/"
 
 #~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
 #~ msgstr "Für S3: z.B. http://my.minio:9000. Leer lassen für AWS!"

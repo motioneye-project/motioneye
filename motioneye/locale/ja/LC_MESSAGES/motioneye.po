@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-18 18:43+0200\n"
+"POT-Creation-Date: 2022-05-26 18:33+0200\n"
 "PO-Revision-Date: 2020-04-08 17:45+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -662,7 +662,7 @@ msgstr "S3の場合：例http：//my.minio：9000。 AWSのために空のまま
 
 #: motioneye/templates/main.html:498
 #, fuzzy
-msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
+msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
 msgstr "webdavの場合：例えばhttps://my.cloud/remote.php/dav/files/me/"
 
 #: motioneye/templates/main.html:501
@@ -1909,6 +1909,10 @@ msgstr "秒"
 #, fuzzy
 msgid "minus"
 msgstr "マイナス"
+
+#, fuzzy
+#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
+#~ msgstr "webdavの場合：例えばhttps://my.cloud/remote.php/dav/files/me/"
 
 #, fuzzy
 #~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
