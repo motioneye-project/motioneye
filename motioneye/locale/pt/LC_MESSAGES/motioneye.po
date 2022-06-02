@@ -8,9 +8,10 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-26 18:33+0200\n"
-"PO-Revision-Date: 2022-05-25 17:05+0000\n"
+"PO-Revision-Date: 2022-06-03 03:14+0000\n"
 "Last-Translator: Tiago Simões Tomé <tiagotome95@gmail.com>\n"
-"Language-Team: Portuguese <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/pt/>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-python-texts/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,39 +21,32 @@ msgstr ""
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
-#, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
 msgstr "sinal de interrupção recebido, fechando…"
 
 #: motioneye/server.py:276
-#, fuzzy
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr "compartilhamentos smb requerem privilégios de root"
+msgstr "compartilhamentos smb requerem privilégios root"
 
 #: motioneye/server.py:283
-#, fuzzy
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr "instale o tornado versão 3.1 ou superior"
 
 #: motioneye/server.py:290
-#, fuzzy
 msgid "bonvolu instali jinja2"
 msgstr "instale o jinja2"
 
 #: motioneye/server.py:297
-#, fuzzy
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr "instale travesseiro ou PIL"
+msgstr "instale pillow ou PIL"
 
 #: motioneye/server.py:304
-#, fuzzy
 msgid "bonvolu instali pycurl"
 msgstr "instale o pycurl"
 
 #: motioneye/server.py:423
-#, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "ola este é um servidor motionEye "
+msgstr "Olá, este é um servidor motionEye "
 
 #: motioneye/server.py:438
 #, fuzzy
@@ -60,12 +54,10 @@ msgid "purigado komenciĝis"
 msgstr "limpeza iniciada"
 
 #: motioneye/server.py:440
-#, fuzzy
 msgid "wsswitch komenciĝis"
-msgstr "wsswitch começou"
+msgstr "wsswitch iniciado"
 
 #: motioneye/server.py:443
-#, fuzzy
 msgid "taskoj komenciĝis"
 msgstr "tarefas iniciadas"
 
@@ -75,7 +67,6 @@ msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "coletor de lixo do cliente mjpg iniciado"
 
 #: motioneye/server.py:465
-#, fuzzy
 msgid "servilo komenciĝis"
 msgstr "servidor iniciado"
 
@@ -85,37 +76,30 @@ msgid "servilo haltis"
 msgstr "servidor parado"
 
 #: motioneye/server.py:473
-#, fuzzy
 msgid "taskoj haltis"
 msgstr "tarefas interrompidas"
 
 #: motioneye/server.py:481
-#, fuzzy
 msgid "motion haltis"
-msgstr "movimento parado"
+msgstr "motion parado"
 
 #: motioneye/server.py:486
-#, fuzzy
 msgid "adiaŭ!"
 msgstr "adeus!"
 
 #: motioneye/templates/main.html:104
-#, fuzzy
 msgid "agordojn"
 msgstr "configurações"
 
 #: motioneye/templates/main.html:105
-#, fuzzy
 msgid "ŝanĝi uzanton"
 msgstr "mudar usuário"
 
 #: motioneye/templates/main.html:107
-#, fuzzy
 msgid "forigi kameraon"
-msgstr "remova a camera"
+msgstr "Excluir camera"
 
 #: motioneye/templates/main.html:108
-#, fuzzy
 msgid "Apliki"
 msgstr "Aplicar"
 
@@ -135,44 +119,41 @@ msgid "Aranĝo Kolumnoj"
 msgstr "Colunas de layout"
 
 #: motioneye/templates/main.html:135
-#, fuzzy
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
 msgstr "define o número de colunas usadas para organizar as câmeras"
 
 #: motioneye/templates/main.html:138
-#, fuzzy
 msgid "Fiksi Kadrojn Vertikale"
-msgstr "Definir quadros verticalmente"
+msgstr "Encaixar quadros verticalmente"
 
 #: motioneye/templates/main.html:140
 #, fuzzy
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
-msgstr "controla se os tempos de quadro podem ser reduzidos para caber na janela verticalmente ou não"
+msgstr ""
+"controla se o tamanho de quadros pode ser reduzido, para caber na janela "
+"verticalmente ou não"
 
 #: motioneye/templates/main.html:143
-#, fuzzy
 msgid "Aranĝo linioj"
 msgstr "Linhas de layout"
 
 #: motioneye/templates/main.html:145
-#, fuzzy
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
 msgstr "define o número de linhas usadas para organizar as câmeras"
 
 #: motioneye/templates/main.html:148
-#, fuzzy
 msgid "kadro-variatoro"
-msgstr "variador de quadro"
+msgstr "redutor de frequência de imagens"
 
 #: motioneye/templates/main.html:150
-#, fuzzy
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
-msgstr "reduz a taxa de quadros para economizar largura de banda e tráfego da rede (não funciona com câmeras MJPEG simples)"
+msgstr ""
+"reduz a frequência de imagens para economizar a banda larga e o trânsito de "
+"rede (não funciona com câmeras MJPEG simples)"
 
 #: motioneye/templates/main.html:153
-#, fuzzy
 msgid "Rezolucio-variatoro"
-msgstr "Variador de resolução"
+msgstr "Redutor de resolução"
 
 #: motioneye/templates/main.html:155
 #, fuzzy
@@ -211,7 +192,6 @@ msgstr "o nome de usuário usado para configurar o sistema"
 
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
-#, fuzzy
 msgid "Pasvorto"
 msgstr "Senha"
 
@@ -506,7 +486,6 @@ msgid "la nomo de la interŝanĝa reto"
 msgstr "o nome da rede de troca"
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
-#, fuzzy
 msgid "Uzantnomo"
 msgstr "Nome de usuário"
 
@@ -818,7 +797,6 @@ msgid "Ordono"
 msgstr "Encomendar"
 
 #: motioneye/templates/main.html:594
-#, fuzzy
 msgid "ordono…"
 msgstr "Pedido…"
 
@@ -1148,7 +1126,6 @@ msgid "Porĉiame"
 msgstr "Para sempre"
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
-#, fuzzy
 msgid "Propra"
 msgstr "Personalizado"
 
