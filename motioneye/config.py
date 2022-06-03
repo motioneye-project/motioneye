@@ -856,8 +856,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         ),
         'stream_authentication': main_config['@normal_username']
         + ':'
-        + main_config['@normal_password']
-        + main_config['@lang'],
+        + main_config['@normal_password'],
+        '@lang': main_config['@lang'],
         # still images
         'picture_output': False,
         'snapshot_interval': 0,
