@@ -279,7 +279,7 @@ def parse_cookies(cookies_headers):
 
 
 def build_basic_header(username, password):
-    return 'Basic ' + base64.encodebytes(f'{username}:{password}').replace('\n', '')
+    return 'Basic %s' % base64.b64encode(f'{username}:{password}'.encode()).decode()
 
 
 def parse_basic_header(header):

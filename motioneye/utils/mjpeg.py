@@ -61,7 +61,9 @@ def test_mjpeg_url(
             validate_cert=settings.VALIDATE_CERTS,
         )
 
-        fetch_future = cast_future(AsyncHTTPClient(force_instance=True).fetch(request))
+        fetch_future = cast_future(
+            AsyncHTTPClient(force_instance=True).fetch(request, raise_error=False)
+        )
         fetch_future.add_done_callback(on_response)
         return fetch_future
 
@@ -114,7 +116,9 @@ def test_mjpeg_url(
                 if m.group(1) == '1':
                     http_11[0] = True
 
-    def on_response(response: HTTPResponse):
+    def on_response(res_future: Future):
+        response = res_future.result()
+
         if not called[0]:
             if response.code == 401 and auth_modes and url_obj.username:
                 status_2xx[0] = False
