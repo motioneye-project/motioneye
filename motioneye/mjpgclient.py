@@ -54,7 +54,7 @@ class MjpgClient(IOStream):
 
         self.set_close_callback(self.on_close)
 
-    def do_connect(self) -> "Future[MjpgClient]":
+    def do_connect(self) -> 'Future[MjpgClient]':
         f = self.connect(('localhost', self._port))
         f.add_done_callback(self._on_connect)
         return f
@@ -64,16 +64,12 @@ class MjpgClient(IOStream):
 
     def on_close(self):
         logging.debug(
-            'connection closed for mjpg client for camera {camera_id} on port {port}'.format(
-                port=self._port, camera_id=self._camera_id
-            )
+            f'connection closed for mjpg client for camera {self._camera_id} on port {self._port}'
         )
 
         if MjpgClient.clients.pop(self._camera_id, None):
             logging.debug(
-                'mjpg client for camera {camera_id} on port {port} removed'.format(
-                    port=self._port, camera_id=self._camera_id
-                )
+                f'mjpg client for camera {self._camera_id} on port {self._port} removed'
             )
 
         if getattr(self, 'error', None) and self.error.errno != errno.ECONNREFUSED:
@@ -82,9 +78,7 @@ class MjpgClient(IOStream):
                 now - MjpgClient._last_erroneous_close_time
                 < settings.MJPG_CLIENT_TIMEOUT
             ):
-                msg = 'connection problem detected for mjpg client for camera {camera_id} on port {port}'.format(
-                    port=self._port, camera_id=self._camera_id
-                )
+                msg = f'connection problem detected for mjpg client for camera {self._camera_id} on port {self._port}'
 
                 logging.error(msg)
 
@@ -123,9 +117,7 @@ class MjpgClient(IOStream):
     def _check_error(self) -> bool:
         if self.socket is None:
             logging.warning(
-                'mjpg client connection for camera {camera_id} on port {port} is closed'.format(
-                    port=self._port, camera_id=self._camera_id
-                )
+                f'mjpg client connection for camera {self._camera_id} on port {self._port} is closed'
             )
 
             self.close()
@@ -144,9 +136,7 @@ class MjpgClient(IOStream):
 
     def _error(self, error) -> None:
         logging.error(
-            'mjpg client for camera {camera_id} on port {port} error: {msg}'.format(
-                port=self._port, camera_id=self._camera_id, msg=str(error)
-            ),
+            f'mjpg client for camera {self._camera_id} on port {self._port} error: {str(error)}',
             exc_info=True,
         )
 
@@ -174,9 +164,7 @@ class MjpgClient(IOStream):
             return
 
         logging.debug(
-            'mjpg client for camera {camera_id} connected on port {port}'.format(
-                port=self._port, camera_id=self._camera_id
-            )
+            f'mjpg client for camera {self._camera_id} connected on port {self._port}'
         )
 
         if self._auth_mode == 'basic':
@@ -292,11 +280,7 @@ class MjpgClient(IOStream):
 
         matches = re.findall(rb'(\d+)', data)
         if not matches:
-            self._error(
-                'could not find content length in mjpg header line "{header}"'.format(
-                    header=data
-                )
-            )
+            self._error(f'could not find content length in mjpg header line "{data}"')
 
             return
 
@@ -337,9 +321,7 @@ def get_jpg(camera_id):
             camera_config
         ):
             logging.error(
-                'could not start mjpg client for camera id {camera_id}: not enabled or not local'.format(
-                    camera_id=camera_id
-                )
+                f'could not start mjpg client for camera id {camera_id}: not enabled or not local'
             )
 
             return None
@@ -390,7 +372,7 @@ def _garbage_collector():
 
     now = time.time()
     for camera_id, client in list(MjpgClient.clients.items()):
-        logging.debug(f"_garbage_collector checking camera. id: {camera_id}")
+        logging.debug(f'_garbage_collector checking camera. id: {camera_id}')
         port = client.get_port()
 
         if client.closed():
@@ -401,9 +383,7 @@ def _garbage_collector():
         delta = now - last_jpg_time
         if delta > settings.MJPG_CLIENT_TIMEOUT:
             logging.error(
-                'mjpg client timed out receiving data for camera {camera_id} on port {port}'.format(
-                    camera_id=camera_id, port=port
-                )
+                f'mjpg client timed out receiving data for camera {camera_id} on port {port}'
             )
 
             if settings.MOTION_RESTART_ON_ERRORS:
