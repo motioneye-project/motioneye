@@ -9,7 +9,7 @@ concurrency:
 jobs:
   docker:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     permissions:
       packages: write
@@ -64,9 +64,9 @@ jobs:
           push: ${{ github.event_name == 'push' && github.repository == 'motioneye-project/motioneye' && steps.meta.outputs.tags != null }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          # build-args: |
-          #   KEY1=Value1
-          #   KEY2=Value2
+          #build-args: |
+          #  KEY1=Value1
+          #  KEY2=Value2
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache-new
 

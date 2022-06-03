@@ -8,9 +8,28 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  ubuntu_build:
+  focal:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    steps:
+      - run: sudo apt-get -q update
+      - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends dist-upgrade
+      - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends install
+                  ca-certificates curl gcc libcurl4-openssl-dev libssl-dev python3-dev
+      - run: curl -sSfO 'https://bootstrap.pypa.io/get-pip.py'
+      - run: sudo python3 get-pip.py
+      - run: sudo python3 -m pip install --upgrade pip setuptools wheel
+      - run: |
+          REPO=$GITHUB_REPOSITORY BRANCH=$GITHUB_REF_NAME
+          [ ${{ github.event_name }} = 'pull_request' ] && REPO=${{ github.event.pull_request.head.repo.full_name }} BRANCH=${{ github.event.pull_request.head.ref }}
+          sudo python3 -m pip install "https://github.com/$REPO/archive/$BRANCH.tar.gz"
+      - run: sudo motioneye_init --skip-apt-update
+      - run: i=0; until ss -tln | grep 8765; do [ $i -le 10 ] || exit 0; sleep 1; i=$(expr $i + 1); done
+      - run: sudo systemctl status motioneye
+      - run: sudo systemctl is-active motioneye
+  jammy:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
+    runs-on: ubuntu-22.04
     steps:
       - run: sudo apt-get -q update
       - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends dist-upgrade

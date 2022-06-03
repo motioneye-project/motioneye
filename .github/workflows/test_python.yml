@@ -7,9 +7,31 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test_python:
+  focal:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - run: sudo apt-get -q update
+      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends dist-upgrade
+      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
+             curl gcc ffmpeg libcurl4-openssl-dev libssl-dev motion v4l-utils
+      - run: sudo python3 -m pip install --upgrade pip setuptools wheel
+      - run: python3 -m pip install --upgrade build mypy pytest safety
+      - run: python3 -m build
+      - run: python3 -m pip install .
+      - run: mkdir --parents --verbose .mypy_cache
+      - run: mypy --ignore-missing-imports --install-types --non-interactive . || true
+      - run: pytest --ignore=tests/test_utils/test_mjpeg.py
+                    --ignore=tests/test_utils/test_rtmp.py .
+      - run: pytest --fixtures tests/test_utils/test_mjpeg.py || true
+      - run: pytest --fixtures tests/test_utils/test_rtmp.py  || true
+      - run: pytest . || pytest --doctest-modules . || true
+      - run: safety check
+  jammy:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
