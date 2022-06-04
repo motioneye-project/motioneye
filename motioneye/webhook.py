@@ -49,7 +49,7 @@ def main(parser, args):
 
     if options.method == 'POST':
         headers['Content-Type'] = 'text/plain'
-        data = ''.encode()
+        data = b''
 
     elif options.method == 'POSTf':  # form url-encoded
         headers['Content-Type'] = 'application/x-www-form-urlencoded'
