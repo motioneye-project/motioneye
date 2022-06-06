@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-26 18:33+0200\n"
-"PO-Revision-Date: 2022-06-06 14:56+0000\n"
+"PO-Revision-Date: 2022-06-07 17:15+0000\n"
 "Last-Translator: lukasig <lukasig@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/ro/>\n"
@@ -313,8 +313,8 @@ msgid ""
 "Eniga aparato (ekz. : /dev/video) or URL (ekz. : "
 "rtsp://192.168.1.1/stream)"
 msgstr ""
-"dispozitiv de intrare (de exemplu, /dev/video) sau URL (de exemplu, "
-"rtsp://192.168.1.1/stream)"
+"dispozitiv de intrare (ex.: /dev/video) sau URL (ex.: rtsp://192.168.1.1/"
+"stream)"
 
 #: motioneye/templates/main.html:286
 msgid "Kamerao Tipo"
@@ -478,8 +478,8 @@ msgid ""
 "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu "
 "malplena se neniu uzantnomo estas bezonata)"
 msgstr ""
-"numele de utilizator de furnizat pentru accesarea directorului de rețea ("
-"lăsați necompletat dacă nu este necesar un nume de utilizator)"
+"Numele de utilizator de furnizat pentru accesarea directorului de rețea ("
+"lăsați necompletat dacă nu este necesar un nume de utilizator)."
 
 #: motioneye/templates/main.html:414
 msgid "Pasvorton"
@@ -490,8 +490,8 @@ msgid ""
 "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu "
 "pasvorto estas bezonata)"
 msgstr ""
-"parola cerută de directorul de rețea (lăsați necompletat dacă nu este "
-"necesară o parolă)"
+"Parola cerută de directorul de rețea (lăsați necompletat dacă nu este "
+"necesară o parolă)."
 
 #: motioneye/templates/main.html:419
 msgid "Radika dosierujo"
@@ -502,8 +502,8 @@ msgid ""
 "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos "
 "konservitaj"
 msgstr ""
-"calea root (pe dispozitivul de stocare selectat), unde vor fi salvate "
-"fișierele"
+"Calea root (pe dispozitivul de stocare selectat), unde vor fi salvate "
+"fișierele."
 
 #: motioneye/templates/main.html:425
 msgid "Testi la reton dosierujon"
@@ -514,8 +514,8 @@ msgid ""
 "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis"
 " la postulatajn detalojn"
 msgstr ""
-"faceți clic pe acest buton pentru a testa conexiunea directorului de rețea "
-"după ce ați completat detaliile necesare"
+"Faceți clic pe acest buton pentru a testa conexiunea directorului de rețea "
+"după ce ați completat detaliile necesare."
 
 #: motioneye/templates/main.html:432
 msgid "Uzado de Disko"
@@ -523,7 +523,8 @@ msgstr "Utilizare disc"
 
 #: motioneye/templates/main.html:436
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr "dimensiunea utilizată/totală a discului în care se află directorul root"
+msgstr ""
+"Dimensiunea utilizată/totală a discului în care se află directorul root."
 
 #: motioneye/templates/main.html:442
 msgid "Alŝutu Mediajn Dosierojn"
@@ -534,8 +535,8 @@ msgid ""
 "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu "
 "alŝutitaj al ekstera servo"
 msgstr ""
-"activați această opțiune dacă doriți ca conținutul media să fie încărcat "
-"într-un serviciu extern"
+"Activați această opțiune dacă doriți ca conținutul media să fie încărcat "
+"într-un serviciu extern."
 
 #: motioneye/templates/main.html:447
 msgid "Alŝutu Bildojn"
@@ -546,8 +547,8 @@ msgid ""
 "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera "
 "servo"
 msgstr ""
-"activați această opțiune dacă doriți ca imaginile să fie încărcate într-un "
-"serviciu extern"
+"Activați această opțiune dacă doriți ca imaginile să fie încărcate într-un "
+"serviciu extern."
 
 #: motioneye/templates/main.html:452
 msgid "Alŝutu Filmojn"
@@ -556,8 +557,8 @@ msgstr "Încărcați videoclipuri"
 #: motioneye/templates/main.html:454
 msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
 msgstr ""
-"activați acest lucru dacă doriți ca videoclipurile să fie încărcate într-un "
-"serviciu extern"
+"Activați acest lucru dacă doriți ca videoclipurile să fie încărcate într-un "
+"serviciu extern."
 
 #: motioneye/templates/main.html:457
 msgid "Alŝuta Servo"
@@ -581,7 +582,7 @@ msgstr "Server HTTPS"
 
 #: motioneye/templates/main.html:471
 msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
-msgstr "alegeți un serviciu la care să fie încărcate fișierele media"
+msgstr "Alegeți un serviciu la care să fie încărcate fișierele media."
 
 #: motioneye/templates/main.html:474
 msgid "Servila Adreso"
@@ -592,8 +593,8 @@ msgid ""
 "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ "
 "192.168.1.3)"
 msgstr ""
-"numele domeniului sau adresa IP a serverului (de exemplu, ftp.exemplu.com "
-"sau 192.168.1.3)"
+"Numele domeniului sau adresa IP a serverului (ex: ftp.exemplu.com sau 192.168"
+".1.3)."
 
 #: motioneye/templates/main.html:479
 msgid "Servila haveno"
@@ -604,8 +605,8 @@ msgid ""
 "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por "
 "uzi la defaŭltan valoron)"
 msgstr ""
-"portul folosit pentru conectarea la serviciu (lăsați acest câmp necompletat "
-"pentru a utiliza valoarea implicită)"
+"Portul folosit pentru conectarea la serviciu (lăsați acest câmp necompletat "
+"pentru a utiliza valoarea implicită)."
 
 #: motioneye/templates/main.html:484
 msgid "Metodo"
@@ -613,7 +614,7 @@ msgstr "Metodă"
 
 #: motioneye/templates/main.html:491
 msgid "la HTTP-metodo uzi por alŝuti dosierojn"
-msgstr "metoda HTTP de utilizat pentru încărcarea fișierelor"
+msgstr "Metoda HTTP de utilizat pentru încărcarea fișierelor."
 
 #: motioneye/templates/main.html:494
 msgid "Finpunkto URL"
@@ -625,11 +626,11 @@ msgstr "Adresa URL completă către punctul final de server:"
 
 #: motioneye/templates/main.html:497
 msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
-msgstr "Pentru S3: de ex. http://my.minio:9000. Lăsați necompletat pentru AWS!"
+msgstr "Pentru S3: ex. http://my.minio:9000. Lăsați necompletat pentru AWS!"
 
 #: motioneye/templates/main.html:498
 msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
-msgstr "Pentru WebDAV: de ex. https://my.cloud/remote.php/dav/files/Me/"
+msgstr "Pentru WebDAV: ex. https://my.cloud/remote.php/dav/files/Me/"
 
 #: motioneye/templates/main.html:501
 msgid "Loko"
@@ -640,8 +641,8 @@ msgid ""
 "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. "
 "/files/cam1/)"
 msgstr ""
-"locația (calea root) la care ar trebui să fie încărcate fișierele media (de "
-"ex. /files/cam1/)"
+"Locația (calea root) la care ar trebui să fie încărcate fișierele media (ex. "
+"/files/cam1/)."
 
 #: motioneye/templates/main.html:506
 msgid "Inkluzivi Subdosierujojn"
@@ -652,8 +653,8 @@ msgid ""
 "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, "
 "anstataŭ meti ilin rekte en la radikan lokon"
 msgstr ""
-"activați această opțiune pentru a încărca fișiere media împreună cu "
-"subfolderele lor, în loc să le plasați direct în locația root"
+"Activați această opțiune pentru a încărca fișiere media împreună cu "
+"subfolderele lor, în loc să le plasați direct în locația root."
 
 #: motioneye/templates/main.html:511
 msgid "Purigi la nubon"
@@ -665,17 +666,17 @@ msgid ""
 "ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de "
 "persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
 msgstr ""
-"activați această opțiune pentru a șterge și fișierele media încărcate în "
+"Activați această opțiune pentru a șterge și fișierele media încărcate în "
 "cloud atunci când cele locale sunt șterse conform setării de persistență a "
 "fișierului. În prezent, această opțiune este disponibilă doar pentru gdrive."
 
 #: motioneye/templates/main.html:518
 msgid "la uzantnomo por la alŝuta servo-konto"
-msgstr "numele de utilizator pentru contul de serviciu de încărcare"
+msgstr "Numele de utilizator pentru contul de serviciu de încărcare."
 
 #: motioneye/templates/main.html:523
 msgid "la pasvorto por la alŝuta servo-konto"
-msgstr "parola pentru contul de serviciu de încărcare"
+msgstr "Parola pentru contul de serviciu de încărcare."
 
 #: motioneye/templates/main.html:526
 msgid "Rajtiga ŝlosilo"
@@ -686,8 +687,8 @@ msgid ""
 "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur "
 "dum agordo)"
 msgstr ""
-"cheia folosită pentru autentificarea cu serviciul de încărcare (de obicei "
-"necesară doar pentru configurare)"
+"Cheia folosită pentru autentificarea cu serviciul de încărcare (de obicei "
+"necesară doar pentru configurare)."
 
 #: motioneye/templates/main.html:534
 msgid "Akiri ŝlosilon"
@@ -695,7 +696,7 @@ msgstr "Obțineți cheie"
 
 #: motioneye/templates/main.html:537
 msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
-msgstr "faceți clic aici pentru a obține cheia serviciului de autorizare"
+msgstr "Faceți clic aici pentru a obține cheia serviciului de autorizare."
 
 #: motioneye/templates/main.html:540
 msgid "Access Key"
@@ -715,8 +716,8 @@ msgid ""
 "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo "
 "(kutime bezonata nur dum agordo)"
 msgstr ""
-"cheia de acces secretă AWS folosită pentru autentificarea cu serviciul de "
-"încărcare (de obicei necesară doar pentru configurare)"
+"Cheia de acces secretă AWS folosită pentru autentificarea cu serviciul de "
+"încărcare (de obicei necesară doar pentru configurare)."
 
 #: motioneye/templates/main.html:550
 msgid "Sitelo"
@@ -725,8 +726,8 @@ msgstr "Compartiment"
 #: motioneye/templates/main.html:552
 msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr ""
-"numele compartimentului S3 pentru serviciul de încărcare (de obicei necesar "
-"doar pentru configurare)"
+"Numele compartimentului S3 pentru serviciul de încărcare (de obicei necesar "
+"doar pentru configurare)."
 
 #: motioneye/templates/main.html:556
 msgid "Testi la servon"
@@ -737,8 +738,8 @@ msgid ""
 "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis"
 " la postulatajn detalojn"
 msgstr ""
-"faceți clic pe acest buton pentru a testa serviciul de încărcare după ce ați "
-"completat detaliile necesare"
+"Faceți clic pe acest buton pentru a testa serviciul de încărcare după ce ați "
+"completat detaliile necesare."
 
 #: motioneye/templates/main.html:563
 msgid "alvoki URL"
@@ -749,8 +750,8 @@ msgid ""
 "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de "
 "amaskomunikila dosiero"
 msgstr ""
-"activați acest lucru dacă doriți ca adresa URL să fie solicitată după "
-"crearea unui fișier media"
+"Activați acest lucru dacă doriți ca adresa URL să fie solicitată după "
+"crearea unui fișier media."
 
 #: motioneye/templates/main.html:568 motioneye/templates/main.html:1136
 #: motioneye/templates/main.html:1181
@@ -772,7 +773,7 @@ msgstr ""
 "URL solicitat când este detectată mișcare; sunt acceptate următoarele token-"
 "uri speciale rapide: %%Y = an, %%m = lună, %%d = zi, %%H = oră, %%M = minut, "
 "%%S = secundă, %%q = numărul cadrului, %%v = numărul evenimentului, %%f = "
-"calea fișierului"
+"calea fișierului ."
 
 #: motioneye/templates/main.html:573 motioneye/templates/main.html:1141
 #: motioneye/templates/main.html:1186
@@ -784,8 +785,9 @@ msgid ""
 "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-"
 "koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
 msgstr ""
-"metoda HTTP de utilizat atunci când solicitați o adresă URL web hook ("
-"parametrii codificați-în-URL dați vor fi transmiși așa cum este indicat aici)"
+"Metoda HTTP de utilizat atunci când solicitați o adresă URL web hook ("
+"parametrii codificați-în-URL dați vor fi transmiși așa cum este indicat "
+"aici)."
 
 #: motioneye/templates/main.html:588
 msgid "Kuri Komando"
@@ -796,8 +798,8 @@ msgid ""
 "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero "
 "estas kreita"
 msgstr ""
-"activați această opțiune dacă doriți să executați o comandă după ce a fost "
-"creat un fișier media"
+"Activați această opțiune dacă doriți să executați o comandă după ce a fost "
+"creat un fișier media."
 
 #: motioneye/templates/main.html:593
 msgid "Ordono"
@@ -816,15 +818,15 @@ msgid ""
 " = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = "
 "kadra numero , %%v = okaza numero, %%f = dosiera vojo"
 msgstr ""
-"o comandă ce urmează să fie executată după crearea unui fișier media. Mai "
+"O comandă ce urmează să fie executată după crearea unui fișier media. Mai "
 "multe comenzi pot fi separate prin punct-și-virgulă; nu utilizați punct-și-"
 "virgulă în comenzi; sunt acceptate următoarele token-uri speciale: %%Y = an, "
 "%%m = lună, %%d = zi, %%H = oră, %%M = minut, %%S = secundă, %%q = numărul "
-"cadrului, %%v = numărul evenimentului, %%f = calea fișierului"
+"cadrului, %%v = numărul evenimentului, %%f = calea fișierului ."
 
 #: motioneye/templates/main.html:605
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
-msgstr "selectați ce informații sunt afișate în cadrele capturate"
+msgstr "Selectați ce informații sunt afișate în cadrele capturate."
 
 #: motioneye/templates/main.html:606
 msgid "Teksto Superkovrita"
@@ -851,11 +853,12 @@ msgstr "Dezactivat"
 msgid ""
 "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra "
 "maldekstra angulo"
-msgstr "Setează textul afișat pe filme și imagini, în colțul din stânga jos."
+msgstr ""
+"Setează textul afișat pe videoclipuri și imagini, în colțul din stânga jos."
 
 #: motioneye/templates/main.html:624 motioneye/templates/main.html:641
 msgid "propra teksto…"
-msgstr "Text personalizat"
+msgstr "Text personalizat…"
 
 #: motioneye/templates/main.html:625
 #, python-format
@@ -868,7 +871,8 @@ msgstr ""
 "Setează textul personalizat din stânga; sunt acceptate următoarele token-uri "
 "speciale: %%Y = an, %%m = lună, %%d = zi, %%H = oră, %%M = minut, %%S = "
 "secundă, %%q = numărul cadrului, %%v = numărul evenimentului, %%T = HH: MM: "
-"SS, \\ n = rând nou ."
+"SS, \\n"
+" = rând nou ."
 
 #: motioneye/templates/main.html:628
 msgid "Dekstra Teksto"
@@ -878,7 +882,8 @@ msgstr "Text dreapta"
 msgid ""
 "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra "
 "dekstra angulo"
-msgstr "Setează textul afișat pe filme și imagini, în colțul din dreapta jos."
+msgstr ""
+"Setează textul afișat pe videoclipuri și imagini, în colțul din dreapta jos."
 
 #: motioneye/templates/main.html:642
 #, python-format
@@ -891,7 +896,8 @@ msgstr ""
 "Setează textul personalizat din dreapta; sunt acceptate următoarele token-"
 "uri speciale: %%Y = an, %%m = lună, %%d = zi, %%H = oră, %%M = minut, %%S = "
 "secundă, %%q = numărul cadrului, %%v = numărul evenimentului, %%T = HH: MM: "
-"SS, \\ n = rând nou ."
+"SS, \\n"
+" = rând nou ."
 
 #: motioneye/templates/main.html:645
 msgid "Teksta Skalo"
@@ -904,8 +910,8 @@ msgstr "Setează dimensiunea textului suprapus."
 #: motioneye/templates/main.html:657
 msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
 msgstr ""
-"activați această opțiune dacă doriți să transmiteți un streaming video "
-"pentru această cameră"
+"Activați această opțiune dacă doriți să transmiteți un streaming video "
+"pentru această cameră."
 
 #: motioneye/templates/main.html:658
 msgid "Videofluo"
@@ -941,12 +947,12 @@ msgid ""
 "estas senditaj al la retumilo (malebligu dum funkciado sur malrapida "
 "CPU)."
 msgstr ""
-"când această opțiune este activată, imaginile sunt redimensionate înainte de "
+"Când această opțiune este activată, imaginile sunt redimensionate înainte de "
 "a fi trimise către browser (dezactivați dacă folosiți un procesor lent)."
 
 #: motioneye/templates/main.html:678
 msgid "Flua rezolucio"
-msgstr "Rezoluția streaming-ului"
+msgstr "Rezoluția de streaming"
 
 #: motioneye/templates/main.html:680
 msgid ""
@@ -954,9 +960,9 @@ msgid ""
 "(pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli "
 "da larĝa de bando)"
 msgstr ""
-"rezoluția dată ca procent din rezoluția dispozitivului video (valorile mai "
+"Rezoluția dată ca procent din rezoluția dispozitivului video (valorile mai "
 "mari produc o calitate video mai bună, dar necesită o lățime de bandă mai "
-"largă)"
+"largă)."
 
 #: motioneye/templates/main.html:683
 msgid "Flua haveno"
@@ -976,9 +982,9 @@ msgid ""
 "'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj "
 "kontroloj estos uzataj"
 msgstr ""
-"metoda de autentificare folosită de stream (selectați „De bază” în loc de "
+"Metoda de autentificare folosită de stream (selectați „De bază” în loc de "
 "„Digest” dacă întâmpinați probleme cu programe terțe); se va utiliza "
-"autentificarea de monitorizare"
+"autentificarea de monitorizare."
 
 #: motioneye/templates/main.html:699
 msgid "Movado-Optimigo"
@@ -989,8 +995,8 @@ msgid ""
 "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera "
 "fluo kiam neniu movo estas detektita"
 msgstr ""
-"activați această opțiune dacă doriți o rată de cadre mai mică pentru "
-"streaming atunci când nu este detectată nicio mișcare"
+"Activați această opțiune dacă doriți o rată de cadre mai mică pentru "
+"streaming atunci când nu este detectată nicio mișcare."
 
 #: motioneye/templates/main.html:707
 msgid "Utilaj URLoj"
@@ -1021,16 +1027,16 @@ msgid ""
 "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron,"
 " preta por esti enigita"
 msgstr ""
-"adresa URL care oferă un document HTML minim care conține cadrul camerei, "
-"gata pentru a fi încorporat"
+"Adresa URL care oferă un document HTML minim care conține cadrul camerei, "
+"gata pentru a fi încorporat."
 
 #: motioneye/templates/main.html:741
 msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
-msgstr "activați această opțiune dacă doriți să capturați imagini statice."
+msgstr "Activați această opțiune dacă doriți să capturați imagini statice."
 
 #: motioneye/templates/main.html:742
 msgid "Kaptitaj Bildoj"
-msgstr "Imagini capturate"
+msgstr "Capturare imagini"
 
 #: motioneye/templates/main.html:747
 msgid "Nomo Bildo-Dosiero"
@@ -1038,7 +1044,7 @@ msgstr "Numele fișierelor imagine"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
 msgid "dosiernomo ŝablono…"
-msgstr "Șablon pentru numele fișierelor"
+msgstr "Șablon pentru numele fișierelor…"
 
 #: motioneye/templates/main.html:749
 #, python-format
@@ -1177,12 +1183,12 @@ msgid ""
 "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi "
 "permane preni kaptojn."
 msgstr ""
-"când această opțiune este activată, un buton de pe cadrul camerei va permite "
+"Când această opțiune este activată, un buton de pe cadrul camerei va permite "
 "să capturați imagini."
 
 #: motioneye/templates/main.html:810
 msgid "ebligu ĉi tion, se vi volas registri filmojn"
-msgstr "activați această opțiune dacă doriți să înregistrați videoclipuri"
+msgstr "Activați această opțiune dacă doriți să înregistrați videoclipuri."
 
 #: motioneye/templates/main.html:811
 msgid "Filmoj"
@@ -1260,9 +1266,9 @@ msgid ""
 "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn"
 " moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
 msgstr ""
-"Setează modul de înregistrare: Declanșat de mișcare = un film nou e creat "
-"ori de câte ori este detectată mișcare, Înregistrare continuă = un singur "
-"fișier video mare."
+"Setează modul de înregistrare: Declanșat de mișcare = un videoclip nou e "
+"creat ori de câte ori este detectată mișcare, Înregistrare continuă = un "
+"singur fișier video mare."
 
 #: motioneye/templates/main.html:887
 msgid "Maksimuma filma daŭro"
@@ -1273,9 +1279,9 @@ msgid ""
 "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento "
 "daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
 msgstr ""
-"Setează durata maximă a filmului în secunde; dacă evenimentul de mișcare "
-"durează mai mult, un nou fișier este creat; utilizați 0 pentru durată "
-"nelimitată."
+"Setează durata maximă a videoclipurilor în secunde; dacă evenimentul de "
+"mișcare durează mai mult, un nou fișier este creat; utilizați 0 pentru "
+"durată nelimitată."
 
 #: motioneye/templates/main.html:892
 msgid "Konservi filmojn"
@@ -1321,7 +1327,7 @@ msgid ""
 "pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli "
 "sentivan detekton, sed inklinas al falsaj pozitivoj)."
 msgstr ""
-"indică procentul minim al diferenței între două cadre succesive necesar "
+"Indică procentul minim al diferenței între două cadre succesive necesar "
 "pentru a detecta de mișcare (valorile mai mici oferă o detecție mai "
 "sensibilă, dar tind să ofere mai multe declanșări false)."
 
@@ -1344,7 +1350,7 @@ msgstr "Setarea automată a pragului"
 #: motioneye/templates/main.html:936
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
 msgstr ""
-"activați această opțiune pentru ca pragul să fie ajustat în mod automat."
+"Activați această opțiune pentru ca pragul să fie ajustat în mod automat."
 
 #: motioneye/templates/main.html:939
 msgid "Aŭtomata bruo-detekto"
@@ -1380,76 +1386,88 @@ msgstr ""
 
 #: motioneye/templates/main.html:954
 msgid "Makula filtrilo"
-msgstr ""
+msgstr "Filtru de strălucire"
 
 #: motioneye/templates/main.html:956
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
 msgstr ""
+"Activați această opțiune pentru a aplica un filtru de 'destrălucire' la "
+"cadre înainte de a detecta mișcarea."
 
 #: motioneye/templates/main.html:962
 msgid "Senmovada daŭro"
-msgstr ""
+msgstr "Lipsă mișcare"
 
 #: motioneye/templates/main.html:964
 msgid ""
 "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj "
 "markas la finon de movada okazaĵo."
 msgstr ""
+"Setează numărul de secunde de tăcere (adică fără mișcare) ce marchează "
+"sfârșitul unui eveniment de mișcare."
 
 #: motioneye/templates/main.html:967
 msgid "Kaptita Antaŭe"
-msgstr ""
+msgstr "Capturat înainte"
 
 #: motioneye/templates/main.html:968 motioneye/templates/main.html:973
 #: motioneye/templates/main.html:978
 msgid "kadroj"
-msgstr ""
+msgstr "cadre"
 
 #: motioneye/templates/main.html:969
 msgid ""
 "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) "
 "antaŭ ol moviĝokazaĵo estas detektita."
 msgstr ""
+"Setează numărul de cadre capturate (și incluse în videoclip) înainte ca un "
+"eveniment de mișcare să fie detectat."
 
 #: motioneye/templates/main.html:972
 msgid "Kaptita Post"
-msgstr ""
+msgstr "Capturat după"
 
 #: motioneye/templates/main.html:974
 msgid ""
 "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) "
 "post la fino de movada evento."
 msgstr ""
+"Setează numărul de cadre de capturate (și incluse în videoclip) după "
+"încheierea unui eveniment de mișcare."
 
 #: motioneye/templates/main.html:977
 msgid "Minimumaj movaj kadroj"
-msgstr ""
+msgstr "Minimul de cadre de mișcare"
 
 #: motioneye/templates/main.html:979
 msgid ""
 "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci "
 "moviĝan eventon."
 msgstr ""
+"Setează numărul minim de cadre de mișcare succesive necesare pentru a "
+"declanșa un eveniment de mișcare."
 
 #: motioneye/templates/main.html:985
 msgid "Masko"
-msgstr ""
+msgstr "Mască"
 
 #: motioneye/templates/main.html:987
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
 msgstr ""
+"Permite mascarea imaginilor pentru o detectare mai selectivă și mai precisă "
+"a mișcării."
 
 #: motioneye/templates/main.html:990
 msgid "Tipo de masko"
-msgstr ""
+msgstr "Tipul de mască"
 
 #: motioneye/templates/main.html:993
 msgid "Inteligenta"
-msgstr ""
+msgstr "Inteligentă"
 
 #: motioneye/templates/main.html:994
 msgid "Redaktebla"
-msgstr ""
+msgstr "Editabilă"
 
 #: motioneye/templates/main.html:997
 msgid ""
@@ -1457,32 +1475,37 @@ msgid ""
 "dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane "
 "konstrui ĝin mem."
 msgstr ""
+"Opțiunea 'inteligentă' detectează automat regiunile cu mișcare regulată și "
+"construiește dinamic o mască internă, în timp ce opțiunea 'editabilă' "
+"permite să o construiți manual."
 
 #: motioneye/templates/main.html:1000
 msgid "Inteligenta-maska Malrapideco"
-msgstr ""
+msgstr "Inerție mască inteligentă"
 
 #: motioneye/templates/main.html:1002
 msgid ""
 "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida "
 "konstruprocezo."
 msgstr ""
+"Valorile mai mari oferă o mască de durată mai lungă, cu un proces de "
+"construcție mai lent."
 
 #: motioneye/templates/main.html:1011
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
-msgstr ""
+msgstr "Faceți clic pe acest buton pentru a activa/dezactiva editorul de mască."
 
 #: motioneye/templates/main.html:1015
 msgid "Purigi maskon"
-msgstr ""
+msgstr "Șterge masca"
 
 #: motioneye/templates/main.html:1016
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
-msgstr ""
+msgstr "Faceți clic pe acest buton pentru a șterge masca actuală."
 
 #: motioneye/templates/main.html:1022
 msgid "Montri Kadro-Ŝanĝojn"
-msgstr ""
+msgstr "Afișați schimbarea cadrelor"
 
 #: motioneye/templates/main.html:1024
 msgid ""
@@ -1490,126 +1513,149 @@ msgid ""
 "modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion "
 "por ĝustigi agordojn de moviĝo-detekto."
 msgstr ""
+"Dacă această opțiune este activă, schimbările cadrelor (atât numărul de "
+"pixeli cât și zona modificată) sunt afișate în videoclip; activați temporar "
+"această opțiune pentru a ajusta setările de detectare a mișcării."
 
 #: motioneye/templates/main.html:1027
 msgid "Krei debug media files"
-msgstr ""
+msgstr "Creați fișiere media de depanare"
 
 #: motioneye/templates/main.html:1029
 msgid ""
 "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi"
 " problemojn de moviĝo-detekto."
 msgstr ""
+"Când această opțiune este activată, va crea videoclipuri și imagini speciale "
+"care ajută la depanarea problemelor de detectare a mișcării."
 
 #: motioneye/templates/main.html:1038
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
 msgstr ""
+"Activați această opțiune dacă doriți să primiți o notificare atunci când se "
+"detectează mișcare."
 
 #: motioneye/templates/main.html:1039
 msgid "Moviĝaj sciigoj"
-msgstr ""
+msgstr "Notificări la mișcare"
 
 #: motioneye/templates/main.html:1051
 msgid "Sendi retpoŝton"
-msgstr ""
+msgstr "Trimite un email"
 
 #: motioneye/templates/main.html:1053
 msgid ""
 "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam "
 "moviĝokazaĵo estas detektita."
 msgstr ""
+"Activați această opțiune dacă doriți să primiți un e-mail de fiecare dată "
+"când se detectează un eveniment de mișcare."
 
 #: motioneye/templates/main.html:1056
 msgid "Retpoŝtadresoj"
-msgstr ""
+msgstr "Adrese de email"
 
 #: motioneye/templates/main.html:1057
 msgid "retpoŝtadresoj…"
-msgstr ""
+msgstr "Adrese de email…"
 
 #: motioneye/templates/main.html:1058
 msgid ""
 "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn "
 "kiam ajn moviĝokazaĵo estas detektita."
 msgstr ""
+"Adresele de e-mail (separate prin virgule) adăugate aici vor primi "
+"notificări ori de câte ori este detectat un eveniment de mișcare."
 
 #: motioneye/templates/main.html:1061
 msgid "Servilo SMTP"
-msgstr ""
+msgstr "Server SMTP"
 
 #: motioneye/templates/main.html:1062
 msgid "ekz. smtp.gmail.com"
-msgstr ""
+msgstr "ex. smtp.gmail.com"
 
 #: motioneye/templates/main.html:1063
 msgid ""
 "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail "
 "smtp.gmail.com)."
 msgstr ""
+"Introduceți un hostname sau adresa IP a serverului SMTP utilizat de dvs. ("
+"pentru Gmail folosiți smtp.gmail.com)."
 
 #: motioneye/templates/main.html:1066
 msgid "SMTP Haveno"
-msgstr ""
+msgstr "Port SMTP"
 
 #: motioneye/templates/main.html:1067
 msgid "ekz. 587"
-msgstr ""
+msgstr "ex. 587"
 
 #: motioneye/templates/main.html:1068
 msgid ""
 "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj "
 "kaj 587 por TLS-ligoj)."
 msgstr ""
+"Introduceți portul SMTP al serverului folosit de dvs. (de obicei 465 pentru "
+"conexiunile non-TLS și 587 pentru conexiunile TLS)."
 
 #: motioneye/templates/main.html:1071
 msgid "SMTP-Konto"
-msgstr ""
+msgstr "Cont SMTP"
 
 #: motioneye/templates/main.html:1072
 msgid "konto@gmail.com…"
-msgstr ""
+msgstr "numele_contului@gmail.com…"
 
 #: motioneye/templates/main.html:1073
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
 msgstr ""
+"Introduceți contul SMTP folosit de dvs (de obicei adresa dvs. de e-mail)."
 
 #: motioneye/templates/main.html:1076
 msgid "SMTP Pasvorto"
-msgstr ""
+msgstr "Parola SMTP"
 
 #: motioneye/templates/main.html:1078
 msgid ""
 "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-"
 "specifan generitan pasvorton)."
 msgstr ""
+"Introduceți parola SMTP (pentru Gmail, utilizați parola Google sau parola "
+"specifică aplicației)."
 
 #: motioneye/templates/main.html:1081
 msgid "De adreso"
-msgstr ""
+msgstr "De la adresa"
 
 #: motioneye/templates/main.html:1082
 msgid "retpoŝta adreso…"
-msgstr ""
+msgstr "Adresa de e-mail…"
 
 #: motioneye/templates/main.html:1083
 msgid ""
 "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina"
 " retpoŝta adreso estos uzata se lasita malplena)."
 msgstr ""
+"Setați o adresă personalizată dacă serviciul dvs. SMTP necesită una (prima "
+"adresă de e-mail de destinație va fi folosită dacă acest câmp este lăsat "
+"necompletat)."
 
 #: motioneye/templates/main.html:1086
 msgid "Uzi TLS"
-msgstr ""
+msgstr "Utilizați TLS"
 
 #: motioneye/templates/main.html:1088
 msgid ""
 "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por "
 "ebligi)."
 msgstr ""
+"Activați această opțiune dacă serverul dvs. SMTP necesită TLS (activați "
+"pentru Gmail)."
 
 #: motioneye/templates/main.html:1091
 msgid "Aldonitaj bildoj tempo-intervalo"
-msgstr ""
+msgstr "Interval de timp pentru imaginile atașate"
 
 #: motioneye/templates/main.html:1093
 msgid ""
@@ -1618,34 +1664,43 @@ msgid ""
 "pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi"
 " ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr ""
+"Definește intervalul de timp de căutare utilizat la crearea atașamentelor de "
+"e-mail (valorile mai mari generează e-mailuri cu mai multe imagini în "
+"detrimentul notificării întârziate crescute); setați 0 pentru a dezactiva "
+"atașamentele de imagini. De asemenea, trebuie să activați „capturare imagini”"
+" pentru ca această opțiune să funcționeze."
 
 #: motioneye/templates/main.html:1097
 msgid "Testi retpoŝto"
-msgstr ""
+msgstr "Testare Email"
 
 #: motioneye/templates/main.html:1098
 msgid ""
 "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi "
 "plenigis la postulatajn detalojn."
 msgstr ""
+"Faceți clic pe acest buton pentru a testa notificările prin e-mail după ce "
+"ați completat detaliile necesare."
 
 #: motioneye/templates/main.html:1104
 msgid "Sendu Telegraman Sciigon"
-msgstr ""
+msgstr "Trimite o notificare Telegram"
 
 #: motioneye/templates/main.html:1106
 msgid ""
 "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento "
 "estas detektita"
 msgstr ""
+"Activați acest lucru dacă doriți să primiți un mesaj Telegram ori de câte "
+"ori este detectat un eveniment de mișcare."
 
 #: motioneye/templates/main.html:1109
 msgid "HTTP API ĵetono"
-msgstr ""
+msgstr "Token API HTTP"
 
 #: motioneye/templates/main.html:1110
 msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
-msgstr ""
+msgstr "Exemplu: 93847672: AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 
 #: motioneye/templates/main.html:1111
 msgid ""
@@ -1655,24 +1710,31 @@ msgid ""
 " «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas "
 "mesaĝojn."
 msgstr ""
+"Prin crearea chat-ului Telegram-Bot, veți primi un token API, pe care "
+"trebuie să îl introduceți aici. Faceți clic pe butonul \"informații API\" de "
+"mai jos pentru a accesa un ghid despre cum să obțineți indicativul API. De "
+"asemenea, asigurați-vă că chat-uiți cu noul dvs \"bot\" după ce cheia dvs. a "
+"fost generată pentru a vă asigura că primiți mesaje."
 
 #: motioneye/templates/main.html:1114
 msgid "Babileja ID"
-msgstr ""
+msgstr "ID chat"
 
 #: motioneye/templates/main.html:1115
 msgid "Ekzemplo: 938272312"
-msgstr ""
+msgstr "Exemplu: 938272312"
 
 #: motioneye/templates/main.html:1116
 msgid ""
 "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La "
 "babilejo redonos la necesan numeron por ĉi tiu kampo."
 msgstr ""
+"Creați un nou chat pentru id_chatbot (@id_chatbot) și alegeți start. Chatul "
+"va afișa numărul necesar pentru acest câmp."
 
 #: motioneye/templates/main.html:1119
 msgid "Alkroĉitaj Bildoj Tempo"
-msgstr ""
+msgstr "Timpul imaginilor atașate"
 
 #: motioneye/templates/main.html:1121
 msgid ""
@@ -1684,28 +1746,38 @@ msgid ""
 "agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado "
 "ekigita, starigu ĉi tion multe pli malalte."
 msgstr ""
+"Definește intervalul de timp pentru căutarea imaginilor pentru a crea "
+"atașamente Telegram (valorile mai mari generează mai multe imagini în "
+"detrimentul întârzierii de notificare crescute); setați 0 pentru a dezactiva "
+"atașamentul imaginilor; trebuie să activați și \"Capturare imagini\" pentru "
+"ca aceasta opțiune să funcționeze. Va fi nevoie să vă jucați cu acest număr "
+"până când o imagine este trimisă. Un număr bun de pornire este 30 dacă modul "
+"de capturarea de imagini e setat la \"detectarea miscării\". Pentru o "
+"mișcare declanșată standard, setați această valoare mult mai jos."
 
 #: motioneye/templates/main.html:1124
 msgid "API-Informoj"
-msgstr ""
+msgstr "Informații API"
 
 #: motioneye/templates/main.html:1125
 msgid "Testo"
-msgstr ""
+msgstr "Test"
 
 #: motioneye/templates/main.html:1131 motioneye/templates/main.html:1176
 msgid "Alvoki URL"
-msgstr ""
+msgstr "Apelați un Web Hook"
 
 #: motioneye/templates/main.html:1133
 msgid ""
 "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo "
 "estas detektita."
 msgstr ""
+"Activați această opțiune dacă doriți ca o adresă URL să fie solicitată ori "
+"de câte ori este detectat un eveniment de mișcare."
 
 #: motioneye/templates/main.html:1137
 msgid "ekz. http://ekzemplo.com/sciigi/"
-msgstr ""
+msgstr "ex. http://exemplu.com/notificare/"
 
 #: motioneye/templates/main.html:1138
 #, python-format
@@ -1714,30 +1786,38 @@ msgid ""
 "ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = "
 "horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr ""
+"URL-ul care să fie solicitat atunci când este detectată mișcare; sunt "
+"acceptate următoarele token-uri speciale: %%Y = an, %%m = lună, %%d = zi, "
+"%%H = oră, %%M = minut, %%S = secundă, %%q = numărul cadrului, %%v = numărul "
+"incidentului ."
 
 #: motioneye/templates/main.html:1150 motioneye/templates/main.html:1195
 msgid ""
 "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos"
 " transdonitaj kiel indikite ĉi tie)."
 msgstr ""
+"Metoda HTTP de utilizat atunci când apelați un web hook (parametrii URL dați "
+"vor fi transmiși așa cum este indicat aici)."
 
 #: motioneye/templates/main.html:1156 motioneye/templates/main.html:1201
 msgid "Lanĉi komando"
-msgstr ""
+msgstr "Lansați o comandă"
 
 #: motioneye/templates/main.html:1158
 msgid ""
 "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo "
 "estas detektita."
 msgstr ""
+"Activați această opțiune dacă doriți să executați o comandă de fiecare dată "
+"când este detectat un eveniment de mișcare."
 
 #: motioneye/templates/main.html:1161 motioneye/templates/main.html:1206
 msgid "Komando"
-msgstr ""
+msgstr "Comandă"
 
 #: motioneye/templates/main.html:1162 motioneye/templates/main.html:1207
 msgid "komando…"
-msgstr ""
+msgstr "Comandă…"
 
 #: motioneye/templates/main.html:1163
 #, python-format
@@ -1748,12 +1828,19 @@ msgid ""
 "%%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, "
 "%%v = okaza numero"
 msgstr ""
+"Comanda care doriți să fie executată atunci când este detectată mișcare; "
+"comenzile multiple pot fi separate prin două puncte; nu utilizați punct și "
+"virgulă cu comenzi; sunt acceptate următoarele token-uri speciale: %%Y = an, "
+"%%m = lună, %%d = zi, %%H = oră, %%M = minut, %%S = secundă, %%q = numărul "
+"cadrului, %%v = numărul evenimentului ."
 
 #: motioneye/templates/main.html:1203
 msgid ""
 "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento "
 "finiĝos."
 msgstr ""
+"Activați această opțiune dacă doriți să lansați o comandă de fiecare dată "
+"când se termină un eveniment de mișcare."
 
 #: motioneye/templates/main.html:1208
 #, python-format
@@ -1763,147 +1850,156 @@ msgid ""
 "la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, "
 "%%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr ""
+"Comanda care doriți să fie executată atunci când un eveniment de mișcare se "
+"termină; comenzile multiple pot fi separate prin două puncte; nu utilizați "
+"punct și virgulă cu comenzi; sunt acceptate următoarele token-uri speciale: "
+"%%Y = an, %%m = lună, %%d = zi, %%H = oră, %%M = minut, %%S = secundă, %%q = "
+"numărul cadrului ."
 
 #: motioneye/templates/main.html:1218
 msgid ""
 "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de "
 "moviĝo."
 msgstr ""
+"Activați această opțiune dacă doriți să setați un program săptămânal pentru "
+"detectarea mișcării."
 
 #: motioneye/templates/main.html:1219
 msgid "Laboranta horaro"
-msgstr ""
+msgstr "Program de lucru"
 
 #: motioneye/templates/main.html:1224
 msgid "Lundo"
-msgstr ""
+msgstr "Luni"
 
 #: motioneye/templates/main.html:1227
 msgid "de"
-msgstr ""
+msgstr "de la"
 
 #: motioneye/templates/main.html:1228
 msgid "ĝis"
-msgstr ""
+msgstr "până la"
 
 #: motioneye/templates/main.html:1230
 msgid "Fiksas la labortagan tempintervalon por lundoj."
-msgstr ""
+msgstr "Setează intervalul de timp de lucru pentru zilele de luni."
 
 #: motioneye/templates/main.html:1233
 msgid "Mardo"
-msgstr ""
+msgstr "Marți"
 
 #: motioneye/templates/main.html:1239
 msgid "Fiksas la labortagan tempintervalon por mardoj."
-msgstr ""
+msgstr "Setează intervalul de timp de lucru pentru zilele de marți."
 
 #: motioneye/templates/main.html:1242
 msgid "Merkredo"
-msgstr ""
+msgstr "Miercuri"
 
 #: motioneye/templates/main.html:1248
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
-msgstr ""
+msgstr "Setează intervalul de timp de lucru pentru zilele de miercuri."
 
 #: motioneye/templates/main.html:1251
 msgid "Ĵaŭdo"
-msgstr ""
+msgstr "Joi"
 
 #: motioneye/templates/main.html:1257
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
-msgstr ""
+msgstr "Setează intervalul de timp de lucru pentru zilele de joi."
 
 #: motioneye/templates/main.html:1260
 msgid "Vendredo"
-msgstr ""
+msgstr "Vineri"
 
 #: motioneye/templates/main.html:1266
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
-msgstr ""
+msgstr "Setează intervalul de timp de lucru pentru zilele de vineri."
 
 #: motioneye/templates/main.html:1269
 msgid "Sabato"
-msgstr ""
+msgstr "Sâmbătă"
 
 #: motioneye/templates/main.html:1275
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
-msgstr ""
+msgstr "Setează intervalul de timp de lucru pentru zilele de sâmbătă."
 
 #: motioneye/templates/main.html:1278
 msgid "Dimanĉo"
-msgstr ""
+msgstr "Duminică"
 
 #: motioneye/templates/main.html:1284
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
-msgstr ""
+msgstr "Setează intervalul de timp de lucru pentru zilele de duminică."
 
 #: motioneye/templates/main.html:1287
 msgid "Detekti movadon"
-msgstr ""
+msgstr "Detectează mișcarea"
 
 #: motioneye/templates/main.html:1290
 msgid "Dum laborista horaro"
-msgstr ""
+msgstr "În timpul programului de lucru"
 
 #: motioneye/templates/main.html:1291
 msgid "Ekster laborista horaro"
-msgstr ""
+msgstr "În afara programului de lucru"
 
 #: motioneye/templates/main.html:1294
 msgid ""
 "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista "
 "horaro."
 msgstr ""
+"Setează dacă detectarea mișcării ar trebui să fie activă în timpul sau în "
+"afara programului de lucru."
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
 msgid "never"
-msgstr ""
+msgstr "niciodată"
 
 #: motioneye/utils/dtconv.py:113
 msgid "day"
-msgstr ""
+msgstr "zi"
 
 #: motioneye/utils/dtconv.py:116
 msgid "week"
-msgstr ""
+msgstr "săptămână"
 
 #: motioneye/utils/dtconv.py:119
 msgid "month"
-msgstr ""
+msgstr "lună"
 
 #: motioneye/utils/dtconv.py:122
 msgid "year"
-msgstr ""
+msgstr "an"
 
 #: motioneye/utils/dtconv.py:125
 msgid "days"
-msgstr ""
+msgstr "zile"
 
 #: motioneye/utils/dtconv.py:129
 msgid "hour"
-msgstr ""
+msgstr "oră"
 
 #: motioneye/utils/dtconv.py:132
 msgid "hours"
-msgstr ""
+msgstr "ore"
 
 #: motioneye/utils/dtconv.py:136
 msgid "minute"
-msgstr ""
+msgstr "minut"
 
 #: motioneye/utils/dtconv.py:139
 msgid "minutes"
-msgstr ""
+msgstr "minute"
 
 #: motioneye/utils/dtconv.py:143
 msgid "second"
-msgstr ""
+msgstr "secundă"
 
 #: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 msgid "seconds"
-msgstr ""
+msgstr "secunde"
 
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
-msgstr ""
+msgstr "minus"
