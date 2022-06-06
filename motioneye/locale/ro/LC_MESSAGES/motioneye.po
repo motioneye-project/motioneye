@@ -8,348 +8,373 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-26 18:33+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-06-06 12:59+0000\n"
+"Last-Translator: lukasig <lukasig@hotmail.com>\n"
+"Language-Team: Romanian <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-python-texts/ro/>\n"
 "Language: ro\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2;\n"
+"X-Generator: Weblate 4.13-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr ""
+msgstr "S-a primit un semnal de întrerupere, închidere…"
 
 #: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr ""
+msgstr "Partajările smb necesită privilegii root"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr ""
+msgstr "vă rugăm să instalați tornado versiunea 3.1 sau mai recentă"
 
 #: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
-msgstr ""
+msgstr "vă rugăm să instalați jinja2"
 
 #: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr ""
+msgstr "vă rugăm să instalați pillow sau PIL"
 
 #: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
-msgstr ""
+msgstr "vă rugăm să instalați pycurl"
 
 #: motioneye/server.py:423
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr ""
+msgstr "bună ! acesta este un server motionEye "
 
 #: motioneye/server.py:438
 msgid "purigado komenciĝis"
-msgstr ""
+msgstr "a început curățarea"
 
 #: motioneye/server.py:440
 msgid "wsswitch komenciĝis"
-msgstr ""
+msgstr "wswitch a pornit"
 
 #: motioneye/server.py:443
 msgid "taskoj komenciĝis"
-msgstr ""
+msgstr "sarcini pornite"
 
 #: motioneye/server.py:447
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr ""
+msgstr "clientul colector de gunoi mjpg a pornit"
 
 #: motioneye/server.py:465
 msgid "servilo komenciĝis"
-msgstr ""
+msgstr "server pornit"
 
 #: motioneye/server.py:471
 msgid "servilo haltis"
-msgstr ""
+msgstr "server oprit"
 
 #: motioneye/server.py:473
 msgid "taskoj haltis"
-msgstr ""
+msgstr "sarcini oprite"
 
 #: motioneye/server.py:481
 msgid "motion haltis"
-msgstr ""
+msgstr "motion oprit"
 
 #: motioneye/server.py:486
 msgid "adiaŭ!"
-msgstr ""
+msgstr "la revedere !"
 
 #: motioneye/templates/main.html:104
 msgid "agordojn"
-msgstr ""
+msgstr "setări"
 
 #: motioneye/templates/main.html:105
 msgid "ŝanĝi uzanton"
-msgstr ""
+msgstr "schimbă utilizatorul"
 
 #: motioneye/templates/main.html:107
 msgid "forigi kameraon"
-msgstr ""
+msgstr "eliminați camera"
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
-msgstr ""
+msgstr "Aplică"
 
 #: motioneye/templates/main.html:127
 msgid "preferoj de uzanto"
-msgstr ""
+msgstr "preferințe utilizator"
 
 #: motioneye/templates/main.html:128
 msgid "Preferoj"
-msgstr ""
+msgstr "Preferințe"
 
 #: motioneye/templates/main.html:133
 msgid "Aranĝo Kolumnoj"
-msgstr ""
+msgstr "Coloane afișate"
 
 #: motioneye/templates/main.html:135
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
 msgstr ""
+"setează numărul de coloane utilizate pentru aranjarea cadrelor camerelor"
 
 #: motioneye/templates/main.html:138
 msgid "Fiksi Kadrojn Vertikale"
-msgstr ""
+msgstr "Potriviți cadrele pe verticală"
 
 #: motioneye/templates/main.html:140
 msgid ""
 "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la "
 "fenestro aŭ ne"
 msgstr ""
+"verifică dacă cadrele pot fi reduse sau nu pentru a se potrivi vertical în "
+"fereastră"
 
 #: motioneye/templates/main.html:143
 msgid "Aranĝo linioj"
-msgstr ""
+msgstr "Rânduri afișate"
 
 #: motioneye/templates/main.html:145
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
 msgstr ""
+"setează numărul de rânduri utilizate pentru aranjarea cadrelor camerelor"
 
 #: motioneye/templates/main.html:148
 msgid "kadro-variatoro"
-msgstr ""
+msgstr "Variator frecvență de cadre"
 
 #: motioneye/templates/main.html:150
 msgid ""
 "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne "
 "funkcias kun simplaj MJPEG-fotiloj)"
 msgstr ""
+"reduce frecvența cadrelor pentru a economisi lățimea de bandă și traficul "
+"rețelei (nu funcționează cu camere simple MJPEG)"
 
 #: motioneye/templates/main.html:153
 msgid "Rezolucio-variatoro"
-msgstr ""
+msgstr "Variator de rezoluție"
 
 #: motioneye/templates/main.html:155
 msgid ""
 "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan "
 "bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
 msgstr ""
+"reduce rezoluția efectivă a camerelor pentru a economisi lățimea de bandă și "
+"traficul rețelei (nu funcționează pe camerele simple MJPEG)"
 
 #: motioneye/templates/main.html:161
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
-msgstr ""
+msgstr "setări generale, neasociate cu nicio cameră anume"
 
 #: motioneye/templates/main.html:162
 msgid "Ĝeneralaj Agordoj"
-msgstr ""
+msgstr "Setări generale"
 
 #: motioneye/templates/main.html:167
 msgid "Lingvo"
-msgstr ""
+msgstr "Limba"
 
 #: motioneye/templates/main.html:173
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr ""
+msgstr "limba interfeței"
 
 #: motioneye/templates/main.html:176
 msgid "Administranto"
-msgstr ""
+msgstr "Administrator"
 
 #: motioneye/templates/main.html:178
 msgid "la uzantnomo uzata por agordi la sistemon"
-msgstr ""
+msgstr "numele de utilizator folosit pentru configurarea sistemului"
 
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
 msgid "Pasvorto"
-msgstr ""
+msgstr "Parola"
 
 #: motioneye/templates/main.html:183
 msgid "pasvorto de administranto"
-msgstr ""
+msgstr "parola de administrator"
 
 #: motioneye/templates/main.html:186
 msgid "Observanto"
-msgstr ""
+msgstr "Supraveghetor"
 
 #: motioneye/templates/main.html:188
 msgid "la uzantnomo por uzi por la monitorado"
-msgstr ""
+msgstr "numele de utilizator folosit pentru monitorizare"
 
 #: motioneye/templates/main.html:193
 msgid ""
 "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen "
 "pasvorto)"
 msgstr ""
+"parola utilizatorului de monitorizare (lăsați necompletat pentru "
+"monitorizare fără parolă)"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"
-msgstr ""
+msgstr "Versiune motionEye"
 
 #: motioneye/templates/main.html:206
 msgid "Motion Versio"
-msgstr ""
+msgstr "Versiune Motion"
 
 #: motioneye/templates/main.html:210
 msgid "Operaciumo Versio"
-msgstr ""
+msgstr "Versiune sistem de operare"
 
 #: motioneye/templates/main.html:215
 msgid "Programara Ĝisdatigo"
-msgstr ""
+msgstr "Actualizare de software"
 
 #: motioneye/templates/main.html:217
 msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
-msgstr ""
+msgstr "verifică pentru versiuni noi și efectuează actualizări"
 
 #: motioneye/templates/main.html:221
 msgid "Nutro"
-msgstr ""
+msgstr "Alimentare"
 
 #: motioneye/templates/main.html:222
 msgid "Fermu"
-msgstr ""
+msgstr "Oprire"
 
 #: motioneye/templates/main.html:223
 msgid "malŝaltas la sistemon"
-msgstr ""
+msgstr "oprește sistemul"
 
 #: motioneye/templates/main.html:227
 msgid "Rekomencu"
-msgstr ""
+msgstr "Repornire"
 
 #: motioneye/templates/main.html:228
 msgid "rekomencas la sistemon"
-msgstr ""
+msgstr "repornește sistemul"
 
 #: motioneye/templates/main.html:234
 msgid "Agordo"
-msgstr ""
+msgstr "Configurație"
 
 #: motioneye/templates/main.html:235
 msgid "Sekurkopio"
-msgstr ""
+msgstr "Copie de siguranță"
 
 #: motioneye/templates/main.html:236
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
 msgstr ""
+"creează un fișier cu configurația actuală, pe care îl puteți descărca local"
 
 #: motioneye/templates/main.html:240
 msgid "Restaŭri"
-msgstr ""
+msgstr "Restabilire"
 
 #: motioneye/templates/main.html:241
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
 msgstr ""
+"restabilește configurația dintr-un fișier de copie de siguranță descărcat "
+"anterior"
 
 #: motioneye/templates/main.html:265
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
-msgstr ""
+msgstr "activați această opțiune dacă doriți să utilizați această cameră"
 
 #: motioneye/templates/main.html:266
 msgid "Video-Aparato"
-msgstr ""
+msgstr "Dispozitiv video"
 
 #: motioneye/templates/main.html:271 motioneye/templates/main.html:614
 #: motioneye/templates/main.html:631
 msgid "Kamerao Nomo"
-msgstr ""
+msgstr "Numele camerei"
 
 #: motioneye/templates/main.html:272
 msgid "kameraa nomo…"
-msgstr ""
+msgstr "Numele camerei…"
 
 #: motioneye/templates/main.html:273
 msgid "alias pri ĉi tiu kamera aparato"
-msgstr ""
+msgstr "alias pentru acest dispozitiv video"
 
 #: motioneye/templates/main.html:276
 msgid "Kamerao ID"
-msgstr ""
+msgstr "ID-ul camerei"
 
 #: motioneye/templates/main.html:278
 msgid "la kamerao identiga numero"
-msgstr ""
+msgstr "numărul de identificare al camerei"
 
 #: motioneye/templates/main.html:281
 msgid "Kamerao aparato"
-msgstr ""
+msgstr "Dispozitiv video"
 
 #: motioneye/templates/main.html:283
 msgid ""
 "Eniga aparato (ekz. : /dev/video) or URL (ekz. : "
 "rtsp://192.168.1.1/stream)"
 msgstr ""
+"dispozitiv de intrare (de exemplu, /dev/video) sau URL (de exemplu, "
+"rtsp://192.168.1.1/stream)"
 
 #: motioneye/templates/main.html:286
 msgid "Kamerao Tipo"
-msgstr ""
+msgstr "Tipul camerei"
 
 #: motioneye/templates/main.html:293
 msgid "Aŭtomata Brilo"
-msgstr ""
+msgstr "Luminozitate automată"
 
 #: motioneye/templates/main.html:295
 msgid ""
 "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen "
 "aŭtomata brilo)"
 msgstr ""
+"activează luminozitatea automată din software (recomandat numai pentru "
+"camerele fără luminozitate automată)"
 
 #: motioneye/templates/main.html:301
 msgid "Video-rezolucio"
-msgstr ""
+msgstr "Rezoluție video"
 
 #: motioneye/templates/main.html:306
 msgid ""
 "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed"
 " postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
 msgstr ""
+"rezoluția video (valorile mai mari produc calitate mai bună, dar necesită "
+"mai multă putere CPU, spațiu de stocare și lățime de bandă mai mari)"
 
 #: motioneye/templates/main.html:309
 msgid "Larĝeco"
-msgstr ""
+msgstr "Lăţime"
 
 #: motioneye/templates/main.html:311
 msgid "enigu kutiman rezolucian larĝon"
-msgstr ""
+msgstr "introduceți lățimea rezoluției personalizată"
 
 #: motioneye/templates/main.html:314
 msgid "Alteco"
-msgstr ""
+msgstr "Înălţime"
 
 #: motioneye/templates/main.html:316
 msgid "enigu kutiman rezolucian altecon"
-msgstr ""
+msgstr "introduceți înălțimea rezoluției personalizată"
 
 #: motioneye/templates/main.html:319
 msgid "Video-Rotacio"
-msgstr ""
+msgstr "Rotație video"
 
 #: motioneye/templates/main.html:328
 msgid ""
 "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas "
 "poziciigita ĝuste"
 msgstr ""
+"utilizați această opțiune pentru a roti imaginea capturată dacă camera dvs. "
+"nu este poziționată corect"
 
 #: motioneye/templates/main.html:331
 msgid "Kadrofrekvenco"
-msgstr ""
+msgstr "Rata cadrelor"
 
 #: motioneye/templates/main.html:333
 msgid ""
@@ -357,250 +382,282 @@ msgid ""
 "altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-"
 "potenco, pli grandan stokadon kaj larĝan bandon)"
 msgstr ""
+"ajustează numărul de cadre capturate de cameră în fiecare secundă (valorile "
+"mai mari produc videoclipuri mai fluide, dar necesită mai multă putere CPU, "
+"mai mult spațiu de stocare și lățime de bandă mai largâ)"
 
 #: motioneye/templates/main.html:339
 msgid "Privateca masko"
-msgstr ""
+msgstr "Mască de confidențialitate"
 
 #: motioneye/templates/main.html:341
 msgid ""
 "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj "
 "por protekti privatecon"
 msgstr ""
+"permite mascarea imaginii pentru a preveni înregistrarea anumitor zone de "
+"imagine pentru a proteja confidențialitatea"
 
 #: motioneye/templates/main.html:346 motioneye/templates/main.html:1007
 msgid "Redakti maskon"
-msgstr ""
+msgstr "Editați masca"
 
 #: motioneye/templates/main.html:347 motioneye/templates/main.html:1008
 msgid "Konservi maskon"
-msgstr ""
+msgstr "Salvați masca"
 
 #: motioneye/templates/main.html:350
 msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
-msgstr ""
+msgstr "faceți clic pe acest buton pentru a activa/dezactiva editorul de mască"
 
 #: motioneye/templates/main.html:361
 msgid "Ekstraj Elektoj"
-msgstr ""
+msgstr "Opțiuni suplimentare"
 
 #: motioneye/templates/main.html:363
 msgid ""
 "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono "
 "(uzu la «nomo valoro» formaton, unu opcion por linio)"
 msgstr ""
+"puteți adăuga orice opțiune suplimentară aici pentru demon-ul „motion” ("
+"utilizați formatul „nume valoare”, o opțiune pe linie)"
 
 #: motioneye/templates/main.html:372
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
-msgstr ""
+msgstr "alegeți unde și cum sunt stocate fișierele dvs. media"
 
 #: motioneye/templates/main.html:373
 msgid "Stokado de dosieroj"
-msgstr ""
+msgstr "Stocarea fișierelor"
 
 #: motioneye/templates/main.html:378
 msgid "Stokada Aparato"
-msgstr ""
+msgstr "Dispozitiv de stocare"
 
 #: motioneye/templates/main.html:383
 msgid ""
 "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos "
 "konservitaj"
 msgstr ""
+"indică dispozitivul pe care vor fi stocate fișierele de imagine și video"
 
 #: motioneye/templates/main.html:386
 msgid "Retservilo"
-msgstr ""
+msgstr "Server rețea"
 
 #: motioneye/templates/main.html:388
 msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
-msgstr ""
+msgstr "adresa serverului de rețea (adresă IP sau hostname)"
 
 #: motioneye/templates/main.html:391
 msgid "SMB Protokolo-Versio"
-msgstr ""
+msgstr "Versiunea protocolului SMB"
 
 #: motioneye/templates/main.html:401
 msgid ""
 "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj "
 "vidu, kiu funkcias plej bone kun via NAS)"
 msgstr ""
+"selectează versiunea SMB pe care o puteți utiliza (testați diferitele "
+"opțiuni și vedeți care funcționează cel mai bine cu sistemul dvs. NAS)"
 
 #: motioneye/templates/main.html:404
 msgid "Kunhava nomo"
-msgstr ""
+msgstr "Nume partajare"
 
 #: motioneye/templates/main.html:406
 msgid "la nomo de la interŝanĝa reto"
-msgstr ""
+msgstr "numele rețelei partajate"
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
-msgstr ""
+msgstr "Nume de utilizator"
 
 #: motioneye/templates/main.html:411
 msgid ""
 "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu "
 "malplena se neniu uzantnomo estas bezonata)"
 msgstr ""
+"numele de utilizator de furnizat pentru accesarea directorului de rețea ("
+"lăsați necompletat dacă nu este necesar un nume de utilizator)"
 
 #: motioneye/templates/main.html:414
 msgid "Pasvorton"
-msgstr ""
+msgstr "Parola partajării"
 
 #: motioneye/templates/main.html:416
 msgid ""
 "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu "
 "pasvorto estas bezonata)"
 msgstr ""
+"parola cerută de directorul de rețea (lăsați necompletat dacă nu este "
+"necesară o parolă)"
 
 #: motioneye/templates/main.html:419
 msgid "Radika dosierujo"
-msgstr ""
+msgstr "Directorul root"
 
 #: motioneye/templates/main.html:421
 msgid ""
 "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos "
 "konservitaj"
 msgstr ""
+"calea root (pe dispozitivul de stocare selectat), unde vor fi salvate "
+"fișierele"
 
 #: motioneye/templates/main.html:425
 msgid "Testi la reton dosierujon"
-msgstr ""
+msgstr "Testați directorul de rețea"
 
 #: motioneye/templates/main.html:426
 msgid ""
 "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis"
 " la postulatajn detalojn"
 msgstr ""
+"faceți clic pe acest buton pentru a testa conexiunea directorului de rețea "
+"după ce ați completat detaliile necesare"
 
 #: motioneye/templates/main.html:432
 msgid "Uzado de Disko"
-msgstr ""
+msgstr "Utilizare disc"
 
 #: motioneye/templates/main.html:436
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr ""
+msgstr "dimensiunea utilizată/totală a discului în care se află directorul root"
 
 #: motioneye/templates/main.html:442
 msgid "Alŝutu Mediajn Dosierojn"
-msgstr ""
+msgstr "Încărcați fișiere media"
 
 #: motioneye/templates/main.html:444
 msgid ""
 "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu "
 "alŝutitaj al ekstera servo"
 msgstr ""
+"activați această opțiune dacă doriți ca conținutul media să fie încărcat "
+"într-un serviciu extern"
 
 #: motioneye/templates/main.html:447
 msgid "Alŝutu Bildojn"
-msgstr ""
+msgstr "Încarcă imagini"
 
 #: motioneye/templates/main.html:449
 msgid ""
 "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera "
 "servo"
 msgstr ""
+"activați această opțiune dacă doriți ca imaginile să fie încărcate într-un "
+"serviciu extern"
 
 #: motioneye/templates/main.html:452
 msgid "Alŝutu Filmojn"
-msgstr ""
+msgstr "Încărcați videoclipuri"
 
 #: motioneye/templates/main.html:454
 msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
 msgstr ""
+"activați acest lucru dacă doriți ca videoclipurile să fie încărcate într-un "
+"serviciu extern"
 
 #: motioneye/templates/main.html:457
 msgid "Alŝuta Servo"
-msgstr ""
+msgstr "Serviciu de încărcare"
 
 #: motioneye/templates/main.html:460
 msgid "Servilo FTP"
-msgstr ""
+msgstr "server FTP"
 
 #: motioneye/templates/main.html:461
 msgid "Servilo SFTP"
-msgstr ""
+msgstr "server SFTP"
 
 #: motioneye/templates/main.html:462
 msgid "Servilo HTTP"
-msgstr ""
+msgstr "Server HTTP"
 
 #: motioneye/templates/main.html:463
 msgid "Servilo HTTPS"
-msgstr ""
+msgstr "Server HTTPS"
 
 #: motioneye/templates/main.html:471
 msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
-msgstr ""
+msgstr "alegeți un serviciu la care să fie încărcate fișierele media"
 
 #: motioneye/templates/main.html:474
 msgid "Servila Adreso"
-msgstr ""
+msgstr "Adresa serverului"
 
 #: motioneye/templates/main.html:476
 msgid ""
 "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ "
 "192.168.1.3)"
 msgstr ""
+"numele domeniului sau adresa IP a serverului (de exemplu, ftp.exemplu.com "
+"sau 192.168.1.3)"
 
 #: motioneye/templates/main.html:479
 msgid "Servila haveno"
-msgstr ""
+msgstr "Port-ul serverului"
 
 #: motioneye/templates/main.html:481
 msgid ""
 "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por "
 "uzi la defaŭltan valoron)"
 msgstr ""
+"portul folosit pentru conectarea la serviciu (lăsați acest câmp necompletat "
+"pentru a utiliza valoarea implicită)"
 
 #: motioneye/templates/main.html:484
 msgid "Metodo"
-msgstr ""
+msgstr "Metodă"
 
 #: motioneye/templates/main.html:491
 msgid "la HTTP-metodo uzi por alŝuti dosierojn"
-msgstr ""
+msgstr "metoda HTTP de utilizat pentru încărcarea fișierelor"
 
 #: motioneye/templates/main.html:494
 msgid "Finpunkto URL"
-msgstr ""
+msgstr "Punct final URL"
 
 #: motioneye/templates/main.html:496
 msgid "La kompleta URL al la alŝuta servila finpunkto:"
-msgstr ""
+msgstr "Adresa URL completă către punctul final de server:"
 
 #: motioneye/templates/main.html:497
 msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
-msgstr ""
+msgstr "Pentru S3: de ex. http://my.minio:9000. Lăsați necompletat pentru AWS!"
 
 #: motioneye/templates/main.html:498
 msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
-msgstr ""
+msgstr "Pentru WebDAV: de ex. https://my.cloud/remote.php/dav/files/Me/"
 
 #: motioneye/templates/main.html:501
 msgid "Loko"
-msgstr ""
+msgstr "Locație"
 
 #: motioneye/templates/main.html:503
 msgid ""
 "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. "
 "/files/cam1/)"
 msgstr ""
+"locația (calea root) la care ar trebui să fie încărcate fișierele media (de "
+"ex. /files/cam1/)"
 
 #: motioneye/templates/main.html:506
 msgid "Inkluzivi Subdosierujojn"
-msgstr ""
+msgstr "Includeți subdosare"
 
 #: motioneye/templates/main.html:508
 msgid ""
 "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, "
 "anstataŭ meti ilin rekte en la radikan lokon"
 msgstr ""
+"activați această opțiune pentru a încărca fișiere media împreună cu "
+"subfolderele lor, în loc să le plasați direct în locația root"
 
 #: motioneye/templates/main.html:511
 msgid "Purigi la nubon"
-msgstr ""
+msgstr "Curățați cloud-ul"
 
 #: motioneye/templates/main.html:513
 msgid ""
@@ -608,87 +665,101 @@ msgid ""
 "ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de "
 "persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
 msgstr ""
+"activați această opțiune pentru a șterge și fișierele media încărcate în "
+"cloud atunci când cele locale sunt șterse conform setării de persistență a "
+"fișierului. În prezent, această opțiune este disponibilă doar pentru gdrive."
 
 #: motioneye/templates/main.html:518
 msgid "la uzantnomo por la alŝuta servo-konto"
-msgstr ""
+msgstr "numele de utilizator pentru contul de serviciu de încărcare"
 
 #: motioneye/templates/main.html:523
 msgid "la pasvorto por la alŝuta servo-konto"
-msgstr ""
+msgstr "parola pentru contul de serviciu de încărcare"
 
 #: motioneye/templates/main.html:526
 msgid "Rajtiga ŝlosilo"
-msgstr ""
+msgstr "Cheia de autorizare"
 
 #: motioneye/templates/main.html:528
 msgid ""
 "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur "
 "dum agordo)"
 msgstr ""
+"cheia folosită pentru autentificarea cu serviciul de încărcare (de obicei "
+"necesară doar pentru configurare)"
 
 #: motioneye/templates/main.html:534
 msgid "Akiri ŝlosilon"
-msgstr ""
+msgstr "Obțineți cheie"
 
 #: motioneye/templates/main.html:537
 msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
-msgstr ""
+msgstr "faceți clic aici pentru a obține cheia serviciului de autorizare"
 
 #: motioneye/templates/main.html:540
 msgid "Access Key"
-msgstr ""
+msgstr "Cheie de acces"
 
 #: motioneye/templates/main.html:542
 msgid "The AWS access key used to authenticate with the upload service"
 msgstr ""
+"Cheia de acces AWS folosită pentru autentificare cu serviciul de încărcare"
 
 #: motioneye/templates/main.html:545
 msgid "Sekreta Alira Ŝlosilo"
-msgstr ""
+msgstr "Cheie de acces secretă"
 
 #: motioneye/templates/main.html:547
 msgid ""
 "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo "
 "(kutime bezonata nur dum agordo)"
 msgstr ""
+"cheia de acces secretă AWS folosită pentru autentificarea cu serviciul de "
+"încărcare (de obicei necesară doar pentru configurare)"
 
 #: motioneye/templates/main.html:550
 msgid "Sitelo"
-msgstr ""
+msgstr "Compartiment"
 
 #: motioneye/templates/main.html:552
 msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr ""
+"numele compartimentului S3 pentru serviciul de încărcare (de obicei necesar "
+"doar pentru configurare)"
 
 #: motioneye/templates/main.html:556
 msgid "Testi la servon"
-msgstr ""
+msgstr "Testare serviciu"
 
 #: motioneye/templates/main.html:557
 msgid ""
 "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis"
 " la postulatajn detalojn"
 msgstr ""
+"faceți clic pe acest buton pentru a testa serviciul de încărcare după ce ați "
+"completat detaliile necesare"
 
 #: motioneye/templates/main.html:563
 msgid "alvoki URL"
-msgstr ""
+msgstr "Apelați un Web Hook"
 
 #: motioneye/templates/main.html:565
 msgid ""
 "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de "
 "amaskomunikila dosiero"
 msgstr ""
+"activați acest lucru dacă doriți ca adresa URL să fie solicitată după "
+"crearea unui fișier media"
 
 #: motioneye/templates/main.html:568 motioneye/templates/main.html:1136
 #: motioneye/templates/main.html:1181
 msgid "Reteja URL"
-msgstr ""
+msgstr "URL-ul pentru Web Hook"
 
 #: motioneye/templates/main.html:569
 msgid "ekz. http://example.com/notify/"
-msgstr ""
+msgstr "ex. http://examplu.com/notify/"
 
 #: motioneye/templates/main.html:570
 #, python-format
@@ -698,35 +769,43 @@ msgid ""
 "horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento "
 "numero,%%f = dosiera vojo"
 msgstr ""
+"URL solicitat când este detectată mișcare; sunt acceptate următoarele token-"
+"uri speciale rapide: %%Y = an, %%m = lună, %%d = zi, %%H = oră, %%M = minut, "
+"%%S = secundă, %%q = numărul cadrului, %%v = numărul evenimentului, %%f = "
+"calea fișierului"
 
 #: motioneye/templates/main.html:573 motioneye/templates/main.html:1141
 #: motioneye/templates/main.html:1186
 msgid "Metodo HTTP"
-msgstr ""
+msgstr "Metodă HTTP"
 
 #: motioneye/templates/main.html:582
 msgid ""
 "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-"
 "koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
 msgstr ""
+"metoda HTTP de utilizat atunci când solicitați o adresă URL web hook ("
+"parametrii codificați-în-URL dați vor fi transmiși așa cum este indicat aici)"
 
 #: motioneye/templates/main.html:588
 msgid "Kuri Komando"
-msgstr ""
+msgstr "Executați o comandă"
 
 #: motioneye/templates/main.html:590
 msgid ""
 "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero "
 "estas kreita"
 msgstr ""
+"activați această opțiune dacă doriți să executați o comandă după ce a fost "
+"creat un fișier media"
 
 #: motioneye/templates/main.html:593
 msgid "Ordono"
-msgstr ""
+msgstr "Comandă"
 
 #: motioneye/templates/main.html:594
 msgid "ordono…"
-msgstr ""
+msgstr "Ordin…"
 
 #: motioneye/templates/main.html:595
 #, python-format
@@ -737,41 +816,46 @@ msgid ""
 " = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = "
 "kadra numero , %%v = okaza numero, %%f = dosiera vojo"
 msgstr ""
+"o comandă ce urmează să fie executată după crearea unui fișier media. Mai "
+"multe comenzi pot fi separate prin punct-și-virgulă; nu utilizați punct-și-"
+"virgulă în comenzi; sunt acceptate următoarele token-uri speciale: %%Y = an, "
+"%%m = lună, %%d = zi, %%H = oră, %%M = minut, %%S = secundă, %%q = numărul "
+"cadrului, %%v = numărul evenimentului, %%f = calea fișierului"
 
 #: motioneye/templates/main.html:605
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
-msgstr ""
+msgstr "selectați ce informații sunt afișate în cadrele capturate"
 
 #: motioneye/templates/main.html:606
 msgid "Teksto Superkovrita"
-msgstr ""
+msgstr "Suprapunere text"
 
 #: motioneye/templates/main.html:611
 msgid "Maldekstra Teksto"
-msgstr ""
+msgstr "Text stânga"
 
 #: motioneye/templates/main.html:615 motioneye/templates/main.html:632
 msgid "Tempostampo"
-msgstr ""
+msgstr "Ștampilă de timp"
 
 #: motioneye/templates/main.html:616 motioneye/templates/main.html:633
 msgid "Propra Teksto"
-msgstr ""
+msgstr "Text personalizat"
 
 #: motioneye/templates/main.html:617 motioneye/templates/main.html:634
 #: motioneye/templates/main.html:691
 msgid "Malebligita"
-msgstr ""
+msgstr "Dezactivat"
 
 #: motioneye/templates/main.html:620
 msgid ""
 "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra "
 "maldekstra angulo"
-msgstr ""
+msgstr "setează textul afișat pe filme și imagini, în colțul din stânga jos"
 
 #: motioneye/templates/main.html:624 motioneye/templates/main.html:641
 msgid "propra teksto…"
-msgstr ""
+msgstr "Text personalizat"
 
 #: motioneye/templates/main.html:625
 #, python-format
@@ -781,16 +865,20 @@ msgid ""
 " = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = "
 "nova linio"
 msgstr ""
+"setează textul personalizat din stânga; sunt acceptate următoarele token-uri "
+"speciale: %%Y = an, %%m = lună, %%d = zi, %%H = oră, %%M = minut, %%S = "
+"secundă, %%q = numărul cadrului, %%v = numărul evenimentului, %%T = HH: MM: "
+"SS, \\ n = rând nou"
 
 #: motioneye/templates/main.html:628
 msgid "Dekstra Teksto"
-msgstr ""
+msgstr "Text dreapta"
 
 #: motioneye/templates/main.html:637
 msgid ""
 "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra "
 "dekstra angulo"
-msgstr ""
+msgstr "setează textul afișat pe filme și imagini, în colțul din dreapta jos"
 
 #: motioneye/templates/main.html:642
 #, python-format
@@ -800,44 +888,52 @@ msgid ""
 " = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = "
 "nova linio"
 msgstr ""
+"setează textul personalizat din dreapta; sunt acceptate următoarele token-"
+"uri speciale: %%Y = an, %%m = lună, %%d = zi, %%H = oră, %%M = minut, %%S = "
+"secundă, %%q = numărul cadrului, %%v = numărul evenimentului, %%T = HH: MM: "
+"SS, \\ n = rând nou"
 
 #: motioneye/templates/main.html:645
 msgid "Teksta Skalo"
-msgstr ""
+msgstr "Mărimea textului"
 
 #: motioneye/templates/main.html:647
 msgid "Difinas la grandecon de la superkovrita teksto"
-msgstr ""
+msgstr "setează dimensiunea textului suprapus"
 
 #: motioneye/templates/main.html:657
 msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
 msgstr ""
+"activați această opțiune dacă doriți să transmiteți un stream video pentru "
+"această cameră"
 
 #: motioneye/templates/main.html:658
 msgid "Videofluo"
-msgstr ""
+msgstr "Streaming video"
 
 #: motioneye/templates/main.html:663
 msgid "Framo frekvencon"
-msgstr ""
+msgstr "Frecvența cadrelor stream-ului"
 
 #: motioneye/templates/main.html:665
 msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
-msgstr ""
+msgstr "setează numărul de cadre transmise pe secundă în stream-ul live."
 
 #: motioneye/templates/main.html:668
 msgid "Flua Kvalito"
-msgstr ""
+msgstr "Calitatea stream-ului"
 
 #: motioneye/templates/main.html:670
 msgid ""
 "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan "
 "videokvaliton sed postulas pli da larĝa bando)."
 msgstr ""
+"reglează calitatea fluxului (valorile mai mari produc o calitate video mai "
+"bună, dar necesită o lățime de bandă mai largă)."
 
 #: motioneye/templates/main.html:673
 msgid "Bilda Redimensionado"
-msgstr ""
+msgstr "Redimensionarea imaginii stream-ului"
 
 #: motioneye/templates/main.html:675
 msgid ""
@@ -1034,7 +1130,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
 msgid "Propra"
-msgstr ""
+msgstr "Personalizat"
 
 #: motioneye/templates/main.html:790
 msgid ""
