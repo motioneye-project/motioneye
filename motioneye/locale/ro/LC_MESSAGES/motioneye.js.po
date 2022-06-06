@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-26 18:33+0200\n"
-"PO-Revision-Date: 2022-06-06 12:59+0000\n"
+"PO-Revision-Date: 2022-06-06 14:56+0000\n"
 "Last-Translator: lukasig <lukasig@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-javascript/ro/>\n"
@@ -300,11 +300,11 @@ msgstr "imaginea anterioară"
 
 #: motioneye/static/js/main.js:3681
 msgid "ludi"
-msgstr "rulează"
+msgstr "Redă"
 
 #: motioneye/static/js/main.js:3684
 msgid "ludi * 5 kaj enĉenigi"
-msgstr "rulează x5 în șir"
+msgstr "Redă x5 în șir"
 
 #: motioneye/static/js/main.js:3689
 msgid "sekva bildo"
@@ -348,7 +348,7 @@ msgstr "Cameră MJPEG simplă"
 
 #: motioneye/static/js/main.js:3873
 msgid "la speco de kamerao, kiun vi volas aldoni"
-msgstr "tipul camerei pe care doriți s-o adăugați"
+msgstr "Tipul camerei pe care doriți s-o adăugați."
 
 #: motioneye/static/js/main.js:3876
 msgid "URL"
@@ -360,7 +360,7 @@ msgstr "http://exemplu.com:8765 /cams/..."
 
 #: motioneye/static/js/main.js:3878
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
-msgstr "adresa URL a camerei (de exemplu, http://examplu.com:8080/cam/)"
+msgstr "Adresa URL a camerei (de exemplu, http://examplu.com:8080/cam/)."
 
 #: motioneye/static/js/main.js:3882
 msgid "uzantnomo..."
@@ -369,7 +369,8 @@ msgstr "nume de utilizator ..."
 #: motioneye/static/js/main.js:3883
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
 msgstr ""
-"numele de utilizator pentru adresa URL, dacă este necesar (de exemplu, admin)"
+"Numele de utilizator pentru adresa URL, dacă este necesar (de exemplu, "
+"admin)."
 
 #: motioneye/static/js/main.js:3887
 msgid "pasvorto..."
@@ -377,7 +378,7 @@ msgstr "parola ..."
 
 #: motioneye/static/js/main.js:3888
 msgid "la pasvorto por la URL, se bezonata"
-msgstr "parola pentru adresa URL, dacă este necesară"
+msgstr "Parola pentru adresa URL, dacă este necesară."
 
 #: motioneye/static/js/main.js:3891
 msgid "Kamerao"
@@ -385,7 +386,7 @@ msgstr "Cameră"
 
 #: motioneye/static/js/main.js:3893
 msgid "la kameraon, kiun vi volas aldoni"
-msgstr "camera pe care doriți să o adăugați"
+msgstr "Camera pe care doriți să o adăugați."
 
 #: motioneye/static/js/main.js:3929
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
@@ -491,7 +492,7 @@ msgstr ""
 
 #: motioneye/static/js/main.js:4241
 msgid "Krei akselita video"
-msgstr "Creați videoclip-ul timelapse"
+msgstr "Creați videoclip timelapse"
 
 #: motioneye/static/js/main.js:4250
 msgid "Filmo kreanta en progreso..."
