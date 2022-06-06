@@ -11,3 +11,6 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    target-branch: "dev"
+    labels:
+    - "CI/CD"
