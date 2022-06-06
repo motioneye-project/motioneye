@@ -49,18 +49,18 @@ def main(parser, args):
 
     if options.method == 'POST':
         headers['Content-Type'] = 'text/plain'
-        data = ''
+        data = b''
 
     elif options.method == 'POSTf':  # form url-encoded
         headers['Content-Type'] = 'application/x-www-form-urlencoded'
-        data = parts.query
+        data = parts.query.encode()
         url = options.url.split('?')[0]
 
     elif options.method == 'POSTj':  # json
         headers['Content-Type'] = 'application/json'
         data = urllib.parse.parse_qs(parts.query)
         data = {k: v[0] for (k, v) in list(data.items())}
-        data = json.dumps(data)
+        data = json.dumps(data).encode()
         url = options.url.split('?')[0]
 
     else:  # GET
