@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-05-26 18:33+0200\n"
-"PO-Revision-Date: 2022-05-07 19:36+0000\n"
-"Last-Translator: jmichault <jmt.2000@free.fr>\n"
-"Language-Team: English <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/en/>\n"
+"PO-Revision-Date: 2022-06-09 06:20+0000\n"
+"Last-Translator: lukasig <lukasig@hotmail.com>\n"
+"Language-Team: English <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-python-texts/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.13-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -25,7 +26,7 @@ msgstr "An interrupt signal received, closing …"
 
 #: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr "smb shares require root privileges"
+msgstr "SMB shares require root privileges"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
@@ -586,12 +587,10 @@ msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
 msgstr "click here to obtain the service authorization key"
 
 #: motioneye/templates/main.html:540
-#, fuzzy
 msgid "Access Key"
 msgstr "Access Key"
 
 #: motioneye/templates/main.html:542
-#, fuzzy
 msgid "The AWS access key used to authenticate with the upload service"
 msgstr "The AWS Access Key Used To Authenticate with the Upload Service"
 
