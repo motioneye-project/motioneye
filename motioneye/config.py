@@ -1945,7 +1945,7 @@ def restore(content):
             def later():
                 PowerControl.reboot()
 
-            io_loop = IOLoop.instance()
+            io_loop = IOLoop.current()
             io_loop.add_timeout(datetime.timedelta(seconds=2), later)
 
         else:

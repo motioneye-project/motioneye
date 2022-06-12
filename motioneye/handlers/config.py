@@ -281,7 +281,7 @@ class ConfigHandler(BaseHandler):
                     def call_reboot():
                         PowerControl.reboot()
 
-                    io_loop = IOLoop.instance()
+                    io_loop = IOLoop.current()
                     io_loop.add_timeout(datetime.timedelta(seconds=2), call_reboot)
                     return self.finish({'reload': False, 'reboot': True, 'error': None})
 

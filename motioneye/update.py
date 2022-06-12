@@ -119,6 +119,6 @@ def perform_update(version):
 
     # schedule the actual update for two seconds later,
     # since we want to be able to respond to the request right away
-    ioloop.IOLoop.instance().add_timeout(
+    ioloop.IOLoop.current().add_timeout(
         datetime.timedelta(seconds=2), platformupdate.perform_update, version=version
     )

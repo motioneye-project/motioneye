@@ -115,7 +115,7 @@ class PictureHandler(BaseHandler):
             # get_current_picture() will make sure to start a client, but a jpeg frame is not available right away;
             # wait at most 5 seconds and retry every 200 ms.
             if not picture and retry < 25:
-                return IOLoop.instance().add_timeout(
+                return IOLoop.current().add_timeout(
                     datetime.timedelta(seconds=0.2),
                     self.current,
                     camera_id=camera_id,

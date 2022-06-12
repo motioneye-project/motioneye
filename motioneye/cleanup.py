@@ -32,7 +32,7 @@ def start():
         return
 
     # schedule the first call a bit later to improve performance at startup
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
     io_loop.add_timeout(
         datetime.timedelta(seconds=min(settings.CLEANUP_INTERVAL, 60)), _run_process
     )
@@ -62,7 +62,7 @@ def running():
 def _run_process():
     global _process
 
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
 
     # schedule the next call
     io_loop.add_timeout(

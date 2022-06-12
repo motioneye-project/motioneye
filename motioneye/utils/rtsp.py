@@ -41,7 +41,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
     timeout = [None]
     stream = None
 
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
     future = Future()
 
     def connect():
