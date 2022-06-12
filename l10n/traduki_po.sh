@@ -40,7 +40,7 @@ awk -v "src=$src" -v "dst=$dst" '{
         print ("msgid " MSGID);
         printf("msgstr \"");
         MSG=system("l10n/traduko.sh " src " " dst " " MSGID )
-        printf("\"\n");
+        printf("\"\n\n");
       }
       else
       {
