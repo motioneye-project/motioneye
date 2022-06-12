@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2022-05-24 09:21+0000\n"
+"PO-Revision-Date: 2022-06-12 14:56+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-javascript/fr/>\n"
@@ -649,9 +649,8 @@ msgid "Pan Absolute"
 msgstr "Pan absolu"
 
 #: l10n/v4l2.js:20
-#, fuzzy
 msgid "Power Line Frequency"
-msgstr "Fréquence de ligne"
+msgstr "Fréquence du réseau électrique"
 
 #: l10n/v4l2.js:21
 msgid "Saturation"
