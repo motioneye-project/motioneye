@@ -19,7 +19,7 @@ motioneye/static/js/motioneye.%.json : motioneye/locale/%/LC_MESSAGES/motioneye.
 motioneye/locale/motioneye.js.pot : motioneye/static/js/*.js l10n/*.js
 	xgettext --from-code=UTF-8 --no-wrap -o motioneye/locale/motioneye.js.pot motioneye/static/js/*.js l10n/*.js
 
-motioneye/locale/motioneye.pot : motioneye/*.py motioneye/templates/*.html
+motioneye/locale/motioneye.pot : motioneye/*.py motioneye/*/*.py motioneye/templates/*.html
 	pybabel extract -F l10n/babel.cfg -o motioneye/locale/motioneye.pot motioneye/
 #####
 # regulo por krei novan tradukon
