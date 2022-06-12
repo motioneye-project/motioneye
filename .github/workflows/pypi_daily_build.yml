@@ -50,6 +50,6 @@ jobs:
       run: python -m build
     - name: Publish package
       if: ${{ env.should_run != 'false' }}
-      run: twine  upload --repository testpypi -u __token__ -p ${{ secrets.TEST_PYPI_API_TOKEN }} dist/*
-#      run: twine  upload --repository pypi -u __token__ -p ${{ secrets.PYPI_TOKEN }} dist/*
+#      run: twine  upload --repository testpypi -u __token__ -p ${{ secrets.TEST_PYPI_API_TOKEN }} dist/*
+      run: twine  upload --repository pypi -u __token__ -p ${{ secrets.PYPI_TOKEN }} dist/*
       
