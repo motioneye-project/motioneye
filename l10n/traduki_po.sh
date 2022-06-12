@@ -22,7 +22,7 @@ awk -v "src=$src" -v "dst=$dst" '{
   }
   else if ( CONTMSG==1 && substr($1,1,1) == "\"")
   {
-    MSGID=MSGID $0;
+    MSGID = substr(MSGID,1,length(MSGID)-1) substr($0,2);
   }
   else if ($1 == "msgstr")
   {
@@ -32,12 +32,22 @@ awk -v "src=$src" -v "dst=$dst" '{
       print $0;
     }
     else
-    {
-      print ("#, fuzzy");
-      print ("msgid " MSGID);
-      printf("msgstr \"");
-      MSG=system("l10n/traduko.sh " src " " dst " " MSGID )
-      printf("\"\n");
+    { # msgstr == "" kaj MSGID != ""
+      getline nextline
+      if (nextline == "")
+      {
+        print ("#, fuzzy");
+        print ("msgid " MSGID);
+        printf("msgstr \"");
+        MSG=system("l10n/traduko.sh " src " " dst " " MSGID )
+        printf("\"\n");
+      }
+      else
+      {
+        print ("msgid " MSGID);
+        print $0;
+        print nextline;
+      }
     }
   }
   else
