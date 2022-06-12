@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-26 18:33+0200\n"
+"POT-Creation-Date: 2022-06-12 17:19+0200\n"
 "PO-Revision-Date: 2022-06-09 06:20+0000\n"
 "Last-Translator: lukasig <lukasig@hotmail.com>\n"
-"Language-Team: English <https://hosted.weblate.org/projects/"
-"motioneye-project/motioneye-python-texts/en/>\n"
+"Language-Team: English <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -900,6 +899,7 @@ msgstr "Snapshot Interval"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
+#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 msgid "sekundoj"
 msgstr "seconds"
 
@@ -1028,7 +1028,7 @@ msgstr "movies older than the specified duration are automatically deleted to fr
 msgid "Filmoj Vivdaŭro"
 msgstr "Movies Lifetime"
 
-#: motioneye/templates/main.html:907
+#: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
 msgid "tagoj"
 msgstr "days"
 
@@ -1494,115 +1494,46 @@ msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista
 msgstr "sets whether motion detection should be active during or outside the working schedule."
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
-msgid "never"
+msgid "neniam"
 msgstr "never"
 
 #: motioneye/utils/dtconv.py:113
-msgid "day"
+msgid "tago"
 msgstr "day"
 
 #: motioneye/utils/dtconv.py:116
-msgid "week"
+msgid "semajno"
 msgstr "week"
 
 #: motioneye/utils/dtconv.py:119
-msgid "month"
+msgid "monato"
 msgstr "month"
 
 #: motioneye/utils/dtconv.py:122
-msgid "year"
+msgid "jaro"
 msgstr "year"
 
-#: motioneye/utils/dtconv.py:125
-msgid "days"
-msgstr "days"
-
 #: motioneye/utils/dtconv.py:129
-msgid "hour"
+msgid "horo"
 msgstr "hour"
 
 #: motioneye/utils/dtconv.py:132
-msgid "hours"
+msgid "horoj"
 msgstr "hours"
 
 #: motioneye/utils/dtconv.py:136
-msgid "minute"
+msgid "minuto"
 msgstr "minute"
 
 #: motioneye/utils/dtconv.py:139
-msgid "minutes"
+msgid "minutoj"
 msgstr "minutes"
 
 #: motioneye/utils/dtconv.py:143
-msgid "second"
+msgid "sekundo"
 msgstr "second"
-
-#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
-msgid "seconds"
-msgstr "seconds"
 
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
 msgstr "minus"
 
-#, fuzzy
-#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
-#~ msgstr "For Webdav: E.G. https://my.cloud/remote.php/dav/files/me/"
-
-#, fuzzy
-#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-#~ msgstr "For S3: E.G. http://my.minio: 9000. Leave It Empty for AWS!"
-
-#, fuzzy
-#~ msgid "Endpoint URL"
-#~ msgstr "Endpoint url"
-
-#, fuzzy
-#~ msgid "The complete URL to the upload server endpoint:"
-#~ msgstr "The complete url to the upload server endpoint:"
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero…"
-#~ msgstr "Template name of a file ..."
-
-#~ msgid "ordono..."
-#~ msgstr "command ..."
-
-#~ msgid "propra teksto..."
-#~ msgstr "own text ..."
-
-#~ msgid "ŝablona nomo de dosiero..."
-#~ msgstr "file name pattern..."
-
-#~ msgid "retpoŝtadresoj..."
-#~ msgstr "email addresses ..."
-
-#~ msgid "konto@gmail.com..."
-#~ msgstr "account@gmail.com ..."
-
-#~ msgid "retpoŝta adreso..."
-#~ msgstr "email address ..."
-
-#~ msgid "komando..."
-#~ msgstr "command ..."
-
-#~ msgid "interrompa signalo ricevita, fermanta ..."
-#~ msgstr "interrupt signal received, closing ..."
-
-#~ msgid "kameraa nomo..."
-#~ msgstr "camera name ..."
-
-#~ msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
-#~ msgstr "you can add any additional options here for the \"motion\" daemon (use the \"name value\" format, one option per line)"
-
-#~ msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-#~ msgstr "By creating the telegram bot chat, you will get an API token that you need to enter here. Click the API button below for a step-by-step guide on how to get your API token. Also be sure to chat with your newly created bot after your key is generated, to make sure you are getting messages."
-
-#~ msgid "Lanĉi fina komando"
-#~ msgstr "Run An End Command"
-
-#~ msgid "Alira Ŝlosila Id"
-#~ msgstr "Access Key Id"
-
-#~ msgid "la AWS-ŝlosila identigilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-#~ msgstr "the AWS access key id used to authenticate with the upload service (normally required only during setup)"

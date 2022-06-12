@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-26 18:33+0200\n"
+"POT-Creation-Date: 2022-06-12 17:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1001,6 +1001,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
+#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 msgid "sekundoj"
 msgstr ""
 
@@ -1152,7 +1153,7 @@ msgstr ""
 msgid "Filmoj Vivdaŭro"
 msgstr ""
 
-#: motioneye/templates/main.html:907
+#: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
 msgid "tagoj"
 msgstr ""
 
@@ -1704,53 +1705,46 @@ msgid ""
 msgstr ""
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
-msgid "never"
+msgid "neniam"
 msgstr ""
 
 #: motioneye/utils/dtconv.py:113
-msgid "day"
+msgid "tago"
 msgstr ""
 
 #: motioneye/utils/dtconv.py:116
-msgid "week"
+msgid "semajno"
 msgstr ""
 
 #: motioneye/utils/dtconv.py:119
-msgid "month"
+msgid "monato"
 msgstr ""
 
 #: motioneye/utils/dtconv.py:122
-msgid "year"
-msgstr ""
-
-#: motioneye/utils/dtconv.py:125
-msgid "days"
+msgid "jaro"
 msgstr ""
 
 #: motioneye/utils/dtconv.py:129
-msgid "hour"
+msgid "horo"
 msgstr ""
 
 #: motioneye/utils/dtconv.py:132
-msgid "hours"
+msgid "horoj"
 msgstr ""
 
 #: motioneye/utils/dtconv.py:136
-msgid "minute"
+msgid "minuto"
 msgstr ""
 
 #: motioneye/utils/dtconv.py:139
-msgid "minutes"
+msgid "minutoj"
 msgstr ""
 
 #: motioneye/utils/dtconv.py:143
-msgid "second"
-msgstr ""
-
-#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
-msgid "seconds"
+msgid "sekundo"
 msgstr ""
 
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
 msgstr ""
+

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-26 18:33+0200\n"
+"POT-Creation-Date: 2022-06-12 17:19+0200\n"
 "PO-Revision-Date: 2022-05-22 13:34+0000\n"
 "Last-Translator: Jose Riha <jose1711@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/sk/>\n"
@@ -899,6 +899,7 @@ msgstr "Interval snímok"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
+#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 msgid "sekundoj"
 msgstr "sekundy"
 
@@ -1027,7 +1028,7 @@ msgstr "videá staršie ako uvedený čas budú automaticky odstránené, aby sa
 msgid "Filmoj Vivdaŭro"
 msgstr "Životnosť videí"
 
-#: motioneye/templates/main.html:907
+#: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
 msgid "tagoj"
 msgstr "dni"
 
@@ -1494,102 +1495,46 @@ msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista
 msgstr "nastavuje, či má byť detekcia pohybu aktívna počas alebo mimo pracovného času."
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
-msgid "never"
+msgid "neniam"
 msgstr "nikdy"
 
 #: motioneye/utils/dtconv.py:113
-msgid "day"
+msgid "tago"
 msgstr "deň"
 
 #: motioneye/utils/dtconv.py:116
-msgid "week"
+msgid "semajno"
 msgstr "týždeň"
 
 #: motioneye/utils/dtconv.py:119
-msgid "month"
+msgid "monato"
 msgstr "mesiac"
 
 #: motioneye/utils/dtconv.py:122
-msgid "year"
+msgid "jaro"
 msgstr "rok"
 
-#: motioneye/utils/dtconv.py:125
-msgid "days"
-msgstr "dni"
-
 #: motioneye/utils/dtconv.py:129
-msgid "hour"
+msgid "horo"
 msgstr "hodina"
 
 #: motioneye/utils/dtconv.py:132
-msgid "hours"
+msgid "horoj"
 msgstr "hodiny"
 
 #: motioneye/utils/dtconv.py:136
-msgid "minute"
+msgid "minuto"
 msgstr "minúta"
 
 #: motioneye/utils/dtconv.py:139
-msgid "minutes"
+msgid "minutoj"
 msgstr "minúty"
 
 #: motioneye/utils/dtconv.py:143
-msgid "second"
+msgid "sekundo"
 msgstr "sekunda"
-
-#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
-msgid "seconds"
-msgstr "sekundy"
 
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
 msgstr "mínus"
 
-#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
-#~ msgstr "Pre WebDav: napr. https://my.cloud/remote.php/dav/files/me/"
-
-#, fuzzy
-#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-#~ msgstr "Pre S3: napr. http: //my.minio: 9000. Nechajte to prázdne pre AWS!"
-
-#~ msgid "interrompa signalo ricevita, fermanta ..."
-#~ msgstr "prijatý signál prerušenia, zatváram…"
-
-#~ msgid "kameraa nomo..."
-#~ msgstr "názov kamery ..."
-
-#~ msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
-#~ msgstr "tu môžete pridať daľsie voľby pre \"motion\" (použite formát \"názov hodnota\", jednu voľbu na riadok)"
-
-#~ msgid "ordono..."
-#~ msgstr "príkaz..."
-
-#~ msgid "propra teksto..."
-#~ msgstr "vlastný text…"
-
-#~ msgid "ŝablona nomo de dosiero..."
-#~ msgstr "šablóna názvu súboru..."
-
-#~ msgid "retpoŝtadresoj..."
-#~ msgstr "e-mailové adresy..."
-
-#~ msgid "konto@gmail.com..."
-#~ msgstr "ucet@gmail.com …"
-
-#~ msgid "retpoŝta adreso..."
-#~ msgstr "e-mailová adresa..."
-
-#~ msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-#~ msgstr "Vytvorením chatu s Telegram botom získate API token, ktorý je potrebné vložiť na toto miesto. Kliknite na API tlačidlo nižšie pre získanie podrobného návodu, ako API token získať. Po vygenerovaní kľúča začnite konverzáciu s vašim novovytvoreným botom, aby ste sa tak uistili, že budete správy dostávať."
-
-#~ msgid "komando..."
-#~ msgstr "príkaz…"
-
-#~ msgid "Lanĉi fina komando"
-#~ msgstr "Spustiť príkaz po skončení"
-
-#~ msgid "Alira Ŝlosila Id"
-#~ msgstr "Access Key Id"
-
-#~ msgid "la AWS-ŝlosila identigilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-#~ msgstr "the AWS access key id used to authenticate with the upload service (normally required only during setup)"

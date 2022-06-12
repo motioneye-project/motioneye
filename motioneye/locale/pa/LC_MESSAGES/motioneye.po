@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-26 18:33+0200\n"
+"POT-Creation-Date: 2022-06-12 17:19+0200\n"
 "PO-Revision-Date: 2020-04-09 16:58+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -1109,6 +1109,7 @@ msgstr "ਰੁਕਾਵਟ ਅੰਤਰਾਲ"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
+#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 #, fuzzy
 msgid "sekundoj"
 msgstr "ਸਕਿੰਟ"
@@ -1268,7 +1269,7 @@ msgstr "ਨਿਰਧਾਰਤ ਅਵਧੀ ਤੋਂ ਪੁਰਾਣੀਆਂ �
 msgid "Filmoj Vivdaŭro"
 msgstr "ਫਿਲਮਾਂ ਲਾਈਫਟਾਈਮ"
 
-#: motioneye/templates/main.html:907
+#: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
 #, fuzzy
 msgid "tagoj"
 msgstr "ਦਿਨ"
@@ -1846,153 +1847,56 @@ msgstr "ਪ੍ਰਭਾਸ਼ਿਤ ਕਰਦਾ ਹੈ ਕਿ ਗਤੀ ਦੀ 
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
 #, fuzzy
-msgid "never"
+msgid "neniam"
 msgstr "ਕਦੇ ਨਹੀਂ"
 
 #: motioneye/utils/dtconv.py:113
 #, fuzzy
-msgid "day"
+msgid "tago"
 msgstr "ਦਿਨ"
 
 #: motioneye/utils/dtconv.py:116
 #, fuzzy
-msgid "week"
+msgid "semajno"
 msgstr "ਹਫ਼ਤਾ"
 
 #: motioneye/utils/dtconv.py:119
 #, fuzzy
-msgid "month"
+msgid "monato"
 msgstr "ਮਹੀਨਾ"
 
 #: motioneye/utils/dtconv.py:122
 #, fuzzy
-msgid "year"
+msgid "jaro"
 msgstr "ਸਾਲ"
-
-#: motioneye/utils/dtconv.py:125
-#, fuzzy
-msgid "days"
-msgstr "ਦਿਨ"
 
 #: motioneye/utils/dtconv.py:129
 #, fuzzy
-msgid "hour"
+msgid "horo"
 msgstr "ਘੰਟਾ"
 
 #: motioneye/utils/dtconv.py:132
 #, fuzzy
-msgid "hours"
+msgid "horoj"
 msgstr "ਘੰਟੇ"
 
 #: motioneye/utils/dtconv.py:136
 #, fuzzy
-msgid "minute"
+msgid "minuto"
 msgstr "ਮਿੰਟ"
 
 #: motioneye/utils/dtconv.py:139
 #, fuzzy
-msgid "minutes"
+msgid "minutoj"
 msgstr "ਮਿੰਟ"
 
 #: motioneye/utils/dtconv.py:143
 #, fuzzy
-msgid "second"
-msgstr "ਦੂਜਾ"
-
-#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
-#, fuzzy
-msgid "seconds"
-msgstr "ਸਕਿੰਟ"
+msgid "sekundo"
+msgstr "ਇੱਕ ਸਕਿੰਟ"
 
 #: motioneye/utils/dtconv.py:153
 #, fuzzy
 msgid "minus"
 msgstr "ਘਟਾਓ"
 
-#, fuzzy
-#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
-#~ msgstr "ਵੈਬਡਾਵ ਲਈ: E.g. https:2mivloud/remeremote.php/dav/files/me//"
-
-#, fuzzy
-#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-#~ msgstr "S3 ਲਈ: E.g. HTTP: //my.minio: 9000. ਇਸ ਨੂੰ aws ਲਈ ਖਾਲੀ ਛੱਡੋ!"
-
-#, fuzzy
-#~ msgid "Endpoint URL"
-#~ msgstr "ਐਂਡ ਪੁਆਇੰਟ ਯੂਆਰਐਲ"
-
-#, fuzzy
-#~ msgid "The complete URL to the upload server endpoint:"
-#~ msgstr "ਅਪਲੋਡ ਸਰਵਰ ਐਂਡ ਪੁਆਇੰਟ ਦਾ ਪੂਰਾ URL:"
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero…"
-#~ msgstr "ਇੱਕ ਫਾਈਲ ਦਾ ਟੈਂਪਲੇਟ ਨਾਮ ..."
-
-#, fuzzy
-#~ msgid "ordono..."
-#~ msgstr "ਆਰਡਰ ..."
-
-#, fuzzy
-#~ msgid "propra teksto..."
-#~ msgstr "ਆਪਣਾ ਪਾਠ ..."
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero..."
-#~ msgstr "ਟੈਂਪਲੇਟ ਫਾਈਲ ਦਾ ਨਾਮ ..."
-
-#, fuzzy
-#~ msgid "retpoŝtadresoj..."
-#~ msgstr "ਈਮੇਲ ਪਤੇ ..."
-
-#, fuzzy
-#~ msgid "konto@gmail.com..."
-#~ msgstr "account@gmail.com ..."
-
-#, fuzzy
-#~ msgid "retpoŝta adreso..."
-#~ msgstr "ਈਮੇਲ ਪਤਾ ..."
-
-#, fuzzy
-#~ msgid "komando..."
-#~ msgstr "ਕਮਾਂਡ ..."
-
-#, fuzzy
-#~ msgid "interrompa signalo ricevita, fermanta ..."
-#~ msgstr "ਰੁਕਾਵਟ ਸੰਕੇਤ ਮਿਲਿਆ, ਬੰਦ ਹੋ ਰਿਹਾ ਹੈ ..."
-
-#, fuzzy
-#~ msgid "kameraa nomo..."
-#~ msgstr "ਕੈਮਰਾ ਨਾਮ ..."
-
-#, fuzzy
-#~ msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
-#~ msgstr "ਤੁਸੀਂ ਇੱਥੇ \"ਮੋਸ਼ਨ\" ਡੈਮਨ ਲਈ ਕੋਈ ਵਾਧੂ ਵਿਕਲਪ ਸ਼ਾਮਲ ਕਰ ਸਕਦੇ ਹੋ (\"ਨਾਮ ਮੁੱਲ\" ਫਾਰਮੈਟ ਦੀ ਵਰਤੋਂ ਕਰੋ, ਪ੍ਰਤੀ ਲਾਈਨ ਇੱਕ ਵਿਕਲਪ)"
-
-#, fuzzy
-#~ msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-#~ msgstr "ਟੈਲੀਗ੍ਰਾਮ ਬੋਟ ਚੈਟ ਬਣਾ ਕੇ, ਤੁਹਾਨੂੰ ਇੱਕ ਏਪੀਆਈ ਟੋਕਨ ਮਿਲੇਗਾ ਜਿਸਦੀ ਤੁਹਾਨੂੰ ਇੱਥੇ ਪ੍ਰਵੇਸ਼ ਕਰਨ ਦੀ ਜ਼ਰੂਰਤ ਹੈ. ਆਪਣੇ API ਟੋਕਨ ਕਿਵੇਂ ਪ੍ਰਾਪਤ ਕਰੀਏ ਇਸ ਬਾਰੇ ਇੱਕ ਕਦਮ-ਦਰ-ਕਦਮ ਗਾਈਡ ਲਈ ਹੇਠਾਂ ਦਿੱਤੇ API ਬਟਨ ਤੇ ਕਲਿਕ ਕਰੋ. ਇਹ ਵੀ ਯਕੀਨੀ ਬਣਾਓ ਕਿ ਤੁਹਾਡੀ ਕੁੰਜੀ ਤਿਆਰ ਹੋਣ ਤੋਂ ਬਾਅਦ ਤੁਹਾਡੇ ਨਵੇਂ ਬਣੇ ਬੂਟ ਨਾਲ ਗੱਲਬਾਤ ਕਰੋ, ਇਹ ਸੁਨਿਸ਼ਚਿਤ ਕਰਨ ਲਈ ਕਿ ਤੁਹਾਨੂੰ ਸੁਨੇਹੇ ਮਿਲ ਰਹੇ ਹਨ."
-
-#, fuzzy
-#~ msgid "Lanĉi fina komando"
-#~ msgstr "ਫਾਈਨਲ ਕਮਾਂਡ ਚਲਾਓ"
-
-#, fuzzy
-#~ msgid "Alira Ŝlosila Id"
-#~ msgstr "ਐਕਸੈਸ ਕੁੰਜੀ ਆਈਡੀ"
-
-#, fuzzy
-#~ msgid "la AWS-ŝlosila identigilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-#~ msgstr "ਏਡਬਲਯੂਐਸ ਕੁੰਜੀ ਪਛਾਣਕਰਤਾ ਅਪਲੋਡ ਸੇਵਾ ਨਾਲ ਪ੍ਰਮਾਣਿਤ ਕਰਨ ਲਈ ਵਰਤਿਆ ਜਾਂਦਾ ਹੈ (ਆਮ ਤੌਰ 'ਤੇ ਸਿਰਫ ਕੌਂਫਿਗਰੇਸ਼ਨ ਦੇ ਸਮੇਂ ਲੋੜੀਂਦਾ ਹੁੰਦਾ ਹੈ)"
-
-#, fuzzy
-#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-#~ msgstr "ਚਾਲ ਚਾਲੂ ਹੋਣ 'ਤੇ ਚਾਲੂ ਕਰਨ ਲਈ ਕਮਾਂਡ; ਮਲਟੀਪਲ ਕਮਾਂਡਾਂ ਨੂੰ ਅਰਧਕੋਲਨ ਦੁਆਰਾ ਵੱਖ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ; ਕਮਾਂਡਾਂ ਦੇ ਨਾਲ ਸੈਮੀਕਾਲਨ ਦੀ ਵਰਤੋਂ ਨਾ ਕਰੋ; ਹੇਠ ਦਿੱਤੇ ਵਿਸ਼ੇਸ਼ ਟੋਕਨ ਸਵੀਕਾਰੇ ਗਏ ਹਨ:%% Y = ਸਾਲ, %% m = ਮਹੀਨਾ, %% d = ਦਿਨ, %% H = ਘੰਟਾ, %% M = ਮਿੰਟ, %% S = ਸਕਿੰਟ, %% Q = ਫਰੇਮ ਨੰਬਰ , %% v = ਇਵੈਂਟ ਨੰਬਰ"
-
-#, fuzzy
-#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
-#~ msgstr "ਮੋਸ਼ਨ ਈਵੈਂਟ ਖਤਮ ਹੋਣ 'ਤੇ ਚਲਾਉਣ ਲਈ ਕਮਾਂਡ; ਮਲਟੀਪਲ ਕਮਾਂਡਾਂ ਨੂੰ ਅਰਧਕੋਲਨ ਦੁਆਰਾ ਵੱਖ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ; ਕਮਾਂਡਾਂ ਦੇ ਨਾਲ ਡਾਟ ਕੌਮ ਦੀ ਵਰਤੋਂ ਨਾ ਕਰੋ; ਹੇਠ ਦਿੱਤੇ ਵਿਸ਼ੇਸ਼ ਟੋਕਨ ਸਵੀਕਾਰੇ ਗਏ ਹਨ:%% Y = ਸਾਲ, %% m = ਮਹੀਨਾ, %% d = ਮਿਤੀ, %% H = ਘੰਟਾ, %% M = ਮਿੰਟ, %% S = ਸਕਿੰਟ, %% Q = ਫਰੇਮ ਨੰਬਰ."
-
-#, fuzzy
-#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-#~ msgstr "ਚਿੱਤਰ ਦੀ ਪ੍ਰਤੀਸ਼ਤਤਾ ਨੂੰ ਪ੍ਰਭਾਸ਼ਿਤ ਕਰਦਾ ਹੈ ਜਿਸ ਨੂੰ ਬਦਲਣ ਦੀ ਜ਼ਰੂਰਤ ਹੈ ਤਾਂ ਕਿ ਘਟਨਾ ਨੂੰ ਗਤੀ ਦੀ ਬਜਾਏ ਅਚਾਨਕ ਪ੍ਰਕਾਸ਼ ਤਬਦੀਲੀ ਮੰਨਿਆ ਜਾਏ (0% ਵਿਸ਼ੇਸ਼ਤਾ ਨੂੰ ਅਯੋਗ ਕਰਦਾ ਹੈ)."

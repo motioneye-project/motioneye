@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-26 18:33+0200\n"
+"POT-Creation-Date: 2022-06-12 17:19+0200\n"
 "PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/motioneye-project/motioneye/zh_Hans/>\n"
@@ -1111,6 +1111,7 @@ msgstr "拦截间隔"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
+#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 #, fuzzy
 msgid "sekundoj"
 msgstr "秒"
@@ -1270,7 +1271,7 @@ msgstr "早于设定时长的电影将被自动删除以释放存储空间。"
 msgid "Filmoj Vivdaŭro"
 msgstr "电影一生"
 
-#: motioneye/templates/main.html:907
+#: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
 #, fuzzy
 msgid "tagoj"
 msgstr "天"
@@ -1848,153 +1849,56 @@ msgstr "定义在工作时间内还是在工作时间之外应启用运动检测
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
 #, fuzzy
-msgid "never"
-msgstr "从不"
+msgid "neniam"
+msgstr "绝不"
 
 #: motioneye/utils/dtconv.py:113
 #, fuzzy
-msgid "day"
-msgstr "日"
+msgid "tago"
+msgstr "天"
 
 #: motioneye/utils/dtconv.py:116
 #, fuzzy
-msgid "week"
-msgstr "周"
+msgid "semajno"
+msgstr "星期"
 
 #: motioneye/utils/dtconv.py:119
 #, fuzzy
-msgid "month"
+msgid "monato"
 msgstr "月"
 
 #: motioneye/utils/dtconv.py:122
 #, fuzzy
-msgid "year"
-msgstr "年份"
-
-#: motioneye/utils/dtconv.py:125
-#, fuzzy
-msgid "days"
-msgstr "天"
+msgid "jaro"
+msgstr "年"
 
 #: motioneye/utils/dtconv.py:129
 #, fuzzy
-msgid "hour"
+msgid "horo"
 msgstr "小时"
 
 #: motioneye/utils/dtconv.py:132
 #, fuzzy
-msgid "hours"
+msgid "horoj"
 msgstr "小时"
 
 #: motioneye/utils/dtconv.py:136
 #, fuzzy
-msgid "minute"
+msgid "minuto"
 msgstr "分钟"
 
 #: motioneye/utils/dtconv.py:139
 #, fuzzy
-msgid "minutes"
+msgid "minutoj"
 msgstr "分钟"
 
 #: motioneye/utils/dtconv.py:143
 #, fuzzy
-msgid "second"
-msgstr "第二"
-
-#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
-#, fuzzy
-msgid "seconds"
-msgstr "秒"
+msgid "sekundo"
+msgstr "一秒"
 
 #: motioneye/utils/dtconv.py:153
 #, fuzzy
 msgid "minus"
 msgstr "减号"
 
-#, fuzzy
-#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
-#~ msgstr "对于WebDav：例如https://my.cloud/remote.php/dav/files/me/"
-
-#, fuzzy
-#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-#~ msgstr "对于S3：例如http：//my.minio：9000。将其空白为AWS！"
-
-#, fuzzy
-#~ msgid "Endpoint URL"
-#~ msgstr "端点URL"
-
-#, fuzzy
-#~ msgid "The complete URL to the upload server endpoint:"
-#~ msgstr "上传服务器端点的完整URL："
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero…"
-#~ msgstr "文件的模板名称..."
-
-#, fuzzy
-#~ msgid "ordono..."
-#~ msgstr "订购..."
-
-#, fuzzy
-#~ msgid "propra teksto..."
-#~ msgstr "自己的文字..."
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero..."
-#~ msgstr "模板文件名..."
-
-#, fuzzy
-#~ msgid "retpoŝtadresoj..."
-#~ msgstr "电子邮件地址..."
-
-#, fuzzy
-#~ msgid "konto@gmail.com..."
-#~ msgstr "account@gmail.com ..."
-
-#, fuzzy
-#~ msgid "retpoŝta adreso..."
-#~ msgstr "电子邮件地址..."
-
-#, fuzzy
-#~ msgid "komando..."
-#~ msgstr "命令..."
-
-#, fuzzy
-#~ msgid "interrompa signalo ricevita, fermanta ..."
-#~ msgstr "收到中断信号，正在关闭..."
-
-#, fuzzy
-#~ msgid "kameraa nomo..."
-#~ msgstr "相机名称..."
-
-#, fuzzy
-#~ msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
-#~ msgstr "您可以在此处为“运动”守护程序添加任何其他选项（使用“名称值”格式，每行一个选项）"
-
-#, fuzzy
-#~ msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-#~ msgstr "通过创建电报机器人聊天，您将获得需要在此处输入的API令牌。单击下面的API按钮，以获取有关如何获取API令牌的逐步指南。另外，请确保在生成密钥后与新创建的引导聊天，以确保收到消息。"
-
-#, fuzzy
-#~ msgid "Lanĉi fina komando"
-#~ msgstr "启动最终命令"
-
-#, fuzzy
-#~ msgid "Alira Ŝlosila Id"
-#~ msgstr "存取金钥ID"
-
-#, fuzzy
-#~ msgid "la AWS-ŝlosila identigilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-#~ msgstr "用于通过上传服务进行身份验证的AWS密钥标识符（通常仅在配置期间需要）"
-
-#, fuzzy
-#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-#~ msgstr "当检测到运动时要启动的命令；多个命令可以用分号分隔；不要在命令中使用分号；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号，%% v =事件编号"
-
-#, fuzzy
-#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
-#~ msgstr "运动事件结束时要启动的命令；多个命令可以用分号分隔；不要在命令中使用点coms；接受以下特殊标记：%% Y =年，%% m =月，%% d =日期，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号。"
-
-#, fuzzy
-#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-#~ msgstr "定义需要更改的图像百分比，以便将事件视为突然的光更改而不是运动（0％禁用此功能）。"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-26 18:33+0200\n"
+"POT-Creation-Date: 2022-06-12 17:19+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -868,10 +868,11 @@ msgid "propra teksto…"
 msgstr "Tilpasset tekst ..."
 
 #: motioneye/templates/main.html:625
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr ""
+"Definerer en tilpasset venstre tekst; Følgende spesielle symboler er akseptert: %%Y = år, %%m = måned, %%d = dag, %%H = time, %%M = minutt, %%S = sekund, %%q = rammetall, %%v = hendelsesnummer, %%T = HH: mm: SS, \\n"
+" = ny linje"
 
 #: motioneye/templates/main.html:628
 #, fuzzy
@@ -884,10 +885,11 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dek
 msgstr "Angir teksten som vises på filmene og bildene, i nedre høyre hjørne"
 
 #: motioneye/templates/main.html:642
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr ""
+"Definerer tilpasset riktig tekst; Følgende spesielle symboler er akseptert: %%Y = år, %%m = måned, %%d = dag, %%H = time, %%M = minutt, %%S = sekund, %%q = rammetall, %%v = hendelsesnummer, %%T = HH:mm:SS, \\n"
+" = ny linje"
 
 #: motioneye/templates/main.html:645
 #, fuzzy
@@ -1111,6 +1113,7 @@ msgstr "Avskjæring intervall"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
+#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 #, fuzzy
 msgid "sekundoj"
 msgstr "sekunder"
@@ -1270,7 +1273,7 @@ msgstr "Filmer eldre enn den definerte varigheten fjernes automatisk for å frig
 msgid "Filmoj Vivdaŭro"
 msgstr "Filmer levetid"
 
-#: motioneye/templates/main.html:907
+#: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
 #, fuzzy
 msgid "tagoj"
 msgstr "dager"
@@ -1848,85 +1851,56 @@ msgstr "Definerer om bevegelsesdeteksjon skal være aktiv i løpet av eller uten
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
 #, fuzzy
-msgid "never"
-msgstr "Aldri"
+msgid "neniam"
+msgstr "aldri"
 
 #: motioneye/utils/dtconv.py:113
 #, fuzzy
-msgid "day"
+msgid "tago"
 msgstr "dag"
 
 #: motioneye/utils/dtconv.py:116
 #, fuzzy
-msgid "week"
-msgstr "Uke"
+msgid "semajno"
+msgstr "uke"
 
 #: motioneye/utils/dtconv.py:119
 #, fuzzy
-msgid "month"
-msgstr "Måned"
+msgid "monato"
+msgstr "måned"
 
 #: motioneye/utils/dtconv.py:122
 #, fuzzy
-msgid "year"
+msgid "jaro"
 msgstr "år"
-
-#: motioneye/utils/dtconv.py:125
-#, fuzzy
-msgid "days"
-msgstr "Dager"
 
 #: motioneye/utils/dtconv.py:129
 #, fuzzy
-msgid "hour"
-msgstr "Time"
+msgid "horo"
+msgstr "time"
 
 #: motioneye/utils/dtconv.py:132
 #, fuzzy
-msgid "hours"
-msgstr "Timer"
+msgid "horoj"
+msgstr "timer"
 
 #: motioneye/utils/dtconv.py:136
 #, fuzzy
-msgid "minute"
+msgid "minuto"
 msgstr "minutt"
 
 #: motioneye/utils/dtconv.py:139
 #, fuzzy
-msgid "minutes"
-msgstr "Minutter"
+msgid "minutoj"
+msgstr "minutter"
 
 #: motioneye/utils/dtconv.py:143
 #, fuzzy
-msgid "second"
-msgstr "Sekund"
-
-#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
-#, fuzzy
-msgid "seconds"
-msgstr "Sekunder"
+msgid "sekundo"
+msgstr "et sekund"
 
 #: motioneye/utils/dtconv.py:153
 #, fuzzy
 msgid "minus"
 msgstr "minus"
 
-#, fuzzy
-#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
-#~ msgstr "For WebDAV: f.eks. https://my.cloud/remote.php/dav/files/me/"
-
-#, fuzzy
-#~ msgid "Endpoint URL"
-#~ msgstr "Endepunkt url"
-
-#, fuzzy
-#~ msgid "The complete URL to the upload server endpoint:"
-#~ msgstr "Den komplette URL -en til sluttpunktet for opplasting av serveren:"
-
-#, fuzzy
-#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-#~ msgstr "For S3: f.eks. http://my.minio:9000. La det være tomt for AWS!"
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero…"
-#~ msgstr "Mal navn på en fil ..."

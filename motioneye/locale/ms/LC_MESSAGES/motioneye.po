@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-26 18:33+0200\n"
+"POT-Creation-Date: 2022-06-12 17:19+0200\n"
 "PO-Revision-Date: 2022-05-03 15:14+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Malay <https://hosted.weblate.org/projects/motioneye-project/motioneye/ms/>\n"
@@ -1111,6 +1111,7 @@ msgstr "Selang Pintu"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
+#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 #, fuzzy
 msgid "sekundoj"
 msgstr "detik"
@@ -1270,7 +1271,7 @@ msgstr "Filem lebih lama daripada tempoh yang ditetapkan secara automatik dipada
 msgid "Filmoj Vivdaŭro"
 msgstr "Filem Sepanjang Hayat"
 
-#: motioneye/templates/main.html:907
+#: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
 #, fuzzy
 msgid "tagoj"
 msgstr "hari"
@@ -1848,153 +1849,56 @@ msgstr "Mentakrifkan sama ada pengesanan gerakan harus aktif semasa atau di luar
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
 #, fuzzy
-msgid "never"
+msgid "neniam"
 msgstr "tidak pernah"
 
 #: motioneye/utils/dtconv.py:113
 #, fuzzy
-msgid "day"
+msgid "tago"
 msgstr "hari"
 
 #: motioneye/utils/dtconv.py:116
 #, fuzzy
-msgid "week"
+msgid "semajno"
 msgstr "minggu"
 
 #: motioneye/utils/dtconv.py:119
 #, fuzzy
-msgid "month"
+msgid "monato"
 msgstr "bulan"
 
 #: motioneye/utils/dtconv.py:122
 #, fuzzy
-msgid "year"
+msgid "jaro"
 msgstr "tahun"
-
-#: motioneye/utils/dtconv.py:125
-#, fuzzy
-msgid "days"
-msgstr "hari"
 
 #: motioneye/utils/dtconv.py:129
 #, fuzzy
-msgid "hour"
+msgid "horo"
 msgstr "jam"
 
 #: motioneye/utils/dtconv.py:132
 #, fuzzy
-msgid "hours"
-msgstr "jam"
+msgid "horoj"
+msgstr "Jam"
 
 #: motioneye/utils/dtconv.py:136
 #, fuzzy
-msgid "minute"
+msgid "minuto"
 msgstr "minit"
 
 #: motioneye/utils/dtconv.py:139
 #, fuzzy
-msgid "minutes"
+msgid "minutoj"
 msgstr "minit"
 
 #: motioneye/utils/dtconv.py:143
 #, fuzzy
-msgid "second"
-msgstr "kedua"
-
-#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
-#, fuzzy
-msgid "seconds"
-msgstr "detik"
+msgid "sekundo"
+msgstr "sesaat"
 
 #: motioneye/utils/dtconv.py:153
 #, fuzzy
 msgid "minus"
 msgstr "tolak"
 
-#, fuzzy
-#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
-#~ msgstr "Untuk Webdav: mis. https://my.cloud/remote.php/dav/files/me/"
-
-#, fuzzy
-#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-#~ msgstr "Untuk S3: mis. http: //my.minio: 9000. Biarkan ia kosong untuk AWS!"
-
-#, fuzzy
-#~ msgid "Endpoint URL"
-#~ msgstr "URL Endpoint"
-
-#, fuzzy
-#~ msgid "The complete URL to the upload server endpoint:"
-#~ msgstr "URL lengkap ke titik akhir pelayan muat naik:"
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero…"
-#~ msgstr "Nama templat fail ..."
-
-#, fuzzy
-#~ msgid "ordono..."
-#~ msgstr "perintah ..."
-
-#, fuzzy
-#~ msgid "propra teksto..."
-#~ msgstr "teks sendiri ..."
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero..."
-#~ msgstr "nama fail templat ..."
-
-#, fuzzy
-#~ msgid "retpoŝtadresoj..."
-#~ msgstr "alamat e-mel ..."
-
-#, fuzzy
-#~ msgid "konto@gmail.com..."
-#~ msgstr "account@gmail.com ..."
-
-#, fuzzy
-#~ msgid "retpoŝta adreso..."
-#~ msgstr "alamat e-mel ..."
-
-#, fuzzy
-#~ msgid "komando..."
-#~ msgstr "perintah ..."
-
-#, fuzzy
-#~ msgid "interrompa signalo ricevita, fermanta ..."
-#~ msgstr "isyarat mengganggu diterima, tutup ..."
-
-#, fuzzy
-#~ msgid "kameraa nomo..."
-#~ msgstr "nama kamera ..."
-
-#, fuzzy
-#~ msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
-#~ msgstr "anda boleh menambah sebarang pilihan tambahan di sini untuk daemon \"gerakan\" (gunakan format \"nilai nama\", satu pilihan setiap baris)"
-
-#, fuzzy
-#~ msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-#~ msgstr "Dengan membuat sembang bot telegram, anda akan mendapat token API yang perlu anda masukkan di sini. Klik butang API di bawah untuk panduan langkah demi langkah mengenai cara mendapatkan token API anda. Juga pastikan untuk berbual dengan but yang baru anda buat setelah kunci anda dihasilkan, untuk memastikan anda mendapat mesej."
-
-#, fuzzy
-#~ msgid "Lanĉi fina komando"
-#~ msgstr "Lancarkan arahan akhir"
-
-#, fuzzy
-#~ msgid "Alira Ŝlosila Id"
-#~ msgstr "Id Kunci Akses"
-
-#, fuzzy
-#~ msgid "la AWS-ŝlosila identigilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-#~ msgstr "pengecam kunci AWS yang digunakan untuk mengesahkan dengan perkhidmatan muat naik (biasanya hanya diperlukan semasa konfigurasi)"
-
-#, fuzzy
-#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-#~ msgstr "Perintah untuk dilancarkan semasa gerakan dikesan; pelbagai arahan boleh dipisahkan dengan titik koma; jangan gunakan titik koma dengan perintah; token khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = hari, %% H = jam, %% M = minit, %% S = kedua, %% q = nombor bingkai , %% v = nombor acara"
-
-#, fuzzy
-#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
-#~ msgstr "Perintah untuk dilancarkan apabila acara gerakan berakhir; pelbagai arahan boleh dipisahkan dengan titik koma; jangan gunakan dot com dengan arahan; token khas berikut diterima: %% Y = tahun, %% m = bulan, %% d = tarikh, %% H = jam, %% M = minit, %% S = kedua, %% q = nombor bingkai."
-
-#, fuzzy
-#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-#~ msgstr "Mendefinisikan peratusan imej yang perlu diubah supaya peristiwa itu diperlakukan sebagai perubahan cahaya yang tiba-tiba bukan gerakan (0% melumpuhkan ciri)."

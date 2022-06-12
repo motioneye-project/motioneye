@@ -23,7 +23,7 @@ __all__ = ('pretty_date_time', 'pretty_date', 'pretty_duration', 'pretty_time')
 
 def pretty_date_time(date_time, tzinfo=None, short=False):
     if date_time is None:
-        return '(' + _('never') + ')'
+        return '(' + _('neniam') + ')'
 
     if isinstance(date_time, int):
         return pretty_date_time(datetime.datetime.fromtimestamp(date_time))
@@ -62,7 +62,7 @@ def pretty_date_time(date_time, tzinfo=None, short=False):
 
 def pretty_date(d: Union[datetime.date, int]) -> str:
     if d is None:
-        return '(' + _('never') + ')'
+        return '(' + _('neniam') + ')'
 
     if isinstance(d, int):
         return pretty_date(datetime.datetime.fromtimestamp(d))
@@ -110,43 +110,43 @@ def pretty_duration(duration):
     special_result = None
     if days != 0 and hours == 0 and minutes == 0 and seconds == 0:
         if days == 1:
-            special_result = str(days) + ' ' + _('day')
+            special_result = str(days) + ' ' + _('tago')
 
         elif days == 7:
-            special_result = '1 ' + _('week')
+            special_result = '1 ' + _('semajno')
 
         elif days in [30, 31, 32]:
-            special_result = '1 ' + _('month')
+            special_result = '1 ' + _('monato')
 
         elif days in [365, 366]:
-            special_result = '1 ' + _('year')
+            special_result = '1 ' + _('jaro')
 
         else:
-            special_result = str(days) + ' ' + _('days')
+            special_result = str(days) + ' ' + _('tagoj')
 
     elif days == 0 and hours != 0 and minutes == 0 and seconds == 0:
         if hours == 1:
-            special_result = str(hours) + ' ' + _('hour')
+            special_result = str(hours) + ' ' + _('horo')
 
         else:
-            special_result = str(hours) + ' ' + _('hours')
+            special_result = str(hours) + ' ' + _('horoj')
 
     elif days == 0 and hours == 0 and minutes != 0 and seconds == 0:
         if minutes == 1:
-            special_result = str(minutes) + ' ' + _('minute')
+            special_result = str(minutes) + ' ' + _('minuto')
 
         else:
-            special_result = str(minutes) + ' ' + _('minutes')
+            special_result = str(minutes) + ' ' + _('minutoj')
 
     elif days == 0 and hours == 0 and minutes == 0 and seconds != 0:
         if seconds == 1:
-            special_result = str(seconds) + ' ' + _('second')
+            special_result = str(seconds) + ' ' + _('sekundo')
 
         else:
-            special_result = str(seconds) + ' ' + _('seconds')
+            special_result = str(seconds) + ' ' + _('sekundoj')
 
     elif days == 0 and hours == 0 and minutes == 0 and seconds == 0:
-        special_result = str(0) + ' ' + _('seconds')
+        special_result = str(0) + ' ' + _('sekundoj')
 
     if special_result:
         if negative:

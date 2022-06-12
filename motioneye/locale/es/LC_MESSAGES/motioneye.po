@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-26 18:33+0200\n"
+"POT-Creation-Date: 2022-06-12 17:19+0200\n"
 "PO-Revision-Date: 2022-05-18 16:29+0000\n"
 "Last-Translator: Gustavo Velasco-Hernández <gustavo.velascoh@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/es/>\n"
@@ -1102,6 +1102,7 @@ msgstr "Intervalo de intercepción"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
+#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 #, fuzzy
 msgid "sekundoj"
 msgstr "segundos"
@@ -1260,7 +1261,7 @@ msgstr "Las películas anteriores a la duración establecida se eliminan automá
 msgid "Filmoj Vivdaŭro"
 msgstr "Películas de por vida"
 
-#: motioneye/templates/main.html:907
+#: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
 #, fuzzy
 msgid "tagoj"
 msgstr "dias"
@@ -1835,153 +1836,56 @@ msgstr "Define si la detección de movimiento debe estar activa durante o fuera 
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
 #, fuzzy
-msgid "never"
+msgid "neniam"
 msgstr "nunca"
 
 #: motioneye/utils/dtconv.py:113
 #, fuzzy
-msgid "day"
-msgstr "dia"
+msgid "tago"
+msgstr "día"
 
 #: motioneye/utils/dtconv.py:116
 #, fuzzy
-msgid "week"
+msgid "semajno"
 msgstr "semana"
 
 #: motioneye/utils/dtconv.py:119
 #, fuzzy
-msgid "month"
+msgid "monato"
 msgstr "mes"
 
 #: motioneye/utils/dtconv.py:122
 #, fuzzy
-msgid "year"
+msgid "jaro"
 msgstr "año"
-
-#: motioneye/utils/dtconv.py:125
-#, fuzzy
-msgid "days"
-msgstr "dias"
 
 #: motioneye/utils/dtconv.py:129
 #, fuzzy
-msgid "hour"
+msgid "horo"
 msgstr "hora"
 
 #: motioneye/utils/dtconv.py:132
 #, fuzzy
-msgid "hours"
+msgid "horoj"
 msgstr "horas"
 
 #: motioneye/utils/dtconv.py:136
 #, fuzzy
-msgid "minute"
-msgstr "minutos"
+msgid "minuto"
+msgstr "minuto"
 
 #: motioneye/utils/dtconv.py:139
 #, fuzzy
-msgid "minutes"
+msgid "minutoj"
 msgstr "minutos"
 
 #: motioneye/utils/dtconv.py:143
 #, fuzzy
-msgid "second"
+msgid "sekundo"
 msgstr "segundo"
-
-#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
-#, fuzzy
-msgid "seconds"
-msgstr "segundos"
 
 #: motioneye/utils/dtconv.py:153
 #, fuzzy
 msgid "minus"
 msgstr "menos"
 
-#, fuzzy
-#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
-#~ msgstr "Para WebDav: p. https://my.cloud/remote.php/dav/files/me/"
-
-#, fuzzy
-#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-#~ msgstr "Para S3: p. http: //my.minio: 9000. ¡Déjalo vacío para AWS!"
-
-#, fuzzy
-#~ msgid "Endpoint URL"
-#~ msgstr "URL de punto final"
-
-#, fuzzy
-#~ msgid "The complete URL to the upload server endpoint:"
-#~ msgstr "La URL completa al punto final del servidor de carga:"
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero…"
-#~ msgstr "Nombre de la plantilla de un archivo ..."
-
-#, fuzzy
-#~ msgid "ordono..."
-#~ msgstr "orden ..."
-
-#, fuzzy
-#~ msgid "propra teksto..."
-#~ msgstr "texto propio ..."
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero..."
-#~ msgstr "nombre del archivo de plantilla ..."
-
-#, fuzzy
-#~ msgid "retpoŝtadresoj..."
-#~ msgstr "direcciones de correo electrónico ..."
-
-#, fuzzy
-#~ msgid "konto@gmail.com..."
-#~ msgstr "cuenta@gmail.com ..."
-
-#, fuzzy
-#~ msgid "retpoŝta adreso..."
-#~ msgstr "dirección de correo electrónico ..."
-
-#, fuzzy
-#~ msgid "komando..."
-#~ msgstr "comando ..."
-
-#, fuzzy
-#~ msgid "interrompa signalo ricevita, fermanta ..."
-#~ msgstr "señal de interrupción recibida, cerrando ..."
-
-#, fuzzy
-#~ msgid "kameraa nomo..."
-#~ msgstr "nombre de la cámara ..."
-
-#, fuzzy
-#~ msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
-#~ msgstr "puede agregar opciones adicionales aquí para el daemon \"motion\" (use el formato \"valor de nombre\", una opción por línea)"
-
-#, fuzzy
-#~ msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-#~ msgstr "Al crear el chat del bot de telegram, obtendrá un token de API que debe ingresar aquí. Haga clic en el botón API a continuación para obtener una guía paso a paso sobre cómo obtener su token API. También asegúrese de chatear con su arranque recién creado después de que se genere su clave, para asegurarse de que está recibiendo mensajes."
-
-#, fuzzy
-#~ msgid "Lanĉi fina komando"
-#~ msgstr "Lanzar comando final"
-
-#, fuzzy
-#~ msgid "Alira Ŝlosila Id"
-#~ msgstr "Id de clave de acceso"
-
-#, fuzzy
-#~ msgid "la AWS-ŝlosila identigilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-#~ msgstr "el identificador de clave de AWS utilizado para autenticarse con el servicio de carga (generalmente se requiere solo durante la configuración)"
-
-#, fuzzy
-#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-#~ msgstr "Comando que se lanzará cuando se detecte movimiento; múltiples comandos pueden estar separados por un punto y coma; no use punto y coma con comandos; Se aceptan los siguientes tokens especiales: %% Y = año, %% m = mes, %% d = día, %% H = hora, %% M = minuto, %% S = segundo, %% q = número de fotograma , %% v = número de evento"
-
-#, fuzzy
-#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
-#~ msgstr "Comando que se lanzará cuando finalice el evento de movimiento; múltiples comandos pueden estar separados por un punto y coma; no use puntos coms con comandos; Se aceptan los siguientes tokens especiales: %% Y = año, %% m = mes, %% d = fecha, %% H = hora, %% M = minuto, %% S = segundo, %% q = número de fotograma."
-
-#, fuzzy
-#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-#~ msgstr "Define el porcentaje de la imagen que debe cambiarse para que el evento se trate como un cambio repentino de luz en lugar de movimiento (0% deshabilita la función)."

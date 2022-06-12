@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-26 18:33+0200\n"
+"POT-Creation-Date: 2022-06-12 17:19+0200\n"
 "PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Bengali <https://hosted.weblate.org/projects/motioneye-project/motioneye/bn/>\n"
@@ -1110,6 +1110,7 @@ msgstr "ইন্টারসেপশন ইন্টারভাল"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
+#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 #, fuzzy
 msgid "sekundoj"
 msgstr "সেকেন্ড"
@@ -1269,7 +1270,7 @@ msgstr "সেট সময়কালের চেয়ে পুরানো
 msgid "Filmoj Vivdaŭro"
 msgstr "চলচ্চিত্র লাইফটাইম"
 
-#: motioneye/templates/main.html:907
+#: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
 #, fuzzy
 msgid "tagoj"
 msgstr "দিন"
@@ -1847,153 +1848,56 @@ msgstr "কাজের সময় চলাকালীন বা তার �
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
 #, fuzzy
-msgid "never"
-msgstr "না"
+msgid "neniam"
+msgstr "কখনও না"
 
 #: motioneye/utils/dtconv.py:113
 #, fuzzy
-msgid "day"
+msgid "tago"
 msgstr "দিন"
 
 #: motioneye/utils/dtconv.py:116
 #, fuzzy
-msgid "week"
+msgid "semajno"
 msgstr "সপ্তাহ"
 
 #: motioneye/utils/dtconv.py:119
 #, fuzzy
-msgid "month"
+msgid "monato"
 msgstr "মাস"
 
 #: motioneye/utils/dtconv.py:122
 #, fuzzy
-msgid "year"
+msgid "jaro"
 msgstr "বছর"
-
-#: motioneye/utils/dtconv.py:125
-#, fuzzy
-msgid "days"
-msgstr "দিন"
 
 #: motioneye/utils/dtconv.py:129
 #, fuzzy
-msgid "hour"
+msgid "horo"
 msgstr "ঘন্টা"
 
 #: motioneye/utils/dtconv.py:132
 #, fuzzy
-msgid "hours"
-msgstr "ঘন্টা"
+msgid "horoj"
+msgstr "ঘন্টার"
 
 #: motioneye/utils/dtconv.py:136
 #, fuzzy
-msgid "minute"
+msgid "minuto"
 msgstr "মিনিট"
 
 #: motioneye/utils/dtconv.py:139
 #, fuzzy
-msgid "minutes"
+msgid "minutoj"
 msgstr "মিনিট"
 
 #: motioneye/utils/dtconv.py:143
 #, fuzzy
-msgid "second"
-msgstr "দ্বিতীয়"
-
-#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
-#, fuzzy
-msgid "seconds"
-msgstr "সেকেন্ড"
+msgid "sekundo"
+msgstr "একটি দ্বিতীয়"
 
 #: motioneye/utils/dtconv.py:153
 #, fuzzy
 msgid "minus"
 msgstr "ঋণচিহ্ন"
 
-#, fuzzy
-#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
-#~ msgstr "ওয়েবডাভের জন্য: উদাঃ https://my.cloud/remote.php/dav/files/me/"
-
-#, fuzzy
-#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-#~ msgstr "এস 3 এর জন্য: উদাঃ http: //my.minio: 9000। এডাব্লুএসের জন্য খালি রেখে দিন!"
-
-#, fuzzy
-#~ msgid "Endpoint URL"
-#~ msgstr "শেষ পয়েন্ট ইউআরএল"
-
-#, fuzzy
-#~ msgid "The complete URL to the upload server endpoint:"
-#~ msgstr "আপলোড সার্ভারের শেষ পয়েন্টে সম্পূর্ণ URL:"
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero…"
-#~ msgstr "একটি ফাইলের টেমপ্লেট নাম…"
-
-#, fuzzy
-#~ msgid "ordono..."
-#~ msgstr "অর্ডার ..."
-
-#, fuzzy
-#~ msgid "propra teksto..."
-#~ msgstr "নিজস্ব পাঠ্য ..."
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero..."
-#~ msgstr "টেমপ্লেট ফাইলের নাম ..."
-
-#, fuzzy
-#~ msgid "retpoŝtadresoj..."
-#~ msgstr "ইমেল ঠিকানা ..."
-
-#, fuzzy
-#~ msgid "konto@gmail.com..."
-#~ msgstr "অ্যাকাউন্ট@gmail.com ..."
-
-#, fuzzy
-#~ msgid "retpoŝta adreso..."
-#~ msgstr "ইমেল ঠিকানা ..."
-
-#, fuzzy
-#~ msgid "komando..."
-#~ msgstr "আদেশ ..."
-
-#, fuzzy
-#~ msgid "interrompa signalo ricevita, fermanta ..."
-#~ msgstr "বাধা সংকেত পেয়েছে, বন্ধ হচ্ছে ..."
-
-#, fuzzy
-#~ msgid "kameraa nomo..."
-#~ msgstr "ক্যামেরার নাম ..."
-
-#, fuzzy
-#~ msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
-#~ msgstr "\"গতি\" ডিমনটির জন্য আপনি এখানে কোনও অতিরিক্ত বিকল্প যুক্ত করতে পারেন (\"নাম মান\" ফর্ম্যাট ব্যবহার করুন, প্রতি লাইনে একটি বিকল্প)"
-
-#, fuzzy
-#~ msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-#~ msgstr "টেলিগ্রাম বট চ্যাটটি তৈরি করে আপনি এমন একটি এপিআই টোকেন পাবেন যা আপনাকে এখানে প্রবেশ করতে হবে। কীভাবে আপনার এপিআই টোকেন পাবেন সেই ধাপে ধাপে গাইডের জন্য নীচের এপিআই বোতামটি ক্লিক করুন। আপনার কী তৈরি হওয়ার পরে আপনার নতুন নির্মিত বুটের সাথে চ্যাট করতে ভুলবেন না তা নিশ্চিত করতে আপনি বার্তা পাচ্ছেন।"
-
-#, fuzzy
-#~ msgid "Lanĉi fina komando"
-#~ msgstr "ফাইনাল কমান্ড চালু করুন"
-
-#, fuzzy
-#~ msgid "Alira Ŝlosila Id"
-#~ msgstr "কী আইডি অ্যাক্সেস করুন"
-
-#, fuzzy
-#~ msgid "la AWS-ŝlosila identigilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-#~ msgstr "অ্যাডাব্লুএস কী শনাক্তকারী আপলোড পরিষেবার সাথে প্রমাণীকরণ করতে ব্যবহৃত হয় (সাধারণত কেবলমাত্র কনফিগারেশনের সময় প্রয়োজন)"
-
-#, fuzzy
-#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-#~ msgstr "মোশন সনাক্ত হওয়ার পরে চালু করার আদেশ; একাধিক কমান্ড একটি সেমিকোলন দ্বারা পৃথক করা যেতে পারে; কমান্ড সহ সেমিকোলন ব্যবহার করবেন না; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়েছে: %% Y = বছর, %% মি = মাস, %% d = দিন, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর , %% v = ইভেন্ট নম্বর"
-
-#, fuzzy
-#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
-#~ msgstr "মোশন ইভেন্ট শেষ হওয়ার পরে চালু করার আদেশ; একাধিক কমান্ড একটি সেমিকোলন দ্বারা পৃথক করা যেতে পারে; কমান্ড সহ ডট কমস ব্যবহার করবেন না; নিম্নলিখিত বিশেষ টোকেন গ্রহণ করা হয়েছে: %% Y = বছর, %% মি = মাস, %% d = তারিখ, %% এইচ = ঘন্টা, %% এম = মিনিট, %% এস = সেকেন্ড, %% কি = ফ্রেম নম্বর।"
-
-#, fuzzy
-#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-#~ msgstr "যে চিত্রটি পরিবর্তন করা দরকার তার শতাংশ নির্ধারণ করে যাতে ইভেন্টটি গতির পরিবর্তে আকস্মিক আলো পরিবর্তনের হিসাবে বিবেচিত হয় (0% বৈশিষ্ট্যটি অক্ষম করে)।"

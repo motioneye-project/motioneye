@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-05-26 18:33+0200\n"
+"POT-Creation-Date: 2022-06-12 17:19+0200\n"
 "PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/motioneye-project/motioneye/ar/>\n"
@@ -870,9 +870,10 @@ msgid "propra teksto…"
 msgstr "نص مخصص…"
 
 #: motioneye/templates/main.html:625
-#, python-format
+#, fuzzy, python-format
+#, fuzzy
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "يحدد نص مخصص على اليسار ؛ يتم قبول الرموز المميزة التالية: %% Y = سنة ، %% م = شهر ، %% d = يوم ، %% H = ساعة ، %% M = دقيقة ، %% S = ثانية ، [ X156X] q = رقم الإطار ، %% v = رقم الحدث ، %% T = HH: MM: SS ، \\n = سطر جديد"
+msgstr "يحدد النص الأيسر المخصص ؛ يتم قبول الرموز الخاصة التالية: ٪٪ y = Year ، ٪٪ m = month ، ٪٪ d = day ، ٪٪ H = ساعة ، ٪٪ m = دقيقة ، ٪٪ s = second ، ٪٪ Q = رقم الإطار ، ٪٪ v = رقم الحدث ، ٪٪ t = hh: mm: ss ، \\n = سطر جديد"
 
 #: motioneye/templates/main.html:628
 #, fuzzy
@@ -885,7 +886,7 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dek
 msgstr "يضبط النص المعروض على الأفلام والصور ، في الزاوية اليمنى السفلى"
 
 #: motioneye/templates/main.html:642
-#, python-format
+#, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "يحدد النص الأيمن المخصص ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year ، ٪٪ m = month ، ٪٪ d = day ، ٪٪ H = hour ، ٪٪ M = minutes ، ٪٪ S = second ، ٪٪ q = frame number ، ٪٪ v = رقم الحدث ، ٪٪ T = HH: MM: SS ، \\n = سطر جديد"
 
@@ -1111,6 +1112,7 @@ msgstr "فاصل الاعتراض"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
+#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 #, fuzzy
 msgid "sekundoj"
 msgstr "ثواني"
@@ -1270,7 +1272,7 @@ msgstr "يتم حذف الأفلام الأقدم من المدة المحددة
 msgid "Filmoj Vivdaŭro"
 msgstr "أفلام عمر"
 
-#: motioneye/templates/main.html:907
+#: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
 #, fuzzy
 msgid "tagoj"
 msgstr "أيام"
@@ -1848,182 +1850,56 @@ msgstr "يحدد ما إذا كان الكشف عن الحركة يجب أن ي�
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
 #, fuzzy
-msgid "never"
-msgstr "أبدا"
+msgid "neniam"
+msgstr "أبداً"
 
 #: motioneye/utils/dtconv.py:113
 #, fuzzy
-msgid "day"
-msgstr "اليوم"
+msgid "tago"
+msgstr "يوم"
 
 #: motioneye/utils/dtconv.py:116
 #, fuzzy
-msgid "week"
-msgstr "الأسبوع"
+msgid "semajno"
+msgstr "أسبوع"
 
 #: motioneye/utils/dtconv.py:119
 #, fuzzy
-msgid "month"
+msgid "monato"
 msgstr "شهر"
 
 #: motioneye/utils/dtconv.py:122
 #, fuzzy
-msgid "year"
+msgid "jaro"
 msgstr "عام"
-
-#: motioneye/utils/dtconv.py:125
-#, fuzzy
-msgid "days"
-msgstr "أيام"
 
 #: motioneye/utils/dtconv.py:129
 #, fuzzy
-msgid "hour"
+msgid "horo"
 msgstr "ساعة"
 
 #: motioneye/utils/dtconv.py:132
 #, fuzzy
-msgid "hours"
+msgid "horoj"
 msgstr "ساعات"
 
 #: motioneye/utils/dtconv.py:136
 #, fuzzy
-msgid "minute"
-msgstr "دقائق"
+msgid "minuto"
+msgstr "اللحظة"
 
 #: motioneye/utils/dtconv.py:139
 #, fuzzy
-msgid "minutes"
-msgstr "دقائق"
+msgid "minutoj"
+msgstr "الدقائق"
 
 #: motioneye/utils/dtconv.py:143
 #, fuzzy
-msgid "second"
-msgstr "الثانية"
-
-#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
-#, fuzzy
-msgid "seconds"
-msgstr "ثواني"
+msgid "sekundo"
+msgstr "ثانية"
 
 #: motioneye/utils/dtconv.py:153
 #, fuzzy
 msgid "minus"
 msgstr "ناقص"
 
-#, fuzzy
-#~ msgid "For WebDAV: E.g. https://my.cloud/remote.php/dav/files/Me/"
-#~ msgstr "لـ WebDav: على سبيل المثال https://my.cloud/remote.php/dav/files/me/"
-
-#, fuzzy
-#~ msgid "For S3: E.g. http://my.minio:9000. Leave it empty for AWS!"
-#~ msgstr "لـ S3: على سبيل المثال http: //my.minio: 9000. اتركه فارغًا لـ AWS!"
-
-#, fuzzy
-#~ msgid "Endpoint URL"
-#~ msgstr "url نقطة النهاية"
-
-#, fuzzy
-#~ msgid "The complete URL to the upload server endpoint:"
-#~ msgstr "عنوان URL الكامل إلى نقطة نهاية خادم التحميل:"
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero…"
-#~ msgstr "اسم قالب ملف…"
-
-#, fuzzy
-#~ msgid "ordono..."
-#~ msgstr "طلب ..."
-
-#, fuzzy
-#~ msgid "propra teksto..."
-#~ msgstr "نص خاص ..."
-
-#, fuzzy
-#~ msgid "ŝablona nomo de dosiero..."
-#~ msgstr "اسم ملف القالب ..."
-
-#, fuzzy
-#~ msgid "retpoŝtadresoj..."
-#~ msgstr "عناوين البريد الإلكتروني ..."
-
-#, fuzzy
-#~ msgid "konto@gmail.com..."
-#~ msgstr "account@gmail.com ..."
-
-#, fuzzy
-#~ msgid "retpoŝta adreso..."
-#~ msgstr "عنوان البريد الإلكتروني ..."
-
-#, fuzzy
-#~ msgid "komando..."
-#~ msgstr "أمر ..."
-
-#, fuzzy
-#~ msgid "interrompa signalo ricevita, fermanta ..."
-#~ msgstr "تلقي إشارة المقاطعة ، وإغلاق ..."
-
-#, fuzzy
-#~ msgid "kameraa nomo..."
-#~ msgstr "اسم الكاميرا ..."
-
-#, fuzzy
-#~ msgid "vi povas aldoni ĉi tie iujn ajn kromajn eblojn por la &quot;motion&quot; demono (uzu la formaton &quot;nomo valoro&quot;, unu opcion po linio)"
-#~ msgstr "يمكنك إضافة أي خيارات إضافية هنا لبرنامج \"الحركة\" (استخدم تنسيق \"اسم القيمة\" ، خيار واحد لكل سطر)"
-
-#, fuzzy
-#~ msgid "Kreante la telegraman bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babilu vian nove kreitan boton post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-#~ msgstr "من خلال إنشاء Telegram bot chat ، ستحصل على رمز API مميز تحتاج إلى إدخاله هنا. انقر فوق الزر API أدناه للحصول على دليل تفصيلي حول كيفية الحصول على رمز API الخاص بك. تأكد أيضًا من الدردشة مع التمهيد الذي تم إنشاؤه حديثًا بعد إنشاء مفتاحك ، للتأكد من تلقيك للرسائل."
-
-#, fuzzy
-#~ msgid "Lanĉi fina komando"
-#~ msgstr "إطلاق الأمر النهائي"
-
-#, fuzzy
-#~ msgid "Alira Ŝlosila Id"
-#~ msgstr "معرف مفتاح الوصول"
-
-#, fuzzy
-#~ msgid "la AWS-ŝlosila identigilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-#~ msgstr "معرّف مفتاح AWS المستخدم للمصادقة مع خدمة التحميل (مطلوب عادةً أثناء التكوين فقط)"
-
-#, fuzzy
-#~ msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-#~ msgstr "الأمر الذي سيبدأ عندما يتم الكشف عن الحركة ؛ يمكن فصل أوامر متعددة بفاصلة منقوطة ؛ لا تستخدم الفواصل المنقوطة مع الأوامر ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = day، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number ، ٪٪ v = رقم الحدث"
-
-#, fuzzy
-#~ msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per duonpunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %% Y = jaro, %% m = monato, %% d = dato, %% H = horo, %% M = minuto, %% S = dua, %% q = kadra nombro."
-#~ msgstr "يتم إطلاق الأمر عند انتهاء حدث الحركة ؛ يمكن فصل أوامر متعددة بفاصلة منقوطة ؛ لا تستخدم نقاط كومز مع الأوامر ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year، ٪٪ m = month، ٪٪ d = date، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، ٪٪ q = frame number."
-
-#, fuzzy
-#~ msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-#~ msgstr "يحدد النسبة المئوية للصورة التي يجب تغييرها حتى يتم التعامل مع الحدث على أنه تغيير ضوء مفاجئ بدلاً من الحركة (0٪ يعطل الميزة)."
-
-#, fuzzy
-#~ msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro nombro,%%v = nombro de evento, / = subdosierujo."
-#~ msgstr "يحدد قالب الاسم لملفات JPEG ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year ، ٪٪ m = month ، ٪٪ d = day ، ٪٪ H = hour ، ٪٪ M = minutes ، ٪٪ S = second ، ٪٪ q = frame number ، ٪٪ v = عدد الأحداث ، / = دليل فرعي."
-
-#, fuzzy
-#~ msgid "Por ĉiam"
-#~ msgstr "إلى الأبد"
-
-#, fuzzy
-#~ msgid "Difinas la kapta reĝimon"
-#~ msgstr "يحدد وضع الالتقاط"
-
-#, fuzzy
-#~ msgid "Manlibro"
-#~ msgstr "يدوي"
-
-#, fuzzy
-#~ msgid "Manlibro = manlibraj kaptiĉoj per rapida butono."
-#~ msgstr "يدوي = يستقر يدويًا بزر سريع."
-
-#, fuzzy
-#~ msgid ""
-#~ "Difinas la kapta reĝimon\n"
-#~ "                                    Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,\n"
-#~ "                                    Intertempe = bildo kaptita ĉiun x sekundojn,\n"
-#~ "                                    Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,\n"
-#~ "                                    Manlibro = manlibraj kaptiĉoj per rapida butono."
-#~ msgstr "تعريف وضع الالتقاط \\ n مشغل الحركة = الصورة الملتقطة في كل مرة يتم فيها الكشف عن الحركة ، \\ n في هذه الأثناء = الصورة الملتقطة كل x ثانية ، \\ n جميع الصور = حفظ كل إطار في ملف صورة ، \\ n يدوي = لقطات يدوية."
