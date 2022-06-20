@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-26 18:33+0200\n"
-"PO-Revision-Date: 2022-06-07 17:15+0000\n"
+"PO-Revision-Date: 2022-06-20 09:22+0000\n"
 "Last-Translator: lukasig <lukasig@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-javascript/ro/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -243,11 +243,11 @@ msgstr "Chiar doriți să ștergeți toate videoclipurile negrupate?"
 
 #: motioneye/static/js/main.js:3357
 msgid "aldonadi kameraon..."
-msgstr "adaugă cameră..."
+msgstr "adaugă o cameră..."
 
 #: motioneye/static/js/main.js:3545
 msgid "bone"
-msgstr "bine"
+msgstr "OK"
 
 #: motioneye/static/js/main.js:3582 motioneye/static/js/main.js:3881
 msgid "Uzantnomo"
@@ -268,7 +268,7 @@ msgstr "Autentificare"
 #: motioneye/static/js/main.js:3614 motioneye/static/js/ui.js:1023
 #: motioneye/static/js/ui.js:1030
 msgid "Nuligi"
-msgstr "Renunță"
+msgstr "Renunțare"
 
 #: motioneye/static/js/main.js:3656
 msgid "Vi abortis la filmeton."
@@ -348,7 +348,7 @@ msgstr "Cameră MJPEG simplă"
 
 #: motioneye/static/js/main.js:3873
 msgid "la speco de kamerao, kiun vi volas aldoni"
-msgstr "tipul camerei pe care doriți s-o adăugați"
+msgstr "Tipul camerei pe care doriți s-o adăugați."
 
 #: motioneye/static/js/main.js:3876
 msgid "URL"
@@ -368,7 +368,7 @@ msgstr "nume de utilizator ..."
 
 #: motioneye/static/js/main.js:3883
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
-msgstr "numele de utilizator pentru adresa URL, dacă este necesar (ex. admin)"
+msgstr "Numele de utilizator pentru adresa URL, dacă este necesar (ex. admin)."
 
 #: motioneye/static/js/main.js:3887
 msgid "pasvorto..."
@@ -376,7 +376,7 @@ msgstr "parola ..."
 
 #: motioneye/static/js/main.js:3888
 msgid "la pasvorto por la URL, se bezonata"
-msgstr "parola pentru adresa URL, dacă este necesară"
+msgstr "Parola pentru adresa URL, dacă este necesară."
 
 #: motioneye/static/js/main.js:3891
 msgid "Kamerao"
@@ -384,7 +384,7 @@ msgstr "Cameră"
 
 #: motioneye/static/js/main.js:3893
 msgid "la kameraon, kiun vi volas aldoni"
-msgstr "camera pe care doriți să o adăugați"
+msgstr "Camera pe care doriți să o adăugați."
 
 #: motioneye/static/js/main.js:3929
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
@@ -398,8 +398,8 @@ msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/
 msgstr ""
 "Camerele de rețea (sau camerele IP) sunt dispozitive care transmit în mod "
 "nativ videoclipuri RTSP / RTMP sau MJPEG sau imagini JPEG simple. Verificați "
-"manualul dispozitivului dvs. pentru a afla adresa URL corectă RTSP, RTMP, "
-"MJPEG sau JPEG."
+"manualul dispozitivului pentru a afla adresa URL corectă RTSP, RTMP, MJPEG "
+"sau JPEG."
 
 #: motioneye/static/js/main.js:3949
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
@@ -424,7 +424,7 @@ msgstr ""
 
 #: motioneye/static/js/main.js:4120
 msgid "Aldonadi kameraon..."
-msgstr "Adaugă cameră..."
+msgstr "Adaugă o cameră..."
 
 #: motioneye/static/js/main.js:4192
 msgid "Grupo"
@@ -510,23 +510,23 @@ msgstr "Șterge tot"
 
 #: motioneye/static/js/main.js:4663
 msgid "Bildoj prenitaj de "
-msgstr "Imagini realizate de "
+msgstr "Imagini înregistrate de camera "
 
 #: motioneye/static/js/main.js:4666
 msgid "Filmoj registritaj de "
-msgstr "Videoclipuri înregistrate de "
+msgstr "Videoclipuri înregistrate de camera "
 
 #: motioneye/static/js/main.js:4728
 msgid "montru ĉi tiun fotilon plenekranan"
-msgstr "Arată această cameră pe ecran complet"
+msgstr "Afișează această cameră pe ecran complet"
 
 #: motioneye/static/js/main.js:4729
 msgid "montri ĉiujn fotilojn"
-msgstr "Arată toate camerele"
+msgstr "Afișează toate camerele"
 
 #: motioneye/static/js/main.js:4730
 msgid "montru nur ĉi tiun fotilon"
-msgstr "Arată doar această cameră"
+msgstr "Afișează doar această cameră"
 
 #: motioneye/static/js/main.js:4731
 msgid "malfermaj bildoj retumilo"
@@ -602,7 +602,7 @@ msgstr "Da"
 
 #: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
 msgid "Bone"
-msgstr "Bine"
+msgstr "OK"
 
 #: l10n/v4l2.js:4
 msgid "Auto Exposure"
