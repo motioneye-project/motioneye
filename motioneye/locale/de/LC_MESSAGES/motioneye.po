@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-06-30 13:21+0000\n"
+"PO-Revision-Date: 2022-07-01 14:20+0000\n"
 "Last-Translator: avyeegaztd <avyeegaztd@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
@@ -1316,14 +1316,15 @@ msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plen
 msgstr "Klicken Sie auf diese Schaltfläche, um E-Mail-Benachrichtigungen zu testen, nachdem Sie die erforderlichen Details eingegeben haben."
 
 #: motioneye/templates/main.html:1104
-#, fuzzy
 msgid "Sendu Telegraman Sciigon"
-msgstr "Telegrammbenachrichtigung senden"
+msgstr "Telegram-Benachrichtigung senden"
 
 #: motioneye/templates/main.html:1106
 #, fuzzy
 msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
-msgstr "Aktivieren Sie diese Option, wenn Sie eine Telegrammnachricht erhalten möchten, wenn ein sich bewegendes Ereignis erkannt wird"
+msgstr ""
+"Aktivieren Sie diese Option, wenn Sie  eine Telegram-Nachricht erhalten "
+"möchten, falls ein sich bewegendes Ereignis erkannt wurde"
 
 #: motioneye/templates/main.html:1109
 #, fuzzy
@@ -1336,14 +1337,18 @@ msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 msgstr "Beispiel: 93847672: AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 
 #: motioneye/templates/main.html:1111
-#, fuzzy
 msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-msgstr "Wenn Sie den Telegramm-Bot-Chat erstellen, erhalten Sie eine API-Token, die Sie hier eingeben müssen. Klicken Sie unten auf die API-Schaltfläche, um eine Schritt-für-Schritt-Anleitung zu erhalten, wie Sie Ihre API-Token erhalten. Stellen Sie außerdem sicher, dass Sie mit Ihrem neu erstellten \"Bot\" nach dem Erstellen Ihres Schlüssels chatten, um sicherzustellen, dass Sie Nachrichten erhalten."
+msgstr ""
+"Wenn Sie den Telegram-Bot-Chat erstellen, erhalten Sie eine API-Token, die "
+"Sie hier eingeben müssen. Klicken Sie unten auf die API-Schaltfläche, um "
+"eine Schritt-für-Schritt-Anleitung zu erhalten, wie Sie Ihren API-Token "
+"erhalten. Stellen Sie außerdem sicher, dass Sie mit Ihrem neu erstellten "
+"\"Bot\" nach dem Generieren Ihres Schlüssels chatten, um sicherzustellen, "
+"dass Sie Nachrichten auch wirklich erhalten können."
 
 #: motioneye/templates/main.html:1114
-#, fuzzy
 msgid "Babileja ID"
-msgstr "Chat ID"
+msgstr "Chat-ID"
 
 #: motioneye/templates/main.html:1115
 #, fuzzy
@@ -1371,9 +1376,8 @@ msgid "API-Informoj"
 msgstr "API-Informationen"
 
 #: motioneye/templates/main.html:1125
-#, fuzzy
 msgid "Testo"
-msgstr "Prüfung"
+msgstr "Prüfen"
 
 #: motioneye/templates/main.html:1131 motioneye/templates/main.html:1176
 #, fuzzy
