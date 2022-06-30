@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-06-20 09:22+0000\n"
+"PO-Revision-Date: 2022-06-30 13:21+0000\n"
 "Last-Translator: Dmitrii <nuke142@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/ru/>\n"
@@ -117,7 +117,7 @@ msgstr "снять камеру"
 #: motioneye/templates/main.html:108
 #, fuzzy
 msgid "Apliki"
-msgstr "применять"
+msgstr "применить"
 
 #: motioneye/templates/main.html:127
 #, fuzzy
@@ -1154,7 +1154,7 @@ msgstr "бессрочно"
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
 #, fuzzy
 msgid "Propra"
-msgstr "изготовленный на заказ"
+msgstr "Пользовательский"
 
 #: motioneye/templates/main.html:790
 #, fuzzy
