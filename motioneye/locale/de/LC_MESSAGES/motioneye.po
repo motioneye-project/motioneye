@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-06-06 14:56+0000\n"
-"Last-Translator: Marcel <mail@m4rc3l.de>\n"
-"Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/de/>\n"
+"PO-Revision-Date: 2022-06-30 13:21+0000\n"
+"Last-Translator: avyeegaztd <avyeegaztd@gmail.com>\n"
+"Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye-python-texts/de/>\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -1297,7 +1298,12 @@ msgstr "Zeitintervall für angehängte Bilder"
 #: motioneye/templates/main.html:1093
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
-msgstr "Definiert das Zeitsuchintervall, das beim Erstellen von E-Mail-Links verwendet werden soll (höhere Werte erzeugen E-Mails mit mehr Bildern auf Kosten einer erhöhten Verschiebungsbenachrichtigung). auf 0 setzen, um hinzugefügte Bilder zu deaktivieren; Sie müssen auch \"Bilder aufnehmen\" aktiviert haben, damit dies funktioniert."
+msgstr ""
+"Definiert das Zeitintervall, das beim Erstellen von E-Mail-Links verwendet "
+"werden soll (höhere Werte erzeugen E-Mails mit mehr Bildern, allerdings auf "
+"Kosten einer erhöhten Verzögerungsbenachrichtigung). Auf 0 setzen um "
+"hinzugefügte Bilder zu deaktivieren. Sie müssen auch \"Bilder aufnehmen\" "
+"aktiviert haben, damit diese Funktion aktiviert werden kann."
 
 #: motioneye/templates/main.html:1097
 #, fuzzy
@@ -1593,4 +1599,3 @@ msgstr "eine Sekunde"
 #, fuzzy
 msgid "minus"
 msgstr "Minus"
-
