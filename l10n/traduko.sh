@@ -7,16 +7,16 @@ DEBUG=
 src=$1
 dst=$2
 txt=$3
-#txt="${3//\\/\\\\}"
+#txt=${3//\\/\\\\}
 
 cook=$(find . -maxdepth 1 _traduko.jar -mmin -15 2>/dev/null)
 
 PROVO=0
 
-while [ "$PROVO" -lt 3 ]
+while (( PROVO < 3 ))
 do
 
-if [ -z "$cook" ]
+if [[ -z $cook ]]
 then
   curl -c _traduko.jar -A 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' \
   'https://translate.google.com' -o /dev/null 2>/dev/null
@@ -28,7 +28,7 @@ MSG0=$(curl -b _traduko.jar -A 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/2
   --data-urlencode "q=${txt//\\/\\}" 2>/dev/null \
 )
 
-[ "$DEBUG" ] && echo "$src txt=$txt" >&2
+[[ $DEBUG ]] && echo "$src txt=$txt" >&2
 
 if echo "$MSG0" | grep -q 'sorry'
 then
@@ -47,15 +47,15 @@ else
   | sed "s/\. \\\n$/.  \\\n/" \
   )
 fi
-[ "$DEBUG" ] && echo "$dst txt=$MSG" >&2
+[[ $DEBUG ]] && echo "$dst txt=$MSG" >&2
 
-if [ -z "$MSG" ]
+if [[ -z $MSG ]]
 then
-  cook=''
+  cook=
 else
   printf '%s' "$MSG"
-  break;
+  break
 fi
 
-PROVO=$((PROVO+1))
+((PROVO++))
 done

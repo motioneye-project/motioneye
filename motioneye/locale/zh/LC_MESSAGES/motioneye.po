@@ -1901,4 +1901,3 @@ msgstr "一秒"
 #, fuzzy
 msgid "minus"
 msgstr "减号"
-

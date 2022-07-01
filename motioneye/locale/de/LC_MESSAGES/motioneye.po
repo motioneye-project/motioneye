@@ -1593,4 +1593,3 @@ msgstr "eine Sekunde"
 #, fuzzy
 msgid "minus"
 msgstr "Minus"
-

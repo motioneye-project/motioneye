@@ -1899,4 +1899,3 @@ msgstr "ਇੱਕ ਸਕਿੰਟ"
 #, fuzzy
 msgid "minus"
 msgstr "ਘਟਾਓ"
-

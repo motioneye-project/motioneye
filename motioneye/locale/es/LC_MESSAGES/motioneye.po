@@ -1888,4 +1888,3 @@ msgstr "segundo"
 #, fuzzy
 msgid "minus"
 msgstr "menos"
-
