@@ -74,7 +74,7 @@ def start(deferred=False):
     from motioneye import config, mjpgclient
 
     if deferred:
-        io_loop = IOLoop.instance()
+        io_loop = IOLoop.current()
         io_loop.add_callback(start, deferred=False)
 
     global _started
@@ -132,7 +132,7 @@ def start(deferred=False):
     with open(motion_pid_path, 'w') as f:
         f.write(str(pid) + '\n')
 
-    IOLoop.instance().spawn_callback(_disable_initial_motion_detection)
+    IOLoop.current().spawn_callback(_disable_initial_motion_detection)
 
     # if mjpg client idle timeout is disabled, create mjpg clients for all cameras by default
     if not settings.MJPG_CLIENT_IDLE_TIMEOUT:

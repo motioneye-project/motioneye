@@ -41,7 +41,7 @@ _pool = None
 def start():
     global _pool
 
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
     io_loop.add_timeout(datetime.timedelta(seconds=_INTERVAL), _check_tasks)
 
     def init_pool_process():
@@ -88,7 +88,7 @@ def add(when, func, tag=None, callback=None, **params):
 
 
 def _check_tasks():
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
     io_loop.add_timeout(datetime.timedelta(seconds=_INTERVAL), _check_tasks)
 
     now = time.time()

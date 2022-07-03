@@ -61,7 +61,7 @@ def make_message(message, camera_id, moment, timespan, callback):
     camera_config = config.get_camera(camera_id)
 
     # we must start the IO loop for the media list subprocess polling
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
 
     def on_media_files(media_files):
         io_loop.stop()

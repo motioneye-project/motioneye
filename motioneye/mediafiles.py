@@ -479,7 +479,7 @@ def list_media(camera_config: dict, media_type: str, prefix=None) -> typing.Awai
                 break
 
     def poll_process():
-        io_loop = IOLoop.instance()
+        io_loop = IOLoop.current()
         if process.is_alive():  # not finished yet
             now = datetime.datetime.now()
             delta = now - started
@@ -603,7 +603,7 @@ def get_zipped_content(
     started = datetime.datetime.now()
 
     def poll_process():
-        io_loop = IOLoop.instance()
+        io_loop = IOLoop.current()
         if working.value:
             now = datetime.datetime.now()
             delta = now - started
@@ -685,7 +685,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
                 break
 
     def poll_media_list_process():
-        io_loop = IOLoop.instance()
+        io_loop = IOLoop.current()
         if _timelapse_process.is_alive():  # not finished yet
             now = datetime.datetime.now()
             delta = now - started[0]
@@ -783,7 +783,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
         global _timelapse_process
         global _timelapse_data
 
-        io_loop = IOLoop.instance()
+        io_loop = IOLoop.current()
         if _timelapse_process.poll() is None:  # not finished yet
             io_loop.add_timeout(
                 datetime.timedelta(seconds=0.5),
@@ -1056,7 +1056,7 @@ def set_prepared_cache(data):
 
     timeout = 3600  # the user has 1 hour to download the file after creation
 
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
     io_loop.add_timeout(datetime.timedelta(seconds=timeout), clear)
 
     return key

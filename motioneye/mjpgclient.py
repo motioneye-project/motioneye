@@ -304,7 +304,7 @@ class MjpgClient(IOStream):
 
 def start():
     # schedule the garbage collector
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
     io_loop.add_timeout(
         datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector
     )
@@ -365,7 +365,7 @@ def close_all(invalidate=False):
 
 
 def _garbage_collector():
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
     io_loop.add_timeout(
         datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector
     )
