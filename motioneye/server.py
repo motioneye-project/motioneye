@@ -232,7 +232,7 @@ def configure_signals():
         logging.info(_('interrompa signalo ricevita, fermanta …'))
 
         # shut down the IO loop if it has been started
-        io_loop = IOLoop.instance()
+        io_loop = IOLoop.current()
         io_loop.stop()
 
     def child_handler(signal, frame):
@@ -360,7 +360,7 @@ def make_media_folders():
 def start_motion():
     from motioneye import config, motionctl
 
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
 
     # add a motion running checker
     def checker():
@@ -463,7 +463,7 @@ def run():
 
     application.listen(settings.PORT, settings.LISTEN)
     logging.info(_('servilo komenciĝis'))
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
     # we need to reset the loop's PID to fix PID checks when running in daemon mode
     io_loop._pid = os.getpid()
     io_loop.start()

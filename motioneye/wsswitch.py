@@ -28,7 +28,7 @@ def _start_check_ws() -> None:
 
 
 def start() -> None:
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
     io_loop.add_timeout(datetime.timedelta(seconds=1), _start_check_ws)
 
 
@@ -106,7 +106,7 @@ async def _switch_motion_detection_status(
 
 async def _check_ws() -> None:
     # schedule the next call
-    io_loop = IOLoop.instance()
+    io_loop = IOLoop.current()
     io_loop.add_timeout(datetime.timedelta(seconds=10), _start_check_ws)
 
     if not motionctl.running():

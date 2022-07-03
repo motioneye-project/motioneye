@@ -82,7 +82,7 @@ class ActionHandler(BaseHandler):
         )
         self.command = command
 
-        self.io_loop = IOLoop.instance()
+        self.io_loop = IOLoop.current()
         self.io_loop.add_timeout(
             datetime.timedelta(milliseconds=100), self.check_command
         )

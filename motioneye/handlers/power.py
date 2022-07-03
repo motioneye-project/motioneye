@@ -35,9 +35,9 @@ class PowerHandler(BaseHandler):
             self.reboot()
 
     def shut_down(self):
-        io_loop = IOLoop.instance()
+        io_loop = IOLoop.current()
         io_loop.add_timeout(datetime.timedelta(seconds=2), PowerControl.shut_down)
 
     def reboot(self):
-        io_loop = IOLoop.instance()
+        io_loop = IOLoop.current()
         io_loop.add_timeout(datetime.timedelta(seconds=2), PowerControl.reboot)
