@@ -1902,4 +1902,3 @@ msgstr "ثانية"
 #, fuzzy
 msgid "minus"
 msgstr "ناقص"
-

@@ -1901,4 +1901,3 @@ msgstr "sesaat"
 #, fuzzy
 msgid "minus"
 msgstr "tolak"
-
