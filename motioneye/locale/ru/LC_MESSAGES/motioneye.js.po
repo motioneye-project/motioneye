@@ -8,14 +8,17 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2020-03-28 18:26+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-07-01 14:20+0000\n"
+"Last-Translator: Dmitrii <nuke142@gmail.com>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-javascript/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 
 #: motioneye/static/js/main.js:606
 #, fuzzy
@@ -72,7 +75,7 @@ msgstr "введите правильное значение"
 #: motioneye/static/js/main.js:841
 #, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr "Это рекурсивно удалит все файлы в облачной папке"
+msgstr "Это рекурсивно удалит все файлы в облачной папке \""
 
 #: motioneye/static/js/main.js:842
 #, fuzzy
@@ -80,9 +83,8 @@ msgid "\", ne nur tiuj alŝutitaj de motionEye!"
 msgstr "\", а не только загруженные motionEye!"
 
 #: motioneye/static/js/main.js:923
-#, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
-msgstr "Это рекурсивно удалит все старые медиа-файлы в папке"
+msgstr "Это рекурсивно удалит все старые медиа-файлы в папке \""
 
 #: motioneye/static/js/main.js:924
 #, fuzzy
@@ -97,17 +99,17 @@ msgstr "Невозможно изменить маску без действит
 #: motioneye/static/js/main.js:2230
 #, fuzzy
 msgid "Propra"
-msgstr "изготовленный на заказ"
+msgstr "Пользовательский"
 
 #: motioneye/static/js/main.js:2268
 #, fuzzy
 msgid "Propra dosierindiko"
-msgstr "Пользовательское имя файла"
+msgstr "Пользовательский путь"
 
 #: motioneye/static/js/main.js:2270
 #, fuzzy
 msgid "Retan kunlokon"
-msgstr "Онлайн общение"
+msgstr "Сетевая папка"
 
 #: motioneye/static/js/main.js:2630
 #, fuzzy
@@ -117,7 +119,7 @@ msgstr "Ваш браузер не выполняет эту функцию!"
 #: motioneye/static/js/main.js:2646
 #, fuzzy
 msgid "Apliki"
-msgstr "применять"
+msgstr "применить"
 
 #: motioneye/static/js/main.js:2673 motioneye/static/js/main.js:3034
 #: motioneye/static/js/main.js:3089 motioneye/static/js/main.js:3164
@@ -138,7 +140,7 @@ msgstr "Действительно отключить систему?"
 #: motioneye/static/js/main.js:2797
 #, fuzzy
 msgid "Malŝaltita"
-msgstr "инвалид"
+msgstr "Выключен"
 
 #: motioneye/static/js/main.js:2812
 #, fuzzy
@@ -164,22 +166,22 @@ msgstr "Нет камеры для удаления!"
 #: motioneye/static/js/main.js:2857
 #, fuzzy
 msgid "Ĉu forigi kameraon "
-msgstr "Можно снять камеру"
+msgstr "Удалите камеру "
 
 #: motioneye/static/js/main.js:2885
 #, fuzzy
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr "motionEye обновлен (текущая версия:"
+msgstr "motionEye обновлен (текущая версия: "
 
 #: motioneye/static/js/main.js:2888
 #, fuzzy
 msgid "Nova versio havebla: "
-msgstr "Доступна новая версия:"
+msgstr "Доступна новая версия: "
 
 #: motioneye/static/js/main.js:2888
 #, fuzzy
 msgid ". Ĝisdatigi?"
-msgstr ", Обновление?"
+msgstr ", Обновить?"
 
 #: motioneye/static/js/main.js:2896
 #, fuzzy
@@ -229,7 +231,7 @@ msgstr "Не удалось восстановить конфигурацию!"
 #: motioneye/static/js/main.js:3070
 #, fuzzy
 msgid "Aliri la alŝutan servon malsukcesis: "
-msgstr "Не удалось получить доступ к службе загрузки:"
+msgstr "Не удалось получить доступ к службе загрузки: "
 
 #: motioneye/static/js/main.js:3073
 #, fuzzy
@@ -239,7 +241,7 @@ msgstr "Доступ к службе загрузки был успешным!"
 #: motioneye/static/js/main.js:3110 motioneye/static/js/main.js:3113
 #, fuzzy
 msgid "Sciiga retpoŝto fiaskis:"
-msgstr "Новости по электронной почте не удалось:"
+msgstr "Оповещение по email не удалось:"
 
 #: motioneye/static/js/main.js:3129
 #, fuzzy
@@ -249,22 +251,22 @@ msgstr "Убедитесь, что все параметры конфигура�
 #: motioneye/static/js/main.js:3145
 #, fuzzy
 msgid "Sciiga Telegramo fiaskis:"
-msgstr "Уведомление Телеграмма не удалась:"
+msgstr "Оповещение через Telegram не удалось:"
 
 #: motioneye/static/js/main.js:3148
 #, fuzzy
 msgid "Sciiga Telegramo sukcesis!"
-msgstr "Уведомление Телеграмма была успешной!"
+msgstr "Уведомление по Telegram успешно!"
 
 #: motioneye/static/js/main.js:3184
 #, fuzzy
 msgid "Aliro al retdividado fiaskis: "
-msgstr "Не удалось доступа к сети передачи сети:"
+msgstr "Доступ к сетевой папке не удался: "
 
 #: motioneye/static/js/main.js:3187
 #, fuzzy
 msgid "Aliro al retdividado sukcesis!"
-msgstr "Доступ к замедлению был успешным!"
+msgstr "Доступ к сетевой папке успешен!"
 
 #: motioneye/static/js/main.js:3211
 #, fuzzy
@@ -279,17 +281,17 @@ msgstr "Действительно удалить все изображения 
 #: motioneye/static/js/main.js:3238
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
-msgstr "Удалить все фильмы из \"%(group)s\"?"
+msgstr "Удалить все видео из \"%(group)s\"?"
 
 #: motioneye/static/js/main.js:3243
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
-msgstr "Действительно удалить все разгруппированные изображения?"
+msgstr "Действительно удалить все изображения без групп?"
 
 #: motioneye/static/js/main.js:3246
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
-msgstr "Действительно удалить все разгруппированные фильмы?"
+msgstr "Действительно удалить все видео без групп?"
 
 #: motioneye/static/js/main.js:3357
 #, fuzzy
@@ -299,7 +301,7 @@ msgstr "добавить камеру ..."
 #: motioneye/static/js/main.js:3545
 #, fuzzy
 msgid "bone"
-msgstr "все в порядке"
+msgstr "ok"
 
 #: motioneye/static/js/main.js:3582 motioneye/static/js/main.js:3881
 #, fuzzy
@@ -314,18 +316,18 @@ msgstr "пароль"
 #: motioneye/static/js/main.js:3593
 #, fuzzy
 msgid "Memoru min"
-msgstr "Помни меня"
+msgstr "Запомнить меня"
 
 #: motioneye/static/js/main.js:3611 motioneye/static/js/main.js:3617
 #, fuzzy
 msgid "Ensaluti"
-msgstr "Войти в систему"
+msgstr "Логин:"
 
 #: motioneye/static/js/main.js:3614 motioneye/static/js/ui.js:1023
 #: motioneye/static/js/ui.js:1030
 #, fuzzy
 msgid "Nuligi"
-msgstr "отменить"
+msgstr "Отмена"
 
 #: motioneye/static/js/main.js:3656
 #, fuzzy
@@ -340,12 +342,13 @@ msgstr "Произошла ошибка сети."
 #: motioneye/static/js/main.js:3662
 #, fuzzy
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
-msgstr "Ошибка декодирования или непроецированная функция."
+msgstr "Ошибка декодирования или неподдерживаемые функции медиа."
 
 #: motioneye/static/js/main.js:3665
 #, fuzzy
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
-msgstr "Формат не поддерживается или недоступен / не подходит для воспроизведения."
+msgstr ""
+"Формат не поддерживается или недоступен/не подходит для воспроизведения."
 
 #: motioneye/static/js/main.js:3668
 #, fuzzy
@@ -355,7 +358,7 @@ msgstr "Произошла неизвестная ошибка."
 #: motioneye/static/js/main.js:3671
 #, fuzzy
 msgid "Eraro : "
-msgstr "ошибка:"
+msgstr "ошибка: "
 
 #: motioneye/static/js/main.js:3676
 #, fuzzy
@@ -370,7 +373,7 @@ msgstr "играть"
 #: motioneye/static/js/main.js:3684
 #, fuzzy
 msgid "ludi * 5 kaj enĉenigi"
-msgstr "играть * 5 и цепочка"
+msgstr "играть * 5 и цепочку"
 
 #: motioneye/static/js/main.js:3689
 #, fuzzy
@@ -380,7 +383,7 @@ msgstr "следующее изображение"
 #: motioneye/static/js/main.js:3812
 #, fuzzy
 msgid "Fermi"
-msgstr "близко"
+msgstr "Закрыть"
 
 #: motioneye/static/js/main.js:3813 motioneye/static/js/main.js:4374
 #, fuzzy
@@ -435,7 +438,7 @@ msgstr "URL"
 #: motioneye/static/js/main.js:3877
 #, fuzzy
 msgid "http://ekzemplo.com:8765/cams/..."
-msgstr "http: //example.com: 8765 / cams / ..."
+msgstr "http://example.com: 8765/cams/..."
 
 #: motioneye/static/js/main.js:3878
 #, fuzzy
@@ -510,7 +513,7 @@ msgstr "группа"
 #: motioneye/static/js/main.js:4196
 #, fuzzy
 msgid "Inkluzivi foton prenitan ĉiun"
-msgstr "Включите фотографию, сделанную каждый"
+msgstr "Включать фото сделанные каждые"
 
 #: motioneye/static/js/main.js:4199
 #, fuzzy
@@ -565,57 +568,59 @@ msgstr "Выберите временной интервал между двум
 #: motioneye/static/js/main.js:4213
 #, fuzzy
 msgid "Filmo framfrekvenco"
-msgstr "Частота кадров фильма"
+msgstr "Частота кадров видео"
 
 #: motioneye/static/js/main.js:4215
 #, fuzzy
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
-msgstr "Выберите, насколько быстро вы хотите, чтобы ускоренное видео было."
+msgstr "Выберите, насколько быстрый таймлапс вы хотите"
 
 #: motioneye/static/js/main.js:4224
 #, fuzzy
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr "Учитывая большое количество изображений, создание собственного видео может занять некоторое время!"
+msgstr ""
+"Учитывая большое количество изображений, создание timelapse может занять "
+"некоторое время!"
 
 #: motioneye/static/js/main.js:4241
 #, fuzzy
 msgid "Krei akselita video"
-msgstr "Создать ускоренное видео"
+msgstr "Создать timelapse видео"
 
 #: motioneye/static/js/main.js:4250
 #, fuzzy
 msgid "Filmo kreanta en progreso..."
-msgstr "Фильм в процессе ..."
+msgstr "Создание timelapse видео ..."
 
 #: motioneye/static/js/main.js:4501
 #, fuzzy
 msgid "Zipitaj"
-msgstr "Zipitaj"
+msgstr "Архив"
 
 #: motioneye/static/js/main.js:4510
 #, fuzzy
 msgid "Akselita video"
-msgstr "Ускоренное видео"
+msgstr "Timelapse"
 
 #: motioneye/static/js/main.js:4521
 #, fuzzy
 msgid "Forigi ĉiujn"
-msgstr "Удалить их все"
+msgstr "Удалить все"
 
 #: motioneye/static/js/main.js:4663
 #, fuzzy
 msgid "Bildoj prenitaj de "
-msgstr "Снимки сделаны"
+msgstr "Снимки сделаны "
 
 #: motioneye/static/js/main.js:4666
 #, fuzzy
 msgid "Filmoj registritaj de "
-msgstr "Фильмы записаны"
+msgstr "Видео записаны "
 
 #: motioneye/static/js/main.js:4728
 #, fuzzy
 msgid "montru ĉi tiun fotilon plenekranan"
-msgstr "Показать эту камеру полный рабочий день"
+msgstr "Показать эту камеру на весь экран"
 
 #: motioneye/static/js/main.js:4729
 #, fuzzy
@@ -630,7 +635,7 @@ msgstr "Показать только эту камеру"
 #: motioneye/static/js/main.js:4731
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
-msgstr "браузер открытых изображений"
+msgstr "открыть браузер изображений"
 
 #: motioneye/static/js/main.js:4732
 #, fuzzy
@@ -640,7 +645,7 @@ msgstr "открыть браузер видео"
 #: motioneye/static/js/main.js:4733
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
-msgstr "установить эту камеру"
+msgstr "настроить эту камеру"
 
 #: motioneye/static/js/main.js:4749
 #, fuzzy
@@ -650,7 +655,7 @@ msgstr "сделать снимок"
 #: motioneye/static/js/main.js:5121
 #, fuzzy
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr "Вы еще не настроили ни одной камеры. Нажмите здесь, чтобы добавить один ..."
+msgstr "Вы еще не настроили ни одной камеры. Нажмите здесь, чтобы добавить..."
 
 #: motioneye/static/js/ui.js:503
 #, fuzzy
@@ -675,22 +680,22 @@ msgstr "введите целое число"
 #: motioneye/static/js/ui.js:512
 #, fuzzy
 msgid " inter "
-msgstr "между"
+msgstr " между "
 
 #: motioneye/static/js/ui.js:512
 #, fuzzy
 msgid " kaj "
-msgstr "и"
+msgstr " и "
 
 #: motioneye/static/js/ui.js:515
 #, fuzzy
 msgid " pli ol "
-msgstr "больше чем"
+msgstr " больше чем "
 
 #: motioneye/static/js/ui.js:520
 #, fuzzy
 msgid " malpli ol "
-msgstr "меньше чем"
+msgstr " меньше чем "
 
 #: motioneye/static/js/ui.js:573
 #, fuzzy
@@ -710,17 +715,17 @@ msgstr "закрыть"
 #: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
 #, fuzzy
 msgid "Ne"
-msgstr "не"
+msgstr "Нет"
 
 #: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
 #, fuzzy
 msgid "Jes"
-msgstr "да"
+msgstr "Да"
 
 #: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
 #, fuzzy
 msgid "Bone"
-msgstr "хорошо"
+msgstr "OK"
 
 #: l10n/v4l2.js:4
 #, fuzzy
@@ -745,7 +750,7 @@ msgstr "Контраст"
 #: l10n/v4l2.js:8
 #, fuzzy
 msgid "Exposure Absolute"
-msgstr "Экспозиция абсолютно"
+msgstr "Абсолютная экспозиция"
 
 #: l10n/v4l2.js:9
 #, fuzzy
@@ -760,17 +765,17 @@ msgstr "Экспозиция Авто -приоритет"
 #: l10n/v4l2.js:11
 #, fuzzy
 msgid "Exposure Time Absolute"
-msgstr "Время воздействия абсолютно"
+msgstr "Абсолютное время экспозиции"
 
 #: l10n/v4l2.js:12
 #, fuzzy
 msgid "Focus Absolute"
-msgstr "Фокус абсолютно"
+msgstr "Абсолютный фокус"
 
 #: l10n/v4l2.js:13
 #, fuzzy
 msgid "Focus Auto"
-msgstr "Focus Auto"
+msgstr "Авто фокус"
 
 #: l10n/v4l2.js:14
 #, fuzzy
@@ -790,22 +795,22 @@ msgstr "Оттенок"
 #: l10n/v4l2.js:17
 #, fuzzy
 msgid "Led1 Mode"
-msgstr "Светодиодный режим"
+msgstr "Режим Led1"
 
 #: l10n/v4l2.js:18
 #, fuzzy
 msgid "Led1 Frequency"
-msgstr "Светодиодная частота"
+msgstr "Частота Led1"
 
 #: l10n/v4l2.js:19
 #, fuzzy
 msgid "Pan Absolute"
-msgstr "Пан абсолютно"
+msgstr "Абсолютное панарамирование"
 
 #: l10n/v4l2.js:20
 #, fuzzy
 msgid "Power Line Frequency"
-msgstr "Частота линии электропередачи"
+msgstr "Частота линии"
 
 #: l10n/v4l2.js:21
 #, fuzzy
@@ -820,22 +825,22 @@ msgstr "Четкость"
 #: l10n/v4l2.js:23
 #, fuzzy
 msgid "Tilt Absolute"
-msgstr "Наклонить абсолютно"
+msgstr "Абсолютный наклон"
 
 #: l10n/v4l2.js:24
 #, fuzzy
 msgid "White Balance Temperature"
-msgstr "Белая баланс температура"
+msgstr "Температура белого"
 
 #: l10n/v4l2.js:25
 #, fuzzy
 msgid "White Balance Temperature Auto"
-msgstr "Белый баланс температура"
+msgstr "Авто температура белого"
 
 #: l10n/v4l2.js:26
 #, fuzzy
 msgid "Zoom Absolute"
-msgstr "Увеличить абсолютно"
+msgstr "Абсолютный зум"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"
