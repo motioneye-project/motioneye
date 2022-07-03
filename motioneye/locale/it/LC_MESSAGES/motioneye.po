@@ -1890,4 +1890,3 @@ msgstr "secondo"
 #, fuzzy
 msgid "minus"
 msgstr "meno"
-

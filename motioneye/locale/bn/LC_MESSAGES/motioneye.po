@@ -1900,4 +1900,3 @@ msgstr "একটি দ্বিতীয়"
 #, fuzzy
 msgid "minus"
 msgstr "ঋণচিহ্ন"
-

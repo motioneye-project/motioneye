@@ -7,691 +7,671 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-26 18:33+0200\n"
+"POT-Creation-Date: 2022-06-12 16:59+0200\n"
 "PO-Revision-Date: 2022-06-20 09:22+0000\n"
-"Last-Translator: lukasig <lukasig@hotmail.com>\n"
-"Language-Team: Romanian <https://hosted.weblate.org/projects/"
-"motioneye-project/motioneye-javascript/ro/>\n"
-"Language: ro\n"
+"Last-Translator: Michal Basler <minecz.michal.basler@gmail.com>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye-javascript/cs/>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
-"20)) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 4.13.1-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr "nu sunt permise caractere speciale pentru parolă"
+msgstr ""
 
 #: motioneye/static/js/main.js:613 motioneye/static/js/main.js:624
 #: motioneye/static/js/main.js:683 motioneye/static/js/ui.js:362
 #: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
 msgid "Ĉi tiu kampo estas deviga"
-msgstr "Acest câmp este obligatoriu"
+msgstr ""
 
 #: motioneye/static/js/main.js:617
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr "nu sunt permise caractere speciale pentru numele camerei"
+msgstr ""
 
 #: motioneye/static/js/main.js:629
 msgid "valoro devas esti multoblo de 8"
-msgstr "valoarea trebuie să fie un multiplu de 8"
+msgstr ""
 
 #: motioneye/static/js/main.js:636
 msgid "specialaj signoj ne rajtas en radika voja nomo"
-msgstr "nu sunt permise caractere speciale pentru numele căilor root"
+msgstr ""
 
 #: motioneye/static/js/main.js:639
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr "fișierele nu pot fi create direct la root pentru sistemul dumneavoastră"
+msgstr ""
 
 #: motioneye/static/js/main.js:646
 msgid "enigu validan retpoŝtadreson"
-msgstr "introduceți o adresă de email validă"
+msgstr ""
 
 #: motioneye/static/js/main.js:653
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr "introduceți o listă de adrese de e-mail valide, separate prin virgulă"
+msgstr ""
 
 #: motioneye/static/js/main.js:660
 msgid "specialaj signoj ne rajtas en dosiernomo"
-msgstr "nu sunt permise caracterele speciale pentru numele fișierului"
+msgstr ""
 
 #: motioneye/static/js/main.js:687
 msgid "enigu validan valoron"
-msgstr "introduceți o valoare validă"
+msgstr ""
 
 #: motioneye/static/js/main.js:841
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr "Aceasta va șterge recursiv toate fișierele din directorul cloud \""
+msgstr ""
 
 #: motioneye/static/js/main.js:842
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
-msgstr "\", nu doar cele încărcate de motionEye!"
+msgstr ""
 
 #: motioneye/static/js/main.js:923
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
 msgstr ""
-"Aceasta va șterge recursiv toate fișierele media vechi din directorul \""
 
 #: motioneye/static/js/main.js:924
 msgid "\", ne nur tiuj kreitaj de motionEye!"
-msgstr "\", nu doar cele create de motionEye!"
+msgstr ""
 
 #: motioneye/static/js/main.js:990
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
-msgstr "Masca nu poate fi editată fără o imagine validă a camerei!"
+msgstr ""
 
 #: motioneye/static/js/main.js:2230
 msgid "Propra"
-msgstr "Personalizat"
+msgstr ""
 
 #: motioneye/static/js/main.js:2268
 msgid "Propra dosierindiko"
-msgstr "Cale personalizată"
+msgstr ""
 
 #: motioneye/static/js/main.js:2270
 msgid "Retan kunlokon"
-msgstr "Partajare în rețea"
+msgstr ""
 
 #: motioneye/static/js/main.js:2630
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
-msgstr "Browserul dumneavoastră nu implementează această funcție!"
+msgstr ""
 
 #: motioneye/static/js/main.js:2646
 msgid "Apliki"
-msgstr "Aplică"
+msgstr "Použít"
 
 #: motioneye/static/js/main.js:2673 motioneye/static/js/main.js:3034
 #: motioneye/static/js/main.js:3089 motioneye/static/js/main.js:3164
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
-msgstr "Asigurați-vă că toate opțiunile de configurare sunt valide!"
+msgstr ""
 
 #: motioneye/static/js/main.js:2775
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
-msgstr "Aceasta va reporni sistemul. Continuare?"
+msgstr ""
 
 #: motioneye/static/js/main.js:2785
 msgid "Vere fermiti sistemon?"
-msgstr "Chiar doriți să opriți sistemul?"
+msgstr ""
 
 #: motioneye/static/js/main.js:2797
 msgid "Malŝaltita"
-msgstr "Oprit"
+msgstr ""
 
 #: motioneye/static/js/main.js:2812
 msgid "Ĉu vere restartigi ?"
-msgstr "Chiar doriți să reporniți?"
+msgstr ""
 
 #: motioneye/static/js/main.js:2826
 msgid "La sistemo rekomencis!"
-msgstr "Sistemul a fost repornit!"
+msgstr ""
 
 #: motioneye/static/js/main.js:2846 motioneye/static/js/main.js:2879
 #: motioneye/static/js/main.js:3859
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
-msgstr "Vă rugăm să aplicați mai întâi setările modificate!"
+msgstr ""
 
 #: motioneye/static/js/main.js:2851
 msgid "Neniu fotilo por forigi!"
-msgstr "Nicio cameră de eliminat!"
+msgstr ""
 
 #: motioneye/static/js/main.js:2857
 msgid "Ĉu forigi kameraon "
-msgstr "Eliminați camera "
+msgstr ""
 
 #: motioneye/static/js/main.js:2885
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr "motionEye este actualizat (versiunea curentă: "
+msgstr ""
 
 #: motioneye/static/js/main.js:2888
 msgid "Nova versio havebla: "
-msgstr "Versiune nouă disponibilă: "
+msgstr ""
 
 #: motioneye/static/js/main.js:2888
 msgid ". Ĝisdatigi?"
-msgstr ". Actualizați?"
+msgstr ""
 
 #: motioneye/static/js/main.js:2896
 msgid "motionEye estis sukcese ĝisdatigita!"
-msgstr "motionEye a fost actualizat cu succes!"
+msgstr ""
 
 #: motioneye/static/js/main.js:2906
 msgid "Ĝisdatigo malsukcesis!"
-msgstr "Actualizarea a eșuat!"
+msgstr ""
 
 #: motioneye/static/js/main.js:2917
 msgid "La ĝisdatiga procezo malsukcesis!"
-msgstr "Procesul de actualizare a eșuat!"
+msgstr ""
 
 #: motioneye/static/js/main.js:2936
 msgid "Rezerva dosiero"
-msgstr "Fișierul de configurare"
+msgstr ""
 
 #: motioneye/static/js/main.js:2938
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
-msgstr "fișierul de configurare descărcat anterior."
+msgstr ""
 
 #: motioneye/static/js/main.js:2967
 msgid "Restaŭrigi Agordon"
-msgstr "Restaurați configurația"
+msgstr ""
 
 #: motioneye/static/js/main.js:2979
 msgid "Restaŭriganta agordon ..."
-msgstr "Se restabilește configurația..."
+msgstr ""
 
 #: motioneye/static/js/main.js:2986
 msgid "La agordo restaŭrigis!"
-msgstr "Configurația a fost restabilită!"
+msgstr ""
 
 #: motioneye/static/js/main.js:2996 motioneye/static/js/main.js:3015
 msgid "Malsukcesis restaŭri la agordon!"
-msgstr "Restaurarea configurației a eșuat!"
+msgstr ""
 
 #: motioneye/static/js/main.js:3070
 msgid "Aliri la alŝutan servon malsukcesis: "
-msgstr "Accesul la serviciul de încărcare a eșuat: "
+msgstr ""
 
 #: motioneye/static/js/main.js:3073
 msgid "Aliri la alŝutan servon sukcesis!"
-msgstr "Serviciul de încărcare a fost accesat cu succes!"
+msgstr ""
 
 #: motioneye/static/js/main.js:3110 motioneye/static/js/main.js:3113
 msgid "Sciiga retpoŝto fiaskis:"
-msgstr "E-mailul de notificare a eșuat:"
+msgstr ""
 
 #: motioneye/static/js/main.js:3129
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
-msgstr "Asigurați-vă că toate opțiunile de configurare sunt valide!"
+msgstr ""
 
 #: motioneye/static/js/main.js:3145
 msgid "Sciiga Telegramo fiaskis:"
-msgstr "Notificarea Telegram a eșuat:"
+msgstr ""
 
 #: motioneye/static/js/main.js:3148
 msgid "Sciiga Telegramo sukcesis!"
-msgstr "Notificarea Telegram a avut succes!"
+msgstr ""
 
 #: motioneye/static/js/main.js:3184
 msgid "Aliro al retdividado fiaskis: "
-msgstr "Accesul la partajarea rețelei a eșuat: "
+msgstr ""
 
 #: motioneye/static/js/main.js:3187
 msgid "Aliro al retdividado sukcesis!"
-msgstr "Accesul la partajarea de rețea a avut succes!"
+msgstr ""
 
 #: motioneye/static/js/main.js:3211
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
-msgstr "Chiar doriți să ștergeți acest fișier?"
+msgstr ""
 
 #: motioneye/static/js/main.js:3235
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
-msgstr "Chiar doriți să ștergeți toate imaginile din „(grup)uri %”?"
+msgstr ""
 
 #: motioneye/static/js/main.js:3238
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
-msgstr "Chiar doriți să ștergeți toate videoclipurile din „(grup)uri %”?"
+msgstr ""
 
 #: motioneye/static/js/main.js:3243
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
-msgstr "Chiar doriți să ștergeți toate imaginile negrupate?"
+msgstr ""
 
 #: motioneye/static/js/main.js:3246
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
-msgstr "Chiar doriți să ștergeți toate videoclipurile negrupate?"
+msgstr ""
 
 #: motioneye/static/js/main.js:3357
 msgid "aldonadi kameraon..."
-msgstr "adaugă o cameră..."
+msgstr ""
 
 #: motioneye/static/js/main.js:3545
 msgid "bone"
-msgstr "OK"
+msgstr ""
 
 #: motioneye/static/js/main.js:3582 motioneye/static/js/main.js:3881
 msgid "Uzantnomo"
-msgstr "Nume de utilizator"
+msgstr ""
 
 #: motioneye/static/js/main.js:3587 motioneye/static/js/main.js:3886
 msgid "Pasvorto"
-msgstr "Parola"
+msgstr ""
 
 #: motioneye/static/js/main.js:3593
 msgid "Memoru min"
-msgstr "Ține-mă minte"
+msgstr ""
 
 #: motioneye/static/js/main.js:3611 motioneye/static/js/main.js:3617
 msgid "Ensaluti"
-msgstr "Autentificare"
+msgstr ""
 
 #: motioneye/static/js/main.js:3614 motioneye/static/js/ui.js:1023
 #: motioneye/static/js/ui.js:1030
 msgid "Nuligi"
-msgstr "Renunțare"
+msgstr ""
 
 #: motioneye/static/js/main.js:3656
 msgid "Vi abortis la filmeton."
-msgstr "Ai renunțat la videoclip."
+msgstr ""
 
 #: motioneye/static/js/main.js:3659
 msgid "Reto eraro okazis."
-msgstr "A apărut o eroare de rețea."
+msgstr ""
 
 #: motioneye/static/js/main.js:3662
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
-msgstr "Eroare de decodare sau funcție neacceptată."
+msgstr ""
 
 #: motioneye/static/js/main.js:3665
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
-msgstr "Format neacceptat sau inaccesibil/nepotrivit pentru redare."
+msgstr ""
 
 #: motioneye/static/js/main.js:3668
 msgid "Nekonata eraro okazis."
-msgstr "A apărut o eroare necunoscută."
+msgstr ""
 
 #: motioneye/static/js/main.js:3671
 msgid "Eraro : "
-msgstr "Eroare: "
+msgstr ""
 
 #: motioneye/static/js/main.js:3676
 msgid "antaŭa bildo"
-msgstr "imaginea anterioară"
+msgstr ""
 
 #: motioneye/static/js/main.js:3681
 msgid "ludi"
-msgstr "Redă"
+msgstr ""
 
 #: motioneye/static/js/main.js:3684
 msgid "ludi * 5 kaj enĉenigi"
-msgstr "Redă x5 în șir"
+msgstr ""
 
 #: motioneye/static/js/main.js:3689
 msgid "sekva bildo"
-msgstr "imaginea următoare"
+msgstr ""
 
 #: motioneye/static/js/main.js:3812
 msgid "Fermi"
-msgstr "Închide"
+msgstr ""
 
 #: motioneye/static/js/main.js:3813 motioneye/static/js/main.js:4374
 msgid "Elŝuti"
-msgstr "Descarcă"
+msgstr ""
 
 #: motioneye/static/js/main.js:3821 motioneye/static/js/main.js:4377
 msgid "Forigi"
-msgstr "Șterge"
+msgstr ""
 
 #: motioneye/static/js/main.js:3865
 msgid "Kamerao tipo"
-msgstr "Tipul camerei"
+msgstr ""
 
 #: motioneye/static/js/main.js:3867
 msgid "Loka V4L2-kamerao"
-msgstr "Cameră locală V4L2"
+msgstr ""
 
 #: motioneye/static/js/main.js:3868
 msgid "Loka MMAL-kamerao"
-msgstr "Cameră locală MMAL"
+msgstr ""
 
 #: motioneye/static/js/main.js:3869
 msgid "Reta kamerao"
-msgstr "Cameră de rețea"
+msgstr ""
 
 #: motioneye/static/js/main.js:3870
 msgid "Fora motionEye kamerao"
-msgstr "Cameră motionEye la distanță"
+msgstr ""
 
 #: motioneye/static/js/main.js:3871
 msgid "Simpla MJPEG-kamerao"
-msgstr "Cameră MJPEG simplă"
+msgstr ""
 
 #: motioneye/static/js/main.js:3873
 msgid "la speco de kamerao, kiun vi volas aldoni"
-msgstr "Tipul camerei pe care doriți s-o adăugați."
+msgstr ""
 
 #: motioneye/static/js/main.js:3876
 msgid "URL"
-msgstr "URL"
+msgstr ""
 
 #: motioneye/static/js/main.js:3877
 msgid "http://ekzemplo.com:8765/cams/..."
-msgstr "http://exemplu.com:8765 /cams/..."
+msgstr ""
 
 #: motioneye/static/js/main.js:3878
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
-msgstr "adresa URL a camerei (ex. http://examplu.com:8080/cam/)"
+msgstr ""
 
 #: motioneye/static/js/main.js:3882
 msgid "uzantnomo..."
-msgstr "nume de utilizator ..."
+msgstr ""
 
 #: motioneye/static/js/main.js:3883
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
-msgstr "Numele de utilizator pentru adresa URL, dacă este necesar (ex. admin)."
+msgstr ""
 
 #: motioneye/static/js/main.js:3887
 msgid "pasvorto..."
-msgstr "parola ..."
+msgstr ""
 
 #: motioneye/static/js/main.js:3888
 msgid "la pasvorto por la URL, se bezonata"
-msgstr "Parola pentru adresa URL, dacă este necesară."
+msgstr ""
 
 #: motioneye/static/js/main.js:3891
 msgid "Kamerao"
-msgstr "Cameră"
+msgstr ""
 
 #: motioneye/static/js/main.js:3893
 msgid "la kameraon, kiun vi volas aldoni"
-msgstr "Camera pe care doriți să o adăugați."
+msgstr ""
 
 #: motioneye/static/js/main.js:3929
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr ""
-"Camerele motionEye la distanță sunt camere instalate în spatele altui server "
-"MotionEye. Adăugarea acestora aici vă va permite să le vizualizați și să le "
-"gestionați de la distanță."
 
 #: motioneye/static/js/main.js:3944
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr ""
-"Camerele de rețea (sau camerele IP) sunt dispozitive care transmit în mod "
-"nativ videoclipuri RTSP / RTMP sau MJPEG sau imagini JPEG simple. Verificați "
-"manualul dispozitivului pentru a afla adresa URL corectă RTSP, RTMP, MJPEG "
-"sau JPEG."
 
 #: motioneye/static/js/main.js:3949
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr ""
-"Camerele locale MMAL sunt dispozitive conectate direct la sistemul "
-"dumneavoastră motionEye. Acestea sunt de obicei camere specifice plăcii."
 
 #: motioneye/static/js/main.js:3964
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr ""
-"Adăugarea dispozitivului ca o simplă cameră MJPEG în loc de ca o cameră de "
-"rețea va îmbunătăți imaginea, dar nu va fi disponibilă detectarea a "
-"mișcării, captarea imaginii sau înregistrarea videoclipurilor. Camera "
-"trebuie să fie accesibilă atât pentru server, cât și pentru browser. Acest "
-"tip de cameră nu este compatibil cu Internet Explorer."
 
 #: motioneye/static/js/main.js:3969
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr ""
-"Camerele locale V4L2 sunt dispozitivele video conectate direct la sistemul "
-"dumneavoastră motionEye, de obicei prin USB."
 
 #: motioneye/static/js/main.js:4120
 msgid "Aldonadi kameraon..."
-msgstr "Adaugă o cameră..."
+msgstr ""
 
 #: motioneye/static/js/main.js:4192
 msgid "Grupo"
-msgstr "Grup"
+msgstr ""
 
 #: motioneye/static/js/main.js:4196
 msgid "Inkluzivi foton prenitan ĉiun"
-msgstr "Includeți câte o fotografie făcută la fiecare"
+msgstr ""
 
 #: motioneye/static/js/main.js:4199
 msgid "sekundo"
-msgstr "secundă"
+msgstr ""
 
 #: motioneye/static/js/main.js:4200
 msgid "5 sekundoj"
-msgstr "5 secunde"
+msgstr ""
 
 #: motioneye/static/js/main.js:4201
 msgid "10 sekundoj"
-msgstr "10 secunde"
+msgstr ""
 
 #: motioneye/static/js/main.js:4202
 msgid "30 sekundoj"
-msgstr "30 de secunde"
+msgstr ""
 
 #: motioneye/static/js/main.js:4203
 msgid "minuto"
-msgstr "minut"
+msgstr ""
 
 #: motioneye/static/js/main.js:4204
 msgid "5 minutoj"
-msgstr "5 minute"
+msgstr ""
 
 #: motioneye/static/js/main.js:4205
 msgid "10 minutoj"
-msgstr "10 minute"
+msgstr ""
 
 #: motioneye/static/js/main.js:4206
 msgid "30 minutoj"
-msgstr "30 minute"
+msgstr ""
 
 #: motioneye/static/js/main.js:4207
 msgid "horo"
-msgstr "oră"
+msgstr ""
 
 #: motioneye/static/js/main.js:4210
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
-msgstr "Alegeți intervalul de timp dintre două imagini selectate."
+msgstr ""
 
 #: motioneye/static/js/main.js:4213
 msgid "Filmo framfrekvenco"
-msgstr "Rata de cadre a videoclipurilor"
+msgstr ""
 
 #: motioneye/static/js/main.js:4215
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
-msgstr "Alegeți cât de rapid doriți să fie redat videoclipul timelapse."
+msgstr ""
 
 #: motioneye/static/js/main.js:4224
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr ""
-"Având în vedere numărul mare de imagini, crearea videoclip-ului timelapse "
-"poate dura ceva timp!"
 
 #: motioneye/static/js/main.js:4241
 msgid "Krei akselita video"
-msgstr "Creați videoclip timelapse"
+msgstr ""
 
 #: motioneye/static/js/main.js:4250
 msgid "Filmo kreanta en progreso..."
-msgstr "Creare videoclip timelapse..."
+msgstr ""
 
 #: motioneye/static/js/main.js:4501
 msgid "Zipitaj"
-msgstr "Arhivat"
+msgstr ""
 
 #: motioneye/static/js/main.js:4510
 msgid "Akselita video"
-msgstr "Timelapse"
+msgstr ""
 
 #: motioneye/static/js/main.js:4521
 msgid "Forigi ĉiujn"
-msgstr "Șterge tot"
+msgstr ""
 
 #: motioneye/static/js/main.js:4663
 msgid "Bildoj prenitaj de "
-msgstr "Imagini înregistrate de camera "
+msgstr ""
 
 #: motioneye/static/js/main.js:4666
 msgid "Filmoj registritaj de "
-msgstr "Videoclipuri înregistrate de camera "
+msgstr ""
 
 #: motioneye/static/js/main.js:4728
 msgid "montru ĉi tiun fotilon plenekranan"
-msgstr "Afișează această cameră pe ecran complet"
+msgstr ""
 
 #: motioneye/static/js/main.js:4729
 msgid "montri ĉiujn fotilojn"
-msgstr "Afișează toate camerele"
+msgstr ""
 
 #: motioneye/static/js/main.js:4730
 msgid "montru nur ĉi tiun fotilon"
-msgstr "Afișează doar această cameră"
+msgstr ""
 
 #: motioneye/static/js/main.js:4731
 msgid "malfermaj bildoj retumilo"
-msgstr "deschide browserul de imagini"
+msgstr ""
 
 #: motioneye/static/js/main.js:4732
 msgid "malferma videoj retumilo"
-msgstr "deschide browserul de videoclipuri"
+msgstr ""
 
 #: motioneye/static/js/main.js:4733
 msgid "agordi ĉi tiun kameraon"
-msgstr "configurați această cameră"
+msgstr ""
 
 #: motioneye/static/js/main.js:4749
 msgid "preni instantaron"
-msgstr "efectuați o captură"
+msgstr ""
 
 #: motioneye/static/js/main.js:5121
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr "Nu ați configurat încă nicio cameră. Click aici pentru a adăuga una..."
+msgstr ""
 
 #: motioneye/static/js/ui.js:503
 msgid "enigu pozitivan nombron"
-msgstr "introduceți un număr pozitiv"
+msgstr ""
 
 #: motioneye/static/js/ui.js:505
 msgid "enigu pozitivan entjeran nombron"
-msgstr "introduceți un număr întreg pozitiv"
+msgstr ""
 
 #: motioneye/static/js/ui.js:507
 msgid "enigu nombron"
-msgstr "introduceți un număr"
+msgstr ""
 
 #: motioneye/static/js/ui.js:509
 msgid "enigu entjeran nombron"
-msgstr "introduceți un număr întreg"
+msgstr ""
 
 #: motioneye/static/js/ui.js:512
 msgid " inter "
-msgstr " între "
+msgstr ""
 
 #: motioneye/static/js/ui.js:512
 msgid " kaj "
-msgstr " și "
+msgstr ""
 
 #: motioneye/static/js/ui.js:515
 msgid " pli ol "
-msgstr " mai mare decât "
+msgstr ""
 
 #: motioneye/static/js/ui.js:520
 msgid " malpli ol "
-msgstr " mai mic decât "
+msgstr ""
 
 #: motioneye/static/js/ui.js:573
 msgid "enigu validan tempon en la sekva formato: HH:MM"
-msgstr "introduceți o oră validă în următorul format: HH:MM"
+msgstr ""
 
 #: motioneye/static/js/ui.js:630
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
-msgstr "introduceți o adresă URL validă (ex. http://example.com:8080/cams/)"
+msgstr ""
 
 #: motioneye/static/js/ui.js:971
 msgid "fermi"
-msgstr "Închide"
+msgstr ""
 
 #: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
 msgid "Ne"
-msgstr "Nu"
+msgstr ""
 
 #: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
 msgid "Jes"
-msgstr "Da"
+msgstr ""
 
 #: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
 msgid "Bone"
-msgstr "OK"
+msgstr ""
 
 #: l10n/v4l2.js:4
 msgid "Auto Exposure"
-msgstr "Expunere automată"
+msgstr ""
 
 #: l10n/v4l2.js:5
 msgid "Backlight Compensation"
-msgstr "Compensare pentru lumina de fundal"
+msgstr ""
 
 #: l10n/v4l2.js:6
 msgid "Brightness"
-msgstr "Luminozitate"
+msgstr ""
 
 #: l10n/v4l2.js:7
 msgid "Contrast"
-msgstr "Contrast"
+msgstr ""
 
 #: l10n/v4l2.js:8
 msgid "Exposure Absolute"
-msgstr "Expunere absolută"
+msgstr ""
 
 #: l10n/v4l2.js:9
 msgid "Exposure Auto"
-msgstr "Expunere automată"
+msgstr ""
 
 #: l10n/v4l2.js:10
 msgid "Exposure Auto Priority"
-msgstr "Prioritate automată expunere"
+msgstr ""
 
 #: l10n/v4l2.js:11
 msgid "Exposure Time Absolute"
-msgstr "Timp de expunere absolut"
+msgstr ""
 
 #: l10n/v4l2.js:12
 msgid "Focus Absolute"
-msgstr "Focalizare Absolută"
+msgstr ""
 
 #: l10n/v4l2.js:13
 msgid "Focus Auto"
-msgstr "Focalizare automată"
+msgstr ""
 
 #: l10n/v4l2.js:14
 msgid "Gain"
-msgstr "Creștere"
+msgstr ""
 
 #: l10n/v4l2.js:15
 msgid "Gamma"
-msgstr "Gamma"
+msgstr ""
 
 #: l10n/v4l2.js:16
 msgid "Hue"
-msgstr "Nuanță"
+msgstr ""
 
 #: l10n/v4l2.js:17
 msgid "Led1 Mode"
-msgstr "Modul pt. Led1"
+msgstr ""
 
 #: l10n/v4l2.js:18
 msgid "Led1 Frequency"
-msgstr "Frecvența pt. Led1"
+msgstr ""
 
 #: l10n/v4l2.js:19
 msgid "Pan Absolute"
-msgstr "Pan absolut"
+msgstr ""
 
 #: l10n/v4l2.js:20
 msgid "Power Line Frequency"
-msgstr "Frecvența liniei de alimentare"
+msgstr ""
 
 #: l10n/v4l2.js:21
 msgid "Saturation"
-msgstr "Saturare"
+msgstr ""
 
 #: l10n/v4l2.js:22
 msgid "Sharpness"
-msgstr "Asprime"
+msgstr ""
 
 #: l10n/v4l2.js:23
 msgid "Tilt Absolute"
-msgstr "Înclinare absolută"
+msgstr ""
 
 #: l10n/v4l2.js:24
 msgid "White Balance Temperature"
-msgstr "Temperatura balansului de alb"
+msgstr ""
 
 #: l10n/v4l2.js:25
 msgid "White Balance Temperature Auto"
-msgstr "Temperatura balansului de alb automată"
+msgstr ""
 
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
-msgstr "Zoom absolut"
+msgstr ""

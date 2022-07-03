@@ -1903,4 +1903,3 @@ msgstr "et sekund"
 #, fuzzy
 msgid "minus"
 msgstr "minus"
-

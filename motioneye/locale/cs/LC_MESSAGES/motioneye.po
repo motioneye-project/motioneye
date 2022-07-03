@@ -3,147 +3,159 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2022-06-20 09:22+0000\n"
+"Last-Translator: Michal Basler <minecz.michal.basler@gmail.com>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye-python-texts/cs/>\n"
+"Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr ""
+msgstr "Přijat signál přerušení, zavírám…"
 
 #: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr ""
+msgstr "Sdílené složky SMB vyžadují root oprávnění"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr ""
+msgstr "prosím nainstaluj 'tornado' verzi 3.1 nebo vyšší"
 
 #: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
-msgstr ""
+msgstr "prosím nainstaluj 'jinja2'"
 
 #: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr ""
+msgstr "prosím nainstaluj 'pillow' nebo 'PIL'"
 
 #: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
-msgstr ""
+msgstr "prosím nainstaluj 'pycurl'"
 
 #: motioneye/server.py:423
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr ""
+msgstr "Ahoj! Tohle je motionEye server "
 
 #: motioneye/server.py:438
 msgid "purigado komenciĝis"
-msgstr ""
+msgstr "úklid zahájen"
 
 #: motioneye/server.py:440
 msgid "wsswitch komenciĝis"
-msgstr ""
+msgstr "wsswitch zahájen"
 
 #: motioneye/server.py:443
+#, fuzzy
 msgid "taskoj komenciĝis"
-msgstr ""
+msgstr "úkoly začaly"
 
 #: motioneye/server.py:447
+#, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr ""
+msgstr "začal úklid mjpg"
 
 #: motioneye/server.py:465
 msgid "servilo komenciĝis"
-msgstr ""
+msgstr "Server spuštěn"
 
 #: motioneye/server.py:471
 msgid "servilo haltis"
-msgstr ""
+msgstr "Sterver zastaven"
 
 #: motioneye/server.py:473
 msgid "taskoj haltis"
-msgstr ""
+msgstr "úkoly zastaveny"
 
 #: motioneye/server.py:481
 msgid "motion haltis"
-msgstr ""
+msgstr "'motion' zastaven"
 
 #: motioneye/server.py:486
 msgid "adiaŭ!"
-msgstr ""
+msgstr "Nashledanou!"
 
 #: motioneye/templates/main.html:104
 msgid "agordojn"
-msgstr ""
+msgstr "nastavení"
 
 #: motioneye/templates/main.html:105
 msgid "ŝanĝi uzanton"
-msgstr ""
+msgstr "změnit uživatele"
 
 #: motioneye/templates/main.html:107
 msgid "forigi kameraon"
-msgstr ""
+msgstr "odstranit kameru"
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
-msgstr ""
+msgstr "Použít"
 
 #: motioneye/templates/main.html:127
 msgid "preferoj de uzanto"
-msgstr ""
+msgstr "uživatelské preference"
 
 #: motioneye/templates/main.html:128
 msgid "Preferoj"
-msgstr ""
+msgstr "Preference"
 
 #: motioneye/templates/main.html:133
+#, fuzzy
 msgid "Aranĝo Kolumnoj"
-msgstr ""
+msgstr "Sloupce"
 
 #: motioneye/templates/main.html:135
+#, fuzzy
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr ""
+msgstr "nastaví počet sloupců použitých k rozložení kamer"
 
 #: motioneye/templates/main.html:138
+#, fuzzy
 msgid "Fiksi Kadrojn Vertikale"
-msgstr ""
+msgstr "Rozložit obrazovky vertikálně"
 
 #: motioneye/templates/main.html:140
+#, fuzzy
 msgid ""
 "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la "
 "fenestro aŭ ne"
-msgstr ""
+msgstr "určuje, zda li se obrazovka přizpůsobí, aby se vešla"
 
 #: motioneye/templates/main.html:143
 msgid "Aranĝo linioj"
-msgstr ""
+msgstr "Řádky"
 
 #: motioneye/templates/main.html:145
+#, fuzzy
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr ""
+msgstr "nastavuje počet řádků"
 
 #: motioneye/templates/main.html:148
 msgid "kadro-variatoro"
-msgstr ""
+msgstr "Změna obnovovací frekvence"
 
 #: motioneye/templates/main.html:150
 msgid ""
 "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne "
 "funkcias kun simplaj MJPEG-fotiloj)"
 msgstr ""
+"změní obnovovací frekvenci, aby se ušetřil internet (nefunguje na "
+"jednoduchých MJPEG kamerách)"
 
 #: motioneye/templates/main.html:153
 msgid "Rezolucio-variatoro"
-msgstr ""
+msgstr "Změna rozlišení"
 
 #: motioneye/templates/main.html:155
 msgid ""
