@@ -1900,4 +1900,3 @@ msgstr "2番目"
 #, fuzzy
 msgid "minus"
 msgstr "マイナス"
-
