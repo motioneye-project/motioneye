@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2022-07-01 14:20+0000\n"
-"Last-Translator: Dmitrii <nuke142@gmail.com>\n"
+"PO-Revision-Date: 2022-07-06 20:19+0000\n"
+"Last-Translator: Егор Ермаков <eg.ermakov2016@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-javascript/ru/>\n"
 "Language: ru\n"
@@ -21,21 +21,18 @@ msgstr ""
 "X-Generator: Weblate 4.13.1-dev\n"
 
 #: motioneye/static/js/main.js:606
-#, fuzzy
 msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr "специальные символы не допускаются в пароле"
+msgstr "спецсимволы не допускаются в пароле"
 
 #: motioneye/static/js/main.js:613 motioneye/static/js/main.js:624
 #: motioneye/static/js/main.js:683 motioneye/static/js/ui.js:362
 #: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
-#, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "Это поле обязательно для заполнения"
 
 #: motioneye/static/js/main.js:617
-#, fuzzy
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr "специальные символы не допускаются в имени камеры"
+msgstr "спецсимволы не допускаются в имени камеры"
 
 #: motioneye/static/js/main.js:629
 #, fuzzy
@@ -117,9 +114,8 @@ msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
 msgstr "Ваш браузер не выполняет эту функцию!"
 
 #: motioneye/static/js/main.js:2646
-#, fuzzy
 msgid "Apliki"
-msgstr "применить"
+msgstr "Применить"
 
 #: motioneye/static/js/main.js:2673 motioneye/static/js/main.js:3034
 #: motioneye/static/js/main.js:3089 motioneye/static/js/main.js:3164
@@ -304,14 +300,12 @@ msgid "bone"
 msgstr "ok"
 
 #: motioneye/static/js/main.js:3582 motioneye/static/js/main.js:3881
-#, fuzzy
 msgid "Uzantnomo"
-msgstr "имя пользователя"
+msgstr "Имя пользователя"
 
 #: motioneye/static/js/main.js:3587 motioneye/static/js/main.js:3886
-#, fuzzy
 msgid "Pasvorto"
-msgstr "пароль"
+msgstr "Пароль"
 
 #: motioneye/static/js/main.js:3593
 #, fuzzy
