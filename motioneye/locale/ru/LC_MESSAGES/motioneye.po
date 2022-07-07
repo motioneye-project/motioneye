@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-07-06 20:19+0000\n"
+"PO-Revision-Date: 2022-07-08 11:21+0000\n"
 "Last-Translator: Егор Ермаков <eg.ermakov2016@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/ru/>\n"
@@ -1048,7 +1048,6 @@ msgid "Porĉiame"
 msgstr "бессрочно"
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
-#, fuzzy
 msgid "Propra"
 msgstr "Пользовательский"
 
@@ -1769,7 +1768,6 @@ msgid "jaro"
 msgstr "год"
 
 #: motioneye/utils/dtconv.py:129
-#, fuzzy
 msgid "horo"
 msgstr "час"
 
@@ -1779,7 +1777,6 @@ msgid "horoj"
 msgstr "часы"
 
 #: motioneye/utils/dtconv.py:136
-#, fuzzy
 msgid "minuto"
 msgstr "минут"
 
@@ -1789,9 +1786,8 @@ msgid "minutoj"
 msgstr "минуты"
 
 #: motioneye/utils/dtconv.py:143
-#, fuzzy
 msgid "sekundo"
-msgstr "второй"
+msgstr "секунд"
 
 #: motioneye/utils/dtconv.py:153
 #, fuzzy
