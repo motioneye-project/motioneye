@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-21 14:55+0200\n"
 "PO-Revision-Date: 2022-07-10 04:17+0000\n"
-"Last-Translator: VoeGalore <splash.cn@gmail.com>\n"
+"Last-Translator: 你好，世界 <aa1319996958@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-javascript/zh_Hans/>\n"
 "Language: zh\n"
@@ -52,12 +52,10 @@ msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "文件不能直接在系统根目录中创建"
 
 #: motioneye/static/js/main.js:646
-#, fuzzy
 msgid "enigu validan retpoŝtadreson"
-msgstr "输入有效的电子邮件地址"
+msgstr "输入一个有效的电子邮件地址"
 
 #: motioneye/static/js/main.js:653
-#, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "输入以逗号分隔的有效电子邮件地址列表"
 
@@ -67,9 +65,8 @@ msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "文件名中不允许使用特殊字符"
 
 #: motioneye/static/js/main.js:687
-#, fuzzy
 msgid "enigu validan valoron"
-msgstr "输入有效值"
+msgstr "输入一个有效值"
 
 #: motioneye/static/js/main.js:841
 #, fuzzy
