@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2022-07-08 11:21+0000\n"
+"PO-Revision-Date: 2022-07-08 13:49+0000\n"
 "Last-Translator: Егор Ермаков <eg.ermakov2016@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-javascript/ru/>\n"
@@ -198,9 +198,8 @@ msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "Доступ к службе загрузки был успешным!"
 
 #: motioneye/static/js/main.js:3110 motioneye/static/js/main.js:3113
-#, fuzzy
 msgid "Sciiga retpoŝto fiaskis:"
-msgstr "Оповещение по email не удалось:"
+msgstr "Оповещение по эл. почте не удалось:"
 
 #: motioneye/static/js/main.js:3129
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
