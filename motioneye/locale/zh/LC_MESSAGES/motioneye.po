@@ -9,7 +9,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
 "PO-Revision-Date: 2022-07-10 04:17+0000\n"
-"Last-Translator: 你好，世界 <aa1319996958@gmail.com>\n"
+"Last-Translator: VoeGalore <splash.cn@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/zh_Hans/>\n"
 "Language: zh\n"
@@ -107,9 +107,8 @@ msgid "forigi kameraon"
 msgstr "移除相机"
 
 #: motioneye/templates/main.html:108
-#, fuzzy
 msgid "Apliki"
-msgstr "申请"
+msgstr "应用修改"
 
 #: motioneye/templates/main.html:127
 #, fuzzy
