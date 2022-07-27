@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2022-05-04 15:15+0000\n"
-"Last-Translator: Filippo Pisano <filippo.pisano@gmail.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/it/>\n"
+"PO-Revision-Date: 2022-07-29 08:19+0000\n"
+"Last-Translator: MikyS0ld4 <miky.solda.05@gmail.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-javascript/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.14-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -584,97 +585,78 @@ msgid "Bone"
 msgstr "OK"
 
 #: l10n/v4l2.js:4
-#, fuzzy
 msgid "Auto Exposure"
 msgstr "Esposizione automatica"
 
 #: l10n/v4l2.js:5
-#, fuzzy
 msgid "Backlight Compensation"
 msgstr "Compensazione retroilluminazione"
 
 #: l10n/v4l2.js:6
-#, fuzzy
 msgid "Brightness"
 msgstr "Luminosità"
 
 #: l10n/v4l2.js:7
-#, fuzzy
 msgid "Contrast"
 msgstr "Contrasto"
 
 #: l10n/v4l2.js:8
-#, fuzzy
 msgid "Exposure Absolute"
-msgstr "Esposizione assolutamente"
+msgstr "Esposizione assoluta"
 
 #: l10n/v4l2.js:9
-#, fuzzy
 msgid "Exposure Auto"
 msgstr "Esposizione automatica"
 
 #: l10n/v4l2.js:10
-#, fuzzy
 msgid "Exposure Auto Priority"
 msgstr "Esposizione priorità automatica"
 
 #: l10n/v4l2.js:11
-#, fuzzy
 msgid "Exposure Time Absolute"
-msgstr "Tempo di esposizione assolutamente"
+msgstr "Tempo di esposizione assoluta"
 
 #: l10n/v4l2.js:12
-#, fuzzy
 msgid "Focus Absolute"
-msgstr "Concentrati assolutamente"
+msgstr "Focus assoluto"
 
 #: l10n/v4l2.js:13
-#, fuzzy
 msgid "Focus Auto"
 msgstr "Focus Auto"
 
 #: l10n/v4l2.js:14
-#, fuzzy
 msgid "Gain"
 msgstr "Guadagno"
 
 #: l10n/v4l2.js:15
-#, fuzzy
 msgid "Gamma"
 msgstr "Gamma"
 
 #: l10n/v4l2.js:16
-#, fuzzy
 msgid "Hue"
 msgstr "Tinta"
 
 #: l10n/v4l2.js:17
-#, fuzzy
 msgid "Led1 Mode"
 msgstr "Modalità LED1"
 
 #: l10n/v4l2.js:18
-#, fuzzy
 msgid "Led1 Frequency"
 msgstr "Frequenza LED1"
 
 #: l10n/v4l2.js:19
-#, fuzzy
 msgid "Pan Absolute"
-msgstr "Pan Assolutamente"
+msgstr "Pan assoluto"
 
 #: l10n/v4l2.js:20
-#, fuzzy
 msgid "Power Line Frequency"
 msgstr "Frequenza della linea di alimentazione"
 
 #: l10n/v4l2.js:21
-#, fuzzy
 msgid "Saturation"
 msgstr "Saturazione"
 
 #: l10n/v4l2.js:22
-#, fuzzy
 msgid "Sharpness"
 msgstr "Nitidezza"
 
@@ -684,19 +666,16 @@ msgid "Tilt Absolute"
 msgstr "Inclinare assolutamente"
 
 #: l10n/v4l2.js:24
-#, fuzzy
 msgid "White Balance Temperature"
 msgstr "Temperatura del bilanciamento del bianco"
 
 #: l10n/v4l2.js:25
-#, fuzzy
 msgid "White Balance Temperature Auto"
 msgstr "Temperatura di bilanciamento bianco automatico"
 
 #: l10n/v4l2.js:26
-#, fuzzy
 msgid "Zoom Absolute"
-msgstr "Zoom assolutamente"
+msgstr "Zoom assoluto"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"
