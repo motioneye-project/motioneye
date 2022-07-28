@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-05-04 15:15+0000\n"
-"Last-Translator: Filippo Pisano <filippo.pisano@gmail.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/it/>\n"
+"PO-Revision-Date: 2022-07-27 19:22+0000\n"
+"Last-Translator: MikyS0ld4 <miky.solda.05@gmail.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-python-texts/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.14-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -799,9 +800,10 @@ msgid "Kuri Komando"
 msgstr "Esegui comando"
 
 #: motioneye/templates/main.html:590
-#, fuzzy
 msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
-msgstr "abilitare questa opzione se si desidera eseguire un comando dopo aver creato un file multimediale"
+msgstr ""
+"abilitare questa opzione se si desidera eseguire un comando dopo aver creato "
+"un file multimediale"
 
 #: motioneye/templates/main.html:593
 #, fuzzy
@@ -1005,9 +1007,8 @@ msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron,
 msgstr "Un URL che fornisce un documento HTML minimo contenente la cornice della videocamera, pronto per essere incorporato"
 
 #: motioneye/templates/main.html:741
-#, fuzzy
 msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
-msgstr "Abilitare questa opzione se si desidera acquisire immagini statiche."
+msgstr "Abilita questa opzione se desideri acquisire immagini statiche."
 
 #: motioneye/templates/main.html:742
 #, fuzzy
@@ -1612,9 +1613,10 @@ msgid "Sendu Telegraman Sciigon"
 msgstr "Invia una notifica di Telegram"
 
 #: motioneye/templates/main.html:1106
-#, fuzzy
 msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
-msgstr "abilitalo se vuoi ricevere un messaggio telegramma ogni volta che viene rilevato un evento in movimento"
+msgstr ""
+"abilita se vuoi ricevere un messaggio telegram ogni volta che viene rilevato "
+"un movimento"
 
 #: motioneye/templates/main.html:1109
 #, fuzzy
@@ -1672,9 +1674,10 @@ msgid "Alvoki URL"
 msgstr "Richiama URL"
 
 #: motioneye/templates/main.html:1133
-#, fuzzy
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
-msgstr "Abilitare questa opzione se si desidera che venga richiesto un URL ogni volta che viene rilevato un evento di movimento."
+msgstr ""
+"Abilitare questa opzione se si desidera che venga richiesto un URL ogni "
+"volta che viene rilevato un evento di movimento."
 
 #: motioneye/templates/main.html:1137
 #, fuzzy
@@ -1729,7 +1732,9 @@ msgstr "Comando da lanciare al termine dell'evento di movimento; più comandi po
 #: motioneye/templates/main.html:1218
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
-msgstr "Abilitare questa opzione se si desidera impostare un programma settimanale per il rilevamento del movimento."
+msgstr ""
+"abilitare questa opzione se si desidera impostare un programma settimanale "
+"per il rilevamento del movimento."
 
 #: motioneye/templates/main.html:1219
 #, fuzzy

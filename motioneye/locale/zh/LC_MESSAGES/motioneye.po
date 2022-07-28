@@ -8,61 +8,53 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-05-03 16:19+0000\n"
-"Last-Translator: jmichault <jmt.2000@free.fr>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/motioneye-project/motioneye/zh_Hans/>\n"
+"PO-Revision-Date: 2022-07-10 04:17+0000\n"
+"Last-Translator: VoeGalore <splash.cn@gmail.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-python-texts/zh_Hans/>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
-#, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "收到的中断信号，关闭..."
+msgstr "收到中断信号，关闭…"
 
 #: motioneye/server.py:276
-#, fuzzy
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr "smb共享需要root特权"
+msgstr "smb共享需要root权限"
 
 #: motioneye/server.py:283
-#, fuzzy
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr "请安装龙卷风版本3.1或更高版本"
+msgstr "请安装 tornado 3.1版本或更高的版本"
 
 #: motioneye/server.py:290
-#, fuzzy
 msgid "bonvolu instali jinja2"
-msgstr "请安装jinja2"
+msgstr "请安装 jinja2"
 
 #: motioneye/server.py:297
-#, fuzzy
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr "请安装枕头或PIL"
+msgstr "请安装 pillow 或 PIL"
 
 #: motioneye/server.py:304
-#, fuzzy
 msgid "bonvolu instali pycurl"
-msgstr "请安装pycurl"
+msgstr "请安装 pycurl"
 
 #: motioneye/server.py:423
-#, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "你好这是一个motionEye服务器"
+msgstr "你好！这是一个motionEye服务器 "
 
 #: motioneye/server.py:438
-#, fuzzy
 msgid "purigado komenciĝis"
-msgstr "开始清洁"
+msgstr "开始清理"
 
 #: motioneye/server.py:440
-#, fuzzy
 msgid "wsswitch komenciĝis"
-msgstr "wsswitch已启动"
+msgstr "wsswitch 已启动"
 
 #: motioneye/server.py:443
 #, fuzzy
@@ -115,9 +107,8 @@ msgid "forigi kameraon"
 msgstr "移除相机"
 
 #: motioneye/templates/main.html:108
-#, fuzzy
 msgid "Apliki"
-msgstr "申请"
+msgstr "应用修改"
 
 #: motioneye/templates/main.html:127
 #, fuzzy

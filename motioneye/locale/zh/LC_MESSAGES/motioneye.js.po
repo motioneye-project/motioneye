@@ -8,13 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2020-03-28 18:26+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-07-10 04:17+0000\n"
+"Last-Translator: 你好，世界 <aa1319996958@gmail.com>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-javascript/zh_Hans/>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.13.1-dev\n"
 
 #: motioneye/static/js/main.js:606
 #, fuzzy
@@ -49,12 +52,10 @@ msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "文件不能直接在系统根目录中创建"
 
 #: motioneye/static/js/main.js:646
-#, fuzzy
 msgid "enigu validan retpoŝtadreson"
-msgstr "输入有效的电子邮件地址"
+msgstr "输入一个有效的电子邮件地址"
 
 #: motioneye/static/js/main.js:653
-#, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "输入以逗号分隔的有效电子邮件地址列表"
 
@@ -64,9 +65,8 @@ msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "文件名中不允许使用特殊字符"
 
 #: motioneye/static/js/main.js:687
-#, fuzzy
 msgid "enigu validan valoron"
-msgstr "输入有效值"
+msgstr "输入一个有效值"
 
 #: motioneye/static/js/main.js:841
 #, fuzzy
@@ -104,9 +104,8 @@ msgid "Propra dosierindiko"
 msgstr "自定义文件名"
 
 #: motioneye/static/js/main.js:2270
-#, fuzzy
 msgid "Retan kunlokon"
-msgstr "在线交流"
+msgstr "在线连接"
 
 #: motioneye/static/js/main.js:2630
 #, fuzzy
@@ -114,9 +113,8 @@ msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
 msgstr "您的浏览器无法执行此功能！"
 
 #: motioneye/static/js/main.js:2646
-#, fuzzy
 msgid "Apliki"
-msgstr "申请"
+msgstr "应用修改"
 
 #: motioneye/static/js/main.js:2673 motioneye/static/js/main.js:3034
 #: motioneye/static/js/main.js:3089 motioneye/static/js/main.js:3164
@@ -130,9 +128,8 @@ msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
 msgstr "这将重新启动系统。继续吗"
 
 #: motioneye/static/js/main.js:2785
-#, fuzzy
 msgid "Vere fermiti sistemon?"
-msgstr "真的关机了吗？"
+msgstr "确认关机？"
 
 #: motioneye/static/js/main.js:2797
 #, fuzzy
