@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-07-27 19:22+0000\n"
+"PO-Revision-Date: 2022-07-29 08:19+0000\n"
 "Last-Translator: MikyS0ld4 <miky.solda.05@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/it/>\n"
@@ -45,7 +45,6 @@ msgid "bonvolu instali pycurl"
 msgstr "per favore installa pycurl"
 
 #: motioneye/server.py:423
-#, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "ciao! questo è un server motionEye "
 
@@ -54,12 +53,10 @@ msgid "purigado komenciĝis"
 msgstr "pulizia avviata"
 
 #: motioneye/server.py:440
-#, fuzzy
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch è stato avviato"
 
 #: motioneye/server.py:443
-#, fuzzy
 msgid "taskoj komenciĝis"
 msgstr "attività avviate"
 
@@ -69,42 +66,34 @@ msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "mjpg il garbage collector del cliente è stato avviato"
 
 #: motioneye/server.py:465
-#, fuzzy
 msgid "servilo komenciĝis"
 msgstr "server avviato"
 
 #: motioneye/server.py:471
-#, fuzzy
 msgid "servilo haltis"
 msgstr "server arrestato"
 
 #: motioneye/server.py:473
-#, fuzzy
 msgid "taskoj haltis"
 msgstr "attività interrotte"
 
 #: motioneye/server.py:481
-#, fuzzy
 msgid "motion haltis"
-msgstr "il movimento si è fermato"
+msgstr "il movimento si è interrotto"
 
 #: motioneye/server.py:486
-#, fuzzy
 msgid "adiaŭ!"
-msgstr "addio!"
+msgstr "arrivederci!"
 
 #: motioneye/templates/main.html:104
-#, fuzzy
 msgid "agordojn"
 msgstr "impostazioni"
 
 #: motioneye/templates/main.html:105
-#, fuzzy
 msgid "ŝanĝi uzanton"
 msgstr "cambia utente"
 
 #: motioneye/templates/main.html:107
-#, fuzzy
 msgid "forigi kameraon"
 msgstr "rimuovere la fotocamera"
 
@@ -113,22 +102,18 @@ msgid "Apliki"
 msgstr "Applica"
 
 #: motioneye/templates/main.html:127
-#, fuzzy
 msgid "preferoj de uzanto"
 msgstr "preferenze dell'utente"
 
 #: motioneye/templates/main.html:128
-#, fuzzy
 msgid "Preferoj"
 msgstr "preferenze"
 
 #: motioneye/templates/main.html:133
-#, fuzzy
 msgid "Aranĝo Kolumnoj"
 msgstr "Colonne di layout"
 
 #: motioneye/templates/main.html:135
-#, fuzzy
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
 msgstr "imposta il numero di colonne utilizzate per disporre le telecamere"
 
@@ -967,9 +952,10 @@ msgid "Movado-Optimigo"
 msgstr "Ottimizzazione del movimento"
 
 #: motioneye/templates/main.html:701
-#, fuzzy
 msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
-msgstr "abilitare questa opzione se si desidera una frequenza fotogrammi inferiore per il flusso di consegna quando non viene rilevato alcun movimento"
+msgstr ""
+"abilitare questa opzione se si desidera una frequenza fotogrammi inferiore "
+"per il flusso video quando non viene rilevato alcun movimento"
 
 #: motioneye/templates/main.html:707
 #, fuzzy
@@ -1473,9 +1459,10 @@ msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi
 msgstr "Se abilitato, crea filmati e immagini speciali che aiutano a eseguire il debug dei problemi di rilevamento del movimento."
 
 #: motioneye/templates/main.html:1038
-#, fuzzy
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
-msgstr "Abilitare questa opzione se si desidera ricevere una notifica quando viene rilevato un movimento."
+msgstr ""
+"Abilitare questa opzione se si desidera ricevere una notifica quando viene "
+"rilevato un movimento."
 
 #: motioneye/templates/main.html:1039
 #, fuzzy
@@ -1877,7 +1864,6 @@ msgid "horoj"
 msgstr "ore"
 
 #: motioneye/utils/dtconv.py:136
-#, fuzzy
 msgid "minuto"
 msgstr "minuto"
 
