@@ -8,667 +8,694 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-12 16:59+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-08-06 23:18+0000\n"
+"Last-Translator: Hein Oldenhuis <heinoldenhuis@gmail.com>\n"
+"Language-Team: Dutch <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye-javascript/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.14-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr ""
+msgstr "het wachtwoord mag geen speciale tekens bevatten"
 
 #: motioneye/static/js/main.js:613 motioneye/static/js/main.js:624
 #: motioneye/static/js/main.js:683 motioneye/static/js/ui.js:362
 #: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
 msgid "Ĉi tiu kampo estas deviga"
-msgstr ""
+msgstr "Dit veld is verplicht"
 
 #: motioneye/static/js/main.js:617
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr ""
+msgstr "de naam van de camera mag geen speciale tekens bevatten"
 
 #: motioneye/static/js/main.js:629
 msgid "valoro devas esti multoblo de 8"
-msgstr ""
+msgstr "waarde moet een veelvoud zijn van 8"
 
 #: motioneye/static/js/main.js:636
 msgid "specialaj signoj ne rajtas en radika voja nomo"
-msgstr ""
+msgstr "het hoofdpad mag geen speciale tekens bevatten"
 
 #: motioneye/static/js/main.js:639
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr ""
+"bestanden kunnen niet rechtstreeks aangemaakt worden in de hoofdmap van uw "
+"systeem"
 
 #: motioneye/static/js/main.js:646
 msgid "enigu validan retpoŝtadreson"
-msgstr ""
+msgstr "voer een geldig e-mailadres in"
 
 #: motioneye/static/js/main.js:653
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr ""
+msgstr "voer een door komma's gescheiden lijst van geldige e-mailadressen in"
 
 #: motioneye/static/js/main.js:660
 msgid "specialaj signoj ne rajtas en dosiernomo"
-msgstr ""
+msgstr "de bestandsnaam mag geen speciale tekens bevatten"
 
 #: motioneye/static/js/main.js:687
 msgid "enigu validan valoron"
-msgstr ""
+msgstr "voer een geldige waarde in"
 
 #: motioneye/static/js/main.js:841
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr ""
+msgstr "Hiermee worden alle bestanden in de cloud map recursief verwijderd \""
 
 #: motioneye/static/js/main.js:842
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
-msgstr ""
+msgstr "\", ook diegene die niet zijn weggeschreven door motionEye!"
 
 #: motioneye/static/js/main.js:923
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
 msgstr ""
+"Hiermee worden alle oude mediabestanden in de map recursief verwijderd \""
 
 #: motioneye/static/js/main.js:924
 msgid "\", ne nur tiuj kreitaj de motionEye!"
-msgstr ""
+msgstr "\", ook diegene die niet zijn aangemaakt door motionEye!"
 
 #: motioneye/static/js/main.js:990
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
-msgstr ""
+msgstr "Het masker kan niet zonder een geldig camerabeeld worden bewerkt!"
 
 #: motioneye/static/js/main.js:2230
 msgid "Propra"
-msgstr ""
+msgstr "Aangepast"
 
 #: motioneye/static/js/main.js:2268
 msgid "Propra dosierindiko"
-msgstr ""
+msgstr "Aangepaste map"
 
 #: motioneye/static/js/main.js:2270
 msgid "Retan kunlokon"
-msgstr ""
+msgstr "Netwerk locatie"
 
 #: motioneye/static/js/main.js:2630
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
-msgstr ""
+msgstr "Uw browser ondersteund niet deze functie!"
 
 #: motioneye/static/js/main.js:2646
 msgid "Apliki"
-msgstr ""
+msgstr "Toepassen"
 
 #: motioneye/static/js/main.js:2673 motioneye/static/js/main.js:3034
 #: motioneye/static/js/main.js:3089 motioneye/static/js/main.js:3164
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
-msgstr ""
+msgstr "Zorg ervoor dat alle configuratie-instellingen geldig zijn!"
 
 #: motioneye/static/js/main.js:2775
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
-msgstr ""
+msgstr "Hiermee wordt het systeem opnieuw gestart. Doorgaan?"
 
 #: motioneye/static/js/main.js:2785
 msgid "Vere fermiti sistemon?"
-msgstr ""
+msgstr "Systeem echt afsluiten?"
 
 #: motioneye/static/js/main.js:2797
 msgid "Malŝaltita"
-msgstr ""
+msgstr "Afsluiten"
 
 #: motioneye/static/js/main.js:2812
 msgid "Ĉu vere restartigi ?"
-msgstr ""
+msgstr "Echt opnieuw starten?"
 
 #: motioneye/static/js/main.js:2826
 msgid "La sistemo rekomencis!"
-msgstr ""
+msgstr "Het systeem is opnieuw gestart!"
 
 #: motioneye/static/js/main.js:2846 motioneye/static/js/main.js:2879
 #: motioneye/static/js/main.js:3859
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
-msgstr ""
+msgstr "Pas eerst de gewijzigde instellingen toe!"
 
 #: motioneye/static/js/main.js:2851
 msgid "Neniu fotilo por forigi!"
-msgstr ""
+msgstr "Geen camera aanwezig om te verwijderen!"
 
 #: motioneye/static/js/main.js:2857
 msgid "Ĉu forigi kameraon "
-msgstr ""
+msgstr "Verwijder camera "
 
 #: motioneye/static/js/main.js:2885
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr ""
+msgstr "motionEye is bijgewerkt tot de laatste versie (huidige versie: "
 
 #: motioneye/static/js/main.js:2888
 msgid "Nova versio havebla: "
-msgstr ""
+msgstr "Nieuwe versie beschikbaar: "
 
 #: motioneye/static/js/main.js:2888
 msgid ". Ĝisdatigi?"
-msgstr ""
+msgstr ". Bijwerken?"
 
 #: motioneye/static/js/main.js:2896
 msgid "motionEye estis sukcese ĝisdatigita!"
-msgstr ""
+msgstr "motionEye is succesvol bijgewerkt!"
 
 #: motioneye/static/js/main.js:2906
 msgid "Ĝisdatigo malsukcesis!"
-msgstr ""
+msgstr "Het bijwerken is mislukt!"
 
 #: motioneye/static/js/main.js:2917
 msgid "La ĝisdatiga procezo malsukcesis!"
-msgstr ""
+msgstr "Het bijwerkproces is mislukt!"
 
 #: motioneye/static/js/main.js:2936
 msgid "Rezerva dosiero"
-msgstr ""
+msgstr "Backup bestand"
 
 #: motioneye/static/js/main.js:2938
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
-msgstr ""
+msgstr "Het eerder gedownloade back-upbestand."
 
 #: motioneye/static/js/main.js:2967
 msgid "Restaŭrigi Agordon"
-msgstr ""
+msgstr "Configuratie terugzetten"
 
 #: motioneye/static/js/main.js:2979
 msgid "Restaŭriganta agordon ..."
-msgstr ""
+msgstr "Configuratie wordt teruggezet ..."
 
 #: motioneye/static/js/main.js:2986
 msgid "La agordo restaŭrigis!"
-msgstr ""
+msgstr "De instellingen zijn teruggezet!"
 
 #: motioneye/static/js/main.js:2996 motioneye/static/js/main.js:3015
 msgid "Malsukcesis restaŭri la agordon!"
-msgstr ""
+msgstr "De instellingen kunnen niet worden teruggezet!"
 
 #: motioneye/static/js/main.js:3070
 msgid "Aliri la alŝutan servon malsukcesis: "
-msgstr ""
+msgstr "Toegang tot de uploadservice is mislukt: "
 
 #: motioneye/static/js/main.js:3073
 msgid "Aliri la alŝutan servon sukcesis!"
-msgstr ""
+msgstr "Toegang tot de uploadservice is gelukt!"
 
 #: motioneye/static/js/main.js:3110 motioneye/static/js/main.js:3113
 msgid "Sciiga retpoŝto fiaskis:"
-msgstr ""
+msgstr "Verzenden notificatie mail is mislukt:"
 
 #: motioneye/static/js/main.js:3129
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
-msgstr ""
+msgstr "Zorg ervoor dat alle configuratie-instellingen geldig zijn!"
 
 #: motioneye/static/js/main.js:3145
 msgid "Sciiga Telegramo fiaskis:"
-msgstr ""
+msgstr "Notificatie melding mislukt:"
 
 #: motioneye/static/js/main.js:3148
 msgid "Sciiga Telegramo sukcesis!"
-msgstr ""
+msgstr "Notificatie melding succesvol!"
 
 #: motioneye/static/js/main.js:3184
 msgid "Aliro al retdividado fiaskis: "
-msgstr ""
+msgstr "Toegang tot netwerk locatie mislukt: "
 
 #: motioneye/static/js/main.js:3187
 msgid "Aliro al retdividado sukcesis!"
-msgstr ""
+msgstr "Toegang tot netwerk locatie succesvol!"
 
 #: motioneye/static/js/main.js:3211
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
-msgstr ""
+msgstr "Wil je dit bestand echt verwijderen?"
 
 #: motioneye/static/js/main.js:3235
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
-msgstr ""
+msgstr "Werkelijk alle afbeeldingen uit \"%(group)s\" verwijderen?"
 
 #: motioneye/static/js/main.js:3238
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
-msgstr ""
+msgstr "Werkelijk alle films uit \"%(group)s\" verwijderen?"
 
 #: motioneye/static/js/main.js:3243
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
-msgstr ""
+msgstr "Werkelijk alle niet gegroepeerde afbeeldingen verwijderen?"
 
 #: motioneye/static/js/main.js:3246
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
-msgstr ""
+msgstr "Werkelijk alle niet gegroepeerde films verwijderen?"
 
 #: motioneye/static/js/main.js:3357
 msgid "aldonadi kameraon..."
-msgstr ""
+msgstr "Camera toevoegen..."
 
 #: motioneye/static/js/main.js:3545
 msgid "bone"
-msgstr ""
+msgstr "OK"
 
 #: motioneye/static/js/main.js:3582 motioneye/static/js/main.js:3881
 msgid "Uzantnomo"
-msgstr ""
+msgstr "Gebruikersnaam"
 
 #: motioneye/static/js/main.js:3587 motioneye/static/js/main.js:3886
 msgid "Pasvorto"
-msgstr ""
+msgstr "Wachtwoord"
 
 #: motioneye/static/js/main.js:3593
 msgid "Memoru min"
-msgstr ""
+msgstr "Mij onthouden"
 
 #: motioneye/static/js/main.js:3611 motioneye/static/js/main.js:3617
 msgid "Ensaluti"
-msgstr ""
+msgstr "Aanmelden"
 
 #: motioneye/static/js/main.js:3614 motioneye/static/js/ui.js:1023
 #: motioneye/static/js/ui.js:1030
 msgid "Nuligi"
-msgstr ""
+msgstr "Afbreken"
 
 #: motioneye/static/js/main.js:3656
 msgid "Vi abortis la filmeton."
-msgstr ""
+msgstr "Je hebt de video afgebroken."
 
 #: motioneye/static/js/main.js:3659
 msgid "Reto eraro okazis."
-msgstr ""
+msgstr "Er is een netwerkfout opgetreden."
 
 #: motioneye/static/js/main.js:3662
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
-msgstr ""
+msgstr "Media decoderingsfout of niet ondersteunde media functionaliteit."
 
 #: motioneye/static/js/main.js:3665
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
 msgstr ""
+"Formaat wordt niet ondersteund of is niet beschikbaar/ongeschikt om af te "
+"spelen."
 
 #: motioneye/static/js/main.js:3668
 msgid "Nekonata eraro okazis."
-msgstr ""
+msgstr "Onbekende fout opgetreden."
 
 #: motioneye/static/js/main.js:3671
 msgid "Eraro : "
-msgstr ""
+msgstr "Fout : "
 
 #: motioneye/static/js/main.js:3676
 msgid "antaŭa bildo"
-msgstr ""
+msgstr "vorige afbeelding"
 
 #: motioneye/static/js/main.js:3681
 msgid "ludi"
-msgstr ""
+msgstr "afspelen"
 
 #: motioneye/static/js/main.js:3684
 msgid "ludi * 5 kaj enĉenigi"
-msgstr ""
+msgstr "speel 5 keer sneller af"
 
 #: motioneye/static/js/main.js:3689
 msgid "sekva bildo"
-msgstr ""
+msgstr "volgende foto"
 
 #: motioneye/static/js/main.js:3812
 msgid "Fermi"
-msgstr ""
+msgstr "Sluiten"
 
 #: motioneye/static/js/main.js:3813 motioneye/static/js/main.js:4374
 msgid "Elŝuti"
-msgstr ""
+msgstr "Ophalen"
 
 #: motioneye/static/js/main.js:3821 motioneye/static/js/main.js:4377
 msgid "Forigi"
-msgstr ""
+msgstr "Verwijderen"
 
 #: motioneye/static/js/main.js:3865
 msgid "Kamerao tipo"
-msgstr ""
+msgstr "Cameratype"
 
 #: motioneye/static/js/main.js:3867
 msgid "Loka V4L2-kamerao"
-msgstr ""
+msgstr "Lokale V4L2-camera"
 
 #: motioneye/static/js/main.js:3868
 msgid "Loka MMAL-kamerao"
-msgstr ""
+msgstr "Lokale MMAL-camera"
 
 #: motioneye/static/js/main.js:3869
 msgid "Reta kamerao"
-msgstr ""
+msgstr "Netwerkcamera"
 
 #: motioneye/static/js/main.js:3870
 msgid "Fora motionEye kamerao"
-msgstr ""
+msgstr "Externe MotionEye camera"
 
 #: motioneye/static/js/main.js:3871
 msgid "Simpla MJPEG-kamerao"
-msgstr ""
+msgstr "Eenvoudige MJPEG-camera"
 
 #: motioneye/static/js/main.js:3873
 msgid "la speco de kamerao, kiun vi volas aldoni"
-msgstr ""
+msgstr "het type camera dat u wilt toevoegen"
 
 #: motioneye/static/js/main.js:3876
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: motioneye/static/js/main.js:3877
 msgid "http://ekzemplo.com:8765/cams/..."
-msgstr ""
+msgstr "http://voorbeeld.com:8765/cams/..."
 
 #: motioneye/static/js/main.js:3878
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
-msgstr ""
+msgstr "de camera URL (bijv. http://voorbeeld.com:8080/cam/)"
 
 #: motioneye/static/js/main.js:3882
 msgid "uzantnomo..."
-msgstr ""
+msgstr "gebruikersnaam..."
 
 #: motioneye/static/js/main.js:3883
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
-msgstr ""
+msgstr "de gebruikersnaam voor de URL, indien nodig (bijv. admin)"
 
 #: motioneye/static/js/main.js:3887
 msgid "pasvorto..."
-msgstr ""
+msgstr "wachtwoord..."
 
 #: motioneye/static/js/main.js:3888
 msgid "la pasvorto por la URL, se bezonata"
-msgstr ""
+msgstr "het wachtwoord voor de URL, indien nodig"
 
 #: motioneye/static/js/main.js:3891
 msgid "Kamerao"
-msgstr ""
+msgstr "Camera"
 
 #: motioneye/static/js/main.js:3893
 msgid "la kameraon, kiun vi volas aldoni"
-msgstr ""
+msgstr "de camera die u wilt toevoegen"
 
 #: motioneye/static/js/main.js:3929
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr ""
+"MotionEye camera's op afstand zijn camera's die op een andere MotionEye "
+"server zijn geïnstalleerd. Door ze hier toe te voegen, kunt u ze op afstand "
+"bekijken en beheren."
 
 #: motioneye/static/js/main.js:3944
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr ""
+"Netwerkcamera's (of IP-camera's) zijn apparaten die standaard RTSP/RTMP-, "
+"MJPEG-video's of gewone JPEG-afbeeldingen kunnen streamen. Raadpleeg de "
+"handleiding van uw apparaat om de juiste RTSP-, RTMP-, MJPEG- of JPEG-URL te "
+"vinden."
 
 #: motioneye/static/js/main.js:3949
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr ""
+"Lokale MMAL-camera's zijn apparaten die rechtstreeks op uw motionEye-systeem "
+"zijn aangesloten. Dit zijn meestal kaartspecifieke camera's."
 
 #: motioneye/static/js/main.js:3964
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr ""
+"Als u uw apparaat toevoegt als een eenvoudige MJPEG-camera in plaats van een "
+"netwerkcamera, dan zal de beeldkwaliteit verbeteren, maar er is dan geen "
+"bewegingsdetectie, beeldopname of video-opname mogelijk. De camera moet "
+"toegankelijk zijn voor uw server en browser. Dit type camera is niet "
+"compatibel met Internet Explorer."
 
 #: motioneye/static/js/main.js:3969
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr ""
+"Lokale V4L2-camera's zijn camera-apparaten die rechtstreeks op uw MotionEye-"
+"systeem zijn aangesloten, meestal via USB."
 
 #: motioneye/static/js/main.js:4120
 msgid "Aldonadi kameraon..."
-msgstr ""
+msgstr "Camera toevoegen..."
 
 #: motioneye/static/js/main.js:4192
 msgid "Grupo"
-msgstr ""
+msgstr "Groep"
 
 #: motioneye/static/js/main.js:4196
 msgid "Inkluzivi foton prenitan ĉiun"
-msgstr ""
+msgstr "Voeg elk een foto toe die is gemaakt"
 
 #: motioneye/static/js/main.js:4199
 msgid "sekundo"
-msgstr ""
+msgstr "1 seconde"
 
 #: motioneye/static/js/main.js:4200
 msgid "5 sekundoj"
-msgstr ""
+msgstr "5 seconden"
 
 #: motioneye/static/js/main.js:4201
 msgid "10 sekundoj"
-msgstr ""
+msgstr "10 seconden"
 
 #: motioneye/static/js/main.js:4202
 msgid "30 sekundoj"
-msgstr ""
+msgstr "30 seconden"
 
 #: motioneye/static/js/main.js:4203
 msgid "minuto"
-msgstr ""
+msgstr "1 minuut"
 
 #: motioneye/static/js/main.js:4204
 msgid "5 minutoj"
-msgstr ""
+msgstr "5 minuten"
 
 #: motioneye/static/js/main.js:4205
 msgid "10 minutoj"
-msgstr ""
+msgstr "10 minuten"
 
 #: motioneye/static/js/main.js:4206
 msgid "30 minutoj"
-msgstr ""
+msgstr "30 minuten"
 
 #: motioneye/static/js/main.js:4207
 msgid "horo"
-msgstr ""
+msgstr "1 uur"
 
 #: motioneye/static/js/main.js:4210
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
-msgstr ""
+msgstr "Selecteer het tijdsinterval tussen twee geselecteerde afbeeldingen."
 
 #: motioneye/static/js/main.js:4213
 msgid "Filmo framfrekvenco"
-msgstr ""
+msgstr "Framesnelheid video"
 
 #: motioneye/static/js/main.js:4215
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
-msgstr ""
+msgstr "Kies hoe snel de Timelapse afgespeeld moet worden."
 
 #: motioneye/static/js/main.js:4224
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr ""
+"Gezien het grote aantal afbeeldingen kan het maken van uw video enige tijd "
+"in beslag nemen!"
 
 #: motioneye/static/js/main.js:4241
 msgid "Krei akselita video"
-msgstr ""
+msgstr "Maak een Timelapse film"
 
 #: motioneye/static/js/main.js:4250
 msgid "Filmo kreanta en progreso..."
-msgstr ""
+msgstr "Bezig met het maken van de video..."
 
 #: motioneye/static/js/main.js:4501
 msgid "Zipitaj"
-msgstr ""
+msgstr "Gezipt"
 
 #: motioneye/static/js/main.js:4510
 msgid "Akselita video"
-msgstr ""
+msgstr "Timelapse"
 
 #: motioneye/static/js/main.js:4521
 msgid "Forigi ĉiujn"
-msgstr ""
+msgstr "Alles verwijderen"
 
 #: motioneye/static/js/main.js:4663
 msgid "Bildoj prenitaj de "
-msgstr ""
+msgstr "Foto's genomen op "
 
 #: motioneye/static/js/main.js:4666
 msgid "Filmoj registritaj de "
-msgstr ""
+msgstr "Films opgenomen door "
 
 #: motioneye/static/js/main.js:4728
 msgid "montru ĉi tiun fotilon plenekranan"
-msgstr ""
+msgstr "deze camera weergeven op volledig scherm"
 
 #: motioneye/static/js/main.js:4729
 msgid "montri ĉiujn fotilojn"
-msgstr ""
+msgstr "toon alle camera's"
 
 #: motioneye/static/js/main.js:4730
 msgid "montru nur ĉi tiun fotilon"
-msgstr ""
+msgstr "toon alleen deze camera"
 
 #: motioneye/static/js/main.js:4731
 msgid "malfermaj bildoj retumilo"
-msgstr ""
+msgstr "Afbeeldingen openen"
 
 #: motioneye/static/js/main.js:4732
 msgid "malferma videoj retumilo"
-msgstr ""
+msgstr "Video's openen"
 
 #: motioneye/static/js/main.js:4733
 msgid "agordi ĉi tiun kameraon"
-msgstr ""
+msgstr "deze camera configureren"
 
 #: motioneye/static/js/main.js:4749
 msgid "preni instantaron"
-msgstr ""
+msgstr "maak een momentopname"
 
 #: motioneye/static/js/main.js:5121
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr ""
+"U heeft nog geen camera geconfigureerd. Klik hier om er een toe te voegen ..."
 
 #: motioneye/static/js/ui.js:503
 msgid "enigu pozitivan nombron"
-msgstr ""
+msgstr "voer een positief getal in"
 
 #: motioneye/static/js/ui.js:505
 msgid "enigu pozitivan entjeran nombron"
-msgstr ""
+msgstr "voer een positief geheel getal in"
 
 #: motioneye/static/js/ui.js:507
 msgid "enigu nombron"
-msgstr ""
+msgstr "voer een nummer in"
 
 #: motioneye/static/js/ui.js:509
 msgid "enigu entjeran nombron"
-msgstr ""
+msgstr "voer een geheel getal in"
 
 #: motioneye/static/js/ui.js:512
 msgid " inter "
-msgstr ""
+msgstr " tussen "
 
 #: motioneye/static/js/ui.js:512
 msgid " kaj "
-msgstr ""
+msgstr " en "
 
 #: motioneye/static/js/ui.js:515
 msgid " pli ol "
-msgstr ""
+msgstr " groter dan "
 
 #: motioneye/static/js/ui.js:520
 msgid " malpli ol "
-msgstr ""
+msgstr " kleiner dan "
 
 #: motioneye/static/js/ui.js:573
 msgid "enigu validan tempon en la sekva formato: HH:MM"
-msgstr ""
+msgstr "voer een geldige tijd in het volgende formaat: HH:MM"
 
 #: motioneye/static/js/ui.js:630
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
-msgstr ""
+msgstr "voer een geldige URL in (bijv. http://voorbeeld.com:8080/cams/)"
 
 #: motioneye/static/js/ui.js:971
 msgid "fermi"
-msgstr ""
+msgstr "sluiten"
 
 #: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
 msgid "Ne"
-msgstr ""
+msgstr "Nee"
 
 #: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
 msgid "Jes"
-msgstr ""
+msgstr "Ja"
 
 #: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
 msgid "Bone"
-msgstr ""
+msgstr "OK"
 
 #: l10n/v4l2.js:4
 msgid "Auto Exposure"
-msgstr ""
+msgstr "Automatische belichting"
 
 #: l10n/v4l2.js:5
 msgid "Backlight Compensation"
-msgstr ""
+msgstr "Tegenlichtcompensatie"
 
 #: l10n/v4l2.js:6
 msgid "Brightness"
-msgstr ""
+msgstr "Helderheid"
 
 #: l10n/v4l2.js:7
 msgid "Contrast"
-msgstr ""
+msgstr "Contrast"
 
 #: l10n/v4l2.js:8
 msgid "Exposure Absolute"
-msgstr ""
+msgstr "Absolute belichting"
 
 #: l10n/v4l2.js:9
 msgid "Exposure Auto"
-msgstr ""
+msgstr "Automatische belichting"
 
 #: l10n/v4l2.js:10
 msgid "Exposure Auto Priority"
-msgstr ""
+msgstr "Automatische belichtingsprioriteit"
 
 #: l10n/v4l2.js:11
 msgid "Exposure Time Absolute"
-msgstr ""
+msgstr "Absolute belichtingstijd"
 
 #: l10n/v4l2.js:12
 msgid "Focus Absolute"
-msgstr ""
+msgstr "Absoluut focussen"
 
 #: l10n/v4l2.js:13
 msgid "Focus Auto"
-msgstr ""
+msgstr "Autofocus"
 
 #: l10n/v4l2.js:14
 msgid "Gain"
-msgstr ""
+msgstr "Versterking"
 
 #: l10n/v4l2.js:15
 msgid "Gamma"
-msgstr ""
+msgstr "Gamma"
 
 #: l10n/v4l2.js:16
 msgid "Hue"
-msgstr ""
+msgstr "Kleurtoon"
 
 #: l10n/v4l2.js:17
 msgid "Led1 Mode"
-msgstr ""
+msgstr "LED1 modus"
 
 #: l10n/v4l2.js:18
 msgid "Led1 Frequency"
-msgstr ""
+msgstr "LED1 frequentie"
 
 #: l10n/v4l2.js:19
 msgid "Pan Absolute"
-msgstr ""
+msgstr "Pan absoluut"
 
 #: l10n/v4l2.js:20
 msgid "Power Line Frequency"
-msgstr ""
+msgstr "Net frequentie"
 
 #: l10n/v4l2.js:21
 msgid "Saturation"
-msgstr ""
+msgstr "Saturatie"
 
 #: l10n/v4l2.js:22
 msgid "Sharpness"
-msgstr ""
+msgstr "Scherpte"
 
 #: l10n/v4l2.js:23
 msgid "Tilt Absolute"
-msgstr ""
+msgstr "Absolute Helling"
 
 #: l10n/v4l2.js:24
 msgid "White Balance Temperature"
-msgstr ""
+msgstr "Temperatuur witbalans"
 
 #: l10n/v4l2.js:25
 msgid "White Balance Temperature Auto"
-msgstr ""
+msgstr "Auto temperatuur witbalans"
 
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
-msgstr ""
+msgstr "Absolute zoom"
