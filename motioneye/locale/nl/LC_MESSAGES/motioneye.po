@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-08-08 08:23+0000\n"
+"PO-Revision-Date: 2022-08-09 09:22+0000\n"
 "Last-Translator: Dylian Melgert <contact@dylian.eu>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/nl/>\n"
@@ -1366,11 +1366,11 @@ msgstr "Ruisniveau"
 
 #: motioneye/templates/main.html:946
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
-msgstr "Zet het geluidsniveau permanent op een ingestelde waarde."
+msgstr "Zet het ruisniveau op een vaste waarde."
 
 #: motioneye/templates/main.html:949
 msgid "Detekto de lumaj ŝanĝoj"
-msgstr "Detectie van lichtveranderingen"
+msgstr "Detectie van lichtomschakelmomenten"
 
 #: motioneye/templates/main.html:951
 #, python-format
@@ -1385,12 +1385,12 @@ msgstr ""
 
 #: motioneye/templates/main.html:954
 msgid "Makula filtrilo"
-msgstr "Speckle-filter"
+msgstr "Ontspikkelfilter"
 
 #: motioneye/templates/main.html:956
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
 msgstr ""
-"Schakel dit in om een vervagingsfilter toe te passen op frames voordat "
+"Schakel dit in om een ontspikkelfilter toe te passen op beelden voordat "
 "beweging wordt gedetecteerd."
 
 #: motioneye/templates/main.html:962
