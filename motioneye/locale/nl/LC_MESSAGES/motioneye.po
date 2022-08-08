@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-08-06 23:18+0000\n"
-"Last-Translator: Hein Oldenhuis <heinoldenhuis@gmail.com>\n"
+"PO-Revision-Date: 2022-08-08 08:23+0000\n"
+"Last-Translator: Dylian Melgert <contact@dylian.eu>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/nl/>\n"
 "Language: nl\n"
@@ -1320,7 +1320,7 @@ msgstr "Bewegingsdetectie"
 
 #: motioneye/templates/main.html:924
 msgid "Kadra ŝanĝo sojlo"
-msgstr "Drempelwaarde frameverandering"
+msgstr "Drempelwaarde beeldveranderingen"
 
 #: motioneye/templates/main.html:926
 msgid ""
@@ -1328,29 +1328,29 @@ msgid ""
 "pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli "
 "sentivan detekton, sed inklinas al falsaj pozitivoj)."
 msgstr ""
-"Geeft het minimale percentage aan tussen twee frames aan dat moet veranderen "
-"om beweging te detecteren (kleinere waarden geven een gevoeligere detectie, "
-"maar hebben de neiging tot foute detecties)."
+"geeft aan hoeveel procent van het beeld veranderd moet zijn tussen twee "
+"opnames om als beweging geregistreerd te worden (kleinere waarden zorgen "
+"voor gevoeligere detectie maar zorgen ook eerder voor valse registraties)"
 
 #: motioneye/templates/main.html:929
 msgid "Maksimuma ŝanĝo sojlo"
-msgstr "Maximale wijzigingsdrempel"
+msgstr "Drempelwaardegrens beeldwijziging"
 
 #: motioneye/templates/main.html:931
 msgid ""
 "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo "
 "ne plu ekigas (0 malŝaltas la limon)."
 msgstr ""
-"Stelt het aantal rasters in dat is gewijzigd tussen frames waarboven "
-"scrollen niet langer wordt geactiveerd (0 schakelt de limiet uit)."
+"stelt in hoeveel pixels maximaal mogen wijzigen om nog als beweging "
+"geregistreerd te worden."
 
 #: motioneye/templates/main.html:934
 msgid "Aŭtomata sojla agordo"
-msgstr "Automatische drempelinstelling"
+msgstr "Automatische drempelwaarden"
 
 #: motioneye/templates/main.html:936
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
-msgstr "Schakel dit in om de drempel automatisch aan te passen."
+msgstr "Schakel dit in om automatisch de drempelwaarden af te stellen."
 
 #: motioneye/templates/main.html:939
 msgid "Aŭtomata bruo-detekto"
@@ -1358,11 +1358,11 @@ msgstr "Automatische ruisdetectie"
 
 #: motioneye/templates/main.html:941
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
-msgstr "Schakel dit in om het geluidsniveau automatisch aan te passen."
+msgstr "Schakel dit in om automatisch de het ruisniveau af te stellen."
 
 #: motioneye/templates/main.html:944
 msgid "Bruo-nivelo"
-msgstr "Geluidsniveau"
+msgstr "Ruisniveau"
 
 #: motioneye/templates/main.html:946
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
