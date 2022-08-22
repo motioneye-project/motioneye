@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-07-29 08:19+0000\n"
-"Last-Translator: MikyS0ld4 <miky.solda.05@gmail.com>\n"
+"PO-Revision-Date: 2022-08-23 09:22+0000\n"
+"Last-Translator: lucamot <lucamot@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/it/>\n"
 "Language: it\n"
@@ -118,49 +118,47 @@ msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
 msgstr "imposta il numero di colonne utilizzate per disporre le telecamere"
 
 #: motioneye/templates/main.html:138
-#, fuzzy
 msgid "Fiksi Kadrojn Vertikale"
-msgstr "Imposta le cornici in verticale"
+msgstr "Adatta il frame in verticale"
 
 #: motioneye/templates/main.html:140
-#, fuzzy
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
-msgstr "controlla se i tempi dei fotogrammi possono essere ridotti per adattarsi o meno alla finestra in verticale"
+msgstr ""
+"controlla se le dimensioni dei frame possono essere ridotte verticalmente "
+"per adattarsi alla finestra oppure no"
 
 #: motioneye/templates/main.html:143
-#, fuzzy
 msgid "Aranĝo linioj"
-msgstr "Linee di layout"
+msgstr "Righe"
 
 #: motioneye/templates/main.html:145
-#, fuzzy
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr "imposta il numero di linee utilizzate per disporre le telecamere"
+msgstr ""
+"configura il numero di righe usate per disporre le finestre delle telecamere"
 
 #: motioneye/templates/main.html:148
-#, fuzzy
 msgid "kadro-variatoro"
-msgstr "variatore di telaio"
+msgstr "Dimmer del frame rate"
 
 #: motioneye/templates/main.html:150
-#, fuzzy
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
-msgstr "riduce la frequenza dei fotogrammi per risparmiare larghezza di banda e traffico di rete (non funziona con semplici telecamere MJPEG)"
+msgstr ""
+"riduce la frequenza dei fotogrammi per risparmiare banda e traffico di rete ("
+"non funziona con flussi MJPEG)"
 
 #: motioneye/templates/main.html:153
-#, fuzzy
 msgid "Rezolucio-variatoro"
-msgstr "Variatore di risoluzione"
+msgstr "Regolazione della risoluzione"
 
 #: motioneye/templates/main.html:155
-#, fuzzy
 msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
-msgstr "riduce la risoluzione effettiva di tutte le telecamere per risparmiare larghezza di banda e traffico di rete (non funziona con semplici telecamere MJPEG)"
+msgstr ""
+"riduce la risoluzione effettiva di tutte le telecamere per risparmiare banda "
+"e traffico di rete (non funziona con flussi MJPEG)"
 
 #: motioneye/templates/main.html:161
-#, fuzzy
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
-msgstr "parametri generali, comuni a tutte le telecamere"
+msgstr "impostazioni generali, comuni a tutte le telecamere"
 
 #: motioneye/templates/main.html:162
 #, fuzzy
@@ -173,9 +171,8 @@ msgid "Lingvo"
 msgstr "Lingua"
 
 #: motioneye/templates/main.html:173
-#, fuzzy
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr "Il linguaggio dell'interfaccia (due lettere)"
+msgstr "Lingua dell'interfaccia (due lettere)"
 
 #: motioneye/templates/main.html:176
 #, fuzzy
@@ -183,7 +180,6 @@ msgid "Administranto"
 msgstr "amministratore"
 
 #: motioneye/templates/main.html:178
-#, fuzzy
 msgid "la uzantnomo uzata por agordi la sistemon"
 msgstr "il nome utente utilizzato per configurare il sistema"
 
@@ -198,9 +194,8 @@ msgid "pasvorto de administranto"
 msgstr "password amministratore"
 
 #: motioneye/templates/main.html:186
-#, fuzzy
 msgid "Observanto"
-msgstr "osservatore"
+msgstr "Utente supervisore"
 
 #: motioneye/templates/main.html:188
 #, fuzzy
@@ -208,9 +203,10 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "il nome utente da utilizzare per il monitoraggio"
 
 #: motioneye/templates/main.html:193
-#, fuzzy
 msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "la password dell'utente di monitoraggio (lasciare vuoto per il monitoraggio senza password)"
+msgstr ""
+"la password dell'utente di monitoraggio (lasciare vuoto per monitoraggio "
+"senza password)"
 
 #: motioneye/templates/main.html:202
 #, fuzzy
@@ -238,14 +234,12 @@ msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
 msgstr "verifica la presenza di nuove versioni ed esegue gli aggiornamenti"
 
 #: motioneye/templates/main.html:221
-#, fuzzy
 msgid "Nutro"
-msgstr "cibo"
+msgstr "Alimentazione"
 
 #: motioneye/templates/main.html:222
-#, fuzzy
 msgid "Fermu"
-msgstr "vicino"
+msgstr "Spegni"
 
 #: motioneye/templates/main.html:223
 #, fuzzy
@@ -253,9 +247,8 @@ msgid "malŝaltas la sistemon"
 msgstr "spegne il sistema"
 
 #: motioneye/templates/main.html:227
-#, fuzzy
 msgid "Rekomencu"
-msgstr "nuovo inizio"
+msgstr "riavvio"
 
 #: motioneye/templates/main.html:228
 #, fuzzy
@@ -268,19 +261,16 @@ msgid "Agordo"
 msgstr "configurazione"
 
 #: motioneye/templates/main.html:235
-#, fuzzy
 msgid "Sekurkopio"
-msgstr "di riserva"
+msgstr "backup"
 
 #: motioneye/templates/main.html:236
-#, fuzzy
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
-msgstr "crea un file con la configurazione corrente in modo da poterlo salvare localmente"
+msgstr "crea un file con la configurazione corrente per salvarlo localmente"
 
 #: motioneye/templates/main.html:240
-#, fuzzy
 msgid "Restaŭri"
-msgstr "ripristinare"
+msgstr "ripristina"
 
 #: motioneye/templates/main.html:241
 #, fuzzy
@@ -796,9 +786,8 @@ msgid "Ordono"
 msgstr "ordine"
 
 #: motioneye/templates/main.html:594
-#, fuzzy
 msgid "ordono…"
-msgstr "Ordine ..."
+msgstr "Ordine…"
 
 #: motioneye/templates/main.html:595
 #, fuzzy, python-format
@@ -844,7 +833,7 @@ msgstr "Imposta il testo visualizzato su filmati e immagini, nell'angolo in bass
 #: motioneye/templates/main.html:624 motioneye/templates/main.html:641
 #, fuzzy
 msgid "propra teksto…"
-msgstr "Testo personalizzato ..."
+msgstr "Testo personalizzato …"
 
 #: motioneye/templates/main.html:625
 #, fuzzy, python-format
@@ -1007,9 +996,8 @@ msgid "Nomo Bildo-Dosiero"
 msgstr "Nome file immagine"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
-#, fuzzy
 msgid "dosiernomo ŝablono…"
-msgstr "Modello di nome file ..."
+msgstr "Modello del nome file …"
 
 #: motioneye/templates/main.html:749
 #, fuzzy, python-format
@@ -1487,7 +1475,7 @@ msgstr "Indirizzi email"
 #: motioneye/templates/main.html:1057
 #, fuzzy
 msgid "retpoŝtadresoj…"
-msgstr "Indirizzi email ..."
+msgstr "Indirizzi email …"
 
 #: motioneye/templates/main.html:1058
 #, fuzzy
@@ -1557,7 +1545,7 @@ msgstr "Dall'indirizzo"
 #: motioneye/templates/main.html:1082
 #, fuzzy
 msgid "retpoŝta adreso…"
-msgstr "Indirizzo e-mail ..."
+msgstr "Indirizzo e-mail …"
 
 #: motioneye/templates/main.html:1083
 #, fuzzy
@@ -1699,7 +1687,7 @@ msgstr "comando"
 #: motioneye/templates/main.html:1162 motioneye/templates/main.html:1207
 #, fuzzy
 msgid "komando…"
-msgstr "Comando ..."
+msgstr "Comando …"
 
 #: motioneye/templates/main.html:1163
 #, fuzzy, python-format
