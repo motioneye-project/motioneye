@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2022-07-29 08:19+0000\n"
-"Last-Translator: MikyS0ld4 <miky.solda.05@gmail.com>\n"
+"PO-Revision-Date: 2022-08-23 09:22+0000\n"
+"Last-Translator: lucamot <lucamot@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-javascript/it/>\n"
 "Language: it\n"
@@ -622,7 +622,7 @@ msgstr "Focus assoluto"
 
 #: l10n/v4l2.js:13
 msgid "Focus Auto"
-msgstr "Focus Auto"
+msgstr "Auto Focus"
 
 #: l10n/v4l2.js:14
 msgid "Gain"
@@ -661,9 +661,8 @@ msgid "Sharpness"
 msgstr "Nitidezza"
 
 #: l10n/v4l2.js:23
-#, fuzzy
 msgid "Tilt Absolute"
-msgstr "Inclinare assolutamente"
+msgstr "Inclinazione assoluta"
 
 #: l10n/v4l2.js:24
 msgid "White Balance Temperature"
