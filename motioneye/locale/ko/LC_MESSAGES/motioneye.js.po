@@ -8,598 +8,613 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-12 16:59+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-08-30 04:23+0000\n"
+"Last-Translator: David.Hong <gdavid0510@gmail.com>\n"
+"Language-Team: Korean <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye-javascript/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr ""
+msgstr "암호에 특수문자는 사용할 수 없습니다"
 
 #: motioneye/static/js/main.js:613 motioneye/static/js/main.js:624
 #: motioneye/static/js/main.js:683 motioneye/static/js/ui.js:362
 #: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
 msgid "Ĉi tiu kampo estas deviga"
-msgstr ""
+msgstr "필수 항목입니다"
 
 #: motioneye/static/js/main.js:617
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr ""
+msgstr "카메라 이름에 특수문자는 사용할 수 없습니다"
 
 #: motioneye/static/js/main.js:629
 msgid "valoro devas esti multoblo de 8"
-msgstr ""
+msgstr "값은 8의 배수여야 합니다"
 
 #: motioneye/static/js/main.js:636
 msgid "specialaj signoj ne rajtas en radika voja nomo"
-msgstr ""
+msgstr "root 디렉토리 이름에 특수문자를 사용할 수 없습니다"
 
 #: motioneye/static/js/main.js:639
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr ""
+msgstr "시스템의 root에 바로 파일을 생성할 수 없습니다"
 
 #: motioneye/static/js/main.js:646
 msgid "enigu validan retpoŝtadreson"
-msgstr ""
+msgstr "유효한 이메일 주소를 입력하세요"
 
 #: motioneye/static/js/main.js:653
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr ""
+msgstr "쉼표로 구분된 유효한 이메일 주소 목록을 입력하세요"
 
 #: motioneye/static/js/main.js:660
 msgid "specialaj signoj ne rajtas en dosiernomo"
-msgstr ""
+msgstr "파일명에 특수문자를 사용할 수 없습니다"
 
 #: motioneye/static/js/main.js:687
 msgid "enigu validan valoron"
-msgstr ""
+msgstr "유효한 값을 입력하세요"
 
 #: motioneye/static/js/main.js:841
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr ""
+msgstr "다음 클라우드 폴더 내의 모든 파일을 지우게 됩니다: \""
 
 #: motioneye/static/js/main.js:842
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
-msgstr ""
+msgstr "\" motionEye에서 업로드된 것이 아니어도 말이죠!"
 
 #: motioneye/static/js/main.js:923
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
-msgstr ""
+msgstr "다음 폴더 내의 모든 오래된 미디어 파일을 지울 것입니다: \""
 
 #: motioneye/static/js/main.js:924
 msgid "\", ne nur tiuj kreitaj de motionEye!"
-msgstr ""
+msgstr "\" motionEye에서 생성된 것이 아니어도 말이죠!"
 
 #: motioneye/static/js/main.js:990
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
-msgstr ""
+msgstr "유효한 카메라 이미지 없이는 마스크를 수정할 수 없습니다!"
 
 #: motioneye/static/js/main.js:2230
 msgid "Propra"
-msgstr ""
+msgstr "커스텀"
 
 #: motioneye/static/js/main.js:2268
 msgid "Propra dosierindiko"
-msgstr ""
+msgstr "커스텀 경로"
 
 #: motioneye/static/js/main.js:2270
 msgid "Retan kunlokon"
-msgstr ""
+msgstr "네트워크 공유"
 
 #: motioneye/static/js/main.js:2630
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
-msgstr ""
+msgstr "이 브라우저는 이 기능을 지원하지 않습니다!"
 
 #: motioneye/static/js/main.js:2646
 msgid "Apliki"
-msgstr ""
+msgstr "적용"
 
 #: motioneye/static/js/main.js:2673 motioneye/static/js/main.js:3034
 #: motioneye/static/js/main.js:3089 motioneye/static/js/main.js:3164
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
-msgstr ""
+msgstr "모든 옵션이 유효한지 확실히 해주세요!"
 
 #: motioneye/static/js/main.js:2775
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
-msgstr ""
+msgstr "시스템을 재시작하게 됩니다. 계속할까요?"
 
 #: motioneye/static/js/main.js:2785
 msgid "Vere fermiti sistemon?"
-msgstr ""
+msgstr "정말 종료할까요?"
 
 #: motioneye/static/js/main.js:2797
 msgid "Malŝaltita"
-msgstr ""
+msgstr "전원 꺼짐"
 
 #: motioneye/static/js/main.js:2812
 msgid "Ĉu vere restartigi ?"
-msgstr ""
+msgstr "정말 재시작할까요?"
 
 #: motioneye/static/js/main.js:2826
 msgid "La sistemo rekomencis!"
-msgstr ""
+msgstr "시스템이 다시 시작됐습니다!"
 
 #: motioneye/static/js/main.js:2846 motioneye/static/js/main.js:2879
 #: motioneye/static/js/main.js:3859
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
-msgstr ""
+msgstr "우선 수정된 설정을 적용해주세요!"
 
 #: motioneye/static/js/main.js:2851
 msgid "Neniu fotilo por forigi!"
-msgstr ""
+msgstr "제거할 카메라가 없습니다!"
 
 #: motioneye/static/js/main.js:2857
 msgid "Ĉu forigi kameraon "
-msgstr ""
+msgstr "카메라 제거 "
 
 #: motioneye/static/js/main.js:2885
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr ""
+msgstr "motionEye가 최신 버전입니다 (현재 버전: "
 
 #: motioneye/static/js/main.js:2888
 msgid "Nova versio havebla: "
-msgstr ""
+msgstr "새 버전을 사용할 수 있습니다: "
 
 #: motioneye/static/js/main.js:2888
 msgid ". Ĝisdatigi?"
-msgstr ""
+msgstr ". 업데이트할까요?"
 
 #: motioneye/static/js/main.js:2896
 msgid "motionEye estis sukcese ĝisdatigita!"
-msgstr ""
+msgstr "motionEye가 성공적으로 업데이트되었습니다!"
 
 #: motioneye/static/js/main.js:2906
 msgid "Ĝisdatigo malsukcesis!"
-msgstr ""
+msgstr "업데이트에 실패했습니다!"
 
 #: motioneye/static/js/main.js:2917
 msgid "La ĝisdatiga procezo malsukcesis!"
-msgstr ""
+msgstr "업데이트 처리에 실패했습니다!"
 
 #: motioneye/static/js/main.js:2936
 msgid "Rezerva dosiero"
-msgstr ""
+msgstr "백업 파일"
 
 #: motioneye/static/js/main.js:2938
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
-msgstr ""
+msgstr "이전에 다운로드한 백업 파일입니다."
 
 #: motioneye/static/js/main.js:2967
 msgid "Restaŭrigi Agordon"
-msgstr ""
+msgstr "설정 복원"
 
 #: motioneye/static/js/main.js:2979
 msgid "Restaŭriganta agordon ..."
-msgstr ""
+msgstr "설정 복원 중..."
 
 #: motioneye/static/js/main.js:2986
 msgid "La agordo restaŭrigis!"
-msgstr ""
+msgstr "설정이 복원되었습니다!"
 
 #: motioneye/static/js/main.js:2996 motioneye/static/js/main.js:3015
 msgid "Malsukcesis restaŭri la agordon!"
-msgstr ""
+msgstr "설정 복원에 실패했습니다!"
 
 #: motioneye/static/js/main.js:3070
 msgid "Aliri la alŝutan servon malsukcesis: "
-msgstr ""
+msgstr "업로드 서비스 접근에 실패했습니다: "
 
 #: motioneye/static/js/main.js:3073
 msgid "Aliri la alŝutan servon sukcesis!"
-msgstr ""
+msgstr "업로드 서비스 연결에 성공했습니다!"
 
 #: motioneye/static/js/main.js:3110 motioneye/static/js/main.js:3113
 msgid "Sciiga retpoŝto fiaskis:"
-msgstr ""
+msgstr "알림 이메일 전송에 실패했습니다:"
 
 #: motioneye/static/js/main.js:3129
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
-msgstr ""
+msgstr "모든 설정 값이 유효한지 확실히 해주세요!"
 
 #: motioneye/static/js/main.js:3145
 msgid "Sciiga Telegramo fiaskis:"
-msgstr ""
+msgstr "텔레그램 알림 실패:"
 
 #: motioneye/static/js/main.js:3148
 msgid "Sciiga Telegramo sukcesis!"
-msgstr ""
+msgstr "텔레그램 알림 성공!"
 
 #: motioneye/static/js/main.js:3184
 msgid "Aliro al retdividado fiaskis: "
-msgstr ""
+msgstr "네트워크 공유 접근에 실패했습니다: "
 
 #: motioneye/static/js/main.js:3187
 msgid "Aliro al retdividado sukcesis!"
-msgstr ""
+msgstr "네트워크 공유 접근에 성공했습니다!"
 
 #: motioneye/static/js/main.js:3211
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
-msgstr ""
+msgstr "이 파일을 정말 삭제할까요?"
 
 #: motioneye/static/js/main.js:3235
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
-msgstr ""
+msgstr "정말 \"%(group)\"의 모든 사진을 삭제할까요?"
 
 #: motioneye/static/js/main.js:3238
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
-msgstr ""
+msgstr "정말 \"%(group)\"의 모든 영상을 삭제할까요?"
 
 #: motioneye/static/js/main.js:3243
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
-msgstr ""
+msgstr "정말 그룹에 속하지 않은 모든 사진을 삭제할까요?"
 
 #: motioneye/static/js/main.js:3246
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
-msgstr ""
+msgstr "정말 그룹에 속하지 않은 모든 영상을 삭제할까요?"
 
 #: motioneye/static/js/main.js:3357
 msgid "aldonadi kameraon..."
-msgstr ""
+msgstr "카메라 추가..."
 
 #: motioneye/static/js/main.js:3545
 msgid "bone"
-msgstr ""
+msgstr "확인"
 
 #: motioneye/static/js/main.js:3582 motioneye/static/js/main.js:3881
 msgid "Uzantnomo"
-msgstr ""
+msgstr "사용자 이름"
 
 #: motioneye/static/js/main.js:3587 motioneye/static/js/main.js:3886
 msgid "Pasvorto"
-msgstr ""
+msgstr "암호"
 
 #: motioneye/static/js/main.js:3593
 msgid "Memoru min"
-msgstr ""
+msgstr "기억하기"
 
 #: motioneye/static/js/main.js:3611 motioneye/static/js/main.js:3617
 msgid "Ensaluti"
-msgstr ""
+msgstr "로그인"
 
 #: motioneye/static/js/main.js:3614 motioneye/static/js/ui.js:1023
 #: motioneye/static/js/ui.js:1030
 msgid "Nuligi"
-msgstr ""
+msgstr "취소"
 
 #: motioneye/static/js/main.js:3656
 msgid "Vi abortis la filmeton."
-msgstr ""
+msgstr "영상을 취소했습니다."
 
 #: motioneye/static/js/main.js:3659
 msgid "Reto eraro okazis."
-msgstr ""
+msgstr "네트워크 오류가 발생했습니다."
 
 #: motioneye/static/js/main.js:3662
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
-msgstr ""
+msgstr "미디어를 디코딩 중 오류가 발생했거나 지원되지 않는 미디어입니다."
 
 #: motioneye/static/js/main.js:3665
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
-msgstr ""
+msgstr "지원되지 않는 형식이거나, 재생에 적합하지 않거나, 접근이 불가능합니다."
 
 #: motioneye/static/js/main.js:3668
 msgid "Nekonata eraro okazis."
-msgstr ""
+msgstr "알 수 없는 오류가 발생했습니다."
 
 #: motioneye/static/js/main.js:3671
 msgid "Eraro : "
-msgstr ""
+msgstr "오류: "
 
 #: motioneye/static/js/main.js:3676
 msgid "antaŭa bildo"
-msgstr ""
+msgstr "이전 사진"
 
 #: motioneye/static/js/main.js:3681
 msgid "ludi"
-msgstr ""
+msgstr "재생"
 
 #: motioneye/static/js/main.js:3684
 msgid "ludi * 5 kaj enĉenigi"
-msgstr ""
+msgstr "5개 재생 및 연속"
 
 #: motioneye/static/js/main.js:3689
 msgid "sekva bildo"
-msgstr ""
+msgstr "다음 사진"
 
 #: motioneye/static/js/main.js:3812
 msgid "Fermi"
-msgstr ""
+msgstr "닫기"
 
 #: motioneye/static/js/main.js:3813 motioneye/static/js/main.js:4374
 msgid "Elŝuti"
-msgstr ""
+msgstr "다운로드"
 
 #: motioneye/static/js/main.js:3821 motioneye/static/js/main.js:4377
 msgid "Forigi"
-msgstr ""
+msgstr "제거"
 
 #: motioneye/static/js/main.js:3865
 msgid "Kamerao tipo"
-msgstr ""
+msgstr "카메라 종류"
 
 #: motioneye/static/js/main.js:3867
 msgid "Loka V4L2-kamerao"
-msgstr ""
+msgstr "로컬 V4L2 카메라"
 
 #: motioneye/static/js/main.js:3868
 msgid "Loka MMAL-kamerao"
-msgstr ""
+msgstr "로컬 MMAL 카메라"
 
 #: motioneye/static/js/main.js:3869
 msgid "Reta kamerao"
-msgstr ""
+msgstr "네트워크 카메라"
 
 #: motioneye/static/js/main.js:3870
 msgid "Fora motionEye kamerao"
-msgstr ""
+msgstr "원격 motionEye 카메라"
 
 #: motioneye/static/js/main.js:3871
 msgid "Simpla MJPEG-kamerao"
-msgstr ""
+msgstr "단순 MJPEG 카메라"
 
 #: motioneye/static/js/main.js:3873
 msgid "la speco de kamerao, kiun vi volas aldoni"
-msgstr ""
+msgstr "추가할 카메라의 종류"
 
 #: motioneye/static/js/main.js:3876
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: motioneye/static/js/main.js:3877
 msgid "http://ekzemplo.com:8765/cams/..."
-msgstr ""
+msgstr "http://example.com:8765/cams/..."
 
 #: motioneye/static/js/main.js:3878
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
-msgstr ""
+msgstr "카메라 URL (예: http://example.com:8080/cams/)"
 
 #: motioneye/static/js/main.js:3882
 msgid "uzantnomo..."
-msgstr ""
+msgstr "사용자 이름..."
 
 #: motioneye/static/js/main.js:3883
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
-msgstr ""
+msgstr "필요할 경우, URL에 사용할 사용자 이름 (예: admin)"
 
 #: motioneye/static/js/main.js:3887
 msgid "pasvorto..."
-msgstr ""
+msgstr "암호..."
 
 #: motioneye/static/js/main.js:3888
 msgid "la pasvorto por la URL, se bezonata"
-msgstr ""
+msgstr "필요할 경우, URL을 위한 암호"
 
 #: motioneye/static/js/main.js:3891
 msgid "Kamerao"
-msgstr ""
+msgstr "카메라"
 
 #: motioneye/static/js/main.js:3893
 msgid "la kameraon, kiun vi volas aldoni"
-msgstr ""
+msgstr "추가하려는 카메라"
 
 #: motioneye/static/js/main.js:3929
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr ""
+"원격 motionEye카메라는 다른 motionEye 서버에 연결된 카메라로, 이 곳에 "
+"추가하여 멀리 떨어진 곳에 있는 카메라도 보고 관리할 수 있습니다."
 
 #: motioneye/static/js/main.js:3944
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr ""
+"네트워크 카메라(또는 IP카메라)는 RTSP/RTMP 또는 MJPEG형식의 영상이나 JPEG "
+"이미지를 자체적으로 송출합니다. 정확한 RTSP, RTMP, MJPEG 또는 JPEG URL은 각 "
+"장치의 설명서를 참조하십시오."
 
 #: motioneye/static/js/main.js:3949
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr ""
+msgstr "로컬 MMAL 카메라는 이 motionEye 시스템에 직결된 장치로, 대개 특정 보드 전용 "
+"카메라입니다."
 
 #: motioneye/static/js/main.js:3964
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr ""
+"네트워크 카메라 대신 MJPEG 카메라로 장치를 추가할 경우 초당 프레임 수는 "
+"증가하지만 움직임 감지, 사진 캡쳐와 영상 녹화는 사용할 수 없게 됩니다. "
+"카메라는 서버와 브라우저에서 볼 수 있습니다. 이 형식의 카메라는 Internet "
+"Explorer에서 사용할 수 없습니다."
 
 #: motioneye/static/js/main.js:3969
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
-msgstr ""
+msgstr "로컬 V4L2 카메라는 motionEye 시스템에 직결된 카메라로, 대개 USB로 연결됩니다."
 
 #: motioneye/static/js/main.js:4120
 msgid "Aldonadi kameraon..."
-msgstr ""
+msgstr "카메라 추가..."
 
 #: motioneye/static/js/main.js:4192
 msgid "Grupo"
-msgstr ""
+msgstr "그룹"
 
 #: motioneye/static/js/main.js:4196
+#, fuzzy
 msgid "Inkluzivi foton prenitan ĉiun"
-msgstr ""
+msgstr "매 __마다 찍힌 사진 포함:"
 
 #: motioneye/static/js/main.js:4199
 msgid "sekundo"
-msgstr ""
+msgstr "초"
 
 #: motioneye/static/js/main.js:4200
 msgid "5 sekundoj"
-msgstr ""
+msgstr "5초"
 
 #: motioneye/static/js/main.js:4201
 msgid "10 sekundoj"
-msgstr ""
+msgstr "10초"
 
 #: motioneye/static/js/main.js:4202
 msgid "30 sekundoj"
-msgstr ""
+msgstr "30초"
 
 #: motioneye/static/js/main.js:4203
 msgid "minuto"
-msgstr ""
+msgstr "1분"
 
 #: motioneye/static/js/main.js:4204
 msgid "5 minutoj"
-msgstr ""
+msgstr "5분"
 
 #: motioneye/static/js/main.js:4205
 msgid "10 minutoj"
-msgstr ""
+msgstr "10분"
 
 #: motioneye/static/js/main.js:4206
 msgid "30 minutoj"
-msgstr ""
+msgstr "30분"
 
 #: motioneye/static/js/main.js:4207
 msgid "horo"
-msgstr ""
+msgstr "1시간"
 
 #: motioneye/static/js/main.js:4210
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
-msgstr ""
+msgstr "선택된 두 사진 사이의 시간 간격을 선택하세요."
 
 #: motioneye/static/js/main.js:4213
 msgid "Filmo framfrekvenco"
-msgstr ""
+msgstr "영상 초당 프레임 수"
 
 #: motioneye/static/js/main.js:4215
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
-msgstr ""
+msgstr "타임랩스 재생 속도를 선택하세요."
 
 #: motioneye/static/js/main.js:4224
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr ""
+msgstr "선택된 사진 수가 많으면 타임랩스 생성에 시간이 좀 걸릴 수 있습니다!"
 
 #: motioneye/static/js/main.js:4241
 msgid "Krei akselita video"
-msgstr ""
+msgstr "타임랩스 영상 만들기"
 
 #: motioneye/static/js/main.js:4250
 msgid "Filmo kreanta en progreso..."
-msgstr ""
+msgstr "타임랩스 영상 만드는 중..."
 
 #: motioneye/static/js/main.js:4501
 msgid "Zipitaj"
-msgstr ""
+msgstr "압축됨"
 
 #: motioneye/static/js/main.js:4510
 msgid "Akselita video"
-msgstr ""
+msgstr "타임랩스"
 
 #: motioneye/static/js/main.js:4521
 msgid "Forigi ĉiujn"
-msgstr ""
+msgstr "전체 삭제"
 
 #: motioneye/static/js/main.js:4663
 msgid "Bildoj prenitaj de "
-msgstr ""
+msgstr "사진 촬영자: "
 
 #: motioneye/static/js/main.js:4666
 msgid "Filmoj registritaj de "
-msgstr ""
+msgstr "영상 촬영자: "
 
 #: motioneye/static/js/main.js:4728
 msgid "montru ĉi tiun fotilon plenekranan"
-msgstr ""
+msgstr "카메라 전체화면으로 보기"
 
 #: motioneye/static/js/main.js:4729
 msgid "montri ĉiujn fotilojn"
-msgstr ""
+msgstr "전체 카메라 보기"
 
 #: motioneye/static/js/main.js:4730
 msgid "montru nur ĉi tiun fotilon"
-msgstr ""
+msgstr "이 카메라만 보기"
 
 #: motioneye/static/js/main.js:4731
 msgid "malfermaj bildoj retumilo"
-msgstr ""
+msgstr "사진 탐색기 열기"
 
 #: motioneye/static/js/main.js:4732
 msgid "malferma videoj retumilo"
-msgstr ""
+msgstr "영상 탐색기 보기"
 
 #: motioneye/static/js/main.js:4733
 msgid "agordi ĉi tiun kameraon"
-msgstr ""
+msgstr "이 카메라 설정"
 
 #: motioneye/static/js/main.js:4749
 msgid "preni instantaron"
-msgstr ""
+msgstr "스냅샷 촬영"
 
 #: motioneye/static/js/main.js:5121
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr ""
+msgstr "설정된 카메라가 없습니다. 여기를 클릭해서 생성하세요."
 
 #: motioneye/static/js/ui.js:503
 msgid "enigu pozitivan nombron"
-msgstr ""
+msgstr "0보다 큰 수 입력"
 
 #: motioneye/static/js/ui.js:505
 msgid "enigu pozitivan entjeran nombron"
-msgstr ""
+msgstr "0보다 큰 정수 입력"
 
 #: motioneye/static/js/ui.js:507
 msgid "enigu nombron"
-msgstr ""
+msgstr "수 입력"
 
 #: motioneye/static/js/ui.js:509
 msgid "enigu entjeran nombron"
-msgstr ""
+msgstr "정수 입력"
 
 #: motioneye/static/js/ui.js:512
 msgid " inter "
-msgstr ""
+msgstr " 사이 "
 
 #: motioneye/static/js/ui.js:512
 msgid " kaj "
-msgstr ""
+msgstr " 와(과) "
 
 #: motioneye/static/js/ui.js:515
 msgid " pli ol "
-msgstr ""
+msgstr " 초과 "
 
 #: motioneye/static/js/ui.js:520
 msgid " malpli ol "
-msgstr ""
+msgstr " 미만 "
 
 #: motioneye/static/js/ui.js:573
+#, fuzzy
 msgid "enigu validan tempon en la sekva formato: HH:MM"
-msgstr ""
+msgstr "유효한 시간을 HH:MM 형식으로 입력하세요."
 
 #: motioneye/static/js/ui.js:630
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
-msgstr ""
+msgstr "유효한 URL 입력 (예: http://example.com:8080/cams/)"
 
 #: motioneye/static/js/ui.js:971
 msgid "fermi"
-msgstr ""
+msgstr "닫기"
 
 #: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
 msgid "Ne"
-msgstr ""
+msgstr "아니오"
 
 #: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
 msgid "Jes"
-msgstr ""
+msgstr "예"
 
 #: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
 msgid "Bone"
-msgstr ""
+msgstr "확인"
 
 #: l10n/v4l2.js:4
 msgid "Auto Exposure"
-msgstr ""
+msgstr "자동 노출"
 
 #: l10n/v4l2.js:5
 msgid "Backlight Compensation"
-msgstr ""
+msgstr "후광 보정"
 
 #: l10n/v4l2.js:6
 msgid "Brightness"
-msgstr ""
+msgstr "밝기"
 
 #: l10n/v4l2.js:7
 msgid "Contrast"
-msgstr ""
+msgstr "대비"
 
 #: l10n/v4l2.js:8
 msgid "Exposure Absolute"
-msgstr ""
+msgstr "절대 노출"
 
 #: l10n/v4l2.js:9
 msgid "Exposure Auto"
@@ -607,19 +622,19 @@ msgstr ""
 
 #: l10n/v4l2.js:10
 msgid "Exposure Auto Priority"
-msgstr ""
+msgstr "자동 노출 우선순위"
 
 #: l10n/v4l2.js:11
 msgid "Exposure Time Absolute"
-msgstr ""
+msgstr "절대 노출 시간"
 
 #: l10n/v4l2.js:12
 msgid "Focus Absolute"
-msgstr ""
+msgstr "절대 초점"
 
 #: l10n/v4l2.js:13
 msgid "Focus Auto"
-msgstr ""
+msgstr "자동 초점"
 
 #: l10n/v4l2.js:14
 msgid "Gain"
@@ -627,48 +642,48 @@ msgstr ""
 
 #: l10n/v4l2.js:15
 msgid "Gamma"
-msgstr ""
+msgstr "감마"
 
 #: l10n/v4l2.js:16
 msgid "Hue"
-msgstr ""
+msgstr "색조"
 
 #: l10n/v4l2.js:17
 msgid "Led1 Mode"
-msgstr ""
+msgstr "LED1 모드"
 
 #: l10n/v4l2.js:18
 msgid "Led1 Frequency"
-msgstr ""
+msgstr "LED1 빈도"
 
 #: l10n/v4l2.js:19
 msgid "Pan Absolute"
-msgstr ""
+msgstr "절대 팬(Pan)"
 
 #: l10n/v4l2.js:20
 msgid "Power Line Frequency"
-msgstr ""
+msgstr "전원 주파수"
 
 #: l10n/v4l2.js:21
 msgid "Saturation"
-msgstr ""
+msgstr "채도"
 
 #: l10n/v4l2.js:22
 msgid "Sharpness"
-msgstr ""
+msgstr "선명도"
 
 #: l10n/v4l2.js:23
 msgid "Tilt Absolute"
-msgstr ""
+msgstr "절대 기울기"
 
 #: l10n/v4l2.js:24
 msgid "White Balance Temperature"
-msgstr ""
+msgstr "화이트밸런스 온도"
 
 #: l10n/v4l2.js:25
 msgid "White Balance Temperature Auto"
-msgstr ""
+msgstr "자동 화이트밸런스 온도"
 
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
-msgstr ""
+msgstr "절대 확대"
