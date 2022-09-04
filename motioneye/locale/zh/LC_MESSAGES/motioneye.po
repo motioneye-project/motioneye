@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-07-10 04:17+0000\n"
-"Last-Translator: VoeGalore <splash.cn@gmail.com>\n"
+"PO-Revision-Date: 2022-09-05 07:22+0000\n"
+"Last-Translator: Ziteng <765484893@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/zh_Hans/>\n"
 "Language: zh\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -1143,9 +1143,8 @@ msgid "Porĉiame"
 msgstr "永远"
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
-#, fuzzy
 msgid "Propra"
-msgstr "自己的"
+msgstr "自定义"
 
 #: motioneye/templates/main.html:790
 #, fuzzy
