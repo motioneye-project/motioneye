@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-09-05 07:22+0000\n"
+"PO-Revision-Date: 2022-09-07 13:22+0000\n"
 "Last-Translator: Ziteng <765484893@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/zh_Hans/>\n"
@@ -202,7 +202,6 @@ msgstr "用于配置系统的用户名"
 
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
-#, fuzzy
 msgid "Pasvorto"
 msgstr "密码"
 
@@ -498,7 +497,6 @@ msgid "la nomo de la interŝanĝa reto"
 msgstr "交换网络的名称"
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
-#, fuzzy
 msgid "Uzantnomo"
 msgstr "用户名"
 
