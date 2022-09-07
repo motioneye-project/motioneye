@@ -1160,6 +1160,9 @@ function updateLayout() {
         var combinedRatio = combinedWidth/combinedHeight;
         
         var windowWidth = $(window).width();
+        if (getPageContainer().hasClass('stretched') && windowWidth > 1200) {
+            windowWidth *= 0.6; /* opened settings panel occupies 40% of the window width */
+        }
         var windowRatio = windowWidth/windowHeight;
         if( windowRatio > combinedRatio ) {
             getPageContainer().css('height', windowHeight);
