@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-09-07 13:22+0000\n"
+"PO-Revision-Date: 2022-09-08 14:23+0000\n"
 "Last-Translator: Riccardo Malagutti <riccardo.malagutti99@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/it/>\n"
@@ -363,7 +363,6 @@ msgstr ""
 "CPU, maggiore spazio di archiviazione e larghezza di banda)"
 
 #: motioneye/templates/main.html:339
-#, fuzzy
 msgid "Privateca masko"
 msgstr "Maschera per la privacy"
 
