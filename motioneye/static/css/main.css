@@ -917,6 +917,22 @@ div.page-container.four-columns div.camera-frame {
     width: 25%;
 }
 
+div.page-container.one-row div.camera-frame {
+    height: 100%
+}
+
+div.page-container.two-rows div.camera-frame {
+    height: 50%
+}
+
+div.page-container.three-rows div.camera-frame {
+    height: 33.3333%
+}
+
+div.page-container.four-rows div.camera-frame {
+    height: 25%
+}
+
 div.page-container div.camera-frame.full-screen-hidden {
     width: 0 !important;
     height: 0 !important;
@@ -1263,14 +1279,18 @@ div.camera-action-button.preset9:BEFORE {
 div.camera-container {
     position: relative;
     padding: 0;
+    height: 100%;
 }
 
 img.camera {
     position: relative;
-    width: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    height: inherit;
     display: block;
-    transition: opacity 0.2s ease;
-    opacity: 1;
+    transition: opacity .2s ease;
+    opacity: 1
 }
 
 img.camera.error,
