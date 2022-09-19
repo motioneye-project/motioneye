@@ -950,7 +950,7 @@ div.page-container div.camera-frame.single-cam-hidden {
 
 div.page-container div.camera-frame.single-cam {
     width: 100%;
-    height: auto;
+    height: inherit;
     transition: all 0.4s ease; /* prevents unwanted camera frame line wrapping */
 }
 

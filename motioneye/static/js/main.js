@@ -178,6 +178,21 @@ Array.prototype.sortKey = function (keyFunc, reverse) {
     });
 };
 
+Array.prototype.reshape = function(rows, cols) {
+    var copy = [];
+
+    for (var r = 0; r < rows; r++) {
+        var row = [];
+        for (var c = 0; c < cols; c++) {
+          var i = r * cols + c;
+          if (i < this.length) {
+            row.push(this[i]);
+          }
+        }
+        copy.push(row);
+    }
+    return copy;
+  };
 
     /* String utilities */
 
@@ -1099,41 +1114,42 @@ function setLayoutColumns(columns) {
     updateLayout();
 }
 
-Array.prototype.reshape = function(rows, cols) {
-  var copy = [];
-
-  for (var r = 0; r < rows; r++) {
-    var row = [];
-    for (var c = 0; c < cols; c++) {
-      var i = r * cols + c;
-      if (i < this.length) {
-        row.push(this[i]);
-      }
-    }
-    copy.push(row);
-  }
-  return copy;
-};
-
 function updateLayout() {
-    
     if (fitFramesVertically) {
-        
+
+        var columns = layoutColumns, rows = layoutRows;
+
+        if (windowWidth <= 1200) {
+            columns = 1; /* always 1 column when in full screen or mobile */
+        }
+
+        if (isSingleView() || fullScreenMode) {
+            columns = 1;
+            rows = 1; /* single camera or fullscreen? ignore specified columns & rows */
+        }
+
         /* make sure the height of each camera
          * is smaller than the height of the screen
          * divided by the number of layout rows */
-        
+
         var heightOffset = 5; /* some padding */
         if (!fullScreenMode && !isSingleView()) {
             heightOffset += 50; /* top bar */
         }
-    
+
         var windowHeight = $(window).height() - heightOffset;
 
         // 2D array representing rows/cols of the layout
-        var cameraDimensions = getCameraFrames().map(function () {
-            return { height: this.img._naturalHeight, width: this.img._naturalWidth };
-        }).toArray().reshape(layoutRows, layoutColumns);
+        var cameraDimensions;
+        if( isSingleView() ) {
+            const singCameraFrame = getCameraFrame(singleViewCameraId)[0];
+            var cameraDimensions = [ [ {height: singCameraFrame.img._naturalHeight, width: singCameraFrame.img._naturalWidth } ] ];
+        }
+        else {
+            var cameraDimensions = getCameraFrames().map(function () {
+                return { height: this.img._naturalHeight, width: this.img._naturalWidth };
+            }).toArray().reshape(rows, columns);
+        }
 
         // Take max cam height for each row, add them together
         var combinedHeight = cameraDimensions.map(function(row) {
@@ -1145,7 +1161,7 @@ function updateLayout() {
         }, 0);
 
         // Take max cam width for each col, add them together
-        var combinedWidth = [...Array(layoutColumns).keys()].map(function(col) {
+        var combinedWidth = [...Array(columns).keys()].map(function(col) {
             return cameraDimensions.map(function(row) {
                 return row[col];
             })
@@ -1158,11 +1174,12 @@ function updateLayout() {
         }, 0);
 
         var combinedRatio = combinedWidth/combinedHeight;
-        
+
         var windowWidth = $(window).width();
         if (getPageContainer().hasClass('stretched') && windowWidth > 1200) {
             windowWidth *= 0.6; /* opened settings panel occupies 40% of the window width */
         }
+
         var windowRatio = windowWidth/windowHeight;
         if( windowRatio > combinedRatio ) {
             getPageContainer().css('height', windowHeight);
@@ -1172,16 +1189,16 @@ function updateLayout() {
             getPageContainer().css('height', windowWidth/combinedRatio);
             getPageContainer().css('width', windowWidth);
         }
-        
+
         var cssClasses = {
             1: 'one-row',
             2: 'two-rows',
             3: 'three-rows',
             4: 'four-rows'
         };
-    
+
         getPageContainer().removeClass(Object.values(cssClasses).join(' '));
-        getPageContainer().addClass(cssClasses[layoutRows]);
+        getPageContainer().addClass(cssClasses[rows]);
     }
 }
 
@@ -1486,8 +1503,8 @@ function closeSettings() {
     $('div.settings-top-bar').removeClass('open').addClass('closed');
 
     if (isSingleView()) {
-        pageContainer.removeClass('single-cam-edit');
-        $('div.header').addClass('single-cam');
+	    pageContainer.removeClass('single-cam-edit');
+	    $('div.header').addClass('single-cam');
     }
 
     updateLayout();
@@ -3606,18 +3623,18 @@ function runLoginDialog(retry) {
                 '</tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'
-            +i18n.gettext("Uzantnomo") + '</span></td>' +
+			+i18n.gettext("Uzantnomo") + '</span></td>' +
                     '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry" autofocus></td>' +
                 '</tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'
-            +i18n.gettext("Pasvorto") + '</span></td>' +
+			+i18n.gettext("Pasvorto") + '</span></td>' +
                     '<td class="dialog-item-value"><input type="password" name="password" class="styled" id="passwordEntry"></td>' +
                     '<input type="submit" style="display: none;" name="login" value="login">' +
                 '</tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'
-            +i18n.gettext("Memoru min")+'</span></td>' +
+			+i18n.gettext("Memoru min")+'</span></td>' +
                     '<td class="dialog-item-value"><input type="checkbox" name="remember" class="styled" id="rememberCheck"></td>' +
                 '</tr>' +
             '</table></form>');
@@ -3968,12 +3985,12 @@ function runAddCameraDialog() {
 
             content.find('tr.netcam').css('display', 'table-row');
             addCameraInfo.html(
-        i18n.gettext("Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."));
+		i18n.gettext("Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."));
         }
         else if (typeSelect.val() == 'mmal') {
             content.find('tr.mmal').css('display', 'table-row');
             addCameraInfo.html(
-        i18n.gettext("Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."));
+		i18n.gettext("Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."));
         }
         else if (typeSelect.val() == 'mjpeg') {
             usernameEntry.removeAttr('readonly');
@@ -3988,7 +4005,7 @@ function runAddCameraDialog() {
 
             content.find('tr.mjpeg').css('display', 'table-row');
             addCameraInfo.html(
-        i18n.gettext("Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."));
+		i18n.gettext("Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."));
         }
         else { /* assuming v4l2 */
             content.find('tr.v4l2').css('display', 'table-row');
