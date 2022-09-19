@@ -144,12 +144,12 @@
                             <td class="settings-item-value"><input type="text" class="range styled prefs" id="layoutRowsSlider"></td>
                             <td><span class="help-mark" title='{{ _("agordas la nombron da linioj uzataj por aranĝi la fotilojn") }}'>?</span></td>
                         </tr>
-                        <tr class="settings-item" min="0" max="100" snap="2" ticksnum="6" decimals="0">
+                        <tr class="settings-item" min="0" max="100" snap="0" ticksnum="6" decimals="0">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("kadro-variatoro") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled prefs" id="framerateDimmerSlider"></td>
                             <td><span class="help-mark" title="{{ _("reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" min="1" max="100" snap="2" ticks="1|20|40|60|80|100" decimals="0">
+                        <tr class="settings-item" min="1" max="100" snap="0" ticks="1|20|40|60|80|100" decimals="0">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Rezolucio-variatoro") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled prefs" id="resolutionDimmerSlider"></td>
                             <td><span class="help-mark" title="{{ _("reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)") }}">?</span></td>
@@ -664,7 +664,7 @@
                             <td class="settings-item-value"><input type="text" class="range styled streaming camera-config" id="streamingFramerateSlider"></td>
                             <td><span class="help-mark" title="{{ _("Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo.") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
+                        <tr class="settings-item" min="0" max="100" snap="0" ticksnum="5" decimals="0" unit="%">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Flua Kvalito") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled streaming camera-config" id="streamingQualitySlider"></td>
                             <td><span class="help-mark" title="{{ _("Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando).") }}">?</span></td>
@@ -674,7 +674,7 @@
                             <td class="settings-item-value"><input type="checkbox" class="styled streaming camera-config" id="streamingServerResizeSwitch"></td>
                             <td><span class="help-mark" title="{{ _("Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU).") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%" depends="streamingServerResize">
+                        <tr class="settings-item" min="0" max="100" snap="0" ticksnum="5" decimals="0" unit="%" depends="streamingServerResize">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Flua rezolucio") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled streaming camera-config" id="streamingResolutionSlider"></td>
                             <td><span class="help-mark" title="{{ _("la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)") }}">?</span></td>
@@ -748,7 +748,7 @@
                             <td class="settings-item-value"><input type="text" class="styled still-images camera-config" id="imageFileNameEntry" placeholder="{{ _("dosiernomo ŝablono…") }}"></td>
                             <td><span class="help-mark" title="{{ _("Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo.") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
+                        <tr class="settings-item" min="0" max="100" snap="0" ticksnum="5" decimals="0" unit="%">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Bildkvalito") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled still-images camera-config" id="imageQualitySlider"></td>
                             <td><span class="help-mark" title="{{ _("agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)") }}">?</span></td>
@@ -868,7 +868,7 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo.") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
+                        <tr class="settings-item" min="0" max="100" snap="0" ticksnum="5" decimals="0" unit="%">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Filma Kvalito") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled movies camera-config" id="movieQualitySlider"></td>
                             <td><span class="help-mark" title="{{ _("Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado).") }}">?</span></td>
@@ -945,7 +945,7 @@
                             <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="noiseLevelSlider"></td>
                             <td><span class="help-mark" title="{{ _("Permane agordas la bruan nivelon al fiksita valoro.") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" min="0" max="100" snap="2" ticksnum="5" decimals="0" unit="%">
+                        <tr class="settings-item" min="0" max="100" snap="0" ticksnum="5" decimals="0" unit="%">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Detekto de lumaj ŝanĝoj") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="lightSwitchDetectSlider"></td>
                             <td><span class="help-mark" title="{{ _("Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion).") }}">?</span></td>
