@@ -1703,14 +1703,13 @@ def motion_camera_dict_to_ui(data):
                 continue
 
             ui['web_hook_notifications_enabled'] = True
+            ui['web_hook_notifications_http_method'] = e[-2]
             ui['web_hook_notifications_url'] = e[-1]
 
             # support pre-v0.43.0 configs
             if len(e) < 5:
-                ui['web_hook_notifications_http_method'] = e[-2]
                 continue
 
-            ui['web_hook_notifications_http_method'] = e[-2]
             ui['web_hook_notifications_accept'] = e[-3]
             ui['web_hook_notifications_user_agent'] = e[-4]
 
@@ -1738,14 +1737,13 @@ def motion_camera_dict_to_ui(data):
                 continue
 
             ui['web_hook_end_notifications_enabled'] = True
+            ui['web_hook_end_notifications_http_method'] = e[-2]
             ui['web_hook_end_notifications_url'] = e[-1]
 
             # support pre-v0.43.0 configs
             if len(e) < 5:
-                ui['web_end_hook_notifications_http_method'] = e[-2]
                 continue
 
-            ui['web_hook_end_notifications_http_method'] = e[-2]
             ui['web_hook_end_notifications_accept'] = e[-3]
             ui['web_hook_end_notifications_user_agent'] = e[-4]
 
