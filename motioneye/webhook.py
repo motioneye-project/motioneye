@@ -50,8 +50,10 @@ def main(parser, args):
     parts = urllib.parse.urlparse(options.url)
     url = options.url
     data = None
-    headers['Accept'] = options.accept
-    headers['User-Agent'] = options.useragent
+    if 'accept' in options:
+        headers['Accept'] = options.accept
+    if 'useragent' in options:
+        headers['User-Agent'] = options.useragent
 
     if options.method == 'POST':
         headers['Content-Type'] = 'text/plain'
