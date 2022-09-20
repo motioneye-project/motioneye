@@ -662,9 +662,9 @@ function initUI() {
 
         return true;
     }, '');
-    makeCustomValidator($('#webHookNotificationsUrlEntry, #webHookEndNotificationsUrlEntry, #webHookNotificationsAcceptHeader, #webHookEndNotificationsAcceptHeader, #webHookNotificationsUserAgent, #webHookEndNotificationsUserAgent'), function (value) {
+    makeCustomValidator($('#webHookNotificationsUrlEntry, #webHookEndNotificationsUrlEntry'), function (value) {
         if (!value.match(webHookUrlValidRegExp)) {
-            return "use of semicolon (;) or single quote (') is not allowed in web hook URL, Accept, or User-Agent headers";
+            return "use of semicolon (;) or single quote (') is not allowed in web hook URL";
         }
 
         return true;

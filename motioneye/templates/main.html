@@ -1149,12 +1149,12 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie).") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" required="false" depends="webHookNotificationsEnabled motionDetectionEnabled" strip="true">
+                        <tr class="settings-item" validate="^[^;\']*$" depends="webHookNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">Accept Header</span></td>
                             <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="webHookNotificationsAcceptHeader" placeholder="e.g. */*"></td>
                             <td><span class="help-mark" title="If the webhook server would reject requests whose headers are missing Accept key, you can provide one here">?</span></td>
                         </tr>
-                        <tr class="settings-item" required="false" depends="webHookNotificationsEnabled motionDetectionEnabled" strip="true">
+                        <tr class="settings-item" validate="^[^;\']*$" depends="webHookNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">User-Agent Header</span></td>
                             <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="webHookNotificationsUserAgentHeader" placeholder="e.g. curl/7.64.0"></td>
                             <td><span class="help-mark" title="If the webhook server would reject requests whose headers are missing User-Agent key, you can provide one here">?</span></td>
@@ -1204,12 +1204,12 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie).") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" required="false" depends="webHookEndNotificationsEnabled motionDetectionEnabled" strip="true">
+                        <tr class="settings-item" validate="^[^;\']*$" depends="webHookEndNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">Accept Header</span></td>
                             <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="webHookEndNotificationsAcceptHeader" placeholder="e.g. */*"></td>
                             <td><span class="help-mark" title="If the webhook server would reject requests whose headers are missing Accept key, you can provide one here">?</span></td>
                         </tr>
-                        <tr class="settings-item" required="false" depends="webHookEndNotificationsEnabled motionDetectionEnabled" strip="true">
+                        <tr class="settings-item" validate="^[^;\']*$" depends="webHookEndNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">User-Agent Header</span></td>
                             <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="webHookEndNotificationsUserAgentHeader" placeholder="e.g. curl/7.64.0"></td>
                             <td><span class="help-mark" title="If the webhook server would reject requests whose headers are missing User-Agent key, you can provide one here">?</span></td>
