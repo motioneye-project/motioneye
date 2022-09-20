@@ -1185,9 +1185,11 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         url = re.sub('\\s', '+', ui['web_hook_notifications_url'])
 
         on_event_start.append(
-            "{script} '{method}' '{url}'".format(
+            "{script} '{method}' '{accept}' '{useragent}' '{url}'".format(
                 script=meyectl.find_command('webhook'),
                 method=ui['web_hook_notifications_http_method'],
+                accept=ui['web_hook_notifications_accept'],
+                useragent=ui['web_hook_notifications_user_agent'],
                 url=url,
             )
         )
@@ -1206,10 +1208,12 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         url = re.sub(r'\s', '+', ui['web_hook_end_notifications_url'])
 
         on_event_end.append(
-            "%(script)s '%(method)s' '%(url)s'"
+            "%(script)s '%(method)s' '%(accept)s' '%(useragent)s' '%(url)s'"
             % {
                 'script': meyectl.find_command('webhook'),
                 'method': ui['web_hook_end_notifications_http_method'],
+                'accept': ui['web_hook_end_notifications_accept'],
+                'useragent': ui['web_hook_end_notifications_user_agent'],
                 'url': url,
             }
         )
@@ -1695,11 +1699,13 @@ def motion_camera_dict_to_ui(data):
         elif ' webhook ' in e:
             e = shlex.split(e)
 
-            if len(e) < 3:
+            if len(e) < 5:
                 continue
 
             ui['web_hook_notifications_enabled'] = True
-            ui['web_hook_notifications_http_method'] = e[-2]
+            ui['web_hook_notifications_http_method'] = e[-4]
+            ui['web_hook_notifications_accept'] = e[-3]
+            ui['web_hook_notifications_user_agent'] = e[-2]
             ui['web_hook_notifications_url'] = e[-1]
 
         elif 'relayevent' in e:
@@ -1722,11 +1728,13 @@ def motion_camera_dict_to_ui(data):
         if ' webhook ' in e:
             e = shlex.split(e)
 
-            if len(e) < 3:
+            if len(e) < 5:
                 continue
 
             ui['web_hook_end_notifications_enabled'] = True
-            ui['web_hook_end_notifications_http_method'] = e[-2]
+            ui['web_hook_end_notifications_http_method'] = e[-4]
+            ui['web_hook_end_notifications_accept'] = e[-3]
+            ui['web_hook_end_notifications_user_agent'] = e[-2]
             ui['web_hook_end_notifications_url'] = e[-1]
 
         elif 'relayevent' in e or 'eventrelay.py' in e:

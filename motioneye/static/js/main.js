@@ -662,9 +662,9 @@ function initUI() {
 
         return true;
     }, '');
-    makeCustomValidator($('#webHookNotificationsUrlEntry, #webHookEndNotificationsUrlEntry'), function (value) {
+    makeCustomValidator($('#webHookNotificationsUrlEntry, #webHookEndNotificationsUrlEntry, #webHookNotificationsAcceptHeader, #webHookEndNotificationsAcceptHeader, #webHookNotificationsUserAgent, #webHookEndNotificationsUserAgent'), function (value) {
         if (!value.match(webHookUrlValidRegExp)) {
-            return "use of semicolon (;) or single quote (') is not allowed in web hook URL";
+            return "use of semicolon (;) or single quote (') is not allowed in web hook URL, Accept, or User-Agent headers";
         }
 
         return true;
@@ -2054,9 +2054,13 @@ function cameraUi2Dict() {
         'web_hook_notifications_enabled': $('#webHookNotificationsEnabledSwitch')[0].checked,
         'web_hook_notifications_url': $('#webHookNotificationsUrlEntry').val(),
         'web_hook_notifications_http_method': $('#webHookNotificationsHttpMethodSelect').val(),
+        'web_hook_notifications_accept': $('#webHookNotificationsAcceptHeader').val(),
+        'web_hook_notifications_user_agent': $('#webHookNotificationsUserAgentHeader').val(),
         'web_hook_end_notifications_enabled': $('#webHookEndNotificationsEnabledSwitch')[0].checked,
         'web_hook_end_notifications_url': $('#webHookEndNotificationsUrlEntry').val(),
         'web_hook_end_notifications_http_method': $('#webHookEndNotificationsHttpMethodSelect').val(),
+        'web_hook_end_notifications_accept': $('#webHookEndNotificationsAcceptHeader').val(),
+        'web_hook_end_notifications_user_agent': $('#webHookEndNotificationsUserAgentHeader').val(),
         'command_notifications_enabled': $('#commandNotificationsEnabledSwitch')[0].checked,
         'command_notifications_exec': $('#commandNotificationsEntry').val(),
         'command_end_notifications_enabled': $('#commandEndNotificationsEnabledSwitch')[0].checked,
@@ -2436,10 +2440,14 @@ function dict2CameraUi(dict) {
     $('#webHookNotificationsEnabledSwitch')[0].checked = dict['web_hook_notifications_enabled']; markHideIfNull('web_hook_notifications_enabled', 'webHookNotificationsEnabledSwitch');
     $('#webHookNotificationsUrlEntry').val(dict['web_hook_notifications_url']);
     $('#webHookNotificationsHttpMethodSelect').val(dict['web_hook_notifications_http_method']);
+    $('#webHookNotificationsAcceptHeader').val(dict['web_hook_notifications_accept']);
+    $('#webHookNotificationsUserAgentHeader').val(dict['web_hook_notifications_user_agent']);
 
     $('#webHookEndNotificationsEnabledSwitch')[0].checked = dict['web_hook_end_notifications_enabled']; markHideIfNull('web_hook_end_notifications_enabled', 'webHookEndNotificationsEnabledSwitch');
     $('#webHookEndNotificationsUrlEntry').val(dict['web_hook_end_notifications_url']);
     $('#webHookEndNotificationsHttpMethodSelect').val(dict['web_hook_end_notifications_http_method']);
+    $('#webHookEndNotificationsAcceptHeader').val(dict['web_hook_end_notifications_accept']);
+    $('#webHookEndNotificationsUserAgentHeader').val(dict['web_hook_end_notifications_user_agent']);
 
     $('#commandNotificationsEnabledSwitch')[0].checked = dict['command_notifications_enabled']; markHideIfNull('command_notifications_enabled', 'commandNotificationsEnabledSwitch');
     $('#commandNotificationsEntry').val(dict['command_notifications_exec']);

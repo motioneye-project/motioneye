@@ -25,6 +25,8 @@ from motioneye import settings
 
 def parse_options(parser, args):
     parser.add_argument('method', help='the HTTP method to use')
+    parser.add_argument('accept', help='the Accept header for the request')
+    parser.add_argument('useragent', help='the User Agent header for the request')
     parser.add_argument('url', help='the URL for the request')
 
     return parser.parse_args(args)
@@ -40,12 +42,16 @@ def main(parser, args):
 
     logging.debug('hello!')
     logging.debug('method = %s' % options.method)
+    logging.debug('accept = %s' % options.accept)
+    logging.debug('useragent = %s' % options.useragent)
     logging.debug('url = %s' % options.url)
 
     headers = {}
     parts = urllib.parse.urlparse(options.url)
     url = options.url
     data = None
+    headers['Accept'] = options.accept
+    headers['User-Agent'] = options.useragent
 
     if options.method == 'POST':
         headers['Content-Type'] = 'text/plain'
