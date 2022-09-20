@@ -8,114 +8,117 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-08-30 04:23+0000\n"
+"Last-Translator: David.Hong <gdavid0510@gmail.com>\n"
+"Language-Team: Korean <https://hosted.weblate.org/projects/motioneye-project/"
+"motioneye-python-texts/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 4.14.1-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr ""
+msgstr "중단 신호가 수신되었으며, 닫는 중입니다…"
 
 #: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr ""
+msgstr "SMB 파일공유에는 root 권한이 필요합니다"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr ""
+msgstr "3.1버전 이상의 tornado를 설치해 주십시오"
 
 #: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
-msgstr ""
+msgstr "ninja2를 설치해 주십시오"
 
 #: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr ""
+msgstr "pillow나 PIL을 설치해 주십시오"
 
 #: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
-msgstr ""
+msgstr "pycurl을 설치해주세요"
 
 #: motioneye/server.py:423
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr ""
+msgstr "안녕하세요! motionEye 서버입니다. "
 
 #: motioneye/server.py:438
 msgid "purigado komenciĝis"
-msgstr ""
+msgstr "정리가 시작됐습니다"
 
 #: motioneye/server.py:440
 msgid "wsswitch komenciĝis"
-msgstr ""
+msgstr "wsswitch가 시작됐습니다"
 
 #: motioneye/server.py:443
 msgid "taskoj komenciĝis"
-msgstr ""
+msgstr "작업이 시작됐습니다"
 
 #: motioneye/server.py:447
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr ""
+msgstr "mjpeg customer garbage collector가 시작됐습니다"
 
 #: motioneye/server.py:465
 msgid "servilo komenciĝis"
-msgstr ""
+msgstr "서버가 시작됐습니다"
 
 #: motioneye/server.py:471
 msgid "servilo haltis"
-msgstr ""
+msgstr "서버가 정지됐습니다"
 
 #: motioneye/server.py:473
 msgid "taskoj haltis"
-msgstr ""
+msgstr "작업이 정지됐습니다"
 
 #: motioneye/server.py:481
 msgid "motion haltis"
-msgstr ""
+msgstr "motion이 정지됐습니다"
 
 #: motioneye/server.py:486
 msgid "adiaŭ!"
-msgstr ""
+msgstr "다음에 만나요!"
 
 #: motioneye/templates/main.html:104
 msgid "agordojn"
-msgstr ""
+msgstr "설정"
 
 #: motioneye/templates/main.html:105
 msgid "ŝanĝi uzanton"
-msgstr ""
+msgstr "사용자 전환"
 
 #: motioneye/templates/main.html:107
 msgid "forigi kameraon"
-msgstr ""
+msgstr "카메라 제거"
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
-msgstr ""
+msgstr "적용"
 
 #: motioneye/templates/main.html:127
 msgid "preferoj de uzanto"
-msgstr ""
+msgstr "사용자 설정"
 
 #: motioneye/templates/main.html:128
 msgid "Preferoj"
-msgstr ""
+msgstr "설정"
 
 #: motioneye/templates/main.html:133
 msgid "Aranĝo Kolumnoj"
-msgstr ""
+msgstr "레이아웃 열"
 
 #: motioneye/templates/main.html:135
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr ""
+msgstr "카메라 프레임 표시를 위한 열 수 설정"
 
 #: motioneye/templates/main.html:138
 msgid "Fiksi Kadrojn Vertikale"
-msgstr ""
+msgstr "세로로 프레임 맞추기"
 
 #: motioneye/templates/main.html:140
 msgid ""
@@ -125,7 +128,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:143
 msgid "Aranĝo linioj"
-msgstr ""
+msgstr "레이아웃 열"
 
 #: motioneye/templates/main.html:145
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
@@ -178,7 +181,7 @@ msgstr ""
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
 msgid "Pasvorto"
-msgstr ""
+msgstr "암호"
 
 #: motioneye/templates/main.html:183
 msgid "pasvorto de administranto"
@@ -436,7 +439,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
-msgstr ""
+msgstr "사용자 이름"
 
 #: motioneye/templates/main.html:411
 msgid ""
@@ -1035,7 +1038,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
 msgid "Propra"
-msgstr ""
+msgstr "커스텀"
 
 #: motioneye/templates/main.html:790
 msgid ""
@@ -1726,7 +1729,7 @@ msgstr ""
 
 #: motioneye/utils/dtconv.py:129
 msgid "horo"
-msgstr ""
+msgstr "1시간"
 
 #: motioneye/utils/dtconv.py:132
 msgid "horoj"
@@ -1734,7 +1737,7 @@ msgstr ""
 
 #: motioneye/utils/dtconv.py:136
 msgid "minuto"
-msgstr ""
+msgstr "1분"
 
 #: motioneye/utils/dtconv.py:139
 msgid "minutoj"
@@ -1742,7 +1745,7 @@ msgstr ""
 
 #: motioneye/utils/dtconv.py:143
 msgid "sekundo"
-msgstr ""
+msgstr "초"
 
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
