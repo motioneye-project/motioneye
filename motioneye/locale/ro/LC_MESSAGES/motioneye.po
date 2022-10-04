@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-06-20 09:22+0000\n"
+"PO-Revision-Date: 2022-10-05 13:26+0000\n"
 "Last-Translator: lukasig <lukasig@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/ro/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
 "20)) ? 1 : 2;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -240,7 +240,7 @@ msgstr "Configurație"
 
 #: motioneye/templates/main.html:235
 msgid "Sekurkopio"
-msgstr "Backup"
+msgstr "Descărcare"
 
 #: motioneye/templates/main.html:236
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
