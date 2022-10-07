@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2022-07-08 13:49+0000\n"
+"PO-Revision-Date: 2022-10-10 17:58+0000\n"
 "Last-Translator: Егор Ермаков <eg.ermakov2016@yandex.ru>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-javascript/ru/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
 "%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -646,9 +646,8 @@ msgid "Focus Auto"
 msgstr "Авто фокус"
 
 #: l10n/v4l2.js:14
-#, fuzzy
 msgid "Gain"
-msgstr "Прирост"
+msgstr "Усиление"
 
 #: l10n/v4l2.js:15
 msgid "Gamma"
