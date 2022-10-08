@@ -1,8 +1,8 @@
-name: Pypi Daily Build
+name: PyPI release
 
 # This workflow build and upload a pre-release package to test.pypi.org
 # The version is postfixed with .devYYYYMMDDHHMM, allowing to upload each minute.
-# This workflow is run each dày at 23:59 UTC, or on demand.
+# This workflow is run each day at 23:59 UTC, or on demand.
 # When run on schedule, a new package is generated only if latest commit is less than 1 day.
 #
 # Note : a scheduled workflow must be on the default branch to be executed.
@@ -10,8 +10,8 @@ name: Pypi Daily Build
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '59 23 * * *'
+#  schedule:
+#    - cron: '59 23 * * *'
 
 permissions:
   contents: read
