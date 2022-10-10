@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-06-20 09:22+0000\n"
-"Last-Translator: Michal Basler <minecz.michal.basler@gmail.com>\n"
+"PO-Revision-Date: 2022-10-10 17:58+0000\n"
+"Last-Translator: Jan Havran <jan.havran@gmail.com>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/cs/>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.14.1\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -72,7 +72,7 @@ msgstr "Server spuštěn"
 
 #: motioneye/server.py:471
 msgid "servilo haltis"
-msgstr "Sterver zastaven"
+msgstr "Server zastaven"
 
 #: motioneye/server.py:473
 msgid "taskoj haltis"
@@ -1668,7 +1668,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:1251
 msgid "Ĵaŭdo"
-msgstr ""
+msgstr "Čtvrtek"
 
 #: motioneye/templates/main.html:1257
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
@@ -1676,7 +1676,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:1260
 msgid "Vendredo"
-msgstr ""
+msgstr "Pátek"
 
 #: motioneye/templates/main.html:1266
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
@@ -1684,7 +1684,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:1269
 msgid "Sabato"
-msgstr ""
+msgstr "Sobota"
 
 #: motioneye/templates/main.html:1275
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
@@ -1692,7 +1692,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:1278
 msgid "Dimanĉo"
-msgstr ""
+msgstr "Neděle"
 
 #: motioneye/templates/main.html:1284
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
