@@ -185,11 +185,8 @@ _MOTION_43_TO_41_OPTIONS_MAPPING = {
 
 
 def netcam_keepalive_params(v, data):
-    if v == True:
-        v = 'on'
-
-    elif v == False:
-        v = 'off'
+    # value can be 'force' as well
+    v = 'on' if v == True else 'off' if v == False else v
 
     if 'netcam_params' in data and data['netcam_params']:
         return {'netcam_params': data['netcam_params'] + ',keepalive = ' + v}
@@ -198,11 +195,8 @@ def netcam_keepalive_params(v, data):
 
 
 def netcam_tolerant_check_params(v, data):
-    if v:
-        v = 'on'
-    else:
-        v = 'off'
-    
+    v = 'on' if v else 'off'
+
     if 'netcam_params' in data and data['netcam_params']:
         return {'netcam_params': data['netcam_params'] + ',tolerant_check = ' + v}
 
@@ -210,16 +204,12 @@ def netcam_tolerant_check_params(v, data):
 
 
 def netcam_use_tcp_params(v, data):
+    v = 'tcp' if v else 'udp'
+
     if 'netcam_params' in data and data['netcam_params']:
-        if v:
-            return {'netcam_params': data['netcam_params'] + ',rtsp_transport = tcp'}
+        return {'netcam_params': data['netcam_params'] + ',rtsp_transport = ' + v}
 
-        return {'netcam_params': data['netcam_params'] + ',rtsp_transport = udp'}
-
-    if v:
-        return {'netcam_params': 'rtsp_transport = tcp'}
-
-    return {'netcam_params': 'rtsp_transport = udp'}
+    return {'netcam_params': 'rtsp_transport = ' + v}
 
 
 def netcam_params(v, data):
