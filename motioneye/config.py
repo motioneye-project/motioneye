@@ -198,16 +198,15 @@ def netcam_keepalive_params(v, data):
 
 
 def netcam_tolerant_check_params(v, data):
-    if 'netcam_params' in data and data['netcam_params']:
-        if v:
-            return {'netcam_params': data['netcam_params'] + ',tolerant_check = on'}
-
-        return {'netcam_params': data['netcam_params'] + ',tolerant_check = off'}
-
     if v:
-        return {'netcam_params': 'tolerant_check = on'}
+        v = 'on'
+    else:
+        v = 'off'
+    
+    if 'netcam_params' in data and data['netcam_params']:
+        return {'netcam_params': data['netcam_params'] + ',tolerant_check = ' + v}
 
-    return {'netcam_params': 'tolerant_check = off'}
+    return {'netcam_params': 'tolerant_check = ' + v}
 
 
 def netcam_use_tcp_params(v, data):
