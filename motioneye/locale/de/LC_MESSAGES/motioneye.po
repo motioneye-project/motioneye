@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-07-01 14:20+0000\n"
-"Last-Translator: avyeegaztd <avyeegaztd@gmail.com>\n"
+"PO-Revision-Date: 2022-11-04 15:06+0000\n"
+"Last-Translator: nkrueger <koschiwsf@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"X-Generator: Weblate 4.14.2-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -1706,13 +1706,12 @@ msgid "Sendu Telegraman Sciigon"
 msgstr "Telegram-Benachrichtigung senden"
 
 #: motioneye/templates/main.html:1106
-#, fuzzy
 msgid ""
 "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento "
 "estas detektita"
 msgstr ""
 "Aktivieren Sie diese Option, wenn Sie  eine Telegram-Nachricht erhalten "
-"möchten, falls ein sich bewegendes Ereignis erkannt wurde"
+"möchten, wenn eine Bewegung erkannt wurde"
 
 #: motioneye/templates/main.html:1109
 #, fuzzy
@@ -2055,9 +2054,8 @@ msgid "minutoj"
 msgstr "Protokoll"
 
 #: motioneye/utils/dtconv.py:143
-#, fuzzy
 msgid "sekundo"
-msgstr "eine Sekunde"
+msgstr "1 Sekunde"
 
 #: motioneye/utils/dtconv.py:153
 #, fuzzy
