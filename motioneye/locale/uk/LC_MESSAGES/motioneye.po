@@ -8,102 +8,106 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-11-11 00:58+0000\n"
+"Last-Translator: alexz-kh <alexz.kh.ua@gmail.com>\n"
+"Language-Team: Ukrainian <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-python-texts/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.15-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr ""
+msgstr "Сигнал преривання отримано, зачиняюсь …"
 
 #: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr ""
+msgstr "SMB-shares вимагає root доступу"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr ""
+msgstr "Будь-ласка, встановіть компонент tornado>=3.1 версії"
 
 #: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
-msgstr ""
+msgstr "Будь-ласка, встановіть компонент jinja2"
 
 #: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr ""
+msgstr "Будь-ласка, встановіть компонент pillow або PIL"
 
 #: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
-msgstr ""
+msgstr "Будь-ласка, встановіть компонент pycurl"
 
 #: motioneye/server.py:423
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr ""
+msgstr "Вітаю, це сервер motionEye! "
 
 #: motioneye/server.py:438
 msgid "purigado komenciĝis"
-msgstr ""
+msgstr "очищення запущено"
 
 #: motioneye/server.py:440
 msgid "wsswitch komenciĝis"
-msgstr ""
+msgstr "wsswitch запущено"
 
 #: motioneye/server.py:443
 msgid "taskoj komenciĝis"
-msgstr ""
+msgstr "завдання запущено"
 
 #: motioneye/server.py:447
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr ""
+msgstr "mjpg збиральник сміття запущено"
 
 #: motioneye/server.py:465
 msgid "servilo komenciĝis"
-msgstr ""
+msgstr "сервер запущено"
 
 #: motioneye/server.py:471
 msgid "servilo haltis"
-msgstr ""
+msgstr "сервер зупинено"
 
 #: motioneye/server.py:473
 msgid "taskoj haltis"
-msgstr ""
+msgstr "завдання зупинено"
 
 #: motioneye/server.py:481
 msgid "motion haltis"
-msgstr ""
+msgstr "mothion зупинено"
 
 #: motioneye/server.py:486
 msgid "adiaŭ!"
-msgstr ""
+msgstr "до побачення!"
 
 #: motioneye/templates/main.html:104
 msgid "agordojn"
-msgstr ""
+msgstr "налаштування"
 
 #: motioneye/templates/main.html:105
 msgid "ŝanĝi uzanton"
-msgstr ""
+msgstr "змінити користувача"
 
 #: motioneye/templates/main.html:107
 msgid "forigi kameraon"
-msgstr ""
+msgstr "видалити камеру"
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
-msgstr ""
+msgstr "застосувати"
 
 #: motioneye/templates/main.html:127
 msgid "preferoj de uzanto"
-msgstr ""
+msgstr "налаштування користувача"
 
 #: motioneye/templates/main.html:128
 msgid "Preferoj"
-msgstr ""
+msgstr "Налаштування"
 
 #: motioneye/templates/main.html:133
 msgid "Aranĝo Kolumnoj"
