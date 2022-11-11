@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-11-09 23:47+0000\n"
+"PO-Revision-Date: 2022-11-12 12:06+0000\n"
 "Last-Translator: Jon Erling Hustadnes <jonerling.hustadnes@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/nb_NO/>\n"
@@ -900,7 +900,6 @@ msgid "URL kiu provizas MJPEG-fluon de la kamerao"
 msgstr "URL som gir MJPEG -flyt fra kameraet"
 
 #: motioneye/templates/main.html:728
-#, fuzzy
 msgid "Enigita URL"
 msgstr "Innebygd URL"
 
