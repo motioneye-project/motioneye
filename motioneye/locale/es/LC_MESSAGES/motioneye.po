@@ -8,15 +8,16 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-05-18 16:29+0000\n"
-"Last-Translator: Gustavo Velasco-Hernández <gustavo.velascoh@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/es/>\n"
+"PO-Revision-Date: 2022-11-13 20:47+0000\n"
+"Last-Translator: Luis Zurro <nyayukko@gmail.com>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-python-texts/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -24,9 +25,8 @@ msgid "interrompa signalo ricevita, fermanta …"
 msgstr "Señal de interrupción recibida, cerrando…"
 
 #: motioneye/server.py:276
-#, fuzzy
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr "los recursos compartidos de smb requieren privilegios de root"
+msgstr "los recursos compartidos de SMB requieren privilegios de root"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
@@ -1860,7 +1860,6 @@ msgid "jaro"
 msgstr "año"
 
 #: motioneye/utils/dtconv.py:129
-#, fuzzy
 msgid "horo"
 msgstr "hora"
 
@@ -1870,7 +1869,6 @@ msgid "horoj"
 msgstr "horas"
 
 #: motioneye/utils/dtconv.py:136
-#, fuzzy
 msgid "minuto"
 msgstr "minuto"
 
