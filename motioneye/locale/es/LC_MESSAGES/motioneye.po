@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-11-13 20:47+0000\n"
-"Last-Translator: Luis Zurro <nyayukko@gmail.com>\n"
+"PO-Revision-Date: 2022-11-19 13:48+0000\n"
+"Last-Translator: JP Vera <juanp.zunigav@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/"
 "motioneye-project/motioneye-python-texts/es/>\n"
 "Language: es\n"
@@ -107,7 +107,6 @@ msgid "forigi kameraon"
 msgstr "remover la cámara"
 
 #: motioneye/templates/main.html:108
-#, fuzzy
 msgid "Apliki"
 msgstr "Aplicar"
 
