@@ -1195,7 +1195,6 @@ class S3(UploadService):
         self._bucket = None
         UploadService.__init__(self, camera_id)
 
-    @classmethod
     def dump(self):
         return {
             'endpoint_url': self._endpoint_url,
