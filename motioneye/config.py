@@ -1180,7 +1180,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         data['@working_schedule_type'] = ui['working_schedule_type']
 
     # event start
-    on_event_start = [f"{meyectl.find_command('relayevent')} start %%t"]
+    on_event_start = [f"{meyectl.find_command('relayevent')} start %t"]
     if ui['email_notifications_enabled']:
         emails = sub('\\s', '', ui['email_notifications_addresses'])
 
@@ -1233,7 +1233,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     data['on_event_start'] = '; '.join(on_event_start)
 
     # event end
-    on_event_end = [f"{meyectl.find_command('relayevent')} stop %%t"]
+    on_event_end = [f"{meyectl.find_command('relayevent')} stop %t"]
 
     if ui['web_hook_end_notifications_enabled']:
         url = sub(r'\s', '+', ui['web_hook_end_notifications_url'])
@@ -1253,7 +1253,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     data['on_event_end'] = '; '.join(on_event_end)
 
     # movie end
-    on_movie_end = [f"{meyectl.find_command('relayevent')} movie_end %%t %%f"]
+    on_movie_end = [f"{meyectl.find_command('relayevent')} movie_end %t %f"]
 
     if ui['web_hook_storage_enabled']:
         url = sub('\\s', '+', ui['web_hook_storage_url'])
@@ -1272,7 +1272,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     data['on_movie_end'] = '; '.join(on_movie_end)
 
     # picture save
-    on_picture_save = [f"{meyectl.find_command('relayevent')} picture_save %%t %%f"]
+    on_picture_save = [f"{meyectl.find_command('relayevent')} picture_save %t %f"]
 
     if ui['web_hook_storage_enabled']:
         url = sub('\\s', '+', ui['web_hook_storage_url'])
