@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-11-22 17:16+0000\n"
-"Last-Translator: MichaIng <micha@dietpi.com>\n"
+"PO-Revision-Date: 2022-11-23 17:47+0000\n"
+"Last-Translator: avyeegaztd <avyeegaztd@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/de/>\n"
 "Language: de\n"
@@ -1751,7 +1751,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:1119
 msgid "Alkroĉitaj Bildoj Tempo"
-msgstr "Zeit für angehängte Bilder"
+msgstr "Angehängte Bilder (Uhrzeit)"
 
 #: motioneye/templates/main.html:1121
 msgid ""
