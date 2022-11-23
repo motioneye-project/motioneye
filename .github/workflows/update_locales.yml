@@ -11,8 +11,12 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/setup-python@v4
+      with:
+        # https://github.com/actions/python-versions/releases
+        python-version: '3.11'
     - run: |
-        python3 -m pip install -U babel &
+        echo "github.actor=${{ github.actor }}"
+        python3 -m pip install -U babel jinja2 &
         sudo apt-get -q update
         sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install make gettext
     - uses: actions/checkout@v3
