@@ -23,7 +23,7 @@ motioneye/locale/motioneye.js.pot : motioneye/static/js/*.js l10n/*.js
 motioneye/locale/motioneye.pot : motioneye/*.py motioneye/*/*.py motioneye/templates/*.html
 	pybabel extract -F l10n/babel.cfg -o motioneye/locale/motioneye.pot motioneye/
 	# Remove trailing empty line, to satisfy pre-commit
-	sed -i '${/^$/d}' motioneye/locale/motioneye.pot
+	sed -i '$${/^$$/d}' motioneye/locale/motioneye.pot
 #####
 # regulo por krei novan tradukon
 # ekz. : uzi "make initro" por krei la rumana traduko.
