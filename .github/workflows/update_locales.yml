@@ -1,6 +1,9 @@
 name: update_locales
 
-on: pull_request
+on:
+  pull_request:
+    paths:
+      - 'motioneye/locale/*/LC_MESSAGES/motioneye.js.po'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -8,6 +11,7 @@ concurrency:
 
 jobs:
   update_locales:
+    #if: github.actor == 'weblate'
     runs-on: ubuntu-22.04
     steps:
     - name: Checkout repository
@@ -15,7 +19,7 @@ jobs:
       with:
         ref: ${{ github.head_ref }}
         # https://github.com/peter-evans/create-pull-request/issues/48
-        #token: ${{ secrets.GH_PAT }}
+        token: ${{ secrets.GH_PAT }}
 
     - name: Translate all PO to JSON
       run: |
