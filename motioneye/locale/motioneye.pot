@@ -1747,4 +1747,3 @@ msgstr ""
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
 msgstr ""
-
