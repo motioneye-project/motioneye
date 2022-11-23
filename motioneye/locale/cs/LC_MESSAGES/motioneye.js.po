@@ -20,82 +20,101 @@ msgstr ""
 "X-Generator: Weblate 4.13.1-dev\n"
 
 #: motioneye/static/js/main.js:606
+#, fuzzy
 msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr ""
+msgstr "V heslech nejsou povoleny speciální znaky"
 
 #: motioneye/static/js/main.js:613 motioneye/static/js/main.js:624
 #: motioneye/static/js/main.js:683 motioneye/static/js/ui.js:362
 #: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
+#, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
-msgstr ""
+msgstr "Toto pole je povinné"
 
 #: motioneye/static/js/main.js:617
+#, fuzzy
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr ""
+msgstr "Speciální znaky nejsou povoleny ve jménu kamery"
 
 #: motioneye/static/js/main.js:629
+#, fuzzy
 msgid "valoro devas esti multoblo de 8"
-msgstr ""
+msgstr "Hodnota musí být násobek 8"
 
 #: motioneye/static/js/main.js:636
+#, fuzzy
 msgid "specialaj signoj ne rajtas en radika voja nomo"
-msgstr ""
+msgstr "Speciální znaky nejsou povoleny v názvu kořenové silnice"
 
 #: motioneye/static/js/main.js:639
+#, fuzzy
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr ""
+msgstr "Soubory nelze vytvořit přímo v kořeni vašeho systému"
 
 #: motioneye/static/js/main.js:646
+#, fuzzy
 msgid "enigu validan retpoŝtadreson"
-msgstr ""
+msgstr "Zadejte platnou e-mailovou adresu"
 
 #: motioneye/static/js/main.js:653
+#, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr ""
+msgstr "Zadejte seznam samostatných platných e -mailových adres Koma"
 
 #: motioneye/static/js/main.js:660
+#, fuzzy
 msgid "specialaj signoj ne rajtas en dosiernomo"
-msgstr ""
+msgstr "V názvu souboru nejsou povoleny speciální znaky"
 
 #: motioneye/static/js/main.js:687
+#, fuzzy
 msgid "enigu validan valoron"
-msgstr ""
+msgstr "Zadejte platnou hodnotu"
 
 #: motioneye/static/js/main.js:841
+#, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr ""
+msgstr "Tím se rekurzivně odstraní všechny soubory přítomné ve složce cloudu “"
 
 #: motioneye/static/js/main.js:842
+#, fuzzy
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
-msgstr ""
+msgstr "„, nejen ti, kteří nahráli MotionEye!"
 
 #: motioneye/static/js/main.js:923
+#, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
-msgstr ""
+msgstr "Tato rekurze odstraní všechny staré mediální soubory v adresáři “"
 
 #: motioneye/static/js/main.js:924
+#, fuzzy
 msgid "\", ne nur tiuj kreitaj de motionEye!"
-msgstr ""
+msgstr "„Nejen ti, kteří vytvořili Motionleye!"
 
 #: motioneye/static/js/main.js:990
+#, fuzzy
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
-msgstr ""
+msgstr "Nelze upravit masku bez platného obrázku kamery!"
 
 #: motioneye/static/js/main.js:2230
+#, fuzzy
 msgid "Propra"
-msgstr ""
+msgstr "Vlastní"
 
 #: motioneye/static/js/main.js:2268
+#, fuzzy
 msgid "Propra dosierindiko"
-msgstr ""
+msgstr "Vlastní indikace souboru"
 
 #: motioneye/static/js/main.js:2270
+#, fuzzy
 msgid "Retan kunlokon"
-msgstr ""
+msgstr "Online co -location"
 
 #: motioneye/static/js/main.js:2630
+#, fuzzy
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
-msgstr ""
+msgstr "Váš prohlížeč tuto funkci neprovádí!"
 
 #: motioneye/static/js/main.js:2646
 msgid "Apliki"
@@ -103,575 +122,719 @@ msgstr "Použít"
 
 #: motioneye/static/js/main.js:2673 motioneye/static/js/main.js:3034
 #: motioneye/static/js/main.js:3089 motioneye/static/js/main.js:3164
+#, fuzzy
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
-msgstr ""
+msgstr "Ujistěte se, že všechny možnosti konfigurace jsou platné!"
 
 #: motioneye/static/js/main.js:2775
+#, fuzzy
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
-msgstr ""
+msgstr "Tím se obnoví systém. Pokračovat?"
 
 #: motioneye/static/js/main.js:2785
+#, fuzzy
 msgid "Vere fermiti sistemon?"
-msgstr ""
+msgstr "Opravdu uzavřený systém?"
 
 #: motioneye/static/js/main.js:2797
+#, fuzzy
 msgid "Malŝaltita"
-msgstr ""
+msgstr "Vypnutý"
 
 #: motioneye/static/js/main.js:2812
+#, fuzzy
 msgid "Ĉu vere restartigi ?"
-msgstr ""
+msgstr "Opravdu restartujte?"
 
 #: motioneye/static/js/main.js:2826
+#, fuzzy
 msgid "La sistemo rekomencis!"
-msgstr ""
+msgstr "Systém pokračoval!"
 
 #: motioneye/static/js/main.js:2846 motioneye/static/js/main.js:2879
 #: motioneye/static/js/main.js:3859
+#, fuzzy
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
-msgstr ""
+msgstr "Nejprve použijte upravená nastavení!"
 
 #: motioneye/static/js/main.js:2851
+#, fuzzy
 msgid "Neniu fotilo por forigi!"
-msgstr ""
+msgstr "Žádná kamera k odstranění!"
 
 #: motioneye/static/js/main.js:2857
+#, fuzzy
 msgid "Ĉu forigi kameraon "
-msgstr ""
+msgstr "Zda odstranit kameru"
 
 #: motioneye/static/js/main.js:2885
+#, fuzzy
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr ""
+msgstr "Motionleye je aktualizován (aktuální verze:"
 
 #: motioneye/static/js/main.js:2888
+#, fuzzy
 msgid "Nova versio havebla: "
-msgstr ""
+msgstr "Dostupná nová verze:"
 
 #: motioneye/static/js/main.js:2888
+#, fuzzy
 msgid ". Ĝisdatigi?"
-msgstr ""
+msgstr ". Aktualizace?"
 
 #: motioneye/static/js/main.js:2896
+#, fuzzy
 msgid "motionEye estis sukcese ĝisdatigita!"
-msgstr ""
+msgstr "Motionleye byl úspěšně aktualizován!"
 
 #: motioneye/static/js/main.js:2906
+#, fuzzy
 msgid "Ĝisdatigo malsukcesis!"
-msgstr ""
+msgstr "Aktualizace selhala!"
 
 #: motioneye/static/js/main.js:2917
+#, fuzzy
 msgid "La ĝisdatiga procezo malsukcesis!"
-msgstr ""
+msgstr "Proces aktualizace selhal!"
 
 #: motioneye/static/js/main.js:2936
+#, fuzzy
 msgid "Rezerva dosiero"
-msgstr ""
+msgstr "Záložní soubor"
 
 #: motioneye/static/js/main.js:2938
+#, fuzzy
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
-msgstr ""
+msgstr "Záložní soubor, který jste dříve stahovali."
 
 #: motioneye/static/js/main.js:2967
+#, fuzzy
 msgid "Restaŭrigi Agordon"
-msgstr ""
+msgstr "Obnovení konfigurace"
 
 #: motioneye/static/js/main.js:2979
+#, fuzzy
 msgid "Restaŭriganta agordon ..."
-msgstr ""
+msgstr "Nastavení obnovy ..."
 
 #: motioneye/static/js/main.js:2986
+#, fuzzy
 msgid "La agordo restaŭrigis!"
-msgstr ""
+msgstr "Konfigurace byla obnovena!"
 
 #: motioneye/static/js/main.js:2996 motioneye/static/js/main.js:3015
+#, fuzzy
 msgid "Malsukcesis restaŭri la agordon!"
-msgstr ""
+msgstr "Nepodařilo se obnovit konfiguraci!"
 
 #: motioneye/static/js/main.js:3070
+#, fuzzy
 msgid "Aliri la alŝutan servon malsukcesis: "
-msgstr ""
+msgstr "Pro přístup k nahrávání selhalo:"
 
 #: motioneye/static/js/main.js:3073
+#, fuzzy
 msgid "Aliri la alŝutan servon sukcesis!"
-msgstr ""
+msgstr "Přístup k upload služby byl úspěšný!"
 
 #: motioneye/static/js/main.js:3110 motioneye/static/js/main.js:3113
+#, fuzzy
 msgid "Sciiga retpoŝto fiaskis:"
-msgstr ""
+msgstr "E -mail s oznámením selhal:"
 
 #: motioneye/static/js/main.js:3129
+#, fuzzy
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
-msgstr ""
+msgstr "Ujistěte se, že všechny možnosti konfigurace jsou platné!"
 
 #: motioneye/static/js/main.js:3145
+#, fuzzy
 msgid "Sciiga Telegramo fiaskis:"
-msgstr ""
+msgstr "Novinky Telegram selhaly:"
 
 #: motioneye/static/js/main.js:3148
+#, fuzzy
 msgid "Sciiga Telegramo sukcesis!"
-msgstr ""
+msgstr "Novinky Telegram byl úspěšný!"
 
 #: motioneye/static/js/main.js:3184
+#, fuzzy
 msgid "Aliro al retdividado fiaskis: "
-msgstr ""
+msgstr "Přístup k webové divizi selhal:"
 
 #: motioneye/static/js/main.js:3187
+#, fuzzy
 msgid "Aliro al retdividado sukcesis!"
-msgstr ""
+msgstr "Přístup k webové divizi byl úspěšný!"
 
 #: motioneye/static/js/main.js:3211
+#, fuzzy
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
-msgstr ""
+msgstr "Opravdu smažte tento soubor?"
 
 #: motioneye/static/js/main.js:3235
+#, fuzzy
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
-msgstr ""
+msgstr "Opravdu odstraňte všechny obrázky z „%(skupiny) S“?"
 
 #: motioneye/static/js/main.js:3238
+#, fuzzy
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
-msgstr ""
+msgstr "Opravdu odstraníte všechny filmy z „%(skupiny) s“?"
 
 #: motioneye/static/js/main.js:3243
+#, fuzzy
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
-msgstr ""
+msgstr "Opravdu odstraňte všechny ne seskupené obrázky?"
 
 #: motioneye/static/js/main.js:3246
+#, fuzzy
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
-msgstr ""
+msgstr "Opravdu odstraňte všechny nesklubované filmy?"
 
 #: motioneye/static/js/main.js:3357
+#, fuzzy
 msgid "aldonadi kameraon..."
-msgstr ""
+msgstr "Přidejte kameru ..."
 
 #: motioneye/static/js/main.js:3545
+#, fuzzy
 msgid "bone"
-msgstr ""
+msgstr "OK"
 
 #: motioneye/static/js/main.js:3582 motioneye/static/js/main.js:3881
+#, fuzzy
 msgid "Uzantnomo"
-msgstr ""
+msgstr "Uživatelské jméno"
 
 #: motioneye/static/js/main.js:3587 motioneye/static/js/main.js:3886
+#, fuzzy
 msgid "Pasvorto"
-msgstr ""
+msgstr "Heslo"
 
 #: motioneye/static/js/main.js:3593
+#, fuzzy
 msgid "Memoru min"
-msgstr ""
+msgstr "Zapamatuj si mě"
 
 #: motioneye/static/js/main.js:3611 motioneye/static/js/main.js:3617
+#, fuzzy
 msgid "Ensaluti"
-msgstr ""
+msgstr "Přihlásit se"
 
 #: motioneye/static/js/main.js:3614 motioneye/static/js/ui.js:1023
 #: motioneye/static/js/ui.js:1030
+#, fuzzy
 msgid "Nuligi"
-msgstr ""
+msgstr "zrušení"
 
 #: motioneye/static/js/main.js:3656
+#, fuzzy
 msgid "Vi abortis la filmeton."
-msgstr ""
+msgstr "Video jste přerušili."
 
 #: motioneye/static/js/main.js:3659
+#, fuzzy
 msgid "Reto eraro okazis."
-msgstr ""
+msgstr "Došlo k chybě sítě."
 
 #: motioneye/static/js/main.js:3662
+#, fuzzy
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
-msgstr ""
+msgstr "Chyba dekódování nebo neprogresivní funkce."
 
 #: motioneye/static/js/main.js:3665
+#, fuzzy
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
-msgstr ""
+msgstr "Formát není podporován nebo nedostupný/nevhodný pro hru."
 
 #: motioneye/static/js/main.js:3668
+#, fuzzy
 msgid "Nekonata eraro okazis."
-msgstr ""
+msgstr "Nastala neznámá chyba."
 
 #: motioneye/static/js/main.js:3671
+#, fuzzy
 msgid "Eraro : "
-msgstr ""
+msgstr "Chyba:"
 
 #: motioneye/static/js/main.js:3676
+#, fuzzy
 msgid "antaŭa bildo"
-msgstr ""
+msgstr "předchozí obrázek"
 
 #: motioneye/static/js/main.js:3681
+#, fuzzy
 msgid "ludi"
-msgstr ""
+msgstr "hrát"
 
 #: motioneye/static/js/main.js:3684
+#, fuzzy
 msgid "ludi * 5 kaj enĉenigi"
-msgstr ""
+msgstr "hrát * 5 a dostat se dovnitř"
 
 #: motioneye/static/js/main.js:3689
+#, fuzzy
 msgid "sekva bildo"
-msgstr ""
+msgstr "Další obrázek"
 
 #: motioneye/static/js/main.js:3812
+#, fuzzy
 msgid "Fermi"
-msgstr ""
+msgstr "Zavřít"
 
 #: motioneye/static/js/main.js:3813 motioneye/static/js/main.js:4374
+#, fuzzy
 msgid "Elŝuti"
-msgstr ""
+msgstr "Stažení"
 
 #: motioneye/static/js/main.js:3821 motioneye/static/js/main.js:4377
+#, fuzzy
 msgid "Forigi"
-msgstr ""
+msgstr "Odebrat"
 
 #: motioneye/static/js/main.js:3865
+#, fuzzy
 msgid "Kamerao tipo"
-msgstr ""
+msgstr "Typ kamery"
 
 #: motioneye/static/js/main.js:3867
+#, fuzzy
 msgid "Loka V4L2-kamerao"
-msgstr ""
+msgstr "Lokální kamera V4L2"
 
 #: motioneye/static/js/main.js:3868
+#, fuzzy
 msgid "Loka MMAL-kamerao"
-msgstr ""
+msgstr "Lokální kamera MMAL"
 
 #: motioneye/static/js/main.js:3869
+#, fuzzy
 msgid "Reta kamerao"
-msgstr ""
+msgstr "Online fotoaparát"
 
 #: motioneye/static/js/main.js:3870
+#, fuzzy
 msgid "Fora motionEye kamerao"
-msgstr ""
+msgstr "Far Motionleye Camera"
 
 #: motioneye/static/js/main.js:3871
+#, fuzzy
 msgid "Simpla MJPEG-kamerao"
-msgstr ""
+msgstr "Jednoduchá kamera MJPEG"
 
 #: motioneye/static/js/main.js:3873
+#, fuzzy
 msgid "la speco de kamerao, kiun vi volas aldoni"
-msgstr ""
+msgstr "Typ fotoaparátu, který chcete přidat"
 
 #: motioneye/static/js/main.js:3876
+#, fuzzy
 msgid "URL"
-msgstr ""
+msgstr "URL"
 
 #: motioneye/static/js/main.js:3877
+#, fuzzy
 msgid "http://ekzemplo.com:8765/cams/..."
-msgstr ""
+msgstr "http: //ekzeMplo.com: 8765/cams/..."
 
 #: motioneye/static/js/main.js:3878
+#, fuzzy
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
-msgstr ""
+msgstr "URL kamery (např. http://ekzemplo.com:8080/cam/)"
 
 #: motioneye/static/js/main.js:3882
+#, fuzzy
 msgid "uzantnomo..."
-msgstr ""
+msgstr "Uživatelské jméno ..."
 
 #: motioneye/static/js/main.js:3883
+#, fuzzy
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
-msgstr ""
+msgstr "Uživatelské jméno pro URL, je -li to požadováno (např. Správce)"
 
 #: motioneye/static/js/main.js:3887
+#, fuzzy
 msgid "pasvorto..."
-msgstr ""
+msgstr "Heslo ..."
 
 #: motioneye/static/js/main.js:3888
+#, fuzzy
 msgid "la pasvorto por la URL, se bezonata"
-msgstr ""
+msgstr "heslo pro URL, pokud je to požadováno"
 
 #: motioneye/static/js/main.js:3891
+#, fuzzy
 msgid "Kamerao"
-msgstr ""
+msgstr "Fotoaparát"
 
 #: motioneye/static/js/main.js:3893
+#, fuzzy
 msgid "la kameraon, kiun vi volas aldoni"
-msgstr ""
+msgstr "kamera, kterou chcete přidat"
 
 #: motioneye/static/js/main.js:3929
+#, fuzzy
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
-msgstr ""
+msgstr "Fora MotionEye Camera jsou kamery nainstalované za jiným serverem Motionleye. Přidání zde vám umožní hledat a spravovat je z dálky."
 
 #: motioneye/static/js/main.js:3944
+#, fuzzy
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
-msgstr ""
+msgstr "Webové kamery (nebo IP kamery) jsou zařízení, která nativně proudí videa RTSP/RTMP nebo MJPEG nebo jednoduché obrázky JPEG. Poraďte se s příručkou vašeho zařízení a zjistěte správnou adresu URL RTSP, RTMP, MJPEG nebo JPEG."
 
 #: motioneye/static/js/main.js:3949
+#, fuzzy
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr ""
+msgstr "Místní kamery MMAL jsou zařízení připojená přímo k vašemu systému MotionEye. Jedná se obvykle o kamery specifické pro karty."
 
 #: motioneye/static/js/main.js:3964
+#, fuzzy
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
-msgstr ""
+msgstr "Přidání zařízení jako jednoduché kamery MJPEG místo toho, jak online fotoaparát zlepší fotografii, ale pro ni nebude k dispozici žádná detekce pohybu, snímání obrázků nebo nahrávání filmů. Fotoaparát musí být přístupný vašemu serveru a prohlížeči. Tento typ fotoaparátu neodpovídá internetovým průzkumníka."
 
 #: motioneye/static/js/main.js:3969
+#, fuzzy
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
-msgstr ""
+msgstr "Místní kamery V4L2 jsou kamera, která jsou připojena přímo k vašemu systému Motionleye, obvykle prostřednictvím USB."
 
 #: motioneye/static/js/main.js:4120
+#, fuzzy
 msgid "Aldonadi kameraon..."
-msgstr ""
+msgstr "Přidejte kameru ..."
 
 #: motioneye/static/js/main.js:4192
+#, fuzzy
 msgid "Grupo"
-msgstr ""
+msgstr "Skupina"
 
 #: motioneye/static/js/main.js:4196
+#, fuzzy
 msgid "Inkluzivi foton prenitan ĉiun"
-msgstr ""
+msgstr "Zahrnout fotografii pořízenou každý"
 
 #: motioneye/static/js/main.js:4199
+#, fuzzy
 msgid "sekundo"
-msgstr ""
+msgstr "vteřina"
 
 #: motioneye/static/js/main.js:4200
+#, fuzzy
 msgid "5 sekundoj"
-msgstr ""
+msgstr "5 sekund"
 
 #: motioneye/static/js/main.js:4201
+#, fuzzy
 msgid "10 sekundoj"
-msgstr ""
+msgstr "10 sekund"
 
 #: motioneye/static/js/main.js:4202
+#, fuzzy
 msgid "30 sekundoj"
-msgstr ""
+msgstr "30 sekund"
 
 #: motioneye/static/js/main.js:4203
+#, fuzzy
 msgid "minuto"
-msgstr ""
+msgstr "minuta"
 
 #: motioneye/static/js/main.js:4204
+#, fuzzy
 msgid "5 minutoj"
-msgstr ""
+msgstr "5 minut"
 
 #: motioneye/static/js/main.js:4205
+#, fuzzy
 msgid "10 minutoj"
-msgstr ""
+msgstr "10 minut"
 
 #: motioneye/static/js/main.js:4206
+#, fuzzy
 msgid "30 minutoj"
-msgstr ""
+msgstr "30 minut"
 
 #: motioneye/static/js/main.js:4207
+#, fuzzy
 msgid "horo"
-msgstr ""
+msgstr "hodina"
 
 #: motioneye/static/js/main.js:4210
+#, fuzzy
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
-msgstr ""
+msgstr "Vyberte rozsah času mezi dvěma vybranými obrázky."
 
 #: motioneye/static/js/main.js:4213
+#, fuzzy
 msgid "Filmo framfrekvenco"
-msgstr ""
+msgstr "FILMOVÁ SRUMENÁ FAMENÁ"
 
 #: motioneye/static/js/main.js:4215
+#, fuzzy
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
-msgstr ""
+msgstr "Vyberte si, jak rychle chcete ozbrojené video."
 
 #: motioneye/static/js/main.js:4224
+#, fuzzy
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr ""
+msgstr "Vzhledem k velkému počtu obrázků může vytvoření videa nějakou dobu trvat!"
 
 #: motioneye/static/js/main.js:4241
+#, fuzzy
 msgid "Krei akselita video"
-msgstr ""
+msgstr "Vytvořte ozbrojené video"
 
 #: motioneye/static/js/main.js:4250
+#, fuzzy
 msgid "Filmo kreanta en progreso..."
-msgstr ""
+msgstr "Probíhá vytváření filmu ..."
 
 #: motioneye/static/js/main.js:4501
+#, fuzzy
 msgid "Zipitaj"
-msgstr ""
+msgstr "Zip"
 
 #: motioneye/static/js/main.js:4510
+#, fuzzy
 msgid "Akselita video"
-msgstr ""
+msgstr "Obchodní video"
 
 #: motioneye/static/js/main.js:4521
+#, fuzzy
 msgid "Forigi ĉiujn"
-msgstr ""
+msgstr "Odebrat všechny"
 
 #: motioneye/static/js/main.js:4663
+#, fuzzy
 msgid "Bildoj prenitaj de "
-msgstr ""
+msgstr "Obrázky pořízené"
 
 #: motioneye/static/js/main.js:4666
+#, fuzzy
 msgid "Filmoj registritaj de "
-msgstr ""
+msgstr "Filmy zaznamenané"
 
 #: motioneye/static/js/main.js:4728
+#, fuzzy
 msgid "montru ĉi tiun fotilon plenekranan"
-msgstr ""
+msgstr "Zobrazit tento fotoaparát plnou obrazovku"
 
 #: motioneye/static/js/main.js:4729
+#, fuzzy
 msgid "montri ĉiujn fotilojn"
-msgstr ""
+msgstr "Ukažte všechny kamery"
 
 #: motioneye/static/js/main.js:4730
+#, fuzzy
 msgid "montru nur ĉi tiun fotilon"
-msgstr ""
+msgstr "Zobrazit pouze tento fotoaparát"
 
 #: motioneye/static/js/main.js:4731
+#, fuzzy
 msgid "malfermaj bildoj retumilo"
-msgstr ""
+msgstr "Otevřený prohlížeč obrázků"
 
 #: motioneye/static/js/main.js:4732
+#, fuzzy
 msgid "malferma videoj retumilo"
-msgstr ""
+msgstr "Otevřený prohlížeč videí"
 
 #: motioneye/static/js/main.js:4733
+#, fuzzy
 msgid "agordi ĉi tiun kameraon"
-msgstr ""
+msgstr "Nastavte tuto kameru"
 
 #: motioneye/static/js/main.js:4749
+#, fuzzy
 msgid "preni instantaron"
-msgstr ""
+msgstr "Udělejte si okamžik"
 
 #: motioneye/static/js/main.js:5121
+#, fuzzy
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr ""
+msgstr "Ještě jste nenastavili žádnou kameru. Kliknutím sem přidáte jednu ..."
 
 #: motioneye/static/js/ui.js:503
+#, fuzzy
 msgid "enigu pozitivan nombron"
-msgstr ""
+msgstr "Zadejte kladné číslo"
 
 #: motioneye/static/js/ui.js:505
+#, fuzzy
 msgid "enigu pozitivan entjeran nombron"
-msgstr ""
+msgstr "Zadejte pozitivní celé číslo"
 
 #: motioneye/static/js/ui.js:507
+#, fuzzy
 msgid "enigu nombron"
-msgstr ""
+msgstr "Zadejte číslo"
 
 #: motioneye/static/js/ui.js:509
+#, fuzzy
 msgid "enigu entjeran nombron"
-msgstr ""
+msgstr "Zadejte celé číslo"
 
 #: motioneye/static/js/ui.js:512
+#, fuzzy
 msgid " inter "
-msgstr ""
+msgstr "mezi"
 
 #: motioneye/static/js/ui.js:512
+#, fuzzy
 msgid " kaj "
-msgstr ""
+msgstr "a"
 
 #: motioneye/static/js/ui.js:515
+#, fuzzy
 msgid " pli ol "
-msgstr ""
+msgstr "více než"
 
 #: motioneye/static/js/ui.js:520
+#, fuzzy
 msgid " malpli ol "
-msgstr ""
+msgstr "méně než"
 
 #: motioneye/static/js/ui.js:573
+#, fuzzy
 msgid "enigu validan tempon en la sekva formato: HH:MM"
-msgstr ""
+msgstr "Zadejte platný čas v následujícím formátu: HH: MM"
 
 #: motioneye/static/js/ui.js:630
+#, fuzzy
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
-msgstr ""
+msgstr "Zadejte platnou adresu URL (např. Http://ekzemplo.com:8080/cams/)"
 
 #: motioneye/static/js/ui.js:971
+#, fuzzy
 msgid "fermi"
-msgstr ""
+msgstr "zavřít"
 
 #: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
+#, fuzzy
 msgid "Ne"
-msgstr ""
+msgstr "Ne"
 
 #: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
+#, fuzzy
 msgid "Jes"
-msgstr ""
+msgstr "Ano"
 
 #: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
+#, fuzzy
 msgid "Bone"
-msgstr ""
+msgstr "OK"
 
 #: l10n/v4l2.js:4
+#, fuzzy
 msgid "Auto Exposure"
-msgstr ""
+msgstr "Automatická expozice"
 
 #: l10n/v4l2.js:5
+#, fuzzy
 msgid "Backlight Compensation"
-msgstr ""
+msgstr "Kompenzace podsvícení"
 
 #: l10n/v4l2.js:6
+#, fuzzy
 msgid "Brightness"
-msgstr ""
+msgstr "Jas"
 
 #: l10n/v4l2.js:7
+#, fuzzy
 msgid "Contrast"
-msgstr ""
+msgstr "Kontrast"
 
 #: l10n/v4l2.js:8
+#, fuzzy
 msgid "Exposure Absolute"
-msgstr ""
+msgstr "Expozice absolutně"
 
 #: l10n/v4l2.js:9
+#, fuzzy
 msgid "Exposure Auto"
-msgstr ""
+msgstr "Expozice auto"
 
 #: l10n/v4l2.js:10
+#, fuzzy
 msgid "Exposure Auto Priority"
-msgstr ""
+msgstr "Automatická priorita expozice"
 
 #: l10n/v4l2.js:11
+#, fuzzy
 msgid "Exposure Time Absolute"
-msgstr ""
+msgstr "Doba expozice absolutně"
 
 #: l10n/v4l2.js:12
+#, fuzzy
 msgid "Focus Absolute"
-msgstr ""
+msgstr "Zaměřte se na absolutně"
 
 #: l10n/v4l2.js:13
+#, fuzzy
 msgid "Focus Auto"
-msgstr ""
+msgstr "Zaostřit auto"
 
 #: l10n/v4l2.js:14
+#, fuzzy
 msgid "Gain"
-msgstr ""
+msgstr "Získat"
 
 #: l10n/v4l2.js:15
+#, fuzzy
 msgid "Gamma"
-msgstr ""
+msgstr "Gama"
 
 #: l10n/v4l2.js:16
+#, fuzzy
 msgid "Hue"
-msgstr ""
+msgstr "Odstín"
 
 #: l10n/v4l2.js:17
+#, fuzzy
 msgid "Led1 Mode"
-msgstr ""
+msgstr "Režim LED1"
 
 #: l10n/v4l2.js:18
+#, fuzzy
 msgid "Led1 Frequency"
-msgstr ""
+msgstr "Frekvence LED1"
 
 #: l10n/v4l2.js:19
+#, fuzzy
 msgid "Pan Absolute"
-msgstr ""
+msgstr "Pan absolutně"
 
 #: l10n/v4l2.js:20
+#, fuzzy
 msgid "Power Line Frequency"
-msgstr ""
+msgstr "Frekvence elektrického vedení"
 
 #: l10n/v4l2.js:21
+#, fuzzy
 msgid "Saturation"
-msgstr ""
+msgstr "Nasycení"
 
 #: l10n/v4l2.js:22
+#, fuzzy
 msgid "Sharpness"
-msgstr ""
+msgstr "Ostrost"
 
 #: l10n/v4l2.js:23
+#, fuzzy
 msgid "Tilt Absolute"
-msgstr ""
+msgstr "Naklonit absolutně"
 
 #: l10n/v4l2.js:24
+#, fuzzy
 msgid "White Balance Temperature"
-msgstr ""
+msgstr "Teplota vyvážení bílé"
 
 #: l10n/v4l2.js:25
+#, fuzzy
 msgid "White Balance Temperature Auto"
-msgstr ""
+msgstr "Teplota vyvážení bílé automatické automobily"
 
 #: l10n/v4l2.js:26
+#, fuzzy
 msgid "Zoom Absolute"
-msgstr ""
+msgstr "Zoom absolutně"
+

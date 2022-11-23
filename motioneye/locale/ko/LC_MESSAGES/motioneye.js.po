@@ -617,8 +617,9 @@ msgid "Exposure Absolute"
 msgstr "절대 노출"
 
 #: l10n/v4l2.js:9
+#, fuzzy
 msgid "Exposure Auto"
-msgstr ""
+msgstr "노출 자동"
 
 #: l10n/v4l2.js:10
 msgid "Exposure Auto Priority"
@@ -637,8 +638,9 @@ msgid "Focus Auto"
 msgstr "자동 초점"
 
 #: l10n/v4l2.js:14
+#, fuzzy
 msgid "Gain"
-msgstr ""
+msgstr "얻다"
 
 #: l10n/v4l2.js:15
 msgid "Gamma"

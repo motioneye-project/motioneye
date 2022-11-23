@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-12 17:19+0200\n"
+"POT-Creation-Date: 2022-11-23 22:19+0000\n"
 "PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/motioneye-project/motioneye/ar/>\n"
@@ -871,7 +871,6 @@ msgstr "نص مخصص…"
 
 #: motioneye/templates/main.html:625
 #, fuzzy, python-format
-#, fuzzy
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "يحدد النص الأيسر المخصص ؛ يتم قبول الرموز الخاصة التالية: ٪٪ y = Year ، ٪٪ m = month ، ٪٪ d = day ، ٪٪ H = ساعة ، ٪٪ m = دقيقة ، ٪٪ s = second ، ٪٪ Q = رقم الإطار ، ٪٪ v = رقم الحدث ، ٪٪ t = hh: mm: ss ، \\n = سطر جديد"
 
