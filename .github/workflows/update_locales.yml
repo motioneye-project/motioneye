@@ -22,10 +22,10 @@ jobs:
         echo 'github.actor="${{ github.actor }}"' # ToDo: Run this job only on PRs/pushes from Weblate.
         echo 'Removing old JSON locales'
         rm -v motioneye/static/js/motioneye.*.json
-        for i in motioneye/locale/*/LC_MESSAGES/motioneye.po
+        for i in motioneye/locale/*/LC_MESSAGES/motioneye.js.po
         do
             lang=${i#motioneye/locale/}
-            lang=${lang%/LC_MESSAGES/motioneye.po}
+            lang=${lang%/LC_MESSAGES/motioneye.js.po}
             echo "Generating motioneye.$lang.json"
             l10n/po2json "$i" "motioneye/static/js/motioneye.$lang.json"
         done
