@@ -7,14 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-12 17:19+0200\n"
+"POT-Creation-Date: 2022-11-23 22:50+0000\n"
 "PO-Revision-Date: 2022-08-30 04:23+0000\n"
 "Last-Translator: David.Hong <gdavid0510@gmail.com>\n"
-"Language-Team: Korean <https://hosted.weblate.org/projects/motioneye-project/"
-"motioneye-python-texts/ko/>\n"
+"Language-Team: Korean <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 4.14.1-dev\n"
@@ -761,8 +760,7 @@ msgid "ekz. http://example.com/notify/"
 msgstr "예를 들어 http://example.com/notify/"
 
 #: motioneye/templates/main.html:570
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "동작이 감지 될 때 전송하는 URL; 다음 특수 단축키가 허용됩니다. %% V = 이벤트 번호, %% F = 파일 방식"
 
@@ -798,8 +796,7 @@ msgid "ordono…"
 msgstr "주문하다 ..."
 
 #: motioneye/templates/main.html:595
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
 msgstr "멀티미디어 파일을 작성한 후에 달성해야합니다. 여러 명령이 점 이름으로 분리 될 수 있습니다. 점 이름을 명령에 사용하지 마십시오. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호, %% V = 가끔 숫자, %% f = 파일 방식"
 
@@ -845,10 +842,11 @@ msgid "propra teksto…"
 msgstr "사용자 정의 텍스트 ..."
 
 #: motioneye/templates/main.html:625
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "사용자 정의 왼쪽 텍스트를 정의합니다. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호, %% v = 이벤트 번호, %% t = HH : MM : SS, \n = 새로운 라인"
+msgstr ""
+"사용자 정의 왼쪽 텍스트를 정의합니다. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호, %% v = 이벤트 번호, %% t = HH : MM : SS, \n"
+" = 새로운 라인"
 
 #: motioneye/templates/main.html:628
 #, fuzzy
@@ -861,10 +859,11 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dek
 msgstr "오른쪽 하단에 영화와 사진에 표시된 텍스트를 설정합니다."
 
 #: motioneye/templates/main.html:642
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "사용자 정의 오른쪽 텍스트를 정의합니다. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호, %% v = 이벤트 번호, %% t = HH : MM : SS, \n = 새로운 라인"
+msgstr ""
+"사용자 정의 오른쪽 텍스트를 정의합니다. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호, %% v = 이벤트 번호, %% t = HH : MM : SS, \n"
+" = 새로운 라인"
 
 #: motioneye/templates/main.html:645
 #, fuzzy
@@ -1012,8 +1011,7 @@ msgid "dosiernomo ŝablono…"
 msgstr "파일 이름 템플릿 ..."
 
 #: motioneye/templates/main.html:749
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "이미지 파일 (JPEG)의 이름 템플릿을 정의합니다. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호, %% v = 이벤트 번호, / = 서브 디렉토리."
 
@@ -1174,8 +1172,7 @@ msgid "Filma Dosiernomo"
 msgstr "영화 필레 명"
 
 #: motioneye/templates/main.html:818
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "영화 파일의 이름 템플릿을 정의합니다. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호, %% v = 이벤트 번호, / = 서브 디렉토리."
 
@@ -1325,8 +1322,7 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "빛의 감지"
 
 #: motioneye/templates/main.html:951
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
 msgstr "이벤트가 모션 대신 갑작스런 빛 변화로 취급되도록 변경 해야하는 이미지의 백분율을 정의합니다 (0 %%는 함수를 방지)."
 
@@ -1672,8 +1668,7 @@ msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "예를 들어 http://ekzemplo.com/sciigi/"
 
 #: motioneye/templates/main.html:1138
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "모션이 감지 될 때 요청할 URL; 다음 특수 단축키가 허용됩니다. %% V = 가끔 숫자"
 
@@ -1703,8 +1698,7 @@ msgid "komando…"
 msgstr "명령 ..."
 
 #: motioneye/templates/main.html:1163
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "모션이 감지 될 때 시작되는 명령; 수많은 명령은 결장에 의해 분리 될 수 있습니다. 명령과 함께 세미콜론을 사용하지 마십시오. 다음 특수 토큰이 허용됩니다 : %% Y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% Q = 프레임 번호 번호 , %% V = 가끔 숫자"
 
@@ -1714,8 +1708,7 @@ msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento 
 msgstr "운동 이벤트가 끝날 때마다 명령을 시작하려면이를 활성화하십시오."
 
 #: motioneye/templates/main.html:1208
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "모션 이벤트가 종료 될 때 시작되는 명령; 수많은 명령은 결장에 의해 분리 될 수 있습니다. 명령과 함께 점 화합물을 사용하지 마십시오. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = 날짜, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호."
 

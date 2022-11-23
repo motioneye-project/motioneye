@@ -7,14 +7,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-12 17:19+0200\n"
+"POT-Creation-Date: 2022-11-23 22:50+0000\n"
 "PO-Revision-Date: 2022-10-10 17:58+0000\n"
 "Last-Translator: Jan Havran <jan.havran@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/motioneye-project/"
-"motioneye-python-texts/cs/>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Generator: Weblate 4.14.1\n"
@@ -145,9 +144,7 @@ msgstr "Změna obnovovací frekvence"
 
 #: motioneye/templates/main.html:150
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
-msgstr ""
-"změní obnovovací frekvenci, aby se ušetřil internet (nefunguje na "
-"jednoduchých MJPEG kamerách)"
+msgstr "změní obnovovací frekvenci, aby se ušetřil internet (nefunguje na jednoduchých MJPEG kamerách)"
 
 #: motioneye/templates/main.html:153
 msgid "Rezolucio-variatoro"
@@ -767,8 +764,7 @@ msgid "ekz. http://example.com/notify/"
 msgstr "např. http://example.com/notify/"
 
 #: motioneye/templates/main.html:570
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "URL k přenosu, když je detekován pohyb; Přijímají se následující speciální zkratky: %% y = rok, %% m = měsíc, %% d = den, %% H = hodina, %% m = minuta, %% s = sekundu, %% q = číslo rámce, %% v = číslo události, %% f = způsob souboru"
 
@@ -804,8 +800,7 @@ msgid "ordono…"
 msgstr "Objednat ..."
 
 #: motioneye/templates/main.html:595
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
 msgstr "Příkaz, který má být proveden po vytvoření multimediálního souboru. Několik příkazů lze oddělit názvem bodu; Nepoužívejte název bodu do příkazů; Přijímají se následující speciální tokeny: %% y = rok, %% m = měsíc, %% d = den, %% h = hodinu, % m = minuta, %% s = sekundu, %% q = číslo rámce, %% v = příležitostné číslo, %% f = způsob souboru"
 
@@ -851,10 +846,11 @@ msgid "propra teksto…"
 msgstr "Vlastní text ..."
 
 #: motioneye/templates/main.html:625
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "Definuje vlastní levý text; Přijímají se následující speciální tokeny: %% y = rok, %% m = měsíc, %% d = den, %% h = hodinu, % m = minuta, %% s = sekundu, %% q = číslo rámce, %% v = číslo události, %% t = hh: mm: ss, \n = new řádek"
+msgstr ""
+"Definuje vlastní levý text; Přijímají se následující speciální tokeny: %% y = rok, %% m = měsíc, %% d = den, %% h = hodinu, % m = minuta, %% s = sekundu, %% q = číslo rámce, %% v = číslo události, %% t = hh: mm: ss, \n"
+" = new řádek"
 
 #: motioneye/templates/main.html:628
 #, fuzzy
@@ -867,10 +863,11 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dek
 msgstr "Nastaví text zobrazený na filmech a obrázcích, v pravém dolním rohu"
 
 #: motioneye/templates/main.html:642
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "Definuje vlastní pravý text; Přijímají se následující speciální tokeny: %% y = rok, %% m = měsíc, %% d = den, %% h = hodinu, % m = minuta, %% s = sekundu, %% q = číslo rámce, %% v = číslo události, %% t = hh: mm: ss, \n = new řádek"
+msgstr ""
+"Definuje vlastní pravý text; Přijímají se následující speciální tokeny: %% y = rok, %% m = měsíc, %% d = den, %% h = hodinu, % m = minuta, %% s = sekundu, %% q = číslo rámce, %% v = číslo události, %% t = hh: mm: ss, \n"
+" = new řádek"
 
 #: motioneye/templates/main.html:645
 #, fuzzy
@@ -1018,8 +1015,7 @@ msgid "dosiernomo ŝablono…"
 msgstr "Šablona názvu souboru ..."
 
 #: motioneye/templates/main.html:749
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "Definuje šablonu názvu pro soubory obrázků (JPEG); Přijímají se následující speciální tokeny: %% y = rok, %% m = měsíc, %% d = den, %% h = hodinu, % m = minuta, %% s = sekundu, %% q = číslo rámce, %% v = číslo události, / = podadresář."
 
@@ -1181,8 +1177,7 @@ msgid "Filma Dosiernomo"
 msgstr "Filmový název souboru"
 
 #: motioneye/templates/main.html:818
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "Definuje šablonu názvu pro filmové soubory; Přijímají se následující speciální tokeny: %% y = rok, %% m = měsíc, %% d = den, %% h = hodinu, % m = minuta, %% s = sekundu, %% q = číslo rámce, %% v = číslo události, / = podadresář."
 
@@ -1332,8 +1327,7 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Detekce změn světla"
 
 #: motioneye/templates/main.html:951
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
 msgstr "Definuje procento obrazu, který je třeba změnit, aby se událost považovala za náhlou změnu světla namísto pohybu (0 %% zabraňuje funkci)."
 
@@ -1679,8 +1673,7 @@ msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "např. http://ekzemplo.com/sciigi/"
 
 #: motioneye/templates/main.html:1138
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "URL je třeba požádat, když je detekován pohyb; Přijímají se následující speciální zkratky: %% y = rok, %% m = měsíc, %% d = den, %% H = hodina, %% m = minuta, %% s = sekundu, %% q = číslo rámce, %% v = příležitostné číslo"
 
@@ -1710,8 +1703,7 @@ msgid "komando…"
 msgstr "Příkaz ..."
 
 #: motioneye/templates/main.html:1163
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "Příkaz, který má být spuštěn, když je detekován pohyb; Četné příkazy lze oddělit tlustém střevem; Nepoužívejte středníky s příkazy; Přijímají se následující speciální tokeny: %% y = rok, %% m = měsíc, %% d = den, %% H = hodina, % m = minuta, % s = sekundu, %% q = číselné číslo rámce , %% v = příležitostné číslo"
 
@@ -1721,8 +1713,7 @@ msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento 
 msgstr "Povolte to, pokud chcete spustit příkaz pokaždé, když je událost pohybu u konce."
 
 #: motioneye/templates/main.html:1208
-#, python-format
-#, fuzzy
+#, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "Příkaz, který má být spuštěn po skončení pohybové události; Četné příkazy lze oddělit tlustém střevem; Nepoužívejte bodové sloučeniny s příkazy; Přijímají se následující speciální tokeny: %% y = rok, %% m = měsíc, %% d = datum, %% h = hodinu, %% m = minutu, %% s = druhé, %% q = číslo rámce."
 
