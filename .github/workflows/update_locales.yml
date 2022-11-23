@@ -1,0 +1,40 @@
+name: update_locales
+
+on: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update_locales:
+    runs-on: ubuntu-22.04
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+        # https://github.com/peter-evans/create-pull-request/issues/48
+        #token: ${{ secrets.GH_PAT }}
+
+    - name: Translate all PO to JSON
+      run: |
+        echo 'github.actor="${{ github.actor }}"' # ToDo: Run this job only on PRs/pushes from Weblate.
+        echo 'Removing old JSON locales'
+        rm -v motioneye/static/js/motioneye.*.json
+        for i in motioneye/locale/*/LC_MESSAGES/motioneye.po
+        do
+            lang=${i#motioneye/locale/}
+            lang=${lang%/LC_MESSAGES/motioneye.po}
+            echo "Generating motioneye.$lang.json"
+            l10n/po2json "$i" "motioneye/static/js/motioneye.$lang.json"
+        done
+
+    - name: Commit if diff
+      run: |
+        git diff --exit-code && exit 0
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git add -A
+        git commit -m 'Update JSON locales'
+        git push
