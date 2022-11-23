@@ -1880,4 +1880,3 @@ msgstr "초"
 #, fuzzy
 msgid "minus"
 msgstr "마이너스"
-

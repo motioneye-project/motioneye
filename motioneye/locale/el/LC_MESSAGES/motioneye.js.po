@@ -768,4 +768,3 @@ msgstr "Θερμοκρασία ισορροπίας λευκού"
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "Μεγέθυνση απολύτως"
-

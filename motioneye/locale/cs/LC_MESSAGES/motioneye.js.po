@@ -837,4 +837,3 @@ msgstr "Teplota vyvážení bílé automatické automobily"
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "Zoom absolutně"
-

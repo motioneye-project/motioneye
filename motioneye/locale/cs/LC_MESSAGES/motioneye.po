@@ -1886,4 +1886,3 @@ msgstr "vteřina"
 #, fuzzy
 msgid "minus"
 msgstr "mínus"
-

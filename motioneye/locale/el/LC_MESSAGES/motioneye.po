@@ -1908,4 +1908,3 @@ msgstr "ένα δεύτερο"
 #, fuzzy
 msgid "minus"
 msgstr "μείον"
-
