@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-06-12 16:59+0200\n"
-"PO-Revision-Date: 2022-08-06 23:18+0000\n"
-"Last-Translator: Hein Oldenhuis <heinoldenhuis@gmail.com>\n"
+"PO-Revision-Date: 2022-11-23 17:47+0000\n"
+"Last-Translator: MichaIng <micha@dietpi.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-javascript/nl/>\n"
 "Language: nl\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -686,7 +686,7 @@ msgstr "Scherpte"
 
 #: l10n/v4l2.js:23
 msgid "Tilt Absolute"
-msgstr "Absolute Helling"
+msgstr "Absoluut kantelen"
 
 #: l10n/v4l2.js:24
 msgid "White Balance Temperature"

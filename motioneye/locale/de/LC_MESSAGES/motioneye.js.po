@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2022-11-04 15:06+0000\n"
-"Last-Translator: nkrueger <koschiwsf@gmail.com>\n"
+"PO-Revision-Date: 2022-11-23 17:47+0000\n"
+"Last-Translator: MichaIng <micha@dietpi.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-javascript/de/>\n"
 "Language: de\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.2-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -434,7 +434,7 @@ msgstr "30 Sekunden"
 
 #: motioneye/static/js/main.js:4203
 msgid "minuto"
-msgstr "1 Minute"
+msgstr "Minute"
 
 #: motioneye/static/js/main.js:4204
 msgid "5 minutoj"
@@ -450,7 +450,7 @@ msgstr "30 Minuten"
 
 #: motioneye/static/js/main.js:4207
 msgid "horo"
-msgstr "1 Stunde"
+msgstr "Stunde"
 
 #: motioneye/static/js/main.js:4210
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
@@ -589,7 +589,6 @@ msgid "Auto Exposure"
 msgstr "Automatische Belichtung"
 
 #: l10n/v4l2.js:5
-#, fuzzy
 msgid "Backlight Compensation"
 msgstr "Gegenlichtkompensation"
 
@@ -606,17 +605,14 @@ msgid "Exposure Absolute"
 msgstr "Absolute Belichtung"
 
 #: l10n/v4l2.js:9
-#, fuzzy
 msgid "Exposure Auto"
 msgstr "Belichtungsautomatik"
 
 #: l10n/v4l2.js:10
-#, fuzzy
 msgid "Exposure Auto Priority"
-msgstr "Belichtungsautomatik Priorität"
+msgstr "Automatische Belichtungspriorität"
 
 #: l10n/v4l2.js:11
-#, fuzzy
 msgid "Exposure Time Absolute"
 msgstr "Absolute Belichtungszeit"
 
@@ -625,7 +621,6 @@ msgid "Focus Absolute"
 msgstr "Absoluter Fokus"
 
 #: l10n/v4l2.js:13
-#, fuzzy
 msgid "Focus Auto"
 msgstr "Autofokus"
 
@@ -634,7 +629,6 @@ msgid "Gain"
 msgstr "Verstärkung"
 
 #: l10n/v4l2.js:15
-#, fuzzy
 msgid "Gamma"
 msgstr "Gamma"
 
@@ -643,22 +637,18 @@ msgid "Hue"
 msgstr "Farbton"
 
 #: l10n/v4l2.js:17
-#, fuzzy
 msgid "Led1 Mode"
-msgstr "LED1 -Modus"
+msgstr "LED1-Modus"
 
 #: l10n/v4l2.js:18
-#, fuzzy
 msgid "Led1 Frequency"
-msgstr "LED1 -Frequenz"
+msgstr "LED1-Frequenz"
 
 #: l10n/v4l2.js:19
-#, fuzzy
 msgid "Pan Absolute"
-msgstr "Pan absolut"
+msgstr "Absolute Schwenkposition"
 
 #: l10n/v4l2.js:20
-#, fuzzy
 msgid "Power Line Frequency"
 msgstr "Netzfrequenz"
 
@@ -671,7 +661,6 @@ msgid "Sharpness"
 msgstr "Schärfe"
 
 #: l10n/v4l2.js:23
-#, fuzzy
 msgid "Tilt Absolute"
 msgstr "Absolute Neigung"
 
@@ -680,12 +669,10 @@ msgid "White Balance Temperature"
 msgstr "Weißabgleich Farbtemperatur"
 
 #: l10n/v4l2.js:25
-#, fuzzy
 msgid "White Balance Temperature Auto"
-msgstr "Automatischer Weißabgleich der Temperatur"
+msgstr "Automatischer Weißabgleich"
 
 #: l10n/v4l2.js:26
-#, fuzzy
 msgid "Zoom Absolute"
 msgstr "Absoluter Zoom"
 
