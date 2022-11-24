@@ -54,3 +54,5 @@ awk -v "src=$src" -v "dst=$dst" '{
 }' "$FIC" > "$FIC.$$"
 mv "$FIC" "$FIC.old"
 mv "$FIC.$$" "$FIC"
+# Remove trailing empty line, to satisfy pre-commit
+sed -i '${/^$/d}' "$FIC"
