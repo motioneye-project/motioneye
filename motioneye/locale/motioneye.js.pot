@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-24 00:26+0000\n"
+"POT-Creation-Date: 2022-11-24 00:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -400,8 +400,8 @@ msgstr ""
 
 #: motioneye/static/js/main.js:3949
 msgid ""
-"Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. "
-"Ĉi tiuj estas kutime kart-specifaj kameraoj."
+"Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-"
+"sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr ""
 
 #: motioneye/static/js/main.js:3964
@@ -409,14 +409,14 @@ msgid ""
 "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan "
 "kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado "
 "aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti "
-"alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas "
-"kun Internet Explorer."
+"alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne "
+"kongruas kun Internet Explorer."
 msgstr ""
 
 #: motioneye/static/js/main.js:3969
 msgid ""
-"Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-"
-"sistemo, kutime per USB."
+"Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via "
+"motionEye-sistemo, kutime per USB."
 msgstr ""
 
 #: motioneye/static/js/main.js:4120
@@ -481,8 +481,8 @@ msgstr ""
 
 #: motioneye/static/js/main.js:4224
 msgid ""
-"Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da "
-"tempo!"
+"Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom "
+"da tempo!"
 msgstr ""
 
 #: motioneye/static/js/main.js:4241
