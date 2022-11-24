@@ -36,7 +36,6 @@ awk -v "src=$src" -v "dst=$dst" '{
       getline nextline
       if (nextline == "")
       {
-        print ("#, fuzzy");
         print ("msgid " MSGID);
         printf("msgstr \"");
         MSG=system("l10n/traduko.sh " src " " dst " " MSGID )
