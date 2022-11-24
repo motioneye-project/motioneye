@@ -121,10 +121,8 @@ msgid "Fiksi Kadrojn Vertikale"
 msgstr "세로로 프레임 맞추기"
 
 #: motioneye/templates/main.html:140
-msgid ""
-"kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la "
-"fenestro aŭ ne"
-msgstr ""
+msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
+msgstr "프레임 시간이 창에 수직으로 감소 할 수 있는지 확인하십시오."
 
 #: motioneye/templates/main.html:143
 msgid "Aranĝo linioj"
@@ -132,51 +130,47 @@ msgstr "레이아웃 열"
 
 #: motioneye/templates/main.html:145
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr ""
+msgstr "카메라를 정리하는 데 사용되는 라인 수를 조정합니다."
 
 #: motioneye/templates/main.html:148
 msgid "kadro-variatoro"
-msgstr ""
+msgstr "프레임 변형"
 
 #: motioneye/templates/main.html:150
-msgid ""
-"reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne "
-"funkcias kun simplaj MJPEG-fotiloj)"
-msgstr ""
+msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
+msgstr "온라인 와이드 밴드 및 트래픽을 절약하기위한 프레임 속도를 줄입니다 (간단한 MJPEG 카메라로 작동하지 않음)"
 
 #: motioneye/templates/main.html:153
 msgid "Rezolucio-variatoro"
-msgstr ""
+msgstr "해상도 다양성"
 
 #: motioneye/templates/main.html:155
-msgid ""
-"reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan "
-"bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
-msgstr ""
+msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+msgstr "온라인 와이드 밴드 및 트래픽을 절약하기 위해 모든 카메라의 실제 해상도를 줄입니다 (간단한 MJPEG 카메라에서 작동하지 않음)"
 
 #: motioneye/templates/main.html:161
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
-msgstr ""
+msgstr "모든 카메라에 공통적 인 일반 매개 변수"
 
 #: motioneye/templates/main.html:162
 msgid "Ĝeneralaj Agordoj"
-msgstr ""
+msgstr "일반 설정"
 
 #: motioneye/templates/main.html:167
 msgid "Lingvo"
-msgstr ""
+msgstr "언어"
 
 #: motioneye/templates/main.html:173
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr ""
+msgstr "인터페이스의 언어 (두 글자)"
 
 #: motioneye/templates/main.html:176
 msgid "Administranto"
-msgstr ""
+msgstr "관리자"
 
 #: motioneye/templates/main.html:178
 msgid "la uzantnomo uzata por agordi la sistemon"
-msgstr ""
+msgstr "사용자 이름은 시스템을 설정하는 데 사용되었습니다"
 
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
@@ -185,1547 +179,1340 @@ msgstr "암호"
 
 #: motioneye/templates/main.html:183
 msgid "pasvorto de administranto"
-msgstr ""
+msgstr "관리자 비밀번호"
 
 #: motioneye/templates/main.html:186
 msgid "Observanto"
-msgstr ""
+msgstr "관찰자"
 
 #: motioneye/templates/main.html:188
 msgid "la uzantnomo por uzi por la monitorado"
-msgstr ""
+msgstr "모니터링에 사용할 사용자 이름입니다"
 
 #: motioneye/templates/main.html:193
-msgid ""
-"la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen "
-"pasvorto)"
-msgstr ""
+msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
+msgstr "모니터링 사용자의 비밀번호 (비밀번호없이 모니터링을 위해 흰색을 남겨 두십시오)"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"
-msgstr ""
+msgstr "MotionEye 버전"
 
 #: motioneye/templates/main.html:206
 msgid "Motion Versio"
-msgstr ""
+msgstr "모션 버전"
 
 #: motioneye/templates/main.html:210
 msgid "Operaciumo Versio"
-msgstr ""
+msgstr "운영 체제 버전"
 
 #: motioneye/templates/main.html:215
 msgid "Programara Ĝisdatigo"
-msgstr ""
+msgstr "소프트웨어 업데이트"
 
 #: motioneye/templates/main.html:217
 msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
-msgstr ""
+msgstr "새로운 버전을 제어하고 업데이트를 수행합니다"
 
 #: motioneye/templates/main.html:221
 msgid "Nutro"
-msgstr ""
+msgstr "영양물 섭취"
 
 #: motioneye/templates/main.html:222
 msgid "Fermu"
-msgstr ""
+msgstr "닫다"
 
 #: motioneye/templates/main.html:223
 msgid "malŝaltas la sistemon"
-msgstr ""
+msgstr "시스템을 끕니다"
 
 #: motioneye/templates/main.html:227
 msgid "Rekomencu"
-msgstr ""
+msgstr "재부팅"
 
 #: motioneye/templates/main.html:228
 msgid "rekomencas la sistemon"
-msgstr ""
+msgstr "시스템을 재개하십시오"
 
 #: motioneye/templates/main.html:234
 msgid "Agordo"
-msgstr ""
+msgstr "구성"
 
 #: motioneye/templates/main.html:235
 msgid "Sekurkopio"
-msgstr ""
+msgstr "지원"
 
 #: motioneye/templates/main.html:236
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
-msgstr ""
+msgstr "현장에 저장할 수 있도록 현재 구성으로 파일을 만듭니다."
 
 #: motioneye/templates/main.html:240
 msgid "Restaŭri"
-msgstr ""
+msgstr "복원하다"
 
 #: motioneye/templates/main.html:241
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
-msgstr ""
+msgstr "이전에 저장된 백업 파일에서 설정을 재설정하십시오"
 
 #: motioneye/templates/main.html:265
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
-msgstr ""
+msgstr "이 카메라를 사용하려면 활성화하십시오"
 
 #: motioneye/templates/main.html:266
 msgid "Video-Aparato"
-msgstr ""
+msgstr "비디오 장치"
 
 #: motioneye/templates/main.html:271 motioneye/templates/main.html:614
 #: motioneye/templates/main.html:631
 msgid "Kamerao Nomo"
-msgstr ""
+msgstr "카메라 이름"
 
 #: motioneye/templates/main.html:272
 msgid "kameraa nomo…"
-msgstr ""
+msgstr "카메라 이름 ..."
 
 #: motioneye/templates/main.html:273
 msgid "alias pri ĉi tiu kamera aparato"
-msgstr ""
+msgstr "이 카메라 장치에 대한 별칭"
 
 #: motioneye/templates/main.html:276
 msgid "Kamerao ID"
-msgstr ""
+msgstr "카메라 ID"
 
 #: motioneye/templates/main.html:278
 msgid "la kamerao identiga numero"
-msgstr ""
+msgstr "카메라 식별 번호"
 
 #: motioneye/templates/main.html:281
 msgid "Kamerao aparato"
-msgstr ""
+msgstr "카메라 장치"
 
 #: motioneye/templates/main.html:283
-msgid ""
-"Eniga aparato (ekz. : /dev/video) or URL (ekz. : "
-"rtsp://192.168.1.1/stream)"
-msgstr ""
+msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
+msgstr "입력 장치 (예 :/dev/video) 또는 URL (예 : rtsp : //192.168.1.1/stream)"
 
 #: motioneye/templates/main.html:286
 msgid "Kamerao Tipo"
-msgstr ""
+msgstr "카메라 유형"
 
 #: motioneye/templates/main.html:293
 msgid "Aŭtomata Brilo"
-msgstr ""
+msgstr "자동 밝기"
 
 #: motioneye/templates/main.html:295
-msgid ""
-"ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen "
-"aŭtomata brilo)"
-msgstr ""
+msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
+msgstr "자동 소프트웨어 밝기 활성화 (자동 밝기가없는 카메라에만 권장)"
 
 #: motioneye/templates/main.html:301
 msgid "Video-rezolucio"
-msgstr ""
+msgstr "비디오 해상도"
 
 #: motioneye/templates/main.html:306
-msgid ""
-"la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed"
-" postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
-msgstr ""
+msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
+msgstr "비디오 해상도 (더 큰 값은 더 나은 품질을 생성하지만 더 많은 CPU 전력, 더 큰 스토리지 및 대역폭이 필요합니다)"
 
 #: motioneye/templates/main.html:309
 msgid "Larĝeco"
-msgstr ""
+msgstr "너비"
 
 #: motioneye/templates/main.html:311
 msgid "enigu kutiman rezolucian larĝon"
-msgstr ""
+msgstr "사용자 정의 해상도 너비를 입력하십시오"
 
 #: motioneye/templates/main.html:314
 msgid "Alteco"
-msgstr ""
+msgstr "키"
 
 #: motioneye/templates/main.html:316
 msgid "enigu kutiman rezolucian altecon"
-msgstr ""
+msgstr "일반 해상도 높이를 입력하십시오"
 
 #: motioneye/templates/main.html:319
 msgid "Video-Rotacio"
-msgstr ""
+msgstr "비디오 회전"
 
 #: motioneye/templates/main.html:328
-msgid ""
-"uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas "
-"poziciigita ĝuste"
-msgstr ""
+msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
+msgstr "카메라가 올바르게 배치되지 않은 경우 캡처 된 이미지를 돌리려면 이것을 사용하십시오."
 
 #: motioneye/templates/main.html:331
 msgid "Kadrofrekvenco"
-msgstr ""
+msgstr "프레임 주파수"
 
 #: motioneye/templates/main.html:333
-msgid ""
-"agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli "
-"altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-"
-"potenco, pli grandan stokadon kaj larĝan bandon)"
-msgstr ""
+msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
+msgstr "매 초마다 카메라로 캡처 한 프레임 수를 조정합니다 (높은 값은 더 부드러운 비디오를 생성하지만 더 많은 CPU 전원, 더 큰 스토리지 및 와이드 밴드가 필요합니다)"
 
 #: motioneye/templates/main.html:339
 msgid "Privateca masko"
-msgstr ""
+msgstr "프라이버시 마스크"
 
 #: motioneye/templates/main.html:341
-msgid ""
-"ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj "
-"por protekti privatecon"
-msgstr ""
+msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
+msgstr "프라이버시를 보호하기 위해 이미지 영역의 기록을 피하기 위해 이미지의 가장면을 가능하게합니다."
 
 #: motioneye/templates/main.html:346 motioneye/templates/main.html:1007
 msgid "Redakti maskon"
-msgstr ""
+msgstr "마스크 편집"
 
 #: motioneye/templates/main.html:347 motioneye/templates/main.html:1008
 msgid "Konservi maskon"
-msgstr ""
+msgstr "마스크를 보관합니다"
 
 #: motioneye/templates/main.html:350
 msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
-msgstr ""
+msgstr "이 버튼을 클릭하여 마스크 편집기를 활성화/비활성화하십시오."
 
 #: motioneye/templates/main.html:361
 msgid "Ekstraj Elektoj"
-msgstr ""
+msgstr "추가 선택"
 
 #: motioneye/templates/main.html:363
-msgid ""
-"vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono "
-"(uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr ""
+msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
+msgstr "\"모션\"악마에 대한 추가 옵션을 여기에 추가 할 수 있습니다 ( \"이름 값\"형식, 한 줄 당 하나의 옵션 사용)."
 
 #: motioneye/templates/main.html:372
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
-msgstr ""
+msgstr "미디어가 어디서 어떻게 저장되는지 선택하십시오"
 
 #: motioneye/templates/main.html:373
 msgid "Stokado de dosieroj"
-msgstr ""
+msgstr "파일 스토리지"
 
 #: motioneye/templates/main.html:378
 msgid "Stokada Aparato"
-msgstr ""
+msgstr "저장 장치"
 
 #: motioneye/templates/main.html:383
-msgid ""
-"indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos "
-"konservitaj"
-msgstr ""
+msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
+msgstr "이미지 및 비디오 파일이 저장 될 저장 장치를 나타냅니다."
 
 #: motioneye/templates/main.html:386
 msgid "Retservilo"
-msgstr ""
+msgstr "웹 서버"
 
 #: motioneye/templates/main.html:388
 msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
-msgstr ""
+msgstr "웹 서버의 주소 (IP 주소 또는 이름)"
 
 #: motioneye/templates/main.html:391
 msgid "SMB Protokolo-Versio"
-msgstr ""
+msgstr "SMB 프로토콜 버전"
 
 #: motioneye/templates/main.html:401
-msgid ""
-"elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj "
-"vidu, kiu funkcias plej bone kun via NAS)"
-msgstr ""
+msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
+msgstr "사용할 수있는 SMB 버전을 선택하십시오 (다른 옵션을 테스트하고 NAS에서 가장 잘 작동하는 옵션을 테스트하십시오)."
 
 #: motioneye/templates/main.html:404
 msgid "Kunhava nomo"
-msgstr ""
+msgstr "공유 이름"
 
 #: motioneye/templates/main.html:406
 msgid "la nomo de la interŝanĝa reto"
-msgstr ""
+msgstr "교환 네트워크의 이름"
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
 msgstr "사용자 이름"
 
 #: motioneye/templates/main.html:411
-msgid ""
-"la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu "
-"malplena se neniu uzantnomo estas bezonata)"
-msgstr ""
+msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
+msgstr "네트워크 디렉토리에 액세스 할 때 제공되는 사용자 이름 (사용자 이름이 필요하지 않은 경우 비워 두십시오)"
 
 #: motioneye/templates/main.html:414
 msgid "Pasvorton"
-msgstr ""
+msgstr "비밀번호"
 
 #: motioneye/templates/main.html:416
-msgid ""
-"la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu "
-"pasvorto estas bezonata)"
-msgstr ""
+msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
+msgstr "네트워크 디렉토리에서 요구하는 비밀번호 (비밀번호가 필요없는 경우 비워 두는 남겨 둡니다)"
 
 #: motioneye/templates/main.html:419
 msgid "Radika dosierujo"
-msgstr ""
+msgstr "루트 디렉토리"
 
 #: motioneye/templates/main.html:421
-msgid ""
-"la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos "
-"konservitaj"
-msgstr ""
+msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
+msgstr "파일이 저장 될 루트 경로 (선택된 저장 장치)"
 
 #: motioneye/templates/main.html:425
 msgid "Testi la reton dosierujon"
-msgstr ""
+msgstr "네트워크 폴더를 테스트하십시오"
 
 #: motioneye/templates/main.html:426
-msgid ""
-"alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis"
-" la postulatajn detalojn"
-msgstr ""
+msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
+msgstr "필요한 세부 정보를 채운 후 온라인 공동 위치를 테스트하려면이 버튼을 클릭하십시오."
 
 #: motioneye/templates/main.html:432
 msgid "Uzado de Disko"
-msgstr ""
+msgstr "디스크 사용"
 
 #: motioneye/templates/main.html:436
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr ""
+msgstr "루트 디렉토리가 사는 디스크의 중고/총 크기"
 
 #: motioneye/templates/main.html:442
 msgid "Alŝutu Mediajn Dosierojn"
-msgstr ""
+msgstr "환경 파일 업로드"
 
 #: motioneye/templates/main.html:444
-msgid ""
-"aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu "
-"alŝutitaj al ekstera servo"
-msgstr ""
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
+msgstr "미디어를 외부 서비스에 업로드하려면이 옵션을 활성화하십시오."
 
 #: motioneye/templates/main.html:447
 msgid "Alŝutu Bildojn"
-msgstr ""
+msgstr "사진 업로드"
 
 #: motioneye/templates/main.html:449
-msgid ""
-"aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera "
-"servo"
-msgstr ""
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
+msgstr "이미지가 외부 서비스로 다운로드하려면이 옵션을 활성화하십시오."
 
 #: motioneye/templates/main.html:452
 msgid "Alŝutu Filmojn"
-msgstr ""
+msgstr "영화 업로드"
 
 #: motioneye/templates/main.html:454
 msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
-msgstr ""
+msgstr "비디오를 외부 서비스에 업로드하려면이 기능을 활성화하십시오."
 
 #: motioneye/templates/main.html:457
 msgid "Alŝuta Servo"
-msgstr ""
+msgstr "서비스 업로드 서비스"
 
 #: motioneye/templates/main.html:460
 msgid "Servilo FTP"
-msgstr ""
+msgstr "FTP 서버"
 
 #: motioneye/templates/main.html:461
 msgid "Servilo SFTP"
-msgstr ""
+msgstr "SFTP 서버"
 
 #: motioneye/templates/main.html:462
 msgid "Servilo HTTP"
-msgstr ""
+msgstr "HTTP 서버"
 
 #: motioneye/templates/main.html:463
 msgid "Servilo HTTPS"
-msgstr ""
+msgstr "HTTPS 서버"
 
 #: motioneye/templates/main.html:471
 msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
-msgstr ""
+msgstr "미디어 파일을 업로드 해야하는 서비스를 선택하십시오."
 
 #: motioneye/templates/main.html:474
 msgid "Servila Adreso"
-msgstr ""
+msgstr "서버 주소"
 
 #: motioneye/templates/main.html:476
-msgid ""
-"la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ "
-"192.168.1.3)"
-msgstr ""
+msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
+msgstr "서버의 도메인 이름 또는 IP 주소 (예 : ftp.example.com 또는 192.168.1.3)"
 
 #: motioneye/templates/main.html:479
 msgid "Servila haveno"
-msgstr ""
+msgstr "서버 포트"
 
 #: motioneye/templates/main.html:481
-msgid ""
-"la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por "
-"uzi la defaŭltan valoron)"
-msgstr ""
+msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
+msgstr "서비스에 연결하는 데 사용할 포트 (기본값을 사용하려면이 필드를 비워 두십시오)"
 
 #: motioneye/templates/main.html:484
 msgid "Metodo"
-msgstr ""
+msgstr "방법"
 
 #: motioneye/templates/main.html:491
 msgid "la HTTP-metodo uzi por alŝuti dosierojn"
-msgstr ""
+msgstr "파일을 업로드하는 데 사용하는 HTTP 방법"
 
 #: motioneye/templates/main.html:494
 msgid "Finpunkto URL"
-msgstr ""
+msgstr "엔드 포인트 URL"
 
 #: motioneye/templates/main.html:496
 msgid "La kompleta URL al la alŝuta servila finpunkto:"
-msgstr ""
+msgstr "업로드 서버 엔드 포인트에 대한 완전한 URL :"
 
 #: motioneye/templates/main.html:497
 msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
-msgstr ""
+msgstr "S3의 경우 : 예 : http : //my.minio : 9000. AWS를 위해 비워 두십시오!"
 
 #: motioneye/templates/main.html:498
 msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
-msgstr ""
+msgstr "Webdav : 예 : https://my.cloud/remote.php/dav/files/me/"
 
 #: motioneye/templates/main.html:501
 msgid "Loko"
-msgstr ""
+msgstr "장소"
 
 #: motioneye/templates/main.html:503
-msgid ""
-"la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. "
-"/files/cam1/)"
-msgstr ""
+msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
+msgstr "미디어를 업로드 해야하는 장소 (루트 경로) (예 :/files/cam1/)"
 
 #: motioneye/templates/main.html:506
 msgid "Inkluzivi Subdosierujojn"
-msgstr ""
+msgstr "하위 디렉터를 포함합니다"
 
 #: motioneye/templates/main.html:508
-msgid ""
-"Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, "
-"anstataŭ meti ilin rekte en la radikan lokon"
-msgstr ""
+msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
+msgstr "이를 활성화하여 하위 디렉토리로 멀티미디어 파일을 다운로드하여 루트 위치에 직접 넣는 대신 활성화하십시오."
 
 #: motioneye/templates/main.html:511
 msgid "Purigi la nubon"
-msgstr ""
+msgstr "클라우드를 청소합니다"
 
 #: motioneye/templates/main.html:513
-msgid ""
-"ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo "
-"ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de "
-"persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
-msgstr ""
+msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
+msgstr "파일 결정 구성에 따라 로컬 미디어가 삭제 될 때도 클라우드에 업로드 된 미디어 파일을 삭제하도록 활성화하십시오. 현재이 옵션은 GDRIV에서만 사용할 수 있습니다."
 
 #: motioneye/templates/main.html:518
 msgid "la uzantnomo por la alŝuta servo-konto"
-msgstr ""
+msgstr "업로드 서비스 계정의 사용자 이름"
 
 #: motioneye/templates/main.html:523
 msgid "la pasvorto por la alŝuta servo-konto"
-msgstr ""
+msgstr "업로드 서비스 계정의 비밀번호"
 
 #: motioneye/templates/main.html:526
 msgid "Rajtiga ŝlosilo"
-msgstr ""
+msgstr "승인 키"
 
 #: motioneye/templates/main.html:528
-msgid ""
-"la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur "
-"dum agordo)"
-msgstr ""
+msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "업로드 서비스로 인증하는 데 사용되는 키 (일반적으로 구성 중에 만 필요)"
 
 #: motioneye/templates/main.html:534
 msgid "Akiri ŝlosilon"
-msgstr ""
+msgstr "열쇠를 얻으십시오"
 
 #: motioneye/templates/main.html:537
 msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
-msgstr ""
+msgstr "주요 인증 서비스를 받으려면 여기를 클릭하십시오"
 
 #: motioneye/templates/main.html:540
 msgid "Access Key"
-msgstr ""
+msgstr "액세스 키"
 
 #: motioneye/templates/main.html:542
 msgid "The AWS access key used to authenticate with the upload service"
-msgstr ""
+msgstr "업로드 서비스로 인증하는 데 사용되는 AWS 액세스 키"
 
 #: motioneye/templates/main.html:545
 msgid "Sekreta Alira Ŝlosilo"
-msgstr ""
+msgstr "비밀 액세스 키"
 
 #: motioneye/templates/main.html:547
-msgid ""
-"la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo "
-"(kutime bezonata nur dum agordo)"
-msgstr ""
+msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "업로드 서비스로 인증하는 데 사용되는 AWS 비밀 액세스 키 (일반적으로 구성 중에 만 필요)"
 
 #: motioneye/templates/main.html:550
 msgid "Sitelo"
-msgstr ""
+msgstr "버킷"
 
 #: motioneye/templates/main.html:552
 msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr ""
+msgstr "업로드 서비스의 이름 S3 Selle (일반적으로 구성 중에 만 필요)"
 
 #: motioneye/templates/main.html:556
 msgid "Testi la servon"
-msgstr ""
+msgstr "서비스를 테스트하십시오"
 
 #: motioneye/templates/main.html:557
-msgid ""
-"alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis"
-" la postulatajn detalojn"
-msgstr ""
+msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
+msgstr "필요한 세부 정보를 채운 후 업로드 서비스를 테스트하려면이 버튼을 클릭하십시오."
 
 #: motioneye/templates/main.html:563
 msgid "alvoki URL"
-msgstr ""
+msgstr "URL을 호출하십시오"
 
 #: motioneye/templates/main.html:565
-msgid ""
-"ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de "
-"amaskomunikila dosiero"
-msgstr ""
+msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
+msgstr "미디어 파일을 작성한 후 URL을 요청하려면이 기능을 활성화하십시오."
 
 #: motioneye/templates/main.html:568 motioneye/templates/main.html:1136
 #: motioneye/templates/main.html:1181
 msgid "Reteja URL"
-msgstr ""
+msgstr "웹 사이트 주소"
 
 #: motioneye/templates/main.html:569
 msgid "ekz. http://example.com/notify/"
-msgstr ""
+msgstr "예를 들어 http://example.com/notify/"
 
 #: motioneye/templates/main.html:570
 #, python-format
-msgid ""
-"URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj "
-"ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = "
-"horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento "
-"numero,%%f = dosiera vojo"
-msgstr ""
+msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
+msgstr "동작이 감지 될 때 전송하는 URL; 다음 특수 단축키가 허용됩니다. %% V = 이벤트 번호, %% F = 파일 방식"
 
 #: motioneye/templates/main.html:573 motioneye/templates/main.html:1141
 #: motioneye/templates/main.html:1186
 msgid "Metodo HTTP"
-msgstr ""
+msgstr "HTTP 방법"
 
 #: motioneye/templates/main.html:582
-msgid ""
-"la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-"
-"koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
-msgstr ""
+msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
+msgstr "온라인 후크 -URL을 신청할 때 사용할 HTTP 방법 (주어진 URL 코딩 된 매개 변수는 실제로 표시된대로 전달됩니다)."
 
 #: motioneye/templates/main.html:588
 msgid "Kuri Komando"
-msgstr ""
+msgstr "실행 명령"
 
 #: motioneye/templates/main.html:590
-msgid ""
-"ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero "
-"estas kreita"
-msgstr ""
+msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
+msgstr "환경 파일이 생성 된 후 명령을 실행하려면이 기능을 활성화하십시오."
 
 #: motioneye/templates/main.html:593
 msgid "Ordono"
-msgstr ""
+msgstr "주문하다"
 
 #: motioneye/templates/main.html:594
 msgid "ordono…"
-msgstr ""
+msgstr "주문하다 ..."
 
 #: motioneye/templates/main.html:595
 #, python-format
-msgid ""
-"Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj "
-"komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en "
-"komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m"
-" = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = "
-"kadra numero , %%v = okaza numero, %%f = dosiera vojo"
-msgstr ""
+msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
+msgstr "멀티미디어 파일을 작성한 후에 달성해야합니다. 여러 명령이 점 이름으로 분리 될 수 있습니다. 점 이름을 명령에 사용하지 마십시오. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호, %% V = 가끔 숫자, %% f = 파일 방식"
 
 #: motioneye/templates/main.html:605
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
-msgstr ""
+msgstr "갇힌 프레임에 표시되는 정보를 선택하십시오"
 
 #: motioneye/templates/main.html:606
 msgid "Teksto Superkovrita"
-msgstr ""
+msgstr "텍스트 중첩"
 
 #: motioneye/templates/main.html:611
 msgid "Maldekstra Teksto"
-msgstr ""
+msgstr "왼쪽 텍스트"
 
 #: motioneye/templates/main.html:615 motioneye/templates/main.html:632
 msgid "Tempostampo"
-msgstr ""
+msgstr "타임 스탬프"
 
 #: motioneye/templates/main.html:616 motioneye/templates/main.html:633
 msgid "Propra Teksto"
-msgstr ""
+msgstr "사용자 정의 텍스트"
 
 #: motioneye/templates/main.html:617 motioneye/templates/main.html:634
 #: motioneye/templates/main.html:691
 msgid "Malebligita"
-msgstr ""
+msgstr "장애가 있는"
 
 #: motioneye/templates/main.html:620
-msgid ""
-"Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra "
-"maldekstra angulo"
-msgstr ""
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
+msgstr "영화와 사진, 왼쪽 하단 코너에 표시된 텍스트를 설정"
 
 #: motioneye/templates/main.html:624 motioneye/templates/main.html:641
 msgid "propra teksto…"
-msgstr ""
+msgstr "사용자 정의 텍스트 ..."
 
 #: motioneye/templates/main.html:625
 #, python-format
-msgid ""
-"Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas "
-"akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S"
-" = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = "
-"nova linio"
-msgstr ""
+msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgstr "사용자 정의 왼쪽 텍스트를 정의합니다. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호, %% v = 이벤트 번호, %% t = HH : MM : SS, \n = 새로운 라인"
 
 #: motioneye/templates/main.html:628
 msgid "Dekstra Teksto"
-msgstr ""
+msgstr "올바른 텍스트"
 
 #: motioneye/templates/main.html:637
-msgid ""
-"Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra "
-"dekstra angulo"
-msgstr ""
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
+msgstr "오른쪽 하단에 영화와 사진에 표시된 텍스트를 설정합니다."
 
 #: motioneye/templates/main.html:642
 #, python-format
-msgid ""
-"Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas "
-"akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S"
-" = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = "
-"nova linio"
-msgstr ""
+msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgstr "사용자 정의 오른쪽 텍스트를 정의합니다. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호, %% v = 이벤트 번호, %% t = HH : MM : SS, \n = 새로운 라인"
 
 #: motioneye/templates/main.html:645
 msgid "Teksta Skalo"
-msgstr ""
+msgstr "텍스트 스케일"
 
 #: motioneye/templates/main.html:647
 msgid "Difinas la grandecon de la superkovrita teksto"
-msgstr ""
+msgstr "오버랩 텍스트의 크기를 정의합니다"
 
 #: motioneye/templates/main.html:657
 msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
-msgstr ""
+msgstr "이 카메라의 비디오 스트림을 원한다면 이것을 활성화하십시오."
 
 #: motioneye/templates/main.html:658
 msgid "Videofluo"
-msgstr ""
+msgstr "비디오 연도"
 
 #: motioneye/templates/main.html:663
 msgid "Framo frekvencon"
-msgstr ""
+msgstr "프레임 주파수"
 
 #: motioneye/templates/main.html:665
 msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
-msgstr ""
+msgstr "라이브 흐름에서 매 초마다 전달되는 프레임 수를 수정하십시오."
 
 #: motioneye/templates/main.html:668
 msgid "Flua Kvalito"
-msgstr ""
+msgstr "유창한 품질"
 
 #: motioneye/templates/main.html:670
-msgid ""
-"Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan "
-"videokvaliton sed postulas pli da larĝa bando)."
-msgstr ""
+msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
+msgstr "라이브 흐름 품질을 관습합니다 (높은 값은 더 나은 비디오 품질을 생성하지만 더 많은 광대역이 필요합니다)."
 
 #: motioneye/templates/main.html:673
 msgid "Bilda Redimensionado"
-msgstr ""
+msgstr "이미지 재 분리"
 
 #: motioneye/templates/main.html:675
-msgid ""
-"Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili "
-"estas senditaj al la retumilo (malebligu dum funkciado sur malrapida "
-"CPU)."
-msgstr ""
+msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
+msgstr "이것이 켜지면 이미지가 브라우저로 전송되기 전에 크기가 조정됩니다 (느린 CPU에서 실행 중에는 방지)."
 
 #: motioneye/templates/main.html:678
 msgid "Flua rezolucio"
-msgstr ""
+msgstr "유창한 해상도"
 
 #: motioneye/templates/main.html:680
-msgid ""
-"la rezolucio donita kiel procento de la rezolucio de la video-aparato "
-"(pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli "
-"da larĝa de bando)"
-msgstr ""
+msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
+msgstr "비디오 장치 해상도의 백분율로 제공되는 해상도 (더 높은 값은 더 나은 비디오 품질을 생성하지만 더 많은 대역폭이 필요합니다)"
 
 #: motioneye/templates/main.html:683
 msgid "Flua haveno"
-msgstr ""
+msgstr "유창한 포트"
 
 #: motioneye/templates/main.html:685
 msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
-msgstr ""
+msgstr "웹 서버가 듣고있는 TCP 포트를 설정합니다."
 
 #: motioneye/templates/main.html:688
 msgid "Aŭtentiga reĝimo"
-msgstr ""
+msgstr "인증 모드"
 
 #: motioneye/templates/main.html:696
-msgid ""
-"la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ "
-"'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj "
-"kontroloj estos uzataj"
-msgstr ""
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
+msgstr "스트림에서 사용하는 인증 방법 (제 3 자 프로그램에 문제가 발생하면 '다이제스트'대신 '기본'을 선택); 인증 컨트롤이 사용됩니다"
 
 #: motioneye/templates/main.html:699
 msgid "Movado-Optimigo"
-msgstr ""
+msgstr "운동 최적화"
 
 #: motioneye/templates/main.html:701
-msgid ""
-"ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera "
-"fluo kiam neniu movo estas detektita"
-msgstr ""
+msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
+msgstr "이동이 감지되지 않을 때 전달 흐름에 대한 더 낮은 프레임 속도를 원한다면이를 활성화하십시오."
 
 #: motioneye/templates/main.html:707
 msgid "Utilaj URLoj"
-msgstr ""
+msgstr "유용한 URL"
 
 #: motioneye/templates/main.html:710
 msgid "Instantara URL"
-msgstr ""
+msgstr "즉각적인 URL"
 
 #: motioneye/templates/main.html:713
 msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
-msgstr ""
+msgstr "JPEG 이미지를 가장 최근의 카메라 포획으로 제공하는 URL"
 
 #: motioneye/templates/main.html:719
 msgid "Flua URL"
-msgstr ""
+msgstr "유창한 URL"
 
 #: motioneye/templates/main.html:722
 msgid "URL kiu provizas MJPEG-fluon de la kamerao"
-msgstr ""
+msgstr "카메라에서 mjpeg 흐름을 제공하는 URL"
 
 #: motioneye/templates/main.html:728
 msgid "Enigita URL"
-msgstr ""
+msgstr "임베디드 URL"
 
 #: motioneye/templates/main.html:731
-msgid ""
-"URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron,"
-" preta por esti enigita"
-msgstr ""
+msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
+msgstr "카메라 프레임이 포함 된 최소 HTML 문서를 제공하는 URL, 내장 준비가되었습니다."
 
 #: motioneye/templates/main.html:741
 msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
-msgstr ""
+msgstr "정적 이미지를 잡으려면 활성화하십시오."
 
 #: motioneye/templates/main.html:742
 msgid "Kaptitaj Bildoj"
-msgstr ""
+msgstr "캡처 된 사진"
 
 #: motioneye/templates/main.html:747
 msgid "Nomo Bildo-Dosiero"
-msgstr ""
+msgstr "이름 이미지 파일"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
 msgid "dosiernomo ŝablono…"
-msgstr ""
+msgstr "파일 이름 템플릿 ..."
 
 #: motioneye/templates/main.html:749
 #, python-format
-msgid ""
-"Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj "
-"tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = "
-"horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, /"
-" = subdosierujo."
-msgstr ""
+msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgstr "이미지 파일 (JPEG)의 이름 템플릿을 정의합니다. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호, %% v = 이벤트 번호, / = 서브 디렉토리."
 
 #: motioneye/templates/main.html:752
 msgid "Bildkvalito"
-msgstr ""
+msgstr "이미지 품질"
 
 #: motioneye/templates/main.html:754
-msgid ""
-"agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan "
-"bildan kvaliton sed postulas pli da stokado)"
-msgstr ""
+msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
+msgstr "JPEG 이미지 품질을 조정합니다 (높은 값은 더 나은 이미지 품질을 생성하지만 더 많은 스토리지가 필요합니다)"
 
 #: motioneye/templates/main.html:757
 msgid "Kaptila reĝimo"
-msgstr ""
+msgstr "트랩 모드"
 
 #: motioneye/templates/main.html:760 motioneye/templates/main.html:880
 msgid "Moviĝa deĉenigo"
-msgstr ""
+msgstr "이동 트리거링"
 
 #: motioneye/templates/main.html:761
 msgid "Moviĝa deĉenigo (Unu bildo)"
-msgstr ""
+msgstr "이동 트리거링 (하나의 이미지)"
 
 #: motioneye/templates/main.html:762
 msgid "Intertempe"
-msgstr ""
+msgstr "그 동안"
 
 #: motioneye/templates/main.html:763
 msgid "Ĉiuj bildoj"
-msgstr ""
+msgstr "모든 사진"
 
 #: motioneye/templates/main.html:764
 msgid "Mane"
-msgstr ""
+msgstr "손으로"
 
 #: motioneye/templates/main.html:767
 msgid "Difinas la kapta reĝimon:"
-msgstr ""
+msgstr "캐치 모드 정의 :"
 
 #: motioneye/templates/main.html:768
 msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
-msgstr ""
+msgstr "모션 트리거 = 모션이 감지 될 때마다 캡처 한 이미지,"
 
 #: motioneye/templates/main.html:769
 msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
-msgstr ""
+msgstr "그 동안 = 이미지는 x 초마다 잡혔습니다."
 
 #: motioneye/templates/main.html:770
 msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
-msgstr ""
+msgstr "모든 이미지 = 각 프레임을 이미지 파일로 유지하고"
 
 #: motioneye/templates/main.html:771
 msgid "Mane = mana kapto kun dediĉita butono."
-msgstr ""
+msgstr "Mane = 전용 버튼이있는 수동 캡처."
 
 #: motioneye/templates/main.html:774
 msgid "Interkapto-Intervalo"
-msgstr ""
+msgstr "가로 채기 간격"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
 #: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 msgid "sekundoj"
-msgstr ""
+msgstr "초"
 
 #: motioneye/templates/main.html:776
 msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
-msgstr ""
+msgstr "트랩의 범위 (초) 설정"
 
 #: motioneye/templates/main.html:779
 msgid "Konservi bildojn"
-msgstr ""
+msgstr "사진을 유지하려면"
 
 #: motioneye/templates/main.html:782 motioneye/templates/main.html:895
 msgid "Dum unu tago"
-msgstr ""
+msgstr "하루 동안"
 
 #: motioneye/templates/main.html:783 motioneye/templates/main.html:896
 msgid "Dum unu semajno"
-msgstr ""
+msgstr "일주일 동안"
 
 #: motioneye/templates/main.html:784 motioneye/templates/main.html:897
 msgid "Dum unu monato"
-msgstr ""
+msgstr "한 달 동안"
 
 #: motioneye/templates/main.html:785 motioneye/templates/main.html:898
 msgid "Dum unu jaro"
-msgstr ""
+msgstr "일년 동안"
 
 #: motioneye/templates/main.html:786 motioneye/templates/main.html:899
 msgid "Porĉiame"
-msgstr ""
+msgstr "영원히"
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
 msgid "Propra"
 msgstr "커스텀"
 
 #: motioneye/templates/main.html:790
-msgid ""
-"Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por "
-"liberigi stokadan spacon."
-msgstr ""
+msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
+msgstr "정의 된 지속 시간보다 오래된 이미지는 스토리지 공간을 해제하기 위해 자동으로 제거됩니다."
 
 #: motioneye/templates/main.html:793
 msgid "Bildaj Vivdaŭro"
-msgstr ""
+msgstr "이미지 수명"
 
 #: motioneye/templates/main.html:795
 msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
-msgstr ""
+msgstr "이미지가 자동으로 삭제되는 일 수를 정의합니다."
 
 #: motioneye/templates/main.html:798
 msgid "Ebligu manaj kaptoj"
-msgstr ""
+msgstr "마나 캐치를 활성화하십시오"
 
 #: motioneye/templates/main.html:800
-msgid ""
-"Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi "
-"permane preni kaptojn."
-msgstr ""
+msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
+msgstr "이것이 켜지면 카메라 프레임의 버튼을 사용하면 캡처를 수동으로 가져갈 수 있습니다."
 
 #: motioneye/templates/main.html:810
 msgid "ebligu ĉi tion, se vi volas registri filmojn"
-msgstr ""
+msgstr "영화를 녹음하려면이를 활성화하십시오"
 
 #: motioneye/templates/main.html:811
 msgid "Filmoj"
-msgstr ""
+msgstr "영화 산업"
 
 #: motioneye/templates/main.html:816
 msgid "Filma Dosiernomo"
-msgstr ""
+msgstr "영화 필레 명"
 
 #: motioneye/templates/main.html:818
 #, python-format
-msgid ""
-"Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj "
-"tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = "
-"horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, /"
-" = subdosierujo."
-msgstr ""
+msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgstr "영화 파일의 이름 템플릿을 정의합니다. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호, %% v = 이벤트 번호, / = 서브 디렉토리."
 
 #: motioneye/templates/main.html:821
 msgid "Rekta kopia filmeto"
-msgstr ""
+msgstr "직접 복사 비디오"
 
 #: motioneye/templates/main.html:823
-msgid ""
-"Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon "
-"sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do "
-"tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta "
-"video."
-msgstr ""
+msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
+msgstr "카메라에서 직접 영화를 만듭니다. 이 옵션은 CPU 사용량을 줄이지 만 메모리 요구 사항을 증가시켜야합니다. 이미지 처리가 수행되지 않으므로 텍스트 중첩, 개인 정보 보호 마스크 등 결과 비디오에 있지 않습니다."
 
 #: motioneye/templates/main.html:826
 msgid "Filmformato"
-msgstr ""
+msgstr "영화 형식"
 
 #: motioneye/templates/main.html:869
-msgid ""
-"Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj "
-"sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone"
-" funkcias per via filmetilo."
-msgstr ""
+msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
+msgstr "영화 파일을 조정합니다. 모든 형식이 모든 시스템에서 작동하도록 보장하는 것은 아닙니다. 의심이 있으면 모든 형식을 테스트하고 비디오에서 가장 잘 맞는 형식을 선택하십시오."
 
 #: motioneye/templates/main.html:872
 msgid "Filma Kvalito"
-msgstr ""
+msgstr "영화 품질"
 
 #: motioneye/templates/main.html:874
-msgid ""
-"Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan "
-"videokvaliton sed postulas pli da stokado)."
-msgstr ""
+msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
+msgstr "MPEG 비디오 품질을 관습합니다 (높은 값은 더 나은 비디오 품질을 생성하지만 더 많은 스토리지가 필요합니다)."
 
 #: motioneye/templates/main.html:877
 msgid "Rekorda reĝimo"
-msgstr ""
+msgstr "레코드 모드"
 
 #: motioneye/templates/main.html:881
 msgid "Kontinua registrado"
-msgstr ""
+msgstr "연속 녹음"
 
 #: motioneye/templates/main.html:884
-msgid ""
-"Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn"
-" moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
-msgstr ""
+msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
+msgstr "녹음 모드를 사용자 정의합니다 : Movement Trigger = 모션이 감지 될 때마다 생성 된 새 영화, 연속 녹음 = 하나의 큰 영화 파일."
 
 #: motioneye/templates/main.html:887
 msgid "Maksimuma filma daŭro"
-msgstr ""
+msgstr "최대 영화 지속 시간"
 
 #: motioneye/templates/main.html:889
-msgid ""
-"Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento "
-"daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
-msgstr ""
+msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
+msgstr "영화의 최대 길이를 몇 초 만에 조정합니다. 움직임 이벤트가 더 오래 지속되면 새 필름 파일이 생성됩니다. 무제한 길이에 0을 사용하십시오."
 
 #: motioneye/templates/main.html:892
 msgid "Konservi filmojn"
-msgstr ""
+msgstr "영화를 보관하기 위해"
 
 #: motioneye/templates/main.html:903
-msgid ""
-"Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por "
-"liberigi stokadon."
-msgstr ""
+msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
+msgstr "정의 된 지속 시간보다 오래된 필름은 스토리지를 릴리스하기 위해 자동으로 제거됩니다."
 
 #: motioneye/templates/main.html:906
 msgid "Filmoj Vivdaŭro"
-msgstr ""
+msgstr "영화 수명"
 
 #: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
 msgid "tagoj"
-msgstr ""
+msgstr "날"
 
 #: motioneye/templates/main.html:908
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
-msgstr ""
+msgstr "영화가 자동으로 제거되는 날 수를 설정하십시오."
 
 #: motioneye/templates/main.html:918
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
-msgstr ""
+msgstr "이를 활성화하고, 사용을 감지하기 위해 장치를 사용하고 설정하십시오."
 
 #: motioneye/templates/main.html:919
 msgid "Movado-Detekto"
-msgstr ""
+msgstr "운동 감지"
 
 #: motioneye/templates/main.html:924
 msgid "Kadra ŝanĝo sojlo"
-msgstr ""
+msgstr "프레임 변경 임계 값"
 
 #: motioneye/templates/main.html:926
-msgid ""
-"Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du "
-"pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli "
-"sentivan detekton, sed inklinas al falsaj pozitivoj)."
-msgstr ""
+msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
+msgstr "이미지의 최소 백분율을 나타내며, 이는 두 프레임 사이를 전환하여 움직임을 감지해야합니다 (작은 값은 더 민감한 감지를 제공하지만 잘못된 양성 경향이 있습니다)."
 
 #: motioneye/templates/main.html:929
 msgid "Maksimuma ŝanĝo sojlo"
-msgstr ""
+msgstr "최대 변경 임계 값"
 
 #: motioneye/templates/main.html:931
-msgid ""
-"Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo "
-"ne plu ekigas (0 malŝaltas la limon)."
-msgstr ""
+msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
+msgstr "이동하지 않는 프레임 사이에서 변경된 픽셀 수를 설정합니다."
 
 #: motioneye/templates/main.html:934
 msgid "Aŭtomata sojla agordo"
-msgstr ""
+msgstr "자동 임계 값 구성"
 
 #: motioneye/templates/main.html:936
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
-msgstr ""
+msgstr "이를 활성화하여 임계 값을 자동으로 조정하십시오."
 
 #: motioneye/templates/main.html:939
 msgid "Aŭtomata bruo-detekto"
-msgstr ""
+msgstr "자동 소음 감지"
 
 #: motioneye/templates/main.html:941
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
-msgstr ""
+msgstr "이를 활성화하여 노이즈 레벨을 자동으로 조정하십시오."
 
 #: motioneye/templates/main.html:944
 msgid "Bruo-nivelo"
-msgstr ""
+msgstr "소음 수준"
 
 #: motioneye/templates/main.html:946
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
-msgstr ""
+msgstr "노이즈 레벨을 고정 값으로 수동으로 조정합니다."
 
 #: motioneye/templates/main.html:949
 msgid "Detekto de lumaj ŝanĝoj"
-msgstr ""
+msgstr "빛의 감지"
 
 #: motioneye/templates/main.html:951
 #, python-format
-msgid ""
-"Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento "
-"estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la "
-"funkcion)."
-msgstr ""
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "이벤트가 모션 대신 갑작스런 빛 변화로 취급되도록 변경 해야하는 이미지의 백분율을 정의합니다 (0 %%는 함수를 방지)."
 
 #: motioneye/templates/main.html:954
 msgid "Makula filtrilo"
-msgstr ""
+msgstr "발견 된 필터"
 
 #: motioneye/templates/main.html:956
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
-msgstr ""
+msgstr "이를 통해 이동을 감지하기 전에 스팟 필터를 프레임에 적용 할 수 있습니다."
 
 #: motioneye/templates/main.html:962
 msgid "Senmovada daŭro"
-msgstr ""
+msgstr "움직일 수없는 기간"
 
 #: motioneye/templates/main.html:964
-msgid ""
-"Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj "
-"markas la finon de movada okazaĵo."
-msgstr ""
+msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
+msgstr "움직임 이벤트의 끝을 표시하는 침묵의 초 (즉, 움직임 없음)를 조정합니다."
 
 #: motioneye/templates/main.html:967
 msgid "Kaptita Antaŭe"
-msgstr ""
+msgstr "전에 잡혔다"
 
 #: motioneye/templates/main.html:968 motioneye/templates/main.html:973
 #: motioneye/templates/main.html:978
 msgid "kadroj"
-msgstr ""
+msgstr "프레임"
 
 #: motioneye/templates/main.html:969
-msgid ""
-"Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) "
-"antaŭ ol moviĝokazaĵo estas detektita."
-msgstr ""
+msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
+msgstr "모션 이벤트가 감지되기 전에 갇힌 프레임 수 (필름에 포함)를 설정합니다."
 
 #: motioneye/templates/main.html:972
 msgid "Kaptita Post"
-msgstr ""
+msgstr "잡혔다"
 
 #: motioneye/templates/main.html:974
-msgid ""
-"Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) "
-"post la fino de movada evento."
-msgstr ""
+msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
+msgstr "운동 이벤트가 끝난 후 캡처 할 프레임 수를 설정하고 필름에 포함시킵니다."
 
 #: motioneye/templates/main.html:977
 msgid "Minimumaj movaj kadroj"
-msgstr ""
+msgstr "최소 이동 프레임"
 
 #: motioneye/templates/main.html:979
-msgid ""
-"Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci "
-"moviĝan eventon."
-msgstr ""
+msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
+msgstr "이동 이벤트를 시작하는 데 필요한 최소 이동 프레임 수를 설정합니다."
 
 #: motioneye/templates/main.html:985
 msgid "Masko"
-msgstr ""
+msgstr "마스크"
 
 #: motioneye/templates/main.html:987
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
-msgstr ""
+msgstr "보다 선택적이고 정확한 모션 감지를 위해 이미징 마스킹을 가능하게합니다."
 
 #: motioneye/templates/main.html:990
 msgid "Tipo de masko"
-msgstr ""
+msgstr "마스크 유형"
 
 #: motioneye/templates/main.html:993
 msgid "Inteligenta"
-msgstr ""
+msgstr "똑똑한"
 
 #: motioneye/templates/main.html:994
 msgid "Redaktebla"
-msgstr ""
+msgstr "편집 가능한"
 
 #: motioneye/templates/main.html:997
-msgid ""
-"La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj "
-"dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane "
-"konstrui ĝin mem."
-msgstr ""
+msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
+msgstr "스마트 옵션은 정기적 인 움직임에 의해 자동으로 영역을 감지하고 내부 마스크를 동적으로 생성하는 반면, 편집 가능한 옵션을 사용하면 수동으로 자체적으로 빌드 할 수 있습니다."
 
 #: motioneye/templates/main.html:1000
 msgid "Inteligenta-maska Malrapideco"
-msgstr ""
+msgstr "스마트 마스크 속도"
 
 #: motioneye/templates/main.html:1002
-msgid ""
-"Pli altaj valoroj donas pli daŭran maskon kun pli malrapida "
-"konstruprocezo."
-msgstr ""
+msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
+msgstr "더 높은 값은 구조 공정이 느리게 더 오래 지속되는 마스크를 제공합니다."
 
 #: motioneye/templates/main.html:1011
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
-msgstr ""
+msgstr "이 버튼을 클릭하여 마스크 편집기를 활성화/비활성화하십시오."
 
 #: motioneye/templates/main.html:1015
 msgid "Purigi maskon"
-msgstr ""
+msgstr "마스크를 청소하십시오"
 
 #: motioneye/templates/main.html:1016
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
-msgstr ""
+msgstr "이 버튼을 클릭하여 현재 마스크를 비우십시오."
 
 #: motioneye/templates/main.html:1022
 msgid "Montri Kadro-Ŝanĝojn"
-msgstr ""
+msgstr "프레임 변경을 표시합니다"
 
 #: motioneye/templates/main.html:1024
-msgid ""
-"Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la "
-"modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion "
-"por ĝustigi agordojn de moviĝo-detekto."
-msgstr ""
+msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
+msgstr "이것이 활성화되면 이미지 변경 (픽셀 수 및 수정 된 영역)이 비디오에 표시됩니다. 일시적으로이를 통해 모션 감지 설정을 조정하십시오."
 
 #: motioneye/templates/main.html:1027
 msgid "Krei debug media files"
-msgstr ""
+msgstr "디버그 미디어 파일을 만듭니다"
 
 #: motioneye/templates/main.html:1029
-msgid ""
-"Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi"
-" problemojn de moviĝo-detekto."
-msgstr ""
+msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
+msgstr "활성화되면 모션 감지 문제를 디버깅하는 데 도움이되는 특수 영화 및 이미지를 만듭니다."
 
 #: motioneye/templates/main.html:1038
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
-msgstr ""
+msgstr "모션이 감지 될 때 알림을 받으려면 활성화하십시오."
 
 #: motioneye/templates/main.html:1039
 msgid "Moviĝaj sciigoj"
-msgstr ""
+msgstr "모션 알림"
 
 #: motioneye/templates/main.html:1051
 msgid "Sendi retpoŝton"
-msgstr ""
+msgstr "이메일을 보내려면"
 
 #: motioneye/templates/main.html:1053
-msgid ""
-"Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam "
-"moviĝokazaĵo estas detektita."
-msgstr ""
+msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "모션 이벤트가 감지 될 때마다 이메일을 받으려면이 옵션을 활성화하십시오."
 
 #: motioneye/templates/main.html:1056
 msgid "Retpoŝtadresoj"
-msgstr ""
+msgstr "이메일 주소"
 
 #: motioneye/templates/main.html:1057
 msgid "retpoŝtadresoj…"
-msgstr ""
+msgstr "이메일 주소 ..."
 
 #: motioneye/templates/main.html:1058
-msgid ""
-"Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn "
-"kiam ajn moviĝokazaĵo estas detektita."
-msgstr ""
+msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
+msgstr "여기에 추가 된 이메일 주소 (쉼표로 구분)는 모션 이벤트가 감지 될 때마다 알림을받습니다."
 
 #: motioneye/templates/main.html:1061
 msgid "Servilo SMTP"
-msgstr ""
+msgstr "SMTP 서버"
 
 #: motioneye/templates/main.html:1062
 msgid "ekz. smtp.gmail.com"
-msgstr ""
+msgstr "예를 들어 smtp.gmail.com"
 
 #: motioneye/templates/main.html:1063
-msgid ""
-"Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail "
-"smtp.gmail.com)."
-msgstr ""
+msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
+msgstr "SMTP 서버의 호스트 이름 또는 IP 주소를 입력하십시오 (gmail smtp.gmail.com 사용)."
 
 #: motioneye/templates/main.html:1066
 msgid "SMTP Haveno"
-msgstr ""
+msgstr "SMTP 포트"
 
 #: motioneye/templates/main.html:1067
 msgid "ekz. 587"
-msgstr ""
+msgstr "예를 들어 587"
 
 #: motioneye/templates/main.html:1068
-msgid ""
-"Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj "
-"kaj 587 por TLS-ligoj)."
-msgstr ""
+msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
+msgstr "SMTP 서버에서 사용하는 포트를 입력하십시오 (일반적으로 비 TLS 링크의 경우 465, TLS 링크의 경우 587)."
 
 #: motioneye/templates/main.html:1071
 msgid "SMTP-Konto"
-msgstr ""
+msgstr "SMTP 계정"
 
 #: motioneye/templates/main.html:1072
 msgid "konto@gmail.com…"
-msgstr ""
+msgstr "accound@gmail.com…"
 
 #: motioneye/templates/main.html:1073
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
-msgstr ""
+msgstr "SMTP 계정 (일반적으로 이메일 주소)을 입력하십시오."
 
 #: motioneye/templates/main.html:1076
 msgid "SMTP Pasvorto"
-msgstr ""
+msgstr "SMTP 비밀번호"
 
 #: motioneye/templates/main.html:1078
-msgid ""
-"Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-"
-"specifan generitan pasvorton)."
-msgstr ""
+msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
+msgstr "SMTP 비밀번호를 입력하십시오 (Gmail의 경우 Google 비밀번호 또는 앱 특정 생성 비밀번호를 사용하십시오)."
 
 #: motioneye/templates/main.html:1081
 msgid "De adreso"
-msgstr ""
+msgstr "주소"
 
 #: motioneye/templates/main.html:1082
 msgid "retpoŝta adreso…"
-msgstr ""
+msgstr "이메일 주소 ..."
 
 #: motioneye/templates/main.html:1083
-msgid ""
-"Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina"
-" retpoŝta adreso estos uzata se lasita malplena)."
-msgstr ""
+msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
+msgstr "SMTP 서비스에 하나가 필요한 경우 사용자 정의 주소 구성 (첫 번째 대상 이메일 주소가 비어 있으면 사용됩니다)."
 
 #: motioneye/templates/main.html:1086
 msgid "Uzi TLS"
-msgstr ""
+msgstr "TLS를 사용하십시오"
 
 #: motioneye/templates/main.html:1088
-msgid ""
-"Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por "
-"ebligi)."
-msgstr ""
+msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
+msgstr "SMTP 서버에 TLS가 필요한 경우이를 활성화하십시오 (Gmail이 활성화하려면이를 필요로합니다)."
 
 #: motioneye/templates/main.html:1091
 msgid "Aldonitaj bildoj tempo-intervalo"
-msgstr ""
+msgstr "추가 이미지 시간 범위"
 
 #: motioneye/templates/main.html:1093
-msgid ""
-"Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj "
-"ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de "
-"pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi"
-" ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
-msgstr ""
+msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgstr "전자 메일 링크를 만들 때 사용할 시간 검색 범위를 정의합니다 (높은 값은 지연 알림이 증가하여 더 많은 이미지가있는 이메일을 생성). 추가 된 이미지를 방지하기 위해 0으로 설정하십시오. 또한 \"캡처 된 이미지\"를 승인해야합니다."
 
 #: motioneye/templates/main.html:1097
 msgid "Testi retpoŝto"
-msgstr ""
+msgstr "테스트 이메일"
 
 #: motioneye/templates/main.html:1098
-msgid ""
-"Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi "
-"plenigis la postulatajn detalojn."
-msgstr ""
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "필요한 세부 정보를 채운 후 이메일 알림을 테스트하려면이 버튼을 클릭하십시오."
 
 #: motioneye/templates/main.html:1104
 msgid "Sendu Telegraman Sciigon"
-msgstr ""
+msgstr "Telegram 알림을 보내십시오"
 
 #: motioneye/templates/main.html:1106
-msgid ""
-"ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento "
-"estas detektita"
-msgstr ""
+msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
+msgstr "이동 이벤트가 감지 될 때마다 전보 메시지를 받으려면 활성화하십시오."
 
 #: motioneye/templates/main.html:1109
 msgid "HTTP API ĵetono"
-msgstr ""
+msgstr "HTTP API 토큰"
 
 #: motioneye/templates/main.html:1110
 msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
-msgstr ""
+msgstr "예 : 93847672 : AACDSN843HSJSH32BSMDN3SHSH2BSH0XRS_32DBCR1W"
 
 #: motioneye/templates/main.html:1111
-msgid ""
-"Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas "
-"enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri "
-"kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita"
-" «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas "
-"mesaĝojn."
-msgstr ""
+msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
+msgstr "Telegram-Bot 채팅을 만들면 여기에 입력 해야하는 API 토큰이 나타납니다. API 토큰을 얻는 방법에 대한 단계별 안내서를 보려면 아래 API 버튼을 클릭하십시오. 또한 키가 생성 된 후 새로 만든 \"봇\"과 채팅하여 메시지를 받도록하십시오."
 
 #: motioneye/templates/main.html:1114
 msgid "Babileja ID"
-msgstr ""
+msgstr "채팅 ID"
 
 #: motioneye/templates/main.html:1115
 msgid "Ekzemplo: 938272312"
-msgstr ""
+msgstr "예 : 938272312"
 
 #: motioneye/templates/main.html:1116
-msgid ""
-"Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La "
-"babilejo redonos la necesan numeron por ĉi tiu kampo."
-msgstr ""
+msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
+msgstr "id_chatbot (@id_chatbot)과 새 채팅을하고 시작을 선택하십시오. 채팅은이 필드에 필요한 번호를 반환합니다."
 
 #: motioneye/templates/main.html:1119
 msgid "Alkroĉitaj Bildoj Tempo"
-msgstr ""
+msgstr "첨부 된 사진 시간"
 
 #: motioneye/templates/main.html:1121
-msgid ""
-"difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn "
-"(pli altaj valoroj generas pli da bildoj koste de pliigita sciiga "
-"prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ "
-"ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu "
-"numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi "
-"agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado "
-"ekigita, starigu ĉi tion multe pli malalte."
-msgstr ""
+msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
+msgstr "이미지 검색 -타임 간격을 정의하여 전보 추가를 생성합니다 (높은 값은 알림 지연 증가를 희생하여 더 많은 이미지를 생성). 이미지 추가 -ons를 방지하려면 0으로 설정하십시오. 또한 작동하도록 고정 이미지를 활성화해야합니다. 사진이 전송 될 때 까지이 번호로 플레이하고 싶을 것입니다. 고정 이미지를 하나의 이미지 모션 트리거로 설정하면 좋은 시작 번호는 30입니다. 트리거 된 표준 운동의 경우 훨씬 더 낮게 설정하십시오."
 
 #: motioneye/templates/main.html:1124
 msgid "API-Informoj"
-msgstr ""
+msgstr "API 정보"
 
 #: motioneye/templates/main.html:1125
 msgid "Testo"
-msgstr ""
+msgstr "테스트"
 
 #: motioneye/templates/main.html:1131 motioneye/templates/main.html:1176
 msgid "Alvoki URL"
-msgstr ""
+msgstr "URL을 호출하십시오"
 
 #: motioneye/templates/main.html:1133
-msgid ""
-"Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo "
-"estas detektita."
-msgstr ""
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "모션 이벤트가 감지 될 때마다 URL을 요청할 경우이를 활성화하십시오."
 
 #: motioneye/templates/main.html:1137
 msgid "ekz. http://ekzemplo.com/sciigi/"
-msgstr ""
+msgstr "예를 들어 http://ekzemplo.com/sciigi/"
 
 #: motioneye/templates/main.html:1138
 #, python-format
-msgid ""
-"URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj "
-"ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = "
-"horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-msgstr ""
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "모션이 감지 될 때 요청할 URL; 다음 특수 단축키가 허용됩니다. %% V = 가끔 숫자"
 
 #: motioneye/templates/main.html:1150 motioneye/templates/main.html:1195
-msgid ""
-"La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos"
-" transdonitaj kiel indikite ĉi tie)."
-msgstr ""
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "URL을 요청할 때 사용할 HTTP 방법 (주어진 URL 매개 변수는 여기에 표시된대로 전달됩니다)."
 
 #: motioneye/templates/main.html:1156 motioneye/templates/main.html:1201
 msgid "Lanĉi komando"
-msgstr ""
+msgstr "시작 명령"
 
 #: motioneye/templates/main.html:1158
-msgid ""
-"Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo "
-"estas detektita."
-msgstr ""
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "모션 이벤트가 감지 될 때마다 명령을 시작하려면이를 활성화하십시오."
 
 #: motioneye/templates/main.html:1161 motioneye/templates/main.html:1206
 msgid "Komando"
-msgstr ""
+msgstr "명령"
 
 #: motioneye/templates/main.html:1162 motioneye/templates/main.html:1207
 msgid "komando…"
-msgstr ""
+msgstr "명령 ..."
 
 #: motioneye/templates/main.html:1163
 #, python-format
-msgid ""
-"Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj "
-"povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la"
-" sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, "
-"%%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, "
-"%%v = okaza numero"
-msgstr ""
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "모션이 감지 될 때 시작되는 명령; 수많은 명령은 결장에 의해 분리 될 수 있습니다. 명령과 함께 세미콜론을 사용하지 마십시오. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = day, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호 번호 , %% V = 가끔 숫자"
 
 #: motioneye/templates/main.html:1203
-msgid ""
-"Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento "
-"finiĝos."
-msgstr ""
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "운동 이벤트가 끝날 때마다 명령을 시작하려면이를 활성화하십시오."
 
 #: motioneye/templates/main.html:1208
 #, python-format
-msgid ""
-"Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj "
-"povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; "
-"la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, "
-"%%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
-msgstr ""
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "모션 이벤트가 종료 될 때 시작되는 명령; 수많은 명령은 결장에 의해 분리 될 수 있습니다. 명령과 함께 점 화합물을 사용하지 마십시오. 다음과 같은 특수 토큰이 허용됩니다 : %% y = 년, %% m = 월, %% d = 날짜, %% h = 시간, %% m = minute, %% s = second, %% q = 프레임 번호."
 
 #: motioneye/templates/main.html:1218
-msgid ""
-"Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de "
-"moviĝo."
-msgstr ""
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
+msgstr "모션 감지에 대한 주간 일정을 정의하려면이를 활성화하십시오."
 
 #: motioneye/templates/main.html:1219
 msgid "Laboranta horaro"
-msgstr ""
+msgstr "작업 일정"
 
 #: motioneye/templates/main.html:1224
 msgid "Lundo"
-msgstr ""
+msgstr "월요일"
 
 #: motioneye/templates/main.html:1227
 msgid "de"
-msgstr ""
+msgstr "의"
 
 #: motioneye/templates/main.html:1228
 msgid "ĝis"
-msgstr ""
+msgstr "까지"
 
 #: motioneye/templates/main.html:1230
 msgid "Fiksas la labortagan tempintervalon por lundoj."
-msgstr ""
+msgstr "월요일의 근무일 범위를 설정합니다."
 
 #: motioneye/templates/main.html:1233
 msgid "Mardo"
-msgstr ""
+msgstr "화요일"
 
 #: motioneye/templates/main.html:1239
 msgid "Fiksas la labortagan tempintervalon por mardoj."
-msgstr ""
+msgstr "화요일의 근무일 범위를 설정합니다."
 
 #: motioneye/templates/main.html:1242
 msgid "Merkredo"
-msgstr ""
+msgstr "수요일"
 
 #: motioneye/templates/main.html:1248
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
-msgstr ""
+msgstr "수요일의 근무일 범위를 설정합니다."
 
 #: motioneye/templates/main.html:1251
 msgid "Ĵaŭdo"
-msgstr ""
+msgstr "목요일"
 
 #: motioneye/templates/main.html:1257
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
-msgstr ""
+msgstr "목요일의 근무일 범위를 설정합니다."
 
 #: motioneye/templates/main.html:1260
 msgid "Vendredo"
-msgstr ""
+msgstr "금요일"
 
 #: motioneye/templates/main.html:1266
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
-msgstr ""
+msgstr "금요일의 근무일 범위를 설정합니다."
 
 #: motioneye/templates/main.html:1269
 msgid "Sabato"
-msgstr ""
+msgstr "토요일"
 
 #: motioneye/templates/main.html:1275
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
-msgstr ""
+msgstr "토요일의 근무일 범위를 설정합니다."
 
 #: motioneye/templates/main.html:1278
 msgid "Dimanĉo"
-msgstr ""
+msgstr "일요일"
 
 #: motioneye/templates/main.html:1284
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
-msgstr ""
+msgstr "일요일의 근무일 범위를 설정합니다."
 
 #: motioneye/templates/main.html:1287
 msgid "Detekti movadon"
-msgstr ""
+msgstr "움직임을 감지합니다"
 
 #: motioneye/templates/main.html:1290
 msgid "Dum laborista horaro"
-msgstr ""
+msgstr "작업 일정 중에"
 
 #: motioneye/templates/main.html:1291
 msgid "Ekster laborista horaro"
-msgstr ""
+msgstr "작업 일정 외에"
 
 #: motioneye/templates/main.html:1294
-msgid ""
-"Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista "
-"horaro."
-msgstr ""
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
+msgstr "작업 일정 중 또는 외부에서 동작 감지가 활성화되어야하는지 여부를 정의합니다."
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
 msgid "neniam"
-msgstr ""
+msgstr "절대"
 
 #: motioneye/utils/dtconv.py:113
 msgid "tago"
-msgstr ""
+msgstr "낮"
 
 #: motioneye/utils/dtconv.py:116
 msgid "semajno"
-msgstr ""
+msgstr "주"
 
 #: motioneye/utils/dtconv.py:119
 msgid "monato"
-msgstr ""
+msgstr "월"
 
 #: motioneye/utils/dtconv.py:122
 msgid "jaro"
-msgstr ""
+msgstr "년도"
 
 #: motioneye/utils/dtconv.py:129
 msgid "horo"
@@ -1733,7 +1520,7 @@ msgstr "1시간"
 
 #: motioneye/utils/dtconv.py:132
 msgid "horoj"
-msgstr ""
+msgstr "시간"
 
 #: motioneye/utils/dtconv.py:136
 msgid "minuto"
@@ -1741,7 +1528,7 @@ msgstr "1분"
 
 #: motioneye/utils/dtconv.py:139
 msgid "minutoj"
-msgstr ""
+msgstr "분"
 
 #: motioneye/utils/dtconv.py:143
 msgid "sekundo"
@@ -1749,4 +1536,5 @@ msgstr "초"
 
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
-msgstr ""
+msgstr "마이너스"
+

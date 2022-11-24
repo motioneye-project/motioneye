@@ -22,79 +22,79 @@ msgstr ""
 
 #: motioneye/server.py:232
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr ""
+msgstr "Ένα σήμα διακοπής που ελήφθη, κλείνοντας ..."
 
 #: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr ""
+msgstr "Οι μετοχές της SMB απαιτούν προνόμια root"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr ""
+msgstr "Εγκαταστήστε το Tornado Version 3.1 ή περισσότερο"
 
 #: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
-msgstr ""
+msgstr "Εγκαταστήστε το Jinja2"
 
 #: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr ""
+msgstr "Εγκαταστήστε μαξιλάρι ή pil"
 
 #: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
-msgstr ""
+msgstr "Εγκαταστήστε το Pycurl"
 
 #: motioneye/server.py:423
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr ""
+msgstr "Γειά σου! Αυτός είναι ένας διακομιστής Motioneye"
 
 #: motioneye/server.py:438
 msgid "purigado komenciĝis"
-msgstr ""
+msgstr "Ο καθαρισμός έχει αρχίσει"
 
 #: motioneye/server.py:440
 msgid "wsswitch komenciĝis"
-msgstr ""
+msgstr "Ξεκίνησε το WSSwitch"
 
 #: motioneye/server.py:443
 msgid "taskoj komenciĝis"
-msgstr ""
+msgstr "Ξεκίνησαν τα καθήκοντα"
 
 #: motioneye/server.py:447
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr ""
+msgstr "Ο συλλέκτης απορριμμάτων πελατών MJPG ξεκίνησε"
 
 #: motioneye/server.py:465
 msgid "servilo komenciĝis"
-msgstr ""
+msgstr "Ο διακομιστής έχει αρχίσει"
 
 #: motioneye/server.py:471
 msgid "servilo haltis"
-msgstr ""
+msgstr "Ο διακομιστής σταμάτησε"
 
 #: motioneye/server.py:473
 msgid "taskoj haltis"
-msgstr ""
+msgstr "Σταμάτησαν οι εργασίες"
 
 #: motioneye/server.py:481
 msgid "motion haltis"
-msgstr ""
+msgstr "Η πρόταση σταμάτησε"
 
 #: motioneye/server.py:486
 msgid "adiaŭ!"
-msgstr ""
+msgstr "Αντιο σας!"
 
 #: motioneye/templates/main.html:104
 msgid "agordojn"
-msgstr ""
+msgstr "Ρυθμίσεις"
 
 #: motioneye/templates/main.html:105
 msgid "ŝanĝi uzanton"
-msgstr ""
+msgstr "Αλλαγή χρήστη"
 
 #: motioneye/templates/main.html:107
 msgid "forigi kameraon"
-msgstr ""
+msgstr "Για να αφαιρέσετε μια κάμερα"
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
@@ -102,81 +102,75 @@ msgstr "Εφαρμογή"
 
 #: motioneye/templates/main.html:127
 msgid "preferoj de uzanto"
-msgstr ""
+msgstr "προτιμήσεις χρήστη"
 
 #: motioneye/templates/main.html:128
 msgid "Preferoj"
-msgstr ""
+msgstr "Προτιμήσεις"
 
 #: motioneye/templates/main.html:133
 msgid "Aranĝo Kolumnoj"
-msgstr ""
+msgstr "Στήλες διάταξης"
 
 #: motioneye/templates/main.html:135
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr ""
+msgstr "μειώνει τον αριθμό των στηλών που χρησιμοποιούνται για την κανονιστική κάμερα"
 
 #: motioneye/templates/main.html:138
 msgid "Fiksi Kadrojn Vertikale"
-msgstr ""
+msgstr "Στερεώστε τα πλαίσια κατακόρυφα"
 
 #: motioneye/templates/main.html:140
-msgid ""
-"kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la "
-"fenestro aŭ ne"
-msgstr ""
+msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
+msgstr "Ελέγξτε εάν οι χρόνοι πλαισίου μπορούν να μειωθούν για να ταιριάζουν κάθετα στο παράθυρο ή όχι"
 
 #: motioneye/templates/main.html:143
 msgid "Aranĝo linioj"
-msgstr ""
+msgstr "Γραμμές διάταξης"
 
 #: motioneye/templates/main.html:145
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr ""
+msgstr "μειώνει τον αριθμό των γραμμών που χρησιμοποιούνται για την οργάνωση των φωτογραφικών μηχανών"
 
 #: motioneye/templates/main.html:148
 msgid "kadro-variatoro"
-msgstr ""
+msgstr "παραλλαγή πλαισίου"
 
 #: motioneye/templates/main.html:150
-msgid ""
-"reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne "
-"funkcias kun simplaj MJPEG-fotiloj)"
-msgstr ""
+msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
+msgstr "Μειώνει το ρυθμό καρέ για εξοικονόμηση σε απευθείας σύνδεση ευρεία ζώνη και κυκλοφορία (δεν λειτουργεί με απλές κάμερες MJPEG)"
 
 #: motioneye/templates/main.html:153
 msgid "Rezolucio-variatoro"
-msgstr ""
+msgstr "Ποικιλία ανάλυσης"
 
 #: motioneye/templates/main.html:155
-msgid ""
-"reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan "
-"bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
-msgstr ""
+msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+msgstr "Μειώνει την πραγματική επίλυση όλων των φωτογραφικών μηχανών για να εξοικονομήσετε online ευρεία μπάντα και κυκλοφορία (δεν λειτουργεί σε απλές κάμερες MJPEG)"
 
 #: motioneye/templates/main.html:161
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
-msgstr ""
+msgstr "Γενικές παραμέτρους, κοινές σε όλες τις κάμερες"
 
 #: motioneye/templates/main.html:162
 msgid "Ĝeneralaj Agordoj"
-msgstr ""
+msgstr "Γενικές Ρυθμίσεις"
 
 #: motioneye/templates/main.html:167
 msgid "Lingvo"
-msgstr ""
+msgstr "Γλώσσα"
 
 #: motioneye/templates/main.html:173
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr ""
+msgstr "Η γλώσσα της διεπαφής (δύο γράμματα)"
 
 #: motioneye/templates/main.html:176
 msgid "Administranto"
-msgstr ""
+msgstr "Διαχειριστής"
 
 #: motioneye/templates/main.html:178
 msgid "la uzantnomo uzata por agordi la sistemon"
-msgstr ""
+msgstr "Το όνομα χρήστη χρησιμοποιείται για τον καθορισμό του συστήματος"
 
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
@@ -185,1568 +179,1362 @@ msgstr "Κωδικός Πρόσβασης"
 
 #: motioneye/templates/main.html:183
 msgid "pasvorto de administranto"
-msgstr ""
+msgstr "Κωδικός πρόσβασης διαχειριστή"
 
 #: motioneye/templates/main.html:186
 msgid "Observanto"
-msgstr ""
+msgstr "Παρατηρητής"
 
 #: motioneye/templates/main.html:188
 msgid "la uzantnomo por uzi por la monitorado"
-msgstr ""
+msgstr "το όνομα χρήστη που θα χρησιμοποιηθεί για την παρακολούθηση"
 
 #: motioneye/templates/main.html:193
-msgid ""
-"la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen "
-"pasvorto)"
-msgstr ""
+msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
+msgstr "Ο κωδικός πρόσβασης του χρήστη παρακολούθησης (αφήστε το λευκό για παρακολούθηση χωρίς κωδικό πρόσβασης)"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"
-msgstr ""
+msgstr "Εκδοχή Motioneye"
 
 #: motioneye/templates/main.html:206
 msgid "Motion Versio"
-msgstr ""
+msgstr "Εκδοχή κίνησης"
 
 #: motioneye/templates/main.html:210
 msgid "Operaciumo Versio"
-msgstr ""
+msgstr "Έκδοση λειτουργικού συστήματος"
 
 #: motioneye/templates/main.html:215
 msgid "Programara Ĝisdatigo"
-msgstr ""
+msgstr "Αναβάθμιση λογισμικού"
 
 #: motioneye/templates/main.html:217
 msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
-msgstr ""
+msgstr "Ελέγχει νέες εκδόσεις και εκτελεί ενημερώσεις"
 
 #: motioneye/templates/main.html:221
 msgid "Nutro"
-msgstr ""
+msgstr "Θρέψη"
 
 #: motioneye/templates/main.html:222
 msgid "Fermu"
-msgstr ""
+msgstr "Κλείσε"
 
 #: motioneye/templates/main.html:223
 msgid "malŝaltas la sistemon"
-msgstr ""
+msgstr "Απενεργοποιεί το σύστημα"
 
 #: motioneye/templates/main.html:227
 msgid "Rekomencu"
-msgstr ""
+msgstr "Επανεκκινώ"
 
 #: motioneye/templates/main.html:228
 msgid "rekomencas la sistemon"
-msgstr ""
+msgstr "επαναλάβετε το σύστημα"
 
 #: motioneye/templates/main.html:234
 msgid "Agordo"
-msgstr ""
+msgstr "Διαμόρφωση"
 
 #: motioneye/templates/main.html:235
 msgid "Sekurkopio"
-msgstr ""
+msgstr "Αντιγράφων ασφαλείας"
 
 #: motioneye/templates/main.html:236
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
-msgstr ""
+msgstr "δημιουργεί ένα αρχείο με την τρέχουσα διαμόρφωση για να το αποθηκεύσετε επί τόπου"
 
 #: motioneye/templates/main.html:240
 msgid "Restaŭri"
-msgstr ""
+msgstr "Επαναφέρω"
 
 #: motioneye/templates/main.html:241
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
-msgstr ""
+msgstr "Επαναφέρετε τη ρύθμιση από ένα αρχείο αντιγράφων ασφαλείας που έχει αποθηκευτεί προηγουμένως"
 
 #: motioneye/templates/main.html:265
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
-msgstr ""
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε να χρησιμοποιήσετε αυτήν την κάμερα"
 
 #: motioneye/templates/main.html:266
 msgid "Video-Aparato"
-msgstr ""
+msgstr "Βιντεοκασέτα"
 
 #: motioneye/templates/main.html:271 motioneye/templates/main.html:614
 #: motioneye/templates/main.html:631
 msgid "Kamerao Nomo"
-msgstr ""
+msgstr "Όνομα κάμερας"
 
 #: motioneye/templates/main.html:272
 msgid "kameraa nomo…"
-msgstr ""
+msgstr "Όνομα κάμερας ..."
 
 #: motioneye/templates/main.html:273
 msgid "alias pri ĉi tiu kamera aparato"
-msgstr ""
+msgstr "Αλυσίδωμα για αυτήν τη συσκευή κάμερας"
 
 #: motioneye/templates/main.html:276
 msgid "Kamerao ID"
-msgstr ""
+msgstr "Ταυτότητα κάμερας"
 
 #: motioneye/templates/main.html:278
 msgid "la kamerao identiga numero"
-msgstr ""
+msgstr "ο αριθμός αναγνώρισης της κάμερας"
 
 #: motioneye/templates/main.html:281
 msgid "Kamerao aparato"
-msgstr ""
+msgstr "Κάμερα"
 
 #: motioneye/templates/main.html:283
-msgid ""
-"Eniga aparato (ekz. : /dev/video) or URL (ekz. : "
-"rtsp://192.168.1.1/stream)"
-msgstr ""
+msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
+msgstr "Συσκευή εισόδου (π.χ./dev/video) ή URL (π.χ: rtsp: //192.168.1.1/stream)"
 
 #: motioneye/templates/main.html:286
 msgid "Kamerao Tipo"
-msgstr ""
+msgstr "Τύπος κάμερας"
 
 #: motioneye/templates/main.html:293
 msgid "Aŭtomata Brilo"
-msgstr ""
+msgstr "Αυτόματη φωτεινότητα"
 
 #: motioneye/templates/main.html:295
-msgid ""
-"ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen "
-"aŭtomata brilo)"
-msgstr ""
+msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
+msgstr "επιτρέπει την αυτόματη φωτεινότητα λογισμικού (συνιστάται μόνο για κάμερες χωρίς αυτόματη φωτεινότητα)"
 
 #: motioneye/templates/main.html:301
 msgid "Video-rezolucio"
-msgstr ""
+msgstr "Ανάλυση βίντεο"
 
 #: motioneye/templates/main.html:306
-msgid ""
-"la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed"
-" postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
-msgstr ""
+msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
+msgstr "Η ανάλυση βίντεο (μεγαλύτερες τιμές παράγουν καλύτερη ποιότητα, αλλά απαιτεί περισσότερη ισχύ CPU, μεγαλύτερη αποθήκευση και εύρος ζώνης)"
 
 #: motioneye/templates/main.html:309
 msgid "Larĝeco"
-msgstr ""
+msgstr "Πλάτος"
 
 #: motioneye/templates/main.html:311
 msgid "enigu kutiman rezolucian larĝon"
-msgstr ""
+msgstr "Εισαγάγετε το πλάτος προσαρμοσμένης ανάλυσης"
 
 #: motioneye/templates/main.html:314
 msgid "Alteco"
-msgstr ""
+msgstr "Υψος"
 
 #: motioneye/templates/main.html:316
 msgid "enigu kutiman rezolucian altecon"
-msgstr ""
+msgstr "Εισαγάγετε ένα κανονικό ύψος ανάλυσης"
 
 #: motioneye/templates/main.html:319
 msgid "Video-Rotacio"
-msgstr ""
+msgstr "Περιστροφή βίντεο"
 
 #: motioneye/templates/main.html:328
-msgid ""
-"uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas "
-"poziciigita ĝuste"
-msgstr ""
+msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
+msgstr "Χρησιμοποιήστε αυτό για να γυρίσετε τη συλληφθείσα εικόνα εάν η κάμερά σας δεν είναι σωστά τοποθετημένη"
 
 #: motioneye/templates/main.html:331
 msgid "Kadrofrekvenco"
-msgstr ""
+msgstr "Συχνότητα πλαισίου"
 
 #: motioneye/templates/main.html:333
-msgid ""
-"agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli "
-"altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-"
-"potenco, pli grandan stokadon kaj larĝan bandon)"
-msgstr ""
+msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
+msgstr "μειώνει τον αριθμό των πλαισίων που συλλαμβάνονται από την κάμερα κάθε δευτερόλεπτο (υψηλότερες τιμές παράγουν ομαλότερα βίντεο αλλά απαιτεί περισσότερη ισχύ CPU, μεγαλύτερη αποθήκευση και ευρεία ζώνη)"
 
 #: motioneye/templates/main.html:339
 msgid "Privateca masko"
-msgstr ""
+msgstr "Μάσκα απορρήτου"
 
 #: motioneye/templates/main.html:341
-msgid ""
-"ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj "
-"por protekti privatecon"
-msgstr ""
+msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
+msgstr "επιτρέπει τη μεταμφίεση των εικόνων για να αποφευχθεί η καταγραφή οποιωνδήποτε περιοχών εικόνας για την προστασία της ιδιωτικής ζωής"
 
 #: motioneye/templates/main.html:346 motioneye/templates/main.html:1007
 msgid "Redakti maskon"
-msgstr ""
+msgstr "Επεξεργασία μάσκας"
 
 #: motioneye/templates/main.html:347 motioneye/templates/main.html:1008
 msgid "Konservi maskon"
-msgstr ""
+msgstr "Για να διατηρήσετε μια μάσκα"
 
 #: motioneye/templates/main.html:350
 msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
-msgstr ""
+msgstr "Κάντε κλικ σε αυτό το κουμπί για να ενεργοποιήσετε/απενεργοποιήσετε τον επεξεργαστή μάσκας"
 
 #: motioneye/templates/main.html:361
 msgid "Ekstraj Elektoj"
-msgstr ""
+msgstr "Επιπλέον επιλογές"
 
 #: motioneye/templates/main.html:363
-msgid ""
-"vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono "
-"(uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr ""
+msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
+msgstr "Μπορείτε να προσθέσετε τυχόν πρόσθετες επιλογές εδώ για τον δαίμονα \"Motion\" (χρησιμοποιήστε τη μορφή \"Όνομα τιμής\", μία επιλογή ανά γραμμή)"
 
 #: motioneye/templates/main.html:372
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
-msgstr ""
+msgstr "Επιλέξτε πού και πώς αποθηκεύονται τα μέσα σας"
 
 #: motioneye/templates/main.html:373
 msgid "Stokado de dosieroj"
-msgstr ""
+msgstr "Αποθήκευση αρχείων"
 
 #: motioneye/templates/main.html:378
 msgid "Stokada Aparato"
-msgstr ""
+msgstr "Συσκευή αποθήκευσης"
 
 #: motioneye/templates/main.html:383
-msgid ""
-"indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos "
-"konservitaj"
-msgstr ""
+msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
+msgstr "υποδεικνύει τη συσκευή αποθήκευσης όπου θα αποθηκευτούν τα αρχεία εικόνας και βίντεο"
 
 #: motioneye/templates/main.html:386
 msgid "Retservilo"
-msgstr ""
+msgstr "Διακομιστής ιστού"
 
 #: motioneye/templates/main.html:388
 msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
-msgstr ""
+msgstr "Η διεύθυνση του διακομιστή ιστού (διεύθυνση IP ή όνομα)"
 
 #: motioneye/templates/main.html:391
 msgid "SMB Protokolo-Versio"
-msgstr ""
+msgstr "Έκδοση πρωτοκόλλου SMB"
 
 #: motioneye/templates/main.html:401
-msgid ""
-"elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj "
-"vidu, kiu funkcias plej bone kun via NAS)"
-msgstr ""
+msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
+msgstr "Επιλέξτε την έκδοση SMB που μπορείτε να χρησιμοποιήσετε (δοκιμάστε τις διάφορες επιλογές και δείτε ποια λειτουργεί καλύτερα με το NAS σας)"
 
 #: motioneye/templates/main.html:404
 msgid "Kunhava nomo"
-msgstr ""
+msgstr "Ένα κοινό όνομα"
 
 #: motioneye/templates/main.html:406
 msgid "la nomo de la interŝanĝa reto"
-msgstr ""
+msgstr "το όνομα του δικτύου ανταλλαγής"
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
 msgstr "Όνομα Χρήστη"
 
 #: motioneye/templates/main.html:411
-msgid ""
-"la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu "
-"malplena se neniu uzantnomo estas bezonata)"
-msgstr ""
+msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
+msgstr "Το όνομα χρήστη που παρέχεται όταν έχετε πρόσβαση στον κατάλογο δικτύου (αφήστε άδειο εάν δεν απαιτείται όνομα χρήστη)"
 
 #: motioneye/templates/main.html:414
 msgid "Pasvorton"
-msgstr ""
+msgstr "Κωδικός πρόσβασης"
 
 #: motioneye/templates/main.html:416
-msgid ""
-"la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu "
-"pasvorto estas bezonata)"
-msgstr ""
+msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
+msgstr "Ο κωδικός πρόσβασης που απαιτείται από τον κατάλογο δικτύου (αφήστε άδειο εάν δεν απαιτείται κωδικός πρόσβασης)"
 
 #: motioneye/templates/main.html:419
 msgid "Radika dosierujo"
-msgstr ""
+msgstr "Ριζικός κατάλογος"
 
 #: motioneye/templates/main.html:421
-msgid ""
-"la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos "
-"konservitaj"
-msgstr ""
+msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
+msgstr "Η διαδρομή ρίζας (στην επιλεγμένη συσκευή αποθήκευσης) όπου θα αποθηκευτούν τα αρχεία"
 
 #: motioneye/templates/main.html:425
 msgid "Testi la reton dosierujon"
-msgstr ""
+msgstr "Δοκιμάστε το φάκελο δικτύου"
 
 #: motioneye/templates/main.html:426
-msgid ""
-"alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis"
-" la postulatajn detalojn"
-msgstr ""
+msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
+msgstr "Κάντε κλικ σε αυτό το κουμπί για να ελέγξετε την ηλεκτρονική συνάντηση μετά από να συμπληρώσετε τις απαιτούμενες λεπτομέρειες"
 
 #: motioneye/templates/main.html:432
 msgid "Uzado de Disko"
-msgstr ""
+msgstr "Χρησιμοποιώντας δίσκο"
 
 #: motioneye/templates/main.html:436
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr ""
+msgstr "το χρησιμοποιημένο/συνολικό μέγεθος του δίσκου όπου ζει ο ριζικός κατάλογος"
 
 #: motioneye/templates/main.html:442
 msgid "Alŝutu Mediajn Dosierojn"
-msgstr ""
+msgstr "Μεταφορτώστε τα περιβαλλοντικά αρχεία"
 
 #: motioneye/templates/main.html:444
-msgid ""
-"aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu "
-"alŝutitaj al ekstera servo"
-msgstr ""
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
+msgstr "Ενεργοποιήστε αυτήν την επιλογή εάν θέλετε να μεταφορτωθούν τα μέσα σας σε εξωτερική υπηρεσία"
 
 #: motioneye/templates/main.html:447
 msgid "Alŝutu Bildojn"
-msgstr ""
+msgstr "Ανεβάστε φωτογραφίες"
 
 #: motioneye/templates/main.html:449
-msgid ""
-"aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera "
-"servo"
-msgstr ""
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
+msgstr "Ενεργοποιήστε αυτήν την επιλογή εάν θέλετε οι εικόνες να κατεβάσουν σε εξωτερική υπηρεσία"
 
 #: motioneye/templates/main.html:452
 msgid "Alŝutu Filmojn"
-msgstr ""
+msgstr "Μεταφορτώστε ταινίες"
 
 #: motioneye/templates/main.html:454
 msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
-msgstr ""
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε να μεταφορτωθούν βίντεο σε εξωτερική υπηρεσία"
 
 #: motioneye/templates/main.html:457
 msgid "Alŝuta Servo"
-msgstr ""
+msgstr "Μεταφόρτωση υπηρεσίας"
 
 #: motioneye/templates/main.html:460
 msgid "Servilo FTP"
-msgstr ""
+msgstr "Διακομιστής FTP"
 
 #: motioneye/templates/main.html:461
 msgid "Servilo SFTP"
-msgstr ""
+msgstr "Διακομιστής SFTP"
 
 #: motioneye/templates/main.html:462
 msgid "Servilo HTTP"
-msgstr ""
+msgstr "Διακομιστής HTTP"
 
 #: motioneye/templates/main.html:463
 msgid "Servilo HTTPS"
-msgstr ""
+msgstr "Διακομιστής HTTPS"
 
 #: motioneye/templates/main.html:471
 msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
-msgstr ""
+msgstr "Επιλέξτε μια υπηρεσία στην οποία πρέπει να μεταφορτωθούν τα αρχεία πολυμέσων"
 
 #: motioneye/templates/main.html:474
 msgid "Servila Adreso"
-msgstr ""
+msgstr "Διεύθυνση διακομιστή"
 
 #: motioneye/templates/main.html:476
-msgid ""
-"la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ "
-"192.168.1.3)"
-msgstr ""
+msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
+msgstr "Το όνομα τομέα ή τη διεύθυνση IP του διακομιστή (π.χ. ftp.example.com ή 192.168.1.3)"
 
 #: motioneye/templates/main.html:479
 msgid "Servila haveno"
-msgstr ""
+msgstr "Θύρα διακομιστή"
 
 #: motioneye/templates/main.html:481
-msgid ""
-"la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por "
-"uzi la defaŭltan valoron)"
-msgstr ""
+msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
+msgstr "Η θύρα που θα χρησιμοποιηθεί για σύνδεση με την υπηρεσία (αφήστε αυτό το πεδίο κενό για να χρησιμοποιήσετε την προεπιλεγμένη τιμή)"
 
 #: motioneye/templates/main.html:484
 msgid "Metodo"
-msgstr ""
+msgstr "Μέθοδος"
 
 #: motioneye/templates/main.html:491
 msgid "la HTTP-metodo uzi por alŝuti dosierojn"
-msgstr ""
+msgstr "Η μέθοδος HTTP που θα χρησιμοποιηθεί για τη μεταφόρτωση αρχείων"
 
 #: motioneye/templates/main.html:494
 msgid "Finpunkto URL"
-msgstr ""
+msgstr "URL τελικού σημείου"
 
 #: motioneye/templates/main.html:496
 msgid "La kompleta URL al la alŝuta servila finpunkto:"
-msgstr ""
+msgstr "Η πλήρης διεύθυνση URL στο τελικό σημείο μεταφόρτωσης του διακομιστή μεταφόρτωσης:"
 
 #: motioneye/templates/main.html:497
 msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
-msgstr ""
+msgstr "Για S3: π.χ. http: //my.minio: 9000. Αφήστε το άδειο για το AWS!"
 
 #: motioneye/templates/main.html:498
 msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
-msgstr ""
+msgstr "Για το WebDAV: π.χ. https://my.cloud/remote.php/dav/files/me/"
 
 #: motioneye/templates/main.html:501
 msgid "Loko"
-msgstr ""
+msgstr "Θέση"
 
 #: motioneye/templates/main.html:503
-msgid ""
-"la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. "
-"/files/cam1/)"
-msgstr ""
+msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
+msgstr "Το μέρος (διαδρομή ρίζας) όπου πρέπει να μεταφορτωθούν τα μέσα (π.χ. αρχεία/cam1/)"
 
 #: motioneye/templates/main.html:506
 msgid "Inkluzivi Subdosierujojn"
-msgstr ""
+msgstr "Συμπεριλάβετε υποκαταλόγους"
 
 #: motioneye/templates/main.html:508
-msgid ""
-"Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, "
-"anstataŭ meti ilin rekte en la radikan lokon"
-msgstr ""
+msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
+msgstr "Ενεργοποιήστε αυτό για να κατεβάσετε αρχεία πολυμέσων με τους υποκαταλόγους τους, αντί να τα τοποθετήσετε απευθείας στη θέση ρίζας"
 
 #: motioneye/templates/main.html:511
 msgid "Purigi la nubon"
-msgstr ""
+msgstr "Για να καθαρίσετε το σύννεφο"
 
 #: motioneye/templates/main.html:513
-msgid ""
-"ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo "
-"ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de "
-"persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
-msgstr ""
+msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
+msgstr "Ενεργοποιήστε αυτό για να διαγράψετε τα αρχεία πολυμέσων που μεταφορτώνονται στο σύννεφο επίσης όταν διαγράφονται τοπικά μέσα σύμφωνα με τη διαμόρφωση του προσδιορισμού αρχείων. Επί του παρόντος, αυτή η επιλογή είναι διαθέσιμη μόνο για το GDRIV."
 
 #: motioneye/templates/main.html:518
 msgid "la uzantnomo por la alŝuta servo-konto"
-msgstr ""
+msgstr "Το όνομα χρήστη για τον λογαριασμό υπηρεσίας μεταφόρτωσης"
 
 #: motioneye/templates/main.html:523
 msgid "la pasvorto por la alŝuta servo-konto"
-msgstr ""
+msgstr "Ο κωδικός πρόσβασης για τον λογαριασμό υπηρεσίας μεταφόρτωσης"
 
 #: motioneye/templates/main.html:526
 msgid "Rajtiga ŝlosilo"
-msgstr ""
+msgstr "Κλειδί εξουσιοδότησης"
 
 #: motioneye/templates/main.html:528
-msgid ""
-"la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur "
-"dum agordo)"
-msgstr ""
+msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "Το κλειδί που χρησιμοποιείται για τον έλεγχο ταυτότητας με την υπηρεσία μεταφόρτωσης (συνήθως απαιτείται μόνο κατά τη διάρκεια της διαμόρφωσης)"
 
 #: motioneye/templates/main.html:534
 msgid "Akiri ŝlosilon"
-msgstr ""
+msgstr "Λάβετε ένα κλειδί"
 
 #: motioneye/templates/main.html:537
 msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
-msgstr ""
+msgstr "Κάντε κλικ εδώ για να λάβετε την υπηρεσία εξουσιοδότησης κλειδιών"
 
 #: motioneye/templates/main.html:540
 msgid "Access Key"
-msgstr ""
+msgstr "Κλειδί πρόσβασης"
 
 #: motioneye/templates/main.html:542
 msgid "The AWS access key used to authenticate with the upload service"
-msgstr ""
+msgstr "Το πλήκτρο πρόσβασης AWS που χρησιμοποιείται για τον έλεγχο ταυτότητας με την υπηρεσία μεταφόρτωσης"
 
 #: motioneye/templates/main.html:545
 msgid "Sekreta Alira Ŝlosilo"
-msgstr ""
+msgstr "Μυστικό κλειδί πρόσβασης"
 
 #: motioneye/templates/main.html:547
-msgid ""
-"la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo "
-"(kutime bezonata nur dum agordo)"
-msgstr ""
+msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "Το κλειδί AWS Secret Access που χρησιμοποιείται για τον έλεγχο ταυτότητας με την υπηρεσία μεταφόρτωσης (συνήθως απαιτείται μόνο κατά τη διάρκεια της διαμόρφωσης)"
 
 #: motioneye/templates/main.html:550
 msgid "Sitelo"
-msgstr ""
+msgstr "Κάδος"
 
 #: motioneye/templates/main.html:552
 msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr ""
+msgstr "Το όνομα S3 Selle για την υπηρεσία μεταφόρτωσης (συνήθως απαιτείται μόνο κατά τη διάρκεια της διαμόρφωσης)"
 
 #: motioneye/templates/main.html:556
 msgid "Testi la servon"
-msgstr ""
+msgstr "Δοκιμάστε την υπηρεσία"
 
 #: motioneye/templates/main.html:557
-msgid ""
-"alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis"
-" la postulatajn detalojn"
-msgstr ""
+msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
+msgstr "Κάντε κλικ σε αυτό το κουμπί για να δοκιμάσετε την υπηρεσία μεταφόρτωσης αφού έχετε συμπληρώσει τις απαιτούμενες λεπτομέρειες"
 
 #: motioneye/templates/main.html:563
 msgid "alvoki URL"
-msgstr ""
+msgstr "Καλέστε τη διεύθυνση URL"
 
 #: motioneye/templates/main.html:565
-msgid ""
-"ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de "
-"amaskomunikila dosiero"
-msgstr ""
+msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε να ζητηθεί η διεύθυνση URL μετά τη δημιουργία ενός αρχείου πολυμέσων"
 
 #: motioneye/templates/main.html:568 motioneye/templates/main.html:1136
 #: motioneye/templates/main.html:1181
 msgid "Reteja URL"
-msgstr ""
+msgstr "Διεύθυνση Ιστοσελίδας"
 
 #: motioneye/templates/main.html:569
 msgid "ekz. http://example.com/notify/"
-msgstr ""
+msgstr "π.χ. http://example.com/notify/"
 
 #: motioneye/templates/main.html:570
 #, python-format
-msgid ""
-"URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj "
-"ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = "
-"horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento "
-"numero,%%f = dosiera vojo"
-msgstr ""
+msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
+msgstr "URL για μεταφορά όταν εντοπίζεται η κίνηση. Οι ακόλουθες ειδικές συντομεύσεις γίνονται αποδεκτές: %% Y = έτος, %% M = Month, %% D = ημέρα, %% H = ώρα, %% M = Minute, %% S = Second, %% Q = αριθμός πλαισίου, %% v = αριθμός συμβάντος, %% f = τρόπος αρχείου"
 
 #: motioneye/templates/main.html:573 motioneye/templates/main.html:1141
 #: motioneye/templates/main.html:1186
 msgid "Metodo HTTP"
-msgstr ""
+msgstr "Μέθοδος HTTP"
 
 #: motioneye/templates/main.html:582
-msgid ""
-"la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-"
-"koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
-msgstr ""
+msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
+msgstr "Η μέθοδος HTTP που πρέπει να χρησιμοποιήσετε όταν υποβάλλετε αίτηση για ένα online αγκίστρες (οι δεδομένες κωδικοποιημένες παράμετροι URL θα παραδοθούν στην πραγματικότητα όπως υποδεικνύεται εδώ)"
 
 #: motioneye/templates/main.html:588
 msgid "Kuri Komando"
-msgstr ""
+msgstr "Εκτέλεση εντολής"
 
 #: motioneye/templates/main.html:590
-msgid ""
-"ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero "
-"estas kreita"
-msgstr ""
+msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε να εκτελέσετε μια εντολή μετά τη δημιουργία ενός περιβαλλοντικού αρχείου"
 
 #: motioneye/templates/main.html:593
 msgid "Ordono"
-msgstr ""
+msgstr "Σειρά"
 
 #: motioneye/templates/main.html:594
 msgid "ordono…"
-msgstr ""
+msgstr "Σειρά ..."
 
 #: motioneye/templates/main.html:595
 #, python-format
-msgid ""
-"Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj "
-"komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en "
-"komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m"
-" = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = "
-"kadra numero , %%v = okaza numero, %%f = dosiera vojo"
-msgstr ""
+msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
+msgstr "Εντολή που θα επιτευχθεί μετά τη δημιουργία ενός αρχείου πολυμέσων. Αρκετές εντολές μπορούν να διαχωριστούν με ένα όνομα σημείου. Μην χρησιμοποιείτε ένα όνομα σημείου σε εντολές. Τα ακόλουθα ειδικά μάρκες γίνονται αποδεκτά: %% Y = έτος, %% M = Month, %% D = ημέρα, %% H = ώρα, %% M = Minute, %% S = Second, %% Q = αριθμός πλαισίου, %% v = περιστασιακός αριθμός, %% f = τρόπος αρχείου"
 
 #: motioneye/templates/main.html:605
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
-msgstr ""
+msgstr "Επιλέξτε ποιες πληροφορίες εμφανίζονται στα παγιδευμένα πλαίσια"
 
 #: motioneye/templates/main.html:606
 msgid "Teksto Superkovrita"
-msgstr ""
+msgstr "Επικάλυψη κειμένου"
 
 #: motioneye/templates/main.html:611
 msgid "Maldekstra Teksto"
-msgstr ""
+msgstr "Αριστερό κείμενο"
 
 #: motioneye/templates/main.html:615 motioneye/templates/main.html:632
 msgid "Tempostampo"
-msgstr ""
+msgstr "Σφραγίδα χρόνου"
 
 #: motioneye/templates/main.html:616 motioneye/templates/main.html:633
 msgid "Propra Teksto"
-msgstr ""
+msgstr "Προσαρμοσμένο κείμενο"
 
 #: motioneye/templates/main.html:617 motioneye/templates/main.html:634
 #: motioneye/templates/main.html:691
 msgid "Malebligita"
-msgstr ""
+msgstr "άτομα με ειδικές ανάγκες"
 
 #: motioneye/templates/main.html:620
-msgid ""
-"Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra "
-"maldekstra angulo"
-msgstr ""
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
+msgstr "Ορίστε το κείμενο που εμφανίζεται στις ταινίες και τις εικόνες, στην κάτω αριστερή γωνία"
 
 #: motioneye/templates/main.html:624 motioneye/templates/main.html:641
 msgid "propra teksto…"
-msgstr ""
+msgstr "Προσαρμοσμένο κείμενο ..."
 
 #: motioneye/templates/main.html:625
 #, python-format
-msgid ""
-"Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas "
-"akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S"
-" = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = "
-"nova linio"
-msgstr ""
+msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgstr "Ορίζει ένα προσαρμοσμένο αριστερό κείμενο. Τα ακόλουθα ειδικά μάρκες γίνονται αποδεκτά: %% Y = έτος, %% M = Month, %% D = ημέρα, %% H = ώρα, %% M = Minute, %% S = Second, %% Q = αριθμός πλαισίου, %% v = αριθμός συμβάντος, %% t = hh: mm: ss, \n = νέα γραμμή"
 
 #: motioneye/templates/main.html:628
 msgid "Dekstra Teksto"
-msgstr ""
+msgstr "Σωστό κείμενο"
 
 #: motioneye/templates/main.html:637
-msgid ""
-"Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra "
-"dekstra angulo"
-msgstr ""
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
+msgstr "Ορίζει το κείμενο που εμφανίζεται στις ταινίες και τις εικόνες, στην κάτω δεξιά γωνία"
 
 #: motioneye/templates/main.html:642
 #, python-format
-msgid ""
-"Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas "
-"akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S"
-" = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = "
-"nova linio"
-msgstr ""
+msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgstr "Ορίζει προσαρμοσμένο δεξί κείμενο. Τα ακόλουθα ειδικά μάρκες γίνονται αποδεκτά: %% Y = έτος, %% M = Month, %% D = ημέρα, %% H = ώρα, %% M = Minute, %% S = Second, %% Q = αριθμός πλαισίου, %% v = αριθμός συμβάντος, %% t = hh: mm: ss, \n = νέα γραμμή"
 
 #: motioneye/templates/main.html:645
 msgid "Teksta Skalo"
-msgstr ""
+msgstr "Κλίμακα κειμένου"
 
 #: motioneye/templates/main.html:647
 msgid "Difinas la grandecon de la superkovrita teksto"
-msgstr ""
+msgstr "Ορίζει το μέγεθος του επικαλυπτόμενου κειμένου"
 
 #: motioneye/templates/main.html:657
 msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
-msgstr ""
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε μια ροή βίντεο για αυτήν την κάμερα"
 
 #: motioneye/templates/main.html:658
 msgid "Videofluo"
-msgstr ""
+msgstr "Φύλακας βίντεο"
 
 #: motioneye/templates/main.html:663
 msgid "Framo frekvencon"
-msgstr ""
+msgstr "Συχνότητα πλαισίου"
 
 #: motioneye/templates/main.html:665
 msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
-msgstr ""
+msgstr "Διορθώστε τον αριθμό των πλαισίων που παρέχονται κάθε δευτερόλεπτο στη ζωντανή ροή."
 
 #: motioneye/templates/main.html:668
 msgid "Flua Kvalito"
-msgstr ""
+msgstr "Ευέλικτη ποιότητα"
 
 #: motioneye/templates/main.html:670
-msgid ""
-"Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan "
-"videokvaliton sed postulas pli da larĝa bando)."
-msgstr ""
+msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
+msgstr "Τελωνεία Η ποιότητα ζωντανής ροής (υψηλότερες τιμές παράγουν καλύτερη ποιότητα βίντεο αλλά απαιτεί περισσότερη ευρυζωνική σύνδεση)."
 
 #: motioneye/templates/main.html:673
 msgid "Bilda Redimensionado"
-msgstr ""
+msgstr "Επαναμισθίωση εικόνας"
 
 #: motioneye/templates/main.html:675
-msgid ""
-"Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili "
-"estas senditaj al la retumilo (malebligu dum funkciado sur malrapida "
-"CPU)."
-msgstr ""
+msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
+msgstr "Όταν αυτό είναι ενεργοποιημένο, οι εικόνες αλλάζουν το μέγεθος πριν αποσταλούν στο πρόγραμμα περιήγησης (αποτρέψτε ενώ τρέχετε σε αργή CPU)."
 
 #: motioneye/templates/main.html:678
 msgid "Flua rezolucio"
-msgstr ""
+msgstr "Ευέλικτη ανάλυση"
 
 #: motioneye/templates/main.html:680
-msgid ""
-"la rezolucio donita kiel procento de la rezolucio de la video-aparato "
-"(pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli "
-"da larĝa de bando)"
-msgstr ""
+msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
+msgstr "Η ανάλυση που δίνεται ως ποσοστό της ανάλυσης της συσκευής βίντεο (υψηλότερες τιμές παράγουν καλύτερη ποιότητα βίντεο αλλά απαιτεί περισσότερο εύρος ζώνης)"
 
 #: motioneye/templates/main.html:683
 msgid "Flua haveno"
-msgstr ""
+msgstr "Λιμάνι άπταξης"
 
 #: motioneye/templates/main.html:685
 msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
-msgstr ""
+msgstr "Ρυθμίστε τη θύρα TCP στην οποία ακούει ο διακομιστής ιστού"
 
 #: motioneye/templates/main.html:688
 msgid "Aŭtentiga reĝimo"
-msgstr ""
+msgstr "Λειτουργία ελέγχου ταυτότητας"
 
 #: motioneye/templates/main.html:696
-msgid ""
-"la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ "
-"'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj "
-"kontroloj estos uzataj"
-msgstr ""
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
+msgstr "Η μέθοδος ελέγχου ταυτότητας που χρησιμοποιείται από το ρεύμα (επιλέξτε «βασικό» αντί για «Digest» εάν αντιμετωπίζετε προβλήματα με τα τρίτα προγράμματα -μέρους). Θα χρησιμοποιηθούν έλεγχοι διαπιστευμάτων"
 
 #: motioneye/templates/main.html:699
 msgid "Movado-Optimigo"
-msgstr ""
+msgstr "Βελτιστοποίηση κίνησης"
 
 #: motioneye/templates/main.html:701
-msgid ""
-"ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera "
-"fluo kiam neniu movo estas detektita"
-msgstr ""
+msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε χαμηλότερο ρυθμό καρέ για τη ροή παράδοσης όταν δεν ανιχνεύεται καμία κίνηση"
 
 #: motioneye/templates/main.html:707
 msgid "Utilaj URLoj"
-msgstr ""
+msgstr "Χρήσιμες διευθύνσεις URL"
 
 #: motioneye/templates/main.html:710
 msgid "Instantara URL"
-msgstr ""
+msgstr "Άμεση διεύθυνση URL"
 
 #: motioneye/templates/main.html:713
 msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
-msgstr ""
+msgstr "URL που παρέχει εικόνα JPEG με την πιο πρόσφατη αλίευση της κάμερας"
 
 #: motioneye/templates/main.html:719
 msgid "Flua URL"
-msgstr ""
+msgstr "Ευέλικτη διεύθυνση URL"
 
 #: motioneye/templates/main.html:722
 msgid "URL kiu provizas MJPEG-fluon de la kamerao"
-msgstr ""
+msgstr "URL που παρέχει ροή MJPEG από την κάμερα"
 
 #: motioneye/templates/main.html:728
 msgid "Enigita URL"
-msgstr ""
+msgstr "Ενσωματωμένη διεύθυνση URL"
 
 #: motioneye/templates/main.html:731
-msgid ""
-"URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron,"
-" preta por esti enigita"
-msgstr ""
+msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
+msgstr "URL που παρέχει ένα ελάχιστο έγγραφο HTML που περιέχει το πλαίσιο της κάμερας, έτοιμο για ενσωμάτωση"
 
 #: motioneye/templates/main.html:741
 msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
-msgstr ""
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε να πιάσετε στατικές εικόνες."
 
 #: motioneye/templates/main.html:742
 msgid "Kaptitaj Bildoj"
-msgstr ""
+msgstr "Αιχμαλωτισμένες εικόνες"
 
 #: motioneye/templates/main.html:747
 msgid "Nomo Bildo-Dosiero"
-msgstr ""
+msgstr "Όνομα αρχείου εικόνας"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
 msgid "dosiernomo ŝablono…"
-msgstr ""
+msgstr "Πρότυπο Όνομα αρχείου ..."
 
 #: motioneye/templates/main.html:749
 #, python-format
-msgid ""
-"Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj "
-"tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = "
-"horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, /"
-" = subdosierujo."
-msgstr ""
+msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgstr "Ορίζει το πρότυπο ονομασίας για αρχεία εικόνας (JPEG). Τα ακόλουθα ειδικά μάρκες γίνονται αποδεκτά: %% Y = έτος, %% M = Month, %% D = ημέρα, %% H = ώρα, %% M = Minute, %% S = Second, %% Q = αριθμός πλαισίου, %% V = Αριθμός συμβάντος, / = Υποδιάγραμμα."
 
 #: motioneye/templates/main.html:752
 msgid "Bildkvalito"
-msgstr ""
+msgstr "Ποιότητα εικόνας"
 
 #: motioneye/templates/main.html:754
-msgid ""
-"agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan "
-"bildan kvaliton sed postulas pli da stokado)"
-msgstr ""
+msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
+msgstr "Τοποθετεί την ποιότητα της εικόνας JPEG (υψηλότερες τιμές παράγουν καλύτερη ποιότητα εικόνας αλλά απαιτεί περισσότερη αποθήκευση)"
 
 #: motioneye/templates/main.html:757
 msgid "Kaptila reĝimo"
-msgstr ""
+msgstr "Λειτουργία παγίδευσης"
 
 #: motioneye/templates/main.html:760 motioneye/templates/main.html:880
 msgid "Moviĝa deĉenigo"
-msgstr ""
+msgstr "Μετακίνηση ενεργοποίησης"
 
 #: motioneye/templates/main.html:761
 msgid "Moviĝa deĉenigo (Unu bildo)"
-msgstr ""
+msgstr "Μετακίνηση ενεργοποίησης (μία εικόνα)"
 
 #: motioneye/templates/main.html:762
 msgid "Intertempe"
-msgstr ""
+msgstr "Εν τω μεταξύ"
 
 #: motioneye/templates/main.html:763
 msgid "Ĉiuj bildoj"
-msgstr ""
+msgstr "Όλες οι εικόνες"
 
 #: motioneye/templates/main.html:764
 msgid "Mane"
-msgstr ""
+msgstr "Με το χέρι"
 
 #: motioneye/templates/main.html:767
 msgid "Difinas la kapta reĝimon:"
-msgstr ""
+msgstr "Ορίζει τη λειτουργία Catch:"
 
 #: motioneye/templates/main.html:768
 msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
-msgstr ""
+msgstr "Trigger Motion = Εικόνα που συλλαμβάνεται κάθε φορά που ανιχνεύεται,"
 
 #: motioneye/templates/main.html:769
 msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
-msgstr ""
+msgstr "Εν τω μεταξύ = η εικόνα που αλιεύεται κάθε x δευτερόλεπτα,"
 
 #: motioneye/templates/main.html:770
 msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
-msgstr ""
+msgstr "Όλες οι εικόνες = κρατήστε κάθε πλαίσιο σε ένα αρχείο εικόνας,"
 
 #: motioneye/templates/main.html:771
 msgid "Mane = mana kapto kun dediĉita butono."
-msgstr ""
+msgstr "Mane = Χειροκίνητη σύλληψη με ένα ειδικό κουμπί."
 
 #: motioneye/templates/main.html:774
 msgid "Interkapto-Intervalo"
-msgstr ""
+msgstr "Διάστημα παρακολούθησης"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
 #: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
 msgid "sekundoj"
-msgstr ""
+msgstr "δευτερόλεπτα"
 
 #: motioneye/templates/main.html:776
 msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
-msgstr ""
+msgstr "Ρυθμίστε το εύρος (σε δευτερόλεπτα) για τις παγίδες"
 
 #: motioneye/templates/main.html:779
 msgid "Konservi bildojn"
-msgstr ""
+msgstr "Για να κρατήσετε φωτογραφίες"
 
 #: motioneye/templates/main.html:782 motioneye/templates/main.html:895
 msgid "Dum unu tago"
-msgstr ""
+msgstr "Για μια μερα"
 
 #: motioneye/templates/main.html:783 motioneye/templates/main.html:896
 msgid "Dum unu semajno"
-msgstr ""
+msgstr "Για μια εβδομάδα"
 
 #: motioneye/templates/main.html:784 motioneye/templates/main.html:897
 msgid "Dum unu monato"
-msgstr ""
+msgstr "Για ένα μήνα"
 
 #: motioneye/templates/main.html:785 motioneye/templates/main.html:898
 msgid "Dum unu jaro"
-msgstr ""
+msgstr "Για ενα χρονο"
 
 #: motioneye/templates/main.html:786 motioneye/templates/main.html:899
 msgid "Porĉiame"
-msgstr ""
+msgstr "Για πάντα"
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
 msgid "Propra"
 msgstr "Προσαρμοσμένες"
 
 #: motioneye/templates/main.html:790
-msgid ""
-"Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por "
-"liberigi stokadan spacon."
-msgstr ""
+msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
+msgstr "Οι εικόνες παλαιότερες από την καθορισμένη διάρκεια απομακρύνονται αυτόματα για να απελευθερώσουν χώρο αποθήκευσης."
 
 #: motioneye/templates/main.html:793
 msgid "Bildaj Vivdaŭro"
-msgstr ""
+msgstr "Διάρκεια ζωής"
 
 #: motioneye/templates/main.html:795
 msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
-msgstr ""
+msgstr "Ορίζει τον αριθμό των ημερών μετά τις οποίες οι εικόνες θα διαγραφούν αυτόματα."
 
 #: motioneye/templates/main.html:798
 msgid "Ebligu manaj kaptoj"
-msgstr ""
+msgstr "Ενεργοποιήστε την αλιευμάτων Mana"
 
 #: motioneye/templates/main.html:800
-msgid ""
-"Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi "
-"permane preni kaptojn."
-msgstr ""
+msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
+msgstr "Όταν αυτό είναι ενεργοποιημένο, ένα κουμπί στο πλαίσιο της κάμερας θα σας επιτρέψει να λαμβάνετε με μη αυτόματο τρόπο τις συλλήψεις."
 
 #: motioneye/templates/main.html:810
 msgid "ebligu ĉi tion, se vi volas registri filmojn"
-msgstr ""
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε να καταγράψετε ταινίες"
 
 #: motioneye/templates/main.html:811
 msgid "Filmoj"
-msgstr ""
+msgstr "Κινηματογράφος"
 
 #: motioneye/templates/main.html:816
 msgid "Filma Dosiernomo"
-msgstr ""
+msgstr "Όνομα αρχείου αρχείου"
 
 #: motioneye/templates/main.html:818
 #, python-format
-msgid ""
-"Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj "
-"tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = "
-"horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, /"
-" = subdosierujo."
-msgstr ""
+msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgstr "Ορίζει το πρότυπο ονομασίας για τα αρχεία ταινιών. Τα ακόλουθα ειδικά μάρκες γίνονται αποδεκτά: %% Y = έτος, %% M = Month, %% D = ημέρα, %% H = ώρα, %% M = Minute, %% S = Second, %% Q = αριθμός πλαισίου, %% V = Αριθμός συμβάντος, / = Υποδιάγραμμα."
 
 #: motioneye/templates/main.html:821
 msgid "Rekta kopia filmeto"
-msgstr ""
+msgstr "Άμεση αντίγραφο βίντεο"
 
 #: motioneye/templates/main.html:823
-msgid ""
-"Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon "
-"sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do "
-"tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta "
-"video."
-msgstr ""
+msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
+msgstr "Δημιουργήστε ταινίες απευθείας από την κάμερα. Αυτή η επιλογή θα πρέπει να μειώσει τη χρήση της CPU αλλά να αυξήσει τις απαιτήσεις μνήμης. Δεν γίνεται η επεξεργασία εικόνας, επομένως τα κείμενα επικαλύπτονται, μάσκες ιδιωτικού απορρήτου κ.λπ. δεν θα είναι στο βίντεο που προέκυψε."
 
 #: motioneye/templates/main.html:826
 msgid "Filmformato"
-msgstr ""
+msgstr "Μορφή ταινίας"
 
 #: motioneye/templates/main.html:869
-msgid ""
-"Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj "
-"sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone"
-" funkcias per via filmetilo."
-msgstr ""
+msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
+msgstr "Μειώνει το αρχείο ταινίας. Όχι όλες οι μορφές εγγυώνται την εργασία σε όλα τα συστήματα. Εάν αμφιβάλλετε, δοκιμάστε κάθε μορφή και επιλέξτε αυτό που λειτουργεί καλύτερα με το βίντεό σας."
 
 #: motioneye/templates/main.html:872
 msgid "Filma Kvalito"
-msgstr ""
+msgstr "Ποιότητα ταινίας"
 
 #: motioneye/templates/main.html:874
-msgid ""
-"Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan "
-"videokvaliton sed postulas pli da stokado)."
-msgstr ""
+msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
+msgstr "Τελωνεία Η ποιότητα βίντεο MPEG (υψηλότερες τιμές παράγουν καλύτερη ποιότητα βίντεο αλλά απαιτεί περισσότερη αποθήκευση)."
 
 #: motioneye/templates/main.html:877
 msgid "Rekorda reĝimo"
-msgstr ""
+msgstr "Λειτουργία εγγραφής"
 
 #: motioneye/templates/main.html:881
 msgid "Kontinua registrado"
-msgstr ""
+msgstr "Συνεχής ηχογράφηση"
 
 #: motioneye/templates/main.html:884
-msgid ""
-"Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn"
-" moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
-msgstr ""
+msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
+msgstr "Προσαρμογή της λειτουργίας εγγραφής: Κίνηση Trigger = Μια νέα ταινία που δημιουργείται κάθε φορά που εντοπίζεται η κίνηση, συνεχής εγγραφή = ένα μεγάλο αρχείο ταινιών."
 
 #: motioneye/templates/main.html:887
 msgid "Maksimuma filma daŭro"
-msgstr ""
+msgstr "Μέγιστη διάρκεια ταινίας"
 
 #: motioneye/templates/main.html:889
-msgid ""
-"Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento "
-"daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
-msgstr ""
+msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
+msgstr "Μειώνει το μέγιστο μήκος ταινιών σε δευτερόλεπτα. Εάν το συμβάν κίνησης διαρκεί περισσότερο, δημιουργείται ένα νέο αρχείο ταινιών. Χρησιμοποιήστε 0 για απεριόριστο μήκος."
 
 #: motioneye/templates/main.html:892
 msgid "Konservi filmojn"
-msgstr ""
+msgstr "Για να διατηρήσετε ταινίες"
 
 #: motioneye/templates/main.html:903
-msgid ""
-"Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por "
-"liberigi stokadon."
-msgstr ""
+msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
+msgstr "Οι ταινίες παλαιότερες από την καθορισμένη διάρκεια απομακρύνονται αυτόματα για την απελευθέρωση της αποθήκευσης."
 
 #: motioneye/templates/main.html:906
 msgid "Filmoj Vivdaŭro"
-msgstr ""
+msgstr "Ταινίες Lifetime"
 
 #: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
 msgid "tagoj"
-msgstr ""
+msgstr "ημέρες"
 
 #: motioneye/templates/main.html:908
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
-msgstr ""
+msgstr "Ορίστε τον αριθμό των ημερών μετά από τις οποίες οι ταινίες θα αφαιρεθούν αυτόματα."
 
 #: motioneye/templates/main.html:918
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
-msgstr ""
+msgstr "Ενεργοποιήστε αυτό, για να χρησιμοποιήσετε και να ρυθμίσετε τη συσκευή για να ανιχνεύσετε την κίνηση."
 
 #: motioneye/templates/main.html:919
 msgid "Movado-Detekto"
-msgstr ""
+msgstr "Ανίχνευση κίνησης"
 
 #: motioneye/templates/main.html:924
 msgid "Kadra ŝanĝo sojlo"
-msgstr ""
+msgstr "Κατώφλι αλλαγής πλαισίου"
 
 #: motioneye/templates/main.html:926
-msgid ""
-"Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du "
-"pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli "
-"sentivan detekton, sed inklinas al falsaj pozitivoj)."
-msgstr ""
+msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
+msgstr "Υποδεικνύει το ελάχιστο ποσοστό της εικόνας, το οποίο πρέπει να μεταβαίνει μεταξύ δύο περαιτέρω πλαισίων για την ανίχνευση της κίνησης (οι μικρότερες τιμές δίνουν πιο ευαίσθητη ανίχνευση, αλλά τείνουν σε ψευδώς θετικά)."
 
 #: motioneye/templates/main.html:929
 msgid "Maksimuma ŝanĝo sojlo"
-msgstr ""
+msgstr "Μέγιστο όριο αλλαγής"
 
 #: motioneye/templates/main.html:931
-msgid ""
-"Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo "
-"ne plu ekigas (0 malŝaltas la limon)."
-msgstr ""
+msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
+msgstr "Ορίζει τον αριθμό των εικονοστοιχείων που τροποποιούνται μεταξύ των πλαισίων πάνω από τα οποία η κίνηση δεν ενεργοποιείται πλέον (0 απενεργοποιεί το όριο)."
 
 #: motioneye/templates/main.html:934
 msgid "Aŭtomata sojla agordo"
-msgstr ""
+msgstr "Αυτόματη διαμόρφωση κατωφλίου"
 
 #: motioneye/templates/main.html:936
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
-msgstr ""
+msgstr "Ενεργοποιήστε αυτό να ρυθμίσετε αυτόματα το κατώφλι."
 
 #: motioneye/templates/main.html:939
 msgid "Aŭtomata bruo-detekto"
-msgstr ""
+msgstr "Αυτόματη ανίχνευση θορύβου"
 
 #: motioneye/templates/main.html:941
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
-msgstr ""
+msgstr "Ενεργοποιήστε αυτό να ρυθμίσετε αυτόματα το επίπεδο θορύβου."
 
 #: motioneye/templates/main.html:944
 msgid "Bruo-nivelo"
-msgstr ""
+msgstr "Επίπεδο θορύβου"
 
 #: motioneye/templates/main.html:946
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
-msgstr ""
+msgstr "Με το χέρι ρυθμίζει το επίπεδο θορύβου σε σταθερή τιμή."
 
 #: motioneye/templates/main.html:949
 msgid "Detekto de lumaj ŝanĝoj"
-msgstr ""
+msgstr "Ανίχνευση αλλαγών φωτός"
 
 #: motioneye/templates/main.html:951
 #, python-format
-msgid ""
-"Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento "
-"estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la "
-"funkcion)."
-msgstr ""
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "Ορίζει το ποσοστό της εικόνας που πρέπει να αλλάξει έτσι ώστε το συμβάν να αντιμετωπίζεται ως ξαφνική αλλαγή φωτός αντί για κίνηση (0 %% αποτρέπει τη λειτουργία)."
 
 #: motioneye/templates/main.html:954
 msgid "Makula filtrilo"
-msgstr ""
+msgstr "Κηλιδωμένο φίλτρο"
 
 #: motioneye/templates/main.html:956
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
-msgstr ""
+msgstr "Ενεργοποιήστε αυτό για να εφαρμόσετε ένα φίλτρο σημείων σε πλαίσια πριν από την ανίχνευση της κίνησης."
 
 #: motioneye/templates/main.html:962
 msgid "Senmovada daŭro"
-msgstr ""
+msgstr "Ακίνητη διάρκεια"
 
 #: motioneye/templates/main.html:964
-msgid ""
-"Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj "
-"markas la finon de movada okazaĵo."
-msgstr ""
+msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
+msgstr "Μειώνει τον αριθμό των δευτερολέπτων σιωπής (δηλ. Δεν υπάρχει κίνηση) που σηματοδοτεί το τέλος ενός γεγονότος κίνησης."
 
 #: motioneye/templates/main.html:967
 msgid "Kaptita Antaŭe"
-msgstr ""
+msgstr "Πιάστηκε πριν"
 
 #: motioneye/templates/main.html:968 motioneye/templates/main.html:973
 #: motioneye/templates/main.html:978
 msgid "kadroj"
-msgstr ""
+msgstr "πλαίσια"
 
 #: motioneye/templates/main.html:969
-msgid ""
-"Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) "
-"antaŭ ol moviĝokazaĵo estas detektita."
-msgstr ""
+msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
+msgstr "Ρυθμίζει τον αριθμό των πλαισίων παγιδευμένων (και περιλαμβάνονται στην ταινία) πριν από την ανίχνευση ενός συμβάντος κίνησης."
 
 #: motioneye/templates/main.html:972
 msgid "Kaptita Post"
-msgstr ""
+msgstr "Πιασμένος"
 
 #: motioneye/templates/main.html:974
-msgid ""
-"Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) "
-"post la fino de movada evento."
-msgstr ""
+msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
+msgstr "Ρυθμίζει τον αριθμό των πλαισίων που πρέπει να συλληφθούν (και να συμπεριληφθούν στην ταινία) μετά το τέλος ενός γεγονότος κίνησης."
 
 #: motioneye/templates/main.html:977
 msgid "Minimumaj movaj kadroj"
-msgstr ""
+msgstr "Ελάχιστα κινούμενα πλαίσια"
 
 #: motioneye/templates/main.html:979
-msgid ""
-"Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci "
-"moviĝan eventon."
-msgstr ""
+msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
+msgstr "Ορίζει τον ελάχιστο αριθμό περαιτέρω κινούμενων πλαισίων που απαιτούνται για να ξεκινήσει ένα κινούμενο συμβάν."
 
 #: motioneye/templates/main.html:985
 msgid "Masko"
-msgstr ""
+msgstr "Μάσκα"
 
 #: motioneye/templates/main.html:987
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
-msgstr ""
+msgstr "Επιτρέπει την κάλυψη απεικόνισης για μια πιο επιλεκτική και ακριβή ανίχνευση κίνησης."
 
 #: motioneye/templates/main.html:990
 msgid "Tipo de masko"
-msgstr ""
+msgstr "Τύπος μάσκας"
 
 #: motioneye/templates/main.html:993
 msgid "Inteligenta"
-msgstr ""
+msgstr "Εξυπνος"
 
 #: motioneye/templates/main.html:994
 msgid "Redaktebla"
-msgstr ""
+msgstr "Επεξεργάσιμος"
 
 #: motioneye/templates/main.html:997
-msgid ""
-"La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj "
-"dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane "
-"konstrui ĝin mem."
-msgstr ""
+msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
+msgstr "Η έξυπνη επιλογή ανιχνεύει αυτόματα τις περιοχές με τακτική κίνηση και δημιουργεί δυναμικά μια εσωτερική μάσκα, ενώ η επεξεργάσιμη επιλογή σας επιτρέπει να την κατασκευάσετε με μη αυτόματο τρόπο."
 
 #: motioneye/templates/main.html:1000
 msgid "Inteligenta-maska Malrapideco"
-msgstr ""
+msgstr "Smart-Mask Imkinness"
 
 #: motioneye/templates/main.html:1002
-msgid ""
-"Pli altaj valoroj donas pli daŭran maskon kun pli malrapida "
-"konstruprocezo."
-msgstr ""
+msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
+msgstr "Οι υψηλότερες τιμές δίνουν μια πιο διαρκή μάσκα με μια πιο αργή διαδικασία κατασκευής."
 
 #: motioneye/templates/main.html:1011
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
-msgstr ""
+msgstr "Κάντε κλικ σε αυτό το κουμπί για να ενεργοποιήσετε/απενεργοποιήσετε τον επεξεργαστή μάσκας."
 
 #: motioneye/templates/main.html:1015
 msgid "Purigi maskon"
-msgstr ""
+msgstr "Καθαρίστε μια μάσκα"
 
 #: motioneye/templates/main.html:1016
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
-msgstr ""
+msgstr "Κάντε κλικ σε αυτό το κουμπί για να αδειάσετε την τρέχουσα μάσκα."
 
 #: motioneye/templates/main.html:1022
 msgid "Montri Kadro-Ŝanĝojn"
-msgstr ""
+msgstr "Εμφάνιση αλλαγών πλαισίου"
 
 #: motioneye/templates/main.html:1024
-msgid ""
-"Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la "
-"modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion "
-"por ĝustigi agordojn de moviĝo-detekto."
-msgstr ""
+msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
+msgstr "Εάν αυτό είναι ενεργό, η εικόνα αλλάζει (ο αριθμός των εικονοστοιχείων και η τροποποιημένη περιοχή) εμφανίζονται στο βίντεο. Ενεργοποιήστε προσωρινά αυτό για να ρυθμίσετε τις ρυθμίσεις ανίχνευσης κίνησης."
 
 #: motioneye/templates/main.html:1027
 msgid "Krei debug media files"
-msgstr ""
+msgstr "Δημιουργία αρχείων πολυμέσων εντοπισμού σφαλμάτων"
 
 #: motioneye/templates/main.html:1029
-msgid ""
-"Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi"
-" problemojn de moviĝo-detekto."
-msgstr ""
+msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
+msgstr "Όταν ενεργοποιηθεί, δημιουργεί ειδικές ταινίες και εικόνες που βοηθούν στα προβλήματα εντοπισμού εντοπισμού ανίχνευσης κίνησης."
 
 #: motioneye/templates/main.html:1038
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
-msgstr ""
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε να ειδοποιηθείτε όταν εντοπιστεί κίνηση."
 
 #: motioneye/templates/main.html:1039
 msgid "Moviĝaj sciigoj"
-msgstr ""
+msgstr "Ειδοποιήσεις κίνησης"
 
 #: motioneye/templates/main.html:1051
 msgid "Sendi retpoŝton"
-msgstr ""
+msgstr "Για να στείλετε ένα email"
 
 #: motioneye/templates/main.html:1053
-msgid ""
-"Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam "
-"moviĝokazaĵo estas detektita."
-msgstr ""
+msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "Ενεργοποιήστε αυτήν την επιλογή εάν θέλετε να λαμβάνετε ένα μήνυμα ηλεκτρονικού ταχυδρομείου κάθε φορά που εντοπίζεται ένα συμβάν κίνησης."
 
 #: motioneye/templates/main.html:1056
 msgid "Retpoŝtadresoj"
-msgstr ""
+msgstr "Διευθύνσεις ηλεκτρονικού ταχυδρομείου"
 
 #: motioneye/templates/main.html:1057
 msgid "retpoŝtadresoj…"
-msgstr ""
+msgstr "Διευθύνσεις ηλεκτρονικού ταχυδρομείου ..."
 
 #: motioneye/templates/main.html:1058
-msgid ""
-"Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn "
-"kiam ajn moviĝokazaĵo estas detektita."
-msgstr ""
+msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
+msgstr "Οι διευθύνσεις ηλεκτρονικού ταχυδρομείου (που διαχωρίζονται από το κόμμα) που προστίθενται εδώ θα λάβουν ειδοποιήσεις κάθε φορά που εντοπίζεται ένα συμβάν κίνησης."
 
 #: motioneye/templates/main.html:1061
 msgid "Servilo SMTP"
-msgstr ""
+msgstr "Διακομιστής SMTP"
 
 #: motioneye/templates/main.html:1062
 msgid "ekz. smtp.gmail.com"
-msgstr ""
+msgstr "π.χ. smtp.gmail.com"
 
 #: motioneye/templates/main.html:1063
-msgid ""
-"Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail "
-"smtp.gmail.com)."
-msgstr ""
+msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
+msgstr "Εισαγάγετε το όνομα κεντρικού υπολογιστή ή τη διεύθυνση IP του διακομιστή SMTP (για τη χρήση του GMail SMTP.GMail.com)."
 
 #: motioneye/templates/main.html:1066
 msgid "SMTP Haveno"
-msgstr ""
+msgstr "Θύρα SMTP"
 
 #: motioneye/templates/main.html:1067
 msgid "ekz. 587"
-msgstr ""
+msgstr "π.χ. 587"
 
 #: motioneye/templates/main.html:1068
-msgid ""
-"Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj "
-"kaj 587 por TLS-ligoj)."
-msgstr ""
+msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
+msgstr "Εισαγάγετε τη θύρα που χρησιμοποιείται από τον διακομιστή SMTP σας (συνήθως 465 για συνδέσμους μη TLS και 587 για συνδέσμους TLS)."
 
 #: motioneye/templates/main.html:1071
 msgid "SMTP-Konto"
-msgstr ""
+msgstr "Λογαριασμός SMTP"
 
 #: motioneye/templates/main.html:1072
 msgid "konto@gmail.com…"
-msgstr ""
+msgstr "account@gmail.com ..."
 
 #: motioneye/templates/main.html:1073
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
-msgstr ""
+msgstr "Εισαγάγετε τον λογαριασμό σας SMTP (συνήθως τη διεύθυνση email σας)."
 
 #: motioneye/templates/main.html:1076
 msgid "SMTP Pasvorto"
-msgstr ""
+msgstr "Κωδικός πρόσβασης SMTP"
 
 #: motioneye/templates/main.html:1078
-msgid ""
-"Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-"
-"specifan generitan pasvorton)."
-msgstr ""
+msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
+msgstr "Εισαγάγετε τον κωδικό πρόσβασης SMTP (για το Gmail χρησιμοποιήστε τον κωδικό πρόσβασης Google ή τον κωδικό πρόσβασης που δημιουργήθηκε ειδικά για την εφαρμογή)."
 
 #: motioneye/templates/main.html:1081
 msgid "De adreso"
-msgstr ""
+msgstr "Διεύθυνση"
 
 #: motioneye/templates/main.html:1082
 msgid "retpoŝta adreso…"
-msgstr ""
+msgstr "Διεύθυνση ηλεκτρονικού ταχυδρομείου ..."
 
 #: motioneye/templates/main.html:1083
-msgid ""
-"Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina"
-" retpoŝta adreso estos uzata se lasita malplena)."
-msgstr ""
+msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
+msgstr "Διαμορφώστε το έθιμο της διεύθυνσης Εάν η υπηρεσία SMTP απαιτεί μία (η πρώτη διεύθυνση ηλεκτρονικού ταχυδρομείου προορισμού θα χρησιμοποιηθεί εάν αφεθεί άδειο)."
 
 #: motioneye/templates/main.html:1086
 msgid "Uzi TLS"
-msgstr ""
+msgstr "Χρησιμοποιήστε το TLS"
 
 #: motioneye/templates/main.html:1088
-msgid ""
-"Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por "
-"ebligi)."
-msgstr ""
+msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
+msgstr "Ενεργοποιήστε αυτό εάν ο διακομιστής SMTP σας απαιτεί TLS (το Gmail χρειάζεται αυτό για να ενεργοποιήσει)."
 
 #: motioneye/templates/main.html:1091
 msgid "Aldonitaj bildoj tempo-intervalo"
-msgstr ""
+msgstr "Προστέθηκαν Εικόνες Χρόνου Εικόνες"
 
 #: motioneye/templates/main.html:1093
-msgid ""
-"Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj "
-"ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de "
-"pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi"
-" ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
-msgstr ""
+msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgstr "Ορίζει το εύρος αναζήτησης χρόνου που θα χρησιμοποιηθεί κατά τη δημιουργία συνδέσμων ηλεκτρονικού ταχυδρομείου (υψηλότερες τιμές δημιουργούν μηνύματα ηλεκτρονικού ταχυδρομείου με περισσότερες εικόνες σε βάρος της αυξημένης ειδοποίησης καθυστέρησης). ρυθμίστε στο 0 για να αποφύγετε πρόσθετες εικόνες. Πρέπει επίσης να εξουσιοδοτήσετε τις \"εικόνες που έχουν καταγραφεί\" για να λειτουργήσει αυτό."
 
 #: motioneye/templates/main.html:1097
 msgid "Testi retpoŝto"
-msgstr ""
+msgstr "Δοκιμαστικό email"
 
 #: motioneye/templates/main.html:1098
-msgid ""
-"Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi "
-"plenigis la postulatajn detalojn."
-msgstr ""
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "Κάντε κλικ σε αυτό το κουμπί για να δοκιμάσετε τις ειδοποιήσεις ηλεκτρονικού ταχυδρομείου αφού έχετε συμπληρώσει τις απαιτούμενες λεπτομέρειες."
 
 #: motioneye/templates/main.html:1104
 msgid "Sendu Telegraman Sciigon"
-msgstr ""
+msgstr "Αποστολή ειδοποίησης τηλεγράφων"
 
 #: motioneye/templates/main.html:1106
-msgid ""
-"ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento "
-"estas detektita"
-msgstr ""
+msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε να λάβετε ένα μήνυμα τηλεγράφου κάθε φορά που εντοπίζεται ένα κινούμενο συμβάν"
 
 #: motioneye/templates/main.html:1109
 msgid "HTTP API ĵetono"
-msgstr ""
+msgstr "Το διακριτικό API HTTP"
 
 #: motioneye/templates/main.html:1110
 msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
-msgstr ""
+msgstr "Παράδειγμα: 93847672: AACDSN843HSJSH32BSMDN3SHSH2BSH0XRS_32DBCR1W"
 
 #: motioneye/templates/main.html:1111
-msgid ""
-"Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas "
-"enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri "
-"kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita"
-" «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas "
-"mesaĝojn."
-msgstr ""
+msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
+msgstr "Με τη δημιουργία της συνομιλίας Telegram-Bot, θα πάρετε ένα API Tokens που πρέπει να εισέλθετε εδώ. Κάντε κλικ στο κουμπί API παρακάτω για έναν οδηγό βήμα προς βήμα για το πώς να λάβετε τα μάρκες API. Επίσης, φροντίστε να συνομιλήσετε με το πρόσφατα δημιουργημένο \"BOT\" μετά την δημιουργία του κλειδιού σας, για να βεβαιωθείτε ότι έχετε μηνύματα."
 
 #: motioneye/templates/main.html:1114
 msgid "Babileja ID"
-msgstr ""
+msgstr "Αναγνωριστικό συνομιλίας"
 
 #: motioneye/templates/main.html:1115
 msgid "Ekzemplo: 938272312"
-msgstr ""
+msgstr "Παράδειγμα: 938272312"
 
 #: motioneye/templates/main.html:1116
-msgid ""
-"Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La "
-"babilejo redonos la necesan numeron por ĉi tiu kampo."
-msgstr ""
+msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
+msgstr "Δημιουργήστε μια νέα συνομιλία στο ID_CHATBOT (@ID_CHATBOT) και επιλέξτε Start. Η συνομιλία θα επιστρέψει τον απαιτούμενο αριθμό για αυτό το πεδίο."
 
 #: motioneye/templates/main.html:1119
 msgid "Alkroĉitaj Bildoj Tempo"
-msgstr ""
+msgstr "Χρόνος συνημμένων εικόνων"
 
 #: motioneye/templates/main.html:1121
-msgid ""
-"difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn "
-"(pli altaj valoroj generas pli da bildoj koste de pliigita sciiga "
-"prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ "
-"ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu "
-"numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi "
-"agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado "
-"ekigita, starigu ĉi tion multe pli malalte."
-msgstr ""
+msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
+msgstr "ορίζει το διάστημα αναζήτησης εικόνων για τη δημιουργία προσθηκών τηλεγράφων (υψηλότερες τιμές δημιουργούν περισσότερες εικόνες σε βάρος της αυξημένης καθυστέρησης ειδοποίησης). ρυθμίστε στο 0 για να αποφύγετε την προσθήκη εικόνας -ons. Πρέπει επίσης να ενεργοποιήσετε σταθερές εικόνες έτσι ώστε να λειτουργεί αυτό. Θα θελήσετε να παίξετε με αυτόν τον αριθμό μέχρι να σταλεί μια φωτογραφία. Ένας καλός αριθμός εκκίνησης είναι 30 εάν ορίσετε σταθερές εικόνες σε μια κίνηση εικόνας που ενεργοποιείται. Για μια τυποποιημένη κίνηση που ενεργοποιήθηκε, ρυθμίστε τόσο πολύ το χαμηλότερο."
 
 #: motioneye/templates/main.html:1124
 msgid "API-Informoj"
-msgstr ""
+msgstr "Πληροφορίες API"
 
 #: motioneye/templates/main.html:1125
 msgid "Testo"
-msgstr ""
+msgstr "Δοκιμή"
 
 #: motioneye/templates/main.html:1131 motioneye/templates/main.html:1176
 msgid "Alvoki URL"
-msgstr ""
+msgstr "Καλέστε τη διεύθυνση URL"
 
 #: motioneye/templates/main.html:1133
-msgid ""
-"Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo "
-"estas detektita."
-msgstr ""
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε να ζητηθεί μια διεύθυνση URL κάθε φορά που εντοπίζεται ένα συμβάν κίνησης."
 
 #: motioneye/templates/main.html:1137
 msgid "ekz. http://ekzemplo.com/sciigi/"
-msgstr ""
+msgstr "π.χ. http://ekzemplo.com/sciigi/"
 
 #: motioneye/templates/main.html:1138
 #, python-format
-msgid ""
-"URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj "
-"ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = "
-"horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-msgstr ""
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "URL που πρέπει να ζητηθεί όταν εντοπίζεται η κίνηση. Οι ακόλουθες ειδικές συντομεύσεις γίνονται αποδεκτές: %% Y = έτος, %% M = Month, %% D = ημέρα, %% H = ώρα, %% M = Minute, %% S = Second, %% Q = αριθμός πλαισίου, %% V = περιστασιακός αριθμός"
 
 #: motioneye/templates/main.html:1150 motioneye/templates/main.html:1195
-msgid ""
-"La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos"
-" transdonitaj kiel indikite ĉi tie)."
-msgstr ""
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "Η μέθοδος HTTP που θα χρησιμοποιηθεί όταν ζητάτε τη διεύθυνση URL (οι δεδομένες παράμετροι URL θα παραδοθούν όπως υποδεικνύεται εδώ)."
 
 #: motioneye/templates/main.html:1156 motioneye/templates/main.html:1201
 msgid "Lanĉi komando"
-msgstr ""
+msgstr "Εντολή εκκίνησης"
 
 #: motioneye/templates/main.html:1158
-msgid ""
-"Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo "
-"estas detektita."
-msgstr ""
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε να ξεκινήσετε μια εντολή κάθε φορά που εντοπίζεται ένα συμβάν κίνησης."
 
 #: motioneye/templates/main.html:1161 motioneye/templates/main.html:1206
 msgid "Komando"
-msgstr ""
+msgstr "Εντολή"
 
 #: motioneye/templates/main.html:1162 motioneye/templates/main.html:1207
 msgid "komando…"
-msgstr ""
+msgstr "Εντολή ..."
 
 #: motioneye/templates/main.html:1163
 #, python-format
-msgid ""
-"Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj "
-"povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la"
-" sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, "
-"%%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, "
-"%%v = okaza numero"
-msgstr ""
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "Εντολή που θα ξεκινήσει κατά την ανίχνευση της κίνησης. Πολλές εντολές μπορούν να διαχωριστούν από ένα κόλον. Μην χρησιμοποιείτε ημικόλια με εντολές. Τα ακόλουθα ειδικά μάρκες γίνονται αποδεκτά: %% Y = έτος, %% M = Month, %% D = Day, %% H = ώρα, %% M = Minute, %% S = Second, %% Q = Αριθμός πλαισίου , %% V = περιστασιακός αριθμός"
 
 #: motioneye/templates/main.html:1203
-msgid ""
-"Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento "
-"finiĝos."
-msgstr ""
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε να ξεκινήσετε μια εντολή κάθε φορά που ένα συμβάν κίνησης έχει τελειώσει."
 
 #: motioneye/templates/main.html:1208
 #, python-format
-msgid ""
-"Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj "
-"povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; "
-"la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, "
-"%%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
-msgstr ""
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "Εντολή που θα ξεκινήσει όταν τελειώνει ένα συμβάν κίνησης. Πολλές εντολές μπορούν να διαχωριστούν από ένα κόλον. Μην χρησιμοποιείτε ενώσεις σημείων με εντολές. Τα ακόλουθα ειδικά μάρκες γίνονται αποδεκτά: %% Y = έτος, %% M = Month, %% D = ημερομηνία, %% H = ώρα, %% M = Minute, %% S = δεύτερο, %% Q = αριθμός πλαισίου."
 
 #: motioneye/templates/main.html:1218
-msgid ""
-"Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de "
-"moviĝo."
-msgstr ""
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
+msgstr "Ενεργοποιήστε αυτό εάν θέλετε να ορίσετε ένα εβδομαδιαίο πρόγραμμα για ανίχνευση κίνησης."
 
 #: motioneye/templates/main.html:1219
 msgid "Laboranta horaro"
-msgstr ""
+msgstr "Πρόγραμμα εργασίας"
 
 #: motioneye/templates/main.html:1224
 msgid "Lundo"
-msgstr ""
+msgstr "Δευτέρα"
 
 #: motioneye/templates/main.html:1227
 msgid "de"
-msgstr ""
+msgstr "του"
 
 #: motioneye/templates/main.html:1228
 msgid "ĝis"
-msgstr ""
+msgstr "μέχρι και"
 
 #: motioneye/templates/main.html:1230
 msgid "Fiksas la labortagan tempintervalon por lundoj."
-msgstr ""
+msgstr "Ορίζει το εύρος εργάσιμης ημέρας για τις Δευτέρες."
 
 #: motioneye/templates/main.html:1233
 msgid "Mardo"
-msgstr ""
+msgstr "Τρίτη"
 
 #: motioneye/templates/main.html:1239
 msgid "Fiksas la labortagan tempintervalon por mardoj."
-msgstr ""
+msgstr "Ορίζει το εύρος εργάσιμης ημέρας για την Τρίτη."
 
 #: motioneye/templates/main.html:1242
 msgid "Merkredo"
-msgstr ""
+msgstr "Τετάρτη"
 
 #: motioneye/templates/main.html:1248
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
-msgstr ""
+msgstr "Ορίζει το εύρος εργάσιμης ημέρας για τις Τετάρτες."
 
 #: motioneye/templates/main.html:1251
 msgid "Ĵaŭdo"
-msgstr ""
+msgstr "Πέμπτη"
 
 #: motioneye/templates/main.html:1257
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
-msgstr ""
+msgstr "Ορίζει το εύρος εργάσιμης ημέρας για την Πέμπτη."
 
 #: motioneye/templates/main.html:1260
 msgid "Vendredo"
-msgstr ""
+msgstr "Παρασκευή"
 
 #: motioneye/templates/main.html:1266
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
-msgstr ""
+msgstr "Ορίζει το εύρος εργάσιμης ημέρας για τις Παρασκευές."
 
 #: motioneye/templates/main.html:1269
 msgid "Sabato"
-msgstr ""
+msgstr "Σάββατο"
 
 #: motioneye/templates/main.html:1275
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
-msgstr ""
+msgstr "Ορίζει το εύρος εργάσιμης ημέρας για τα Σάββατα."
 
 #: motioneye/templates/main.html:1278
 msgid "Dimanĉo"
-msgstr ""
+msgstr "Κυριακή"
 
 #: motioneye/templates/main.html:1284
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
-msgstr ""
+msgstr "Ορίζει το εύρος εργάσιμης ημέρας για τις Κυριακές."
 
 #: motioneye/templates/main.html:1287
 msgid "Detekti movadon"
-msgstr ""
+msgstr "Για την ανίχνευση της κίνησης"
 
 #: motioneye/templates/main.html:1290
 msgid "Dum laborista horaro"
-msgstr ""
+msgstr "Κατά τη διάρκεια ενός προγράμματος εργασίας"
 
 #: motioneye/templates/main.html:1291
 msgid "Ekster laborista horaro"
-msgstr ""
+msgstr "Έξω από ένα πρόγραμμα εργασίας"
 
 #: motioneye/templates/main.html:1294
-msgid ""
-"Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista "
-"horaro."
-msgstr ""
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
+msgstr "Ορίζει εάν η ανίχνευση κίνησης πρέπει να είναι ενεργός κατά τη διάρκεια ή εκτός του χρονοδιαγράμματος εργασίας."
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
 msgid "neniam"
-msgstr ""
+msgstr "ποτέ"
 
 #: motioneye/utils/dtconv.py:113
 msgid "tago"
-msgstr ""
+msgstr "ημέρα"
 
 #: motioneye/utils/dtconv.py:116
 msgid "semajno"
-msgstr ""
+msgstr "εβδομάδα"
 
 #: motioneye/utils/dtconv.py:119
 msgid "monato"
-msgstr ""
+msgstr "μήνας"
 
 #: motioneye/utils/dtconv.py:122
 msgid "jaro"
-msgstr ""
+msgstr "έτος"
 
 #: motioneye/utils/dtconv.py:129
 msgid "horo"
-msgstr ""
+msgstr "ώρα"
 
 #: motioneye/utils/dtconv.py:132
 msgid "horoj"
-msgstr ""
+msgstr "ώρες"
 
 #: motioneye/utils/dtconv.py:136
 msgid "minuto"
-msgstr ""
+msgstr "λεπτό"
 
 #: motioneye/utils/dtconv.py:139
 msgid "minutoj"
-msgstr ""
+msgstr "λεπτά"
 
 #: motioneye/utils/dtconv.py:143
 msgid "sekundo"
-msgstr ""
+msgstr "ένα δεύτερο"
 
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
-msgstr ""
+msgstr "μείον"
+
