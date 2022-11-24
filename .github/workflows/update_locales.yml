@@ -25,6 +25,14 @@ jobs:
         # https://github.com/peter-evans/create-pull-request/issues/48
         token: ${{ secrets.GH_PAT }}
     - run: |
+        for i in motioneye/locale/*/LC_MESSAGES/motioneye.js.po
+        do
+            lang=${i#motioneye/locale/}
+            lang=${lang%/LC_MESSAGES/motioneye.js.po}
+            [[ -f motioneye/static/js/motioneye.$lang.json ]] && continue
+            echo "Generating motioneye.$lang.json"
+            l10n/po2json "$i" "motioneye/static/js/motioneye.$lang.json"
+        done
         make
         git diff -I '^"POT-Creation-Date: ' --exit-code && exit 0
         git config user.name 'github-actions[bot]'
