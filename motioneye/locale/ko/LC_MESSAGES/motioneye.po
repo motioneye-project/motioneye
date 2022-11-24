@@ -1537,4 +1537,3 @@ msgstr "초"
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
 msgstr "마이너스"
-

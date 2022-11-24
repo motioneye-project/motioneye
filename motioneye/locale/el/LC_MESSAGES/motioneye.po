@@ -1537,4 +1537,3 @@ msgstr "ένα δεύτερο"
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
 msgstr "μείον"
-
