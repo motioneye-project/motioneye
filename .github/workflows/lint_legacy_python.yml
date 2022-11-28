@@ -1,22 +1,24 @@
 name: lint_legacy_python
 on: [pull_request, push]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
    lint_legacy_python:
-     runs-on: ubuntu-latest
+     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
+     runs-on: ubuntu-20.04
      steps:
        - uses: actions/checkout@v3
-       - uses: actions/setup-python@v3
+       - uses: actions/setup-python@v4
          with:
            python-version: 2.7
        - run: |
            sudo apt-get -q update
-           sudo apt-get -qq upgrade
-           sudo apt-get -qq install curl ffmpeg libcurl4-openssl-dev libssl-dev motion ssh v4l-utils
+           sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends dist-upgrade
+           sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install libcurl4-openssl-dev
        - run: pip install --upgrade pip wheel
-       - run: pip install codespell flake8 flake8-comprehensions pytest
+       - run: pip install codespell flake8 flake8-comprehensions
        - run: codespell --ignore-words-list="files',ot,process'" --skip="./.*,*.eot,*.gif,*.ico,*.png,*.ttf,*.woff"
-       - run: flake8 . --count --max-complexity=66 --max-line-length=125
-                       --select=E9,F63,F7,F82 --show-source --statistics
+       - run: flake8 . --count --max-complexity=66 --max-line-length=125 --select=E9,F63,F7,F82 --show-source --statistics
        - run: flake8 . --count --exit-zero --show-source --statistics
        - run: pip install -r requirements.txt
-       - run: pytest . || pytest --doctest-modules . || true
