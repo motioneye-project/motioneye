@@ -1,0 +1,42 @@
+name: update_locales
+
+on: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update_locales:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/setup-python@v4
+      with:
+        # https://github.com/actions/python-versions/releases
+        python-version: '3.11'
+    - run: |
+        echo "github.actor=${{ github.actor }}"
+        python3 -m pip install -U babel jinja2 &
+        sudo apt-get -q update
+        sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install make gettext
+    - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+        # https://github.com/peter-evans/create-pull-request/issues/48
+        token: ${{ secrets.GH_PAT }}
+    - run: |
+        for i in motioneye/locale/*/LC_MESSAGES/motioneye.js.po
+        do
+            lang=${i#motioneye/locale/}
+            lang=${lang%/LC_MESSAGES/motioneye.js.po}
+            [[ -f motioneye/static/js/motioneye.$lang.json ]] && continue
+            echo "Generating motioneye.$lang.json"
+            l10n/po2json "$i" "motioneye/static/js/motioneye.$lang.json"
+        done
+        make
+        git diff -I '^"POT-Creation-Date: ' --exit-code && exit 0
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git add -A
+        git commit -m 'Update translation files'
+        git push

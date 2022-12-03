@@ -36,7 +36,6 @@ awk -v "src=$src" -v "dst=$dst" '{
       getline nextline
       if (nextline == "")
       {
-        print ("#, fuzzy");
         print ("msgid " MSGID);
         printf("msgstr \"");
         MSG=system("l10n/traduko.sh " src " " dst " " MSGID )
@@ -55,3 +54,5 @@ awk -v "src=$src" -v "dst=$dst" '{
 }' "$FIC" > "$FIC.$$"
 mv "$FIC" "$FIC.old"
 mv "$FIC.$$" "$FIC"
+# Remove trailing empty line, to satisfy pre-commit
+sed -i '${/^$/d}' "$FIC"
