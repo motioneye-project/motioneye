@@ -8,35 +8,38 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-24 01:38+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2022-12-04 15:52+0000\n"
+"Last-Translator: el97 <erik1337.el@gmail.com>\n"
+"Language-Team: Swedish <https://hosted.weblate.org/projects/"
+"motioneye-project/motioneye-javascript/sv/>\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr ""
+msgstr "Särskilda tecken är inte tillåtna i lösenordet"
 
 #: motioneye/static/js/main.js:613 motioneye/static/js/main.js:624
 #: motioneye/static/js/main.js:683 motioneye/static/js/ui.js:362
 #: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
 msgid "Ĉi tiu kampo estas deviga"
-msgstr ""
+msgstr "Detta fält krävs"
 
 #: motioneye/static/js/main.js:617
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr ""
+msgstr "Speciella tecken är inte tillåtna i namnet för kameran"
 
 #: motioneye/static/js/main.js:629
 msgid "valoro devas esti multoblo de 8"
-msgstr ""
+msgstr "värdet måste vara en multipel av 8"
 
 #: motioneye/static/js/main.js:636
 msgid "specialaj signoj ne rajtas en radika voja nomo"
-msgstr ""
+msgstr "Speciella tecken är inte tillåtna i trädmapps namnet"
 
 #: motioneye/static/js/main.js:639
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
@@ -44,23 +47,23 @@ msgstr ""
 
 #: motioneye/static/js/main.js:646
 msgid "enigu validan retpoŝtadreson"
-msgstr ""
+msgstr "Skriv en giltig e-post adress"
 
 #: motioneye/static/js/main.js:653
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr ""
+msgstr "Skriv en lista med komma-separerade giltiga e-postadresser"
 
 #: motioneye/static/js/main.js:660
 msgid "specialaj signoj ne rajtas en dosiernomo"
-msgstr ""
+msgstr "speciella tecken är inte tillåtna i filnamnet"
 
 #: motioneye/static/js/main.js:687
 msgid "enigu validan valoron"
-msgstr ""
+msgstr "Ange ett giltigt värde"
 
 #: motioneye/static/js/main.js:841
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr ""
+msgstr "Detta kommer att rekursivt ta bort filer i mappen på din molntjänst \""
 
 #: motioneye/static/js/main.js:842
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
@@ -71,6 +74,8 @@ msgid ""
 "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la "
 "dosierujo \""
 msgstr ""
+"Detta kommer att rekursivt ta bort äldre media filer som finns i "
+"filkatalogen \""
 
 #: motioneye/static/js/main.js:924
 msgid "\", ne nur tiuj kreitaj de motionEye!"
