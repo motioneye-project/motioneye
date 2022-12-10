@@ -1390,7 +1390,6 @@ msgstr ""
 "movimento (0 disabilita la funzione)."
 
 #: motioneye/templates/main.html:954
-#, fuzzy
 msgid "Makula filtrilo"
 msgstr "Filtro antimacchia"
 
