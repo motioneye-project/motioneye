@@ -301,6 +301,58 @@ async def take_snapshot(camera_id):
         logging.debug(f'successfully took snapshot for camera with id {camera_id}')
 
 
+async def start_event(camera_id):
+    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
+    if motion_camera_id is None:
+        return logging.error(
+            f'could not find motion camera id for camera with id {camera_id}'
+        )
+
+    logging.debug(f'starting event for camera with id {camera_id}')
+
+    url = f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/action/eventstart'
+
+    request = HTTPRequest(
+        url,
+        connect_timeout=_MOTION_CONTROL_TIMEOUT,
+        request_timeout=_MOTION_CONTROL_TIMEOUT,
+    )
+    resp = await AsyncHTTPClient().fetch(request)
+    if resp.error:
+        logging.error(
+            f'failed to start event for camera with id {camera_id}: {utils.pretty_http_error(resp)}'
+        )
+
+    else:
+        logging.debug(f'successfully start event for camera with id {camera_id}')
+
+
+async def end_event(camera_id):
+    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
+    if motion_camera_id is None:
+        return logging.error(
+            f'could not find motion camera id for camera with id {camera_id}'
+        )
+
+    logging.debug(f'ending event for camera with id {camera_id}')
+
+    url = f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/action/eventend'
+
+    request = HTTPRequest(
+        url,
+        connect_timeout=_MOTION_CONTROL_TIMEOUT,
+        request_timeout=_MOTION_CONTROL_TIMEOUT,
+    )
+    resp = await AsyncHTTPClient().fetch(request)
+    if resp.error:
+        logging.error(
+            f'failed to end event for camera with id {camera_id}: {utils.pretty_http_error(resp)}'
+        )
+
+    else:
+        logging.debug(f'successfully end event for camera with id {camera_id}')
+
+
 def is_motion_detected(camera_id):
     return _motion_detected.get(camera_id, False)
 
