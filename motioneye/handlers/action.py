@@ -72,7 +72,7 @@ class ActionHandler(BaseHandler):
             return
 
         elif action == 'eventend':
-            logging.debug('executing event_end action for camera with id %s' % camera_id)
+            logging.debug(f'executing event_end action for camera with id {camera_id}')
             await self.event_end(camera_id)
             return
 
