@@ -67,7 +67,9 @@ class ActionHandler(BaseHandler):
             return self.record_stop(camera_id)
 
         elif action == 'eventstart':
-            logging.debug(f'executing event_start action for camera with id {camera_id}')
+            logging.debug(
+                f'executing event_start action for camera with id {camera_id}'
+            )
             await self.event_start(camera_id)
             return
 
