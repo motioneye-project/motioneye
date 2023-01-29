@@ -49,7 +49,7 @@ repos:
           - --show-source
           - --statistics
   - repo: https://github.com/timothycrosley/isort
-    rev: 5.11.4
+    rev: 5.12.0
     hooks:
       - id: isort
         args: ["--profile", "black", "--filter-files"]
