@@ -8,6 +8,7 @@ concurrency:
 
 jobs:
   update_locales:
+    if: github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/setup-python@v4
