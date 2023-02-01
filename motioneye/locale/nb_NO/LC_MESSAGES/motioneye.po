@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-12 17:19+0200\n"
+"POT-Creation-Date: 2023-02-01 18:26+0000\n"
 "PO-Revision-Date: 2022-11-17 19:48+0000\n"
 "Last-Translator: Jon Erling Hustadnes <jonerling.hustadnes@gmail.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
@@ -44,43 +44,43 @@ msgstr "vennligst installer pillow eller PIL"
 msgid "bonvolu instali pycurl"
 msgstr "vennligst installer pycurl"
 
-#: motioneye/server.py:423
+#: motioneye/server.py:422
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "hei! dette er motionEye server "
 
-#: motioneye/server.py:438
+#: motioneye/server.py:437
 msgid "purigado komenciĝis"
 msgstr "rengjøring har begynt"
 
-#: motioneye/server.py:440
+#: motioneye/server.py:439
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch startet"
 
-#: motioneye/server.py:443
+#: motioneye/server.py:442
 msgid "taskoj komenciĝis"
 msgstr "oppgavene er påbegynt"
 
-#: motioneye/server.py:447
+#: motioneye/server.py:446
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "MJPG søppelsampler har startet"
 
-#: motioneye/server.py:465
+#: motioneye/server.py:464
 msgid "servilo komenciĝis"
 msgstr "serveren har startet"
 
-#: motioneye/server.py:471
+#: motioneye/server.py:470
 msgid "servilo haltis"
 msgstr "serveren har stoppet"
 
-#: motioneye/server.py:473
+#: motioneye/server.py:472
 msgid "taskoj haltis"
 msgstr "oppgavene er avsluttet"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:480
 msgid "motion haltis"
 msgstr "bevegelse stoppet"
 
-#: motioneye/server.py:486
+#: motioneye/server.py:485
 msgid "adiaŭ!"
 msgstr "farvell!"
 
@@ -387,8 +387,8 @@ msgstr "Ekstra valg"
 #: motioneye/templates/main.html:363
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
 msgstr ""
-"Du kan legge til flere alternativer her for \"motion\" -daemonen (bruk \"navn"
-" verdi\" -formatet, ett alternativ per linje)"
+"Du kan legge til flere alternativer her for \"motion\" -daemonen (bruk "
+"\"navn verdi\" -formatet, ett alternativ per linje)"
 
 #: motioneye/templates/main.html:372
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
@@ -538,8 +538,8 @@ msgstr "Server adresse"
 #: motioneye/templates/main.html:476
 msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
 msgstr ""
-"Serverens domenenavn eller IP -adresse (f.eks ftp.example.com eller 192.168.1"
-".3)"
+"Serverens domenenavn eller IP -adresse (f.eks ftp.example.com eller "
+"192.168.1.3)"
 
 #: motioneye/templates/main.html:479
 msgid "Servila haveno"
@@ -645,8 +645,8 @@ msgstr "Secret Access Key"
 #: motioneye/templates/main.html:547
 msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr ""
-"AWS Secret Access Key som brukes til å autentisere med opplastingstjenesten ("
-"vanligvis kreves bare under konfigurasjon)"
+"AWS Secret Access Key som brukes til å autentisere med opplastingstjenesten "
+"(vanligvis kreves bare under konfigurasjon)"
 
 #: motioneye/templates/main.html:550
 msgid "Sitelo"
@@ -773,8 +773,8 @@ msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas a
 msgstr ""
 "definerer en tilpasset venstre tekst; følgende spesielle symboler er "
 "akseptert: %%Y = år, %%m = måned, %%d = dag, %%H = time, %%M = minutt, %%S = "
-"sekund, %%q = ramme nummer, %%v = hendelsesnummer, %%T = HH: mm: SS, \\n"
-" = ny linje"
+"sekund, %%q = ramme nummer, %%v = hendelsesnummer, %%T = HH: mm: SS, \\n = "
+"ny linje"
 
 #: motioneye/templates/main.html:628
 msgid "Dekstra Teksto"
@@ -788,10 +788,10 @@ msgstr "Angir teksten som vises på filmene og bildene, i nedre høyre hjørne"
 #, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr ""
-"definerer en tilpasset høyre tekst; følgende spesielle symboler er akseptert:"
-" %%Y = år, %%m = måned, %%d = dag, %%H = time, %%M = minutt, %%S = sekund, "
-"%%q = ramme nummer, %%v = hendelsesnummer, %%T = HH: mm: SS, \\n"
-" = ny linje"
+"definerer en tilpasset høyre tekst; følgende spesielle symboler er "
+"akseptert: %%Y = år, %%m = måned, %%d = dag, %%H = time, %%M = minutt, %%S = "
+"sekund, %%q = ramme nummer, %%v = hendelsesnummer, %%T = HH: mm: SS, \\n = "
+"ny linje"
 
 #: motioneye/templates/main.html:645
 msgid "Teksta Skalo"
@@ -886,7 +886,8 @@ msgstr "Øyeblikksbilde addresse"
 
 #: motioneye/templates/main.html:713
 msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
-msgstr "en addresse som gir ett JPEG-bilde av det siste øyeblikket fra kameraet"
+msgstr ""
+"en addresse som gir ett JPEG-bilde av det siste øyeblikket fra kameraet"
 
 #: motioneye/templates/main.html:719
 msgid "Flua URL"

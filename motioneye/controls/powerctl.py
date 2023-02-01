@@ -26,7 +26,6 @@ __all__ = ('PowerControl',)
 
 
 class PowerControl:
-
     _shut_down_cmd_sequence = OrderedDict(
         [
             ('poweroff', ''),

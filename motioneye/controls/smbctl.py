@@ -159,7 +159,6 @@ def update_mounts():
                 network_share['username'],
                 network_share['password'],
             ):
-
                 should_start = False
 
     # unmount the no longer necessary mounts

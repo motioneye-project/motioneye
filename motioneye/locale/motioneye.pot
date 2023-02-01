@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-01-29 18:08+0000\n"
+"POT-Creation-Date: 2023-02-01 18:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,43 +41,43 @@ msgstr ""
 msgid "bonvolu instali pycurl"
 msgstr ""
 
-#: motioneye/server.py:423
+#: motioneye/server.py:422
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr ""
 
-#: motioneye/server.py:438
+#: motioneye/server.py:437
 msgid "purigado komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:440
+#: motioneye/server.py:439
 msgid "wsswitch komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:443
+#: motioneye/server.py:442
 msgid "taskoj komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:447
+#: motioneye/server.py:446
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:465
+#: motioneye/server.py:464
 msgid "servilo komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:471
+#: motioneye/server.py:470
 msgid "servilo haltis"
 msgstr ""
 
-#: motioneye/server.py:473
+#: motioneye/server.py:472
 msgid "taskoj haltis"
 msgstr ""
 
-#: motioneye/server.py:481
+#: motioneye/server.py:480
 msgid "motion haltis"
 msgstr ""
 
-#: motioneye/server.py:486
+#: motioneye/server.py:485
 msgid "adiaŭ!"
 msgstr ""
 

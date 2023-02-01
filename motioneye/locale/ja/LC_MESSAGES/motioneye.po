@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-12 17:19+0200\n"
+"POT-Creation-Date: 2023-02-01 18:26+0000\n"
 "PO-Revision-Date: 2020-04-08 17:45+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -48,52 +48,52 @@ msgstr "枕またはPILを取り付けてください"
 msgid "bonvolu instali pycurl"
 msgstr "pycurlをインストールしてください"
 
-#: motioneye/server.py:423
+#: motioneye/server.py:422
 #, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "こんにちは！これはmotionEyeサーバーです"
 
-#: motioneye/server.py:438
+#: motioneye/server.py:437
 #, fuzzy
 msgid "purigado komenciĝis"
 msgstr "掃除が始まった"
 
-#: motioneye/server.py:440
+#: motioneye/server.py:439
 #, fuzzy
 msgid "wsswitch komenciĝis"
 msgstr "wsswitchが開始しました"
 
-#: motioneye/server.py:443
+#: motioneye/server.py:442
 #, fuzzy
 msgid "taskoj komenciĝis"
 msgstr "開始されたタスク"
 
-#: motioneye/server.py:447
+#: motioneye/server.py:446
 #, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "mjpgカスタマーガベージコレクターが開始しました"
 
-#: motioneye/server.py:465
+#: motioneye/server.py:464
 #, fuzzy
 msgid "servilo komenciĝis"
 msgstr "サーバーが起動しました"
 
-#: motioneye/server.py:471
+#: motioneye/server.py:470
 #, fuzzy
 msgid "servilo haltis"
 msgstr "サーバーが停止しました"
 
-#: motioneye/server.py:473
+#: motioneye/server.py:472
 #, fuzzy
 msgid "taskoj haltis"
 msgstr "停止したタスク"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:480
 #, fuzzy
 msgid "motion haltis"
 msgstr "動きが止まった"
 
-#: motioneye/server.py:486
+#: motioneye/server.py:485
 #, fuzzy
 msgid "adiaŭ!"
 msgstr "さようなら！"
@@ -146,7 +146,8 @@ msgstr "フレームを垂直に設定"
 #: motioneye/templates/main.html:140
 #, fuzzy
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
-msgstr "ウィンドウを垂直に合わせるためにフレーム時間を短縮できるかどうかを制御します"
+msgstr ""
+"ウィンドウを垂直に合わせるためにフレーム時間を短縮できるかどうかを制御します"
 
 #: motioneye/templates/main.html:143
 #, fuzzy
@@ -166,7 +167,9 @@ msgstr "フレームバリエーター"
 #: motioneye/templates/main.html:150
 #, fuzzy
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
-msgstr "フレームレートを下げてネットワーク帯域幅とトラフィックを節約します（単純なMJPEGカメラでは機能しません）"
+msgstr ""
+"フレームレートを下げてネットワーク帯域幅とトラフィックを節約します（単純な"
+"MJPEGカメラでは機能しません）"
 
 #: motioneye/templates/main.html:153
 #, fuzzy
@@ -176,7 +179,9 @@ msgstr "解像度バリエーター"
 #: motioneye/templates/main.html:155
 #, fuzzy
 msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
-msgstr "すべてのカメラの有効解像度を下げて、ネットワーク帯域幅とトラフィックを節約します（単純なMJPEGカメラでは機能しません）。"
+msgstr ""
+"すべてのカメラの有効解像度を下げて、ネットワーク帯域幅とトラフィックを節約し"
+"ます（単純なMJPEGカメラでは機能しません）。"
 
 #: motioneye/templates/main.html:161
 #, fuzzy
@@ -232,7 +237,8 @@ msgstr "監視に使用するユーザー名"
 #: motioneye/templates/main.html:193
 #, fuzzy
 msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "監視ユーザーのパスワード（パスワードなしで監視する場合は空白のままにします）"
+msgstr ""
+"監視ユーザーのパスワード（パスワードなしで監視する場合は空白のままにします）"
 
 #: motioneye/templates/main.html:202
 #, fuzzy
@@ -353,7 +359,8 @@ msgstr "カメラデバイス"
 #: motioneye/templates/main.html:283
 #, fuzzy
 msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
-msgstr "入力デバイス（例：/ dev / video）またはURL（例：rtsp：//192.168.1.1/stream）"
+msgstr ""
+"入力デバイス（例：/ dev / video）またはURL（例：rtsp：//192.168.1.1/stream）"
 
 #: motioneye/templates/main.html:286
 #, fuzzy
@@ -368,7 +375,8 @@ msgstr "自動輝度"
 #: motioneye/templates/main.html:295
 #, fuzzy
 msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
-msgstr "自動グレアソフトウェアを有効にします（自動グレアのないカメラにのみ推奨）"
+msgstr ""
+"自動グレアソフトウェアを有効にします（自動グレアのないカメラにのみ推奨）"
 
 #: motioneye/templates/main.html:301
 #, fuzzy
@@ -378,7 +386,9 @@ msgstr "ビデオ解像度"
 #: motioneye/templates/main.html:306
 #, fuzzy
 msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
-msgstr "ビデオの解像度（値が高いほど品質は良くなりますが、より多くのCPUパワー、より大きなストレージと帯域幅が必要になります）"
+msgstr ""
+"ビデオの解像度（値が高いほど品質は良くなりますが、より多くのCPUパワー、より大"
+"きなストレージと帯域幅が必要になります）"
 
 #: motioneye/templates/main.html:309
 #, fuzzy
@@ -408,7 +418,9 @@ msgstr "ビデオ回転"
 #: motioneye/templates/main.html:328
 #, fuzzy
 msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
-msgstr "カメラが正しく配置されていない場合、これを使用してキャプチャした画像を回転させます"
+msgstr ""
+"カメラが正しく配置されていない場合、これを使用してキャプチャした画像を回転さ"
+"せます"
 
 #: motioneye/templates/main.html:331
 #, fuzzy
@@ -418,7 +430,10 @@ msgstr "フレームレート"
 #: motioneye/templates/main.html:333
 #, fuzzy
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
-msgstr "1秒あたりのカメラによってキャプチャされたフレーム数を設定します（値が大きいほど滑らかなビデオが生成されますが、より多くのCPUパワー、より大きなストレージと帯域幅が必要になります）"
+msgstr ""
+"1秒あたりのカメラによってキャプチャされたフレーム数を設定します（値が大きいほ"
+"ど滑らかなビデオが生成されますが、より多くのCPUパワー、より大きなストレージと"
+"帯域幅が必要になります）"
 
 #: motioneye/templates/main.html:339
 #, fuzzy
@@ -428,7 +443,9 @@ msgstr "プライバシーマスク"
 #: motioneye/templates/main.html:341
 #, fuzzy
 msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
-msgstr "プライバシーを保護するために特定の画像領域の記録を回避するために画像のマスキングを有効にします"
+msgstr ""
+"プライバシーを保護するために特定の画像領域の記録を回避するために画像のマスキ"
+"ングを有効にします"
 
 #: motioneye/templates/main.html:346 motioneye/templates/main.html:1007
 #, fuzzy
@@ -453,7 +470,9 @@ msgstr "追加オプション"
 #: motioneye/templates/main.html:363
 #, fuzzy
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr "ここに「モーション」デーモンに追加のオプションを追加できます（「名前値」形式、1行につき1つのオプションを使用）"
+msgstr ""
+"ここに「モーション」デーモンに追加のオプションを追加できます（「名前値」形"
+"式、1行につき1つのオプションを使用）"
 
 #: motioneye/templates/main.html:372
 #, fuzzy
@@ -493,7 +512,9 @@ msgstr "SMBプロトコルバージョン"
 #: motioneye/templates/main.html:401
 #, fuzzy
 msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
-msgstr "使用できるSMBバージョンを選択します（さまざまなオプションをテストし、NASで最適に動作するオプションを確認します）"
+msgstr ""
+"使用できるSMBバージョンを選択します（さまざまなオプションをテストし、NASで最"
+"適に動作するオプションを確認します）"
 
 #: motioneye/templates/main.html:404
 #, fuzzy
@@ -513,7 +534,9 @@ msgstr "ユーザー名"
 #: motioneye/templates/main.html:411
 #, fuzzy
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
-msgstr "ネットワークディレクトリにアクセスするときに提供されるユーザー名（ユーザー名が不要な場合は空白のままにします）"
+msgstr ""
+"ネットワークディレクトリにアクセスするときに提供されるユーザー名（ユーザー名"
+"が不要な場合は空白のままにします）"
 
 #: motioneye/templates/main.html:414
 #, fuzzy
@@ -523,7 +546,9 @@ msgstr "パスワード"
 #: motioneye/templates/main.html:416
 #, fuzzy
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
-msgstr "ネットワークディレクトリで必要なパスワード（パスワードが不要な場合は空白のままにします）"
+msgstr ""
+"ネットワークディレクトリで必要なパスワード（パスワードが不要な場合は空白のま"
+"まにします）"
 
 #: motioneye/templates/main.html:419
 #, fuzzy
@@ -543,7 +568,9 @@ msgstr "ネットワークディレクトリをテストする"
 #: motioneye/templates/main.html:426
 #, fuzzy
 msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
-msgstr "必要な詳細を入力した後、このボタンをクリックしてネットワーク接続をテストします"
+msgstr ""
+"必要な詳細を入力した後、このボタンをクリックしてネットワーク接続をテストしま"
+"す"
 
 #: motioneye/templates/main.html:432
 #, fuzzy
@@ -563,7 +590,8 @@ msgstr "メディアファイルのアップロード"
 #: motioneye/templates/main.html:444
 #, fuzzy
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
-msgstr "メディアを外部サービスにアップロードする場合は、このオプションを有効にします"
+msgstr ""
+"メディアを外部サービスにアップロードする場合は、このオプションを有効にします"
 
 #: motioneye/templates/main.html:447
 #, fuzzy
@@ -573,7 +601,8 @@ msgstr "画像をアップロード"
 #: motioneye/templates/main.html:449
 #, fuzzy
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
-msgstr "画像を外部サービスにダウンロードする場合は、このオプションを有効にします"
+msgstr ""
+"画像を外部サービスにダウンロードする場合は、このオプションを有効にします"
 
 #: motioneye/templates/main.html:452
 #, fuzzy
@@ -623,7 +652,8 @@ msgstr "サーバーアドレス"
 #: motioneye/templates/main.html:476
 #, fuzzy
 msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
-msgstr "サーバーのドメイン名またはIPアドレス（例：ftp.example.comまたは192.168.1.3）"
+msgstr ""
+"サーバーのドメイン名またはIPアドレス（例：ftp.example.comまたは192.168.1.3）"
 
 #: motioneye/templates/main.html:479
 #, fuzzy
@@ -633,7 +663,9 @@ msgstr "サーバーポート"
 #: motioneye/templates/main.html:481
 #, fuzzy
 msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
-msgstr "サービスへの接続に使用するポート（デフォルト値を使用するには、このフィールドを空白のままにします）"
+msgstr ""
+"サービスへの接続に使用するポート（デフォルト値を使用するには、このフィールド"
+"を空白のままにします）"
 
 #: motioneye/templates/main.html:484
 #, fuzzy
@@ -658,7 +690,8 @@ msgstr "アップロードサーバーエンドポイントへの完全なURL：
 #: motioneye/templates/main.html:497
 #, fuzzy
 msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
-msgstr "S3の場合：例http：//my.minio：9000。 AWSのために空のままにしてください！"
+msgstr ""
+"S3の場合：例http：//my.minio：9000。 AWSのために空のままにしてください！"
 
 #: motioneye/templates/main.html:498
 #, fuzzy
@@ -683,7 +716,9 @@ msgstr "サブフォルダーを含める"
 #: motioneye/templates/main.html:508
 #, fuzzy
 msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
-msgstr "メディアファイルをルートの場所に直接配置するのではなく、サブディレクトリとともにダウンロードするには、これをアクティブにします"
+msgstr ""
+"メディアファイルをルートの場所に直接配置するのではなく、サブディレクトリとと"
+"もにダウンロードするには、これをアクティブにします"
 
 #: motioneye/templates/main.html:511
 #, fuzzy
@@ -693,7 +728,10 @@ msgstr "雲をきれいにする"
 #: motioneye/templates/main.html:513
 #, fuzzy
 msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
-msgstr "これを有効にすると、ファイルの永続性設定に従ってローカルメディアが削除されたときにも、クラウドにアップロードされたメディアファイルが削除されます。現在、このオプションはgdriveでのみ使用できます。"
+msgstr ""
+"これを有効にすると、ファイルの永続性設定に従ってローカルメディアが削除された"
+"ときにも、クラウドにアップロードされたメディアファイルが削除されます。現在、"
+"このオプションはgdriveでのみ使用できます。"
 
 #: motioneye/templates/main.html:518
 #, fuzzy
@@ -743,7 +781,9 @@ msgstr "シークレットアクセスキー"
 #: motioneye/templates/main.html:547
 #, fuzzy
 msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "アップロードサービスでの認証に使用されるAWSシークレットアクセスキー（通常、構成時にのみ必要）"
+msgstr ""
+"アップロードサービスでの認証に使用されるAWSシークレットアクセスキー（通常、構"
+"成時にのみ必要）"
 
 #: motioneye/templates/main.html:550
 #, fuzzy
@@ -763,7 +803,9 @@ msgstr "サービスをテストする"
 #: motioneye/templates/main.html:557
 #, fuzzy
 msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
-msgstr "必要な詳細を入力した後、このボタンをクリックしてアップロードサービスをテストします"
+msgstr ""
+"必要な詳細を入力した後、このボタンをクリックしてアップロードサービスをテスト"
+"します"
 
 #: motioneye/templates/main.html:563
 #, fuzzy
@@ -789,7 +831,10 @@ msgstr "例http://example.com/notify/"
 #: motioneye/templates/main.html:570
 #, fuzzy, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
-msgstr "動きが検出されたときに送信するURL。次の特別なショートカットを使用できます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、 %% v =イベント番号、%% f =ファイルパス"
+msgstr ""
+"動きが検出されたときに送信するURL。次の特別なショートカットを使用できます："
+"%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム"
+"番号、 %% v =イベント番号、%% f =ファイルパス"
 
 #: motioneye/templates/main.html:573 motioneye/templates/main.html:1141
 #: motioneye/templates/main.html:1186
@@ -800,7 +845,9 @@ msgstr "HTTPメソッド"
 #: motioneye/templates/main.html:582
 #, fuzzy
 msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
-msgstr "ネットワークフックURLを要求するときに使用するHTTPメソッド（指定されたURLエンコードパラメータは、実際にはここに示されているように配信されます）"
+msgstr ""
+"ネットワークフックURLを要求するときに使用するHTTPメソッド（指定されたURLエン"
+"コードパラメータは、実際にはここに示されているように配信されます）"
 
 #: motioneye/templates/main.html:588
 #, fuzzy
@@ -825,7 +872,12 @@ msgstr "注文 ..."
 #: motioneye/templates/main.html:595
 #, fuzzy, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
-msgstr "マルチメディアファイルの作成後に実行するコマンド。いくつかのコマンドはセミコロンで区切ることができます。コマンドでセミコロンを使用しないでください。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、 %% v =イベント番号、%% f =ファイルパス"
+msgstr ""
+"マルチメディアファイルの作成後に実行するコマンド。いくつかのコマンドはセミコ"
+"ロンで区切ることができます。コマンドでセミコロンを使用しないでください。次の"
+"特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日、%% H =時"
+"間、%% M =分、%% S =秒、%% q =フレーム番号、 %% v =イベント番号、%% f =ファイ"
+"ルパス"
 
 #: motioneye/templates/main.html:605
 #, fuzzy
@@ -871,7 +923,10 @@ msgstr "カスタムテキスト..."
 #: motioneye/templates/main.html:625
 #, fuzzy, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "カスタム左テキストを定義します。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、 %% v =イベント番号、%% T = HH：MM：SS、\\ n =改行"
+msgstr ""
+"カスタム左テキストを定義します。次の特別なトークンが受け入れられます：%% Y ="
+"年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、 "
+"%% v =イベント番号、%% T = HH：MM：SS、\\ n =改行"
 
 #: motioneye/templates/main.html:628
 #, fuzzy
@@ -886,7 +941,10 @@ msgstr "右下隅の映画や写真に表示されるテキストを設定しま
 #: motioneye/templates/main.html:642
 #, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "カスタムの右のテキストを定義します。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、 %% v =イベント番号、%% T = HH：MM：SS、\\ n =改行"
+msgstr ""
+"カスタムの右のテキストを定義します。次の特別なトークンが受け入れられます：%% "
+"Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番"
+"号、 %% v =イベント番号、%% T = HH：MM：SS、\\ n =改行"
 
 #: motioneye/templates/main.html:645
 #, fuzzy
@@ -926,7 +984,9 @@ msgstr "フロー品質"
 #: motioneye/templates/main.html:670
 #, fuzzy
 msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
-msgstr "ライブストリーミング品質に調整します（値が高いほど、ビデオ品質は高くなりますが、より多くの帯域幅が必要になります）。"
+msgstr ""
+"ライブストリーミング品質に調整します（値が高いほど、ビデオ品質は高くなります"
+"が、より多くの帯域幅が必要になります）。"
 
 #: motioneye/templates/main.html:673
 #, fuzzy
@@ -936,7 +996,9 @@ msgstr "画像のサイズ変更"
 #: motioneye/templates/main.html:675
 #, fuzzy
 msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
-msgstr "これをオンにすると、画像はブラウザーに送信される前にサイズ変更されます（遅いCPUで実行している場合は無効になります）。"
+msgstr ""
+"これをオンにすると、画像はブラウザーに送信される前にサイズ変更されます（遅い"
+"CPUで実行している場合は無効になります）。"
 
 #: motioneye/templates/main.html:678
 #, fuzzy
@@ -946,7 +1008,9 @@ msgstr "流れの解決"
 #: motioneye/templates/main.html:680
 #, fuzzy
 msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
-msgstr "ビデオデバイスの解像度のパーセンテージとして与えられる解像度（値が高いほど、ビデオ品質は向上しますが、より多くの帯域幅が必要になります）"
+msgstr ""
+"ビデオデバイスの解像度のパーセンテージとして与えられる解像度（値が高いほど、"
+"ビデオ品質は向上しますが、より多くの帯域幅が必要になります）"
 
 #: motioneye/templates/main.html:683
 #, fuzzy
@@ -966,7 +1030,10 @@ msgstr "認証モード"
 #: motioneye/templates/main.html:696
 #, fuzzy
 msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "ストリームで使用される認証方法（サードパーティのプログラムで問題が発生した場合は、「ダイジェスト」ではなく「Bazic」を選択してください）;認定チェックが使用されます"
+msgstr ""
+"ストリームで使用される認証方法（サードパーティのプログラムで問題が発生した場"
+"合は、「ダイジェスト」ではなく「Bazic」を選択してください）;認定チェックが使"
+"用されます"
 
 #: motioneye/templates/main.html:699
 #, fuzzy
@@ -976,7 +1043,9 @@ msgstr "モーション最適化"
 #: motioneye/templates/main.html:701
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
-msgstr "動きが検出されないときに配信ストリームのフレームレートを低くする場合は、これを有効にします"
+msgstr ""
+"動きが検出されないときに配信ストリームのフレームレートを低くする場合は、これ"
+"を有効にします"
 
 #: motioneye/templates/main.html:707
 #, fuzzy
@@ -1011,7 +1080,9 @@ msgstr "入力URL"
 #: motioneye/templates/main.html:731
 #, fuzzy
 msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
-msgstr "埋め込まれる準備ができている、カメラフレームを含む最小限のHTMLドキュメントを提供するURL"
+msgstr ""
+"埋め込まれる準備ができている、カメラフレームを含む最小限のHTMLドキュメントを"
+"提供するURL"
 
 #: motioneye/templates/main.html:741
 #, fuzzy
@@ -1036,7 +1107,10 @@ msgstr "ファイル名テンプレート..."
 #: motioneye/templates/main.html:749
 #, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr "JPEGファイルの名前テンプレートを定義します。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、 %% v =イベント番号、/ =サブディレクトリ。"
+msgstr ""
+"JPEGファイルの名前テンプレートを定義します。次の特別なトークンが受け入れられ"
+"ます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フ"
+"レーム番号、 %% v =イベント番号、/ =サブディレクトリ。"
 
 #: motioneye/templates/main.html:752
 #, fuzzy
@@ -1046,7 +1120,9 @@ msgstr "画質"
 #: motioneye/templates/main.html:754
 #, fuzzy
 msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
-msgstr "JPEG画質を設定します（値が高いほど画質が良くなりますが、より多くのストレージが必要になります）"
+msgstr ""
+"JPEG画質を設定します（値が高いほど画質が良くなりますが、より多くのストレージ"
+"が必要になります）"
 
 #: motioneye/templates/main.html:757
 #, fuzzy
@@ -1158,7 +1234,9 @@ msgstr "所有する"
 #: motioneye/templates/main.html:790
 #, fuzzy
 msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
-msgstr "定義された期間より古いイメージは、ストレージスペースを解放するために自動的に削除されます。"
+msgstr ""
+"定義された期間より古いイメージは、ストレージスペースを解放するために自動的に"
+"削除されます。"
 
 #: motioneye/templates/main.html:793
 #, fuzzy
@@ -1178,7 +1256,9 @@ msgstr "ハンドキャッチを有効にする"
 #: motioneye/templates/main.html:800
 #, fuzzy
 msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
-msgstr "これをオンにすると、カメラフレームのボタンを使用して手動でキャプチャを行うことができます。"
+msgstr ""
+"これをオンにすると、カメラフレームのボタンを使用して手動でキャプチャを行うこ"
+"とができます。"
 
 #: motioneye/templates/main.html:810
 #, fuzzy
@@ -1198,7 +1278,10 @@ msgstr "動画ファイル名"
 #: motioneye/templates/main.html:818
 #, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr "ムービーファイルの名前テンプレートを定義します。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、 %% v =イベント番号、/ =サブディレクトリ。"
+msgstr ""
+"ムービーファイルの名前テンプレートを定義します。次の特別なトークンが受け入れ"
+"られます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q "
+"=フレーム番号、 %% v =イベント番号、/ =サブディレクトリ。"
 
 #: motioneye/templates/main.html:821
 #, fuzzy
@@ -1208,7 +1291,10 @@ msgstr "直接コピービデオ"
 #: motioneye/templates/main.html:823
 #, fuzzy
 msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
-msgstr "カメラから直接映画を作成します。このオプションを使用すると、CPU使用率は減少しますが、メモリの需要が増加します。画像処理が行われないため、テキストが重複している、プライバシーマスクなど。結果のビデオには含まれません。"
+msgstr ""
+"カメラから直接映画を作成します。このオプションを使用すると、CPU使用率は減少し"
+"ますが、メモリの需要が増加します。画像処理が行われないため、テキストが重複し"
+"ている、プライバシーマスクなど。結果のビデオには含まれません。"
 
 #: motioneye/templates/main.html:826
 #, fuzzy
@@ -1218,7 +1304,10 @@ msgstr "映画フォーマット"
 #: motioneye/templates/main.html:869
 #, fuzzy
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
-msgstr "ムービーファイルをカスタマイズします。すべてのフォーマットがすべてのシステムで動作することが保証されているわけではありません。疑問がある場合は、各フォーマットをテストして、ビデオに最適なフォーマットを選択してください。"
+msgstr ""
+"ムービーファイルをカスタマイズします。すべてのフォーマットがすべてのシステム"
+"で動作することが保証されているわけではありません。疑問がある場合は、各フォー"
+"マットをテストして、ビデオに最適なフォーマットを選択してください。"
 
 #: motioneye/templates/main.html:872
 #, fuzzy
@@ -1228,7 +1317,9 @@ msgstr "フィルム品質"
 #: motioneye/templates/main.html:874
 #, fuzzy
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
-msgstr "MPEGビデオ品質を設定します（値が高いほど、ビデオ品質は高くなりますが、より多くのストレージが必要になります）。"
+msgstr ""
+"MPEGビデオ品質を設定します（値が高いほど、ビデオ品質は高くなりますが、より多"
+"くのストレージが必要になります）。"
 
 #: motioneye/templates/main.html:877
 #, fuzzy
@@ -1243,7 +1334,9 @@ msgstr "連続記録"
 #: motioneye/templates/main.html:884
 #, fuzzy
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
-msgstr "記録モードを設定します。モーショントリガー=モーションが検出されるたびに作成される新しいムービー、連続記録= 1つの大きなムービーファイル。"
+msgstr ""
+"記録モードを設定します。モーショントリガー=モーションが検出されるたびに作成さ"
+"れる新しいムービー、連続記録= 1つの大きなムービーファイル。"
 
 #: motioneye/templates/main.html:887
 #, fuzzy
@@ -1253,7 +1346,9 @@ msgstr "映画の最長時間"
 #: motioneye/templates/main.html:889
 #, fuzzy
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
-msgstr "映画の最大長を秒単位で設定します。モーションイベントが長く続く場合、新しいムービーファイルが作成されます。無制限の長さには0を使用します。"
+msgstr ""
+"映画の最大長を秒単位で設定します。モーションイベントが長く続く場合、新しい"
+"ムービーファイルが作成されます。無制限の長さには0を使用します。"
 
 #: motioneye/templates/main.html:892
 #, fuzzy
@@ -1263,7 +1358,9 @@ msgstr "映画を保存"
 #: motioneye/templates/main.html:903
 #, fuzzy
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
-msgstr "設定された期間より古い映画は、ストレージを解放するために自動的に削除されます。"
+msgstr ""
+"設定された期間より古い映画は、ストレージを解放するために自動的に削除されま"
+"す。"
 
 #: motioneye/templates/main.html:906
 #, fuzzy
@@ -1283,7 +1380,8 @@ msgstr "映画が自動的に削除されるまでの日数を設定します。
 #: motioneye/templates/main.html:918
 #, fuzzy
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
-msgstr "これをアクティブにして、動きを検出するようにデバイスを使用および構成します。"
+msgstr ""
+"これをアクティブにして、動きを検出するようにデバイスを使用および構成します。"
 
 #: motioneye/templates/main.html:919
 #, fuzzy
@@ -1298,7 +1396,10 @@ msgstr "フレーム変更しきい値"
 #: motioneye/templates/main.html:926
 #, fuzzy
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
-msgstr "動きを検出するために2つの連続するフレーム間で切り替える必要がある画像の最小パーセンテージを示します（値が小さいほど検出の感度が高くなりますが、誤検知の傾向があります）。"
+msgstr ""
+"動きを検出するために2つの連続するフレーム間で切り替える必要がある画像の最小"
+"パーセンテージを示します（値が小さいほど検出の感度が高くなりますが、誤検知の"
+"傾向があります）。"
 
 #: motioneye/templates/main.html:929
 #, fuzzy
@@ -1308,7 +1409,9 @@ msgstr "最大変化しきい値"
 #: motioneye/templates/main.html:931
 #, fuzzy
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
-msgstr "スクロールがトリガーされなくなったフレーム間で切り替えられるピクセル数を設定します（0はボーダーを無効にします）。"
+msgstr ""
+"スクロールがトリガーされなくなったフレーム間で切り替えられるピクセル数を設定"
+"します（0はボーダーを無効にします）。"
 
 #: motioneye/templates/main.html:934
 #, fuzzy
@@ -1348,7 +1451,9 @@ msgstr "光の変化の検出"
 #: motioneye/templates/main.html:951
 #, fuzzy, python-format
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
-msgstr "変更する必要がある画像のパーセンテージを定義して、イベントが動きではなく突然の軽い変化として扱われるようにします（0 %%で機能が無効になります）。"
+msgstr ""
+"変更する必要がある画像のパーセンテージを定義して、イベントが動きではなく突然"
+"の軽い変化として扱われるようにします（0 %%で機能が無効になります）。"
 
 #: motioneye/templates/main.html:954
 #, fuzzy
@@ -1358,7 +1463,9 @@ msgstr "染色フィルター"
 #: motioneye/templates/main.html:956
 #, fuzzy
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
-msgstr "これを有効にするには、モーション検出の前にフレームにスポットフィルターを適用します。"
+msgstr ""
+"これを有効にするには、モーション検出の前にフレームにスポットフィルターを適用"
+"します。"
 
 #: motioneye/templates/main.html:962
 #, fuzzy
@@ -1368,7 +1475,9 @@ msgstr "連続移動"
 #: motioneye/templates/main.html:964
 #, fuzzy
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
-msgstr "ムーブメントイベントの終了を示す無音の秒数（つまり、ムーブメントなし）を設定します。"
+msgstr ""
+"ムーブメントイベントの終了を示す無音の秒数（つまり、ムーブメントなし）を設定"
+"します。"
 
 #: motioneye/templates/main.html:967
 #, fuzzy
@@ -1384,7 +1493,9 @@ msgstr "フレーム"
 #: motioneye/templates/main.html:969
 #, fuzzy
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
-msgstr "モーションインシデントが検出される前にキャプチャされた（およびムービーに含まれる）フレーム数を設定します。"
+msgstr ""
+"モーションインシデントが検出される前にキャプチャされた（およびムービーに含ま"
+"れる）フレーム数を設定します。"
 
 #: motioneye/templates/main.html:972
 #, fuzzy
@@ -1394,7 +1505,9 @@ msgstr "捕まった"
 #: motioneye/templates/main.html:974
 #, fuzzy
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
-msgstr "ムーブメントイベントの終了後にキャプチャされる（およびムービーに含まれる）フレーム数を設定します。"
+msgstr ""
+"ムーブメントイベントの終了後にキャプチャされる（およびムービーに含まれる）フ"
+"レーム数を設定します。"
 
 #: motioneye/templates/main.html:977
 #, fuzzy
@@ -1404,7 +1517,9 @@ msgstr "最小限のモーションフレーム"
 #: motioneye/templates/main.html:979
 #, fuzzy
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
-msgstr "モーションイベントの開始に必要な連続するモーションフレームの最小数を設定します。"
+msgstr ""
+"モーションイベントの開始に必要な連続するモーションフレームの最小数を設定しま"
+"す。"
 
 #: motioneye/templates/main.html:985
 #, fuzzy
@@ -1434,7 +1549,10 @@ msgstr "編集可能"
 #: motioneye/templates/main.html:997
 #, fuzzy
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
-msgstr "インテリジェントオプションは、通常のモーションで領域を自動的に検出し、内部マスクを動的に作成します。編集可能オプションを使用すると、手動でそれを作成できます。"
+msgstr ""
+"インテリジェントオプションは、通常のモーションで領域を自動的に検出し、内部マ"
+"スクを動的に作成します。編集可能オプションを使用すると、手動でそれを作成でき"
+"ます。"
 
 #: motioneye/templates/main.html:1000
 #, fuzzy
@@ -1444,7 +1562,8 @@ msgstr "スマートマスクの遅さ"
 #: motioneye/templates/main.html:1002
 #, fuzzy
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
-msgstr "値が大きいほど、ビルドプロセスが遅くなり、より耐久性のあるマスクになります。"
+msgstr ""
+"値が大きいほど、ビルドプロセスが遅くなり、より耐久性のあるマスクになります。"
 
 #: motioneye/templates/main.html:1011
 #, fuzzy
@@ -1469,7 +1588,9 @@ msgstr "フレームの変更を表示"
 #: motioneye/templates/main.html:1024
 #, fuzzy
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
-msgstr "これがアクティブな場合、画像の変更（ピクセル数と変更された領域）がビデオに表示されます。これを一時的に有効にして、モーション検出設定を調整します。"
+msgstr ""
+"これがアクティブな場合、画像の変更（ピクセル数と変更された領域）がビデオに表"
+"示されます。これを一時的に有効にして、モーション検出設定を調整します。"
 
 #: motioneye/templates/main.html:1027
 #, fuzzy
@@ -1479,7 +1600,9 @@ msgstr "デバッグメディアファイルを作成する"
 #: motioneye/templates/main.html:1029
 #, fuzzy
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
-msgstr "有効にすると、モーション検出の問題のデバッグに役立つ特別なムービーと画像を作成できます。"
+msgstr ""
+"有効にすると、モーション検出の問題のデバッグに役立つ特別なムービーと画像を作"
+"成できます。"
 
 #: motioneye/templates/main.html:1038
 #, fuzzy
@@ -1499,7 +1622,9 @@ msgstr "メールを送る"
 #: motioneye/templates/main.html:1053
 #, fuzzy
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
-msgstr "モーションインシデントが検出されるたびにメールを受信する場合は、このオプションを有効にします。"
+msgstr ""
+"モーションインシデントが検出されるたびにメールを受信する場合は、このオプショ"
+"ンを有効にします。"
 
 #: motioneye/templates/main.html:1056
 #, fuzzy
@@ -1514,7 +1639,9 @@ msgstr "メールアドレス ..."
 #: motioneye/templates/main.html:1058
 #, fuzzy
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
-msgstr "ここに追加された（コンマで区切られた）電子メールアドレスは、モーションインシデントが検出されるたびに通知を受信します。"
+msgstr ""
+"ここに追加された（コンマで区切られた）電子メールアドレスは、モーションインシ"
+"デントが検出されるたびに通知を受信します。"
 
 #: motioneye/templates/main.html:1061
 #, fuzzy
@@ -1529,7 +1656,9 @@ msgstr "例smtp.gmail.com"
 #: motioneye/templates/main.html:1063
 #, fuzzy
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
-msgstr "SMTPサーバーのホスト名またはIPアドレスを入力します（Gmail smtp.gmail.comを使用する場合）。"
+msgstr ""
+"SMTPサーバーのホスト名またはIPアドレスを入力します（Gmail smtp.gmail.comを使"
+"用する場合）。"
 
 #: motioneye/templates/main.html:1066
 #, fuzzy
@@ -1544,7 +1673,9 @@ msgstr "例587"
 #: motioneye/templates/main.html:1068
 #, fuzzy
 msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
-msgstr "SMTPサーバーが使用するポートを入力します（通常、非TLS接続の場合は465、TLS接続の場合は587）。"
+msgstr ""
+"SMTPサーバーが使用するポートを入力します（通常、非TLS接続の場合は465、TLS接続"
+"の場合は587）。"
 
 #: motioneye/templates/main.html:1071
 #, fuzzy
@@ -1569,7 +1700,9 @@ msgstr "SMTPパスワード"
 #: motioneye/templates/main.html:1078
 #, fuzzy
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
-msgstr "SMTPパスワードを入力します（Gmailの場合はGoogleパスワードまたはアプリが生成したパスワードを使用します）。"
+msgstr ""
+"SMTPパスワードを入力します（Gmailの場合はGoogleパスワードまたはアプリが生成し"
+"たパスワードを使用します）。"
 
 #: motioneye/templates/main.html:1081
 #, fuzzy
@@ -1584,7 +1717,9 @@ msgstr "電子メールアドレス ..."
 #: motioneye/templates/main.html:1083
 #, fuzzy
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
-msgstr "SMTPサービスで必要な場合は、カスタムの差出人アドレスを設定します（空白のままにすると、最初の宛先メールアドレスが使用されます）。"
+msgstr ""
+"SMTPサービスで必要な場合は、カスタムの差出人アドレスを設定します（空白のまま"
+"にすると、最初の宛先メールアドレスが使用されます）。"
 
 #: motioneye/templates/main.html:1086
 #, fuzzy
@@ -1594,7 +1729,9 @@ msgstr "TLSを使用する"
 #: motioneye/templates/main.html:1088
 #, fuzzy
 msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
-msgstr "SMTPサーバーがTLSを必要とする場合は、これを有効にします（Gmailではこれを有効にする必要があります）。"
+msgstr ""
+"SMTPサーバーがTLSを必要とする場合は、これを有効にします（Gmailではこれを有効"
+"にする必要があります）。"
 
 #: motioneye/templates/main.html:1091
 #, fuzzy
@@ -1604,7 +1741,11 @@ msgstr "写真の時間間隔を追加"
 #: motioneye/templates/main.html:1093
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
-msgstr "電子メールリンクを作成するときに使用する時間検索間隔を定義します（値が大きいほど、延期通知の増加を犠牲にしてより多くの画像を含む電子メールを生成します）;追加した画像を無効にするには、0に設定します。これを機能させるには、「画像のキャプチャ」を有効にする必要もあります。"
+msgstr ""
+"電子メールリンクを作成するときに使用する時間検索間隔を定義します（値が大きい"
+"ほど、延期通知の増加を犠牲にしてより多くの画像を含む電子メールを生成します）;"
+"追加した画像を無効にするには、0に設定します。これを機能させるには、「画像の"
+"キャプチャ」を有効にする必要もあります。"
 
 #: motioneye/templates/main.html:1097
 #, fuzzy
@@ -1614,7 +1755,9 @@ msgstr "メールをテストする"
 #: motioneye/templates/main.html:1098
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
-msgstr "必要な詳細を入力した後、このボタンをクリックして電子メール通知をテストします。"
+msgstr ""
+"必要な詳細を入力した後、このボタンをクリックして電子メール通知をテストしま"
+"す。"
 
 #: motioneye/templates/main.html:1104
 #, fuzzy
@@ -1624,7 +1767,9 @@ msgstr "テレグラム通知を送信する"
 #: motioneye/templates/main.html:1106
 #, fuzzy
 msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
-msgstr "移動イベントが検出されるたびにテレグラムメッセージを受信する場合は、これを有効にします"
+msgstr ""
+"移動イベントが検出されるたびにテレグラムメッセージを受信する場合は、これを有"
+"効にします"
 
 #: motioneye/templates/main.html:1109
 #, fuzzy
@@ -1639,7 +1784,11 @@ msgstr "例：93847672：AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 #: motioneye/templates/main.html:1111
 #, fuzzy
 msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-msgstr "Telegram-Bot Chatを作成することにより、ここに入力する必要があるAPIトークンが表示されます。下のAPIボタンをクリックして、APIトークンを取得する方法に関するステップバイステップガイドをクリックします。また、キーが生成された後、新しく作成された「ボット」とチャットして、メッセージを受け取るようにしてください。"
+msgstr ""
+"Telegram-Bot Chatを作成することにより、ここに入力する必要があるAPIトークンが"
+"表示されます。下のAPIボタンをクリックして、APIトークンを取得する方法に関する"
+"ステップバイステップガイドをクリックします。また、キーが生成された後、新しく"
+"作成された「ボット」とチャットして、メッセージを受け取るようにしてください。"
 
 #: motioneye/templates/main.html:1114
 #, fuzzy
@@ -1654,7 +1803,9 @@ msgstr "例：938272312"
 #: motioneye/templates/main.html:1116
 #, fuzzy
 msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
-msgstr "id_chatbot（@id_chatbot）への新しいチャットを作成し、開始することを選択します。チャットはこのフィールドに必要な数を返します。"
+msgstr ""
+"id_chatbot（@id_chatbot）への新しいチャットを作成し、開始することを選択しま"
+"す。チャットはこのフィールドに必要な数を返します。"
 
 #: motioneye/templates/main.html:1119
 #, fuzzy
@@ -1664,7 +1815,13 @@ msgstr "添付画像時間"
 #: motioneye/templates/main.html:1121
 #, fuzzy
 msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
-msgstr "テレグラム添付ファイルを作成するための画像検索時間間隔を定義します（値が大きいほど、通知遅延が増加しますが、より多くの画像が生成されます）;画像の添付を無効にするには、0に設定します。これを機能させるには、静止画像も有効にする必要があります。画像が送信されるまで、この番号で遊んでみてください。静止画像を1つのモーショントリガーに設定した場合、適切な開始番号は30です。トリガーされる標準の移動の場合、これをはるかに低く設定します。"
+msgstr ""
+"テレグラム添付ファイルを作成するための画像検索時間間隔を定義します（値が大き"
+"いほど、通知遅延が増加しますが、より多くの画像が生成されます）;画像の添付を無"
+"効にするには、0に設定します。これを機能させるには、静止画像も有効にする必要が"
+"あります。画像が送信されるまで、この番号で遊んでみてください。静止画像を1つの"
+"モーショントリガーに設定した場合、適切な開始番号は30です。トリガーされる標準"
+"の移動の場合、これをはるかに低く設定します。"
 
 #: motioneye/templates/main.html:1124
 #, fuzzy
@@ -1684,7 +1841,9 @@ msgstr "URLを呼び出す"
 #: motioneye/templates/main.html:1133
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
-msgstr "モーションイベントが検出されたときにURLが要求されるようにするには、これを有効にします。"
+msgstr ""
+"モーションイベントが検出されたときにURLが要求されるようにするには、これを有効"
+"にします。"
 
 #: motioneye/templates/main.html:1137
 #, fuzzy
@@ -1694,12 +1853,17 @@ msgstr "例http://example.com/search/"
 #: motioneye/templates/main.html:1138
 #, fuzzy, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-msgstr "動きが検出されたときに要求されるURL。次の特別なショートカットを使用できます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、%% v =イベント番号"
+msgstr ""
+"動きが検出されたときに要求されるURL。次の特別なショートカットを使用できます："
+"%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム"
+"番号、%% v =イベント番号"
 
 #: motioneye/templates/main.html:1150 motioneye/templates/main.html:1195
 #, fuzzy
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
-msgstr "URLを要求するときに使用するHTTPメソッド（指定されたURLパラメーターは、ここに示されているように配信されます）。"
+msgstr ""
+"URLを要求するときに使用するHTTPメソッド（指定されたURLパラメーターは、ここに"
+"示されているように配信されます）。"
 
 #: motioneye/templates/main.html:1156 motioneye/templates/main.html:1201
 #, fuzzy
@@ -1709,7 +1873,9 @@ msgstr "コマンドを起動する"
 #: motioneye/templates/main.html:1158
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
-msgstr "モーションイベントが検出されるたびにコマンドを実行する場合は、これを有効にします。"
+msgstr ""
+"モーションイベントが検出されるたびにコマンドを実行する場合は、これを有効にし"
+"ます。"
 
 #: motioneye/templates/main.html:1161 motioneye/templates/main.html:1206
 #, fuzzy
@@ -1724,17 +1890,26 @@ msgstr "指示 ..."
 #: motioneye/templates/main.html:1163
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-msgstr "動きが検出されたときに起動するコマンド。複数のコマンドはコロンで区切ることができます。コマンドでセミコロンを使用しないでください。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号、%% v =イベント番号"
+msgstr ""
+"動きが検出されたときに起動するコマンド。複数のコマンドはコロンで区切ることが"
+"できます。コマンドでセミコロンを使用しないでください。次の特別なトークンが受"
+"け入れられます：%% Y =年、%% m =月、%% d =日、%% H =時間、%% M =分、%% S ="
+"秒、%% q =フレーム番号、%% v =イベント番号"
 
 #: motioneye/templates/main.html:1203
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
-msgstr "moveイベントが終了するたびにコマンドを起動する場合は、これを有効にします。"
+msgstr ""
+"moveイベントが終了するたびにコマンドを起動する場合は、これを有効にします。"
 
 #: motioneye/templates/main.html:1208
 #, fuzzy, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
-msgstr "モーションイベントの終了時に起動するコマンド。複数のコマンドはコロンで区切ることができます。コマンドでドットコムを使用しないでください。次の特別なトークンが受け入れられます：%% Y =年、%% m =月、%% d =日付、%% H =時間、%% M =分、%% S =秒、%% q =フレーム番号。"
+msgstr ""
+"モーションイベントの終了時に起動するコマンド。複数のコマンドはコロンで区切る"
+"ことができます。コマンドでドットコムを使用しないでください。次の特別なトーク"
+"ンが受け入れられます：%% Y =年、%% m =月、%% d =日付、%% H =時間、%% M ="
+"分、%% S =秒、%% q =フレーム番号。"
 
 #: motioneye/templates/main.html:1218
 #, fuzzy
@@ -1844,7 +2019,9 @@ msgstr "勤務時間外"
 #: motioneye/templates/main.html:1294
 #, fuzzy
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
-msgstr "勤務時間中または勤務時間外にモーション検知をアクティブにするかどうかを定義します。"
+msgstr ""
+"勤務時間中または勤務時間外にモーション検知をアクティブにするかどうかを定義し"
+"ます。"
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
 #, fuzzy

@@ -185,7 +185,6 @@ async def list_cameras(local_config) -> utils.GetCamerasResponse:
         return utils.GetCamerasResponse(None, str(e))
 
     else:
-
         cameras = response['cameras']
 
         # filter out simple mjpeg cameras

@@ -176,7 +176,7 @@ def _remove_older_files(
     exts: typing.List[str],
 ):
     removed_folder_count = 0
-    for (full_path, st) in _list_media_files(directory, exts):
+    for full_path, st in _list_media_files(directory, exts):
         file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
         if file_moment < moment:
             logging.debug(f'removing file {full_path}...')
@@ -432,7 +432,7 @@ def list_media(camera_config: dict, media_type: str, prefix=None) -> typing.Awai
         parent_pipe.close()
 
         mf = _list_media_files(target_dir, exts=exts, prefix=prefix)
-        for (p, st) in mf:
+        for p, st in mf:
             path = p[len(target_dir) :]
             if not path.startswith('/'):
                 path = '/' + path
@@ -551,7 +551,7 @@ def get_zipped_content(
 
         mf = _list_media_files(target_dir, exts=exts, prefix=group)
         paths = []
-        for (p, st) in mf:  # @UnusedVariable
+        for p, st in mf:  # @UnusedVariable
             path = p[len(target_dir) :]
             if path.startswith('/'):
                 path = path[1:]
@@ -651,7 +651,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
         parent_pipe.close()
 
         mf = _list_media_files(target_dir, exts=_PICTURE_EXTS, prefix=group)
-        for (p, st) in mf:
+        for p, st in mf:
             timestamp = st.st_mtime
 
             pipe.send({'path': p, 'timestamp': timestamp})
@@ -863,7 +863,6 @@ def check_timelapse_movie():
         ) or (
             hasattr(_timelapse_process, 'is_alive') and _timelapse_process.is_alive()
         ):
-
             return {'progress': _timelapse_process.progress, 'data': None}
 
         else:
@@ -970,7 +969,7 @@ def del_media_group(camera_config, group, media_type):
     open(os.path.join(target_dir, '.keep'), 'w').close()
 
     mf = _list_media_files(target_dir, exts=exts, prefix=group)
-    for (path, st) in mf:  # @UnusedVariable
+    for path, st in mf:  # @UnusedVariable
         try:
             os.remove(path)
 

@@ -364,7 +364,6 @@ def start_motion():
 
     # add a motion running checker
     def checker():
-
         if (
             not motionctl.running()
             and motionctl.started()

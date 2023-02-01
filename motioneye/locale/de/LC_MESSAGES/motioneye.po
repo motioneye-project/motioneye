@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-12 17:19+0200\n"
+"POT-Creation-Date: 2023-02-01 18:26+0000\n"
 "PO-Revision-Date: 2022-11-23 17:47+0000\n"
 "Last-Translator: avyeegaztd <avyeegaztd@gmail.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/"
@@ -44,43 +44,43 @@ msgstr "Bitte installieren Sie pillow oder PIL"
 msgid "bonvolu instali pycurl"
 msgstr "Bitte installieren Sie pycurl"
 
-#: motioneye/server.py:423
+#: motioneye/server.py:422
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "Hallo! Dies ist ein MotionEye-Server "
 
-#: motioneye/server.py:438
+#: motioneye/server.py:437
 msgid "purigado komenciĝis"
 msgstr "Reinigung hat begonnen"
 
-#: motioneye/server.py:440
+#: motioneye/server.py:439
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch wurde gestartet"
 
-#: motioneye/server.py:443
+#: motioneye/server.py:442
 msgid "taskoj komenciĝis"
 msgstr "Aufgaben wurden gestartet"
 
-#: motioneye/server.py:447
+#: motioneye/server.py:446
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "Der mjpg-Client-Garbage-Collector wurde gestartet"
 
-#: motioneye/server.py:465
+#: motioneye/server.py:464
 msgid "servilo komenciĝis"
 msgstr "Der Server wurde gestartet"
 
-#: motioneye/server.py:471
+#: motioneye/server.py:470
 msgid "servilo haltis"
 msgstr "Der Server wurde gestoppt"
 
-#: motioneye/server.py:473
+#: motioneye/server.py:472
 msgid "taskoj haltis"
 msgstr "Aufgaben wurden gestoppt"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:480
 msgid "motion haltis"
 msgstr "motion wurde gestoppt"
 
-#: motioneye/server.py:486
+#: motioneye/server.py:485
 msgid "adiaŭ!"
 msgstr "Auf Wiedersehen!"
 
@@ -1512,8 +1512,8 @@ msgstr "Zeitintervall für angehängte Bilder"
 #: motioneye/templates/main.html:1093
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr ""
-"definiert das Zeitintervall für die Bildsuche, welches beim Erstellen von E"
-"-Mail-Anhängen verwendet werden soll (ein höherer Wert führt zu mehr Bildern "
+"definiert das Zeitintervall für die Bildsuche, welches beim Erstellen von E-"
+"Mail-Anhängen verwendet werden soll (ein höherer Wert führt zu mehr Bildern "
 "auf Kosten einer erhöhten Benachrichtigungsverzögerung); auf 0 setzen, um "
 "Bildanhänge zu deaktivieren; Sie müssen auch Standbilder aktivieren, damit "
 "dies funktioniert."
@@ -1577,8 +1577,8 @@ msgstr "Angehängte Bilder (Uhrzeit)"
 #: motioneye/templates/main.html:1121
 msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
 msgstr ""
-"definiert das Bildsuchzeitintervall zum Erstellen von Telegrammanhängen ("
-"höhere Werte erzeugen mehr Bilder auf Kosten einer erhöhten "
+"definiert das Bildsuchzeitintervall zum Erstellen von Telegrammanhängen "
+"(höhere Werte erzeugen mehr Bilder auf Kosten einer erhöhten "
 "Benachrichtigungsverzögerung); auf 0 setzen, um Bildanhänge zu deaktivieren; "
 "Sie müssen auch Standbilder aktivieren, damit dies funktioniert. Sie werden "
 "mit dieser Zahl spielen wollen, bis ein Bild gesendet wird. Ein guter "

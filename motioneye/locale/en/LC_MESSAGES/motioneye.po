@@ -7,10 +7,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-12 17:19+0200\n"
+"POT-Creation-Date: 2023-02-01 18:26+0000\n"
 "PO-Revision-Date: 2022-06-09 06:20+0000\n"
 "Last-Translator: lukasig <lukasig@hotmail.com>\n"
-"Language-Team: English <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/en/>\n"
+"Language-Team: English <https://hosted.weblate.org/projects/motioneye-"
+"project/motioneye-python-texts/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,43 +44,43 @@ msgstr "please install pillow or PIL"
 msgid "bonvolu instali pycurl"
 msgstr "please install pycurl"
 
-#: motioneye/server.py:423
+#: motioneye/server.py:422
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "hello! this is motionEye server "
 
-#: motioneye/server.py:438
+#: motioneye/server.py:437
 msgid "purigado komenciĝis"
 msgstr "cleanup started"
 
-#: motioneye/server.py:440
+#: motioneye/server.py:439
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch started"
 
-#: motioneye/server.py:443
+#: motioneye/server.py:442
 msgid "taskoj komenciĝis"
 msgstr "tasks started"
 
-#: motioneye/server.py:447
+#: motioneye/server.py:446
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "mjpg customer garbage collector has started"
 
-#: motioneye/server.py:465
+#: motioneye/server.py:464
 msgid "servilo komenciĝis"
 msgstr "server started"
 
-#: motioneye/server.py:471
+#: motioneye/server.py:470
 msgid "servilo haltis"
 msgstr "server stopped"
 
-#: motioneye/server.py:473
+#: motioneye/server.py:472
 msgid "taskoj haltis"
 msgstr "tasks stopped"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:480
 msgid "motion haltis"
 msgstr "motion stopped"
 
-#: motioneye/server.py:486
+#: motioneye/server.py:485
 msgid "adiaŭ!"
 msgstr "goodbye!"
 
@@ -121,7 +122,9 @@ msgstr "Fit Frames Vertically"
 
 #: motioneye/templates/main.html:140
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
-msgstr "controls whether frame sizes can be reduced to vertically fit the window or not"
+msgstr ""
+"controls whether frame sizes can be reduced to vertically fit the window or "
+"not"
 
 #: motioneye/templates/main.html:143
 msgid "Aranĝo linioj"
@@ -137,7 +140,9 @@ msgstr "Frame Rate Dimmer"
 
 #: motioneye/templates/main.html:150
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
-msgstr "dims the global frame rate to save network bandwidth and traffic (doesn't work on simple MJPEG cameras)"
+msgstr ""
+"dims the global frame rate to save network bandwidth and traffic (doesn't "
+"work on simple MJPEG cameras)"
 
 #: motioneye/templates/main.html:153
 msgid "Rezolucio-variatoro"
@@ -145,7 +150,9 @@ msgstr "Resolution Dimmer"
 
 #: motioneye/templates/main.html:155
 msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
-msgstr "dims the actual resolution of all cameras to save network bandwidth and traffic (doesn't work on simple MJPEG cameras)"
+msgstr ""
+"dims the actual resolution of all cameras to save network bandwidth and "
+"traffic (doesn't work on simple MJPEG cameras)"
 
 #: motioneye/templates/main.html:161
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
@@ -190,7 +197,9 @@ msgstr "the username to be used for video surveillance"
 
 #: motioneye/templates/main.html:193
 msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "the password for the surveillance user (leave empty for passwordless surveillance)"
+msgstr ""
+"the password for the surveillance user (leave empty for passwordless "
+"surveillance)"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"
@@ -242,7 +251,8 @@ msgstr "Backup"
 
 #: motioneye/templates/main.html:236
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
-msgstr "creates a file with the current configuration for you to save it locally"
+msgstr ""
+"creates a file with the current configuration for you to save it locally"
 
 #: motioneye/templates/main.html:240
 msgid "Restaŭri"
@@ -299,7 +309,9 @@ msgstr "Automatic Brightness"
 
 #: motioneye/templates/main.html:295
 msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
-msgstr "enables software automatic brightness (only recommended for cameras without autobrightness)"
+msgstr ""
+"enables software automatic brightness (only recommended for cameras without "
+"autobrightness)"
 
 #: motioneye/templates/main.html:301
 msgid "Video-rezolucio"
@@ -307,7 +319,9 @@ msgstr "Video resolution"
 
 #: motioneye/templates/main.html:306
 msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
-msgstr "the video resolution (larger values produce better quality, but require more CPU power, larger storage space and bandwidth)"
+msgstr ""
+"the video resolution (larger values produce better quality, but require more "
+"CPU power, larger storage space and bandwidth)"
 
 #: motioneye/templates/main.html:309
 msgid "Larĝeco"
@@ -331,7 +345,9 @@ msgstr "Video Rotation"
 
 #: motioneye/templates/main.html:328
 msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
-msgstr "use this to rotate the captured image if your camera is not positioned correctly"
+msgstr ""
+"use this to rotate the captured image if your camera is not positioned "
+"correctly"
 
 #: motioneye/templates/main.html:331
 msgid "Kadrofrekvenco"
@@ -339,7 +355,10 @@ msgstr "Frame rate"
 
 #: motioneye/templates/main.html:333
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
-msgstr "Sets the number of frames captured by the camera every second (higher values produce smoother videos but require more CPU power, larger storage space and bandwidth)"
+msgstr ""
+"Sets the number of frames captured by the camera every second (higher values "
+"produce smoother videos but require more CPU power, larger storage space and "
+"bandwidth)"
 
 #: motioneye/templates/main.html:339
 msgid "Privateca masko"
@@ -347,7 +366,9 @@ msgstr "Privacy mask"
 
 #: motioneye/templates/main.html:341
 msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
-msgstr "enables image masking to prevent some image areas from being recorded to protect privacy"
+msgstr ""
+"enables image masking to prevent some image areas from being recorded to "
+"protect privacy"
 
 #: motioneye/templates/main.html:346 motioneye/templates/main.html:1007
 msgid "Redakti maskon"
@@ -367,7 +388,9 @@ msgstr "Extra Options"
 
 #: motioneye/templates/main.html:363
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr "You can add any additional options here for the \"motion\" daemon (use the \"name value\" format, one option per line)"
+msgstr ""
+"You can add any additional options here for the \"motion\" daemon (use the "
+"\"name value\" format, one option per line)"
 
 #: motioneye/templates/main.html:372
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
@@ -383,7 +406,8 @@ msgstr "Storage Device"
 
 #: motioneye/templates/main.html:383
 msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
-msgstr "indicates the storage device where the image and video files will be saved"
+msgstr ""
+"indicates the storage device where the image and video files will be saved"
 
 #: motioneye/templates/main.html:386
 msgid "Retservilo"
@@ -399,7 +423,9 @@ msgstr "SMB Protocol Version"
 
 #: motioneye/templates/main.html:401
 msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
-msgstr "selects the SMB version to be used (test the various options and see which one works best with your NAS)"
+msgstr ""
+"selects the SMB version to be used (test the various options and see which "
+"one works best with your NAS)"
 
 #: motioneye/templates/main.html:404
 msgid "Kunhava nomo"
@@ -415,7 +441,9 @@ msgstr "Username"
 
 #: motioneye/templates/main.html:411
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
-msgstr "the username to be supplied when accessing the network share (leave empty if no username is required)"
+msgstr ""
+"the username to be supplied when accessing the network share (leave empty if "
+"no username is required)"
 
 #: motioneye/templates/main.html:414
 msgid "Pasvorton"
@@ -423,7 +451,9 @@ msgstr "Share Password"
 
 #: motioneye/templates/main.html:416
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
-msgstr "the password required by the network share (leave empty if no password is required)"
+msgstr ""
+"the password required by the network share (leave empty if no password is "
+"required)"
 
 #: motioneye/templates/main.html:419
 msgid "Radika dosierujo"
@@ -431,7 +461,8 @@ msgstr "Root directory"
 
 #: motioneye/templates/main.html:421
 msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
-msgstr "the root path (on the selected storage device) where the files will be saved"
+msgstr ""
+"the root path (on the selected storage device) where the files will be saved"
 
 #: motioneye/templates/main.html:425
 msgid "Testi la reton dosierujon"
@@ -439,7 +470,9 @@ msgstr "Test share"
 
 #: motioneye/templates/main.html:426
 msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
-msgstr "click this button to test the network share connectivity after you have filled in the required details"
+msgstr ""
+"click this button to test the network share connectivity after you have "
+"filled in the required details"
 
 #: motioneye/templates/main.html:432
 msgid "Uzado de Disko"
@@ -455,7 +488,9 @@ msgstr "Upload Media Files"
 
 #: motioneye/templates/main.html:444
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
-msgstr "enable this if you want your media files to be uploaded to an external service"
+msgstr ""
+"enable this if you want your media files to be uploaded to an external "
+"service"
 
 #: motioneye/templates/main.html:447
 msgid "Alŝutu Bildojn"
@@ -503,7 +538,9 @@ msgstr "Server Address"
 
 #: motioneye/templates/main.html:476
 msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
-msgstr "the domain name or IP address of the server (eg ftp.example.com or 192.168.1.3)"
+msgstr ""
+"the domain name or IP address of the server (eg ftp.example.com or "
+"192.168.1.3)"
 
 #: motioneye/templates/main.html:479
 msgid "Servila haveno"
@@ -511,7 +548,9 @@ msgstr "Server port"
 
 #: motioneye/templates/main.html:481
 msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
-msgstr "the port to use when connecting to the service (leave it empty to use the default value)"
+msgstr ""
+"the port to use when connecting to the service (leave it empty to use the "
+"default value)"
 
 #: motioneye/templates/main.html:484
 msgid "Metodo"
@@ -543,7 +582,9 @@ msgstr "Location"
 
 #: motioneye/templates/main.html:503
 msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
-msgstr "the location (root path) where media files should be uploaded (e.g. /files/cam1/)"
+msgstr ""
+"the location (root path) where media files should be uploaded (e.g. /files/"
+"cam1/)"
 
 #: motioneye/templates/main.html:506
 msgid "Inkluzivi Subdosierujojn"
@@ -551,7 +592,9 @@ msgstr "Include Subfolders"
 
 #: motioneye/templates/main.html:508
 msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
-msgstr "enable this to upload the media files together with their subfolders, instead of placing them directly into the root location"
+msgstr ""
+"enable this to upload the media files together with their subfolders, "
+"instead of placing them directly into the root location"
 
 #: motioneye/templates/main.html:511
 msgid "Purigi la nubon"
@@ -559,7 +602,10 @@ msgstr "Clean Cloud"
 
 #: motioneye/templates/main.html:513
 msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
-msgstr "enable this to delete the uploaded media files on cloud as well when the local media files get deleted according to file persistence setting, currently this option is available only for gdrive."
+msgstr ""
+"enable this to delete the uploaded media files on cloud as well when the "
+"local media files get deleted according to file persistence setting, "
+"currently this option is available only for gdrive."
 
 #: motioneye/templates/main.html:518
 msgid "la uzantnomo por la alŝuta servo-konto"
@@ -575,7 +621,9 @@ msgstr "Authorization key"
 
 #: motioneye/templates/main.html:528
 msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "the key used to authenticate with the upload service (normally required only during setup)"
+msgstr ""
+"the key used to authenticate with the upload service (normally required only "
+"during setup)"
 
 #: motioneye/templates/main.html:534
 msgid "Akiri ŝlosilon"
@@ -599,7 +647,9 @@ msgstr "Secret Access Key"
 
 #: motioneye/templates/main.html:547
 msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "the AWS secret access key used to authenticate with the upload service (usually required only during configuration)"
+msgstr ""
+"the AWS secret access key used to authenticate with the upload service "
+"(usually required only during configuration)"
 
 #: motioneye/templates/main.html:550
 msgid "Sitelo"
@@ -607,7 +657,9 @@ msgstr "Bucket"
 
 #: motioneye/templates/main.html:552
 msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "the S3 bucket name for the upload service (normally required only during setup)"
+msgstr ""
+"the S3 bucket name for the upload service (normally required only during "
+"setup)"
 
 #: motioneye/templates/main.html:556
 msgid "Testi la servon"
@@ -615,7 +667,9 @@ msgstr "Test service"
 
 #: motioneye/templates/main.html:557
 msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
-msgstr "click this button to test the upload service after you have filled in the required details"
+msgstr ""
+"click this button to test the upload service after you have filled in the "
+"required details"
 
 #: motioneye/templates/main.html:563
 msgid "alvoki URL"
@@ -623,7 +677,8 @@ msgstr "Call A Web Hook"
 
 #: motioneye/templates/main.html:565
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
-msgstr "enable this if you want a URL to be requested after a media file is created"
+msgstr ""
+"enable this if you want a URL to be requested after a media file is created"
 
 #: motioneye/templates/main.html:568 motioneye/templates/main.html:1136
 #: motioneye/templates/main.html:1181
@@ -637,7 +692,10 @@ msgstr "e.g. http://example.com/notify/"
 #: motioneye/templates/main.html:570
 #, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
-msgstr "a URL to be requested when motion is detected; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number, %%f = file path"
+msgstr ""
+"a URL to be requested when motion is detected; the following special tokens "
+"are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, "
+"%%S = second, %%q = frame number, %%v = event number, %%f = file path"
 
 #: motioneye/templates/main.html:573 motioneye/templates/main.html:1141
 #: motioneye/templates/main.html:1186
@@ -646,7 +704,9 @@ msgstr "HTTP method"
 
 #: motioneye/templates/main.html:582
 msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
-msgstr "the HTTP method to use when requesting the web hook URL (the given URL-encoded parameters will in fact be transmitted as indicated here)"
+msgstr ""
+"the HTTP method to use when requesting the web hook URL (the given URL-"
+"encoded parameters will in fact be transmitted as indicated here)"
 
 #: motioneye/templates/main.html:588
 msgid "Kuri Komando"
@@ -654,7 +714,8 @@ msgstr "Run A Command"
 
 #: motioneye/templates/main.html:590
 msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
-msgstr "enable this if you want to execute a command after a media file is created"
+msgstr ""
+"enable this if you want to execute a command after a media file is created"
 
 #: motioneye/templates/main.html:593
 msgid "Ordono"
@@ -667,7 +728,12 @@ msgstr "Order…"
 #: motioneye/templates/main.html:595
 #, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
-msgstr "a command to be executed after a media file is created; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number, %%f = file path"
+msgstr ""
+"a command to be executed after a media file is created; multiple commands "
+"can be separated by a semicolon; don't use semicolons inside commands; the "
+"following special tokens are accepted: %%Y = year, %%m = month, %%d = day, "
+"%%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event "
+"number, %%f = file path"
 
 #: motioneye/templates/main.html:605
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
@@ -696,7 +762,8 @@ msgstr "Disabled"
 
 #: motioneye/templates/main.html:620
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
-msgstr "sets the text displayed on the movies and images, on the lower left corner"
+msgstr ""
+"sets the text displayed on the movies and images, on the lower left corner"
 
 #: motioneye/templates/main.html:624 motioneye/templates/main.html:641
 msgid "propra teksto…"
@@ -705,7 +772,10 @@ msgstr "Custom text…"
 #: motioneye/templates/main.html:625
 #, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "sets a custom left text; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number, %%T = HH:MM:SS, \\n = new line"
+msgstr ""
+"sets a custom left text; the following special tokens are accepted: %%Y = "
+"year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = "
+"frame number, %%v = event number, %%T = HH:MM:SS, \\n = new line"
 
 #: motioneye/templates/main.html:628
 msgid "Dekstra Teksto"
@@ -713,12 +783,16 @@ msgstr "Right Text"
 
 #: motioneye/templates/main.html:637
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
-msgstr "Sets the text displayed on the movies and pictures, in the lower right corner"
+msgstr ""
+"Sets the text displayed on the movies and pictures, in the lower right corner"
 
 #: motioneye/templates/main.html:642
 #, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr "sets a custom right text; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = number of event, %%T = HH: MM: SS, \\n = new line"
+msgstr ""
+"sets a custom right text; the following special tokens are accepted: %%Y = "
+"year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = "
+"frame number, %%v = number of event, %%T = HH: MM: SS, \\n = new line"
 
 #: motioneye/templates/main.html:645
 msgid "Teksta Skalo"
@@ -742,7 +816,8 @@ msgstr "Streaming Frame Rate"
 
 #: motioneye/templates/main.html:665
 msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
-msgstr "sets the number of frames transmitted every second on the live streaming."
+msgstr ""
+"sets the number of frames transmitted every second on the live streaming."
 
 #: motioneye/templates/main.html:668
 msgid "Flua Kvalito"
@@ -750,7 +825,9 @@ msgstr "Streaming Quality"
 
 #: motioneye/templates/main.html:670
 msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
-msgstr "sets the live streaming quality (higher values produce a better video quality but require more bandwidth)."
+msgstr ""
+"sets the live streaming quality (higher values produce a better video "
+"quality but require more bandwidth)."
 
 #: motioneye/templates/main.html:673
 msgid "Bilda Redimensionado"
@@ -758,7 +835,9 @@ msgstr "Streaming Image Resizing"
 
 #: motioneye/templates/main.html:675
 msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
-msgstr "when this is enabled, the images are resized before they are sent to the browser (disable when running on a slow CPU)."
+msgstr ""
+"when this is enabled, the images are resized before they are sent to the "
+"browser (disable when running on a slow CPU)."
 
 #: motioneye/templates/main.html:678
 msgid "Flua rezolucio"
@@ -766,7 +845,9 @@ msgstr "Streaming Resolution"
 
 #: motioneye/templates/main.html:680
 msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
-msgstr "the streaming resolution given as percent of the video device resolution (higher values produce better video quality but require more bandwidth)"
+msgstr ""
+"the streaming resolution given as percent of the video device resolution "
+"(higher values produce better video quality but require more bandwidth)"
 
 #: motioneye/templates/main.html:683
 msgid "Flua haveno"
@@ -782,7 +863,10 @@ msgstr "Authentication mode"
 
 #: motioneye/templates/main.html:696
 msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "the authentication method used by the stream (choose Basic instead of Digest if you encounter issues with third party apps); surveillance credentials will be used"
+msgstr ""
+"the authentication method used by the stream (choose Basic instead of Digest "
+"if you encounter issues with third party apps); surveillance credentials "
+"will be used"
 
 #: motioneye/templates/main.html:699
 msgid "Movado-Optimigo"
@@ -790,7 +874,9 @@ msgstr "Motion Optimization"
 
 #: motioneye/templates/main.html:701
 msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
-msgstr "enable this if you want a lower frame rate for the live streaming when no motion is detected"
+msgstr ""
+"enable this if you want a lower frame rate for the live streaming when no "
+"motion is detected"
 
 #: motioneye/templates/main.html:707
 msgid "Utilaj URLoj"
@@ -802,7 +888,8 @@ msgstr "Snapshot URL"
 
 #: motioneye/templates/main.html:713
 msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
-msgstr "a URL that provides a JPEG image with the most recent snapshot of the camera"
+msgstr ""
+"a URL that provides a JPEG image with the most recent snapshot of the camera"
 
 #: motioneye/templates/main.html:719
 msgid "Flua URL"
@@ -818,7 +905,9 @@ msgstr "Embed URL"
 
 #: motioneye/templates/main.html:731
 msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
-msgstr "a URL that provides a minimal HTML document containing the camera frame, ready to be embedded"
+msgstr ""
+"a URL that provides a minimal HTML document containing the camera frame, "
+"ready to be embedded"
 
 #: motioneye/templates/main.html:741
 msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
@@ -839,7 +928,10 @@ msgstr "File name Template…"
 #: motioneye/templates/main.html:749
 #, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr "sets the name pattern for the image (JPEG) files; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number, / = subfolder."
+msgstr ""
+"sets the name pattern for the image (JPEG) files; the following special "
+"tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = "
+"minute, %%S = second, %%q = frame number, %%v = event number, / = subfolder."
 
 #: motioneye/templates/main.html:752
 msgid "Bildkvalito"
@@ -847,7 +939,9 @@ msgstr "Image Quality"
 
 #: motioneye/templates/main.html:754
 msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
-msgstr "sets the JPEG image quality (higher values produce a better image quality but require more storage space)"
+msgstr ""
+"sets the JPEG image quality (higher values produce a better image quality "
+"but require more storage space)"
 
 #: motioneye/templates/main.html:757
 msgid "Kaptila reĝimo"
@@ -937,7 +1031,9 @@ msgstr "Custom"
 
 #: motioneye/templates/main.html:790
 msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
-msgstr "images older than the specified duration are automatically deleted to free up storage space."
+msgstr ""
+"images older than the specified duration are automatically deleted to free "
+"up storage space."
 
 #: motioneye/templates/main.html:793
 msgid "Bildaj Vivdaŭro"
@@ -945,7 +1041,9 @@ msgstr "Picture Lifetime"
 
 #: motioneye/templates/main.html:795
 msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
-msgstr "sets the number of days after which the pictures will be deleted automatically."
+msgstr ""
+"sets the number of days after which the pictures will be deleted "
+"automatically."
 
 #: motioneye/templates/main.html:798
 msgid "Ebligu manaj kaptoj"
@@ -953,7 +1051,9 @@ msgstr "Enable Manual Snapshots"
 
 #: motioneye/templates/main.html:800
 msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
-msgstr "when this is enabled, a button on the camera frame will allow you to manually take snapshots."
+msgstr ""
+"when this is enabled, a button on the camera frame will allow you to "
+"manually take snapshots."
 
 #: motioneye/templates/main.html:810
 msgid "ebligu ĉi tion, se vi volas registri filmojn"
@@ -970,7 +1070,10 @@ msgstr "Movie File Name"
 #: motioneye/templates/main.html:818
 #, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr "sets the name pattern for the movie files; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number, / = subfolder."
+msgstr ""
+"sets the name pattern for the movie files; the following special tokens are "
+"accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S "
+"= second, %%q = frame number, %%v = event number, / = subfolder."
 
 #: motioneye/templates/main.html:821
 msgid "Rekta kopia filmeto"
@@ -978,7 +1081,11 @@ msgstr "Movie Passthrough"
 
 #: motioneye/templates/main.html:823
 msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
-msgstr "Create movie files of the motion directly from the camera. This option should reduce CPU usage but does increase memory requirements. No image processing is performed so text overlays, privacy masks etc will not be on the resulting video."
+msgstr ""
+"Create movie files of the motion directly from the camera. This option "
+"should reduce CPU usage but does increase memory requirements. No image "
+"processing is performed so text overlays, privacy masks etc will not be on "
+"the resulting video."
 
 #: motioneye/templates/main.html:826
 msgid "Filmformato"
@@ -986,7 +1093,10 @@ msgstr "Movie format"
 
 #: motioneye/templates/main.html:869
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
-msgstr "sets the movie file format; not all formats are guaranteed to work on all systems; if in doubt, test each format and select the one that works best with your video player."
+msgstr ""
+"sets the movie file format; not all formats are guaranteed to work on all "
+"systems; if in doubt, test each format and select the one that works best "
+"with your video player."
 
 #: motioneye/templates/main.html:872
 msgid "Filma Kvalito"
@@ -994,7 +1104,9 @@ msgstr "Movie Quality"
 
 #: motioneye/templates/main.html:874
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
-msgstr "sets the MPEG video quality (higher values produce a better video quality but require more storage space)."
+msgstr ""
+"sets the MPEG video quality (higher values produce a better video quality "
+"but require more storage space)."
 
 #: motioneye/templates/main.html:877
 msgid "Rekorda reĝimo"
@@ -1006,7 +1118,9 @@ msgstr "Continuous Recording"
 
 #: motioneye/templates/main.html:884
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
-msgstr "sets the recording mode: Motion Triggered = a new movie created whenever motion is detected, Continuous Recording = one big movie file."
+msgstr ""
+"sets the recording mode: Motion Triggered = a new movie created whenever "
+"motion is detected, Continuous Recording = one big movie file."
 
 #: motioneye/templates/main.html:887
 msgid "Maksimuma filma daŭro"
@@ -1014,7 +1128,9 @@ msgstr "Maximum Movie Length"
 
 #: motioneye/templates/main.html:889
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
-msgstr "sets the maximum length of movies, in seconds; if the motion event lasts longer, a new movie file is created; use 0 for unlimited length."
+msgstr ""
+"sets the maximum length of movies, in seconds; if the motion event lasts "
+"longer, a new movie file is created; use 0 for unlimited length."
 
 #: motioneye/templates/main.html:892
 msgid "Konservi filmojn"
@@ -1022,7 +1138,9 @@ msgstr "Preserve Movies"
 
 #: motioneye/templates/main.html:903
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
-msgstr "movies older than the specified duration are automatically deleted to free up storage space."
+msgstr ""
+"movies older than the specified duration are automatically deleted to free "
+"up storage space."
 
 #: motioneye/templates/main.html:906
 msgid "Filmoj Vivdaŭro"
@@ -1034,7 +1152,8 @@ msgstr "days"
 
 #: motioneye/templates/main.html:908
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
-msgstr "sets the number of days after which the movies will be deleted automatically."
+msgstr ""
+"sets the number of days after which the movies will be deleted automatically."
 
 #: motioneye/templates/main.html:918
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
@@ -1050,7 +1169,10 @@ msgstr "Frame Change Threshold"
 
 #: motioneye/templates/main.html:926
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
-msgstr "indicates the minimal percent of the image that must change between two successive frames in order for motion to be detected (smaller values give a more sensitive detection, but are prone to false positives)."
+msgstr ""
+"indicates the minimal percent of the image that must change between two "
+"successive frames in order for motion to be detected (smaller values give a "
+"more sensitive detection, but are prone to false positives)."
 
 #: motioneye/templates/main.html:929
 msgid "Maksimuma ŝanĝo sojlo"
@@ -1058,7 +1180,9 @@ msgstr "Maximum Change Threshold"
 
 #: motioneye/templates/main.html:931
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
-msgstr "sets the number of pixels changed between frames above which motion is no longer triggered (0 disables the limit)."
+msgstr ""
+"sets the number of pixels changed between frames above which motion is no "
+"longer triggered (0 disables the limit)."
 
 #: motioneye/templates/main.html:934
 msgid "Aŭtomata sojla agordo"
@@ -1091,7 +1215,10 @@ msgstr "Light Switch Detection"
 #: motioneye/templates/main.html:951
 #, python-format
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
-msgstr "sets the percentage of the image that needs to change so that the event is treated as a sudden light change instead of motion (0%% disables the function)."
+msgstr ""
+"sets the percentage of the image that needs to change so that the event is "
+"treated as a sudden light change instead of motion (0%% disables the "
+"function)."
 
 #: motioneye/templates/main.html:954
 msgid "Makula filtrilo"
@@ -1099,7 +1226,8 @@ msgstr "Despeckle Filter"
 
 #: motioneye/templates/main.html:956
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
-msgstr "enable this to apply a despeckle filter to frames before detecting motion."
+msgstr ""
+"enable this to apply a despeckle filter to frames before detecting motion."
 
 #: motioneye/templates/main.html:962
 msgid "Senmovada daŭro"
@@ -1107,7 +1235,9 @@ msgstr "Motion Gap"
 
 #: motioneye/templates/main.html:964
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
-msgstr "sets the number of seconds of silence (i.e. no motion) that mark the end of a motion event."
+msgstr ""
+"sets the number of seconds of silence (i.e. no motion) that mark the end of "
+"a motion event."
 
 #: motioneye/templates/main.html:967
 msgid "Kaptita Antaŭe"
@@ -1120,7 +1250,9 @@ msgstr "frames"
 
 #: motioneye/templates/main.html:969
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
-msgstr "sets the number of frames to be captured (and included in the movie) before a motion event is detected."
+msgstr ""
+"sets the number of frames to be captured (and included in the movie) before "
+"a motion event is detected."
 
 #: motioneye/templates/main.html:972
 msgid "Kaptita Post"
@@ -1128,7 +1260,9 @@ msgstr "Captured After"
 
 #: motioneye/templates/main.html:974
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
-msgstr "sets the number of frames to be captured (and included in the movie) after the end of a motion event."
+msgstr ""
+"sets the number of frames to be captured (and included in the movie) after "
+"the end of a motion event."
 
 #: motioneye/templates/main.html:977
 msgid "Minimumaj movaj kadroj"
@@ -1136,7 +1270,9 @@ msgstr "Minimum Motion Frames"
 
 #: motioneye/templates/main.html:979
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
-msgstr "sets the minimum number of successive motion frames required to start a motion event."
+msgstr ""
+"sets the minimum number of successive motion frames required to start a "
+"motion event."
 
 #: motioneye/templates/main.html:985
 msgid "Masko"
@@ -1144,7 +1280,8 @@ msgstr "Mask"
 
 #: motioneye/templates/main.html:987
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
-msgstr "enables image masking for a more selective and precise motion detection."
+msgstr ""
+"enables image masking for a more selective and precise motion detection."
 
 #: motioneye/templates/main.html:990
 msgid "Tipo de masko"
@@ -1160,7 +1297,10 @@ msgstr "Editable"
 
 #: motioneye/templates/main.html:997
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
-msgstr "the smart option automatically detects regions with regular motion and dynamically builds an internal mask, while the editable mask allows you to manually build it yourself."
+msgstr ""
+"the smart option automatically detects regions with regular motion and "
+"dynamically builds an internal mask, while the editable mask allows you to "
+"manually build it yourself."
 
 #: motioneye/templates/main.html:1000
 msgid "Inteligenta-maska Malrapideco"
@@ -1168,7 +1308,9 @@ msgstr "Smart Mask Sluggishness"
 
 #: motioneye/templates/main.html:1002
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
-msgstr "higher values result in a longer-lasting smart mask with a slower building process."
+msgstr ""
+"higher values result in a longer-lasting smart mask with a slower building "
+"process."
 
 #: motioneye/templates/main.html:1011
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
@@ -1188,7 +1330,10 @@ msgstr "Show Frame Changes"
 
 #: motioneye/templates/main.html:1024
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
-msgstr "if this is enabled, frame changes (number of pixels as well as the changed area) are shown on the video; temporarily enable this option to help adjust the motion detection parameters."
+msgstr ""
+"if this is enabled, frame changes (number of pixels as well as the changed "
+"area) are shown on the video; temporarily enable this option to help adjust "
+"the motion detection parameters."
 
 #: motioneye/templates/main.html:1027
 msgid "Krei debug media files"
@@ -1196,7 +1341,9 @@ msgstr "Create Debug Media Files"
 
 #: motioneye/templates/main.html:1029
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
-msgstr "when enabled, creates special movies and pictures that help debugging motion detection problems."
+msgstr ""
+"when enabled, creates special movies and pictures that help debugging motion "
+"detection problems."
 
 #: motioneye/templates/main.html:1038
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
@@ -1212,7 +1359,9 @@ msgstr "Send An Email"
 
 #: motioneye/templates/main.html:1053
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
-msgstr "enable this if you want to receive an email whenever a motion event is detected."
+msgstr ""
+"enable this if you want to receive an email whenever a motion event is "
+"detected."
 
 #: motioneye/templates/main.html:1056
 msgid "Retpoŝtadresoj"
@@ -1224,7 +1373,9 @@ msgstr "Email addresses…"
 
 #: motioneye/templates/main.html:1058
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
-msgstr "email addresses (separated by comma) that are added here will receive notifications whenever a motion event is detected."
+msgstr ""
+"email addresses (separated by comma) that are added here will receive "
+"notifications whenever a motion event is detected."
 
 #: motioneye/templates/main.html:1061
 msgid "Servilo SMTP"
@@ -1236,7 +1387,9 @@ msgstr "e.g. smtp.gmail.com"
 
 #: motioneye/templates/main.html:1063
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
-msgstr "enter the hostname or IP address of your SMTP server (for Gmail use smtp.gmail.com)."
+msgstr ""
+"enter the hostname or IP address of your SMTP server (for Gmail use smtp."
+"gmail.com)."
 
 #: motioneye/templates/main.html:1066
 msgid "SMTP Haveno"
@@ -1248,7 +1401,9 @@ msgstr "e.g. 587"
 
 #: motioneye/templates/main.html:1068
 msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
-msgstr "enter the port used by your SMTP server (usually 465 for non-TLS connections and 587 for TLS connections)."
+msgstr ""
+"enter the port used by your SMTP server (usually 465 for non-TLS connections "
+"and 587 for TLS connections)."
 
 #: motioneye/templates/main.html:1071
 msgid "SMTP-Konto"
@@ -1268,7 +1423,9 @@ msgstr "SMTP Password"
 
 #: motioneye/templates/main.html:1078
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
-msgstr "enter your SMTP account password (for Gmail use your Google password or an app-specific generated password)."
+msgstr ""
+"enter your SMTP account password (for Gmail use your Google password or an "
+"app-specific generated password)."
 
 #: motioneye/templates/main.html:1081
 msgid "De adreso"
@@ -1280,7 +1437,9 @@ msgstr "Email address…"
 
 #: motioneye/templates/main.html:1083
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
-msgstr "set a custom From address, if your SMTP service requires one (the first destination email address will be used if left blank)."
+msgstr ""
+"set a custom From address, if your SMTP service requires one (the first "
+"destination email address will be used if left blank)."
 
 #: motioneye/templates/main.html:1086
 msgid "Uzi TLS"
@@ -1288,7 +1447,9 @@ msgstr "Use TLS"
 
 #: motioneye/templates/main.html:1088
 msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
-msgstr "enable this if your SMTP server requires TLS (Gmail needs this to be enabled)."
+msgstr ""
+"enable this if your SMTP server requires TLS (Gmail needs this to be "
+"enabled)."
 
 #: motioneye/templates/main.html:1091
 msgid "Aldonitaj bildoj tempo-intervalo"
@@ -1296,7 +1457,11 @@ msgstr "Attached Pictures Time Span"
 
 #: motioneye/templates/main.html:1093
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
-msgstr "defines the picture search time interval to use when creating email attachments (higher values generate emails with more pictures at the cost of an increased notification delay); set to 0 to disable picture attachments; you must also enable Still Images for this to work."
+msgstr ""
+"defines the picture search time interval to use when creating email "
+"attachments (higher values generate emails with more pictures at the cost of "
+"an increased notification delay); set to 0 to disable picture attachments; "
+"you must also enable Still Images for this to work."
 
 #: motioneye/templates/main.html:1097
 msgid "Testi retpoŝto"
@@ -1304,7 +1469,9 @@ msgstr "Test Email"
 
 #: motioneye/templates/main.html:1098
 msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
-msgstr "click this button to test email notifications after you have filled in the required details."
+msgstr ""
+"click this button to test email notifications after you have filled in the "
+"required details."
 
 #: motioneye/templates/main.html:1104
 msgid "Sendu Telegraman Sciigon"
@@ -1312,7 +1479,9 @@ msgstr "Send Telegram Notification"
 
 #: motioneye/templates/main.html:1106
 msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
-msgstr "enable this if you want to receive a telegram message whenever a moving event is detected"
+msgstr ""
+"enable this if you want to receive a telegram message whenever a moving "
+"event is detected"
 
 #: motioneye/templates/main.html:1109
 msgid "HTTP API ĵetono"
@@ -1324,7 +1493,11 @@ msgstr "Example: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 
 #: motioneye/templates/main.html:1111
 msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-msgstr "By creating the Telegram-Bot chat, you will get an API token that you need to enter here. Click the API button below for a step-by-step guide on how to get your API token. Also be sure to chat with your newly created \"bot\" after your key is generated, to make sure you get messages."
+msgstr ""
+"By creating the Telegram-Bot chat, you will get an API token that you need "
+"to enter here. Click the API button below for a step-by-step guide on how to "
+"get your API token. Also be sure to chat with your newly created \"bot\" "
+"after your key is generated, to make sure you get messages."
 
 #: motioneye/templates/main.html:1114
 msgid "Babileja ID"
@@ -1336,7 +1509,9 @@ msgstr "Example: 938272312"
 
 #: motioneye/templates/main.html:1116
 msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
-msgstr "Create a new chat to id_chatbot (@id_chatbot) and choose to start. The chat will return the required number for this field."
+msgstr ""
+"Create a new chat to id_chatbot (@id_chatbot) and choose to start. The chat "
+"will return the required number for this field."
 
 #: motioneye/templates/main.html:1119
 msgid "Alkroĉitaj Bildoj Tempo"
@@ -1344,7 +1519,13 @@ msgstr "Attached Images Time"
 
 #: motioneye/templates/main.html:1121
 msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
-msgstr "defines the image search time interval to create telegram attachments (higher values generate more images at the cost of increased notification delay); set to 0 to disable image attachments; you must also enable Still Images for this to work; you will want to play with this number until an image is sent. A good starting number is 30 if you set still images to one motion triggered. For a standard move triggered, set this much lower."
+msgstr ""
+"defines the image search time interval to create telegram attachments "
+"(higher values generate more images at the cost of increased notification "
+"delay); set to 0 to disable image attachments; you must also enable Still "
+"Images for this to work; you will want to play with this number until an "
+"image is sent. A good starting number is 30 if you set still images to one "
+"motion triggered. For a standard move triggered, set this much lower."
 
 #: motioneye/templates/main.html:1124
 msgid "API-Informoj"
@@ -1360,7 +1541,9 @@ msgstr "Call A Web Hook"
 
 #: motioneye/templates/main.html:1133
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
-msgstr "enable this if you want a URL to be requested whenever a motion event is detected."
+msgstr ""
+"enable this if you want a URL to be requested whenever a motion event is "
+"detected."
 
 #: motioneye/templates/main.html:1137
 msgid "ekz. http://ekzemplo.com/sciigi/"
@@ -1369,11 +1552,16 @@ msgstr "e.g. http://example.com/notify/"
 #: motioneye/templates/main.html:1138
 #, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-msgstr "a URL to be requested when motion is detected; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number"
+msgstr ""
+"a URL to be requested when motion is detected; the following special tokens "
+"are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, "
+"%%S = second, %%q = frame number, %%v = event number"
 
 #: motioneye/templates/main.html:1150 motioneye/templates/main.html:1195
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
-msgstr "the HTTP method to use when requesting the web hook URL (the given URL-encoded parameters will in fact be transmitted as indicated here)."
+msgstr ""
+"the HTTP method to use when requesting the web hook URL (the given URL-"
+"encoded parameters will in fact be transmitted as indicated here)."
 
 #: motioneye/templates/main.html:1156 motioneye/templates/main.html:1201
 msgid "Lanĉi komando"
@@ -1381,7 +1569,9 @@ msgstr "Run A Command"
 
 #: motioneye/templates/main.html:1158
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
-msgstr "enable this if you want to execute a command whenever a motion event is detected."
+msgstr ""
+"enable this if you want to execute a command whenever a motion event is "
+"detected."
 
 #: motioneye/templates/main.html:1161 motioneye/templates/main.html:1206
 msgid "Komando"
@@ -1394,20 +1584,32 @@ msgstr "Command…"
 #: motioneye/templates/main.html:1163
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-msgstr "a command to be executed when motion is detected; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %%Y = year, %%m = month, %%d = day, %%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event number"
+msgstr ""
+"a command to be executed when motion is detected; multiple commands can be "
+"separated by a semicolon; don't use semicolons inside commands; the "
+"following special tokens are accepted: %%Y = year, %%m = month, %%d = day, "
+"%%H = hour, %%M = minute, %%S = second, %%q = frame number, %%v = event "
+"number"
 
 #: motioneye/templates/main.html:1203
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
-msgstr "enable this if you want to execute a command whenever a motion event ends."
+msgstr ""
+"enable this if you want to execute a command whenever a motion event ends."
 
 #: motioneye/templates/main.html:1208
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
-msgstr "a command to be executed when motion event ends; multiple commands can be separated by a semicolon; don't use semicolons inside commands; the following special tokens are accepted: %%Y = year, %%m = month, %%d = date, %%H = hour, %%M = minute, %%S = second, %%q = frame number."
+msgstr ""
+"a command to be executed when motion event ends; multiple commands can be "
+"separated by a semicolon; don't use semicolons inside commands; the "
+"following special tokens are accepted: %%Y = year, %%m = month, %%d = date, "
+"%%H = hour, %%M = minute, %%S = second, %%q = frame number."
 
 #: motioneye/templates/main.html:1218
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
-msgstr "enable this if you want to define a weekly working schedule for motion detection."
+msgstr ""
+"enable this if you want to define a weekly working schedule for motion "
+"detection."
 
 #: motioneye/templates/main.html:1219
 msgid "Laboranta horaro"
@@ -1491,7 +1693,9 @@ msgstr "Outside Working Schedule"
 
 #: motioneye/templates/main.html:1294
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
-msgstr "sets whether motion detection should be active during or outside the working schedule."
+msgstr ""
+"sets whether motion detection should be active during or outside the working "
+"schedule."
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
 msgid "neniam"

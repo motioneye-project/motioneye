@@ -655,7 +655,7 @@ def add_camera(device_details):
     camera_config = {'@enabled': True}
     if proto == 'v4l2':
         # find a suitable resolution
-        for (w, h) in v4l2ctl.list_resolutions(device_details['path']):
+        for w, h in v4l2ctl.list_resolutions(device_details['path']):
             if w > 300:
                 camera_config['width'] = w
                 camera_config['height'] = h
@@ -845,7 +845,6 @@ def main_dict_to_ui(data):
 
 
 def motion_camera_ui_to_dict(ui, prev_config=None):
-
     prev_config = dict(prev_config or {})
     main_config = get_main()  # needed for surveillance password
 
@@ -1312,7 +1311,6 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
 
 def motion_camera_dict_to_ui(data):
-
     ui = {
         # device
         'name': data['camera_name'],
@@ -2136,7 +2134,7 @@ def _dict_to_conf(lines, data, list_names=None):
     if len(remaining) and len(lines):
         conf_lines.append('')  # add a blank line
 
-    for (name, value) in list(remaining.items()):
+    for name, value in list(remaining.items()):
         if name.startswith('@_'):
             continue  # ignore additional configs
 
@@ -2153,7 +2151,7 @@ def _dict_to_conf(lines, data, list_names=None):
             conf_lines.append(line)
 
     # build the final config lines
-    conf_lines.sort(key=lambda l: not l.startswith('@'))
+    conf_lines.sort(key=lambda line: not line.startswith('@'))
 
     lines = []
     for i, line in enumerate(conf_lines):
