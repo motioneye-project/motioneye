@@ -148,7 +148,6 @@ class UploadService:
 
 
 class GoogleBase:
-
     AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
     TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
 

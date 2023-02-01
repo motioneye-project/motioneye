@@ -141,7 +141,6 @@ def parse_options(parser, args):
 
 
 def main(parser, args):
-
     # the motion daemon overrides SIGCHLD,
     # so we must restore it here,
     # or otherwise media listing won't work

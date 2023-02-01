@@ -199,7 +199,6 @@ class PictureHandler(BaseHandler):
             or utils.is_simple_mjpeg_camera(camera_config)
             or self.get_argument('title', None) is not None
         ):
-
             return self.render(
                 'main.html',
                 frame=True,
