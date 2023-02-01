@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-11-24 00:14+0000\n"
+"POT-Creation-Date: 2023-02-01 18:26+0000\n"
 "PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/motioneye-project/"
@@ -16,8 +16,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && "
-"n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 "
+"&& n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
 "X-Generator: Weblate 4.12.1\n"
 "Generated-By: Babel 2.6.0\n"
 
@@ -51,52 +51,52 @@ msgstr "الرجاء تثبيت وسادة أو PIL"
 msgid "bonvolu instali pycurl"
 msgstr "الرجاء تثبيت pycurl"
 
-#: motioneye/server.py:423
+#: motioneye/server.py:422
 #, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "أهلا! هذا هو خادم MotionEye "
 
-#: motioneye/server.py:438
+#: motioneye/server.py:437
 #, fuzzy
 msgid "purigado komenciĝis"
 msgstr "بدأ التنظيف"
 
-#: motioneye/server.py:440
+#: motioneye/server.py:439
 #, fuzzy
 msgid "wsswitch komenciĝis"
 msgstr "بدأ wsswitch"
 
-#: motioneye/server.py:443
+#: motioneye/server.py:442
 #, fuzzy
 msgid "taskoj komenciĝis"
 msgstr "بدأت المهام"
 
-#: motioneye/server.py:447
+#: motioneye/server.py:446
 #, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "بدأ جامع القمامة العملاء mjpg"
 
-#: motioneye/server.py:465
+#: motioneye/server.py:464
 #, fuzzy
 msgid "servilo komenciĝis"
 msgstr "بدأ الخادم"
 
-#: motioneye/server.py:471
+#: motioneye/server.py:470
 #, fuzzy
 msgid "servilo haltis"
 msgstr "توقف الخادم"
 
-#: motioneye/server.py:473
+#: motioneye/server.py:472
 #, fuzzy
 msgid "taskoj haltis"
 msgstr "توقفت المهام"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:480
 #, fuzzy
 msgid "motion haltis"
 msgstr "توقفت الحركة"
 
-#: motioneye/server.py:486
+#: motioneye/server.py:485
 #, fuzzy
 msgid "adiaŭ!"
 msgstr "وداعا!"
@@ -547,8 +547,8 @@ msgstr "كلمة المرور"
 #, fuzzy
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
 msgstr ""
-"كلمة المرور التي يتطلبها دليل الشبكة (اتركها فارغة إذا لم تكن هناك حاجة لكلمة "
-"المرور)"
+"كلمة المرور التي يتطلبها دليل الشبكة (اتركها فارغة إذا لم تكن هناك حاجة "
+"لكلمة المرور)"
 
 #: motioneye/templates/main.html:419
 #, fuzzy
@@ -937,9 +937,9 @@ msgstr "يضبط النص المعروض على الأفلام والصور ، �
 #, fuzzy, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr ""
-"يحدد النص الأيمن المخصص ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year ، ٪٪ m "
-"= month ، ٪٪ d = day ، ٪٪ H = hour ، ٪٪ M = minutes ، ٪٪ S = second ، ٪٪ q = "
-"frame number ، ٪٪ v = رقم الحدث ، ٪٪ T = HH: MM: SS ، \\n = سطر جديد"
+"يحدد النص الأيمن المخصص ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year ، ٪٪ "
+"m = month ، ٪٪ d = day ، ٪٪ H = hour ، ٪٪ M = minutes ، ٪٪ S = second ، ٪٪ q "
+"= frame number ، ٪٪ v = رقم الحدث ، ٪٪ T = HH: MM: SS ، \\n = سطر جديد"
 
 #: motioneye/templates/main.html:645
 #, fuzzy
@@ -1038,8 +1038,8 @@ msgstr "تحسين الحركة"
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
 msgstr ""
-"قم بتمكين هذا إذا كنت تريد معدل إطارات أقل لدفق التسليم عندما لا يتم الكشف عن "
-"أي حركة"
+"قم بتمكين هذا إذا كنت تريد معدل إطارات أقل لدفق التسليم عندما لا يتم الكشف "
+"عن أي حركة"
 
 #: motioneye/templates/main.html:707
 #, fuzzy
@@ -1102,9 +1102,9 @@ msgstr "قالب اسم الملف ..."
 #, fuzzy, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr ""
-"يحدد قالب الاسم لملفات JPEG ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year ، ٪"
-"٪ m = month ، ٪٪ d = day ، ٪٪ H = hour ، ٪٪ M = minutes ، ٪٪ S = second ، ٪٪ "
-"q = frame number ، ٪٪ v = رقم الحدث ، / = دليل فرعي."
+"يحدد قالب الاسم لملفات JPEG ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y = year ، "
+"٪٪ m = month ، ٪٪ d = day ، ٪٪ H = hour ، ٪٪ M = minutes ، ٪٪ S = second ، ٪"
+"٪ q = frame number ، ٪٪ v = رقم الحدث ، / = دليل فرعي."
 
 #: motioneye/templates/main.html:752
 #, fuzzy
@@ -1295,8 +1295,9 @@ msgstr "تنسيق الفيلم"
 #, fuzzy
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
 msgstr ""
-"تخصيص ملف الفيلم ؛ لا تضمن جميع التنسيقات العمل على جميع الأنظمة ؛ إذا كنت في "
-"شك ، فاختبر كل تنسيق واختر التنسيق الذي يعمل بشكل أفضل مع الفيديو الخاص بك."
+"تخصيص ملف الفيلم ؛ لا تضمن جميع التنسيقات العمل على جميع الأنظمة ؛ إذا كنت "
+"في شك ، فاختبر كل تنسيق واختر التنسيق الذي يعمل بشكل أفضل مع الفيديو الخاص "
+"بك."
 
 #: motioneye/templates/main.html:872
 #, fuzzy
@@ -1347,7 +1348,8 @@ msgstr "حفظ الأفلام"
 #: motioneye/templates/main.html:903
 #, fuzzy
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
-msgstr "يتم حذف الأفلام الأقدم من المدة المحددة تلقائيًا لتحرير السعة التخزينية."
+msgstr ""
+"يتم حذف الأفلام الأقدم من المدة المحددة تلقائيًا لتحرير السعة التخزينية."
 
 #: motioneye/templates/main.html:906
 #, fuzzy
@@ -1384,8 +1386,8 @@ msgstr "حد تغيير الإطار"
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
 msgstr ""
 "يشير إلى الحد الأدنى للنسبة المئوية للصورة التي يجب أن تنتقل بين إطارين "
-"متتاليين لاكتشاف الحركة (القيم الأصغر تعطي كشفًا أكثر حساسية ، ولكنها تميل إلى "
-"نتائج إيجابية خاطئة)."
+"متتاليين لاكتشاف الحركة (القيم الأصغر تعطي كشفًا أكثر حساسية ، ولكنها تميل "
+"إلى نتائج إيجابية خاطئة)."
 
 #: motioneye/templates/main.html:929
 #, fuzzy
@@ -1632,7 +1634,8 @@ msgstr "على سبيل المثال smtp.gmail.com"
 #: motioneye/templates/main.html:1063
 #, fuzzy
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
-msgstr "أدخل اسم المضيف أو عنوان IP لخادم SMTP (لاستخدام Gmail smtp.gmail.com)."
+msgstr ""
+"أدخل اسم المضيف أو عنوان IP لخادم SMTP (لاستخدام Gmail smtp.gmail.com)."
 
 #: motioneye/templates/main.html:1066
 #, fuzzy
@@ -1675,8 +1678,8 @@ msgstr "كلمة مرور SMTP"
 #, fuzzy
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
 msgstr ""
-"أدخل كلمة مرور SMTP (بالنسبة إلى Gmail ، استخدم كلمة مرور Google أو كلمة مرور "
-"تم إنشاؤها من قبل التطبيق)."
+"أدخل كلمة مرور SMTP (بالنسبة إلى Gmail ، استخدم كلمة مرور Google أو كلمة "
+"مرور تم إنشاؤها من قبل التطبيق)."
 
 #: motioneye/templates/main.html:1081
 #, fuzzy
@@ -1714,10 +1717,10 @@ msgstr "تمت إضافة الفاصل الزمني للصور"
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr ""
-"يحدد الفترة الزمنية للبحث لاستخدامها عند إنشاء روابط البريد الإلكتروني (القيم "
-"الأعلى تولد رسائل البريد الإلكتروني مع المزيد من الصور على حساب زيادة إشعار "
-"التأجيل) ؛ تعيين إلى 0 لتعطيل الصور المضافة ؛ تحتاج أيضًا إلى تمكين \"التقاط "
-"الصور\" لجعل هذا العمل."
+"يحدد الفترة الزمنية للبحث لاستخدامها عند إنشاء روابط البريد الإلكتروني "
+"(القيم الأعلى تولد رسائل البريد الإلكتروني مع المزيد من الصور على حساب زيادة "
+"إشعار التأجيل) ؛ تعيين إلى 0 لتعطيل الصور المضافة ؛ تحتاج أيضًا إلى تمكين "
+"\"التقاط الصور\" لجعل هذا العمل."
 
 #: motioneye/templates/main.html:1097
 #, fuzzy
@@ -1728,7 +1731,8 @@ msgstr "اختبار البريد الإلكتروني"
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
 msgstr ""
-"انقر فوق هذا الزر لاختبار إشعارات البريد الإلكتروني بعد ملء التفاصيل المطلوبة."
+"انقر فوق هذا الزر لاختبار إشعارات البريد الإلكتروني بعد ملء التفاصيل "
+"المطلوبة."
 
 #: motioneye/templates/main.html:1104
 #, fuzzy
@@ -1738,7 +1742,8 @@ msgstr "إرسال إشعار Telegram"
 #: motioneye/templates/main.html:1106
 #, fuzzy
 msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
-msgstr "قم بتمكين هذا إذا كنت ترغب في تلقي رسالة برقية كلما تم اكتشاف حدث متحرك"
+msgstr ""
+"قم بتمكين هذا إذا كنت ترغب في تلقي رسالة برقية كلما تم اكتشاف حدث متحرك"
 
 #: motioneye/templates/main.html:1109
 #, fuzzy
@@ -1789,8 +1794,8 @@ msgstr ""
 "المزيد من الصور بتكلفة تأخير الإخطار المتزايد) ؛ اضبط على 0 لتعطيل مرفقات "
 "الصور ؛ يجب عليك أيضًا تمكين الصور الثابتة حتى يعمل هذا ؛ سترغب في اللعب بهذا "
 "الرقم حتى يتم إرسال صورة. رقم البداية الجيد هو 30 إذا قمت بتعيين الصور "
-"الثابتة على حركة واحدة تم تشغيلها. بالنسبة لتحرك قياسي يتم تشغيله ، قم بتعيين "
-"هذا أقل من ذلك بكثير."
+"الثابتة على حركة واحدة تم تشغيلها. بالنسبة لتحرك قياسي يتم تشغيله ، قم "
+"بتعيين هذا أقل من ذلك بكثير."
 
 #: motioneye/templates/main.html:1124
 #, fuzzy
@@ -1858,9 +1863,9 @@ msgstr "أمر…"
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr ""
 "الأمر الذي سيبدأ عندما يتم الكشف عن الحركة ؛ يمكن فصل أوامر متعددة بنقطتين ؛ "
-"لا تستخدم الفواصل المنقوطة مع الأوامر ؛ يتم قبول الرموز المميزة التالية: ٪٪ Y "
-"= year، ٪٪ m = month، ٪٪ d = day، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = second، "
-"٪٪ q = frame number ، ٪٪ v = رقم الحدث"
+"لا تستخدم الفواصل المنقوطة مع الأوامر ؛ يتم قبول الرموز المميزة التالية: ٪٪ "
+"Y = year، ٪٪ m = month، ٪٪ d = day، ٪٪ H = hour، ٪٪ M = minutes، ٪٪ S = "
+"second، ٪٪ q = frame number ، ٪٪ v = رقم الحدث"
 
 #: motioneye/templates/main.html:1203
 #, fuzzy

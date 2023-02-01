@@ -7,14 +7,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-12 17:19+0200\n"
+"POT-Creation-Date: 2023-02-01 18:26+0000\n"
 "PO-Revision-Date: 2022-11-22 17:16+0000\n"
 "Last-Translator: MichaIng <micha@dietpi.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/motioneye-project/"
 "motioneye-python-texts/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 4.15-dev\n"
@@ -44,43 +44,43 @@ msgstr "installeer alstublieft pillow of PIL"
 msgid "bonvolu instali pycurl"
 msgstr "installeer alstublieft pycurl"
 
-#: motioneye/server.py:423
+#: motioneye/server.py:422
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "Hallo! Dit is motionEye server "
 
-#: motioneye/server.py:438
+#: motioneye/server.py:437
 msgid "purigado komenciĝis"
 msgstr "gestart met opschonen"
 
-#: motioneye/server.py:440
+#: motioneye/server.py:439
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch is gestart"
 
-#: motioneye/server.py:443
+#: motioneye/server.py:442
 msgid "taskoj komenciĝis"
 msgstr "taken zijn gestart"
 
-#: motioneye/server.py:447
+#: motioneye/server.py:446
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "mjpg client geheugenopschoning is gestart"
 
-#: motioneye/server.py:465
+#: motioneye/server.py:464
 msgid "servilo komenciĝis"
 msgstr "server is gestart"
 
-#: motioneye/server.py:471
+#: motioneye/server.py:470
 msgid "servilo haltis"
 msgstr "server is gestopt"
 
-#: motioneye/server.py:473
+#: motioneye/server.py:472
 msgid "taskoj haltis"
 msgstr "taken zijn gestopt"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:480
 msgid "motion haltis"
 msgstr "motion is gestopt"
 
-#: motioneye/server.py:486
+#: motioneye/server.py:485
 msgid "adiaŭ!"
 msgstr "vaarwel!"
 
@@ -359,8 +359,8 @@ msgstr "Beeldverversingssnelheid"
 #: motioneye/templates/main.html:333
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
 msgstr ""
-"geeft aan hoeveel beelden per seconde van de camera opgenomen moeten worden ("
-"hogere waarden produceren vloeiender videobeeld maar vereisen meer CPU-"
+"geeft aan hoeveel beelden per seconde van de camera opgenomen moeten worden "
+"(hogere waarden produceren vloeiender videobeeld maar vereisen meer CPU-"
 "kracht, meer opslag en netwerkbandbreedte)"
 
 #: motioneye/templates/main.html:339
@@ -391,8 +391,8 @@ msgstr "Extra opties"
 #: motioneye/templates/main.html:363
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
 msgstr ""
-"hier kan je extra opties voor het \"motion\" achtergrondproces opgeven ("
-"gebruik het «naam waarde» formaat, een optie per regel"
+"hier kan je extra opties voor het \"motion\" achtergrondproces opgeven "
+"(gebruik het «naam waarde» formaat, een optie per regel"
 
 #: motioneye/templates/main.html:372
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
@@ -546,8 +546,8 @@ msgstr "Serveradres"
 #: motioneye/templates/main.html:476
 msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
 msgstr ""
-"de domeinnaam of het IP-adres van de server (bijv. ftp.voorbeeld.nl of 192."
-"168.1.3)"
+"de domeinnaam of het IP-adres van de server (bijv. ftp.voorbeeld.nl of "
+"192.168.1.3)"
 
 #: motioneye/templates/main.html:479
 msgid "Servila haveno"
@@ -556,8 +556,8 @@ msgstr "Serverpoort"
 #: motioneye/templates/main.html:481
 msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
 msgstr ""
-"de netwerkpoort die gebruikt moet worden bij het verbinden met de dienst ("
-"laat leeg om de standaardwaarde te gebruiken)"
+"de netwerkpoort die gebruikt moet worden bij het verbinden met de dienst "
+"(laat leeg om de standaardwaarde te gebruiken)"
 
 #: motioneye/templates/main.html:484
 msgid "Metodo"
@@ -786,8 +786,7 @@ msgstr ""
 "stel een aangepaste tekst in voor linksonder in het beeld; de volgende "
 "speciale tekenreeksen kunnen gebruikt worden: %%Y = jaar, %%m = maand, %%d = "
 "dag, %%H = uur, %%M = minuut, %%S = seconde, %%q = framenummer, %%v = "
-"gebeurtenisnummer, %%T = tijd als HH:MM:SS, \\n"
-" = een nieuwe regel"
+"gebeurtenisnummer, %%T = tijd als HH:MM:SS, \\n = een nieuwe regel"
 
 #: motioneye/templates/main.html:628
 msgid "Dekstra Teksto"
@@ -806,8 +805,7 @@ msgstr ""
 "stel een aangepaste tekst in voor rechtsonder in het beeld; de volgende "
 "speciale tekenreeksen kunnen gebruikt worden: %%Y = jaar, %%m = maand, %%d = "
 "dag, %%H = uur, %%M = minuut, %%S = seconde, %%q = framenummer, %%v = "
-"gebeurtenisnummer, %%T = tijd als HH:MM:SS, \\n"
-" = een nieuwe regel"
+"gebeurtenisnummer, %%T = tijd als HH:MM:SS, \\n = een nieuwe regel"
 
 #: motioneye/templates/main.html:645
 msgid "Teksta Skalo"
@@ -819,7 +817,8 @@ msgstr "stelt in hoe groot de toegevoegde tekst getoond moet worden"
 
 #: motioneye/templates/main.html:657
 msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
-msgstr "schakel dit in als u het streamen van de camerabeelden wilt inschakelen"
+msgstr ""
+"schakel dit in als u het streamen van de camerabeelden wilt inschakelen"
 
 #: motioneye/templates/main.html:658
 msgid "Videofluo"
@@ -1338,7 +1337,8 @@ msgstr "Smart-mask traagheid"
 
 #: motioneye/templates/main.html:1002
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
-msgstr "Hogere waarden geven een duurzamer masker met een langzamer bouwproces."
+msgstr ""
+"Hogere waarden geven een duurzamer masker met een langzamer bouwproces."
 
 #: motioneye/templates/main.html:1011
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
