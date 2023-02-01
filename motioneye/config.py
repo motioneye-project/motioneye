@@ -2151,7 +2151,7 @@ def _dict_to_conf(lines, data, list_names=None):
             conf_lines.append(line)
 
     # build the final config lines
-    conf_lines.sort(key=lambda l: not l.startswith('@'))
+    conf_lines.sort(key=lambda line: not line.startswith('@'))
 
     lines = []
     for i, line in enumerate(conf_lines):
