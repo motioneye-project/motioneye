@@ -18,6 +18,7 @@
 import logging
 
 from motioneye import config, mediafiles, motionctl, tasks, uploadservices, utils
+from motioneye.handlers import telegram
 from motioneye.handlers.base import BaseHandler
 
 __all__ = ('RelayEventHandler',)
@@ -25,7 +26,7 @@ __all__ = ('RelayEventHandler',)
 
 class RelayEventHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
-    def post(self):
+    async def post(self):
         event = self.get_argument('event')
         motion_camera_id = int(self.get_argument('motion_camera_id'))
 
@@ -50,6 +51,10 @@ class RelayEventHandler(BaseHandler):
             )
             return self.finish_json()
 
+        # needed for specific motion event recognition
+        event_id = self.get_argument('event_id')
+        moment = self.get_argument('moment')
+
         if event == 'start':
             if not camera_config['@motion_detection']:
                 logging.debug(
@@ -63,6 +68,9 @@ class RelayEventHandler(BaseHandler):
         elif event == 'stop':
             motionctl.set_motion_detected(camera_id, False)
 
+            # notify telegram handler event stop
+            await self.handle_telegram_notification(camera_id, camera_config, moment, event, event_id, "")
+       
         elif event == 'movie_end':
             filename = self.get_argument('filename')
 
@@ -86,6 +94,9 @@ class RelayEventHandler(BaseHandler):
             if camera_config['@upload_enabled'] and camera_config['@upload_picture']:
                 self.upload_media_file(filename, camera_id, camera_config)
 
+            # send media to telegram 
+            await self.handle_telegram_notification(camera_id, camera_config, moment, event, event_id, filename)
+
         else:
             logging.warning('unknown event %s' % event)
 
@@ -105,3 +116,17 @@ class RelayEventHandler(BaseHandler):
             and camera_config['target_dir'],
             filename=filename,
         )
+
+    async def handle_telegram_notification(self, camera_id, camera_config, moment, event, event_id, filename):
+
+        # telegram notifications should only be triggered when motion detects well, motion :)
+        # below checks should allow media only when capture mode in GUI is set to "Motion Triggered" and "Motion Triggered (one picture)"
+        
+        if (camera_config["picture_output"] != False and camera_config['emulate_motion'] != True and camera_config['snapshot_interval'] == 0):
+            if (camera_config['@telegram_notifications_enabled']): 
+                if (camera_config['@telegram_notifications_api'] and camera_config['@telegram_notifications_chat_id']):
+                    th = telegram.TelegramHandler.get_instance()
+                    await th.add_media({"camera_id" : camera_id, "camera_config" : camera_config, "moment" : moment, "event" : event, "event_id" : event_id, "file_name" : filename})
+                else:
+                    logging.warning("telegram notifications are enabled, but some of telegram_notifications parameters are not set")
+                    return self.finish_json()

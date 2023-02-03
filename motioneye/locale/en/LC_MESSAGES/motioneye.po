@@ -1515,17 +1515,14 @@ msgstr ""
 
 #: motioneye/templates/main.html:1119
 msgid "Alkroĉitaj Bildoj Tempo"
-msgstr "Attached Images Time"
+msgstr "Max images per event"
 
 #: motioneye/templates/main.html:1121
 msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
 msgstr ""
-"defines the image search time interval to create telegram attachments "
-"(higher values generate more images at the cost of increased notification "
-"delay); set to 0 to disable image attachments; you must also enable Still "
-"Images for this to work; you will want to play with this number until an "
-"image is sent. A good starting number is 30 if you set still images to one "
-"motion triggered. For a standard move triggered, set this much lower."
+"defines maximum number of images that will be attached in the telegram notification. "
+"Maximum number of pictures allowed is 10. Value of 0 disables attaching pictures "
+"and enables text only notifications."
 
 #: motioneye/templates/main.html:1124
 msgid "API-Informoj"
