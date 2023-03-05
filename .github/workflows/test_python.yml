@@ -17,6 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v3
+      - run: test '${{ matrix.dist }}' != 'ubuntu-22.04' || sudo apt-mark hold grub-efi-amd64-signed # Workaround for failing package upgrade on Jammy
       - run: sudo apt-get -q update
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends dist-upgrade
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
