@@ -4721,7 +4721,7 @@ function addCameraFrameUi(cameraConfig) {
                     '<img class="camera">' +
                     '<div class="camera-progress"><img class="camera-progress"></div>' +
                 '</div>' +
-                '<div class="camera-overlay">' +
+                '<div class="camera-overlay" style="display: none;">' +
                     '<div class="camera-overlay-top">' +
                         '<div class="camera-name"><span class="camera-name"></span></div>' +
                         '<div class="camera-top-buttons">' +
