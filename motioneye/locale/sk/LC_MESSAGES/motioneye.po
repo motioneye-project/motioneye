@@ -8,16 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-01 18:26+0000\n"
-"PO-Revision-Date: 2022-05-22 13:34+0000\n"
-"Last-Translator: Jose Riha <jose1711@gmail.com>\n"
-"Language-Team: Slovak <https://hosted.weblate.org/projects/motioneye-project/"
-"motioneye-python-texts/sk/>\n"
+"PO-Revision-Date: 2023-03-12 16:59+0000\n"
+"Last-Translator: MichaIng <micha@dietpi.com>\n"
+"Language-Team: Slovak <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/sk/>\n"
 "Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -695,11 +694,7 @@ msgstr "napr. http://priklad.com/notify/"
 #: motioneye/templates/main.html:570
 #, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
-msgstr ""
-"URL adresa, na ktorú bude odoslaná požiadavka pri zistení pohybu; "
-"akceptované sú nasledovné špeciálne značky:  %%Y = rok, %%m = mesiac, %%d = "
-"deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = "
-"číslo udalosti, %%f = cesta k súboru"
+msgstr "URL adresa, na ktorú bude odoslaná požiadavka pri zistení pohybu; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti, %%f = cesta k súboru"
 
 #: motioneye/templates/main.html:573 motioneye/templates/main.html:1141
 #: motioneye/templates/main.html:1186
@@ -734,12 +729,7 @@ msgstr "Objednať…"
 #: motioneye/templates/main.html:595
 #, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
-msgstr ""
-"príkaz, ktorý sa spustí po vytvorení multimediálneho súboru; môžete zadať "
-"viacero príkazov oddelených bodkočiarkou; nepoužívajte bodkočiarky vo vnútri "
-"príkazov; akceptované sú nasledovné špeciálne značky:  %%Y = rok, %%m = "
-"mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo "
-"snímky, %%v = číslo udalosti, %%f = cesta k súboru"
+msgstr "príkaz, ktorý sa spustí po vytvorení multimediálneho súboru; môžete zadať viacero príkazov oddelených bodkočiarkou; nepoužívajte bodkočiarky vo vnútri príkazov; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti, %%f = cesta k súboru"
 
 #: motioneye/templates/main.html:605
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
@@ -778,9 +768,8 @@ msgstr "Vlastný text…"
 #, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr ""
-"nastaví vlastný text vľavo; akceptované sú nasledovné špeciálne značky:  %%Y "
-"= rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, "
-"%%q = číslo snímky, %%v = číslo udalosti, %%T = HH: MM: SS, \\n = nový riadok"
+"nastaví vlastný text vľavo; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti, %%T = HH: MM: SS, \\n"
+" = nový riadok"
 
 #: motioneye/templates/main.html:628
 msgid "Dekstra Teksto"
@@ -794,10 +783,8 @@ msgstr "nastaví text zobrazený na videách a obrázkoch v pravom spodnom rohu"
 #, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr ""
-"nastaví vlastný text vpravo; akceptované sú nasledovné špeciálne značky:  "
-"%%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = "
-"sekunda, %%q = číslo snímky, %%v = číslo udalosti, %%T = HH: MM: SS, \\n = "
-"nový riadok"
+"nastaví vlastný text vpravo; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti, %%T = HH: MM: SS, \\n"
+" = nový riadok"
 
 #: motioneye/templates/main.html:645
 msgid "Teksta Skalo"
@@ -1564,11 +1551,7 @@ msgstr "napr. http://priklad.com/notify/"
 #: motioneye/templates/main.html:1138
 #, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-msgstr ""
-"URL adresa, na ktorú bude odoslaná požiadavka pri zistení pohybu; "
-"akceptované sú nasledovné špeciálne značky:  %%Y = rok, %%m = mesiac, %%d = "
-"deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = "
-"číslo udalosti"
+msgstr "URL adresa, na ktorú bude odoslaná požiadavka pri zistení pohybu; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti"
 
 #: motioneye/templates/main.html:1150 motioneye/templates/main.html:1195
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
@@ -1595,12 +1578,7 @@ msgstr "príkaz…"
 #: motioneye/templates/main.html:1163
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-msgstr ""
-"príkaz, ktorý sa spustí pri detegovaní pohybu; môžete zadať viacero príkazov "
-"oddelených bodkočiarkou; nepoužívajte bodkočiarky vo vnútri príkazov; "
-"akceptované sú nasledovné špeciálne značky:  %%Y = rok, %%m = mesiac, %%d = "
-"deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = "
-"číslo udalosti"
+msgstr "príkaz, ktorý sa spustí pri detegovaní pohybu; môžete zadať viacero príkazov oddelených bodkočiarkou; nepoužívajte bodkočiarky vo vnútri príkazov; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti"
 
 #: motioneye/templates/main.html:1203
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
@@ -1611,11 +1589,7 @@ msgstr ""
 #: motioneye/templates/main.html:1208
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
-msgstr ""
-"príkaz, ktorý sa spustí po skončení udalosti; môžete zadať viacero príkazov "
-"oddelených bodkočiarkou; nepoužívajte bodkočiarky vo vnútri príkazov; "
-"akceptované sú nasledovné špeciálne značky:  %%Y = rok, %%m = mesiac, %%d = "
-"deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky"
+msgstr "príkaz, ktorý sa spustí po skončení udalosti; môžete zadať viacero príkazov oddelených bodkočiarkou; nepoužívajte bodkočiarky vo vnútri príkazov; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky"
 
 #: motioneye/templates/main.html:1218
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
