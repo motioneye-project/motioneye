@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-21 14:55+0200\n"
+"POT-Creation-Date: 2023-03-12 18:31+0000\n"
 "PO-Revision-Date: 2022-11-19 13:48+0000\n"
 "Last-Translator: JP Vera <juanp.zunigav@gmail.com>\n"
-"Language-Team: Spanish <https://hosted.weblate.org/projects/"
-"motioneye-project/motioneye-javascript/es/>\n"
+"Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -52,9 +51,7 @@ msgstr "ingrese una dirección de correo electrónico válida"
 
 #: motioneye/static/js/main.js:653
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr ""
-"ingrese una lista de direcciones de correo electrónico válidas separadas por "
-"comas"
+msgstr "ingrese una lista de direcciones de correo electrónico válidas separadas por comas"
 
 #: motioneye/static/js/main.js:660
 msgid "specialaj signoj ne rajtas en dosiernomo"
@@ -66,8 +63,7 @@ msgstr "ingrese un valor válido"
 
 #: motioneye/static/js/main.js:841
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr ""
-"Esto eliminará recursivamente todos los archivos en la carpeta de la nube \""
+msgstr "Esto eliminará recursivamente todos los archivos en la carpeta de la nube \""
 
 #: motioneye/static/js/main.js:842
 #, fuzzy
@@ -620,7 +616,7 @@ msgstr "configurar esta cámara"
 msgid "preni instantaron"
 msgstr "tomar una instantánea"
 
-#: motioneye/static/js/main.js:5121
+#: motioneye/static/js/main.js:5118
 #, fuzzy
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "Aún no has configurado ninguna cámara. Haga clic aquí para añadir uno ..."

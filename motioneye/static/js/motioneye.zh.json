@@ -1,3 +1,4 @@
+,"": ""
 {"":{"language":"zh","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "密码中不允许使用特殊字符"
 ,"Ĉi tiu kampo estas deviga": "必填项"
@@ -89,9 +90,9 @@
 ,"la pasvorto por la URL, se bezonata": "URL的密码（选填）"
 ,"Kamerao": "摄像头"
 ,"la kameraon, kiun vi volas aldoni": "您要添加的摄像头"
-,"Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime.": "远程MotionEye摄像头是安装在另一台MotionEye服务器下摄像头。在此处添加将使您可"
-,"Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG.": ""
-,"Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj.": "本地MMAL摄像头是指直接连接到motionEye系统的设备。这些通常是硬件提供接口兼容的"
+,"Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime.": "远程MotionEye摄像头是安装在另一台MotionEye服务器下摄像头。在此处添加将使您可以远程查看和管理它们。"
+,"Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG.": "网络摄像头（或IP摄像头）是指传输原生RTSP / RTMP流或MJPEG视频流或普通MJPEG图像流的设备。请查阅您的设备手册，以找到正确的RTSP，RTMP，MJPEG或JPEG的URL地址。"
+,"Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj.": "本地MMAL摄像头是指直接连接到motionEye系统的设备。这些通常是硬件提供接口兼容的摄像头。"
 ,"Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer.": "将设备添加为简单的MJPEG摄像头而不是网络摄像头可以改善摄影效果，但是无法进行运动检测，图像捕获或动画录制。您的服务器和浏览器必须可以访问该相机。这类相机与Internet Explorer不匹配。"
 ,"Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB.": "本地V4L2摄像机是通常通过USB直接连接到motionEye系统的摄像机设备。"
 ,"Aldonadi kameraon...": "添加相机..."

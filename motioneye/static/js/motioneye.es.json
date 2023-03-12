@@ -1,3 +1,4 @@
+,"": ""
 {"":{"language":"es","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "no se permiten caracteres especiales en la contraseña"
 ,"Ĉi tiu kampo estas deviga": "Este campo es obligatorio"
@@ -6,10 +7,10 @@
 ,"specialaj signoj ne rajtas en radika voja nomo": "no se permiten caracteres especiales en el nombre del directorio raíz"
 ,"dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo": "los archivos no se pueden crear directamente en la raíz de su sistema"
 ,"enigu validan retpoŝtadreson": "ingrese una dirección de correo electrónico válida"
-,"enigu liston de koma apartaj validaj retpoŝtadresoj": ""
+,"enigu liston de koma apartaj validaj retpoŝtadresoj": "ingrese una lista de direcciones de correo electrónico válidas separadas por comas"
 ,"specialaj signoj ne rajtas en dosiernomo": "no se permiten caracteres especiales en el nombre del archivo"
 ,"enigu validan valoron": "ingrese un valor válido"
-,"Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \"": ""
+,"Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \"": "Esto eliminará recursivamente todos los archivos en la carpeta de la nube \""
 ,"\", ne nur tiuj alŝutitaj de motionEye!": "\", no solo los subidos por motionEye!"
 ,"Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \"": "Esto eliminará de forma recursiva todos los archivos multimedia antiguos en la carpeta \""
 ,"\", ne nur tiuj kreitaj de motionEye!": "\", no solo los creados por motionEye!"

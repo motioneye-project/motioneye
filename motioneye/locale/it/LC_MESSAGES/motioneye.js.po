@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-21 14:55+0200\n"
+"POT-Creation-Date: 2023-03-12 18:31+0000\n"
 "PO-Revision-Date: 2022-12-09 17:49+0000\n"
 "Last-Translator: DavideD8 <deganidavide93@gmail.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/"
-"motioneye-project/motioneye-javascript/it/>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -524,7 +523,7 @@ msgstr "imposta questa videocamera"
 msgid "preni instantaron"
 msgstr "scatta un'istantanea"
 
-#: motioneye/static/js/main.js:5121
+#: motioneye/static/js/main.js:5118
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "Non hai ancora configurato alcuna videocamera. Clicca qui per aggiungerne una ..."
 

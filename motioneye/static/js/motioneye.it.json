@@ -1,3 +1,4 @@
+,"": ""
 {"":{"language":"it","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "i caratteri speciali non sono ammessi nella password"
 ,"Ĉi tiu kampo estas deviga": "Questo campo è obbligatorio"
@@ -101,11 +102,11 @@
 ,"5 sekundoj": "5 secondi"
 ,"10 sekundoj": "10 secondi"
 ,"30 sekundoj": "30 secondi"
-,"minuto": "minuto"
+,"minuto": "Minuto"
 ,"5 minutoj": "5 minuti"
 ,"10 minutoj": "10 minuti"
 ,"30 minutoj": "30 minuti"
-,"horo": "ora"
+,"horo": "Ora"
 ,"Elektu la intervalon de tempo inter du elektitaj bildoj.": "Seleziona l'intervallo di tempo tra due immagini selezionate."
 ,"Filmo framfrekvenco": "Frame rate filmato"
 ,"Elektu kiom rapide vi volas ke la akselita video estu.": "seleziona la velocità di riproduzione del timelapse."

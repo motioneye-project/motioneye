@@ -7,17 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-21 14:55+0200\n"
+"POT-Creation-Date: 2023-03-12 18:31+0000\n"
 "PO-Revision-Date: 2022-10-10 17:58+0000\n"
 "Last-Translator: Егор Ермаков <eg.ermakov2016@yandex.ru>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/"
-"motioneye-project/motioneye-javascript/ru/>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 4.14.1\n"
 
 #: motioneye/static/js/main.js:606
@@ -52,8 +50,7 @@ msgstr "введите действительный адрес электрон�
 
 #: motioneye/static/js/main.js:653
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr ""
-"введите список действительных адресов электронной почты, разделенных запятыми"
+msgstr "введите список действительных адресов электронной почты, разделенных запятыми"
 
 #: motioneye/static/js/main.js:660
 msgid "specialaj signoj ne rajtas en dosiernomo"
@@ -284,8 +281,7 @@ msgstr "Ошибка декодирования или неподдержива�
 
 #: motioneye/static/js/main.js:3665
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
-msgstr ""
-"Формат не поддерживается или недоступен/не подходит для воспроизведения."
+msgstr "Формат не поддерживается или недоступен/не подходит для воспроизведения."
 
 #: motioneye/static/js/main.js:3668
 msgid "Nekonata eraro okazis."
@@ -390,38 +386,23 @@ msgstr "камера, которую вы хотите добавить"
 
 #: motioneye/static/js/main.js:3929
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
-msgstr ""
-"Удаленная камера motionEye - это камера, установленная на другом сервером "
-"MotionEye. Добавление их здесь позволит вам наблюдать и управлять ими "
-"удалённо."
+msgstr "Удаленная камера motionEye - это камера, установленная на другом сервером MotionEye. Добавление их здесь позволит вам наблюдать и управлять ими удалённо."
 
 #: motioneye/static/js/main.js:3944
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
-msgstr ""
-"Сетевые камеры (или IP-камеры) - это устройства, которые изначально передают "
-"потоковое видео RTSP/RTMP или MJPEG или простые изображения JPEG. Обратитесь "
-"к руководству вашего устройства, чтобы узнать правильный URL RTSP, RTMP, "
-"MJPEG или JPEG."
+msgstr "Сетевые камеры (или IP-камеры) - это устройства, которые изначально передают потоковое видео RTSP/RTMP или MJPEG или простые изображения JPEG. Обратитесь к руководству вашего устройства, чтобы узнать правильный URL RTSP, RTMP, MJPEG или JPEG."
 
 #: motioneye/static/js/main.js:3949
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr ""
-"Локальные MMAL камеры — это устройства, подключенные непосредственно к вашей "
-"системе motionEye. Обычно это камеры для определённых плат."
+msgstr "Локальные MMAL камеры — это устройства, подключенные непосредственно к вашей системе motionEye. Обычно это камеры для определённых плат."
 
 #: motioneye/static/js/main.js:3964
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
-msgstr ""
-"Добавление вашего устройства в качестве простой MJPEG камеры вместо сетевой "
-"камеры улучшит частоту кадров, но не будет доступно обнаружение движения, "
-"захват изображения или видеозапись. Камера должна быть доступна вашему "
-"серверу и вашему браузеру. Этот тип камеры не совместим с Internet Explorer."
+msgstr "Добавление вашего устройства в качестве простой MJPEG камеры вместо сетевой камеры улучшит частоту кадров, но не будет доступно обнаружение движения, захват изображения или видеозапись. Камера должна быть доступна вашему серверу и вашему браузеру. Этот тип камеры не совместим с Internet Explorer."
 
 #: motioneye/static/js/main.js:3969
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
-msgstr ""
-"Локальные V4L2 камеры - это камеры, подключенные непосредственно к вашей "
-"системе motionEye, обычно через USB."
+msgstr "Локальные V4L2 камеры - это камеры, подключенные непосредственно к вашей системе motionEye, обычно через USB."
 
 #: motioneye/static/js/main.js:4120
 msgid "Aldonadi kameraon..."
@@ -485,9 +466,7 @@ msgstr "Выберите, насколько быстрый таймлапс в�
 
 #: motioneye/static/js/main.js:4224
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr ""
-"Учитывая большое количество изображений, создание таймлапса может занять "
-"некоторое время!"
+msgstr "Учитывая большое количество изображений, создание таймлапса может занять некоторое время!"
 
 #: motioneye/static/js/main.js:4241
 msgid "Krei akselita video"
@@ -545,7 +524,7 @@ msgstr "настроить эту камеру"
 msgid "preni instantaron"
 msgstr "сделать снимок"
 
-#: motioneye/static/js/main.js:5121
+#: motioneye/static/js/main.js:5118
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "Вы еще не настроили ни одной камеры. Нажмите здесь, чтобы добавить..."
 

@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-12 16:59+0200\n"
+"POT-Creation-Date: 2023-03-12 18:31+0000\n"
 "PO-Revision-Date: 2022-07-06 20:19+0000\n"
 "Last-Translator: ChriZathens <c_kan1@hotmail.com>\n"
-"Language-Team: Greek <https://hosted.weblate.org/projects/motioneye-project/"
-"motioneye-javascript/el/>\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/el/>\n"
 "Language: el\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,8 +42,7 @@ msgstr "ειδικοί χαρακτήρες δεν επιτρέπονται στ
 
 #: motioneye/static/js/main.js:639
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr ""
-"αρχεία δεν μπορούν να δημιουργηθούν κατευθείαν στο root του συστήματός σας"
+msgstr "αρχεία δεν μπορούν να δημιουργηθούν κατευθείαν στο root του συστήματός σας"
 
 #: motioneye/static/js/main.js:646
 msgid "enigu validan retpoŝtadreson"
@@ -52,9 +50,7 @@ msgstr "εισάγετε μια έγκυρη διεύθυνση ηλεκτρον
 
 #: motioneye/static/js/main.js:653
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr ""
-"εισάγετε μια λίστα με έγκυρες, διαχωρισμένες με κόμμα, διευθύνσεις "
-"ηλεκτρονικού ταχυδρομείου"
+msgstr "εισάγετε μια λίστα με έγκυρες, διαχωρισμένες με κόμμα, διευθύνσεις ηλεκτρονικού ταχυδρομείου"
 
 #: motioneye/static/js/main.js:660
 msgid "specialaj signoj ne rajtas en dosiernomo"
@@ -66,9 +62,7 @@ msgstr "εισάγετε μια έγκυρη τιμή"
 
 #: motioneye/static/js/main.js:841
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr ""
-"Αυτό θα διαγράψει όλα τα αρχεία και τους υποφακέλους που βρίσκονται στον "
-"cloud φάκελο \""
+msgstr "Αυτό θα διαγράψει όλα τα αρχεία και τους υποφακέλους που βρίσκονται στον cloud φάκελο \""
 
 #: motioneye/static/js/main.js:842
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
@@ -76,9 +70,7 @@ msgstr "\", όχι μόνο αυτά που έχουν ανέβει από το 
 
 #: motioneye/static/js/main.js:923
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
-msgstr ""
-"Αυτό θα διαγράψει όλα τα παλιά αρχεία πολυμέσων που βρίσκονται στο φάκελο "
-"και στους υποφακέλους του \""
+msgstr "Αυτό θα διαγράψει όλα τα παλιά αρχεία πολυμέσων που βρίσκονται στο φάκελο και στους υποφακέλους του \""
 
 #: motioneye/static/js/main.js:924
 msgid "\", ne nur tiuj kreitaj de motionEye!"
@@ -86,9 +78,7 @@ msgstr "\", όχι μόνο αυτά που δημιουργήθηκαν από 
 
 #: motioneye/static/js/main.js:990
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
-msgstr ""
-"Δεν μπορείτε να επεξεργαστείτε τη μάσκα χωρίς μια έγκυρη εικόνα από την "
-"κάμερα!"
+msgstr "Δεν μπορείτε να επεξεργαστείτε τη μάσκα χωρίς μια έγκυρη εικόνα από την κάμερα!"
 
 #: motioneye/static/js/main.js:2230
 msgid "Propra"
@@ -395,33 +385,19 @@ msgstr "η κάμερα που θέλετε να προσθέσετε"
 
 #: motioneye/static/js/main.js:3929
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
-msgstr ""
-"Οι απομακρυσμένες κάμερες motionEye είναι κάμερες που είναι εγκατεστημένες "
-"σε κάποιον άλλο διακομιστή motionEye. Προστίθοντάς τες εδώ θα σας επιτρέψει "
-"να τις βλέπετε και να τις διαχειρίζεστε απομακρυσμένα."
+msgstr "Οι απομακρυσμένες κάμερες motionEye είναι κάμερες που είναι εγκατεστημένες σε κάποιον άλλο διακομιστή motionEye. Προστίθοντάς τες εδώ θα σας επιτρέψει να τις βλέπετε και να τις διαχειρίζεστε απομακρυσμένα."
 
 #: motioneye/static/js/main.js:3944
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
-msgstr ""
-"Οι δικτυακές κάμερες (ή IP κάμερες) είναι συσκευές που εγγενώς στριμάρουν "
-"RTSP/RTMP ή MJPEG βίντεο ή απλές εικόνες JPEG. Συμβουλευτείτε το εγχειρίδιο "
-"της συσκευής σας για να βρείτε το σωστό RTSP, RTMP, MJPEG ή JPEG URL."
+msgstr "Οι δικτυακές κάμερες (ή IP κάμερες) είναι συσκευές που εγγενώς στριμάρουν RTSP/RTMP ή MJPEG βίντεο ή απλές εικόνες JPEG. Συμβουλευτείτε το εγχειρίδιο της συσκευής σας για να βρείτε το σωστό RTSP, RTMP, MJPEG ή JPEG URL."
 
 #: motioneye/static/js/main.js:3949
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr ""
-"Οι τοπικές MMAL κάμερες είναι συσκευές που είναι απευθείας συνδεμένες με το "
-"σύστημα motionEye. Αυτές συνήθως είναι συγκεκριμένες για τη συσκευή/μητρική "
-"σας."
+msgstr "Οι τοπικές MMAL κάμερες είναι συσκευές που είναι απευθείας συνδεμένες με το σύστημα motionEye. Αυτές συνήθως είναι συγκεκριμένες για τη συσκευή/μητρική σας."
 
 #: motioneye/static/js/main.js:3964
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
-msgstr ""
-"Προσθέτοντας τη συσκευή σας σαν απλή κάμερα MJPEG αντί για δικτυακή κάμερα "
-"θα βελτιώσει την ταχύτητα των καρέ, αλλά δεν θα είναι για αυτήν διαθέσιμα "
-"ανίχνευση κίνησης, λήψη εικόνων και καταγραφή βίντεο. Η κάμερα πρέπει να "
-"είναι προσβάσιμη και από το διακομιστή αλλά και από τον περιηγητή σας. Αυτού "
-"του τύπου η κάμερα δεν είναι συμβατή με τον Internet Explorer."
+msgstr "Προσθέτοντας τη συσκευή σας σαν απλή κάμερα MJPEG αντί για δικτυακή κάμερα θα βελτιώσει την ταχύτητα των καρέ, αλλά δεν θα είναι για αυτήν διαθέσιμα ανίχνευση κίνησης, λήψη εικόνων και καταγραφή βίντεο. Η κάμερα πρέπει να είναι προσβάσιμη και από το διακομιστή αλλά και από τον περιηγητή σας. Αυτού του τύπου η κάμερα δεν είναι συμβατή με τον Internet Explorer."
 
 #: motioneye/static/js/main.js:3969
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
@@ -547,7 +523,7 @@ msgstr "Ορίστε αυτήν την κάμερα"
 msgid "preni instantaron"
 msgstr "Για να πάρετε μια στιγμή"
 
-#: motioneye/static/js/main.js:5121
+#: motioneye/static/js/main.js:5118
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "Δεν έχετε ρυθμίσει ακόμα καμία κάμερα. Κάντε κλικ εδώ για να προσθέσετε ένα ..."
 
