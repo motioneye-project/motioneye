@@ -56,6 +56,6 @@ else
   cookie=
 fi
 
-retry=$(expr $retry + 1)
+retry=$((retry + 1))
 
 done
