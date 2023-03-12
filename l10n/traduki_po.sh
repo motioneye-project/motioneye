@@ -17,7 +17,7 @@ awk -v "src=$src" -v "dst=$dst" '{
   if ($1 == "msgid")
   {
     MSGID=substr($0,7);
-    if(MSGID=="\"\"")
+    if (MSGID=="\"\"")
       CONTMSG=1;
   }
   else if (CONTMSG==1 && substr($1,1,1) == "\"")
@@ -26,13 +26,13 @@ awk -v "src=$src" -v "dst=$dst" '{
   }
   else if ($1 == "msgstr")
   {
-    if($2 != "\"\"" || MSGID == "\"\"")
+    if ($2 != "\"\"" || MSGID == "\"\"")
     {
       print ("msgid " MSGID);
       print $0;
     }
     else
-    { # msgstr == "" kaj MSGID != ""
+    {
       getline nextline
       if (nextline == "")
       {
