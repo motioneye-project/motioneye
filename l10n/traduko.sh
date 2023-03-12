@@ -9,29 +9,25 @@ dst=$2
 txt=$3
 
 # Reuse cookie if not older than 15 minutes
-cookie=$(find . -maxdepth 1 _traduko.jar -mmin -15 2> /dev/null)
 
-# Retry 3 times
-retry=0
-while [ "$retry" -lt 3 ]
-do
+cookie=$(find . -maxdepth 1 -name _traduko.jar -mmin -14)
 
 # Obtain cookie
-[ "$cookie" ] || curl -sc _traduko.jar -A 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' 'https://translate.google.com' -o /dev/null > /dev/null 2>&1
+[ "$cookie" ] || curl -sSfc _traduko.jar -A 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' 'https://translate.google.com' -o /dev/null > /dev/null
 
 # Obtain translation from Google Translator API
-MSG0=$(curl -sb _traduko.jar -A 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' \
+MSG0=$(curl -sSfb _traduko.jar -A 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' \
   --refer 'https://translate.google.com/' \
   "https://translate.google.com/translate_a/single?client=webapp&sl=${src}&tl=${dst}&hl=${dst}&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=gt&pc=1&otf=1&ssel=0&tsel=0&kc=1&tk=&ie=UTF-8&oe=UTF-8" \
-  --data-urlencode "q=$txt" > /dev/null 2>&1 \
+  --data-urlencode "q=$txt" > /dev/null \
 )
 
-[ "$DEBUG" ] && echo "$src txt=$txt" >&2
+[ "$DEBUG" ] && printf '%s\n' "$src txt=$txt" >&2
 
-if echo "$MSG0" | grep -q 'sorry'
+if printf '%s' "$MSG0" | grep -q 'sorry'
 then
   # Failed: Print error
-  echo "Google Translator returned 'sorry': $MSG0" >&2
+  printf '%s\n%s\n' 'ERROR: Google Translator returned "sorry":' "$MSG0" >&2
 else
   # Success: Extract translated txt
   MSG=$(printf '%s' "$MSG0" | jq '.[0][][0]' | grep -v '^null$' \
@@ -45,17 +41,13 @@ else
   )
 fi
 
-[ "$DEBUG" ] && echo "$dst txt=$MSG" >&2
+[ "$DEBUG" ] && printf '%s\n' "$dst txt=$MSG" >&2
 
 # Reset cookie if no message returned
 if [ "$MSG" ]
 then
   printf '%s' "$MSG"
-  break
 else
-  cookie=
+  printf '%s\n' 'ERROR: Google Translator did not return a translation' >&2
+  rm -f _traduko.jar
 fi
-
-retry=$((retry + 1))
-
-done
