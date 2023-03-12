@@ -13,8 +13,7 @@ jobs:
     steps:
     - uses: actions/setup-python@v4
       with:
-        # https://github.com/actions/python-versions/releases
-        python-version: '3.11'
+        python-version: '3.x'
     - run: |
         echo "github.actor=${{ github.actor }}"
         python3 -m pip install -U babel jinja2 &
