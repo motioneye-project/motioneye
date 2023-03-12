@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-21 14:55+0200\n"
+"POT-Creation-Date: 2023-03-12 18:31+0000\n"
 "PO-Revision-Date: 2022-11-09 23:47+0000\n"
 "Last-Translator: Jon Erling Hustadnes <jonerling.hustadnes@gmail.com>\n"
-"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/"
-"motioneye-project/motioneye-javascript/nb_NO/>\n"
+"Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/nb_NO/>\n"
 "Language: nb_NO\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -386,38 +385,23 @@ msgstr "kameraet du vil legge til"
 
 #: motioneye/static/js/main.js:3929
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
-msgstr ""
-"Eksterne motionEye kameraer er kameraer installert bak en annen motionEye -"
-"server. Å legge dem til her vil tillate deg å se og administrere dem "
-"eksternt."
+msgstr "Eksterne motionEye kameraer er kameraer installert bak en annen motionEye -server. Å legge dem til her vil tillate deg å se og administrere dem eksternt."
 
 #: motioneye/static/js/main.js:3944
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
-msgstr ""
-"Nettverk-kameraer (eller IP -kameraer) er enheter som støtter strømming av "
-"RTSP/RTMP eller MJPEG videoer eller enkle JPEG bilder. Kontakt håndboken for "
-"enheten din for å finne ut riktig URL RTSP, RTMP, MJPEG eller JPEG addresse."
+msgstr "Nettverk-kameraer (eller IP -kameraer) er enheter som støtter strømming av RTSP/RTMP eller MJPEG videoer eller enkle JPEG bilder. Kontakt håndboken for enheten din for å finne ut riktig URL RTSP, RTMP, MJPEG eller JPEG addresse."
 
 #: motioneye/static/js/main.js:3949
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr ""
-"Lokale MMAL kameraer er enheter koblet direkte til motionEye-systemet ditt. "
-"Dette er vanligvis kortspesifikke kameraer."
+msgstr "Lokale MMAL kameraer er enheter koblet direkte til motionEye-systemet ditt. Dette er vanligvis kortspesifikke kameraer."
 
 #: motioneye/static/js/main.js:3964
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
-msgstr ""
-"Legge til enheten din som et enkelt MJPEG -kamera i stedet for som ett "
-"nettverks-kamera vil forbedre oppdateringshastigheten, men ingen "
-"bevegelsesdeteksjon, bildefangst eller innspilling av filmer vil være "
-"tilgjengelig for det. Kameraet må være tilgjengelig for serveren din og "
-"nettleseren din. Denne typen kamera støttes ikke med Internet Explorer."
+msgstr "Legge til enheten din som et enkelt MJPEG -kamera i stedet for som ett nettverks-kamera vil forbedre oppdateringshastigheten, men ingen bevegelsesdeteksjon, bildefangst eller innspilling av filmer vil være tilgjengelig for det. Kameraet må være tilgjengelig for serveren din og nettleseren din. Denne typen kamera støttes ikke med Internet Explorer."
 
 #: motioneye/static/js/main.js:3969
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
-msgstr ""
-"Lokale V4L2 kameraer er kameraenheter som er koblet direkte til motioneye-"
-"systemet ditt, vanligvis via USB."
+msgstr "Lokale V4L2 kameraer er kameraenheter som er koblet direkte til motioneye-systemet ditt, vanligvis via USB."
 
 #: motioneye/static/js/main.js:4120
 msgid "Aldonadi kameraon..."
@@ -481,8 +465,7 @@ msgstr "velg hvor raskt du vil timelapse avspillingen skal være."
 
 #: motioneye/static/js/main.js:4224
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr ""
-"Gitt det store antallet bilder, kan det ta litt tid å lage timelapse videoen!"
+msgstr "Gitt det store antallet bilder, kan det ta litt tid å lage timelapse videoen!"
 
 #: motioneye/static/js/main.js:4241
 msgid "Krei akselita video"
@@ -540,10 +523,9 @@ msgstr "konfigurer dette kameraet"
 msgid "preni instantaron"
 msgstr "å ta et kjapt bilde"
 
-#: motioneye/static/js/main.js:5121
+#: motioneye/static/js/main.js:5118
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr ""
-"Du har ikke satt opp noen kamera ennå. Klikk her for å legge til ett ..."
+msgstr "Du har ikke satt opp noen kamera ennå. Klikk her for å legge til ett ..."
 
 #: motioneye/static/js/ui.js:503
 msgid "enigu pozitivan nombron"

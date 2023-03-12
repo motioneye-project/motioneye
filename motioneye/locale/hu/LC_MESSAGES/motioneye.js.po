@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-03-05 16:41+0000\n"
+"POT-Creation-Date: 2023-03-12 18:31+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -67,9 +67,7 @@ msgid "\", ne nur tiuj alŝutitaj de motionEye!"
 msgstr ""
 
 #: motioneye/static/js/main.js:923
-msgid ""
-"Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la "
-"dosierujo \""
+msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
 msgstr ""
 
 #: motioneye/static/js/main.js:924
@@ -384,38 +382,23 @@ msgid "la kameraon, kiun vi volas aldoni"
 msgstr ""
 
 #: motioneye/static/js/main.js:3929
-msgid ""
-"Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de "
-"MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de "
-"malproksime."
+msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr ""
 
 #: motioneye/static/js/main.js:3944
-msgid ""
-"Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP "
-"aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via "
-"aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
+msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr ""
 
 #: motioneye/static/js/main.js:3949
-msgid ""
-"Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-"
-"sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
+msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr ""
 
 #: motioneye/static/js/main.js:3964
-msgid ""
-"Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan "
-"kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado "
-"aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti "
-"alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne "
-"kongruas kun Internet Explorer."
+msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr ""
 
 #: motioneye/static/js/main.js:3969
-msgid ""
-"Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via "
-"motionEye-sistemo, kutime per USB."
+msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr ""
 
 #: motioneye/static/js/main.js:4120
@@ -479,9 +462,7 @@ msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr ""
 
 #: motioneye/static/js/main.js:4224
-msgid ""
-"Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom "
-"da tempo!"
+msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr ""
 
 #: motioneye/static/js/main.js:4241
@@ -540,7 +521,7 @@ msgstr ""
 msgid "preni instantaron"
 msgstr ""
 
-#: motioneye/static/js/main.js:5121
+#: motioneye/static/js/main.js:5118
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr ""
 

@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-12 16:59+0200\n"
+"POT-Creation-Date: 2023-03-12 18:31+0000\n"
 "PO-Revision-Date: 2022-06-20 09:22+0000\n"
 "Last-Translator: Michal Basler <minecz.michal.basler@gmail.com>\n"
-"Language-Team: Czech <https://hosted.weblate.org/projects/motioneye-project/"
-"motioneye-javascript/cs/>\n"
+"Language-Team: Czech <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/cs/>\n"
 "Language: cs\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -524,7 +523,7 @@ msgstr "Nastavte tuto kameru"
 msgid "preni instantaron"
 msgstr "Udělejte si okamžik"
 
-#: motioneye/static/js/main.js:5121
+#: motioneye/static/js/main.js:5118
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "Ještě jste nenastavili žádnou kameru. Kliknutím sem přidáte jednu ..."
 

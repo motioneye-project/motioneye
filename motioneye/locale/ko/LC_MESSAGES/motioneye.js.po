@@ -7,11 +7,10 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-12 16:59+0200\n"
+"POT-Creation-Date: 2023-03-12 18:31+0000\n"
 "PO-Revision-Date: 2023-03-09 07:41+0000\n"
 "Last-Translator: \"David.Hong\" <gdavid0510@gmail.com>\n"
-"Language-Team: Korean <https://hosted.weblate.org/projects/motioneye-project/"
-"motioneye-javascript/ko/>\n"
+"Language-Team: Korean <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/ko/>\n"
 "Language: ko\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -386,29 +385,19 @@ msgstr "추가하려는 카메라"
 
 #: motioneye/static/js/main.js:3929
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
-msgstr ""
-"원격 motionEye카메라는 다른 motionEye 서버에 연결된 카메라로, 이 곳에 "
-"추가하여 멀리 떨어진 곳에 있는 카메라도 보고 관리할 수 있습니다."
+msgstr "원격 motionEye카메라는 다른 motionEye 서버에 연결된 카메라로, 이 곳에 추가하여 멀리 떨어진 곳에 있는 카메라도 보고 관리할 수 있습니다."
 
 #: motioneye/static/js/main.js:3944
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
-msgstr ""
-"네트워크 카메라(또는 IP카메라)는 RTSP/RTMP 또는 MJPEG형식의 영상이나 JPEG "
-"이미지를 자체적으로 송출합니다. 정확한 RTSP, RTMP, MJPEG 또는 JPEG URL은 각 "
-"장치의 설명서를 참조하십시오."
+msgstr "네트워크 카메라(또는 IP카메라)는 RTSP/RTMP 또는 MJPEG형식의 영상이나 JPEG 이미지를 자체적으로 송출합니다. 정확한 RTSP, RTMP, MJPEG 또는 JPEG URL은 각 장치의 설명서를 참조하십시오."
 
 #: motioneye/static/js/main.js:3949
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr "로컬 MMAL 카메라는 이 motionEye 시스템에 직결된 장치로, 대개 특정 보드 전용 "
-"카메라입니다."
+msgstr "로컬 MMAL 카메라는 이 motionEye 시스템에 직결된 장치로, 대개 특정 보드 전용 카메라입니다."
 
 #: motioneye/static/js/main.js:3964
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
-msgstr ""
-"네트워크 카메라 대신 MJPEG 카메라로 장치를 추가할 경우 초당 프레임 수는 "
-"증가하지만 움직임 감지, 사진 캡쳐와 영상 녹화는 사용할 수 없게 됩니다. "
-"카메라는 서버와 브라우저에서 볼 수 있습니다. 이 형식의 카메라는 Internet "
-"Explorer에서 사용할 수 없습니다."
+msgstr "네트워크 카메라 대신 MJPEG 카메라로 장치를 추가할 경우 초당 프레임 수는 증가하지만 움직임 감지, 사진 캡쳐와 영상 녹화는 사용할 수 없게 됩니다. 카메라는 서버와 브라우저에서 볼 수 있습니다. 이 형식의 카메라는 Internet Explorer에서 사용할 수 없습니다."
 
 #: motioneye/static/js/main.js:3969
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
@@ -534,7 +523,7 @@ msgstr "이 카메라 설정"
 msgid "preni instantaron"
 msgstr "스냅샷 촬영"
 
-#: motioneye/static/js/main.js:5121
+#: motioneye/static/js/main.js:5118
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "설정된 카메라가 없습니다. 여기를 클릭해서 생성하세요."
 
