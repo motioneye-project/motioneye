@@ -5110,9 +5110,6 @@ function recreateCameraFrames(cameras) {
             addCameraFrameUi(camera);
         }
 
-        /* overlay is always hidden after creating the frames */
-        hideCameraOverlay();
-
         var query = splitUrl().params;
         if ($('#cameraSelect').find('option').length < 2 && isAdmin() && !query.camera_ids) {
             /* invite the user to add a camera */
