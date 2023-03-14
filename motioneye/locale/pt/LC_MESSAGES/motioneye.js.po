@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-12 18:31+0000\n"
-"PO-Revision-Date: 2023-03-12 16:59+0000\n"
-"Last-Translator: MichaIng <micha@dietpi.com>\n"
+"PO-Revision-Date: 2023-03-14 19:38+0000\n"
+"Last-Translator: \"Lincoln H.\" <4k4ze5s44tgi@opayq.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
@@ -432,7 +432,6 @@ msgid "30 sekundoj"
 msgstr "30 segundos"
 
 #: motioneye/static/js/main.js:4203
-#, fuzzy
 msgid "minuto"
 msgstr "minuto"
 
