@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-01 18:26+0000\n"
-"PO-Revision-Date: 2023-03-24 05:34+0000\n"
+"PO-Revision-Date: 2023-03-25 13:41+0000\n"
 "Last-Translator: Ziteng <765484893@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/zh_Hans/>\n"
 "Language: zh\n"
@@ -16,16 +16,16 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.16.2-dev\n"
+"X-Generator: Weblate 4.17-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "收到中断信号，关闭…"
+msgstr "收到中断信号，关闭中…"
 
 #: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr "smb共享需要root权限"
+msgstr "SMB共享需要root权限"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
