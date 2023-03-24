@@ -8,16 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-01 18:26+0000\n"
-"PO-Revision-Date: 2022-09-07 13:22+0000\n"
+"PO-Revision-Date: 2023-03-24 05:34+0000\n"
 "Last-Translator: Ziteng <765484893@qq.com>\n"
-"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/"
-"motioneye-project/motioneye-python-texts/zh_Hans/>\n"
+"Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/zh_Hans/>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -57,147 +56,118 @@ msgid "wsswitch komenciĝis"
 msgstr "wsswitch 已启动"
 
 #: motioneye/server.py:442
-#, fuzzy
 msgid "taskoj komenciĝis"
-msgstr "任务开始"
+msgstr "任务已开始"
 
 #: motioneye/server.py:446
-#, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr "mjpg客户垃圾收集器已启动"
+msgstr "mjpg客户端垃圾回收已启动"
 
 #: motioneye/server.py:464
-#, fuzzy
 msgid "servilo komenciĝis"
-msgstr "服务器启动"
+msgstr "服务器已启动"
 
 #: motioneye/server.py:470
-#, fuzzy
 msgid "servilo haltis"
 msgstr "服务器已停止"
 
 #: motioneye/server.py:472
-#, fuzzy
 msgid "taskoj haltis"
 msgstr "任务已停止"
 
 #: motioneye/server.py:480
-#, fuzzy
 msgid "motion haltis"
-msgstr "动作停止"
+msgstr "motion已停止"
 
 #: motioneye/server.py:485
-#, fuzzy
 msgid "adiaŭ!"
 msgstr "再见！"
 
 #: motioneye/templates/main.html:104
-#, fuzzy
 msgid "agordojn"
-msgstr "设定"
+msgstr "设置"
 
 #: motioneye/templates/main.html:105
-#, fuzzy
 msgid "ŝanĝi uzanton"
-msgstr "变更使用者"
+msgstr "切换用户"
 
 #: motioneye/templates/main.html:107
-#, fuzzy
 msgid "forigi kameraon"
-msgstr "移除相机"
+msgstr "移除摄像头"
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
 msgstr "应用修改"
 
 #: motioneye/templates/main.html:127
-#, fuzzy
 msgid "preferoj de uzanto"
 msgstr "用户偏好"
 
 #: motioneye/templates/main.html:128
-#, fuzzy
 msgid "Preferoj"
 msgstr "偏好设定"
 
 #: motioneye/templates/main.html:133
-#, fuzzy
 msgid "Aranĝo Kolumnoj"
-msgstr "布局列"
+msgstr "布局列数"
 
 #: motioneye/templates/main.html:135
-#, fuzzy
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr "设置用于排列摄像机的列数"
+msgstr "设置摄像头显示列数"
 
 #: motioneye/templates/main.html:138
-#, fuzzy
 msgid "Fiksi Kadrojn Vertikale"
-msgstr "垂直设置框架"
+msgstr "适应摄像头高度"
 
 #: motioneye/templates/main.html:140
-#, fuzzy
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
-msgstr "控制是否可以减少帧时间以垂直适合窗口"
+msgstr "是否可以自动调整图像大小以垂直适合窗口"
 
 #: motioneye/templates/main.html:143
-#, fuzzy
 msgid "Aranĝo linioj"
-msgstr "布局线"
+msgstr "布局行数"
 
 #: motioneye/templates/main.html:145
-#, fuzzy
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr "设置用于排列摄像机的行数"
+msgstr "设置摄像头显示行数"
 
 #: motioneye/templates/main.html:148
-#, fuzzy
 msgid "kadro-variatoro"
-msgstr "框架变速器"
+msgstr "帧率调节"
 
 #: motioneye/templates/main.html:150
-#, fuzzy
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
-msgstr "降低帧速率以节省网络带宽和流量（不适用于简单的MJPEG相机）"
+msgstr "降低帧率以节省网络带宽和流量（不适用于通用MJPEG摄像头）"
 
 #: motioneye/templates/main.html:153
-#, fuzzy
 msgid "Rezolucio-variatoro"
-msgstr "分辨率转换器"
+msgstr "分辨率调节"
 
 #: motioneye/templates/main.html:155
-#, fuzzy
 msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
-msgstr ""
-"降低所有摄像机的有效分辨率以节省网络带宽和流量（不适用于简单的MJPEG摄像机）"
+msgstr "降低所有摄像头的分辨率以节省网络带宽和流量（不适用于通用MJPEG摄像头）"
 
 #: motioneye/templates/main.html:161
-#, fuzzy
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
-msgstr "通用参数，适用于所有相机"
+msgstr "通用参数，适用于所有摄像头"
 
 #: motioneye/templates/main.html:162
-#, fuzzy
 msgid "Ĝeneralaj Agordoj"
 msgstr "常规设置"
 
 #: motioneye/templates/main.html:167
-#, fuzzy
 msgid "Lingvo"
 msgstr "语言"
 
 #: motioneye/templates/main.html:173
-#, fuzzy
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr "界面的语言（两个字母）"
+msgstr "界面的语言"
 
 #: motioneye/templates/main.html:176
-#, fuzzy
 msgid "Administranto"
 msgstr "管理员"
 
 #: motioneye/templates/main.html:178
-#, fuzzy
 msgid "la uzantnomo uzata por agordi la sistemon"
 msgstr "用于配置系统的用户名"
 
@@ -207,1760 +177,1366 @@ msgid "Pasvorto"
 msgstr "密码"
 
 #: motioneye/templates/main.html:183
-#, fuzzy
 msgid "pasvorto de administranto"
 msgstr "管理员密码"
 
 #: motioneye/templates/main.html:186
-#, fuzzy
 msgid "Observanto"
-msgstr "观察者"
+msgstr "监控用户名"
 
 #: motioneye/templates/main.html:188
-#, fuzzy
 msgid "la uzantnomo por uzi por la monitorado"
-msgstr "用于监视的用户名"
+msgstr "用于视频监控的用户名"
 
 #: motioneye/templates/main.html:193
-#, fuzzy
 msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "监视用户的密码（留空以不使用密码进行监视）"
+msgstr "监控用户的密码（留空以不使用密码进行监控）"
 
 #: motioneye/templates/main.html:202
-#, fuzzy
 msgid "motionEye Versio"
 msgstr "motionEye版本"
 
 #: motioneye/templates/main.html:206
-#, fuzzy
 msgid "Motion Versio"
-msgstr "运动版"
+msgstr "Motion版本"
 
 #: motioneye/templates/main.html:210
-#, fuzzy
 msgid "Operaciumo Versio"
-msgstr "作业系统版本"
+msgstr "操作系统版本"
 
 #: motioneye/templates/main.html:215
-#, fuzzy
 msgid "Programara Ĝisdatigo"
 msgstr "软件更新"
 
 #: motioneye/templates/main.html:217
-#, fuzzy
 msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
-msgstr "检查新版本并执行更新"
+msgstr "检查新版本并更新"
 
 #: motioneye/templates/main.html:221
-#, fuzzy
 msgid "Nutro"
-msgstr "食物"
+msgstr "电源"
 
 #: motioneye/templates/main.html:222
-#, fuzzy
 msgid "Fermu"
-msgstr "关门"
+msgstr "关机"
 
 #: motioneye/templates/main.html:223
-#, fuzzy
 msgid "malŝaltas la sistemon"
 msgstr "关闭系统"
 
 #: motioneye/templates/main.html:227
-#, fuzzy
 msgid "Rekomencu"
 msgstr "重新启动"
 
 #: motioneye/templates/main.html:228
-#, fuzzy
 msgid "rekomencas la sistemon"
 msgstr "重新启动系统"
 
 #: motioneye/templates/main.html:234
-#, fuzzy
 msgid "Agordo"
-msgstr "构型"
+msgstr "配置"
 
 #: motioneye/templates/main.html:235
-#, fuzzy
 msgid "Sekurkopio"
-msgstr "后备"
+msgstr "备份"
 
 #: motioneye/templates/main.html:236
-#, fuzzy
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
-msgstr "创建具有当前配置的文件，以便您可以将其保存在本地"
+msgstr "创建当前配置的备份文件到本地"
 
 #: motioneye/templates/main.html:240
-#, fuzzy
 msgid "Restaŭri"
-msgstr "恢复原状"
+msgstr "重置"
 
 #: motioneye/templates/main.html:241
-#, fuzzy
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
-msgstr "从先前保存的备份文件中恢复配置"
+msgstr "从保存的备份文件中恢复配置"
 
 #: motioneye/templates/main.html:265
-#, fuzzy
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
-msgstr "如果要使用此相机，请激活此功能"
+msgstr "开启此选项以使用此相机"
 
 #: motioneye/templates/main.html:266
-#, fuzzy
 msgid "Video-Aparato"
 msgstr "视频设备"
 
 #: motioneye/templates/main.html:271 motioneye/templates/main.html:614
 #: motioneye/templates/main.html:631
-#, fuzzy
 msgid "Kamerao Nomo"
-msgstr "相机名称"
+msgstr "摄像头名称"
 
 #: motioneye/templates/main.html:272
-#, fuzzy
 msgid "kameraa nomo…"
-msgstr "相机名称..."
+msgstr "相机名称…"
 
 #: motioneye/templates/main.html:273
-#, fuzzy
 msgid "alias pri ĉi tiu kamera aparato"
-msgstr "此相机设备上的别名"
+msgstr "摄像头设备的别名"
 
 #: motioneye/templates/main.html:276
-#, fuzzy
 msgid "Kamerao ID"
-msgstr "相机编号"
+msgstr "摄像头编号"
 
 #: motioneye/templates/main.html:278
-#, fuzzy
 msgid "la kamerao identiga numero"
-msgstr "相机识别号"
+msgstr "摄像头识别号"
 
 #: motioneye/templates/main.html:281
-#, fuzzy
 msgid "Kamerao aparato"
-msgstr "摄影机"
+msgstr "摄像头设备"
 
 #: motioneye/templates/main.html:283
-#, fuzzy
 msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
-msgstr ""
-"输入设备（例如：/ dev / video）或URL（例如：rtsp：//192.168.1.1/stream）"
+msgstr "输入设备（例如：/dev/video）或URL（例如：rtsp://192.168.1.1/stream）"
 
 #: motioneye/templates/main.html:286
-#, fuzzy
 msgid "Kamerao Tipo"
-msgstr "摄影机类型"
+msgstr "摄像头类型"
 
 #: motioneye/templates/main.html:293
-#, fuzzy
 msgid "Aŭtomata Brilo"
 msgstr "自动亮度"
 
 #: motioneye/templates/main.html:295
-#, fuzzy
 msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
-msgstr "启用自动防眩光软件（建议仅用于不具有自动防眩光的相机）"
+msgstr "启用自动调光（建议仅用于不具有自动亮度的相机）"
 
 #: motioneye/templates/main.html:301
-#, fuzzy
 msgid "Video-rezolucio"
 msgstr "视频分辨率"
 
 #: motioneye/templates/main.html:306
-#, fuzzy
 msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
-msgstr ""
-"视频分辨率（更大的值产生更好的质量，但需要更多的CPU能力，更大的存储和带宽）"
+msgstr "视频分辨率（值越大质量越好，但更消耗CPU、存储和网络带宽）"
 
 #: motioneye/templates/main.html:309
-#, fuzzy
 msgid "Larĝeco"
-msgstr "幅宽"
+msgstr "宽度"
 
 #: motioneye/templates/main.html:311
-#, fuzzy
 msgid "enigu kutiman rezolucian larĝon"
 msgstr "输入自定义分辨率宽度"
 
 #: motioneye/templates/main.html:314
-#, fuzzy
 msgid "Alteco"
-msgstr "身高"
+msgstr "高度"
 
 #: motioneye/templates/main.html:316
-#, fuzzy
 msgid "enigu kutiman rezolucian altecon"
 msgstr "输入自定义分辨率高度"
 
 #: motioneye/templates/main.html:319
-#, fuzzy
 msgid "Video-Rotacio"
 msgstr "视频旋转"
 
 #: motioneye/templates/main.html:328
-#, fuzzy
 msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
-msgstr "如果您的相机放置不正确，请使用此按钮旋转捕获的图像"
+msgstr "如果您的摄像头旋转不正确，请使用此旋转捕获的图像"
 
 #: motioneye/templates/main.html:331
-#, fuzzy
 msgid "Kadrofrekvenco"
-msgstr "影格速率"
+msgstr "帧率"
 
 #: motioneye/templates/main.html:333
-#, fuzzy
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
-msgstr ""
-"设置相机每秒捕获的帧数（较高的值可产生更流畅的视频，但需要更多的CPU能力，更大"
-"的存储量和带宽）"
+msgstr "设置摄像头每秒捕获的帧数（值越高视频越流畅，但更消耗CPU、存储和网络带宽）"
 
 #: motioneye/templates/main.html:339
-#, fuzzy
 msgid "Privateca masko"
 msgstr "隐私遮罩"
 
 #: motioneye/templates/main.html:341
-#, fuzzy
 msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
-msgstr "启用图像遮罩以避免记录某些图像区域以保护隐私"
+msgstr "启用图像遮罩以避免某些图像区域被记录以保护隐私"
 
 #: motioneye/templates/main.html:346 motioneye/templates/main.html:1007
-#, fuzzy
 msgid "Redakti maskon"
 msgstr "编辑遮罩"
 
 #: motioneye/templates/main.html:347 motioneye/templates/main.html:1008
-#, fuzzy
 msgid "Konservi maskon"
-msgstr "保持口罩"
+msgstr "保存遮罩"
 
 #: motioneye/templates/main.html:350
-#, fuzzy
 msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
-msgstr "单击此按钮启用/禁用蒙版编辑器"
+msgstr "单击此按钮启用/禁用遮罩编辑器"
 
 #: motioneye/templates/main.html:361
-#, fuzzy
 msgid "Ekstraj Elektoj"
-msgstr "额外的选择"
+msgstr "扩展选项"
 
 #: motioneye/templates/main.html:363
-#, fuzzy
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr ""
-"您可以在此处添加任何其他选项，以获取“运动”恶魔（使用“名称值”格式，每行一个选"
-"项）"
+msgstr "您可以在此为motion守护进程添加任何其他选项（使用“name value”格式，每行一个）"
 
 #: motioneye/templates/main.html:372
-#, fuzzy
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
-msgstr "选择存储媒体的位置和方式"
+msgstr "选择媒体的存储位置和方式"
 
 #: motioneye/templates/main.html:373
-#, fuzzy
 msgid "Stokado de dosieroj"
-msgstr "档案储存"
+msgstr "文件存储"
 
 #: motioneye/templates/main.html:378
-#, fuzzy
 msgid "Stokada Aparato"
-msgstr "储存装置"
+msgstr "存储设备"
 
 #: motioneye/templates/main.html:383
-#, fuzzy
 msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
 msgstr "表示将要存储图像和视频文件的存储设备"
 
 #: motioneye/templates/main.html:386
-#, fuzzy
 msgid "Retservilo"
-msgstr "Web服务器"
+msgstr "网络服务器"
 
 #: motioneye/templates/main.html:388
-#, fuzzy
 msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
-msgstr "Web服务器地址（IP地址或名称）"
+msgstr "网络服务器地址（IP地址或名称）"
 
 #: motioneye/templates/main.html:391
-#, fuzzy
 msgid "SMB Protokolo-Versio"
 msgstr "SMB协议版本"
 
 #: motioneye/templates/main.html:401
-#, fuzzy
 msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
-msgstr ""
-"选择您可以使用的SMB版本（测试不同的选项，然后查看哪种版本最适合您的NAS）"
+msgstr "选择您可以使用的SMB版本（测试不同的选项，然后查看哪种版本最适合您的NAS）"
 
 #: motioneye/templates/main.html:404
-#, fuzzy
 msgid "Kunhava nomo"
-msgstr "共用名"
+msgstr "共享名称"
 
 #: motioneye/templates/main.html:406
-#, fuzzy
 msgid "la nomo de la interŝanĝa reto"
-msgstr "交换网络的名称"
+msgstr "网络共享的名称"
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
 msgstr "用户名"
 
 #: motioneye/templates/main.html:411
-#, fuzzy
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
-msgstr "访问网络目录时要提供的用户名（如果不需要用户名，请保留空白）"
+msgstr "访问网络共享时要提供的用户名（如果不需要用户名，请保留空白）"
 
 #: motioneye/templates/main.html:414
-#, fuzzy
 msgid "Pasvorton"
-msgstr "密码"
+msgstr "网络共享密码"
 
 #: motioneye/templates/main.html:416
-#, fuzzy
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
-msgstr "网络目录所需的密码（如果不需要密码，请留空）"
+msgstr "网络共享所需的密码（如果不需要密码，请留空）"
 
 #: motioneye/templates/main.html:419
-#, fuzzy
 msgid "Radika dosierujo"
 msgstr "根目录"
 
 #: motioneye/templates/main.html:421
-#, fuzzy
 msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
-msgstr "将在其中存储文件的根路径（在所选存储设备上）"
+msgstr "用于存储文件的根路径（在所选存储设备上）"
 
 #: motioneye/templates/main.html:425
-#, fuzzy
 msgid "Testi la reton dosierujon"
-msgstr "测试网络目录"
+msgstr "测试网络共享"
 
 #: motioneye/templates/main.html:426
-#, fuzzy
 msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
-msgstr "填写所需的详细信息后，请单击此按钮以测试网络连接"
+msgstr "填写所需的详细信息后，请单击此按钮以测试网络共享连接"
 
 #: motioneye/templates/main.html:432
-#, fuzzy
 msgid "Uzado de Disko"
 msgstr "磁盘使用率"
 
 #: motioneye/templates/main.html:436
-#, fuzzy
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr "根目录所在的驱动器的大小/大小"
+msgstr "根目录所在磁盘已用空间/所有空间大小"
 
 #: motioneye/templates/main.html:442
-#, fuzzy
 msgid "Alŝutu Mediajn Dosierojn"
 msgstr "上传媒体文件"
 
 #: motioneye/templates/main.html:444
-#, fuzzy
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
 msgstr "如果您希望将媒体上传到外部服务，请激活此选项"
 
 #: motioneye/templates/main.html:447
-#, fuzzy
 msgid "Alŝutu Bildojn"
-msgstr "上传图片"
+msgstr "上传图像"
 
 #: motioneye/templates/main.html:449
-#, fuzzy
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
-msgstr "如果要将图像下载到外部服务，请激活此选项"
+msgstr "如果要将图像上传到外部服务，请激活此选项"
 
 #: motioneye/templates/main.html:452
-#, fuzzy
 msgid "Alŝutu Filmojn"
-msgstr "上传电影"
+msgstr "上传视频"
 
 #: motioneye/templates/main.html:454
-#, fuzzy
 msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
 msgstr "如果要将视频上传到外部服务，请启用此功能"
 
 #: motioneye/templates/main.html:457
-#, fuzzy
 msgid "Alŝuta Servo"
-msgstr "上载服务"
+msgstr "上传服务"
 
 #: motioneye/templates/main.html:460
-#, fuzzy
 msgid "Servilo FTP"
 msgstr "FTP服务器"
 
 #: motioneye/templates/main.html:461
-#, fuzzy
 msgid "Servilo SFTP"
 msgstr "SFTP服务器"
 
 #: motioneye/templates/main.html:462
-#, fuzzy
 msgid "Servilo HTTP"
 msgstr "HTTP服务器"
 
 #: motioneye/templates/main.html:463
-#, fuzzy
 msgid "Servilo HTTPS"
 msgstr "HTTPS服务器"
 
 #: motioneye/templates/main.html:471
-#, fuzzy
 msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
-msgstr "选择将媒体文件上传到的服务"
+msgstr "选择要将媒体文件上传哪个服务"
 
 #: motioneye/templates/main.html:474
-#, fuzzy
 msgid "Servila Adreso"
 msgstr "服务器地址"
 
 #: motioneye/templates/main.html:476
-#, fuzzy
 msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
-msgstr "服务器的域名或IP地址（例如ftp.example.com或192.168.1.3）"
+msgstr "服务器的域名或IP地址（例如：ftp.example.com或192.168.1.3）"
 
 #: motioneye/templates/main.html:479
-#, fuzzy
 msgid "Servila haveno"
 msgstr "服务器端口"
 
 #: motioneye/templates/main.html:481
-#, fuzzy
 msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
-msgstr "用于连接到服务的端口（将此字段保留为空白以使用默认值）"
+msgstr "用于连接到服务的端口（将此字段留空以使用默认值）"
 
 #: motioneye/templates/main.html:484
-#, fuzzy
 msgid "Metodo"
-msgstr "方法"
+msgstr "方式"
 
 #: motioneye/templates/main.html:491
-#, fuzzy
 msgid "la HTTP-metodo uzi por alŝuti dosierojn"
 msgstr "用于上传文件的HTTP方法"
 
 #: motioneye/templates/main.html:494
-#, fuzzy
 msgid "Finpunkto URL"
 msgstr "端点URL"
 
 #: motioneye/templates/main.html:496
-#, fuzzy
 msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr "上传服务器端点的完整URL："
 
 #: motioneye/templates/main.html:497
-#, fuzzy
 msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
-msgstr "对于S3：例如http：//my.minio：9000。将其空白为AWS！"
+msgstr "对于S3：例如http://my.minio:9000。如果是AWS请留空！"
 
 #: motioneye/templates/main.html:498
-#, fuzzy
 msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
 msgstr "对于WebDav：例如https://my.cloud/remote.php/dav/files/me/"
 
 #: motioneye/templates/main.html:501
-#, fuzzy
 msgid "Loko"
-msgstr "所在位置"
+msgstr "位置"
 
 #: motioneye/templates/main.html:503
-#, fuzzy
 msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
-msgstr "应该上载媒体的位置（根路径）（例如/ files / cam1 /）"
+msgstr "媒体上传的位置（根路径，例如/files/cam1//）"
 
 #: motioneye/templates/main.html:506
-#, fuzzy
 msgid "Inkluzivi Subdosierujojn"
-msgstr "包括子文件夹"
+msgstr "包括子目录"
 
 #: motioneye/templates/main.html:508
-#, fuzzy
 msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
-msgstr ""
-"激活此选项可以下载带有子目录的多媒体文件，而不是直接将它们放置在根目录中"
+msgstr "激活此选项可以上传多媒体文件及其目录结构，而不是直接将它们放置在根目录中"
 
 #: motioneye/templates/main.html:511
-#, fuzzy
 msgid "Purigi la nubon"
-msgstr "清洁云"
+msgstr "清理云"
 
 #: motioneye/templates/main.html:513
-#, fuzzy
 msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
-msgstr ""
-"启用此选项还可以根据文件持久性设置删除本地媒体时删除上传到云的媒体文件。当"
-"前，此选项仅适用于gdrive。"
+msgstr "启用此选项可根据文件持久性设置删除本地媒体和上传到云的媒体文件，此选项当前仅适用于gdrive。"
 
 #: motioneye/templates/main.html:518
-#, fuzzy
 msgid "la uzantnomo por la alŝuta servo-konto"
 msgstr "上传服务帐户的用户名"
 
 #: motioneye/templates/main.html:523
-#, fuzzy
 msgid "la pasvorto por la alŝuta servo-konto"
 msgstr "上传服务帐户的密码"
 
 #: motioneye/templates/main.html:526
-#, fuzzy
 msgid "Rajtiga ŝlosilo"
 msgstr "授权密钥"
 
 #: motioneye/templates/main.html:528
-#, fuzzy
 msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "用于通过上传服务进行身份验证的密钥（通常仅在配置过程中需要）"
+msgstr "密钥用于上传服务的身份验证（通常仅用于配置过程）"
 
 #: motioneye/templates/main.html:534
-#, fuzzy
 msgid "Akiri ŝlosilon"
-msgstr "取得钥匙"
+msgstr "取得秘钥"
 
 #: motioneye/templates/main.html:537
-#, fuzzy
 msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
-msgstr "单击此处获得密钥授权服务"
+msgstr "单击此处获得服务授权密钥"
 
 #: motioneye/templates/main.html:540
-#, fuzzy
 msgid "Access Key"
 msgstr "访问密钥"
 
 #: motioneye/templates/main.html:542
-#, fuzzy
 msgid "The AWS access key used to authenticate with the upload service"
-msgstr "AWS访问密钥用于使用上传服务进行身份验证"
+msgstr "AWS访问密钥用于上传服务的身份验证"
 
 #: motioneye/templates/main.html:545
-#, fuzzy
 msgid "Sekreta Alira Ŝlosilo"
-msgstr "秘密访问密钥"
+msgstr "访问秘钥"
 
 #: motioneye/templates/main.html:547
-#, fuzzy
 msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "用于通过上传服务进行身份验证的AWS秘密访问密钥（通常仅在配置期间需要）"
+msgstr "AWS访问密钥用于上传服务的身份验证（通常仅用于配置过程）"
 
 #: motioneye/templates/main.html:550
-#, fuzzy
 msgid "Sitelo"
-msgstr "桶"
+msgstr "存储桶"
 
 #: motioneye/templates/main.html:552
-#, fuzzy
 msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "上传服务的名称S3存储桶（通常仅在配置期间需要）"
+msgstr "用于上传服务的S3存储桶的名称（通常仅用于配置过程）"
 
 #: motioneye/templates/main.html:556
-#, fuzzy
 msgid "Testi la servon"
 msgstr "测试服务"
 
 #: motioneye/templates/main.html:557
-#, fuzzy
 msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
-msgstr "填写所需的详细信息后，请点击此按钮以测试上传服务"
+msgstr "填写所需的信息后，请点击此按钮以测试上传服务"
 
 #: motioneye/templates/main.html:563
-#, fuzzy
 msgid "alvoki URL"
-msgstr "调用URL"
+msgstr "调用Web Hook"
 
 #: motioneye/templates/main.html:565
-#, fuzzy
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "如果要在创建媒体文件后请求URL，请启用此选项"
 
 #: motioneye/templates/main.html:568 motioneye/templates/main.html:1136
 #: motioneye/templates/main.html:1181
-#, fuzzy
 msgid "Reteja URL"
-msgstr "网站网址"
+msgstr "Web Hook URL"
 
 #: motioneye/templates/main.html:569
-#, fuzzy
 msgid "ekz. http://example.com/notify/"
-msgstr "例如http://example.com/notify/"
+msgstr "例如 http://example.com/notify/"
 
 #: motioneye/templates/main.html:570
-#, fuzzy, python-format
+#, python-format
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
-msgstr ""
-"检测到运动时要传输的URL；接受以下特殊快捷方式：%% Y =年，%% m =月，%% d ="
-"日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，%% f =文件"
-"路径"
+msgstr "检测到运动时要传输的URL，接受以下特殊快捷方式：%% Y = 年，%% m = 月，%% d = 日，%% H = 小时，%% M = 分钟，%% S = 秒，%% q = 帧号， %% v = 事件编号，%% f = 文件路径"
 
 #: motioneye/templates/main.html:573 motioneye/templates/main.html:1141
 #: motioneye/templates/main.html:1186
-#, fuzzy
 msgid "Metodo HTTP"
 msgstr "HTTP方法"
 
 #: motioneye/templates/main.html:582
-#, fuzzy
 msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
-msgstr ""
-"请求网络挂钩URL时要使用的HTTP方法（给定的URL编码参数实际上将按此处指示的方式"
-"传递）"
+msgstr "请求Web Hook URL时要使用的HTTP方法（给定的URL编码参数实际上将按此处指示的方式传递）"
 
 #: motioneye/templates/main.html:588
-#, fuzzy
 msgid "Kuri Komando"
 msgstr "运行命令"
 
 #: motioneye/templates/main.html:590
-#, fuzzy
 msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
 msgstr "如果要在创建媒体文件后执行命令，请启用此功能"
 
 #: motioneye/templates/main.html:593
-#, fuzzy
 msgid "Ordono"
-msgstr "订购"
+msgstr "命令"
 
 #: motioneye/templates/main.html:594
-#, fuzzy
 msgid "ordono…"
-msgstr "命令 ..."
+msgstr "命令…"
 
 #: motioneye/templates/main.html:595
-#, fuzzy, python-format
+#, python-format
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
-msgstr ""
-"创建多媒体文件后要执行的命令。几个命令可以用分号隔开。不要在命令中使用分号；"
-"接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S "
-"=秒，%% q =帧号， %% v =事件编号，%% f =文件路径"
+msgstr "创建多媒体文件后要执行的命令。几个命令可以用分号隔开，不要在命令中使用分号，接受以下特殊标记：%% Y = 年，%% m = 月，%% d = 日，%% H = 小时，%% M = 分钟，%% S = 秒，%% q = 帧号， %% v = 事件编号，%% f = 文件路径"
 
 #: motioneye/templates/main.html:605
-#, fuzzy
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
-msgstr "选择在捕获的帧上显示什么信息"
+msgstr "选择在捕获的帧上显示的信息"
 
 #: motioneye/templates/main.html:606
-#, fuzzy
 msgid "Teksto Superkovrita"
 msgstr "文字重叠"
 
 #: motioneye/templates/main.html:611
-#, fuzzy
 msgid "Maldekstra Teksto"
-msgstr "左文字"
+msgstr "左侧文字"
 
 #: motioneye/templates/main.html:615 motioneye/templates/main.html:632
-#, fuzzy
 msgid "Tempostampo"
-msgstr "时间戳记"
+msgstr "时间戳"
 
 #: motioneye/templates/main.html:616 motioneye/templates/main.html:633
-#, fuzzy
 msgid "Propra Teksto"
-msgstr "自订文字"
+msgstr "自定义文字"
 
 #: motioneye/templates/main.html:617 motioneye/templates/main.html:634
 #: motioneye/templates/main.html:691
-#, fuzzy
 msgid "Malebligita"
-msgstr "残障人士"
+msgstr "禁用"
 
 #: motioneye/templates/main.html:620
-#, fuzzy
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
-msgstr "设置电影和图片上显示的文本，位于左下角"
+msgstr "设置视频和图像左下角显示的文本"
 
 #: motioneye/templates/main.html:624 motioneye/templates/main.html:641
-#, fuzzy
 msgid "propra teksto…"
-msgstr "自定义文字..."
+msgstr "自定义文字…"
 
 #: motioneye/templates/main.html:625
-#, fuzzy, python-format
+#, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr ""
-"定义自定义的左侧文本；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H ="
-"小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，%% T = HH：MM："
-"SS，\\ n =新行"
+"自定义左侧文本；接受以下特殊标记：%% Y = 年，%% m = 月，%% d = 日，%% H = 小时，%% M = 分钟，%% S = 秒，%% q = 帧号， %% v = 事件编号，%% T = HH:MM:SS，\\n"
+" = 新行"
 
 #: motioneye/templates/main.html:628
-#, fuzzy
 msgid "Dekstra Teksto"
-msgstr "正确的文字"
+msgstr "右侧文字"
 
 #: motioneye/templates/main.html:637
-#, fuzzy
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
-msgstr "设置在电影和图片上右下角显示的文本"
+msgstr "设置在视频和图像右下角显示的文本"
 
 #: motioneye/templates/main.html:642
-#, fuzzy, python-format
+#, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr ""
-"定义自定义权限文本；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小"
-"时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，%% T = HH：MM：SS，\\ "
-"n =新行"
+"自定义右侧文本；接受以下特殊标记：%% Y = 年，%% m = 月，%% d = 日，%% H = 小时，%% M = 分钟，%% S = 秒，%% q = 帧号， %% v =事件编号，%% T = HH:MM:SS，\\n"
+" = 新行"
 
 #: motioneye/templates/main.html:645
-#, fuzzy
 msgid "Teksta Skalo"
 msgstr "文字比例"
 
 #: motioneye/templates/main.html:647
-#, fuzzy
 msgid "Difinas la grandecon de la superkovrita teksto"
-msgstr "定义叠加文字的大小"
+msgstr "定义文字重叠的大小"
 
 #: motioneye/templates/main.html:657
-#, fuzzy
 msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
-msgstr "如果要为此摄像机的视频流启用此功能"
+msgstr "如果您想要此摄像头的视频流，请启用此功能"
 
 #: motioneye/templates/main.html:658
-#, fuzzy
 msgid "Videofluo"
 msgstr "视频流"
 
 #: motioneye/templates/main.html:663
-#, fuzzy
 msgid "Framo frekvencon"
-msgstr "帧频"
+msgstr "流帧率"
 
 #: motioneye/templates/main.html:665
-#, fuzzy
 msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
 msgstr "设置实时流中每秒传输的帧数。"
 
 #: motioneye/templates/main.html:668
-#, fuzzy
 msgid "Flua Kvalito"
-msgstr "流质"
+msgstr "流质量"
 
 #: motioneye/templates/main.html:670
-#, fuzzy
 msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
-msgstr "调整实时流质量（较高的值可产生更好的视频质量，但需要更多的带宽）。"
+msgstr "设置实时流质量（值越高视频质量越好，但消耗更多的带宽）。"
 
 #: motioneye/templates/main.html:673
-#, fuzzy
 msgid "Bilda Redimensionado"
-msgstr "图像调整大小"
+msgstr "流图像大小调整"
 
 #: motioneye/templates/main.html:675
-#, fuzzy
 msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
-msgstr ""
-"启用此功能后，将调整图像的大小，然后将其发送到浏览器（在低速CPU上运行时禁"
-"用）。"
+msgstr "启用此功能后将调整图像的大小并将其发送到浏览器（在低速CPU上运行时禁用）。"
 
 #: motioneye/templates/main.html:678
-#, fuzzy
 msgid "Flua rezolucio"
-msgstr "流量分辨率"
+msgstr "流分辨率"
 
 #: motioneye/templates/main.html:680
-#, fuzzy
 msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
-msgstr ""
-"以视频设备分辨率的百分比形式给出的分辨率（较高的值产生更好的视频质量，但需要"
-"更多的带宽）"
+msgstr "以视频设备分辨率的百分比形式给出的分辨率（值越高视频质量越好，但消耗更多的带宽）"
 
 #: motioneye/templates/main.html:683
-#, fuzzy
 msgid "Flua haveno"
-msgstr "流口"
+msgstr "流端口"
 
 #: motioneye/templates/main.html:685
-#, fuzzy
 msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
-msgstr "设置Web服务器正在侦听的TCP端口"
+msgstr "设置网络摄像头流服务监听的TCP端口"
 
 #: motioneye/templates/main.html:688
-#, fuzzy
 msgid "Aŭtentiga reĝimo"
 msgstr "认证方式"
 
 #: motioneye/templates/main.html:696
-#, fuzzy
 msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr ""
-"流使用的身份验证方法（如果遇到第三方程序问题，则选择“ Bazic”而不是“ "
-"Digest”）；将使用认可检查"
+msgstr "流使用的身份验证方法（如果遇到第三方程序问题，则选择基础模式而不是消费模式）。监控认证将会被使用"
 
 #: motioneye/templates/main.html:699
-#, fuzzy
 msgid "Movado-Optimigo"
 msgstr "运动优化"
 
 #: motioneye/templates/main.html:701
-#, fuzzy
 msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
-msgstr "如果您希望在未检测到运动的情况下为传输流设置较低的帧速率，请启用此选项"
+msgstr "如果您希望在未检测到运动的情况下为流传输设置较低的帧率，请启用此选项"
 
 #: motioneye/templates/main.html:707
-#, fuzzy
 msgid "Utilaj URLoj"
-msgstr "有用的网址"
+msgstr "可用的网址"
 
 #: motioneye/templates/main.html:710
-#, fuzzy
 msgid "Instantara URL"
-msgstr "即时网址"
+msgstr "快照网址"
 
 #: motioneye/templates/main.html:713
-#, fuzzy
 msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
-msgstr "提供JPEG图像并带有摄像机最新捕获内容的URL"
+msgstr "提供摄像头最新捕获的JPEG图像的URL"
 
 #: motioneye/templates/main.html:719
-#, fuzzy
 msgid "Flua URL"
 msgstr "流URL"
 
 #: motioneye/templates/main.html:722
-#, fuzzy
 msgid "URL kiu provizas MJPEG-fluon de la kamerao"
-msgstr "提供相机的MJPEG流的URL"
+msgstr "提供摄像头MJPEG流的URL"
 
 #: motioneye/templates/main.html:728
-#, fuzzy
 msgid "Enigita URL"
-msgstr "输入网址"
+msgstr "嵌入网址"
 
 #: motioneye/templates/main.html:731
-#, fuzzy
 msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
-msgstr "提供最小的HTML文档（包含相机框架）的URL，可随时嵌入"
+msgstr "提供包含摄像头信息的最小的HTML文档的URL，可随时嵌入"
 
 #: motioneye/templates/main.html:741
-#, fuzzy
 msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
 msgstr "如果要捕获静态图像，请启用此选项。"
 
 #: motioneye/templates/main.html:742
-#, fuzzy
 msgid "Kaptitaj Bildoj"
 msgstr "拍摄的图像"
 
 #: motioneye/templates/main.html:747
-#, fuzzy
 msgid "Nomo Bildo-Dosiero"
-msgstr "名称图像文件"
+msgstr "图像文件名称"
 
 #: motioneye/templates/main.html:748 motioneye/templates/main.html:817
-#, fuzzy
 msgid "dosiernomo ŝablono…"
-msgstr "文件名模板..."
+msgstr "文件名模板…"
 
 #: motioneye/templates/main.html:749
-#, fuzzy, python-format
+#, python-format
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr ""
-"定义JPEG文件的名称模板；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H "
-"=小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，/ =子目录。"
+msgstr "定义JPEG文件的名称模板；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，/ =子目录。"
 
 #: motioneye/templates/main.html:752
-#, fuzzy
 msgid "Bildkvalito"
-msgstr "画质"
+msgstr "图像质量"
 
 #: motioneye/templates/main.html:754
-#, fuzzy
 msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
 msgstr "设置JPEG图像质量（较高的值可产生更好的图像质量，但需要更多存储空间）"
 
 #: motioneye/templates/main.html:757
-#, fuzzy
 msgid "Kaptila reĝimo"
 msgstr "拍摄模式"
 
 #: motioneye/templates/main.html:760 motioneye/templates/main.html:880
-#, fuzzy
 msgid "Moviĝa deĉenigo"
 msgstr "运动触发"
 
 #: motioneye/templates/main.html:761
-#, fuzzy
 msgid "Moviĝa deĉenigo (Unu bildo)"
 msgstr "运动触发（一张图像）"
 
 #: motioneye/templates/main.html:762
-#, fuzzy
 msgid "Intertempe"
-msgstr "在此期间"
+msgstr "快照间隔"
 
 #: motioneye/templates/main.html:763
-#, fuzzy
 msgid "Ĉiuj bildoj"
-msgstr "所有图片"
+msgstr "所有帧"
 
 #: motioneye/templates/main.html:764
-#, fuzzy
 msgid "Mane"
-msgstr "鬃毛"
+msgstr "手动"
 
 #: motioneye/templates/main.html:767
-#, fuzzy
 msgid "Difinas la kapta reĝimon:"
-msgstr "定义捕获模式："
+msgstr "定义图像捕获模式："
 
 #: motioneye/templates/main.html:768
-#, fuzzy
 msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
-msgstr "运动触发器=每次检测到运动时捕获的图像，"
+msgstr "运动触发器=每次检测到运动时捕获图像，"
 
 #: motioneye/templates/main.html:769
-#, fuzzy
 msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
-msgstr "同时=每x秒捕获一次图像，"
+msgstr "快照间隔=每x秒捕获一次图像，"
 
 #: motioneye/templates/main.html:770
-#, fuzzy
 msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
 msgstr "所有图像=将每一帧保存在图像文件中，"
 
 #: motioneye/templates/main.html:771
-#, fuzzy
 msgid "Mane = mana kapto kun dediĉita butono."
-msgstr "鬃毛=用专用按钮抓手。"
+msgstr "手动=使用快照按钮手动捕获图像。"
 
 #: motioneye/templates/main.html:774
-#, fuzzy
 msgid "Interkapto-Intervalo"
-msgstr "拦截间隔"
+msgstr "快照间隔"
 
 #: motioneye/templates/main.html:775 motioneye/templates/main.html:888
 #: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
 #: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
-#, fuzzy
 msgid "sekundoj"
 msgstr "秒"
 
 #: motioneye/templates/main.html:776
-#, fuzzy
 msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
 msgstr "设置快照的间隔（以秒为单位）"
 
 #: motioneye/templates/main.html:779
-#, fuzzy
 msgid "Konservi bildojn"
 msgstr "保存图像"
 
 #: motioneye/templates/main.html:782 motioneye/templates/main.html:895
-#, fuzzy
 msgid "Dum unu tago"
-msgstr "一日"
+msgstr "一天"
 
 #: motioneye/templates/main.html:783 motioneye/templates/main.html:896
-#, fuzzy
 msgid "Dum unu semajno"
 msgstr "一周"
 
 #: motioneye/templates/main.html:784 motioneye/templates/main.html:897
-#, fuzzy
 msgid "Dum unu monato"
 msgstr "一个月"
 
 #: motioneye/templates/main.html:785 motioneye/templates/main.html:898
-#, fuzzy
 msgid "Dum unu jaro"
 msgstr "一年"
 
 #: motioneye/templates/main.html:786 motioneye/templates/main.html:899
-#, fuzzy
 msgid "Porĉiame"
-msgstr "永远"
+msgstr "永久"
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
 msgid "Propra"
 msgstr "自定义"
 
 #: motioneye/templates/main.html:790
-#, fuzzy
 msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
-msgstr "超过定义持续时间的图像将被自动删除以释放存储空间。"
+msgstr "超过定义留存时间的图像将被自动删除以释放存储空间。"
 
 #: motioneye/templates/main.html:793
-#, fuzzy
 msgid "Bildaj Vivdaŭro"
-msgstr "图片寿命"
+msgstr "图像寿命"
 
 #: motioneye/templates/main.html:795
-#, fuzzy
 msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
 msgstr "定义将自动删除图像的天数。"
 
 #: motioneye/templates/main.html:798
-#, fuzzy
 msgid "Ebligu manaj kaptoj"
-msgstr "启用手抓"
+msgstr "启用手动快照"
 
 #: motioneye/templates/main.html:800
-#, fuzzy
 msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
-msgstr "启用此功能后，相机框架上的按钮将允许您手动进行拍摄。"
+msgstr "启用此功能后，摄像头上的按钮将允许您手动进行拍摄。"
 
 #: motioneye/templates/main.html:810
-#, fuzzy
 msgid "ebligu ĉi tion, se vi volas registri filmojn"
-msgstr "如果要录制电影，请启用此功能"
+msgstr "如果要录制视频，请启用此功能"
 
 #: motioneye/templates/main.html:811
-#, fuzzy
 msgid "Filmoj"
-msgstr "电影"
+msgstr "视频"
 
 #: motioneye/templates/main.html:816
-#, fuzzy
 msgid "Filma Dosiernomo"
-msgstr "电影文件名"
+msgstr "视频文件名"
 
 #: motioneye/templates/main.html:818
-#, fuzzy, python-format
+#, python-format
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
-msgstr ""
-"定义电影文件的名称模板；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H "
-"=小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，/ =子目录。"
+msgstr "定义视频文件的名称模板；接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号， %% v =事件编号，/ =子目录。"
 
 #: motioneye/templates/main.html:821
-#, fuzzy
 msgid "Rekta kopia filmeto"
-msgstr "直接复制视频"
+msgstr "视频直通"
 
 #: motioneye/templates/main.html:823
-#, fuzzy
 msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
-msgstr ""
-"直接从相机创建电影。此选项应减少CPU使用率，但增加内存需求。没有进行图像处理，"
-"因此文本重叠，隐私遮罩等。将不会出现在结果视频中。"
+msgstr "直接从摄像头创建视频。此选项应减少CPU使用率但增加内存需求。没有进行图像处理，因此文本重叠、隐私遮罩等将不会出现在结果视频中。"
 
 #: motioneye/templates/main.html:826
-#, fuzzy
 msgid "Filmformato"
-msgstr "电影格式"
+msgstr "视频格式"
 
 #: motioneye/templates/main.html:869
-#, fuzzy
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
-msgstr ""
-"自定义影片文件；并非所有格式都可以在所有系统上使用；如有疑问，请测试每种格"
-"式，然后选择最适合您视频的格式。"
+msgstr "设置视频文件格式。并非所有格式都保证在所有系统上可用；如有疑问，请测试每种格式，然后选择最适合您的视频格式。"
 
 #: motioneye/templates/main.html:872
-#, fuzzy
 msgid "Filma Kvalito"
-msgstr "电影质量"
+msgstr "视频质量"
 
 #: motioneye/templates/main.html:874
-#, fuzzy
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
 msgstr "设置MPEG视频质量（较高的值产生更好的视频质量，但需要更多的存储空间）。"
 
 #: motioneye/templates/main.html:877
-#, fuzzy
 msgid "Rekorda reĝimo"
-msgstr "记录方式"
+msgstr "录制模式"
 
 #: motioneye/templates/main.html:881
-#, fuzzy
 msgid "Kontinua registrado"
-msgstr "连续录音"
+msgstr "连续录制"
 
 #: motioneye/templates/main.html:884
-#, fuzzy
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
-msgstr ""
-"设置录制模式：“运动触发” =每当检测到运动时都会创建新电影，“连续录制” =一个大"
-"电影文件。"
+msgstr "设置录制模式：“运动触发” =每当检测到运动时都会创建新视频，“连续录制” =产生一个大视频文件。"
 
 #: motioneye/templates/main.html:887
-#, fuzzy
 msgid "Maksimuma filma daŭro"
-msgstr "电影最长时长"
+msgstr "最大视频时长"
 
 #: motioneye/templates/main.html:889
-#, fuzzy
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
-msgstr ""
-"设置电影的最大长度，以秒为单位；如果运动事件持续的时间更长，则将创建一个新的"
-"电影文件；使用0表示无限长度。"
+msgstr "设置视频的最大长度。以秒为单位，如果运动事件持续的时间更长，则将创建一个新的视频文件，使用0表示无限长度。"
 
 #: motioneye/templates/main.html:892
-#, fuzzy
 msgid "Konservi filmojn"
-msgstr "保存电影"
+msgstr "保存视频"
 
 #: motioneye/templates/main.html:903
-#, fuzzy
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
-msgstr "早于设定时长的电影将被自动删除以释放存储空间。"
+msgstr "超过留存时间的视频将被自动删除以释放存储空间。"
 
 #: motioneye/templates/main.html:906
-#, fuzzy
 msgid "Filmoj Vivdaŭro"
-msgstr "电影一生"
+msgstr "视频寿命"
 
 #: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
-#, fuzzy
 msgid "tagoj"
 msgstr "天"
 
 #: motioneye/templates/main.html:908
-#, fuzzy
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
-msgstr "设置将自动删除电影的天数。"
+msgstr "设置将自动删除视频的天数。"
 
 #: motioneye/templates/main.html:918
-#, fuzzy
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
-msgstr "激活此项以使用并配置设备以检测运动。"
+msgstr "激活此项以使用并配置motion的运动检测。"
 
 #: motioneye/templates/main.html:919
-#, fuzzy
 msgid "Movado-Detekto"
-msgstr "运动侦测"
+msgstr "运动检测"
 
 #: motioneye/templates/main.html:924
-#, fuzzy
 msgid "Kadra ŝanĝo sojlo"
-msgstr "帧变更阈值"
+msgstr "帧率变化阈值"
 
 #: motioneye/templates/main.html:926
-#, fuzzy
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
-msgstr ""
-"表示必须在两个连续的帧之间切换以检测运动的图像的最小百分比（较小的值可提供更"
-"灵敏的检测，但容易产生误报）。"
+msgstr "表示在两个连续的帧之间切换时用于检测运动的图像差异的最小百分比（较小的值可提供更灵敏的检测，但容易产生误报）。"
 
 #: motioneye/templates/main.html:929
-#, fuzzy
 msgid "Maksimuma ŝanĝo sojlo"
 msgstr "最大变化阈值"
 
 #: motioneye/templates/main.html:931
-#, fuzzy
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
-msgstr "设置在不再触发滚动的帧之间更改的像素数（0禁用边框）。"
+msgstr "设置帧之间改变的像素数量，超过该数量不再触发运动检测（0 禁用限制）。"
 
 #: motioneye/templates/main.html:934
-#, fuzzy
 msgid "Aŭtomata sojla agordo"
 msgstr "自动阈值设置"
 
 #: motioneye/templates/main.html:936
-#, fuzzy
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
-msgstr "启用它可以自动调整阈值。"
+msgstr "开启可自动调整阈值。"
 
 #: motioneye/templates/main.html:939
-#, fuzzy
 msgid "Aŭtomata bruo-detekto"
 msgstr "自动噪音检测"
 
 #: motioneye/templates/main.html:941
-#, fuzzy
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
 msgstr "启用此选项可自动调整噪音水平。"
 
 #: motioneye/templates/main.html:944
-#, fuzzy
 msgid "Bruo-nivelo"
 msgstr "噪音水平"
 
 #: motioneye/templates/main.html:946
-#, fuzzy
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
-msgstr "永久将噪音等级设定为设定值。"
+msgstr "手动设置噪音等级为固定值。"
 
 #: motioneye/templates/main.html:949
-#, fuzzy
 msgid "Detekto de lumaj ŝanĝoj"
-msgstr "检测光线变化"
+msgstr "光线变化检测"
 
 #: motioneye/templates/main.html:951
-#, fuzzy, python-format
+#, python-format
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
-msgstr ""
-"定义需要更改的图像百分比，以便将事件视为突然的光更改而不是运动（0 %%禁用该功"
-"能）。"
+msgstr "定义图像变化百分比，以便将事件视为灯光突然变化而不是检测到运动（0 %%禁用该功能）。"
 
 #: motioneye/templates/main.html:954
-#, fuzzy
 msgid "Makula filtrilo"
-msgstr "污点过滤器"
+msgstr "色斑过滤器"
 
 #: motioneye/templates/main.html:956
-#, fuzzy
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
-msgstr "通过在运动检测之前对帧应用点过滤器来启用此功能。"
+msgstr "启用此功能以在运动检测之前对帧应用色斑过滤器。"
 
 #: motioneye/templates/main.html:962
-#, fuzzy
 msgid "Senmovada daŭro"
-msgstr "连续运动"
+msgstr "运动间隔"
 
 #: motioneye/templates/main.html:964
-#, fuzzy
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
-msgstr "设置标记运动事件结束的静默秒数（即无运动）。"
+msgstr "设置运动事件结束的静默秒数（即无运动）。"
 
 #: motioneye/templates/main.html:967
-#, fuzzy
 msgid "Kaptita Antaŭe"
-msgstr "之前被抓"
+msgstr "之前捕获的"
 
 #: motioneye/templates/main.html:968 motioneye/templates/main.html:973
 #: motioneye/templates/main.html:978
-#, fuzzy
 msgid "kadroj"
-msgstr "镜框"
+msgstr "帧数"
 
 #: motioneye/templates/main.html:969
-#, fuzzy
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
-msgstr "设置在检测到运动事件之前捕获的帧数（包括在影片中）。"
+msgstr "设置在检测到运动事件之前捕获的帧数（包括在视频中）。"
 
 #: motioneye/templates/main.html:972
-#, fuzzy
 msgid "Kaptita Post"
-msgstr "被抓"
+msgstr "之后捕获的"
 
 #: motioneye/templates/main.html:974
-#, fuzzy
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
-msgstr "设置移动事件结束后要捕获（并包含在影片中）的帧数。"
+msgstr "设置运动事件结束后要捕获（并包含在视频中）的帧数。"
 
 #: motioneye/templates/main.html:977
-#, fuzzy
 msgid "Minimumaj movaj kadroj"
-msgstr "最小运动架"
+msgstr "最小运动帧数"
 
 #: motioneye/templates/main.html:979
-#, fuzzy
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
 msgstr "设置启动运动事件所需的最小连续运动帧数。"
 
 #: motioneye/templates/main.html:985
-#, fuzzy
 msgid "Masko"
-msgstr "面膜"
+msgstr "遮罩"
 
 #: motioneye/templates/main.html:987
-#, fuzzy
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
 msgstr "启用图像遮罩以进行更有选择和准确的运动检测。"
 
 #: motioneye/templates/main.html:990
-#, fuzzy
 msgid "Tipo de masko"
-msgstr "口罩类型"
+msgstr "遮罩类型"
 
 #: motioneye/templates/main.html:993
-#, fuzzy
 msgid "Inteligenta"
-msgstr "聪明的"
+msgstr "智能的"
 
 #: motioneye/templates/main.html:994
-#, fuzzy
 msgid "Redaktebla"
 msgstr "可编辑的"
 
 #: motioneye/templates/main.html:997
-#, fuzzy
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
-msgstr ""
-"“智能”选项自动检测到具有规则运动的区域并动态创建内部蒙版，而“可编辑”选项则允"
-"许您自己手动构建它。"
+msgstr "“智能”选项自动检测到具有规则运动的区域并动态创建内部遮罩，而“可编辑”选项则允许您自己手动构建它。"
 
 #: motioneye/templates/main.html:1000
-#, fuzzy
 msgid "Inteligenta-maska Malrapideco"
-msgstr "智能口罩慢度"
+msgstr "智能遮罩延迟"
 
 #: motioneye/templates/main.html:1002
-#, fuzzy
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
-msgstr "较高的值可提供更耐用的面罩，且构建过程较慢。"
+msgstr "较高的值可提供更长时间的遮罩，但构建过程较慢。"
 
 #: motioneye/templates/main.html:1011
-#, fuzzy
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
-msgstr "单击此按钮启用/禁用蒙版编辑器。"
+msgstr "单击此按钮清除当前遮罩。"
 
 #: motioneye/templates/main.html:1015
-#, fuzzy
 msgid "Purigi maskon"
-msgstr "清洁面膜"
+msgstr "清除遮罩"
 
 #: motioneye/templates/main.html:1016
-#, fuzzy
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
 msgstr "单击此按钮清空当前遮罩。"
 
 #: motioneye/templates/main.html:1022
-#, fuzzy
 msgid "Montri Kadro-Ŝanĝojn"
-msgstr "显示框架更改"
+msgstr "显示更改的帧"
 
 #: motioneye/templates/main.html:1024
-#, fuzzy
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
-msgstr ""
-"如果启用此选项，则视频中会显示图像更改（像素数和修改的区域）；暂时启用它以调"
-"整运动检测设置。"
+msgstr "如果启用此选项，则视频中会显示图像更改（像素数及修改的区域）；暂时启用它以调整运动检测设置。"
 
 #: motioneye/templates/main.html:1027
-#, fuzzy
 msgid "Krei debug media files"
-msgstr "创建调试媒体文件"
+msgstr "创建媒体调试文件"
 
 #: motioneye/templates/main.html:1029
-#, fuzzy
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
-msgstr "启用后，创建有助于调试运动检测问题的特殊影片和图像。"
+msgstr "启用后，创建用于调试运动检测问题的特殊视频和图像。"
 
 #: motioneye/templates/main.html:1038
-#, fuzzy
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
 msgstr "如果要在检测到运动时收到通知，请启用此功能。"
 
 #: motioneye/templates/main.html:1039
-#, fuzzy
 msgid "Moviĝaj sciigoj"
-msgstr "动作通知"
+msgstr "运动通知"
 
 #: motioneye/templates/main.html:1051
-#, fuzzy
 msgid "Sendi retpoŝton"
 msgstr "发送邮件"
 
 #: motioneye/templates/main.html:1053
-#, fuzzy
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "如果要在每次检测到运动事件时接收电子邮件，请激活此选项。"
 
 #: motioneye/templates/main.html:1056
-#, fuzzy
 msgid "Retpoŝtadresoj"
-msgstr "电邮地址"
+msgstr "邮件地址"
 
 #: motioneye/templates/main.html:1057
-#, fuzzy
 msgid "retpoŝtadresoj…"
-msgstr "电子邮件地址 ..."
+msgstr "电子邮件地址…"
 
 #: motioneye/templates/main.html:1058
-#, fuzzy
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
 msgstr "每当检测到运动事件时，此处添加的电子邮件地址（用逗号分隔）将收到通知。"
 
 #: motioneye/templates/main.html:1061
-#, fuzzy
 msgid "Servilo SMTP"
 msgstr "SMTP服务器"
 
 #: motioneye/templates/main.html:1062
-#, fuzzy
 msgid "ekz. smtp.gmail.com"
-msgstr "例如smtp.gmail.com"
+msgstr "例如 smtp.gmail.com"
 
 #: motioneye/templates/main.html:1063
-#, fuzzy
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
-msgstr "输入您的SMTP服务器的主机名或IP地址（用于使用Gmail smtp.gmail.com）。"
+msgstr "输入您的SMTP服务器的主机名或IP地址（Gmail使用smtp.gmail.com）。"
 
 #: motioneye/templates/main.html:1066
-#, fuzzy
 msgid "SMTP Haveno"
 msgstr "SMTP端口"
 
 #: motioneye/templates/main.html:1067
-#, fuzzy
 msgid "ekz. 587"
-msgstr "例如587"
+msgstr "例如 587"
 
 #: motioneye/templates/main.html:1068
-#, fuzzy
 msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
-msgstr ""
-"输入SMTP服务器使用的端口（对于非TLS连接，通常为465；对于TLS连接，通常为"
-"587）。"
+msgstr "输入SMTP服务器使用的端口（非TLS连接通常为465，TLS连接通常为587）。"
 
 #: motioneye/templates/main.html:1071
-#, fuzzy
 msgid "SMTP-Konto"
 msgstr "SMTP帐号"
 
 #: motioneye/templates/main.html:1072
-#, fuzzy
 msgid "konto@gmail.com…"
 msgstr "account@gmail.com…"
 
 #: motioneye/templates/main.html:1073
-#, fuzzy
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
-msgstr "输入您的SMTP帐户（通常是您的电子邮件地址）。"
+msgstr "输入您的SMTP帐户（通常是您的邮箱）。"
 
 #: motioneye/templates/main.html:1076
-#, fuzzy
 msgid "SMTP Pasvorto"
 msgstr "SMTP密码"
 
 #: motioneye/templates/main.html:1078
-#, fuzzy
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
-msgstr "输入您的SMTP密码（对于Gmail，请使用Google密码或应用生成的密码）。"
+msgstr "输入您的SMTP密码（Gmail请使用Google密码或特定应用生成的密码）。"
 
 #: motioneye/templates/main.html:1081
-#, fuzzy
 msgid "De adreso"
 msgstr "发件人地址"
 
 #: motioneye/templates/main.html:1082
-#, fuzzy
 msgid "retpoŝta adreso…"
-msgstr "电子邮件地址 ..."
+msgstr "电子邮件地址…"
 
 #: motioneye/templates/main.html:1083
-#, fuzzy
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
-msgstr ""
-"如果您的SMTP服务需要自定义发件人地址，请设置该地址（如果保留空白，则将使用第"
-"一个目标电子邮件地址）。"
+msgstr "如果您的SMTP服务需要发件人地址，请设置此处（如果保留空白，则将使用第一个目标电子邮件地址）。"
 
 #: motioneye/templates/main.html:1086
-#, fuzzy
 msgid "Uzi TLS"
 msgstr "使用TLS"
 
 #: motioneye/templates/main.html:1088
-#, fuzzy
 msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
-msgstr "如果您的SMTP服务器需要TLS（Gmail要求启用此功能），请启用此功能。"
+msgstr "如果您的SMTP服务器需要TLS请启用此功能（Gmail要求启用此功能）。"
 
 #: motioneye/templates/main.html:1091
-#, fuzzy
 msgid "Aldonitaj bildoj tempo-intervalo"
-msgstr "添加图片时间间隔"
+msgstr "添加图像时间跨度"
 
 #: motioneye/templates/main.html:1093
-#, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
-msgstr ""
-"定义创建电子邮件链接时使用的时间搜索间隔（较高的值会生成包含更多图像的电子邮"
-"件，但会增加延迟通知的时间）；设置为0以禁用添加的图像；您还需要启用“捕获图"
-"像”才能进行此项工作。"
+msgstr "定义创建电子邮件附件时图像的搜索时间间隔（较高的值会生成包含更多图像的电子邮件，但会增加通知的延迟时间）。设置为0以禁用添加图像附件，您必须启用“捕获图像”才能让其生效。"
 
 #: motioneye/templates/main.html:1097
-#, fuzzy
 msgid "Testi retpoŝto"
 msgstr "测试电子邮件"
 
 #: motioneye/templates/main.html:1098
-#, fuzzy
 msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
-msgstr "填写必需的详细信息后，单击此按钮可以测试电子邮件通知。"
+msgstr "填写必需的信息后，单击此按钮可以测试电子邮件通知。"
 
 #: motioneye/templates/main.html:1104
-#, fuzzy
 msgid "Sendu Telegraman Sciigon"
-msgstr "发送电报通知"
+msgstr "发送Telegram通知"
 
 #: motioneye/templates/main.html:1106
-#, fuzzy
 msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
-msgstr "如果要在检测到移动事件时接收电报消息，请启用此功能"
+msgstr "如果要在检测到运动事件时接收Telegram消息，请启用此功能"
 
 #: motioneye/templates/main.html:1109
-#, fuzzy
 msgid "HTTP API ĵetono"
 msgstr "HTTP API令牌"
 
 #: motioneye/templates/main.html:1110
-#, fuzzy
 msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
-msgstr "示例：93847672：AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+msgstr "示例：93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 
 #: motioneye/templates/main.html:1111
-#, fuzzy
 msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-msgstr ""
-"通过创建Telegram-Bot聊天，您将获得需要输入此处的API令牌。单击下面的API按钮，"
-"以获取有关如何获取API令牌的分步指南。另外，请确保在生成密钥后与您新创建的“ "
-"bot”聊天，以确保收到消息。"
+msgstr "创建Telegram-Bot，您将获得此处需要填写的API令牌。单击下面的API按钮以获取有关如何获取API令牌的引导文档。请在生成密钥后与您新创建的聊天机器人聊天，以确保收到消息。"
 
 #: motioneye/templates/main.html:1114
-#, fuzzy
 msgid "Babileja ID"
 msgstr "聊天ID"
 
 #: motioneye/templates/main.html:1115
-#, fuzzy
 msgid "Ekzemplo: 938272312"
 msgstr "示例：938272312"
 
 #: motioneye/templates/main.html:1116
-#, fuzzy
 msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
-msgstr ""
-"创建一个与id_chatbot（@id_chatbot）的新聊天，然后选择开始。聊天将返回此字段所"
-"需的号码。"
+msgstr "创建一个与id_chatbot（@id_chatbot）的新聊天并选择开始。聊天将返回此字段所需的号码。"
 
 #: motioneye/templates/main.html:1119
-#, fuzzy
 msgid "Alkroĉitaj Bildoj Tempo"
-msgstr "附加图片时间"
+msgstr "附加图像时间"
 
 #: motioneye/templates/main.html:1121
-#, fuzzy
 msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
-msgstr ""
-"定义图像搜索时间间隔以创建电报附件（更高的值以增加通知延迟为代价生成更多图"
-"像）;设置为0以禁用图像附件；您还必须启用“静止图像”才能使它起作用；您将要使用"
-"该号码播放，直到发送图像。如果将静止图像设置为触发一个动作，则好的起始编号是"
-"30。对于触发的标准移动，请将其设置得低得多。"
+msgstr "定义用于创建Telegram附件的图像搜索时间间隔（更高的值以增加通知延迟为代价生成更多图像）。设置为0禁用图像附件同时必须启用“静止图像”才能使它生效。直到发送图像您才能使用该号码。如果将静止图像设置为触发一个动作，则好的起始编号是30。对于标准的运动触发请将其值设置更低。"
 
 #: motioneye/templates/main.html:1124
-#, fuzzy
 msgid "API-Informoj"
 msgstr "API信息"
 
 #: motioneye/templates/main.html:1125
-#, fuzzy
 msgid "Testo"
 msgstr "测试"
 
 #: motioneye/templates/main.html:1131 motioneye/templates/main.html:1176
-#, fuzzy
 msgid "Alvoki URL"
-msgstr "调用网址"
+msgstr "调用Web Hook"
 
 #: motioneye/templates/main.html:1133
-#, fuzzy
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
-msgstr "如果希望在检测到运动事件时都请求URL，请启用此选项。"
+msgstr "如果希望在检测到运动事件时请求URL，请启用此选项。"
 
 #: motioneye/templates/main.html:1137
-#, fuzzy
 msgid "ekz. http://ekzemplo.com/sciigi/"
-msgstr "例如http://example.com/search/"
+msgstr "例如 http://example.com/search/"
 
 #: motioneye/templates/main.html:1138
-#, fuzzy, python-format
+#, python-format
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-msgstr ""
-"检测到运动时要请求的URL；接受以下特殊快捷方式：%% Y =年，%% m =月，%% d ="
-"日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号，%% v =事件编号"
+msgstr "检测到运动时请求的URL；接受以下特殊快捷方式：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号，%% v =事件编号"
 
 #: motioneye/templates/main.html:1150 motioneye/templates/main.html:1195
-#, fuzzy
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "请求URL时使用的HTTP方法（给定的URL参数将按此处指示的方式传递）。"
 
 #: motioneye/templates/main.html:1156 motioneye/templates/main.html:1201
-#, fuzzy
 msgid "Lanĉi komando"
-msgstr "启动命令"
+msgstr "运行命令"
 
 #: motioneye/templates/main.html:1158
-#, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "如果要在每次检测到运动事件时运行命令，请启用此选项。"
 
 #: motioneye/templates/main.html:1161 motioneye/templates/main.html:1206
-#, fuzzy
 msgid "Komando"
-msgstr "指挥部"
+msgstr "命令"
 
 #: motioneye/templates/main.html:1162 motioneye/templates/main.html:1207
-#, fuzzy
 msgid "komando…"
-msgstr "命令 ..."
+msgstr "命令…"
 
 #: motioneye/templates/main.html:1163
-#, fuzzy, python-format
+#, python-format
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
-msgstr ""
-"当检测到运动时要启动的命令；多个命令可以用冒号分隔；不要在命令中使用分号；接"
-"受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S ="
-"秒，%% q =帧号，%% v =事件编号"
+msgstr "当检测到运动时要运行的命令。多个命令可以用冒号分隔，不要在命令中使用分号，接受以下特殊标记：%% Y =年，%% m =月，%% d =日，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号，%% v =事件编号"
 
 #: motioneye/templates/main.html:1203
-#, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
-msgstr "如果要在每次移动事件结束时启动命令，请启用此选项。"
+msgstr "如果要在每次运动事件结束时运行命令，请启用此选项。"
 
 #: motioneye/templates/main.html:1208
-#, fuzzy, python-format
+#, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
-msgstr ""
-"运动事件结束时要启动的命令；多个命令可以用冒号分隔；不要在命令中使用点coms；"
-"接受以下特殊标记：%% Y =年，%% m =月，%% d =日期，%% H =小时，%% M =分钟，%% "
-"S =秒，%% q =帧号。"
+msgstr "运动事件结束时要运行的命令。多个命令可以用冒号分隔，不要在命令中使用分号，接受以下特殊标记：%% Y =年，%% m =月，%% d =日期，%% H =小时，%% M =分钟，%% S =秒，%% q =帧号。"
 
 #: motioneye/templates/main.html:1218
-#, fuzzy
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
-msgstr "如果要设置运动检测的每周时间表，请启用此功能。"
+msgstr "如果要设置运动检测的计划时间，请启用此功能。"
 
 #: motioneye/templates/main.html:1219
-#, fuzzy
 msgid "Laboranta horaro"
-msgstr "工作时间表"
+msgstr "工作计划表"
 
 #: motioneye/templates/main.html:1224
-#, fuzzy
 msgid "Lundo"
 msgstr "星期一"
 
 #: motioneye/templates/main.html:1227
-#, fuzzy
 msgid "de"
-msgstr "的"
+msgstr "从"
 
 #: motioneye/templates/main.html:1228
-#, fuzzy
 msgid "ĝis"
-msgstr "直到"
+msgstr "到"
 
 #: motioneye/templates/main.html:1230
-#, fuzzy
 msgid "Fiksas la labortagan tempintervalon por lundoj."
-msgstr "设置星期一的工作日时间范围。"
+msgstr "设置星期一的工作时间。"
 
 #: motioneye/templates/main.html:1233
-#, fuzzy
 msgid "Mardo"
-msgstr "周二"
+msgstr "星期二"
 
 #: motioneye/templates/main.html:1239
-#, fuzzy
 msgid "Fiksas la labortagan tempintervalon por mardoj."
-msgstr "设置星期二的工作日时间范围。"
+msgstr "设置星期二的工作时间。"
 
 #: motioneye/templates/main.html:1242
-#, fuzzy
 msgid "Merkredo"
 msgstr "星期三"
 
 #: motioneye/templates/main.html:1248
-#, fuzzy
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
-msgstr "设置星期三的工作日时间范围。"
+msgstr "设置星期三的工作时间。"
 
 #: motioneye/templates/main.html:1251
-#, fuzzy
 msgid "Ĵaŭdo"
 msgstr "星期四"
 
 #: motioneye/templates/main.html:1257
-#, fuzzy
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
-msgstr "设置星期四的工作日时间范围。"
+msgstr "设置星期四的工作时间。"
 
 #: motioneye/templates/main.html:1260
-#, fuzzy
 msgid "Vendredo"
 msgstr "星期五"
 
 #: motioneye/templates/main.html:1266
-#, fuzzy
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
-msgstr "设置星期五的工作日时间范围。"
+msgstr "设置星期五的工作时间。"
 
 #: motioneye/templates/main.html:1269
-#, fuzzy
 msgid "Sabato"
-msgstr "周六"
+msgstr "星期六"
 
 #: motioneye/templates/main.html:1275
-#, fuzzy
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
-msgstr "设置星期六的工作日时间范围。"
+msgstr "设置星期六的工作时间。"
 
 #: motioneye/templates/main.html:1278
-#, fuzzy
 msgid "Dimanĉo"
-msgstr "周日"
+msgstr "星期天"
 
 #: motioneye/templates/main.html:1284
-#, fuzzy
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
-msgstr "设置星期日的工作日时间范围。"
+msgstr "设置星期天的工作时间。"
 
 #: motioneye/templates/main.html:1287
-#, fuzzy
 msgid "Detekti movadon"
 msgstr "检测运动"
 
 #: motioneye/templates/main.html:1290
-#, fuzzy
 msgid "Dum laborista horaro"
-msgstr "在工作时间"
+msgstr "工作时间内"
 
 #: motioneye/templates/main.html:1291
-#, fuzzy
 msgid "Ekster laborista horaro"
-msgstr "工作时间以外"
+msgstr "工作时间外"
 
 #: motioneye/templates/main.html:1294
-#, fuzzy
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
-msgstr "定义在工作时间内还是在工作时间之外应启用运动检测。"
+msgstr "设置在工作时间内还是在工作时间外应启用运动检测。"
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
-#, fuzzy
 msgid "neniam"
-msgstr "绝不"
+msgstr "从不"
 
 #: motioneye/utils/dtconv.py:113
-#, fuzzy
 msgid "tago"
 msgstr "天"
 
 #: motioneye/utils/dtconv.py:116
-#, fuzzy
 msgid "semajno"
-msgstr "星期"
+msgstr "周"
 
 #: motioneye/utils/dtconv.py:119
-#, fuzzy
 msgid "monato"
 msgstr "月"
 
 #: motioneye/utils/dtconv.py:122
-#, fuzzy
 msgid "jaro"
 msgstr "年"
 
 #: motioneye/utils/dtconv.py:129
-#, fuzzy
 msgid "horo"
 msgstr "小时"
 
 #: motioneye/utils/dtconv.py:132
-#, fuzzy
 msgid "horoj"
 msgstr "小时"
 
 #: motioneye/utils/dtconv.py:136
-#, fuzzy
 msgid "minuto"
 msgstr "分钟"
 
 #: motioneye/utils/dtconv.py:139
-#, fuzzy
 msgid "minutoj"
 msgstr "分钟"
 
 #: motioneye/utils/dtconv.py:143
-#, fuzzy
 msgid "sekundo"
-msgstr "一秒"
+msgstr "第二"
 
 #: motioneye/utils/dtconv.py:153
-#, fuzzy
 msgid "minus"
-msgstr "减号"
+msgstr "减"
