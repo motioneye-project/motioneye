@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-12 18:31+0000\n"
-"PO-Revision-Date: 2022-09-07 13:22+0000\n"
+"PO-Revision-Date: 2023-03-24 05:34+0000\n"
 "Last-Translator: Ziteng <765484893@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/zh_Hans/>\n"
 "Language: zh\n"
@@ -16,17 +16,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 
 #: motioneye/static/js/main.js:606
-#, fuzzy
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "密码中不允许使用特殊字符"
 
 #: motioneye/static/js/main.js:613 motioneye/static/js/main.js:624
 #: motioneye/static/js/main.js:683 motioneye/static/js/ui.js:362
 #: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
-#, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "必填项"
 
@@ -35,12 +33,10 @@ msgid "specialaj signoj ne rajtas en la nomo de kamerao"
 msgstr "摄像头名称中不允许使用特殊字符"
 
 #: motioneye/static/js/main.js:629
-#, fuzzy
 msgid "valoro devas esti multoblo de 8"
 msgstr "值必须是8的倍数"
 
 #: motioneye/static/js/main.js:636
-#, fuzzy
 msgid "specialaj signoj ne rajtas en radika voja nomo"
 msgstr "根路径名中不允许使用特殊字符"
 
@@ -50,14 +46,13 @@ msgstr "不能在系统根目录中创建文件"
 
 #: motioneye/static/js/main.js:646
 msgid "enigu validan retpoŝtadreson"
-msgstr "输入一个有效的电子邮件地址"
+msgstr "输入有效的电子邮箱"
 
 #: motioneye/static/js/main.js:653
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "输入以逗号分隔的有效电子邮件地址列表"
 
 #: motioneye/static/js/main.js:660
-#, fuzzy
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "文件名中不允许使用特殊字符"
 
@@ -70,9 +65,8 @@ msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \
 msgstr "将递归删除云文件夹中的所有文件”"
 
 #: motioneye/static/js/main.js:842
-#, fuzzy
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
-msgstr "”，不只是motionEye上传的！"
+msgstr "”，不只是由motionEye上传的！"
 
 #: motioneye/static/js/main.js:923
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
@@ -99,7 +93,6 @@ msgid "Retan kunlokon"
 msgstr "在线连接"
 
 #: motioneye/static/js/main.js:2630
-#, fuzzy
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
 msgstr "您的浏览器不支持此功能！"
 
@@ -121,7 +114,6 @@ msgid "Vere fermiti sistemon?"
 msgstr "确认关机？"
 
 #: motioneye/static/js/main.js:2797
-#, fuzzy
 msgid "Malŝaltita"
 msgstr "关机"
 
@@ -175,7 +167,6 @@ msgid "Rezerva dosiero"
 msgstr "备份文件"
 
 #: motioneye/static/js/main.js:2938
-#, fuzzy
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
 msgstr "您先前下载的备份文件。"
 
@@ -204,31 +195,26 @@ msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "连接上传服务成功！"
 
 #: motioneye/static/js/main.js:3110 motioneye/static/js/main.js:3113
-#, fuzzy
 msgid "Sciiga retpoŝto fiaskis:"
-msgstr "通知电子邮件失败："
+msgstr "通知邮件失败："
 
 #: motioneye/static/js/main.js:3129
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
 msgstr "请确认所有配置项都有效！"
 
 #: motioneye/static/js/main.js:3145
-#, fuzzy
 msgid "Sciiga Telegramo fiaskis:"
-msgstr "通知电报失败："
+msgstr "通知Telegram失败："
 
 #: motioneye/static/js/main.js:3148
-#, fuzzy
 msgid "Sciiga Telegramo sukcesis!"
-msgstr "通知电报成功！"
+msgstr "通知Telegram成功！"
 
 #: motioneye/static/js/main.js:3184
-#, fuzzy
 msgid "Aliro al retdividado fiaskis: "
 msgstr "访问网络共享失败： "
 
 #: motioneye/static/js/main.js:3187
-#, fuzzy
 msgid "Aliro al retdividado sukcesis!"
 msgstr "访问网络共享成功！"
 
@@ -237,12 +223,10 @@ msgid "Ĉu vere forigi ĉi tiun dosieron?"
 msgstr "是否删除此文件？"
 
 #: motioneye/static/js/main.js:3235
-#, fuzzy
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
-msgstr "是否删除\"%(group)s\"组中的所有图像？"
+msgstr "是否删除\"%(group)s\"组中的所有图片？"
 
 #: motioneye/static/js/main.js:3238
-#, fuzzy
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
 msgstr "是否删除\"%(group)s\"中的所有录像？"
 
@@ -284,7 +268,6 @@ msgid "Nuligi"
 msgstr "取消"
 
 #: motioneye/static/js/main.js:3656
-#, fuzzy
 msgid "Vi abortis la filmeton."
 msgstr "您中止了视频。"
 
@@ -297,9 +280,8 @@ msgid "Malkodado-eraro aŭ neprogresinta funkcio."
 msgstr "解码错误或不支持的媒体特性。"
 
 #: motioneye/static/js/main.js:3665
-#, fuzzy
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
-msgstr "格式不支持或无法访问/不适合播放。"
+msgstr "格式不支持或无权限回放/回放不可用。"
 
 #: motioneye/static/js/main.js:3668
 msgid "Nekonata eraro okazis."
@@ -311,20 +293,19 @@ msgstr "错误： "
 
 #: motioneye/static/js/main.js:3676
 msgid "antaŭa bildo"
-msgstr "上一张照片"
+msgstr "上一张图像"
 
 #: motioneye/static/js/main.js:3681
 msgid "ludi"
 msgstr "播放"
 
 #: motioneye/static/js/main.js:3684
-#, fuzzy
 msgid "ludi * 5 kaj enĉenigi"
-msgstr "玩* 5和链"
+msgstr "顺序5倍速播放"
 
 #: motioneye/static/js/main.js:3689
 msgid "sekva bildo"
-msgstr "下一张照片"
+msgstr "下一张图像"
 
 #: motioneye/static/js/main.js:3812
 msgid "Fermi"
@@ -415,354 +396,284 @@ msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sist
 msgstr "本地MMAL摄像头是指直接连接到motionEye系统的设备。这些通常是硬件提供接口兼容的摄像头。"
 
 #: motioneye/static/js/main.js:3964
-#, fuzzy
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr "将设备添加为简单的MJPEG摄像头而不是网络摄像头可以改善摄影效果，但是无法进行运动检测，图像捕获或动画录制。您的服务器和浏览器必须可以访问该相机。这类相机与Internet Explorer不匹配。"
 
 #: motioneye/static/js/main.js:3969
-#, fuzzy
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
-msgstr "本地V4L2摄像机是通常通过USB直接连接到motionEye系统的摄像机设备。"
+msgstr "本地V4L2摄像头通常通过USB直接连接到motionEye系统。"
 
 #: motioneye/static/js/main.js:4120
-#, fuzzy
 msgid "Aldonadi kameraon..."
-msgstr "添加相机..."
+msgstr "添加摄像头..."
 
 #: motioneye/static/js/main.js:4192
-#, fuzzy
 msgid "Grupo"
-msgstr "组别"
+msgstr "分组"
 
 #: motioneye/static/js/main.js:4196
-#, fuzzy
 msgid "Inkluzivi foton prenitan ĉiun"
-msgstr "包括每张照片"
+msgstr "包括每张图像"
 
 #: motioneye/static/js/main.js:4199
-#, fuzzy
 msgid "sekundo"
 msgstr "第二"
 
 #: motioneye/static/js/main.js:4200
-#, fuzzy
 msgid "5 sekundoj"
 msgstr "5秒"
 
 #: motioneye/static/js/main.js:4201
-#, fuzzy
 msgid "10 sekundoj"
 msgstr "10秒"
 
 #: motioneye/static/js/main.js:4202
-#, fuzzy
 msgid "30 sekundoj"
 msgstr "30秒"
 
 #: motioneye/static/js/main.js:4203
-#, fuzzy
 msgid "minuto"
 msgstr "分钟"
 
 #: motioneye/static/js/main.js:4204
-#, fuzzy
 msgid "5 minutoj"
 msgstr "5分钟"
 
 #: motioneye/static/js/main.js:4205
-#, fuzzy
 msgid "10 minutoj"
 msgstr "10分钟"
 
 #: motioneye/static/js/main.js:4206
-#, fuzzy
 msgid "30 minutoj"
 msgstr "30分钟"
 
 #: motioneye/static/js/main.js:4207
-#, fuzzy
 msgid "horo"
-msgstr "一个小时"
+msgstr "小时"
 
 #: motioneye/static/js/main.js:4210
-#, fuzzy
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
 msgstr "选择两个选定图像之间的时间间隔。"
 
 #: motioneye/static/js/main.js:4213
-#, fuzzy
 msgid "Filmo framfrekvenco"
-msgstr "电影帧率"
+msgstr "视频帧率"
 
 #: motioneye/static/js/main.js:4215
-#, fuzzy
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
-msgstr "选择您想要加速视频的速度。"
+msgstr "选择您想要视频减缓的速度。"
 
 #: motioneye/static/js/main.js:4224
-#, fuzzy
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr "考虑到大量图片，创建视频可能需要一些时间！"
+msgstr "图片太多会导致创建视频需要一些时间！"
 
 #: motioneye/static/js/main.js:4241
-#, fuzzy
 msgid "Krei akselita video"
-msgstr "创建加速视频"
+msgstr "创建延时视频"
 
 #: motioneye/static/js/main.js:4250
-#, fuzzy
 msgid "Filmo kreanta en progreso..."
-msgstr "电影正在进行中..."
+msgstr "延时视频创建中..."
 
 #: motioneye/static/js/main.js:4501
-#, fuzzy
 msgid "Zipitaj"
-msgstr "拉链式"
+msgstr "链式"
 
 #: motioneye/static/js/main.js:4510
-#, fuzzy
 msgid "Akselita video"
-msgstr "加速影片"
+msgstr "回看"
 
 #: motioneye/static/js/main.js:4521
-#, fuzzy
 msgid "Forigi ĉiujn"
 msgstr "全部删除"
 
 #: motioneye/static/js/main.js:4663
-#, fuzzy
 msgid "Bildoj prenitaj de "
-msgstr "拍摄的照片"
+msgstr "图像拍摄自 "
 
 #: motioneye/static/js/main.js:4666
-#, fuzzy
 msgid "Filmoj registritaj de "
-msgstr "记录的电影"
+msgstr "视频录像自 "
 
 #: motioneye/static/js/main.js:4728
-#, fuzzy
 msgid "montru ĉi tiun fotilon plenekranan"
-msgstr "全职展示这款相机"
+msgstr "全屏展示此摄像头"
 
 #: motioneye/static/js/main.js:4729
-#, fuzzy
 msgid "montri ĉiujn fotilojn"
-msgstr "显示所有相机"
+msgstr "显示所有摄像头"
 
 #: motioneye/static/js/main.js:4730
-#, fuzzy
 msgid "montru nur ĉi tiun fotilon"
-msgstr "只显示这款相机"
+msgstr "只显示此摄像头"
 
 #: motioneye/static/js/main.js:4731
-#, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "打开图像浏览器"
 
 #: motioneye/static/js/main.js:4732
-#, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "打开视频浏览器"
 
 #: motioneye/static/js/main.js:4733
-#, fuzzy
 msgid "agordi ĉi tiun kameraon"
-msgstr "设置这台相机"
+msgstr "配置此摄像头"
 
 #: motioneye/static/js/main.js:4749
-#, fuzzy
 msgid "preni instantaron"
-msgstr "拍摄快照"
+msgstr "快照"
 
 #: motioneye/static/js/main.js:5118
-#, fuzzy
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr "您尚未配置任何相机。点击这里添加一个..."
+msgstr "您尚未配置任何摄像头。点击这里添加一个..."
 
 #: motioneye/static/js/ui.js:503
-#, fuzzy
 msgid "enigu pozitivan nombron"
 msgstr "输入一个正数"
 
 #: motioneye/static/js/ui.js:505
-#, fuzzy
 msgid "enigu pozitivan entjeran nombron"
 msgstr "输入一个正整数"
 
 #: motioneye/static/js/ui.js:507
-#, fuzzy
 msgid "enigu nombron"
 msgstr "输入一个数字"
 
 #: motioneye/static/js/ui.js:509
-#, fuzzy
 msgid "enigu entjeran nombron"
 msgstr "输入一个整数"
 
 #: motioneye/static/js/ui.js:512
-#, fuzzy
 msgid " inter "
-msgstr "在两者之间"
+msgstr " 之间 "
 
 #: motioneye/static/js/ui.js:512
-#, fuzzy
 msgid " kaj "
-msgstr "和"
+msgstr " 和 "
 
 #: motioneye/static/js/ui.js:515
-#, fuzzy
 msgid " pli ol "
-msgstr "超过"
+msgstr " 超过 "
 
 #: motioneye/static/js/ui.js:520
-#, fuzzy
 msgid " malpli ol "
-msgstr "少于"
+msgstr " 少于 "
 
 #: motioneye/static/js/ui.js:573
-#, fuzzy
 msgid "enigu validan tempon en la sekva formato: HH:MM"
-msgstr "输入以下格式的有效时间：HH：MM"
+msgstr "按以下格式输入时间：HH:MM"
 
 #: motioneye/static/js/ui.js:630
-#, fuzzy
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
-msgstr "输入有效的网址（例如http://example.com:8080/cams/）"
+msgstr "输入有效的网址（例如：http://example.com:8080/cams/）"
 
 #: motioneye/static/js/ui.js:971
-#, fuzzy
 msgid "fermi"
 msgstr "关闭"
 
 #: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
-#, fuzzy
 msgid "Ne"
-msgstr "没有啦"
+msgstr "否"
 
 #: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
-#, fuzzy
 msgid "Jes"
-msgstr "是的"
+msgstr "是"
 
 #: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
-#, fuzzy
 msgid "Bone"
-msgstr "好吧"
+msgstr "确定"
 
 #: l10n/v4l2.js:4
-#, fuzzy
 msgid "Auto Exposure"
 msgstr "自动曝光"
 
 #: l10n/v4l2.js:5
-#, fuzzy
 msgid "Backlight Compensation"
 msgstr "背光补偿"
 
 #: l10n/v4l2.js:6
-#, fuzzy
 msgid "Brightness"
 msgstr "亮度"
 
 #: l10n/v4l2.js:7
-#, fuzzy
 msgid "Contrast"
-msgstr "对比"
+msgstr "对比度"
 
 #: l10n/v4l2.js:8
-#, fuzzy
 msgid "Exposure Absolute"
-msgstr "绝对接触"
+msgstr "绝对曝光度"
 
 #: l10n/v4l2.js:9
-#, fuzzy
 msgid "Exposure Auto"
 msgstr "曝光自动"
 
 #: l10n/v4l2.js:10
-#, fuzzy
 msgid "Exposure Auto Priority"
 msgstr "曝光自动优先级"
 
 #: l10n/v4l2.js:11
-#, fuzzy
 msgid "Exposure Time Absolute"
-msgstr "曝光时间绝对"
+msgstr "曝光绝对时间"
 
 #: l10n/v4l2.js:12
-#, fuzzy
 msgid "Focus Absolute"
-msgstr "绝对集中精力"
+msgstr "绝对焦距"
 
 #: l10n/v4l2.js:13
-#, fuzzy
 msgid "Focus Auto"
 msgstr "聚焦自动"
 
 #: l10n/v4l2.js:14
-#, fuzzy
 msgid "Gain"
-msgstr "获得"
+msgstr "增益值"
 
 #: l10n/v4l2.js:15
-#, fuzzy
 msgid "Gamma"
-msgstr "伽玛"
+msgstr "伽玛值"
 
 #: l10n/v4l2.js:16
-#, fuzzy
 msgid "Hue"
-msgstr "色调"
+msgstr "色调值"
 
 #: l10n/v4l2.js:17
-#, fuzzy
 msgid "Led1 Mode"
 msgstr "LED1模式"
 
 #: l10n/v4l2.js:18
-#, fuzzy
 msgid "Led1 Frequency"
 msgstr "LED1频率"
 
 #: l10n/v4l2.js:19
-#, fuzzy
 msgid "Pan Absolute"
-msgstr "锅绝对"
+msgstr "绝对混响"
 
 #: l10n/v4l2.js:20
-#, fuzzy
 msgid "Power Line Frequency"
 msgstr "电源线频率"
 
 #: l10n/v4l2.js:21
-#, fuzzy
 msgid "Saturation"
-msgstr "饱和"
+msgstr "饱和度"
 
 #: l10n/v4l2.js:22
-#, fuzzy
 msgid "Sharpness"
 msgstr "清晰度"
 
 #: l10n/v4l2.js:23
-#, fuzzy
 msgid "Tilt Absolute"
 msgstr "绝对倾斜"
 
 #: l10n/v4l2.js:24
-#, fuzzy
 msgid "White Balance Temperature"
 msgstr "白平衡温度"
 
 #: l10n/v4l2.js:25
-#, fuzzy
 msgid "White Balance Temperature Auto"
-msgstr "白平衡温度自动"
+msgstr "白平衡自动"
 
 #: l10n/v4l2.js:26
-#, fuzzy
 msgid "Zoom Absolute"
-msgstr "绝对放大"
+msgstr "绝对缩放"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"
