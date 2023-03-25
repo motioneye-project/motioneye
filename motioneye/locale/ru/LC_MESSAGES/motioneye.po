@@ -8,17 +8,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-02-01 18:26+0000\n"
-"PO-Revision-Date: 2022-07-08 11:21+0000\n"
-"Last-Translator: Егор Ермаков <eg.ermakov2016@yandex.ru>\n"
-"Language-Team: Russian <https://hosted.weblate.org/projects/motioneye-"
-"project/motioneye-python-texts/ru/>\n"
+"PO-Revision-Date: 2023-03-25 15:41+0000\n"
+"Last-Translator: Dmitrii <nuke142@gmail.com>\n"
+"Language-Team: Russian <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/ru/>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.13.1-dev\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 4.17-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -111,7 +109,7 @@ msgstr "Настройки"
 
 #: motioneye/templates/main.html:133
 msgid "Aranĝo Kolumnoj"
-msgstr "Разметка столбцов"
+msgstr "Столбцов"
 
 #: motioneye/templates/main.html:135
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
@@ -129,7 +127,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:143
 msgid "Aranĝo linioj"
-msgstr "Разметка строк"
+msgstr "Строк"
 
 #: motioneye/templates/main.html:145
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
@@ -137,7 +135,7 @@ msgstr "устанавливает количество строк для раз
 
 #: motioneye/templates/main.html:148
 msgid "kadro-variatoro"
-msgstr "Регулятор частоты кадров"
+msgstr "Количество кадров (%)"
 
 #: motioneye/templates/main.html:150
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
