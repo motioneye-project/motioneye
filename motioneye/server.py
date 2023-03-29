@@ -29,6 +29,7 @@ from tornado.web import Application
 
 from motioneye import settings, template
 from motioneye.controls import smbctl, v4l2ctl
+from motioneye.handlers import telegram
 from motioneye.handlers.action import ActionHandler
 from motioneye.handlers.base import ManifestHandler, NotFoundHandler
 from motioneye.handlers.config import ConfigHandler
@@ -364,6 +365,7 @@ def start_motion():
 
     # add a motion running checker
     def checker():
+
         if (
             not motionctl.running()
             and motionctl.started()
@@ -416,7 +418,7 @@ def make_app(debug: bool = False) -> Application:
 def run():
     import motioneye
     from motioneye import cleanup, mjpgclient, motionctl, tasks, wsswitch
-    from motioneye.controls import smbctl
+    from motioneye.controls import smbctl 
 
     configure_signals()
     logging.info(_('saluton! ĉi tio estas motionEye-servilo ') + motioneye.VERSION)
@@ -459,6 +461,10 @@ def run():
         static_path=settings.STATIC_PATH,
         static_url_prefix='/static/',
     )
+    
+    # starts media handler loop listening for new media per event_id
+    th = telegram.TelegramHandler.get_instance()
+    th.start()
 
     application.listen(settings.PORT, settings.LISTEN)
     logging.info(_('servilo komenciĝis'))

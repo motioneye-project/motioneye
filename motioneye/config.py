@@ -845,6 +845,7 @@ def main_dict_to_ui(data):
 
 
 def motion_camera_ui_to_dict(ui, prev_config=None):
+
     prev_config = dict(prev_config or {})
     main_config = get_main()  # needed for surveillance password
 
@@ -930,6 +931,12 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         'mask_file': '',
         'picture_output_motion': ui['create_debug_media'],
         'movie_output_motion': ui['create_debug_media'],
+        # telegram notifications
+        '@telegram_notifications_enabled': ui['telegram_notifications_enabled'],
+        '@telegram_notifications_api' : ui['telegram_notifications_api'],
+        '@telegram_notifications_chat_id' : ui['telegram_notifications_chat_id'],
+        '@telegram_notifications_max_pictures' : int(ui['telegram_notifications_max_pictures']),
+
         # working schedule
         '@working_schedule': '',
         # events
@@ -1179,7 +1186,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         data['@working_schedule_type'] = ui['working_schedule_type']
 
     # event start
-    on_event_start = [f"{meyectl.find_command('relayevent')} start %t"]
+    on_event_start = [f"{meyectl.find_command('relayevent')}" + " start %t"]
     if ui['email_notifications_enabled']:
         emails = sub('\\s', '', ui['email_notifications_addresses'])
 
@@ -1202,18 +1209,6 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         )
 
         on_event_start.append(line)
-    if ui['telegram_notifications_enabled']:
-        line = (
-            "%(script)s '%(api)s' '%(chatid)s' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'"
-            % {
-                'script': meyectl.find_command('sendtelegram'),
-                'api': ui['telegram_notifications_api'],
-                'chatid': ui['telegram_notifications_chat_id'],
-                'timespan': ui['telegram_notifications_picture_time_span'],
-            }
-        )
-
-        on_event_start.append(line)
 
     if ui['web_hook_notifications_enabled']:
         url = sub('\\s', '+', ui['web_hook_notifications_url'])
@@ -1232,7 +1227,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     data['on_event_start'] = '; '.join(on_event_start)
 
     # event end
-    on_event_end = [f"{meyectl.find_command('relayevent')} stop %t"]
+    on_event_end = [f"{meyectl.find_command('relayevent')}" + " stop %t ' ' %{eventid} '%Y-%m-%dT%H:%M:%S'"]
 
     if ui['web_hook_end_notifications_enabled']:
         url = sub(r'\s', '+', ui['web_hook_end_notifications_url'])
@@ -1271,7 +1266,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     data['on_movie_end'] = '; '.join(on_movie_end)
 
     # picture save
-    on_picture_save = [f"{meyectl.find_command('relayevent')} picture_save %t %f"]
+    on_picture_save = [f"{meyectl.find_command('relayevent')}" + " picture_save %t %f %{eventid} '%Y-%m-%dT%H:%M:%S'"]
 
     if ui['web_hook_storage_enabled']:
         url = sub('\\s', '+', ui['web_hook_storage_url'])
@@ -1311,6 +1306,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
 
 def motion_camera_dict_to_ui(data):
+
     ui = {
         # device
         'name': data['camera_name'],
@@ -1404,11 +1400,15 @@ def motion_camera_dict_to_ui(data):
         or data['picture_output_motion'],
         # motion notifications
         'email_notifications_enabled': False,
-        'telegram_notifications_enabled': False,
         'web_hook_notifications_enabled': False,
         'web_hook_end_notifications_enabled': False,
         'command_notifications_enabled': False,
         'command_end_notifications_enabled': False,
+        # telegram notifications
+        'telegram_notifications_enabled': data['@telegram_notifications_enabled'],
+        'telegram_notifications_api' : data['@telegram_notifications_api'],
+        'telegram_notifications_chat_id' : data['@telegram_notifications_chat_id'],
+        'telegram_notifications_max_pictures' : data['@telegram_notifications_max_pictures'],
         # working schedule
         'working_schedule': False,
         'working_schedule_type': 'during',
@@ -1673,7 +1673,6 @@ def motion_camera_dict_to_ui(data):
         on_event_start = utils.split_semicolon(on_event_start)
 
     ui['email_notifications_picture_time_span'] = 0
-    ui['telegram_notifications_picture_time_span'] = 0
     command_notifications = []
     for e in on_event_start:
         if ' sendmail ' in e:
@@ -1701,21 +1700,6 @@ def motion_camera_dict_to_ui(data):
 
             except (TypeError, ValueError):
                 ui['email_notifications_picture_time_span'] = 0
-
-        elif ' sendtelegram ' in e:
-            e = split(e)
-
-            if len(e) < 6:
-                continue
-
-            ui['telegram_notifications_enabled'] = True
-            ui['telegram_notifications_api'] = e[-5]
-            ui['telegram_notifications_chat_id'] = e[-4]
-            try:
-                ui['telegram_notifications_picture_time_span'] = int(e[-1])
-
-            except (TypeError, ValueError):
-                ui['telegram_notifications_picture_time_span'] = 0
 
         elif ' webhook ' in e:
             e = split(e)
@@ -2278,6 +2262,11 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('movie_max_time', 0)
     data.setdefault('movie_output', False)
     data.setdefault('movie_passthrough', False)
+
+    data.setdefault('@telegram_notifications_enabled', False)
+    data.setdefault('@telegram_notifications_max_pictures', '2')
+    data.setdefault('@telegram_notifications_api', '')
+    data.setdefault('@telegram_notifications_chat_id', '')
 
     if motionctl.has_h264_omx_support():
         data.setdefault('movie_codec', 'mp4:h264_omx')  # will use h264 codec

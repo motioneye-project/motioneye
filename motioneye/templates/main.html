@@ -1115,9 +1115,9 @@
                             <td class="settings-item-value"><input type="text" autocomplete="new-password" class="styled notifications camera-config" id="telegramCIDEntry" placeholder="{{ _("Ekzemplo: 938272312") }}"></td>
                             <td><span class="help-mark" title="{{ _("Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo.") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item" min="0" max="60" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled">
+                        <tr class="settings-item" min="0" max="10" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Alkroĉitaj Bildoj Tempo") }}</span></td>
-                            <td class="settings-item-value"><input type="text" class="number styled notifications camera-config" id="telegramPictureTimeSpanEntry"><span class="settings-item-unit">seconds</span></td>
+                            <td class="settings-item-value"><input type="text" class="number styled notifications camera-config" id="telegramMaxNumPictureEntry">
                             <td><span class="help-mark" title="{{ _("difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
