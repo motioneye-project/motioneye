@@ -8,7 +8,8 @@ concurrency:
 
 jobs:
   update_locales:
-    #if: github.event.pull_request.head.repo.fork == false
+    # Skip for forks which have no access to secrets (PAT)
+    if: github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-22.04
     defaults:
       run:
