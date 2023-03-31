@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-02-01 18:26+0000\n"
+"POT-Creation-Date: 2023-03-12 21:10+0000\n"
 "PO-Revision-Date: 2023-03-25 13:41+0000\n"
 "Last-Translator: Ziteng <765484893@qq.com>\n"
 "Language-Team: Chinese (Simplified) <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/zh_Hans/>\n"
@@ -705,9 +705,7 @@ msgstr "自定义文字…"
 #: motioneye/templates/main.html:625
 #, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr ""
-"自定义左侧文本；接受以下特殊标记：%% Y = 年，%% m = 月，%% d = 日，%% H = 小时，%% M = 分钟，%% S = 秒，%% q = 帧号， %% v = 事件编号，%% T = HH:MM:SS，\\n"
-" = 新行"
+msgstr "自定义左侧文本；接受以下特殊标记：%% Y = 年，%% m = 月，%% d = 日，%% H = 小时，%% M = 分钟，%% S = 秒，%% q = 帧号， %% v = 事件编号，%% T = HH:MM:SS，\\n = 新行"
 
 #: motioneye/templates/main.html:628
 msgid "Dekstra Teksto"
@@ -720,9 +718,7 @@ msgstr "设置在视频和图像右下角显示的文本"
 #: motioneye/templates/main.html:642
 #, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr ""
-"自定义右侧文本；接受以下特殊标记：%% Y = 年，%% m = 月，%% d = 日，%% H = 小时，%% M = 分钟，%% S = 秒，%% q = 帧号， %% v =事件编号，%% T = HH:MM:SS，\\n"
-" = 新行"
+msgstr "自定义右侧文本；接受以下特殊标记：%% Y = 年，%% m = 月，%% d = 日，%% H = 小时，%% M = 分钟，%% S = 秒，%% q = 帧号， %% v =事件编号，%% T = HH:MM:SS，\\n = 新行"
 
 #: motioneye/templates/main.html:645
 msgid "Teksta Skalo"
