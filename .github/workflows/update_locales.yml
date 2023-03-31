@@ -8,32 +8,51 @@ concurrency:
 
 jobs:
   update_locales:
-    if: github.event.pull_request.head.repo.fork == false
+    #if: github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-22.04
+    defaults:
+      run:
+        shell: sh
     steps:
+
     - uses: actions/setup-python@v4
       with:
         python-version: '3.x'
-    - run: |
-        echo "github.actor=${{ github.actor }}"
+        check-latest: true
+
+    - name: Install dependencies
+      run: |
         python3 -m pip install -U babel jinja2 &
         sudo apt-get -q update
-        sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install make gettext
+        sudo DEBIAN_FRONTEND='noninteractive' apt-get -qq --no-install-recommends install gettext
+
     - uses: actions/checkout@v3
       with:
         ref: ${{ github.head_ref }}
         # https://github.com/peter-evans/create-pull-request/issues/48
         token: ${{ secrets.GH_PAT }}
-    - run: |
+
+    - name: Generate backend template
+      run: |
+        pybabel extract -F l10n/babel.cfg -o motioneye/locale/motioneye.pot motioneye/
+        # Remove trailing empty line to satisfy pre-commit
+        sed -i '${/^$/d}' motioneye/locale/motioneye.pot
+
+    - name: Generate frontend template
+      run: xgettext --no-wrap --from-code=UTF-8 -o motioneye/locale/motioneye.js.pot motioneye/static/js/*.js l10n/*.js
+
+    - name: Generate frontend locales
+      run: |
         for i in motioneye/locale/*/LC_MESSAGES/motioneye.js.po
         do
             lang=${i#motioneye/locale/}
             lang=${lang%/LC_MESSAGES/motioneye.js.po}
-            [[ -f motioneye/static/js/motioneye.$lang.json ]] && continue
             echo "Generating motioneye.$lang.json"
             l10n/po2json "$i" "motioneye/static/js/motioneye.$lang.json"
         done
-        make
+
+    - name: Commit changes
+      run: |
         git diff -I '^"POT-Creation-Date: ' --exit-code && exit 0
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
