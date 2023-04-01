@@ -59,13 +59,19 @@ else
 fi
 
 # Pre-create config and data dirs and install configuration files
-[[ -d '/etc/motioneye' ]] || mkdir /etc/motioneye
-[[ -f '/etc/motioneye/motioneye.conf' ]] || cp extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
+if [[ -f '/etc/motioneye/motioneye.conf' ]]
+then
+  # Update PID file directory if the default from old motionEye is still present: https://github.com/motioneye-project/motioneye/issues/2657
+  grep -q '^run_path /var/run$' /etc/motioneye/motioneye.conf && sed -i '\|^run_path /var/run$|c\run_path /run/motioneye' /etc/motioneye/motioneye.conf
+else
+  [[ -d '/etc/motioneye' ]] || mkdir /etc/motioneye
+  cp extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
+fi
 chown -R motion:motion /etc/motioneye
 
 (( SKIP_SYSTEMD )) && exit 0
 
 # Install service
-[[ -f '/etc/systemd/system/motioneye.service' ]] || cp extra/motioneye.systemd /etc/systemd/system/motioneye.service
+cp extra/motioneye.systemd /etc/systemd/system/motioneye.service
 systemctl daemon-reload
 systemctl enable --now motioneye
