@@ -1,22 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# nepozs <szopen@os.pl>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-03-31 20:46+0000\n"
-"PO-Revision-Date: 2022-12-20 09:48+0000\n"
-"Last-Translator: Piotr Turek <piotr.turek@borpol.com.pl>\n"
+"PO-Revision-Date: 2023-04-05 00:45+0000\n"
+"Last-Translator: nepozs <szopen@os.pl>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 4.17-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -61,9 +60,8 @@ msgid "enigu validan valoron"
 msgstr "wprowadź prawidłową wartość"
 
 #: motioneye/static/js/main.js:841
-#, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr "Spowoduje to rekurencyjne usunięcie wszystkich plików obecnych w folderze w chmurze \""
+msgstr "Spowoduje to rekurencyjne usunięcie wszystkich plików obecnych w katalogu chmury \""
 
 #: motioneye/static/js/main.js:842
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
@@ -82,14 +80,12 @@ msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
 msgstr "Nie można edytować maski bez prawidłowego obrazu z kamery!"
 
 #: motioneye/static/js/main.js:2230
-#, fuzzy
 msgid "Propra"
-msgstr "Custom"
+msgstr "Niestandardowy"
 
 #: motioneye/static/js/main.js:2268
-#, fuzzy
 msgid "Propra dosierindiko"
-msgstr "Custom Path"
+msgstr "Ścieżka niestandardowa"
 
 #: motioneye/static/js/main.js:2270
 msgid "Retan kunlokon"
@@ -190,33 +186,28 @@ msgid "Malsukcesis restaŭri la agordon!"
 msgstr "Nie udało się przywrócić konfiguracji!"
 
 #: motioneye/static/js/main.js:3070
-#, fuzzy
 msgid "Aliri la alŝutan servon malsukcesis: "
 msgstr "Dostęp do usługi przesyłania nie powiódł się: "
 
 #: motioneye/static/js/main.js:3073
-#, fuzzy
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "Uzyskanie dostępu do usługi przesyłania powiodło się!"
 
 #: motioneye/static/js/main.js:3110 motioneye/static/js/main.js:3113
-#, fuzzy
 msgid "Sciiga retpoŝto fiaskis:"
-msgstr "Notification email failed:"
+msgstr "Nie udało się wysłać e-maila z powiadomieniem:"
 
 #: motioneye/static/js/main.js:3129
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
 msgstr "Upewnij się, że wszystkie opcje konfiguracji są prawidłowe!"
 
 #: motioneye/static/js/main.js:3145
-#, fuzzy
 msgid "Sciiga Telegramo fiaskis:"
-msgstr "Notification Telegram failed:"
+msgstr "Nie udało się wysłać wiadomości Telegram z powiadomieniem:"
 
 #: motioneye/static/js/main.js:3148
-#, fuzzy
 msgid "Sciiga Telegramo sukcesis!"
-msgstr "Notification Telegram succeeded!"
+msgstr "Powiadomienie Telegram powiodło się!"
 
 #: motioneye/static/js/main.js:3184
 msgid "Aliro al retdividado fiaskis: "
@@ -276,7 +267,6 @@ msgid "Nuligi"
 msgstr "Anuluj"
 
 #: motioneye/static/js/main.js:3656
-#, fuzzy
 msgid "Vi abortis la filmeton."
 msgstr "Przerwałeś odtwarzanie wideo."
 
@@ -309,9 +299,8 @@ msgid "ludi"
 msgstr "odtwórz"
 
 #: motioneye/static/js/main.js:3684
-#, fuzzy
 msgid "ludi * 5 kaj enĉenigi"
-msgstr "play * 5 and chain"
+msgstr "Odtwarzaj 5 razy szybciej"
 
 #: motioneye/static/js/main.js:3689
 msgid "sekva bildo"
@@ -402,9 +391,8 @@ msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/
 msgstr "Kamery sieciowe (lub kamery IP) to urządzenia, które natywnie przesyłają strumieniowo wideo RTSP/RTMP lub MJPEG lub zwykłe obrazy JPEG. Zapoznaj się z instrukcją obsługi urządzenia, aby znaleźć prawidłowy adres URL RTSP, RTMP, MJPEG lub JPEG."
 
 #: motioneye/static/js/main.js:3949
-#, fuzzy
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr "Lokalne kamery MMAL to urządzenia podłączone bezpośrednio do systemu motionEye. Są to zwykle kamery przeznaczone do konkretnych płyt."
+msgstr "Lokalne kamery MMAL to urządzenia podłączone bezpośrednio do systemu motionEye. Są to zwykle kamery dedykowane do konkretnych płyt SBC."
 
 #: motioneye/static/js/main.js:3964
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
@@ -487,14 +475,12 @@ msgid "Filmo kreanta en progreso..."
 msgstr "Tworzenie filmu poklatkowego..."
 
 #: motioneye/static/js/main.js:4501
-#, fuzzy
 msgid "Zipitaj"
-msgstr "Zipped"
+msgstr "Spakowana"
 
 #: motioneye/static/js/main.js:4510
-#, fuzzy
 msgid "Akselita video"
-msgstr "Timelapse"
+msgstr "Film poklatkowy"
 
 #: motioneye/static/js/main.js:4521
 msgid "Forigi ĉiujn"
@@ -509,17 +495,14 @@ msgid "Filmoj registritaj de "
 msgstr "Filmy nagrane przez "
 
 #: motioneye/static/js/main.js:4728
-#, fuzzy
 msgid "montru ĉi tiun fotilon plenekranan"
 msgstr "Pokaż tę kamerę na pełnym ekranie"
 
 #: motioneye/static/js/main.js:4729
-#, fuzzy
 msgid "montri ĉiujn fotilojn"
 msgstr "pokaż wszystkie kamery"
 
 #: motioneye/static/js/main.js:4730
-#, fuzzy
 msgid "montru nur ĉi tiun fotilon"
 msgstr "pokaż tylko tą kamerę"
 
@@ -568,12 +551,10 @@ msgid " kaj "
 msgstr " i "
 
 #: motioneye/static/js/ui.js:515
-#, fuzzy
 msgid " pli ol "
 msgstr " więcej niż "
 
 #: motioneye/static/js/ui.js:520
-#, fuzzy
 msgid " malpli ol "
 msgstr " mniej niż "
 
@@ -618,9 +599,8 @@ msgid "Contrast"
 msgstr "Kontrast"
 
 #: l10n/v4l2.js:8
-#, fuzzy
 msgid "Exposure Absolute"
-msgstr "Ekspozycja absolutna"
+msgstr "Ekspozycja bezwzględna"
 
 #: l10n/v4l2.js:9
 msgid "Exposure Auto"
@@ -635,27 +615,24 @@ msgid "Exposure Time Absolute"
 msgstr "Bezwzględny czas ekspozycji"
 
 #: l10n/v4l2.js:12
-#, fuzzy
 msgid "Focus Absolute"
-msgstr "Focus Absolute"
+msgstr "Ostrość bezwzględna"
 
 #: l10n/v4l2.js:13
 msgid "Focus Auto"
 msgstr "Automatyczna ostrość"
 
 #: l10n/v4l2.js:14
-#, fuzzy
 msgid "Gain"
-msgstr "Gain"
+msgstr "Wzmocnienie"
 
 #: l10n/v4l2.js:15
 msgid "Gamma"
 msgstr "Gamma"
 
 #: l10n/v4l2.js:16
-#, fuzzy
 msgid "Hue"
-msgstr "Hue"
+msgstr "Odcień"
 
 #: l10n/v4l2.js:17
 msgid "Led1 Mode"
@@ -666,14 +643,12 @@ msgid "Led1 Frequency"
 msgstr "Częstotliwość Led1"
 
 #: l10n/v4l2.js:19
-#, fuzzy
 msgid "Pan Absolute"
-msgstr "Pan Absolute"
+msgstr "Panorama bezwzględna"
 
 #: l10n/v4l2.js:20
-#, fuzzy
 msgid "Power Line Frequency"
-msgstr "Power Line Frequency"
+msgstr "Częstotliwość linii energetycznej"
 
 #: l10n/v4l2.js:21
 msgid "Saturation"
@@ -684,21 +659,17 @@ msgid "Sharpness"
 msgstr "Ostrość"
 
 #: l10n/v4l2.js:23
-#, fuzzy
 msgid "Tilt Absolute"
-msgstr "Tilt Absolute"
+msgstr "Nachylenie bezwzględne"
 
 #: l10n/v4l2.js:24
-#, fuzzy
 msgid "White Balance Temperature"
-msgstr "Temperatura balansu bieli"
+msgstr "Temperatura barwowa balansu bieli"
 
 #: l10n/v4l2.js:25
-#, fuzzy
 msgid "White Balance Temperature Auto"
-msgstr "White Balance Temperature Auto"
+msgstr "Automatyczna temperatura barwowa balansu bieli"
 
 #: l10n/v4l2.js:26
-#, fuzzy
 msgid "Zoom Absolute"
-msgstr "Zoom Absolute"
+msgstr "Zbliżenie bezwzględne"
