@@ -1224,7 +1224,7 @@ class S3(UploadService):
         # Uploads the given file using a managed uploader, which will split up
         # large files automatically and upload parts in parallel.
         self.debug(f'uploading file "{filename}" to S3 bucket "{self._bucket}"')
-        s3.upload_file(filename, self._bucket, filename[len(target_dir) :])
+        s3.upload_file(filename, self._bucket, os.path.basename(filename))
 
     def test_access(self):
         try:
