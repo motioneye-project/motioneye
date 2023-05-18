@@ -1,0 +1,41 @@
+name: pre-commit-autoupdate
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '42 15 * * *'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  pull-requests: write
+
+jobs:
+  pre-commit-autoupdate:
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        ref: dev
+        # https://github.com/peter-evans/create-pull-request/issues/48
+        token: ${{ secrets.GH_PAT }}
+    - uses: actions/setup-python@v4
+      with:
+        # https://github.com/actions/python-versions/releases
+        python-version: '3.11'
+    - env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git checkout -b pre-commit-autoupdate
+        pip install pre-commit
+        pre-commit --version
+        pre-commit autoupdate
+        git diff --exit-code && exit 0
+        git add -A
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git commit -m '[CI/CD] pre-commit autoupdate'
+        git push -f origin pre-commit-autoupdate
+        gh pr create -B dev -H pre-commit-autoupdate -f -l 'CI/CD'

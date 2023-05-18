@@ -7,17 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2022-08-23 09:22+0000\n"
-"Last-Translator: lucamot <lucamot@gmail.com>\n"
-"Language-Team: Italian <https://hosted.weblate.org/projects/"
-"motioneye-project/motioneye-javascript/it/>\n"
+"POT-Creation-Date: 2023-04-05 00:46+0000\n"
+"PO-Revision-Date: 2022-12-09 17:49+0000\n"
+"Last-Translator: DavideD8 <deganidavide93@gmail.com>\n"
+"Language-Team: Italian <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -434,7 +433,7 @@ msgstr "30 secondi"
 
 #: motioneye/static/js/main.js:4203
 msgid "minuto"
-msgstr "minuto"
+msgstr "Minuto"
 
 #: motioneye/static/js/main.js:4204
 msgid "5 minutoj"
@@ -450,7 +449,7 @@ msgstr "30 minuti"
 
 #: motioneye/static/js/main.js:4207
 msgid "horo"
-msgstr "ora"
+msgstr "Ora"
 
 #: motioneye/static/js/main.js:4210
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
@@ -524,7 +523,7 @@ msgstr "imposta questa videocamera"
 msgid "preni instantaron"
 msgstr "scatta un'istantanea"
 
-#: motioneye/static/js/main.js:5121
+#: motioneye/static/js/main.js:5118
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "Non hai ancora configurato alcuna videocamera. Clicca qui per aggiungerne una ..."
 

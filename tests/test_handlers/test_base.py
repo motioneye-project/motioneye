@@ -8,7 +8,6 @@ from tests.test_handlers import HandlerTestCase
 
 
 class BaseHandlerTest(HandlerTestCase):
-
     handler_cls = BaseHandler
 
     def test_get_argument(self):

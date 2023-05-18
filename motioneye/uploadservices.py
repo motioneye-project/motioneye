@@ -148,7 +148,6 @@ class UploadService:
 
 
 class GoogleBase:
-
     AUTH_URL = 'https://accounts.google.com/o/oauth2/auth'
     TOKEN_URL = 'https://accounts.google.com/o/oauth2/token'
 
@@ -1195,7 +1194,6 @@ class S3(UploadService):
         self._bucket = None
         UploadService.__init__(self, camera_id)
 
-    @classmethod
     def dump(self):
         return {
             'endpoint_url': self._endpoint_url,

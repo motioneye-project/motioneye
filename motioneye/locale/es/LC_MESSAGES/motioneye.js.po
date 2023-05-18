@@ -7,31 +7,28 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2022-05-18 16:29+0000\n"
-"Last-Translator: Gustavo Velasco-Hernández <gustavo.velascoh@gmail.com>\n"
+"POT-Creation-Date: 2023-04-05 00:46+0000\n"
+"PO-Revision-Date: 2022-11-19 13:48+0000\n"
+"Last-Translator: JP Vera <juanp.zunigav@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 
 #: motioneye/static/js/main.js:606
-#, fuzzy
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "no se permiten caracteres especiales en la contraseña"
 
 #: motioneye/static/js/main.js:613 motioneye/static/js/main.js:624
 #: motioneye/static/js/main.js:683 motioneye/static/js/ui.js:362
 #: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
-#, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "Este campo es obligatorio"
 
 #: motioneye/static/js/main.js:617
-#, fuzzy
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
 msgstr "no se permiten caracteres especiales en el nombre de la cámara"
 
@@ -45,32 +42,26 @@ msgid "specialaj signoj ne rajtas en radika voja nomo"
 msgstr "no se permiten caracteres especiales en el nombre del directorio raíz"
 
 #: motioneye/static/js/main.js:639
-#, fuzzy
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "los archivos no se pueden crear directamente en la raíz de su sistema"
 
 #: motioneye/static/js/main.js:646
-#, fuzzy
 msgid "enigu validan retpoŝtadreson"
 msgstr "ingrese una dirección de correo electrónico válida"
 
 #: motioneye/static/js/main.js:653
-#, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "ingrese una lista de direcciones de correo electrónico válidas separadas por comas"
 
 #: motioneye/static/js/main.js:660
-#, fuzzy
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "no se permiten caracteres especiales en el nombre del archivo"
 
 #: motioneye/static/js/main.js:687
-#, fuzzy
 msgid "enigu validan valoron"
 msgstr "ingrese un valor válido"
 
 #: motioneye/static/js/main.js:841
-#, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
 msgstr "Esto eliminará recursivamente todos los archivos en la carpeta de la nube \""
 
@@ -111,7 +102,6 @@ msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
 msgstr "¡Su navegador no implementa esta función!"
 
 #: motioneye/static/js/main.js:2646
-#, fuzzy
 msgid "Apliki"
 msgstr "Aplicar"
 
@@ -160,9 +150,8 @@ msgid "motionEye estas ĝisdatigita (aktuala versio: "
 msgstr "motionEye está actualizado (versión actual: "
 
 #: motioneye/static/js/main.js:2888
-#, fuzzy
 msgid "Nova versio havebla: "
-msgstr "Nueva versión disponible:"
+msgstr "Nueva versión disponible: "
 
 #: motioneye/static/js/main.js:2888
 #, fuzzy
@@ -215,9 +204,8 @@ msgid "Malsukcesis restaŭri la agordon!"
 msgstr "¡Error al restaurar la configuración!"
 
 #: motioneye/static/js/main.js:3070
-#, fuzzy
 msgid "Aliri la alŝutan servon malsukcesis: "
-msgstr "Error al acceder al servicio de carga:"
+msgstr "Error al acceder al servicio de carga: "
 
 #: motioneye/static/js/main.js:3073
 #, fuzzy
@@ -245,9 +233,8 @@ msgid "Sciiga Telegramo sukcesis!"
 msgstr "¡El telegrama de notificación fue exitoso!"
 
 #: motioneye/static/js/main.js:3184
-#, fuzzy
 msgid "Aliro al retdividado fiaskis: "
-msgstr "El acceso a la transmisión de red falló:"
+msgstr "El acceso a la transmisión de red falló: "
 
 #: motioneye/static/js/main.js:3187
 #, fuzzy
@@ -341,9 +328,8 @@ msgid "Nekonata eraro okazis."
 msgstr "Ocurrió un error desconocido."
 
 #: motioneye/static/js/main.js:3671
-#, fuzzy
 msgid "Eraro : "
-msgstr "Error:"
+msgstr "Error: "
 
 #: motioneye/static/js/main.js:3676
 #, fuzzy
@@ -491,7 +477,6 @@ msgid "Aldonadi kameraon..."
 msgstr "Agregar cámara ..."
 
 #: motioneye/static/js/main.js:4192
-#, fuzzy
 msgid "Grupo"
 msgstr "Grupo"
 
@@ -521,7 +506,6 @@ msgid "30 sekundoj"
 msgstr "30 segundos"
 
 #: motioneye/static/js/main.js:4203
-#, fuzzy
 msgid "minuto"
 msgstr "minuto"
 
@@ -541,9 +525,8 @@ msgid "30 minutoj"
 msgstr "30 minutos"
 
 #: motioneye/static/js/main.js:4207
-#, fuzzy
 msgid "horo"
-msgstr "una hora"
+msgstr "hora"
 
 #: motioneye/static/js/main.js:4210
 #, fuzzy
@@ -591,14 +574,12 @@ msgid "Forigi ĉiujn"
 msgstr "Eliminarlos todos"
 
 #: motioneye/static/js/main.js:4663
-#, fuzzy
 msgid "Bildoj prenitaj de "
-msgstr "Fotografías tomadas por"
+msgstr "Fotografías tomadas por "
 
 #: motioneye/static/js/main.js:4666
-#, fuzzy
 msgid "Filmoj registritaj de "
-msgstr "Películas grabadas por"
+msgstr "Películas grabadas por "
 
 #: motioneye/static/js/main.js:4728
 #, fuzzy
@@ -635,7 +616,7 @@ msgstr "configurar esta cámara"
 msgid "preni instantaron"
 msgstr "tomar una instantánea"
 
-#: motioneye/static/js/main.js:5121
+#: motioneye/static/js/main.js:5118
 #, fuzzy
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "Aún no has configurado ninguna cámara. Haga clic aquí para añadir uno ..."
@@ -661,24 +642,20 @@ msgid "enigu entjeran nombron"
 msgstr "ingrese un número entero"
 
 #: motioneye/static/js/ui.js:512
-#, fuzzy
 msgid " inter "
-msgstr "en el medio"
+msgstr " en el medio "
 
 #: motioneye/static/js/ui.js:512
-#, fuzzy
 msgid " kaj "
-msgstr "y"
+msgstr " y "
 
 #: motioneye/static/js/ui.js:515
-#, fuzzy
 msgid " pli ol "
-msgstr "mas que"
+msgstr " mas que "
 
 #: motioneye/static/js/ui.js:520
-#, fuzzy
 msgid " malpli ol "
-msgstr "menos de"
+msgstr " menos de "
 
 #: motioneye/static/js/ui.js:573
 #, fuzzy
@@ -756,9 +733,8 @@ msgid "Focus Absolute"
 msgstr "Enfoque absolutamente"
 
 #: l10n/v4l2.js:13
-#, fuzzy
 msgid "Focus Auto"
-msgstr "Focus Auto"
+msgstr "Auto-foco"
 
 #: l10n/v4l2.js:14
 #, fuzzy

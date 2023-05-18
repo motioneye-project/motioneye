@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-12 17:19+0200\n"
+"POT-Creation-Date: 2023-04-05 00:46+0000\n"
 "PO-Revision-Date: 2022-05-03 16:19+0000\n"
 "Last-Translator: jmichault <jmt.2000@free.fr>\n"
 "Language-Team: Arabic <https://hosted.weblate.org/projects/motioneye-project/motioneye/ar/>\n"
@@ -49,52 +49,52 @@ msgstr "الرجاء تثبيت وسادة أو PIL"
 msgid "bonvolu instali pycurl"
 msgstr "الرجاء تثبيت pycurl"
 
-#: motioneye/server.py:423
+#: motioneye/server.py:422
 #, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "أهلا! هذا هو خادم MotionEye "
 
-#: motioneye/server.py:438
+#: motioneye/server.py:437
 #, fuzzy
 msgid "purigado komenciĝis"
 msgstr "بدأ التنظيف"
 
-#: motioneye/server.py:440
+#: motioneye/server.py:439
 #, fuzzy
 msgid "wsswitch komenciĝis"
 msgstr "بدأ wsswitch"
 
-#: motioneye/server.py:443
+#: motioneye/server.py:442
 #, fuzzy
 msgid "taskoj komenciĝis"
 msgstr "بدأت المهام"
 
-#: motioneye/server.py:447
+#: motioneye/server.py:446
 #, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "بدأ جامع القمامة العملاء mjpg"
 
-#: motioneye/server.py:465
+#: motioneye/server.py:464
 #, fuzzy
 msgid "servilo komenciĝis"
 msgstr "بدأ الخادم"
 
-#: motioneye/server.py:471
+#: motioneye/server.py:470
 #, fuzzy
 msgid "servilo haltis"
 msgstr "توقف الخادم"
 
-#: motioneye/server.py:473
+#: motioneye/server.py:472
 #, fuzzy
 msgid "taskoj haltis"
 msgstr "توقفت المهام"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:480
 #, fuzzy
 msgid "motion haltis"
 msgstr "توقفت الحركة"
 
-#: motioneye/server.py:486
+#: motioneye/server.py:485
 #, fuzzy
 msgid "adiaŭ!"
 msgstr "وداعا!"
@@ -871,7 +871,6 @@ msgstr "نص مخصص…"
 
 #: motioneye/templates/main.html:625
 #, fuzzy, python-format
-#, fuzzy
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "يحدد النص الأيسر المخصص ؛ يتم قبول الرموز الخاصة التالية: ٪٪ y = Year ، ٪٪ m = month ، ٪٪ d = day ، ٪٪ H = ساعة ، ٪٪ m = دقيقة ، ٪٪ s = second ، ٪٪ Q = رقم الإطار ، ٪٪ v = رقم الحدث ، ٪٪ t = hh: mm: ss ، \\n = سطر جديد"
 

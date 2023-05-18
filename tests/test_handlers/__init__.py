@@ -13,7 +13,6 @@ T = TypeVar('T', bound=RequestHandler)
 
 
 class HandlerTestCase(AsyncHTTPTestCase):
-
     handler_cls = NotImplemented  # type: Type[T]
 
     def get_app(self) -> Application:

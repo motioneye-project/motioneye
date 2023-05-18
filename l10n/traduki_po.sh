@@ -10,36 +10,35 @@ FIC=$1
 dst=$(grep '^"Language: .*\n"$' "$FIC" | sed 's/^"Language: //;s/.n"$//')
 
 awk -v "src=$src" -v "dst=$dst" '{
-  if ( CONTMSG==1 && substr($1,1,1) != "\"")
+  if (CONTMSG==1 && substr($1,1,1) != "\"")
   {
     CONTMSG=0;
   }
   if ($1 == "msgid")
   {
     MSGID=substr($0,7);
-    if(MSGID=="\"\"")
+    if (MSGID=="\"\"")
       CONTMSG=1;
   }
-  else if ( CONTMSG==1 && substr($1,1,1) == "\"")
+  else if (CONTMSG==1 && substr($1,1,1) == "\"")
   {
     MSGID = substr(MSGID,1,length(MSGID)-1) substr($0,2);
   }
   else if ($1 == "msgstr")
   {
-    if($2 != "\"\"" || MSGID == "\"\"")
+    if ($2 != "\"\"" || MSGID == "\"\"")
     {
       print ("msgid " MSGID);
       print $0;
     }
     else
-    { # msgstr == "" kaj MSGID != ""
+    {
       getline nextline
       if (nextline == "")
       {
-        print ("#, fuzzy");
         print ("msgid " MSGID);
         printf("msgstr \"");
-        MSG=system("l10n/traduko.sh " src " " dst " " MSGID )
+        MSG=system("l10n/traduko.sh " src " " dst " " MSGID)
         printf("\"\n\n");
       }
       else
@@ -55,3 +54,5 @@ awk -v "src=$src" -v "dst=$dst" '{
 }' "$FIC" > "$FIC.$$"
 mv "$FIC" "$FIC.old"
 mv "$FIC.$$" "$FIC"
+# Remove trailing empty line, to satisfy pre-commit
+sed -i '${/^$/d}' "$FIC"

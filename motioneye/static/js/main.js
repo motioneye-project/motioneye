@@ -4729,7 +4729,7 @@ function addCameraFrameUi(cameraConfig) {
                     '<img class="camera">' +
                     '<div class="camera-progress"><img class="camera-progress"></div>' +
                 '</div>' +
-                '<div class="camera-overlay">' +
+                '<div class="camera-overlay" style="display: none;">' +
                     '<div class="camera-overlay-top">' +
                         '<div class="camera-name"><span class="camera-name"></span></div>' +
                         '<div class="camera-top-buttons">' +
@@ -5117,9 +5117,6 @@ function recreateCameraFrames(cameras) {
             camera = cameras[i];
             addCameraFrameUi(camera);
         }
-
-        /* overlay is always hidden after creating the frames */
-        hideCameraOverlay();
 
         var query = splitUrl().params;
         if ($('#cameraSelect').find('option').length < 2 && isAdmin() && !query.camera_ids) {

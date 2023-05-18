@@ -19,41 +19,59 @@ done
 
 # Install dependencies
 if command -v apt-get > /dev/null; then
+  echo 'INFO: APT-based distribution detected, installing motionEye dependencies'
   (( SKIP_APT_UPDATE )) || apt-get update
-  # On Debian Buster and Ubuntu Focal, install newer motion from GitHub
-  FILE=''
+  # If matching package can be found, install from motion project GitHub releases
   MOTION='motion'
   DISTRO=''
   [[ -f '/etc/os-release' ]] && DISTRO=$(sed -n '/^VERSION_CODENAME=/{s/^[^=]*=//p;q}' /etc/os-release)
-  if [[ $DISTRO == 'buster' || $DISTRO == 'focal' ]]; then
-    MOTION_REL='4.3.2'
-    MOTION_SUBREL='-1'
+  if [[ $DISTRO ]]; then
     ARCH=$(dpkg --print-architecture)
     # On ARMv6 Raspberry Pi models, download armv6hf package
     PI=''
-    [[ $(uname -m) == 'armv6l' && -f '/sys/firmware/devicetree/base/model' ]] && grep -q 'aspberry' /sys/firmware/devicetree/base/model && PI='pi_'
-    FILE="${PI}${DISTRO}_motion_${MOTION_REL}${MOTION_SUBREL}_${ARCH}.deb"
+    [[ ${ARCH} == 'armhf' && $(uname -m) == 'armv6l' ]] && PI='pi_'
+    echo "INFO: ${DISTRO^} on ${ARCH} detected, checking for latest motion package from GitHub releases"
     command -v curl > /dev/null || DEBIAN_FRONTEND="noninteractive" apt-get -y --no-install-recommends install curl
-    curl -fLO "https://github.com/Motion-Project/motion/releases/download/release-${MOTION_REL}/${FILE}"
-    MOTION="./${FILE}"
+    URL=$(curl -sSfL 'https://api.github.com/repos/Motion-Project/motion/releases' | awk -F\" "/browser_download_url.*${PI}${DISTRO}_motion_.*_${ARCH}.deb/{print \$4}" | head -1)
+    if [[ ${URL} ]]
+    then
+      echo "INFO: Matching package found, downloading: ${URL}"
+      if curl -fLo /tmp/motion.deb "${URL}"
+      then
+        MOTION='/tmp/motion.deb'
+      else
+        echo 'WARNING: Download failed, installing (older) motion package from APT repository instead'
+      fi
+    else
+      echo "WARNING: No motion package found for ${DISTRO^} on ${ARCH}, installing from APT repository instead"
+    fi
+  else
+    echo 'WARNING: Distribution version could not be detected, installing motion from APT repository'
   fi
   DEBIAN_FRONTEND="noninteractive" apt-get -y --no-install-recommends install "${MOTION}" v4l-utils ffmpeg curl
-  [[ ${FILE} ]] && rm "${FILE}"
+  rm -f motion.deb
 elif command -v yum > /dev/null; then
+  echo 'INFO: YUM-based distribution detected, installing motionEye dependencies'
   yum -y install motion v4l-utils ffmpeg curl
 else
-  echo 'This system uses neither apt nor yum. Please install these dependencies manually:
+  echo 'WARNING: This system uses neither APT nor YUM. Please install these dependencies manually:
   motion v4l-utils ffmpeg curl'
 fi
 
 # Pre-create config and data dirs and install configuration files
-[[ -d '/etc/motioneye' ]] || mkdir /etc/motioneye
-[[ -f '/etc/motioneye/motioneye.conf' ]] || cp extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
+if [[ -f '/etc/motioneye/motioneye.conf' ]]
+then
+  # Update PID file directory if the default from old motionEye is still present: https://github.com/motioneye-project/motioneye/issues/2657
+  grep -q '^run_path /var/run$' /etc/motioneye/motioneye.conf && sed -i '\|^run_path /var/run$|c\run_path /run/motioneye' /etc/motioneye/motioneye.conf
+else
+  [[ -d '/etc/motioneye' ]] || mkdir /etc/motioneye
+  cp extra/motioneye.conf.sample /etc/motioneye/motioneye.conf
+fi
 chown -R motion:motion /etc/motioneye
 
 (( SKIP_SYSTEMD )) && exit 0
 
 # Install service
-[[ -f '/etc/systemd/system/motioneye.service' ]] || cp extra/motioneye.systemd /etc/systemd/system/motioneye.service
+cp extra/motioneye.systemd /etc/systemd/system/motioneye.service
 systemctl daemon-reload
 systemctl enable --now motioneye

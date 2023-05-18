@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-12 17:19+0200\n"
+"POT-Creation-Date: 2023-04-05 00:46+0000\n"
 "PO-Revision-Date: 2020-04-09 16:58+0200\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -47,52 +47,52 @@ msgstr "ਕਿਰਪਾ ਕਰਕੇ ਸਿਰਹਾਣਾ ਜਾਂ ਪੀ.ਆ�
 msgid "bonvolu instali pycurl"
 msgstr "ਕਿਰਪਾ ਕਰਕੇ ਪਾਈਕੁਰਲ ਸਥਾਪਿਤ ਕਰੋ"
 
-#: motioneye/server.py:423
+#: motioneye/server.py:422
 #, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "ਹੈਲੋ! ਇਹ ਇੱਕ ਮੋਸ਼ਨਈ ਸਰਵਰ ਹੈ"
 
-#: motioneye/server.py:438
+#: motioneye/server.py:437
 #, fuzzy
 msgid "purigado komenciĝis"
 msgstr "ਸਫਾਈ ਸ਼ੁਰੂ ਕਰ ਦਿੱਤੀ"
 
-#: motioneye/server.py:440
+#: motioneye/server.py:439
 #, fuzzy
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch ਸ਼ੁਰੂ ਹੋ ਗਈ ਹੈ"
 
-#: motioneye/server.py:443
+#: motioneye/server.py:442
 #, fuzzy
 msgid "taskoj komenciĝis"
 msgstr "ਕੰਮ ਸ਼ੁਰੂ"
 
-#: motioneye/server.py:447
+#: motioneye/server.py:446
 #, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "mjpg ਗਾਹਕ ਕੂੜਾ ਕਰਕਟ ਇਕੱਠਾ ਕਰਨਾ ਸ਼ੁਰੂ ਕਰ ਦਿੱਤਾ ਹੈ"
 
-#: motioneye/server.py:465
+#: motioneye/server.py:464
 #, fuzzy
 msgid "servilo komenciĝis"
 msgstr "ਸਰਵਰ ਚਾਲੂ"
 
-#: motioneye/server.py:471
+#: motioneye/server.py:470
 #, fuzzy
 msgid "servilo haltis"
 msgstr "ਸਰਵਰ ਬੰਦ ਹੋ ਗਿਆ"
 
-#: motioneye/server.py:473
+#: motioneye/server.py:472
 #, fuzzy
 msgid "taskoj haltis"
 msgstr "ਕੰਮ ਬੰਦ ਹੋ ਗਏ"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:480
 #, fuzzy
 msgid "motion haltis"
 msgstr "ਗਤੀ ਬੰਦ ਹੋ ਗਈ"
 
-#: motioneye/server.py:486
+#: motioneye/server.py:485
 #, fuzzy
 msgid "adiaŭ!"
 msgstr "ਅਲਵਿਦਾ!"

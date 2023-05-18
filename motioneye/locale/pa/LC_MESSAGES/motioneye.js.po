@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-21 14:55+0200\n"
+"POT-Creation-Date: 2023-04-05 00:46+0000\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -646,7 +646,7 @@ msgstr "ਇਸ ਕੈਮਰਾ ਸੈੱਟ ਕਰੋ"
 msgid "preni instantaron"
 msgstr "ਇੱਕ ਸਨੈਪਸ਼ਾਟ ਲਓ"
 
-#: motioneye/static/js/main.js:5121
+#: motioneye/static/js/main.js:5118
 #, fuzzy
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "ਤੁਸੀਂ ਅਜੇ ਤੱਕ ਕਿਸੇ ਵੀ ਕੈਮਰੇ ਨੂੰ ਕੌਂਫਿਗਰ ਨਹੀਂ ਕੀਤਾ ਹੈ. % ਨੂੰ ਜੋਡ਼ਨ ਲਈ ਇੱਥੇ ਕਲਿਕ ਕਰੋਂ ..."

@@ -7,17 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-21 14:55+0200\n"
-"PO-Revision-Date: 2022-06-03 03:14+0000\n"
-"Last-Translator: Tiago Simões Tomé <tiagotome95@gmail.com>\n"
-"Language-Team: Portuguese <https://hosted.weblate.org/projects/"
-"motioneye-project/motioneye-javascript/pt/>\n"
+"POT-Creation-Date: 2023-04-05 00:46+0000\n"
+"PO-Revision-Date: 2023-03-14 19:38+0000\n"
+"Last-Translator: \"Lincoln H.\" <4k4ze5s44tgi@opayq.com>\n"
+"Language-Team: Portuguese <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.16.2-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -71,8 +70,7 @@ msgstr "\", não apenas aqueles enviados por motionEye!"
 
 #: motioneye/static/js/main.js:923
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
-msgstr ""
-"Isto recursivamente excluirá todos os ficheiros de mídia velhos da pasta \""
+msgstr "Isto recursivamente excluirá todos os ficheiros de mídia velhos da pasta \""
 
 #: motioneye/static/js/main.js:924
 msgid "\", ne nur tiuj kreitaj de motionEye!"
@@ -387,39 +385,23 @@ msgstr "a câmera que deseja adicionar"
 
 #: motioneye/static/js/main.js:3929
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
-msgstr ""
-"Uma câmera motionEye externa é uma câmera instalada atrás de outro servidor "
-"MotionEye. Adicioná-las aqui, lhe permitirá a visualização e administração à "
-"distância."
+msgstr "Uma câmera motionEye externa é uma câmera instalada atrás de outro servidor MotionEye. Adicioná-las aqui, lhe permitirá a visualização e administração à distância."
 
 #: motioneye/static/js/main.js:3944
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
-msgstr ""
-"As câmeras de rede (ou câmeras IP) são dispositivos que transmitem "
-"nativamente vídeos RTSP/RTMP ou MJPEG, ou imagens JPEG simples. Consulte o "
-"manual do seu dispositivo para descobrir o URL de RTSP, RTMP, MJPEG ou JPEG "
-"correto."
+msgstr "As câmeras de rede (ou câmeras IP) são dispositivos que transmitem nativamente vídeos RTSP/RTMP ou MJPEG, ou imagens JPEG simples. Consulte o manual do seu dispositivo para descobrir o URL de RTSP, RTMP, MJPEG ou JPEG correto."
 
 #: motioneye/static/js/main.js:3949
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr ""
-"As câmeras MMAL locais são dispositivos conectados diretamente ao seu "
-"sistema motionEye. Geralmente, são câmeras específicas da placa(board)."
+msgstr "As câmeras MMAL locais são dispositivos conectados diretamente ao seu sistema motionEye. Geralmente, são câmeras específicas da placa(board)."
 
 #: motioneye/static/js/main.js:3964
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
-msgstr ""
-"Adicionar seu dispositivo como câmera MJPEG simples e não como uma câmera de "
-"rede, melhorará a imagem, mas a detecção de movimento, captura de imagem e "
-"gravação de filme não estarão disponíveis para essa mesma. A câmera deve "
-"estar acessível ao seu servidor e seu navegador. Este tipo de câmera não é "
-"compatível ao Internet Explorer."
+msgstr "Adicionar seu dispositivo como câmera MJPEG simples e não como uma câmera de rede, melhorará a imagem, mas a detecção de movimento, captura de imagem e gravação de filme não estarão disponíveis para essa mesma. A câmera deve estar acessível ao seu servidor e seu navegador. Este tipo de câmera não é compatível ao Internet Explorer."
 
 #: motioneye/static/js/main.js:3969
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
-msgstr ""
-"As câmeras V4L2 locais são dispositivos de câmera conectados diretamente ao "
-"seu sistema motionEye, geralmente por USB."
+msgstr "As câmeras V4L2 locais são dispositivos de câmera conectados diretamente ao seu sistema motionEye, geralmente por USB."
 
 #: motioneye/static/js/main.js:4120
 msgid "Aldonadi kameraon..."
@@ -483,9 +465,7 @@ msgstr "Escolha a velocidade de reprodução do vídeo de timelapse."
 
 #: motioneye/static/js/main.js:4224
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr ""
-"Considerando o grande número de imagens, a criação do seu vídeo pode levar "
-"algum tempo!"
+msgstr "Considerando o grande número de imagens, a criação do seu vídeo pode levar algum tempo!"
 
 #: motioneye/static/js/main.js:4241
 msgid "Krei akselita video"
@@ -543,10 +523,9 @@ msgstr "Configurar esta câmera"
 msgid "preni instantaron"
 msgstr "Tirar uma foto"
 
-#: motioneye/static/js/main.js:5121
+#: motioneye/static/js/main.js:5118
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr ""
-"Você ainda não configurou nenhuma câmera. Clique aqui para adicionar uma ..."
+msgstr "Você ainda não configurou nenhuma câmera. Clique aqui para adicionar uma ..."
 
 #: motioneye/static/js/ui.js:503
 msgid "enigu pozitivan nombron"

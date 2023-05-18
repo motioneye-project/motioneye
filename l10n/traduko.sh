@@ -1,43 +1,36 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 ################################################################
 # skripto por aŭtomate traduki frazon
 ################################################################
-DEBUG=
+#DEBUG=
 
 src=$1
 dst=$2
 txt=$3
-#txt=${3//\\/\\\\}
 
-cook=$(find . -maxdepth 1 _traduko.jar -mmin -15 2>/dev/null)
+# Reuse cookie if not older than 15 minutes
 
-PROVO=0
+cookie=$(find . -maxdepth 1 -name _traduko.jar -mmin -14)
 
-while (( PROVO < 3 ))
-do
+# Obtain cookie
+[ "$cookie" ] || curl -sSfc _traduko.jar -A 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' 'https://translate.google.com' -o /dev/null > /dev/null
 
-if [[ -z $cook ]]
-then
-  curl -c _traduko.jar -A 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' \
-  'https://translate.google.com' -o /dev/null 2>/dev/null
-fi
-
-MSG0=$(curl -b _traduko.jar -A 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' \
+# Obtain translation from Google Translator API
+MSG0=$(curl -sSfb _traduko.jar -A 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' \
   --refer 'https://translate.google.com/' \
   "https://translate.google.com/translate_a/single?client=webapp&sl=${src}&tl=${dst}&hl=${dst}&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=gt&pc=1&otf=1&ssel=0&tsel=0&kc=1&tk=&ie=UTF-8&oe=UTF-8" \
-  --data-urlencode "q=${txt//\\/\\}" 2>/dev/null \
+  --data-urlencode "q=$txt" > /dev/null \
 )
 
-[[ $DEBUG ]] && echo "$src txt=$txt" >&2
+[ "$DEBUG" ] && printf '%s\n' "$src txt=$txt" >&2
 
-if echo "$MSG0" | grep -q 'sorry'
+if printf '%s' "$MSG0" | grep -q 'sorry'
 then
-  # echo sorry
-  BASEDIR=$(dirname "$(readlink -f "$0")")
-  MSG=$("$BASEDIR/trans" -b -s "$src" -t "$dst" "$txt")
+  # Failed: Print error
+  printf '%s\n%s\n' 'ERROR: Google Translator returned "sorry":' "$MSG0" >&2
 else
-  # echo pas sorry
-  MSG=$(echo "$MSG0" | jq '.[0][][0]' | grep -v '^null$' \
+  # Success: Extract translated txt
+  MSG=$(printf '%s' "$MSG0" | jq '.[0][][0]' | grep -v '^null$' \
   | sed "s/\\\\u003d/=/g;s/\\\\u003c/</g;s/\\\\u003e/>/g" \
   | sed "s/\\\\u200b//g" \
   | sed "s/\xe2\x80\x8b//g" \
@@ -47,15 +40,14 @@ else
   | sed "s/\. \\\n$/.  \\\n/" \
   )
 fi
-[[ $DEBUG ]] && echo "$dst txt=$MSG" >&2
 
-if [[ -z $MSG ]]
+[ "$DEBUG" ] && printf '%s\n' "$dst txt=$MSG" >&2
+
+# Reset cookie if no message returned
+if [ "$MSG" ]
 then
-  cook=
-else
   printf '%s' "$MSG"
-  break
+else
+  printf '%s\n' 'ERROR: Google Translator did not return a translation' >&2
+  rm -f _traduko.jar
 fi
-
-((PROVO++))
-done

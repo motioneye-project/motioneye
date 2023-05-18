@@ -7,16 +7,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2022-06-12 17:19+0200\n"
-"PO-Revision-Date: 2022-05-18 16:29+0000\n"
-"Last-Translator: Gustavo Velasco-Hernández <gustavo.velascoh@gmail.com>\n"
+"POT-Creation-Date: 2023-04-05 00:46+0000\n"
+"PO-Revision-Date: 2022-11-19 13:48+0000\n"
+"Last-Translator: JP Vera <juanp.zunigav@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 4.15-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -24,9 +24,8 @@ msgid "interrompa signalo ricevita, fermanta …"
 msgstr "Señal de interrupción recibida, cerrando…"
 
 #: motioneye/server.py:276
-#, fuzzy
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr "los recursos compartidos de smb requieren privilegios de root"
+msgstr "los recursos compartidos de SMB requieren privilegios de root"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
@@ -46,59 +45,54 @@ msgstr "por favor instale pillow o PIL"
 msgid "bonvolu instali pycurl"
 msgstr "por favor instale pycurl"
 
-#: motioneye/server.py:423
+#: motioneye/server.py:422
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr "¡hola! este es un servidor motionEye "
 
-#: motioneye/server.py:438
+#: motioneye/server.py:437
 msgid "purigado komenciĝis"
 msgstr "la limpieza comenzó"
 
-#: motioneye/server.py:440
+#: motioneye/server.py:439
 #, fuzzy
 msgid "wsswitch komenciĝis"
 msgstr "wsswitch ha comenzado"
 
-#: motioneye/server.py:443
+#: motioneye/server.py:442
 #, fuzzy
 msgid "taskoj komenciĝis"
 msgstr "tareas iniciadas"
 
-#: motioneye/server.py:447
+#: motioneye/server.py:446
 #, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr "El recolector de basura del cliente mjpg ha comenzado"
 
-#: motioneye/server.py:465
-#, fuzzy
+#: motioneye/server.py:464
 msgid "servilo komenciĝis"
 msgstr "servidor iniciado"
 
-#: motioneye/server.py:471
-#, fuzzy
+#: motioneye/server.py:470
 msgid "servilo haltis"
 msgstr "servidor detenido"
 
-#: motioneye/server.py:473
-#, fuzzy
+#: motioneye/server.py:472
 msgid "taskoj haltis"
 msgstr "tareas detenidas"
 
-#: motioneye/server.py:481
+#: motioneye/server.py:480
 msgid "motion haltis"
 msgstr "motion detenido"
 
-#: motioneye/server.py:486
+#: motioneye/server.py:485
 msgid "adiaŭ!"
 msgstr "¡adios!"
 
 #: motioneye/templates/main.html:104
-#, fuzzy
 msgid "agordojn"
 msgstr "ajustes"
 
 #: motioneye/templates/main.html:105
-#, fuzzy
 msgid "ŝanĝi uzanton"
 msgstr "cambiar usuario"
 
@@ -107,7 +101,6 @@ msgid "forigi kameraon"
 msgstr "remover la cámara"
 
 #: motioneye/templates/main.html:108
-#, fuzzy
 msgid "Apliki"
 msgstr "Aplicar"
 
@@ -1860,7 +1853,6 @@ msgid "jaro"
 msgstr "año"
 
 #: motioneye/utils/dtconv.py:129
-#, fuzzy
 msgid "horo"
 msgstr "hora"
 
@@ -1870,7 +1862,6 @@ msgid "horoj"
 msgstr "horas"
 
 #: motioneye/utils/dtconv.py:136
-#, fuzzy
 msgid "minuto"
 msgstr "minuto"
 
