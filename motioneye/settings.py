@@ -59,6 +59,9 @@ LISTEN = '0.0.0.0'
 # the TCP port to listen on
 PORT = 8765
 
+# Path to libcamerify if libcamera compatability layer/wrapper should be used (default no)
+LIBCAMERIFY = None
+
 # path to the motion binary to use (automatically detected by default)
 MOTION_BINARY = None
 
