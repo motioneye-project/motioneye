@@ -59,7 +59,11 @@ LISTEN = '0.0.0.0'
 # the TCP port to listen on
 PORT = 8765
 
-# Path to libcamerify if libcamera compatability layer/wrapper should be used (default no)
+# path to libcamerify for backwards compatability when using libcamera
+# This should only be used on Raspberry Pi with Bullseye or newer when you can not use the legacy camera libraries like raspicam.
+# If you have Raspberry Pi Camera v3 or newer you probably have to use this or some other workaround like a local IP-camera.
+# Libcamerify enables a way to access a libcamera-camera using the legacy APIs and will probably not support all if any camera parameters.
+# Libcamerify can be installed with "sudo apt install libcamera-tools".
 LIBCAMERIFY = None
 
 # path to the motion binary to use (automatically detected by default)
