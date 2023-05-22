@@ -112,18 +112,11 @@ def start(deferred=False):
     motion_log_path = os.path.join(settings.LOG_PATH, 'motion.log')
     motion_pid_path = os.path.join(settings.RUN_PATH, 'motion.pid')
 
-    args = []
-
+    args = [program, '-n', '-c', motion_config_path, '-d']
     libcamerify = find_libcamerify()
     if libcamerify:
-        args.append(libcamerify)
-        logging.debug('Using libcam wrapper libcamerify')
-
-    args.append(program)
-    args.append('-n')
-    args.append('-c')
-    args.append(motion_config_path)
-    args.append('-d')
+        logging.debug('Using libcamera wrapper libcamerify')
+        args.insert(0, libcamerify)
 
     if settings.LOG_LEVEL <= logging.DEBUG:
         args.append('9')
