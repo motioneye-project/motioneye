@@ -70,9 +70,7 @@ def find_motion():
     return _motion_binary_cache
 
 def find_libcamerify():
-
     if settings.LIBCAMERIFY:
-
         if os.path.exists(settings.LIBCAMERIFY):
             logging.debug(f'Found {settings.LIBCAMERIFY}')
             return settings.LIBCAMERIFY
