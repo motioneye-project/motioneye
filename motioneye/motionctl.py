@@ -83,7 +83,7 @@ def find_libcamerify():
                 logging.debug(f'Found {binary}')
                 return binary
 
-    return None, None
+    return None
 
 def start(deferred=False):
     from motioneye import config, mjpgclient
