@@ -2,28 +2,30 @@
 # Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
-#
+# Eduard Reñé Claramunt <edurenye@hotmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-04-05 00:46+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2023-05-31 16:50+0000\n"
+"Last-Translator: Eduard Reñé Claramunt <edurenye@hotmail.com>\n"
+"Language-Team: Catalan <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.18-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: motioneye/server.py:232
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr ""
+msgstr "S'ha rebut un senyal d'interrupció, tancant …"
 
 #: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr ""
+msgstr "els recursos compartits SMB requereixen privilegis de l'usuari arrel"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
@@ -31,109 +33,109 @@ msgstr ""
 
 #: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
-msgstr ""
+msgstr "si us plau, instal·leu jinja2"
 
 #: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr ""
+msgstr "si us plau, instal·leu pillow o PIL"
 
 #: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
-msgstr ""
+msgstr "si us plau, instal·leu pycurl"
 
 #: motioneye/server.py:422
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr ""
+msgstr "Hola! aquest és el servidor motionEye "
 
 #: motioneye/server.py:437
 msgid "purigado komenciĝis"
-msgstr ""
+msgstr "la neteja ha començat"
 
 #: motioneye/server.py:439
 msgid "wsswitch komenciĝis"
-msgstr ""
+msgstr "wsswitch ha arrancat"
 
 #: motioneye/server.py:442
 msgid "taskoj komenciĝis"
-msgstr ""
+msgstr "tasques començades"
 
 #: motioneye/server.py:446
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr ""
+msgstr "la recollida d'escombraries del client mjpg ha començat"
 
 #: motioneye/server.py:464
 msgid "servilo komenciĝis"
-msgstr ""
+msgstr "s'ha iniciat el servidor"
 
 #: motioneye/server.py:470
 msgid "servilo haltis"
-msgstr ""
+msgstr "servidor aturat"
 
 #: motioneye/server.py:472
 msgid "taskoj haltis"
-msgstr ""
+msgstr "tasques aturades"
 
 #: motioneye/server.py:480
 msgid "motion haltis"
-msgstr ""
+msgstr "motion aturat"
 
 #: motioneye/server.py:485
 msgid "adiaŭ!"
-msgstr ""
+msgstr "adéu!"
 
 #: motioneye/templates/main.html:104
 msgid "agordojn"
-msgstr ""
+msgstr "configuracions"
 
 #: motioneye/templates/main.html:105
 msgid "ŝanĝi uzanton"
-msgstr ""
+msgstr "canviar d'usuari"
 
 #: motioneye/templates/main.html:107
 msgid "forigi kameraon"
-msgstr ""
+msgstr "eliminar la càmera"
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
-msgstr ""
+msgstr "Aplicar"
 
 #: motioneye/templates/main.html:127
 msgid "preferoj de uzanto"
-msgstr ""
+msgstr "preferències de l'usuari"
 
 #: motioneye/templates/main.html:128
 msgid "Preferoj"
-msgstr ""
+msgstr "Preferències"
 
 #: motioneye/templates/main.html:133
 msgid "Aranĝo Kolumnoj"
-msgstr ""
+msgstr "Columnes de maquetació"
 
 #: motioneye/templates/main.html:135
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr ""
+msgstr "configura el nombre de columnes utilitzades per disposar els fotogrames de la càmera"
 
 #: motioneye/templates/main.html:138
 msgid "Fiksi Kadrojn Vertikale"
-msgstr ""
+msgstr "Ajusteu els fotogrames verticalment"
 
 #: motioneye/templates/main.html:140
 msgid ""
 "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la "
 "fenestro aŭ ne"
-msgstr ""
+msgstr "controla si les mides dels fotogrames es poden reduir per adaptar-se verticalment a la finestra o no"
 
 #: motioneye/templates/main.html:143
 msgid "Aranĝo linioj"
-msgstr ""
+msgstr "Files de maquetació"
 
 #: motioneye/templates/main.html:145
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr ""
+msgstr "configura el nombre de files utilitzades per disposar els fotogrames de la càmera"
 
 #: motioneye/templates/main.html:148
 msgid "kadro-variatoro"
-msgstr ""
+msgstr "Atenuador de velocitat de fotogrames"
 
 #: motioneye/templates/main.html:150
 msgid ""
@@ -178,7 +180,7 @@ msgstr ""
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
 msgid "Pasvorto"
-msgstr ""
+msgstr "Contrasenya"
 
 #: motioneye/templates/main.html:183
 msgid "pasvorto de administranto"
@@ -436,7 +438,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
-msgstr ""
+msgstr "Nom d'usuari"
 
 #: motioneye/templates/main.html:411
 msgid ""
@@ -1035,7 +1037,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
 msgid "Propra"
-msgstr ""
+msgstr "Personalitzat"
 
 #: motioneye/templates/main.html:790
 msgid ""
@@ -1726,7 +1728,7 @@ msgstr ""
 
 #: motioneye/utils/dtconv.py:129
 msgid "horo"
-msgstr ""
+msgstr "hora"
 
 #: motioneye/utils/dtconv.py:132
 msgid "horoj"
@@ -1734,7 +1736,7 @@ msgstr ""
 
 #: motioneye/utils/dtconv.py:136
 msgid "minuto"
-msgstr ""
+msgstr "minut"
 
 #: motioneye/utils/dtconv.py:139
 msgid "minutoj"
@@ -1742,7 +1744,7 @@ msgstr ""
 
 #: motioneye/utils/dtconv.py:143
 msgid "sekundo"
-msgstr ""
+msgstr "segon"
 
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
