@@ -909,7 +909,7 @@ def get_media_preview(camera_config, path, media_type, width, height):
     width = width and int(float(width)) or image.size[0]
     height = height and int(float(height)) or image.size[1]
 
-    image.thumbnail((width, height), Image.LINEAR)
+    image.thumbnail((width, height), Image.BILINEAR)
 
     bio = BytesIO()
     image.save(bio, format='JPEG')
@@ -1027,7 +1027,7 @@ def get_current_picture(camera_config, width, height):
     if width >= image.size[0] and height >= image.size[1]:
         return jpg  # no enlarging of the picture on the server side
 
-    image.thumbnail((width, height), Image.CUBIC)
+    image.thumbnail((width, height), Image.BICUBIC)
 
     bio = BytesIO()
     image.save(bio, format='JPEG')
