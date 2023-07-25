@@ -1,14 +1,13 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# el97 <erik1337.el@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-05 00:46+0000\n"
-"PO-Revision-Date: 2022-12-04 15:52+0000\n"
+"PO-Revision-Date: 2023-07-26 23:08+0000\n"
 "Last-Translator: el97 <erik1337.el@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/sv/>\n"
 "Language: sv\n"
@@ -16,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -42,7 +41,7 @@ msgstr "Speciella tecken är inte tillåtna i trädmapps namnet"
 
 #: motioneye/static/js/main.js:639
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr ""
+msgstr "filer kan inte skapas direkt i ditt systems rotmapp"
 
 #: motioneye/static/js/main.js:646
 msgid "enigu validan retpoŝtadreson"
@@ -66,7 +65,7 @@ msgstr "Detta kommer att rekursivt ta bort filer i mappen på din molntjänst \"
 
 #: motioneye/static/js/main.js:842
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
-msgstr ""
+msgstr "\", inte bara de som laddats upp av motionEye!"
 
 #: motioneye/static/js/main.js:923
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
@@ -74,89 +73,89 @@ msgstr "Detta kommer att rekursivt ta bort äldre media filer som finns i filkat
 
 #: motioneye/static/js/main.js:924
 msgid "\", ne nur tiuj kreitaj de motionEye!"
-msgstr ""
+msgstr "\", inte bara de som skapats av motionEye!"
 
 #: motioneye/static/js/main.js:990
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
-msgstr ""
+msgstr "Det går inte att redigera masken utan en giltig kamerabild!"
 
 #: motioneye/static/js/main.js:2230
 msgid "Propra"
-msgstr ""
+msgstr "Anpassad"
 
 #: motioneye/static/js/main.js:2268
 msgid "Propra dosierindiko"
-msgstr ""
+msgstr "Anpassad sökväg"
 
 #: motioneye/static/js/main.js:2270
 msgid "Retan kunlokon"
-msgstr ""
+msgstr "Nätverksdelning"
 
 #: motioneye/static/js/main.js:2630
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
-msgstr ""
+msgstr "Din webbläsare implementerar inte denna funktion!"
 
 #: motioneye/static/js/main.js:2646
 msgid "Apliki"
-msgstr ""
+msgstr "Applicera"
 
 #: motioneye/static/js/main.js:2673 motioneye/static/js/main.js:3034
 #: motioneye/static/js/main.js:3089 motioneye/static/js/main.js:3164
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
-msgstr ""
+msgstr "Säkerställ att alla konfigurationsalternativ är giltiga!"
 
 #: motioneye/static/js/main.js:2775
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
-msgstr ""
+msgstr "Detta kommer att starta om systemet. Fortsätt?"
 
 #: motioneye/static/js/main.js:2785
 msgid "Vere fermiti sistemon?"
-msgstr ""
+msgstr "Vill du verkligen stänga av systemet?"
 
 #: motioneye/static/js/main.js:2797
 msgid "Malŝaltita"
-msgstr ""
+msgstr "Avstängd"
 
 #: motioneye/static/js/main.js:2812
 msgid "Ĉu vere restartigi ?"
-msgstr ""
+msgstr "Vill du verkligen starta om?"
 
 #: motioneye/static/js/main.js:2826
 msgid "La sistemo rekomencis!"
-msgstr ""
+msgstr "Systemet har startats om!"
 
 #: motioneye/static/js/main.js:2846 motioneye/static/js/main.js:2879
 #: motioneye/static/js/main.js:3859
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
-msgstr ""
+msgstr "Tillämpa de ändrade inställningarna först!"
 
 #: motioneye/static/js/main.js:2851
 msgid "Neniu fotilo por forigi!"
-msgstr ""
+msgstr "Ingen kamera att ta bort!"
 
 #: motioneye/static/js/main.js:2857
 msgid "Ĉu forigi kameraon "
-msgstr ""
+msgstr "Ta bort kamera "
 
 #: motioneye/static/js/main.js:2885
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr ""
+msgstr "motionEye är uppdaterat (nuvarande version: "
 
 #: motioneye/static/js/main.js:2888
 msgid "Nova versio havebla: "
-msgstr ""
+msgstr "Ny version tillgänglig: "
 
 #: motioneye/static/js/main.js:2888
 msgid ". Ĝisdatigi?"
-msgstr ""
+msgstr ". Uppdatera?"
 
 #: motioneye/static/js/main.js:2896
 msgid "motionEye estis sukcese ĝisdatigita!"
-msgstr ""
+msgstr "motionEye har uppdaterats!"
 
 #: motioneye/static/js/main.js:2906
 msgid "Ĝisdatigo malsukcesis!"
-msgstr ""
+msgstr "Uppdatering misslyckades!"
 
 #: motioneye/static/js/main.js:2917
 msgid "La ĝisdatiga procezo malsukcesis!"
