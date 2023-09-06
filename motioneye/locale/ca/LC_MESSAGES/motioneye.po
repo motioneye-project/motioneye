@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
 # Eduard Reñé Claramunt <edurenye@hotmail.com>, 2023.
+# Xose Pérez <xose.perez@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-04-05 00:46+0000\n"
-"PO-Revision-Date: 2023-05-31 16:50+0000\n"
-"Last-Translator: Eduard Reñé Claramunt <edurenye@hotmail.com>\n"
+"PO-Revision-Date: 2023-09-07 19:56+0000\n"
+"Last-Translator: Xose Pérez <xose.perez@gmail.com>\n"
 "Language-Team: Catalan <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/ca/>\n"
 "Language: ca\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.18-dev\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: motioneye/server.py:232
@@ -29,7 +30,7 @@ msgstr "els recursos compartits SMB requereixen privilegis de l'usuari arrel"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr ""
+msgstr "si us plau, instal·leu tornado versió 3.1 o superior"
 
 #: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
@@ -141,41 +142,41 @@ msgstr "Atenuador de velocitat de fotogrames"
 msgid ""
 "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne "
 "funkcias kun simplaj MJPEG-fotiloj)"
-msgstr ""
+msgstr "redueix els fotogrames per segon per estalviar ample de banda i tràfic (no funciona amb càmeres MJPEG)"
 
 #: motioneye/templates/main.html:153
 msgid "Rezolucio-variatoro"
-msgstr ""
+msgstr "Atenuador de resolució"
 
 #: motioneye/templates/main.html:155
 msgid ""
 "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan "
 "bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
-msgstr ""
+msgstr "baixa la resolució actual de totes les càmeres per estalviar ample de banda i tràfic (no funciona en càmeres MJPEG)"
 
 #: motioneye/templates/main.html:161
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
-msgstr ""
+msgstr "configuració general, no relacionada amb cap càmera"
 
 #: motioneye/templates/main.html:162
 msgid "Ĝeneralaj Agordoj"
-msgstr ""
+msgstr "Configuració General"
 
 #: motioneye/templates/main.html:167
 msgid "Lingvo"
-msgstr ""
+msgstr "Idioma"
 
 #: motioneye/templates/main.html:173
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr ""
+msgstr "idioma de l'interfície"
 
 #: motioneye/templates/main.html:176
 msgid "Administranto"
-msgstr ""
+msgstr "Nom d'Usuari de l'Administrador"
 
 #: motioneye/templates/main.html:178
 msgid "la uzantnomo uzata por agordi la sistemon"
-msgstr ""
+msgstr "el nom d'usuari per configurar el sistema"
 
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
@@ -184,41 +185,41 @@ msgstr "Contrasenya"
 
 #: motioneye/templates/main.html:183
 msgid "pasvorto de administranto"
-msgstr ""
+msgstr "contrasenya de l'administrador"
 
 #: motioneye/templates/main.html:186
 msgid "Observanto"
-msgstr ""
+msgstr "Nom d'Usuari de l'Observador"
 
 #: motioneye/templates/main.html:188
 msgid "la uzantnomo por uzi por la monitorado"
-msgstr ""
+msgstr "el nom d'usuari per visualitzar el video"
 
 #: motioneye/templates/main.html:193
 msgid ""
 "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen "
 "pasvorto)"
-msgstr ""
+msgstr "contrasenya de l'usuari observador (deixeu-la buida per accedir sense contrasenya)"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"
-msgstr ""
+msgstr "Versió de motionEye"
 
 #: motioneye/templates/main.html:206
 msgid "Motion Versio"
-msgstr ""
+msgstr "Versió de Motion"
 
 #: motioneye/templates/main.html:210
 msgid "Operaciumo Versio"
-msgstr ""
+msgstr "Versió del Sistema Operatiu"
 
 #: motioneye/templates/main.html:215
 msgid "Programara Ĝisdatigo"
-msgstr ""
+msgstr "Actualització de Programari"
 
 #: motioneye/templates/main.html:217
 msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
-msgstr ""
+msgstr "comprova si hi ha versions noves i actualitza el programari"
 
 #: motioneye/templates/main.html:221
 msgid "Nutro"
