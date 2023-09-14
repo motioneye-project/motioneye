@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-04-05 00:46+0000\n"
-"PO-Revision-Date: 2023-07-26 23:08+0000\n"
+"PO-Revision-Date: 2023-09-14 02:29+0000\n"
 "Last-Translator: el97 <erik1337.el@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/sv/>\n"
 "Language: sv\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 "Generated-By: Babel 2.11.0\n"
 
 #: motioneye/server.py:232
@@ -25,35 +25,35 @@ msgstr ""
 
 #: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr ""
+msgstr "SMB nätverks-fildelning kräver root privilegier"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr ""
+msgstr "Var god installera tornado version 3.1 eller högre"
 
 #: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
-msgstr ""
+msgstr "Var snäll och installera jinja2"
 
 #: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr ""
+msgstr "Var snäll och installera pillow eller PIL"
 
 #: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
-msgstr ""
+msgstr "Var snäll och installera pycurl"
 
 #: motioneye/server.py:422
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr ""
+msgstr "Hej! Detta är motionEye server "
 
 #: motioneye/server.py:437
 msgid "purigado komenciĝis"
-msgstr ""
+msgstr "Rensning påbörjad"
 
 #: motioneye/server.py:439
 msgid "wsswitch komenciĝis"
-msgstr ""
+msgstr "wsswitch är igång"
 
 #: motioneye/server.py:442
 msgid "taskoj komenciĝis"
@@ -65,11 +65,11 @@ msgstr ""
 
 #: motioneye/server.py:464
 msgid "servilo komenciĝis"
-msgstr ""
+msgstr "server startad"
 
 #: motioneye/server.py:470
 msgid "servilo haltis"
-msgstr ""
+msgstr "servern är stoppad"
 
 #: motioneye/server.py:472
 msgid "taskoj haltis"
@@ -77,51 +77,51 @@ msgstr ""
 
 #: motioneye/server.py:480
 msgid "motion haltis"
-msgstr ""
+msgstr "motion har stoppats"
 
 #: motioneye/server.py:485
 msgid "adiaŭ!"
-msgstr ""
+msgstr "Hejdå!"
 
 #: motioneye/templates/main.html:104
 msgid "agordojn"
-msgstr ""
+msgstr "inställningar"
 
 #: motioneye/templates/main.html:105
 msgid "ŝanĝi uzanton"
-msgstr ""
+msgstr "switch användare"
 
 #: motioneye/templates/main.html:107
 msgid "forigi kameraon"
-msgstr ""
+msgstr "ta bort kamera"
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
-msgstr "Applicera"
+msgstr "Tillämpa"
 
 #: motioneye/templates/main.html:127
 msgid "preferoj de uzanto"
-msgstr ""
+msgstr "användarinställningar"
 
 #: motioneye/templates/main.html:128
 msgid "Preferoj"
-msgstr ""
+msgstr "Inställningar"
 
 #: motioneye/templates/main.html:133
 msgid "Aranĝo Kolumnoj"
-msgstr ""
+msgstr "Layout kolumner"
 
 #: motioneye/templates/main.html:135
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr ""
+msgstr "konfigurerar mängden kolumner använt för att lägga ut kamerarutor"
 
 #: motioneye/templates/main.html:138
 msgid "Fiksi Kadrojn Vertikale"
-msgstr ""
+msgstr "Ställ Rutor Vertikalt"
 
 #: motioneye/templates/main.html:140
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
-msgstr ""
+msgstr "kontrollerar ifall storleken på rutor kan bli reducerad för att vertikalt passa fönstret eller inte"
 
 #: motioneye/templates/main.html:143
 msgid "Aranĝo linioj"
@@ -149,36 +149,36 @@ msgstr ""
 
 #: motioneye/templates/main.html:161
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
-msgstr ""
+msgstr "generella inställningar som inte är relaterat till någon kamera"
 
 #: motioneye/templates/main.html:162
 msgid "Ĝeneralaj Agordoj"
-msgstr ""
+msgstr "Generella Inställningar"
 
 #: motioneye/templates/main.html:167
 msgid "Lingvo"
-msgstr ""
+msgstr "Språk"
 
 #: motioneye/templates/main.html:173
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr ""
+msgstr "Gränssnittsspråk"
 
 #: motioneye/templates/main.html:176
 msgid "Administranto"
-msgstr ""
+msgstr "Admin Användarnamn"
 
 #: motioneye/templates/main.html:178
 msgid "la uzantnomo uzata por agordi la sistemon"
-msgstr ""
+msgstr "användarnamnet att använda för att konfigurera systemet"
 
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
 msgid "Pasvorto"
-msgstr ""
+msgstr "Lösenord"
 
 #: motioneye/templates/main.html:183
 msgid "pasvorto de administranto"
-msgstr ""
+msgstr "Administratörens lösenord"
 
 #: motioneye/templates/main.html:186
 msgid "Observanto"
@@ -194,152 +194,152 @@ msgstr ""
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"
-msgstr ""
+msgstr "MotionEye Version"
 
 #: motioneye/templates/main.html:206
 msgid "Motion Versio"
-msgstr ""
+msgstr "Motion Version"
 
 #: motioneye/templates/main.html:210
 msgid "Operaciumo Versio"
-msgstr ""
+msgstr "OS Version"
 
 #: motioneye/templates/main.html:215
 msgid "Programara Ĝisdatigo"
-msgstr ""
+msgstr "Mjukvaruppdatering"
 
 #: motioneye/templates/main.html:217
 msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
-msgstr ""
+msgstr "kollar efter nya versioner och utför uppdateringar"
 
 #: motioneye/templates/main.html:221
 msgid "Nutro"
-msgstr ""
+msgstr "Ström"
 
 #: motioneye/templates/main.html:222
 msgid "Fermu"
-msgstr ""
+msgstr "Stäng Av"
 
 #: motioneye/templates/main.html:223
 msgid "malŝaltas la sistemon"
-msgstr ""
+msgstr "Stänger av systemet"
 
 #: motioneye/templates/main.html:227
 msgid "Rekomencu"
-msgstr ""
+msgstr "Starta om"
 
 #: motioneye/templates/main.html:228
 msgid "rekomencas la sistemon"
-msgstr ""
+msgstr "startar om systemet"
 
 #: motioneye/templates/main.html:234
 msgid "Agordo"
-msgstr ""
+msgstr "Konfiguration"
 
 #: motioneye/templates/main.html:235
 msgid "Sekurkopio"
-msgstr ""
+msgstr "Backup"
 
 #: motioneye/templates/main.html:236
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
-msgstr ""
+msgstr "skapar en fil med nuvarande konfiguration till dig för att spara det lokalt"
 
 #: motioneye/templates/main.html:240
 msgid "Restaŭri"
-msgstr ""
+msgstr "Återställ"
 
 #: motioneye/templates/main.html:241
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
-msgstr ""
+msgstr "återställer konfigurationen från en tidigare backup fil"
 
 #: motioneye/templates/main.html:265
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
-msgstr ""
+msgstr "Tillåt detta om du vill använda denna kameraenhet"
 
 #: motioneye/templates/main.html:266
 msgid "Video-Aparato"
-msgstr ""
+msgstr "Video Enhet"
 
 #: motioneye/templates/main.html:271 motioneye/templates/main.html:614
 #: motioneye/templates/main.html:631
 msgid "Kamerao Nomo"
-msgstr ""
+msgstr "Kameranamn"
 
 #: motioneye/templates/main.html:272
 msgid "kameraa nomo…"
-msgstr ""
+msgstr "Kameranamn…"
 
 #: motioneye/templates/main.html:273
 msgid "alias pri ĉi tiu kamera aparato"
-msgstr ""
+msgstr "ett alias för denna kameraenhet"
 
 #: motioneye/templates/main.html:276
 msgid "Kamerao ID"
-msgstr ""
+msgstr "Kamera ID"
 
 #: motioneye/templates/main.html:278
 msgid "la kamerao identiga numero"
-msgstr ""
+msgstr "kamerans identifieringsnummer"
 
 #: motioneye/templates/main.html:281
 msgid "Kamerao aparato"
-msgstr ""
+msgstr "Kameraenhet"
 
 #: motioneye/templates/main.html:283
 msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
-msgstr ""
+msgstr "Ingångsenhet (t.ex /dev/video) eller URL (t.ex rtsp://192.168.1.1/stream)"
 
 #: motioneye/templates/main.html:286
 msgid "Kamerao Tipo"
-msgstr ""
+msgstr "Kameratyp"
 
 #: motioneye/templates/main.html:293
 msgid "Aŭtomata Brilo"
-msgstr ""
+msgstr "Automatisk Ljusstyrka"
 
 #: motioneye/templates/main.html:295
 msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
-msgstr ""
+msgstr "aktiverar mjukvarubaserad ljusstyrka (rekommenderas bara till kameror utan automatisk ljusstyrka)"
 
 #: motioneye/templates/main.html:301
 msgid "Video-rezolucio"
-msgstr ""
+msgstr "Videoupplösning"
 
 #: motioneye/templates/main.html:306
 msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
-msgstr ""
+msgstr "Videons upplösning (Högre värden ger en bättre kvalitet, men kräver mer CPU kraft, högre lagring och bandbredd)"
 
 #: motioneye/templates/main.html:309
 msgid "Larĝeco"
-msgstr ""
+msgstr "Bredd"
 
 #: motioneye/templates/main.html:311
 msgid "enigu kutiman rezolucian larĝon"
-msgstr ""
+msgstr "ange en anpassad upplösningsbredd"
 
 #: motioneye/templates/main.html:314
 msgid "Alteco"
-msgstr ""
+msgstr "Höjd"
 
 #: motioneye/templates/main.html:316
 msgid "enigu kutiman rezolucian altecon"
-msgstr ""
+msgstr "ange en anpassad upplösningshöjd"
 
 #: motioneye/templates/main.html:319
 msgid "Video-Rotacio"
-msgstr ""
+msgstr "Videorotation"
 
 #: motioneye/templates/main.html:328
 msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
-msgstr ""
+msgstr "använd detta för att rotera en bild av din kamera ifall den inte är positionerad korrekt"
 
 #: motioneye/templates/main.html:331
 msgid "Kadrofrekvenco"
-msgstr ""
+msgstr "uppdateringsfrekvens"
 
 #: motioneye/templates/main.html:333
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
-msgstr ""
+msgstr "Anger mängden bilder tagen av kamera för varje sekund (Högre värden producerar en jämnare bild men kräver mer CPU kraft, lagringsplats och bandbredd)"
 
 #: motioneye/templates/main.html:339
 msgid "Privateca masko"
@@ -363,7 +363,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:361
 msgid "Ekstraj Elektoj"
-msgstr ""
+msgstr "Extra Alternativ"
 
 #: motioneye/templates/main.html:363
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
@@ -371,67 +371,67 @@ msgstr ""
 
 #: motioneye/templates/main.html:372
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
-msgstr ""
+msgstr "välj var och hur din media sparas"
 
 #: motioneye/templates/main.html:373
 msgid "Stokado de dosieroj"
-msgstr ""
+msgstr "Lagringsplats"
 
 #: motioneye/templates/main.html:378
 msgid "Stokada Aparato"
-msgstr ""
+msgstr "Lagringsenhet"
 
 #: motioneye/templates/main.html:383
 msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
-msgstr ""
+msgstr "Indikerar vilken lagringsenhet som används för var bilder och videos ska sparas"
 
 #: motioneye/templates/main.html:386
 msgid "Retservilo"
-msgstr ""
+msgstr "Nätverksserver"
 
 #: motioneye/templates/main.html:388
 msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
-msgstr ""
+msgstr "Adressen till servern (IP eller värdnamn)"
 
 #: motioneye/templates/main.html:391
 msgid "SMB Protokolo-Versio"
-msgstr ""
+msgstr "SMB version"
 
 #: motioneye/templates/main.html:401
 msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
-msgstr ""
+msgstr "Bestämmer vilken SMB version som skall användas (Testa olika alternativ och se vilken som passar bäst till din NAS)"
 
 #: motioneye/templates/main.html:404
 msgid "Kunhava nomo"
-msgstr ""
+msgstr "Utdelningsnamn"
 
 #: motioneye/templates/main.html:406
 msgid "la nomo de la interŝanĝa reto"
-msgstr ""
+msgstr "Namnet på utdelad mapp"
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
-msgstr ""
+msgstr "Användarnamn"
 
 #: motioneye/templates/main.html:411
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
-msgstr ""
+msgstr "Användarnamnet som används för att få tillgång till utdelad nätverksmapp (lämna tomt ifall användarnamn inte behövs)"
 
 #: motioneye/templates/main.html:414
 msgid "Pasvorton"
-msgstr ""
+msgstr "Utdelningslösenord"
 
 #: motioneye/templates/main.html:416
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
-msgstr ""
+msgstr "Lösenordet som behövs för att få tillgång till utdelad nätverksmapp (lämna tomt ifall det inte behövs något lösenord)"
 
 #: motioneye/templates/main.html:419
 msgid "Radika dosierujo"
-msgstr ""
+msgstr "Rotkatalog"
 
 #: motioneye/templates/main.html:421
 msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
-msgstr ""
+msgstr "rotkatalogen (på den valda lagringsenheten) där filerna ska sparas"
 
 #: motioneye/templates/main.html:425
 msgid "Testi la reton dosierujon"
@@ -439,27 +439,27 @@ msgstr ""
 
 #: motioneye/templates/main.html:426
 msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
-msgstr ""
+msgstr "Klicka på denna knappen för att testa anslutningen till din utdelade nätverksmapp efter att du har fyllt i behövd information"
 
 #: motioneye/templates/main.html:432
 msgid "Uzado de Disko"
-msgstr ""
+msgstr "Diskanvändning"
 
 #: motioneye/templates/main.html:436
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr ""
+msgstr "den använda/totala storleken på disken där rotkatalogen finns"
 
 #: motioneye/templates/main.html:442
 msgid "Alŝutu Mediajn Dosierojn"
-msgstr ""
+msgstr "Ladda Upp mediafiler"
 
 #: motioneye/templates/main.html:444
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
-msgstr ""
+msgstr "Aktivera detta ifall du vill att dina media filer ska bli uppladdade till en extern tjänst"
 
 #: motioneye/templates/main.html:447
 msgid "Alŝutu Bildojn"
-msgstr ""
+msgstr "Ladda upp bilder"
 
 #: motioneye/templates/main.html:449
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
@@ -503,23 +503,23 @@ msgstr ""
 
 #: motioneye/templates/main.html:476
 msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
-msgstr ""
+msgstr "domännamnet eller IP-adressen till serven (t.ex ftp.example.com eller 192.168.1.3)"
 
 #: motioneye/templates/main.html:479
 msgid "Servila haveno"
-msgstr ""
+msgstr "Server port"
 
 #: motioneye/templates/main.html:481
 msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
-msgstr ""
+msgstr "porten som används för att ansluta till tjänsten (lämna tomt ifall du vill använda standardvärde)"
 
 #: motioneye/templates/main.html:484
 msgid "Metodo"
-msgstr ""
+msgstr "Metod"
 
 #: motioneye/templates/main.html:491
 msgid "la HTTP-metodo uzi por alŝuti dosierojn"
-msgstr ""
+msgstr "HTTP-metoden som ska användas när du laddar upp filer"
 
 #: motioneye/templates/main.html:494
 msgid "Finpunkto URL"
