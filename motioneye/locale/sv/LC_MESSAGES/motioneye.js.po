@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-04-05 00:46+0000\n"
-"PO-Revision-Date: 2023-07-26 23:08+0000\n"
+"PO-Revision-Date: 2023-09-14 02:29+0000\n"
 "Last-Translator: el97 <erik1337.el@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/sv/>\n"
 "Language: sv\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.0.1-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -41,7 +41,7 @@ msgstr "Speciella tecken är inte tillåtna i trädmapps namnet"
 
 #: motioneye/static/js/main.js:639
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr "filer kan inte skapas direkt i ditt systems rotmapp"
+msgstr "filer kan inte skapas direkt i ditt systems rotkatalog"
 
 #: motioneye/static/js/main.js:646
 msgid "enigu validan retpoŝtadreson"
@@ -97,7 +97,7 @@ msgstr "Din webbläsare implementerar inte denna funktion!"
 
 #: motioneye/static/js/main.js:2646
 msgid "Apliki"
-msgstr "Applicera"
+msgstr "Tillämpa"
 
 #: motioneye/static/js/main.js:2673 motioneye/static/js/main.js:3034
 #: motioneye/static/js/main.js:3089 motioneye/static/js/main.js:3164
@@ -159,7 +159,7 @@ msgstr "Uppdatering misslyckades!"
 
 #: motioneye/static/js/main.js:2917
 msgid "La ĝisdatiga procezo malsukcesis!"
-msgstr ""
+msgstr "Uppdateringsprocessen misslyckades!"
 
 #: motioneye/static/js/main.js:2936
 msgid "Rezerva dosiero"
@@ -247,11 +247,11 @@ msgstr ""
 
 #: motioneye/static/js/main.js:3582 motioneye/static/js/main.js:3881
 msgid "Uzantnomo"
-msgstr ""
+msgstr "Användarnamn"
 
 #: motioneye/static/js/main.js:3587 motioneye/static/js/main.js:3886
 msgid "Pasvorto"
-msgstr ""
+msgstr "Lösenord"
 
 #: motioneye/static/js/main.js:3593
 msgid "Memoru min"
