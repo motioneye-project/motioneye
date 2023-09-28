@@ -372,7 +372,7 @@ def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str,
     try:
         st = os.stat(thumb_path)
 
-    except os.error:
+    except OSError:
         logging.error(f'failed to create movie preview for {full_path}')
 
         return None
@@ -397,7 +397,7 @@ def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str,
         try:
             st = os.stat(thumb_path)
 
-        except os.error:
+        except OSError:
             logging.error(f'failed to create movie preview for {full_path}')
 
             return None
