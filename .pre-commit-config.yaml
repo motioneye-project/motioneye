@@ -31,7 +31,7 @@ repos:
       - id: black
         args: [--skip-string-normalization]
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.2.5
+    rev: v2.2.6
     hooks:
       - id: codespell
       # See args in setup.cfg
@@ -54,7 +54,7 @@ repos:
       - id: isort
         args: ["--profile", "black", "--filter-files"]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.13.0
+    rev: v3.14.0
     hooks:
       - id: pyupgrade
         args: [--py37-plus]
