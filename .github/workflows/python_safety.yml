@@ -1,0 +1,16 @@
+name: python_safety
+
+on: [pull_request, push]
+
+jobs:
+  python_safety:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
+    runs-on: 'ubuntu-22.04'
+    steps:
+      - run: sudo apt-get -q update
+      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends dist-upgrade
+      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
+             curl gcc ffmpeg libcurl4-openssl-dev libssl-dev motion v4l-utils
+      - uses: actions/checkout@v4
+      - run: pip install --user safety .
+      - run: safety check

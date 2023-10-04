@@ -34,7 +34,7 @@ class StreamUrl:
             return v
 
     @classmethod
-    def from_dict(cls, d: dict) -> __qualname__:
+    def from_dict(cls, d: dict):  # -> typing.Self in Python >= v3.11
         return cls(
             **{
                 k: cls._get_dict_field_val(k, v)

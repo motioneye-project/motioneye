@@ -13,11 +13,11 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - uses: actions/setup-python@v4
       with:
         # https://github.com/actions/python-versions/releases
-        python-version: '3.11'
+        python-version: '3.12'
     - run: |
         pip install pre-commit
         pre-commit --version
