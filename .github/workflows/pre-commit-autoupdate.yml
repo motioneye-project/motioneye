@@ -16,7 +16,7 @@ jobs:
   pre-commit-autoupdate:
     runs-on: ubuntu-22.04
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         ref: dev
         # https://github.com/peter-evans/create-pull-request/issues/48
@@ -24,7 +24,7 @@ jobs:
     - uses: actions/setup-python@v4
       with:
         # https://github.com/actions/python-versions/releases
-        python-version: '3.11'
+        python-version: '3.12'
     - env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |

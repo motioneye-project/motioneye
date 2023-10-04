@@ -11,7 +11,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Download shellcheck
         run: |
           curl -sSfL "$(curl -sSf 'https://api.github.com/repos/koalaman/shellcheck/releases/latest' | mawk -F\" '/"browser_download_url.*\.linux\.x86_64\.tar\.xz"/{print $4;exit}')" -o shellcheck.tar.xz
