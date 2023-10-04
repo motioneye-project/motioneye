@@ -5,12 +5,11 @@ on: [pull_request, push]
 jobs:
   python_safety:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
-    runs-on: 'ubuntu-20.04'
+    runs-on: 'ubuntu-22.04'
     steps:
-      - run: sudo apt-mark hold grub-efi-amd64-signed # GRUB does not always find the drive it was configured for
       - run: sudo apt-get -q update
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
-             curl gcc ffmpeg libcurl4-openssl-dev libssl-dev motion v4l-utils
+             gcc libcurl4-openssl-dev libssl-dev
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
         with:
