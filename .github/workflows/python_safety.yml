@@ -13,5 +13,8 @@ jobs:
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
              curl gcc ffmpeg libcurl4-openssl-dev libssl-dev motion v4l-utils
       - uses: actions/checkout@v4
-      - run: pip install --user safety .
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - run: pip install safety .
       - run: safety check
