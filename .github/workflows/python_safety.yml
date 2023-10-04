@@ -9,7 +9,6 @@ jobs:
     steps:
       - run: sudo apt-mark hold grub-efi-amd64-signed # GRUB does not always find the drive it was configured for
       - run: sudo apt-get -q update
-      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends dist-upgrade
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
              curl gcc ffmpeg libcurl4-openssl-dev libssl-dev motion v4l-utils
       - uses: actions/checkout@v4
