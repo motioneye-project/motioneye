@@ -69,7 +69,7 @@ docker build \
   --build-arg="RUN_GID=${RUN_GID?}" \
   -t "${USER?}/motioneye:${TIMESTAMP}" \
   --no-cache \
-  -f extra/Dockerfile .
+  -f docker/Dockerfile .
 ```
 
 This will create a local image called `your_username/motioneye:YYYYMMDD-HHMM`.

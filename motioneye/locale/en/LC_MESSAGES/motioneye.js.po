@@ -3,20 +3,22 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2020.
 #
+# el97 <erik1337.el@gmail.com>, 2023.
+# ArMaTeC <armatec0@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 00:46+0000\n"
-"PO-Revision-Date: 2022-12-20 09:48+0000\n"
-"Last-Translator: Piotr Turek <piotr.turek@borpol.com.pl>\n"
+"POT-Creation-Date: 2023-09-28 17:58+0000\n"
+"PO-Revision-Date: 2023-09-25 06:01+0000\n"
+"Last-Translator: ArMaTeC <armatec0@gmail.com>\n"
 "Language-Team: English <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15.1-dev\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -160,7 +162,7 @@ msgstr "Update failed!"
 
 #: motioneye/static/js/main.js:2917
 msgid "La ĝisdatiga procezo malsukcesis!"
-msgstr "The upgdate process failed!"
+msgstr "The update process failed!"
 
 #: motioneye/static/js/main.js:2936
 msgid "Rezerva dosiero"

@@ -3,103 +3,89 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2020.
 #
+# Gurjant Singh <sandalgurjant@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-04-05 00:46+0000\n"
-"PO-Revision-Date: 2020-03-28 18:26+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2023-09-28 17:58+0000\n"
+"PO-Revision-Date: 2023-07-29 08:02+0000\n"
+"Last-Translator: Gurjant Singh <sandalgurjant@gmail.com>\n"
+"Language-Team: Punjabi <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/pa/>\n"
 "Language: pa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.0-dev\n"
 
 #: motioneye/static/js/main.js:606
-#, fuzzy
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "ਪਾਸਵਰਡ ਵਿੱਚ ਵਿਸ਼ੇਸ਼ ਅੱਖਰਾਂ ਦੀ ਆਗਿਆ ਨਹੀਂ ਹੈ"
 
 #: motioneye/static/js/main.js:613 motioneye/static/js/main.js:624
 #: motioneye/static/js/main.js:683 motioneye/static/js/ui.js:362
 #: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
-#, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "ਇਹ ਖੇਤਰ ਲੋੜੀਂਦਾ ਹੈ"
 
 #: motioneye/static/js/main.js:617
-#, fuzzy
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
 msgstr "ਕੈਮਰੇ ਦੇ ਨਾਮ ਵਿੱਚ ਵਿਸ਼ੇਸ਼ ਅੱਖਰਾਂ ਦੀ ਆਗਿਆ ਨਹੀਂ ਹੈ"
 
 #: motioneye/static/js/main.js:629
-#, fuzzy
 msgid "valoro devas esti multoblo de 8"
 msgstr "ਮੁੱਲ 8 ਦਾ ਗੁਣਕ ਹੋਣਾ ਚਾਹੀਦਾ ਹੈ"
 
 #: motioneye/static/js/main.js:636
-#, fuzzy
 msgid "specialaj signoj ne rajtas en radika voja nomo"
 msgstr "ਰੂਟ ਮਾਰਗ ਨਾਮ ਵਿੱਚ ਵਿਸ਼ੇਸ਼ ਅੱਖਰਾਂ ਦੀ ਆਗਿਆ ਨਹੀਂ ਹੈ"
 
 #: motioneye/static/js/main.js:639
-#, fuzzy
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "ਫਾਈਲਾਂ ਸਿੱਧੇ ਤੁਹਾਡੇ ਸਿਸਟਮ ਦੇ ਰੂਟ ਵਿੱਚ ਨਹੀਂ ਬਣੀਆਂ"
 
 #: motioneye/static/js/main.js:646
-#, fuzzy
 msgid "enigu validan retpoŝtadreson"
 msgstr "ਇੱਕ ਵੈਧ ਈਮੇਲ ਪਤਾ ਦਰਜ ਕਰੋ"
 
 #: motioneye/static/js/main.js:653
-#, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "ਕਾਮੇ ਨਾਲ ਵੱਖ ਕੀਤੇ ਵੈਧ ਈਮੇਲ ਪਤਿਆਂ ਦੀ ਸੂਚੀ ਦਰਜ ਕਰੋ"
 
 #: motioneye/static/js/main.js:660
-#, fuzzy
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "ਫਾਇਲ ਅੱਖਰ ਵਿੱਚ ਵਿਸ਼ੇਸ਼ ਅੱਖਰਾਂ ਦੀ ਆਗਿਆ ਨਹੀਂ ਹੈ"
 
 #: motioneye/static/js/main.js:687
-#, fuzzy
 msgid "enigu validan valoron"
 msgstr "ਇੱਕ ਯੋਗ ਮੁੱਲ ਦਾਖਲ ਕਰੋ"
 
 #: motioneye/static/js/main.js:841
-#, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
 msgstr "ਇਹ ਲਗਾਤਾਰ ਕਲਾਉਡ ਫੋਲਡਰ ਦੀਆਂ ਸਾਰੀਆਂ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾ ਦੇਵੇਗਾ \""
 
 #: motioneye/static/js/main.js:842
-#, fuzzy
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
 msgstr "\", ਮੋਸ਼ਨ ਈ ਦੁਆਰਾ ਅਪਲੋਡ ਕੀਤੇ ਸਿਰਫ ਉਨ੍ਹਾਂ ਨੂੰ ਹੀ ਨਹੀਂ!"
 
 #: motioneye/static/js/main.js:923
-#, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
 msgstr "ਇਹ ਲਗਾਤਾਰ ਫੋਲਡਰ ਵਿਚਲੀਆਂ ਪੁਰਾਣੀਆਂ ਮੀਡੀਆ ਫਾਈਲਾਂ ਨੂੰ ਮਿਟਾ ਦੇਵੇਗਾ \""
 
 #: motioneye/static/js/main.js:924
-#, fuzzy
 msgid "\", ne nur tiuj kreitaj de motionEye!"
 msgstr "\", ਸਿਰਫ ਮੋਸ਼ਨ ਈ ਦੁਆਰਾ ਬਣਾਏ ਉਨ੍ਹਾਂ ਨੂੰ ਨਹੀਂ!"
 
 #: motioneye/static/js/main.js:990
-#, fuzzy
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
 msgstr "ਇੱਕ ਯੋਗ ਕੈਮਰਾ ਚਿੱਤਰ ਤੋਂ ਬਿਨਾਂ ਮਾਸਕ ਨੂੰ ਸੋਧ ਨਹੀਂ ਸਕਦਾ!"
 
 #: motioneye/static/js/main.js:2230
-#, fuzzy
 msgid "Propra"
 msgstr "ਆਪਣੇ"
 
 #: motioneye/static/js/main.js:2268
-#, fuzzy
 msgid "Propra dosierindiko"
 msgstr "ਕਸਟਮ ਫਾਈਲ ਨਾਮ"
 

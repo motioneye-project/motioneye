@@ -3,25 +3,26 @@
 # This file is distributed under the same license as the PROJECT project.
 # Automatically generated, 2020.
 #
+# seoooma <sooooomasum@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-05 00:46+0000\n"
-"PO-Revision-Date: 2020-04-08 17:45+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2023-09-28 17:58+0000\n"
+"PO-Revision-Date: 2023-07-24 13:09+0000\n"
+"Last-Translator: seoooma <sooooomasum@gmail.com>\n"
+"Language-Team: Japanese <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/ja/>\n"
 "Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 5.0-dev\n"
+"Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
-#, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "受け取った割り込み信号、閉鎖..."
+msgstr "割り込み信号を受信しました、終了中…"
 
 #: motioneye/server.py:276
 #, fuzzy
@@ -29,12 +30,10 @@ msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr "smb共有にはroot権限が必要です"
 
 #: motioneye/server.py:283
-#, fuzzy
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr "トルネードバージョン3.1以降をインストールしてください"
+msgstr "Tornadoフレームワークバージョン3.1以降をインストールしてください"
 
 #: motioneye/server.py:290
-#, fuzzy
 msgid "bonvolu instali jinja2"
 msgstr "jinja2をインストールしてください"
 
@@ -44,14 +43,12 @@ msgid "bonvolu instali pillow aŭ PIL"
 msgstr "枕またはPILを取り付けてください"
 
 #: motioneye/server.py:304
-#, fuzzy
 msgid "bonvolu instali pycurl"
 msgstr "pycurlをインストールしてください"
 
 #: motioneye/server.py:422
-#, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "こんにちは！これはmotionEyeサーバーです"
+msgstr "こんにちは！これはmotionEyeサーバーです "
 
 #: motioneye/server.py:437
 #, fuzzy

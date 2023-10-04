@@ -3,18 +3,21 @@
 # This file is distributed under the same license as the PROJECT project.
 # Automatically generated, 2020.
 #
+# Gurjant Singh <sandalgurjant@gmail.com>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-04-05 00:46+0000\n"
-"PO-Revision-Date: 2020-04-09 16:58+0200\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2023-09-28 17:58+0000\n"
+"PO-Revision-Date: 2023-07-29 08:02+0000\n"
+"Last-Translator: Gurjant Singh <sandalgurjant@gmail.com>\n"
+"Language-Team: Punjabi <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/pa/>\n"
 "Language: pa\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: Weblate 5.0-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -1150,7 +1153,6 @@ msgid "Porĉiame"
 msgstr "ਹਮੇਸ਼ਾ ਲਈ"
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
-#, fuzzy
 msgid "Propra"
 msgstr "ਆਪਣੇ"
 
