@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2023-10-04 09:14+0000\n"
-"PO-Revision-Date: 2023-08-10 19:53+0000\n"
+"PO-Revision-Date: 2023-10-07 08:11+0000\n"
 "Last-Translator: Milan Šalka <salka.milan@googlemail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/sk/>\n"
 "Language: sk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.1-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -412,7 +412,7 @@ msgstr "názov sieťového zdieľania"
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
-msgstr "Meno používateľa pre zdieľanie"
+msgstr "Meno používateľa"
 
 #: motioneye/templates/main.html:411
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
@@ -552,7 +552,7 @@ msgstr "Vrátane podpriečinkov"
 
 #: motioneye/templates/main.html:508
 msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
-msgstr "zapnite túto voľbu pre nahranie multimediálnych súborov spolu s podpriečinkami miesto ich umiestnenia priamo do koreňového umiestnenia."
+msgstr "zapnite túto voľbu pre nahranie multimediálnych súborov spolu s podpriečinkami miesto ich umiestnenia priamo do koreňového umiestnenia"
 
 #: motioneye/templates/main.html:511
 msgid "Purigi la nubon"
@@ -633,7 +633,7 @@ msgstr "URL adresa webového hooku"
 
 #: motioneye/templates/main.html:569
 msgid "ekz. http://example.com/notify/"
-msgstr "napr. http://priklad.com/notify/"
+msgstr "e.g. http: //example.com/notify/"
 
 #: motioneye/templates/main.html:570
 #, python-format
@@ -647,7 +647,7 @@ msgstr "Metóda HTTP"
 
 #: motioneye/templates/main.html:582
 msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
-msgstr "HTTP metóda, ktorá sa použije pre požiadavku na URL adresu webového hooku (zadané parametre v URL-kódovaní budú v skutočnosti prenesené tu uvedeným spôsobom)."
+msgstr "HTTP metóda, ktorá sa použije pre požiadavku na URL adresu webového hooku (zadané parametre v URL-kódovaní budú v skutočnosti prenesené tu uvedeným spôsobom)"
 
 #: motioneye/templates/main.html:588
 msgid "Kuri Komando"
@@ -759,7 +759,7 @@ msgstr "Zmena veľkosti obrazu pri streamovaní"
 
 #: motioneye/templates/main.html:675
 msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
-msgstr "ak je táto voľba zapnutá, predtým ako sa obrázky odošlú do prehliadača dôjde k zmene ich veľkosti (vypnite, ak používate pomalý procesor).\t"
+msgstr "ak je táto voľba zapnutá, predtým ako sa obrázky odošlú do prehliadača dôjde k zmene ich veľkosti (vypnite, ak používate pomalý procesor)."
 
 #: motioneye/templates/main.html:678
 msgid "Flua rezolucio"
@@ -1281,7 +1281,7 @@ msgstr "Emailová adresa…"
 
 #: motioneye/templates/main.html:1083
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
-msgstr "nastavuje vlastnú adresu From, ak to vaša SMTP služba vyžaduje (ak nevyplníte, použije sa prvá e-mailová adresa cieľa)"
+msgstr "nastavuje vlastnú adresu From, ak to vaša SMTP služba vyžaduje (ak nevyplníte, použije sa prvá e-mailová adresa cieľa)."
 
 #: motioneye/templates/main.html:1086
 msgid "Uzi TLS"
@@ -1404,7 +1404,7 @@ msgstr "zapnite túto voľbu, ak chcete vždy po skončení udalosti pohybu spus
 #: motioneye/templates/main.html:1208
 #, python-format
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
-msgstr "príkaz, ktorý sa spustí po skončení udalosti; môžete zadať viacero príkazov oddelených bodkočiarkou; nepoužívajte bodkočiarky vo vnútri príkazov; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky"
+msgstr "príkaz, ktorý sa spustí po skončení udalosti; môžete zadať viacero príkazov oddelených bodkočiarkou; nepoužívajte bodkočiarky vo vnútri príkazov; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky."
 
 #: motioneye/templates/main.html:1218
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."

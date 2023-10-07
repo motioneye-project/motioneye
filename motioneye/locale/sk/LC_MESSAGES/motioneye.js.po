@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2023-10-04 09:14+0000\n"
-"PO-Revision-Date: 2023-08-10 19:53+0000\n"
+"PO-Revision-Date: 2023-10-07 08:11+0000\n"
 "Last-Translator: Milan Šalka <salka.milan@googlemail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/sk/>\n"
 "Language: sk\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Weblate 5.0-dev\n"
+"X-Generator: Weblate 5.1-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -418,7 +418,7 @@ msgstr "Zahrnúť obrázok každú/ých"
 
 #: motioneye/static/js/main.js:4199
 msgid "sekundo"
-msgstr "sekundu"
+msgstr "sekunda"
 
 #: motioneye/static/js/main.js:4200
 msgid "5 sekundoj"
@@ -434,7 +434,7 @@ msgstr "30 sekúnd"
 
 #: motioneye/static/js/main.js:4203
 msgid "minuto"
-msgstr "minútu"
+msgstr "minúta"
 
 #: motioneye/static/js/main.js:4204
 msgid "5 minutoj"
@@ -450,7 +450,7 @@ msgstr "30 minút"
 
 #: motioneye/static/js/main.js:4207
 msgid "horo"
-msgstr "hodinu"
+msgstr "hodina"
 
 #: motioneye/static/js/main.js:4210
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
