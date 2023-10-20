@@ -19,7 +19,7 @@ These install instructions are constantly tested via CI/CD pipeline on Debian Bu
 
     _Here the commands for APT-based Linux distributions are given._
 
-    On **32-bit ARMv6 and ARMv7** systems:
+    On **32-bit ARMv6, ARMv7, and ARMv8** systems:
     ```sh
     sudo apt update
     sudo apt --no-install-recommends install ca-certificates curl python3 python3-distutils
@@ -38,7 +38,7 @@ These install instructions are constantly tested via CI/CD pipeline on Debian Bu
     rm get-pip.py
     ```
 
-    On **32-bit ARMv6 and ARMv7** systems, additionally configure `pip` to use pre-compiled wheels from [piwheels](https://piwheels.org/):
+    On **32-bit ARMv6, ARMv7, and ARMv8** systems, additionally configure `pip` to use pre-compiled wheels from [piwheels](https://piwheels.org/):
     ```sh
     printf '%b' '[global]\nextra-index-url=https://www.piwheels.org/simple/\n' | sudo tee /etc/pip.conf > /dev/null
     ```
