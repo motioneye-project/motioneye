@@ -15,64 +15,78 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>. 
 
-import datetime
-import logging
-import io
 import os
 import sys
-import re
-import signal
-import socket
 import time
-import urllib
-import urllib2
+import socket
+import logging
+import datetime
+import binascii
+import json
 import pycurl
 import random
-import codecs
-import uuid
-import binascii
-import datetime
-import json
-
 from tornado.ioloop import IOLoop
 
 import settings
-
 import config
 import mediafiles
 import motionctl
 import tzctl
+import meyectl  # Assuming this is a local module
 
+# Constants
+user_agent = 'motionEye'
 messages = {
     'motion_start': 'Motion has been detected by camera "%(camera)s/%(hostname)s" at %(moment)s (%(timezone)s).'
 }
 
-user_agent = 'motionEye'
+def send_telegram_message(api_key, chat_id, text, files):
+    """
+    Send a Telegram message with optional files.
 
+    Args:
+        api_key (str): Telegram API key.
+        chat_id (str): Telegram chat room id.
+        text (str): Message text.
+        files (list): List of file paths to be sent.
 
-def send_message(api_key, chat_id, message, files):
+    Returns:
+        None
+    """
     telegram_message_url = 'https://api.telegram.org/bot%s/sendMessage' % api_key
     telegram_photo_url = 'https://api.telegram.org/bot%s/sendPhoto' % api_key
     c = pycurl.Curl()
     c.setopt(c.POST, 1)
     c.setopt(c.URL, telegram_message_url)
+    
     if not files:
         logging.info('no files')
-        c.setopt(c.POSTFIELDS, "chat_id=%s&text=%s" % (chat_id, message))
+        c.setopt(c.POSTFIELDS, "chat_id=%s&text=%s" % (chat_id, text))
         c.perform()
     else:
         logging.info('files present')
         for f in files:
             c.setopt(c.URL, telegram_photo_url)
-            c.setopt(c.HTTPPOST, [("chat_id", chat_id), ("caption", message), ("photo", (c.FORM_FILE, f))]) # Send photos
+            c.setopt(c.HTTPPOST, [("chat_id", chat_id), ("caption", text), ("photo", (c.FORM_FILE, f))])
             c.perform()
     c.close()
     logging.debug('sending email message')
 
-def make_message(message, camera_id, moment, timespan, callback):
-    camera_config = config.get_camera(camera_id)
-    
-    # we must start the IO loop for the media list subprocess polling
+def create_telegram_message(api_key, chat_id, msg_id, motion_camera_id, moment, timespan):
+    """
+    Create a Telegram message based on motion detection.
+
+    Args:
+        api_key (str): Telegram API key.
+        chat_id (str): Telegram chat room id.
+        msg_id (str): Identifier of the message.
+        motion_camera_id (str): Motion camera id.
+        moment (str): Moment in ISO-8601 format.
+        timespan (str): Picture collection time span.
+
+    Returns:
+        None
+    """
     io_loop = IOLoop.instance()
 
     def on_media_files(media_files):
@@ -95,15 +109,14 @@ def make_message(message, camera_id, moment, timespan, callback):
         
         if settings.LOCAL_TIME_FILE:
             format_dict['timezone'] = tzctl.get_time_zone()
-
         else:
             format_dict['timezone'] = 'local time'
 
         logging.debug('creating email message')
     
-        m = message % format_dict
+        m = messages.get(msg_id) % format_dict
 
-        callback(m, media_files)
+        on_telegram_message(m, media_files)
 
     if not timespan:
         return on_media_files([])
@@ -126,58 +139,59 @@ def make_message(message, camera_id, moment, timespan, callback):
     
     io_loop.start()
 
+def parse_command_line_args(parser, args):
+    """
+    Parse command line arguments.
 
-def parse_options(parser, args):
-    parser.add_argument('api', help='telegram api key')
-    parser.add_argument('chatid', help='telegram chat room id')
-    parser.add_argument('msg_id', help='the identifier of the message')
-    parser.add_argument('motion_camera_id', help='the id of the motion camera')
-    parser.add_argument('moment', help='the moment in ISO-8601 format')
-    parser.add_argument('timespan', help='picture collection time span')
+    Args:
+        parser: ArgumentParser object.
+        args (list): List of command line arguments.
+
+    Returns:
+        Namespace: Parsed command line arguments.
+    """
+    parser.add_argument('api', help='Telegram API key')
+    parser.add_argument('chatid', help='Telegram chat room id')
+    parser.add_argument('msg_id', help='Identifier of the message')
+    parser.add_argument('motion_camera_id', help='Motion camera id')
+    parser.add_argument('moment', help='Moment in ISO-8601 format')
+    parser.add_argument('timespan', help='Picture collection time span')
     return parser.parse_args(args)
-    
 
 def main(parser, args):
-    import meyectl
-    
-    # the motion daemon overrides SIGCHLD,
-    # so we must restore it here,
-    # or otherwise media listing won't work
     signal.signal(signal.SIGCHLD, signal.SIG_DFL)
-
     if len(args) == 12:
-        # backwards compatibility with older configs lacking "from" field
         _from = 'motionEye on %s <%s>' % (socket.gethostname(), args[7].split(',')[0])
         args = args[:7] + [_from] + args[7:]
-    
+
     if not args[7]:
         args[7] = 'motionEye on %s <%s>' % (socket.gethostname(), args[8].split(',')[0])
 
-    options = parse_options(parser, args)
-    print options 
+    options = parse_command_line_args(parser, args)
     meyectl.configure_logging('telegram', options.log_to_file)
 
     logging.debug('hello!')
-    message = messages.get(options.msg_id)
-
-    # do not wait too long for media list,
-    # telegram notifications are critical
+    
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_TELEGRAM
     
     camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
 
     logging.debug('timespan = %d' % int(options.timespan))
-    
-    def on_message(message, files):
-        try:
-            print message
-            logging.info('sending telegram')
-            send_message(options.api, options.chatid, message, files or [])
-            logging.info('telegram sent')
 
+    def on_telegram_message(message, files):
+        try:
+            logging.info('sending telegram')
+            send_telegram_message(options.api, options.chatid, message, files or [])
+            logging.info('telegram sent')
         except Exception as e:
             logging.error('failed to send telegram: %s' % e, exc_info=True)
 
         logging.debug('bye!')
-    
-    make_message(message, camera_id, options.moment, options.timespan, on_message)
+
+    create_telegram_message(options.api, options.chatid, options.msg_id, camera_id, options.moment, options.timespan)
+
+if __name__ == "__main__":
+    # Add ArgumentParser initialization if not present
+    parser = ArgumentParser(description='MotionEye Telegram Notification Script')
+    main(parser, sys.argv[1:])
+
