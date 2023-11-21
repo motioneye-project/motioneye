@@ -843,6 +843,7 @@ class FTP(UploadService):
         self._username = None
         self._password = None
         self._location = None
+        self._secure = None
 
         self._conn = None
         self._conn_time = 0
@@ -887,7 +888,8 @@ class FTP(UploadService):
             'port': self._port,
             'username': self._username,
             'password': self._password,
-            'location': self._location
+            'location': self._location,
+            'secure': self._secure
         }
 
     def load(self, data):
@@ -901,15 +903,24 @@ class FTP(UploadService):
             self._password = data['password']
         if data.get('location'):
             self._location = data['location']
+        if data.get('secure') is not None:
+            self._secure = data['secure']
 
     def _get_conn(self, create=False):
         now = time.time()
         if self._conn is None or now - self._conn_time > self.CONN_LIFE_TIME or create:
             self.debug('creating connection to %s@%s:%s' % (self._username or 'anonymous', self._server, self._port))
-            self._conn = ftplib.FTP()
-            self._conn.set_pasv(True)
-            self._conn.connect(self._server, port=self._port)
-            self._conn.login(self._username or 'anonymous', self._password)
+            if self._secure:
+                self._conn = ftplib.FTP_TLS()
+                self._conn.set_pasv(True)
+                self._conn.connect(self._server, port=self._port)
+                self._conn.login(self._username or 'anonymous', self._password)
+                self._conn.prot_p()
+            else:
+                self._conn = ftplib.FTP()
+                self._conn.set_pasv(True)
+                self._conn.connect(self._server, port=self._port)
+                self._conn.login(self._username or 'anonymous', self._password)
             self._conn_time = now
 
         return self._conn
