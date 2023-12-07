@@ -11,7 +11,7 @@ jobs:
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
              gcc libcurl4-openssl-dev libssl-dev
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: 3.x
       - run: pip install --upgrade pip setuptools
