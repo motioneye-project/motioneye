@@ -24,4 +24,5 @@ jobs:
           check-latest: true
       - run: pip install --upgrade pip setuptools
       - run: pip install safety .
+      - run: rm -Rfv /opt/hostedtoolcache/Python/3.12.1/x64/lib/python3.12/site-packages/pip-23.2.1.dist-info  # Workaround: https://github.com/motioneye-project/motioneye/pull/2883
       - run: safety check
