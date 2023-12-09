@@ -23,8 +23,8 @@ jobs:
         token: ${{ secrets.GH_PAT }}
     - uses: actions/setup-python@v5
       with:
-        # https://github.com/actions/python-versions/releases
-        python-version: '3.12'
+        python-version: '3.x'
+        check-latest: true
     - env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
