@@ -26,7 +26,7 @@ repos:
         args:
           - --skip=B104,B105,B108,B110,B301,B310,B321,B324,B402,B403,B404,B602,B603,B604,B605,B607,B701
   - repo: https://github.com/python/black
-    rev: 23.11.0
+    rev: 23.12.0
     hooks:
       - id: black
         args: [--skip-string-normalization]
@@ -49,7 +49,7 @@ repos:
           - --show-source
           - --statistics
   - repo: https://github.com/timothycrosley/isort
-    rev: 5.13.0
+    rev: 5.13.1
     hooks:
       - id: isort
         args: ["--profile", "black", "--filter-files"]
