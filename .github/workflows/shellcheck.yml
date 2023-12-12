@@ -14,6 +14,10 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     runs-on: ubuntu-22.04
     steps:
+      - name: Install xz-utils
+        run: |
+          sudo apt-get -q update
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends xz-utils
       - uses: actions/checkout@v4
       - name: Download shellcheck
         run: |
