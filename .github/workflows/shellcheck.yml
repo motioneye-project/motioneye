@@ -17,7 +17,7 @@ jobs:
       - name: Install xz-utils
         run: |
           sudo apt-get -q update
-          sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends xz-utils
+          sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends install xz-utils
       - uses: actions/checkout@v4
       - name: Download shellcheck
         run: |
