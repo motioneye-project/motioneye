@@ -19,13 +19,13 @@ These install instructions are constantly tested via CI/CD pipeline on Debian Bu
 
     _Here the commands for APT-based Linux distributions are given._
 
-    On **32-bit ARMv6 and ARMv7** systems:
+    On **32-bit ARMv6 and ARMv7** systems, thanks to [piwheels](https://piwheels.org/), no development headers are required:
     ```sh
     sudo apt update
     sudo apt --no-install-recommends install ca-certificates curl python3 python3-distutils
     ```
 
-    On all other architectures additional development headers are required:
+    On **all other architectures** additional development headers are required:
     ```sh
     sudo apt update
     sudo apt --no-install-recommends install ca-certificates curl python3 python3-dev libcurl4-openssl-dev gcc libssl-dev
@@ -38,14 +38,22 @@ These install instructions are constantly tested via CI/CD pipeline on Debian Bu
     rm get-pip.py
     ```
 
+    **On recent Debian (Bookworm ant later) and Ubuntu (Lunar and later) versions**, the `libpython3.*-stdlib` package ships a file `/usr/lib/python3.*/EXTERNALLY-MANAGED`, which prevents the installation of Python modules outside of `venv` environments.
+    motionEye however has a small number of dependencies with no strict version requirements and hence is very unlikely to break any Python package you might have installed via APT. To bypass this block, add `break-system-packages=true` to the `[global]` section of your `pip.conf`:
+    ```sh
+    grep -q '\[global\]' /etc/pip.conf 2> /dev/null || printf '%b' '[global]\n' | sudo tee -a /etc/pip.conf > /dev/null
+    sudo sed -i '/^\[global\]/a\break-system-packages=true' /etc/pip.conf
+    ```
+
     On **32-bit ARMv6 and ARMv7** systems, additionally configure `pip` to use pre-compiled wheels from [piwheels](https://piwheels.org/):
     ```sh
-    printf '%b' '[global]\nextra-index-url=https://www.piwheels.org/simple/\n' | sudo tee /etc/pip.conf > /dev/null
+    grep -q '\[global\]' /etc/pip.conf 2> /dev/null || printf '%b' '[global]\n' | sudo tee -a /etc/pip.conf > /dev/null
+    sudo sed -i '/^\[global\]/a\extra-index-url=https://www.piwheels.org/simple/' /etc/pip.conf
     ```
 
 3. Install and setup **motionEye**
     ```sh
-    sudo python3 -m pip install 'https://github.com/motioneye-project/motioneye/archive/dev.tar.gz'
+    sudo python3 -m pip install --pre motioneye
     sudo motioneye_init
     ```
     _NB: `motioneye_init` currently assumes either an APT- or RPM-based distribution with `systemd` as init system. For a manual setup, config and service files can be found here: <https://github.com/motioneye-project/motioneye/tree/dev/motioneye/extra>_
@@ -54,6 +62,6 @@ These install instructions are constantly tested via CI/CD pipeline on Debian Bu
 
 ```sh
 sudo systemctl stop motioneye
-sudo python3 -m pip install --upgrade --force-reinstall --no-deps 'https://github.com/motioneye-project/motioneye/archive/dev.tar.gz'
+sudo python3 -m pip install --upgrade --pre motioneye
 sudo systemctl start motioneye
 ```
