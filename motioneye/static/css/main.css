@@ -978,6 +978,7 @@ div.camera-overlay-top {
     line-height: 2.5em;
     white-space: nowrap;
     overflow: hidden;
+    display: flex;
 }
 
 div.camera-overlay-mask {
@@ -1026,24 +1027,74 @@ div.mask-element.on {
     background: rgba(255, 0, 0, 0.5);
 }
 
-div.camera-name {
-    display: inline-block;
-    font-size: 1.2em;
-    font-weight: bold;
+div.camera-info {
+    display: flex;
+    font-size: 0.8em;
     white-space: nowrap;
     width: 33.33%;
     overflow: hidden;
     text-overflow: ellipsis;
     vertical-align: top;
+    text-align: left;
+    line-height: 1em;
+    flex-grow: 2;
+    flex-direction: column;
+}
+
+div.camera-info-top {
+    display: flex;
+    flex-grow: 2;  
+    height: 50%;
+}
+
+div.camera-name {
+    height: 100%;
+    flex-grow: 2;
+    display: flex;
+    align-items: center;
 }
 
 span.camera-name {
-    padding-left: 0.4em;
+    padding-left: 0.2em;
+}
+
+div.camera-fps {
+    width: fit-content;
+    font-size: 0.9em;
+    text-align: right;
+    height: 100%;
+    align-self: flex-end;
+    display: flex;
+    align-items: center;
+}
+
+span.camera-fps {
+    padding-right: 0.2em;
+}
+
+div.camera-info-top.one-line {
+    height: 100%;
+}
+
+div.camera-monitoring {
+    height: 50%;
+    display: flex;
+    align-items: center;
+}
+
+span.camera-monitoring {
+    padding-left: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+div.camera-fps.two-lines {
+    line-height: 1.2em;
 }
 
 div.camera-top-buttons {
+    align-self: flex-end;
     display: inline-block;
-    width: 66.66%;
+    width: 12.5em;
     vertical-align: top;
     text-align: right;
 }
@@ -1083,65 +1134,20 @@ div.camera-top-button.multi-camera {
 div.camera-overlay-bottom {
     bottom: 0;
     white-space: nowrap;
-    height: 5em;
-}
-
-div.camera-overlay-bottom.few-buttons {
-    height: 2.5em;
-}
-
-div.camera-info {
-    display: inline-block;
-    white-space: nowrap;
-    font-family: monospace;
-    font-size: 1em;
-    font-weight: bold;
-    width: 40%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: top;
-    text-align: left;
-    line-height: 5em;
-}
-
-div.camera-info.two-lines {
-    line-height: 1.2em;
-}
-
-div.camera-overlay-bottom.few-buttons div.camera-info {
-    line-height: 2.5em;
-}
-
-div.camera-overlay-bottom.few-buttons div.camera-info.two-lines {
-    line-height: 1.2em;
-    font-size: 0.8em;
-}
-
-span.camera-info {
-    display: inline-block;
-    margin-left: 1em;
-}
-
-div.camera-info.two-lines > span.camera-info {
-    margin-left: 1em;
-    margin-top: 1.5em;
-}
-
-div.camera-overlay-bottom.few-buttons div.camera-info.two-lines > span.camera-info {
-    margin-left: 0.5em;
-    margin-top: 0.5em;
 }
 
 div.camera-action-buttons {
     display: inline-block;
-    width: 60%;
     vertical-align: top;
     text-align: right;
 }
 
 div.camera-action-buttons-wrapper {
-    display: inline-block;
     white-space: normal;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-height: 5em;
 }
 
 div.camera-action-button {
