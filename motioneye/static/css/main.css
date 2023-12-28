@@ -1140,6 +1140,7 @@ div.camera-action-buttons {
     display: inline-block;
     vertical-align: top;
     text-align: right;
+    width: 100%;
 }
 
 div.camera-action-buttons-wrapper {
@@ -1148,6 +1149,11 @@ div.camera-action-buttons-wrapper {
     flex-wrap: wrap;
     justify-content: space-evenly;
     max-height: 5em;
+}
+
+div.camera-action-button-wrapper {
+    display: flex;
+    justify-content: center;
 }
 
 div.camera-action-button {
