@@ -4723,7 +4723,17 @@ function addCameraFrameUi(cameraConfig) {
                 '</div>' +
                 '<div class="camera-overlay" style="display: none;">' +
                     '<div class="camera-overlay-top">' +
-                        '<div class="camera-name"><span class="camera-name"></span></div>' +
+                        '<div class="camera-info">' +
+                            '<div class="camera-info-top">' +
+                                '<div class="camera-name"><span class="camera-name"></span></div>' +
+                                '<div class="camera-fps">' +
+                                    '<span class="camera-fps" title="streaming/capture frame rate"></span>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="camera-monitoring">' +
+                                '<span class="camera-monitoring" title="system monitoring info"></span>' +
+                            '</div>' +
+                        '</div>' +
                         '<div class="camera-top-buttons">' +
                             '<div class="button icon camera-top-button mouse-effect full-screen" title="' + i18n.gettext("montru ĉi tiun fotilon plenekranan") +'"></div>' +
                             '<div class="button icon camera-top-button mouse-effect multi-camera" title="' + i18n.gettext("montri ĉiujn fotilojn") +'"></div>' +
@@ -4735,9 +4745,6 @@ function addCameraFrameUi(cameraConfig) {
                     '</div>' +
                     '<div class="camera-overlay-mask"></div>' +
                     '<div class="camera-overlay-bottom">' +
-                        '<div class="camera-info">' +
-                            '<span class="camera-info" title="streaming/capture frame rate"></span>' +
-                        '</div>' +
                         '<div class="camera-action-buttons">' +
                         '<div class="camera-action-buttons-wrapper">' +
                                 '<div class="button icon camera-action-button mouse-effect lock" title="lock"></div>' +
@@ -4769,7 +4776,10 @@ function addCameraFrameUi(cameraConfig) {
                 '</div>' +
             '</div>');
 
+    var cameraInfoTopDiv = cameraFrameDiv.find('div.camera-info-top');
     var nameSpan = cameraFrameDiv.find('span.camera-name');
+    var cameraFpsSpan = cameraFrameDiv.find('span.camera-fps');
+    var cameraMonitoringSpan = cameraFrameDiv.find('span.camera-monitoring');
 
     var configureButton = cameraFrameDiv.find('div.camera-top-button.configure');
     var picturesButton = cameraFrameDiv.find('div.camera-top-button.media-pictures');
@@ -4777,9 +4787,6 @@ function addCameraFrameUi(cameraConfig) {
     var fullScreenButton = cameraFrameDiv.find('div.camera-top-button.full-screen');
     var multiCameraButton = cameraFrameDiv.find('div.camera-top-button.multi-camera');
     var singleCameraButton = cameraFrameDiv.find('div.camera-top-button.single-camera');
-
-    var cameraInfoDiv = cameraFrameDiv.find('div.camera-info');
-    var cameraInfoSpan = cameraFrameDiv.find('span.camera-info');
 
     var lockButton = cameraFrameDiv.find('div.camera-action-button.lock');
     var unlockButton = cameraFrameDiv.find('div.camera-action-button.unlock');
@@ -4973,13 +4980,13 @@ function addCameraFrameUi(cameraConfig) {
         })
     });
 
-    if (cameraConfig.actions.length <= 4) {
-        cameraOverlay.find('div.camera-overlay-bottom').addClass('few-buttons');
-    }
-    else {
-        //cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', Math.ceil(cameraConfig.actions.length / 2) * 2.5 + 'em');
-        cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', 4 * 2.5 + 'em');
-    }
+    // if (cameraConfig.actions.length <= 4) {
+    //     cameraOverlay.find('div.camera-overlay-bottom').addClass('few-buttons');
+    // }
+    // else {
+    //     cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', Math.ceil(cameraConfig.actions.length / 2) * 2.5 + 'em');
+    //     //cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', 4 * 2.5 + 'em');
+    // }
 
     var FPS_LEN = 4;
     cameraImg[0].fpsTimes = [];
@@ -4994,7 +5001,7 @@ function addCameraFrameUi(cameraConfig) {
         cameraPlaceholder.css('opacity', 1);
         cameraProgress.removeClass('visible');
         cameraFrameDiv.removeClass('motion-detected');
-        cameraInfoSpan.html('');
+        cameraFpsSpan.html('');
     };
     cameraImg[0].onload = function () {
         if (this.error) {
@@ -5047,26 +5054,27 @@ function addCameraFrameUi(cameraConfig) {
                 var streamingFps = this.fpsTimes.length * 1000 / (this.fpsTimes[this.fpsTimes.length - 1] - this.fpsTimes[0]);
                 streamingFps = streamingFps.toFixed(1);
 
-                var info = streamingFps;
+                var fps = streamingFps;
                 if (captureFps) {
-                    info += '/' + captureFps;
+                    fps += '/' + captureFps;
                 }
-
-                info += ' fps';
+                fps += 'fps';
+                cameraFpsSpan.html(fps);
 
                 if (monitorInfo) {
                     monitorInfo = decodeURIComponent(monitorInfo);
                     if (monitorInfo.charAt(0) == monitorInfo.charAt(monitorInfo.length - 1) == '"') {
                         monitorInfo = monitorInfo.substring(1, monitorInfo.length - 1);
                     }
-                    info += '<br>' + monitorInfo;
-                    cameraInfoDiv.addClass('two-lines');
+                    cameraInfoTopDiv.removeClass('one-line');
+                    cameraMonitoringSpan.html(monitorInfo);
+
                 }
                 else {
-                    cameraInfoDiv.removeClass('two-lines')
+                    cameraInfoTopDiv.addClass('one-line');
+                    console.log("hello");
                 }
 
-                cameraInfoSpan.html(info);
             }
         }
 
@@ -5435,7 +5443,7 @@ function checkCameraErrors() {
 
         /* fps timeout */
         if (this.fpsTimes && this.fpsTimes.length && (now - this.fpsTimes[this.fpsTimes.length - 1]) > 2000) {
-            $(this).parents('div.camera-frame').find('span.camera-info.fps').html('0 fps');
+            $(this).parents('div.camera-frame').find('span.camera-fps').html('0 fps');
         }
     });
 
