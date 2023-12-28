@@ -5096,7 +5096,6 @@ function addCameraFrameUi(cameraConfig) {
     /* check if action buttons need one or two rows*/
     if(cameraConfig.actions.length) {
         var actionButtonWidth = actionButtonDict[cameraConfig.actions[0]].width();
-        console.log(actionButtonWidth);
         var actionsWidth = actionsCount * actionButtonWidth;
         var cameraWidth = cameraOverlay.find('div.camera-overlay-bottom').width();
         var flexBasis = 200 / actionsCount;
