@@ -4747,29 +4747,29 @@ function addCameraFrameUi(cameraConfig) {
                     '<div class="camera-overlay-bottom">' +
                         '<div class="camera-action-buttons">' +
                         '<div class="camera-action-buttons-wrapper">' +
-                                '<div class="button icon camera-action-button mouse-effect lock" title="lock"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect unlock" title="unlock"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect light-on" title="turn light on"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect light-off" title="turn light off"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect snapshot" title="' + i18n.gettext("preni instantaron") + '"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect record-start" title="toggle continuous recording mode"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect up" title="up"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect left" title="left"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect right" title="right"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect zoom-in" title="zoom in"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect zoom-out" title="zoom out"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset1" title="preset 1"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset2" title="preset 2"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset3" title="preset 3"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset4" title="preset 4"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset5" title="preset 5"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset6" title="preset 6"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset7" title="preset 7"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset8" title="preset 8"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset9" title="preset 9"></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect lock" title="lock"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect unlock" title="unlock"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect light-on" title="turn light on"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect light-off" title="turn light off"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect snapshot" title="' + i18n.gettext("preni instantaron") + '"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect record-start" title="toggle continuous recording mode"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect up" title="up"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect down" title="down"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect left" title="left"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect right" title="right"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect zoom-in" title="zoom in"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect zoom-out" title="zoom out"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect preset preset1" title="preset 1"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect preset preset2" title="preset 2"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect preset preset3" title="preset 3"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect preset preset4" title="preset 4"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect preset preset5" title="preset 5"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect preset preset6" title="preset 6"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect preset preset7" title="preset 7"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect preset preset8" title="preset 8"></div></div>' +
+                                '<div class="camera-action-button-wrapper"><div class="button icon camera-action-button mouse-effect preset preset9" title="preset 9"></div></div>' +
                             '</div>' +
                         '</div>' +
                     '</div>' +
@@ -4924,7 +4924,7 @@ function addCameraFrameUi(cameraConfig) {
 
     /* action buttons */
 
-    cameraFrameDiv.find('div.camera-action-button').css('display', 'none');
+    cameraFrameDiv.find('div.camera-action-button-wrapper').css('display', 'none');
     var actionButtonDict = {
         'lock': lockButton,
         'unlock': unlockButton,
@@ -4957,7 +4957,7 @@ function addCameraFrameUi(cameraConfig) {
             return;
         }
 
-        button.css('display', '');
+        button.parent().css('display', '');
         button.on('click', function () {
             if (button.hasClass('pending')) {
                 return;
@@ -4979,6 +4979,8 @@ function addCameraFrameUi(cameraConfig) {
             });
         })
     });
+
+    var actionsCount = Math.ceil(cameraConfig.actions.length);
 
     // if (cameraConfig.actions.length <= 4) {
     //     cameraOverlay.find('div.camera-overlay-bottom').addClass('few-buttons');
@@ -5072,7 +5074,6 @@ function addCameraFrameUi(cameraConfig) {
                 }
                 else {
                     cameraInfoTopDiv.addClass('one-line');
-                    console.log("hello");
                 }
 
             }
@@ -5092,6 +5093,21 @@ function addCameraFrameUi(cameraConfig) {
         }
     };
 
+    /* check if action buttons need one or two rows*/
+    if(cameraConfig.actions.length) {
+        var actionButtonWidth = actionButtonDict[cameraConfig.actions[0]].width();
+        console.log(actionButtonWidth);
+        var actionsWidth = actionsCount * actionButtonWidth;
+        var cameraWidth = cameraOverlay.find('div.camera-overlay-bottom').width();
+        var flexBasis = 200 / actionsCount;
+        flexBasis += '%';
+        if(cameraWidth <= actionsWidth){
+            actionButtonWrapper.css('flex', '1 0' + flexBasis);
+        } else {
+            actionButtonWrapper.css('flex', 'none');
+        }
+    }
+    
     cameraImg.addClass('initializing');
     cameraImg[0].initializing = true;
     cameraImg.height(Math.round(cameraImg.width() * 0.75));
