@@ -1043,7 +1043,7 @@ div.camera-info {
 
 div.camera-info-top {
     display: flex;
-    flex-grow: 2;  
+    flex-grow: 2;
     height: 50%;
 }
 
@@ -1134,13 +1134,6 @@ div.camera-top-button.multi-camera {
 div.camera-overlay-bottom {
     bottom: 0;
     white-space: nowrap;
-}
-
-div.camera-action-buttons {
-    display: inline-block;
-    vertical-align: top;
-    text-align: right;
-    width: 100%;
 }
 
 div.camera-action-buttons-wrapper {
