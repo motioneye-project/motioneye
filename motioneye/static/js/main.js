@@ -4728,24 +4728,24 @@ function addCameraFrameUi(cameraConfig) {
                 '</div>' +
                 '<div class="camera-overlay" style="display: none;">' +
                     '<div class="camera-overlay-top">' +
-                        '<div class="camera-info">' +
-                            '<div class="camera-info-top">' +
+                        '<div class="camera-top-row">' +
+                            '<div class="camera-info">' +
                                 '<div class="camera-name"><span class="camera-name"></span></div>' +
                                 '<div class="camera-fps">' +
                                     '<span class="camera-fps" title="streaming/capture frame rate"></span>' +
                                 '</div>' +
                             '</div>' +
-                            '<div class="camera-monitoring">' +
-                                '<span class="camera-monitoring" title="system monitoring info"></span>' +
+                            '<div class="camera-top-buttons">' +
+                                '<div class="button icon camera-top-button mouse-effect full-screen" title="' + i18n.gettext("montru ĉi tiun fotilon plenekranan") +'"></div>' +
+                                '<div class="button icon camera-top-button mouse-effect multi-camera" title="' + i18n.gettext("montri ĉiujn fotilojn") +'"></div>' +
+                                '<div class="button icon camera-top-button mouse-effect single-camera" title="' + i18n.gettext("montru nur ĉi tiun fotilon") +'"></div>' +
+                                '<div class="button icon camera-top-button mouse-effect media-pictures" title="' + i18n.gettext("malfermaj bildoj retumilo") + '"></div>' +
+                                '<div class="button icon camera-top-button mouse-effect media-movies" title="' + i18n.gettext("malferma videoj retumilo") + '"></div>' +
+                                '<div class="button icon camera-top-button mouse-effect configure" title="' + i18n.gettext("agordi ĉi tiun kameraon") + '"></div>' +
                             '</div>' +
                         '</div>' +
-                        '<div class="camera-top-buttons">' +
-                            '<div class="button icon camera-top-button mouse-effect full-screen" title="' + i18n.gettext("montru ĉi tiun fotilon plenekranan") +'"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect multi-camera" title="' + i18n.gettext("montri ĉiujn fotilojn") +'"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect single-camera" title="' + i18n.gettext("montru nur ĉi tiun fotilon") +'"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect media-pictures" title="' + i18n.gettext("malfermaj bildoj retumilo") + '"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect media-movies" title="' + i18n.gettext("malferma videoj retumilo") + '"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect configure" title="' + i18n.gettext("agordi ĉi tiun kameraon") + '"></div>' +
+                        '<div class="camera-monitoring">' +
+                            '<span class="camera-monitoring" title="system monitoring info"></span>' +
                         '</div>' +
                     '</div>' +
                     '<div class="camera-overlay-mask"></div>' +
@@ -4779,9 +4779,9 @@ function addCameraFrameUi(cameraConfig) {
                 '</div>' +
             '</div>');
 
-    var cameraInfoTopDiv = cameraFrameDiv.find('div.camera-info-top');
     var nameSpan = cameraFrameDiv.find('span.camera-name');
     var cameraFpsSpan = cameraFrameDiv.find('span.camera-fps');
+    var cameraMonitoringDiv = cameraFrameDiv.find('div.camera-monitoring');
     var cameraMonitoringSpan = cameraFrameDiv.find('span.camera-monitoring');
 
     var configureButton = cameraFrameDiv.find('div.camera-top-button.configure');
@@ -5062,12 +5062,12 @@ function addCameraFrameUi(cameraConfig) {
                     if (monitorInfo.charAt(0) == monitorInfo.charAt(monitorInfo.length - 1) && monitorInfo.charAt(0) == '"') {
                         monitorInfo = monitorInfo.substring(1, monitorInfo.length - 1);
                     }
-                    cameraInfoTopDiv.removeClass('one-line');
+                    cameraMonitoringDiv.removeClass('hide-monitoring');
                     cameraMonitoringSpan.html(monitorInfo);
 
                 }
                 else {
-                    cameraInfoTopDiv.addClass('one-line');
+                    cameraMonitoringDiv.addClass('hide-monitoring');
                 }
 
             }
