@@ -974,11 +974,11 @@ div.camera-frame.motion-detected div.camera-overlay-bottom {
 
 div.camera-overlay-top {
     top: 0;
-    height: 2.5em;
     line-height: 2.5em;
     white-space: nowrap;
     overflow: hidden;
     display: flex;
+    flex-direction: column;
 }
 
 div.camera-overlay-mask {
@@ -1027,64 +1027,64 @@ div.mask-element.on {
     background: rgba(255, 0, 0, 0.5);
 }
 
-div.camera-info {
+div.camera-top-row {
     display: flex;
-    font-size: 0.8em;
-    white-space: nowrap;
-    width: 33.33%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: top;
-    text-align: left;
-    line-height: 1em;
-    flex-grow: 2;
-    flex-direction: column;
 }
 
-div.camera-info-top {
+div.camera-info {
     display: flex;
     flex-grow: 2;
-    height: 50%;
+    flex-direction: column;
+    font-size: 0.8em;
+    overflow: hidden;
+    line-height: 1em;
 }
 
 div.camera-name {
     height: 100%;
-    flex-grow: 2;
     display: flex;
     align-items: center;
 }
 
 span.camera-name {
-    padding-left: 0.2em;
+    padding-left: 0.2rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
 }
 
 div.camera-fps {
-    width: fit-content;
-    font-size: 0.9em;
-    text-align: right;
     height: 100%;
-    align-self: flex-end;
     display: flex;
     align-items: center;
+    font-size: 0.9em;
+    font-family: monospace;
 }
 
 span.camera-fps {
-    padding-right: 0.2em;
-}
-
-div.camera-info-top.one-line {
-    height: 100%;
+    padding-left: 0.2rem;
+    padding-bottom: 0.2em;
 }
 
 div.camera-monitoring {
-    height: 50%;
     display: flex;
     align-items: center;
+    height: 1.5em;
+    font-size: 0.8em;
+    line-height: 1em;
+}
+
+div.camera-monitoring.hide-monitoring {
+    display: none;
 }
 
 span.camera-monitoring {
     padding-left: 0.2em;
     padding-bottom: 0.2em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 div.camera-fps.two-lines {
