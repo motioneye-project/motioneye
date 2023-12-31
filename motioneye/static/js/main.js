@@ -4791,6 +4791,7 @@ function addCameraFrameUi(cameraConfig) {
     var multiCameraButton = cameraFrameDiv.find('div.camera-top-button.multi-camera');
     var singleCameraButton = cameraFrameDiv.find('div.camera-top-button.single-camera');
 
+    var actionButtonWrapper = cameraFrameDiv.find('div.camera-action-button-wrapper');
     var lockButton = cameraFrameDiv.find('div.camera-action-button.lock');
     var unlockButton = cameraFrameDiv.find('div.camera-action-button.unlock');
     var lightOnButton = cameraFrameDiv.find('div.camera-action-button.light-on');
