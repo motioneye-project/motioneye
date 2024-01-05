@@ -57,7 +57,7 @@ html {
 div.page,
 div.header-container {
     position: relative;
-    min-width: 320px;
+    min-width: 332.6px;
     width: 100%;
 }
 
@@ -1144,17 +1144,13 @@ div.camera-action-buttons-wrapper {
     max-height: 5em;
 }
 
-div.camera-action-button-wrapper {
-    display: flex;
-    justify-content: center;
-}
-
 div.camera-action-button {
-    background-image: url(../img/camera-action-buttons.svg);
-    background-size: cover;
+    background-size: contain;
+    background-repeat: no-repeat;
     width: 2.5em;
     height: 2.5em;
     vertical-align: top;
+    background-position: center;
 }
 
 div.camera-action-button.pending {
@@ -1162,67 +1158,67 @@ div.camera-action-button.pending {
 }
 
 div.camera-action-button.lock {
-    background-position: 0 0;
+    background-image: url(../img/camera-action-button-lock.svg);
 }
 
 div.camera-action-button.unlock {
-    background-position: -100% 0;
+    background-image: url(../img/camera-action-button-unlock.svg);
 }
 
 div.camera-action-button.light-on {
-    background-position: -200% 0;
+    background-image: url(../img/camera-action-button-light-on.svg);
 }
 
 div.camera-action-button.light-off {
-    background-position: -300% 0;
+    background-image: url(../img/camera-action-button-light-off.svg);
 }
 
 div.camera-action-button.alarm-on {
-    background-position: -400% 0;
+    background-image: url(../img/camera-action-button-alarm-on.svg);
 }
 
 div.camera-action-button.alarm-off {
-    background-position: -500% 0;
+    background-image: url(../img/camera-action-button-alarm-off.svg);
 }
 
 div.camera-action-button.snapshot {
-    background-position: -600% 0;
+    background-image: url(../img/camera-action-button-snapshot.svg);
 }
 
 div.camera-action-button.record-start {
-    background-position: -700% 0;
+    background-image: url(../img/camera-action-button-record-start.svg);
 }
 
 div.camera-action-button.record-stop {
-    background-position: -800% 0;
+    background-image: url(../img/camera-action-button-record-stop.svg);
 }
 
 div.camera-action-button.up {
-    background-position: -900% 0;
+    background-image: url(../img/camera-action-button-up.svg);
 }
 
 div.camera-action-button.right {
-    background-position: -1000% 0;
+    background-image: url(../img/camera-action-button-right.svg);
 }
 
 div.camera-action-button.down {
-    background-position: -1100% 0;
+    background-image: url(../img/camera-action-button-down.svg);
 }
 
 div.camera-action-button.left {
-    background-position: -1200% 0;
+    background-image: url(../img/camera-action-button-left.svg);
 }
 
 div.camera-action-button.zoom-in {
-    background-position: -1300% 0;
+    background-image: url(../img/camera-action-button-zoom-in.svg);
 }
 
 div.camera-action-button.zoom-out {
-    background-position: -1400% 0;
+    background-image: url(../img/camera-action-button-zoom-out.svg);
 }
 
 div.camera-action-button.preset {
-    background-position: -1500% 0;
+    background-image: url(../img/camera-action-button-preset.svg);
     text-align: center;
     line-height: 2.5em;
     color: #3498db;
