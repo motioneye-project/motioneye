@@ -1145,7 +1145,7 @@ div.camera-action-buttons-wrapper {
 }
 
 div.camera-action-button {
-    background-size: contain;
+    background-size: auto 100%;
     background-repeat: no-repeat;
     width: 2.5em;
     height: 2.5em;
