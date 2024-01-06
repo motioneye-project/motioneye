@@ -1150,7 +1150,7 @@ function updateLayout() {
 
         if (width > maxWidth) {
             getPageContainer().css('width', ''); /* page container width already at its maximum */
-        } 
+        }
         else {
             getPageContainer().css('width', width);
         }
@@ -5132,7 +5132,7 @@ function addCameraFrameUi(cameraConfig) {
             }
         }
     }
-    
+
     cameraConfig.updateActionButtons = updateActionButtons;
 }
 
