@@ -443,9 +443,11 @@ def list_media(camera_config: dict, media_type: str, prefix=None) -> typing.Awai
             pipe.send(
                 {
                     'path': path,
-                    'mimeType': mimetypes.guess_type(path)[0]
-                    if mimetypes.guess_type(path)[0] is not None
-                    else 'video/mpeg',
+                    'mimeType': (
+                        mimetypes.guess_type(path)[0]
+                        if mimetypes.guess_type(path)[0] is not None
+                        else 'video/mpeg'
+                    ),
                     'momentStr': pretty_date_time(
                         datetime.datetime.fromtimestamp(timestamp)
                     ),
