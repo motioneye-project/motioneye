@@ -178,6 +178,21 @@ Array.prototype.sortKey = function (keyFunc, reverse) {
     });
 };
 
+Array.prototype.reshape = function(rows, cols) {
+    var copy = [];
+
+    for (var r = 0; r < rows; r++) {
+        var row = [];
+        for (var c = 0; c < cols; c++) {
+          var i = r * cols + c;
+          if (i < this.length) {
+            row.push(this[i]);
+          }
+        }
+        copy.push(row);
+    }
+    return copy;
+  };
 
     /* String utilities */
 
@@ -1101,33 +1116,21 @@ function setLayoutColumns(columns) {
 
 function updateLayout() {
     if (fitFramesVertically) {
+
+        var columns = layoutColumns, rows = layoutRows;
+
+        if (windowWidth <= 1200) {
+            columns = 1; /* always 1 column when in full screen or mobile */
+        }
+
+        if (isSingleView() || fullScreenMode) {
+            columns = 1;
+            rows = 1; /* single camera or fullscreen? ignore specified columns & rows */
+        }
+
         /* make sure the height of each camera
          * is smaller than the height of the screen
          * divided by the number of layout rows */
-
-        /* find the max height/width ratio */
-        var frames = getCameraFrames();
-        var maxRatio = 0;
-
-        frames.each(function () {
-            var cameraId = this.id.substring(6);
-            var ratio = cameraFrameRatios[cameraId];
-            if (ratio > maxRatio) {
-                maxRatio = ratio;
-            }
-        });
-
-        if (!maxRatio) {
-            return; /* no camera frames */
-        }
-
-        var pageContainer = getPageContainer();
-        var windowWidth = $(window).width();
-
-        var columns = layoutColumns;
-        if (isSingleView() || fullScreenMode || windowWidth <= 1200) {
-            columns = 1; /* always 1 column when in full screen or mobile */
-        }
 
         var heightOffset = 5; /* some padding */
         if (!fullScreenMode && !isSingleView()) {
@@ -1135,26 +1138,67 @@ function updateLayout() {
         }
 
         var windowHeight = $(window).height() - heightOffset;
-        var maxWidth = windowWidth;
 
-        var width = windowHeight / maxRatio * columns;
-        if (pageContainer.hasClass('stretched') && windowWidth > 1200) {
-            maxWidth *= 0.6; /* opened settings panel occupies 40% of the window width */
+        // 2D array representing rows/cols of the layout
+        var cameraDimensions;
+        if( isSingleView() ) {
+            const singCameraFrame = getCameraFrame(singleViewCameraId)[0];
+            var cameraDimensions = [ [ {height: singCameraFrame.img._naturalHeight, width: singCameraFrame.img._naturalWidth } ] ];
+        }
+        else {
+            var cameraDimensions = getCameraFrames().map(function () {
+                return { height: this.img._naturalHeight, width: this.img._naturalWidth };
+            }).toArray().reshape(rows, columns);
         }
 
-        if (width < 100) {
-            width = 100; /* absolute minimum width for a frame */
+        // Take max cam height for each row, add them together
+        var combinedHeight = cameraDimensions.map(function(row) {
+            return row.length ? Math.max(...row.map(function(cam) {
+                return cam.height;
+            })) : 0
+        }).reduce(function(a,b) {
+            return a+b;
+        }, 0);
+
+        // Take max cam width for each col, add them together
+        var combinedWidth = [...Array(columns).keys()].map(function(col) {
+            return cameraDimensions.map(function(row) {
+                return row[col];
+            })
+        }).map(function(col) {
+            return col ? Math.max(...col.map(function(cam) {
+                return cam ? cam.width : 0;
+            })) : 0
+        }).reduce(function(a,b) {
+            return a+b;
+        }, 0);
+
+        var combinedRatio = combinedWidth/combinedHeight;
+
+        var windowWidth = $(window).width();
+        if (getPageContainer().hasClass('stretched') && windowWidth > 1200) {
+            windowWidth *= 0.6; /* opened settings panel occupies 40% of the window width */
         }
 
-        if (width > maxWidth) {
-            getPageContainer().css('width', '');
-            return; /* page container width already at its maximum */
+        var windowRatio = windowWidth/windowHeight;
+        if( windowRatio > combinedRatio ) {
+            getPageContainer().css('height', windowHeight);
+            getPageContainer().css('width', windowHeight*combinedRatio);
+        }
+        else {
+            getPageContainer().css('height', windowWidth/combinedRatio);
+            getPageContainer().css('width', windowWidth);
         }
 
-        getPageContainer().css('width', width);
-    }
-    else {
-        getPageContainer().css('width', '');
+        var cssClasses = {
+            1: 'one-row',
+            2: 'two-rows',
+            3: 'three-rows',
+            4: 'four-rows'
+        };
+
+        getPageContainer().removeClass(Object.values(cssClasses).join(' '));
+        getPageContainer().addClass(cssClasses[rows]);
     }
 }
 
