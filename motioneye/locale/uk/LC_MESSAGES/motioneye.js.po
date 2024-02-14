@@ -1,22 +1,21 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# Сергій <sergiy.goncharuk.1@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-01-23 18:02+0000\n"
-"PO-Revision-Date: 2022-11-11 00:58+0000\n"
-"Last-Translator: alexz-kh <alexz.kh.ua@gmail.com>\n"
+"PO-Revision-Date: 2024-02-15 14:02+0000\n"
+"Last-Translator: Сергій <sergiy.goncharuk.1@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.4-dev\n"
 
 #: motioneye/static/js/main.js:606
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -136,15 +135,15 @@ msgstr "Ніякої камери для видалення!"
 
 #: motioneye/static/js/main.js:2857
 msgid "Ĉu forigi kameraon "
-msgstr "Чи зняти камеру"
+msgstr "Чи зняти камеру "
 
 #: motioneye/static/js/main.js:2885
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr "Motioneye оновлюється (Поточна версія:"
+msgstr "Motioneye оновлюється (Поточна версія: "
 
 #: motioneye/static/js/main.js:2888
 msgid "Nova versio havebla: "
-msgstr "Доступна нова версія:"
+msgstr "Доступна нова версія: "
 
 #: motioneye/static/js/main.js:2888
 msgid ". Ĝisdatigi?"
@@ -188,7 +187,7 @@ msgstr "Не вдалося відновити конфігурацію!"
 
 #: motioneye/static/js/main.js:3070
 msgid "Aliri la alŝutan servon malsukcesis: "
-msgstr "Для доступу до служби завантаження не вдалося:"
+msgstr "Для доступу до служби завантаження не вдалося: "
 
 #: motioneye/static/js/main.js:3073
 msgid "Aliri la alŝutan servon sukcesis!"
@@ -212,7 +211,7 @@ msgstr "Новини Телеграма була успішною!"
 
 #: motioneye/static/js/main.js:3184
 msgid "Aliro al retdividado fiaskis: "
-msgstr "Доступ до веб -підрозділу не вдався:"
+msgstr "Доступ до веб -підрозділу не вдався: "
 
 #: motioneye/static/js/main.js:3187
 msgid "Aliro al retdividado sukcesis!"
@@ -289,7 +288,7 @@ msgstr "Сталася невідома помилка."
 
 #: motioneye/static/js/main.js:3671
 msgid "Eraro : "
-msgstr "Помилка:"
+msgstr "Помилка: "
 
 #: motioneye/static/js/main.js:3676
 msgid "antaŭa bildo"
@@ -489,11 +488,11 @@ msgstr "Видалити все"
 
 #: motioneye/static/js/main.js:4663
 msgid "Bildoj prenitaj de "
-msgstr "Зображення, зроблені"
+msgstr "Зображення, зроблені "
 
 #: motioneye/static/js/main.js:4666
 msgid "Filmoj registritaj de "
-msgstr "Фільми, записані"
+msgstr "Фільми, записані "
 
 #: motioneye/static/js/main.js:4728
 msgid "montru ĉi tiun fotilon plenekranan"
@@ -545,19 +544,19 @@ msgstr "Введіть цілий номер"
 
 #: motioneye/static/js/ui.js:512
 msgid " inter "
-msgstr "між"
+msgstr " між "
 
 #: motioneye/static/js/ui.js:512
 msgid " kaj "
-msgstr "і"
+msgstr " і "
 
 #: motioneye/static/js/ui.js:515
 msgid " pli ol "
-msgstr "більше ніж"
+msgstr " більше ніж "
 
 #: motioneye/static/js/ui.js:520
 msgid " malpli ol "
-msgstr "менше ніж"
+msgstr " менше ніж "
 
 #: motioneye/static/js/ui.js:573
 msgid "enigu validan tempon en la sekva formato: HH:MM"
