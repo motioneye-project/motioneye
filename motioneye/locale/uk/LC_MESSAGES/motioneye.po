@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-01-23 18:02+0000\n"
+"POT-Creation-Date: 2024-02-15 14:03+0000\n"
 "PO-Revision-Date: 2024-02-15 14:02+0000\n"
 "Last-Translator: Сергій <sergiy.goncharuk.1@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/uk/>\n"
@@ -705,9 +705,7 @@ msgstr "Спеціальний текст…"
 #: motioneye/templates/main.html:625
 #, python-format
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr ""
-"Визначає спеціальний лівий текст; Наступні спеціальні жетони приймаються: %%Y = рік, %%m = місяць, %%d = день, %%H = година, %%M = хвилина, %%S = секунд, %%q = номер кадру, %%v = номер події, %%T = HH:MM:SS, \\n"
-" = новий рядок"
+msgstr "Визначає спеціальний лівий текст; Наступні спеціальні жетони приймаються: %%Y = рік, %%m = місяць, %%d = день, %%H = година, %%M = хвилина, %%S = секунд, %%q = номер кадру, %%v = номер події, %%T = HH:MM:SS, \\n = новий рядок"
 
 #: motioneye/templates/main.html:628
 msgid "Dekstra Teksto"
@@ -720,9 +718,7 @@ msgstr "Встановлює текст, показаний на фільмах 
 #: motioneye/templates/main.html:642
 #, python-format
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
-msgstr ""
-"Визначає власний правий текст; Наступні спеціальні жетони приймаються: %%Y = рік, %%m = місяць, %%d = день, %%H = година, %%M = хвилина, %%S = секунд, %%q = номер кадру, %%v = номер події, %%T = HH:MM:SS, \\n"
-" = новий рядок"
+msgstr "Визначає власний правий текст; Наступні спеціальні жетони приймаються: %%Y = рік, %%m = місяць, %%d = день, %%H = година, %%M = хвилина, %%S = секунд, %%q = номер кадру, %%v = номер події, %%T = HH:MM:SS, \\n = новий рядок"
 
 #: motioneye/templates/main.html:645
 msgid "Teksta Skalo"
