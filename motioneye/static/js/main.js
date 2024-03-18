@@ -29,7 +29,8 @@ var pageContainer = null;
 var overlayVisible = false;
 var layoutColumns = 1;
 var fitFramesVertically = false;
-var layoutRows = 1;
+// Was removed 5 years ago, needs cleanup, a25dec205b70fbf0f75f8c2f424d4920a875f399
+// var layoutRows = 1;
 var modalContainer = null;
 var cameraFramesCached = null;
 var cameraFramesTime = 0;
@@ -547,6 +548,7 @@ function isAuthCookiesSet() {
     return true;
 }
 
+// eslint-disable-next-line no-unused-vars
 function authorizeUpload() {
     var service = $('#uploadServiceSelect').val();
     var cameraId = $('#cameraSelect').val();
@@ -1147,15 +1149,20 @@ function updateLayout() {
         }
 
         if (width > maxWidth) {
-            getPageContainer().css('width', '');
-            return; /* page container width already at its maximum */
+            getPageContainer().css('width', ''); /* page container width already at its maximum */
         }
-
-        getPageContainer().css('width', width);
+        else {
+            getPageContainer().css('width', width);
+        }
     }
     else {
         getPageContainer().css('width', '');
     }
+
+    var frames = getCameraFrames();
+    frames.each(function () {
+        this.config.updateActionButtons();
+    });
 }
 
 function showCameraOverlay() {
@@ -3302,16 +3309,19 @@ function showUrl(url) {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 function showSnapshotUrl() {
     var url = $('#streamingSnapshotUrlHtml').data('url');
     showUrl(url);
 }
 
+// eslint-disable-next-line no-unused-vars
 function showMjpgUrl() {
     var url = $('#streamingMjpgUrlHtml').data('url');
     showUrl(url);
 }
 
+// eslint-disable-next-line no-unused-vars
 function showEmbedUrl() {
     var url = $('#streamingEmbedUrlHtml').data('url');
     showUrl(url);
@@ -4723,53 +4733,61 @@ function addCameraFrameUi(cameraConfig) {
                 '</div>' +
                 '<div class="camera-overlay" style="display: none;">' +
                     '<div class="camera-overlay-top">' +
-                        '<div class="camera-name"><span class="camera-name"></span></div>' +
-                        '<div class="camera-top-buttons">' +
-                            '<div class="button icon camera-top-button mouse-effect full-screen" title="' + i18n.gettext("montru ĉi tiun fotilon plenekranan") +'"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect multi-camera" title="' + i18n.gettext("montri ĉiujn fotilojn") +'"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect single-camera" title="' + i18n.gettext("montru nur ĉi tiun fotilon") +'"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect media-pictures" title="' + i18n.gettext("malfermaj bildoj retumilo") + '"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect media-movies" title="' + i18n.gettext("malferma videoj retumilo") + '"></div>' +
-                            '<div class="button icon camera-top-button mouse-effect configure" title="' + i18n.gettext("agordi ĉi tiun kameraon") + '"></div>' +
+                        '<div class="camera-top-row">' +
+                            '<div class="camera-info">' +
+                                '<div class="camera-name"><span class="camera-name"></span></div>' +
+                                '<div class="camera-fps">' +
+                                    '<span class="camera-fps" title="streaming/capture frame rate"></span>' +
+                                '</div>' +
+                            '</div>' +
+                            '<div class="camera-top-buttons">' +
+                                '<div class="button icon camera-top-button mouse-effect full-screen" title="' + i18n.gettext("montru ĉi tiun fotilon plenekranan") +'"></div>' +
+                                '<div class="button icon camera-top-button mouse-effect multi-camera" title="' + i18n.gettext("montri ĉiujn fotilojn") +'"></div>' +
+                                '<div class="button icon camera-top-button mouse-effect single-camera" title="' + i18n.gettext("montru nur ĉi tiun fotilon") +'"></div>' +
+                                '<div class="button icon camera-top-button mouse-effect media-pictures" title="' + i18n.gettext("malfermaj bildoj retumilo") + '"></div>' +
+                                '<div class="button icon camera-top-button mouse-effect media-movies" title="' + i18n.gettext("malferma videoj retumilo") + '"></div>' +
+                                '<div class="button icon camera-top-button mouse-effect configure" title="' + i18n.gettext("agordi ĉi tiun kameraon") + '"></div>' +
+                            '</div>' +
+                        '</div>' +
+                        '<div class="camera-monitoring">' +
+                            '<span class="camera-monitoring" title="system monitoring info"></span>' +
                         '</div>' +
                     '</div>' +
                     '<div class="camera-overlay-mask"></div>' +
                     '<div class="camera-overlay-bottom">' +
-                        '<div class="camera-info">' +
-                            '<span class="camera-info" title="streaming/capture frame rate"></span>' +
-                        '</div>' +
-                        '<div class="camera-action-buttons">' +
                         '<div class="camera-action-buttons-wrapper">' +
-                                '<div class="button icon camera-action-button mouse-effect lock" title="lock"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect unlock" title="unlock"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect light-on" title="turn light on"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect light-off" title="turn light off"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect snapshot" title="' + i18n.gettext("preni instantaron") + '"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect record-start" title="toggle continuous recording mode"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect up" title="up"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect left" title="left"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect right" title="right"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect zoom-in" title="zoom in"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect zoom-out" title="zoom out"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset1" title="preset 1"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset2" title="preset 2"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset3" title="preset 3"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset4" title="preset 4"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset5" title="preset 5"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset6" title="preset 6"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset7" title="preset 7"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset8" title="preset 8"></div>' +
-                                '<div class="button icon camera-action-button mouse-effect preset preset9" title="preset 9"></div>' +
-                            '</div>' +
+                            '<div class="button icon camera-action-button mouse-effect lock" title="lock"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect unlock" title="unlock"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect light-on" title="turn light on"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect light-off" title="turn light off"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect alarm-on" title="turn alarm on"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect alarm-off" title="turn alarm off"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect snapshot" title="' + i18n.gettext("preni instantaron") + '"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect record-start" title="toggle continuous recording mode"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect up" title="up"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect down" title="down"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect left" title="left"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect right" title="right"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect zoom-in" title="zoom in"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect zoom-out" title="zoom out"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect preset preset1" title="preset 1"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect preset preset2" title="preset 2"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect preset preset3" title="preset 3"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect preset preset4" title="preset 4"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect preset preset5" title="preset 5"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect preset preset6" title="preset 6"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect preset preset7" title="preset 7"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect preset preset8" title="preset 8"></div>' +
+                            '<div class="button icon camera-action-button mouse-effect preset preset9" title="preset 9"></div>' +
                         '</div>' +
                     '</div>' +
                 '</div>' +
             '</div>');
 
     var nameSpan = cameraFrameDiv.find('span.camera-name');
+    var cameraFpsSpan = cameraFrameDiv.find('span.camera-fps');
+    var cameraMonitoringDiv = cameraFrameDiv.find('div.camera-monitoring');
+    var cameraMonitoringSpan = cameraFrameDiv.find('span.camera-monitoring');
 
     var configureButton = cameraFrameDiv.find('div.camera-top-button.configure');
     var picturesButton = cameraFrameDiv.find('div.camera-top-button.media-pictures');
@@ -4778,9 +4796,7 @@ function addCameraFrameUi(cameraConfig) {
     var multiCameraButton = cameraFrameDiv.find('div.camera-top-button.multi-camera');
     var singleCameraButton = cameraFrameDiv.find('div.camera-top-button.single-camera');
 
-    var cameraInfoDiv = cameraFrameDiv.find('div.camera-info');
-    var cameraInfoSpan = cameraFrameDiv.find('span.camera-info');
-
+    var actionButtonDiv = cameraFrameDiv.find('div.camera-action-button');
     var lockButton = cameraFrameDiv.find('div.camera-action-button.lock');
     var unlockButton = cameraFrameDiv.find('div.camera-action-button.unlock');
     var lightOnButton = cameraFrameDiv.find('div.camera-action-button.light-on');
@@ -4973,14 +4989,6 @@ function addCameraFrameUi(cameraConfig) {
         })
     });
 
-    if (cameraConfig.actions.length <= 4) {
-        cameraOverlay.find('div.camera-overlay-bottom').addClass('few-buttons');
-    }
-    else {
-        //cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', Math.ceil(cameraConfig.actions.length / 2) * 2.5 + 'em');
-        cameraOverlay.find('div.camera-action-buttons-wrapper').css('width', 4 * 2.5 + 'em');
-    }
-
     var FPS_LEN = 4;
     cameraImg[0].fpsTimes = [];
 
@@ -4994,7 +5002,7 @@ function addCameraFrameUi(cameraConfig) {
         cameraPlaceholder.css('opacity', 1);
         cameraProgress.removeClass('visible');
         cameraFrameDiv.removeClass('motion-detected');
-        cameraInfoSpan.html('');
+        cameraFpsSpan.html('');
     };
     cameraImg[0].onload = function () {
         if (this.error) {
@@ -5047,26 +5055,26 @@ function addCameraFrameUi(cameraConfig) {
                 var streamingFps = this.fpsTimes.length * 1000 / (this.fpsTimes[this.fpsTimes.length - 1] - this.fpsTimes[0]);
                 streamingFps = streamingFps.toFixed(1);
 
-                var info = streamingFps;
+                var fps = streamingFps;
                 if (captureFps) {
-                    info += '/' + captureFps;
+                    fps += '/' + captureFps;
                 }
+                fps += 'fps';
+                cameraFpsSpan.html(fps);
 
-                info += ' fps';
-
-                if (monitorInfo) {
+                if (monitorInfo && monitorInfo != "\"\"") {
                     monitorInfo = decodeURIComponent(monitorInfo);
-                    if (monitorInfo.charAt(0) == monitorInfo.charAt(monitorInfo.length - 1) == '"') {
+                    if (monitorInfo.charAt(0) == monitorInfo.charAt(monitorInfo.length - 1) && monitorInfo.charAt(0) == '"') {
                         monitorInfo = monitorInfo.substring(1, monitorInfo.length - 1);
                     }
-                    info += '<br>' + monitorInfo;
-                    cameraInfoDiv.addClass('two-lines');
+                    cameraMonitoringDiv.removeClass('hide-monitoring');
+                    cameraMonitoringSpan.html(monitorInfo);
+
                 }
                 else {
-                    cameraInfoDiv.removeClass('two-lines')
+                    cameraMonitoringDiv.addClass('hide-monitoring');
                 }
 
-                cameraInfoSpan.html(info);
             }
         }
 
@@ -5087,13 +5095,45 @@ function addCameraFrameUi(cameraConfig) {
     cameraImg.addClass('initializing');
     cameraImg[0].initializing = true;
     cameraImg.height(Math.round(cameraImg.width() * 0.75));
-}
 
-function remCameraFrameUi(cameraId) {
-    var cameraFrameDiv = getPageContainer().find('div.camera-frame#camera' + cameraId);
-    cameraFrameDiv.animate({'opacity': 0}, 100, function () {
-        cameraFrameDiv.remove();
-    });
+    function updateActionButtons() {
+        /* check if action buttons need one or two rows*/
+        var actionsCount = Math.ceil(cameraConfig.actions.length);
+        if(actionsCount) {
+            var actionButtonWidth = actionButtonDict[cameraConfig.actions[0]].height();
+            var actionsWidth = actionsCount * actionButtonWidth;
+            var cameraWidth = cameraOverlay.find('div.camera-overlay-bottom').width();
+            var flexBasis = (200 / actionsCount);
+            // to account for uneven numbers to space correctly
+            if(actionsCount % 2 == 1){
+                switch (Math.floor(actionsCount/2)) {
+                    case 4:
+                        flexBasis -= 4;
+                        break;
+                    case 5:
+                        flexBasis -= 2.5;
+                        break;
+                    case 6:
+                    case 7:
+                        flexBasis -= 1.5;
+                        break;
+                    case 8:
+                    case 9:
+                    case 10:
+                        flexBasis -= 1;
+                        break;
+                }
+            }
+            flexBasis += '%';
+            if(cameraWidth <= actionsWidth){
+                actionButtonDiv.css('flex', '1 0' + flexBasis);
+            } else {
+                actionButtonDiv.css('flex', 'none');
+            }
+        }
+    }
+
+    cameraConfig.updateActionButtons = updateActionButtons;
 }
 
 function recreateCameraFrames(cameras) {
@@ -5435,7 +5475,7 @@ function checkCameraErrors() {
 
         /* fps timeout */
         if (this.fpsTimes && this.fpsTimes.length && (now - this.fpsTimes[this.fpsTimes.length - 1]) > 2000) {
-            $(this).parents('div.camera-frame').find('span.camera-info.fps').html('0 fps');
+            $(this).parents('div.camera-frame').find('span.camera-fps').html('0 fps');
         }
     });
 
