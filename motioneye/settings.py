@@ -59,6 +59,14 @@ LISTEN = '0.0.0.0'
 # the TCP port to listen on
 PORT = 8765
 
+# path to libcamerify for backwards compatibility when using libcamera
+# This should only be used on Raspberry Pi with Bullseye or newer when you cannot use the legacy camera libraries like raspicam.
+# If you have Raspberry Pi Camera v3 or newer you probably have to use this or some other workaround like a local IP-camera.
+# Libcamerify enables a way to access a libcamera-camera using the legacy APIs and will probably not support all if any camera parameters.
+# Libcamerify can be installed with "sudo apt install libcamera-tools".
+# Warning: needs Motion release newer than release 4.5.1. As of 2023-05-23 Motion needs to be compiled manually. See https://github.com/Motion-Project/motion/issues/1644
+LIBCAMERIFY = None
+
 # path to the motion binary to use (automatically detected by default)
 MOTION_BINARY = None
 

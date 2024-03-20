@@ -69,6 +69,19 @@ def find_motion():
 
     return _motion_binary_cache
 
+def find_libcamerify():
+    if settings.LIBCAMERIFY:
+        if os.path.exists(settings.LIBCAMERIFY):
+            logging.debug(f'Found {settings.LIBCAMERIFY}')
+            return settings.LIBCAMERIFY
+
+        else:
+            binary = utils.call_subprocess(['which', 'libcamerify'])
+            if os.path.exists(binary):
+                logging.debug(f'Found {binary}')
+                return binary
+
+    return None
 
 def start(deferred=False):
     from motioneye import config, mjpgclient
@@ -100,6 +113,10 @@ def start(deferred=False):
     motion_pid_path = os.path.join(settings.RUN_PATH, 'motion.pid')
 
     args = [program, '-n', '-c', motion_config_path, '-d']
+    libcamerify = find_libcamerify()
+    if libcamerify:
+        logging.debug('Using libcamera wrapper libcamerify')
+        args.insert(0, libcamerify)
 
     if settings.LOG_LEVEL <= logging.DEBUG:
         args.append('9')
