@@ -28,7 +28,8 @@ jobs:
     - env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        git checkout -b pre-commit-autoupdate
+        git fetch --all
+        git checkout -B pre-commit-autoupdate
         pip install pre-commit
         pre-commit --version
         pre-commit autoupdate
@@ -36,6 +37,11 @@ jobs:
         git add -A
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
-        git commit -m '[CI/CD] pre-commit autoupdate'
-        git push -f origin pre-commit-autoupdate
-        gh pr create -B dev -H pre-commit-autoupdate -f -l 'CI/CD'
+        if git ls-remote -h --exit-code origin pre-commit-autoupdate
+        then
+            git commit --amend --no-edit
+            git push -f origin pre-commit-autoupdate
+        else
+            git commit -m '[CI/CD] pre-commit autoupdate'
+            git push origin pre-commit-autoupdate
+            gh pr create -B dev -H pre-commit-autoupdate -f -l 'CI/CD'
