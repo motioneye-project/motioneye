@@ -1,0 +1,8 @@
+
+Objektivo: havi python-fonton en utf-8 kun multlingva gettext-administrado.
+
+la unua aŭ dua linio de .py devas enhavi: «coding: utf-8» aŭ «encoding: utf-8», ekz. :
+# This Python file uses the following encoding: utf-8
+
+kordoj enhavantaj specialajn signojn devas esti prefiksitaj per «u», ekz. :
+  logging.fatal( _(u'bonvolu instali tornado version 3.1 aŭ pli') )

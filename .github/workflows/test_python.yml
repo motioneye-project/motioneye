@@ -1,0 +1,38 @@
+name: test_python
+
+on: [pull_request, push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
+    strategy:
+      matrix:
+        dist: ['ubuntu-20.04', 'ubuntu-22.04']
+    runs-on: ${{ matrix.dist }}
+    name: "Test on ${{ matrix.dist }}"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+      - run: sudo apt-mark hold grub-efi-amd64-signed # GRUB does not always find the drive it was configured for
+      - run: sudo apt-get -q update
+      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends dist-upgrade
+      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
+             curl gcc ffmpeg libcurl4-openssl-dev libssl-dev motion v4l-utils
+      - run: python3 -m pip install --upgrade pip setuptools wheel
+      - run: python3 -m pip install --upgrade build mypy pytest
+      - run: python3 -m build
+      - run: python3 -m pip install .
+      - run: mkdir --parents --verbose .mypy_cache
+      - run: mypy --ignore-missing-imports --install-types --non-interactive --exclude build/ . || true
+      - run: pytest --ignore=tests/test_utils/test_mjpeg.py
+                    --ignore=tests/test_utils/test_rtmp.py .
+      - run: pytest --fixtures tests/test_utils/test_mjpeg.py || true
+      - run: pytest --fixtures tests/test_utils/test_rtmp.py  || true
+      - run: pytest . || pytest --doctest-modules . || true

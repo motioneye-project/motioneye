@@ -1,0 +1,44 @@
+
+
+    /* basic */
+
+body {
+    color: #dddddd;
+    background-color: #212121;
+}
+
+
+    /* camera frame */
+
+div.camera-frame {
+    position: relative;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width: 100%;
+    height: 100%;
+}
+
+div.camera-container {
+    height: 100%;
+    text-align: center;
+    overflow: hidden;
+}
+
+img.camera {
+    height: auto;
+    margin: auto;
+}
+
+img.camera.error,
+img.camera.loading {
+    height: 100% !important;
+}
+
+div.camera-placeholder {
+    overflow: hidden;
+}
+
+div.camera-progress {
+    cursor: default;
+}

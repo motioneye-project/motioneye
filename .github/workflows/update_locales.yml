@@ -1,0 +1,67 @@
+name: update_locales
+
+on: pull_request
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: sh
+
+jobs:
+  update_locales:
+    # Skip for forks and dependabot which have no access to secrets (PAT)
+    if: github.event.pull_request.head.repo.fork == false && github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-22.04
+    steps:
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+        check-latest: true
+
+    - name: Install dependencies
+      run: |
+        python3 -m pip install --upgrade pip setuptools
+        python3 -m pip install --upgrade babel jinja2
+        sudo apt-get -q update
+        sudo DEBIAN_FRONTEND='noninteractive' apt-get -qq --no-install-recommends install gettext
+
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ github.head_ref }}
+        # https://github.com/peter-evans/create-pull-request/issues/48
+        token: ${{ secrets.GH_PAT }}
+
+    - name: Generate backend template
+      run: |
+        pybabel extract -F l10n/babel.cfg -o motioneye/locale/motioneye.pot motioneye/
+        # Remove trailing empty line to satisfy pre-commit
+        sed -i '${/^$/d}' motioneye/locale/motioneye.pot
+
+    - name: Generate frontend template
+      run: xgettext --no-wrap --from-code=UTF-8 -o motioneye/locale/motioneye.js.pot motioneye/static/js/*.js l10n/*.js
+
+    - name: Generate frontend locales
+      run: |
+        for i in motioneye/locale/*/LC_MESSAGES/motioneye.js.po
+        do
+            lang=${i#motioneye/locale/}
+            lang=${lang%/LC_MESSAGES/motioneye.js.po}
+            echo "Generating motioneye.$lang.json"
+            l10n/po2json "$i" "motioneye/static/js/motioneye.$lang.json"
+        done
+
+    - name: Commit changes
+      run: |
+        git diff -I '^"POT-Creation-Date: ' --exit-code && exit 0
+        git config user.name 'github-actions[bot]'
+        git config user.email 'github-actions[bot]@users.noreply.github.com'
+        git add -A
+        git commit -m 'Update translation files'
+        git push

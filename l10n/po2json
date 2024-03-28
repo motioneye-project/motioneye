@@ -1,0 +1,51 @@
+#!/usr/bin/env sh
+
+FICIN=$1
+FICOUT=$2
+
+awk '{
+  if (CONTMSG==1 && substr($1,1,1) != "\"")
+  {
+    CONTMSG=0;
+  }
+  if (CONTMSG2==1 && substr($1,1,1) != "\"")
+  {
+    CONTMSG2=0;
+    if (MSGID != "\"\"")
+      print("," MSGID ":" MSGSTR);
+  }
+  if (substr($1,2,9) == "Language:")
+  {
+    print("{\"\":{\"language\":\"" substr($2,1,2) "\",\"plural-forms\":\"nplurals=2; plural=(n > 1);\"}");
+  }
+  else if ($1 == "msgid")
+  {
+    MSGID=substr($0,7);
+    if (MSGID=="\"\"")
+      CONTMSG=1;
+  }
+  else if (MSGID != "\"\"" && $1 == "msgstr")
+  {
+    MSGSTR=substr($0,7);
+    if (MSGSTR=="\"\"")
+      CONTMSG2=1;
+    else
+      print("," MSGID ":" MSGSTR);
+  }
+  else if (CONTMSG==1 && substr($1,1,1) == "\"")
+  {
+    MSGID=MSGID $0;
+  }
+  else if (CONTMSG2==1 && substr($1,1,1) == "\"")
+  {
+    MSGSTR=MSGSTR $0;
+  }
+  else
+  {
+    CONTMSG=0;
+    CONTMSG2=0;
+  }
+}
+END {
+  print ("}");
+}' "$FICIN" > "$FICOUT"

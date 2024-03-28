@@ -1,0 +1,1539 @@
+# Translations template for PROJECT.
+# Copyright (C) 2020 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# Automatically generated, 2020.
+#
+# Milan Šalka <salka.milan@googlemail.com>, 2023.
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-02-15 14:03+0000\n"
+"PO-Revision-Date: 2023-10-07 08:11+0000\n"
+"Last-Translator: Milan Šalka <salka.milan@googlemail.com>\n"
+"Language-Team: Slovak <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/sk/>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 5.1-dev\n"
+"Generated-By: Babel 2.6.0\n"
+
+#: motioneye/server.py:232
+msgid "interrompa signalo ricevita, fermanta …"
+msgstr "Prijatý signál prerušenia, zatváram…"
+
+#: motioneye/server.py:276
+msgid "smb-akcioj postulas radikajn privilegiojn"
+msgstr "zdieľanie cez smb protokol vyžaduje oprávnenia roota"
+
+#: motioneye/server.py:283
+msgid "bonvolu instali tornado version 3.1 aŭ pli"
+msgstr "nainštalujte, prosím, tornado verzie 3.1 alebo novšej"
+
+#: motioneye/server.py:290
+msgid "bonvolu instali jinja2"
+msgstr "prosím, nainštalujte jinja2"
+
+#: motioneye/server.py:297
+msgid "bonvolu instali pillow aŭ PIL"
+msgstr "prosím, nainštalujte pillow alebo PIL"
+
+#: motioneye/server.py:304
+msgid "bonvolu instali pycurl"
+msgstr "prosím, nainštalujte pycurl"
+
+#: motioneye/server.py:422
+msgid "saluton! ĉi tio estas motionEye-servilo "
+msgstr "ahoj! toto je server motionEye "
+
+#: motioneye/server.py:437
+msgid "purigado komenciĝis"
+msgstr "čistenie bolo spustené"
+
+#: motioneye/server.py:439
+msgid "wsswitch komenciĝis"
+msgstr "wsswitch bol spustený"
+
+#: motioneye/server.py:442
+msgid "taskoj komenciĝis"
+msgstr "úlohy boli spustené"
+
+#: motioneye/server.py:446
+msgid "mjpg klienta rubo-kolektanto komenciĝis"
+msgstr "mjpg customer garbage collector bol spustený"
+
+#: motioneye/server.py:464
+msgid "servilo komenciĝis"
+msgstr "server bol spustený"
+
+#: motioneye/server.py:470
+msgid "servilo haltis"
+msgstr "server bol zastavený"
+
+#: motioneye/server.py:472
+msgid "taskoj haltis"
+msgstr "úlohy boli zastavené"
+
+#: motioneye/server.py:480
+msgid "motion haltis"
+msgstr "motion bol zastavený"
+
+#: motioneye/server.py:485
+msgid "adiaŭ!"
+msgstr "dovidenia!"
+
+#: motioneye/templates/main.html:104
+msgid "agordojn"
+msgstr "nastavenia"
+
+#: motioneye/templates/main.html:105
+msgid "ŝanĝi uzanton"
+msgstr "prepnúť používateľa"
+
+#: motioneye/templates/main.html:107
+msgid "forigi kameraon"
+msgstr "odstrániť kameru"
+
+#: motioneye/templates/main.html:108
+msgid "Apliki"
+msgstr "Použiť"
+
+#: motioneye/templates/main.html:127
+msgid "preferoj de uzanto"
+msgstr "predvoľby používateľa"
+
+#: motioneye/templates/main.html:128
+msgid "Preferoj"
+msgstr "Predvoľby"
+
+#: motioneye/templates/main.html:133
+msgid "Aranĝo Kolumnoj"
+msgstr "Rozloženie stĺpcov"
+
+#: motioneye/templates/main.html:135
+msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
+msgstr "určuje počet stĺpcov, v ktorých sú zobrazované výstupy z kamier"
+
+#: motioneye/templates/main.html:138
+msgid "Fiksi Kadrojn Vertikale"
+msgstr "Zmenšiť náhľady zvisle"
+
+#: motioneye/templates/main.html:140
+msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
+msgstr "ovláda, či sa majú veľkosti náhľadov zmenšiť tak, aby sa zmenšili do okna alebo nie"
+
+#: motioneye/templates/main.html:143
+msgid "Aranĝo linioj"
+msgstr "Rozloženie riadkov"
+
+#: motioneye/templates/main.html:145
+msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
+msgstr "určuje počet riadkov, v ktorých sú zobrazované výstupy z kamier"
+
+#: motioneye/templates/main.html:148
+msgid "kadro-variatoro"
+msgstr "Tlmič snímkovej frekvencie"
+
+#: motioneye/templates/main.html:150
+msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
+msgstr "zníži globálnu snímkovú frekvenciu, aby sa tak nezaťažovala sieť (nefunguje s jednoduchými MJPEG kamerami)"
+
+#: motioneye/templates/main.html:153
+msgid "Rezolucio-variatoro"
+msgstr "Tlmič rozlíšenia"
+
+#: motioneye/templates/main.html:155
+msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+msgstr "zníži skutočné rozlíšenie všetkých kamier, čím sa predchádza zaťaženiu siete (nefunguje s jednoduchými MJPEG kamerami)"
+
+#: motioneye/templates/main.html:161
+msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
+msgstr "všeobecné nastavenia, spoločné pre všetky kamery"
+
+#: motioneye/templates/main.html:162
+msgid "Ĝeneralaj Agordoj"
+msgstr "Všeobecné nastavenia"
+
+#: motioneye/templates/main.html:167
+msgid "Lingvo"
+msgstr "Jazyk"
+
+#: motioneye/templates/main.html:173
+msgid "la lingvo de la interfaco (du literoj)"
+msgstr "Jazyk rozhrania (dve písmená)"
+
+#: motioneye/templates/main.html:176
+msgid "Administranto"
+msgstr "Účet administrátora"
+
+#: motioneye/templates/main.html:178
+msgid "la uzantnomo uzata por agordi la sistemon"
+msgstr "meno používateľa používané pri konfigurovaní systému"
+
+#: motioneye/templates/main.html:181 motioneye/templates/main.html:191
+#: motioneye/templates/main.html:521
+msgid "Pasvorto"
+msgstr "Heslo"
+
+#: motioneye/templates/main.html:183
+msgid "pasvorto de administranto"
+msgstr "heslo administrátora"
+
+#: motioneye/templates/main.html:186
+msgid "Observanto"
+msgstr "Účet dohľadu"
+
+#: motioneye/templates/main.html:188
+msgid "la uzantnomo por uzi por la monitorado"
+msgstr "meno používateľa pre videodohľad"
+
+#: motioneye/templates/main.html:193
+msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
+msgstr "heslo používateľa vykonávajúceho dohľad (ponechajte prázdne pre účet bez hesla)"
+
+#: motioneye/templates/main.html:202
+msgid "motionEye Versio"
+msgstr "Verzia motionEye"
+
+#: motioneye/templates/main.html:206
+msgid "Motion Versio"
+msgstr "Verzia Motion"
+
+#: motioneye/templates/main.html:210
+msgid "Operaciumo Versio"
+msgstr "Verzia OS"
+
+#: motioneye/templates/main.html:215
+msgid "Programara Ĝisdatigo"
+msgstr "Softvérová aktualizácia"
+
+#: motioneye/templates/main.html:217
+msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
+msgstr "skontroluje dostupnosť novšej verzie a vykoná aktualizáciu"
+
+#: motioneye/templates/main.html:221
+msgid "Nutro"
+msgstr "Napájanie"
+
+#: motioneye/templates/main.html:222
+msgid "Fermu"
+msgstr "Vypnúť"
+
+#: motioneye/templates/main.html:223
+msgid "malŝaltas la sistemon"
+msgstr "vypne systém"
+
+#: motioneye/templates/main.html:227
+msgid "Rekomencu"
+msgstr "Reštartovať"
+
+#: motioneye/templates/main.html:228
+msgid "rekomencas la sistemon"
+msgstr "reštartuje systém"
+
+#: motioneye/templates/main.html:234
+msgid "Agordo"
+msgstr "Nastavenia"
+
+#: motioneye/templates/main.html:235
+msgid "Sekurkopio"
+msgstr "Zálohovať"
+
+#: motioneye/templates/main.html:236
+msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
+msgstr "vytvorí súbor s aktuálnym nastavením, ktorý si môžete uložiť"
+
+#: motioneye/templates/main.html:240
+msgid "Restaŭri"
+msgstr "Obnoviť"
+
+#: motioneye/templates/main.html:241
+msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
+msgstr "obnoví konfiguráciu zo súboru so zálohou vytvorenou v minulosti"
+
+#: motioneye/templates/main.html:265
+msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
+msgstr "zapnite túto voľbu, ak chcete použiť toto kamerové zariadenie"
+
+#: motioneye/templates/main.html:266
+msgid "Video-Aparato"
+msgstr "Zariadenie videa"
+
+#: motioneye/templates/main.html:271 motioneye/templates/main.html:614
+#: motioneye/templates/main.html:631
+msgid "Kamerao Nomo"
+msgstr "Názov kamery"
+
+#: motioneye/templates/main.html:272
+msgid "kameraa nomo…"
+msgstr "Názov kamery…"
+
+#: motioneye/templates/main.html:273
+msgid "alias pri ĉi tiu kamera aparato"
+msgstr "prezývka tohto kamerového zariadenia"
+
+#: motioneye/templates/main.html:276
+msgid "Kamerao ID"
+msgstr "ID kamery"
+
+#: motioneye/templates/main.html:278
+msgid "la kamerao identiga numero"
+msgstr "identifikačné číslo kamery"
+
+#: motioneye/templates/main.html:281
+msgid "Kamerao aparato"
+msgstr "Kamerové zariadenie"
+
+#: motioneye/templates/main.html:283
+msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
+msgstr "Vstupné zariadenie (napr. /dev/video) alebo URL adresa (napr. rtsp://192.168.1.1/stream)"
+
+#: motioneye/templates/main.html:286
+msgid "Kamerao Tipo"
+msgstr "Typ kamery"
+
+#: motioneye/templates/main.html:293
+msgid "Aŭtomata Brilo"
+msgstr "Automatický jas"
+
+#: motioneye/templates/main.html:295
+msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
+msgstr "povolí automatický softvérový jas (odporúčané iba pre kamery bez automatického jasu)"
+
+#: motioneye/templates/main.html:301
+msgid "Video-rezolucio"
+msgstr "Rozlíšenie videa"
+
+#: motioneye/templates/main.html:306
+msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
+msgstr "rozlíšenie videa (vyššie hodnoty znamenajú vyššiu kvalitu, ale vyžadujú viac procesorového času, viac priestoru na úložisku a rýchlejšiu sieť)"
+
+#: motioneye/templates/main.html:309
+msgid "Larĝeco"
+msgstr "Šírka"
+
+#: motioneye/templates/main.html:311
+msgid "enigu kutiman rezolucian larĝon"
+msgstr "zadajte vlastnú hodnotu pre rozlíšenie šírky"
+
+#: motioneye/templates/main.html:314
+msgid "Alteco"
+msgstr "Výška"
+
+#: motioneye/templates/main.html:316
+msgid "enigu kutiman rezolucian altecon"
+msgstr "zadajte vlastnú hodnotu pre rozlíšenie výšky"
+
+#: motioneye/templates/main.html:319
+msgid "Video-Rotacio"
+msgstr "Otočenie videa"
+
+#: motioneye/templates/main.html:328
+msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
+msgstr "použite túto voľbu na otočenie zaznamenaného obrazu, ak vaša kamera nemá správnu orientáciu"
+
+#: motioneye/templates/main.html:331
+msgid "Kadrofrekvenco"
+msgstr "Snímková frekvencia"
+
+#: motioneye/templates/main.html:333
+msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
+msgstr "nastavuje počet snímkov za sekundu zaznamenaných kamerou (vyššie hodnoty znamenajú plynulejšie videá, ale vyžadujú viac procesorového času, väčšie úložisko a vyššiu priepustnosť siete)"
+
+#: motioneye/templates/main.html:339
+msgid "Privateca masko"
+msgstr "Maska súkromia"
+
+#: motioneye/templates/main.html:341
+msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
+msgstr "zapne maskovanie obrázka, ktorý vám umožní nastaviť časti obrázka, ktoré sa nebudú nahrávať za účelom ochranu súkromia"
+
+#: motioneye/templates/main.html:346 motioneye/templates/main.html:1007
+msgid "Redakti maskon"
+msgstr "Upraviť masku"
+
+#: motioneye/templates/main.html:347 motioneye/templates/main.html:1008
+msgid "Konservi maskon"
+msgstr "Uložiť masku"
+
+#: motioneye/templates/main.html:350
+msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
+msgstr "kliknite na toto tlačidlo na zapnutie/vypnutie editora masky"
+
+#: motioneye/templates/main.html:361
+msgid "Ekstraj Elektoj"
+msgstr "Ďalšie voľby"
+
+#: motioneye/templates/main.html:363
+msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
+msgstr "sem môžete pridať všetky ďalšie voľby pre démon „Motion“ (použite formát „Názov hodnoty“, jedna možnosť na riadok)"
+
+#: motioneye/templates/main.html:372
+msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
+msgstr "vyberte kam a ako budú multimédiá ukladané"
+
+#: motioneye/templates/main.html:373
+msgid "Stokado de dosieroj"
+msgstr "Úložisko súborov"
+
+#: motioneye/templates/main.html:378
+msgid "Stokada Aparato"
+msgstr "Zariadenie úložiska"
+
+#: motioneye/templates/main.html:383
+msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
+msgstr "vyberá, na ktoré zariadenie úložiska budú obrázky a video súbory ukladané"
+
+#: motioneye/templates/main.html:386
+msgid "Retservilo"
+msgstr "Sieťový server"
+
+#: motioneye/templates/main.html:388
+msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
+msgstr "adresa sieťového servera (IP adresa alebo meno hostiteľa)"
+
+#: motioneye/templates/main.html:391
+msgid "SMB Protokolo-Versio"
+msgstr "Verzia protokolu SMB"
+
+#: motioneye/templates/main.html:401
+msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
+msgstr "vyberá verziu protokolu SMB, ktorý sa má použiť (vyskúšajte rôzne možnosti a zistite, ktorá funguje najlepšie s vašim systémom NAS)"
+
+#: motioneye/templates/main.html:404
+msgid "Kunhava nomo"
+msgstr "Názov zdieľania"
+
+#: motioneye/templates/main.html:406
+msgid "la nomo de la interŝanĝa reto"
+msgstr "názov sieťového zdieľania"
+
+#: motioneye/templates/main.html:409 motioneye/templates/main.html:516
+msgid "Uzantnomo"
+msgstr "Meno používateľa"
+
+#: motioneye/templates/main.html:411
+msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
+msgstr "meno používateľa, ktoré je potrebné zadať pre prístup ku zdieľanému prostriedku (nechajte prázdne, ak sa zadávanie mena nevyžaduje)"
+
+#: motioneye/templates/main.html:414
+msgid "Pasvorton"
+msgstr "Heslo pre zdieľanie"
+
+#: motioneye/templates/main.html:416
+msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
+msgstr "heslo vyžadované sieťovým zdieľaním (nechajte prázdna, ak zadanie hesla nie je potrebné)"
+
+#: motioneye/templates/main.html:419
+msgid "Radika dosierujo"
+msgstr "Koreňový adresár"
+
+#: motioneye/templates/main.html:421
+msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
+msgstr "cesta ku koreňu (na vybranom zariadení úložiska), kam budú súbory ukladané"
+
+#: motioneye/templates/main.html:425
+msgid "Testi la reton dosierujon"
+msgstr "Otestovať zdieľanie"
+
+#: motioneye/templates/main.html:426
+msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
+msgstr "kliknite na toto tlačidlo na otestovanie pripojenia ku zdieľanému prostriedku po tom, ako ste vyplnili všetky potrebné polia"
+
+#: motioneye/templates/main.html:432
+msgid "Uzado de Disko"
+msgstr "Využitie disku"
+
+#: motioneye/templates/main.html:436
+msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
+msgstr "použitá/celková veľkosť disku, na ktorom sa nachádza koreňový adresár"
+
+#: motioneye/templates/main.html:442
+msgid "Alŝutu Mediajn Dosierojn"
+msgstr "Nahrávať multimediálne súbory"
+
+#: motioneye/templates/main.html:444
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
+msgstr "zapnite túto voľbu, ak chcete aby sa multimediálne súbory nahrávali na externú službu"
+
+#: motioneye/templates/main.html:447
+msgid "Alŝutu Bildojn"
+msgstr "Nahrávať obrázky"
+
+#: motioneye/templates/main.html:449
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
+msgstr "zapnite túto voľbu, ak chcete aby sa obrázky nahrávali na externú službu"
+
+#: motioneye/templates/main.html:452
+msgid "Alŝutu Filmojn"
+msgstr "Nahrávať videá"
+
+#: motioneye/templates/main.html:454
+msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
+msgstr "zapnite túto voľbu, ak chcete aby sa videá nahrávali na externú službu"
+
+#: motioneye/templates/main.html:457
+msgid "Alŝuta Servo"
+msgstr "Nahrávacia služba"
+
+#: motioneye/templates/main.html:460
+msgid "Servilo FTP"
+msgstr "Server FTP"
+
+#: motioneye/templates/main.html:461
+msgid "Servilo SFTP"
+msgstr "Server SFTP"
+
+#: motioneye/templates/main.html:462
+msgid "Servilo HTTP"
+msgstr "Server HTTP"
+
+#: motioneye/templates/main.html:463
+msgid "Servilo HTTPS"
+msgstr "Server HTTPS"
+
+#: motioneye/templates/main.html:471
+msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
+msgstr "vyberte službu, na ktorú sa majú nahrávať multimediálne súbory"
+
+#: motioneye/templates/main.html:474
+msgid "Servila Adreso"
+msgstr "Adresa servera"
+
+#: motioneye/templates/main.html:476
+msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
+msgstr "názov domény alebo IP adresa servera (napr. ftp.priklad.com alebo 192.168.1.3)"
+
+#: motioneye/templates/main.html:479
+msgid "Servila haveno"
+msgstr "Port"
+
+#: motioneye/templates/main.html:481
+msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
+msgstr "port, ktorý sa použije pre pripojenie k službe (nechajte prázdne, ak chcete použiť predvolenú hodnotu)"
+
+#: motioneye/templates/main.html:484
+msgid "Metodo"
+msgstr "Metóda"
+
+#: motioneye/templates/main.html:491
+msgid "la HTTP-metodo uzi por alŝuti dosierojn"
+msgstr "HTTP metóda, ktorá sa použije pri nahrávaní súborov"
+
+#: motioneye/templates/main.html:494
+msgid "Finpunkto URL"
+msgstr "Koncová adresa URL"
+
+#: motioneye/templates/main.html:496
+msgid "La kompleta URL al la alŝuta servila finpunkto:"
+msgstr "Kompletná adresa URL koncového bodu upload servera:"
+
+#: motioneye/templates/main.html:497
+msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
+msgstr "Pre S3: napr. http://my.minio:9000. Nechajte prázdne pre AWS!"
+
+#: motioneye/templates/main.html:498
+msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
+msgstr "Pre WebDav: napr. https://my.cloud/remote.php/dav/files/me/"
+
+#: motioneye/templates/main.html:501
+msgid "Loko"
+msgstr "Umiestnenie"
+
+#: motioneye/templates/main.html:503
+msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
+msgstr "umiestnenie (cesta ku koreňu), kam majú byť multimediálne súbory nahraté (napr. /subory/cam1/)"
+
+#: motioneye/templates/main.html:506
+msgid "Inkluzivi Subdosierujojn"
+msgstr "Vrátane podpriečinkov"
+
+#: motioneye/templates/main.html:508
+msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
+msgstr "zapnite túto voľbu pre nahranie multimediálnych súborov spolu s podpriečinkami miesto ich umiestnenia priamo do koreňového umiestnenia"
+
+#: motioneye/templates/main.html:511
+msgid "Purigi la nubon"
+msgstr "Vyčistiť cloud"
+
+#: motioneye/templates/main.html:513
+msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
+msgstr "zapnite túto voľbu na odstránenie multimediálnych súborov v cloude vždy, keď sa na základe nastavení životnosti odstraňujú miestne súbory. Aktuálne je táto možnosť dostupná len pre gdrive."
+
+#: motioneye/templates/main.html:518
+msgid "la uzantnomo por la alŝuta servo-konto"
+msgstr "meno používateľa účtu nahrávacej služby"
+
+#: motioneye/templates/main.html:523
+msgid "la pasvorto por la alŝuta servo-konto"
+msgstr "heslo k účtu nahrávacej služby"
+
+#: motioneye/templates/main.html:526
+msgid "Rajtiga ŝlosilo"
+msgstr "Kľúč pre autorizáciu"
+
+#: motioneye/templates/main.html:528
+msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "kľúč použitý na overenie voči nahrávacej službe (štandardne vyžadované len pri úvodnom nastavovaní)"
+
+#: motioneye/templates/main.html:534
+msgid "Akiri ŝlosilon"
+msgstr "Získať kľúč"
+
+#: motioneye/templates/main.html:537
+msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
+msgstr "kliknite sem a získajte tak autorizačný kľúč služby"
+
+#: motioneye/templates/main.html:540
+msgid "Access Key"
+msgstr "Prístupový kľúč"
+
+#: motioneye/templates/main.html:542
+msgid "The AWS access key used to authenticate with the upload service"
+msgstr "Prístupový kľúč AWS použitý na autentifikáciu so službou nahrávania"
+
+#: motioneye/templates/main.html:545
+msgid "Sekreta Alira Ŝlosilo"
+msgstr "Tajný prístupový kľúč"
+
+#: motioneye/templates/main.html:547
+msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "tajný prístupový kľúč AWS na overenie voči nahrávacej službe (štandardne vyžadované len pri úvodnom nastavovaní)"
+
+#: motioneye/templates/main.html:550
+msgid "Sitelo"
+msgstr "Bucket"
+
+#: motioneye/templates/main.html:552
+msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
+msgstr "meno S3 bucketu nahrávacej služby (štandardne vyžadované len pri úvodnom nastavovaní)"
+
+#: motioneye/templates/main.html:556
+msgid "Testi la servon"
+msgstr "Otestovať službu"
+
+#: motioneye/templates/main.html:557
+msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
+msgstr "kliknite na toto tlačidlo na otestovanie nahrávacej služby po tom, ako vyplníte požadované polia"
+
+#: motioneye/templates/main.html:563
+msgid "alvoki URL"
+msgstr "Zavolať webový hook"
+
+#: motioneye/templates/main.html:565
+msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
+msgstr "zapnite túto voľbu, ak chcete po vytvorení multimediálneho súboru vytvoriť požiadavku na URL adresu"
+
+#: motioneye/templates/main.html:568 motioneye/templates/main.html:1136
+#: motioneye/templates/main.html:1181
+msgid "Reteja URL"
+msgstr "URL adresa webového hooku"
+
+#: motioneye/templates/main.html:569
+msgid "ekz. http://example.com/notify/"
+msgstr "e.g. http: //example.com/notify/"
+
+#: motioneye/templates/main.html:570
+#, python-format
+msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
+msgstr "URL adresa, na ktorú bude odoslaná požiadavka pri zistení pohybu; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti, %%f = cesta k súboru"
+
+#: motioneye/templates/main.html:573 motioneye/templates/main.html:1141
+#: motioneye/templates/main.html:1186
+msgid "Metodo HTTP"
+msgstr "Metóda HTTP"
+
+#: motioneye/templates/main.html:582
+msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
+msgstr "HTTP metóda, ktorá sa použije pre požiadavku na URL adresu webového hooku (zadané parametre v URL-kódovaní budú v skutočnosti prenesené tu uvedeným spôsobom)"
+
+#: motioneye/templates/main.html:588
+msgid "Kuri Komando"
+msgstr "Spustiť príkaz"
+
+#: motioneye/templates/main.html:590
+msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
+msgstr "zapnite túto voľbu, ak chcete, aby sa po vytvorení multimediálneho súboru spustil príkaz"
+
+#: motioneye/templates/main.html:593
+msgid "Ordono"
+msgstr "Príkaz"
+
+#: motioneye/templates/main.html:594
+msgid "ordono…"
+msgstr "Objednať…"
+
+#: motioneye/templates/main.html:595
+#, python-format
+msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
+msgstr "príkaz, ktorý sa spustí po vytvorení multimediálneho súboru; môžete zadať viacero príkazov oddelených bodkočiarkou; nepoužívajte bodkočiarky vo vnútri príkazov; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti, %%f = cesta k súboru"
+
+#: motioneye/templates/main.html:605
+msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
+msgstr "vyberte, aká informácia sa má zobraziť na zachytených snímkach"
+
+#: motioneye/templates/main.html:606
+msgid "Teksto Superkovrita"
+msgstr "Prekrytie textom"
+
+#: motioneye/templates/main.html:611
+msgid "Maldekstra Teksto"
+msgstr "Text vľavo"
+
+#: motioneye/templates/main.html:615 motioneye/templates/main.html:632
+msgid "Tempostampo"
+msgstr "Časová značka"
+
+#: motioneye/templates/main.html:616 motioneye/templates/main.html:633
+msgid "Propra Teksto"
+msgstr "Vlastný text"
+
+#: motioneye/templates/main.html:617 motioneye/templates/main.html:634
+#: motioneye/templates/main.html:691
+msgid "Malebligita"
+msgstr "Vypnuté"
+
+#: motioneye/templates/main.html:620
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
+msgstr "nastaví text zobrazený na videách a obrázkoch v ľavom spodnom rohu"
+
+#: motioneye/templates/main.html:624 motioneye/templates/main.html:641
+msgid "propra teksto…"
+msgstr "Vlastný text…"
+
+#: motioneye/templates/main.html:625
+#, python-format
+msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgstr "nastaví vlastný text vľavo; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti, %%T = HH: MM: SS, \\n = nový riadok"
+
+#: motioneye/templates/main.html:628
+msgid "Dekstra Teksto"
+msgstr "Text vpravo"
+
+#: motioneye/templates/main.html:637
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
+msgstr "nastaví text zobrazený na videách a obrázkoch v pravom spodnom rohu"
+
+#: motioneye/templates/main.html:642
+#, python-format
+msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgstr "nastaví vlastný text vpravo; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti, %%T = HH: MM: SS, \\n = nový riadok"
+
+#: motioneye/templates/main.html:645
+msgid "Teksta Skalo"
+msgstr "Mierka textu"
+
+#: motioneye/templates/main.html:647
+msgid "Difinas la grandecon de la superkovrita teksto"
+msgstr "nastavuje veľkosť textu prekrytia"
+
+#: motioneye/templates/main.html:657
+msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
+msgstr "zapnite túto voľbu, ak chcete streamovať video z kamery"
+
+#: motioneye/templates/main.html:658
+msgid "Videofluo"
+msgstr "Streamovanie videa"
+
+#: motioneye/templates/main.html:663
+msgid "Framo frekvencon"
+msgstr "Frekvencia snímok"
+
+#: motioneye/templates/main.html:665
+msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
+msgstr "nastaví počet snímok prenesených každú sekundu počas živého streamovania."
+
+#: motioneye/templates/main.html:668
+msgid "Flua Kvalito"
+msgstr "Kvalita streamu"
+
+#: motioneye/templates/main.html:670
+msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
+msgstr "nastavuje kvalitu live streamu (vyššie hodnoty znamenajú lepšiu kvalitu videa, ale vyžadujú vyššiu priepustnosť)."
+
+#: motioneye/templates/main.html:673
+msgid "Bilda Redimensionado"
+msgstr "Zmena veľkosti obrazu pri streamovaní"
+
+#: motioneye/templates/main.html:675
+msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
+msgstr "ak je táto voľba zapnutá, predtým ako sa obrázky odošlú do prehliadača dôjde k zmene ich veľkosti (vypnite, ak používate pomalý procesor)."
+
+#: motioneye/templates/main.html:678
+msgid "Flua rezolucio"
+msgstr "Rozlíšenie streamovania"
+
+#: motioneye/templates/main.html:680
+msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
+msgstr "rozlíšenie streamovania uvedené ako percento rozlíšenia videozariadenia (vyššie hodnoty znamenajú lepšiu kvalitu, ale vyžadujú širšie pásmo)"
+
+#: motioneye/templates/main.html:683
+msgid "Flua haveno"
+msgstr "Port streamu"
+
+#: motioneye/templates/main.html:685
+msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
+msgstr "nastavuje TCP port, na ktorom bude počúvať streamovací server kamery"
+
+#: motioneye/templates/main.html:688
+msgid "Aŭtentiga reĝimo"
+msgstr "Režim overovania"
+
+#: motioneye/templates/main.html:696
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
+msgstr "metóda overovania použitá streamom (vyberte Basic namiesto Digest, ak narazíte na problémy s aplikáciami tretích strán); použijú sa prihlasovacie údaje účtu dohľadu"
+
+#: motioneye/templates/main.html:699
+msgid "Movado-Optimigo"
+msgstr "Optimalizácia pohybu"
+
+#: motioneye/templates/main.html:701
+msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
+msgstr "zapnite túto voľbu, ak chcete docieliť nižšiu snímkovú frekvenciu pre živé streamovanie v prípadoch, kedy nie je zistený žiadny pohyb"
+
+#: motioneye/templates/main.html:707
+msgid "Utilaj URLoj"
+msgstr "Užitočné URL adresy"
+
+#: motioneye/templates/main.html:710
+msgid "Instantara URL"
+msgstr "URL adresa snímky"
+
+#: motioneye/templates/main.html:713
+msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
+msgstr "URL adresa, na ktorej sa nachádza JPEG obrázok s najnovšou snímkou kamery"
+
+#: motioneye/templates/main.html:719
+msgid "Flua URL"
+msgstr "URL adresa streamu"
+
+#: motioneye/templates/main.html:722
+msgid "URL kiu provizas MJPEG-fluon de la kamerao"
+msgstr "URL adresa, ktorá obsahuje MJPEG prúd z kamery"
+
+#: motioneye/templates/main.html:728
+msgid "Enigita URL"
+msgstr "URL adresa na vloženie"
+
+#: motioneye/templates/main.html:731
+msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
+msgstr "URL adresa, na ktorej sa nachádza minimálny HTML dokument obsahujúci názov kamery, pripravená na vloženie na inú stránku"
+
+#: motioneye/templates/main.html:741
+msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
+msgstr "zapnite túto voľbu, ak chcete zaznamenávať statické obrázky (fotografie)."
+
+#: motioneye/templates/main.html:742
+msgid "Kaptitaj Bildoj"
+msgstr "Statické obrázky"
+
+#: motioneye/templates/main.html:747
+msgid "Nomo Bildo-Dosiero"
+msgstr "Názov súboru s obrázkom"
+
+#: motioneye/templates/main.html:748 motioneye/templates/main.html:817
+msgid "dosiernomo ŝablono…"
+msgstr "Šablóna názvu súboru…"
+
+#: motioneye/templates/main.html:749
+#, python-format
+msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgstr "nastavuje šablónu pre názov súborov s obrázkom (JPEG); akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti, / = podpriečinok."
+
+#: motioneye/templates/main.html:752
+msgid "Bildkvalito"
+msgstr "Kvalita obrázka"
+
+#: motioneye/templates/main.html:754
+msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
+msgstr "nastavuje kvalitu JPEG obrázka (vyššie hodnoty znamenajú lepšiu obrazovú kvalitu, ale vyžadujú viac miesta v úložisku)"
+
+#: motioneye/templates/main.html:757
+msgid "Kaptila reĝimo"
+msgstr "Režim záznamu"
+
+#: motioneye/templates/main.html:760 motioneye/templates/main.html:880
+msgid "Moviĝa deĉenigo"
+msgstr "Aktivované pohybom"
+
+#: motioneye/templates/main.html:761
+msgid "Moviĝa deĉenigo (Unu bildo)"
+msgstr "Aktivované pohybom (jeden obrázok)"
+
+#: motioneye/templates/main.html:762
+msgid "Intertempe"
+msgstr "Snímky v intervaloch"
+
+#: motioneye/templates/main.html:763
+msgid "Ĉiuj bildoj"
+msgstr "Všetky snímky"
+
+#: motioneye/templates/main.html:764
+msgid "Mane"
+msgstr "Manuálne"
+
+#: motioneye/templates/main.html:767
+msgid "Difinas la kapta reĝimon:"
+msgstr "nastavuje režim záznamu obrázkov:"
+
+#: motioneye/templates/main.html:768
+msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
+msgstr "Aktivované pohybom = obrázok je zosnímaný vždy pri zistení pohybu,"
+
+#: motioneye/templates/main.html:769
+msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
+msgstr "Snímky v intervaloch = obrázok je zosnímaný každých x sekúnd,"
+
+#: motioneye/templates/main.html:770
+msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
+msgstr "Všetky snímky = uloží každú snímku do súboru s obrázkom,"
+
+#: motioneye/templates/main.html:771
+msgid "Mane = mana kapto kun dediĉita butono."
+msgstr "Ručne = ručné snímky pomocou tlačidla spúšte."
+
+#: motioneye/templates/main.html:774
+msgid "Interkapto-Intervalo"
+msgstr "Interval snímok"
+
+#: motioneye/templates/main.html:775 motioneye/templates/main.html:888
+#: motioneye/templates/main.html:963 motioneye/templates/main.html:1092
+#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
+msgid "sekundoj"
+msgstr "sekundy"
+
+#: motioneye/templates/main.html:776
+msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
+msgstr "nastavuje časový interval (v sekundách) snímok"
+
+#: motioneye/templates/main.html:779
+msgid "Konservi bildojn"
+msgstr "Ponechávať obrázky"
+
+#: motioneye/templates/main.html:782 motioneye/templates/main.html:895
+msgid "Dum unu tago"
+msgstr "jeden deň"
+
+#: motioneye/templates/main.html:783 motioneye/templates/main.html:896
+msgid "Dum unu semajno"
+msgstr "jeden týždeň"
+
+#: motioneye/templates/main.html:784 motioneye/templates/main.html:897
+msgid "Dum unu monato"
+msgstr "jeden mesiac"
+
+#: motioneye/templates/main.html:785 motioneye/templates/main.html:898
+msgid "Dum unu jaro"
+msgstr "jeden rok"
+
+#: motioneye/templates/main.html:786 motioneye/templates/main.html:899
+msgid "Porĉiame"
+msgstr "naveky"
+
+#: motioneye/templates/main.html:787 motioneye/templates/main.html:900
+msgid "Propra"
+msgstr "Vlastná"
+
+#: motioneye/templates/main.html:790
+msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
+msgstr "obrázky staršie ako uvedená hodnota sú automaticky odstránené, aby sa uvoľnilo miesto v úložisku."
+
+#: motioneye/templates/main.html:793
+msgid "Bildaj Vivdaŭro"
+msgstr "Životnosť obrázka"
+
+#: motioneye/templates/main.html:795
+msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
+msgstr "nastavuje počet dní, po uplynutí ktorých budú obrázky automaticky odstránené."
+
+#: motioneye/templates/main.html:798
+msgid "Ebligu manaj kaptoj"
+msgstr "Povoliť manuálne snímky"
+
+#: motioneye/templates/main.html:800
+msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
+msgstr "ak zapnete túto voľbu, tlačidlo na rámiku kamery vám umožní ručne vytvárať snímky."
+
+#: motioneye/templates/main.html:810
+msgid "ebligu ĉi tion, se vi volas registri filmojn"
+msgstr "zapnite túto voľbu, ak chcete nahrávať videá"
+
+#: motioneye/templates/main.html:811
+msgid "Filmoj"
+msgstr "Videá"
+
+#: motioneye/templates/main.html:816
+msgid "Filma Dosiernomo"
+msgstr "Názov súboru s videom"
+
+#: motioneye/templates/main.html:818
+#, python-format
+msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgstr "nastavuje šablónu pre názov súborov s videom; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti, / = podpriečinok."
+
+#: motioneye/templates/main.html:821
+msgid "Rekta kopia filmeto"
+msgstr "Prechod videa"
+
+#: motioneye/templates/main.html:823
+msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
+msgstr "Vytvárať video súbory pohybu priamo z kamery. Táto voľba by mala znížiť zaťaženie procesora, ale zvýši nároky na pamäť. Nevykoná sa žiadne spracovanie obrazu, to znamená, že sa vo výslednom súbore neobjaví prekrytie textom, masky súkromia atď."
+
+#: motioneye/templates/main.html:826
+msgid "Filmformato"
+msgstr "Formát videa"
+
+#: motioneye/templates/main.html:869
+msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
+msgstr "nastavuje formát súborov s videom; nie všetky formáty fungujú na všetkých systémoch; ak si nie ste istý výberom, otestujte každý formát a vyberte ten, ktorý funguje najlepšie s vašim prehrávačom videa."
+
+#: motioneye/templates/main.html:872
+msgid "Filma Kvalito"
+msgstr "Kvalita videa"
+
+#: motioneye/templates/main.html:874
+msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
+msgstr "nastavuje kvalitu MPEG videa (vyššie hodnoty znamenajú vyššiu kvalitu videa, ale vyžadujú viac miesta v úložisku)."
+
+#: motioneye/templates/main.html:877
+msgid "Rekorda reĝimo"
+msgstr "Režim nahrávania"
+
+#: motioneye/templates/main.html:881
+msgid "Kontinua registrado"
+msgstr "Nepretržité nahrávanie"
+
+#: motioneye/templates/main.html:884
+msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
+msgstr "nastavuje režim záznamu: Aktivované pohybom = nové video bude vytvorené vždy keď sa zistí pohyb, Nepretržité nahrávanie = jeden veľký súbor s videom."
+
+#: motioneye/templates/main.html:887
+msgid "Maksimuma filma daŭro"
+msgstr "Maximálna dĺžka videa"
+
+#: motioneye/templates/main.html:889
+msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
+msgstr "nastavuje maximálnu dĺžku videí, v sekundách; ak udalosť pohybu trvá dlhšie, vytvorí sa nový súbor s videom; použite 0 pre neobmedzenú dĺžku."
+
+#: motioneye/templates/main.html:892
+msgid "Konservi filmojn"
+msgstr "Ponechávať videá"
+
+#: motioneye/templates/main.html:903
+msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
+msgstr "videá staršie ako uvedený čas budú automaticky odstránené, aby sa uvoľnilo miesto na úložisku."
+
+#: motioneye/templates/main.html:906
+msgid "Filmoj Vivdaŭro"
+msgstr "Životnosť videí"
+
+#: motioneye/templates/main.html:907 motioneye/utils/dtconv.py:125
+msgid "tagoj"
+msgstr "dni"
+
+#: motioneye/templates/main.html:908
+msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
+msgstr "nastavuje počet dní, po uplynutí ktorých budú videá automaticky odstránené."
+
+#: motioneye/templates/main.html:918
+msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
+msgstr "zapnite túto voľbu, ak chcete použiť a nastaviť mechanizmus na detekciu pohybu."
+
+#: motioneye/templates/main.html:919
+msgid "Movado-Detekto"
+msgstr "Detekcia pohybu"
+
+#: motioneye/templates/main.html:924
+msgid "Kadra ŝanĝo sojlo"
+msgstr "Prah zmeny snímky"
+
+#: motioneye/templates/main.html:926
+msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
+msgstr "vyjadruje minimálne percento obrázka, ktoré sa musí zmeniť medzi dvoma po sebe nasledujúcimi snímkami, aby to bolo vyhodnotené ako pohyb (menšie hodnoty znamenajú vyššiu citlivosť detekcie, ale majú tendenciu vytvárať falošný poplach)."
+
+#: motioneye/templates/main.html:929
+msgid "Maksimuma ŝanĝo sojlo"
+msgstr "Maximálna zmena prahu"
+
+#: motioneye/templates/main.html:931
+msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
+msgstr "nastavuje počet pixelov zmenených medzi dvoma snímkami, po prekročení ktorých už nie je udalosť vyhodnotená ako pohyb (0 vypína tento limit)."
+
+#: motioneye/templates/main.html:934
+msgid "Aŭtomata sojla agordo"
+msgstr "Automatická úprava prahu"
+
+#: motioneye/templates/main.html:936
+msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
+msgstr "zapnite túto voľbu, ak chcete automaticky upravovať prah."
+
+#: motioneye/templates/main.html:939
+msgid "Aŭtomata bruo-detekto"
+msgstr "Automatická detekcia šumu"
+
+#: motioneye/templates/main.html:941
+msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
+msgstr "zapnite túto voľbu, ak chcete automaticky upravovať úroveň šumu."
+
+#: motioneye/templates/main.html:944
+msgid "Bruo-nivelo"
+msgstr "Úroveň šumu"
+
+#: motioneye/templates/main.html:946
+msgid "Permane agordas la bruan nivelon al fiksita valoro."
+msgstr "manuálne nastaví úroveň šumu na pevnú hodnotu."
+
+#: motioneye/templates/main.html:949
+msgid "Detekto de lumaj ŝanĝoj"
+msgstr "Detekcia vypínača svetla"
+
+#: motioneye/templates/main.html:951
+#, python-format
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgstr "nastavuje percento obrázka, ktoré sa musí zmeniť, aby bola udalosť vnímaná ako náhla zmena svetla a nie ako pohyb (0%% vypína túto funkciu)."
+
+#: motioneye/templates/main.html:954
+msgid "Makula filtrilo"
+msgstr "Vyhladzovací (despeckle) filter"
+
+#: motioneye/templates/main.html:956
+msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
+msgstr "zapnite túto voľbu, ak chcete na snímky pred detekciou pohybu použiť vyhladzovací (despeckle) filter."
+
+#: motioneye/templates/main.html:962
+msgid "Senmovada daŭro"
+msgstr "Prerušenie pohybu"
+
+#: motioneye/templates/main.html:964
+msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
+msgstr "nastavuje počet sekúnd ticha (t. j. žiaden pohyb), ktoré označujú koniec udalosti pohybu."
+
+#: motioneye/templates/main.html:967
+msgid "Kaptita Antaŭe"
+msgstr "Zachytené pred"
+
+#: motioneye/templates/main.html:968 motioneye/templates/main.html:973
+#: motioneye/templates/main.html:978
+msgid "kadroj"
+msgstr "snímky"
+
+#: motioneye/templates/main.html:969
+msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
+msgstr "nastavuje počet snímok, ktoré majú byť zachytené (a pridané do videa) predtým, ako dôjde k detekcii pohybu."
+
+#: motioneye/templates/main.html:972
+msgid "Kaptita Post"
+msgstr "Zachytené po"
+
+#: motioneye/templates/main.html:974
+msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
+msgstr "nastavuje počet snímok, ktoré majú byť zachytené (a pridané do videa) po skončení udalosti pohybu."
+
+#: motioneye/templates/main.html:977
+msgid "Minimumaj movaj kadroj"
+msgstr "Minimálne snímky pohybu"
+
+#: motioneye/templates/main.html:979
+msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
+msgstr "nastaví minimálny počet po sebe idúcich snímok s pohybom, ktoré sú potrebné na aktivovanie udalosti pohybu."
+
+#: motioneye/templates/main.html:985
+msgid "Masko"
+msgstr "Maska"
+
+#: motioneye/templates/main.html:987
+msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
+msgstr "povolí maskovanie obrázkov pre nastaviteľnú a presnú detekciu pohybu."
+
+#: motioneye/templates/main.html:990
+msgid "Tipo de masko"
+msgstr "Typ masky"
+
+#: motioneye/templates/main.html:993
+msgid "Inteligenta"
+msgstr "Inteligentná"
+
+#: motioneye/templates/main.html:994
+msgid "Redaktebla"
+msgstr "Editovateľná"
+
+#: motioneye/templates/main.html:997
+msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
+msgstr "inteligentná automaticky zisťuje oblasti s pravidelným pohybom a dynamicky obnovuje internú masku, zatiaľ čo editovateľná maska vám umožní ju nastaviť podľa vašich predstáv."
+
+#: motioneye/templates/main.html:1000
+msgid "Inteligenta-maska Malrapideco"
+msgstr "Stálosť inteligentnej masky"
+
+#: motioneye/templates/main.html:1002
+msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
+msgstr "vyššie hodnoty znamenajú inteligentnú masku s dlhou životnosťou a pomalším procesom jej zostavovania."
+
+#: motioneye/templates/main.html:1011
+msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
+msgstr "kliknite na toto tlačidlo pre vyčistenie aktuálnej masky."
+
+#: motioneye/templates/main.html:1015
+msgid "Purigi maskon"
+msgstr "Vyčistiť masku"
+
+#: motioneye/templates/main.html:1016
+msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
+msgstr "kliknite na toto tlačidlo na vyčistenie aktuálnej masky."
+
+#: motioneye/templates/main.html:1022
+msgid "Montri Kadro-Ŝanĝojn"
+msgstr "Zobraziť zmeny medzi snímkami"
+
+#: motioneye/templates/main.html:1024
+msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
+msgstr "ak je táto voľba zapnutá, zmeny snímok (počet pixelov i zmenená plocha) sa zobrazia vo videu; dočasne zapnite túto možnosť, aby ste mohli lepšie upraviť parametre detekcie pohybu."
+
+#: motioneye/templates/main.html:1027
+msgid "Krei debug media files"
+msgstr "Vytvoriť multimediálne súbory pre ladenie"
+
+#: motioneye/templates/main.html:1029
+msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
+msgstr "ak je táto voľba zapnutá, vytvoria sa špeciálne videá a obrázky, ktoré pomôžu s ladením problémov detekcie pohybu."
+
+#: motioneye/templates/main.html:1038
+msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
+msgstr "zapnite túto voľbu, ak chcete dostávať upozornenia o zistenom pohybe."
+
+#: motioneye/templates/main.html:1039
+msgid "Moviĝaj sciigoj"
+msgstr "Upozornenia na pohyb"
+
+#: motioneye/templates/main.html:1051
+msgid "Sendi retpoŝton"
+msgstr "Odoslať e-mail"
+
+#: motioneye/templates/main.html:1053
+msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "zapnite túto voľbu, ak chcete dostať e-mail vždy, keď sa zistí udalosť pohybu."
+
+#: motioneye/templates/main.html:1056
+msgid "Retpoŝtadresoj"
+msgstr "E-mailové adresy"
+
+#: motioneye/templates/main.html:1057
+msgid "retpoŝtadresoj…"
+msgstr "Emailové adresy…"
+
+#: motioneye/templates/main.html:1058
+msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
+msgstr "e-mailové adresy (oddelené čiarkou), ktoré dostanú upozornenie vždy, keď dôjde k detekcii pohybu."
+
+#: motioneye/templates/main.html:1061
+msgid "Servilo SMTP"
+msgstr "SMTP Server"
+
+#: motioneye/templates/main.html:1062
+msgid "ekz. smtp.gmail.com"
+msgstr "napr. smtp.gmail.com"
+
+#: motioneye/templates/main.html:1063
+msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
+msgstr "zadajte názov alebo IP adresu vášho servera SMTP (pre Gmail použite smtp.gmail.com)."
+
+#: motioneye/templates/main.html:1066
+msgid "SMTP Haveno"
+msgstr "SMTP Port"
+
+#: motioneye/templates/main.html:1067
+msgid "ekz. 587"
+msgstr "napr. 587"
+
+#: motioneye/templates/main.html:1068
+msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
+msgstr "zadajte heslo použité vašim serverom SMTP (zvyčajne 465 pre ne-TLS spojenia a 587 pre TLS spojenia)."
+
+#: motioneye/templates/main.html:1071
+msgid "SMTP-Konto"
+msgstr "Účet SMTP"
+
+#: motioneye/templates/main.html:1072
+msgid "konto@gmail.com…"
+msgstr "ucet@gmail.com…"
+
+#: motioneye/templates/main.html:1073
+msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
+msgstr "zadajte váš účet SMTP (bežne ním býva vaša e-mailová adresa)."
+
+#: motioneye/templates/main.html:1076
+msgid "SMTP Pasvorto"
+msgstr "Heslo SMTP"
+
+#: motioneye/templates/main.html:1078
+msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
+msgstr "zadajte heslo k vášmu účtu SMTP (pre Gmail použite vaše Google heslo alebo heslo vygenerované pre aplikáciu)."
+
+#: motioneye/templates/main.html:1081
+msgid "De adreso"
+msgstr "Adresa odosielateľa (From)"
+
+#: motioneye/templates/main.html:1082
+msgid "retpoŝta adreso…"
+msgstr "Emailová adresa…"
+
+#: motioneye/templates/main.html:1083
+msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
+msgstr "nastavuje vlastnú adresu From, ak to vaša SMTP služba vyžaduje (ak nevyplníte, použije sa prvá e-mailová adresa cieľa)."
+
+#: motioneye/templates/main.html:1086
+msgid "Uzi TLS"
+msgstr "Použiť TLS"
+
+#: motioneye/templates/main.html:1088
+msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
+msgstr "zapnite túto voľbu, ak váš server SMTP vyžaduje TLS (Gmail vyžaduje zapnutie tejto voľby)."
+
+#: motioneye/templates/main.html:1091
+msgid "Aldonitaj bildoj tempo-intervalo"
+msgstr "Časový interval priložených obrázkov"
+
+#: motioneye/templates/main.html:1093
+msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgstr "určuje časový interval vyhľadávania obrázkov pri vytváraní e-mailových príloh (vyššie hodnoty generujú e-maily s viacerými obrázkami za cenu väčšieho oneskorenia upozornení); nastavte na 0 pre vypnutie obrázkových príloh; aby toto fungovalo, musíte tiež povoliť Statické obrázky."
+
+#: motioneye/templates/main.html:1097
+msgid "Testi retpoŝto"
+msgstr "Otestovať e-mail"
+
+#: motioneye/templates/main.html:1098
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
+msgstr "kliknite na toto tlačidlo na otestovanie e-mailových upozornení po tom, ako vyplníte požadované podrobnosti."
+
+#: motioneye/templates/main.html:1104
+msgid "Sendu Telegraman Sciigon"
+msgstr "Odoslať upozornenie na Telegram"
+
+#: motioneye/templates/main.html:1106
+msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
+msgstr "zapnite túto voľbu, ak chcete pri detekcii udalosti pohybu dostať správu cez Telegram"
+
+#: motioneye/templates/main.html:1109
+msgid "HTTP API ĵetono"
+msgstr "HTTP API token"
+
+#: motioneye/templates/main.html:1110
+msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+msgstr "Napríklad: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+
+#: motioneye/templates/main.html:1111
+msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
+msgstr "Pri vytváraní telegramového botového chatu dostanete API token, ktorý musíte zadať tu. Kliknutím na tlačidlo API nižšie zobrazíte podrobný návod, ako získať token API. Po vygenerovaní kľúča sa tiež uistite, že chatujete so svojím novovytvoreným «botom», aby ste sa uistili, že dostávate správy."
+
+#: motioneye/templates/main.html:1114
+msgid "Babileja ID"
+msgstr "ID chatu"
+
+#: motioneye/templates/main.html:1115
+msgid "Ekzemplo: 938272312"
+msgstr "Napríklad: 938272312"
+
+#: motioneye/templates/main.html:1116
+msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
+msgstr "Vytvorte nový chat s id_chatbot-om (@id_chatbot) a vyberte štart. Chat vráti číslo potrebné pre toto políčko."
+
+#: motioneye/templates/main.html:1119
+msgid "Alkroĉitaj Bildoj Tempo"
+msgstr "Čas priložených obrázkov"
+
+#: motioneye/templates/main.html:1121
+msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
+msgstr "určuje časový interval vyhľadávania obrázkov pri vytváraní príloh telegramu (vyššie hodnoty generujú správy s viacerými obrázkami za cenu väčšieho oneskorenia upozornení); nastavte na 0 pre vypnutie obrázkových príloh; aby toto fungovalo, musíte tiež povoliť Statické obrázky; s týmto nastavením sa pravdepodobne budete chcieť pohrať. Dobré číslo na začiatok je 30 pri nastavení statických obrázkov pri zistení jedného pohybu. Pre bežnú aktiváciu pohybom číslo nastavte na oveľa nižšiu hodnotu."
+
+#: motioneye/templates/main.html:1124
+msgid "API-Informoj"
+msgstr "Informácie o API"
+
+#: motioneye/templates/main.html:1125
+msgid "Testo"
+msgstr "Otestovať"
+
+#: motioneye/templates/main.html:1131 motioneye/templates/main.html:1176
+msgid "Alvoki URL"
+msgstr "Zavolať webový hook"
+
+#: motioneye/templates/main.html:1133
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
+msgstr "zapnite túto voľbu, ak chcete vždy po zistení pohybu vytvoriť požiadavku na URL."
+
+#: motioneye/templates/main.html:1137
+msgid "ekz. http://ekzemplo.com/sciigi/"
+msgstr "napr. http://priklad.com/notify/"
+
+#: motioneye/templates/main.html:1138
+#, python-format
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "URL adresa, na ktorú bude odoslaná požiadavka pri zistení pohybu; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti"
+
+#: motioneye/templates/main.html:1150 motioneye/templates/main.html:1195
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
+msgstr "HTTP metóda, ktorá sa použije pre URL adresu webového hooku (zadané parametre v URL-kódovaní budú v skutočnosti prenesené tu uvedeným spôsobom)."
+
+#: motioneye/templates/main.html:1156 motioneye/templates/main.html:1201
+msgid "Lanĉi komando"
+msgstr "Spustiť príkaz"
+
+#: motioneye/templates/main.html:1158
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
+msgstr "zapnite túto voľbu, ak chcete vždy po zistení pohybu spustiť príkaz."
+
+#: motioneye/templates/main.html:1161 motioneye/templates/main.html:1206
+msgid "Komando"
+msgstr "Príkaz"
+
+#: motioneye/templates/main.html:1162 motioneye/templates/main.html:1207
+msgid "komando…"
+msgstr "príkaz…"
+
+#: motioneye/templates/main.html:1163
+#, python-format
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgstr "príkaz, ktorý sa spustí pri detegovaní pohybu; môžete zadať viacero príkazov oddelených bodkočiarkou; nepoužívajte bodkočiarky vo vnútri príkazov; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky, %%v = číslo udalosti"
+
+#: motioneye/templates/main.html:1203
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
+msgstr "zapnite túto voľbu, ak chcete vždy po skončení udalosti pohybu spustiť príkaz."
+
+#: motioneye/templates/main.html:1208
+#, python-format
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgstr "príkaz, ktorý sa spustí po skončení udalosti; môžete zadať viacero príkazov oddelených bodkočiarkou; nepoužívajte bodkočiarky vo vnútri príkazov; akceptované sú nasledovné špeciálne značky: %%Y = rok, %%m = mesiac, %%d = deň, %%H = hodina, %%M = minúta, %%S = sekunda, %%q = číslo snímky."
+
+#: motioneye/templates/main.html:1218
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
+msgstr "zapnite túto voľbu, ak chcete nastaviť týždenný pracovný čas na detekciu pohybu."
+
+#: motioneye/templates/main.html:1219
+msgid "Laboranta horaro"
+msgstr "Pracovný čas"
+
+#: motioneye/templates/main.html:1224
+msgid "Lundo"
+msgstr "Pondelok"
+
+#: motioneye/templates/main.html:1227
+msgid "de"
+msgstr "od"
+
+#: motioneye/templates/main.html:1228
+msgid "ĝis"
+msgstr "do"
+
+#: motioneye/templates/main.html:1230
+msgid "Fiksas la labortagan tempintervalon por lundoj."
+msgstr "nastaví interval pracovného času pre pondelok."
+
+#: motioneye/templates/main.html:1233
+msgid "Mardo"
+msgstr "Utorok"
+
+#: motioneye/templates/main.html:1239
+msgid "Fiksas la labortagan tempintervalon por mardoj."
+msgstr "nastaví interval pracovného času pre utorok."
+
+#: motioneye/templates/main.html:1242
+msgid "Merkredo"
+msgstr "Streda"
+
+#: motioneye/templates/main.html:1248
+msgid "Fiksas la labortagan tempintervalon por merkredoj."
+msgstr "nastaví interval pracovného času pre stredu."
+
+#: motioneye/templates/main.html:1251
+msgid "Ĵaŭdo"
+msgstr "Štvrtok"
+
+#: motioneye/templates/main.html:1257
+msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
+msgstr "nastaví interval pracovného času pre štvrtok."
+
+#: motioneye/templates/main.html:1260
+msgid "Vendredo"
+msgstr "Piatok"
+
+#: motioneye/templates/main.html:1266
+msgid "Fiksas la labortagan tempintervalon por vendredoj."
+msgstr "nastaví interval pracovného času pre piatok."
+
+#: motioneye/templates/main.html:1269
+msgid "Sabato"
+msgstr "Sobota"
+
+#: motioneye/templates/main.html:1275
+msgid "Fiksas la labortagan tempintervalon por sabatoj."
+msgstr "nastaví interval pracovného času pre sobotu."
+
+#: motioneye/templates/main.html:1278
+msgid "Dimanĉo"
+msgstr "Nedeľa"
+
+#: motioneye/templates/main.html:1284
+msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
+msgstr "nastaví interval pracovného času pre nedeľu."
+
+#: motioneye/templates/main.html:1287
+msgid "Detekti movadon"
+msgstr "Detegovať pohyb"
+
+#: motioneye/templates/main.html:1290
+msgid "Dum laborista horaro"
+msgstr "Počas pracovného času"
+
+#: motioneye/templates/main.html:1291
+msgid "Ekster laborista horaro"
+msgstr "Mimo pracovného času"
+
+#: motioneye/templates/main.html:1294
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
+msgstr "nastavuje, či má byť detekcia pohybu aktívna počas alebo mimo pracovného času."
+
+#: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
+msgid "neniam"
+msgstr "nikdy"
+
+#: motioneye/utils/dtconv.py:113
+msgid "tago"
+msgstr "deň"
+
+#: motioneye/utils/dtconv.py:116
+msgid "semajno"
+msgstr "týždeň"
+
+#: motioneye/utils/dtconv.py:119
+msgid "monato"
+msgstr "mesiac"
+
+#: motioneye/utils/dtconv.py:122
+msgid "jaro"
+msgstr "rok"
+
+#: motioneye/utils/dtconv.py:129
+msgid "horo"
+msgstr "hodina"
+
+#: motioneye/utils/dtconv.py:132
+msgid "horoj"
+msgstr "hodiny"
+
+#: motioneye/utils/dtconv.py:136
+msgid "minuto"
+msgstr "minúta"
+
+#: motioneye/utils/dtconv.py:139
+msgid "minutoj"
+msgstr "minúty"
+
+#: motioneye/utils/dtconv.py:143
+msgid "sekundo"
+msgstr "sekunda"
+
+#: motioneye/utils/dtconv.py:153
+msgid "minus"
+msgstr "mínus"

@@ -1,0 +1,27 @@
+# https://pre-commit.com
+# This GitHub Action assumes that the repo contains a valid .pre-commit-config.yaml file.
+name: pre-commit
+
+on: [pull_request, push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  pre-commit:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
+    runs-on: ubuntu-22.04
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+        check-latest: true
+    - run: |
+        pip install pre-commit
+        pre-commit --version
+        pre-commit run --all-files --show-diff-on-failure

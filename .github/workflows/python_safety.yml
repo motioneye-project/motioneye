@@ -1,0 +1,28 @@
+name: python_safety
+
+on: [pull_request, push]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  python_safety:
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
+    runs-on: ubuntu-22.04
+    steps:
+      - run: sudo apt-get -q update
+      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
+             gcc libcurl4-openssl-dev libssl-dev
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+          check-latest: true
+      - run: pip install --upgrade pip setuptools
+      - run: pip install safety .
+      - run: rm -Rfv /opt/hostedtoolcache/Python/3.12.1/x64/lib/python3.12/site-packages/pip-23.2.1.dist-info  # Workaround: https://github.com/motioneye-project/motioneye/pull/2883
+      - run: safety check

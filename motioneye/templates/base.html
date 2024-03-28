@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block meta %}
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="mobile-web-app-capable" content="yes">
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="theme-color" content="#414141">
+            <meta name="apple-mobile-web-app-status-bar-style" content="#414141">
+        {% endblock %}
+        <title>{% block title %}{% endblock %}</title>
+        {% block style %}
+            <link rel="stylesheet" type="text/css" href="{{static_path}}css/jquery.timepicker.min.css?v={{version}}">
+            <link rel="shortcut icon" href="{{static_path}}img/motioneye-logo.svg">
+            <link rel="apple-touch-icon" href="{{static_path}}img/motioneye-logo.svg">
+            <link rel="manifest" href="{{static_path}}../manifest.json?v={{version}}">
+        {% endblock %}
+        {% block script %}
+            <script defer src="{{static_path}}js/css-browser-selector.min.js?v={{version}}"></script>
+            <script defer src="{{static_path}}js/jquery.min.js?v={{version}}"></script>
+            <script defer src="{{static_path}}js/jquery.timepicker.min.js?v={{version}}"></script>
+            <script defer src="{{static_path}}js/jquery.mousewheel.min.js?v={{version}}"></script>
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+        {% block inline %}<script>var staticPath = '{{static_path}}';</script>{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,14 @@
+{
+    "lang": "en-US",
+    "short_name": "motionEye",
+    "name": "motionEye",
+    "description": "A free video surveillance software.",
+    "version": "{{version}}",
+    "theme_color": "#414141",
+    "background_color": "#414141",
+    "icons": [
+        {"src": "{{static_path}}img/motioneye-icon.svg?v={{version}}", "sizes": "any"}
+    ],
+    "start_url": ".",
+    "display": "standalone"
+}

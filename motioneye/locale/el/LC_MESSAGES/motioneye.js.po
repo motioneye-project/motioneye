@@ -1,0 +1,676 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-15 14:03+0000\n"
+"PO-Revision-Date: 2022-07-06 20:19+0000\n"
+"Last-Translator: ChriZathens <c_kan1@hotmail.com>\n"
+"Language-Team: Greek <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/el/>\n"
+"Language: el\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 4.13.1-dev\n"
+
+#: motioneye/static/js/main.js:606
+msgid "specialaj signoj ne rajtas en pasvorto"
+msgstr "δεν επιτρέπονται ειδικοί χαρακτήρες στον κωδικό"
+
+#: motioneye/static/js/main.js:613 motioneye/static/js/main.js:624
+#: motioneye/static/js/main.js:683 motioneye/static/js/ui.js:362
+#: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
+msgid "Ĉi tiu kampo estas deviga"
+msgstr "Αυτό το πεδίο είναι υποχρεωτικό"
+
+#: motioneye/static/js/main.js:617
+msgid "specialaj signoj ne rajtas en la nomo de kamerao"
+msgstr "δεν επιτρέπονται ειδικοί χαρακτήρες στο όνομα της κάμερας"
+
+#: motioneye/static/js/main.js:629
+msgid "valoro devas esti multoblo de 8"
+msgstr "η τιμή πρέπει να είναι πολλαπλάσια του 8"
+
+#: motioneye/static/js/main.js:636
+msgid "specialaj signoj ne rajtas en radika voja nomo"
+msgstr "ειδικοί χαρακτήρες δεν επιτρέπονται στο όνομα του ριζικού φακέλου"
+
+#: motioneye/static/js/main.js:639
+msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
+msgstr "αρχεία δεν μπορούν να δημιουργηθούν κατευθείαν στο root του συστήματός σας"
+
+#: motioneye/static/js/main.js:646
+msgid "enigu validan retpoŝtadreson"
+msgstr "εισάγετε μια έγκυρη διεύθυνση ηλεκτρονικού ταχυδρομείου"
+
+#: motioneye/static/js/main.js:653
+msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
+msgstr "εισάγετε μια λίστα με έγκυρες, διαχωρισμένες με κόμμα, διευθύνσεις ηλεκτρονικού ταχυδρομείου"
+
+#: motioneye/static/js/main.js:660
+msgid "specialaj signoj ne rajtas en dosiernomo"
+msgstr "ειδικοί χαρακτήρες δεν επιτρέπονται στο όνομα του αρχείου"
+
+#: motioneye/static/js/main.js:687
+msgid "enigu validan valoron"
+msgstr "εισάγετε μια έγκυρη τιμή"
+
+#: motioneye/static/js/main.js:841
+msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
+msgstr "Αυτό θα διαγράψει όλα τα αρχεία και τους υποφακέλους που βρίσκονται στον cloud φάκελο \""
+
+#: motioneye/static/js/main.js:842
+msgid "\", ne nur tiuj alŝutitaj de motionEye!"
+msgstr "\", όχι μόνο αυτά που έχουν ανέβει από το motionEye!"
+
+#: motioneye/static/js/main.js:923
+msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
+msgstr "Αυτό θα διαγράψει όλα τα παλιά αρχεία πολυμέσων που βρίσκονται στο φάκελο και στους υποφακέλους του \""
+
+#: motioneye/static/js/main.js:924
+msgid "\", ne nur tiuj kreitaj de motionEye!"
+msgstr "\", όχι μόνο αυτά που δημιουργήθηκαν από το motionEye!"
+
+#: motioneye/static/js/main.js:990
+msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
+msgstr "Δεν μπορείτε να επεξεργαστείτε τη μάσκα χωρίς μια έγκυρη εικόνα από την κάμερα!"
+
+#: motioneye/static/js/main.js:2230
+msgid "Propra"
+msgstr "Προσαρμοσμένες"
+
+#: motioneye/static/js/main.js:2268
+msgid "Propra dosierindiko"
+msgstr "Προσαρμοσμένη διαδρομή"
+
+#: motioneye/static/js/main.js:2270
+msgid "Retan kunlokon"
+msgstr "Κοινόχρηστο Δικτύου"
+
+#: motioneye/static/js/main.js:2630
+msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
+msgstr "Ο περιηγητής σας δεν υλοποιεί αυτήν τη λειτουργία!"
+
+#: motioneye/static/js/main.js:2646
+msgid "Apliki"
+msgstr "Εφαρμογή"
+
+#: motioneye/static/js/main.js:2673 motioneye/static/js/main.js:3034
+#: motioneye/static/js/main.js:3089 motioneye/static/js/main.js:3164
+msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
+msgstr "Βεβαιωθείτε ότι όλες οι επιλογές παραμετροποίησης είναι έγκυρες!"
+
+#: motioneye/static/js/main.js:2775
+msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
+msgstr "Αυτό θα επανεκκινήσει το σύστημα. Συνέχεια;"
+
+#: motioneye/static/js/main.js:2785
+msgid "Vere fermiti sistemon?"
+msgstr "Πραγματικά θέλετε να γίνει τερματισμός;"
+
+#: motioneye/static/js/main.js:2797
+msgid "Malŝaltita"
+msgstr "Απενεργοποιημένο"
+
+#: motioneye/static/js/main.js:2812
+msgid "Ĉu vere restartigi ?"
+msgstr "Πραγματικά θέλετε να γίνει επανεκκίνηση;"
+
+#: motioneye/static/js/main.js:2826
+msgid "La sistemo rekomencis!"
+msgstr "Το σύστημα επανεκκινήθηκε!"
+
+#: motioneye/static/js/main.js:2846 motioneye/static/js/main.js:2879
+#: motioneye/static/js/main.js:3859
+msgid "Bonvolu apliki unue la modifitajn agordojn!"
+msgstr "Παρακαλώ εφαρμόστε πρώτα τις τροποποιημένες ρυθμίσεις!"
+
+#: motioneye/static/js/main.js:2851
+msgid "Neniu fotilo por forigi!"
+msgstr "Δεν υπάρχει κάμερα για αφαίρεση!"
+
+#: motioneye/static/js/main.js:2857
+msgid "Ĉu forigi kameraon "
+msgstr "Αφαίρεση κάμερας "
+
+#: motioneye/static/js/main.js:2885
+msgid "motionEye estas ĝisdatigita (aktuala versio: "
+msgstr "Το motionEye είναι ενημερωμένο (τρέχουσα έκδοση: "
+
+#: motioneye/static/js/main.js:2888
+msgid "Nova versio havebla: "
+msgstr "Νέα έκδοση διαθέσιμη: "
+
+#: motioneye/static/js/main.js:2888
+msgid ". Ĝisdatigi?"
+msgstr ". Ενημέρωση;"
+
+#: motioneye/static/js/main.js:2896
+msgid "motionEye estis sukcese ĝisdatigita!"
+msgstr "Το motionEye ενημερώθηκε με επιτυχία!"
+
+#: motioneye/static/js/main.js:2906
+msgid "Ĝisdatigo malsukcesis!"
+msgstr "Η ενημέρωση απέτυχε!"
+
+#: motioneye/static/js/main.js:2917
+msgid "La ĝisdatiga procezo malsukcesis!"
+msgstr "Η διαδικασία ενημέρωσης απέτυχε!"
+
+#: motioneye/static/js/main.js:2936
+msgid "Rezerva dosiero"
+msgstr "Αρχείο Αντιγράφου Ασφαλείας"
+
+#: motioneye/static/js/main.js:2938
+msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
+msgstr "το αρχείο αντιγράφου ασφαλείας που κάνατε πριν λήψη."
+
+#: motioneye/static/js/main.js:2967
+msgid "Restaŭrigi Agordon"
+msgstr "Επαναφορά Ρυθμίσεων"
+
+#: motioneye/static/js/main.js:2979
+msgid "Restaŭriganta agordon ..."
+msgstr "Γίνεται επαναφορά ρυθμίσεων..."
+
+#: motioneye/static/js/main.js:2986
+msgid "La agordo restaŭrigis!"
+msgstr "Η επαναφορά ρυθμίσεων έγινε!"
+
+#: motioneye/static/js/main.js:2996 motioneye/static/js/main.js:3015
+msgid "Malsukcesis restaŭri la agordon!"
+msgstr "Αποτυχία επαναφοράς ρυθμίσεων!"
+
+#: motioneye/static/js/main.js:3070
+msgid "Aliri la alŝutan servon malsukcesis: "
+msgstr "Αποτυχία πρόσβασης στην υπηρεσία μεταφόρτωσης: "
+
+#: motioneye/static/js/main.js:3073
+msgid "Aliri la alŝutan servon sukcesis!"
+msgstr "Επιτυχής πρόσβαση στην υπηρεσία μεταφόρτωσης!"
+
+#: motioneye/static/js/main.js:3110 motioneye/static/js/main.js:3113
+msgid "Sciiga retpoŝto fiaskis:"
+msgstr "Ειδοποίηση ηλ. ταχυδρομείου απέτυχε:"
+
+#: motioneye/static/js/main.js:3129
+msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
+msgstr "Βεβαιωθείτε ότι όλες οι επιλογές παραμετροποίησης είναι έγκυρες!"
+
+#: motioneye/static/js/main.js:3145
+msgid "Sciiga Telegramo fiaskis:"
+msgstr "Ειδοποίηση μέσω Telegram απέτυχε:"
+
+#: motioneye/static/js/main.js:3148
+msgid "Sciiga Telegramo sukcesis!"
+msgstr "Ειδοποίηση μέσω Telegram επιτυχής!"
+
+#: motioneye/static/js/main.js:3184
+msgid "Aliro al retdividado fiaskis: "
+msgstr "Αποτυχία πρόσβασης στο κοινόχρηστο δικτύου: "
+
+#: motioneye/static/js/main.js:3187
+msgid "Aliro al retdividado sukcesis!"
+msgstr "Η πρόσβαση στο κοινόχρηστο δικτύου ήταν επιτυχής!"
+
+#: motioneye/static/js/main.js:3211
+msgid "Ĉu vere forigi ĉi tiun dosieron?"
+msgstr "Πραγματικά διαγραφή αυτού του αρχείου;"
+
+#: motioneye/static/js/main.js:3235
+msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
+msgstr "Πραγματικά διαγραφή όλων των εικόνων από τα \"%(group)s\";"
+
+#: motioneye/static/js/main.js:3238
+msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
+msgstr "Πραγματικά αφαίρεση όλων των βίντεο από τα \"%(group)s\";"
+
+#: motioneye/static/js/main.js:3243
+msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
+msgstr "Πραγματικά διαγραφή όλων των μη ομαδοποιημένων εικόνων;"
+
+#: motioneye/static/js/main.js:3246
+msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
+msgstr "Πραγματικά διαγραφή όλων τη μη ομαδοποιημένων βίντεο;"
+
+#: motioneye/static/js/main.js:3357
+msgid "aldonadi kameraon..."
+msgstr "προσθήκη κάμερας..."
+
+#: motioneye/static/js/main.js:3545
+msgid "bone"
+msgstr "ΟΚ"
+
+#: motioneye/static/js/main.js:3582 motioneye/static/js/main.js:3881
+msgid "Uzantnomo"
+msgstr "Όνομα Χρήστη"
+
+#: motioneye/static/js/main.js:3587 motioneye/static/js/main.js:3886
+msgid "Pasvorto"
+msgstr "Κωδικός Πρόσβασης"
+
+#: motioneye/static/js/main.js:3593
+msgid "Memoru min"
+msgstr "Να με θυμάσαι"
+
+#: motioneye/static/js/main.js:3611 motioneye/static/js/main.js:3617
+msgid "Ensaluti"
+msgstr "Σύνδεση"
+
+#: motioneye/static/js/main.js:3614 motioneye/static/js/ui.js:1023
+#: motioneye/static/js/ui.js:1030
+msgid "Nuligi"
+msgstr "Άκυρο"
+
+#: motioneye/static/js/main.js:3656
+msgid "Vi abortis la filmeton."
+msgstr "Ματαιώσατε το βίντεο."
+
+#: motioneye/static/js/main.js:3659
+msgid "Reto eraro okazis."
+msgstr "Προέκυψε ένα σφάλμα δικτύου."
+
+#: motioneye/static/js/main.js:3662
+msgid "Malkodado-eraro aŭ neprogresinta funkcio."
+msgstr "Σφάλμα αποκωδικοποίησης ή μη υποστηριζόμενα χαρακτηριστικά πολυμέσων."
+
+#: motioneye/static/js/main.js:3665
+msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
+msgstr "Η μορφή δεν υποστηρίζεται ή μη προσβάσιμη/ακατάλληλη για αναπαραγωγή."
+
+#: motioneye/static/js/main.js:3668
+msgid "Nekonata eraro okazis."
+msgstr "Προέκυψε άγνωστο σφάλμα."
+
+#: motioneye/static/js/main.js:3671
+msgid "Eraro : "
+msgstr "Σφάλμα: "
+
+#: motioneye/static/js/main.js:3676
+msgid "antaŭa bildo"
+msgstr "προηγούμενη εικόνα"
+
+#: motioneye/static/js/main.js:3681
+msgid "ludi"
+msgstr "αναπαραγωγή"
+
+#: motioneye/static/js/main.js:3684
+msgid "ludi * 5 kaj enĉenigi"
+msgstr "για να παίξετε * 5 και να μπείτε"
+
+#: motioneye/static/js/main.js:3689
+msgid "sekva bildo"
+msgstr "επόμενη εικόνα"
+
+#: motioneye/static/js/main.js:3812
+msgid "Fermi"
+msgstr "Κλείσιμο"
+
+#: motioneye/static/js/main.js:3813 motioneye/static/js/main.js:4374
+msgid "Elŝuti"
+msgstr "Λήψη"
+
+#: motioneye/static/js/main.js:3821 motioneye/static/js/main.js:4377
+msgid "Forigi"
+msgstr "Αφαίρεση"
+
+#: motioneye/static/js/main.js:3865
+msgid "Kamerao tipo"
+msgstr "Τύπος Κάμερας"
+
+#: motioneye/static/js/main.js:3867
+msgid "Loka V4L2-kamerao"
+msgstr "Τοπική V4L2-Κάμερα"
+
+#: motioneye/static/js/main.js:3868
+msgid "Loka MMAL-kamerao"
+msgstr "Τοπική MMAL Κάμερα"
+
+#: motioneye/static/js/main.js:3869
+msgid "Reta kamerao"
+msgstr "Δικτυακή Κάμερα"
+
+#: motioneye/static/js/main.js:3870
+msgid "Fora motionEye kamerao"
+msgstr "Απομακρυσμένη Κάμερα motionEye"
+
+#: motioneye/static/js/main.js:3871
+msgid "Simpla MJPEG-kamerao"
+msgstr "Απλή MJPEG-Κάμερα"
+
+#: motioneye/static/js/main.js:3873
+msgid "la speco de kamerao, kiun vi volas aldoni"
+msgstr "ο τύπος της κάμερας που θέλετε να προσθέσετε"
+
+#: motioneye/static/js/main.js:3876
+msgid "URL"
+msgstr "URL"
+
+#: motioneye/static/js/main.js:3877
+msgid "http://ekzemplo.com:8765/cams/..."
+msgstr "http://example.com:8765/cams/..."
+
+#: motioneye/static/js/main.js:3878
+msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
+msgstr "το URL της κάμερας (π.χ. http://example.com:8080/cam/)"
+
+#: motioneye/static/js/main.js:3882
+msgid "uzantnomo..."
+msgstr "όνομα χρήστη..."
+
+#: motioneye/static/js/main.js:3883
+msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
+msgstr "το όνομα χρήστη για το URL, αν χρειάζεται (π.χ. admin)"
+
+#: motioneye/static/js/main.js:3887
+msgid "pasvorto..."
+msgstr "κωδικός πρόσβασης..."
+
+#: motioneye/static/js/main.js:3888
+msgid "la pasvorto por la URL, se bezonata"
+msgstr "ο κωδικός για το URL, αν χρειάζεται"
+
+#: motioneye/static/js/main.js:3891
+msgid "Kamerao"
+msgstr "Κάμερα"
+
+#: motioneye/static/js/main.js:3893
+msgid "la kameraon, kiun vi volas aldoni"
+msgstr "η κάμερα που θέλετε να προσθέσετε"
+
+#: motioneye/static/js/main.js:3929
+msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
+msgstr "Οι απομακρυσμένες κάμερες motionEye είναι κάμερες που είναι εγκατεστημένες σε κάποιον άλλο διακομιστή motionEye. Προστίθοντάς τες εδώ θα σας επιτρέψει να τις βλέπετε και να τις διαχειρίζεστε απομακρυσμένα."
+
+#: motioneye/static/js/main.js:3944
+msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
+msgstr "Οι δικτυακές κάμερες (ή IP κάμερες) είναι συσκευές που εγγενώς στριμάρουν RTSP/RTMP ή MJPEG βίντεο ή απλές εικόνες JPEG. Συμβουλευτείτε το εγχειρίδιο της συσκευής σας για να βρείτε το σωστό RTSP, RTMP, MJPEG ή JPEG URL."
+
+#: motioneye/static/js/main.js:3949
+msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
+msgstr "Οι τοπικές MMAL κάμερες είναι συσκευές που είναι απευθείας συνδεμένες με το σύστημα motionEye. Αυτές συνήθως είναι συγκεκριμένες για τη συσκευή/μητρική σας."
+
+#: motioneye/static/js/main.js:3964
+msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
+msgstr "Προσθέτοντας τη συσκευή σας σαν απλή κάμερα MJPEG αντί για δικτυακή κάμερα θα βελτιώσει την ταχύτητα των καρέ, αλλά δεν θα είναι για αυτήν διαθέσιμα ανίχνευση κίνησης, λήψη εικόνων και καταγραφή βίντεο. Η κάμερα πρέπει να είναι προσβάσιμη και από το διακομιστή αλλά και από τον περιηγητή σας. Αυτού του τύπου η κάμερα δεν είναι συμβατή με τον Internet Explorer."
+
+#: motioneye/static/js/main.js:3969
+msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
+msgstr "Οι τοπικές κάμερες V4L2 είναι συσκευές κάμερας που συνδέονται απευθείας με το σύστημα MotionEye, συνήθως μέσω USB."
+
+#: motioneye/static/js/main.js:4120
+msgid "Aldonadi kameraon..."
+msgstr "Προσθέστε μια κάμερα ..."
+
+#: motioneye/static/js/main.js:4192
+msgid "Grupo"
+msgstr "Μία ομάδα"
+
+#: motioneye/static/js/main.js:4196
+msgid "Inkluzivi foton prenitan ĉiun"
+msgstr "Συμπεριλάβετε μια φωτογραφία που τραβήχτηκε το καθένα"
+
+#: motioneye/static/js/main.js:4199
+msgid "sekundo"
+msgstr "ένα δεύτερο"
+
+#: motioneye/static/js/main.js:4200
+msgid "5 sekundoj"
+msgstr "5 δευτερόλεπτα"
+
+#: motioneye/static/js/main.js:4201
+msgid "10 sekundoj"
+msgstr "10 δευτερόλεπτα"
+
+#: motioneye/static/js/main.js:4202
+msgid "30 sekundoj"
+msgstr "30 δευτερόλεπτα"
+
+#: motioneye/static/js/main.js:4203
+msgid "minuto"
+msgstr "λεπτό"
+
+#: motioneye/static/js/main.js:4204
+msgid "5 minutoj"
+msgstr "5 λεπτά"
+
+#: motioneye/static/js/main.js:4205
+msgid "10 minutoj"
+msgstr "10 λεπτά"
+
+#: motioneye/static/js/main.js:4206
+msgid "30 minutoj"
+msgstr "30 λεπτά"
+
+#: motioneye/static/js/main.js:4207
+msgid "horo"
+msgstr "ώρα"
+
+#: motioneye/static/js/main.js:4210
+msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
+msgstr "Επιλέξτε το εύρος του χρόνου μεταξύ δύο επιλεγμένων εικόνων."
+
+#: motioneye/static/js/main.js:4213
+msgid "Filmo framfrekvenco"
+msgstr "Ρυθμός καρέ"
+
+#: motioneye/static/js/main.js:4215
+msgid "Elektu kiom rapide vi volas ke la akselita video estu."
+msgstr "Επιλέξτε πόσο γρήγορα θέλετε να είναι το ένοπλο βίντεο."
+
+#: motioneye/static/js/main.js:4224
+msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
+msgstr "Λαμβάνοντας υπόψη τον μεγάλο αριθμό εικόνων, η δημιουργία του βίντεό σας θα μπορούσε να πάρει κάποιο χρόνο!"
+
+#: motioneye/static/js/main.js:4241
+msgid "Krei akselita video"
+msgstr "Δημιουργήστε ένα ένοπλο βίντεο"
+
+#: motioneye/static/js/main.js:4250
+msgid "Filmo kreanta en progreso..."
+msgstr "Κινηματογραφική ταινία σε εξέλιξη ..."
+
+#: motioneye/static/js/main.js:4501
+msgid "Zipitaj"
+msgstr "Φερμουάρ"
+
+#: motioneye/static/js/main.js:4510
+msgid "Akselita video"
+msgstr "Έμφυτο βίντεο"
+
+#: motioneye/static/js/main.js:4521
+msgid "Forigi ĉiujn"
+msgstr "Αφαίρεση όλων"
+
+#: motioneye/static/js/main.js:4663
+msgid "Bildoj prenitaj de "
+msgstr "Εικόνες που λαμβάνονται από"
+
+#: motioneye/static/js/main.js:4666
+msgid "Filmoj registritaj de "
+msgstr "Ταινίες που καταγράφηκαν από"
+
+#: motioneye/static/js/main.js:4728
+msgid "montru ĉi tiun fotilon plenekranan"
+msgstr "Δείξτε αυτήν την κάμερα πλήρη -Screen"
+
+#: motioneye/static/js/main.js:4729
+msgid "montri ĉiujn fotilojn"
+msgstr "Δείξτε όλες τις κάμερες"
+
+#: motioneye/static/js/main.js:4730
+msgid "montru nur ĉi tiun fotilon"
+msgstr "Εμφάνιση μόνο αυτής της κάμερας"
+
+#: motioneye/static/js/main.js:4731
+msgid "malfermaj bildoj retumilo"
+msgstr "Ανοίξτε το πρόγραμμα περιήγησης"
+
+#: motioneye/static/js/main.js:4732
+msgid "malferma videoj retumilo"
+msgstr "Ανοίξτε το πρόγραμμα περιήγησης βίντεο"
+
+#: motioneye/static/js/main.js:4733
+msgid "agordi ĉi tiun kameraon"
+msgstr "Ορίστε αυτήν την κάμερα"
+
+#: motioneye/static/js/main.js:4749
+msgid "preni instantaron"
+msgstr "Για να πάρετε μια στιγμή"
+
+#: motioneye/static/js/main.js:5118
+msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
+msgstr "Δεν έχετε ρυθμίσει ακόμα καμία κάμερα. Κάντε κλικ εδώ για να προσθέσετε ένα ..."
+
+#: motioneye/static/js/ui.js:503
+msgid "enigu pozitivan nombron"
+msgstr "Εισαγάγετε έναν θετικό αριθμό"
+
+#: motioneye/static/js/ui.js:505
+msgid "enigu pozitivan entjeran nombron"
+msgstr "Εισαγάγετε έναν θετικό ακέραιο αριθμό"
+
+#: motioneye/static/js/ui.js:507
+msgid "enigu nombron"
+msgstr "Εισαγάγετε έναν αριθμό"
+
+#: motioneye/static/js/ui.js:509
+msgid "enigu entjeran nombron"
+msgstr "Εισαγάγετε έναν ακέραιο αριθμό"
+
+#: motioneye/static/js/ui.js:512
+msgid " inter "
+msgstr "μεταξύ"
+
+#: motioneye/static/js/ui.js:512
+msgid " kaj "
+msgstr "και"
+
+#: motioneye/static/js/ui.js:515
+msgid " pli ol "
+msgstr "περισσότερο από"
+
+#: motioneye/static/js/ui.js:520
+msgid " malpli ol "
+msgstr "λιγότερο από"
+
+#: motioneye/static/js/ui.js:573
+msgid "enigu validan tempon en la sekva formato: HH:MM"
+msgstr "Εισαγάγετε έναν έγκυρο χρόνο στην ακόλουθη μορφή: HH: mm"
+
+#: motioneye/static/js/ui.js:630
+msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
+msgstr "Εισαγάγετε μια έγκυρη διεύθυνση URL (π.χ. http://ekzemplo.com:8080/cams/)"
+
+#: motioneye/static/js/ui.js:971
+msgid "fermi"
+msgstr "να κλείσω"
+
+#: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
+msgid "Ne"
+msgstr "Οχι"
+
+#: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
+msgid "Jes"
+msgstr "Ναί"
+
+#: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
+msgid "Bone"
+msgstr "Εντάξει"
+
+#: l10n/v4l2.js:4
+msgid "Auto Exposure"
+msgstr "Αυτόματη έκθεση"
+
+#: l10n/v4l2.js:5
+msgid "Backlight Compensation"
+msgstr "Αντιστάθμιση οπίσθιου φωτισμού"
+
+#: l10n/v4l2.js:6
+msgid "Brightness"
+msgstr "Λάμψη"
+
+#: l10n/v4l2.js:7
+msgid "Contrast"
+msgstr "Αντίθεση"
+
+#: l10n/v4l2.js:8
+msgid "Exposure Absolute"
+msgstr "Έκθεση απολύτως"
+
+#: l10n/v4l2.js:9
+msgid "Exposure Auto"
+msgstr "Εκθέσεις αυτοκινήτων"
+
+#: l10n/v4l2.js:10
+msgid "Exposure Auto Priority"
+msgstr "Προτεραιότητα αυτόματης έκθεσης"
+
+#: l10n/v4l2.js:11
+msgid "Exposure Time Absolute"
+msgstr "Ο χρόνος έκθεσης απολύτως"
+
+#: l10n/v4l2.js:12
+msgid "Focus Absolute"
+msgstr "Επικεντρώνεται απολύτως"
+
+#: l10n/v4l2.js:13
+msgid "Focus Auto"
+msgstr "Εστίαση αυτοκινήτων"
+
+#: l10n/v4l2.js:14
+msgid "Gain"
+msgstr "Κέρδος"
+
+#: l10n/v4l2.js:15
+msgid "Gamma"
+msgstr "Γάμμα"
+
+#: l10n/v4l2.js:16
+msgid "Hue"
+msgstr "Απόχρωση"
+
+#: l10n/v4l2.js:17
+msgid "Led1 Mode"
+msgstr "Λειτουργία LED1"
+
+#: l10n/v4l2.js:18
+msgid "Led1 Frequency"
+msgstr "Συχνότητα LED1"
+
+#: l10n/v4l2.js:19
+msgid "Pan Absolute"
+msgstr "Παναγιά απολύτως"
+
+#: l10n/v4l2.js:20
+msgid "Power Line Frequency"
+msgstr "Συχνότητα γραμμής ισχύος"
+
+#: l10n/v4l2.js:21
+msgid "Saturation"
+msgstr "Κορεσμός"
+
+#: l10n/v4l2.js:22
+msgid "Sharpness"
+msgstr "Οξύτητα"
+
+#: l10n/v4l2.js:23
+msgid "Tilt Absolute"
+msgstr "Κλίση απολύτως"
+
+#: l10n/v4l2.js:24
+msgid "White Balance Temperature"
+msgstr "Θερμοκρασία ισορροπίας λευκού"
+
+#: l10n/v4l2.js:25
+msgid "White Balance Temperature Auto"
+msgstr "Θερμοκρασία ισορροπίας λευκού"
+
+#: l10n/v4l2.js:26
+msgid "Zoom Absolute"
+msgstr "Μεγέθυνση απολύτως"
