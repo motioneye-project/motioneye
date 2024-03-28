@@ -28,8 +28,14 @@ jobs:
     - env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        git fetch --all
-        git checkout -B pre-commit-autoupdate
+        branch_exists=0
+        git fetch origin pre-commit-autoupdate && branch_exists=1
+        if (( branch_exists ))
+        then
+            git switch pre-commit-autoupdate
+        else
+            git checkout -b pre-commit-autoupdate
+        fi
         pip install pre-commit
         pre-commit --version
         pre-commit autoupdate
@@ -37,7 +43,7 @@ jobs:
         git add -A
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
-        if git ls-remote -h --exit-code origin pre-commit-autoupdate
+        if (( branch_exists ))
         then
             git commit --amend --no-edit
             git push -f origin pre-commit-autoupdate
