@@ -45,3 +45,4 @@ jobs:
             git commit -m '[CI/CD] pre-commit autoupdate'
             git push origin pre-commit-autoupdate
             gh pr create -B dev -H pre-commit-autoupdate -f -l 'CI/CD'
+        fi
