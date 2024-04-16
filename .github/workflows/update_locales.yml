@@ -59,6 +59,7 @@ jobs:
 
     - name: Commit changes
       run: |
+        git add -NA
         git diff -I '^"POT-Creation-Date: ' --exit-code && exit 0
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
