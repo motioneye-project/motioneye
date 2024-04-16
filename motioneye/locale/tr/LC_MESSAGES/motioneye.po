@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-04-16 20:56+0000\n"
-"PO-Revision-Date: 2024-04-16 20:01+0000\n"
+"PO-Revision-Date: 2024-04-17 23:03+0000\n"
 "Last-Translator: Onur TORAMAN <onur@toraman.net>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/tr/>\n"
 "Language: tr\n"
@@ -106,7 +106,7 @@ msgstr "Kullanıcı tercihleri"
 
 #: motioneye/templates/main.html:128
 msgid "Preferoj"
-msgstr "tercihler"
+msgstr "Tercihler"
 
 #: motioneye/templates/main.html:133
 msgid "Aranĝo Kolumnoj"
@@ -126,7 +126,7 @@ msgstr "çerçeve sürelerinin pencereye dikey olarak sığacak şekilde azaltı
 
 #: motioneye/templates/main.html:143
 msgid "Aranĝo linioj"
-msgstr "Yerleşim çizgileri"
+msgstr "Yerleşim Çizgileri"
 
 #: motioneye/templates/main.html:145
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
@@ -134,7 +134,7 @@ msgstr "kameraları düzenlemek için kullanılan satır sayısını ayarlar"
 
 #: motioneye/templates/main.html:148
 msgid "kadro-variatoro"
-msgstr "çerçeve değiştirici"
+msgstr "Çerçeve Değiştirici"
 
 #: motioneye/templates/main.html:150
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
@@ -195,11 +195,11 @@ msgstr "izleme kullanıcısının şifresi (şifresiz izleme için boş bırakı
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"
-msgstr "motionEye Sürümü"
+msgstr "MotionEye Sürümü"
 
 #: motioneye/templates/main.html:206
 msgid "Motion Versio"
-msgstr "motion Sürümü"
+msgstr "Motion Sürümü"
 
 #: motioneye/templates/main.html:210
 msgid "Operaciumo Versio"
@@ -239,7 +239,7 @@ msgstr "Yapılandırma"
 
 #: motioneye/templates/main.html:235
 msgid "Sekurkopio"
-msgstr "Destek olun"
+msgstr "İndir"
 
 #: motioneye/templates/main.html:236
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
@@ -247,7 +247,7 @@ msgstr "yerel olarak kaydetmeniz için geçerli yapılandırmaya sahip bir dosya
 
 #: motioneye/templates/main.html:240
 msgid "Restaŭri"
-msgstr "Varsayılan"
+msgstr "Yükle"
 
 #: motioneye/templates/main.html:241
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
@@ -284,7 +284,7 @@ msgstr "kamera kimlik numarası"
 
 #: motioneye/templates/main.html:281
 msgid "Kamerao aparato"
-msgstr "Kamera cihazı"
+msgstr "Kamera Cihazı"
 
 #: motioneye/templates/main.html:283
 msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
@@ -304,7 +304,7 @@ msgstr "yazılımdan otomatik parlaklık sağlar (yalnızca otomatik parlaklık 
 
 #: motioneye/templates/main.html:301
 msgid "Video-rezolucio"
-msgstr "Video çözünürlüğü"
+msgstr "Video Çözünürlüğü"
 
 #: motioneye/templates/main.html:306
 msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
@@ -336,7 +336,7 @@ msgstr "kameranız doğru konumlandırılmamışsa yakalanan görüntüyü dönd
 
 #: motioneye/templates/main.html:331
 msgid "Kadrofrekvenco"
-msgstr "Kare hızı"
+msgstr "Kare Hızı"
 
 #: motioneye/templates/main.html:333
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
@@ -344,7 +344,7 @@ msgstr "kameranın her saniye yakaladığı kare sayısını ayarlar (daha yüks
 
 #: motioneye/templates/main.html:339
 msgid "Privateca masko"
-msgstr "Gizlilik maskesi"
+msgstr "Gizlilik Maskesi"
 
 #: motioneye/templates/main.html:341
 msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
@@ -412,7 +412,7 @@ msgstr "değişim ağının adı"
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
-msgstr "Kullanıcı adı"
+msgstr "Kullanıcı Adı"
 
 #: motioneye/templates/main.html:411
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
@@ -428,7 +428,7 @@ msgstr "ağ dizininin gerektirdiği şifre ( şifre gerekmiyorsa boş bırakın 
 
 #: motioneye/templates/main.html:419
 msgid "Radika dosierujo"
-msgstr "Kök dizini"
+msgstr "Kök Dizini"
 
 #: motioneye/templates/main.html:421
 msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
@@ -444,7 +444,7 @@ msgstr "Gerekli ayrıntıları doldurduktan sonra çevrimiçi ortak yerleşimi t
 
 #: motioneye/templates/main.html:432
 msgid "Uzado de Disko"
-msgstr "Disk kullanımı"
+msgstr "Disk Kullanımı"
 
 #: motioneye/templates/main.html:436
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
@@ -620,7 +620,7 @@ msgstr "Gerekli bilgileri doldurduktan sonra yükleme hizmetini denemek için bu
 
 #: motioneye/templates/main.html:563
 msgid "alvoki URL"
-msgstr "URL'yi çağır"
+msgstr "Call A Web Hook"
 
 #: motioneye/templates/main.html:565
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
@@ -629,7 +629,7 @@ msgstr "bir medya dosyası oluşturduktan sonra bir URL'nin sorulmasını istiyo
 #: motioneye/templates/main.html:568 motioneye/templates/main.html:1136
 #: motioneye/templates/main.html:1181
 msgid "Reteja URL"
-msgstr "Web Sitesi URL'si"
+msgstr "Web Kancası URL'si"
 
 #: motioneye/templates/main.html:569
 msgid "ekz. http://example.com/notify/"
@@ -680,7 +680,7 @@ msgstr "Yerleşimli Metin"
 
 #: motioneye/templates/main.html:611
 msgid "Maldekstra Teksto"
-msgstr "Sol Metin"
+msgstr "Ekranın Solunda Yer Alacak Metin"
 
 #: motioneye/templates/main.html:615 motioneye/templates/main.html:632
 msgid "Tempostampo"
@@ -710,7 +710,7 @@ msgstr "Özel sol metni tanımlar; aşağıdaki özel belirteçler kabul edilir:
 
 #: motioneye/templates/main.html:628
 msgid "Dekstra Teksto"
-msgstr "Sağ Metin"
+msgstr "Ekranın Sağında Yer Alacak Metin"
 
 #: motioneye/templates/main.html:637
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
@@ -735,11 +735,11 @@ msgstr "Bu kamera için video akışı istiyorsanız bunu etkinleştirin"
 
 #: motioneye/templates/main.html:658
 msgid "Videofluo"
-msgstr "Video akışı"
+msgstr "Video Akışı"
 
 #: motioneye/templates/main.html:663
 msgid "Framo frekvencon"
-msgstr "Çerçeve frekansı"
+msgstr "Çerçeve Frekansı"
 
 #: motioneye/templates/main.html:665
 msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
@@ -771,7 +771,7 @@ msgstr "video cihazının çözünürlüğünün yüzdesi olarak verilen çözü
 
 #: motioneye/templates/main.html:683
 msgid "Flua haveno"
-msgstr "Akış portu"
+msgstr "Akış Portu"
 
 #: motioneye/templates/main.html:685
 msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
@@ -827,7 +827,7 @@ msgstr "Statik görüntüler yakalamak istiyorsanız bunu etkinleştirin."
 
 #: motioneye/templates/main.html:742
 msgid "Kaptitaj Bildoj"
-msgstr "Yakalanan Görüntüler"
+msgstr "Görüntü Yakalama"
 
 #: motioneye/templates/main.html:747
 msgid "Nomo Bildo-Dosiero"
@@ -844,7 +844,7 @@ msgstr "Görüntü dosyaları (JPEG) için ad şablonunu tanımlar; aşağıdaki
 
 #: motioneye/templates/main.html:752
 msgid "Bildkvalito"
-msgstr "Görüntü kalitesi"
+msgstr "Görüntü Kalitesi"
 
 #: motioneye/templates/main.html:754
 msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
@@ -852,7 +852,7 @@ msgstr "JPEG görüntü kalitesini ayarlar (daha yüksek değerler daha iyi gör
 
 #: motioneye/templates/main.html:757
 msgid "Kaptila reĝimo"
-msgstr "Tuzak modu"
+msgstr "Tetik Modu"
 
 #: motioneye/templates/main.html:760 motioneye/templates/main.html:880
 msgid "Moviĝa deĉenigo"
@@ -910,7 +910,7 @@ msgstr "çekim için aralığı (saniye cinsinden) ayarlar"
 
 #: motioneye/templates/main.html:779
 msgid "Konservi bildojn"
-msgstr "Resimleri kaydet"
+msgstr "Resimleri Kaydet"
 
 #: motioneye/templates/main.html:782 motioneye/templates/main.html:895
 msgid "Dum unu tago"
@@ -950,7 +950,7 @@ msgstr "Görüntülerin otomatik olarak silineceği gün sayısını tanımlar."
 
 #: motioneye/templates/main.html:798
 msgid "Ebligu manaj kaptoj"
-msgstr "Manuel yakalamaları etkinleştir"
+msgstr "Manuel Yakalamaları Etkinleştir"
 
 #: motioneye/templates/main.html:800
 msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
@@ -975,7 +975,7 @@ msgstr "Film dosyalarının ad şablonunu tanımlar; aşağıdaki özel belirte�
 
 #: motioneye/templates/main.html:821
 msgid "Rekta kopia filmeto"
-msgstr "Doğrudan kopya video"
+msgstr "Film Geçişi"
 
 #: motioneye/templates/main.html:823
 msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
@@ -999,7 +999,7 @@ msgstr "MPEG video kalitesini ayarlar (daha yüksek değerler daha iyi video kal
 
 #: motioneye/templates/main.html:877
 msgid "Rekorda reĝimo"
-msgstr "Kayıt modu"
+msgstr "Kayıt Modu"
 
 #: motioneye/templates/main.html:881
 msgid "Kontinua registrado"
@@ -1011,7 +1011,7 @@ msgstr "Kayıt modunu ayarlar: Hareket tetikleyici = hareket algılandığında 
 
 #: motioneye/templates/main.html:887
 msgid "Maksimuma filma daŭro"
-msgstr "Maksimum film süresi"
+msgstr "Maksimum Film Süresi"
 
 #: motioneye/templates/main.html:889
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
@@ -1019,7 +1019,7 @@ msgstr "Filmlerin maksimum uzunluğunu saniye cinsinden ayarlar; hareket olayı 
 
 #: motioneye/templates/main.html:892
 msgid "Konservi filmojn"
-msgstr "Filmleri kaydet"
+msgstr "Filmleri Kaydet"
 
 #: motioneye/templates/main.html:903
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
@@ -1043,7 +1043,7 @@ msgstr "Hareket algılama mekanizmasını kullanmak ve yapılandırmak için bun
 
 #: motioneye/templates/main.html:919
 msgid "Movado-Detekto"
-msgstr "Hareket algılama"
+msgstr "Hareket Algılama"
 
 #: motioneye/templates/main.html:924
 msgid "Kadra ŝanĝo sojlo"
@@ -1063,7 +1063,7 @@ msgstr "Üzerinde kaydırmanın artık tetiklenmediği kareler arasında değiş
 
 #: motioneye/templates/main.html:934
 msgid "Aŭtomata sojla agordo"
-msgstr "Otomatik eşik ayarı"
+msgstr "Otomatik Eşik Ayarı"
 
 #: motioneye/templates/main.html:936
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
@@ -1071,7 +1071,7 @@ msgstr "Eşiği otomatik olarak ayarlamak için bunu etkinleştirin."
 
 #: motioneye/templates/main.html:939
 msgid "Aŭtomata bruo-detekto"
-msgstr "Otomatik gürültü algılama"
+msgstr "Otomatik Gürültü Algılama"
 
 #: motioneye/templates/main.html:941
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
@@ -1096,7 +1096,7 @@ msgstr "Olayın hareket yerine ani bir ışık değişimi olarak değerlendirilm
 
 #: motioneye/templates/main.html:954
 msgid "Makula filtrilo"
-msgstr "Benek filtresi"
+msgstr "Benek Filtresi"
 
 #: motioneye/templates/main.html:956
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
@@ -1104,7 +1104,7 @@ msgstr "Hareketi algılamadan önce karelere bulanıklık filtresi uygulamak iç
 
 #: motioneye/templates/main.html:962
 msgid "Senmovada daŭro"
-msgstr "Hareketsizlik süresi"
+msgstr "Hareketsizlik Süresi"
 
 #: motioneye/templates/main.html:964
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
@@ -1125,7 +1125,7 @@ msgstr "Bir hareket olayı algılanmadan önce çekilen (ve filme dahil edilen) 
 
 #: motioneye/templates/main.html:972
 msgid "Kaptita Post"
-msgstr "Şu Süreden Sonra Yakalandı"
+msgstr "Daha Sonra Yakalandı"
 
 #: motioneye/templates/main.html:974
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
@@ -1133,7 +1133,7 @@ msgstr "Bir hareket olayının bitiminden sonra yakalanacak (ve filme dahil edil
 
 #: motioneye/templates/main.html:977
 msgid "Minimumaj movaj kadroj"
-msgstr "Minimum hareketli çerçeveler"
+msgstr "Minimum Hareketli Çerçeveler"
 
 #: motioneye/templates/main.html:979
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
@@ -1193,7 +1193,7 @@ msgstr "Bu etkinse görüntü değişiklikleri (piksel sayısı ve değiştirile
 
 #: motioneye/templates/main.html:1027
 msgid "Krei debug media files"
-msgstr "Hata ayıklama medya dosyaları oluşturma"
+msgstr "Hata Ayıklama Dosyaları Oluşturma"
 
 #: motioneye/templates/main.html:1029
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
@@ -1205,11 +1205,11 @@ msgstr "Hareket algılandığında bilgilendirilmek istiyorsanız bunu etkinleş
 
 #: motioneye/templates/main.html:1039
 msgid "Moviĝaj sciigoj"
-msgstr "Hareket bildirimleri"
+msgstr "Hareket Bildirimleri"
 
 #: motioneye/templates/main.html:1051
 msgid "Sendi retpoŝton"
-msgstr "Bir e-posta gönder"
+msgstr "Bir E-Posta Gönder"
 
 #: motioneye/templates/main.html:1053
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
@@ -1357,7 +1357,7 @@ msgstr "Ölçek"
 
 #: motioneye/templates/main.html:1131 motioneye/templates/main.html:1176
 msgid "Alvoki URL"
-msgstr "URL'yi çağır,"
+msgstr "URL'yi Çağır"
 
 #: motioneye/templates/main.html:1133
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
@@ -1378,7 +1378,7 @@ msgstr "Bir URL istenirken kullanılacak HTTP yöntemi (verilen URL parametreler
 
 #: motioneye/templates/main.html:1156 motioneye/templates/main.html:1201
 msgid "Lanĉi komando"
-msgstr "Komutu başlat"
+msgstr "Komutu Başlat"
 
 #: motioneye/templates/main.html:1158
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
@@ -1412,7 +1412,7 @@ msgstr "Hareket algılama için haftalık bir program tanımlamak istiyorsanız 
 
 #: motioneye/templates/main.html:1219
 msgid "Laboranta horaro"
-msgstr "Çalışma takvimi"
+msgstr "Çalışma Takvimi"
 
 #: motioneye/templates/main.html:1224
 msgid "Lundo"
@@ -1420,11 +1420,11 @@ msgstr "Pazartesi"
 
 #: motioneye/templates/main.html:1227
 msgid "de"
-msgstr "ile ilgili"
+msgstr "başlangıç"
 
 #: motioneye/templates/main.html:1228
 msgid "ĝis"
-msgstr "değin"
+msgstr "bitiş"
 
 #: motioneye/templates/main.html:1230
 msgid "Fiksas la labortagan tempintervalon por lundoj."
