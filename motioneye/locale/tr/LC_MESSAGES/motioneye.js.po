@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2024-04-16 20:56+0000\n"
-"PO-Revision-Date: 2024-04-16 20:01+0000\n"
+"PO-Revision-Date: 2024-04-17 23:03+0000\n"
 "Last-Translator: Onur TORAMAN <onur@toraman.net>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/tr/>\n"
 "Language: tr\n"
@@ -239,7 +239,7 @@ msgstr "Gruplandırılmamış tüm filmler gerçekten silinsin mi?"
 
 #: motioneye/static/js/main.js:3357
 msgid "aldonadi kameraon..."
-msgstr "kamera ekle..."
+msgstr "Kamera Ekle..."
 
 #: motioneye/static/js/main.js:3545
 msgid "bone"
@@ -247,7 +247,7 @@ msgstr "Tamam"
 
 #: motioneye/static/js/main.js:3582 motioneye/static/js/main.js:3881
 msgid "Uzantnomo"
-msgstr "Kullanıcı adı"
+msgstr "Kullanıcı Adı"
 
 #: motioneye/static/js/main.js:3587 motioneye/static/js/main.js:3886
 msgid "Pasvorto"
@@ -259,7 +259,7 @@ msgstr "Beni hatırla"
 
 #: motioneye/static/js/main.js:3611 motioneye/static/js/main.js:3617
 msgid "Ensaluti"
-msgstr "Kayıt olmak"
+msgstr "Giriş"
 
 #: motioneye/static/js/main.js:3614 motioneye/static/js/ui.js:1023
 #: motioneye/static/js/ui.js:1030
@@ -320,7 +320,7 @@ msgstr "Kaldır"
 
 #: motioneye/static/js/main.js:3865
 msgid "Kamerao tipo"
-msgstr "Kamera tipi"
+msgstr "Kamera Tipi"
 
 #: motioneye/static/js/main.js:3867
 msgid "Loka V4L2-kamerao"
