@@ -4,20 +4,21 @@
 # Automatically generated, 2020.
 #
 # Jose Baeza <josbacor@gmail.com>, 2024.
+# Florencio Jodra <florenciojodra@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-04-16 20:56+0000\n"
-"PO-Revision-Date: 2024-02-20 17:02+0000\n"
-"Last-Translator: Jose Baeza <josbacor@gmail.com>\n"
+"PO-Revision-Date: 2024-04-26 13:07+0000\n"
+"Last-Translator: Florencio Jodra <florenciojodra@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5-dev\n"
+"X-Generator: Weblate 5.5.1\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -33,7 +34,6 @@ msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr "por favor instale tornado versión 3.1 o superior"
 
 #: motioneye/server.py:290
-#, fuzzy
 msgid "bonvolu instali jinja2"
 msgstr "por favor instale jinja2"
 
