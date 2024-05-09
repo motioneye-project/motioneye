@@ -58,6 +58,11 @@ else
   motion v4l-utils ffmpeg curl'
 fi
 
+# Stop and disable conflicting motion.service
+if systemctl -q is-active motion 2> /dev/null || systemctl -q is-enabled motion 2> /dev/null; then
+  systemctl disable --now motion
+fi
+
 # Pre-create config and data dirs and install configuration files
 if [[ -f '/etc/motioneye/motioneye.conf' ]]
 then
