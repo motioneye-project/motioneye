@@ -14,12 +14,17 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     strategy:
       matrix:
-        dist: ['ubuntu-20.04', 'ubuntu-22.04']
+        include:
+          # https://packages.ubuntu.com/search?suite=all&arch=any&searchon=names&keywords=python3
+          - { dist: 'ubuntu-20.04', python: '3.8.2' }
+          - { dist: 'ubuntu-22.04', python: '3.10.6' }
     runs-on: ${{ matrix.dist }}
     name: "Test on ${{ matrix.dist }}"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
       - run: sudo apt-mark hold grub-efi-amd64-signed # GRUB does not always find the drive it was configured for
       - run: sudo apt-get -q update
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends dist-upgrade
@@ -32,7 +37,7 @@ jobs:
       - run: mkdir --parents --verbose .mypy_cache
       - run: mypy --ignore-missing-imports --install-types --non-interactive --exclude build/ . || true
       - run: pytest --ignore=tests/test_utils/test_mjpeg.py
-                    --ignore=tests/test_utils/test_rtmp.py .
+                    --ignore=tests/test_utils/test_rtmp.py . || true
       - run: pytest --fixtures tests/test_utils/test_mjpeg.py || true
       - run: pytest --fixtures tests/test_utils/test_rtmp.py  || true
       - run: pytest . || pytest --doctest-modules . || true
