@@ -21,6 +21,7 @@ import re
 import signal
 import subprocess
 import time
+from shlex import quote
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.ioloop import IOLoop
@@ -40,6 +41,7 @@ def find_motion():
     if _motion_binary_cache:
         return _motion_binary_cache
 
+    # binary
     if settings.MOTION_BINARY:
         if os.path.exists(settings.MOTION_BINARY):
             binary = settings.MOTION_BINARY
@@ -54,13 +56,15 @@ def find_motion():
         except subprocess.CalledProcessError:  # not found
             return None, None
 
+    # version
     try:
-        help = utils.call_subprocess(binary + ' -h || true', shell=True)
+        output = utils.call_subprocess(quote(binary) + ' -h || true', shell=True)
 
-    except subprocess.CalledProcessError:  # not found
+    except subprocess.CalledProcessError as e:  # not found as
+        logging.error(f'motion version could not be found: {e}')
         return None, None
 
-    result = re.findall('motion Version ([^,]+)', help, re.IGNORECASE)
+    result = re.findall('motion Version ([^,]+)', output, re.IGNORECASE)
     version = result and result[0] or ''
 
     logging.debug(f'found motion executable "{binary}" version "{version}"')
