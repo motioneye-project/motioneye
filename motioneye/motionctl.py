@@ -63,7 +63,7 @@ def find_motion():
     result = re.findall('motion Version ([^,]+)', help, re.IGNORECASE)
     version = result and result[0] or ''
 
-    logging.debug(f'using motion version {version}')
+    logging.debug(f'found motion executable "{binary}" version "{version}"')
 
     _motion_binary_cache = (binary, version)
 
@@ -85,21 +85,19 @@ def start(deferred=False):
     if running() or not enabled_local_motion_cameras:
         return
 
-    logging.debug('starting motion')
+    logging.debug('searching motion executable')
 
-    program = find_motion()
-    if not program[0]:
+    binary, version = find_motion()
+    if not binary:
         raise Exception('motion executable could not be found')
 
-    program, version = program  # @UnusedVariable
+    logging.debug(f'starting motion executable "{binary}" version "{version}"')
 
-    logging.debug(f'starting motion binary "{program}"')
-
-    motion_config_path = os.path.join(settings.CONF_PATH, 'motion.conf')
+    motion_cfg_path = os.path.join(settings.CONF_PATH, 'motion.conf')
     motion_log_path = os.path.join(settings.LOG_PATH, 'motion.log')
     motion_pid_path = os.path.join(settings.RUN_PATH, 'motion.pid')
 
-    args = [program, '-n', '-c', motion_config_path, '-d']
+    args = [binary, '-n', '-c', motion_cfg_path, '-d']
 
     if settings.LOG_LEVEL <= logging.DEBUG:
         args.append('9')
@@ -120,11 +118,11 @@ def start(deferred=False):
     )
 
     # wait 2 seconds to see that the process has successfully started
-    for i in range(20):  # @UnusedVariable
+    for _ in range(20):
         time.sleep(0.1)
         exit_code = process.poll()
         if exit_code is not None and exit_code != 0:
-            raise Exception('motion failed to start')
+            raise Exception(f'motion failed to start with exit code "{exit_code}"')
 
     pid = process.pid
 
