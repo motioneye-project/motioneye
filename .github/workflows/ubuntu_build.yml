@@ -13,6 +13,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     strategy:
       matrix:
+        # ToDo: Enable ubuntu-24.04 test once the implied openssl APT upgrade does not trigger a restart of all systemd services, killing the GitHub runner itself.
         dist: ['ubuntu-20.04', 'ubuntu-22.04']
     runs-on: ${{ matrix.dist }}
     name: "Test on ${{ matrix.dist }}"
