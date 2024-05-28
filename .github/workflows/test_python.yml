@@ -18,6 +18,8 @@ jobs:
           # https://packages.ubuntu.com/search?suite=all&arch=any&searchon=names&keywords=python3
           - { dist: 'ubuntu-20.04', python: '3.8.2' }
           - { dist: 'ubuntu-22.04', python: '3.10.6' }
+          # ToDo: Enable ubuntu-24.04 test once the implied openssl APT upgrade does not trigger a restart of all systemd services, killing the GitHub runner itself.
+          #- { dist: 'ubuntu-24.04', python: '3.12.3' }
     runs-on: ${{ matrix.dist }}
     name: "Test on ${{ matrix.dist }}"
     steps:
