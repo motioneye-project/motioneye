@@ -24,5 +24,7 @@ jobs:
           check-latest: true
       - run: pip install --upgrade pip setuptools
       - run: pip install safety .
-      - run: rm -Rfv /opt/hostedtoolcache/Python/3.12.1/x64/lib/python3.12/site-packages/pip-23.2.1.dist-info  # Workaround: https://github.com/motioneye-project/motioneye/pull/2883
-      - run: safety check
+      # Ignore CVE-2018-20225, which is IMO reasonably disputed: https://data.safetycli.com/v/67599/97c/
+      # "extra"-index-url means an index to "additionally" look for newer versions, pre-compiled wheels, or similar, not to force this index being used.
+      # There is "index-url" to enforce a different index: https://pip.pypa.io/en/stable/cli/pip_install/#cmdoption-i
+      - run: safety check --ignore 67599
