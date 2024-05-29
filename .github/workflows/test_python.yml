@@ -19,6 +19,7 @@ jobs:
           - { dist: 'ubuntu-20.04', python: '3.8.2' }
           - { dist: 'ubuntu-22.04', python: '3.10.6' }
           - { dist: 'ubuntu-24.04', python: '3.12.3' }
+      fail-fast: false
     runs-on: ${{ matrix.dist }}
     name: "Test on ${{ matrix.dist }}"
     steps:
@@ -27,7 +28,13 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
       - run: sudo apt-mark hold grub-efi-amd64-signed # GRUB does not always find the drive it was configured for
-      - run: if [ '${{ matrix.dist }}' = 'ubuntu-24.04' ]; then sudo apt-get autopurge needrestart; fi # https://github.com/actions/runner-images/pull/9956
+      - name: Ubuntu Noble workarounds
+        if: matrix.dist == 'ubuntu-24.04'
+        run: |
+          # https://github.com/actions/runner-images/pull/9956
+          sudo apt-get autopurge needrestart
+          # error: externally-managed-environment
+          echo -e '[global]\nbreak-system-packages=true' | sudo tee /etc/pip.conf
       - run: sudo apt-get -q update
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends dist-upgrade
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install

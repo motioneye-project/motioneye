@@ -16,6 +16,7 @@ jobs:
     steps:
       - run: sudo apt-get -q update
       - run: sudo apt-get autopurge needrestart # https://github.com/actions/runner-images/pull/9956
+      - run: echo -e '[global]\nbreak-system-packages=true' | sudo tee /etc/pip.conf # error: externally-managed-environment
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
              gcc libcurl4-openssl-dev libssl-dev
       - uses: actions/checkout@v4
