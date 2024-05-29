@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - run: sudo apt-get -q update
-      - run: if [ '${{ matrix.dist }}' = 'ubuntu-24.04' ]; then apt-get autopurge needrestart; done # https://github.com/actions/runner-images/pull/9956
+      - run: if [ '${{ matrix.dist }}' = 'ubuntu-24.04' ]; then apt-get autopurge needrestart; fi # https://github.com/actions/runner-images/pull/9956
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
              gcc libcurl4-openssl-dev libssl-dev
       - uses: actions/checkout@v4
