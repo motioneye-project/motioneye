@@ -21,6 +21,7 @@ import re
 import signal
 import subprocess
 import time
+from shlex import quote
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.ioloop import IOLoop
@@ -40,6 +41,7 @@ def find_motion():
     if _motion_binary_cache:
         return _motion_binary_cache
 
+    # binary
     if settings.MOTION_BINARY:
         if os.path.exists(settings.MOTION_BINARY):
             binary = settings.MOTION_BINARY
@@ -54,16 +56,18 @@ def find_motion():
         except subprocess.CalledProcessError:  # not found
             return None, None
 
+    # version
     try:
-        help = utils.call_subprocess(binary + ' -h || true', shell=True)
+        output = utils.call_subprocess(quote(binary) + ' -h || true', shell=True)
 
-    except subprocess.CalledProcessError:  # not found
+    except subprocess.CalledProcessError as e:  # not found as
+        logging.error(f'motion version could not be found: {e}')
         return None, None
 
-    result = re.findall('motion Version ([^,]+)', help, re.IGNORECASE)
+    result = re.findall('motion Version ([^,]+)', output, re.IGNORECASE)
     version = result and result[0] or ''
 
-    logging.debug(f'using motion version {version}')
+    logging.debug(f'found motion executable "{binary}" version "{version}"')
 
     _motion_binary_cache = (binary, version)
 
@@ -85,21 +89,19 @@ def start(deferred=False):
     if running() or not enabled_local_motion_cameras:
         return
 
-    logging.debug('starting motion')
+    logging.debug('searching motion executable')
 
-    program = find_motion()
-    if not program[0]:
+    binary, version = find_motion()
+    if not binary:
         raise Exception('motion executable could not be found')
 
-    program, version = program  # @UnusedVariable
+    logging.debug(f'starting motion executable "{binary}" version "{version}"')
 
-    logging.debug(f'starting motion binary "{program}"')
-
-    motion_config_path = os.path.join(settings.CONF_PATH, 'motion.conf')
+    motion_cfg_path = os.path.join(settings.CONF_PATH, 'motion.conf')
     motion_log_path = os.path.join(settings.LOG_PATH, 'motion.log')
     motion_pid_path = os.path.join(settings.RUN_PATH, 'motion.pid')
 
-    args = [program, '-n', '-c', motion_config_path, '-d']
+    args = [binary, '-n', '-c', motion_cfg_path, '-d']
 
     if settings.LOG_LEVEL <= logging.DEBUG:
         args.append('9')
@@ -120,11 +122,11 @@ def start(deferred=False):
     )
 
     # wait 2 seconds to see that the process has successfully started
-    for i in range(20):  # @UnusedVariable
+    for _ in range(20):
         time.sleep(0.1)
         exit_code = process.poll()
         if exit_code is not None and exit_code != 0:
-            raise Exception('motion failed to start')
+            raise Exception(f'motion failed to start with exit code "{exit_code}"')
 
     pid = process.pid
 
@@ -229,7 +231,7 @@ async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
         return utils.GetMotionDetectionResult(None, error=utils.pretty_http_error(resp))
 
     resp_body = resp.body.decode('utf-8')
-    enabled = bool(resp_body.count('active'))
+    enabled = bool(resp_body.lower().count('active'))
 
     logging.debug(
         f"motion detection is {['disabled', 'enabled'][enabled]} for camera with id {id}"

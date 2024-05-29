@@ -3,20 +3,22 @@
 # This file is distributed under the same license as the PROJECT project.
 # Automatically generated, 2020.
 #
+# Jose Baeza <josbacor@gmail.com>, 2024.
+# Florencio Jodra <florenciojodra@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2023-12-12 18:23+0000\n"
-"PO-Revision-Date: 2022-11-19 13:48+0000\n"
-"Last-Translator: JP Vera <juanp.zunigav@gmail.com>\n"
+"POT-Creation-Date: 2024-05-28 17:59+0000\n"
+"PO-Revision-Date: 2024-04-26 13:07+0000\n"
+"Last-Translator: Florencio Jodra <florenciojodra@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.15-dev\n"
+"X-Generator: Weblate 5.5.1\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -32,7 +34,6 @@ msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr "por favor instale tornado versión 3.1 o superior"
 
 #: motioneye/server.py:290
-#, fuzzy
 msgid "bonvolu instali jinja2"
 msgstr "por favor instale jinja2"
 
@@ -115,9 +116,8 @@ msgid "Preferoj"
 msgstr "Preferencias"
 
 #: motioneye/templates/main.html:133
-#, fuzzy
 msgid "Aranĝo Kolumnoj"
-msgstr "Columnas de diseño"
+msgstr "Diseño de columnas"
 
 #: motioneye/templates/main.html:135
 #, fuzzy
@@ -226,9 +226,8 @@ msgid "motionEye Versio"
 msgstr "versión motionEye"
 
 #: motioneye/templates/main.html:206
-#, fuzzy
 msgid "Motion Versio"
-msgstr "Versión de movimiento"
+msgstr "Versión de Motion"
 
 #: motioneye/templates/main.html:210
 #, fuzzy

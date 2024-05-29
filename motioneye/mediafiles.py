@@ -240,7 +240,7 @@ def find_ffmpeg() -> tuple:
         output = utils.call_subprocess([quote(binary), '-version'])
 
     except subprocess.CalledProcessError as e:
-        logging.error(f'ffmpeg: could find version: {e}')
+        logging.error(f'ffmpeg: could not find version: {e}')
         return None, None, None
 
     result = re.findall('ffmpeg version (.+?) ', output, re.IGNORECASE)
@@ -278,7 +278,7 @@ def find_ffmpeg() -> tuple:
 
         codecs[codec] = {'encoders': encoders, 'decoders': decoders}
 
-    logging.debug(f'using ffmpeg version {version}')
+    logging.debug(f'found ffmpeg executable "{binary}" version "{version}"')
 
     _ffmpeg_binary_cache = (binary, version, codecs)
 
@@ -443,9 +443,11 @@ def list_media(camera_config: dict, media_type: str, prefix=None) -> typing.Awai
             pipe.send(
                 {
                     'path': path,
-                    'mimeType': mimetypes.guess_type(path)[0]
-                    if mimetypes.guess_type(path)[0] is not None
-                    else 'video/mpeg',
+                    'mimeType': (
+                        mimetypes.guess_type(path)[0]
+                        if mimetypes.guess_type(path)[0] is not None
+                        else 'video/mpeg'
+                    ),
                     'momentStr': pretty_date_time(
                         datetime.datetime.fromtimestamp(timestamp)
                     ),

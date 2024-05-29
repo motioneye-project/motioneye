@@ -789,12 +789,7 @@ def main_ui_to_dict(ui):
         call_hook(ui['admin_username'], ui['admin_password'])
 
     if ui.get('normal_password') is not None:
-        if ui['normal_password']:
-            data['@normal_password'] = hashlib.sha1(
-                ui['normal_password'].encode('utf-8')
-            ).hexdigest()
-        else:
-            data['@normal_password'] = ''
+        data['@normal_password'] = ui['normal_password']
 
         call_hook(ui['normal_username'], ui['normal_password'])
 

@@ -57,7 +57,7 @@ html {
 div.page,
 div.header-container {
     position: relative;
-    min-width: 320px;
+    min-width: 332.6px;
     width: 100%;
 }
 
@@ -974,10 +974,11 @@ div.camera-frame.motion-detected div.camera-overlay-bottom {
 
 div.camera-overlay-top {
     top: 0;
-    height: 2.5em;
     line-height: 2.5em;
     white-space: nowrap;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 div.camera-overlay-mask {
@@ -1026,24 +1027,74 @@ div.mask-element.on {
     background: rgba(255, 0, 0, 0.5);
 }
 
-div.camera-name {
-    display: inline-block;
-    font-size: 1.2em;
-    font-weight: bold;
-    white-space: nowrap;
-    width: 33.33%;
+div.camera-top-row {
+    display: flex;
+}
+
+div.camera-info {
+    display: flex;
+    flex-grow: 2;
+    flex-direction: column;
+    font-size: 0.8em;
     overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: top;
+    line-height: 1em;
+}
+
+div.camera-name {
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
 span.camera-name {
-    padding-left: 0.4em;
+    padding-left: 0.2rem;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+
+}
+
+div.camera-fps {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-size: 0.9em;
+    font-family: monospace;
+}
+
+span.camera-fps {
+    padding-left: 0.2rem;
+    padding-bottom: 0.2em;
+}
+
+div.camera-monitoring {
+    display: flex;
+    align-items: center;
+    height: 1.5em;
+    font-size: 0.8em;
+    line-height: 1em;
+}
+
+div.camera-monitoring.hide-monitoring {
+    display: none;
+}
+
+span.camera-monitoring {
+    padding-left: 0.2em;
+    padding-bottom: 0.2em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+div.camera-fps.two-lines {
+    line-height: 1.2em;
 }
 
 div.camera-top-buttons {
+    align-self: flex-end;
     display: inline-block;
-    width: 66.66%;
+    width: 12.5em;
     vertical-align: top;
     text-align: right;
 }
@@ -1083,73 +1134,23 @@ div.camera-top-button.multi-camera {
 div.camera-overlay-bottom {
     bottom: 0;
     white-space: nowrap;
-    height: 5em;
-}
-
-div.camera-overlay-bottom.few-buttons {
-    height: 2.5em;
-}
-
-div.camera-info {
-    display: inline-block;
-    white-space: nowrap;
-    font-family: monospace;
-    font-size: 1em;
-    font-weight: bold;
-    width: 40%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    vertical-align: top;
-    text-align: left;
-    line-height: 5em;
-}
-
-div.camera-info.two-lines {
-    line-height: 1.2em;
-}
-
-div.camera-overlay-bottom.few-buttons div.camera-info {
-    line-height: 2.5em;
-}
-
-div.camera-overlay-bottom.few-buttons div.camera-info.two-lines {
-    line-height: 1.2em;
-    font-size: 0.8em;
-}
-
-span.camera-info {
-    display: inline-block;
-    margin-left: 1em;
-}
-
-div.camera-info.two-lines > span.camera-info {
-    margin-left: 1em;
-    margin-top: 1.5em;
-}
-
-div.camera-overlay-bottom.few-buttons div.camera-info.two-lines > span.camera-info {
-    margin-left: 0.5em;
-    margin-top: 0.5em;
-}
-
-div.camera-action-buttons {
-    display: inline-block;
-    width: 60%;
-    vertical-align: top;
-    text-align: right;
 }
 
 div.camera-action-buttons-wrapper {
-    display: inline-block;
     white-space: normal;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    max-height: 5em;
 }
 
 div.camera-action-button {
-    background-image: url(../img/camera-action-buttons.svg);
-    background-size: cover;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
     width: 2.5em;
     height: 2.5em;
     vertical-align: top;
+    background-position: center;
 }
 
 div.camera-action-button.pending {
@@ -1157,67 +1158,67 @@ div.camera-action-button.pending {
 }
 
 div.camera-action-button.lock {
-    background-position: 0 0;
+    background-image: url(../img/camera-action-button-lock.svg);
 }
 
 div.camera-action-button.unlock {
-    background-position: -100% 0;
+    background-image: url(../img/camera-action-button-unlock.svg);
 }
 
 div.camera-action-button.light-on {
-    background-position: -200% 0;
+    background-image: url(../img/camera-action-button-light-on.svg);
 }
 
 div.camera-action-button.light-off {
-    background-position: -300% 0;
+    background-image: url(../img/camera-action-button-light-off.svg);
 }
 
 div.camera-action-button.alarm-on {
-    background-position: -400% 0;
+    background-image: url(../img/camera-action-button-alarm-on.svg);
 }
 
 div.camera-action-button.alarm-off {
-    background-position: -500% 0;
+    background-image: url(../img/camera-action-button-alarm-off.svg);
 }
 
 div.camera-action-button.snapshot {
-    background-position: -600% 0;
+    background-image: url(../img/camera-action-button-snapshot.svg);
 }
 
 div.camera-action-button.record-start {
-    background-position: -700% 0;
+    background-image: url(../img/camera-action-button-record-start.svg);
 }
 
 div.camera-action-button.record-stop {
-    background-position: -800% 0;
+    background-image: url(../img/camera-action-button-record-stop.svg);
 }
 
 div.camera-action-button.up {
-    background-position: -900% 0;
+    background-image: url(../img/camera-action-button-up.svg);
 }
 
 div.camera-action-button.right {
-    background-position: -1000% 0;
+    background-image: url(../img/camera-action-button-right.svg);
 }
 
 div.camera-action-button.down {
-    background-position: -1100% 0;
+    background-image: url(../img/camera-action-button-down.svg);
 }
 
 div.camera-action-button.left {
-    background-position: -1200% 0;
+    background-image: url(../img/camera-action-button-left.svg);
 }
 
 div.camera-action-button.zoom-in {
-    background-position: -1300% 0;
+    background-image: url(../img/camera-action-button-zoom-in.svg);
 }
 
 div.camera-action-button.zoom-out {
-    background-position: -1400% 0;
+    background-image: url(../img/camera-action-button-zoom-out.svg);
 }
 
 div.camera-action-button.preset {
-    background-position: -1500% 0;
+    background-image: url(../img/camera-action-button-preset.svg);
     text-align: center;
     line-height: 2.5em;
     color: #3498db;

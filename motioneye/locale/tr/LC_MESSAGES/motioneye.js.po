@@ -1,0 +1,675 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Onur TORAMAN <onur@toraman.net>, 2024.
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-05-28 17:59+0000\n"
+"PO-Revision-Date: 2024-04-17 23:03+0000\n"
+"Last-Translator: Onur TORAMAN <onur@toraman.net>\n"
+"Language-Team: Turkish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/tr/>\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.5-dev\n"
+
+#: motioneye/static/js/main.js:608
+msgid "specialaj signoj ne rajtas en pasvorto"
+msgstr "şifrede özel karakterlere izin verilmez"
+
+#: motioneye/static/js/main.js:615 motioneye/static/js/main.js:626
+#: motioneye/static/js/main.js:685 motioneye/static/js/ui.js:362
+#: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
+msgid "Ĉi tiu kampo estas deviga"
+msgstr "Bu alan zorunludur"
+
+#: motioneye/static/js/main.js:619
+msgid "specialaj signoj ne rajtas en la nomo de kamerao"
+msgstr "kamera ad için özel karakterlere izin verilmez"
+
+#: motioneye/static/js/main.js:631
+msgid "valoro devas esti multoblo de 8"
+msgstr "bir değer 8'in katı olmalıdır"
+
+#: motioneye/static/js/main.js:638
+msgid "specialaj signoj ne rajtas en radika voja nomo"
+msgstr "kök yol adına özel işaretlere izin verilmez"
+
+#: motioneye/static/js/main.js:641
+msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
+msgstr "dosyalar doğrudan sisteminizin kök dizininde oluşturulamaz"
+
+#: motioneye/static/js/main.js:648
+msgid "enigu validan retpoŝtadreson"
+msgstr "geçerli bir e-posta adresi girin"
+
+#: motioneye/static/js/main.js:655
+msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
+msgstr "koma'nın ayrı geçerli e-posta adreslerinin bir listesini girin"
+
+#: motioneye/static/js/main.js:662
+msgid "specialaj signoj ne rajtas en dosiernomo"
+msgstr "dosya adında özel karakterlere izin verilmez"
+
+#: motioneye/static/js/main.js:689
+msgid "enigu validan valoron"
+msgstr "geçerli değeri girin"
+
+#: motioneye/static/js/main.js:843
+msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
+msgstr "Bu, bulut klasöründe bulunan tüm dosyaları yinelemeli olarak silecektir \""
+
+#: motioneye/static/js/main.js:844
+msgid "\", ne nur tiuj alŝutitaj de motionEye!"
+msgstr "\", sadece motionEye tarafından yüklenenler değil!"
+
+#: motioneye/static/js/main.js:925
+msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
+msgstr "Bu, klasördeki tüm eski medya dosyalarını yinelemeli olarak silecektir \""
+
+#: motioneye/static/js/main.js:926
+msgid "\", ne nur tiuj kreitaj de motionEye!"
+msgstr "\", sadece motionEye tarafından yaratılanlar değil!"
+
+#: motioneye/static/js/main.js:992
+msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
+msgstr "Geçerli bir kamera görüntüsü olmadan maskeyi düzenlemek mümkün değildir!"
+
+#: motioneye/static/js/main.js:2237
+msgid "Propra"
+msgstr "Özel"
+
+#: motioneye/static/js/main.js:2275
+msgid "Propra dosierindiko"
+msgstr "Özel dosya göstergesi"
+
+#: motioneye/static/js/main.js:2277
+msgid "Retan kunlokon"
+msgstr "Ağ ortak konumu"
+
+#: motioneye/static/js/main.js:2637
+msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
+msgstr "Tarayıcınız bu işlevi uygulamıyor!"
+
+#: motioneye/static/js/main.js:2653
+msgid "Apliki"
+msgstr "Uygula"
+
+#: motioneye/static/js/main.js:2680 motioneye/static/js/main.js:3041
+#: motioneye/static/js/main.js:3096 motioneye/static/js/main.js:3171
+msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
+msgstr "Tüm yapılandırma seçeneklerinin geçerli olduğundan emin olun!"
+
+#: motioneye/static/js/main.js:2782
+msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
+msgstr "Bu, sistemi yeniden başlatır. Devam mı?"
+
+#: motioneye/static/js/main.js:2792
+msgid "Vere fermiti sistemon?"
+msgstr "Gerçekten sistemi kapattın mı?"
+
+#: motioneye/static/js/main.js:2804
+msgid "Malŝaltita"
+msgstr "Engelli"
+
+#: motioneye/static/js/main.js:2819
+msgid "Ĉu vere restartigi ?"
+msgstr "Bu gerçekten bir yeniden başlatma mı?"
+
+#: motioneye/static/js/main.js:2833
+msgid "La sistemo rekomencis!"
+msgstr "Sistem yeniden başlatıldı!"
+
+#: motioneye/static/js/main.js:2853 motioneye/static/js/main.js:2886
+#: motioneye/static/js/main.js:3869
+msgid "Bonvolu apliki unue la modifitajn agordojn!"
+msgstr "Lütfen önce değiştirilen ayarları uygulayın!"
+
+#: motioneye/static/js/main.js:2858
+msgid "Neniu fotilo por forigi!"
+msgstr "Kaldırılacak kamera yok!"
+
+#: motioneye/static/js/main.js:2864
+msgid "Ĉu forigi kameraon "
+msgstr "Kamerayı sil "
+
+#: motioneye/static/js/main.js:2892
+msgid "motionEye estas ĝisdatigita (aktuala versio: "
+msgstr "motionEye güncellendi (güncel sürüm: "
+
+#: motioneye/static/js/main.js:2895
+msgid "Nova versio havebla: "
+msgstr "Yeni sürüm mevcut: "
+
+#: motioneye/static/js/main.js:2895
+msgid ". Ĝisdatigi?"
+msgstr ". Güncelleme ?"
+
+#: motioneye/static/js/main.js:2903
+msgid "motionEye estis sukcese ĝisdatigita!"
+msgstr "motionEye başarıyla güncellendi!"
+
+#: motioneye/static/js/main.js:2913
+msgid "Ĝisdatigo malsukcesis!"
+msgstr "Güncelleme başarısız oldu!"
+
+#: motioneye/static/js/main.js:2924
+msgid "La ĝisdatiga procezo malsukcesis!"
+msgstr "Güncelleme işlemi başarısız oldu!"
+
+#: motioneye/static/js/main.js:2943
+msgid "Rezerva dosiero"
+msgstr "Yedek dosya"
+
+#: motioneye/static/js/main.js:2945
+msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
+msgstr "Daha önce indirdiğiniz yedekleme dosyası."
+
+#: motioneye/static/js/main.js:2974
+msgid "Restaŭrigi Agordon"
+msgstr "Yapılandırmayı Geri Yükle"
+
+#: motioneye/static/js/main.js:2986
+msgid "Restaŭriganta agordon ..."
+msgstr "Yapılandırma geri yükleniyor..."
+
+#: motioneye/static/js/main.js:2993
+msgid "La agordo restaŭrigis!"
+msgstr "Ayar geri yüklendi!"
+
+#: motioneye/static/js/main.js:3003 motioneye/static/js/main.js:3022
+msgid "Malsukcesis restaŭri la agordon!"
+msgstr "Yapılandırma geri yüklenemedi!"
+
+#: motioneye/static/js/main.js:3077
+msgid "Aliri la alŝutan servon malsukcesis: "
+msgstr "Yükleme hizmetine erişim başarısız oldu: "
+
+#: motioneye/static/js/main.js:3080
+msgid "Aliri la alŝutan servon sukcesis!"
+msgstr "Yükleme hizmetine erişim başarılı oldu!"
+
+#: motioneye/static/js/main.js:3117 motioneye/static/js/main.js:3120
+msgid "Sciiga retpoŝto fiaskis:"
+msgstr "Bildirim e-postası başarısız oldu:"
+
+#: motioneye/static/js/main.js:3136
+msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
+msgstr "Tüm yapılandırma seçeneklerinin, geçerli olduğundan emin olun!"
+
+#: motioneye/static/js/main.js:3152
+msgid "Sciiga Telegramo fiaskis:"
+msgstr "Bildirim Telegramı başarısız oldu:"
+
+#: motioneye/static/js/main.js:3155
+msgid "Sciiga Telegramo sukcesis!"
+msgstr "Bildirim Telegramı başarılı oldu!"
+
+#: motioneye/static/js/main.js:3191
+msgid "Aliro al retdividado fiaskis: "
+msgstr "Ağ paylaşımına erişim başarısız oldu: "
+
+#: motioneye/static/js/main.js:3194
+msgid "Aliro al retdividado sukcesis!"
+msgstr "Ağ paylaşımına erişim başarılı!"
+
+#: motioneye/static/js/main.js:3218
+msgid "Ĉu vere forigi ĉi tiun dosieron?"
+msgstr "Bu dosyayı gerçekten silmek istiyor musunuz?"
+
+#: motioneye/static/js/main.js:3242
+msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
+msgstr "\"%(group)s\" grubundaki tüm görseller gerçekten silinsin mi?"
+
+#: motioneye/static/js/main.js:3245
+msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
+msgstr "\"%(group)s\" grubundaki tüm filmler gerçekten silinsin mi?"
+
+#: motioneye/static/js/main.js:3250
+msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
+msgstr "Gruplandırılmamış tüm görseller gerçekten silinsin mi?"
+
+#: motioneye/static/js/main.js:3253
+msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
+msgstr "Gruplandırılmamış tüm filmler gerçekten silinsin mi?"
+
+#: motioneye/static/js/main.js:3367
+msgid "aldonadi kameraon..."
+msgstr "Kamera Ekle..."
+
+#: motioneye/static/js/main.js:3555
+msgid "bone"
+msgstr "Tamam"
+
+#: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
+msgid "Uzantnomo"
+msgstr "Kullanıcı Adı"
+
+#: motioneye/static/js/main.js:3597 motioneye/static/js/main.js:3896
+msgid "Pasvorto"
+msgstr "Şifre"
+
+#: motioneye/static/js/main.js:3603
+msgid "Memoru min"
+msgstr "Beni hatırla"
+
+#: motioneye/static/js/main.js:3621 motioneye/static/js/main.js:3627
+msgid "Ensaluti"
+msgstr "Giriş"
+
+#: motioneye/static/js/main.js:3624 motioneye/static/js/ui.js:1023
+#: motioneye/static/js/ui.js:1030
+msgid "Nuligi"
+msgstr "İptal"
+
+#: motioneye/static/js/main.js:3666
+msgid "Vi abortis la filmeton."
+msgstr "Videoyu iptal ettiniz."
+
+#: motioneye/static/js/main.js:3669
+msgid "Reto eraro okazis."
+msgstr "Bir ağ hatası oluştu."
+
+#: motioneye/static/js/main.js:3672
+msgid "Malkodado-eraro aŭ neprogresinta funkcio."
+msgstr "Kod çözme hatası veya eksik işlev."
+
+#: motioneye/static/js/main.js:3675
+msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
+msgstr "Format desteklenmiyor veya kullanılamıyor/oynatmak için uygun değil."
+
+#: motioneye/static/js/main.js:3678
+msgid "Nekonata eraro okazis."
+msgstr "Bilinmeyen bir hata oluştu."
+
+#: motioneye/static/js/main.js:3681
+msgid "Eraro : "
+msgstr "Hata : "
+
+#: motioneye/static/js/main.js:3686
+msgid "antaŭa bildo"
+msgstr "önceki resim"
+
+#: motioneye/static/js/main.js:3691
+msgid "ludi"
+msgstr "oynat"
+
+#: motioneye/static/js/main.js:3694
+msgid "ludi * 5 kaj enĉenigi"
+msgstr "*5 oyna ve zincir çek"
+
+#: motioneye/static/js/main.js:3699
+msgid "sekva bildo"
+msgstr "sonraki resim"
+
+#: motioneye/static/js/main.js:3822
+msgid "Fermi"
+msgstr "Kapat"
+
+#: motioneye/static/js/main.js:3823 motioneye/static/js/main.js:4384
+msgid "Elŝuti"
+msgstr "İndir"
+
+#: motioneye/static/js/main.js:3831 motioneye/static/js/main.js:4387
+msgid "Forigi"
+msgstr "Kaldır"
+
+#: motioneye/static/js/main.js:3875
+msgid "Kamerao tipo"
+msgstr "Kamera Tipi"
+
+#: motioneye/static/js/main.js:3877
+msgid "Loka V4L2-kamerao"
+msgstr "Yerel V4L2 kamera"
+
+#: motioneye/static/js/main.js:3878
+msgid "Loka MMAL-kamerao"
+msgstr "Yerel MMAL kamera"
+
+#: motioneye/static/js/main.js:3879
+msgid "Reta kamerao"
+msgstr "Web kamerası"
+
+#: motioneye/static/js/main.js:3880
+msgid "Fora motionEye kamerao"
+msgstr "Uzaktan motionEye kamerası"
+
+#: motioneye/static/js/main.js:3881
+msgid "Simpla MJPEG-kamerao"
+msgstr "Basit bir MJPEG kamera"
+
+#: motioneye/static/js/main.js:3883
+msgid "la speco de kamerao, kiun vi volas aldoni"
+msgstr "eklemek istediğiniz kamera türü"
+
+#: motioneye/static/js/main.js:3886
+msgid "URL"
+msgstr "URL"
+
+#: motioneye/static/js/main.js:3887
+msgid "http://ekzemplo.com:8765/cams/..."
+msgstr "http://ornek.com:8765/cams/..."
+
+#: motioneye/static/js/main.js:3888
+msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
+msgstr "kamera URL'si (örneğin, http://ornek.com:8080/cam/)"
+
+#: motioneye/static/js/main.js:3892
+msgid "uzantnomo..."
+msgstr "Kullanıcı adı..."
+
+#: motioneye/static/js/main.js:3893
+msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
+msgstr "gerekli, URL'nin kullanıcı adı (örn. admin)"
+
+#: motioneye/static/js/main.js:3897
+msgid "pasvorto..."
+msgstr "şifre..."
+
+#: motioneye/static/js/main.js:3898
+msgid "la pasvorto por la URL, se bezonata"
+msgstr "gerekli, URL'nin şifresi"
+
+#: motioneye/static/js/main.js:3901
+msgid "Kamerao"
+msgstr "Kamera"
+
+#: motioneye/static/js/main.js:3903
+msgid "la kameraon, kiun vi volas aldoni"
+msgstr "eklemek istediğiniz kamera"
+
+#: motioneye/static/js/main.js:3939
+msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
+msgstr "Remote motionEye kameraları, başka bir MotionEye sunucusunun arkasına kurulan kameralardır. Bunları buraya eklemek, onları uzaktan görüntülemenize ve yönetmenize olanak tanır."
+
+#: motioneye/static/js/main.js:3954
+msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
+msgstr "Ağ kameraları (veya IP kameraları), RTSP/RTMP veya MJPEG videolarını veya düz JPEG görüntülerini yerel olarak yayınlayan cihazlardır. Doğru RTSP, RTMP, MJPEG veya JPEG URL'sini bulmak için cihazınızın kılavuzuna bakın."
+
+#: motioneye/static/js/main.js:3959
+msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
+msgstr "Yerel MMAL kameralar doğrudan motionEye sisteminize bağlı cihazlardır. Bunlar genellikle karta özel kameralardır."
+
+#: motioneye/static/js/main.js:3974
+msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
+msgstr "Cihazınızı web kamerası yerine basit bir MJPEG kamera olarak eklemek, fotoğrafçılığı iyileştirecektir ancak hareket algılama, görüntü yakalama veya film kaydı mümkün olmayacaktır. Kameranın sunucunuz ve tarayıcınız tarafından erişilebilir olması gerekir. Bu kamera türü Internet Explorer ile uyumlu değildir."
+
+#: motioneye/static/js/main.js:3979
+msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
+msgstr "Yerel V4L2 kameralar, genellikle USB aracılığıyla motionEye sisteminize doğrudan bağlanan kamera cihazlarıdır."
+
+#: motioneye/static/js/main.js:4130
+msgid "Aldonadi kameraon..."
+msgstr "Bir kamera ekleyin..."
+
+#: motioneye/static/js/main.js:4202
+msgid "Grupo"
+msgstr "Grup"
+
+#: motioneye/static/js/main.js:4206
+msgid "Inkluzivi foton prenitan ĉiun"
+msgstr "Her birinin çekilmiş bir fotoğrafını ekleyin"
+
+#: motioneye/static/js/main.js:4209
+msgid "sekundo"
+msgstr "bir saniye"
+
+#: motioneye/static/js/main.js:4210
+msgid "5 sekundoj"
+msgstr "5 saniye"
+
+#: motioneye/static/js/main.js:4211
+msgid "10 sekundoj"
+msgstr "10 saniye"
+
+#: motioneye/static/js/main.js:4212
+msgid "30 sekundoj"
+msgstr "30 saniye"
+
+#: motioneye/static/js/main.js:4213
+msgid "minuto"
+msgstr "Bir dakika"
+
+#: motioneye/static/js/main.js:4214
+msgid "5 minutoj"
+msgstr "5 dakika"
+
+#: motioneye/static/js/main.js:4215
+msgid "10 minutoj"
+msgstr "10 dakika"
+
+#: motioneye/static/js/main.js:4216
+msgid "30 minutoj"
+msgstr "30 dakika"
+
+#: motioneye/static/js/main.js:4217
+msgid "horo"
+msgstr "saat"
+
+#: motioneye/static/js/main.js:4220
+msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
+msgstr "Seçilen iki görüntü arasındaki zaman aralığını seçin."
+
+#: motioneye/static/js/main.js:4223
+msgid "Filmo framfrekvenco"
+msgstr "Film kare hızı"
+
+#: motioneye/static/js/main.js:4225
+msgid "Elektu kiom rapide vi volas ke la akselita video estu."
+msgstr "Sıkıştırılmış videonun ne kadar hızlı olmasını istediğinizi seçin."
+
+#: motioneye/static/js/main.js:4234
+msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
+msgstr "Çok sayıda görsel göz önüne alındığında, videonuzu oluşturmak biraz zaman alabilir!"
+
+#: motioneye/static/js/main.js:4251
+msgid "Krei akselita video"
+msgstr "Animasyonlu bir video oluşturun"
+
+#: motioneye/static/js/main.js:4260
+msgid "Filmo kreanta en progreso..."
+msgstr "Film yapımı sürüyor…"
+
+#: motioneye/static/js/main.js:4511
+msgid "Zipitaj"
+msgstr "sıkıştırılmış"
+
+#: motioneye/static/js/main.js:4520
+msgid "Akselita video"
+msgstr "Hızlandırılmış video"
+
+#: motioneye/static/js/main.js:4531
+msgid "Forigi ĉiujn"
+msgstr "Hepsini sil"
+
+#: motioneye/static/js/main.js:4673
+msgid "Bildoj prenitaj de "
+msgstr "Resimler şuradan alınmıştır: "
+
+#: motioneye/static/js/main.js:4676
+msgid "Filmoj registritaj de "
+msgstr "tarafından kaydedilen filmler, "
+
+#: motioneye/static/js/main.js:4744
+msgid "montru ĉi tiun fotilon plenekranan"
+msgstr "bu kamerayı tam ekran göster"
+
+#: motioneye/static/js/main.js:4745
+msgid "montri ĉiujn fotilojn"
+msgstr "tüm kameraları göster"
+
+#: motioneye/static/js/main.js:4746
+msgid "montru nur ĉi tiun fotilon"
+msgstr "yalnızca bu kamerayı göster"
+
+#: motioneye/static/js/main.js:4747
+msgid "malfermaj bildoj retumilo"
+msgstr "resim tarayıcısını aç"
+
+#: motioneye/static/js/main.js:4748
+msgid "malferma videoj retumilo"
+msgstr "video tarayıcısını aç"
+
+#: motioneye/static/js/main.js:4749
+msgid "agordi ĉi tiun kameraon"
+msgstr "bu kamerayı yapılandır"
+
+#: motioneye/static/js/main.js:4765
+msgid "preni instantaron"
+msgstr "örnek al"
+
+#: motioneye/static/js/main.js:5158
+msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
+msgstr "Henüz herhangi bir kamerayı yapılandırmadınız. Eklemek için buraya tıklayın..."
+
+#: motioneye/static/js/ui.js:503
+msgid "enigu pozitivan nombron"
+msgstr "pozitif bir sayı girin"
+
+#: motioneye/static/js/ui.js:505
+msgid "enigu pozitivan entjeran nombron"
+msgstr "pozitif bir tam sayı girin"
+
+#: motioneye/static/js/ui.js:507
+msgid "enigu nombron"
+msgstr "bir sayı girin"
+
+#: motioneye/static/js/ui.js:509
+msgid "enigu entjeran nombron"
+msgstr "bir tam sayı girin"
+
+#: motioneye/static/js/ui.js:512
+msgid " inter "
+msgstr " arasında "
+
+#: motioneye/static/js/ui.js:512
+msgid " kaj "
+msgstr " ve "
+
+#: motioneye/static/js/ui.js:515
+msgid " pli ol "
+msgstr " bundan fazla "
+
+#: motioneye/static/js/ui.js:520
+msgid " malpli ol "
+msgstr " daha az "
+
+#: motioneye/static/js/ui.js:573
+msgid "enigu validan tempon en la sekva formato: HH:MM"
+msgstr "şu formatta geçerli bir zaman girin: SS:DD"
+
+#: motioneye/static/js/ui.js:630
+msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
+msgstr "geçerli bir URL girin (ör. http://ornek.com:8080/cams/)"
+
+#: motioneye/static/js/ui.js:971
+msgid "fermi"
+msgstr "kapat"
+
+#: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
+msgid "Ne"
+msgstr "Hayır"
+
+#: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
+msgid "Jes"
+msgstr "Evet"
+
+#: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
+msgid "Bone"
+msgstr "Tamam."
+
+#: l10n/v4l2.js:4
+msgid "Auto Exposure"
+msgstr "Otomatik Pozlama"
+
+#: l10n/v4l2.js:5
+msgid "Backlight Compensation"
+msgstr "Arka Işık Telafisi"
+
+#: l10n/v4l2.js:6
+msgid "Brightness"
+msgstr "Parlaklık"
+
+#: l10n/v4l2.js:7
+msgid "Contrast"
+msgstr "Kontrast"
+
+#: l10n/v4l2.js:8
+msgid "Exposure Absolute"
+msgstr "Mutlak Pozlama"
+
+#: l10n/v4l2.js:9
+msgid "Exposure Auto"
+msgstr "Otomatik-Pozlama"
+
+#: l10n/v4l2.js:10
+msgid "Exposure Auto Priority"
+msgstr "Pozlama Otomatik Önceliği"
+
+#: l10n/v4l2.js:11
+msgid "Exposure Time Absolute"
+msgstr "Mutlak Maruz Kalma Süresi"
+
+#: l10n/v4l2.js:12
+msgid "Focus Absolute"
+msgstr "Odak Kesinliği"
+
+#: l10n/v4l2.js:13
+msgid "Focus Auto"
+msgstr "Oto Fokus"
+
+#: l10n/v4l2.js:14
+msgid "Gain"
+msgstr "Kazanç"
+
+#: l10n/v4l2.js:15
+msgid "Gamma"
+msgstr "Gama"
+
+#: l10n/v4l2.js:16
+msgid "Hue"
+msgstr "Hue."
+
+#: l10n/v4l2.js:17
+msgid "Led1 Mode"
+msgstr "Led1 Modu"
+
+#: l10n/v4l2.js:18
+msgid "Led1 Frequency"
+msgstr "Led1 Frekansı"
+
+#: l10n/v4l2.js:19
+msgid "Pan Absolute"
+msgstr "Mutlak Pan"
+
+#: l10n/v4l2.js:20
+msgid "Power Line Frequency"
+msgstr "Güç Hattı Frekansı"
+
+#: l10n/v4l2.js:21
+msgid "Saturation"
+msgstr "Doyum"
+
+#: l10n/v4l2.js:22
+msgid "Sharpness"
+msgstr "Keskinlik"
+
+#: l10n/v4l2.js:23
+msgid "Tilt Absolute"
+msgstr "Kesinlik Eğilimi"
+
+#: l10n/v4l2.js:24
+msgid "White Balance Temperature"
+msgstr "Beyaz Dengesi Sıcaklığı"
+
+#: l10n/v4l2.js:25
+msgid "White Balance Temperature Auto"
+msgstr "Otomatik Beyaz Dengesi Sıcaklığı"
+
+#: l10n/v4l2.js:26
+msgid "Zoom Absolute"
+msgstr "Yakınlaştırma Eğilimi"

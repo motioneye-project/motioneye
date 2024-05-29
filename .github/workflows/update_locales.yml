@@ -17,7 +17,7 @@ jobs:
   update_locales:
     # Skip for forks and dependabot which have no access to secrets (PAT)
     if: github.event.pull_request.head.repo.fork == false && github.actor != 'dependabot[bot]'
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
 
     - uses: actions/setup-python@v5
@@ -59,6 +59,7 @@ jobs:
 
     - name: Commit changes
       run: |
+        git add -NA
         git diff -I '^"POT-Creation-Date: ' --exit-code && exit 0
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'

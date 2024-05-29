@@ -17,3 +17,4 @@ dist
 dropbox.keys
 .venv
 _traduko.jar
+.DS_Store
