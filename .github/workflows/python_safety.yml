@@ -12,10 +12,10 @@ permissions:
 jobs:
   python_safety:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
-    # ToDo: switch to ubuntu-24.04 once the implied openssl APT upgrade does not trigger a restart of all systemd services, killing the GitHub runner itself.
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     steps:
       - run: sudo apt-get -q update
+      - run: if [ '${{ matrix.dist }}' = 'ubuntu-24.04' ]; then apt-get autopurge needrestart; done # https://github.com/actions/runner-images/pull/9956
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
              gcc libcurl4-openssl-dev libssl-dev
       - uses: actions/checkout@v4
