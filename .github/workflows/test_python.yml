@@ -32,8 +32,7 @@ jobs:
         if: matrix.dist == 'ubuntu-24.04'
         run: |
           # https://github.com/actions/runner-images/pull/9956
-          # ERROR: Cannot uninstall pip 24.0, RECORD file not found. Hint: The package was installed by debian.
-          sudo apt-get autopurge needrestart python3-pip python3-setuptools python3-wheel
+          sudo apt-get autopurge needrestart
           # error: externally-managed-environment
           echo -e '[global]\nbreak-system-packages=true' | sudo tee /etc/pip.conf
       - run: sudo apt-get -q update
