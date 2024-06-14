@@ -113,7 +113,7 @@ async def _switch_emulate_motion_status(
     if emulate_motion_resp.error:  # could not detect current status
         return logging.warning(
             'skipping emulate motion status update for camera with id {id}: {error}'.format(
-                id=camera_id, error=motion_emulate_resp.error
+                id=camera_id, error=emulate_motion_resp.error
             )
         )
 

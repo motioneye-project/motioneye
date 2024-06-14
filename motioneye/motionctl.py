@@ -611,7 +611,7 @@ async def _disable_initial_emulate_motion():
             logging.debug(
                 f'emulate motion disabled by config for camera with id {camera_id}'
             )
-            await motionctl.set_emulate_motion(camera_id, False)
+            await set_emulate_motion(camera_id, False)
 
 
 def _get_pid():
