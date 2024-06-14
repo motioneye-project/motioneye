@@ -153,7 +153,7 @@ async def _check_ws() -> None:
         working_schedule = camera_config.get('@working_schedule')
         motion_detection = camera_config.get('@motion_detection')
         working_schedule_type = camera_config.get('@working_schedule_type') or 'outside'
-        emulate_motion = camera_config.get('@emulate_motion')
+        emulate_motion = camera_config.get('emulate_motion')
 
         if (
             not working_schedule
