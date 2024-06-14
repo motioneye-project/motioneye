@@ -134,7 +134,7 @@ def start(deferred=False):
     with open(motion_pid_path, 'w') as f:
         f.write(str(pid) + '\n')
 
-    IOLoop.current().spawn_callback(_disable_initial_motion_detection)
+    IOLoop.current().spawn_callback(_disable_initial_motion_detection, _disable_initial_emulate_motion)
 
     # if mjpg client idle timeout is disabled, create mjpg clients for all cameras by default
     if not settings.MJPG_CLIENT_IDLE_TIMEOUT:
@@ -210,6 +210,71 @@ def running():
 
 def started():
     return _started
+
+
+async def get_emulate_motion(camera_id) -> utils.GetEmulateMotionResult:
+    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
+    if motion_camera_id is None:
+        error = f'could not find motion camera id for camera with id {camera_id}'
+        logging.error(error)
+        return utils.GetEmulateMotionResult(None, error=error)
+
+    url = f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/config/get?query=emulate_motion'
+    
+    request = HTTPRequest(
+        url,
+        connect_timeout=_MOTION_CONTROL_TIMEOUT,
+        request_timeout=_MOTION_CONTROL_TIMEOUT,
+    )
+    resp = await AsyncHTTPClient().fetch(request)
+    if resp.error:
+        return utils.GetEmulateMotionResult(None, error=utils.pretty_http_error(resp))
+
+    resp_body = resp.body.decode('utf-8')
+    enabled = bool(resp_body.lower().count('= on'))
+
+    logging.debug(
+        f"emulate motion is {['disabled', 'enabled'][enabled]} for camera with id {id}"
+    )
+
+    return utils.GetEmulateMotionResult(enabled, None)
+
+
+async def set_emulate_motion(camera_id, enabled):
+    motion_camera_id = camera_id_to_motion_camera_id(camera_id)
+    if motion_camera_id is None:
+        return logging.error(
+            f'could not find motion camera id for camera with id {camera_id}'
+        )
+
+    if not enabled:
+        _motion_detected[camera_id] = False
+
+    logging.debug(
+        f"{['disabling', 'enabling'][enabled]} emulate motion for camera with id {camera_id}"
+    )
+
+    url = f"http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/config/set?emulate_motion={['off', 'on'][enabled]}"
+
+    request = HTTPRequest(
+        url,
+        connect_timeout=_MOTION_CONTROL_TIMEOUT,
+        request_timeout=_MOTION_CONTROL_TIMEOUT,
+    )
+    resp = await AsyncHTTPClient().fetch(request)
+    if resp.error:
+        logging.error(
+            'failed to {} emulate motion for camera with id {}: {}'.format(
+                ['disable', 'enable'][enabled],
+                camera_id,
+                utils.pretty_http_error(resp),
+            )
+        )
+
+    else:
+        logging.debug(
+            f"successfully {['disabled', 'enabled'][enabled]} emulate motion for camera with id {camera_id}"
+        )
 
 
 async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
@@ -532,6 +597,21 @@ async def _disable_initial_motion_detection():
                 f'motion detection disabled by config for camera with id {camera_id}'
             )
             await set_motion_detection(camera_id, False)
+
+
+async def _disable_initial_emulate_motion():
+    from motioneye import config
+
+    for camera_id in config.get_camera_ids():
+        camera_config = config.get_camera(camera_id)
+        if not utils.is_local_motion_camera(camera_config):
+            continue
+
+        if not camera_config['@emulate_motion']:
+            logging.debug(
+                f'emulate motion disabled by config for camera with id {camera_id}'
+            )
+            await motionctl.set_emulate_motion(camera_id, False)
 
 
 def _get_pid():

@@ -68,6 +68,7 @@ COMMON_RESOLUTIONS = [
 GetCamerasResponse = namedtuple('GetCamerasResponse', ('cameras', 'error'))
 GetConfigResponse = namedtuple('GetConfigResponse', ('remote_ui_config', 'error'))
 GetMotionDetectionResult = namedtuple('GetMotionDetectionResult', ('enabled', 'error'))
+GetEmulateMotionResult = namedtuple('GetEmulateMotionResult', ('enabled', 'error'))
 
 
 @dataclass

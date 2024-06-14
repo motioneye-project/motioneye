@@ -104,6 +104,38 @@ async def _switch_motion_detection_status(
         await motionctl.set_motion_detection(camera_id, True)
 
 
+async def _switch_emulate_motion_status(
+    camera_id,
+    must_be_enabled,
+    working_schedule_type,
+    emulate_motion_resp: utils.GetEmulateMotionResult,
+) -> None:
+    if emulate_motion_resp.error:  # could not detect current status
+        return logging.warning(
+            'skipping emulate motion status update for camera with id {id}: {error}'.format(
+                id=camera_id, error=motion_emulate_resp.error
+            )
+        )
+
+    if emulate_motion_resp.enabled and not must_be_enabled:
+        logging.debug(
+            'must disable emulate motion for camera with id {id} ({what} working schedule)'.format(
+                id=camera_id, what=working_schedule_type
+            )
+        )
+
+        await motionctl.set_emulate_motion(camera_id, False)
+
+    elif not emulate_motion_resp.enabled and must_be_enabled:
+        logging.debug(
+            'must enable emulate motion for camera with id {id} ({what} working schedule)'.format(
+                id=camera_id, what=working_schedule_type
+            )
+        )
+
+        await motionctl.set_emulate_motion(camera_id, True)
+
+
 async def _check_ws() -> None:
     # schedule the next call
     io_loop = IOLoop.current()
@@ -121,7 +153,7 @@ async def _check_ws() -> None:
         working_schedule = camera_config.get('@working_schedule')
         motion_detection = camera_config.get('@motion_detection')
         working_schedule_type = camera_config.get('@working_schedule_type') or 'outside'
-
+        emulate_motion = camera_config.get('@emulate_motion')
         if (
             not working_schedule
         ):  # working schedule disabled, motion detection left untouched
@@ -138,4 +170,12 @@ async def _check_ws() -> None:
         motion_detection_resp = await motionctl.get_motion_detection(camera_id)
         await _switch_motion_detection_status(
             camera_id, must_be_enabled, working_schedule_type, motion_detection_resp
+        )
+
+        if not emulate_motion:  # emulate motion explicitly disabled
+            continue
+
+        emulate_motion_resp = await motionctl.get_emulate_motion(camera_id)
+        await _switch_emulate_motion_status(
+            camera_id, must_be_enabled, working_schedule_type, emulate_motion_resp
         )
