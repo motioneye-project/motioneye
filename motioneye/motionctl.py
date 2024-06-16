@@ -220,7 +220,7 @@ async def get_emulate_motion(camera_id) -> utils.GetEmulateMotionResult:
         return utils.GetEmulateMotionResult(None, error=error)
 
     url = f'http://127.0.0.1:{settings.MOTION_CONTROL_PORT}/{motion_camera_id}/config/get?query=emulate_motion'
-    
+
     request = HTTPRequest(
         url,
         connect_timeout=_MOTION_CONTROL_TIMEOUT,
@@ -592,7 +592,7 @@ async def _disable_initial_motion_detection():
         if not utils.is_local_motion_camera(camera_config):
             continue
 
-        if not camera_config['@motion_detection']:
+        if not camera_config['motion_detection']:
             logging.debug(
                 f'motion detection disabled by config for camera with id {camera_id}'
             )
