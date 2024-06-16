@@ -592,7 +592,7 @@ async def _disable_initial_motion_detection():
         if not utils.is_local_motion_camera(camera_config):
             continue
 
-        if not camera_config['motion_detection']:
+        if not camera_config['@motion_detection']:
             logging.debug(
                 f'motion detection disabled by config for camera with id {camera_id}'
             )
@@ -607,7 +607,7 @@ async def _disable_initial_emulate_motion():
         if not utils.is_local_motion_camera(camera_config):
             continue
 
-        if not camera_config['@emulate_motion']:
+        if not camera_config['emulate_motion']:
             logging.debug(
                 f'emulate motion disabled by config for camera with id {camera_id}'
             )
