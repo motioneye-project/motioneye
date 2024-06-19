@@ -1,196 +1,197 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# netuddki6 <lehelbek2013@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-28 17:59+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2024-06-18 20:44+0000\n"
+"PO-Revision-Date: 2024-06-01 07:07+0000\n"
+"Last-Translator: netuddki6 <lehelbek2013@gmail.com>\n"
+"Language-Team: Hungarian <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.6-dev\n"
 
 #: motioneye/static/js/main.js:608
 msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr ""
+msgstr "speciális karakterek használata nem engedélyezett a jelszóban"
 
 #: motioneye/static/js/main.js:615 motioneye/static/js/main.js:626
 #: motioneye/static/js/main.js:685 motioneye/static/js/ui.js:362
 #: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
 msgid "Ĉi tiu kampo estas deviga"
-msgstr ""
+msgstr "Kötelező mező"
 
 #: motioneye/static/js/main.js:619
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr ""
+msgstr "speciális karakterek használata nem engedélyezett a kamera nevében"
 
 #: motioneye/static/js/main.js:631
 msgid "valoro devas esti multoblo de 8"
-msgstr ""
+msgstr "az értéknek 8 többszörösének kell lennie"
 
 #: motioneye/static/js/main.js:638
 msgid "specialaj signoj ne rajtas en radika voja nomo"
-msgstr ""
+msgstr "speciális karakterek használata nem engedélyezett a gyökérkönyvtár nevében"
 
 #: motioneye/static/js/main.js:641
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr ""
+msgstr "nem hozhatók létre fájlok a rendszer gyökérkönyvtárában"
 
 #: motioneye/static/js/main.js:648
 msgid "enigu validan retpoŝtadreson"
-msgstr ""
+msgstr "írj be egy valós e-mail címet"
 
 #: motioneye/static/js/main.js:655
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr ""
+msgstr "írj be több valós e-mail címet, vesszővel elválasztva"
 
 #: motioneye/static/js/main.js:662
 msgid "specialaj signoj ne rajtas en dosiernomo"
-msgstr ""
+msgstr "speciális karakterek használata nem engedélyezett a fájlnevekben"
 
 #: motioneye/static/js/main.js:689
 msgid "enigu validan valoron"
-msgstr ""
+msgstr "írj be egy valós értéket"
 
 #: motioneye/static/js/main.js:843
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr ""
+msgstr "Ez a művelet minden kapcsolódó, jelenleg a felhőben tárolt fájlt el fog távolítani \""
 
 #: motioneye/static/js/main.js:844
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
-msgstr ""
+msgstr "\", nem csak azokat, amiket a motionEye hozott létre, vagy töltött fel!"
 
 #: motioneye/static/js/main.js:925
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
-msgstr ""
+msgstr "Ez a művelet minden kapcsolódó régi fájlt el fog távolítani a mappából \""
 
 #: motioneye/static/js/main.js:926
 msgid "\", ne nur tiuj kreitaj de motionEye!"
-msgstr ""
+msgstr "\", nem csak azokat, amiket a motionEye hozott létre!"
 
 #: motioneye/static/js/main.js:992
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
-msgstr ""
+msgstr "Kamerakép nélkül nem szerkeszthető a maszk!"
 
 #: motioneye/static/js/main.js:2237
 msgid "Propra"
-msgstr ""
+msgstr "Egyéni"
 
 #: motioneye/static/js/main.js:2275
 msgid "Propra dosierindiko"
-msgstr ""
+msgstr "Egyéni útvonal"
 
 #: motioneye/static/js/main.js:2277
 msgid "Retan kunlokon"
-msgstr ""
+msgstr "Hálózati megosztás"
 
 #: motioneye/static/js/main.js:2637
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
-msgstr ""
+msgstr "A böngésződ nem támogatja a funkciót!"
 
 #: motioneye/static/js/main.js:2653
 msgid "Apliki"
-msgstr ""
+msgstr "Alkalmaz"
 
 #: motioneye/static/js/main.js:2680 motioneye/static/js/main.js:3041
 #: motioneye/static/js/main.js:3096 motioneye/static/js/main.js:3171
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
-msgstr ""
+msgstr "Győződj meg róla, hogy minden opciót rendben találsz!"
 
 #: motioneye/static/js/main.js:2782
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
-msgstr ""
+msgstr "A rendszer újra fog indulni. Folytatod?"
 
 #: motioneye/static/js/main.js:2792
 msgid "Vere fermiti sistemon?"
-msgstr ""
+msgstr "Biztosan le akarod állítani?"
 
 #: motioneye/static/js/main.js:2804
 msgid "Malŝaltita"
-msgstr ""
+msgstr "Kikapcsolva"
 
 #: motioneye/static/js/main.js:2819
 msgid "Ĉu vere restartigi ?"
-msgstr ""
+msgstr "Biztosan újraindítod?"
 
 #: motioneye/static/js/main.js:2833
 msgid "La sistemo rekomencis!"
-msgstr ""
+msgstr "A rendszer újraindult!"
 
 #: motioneye/static/js/main.js:2853 motioneye/static/js/main.js:2886
 #: motioneye/static/js/main.js:3869
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
-msgstr ""
+msgstr "Előbb alkalmazd a módosított beállításokat!"
 
 #: motioneye/static/js/main.js:2858
 msgid "Neniu fotilo por forigi!"
-msgstr ""
+msgstr "Nincs eltávolítható kamera!"
 
 #: motioneye/static/js/main.js:2864
 msgid "Ĉu forigi kameraon "
-msgstr ""
+msgstr "Kamera törlése: "
 
 #: motioneye/static/js/main.js:2892
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr ""
+msgstr "A motionEye friss (jelenlegi verzió: "
 
 #: motioneye/static/js/main.js:2895
 msgid "Nova versio havebla: "
-msgstr ""
+msgstr "Új verzió elérhető: "
 
 #: motioneye/static/js/main.js:2895
 msgid ". Ĝisdatigi?"
-msgstr ""
+msgstr ". Frissíted?"
 
 #: motioneye/static/js/main.js:2903
 msgid "motionEye estis sukcese ĝisdatigita!"
-msgstr ""
+msgstr "A motionEye frissítése sikeres volt!"
 
 #: motioneye/static/js/main.js:2913
 msgid "Ĝisdatigo malsukcesis!"
-msgstr ""
+msgstr "Frissítési hiba!"
 
 #: motioneye/static/js/main.js:2924
 msgid "La ĝisdatiga procezo malsukcesis!"
-msgstr ""
+msgstr "A frissítés nem sikerült!"
 
 #: motioneye/static/js/main.js:2943
 msgid "Rezerva dosiero"
-msgstr ""
+msgstr "Biztonsági mentés"
 
 #: motioneye/static/js/main.js:2945
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
-msgstr ""
+msgstr "a korábban letöltött biztonsági fájl."
 
 #: motioneye/static/js/main.js:2974
 msgid "Restaŭrigi Agordon"
-msgstr ""
+msgstr "Beállítások visszaállítása"
 
 #: motioneye/static/js/main.js:2986
 msgid "Restaŭriganta agordon ..."
-msgstr ""
+msgstr "Beállítások visszaállítása ..."
 
 #: motioneye/static/js/main.js:2993
 msgid "La agordo restaŭrigis!"
-msgstr ""
+msgstr "Sikerült a beállítások visszaállítása!"
 
 #: motioneye/static/js/main.js:3003 motioneye/static/js/main.js:3022
 msgid "Malsukcesis restaŭri la agordon!"
-msgstr ""
+msgstr "Nem sikerült visszaállítani a beállításokat!"
 
 #: motioneye/static/js/main.js:3077
 msgid "Aliri la alŝutan servon malsukcesis: "
-msgstr ""
+msgstr "Nem sikerült elérni a feltöltési szolgáltatást: "
 
 #: motioneye/static/js/main.js:3080
 msgid "Aliri la alŝutan servon sukcesis!"
-msgstr ""
+msgstr "Sikerült elérni a feltöltési szolgáltatást!"
 
 #: motioneye/static/js/main.js:3117 motioneye/static/js/main.js:3120
 msgid "Sciiga retpoŝto fiaskis:"
