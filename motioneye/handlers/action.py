@@ -66,6 +66,18 @@ class ActionHandler(BaseHandler):
             )
             return self.record_stop(camera_id)
 
+        elif action == 'eventstart':
+            logging.debug(
+                f'executing event_start action for camera with id {camera_id}'
+            )
+            await self.event_start(camera_id)
+            return
+
+        elif action == 'eventend':
+            logging.debug(f'executing event_end action for camera with id {camera_id}')
+            await self.event_end(camera_id)
+            return
+
         action_commands = config.get_action_commands(local_config)
         command = action_commands.get(action)
         if not command:
@@ -122,4 +134,12 @@ class ActionHandler(BaseHandler):
         return self.finish_json({})
 
     def record_stop(self, camera_id):
+        return self.finish_json({})
+
+    async def event_start(self, camera_id):
+        await motionctl.start_event(camera_id)
+        return self.finish_json({})
+
+    async def event_end(self, camera_id):
+        await motionctl.end_event(camera_id)
         return self.finish_json({})
