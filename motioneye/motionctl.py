@@ -134,7 +134,8 @@ def start(deferred=False):
     with open(motion_pid_path, 'w') as f:
         f.write(str(pid) + '\n')
 
-    IOLoop.current().spawn_callback(_disable_initial_motion_detection, _disable_initial_emulate_motion)
+    IOLoop.current().spawn_callback(_disable_initial_motion_detection)
+    IOLoop.current().spawn_callback(_disable_initial_emulate_motion)
 
     # if mjpg client idle timeout is disabled, create mjpg clients for all cameras by default
     if not settings.MJPG_CLIENT_IDLE_TIMEOUT:
