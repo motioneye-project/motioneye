@@ -3552,7 +3552,7 @@ function getCameraIds() {
 function runAlertDialog(message, onOk, options) {
     var params = {
         title: message,
-        buttons: i18n.gettext('bone'),
+        buttons: 'ok',
         onOk: onOk
     };
 
