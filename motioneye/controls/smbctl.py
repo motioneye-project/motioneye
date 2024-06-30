@@ -305,11 +305,11 @@ def _check_mounts():
 
     logging.debug('checking SMB mounts...')
 
-    stop, start = update_mounts()
-    if stop:
+    stop_mounts, new_start = update_mounts()
+    if stop_mounts:
         motionctl.stop()
 
-    if start:
+    if new_start:
         motionctl.start()
 
     io_loop = IOLoop.current()

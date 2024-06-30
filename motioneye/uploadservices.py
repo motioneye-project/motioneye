@@ -1290,9 +1290,9 @@ def test_access(camera_id, service_name, data):
     return service.test_access()
 
 
-def update(camera_id, service_name, settings):
+def update(camera_id, service_name, new_settings):
     service = get(camera_id, service_name)
-    service.load(settings)
+    service.load(new_settings)
     service.save()
 
 
