@@ -27,6 +27,7 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formatdate
+from email.utils import make_msgid
 
 from tornado.ioloop import IOLoop
 
@@ -53,6 +54,7 @@ def send_mail(server, port, account, password, tls, _from, to, subject, message,
     email['From'] = _from
     email['To'] = ', '.join(to)
     email['Date'] = formatdate(localtime=True)
+    email['Message-ID'] = make_msgid()
     email.attach(MIMEText(message))
 
     for name in reversed(files):
