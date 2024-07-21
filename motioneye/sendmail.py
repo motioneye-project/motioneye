@@ -26,8 +26,7 @@ from email.encoders import encode_base64
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from email.utils import formatdate
-from email.utils import make_msgid
+from email.utils import formatdate, make_msgid
 
 from tornado.ioloop import IOLoop
 
