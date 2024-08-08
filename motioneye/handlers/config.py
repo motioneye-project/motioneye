@@ -19,6 +19,7 @@ import datetime
 import json
 import logging
 import os
+import re
 import socket
 
 from tornado.ioloop import IOLoop
@@ -676,6 +677,9 @@ class ConfigHandler(BaseHandler):
                     message = message % format_dict
                     subject = subject % format_dict
 
+                    to = [t.strip() for t in re.split('[,;| ]', data['addresses'])]
+                    to = [t for t in to if t]
+
                     old_timeout = settings.SMTP_TIMEOUT
                     settings.SMTP_TIMEOUT = 10
                     sendmail.send_mail(
@@ -685,7 +689,7 @@ class ConfigHandler(BaseHandler):
                         data['smtp_password'],
                         data['smtp_tls'],
                         data['from'],
-                        [data['addresses']],
+                        to,
                         subject=subject,
                         message=message,
                         files=[],
