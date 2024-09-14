@@ -228,14 +228,14 @@ handler_mapping = [
 
 
 def configure_signals():
-    def bye_handler(signal, frame):
+    def bye_handler(sig, frame):
         logging.info(_('interrompa signalo ricevita, fermanta …'))
 
         # shut down the IO loop if it has been started
         io_loop = IOLoop.current()
         io_loop.stop()
 
-    def child_handler(signal, frame):
+    def child_handler(sig, frame):
         # this is required for the multiprocessing mechanism to work
         multiprocessing.active_children()
 
@@ -416,7 +416,7 @@ def make_app(debug: bool = False) -> Application:
 def run():
     import motioneye
     from motioneye import cleanup, mjpgclient, motionctl, tasks, wsswitch
-    from motioneye.controls import smbctl
+    from motioneye.controls import smbctl as smbctl_module
 
     configure_signals()
     logging.info(_('saluton! ĉi tio estas motionEye-servilo ') + motioneye.VERSION)
@@ -425,7 +425,7 @@ def run():
     make_media_folders()
 
     if settings.SMB_SHARES:
-        stop, start = smbctl.update_mounts()  # @UnusedVariable
+        stop, start = smbctl_module.update_mounts()  # @UnusedVariable
         if start:
             start_motion()
 
@@ -446,7 +446,7 @@ def run():
         logging.info(_('mjpg klienta rubo-kolektanto komenciĝis'))
 
     if settings.SMB_SHARES:
-        smbctl.start()
+        smbctl_module.start()
         logging.info('smb mounts started')
 
     template.add_context('static_path', 'static/')
@@ -479,7 +479,7 @@ def run():
         motionctl.stop()
         logging.info(_('motion haltis'))
     if settings.SMB_SHARES:
-        smbctl.stop()
+        smbctl_module.stop()
         logging.info('smb mounts stopped')
 
     logging.info(_('adiaŭ!'))
