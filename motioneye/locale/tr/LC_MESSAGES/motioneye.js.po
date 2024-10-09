@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-18 20:44+0000\n"
+"POT-Creation-Date: 2024-10-09 21:44+0000\n"
 "PO-Revision-Date: 2024-04-17 23:03+0000\n"
 "Last-Translator: Onur TORAMAN <onur@toraman.net>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/tr/>\n"
@@ -240,10 +240,6 @@ msgstr "Gruplandırılmamış tüm filmler gerçekten silinsin mi?"
 #: motioneye/static/js/main.js:3367
 msgid "aldonadi kameraon..."
 msgstr "Kamera Ekle..."
-
-#: motioneye/static/js/main.js:3555
-msgid "bone"
-msgstr "Tamam"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 msgid "Uzantnomo"
@@ -673,3 +669,6 @@ msgstr "Otomatik Beyaz Dengesi Sıcaklığı"
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
 msgstr "Yakınlaştırma Eğilimi"
+
+#~ msgid "bone"
+#~ msgstr "Tamam"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-18 20:44+0000\n"
+"POT-Creation-Date: 2024-10-09 21:44+0000\n"
 "PO-Revision-Date: 2022-11-23 17:47+0000\n"
 "Last-Translator: MichaIng <micha@dietpi.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/de/>\n"
@@ -241,10 +241,6 @@ msgstr "Wollen Sie wirklich alle nicht gruppierten Videos löschen?"
 #: motioneye/static/js/main.js:3367
 msgid "aldonadi kameraon..."
 msgstr "Kamera hinzufügen ..."
-
-#: motioneye/static/js/main.js:3555
-msgid "bone"
-msgstr "alles klar"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 msgid "Uzantnomo"
@@ -674,6 +670,9 @@ msgstr "Automatischer Weißabgleich"
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
 msgstr "Absoluter Zoom"
+
+#~ msgid "bone"
+#~ msgstr "alles klar"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"

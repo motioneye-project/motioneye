@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-18 20:44+0000\n"
+"POT-Creation-Date: 2024-10-09 21:44+0000\n"
 "PO-Revision-Date: 2024-09-20 20:50+0000\n"
 "Last-Translator: Covaga <covaga94@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/es/>\n"
@@ -261,10 +261,6 @@ msgstr "¿Eliminar realmente todas las películas desagrupadas?"
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "agregar cámara ..."
-
-#: motioneye/static/js/main.js:3555
-msgid "bone"
-msgstr "ok"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 msgid "Uzantnomo"
@@ -762,6 +758,9 @@ msgstr "Temperatura de balance de blancos automática"
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
 msgstr "Zoom absoluto"
+
+#~ msgid "bone"
+#~ msgstr "ok"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"

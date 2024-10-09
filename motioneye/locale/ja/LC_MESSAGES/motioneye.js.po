@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-18 20:44+0000\n"
+"POT-Creation-Date: 2024-10-09 21:44+0000\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -295,11 +295,6 @@ msgstr "グループ化されていないすべての映画を本当に削除し
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "カメラを追加..."
-
-#: motioneye/static/js/main.js:3555
-#, fuzzy
-msgid "bone"
-msgstr "大丈夫"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 #, fuzzy
@@ -836,6 +831,10 @@ msgstr "ホワイトバランス温度自動"
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "絶対にズームします"
+
+#, fuzzy
+#~ msgid "bone"
+#~ msgstr "大丈夫"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"

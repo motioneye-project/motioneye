@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-18 20:44+0000\n"
+"POT-Creation-Date: 2024-10-09 21:44+0000\n"
 "PO-Revision-Date: 2024-09-04 10:09+0000\n"
 "Last-Translator: Csaba Fero <csaba.fero@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/hu/>\n"
@@ -240,10 +240,6 @@ msgstr ""
 
 #: motioneye/static/js/main.js:3367
 msgid "aldonadi kameraon..."
-msgstr ""
-
-#: motioneye/static/js/main.js:3555
-msgid "bone"
 msgstr ""
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
