@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-18 20:44+0000\n"
+"POT-Creation-Date: 2024-10-09 21:44+0000\n"
 "PO-Revision-Date: 2023-07-29 08:02+0000\n"
 "Last-Translator: Gurjant Singh <sandalgurjant@gmail.com>\n"
 "Language-Team: Punjabi <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/pa/>\n"
@@ -280,11 +280,6 @@ msgstr "ਕੀ ਸੱਚਮੁੱਚ ਸਾਰੀਆਂ ਗੈਰ-ਸਮੂਹ�
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "ਕੈਮਰਾ ਸ਼ਾਮਲ ਕਰੋ ..."
-
-#: motioneye/static/js/main.js:3555
-#, fuzzy
-msgid "bone"
-msgstr "ਠੀਕ ਹੈ"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 #, fuzzy
@@ -821,6 +816,10 @@ msgstr "ਚਿੱਟਾ ਸੰਤੁਲਨ ਦਾ ਤਾਪਮਾਨ ਆਟੋ"
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "ਜ਼ੂਮ ਬਿਲਕੁਲ"
+
+#, fuzzy
+#~ msgid "bone"
+#~ msgstr "ਠੀਕ ਹੈ"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"
