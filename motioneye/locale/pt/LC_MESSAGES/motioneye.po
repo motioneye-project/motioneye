@@ -6,20 +6,21 @@
 # Felipe Nogueira <contato.fnog@gmail.com>, 2023.
 # Cleiton Carvalho <cleitonsilvacarvalho@gmail.com>, 2023.
 # piet <piet@users.noreply.hosted.weblate.org>, 2024.
+# Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-10-09 21:44+0000\n"
-"PO-Revision-Date: 2024-07-20 10:35+0000\n"
-"Last-Translator: piet <piet@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2024-10-19 22:16+0000\n"
+"Last-Translator: Zhang Wei <Zhang@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.7-dev\n"
+"X-Generator: Weblate 5.8-rc\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -379,7 +380,7 @@ msgstr "Opções Extra"
 
 #: motioneye/templates/main.html:363
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr "Você pode adicionar quaisquer opções adicionais aqui para o demônio «movimento» (use o formato «Nome Value», uma opção por linha)"
+msgstr "Você pode adicionar quaisquer opções adicionais aqui para o demônio \\\"movimento\\\" (use o formato \\\"Nome Value\\\", uma opção por linha)"
 
 #: motioneye/templates/main.html:372
 #, fuzzy
