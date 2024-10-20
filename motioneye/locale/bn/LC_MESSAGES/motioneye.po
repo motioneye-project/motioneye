@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-10-09 21:44+0000\n"
-"PO-Revision-Date: 2024-10-19 22:16+0000\n"
+"PO-Revision-Date: 2024-10-20 10:16+0000\n"
 "Last-Translator: Zhang Wei <Zhang@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Bengali <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/bn/>\n"
 "Language: bn\n"
@@ -454,7 +454,7 @@ msgstr "অতিরিক্ত বিকল্প"
 
 #: motioneye/templates/main.html:363
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr "আপনি \\\"মোশন\\\" রাক্ষসের জন্য এখানে কোনও অতিরিক্ত বিকল্প যুক্ত করতে পারেন (\\\"নাম মান\\\" ফর্ম্যাটটি ব্যবহার করুন, প্রতি লাইনে একটি বিকল্প)"
+msgstr "আপনি \"মোশন\" রাক্ষসের জন্য এখানে কোনও অতিরিক্ত বিকল্প যুক্ত করতে পারেন (\"নাম মান\" ফর্ম্যাটটি ব্যবহার করুন, প্রতি লাইনে একটি বিকল্প)"
 
 #: motioneye/templates/main.html:372
 #, fuzzy
