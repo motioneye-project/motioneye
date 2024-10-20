@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-10-09 21:44+0000\n"
-"PO-Revision-Date: 2024-10-20 10:16+0000\n"
+"PO-Revision-Date: 2024-10-21 00:15+0000\n"
 "Last-Translator: Zhang Wei <Zhang@users.noreply.hosted.weblate.org>\n"
 "Language-Team: English <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/en/>\n"
 "Language: en\n"
@@ -1326,7 +1326,7 @@ msgstr "Example: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 
 #: motioneye/templates/main.html:1111
 msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-msgstr "By creating the Telegram-Bot chat, you will get an API token that you need to enter here. Click the API button below for a step-by-step guide on how to get your API token. Also be sure to chat with your newly created \\\"bot\\\" after your key is generated, to make sure you get messages."
+msgstr "By creating the Telegram-Bot chat, you will get an API token that you need to enter here. Click the API button below for a step-by-step guide on how to get your API token. Also be sure to chat with your newly created \"bot\" after your key is generated, to make sure you get messages."
 
 #: motioneye/templates/main.html:1114
 msgid "Babileja ID"
