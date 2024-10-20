@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2024-10-09 21:44+0000\n"
-"PO-Revision-Date: 2024-10-19 22:16+0000\n"
+"PO-Revision-Date: 2024-10-20 10:16+0000\n"
 "Last-Translator: Zhang Wei <Zhang@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/nb_NO/>\n"
 "Language: nb_NO\n"
@@ -369,7 +369,7 @@ msgstr "Ekstra valg"
 
 #: motioneye/templates/main.html:363
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr "Du kan legge til flere alternativer her for \\\"motion\\\" -daemonen (bruk \\\"navn verdi\\\" -formatet, ett alternativ per linje)"
+msgstr "Du kan legge til flere alternativer her for \"motion\" -daemonen (bruk \"navn verdi\" -formatet, ett alternativ per linje)"
 
 #: motioneye/templates/main.html:372
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
