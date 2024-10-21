@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-18 20:44+0000\n"
+"POT-Creation-Date: 2024-10-09 21:44+0000\n"
 "PO-Revision-Date: 2023-03-26 16:41+0000\n"
 "Last-Translator: Dmitrii <nuke142@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/ru/>\n"
@@ -241,10 +241,6 @@ msgstr "Действительно удалить все несгруппиро�
 #: motioneye/static/js/main.js:3367
 msgid "aldonadi kameraon..."
 msgstr "добавить камеру ..."
-
-#: motioneye/static/js/main.js:3555
-msgid "bone"
-msgstr "ok"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 msgid "Uzantnomo"
@@ -674,6 +670,9 @@ msgstr "Авто температура баланса белого"
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
 msgstr "Абсолютный зум"
+
+#~ msgid "bone"
+#~ msgstr "ok"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"
