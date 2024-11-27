@@ -13,7 +13,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     strategy:
       matrix:
-        dist: ['ubuntu-20.04', 'ubuntu-22.04', 'ubuntu-24.04']
+        dist: ['ubuntu-24.04']
       fail-fast: false
     runs-on: ${{ matrix.dist }}
     name: "Test on ${{ matrix.dist }}"
