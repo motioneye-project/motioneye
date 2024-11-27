@@ -61,12 +61,13 @@ class UploadService:
         if target_dir:
             target_dir = os.path.realpath(target_dir)
             rel_filename = os.path.realpath(filename)
-            rel_filename = rel_filename[len(target_dir) :]
+            rel_filename = rel_filename[len(target_dir):]
 
             while rel_filename.startswith('/'):
                 rel_filename = rel_filename[1:]
 
-            self.debug(f'uploading file "{target_dir}/{rel_filename}" to {self}')
+            self.debug(f'uploading file "{
+                       target_dir}/{rel_filename}" to {self}')
 
         else:
             rel_filename = os.path.basename(filename)
@@ -100,7 +101,8 @@ class UploadService:
             raise Exception(msg)
 
         data = f.read()
-        self.debug(f'size of "{filename}" is {len(data) / 1024.0 / 1024:.3f}MB')
+        self.debug(f'size of "{filename}" is {
+                   len(data) / 1024.0 / 1024:.3f}MB')
 
         mime_type = mimetypes.guess_type(filename)[0] or 'image/jpeg'
         self.debug(f'mime type of "{filename}" is "{mime_type}"')
@@ -210,7 +212,8 @@ class GoogleBase:
 
             self.debug('requesting credentials')
             try:
-                self._credentials = self._request_credentials(self._authorization_key)
+                self._credentials = self._request_credentials(
+                    self._authorization_key)
                 self.save()
 
             except Exception as e:
@@ -218,7 +221,8 @@ class GoogleBase:
                 raise
 
         headers = headers or {}
-        headers['Authorization'] = f'Bearer {self._credentials["access_token"]}'
+        headers['Authorization'] = f'Bearer {
+            self._credentials["access_token"]}'
 
         self.debug(f'requesting {url}')
         request = Request(url, data=body, headers=headers)
@@ -232,7 +236,8 @@ class GoogleBase:
                 e.code == 401 and retry_auth
             ):  # unauthorized, access token may have expired
                 try:
-                    self.debug('credentials have probably expired, refreshing them')
+                    self.debug(
+                        'credentials have probably expired, refreshing them')
                     self._credentials = self._refresh_credentials(
                         self._credentials['refresh_token']
                     )
@@ -366,7 +371,8 @@ class GoogleDrive(UploadService, GoogleBase):
         path = os.path.dirname(filename)
         filename = os.path.basename(filename)
 
-        metadata = {'title': filename, 'parents': [{'id': self._get_folder_id(path)}]}
+        metadata = {'title': filename, 'parents': [
+            {'id': self._get_folder_id(path)}]}
 
         body = [
             '--' + self.BOUNDARY,
@@ -461,7 +467,8 @@ class GoogleDrive(UploadService, GoogleBase):
         if not items:
             if create:
                 self.debug(
-                    f'folder with name "{child_name}" does not exist, creating it'
+                    f'folder with name "{
+                        child_name}" does not exist, creating it'
                 )
                 self._create_folder(parent_id, child_name)
                 return self._get_folder_id_by_name(parent_id, child_name, create=False)
@@ -494,7 +501,8 @@ class GoogleDrive(UploadService, GoogleBase):
         folder_id = self._get_folder_id_by_name('root', cloud_dir, False)
         children = self._get_children(folder_id)
         self.info(
-            f'found {len(local_folders)}/{len(children)} folder(s) in local/cloud'
+            f'found {len(local_folders)}/{len(children)
+                                          } folder(s) in local/cloud'
         )
         self.debug(f'local {local_folders}')
         for child in children:
@@ -577,7 +585,8 @@ class GooglePhoto(UploadService, GoogleBase):
             'X-Goog-Upload-Protocol': 'raw',
         }
 
-        uploadToken = self._request(self.GOOGLE_PHOTO_API + 'uploads', body, headers)
+        uploadToken = self._request(
+            self.GOOGLE_PHOTO_API + 'uploads', body, headers)
         response = self._create_media(uploadToken, camera_name)
         self.debug(f'response {response["mediaItem"]}')
 
@@ -612,14 +621,16 @@ class GooglePhoto(UploadService, GoogleBase):
                 if count > 0:
                     albumId = albumsWithName[0].get('id')
                     self.debug(
-                        f'found {count} existing album(s) "{name}" taking first id "{albumId}"'
+                        f'found {count} existing album(s) "{name}" taking first id "{
+                            albumId}"'
                     )
                     return albumId
 
             # create album
             response = self._create_folder(None, name)
             albumId = response.get('id')
-            self.info(f'Album "{name}" was created successfully with id "{albumId}"')
+            self.info(
+                f'Album "{name}" was created successfully with id "{albumId}"')
             return albumId
 
         except Exception as e:
@@ -633,7 +644,8 @@ class GooglePhoto(UploadService, GoogleBase):
 
         headers = {'Content-Type': 'application/json'}
 
-        response = self._request_json(self.GOOGLE_PHOTO_API + 'albums', body, headers)
+        response = self._request_json(
+            self.GOOGLE_PHOTO_API + 'albums', body, headers)
         return response
 
     def _create_media(self, uploadToken, camera_name):
@@ -774,7 +786,8 @@ class Dropbox(UploadService):
 
             self.debug('requesting credentials')
             try:
-                self._credentials = self._request_credentials(self._authorization_key)
+                self._credentials = self._request_credentials(
+                    self._authorization_key)
                 self.save()
 
             except Exception as e:
@@ -782,7 +795,8 @@ class Dropbox(UploadService):
                 raise
 
         headers = headers or {}
-        headers['Authorization'] = f'Bearer {self._credentials["access_token"]}'
+        headers['Authorization'] = f'Bearer {
+            self._credentials["access_token"]}'
 
         self.debug(f'requesting {url}')
         request = Request(url, data=body, headers=headers)
@@ -794,7 +808,8 @@ class Dropbox(UploadService):
                 e.code == 401 and retry_auth
             ):  # unauthorized, access token may have expired
                 try:
-                    self.debug('credentials have probably expired, refreshing them')
+                    self.debug(
+                        'credentials have probably expired, refreshing them')
                     self._credentials = self._refresh_credentials(
                         self._credentials['refresh_token']
                     )
@@ -922,7 +937,8 @@ class Webdav(UploadService):
         try:
             path = self._location.strip('/') + '/' + str(time.time())
             self._make_dirs(path)
-            self._request(self._endpoint_url.rstrip('/') + '/' + path, 'DELETE')
+            self._request(self._endpoint_url.rstrip(
+                '/') + '/' + path, 'DELETE')
             return True
         except Exception as e:
             self.error(str(e), exc_info=True)
@@ -1223,8 +1239,10 @@ class S3(UploadService):
 
         # Uploads the given file using a managed uploader, which will split up
         # large files automatically and upload parts in parallel.
-        self.debug(f'uploading file "{filename}" to S3 bucket "{self._bucket}"')
-        s3.upload_file(filename, self._bucket, filename[len(target_dir) :])
+        self.debug(f'uploading file "{
+                   filename}" to S3 bucket "{self._bucket}"')
+        # s3.upload_file(filename, self._bucket, filename[len(target_dir) :])
+        s3.upload_file(filename, self._bucket, os.path.basename(filename))
 
     def test_access(self):
         try:
@@ -1273,7 +1291,8 @@ def get(camera_id, service_name):
             _services.setdefault(camera_id, {})[service_name] = service
 
             logging.debug(
-                f'created default upload service "{service_name}" for camera with id "{camera_id}"'
+                f'created default upload service "{
+                    service_name}" for camera with id "{camera_id}"'
             )
 
     return service
@@ -1300,7 +1319,8 @@ def upload_media_file(camera_id, camera_name, target_dir, service_name, filename
     service = get(camera_id, service_name)
     if not service:
         return logging.error(
-            f'service "{service_name}" not initialized for camera with id {camera_id}'
+            f'service "{service_name}" not initialized for camera with id {
+                camera_id}'
         )
 
     try:
@@ -1336,7 +1356,8 @@ def _load():
 
         except Exception as e:
             logging.error(
-                f'could not read upload services state from file "{file_path}": {e}'
+                f'could not read upload services state from file "{
+                    file_path}": {e}'
             )
 
             return services
@@ -1356,7 +1377,8 @@ def _load():
                     camera_services[name] = service
 
                     logging.debug(
-                        f'loaded upload service "{name}" for camera with id "{camera_id}"'
+                        f'loaded upload service "{
+                            name}" for camera with id "{camera_id}"'
                     )
 
     return services
@@ -1376,7 +1398,8 @@ def _save(services):
         f = open(file_path, 'w')
 
     except Exception as e:
-        logging.error(f'could not open upload services state file "{file_path}": {e}')
+        logging.error(f'could not open upload services state file "{
+                      file_path}": {e}')
 
         return
 
@@ -1398,7 +1421,8 @@ def clean_cloud(local_dir, data, info):
     cloud_dir_user = info['cloud_dir']
     cloud_dir = [p.strip() for p in cloud_dir_user.split('/') if p.strip()][0]
 
-    logging.debug(f'clean_cloud({camera_id}, {service_name}, {local_dir}, {cloud_dir})')
+    logging.debug(f'clean_cloud({camera_id}, {
+                  service_name}, {local_dir}, {cloud_dir})')
 
     if service_name and local_dir and cloud_dir:
         local_folders = get_local_folders(local_dir)
