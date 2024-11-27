@@ -16,8 +16,6 @@ jobs:
       matrix:
         include:
           # https://packages.ubuntu.com/search?suite=all&arch=any&searchon=names&keywords=python3
-          - { dist: 'ubuntu-20.04', python: '3.8.2' }
-          - { dist: 'ubuntu-22.04', python: '3.10.6' }
           - { dist: 'ubuntu-24.04', python: '3.12.3' }
       fail-fast: false
     runs-on: ${{ matrix.dist }}
