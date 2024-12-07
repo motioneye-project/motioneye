@@ -1384,7 +1384,7 @@ def motion_camera_dict_to_ui(data):
         'auto_noise_detect': data['noise_tune'],
         'max_frame_change_threshold': data['threshold_maximum'],
         'auto_threshold_tuning': data['threshold_tune'],
-        'noise_level': int(int(data['noise_level']) / 2.55),
+        'noise_level': round(int(data['noise_level']) / 2.55),
         'light_switch_detect': data['lightswitch_percent'],
         'despeckle_filter': data['despeckle_filter'],
         'event_gap': int(data['event_gap']),
