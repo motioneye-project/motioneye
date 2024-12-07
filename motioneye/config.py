@@ -1214,8 +1214,10 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         url = sub('\\s', '+', ui['web_hook_notifications_url'])
 
         on_event_start.append(
-            "{script} '{method}' '{url}'".format(
+            "{script} {useragent} {accept} '{method}' '{url}'".format(
                 script=meyectl.find_command('webhook'),
+                useragent=f"'{ui['web_hook_notifications_user_agent']}'" if ui['web_hook_notifications_user_agent'] else '',
+                accept=f"'{ui['web_hook_notifications_accept']}'" if ui['web_hook_notifications_accept'] else '',
                 method=ui['web_hook_notifications_http_method'],
                 url=url,
             )
@@ -1233,12 +1235,13 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         url = sub(r'\s', '+', ui['web_hook_end_notifications_url'])
 
         on_event_end.append(
-            "%(script)s '%(method)s' '%(url)s'"
-            % {
-                'script': meyectl.find_command('webhook'),
-                'method': ui['web_hook_end_notifications_http_method'],
-                'url': url,
-            }
+            "{script} {useragent} {accept} '{method}' '{url}'".format(
+                script=meyectl.find_command('webhook'),
+                useragent=f"'{ui['web_hook_end_notifications_user_agent']}'" if ui['web_hook_end_notifications_user_agent'] else '',
+                accept=f"'{ui['web_hook_end_notifications_accept']}'" if ui['web_hook_end_notifications_accept'] else '',
+                method=ui['web_hook_end_notifications_http_method'],
+                url=url,
+            )
         )
 
     if ui['command_end_notifications_enabled']:
@@ -1305,7 +1308,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     return prev_config
 
 
-def motion_camera_dict_to_ui(data):
+def motion_camera_dict_to_ui(data):  # noqa: C901
     ui = {
         # device
         'name': data['camera_name'],
@@ -1715,12 +1718,19 @@ def motion_camera_dict_to_ui(data):
         elif ' webhook ' in e:
             e = split(e)
 
-            if len(e) < 3:
+            if len(e) < 7:
                 continue
 
             ui['web_hook_notifications_enabled'] = True
             ui['web_hook_notifications_http_method'] = e[-2]
             ui['web_hook_notifications_url'] = e[-1]
+
+            # support pre-v0.43.0 configs
+            if len(e) < 9:
+                continue
+
+            ui['web_hook_notifications_accept'] = e[-3]
+            ui['web_hook_notifications_user_agent'] = e[-4]
 
         elif 'relayevent' in e:
             continue  # ignore internal relay script
@@ -1742,12 +1752,19 @@ def motion_camera_dict_to_ui(data):
         if ' webhook ' in e:
             e = split(e)
 
-            if len(e) < 3:
+            if len(e) < 7:
                 continue
 
             ui['web_hook_end_notifications_enabled'] = True
             ui['web_hook_end_notifications_http_method'] = e[-2]
             ui['web_hook_end_notifications_url'] = e[-1]
+
+            # support pre-v0.43.0 configs
+            if len(e) < 9:
+                continue
+
+            ui['web_hook_end_notifications_accept'] = e[-3]
+            ui['web_hook_end_notifications_user_agent'] = e[-4]
 
         elif 'relayevent' in e or 'eventrelay.py' in e:
             continue  # ignore internal relay script
