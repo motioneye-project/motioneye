@@ -915,7 +915,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         'threshold_maximum': ui['max_frame_change_threshold'],
         'threshold_tune': ui['auto_threshold_tuning'],
         'noise_tune': ui['auto_noise_detect'],
-        'noise_level': max(1, int(round(int(ui['noise_level']) * 2.55))),
+        'noise_level': max(1, round(int(ui['noise_level']) * 2.55)),
         'lightswitch_percent': ui['light_switch_detect'],
         'event_gap': int(ui['event_gap']),
         'pre_capture': int(ui['pre_capture']),
