@@ -21,7 +21,7 @@ import gettext
 import locale
 import logging
 import os.path
-import pipes
+import shlex
 import sys
 
 import babel
@@ -91,7 +91,7 @@ def find_command(command):
         cmd = sys.executable + ' ' + cmd
         cmd = cmd.replace('-b', '')  # remove server-specific options
         cmd += ' %s ' % command
-        cmd += ' '.join([pipes.quote(arg) for arg in sys.argv[2:] if arg not in ['-b']])
+        cmd += ' '.join([shlex.quote(arg) for arg in sys.argv[2:] if arg not in ['-b']])
 
     return cmd
 
