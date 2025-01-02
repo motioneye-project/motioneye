@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-18 20:44+0000\n"
+"POT-Creation-Date: 2024-10-09 21:44+0000\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -294,11 +294,6 @@ msgstr "वास्तव में सभी अनियंत्रित �
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "कैमरा जोड़ें ..."
-
-#: motioneye/static/js/main.js:3555
-#, fuzzy
-msgid "bone"
-msgstr "बिलकुल ठीक"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 #, fuzzy
@@ -835,6 +830,10 @@ msgstr "सफेद संतुलन तापमान ऑटो"
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "ज़ूम बिल्कुल"
+
+#, fuzzy
+#~ msgid "bone"
+#~ msgstr "बिलकुल ठीक"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"
