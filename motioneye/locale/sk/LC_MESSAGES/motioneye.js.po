@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-18 20:44+0000\n"
+"POT-Creation-Date: 2024-10-09 21:44+0000\n"
 "PO-Revision-Date: 2023-10-07 08:11+0000\n"
 "Last-Translator: Milan Šalka <salka.milan@googlemail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/sk/>\n"
@@ -242,10 +242,6 @@ msgstr "Naozaj odstrániť všetky nezoskupené videá?"
 #: motioneye/static/js/main.js:3367
 msgid "aldonadi kameraon..."
 msgstr "pridať kameru..."
-
-#: motioneye/static/js/main.js:3555
-msgid "bone"
-msgstr "ok"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 msgid "Uzantnomo"
@@ -675,6 +671,9 @@ msgstr "Automatická teplota vyváženia bielej"
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
 msgstr "Absolútne priblíženie"
+
+#~ msgid "bone"
+#~ msgstr "ok"
 
 #~ msgid "plena ekrano kamerao"
 #~ msgstr "zapnúť/vypnúť kameru na celú obrazovku"

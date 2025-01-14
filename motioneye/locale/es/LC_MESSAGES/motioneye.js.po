@@ -5,20 +5,23 @@
 #
 # Tresillo <tresillo2017@gmail.com>, 2023.
 # gallegonovato <fran-carro@hotmail.es>, 2023.
+# Pablo Esteban Bondaz <pabloestebanbondaz@gmail.com>, 2024.
+# Covaga <covaga94@gmail.com>, 2024.
+# sagresbier <luis.duarte@web.de>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-18 20:44+0000\n"
-"PO-Revision-Date: 2023-12-11 21:32+0000\n"
-"Last-Translator: gallegonovato <fran-carro@hotmail.es>\n"
+"POT-Creation-Date: 2024-10-09 21:44+0000\n"
+"PO-Revision-Date: 2024-11-24 10:00+0000\n"
+"Last-Translator: sagresbier <luis.duarte@web.de>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.3-dev\n"
+"X-Generator: Weblate 5.9-dev\n"
 
 #: motioneye/static/js/main.js:608
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -186,9 +189,8 @@ msgid "Restaŭrigi Agordon"
 msgstr "Restaurar configuración"
 
 #: motioneye/static/js/main.js:2986
-#, fuzzy
 msgid "Restaŭriganta agordon ..."
-msgstr "Restaurando la configuración ..."
+msgstr "Se está restaurando la configuración ..."
 
 #: motioneye/static/js/main.js:2993
 #, fuzzy
@@ -210,9 +212,8 @@ msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "¡El acceso al servicio de carga fue exitoso!"
 
 #: motioneye/static/js/main.js:3117 motioneye/static/js/main.js:3120
-#, fuzzy
 msgid "Sciiga retpoŝto fiaskis:"
-msgstr "News Correo electrónico falló:"
+msgstr "La notificación por correo ha fallado:"
 
 #: motioneye/static/js/main.js:3136
 #, fuzzy
@@ -245,14 +246,12 @@ msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
 msgstr "¿Eliminar realmente todas las imágenes de \"%(group)s\"?"
 
 #: motioneye/static/js/main.js:3245
-#, fuzzy
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
 msgstr "¿Eliminar realmente todas las películas de \"%(group)s\"?"
 
 #: motioneye/static/js/main.js:3250
-#, fuzzy
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
-msgstr "¿Eliminar realmente todas las imágenes desagrupadas?"
+msgstr "¿Realmente desea eliminar todas las imágenes desagrupadas?"
 
 #: motioneye/static/js/main.js:3253
 #, fuzzy
@@ -264,17 +263,11 @@ msgstr "¿Eliminar realmente todas las películas desagrupadas?"
 msgid "aldonadi kameraon..."
 msgstr "agregar cámara ..."
 
-#: motioneye/static/js/main.js:3555
-msgid "bone"
-msgstr "ok"
-
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
-#, fuzzy
 msgid "Uzantnomo"
 msgstr "Nombre de usuario"
 
 #: motioneye/static/js/main.js:3597 motioneye/static/js/main.js:3896
-#, fuzzy
 msgid "Pasvorto"
 msgstr "Contraseña"
 
@@ -766,6 +759,9 @@ msgstr "Temperatura de balance de blancos automática"
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
 msgstr "Zoom absoluto"
+
+#~ msgid "bone"
+#~ msgstr "ok"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"

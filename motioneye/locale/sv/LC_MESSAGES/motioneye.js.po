@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-18 20:44+0000\n"
+"POT-Creation-Date: 2024-10-09 21:44+0000\n"
 "PO-Revision-Date: 2023-09-15 13:51+0000\n"
 "Last-Translator: Erik <erik1337.el@gmail.com>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/sv/>\n"
@@ -241,10 +241,6 @@ msgstr ""
 #: motioneye/static/js/main.js:3367
 msgid "aldonadi kameraon..."
 msgstr "Lägg till kamera ..."
-
-#: motioneye/static/js/main.js:3555
-msgid "bone"
-msgstr "okej"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 msgid "Uzantnomo"
@@ -674,3 +670,6 @@ msgstr ""
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
 msgstr ""
+
+#~ msgid "bone"
+#~ msgstr "okej"
