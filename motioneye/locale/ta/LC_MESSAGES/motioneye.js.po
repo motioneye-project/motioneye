@@ -243,7 +243,7 @@ msgstr "ஒரு கேமரா சேர்க்கவும் ..."
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 msgid "Uzantnomo"
-msgstr ""
+msgstr "பயனர்பெயர்"
 
 #: motioneye/static/js/main.js:3597 motioneye/static/js/main.js:3896
 msgid "Pasvorto"
