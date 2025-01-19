@@ -1737,7 +1737,7 @@ msgstr ""
 
 #: motioneye/utils/dtconv.py:136
 msgid "minuto"
-msgstr ""
+msgstr "நிமிடங்கள்"
 
 #: motioneye/utils/dtconv.py:139
 msgid "minutoj"
