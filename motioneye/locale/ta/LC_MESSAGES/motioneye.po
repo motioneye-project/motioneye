@@ -181,7 +181,7 @@ msgstr ""
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
 msgid "Pasvorto"
-msgstr ""
+msgstr "கடவுச்சொல்"
 
 #: motioneye/templates/main.html:183
 msgid "pasvorto de administranto"
