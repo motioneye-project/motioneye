@@ -8,13 +8,13 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-01-14 01:24+0000\n"
+"POT-Creation-Date: 2025-01-19 04:12+0000\n"
 "PO-Revision-Date: 2025-01-19 08:59+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/ta/>\n"
 "Language: ta\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=utf-8\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.10-dev\n"
@@ -121,9 +121,7 @@ msgid "Fiksi Kadrojn Vertikale"
 msgstr "பிரேம்களை செங்குத்தாக அமைத்தல்"
 
 #: motioneye/templates/main.html:140
-msgid ""
-"kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la "
-"fenestro aŭ ne"
+msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
 msgstr "சாளரத்திற்கு செங்குத்தாக பொருந்துமா இல்லையா என்பதை பிரேம் நேரங்களைக் குறைக்க முடியுமா என்று சரிபார்க்கவும்"
 
 #: motioneye/templates/main.html:143
@@ -139,9 +137,7 @@ msgid "kadro-variatoro"
 msgstr "பிரேம் மாறுபாடு"
 
 #: motioneye/templates/main.html:150
-msgid ""
-"reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne "
-"funkcias kun simplaj MJPEG-fotiloj)"
+msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
 msgstr "நிகழ்நிலை பரந்த இசைக்குழு மற்றும் போக்குவரத்தை சேமிக்க பிரேம் வீதத்தைக் குறைக்கிறது (எளிய MJPEG கேமராக்களுடன் வேலை செய்யவில்லை)"
 
 #: motioneye/templates/main.html:153
@@ -149,9 +145,7 @@ msgid "Rezolucio-variatoro"
 msgstr "தெளிவுத்திறன் வகை"
 
 #: motioneye/templates/main.html:155
-msgid ""
-"reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan "
-"bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
+msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
 msgstr "நிகழ்நிலை பரந்த இசைக்குழு மற்றும் போக்குவரத்தை சேமிக்க அனைத்து கேமராக்களின் உண்மையான தீர்மானத்தையும் குறைக்கிறது (எளிய MJPEG கேமராக்களில் வேலை செய்யவில்லை)"
 
 #: motioneye/templates/main.html:161
@@ -196,9 +190,7 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "கண்காணிப்புக்கு பயன்படுத்த பயனர்பெயர்"
 
 #: motioneye/templates/main.html:193
-msgid ""
-"la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen "
-"pasvorto)"
+msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
 msgstr "கண்காணிப்பு பயனரின் கடவுச்சொல் (கடவுச்சொல் இல்லாமல் கண்காணிக்க வெள்ளை விடுங்கள்)"
 
 #: motioneye/templates/main.html:202
@@ -295,9 +287,7 @@ msgid "Kamerao aparato"
 msgstr "கேமரா சாதனம்"
 
 #: motioneye/templates/main.html:283
-msgid ""
-"Eniga aparato (ekz. : /dev/video) or URL (ekz. : "
-"rtsp://192.168.1.1/stream)"
+msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
 msgstr "ரிகா கருவி (எ.கா.:/dev/video) அல்லது ஏர்ல் (எ.கா."
 
 #: motioneye/templates/main.html:286
@@ -309,9 +299,7 @@ msgid "Aŭtomata Brilo"
 msgstr "தானியங்கி ஒளி"
 
 #: motioneye/templates/main.html:295
-msgid ""
-"ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen "
-"aŭtomata brilo)"
+msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
 msgstr "தானியங்கி மென்பொருள் பிரகாசத்தை இயக்குகிறது (தானியங்கி ஒளி இல்லாமல் கேமராக்களுக்கு மட்டுமே பரிந்துரைக்கப்படுகிறது)"
 
 #: motioneye/templates/main.html:301
@@ -319,9 +307,7 @@ msgid "Video-rezolucio"
 msgstr "வீடியோ தீர்மானம்"
 
 #: motioneye/templates/main.html:306
-msgid ""
-"la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed"
-" postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
+msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
 msgstr "வீடியோ தீர்மானம் (பெரிய மதிப்புகள் சிறந்த தரத்தை உருவாக்குகின்றன, ஆனால் அதிக சிபியு ஆற்றல், பெரிய சேமிப்பு மற்றும் அலைவரிசை தேவை)"
 
 #: motioneye/templates/main.html:309
@@ -345,9 +331,7 @@ msgid "Video-Rotacio"
 msgstr "வீடியோ சுழற்சி"
 
 #: motioneye/templates/main.html:328
-msgid ""
-"uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas "
-"poziciigita ĝuste"
+msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
 msgstr "உங்கள் கேமரா சரியாக நிலைநிறுத்தப்படாவிட்டால் கைப்பற்றப்பட்ட படத்தைத் திருப்ப இதைப் பயன்படுத்தவும்"
 
 #: motioneye/templates/main.html:331
@@ -355,10 +339,7 @@ msgid "Kadrofrekvenco"
 msgstr "கேட்ரோஃப்ரெக்வென்சிங்"
 
 #: motioneye/templates/main.html:333
-msgid ""
-"agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli "
-"altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-"
-"potenco, pli grandan stokadon kaj larĝan bandon)"
+msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
 msgstr "ஒவ்வொரு நொடியும் கேமராவால் கைப்பற்றப்பட்ட பிரேம்களின் எண்ணிக்கை (அதிக மதிப்புகள் மென்மையான வீடியோக்களை உருவாக்குகின்றன, ஆனால் அதிக சிபியு ஆற்றல், பெரிய சேமிப்பு மற்றும் பரந்த இசைக்குழு தேவைப்படுகிறது)"
 
 #: motioneye/templates/main.html:339
@@ -366,9 +347,7 @@ msgid "Privateca masko"
 msgstr "தனியுரிமை முகமூடி"
 
 #: motioneye/templates/main.html:341
-msgid ""
-"ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj "
-"por protekti privatecon"
+msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
 msgstr "தனியுரிமையைப் பாதுகாக்க எந்த படப் பகுதிகளையும் பதிவு செய்வதைத் தவிர்க்க படங்களை முகமூடி அணிந்துகொள்வது"
 
 #: motioneye/templates/main.html:346 motioneye/templates/main.html:1007
@@ -388,9 +367,7 @@ msgid "Ekstraj Elektoj"
 msgstr "கூடுதல் தேர்வுகள்"
 
 #: motioneye/templates/main.html:363
-msgid ""
-"vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono "
-"(uzu la «nomo valoro» formaton, unu opcion por linio)"
+msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
 msgstr "\"மோசன்\" அரக்கனுக்கு கூடுதல் விருப்பங்களை இங்கே சேர்க்கலாம் (\"பெயர் மதிப்பு\" வடிவமைப்பைப் பயன்படுத்தவும், ஒரு வரிக்கு ஒரு விருப்பம்)"
 
 #: motioneye/templates/main.html:372
@@ -406,9 +383,7 @@ msgid "Stokada Aparato"
 msgstr "சேமிப்பக சாதனம்"
 
 #: motioneye/templates/main.html:383
-msgid ""
-"indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos "
-"konservitaj"
+msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
 msgstr "படம் மற்றும் வீடியோ கோப்புகள் சேமிக்கப்படும் சேமிப்பக சாதனத்தைக் குறிக்கிறது"
 
 #: motioneye/templates/main.html:386
@@ -424,9 +399,7 @@ msgid "SMB Protokolo-Versio"
 msgstr "SMB நெறிமுறை பதிப்பு"
 
 #: motioneye/templates/main.html:401
-msgid ""
-"elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj "
-"vidu, kiu funkcias plej bone kun via NAS)"
+msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
 msgstr "நீங்கள் பயன்படுத்தக்கூடிய SMB பதிப்பைத் தேர்ந்தெடுக்கவும் (வெவ்வேறு விருப்பங்களைச் சோதித்து, உங்கள் NAS உடன் எது சிறப்பாக செயல்படுகிறது என்பதைப் பாருங்கள்)"
 
 #: motioneye/templates/main.html:404
@@ -442,9 +415,7 @@ msgid "Uzantnomo"
 msgstr "பயனர்பெயர்"
 
 #: motioneye/templates/main.html:411
-msgid ""
-"la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu "
-"malplena se neniu uzantnomo estas bezonata)"
+msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
 msgstr "நீங்கள் பிணையம் கோப்பகத்தை அணுகும்போது வழங்கப்படும் பயனர்பெயர் (பயனர்பெயர் தேவையில்லை என்றால் காலியாக விடவும்)"
 
 #: motioneye/templates/main.html:414
@@ -452,9 +423,7 @@ msgid "Pasvorton"
 msgstr "கடவுச்சொல்"
 
 #: motioneye/templates/main.html:416
-msgid ""
-"la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu "
-"pasvorto estas bezonata)"
+msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
 msgstr "பிணைய கோப்பகத்திற்கு தேவையான கடவுச்சொல் (கடவுச்சொல் தேவையில்லை என்றால் காலியாக விடவும்)"
 
 #: motioneye/templates/main.html:419
@@ -462,9 +431,7 @@ msgid "Radika dosierujo"
 msgstr "ரூட் அடைவு"
 
 #: motioneye/templates/main.html:421
-msgid ""
-"la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos "
-"konservitaj"
+msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
 msgstr "கோப்புகள் சேமிக்கப்படும் ரூட் பாதை (தேர்ந்தெடுக்கப்பட்ட சேமிப்பக சாதனத்தில்)"
 
 #: motioneye/templates/main.html:425
@@ -472,9 +439,7 @@ msgid "Testi la reton dosierujon"
 msgstr "பிணைய கோப்புறையை சோதிக்கவும்"
 
 #: motioneye/templates/main.html:426
-msgid ""
-"alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis"
-" la postulatajn detalojn"
+msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
 msgstr "தேவையான விவரங்களை நீங்கள் நிரப்பிய பிறகு நிகழ்நிலை கோ -செயல்பாட்டை சோதிக்க இந்த பொத்தானைக் சொடுக்கு செய்க"
 
 #: motioneye/templates/main.html:432
@@ -490,9 +455,7 @@ msgid "Alŝutu Mediajn Dosierojn"
 msgstr "சுற்றுச்சூழல் கோப்புகளைப் பதிவேற்றவும்"
 
 #: motioneye/templates/main.html:444
-msgid ""
-"aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu "
-"alŝutitaj al ekstera servo"
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
 msgstr "உங்கள் மீடியா வெளிப்புற சேவையில் பதிவேற்றப்பட வேண்டும் என்று நீங்கள் விரும்பினால் இந்த விருப்பத்தை செயல்படுத்தவும்"
 
 #: motioneye/templates/main.html:447
@@ -500,9 +463,7 @@ msgid "Alŝutu Bildojn"
 msgstr "படங்களை பதிவேற்றவும்"
 
 #: motioneye/templates/main.html:449
-msgid ""
-"aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera "
-"servo"
+msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
 msgstr "படங்கள் வெளிப்புற சேவைக்கு பதிவிறக்கம் செய்ய விரும்பினால் இந்த விருப்பத்தை செயல்படுத்தவும்"
 
 #: motioneye/templates/main.html:452
@@ -542,9 +503,7 @@ msgid "Servila Adreso"
 msgstr "சேவையக முகவரி"
 
 #: motioneye/templates/main.html:476
-msgid ""
-"la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ "
-"192.168.1.3)"
+msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
 msgstr "சேவையகத்தின் டொமைன் பெயர் அல்லது ஐபி முகவரி (எ.கா. ftp.example.com அல்லது 192.168.1.3)"
 
 #: motioneye/templates/main.html:479
@@ -552,9 +511,7 @@ msgid "Servila haveno"
 msgstr "சேவையக துறைமுகம்"
 
 #: motioneye/templates/main.html:481
-msgid ""
-"la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por "
-"uzi la defaŭltan valoron)"
+msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
 msgstr "சேவையுடன் இணைக்க பயன்படுத்த வேண்டிய துறைமுகம் (இயல்புநிலை மதிப்பைப் பயன்படுத்த இந்த புலத்தை காலியாக விடவும்)"
 
 #: motioneye/templates/main.html:484
@@ -586,9 +543,7 @@ msgid "Loko"
 msgstr "லோகோ"
 
 #: motioneye/templates/main.html:503
-msgid ""
-"la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. "
-"/files/cam1/)"
+msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
 msgstr "மீடியா பதிவேற்றப்பட வேண்டிய இடம் (ரூட் பாதை) (எ.கா./கோப்புகள்/கேம் 1/)"
 
 #: motioneye/templates/main.html:506
@@ -596,9 +551,7 @@ msgid "Inkluzivi Subdosierujojn"
 msgstr "துணை அடைவுகளைச் சேர்க்கவும்"
 
 #: motioneye/templates/main.html:508
-msgid ""
-"Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, "
-"anstataŭ meti ilin rekte en la radikan lokon"
+msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
 msgstr "மல்டிமீடியா கோப்புகளை அவற்றின் துணை அடைவுகளுடன் பதிவிறக்கம் செய்ய இதைச் செயல்படுத்தவும், அவற்றை நேரடியாக ரூட் இருப்பிடத்திற்குள் வைப்பதற்குப் பதிலாக"
 
 #: motioneye/templates/main.html:511
@@ -606,10 +559,7 @@ msgid "Purigi la nubon"
 msgstr "மேகத்தை தூய்மை செய்ய"
 
 #: motioneye/templates/main.html:513
-msgid ""
-"ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo "
-"ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de "
-"persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
+msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
 msgstr "கோப்பு தீர்மானத்தின் உள்ளமைவுக்கு ஏற்ப உள்ளக ஊடகங்கள் நீக்கப்படும் போது மேகக்கட்டத்தில் பதிவேற்றப்பட்ட மீடியா கோப்புகளை நீக்க இதை இயக்கவும். தற்போது இந்த விருப்பம் GDRIV க்கு மட்டுமே கிடைக்கிறது."
 
 #: motioneye/templates/main.html:518
@@ -625,9 +575,7 @@ msgid "Rajtiga ŝlosilo"
 msgstr "அங்கீகார விசை"
 
 #: motioneye/templates/main.html:528
-msgid ""
-"la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur "
-"dum agordo)"
+msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr "பதிவேற்ற சேவையுடன் அங்கீகரிக்கப் பயன்படுத்தப்படும் விசை (பொதுவாக உள்ளமைவின் போது மட்டுமே தேவைப்படுகிறது)"
 
 #: motioneye/templates/main.html:534
@@ -651,9 +599,7 @@ msgid "Sekreta Alira Ŝlosilo"
 msgstr "ரகசிய அணுகல் விசை"
 
 #: motioneye/templates/main.html:547
-msgid ""
-"la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo "
-"(kutime bezonata nur dum agordo)"
+msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr "பதிவேற்ற சேவையுடன் அங்கீகரிக்கப் பயன்படுத்தப்படும் AWS ரகசிய அணுகல் விசை (பொதுவாக உள்ளமைவின் போது மட்டுமே தேவைப்படுகிறது)"
 
 #: motioneye/templates/main.html:550
@@ -669,9 +615,7 @@ msgid "Testi la servon"
 msgstr "சேவையை சோதிக்கவும்"
 
 #: motioneye/templates/main.html:557
-msgid ""
-"alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis"
-" la postulatajn detalojn"
+msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
 msgstr "தேவையான விவரங்களை நீங்கள் நிரப்பிய பிறகு பதிவேற்ற சேவையைச் சோதிக்க இந்த பொத்தானைக் சொடுக்கு செய்க"
 
 #: motioneye/templates/main.html:563
@@ -679,9 +623,7 @@ msgid "alvoki URL"
 msgstr "முகவரி ஐ அழைக்கவும்"
 
 #: motioneye/templates/main.html:565
-msgid ""
-"ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de "
-"amaskomunikila dosiero"
+msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "மீடியா கோப்பை உருவாக்கிய பிறகு முகவரி ஐ கோர விரும்பினால் இதை இயக்கவும்"
 
 #: motioneye/templates/main.html:568 motioneye/templates/main.html:1136
@@ -695,11 +637,7 @@ msgstr "எ.கா. http://example.com/notify/"
 
 #: motioneye/templates/main.html:570
 #, python-format
-msgid ""
-"URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj "
-"ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = "
-"horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento "
-"numero,%%f = dosiera vojo"
+msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
 msgstr "இயக்கம் கண்டறியப்படும்போது மாற்ற URL; பின்வரும் சிறப்பு குறுக்குவழிகள் ஏற்றுக்கொள்ளப்படுகின்றன: %% ஒய் = ஆண்டு, %% m = மாதம், %%d = நாள், %% H = மணிநேரம், %% m = மணித்துளி, %% S = இரண்டாவது, %% Q = பிரேம் எண், %% v = நிகழ்வு எண், %% f = கோப்பு வழி"
 
 #: motioneye/templates/main.html:573 motioneye/templates/main.html:1141
@@ -708,9 +646,7 @@ msgid "Metodo HTTP"
 msgstr "மெட்டோடோ http"
 
 #: motioneye/templates/main.html:582
-msgid ""
-"la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-"
-"koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
+msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
 msgstr "நிகழ்நிலை ஊக்-யுஆர்எல்-க்கு நீங்கள் விண்ணப்பிக்கும்போது பயன்படுத்த HTTP முறை (கொடுக்கப்பட்ட முகவரி குறியிடப்பட்ட அளவுருக்கள் உண்மையில் இங்கே சுட்டிக்காட்டப்பட்டுள்ளபடி வழங்கப்படும்)"
 
 #: motioneye/templates/main.html:588
@@ -718,9 +654,7 @@ msgid "Kuri Komando"
 msgstr "கச்கொட்டை கட்டளை"
 
 #: motioneye/templates/main.html:590
-msgid ""
-"ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero "
-"estas kreita"
+msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
 msgstr "சுற்றுச்சூழல் கோப்பு உருவாக்கப்பட்ட பிறகு நீங்கள் ஒரு கட்டளையை இயக்க விரும்பினால் இதை இயக்கவும்"
 
 #: motioneye/templates/main.html:593
@@ -733,12 +667,7 @@ msgstr "ஒழுங்கு …"
 
 #: motioneye/templates/main.html:595
 #, python-format
-msgid ""
-"Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj "
-"komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en "
-"komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m"
-" = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = "
-"kadra numero , %%v = okaza numero, %%f = dosiera vojo"
+msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
 msgstr "மல்டிமீடியா கோப்பை உருவாக்கிய பிறகு நிறைவு செய்ய கட்டளை. பல கட்டளைகளை ஒரு புள்ளி பெயரால் பிரிக்கலாம்; ஒரு புள்ளி பெயரை கட்டளைகளில் பயன்படுத்த வேண்டாம்; பின்வரும் சிறப்பு டோக்கன்கள் ஏற்றுக்கொள்ளப்படுகின்றன: %% ஒய் = ஆண்டு, %% m = மாதம், %%d = நாள், %% H = மணிநேரம், %% m = மணித்துளி, %% S = இரண்டாவது, %% Q = பிரேம் எண், %% V = அவ்வப்போது எண், %% f = கோப்பு வழி"
 
 #: motioneye/templates/main.html:605
@@ -767,9 +696,7 @@ msgid "Malebligita"
 msgstr "முடக்கப்பட்டது"
 
 #: motioneye/templates/main.html:620
-msgid ""
-"Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra "
-"maldekstra angulo"
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
 msgstr "திரைப்படங்கள் மற்றும் படங்களில் காட்டப்பட்டுள்ள உரையை கீழ் இடது மூலையில் அமைக்கவும்"
 
 #: motioneye/templates/main.html:624 motioneye/templates/main.html:641
@@ -778,11 +705,7 @@ msgstr "தனிப்பயன் உரை …"
 
 #: motioneye/templates/main.html:625
 #, python-format
-msgid ""
-"Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas "
-"akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S"
-" = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = "
-"nova linio"
+msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "தனிப்பயன் இடது உரையை வரையறுக்கிறது; பின்வரும் சிறப்பு டோக்கன்கள் ஏற்றுக்கொள்ளப்படுகின்றன: %% ஒய் = ஆண்டு, %% m = மாதம், %%d = நாள், %% H = மணிநேரம், %% m = மணித்துளி, %% S = இரண்டாவது, %% Q = பிரேம் எண், %% V = நிகழ்வு எண், %% T = HH: MM: SS, \\ n = புதிய வரி"
 
 #: motioneye/templates/main.html:628
@@ -790,18 +713,12 @@ msgid "Dekstra Teksto"
 msgstr "சரியான உரை"
 
 #: motioneye/templates/main.html:637
-msgid ""
-"Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra "
-"dekstra angulo"
+msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
 msgstr "திரைப்படங்கள் மற்றும் படங்களில் காட்டப்பட்டுள்ள உரையை கீழ் வலது மூலையில் அமைக்கவும்"
 
 #: motioneye/templates/main.html:642
 #, python-format
-msgid ""
-"Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas "
-"akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S"
-" = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = "
-"nova linio"
+msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
 msgstr "தனிப்பயன் சரியான உரையை வரையறுக்கிறது; பின்வரும் சிறப்பு டோக்கன்கள் ஏற்றுக்கொள்ளப்படுகின்றன: %% ஒய் = ஆண்டு, %% m = மாதம், %%d = நாள், %% H = மணிநேரம், %% m = மணித்துளி, %% S = இரண்டாவது, %% Q = பிரேம் எண், %% V = நிகழ்வு எண், %% T = HH: MM: SS, \\ n = புதிய வரி"
 
 #: motioneye/templates/main.html:645
@@ -833,9 +750,7 @@ msgid "Flua Kvalito"
 msgstr "சரளமான தகுதி"
 
 #: motioneye/templates/main.html:670
-msgid ""
-"Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan "
-"videokvaliton sed postulas pli da larĝa bando)."
+msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
 msgstr "சுங்க நேரடி ஓட்ட தகுதி (அதிக மதிப்புகள் சிறந்த வீடியோ தரத்தை உருவாக்குகின்றன, ஆனால் அதிக பிராட்பேண்ட் தேவைப்படுகிறது)."
 
 #: motioneye/templates/main.html:673
@@ -843,10 +758,7 @@ msgid "Bilda Redimensionado"
 msgstr "பில்டா மறுவடிவமைப்பு"
 
 #: motioneye/templates/main.html:675
-msgid ""
-"Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili "
-"estas senditaj al la retumilo (malebligu dum funkciado sur malrapida "
-"CPU)."
+msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
 msgstr "இது இயக்கப்படும் போது, படங்கள் உலாவிக்கு அனுப்பப்படுவதற்கு முன்பு அவை மறுஅளவிடப்படுகின்றன (மெதுவான சிபியு இல் இயங்கும் போது தடுக்கவும்)."
 
 #: motioneye/templates/main.html:678
@@ -854,10 +766,7 @@ msgid "Flua rezolucio"
 msgstr "சரளமான தீர்மானம்"
 
 #: motioneye/templates/main.html:680
-msgid ""
-"la rezolucio donita kiel procento de la rezolucio de la video-aparato "
-"(pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli "
-"da larĝa de bando)"
+msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
 msgstr "வீடியோ சாதனத்தின் தீர்மானத்தின் சதவீதமாக வழங்கப்பட்ட தீர்மானம் (அதிக மதிப்புகள் சிறந்த வீடியோ தரத்தை உருவாக்குகின்றன, ஆனால் அதிக அலைவரிசை தேவைப்படுகிறது)"
 
 #: motioneye/templates/main.html:683
@@ -873,10 +782,7 @@ msgid "Aŭtentiga reĝimo"
 msgstr "அங்கீகார முறை"
 
 #: motioneye/templates/main.html:696
-msgid ""
-"la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ "
-"'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj "
-"kontroloj estos uzataj"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
 msgstr "ச்ட்ரீம் பயன்படுத்தும் அங்கீகார முறை (மூன்றாவது -பார்ட்டி நிரல்களில் சிக்கல்களை எதிர்கொண்டால் 'டைசச்ட்' என்பதற்கு பதிலாக 'பாசிக்' என்பதைத் தேர்ந்தெடுக்கவும்); அங்கீகாரக் கட்டுப்பாடுகள் பயன்படுத்தப்படும்"
 
 #: motioneye/templates/main.html:699
@@ -884,9 +790,7 @@ msgid "Movado-Optimigo"
 msgstr "இயக்கம் தேர்வுமுறை"
 
 #: motioneye/templates/main.html:701
-msgid ""
-"ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera "
-"fluo kiam neniu movo estas detektita"
+msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
 msgstr "எந்த நகர்வும் கண்டறியப்படாதபோது விநியோக ஓட்டத்திற்கு குறைந்த பிரேம் வீதத்தை நீங்கள் விரும்பினால் இதை இயக்கவும்"
 
 #: motioneye/templates/main.html:707
@@ -914,9 +818,7 @@ msgid "Enigita URL"
 msgstr "உட்பொதிக்கப்பட்ட முகவரி"
 
 #: motioneye/templates/main.html:731
-msgid ""
-"URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron,"
-" preta por esti enigita"
+msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
 msgstr "கேமரா கட்டமைப்பைக் கொண்ட குறைந்தபட்ச உஉகுமொ ஆவணத்தை வழங்கும் முகவரி, உட்பொதிக்க தயாராக உள்ளது"
 
 #: motioneye/templates/main.html:741
@@ -937,11 +839,7 @@ msgstr "கோப்பு பெயர் வார்ப்புரு …"
 
 #: motioneye/templates/main.html:749
 #, python-format
-msgid ""
-"Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj "
-"tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = "
-"horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, /"
-" = subdosierujo."
+msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "படக் கோப்புகளுக்கான பெயர் வார்ப்புருவை வரையறுக்கிறது (JPEG); பின்வரும் சிறப்பு டோக்கன்கள் ஏற்றுக்கொள்ளப்படுகின்றன: %% ஒய் = ஆண்டு, %% m = மாதம், %%d = நாள், %% H = மணிநேரம், %% m = மணித்துளி, %% S = இரண்டாவது, %% Q = பிரேம் எண், %% V = நிகழ்வு எண், / = துணை அடைவு."
 
 #: motioneye/templates/main.html:752
@@ -949,9 +847,7 @@ msgid "Bildkvalito"
 msgstr "பட தகுதி"
 
 #: motioneye/templates/main.html:754
-msgid ""
-"agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan "
-"bildan kvaliton sed postulas pli da stokado)"
+msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
 msgstr "சுங்க JPEG பண தகுதி (அதிக மதிப்புகள் சிறந்த பட தரத்தை உருவாக்குகின்றன, ஆனால் அதிக சேமிப்பு தேவை)"
 
 #: motioneye/templates/main.html:757
@@ -1041,9 +937,7 @@ msgid "Propra"
 msgstr "சொந்தமானது"
 
 #: motioneye/templates/main.html:790
-msgid ""
-"Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por "
-"liberigi stokadan spacon."
+msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
 msgstr "சேமிப்பக இடத்தை வெளியிடுவதற்கு வரையறுக்கப்பட்ட காலத்தை விட பழைய படங்கள் தானாக அகற்றப்படும்."
 
 #: motioneye/templates/main.html:793
@@ -1059,9 +953,7 @@ msgid "Ebligu manaj kaptoj"
 msgstr "கையேடு பிடிப்புகளை இயக்கவும்"
 
 #: motioneye/templates/main.html:800
-msgid ""
-"Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi "
-"permane preni kaptojn."
+msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
 msgstr "இது இயக்கப்படும் போது, கேமரா சட்டகத்தின் ஒரு பொத்தானை கைமுறையாக கைப்பற்ற அனுமதிக்கும்."
 
 #: motioneye/templates/main.html:810
@@ -1078,11 +970,7 @@ msgstr "திரைப்பட கோப்பு பெயர்"
 
 #: motioneye/templates/main.html:818
 #, python-format
-msgid ""
-"Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj "
-"tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = "
-"horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, /"
-" = subdosierujo."
+msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
 msgstr "மூவி கோப்புகளுக்கான பெயர் வார்ப்புருவை வரையறுக்கிறது; பின்வரும் சிறப்பு டோக்கன்கள் ஏற்றுக்கொள்ளப்படுகின்றன: %% ஒய் = ஆண்டு, %% m = மாதம், %%d = நாள், %% H = மணிநேரம், %% m = மணித்துளி, %% S = இரண்டாவது, %% Q = பிரேம் எண், %% V = நிகழ்வு எண், / = துணை அடைவு."
 
 #: motioneye/templates/main.html:821
@@ -1090,11 +978,7 @@ msgid "Rekta kopia filmeto"
 msgstr "நேரடி நகல் வீடியோ"
 
 #: motioneye/templates/main.html:823
-msgid ""
-"Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon "
-"sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do "
-"tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta "
-"video."
+msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
 msgstr "கேமராவிலிருந்து நேரடியாக திரைப்படங்களை உருவாக்கவும். இந்த விருப்பம் சிபியு பயன்பாட்டைக் குறைக்க வேண்டும், ஆனால் நினைவக தேவைகளை அதிகரிக்க வேண்டும். பட செயலாக்கம் எதுவும் செய்யப்படவில்லை, எனவே நூல்கள் ஒன்றுடன் ஒன்று, தனியுரிமை முகமூடிகள் போன்றவை. இதன் விளைவாக வரும் வீடியோவில் இருக்காது."
 
 #: motioneye/templates/main.html:826
@@ -1102,10 +986,7 @@ msgid "Filmformato"
 msgstr "திரைப்பட வடிவம்"
 
 #: motioneye/templates/main.html:869
-msgid ""
-"Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj "
-"sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone"
-" funkcias per via filmetilo."
+msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
 msgstr "படக் கோப்பை அமைக்கவும்; எல்லா அமைப்புகளிலும் வேலை செய்வதற்கு எல்லா வடிவங்களும் பொறுப்பு அளிக்காது; நீங்கள் சந்தேகித்தால், ஒவ்வொரு வடிவமைப்பையும் சோதித்து, உங்கள் வீடியோவுடன் சிறப்பாக செயல்படும் ஒன்றைத் தேர்ந்தெடுக்கவும்."
 
 #: motioneye/templates/main.html:872
@@ -1113,9 +994,7 @@ msgid "Filma Kvalito"
 msgstr "திரைப்பட தகுதி"
 
 #: motioneye/templates/main.html:874
-msgid ""
-"Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan "
-"videokvaliton sed postulas pli da stokado)."
+msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
 msgstr "சுங்க MPEG வீடியோ தகுதி (அதிக மதிப்புகள் சிறந்த வீடியோ தரத்தை உருவாக்குகின்றன, ஆனால் அதிக சேமிப்பு தேவைப்படுகிறது)."
 
 #: motioneye/templates/main.html:877
@@ -1127,9 +1006,7 @@ msgid "Kontinua registrado"
 msgstr "தொடர்ச்சியான பதிவு"
 
 #: motioneye/templates/main.html:884
-msgid ""
-"Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn"
-" moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
+msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
 msgstr "பதிவு பயன்முறையைத் தனிப்பயனாக்குகிறது: இயக்கம் தூண்டுதல் = இயக்கம் கண்டறியப்படும்போதெல்லாம் உருவாக்கப்பட்ட புதிய திரைப்படம், தொடர்ச்சியான பதிவு = ஒரு பெரிய திரைப்பட கோப்பு."
 
 #: motioneye/templates/main.html:887
@@ -1137,9 +1014,7 @@ msgid "Maksimuma filma daŭro"
 msgstr "அதிகபட்ச திரைப்பட காலம்"
 
 #: motioneye/templates/main.html:889
-msgid ""
-"Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento "
-"daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
+msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
 msgstr "திரைப்படங்களின் அதிகபட்ச நீளத்தை நொடிகளில் அமைக்கிறது; இயக்கம் நிகழ்வு நீண்ட காலம் நீடித்தால், ஒரு புதிய படக் கோப்பு உருவாக்கப்படுகிறது; வரம்பற்ற நீளத்திற்கு 0 ஐப் பயன்படுத்தவும்."
 
 #: motioneye/templates/main.html:892
@@ -1147,9 +1022,7 @@ msgid "Konservi filmojn"
 msgstr "திரைப்படங்களை வைத்திருக்க"
 
 #: motioneye/templates/main.html:903
-msgid ""
-"Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por "
-"liberigi stokadon."
+msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
 msgstr "வரையறுக்கப்பட்ட காலத்தை விட பழைய படங்கள் சேமிப்பகத்தை வெளியிட தானாகவே அகற்றப்படும்."
 
 #: motioneye/templates/main.html:906
@@ -1177,10 +1050,7 @@ msgid "Kadra ŝanĝo sojlo"
 msgstr "பிரேம் மாற்ற வாசல்"
 
 #: motioneye/templates/main.html:926
-msgid ""
-"Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du "
-"pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli "
-"sentivan detekton, sed inklinas al falsaj pozitivoj)."
+msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
 msgstr "படத்தின் குறைந்தபட்ச சதவீதத்தைக் குறிக்கிறது, இது இயக்கத்தைக் கண்டறிய மேலும் இரண்டு பிரேம்களுக்கு இடையில் மாற வேண்டும் (சிறிய மதிப்புகள் அதிக உணர்திறன் கண்டறிதலைக் கொடுக்கும், ஆனால் தவறான நேர்மறைகளுக்கு முனைகின்றன)."
 
 #: motioneye/templates/main.html:929
@@ -1188,9 +1058,7 @@ msgid "Maksimuma ŝanĝo sojlo"
 msgstr "அதிகபட்ச மாற்ற வாசல்"
 
 #: motioneye/templates/main.html:931
-msgid ""
-"Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo "
-"ne plu ekigas (0 malŝaltas la limon)."
+msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
 msgstr "பிரேம்களுக்கு இடையில் மாற்றப்பட்ட பிக்சல்களின் எண்ணிக்கையை அமைக்கிறது, இதன் மீது நகரும் இனி தூண்டாது (0 வரம்பை அணைக்கிறது)."
 
 #: motioneye/templates/main.html:934
@@ -1223,10 +1091,7 @@ msgstr "ஒளி மாற்றங்களைக் கண்டறிதல�
 
 #: motioneye/templates/main.html:951
 #, python-format
-msgid ""
-"Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento "
-"estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la "
-"funkcion)."
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
 msgstr "மாற்ற வேண்டிய படத்தின் சதவீதத்தை வரையறுக்கிறது, இதனால் நிகழ்வு இயக்கத்திற்கு பதிலாக திடீர் ஒளி மாற்றமாக கருதப்படுகிறது (0 %% செயல்பாட்டைத் தடுக்கிறது)."
 
 #: motioneye/templates/main.html:954
@@ -1242,9 +1107,7 @@ msgid "Senmovada daŭro"
 msgstr "அசையாத காலம்"
 
 #: motioneye/templates/main.html:964
-msgid ""
-"Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj "
-"markas la finon de movada okazaĵo."
+msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
 msgstr "ஒரு இயக்க நிகழ்வின் முடிவைக் குறிக்கும் ம silence னத்தின் எண்ணிக்கையை (அதாவது இயக்கம் இல்லை) அமைக்கவும்."
 
 #: motioneye/templates/main.html:967
@@ -1257,9 +1120,7 @@ msgid "kadroj"
 msgstr "பிரேம்கள்"
 
 #: motioneye/templates/main.html:969
-msgid ""
-"Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) "
-"antaŭ ol moviĝokazaĵo estas detektita."
+msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
 msgstr "ஒரு இயக்க நிகழ்வு கண்டறியப்படுவதற்கு முன்பு கைப்பற்றப்பட்ட பிரேம்களின் எண்ணிக்கையை (மற்றும் படத்தில் சேர்க்கப்பட்டுள்ளது) அமைக்கிறது."
 
 #: motioneye/templates/main.html:972
@@ -1267,9 +1128,7 @@ msgid "Kaptita Post"
 msgstr "பின்னர் பிடிபட்டது"
 
 #: motioneye/templates/main.html:974
-msgid ""
-"Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) "
-"post la fino de movada evento."
+msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
 msgstr "ஒரு இயக்கம் நிகழ்வின் முடிவிற்குப் பிறகு கைப்பற்றப்பட வேண்டிய பிரேம்களின் எண்ணிக்கையை அமைக்கிறது (மற்றும் படத்தில் சேர்க்கப்பட்டுள்ளது)."
 
 #: motioneye/templates/main.html:977
@@ -1277,9 +1136,7 @@ msgid "Minimumaj movaj kadroj"
 msgstr "குறைந்தபட்ச நகரும் பிரேம்கள்"
 
 #: motioneye/templates/main.html:979
-msgid ""
-"Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci "
-"moviĝan eventon."
+msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
 msgstr "நகரும் நிகழ்வைத் தொடங்க தேவையான மேலும் நகரும் பிரேம்களின் குறைந்தபட்ச எண்ணிக்கையை அமைக்கிறது."
 
 #: motioneye/templates/main.html:985
@@ -1303,10 +1160,7 @@ msgid "Redaktebla"
 msgstr "திருத்தக்கூடிய"
 
 #: motioneye/templates/main.html:997
-msgid ""
-"La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj "
-"dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane "
-"konstrui ĝin mem."
+msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
 msgstr "அறிவுள்ள விருப்பம் தானாகவே வழக்கமான இயக்கத்தின் பிராந்தியங்களைக் கண்டறிந்து, உள் முகமூடியை மாறும் வகையில் உருவாக்குகிறது, அதே நேரத்தில் திருத்தக்கூடிய விருப்பம் அதை கைமுறையாக உருவாக்க உங்களை அனுமதிக்கிறது."
 
 #: motioneye/templates/main.html:1000
@@ -1314,9 +1168,7 @@ msgid "Inteligenta-maska Malrapideco"
 msgstr "ச்மார்ட்-மாச்க் மந்தநிலை"
 
 #: motioneye/templates/main.html:1002
-msgid ""
-"Pli altaj valoroj donas pli daŭran maskon kun pli malrapida "
-"konstruprocezo."
+msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr "அதிக மதிப்புகள் மெதுவான கட்டுமான செயல்முறையுடன் மிகவும் நீடித்த முகமூடியைக் கொடுக்கும்."
 
 #: motioneye/templates/main.html:1011
@@ -1336,10 +1188,7 @@ msgid "Montri Kadro-Ŝanĝojn"
 msgstr "சட்ட மாற்றங்களைக் காட்டு"
 
 #: motioneye/templates/main.html:1024
-msgid ""
-"Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la "
-"modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion "
-"por ĝustigi agordojn de moviĝo-detekto."
+msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
 msgstr "இது செயலில் இருந்தால், பட மாற்றங்கள் (பிக்சல்களின் எண்ணிக்கை மற்றும் மாற்றியமைக்கப்பட்ட பகுதி) வீடியோவில் காட்டப்பட்டுள்ளன; இயக்க கண்டறிதல் அமைப்புகளை சரிசெய்ய தற்காலிகமாக இதை இயக்கவும்."
 
 #: motioneye/templates/main.html:1027
@@ -1347,9 +1196,7 @@ msgid "Krei debug media files"
 msgstr "க்ரீ பிழைத்திருத்த மீடியா கோப்புகள்"
 
 #: motioneye/templates/main.html:1029
-msgid ""
-"Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi"
-" problemojn de moviĝo-detekto."
+msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
 msgstr "இயக்கப்பட்டால், இயக்க கண்டறிதல் சிக்கல்களை பிழைத்திருத்த உதவும் சிறப்பு திரைப்படங்கள் மற்றும் படங்களை உருவாக்குகிறது."
 
 #: motioneye/templates/main.html:1038
@@ -1365,9 +1212,7 @@ msgid "Sendi retpoŝton"
 msgstr "மின்னஞ்சல் அனுப்ப"
 
 #: motioneye/templates/main.html:1053
-msgid ""
-"Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam "
-"moviĝokazaĵo estas detektita."
+msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "ஒவ்வொரு முறையும் ஒரு இயக்க நிகழ்வு கண்டறியப்படும் போது நீங்கள் ஒரு மின்னஞ்சலைப் பெற விரும்பினால் இந்த விருப்பத்தை செயல்படுத்தவும்."
 
 #: motioneye/templates/main.html:1056
@@ -1379,9 +1224,7 @@ msgid "retpoŝtadresoj…"
 msgstr "மின்னஞ்சல் முகவரிகள் …"
 
 #: motioneye/templates/main.html:1058
-msgid ""
-"Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn "
-"kiam ajn moviĝokazaĵo estas detektita."
+msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
 msgstr "இங்கே சேர்க்கப்பட்ட மின்னஞ்சல் முகவரிகள் (கமாவால் பிரிக்கப்பட்டவை) ஒரு இயக்க நிகழ்வு கண்டறியப்படும்போதெல்லாம் அறிவிப்புகளைப் பெறும்."
 
 #: motioneye/templates/main.html:1061
@@ -1393,9 +1236,7 @@ msgid "ekz. smtp.gmail.com"
 msgstr "எ.கா. Smtp.gmail.com"
 
 #: motioneye/templates/main.html:1063
-msgid ""
-"Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail "
-"smtp.gmail.com)."
+msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
 msgstr "உங்கள் SMTP சேவையகத்தின் ஓச்ட்பெயர் அல்லது ஐபி முகவரியை உள்ளிடவும் (gmail smtp.gmail.com ஐப் பயன்படுத்துவதற்கு)."
 
 #: motioneye/templates/main.html:1066
@@ -1407,9 +1248,7 @@ msgid "ekz. 587"
 msgstr "எ.கா. 587"
 
 #: motioneye/templates/main.html:1068
-msgid ""
-"Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj "
-"kaj 587 por TLS-ligoj)."
+msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
 msgstr "உங்கள் SMTP சேவையகத்தால் பயன்படுத்தப்படும் போர்ட்டை உள்ளிடவும் (வழக்கமாக TLS அல்லாத இணைப்புகளுக்கு 465 மற்றும் TLS இணைப்புகளுக்கு 587)."
 
 #: motioneye/templates/main.html:1071
@@ -1429,9 +1268,7 @@ msgid "SMTP Pasvorto"
 msgstr "SMTP கடவுச்சொல்"
 
 #: motioneye/templates/main.html:1078
-msgid ""
-"Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-"
-"specifan generitan pasvorton)."
+msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
 msgstr "உங்கள் SMTP கடவுச்சொல்லை உள்ளிடவும் (Gmail க்கு உங்கள் Google கடவுச்சொல் அல்லது பயன்பாடு சார்ந்த உருவாக்கப்பட்ட கடவுச்சொல்லைப் பயன்படுத்தவும்)."
 
 #: motioneye/templates/main.html:1081
@@ -1443,9 +1280,7 @@ msgid "retpoŝta adreso…"
 msgstr "மின்னஞ்சல் முகவரி …"
 
 #: motioneye/templates/main.html:1083
-msgid ""
-"Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina"
-" retpoŝta adreso estos uzata se lasita malplena)."
+msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
 msgstr "உங்கள் SMTP சேவைக்கு ஒன்று தேவைப்பட்டால் முகவரியின் வழக்கத்தை உள்ளமைப்பது (காலியாக விட்டால் முதல் இலக்கு மின்னஞ்சல் முகவரி பயன்படுத்தப்படும்)."
 
 #: motioneye/templates/main.html:1086
@@ -1453,9 +1288,7 @@ msgid "Uzi TLS"
 msgstr "உசி டி.எல்.எச்"
 
 #: motioneye/templates/main.html:1088
-msgid ""
-"Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por "
-"ebligi)."
+msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
 msgstr "உங்கள் SMTP சேவையகத்திற்கு TLS தேவைப்பட்டால் இதை இயக்கவும் (Gmail ஐ இயக்க இது தேவை)."
 
 #: motioneye/templates/main.html:1091
@@ -1463,11 +1296,7 @@ msgid "Aldonitaj bildoj tempo-intervalo"
 msgstr "படங்கள் நேர வரம்பு சேர்க்கப்பட்டது"
 
 #: motioneye/templates/main.html:1093
-msgid ""
-"Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj "
-"ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de "
-"pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi"
-" ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
+msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "மின்னஞ்சல் இணைப்புகளை உருவாக்கும்போது பயன்படுத்த வேண்டிய நேர தேடல் வரம்பை வரையறுக்கிறது (அதிகரித்த தாமத அறிவிப்பின் இழப்பில் அதிக மதிப்புகள் அதிக படங்களுடன் மின்னஞ்சல்களை உருவாக்குகின்றன); சேர்க்கப்பட்ட படங்களைத் தடுக்க 0 என அமைக்கவும்; இது செயல்பட \"கைப்பற்றப்பட்ட படங்களை\" அங்கீகரிக்க வேண்டும்."
 
 #: motioneye/templates/main.html:1097
@@ -1475,9 +1304,7 @@ msgid "Testi retpoŝto"
 msgstr "மின்னஞ்சல் சோதனை"
 
 #: motioneye/templates/main.html:1098
-msgid ""
-"Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi "
-"plenigis la postulatajn detalojn."
+msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
 msgstr "தேவையான விவரங்களை நீங்கள் நிரப்பிய பிறகு மின்னஞ்சல் அறிவிப்புகளை சோதிக்க இந்த பொத்தானைக் சொடுக்கு செய்க."
 
 #: motioneye/templates/main.html:1104
@@ -1485,9 +1312,7 @@ msgid "Sendu Telegraman Sciigon"
 msgstr "தந்தி அறிவிப்பை அனுப்பவும்"
 
 #: motioneye/templates/main.html:1106
-msgid ""
-"ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento "
-"estas detektita"
+msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
 msgstr "ஒரு மோசன் நிகழ்வு கண்டறியப்படும்போதெல்லாம் நீங்கள் ஒரு தந்தி செய்தியைப் பெற விரும்பினால் இதை இயக்கவும்"
 
 #: motioneye/templates/main.html:1109
@@ -1499,12 +1324,7 @@ msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 msgstr "எடுத்துக்காட்டு: 93847672: AACDSN843HSJSH32BSMDN3SHSSH2BSH0XRS_32DBCR1W"
 
 #: motioneye/templates/main.html:1111
-msgid ""
-"Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas "
-"enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri "
-"kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita"
-" «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas "
-"mesaĝojn."
+msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
 msgstr "டெலிகிராம்-போட் அரட்டையை உருவாக்குவதன் மூலம், நீங்கள் இங்கே நுழைய வேண்டிய பநிஇ டோக்கன்களைப் பெறுவீர்கள். உங்கள் பநிஇ டோக்கன்களை எவ்வாறு பெறுவது என்பது குறித்த படிப்படியான வழிகாட்டிக்கு கீழே உள்ள பநிஇ பொத்தானைக் சொடுக்கு செய்க. உங்கள் திறவுகோல் உருவாக்கப்பட்ட பிறகு, நீங்கள் செய்திகளைப் பெறுவதை உறுதிசெய்ய, புதிதாக உருவாக்கப்பட்ட \"போட்\" உடன் அரட்டையடிக்கவும்."
 
 #: motioneye/templates/main.html:1114
@@ -1516,9 +1336,7 @@ msgid "Ekzemplo: 938272312"
 msgstr "எடுத்துக்காட்டு: 938272312"
 
 #: motioneye/templates/main.html:1116
-msgid ""
-"Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La "
-"babilejo redonos la necesan numeron por ĉi tiu kampo."
+msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
 msgstr "ID_CHATBOT (@ID_CHATBOT) க்கு புதிய அரட்டையை உருவாக்கி தொடக்கத்தைத் தேர்ந்தெடுக்கவும். அரட்டை இந்த புலத்திற்கு தேவையான எண்ணைத் தரும்."
 
 #: motioneye/templates/main.html:1119
@@ -1526,14 +1344,7 @@ msgid "Alkroĉitaj Bildoj Tempo"
 msgstr "இணைக்கப்பட்ட படங்கள் நேரம்"
 
 #: motioneye/templates/main.html:1121
-msgid ""
-"difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn "
-"(pli altaj valoroj generas pli da bildoj koste de pliigita sciiga "
-"prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ "
-"ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu "
-"numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi "
-"agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado "
-"ekigita, starigu ĉi tion multe pli malalte."
+msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
 msgstr "தந்தி சேர்த்தல்களை உருவாக்க பட தேடல் -நேர இடைவெளியை வரையறுக்கிறது (அதிகரித்த அறிவிப்பு தாமதத்தின் இழப்பில் அதிக மதிப்புகள் அதிக படங்களை உருவாக்குகின்றன); பட சேர்க்கைத் தடுக்க 0 என அமைக்கவும்; இது வேலை செய்ய நிலையான படங்களை நீங்கள் இயக்க வேண்டும்; ஒரு படம் அனுப்பப்படும் வரை நீங்கள் இந்த எண்ணுடன் விளையாட விரும்புவீர்கள். ஒரு பட இயக்கத்திற்கு நிலையான படங்களை அமைத்தால் ஒரு நல்ல தொடக்க எண் 30 ஆகும். தூண்டப்பட்ட ஒரு நிலையான இயக்கத்திற்கு, இதை மிகக் குறைவாக அமைக்கவும்."
 
 #: motioneye/templates/main.html:1124
@@ -1549,9 +1360,7 @@ msgid "Alvoki URL"
 msgstr "முகவரி ஐ அழைக்கவும்"
 
 #: motioneye/templates/main.html:1133
-msgid ""
-"Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo "
-"estas detektita."
+msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "ஒரு இயக்க நிகழ்வு கண்டறியப்படும்போதெல்லாம் ஒரு முகவரி கோரப்பட விரும்பினால் இதை இயக்கவும்."
 
 #: motioneye/templates/main.html:1137
@@ -1560,16 +1369,11 @@ msgstr "எ.கா. http://ekzemplo.com/sciigi/"
 
 #: motioneye/templates/main.html:1138
 #, python-format
-msgid ""
-"URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj "
-"ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = "
-"horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "இயக்கம் கண்டறியப்படும்போது முகவரி கோரப்பட வேண்டும்; பின்வரும் சிறப்பு குறுக்குவழிகள் ஏற்றுக்கொள்ளப்படுகின்றன: %% ஒய் = ஆண்டு, %% m = மாதம், %%d = நாள், %% H = மணிநேரம், %% m = மணித்துளி, %% S = இரண்டாவது, %% Q = பிரேம் எண், %% V = அவ்வப்போது எண்"
 
 #: motioneye/templates/main.html:1150 motioneye/templates/main.html:1195
-msgid ""
-"La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos"
-" transdonitaj kiel indikite ĉi tie)."
+msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "நீங்கள் முகவரி க்கு விண்ணப்பிக்கும்போது பயன்படுத்த வேண்டிய HTTP முறை (கொடுக்கப்பட்ட முகவரி அளவுருக்கள் இங்கே சுட்டிக்காட்டப்பட்டுள்ளபடி வழங்கப்படும்)."
 
 #: motioneye/templates/main.html:1156 motioneye/templates/main.html:1201
@@ -1577,9 +1381,7 @@ msgid "Lanĉi komando"
 msgstr "துவக்க கட்டளை"
 
 #: motioneye/templates/main.html:1158
-msgid ""
-"Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo "
-"estas detektita."
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "ஒவ்வொரு முறையும் ஒரு இயக்க நிகழ்வு கண்டறியப்படும் போது நீங்கள் ஒரு கட்டளையைத் தொடங்க விரும்பினால் இதை இயக்கவும்."
 
 #: motioneye/templates/main.html:1161 motioneye/templates/main.html:1206
@@ -1592,33 +1394,20 @@ msgstr "கட்டளை…"
 
 #: motioneye/templates/main.html:1163
 #, python-format
-msgid ""
-"Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj "
-"povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la"
-" sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, "
-"%%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, "
-"%%v = okaza numero"
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
 msgstr "இயக்கம் கண்டறியப்படும்போது தொடங்கப்பட வேண்டும்; பல கட்டளைகளை ஒரு பெருங்குடலால் பிரிக்கலாம்; கட்டளைகளுடன் அரைக்காற்புள்ளிகளைப் பயன்படுத்த வேண்டாம்; பின்வரும் சிறப்பு டோக்கன்கள் ஏற்றுக்கொள்ளப்படுகின்றன: %% ஒய் = ஆண்டு, %% m = மாதம், %%d = நாள், %% H = மணிநேரம், %% m = மணித்துளி, %% S = இரண்டாவது, %% Q = பிரேம் எண், %% V = அவ்வப்போது எண்"
 
 #: motioneye/templates/main.html:1203
-msgid ""
-"Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento "
-"finiĝos."
+msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "ஒவ்வொரு முறையும் ஒரு இயக்கம் நிகழ்வு முடிந்ததும் ஒரு கட்டளையைத் தொடங்க விரும்பினால் இதை இயக்கவும்."
 
 #: motioneye/templates/main.html:1208
 #, python-format
-msgid ""
-"Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj "
-"povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; "
-"la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, "
-"%%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
 msgstr "ஒரு மோசன் நிகழ்வு முடிவடையும் போது தொடங்கப்பட வேண்டும்; பல கட்டளைகளை ஒரு பெருங்குடலால் பிரிக்கலாம்; கட்டளைகளுடன் புள்ளி கலவைகளைப் பயன்படுத்த வேண்டாம்; பின்வரும் சிறப்பு டோக்கன்கள் ஏற்றுக்கொள்ளப்படுகின்றன: %% ஒய் = ஆண்டு, %% M = மாதம், %%d = தேதி, %% H = மணிநேரம், %% M = மணித்துளி, %% S = இரண்டாவது, %% Q = பிரேம் எண்."
 
 #: motioneye/templates/main.html:1218
-msgid ""
-"Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de "
-"moviĝo."
+msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "இயக்கக் கண்டறிதலுக்கான வாராந்திர அட்டவணையை வரையறுக்க விரும்பினால் இதை இயக்கவும்."
 
 #: motioneye/templates/main.html:1219
@@ -1702,9 +1491,7 @@ msgid "Ekster laborista horaro"
 msgstr "வேலை அட்டவணைக்கு வெளியே"
 
 #: motioneye/templates/main.html:1294
-msgid ""
-"Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista "
-"horaro."
+msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "வேலை அட்டவணையின் போது அல்லது வெளியே இயக்கக் கண்டறிதல் செயலில் இருக்க வேண்டுமா என்பதை வரையறுக்கிறது."
 
 #: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
