@@ -412,19 +412,19 @@ msgstr "ஒவ்வொன்றும் எடுக்கப்பட்ட �
 
 #: motioneye/static/js/main.js:4209
 msgid "sekundo"
-msgstr ""
+msgstr "ஒரு இரண்டாவது"
 
 #: motioneye/static/js/main.js:4210
 msgid "5 sekundoj"
-msgstr ""
+msgstr "5 விநாடிகள்"
 
 #: motioneye/static/js/main.js:4211
 msgid "10 sekundoj"
-msgstr ""
+msgstr "10 வினாடிகள்"
 
 #: motioneye/static/js/main.js:4212
 msgid "30 sekundoj"
-msgstr ""
+msgstr "30 வினாடிகள்"
 
 #: motioneye/static/js/main.js:4213
 msgid "minuto"
