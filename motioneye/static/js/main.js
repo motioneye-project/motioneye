@@ -985,8 +985,15 @@ function initUI() {
     $('div#networkShareTestButton').on('click', doTestNetworkShare);
 
     /* mask editor buttons */
-    $('div#motionMaskEditButton, div#privacyMaskEditButton').on('click', function (event) {
+    $('div#motionMaskEditButton, div#privacyMaskEditButton').on('click', async function (event) {
         var cameraId = $('#cameraSelect').val();
+
+        if (resolutionFactor !== 1) {
+            resolutionFactor = 1; //set the resolution dimmer slider to 100% for correct measurement
+
+            await new Promise(resolve => setTimeout(resolve, 1000)); // 1 second delay
+        }
+
         var img = getCameraFrame(cameraId).find('img.camera')[0];
         if (!img._naturalWidth || !img._naturalHeight) {
             return runAlertDialog(i18n.gettext("Ne eblas redakti la maskon sen valida kameraa bildo!"));
