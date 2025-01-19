@@ -98,7 +98,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
-msgstr ""
+msgstr "விண்ணப்பிக்கவும்"
 
 #: motioneye/templates/main.html:127
 msgid "preferoj de uzanto"
