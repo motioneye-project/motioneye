@@ -439,7 +439,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
-msgstr ""
+msgstr "பயனர்பெயர்"
 
 #: motioneye/templates/main.html:411
 msgid ""
