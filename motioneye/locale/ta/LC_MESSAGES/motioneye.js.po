@@ -97,149 +97,149 @@ msgstr "உங்கள் உலாவி இந்த அம்சத்தை
 
 #: motioneye/static/js/main.js:2653
 msgid "Apliki"
-msgstr ""
+msgstr "விண்ணப்பிக்கவும்"
 
 #: motioneye/static/js/main.js:2680 motioneye/static/js/main.js:3041
 #: motioneye/static/js/main.js:3096 motioneye/static/js/main.js:3171
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
-msgstr ""
+msgstr "அனைத்து உள்ளமைவு விருப்பங்களும் செல்லுபடியாகும் என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்!"
 
 #: motioneye/static/js/main.js:2782
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
-msgstr ""
+msgstr "இது கணினியை மீண்டும் தொடங்கும். தொடர?"
 
 #: motioneye/static/js/main.js:2792
 msgid "Vere fermiti sistemon?"
-msgstr ""
+msgstr "உண்மையில் ஒரு அமைப்பை மூடியதா?"
 
 #: motioneye/static/js/main.js:2804
 msgid "Malŝaltita"
-msgstr ""
+msgstr "அணைக்கப்பட்டது"
 
 #: motioneye/static/js/main.js:2819
 msgid "Ĉu vere restartigi ?"
-msgstr ""
+msgstr "உண்மையில் மறுதொடக்கம் செய்யவா?"
 
 #: motioneye/static/js/main.js:2833
 msgid "La sistemo rekomencis!"
-msgstr ""
+msgstr "கணினி மீண்டும் தொடங்கியது!"
 
 #: motioneye/static/js/main.js:2853 motioneye/static/js/main.js:2886
 #: motioneye/static/js/main.js:3869
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
-msgstr ""
+msgstr "மாற்றியமைக்கப்பட்ட அமைப்புகளை முதலில் பயன்படுத்துங்கள்!"
 
 #: motioneye/static/js/main.js:2858
 msgid "Neniu fotilo por forigi!"
-msgstr ""
+msgstr "அகற்ற கேமரா இல்லை!"
 
 #: motioneye/static/js/main.js:2864
 msgid "Ĉu forigi kameraon "
-msgstr ""
+msgstr "கேமராவை அகற்ற வேண்டுமா "
 
 #: motioneye/static/js/main.js:2892
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr ""
+msgstr "மோசன் புதுப்பிக்கப்பட்டுள்ளது (தற்போதைய பதிப்பு: "
 
 #: motioneye/static/js/main.js:2895
 msgid "Nova versio havebla: "
-msgstr ""
+msgstr "புதிய பதிப்பு கிடைக்கிறது: "
 
 #: motioneye/static/js/main.js:2895
 msgid ". Ĝisdatigi?"
-msgstr ""
+msgstr ". புதுப்பிப்பு?"
 
 #: motioneye/static/js/main.js:2903
 msgid "motionEye estis sukcese ĝisdatigita!"
-msgstr ""
+msgstr "மோசன் ஐ வெற்றிகரமாக புதுப்பிக்கப்பட்டுள்ளது!"
 
 #: motioneye/static/js/main.js:2913
 msgid "Ĝisdatigo malsukcesis!"
-msgstr ""
+msgstr "புதுப்பிப்பு தோல்வியடைந்தது!"
 
 #: motioneye/static/js/main.js:2924
 msgid "La ĝisdatiga procezo malsukcesis!"
-msgstr ""
+msgstr "புதுப்பிப்பு செயல்முறை தோல்வியடைந்தது!"
 
 #: motioneye/static/js/main.js:2943
 msgid "Rezerva dosiero"
-msgstr ""
+msgstr "காப்புப்பிரதி கோப்பு"
 
 #: motioneye/static/js/main.js:2945
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
-msgstr ""
+msgstr "நீங்கள் முன்பு பதிவிறக்கிய காப்பு கோப்பு."
 
 #: motioneye/static/js/main.js:2974
 msgid "Restaŭrigi Agordon"
-msgstr ""
+msgstr "உள்ளமைவை மீட்டெடுக்கவும்"
 
 #: motioneye/static/js/main.js:2986
 msgid "Restaŭriganta agordon ..."
-msgstr ""
+msgstr "அமைப்பை மீட்டமை ..."
 
 #: motioneye/static/js/main.js:2993
 msgid "La agordo restaŭrigis!"
-msgstr ""
+msgstr "உள்ளமைவு மீட்டமைக்கப்பட்டுள்ளது!"
 
 #: motioneye/static/js/main.js:3003 motioneye/static/js/main.js:3022
 msgid "Malsukcesis restaŭri la agordon!"
-msgstr ""
+msgstr "உள்ளமைவை மீட்டெடுப்பதில் தோல்வி!"
 
 #: motioneye/static/js/main.js:3077
 msgid "Aliri la alŝutan servon malsukcesis: "
-msgstr ""
+msgstr "பதிவேற்ற சேவையை அணுக தோல்வியுற்றது: "
 
 #: motioneye/static/js/main.js:3080
 msgid "Aliri la alŝutan servon sukcesis!"
-msgstr ""
+msgstr "அணுகல் பதிவேற்ற பணி வெற்றிகரமாக உள்ளது!"
 
 #: motioneye/static/js/main.js:3117 motioneye/static/js/main.js:3120
 msgid "Sciiga retpoŝto fiaskis:"
-msgstr ""
+msgstr "அறிவிப்பு மின்னஞ்சல் தோல்வியடைந்தது:"
 
 #: motioneye/static/js/main.js:3136
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
-msgstr ""
+msgstr "அனைத்து உள்ளமைவு விருப்பங்களும் செல்லுபடியாகும் என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்!"
 
 #: motioneye/static/js/main.js:3152
 msgid "Sciiga Telegramo fiaskis:"
-msgstr ""
+msgstr "செய்தி தந்தி தோல்வியுற்றது:"
 
 #: motioneye/static/js/main.js:3155
 msgid "Sciiga Telegramo sukcesis!"
-msgstr ""
+msgstr "செய்தி தந்தி வெற்றிகரமாக உள்ளது!"
 
 #: motioneye/static/js/main.js:3191
 msgid "Aliro al retdividado fiaskis: "
-msgstr ""
+msgstr "வலை பிரிவுக்கான அணுகல் தோல்வியடைந்துள்ளது: "
 
 #: motioneye/static/js/main.js:3194
 msgid "Aliro al retdividado sukcesis!"
-msgstr ""
+msgstr "வலை பிரிவுக்கான அணுகல் வெற்றிகரமாக உள்ளது!"
 
 #: motioneye/static/js/main.js:3218
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
-msgstr ""
+msgstr "உண்மையில் இந்த கோப்பை நீக்கவா?"
 
 #: motioneye/static/js/main.js:3242
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
-msgstr ""
+msgstr "எல்லா படங்களையும் \"%(group)s\" இலிருந்து நீக்கவா?"
 
 #: motioneye/static/js/main.js:3245
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
-msgstr ""
+msgstr "எல்லா திரைப்படங்களையும் \"%(group)s\" இலிருந்து நீக்கவா?"
 
 #: motioneye/static/js/main.js:3250
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
-msgstr ""
+msgstr "தொகுக்கப்படாத அனைத்து படங்களையும் நீக்கவா?"
 
 #: motioneye/static/js/main.js:3253
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
-msgstr ""
+msgstr "குழுவில் இல்லாத அனைத்து திரைப்படங்களையும் உண்மையில் அகற்றவா?"
 
 #: motioneye/static/js/main.js:3367
 msgid "aldonadi kameraon..."
-msgstr ""
+msgstr "ஒரு கேமரா சேர்க்கவும் ..."
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 msgid "Uzantnomo"
