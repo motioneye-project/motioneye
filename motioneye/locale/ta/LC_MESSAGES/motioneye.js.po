@@ -7,91 +7,93 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-14 01:24+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-01-19 04:10+0000\n"
+"Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
+"Language-Team: Tamil <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/ta/>\n"
 "Language: ta\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10-dev\n"
 
 #: motioneye/static/js/main.js:608
 msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr ""
+msgstr "கடவுச்சொல்லில் சிறப்பு எழுத்துக்கள் அனுமதிக்கப்படவில்லை"
 
 #: motioneye/static/js/main.js:615 motioneye/static/js/main.js:626
 #: motioneye/static/js/main.js:685 motioneye/static/js/ui.js:362
 #: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
 msgid "Ĉi tiu kampo estas deviga"
-msgstr ""
+msgstr "இந்த புலம் கட்டாயமாகும்"
 
 #: motioneye/static/js/main.js:619
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr ""
+msgstr "கேமராவின் பெயரில் சிறப்பு எழுத்துக்கள் அனுமதிக்கப்படவில்லை"
 
 #: motioneye/static/js/main.js:631
 msgid "valoro devas esti multoblo de 8"
-msgstr ""
+msgstr "மதிப்பு 8 இன் பெருக்கமாக இருக்க வேண்டும்"
 
 #: motioneye/static/js/main.js:638
 msgid "specialaj signoj ne rajtas en radika voja nomo"
-msgstr ""
+msgstr "ரூட் சாலை பெயரில் சிறப்பு எழுத்துக்கள் அனுமதிக்கப்படவில்லை"
 
 #: motioneye/static/js/main.js:641
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr ""
+msgstr "உங்கள் கணினியின் மூலத்தில் கோப்புகளை நேரடியாக உருவாக்க முடியாது"
 
 #: motioneye/static/js/main.js:648
 msgid "enigu validan retpoŝtadreson"
-msgstr ""
+msgstr "சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்"
 
 #: motioneye/static/js/main.js:655
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr ""
+msgstr "கோமா தனி செல்லுபடியாகும் மின்னஞ்சல் முகவரிகளின் பட்டியலை உள்ளிடவும்"
 
 #: motioneye/static/js/main.js:662
 msgid "specialaj signoj ne rajtas en dosiernomo"
-msgstr ""
+msgstr "கோப்பு பெயரில் சிறப்பு எழுத்துக்கள் அனுமதிக்கப்படவில்லை"
 
 #: motioneye/static/js/main.js:689
 msgid "enigu validan valoron"
-msgstr ""
+msgstr "சரியான மதிப்பை உள்ளிடவும்"
 
 #: motioneye/static/js/main.js:843
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr ""
+msgstr "இந்த மறுநிகழ்வு முகில் கோப்பகத்தில் இருக்கும் அனைத்து கோப்புகளையும் நீக்கும் \""
 
 #: motioneye/static/js/main.js:844
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
-msgstr ""
+msgstr "\", மோசன் பதிவேற்றியவை மட்டுமல்ல!"
 
 #: motioneye/static/js/main.js:925
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
-msgstr ""
+msgstr "இந்த மறுநிகழ்வு கோப்பகத்தில் உள்ள அனைத்து பழைய ஊடக கோப்புகளையும் நீக்கும் \""
 
 #: motioneye/static/js/main.js:926
 msgid "\", ne nur tiuj kreitaj de motionEye!"
-msgstr ""
+msgstr "\", மோசன் உருவாக்கியவை மட்டுமல்ல!"
 
 #: motioneye/static/js/main.js:992
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
-msgstr ""
+msgstr "செல்லுபடியாகும் கேமரா படம் இல்லாமல் முகமூடியைத் திருத்த முடியவில்லை!"
 
 #: motioneye/static/js/main.js:2237
 msgid "Propra"
-msgstr ""
+msgstr "சொந்தமானது"
 
 #: motioneye/static/js/main.js:2275
 msgid "Propra dosierindiko"
-msgstr ""
+msgstr "சொந்த கோப்பு அறிகுறி"
 
 #: motioneye/static/js/main.js:2277
 msgid "Retan kunlokon"
-msgstr ""
+msgstr "நிகழ்நிலை கோ -இடம்"
 
 #: motioneye/static/js/main.js:2637
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
-msgstr ""
+msgstr "உங்கள் உலாவி இந்த அம்சத்தை செய்யாது!"
 
 #: motioneye/static/js/main.js:2653
 msgid "Apliki"
