@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-01-14 01:24+0000\n"
-"PO-Revision-Date: 2025-01-19 04:10+0000\n"
+"PO-Revision-Date: 2025-01-19 08:59+0000\n"
 "Last-Translator: தமிழ்நேரம் <anishprabu.t@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/ta/>\n"
 "Language: ta\n"
@@ -444,228 +444,228 @@ msgstr "30 நிமிடங்கள்"
 
 #: motioneye/static/js/main.js:4217
 msgid "horo"
-msgstr ""
+msgstr "ஓரோ"
 
 #: motioneye/static/js/main.js:4220
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
-msgstr ""
+msgstr "தேர்ந்தெடுக்கப்பட்ட இரண்டு படங்களுக்கு இடையில் நேர வரம்பைத் தேர்ந்தெடுக்கவும்."
 
 #: motioneye/static/js/main.js:4223
 msgid "Filmo framfrekvenco"
-msgstr ""
+msgstr "மூவி பிரேம் வீதம்"
 
 #: motioneye/static/js/main.js:4225
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
-msgstr ""
+msgstr "ஆயுதமேந்திய வீடியோ எவ்வளவு விரைவாக இருக்க வேண்டும் என்பதைத் தேர்வுசெய்க."
 
 #: motioneye/static/js/main.js:4234
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr ""
+msgstr "அதிக எண்ணிக்கையிலான படங்களைக் கருத்தில் கொண்டு, உங்கள் வீடியோவை உருவாக்க சிறிது நேரம் ஆகலாம்!"
 
 #: motioneye/static/js/main.js:4251
 msgid "Krei akselita video"
-msgstr ""
+msgstr "க்ரீ அச்சு வீடியோ"
 
 #: motioneye/static/js/main.js:4260
 msgid "Filmo kreanta en progreso..."
-msgstr ""
+msgstr "திரைப்படத்தை உருவாக்குதல் முன்னேற்றத்தில் உள்ளது ..."
 
 #: motioneye/static/js/main.js:4511
 msgid "Zipitaj"
-msgstr ""
+msgstr "சிப்"
 
 #: motioneye/static/js/main.js:4520
 msgid "Akselita video"
-msgstr ""
+msgstr "அச்சு வீடியோ"
 
 #: motioneye/static/js/main.js:4531
 msgid "Forigi ĉiujn"
-msgstr ""
+msgstr "அனைத்தையும் அகற்று"
 
 #: motioneye/static/js/main.js:4673
 msgid "Bildoj prenitaj de "
-msgstr ""
+msgstr "எடுக்கப்பட்ட படங்கள் "
 
 #: motioneye/static/js/main.js:4676
 msgid "Filmoj registritaj de "
-msgstr ""
+msgstr "படங்கள் பதிவு செய்தன "
 
 #: motioneye/static/js/main.js:4744
 msgid "montru ĉi tiun fotilon plenekranan"
-msgstr ""
+msgstr "இந்த கேமராவைக் காட்டுங்கள்"
 
 #: motioneye/static/js/main.js:4745
 msgid "montri ĉiujn fotilojn"
-msgstr ""
+msgstr "அனைத்து கேமராக்களையும் காட்டு"
 
 #: motioneye/static/js/main.js:4746
 msgid "montru nur ĉi tiun fotilon"
-msgstr ""
+msgstr "இந்த கேமராவை மட்டும் காட்டு"
 
 #: motioneye/static/js/main.js:4747
 msgid "malfermaj bildoj retumilo"
-msgstr ""
+msgstr "திறந்த படங்கள் உலாவி"
 
 #: motioneye/static/js/main.js:4748
 msgid "malferma videoj retumilo"
-msgstr ""
+msgstr "திறந்த வீடியோக்கள் உலாவி"
 
 #: motioneye/static/js/main.js:4749
 msgid "agordi ĉi tiun kameraon"
-msgstr ""
+msgstr "இந்த கேமராவை அமைக்கவும்"
 
 #: motioneye/static/js/main.js:4765
 msgid "preni instantaron"
-msgstr ""
+msgstr "ஒரு உடனடி எடுக்க"
 
 #: motioneye/static/js/main.js:5158
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr ""
+msgstr "நீங்கள் இதுவரை எந்த கேமராவையும் அமைக்கவில்லை. ஒன்றைச் சேர்க்க இங்கே சொடுக்கு செய்க ..."
 
 #: motioneye/static/js/ui.js:503
 msgid "enigu pozitivan nombron"
-msgstr ""
+msgstr "நேர்மறை எண்ணை உள்ளிடவும்"
 
 #: motioneye/static/js/ui.js:505
 msgid "enigu pozitivan entjeran nombron"
-msgstr ""
+msgstr "நேர்மறை முழு எண் எண்ணை உள்ளிடவும்"
 
 #: motioneye/static/js/ui.js:507
 msgid "enigu nombron"
-msgstr ""
+msgstr "ஒரு எண்ணை உள்ளிடவும்"
 
 #: motioneye/static/js/ui.js:509
 msgid "enigu entjeran nombron"
-msgstr ""
+msgstr "ஒரு முழு எண் எண்ணை உள்ளிடவும்"
 
 #: motioneye/static/js/ui.js:512
 msgid " inter "
-msgstr ""
+msgstr " இடை "
 
 #: motioneye/static/js/ui.js:512
 msgid " kaj "
-msgstr ""
+msgstr " மற்றும் "
 
 #: motioneye/static/js/ui.js:515
 msgid " pli ol "
-msgstr ""
+msgstr " விட "
 
 #: motioneye/static/js/ui.js:520
 msgid " malpli ol "
-msgstr ""
+msgstr " குறைவாக "
 
 #: motioneye/static/js/ui.js:573
 msgid "enigu validan tempon en la sekva formato: HH:MM"
-msgstr ""
+msgstr "பின்வரும் வடிவத்தில் செல்லுபடியாகும் நேரத்தை உள்ளிடவும்: HH: மிமீ"
 
 #: motioneye/static/js/ui.js:630
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
-msgstr ""
+msgstr "செல்லுபடியாகும் முகவரி ஐ உள்ளிடவும் (எ.கா. http://ekzemplo.com:8080/cams/)"
 
 #: motioneye/static/js/ui.js:971
 msgid "fermi"
-msgstr ""
+msgstr "ஃபெர்மி"
 
 #: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
 msgid "Ne"
-msgstr ""
+msgstr "அது"
 
 #: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
 msgid "Jes"
-msgstr ""
+msgstr "செச்"
 
 #: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
 msgid "Bone"
-msgstr ""
+msgstr "எலும்பு"
 
 #: l10n/v4l2.js:4
 msgid "Auto Exposure"
-msgstr ""
+msgstr "ஆட்டோ வெளிப்பாடு"
 
 #: l10n/v4l2.js:5
 msgid "Backlight Compensation"
-msgstr ""
+msgstr "பின்னொளி இழப்பீடு"
 
 #: l10n/v4l2.js:6
 msgid "Brightness"
-msgstr ""
+msgstr "ஒளி"
 
 #: l10n/v4l2.js:7
 msgid "Contrast"
-msgstr ""
+msgstr "மாறுபாடு"
 
 #: l10n/v4l2.js:8
 msgid "Exposure Absolute"
-msgstr ""
+msgstr "வெளிப்பாடு முழுமையானது"
 
 #: l10n/v4l2.js:9
 msgid "Exposure Auto"
-msgstr ""
+msgstr "வெளிப்பாடு ஆட்டோ"
 
 #: l10n/v4l2.js:10
 msgid "Exposure Auto Priority"
-msgstr ""
+msgstr "வெளிப்பாடு ஆட்டோ முன்னுரிமை"
 
 #: l10n/v4l2.js:11
 msgid "Exposure Time Absolute"
-msgstr ""
+msgstr "வெளிப்பாடு நேரம் முழுமையானது"
 
 #: l10n/v4l2.js:12
 msgid "Focus Absolute"
-msgstr ""
+msgstr "முழுமையான கவனம் செலுத்துங்கள்"
 
 #: l10n/v4l2.js:13
 msgid "Focus Auto"
-msgstr ""
+msgstr "ஆட்டோ கவனம்"
 
 #: l10n/v4l2.js:14
 msgid "Gain"
-msgstr ""
+msgstr "பெருக்கம்"
 
 #: l10n/v4l2.js:15
 msgid "Gamma"
-msgstr ""
+msgstr "காமா"
 
 #: l10n/v4l2.js:16
 msgid "Hue"
-msgstr ""
+msgstr "வண்ணச்சாயல்"
 
 #: l10n/v4l2.js:17
 msgid "Led1 Mode"
-msgstr ""
+msgstr "LED1 பயன்முறை"
 
 #: l10n/v4l2.js:18
 msgid "Led1 Frequency"
-msgstr ""
+msgstr "LED1 அதிர்வெண்"
 
 #: l10n/v4l2.js:19
 msgid "Pan Absolute"
-msgstr ""
+msgstr "பான் முழுமையானது"
 
 #: l10n/v4l2.js:20
 msgid "Power Line Frequency"
-msgstr ""
+msgstr "ஆற்றல் வரி அதிர்வெண்"
 
 #: l10n/v4l2.js:21
 msgid "Saturation"
-msgstr ""
+msgstr "தெவிட்டல்"
 
 #: l10n/v4l2.js:22
 msgid "Sharpness"
-msgstr ""
+msgstr "கூர்மையானது"
 
 #: l10n/v4l2.js:23
 msgid "Tilt Absolute"
-msgstr ""
+msgstr "முழுமையான சாய்வு"
 
 #: l10n/v4l2.js:24
 msgid "White Balance Temperature"
-msgstr ""
+msgstr "வெள்ளை சமநிலை வெப்பநிலை"
 
 #: l10n/v4l2.js:25
 msgid "White Balance Temperature Auto"
-msgstr ""
+msgstr "வெள்ளை இருப்பு வெப்பநிலை ஆட்டோ"
 
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
-msgstr ""
+msgstr "சூம் முழுமையான"
