@@ -1745,7 +1745,7 @@ msgstr ""
 
 #: motioneye/utils/dtconv.py:143
 msgid "sekundo"
-msgstr ""
+msgstr "ஒரு இரண்டாவது"
 
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
