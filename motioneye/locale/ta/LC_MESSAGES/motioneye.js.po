@@ -428,19 +428,19 @@ msgstr "30 வினாடிகள்"
 
 #: motioneye/static/js/main.js:4213
 msgid "minuto"
-msgstr ""
+msgstr "நிமிடங்கள்"
 
 #: motioneye/static/js/main.js:4214
 msgid "5 minutoj"
-msgstr ""
+msgstr "5 நிமிடங்கள்"
 
 #: motioneye/static/js/main.js:4215
 msgid "10 minutoj"
-msgstr ""
+msgstr "10 நிமிடங்கள்"
 
 #: motioneye/static/js/main.js:4216
 msgid "30 minutoj"
-msgstr ""
+msgstr "30 நிமிடங்கள்"
 
 #: motioneye/static/js/main.js:4217
 msgid "horo"
