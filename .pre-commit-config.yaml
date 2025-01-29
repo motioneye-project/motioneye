@@ -26,12 +26,12 @@ repos:
         args:
           - --skip=B104,B105,B108,B110,B301,B310,B321,B324,B402,B403,B404,B602,B603,B604,B605,B607,B701
   - repo: https://github.com/python/black
-    rev: 24.10.0
+    rev: 25.1.0
     hooks:
       - id: black
         args: [--skip-string-normalization]
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.0
+    rev: v2.4.1
     hooks:
       - id: codespell
       # See args in setup.cfg
