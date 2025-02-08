@@ -3,18 +3,21 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
 # Marko Hinkkanen <hinkma@gmail.com>, 2023.
+# Sami Heino <sami.heino@iki.fi>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-01-19 09:00+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2025-02-09 00:02+0000\n"
+"Last-Translator: Sami Heino <sami.heino@iki.fi>\n"
+"Language-Team: Finnish <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/fi/>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.10-dev\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: motioneye/server.py:232
@@ -23,39 +26,39 @@ msgstr ""
 
 #: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr ""
+msgstr "SMB jaot vaativat pääkäyttäjän oikeudet"
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr ""
+msgstr "ole hyvä ja asenna tornado versio 3.1 tai korkeampi"
 
 #: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
-msgstr ""
+msgstr "ole hyvä ja asenna jinja2"
 
 #: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr ""
+msgstr "ole hyvä ja asenna pillow tai PIL"
 
 #: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
-msgstr ""
+msgstr "ole hyvä ja asenna pycurl"
 
 #: motioneye/server.py:422
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr ""
+msgstr "Tervehdys! Tämä on motionEye-palvelin "
 
 #: motioneye/server.py:437
 msgid "purigado komenciĝis"
-msgstr ""
+msgstr "puhdistus aloitettu"
 
 #: motioneye/server.py:439
 msgid "wsswitch komenciĝis"
-msgstr ""
+msgstr "wsswitch käynnistetty"
 
 #: motioneye/server.py:442
 msgid "taskoj komenciĝis"
-msgstr ""
+msgstr "tehtävät käynnistetty"
 
 #: motioneye/server.py:446
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
@@ -63,47 +66,47 @@ msgstr ""
 
 #: motioneye/server.py:464
 msgid "servilo komenciĝis"
-msgstr ""
+msgstr "palvelin käynnistetty"
 
 #: motioneye/server.py:470
 msgid "servilo haltis"
-msgstr ""
+msgstr "palvelin pysäytetty"
 
 #: motioneye/server.py:472
 msgid "taskoj haltis"
-msgstr ""
+msgstr "tehtävät pysäytetty"
 
 #: motioneye/server.py:480
 msgid "motion haltis"
-msgstr ""
+msgstr "motion pysäytetty"
 
 #: motioneye/server.py:485
 msgid "adiaŭ!"
-msgstr ""
+msgstr "hyvästi!"
 
 #: motioneye/templates/main.html:104
 msgid "agordojn"
-msgstr ""
+msgstr "asetukset"
 
 #: motioneye/templates/main.html:105
 msgid "ŝanĝi uzanton"
-msgstr ""
+msgstr "vaihda käyttäjää"
 
 #: motioneye/templates/main.html:107
 msgid "forigi kameraon"
-msgstr ""
+msgstr "poista kamera"
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
-msgstr ""
+msgstr "Käytä"
 
 #: motioneye/templates/main.html:127
 msgid "preferoj de uzanto"
-msgstr ""
+msgstr "käyttäjäasetukset"
 
 #: motioneye/templates/main.html:128
 msgid "Preferoj"
-msgstr ""
+msgstr "Asetukset"
 
 #: motioneye/templates/main.html:133
 msgid "Aranĝo Kolumnoj"
@@ -147,201 +150,201 @@ msgstr ""
 
 #: motioneye/templates/main.html:161
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
-msgstr ""
+msgstr "yleiset asetukset, eivät liity mihinkään kameraan"
 
 #: motioneye/templates/main.html:162
 msgid "Ĝeneralaj Agordoj"
-msgstr ""
+msgstr "Yleiset asetukset"
 
 #: motioneye/templates/main.html:167
 msgid "Lingvo"
-msgstr ""
+msgstr "Kieli"
 
 #: motioneye/templates/main.html:173
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr ""
+msgstr "käyttöliittymän kieli"
 
 #: motioneye/templates/main.html:176
 msgid "Administranto"
-msgstr ""
+msgstr "Pääkäyttäjän salasana"
 
 #: motioneye/templates/main.html:178
 msgid "la uzantnomo uzata por agordi la sistemon"
-msgstr ""
+msgstr "käyttäjänimi, jota käytetään järjestelmän konfigurointiin"
 
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
 msgid "Pasvorto"
-msgstr ""
+msgstr "Salasana"
 
 #: motioneye/templates/main.html:183
 msgid "pasvorto de administranto"
-msgstr ""
+msgstr "pääkäyttäjän salasana"
 
 #: motioneye/templates/main.html:186
 msgid "Observanto"
-msgstr ""
+msgstr "Valvojan salasana"
 
 #: motioneye/templates/main.html:188
 msgid "la uzantnomo por uzi por la monitorado"
-msgstr ""
+msgstr "käyttäjätunnus, jota käytetään videovalvontaan"
 
 #: motioneye/templates/main.html:193
 msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr ""
+msgstr "valvontakäyttäjän salasana (jätä tyhjäksi valvontaan ilman salasanaa)"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"
-msgstr ""
+msgstr "motionEyen Versio"
 
 #: motioneye/templates/main.html:206
 msgid "Motion Versio"
-msgstr ""
+msgstr "Motionin versio"
 
 #: motioneye/templates/main.html:210
 msgid "Operaciumo Versio"
-msgstr ""
+msgstr "Käyttöjärjestelmän versio"
 
 #: motioneye/templates/main.html:215
 msgid "Programara Ĝisdatigo"
-msgstr ""
+msgstr "Ohjelmistopäivitys"
 
 #: motioneye/templates/main.html:217
 msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
-msgstr ""
+msgstr "tarkistaa uudet versiot ja suorittaa päivitykset"
 
 #: motioneye/templates/main.html:221
 msgid "Nutro"
-msgstr ""
+msgstr "Teho"
 
 #: motioneye/templates/main.html:222
 msgid "Fermu"
-msgstr ""
+msgstr "Sammuta"
 
 #: motioneye/templates/main.html:223
 msgid "malŝaltas la sistemon"
-msgstr ""
+msgstr "sammuttaa järjestelmän"
 
 #: motioneye/templates/main.html:227
 msgid "Rekomencu"
-msgstr ""
+msgstr "Käynnistä uudelleen"
 
 #: motioneye/templates/main.html:228
 msgid "rekomencas la sistemon"
-msgstr ""
+msgstr "käynnistää järjestelmän uudelleen"
 
 #: motioneye/templates/main.html:234
 msgid "Agordo"
-msgstr ""
+msgstr "Konfigurointi"
 
 #: motioneye/templates/main.html:235
 msgid "Sekurkopio"
-msgstr ""
+msgstr "Varmuuskopio"
 
 #: motioneye/templates/main.html:236
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
-msgstr ""
+msgstr "luo tiedoston, jossa on nykyiset asetukset, ja jonka voit tallentaa paikallisesti"
 
 #: motioneye/templates/main.html:240
 msgid "Restaŭri"
-msgstr ""
+msgstr "Palauta"
 
 #: motioneye/templates/main.html:241
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
-msgstr ""
+msgstr "palauttaa asetukset aiemmin luodusta varmuuskopiotiedostosta"
 
 #: motioneye/templates/main.html:265
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
-msgstr ""
+msgstr "ota tämä käyttöön jos haluat käyttää tätä kameralaitetta"
 
 #: motioneye/templates/main.html:266
 msgid "Video-Aparato"
-msgstr ""
+msgstr "Videolaite"
 
 #: motioneye/templates/main.html:271 motioneye/templates/main.html:614
 #: motioneye/templates/main.html:631
 msgid "Kamerao Nomo"
-msgstr ""
+msgstr "Kameran nimi"
 
 #: motioneye/templates/main.html:272
 msgid "kameraa nomo…"
-msgstr ""
+msgstr "Kameran nimi…"
 
 #: motioneye/templates/main.html:273
 msgid "alias pri ĉi tiu kamera aparato"
-msgstr ""
+msgstr "alias tälle kameralaitteelle"
 
 #: motioneye/templates/main.html:276
 msgid "Kamerao ID"
-msgstr ""
+msgstr "Kameran ID"
 
 #: motioneye/templates/main.html:278
 msgid "la kamerao identiga numero"
-msgstr ""
+msgstr "kameran tunnistenumero"
 
 #: motioneye/templates/main.html:281
 msgid "Kamerao aparato"
-msgstr ""
+msgstr "Kameralaite"
 
 #: motioneye/templates/main.html:283
 msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
-msgstr ""
+msgstr "Syöttölaite (esim. : /dev/video) tai URL (esim. : rtsp://192.168.1.1/stream)"
 
 #: motioneye/templates/main.html:286
 msgid "Kamerao Tipo"
-msgstr ""
+msgstr "Kameran tyyppi"
 
 #: motioneye/templates/main.html:293
 msgid "Aŭtomata Brilo"
-msgstr ""
+msgstr "Automaattinen kirkkaus"
 
 #: motioneye/templates/main.html:295
 msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
-msgstr ""
+msgstr "ottaa käyttöön ohjelmiston automaattisen kirkkauden (suositeltu vain laitteille, joissa ei ole automaattista kirkkauden säätöä)"
 
 #: motioneye/templates/main.html:301
 msgid "Video-rezolucio"
-msgstr ""
+msgstr "Videon resoluutio"
 
 #: motioneye/templates/main.html:306
 msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
-msgstr ""
+msgstr "videon resoluutio (isommat arvot antavat paremman laadun, mutta vaativat enenmmän laskentatehoa, enemmän tallennustilaa ja kaistaa)"
 
 #: motioneye/templates/main.html:309
 msgid "Larĝeco"
-msgstr ""
+msgstr "Leveys"
 
 #: motioneye/templates/main.html:311
 msgid "enigu kutiman rezolucian larĝon"
-msgstr ""
+msgstr "syötä mukautettu resoluution leveys"
 
 #: motioneye/templates/main.html:314
 msgid "Alteco"
-msgstr ""
+msgstr "Korkeus"
 
 #: motioneye/templates/main.html:316
 msgid "enigu kutiman rezolucian altecon"
-msgstr ""
+msgstr "syötä mukautettu resoluution korkeus"
 
 #: motioneye/templates/main.html:319
 msgid "Video-Rotacio"
-msgstr ""
+msgstr "Videon kääntö"
 
 #: motioneye/templates/main.html:328
 msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
-msgstr ""
+msgstr "käytä tätä kääntääksesi kaapattua kuvaa, mikäli kamerasi ei ole asemoitu oikein"
 
 #: motioneye/templates/main.html:331
 msgid "Kadrofrekvenco"
-msgstr ""
+msgstr "Kuvataajuus"
 
 #: motioneye/templates/main.html:333
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
-msgstr ""
+msgstr "Asettaa sekunnin aikana kaapattujen kuvien määrän (korkeammat arvot tuottavat sulavamman videon, mutta vaativat enemmän laskentatehoa, enemmän tallennustilaa ja kaistaa)"
 
 #: motioneye/templates/main.html:339
 msgid "Privateca masko"
-msgstr ""
+msgstr "Yksityisyysmaski"
 
 #: motioneye/templates/main.html:341
 msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
@@ -361,7 +364,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:361
 msgid "Ekstraj Elektoj"
-msgstr ""
+msgstr "Lisäasetukset"
 
 #: motioneye/templates/main.html:363
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
@@ -409,7 +412,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:409 motioneye/templates/main.html:516
 msgid "Uzantnomo"
-msgstr ""
+msgstr "Käyttäjänimi"
 
 #: motioneye/templates/main.html:411
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
@@ -931,7 +934,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
 msgid "Propra"
-msgstr ""
+msgstr "Mukautettu"
 
 #: motioneye/templates/main.html:790
 msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
@@ -1513,7 +1516,7 @@ msgstr ""
 
 #: motioneye/utils/dtconv.py:129
 msgid "horo"
-msgstr ""
+msgstr "tunti"
 
 #: motioneye/utils/dtconv.py:132
 msgid "horoj"
@@ -1521,7 +1524,7 @@ msgstr ""
 
 #: motioneye/utils/dtconv.py:136
 msgid "minuto"
-msgstr ""
+msgstr "minuuttia"
 
 #: motioneye/utils/dtconv.py:139
 msgid "minutoj"
@@ -1529,8 +1532,8 @@ msgstr ""
 
 #: motioneye/utils/dtconv.py:143
 msgid "sekundo"
-msgstr ""
+msgstr "sekunti"
 
 #: motioneye/utils/dtconv.py:153
 msgid "minus"
-msgstr ""
+msgstr "miinus"
