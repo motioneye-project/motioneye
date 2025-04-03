@@ -1938,11 +1938,6 @@ def backup():
 
 
 def restore(content):
-    global _main_config_cache
-    global _camera_config_cache
-    global _camera_ids_cache
-    global _additional_structure_cache
-
     logging.info('restoring config from backup file')
 
     cmd = ['tar', 'zxC', settings.CONF_PATH]
