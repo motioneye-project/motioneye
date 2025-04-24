@@ -13,14 +13,15 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     strategy:
       matrix:
-        dist: ['ubuntu-20.04', 'ubuntu-22.04', 'ubuntu-24.04']
+        dist: ['ubuntu-22.04', 'ubuntu-24.04', 'ubuntu-22.04-arm', 'ubuntu-24.04-arm']
       fail-fast: false
     runs-on: ${{ matrix.dist }}
     name: "Test on ${{ matrix.dist }}"
     steps:
-      - run: sudo apt-mark hold grub-efi-amd64-signed # GRUB does not always find the drive it was configured for
+      - if: matrix.dist == 'ubuntu-22.04' || matrix.dist == 'ubuntu-24.04'
+        run: sudo apt-mark hold grub-efi-amd64-signed # GRUB does not always find the drive it was configured for
       - name: Ubuntu Noble workarounds
-        if: matrix.dist == 'ubuntu-24.04'
+        if: matrix.dist == 'ubuntu-24.04' || matrix.dist == 'ubuntu-24.04-arm'
         run: |
           # https://github.com/actions/runner-images/pull/9956
           # ERROR: Cannot uninstall pip 24.0, RECORD file not found. Hint: The package was installed by debian.
