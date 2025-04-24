@@ -10,11 +10,10 @@ COPY docker/entrypoint.sh /entrypoint.sh
 
 # Build deps:
 # - armhf: Python headers, C compiler and libjpeg for Pillow, until piwheels provides the latest version: https://piwheels.org/project/pillow/
-# - other: Python headers, C compiler, libcurl and libssl for pycurl: https://pypi.org/project/pycurl/#files
 RUN printf '%b' '[global]\nbreak-system-packages=true\n' > /etc/pip.conf && \
     case "$(dpkg --print-architecture)" in \
       'armhf') PACKAGES='python3-dev gcc libjpeg62-turbo-dev'; printf '%b' 'extra-index-url=https://www.piwheels.org/simple/\n' >> /etc/pip.conf;; \
-      *) PACKAGES='python3-dev gcc libcurl4-openssl-dev libssl-dev';; \
+      *) PACKAGES='';; \
     esac && \
     apt-get -q update && \
     DEBIAN_FRONTEND="noninteractive" apt-get -qq --option Dpkg::Options::="--force-confnew" --no-install-recommends install \

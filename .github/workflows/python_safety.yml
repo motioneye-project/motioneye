@@ -14,11 +14,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     runs-on: ubuntu-24.04
     steps:
-      - run: sudo apt-get -q update
-      - run: sudo apt-get autopurge needrestart # https://github.com/actions/runner-images/pull/9956
       - run: echo -e '[global]\nbreak-system-packages=true' | sudo tee /etc/pip.conf # error: externally-managed-environment
-      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
-             gcc libcurl4-openssl-dev libssl-dev
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:

@@ -32,7 +32,7 @@ jobs:
       - run: sudo apt-get -q update
       - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends dist-upgrade
       - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends install
-                  ca-certificates curl gcc libcurl4-openssl-dev libssl-dev python3-dev
+                  ca-certificates curl python3-dev
       - run: curl -sSfO 'https://bootstrap.pypa.io/get-pip.py'
       - run: sudo python3 get-pip.py
       - run: sudo python3 -m pip install --upgrade pip setuptools wheel

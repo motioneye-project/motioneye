@@ -19,16 +19,16 @@ These install instructions are constantly tested via CI/CD pipeline on Debian Bu
 
     _Here the commands for APT-based Linux distributions are given._
 
-    On **32-bit ARMv6 and ARMv7** systems, thanks to [piwheels](https://piwheels.org/), no development headers are required:
+    Thanks to pre-compiled wheels from PyPI, installing motionEye usually does not require anything but Python 3 and cURL with the ability to do HTTPS network requests:
     ```sh
     sudo apt update
-    sudo apt --no-install-recommends install ca-certificates curl python3 python3-distutils
+    sudo apt --no-install-recommends install ca-certificates curl python3
     ```
 
-    On **all other architectures** additional development headers are required:
+    On **ARMv6 and ARMv7 (32-bit), RISC-V and other rare CPU architectures** additional build dependencies may be required to compile the [Pillow](https://pypi.org/project/pillow/) and [PycURL](https://pypi.org/project/pycurl/) modules:
     ```sh
     sudo apt update
-    sudo apt --no-install-recommends install ca-certificates curl python3 python3-dev libcurl4-openssl-dev gcc libssl-dev
+    sudo apt --no-install-recommends install ca-certificates curl python3 python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev
     ```
 
 2. Install the Python package manager `pip`
@@ -43,12 +43,6 @@ These install instructions are constantly tested via CI/CD pipeline on Debian Bu
     ```sh
     grep -q '\[global\]' /etc/pip.conf 2> /dev/null || printf '%b' '[global]\n' | sudo tee -a /etc/pip.conf > /dev/null
     sudo sed -i '/^\[global\]/a\break-system-packages=true' /etc/pip.conf
-    ```
-
-    On **32-bit ARMv6 and ARMv7** systems, additionally configure `pip` to use pre-compiled wheels from [piwheels](https://piwheels.org/):
-    ```sh
-    grep -q '\[global\]' /etc/pip.conf 2> /dev/null || printf '%b' '[global]\n' | sudo tee -a /etc/pip.conf > /dev/null
-    sudo sed -i '/^\[global\]/a\extra-index-url=https://www.piwheels.org/simple/' /etc/pip.conf
     ```
 
 3. Install and setup **motionEye**
