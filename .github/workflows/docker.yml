@@ -38,7 +38,9 @@ jobs:
       - name: Cache Docker layers
         uses: actions/cache@v4
         with:
-          path: /tmp/.buildx-cache
+          path: |
+            ${{ runner.temp }}/.buildx-cache
+            ${{ runner.temp }}/.buildx-cache-riscv64
           key: ${{ runner.os }}-buildx-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-buildx-
@@ -70,10 +72,23 @@ jobs:
           #build-args: |
           #  KEY1=Value1
           #  KEY2=Value2
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache-new
+          cache-from: type=local,src=${{ runner.temp }}/.buildx-cache
+          cache-to: type=local,dest=${{ runner.temp }}/.buildx-cache-new
+
+      - name: Build RISC-V
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./docker/Dockerfile-riscv64
+          platforms: linux/riscv64
+          push: ${{ github.event_name == 'push' && github.repository == 'motioneye-project/motioneye' && steps.meta.outputs.tags != null }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=local,src=${{ runner.temp }}/.buildx-cache-riscv64
+          cache-to: type=local,dest=${{ runner.temp }}/.buildx-cache-riscv64-new
 
       - name: Move cache
         run: |
-          rm -rf /tmp/.buildx-cache
-          mv /tmp/.buildx-cache-new /tmp/.buildx-cache
+          rm -rf ${{ runner.temp }}/.buildx-cache ${{ runner.temp }}/.buildx-cache-riscv64
+          mv ${{ runner.temp }}/.buildx-cache-new ${{ runner.temp }}/.buildx-cache
+          mv ${{ runner.temp }}/.buildx-cache-riscv64-new ${{ runner.temp }}/.buildx-cache-riscv64
