@@ -79,8 +79,6 @@ def list_devices():
 def list_resolutions(device):
     from motioneye import motionctl
 
-    global _resolutions_cache
-
     device = utils.make_str(device)
 
     if device in _resolutions_cache:
@@ -165,8 +163,6 @@ def find_persistent_device(device):
 
 
 def list_ctrls(device):
-    global _ctrls_cache
-
     device = utils.make_str(device)
 
     if device in _ctrls_cache:
