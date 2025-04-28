@@ -2,20 +2,21 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Onur TORAMAN <onur@toraman.net>, 2024.
+# deneme <batekservis@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-09 00:03+0000\n"
-"PO-Revision-Date: 2024-04-17 23:03+0000\n"
-"Last-Translator: Onur TORAMAN <onur@toraman.net>\n"
+"PO-Revision-Date: 2025-03-25 11:42+0000\n"
+"Last-Translator: deneme <batekservis@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/tr/>\n"
 "Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.5-dev\n"
+"X-Generator: Weblate 5.11-dev\n"
 
 #: motioneye/static/js/main.js:608
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -29,11 +30,11 @@ msgstr "Bu alan zorunludur"
 
 #: motioneye/static/js/main.js:619
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr "kamera ad için özel karakterlere izin verilmez"
+msgstr "kamera adı için özel karakterlere izin verilmez"
 
 #: motioneye/static/js/main.js:631
 msgid "valoro devas esti multoblo de 8"
-msgstr "bir değer 8'in katı olmalıdır"
+msgstr "değer 8'in katı olmalıdır"
 
 #: motioneye/static/js/main.js:638
 msgid "specialaj signoj ne rajtas en radika voja nomo"
@@ -61,7 +62,7 @@ msgstr "geçerli değeri girin"
 
 #: motioneye/static/js/main.js:843
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr "Bu, bulut klasöründe bulunan tüm dosyaları yinelemeli olarak silecektir \""
+msgstr "Bu, bulut klasöründe bulunan tüm dosyaları yinelemeli olarak silecektir"
 
 #: motioneye/static/js/main.js:844
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
@@ -109,16 +110,18 @@ msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
 msgstr "Bu, sistemi yeniden başlatır. Devam mı?"
 
 #: motioneye/static/js/main.js:2792
+#, fuzzy
 msgid "Vere fermiti sistemon?"
-msgstr "Gerçekten sistemi kapattın mı?"
+msgstr "Gerçekten sistemi kapansın mı?"
 
 #: motioneye/static/js/main.js:2804
 msgid "Malŝaltita"
 msgstr "Engelli"
 
 #: motioneye/static/js/main.js:2819
+#, fuzzy
 msgid "Ĉu vere restartigi ?"
-msgstr "Bu gerçekten bir yeniden başlatma mı?"
+msgstr "Gerçekten bir yeniden başlatılsın mı?"
 
 #: motioneye/static/js/main.js:2833
 msgid "La sistemo rekomencis!"
@@ -131,7 +134,7 @@ msgstr "Lütfen önce değiştirilen ayarları uygulayın!"
 
 #: motioneye/static/js/main.js:2858
 msgid "Neniu fotilo por forigi!"
-msgstr "Kaldırılacak kamera yok!"
+msgstr "Silinecek kamera yok!"
 
 #: motioneye/static/js/main.js:2864
 msgid "Ĉu forigi kameraon "
@@ -186,6 +189,7 @@ msgid "Malsukcesis restaŭri la agordon!"
 msgstr "Yapılandırma geri yüklenemedi!"
 
 #: motioneye/static/js/main.js:3077
+#, fuzzy
 msgid "Aliri la alŝutan servon malsukcesis: "
 msgstr "Yükleme hizmetine erişim başarısız oldu: "
 
@@ -202,12 +206,14 @@ msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
 msgstr "Tüm yapılandırma seçeneklerinin, geçerli olduğundan emin olun!"
 
 #: motioneye/static/js/main.js:3152
+#, fuzzy
 msgid "Sciiga Telegramo fiaskis:"
-msgstr "Bildirim Telegramı başarısız oldu:"
+msgstr "Telegram Bildirimi başarısız oldu:"
 
 #: motioneye/static/js/main.js:3155
+#, fuzzy
 msgid "Sciiga Telegramo sukcesis!"
-msgstr "Bildirim Telegramı başarılı oldu!"
+msgstr "Telegram Bildirimi başarılı oldu!"
 
 #: motioneye/static/js/main.js:3191
 msgid "Aliro al retdividado fiaskis: "
