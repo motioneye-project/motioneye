@@ -5,7 +5,7 @@
 #
 # Jose Baeza <josbacor@gmail.com>, 2024.
 # Florencio Jodra <florenciojodra@gmail.com>, 2024.
-# Pablo Esteban Bondaz <pabloestebanbondaz@gmail.com>, 2024.
+# Pablo Esteban Bondaz <pabloestebanbondaz@gmail.com>, 2024, 2025.
 # piet <piet@users.noreply.hosted.weblate.org>, 2024.
 # Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024.
 # Edgar Fabela <cocotugo@gmail.com>, 2025.
@@ -15,7 +15,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2025-02-09 00:03+0000\n"
 "PO-Revision-Date: 2025-04-28 19:11+0000\n"
-"Last-Translator: Edgar Fabela <cocotugo@gmail.com>\n"
+"Last-Translator: Pablo Esteban Bondaz <pabloestebanbondaz@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -373,7 +373,7 @@ msgstr "Opciones extra"
 
 #: motioneye/templates/main.html:363
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr "Puede agregar cualquier opción adicional aquí para el demonio \"Motion\" (use el formato \"Valor de nombre\", una opción por línea)"
+msgstr "Puede agregar cualquier opción adicional aquí para el servicio \"Motion\" (use el formato \"Valor de nombre\", una opción por línea)"
 
 #: motioneye/templates/main.html:372
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
