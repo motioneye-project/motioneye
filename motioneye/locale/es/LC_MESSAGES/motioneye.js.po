@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2025-02-09 00:03+0000\n"
-"PO-Revision-Date: 2025-04-28 07:04+0000\n"
-"Last-Translator: Covaga <covaga94@gmail.com>\n"
+"PO-Revision-Date: 2025-04-28 19:11+0000\n"
+"Last-Translator: Edgar Fabela <cocotugo@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,7 @@ msgstr "Esto eliminará de forma recursiva todos los archivos multimedia antiguo
 
 #: motioneye/static/js/main.js:926
 msgid "\", ne nur tiuj kreitaj de motionEye!"
-msgstr "\", ne nur tiuj kreitaj de motionEye!"
+msgstr "\", no solo los creados por motion Eye!"
 
 #: motioneye/static/js/main.js:992
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
