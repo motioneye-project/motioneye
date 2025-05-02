@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-28 17:59+0000\n"
+"POT-Creation-Date: 2025-04-28 19:42+0000\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -294,11 +294,6 @@ msgstr "সত্যিই সমস্ত গ্রুপমুক্ত মু
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "ক্যামেরা যুক্ত করুন ..."
-
-#: motioneye/static/js/main.js:3555
-#, fuzzy
-msgid "bone"
-msgstr "ঠিক আছে"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 #, fuzzy
@@ -835,6 +830,10 @@ msgstr "সাদা ভারসাম্য তাপমাত্রা অট
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "একেবারে জুম"
+
+#, fuzzy
+#~ msgid "bone"
+#~ msgstr "ঠিক আছে"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"

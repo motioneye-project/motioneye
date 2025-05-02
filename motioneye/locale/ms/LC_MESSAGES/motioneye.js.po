@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-28 17:59+0000\n"
+"POT-Creation-Date: 2025-04-28 19:42+0000\n"
 "PO-Revision-Date: 2020-03-28 18:26+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -294,11 +294,6 @@ msgstr "Benarkah memadam semua filem yang tidak dikumpulkan?"
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "tambah kamera ..."
-
-#: motioneye/static/js/main.js:3555
-#, fuzzy
-msgid "bone"
-msgstr "baiklah"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 #, fuzzy
@@ -835,6 +830,10 @@ msgstr "Auto suhu keseimbangan putih"
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "Zoom benar -benar"
+
+#, fuzzy
+#~ msgid "bone"
+#~ msgstr "baiklah"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"

@@ -2,19 +2,22 @@
 # Copyright (C) 2023 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2023.
-#
+# netuddki6 <lehelbek2013@gmail.com>, 2024.
+# Csaba Fero <csaba.fero@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-28 17:59+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"POT-Creation-Date: 2025-04-28 19:42+0000\n"
+"PO-Revision-Date: 2024-09-04 10:09+0000\n"
+"Last-Translator: Csaba Fero <csaba.fero@gmail.com>\n"
+"Language-Team: Hungarian <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 5.7.2-rc\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: motioneye/server.py:232
@@ -23,265 +26,266 @@ msgstr ""
 
 #: motioneye/server.py:276
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr ""
+msgstr "Az SMB megosztásokhoz root jogosultság szükséges."
 
 #: motioneye/server.py:283
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr ""
+msgstr "Kérem telepítse a tornado 3.1 vagy újabb vezióját"
 
 #: motioneye/server.py:290
 msgid "bonvolu instali jinja2"
-msgstr ""
+msgstr "telepítsd a jinja2 csomagot"
 
 #: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr ""
+msgstr "telepítsd a pillow vagy PIL csomagot"
 
 #: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
-msgstr ""
+msgstr "telepítsd a pycurl csomagot"
 
 #: motioneye/server.py:422
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr ""
+msgstr "Szia! Ez a motionEye kiszolgáló "
 
 #: motioneye/server.py:437
 msgid "purigado komenciĝis"
-msgstr ""
+msgstr "a tisztítás elindult"
 
 #: motioneye/server.py:439
 msgid "wsswitch komenciĝis"
-msgstr ""
+msgstr "wsswitch elindítva"
 
 #: motioneye/server.py:442
 msgid "taskoj komenciĝis"
-msgstr ""
+msgstr "feladat elindítva"
 
 #: motioneye/server.py:446
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr ""
+msgstr "mjpg felhasználói szemétgűjtő elindult"
 
 #: motioneye/server.py:464
 msgid "servilo komenciĝis"
-msgstr ""
+msgstr "kiszolgáló elindult"
 
 #: motioneye/server.py:470
 msgid "servilo haltis"
-msgstr ""
+msgstr "kiszolgáló leállt"
 
 #: motioneye/server.py:472
 msgid "taskoj haltis"
-msgstr ""
+msgstr "feladat leállt"
 
 #: motioneye/server.py:480
 msgid "motion haltis"
-msgstr ""
+msgstr "motion leállt"
 
 #: motioneye/server.py:485
 msgid "adiaŭ!"
-msgstr ""
+msgstr "Viszontlátásra!"
 
 #: motioneye/templates/main.html:104
 msgid "agordojn"
-msgstr ""
+msgstr "beállítások"
 
 #: motioneye/templates/main.html:105
 msgid "ŝanĝi uzanton"
-msgstr ""
+msgstr "felhasználó váltása"
 
 #: motioneye/templates/main.html:107
 msgid "forigi kameraon"
-msgstr ""
+msgstr "kamera eltávolítása"
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
-msgstr ""
+msgstr "Alkalmaz"
 
 #: motioneye/templates/main.html:127
 msgid "preferoj de uzanto"
-msgstr ""
+msgstr "felhasználói beállítások"
 
 #: motioneye/templates/main.html:128
 msgid "Preferoj"
-msgstr ""
+msgstr "beállítások"
 
 #: motioneye/templates/main.html:133
 msgid "Aranĝo Kolumnoj"
-msgstr ""
+msgstr "elrendezés oszlopai"
 
 #: motioneye/templates/main.html:135
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr ""
+msgstr "beállítja a kamera keretek elrendezéséhez használt oszlopok számát"
 
 #: motioneye/templates/main.html:138
 msgid "Fiksi Kadrojn Vertikale"
-msgstr ""
+msgstr "keret vízszintes kitöltése"
 
 #: motioneye/templates/main.html:140
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
-msgstr ""
+msgstr "szabályozza, hogy a keret mérete csökkenthető-e, hogy függőlegesen illeszkedjen az ablakhoz"
 
 #: motioneye/templates/main.html:143
 msgid "Aranĝo linioj"
-msgstr ""
+msgstr "Elrendezés sorai"
 
 #: motioneye/templates/main.html:145
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr ""
+msgstr "beállítja a kamera keretek elrendezéséhez használt sorok számát"
 
 #: motioneye/templates/main.html:148
 msgid "kadro-variatoro"
-msgstr ""
+msgstr "képkockasebesség szabályzó"
 
 #: motioneye/templates/main.html:150
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
-msgstr ""
+msgstr "csökkenti a képkockasebességet a hálózati sávszélesség és forgalom megtakarítása érdekében (egyszerű MJPEG kamerákon nem működik)"
 
 #: motioneye/templates/main.html:153
 msgid "Rezolucio-variatoro"
-msgstr ""
+msgstr "Felbontás szabályzó"
 
 #: motioneye/templates/main.html:155
 msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
-msgstr ""
+msgstr "csökkenti a felbontást a hálózati sávszélesség és forgalom megtakarítása érdekében (egyszerű MJPEG kamerákon nem működik)"
 
 #: motioneye/templates/main.html:161
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
-msgstr ""
+msgstr "kamera független általános beállítások"
 
 #: motioneye/templates/main.html:162
 msgid "Ĝeneralaj Agordoj"
-msgstr ""
+msgstr "Általános Beállítások"
 
 #: motioneye/templates/main.html:167
 msgid "Lingvo"
-msgstr ""
+msgstr "Nyelv"
 
 #: motioneye/templates/main.html:173
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr ""
+msgstr "a felület nyelve"
 
 #: motioneye/templates/main.html:176
 msgid "Administranto"
-msgstr ""
+msgstr "Admin felhasználónév"
 
 #: motioneye/templates/main.html:178
 msgid "la uzantnomo uzata por agordi la sistemon"
-msgstr ""
+msgstr "a rendszer beállításához használatos felhasználónév"
 
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:521
 msgid "Pasvorto"
-msgstr ""
+msgstr "Jelszó"
 
 #: motioneye/templates/main.html:183
 msgid "pasvorto de administranto"
-msgstr ""
+msgstr "Adminisztrátor jelszava"
 
 #: motioneye/templates/main.html:186
 msgid "Observanto"
-msgstr ""
+msgstr "Megfigyelő Felhasználóneve"
 
 #: motioneye/templates/main.html:188
 msgid "la uzantnomo por uzi por la monitorado"
-msgstr ""
+msgstr "a megfigyeléshez használt felhasználónév"
 
 #: motioneye/templates/main.html:193
 msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr ""
+msgstr "a megfigyeléshez használt felhasználónév jelszava (hagyja üresen, ha nem akar jelszót használni)"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"
-msgstr ""
+msgstr "motionEye verziója"
 
 #: motioneye/templates/main.html:206
 msgid "Motion Versio"
-msgstr ""
+msgstr "Motion verziója"
 
 #: motioneye/templates/main.html:210
 msgid "Operaciumo Versio"
-msgstr ""
+msgstr "Operációs rendszer verziója"
 
 #: motioneye/templates/main.html:215
 msgid "Programara Ĝisdatigo"
-msgstr ""
+msgstr "Szoftver frissítés"
 
 #: motioneye/templates/main.html:217
 msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
-msgstr ""
+msgstr "frissítések ellenőrzése és végrehajtása"
 
 #: motioneye/templates/main.html:221
+#, fuzzy
 msgid "Nutro"
-msgstr ""
+msgstr "Tápellátás"
 
 #: motioneye/templates/main.html:222
 msgid "Fermu"
-msgstr ""
+msgstr "Leállítás"
 
 #: motioneye/templates/main.html:223
 msgid "malŝaltas la sistemon"
-msgstr ""
+msgstr "rendszer leállítása"
 
 #: motioneye/templates/main.html:227
 msgid "Rekomencu"
-msgstr ""
+msgstr "Újraindítás"
 
 #: motioneye/templates/main.html:228
 msgid "rekomencas la sistemon"
-msgstr ""
+msgstr "rendszer újraindítása"
 
 #: motioneye/templates/main.html:234
 msgid "Agordo"
-msgstr ""
+msgstr "Beállítások"
 
 #: motioneye/templates/main.html:235
 msgid "Sekurkopio"
-msgstr ""
+msgstr "Mentés"
 
 #: motioneye/templates/main.html:236
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
-msgstr ""
+msgstr "jelenlegi beállításokat menti helyi állományba"
 
 #: motioneye/templates/main.html:240
 msgid "Restaŭri"
-msgstr ""
+msgstr "Helyreállítás"
 
 #: motioneye/templates/main.html:241
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
-msgstr ""
+msgstr "helyreállítja a beállításokat egy korábbi mentésből"
 
 #: motioneye/templates/main.html:265
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
-msgstr ""
+msgstr "engedélyezze ha használni kívánja ezt a kamerát"
 
 #: motioneye/templates/main.html:266
 msgid "Video-Aparato"
-msgstr ""
+msgstr "Videó eszköz"
 
 #: motioneye/templates/main.html:271 motioneye/templates/main.html:614
 #: motioneye/templates/main.html:631
 msgid "Kamerao Nomo"
-msgstr ""
+msgstr "Kamera Neve"
 
 #: motioneye/templates/main.html:272
 msgid "kameraa nomo…"
-msgstr ""
+msgstr "Kamera neve …"
 
 #: motioneye/templates/main.html:273
 msgid "alias pri ĉi tiu kamera aparato"
-msgstr ""
+msgstr "a kamera beceneve"
 
 #: motioneye/templates/main.html:276
 msgid "Kamerao ID"
-msgstr ""
+msgstr "Kamera Azonosítója"
 
 #: motioneye/templates/main.html:278
 msgid "la kamerao identiga numero"
-msgstr ""
+msgstr "a kamera azonosító száma"
 
 #: motioneye/templates/main.html:281
 msgid "Kamerao aparato"
-msgstr ""
+msgstr "Kamera eszköz"
 
 #: motioneye/templates/main.html:283
 msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
@@ -931,7 +935,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:787 motioneye/templates/main.html:900
 msgid "Propra"
-msgstr ""
+msgstr "Egyéni"
 
 #: motioneye/templates/main.html:790
 msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."

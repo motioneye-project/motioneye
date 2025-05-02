@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-28 17:59+0000\n"
+"POT-Creation-Date: 2025-04-28 19:42+0000\n"
 "PO-Revision-Date: 2022-06-20 09:22+0000\n"
 "Last-Translator: lukasig <lukasig@hotmail.com>\n"
 "Language-Team: Romanian <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/ro/>\n"
@@ -241,10 +241,6 @@ msgstr "Chiar doriți să ștergeți toate videoclipurile negrupate?"
 #: motioneye/static/js/main.js:3367
 msgid "aldonadi kameraon..."
 msgstr "adaugă o cameră..."
-
-#: motioneye/static/js/main.js:3555
-msgid "bone"
-msgstr "OK"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 msgid "Uzantnomo"
@@ -674,3 +670,6 @@ msgstr "Temperatura balansului de alb automată"
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
 msgstr "Zoom absolut"
+
+#~ msgid "bone"
+#~ msgstr "OK"

@@ -13,24 +13,26 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     strategy:
       matrix:
-        dist: ['ubuntu-20.04', 'ubuntu-22.04', 'ubuntu-24.04']
+        dist: ['ubuntu-22.04', 'ubuntu-24.04', 'ubuntu-22.04-arm', 'ubuntu-24.04-arm']
       fail-fast: false
     runs-on: ${{ matrix.dist }}
     name: "Test on ${{ matrix.dist }}"
     steps:
-      - run: sudo apt-mark hold grub-efi-amd64-signed # GRUB does not always find the drive it was configured for
+      - if: matrix.dist == 'ubuntu-22.04' || matrix.dist == 'ubuntu-24.04'
+        run: sudo apt-mark hold grub-efi-amd64-signed # GRUB does not always find the drive it was configured for
       - name: Ubuntu Noble workarounds
-        if: matrix.dist == 'ubuntu-24.04'
+        if: matrix.dist == 'ubuntu-24.04' || matrix.dist == 'ubuntu-24.04-arm'
         run: |
           # https://github.com/actions/runner-images/pull/9956
           # ERROR: Cannot uninstall pip 24.0, RECORD file not found. Hint: The package was installed by debian.
-          sudo apt-get autopurge needrestart python3-pip python3-setuptools python3-wheel
+          # new firefox package pre-installation script subprocess returned error exit status 1
+          sudo apt-get autopurge needrestart python3-pip python3-setuptools python3-wheel firefox
           # error: externally-managed-environment
           echo -e '[global]\nbreak-system-packages=true' | sudo tee /etc/pip.conf
       - run: sudo apt-get -q update
       - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends dist-upgrade
       - run: sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends install
-                  ca-certificates curl gcc libcurl4-openssl-dev libssl-dev python3-dev
+                  ca-certificates curl python3-dev
       - run: curl -sSfO 'https://bootstrap.pypa.io/get-pip.py'
       - run: sudo python3 get-pip.py
       - run: sudo python3 -m pip install --upgrade pip setuptools wheel

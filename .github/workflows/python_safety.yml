@@ -14,11 +14,7 @@ jobs:
     if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.owner.login != github.event.pull_request.base.repo.owner.login
     runs-on: ubuntu-24.04
     steps:
-      - run: sudo apt-get -q update
-      - run: sudo apt-get autopurge needrestart # https://github.com/actions/runner-images/pull/9956
       - run: echo -e '[global]\nbreak-system-packages=true' | sudo tee /etc/pip.conf # error: externally-managed-environment
-      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
-             gcc libcurl4-openssl-dev libssl-dev
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
@@ -29,4 +25,5 @@ jobs:
       # Ignore CVE-2018-20225, which is IMO reasonably disputed: https://data.safetycli.com/v/67599/97c/
       # "extra"-index-url means an index to "additionally" look for newer versions, pre-compiled wheels, or similar, not to force this index being used.
       # There is "index-url" to enforce a different index: https://pip.pypa.io/en/stable/cli/pip_install/#cmdoption-i
-      - run: safety check --ignore 67599
+      # Ignore CVE-2019-8341 as well: https://github.com/pyupio/safety/issues/527
+      - run: safety check --ignore 67599,70612

@@ -3,20 +3,22 @@
 # This file is distributed under the same license as the PROJECT project.
 # Automatically generated, 2020.
 #
+# piet <piet@users.noreply.hosted.weblate.org>, 2024.
+# Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-28 17:59+0000\n"
-"PO-Revision-Date: 2022-06-09 06:20+0000\n"
-"Last-Translator: lukasig <lukasig@hotmail.com>\n"
+"POT-Creation-Date: 2025-04-28 19:42+0000\n"
+"PO-Revision-Date: 2024-10-21 00:15+0000\n"
+"Last-Translator: Zhang Wei <Zhang@users.noreply.hosted.weblate.org>\n"
 "Language-Team: English <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/en/>\n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.13-dev\n"
+"X-Generator: Weblate 5.8-rc\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
