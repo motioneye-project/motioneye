@@ -78,5 +78,17 @@ chown -R motion:motion /etc/motioneye
 
 # Install service
 cp extra/motioneye.systemd /etc/systemd/system/motioneye.service
+# - Update meyectl path if expected /usr/local/bin/meyectl does not exist, found on Arch Linux: https://github.com/motioneye-project/motioneye/issues/3005
+if [[ ! -f '/usr/local/bin/meyectl' ]]
+then
+  meyectl_path=$(command -v meyectl)
+  if [[ $meyectl_path ]]
+  then
+    echo "Using $meyectl_path for systemd service"
+    sed -i "s|^ExecStart=/usr/local/bin/meyectl|ExecStart=$meyectl_path|" /etc/systemd/system/motioneye.service
+  else
+    echo 'ERROR: meyectl executable has not been found. systemd service will fail to start. Please check your motionEye installation.'
+  fi
+fi
 systemctl daemon-reload
 systemctl enable --now motioneye

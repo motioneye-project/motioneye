@@ -3,20 +3,23 @@
 # This file is distributed under the same license as the PROJECT project.
 # Automatically generated, 2020.
 #
+# piet <piet@users.noreply.hosted.weblate.org>, 2024.
+# Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024.
+# albanobattistella <albano_battistella@hotmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-28 17:59+0000\n"
-"PO-Revision-Date: 2022-09-08 14:23+0000\n"
-"Last-Translator: Riccardo Malagutti <riccardo.malagutti99@gmail.com>\n"
+"POT-Creation-Date: 2025-04-28 19:42+0000\n"
+"PO-Revision-Date: 2025-01-05 09:03+0000\n"
+"Last-Translator: albanobattistella <albano_battistella@hotmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/it/>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.14.1-dev\n"
+"X-Generator: Weblate 5.10-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -1102,9 +1105,8 @@ msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon.
 msgstr "Abilita questa opzione per applicare un filtro di sfocatura ai fotogrammi prima di rilevare il movimento."
 
 #: motioneye/templates/main.html:962
-#, fuzzy
 msgid "Senmovada daŭro"
-msgstr "Movimento continuo"
+msgstr "Durata dell'immobilità"
 
 #: motioneye/templates/main.html:964
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."

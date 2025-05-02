@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-05-28 17:59+0000\n"
+"POT-Creation-Date: 2025-04-28 19:42+0000\n"
 "PO-Revision-Date: 2020-02-11 22:23+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -294,11 +294,6 @@ msgstr "هل تريد حقًا حذف جميع الأفلام غير المجم�
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "إضافة كاميرا ..."
-
-#: motioneye/static/js/main.js:3555
-#, fuzzy
-msgid "bone"
-msgstr "حسنًا"
 
 #: motioneye/static/js/main.js:3592 motioneye/static/js/main.js:3891
 #, fuzzy
@@ -835,6 +830,10 @@ msgstr "وايت توازن درجة حرارة السيارات"
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "تكبير بالتأكيد"
+
+#, fuzzy
+#~ msgid "bone"
+#~ msgstr "حسنًا"
 
 #, fuzzy
 #~ msgid "plena ekrano kamerao"

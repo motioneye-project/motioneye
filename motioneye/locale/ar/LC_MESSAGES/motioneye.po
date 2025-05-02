@@ -3,20 +3,22 @@
 # This file is distributed under the same license as the PROJECT project.
 # Automatically generated, 2020.
 #
+# piet <piet@users.noreply.hosted.weblate.org>, 2024.
+# Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-28 17:59+0000\n"
-"PO-Revision-Date: 2022-05-03 16:19+0000\n"
-"Last-Translator: jmichault <jmt.2000@free.fr>\n"
-"Language-Team: Arabic <https://hosted.weblate.org/projects/motioneye-project/motioneye/ar/>\n"
+"POT-Creation-Date: 2025-04-28 19:42+0000\n"
+"PO-Revision-Date: 2024-10-20 10:16+0000\n"
+"Last-Translator: Zhang Wei <Zhang@users.noreply.hosted.weblate.org>\n"
+"Language-Team: Arabic <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/ar/>\n"
 "Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
-"X-Generator: Weblate 4.12.1\n"
+"X-Generator: Weblate 5.8-rc\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -452,7 +454,6 @@ msgid "Ekstraj Elektoj"
 msgstr "خيارات إضافية"
 
 #: motioneye/templates/main.html:363
-#, fuzzy
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
 msgstr "يمكنك إضافة أي خيارات إضافية هنا لشيطان \"الحركة\" (استخدم تنسيق \"قيمة الاسم\" ، خيار واحد لكل سطر)"
 

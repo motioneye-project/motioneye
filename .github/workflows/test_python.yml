@@ -16,9 +16,10 @@ jobs:
       matrix:
         include:
           # https://packages.ubuntu.com/search?suite=all&arch=any&searchon=names&keywords=python3
-          - { dist: 'ubuntu-20.04', python: '3.8.2' }
           - { dist: 'ubuntu-22.04', python: '3.10.6' }
           - { dist: 'ubuntu-24.04', python: '3.12.3' }
+          - { dist: 'ubuntu-22.04-arm', python: '3.10.6' }
+          - { dist: 'ubuntu-24.04-arm', python: '3.12.3' }
       fail-fast: false
     runs-on: ${{ matrix.dist }}
     name: "Test on ${{ matrix.dist }}"
@@ -27,9 +28,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
-      - run: sudo apt-mark hold grub-efi-amd64-signed # GRUB does not always find the drive it was configured for
+      - if: matrix.dist == 'ubuntu-22.04' || matrix.dist == 'ubuntu-24.04'
+        run: sudo apt-mark hold grub-efi-amd64-signed # GRUB does not always find the drive it was configured for
       - name: Ubuntu Noble workarounds
-        if: matrix.dist == 'ubuntu-24.04'
+        if: matrix.dist == 'ubuntu-24.04' || matrix.dist == 'ubuntu-24.04-arm'
         run: |
           # https://github.com/actions/runner-images/pull/9956
           sudo apt-get autopurge needrestart

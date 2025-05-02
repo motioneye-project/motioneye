@@ -9,7 +9,7 @@
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: check-builtin-literals
       - id: check-executables-have-shebangs
@@ -20,23 +20,23 @@ repos:
       - id: mixed-line-ending
       - id: trailing-whitespace
   - repo: https://github.com/PyCQA/bandit
-    rev: 1.7.8
+    rev: 1.8.3
     hooks:
       - id: bandit
         args:
           - --skip=B104,B105,B108,B110,B301,B310,B321,B324,B402,B403,B404,B602,B603,B604,B605,B607,B701
   - repo: https://github.com/python/black
-    rev: 24.4.2
+    rev: 25.1.0
     hooks:
       - id: black
         args: [--skip-string-normalization]
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.3.0
+    rev: v2.4.1
     hooks:
       - id: codespell
       # See args in setup.cfg
   - repo: https://github.com/PyCQA/flake8
-    rev: 7.0.0
+    rev: 7.2.0
     hooks:
       - id: flake8
         additional_dependencies: [flake8-2020, flake8-bugbear, flake8-comprehensions, flake8-return]
@@ -49,12 +49,12 @@ repos:
           - --show-source
           - --statistics
   - repo: https://github.com/timothycrosley/isort
-    rev: 5.13.2
+    rev: 6.0.1
     hooks:
       - id: isort
         args: ["--profile", "black", "--filter-files"]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.2
+    rev: v3.19.1
     hooks:
       - id: pyupgrade
         args: [--py37-plus]

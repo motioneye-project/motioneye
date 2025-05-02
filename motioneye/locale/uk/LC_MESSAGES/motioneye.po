@@ -3,20 +3,24 @@
 # This file is distributed under the same license as the PROJECT project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 # Сергій <sergiy.goncharuk.1@gmail.com>, 2024.
+# piet <piet@users.noreply.hosted.weblate.org>, 2024.
+# Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024.
+# Oleksii <omazilov@gmail.com>, 2024.
+# Максим Горпиніч <mgorpinic2005@gmail.com>, 2024.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-28 17:59+0000\n"
-"PO-Revision-Date: 2024-02-15 14:02+0000\n"
-"Last-Translator: Сергій <sergiy.goncharuk.1@gmail.com>\n"
+"POT-Creation-Date: 2025-04-28 19:42+0000\n"
+"PO-Revision-Date: 2024-12-18 05:00+0000\n"
+"Last-Translator: Максим Горпиніч <mgorpinic2005@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.4-dev\n"
+"X-Generator: Weblate 5.9.2-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/server.py:232
@@ -37,11 +41,11 @@ msgstr "Будь-ласка, встановіть компонент jinja2"
 
 #: motioneye/server.py:297
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr "Будь-ласка, встановіть компонент pillow або PIL"
+msgstr "будь ласка, встановіть подушку або PIL"
 
 #: motioneye/server.py:304
 msgid "bonvolu instali pycurl"
-msgstr "Будь-ласка, встановіть компонент pycurl"
+msgstr "Будь ласка, встановіть компонент pycurl"
 
 #: motioneye/server.py:422
 msgid "saluton! ĉi tio estas motionEye-servilo "
@@ -77,7 +81,7 @@ msgstr "завдання зупинено"
 
 #: motioneye/server.py:480
 msgid "motion haltis"
-msgstr "mothion зупинено"
+msgstr "motion зупинено"
 
 #: motioneye/server.py:485
 msgid "adiaŭ!"
