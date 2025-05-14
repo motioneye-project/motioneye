@@ -21,6 +21,7 @@ import re
 import stat
 import subprocess
 import time
+from shlex import quote
 
 from motioneye import utils
 
@@ -89,7 +90,7 @@ def list_resolutions(device):
     resolutions = set()
     output = b''
     started = time.time()
-    cmd = f"v4l2-ctl -d '{device}' --list-formats-ext | grep -vi stepwise | grep -oE '[0-9]+x[0-9]+' || true"
+    cmd = f"v4l2-ctl -d {quote(device)} --list-formats-ext | grep -vi stepwise | grep -oE '[0-9]+x[0-9]+' || true"
     logging.debug(f'running command "{cmd}"')
 
     try:
