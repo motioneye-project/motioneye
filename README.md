@@ -13,8 +13,6 @@ You can contribute to translations on [__Weblate__](https://hosted.weblate.org/p
 
 # Installation
 
-These install instructions are constantly tested via CI/CD pipeline on Debian Bullseye and Ubuntu Focal.
-
 1. Install **Python 3.7 or later** and build dependencies
 
     _Here the commands for APT-based Linux distributions are given._
