@@ -15,7 +15,7 @@ dependencies = [
 ]
 requires-python = ">=3.7"
 authors = [
-  {name = "Calin Crisan", email = "author@example.com"},
+  {name = "Calin Crisan", email = "ccrisan@gmail.com"},
   {name = "Jean Michault"},
 ]
 maintainers = [
