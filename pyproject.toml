@@ -1,57 +1,6 @@
 [build-system]
-requires = ["setuptools>=77.0.3"]
+requires = [
+    "setuptools>=42",
+    "wheel"
+]
 build-backend = "setuptools.build_meta"
-
-[project]
-name = "motioneye"
-dynamic = ["version"]
-dependencies = [
-  "tornado>=6.5.0",
-  "jinja2",
-  "pillow",
-  "pycurl",
-  "babel",
-  "boto3",
-]
-requires-python = ">=3.7"
-authors = [
-  {name = "Calin Crisan", email = "author@example.com"},
-  {name = "Jean Michault"},
-]
-maintainers = [
-  [name = "MichaIng", email = "micha@dietpi.com"},
-]
-description = "motioneye, a multilingual web interface for motion."
-readme = "README.md"
-license = "GPL-3.0-or-later"
-license-files = ["LICENSE"]
-keywords = ["motion", "video", "surveillance", "frontend"]
-classifiers = [
-  "Operating System :: POSIX :: Linux",
-  "Programming Language :: Python :: 3",
-  "Topic :: Multimedia :: Video :: Capture",
-]
-
-[project.urls]
-Homepage = "https://github.com/motioneye-project/motioneye"
-Source = "https://github.com/motioneye-project/motioneye"
-Changelog = "https://github.com/motioneye-project/motioneye/releases"
-Issue = "https://github.com/motioneye-project/motioneye/issues"
-
-[project.scripts]
-meyectl = "motioneye.meyectl:main"
-motioneye_init = "motioneye.motioneye_init:main"
-
-[tool.setuptools]
-packages = ["motioneye"]
-include-package-data = false
-
-[tool.setuptools.package-data]
-motioneye = ["extra/*", "static/*.*", "static/*/*", "templates/*", "scripts/*", "controls/*", "handlers/*", "utils/*", "locale/*/LC_MESSAGES/*.mo"]
-
-[tool.setuptools.dynamic]
-version = {attr = "motioneye.VERSION"}
-
-[tool.codespell]
-ignore-words-list = "ot"
-skip = "*.html,*.js,*.json,*.po,*.pot"
