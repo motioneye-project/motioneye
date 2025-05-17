@@ -76,19 +76,23 @@ def _make_request(
 
 
 async def _send_request(request: HTTPRequest) -> HTTPResponse:
-    response = await AsyncHTTPClient().fetch(request, raise_error=False)
+    try:
+        # The raise_error=False argument only affects the HTTPError raised when a non-200 response
+        # code is used, instead of suppressing all errors.
+        response = await AsyncHTTPClient().fetch(request, raise_error=False)
 
-    if response.code != 200:
-        try:
+        if response.code != 200:
+
             decoded = json.loads(response.body)
+
             if decoded['error'] == 'unauthorized':
                 response.error = 'Authentication Error'
-
             elif decoded['error']:
                 response.error = decoded['error']
-
-        except Exception as e:
-            logging.error(f"_send_request: {e}")
+    except Exception as e:
+        logging.error(f"_send_request: {e}")
+        response = HTTPResponse(request, 500)
+        response.error = e
 
     return response
 
