@@ -6,17 +6,12 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  contents: read
-
-defaults:
-  run:
-    shell: sh
+permissions: {}
 
 jobs:
   update_locales:
-    # Skip for forks and dependabot which have no access to secrets (PAT)
-    if: github.event.pull_request.head.repo.fork == false && github.actor != 'dependabot[bot]'
+    # Skip for forks which have no access to secrets (PAT)
+    if: github.event.pull_request.head.repo.fork == false
     runs-on: ubuntu-24.04
     steps:
 
