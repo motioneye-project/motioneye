@@ -50,9 +50,6 @@ You can contribute to translations on [__Weblate__](https://hosted.weblate.org/p
     ```
     _NB: `motioneye_init` currently assumes either an APT- or RPM-based distribution with `systemd` as init system. For a manual setup, config and service files can be found here: <https://github.com/motioneye-project/motioneye/tree/dev/motioneye/extra>_
 
-4. Access the user interface
-   Use admin with empty password when prompted for credentials.
-
 # Upgrade
 
 ```sh
