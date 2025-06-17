@@ -3,14 +3,13 @@ name: pre-commit-autoupdate
 on:
   workflow_dispatch:
   schedule:
-    - cron: '42 15 * * *'
+    - cron: 42 15 * * *
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions:
-  pull-requests: write
+permissions: {}
 
 jobs:
   pre-commit-autoupdate:
@@ -23,11 +22,9 @@ jobs:
         token: ${{ secrets.GH_PAT }}
     - uses: actions/setup-python@v5
       with:
-        python-version: '3.x'
+        python-version: 3.x
         check-latest: true
-    - env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
+    - run: |
         branch_exists=0
         git fetch origin pre-commit-autoupdate && branch_exists=1
         if (( branch_exists ))
@@ -50,5 +47,6 @@ jobs:
         else
             git commit -m '[CI/CD] pre-commit autoupdate'
             git push origin pre-commit-autoupdate
+            GH_TOKEN='${{ secrets.GH_PAT }}'
             gh pr create -B dev -H pre-commit-autoupdate -f -l 'CI/CD'
         fi
