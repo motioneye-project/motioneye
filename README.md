@@ -23,10 +23,9 @@ You can contribute to translations on [__Weblate__](https://hosted.weblate.org/p
     sudo apt --no-install-recommends install ca-certificates curl python3
     ```
 
-    On **ARMv6 and ARMv7 (32-bit), RISC-V and other rare CPU architectures** additional build dependencies may be required to compile the [Pillow](https://pypi.org/project/pillow/) and [PycURL](https://pypi.org/project/pycurl/) modules:
+    On **ARMv6/ARMv7 (32-bit), RISC-V, and other rare CPU architectures** additional build dependencies may be required to compile the [Pillow](https://pypi.org/project/pillow/) and [PycURL](https://pypi.org/project/pycurl/) modules:
     ```sh
-    sudo apt update
-    sudo apt --no-install-recommends install ca-certificates curl python3 python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev
+    sudo apt --no-install-recommends install python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev
     ```
 
 2. Install the Python package manager `pip`
@@ -36,7 +35,7 @@ You can contribute to translations on [__Weblate__](https://hosted.weblate.org/p
     rm get-pip.py
     ```
 
-    **On recent Debian (Bookworm ant later) and Ubuntu (Lunar and later) versions**, the `libpython3.*-stdlib` package ships a file `/usr/lib/python3.*/EXTERNALLY-MANAGED`, which prevents the installation of Python modules outside of `venv` environments.
+    **On recent distro versions, like Debian 12/Bookworm, Ubuntu 23.04/Lunar, and later**, the `libpython3.*-stdlib` package ships a file `/usr/lib/python3.*/EXTERNALLY-MANAGED`, which prevents the installation of Python modules outside of `venv` environments.
     motionEye however has a small number of dependencies with no strict version requirements and hence is very unlikely to break any Python package you might have installed via APT. To bypass this block, add `break-system-packages=true` to the `[global]` section of your `pip.conf`:
     ```sh
     grep -q '\[global\]' /etc/pip.conf 2> /dev/null || printf '%b' '[global]\n' | sudo tee -a /etc/pip.conf > /dev/null
@@ -57,9 +56,10 @@ sudo systemctl stop motioneye
 sudo python3 -m pip install --upgrade --pre motioneye
 sudo systemctl start motioneye
 ```
+
 # Accessing the user interface
 
-After having successfully followed the installation instructions, the motionEye server should be running on your system and listening on port 8765. Fire up your favorite web browser and visit the following URL (replacing [your_ip] with... well, your system's IP address):
+After having successfully followed the installation instructions, the motionEye server should be running on your system and listening on port **8765**. Fire up your favorite web browser and visit the following URL (replacing `[your_ip]` with... well, your system's IP address):
 
 ```
 http://[your_ip]:8765/
