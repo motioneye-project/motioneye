@@ -685,7 +685,7 @@ class ConfigHandler(BaseHandler):
                         data['smtp_password'],
                         data['smtp_tls'],
                         data['from'],
-                        [data['addresses']],
+                        data['addresses'].split(','),
                         subject=subject,
                         message=message,
                         files=[],

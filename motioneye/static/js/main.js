@@ -3117,7 +3117,7 @@ function doTestEmail() {
             showErrorMessage(i18n.gettext("Sciiga retpoŝto fiaskis:") + data.error + '!');
         }
         else {
-            showPopupMessage(i18n.gettext("Sciiga retpoŝto fiaskis:"), 'info');
+            showPopupMessage(i18n.gettext("Notification email succeeded!"), 'info');
         }
     });
 }
