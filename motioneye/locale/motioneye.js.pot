@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-05-25 02:02+0000\n"
+"POT-Creation-Date: 2025-06-29 18:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -193,8 +193,12 @@ msgstr ""
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr ""
 
-#: motioneye/static/js/main.js:3117 motioneye/static/js/main.js:3120
+#: motioneye/static/js/main.js:3117
 msgid "Sciiga retpoŝto fiaskis:"
+msgstr ""
+
+#: motioneye/static/js/main.js:3120
+msgid "Notification email succeeded!"
 msgstr ""
 
 #: motioneye/static/js/main.js:3136
