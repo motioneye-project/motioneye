@@ -19,7 +19,7 @@ cookie=$(find . -maxdepth 1 -name _traduko.jar -mmin -14)
 MSG0=$(curl -sSfb _traduko.jar -A 'Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101 Firefox/68.0' \
   --refer 'https://translate.google.com/' \
   "https://translate.google.com/translate_a/single?client=webapp&sl=${src}&tl=${dst}&hl=${dst}&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&dt=t&dt=gt&pc=1&otf=1&ssel=0&tsel=0&kc=1&tk=&ie=UTF-8&oe=UTF-8" \
-  --data-urlencode "q=$txt" > /dev/null \
+  --data-urlencode "q=$txt" \
 )
 
 [ "$DEBUG" ] && printf '%s\n' "$src txt=$txt" >&2
