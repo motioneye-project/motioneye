@@ -556,6 +556,11 @@
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadBucketEntry"></td>
                             <td><span class="help-mark" title="{{ _("la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(s3)">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Encryption key") }}</span></td>
+                            <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled storage camera-config" id="uploadSseCKeyEntry"></td>
+                            <td><span class="help-mark" title="{{ _("Add encryption key if you want use server side encryption (SSE-C). The key must be a base64 encoded string with a length of 32 bytes. You can generate a key using the following command: openssl rand 32 | base64") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item" depends="uploadEnabled">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
                             <td class="settings-item-value"><div class="button normal-button test-button" id="uploadTestButton">{{ _("Testi la servon") }}</div></td>

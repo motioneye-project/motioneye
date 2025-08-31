@@ -1983,6 +1983,7 @@ function cameraUi2Dict() {
         'upload_access_key': $('#uploadAccessKeyEntry').val(),
         'upload_secret_key': $('#uploadSecretKeyEntry').val(),
         'upload_bucket': $('#uploadBucketEntry').val(),
+        'upload_sse_c_key': $('#uploadSseCKeyEntry').val(),
         'clean_cloud_enabled': $('#cleanCloudEnabledSwitch')[0].checked,
         'web_hook_storage_enabled': $('#webHookStorageEnabledSwitch')[0].checked,
         'web_hook_storage_url': $('#webHookStorageUrlEntry').val(),
@@ -2320,6 +2321,7 @@ function dict2CameraUi(dict) {
     $('#uploadAccessKeyEntry').val(dict['upload_access_key']); markHideIfNull('upload_access_key', 'uploadAccessKeyEntry');
     $('#uploadSecretKeyEntry').val(dict['upload_secret_key']); markHideIfNull('upload_secret_key', 'uploadSecretKeyEntry');
     $('#uploadBucketEntry').val(dict['upload_bucket']); markHideIfNull('upload_bucket', 'uploadBucketEntry');
+    $('#uploadSseCKeyEntry').val(dict['upload_sse_c_key']); markHideIfNull('upload_sse_c_key', 'uploadSseCKeyEntry');
     $('#cleanCloudEnabledSwitch')[0].checked = dict['clean_cloud_enabled']; markHideIfNull('clean_cloud_enabled', 'cleanCloudEnabledSwitch');
 
     $('#webHookStorageEnabledSwitch')[0].checked = dict['web_hook_storage_enabled']; markHideIfNull('web_hook_storage_enabled', 'webHookStorageEnabledSwitch');
@@ -3061,7 +3063,8 @@ function doTestUpload() {
         endpoint_url: $('#uploadEndpointUrlEntry').val(),
         access_key: $('#uploadAccessKeyEntry').val(),
         secret_key: $('#uploadSecretKeyEntry').val(),
-        bucket: $('#uploadBucketEntry').val()
+        bucket: $('#uploadBucketEntry').val(),
+        sse_c_key: $('#uploadSseCKeyEntry').val()
     };
 
     var cameraId = $('#cameraSelect').val();

@@ -513,6 +513,7 @@ def get_camera(camera_id, as_lines=False):
             '@upload_access_key',
             '@upload_secret_key',
             '@upload_bucket',
+            '@upload_sse_c_key',
             'camera_name',
         ],
     )
@@ -912,6 +913,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         '@upload_access_key': ui['upload_access_key'],
         '@upload_secret_key': ui['upload_secret_key'],
         '@upload_bucket': ui['upload_bucket'],
+        '@upload_sse_c_key': ui['upload_sse_c_key'],
         '@clean_cloud_enabled': ui['clean_cloud_enabled'],
         # text overlay
         'text_left': '',
@@ -1427,6 +1429,7 @@ def motion_camera_dict_to_ui(data):
         'upload_access_key': data['@upload_access_key'],
         'upload_secret_key': data['@upload_secret_key'],
         'upload_bucket': data['@upload_bucket'],
+        'upload_sse_c_key': data['@upload_sse_c_key'],
         'clean_cloud_enabled': data['@clean_cloud_enabled'],
         'web_hook_storage_enabled': False,
         'command_storage_enabled': False,
@@ -2303,6 +2306,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@upload_access_key', '')
     data.setdefault('@upload_secret_key', '')
     data.setdefault('@upload_bucket', '')
+    data.setdefault('@upload_sse_c_key', '')
     data.setdefault('@clean_cloud_enabled', False)
 
     data.setdefault('stream_localhost', False)
