@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
 
-    - uses: actions/setup-python@v5
+    - uses: actions/setup-python@v6
       with:
         python-version: '3.x'
         check-latest: true

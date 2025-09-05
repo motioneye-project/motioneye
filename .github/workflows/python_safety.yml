@@ -16,7 +16,7 @@ jobs:
     steps:
       - run: echo -e '[global]\nbreak-system-packages=true' | sudo tee /etc/pip.conf # error: externally-managed-environment
       - uses: actions/checkout@v5
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: 3.x
           check-latest: true

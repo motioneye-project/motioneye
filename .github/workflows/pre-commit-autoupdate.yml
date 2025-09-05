@@ -20,7 +20,7 @@ jobs:
         ref: dev
         # https://github.com/peter-evans/create-pull-request/issues/48
         token: ${{ secrets.GH_PAT }}
-    - uses: actions/setup-python@v5
+    - uses: actions/setup-python@v6
       with:
         python-version: 3.x
         check-latest: true
