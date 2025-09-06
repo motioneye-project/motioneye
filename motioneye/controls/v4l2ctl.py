@@ -90,6 +90,11 @@ def list_resolutions(device):
     resolutions = set()
     output = b''
     started = time.time()
+    ALLOWED_DEVICES = ['/dev/video0', '/dev/video1']  # Example allowlist
+    if device not in ALLOWED_DEVICES:
+        logging.error(f'Invalid device "{device}" provided')
+        raise ValueError(f'Invalid device "{device}"')
+
     cmd = f"v4l2-ctl -d {quote(device)} --list-formats-ext | grep -vi stepwise | grep -oE '[0-9]+x[0-9]+' || true"
     logging.debug(f'running command "{cmd}"')
 

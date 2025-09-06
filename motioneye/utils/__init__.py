@@ -655,6 +655,11 @@ def call_subprocess(
     env=None,
 ) -> str:
     """subprocess.run wrapper to return output as a decoded string"""
+    ALLOWED_COMMANDS = ['v4l2-ctl', 'which']  # Example allowlist
+    if not isinstance(args, list) or args[0] not in ALLOWED_COMMANDS:
+        logging.error(f'Invalid command "{args}" provided')
+        raise ValueError(f'Invalid command "{args}"')
+
     return subprocess.run(
         args,
         stdin=stdin,
