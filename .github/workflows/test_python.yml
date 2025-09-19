@@ -33,10 +33,12 @@ jobs:
       - name: Ubuntu Noble workarounds
         if: matrix.dist == 'ubuntu-24.04' || matrix.dist == 'ubuntu-24.04-arm'
         run: |
-          # https://github.com/actions/runner-images/pull/9956
-          sudo apt-get autopurge needrestart
+          # new firefox package pre-installation script subprocess returned error exit status 1
+          sudo apt-get autopurge firefox
           # error: externally-managed-environment
           echo -e '[global]\nbreak-system-packages=true' | sudo tee /etc/pip.conf
+      # ERROR: Cannot uninstall pip 24.0, RECORD file not found. Hint: The package was installed by debian.
+      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq autopurge python3-pip python3-setuptools python3-wheel
       - run: sudo apt-get -q update
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends dist-upgrade
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
