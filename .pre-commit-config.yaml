@@ -39,7 +39,8 @@ repos:
     rev: 7.3.0
     hooks:
       - id: flake8
-        additional_dependencies: [flake8-2020, flake8-bugbear, flake8-comprehensions, flake8-return]
+        # Skipped plugins which are currently not used by "--select": flake8-return, which does not support Python 3.14 yet: https://github.com/afonasev/flake8-return/pull/139
+        additional_dependencies: [flake8-2020, flake8-bugbear, flake8-comprehensions]
         args:
           - --builtins=_
           - --count
