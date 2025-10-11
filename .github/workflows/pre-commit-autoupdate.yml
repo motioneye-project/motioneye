@@ -47,6 +47,6 @@ jobs:
         else
             git commit -m '[CI/CD] pre-commit autoupdate'
             git push origin pre-commit-autoupdate
-            GH_TOKEN='${{ secrets.GH_PAT }}'
+            export GH_TOKEN='${{ secrets.GH_PAT }}'
             gh pr create -B dev -H pre-commit-autoupdate -f -l 'CI/CD'
         fi
