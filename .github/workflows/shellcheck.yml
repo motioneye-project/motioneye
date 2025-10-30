@@ -16,12 +16,13 @@ jobs:
     steps:
       - name: Install xz-utils
         run: |
+          command -v xz && exit 0
           sudo apt-get -q update
           sudo DEBIAN_FRONTEND=noninteractive apt-get -qq --no-install-recommends install xz-utils
       - uses: actions/checkout@v5
       - name: Download shellcheck
         run: |
-          curl -sSfL "$(curl -sSf 'https://api.github.com/repos/koalaman/shellcheck/releases/latest' | mawk -F\" '/"browser_download_url.*\.linux\.x86_64\.tar\.xz"/{print $4;exit}')" -o shellcheck.tar.xz
+          curl -sSfLo shellcheck.tar.xz "$(curl -sSf 'https://api.github.com/repos/koalaman/shellcheck/releases/latest' | mawk -F\" '/"browser_download_url.*\.linux\.x86_64\.tar\.xz"/{print $4;exit}')"
           tar --wildcards --strip-components=1 -xf shellcheck.tar.xz '*/shellcheck'
           rm shellcheck.tar.xz
       - name: Run shellcheck

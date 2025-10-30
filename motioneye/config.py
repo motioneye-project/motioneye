@@ -839,13 +839,51 @@ def main_dict_to_ui(data):
     return ui
 
 
+def input_sanity_check(regex, value, key, msg):
+    if match(regex, value):
+        return value
+
+    else:
+        raise ValueError(
+            f'Value "{value}" for setting "{key}" did not match regex "{regex}": {msg}'
+        )
+
+
 def motion_camera_ui_to_dict(ui, prev_config=None):
     prev_config = dict(prev_config or {})
     main_config = get_main()  # needed for surveillance password
 
+    # regex definitions for input sanity checks in backend
+    # they must match the ones in motioneye/static/js/main.js
+    deviceNameValidRegExp = '^[A-Za-z0-9-_+ ]+$'
+    deviceNameFailMessage = _(
+        'Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space'
+    )
+    filenameValidRegExp = '^([A-Za-z0-9 ()/._-]|%[CYmdHMSqv])+$'
+    filenameFailMessage = _(
+        'File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., '
+        'underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v'
+    )
+    dirnameValidRegExp = '^[A-Za-z0-9 ()/._-]+$'
+    dirnameFailMessage = _(
+        'Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, '
+        'dot ., underscore _, and hyphen -'
+    )
+    emailValidRegExp = '^[A-Za-z0-9 _+.@^~<>,-]+$'
+    emailFailMessage = _(
+        'Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, '
+        'caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space'
+    )
+    webHookUrlValidRegExp = '^[^;\']+$'
+    webHookUrlFailMessage = _(
+        'URLs are not allowed to contain caret ^, semicolon ;, or apostrophe \''
+    )
+
     data = {
         # device
-        'camera_name': ui['name'],
+        'camera_name': input_sanity_check(
+            deviceNameValidRegExp, ui['name'], 'camera_name', deviceNameFailMessage
+        ),
         '@enabled': ui['enabled'],
         'auto_brightness': ui['auto_brightness'],
         'framerate': int(ui['framerate']),
@@ -904,7 +942,12 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         # movies
         'movie_output': False,
         'movie_passthrough': bool(ui['movie_passthrough']),
-        'movie_filename': ui['movie_file_name'],
+        'movie_filename': input_sanity_check(
+            filenameValidRegExp,
+            ui['movie_file_name'],
+            'movie_filename',
+            filenameFailMessage,
+        ),
         'movie_max_time': ui['max_movie_length'],
         '@preserve_movies': int(ui['preserve_movies']),
         # motion detection
@@ -995,6 +1038,10 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             capture_height,
         )
 
+    data['target_dir'] = input_sanity_check(
+        dirnameValidRegExp, ui['root_directory'], 'target_dir', dirnameFailMessage
+    )
+
     if (ui['storage_device'] == 'network-share') and settings.SMB_SHARES:
         mount_point = smbctl.make_mount_point(
             ui['network_server'], ui['network_share_name'], ui['network_username']
@@ -1016,9 +1063,6 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         data['target_dir'] = os.path.normpath(
             os.path.join(mount_point, ui['root_directory'])
         )
-
-    else:
-        data['target_dir'] = ui['root_directory']
 
     # try to create the target dir
     try:
@@ -1079,7 +1123,13 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             data['text_right'] = ui['custom_right_text']
 
     if ui['still_images']:
-        data['picture_filename'] = ui['image_file_name']
+        data['picture_filename'] = input_sanity_check(
+            filenameValidRegExp,
+            ui['image_file_name'],
+            'picture_filename',
+            filenameFailMessage,
+        )
+        # script aborts if above sanity check failed, hence no need to check again
         data['snapshot_filename'] = ui['image_file_name']
 
         capture_mode = ui['capture_mode']
@@ -1176,7 +1226,16 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     # event start
     on_event_start = [f"{meyectl.find_command('relayevent')} start %t"]
     if ui['email_notifications_enabled']:
-        emails = sub('\\s', '', ui['email_notifications_addresses'])
+        emails = sub(
+            '\\s',
+            '',
+            input_sanity_check(
+                emailValidRegExp,
+                ui['email_notifications_addresses'],
+                'email_notifications_addresses',
+                emailFailMessage,
+            ),
+        )
 
         line = (
             "%(script)s '%(server)s' '%(port)s' '%(account)s' '%(password)s' '%(tls)s' '%(from)s' '%(to)s' "
@@ -1190,7 +1249,12 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
                 .replace(';', '\\;')
                 .replace('%', '%%'),
                 'tls': ui['email_notifications_smtp_tls'],
-                'from': ui['email_notifications_from'],
+                'from': input_sanity_check(
+                    emailValidRegExp,
+                    ui['email_notifications_from'],
+                    'email_notifications_from',
+                    emailFailMessage,
+                ),
                 'to': emails,
                 'timespan': ui['email_notifications_picture_time_span'],
             }
@@ -1211,7 +1275,16 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         on_event_start.append(line)
 
     if ui['web_hook_notifications_enabled']:
-        url = sub('\\s', '+', ui['web_hook_notifications_url'])
+        url = sub(
+            '\\s',
+            '+',
+            input_sanity_check(
+                webHookUrlValidRegExp,
+                ui['web_hook_notifications_url'],
+                'web_hook_notifications_url',
+                webHookUrlFailMessage,
+            ),
+        )
 
         on_event_start.append(
             "{script} '{method}' '{url}'".format(
@@ -1230,7 +1303,16 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     on_event_end = [f"{meyectl.find_command('relayevent')} stop %t"]
 
     if ui['web_hook_end_notifications_enabled']:
-        url = sub(r'\s', '+', ui['web_hook_end_notifications_url'])
+        url = sub(
+            r'\s',
+            '+',
+            input_sanity_check(
+                webHookUrlValidRegExp,
+                ui['web_hook_end_notifications_url'],
+                'web_hook_end_notifications_url',
+                webHookUrlFailMessage,
+            ),
+        )
 
         on_event_end.append(
             "%(script)s '%(method)s' '%(url)s'"
