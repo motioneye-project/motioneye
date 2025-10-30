@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-25 06:05+0000\n"
+"POT-Creation-Date: 2025-10-30 22:46+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,37 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
+
+#: motioneye/config.py:860
+msgid ""
+"Device names are only allowed to contain alphanumerical characters, "
+"hyphen -, underscore _, plus +, and space"
+msgstr ""
+
+#: motioneye/config.py:864
+#, python-format
+msgid ""
+"File names are only allowed to contain alphanumerical characters, "
+"parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, "
+"and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
+msgstr ""
+
+#: motioneye/config.py:869
+msgid ""
+"Directory names are only allowed to contain alphanumerical characters, "
+"space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
+msgstr ""
+
+#: motioneye/config.py:874
+msgid ""
+"Email addresses are only allowed to contain alphanumerical characters, "
+"underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, "
+"hyphen -, and may be separated by comma, and space"
+msgstr ""
+
+#: motioneye/config.py:879
+msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
+msgstr ""
 
 #: motioneye/server.py:232
 msgid "interrompa signalo ricevita, fermanta …"
