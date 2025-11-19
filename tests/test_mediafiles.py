@@ -171,9 +171,7 @@ class TestMediaFiles(unittest.TestCase):
         result_paths = [path for path, st in result]
 
         # Should find files in the root directory only
-        expected_files = [
-            f for f in movie_files if os.path.dirname(f) == self.test_dir
-        ]
+        expected_files = [f for f in movie_files if os.path.dirname(f) == self.test_dir]
         self.assertEqual(len(result_paths), len(expected_files))
 
     def test_list_media_files_nonexistent_prefix(self):
