@@ -106,17 +106,16 @@ _ffmpeg_binary_cache = None
 
 def findfiles(path: str) -> typing.List[tuple]:
     files = []
-    with os.scandir(path) as entries:
-        for entry in entries:
-            # ignore hidden files/dirs and other unwanted files
-            if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
-                continue
-            if entry.is_dir(follow_symlinks=False):
-                files.extend(findfiles(entry.path))
+    for entry in os.scandir(path):
+        # ignore hidden files/dirs and other unwanted files
+        if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
+            continue
+        if entry.is_dir(follow_symlinks=False):
+            files.extend(findfiles(entry.path))
 
-            elif entry.is_file(follow_symlinks=False):
-                st = entry.stat(follow_symlinks=False)
-                files.append((entry.path, entry.name, st))
+        elif entry.is_file(follow_symlinks=False):
+            st = entry.stat(follow_symlinks=False)
+            files.append((entry.path, entry.name, st))
 
     return files
 
@@ -134,27 +133,26 @@ def _list_media_files(
         if not os.path.exists(root):
             return media_files
 
-        with os.scandir(root) as entries:
-            for entry in entries:
-                # ignore hidden files/dirs and other unwanted files
-                if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
+        for entry in os.scandir(root):
+            # ignore hidden files/dirs and other unwanted files
+            if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
+                continue
+
+            try:
+                if not entry.is_file(follow_symlinks=False):  # not a regular file
                     continue
 
-                try:
-                    if not entry.is_file(follow_symlinks=False):  # not a regular file
-                        continue
+                st = entry.stat(follow_symlinks=False)
 
-                    st = entry.stat(follow_symlinks=False)
+            except Exception as e:
+                logging.error('stat failed: ' + str(e))
+                continue
 
-                except Exception as e:
-                    logging.error('stat failed: ' + str(e))
-                    continue
+            full_path_lower = entry.path.lower()
+            if not [e for e in exts if full_path_lower.endswith(e)]:
+                continue
 
-                full_path_lower = entry.path.lower()
-                if not [e for e in exts if full_path_lower.endswith(e)]:
-                    continue
-
-                media_files.append((entry.path, st))
+            media_files.append((entry.path, st))
 
     else:
         for full_path, name, st in findfiles(directory):
