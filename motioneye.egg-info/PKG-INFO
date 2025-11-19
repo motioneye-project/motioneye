@@ -1,0 +1,95 @@
+Metadata-Version: 2.4
+Name: motioneye
+Version: 0.43.1b5
+Summary: motioneye, a multilingual web interface for motion.
+Author: Jean Michault
+Author-email: Calin Crisan <ccrisan@gmail.com>
+Maintainer-email: MichaIng <micha@dietpi.com>
+License-Expression: GPL-3.0-or-later
+Project-URL: Homepage, https://github.com/motioneye-project/motioneye
+Project-URL: Source, https://github.com/motioneye-project/motioneye
+Project-URL: Changelog, https://github.com/motioneye-project/motioneye/releases
+Project-URL: Issue, https://github.com/motioneye-project/motioneye/issues
+Keywords: motion,video,surveillance,frontend
+Classifier: Operating System :: POSIX :: Linux
+Classifier: Programming Language :: Python :: 3
+Classifier: Topic :: Multimedia :: Video :: Capture
+Requires-Python: >=3.7
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: tornado>=6.5.0
+Requires-Dist: jinja2
+Requires-Dist: pillow
+Requires-Dist: pycurl
+Requires-Dist: babel
+Requires-Dist: boto3
+Dynamic: license-file
+
+# What is motionEye?
+
+**motionEye** is an online interface for the software [_motion_](https://motion-project.github.io/), a video surveillance program with motion detection.
+
+Check out the [__wiki__](https://github.com/motioneye-project/motioneye/wiki) for more details. Changelog is available on the [__releases page__](https://github.com/motioneye-project/motioneye/releases).
+
+From version 0.43, **motionEye** is multilingual:
+
+| [![](https://hosted.weblate.org/widgets/motioneye-project/-/287x66-black.png)<br>![](https://hosted.weblate.org/widgets/motioneye-project/-/multi-auto.svg)](https://hosted.weblate.org/engage/motioneye-project/) |
+| -: |
+
+You can contribute to translations on [__Weblate__](https://hosted.weblate.org/projects/motioneye-project).
+
+# Installation
+
+1. Install **Python 3.7 or later** and build dependencies
+
+    _Here the commands for APT-based Linux distributions are given._
+
+    Thanks to pre-compiled wheels from PyPI, installing motionEye usually does not require anything but Python 3 and cURL with the ability to do HTTPS network requests:
+    ```sh
+    sudo apt update
+    sudo apt --no-install-recommends install ca-certificates curl python3
+    ```
+
+    On **ARMv6/ARMv7 (32-bit), RISC-V, and other rare CPU architectures** additional build dependencies may be required to compile the [Pillow](https://pypi.org/project/pillow/) and [PycURL](https://pypi.org/project/pycurl/) modules:
+    ```sh
+    sudo apt --no-install-recommends install python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev
+    ```
+
+2. Install the Python package manager `pip`
+    ```sh
+    curl -sSfO 'https://bootstrap.pypa.io/get-pip.py'
+    sudo python3 get-pip.py
+    rm get-pip.py
+    ```
+
+    **On recent distro versions, like Debian 12/Bookworm, Ubuntu 23.04/Lunar, and later**, the `libpython3.*-stdlib` package ships a file `/usr/lib/python3.*/EXTERNALLY-MANAGED`, which prevents the installation of Python modules outside of `venv` environments.
+    motionEye however has a small number of dependencies with no strict version requirements and hence is very unlikely to break any Python package you might have installed via APT. To bypass this block, add `break-system-packages=true` to the `[global]` section of your `pip.conf`:
+    ```sh
+    grep -q '\[global\]' /etc/pip.conf 2> /dev/null || printf '%b' '[global]\n' | sudo tee -a /etc/pip.conf > /dev/null
+    sudo sed -i '/^\[global\]/a\break-system-packages=true' /etc/pip.conf
+    ```
+
+3. Install and setup **motionEye**
+    ```sh
+    sudo python3 -m pip install --pre motioneye
+    sudo motioneye_init
+    ```
+    _NB: `motioneye_init` currently assumes either an APT- or RPM-based distribution with `systemd` as init system. For a manual setup, config and service files can be found here: <https://github.com/motioneye-project/motioneye/tree/dev/motioneye/extra>_
+
+# Upgrade
+
+```sh
+sudo systemctl stop motioneye
+sudo python3 -m pip install --upgrade --pre motioneye
+sudo systemctl start motioneye
+```
+
+# Accessing the user interface
+
+After having successfully followed the installation instructions, the motionEye server should be running on your system and listening on port **8765**. Fire up your favorite web browser and visit the following URL (replacing `[your_ip]` with... well, your system's IP address):
+
+```
+http://[your_ip]:8765/
+```
+
+Use usernamme _admin_ with empty password when prompted for credentials. For security, __please do set up a proper password for the admin user__, at least if you plan to make your motionEye installation accessible from the Internet.

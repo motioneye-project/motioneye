@@ -1,0 +1,6 @@
+tornado>=6.5.0
+jinja2
+pillow
+pycurl
+babel
+boto3

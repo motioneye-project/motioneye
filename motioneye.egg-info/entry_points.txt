@@ -1,0 +1,3 @@
+[console_scripts]
+meyectl = motioneye.meyectl:main
+motioneye_init = motioneye.motioneye_init:main
