@@ -28,7 +28,6 @@ from hashlib import sha1
 from io import BytesIO
 from shlex import quote
 from signal import SIGTERM
-from stat import S_ISDIR, S_ISREG
 from time import time
 from zipfile import ZipFile
 
@@ -107,18 +106,17 @@ _ffmpeg_binary_cache = None
 
 def findfiles(path: str) -> typing.List[tuple]:
     files = []
-    for name in os.listdir(path):
-        # ignore hidden files/dirs and other unwanted files
-        if name.startswith('.') or name == 'lastsnap.jpg':
-            continue
-        pathname = os.path.join(path, name)
-        st = os.lstat(pathname)
-        mode = st.st_mode
-        if S_ISDIR(mode):
-            files.extend(findfiles(pathname))
+    with os.scandir(path) as entries:
+        for entry in entries:
+            # ignore hidden files/dirs and other unwanted files
+            if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
+                continue
+            if entry.is_dir(follow_symlinks=False):
+                files.extend(findfiles(entry.path))
 
-        elif S_ISREG(mode):
-            files.append((pathname, name, st))
+            elif entry.is_file(follow_symlinks=False):
+                st = entry.stat(follow_symlinks=False)
+                files.append((entry.path, entry.name, st))
 
     return files
 
@@ -136,27 +134,27 @@ def _list_media_files(
         if not os.path.exists(root):
             return media_files
 
-        for name in os.listdir(root):
-            # ignore hidden files/dirs and other unwanted files
-            if name.startswith('.') or name == 'lastsnap.jpg':
-                continue
+        with os.scandir(root) as entries:
+            for entry in entries:
+                # ignore hidden files/dirs and other unwanted files
+                if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
+                    continue
 
-            full_path = os.path.join(root, name)
-            try:
-                st = os.stat(full_path)
+                try:
+                    if not entry.is_file(follow_symlinks=False):  # not a regular file
+                        continue
 
-            except Exception as e:
-                logging.error('stat failed: ' + str(e))
-                continue
+                    st = entry.stat(follow_symlinks=False)
 
-            if not S_ISREG(st.st_mode):  # not a regular file
-                continue
+                except Exception as e:
+                    logging.error('stat failed: ' + str(e))
+                    continue
 
-            full_path_lower = full_path.lower()
-            if not [e for e in exts if full_path_lower.endswith(e)]:
-                continue
+                full_path_lower = entry.path.lower()
+                if not [e for e in exts if full_path_lower.endswith(e)]:
+                    continue
 
-            media_files.append((full_path, st))
+                media_files.append((entry.path, st))
 
     else:
         for full_path, name, st in findfiles(directory):
