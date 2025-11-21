@@ -15,7 +15,7 @@ jobs:
   pre-commit-autoupdate:
     runs-on: ubuntu-24.04
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
       with:
         ref: dev
         # https://github.com/peter-evans/create-pull-request/issues/48
