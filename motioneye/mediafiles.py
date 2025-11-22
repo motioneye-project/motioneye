@@ -104,7 +104,7 @@ _timelapse_data = None
 _ffmpeg_binary_cache = None
 
 
-def findfiles(path: str, exts: typing.List[str] = None) -> typing.List[tuple]:
+def findfiles(path: str, exts: typing.List[str]) -> typing.List[tuple]:
     files = []
     for entry in os.scandir(path):
         # ignore hidden files/dirs and other unwanted files
@@ -121,10 +121,8 @@ def findfiles(path: str, exts: typing.List[str] = None) -> typing.List[tuple]:
             continue
 
         # filter by extension before calling stat
-        if exts is not None:
-            entry_path_lower = entry.path.lower()
-            if not [e for e in exts if entry_path_lower.endswith(e)]:
-                continue
+        if not [e for e in exts if entry.path.lower().endswith(e)]:
+            continue
 
         # stat call may fail due to race conditions or permission issues
         try:
@@ -161,8 +159,7 @@ def _list_media_files(
                 continue
 
             # filter by extension before calling stat
-            entry_path_lower = entry.path.lower()
-            if not [e for e in exts if entry_path_lower.endswith(e)]:
+            if not [e for e in exts if entry.path.lower().endswith(e)]:
                 continue
 
             # stat call may fail due to race conditions or permission issues

@@ -79,7 +79,9 @@ class TestMediaFiles(unittest.TestCase):
         """Test that findfiles returns all regular files recursively."""
         movie_files, picture_files, ignored_files = self.create_test_structure()
 
-        result = findfiles(self.test_dir)
+        # Pass all extensions to find all files
+        all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
+        result = findfiles(self.test_dir, all_exts)
 
         # Extract just the file paths from the result tuples
         result_paths = [path for path, st in result]
@@ -99,7 +101,8 @@ class TestMediaFiles(unittest.TestCase):
     def test_findfiles_returns_correct_structure(self):
         """Test that findfiles returns tuples with (path, stat)."""
         self.create_test_structure()
-        result = findfiles(self.test_dir)
+        all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
+        result = findfiles(self.test_dir, all_exts)
 
         for item in result:
             self.assertIsInstance(item, tuple)
@@ -185,7 +188,8 @@ class TestMediaFiles(unittest.TestCase):
 
     def test_findfiles_empty_directory(self):
         """Test findfiles on an empty directory."""
-        result = findfiles(self.test_dir)
+        all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
+        result = findfiles(self.test_dir, all_exts)
         self.assertEqual(len(result), 0)
 
     def test_large_directory_performance(self):
@@ -199,7 +203,7 @@ class TestMediaFiles(unittest.TestCase):
 
         # Measure time to list all files
         start_time = time.time()
-        result = findfiles(self.test_dir)
+        result = findfiles(self.test_dir, ['.mp4'])
         elapsed_time = time.time() - start_time
 
         # Should find all files
