@@ -136,10 +136,9 @@ class TestMediaFiles(unittest.TestCase):
         # Extract just the file paths
         result_paths = [path for path, st in result]
 
-        # Should find only picture files (excluding lastsnap.jpg)
-        expected_pictures = [f for f in picture_files if not f.endswith('lastsnap.jpg')]
-        self.assertEqual(len(result_paths), len(expected_pictures))
-        for picture_file in expected_pictures:
+        # Should find only picture files
+        self.assertEqual(len(result_paths), len(picture_files))
+        for picture_file in picture_files:
             self.assertIn(picture_file, result_paths)
 
     def test_list_media_files_with_prefix(self):
@@ -232,10 +231,9 @@ class TestMediaFiles(unittest.TestCase):
         result = findfiles(self.test_dir, exts=picture_exts)
         result_paths = [path for path, st in result]
 
-        # Should find only picture files (excluding lastsnap.jpg)
-        expected_pictures = [f for f in picture_files if not f.endswith('lastsnap.jpg')]
-        self.assertEqual(len(result_paths), len(expected_pictures))
-        for picture_file in expected_pictures:
+        # Should find only picture files
+        self.assertEqual(len(result_paths), len(picture_files))
+        for picture_file in picture_files:
             self.assertIn(picture_file, result_paths)
 
 
