@@ -110,23 +110,30 @@ def findfiles(path: str, exts: typing.List[str] = None) -> typing.List[tuple]:
         # ignore hidden files/dirs and other unwanted files
         if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
             continue
+
+        # recurse into subdirectories
         if entry.is_dir(follow_symlinks=False):
             files.extend(findfiles(entry.path, exts))
+            continue
 
-        elif entry.is_file(follow_symlinks=False):
-            # Filter by extension before calling stat
-            if exts is not None:
-                entry_path_lower = entry.path.lower()
-                if not [e for e in exts if entry_path_lower.endswith(e)]:
-                    continue
+        # skip non-files
+        if not entry.is_file(follow_symlinks=False):
+            continue
 
-            try:
-                st = entry.stat(follow_symlinks=False)
-            except Exception as e:
-                logging.error('stat failed: ' + str(e))
+        # filter by extension before calling stat
+        if exts is not None:
+            entry_path_lower = entry.path.lower()
+            if not [e for e in exts if entry_path_lower.endswith(e)]:
                 continue
 
-            files.append((entry.path, st))
+        # stat call may fail due to race conditions or permission issues
+        try:
+            st = entry.stat(follow_symlinks=False)
+        except Exception as e:
+            logging.error('stat failed: ' + str(e))
+            continue
+
+        files.append((entry.path, st))
 
     return files
 
@@ -149,17 +156,18 @@ def _list_media_files(
             if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
                 continue
 
+            # skip non-files
+            if not entry.is_file(follow_symlinks=False):
+                continue
+
+            # filter by extension before calling stat
+            entry_path_lower = entry.path.lower()
+            if not [e for e in exts if entry_path_lower.endswith(e)]:
+                continue
+
+            # stat call may fail due to race conditions or permission issues
             try:
-                if not entry.is_file(follow_symlinks=False):  # not a regular file
-                    continue
-
-                # Filter by extension before calling stat
-                entry_path_lower = entry.path.lower()
-                if not [e for e in exts if entry_path_lower.endswith(e)]:
-                    continue
-
                 st = entry.stat(follow_symlinks=False)
-
             except Exception as e:
                 logging.error('stat failed: ' + str(e))
                 continue
