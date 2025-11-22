@@ -26,8 +26,6 @@ class TestMediaFiles(unittest.TestCase):
     def setUp(self):
         """Create a temporary directory structure for testing."""
         self.test_dir = tempfile.mkdtemp()
-        self.test_files = []
-        self.test_dirs = []
 
     def tearDown(self):
         """Clean up temporary files and directories."""
@@ -43,7 +41,6 @@ class TestMediaFiles(unittest.TestCase):
         date2 = os.path.join(self.test_dir, '2024-01-02')
         os.makedirs(date1)
         os.makedirs(date2)
-        self.test_dirs.extend([date1, date2])
 
         # Create movie files
         movie_files = [
@@ -72,7 +69,6 @@ class TestMediaFiles(unittest.TestCase):
         for f in all_files:
             Path(f).touch()
 
-        self.test_files = all_files
         return movie_files, picture_files, ignored_files
 
     def test_findfiles_basic(self):
