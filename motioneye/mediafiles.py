@@ -128,7 +128,7 @@ def findfiles(path: str, exts: typing.List[str]) -> typing.List[tuple]:
         try:
             st = entry.stat(follow_symlinks=False)
         except Exception as e:
-            logging.error('stat failed: ' + str(e))
+            logging.error(f'stat failed: {e}')
             continue
 
         files.append((entry.path, st))
@@ -139,16 +139,15 @@ def findfiles(path: str, exts: typing.List[str]) -> typing.List[tuple]:
 def _list_media_files(
     directory: str, exts: typing.List[str], prefix: str = None
 ) -> typing.List[tuple]:
-    media_files = []
-
     if prefix is not None:
         if prefix == 'ungrouped':
             prefix = ''
 
         root = os.path.join(directory, prefix)
         if not os.path.exists(root):
-            return media_files
+            return []
 
+        media_files = []
         for entry in os.scandir(root):
             # ignore hidden files/dirs and other unwanted files
             if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
@@ -166,16 +165,16 @@ def _list_media_files(
             try:
                 st = entry.stat(follow_symlinks=False)
             except Exception as e:
-                logging.error('stat failed: ' + str(e))
+                logging.error(f'stat failed: {e}')
                 continue
 
             media_files.append((entry.path, st))
 
-    else:
-        # When no prefix, use findfiles which now handles extension filtering
-        media_files = findfiles(directory, exts)
+        return media_files
 
-    return media_files
+    else:
+        # If no prefix, recurse into subdirectories
+        return findfiles(directory, exts)
 
 
 def _remove_older_files(
