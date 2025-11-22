@@ -82,7 +82,7 @@ class TestMediaFiles(unittest.TestCase):
         result = findfiles(self.test_dir)
 
         # Extract just the file paths from the result tuples
-        result_paths = [path for path, name, st in result]
+        result_paths = [path for path, st in result]
 
         # Should find all non-ignored files
         expected_files = movie_files + picture_files
@@ -97,16 +97,15 @@ class TestMediaFiles(unittest.TestCase):
             self.assertNotIn(ignored_file, result_paths)
 
     def test_findfiles_returns_correct_structure(self):
-        """Test that findfiles returns tuples with (path, name, stat)."""
+        """Test that findfiles returns tuples with (path, stat)."""
         self.create_test_structure()
         result = findfiles(self.test_dir)
 
         for item in result:
             self.assertIsInstance(item, tuple)
-            self.assertEqual(len(item), 3)
-            path, name, st = item
+            self.assertEqual(len(item), 2)
+            path, st = item
             self.assertTrue(os.path.isfile(path))
-            self.assertEqual(os.path.basename(path), name)
             self.assertTrue(hasattr(st, 'st_mtime'))  # Check it's a stat object
 
     def test_list_media_files_movies(self):
@@ -209,6 +208,35 @@ class TestMediaFiles(unittest.TestCase):
         # Should complete in reasonable time (< 1 second for 1000 files)
         # This is a loose check - the real benefit is seen with tens of thousands of files
         self.assertLess(elapsed_time, 1.0)
+
+    def test_findfiles_with_extension_filter(self):
+        """Test that findfiles filters by extension when exts parameter is provided."""
+        movie_files, picture_files, ignored_files = self.create_test_structure()
+
+        # Test filtering for movies only
+        movie_exts = ['.mp4', '.avi', '.mkv']
+        result = findfiles(self.test_dir, exts=movie_exts)
+        result_paths = [path for path, st in result]
+
+        # Should find only movie files
+        self.assertEqual(len(result_paths), len(movie_files))
+        for movie_file in movie_files:
+            self.assertIn(movie_file, result_paths)
+
+        # Should not find picture files
+        for picture_file in picture_files:
+            self.assertNotIn(picture_file, result_paths)
+
+        # Test filtering for pictures only
+        picture_exts = ['.jpg']
+        result = findfiles(self.test_dir, exts=picture_exts)
+        result_paths = [path for path, st in result]
+
+        # Should find only picture files (excluding lastsnap.jpg)
+        expected_pictures = [f for f in picture_files if not f.endswith('lastsnap.jpg')]
+        self.assertEqual(len(result_paths), len(expected_pictures))
+        for picture_file in expected_pictures:
+            self.assertIn(picture_file, result_paths)
 
 
 if __name__ == '__main__':

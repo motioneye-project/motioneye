@@ -104,18 +104,24 @@ _timelapse_data = None
 _ffmpeg_binary_cache = None
 
 
-def findfiles(path: str) -> typing.List[tuple]:
+def findfiles(path: str, exts: typing.List[str] = None) -> typing.List[tuple]:
     files = []
     for entry in os.scandir(path):
         # ignore hidden files/dirs and other unwanted files
         if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
             continue
         if entry.is_dir(follow_symlinks=False):
-            files.extend(findfiles(entry.path))
+            files.extend(findfiles(entry.path, exts))
 
         elif entry.is_file(follow_symlinks=False):
+            # Filter by extension before calling stat
+            if exts is not None:
+                entry_path_lower = entry.path.lower()
+                if not [e for e in exts if entry_path_lower.endswith(e)]:
+                    continue
+
             st = entry.stat(follow_symlinks=False)
-            files.append((entry.path, entry.name, st))
+            files.append((entry.path, st))
 
     return files
 
@@ -142,25 +148,22 @@ def _list_media_files(
                 if not entry.is_file(follow_symlinks=False):  # not a regular file
                     continue
 
+                # Filter by extension before calling stat
+                entry_path_lower = entry.path.lower()
+                if not [e for e in exts if entry_path_lower.endswith(e)]:
+                    continue
+
                 st = entry.stat(follow_symlinks=False)
 
             except Exception as e:
                 logging.error('stat failed: ' + str(e))
                 continue
 
-            full_path_lower = entry.path.lower()
-            if not [e for e in exts if full_path_lower.endswith(e)]:
-                continue
-
             media_files.append((entry.path, st))
 
     else:
-        for full_path, name, st in findfiles(directory):
-            full_path_lower = full_path.lower()
-            if not [e for e in exts if full_path_lower.endswith(e)]:
-                continue
-
-            media_files.append((full_path, st))
+        # When no prefix, use findfiles which now handles extension filtering
+        media_files = findfiles(directory, exts)
 
     return media_files
 
