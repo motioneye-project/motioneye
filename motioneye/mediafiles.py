@@ -120,7 +120,12 @@ def findfiles(path: str, exts: typing.List[str] = None) -> typing.List[tuple]:
                 if not [e for e in exts if entry_path_lower.endswith(e)]:
                     continue
 
-            st = entry.stat(follow_symlinks=False)
+            try:
+                st = entry.stat(follow_symlinks=False)
+            except Exception as e:
+                logging.error('stat failed: ' + str(e))
+                continue
+
             files.append((entry.path, st))
 
     return files
