@@ -105,50 +105,44 @@ _ffmpeg_binary_cache = None
 
 
 def _list_media_files(
-    directory: str, exts: typing.List[str], prefix: str = None
+    base_path: str, exts: typing.List[str], subdirectory: str = None
 ) -> typing.List[tuple]:
-    # Determine root directory and whether to recurse
-    if prefix is not None:
-        if prefix == 'ungrouped':
-            prefix = ''
+    # Determine scan path based on subdirectory parameter
+    if subdirectory is not None:
+        if subdirectory == 'ungrouped':
+            subdirectory = ''
 
-        root = os.path.join(directory, prefix)
-        if not os.path.exists(root):
+        scan_path = os.path.join(base_path, subdirectory)
+        if not os.path.exists(scan_path):
             return []
-
-        recurse = False
     else:
-        root = directory
-        recurse = True
+        scan_path = base_path
 
     media_files = []
-    for entry in os.scandir(root):
+    for entry in os.scandir(scan_path):
         # ignore hidden files/dirs and other unwanted files
         if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
             continue
 
-        # recurse into subdirectories if needed
-        if entry.is_dir(follow_symlinks=False):
-            if recurse:
-                media_files.extend(_list_media_files(entry.path, exts))
+        # check if it's a file first (most common case)
+        if entry.is_file(follow_symlinks=False):
+            # filter by extension before calling stat
+            if not [e for e in exts if entry.path.lower().endswith(e)]:
+                continue
+
+            # stat call may fail due to race conditions or permission issues
+            try:
+                st = entry.stat(follow_symlinks=False)
+            except Exception as e:
+                logging.error(f'stat failed: {e}')
+                continue
+
+            media_files.append((entry.path, st))
             continue
 
-        # skip non-files
-        if not entry.is_file(follow_symlinks=False):
-            continue
-
-        # filter by extension before calling stat
-        if not [e for e in exts if entry.path.lower().endswith(e)]:
-            continue
-
-        # stat call may fail due to race conditions or permission issues
-        try:
-            st = entry.stat(follow_symlinks=False)
-        except Exception as e:
-            logging.error(f'stat failed: {e}')
-            continue
-
-        media_files.append((entry.path, st))
+        # recurse into subdirectories only when no subdirectory filter is set
+        if subdirectory is None and entry.is_dir(follow_symlinks=False):
+            media_files.extend(_list_media_files(entry.path, exts))
 
     return media_files
 
@@ -415,7 +409,7 @@ def list_media(camera_config: dict, media_type: str, prefix=None) -> typing.Awai
 
         parent_pipe.close()
 
-        mf = _list_media_files(target_dir, exts=exts, prefix=prefix)
+        mf = _list_media_files(target_dir, exts=exts, subdirectory=prefix)
         for p, st in mf:
             path = p[len(target_dir) :]
             if not path.startswith('/'):
@@ -535,7 +529,7 @@ def get_zipped_content(
     def do_zip(pipe):
         parent_pipe.close()
 
-        mf = _list_media_files(target_dir, exts=exts, prefix=group)
+        mf = _list_media_files(target_dir, exts=exts, subdirectory=group)
         paths = []
         for p, st in mf:  # @UnusedVariable
             path = p[len(target_dir) :]
@@ -636,7 +630,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     def do_list_media(pipe):
         parent_pipe.close()
 
-        mf = _list_media_files(target_dir, exts=_PICTURE_EXTS, prefix=group)
+        mf = _list_media_files(target_dir, exts=_PICTURE_EXTS, subdirectory=group)
         for p, st in mf:
             timestamp = st.st_mtime
 
@@ -954,7 +948,7 @@ def del_media_group(camera_config, group, media_type):
     # create a sentinel file to make sure the target dir is never removed
     open(os.path.join(target_dir, '.keep'), 'w').close()
 
-    mf = _list_media_files(target_dir, exts=exts, prefix=group)
+    mf = _list_media_files(target_dir, exts=exts, subdirectory=group)
     for path, st in mf:  # @UnusedVariable
         try:
             os.remove(path)
