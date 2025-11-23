@@ -104,16 +104,33 @@ _timelapse_data = None
 _ffmpeg_binary_cache = None
 
 
-def findfiles(path: str, exts: typing.List[str]) -> typing.List[tuple]:
-    files = []
-    for entry in os.scandir(path):
+def _list_media_files(
+    directory: str, exts: typing.List[str], prefix: str = None
+) -> typing.List[tuple]:
+    # Determine root directory and whether to recurse
+    if prefix is not None:
+        if prefix == 'ungrouped':
+            prefix = ''
+
+        root = os.path.join(directory, prefix)
+        if not os.path.exists(root):
+            return []
+
+        recurse = False
+    else:
+        root = directory
+        recurse = True
+
+    media_files = []
+    for entry in os.scandir(root):
         # ignore hidden files/dirs and other unwanted files
         if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
             continue
 
-        # recurse into subdirectories
+        # recurse into subdirectories if needed
         if entry.is_dir(follow_symlinks=False):
-            files.extend(findfiles(entry.path, exts))
+            if recurse:
+                media_files.extend(_list_media_files(entry.path, exts))
             continue
 
         # skip non-files
@@ -131,50 +148,9 @@ def findfiles(path: str, exts: typing.List[str]) -> typing.List[tuple]:
             logging.error(f'stat failed: {e}')
             continue
 
-        files.append((entry.path, st))
+        media_files.append((entry.path, st))
 
-    return files
-
-
-def _list_media_files(
-    directory: str, exts: typing.List[str], prefix: str = None
-) -> typing.List[tuple]:
-    if prefix is not None:
-        if prefix == 'ungrouped':
-            prefix = ''
-
-        root = os.path.join(directory, prefix)
-        if not os.path.exists(root):
-            return []
-
-        media_files = []
-        for entry in os.scandir(root):
-            # ignore hidden files/dirs and other unwanted files
-            if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
-                continue
-
-            # skip non-files
-            if not entry.is_file(follow_symlinks=False):
-                continue
-
-            # filter by extension before calling stat
-            if not [e for e in exts if entry.path.lower().endswith(e)]:
-                continue
-
-            # stat call may fail due to race conditions or permission issues
-            try:
-                st = entry.stat(follow_symlinks=False)
-            except Exception as e:
-                logging.error(f'stat failed: {e}')
-                continue
-
-            media_files.append((entry.path, st))
-
-        return media_files
-
-    else:
-        # If no prefix, recurse into subdirectories
-        return findfiles(directory, exts)
+    return media_files
 
 
 def _remove_older_files(

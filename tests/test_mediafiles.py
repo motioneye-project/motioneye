@@ -19,7 +19,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from motioneye.mediafiles import _list_media_files, findfiles
+from motioneye.mediafiles import _list_media_files
 
 
 class TestMediaFiles(unittest.TestCase):
@@ -72,12 +72,12 @@ class TestMediaFiles(unittest.TestCase):
         return movie_files, picture_files, ignored_files
 
     def test_findfiles_basic(self):
-        """Test that findfiles returns all regular files recursively."""
+        """Test that _list_media_files returns all regular files recursively when no prefix is given."""
         movie_files, picture_files, ignored_files = self.create_test_structure()
 
         # Pass all extensions to find all files
         all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
-        result = findfiles(self.test_dir, all_exts)
+        result = _list_media_files(self.test_dir, all_exts)
 
         # Extract just the file paths from the result tuples
         result_paths = [path for path, st in result]
@@ -95,10 +95,10 @@ class TestMediaFiles(unittest.TestCase):
             self.assertNotIn(ignored_file, result_paths)
 
     def test_findfiles_returns_correct_structure(self):
-        """Test that findfiles returns tuples with (path, stat)."""
+        """Test that _list_media_files returns tuples with (path, stat)."""
         self.create_test_structure()
         all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
-        result = findfiles(self.test_dir, all_exts)
+        result = _list_media_files(self.test_dir, all_exts)
 
         for item in result:
             self.assertIsInstance(item, tuple)
@@ -182,9 +182,9 @@ class TestMediaFiles(unittest.TestCase):
         self.assertEqual(len(result), 0)
 
     def test_findfiles_empty_directory(self):
-        """Test findfiles on an empty directory."""
+        """Test _list_media_files on an empty directory."""
         all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
-        result = findfiles(self.test_dir, all_exts)
+        result = _list_media_files(self.test_dir, all_exts)
         self.assertEqual(len(result), 0)
 
     def test_large_directory_performance(self):
@@ -198,7 +198,7 @@ class TestMediaFiles(unittest.TestCase):
 
         # Measure time to list all files
         start_time = time.time()
-        result = findfiles(self.test_dir, ['.mp4'])
+        result = _list_media_files(self.test_dir, ['.mp4'])
         elapsed_time = time.time() - start_time
 
         # Should find all files
@@ -209,12 +209,12 @@ class TestMediaFiles(unittest.TestCase):
         self.assertLess(elapsed_time, 1.0)
 
     def test_findfiles_with_extension_filter(self):
-        """Test that findfiles filters by extension when exts parameter is provided."""
+        """Test that _list_media_files filters by extension when exts parameter is provided."""
         movie_files, picture_files, ignored_files = self.create_test_structure()
 
         # Test filtering for movies only
         movie_exts = ['.mp4', '.avi', '.mkv']
-        result = findfiles(self.test_dir, exts=movie_exts)
+        result = _list_media_files(self.test_dir, exts=movie_exts)
         result_paths = [path for path, st in result]
 
         # Should find only movie files
@@ -228,13 +228,62 @@ class TestMediaFiles(unittest.TestCase):
 
         # Test filtering for pictures only
         picture_exts = ['.jpg']
-        result = findfiles(self.test_dir, exts=picture_exts)
+        result = _list_media_files(self.test_dir, exts=picture_exts)
         result_paths = [path for path, st in result]
 
         # Should find only picture files
         self.assertEqual(len(result_paths), len(picture_files))
         for picture_file in picture_files:
             self.assertIn(picture_file, result_paths)
+
+    def test_recursive_behavior_without_prefix(self):
+        """Test that _list_media_files recurses into all subdirectories when prefix is None."""
+        # Create a deeper nested structure
+        deep_path = os.path.join(self.test_dir, 'level1', 'level2', 'level3')
+        os.makedirs(deep_path)
+
+        # Create files at different levels
+        file_root = os.path.join(self.test_dir, 'root.mp4')
+        file_l1 = os.path.join(self.test_dir, 'level1', 'l1.mp4')
+        file_l2 = os.path.join(self.test_dir, 'level1', 'level2', 'l2.mp4')
+        file_l3 = os.path.join(deep_path, 'l3.mp4')
+
+        for f in [file_root, file_l1, file_l2, file_l3]:
+            Path(f).touch()
+
+        # List all files recursively
+        result = _list_media_files(self.test_dir, ['.mp4'])
+        result_paths = [path for path, st in result]
+
+        # Should find all files at all levels
+        self.assertEqual(len(result_paths), 4)
+        self.assertIn(file_root, result_paths)
+        self.assertIn(file_l1, result_paths)
+        self.assertIn(file_l2, result_paths)
+        self.assertIn(file_l3, result_paths)
+
+    def test_non_recursive_behavior_with_prefix(self):
+        """Test that _list_media_files does not recurse when prefix is provided."""
+        # Create a structure with subdirectories inside the prefix directory
+        prefix_dir = os.path.join(self.test_dir, '2024-01-01')
+        subdir = os.path.join(prefix_dir, 'subdir')
+        os.makedirs(subdir)
+
+        # Create files at different levels
+        file_prefix = os.path.join(prefix_dir, 'root.mp4')
+        file_subdir = os.path.join(subdir, 'sub.mp4')
+
+        Path(file_prefix).touch()
+        Path(file_subdir).touch()
+
+        # List files with prefix (should not recurse)
+        result = _list_media_files(self.test_dir, ['.mp4'], prefix='2024-01-01')
+        result_paths = [path for path, st in result]
+
+        # Should find only file in the prefix directory, not in subdirectory
+        self.assertEqual(len(result_paths), 1)
+        self.assertIn(file_prefix, result_paths)
+        self.assertNotIn(file_subdir, result_paths)
 
 
 if __name__ == '__main__':
