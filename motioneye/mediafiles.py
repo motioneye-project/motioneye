@@ -127,7 +127,7 @@ def _list_media_files(
         # check if it's a file first (most common case)
         if entry.is_file(follow_symlinks=False):
             # filter by extension before calling stat
-            if not [e for e in exts if entry.path.lower().endswith(e)]:
+            if not any(entry.path.lower().endswith(e) for e in exts):
                 continue
 
             # stat call may fail due to race conditions or permission issues

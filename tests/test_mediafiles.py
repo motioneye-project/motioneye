@@ -246,7 +246,7 @@ class TestMediaFiles(unittest.TestCase):
         expected_files = [
             f
             for f in movie_files + picture_files
-            if os.path.dirname(f).endswith('level1_dir') and 'level2_dir' not in f
+            if os.path.basename(os.path.dirname(f)) == 'level1_dir'
         ]
         self.assertEqual(len(result_paths), len(expected_files))
         for expected_file in expected_files:
