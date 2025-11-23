@@ -260,20 +260,6 @@ class TestMediaFiles(unittest.TestCase):
         )
         self.assertEqual(result_paths, expected_files)
 
-        # Verify files in nested subdirectories are not found
-        level2_file = os.path.join(
-            self.test_dir, 'level1_dir', 'level2_dir', 'level2_movie.mp4'
-        )
-        self.assertNotIn(level2_file, result_paths)
-        for expected_file in expected_files:
-            self.assertIn(expected_file, result_paths)
-
-        # Should not find files in nested subdirectories
-        level2_file = os.path.join(
-            self.test_dir, 'level1_dir', 'level2_dir', 'level2_video.mp4'
-        )
-        self.assertNotIn(level2_file, result_paths)
-
 
 if __name__ == '__main__':
     unittest.main()

@@ -138,10 +138,9 @@ def _list_media_files(
                 continue
 
             media_files.append((entry.path, st))
-            continue
 
         # recurse into subdirectories only when no sub_path filter is set
-        if sub_path is None and entry.is_dir(follow_symlinks=False):
+        elif sub_path is None and entry.is_dir(follow_symlinks=False):
             media_files.extend(_list_media_files(entry.path, exts))
 
     return media_files
@@ -409,7 +408,7 @@ def list_media(camera_config: dict, media_type: str, prefix=None) -> typing.Awai
 
         parent_pipe.close()
 
-        mf = _list_media_files(target_dir, exts=exts, sub_path=prefix)
+        mf = _list_media_files(target_dir, exts, sub_path=prefix)
         for p, st in mf:
             path = p[len(target_dir) :]
             if not path.startswith('/'):
@@ -529,7 +528,7 @@ def get_zipped_content(
     def do_zip(pipe):
         parent_pipe.close()
 
-        mf = _list_media_files(target_dir, exts=exts, sub_path=group)
+        mf = _list_media_files(target_dir, exts, sub_path=group)
         paths = []
         for p, st in mf:  # @UnusedVariable
             path = p[len(target_dir) :]
@@ -630,7 +629,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     def do_list_media(pipe):
         parent_pipe.close()
 
-        mf = _list_media_files(target_dir, exts=_PICTURE_EXTS, sub_path=group)
+        mf = _list_media_files(target_dir, _PICTURE_EXTS, sub_path=group)
         for p, st in mf:
             timestamp = st.st_mtime
 
@@ -948,7 +947,7 @@ def del_media_group(camera_config, group, media_type):
     # create a sentinel file to make sure the target dir is never removed
     open(os.path.join(target_dir, '.keep'), 'w').close()
 
-    mf = _list_media_files(target_dir, exts=exts, sub_path=group)
+    mf = _list_media_files(target_dir, exts, sub_path=group)
     for path, st in mf:  # @UnusedVariable
         try:
             os.remove(path)
