@@ -15,32 +15,25 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-import tempfile
 import unittest
 from pathlib import Path
+from shutil import rmtree
+from tempfile import mkdtemp
 
 from motioneye.mediafiles import _list_media_files
 
 
 class TestMediaFiles(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         """Create a temporary directory structure for testing."""
-        self.test_dir = tempfile.mkdtemp()
+        cls.test_dir = mkdtemp()
 
-    def tearDown(self):
-        """Clean up temporary files and directories."""
-        import shutil
-
-        if os.path.exists(self.test_dir):
-            shutil.rmtree(self.test_dir)
-
-    def create_test_structure(self):
-        """Create a realistic test directory structure with movies and pictures."""
         # Create some subdirectories (like date-based groups)
         # Also create nested subdirectories to test recursion
-        date1 = os.path.join(self.test_dir, '2024-01-01')
-        date2 = os.path.join(self.test_dir, '2024-01-02')
-        nested1 = os.path.join(self.test_dir, 'level1_dir')
+        date1 = os.path.join(cls.test_dir, '2024-01-01')
+        date2 = os.path.join(cls.test_dir, '2024-01-02')
+        nested1 = os.path.join(cls.test_dir, 'level1_dir')
         nested2 = os.path.join(nested1, 'level2_dir')
         nested3 = os.path.join(nested2, 'level3_dir')
         os.makedirs(date1)
@@ -48,9 +41,9 @@ class TestMediaFiles(unittest.TestCase):
         os.makedirs(nested3)
 
         # Create movie files at various levels
-        movie_files = [
-            os.path.join(self.test_dir, 'root_movie1.mp4'),
-            os.path.join(self.test_dir, 'root_movie2.avi'),
+        cls.movie_files = [
+            os.path.join(cls.test_dir, 'root_movie1.mp4'),
+            os.path.join(cls.test_dir, 'root_movie2.avi'),
             os.path.join(date1, 'movie3.mp4'),
             os.path.join(date1, 'movie4.mkv'),
             os.path.join(date2, 'movie5.mp4'),
@@ -60,41 +53,46 @@ class TestMediaFiles(unittest.TestCase):
         ]
 
         # Create picture files at various levels
-        picture_files = [
-            os.path.join(self.test_dir, 'root_picture1.jpg'),
+        cls.picture_files = [
+            os.path.join(cls.test_dir, 'root_picture1.jpg'),
             os.path.join(date1, 'picture2.jpg'),
             os.path.join(date2, 'picture3.jpg'),
             os.path.join(nested1, 'level1_picture.jpg'),
         ]
 
         # Create files that should be ignored
-        ignored_files = [
-            os.path.join(self.test_dir, '.hidden'),
-            os.path.join(self.test_dir, 'lastsnap.jpg'),
+        cls.ignored_files = [
+            os.path.join(cls.test_dir, '.hidden'),
+            os.path.join(cls.test_dir, 'lastsnap.jpg'),
             os.path.join(date1, '.dotfile'),
         ]
 
         # Create non-media files that should also be ignored
-        non_media_files = [
-            os.path.join(self.test_dir, 'readme.txt'),
-            os.path.join(self.test_dir, 'debug.log'),
+        cls.non_media_files = [
+            os.path.join(cls.test_dir, 'readme.txt'),
+            os.path.join(cls.test_dir, 'debug.log'),
             os.path.join(date1, 'notes.txt'),
             os.path.join(nested1, 'config.log'),
             os.path.join(nested2, 'info.txt'),
         ]
 
-        all_files = movie_files + picture_files + ignored_files + non_media_files
+        all_files = (
+            cls.movie_files
+            + cls.picture_files
+            + cls.ignored_files
+            + cls.non_media_files
+        )
         for f in all_files:
             Path(f).touch()
 
-        return movie_files, picture_files, ignored_files, non_media_files
+    @classmethod
+    def tearDownClass(cls):
+        """Clean up temporary files and directories."""
+        if os.path.exists(cls.test_dir):
+            rmtree(cls.test_dir)
 
     def test_list_media_files_recursive_all_files(self):
         """Test that _list_media_files returns all regular files recursively when no sub_path is given."""
-        movie_files, picture_files, ignored_files, non_media_files = (
-            self.create_test_structure()
-        )
-
         # Pass all extensions to find all files
         all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
         result = _list_media_files(self.test_dir, all_exts)
@@ -103,12 +101,11 @@ class TestMediaFiles(unittest.TestCase):
         result_paths = sorted([path for path, st in result])
 
         # Should find all non-ignored files
-        expected_files = sorted(movie_files + picture_files)
+        expected_files = sorted(self.movie_files + self.picture_files)
         self.assertEqual(result_paths, expected_files)
 
     def test_list_media_files_return_structure(self):
         """Test that _list_media_files returns tuples with (path, stat)."""
-        self.create_test_structure()
         all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
         result = _list_media_files(self.test_dir, all_exts)
 
@@ -121,10 +118,6 @@ class TestMediaFiles(unittest.TestCase):
 
     def test_list_media_files_filter_by_movie_extensions(self):
         """Test listing movie files with correct extensions."""
-        movie_files, picture_files, ignored_files, non_media_files = (
-            self.create_test_structure()
-        )
-
         movie_exts = ['.mp4', '.avi', '.mkv']
         result = _list_media_files(self.test_dir, movie_exts)
 
@@ -132,15 +125,11 @@ class TestMediaFiles(unittest.TestCase):
         result_paths = sorted([path for path, st in result])
 
         # Should find only movie files
-        expected_files = sorted(movie_files)
+        expected_files = sorted(self.movie_files)
         self.assertEqual(result_paths, expected_files)
 
     def test_list_media_files_filter_by_picture_extensions(self):
         """Test listing picture files with correct extensions."""
-        movie_files, picture_files, ignored_files, non_media_files = (
-            self.create_test_structure()
-        )
-
         picture_exts = ['.jpg']
         result = _list_media_files(self.test_dir, picture_exts)
 
@@ -148,15 +137,11 @@ class TestMediaFiles(unittest.TestCase):
         result_paths = sorted([path for path, st in result])
 
         # Should find only picture files
-        expected_files = sorted(picture_files)
+        expected_files = sorted(self.picture_files)
         self.assertEqual(result_paths, expected_files)
 
     def test_list_media_files_non_recursive_with_sub_path(self):
         """Test listing media files with a sub_path (non-recursive)."""
-        movie_files, picture_files, ignored_files, non_media_files = (
-            self.create_test_structure()
-        )
-
         movie_exts = ['.mp4', '.avi', '.mkv']
         # Test with a specific date sub_path
         result = _list_media_files(self.test_dir, movie_exts, sub_path='2024-01-01')
@@ -165,16 +150,12 @@ class TestMediaFiles(unittest.TestCase):
 
         # Should only find files in the 2024-01-01 directory (not in subdirectories of it)
         expected_files = sorted(
-            [f for f in movie_files if os.path.dirname(f).endswith('2024-01-01')]
+            [f for f in self.movie_files if os.path.dirname(f).endswith('2024-01-01')]
         )
         self.assertEqual(result_paths, expected_files)
 
     def test_list_media_files_ungrouped_sub_path(self):
         """Test listing media files with 'ungrouped' sub_path."""
-        movie_files, picture_files, ignored_files, non_media_files = (
-            self.create_test_structure()
-        )
-
         movie_exts = ['.mp4', '.avi', '.mkv']
         # 'ungrouped' should translate to empty string sub_path
         result = _list_media_files(self.test_dir, movie_exts, sub_path='ungrouped')
@@ -183,14 +164,12 @@ class TestMediaFiles(unittest.TestCase):
 
         # Should find files in the root directory only (not in subdirectories)
         expected_files = sorted(
-            [f for f in movie_files if os.path.dirname(f) == self.test_dir]
+            [f for f in self.movie_files if os.path.dirname(f) == self.test_dir]
         )
         self.assertEqual(result_paths, expected_files)
 
     def test_list_media_files_nonexistent_sub_path(self):
         """Test listing media files with a non-existent sub_path."""
-        self.create_test_structure()
-
         movie_exts = ['.mp4', '.avi', '.mkv']
         result = _list_media_files(self.test_dir, movie_exts, sub_path='nonexistent')
 
@@ -199,51 +178,59 @@ class TestMediaFiles(unittest.TestCase):
 
     def test_list_media_files_empty_directory(self):
         """Test _list_media_files on an empty directory."""
-        all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
-        result = _list_media_files(self.test_dir, all_exts)
-        self.assertEqual(len(result), 0)
+        # Create a new empty directory for this test
+        from tempfile import mkdtemp
+
+        empty_dir = mkdtemp()
+        try:
+            all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
+            result = _list_media_files(empty_dir, all_exts)
+            self.assertEqual(len(result), 0)
+        finally:
+            from shutil import rmtree
+
+            rmtree(empty_dir)
 
     def test_list_media_files_performance_with_many_files(self):
         """Test that the optimized version can handle many files efficiently."""
-        # Create a large number of files to test performance
-        import time
+        # Create a temporary directory for this test
+        from tempfile import mkdtemp
+        from time import time
 
-        num_files = 1000
-        for i in range(num_files):
-            Path(os.path.join(self.test_dir, f'movie{i}.mp4')).touch()
+        perf_test_dir = mkdtemp()
+        try:
+            num_files = 1000
+            for i in range(num_files):
+                Path(os.path.join(perf_test_dir, f'movie{i}.mp4')).touch()
 
-        # Measure time to list all files
-        start_time = time.time()
-        result = _list_media_files(self.test_dir, ['.mp4'])
-        elapsed_time = time.time() - start_time
+            # Measure time to list all files
+            start_time = time()
+            result = _list_media_files(perf_test_dir, ['.mp4'])
+            elapsed_time = time() - start_time
 
-        # Should find all files
-        self.assertEqual(len(result), num_files)
+            # Should find all files
+            self.assertEqual(len(result), num_files)
 
-        # Should complete in reasonable time (< 1 second for 1000 files)
-        # This is a loose check - the real benefit is seen with tens of thousands of files
-        self.assertLess(elapsed_time, 1.0)
+            # Should complete in reasonable time (< 1 second for 1000 files)
+            # This is a loose check - the real benefit is seen with tens of thousands of files
+            self.assertLess(elapsed_time, 1.0)
+        finally:
+            from shutil import rmtree
+
+            rmtree(perf_test_dir)
 
     def test_list_media_files_deep_recursion(self):
         """Test that _list_media_files recurses into deeply nested subdirectories."""
-        movie_files, picture_files, ignored_files, non_media_files = (
-            self.create_test_structure()
-        )
-
         # List all movie files recursively
         result = _list_media_files(self.test_dir, ['.mp4', '.avi', '.mkv'])
         result_paths = sorted([path for path, st in result])
 
         # Should find all movie files at all nesting levels
-        expected_files = sorted(movie_files)
+        expected_files = sorted(self.movie_files)
         self.assertEqual(result_paths, expected_files)
 
     def test_list_media_files_no_recursion_with_sub_path_filter(self):
         """Test that _list_media_files does not recurse when sub_path is provided."""
-        movie_files, picture_files, ignored_files, non_media_files = (
-            self.create_test_structure()
-        )
-
         # List files in level1_dir with sub_path filter (should not recurse into level2_dir)
         result = _list_media_files(
             self.test_dir, ['.mp4', '.avi', '.mkv', '.jpg'], sub_path='level1_dir'
@@ -254,7 +241,7 @@ class TestMediaFiles(unittest.TestCase):
         expected_files = sorted(
             [
                 f
-                for f in movie_files + picture_files
+                for f in self.movie_files + self.picture_files
                 if os.path.basename(os.path.dirname(f)) == 'level1_dir'
             ]
         )
