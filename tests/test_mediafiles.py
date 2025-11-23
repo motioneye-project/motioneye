@@ -87,11 +87,13 @@ class TestMediaFiles(unittest.TestCase):
         for f in all_files:
             Path(f).touch()
 
-        return movie_files, picture_files, ignored_files
+        return movie_files, picture_files, ignored_files, non_media_files
 
     def test_list_media_files_recursive_all_files(self):
         """Test that _list_media_files returns all regular files recursively when no sub_path is given."""
-        movie_files, picture_files, ignored_files = self.create_test_structure()
+        movie_files, picture_files, ignored_files, non_media_files = (
+            self.create_test_structure()
+        )
 
         # Pass all extensions to find all files
         all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
@@ -119,7 +121,9 @@ class TestMediaFiles(unittest.TestCase):
 
     def test_list_media_files_filter_by_movie_extensions(self):
         """Test listing movie files with correct extensions."""
-        movie_files, picture_files, ignored_files = self.create_test_structure()
+        movie_files, picture_files, ignored_files, non_media_files = (
+            self.create_test_structure()
+        )
 
         movie_exts = ['.mp4', '.avi', '.mkv']
         result = _list_media_files(self.test_dir, movie_exts)
@@ -133,7 +137,9 @@ class TestMediaFiles(unittest.TestCase):
 
     def test_list_media_files_filter_by_picture_extensions(self):
         """Test listing picture files with correct extensions."""
-        movie_files, picture_files, ignored_files = self.create_test_structure()
+        movie_files, picture_files, ignored_files, non_media_files = (
+            self.create_test_structure()
+        )
 
         picture_exts = ['.jpg']
         result = _list_media_files(self.test_dir, picture_exts)
@@ -147,7 +153,9 @@ class TestMediaFiles(unittest.TestCase):
 
     def test_list_media_files_non_recursive_with_sub_path(self):
         """Test listing media files with a sub_path (non-recursive)."""
-        movie_files, picture_files, ignored_files = self.create_test_structure()
+        movie_files, picture_files, ignored_files, non_media_files = (
+            self.create_test_structure()
+        )
 
         movie_exts = ['.mp4', '.avi', '.mkv']
         # Test with a specific date sub_path
@@ -163,7 +171,9 @@ class TestMediaFiles(unittest.TestCase):
 
     def test_list_media_files_ungrouped_sub_path(self):
         """Test listing media files with 'ungrouped' sub_path."""
-        movie_files, picture_files, ignored_files = self.create_test_structure()
+        movie_files, picture_files, ignored_files, non_media_files = (
+            self.create_test_structure()
+        )
 
         movie_exts = ['.mp4', '.avi', '.mkv']
         # 'ungrouped' should translate to empty string sub_path
@@ -185,13 +195,13 @@ class TestMediaFiles(unittest.TestCase):
         result = _list_media_files(self.test_dir, movie_exts, sub_path='nonexistent')
 
         # Should return empty list
-        self.assertEqual(result, [])
+        self.assertEqual(len(result), 0)
 
     def test_list_media_files_empty_directory(self):
         """Test _list_media_files on an empty directory."""
         all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
         result = _list_media_files(self.test_dir, all_exts)
-        self.assertEqual(result, [])
+        self.assertEqual(len(result), 0)
 
     def test_list_media_files_performance_with_many_files(self):
         """Test that the optimized version can handle many files efficiently."""
@@ -216,7 +226,9 @@ class TestMediaFiles(unittest.TestCase):
 
     def test_list_media_files_deep_recursion(self):
         """Test that _list_media_files recurses into deeply nested subdirectories."""
-        movie_files, picture_files, ignored_files = self.create_test_structure()
+        movie_files, picture_files, ignored_files, non_media_files = (
+            self.create_test_structure()
+        )
 
         # List all movie files recursively
         result = _list_media_files(self.test_dir, ['.mp4', '.avi', '.mkv'])
@@ -228,7 +240,9 @@ class TestMediaFiles(unittest.TestCase):
 
     def test_list_media_files_no_recursion_with_sub_path_filter(self):
         """Test that _list_media_files does not recurse when sub_path is provided."""
-        movie_files, picture_files, ignored_files = self.create_test_structure()
+        movie_files, picture_files, ignored_files, non_media_files = (
+            self.create_test_structure()
+        )
 
         # List files in level1_dir with sub_path filter (should not recurse into level2_dir)
         result = _list_media_files(
