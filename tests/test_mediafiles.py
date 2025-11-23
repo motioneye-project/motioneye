@@ -19,6 +19,7 @@ import unittest
 from pathlib import Path
 from shutil import rmtree
 from tempfile import mkdtemp
+from time import time
 
 from motioneye.mediafiles import _list_media_files
 
@@ -179,24 +180,17 @@ class TestMediaFiles(unittest.TestCase):
     def test_list_media_files_empty_directory(self):
         """Test _list_media_files on an empty directory."""
         # Create a new empty directory for this test
-        from tempfile import mkdtemp
-
         empty_dir = mkdtemp()
         try:
             all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
             result = _list_media_files(empty_dir, all_exts)
             self.assertEqual(len(result), 0)
         finally:
-            from shutil import rmtree
-
             rmtree(empty_dir)
 
     def test_list_media_files_performance_with_many_files(self):
         """Test that the optimized version can handle many files efficiently."""
         # Create a temporary directory for this test
-        from tempfile import mkdtemp
-        from time import time
-
         perf_test_dir = mkdtemp()
         try:
             num_files = 1000
@@ -215,8 +209,6 @@ class TestMediaFiles(unittest.TestCase):
             # This is a loose check - the real benefit is seen with tens of thousands of files
             self.assertLess(elapsed_time, 1.0)
         finally:
-            from shutil import rmtree
-
             rmtree(perf_test_dir)
 
     def test_list_media_files_deep_recursion(self):
