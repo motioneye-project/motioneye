@@ -44,6 +44,7 @@ jobs:
 
     - name: Generate frontend locales
       run: |
+        rm motioneye/static/js/motioneye.*.json
         for i in motioneye/locale/*/LC_MESSAGES/motioneye.js.po
         do
             lang=${i#motioneye/locale/}
@@ -52,12 +53,18 @@ jobs:
             l10n/po2json "$i" "motioneye/static/js/motioneye.$lang.json"
         done
 
+    - name: Cleanup backend locales
+      run: |
+        for i in motioneye/locale/*/LC_MESSAGES/motioneye.mo
+        do
+            [ -f "${i%mo}po" ] || rm "$i"
+        done
+
     - name: Commit changes
       run: |
-        git add -NA
-        git diff -I '^"POT-Creation-Date: ' --exit-code && exit 0
+        git add -A
+        git diff -I '^"POT-Creation-Date: ' --exit-code HEAD && exit 0
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
-        git add -A
         git commit -m 'Update translation files'
         git push
