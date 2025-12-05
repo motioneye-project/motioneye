@@ -27,7 +27,7 @@ from errno import EAGAIN, ENOENT
 from hashlib import sha1
 from io import BytesIO
 from shlex import quote
-from signal import SIGTERM
+from signal import SIGKILL, SIGTERM
 from time import time
 from zipfile import ZipFile
 
@@ -478,7 +478,7 @@ def list_media(
             else:  # process did not finish in time
                 logging.error('timeout waiting for the media listing process to finish')
                 try:
-                    os.kill(process.pid, SIGTERM)
+                    os.kill(process.pid, SIGKILL)
 
                 except:
                     pass  # nevermind
