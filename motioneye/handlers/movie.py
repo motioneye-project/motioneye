@@ -71,8 +71,8 @@ class MovieHandler(BaseHandler):
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
             # Get with_stat parameter from query string, default to True
-            with_stat_arg = self.get_argument('with_stat', 'true').lower()
-            with_stat = with_stat_arg in ('true', '1', 'yes')
+            # Only 'false' is treated as false, everything else is true
+            with_stat = self.get_argument('with_stat', 'true').lower() != 'false'
 
             media_list = await mediafiles.list_media(
                 camera_config,

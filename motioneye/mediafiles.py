@@ -130,6 +130,8 @@ def _list_media_files(
             if not any(entry.path.lower().endswith(e) for e in exts):
                 continue
 
+            # If stat is not needed, use None as placeholder
+            st = None
             if with_stat:
                 # stat call may fail due to race conditions or permission issues
                 try:
@@ -138,10 +140,7 @@ def _list_media_files(
                     logging.error(f'stat failed: {e}')
                     continue
 
-                media_files.append((entry.path, st))
-            else:
-                # When stat is not needed, use None as a placeholder
-                media_files.append((entry.path, None))
+            media_files.append((entry.path, st))
 
         # recurse into subdirectories only when no sub_path filter is set
         elif sub_path is None and entry.is_dir(follow_symlinks=False):
