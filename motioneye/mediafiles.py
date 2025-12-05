@@ -639,7 +639,9 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     def do_list_media(pipe):
         parent_pipe.close()
 
-        mf = _list_media_files(target_dir, _PICTURE_EXTS, sub_path=group, with_stat=True)
+        mf = _list_media_files(
+            target_dir, _PICTURE_EXTS, sub_path=group, with_stat=True
+        )
         for p, st in mf:
             timestamp = st.st_mtime
 
