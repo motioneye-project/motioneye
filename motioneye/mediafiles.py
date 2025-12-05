@@ -105,7 +105,7 @@ _ffmpeg_binary_cache = None
 
 
 def _list_media_files(
-    base_path: str, exts: typing.List[str], sub_path: str = None
+    base_path: str, exts: typing.List[str], sub_path: str = None, with_stat: bool = True
 ) -> typing.List[tuple]:
     # Determine scan path based on sub_path parameter
     if sub_path is not None:
@@ -130,18 +130,22 @@ def _list_media_files(
             if not any(entry.path.lower().endswith(e) for e in exts):
                 continue
 
-            # stat call may fail due to race conditions or permission issues
-            try:
-                st = entry.stat(follow_symlinks=False)
-            except Exception as e:
-                logging.error(f'stat failed: {e}')
-                continue
+            if with_stat:
+                # stat call may fail due to race conditions or permission issues
+                try:
+                    st = entry.stat(follow_symlinks=False)
+                except Exception as e:
+                    logging.error(f'stat failed: {e}')
+                    continue
 
-            media_files.append((entry.path, st))
+                media_files.append((entry.path, st))
+            else:
+                # When stat is not needed, use None as a placeholder
+                media_files.append((entry.path, None))
 
         # recurse into subdirectories only when no sub_path filter is set
         elif sub_path is None and entry.is_dir(follow_symlinks=False):
-            media_files.extend(_list_media_files(entry.path, exts))
+            media_files.extend(_list_media_files(entry.path, exts, with_stat=with_stat))
 
     return media_files
 
@@ -153,7 +157,7 @@ def _remove_older_files(
     exts: typing.List[str],
 ):
     removed_folder_count = 0
-    for full_path, st in _list_media_files(directory, exts):
+    for full_path, st in _list_media_files(directory, exts, with_stat=True):
         file_moment = datetime.datetime.fromtimestamp(st.st_mtime)
         if file_moment < moment:
             logging.debug(f'removing file {full_path}...')
@@ -392,7 +396,9 @@ def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str,
     return thumb_path
 
 
-def list_media(camera_config: dict, media_type: str, prefix=None) -> typing.Awaitable:
+def list_media(
+    camera_config: dict, media_type: str, prefix=None, with_stat: bool = True
+) -> typing.Awaitable:
     fut = Future()
     target_dir = camera_config.get('target_dir')
 
@@ -408,33 +414,37 @@ def list_media(camera_config: dict, media_type: str, prefix=None) -> typing.Awai
 
         parent_pipe.close()
 
-        mf = _list_media_files(target_dir, exts, sub_path=prefix)
+        mf = _list_media_files(target_dir, exts, sub_path=prefix, with_stat=with_stat)
         for p, st in mf:
             path = p[len(target_dir) :]
             if not path.startswith('/'):
                 path = '/' + path
 
-            timestamp = st.st_mtime
-            size = st.st_size
+            if with_stat and st is not None:
+                timestamp = st.st_mtime
+                size = st.st_size
 
-            pipe.send(
-                {
-                    'path': path,
-                    'mimeType': (
-                        mimetypes.guess_type(path)[0]
-                        if mimetypes.guess_type(path)[0] is not None
-                        else 'video/mpeg'
-                    ),
-                    'momentStr': pretty_date_time(
-                        datetime.datetime.fromtimestamp(timestamp)
-                    ),
-                    'momentStrShort': pretty_date_time(
-                        datetime.datetime.fromtimestamp(timestamp), short=True
-                    ),
-                    'sizeStr': utils.pretty_size(size),
-                    'timestamp': timestamp,
-                }
-            )
+                pipe.send(
+                    {
+                        'path': path,
+                        'mimeType': (
+                            mimetypes.guess_type(path)[0]
+                            if mimetypes.guess_type(path)[0] is not None
+                            else 'video/mpeg'
+                        ),
+                        'momentStr': pretty_date_time(
+                            datetime.datetime.fromtimestamp(timestamp)
+                        ),
+                        'momentStrShort': pretty_date_time(
+                            datetime.datetime.fromtimestamp(timestamp), short=True
+                        ),
+                        'sizeStr': utils.pretty_size(size),
+                        'timestamp': timestamp,
+                    }
+                )
+            else:
+                # When stat is not available, only send the path
+                pipe.send({'path': path})
 
         pipe.close()
 
@@ -528,9 +538,9 @@ def get_zipped_content(
     def do_zip(pipe):
         parent_pipe.close()
 
-        mf = _list_media_files(target_dir, exts, sub_path=group)
+        mf = _list_media_files(target_dir, exts, sub_path=group, with_stat=False)
         paths = []
-        for p, st in mf:  # @UnusedVariable
+        for p, st in mf:  # st will be None when with_stat=False
             path = p[len(target_dir) :]
             if path.startswith('/'):
                 path = path[1:]
@@ -629,7 +639,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     def do_list_media(pipe):
         parent_pipe.close()
 
-        mf = _list_media_files(target_dir, _PICTURE_EXTS, sub_path=group)
+        mf = _list_media_files(target_dir, _PICTURE_EXTS, sub_path=group, with_stat=True)
         for p, st in mf:
             timestamp = st.st_mtime
 
@@ -947,8 +957,8 @@ def del_media_group(camera_config, group, media_type):
     # create a sentinel file to make sure the target dir is never removed
     open(os.path.join(target_dir, '.keep'), 'w').close()
 
-    mf = _list_media_files(target_dir, exts, sub_path=group)
-    for path, st in mf:  # @UnusedVariable
+    mf = _list_media_files(target_dir, exts, sub_path=group, with_stat=False)
+    for path, st in mf:  # st will be None when with_stat=False
         try:
             os.remove(path)
 

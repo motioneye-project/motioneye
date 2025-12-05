@@ -239,6 +239,61 @@ class TestMediaFiles(unittest.TestCase):
         )
         self.assertEqual(result_paths, expected_files)
 
+    def test_list_media_files_with_stat_true(self):
+        """Test that with_stat=True returns stat objects."""
+        all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
+        result = _list_media_files(self.test_dir, all_exts, with_stat=True)
+
+        for path, st in result:
+            self.assertIsNotNone(st)
+            self.assertTrue(hasattr(st, 'st_mtime'))
+            self.assertTrue(hasattr(st, 'st_size'))
+
+    def test_list_media_files_with_stat_false(self):
+        """Test that with_stat=False returns None for stat objects."""
+        all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
+        result = _list_media_files(self.test_dir, all_exts, with_stat=False)
+
+        for path, st in result:
+            self.assertIsNone(st)
+            self.assertTrue(os.path.isfile(path))
+
+    def test_list_media_files_with_stat_default(self):
+        """Test that with_stat defaults to True."""
+        all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
+        # Call without with_stat parameter (should default to True)
+        result = _list_media_files(self.test_dir, all_exts)
+
+        for path, st in result:
+            self.assertIsNotNone(st)
+            self.assertTrue(hasattr(st, 'st_mtime'))
+
+    def test_list_media_files_with_stat_false_sub_path(self):
+        """Test that with_stat=False works correctly with sub_path."""
+        movie_exts = ['.mp4', '.avi', '.mkv']
+        result = _list_media_files(
+            self.test_dir, movie_exts, sub_path='2024-01-01', with_stat=False
+        )
+
+        # Should find files in the 2024-01-01 directory
+        self.assertGreater(len(result), 0)
+
+        for path, st in result:
+            self.assertIsNone(st)
+            self.assertTrue('2024-01-01' in path)
+
+    def test_list_media_files_with_stat_recursive(self):
+        """Test that with_stat parameter is propagated during recursion."""
+        all_exts = ['.mp4', '.avi', '.mkv', '.jpg']
+        result = _list_media_files(self.test_dir, all_exts, with_stat=False)
+
+        # Should find all files recursively
+        self.assertGreater(len(result), 0)
+
+        # All should have None as stat
+        for path, st in result:
+            self.assertIsNone(st)
+
 
 if __name__ == '__main__':
     unittest.main()

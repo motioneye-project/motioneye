@@ -159,10 +159,15 @@ class PictureHandler(BaseHandler):
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
+            # Get with_stat parameter from query string, default to True
+            with_stat_arg = self.get_argument('with_stat', 'true').lower()
+            with_stat = with_stat_arg in ('true', '1', 'yes')
+
             media_list = await mediafiles.list_media(
                 camera_config,
                 media_type='picture',
                 prefix=self.get_argument('prefix', None),
+                with_stat=with_stat,
             )
             if media_list is None:
                 self.finish_json({'error': 'Failed to get movies list.'})

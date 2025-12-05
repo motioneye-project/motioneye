@@ -4471,7 +4471,7 @@ function runMediaDialog(cameraId, mediaType) {
         var previewImg = $('<img class="media-list-progress" src="' + staticPath + 'img/modal-progress.gif"/>');
         mediaListDiv.append(previewImg);
 
-        var url = basePath + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped');
+        var url = basePath + mediaType + '/' + cameraId + '/list/?prefix=' + (key || 'ungrouped') + '&with_stat=true';
         ajax('GET', url, null, function (data) {
             previewImg.remove();
 
@@ -4606,7 +4606,7 @@ function runMediaDialog(cameraId, mediaType) {
     showModalDialog('<div class="modal-progress"></div>');
 
     /* fetch the media list */
-    ajax('GET', basePath + mediaType + '/' + cameraId + '/list/', null, function (data) {
+    ajax('GET', basePath + mediaType + '/' + cameraId + '/list/?with_stat=false', null, function (data) {
         if (data == null || data.error) {
             hideModalDialog();
             showErrorMessage(data && data.error);
