@@ -24,25 +24,19 @@ jobs:
     runs-on: ${{ matrix.dist }}
     name: "Test on ${{ matrix.dist }}"
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v6
-        with:
-          python-version: ${{ matrix.python }}
-      - if: matrix.dist == 'ubuntu-22.04' || matrix.dist == 'ubuntu-24.04'
-        run: sudo apt-mark hold grub-efi-amd64-signed # GRUB does not always find the drive it was configured for
       - name: Ubuntu Noble workarounds
         if: matrix.dist == 'ubuntu-24.04' || matrix.dist == 'ubuntu-24.04-arm'
         run: |
-          # new firefox package pre-installation script subprocess returned error exit status 1
-          sudo apt-get autopurge firefox
           # error: externally-managed-environment
           echo -e '[global]\nbreak-system-packages=true' | sudo tee /etc/pip.conf
       # ERROR: Cannot uninstall pip 24.0, RECORD file not found. Hint: The package was installed by debian.
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq autopurge python3-pip python3-setuptools python3-wheel
       - run: sudo apt-get -q update
-      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends dist-upgrade
-      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install
-             curl gcc ffmpeg libcurl4-openssl-dev libssl-dev motion v4l-utils
+      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install curl ffmpeg motion v4l-utils
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
       - run: python3 -m pip install --upgrade pip setuptools wheel
       - run: python3 -m pip install --upgrade build mypy pytest
       - run: python3 -m build
