@@ -26,7 +26,7 @@ repos:
         args:
           - --skip=B104,B105,B108,B110,B301,B310,B321,B324,B402,B403,B404,B602,B603,B604,B605,B607,B701
   - repo: https://github.com/python/black
-    rev: 25.11.0
+    rev: 25.12.0
     hooks:
       - id: black
         args: [--skip-string-normalization]
