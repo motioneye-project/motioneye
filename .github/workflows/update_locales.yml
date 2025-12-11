@@ -36,8 +36,8 @@ jobs:
     - name: Generate backend template
       run: |
         pybabel extract --no-wrap -F l10n/babel.cfg -o motioneye/locale/motioneye.pot motioneye/
-        # Remove trailing empty line to satisfy pre-commit
-        sed -i '${/^$/d}' motioneye/locale/motioneye.pot
+        # Remove python-format flag, and trailing empty line to satisfy pre-commit
+        sed -i -e '/^#, python-format$/d' -e '${/^$/d}' motioneye/locale/motioneye.pot
 
     - name: Generate frontend template
       run: xgettext --no-wrap --from-code=UTF-8 -o motioneye/locale/motioneye.js.pot motioneye/static/js/*.js l10n/*.js

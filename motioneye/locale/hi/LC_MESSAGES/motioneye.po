@@ -30,7 +30,7 @@ msgid "Device names are only allowed to contain alphanumerical characters, hyphe
 msgstr "उपकरण केवल अल्फ़ान्यूमेरिक वर्णों, हाइफेन, अंडरस्कोर, प्लस + और स्थानिक के लिए उपलब्ध हैं"
 
 #: motioneye/config.py:864
-#, fuzzy, python-format
+#, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
 msgstr "फ़ाइल केवल अल्फ़ान्यूमेरिकल अक्षरों, पैरेंटहेसिस (), फॉरवर्ड्स /, डॉट, अंडरस्कोर, हाइफेन-, स्थानिक रूप से, और निर्दिष्ट गति विशेषताओं की एक सबसेट के बराबर हैं: %C %Y %m %d %H %M %S %q %v"
 
@@ -817,8 +817,8 @@ msgid "ekz. http://example.com/notify/"
 msgstr "जैसे। http://example.com/notify/"
 
 #: motioneye/templates/main.html:570
-#, fuzzy, python-format
-msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
+#, fuzzy
+msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%f = dosiera vojo"
 msgstr "गति का पता लगने पर संचारित होने वाला URL; निम्नलिखित विशेष शॉर्टकट स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या। %% v = घटना संख्या, %% f = फ़ाइल पथ"
 
 #: motioneye/templates/main.html:573 motioneye/templates/main.html:1141
@@ -853,8 +853,8 @@ msgid "ordono…"
 msgstr "आदेश…"
 
 #: motioneye/templates/main.html:595
-#, fuzzy, python-format
-msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
+#, fuzzy
+msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadra numero , %v = okaza numero, %f = dosiera vojo"
 msgstr "मल्टीमीडिया फ़ाइल बनाने के बाद निष्पादित किया जाने वाला कमांड। कई आदेशों को एक अर्धविराम द्वारा अलग किया जा सकता है; आदेशों में अर्धविराम का उपयोग न करें; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या, %% v = घटना संख्या, %% f = फ़ाइल पथ"
 
 #: motioneye/templates/main.html:605
@@ -899,8 +899,7 @@ msgid "propra teksto…"
 msgstr "प्रचलित पाठ…"
 
 #: motioneye/templates/main.html:625
-#, python-format
-msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio"
 msgstr "कस्टम बाएँ पाठ को परिभाषित करता है; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या, %% v = घटना संख्या, %% T = HH: MM: SS, \\n = नई पंक्ति"
 
 #: motioneye/templates/main.html:628
@@ -914,8 +913,8 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dek
 msgstr "फिल्मों और चित्रों पर प्रदर्शित पाठ को निचले दाएं कोने में सेट करता है"
 
 #: motioneye/templates/main.html:642
-#, fuzzy, python-format
-msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+#, fuzzy
+msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio"
 msgstr "दाहिने हाथ के टेक्स्ट का प्रारूप परिभाषित करता है; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %%Y = वर्ष, %%m = महीना, %%d = दिन, %%H = घंटा, %%M = मिनट, %%S = सेकंड, %%q = फ्रेम संख्या, %%v = इवेंट संख्या, %%T = HH:MM:SS, \\n = नई लाइन"
 
 #: motioneye/templates/main.html:645
@@ -1064,8 +1063,8 @@ msgid "dosiernomo ŝablono…"
 msgstr "फ़ाइल नाम टेम्पलेट…"
 
 #: motioneye/templates/main.html:749
-#, fuzzy, python-format
-msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+#, fuzzy
+msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero, / = subdosierujo."
 msgstr "छवि (JPEG) फ़ाइलों के नाम का पैटर्न निर्धारित करता है; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %%Y = वर्ष, %%m = महीना, %%d = दिन, %%H = घंटा, %%M = मिनट, %%S = सेकंड, %%q = फ्रेम संख्या, %%v = इवेंट संख्या, / = सबफ़ोल्डर।"
 
 #: motioneye/templates/main.html:752
@@ -1226,8 +1225,8 @@ msgid "Filma Dosiernomo"
 msgstr "मूवी फ़ाइल का नाम"
 
 #: motioneye/templates/main.html:818
-#, fuzzy, python-format
-msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+#, fuzzy
+msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero, / = subdosierujo."
 msgstr "फिल्म फ़ाइलों के लिए नाम टेम्पलेट को परिभाषित करता है; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या, %% v = घटना संख्या, / = उपनिर्देशिका।"
 
 #: motioneye/templates/main.html:821
@@ -1376,8 +1375,8 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "प्रकाश के परिवर्तन का पता लगाना"
 
 #: motioneye/templates/main.html:951
-#, fuzzy, python-format
-msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+#, fuzzy
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
 msgstr "उस छवि का प्रतिशत निर्धारित करता है जिसे बदलने की आवश्यकता है ताकि घटना को गति के बजाय अचानक प्रकाश परिवर्तन के रूप में माना जाए (0 %% सुविधा को निष्क्रिय करता है)।"
 
 #: motioneye/templates/main.html:954
@@ -1722,8 +1721,8 @@ msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "जैसे। http://ekzemplo.com/sciigi/"
 
 #: motioneye/templates/main.html:1138
-#, fuzzy, python-format
-msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+#, fuzzy
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadro-numero, %v = okaza numero"
 msgstr "गति का पता चलने पर URL का अनुरोध किया जाना; निम्नलिखित विशेष शॉर्टकट स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या , %% v = घटना संख्या"
 
 #: motioneye/templates/main.html:1150 motioneye/templates/main.html:1195
@@ -1752,8 +1751,8 @@ msgid "komando…"
 msgstr "आज्ञा…"
 
 #: motioneye/templates/main.html:1163
-#, fuzzy, python-format
-msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadro-numero, %v = okaza numero"
 msgstr "गति का पता चलने पर कमांड लॉन्च किया जाना; कई आदेशों को एक बृहदान्त्र द्वारा अलग किया जा सकता है; आदेशों के साथ अर्धविराम का उपयोग न करें; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिन, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या , %% v = घटना संख्या"
 
 #: motioneye/templates/main.html:1203
@@ -1762,8 +1761,8 @@ msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento 
 msgstr "यदि आप हर बार किसी मूव इवेंट को समाप्त करने के लिए कमांड लॉन्च करना चाहते हैं तो इसे सक्षम करें।"
 
 #: motioneye/templates/main.html:1208
-#, fuzzy, python-format
-msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+#, fuzzy
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = dato, %H = horo, %M = minuto, %S = sekundo, %q = kadra nombro."
 msgstr "मोशन इवेंट समाप्त होने पर लॉन्च होने की कमांड; कई आदेशों को एक बृहदान्त्र द्वारा अलग किया जा सकता है; आदेशों के साथ डॉट कॉम का उपयोग न करें; निम्नलिखित विशेष टोकन स्वीकार किए जाते हैं: %% Y = वर्ष, %% m = महीना, %% d = दिनांक, %% H = घंटा, %% M = मिनट, %% S = दूसरा, %% q = फ्रेम संख्या।"
 
 #: motioneye/templates/main.html:1218

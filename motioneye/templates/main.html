@@ -567,7 +567,7 @@
                         <tr class="settings-item" required="true" depends="webHookStorageEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Reteja URL") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="webHookStorageUrlEntry" placeholder="{{ _("ekz. http://example.com/notify/") }}"></td>
-                            <td><span class="help-mark" title="{{ _("URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%f = dosiera vojo") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="webHookStorageEnabled">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Metodo HTTP") }}</span></td>
@@ -592,7 +592,7 @@
                         <tr class="settings-item" required="true" depends="commandStorageEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Ordono") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="commandStorageEntry" placeholder="{{ _("ordono…") }}"></td>
-                            <td><span class="help-mark" title="{{ _("Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadra numero , %v = okaza numero, %f = dosiera vojo") }}">?</span></td>
                         </tr>
                         {% for config in camera_sections.get('storage', {}).get('configs', []) %}
                             {{config_item(config)}}
@@ -622,7 +622,7 @@
                         <tr class="settings-item" required="true" depends="leftTextType=custom-text" strip="true">
                             <td class="settings-item-label"></td>
                             <td class="settings-item-value"><input type="text" class="styled text-overlay camera-config" id="leftTextEntry" placeholder="{{ _("propra teksto…") }}"></td>
-                            <td><span class="help-mark" title="{{ _("Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Dekstra Teksto") }}</span></td>
@@ -639,7 +639,7 @@
                         <tr class="settings-item" required="true" depends="rightTextType=custom-text" strip="true">
                             <td class="settings-item-label"></td>
                             <td class="settings-item-value"><input type="text" class="styled text-overlay camera-config" id="rightTextEntry" placeholder="{{ _("propra teksto…") }}"></td>
-                            <td><span class="help-mark" title="{{ _("Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" min="1" max="10" snap="1" ticksnum="10" decimals="0">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Teksta Skalo") }}</span></td>
@@ -746,7 +746,7 @@
                         <tr class="settings-item" required="true" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Nomo Bildo-Dosiero") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled still-images camera-config" id="imageFileNameEntry" placeholder="{{ _("dosiernomo ŝablono…") }}"></td>
-                            <td><span class="help-mark" title="{{ _("Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo.") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero, / = subdosierujo.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" min="0" max="100" snap="0" ticksnum="5" decimals="0" unit="%">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Bildkvalito") }}</span></td>
@@ -815,7 +815,7 @@
                         <tr class="settings-item" required="true" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Filma Dosiernomo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled movies camera-config" id="movieFileNameEntry" placeholder="{{ _("dosiernomo ŝablono…") }}"></td>
-                            <td><span class="help-mark" title="{{ _("Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo.") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero, / = subdosierujo.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Rekta kopia filmeto") }}</span></td>
@@ -948,7 +948,7 @@
                         <tr class="settings-item" min="0" max="100" snap="0" ticksnum="5" decimals="0" unit="%">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Detekto de lumaj ŝanĝoj") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="range styled motion-detection camera-config" id="lightSwitchDetectSlider"></td>
-                            <td><span class="help-mark" title="{{ _("Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion).") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion).") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Makula filtrilo") }}</span></td>
@@ -1135,7 +1135,7 @@
                         <tr class="settings-item" required="true" depends="webHookNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Reteja URL") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="webHookNotificationsUrlEntry" placeholder="{{ _("ekz. http://ekzemplo.com/sciigi/") }}"></td>
-                            <td><span class="help-mark" title="{{ _("URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadro-numero, %v = okaza numero") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="webHookNotificationsEnabled motionDetectionEnabled">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Metodo HTTP") }}</span></td>
@@ -1160,7 +1160,7 @@
                         <tr class="settings-item" required="true" depends="commandNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Komando") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandNotificationsEntry" placeholder="{{ _("komando…") }}"></td>
-                            <td><span class="help-mark" title="{{ _("Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadro-numero, %v = okaza numero") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
@@ -1205,7 +1205,7 @@
                         <tr class="settings-item" required="true" depends="commandEndNotificationsEnabled motionDetectionEnabled" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Komando") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled notifications camera-config" id="commandEndNotificationsEntry" placeholder="{{ _("komando…") }}"></td>
-                            <td><span class="help-mark" title="{{ _("Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro.") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = dato, %H = horo, %M = minuto, %S = sekundo, %q = kadra nombro.") }}">?</span></td>
                         </tr>
                         {% for config in camera_sections.get('notifications', {}).get('configs', []) %}
                             {{config_item(config, "motionDetectionEnabled")}}

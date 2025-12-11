@@ -31,7 +31,7 @@ msgid "Device names are only allowed to contain alphanumerical characters, hyphe
 msgstr "Els dispositius només estan disponibles per a caràcters alfanumèrics, hipen, undercore, plus + i espai"
 
 #: motioneye/config.py:864
-#, fuzzy, python-format
+#, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
 msgstr "Els fitxers només són equivalents a caràcters alfanumèrics, parèntesis (), cap endavant/, punt., subratllat , hiphen-, espacialment i un conjunt d'atributs de moviment especificats: %C %Y %m %d %H %M %S %q %v"
 
@@ -666,8 +666,7 @@ msgid "ekz. http://example.com/notify/"
 msgstr "per exemple http://ejemplo.com/notify/"
 
 #: motioneye/templates/main.html:570
-#, python-format
-msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%f = dosiera vojo"
+msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%f = dosiera vojo"
 msgstr "una URL que s'ha de sol·licitar quan es detecta moviment; s'accepten els següents tokens especials: %%Y = any, %%m = mes, %%d = dia, %%H = hora, %%M = minut, %%S = segon, %%q = número de fotograma, %%v = número d'esdeveniment, %%f = ruta del fitxer"
 
 #: motioneye/templates/main.html:573 motioneye/templates/main.html:1141
@@ -696,8 +695,7 @@ msgid "ordono…"
 msgstr "Ordre…"
 
 #: motioneye/templates/main.html:595
-#, python-format
-msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra numero , %%v = okaza numero, %%f = dosiera vojo"
+msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadra numero , %v = okaza numero, %f = dosiera vojo"
 msgstr "una ordre que s'executarà després de crear un fitxer multimèdia; diverses ordres es poden separar per un punt i coma; no utilitzis punts i coma dins de les ordres; s'accepten els següents símbols especials: %%Y = any, %%m = mes, %%d = dia, %%H = hora, %%M = minut, %%S = segon, %%q = número de fotograma, %%v = número d'esdeveniment, %%f = ruta del fitxer"
 
 #: motioneye/templates/main.html:605
@@ -734,8 +732,7 @@ msgid "propra teksto…"
 msgstr "Text personalitzat…"
 
 #: motioneye/templates/main.html:625
-#, python-format
-msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio"
 msgstr "estableix un text personalitzat a l'esquerra; s'accepten els següents tokens especials: %%Y = any, %%m = mes, %%d = dia, %%H = hora, %%M = minut, %%S = segon, %%q = número de fotograma, %%v = número d'esdeveniment, %%T = HH:MM:SS, \\n = nova línia"
 
 #: motioneye/templates/main.html:628
@@ -747,8 +744,7 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dek
 msgstr "Defineix el text que es mostra a les pel·lícules i imatges, a la cantonada inferior dreta"
 
 #: motioneye/templates/main.html:642
-#, python-format
-msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero,%%T = HH:MM:SS, \\n = nova linio"
+msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio"
 msgstr "estableix un text personalitzat a la dreta; s'accepten els següents tokens especials: %%Y = any, %%m = mes, %%d = dia, %%H = hora, %%M = minut, %%S = segon, %%q = número de fotograma, %%v = número d'esdeveniment, %%T = HH: MM: SS, \\n = nova línia"
 
 #: motioneye/templates/main.html:645
@@ -868,8 +864,7 @@ msgid "dosiernomo ŝablono…"
 msgstr "Plantilla de nom de fitxer…"
 
 #: motioneye/templates/main.html:749
-#, python-format
-msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero, / = subdosierujo."
 msgstr "estableix el patró de noms per als fitxers d'imatge (JPEG); s'accepten els següents símbols especials: %%Y = any, %%m = mes, %%d = dia, %%H = hora, %%M = minut, %%S = segon, %%q = número de fotograma, %%v = número d'esdeveniment, / = subcarpeta."
 
 #: motioneye/templates/main.html:752
@@ -999,8 +994,7 @@ msgid "Filma Dosiernomo"
 msgstr "Nom del fitxer de vídeo"
 
 #: motioneye/templates/main.html:818
-#, python-format
-msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%%Y = jaro,%%m = monato,%%d = tago,%%H = horo,%%M = minuto,%%S = sekundo,%%q = kadro numero,%%v = evento numero, / = subdosierujo."
+msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero, / = subdosierujo."
 msgstr "estableix el patró de noms per als fitxers de vídeo; s'accepten els següents símbols especials: %%Y = any, %%m = mes, %%d = dia, %%H = hora, %%M = minut, %%S = segon, %%q = número de fotograma, %%v = número d'esdeveniment, / = subcarpeta."
 
 #: motioneye/templates/main.html:821
@@ -1120,8 +1114,7 @@ msgid "Detekto de lumaj ŝanĝoj"
 msgstr "Detecció de canvis de llum"
 
 #: motioneye/templates/main.html:951
-#, python-format
-msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0%% malebligas la funkcion)."
+msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
 msgstr "estableix el percentatge de la imatge que ha de canviar perquè l'esdeveniment es tracti com un canvi sobtat de llum en lloc de moviment (0%% deshabilita la funció)."
 
 #: motioneye/templates/main.html:954
@@ -1398,8 +1391,7 @@ msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "ex. http://exemple.com/notifier/"
 
 #: motioneye/templates/main.html:1138
-#, python-format
-msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadro-numero, %v = okaza numero"
 msgstr "una URL que s'ha de sol·licitar quan es detecta moviment; s'accepten els següents tokens especials: %%Y = any, %%m = mes, %%d = dia, %%H = hora, %%M = minut, %%S = segon, %%q = número de fotograma, %%v = número d'esdeveniment"
 
 #: motioneye/templates/main.html:1150 motioneye/templates/main.html:1195
@@ -1423,8 +1415,7 @@ msgid "komando…"
 msgstr "Ordre…"
 
 #: motioneye/templates/main.html:1163
-#, python-format
-msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = tago, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadro-numero, %%v = okaza numero"
+msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadro-numero, %v = okaza numero"
 msgstr "una ordre que s'executarà quan es detecti moviment; diverses ordres es poden separar per un punt i coma; no utilitzis punts i coma dins de les ordres; s'accepten els següents símbols especials: %%Y = any, %%m = mes, %%d = dia, %%H = hora, %%M = minut, %%S = segon, %%q = número de fotograma, %%v = número d'esdeveniment"
 
 #: motioneye/templates/main.html:1203
@@ -1432,8 +1423,7 @@ msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento 
 msgstr "Habilita això si vols executar una ordre cada vegada que finalitzi un esdeveniment de moviment."
 
 #: motioneye/templates/main.html:1208
-#, python-format
-msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %%Y = jaro, %%m = monato, %%d = dato, %%H = horo, %%M = minuto, %%S = sekundo, %%q = kadra nombro."
+msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = dato, %H = horo, %M = minuto, %S = sekundo, %q = kadra nombro."
 msgstr "una ordre que s'executarà quan finalitzi l'esdeveniment de moviment; diverses ordres es poden separar per un punt i coma; no utilitzis punts i coma dins de les ordres; s'accepten els següents símbols especials: %%Y = any, %%m = mes, %%d = data, %%H = hora, %%M = minut, %%S = segon, %%q = número de fotograma."
 
 #: motioneye/templates/main.html:1218
