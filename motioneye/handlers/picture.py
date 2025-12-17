@@ -47,6 +47,10 @@ class PictureHandler(BaseHandler):
             camera_id = int(camera_id)
             if camera_id not in config.get_camera_ids():
                 raise HTTPError(404, 'no such camera')
+            # block access to admin-only cameras for non-admin users
+            camera_config = config.get_camera(camera_id)
+            if camera_config and camera_config.get('@admin_only') and self.current_user != 'admin':
+                raise HTTPError(403, 'access denied')
 
         if op == 'current':
             await self.current(camera_id)
@@ -80,6 +84,10 @@ class PictureHandler(BaseHandler):
             camera_id = int(camera_id)
             if camera_id not in config.get_camera_ids():
                 raise HTTPError(404, 'no such camera')
+            # block access to admin-only cameras for non-admin users
+            camera_config = config.get_camera(camera_id)
+            if camera_config and camera_config.get('@admin_only') and self.current_user != 'admin':
+                raise HTTPError(403, 'access denied')
 
         if op == 'delete':
             await self.delete(camera_id, filename)
@@ -220,6 +228,9 @@ class PictureHandler(BaseHandler):
                     camera_config=camera_config,
                     title=self.get_argument('title', ''),
                 )
+            # block access to admin-only cameras for non-admin users
+            if resp.remote_ui_config.get('admin_only') and self.current_user != 'admin':
+                raise HTTPError(403, 'access denied')
 
             # issue a fake motion_camera_ui_to_dict() call to transform
             # the remote UI values into motion config directives

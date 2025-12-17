@@ -885,6 +885,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             deviceNameValidRegExp, ui['name'], 'camera_name', deviceNameFailMessage
         ),
         '@enabled': ui['enabled'],
+        '@admin_only': ui.get('admin_only', False),
         'auto_brightness': ui['auto_brightness'],
         'framerate': int(ui['framerate']),
         'rotate': int(ui['rotation']),
@@ -1393,6 +1394,7 @@ def motion_camera_dict_to_ui(data):
         'name': data['camera_name'],
         'enabled': data['@enabled'],
         'id': data['@id'],
+        'admin_only': data.get('@admin_only', False),
         'auto_brightness': data['auto_brightness'],
         'framerate': int(data['framerate']),
         'rotation': int(data['rotate']),
@@ -1901,6 +1903,7 @@ def simple_mjpeg_camera_ui_to_dict(ui, prev_config=None):
         # device
         'camera_name': ui['name'],
         '@enabled': ui['enabled'],
+        '@admin_only': ui.get('admin_only', False),
     }
 
     # additional configs
@@ -1922,6 +1925,7 @@ def simple_mjpeg_camera_dict_to_ui(data):
         'id': data['@id'],
         'proto': 'mjpeg',
         'url': data['@url'],
+        'admin_only': data.get('@admin_only', False),
     }
 
     # additional configs
@@ -2262,6 +2266,7 @@ def _set_default_motion(data):
 def _set_default_motion_camera(camera_id, data):
     data.setdefault('camera_name', 'Camera' + str(camera_id))
     data.setdefault('@id', camera_id)
+    data.setdefault('@admin_only', False)
 
     if utils.is_v4l2_camera(data):
         data.setdefault('videodevice', '/dev/video0')
@@ -2377,6 +2382,7 @@ def _set_default_motion_camera(camera_id, data):
 def _set_default_simple_mjpeg_camera(camera_id, data):
     data.setdefault('camera_name', 'Camera' + str(camera_id))
     data.setdefault('@id', camera_id)
+    data.setdefault('@admin_only', False)
 
 
 def get_additional_structure(camera, separators=False):
