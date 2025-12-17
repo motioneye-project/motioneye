@@ -37,7 +37,11 @@ class ActionHandler(BaseHandler):
 
         local_config = config.get_camera(camera_id)
         # block access to admin-only cameras for non-admin users
-        if local_config and local_config.get('@admin_only') and self.current_user != 'admin':
+        if (
+            local_config
+            and local_config.get('@admin_only')
+            and self.current_user != 'admin'
+        ):
             raise HTTPError(403, 'access denied')
         if utils.is_remote_camera(local_config):
             resp = await remote.exec_action(local_config, action)

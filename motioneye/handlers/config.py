@@ -521,7 +521,9 @@ class ConfigHandler(BaseHandler):
                     if (
                         local_config.get('@enabled')
                         or self.get_argument('force', None) == 'true'
-                        or local_config.get('@admin_only')  # fetch remote config only while admin_only is true, to allow the flag to be cleared
+                        or local_config.get(
+                            '@admin_only'
+                        )  # fetch remote config only while admin_only is true, to allow the flag to be cleared
                     ):
                         resp = await remote.get_config(local_config)
                         if self._handle_get_config_response(

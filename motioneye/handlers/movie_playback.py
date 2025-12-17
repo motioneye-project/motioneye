@@ -51,7 +51,11 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
         camera_config = config.get_camera(camera_id)
         # block access to admin-only cameras for non-admin users
-        if camera_config and camera_config.get('@admin_only') and self.current_user != 'admin':
+        if (
+            camera_config
+            and camera_config.get('@admin_only')
+            and self.current_user != 'admin'
+        ):
             raise HTTPError(403, 'access denied')
 
         if utils.is_local_motion_camera(camera_config):
