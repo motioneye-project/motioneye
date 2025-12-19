@@ -39,7 +39,10 @@ class MovieHandler(BaseHandler):
                 and camera_config.get('@admin_only')
                 and self.current_user != 'admin'
             ):
-                raise HTTPError(403, 'access denied')
+                raise HTTPError(
+                    403,
+                    f'access denied to admin-only camera "{camera_id}" for operation "{op}"',
+                )
 
         if op == 'list':
             await self.list(camera_id)

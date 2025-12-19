@@ -56,7 +56,10 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
             and camera_config.get('@admin_only')
             and self.current_user != 'admin'
         ):
-            raise HTTPError(403, 'access denied')
+            raise HTTPError(
+                403,
+                f'access denied to admin-only camera "{camera_id}" for movie download "{filename}"',
+            )
 
         if utils.is_local_motion_camera(camera_config):
             filename = mediafiles.get_media_path(camera_config, filename, 'movie')

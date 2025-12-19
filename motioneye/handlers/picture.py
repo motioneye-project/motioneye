@@ -54,7 +54,10 @@ class PictureHandler(BaseHandler):
                 and camera_config.get('@admin_only')
                 and self.current_user != 'admin'
             ):
-                raise HTTPError(403, 'access denied')
+                raise HTTPError(
+                    403,
+                    f'GET access denied to admin-only camera "{camera_id}" for operation "{op}"',
+                )
 
         if op == 'current':
             await self.current(camera_id)
@@ -95,7 +98,10 @@ class PictureHandler(BaseHandler):
                 and camera_config.get('@admin_only')
                 and self.current_user != 'admin'
             ):
-                raise HTTPError(403, 'access denied')
+                raise HTTPError(
+                    403,
+                    f'POST access denied to admin-only camera "{camera_id}" for operation "{op}"',
+                )
 
         if op == 'delete':
             await self.delete(camera_id, filename)
@@ -238,7 +244,9 @@ class PictureHandler(BaseHandler):
                 )
             # block access to admin-only cameras for non-admin users
             if resp.remote_ui_config.get('admin_only') and self.current_user != 'admin':
-                raise HTTPError(403, 'access denied')
+                raise HTTPError(
+                    403, f'access denied to admin-only camera frame "{camera_id}"'
+                )
 
             # issue a fake motion_camera_ui_to_dict() call to transform
             # the remote UI values into motion config directives
