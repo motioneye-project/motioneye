@@ -11,7 +11,6 @@ from tests.test_handlers import HandlerTestCase
 class AdminOnlyPictureHandlerTest(HandlerTestCase):
     handler_cls = PictureHandler
 
-    @staticmethod
     async def _stub_current(self, camera_id, retry=0):
         self.finish_json({'ok': True})
 
@@ -48,7 +47,7 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
 
     def test_normal_user_allowed_when_not_admin_only(self):
         self._set_admin_only(False)
-        with patch.object(PictureHandler, 'current', new=self._stub_current):
+        with patch.object(PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current):
             response = self.fetch('/picture/1/current')
         self.assertEqual(200, response.code)
         self.assertEqual({'ok': True}, json.loads(response.body))
@@ -65,7 +64,7 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
         path = '/picture/1/current?_username=admin'
         signature = self._admin_signature(path)
         url = f'{path}&_signature={signature}'
-        with patch.object(PictureHandler, 'current', new=self._stub_current):
+        with patch.object(PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current):
             response = self.fetch(url)
         self.assertEqual(200, response.code)
         self.assertEqual({'ok': True}, json.loads(response.body))
