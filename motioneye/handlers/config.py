@@ -164,6 +164,8 @@ class ConfigHandler(BaseHandler):
             elif utils.is_remote_camera(local_config):
                 # update the camera locally
                 local_config['@enabled'] = ui_config['enabled']
+                if ui_config.get('admin_only') is not None:
+                    local_config['@admin_only'] = bool(ui_config.get('admin_only'))
                 config.set_camera(camera_id, local_config)
 
                 if 'name' in ui_config:
@@ -172,6 +174,9 @@ class ConfigHandler(BaseHandler):
                         return on_finish(e, False)
 
                     ui_config['enabled'] = True  # never disable the camera remotely
+                    ui_config.pop(
+                        'admin_only', None
+                    )  # local-only setting do not send to remote
                     result = await remote.set_config(local_config, ui_config)
                     return on_finish(result, False)
 
@@ -394,27 +399,19 @@ class ConfigHandler(BaseHandler):
         else:
             resp.remote_ui_config['id'] = camera_id
 
-            needs_apply_config = False
-
-            # sync admin_only flag locally to match the remote state
+            # admin_only is a local-only flag and is never synced from the remote
             local_config.setdefault('@admin_only', False)
-            admin_only = bool(resp.remote_ui_config.get('admin_only', False))
-
-            if local_config.get('@admin_only') != admin_only:
-                local_config['@admin_only'] = admin_only
-                needs_apply_config = True
+            admin_only = bool(local_config.get('@admin_only', False))
 
             # do not add this camera to the list if admin-only, but reduce the async counter so listing can finish
             if admin_only and self.current_user != 'admin':
-                if needs_apply_config:
-                    config.set_camera(camera_id, local_config)
                 length[0] -= 1
                 return self.check_finished(cameras, length)
 
             if not resp.remote_ui_config['enabled'] and local_config['@enabled']:
                 # if a remote camera is disabled, make sure it's disabled locally as well
                 local_config['@enabled'] = False
-                needs_apply_config = True
+                config.set_camera(camera_id, local_config)
 
             elif resp.remote_ui_config['enabled'] and not local_config['@enabled']:
                 # if a remote camera is locally disabled, make sure the remote config says the same thing
@@ -424,9 +421,6 @@ class ConfigHandler(BaseHandler):
                 resp.remote_ui_config[key.replace('@', '')] = value
 
             cameras.append(resp.remote_ui_config)
-
-            if needs_apply_config:
-                config.set_camera(camera_id, local_config)
 
         return self.check_finished(cameras, length)
 
@@ -528,9 +522,6 @@ class ConfigHandler(BaseHandler):
                     if (
                         local_config.get('@enabled')
                         or self.get_argument('force', None) == 'true'
-                        or local_config.get(
-                            '@admin_only'
-                        )  # fetch remote config only while admin_only is true, to allow the flag to be cleared
                     ):
                         resp = await remote.get_config(local_config)
                         if self._handle_get_config_response(

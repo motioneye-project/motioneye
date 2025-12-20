@@ -243,7 +243,7 @@ class PictureHandler(BaseHandler):
                     title=self.get_argument('title', ''),
                 )
             # block access to admin-only cameras for non-admin users
-            if resp.remote_ui_config.get('admin_only') and self.current_user != 'admin':
+            if camera_config.get('admin_only') and self.current_user != 'admin':
                 raise HTTPError(
                     403, f'access denied to admin-only camera frame "{camera_id}"'
                 )
