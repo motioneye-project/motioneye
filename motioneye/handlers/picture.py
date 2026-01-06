@@ -20,7 +20,7 @@ import logging
 import os
 import re
 
-from tornado.ioloop import IOLoop
+from tornado import gen
 from tornado.web import HTTPError
 
 from motioneye import (
@@ -115,12 +115,8 @@ class PictureHandler(BaseHandler):
             # get_current_picture() will make sure to start a client, but a jpeg frame is not available right away;
             # wait at most 5 seconds and retry every 200 ms.
             if not picture and retry < 25:
-                return IOLoop.current().add_timeout(
-                    datetime.timedelta(seconds=0.2),
-                    self.current,
-                    camera_id=camera_id,
-                    retry=retry + 1,
-                )
+                await gen.sleep(0.2)
+                return await self.current(camera_id=camera_id, retry=retry + 1)
 
             self.set_cookie(
                 'motion_detected_' + camera_id_str,
