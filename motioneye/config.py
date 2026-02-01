@@ -2126,7 +2126,7 @@ def _conf_to_dict(lines, list_names=None, no_convert=None):
             if len(parts) == 1:  # empty value
                 parts.append('')
 
-            (name, value) = parts
+            name, value = parts
 
             value = value.strip()
 
@@ -2160,7 +2160,7 @@ def _dict_to_conf(lines, data, list_names=None):
 
         _match = match(r'^#\s*(@\w+)\s*(.*)', line)
         if _match:  # @line
-            (name, value) = _match.groups()[:2]
+            name, value = _match.groups()[:2]
 
         elif line.startswith('#') or line.startswith(';'):  # simple comment line
             conf_lines.append(line)
@@ -2169,10 +2169,10 @@ def _dict_to_conf(lines, data, list_names=None):
         else:
             parts = line.split(None, 1)
             if len(parts) == 2:
-                (name, value) = parts
+                name, value = parts
 
             else:
-                (name, value) = parts[0], ''
+                name, value = parts[0], ''
 
         if name in processed:
             continue  # name already processed
@@ -2436,7 +2436,7 @@ def get_additional_structure(camera, separators=False):
 def _get_additional_config(data, camera_id=None):
     args = [camera_id] if camera_id else []
 
-    (sections, configs) = get_additional_structure(camera=bool(camera_id))
+    sections, configs = get_additional_structure(camera=bool(camera_id))
     get_funcs = {c.get('get') for c in list(configs.values()) if c.get('get')}
     get_func_values = collections.OrderedDict((f, f(*args)) for f in get_funcs)
 
@@ -2464,7 +2464,7 @@ def _get_additional_config(data, camera_id=None):
 def _set_additional_config(data, camera_id=None):
     args = [camera_id] if camera_id else []
 
-    (sections, configs) = get_additional_structure(camera=bool(camera_id))
+    sections, configs = get_additional_structure(camera=bool(camera_id))
 
     set_func_values = collections.OrderedDict()
     for name, section in list(sections.items()):

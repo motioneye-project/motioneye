@@ -267,7 +267,7 @@ def parse_cookies(cookies_headers):
     for cookie in cookies_headers:
         cookie = cookie.split(';')
         for c in cookie:
-            (name, value) = c.split('=', 1)
+            name, value = c.split('=', 1)
             name = name.strip()
             value = value.strip()
 

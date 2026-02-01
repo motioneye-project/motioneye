@@ -620,7 +620,7 @@ class ConfigHandler(BaseHandler):
         if not upload_service_test_info:
             return logging.warning('no pending upload service test request')
 
-        (request_handler, service_name) = upload_service_test_info
+        request_handler, service_name = upload_service_test_info
 
         if result is True:
             logging.info(f'accessing {service_name} succeeded.result {result}')

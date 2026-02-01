@@ -95,7 +95,7 @@ def _check_tasks():
     now = time.time()
     changed = False
     while _tasks and _tasks[0][0] <= now:
-        (when, func, tag, callback, params) = _tasks.pop(0)  # @UnusedVariable
+        when, func, tag, callback, params = _tasks.pop(0)  # @UnusedVariable
 
         logging.debug('executing task "%s"' % tag or func.__name__)
         _pool.apply_async(

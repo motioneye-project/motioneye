@@ -502,7 +502,7 @@ def list_media(
 
     logging.debug('starting media listing subprocess...')
 
-    (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
+    parent_pipe, child_pipe = multiprocessing.Pipe(duplex=False)
     process = multiprocessing.Process(
         target=_do_list_media, args=(child_pipe, target_dir, exts, prefix, with_stat)
     )
@@ -590,7 +590,7 @@ def get_zipped_content(
 
     logging.debug('starting zip subprocess...')
 
-    (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
+    parent_pipe, child_pipe = multiprocessing.Pipe(duplex=False)
     process = multiprocessing.Process(
         target=_do_zip, args=(child_pipe, target_dir, exts, group, working)
     )
@@ -646,7 +646,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
 
     logging.debug('starting picture listing subprocess...')
 
-    (parent_pipe, child_pipe) = multiprocessing.Pipe(duplex=False)
+    parent_pipe, child_pipe = multiprocessing.Pipe(duplex=False)
     _timelapse_process = multiprocessing.Process(
         target=_do_list_pictures, args=(child_pipe, target_dir, group)
     )
