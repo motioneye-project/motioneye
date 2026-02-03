@@ -39,7 +39,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
     called = [False]
     send_auth = [False]
     timeout: list[object | None] = [None]
-    stream_box: list[IOStream | None] = [None]
+    stream: IOStream | None = None
 
     io_loop = IOLoop.current()
     future = Future()
@@ -55,8 +55,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
+        nonlocal stream
         stream = IOStream(s)
-        stream_box[0] = stream
         stream.set_close_callback(on_close)
         f = stream.connect((url_obj.host, int(url_obj.port)))
         f.add_done_callback(on_connect)
@@ -104,7 +104,6 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             if check_error():
                 return
         else:
-            stream = stream_box[0]
             if stream is None:
                 return handle_error('connection closed')
 
