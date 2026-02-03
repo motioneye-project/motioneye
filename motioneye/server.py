@@ -23,6 +23,7 @@ import re
 import signal
 import sys
 import time
+from typing import Any, Sequence, cast
 
 from tornado.ioloop import IOLoop
 from tornado.web import Application
@@ -405,7 +406,7 @@ def parse_options(parser, args):
 
 def make_app(debug: bool = False) -> Application:
     return Application(
-        handler_mapping,
+        cast(Sequence[Any], handler_mapping),
         debug=debug,
         log_function=_log_request,
         static_path=settings.STATIC_PATH,
