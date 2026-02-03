@@ -406,7 +406,8 @@ class ConfigHandler(BaseHandler):
             # do not add this camera to the list if admin-only, but reduce the async counter so listing can finish
             if admin_only and self.current_user != 'admin':
                 length[0] -= 1
-                return self.check_finished(cameras, length)
+                self.check_finished(cameras, length)
+                return
 
             if not resp.remote_ui_config['enabled'] and local_config['@enabled']:
                 # if a remote camera is disabled, make sure it's disabled locally as well
@@ -423,7 +424,6 @@ class ConfigHandler(BaseHandler):
             cameras.append(resp.remote_ui_config)
 
         self.check_finished(cameras, length)
-        return None
 
     @BaseHandler.auth()
     async def list(self):
