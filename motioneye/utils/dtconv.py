@@ -16,9 +16,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
-from typing import Union
+import gettext
+from typing import Callable, Union
+
+from motioneye import settings
 
 __all__ = ('pretty_date_time', 'pretty_date', 'pretty_duration', 'pretty_time')
+
+_gettext: Callable[[str], str] = getattr(settings.traduction, 'gettext', gettext.gettext)
+_ : Callable[[str], str] = _gettext
 
 
 def pretty_date_time(date_time, tzinfo=None, short=False):

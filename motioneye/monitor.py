@@ -25,9 +25,9 @@ from motioneye import config
 
 DEFAULT_INTERVAL = 1  # seconds
 
-_monitor_info_cache_by_camera_id = {}
-_last_call_time_by_camera_id = {}
-_interval_by_camera_id = {}
+_monitor_info_cache_by_camera_id: dict = {}
+_last_call_time_by_camera_id: dict = {}
+_interval_by_camera_id: dict = {}
 
 
 def get_monitor_info(camera_id):

@@ -34,7 +34,7 @@ _MAX_TASKS = 100
 # TODO replace the pool with one simple thread
 _POOL_SIZE = 1
 
-_tasks = []
+_tasks: list[tuple] = []
 _pool = None
 
 

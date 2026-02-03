@@ -59,7 +59,7 @@ _ACTIONS = [
 ]
 
 _main_config_cache = None
-_camera_config_cache = {}
+_camera_config_cache: dict = {}
 _camera_ids_cache = None
 _additional_section_funcs = []
 _additional_config_funcs = []

@@ -81,8 +81,8 @@ class GetCurrentPictureResponse:
 
 @dataclass
 class ListMediaResponse:
-    media_list: list = None
-    error: str = None
+    media_list: list | None = None
+    error: str | None = None
 
 
 @dataclass
@@ -261,8 +261,8 @@ def compute_signature(method, path, body: bytes, key):
     )
 
 
-def parse_cookies(cookies_headers):
-    parsed = {}
+def parse_cookies(cookies_headers: list[str]) -> dict[str, str]:
+    parsed: dict[str, str] = {}
 
     for cookie in cookies_headers:
         cookie = cookie.split(';')
@@ -279,7 +279,7 @@ def parse_cookies(cookies_headers):
     return parsed
 
 
-def build_basic_header(username, password):
+def build_basic_header(username: str, password: str) -> str:
     return 'Basic %s' % base64.b64encode(f'{username}:{password}'.encode()).decode()
 
 

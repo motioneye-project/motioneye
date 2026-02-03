@@ -32,7 +32,7 @@ from motioneye import config, motionctl, settings, utils
 class MjpgClient(IOStream):
     _FPS_LEN = 10
 
-    clients = {}  # dictionary of clients indexed by camera id
+    clients: dict = {}  # dictionary of clients indexed by camera id
     _last_erroneous_close_time = (
         0  # helps detecting erroneous connections and restart motion
     )

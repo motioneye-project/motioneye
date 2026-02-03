@@ -96,7 +96,7 @@ MOVIE_EXT_TYPE_MAPPING = {
 }
 
 # a cache of prepared files (whose preparing time is significant)
-_prepared_files = {}
+_prepared_files: dict = {}
 
 _timelapse_process = None
 _timelapse_data = None
@@ -105,7 +105,7 @@ _ffmpeg_binary_cache = None
 
 
 def _list_media_files(
-    base_path: str, exts: typing.List[str], sub_path: str = None, with_stat: bool = True
+    base_path: str, exts: typing.List[str], sub_path: str | None = None, with_stat: bool = True
 ) -> typing.List[tuple]:
     # Determine scan path based on sub_path parameter
     if sub_path is not None:
@@ -489,9 +489,9 @@ def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str,
 
 
 def list_media(
-    camera_config: dict, media_type: str, prefix=None, with_stat: bool = True
+    camera_config: dict, media_type: str, prefix: str | None = None, with_stat: bool = True
 ) -> typing.Awaitable:
-    fut = Future()
+    fut: Future = Future()
     target_dir = camera_config.get('target_dir')
 
     if media_type == 'picture':

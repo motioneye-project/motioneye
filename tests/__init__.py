@@ -20,7 +20,7 @@ class AsyncMock(mock.MagicMock):
 
 
 class WebTestCase(AsyncHTTPTestCase):
-    handler: type = None
+    handler: type | None = None
 
     def get_app(self):
         self.app = Application(self.get_handlers(), **self.get_app_kwargs())

@@ -13,12 +13,12 @@ T = TypeVar('T', bound=RequestHandler)
 
 
 class HandlerTestCase(AsyncHTTPTestCase):
-    handler_cls = NotImplemented  # type: Type[T]
+    handler_cls: Type[T]
 
     def get_app(self) -> Application:
         self.app = make_app()
         return self.app
 
-    def get_handler(self, request: MagicMock = None) -> T:
+    def get_handler(self, request: MagicMock | None = None) -> T:
         req = request or MagicMock()
         return self.handler_cls(self.app, req)
