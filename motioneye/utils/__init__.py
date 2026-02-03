@@ -121,14 +121,10 @@ def pretty_http_error(response):
     if response.code == 401:
         return 'authentication failed'
 
-    err = response.error
-    if err is None:
+    if response.error is None:
         return 'ok'
 
-    if isinstance(err, BaseException):
-        msg = str(err)
-    else:
-        msg = str(err)
+    msg = str(response.error)
 
     if msg == 'Authentication Error':
         return 'authentication failed'
