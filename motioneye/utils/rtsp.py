@@ -103,6 +103,9 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             if check_error():
                 return
         else:
+            if stream is None:
+                return handle_error('connection closed')
+
             r_future = cast_future(stream.read_until_regex(br'RTSP/1.0 \d+ '))
             r_future.add_done_callback(on_rtsp)
             timeout[0] = io_loop.add_timeout(

@@ -235,9 +235,9 @@ def compute_signature(method, path, body: bytes, key):
     query.sort(key=lambda q: q[0])
     # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
     query = [(n, urllib.parse.quote(v, safe="!'()*~")) for (n, v) in query]
-    query = '&'.join([(q[0] + '=' + q[1]) for q in query])
+    joined_query = '&'.join([(q[0] + '=' + q[1]) for q in query])
     parts[0] = parts[1] = ''
-    parts[3] = query
+    parts[3] = joined_query
     path = urllib.parse.urlunsplit(parts)
     path = _SIGNATURE_REGEX.sub('-', path)
     key = _SIGNATURE_REGEX.sub('-', key)

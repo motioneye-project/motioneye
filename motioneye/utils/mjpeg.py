@@ -39,7 +39,7 @@ def test_mjpeg_url(
     status_2xx = [False]
     http_11 = [False]
 
-    future = Future()
+    future: Future = Future()
 
     def do_request() -> 'Future[HTTPResponse]':
         if url_obj.username:

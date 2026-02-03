@@ -1,4 +1,4 @@
-from typing import Type, TypeVar
+from typing import Generic, Type, TypeVar
 from unittest.mock import MagicMock
 
 from tornado.testing import AsyncHTTPTestCase
@@ -12,7 +12,7 @@ __all__ = ('HandlerTestCase',)
 T = TypeVar('T', bound=RequestHandler)
 
 
-class HandlerTestCase(AsyncHTTPTestCase):
+class HandlerTestCase(AsyncHTTPTestCase, Generic[T]):
     handler_cls: Type[T]
 
     def get_app(self) -> Application:

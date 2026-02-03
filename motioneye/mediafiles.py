@@ -419,7 +419,9 @@ def cleanup_media(media_type: str) -> None:
         logging.debug(
             f'calling _remove_older_files: {cloud_enabled} {clean_cloud_enabled} {clean_cloud_info}'
         )
-        _remove_older_files(target_dir, preserve_moment, clean_cloud_info, exts=exts)
+        _remove_older_files(
+            target_dir, preserve_moment, clean_cloud_info or {}, exts=exts
+        )
 
 
 def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str, None]:
@@ -582,7 +584,7 @@ def get_media_content(camera_config, path, media_type):
 def get_zipped_content(
     camera_config: dict, media_type: str, group: str
 ) -> typing.Awaitable:
-    fut = Future()
+    fut: Future = Future()
     target_dir = camera_config.get('target_dir')
 
     if media_type == 'picture':

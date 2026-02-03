@@ -20,9 +20,7 @@ from typing import Union
 
 __all__ = ('pretty_date_time', 'pretty_date', 'pretty_duration', 'pretty_time')
 
-try:
-    _
-except NameError:
+if '_' not in globals():
     import gettext
     from typing import Callable
 
