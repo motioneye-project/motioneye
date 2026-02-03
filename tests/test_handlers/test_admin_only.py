@@ -51,7 +51,9 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
 
     def test_normal_user_allowed_when_not_admin_only(self):
         self._set_admin_only(False)
-        with patch.object(PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current):
+        with patch.object(
+            PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current
+        ):
             response = self.fetch('/picture/1/current')
         self.assertEqual(200, response.code)
         self.assertEqual({'ok': True}, loads(response.body))
@@ -68,7 +70,9 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
         path = f'/picture/1/current?_username={self.admin_user}'
         signature = self._admin_signature(path)
         url = f'{path}&_signature={signature}'
-        with patch.object(PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current):
+        with patch.object(
+            PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current
+        ):
             response = self.fetch(url)
         self.assertEqual(200, response.code)
         self.assertEqual({'ok': True}, loads(response.body))
