@@ -21,7 +21,7 @@ from typing import Union
 __all__ = ('pretty_date_time', 'pretty_date', 'pretty_duration', 'pretty_time')
 
 try:
-    _  # type: ignore[name-defined]
+    _
 except NameError:
     import gettext
     from typing import Callable

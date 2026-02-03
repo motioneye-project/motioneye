@@ -38,8 +38,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
 
     called = [False]
     send_auth = [False]
-    timeout = [None]
-    stream = None
+    timeout: list[object | None] = [None]
+    stream: IOStream | None = None
 
     io_loop = IOLoop.current()
     future = Future()

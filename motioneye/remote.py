@@ -365,8 +365,8 @@ async def get_current_picture(
 
     cookies = utils.parse_cookies(response.headers.get_list('Set-Cookie'))
     motion_detected = cookies.get('motion_detected_' + str(camera_id)) == 'true'
-    capture_fps = cookies.get('capture_fps_' + str(camera_id))
-    capture_fps = float(capture_fps) if capture_fps else 0
+    capture_fps_cookie = cookies.get('capture_fps_' + str(camera_id))
+    capture_fps = float(capture_fps_cookie) if capture_fps_cookie else 0.0
     monitor_info = cookies.get('monitor_info_' + str(camera_id))
 
     if response.error:
