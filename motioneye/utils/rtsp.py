@@ -45,6 +45,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
     future = Future()
 
     def connect() -> None:
+        nonlocal stream
         if send_auth[0]:
             logging.debug(
                 'testing rtsp netcam at %s (this time with credentials)' % url
@@ -53,9 +54,14 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         else:
             logging.debug('testing rtsp netcam at %s' % url)
 
+        if stream is not None:
+            try:
+                stream.close()
+            except Exception:
+                pass
+
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
-        nonlocal stream
         stream = IOStream(s)
         stream.set_close_callback(on_close)
         f = stream.connect((url_obj.host, int(url_obj.port)))
