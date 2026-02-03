@@ -44,7 +44,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
     io_loop = IOLoop.current()
     future = Future()
 
-    def connect():
+    def connect() -> None:
         if send_auth[0]:
             logging.debug(
                 'testing rtsp netcam at %s (this time with credentials)' % url
@@ -66,7 +66,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             functools.partial(on_connect, _timeout=True),
         )
 
-        return stream
+        return None
 
     def on_connect(f: Future, _timeout: bool = False) -> None:
         try:
@@ -255,5 +255,5 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
 
         return False
 
-    stream = connect()
+    connect()
     return future
