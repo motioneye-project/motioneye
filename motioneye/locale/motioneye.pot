@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-03 20:33+0000\n"
+"POT-Creation-Date: 2026-02-03 23:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -37,67 +37,67 @@ msgstr ""
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr ""
 
-#: motioneye/server.py:232
+#: motioneye/server.py:233
 msgid "interrompa signalo ricevita, fermanta …"
 msgstr ""
 
-#: motioneye/server.py:276
+#: motioneye/server.py:277
 msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr ""
 
-#: motioneye/server.py:283
+#: motioneye/server.py:284
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr ""
 
-#: motioneye/server.py:290
+#: motioneye/server.py:291
 msgid "bonvolu instali jinja2"
 msgstr ""
 
-#: motioneye/server.py:297
+#: motioneye/server.py:298
 msgid "bonvolu instali pillow aŭ PIL"
 msgstr ""
 
-#: motioneye/server.py:304
+#: motioneye/server.py:305
 msgid "bonvolu instali pycurl"
 msgstr ""
 
-#: motioneye/server.py:422
+#: motioneye/server.py:423
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr ""
 
-#: motioneye/server.py:437
+#: motioneye/server.py:438
 msgid "purigado komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:439
+#: motioneye/server.py:440
 msgid "wsswitch komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:442
+#: motioneye/server.py:443
 msgid "taskoj komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:446
+#: motioneye/server.py:447
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:464
+#: motioneye/server.py:465
 msgid "servilo komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:470
+#: motioneye/server.py:471
 msgid "servilo haltis"
 msgstr ""
 
-#: motioneye/server.py:472
+#: motioneye/server.py:473
 msgid "taskoj haltis"
 msgstr ""
 
-#: motioneye/server.py:480
+#: motioneye/server.py:481
 msgid "motion haltis"
 msgstr ""
 
-#: motioneye/server.py:485
+#: motioneye/server.py:486
 msgid "adiaŭ!"
 msgstr ""
 
