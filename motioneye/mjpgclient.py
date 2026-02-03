@@ -186,7 +186,7 @@ class MjpgClient(IOStream):
 
         self._seek_http()
 
-    def _seek_http(self, future: Future | bool = False) -> None:
+    def _seek_http(self, future: Future | None = None) -> None:
         result, _ = self._get_future_result(future) if future else (True, False)
 
         if not result or self._check_error():

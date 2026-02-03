@@ -42,7 +42,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
     stream: IOStream | None = None
 
     io_loop = IOLoop.current()
-    future = Future()
+    future: Future = Future()
 
     def connect() -> None:
         nonlocal stream
