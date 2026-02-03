@@ -66,7 +66,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             functools.partial(on_connect, _timeout=True),
         )
 
-        return None
+        return
 
     def on_connect(f: Future, _timeout: bool = False) -> None:
         try:
