@@ -25,11 +25,10 @@ try:
 except NameError:
     import gettext
     from typing import Callable
+
     from motioneye import settings
 
-    _: Callable[[str], str] = getattr(
-        settings.traduction, 'gettext', gettext.gettext
-    )
+    _: Callable[[str], str] = getattr(settings.traduction, 'gettext', gettext.gettext)
 
 
 def pretty_date_time(date_time, tzinfo=None, short=False):
