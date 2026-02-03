@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-03 17:02+0000\n"
+"POT-Creation-Date: 2026-02-03 19:50+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -920,7 +920,7 @@ msgstr ""
 
 #: motioneye/templates/main.html:780 motioneye/templates/main.html:893
 #: motioneye/templates/main.html:968 motioneye/templates/main.html:1097
-#: motioneye/utils/dtconv.py:146 motioneye/utils/dtconv.py:149
+#: motioneye/utils/dtconv.py:157 motioneye/utils/dtconv.py:160
 msgid "sekundoj"
 msgstr ""
 
@@ -1048,7 +1048,7 @@ msgstr ""
 msgid "Filmoj Vivdaŭro"
 msgstr ""
 
-#: motioneye/templates/main.html:912 motioneye/utils/dtconv.py:125
+#: motioneye/templates/main.html:912 motioneye/utils/dtconv.py:136
 msgid "tagoj"
 msgstr ""
 
@@ -1509,46 +1509,46 @@ msgstr ""
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr ""
 
-#: motioneye/utils/dtconv.py:26 motioneye/utils/dtconv.py:65
+#: motioneye/utils/dtconv.py:37 motioneye/utils/dtconv.py:76
 msgid "neniam"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:113
+#: motioneye/utils/dtconv.py:124
 msgid "tago"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:116
+#: motioneye/utils/dtconv.py:127
 msgid "semajno"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:119
+#: motioneye/utils/dtconv.py:130
 msgid "monato"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:122
+#: motioneye/utils/dtconv.py:133
 msgid "jaro"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:129
+#: motioneye/utils/dtconv.py:140
 msgid "horo"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:132
+#: motioneye/utils/dtconv.py:143
 msgid "horoj"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:136
+#: motioneye/utils/dtconv.py:147
 msgid "minuto"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:139
+#: motioneye/utils/dtconv.py:150
 msgid "minutoj"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:143
+#: motioneye/utils/dtconv.py:154
 msgid "sekundo"
 msgstr ""
 
-#: motioneye/utils/dtconv.py:153
+#: motioneye/utils/dtconv.py:164
 msgid "minus"
 msgstr ""
