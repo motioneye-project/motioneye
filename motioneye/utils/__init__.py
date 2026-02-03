@@ -118,13 +118,21 @@ def pretty_size(size):
 
 
 def pretty_http_error(response):
-    if response.code == 401 or response.error == 'Authentication Error':
+    if response.code == 401:
         return 'authentication failed'
 
-    if not response.error:
+    err = response.error
+    if err is None:
         return 'ok'
 
-    msg = str(response.error)
+    if isinstance(err, BaseException):
+        msg = str(err)
+    else:
+        msg = str(err)
+
+    if msg == 'Authentication Error':
+        return 'authentication failed'
+
     if msg.startswith('HTTP '):
         msg = msg.split(':', 1)[-1].strip()
 
