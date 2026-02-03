@@ -1,4 +1,4 @@
-import json
+from json import loads
 from unittest.mock import patch
 
 import tornado.testing
@@ -54,13 +54,13 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
         with patch.object(PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current):
             response = self.fetch('/picture/1/current')
         self.assertEqual(200, response.code)
-        self.assertEqual({'ok': True}, json.loads(response.body))
+        self.assertEqual({'ok': True}, loads(response.body))
 
     def test_normal_user_denied_when_admin_only(self):
         self._set_admin_only(True)
         response = self.fetch('/picture/1/current')
         self.assertEqual(403, response.code)
-        body = json.loads(response.body)
+        body = loads(response.body)
         self.assertIn('admin-only', body.get('error', ''))
 
     def test_admin_allowed_when_admin_only(self):
@@ -71,7 +71,7 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
         with patch.object(PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current):
             response = self.fetch(url)
         self.assertEqual(200, response.code)
-        self.assertEqual({'ok': True}, json.loads(response.body))
+        self.assertEqual({'ok': True}, loads(response.body))
 
 
 if __name__ == '__main__':
