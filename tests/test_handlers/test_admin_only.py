@@ -22,11 +22,15 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
         self._camera_ids_cache = config._camera_ids_cache
 
         # Prepare test configuration
+        self.admin_user = 'superadmin'
+        self.admin_pass = 's3cret'
+        self.normal_user = 'viewer'
+        self.normal_pass = ''
         config._main_config_cache = {
-            '@admin_username': 'admin',
-            '@admin_password': 'adm1n',
-            '@normal_username': 'user',
-            '@normal_password': '',
+            '@admin_username': self.admin_user,
+            '@admin_password': self.admin_pass,
+            '@normal_username': self.normal_user,
+            '@normal_password': self.normal_pass,
         }
         config._camera_ids_cache = [1]
         config._camera_config_cache = {
@@ -43,7 +47,7 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
         config._camera_config_cache[1]['@admin_only'] = value
 
     def _admin_signature(self, path: str) -> str:
-        return utils.compute_signature('GET', path, b'', 'adm1n')
+        return utils.compute_signature('GET', path, b'', self.admin_pass)
 
     def test_normal_user_allowed_when_not_admin_only(self):
         self._set_admin_only(False)
@@ -61,7 +65,7 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
 
     def test_admin_allowed_when_admin_only(self):
         self._set_admin_only(True)
-        path = '/picture/1/current?_username=admin'
+        path = f'/picture/1/current?_username={self.admin_user}'
         signature = self._admin_signature(path)
         url = f'{path}&_signature={signature}'
         with patch.object(PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current):
