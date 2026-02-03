@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import datetime
-from typing import Callable, Union
+from typing import Union
 
 __all__ = ('pretty_date_time', 'pretty_date', 'pretty_duration', 'pretty_time')
 
@@ -24,6 +24,7 @@ try:
     _  # type: ignore[name-defined]
 except NameError:
     import gettext
+    from typing import Callable
     from motioneye import settings
 
     _: Callable[[str], str] = getattr(
