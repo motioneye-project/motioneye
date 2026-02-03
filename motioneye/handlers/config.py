@@ -423,6 +423,7 @@ class ConfigHandler(BaseHandler):
             cameras.append(resp.remote_ui_config)
 
         self.check_finished(cameras, length)
+        return None
 
     @BaseHandler.auth()
     async def list(self):
