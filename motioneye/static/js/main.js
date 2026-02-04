@@ -23,7 +23,7 @@ var signatureRegExp = new RegExp('[^A-Za-z0-9/?_.=&{}\\[\\]":, -]', 'g');
 // regex definitions for input sanity checks in frontend
 // they must match the ones in motioneye/config.py
 var deviceNameValidRegExp = new RegExp('^[A-Za-z0-9\-\_\+\ ]+$');
-var filenameValidRegExp = new RegExp('^([A-Za-z0-9 \(\)/._-]|%[CYmdHMSqv])+$');
+var filenameValidRegExp = new RegExp('^([A-Za-z0-9 \(\)/._-]|%[CYmdHMSqv$])+$');
 var dirnameValidRegExp = new RegExp('^[A-Za-z0-9 \(\)/._-]+$');
 var emailValidRegExp = new RegExp('^[A-Za-z0-9 _+.@^~<>,-]+$');
 var webHookUrlValidRegExp = new RegExp('^[^;\']+$');
