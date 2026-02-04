@@ -39,9 +39,10 @@ from motioneye import config, settings, uploadservices, utils
 from motioneye.utils.dtconv import pretty_date_time
 
 _PICTURE_EXTS = ['.jpg']
-_MOVIE_EXTS = ['.avi', '.mp4', '.mov', '.swf', '.flv', '.mkv']
+_MOVIE_EXTS = ['.avi', '.mp4', '.mov', '.swf', '.flv', '.mkv', '.mpg']
 
 FFMPEG_CODEC_MAPPING = {
+    'mpg': 'mpeg1video',
     'mpeg4': 'mpeg4',
     'msmpeg4': 'msmpeg4v2',
     'swf': 'flv1',
@@ -57,6 +58,7 @@ FFMPEG_CODEC_MAPPING = {
 }
 
 FFMPEG_FORMAT_MAPPING = {
+    'mpeg1video': 'mpg',
     'mpeg4': 'avi',
     'msmpeg4': 'avi',
     'swf': 'swf',
@@ -72,6 +74,7 @@ FFMPEG_FORMAT_MAPPING = {
 }
 
 FFMPEG_EXT_MAPPING = {
+    'mpeg1video': 'mpg',
     'mpeg4': 'avi',
     'msmpeg4': 'avi',
     'swf': 'swf',
@@ -87,6 +90,7 @@ FFMPEG_EXT_MAPPING = {
 }
 
 MOVIE_EXT_TYPE_MAPPING = {
+    'mpg': 'video/mpeg',
     'avi': 'video/x-msvideo',
     'mp4': 'video/mp4',
     'mov': 'video/quicktime',
