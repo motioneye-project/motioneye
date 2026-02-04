@@ -23,7 +23,7 @@ import re
 import signal
 import sys
 import time
-from typing import Any, Sequence, cast
+from typing import Sequence, Tuple
 
 from tornado.ioloop import IOLoop
 from tornado.web import Application
@@ -182,7 +182,7 @@ def _log_request(handler):
         )
 
 
-handler_mapping = [
+handler_mapping: Sequence[Tuple] = [
     (r'^/$', MainHandler),
     (r'^/manifest.json$', ManifestHandler),
     (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),
@@ -406,7 +406,7 @@ def parse_options(parser, args):
 
 def make_app(debug: bool = False) -> Application:
     return Application(
-        cast(Sequence[Any], handler_mapping),
+        handler_mapping,
         debug=debug,
         log_function=_log_request,
         static_path=settings.STATIC_PATH,
