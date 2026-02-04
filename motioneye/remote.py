@@ -84,14 +84,14 @@ async def _send_request(request: HTTPRequest) -> HTTPResponse:
         if response.code != 200:
 
             decoded = json.loads(response.body)
-
             if decoded['error'] == 'unauthorized':
                 response.error = Exception('Authentication Error')
+
             elif decoded['error']:
                 response.error = Exception(decoded['error'])
     except Exception as e:
         logging.error(f"_send_request: {e}")
-        response = HTTPResponse(request, 500)
+        response = HTTPResponse(request, 599)
         response.error = e
 
     return response
