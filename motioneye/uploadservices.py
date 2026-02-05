@@ -1211,7 +1211,7 @@ class S3(UploadService):
             self._secret_key = data['secret_key']
         if data.get('bucket') is not None:
             self._bucket = data['bucket']
-        if data.get('sse_c_key'):
+        if data.get('sse_c_key') is not None:
             self._sse_c_key = data['sse_c_key']
 
     def upload_file(self, target_dir, filename, camera_name):
