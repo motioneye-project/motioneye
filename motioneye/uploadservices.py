@@ -61,10 +61,7 @@ class UploadService:
         if target_dir:
             target_dir = os.path.realpath(target_dir)
             rel_filename = os.path.realpath(filename)
-            rel_filename = rel_filename[len(target_dir) :]
-
-            while rel_filename.startswith('/'):
-                rel_filename = rel_filename[1:]
+            rel_filename = rel_filename[len(target_dir) :].lstrip('/')
 
             self.debug(f'uploading file "{target_dir}/{rel_filename}" to {self}')
 
@@ -1221,10 +1218,20 @@ class S3(UploadService):
             aws_secret_access_key=self._secret_key,
         )
 
+        if target_dir:
+            target_dir = os.path.realpath(target_dir)
+            rel_filename = os.path.realpath(filename)
+            rel_filename = rel_filename[len(target_dir) :].lstrip('/')
+
+        else:
+            rel_filename = os.path.basename(filename)
+
         # Uploads the given file using a managed uploader, which will split up
         # large files automatically and upload parts in parallel.
-        self.debug(f'uploading file "{filename}" to S3 bucket "{self._bucket}"')
-        s3.upload_file(filename, self._bucket, os.path.basename(filename))
+        self.debug(
+            f'uploading file "{filename}" to S3 bucket "{self._bucket}" path "{rel_filename}"'
+        )
+        s3.upload_file(filename, self._bucket, rel_filename)
 
     def test_access(self):
         try:
