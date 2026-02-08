@@ -23,7 +23,7 @@ import mimetypes
 import os
 import os.path
 import time
-from base64 import b64encode, b64decode
+from base64 import b64decode, b64encode
 from hashlib import md5
 from urllib.error import HTTPError
 from urllib.parse import quote, urlencode
@@ -1232,11 +1232,13 @@ class S3(UploadService):
             rel_filename = os.path.basename(filename)
 
         if self._sse_c_key:
-            sse_key_md5 = b64encode(md5(b64decode(self._sse_c_key)).digest()).decode("utf-8")
+            sse_key_md5 = b64encode(
+                md5(b64decode(self._sse_c_key)).digest()  # nosec B324
+            ).decode()
             extra_args = {
-                "SSECustomerAlgorithm": "AES256",
-                "SSECustomerKey": self._sse_c_key,
-                "SSECustomerKeyMD5": sse_key_md5,
+                'SSECustomerAlgorithm': 'AES256',
+                'SSECustomerKey': self._sse_c_key,
+                'SSECustomerKeyMD5': sse_key_md5,
             }
         else:
             extra_args = None
