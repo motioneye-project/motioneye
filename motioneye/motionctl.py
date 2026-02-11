@@ -234,7 +234,7 @@ async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
     enabled = bool(resp_body.lower().count('active'))
 
     logging.debug(
-        f"motion detection is {['disabled', 'enabled'][enabled]} for camera with id {id}"
+        f"motion detection is {['disabled', 'enabled'][enabled]} for camera with id {camera_id}"
     )
 
     return utils.GetMotionDetectionResult(enabled, None)

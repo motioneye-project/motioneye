@@ -930,9 +930,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         'stream_auth_method': {'disabled': 0, 'basic': 1, 'digest': 2}.get(
             ui['streaming_auth_mode'], 0
         ),
-        'stream_authentication': main_config['@normal_username']
-        + ':'
-        + main_config['@normal_password'],
+        'stream_authentication': '',
         '@lang': main_config['@lang'],
         # still images
         'picture_output': False,
@@ -979,6 +977,28 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         'on_movie_end': '',
         'on_picture_save': '',
     }
+
+    if data.get('stream_auth_method', 0) > 0:
+        streaming_username = ui.get('streaming_username')
+        streaming_password = ui.get('streaming_password')
+
+        prev_stream_authentication = prev_config.get('stream_authentication')
+        parts = (prev_stream_authentication or '').split(':', 1)
+        prev_stream_username = parts[0]
+        prev_stream_password = parts[1] if len(parts) > 1 else ''
+
+        if not streaming_username:
+            streaming_username = prev_stream_username
+
+        # UI often sends '*****' or omits the password when unchanged.
+        if not streaming_password or streaming_password == '*****':
+            streaming_password = prev_stream_password
+
+        # No hard fail: if still missing, keep stream_authentication empty.
+        if streaming_username and streaming_password:
+            data['stream_authentication'] = (
+                str(streaming_username) + ':' + str(streaming_password)
+            )
 
     if utils.is_v4l2_camera(prev_config):
         proto = 'v4l2'
@@ -1390,7 +1410,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     return prev_config
 
 
-def motion_camera_dict_to_ui(data):
+def motion_camera_dict_to_ui(data):  # noqa: C901
     ui = {
         # device
         'name': data['camera_name'],
@@ -1449,6 +1469,8 @@ def motion_camera_dict_to_ui(data):
         'streaming_auth_mode': {0: 'disabled', 1: 'basic', 2: 'digest'}.get(
             data.get('stream_auth_method'), 'disabled'
         ),
+        'streaming_username': '',
+        'streaming_password': '',
         'streaming_motion': int(data['stream_motion']),
         # still images
         'still_images': False,
@@ -1509,6 +1531,14 @@ def motion_camera_dict_to_ui(data):
         'sunday_from': '',
         'sunday_to': '',
     }
+
+    stream_authentication = data.get('stream_authentication') or ''
+    if stream_authentication:
+        parts = stream_authentication.split(':', 1)
+        streaming_username = parts[0]
+        streaming_password = parts[1] if len(parts) > 1 else ''
+        ui['streaming_username'] = streaming_username
+        ui['streaming_password'] = '*****' if streaming_password else ''
 
     if utils.is_net_camera(data):
         ui['device_url'] = data['netcam_url']
@@ -2309,7 +2339,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@upload_sse_c_key', '')
     data.setdefault('@clean_cloud_enabled', False)
 
-    data.setdefault('stream_localhost', False)
+    data.setdefault('stream_localhost', True)
     data.setdefault('stream_port', 9080 + camera_id)
     data.setdefault('stream_maxrate', 5)
     data.setdefault('stream_quality', 85)

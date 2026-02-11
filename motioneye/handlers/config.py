@@ -245,24 +245,7 @@ class ConfigHandler(BaseHandler):
                 reload = True
 
             if normal_username != old_normal_username or normal_password is not None:
-                logging.debug(
-                    'surveillance credentials changed, all camera configs must be updated'
-                )
-
-                # reconfigure all local cameras to update the stream authentication options
-                for camera_id in config.get_camera_ids():
-                    local_config = config.get_camera(camera_id)
-                    if not utils.is_local_motion_camera(local_config):
-                        continue
-
-                    ui_config = config.motion_camera_dict_to_ui(local_config)
-                    local_config = config.motion_camera_ui_to_dict(
-                        ui_config, local_config
-                    )
-
-                    config.set_camera(camera_id, local_config)
-
-                    restart = True
+                logging.debug('surveillance credentials changed')
 
             if reboot and settings.ENABLE_REBOOT:
                 logging.debug('system settings changed, reboot needed')

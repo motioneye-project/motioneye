@@ -330,9 +330,9 @@ def get_jpg(camera_id):
         username, password = None, None
         auth_mode = None
         if camera_config.get('stream_auth_method') > 0:
-            username, password = camera_config.get('stream_authentication', ':').split(
-                ':'
-            )
+            parts = (camera_config.get('stream_authentication') or '').split(':', 1)
+            username = parts[0]
+            password = parts[1] if len(parts) > 1 else ''
             auth_mode = (
                 'digest' if camera_config.get('stream_auth_method') > 1 else 'basic'
             )

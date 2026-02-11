@@ -7,6 +7,7 @@ var pushConfigs = {};
 var pushConfigReboot = false;
 var adminPasswordChanged = {};
 var normalPasswordChanged = {};
+var streamingPasswordChanged = {};
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var singleViewCameraId = null;
 var fullScreenMode = false;
@@ -605,9 +606,39 @@ function initUI() {
     makeTimeValidator($('input[type=text].time'));
 
     /* custom validators */
-    makeCustomValidator($('#adminPasswordEntry, #normalPasswordEntry'), function (value) {
+    makeCustomValidator($('#adminPasswordEntry, #normalPasswordEntry, #streamingPasswordEntry'), function (value) {
         if (!value.toLowerCase().match(new RegExp('^[\x21-\x7F]*$'))) {
             return i18n.gettext("specialaj signoj ne rajtas en pasvorto");
+        }
+
+        return true;
+    }, '');
+    makeCustomValidator($('#streamingUsernameEntry'), function (value) {
+        if (!value) {
+            return true;
+        }
+
+        if (String(value).indexOf(':') >= 0) {
+            return i18n.gettext("use of colon (:) is not allowed in video streaming username");
+        }
+
+        return true;
+    }, '');
+    makeCustomValidator($('#streamingAuthModeSelect'), function (value) {
+        if (!$('#adminOnlySwitch')[0].checked) {
+            return true;
+        }
+
+        if (!$('#videoDeviceEnabledSwitch')[0].checked) {
+            return true;
+        }
+
+        if (!$('#videoStreamingEnabledSwitch')[0].checked) {
+            return true;
+        }
+
+        if (value != 'basic' && value != 'digest') {
+            return i18n.gettext("video streaming authentication mode must be Basic or Digest when admin-only access is enabled");
         }
 
         return true;
@@ -725,10 +756,17 @@ function initUI() {
     $('#normalPasswordEntry').change(function () {
         normalPasswordChanged.change = true;
     });
+    $('#streamingPasswordEntry').keydown(function () {
+        streamingPasswordChanged.keydown = true;
+    });
+    $('#streamingPasswordEntry').change(function () {
+        streamingPasswordChanged.change = true;
+    });
 
     /* ui elements that enable/disable other ui elements */
     $('#storageDeviceSelect').change(updateConfigUI);
     $('#resolutionSelect').change(updateConfigUI);
+    $('#adminOnlySwitch').change(updateConfigUI);
     $('#leftTextTypeSelect').change(updateConfigUI);
     $('#rightTextTypeSelect').change(updateConfigUI);
     $('#captureModeSelect').change(updateConfigUI);
@@ -737,6 +775,7 @@ function initUI() {
     $('#videoDeviceEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     $('#textOverlayEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     $('#videoStreamingEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#streamingAuthModeSelect').change(updateConfigUI);
     $('#streamingServerResizeSwitch').change(updateConfigUI);
     $('#stillImagesEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
     $('#preservePicturesSelect').change(updateConfigUI);
@@ -2007,6 +2046,7 @@ function cameraUi2Dict() {
         'streaming_server_resize': $('#streamingServerResizeSwitch')[0].checked,
         'streaming_port': $('#streamingPortEntry').val(),
         'streaming_auth_mode': $('#streamingAuthModeSelect').val() || 'disabled', /* compatibility with old motion */
+        'streaming_username': $('#streamingUsernameEntry').val(),
         'streaming_motion': $('#streamingMotion')[0].checked,
 
         /* still images */
@@ -2091,6 +2131,10 @@ function cameraUi2Dict() {
         'sunday_to': $('#sundayEnabledSwitch')[0].checked ? $('#sundayToEntry').val() : '',
         'working_schedule_type': $('#workingScheduleTypeSelect').val()
     };
+
+    if (streamingPasswordChanged.change && streamingPasswordChanged.keydown && $('#streamingPasswordEntry').val() !== '*****') {
+        dict['streaming_password'] = $('#streamingPasswordEntry').val();
+    }
 
     /* video controls */
     var videoControls = {};
@@ -2347,6 +2391,8 @@ function dict2CameraUi(dict) {
     $('#streamingServerResizeSwitch')[0].checked = dict['streaming_server_resize']; markHideIfNull('streaming_server_resize', 'streamingServerResizeSwitch');
     $('#streamingPortEntry').val(dict['streaming_port']); markHideIfNull('streaming_port', 'streamingPortEntry');
     $('#streamingAuthModeSelect').val(dict['streaming_auth_mode']); markHideIfNull('streaming_auth_mode', 'streamingAuthModeSelect');
+    $('#streamingUsernameEntry').val(dict['streaming_username']); markHideIfNull('streaming_username', 'streamingUsernameEntry');
+    $('#streamingPasswordEntry').val(dict['streaming_password']); markHideIfNull('streaming_password', 'streamingPasswordEntry');
     $('#streamingMotion')[0].checked = dict['streaming_motion']; markHideIfNull('streaming_motion', 'streamingMotion');
 
     var cameraUrl = location.protocol + '//' + location.host + basePath + 'picture/' + dict.id + '/';
@@ -2736,6 +2782,7 @@ function doApply() {
             /* reset password change flags */
             adminPasswordChanged = {};
             normalPasswordChanged = {};
+            streamingPasswordChanged = {};
 
             if (data.reboot) {
                 var count = 0;

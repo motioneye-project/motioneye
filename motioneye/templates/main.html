@@ -705,6 +705,16 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item" required="true" strip="true" depends="videoStreamingEnabled streamingAuthMode=(basic|digest)">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Uzantnomo") }}</span></td>
+                            <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled streaming camera-config" id="streamingUsernameEntry"></td>
+                            <td><span class="help-mark" title="{{ _("username used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user.") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" required="true" strip="true" depends="videoStreamingEnabled streamingAuthMode=(basic|digest)">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Pasvorto") }}</span></td>
+                            <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled streaming camera-config" id="streamingPasswordEntry"></td>
+                            <td><span class="help-mark" title="{{ _("password used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user.") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Movado-Optimigo") }}</span></td>
                             <td class="settings-item-value"><input type="checkbox" class="styled streaming camera-config" id="streamingMotion"></td>
@@ -722,7 +732,7 @@
                             </td>
                             <td><span class="help-mark" title="{{ _("URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao") }}">?</span></td>
                         </tr>
-                        <tr class="settings-item">
+                        <tr class="settings-item" depends="videoStreamingEnabled">
                             <td class="settings-item-label"></td>
                             <td class="settings-item-value">
                                 <div class="html styled streaming camera-config" id="streamingMjpgUrlHtml">
