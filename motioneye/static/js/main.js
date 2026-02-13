@@ -614,10 +614,6 @@ function initUI() {
         return true;
     }, '');
     makeCustomValidator($('#streamingUsernameEntry'), function (value) {
-        if (!value) {
-            return true;
-        }
-
         if (String(value).indexOf(':') >= 0) {
             return i18n.gettext("use of colon (:) is not allowed in video streaming username");
         }
@@ -626,14 +622,6 @@ function initUI() {
     }, '');
     makeCustomValidator($('#streamingAuthModeSelect'), function (value) {
         if (!$('#adminOnlySwitch')[0].checked) {
-            return true;
-        }
-
-        if (!$('#videoDeviceEnabledSwitch')[0].checked) {
-            return true;
-        }
-
-        if (!$('#videoStreamingEnabledSwitch')[0].checked) {
             return true;
         }
 
