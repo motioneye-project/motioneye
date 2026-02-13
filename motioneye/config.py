@@ -990,8 +990,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         if not streaming_username:
             streaming_username = prev_stream_username
 
-        # UI often sends '*****' or omits the password when unchanged.
-        if not streaming_password or streaming_password == '*****':
+        # UI omits the password when unchanged.
+        if not streaming_password:
             streaming_password = prev_stream_password
 
         # No hard fail: if still missing, keep stream_authentication empty.
