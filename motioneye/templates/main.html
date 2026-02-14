@@ -559,7 +559,7 @@
                         <tr class="settings-item" depends="uploadEnabled uploadService=(s3)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Encryption key") }}</span></td>
                             <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled storage camera-config" id="uploadSseCKeyEntry" placeholder="{{ _("optional base64-encoded SSE-C encryption key") }}"></td>
-                            <td><span class="help-mark" title="{{ _("Add an encryption key if you want to use server side encryption (SSE-C). The key must be a base64-encoded string with a length of 32 bytes. This key will be needed by every client to access the encrypted files. You can generate a key using the following command: openssl rand 32 | base64") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("Add an encryption key if you want to use server-side encryption (SSE-C). The key must be a base64-encoded string with a length of 32 bytes. This key will be needed by every client to access the encrypted files. You can generate a key using the following command: openssl rand 32 | base64") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" depends="uploadEnabled">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
