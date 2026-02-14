@@ -52,6 +52,13 @@ motioneye = ["extra/*", "static/*.*", "static/*/*", "templates/*", "scripts/*", 
 [tool.setuptools.dynamic]
 version = {attr = "motioneye.VERSION"}
 
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+norecursedirs = ["motioneye", ".git", ".github", "build", "dist"]
+
 [tool.codespell]
 ignore-words-list = "ot"
 skip = "*.html,*.js,*.json,*.po,*.pot"
