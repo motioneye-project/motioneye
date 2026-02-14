@@ -30,9 +30,9 @@ jobs:
           # error: externally-managed-environment
           echo -e '[global]\nbreak-system-packages=true' | sudo tee /etc/pip.conf
       # ERROR: Cannot uninstall pip 24.0, RECORD file not found. Hint: The package was installed by debian.
-      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq autopurge python3-pip python3-setuptools python3-wheel
+      - run: sudo DEBIAN_FRONTEND='noninteractive' apt-get -qq autopurge python3-pip python3-setuptools python3-wheel
       - run: sudo apt-get -q update
-      - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq --no-install-recommends install curl ffmpeg motion v4l-utils
+      - run: sudo DEBIAN_FRONTEND='noninteractive' apt-get -qq --no-install-recommends install curl ffmpeg motion v4l-utils
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v6
         with:
@@ -43,8 +43,4 @@ jobs:
       - run: python3 -m pip install .
       - run: mkdir --parents --verbose .mypy_cache
       - run: mypy --ignore-missing-imports --install-types --non-interactive --exclude build/ .
-      - run: pytest --ignore=tests/test_utils/test_mjpeg.py
-                    --ignore=tests/test_utils/test_rtmp.py . || true
-      - run: pytest --fixtures tests/test_utils/test_mjpeg.py || true
-      - run: pytest --fixtures tests/test_utils/test_rtmp.py  || true
-      - run: pytest . || pytest --doctest-modules . || true
+      - run: pytest
