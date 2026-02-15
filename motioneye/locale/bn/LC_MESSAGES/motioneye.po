@@ -31,7 +31,7 @@ msgstr "ডিভাইসের নামের মধ্যে শুধুম
 #: motioneye/config.py:865
 #, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
-msgstr "ফাইল নামের মধ্যে শুধুমাত্র আলফানিউমেরিক অক্ষর, বন্ধনী (), ফরওয়ার্ড স্ল্যাশ /, ডট ., আন্ডারস্কোর _, হাইফেন -, স্পেস এবং মোশন কনভার্শন স্পেসিফায়ারগুলির একটি উপসেট %C %Y %m %d %H %M %S %q %v ব্যবহার করা যায়"
+msgstr "ফাইল নামের মধ্যে শুধুমাত্র আলফানিউমেরিক অক্ষর, বন্ধনী (), ফরওয়ার্ড স্ল্যাশ /, ডট ., আন্ডারস্কোর _, হাইফেন -, স্পেস এবং মোশন কনভার্শন স্পেসিফায়ারগুলির একটি উপসেট %C %Y %m %d %H %M %S %q %v %$ ব্যবহার করা যায়"
 
 #: motioneye/config.py:870
 #, fuzzy
