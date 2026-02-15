@@ -29,8 +29,8 @@ msgstr "Nama peranti hanya dibenarkan mengandungi aksara alfanumerik, tanda hubu
 
 #: motioneye/config.py:865
 #, fuzzy
-msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
-msgstr "Nama fail hanya dibenarkan mengandungi aksara alfanumerik, kurungan (), slai hadapan /, titik ., garisan bawah _, tanda hubung -, ruang, dan subset penentu penukaran gerakan: %C %Y %m %d %H %M %S %q %v"
+msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
+msgstr "Nama fail hanya dibenarkan mengandungi aksara alfanumerik, kurungan (), slai hadapan /, titik ., garisan bawah _, tanda hubung -, ruang, dan subset penentu penukaran gerakan: %C %Y %m %d %H %M %S %q %v %$"
 
 #: motioneye/config.py:870
 #, fuzzy

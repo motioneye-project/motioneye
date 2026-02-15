@@ -27,8 +27,8 @@ msgstr "Numele dispozitivelor pot conține numai caractere alfanumerice, cratim�
 
 #: motioneye/config.py:865
 #, fuzzy
-msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
-msgstr "Numele fișierelor pot conține numai caractere alfanumerice, paranteze (), bară oblică /, punct ., underscore _, cratimă -, spațiu și un subset de specificatori de conversie a mișcării: %C %Y %m %d %H %M %S %q %v"
+msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
+msgstr "Numele fișierelor pot conține numai caractere alfanumerice, paranteze (), bară oblică /, punct ., underscore _, cratimă -, spațiu și un subset de specificatori de conversie a mișcării: %C %Y %m %d %H %M %S %q %v %$"
 
 #: motioneye/config.py:870
 #, fuzzy

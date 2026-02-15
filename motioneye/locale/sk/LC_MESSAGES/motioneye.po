@@ -31,8 +31,8 @@ msgstr "Zariadenia sú k dispozícii len pre alfanumerické postavy, hyphen, pod
 
 #: motioneye/config.py:865
 #, fuzzy
-msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
-msgstr "Súbory sú len ekvivalentné alfanumerickým postavám, rodičovskou výsadou (), dopredu /, bod., podčiarknutie, hyphen – priestorové a podstava atribútov pohybu špecifikovať: %C %Y %m %d %H %M %S %q %v"
+msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
+msgstr "Súbory sú len ekvivalentné alfanumerickým postavám, rodičovskou výsadou (), dopredu /, bod., podčiarknutie, hyphen – priestorové a podstava atribútov pohybu špecifikovať: %C %Y %m %d %H %M %S %q %v %$"
 
 #: motioneye/config.py:870
 #, fuzzy

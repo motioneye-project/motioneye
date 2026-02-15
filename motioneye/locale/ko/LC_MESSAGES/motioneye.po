@@ -30,7 +30,7 @@ msgstr "장치는 알파벳 문자, 하이픈, 밑줄, 플러스 +, 공간에만
 
 #: motioneye/config.py:865
 #, fuzzy
-msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
+msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
 msgstr "파일 이름에는 영숫자, 괄호 (), 슬래시 /, 점 ., 밑줄 _, 하이픈 -, 공백 및 모션 변환 지정자 일부(%C %Y %m %d %H %M %S %q %v)만 포함될 수 있습니다"
 
 #: motioneye/config.py:870

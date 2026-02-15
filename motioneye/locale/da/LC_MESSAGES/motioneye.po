@@ -28,8 +28,8 @@ msgstr "Enheder er kun tilgængelige for alfanumeriske tegn, bindestreg, underst
 
 #: motioneye/config.py:865
 #, fuzzy
-msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
-msgstr "Filnavne må kun indeholde alfanumeriske tegn, parenteser (), skråstreg /, prik ., understregning _, bindestreg -, mellemrum og en delmængde af bevægelseskonverteringsspecifikatorer: %C %Y %m %d %H %M %S %q %v"
+msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
+msgstr "Filnavne må kun indeholde alfanumeriske tegn, parenteser (), skråstreg /, prik ., understregning _, bindestreg -, mellemrum og en delmængde af bevægelseskonverteringsspecifikatorer: %C %Y %m %d %H %M %S %q %v %$"
 
 #: motioneye/config.py:870
 #, fuzzy
