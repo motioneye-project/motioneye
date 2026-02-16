@@ -424,14 +424,18 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     }
 
     var msg = '';
-    if (!sign && floating)
+    if (!sign && floating) {
         msg = i18n.gettext("enigu pozitivan nombron");
-    else if (!sign && !floating)
+    }
+    else if (!sign && !floating) {
         msg = i18n.gettext("enigu pozitivan entjeran nombron");
-    else if (sign && floating)
+    }
+    else if (sign && floating) {
         msg = i18n.gettext("enigu nombron");
-    else
+    }
+    else {
         msg = i18n.gettext("enigu entjeran nombron");
+    }
     if (isFinite(minVal)) {
         if (isFinite(maxVal)) {
             msg += i18n.gettext(" inter ") + minVal + i18n.gettext(" kaj ") + maxVal;
@@ -453,11 +457,13 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
 
         var numVal = floating ? parseFloat(strVal) : parseInt(strVal, 10);
         if (floating) {
-            if (isNaN(numVal) || strVal.trim() === '') {
+            /* For floating-point numbers, validate that the entire string is a valid number */
+            if (isNaN(numVal) || strVal.trim() === '' || String(numVal) !== strVal.trim()) {
                 return false;
             }
         }
         else {
+            /* For integers, preserve original validation behavior */
             if ('' + numVal !== strVal) {
                 return false;
             }
