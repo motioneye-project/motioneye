@@ -769,7 +769,7 @@ function makeCustomValidator($input, isValidFunc) {
 
 function makeStrippedInput($input) {
     $input.on('change', function () {
-        this.value = String.prototype.trim(this.value);
+        this.value = this.value.trim();
     });
 }
 
