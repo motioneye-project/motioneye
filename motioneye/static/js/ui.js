@@ -458,11 +458,13 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
         var numVal = floating ? parseFloat(strVal) : parseInt(strVal, 10);
         if (floating) {
             /* For floating-point numbers, validate that it's a valid finite number */
-            if (isNaN(numVal) || !isFinite(numVal) || strVal.trim() === '') {
+            var trimmed = strVal.trim();
+            if (trimmed === '' || isNaN(numVal) || !isFinite(numVal)) {
                 return false;
             }
-            /* Verify the string contains only valid numeric characters (digits, decimal point, minus sign) */
-            if (!/^-?\d+(\.\d+)?$/.test(strVal.trim())) {
+            /* Verify the string contains only valid numeric characters */
+            /* Accepts: integers, decimals, exponential notation, with optional sign */
+            if (!/^-?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/.test(trimmed)) {
                 return false;
             }
         }
