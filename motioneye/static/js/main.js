@@ -1727,12 +1727,12 @@ function updateConfigUI() {
     var weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     weekDays.forEach(function (weekDay) {
         var check = $('#' + weekDay + 'EnabledSwitch');
-        var timeInputs = document.getElementById(weekDay + 'TimeInputs');
+        var timeInputs = $('#' + weekDay + 'TimeInputs');
         if (check.get(0).checked) {
-            timeInputs.style.removeProperty('display');
+            timeInputs.css('display', '');
         }
         else {
-            timeInputs.style.display = 'none';
+            timeInputs.css('display', 'none');
         }
     });
 
