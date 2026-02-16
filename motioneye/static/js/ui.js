@@ -150,8 +150,8 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         function bodyMouseUp(e) {
             bar[0]._mouseDown = false;
 
-            $('body').unbind('mousemove', bodyMouseMove);
-            $('body').unbind('mouseup', bodyMouseUp);
+            $('body').off('mousemove', bodyMouseMove);
+            $('body').off('mouseup', bodyMouseUp);
 
             cursorLabel.css('display', 'none');
             adjusting = false;
@@ -769,7 +769,7 @@ function makeCustomValidator($input, isValidFunc) {
 
 function makeStrippedInput($input) {
     $input.change(function () {
-        this.value = $.trim(this.value);
+        this.value = String.prototype.trim(this.value);
     });
 }
 
@@ -1087,11 +1087,11 @@ function runModalDialog(options) {
 
         /* unbind html handlers */
 
-        $('html').unbind('keyup', handleKeyUp);
+        $('html').off('keyup', handleKeyUp);
     };
 
     /* bind key handlers */
-    $('html').bind('keyup', handleKeyUp);
+    $('html').on('keyup', handleKeyUp);
 
     /* and finally, show the dialog */
 
