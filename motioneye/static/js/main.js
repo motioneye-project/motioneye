@@ -1729,7 +1729,7 @@ function updateConfigUI() {
         var check = document.getElementById(weekDay + 'EnabledSwitch');
         var timeInputs = document.getElementById(weekDay + 'TimeInputs');
         if (check.checked) {
-            timeInputs.style.removeProperty('display');
+            timeInputs.style.display = '';
         }
         else {
             timeInputs.style.display = 'none';
