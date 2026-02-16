@@ -339,11 +339,7 @@ function makeProgressBar($div) {
 
     /* validators */
 
-function makeTextValidator($input, required) {
-    if (required == null) {
-        required = true;
-    }
-
+function makeRequiredValidator($input) {
     $input.each(function () {
         var $this = $(this);
 
@@ -352,64 +348,7 @@ function makeTextValidator($input, required) {
                 return true; /* an invisible element is considered always valid */
             }
 
-            if (strVal.length === 0 && required) {
-                return false;
-            }
-
-            return true;
-        }
-
-        var msg = i18n.gettext("Ĉi tiu kampo estas deviga");
-
-        function validate() {
-            var strVal = $this.val();
-            if (isValid(strVal)) {
-                $this.attr('title', '');
-                $this.removeClass('error');
-                $this[0].invalid = false;
-            }
-            else {
-                $this.attr('title', msg);
-                $this.addClass('error');
-                $this[0].invalid = true;
-            }
-        }
-
-        $this.addClass('validator');
-        $this.addClass('text-validator');
-        $this.each(function () {
-            var oldValidate = this.validate;
-            this.validate = function () {
-                if (oldValidate) {
-                    if (!oldValidate.call(this)) {
-                        return;
-                    }
-                }
-                validate();
-                return !this.invalid;
-            }
-        });
-
-        $this.on('keyup', function () {this.validate();});
-        $this.on('blur', function () {this.validate();});
-        $this.on('change', function () {this.validate();}).trigger('change');
-    });
-}
-
-function makeComboValidator($select, required) {
-    if (required == null) {
-        required = true;
-    }
-
-    $select.each(function () {
-        $this = $(this);
-
-        function isValid(strVal) {
-            if (!$this.is(':visible')) {
-                return true; /* an invisible element is considered always valid */
-            }
-
-            if (strVal.length === 0 && required) {
+            if (strVal.length === 0) {
                 return false;
             }
 
@@ -433,7 +372,6 @@ function makeComboValidator($select, required) {
         }
 
         $this.addClass('validator');
-        $this.addClass('combo-validator');
         $this.each(function () {
             var oldValidate = this.validate;
             this.validate = function () {
@@ -536,7 +474,6 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
         }
 
         $this.addClass('validator');
-        $this.addClass('number-validator');
         $this.each(function () {
             var oldValidate = this.validate;
             this.validate = function () {
@@ -587,7 +524,6 @@ function makeTimeValidator($input) {
         }
 
         $this.addClass('validator');
-        $this.addClass('time-validator');
         $this.each(function () {
             var oldValidate = this.validate;
             this.validate = function () {
@@ -638,64 +574,6 @@ function makeUrlValidator($input) {
         }
 
         $this.addClass('validator');
-        $this.addClass('url-validator');
-        $this.each(function () {
-            var oldValidate = this.validate;
-            this.validate = function () {
-                if (oldValidate) {
-                    if (!oldValidate.call(this)) {
-                        return;
-                    }
-                }
-                validate();
-                return !this.invalid;
-            }
-        });
-
-        $this.on('keyup', function () {this.validate();});
-        $this.on('blur', function () {this.validate();});
-        $this.on('change', function () {this.validate();}).trigger('change');
-    });
-}
-
-function makeFileValidator($input, required) {
-    if (required == null) {
-        required = true;
-    }
-
-    $input.each(function () {
-        var $this = $(this);
-
-        function isValid(strVal) {
-            if (!$this.is(':visible')) {
-                return true; /* an invisible element is considered always valid */
-            }
-
-            if (strVal.length === 0 && required) {
-                return false;
-            }
-
-            return true;
-        }
-
-        var msg = i18n.gettext("Ĉi tiu kampo estas deviga");
-
-        function validate() {
-            var strVal = $this.val();
-            if (isValid(strVal)) {
-                $this.attr('title', '');
-                $this.removeClass('error');
-                $this[0].invalid = false;
-            }
-            else {
-                $this.attr('title', msg);
-                $this.addClass('error');
-                $this[0].invalid = true;
-            }
-        }
-
-        $this.addClass('validator');
-        $this.addClass('file-validator');
         $this.each(function () {
             var oldValidate = this.validate;
             this.validate = function () {
@@ -743,7 +621,6 @@ function makeCustomValidator($input, isValidFunc) {
         }
 
         $this.addClass('validator');
-        $this.addClass('custom-validator');
         $this.each(function () {
             var oldValidate = this.validate;
             this.validate = function () {

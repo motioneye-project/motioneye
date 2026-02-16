@@ -590,9 +590,9 @@ function initUI() {
     /* progress bars */
     makeProgressBar($('div.progress-bar'));
 
-    /* text validators */
-    makeTextValidator($('tr[required=true] input[type=text]'), true);
-    makeTextValidator($('tr[required=true] input[type=password]'), true);
+    /* required input validators */
+    makeRequiredValidator($('tr[required=true] input[type=text]'));
+    makeRequiredValidator($('tr[required=true] input[type=password]'));
 
     /* number validators */
     $('input[type=text].number').each(function () {
@@ -2992,7 +2992,7 @@ function doRestore() {
     var fileInput = content.find('#fileInput');
 
     /* make validators */
-    makeFileValidator(fileInput, true);
+    makeRequiredValidator(fileInput);
 
     function uiValid() {
         /* re-validate all the validators */
@@ -3957,10 +3957,8 @@ function runAddCameraDialog() {
     var isProgress = false;
 
     /* make validators */
-    makeUrlValidator(urlEntry, true);
-    makeTextValidator(usernameEntry, false);
-    makeTextValidator(typeSelect, false);
-    makeComboValidator(addCameraSelect, true);
+    makeUrlValidator(urlEntry);
+    makeRequiredValidator(addCameraSelect);
 
     /* ui interaction */
     function updateUi() {
