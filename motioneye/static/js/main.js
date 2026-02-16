@@ -3774,7 +3774,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
             playButton.on('click', function() {
                 video_container.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path));
                 video_container.show();
-                video_container.get(0).trigger('load');  /* Must trigger load after changing <video> source */
+                video_container.get(0).load();  /* Must call load() after changing <video> source */
                 img.hide();
                 playButton.hide();
                 timelapseButton.hide();
