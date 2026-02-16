@@ -460,10 +460,6 @@ div.check-box.on.section:HOVER div.check-box-button {
     background-color: #3498db;
 }
 
-input[type=time].number {
-    width: 50px;
-}
-
 #diskUsageProgressBar {
     width: 90%;
 }

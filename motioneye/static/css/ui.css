@@ -181,7 +181,7 @@ select.error {
 }
 
 input[type=time].working-schedule {
-    width: 3.5em;
+    width: auto;
 }
 
 input[readonly] {

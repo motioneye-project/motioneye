@@ -1728,12 +1728,12 @@ function updateConfigUI() {
     weekDays.forEach(function (weekDay) {
         var check = $('#' + weekDay + 'EnabledSwitch');
         if (check.get(0).checked) {
-            document.getElementById(weekDay + 'FromEntry').style.display = 'none';
-            document.getElementById(weekDay + 'ToEntry').style.display = 'none';
-        }
-        else {
             document.getElementById(weekDay + 'FromEntry').style.removeProperty('display');
             document.getElementById(weekDay + 'ToEntry').style.removeProperty('display');
+        }
+        else {
+            document.getElementById(weekDay + 'FromEntry').style.display = 'none';
+            document.getElementById(weekDay + 'ToEntry').style.display = 'none';
         }
     });
 
