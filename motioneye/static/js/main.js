@@ -735,51 +735,51 @@ function initUI() {
     $('#adminPasswordEntry').keydown(function () {
         adminPasswordChanged.keydown = true;
     });
-    $('#adminPasswordEntry').change(function () {
+    $('#adminPasswordEntry').on('change', function () {
         adminPasswordChanged.change = true;
     });
     $('#normalPasswordEntry').keydown(function () {
         normalPasswordChanged.keydown = true;
     });
-    $('#normalPasswordEntry').change(function () {
+    $('#normalPasswordEntry').on('change', function () {
         normalPasswordChanged.change = true;
     });
     $('#streamingPasswordEntry').keydown(function () {
         streamingPasswordChanged.keydown = true;
     });
-    $('#streamingPasswordEntry').change(function () {
+    $('#streamingPasswordEntry').on('change', function () {
         streamingPasswordChanged.change = true;
     });
 
     /* ui elements that enable/disable other ui elements */
-    $('#storageDeviceSelect').change(updateConfigUI);
-    $('#resolutionSelect').change(updateConfigUI);
-    $('#adminOnlySwitch').change(updateConfigUI);
-    $('#leftTextTypeSelect').change(updateConfigUI);
-    $('#rightTextTypeSelect').change(updateConfigUI);
-    $('#captureModeSelect').change(updateConfigUI);
-    $('#autoNoiseDetectSwitch').change(updateConfigUI);
-    $('#autoThresholdTuningSwitch').change(updateConfigUI);
-    $('#videoDeviceEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#textOverlayEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#videoStreamingEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#streamingAuthModeSelect').change(updateConfigUI);
-    $('#streamingServerResizeSwitch').change(updateConfigUI);
-    $('#stillImagesEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#preservePicturesSelect').change(updateConfigUI);
-    $('#moviesEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#motionDetectionEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#preserveMoviesSelect').change(updateConfigUI);
-    $('#moviePassthroughSwitch').change(updateConfigUI);
-    $('#workingScheduleEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#storageDeviceSelect').on('change', updateConfigUI);
+    $('#resolutionSelect').on('change', updateConfigUI);
+    $('#adminOnlySwitch').on('change', updateConfigUI);
+    $('#leftTextTypeSelect').on('change', updateConfigUI);
+    $('#rightTextTypeSelect').on('change', updateConfigUI);
+    $('#captureModeSelect').on('change', updateConfigUI);
+    $('#autoNoiseDetectSwitch').on('change', updateConfigUI);
+    $('#autoThresholdTuningSwitch').on('change', updateConfigUI);
+    $('#videoDeviceEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#textOverlayEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#videoStreamingEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#streamingAuthModeSelect').on('change', updateConfigUI);
+    $('#streamingServerResizeSwitch').on('change', updateConfigUI);
+    $('#stillImagesEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#preservePicturesSelect').on('change', updateConfigUI);
+    $('#moviesEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#motionDetectionEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#preserveMoviesSelect').on('change', updateConfigUI);
+    $('#moviePassthroughSwitch').on('change', updateConfigUI);
+    $('#workingScheduleEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
 
-    $('#mondayEnabledSwitch').change(updateConfigUI);
-    $('#tuesdayEnabledSwitch').change(updateConfigUI);
-    $('#wednesdayEnabledSwitch').change(updateConfigUI);
-    $('#thursdayEnabledSwitch').change(updateConfigUI);
-    $('#fridayEnabledSwitch').change(updateConfigUI);
-    $('#saturdayEnabledSwitch').change(updateConfigUI);
-    $('#sundayEnabledSwitch').change(updateConfigUI);
+    $('#mondayEnabledSwitch').on('change', updateConfigUI);
+    $('#tuesdayEnabledSwitch').on('change', updateConfigUI);
+    $('#wednesdayEnabledSwitch').on('change', updateConfigUI);
+    $('#thursdayEnabledSwitch').on('change', updateConfigUI);
+    $('#fridayEnabledSwitch').on('change', updateConfigUI);
+    $('#saturdayEnabledSwitch').on('change', updateConfigUI);
+    $('#sundayEnabledSwitch').on('change', updateConfigUI);
 
     /* minimizable sections */
     $('span.minimize').on('click', function () {
@@ -794,7 +794,7 @@ function initUI() {
                 !sectionSwitchDiv[0]._hideNull && !sectionDiv.attr('minimize-switch-independent')) {
 
                 sectionSwitch[0].checked = true;
-                sectionSwitch.change();
+                sectionSwitch.trigger('change');
             }
         }
 
@@ -821,50 +821,50 @@ function initUI() {
             seenDependNames[depend] = true;
 
             var control = $('#' + depend + 'Entry, #' + depend + 'Select, #' + depend + 'Slider, #' + depend + 'Switch');
-            control.change(updateConfigUI);
+            control.on('change', updateConfigUI);
         });
     });
 
     /* prefs change handlers */
-    $('#layoutColumnsSlider').change(function () {
+    $('#layoutColumnsSlider').on('change', function () {
         var columns = parseInt(this.value);
         setLayoutColumns(columns);
         savePrefs();
     });
-    $('#fitFramesVerticallySwitch').change(function () {
+    $('#fitFramesVerticallySwitch').on('change', function () {
         fitFramesVertically = this.checked;
         updateLayout();
         savePrefs();
     });
-    $('#layoutRowsSlider').change(function () {
+    $('#layoutRowsSlider').on('change', function () {
         layoutRows = parseInt(this.value);
         updateLayout();
         savePrefs();
     });
-    $('#framerateDimmerSlider').change(function () {
+    $('#framerateDimmerSlider').on('change', function () {
         framerateFactor = parseInt(this.value) / 100;
         savePrefs();
     });
-    $('#resolutionDimmerSlider').change(function () {
+    $('#resolutionDimmerSlider').on('change', function () {
         resolutionFactor = parseInt(this.value) / 100;
         savePrefs();
     });
 
     /* various change handlers */
-    $('#storageDeviceSelect').change(function () {
+    $('#storageDeviceSelect').on('change', function () {
         $('#rootDirectoryEntry').val('/');
     });
 
-    $('#rootDirectoryEntry').change(function () {
+    $('#rootDirectoryEntry').on('change', function () {
         this.value = this.value.trim();
     });
 
-    $('#rootDirectoryEntry').change(function () {
+    $('#rootDirectoryEntry').on('change', function () {
         if (this.value.charAt(0) !== '/') {
             this.value = '/' + this.value;
         }
     });
-    $('#cleanCloudEnabledSwitch').change(function () {
+    $('#cleanCloudEnabledSwitch').on('change', function () {
         var enabled = this.checked;
         var folder = $('#uploadLocationEntry').val();
         console.log('cleanCloudEnabled', enabled, folder);
@@ -875,7 +875,7 @@ function initUI() {
     });
 
     /* streaming framerate must be >= device framerate + a margin */
-    $('#framerateSlider').change(function () {
+    $('#framerateSlider').on('change', function () {
         var value = Number($('#framerateSlider').val());
         var streamingValue = Number($('#streamingFramerateSlider').val());
 
@@ -883,13 +883,13 @@ function initUI() {
         value = Math.min(value, 30); /* don't go above 30 fps */
 
         if (streamingValue < value) {
-            $('#streamingFramerateSlider').val(value).change();
+            $('#streamingFramerateSlider').val(value).trigger('change');
         }
     });
 
     /* capture mode and recording mode are not completely independent:
      * all-frames capture mode implies continuous recording (and vice-versa) */
-    $('#captureModeSelect').change(function (val) {
+    $('#captureModeSelect').on('change', function (val) {
         if ($('#captureModeSelect').val() == 'all-frames') {
             $('#recordingModeSelect').val('continuous');
         }
@@ -901,7 +901,7 @@ function initUI() {
 
         updateConfigUI();
     });
-    $('#recordingModeSelect').change(function (val) {
+    $('#recordingModeSelect').on('change', function (val) {
         if ($('#recordingModeSelect').val() == 'continuous') {
             $('#captureModeSelect').val('all-frames');
         }
@@ -915,11 +915,11 @@ function initUI() {
     });
 
     /* fetch & push handlers */
-    $('#cameraSelect').focus(function () {
+    $('#cameraSelect').on('focus', function () {
         /* remember the previously selected index */
         this._prevSelectedIndex = this.selectedIndex;
 
-    }).change(function () {
+    }).on('change', function () {
         if ($('#cameraSelect').val() === 'add') {
             runAddCameraDialog();
             this.selectedIndex = this._prevSelectedIndex;
@@ -931,23 +931,23 @@ function initUI() {
             disableMaskEdit();
         }
     });
-    $('input.main-config, select.main-config, textarea.main-config').change(function () {
+    $('input.main-config, select.main-config, textarea.main-config').on('change', function () {
         pushMainConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
     });
-    $('input.camera-config, select.camera-config, textarea.camera-config').change(function () {
+    $('input.camera-config, select.camera-config, textarea.camera-config').on('change', function () {
         pushCameraConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
     });
 
     /* whenever the window is resized,
      * if a modal dialog is visible, it should be repositioned */
-    $(window).resize(updateModalDialogPosition);
+    $(window).on('resize', updateModalDialogPosition);
 
     /* show a warning when enabling media files removal */
     var preserveSelects = $('#preservePicturesSelect, #preserveMoviesSelect');
     var rootDirectoryEntry = $('#rootDirectoryEntry');
-    preserveSelects.focus(function () {
+    preserveSelects.on('focus', function () {
         this._prevValue = $(this).val();
-    }).change(function () {
+    }).on('change', function () {
         var value = $(this).val();
         if (value != '0' && this._prevValue == '0') {
             var rootDir = rootDirectoryEntry.val();
@@ -957,19 +957,19 @@ function initUI() {
     });
 
     /* disable corresponding mask editor when the mask gets disabled */
-    $('#motionMaskSwitch').change(function () {
+    $('#motionMaskSwitch').on('change', function () {
        if (!this.checked) {
             disableMaskEdit('motion');
        }
     });
-    $('#privacyMaskSwitch').change(function () {
+    $('#privacyMaskSwitch').on('change', function () {
         if (!this.checked) {
              disableMaskEdit('privacy');
         }
      });
 
     /* disable motion detection mask editor when mask type is no longer editable */
-    $('#motionMaskTypeSelect').change(function () {
+    $('#motionMaskTypeSelect').on('change', function () {
         if ($(this).val() != 'editable') {
             disableMaskEdit('motion');
         }
@@ -1302,7 +1302,7 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
             maskLines.push(line);
         }
 
-        $('#'+maskClass+'MaskLinesEntry').val(maskLines.join(',')).change();
+        $('#'+maskClass+'MaskLinesEntry').val(maskLines.join(',')).trigger('change');
     }
 
     function handleMouseUp() {
@@ -1332,14 +1332,14 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
 
         elementsMatrix[y][x] = el;
 
-        el.mousedown(function () {
+        el.on('mousedown', function () {
             mouseDown = true;
             el.toggleClass('on');
             currentState = el.hasClass('on');
-            $('html').mouseup(handleMouseUp);
+            $('html').on('mouseup', handleMouseUp);
         });
 
-        el.mouseenter(function () {
+        el.on('mouseenter', function () {
             if (!mouseDown) {
                 return;
             }
@@ -1463,7 +1463,7 @@ function clearMask(cameraId) {
 
 function openSettings(cameraId) {
     if (cameraId != null) {
-        $('#cameraSelect').val(cameraId).change();
+        $('#cameraSelect').val(cameraId).trigger('change');
     }
 
     $('div.settings').addClass('open').removeClass('closed');
@@ -2547,7 +2547,7 @@ function dict2CameraUi(dict) {
             var controlInput = addVideoControl(c.name, c.min, c.max, c.step);
             controlInput.val(c.value);
             controlInput[0].checked = Boolean(c.value);
-            controlInput.change(function () {
+            controlInput.on('change', function () {
                 pushCameraConfig(/* reboot = */ false);
             });
         });
@@ -3348,7 +3348,7 @@ function showUrl(url) {
     else if (document.selection && document.body.createTextRange) {
         range = document.body.createTextRange();
         range.moveToElementText(span[0]);
-        range.select();
+        range.trigger('select');
     }
 }
 
@@ -3677,7 +3677,7 @@ function runLoginDialog(retry) {
                     setCookie(PASSWORD_COOKIE, window.passwordHash, /* days = */ 3650);
                 }
 
-                form.submit();
+                form.trigger('submit');
                 setTimeout(function () {
                     tempFrame.remove();
                 }, 5000);
@@ -4160,14 +4160,14 @@ function runAddCameraDialog() {
         });
     }
 
-    typeSelect.change(function () {
+    typeSelect.on('change', function () {
         addCameraSelect.html('');
     });
 
-    typeSelect.change(updateUi);
-    urlEntry.change(updateUi);
-    usernameEntry.change(updateUi);
-    passwordEntry.change(updateUi);
+    typeSelect.on('change', updateUi);
+    urlEntry.on('change', updateUi);
+    usernameEntry.on('change', updateUi);
+    passwordEntry.on('change', updateUi);
 
     runModalDialog({
         title: i18n.gettext('Aldonadi kameraon...'),
@@ -4228,7 +4228,7 @@ function runAddCameraDialog() {
 
                 var cameraOption = $('#cameraSelect').find('option[value=add]');
                 cameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
-                $('#cameraSelect').val(data.id).change();
+                $('#cameraSelect').val(data.id).trigger('change');
                 recreateCameraFrames();
             });
         }
@@ -4640,7 +4640,7 @@ function runMediaDialog(cameraId, mediaType) {
         updateModalDialogPosition();
     }
 
-    $(window).resize(onResize);
+    $(window).on('resize', onResize);
 
     updateDialogSize();
 
@@ -5577,7 +5577,7 @@ $(document).ready(function () {
     refreshCameraFrames();
     checkCameraErrors();
 
-    $(window).resize(function () {
+    $(window).on('resize', function () {
         updateLayout();
     });
 

@@ -41,21 +41,21 @@ function makeCheckBox($input) {
         }
 
         /* add event handers */
-        $this.change(update).change();
+        $this.on('change', update).trigger('change');
 
         mainDiv.on('click', function () {
             $this[0].checked = !$this[0].checked;
-            $this.change();
+            $this.trigger('change');
         });
 
         /* make the element focusable */
         mainDiv[0].tabIndex = 0;
 
         /* handle the key events */
-        mainDiv.keydown(function (e) {
+        mainDiv.on('keydown', function (e) {
             if (e.which === 13 || e.which === 32) {
                 $this[0].checked = !$this[0].checked;
-                $this.change();
+                $this.trigger('change');
 
                 return false;
             }
@@ -156,7 +156,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             cursorLabel.css('display', 'none');
             adjusting = false;
 
-            $this.change();
+            $this.trigger('change');
         }
 
         bar.mousedown(function (e) {
@@ -245,7 +245,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         slider.addClass($this.attr('class'));
 
         /* handle input events */
-        $this.change(input2slider).change();
+        $this.on('change', input2slider).trigger('change');
 
         /* add the slider to the parent of the input */
         $this.after(slider);
@@ -254,7 +254,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
         slider.attr('tabIndex', 0);
 
         /* handle key events */
-        slider.keydown(function (e) {
+        slider.on('keydown', function (e) {
             switch (e.which) {
                 case 37: /* left */
                     if (snapMode == 1) { /* strict snapping */
@@ -269,7 +269,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
 
                         var origSnapMode = snapMode;
                         snapMode = 0;
-                        $this.val(val).change();
+                        $this.val(val).trigger('change');
                         snapMode = origSnapMode;
                     }
 
@@ -288,7 +288,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
 
                         var origSnapMode = snapMode;
                         snapMode = 0;
-                        $this.val(val).change();
+                        $this.val(val).trigger('change');
                         snapMode = origSnapMode;
                     }
 
@@ -390,9 +390,9 @@ function makeTextValidator($input, required) {
             }
         });
 
-        $this.keyup(function () {this.validate();});
-        $this.blur(function () {this.validate();});
-        $this.change(function () {this.validate();}).change();
+        $this.on('keyup', function () {this.validate();});
+        $this.on('blur', function () {this.validate();});
+        $this.on('change', function () {this.validate();}).trigger('change');
     });
 }
 
@@ -447,9 +447,9 @@ function makeComboValidator($select, required) {
             }
         });
 
-        $this.keyup(function () {this.validate();});
-        $this.blur(function () {this.validate();});
-        $this.change(function () {this.validate();}).change();
+        $this.on('keyup', function () {this.validate();});
+        $this.on('blur', function () {this.validate();});
+        $this.on('change', function () {this.validate();}).trigger('change');
     });
 }
 
@@ -550,9 +550,9 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
             }
         });
 
-        $this.keyup(function () {this.validate();});
-        $this.blur(function () {this.validate();});
-        $this.change(function () {this.validate();}).change();
+        $this.on('keyup', function () {this.validate();});
+        $this.on('blur', function () {this.validate();});
+        $this.on('change', function () {this.validate();}).trigger('change');
     });
 
     makeStrippedInput($input);
@@ -601,9 +601,9 @@ function makeTimeValidator($input) {
             }
         });
 
-        $this.keyup(function () {this.validate();});
-        $this.blur(function () {this.validate();});
-        $this.change(function () {this.validate();}).change();
+        $this.on('keyup', function () {this.validate();});
+        $this.on('blur', function () {this.validate();});
+        $this.on('change', function () {this.validate();}).trigger('change');
     });
 
     makeStrippedInput($input);
@@ -652,9 +652,9 @@ function makeUrlValidator($input) {
             }
         });
 
-        $this.keyup(function () {this.validate();});
-        $this.blur(function () {this.validate();});
-        $this.change(function () {this.validate();}).change();
+        $this.on('keyup', function () {this.validate();});
+        $this.on('blur', function () {this.validate();});
+        $this.on('change', function () {this.validate();}).trigger('change');
     });
 }
 
@@ -709,9 +709,9 @@ function makeFileValidator($input, required) {
             }
         });
 
-        $this.keyup(function () {this.validate();});
-        $this.blur(function () {this.validate();});
-        $this.change(function () {this.validate();}).change();
+        $this.on('keyup', function () {this.validate();});
+        $this.on('blur', function () {this.validate();});
+        $this.on('change', function () {this.validate();}).trigger('change');
     });
 }
 
@@ -758,9 +758,9 @@ function makeCustomValidator($input, isValidFunc) {
             }
         });
 
-        $this.keyup(function () {this.validate();});
-        $this.blur(function () {this.validate();});
-        $this.change(function () {this.validate();}).change();
+        $this.on('keyup', function () {this.validate();});
+        $this.on('blur', function () {this.validate();});
+        $this.on('change', function () {this.validate();}).trigger('change');
     });
 }
 
@@ -768,13 +768,13 @@ function makeCustomValidator($input, isValidFunc) {
     /* other input value processors */
 
 function makeStrippedInput($input) {
-    $input.change(function () {
+    $input.on('change', function () {
         this.value = String.prototype.trim(this.value);
     });
 }
 
 function makeCharReplacer($input, oldChars, newStr) {
-    $input.change(function () {
+    $input.on('change', function () {
         this.value = this.value.replace(new RegExp('[' + oldChars + ']', 'g'), newStr);
     });
 }
