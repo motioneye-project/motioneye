@@ -481,7 +481,7 @@ function makeTimeValidator($input) {
     var msg = i18n.gettext("enigu validan tempon en la sekva formato: HH:MM");
     
     applyValidator($input, function (strVal) {
-        return strVal.match(new RegExp('^[0-2][0-9]:[0-5][0-9]$')) != null;
+        return strVal.match(new RegExp('^[0-2][0-9]:[0-5][0-9]$')) !== null;
     }, msg);
 
     makeStrippedInput($input);
@@ -491,7 +491,7 @@ function makeUrlValidator($input) {
     var msg = i18n.gettext("enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)");
     
     applyValidator($input, function (strVal) {
-        return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w\-.]+)(:\\d+)?(/.*)?$')) != null;
+        return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w\-.]+)(:\\d+)?(/.*)?$')) !== null;
     }, msg);
 }
 
