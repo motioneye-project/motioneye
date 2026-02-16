@@ -458,18 +458,21 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
         var numVal = floating ? parseFloat(strVal) : parseInt(strVal, 10);
         if (floating) {
             /* For floating-point numbers, validate that it's a valid finite number */
+            /* Note: trimming is necessary here because validation occurs before makeStrippedInput's change event */
             var trimmed = strVal.trim();
             if (trimmed === '' || isNaN(numVal) || !isFinite(numVal)) {
                 return false;
             }
             /* Verify the string contains only valid numeric characters */
             /* Accepts: integers, decimals, exponential notation, with optional sign */
+            /* Note: sign validation happens separately at line 482 */
             if (!/^-?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/.test(trimmed)) {
                 return false;
             }
         }
         else {
             /* For integers, preserve original validation behavior */
+            /* This rejects non-integer inputs like '5.7' since parseInt('5.7', 10) returns 5, and '5' !== '5.7' */
             if ('' + numVal !== strVal) {
                 return false;
             }
