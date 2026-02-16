@@ -506,7 +506,7 @@ function makeUrlValidator($input) {
     var msg = i18n.gettext("enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)");
     
     applyValidator($input, function (strVal) {
-        return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w\-.]+)(:\\d+)?(/.*)?$')) !== null;
+        return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w.-]+)(:\\d+)?(/.*)?$')) !== null;
     }, msg);
 }
 
