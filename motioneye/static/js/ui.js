@@ -457,8 +457,12 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
 
         var numVal = floating ? parseFloat(strVal) : parseInt(strVal, 10);
         if (floating) {
-            /* For floating-point numbers, validate that the entire string is a valid number */
-            if (isNaN(numVal) || strVal.trim() === '' || String(numVal) !== strVal.trim()) {
+            /* For floating-point numbers, validate that it's a valid finite number */
+            if (isNaN(numVal) || !isFinite(numVal) || strVal.trim() === '') {
+                return false;
+            }
+            /* Verify the string contains only valid numeric characters (digits, decimal point, minus sign) */
+            if (!/^-?\d+(\.\d+)?$/.test(strVal.trim())) {
                 return false;
             }
         }
@@ -487,7 +491,7 @@ function makeTimeValidator($input) {
     var msg = i18n.gettext("enigu validan tempon en la sekva formato: HH:MM");
     
     applyValidator($input, function (strVal) {
-        return strVal.match(new RegExp('^[0-2][0-9]:[0-5][0-9]$')) !== null;
+        return strVal.match(new RegExp('^([01][0-9]|2[0-3]):[0-5][0-9]$')) !== null;
     }, msg);
 
     makeStrippedInput($input);
