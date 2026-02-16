@@ -732,19 +732,19 @@ function initUI() {
     }
 
     /* update password changed flags */
-    $('#adminPasswordEntry').keydown(function () {
+    $('#adminPasswordEntry').on('keydown', function () {
         adminPasswordChanged.keydown = true;
     });
     $('#adminPasswordEntry').on('change', function () {
         adminPasswordChanged.change = true;
     });
-    $('#normalPasswordEntry').keydown(function () {
+    $('#normalPasswordEntry').on('keydown', function () {
         normalPasswordChanged.keydown = true;
     });
     $('#normalPasswordEntry').on('change', function () {
         normalPasswordChanged.change = true;
     });
-    $('#streamingPasswordEntry').keydown(function () {
+    $('#streamingPasswordEntry').on('keydown', function () {
         streamingPasswordChanged.keydown = true;
     });
     $('#streamingPasswordEntry').on('change', function () {
@@ -3337,19 +3337,11 @@ function showUrl(url) {
     span.html(url);
     runAlertDialog(span);
 
-    var range, selection;
-    if (window.getSelection && document.createRange) {
-        selection = window.getSelection();
-        range = document.createRange();
-        range.selectNodeContents(span[0]);
-        selection.removeAllRanges();
-        selection.addRange(range);
-    }
-    else if (document.selection && document.body.createTextRange) {
-        range = document.body.createTextRange();
-        range.moveToElementText(span[0]);
-        range.trigger('select');
-    }
+    var selection = window.getSelection();
+    var range = document.createRange();
+    range.selectNodeContents(span[0]);
+    selection.removeAllRanges();
+    selection.addRange(range);
 }
 
 // eslint-disable-next-line no-unused-vars
