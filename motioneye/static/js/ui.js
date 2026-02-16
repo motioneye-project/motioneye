@@ -40,7 +40,7 @@ function makeCheckBox($input) {
             }
         }
 
-        /* add event handers */
+        /* add event handlers */
         $this.on('change', update).trigger('change');
 
         mainDiv.on('click', function () {
