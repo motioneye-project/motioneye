@@ -458,7 +458,7 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
             }
         }
         else {
-            if ('' + numVal != strVal) {
+            if ('' + numVal !== strVal) {
                 return false;
             }
         }
