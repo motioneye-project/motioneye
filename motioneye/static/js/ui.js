@@ -586,12 +586,6 @@ function makeTimeValidator($input) {
             }
         }
 
-        $this.timepicker({
-            closeOnWindowScroll: true,
-            selectOnBlur: true,
-            timeFormat: 'H:i',
-        });
-
         $this.addClass('validator');
         $this.addClass('time-validator');
         $this.each(function () {

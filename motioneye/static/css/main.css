@@ -26,6 +26,7 @@ body {
 select,
 input[type=text],
 input[type=password],
+input[type=time],
 textarea {
     box-sizing: border-box;
 }
@@ -459,7 +460,7 @@ div.check-box.on.section:HOVER div.check-box-button {
     background-color: #3498db;
 }
 
-input[type=text].working-schedule.number {
+input[type=time].number {
     width: 50px;
 }
 
