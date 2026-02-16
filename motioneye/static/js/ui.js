@@ -343,12 +343,16 @@ function applyValidator($input, isValidFn, msg) {
     $input.each(function () {
         var element = this;
 
+        function isVisible(el) {
+            /* Check if element is visible by checking if it has dimensions and is not explicitly hidden */
+            /* This mimics jQuery's :visible selector behavior */
+            return !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length) &&
+                   window.getComputedStyle(el).visibility !== 'hidden';
+        }
+
         function isValid(strVal) {
-            /* Check if element is visible - an invisible element is considered always valid */
-            /* An element is considered invisible if it or any parent has display:none or visibility:hidden */
-            if (element.offsetParent === null || 
-                window.getComputedStyle(element).display === 'none' || 
-                window.getComputedStyle(element).visibility === 'hidden') {
+            /* An invisible element is considered always valid */
+            if (!isVisible(element)) {
                 return true;
             }
 
@@ -447,9 +451,16 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
             return true;
         }
 
-        var numVal = parseInt(strVal);
-        if ('' + numVal != strVal) {
-            return false;
+        var numVal = floating ? parseFloat(strVal) : parseInt(strVal, 10);
+        if (floating) {
+            if (isNaN(numVal) || strVal.trim() === '') {
+                return false;
+            }
+        }
+        else {
+            if ('' + numVal != strVal) {
+                return false;
+            }
         }
 
         if (numVal < minVal || numVal > maxVal) {
