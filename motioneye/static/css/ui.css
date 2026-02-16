@@ -1,15 +1,11 @@
 
     /* general */
 
-::selection,
-::-moz-selection,
-::-webkit-selection {
+::selection {
     background: #3498db;
 }
 
-option::selection,
-option::-moz-selection,
-option::-webkit-selection {
+option::selection {
     background: transparent;
 }
 
@@ -33,7 +29,6 @@ a:ACTIVE {
 
 div.button {
     -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
     cursor: pointer;
     display: inline-block;
@@ -87,7 +82,6 @@ div.check-box {
     vertical-align: middle;
     cursor: pointer;
     -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
     margin: 2px;
     transition: all 0.2s ease;
@@ -193,7 +187,6 @@ input[readonly] {
     /* combo box */
 
 select.styled {
-    -webkit-appearance: none;
     appearance: none;
     width: 90%;
     border: 1px solid #317CAD;
@@ -213,18 +206,12 @@ select.styled {
 
 select.styled:FOCUS {
     background-color: #414141;
-    appearance: auto;
 }
 
 select.styled:HOVER,
 select.styled:FOCUS {
     border-color: #3498db;
     color: white;
-}
-
-.ff select.styled {
-    background-image: none;
-    padding-right: 1px;
 }
 
 
@@ -393,7 +380,6 @@ table.modal-buttons-container {
     text-align: center;
     table-layout: fixed;
     -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
 }
 
