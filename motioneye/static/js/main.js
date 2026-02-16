@@ -1726,13 +1726,13 @@ function updateConfigUI() {
 
     var weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     weekDays.forEach(function (weekDay) {
-        var check = $('#' + weekDay + 'EnabledSwitch');
-        var timeInputs = $('#' + weekDay + 'TimeInputs');
-        if (check.get(0).checked) {
-            timeInputs.css('display', '');
+        var check = document.getElementById(weekDay + 'EnabledSwitch');
+        var timeInputs = document.getElementById(weekDay + 'TimeInputs');
+        if (check.checked) {
+            timeInputs.style.removeProperty('display');
         }
         else {
-            timeInputs.css('display', 'none');
+            timeInputs.style.display = 'none';
         }
     });
 
