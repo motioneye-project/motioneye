@@ -339,56 +339,67 @@ function makeProgressBar($div) {
 
     /* validators */
 
-function makeRequiredValidator($input) {
+function applyValidator($input, isValidFn, msg) {
     $input.each(function () {
-        var $this = $(this);
+        var element = this;
 
         function isValid(strVal) {
-            if (!$this.is(':visible')) {
-                return true; /* an invisible element is considered always valid */
+            /* Check if element is visible - an invisible element is considered always valid */
+            /* An element is considered invisible if it or any parent has display:none or visibility:hidden */
+            if (element.offsetParent === null || 
+                window.getComputedStyle(element).display === 'none' || 
+                window.getComputedStyle(element).visibility === 'hidden') {
+                return true;
             }
 
-            if (strVal.length === 0) {
-                return false;
-            }
-
-            return true;
+            return isValidFn(strVal);
         }
-
-        var msg = i18n.gettext("Ĉi tiu kampo estas deviga");
 
         function validate() {
-            var strVal = $this.val() || '';
-            if (isValid(strVal)) {
-                $this.attr('title', '');
-                $this.removeClass('error');
-                $this[0].invalid = false;
+            var strVal = element.value || '';
+            var valid = isValid(strVal);
+            
+            /* Handle custom validators that return error messages */
+            var isValidResult = (valid === true);
+            var errorMsg = isValidResult ? '' : (typeof valid === 'string' ? valid : msg);
+            
+            if (isValidResult) {
+                element.title = '';
+                element.classList.remove('error');
+                element.invalid = false;
             }
             else {
-                $this.attr('title', msg);
-                $this.addClass('error');
-                $this[0].invalid = true;
+                element.title = errorMsg;
+                element.classList.add('error');
+                element.invalid = true;
             }
         }
 
-        $this.addClass('validator');
-        $this.each(function () {
-            var oldValidate = this.validate;
-            this.validate = function () {
-                if (oldValidate) {
-                    if (!oldValidate.call(this)) {
-                        return;
-                    }
+        element.classList.add('validator');
+        
+        var oldValidate = element.validate;
+        element.validate = function () {
+            if (oldValidate) {
+                if (!oldValidate.call(element)) {
+                    return;
                 }
-                validate();
-                return !this.invalid;
             }
-        });
+            validate();
+            return !element.invalid;
+        };
 
-        $this.on('keyup', function () {this.validate();});
-        $this.on('blur', function () {this.validate();});
-        $this.on('change', function () {this.validate();}).trigger('change');
+        $(element).on('keyup', function () {this.validate();});
+        $(element).on('blur', function () {this.validate();});
+        $(element).on('change', function () {this.validate();}).trigger('change');
     });
+}
+
+function makeRequiredValidator($input) {
+    var msg = i18n.gettext("Ĉi tiu kampo estas deviga");
+    
+    applyValidator($input, function (strVal) {
+        return strVal.length !== 0;
+    }, msg);
 }
 
 function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
@@ -408,237 +419,73 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
         required = true;
     }
 
-    $input.each(function () {
-        var $this = $(this);
+    var msg = '';
+    if (!sign && floating)
+        msg = i18n.gettext("enigu pozitivan nombron");
+    else if (!sign && !floating)
+        msg = i18n.gettext("enigu pozitivan entjeran nombron");
+    else if (sign && floating)
+        msg = i18n.gettext("enigu nombron");
+    else
+        msg = i18n.gettext("enigu entjeran nombron");
+    if (isFinite(minVal)) {
+        if (isFinite(maxVal)) {
+            msg += i18n.gettext(" inter ") + minVal + i18n.gettext(" kaj ") + maxVal;
+        }
+        else {
+            msg += i18n.gettext(" pli ol ") + minVal;
+        }
+    }
+    else {
+        if (isFinite(maxVal)) {
+            msg += i18n.gettext(" malpli ol ") + maxVal;
+        }
+    }
 
-        function isValid(strVal) {
-            if (!$this.is(':visible')) {
-                return true; /* an invisible element is considered always valid */
-            }
-
-            if (strVal.length === 0 && !required) {
-                return true;
-            }
-
-            var numVal = parseInt(strVal);
-            if ('' + numVal != strVal) {
-                return false;
-            }
-
-            if (numVal < minVal || numVal > maxVal) {
-                return false;
-            }
-
-            if (!sign && numVal < 0) {
-                return false;
-            }
-
+    applyValidator($input, function (strVal) {
+        if (strVal.length === 0 && !required) {
             return true;
         }
 
-        var msg = '';
-	if (!sign && floating)
-            msg = i18n.gettext("enigu pozitivan nombron");
-	else if (!sign && !floating)
-            msg = i18n.gettext("enigu pozitivan entjeran nombron");
-	else if (sign && floating)
-            msg = i18n.gettext("enigu nombron");
-	else
-            msg = i18n.gettext("enigu entjeran nombron");
-        if (isFinite(minVal)) {
-            if (isFinite(maxVal)) {
-                msg += i18n.gettext(" inter ") + minVal + i18n.gettext(" kaj ") + maxVal;
-            }
-            else {
-                msg += i18n.gettext(" pli ol ") + minVal;
-            }
-        }
-        else {
-            if (isFinite(maxVal)) {
-                msg += i18n.gettext(" malpli ol ") + maxVal;
-            }
+        var numVal = parseInt(strVal);
+        if ('' + numVal != strVal) {
+            return false;
         }
 
-        function validate() {
-            var strVal = $this.val();
-            if (isValid(strVal)) {
-                $this.attr('title', '');
-                $this.removeClass('error');
-                $this[0].invalid = false;
-            }
-            else {
-                $this.attr('title', msg);
-                $this.addClass('error');
-                $this[0].invalid = true;
-            }
+        if (numVal < minVal || numVal > maxVal) {
+            return false;
         }
 
-        $this.addClass('validator');
-        $this.each(function () {
-            var oldValidate = this.validate;
-            this.validate = function () {
-                if (oldValidate) {
-                    if (!oldValidate.call(this)) {
-                        return;
-                    }
-                }
-                validate();
-                return !this.invalid;
-            }
-        });
+        if (!sign && numVal < 0) {
+            return false;
+        }
 
-        $this.on('keyup', function () {this.validate();});
-        $this.on('blur', function () {this.validate();});
-        $this.on('change', function () {this.validate();}).trigger('change');
-    });
+        return true;
+    }, msg);
 
     makeStrippedInput($input);
 }
 
 function makeTimeValidator($input) {
-    $input.each(function () {
-        var $this = $(this);
-
-        function isValid(strVal) {
-            if (!$this.is(':visible')) {
-                return true; /* an invisible element is considered always valid */
-            }
-
-            return strVal.match(new RegExp('^[0-2][0-9]:[0-5][0-9]$')) != null;
-        }
-
-        var msg = i18n.gettext("enigu validan tempon en la sekva formato: HH:MM");
-
-        function validate() {
-            var strVal = $this.val();
-            if (isValid(strVal)) {
-                $this.attr('title', '');
-                $this.removeClass('error');
-                $this[0].invalid = false;
-            }
-            else {
-                $this.attr('title', msg);
-                $this.addClass('error');
-                $this[0].invalid = true;
-            }
-        }
-
-        $this.addClass('validator');
-        $this.each(function () {
-            var oldValidate = this.validate;
-            this.validate = function () {
-                if (oldValidate) {
-                    if (!oldValidate.call(this)) {
-                        return;
-                    }
-                }
-                validate();
-                return !this.invalid;
-            }
-        });
-
-        $this.on('keyup', function () {this.validate();});
-        $this.on('blur', function () {this.validate();});
-        $this.on('change', function () {this.validate();}).trigger('change');
-    });
+    var msg = i18n.gettext("enigu validan tempon en la sekva formato: HH:MM");
+    
+    applyValidator($input, function (strVal) {
+        return strVal.match(new RegExp('^[0-2][0-9]:[0-5][0-9]$')) != null;
+    }, msg);
 
     makeStrippedInput($input);
 }
 
 function makeUrlValidator($input) {
-    $input.each(function () {
-        var $this = $(this);
-
-        function isValid(strVal) {
-            if (!$this.is(':visible')) {
-                return true; /* an invisible element is considered always valid */
-            }
-
-            return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w\-.]+)(:\\d+)?(/.*)?$')) != null;
-        }
-
-        var msg = i18n.gettext("enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)");
-
-        function validate() {
-            var strVal = $this.val();
-            if (isValid(strVal)) {
-                $this.attr('title', '');
-                $this.removeClass('error');
-                $this[0].invalid = false;
-            }
-            else {
-                $this.attr('title', msg);
-                $this.addClass('error');
-                $this[0].invalid = true;
-            }
-        }
-
-        $this.addClass('validator');
-        $this.each(function () {
-            var oldValidate = this.validate;
-            this.validate = function () {
-                if (oldValidate) {
-                    if (!oldValidate.call(this)) {
-                        return;
-                    }
-                }
-                validate();
-                return !this.invalid;
-            }
-        });
-
-        $this.on('keyup', function () {this.validate();});
-        $this.on('blur', function () {this.validate();});
-        $this.on('change', function () {this.validate();}).trigger('change');
-    });
+    var msg = i18n.gettext("enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)");
+    
+    applyValidator($input, function (strVal) {
+        return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w\-.]+)(:\\d+)?(/.*)?$')) != null;
+    }, msg);
 }
 
 function makeCustomValidator($input, isValidFunc) {
-    $input.each(function () {
-        var $this = $(this);
-
-        function isValid(strVal) {
-            if (!$this.is(':visible')) {
-                return true; /* an invisible element is considered always valid */
-            }
-
-            return isValidFunc(strVal);
-        }
-
-        function validate() {
-            var strVal = $this.val();
-            var valid = isValid(strVal);
-            if (valid == true) {
-                $this.attr('title', '');
-                $this.removeClass('error');
-                $this[0].invalid = false;
-            }
-            else {
-                $this.attr('title', valid || 'enter a valid value');
-                $this.addClass('error');
-                $this[0].invalid = true;
-            }
-        }
-
-        $this.addClass('validator');
-        $this.each(function () {
-            var oldValidate = this.validate;
-            this.validate = function () {
-                if (oldValidate) {
-                    if (!oldValidate.call(this)) {
-                        return;
-                    }
-                }
-
-                validate();
-                return !this.invalid;
-            }
-        });
-
-        $this.on('keyup', function () {this.validate();});
-        $this.on('blur', function () {this.validate();});
-        $this.on('change', function () {this.validate();}).trigger('change');
-    });
+    applyValidator($input, isValidFunc, 'enter a valid value');
 }
 
 
@@ -647,12 +494,6 @@ function makeCustomValidator($input, isValidFunc) {
 function makeStrippedInput($input) {
     $input.on('change', function () {
         this.value = this.value.trim();
-    });
-}
-
-function makeCharReplacer($input, oldChars, newStr) {
-    $input.on('change', function () {
-        this.value = this.value.replace(new RegExp('[' + oldChars + ']', 'g'), newStr);
     });
 }
 
