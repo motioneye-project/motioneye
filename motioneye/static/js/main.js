@@ -4896,8 +4896,8 @@ function addCameraFrameUi(cameraConfig) {
 
     /* insert the new camera frame at the right position,
      * with respect to the camera id */
-    var cameraFrames = getPageContainer().find('div.camera-frame');
-    var cameraIds = cameraFrames.map(function () {return parseInt(this.id.substring(6));}).get();
+    var cameraFrames = getPageContainer()[0].querySelectorAll('div.camera-frame');
+    var cameraIds = Array.from(cameraFrames).map(function (frame) {return parseInt(frame.id.substring(6));});
     cameraIds.sort();
 
     var index = 0; /* find the first position that is greater than the current camera id */
