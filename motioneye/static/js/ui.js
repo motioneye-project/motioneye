@@ -339,7 +339,7 @@ function makeProgressBar($div) {
 
     /* validators */
 
-function applyValidator($input, isValidFn, msg) {
+function makeCustomValidator($input, isValidFunc) {
     $input.each(function () {
         var element = this;
 
@@ -350,22 +350,15 @@ function applyValidator($input, isValidFn, msg) {
                    window.getComputedStyle(el).visibility !== 'hidden';
         }
 
-        function isValid(strVal) {
-            /* An invisible element is considered always valid */
-            if (!isVisible(element)) {
-                return true;
-            }
-
-            return isValidFn(strVal);
-        }
-
         function validate() {
             var strVal = element.value || '';
-            var valid = isValid(strVal);
             
-            /* Handle custom validators that return error messages */
+            /* An invisible element is considered always valid */
+            var valid = !isVisible(element) || isValidFunc(strVal);
+            
+            /* Handle validators that return error messages or true */
             var isValidResult = (valid === true);
-            var errorMsg = isValidResult ? '' : (typeof valid === 'string' ? valid : msg);
+            var errorMsg = isValidResult ? '' : (typeof valid === 'string' ? valid : 'enter a valid value');
             
             if (isValidResult) {
                 element.title = '';
@@ -382,6 +375,9 @@ function applyValidator($input, isValidFn, msg) {
         element.classList.add('validator');
         
         var oldValidate = element.validate;
+        if (oldValidate) {
+            console.warn('Multiple validators applied to element:', element);
+        }
         element.validate = function () {
             if (oldValidate) {
                 if (!oldValidate.call(element)) {
@@ -399,11 +395,12 @@ function applyValidator($input, isValidFn, msg) {
 }
 
 function makeRequiredValidator($input) {
-    var msg = i18n.gettext("Ĉi tiu kampo estas deviga");
-    
-    applyValidator($input, function (strVal) {
-        return strVal.length !== 0;
-    }, msg);
+    makeCustomValidator($input, function (strVal) {
+        if (strVal.length !== 0) {
+            return true;
+        }
+        return i18n.gettext("Ĉi tiu kampo estas deviga");
+    });
 }
 
 function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
@@ -421,6 +418,10 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     }
     if (required == null) {
         required = true;
+    }
+
+    if (sign !== true && minVal < 0) {
+        minVal = 0;
     }
 
     var msg = '';
@@ -450,7 +451,7 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
         }
     }
 
-    applyValidator($input, function (strVal) {
+    makeCustomValidator($input, function (strVal) {
         if (strVal.length === 0 && !required) {
             return true;
         }
@@ -461,57 +462,50 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
             /* Note: trimming is necessary here because validation occurs before makeStrippedInput's change event */
             var trimmed = strVal.trim();
             if (trimmed === '' || isNaN(numVal) || !isFinite(numVal)) {
-                return false;
+                return msg;
             }
             /* Verify the string contains only valid numeric characters */
             /* Accepts: integers, decimals, exponential notation, with optional sign */
-            /* Note: sign validation happens separately at line 482 */
             if (!/^-?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$/.test(trimmed)) {
-                return false;
+                return msg;
             }
         }
         else {
             /* For integers, preserve original validation behavior */
             /* This rejects non-integer inputs like '5.7' since parseInt('5.7', 10) returns 5, and '5' !== '5.7' */
             if ('' + numVal !== strVal) {
-                return false;
+                return msg;
             }
         }
 
         if (numVal < minVal || numVal > maxVal) {
-            return false;
-        }
-
-        if (!sign && numVal < 0) {
-            return false;
+            return msg;
         }
 
         return true;
-    }, msg);
+    });
 
     makeStrippedInput($input);
 }
 
 function makeTimeValidator($input) {
-    var msg = i18n.gettext("enigu validan tempon en la sekva formato: HH:MM");
-    
-    applyValidator($input, function (strVal) {
-        return strVal.match(new RegExp('^([01][0-9]|2[0-3]):[0-5][0-9]$')) !== null;
-    }, msg);
+    makeCustomValidator($input, function (strVal) {
+        if (strVal.match(new RegExp('^([01][0-9]|2[0-3]):[0-5][0-9]$')) !== null) {
+            return true;
+        }
+        return i18n.gettext("enigu validan tempon en la sekva formato: HH:MM");
+    });
 
     makeStrippedInput($input);
 }
 
 function makeUrlValidator($input) {
-    var msg = i18n.gettext("enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)");
-    
-    applyValidator($input, function (strVal) {
-        return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w.-]+)(:\\d+)?(/.*)?$')) !== null;
-    }, msg);
-}
-
-function makeCustomValidator($input, isValidFunc) {
-    applyValidator($input, isValidFunc, 'enter a valid value');
+    makeCustomValidator($input, function (strVal) {
+        if (strVal.match(new RegExp('^([a-zA-Z]+)://([\\w.-]+)(:\\d+)?(/.*)?$')) !== null) {
+            return true;
+        }
+        return i18n.gettext("enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)");
+    });
 }
 
 
