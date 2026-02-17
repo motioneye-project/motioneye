@@ -358,7 +358,7 @@ function makeCustomValidator($input, isValidFunc) {
             
             /* Handle validators that return error messages or true */
             var isValidResult = (valid === true);
-            var errorMsg = isValidResult ? '' : (typeof valid === 'string' ? valid : 'enter a valid value');
+            var errorMsg = isValidResult ? '' : (typeof valid === 'string' ? valid : i18n.gettext('enter a valid value'));
             
             if (isValidResult) {
                 element.title = '';
@@ -420,8 +420,9 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
         required = true;
     }
 
-    if (sign !== true && minVal < 0) {
-        minVal = 0;
+    var effectiveMinVal = minVal;
+    if (sign !== true && effectiveMinVal < 0) {
+        effectiveMinVal = 0;
     }
 
     var msg = '';
@@ -437,12 +438,12 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     else {
         msg = i18n.gettext("enigu entjeran nombron");
     }
-    if (isFinite(minVal)) {
+    if (isFinite(effectiveMinVal)) {
         if (isFinite(maxVal)) {
-            msg += i18n.gettext(" inter ") + minVal + i18n.gettext(" kaj ") + maxVal;
+            msg += i18n.gettext(" inter ") + effectiveMinVal + i18n.gettext(" kaj ") + maxVal;
         }
         else {
-            msg += i18n.gettext(" pli ol ") + minVal;
+            msg += i18n.gettext(" pli ol ") + effectiveMinVal;
         }
     }
     else {
@@ -478,7 +479,7 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
             }
         }
 
-        if (numVal < minVal || numVal > maxVal) {
+        if (numVal < effectiveMinVal || numVal > maxVal) {
             return msg;
         }
 
