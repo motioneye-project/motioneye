@@ -396,10 +396,7 @@ function makeCustomValidator($input, isValidFunc) {
 
 function makeRequiredValidator($input) {
     makeCustomValidator($input, function (strVal) {
-        if (strVal.length !== 0) {
-            return true;
-        }
-        return i18n.gettext("Ĉi tiu kampo estas deviga");
+        return strVal.length !== 0 || i18n.gettext("Ĉi tiu kampo estas deviga");
     });
 }
 
@@ -420,30 +417,23 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
         required = true;
     }
 
-    var effectiveMinVal = minVal;
     if (sign !== true && minVal < 0) {
-        effectiveMinVal = 0;
+        minVal = 0;
     }
 
     var msg = '';
-    if (!sign && floating) {
-        msg = i18n.gettext("enigu pozitivan nombron");
-    }
-    else if (!sign && !floating) {
-        msg = i18n.gettext("enigu pozitivan entjeran nombron");
-    }
-    else if (sign && floating) {
+    if (floating) {
         msg = i18n.gettext("enigu nombron");
     }
     else {
         msg = i18n.gettext("enigu entjeran nombron");
     }
-    if (isFinite(effectiveMinVal)) {
+    if (isFinite(minVal)) {
         if (isFinite(maxVal)) {
-            msg += i18n.gettext(" inter ") + effectiveMinVal + i18n.gettext(" kaj ") + maxVal;
+            msg += i18n.gettext(" inter ") + minVal + i18n.gettext(" kaj ") + maxVal;
         }
         else {
-            msg += i18n.gettext(" pli ol ") + effectiveMinVal;
+            msg += i18n.gettext(" pli ol ") + minVal;
         }
     }
     else {
@@ -479,11 +469,7 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
             }
         }
 
-        if (numVal < effectiveMinVal || numVal > maxVal) {
-            return msg;
-        }
-
-        if (!sign && numVal < 0) {
+        if (numVal < minVal || numVal > maxVal) {
             return msg;
         }
 
@@ -495,10 +481,8 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
 
 function makeTimeValidator($input) {
     makeCustomValidator($input, function (strVal) {
-        if (strVal.match(new RegExp('^([01][0-9]|2[0-3]):[0-5][0-9]$')) !== null) {
-            return true;
-        }
-        return i18n.gettext("enigu validan tempon en la sekva formato: HH:MM");
+        return strVal.match(new RegExp('^([01][0-9]|2[0-3]):[0-5][0-9]$')) !== null || 
+               i18n.gettext("enigu validan tempon en la sekva formato: HH:MM");
     });
 
     makeStrippedInput($input);
@@ -506,10 +490,8 @@ function makeTimeValidator($input) {
 
 function makeUrlValidator($input) {
     makeCustomValidator($input, function (strVal) {
-        if (strVal.match(new RegExp('^([a-zA-Z]+)://([\\w.-]+)(:\\d+)?(/.*)?$')) !== null) {
-            return true;
-        }
-        return i18n.gettext("enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)");
+        return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w.-]+)(:\\d+)?(/.*)?$')) !== null || 
+               i18n.gettext("enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)");
     });
 }
 
