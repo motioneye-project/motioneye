@@ -421,7 +421,7 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     }
 
     var effectiveMinVal = minVal;
-    if (sign !== true && effectiveMinVal < 0) {
+    if (sign !== true && minVal < 0) {
         effectiveMinVal = 0;
     }
 
@@ -480,6 +480,10 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
         }
 
         if (numVal < effectiveMinVal || numVal > maxVal) {
+            return msg;
+        }
+
+        if (!sign && numVal < 0) {
             return msg;
         }
 
