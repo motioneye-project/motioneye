@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-16 21:08+0000\n"
+"POT-Creation-Date: 2026-02-17 01:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid "video streaming authentication mode must be Basic or Digest when admin-on
 msgstr ""
 
 #: motioneye/static/js/main.js:636 motioneye/static/js/main.js:647
-#: motioneye/static/js/main.js:706 motioneye/static/js/ui.js:358
+#: motioneye/static/js/main.js:706 motioneye/static/js/ui.js:399
 msgid "Ĉi tiu kampo estas deviga"
 msgstr ""
 
@@ -269,8 +269,8 @@ msgstr ""
 msgid "Ensaluti"
 msgstr ""
 
-#: motioneye/static/js/main.js:3659 motioneye/static/js/ui.js:894
-#: motioneye/static/js/ui.js:901
+#: motioneye/static/js/main.js:3659 motioneye/static/js/ui.js:738
+#: motioneye/static/js/ui.js:745
 msgid "Nuligi"
 msgstr ""
 
@@ -534,59 +534,55 @@ msgstr ""
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr ""
 
-#: motioneye/static/js/ui.js:441
-msgid "enigu pozitivan nombron"
+#: motioneye/static/js/ui.js:361
+msgid "enter a valid value"
 msgstr ""
 
-#: motioneye/static/js/ui.js:443
-msgid "enigu pozitivan entjeran nombron"
-msgstr ""
-
-#: motioneye/static/js/ui.js:445
+#: motioneye/static/js/ui.js:422
 msgid "enigu nombron"
 msgstr ""
 
-#: motioneye/static/js/ui.js:447
+#: motioneye/static/js/ui.js:425
 msgid "enigu entjeran nombron"
 msgstr ""
 
-#: motioneye/static/js/ui.js:450
+#: motioneye/static/js/ui.js:429
 msgid " inter "
 msgstr ""
 
-#: motioneye/static/js/ui.js:450
+#: motioneye/static/js/ui.js:429
 msgid " kaj "
 msgstr ""
 
-#: motioneye/static/js/ui.js:453
+#: motioneye/static/js/ui.js:432
 msgid " pli ol "
 msgstr ""
 
-#: motioneye/static/js/ui.js:458
+#: motioneye/static/js/ui.js:437
 msgid " malpli ol "
 msgstr ""
 
-#: motioneye/static/js/ui.js:510
+#: motioneye/static/js/ui.js:481
 msgid "enigu validan tempon en la sekva formato: HH:MM"
 msgstr ""
 
-#: motioneye/static/js/ui.js:560
+#: motioneye/static/js/ui.js:490
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
 msgstr ""
 
-#: motioneye/static/js/ui.js:842
+#: motioneye/static/js/ui.js:686
 msgid "fermi"
 msgstr ""
 
-#: motioneye/static/js/ui.js:888 motioneye/static/js/ui.js:895
+#: motioneye/static/js/ui.js:732 motioneye/static/js/ui.js:739
 msgid "Ne"
 msgstr ""
 
-#: motioneye/static/js/ui.js:889 motioneye/static/js/ui.js:896
+#: motioneye/static/js/ui.js:733 motioneye/static/js/ui.js:740
 msgid "Jes"
 msgstr ""
 
-#: motioneye/static/js/ui.js:902 motioneye/static/js/ui.js:907
+#: motioneye/static/js/ui.js:746 motioneye/static/js/ui.js:751
 msgid "Bone"
 msgstr ""
 
