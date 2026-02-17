@@ -590,10 +590,6 @@ function initUI() {
     /* progress bars */
     makeProgressBar($('div.progress-bar'));
 
-    /* required input validators */
-    makeRequiredValidator($('tr[required=true] input[type=text]'));
-    makeRequiredValidator($('tr[required=true] input[type=password]'));
-
     /* number validators */
     $('input[type=text].number').each(function () {
         var $this = $(this);
@@ -601,6 +597,10 @@ function initUI() {
         makeNumberValidator($this, Number($tr.attr('min')), Number($tr.attr('max')),
                 Boolean($tr.attr('floating')), Boolean($tr.attr('sign')), Boolean($tr.attr('required')));
     });
+
+    /* required input validators */
+    makeRequiredValidator($('tr[required=true] input[type=text]:not(.number)'));
+    makeRequiredValidator($('tr[required=true] input[type=password]'));
 
     /* time validators */
     makeTimeValidator($('input[type=time]'));
