@@ -374,10 +374,8 @@ function makeCustomValidator($input, isValidFunc) {
 
         element.classList.add('validator');
 
+        /* Return if a previously assigned validator failed already */
         var oldValidate = element.validate;
-        if (oldValidate) {
-            console.warn('Multiple validators applied to element:', element);
-        }
         element.validate = function () {
             if (oldValidate) {
                 if (!oldValidate.call(element)) {
