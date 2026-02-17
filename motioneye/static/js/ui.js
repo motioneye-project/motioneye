@@ -352,14 +352,14 @@ function makeCustomValidator($input, isValidFunc) {
 
         function validate() {
             var strVal = element.value || '';
-            
+
             /* An invisible element is considered always valid */
             var valid = !isVisible(element) || isValidFunc(strVal);
-            
+
             /* Handle validators that return error messages or true */
             var isValidResult = (valid === true);
             var errorMsg = isValidResult ? '' : (typeof valid === 'string' ? valid : i18n.gettext('enter a valid value'));
-            
+
             if (isValidResult) {
                 element.title = '';
                 element.classList.remove('error');
@@ -373,7 +373,7 @@ function makeCustomValidator($input, isValidFunc) {
         }
 
         element.classList.add('validator');
-        
+
         var oldValidate = element.validate;
         if (oldValidate) {
             console.warn('Multiple validators applied to element:', element);
@@ -477,7 +477,7 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
 
 function makeTimeValidator($input) {
     makeCustomValidator($input, function (strVal) {
-        return strVal.match(new RegExp('^([01][0-9]|2[0-3]):[0-5][0-9]$')) !== null || 
+        return strVal.match(new RegExp('^([01][0-9]|2[0-3]):[0-5][0-9]$')) !== null ||
                i18n.gettext("enigu validan tempon en la sekva formato: HH:MM");
     });
 
@@ -486,7 +486,7 @@ function makeTimeValidator($input) {
 
 function makeUrlValidator($input) {
     makeCustomValidator($input, function (strVal) {
-        return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w.-]+)(:\\d+)?(/.*)?$')) !== null || 
+        return strVal.match(new RegExp('^([a-zA-Z]+)://([\\w.-]+)(:\\d+)?(/.*)?$')) !== null ||
                i18n.gettext("enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)");
     });
 }
