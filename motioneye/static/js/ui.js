@@ -410,15 +410,11 @@ function makeNumberValidator($input, minVal, maxVal, floating, sign, required) {
     if (floating == null) {
         floating = false;
     }
-    if (sign == null) {
-        sign = false;
+    if (sign !== true && minVal < 0) {
+        minVal = 0;
     }
     if (required == null) {
         required = true;
-    }
-
-    if (sign !== true && minVal < 0) {
-        minVal = 0;
     }
 
     var msg = '';
