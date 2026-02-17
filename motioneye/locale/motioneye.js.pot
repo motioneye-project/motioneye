@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-02-17 01:00+0000\n"
+"POT-Creation-Date: 2026-02-17 02:12+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -31,7 +31,7 @@ msgid "video streaming authentication mode must be Basic or Digest when admin-on
 msgstr ""
 
 #: motioneye/static/js/main.js:636 motioneye/static/js/main.js:647
-#: motioneye/static/js/main.js:706 motioneye/static/js/ui.js:399
+#: motioneye/static/js/main.js:706 motioneye/static/js/ui.js:397
 msgid "Ĉi tiu kampo estas deviga"
 msgstr ""
 
@@ -269,8 +269,8 @@ msgstr ""
 msgid "Ensaluti"
 msgstr ""
 
-#: motioneye/static/js/main.js:3659 motioneye/static/js/ui.js:738
-#: motioneye/static/js/ui.js:745
+#: motioneye/static/js/main.js:3659 motioneye/static/js/ui.js:736
+#: motioneye/static/js/ui.js:743
 msgid "Nuligi"
 msgstr ""
 
@@ -538,51 +538,51 @@ msgstr ""
 msgid "enter a valid value"
 msgstr ""
 
-#: motioneye/static/js/ui.js:422
+#: motioneye/static/js/ui.js:420
 msgid "enigu nombron"
 msgstr ""
 
-#: motioneye/static/js/ui.js:425
+#: motioneye/static/js/ui.js:423
 msgid "enigu entjeran nombron"
 msgstr ""
 
-#: motioneye/static/js/ui.js:429
+#: motioneye/static/js/ui.js:427
 msgid " inter "
 msgstr ""
 
-#: motioneye/static/js/ui.js:429
+#: motioneye/static/js/ui.js:427
 msgid " kaj "
 msgstr ""
 
-#: motioneye/static/js/ui.js:432
+#: motioneye/static/js/ui.js:430
 msgid " pli ol "
 msgstr ""
 
-#: motioneye/static/js/ui.js:437
+#: motioneye/static/js/ui.js:435
 msgid " malpli ol "
 msgstr ""
 
-#: motioneye/static/js/ui.js:481
+#: motioneye/static/js/ui.js:479
 msgid "enigu validan tempon en la sekva formato: HH:MM"
 msgstr ""
 
-#: motioneye/static/js/ui.js:490
+#: motioneye/static/js/ui.js:488
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
 msgstr ""
 
-#: motioneye/static/js/ui.js:686
+#: motioneye/static/js/ui.js:684
 msgid "fermi"
 msgstr ""
 
-#: motioneye/static/js/ui.js:732 motioneye/static/js/ui.js:739
+#: motioneye/static/js/ui.js:730 motioneye/static/js/ui.js:737
 msgid "Ne"
 msgstr ""
 
-#: motioneye/static/js/ui.js:733 motioneye/static/js/ui.js:740
+#: motioneye/static/js/ui.js:731 motioneye/static/js/ui.js:738
 msgid "Jes"
 msgstr ""
 
-#: motioneye/static/js/ui.js:746 motioneye/static/js/ui.js:751
+#: motioneye/static/js/ui.js:744 motioneye/static/js/ui.js:749
 msgid "Bone"
 msgstr ""
 
