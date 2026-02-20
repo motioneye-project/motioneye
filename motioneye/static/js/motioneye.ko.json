@@ -1,5 +1,7 @@
 {"":{"language":"ko","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "암호에 특수문자는 사용할 수 없습니다"
+,"use of colon (:) is not allowed in video streaming username": "inch (:) 의 사용은 비디오 스트리밍 사용자에 있음"
+,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": "비디오 스트리밍 조화 모드가 활성화되면 Basic 또는 Digest가 있어야 합니다"
 ,"Ĉi tiu kampo estas deviga": "필수 항목입니다"
 ,"specialaj signoj ne rajtas en la nomo de kamerao": "카메라 이름에 특수문자는 사용할 수 없습니다"
 ,"valoro devas esti multoblo de 8": "값은 8의 배수여야 합니다"
@@ -125,8 +127,7 @@
 ,"agordi ĉi tiun kameraon": "이 카메라 설정"
 ,"preni instantaron": "스냅샷 촬영"
 ,"Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...": "설정된 카메라가 없습니다. 여기를 클릭해서 생성하세요."
-,"enigu pozitivan nombron": "0보다 큰 수 입력"
-,"enigu pozitivan entjeran nombron": "0보다 큰 정수 입력"
+,"enter a valid value": ""
 ,"enigu nombron": "수 입력"
 ,"enigu entjeran nombron": "정수 입력"
 ," inter ": " 사이 "

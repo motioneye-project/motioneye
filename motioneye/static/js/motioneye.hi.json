@@ -1,5 +1,7 @@
 {"":{"language":"hi","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "पासवर्ड में विशेष संकेत की अनुमति नहीं दी जा सकती है"
+,"use of colon (:) is not allowed in video streaming username": "इंच (:) का उपयोग एक नोट है जो वीडियो स्ट्रीमिंग यूजरनेम में है"
+,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": "जब एक व्यवस्थापक-केवल दृष्टिकोण सक्षम होता है तो वीडियो स्ट्रीमिंग हार्मोनिका मोड बेसिक या डिजेस्ट होना चाहिए"
 ,"Ĉi tiu kampo estas deviga": "यह क्षेत्र अनिवार्य है"
 ,"specialaj signoj ne rajtas en la nomo de kamerao": "एक कैमरा के नाम पर विशेष संकेत की अनुमति नहीं है"
 ,"valoro devas esti multoblo de 8": "मूल्य 8 के एकाधिक होना चाहिए"
@@ -125,8 +127,7 @@
 ,"agordi ĉi tiun kameraon": "इस कैमरे को सेट करें"
 ,"preni instantaron": "एक स्नैपशॉट ले लो"
 ,"Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...": "आपने अभी तक कोई कैमरा कॉन्फ़िगर नहीं किया है। एक जोड़ने के लिए यहां क्लिक करें ..."
-,"enigu pozitivan nombron": "एक सकारात्मक संख्या दर्ज करें"
-,"enigu pozitivan entjeran nombron": "एक सकारात्मक पूर्णांक दर्ज करें"
+,"enter a valid value": ""
 ,"enigu nombron": "एक नंबर दर्ज करें"
 ,"enigu entjeran nombron": "पूर्णांक दर्ज करें"
 ," inter ": " बीच में "

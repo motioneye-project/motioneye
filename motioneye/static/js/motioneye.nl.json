@@ -1,5 +1,7 @@
 {"":{"language":"nl","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "het wachtwoord mag geen speciale tekens bevatten"
+,"use of colon (:) is not allowed in video streaming username": "Gebruik van een dubbele punt (:) is niet toegestaan in de gebruikersnaam."
+,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": "De Authenticatie-methode voor videostreaming moet Basic of Digest zijn wanneer alleen-beheerderstoegang is ingeschakeld."
 ,"Ĉi tiu kampo estas deviga": "Dit veld is verplicht"
 ,"specialaj signoj ne rajtas en la nomo de kamerao": "de naam van de camera mag geen speciale tekens bevatten"
 ,"valoro devas esti multoblo de 8": "waarde moet een veelvoud zijn van 8"
@@ -125,8 +127,7 @@
 ,"agordi ĉi tiun kameraon": "deze camera configureren"
 ,"preni instantaron": "maak een momentopname"
 ,"Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...": "U heeft nog geen camera geconfigureerd. Klik hier om er een toe te voegen ..."
-,"enigu pozitivan nombron": "voer een positief getal in"
-,"enigu pozitivan entjeran nombron": "voer een positief geheel getal in"
+,"enter a valid value": ""
 ,"enigu nombron": "voer een nummer in"
 ,"enigu entjeran nombron": "voer een geheel getal in"
 ," inter ": " tussen "

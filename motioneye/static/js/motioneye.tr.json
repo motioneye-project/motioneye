@@ -1,5 +1,7 @@
 {"":{"language":"tr","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "parola özel karakterler içermemelidir"
+,"use of colon (:) is not allowed in video streaming username": "inç kullanımı (:) video akışı kullanıcı adı altında olan bir not"
+,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": "video akışı harmonica modu, bir admin-sadece yaklaşımı etkinleştirildiğinde Temel veya Digest olmalıdır"
 ,"Ĉi tiu kampo estas deviga": "Bu alan zorunludur"
 ,"specialaj signoj ne rajtas en la nomo de kamerao": "kamera isminde özel karakterlere izin verilmez"
 ,"valoro devas esti multoblo de 8": "değer 8'in katı olmalıdır"
@@ -125,8 +127,7 @@
 ,"agordi ĉi tiun kameraon": "bu kamerayı yapılandır"
 ,"preni instantaron": "örnek al"
 ,"Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...": "Henüz herhangi bir kamerayı yapılandırmadınız. Eklemek için buraya tıklayın..."
-,"enigu pozitivan nombron": "pozitif bir sayı girin"
-,"enigu pozitivan entjeran nombron": "pozitif bir tam sayı girin"
+,"enter a valid value": ""
 ,"enigu nombron": "bir sayı girin"
 ,"enigu entjeran nombron": "bir tam sayı girin"
 ," inter ": " arasında "

@@ -1,5 +1,7 @@
 {"":{"language":"da","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "Specialtegn er ikke tilladt i adgangskoden"
+,"use of colon (:) is not allowed in video streaming username": "brug af tomme (:) er en note, der er i video streaming brugernavn"
+,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": "videostreaming harmonika mode skal være Basic eller Digest, når en administrator-kun tilgang er aktiveret"
 ,"Ĉi tiu kampo estas deviga": "Dette felt er obligatorisk"
 ,"specialaj signoj ne rajtas en la nomo de kamerao": "Specieltegn er ikke tilladt i kamera navnet"
 ,"valoro devas esti multoblo de 8": "Værdien skal være et multiplum af 8"
@@ -125,8 +127,7 @@
 ,"agordi ĉi tiun kameraon": "sæt dette kamera"
 ,"preni instantaron": "tag et øjeblik"
 ,"Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...": "Du har ikke engang lavet et kamera endnu. Klik her for at tilføje en..."
-,"enigu pozitivan nombron": "deltag i et positivt tal"
-,"enigu pozitivan entjeran nombron": "deltag i et positivt talnummer"
+,"enter a valid value": ""
 ,"enigu nombron": "deltag i et nummer"
 ,"enigu entjeran nombron": "deltag i et heltalsnummer"
 ," inter ": " mellem "
