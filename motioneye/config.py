@@ -24,7 +24,7 @@ import subprocess
 from errno import EEXIST, ENOENT
 from re import match, sub
 from shlex import split
-from urllib.parse import urlunparse
+from urllib.parse import quote, urlunparse
 
 from tornado.ioloop import IOLoop
 
@@ -683,9 +683,25 @@ def add_camera(device_details):
         camera_config['netcam_url'] = device_details['url']
 
         if device_details['username']:
-            camera_config['netcam_userpass'] = (
-                device_details['username'] + ':' + device_details['password']
-            )
+            raw_username = str(device_details['username'])
+            raw_password = str(device_details['password'])
+
+            # Motion's mjpeg/mjpg/jpeg/ftp auth handling expects plain userpass here.
+            if match(r'^(mjpeg|mjpg|jpeg|ftp)://', camera_config['netcam_url'].lower()):
+                userpass = f"{raw_username}:{raw_password}"
+            else:
+                # For other protocols, credentials go to ffmpeg as URL userinfo,
+                # so reserved characters (e.g. "@", "#") must be percent-encoded.
+                username = quote(raw_username, safe='')
+                password = quote(raw_password, safe='')
+                userpass = f'{username}:{password}'
+
+                if username != raw_username or password != raw_password:
+                    logging.debug(
+                        f'credentials for camera {camera_id} have been percent-encoded'
+                    )
+
+            camera_config['netcam_userpass'] = userpass
 
         camera_config['netcam_keepalive'] = device_details.get('keep_alive', False)
         camera_config['netcam_tolerant_check'] = True
