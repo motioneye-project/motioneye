@@ -2298,10 +2298,10 @@ def _dict_to_conf(lines, data, list_names=None):
 def _set_default_motion(data):
     data.setdefault('@enabled', True)
 
-    data.setdefault('@admin_username', os.getenv('MOTIONEYE_ADMIN_USERNAME', 'admin'))
-    data.setdefault('@admin_password', os.getenv('MOTIONEYE_ADMIN_PASSWORD', ''))
-    data.setdefault('@normal_username', os.getenv('MOTIONEYE_NORMAL_USERNAME', 'user'))
-    data.setdefault('@normal_password', os.getenv('MOTIONEYE_NORMAL_PASSWORD', ''))
+    data.setdefault('@admin_username', 'admin')
+    data.setdefault('@admin_password', '')
+    data.setdefault('@normal_username', 'user')
+    data.setdefault('@normal_password', '')
     data.setdefault('@lang', 'en')
 
     data.setdefault('setup_mode', False)
