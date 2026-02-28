@@ -687,7 +687,7 @@ def add_camera(device_details):
             raw_password = str(device_details['password'])
 
             # Motion's mjpeg/mjpg/jpeg/ftp auth handling expects plain userpass here.
-            if match(r'^(mjpeg|mjpg|jpeg|ftp)://', camera_config['netcam_url'].lower()):
+            if camera_config['netcam_url'].startswith(('mjpeg', 'mjpg', 'jpeg', 'ftp')):
                 userpass = f"{raw_username}:{raw_password}"
             else:
                 # For other protocols, credentials go to ffmpeg as URL userinfo,
