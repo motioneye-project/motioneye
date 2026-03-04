@@ -1,20 +1,20 @@
-#: motioneye/config.py:861
+#: motioneye/config.py:877
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr ""
 
-#: motioneye/config.py:865
+#: motioneye/config.py:881
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
 msgstr ""
 
-#: motioneye/config.py:870
+#: motioneye/config.py:886
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr ""
 
-#: motioneye/config.py:875
+#: motioneye/config.py:891
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr ""
 
-#: motioneye/config.py:880
+#: motioneye/config.py:896
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr ""
 
