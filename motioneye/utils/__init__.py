@@ -298,7 +298,7 @@ def parse_basic_header(header):
     encoded = parts[1]
 
     try:
-        decoded = base64.b64decode(encoded).decode('utf-8')
+        decoded = base64.b64decode(encoded).decode()
 
     except:
         return None
