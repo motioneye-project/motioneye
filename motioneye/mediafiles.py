@@ -427,7 +427,7 @@ def get_movie_duration_seconds(path):
     cmd = ['ffprobe', '-v', 'error', '-show_entries', 'format=duration', '-of', 'default=noprint_wrappers=1:nokey=1', path]
     
     try:
-        result = utils.call_subprocess(cmd.split(), stderr=subprocess.STDOUT)
+        result = utils.call_subprocess(cmd, stderr=None)
         duration_seconds = int(float(result))
         return duration_seconds
     
