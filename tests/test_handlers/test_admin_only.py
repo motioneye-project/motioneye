@@ -3,7 +3,7 @@ from unittest.mock import patch
 
 import tornado.testing
 
-from motioneye import config, utils
+from motioneye import config, settings, utils
 from motioneye.handlers.picture import PictureHandler
 from tests.test_handlers import HandlerTestCase
 
@@ -74,6 +74,19 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
             PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current
         ):
             response = self.fetch(url)
+        self.assertEqual(200, response.code)
+        self.assertEqual({'ok': True}, loads(response.body))
+
+    def test_admin_allowed_when_admin_only_with_basic_auth(self):
+        self._set_admin_only(True)
+        auth_header = utils.build_basic_header(self.admin_user, self.admin_pass)
+        with patch.object(settings, 'HTTP_BASIC_AUTH', True):
+            with patch.object(
+                PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current
+            ):
+                response = self.fetch(
+                    '/picture/1/current', headers={'Authorization': auth_header}
+                )
         self.assertEqual(200, response.code)
         self.assertEqual({'ok': True}, loads(response.body))
 
