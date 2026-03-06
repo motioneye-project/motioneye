@@ -51,7 +51,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         with:
           file: ./docker/Dockerfile
           platforms: linux/amd64,linux/arm64/v8,linux/arm/v7,linux/riscv64
