@@ -364,7 +364,8 @@ def set_main(main_config):
     logging.debug(f'writing main config to {config_file_path}...')
 
     try:
-        f = open(config_file_path, 'w')
+        fd = os.open(config_file_path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+        f = os.fdopen(fd, 'w')
 
     except Exception as e:
         logging.error(
@@ -607,7 +608,8 @@ def set_camera(camera_id, camera_config):
     logging.debug(f'writing camera config to {camera_config_path}...')
 
     try:
-        f = open(camera_config_path, 'w')
+        fd = os.open(camera_config_path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+        f = os.fdopen(fd, 'w')
 
     except Exception as e:
         logging.error(
