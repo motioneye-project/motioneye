@@ -29,6 +29,8 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
+            type=match,pattern=v(\d+\.\d+\.\d+b\d+),group=1
+            type=raw,value=beta,enable=${{ github.ref_type == 'tag' && contains(github.ref_name, 'b') && !contains(github.ref_name, '-') }}
 
       - uses: docker/setup-qemu-action@v4
         with:
