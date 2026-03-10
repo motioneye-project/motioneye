@@ -30,9 +30,9 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
-            type=raw,value=latest,enable=${{ github.ref_type == 'tag' && contains(github.ref_name, '.') && !contains(github.ref_name, 'b') && !contains(github.ref_name, '-') }}
             type=match,pattern=\d+\.\d+\.\d+b\d+
-            type=raw,value=beta,enable=${{ github.ref_type == 'tag' && contains(github.ref_name, '.') && contains(github.ref_name, 'b') && !startsWith(github.ref_name, 'v') && !contains(github.ref_name, '-') }}
+            type=raw,value=beta,enable=${{ github.ref_type == 'tag' && contains(github.ref_name, 'b') && contains(github.ref_name, '.') && !startsWith(github.ref_name, 'v') && !contains(github.ref_name, '-') }}
+            type=raw,value=latest,enable=${{ github.ref_type == 'tag' && !contains(github.ref_name, 'b') && contains(github.ref_name, '.') && !startsWith(github.ref_name, 'v')  && !contains(github.ref_name, '-') }}
 
       - uses: docker/setup-qemu-action@v4
         with:
