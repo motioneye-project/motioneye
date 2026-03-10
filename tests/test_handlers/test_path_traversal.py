@@ -16,11 +16,23 @@
 
 """Tests verifying that path traversal elements in API endpoints return HTTP 403."""
 
+import json
+
 import tornado.testing
 
 from motioneye.handlers.movie import MovieHandler
 from motioneye.handlers.picture import PictureHandler
 from tests.test_handlers import HandlerTestCase
+
+
+def _assert_path_traversal_403(test_case, response):
+    """Assert the response is a 403 specifically caused by path traversal detection."""
+    test_case.assertEqual(403, response.code)
+    body = json.loads(response.body)
+    test_case.assertTrue(
+        body.get('error', '').startswith('Path traversal detected'),
+        f"Expected error starting with 'Path traversal detected', got: {body.get('error')!r}",
+    )
 
 
 class PictureHandlerPathTraversalTest(HandlerTestCase):
@@ -29,72 +41,74 @@ class PictureHandlerPathTraversalTest(HandlerTestCase):
     # --- GET: plain path traversal in filename ---
 
     def test_get_download_plain_traversal_filename(self):
-        response = self.fetch('/picture/1/download/../../etc/passwd')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(
+            self, self.fetch('/picture/1/download/../../etc/passwd')
+        )
 
     def test_get_preview_plain_traversal_filename(self):
-        response = self.fetch('/picture/1/preview/../secret.jpg')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(
+            self, self.fetch('/picture/1/preview/../secret.jpg')
+        )
 
     # --- GET: URL-encoded path traversal in filename ---
 
     def test_get_download_url_encoded_traversal_filename(self):
         # %2e%2e decodes to '..'
-        response = self.fetch('/picture/1/download/%2e%2e/etc/passwd')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(
+            self, self.fetch('/picture/1/download/%2e%2e/etc/passwd')
+        )
 
     def test_get_preview_url_encoded_traversal_filename_upper(self):
         # %2E%2E decodes to '..' (uppercase hex digits)
-        response = self.fetch('/picture/1/preview/%2E%2E/secret.jpg')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(
+            self, self.fetch('/picture/1/preview/%2E%2E/secret.jpg')
+        )
 
     # --- GET: plain path traversal in group ---
 
     def test_get_zipped_plain_traversal_group(self):
-        response = self.fetch('/picture/1/zipped/../')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(self, self.fetch('/picture/1/zipped/../'))
 
     def test_get_timelapse_plain_traversal_group(self):
-        response = self.fetch('/picture/1/timelapse/../')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(self, self.fetch('/picture/1/timelapse/../'))
 
     # --- GET: URL-encoded path traversal in group ---
 
     def test_get_zipped_url_encoded_traversal_group(self):
-        response = self.fetch('/picture/1/zipped/%2e%2e/')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(self, self.fetch('/picture/1/zipped/%2e%2e/'))
 
     def test_get_timelapse_url_encoded_traversal_group_upper(self):
-        response = self.fetch('/picture/1/timelapse/%2E%2E/')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(self, self.fetch('/picture/1/timelapse/%2E%2E/'))
 
     # --- POST: plain path traversal in filename ---
 
     def test_post_delete_plain_traversal_filename(self):
-        response = self.fetch(
-            '/picture/1/delete/../../etc/passwd', method='POST', body=''
+        _assert_path_traversal_403(
+            self,
+            self.fetch('/picture/1/delete/../../etc/passwd', method='POST', body=''),
         )
-        self.assertEqual(403, response.code)
 
     # --- POST: URL-encoded path traversal in filename ---
 
     def test_post_delete_url_encoded_traversal_filename(self):
-        response = self.fetch(
-            '/picture/1/delete/%2e%2e/etc/passwd', method='POST', body=''
+        _assert_path_traversal_403(
+            self,
+            self.fetch('/picture/1/delete/%2e%2e/etc/passwd', method='POST', body=''),
         )
-        self.assertEqual(403, response.code)
 
     # --- POST: plain path traversal in group ---
 
     def test_post_delete_all_plain_traversal_group(self):
-        response = self.fetch('/picture/1/delete_all/../', method='POST', body='')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(
+            self, self.fetch('/picture/1/delete_all/../', method='POST', body='')
+        )
 
     # --- POST: URL-encoded path traversal in group ---
 
     def test_post_delete_all_url_encoded_traversal_group(self):
-        response = self.fetch('/picture/1/delete_all/%2e%2e/', method='POST', body='')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(
+            self, self.fetch('/picture/1/delete_all/%2e%2e/', method='POST', body='')
+        )
 
 
 class MovieHandlerPathTraversalTest(HandlerTestCase):
@@ -103,46 +117,51 @@ class MovieHandlerPathTraversalTest(HandlerTestCase):
     # --- GET: plain path traversal in filename ---
 
     def test_get_preview_plain_traversal_filename(self):
-        response = self.fetch('/movie/1/preview/../../secret.mp4')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(
+            self, self.fetch('/movie/1/preview/../../secret.mp4')
+        )
 
     # --- GET: URL-encoded path traversal in filename ---
 
     def test_get_preview_url_encoded_traversal_filename(self):
-        response = self.fetch('/movie/1/preview/%2e%2e/secret.mp4')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(
+            self, self.fetch('/movie/1/preview/%2e%2e/secret.mp4')
+        )
 
     def test_get_preview_url_encoded_traversal_filename_upper(self):
-        response = self.fetch('/movie/1/preview/%2E%2E/secret.mp4')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(
+            self, self.fetch('/movie/1/preview/%2E%2E/secret.mp4')
+        )
 
     # --- POST: plain path traversal in filename ---
 
     def test_post_delete_plain_traversal_filename(self):
-        response = self.fetch(
-            '/movie/1/delete/../../secret.mp4', method='POST', body=''
+        _assert_path_traversal_403(
+            self,
+            self.fetch('/movie/1/delete/../../secret.mp4', method='POST', body=''),
         )
-        self.assertEqual(403, response.code)
 
     # --- POST: URL-encoded path traversal in filename ---
 
     def test_post_delete_url_encoded_traversal_filename(self):
-        response = self.fetch(
-            '/movie/1/delete/%2e%2e/secret.mp4', method='POST', body=''
+        _assert_path_traversal_403(
+            self,
+            self.fetch('/movie/1/delete/%2e%2e/secret.mp4', method='POST', body=''),
         )
-        self.assertEqual(403, response.code)
 
     # --- POST: plain path traversal in group ---
 
     def test_post_delete_all_plain_traversal_group(self):
-        response = self.fetch('/movie/1/delete_all/../', method='POST', body='')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(
+            self, self.fetch('/movie/1/delete_all/../', method='POST', body='')
+        )
 
     # --- POST: URL-encoded path traversal in group ---
 
     def test_post_delete_all_url_encoded_traversal_group(self):
-        response = self.fetch('/movie/1/delete_all/%2e%2e/', method='POST', body='')
-        self.assertEqual(403, response.code)
+        _assert_path_traversal_403(
+            self, self.fetch('/movie/1/delete_all/%2e%2e/', method='POST', body='')
+        )
 
 
 if __name__ == '__main__':
