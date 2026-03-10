@@ -36,6 +36,11 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
     @BaseHandler.auth()
     async def get(self, camera_id, filename=None, include_body=True):
+        if filename is not None and '..' in filename.split('/'):
+            raise HTTPError(
+                403, 'Path traversal detected', reason='Path traversal detected'
+            )
+
         logging.debug(
             'downloading movie {filename} of camera {id}'.format(
                 filename=filename, id=camera_id

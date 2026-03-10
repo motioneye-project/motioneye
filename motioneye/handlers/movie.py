@@ -28,6 +28,11 @@ __all__ = ('MovieHandler',)
 
 class MovieHandler(BaseHandler):
     async def get(self, camera_id, op, filename=None):
+        if filename is not None and '..' in filename.split('/'):
+            raise HTTPError(
+                403, 'Path traversal detected', reason='Path traversal detected'
+            )
+
         if camera_id is not None:
             camera_id = int(camera_id)
             if camera_id not in config.get_camera_ids():
@@ -56,6 +61,20 @@ class MovieHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     async def post(self, camera_id, op, filename=None, group=None):
+        if filename is not None and '..' in filename.split('/'):
+            raise HTTPError(
+                403,
+                f'Path traversal detected in filename "{filename}"',
+                reason='Path traversal detected',
+            )
+
+        if group is not None and '..' in group.split('/'):
+            raise HTTPError(
+                403,
+                f'Path traversal detected in group "{group}"',
+                reason='Path traversal detected',
+            )
+
         if group == '/':  # ungrouped
             group = ''
 

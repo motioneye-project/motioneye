@@ -425,6 +425,9 @@ def cleanup_media(media_type: str) -> None:
 
 
 def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str, None]:
+    if '..' in full_path.split('/'):
+        raise Exception(f'Path traversal detected in full_path "{full_path}"')
+
     framerate = camera_config['framerate']
     pre_capture = camera_config['pre_capture']
     offs = pre_capture / framerate
@@ -499,6 +502,9 @@ def list_media(
     prefix: str | None = None,
     with_stat: bool = True,
 ) -> typing.Awaitable:
+    if prefix is not None and '..' in prefix.split('/'):
+        raise Exception(f'Path traversal detected in prefix "{prefix}"')
+
     fut: Future = Future()
     target_dir = camera_config.get('target_dir')
 
@@ -557,17 +563,20 @@ def list_media(
     return fut
 
 
-def get_media_path(camera_config, path, media_type):
+def get_media_path(camera_config, path: str, media_type):
+    if '..' in path.split('/'):
+        raise Exception(f'Path traversal detected in path "{path}"')
+
     target_dir = camera_config.get('target_dir')
     full_path = os.path.join(target_dir, path)
     return full_path
 
 
-def get_media_content(camera_config, path, media_type):
-    target_dir = camera_config.get('target_dir')
+def get_media_content(camera_config, path: str, media_type):
+    if '..' in path.split('/'):
+        raise Exception(f'Path traversal detected in path "{path}"')
 
-    if '..' in path:
-        raise Exception('invalid media path')
+    target_dir = camera_config.get('target_dir')
 
     full_path = os.path.join(target_dir, path)
 
@@ -584,6 +593,9 @@ def get_media_content(camera_config, path, media_type):
 def get_zipped_content(
     camera_config: dict, media_type: str, group: str
 ) -> typing.Awaitable:
+    if '..' in group.split('/'):
+        raise Exception(f'Path traversal detected in group "{group}"')
+
     fut: Future = Future()
     target_dir = camera_config.get('target_dir')
 
@@ -640,7 +652,10 @@ def get_zipped_content(
     return fut
 
 
-def make_timelapse_movie(camera_config, framerate, interval, group):
+def make_timelapse_movie(camera_config, framerate, interval, group: str):
+    if '..' in group.split('/'):
+        raise Exception(f'Path traversal detected in group "{group}"')
+
     global _timelapse_process
     global _timelapse_data
 
@@ -658,7 +673,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     _timelapse_process = multiprocessing.Process(
         target=_do_list_pictures, args=(child_pipe, target_dir, group)
     )
-    _timelapse_process.progress = 0
+    setattr(_timelapse_process, 'progress', 0)
     _timelapse_process.start()
     _timelapse_data = None
 
@@ -866,7 +881,10 @@ def check_timelapse_movie():
         return {'progress': -1, 'data': _timelapse_data}
 
 
-def get_media_preview(camera_config, path, media_type, width, height):
+def get_media_preview(camera_config, path: str, media_type, width, height):
+    if '..' in path.split('/'):
+        raise Exception(f'Path traversal detected in path "{path}"')
+
     target_dir = camera_config.get('target_dir')
     full_path = os.path.join(target_dir, path)
 
@@ -903,7 +921,7 @@ def get_media_preview(camera_config, path, media_type, width, height):
     width = width and int(float(width)) or image.size[0]
     height = height and int(float(height)) or image.size[1]
 
-    image.thumbnail((width, height), Image.BILINEAR)
+    image.thumbnail((width, height))
 
     bio = BytesIO()
     image.save(bio, format='JPEG')
@@ -911,7 +929,10 @@ def get_media_preview(camera_config, path, media_type, width, height):
     return bio.getvalue()
 
 
-def del_media_content(camera_config, path, media_type):
+def del_media_content(camera_config, path: str, media_type):
+    if '..' in path.split('/'):
+        raise Exception(f'Path traversal detected in path "{path}"')
+
     target_dir = camera_config.get('target_dir')
 
     full_path = os.path.join(target_dir, path)
@@ -949,7 +970,10 @@ def del_media_content(camera_config, path, media_type):
         raise
 
 
-def del_media_group(camera_config, group, media_type):
+def del_media_group(camera_config, group: str, media_type):
+    if '..' in group.split('/'):
+        raise Exception(f'Path traversal detected in group "{group}"')
+
     if media_type == 'picture':
         exts = _PICTURE_EXTS
 
@@ -1021,7 +1045,7 @@ def get_current_picture(camera_config, width, height):
     if width >= image.size[0] and height >= image.size[1]:
         return jpg  # no enlarging of the picture on the server side
 
-    image.thumbnail((width, height), Image.BICUBIC)
+    image.thumbnail((width, height))
 
     bio = BytesIO()
     image.save(bio, format='JPEG')
