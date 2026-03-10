@@ -285,7 +285,7 @@ class TestMediaFiles(unittest.TestCase):
 class TestMediaFilesPathTraversal(unittest.TestCase):
     """Tests verifying that path traversal elements are rejected in mediafiles functions."""
 
-    _CAMERA_CONFIG = {'target_dir': '/tmp/cam', 'framerate': 2, 'pre_capture': 2}
+    _CAMERA_CONFIG = {'target_dir': '/run/cam', 'framerate': 2, 'pre_capture': 2}
 
     # Traversal inputs to test: each contains '..' as a path component.
     _FILENAME_TRAVERSALS = [
