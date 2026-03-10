@@ -100,9 +100,7 @@ class TestRemotePathTraversal(unittest.IsolatedAsyncioTestCase):
         for group in self._GROUP_TRAVERSALS:
             with self.subTest(group=group):
                 with self.assertRaises(Exception) as ctx:
-                    await remote.make_timelapse_movie(
-                        self._LOCAL_CONFIG, 2, 1, group
-                    )
+                    await remote.make_timelapse_movie(self._LOCAL_CONFIG, 2, 1, group)
                 self._assert_raises_path_traversal(ctx.exception)
 
     async def test_check_timelapse_movie_rejects_group_traversal(self):
@@ -143,9 +141,7 @@ class TestRemotePathTraversal(unittest.IsolatedAsyncioTestCase):
         for group in self._GROUP_TRAVERSALS:
             with self.subTest(group=group):
                 with self.assertRaises(Exception) as ctx:
-                    await remote.del_media_group(
-                        self._LOCAL_CONFIG, group, 'picture'
-                    )
+                    await remote.del_media_group(self._LOCAL_CONFIG, group, 'picture')
                 self._assert_raises_path_traversal(ctx.exception)
 
 
