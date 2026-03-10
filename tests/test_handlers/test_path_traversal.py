@@ -46,9 +46,7 @@ class PictureHandlerPathTraversalTest(HandlerTestCase):
         )
 
     def test_get_preview_plain_traversal_filename(self):
-        _assert_path_traversal_403(
-            self, self.fetch('/picture/1/preview/../secret.jpg')
-        )
+        _assert_path_traversal_403(self, self.fetch('/picture/1/preview/../secret.jpg'))
 
     # --- GET: URL-encoded path traversal in filename ---
 
