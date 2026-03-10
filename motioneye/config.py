@@ -302,11 +302,15 @@ def get_main(as_lines=False):
             raise
 
     if f and S_IMODE(stat(config_file_path).st_mode) != 0o600:
-        logging.warning(f'main config file {config_file_path} has insecure mode, applying 0600 ...')
+        logging.warning(
+            f'main config file {config_file_path} has insecure mode, applying 0600 ...'
+        )
         try:
             os.chmod(config_file_path, 0o600)
         except Exception as e:
-            logging.error(f'failed to chown 0600 main config file {config_file_path}: {e}')
+            logging.error(
+                f'failed to chown 0600 main config file {config_file_path}: {e}'
+            )
             raise
 
     if lines is None and f:
@@ -495,11 +499,15 @@ def get_camera(camera_id, as_lines=False):
         raise
 
     if S_IMODE(stat(camera_config_path).st_mode) != 0o600:
-        logging.warning(f'camera config file {camera_config_path} has insecure mode, applying 0600 ...')
+        logging.warning(
+            f'camera config file {camera_config_path} has insecure mode, applying 0600 ...'
+        )
         try:
             os.chmod(camera_config_path, 0o600)
         except Exception as e:
-            logging.error(f'failed to chown 0600 camera config file {camera_config_path}: {e}')
+            logging.error(
+                f'failed to chown 0600 camera config file {camera_config_path}: {e}'
+            )
             raise
 
     try:
