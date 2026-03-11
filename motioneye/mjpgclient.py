@@ -14,12 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
-import errno
 import logging
-import re
 import socket
-import time
+from datetime import timedelta
+from errno import ECONNREFUSED
+from re import findall, match
+from time import time
 from typing import Any, Tuple
 
 from tornado.concurrent import Future
@@ -32,7 +32,7 @@ from motioneye import config, motionctl, settings, utils
 class MjpgClient(IOStream):
     _FPS_LEN = 10
 
-    clients = {}  # dictionary of clients indexed by camera id
+    clients: dict = {}  # dictionary of clients indexed by camera id
     _last_erroneous_close_time = (
         0  # helps detecting erroneous connections and restart motion
     )
@@ -72,15 +72,15 @@ class MjpgClient(IOStream):
                 f'mjpg client for camera {self._camera_id} on port {self._port} removed'
             )
 
-        if getattr(self, 'error', None) and self.error.errno != errno.ECONNREFUSED:
-            now = time.time()
+        if getattr(self, 'error', None) and self.error.errno != ECONNREFUSED:
+            now = time()
             if (
                 now - MjpgClient._last_erroneous_close_time
                 < settings.MJPG_CLIENT_TIMEOUT
             ):
-                msg = f'connection problem detected for mjpg client for camera {self._camera_id} on port {self._port}'
-
-                logging.error(msg)
+                logging.error(
+                    f'connection problem detected for mjpg client for camera {self._camera_id} on port {self._port}'
+                )
 
                 if settings.MOTION_RESTART_ON_ERRORS:
                     motionctl.stop(
@@ -91,7 +91,7 @@ class MjpgClient(IOStream):
             MjpgClient._last_erroneous_close_time = now
 
     def get_last_jpg(self):
-        self._last_access = time.time()
+        self._last_access = time()
         return self._last_jpg
 
     def get_last_access(self):
@@ -99,7 +99,7 @@ class MjpgClient(IOStream):
 
     def get_last_jpg_time(self):
         if not self._last_jpg_times:
-            self._last_jpg_times.append(time.time())
+            self._last_jpg_times.append(time())
 
         return self._last_jpg_times[-1]
 
@@ -107,7 +107,7 @@ class MjpgClient(IOStream):
         if len(self._last_jpg_times) < self._FPS_LEN:
             return 0  # not enough "samples"
 
-        if time.time() - self._last_jpg_times[-1] > 1:
+        if time() - self._last_jpg_times[-1] > 1:
             return 0  # everything below 1 fps is considered 0
 
         return (len(self._last_jpg_times) - 1) / (
@@ -171,22 +171,22 @@ class MjpgClient(IOStream):
             logging.debug('mjpg client using basic authentication')
             auth_header = utils.build_basic_header(self._username, self._password)
             self.write(
-                f'GET / HTTP/1.0\r\nAuthorization: {auth_header}\r\nConnection: close\r\n\r\n'.encode()
+                f'GET / HTTP/1.0\r\nAuthorization: {auth_header}\r\n\r\n'.encode()
             )
 
         elif (
             self._auth_mode == 'digest'
         ):  # in digest auth mode, the header is built upon receiving 401
             logging.debug('digest authentication _on_connect')
-            self.write(b'GET / HTTP/1.0\r\n\r\n')
+            self.write(b'GET / HTTP/1.0\r\nConnection: keep-alive\r\n\r\n')
 
         else:  # no authentication
             logging.debug('no authentication _on_connect')
-            self.write(b'GET / HTTP/1.0\r\nConnection: close\r\n\r\n')
+            self.write(b'GET / HTTP/1.0\r\n\r\n')
 
         self._seek_http()
 
-    def _seek_http(self, future: Future = False) -> None:
+    def _seek_http(self, future: Future | None = None) -> None:
         result, _ = self._get_future_result(future) if future else (True, False)
 
         if not result or self._check_error():
@@ -225,12 +225,12 @@ class MjpgClient(IOStream):
 
         data = data.strip()
 
-        m = re.match(br'Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data)
+        m = match(br'Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data)
         if m:
             logging.debug('mjpg client using basic authentication')
 
             auth_header = utils.build_basic_header(self._username, self._password)
-            w_data = f'GET / HTTP/1.0\r\nAuthorization: {auth_header}\r\nConnection: close\r\n\r\n'.encode()
+            w_data = f'GET / HTTP/1.0\r\nAuthorization: {auth_header}\r\n\r\n'.encode()
             w_future = utils.cast_future(self.write(w_data))
             w_future.add_done_callback(self._seek_http)
 
@@ -240,7 +240,7 @@ class MjpgClient(IOStream):
         if data.startswith('Digest'):
             logging.debug('mjpg client using digest authentication')
 
-            parts = data[7:].split(',')
+            parts = [p.strip() for p in data[7:].split(',')]
             parts_dict = dict(p.split('=', 1) for p in parts)
             parts_dict = {p[0]: p[1].strip('"') for p in list(parts_dict.items())}
 
@@ -249,7 +249,7 @@ class MjpgClient(IOStream):
             auth_header = utils.build_digest_header(
                 'GET', '/', self._username, self._password, self._auth_digest_state
             )
-            w_data = f'GET / HTTP/1.0\r\nAuthorization: {auth_header}\r\nConnection: close\r\n\r\n'.encode()
+            w_data = f'GET / HTTP/1.0\r\nAuthorization: {auth_header}\r\n\r\n'.encode()
             w_future = utils.cast_future(self.write(w_data))
             w_future.add_done_callback(self._seek_http)
 
@@ -278,7 +278,7 @@ class MjpgClient(IOStream):
         if not result or self._check_error():
             return
 
-        matches = re.findall(rb'(\d+)', data)
+        matches = findall(rb'(\d+)', data)
         if not matches:
             self._error(f'could not find content length in mjpg header line "{data}"')
 
@@ -295,7 +295,7 @@ class MjpgClient(IOStream):
             return
 
         self._last_jpg = data
-        self._last_jpg_times.append(time.time())
+        self._last_jpg_times.append(time())
         while len(self._last_jpg_times) > self._FPS_LEN:
             self._last_jpg_times.pop(0)
 
@@ -306,7 +306,7 @@ def start():
     # schedule the garbage collector
     io_loop = IOLoop.current()
     io_loop.add_timeout(
-        datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector
+        timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector
     )
 
 
@@ -330,9 +330,9 @@ def get_jpg(camera_id):
         username, password = None, None
         auth_mode = None
         if camera_config.get('stream_auth_method') > 0:
-            username, password = camera_config.get('stream_authentication', ':').split(
-                ':'
-            )
+            parts = (camera_config.get('stream_authentication') or '').split(':', 1)
+            username = parts[0]
+            password = parts[1] if len(parts) > 1 else ''
             auth_mode = (
                 'digest' if camera_config.get('stream_auth_method') > 1 else 'basic'
             )
@@ -367,10 +367,10 @@ def close_all(invalidate=False):
 def _garbage_collector():
     io_loop = IOLoop.current()
     io_loop.add_timeout(
-        datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector
+        timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT), _garbage_collector
     )
 
-    now = time.time()
+    now = time()
     for camera_id, client in list(MjpgClient.clients.items()):
         logging.debug(f'_garbage_collector checking camera. id: {camera_id}')
         port = client.get_port()
@@ -398,17 +398,10 @@ def _garbage_collector():
             settings.MJPG_CLIENT_IDLE_TIMEOUT
             and delta > settings.MJPG_CLIENT_IDLE_TIMEOUT
         ):
-            msg = (
-                'mjpg client for camera %(camera_id)s on port %(port)s has been idle '
-                'for %(timeout)s seconds, removing it'
-                % {
-                    'camera_id': camera_id,
-                    'port': port,
-                    'timeout': settings.MJPG_CLIENT_IDLE_TIMEOUT,
-                }
+            logging.debug(
+                f'mjpg client for camera {camera_id} on port {port} has been idle'
+                f' for {settings.MJPG_CLIENT_IDLE_TIMEOUT} seconds, removing it'
             )
-
-            logging.debug(msg)
 
             client.close()
 

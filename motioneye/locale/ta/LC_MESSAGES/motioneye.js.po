@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-11 05:01+0000\n"
+"POT-Creation-Date: 2026-02-17 02:12+0000\n"
 "PO-Revision-Date: 2025-12-10 03:09+0000\n"
 "Last-Translator: MichaIng <micha@dietpi.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/ta/>\n"
@@ -18,569 +18,572 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 5.15-dev\n"
 
-#: motioneye/static/js/main.js:610
+#: motioneye/static/js/main.js:611
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "கடவுச்சொல்லில் சிறப்பு எழுத்துக்கள் அனுமதிக்கப்படவில்லை"
 
-#: motioneye/static/js/main.js:617 motioneye/static/js/main.js:628
-#: motioneye/static/js/main.js:687 motioneye/static/js/ui.js:362
-#: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
+#: motioneye/static/js/main.js:618
+msgid "use of colon (:) is not allowed in video streaming username"
+msgstr ""
+
+#: motioneye/static/js/main.js:629
+msgid "video streaming authentication mode must be Basic or Digest when admin-only access is enabled"
+msgstr ""
+
+#: motioneye/static/js/main.js:636 motioneye/static/js/main.js:647
+#: motioneye/static/js/main.js:706 motioneye/static/js/ui.js:397
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "இந்த புலம் கட்டாயமாகும்"
 
-#: motioneye/static/js/main.js:621
+#: motioneye/static/js/main.js:640
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
 msgstr "கேமராவின் பெயரில் சிறப்பு எழுத்துக்கள் அனுமதிக்கப்படவில்லை"
 
-#: motioneye/static/js/main.js:633
+#: motioneye/static/js/main.js:652
 msgid "valoro devas esti multoblo de 8"
 msgstr "மதிப்பு 8 இன் பெருக்கமாக இருக்க வேண்டும்"
 
-#: motioneye/static/js/main.js:640
+#: motioneye/static/js/main.js:659
 msgid "specialaj signoj ne rajtas en radika voja nomo"
 msgstr "ரூட் சாலை பெயரில் சிறப்பு எழுத்துக்கள் அனுமதிக்கப்படவில்லை"
 
-#: motioneye/static/js/main.js:643
+#: motioneye/static/js/main.js:662
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "உங்கள் கணினியின் மூலத்தில் கோப்புகளை நேரடியாக உருவாக்க முடியாது"
 
-#: motioneye/static/js/main.js:650
+#: motioneye/static/js/main.js:669
 msgid "enigu validan retpoŝtadreson"
 msgstr "சரியான மின்னஞ்சல் முகவரியை உள்ளிடவும்"
 
-#: motioneye/static/js/main.js:657
+#: motioneye/static/js/main.js:676
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "கோமா தனி செல்லுபடியாகும் மின்னஞ்சல் முகவரிகளின் பட்டியலை உள்ளிடவும்"
 
-#: motioneye/static/js/main.js:664
+#: motioneye/static/js/main.js:683
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "கோப்பு பெயரில் சிறப்பு எழுத்துக்கள் அனுமதிக்கப்படவில்லை"
 
-#: motioneye/static/js/main.js:691
+#: motioneye/static/js/main.js:710
 msgid "enigu validan valoron"
 msgstr "சரியான மதிப்பை உள்ளிடவும்"
 
-#: motioneye/static/js/main.js:845
+#: motioneye/static/js/main.js:872
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
 msgstr "இந்த மறுநிகழ்வு முகில் கோப்பகத்தில் இருக்கும் அனைத்து கோப்புகளையும் நீக்கும் \""
 
-#: motioneye/static/js/main.js:846
+#: motioneye/static/js/main.js:873
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
 msgstr "\", மோசன் பதிவேற்றியவை மட்டுமல்ல!"
 
-#: motioneye/static/js/main.js:927
+#: motioneye/static/js/main.js:954
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
 msgstr "இந்த மறுநிகழ்வு கோப்பகத்தில் உள்ள அனைத்து பழைய ஊடக கோப்புகளையும் நீக்கும் \""
 
-#: motioneye/static/js/main.js:928
+#: motioneye/static/js/main.js:955
 msgid "\", ne nur tiuj kreitaj de motionEye!"
 msgstr "\", மோசன் உருவாக்கியவை மட்டுமல்ல!"
 
-#: motioneye/static/js/main.js:994
+#: motioneye/static/js/main.js:1021
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
 msgstr "செல்லுபடியாகும் கேமரா படம் இல்லாமல் முகமூடியைத் திருத்த முடியவில்லை!"
 
-#: motioneye/static/js/main.js:2239
+#: motioneye/static/js/main.js:2275
 msgid "Propra"
 msgstr "சொந்தமானது"
 
-#: motioneye/static/js/main.js:2277
+#: motioneye/static/js/main.js:2313
 msgid "Propra dosierindiko"
 msgstr "சொந்த கோப்பு அறிகுறி"
 
-#: motioneye/static/js/main.js:2279
+#: motioneye/static/js/main.js:2315
 msgid "Retan kunlokon"
 msgstr "நிகழ்நிலை கோ -இடம்"
 
-#: motioneye/static/js/main.js:2639
+#: motioneye/static/js/main.js:2678
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
 msgstr "உங்கள் உலாவி இந்த அம்சத்தை செய்யாது!"
 
-#: motioneye/static/js/main.js:2655
+#: motioneye/static/js/main.js:2694
 msgid "Apliki"
 msgstr "விண்ணப்பிக்கவும்"
 
-#: motioneye/static/js/main.js:2682 motioneye/static/js/main.js:3043
-#: motioneye/static/js/main.js:3098 motioneye/static/js/main.js:3173
+#: motioneye/static/js/main.js:2721 motioneye/static/js/main.js:3083
+#: motioneye/static/js/main.js:3139 motioneye/static/js/main.js:3214
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
 msgstr "அனைத்து உள்ளமைவு விருப்பங்களும் செல்லுபடியாகும் என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்!"
 
-#: motioneye/static/js/main.js:2784
+#: motioneye/static/js/main.js:2824
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
 msgstr "இது கணினியை மீண்டும் தொடங்கும். தொடர?"
 
-#: motioneye/static/js/main.js:2794
+#: motioneye/static/js/main.js:2834
 msgid "Vere fermiti sistemon?"
 msgstr "உண்மையில் ஒரு அமைப்பை மூடியதா?"
 
-#: motioneye/static/js/main.js:2806
+#: motioneye/static/js/main.js:2846
 msgid "Malŝaltita"
 msgstr "அணைக்கப்பட்டது"
 
-#: motioneye/static/js/main.js:2821
+#: motioneye/static/js/main.js:2861
 msgid "Ĉu vere restartigi ?"
 msgstr "உண்மையில் மறுதொடக்கம் செய்யவா?"
 
-#: motioneye/static/js/main.js:2835
+#: motioneye/static/js/main.js:2875
 msgid "La sistemo rekomencis!"
 msgstr "கணினி மீண்டும் தொடங்கியது!"
 
-#: motioneye/static/js/main.js:2855 motioneye/static/js/main.js:2888
-#: motioneye/static/js/main.js:3871
+#: motioneye/static/js/main.js:2895 motioneye/static/js/main.js:2928
+#: motioneye/static/js/main.js:3904
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
 msgstr "மாற்றியமைக்கப்பட்ட அமைப்புகளை முதலில் பயன்படுத்துங்கள்!"
 
-#: motioneye/static/js/main.js:2860
+#: motioneye/static/js/main.js:2900
 msgid "Neniu fotilo por forigi!"
 msgstr "அகற்ற கேமரா இல்லை!"
 
-#: motioneye/static/js/main.js:2866
+#: motioneye/static/js/main.js:2906
 msgid "Ĉu forigi kameraon "
 msgstr "கேமராவை அகற்ற வேண்டுமா "
 
-#: motioneye/static/js/main.js:2894
+#: motioneye/static/js/main.js:2934
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
 msgstr "மோசன் புதுப்பிக்கப்பட்டுள்ளது (தற்போதைய பதிப்பு: "
 
-#: motioneye/static/js/main.js:2897
+#: motioneye/static/js/main.js:2937
 msgid "Nova versio havebla: "
 msgstr "புதிய பதிப்பு கிடைக்கிறது: "
 
-#: motioneye/static/js/main.js:2897
+#: motioneye/static/js/main.js:2937
 msgid ". Ĝisdatigi?"
 msgstr ". புதுப்பிப்பு?"
 
-#: motioneye/static/js/main.js:2905
+#: motioneye/static/js/main.js:2945
 msgid "motionEye estis sukcese ĝisdatigita!"
 msgstr "மோசன் ஐ வெற்றிகரமாக புதுப்பிக்கப்பட்டுள்ளது!"
 
-#: motioneye/static/js/main.js:2915
+#: motioneye/static/js/main.js:2955
 msgid "Ĝisdatigo malsukcesis!"
 msgstr "புதுப்பிப்பு தோல்வியடைந்தது!"
 
-#: motioneye/static/js/main.js:2926
+#: motioneye/static/js/main.js:2966
 msgid "La ĝisdatiga procezo malsukcesis!"
 msgstr "புதுப்பிப்பு செயல்முறை தோல்வியடைந்தது!"
 
-#: motioneye/static/js/main.js:2945
+#: motioneye/static/js/main.js:2985
 msgid "Rezerva dosiero"
 msgstr "காப்புப்பிரதி கோப்பு"
 
-#: motioneye/static/js/main.js:2947
+#: motioneye/static/js/main.js:2987
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
 msgstr "நீங்கள் முன்பு பதிவிறக்கிய காப்பு கோப்பு."
 
-#: motioneye/static/js/main.js:2976
+#: motioneye/static/js/main.js:3016
 msgid "Restaŭrigi Agordon"
 msgstr "உள்ளமைவை மீட்டெடுக்கவும்"
 
-#: motioneye/static/js/main.js:2988
+#: motioneye/static/js/main.js:3028
 msgid "Restaŭriganta agordon ..."
 msgstr "அமைப்பை மீட்டமை ..."
 
-#: motioneye/static/js/main.js:2995
+#: motioneye/static/js/main.js:3035
 msgid "La agordo restaŭrigis!"
 msgstr "உள்ளமைவு மீட்டமைக்கப்பட்டுள்ளது!"
 
-#: motioneye/static/js/main.js:3005 motioneye/static/js/main.js:3024
+#: motioneye/static/js/main.js:3045 motioneye/static/js/main.js:3064
 msgid "Malsukcesis restaŭri la agordon!"
 msgstr "உள்ளமைவை மீட்டெடுப்பதில் தோல்வி!"
 
-#: motioneye/static/js/main.js:3079
+#: motioneye/static/js/main.js:3120
 msgid "Aliri la alŝutan servon malsukcesis: "
 msgstr "பதிவேற்ற சேவையை அணுக தோல்வியுற்றது: "
 
-#: motioneye/static/js/main.js:3082
+#: motioneye/static/js/main.js:3123
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "அணுகல் பதிவேற்ற பணி வெற்றிகரமாக உள்ளது!"
 
-#: motioneye/static/js/main.js:3119
+#: motioneye/static/js/main.js:3160
 msgid "Sciiga retpoŝto fiaskis:"
 msgstr "அறிவிப்பு மின்னஞ்சல் தோல்வியடைந்தது:"
 
-#: motioneye/static/js/main.js:3122
+#: motioneye/static/js/main.js:3163
 #, fuzzy
 msgid "Notification email succeeded!"
 msgstr "அறிவிப்பு மின்னஞ்சல் வெற்றிகரமாக அனுப்பப்பட்டது!"
 
-#: motioneye/static/js/main.js:3138
+#: motioneye/static/js/main.js:3179
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
 msgstr "அனைத்து உள்ளமைவு விருப்பங்களும் செல்லுபடியாகும் என்பதை உறுதிப்படுத்திக் கொள்ளுங்கள்!"
 
-#: motioneye/static/js/main.js:3154
+#: motioneye/static/js/main.js:3195
 msgid "Sciiga Telegramo fiaskis:"
 msgstr "செய்தி தந்தி தோல்வியுற்றது:"
 
-#: motioneye/static/js/main.js:3157
+#: motioneye/static/js/main.js:3198
 msgid "Sciiga Telegramo sukcesis!"
 msgstr "செய்தி தந்தி வெற்றிகரமாக உள்ளது!"
 
-#: motioneye/static/js/main.js:3193
+#: motioneye/static/js/main.js:3234
 msgid "Aliro al retdividado fiaskis: "
 msgstr "வலை பிரிவுக்கான அணுகல் தோல்வியடைந்துள்ளது: "
 
-#: motioneye/static/js/main.js:3196
+#: motioneye/static/js/main.js:3237
 msgid "Aliro al retdividado sukcesis!"
 msgstr "வலை பிரிவுக்கான அணுகல் வெற்றிகரமாக உள்ளது!"
 
-#: motioneye/static/js/main.js:3220
+#: motioneye/static/js/main.js:3261
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
 msgstr "உண்மையில் இந்த கோப்பை நீக்கவா?"
 
-#: motioneye/static/js/main.js:3244
+#: motioneye/static/js/main.js:3285
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
 msgstr "எல்லா படங்களையும் \"%(group)s\" இலிருந்து நீக்கவா?"
 
-#: motioneye/static/js/main.js:3247
+#: motioneye/static/js/main.js:3288
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
 msgstr "எல்லா திரைப்படங்களையும் \"%(group)s\" இலிருந்து நீக்கவா?"
 
-#: motioneye/static/js/main.js:3252
+#: motioneye/static/js/main.js:3293
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
 msgstr "தொகுக்கப்படாத அனைத்து படங்களையும் நீக்கவா?"
 
-#: motioneye/static/js/main.js:3255
+#: motioneye/static/js/main.js:3296
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
 msgstr "குழுவில் இல்லாத அனைத்து திரைப்படங்களையும் உண்மையில் அகற்றவா?"
 
-#: motioneye/static/js/main.js:3369
+#: motioneye/static/js/main.js:3402
 msgid "aldonadi kameraon..."
 msgstr "ஒரு கேமரா சேர்க்கவும் ..."
 
-#: motioneye/static/js/main.js:3594 motioneye/static/js/main.js:3893
+#: motioneye/static/js/main.js:3627 motioneye/static/js/main.js:3926
 msgid "Uzantnomo"
 msgstr "பயனர்பெயர்"
 
-#: motioneye/static/js/main.js:3599 motioneye/static/js/main.js:3898
+#: motioneye/static/js/main.js:3632 motioneye/static/js/main.js:3931
 msgid "Pasvorto"
 msgstr "கடவுச்சொல்"
 
-#: motioneye/static/js/main.js:3605
+#: motioneye/static/js/main.js:3638
 msgid "Memoru min"
 msgstr "என்னை நினைவில் கொள்ளுங்கள்"
 
-#: motioneye/static/js/main.js:3623 motioneye/static/js/main.js:3629
+#: motioneye/static/js/main.js:3656 motioneye/static/js/main.js:3662
 msgid "Ensaluti"
 msgstr "உள்நுழைக"
 
-#: motioneye/static/js/main.js:3626 motioneye/static/js/ui.js:1023
-#: motioneye/static/js/ui.js:1030
+#: motioneye/static/js/main.js:3659 motioneye/static/js/ui.js:736
+#: motioneye/static/js/ui.js:743
 msgid "Nuligi"
 msgstr "ரத்துசெய்"
 
-#: motioneye/static/js/main.js:3668
+#: motioneye/static/js/main.js:3701
 msgid "Vi abortis la filmeton."
 msgstr "நீங்கள் வீடியோவை நிறுத்திவிட்டீர்கள்."
 
-#: motioneye/static/js/main.js:3671
+#: motioneye/static/js/main.js:3704
 msgid "Reto eraro okazis."
 msgstr "பிணைய பிழை ஏற்பட்டது."
 
-#: motioneye/static/js/main.js:3674
+#: motioneye/static/js/main.js:3707
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
 msgstr "டிகோடிங் பிழை அல்லது முற்போக்கான செயல்பாடு."
 
-#: motioneye/static/js/main.js:3677
+#: motioneye/static/js/main.js:3710
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
 msgstr "வடிவமைப்பு ஆதரிக்கப்படவில்லை அல்லது கிடைக்கவில்லை/விளையாடுவதற்கு பொருத்தமற்றது."
 
-#: motioneye/static/js/main.js:3680
+#: motioneye/static/js/main.js:3713
 msgid "Nekonata eraro okazis."
 msgstr "அறியப்படாத பிழை ஏற்பட்டது."
 
-#: motioneye/static/js/main.js:3683
+#: motioneye/static/js/main.js:3716
 msgid "Eraro : "
 msgstr "பிழை: "
 
-#: motioneye/static/js/main.js:3688
+#: motioneye/static/js/main.js:3721
 msgid "antaŭa bildo"
 msgstr "முந்தைய படம்"
 
-#: motioneye/static/js/main.js:3693
+#: motioneye/static/js/main.js:3726
 msgid "ludi"
 msgstr "விளையாட"
 
-#: motioneye/static/js/main.js:3696
+#: motioneye/static/js/main.js:3729
 msgid "ludi * 5 kaj enĉenigi"
 msgstr "* 5 விளையாடவும் உள்ளே செல்லவும்"
 
-#: motioneye/static/js/main.js:3701
+#: motioneye/static/js/main.js:3734
 msgid "sekva bildo"
 msgstr "அடுத்த படம்"
 
-#: motioneye/static/js/main.js:3824
+#: motioneye/static/js/main.js:3857
 msgid "Fermi"
 msgstr "ஃபெர்மி"
 
-#: motioneye/static/js/main.js:3825 motioneye/static/js/main.js:4386
+#: motioneye/static/js/main.js:3858 motioneye/static/js/main.js:4417
 msgid "Elŝuti"
 msgstr "பதிவிறக்குங்கள்"
 
-#: motioneye/static/js/main.js:3833 motioneye/static/js/main.js:4389
+#: motioneye/static/js/main.js:3866 motioneye/static/js/main.js:4420
 msgid "Forigi"
 msgstr "அகற்ற"
 
-#: motioneye/static/js/main.js:3877
+#: motioneye/static/js/main.js:3910
 msgid "Kamerao tipo"
 msgstr "கேமரா வகை"
 
-#: motioneye/static/js/main.js:3879
+#: motioneye/static/js/main.js:3912
 msgid "Loka V4L2-kamerao"
 msgstr "உள்ளக வி 4 எல் 2 கேமரா"
 
-#: motioneye/static/js/main.js:3880
+#: motioneye/static/js/main.js:3913
 msgid "Loka MMAL-kamerao"
 msgstr "Mmal-camer அல்ல"
 
-#: motioneye/static/js/main.js:3881
+#: motioneye/static/js/main.js:3914
 msgid "Reta kamerao"
 msgstr "நிகழ்நிலை கேமரா"
 
-#: motioneye/static/js/main.js:3882
+#: motioneye/static/js/main.js:3915
 msgid "Fora motionEye kamerao"
 msgstr "ஃபோரா மோசன் ஐ கேமரா"
 
-#: motioneye/static/js/main.js:3883
+#: motioneye/static/js/main.js:3916
 msgid "Simpla MJPEG-kamerao"
 msgstr "எளிய"
 
-#: motioneye/static/js/main.js:3885
+#: motioneye/static/js/main.js:3918
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "நீங்கள் சேர்க்க விரும்பும் கேமரா வகை"
 
-#: motioneye/static/js/main.js:3888
+#: motioneye/static/js/main.js:3921
 msgid "URL"
 msgstr "முகவரி"
 
-#: motioneye/static/js/main.js:3889
+#: motioneye/static/js/main.js:3922
 msgid "http://ekzemplo.com:8765/cams/..."
 msgstr "http://ekzemplo.com:8765/cams/..."
 
-#: motioneye/static/js/main.js:3890
+#: motioneye/static/js/main.js:3923
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
 msgstr "கேமரா முகவரி (எ.கா. http://ekzemplo.com:8080/cam/)"
 
-#: motioneye/static/js/main.js:3894
+#: motioneye/static/js/main.js:3927
 msgid "uzantnomo..."
 msgstr "பயனர்பெயர் ..."
 
-#: motioneye/static/js/main.js:3895
+#: motioneye/static/js/main.js:3928
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
 msgstr "தேவைப்பட்டால் (எ.கா. நிர்வாகி) முகவரி க்கான பயனர்பெயர்"
 
-#: motioneye/static/js/main.js:3899
+#: motioneye/static/js/main.js:3932
 msgid "pasvorto..."
 msgstr "கடவுச்சொல் ..."
 
-#: motioneye/static/js/main.js:3900
+#: motioneye/static/js/main.js:3933
 msgid "la pasvorto por la URL, se bezonata"
 msgstr "தேவைப்பட்டால், முகவரி க்கான கடவுச்சொல்"
 
-#: motioneye/static/js/main.js:3903
+#: motioneye/static/js/main.js:3936
 msgid "Kamerao"
 msgstr "கேமரா"
 
-#: motioneye/static/js/main.js:3905
+#: motioneye/static/js/main.js:3938
 msgid "la kameraon, kiun vi volas aldoni"
 msgstr "நீங்கள் சேர்க்க விரும்பும் கேமரா"
 
-#: motioneye/static/js/main.js:3941
+#: motioneye/static/js/main.js:3972
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr "ஃபோரா மோசன் ஐ கேமரா மற்றொரு மோசன்இஇ சேவையகத்தின் பின்னால் நிறுவப்பட்ட கேமராக்கள். அவற்றை இங்கே சேர்ப்பது தூரத்திலிருந்து அவற்றைப் பார்க்கவும் நிர்வகிக்கவும் உங்களை அனுமதிக்கும்."
 
-#: motioneye/static/js/main.js:3956
+#: motioneye/static/js/main.js:3987
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr "வலை கேமராக்கள் (அல்லது ஐபி கேமராக்கள்) என்பது RTSP/RTMP அல்லது MJPEG வீடியோக்கள் அல்லது எளிய JPEG படங்களை பூசும் சாதனங்கள். சரியான முகவரி RTSP, RTMP, MJPEG அல்லது JPEG ஐ அறிய உங்கள் சாதனத்தின் கையேட்டைப் பாருங்கள்."
 
-#: motioneye/static/js/main.js:3961
+#: motioneye/static/js/main.js:3992
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr "உள்ளக MMAL கேமராக்கள் உங்கள் இயக்க அமைப்புடன் நேரடியாக இணைக்கப்பட்ட சாதனங்கள். இவை பொதுவாக அட்டை சார்ந்த கேமராக்கள்."
 
-#: motioneye/static/js/main.js:3976
+#: motioneye/static/js/main.js:4007
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr "நிகழ்நிலை கேமரா புகைப்படத்தை எவ்வாறு மேம்படுத்துகிறது என்பதற்குப் பதிலாக உங்கள் சாதனத்தை எளிய MJPEG கேமராவாகச் சேர்ப்பது, ஆனால் இயக்கக் கண்டறிதல், பட பிடிப்பு அல்லது பதிவு திரைப்படங்கள் எதுவும் கிடைக்காது. உங்கள் சேவையகம் மற்றும் உங்கள் உலாவிக்கு கேமரா அணுகப்பட வேண்டும். இந்த வகை கேமரா இன்டர்நெட் எக்ச்ப்ளோரருடன் பொருந்தவில்லை."
 
-#: motioneye/static/js/main.js:3981
+#: motioneye/static/js/main.js:4012
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr "உள்ளக வி 4 எல் 2 கேமராக்கள் கேமரா சாதனங்கள் ஆகும், இது பொதுவாக யூ.எச்.பி மூலம் உங்கள் இயக்க அமைப்புடன் நேரடியாக இணைக்கப்பட்டுள்ளது."
 
-#: motioneye/static/js/main.js:4132
+#: motioneye/static/js/main.js:4163
 msgid "Aldonadi kameraon..."
 msgstr "ஒரு கேமரா சேர்க்கவும் ..."
 
-#: motioneye/static/js/main.js:4204
+#: motioneye/static/js/main.js:4235
 msgid "Grupo"
 msgstr "குழு"
 
-#: motioneye/static/js/main.js:4208
+#: motioneye/static/js/main.js:4239
 msgid "Inkluzivi foton prenitan ĉiun"
 msgstr "ஒவ்வொன்றும் எடுக்கப்பட்ட புகைப்படத்தை சேர்க்கவும்"
 
-#: motioneye/static/js/main.js:4211
+#: motioneye/static/js/main.js:4242
 msgid "sekundo"
 msgstr "ஒரு இரண்டாவது"
 
-#: motioneye/static/js/main.js:4212
+#: motioneye/static/js/main.js:4243
 msgid "5 sekundoj"
 msgstr "5 விநாடிகள்"
 
-#: motioneye/static/js/main.js:4213
+#: motioneye/static/js/main.js:4244
 msgid "10 sekundoj"
 msgstr "10 வினாடிகள்"
 
-#: motioneye/static/js/main.js:4214
+#: motioneye/static/js/main.js:4245
 msgid "30 sekundoj"
 msgstr "30 வினாடிகள்"
 
-#: motioneye/static/js/main.js:4215
+#: motioneye/static/js/main.js:4246
 msgid "minuto"
 msgstr "நிமிடங்கள்"
 
-#: motioneye/static/js/main.js:4216
+#: motioneye/static/js/main.js:4247
 msgid "5 minutoj"
 msgstr "5 நிமிடங்கள்"
 
-#: motioneye/static/js/main.js:4217
+#: motioneye/static/js/main.js:4248
 msgid "10 minutoj"
 msgstr "10 நிமிடங்கள்"
 
-#: motioneye/static/js/main.js:4218
+#: motioneye/static/js/main.js:4249
 msgid "30 minutoj"
 msgstr "30 நிமிடங்கள்"
 
-#: motioneye/static/js/main.js:4219
+#: motioneye/static/js/main.js:4250
 msgid "horo"
 msgstr "ஓரோ"
 
-#: motioneye/static/js/main.js:4222
+#: motioneye/static/js/main.js:4253
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
 msgstr "தேர்ந்தெடுக்கப்பட்ட இரண்டு படங்களுக்கு இடையில் நேர வரம்பைத் தேர்ந்தெடுக்கவும்."
 
-#: motioneye/static/js/main.js:4225
+#: motioneye/static/js/main.js:4256
 msgid "Filmo framfrekvenco"
 msgstr "மூவி பிரேம் வீதம்"
 
-#: motioneye/static/js/main.js:4227
+#: motioneye/static/js/main.js:4258
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr "ஆயுதமேந்திய வீடியோ எவ்வளவு விரைவாக இருக்க வேண்டும் என்பதைத் தேர்வுசெய்க."
 
-#: motioneye/static/js/main.js:4236
+#: motioneye/static/js/main.js:4267
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr "அதிக எண்ணிக்கையிலான படங்களைக் கருத்தில் கொண்டு, உங்கள் வீடியோவை உருவாக்க சிறிது நேரம் ஆகலாம்!"
 
-#: motioneye/static/js/main.js:4253
+#: motioneye/static/js/main.js:4284
 msgid "Krei akselita video"
 msgstr "க்ரீ அச்சு வீடியோ"
 
-#: motioneye/static/js/main.js:4262
+#: motioneye/static/js/main.js:4293
 msgid "Filmo kreanta en progreso..."
 msgstr "திரைப்படத்தை உருவாக்குதல் முன்னேற்றத்தில் உள்ளது ..."
 
-#: motioneye/static/js/main.js:4513
+#: motioneye/static/js/main.js:4544
 msgid "Zipitaj"
 msgstr "சிப்"
 
-#: motioneye/static/js/main.js:4522
+#: motioneye/static/js/main.js:4553
 msgid "Akselita video"
 msgstr "அச்சு வீடியோ"
 
-#: motioneye/static/js/main.js:4533
+#: motioneye/static/js/main.js:4564
 msgid "Forigi ĉiujn"
 msgstr "அனைத்தையும் அகற்று"
 
-#: motioneye/static/js/main.js:4675
+#: motioneye/static/js/main.js:4706
 msgid "Bildoj prenitaj de "
 msgstr "எடுக்கப்பட்ட படங்கள் "
 
-#: motioneye/static/js/main.js:4678
+#: motioneye/static/js/main.js:4709
 msgid "Filmoj registritaj de "
 msgstr "படங்கள் பதிவு செய்தன "
 
-#: motioneye/static/js/main.js:4746
+#: motioneye/static/js/main.js:4777
 msgid "montru ĉi tiun fotilon plenekranan"
 msgstr "இந்த கேமராவைக் காட்டுங்கள்"
 
-#: motioneye/static/js/main.js:4747
+#: motioneye/static/js/main.js:4778
 msgid "montri ĉiujn fotilojn"
 msgstr "அனைத்து கேமராக்களையும் காட்டு"
 
-#: motioneye/static/js/main.js:4748
+#: motioneye/static/js/main.js:4779
 msgid "montru nur ĉi tiun fotilon"
 msgstr "இந்த கேமராவை மட்டும் காட்டு"
 
-#: motioneye/static/js/main.js:4749
+#: motioneye/static/js/main.js:4780
 msgid "malfermaj bildoj retumilo"
 msgstr "திறந்த படங்கள் உலாவி"
 
-#: motioneye/static/js/main.js:4750
+#: motioneye/static/js/main.js:4781
 msgid "malferma videoj retumilo"
 msgstr "திறந்த வீடியோக்கள் உலாவி"
 
-#: motioneye/static/js/main.js:4751
+#: motioneye/static/js/main.js:4782
 msgid "agordi ĉi tiun kameraon"
 msgstr "இந்த கேமராவை அமைக்கவும்"
 
-#: motioneye/static/js/main.js:4767
+#: motioneye/static/js/main.js:4798
 msgid "preni instantaron"
 msgstr "ஒரு உடனடி எடுக்க"
 
-#: motioneye/static/js/main.js:5160
+#: motioneye/static/js/main.js:5191
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "நீங்கள் இதுவரை எந்த கேமராவையும் அமைக்கவில்லை. ஒன்றைச் சேர்க்க இங்கே சொடுக்கு செய்க ..."
 
-#: motioneye/static/js/ui.js:503
-msgid "enigu pozitivan nombron"
-msgstr "நேர்மறை எண்ணை உள்ளிடவும்"
+#: motioneye/static/js/ui.js:361
+msgid "enter a valid value"
+msgstr ""
 
-#: motioneye/static/js/ui.js:505
-msgid "enigu pozitivan entjeran nombron"
-msgstr "நேர்மறை முழு எண் எண்ணை உள்ளிடவும்"
-
-#: motioneye/static/js/ui.js:507
+#: motioneye/static/js/ui.js:420
 msgid "enigu nombron"
 msgstr "ஒரு எண்ணை உள்ளிடவும்"
 
-#: motioneye/static/js/ui.js:509
+#: motioneye/static/js/ui.js:423
 msgid "enigu entjeran nombron"
 msgstr "ஒரு முழு எண் எண்ணை உள்ளிடவும்"
 
-#: motioneye/static/js/ui.js:512
+#: motioneye/static/js/ui.js:427
 msgid " inter "
 msgstr " இடை "
 
-#: motioneye/static/js/ui.js:512
+#: motioneye/static/js/ui.js:427
 msgid " kaj "
 msgstr " மற்றும் "
 
-#: motioneye/static/js/ui.js:515
+#: motioneye/static/js/ui.js:430
 msgid " pli ol "
 msgstr " விட "
 
-#: motioneye/static/js/ui.js:520
+#: motioneye/static/js/ui.js:435
 msgid " malpli ol "
 msgstr " குறைவாக "
 
-#: motioneye/static/js/ui.js:573
+#: motioneye/static/js/ui.js:479
 msgid "enigu validan tempon en la sekva formato: HH:MM"
 msgstr "பின்வரும் வடிவத்தில் செல்லுபடியாகும் நேரத்தை உள்ளிடவும்: HH: மிமீ"
 
-#: motioneye/static/js/ui.js:630
+#: motioneye/static/js/ui.js:488
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
 msgstr "செல்லுபடியாகும் முகவரி ஐ உள்ளிடவும் (எ.கா. http://ekzemplo.com:8080/cams/)"
 
-#: motioneye/static/js/ui.js:971
+#: motioneye/static/js/ui.js:684
 msgid "fermi"
 msgstr "ஃபெர்மி"
 
-#: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
+#: motioneye/static/js/ui.js:730 motioneye/static/js/ui.js:737
 msgid "Ne"
 msgstr "அது"
 
-#: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
+#: motioneye/static/js/ui.js:731 motioneye/static/js/ui.js:738
 msgid "Jes"
 msgstr "செச்"
 
-#: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
+#: motioneye/static/js/ui.js:744 motioneye/static/js/ui.js:749
 msgid "Bone"
 msgstr "எலும்பு"
 
@@ -675,3 +678,9 @@ msgstr "வெள்ளை இருப்பு வெப்பநிலை ஆ
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
 msgstr "சூம் முழுமையான"
+
+#~ msgid "enigu pozitivan nombron"
+#~ msgstr "நேர்மறை எண்ணை உள்ளிடவும்"
+
+#~ msgid "enigu pozitivan entjeran nombron"
+#~ msgstr "நேர்மறை முழு எண் எண்ணை உள்ளிடவும்"

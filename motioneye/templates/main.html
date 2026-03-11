@@ -287,6 +287,11 @@
                             <td class="settings-item-value"><input type="text" class="styled device camera-config" id="deviceTypeEntry" readonly="readonly"></td>
                         </tr>
                         <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Admin-only access") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled device camera-config" id="adminOnlySwitch"></td>
+                            <td><span class="help-mark" title="{{ _("If enabled only the admin user can access this camera") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
                         </tr>
                         <tr class="settings-item">
@@ -551,6 +556,11 @@
                             <td class="settings-item-value"><input type="text" class="styled storage camera-config" id="uploadBucketEntry"></td>
                             <td><span class="help-mark" title="{{ _("la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item" depends="uploadEnabled uploadService=(s3)">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Encryption key") }}</span></td>
+                            <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled storage camera-config" id="uploadSseCKeyEntry" placeholder="{{ _("optional base64-encoded SSE-C encryption key") }}"></td>
+                            <td><span class="help-mark" title="{{ _("Add an encryption key if you want to use server-side encryption (SSE-C). The key must be a base64-encoded string with a length of 32 bytes. This key will be needed by every client to access the encrypted files. You can generate a key using the following command: openssl rand 32 | base64") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item" depends="uploadEnabled">
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
                             <td class="settings-item-value"><div class="button normal-button test-button" id="uploadTestButton">{{ _("Testi la servon") }}</div></td>
@@ -694,6 +704,16 @@
                                 </select>
                             </td>
                             <td><span class="help-mark" title="{{ _("la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" required="true" strip="true" depends="videoStreamingEnabled streamingAuthMode=(basic|digest)">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Uzantnomo") }}</span></td>
+                            <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled streaming camera-config" id="streamingUsernameEntry"></td>
+                            <td><span class="help-mark" title="{{ _("username used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user.") }}">?</span></td>
+                        </tr>
+                        <tr class="settings-item" required="true" strip="true" depends="videoStreamingEnabled streamingAuthMode=(basic|digest)">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Pasvorto") }}</span></td>
+                            <td class="settings-item-value"><input type="password" autocomplete="new-password" class="styled streaming camera-config" id="streamingPasswordEntry"></td>
+                            <td><span class="help-mark" title="{{ _("password used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Movado-Optimigo") }}</span></td>
@@ -1224,8 +1244,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Lundo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="mondayEnabledSwitch">
-                                <span class="settings-item-unit time">{{ _("de") }}</span><input type="text" class="styled working-schedule time camera-config" id="mondayFromEntry">
-                                <span class="settings-item-unit time">{{ _("ĝis") }}</span><input type="text" class="styled working-schedule time camera-config" id="mondayToEntry">
+                                <span id="mondayTimeInputs"><span class="settings-item-unit">{{ _("de") }}</span><input type="time" class="styled working-schedule camera-config" id="mondayFromEntry">
+                                <span class="settings-item-unit">{{ _("ĝis") }}</span><input type="time" class="styled working-schedule camera-config" id="mondayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por lundoj.") }}">?</span></td>
                         </tr>
@@ -1233,8 +1253,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Mardo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="tuesdayEnabledSwitch">
-                                <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="tuesdayFromEntry">
-                                <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="tuesdayToEntry">
+                                <span id="tuesdayTimeInputs"><span class="settings-item-unit">from</span><input type="time" class="styled working-schedule camera-config" id="tuesdayFromEntry">
+                                <span class="settings-item-unit">to</span><input type="time" class="styled working-schedule camera-config" id="tuesdayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por mardoj.") }}">?</span></td>
                         </tr>
@@ -1242,8 +1262,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Merkredo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="wednesdayEnabledSwitch">
-                                <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="wednesdayFromEntry">
-                                <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="wednesdayToEntry">
+                                <span id="wednesdayTimeInputs"><span class="settings-item-unit">from</span><input type="time" class="styled working-schedule camera-config" id="wednesdayFromEntry">
+                                <span class="settings-item-unit">to</span><input type="time" class="styled working-schedule camera-config" id="wednesdayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por merkredoj.") }}">?</span></td>
                         </tr>
@@ -1251,8 +1271,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Ĵaŭdo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="thursdayEnabledSwitch">
-                                <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="thursdayFromEntry">
-                                <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="thursdayToEntry">
+                                <span id="thursdayTimeInputs"><span class="settings-item-unit">from</span><input type="time" class="styled working-schedule camera-config" id="thursdayFromEntry">
+                                <span class="settings-item-unit">to</span><input type="time" class="styled working-schedule camera-config" id="thursdayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por ĵaŭdoj.") }}">?</span></td>
                         </tr>
@@ -1260,8 +1280,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Vendredo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="fridayEnabledSwitch">
-                                <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="fridayFromEntry">
-                                <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="fridayToEntry">
+                                <span id="fridayTimeInputs"><span class="settings-item-unit">from</span><input type="time" class="styled working-schedule camera-config" id="fridayFromEntry">
+                                <span class="settings-item-unit">to</span><input type="time" class="styled working-schedule camera-config" id="fridayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por vendredoj.") }}">?</span></td>
                         </tr>
@@ -1269,8 +1289,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Sabato") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="saturdayEnabledSwitch">
-                                <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="saturdayFromEntry">
-                                <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="saturdayToEntry">
+                                <span id="saturdayTimeInputs"><span class="settings-item-unit">from</span><input type="time" class="styled working-schedule camera-config" id="saturdayFromEntry">
+                                <span class="settings-item-unit">to</span><input type="time" class="styled working-schedule camera-config" id="saturdayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por sabatoj.") }}">?</span></td>
                         </tr>
@@ -1278,8 +1298,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Dimanĉo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="sundayEnabledSwitch">
-                                <span class="settings-item-unit time">from</span><input type="text" class="styled working-schedule time camera-config" id="sundayFromEntry">
-                                <span class="settings-item-unit time">to</span><input type="text" class="styled working-schedule time camera-config" id="sundayToEntry">
+                                <span id="sundayTimeInputs"><span class="settings-item-unit">from</span><input type="time" class="styled working-schedule camera-config" id="sundayFromEntry">
+                                <span class="settings-item-unit">to</span><input type="time" class="styled working-schedule camera-config" id="sundayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por dimanĉoj.") }}">?</span></td>
                         </tr>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-11 05:01+0000\n"
+"POT-Creation-Date: 2026-02-17 02:12+0000\n"
 "PO-Revision-Date: 2025-12-10 03:10+0000\n"
 "Last-Translator: MichaIng <micha@dietpi.com>\n"
 "Language-Team: Malay <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/ms/>\n"
@@ -19,707 +19,708 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 5.15-dev\n"
 
-#: motioneye/static/js/main.js:610
+#: motioneye/static/js/main.js:611
 #, fuzzy
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "watak khas tidak dibenarkan dalam kata laluan"
 
-#: motioneye/static/js/main.js:617 motioneye/static/js/main.js:628
-#: motioneye/static/js/main.js:687 motioneye/static/js/ui.js:362
-#: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
+#: motioneye/static/js/main.js:618
+msgid "use of colon (:) is not allowed in video streaming username"
+msgstr ""
+
+#: motioneye/static/js/main.js:629
+msgid "video streaming authentication mode must be Basic or Digest when admin-only access is enabled"
+msgstr ""
+
+#: motioneye/static/js/main.js:636 motioneye/static/js/main.js:647
+#: motioneye/static/js/main.js:706 motioneye/static/js/ui.js:397
 #, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "Bidang ini diperlukan"
 
-#: motioneye/static/js/main.js:621
+#: motioneye/static/js/main.js:640
 #, fuzzy
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
 msgstr "watak khas tidak dibenarkan dalam nama kamera"
 
-#: motioneye/static/js/main.js:633
+#: motioneye/static/js/main.js:652
 #, fuzzy
 msgid "valoro devas esti multoblo de 8"
 msgstr "nilai mestilah gandaan 8"
 
-#: motioneye/static/js/main.js:640
+#: motioneye/static/js/main.js:659
 #, fuzzy
 msgid "specialaj signoj ne rajtas en radika voja nomo"
 msgstr "watak khas tidak dibenarkan dalam nama jalan root"
 
-#: motioneye/static/js/main.js:643
+#: motioneye/static/js/main.js:662
 #, fuzzy
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "fail tidak dapat dibuat secara langsung di root sistem anda"
 
-#: motioneye/static/js/main.js:650
+#: motioneye/static/js/main.js:669
 #, fuzzy
 msgid "enigu validan retpoŝtadreson"
 msgstr "masukkan alamat e-mel yang sah"
 
-#: motioneye/static/js/main.js:657
+#: motioneye/static/js/main.js:676
 #, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "masukkan senarai alamat e-mel sah yang dipisahkan dengan koma"
 
-#: motioneye/static/js/main.js:664
+#: motioneye/static/js/main.js:683
 #, fuzzy
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "watak khas tidak dibenarkan dalam nama fail"
 
-#: motioneye/static/js/main.js:691
+#: motioneye/static/js/main.js:710
 #, fuzzy
 msgid "enigu validan valoron"
 msgstr "masukkan nilai yang sah"
 
-#: motioneye/static/js/main.js:845
+#: motioneye/static/js/main.js:872
 #, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
 msgstr "Ini secara berulang akan menghapus semua fail dalam folder awan \""
 
-#: motioneye/static/js/main.js:846
+#: motioneye/static/js/main.js:873
 #, fuzzy
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
 msgstr "\", bukan hanya yang dimuat naik oleh motionEye!"
 
-#: motioneye/static/js/main.js:927
+#: motioneye/static/js/main.js:954
 #, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
 msgstr "Ini secara berulang akan menghapus semua fail media lama dalam folder \""
 
-#: motioneye/static/js/main.js:928
+#: motioneye/static/js/main.js:955
 #, fuzzy
 msgid "\", ne nur tiuj kreitaj de motionEye!"
 msgstr "\", bukan hanya yang dicipta oleh motionEye!"
 
-#: motioneye/static/js/main.js:994
+#: motioneye/static/js/main.js:1021
 #, fuzzy
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
 msgstr "Tidak dapat mengedit topeng tanpa gambar kamera yang sah!"
 
-#: motioneye/static/js/main.js:2239
+#: motioneye/static/js/main.js:2275
 #, fuzzy
 msgid "Propra"
 msgstr "Kustom"
 
-#: motioneye/static/js/main.js:2277
+#: motioneye/static/js/main.js:2313
 #, fuzzy
 msgid "Propra dosierindiko"
 msgstr "Nama fail tersuai"
 
-#: motioneye/static/js/main.js:2279
+#: motioneye/static/js/main.js:2315
 #, fuzzy
 msgid "Retan kunlokon"
 msgstr "Komunikasi dalam talian"
 
-#: motioneye/static/js/main.js:2639
+#: motioneye/static/js/main.js:2678
 #, fuzzy
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
 msgstr "Penyemak imbas anda tidak menjalankan ciri ini!"
 
-#: motioneye/static/js/main.js:2655
+#: motioneye/static/js/main.js:2694
 #, fuzzy
 msgid "Apliki"
 msgstr "Memohon"
 
-#: motioneye/static/js/main.js:2682 motioneye/static/js/main.js:3043
-#: motioneye/static/js/main.js:3098 motioneye/static/js/main.js:3173
+#: motioneye/static/js/main.js:2721 motioneye/static/js/main.js:3083
+#: motioneye/static/js/main.js:3139 motioneye/static/js/main.js:3214
 #, fuzzy
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
 msgstr "Pastikan semua pilihan konfigurasi adalah sah!"
 
-#: motioneye/static/js/main.js:2784
+#: motioneye/static/js/main.js:2824
 #, fuzzy
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
 msgstr "Ini akan memulakan semula sistem. Terus?"
 
-#: motioneye/static/js/main.js:2794
+#: motioneye/static/js/main.js:2834
 #, fuzzy
 msgid "Vere fermiti sistemon?"
 msgstr "Betulkah sistem mati?"
 
-#: motioneye/static/js/main.js:2806
+#: motioneye/static/js/main.js:2846
 #, fuzzy
 msgid "Malŝaltita"
 msgstr "Mati"
 
-#: motioneye/static/js/main.js:2821
+#: motioneye/static/js/main.js:2861
 #, fuzzy
 msgid "Ĉu vere restartigi ?"
 msgstr "Benarkah mulakan semula?"
 
-#: motioneye/static/js/main.js:2835
+#: motioneye/static/js/main.js:2875
 #, fuzzy
 msgid "La sistemo rekomencis!"
 msgstr "Sistem dimulakan semula!"
 
-#: motioneye/static/js/main.js:2855 motioneye/static/js/main.js:2888
-#: motioneye/static/js/main.js:3871
+#: motioneye/static/js/main.js:2895 motioneye/static/js/main.js:2928
+#: motioneye/static/js/main.js:3904
 #, fuzzy
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
 msgstr "Sila gunakan tetapan yang diubah suai terlebih dahulu!"
 
-#: motioneye/static/js/main.js:2860
+#: motioneye/static/js/main.js:2900
 #, fuzzy
 msgid "Neniu fotilo por forigi!"
 msgstr "Tiada kamera untuk dikeluarkan!"
 
-#: motioneye/static/js/main.js:2866
+#: motioneye/static/js/main.js:2906
 #, fuzzy
 msgid "Ĉu forigi kameraon "
 msgstr "Boleh mengeluarkan kamera "
 
-#: motioneye/static/js/main.js:2894
+#: motioneye/static/js/main.js:2934
 #, fuzzy
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
 msgstr "motionEye dikemas kini (versi semasa: "
 
-#: motioneye/static/js/main.js:2897
+#: motioneye/static/js/main.js:2937
 #, fuzzy
 msgid "Nova versio havebla: "
 msgstr "Versi baru tersedia: "
 
-#: motioneye/static/js/main.js:2897
+#: motioneye/static/js/main.js:2937
 #, fuzzy
 msgid ". Ĝisdatigi?"
 msgstr ". Kemas kini?"
 
-#: motioneye/static/js/main.js:2905
+#: motioneye/static/js/main.js:2945
 #, fuzzy
 msgid "motionEye estis sukcese ĝisdatigita!"
 msgstr "motionEye telah berjaya dikemas kini!"
 
-#: motioneye/static/js/main.js:2915
+#: motioneye/static/js/main.js:2955
 #, fuzzy
 msgid "Ĝisdatigo malsukcesis!"
 msgstr "Kemas kini gagal!"
 
-#: motioneye/static/js/main.js:2926
+#: motioneye/static/js/main.js:2966
 #, fuzzy
 msgid "La ĝisdatiga procezo malsukcesis!"
 msgstr "Proses peningkatan gagal!"
 
-#: motioneye/static/js/main.js:2945
+#: motioneye/static/js/main.js:2985
 #, fuzzy
 msgid "Rezerva dosiero"
 msgstr "Fail sandaran"
 
-#: motioneye/static/js/main.js:2947
+#: motioneye/static/js/main.js:2987
 #, fuzzy
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
 msgstr "Fail sandaran yang anda muat turun lebih awal."
 
-#: motioneye/static/js/main.js:2976
+#: motioneye/static/js/main.js:3016
 #, fuzzy
 msgid "Restaŭrigi Agordon"
 msgstr "Pulihkan Konfigurasi"
 
-#: motioneye/static/js/main.js:2988
+#: motioneye/static/js/main.js:3028
 #, fuzzy
 msgid "Restaŭriganta agordon ..."
 msgstr "Memulihkan konfigurasi ..."
 
-#: motioneye/static/js/main.js:2995
+#: motioneye/static/js/main.js:3035
 #, fuzzy
 msgid "La agordo restaŭrigis!"
 msgstr "Konfigurasi telah dipulihkan!"
 
-#: motioneye/static/js/main.js:3005 motioneye/static/js/main.js:3024
+#: motioneye/static/js/main.js:3045 motioneye/static/js/main.js:3064
 #, fuzzy
 msgid "Malsukcesis restaŭri la agordon!"
 msgstr "Gagal memulihkan konfigurasi!"
 
-#: motioneye/static/js/main.js:3079
+#: motioneye/static/js/main.js:3120
 #, fuzzy
 msgid "Aliri la alŝutan servon malsukcesis: "
 msgstr "Gagal mengakses perkhidmatan muat naik: "
 
-#: motioneye/static/js/main.js:3082
+#: motioneye/static/js/main.js:3123
 #, fuzzy
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "Mengakses perkhidmatan muat naik berjaya!"
 
-#: motioneye/static/js/main.js:3119
+#: motioneye/static/js/main.js:3160
 #, fuzzy
 msgid "Sciiga retpoŝto fiaskis:"
 msgstr "E-mel berita gagal:"
 
-#: motioneye/static/js/main.js:3122
+#: motioneye/static/js/main.js:3163
 #, fuzzy
 msgid "Notification email succeeded!"
 msgstr "E-mel pemberitahuan berjaya!"
 
-#: motioneye/static/js/main.js:3138
+#: motioneye/static/js/main.js:3179
 #, fuzzy
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
 msgstr "Pastikan semua pilihan konfigurasi adalah sah!"
 
-#: motioneye/static/js/main.js:3154
+#: motioneye/static/js/main.js:3195
 #, fuzzy
 msgid "Sciiga Telegramo fiaskis:"
 msgstr "Telegram Pemberitahuan Gagal:"
 
-#: motioneye/static/js/main.js:3157
+#: motioneye/static/js/main.js:3198
 #, fuzzy
 msgid "Sciiga Telegramo sukcesis!"
 msgstr "Telegram Pemberitahuan berjaya!"
 
-#: motioneye/static/js/main.js:3193
+#: motioneye/static/js/main.js:3234
 #, fuzzy
 msgid "Aliro al retdividado fiaskis: "
 msgstr "Akses kepada penghantaran rangkaian gagal: "
 
-#: motioneye/static/js/main.js:3196
+#: motioneye/static/js/main.js:3237
 #, fuzzy
 msgid "Aliro al retdividado sukcesis!"
 msgstr "Akses kepada retardasi telah berjaya!"
 
-#: motioneye/static/js/main.js:3220
+#: motioneye/static/js/main.js:3261
 #, fuzzy
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
 msgstr "Benarkah memadam fail ini?"
 
-#: motioneye/static/js/main.js:3244
+#: motioneye/static/js/main.js:3285
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
 msgstr "Benarkah memadam semua gambar dari \"%(group)s\"?"
 
-#: motioneye/static/js/main.js:3247
+#: motioneye/static/js/main.js:3288
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
 msgstr "Benarkah membuang semua filem dari \"%(group)s\"?"
 
-#: motioneye/static/js/main.js:3252
+#: motioneye/static/js/main.js:3293
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
 msgstr "Benarkah memadam semua gambar yang tidak dikumpulkan?"
 
-#: motioneye/static/js/main.js:3255
+#: motioneye/static/js/main.js:3296
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
 msgstr "Benarkah memadam semua filem yang tidak dikumpulkan?"
 
-#: motioneye/static/js/main.js:3369
+#: motioneye/static/js/main.js:3402
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "tambah kamera ..."
 
-#: motioneye/static/js/main.js:3594 motioneye/static/js/main.js:3893
+#: motioneye/static/js/main.js:3627 motioneye/static/js/main.js:3926
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "Nama pengguna"
 
-#: motioneye/static/js/main.js:3599 motioneye/static/js/main.js:3898
+#: motioneye/static/js/main.js:3632 motioneye/static/js/main.js:3931
 #, fuzzy
 msgid "Pasvorto"
 msgstr "Kata laluan"
 
-#: motioneye/static/js/main.js:3605
+#: motioneye/static/js/main.js:3638
 #, fuzzy
 msgid "Memoru min"
 msgstr "Ingat saya"
 
-#: motioneye/static/js/main.js:3623 motioneye/static/js/main.js:3629
+#: motioneye/static/js/main.js:3656 motioneye/static/js/main.js:3662
 #, fuzzy
 msgid "Ensaluti"
 msgstr "Log masuk"
 
-#: motioneye/static/js/main.js:3626 motioneye/static/js/ui.js:1023
-#: motioneye/static/js/ui.js:1030
+#: motioneye/static/js/main.js:3659 motioneye/static/js/ui.js:736
+#: motioneye/static/js/ui.js:743
 #, fuzzy
 msgid "Nuligi"
 msgstr "Batalkan"
 
-#: motioneye/static/js/main.js:3668
+#: motioneye/static/js/main.js:3701
 #, fuzzy
 msgid "Vi abortis la filmeton."
 msgstr "Anda membatalkan video."
 
-#: motioneye/static/js/main.js:3671
+#: motioneye/static/js/main.js:3704
 #, fuzzy
 msgid "Reto eraro okazis."
 msgstr "Ralat rangkaian berlaku."
 
-#: motioneye/static/js/main.js:3674
+#: motioneye/static/js/main.js:3707
 #, fuzzy
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
 msgstr "Kesalahan penyahkodan atau fungsi bukan projek."
 
-#: motioneye/static/js/main.js:3677
+#: motioneye/static/js/main.js:3710
 #, fuzzy
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
 msgstr "Format tidak disokong atau tidak dapat diakses / tidak sesuai untuk main balik."
 
-#: motioneye/static/js/main.js:3680
+#: motioneye/static/js/main.js:3713
 #, fuzzy
 msgid "Nekonata eraro okazis."
 msgstr "Ralat tidak diketahui berlaku."
 
-#: motioneye/static/js/main.js:3683
+#: motioneye/static/js/main.js:3716
 #, fuzzy
 msgid "Eraro : "
 msgstr "Ralat: "
 
-#: motioneye/static/js/main.js:3688
+#: motioneye/static/js/main.js:3721
 #, fuzzy
 msgid "antaŭa bildo"
 msgstr "gambar sebelumnya"
 
-#: motioneye/static/js/main.js:3693
+#: motioneye/static/js/main.js:3726
 #, fuzzy
 msgid "ludi"
 msgstr "untuk bermain"
 
-#: motioneye/static/js/main.js:3696
+#: motioneye/static/js/main.js:3729
 #, fuzzy
 msgid "ludi * 5 kaj enĉenigi"
 msgstr "bermain * 5 dan rantai"
 
-#: motioneye/static/js/main.js:3701
+#: motioneye/static/js/main.js:3734
 #, fuzzy
 msgid "sekva bildo"
 msgstr "gambar seterusnya"
 
-#: motioneye/static/js/main.js:3824
+#: motioneye/static/js/main.js:3857
 #, fuzzy
 msgid "Fermi"
 msgstr "Tutup"
 
-#: motioneye/static/js/main.js:3825 motioneye/static/js/main.js:4386
+#: motioneye/static/js/main.js:3858 motioneye/static/js/main.js:4417
 #, fuzzy
 msgid "Elŝuti"
 msgstr "Muat turun"
 
-#: motioneye/static/js/main.js:3833 motioneye/static/js/main.js:4389
+#: motioneye/static/js/main.js:3866 motioneye/static/js/main.js:4420
 #, fuzzy
 msgid "Forigi"
 msgstr "Keluarkan"
 
-#: motioneye/static/js/main.js:3877
+#: motioneye/static/js/main.js:3910
 #, fuzzy
 msgid "Kamerao tipo"
 msgstr "Jenis kamera"
 
-#: motioneye/static/js/main.js:3879
+#: motioneye/static/js/main.js:3912
 #, fuzzy
 msgid "Loka V4L2-kamerao"
 msgstr "Kamera V4L2 tempatan"
 
-#: motioneye/static/js/main.js:3880
+#: motioneye/static/js/main.js:3913
 #, fuzzy
 msgid "Loka MMAL-kamerao"
 msgstr "Kamera MMAL tempatan"
 
-#: motioneye/static/js/main.js:3881
+#: motioneye/static/js/main.js:3914
 #, fuzzy
 msgid "Reta kamerao"
 msgstr "Kamera Web"
 
-#: motioneye/static/js/main.js:3882
+#: motioneye/static/js/main.js:3915
 #, fuzzy
 msgid "Fora motionEye kamerao"
 msgstr "Kamera mata gerak luar"
 
-#: motioneye/static/js/main.js:3883
+#: motioneye/static/js/main.js:3916
 #, fuzzy
 msgid "Simpla MJPEG-kamerao"
 msgstr "Kamera MJPEG ringkas"
 
-#: motioneye/static/js/main.js:3885
+#: motioneye/static/js/main.js:3918
 #, fuzzy
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "jenis kamera yang ingin anda tambahkan"
 
-#: motioneye/static/js/main.js:3888
+#: motioneye/static/js/main.js:3921
 #, fuzzy
 msgid "URL"
 msgstr "URL"
 
-#: motioneye/static/js/main.js:3889
+#: motioneye/static/js/main.js:3922
 #, fuzzy
 msgid "http://ekzemplo.com:8765/cams/..."
 msgstr "http: //contoh.com: 8765 / kamera / ..."
 
-#: motioneye/static/js/main.js:3890
+#: motioneye/static/js/main.js:3923
 #, fuzzy
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
 msgstr "URL kamera (mis. http://example.com:8080/cam/)"
 
-#: motioneye/static/js/main.js:3894
+#: motioneye/static/js/main.js:3927
 #, fuzzy
 msgid "uzantnomo..."
 msgstr "nama pengguna ..."
 
-#: motioneye/static/js/main.js:3895
+#: motioneye/static/js/main.js:3928
 #, fuzzy
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
 msgstr "nama pengguna untuk URL, jika diperlukan (mis. admin)"
 
-#: motioneye/static/js/main.js:3899
+#: motioneye/static/js/main.js:3932
 #, fuzzy
 msgid "pasvorto..."
 msgstr "kata laluan ..."
 
-#: motioneye/static/js/main.js:3900
+#: motioneye/static/js/main.js:3933
 #, fuzzy
 msgid "la pasvorto por la URL, se bezonata"
 msgstr "kata laluan untuk URL, jika diperlukan"
 
-#: motioneye/static/js/main.js:3903
+#: motioneye/static/js/main.js:3936
 #, fuzzy
 msgid "Kamerao"
 msgstr "Kamera"
 
-#: motioneye/static/js/main.js:3905
+#: motioneye/static/js/main.js:3938
 #, fuzzy
 msgid "la kameraon, kiun vi volas aldoni"
 msgstr "kamera yang ingin anda tambah"
 
-#: motioneye/static/js/main.js:3941
+#: motioneye/static/js/main.js:3972
 #, fuzzy
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr "Kamera motionEye jarak jauh adalah kamera yang dipasang di belakang pelayan MotionEye yang lain. Menambahnya di sini akan membolehkan anda menonton dan menguruskannya dari jauh."
 
-#: motioneye/static/js/main.js:3956
+#: motioneye/static/js/main.js:3987
 #, fuzzy
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr "Kamera rangkaian (atau kamera IP) adalah peranti yang menstrimkan video RTSP / RTMP atau MJPEG secara asli atau gambar JPEG sederhana. Rujuk manual peranti anda untuk mengetahui URL RTSP, RTMP, MJPEG atau JPEG yang betul."
 
-#: motioneye/static/js/main.js:3961
+#: motioneye/static/js/main.js:3992
 #, fuzzy
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr "Kamera MMAL tempatan adalah peranti yang disambungkan secara langsung ke sistem motionEye anda. Ini biasanya kamera khusus kad."
 
-#: motioneye/static/js/main.js:3976
+#: motioneye/static/js/main.js:4007
 #, fuzzy
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr "Menambah peranti anda sebagai kamera MJPEG sederhana dan bukan sebagai kamera web akan meningkatkan fotografi, tetapi tidak ada pengesanan gerakan, pengambilan gambar atau rakaman filem yang tersedia untuknya. Kamera mesti dapat diakses oleh pelayan dan penyemak imbas anda. Jenis kamera ini tidak sepadan dengan Internet Explorer."
 
-#: motioneye/static/js/main.js:3981
+#: motioneye/static/js/main.js:4012
 #, fuzzy
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr "Kamera V4L2 tempatan adalah peranti kamera yang disambungkan terus ke sistem motionEye anda, biasanya melalui USB."
 
-#: motioneye/static/js/main.js:4132
+#: motioneye/static/js/main.js:4163
 #, fuzzy
 msgid "Aldonadi kameraon..."
 msgstr "Tambahkan kamera ..."
 
-#: motioneye/static/js/main.js:4204
+#: motioneye/static/js/main.js:4235
 #, fuzzy
 msgid "Grupo"
 msgstr "Kumpulan"
 
-#: motioneye/static/js/main.js:4208
+#: motioneye/static/js/main.js:4239
 #, fuzzy
 msgid "Inkluzivi foton prenitan ĉiun"
 msgstr "Sertakan gambar yang diambil masing-masing"
 
-#: motioneye/static/js/main.js:4211
+#: motioneye/static/js/main.js:4242
 #, fuzzy
 msgid "sekundo"
 msgstr "kedua"
 
-#: motioneye/static/js/main.js:4212
+#: motioneye/static/js/main.js:4243
 #, fuzzy
 msgid "5 sekundoj"
 msgstr "5 saat"
 
-#: motioneye/static/js/main.js:4213
+#: motioneye/static/js/main.js:4244
 #, fuzzy
 msgid "10 sekundoj"
 msgstr "10 saat"
 
-#: motioneye/static/js/main.js:4214
+#: motioneye/static/js/main.js:4245
 #, fuzzy
 msgid "30 sekundoj"
 msgstr "30 saat"
 
-#: motioneye/static/js/main.js:4215
+#: motioneye/static/js/main.js:4246
 #, fuzzy
 msgid "minuto"
 msgstr "minit"
 
-#: motioneye/static/js/main.js:4216
+#: motioneye/static/js/main.js:4247
 #, fuzzy
 msgid "5 minutoj"
 msgstr "5 minit"
 
-#: motioneye/static/js/main.js:4217
+#: motioneye/static/js/main.js:4248
 #, fuzzy
 msgid "10 minutoj"
 msgstr "10 minit"
 
-#: motioneye/static/js/main.js:4218
+#: motioneye/static/js/main.js:4249
 #, fuzzy
 msgid "30 minutoj"
 msgstr "30 minit"
 
-#: motioneye/static/js/main.js:4219
+#: motioneye/static/js/main.js:4250
 #, fuzzy
 msgid "horo"
 msgstr "jam"
 
-#: motioneye/static/js/main.js:4222
+#: motioneye/static/js/main.js:4253
 #, fuzzy
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
 msgstr "Pilih selang waktu antara dua gambar yang dipilih."
 
-#: motioneye/static/js/main.js:4225
+#: motioneye/static/js/main.js:4256
 #, fuzzy
 msgid "Filmo framfrekvenco"
 msgstr "Kadar bingkai filem"
 
-#: motioneye/static/js/main.js:4227
+#: motioneye/static/js/main.js:4258
 #, fuzzy
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr "Pilih seberapa pantas anda mahu video dipercepat."
 
-#: motioneye/static/js/main.js:4236
+#: motioneye/static/js/main.js:4267
 #, fuzzy
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr "Memandangkan sejumlah besar gambar, membuat video anda memerlukan sedikit masa!"
 
-#: motioneye/static/js/main.js:4253
+#: motioneye/static/js/main.js:4284
 #, fuzzy
 msgid "Krei akselita video"
 msgstr "Buat video dipercepat"
 
-#: motioneye/static/js/main.js:4262
+#: motioneye/static/js/main.js:4293
 #, fuzzy
 msgid "Filmo kreanta en progreso..."
 msgstr "Filem sedang berlangsung ..."
 
-#: motioneye/static/js/main.js:4513
+#: motioneye/static/js/main.js:4544
 #, fuzzy
 msgid "Zipitaj"
 msgstr "Berzip"
 
-#: motioneye/static/js/main.js:4522
+#: motioneye/static/js/main.js:4553
 #, fuzzy
 msgid "Akselita video"
 msgstr "Video dipercepat"
 
-#: motioneye/static/js/main.js:4533
+#: motioneye/static/js/main.js:4564
 #, fuzzy
 msgid "Forigi ĉiujn"
 msgstr "Keluarkan semuanya"
 
-#: motioneye/static/js/main.js:4675
+#: motioneye/static/js/main.js:4706
 #, fuzzy
 msgid "Bildoj prenitaj de "
 msgstr "Gambar diambil oleh "
 
-#: motioneye/static/js/main.js:4678
+#: motioneye/static/js/main.js:4709
 #, fuzzy
 msgid "Filmoj registritaj de "
 msgstr "Filem yang dirakam oleh "
 
-#: motioneye/static/js/main.js:4746
+#: motioneye/static/js/main.js:4777
 #, fuzzy
 msgid "montru ĉi tiun fotilon plenekranan"
 msgstr "Tunjukkan kamera ini sepenuh masa"
 
-#: motioneye/static/js/main.js:4747
+#: motioneye/static/js/main.js:4778
 #, fuzzy
 msgid "montri ĉiujn fotilojn"
 msgstr "Tunjukkan semua kamera"
 
-#: motioneye/static/js/main.js:4748
+#: motioneye/static/js/main.js:4779
 #, fuzzy
 msgid "montru nur ĉi tiun fotilon"
 msgstr "Tunjukkan hanya kamera ini"
 
-#: motioneye/static/js/main.js:4749
+#: motioneye/static/js/main.js:4780
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "buka penyemak imbas gambar"
 
-#: motioneye/static/js/main.js:4750
+#: motioneye/static/js/main.js:4781
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "buka penyemak imbas video"
 
-#: motioneye/static/js/main.js:4751
+#: motioneye/static/js/main.js:4782
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "tetapkan kamera ini"
 
-#: motioneye/static/js/main.js:4767
+#: motioneye/static/js/main.js:4798
 #, fuzzy
 msgid "preni instantaron"
 msgstr "ambil gambar"
 
-#: motioneye/static/js/main.js:5160
+#: motioneye/static/js/main.js:5191
 #, fuzzy
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "Anda belum mengkonfigurasi mana-mana kamera. Klik di sini untuk menambah ..."
 
-#: motioneye/static/js/ui.js:503
-#, fuzzy
-msgid "enigu pozitivan nombron"
-msgstr "masukkan nombor positif"
+#: motioneye/static/js/ui.js:361
+msgid "enter a valid value"
+msgstr ""
 
-#: motioneye/static/js/ui.js:505
-#, fuzzy
-msgid "enigu pozitivan entjeran nombron"
-msgstr "masukkan bilangan bulat positif"
-
-#: motioneye/static/js/ui.js:507
+#: motioneye/static/js/ui.js:420
 #, fuzzy
 msgid "enigu nombron"
 msgstr "masukkan nombor"
 
-#: motioneye/static/js/ui.js:509
+#: motioneye/static/js/ui.js:423
 #, fuzzy
 msgid "enigu entjeran nombron"
 msgstr "masukkan nombor bulat"
 
-#: motioneye/static/js/ui.js:512
+#: motioneye/static/js/ui.js:427
 #, fuzzy
 msgid " inter "
 msgstr " di antara "
 
-#: motioneye/static/js/ui.js:512
+#: motioneye/static/js/ui.js:427
 #, fuzzy
 msgid " kaj "
 msgstr " dan "
 
-#: motioneye/static/js/ui.js:515
+#: motioneye/static/js/ui.js:430
 #, fuzzy
 msgid " pli ol "
 msgstr " lebih daripada "
 
-#: motioneye/static/js/ui.js:520
+#: motioneye/static/js/ui.js:435
 #, fuzzy
 msgid " malpli ol "
 msgstr " kurang daripada "
 
-#: motioneye/static/js/ui.js:573
+#: motioneye/static/js/ui.js:479
 #, fuzzy
 msgid "enigu validan tempon en la sekva formato: HH:MM"
 msgstr "masukkan masa yang sah dalam format berikut: HH: MM"
 
-#: motioneye/static/js/ui.js:630
+#: motioneye/static/js/ui.js:488
 #, fuzzy
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
 msgstr "masukkan URL yang sah (mis. http://example.com:8080/cams/)"
 
-#: motioneye/static/js/ui.js:971
+#: motioneye/static/js/ui.js:684
 #, fuzzy
 msgid "fermi"
 msgstr "untuk menutup"
 
-#: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
+#: motioneye/static/js/ui.js:730 motioneye/static/js/ui.js:737
 #, fuzzy
 msgid "Ne"
 msgstr "Tidak"
 
-#: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
+#: motioneye/static/js/ui.js:731 motioneye/static/js/ui.js:738
 #, fuzzy
 msgid "Jes"
 msgstr "Ya"
 
-#: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
+#: motioneye/static/js/ui.js:744 motioneye/static/js/ui.js:749
 #, fuzzy
 msgid "Bone"
 msgstr "Baiklah"
@@ -838,3 +839,11 @@ msgstr "Auto suhu keseimbangan putih"
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "Zoom benar -benar"
+
+#, fuzzy
+#~ msgid "enigu pozitivan nombron"
+#~ msgstr "masukkan nombor positif"
+
+#, fuzzy
+#~ msgid "enigu pozitivan entjeran nombron"
+#~ msgstr "masukkan bilangan bulat positif"

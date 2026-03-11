@@ -23,6 +23,7 @@ import re
 import signal
 import sys
 import time
+from typing import Sequence, Tuple
 
 from tornado.ioloop import IOLoop
 from tornado.web import Application
@@ -181,7 +182,7 @@ def _log_request(handler):
         )
 
 
-handler_mapping = [
+handler_mapping: Sequence[Tuple] = [
     (r'^/$', MainHandler),
     (r'^/manifest.json$', ManifestHandler),
     (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),

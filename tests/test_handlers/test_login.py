@@ -1,7 +1,9 @@
 import json
+from unittest.mock import patch
 
 import tornado.testing
 
+from motioneye import config, settings, utils
 from motioneye.handlers.login import LoginHandler
 from tests.test_handlers import HandlerTestCase
 
@@ -27,6 +29,24 @@ class LoginHandlerTest(HandlerTestCase):
         self.assertEqual(
             {'error': 'unauthorized', 'prompt': True}, json.loads(response.body)
         )
+
+    def test_get_login_basic_auth(self):
+        admin_user = 'admin'
+        admin_pass = 's3cret'
+        main_config = {
+            '@admin_username': admin_user,
+            '@admin_password': admin_pass,
+            '@normal_username': '',
+            '@normal_password': '',
+        }
+        auth_header = utils.build_basic_header(admin_user, admin_pass)
+        with patch.object(config, '_main_config_cache', main_config):
+            with patch.object(settings, 'HTTP_BASIC_AUTH', True):
+                response = self.fetch(
+                    '/login?_admin=true', headers={'Authorization': auth_header}
+                )
+        self.assertEqual(200, response.code)
+        self.assertEqual({}, json.loads(response.body))
 
     def test_post(self):
         response = self.fetch('/login', method='POST', body='')

@@ -19,11 +19,10 @@ jobs:
       with:
         python-version: '3.x'
         check-latest: true
+        pip-install: babel jinja2
 
-    - name: Install dependencies
+    - name: Install gettext
       run: |
-        python3 -m pip install --upgrade pip setuptools
-        python3 -m pip install --upgrade babel jinja2
         sudo apt-get -q update
         sudo DEBIAN_FRONTEND='noninteractive' apt-get -qq --no-install-recommends install gettext
 
@@ -35,12 +34,15 @@ jobs:
 
     - name: Generate backend template
       run: |
-        pybabel extract --no-wrap -F l10n/babel.cfg -o motioneye/locale/motioneye.pot motioneye/
+        pybabel extract -F l10n/babel.cfg --omit-header --no-wrap -o motioneye/locale/motioneye.pot motioneye/
         # Remove python-format flag, and trailing empty line to satisfy pre-commit
         sed -i -e '/^#, python-format$/d' -e '${/^$/d}' motioneye/locale/motioneye.pot
 
     - name: Generate frontend template
-      run: xgettext --no-wrap --from-code=UTF-8 -o motioneye/locale/motioneye.js.pot motioneye/static/js/*.js l10n/*.js
+      run: |
+        find -name '*.js' ! -name '*.min.js' | xgettext --from-code=UTF-8 --no-wrap -o motioneye/locale/motioneye.js.pot -
+        # Remove header: --omit-header enforces ASCII output, despite --from-code=UTF-8, breaking most of our Esperanto source language accent characters
+        sed -i '/^# SOME DESCRIPTIVE TITLE.$/,/^$/d' motioneye/locale/motioneye.js.pot
 
     - name: Generate frontend locales
       run: |
@@ -63,7 +65,7 @@ jobs:
     - name: Commit changes
       run: |
         git add -A
-        git diff -I '^"POT-Creation-Date: ' --exit-code HEAD && exit 0
+        git diff --exit-code HEAD && exit 0
         git config user.name 'github-actions[bot]'
         git config user.email 'github-actions[bot]@users.noreply.github.com'
         git commit -m 'Update translation files'

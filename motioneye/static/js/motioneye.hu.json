@@ -1,5 +1,7 @@
 {"":{"language":"hu","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "speciális karakterek használata nem engedélyezett a jelszóban"
+,"use of colon (:) is not allowed in video streaming username": "inch (:) használata olyan megjegyzés, amely a video streaming felhasználónévben van"
+,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": "a videostreaming harmonica módnak alapvetőnek vagy emészthetőnek kell lennie, amikor egy admin-only megközelítés engedélyezett"
 ,"Ĉi tiu kampo estas deviga": "Kötelező mező"
 ,"specialaj signoj ne rajtas en la nomo de kamerao": "speciális karakterek használata nem engedélyezett a kamera nevében"
 ,"valoro devas esti multoblo de 8": "az értéknek 8 többszörösének kell lennie"
@@ -125,8 +127,7 @@
 ,"agordi ĉi tiun kameraon": "tedd ezt a fényképezőgépet"
 ,"preni instantaron": "vessen egy pillanatot"
 ,"Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...": "Még nem is készítettél fényképezőgépet. Kattintson ide, hogy hozzáadjon egyet..."
-,"enigu pozitivan nombron": "csatlakozzon pozitív számhoz"
-,"enigu pozitivan entjeran nombron": "csatlakozzon egy pozitív integer számhoz"
+,"enter a valid value": "irány érték eltemetése"
 ,"enigu nombron": "csatlakozzon a számhoz"
 ,"enigu entjeran nombron": "csatlakozzon egy integer számhoz"
 ," inter ": " között "

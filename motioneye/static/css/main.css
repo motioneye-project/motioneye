@@ -14,6 +14,7 @@
 html {
     height: 100%;
     -webkit-tap-highlight-color: transparent;
+    font-family: 'Maven Pro';
 }
 
 body {
@@ -26,6 +27,7 @@ body {
 select,
 input[type=text],
 input[type=password],
+input[type=time],
 textarea {
     box-sizing: border-box;
 }
@@ -49,10 +51,6 @@ textarea {
 
 
     /* layout */
-
-html {
-    font-family: 'Maven Pro';
-}
 
 div.page,
 div.header-container {
@@ -209,7 +207,6 @@ img.background-logo {
     top: 10em;
     opacity: 0.03;
     -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
 }
 
@@ -295,7 +292,6 @@ div.settings-section-title {
     background-color: rgba(100, 100, 100, 0.3);
     padding: 5px 0.5em 5px 5px;
     -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
 }
 
@@ -461,10 +457,6 @@ div.check-box.on.section:HOVER div.check-box-button {
     background-color: #3498db;
 }
 
-input[type=text].working-schedule.number {
-    width: 50px;
-}
-
 #diskUsageProgressBar {
     width: 90%;
 }
@@ -515,18 +507,10 @@ span.minimize {
     position: relative;
     top: -0.1em;
     transition: transform 0.1s linear;
-    -webkit-transform: rotate(90deg);
-    -moz-transform: rotate(90deg);
-    -ms-transform: rotate(90deg);
-    -o-transform: rotate(90deg);
     transform: rotate(90deg);
 }
 
 span.minimize.open {
-    -webkit-transform: rotate(0deg);
-    -moz-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
-    -o-transform: rotate(0deg);
     transform: rotate(0deg);
 }
 
@@ -770,7 +754,6 @@ div.picture-dialog-progress {
     height: 3em;
     border-radius: 0.3em;
     -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
     cursor: pointer;
 }
@@ -888,7 +871,6 @@ div.camera-frame {
     vertical-align: top;
     cursor: pointer;
     -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
     overflow: hidden;
 }

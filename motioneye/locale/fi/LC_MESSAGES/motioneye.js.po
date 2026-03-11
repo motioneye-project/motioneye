@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Marko Hinkkanen <hinkma@gmail.com>, 2024.
 # Sami Heino <sami.heino@iki.fi>, 2025.
-# LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025.
+# LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
 # MichaIng <micha@dietpi.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-12-11 05:01+0000\n"
-"PO-Revision-Date: 2025-12-10 03:08+0000\n"
+"POT-Creation-Date: 2026-02-17 02:12+0000\n"
+"PO-Revision-Date: 2026-02-21 11:10+0000\n"
 "Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/fi/>\n"
 "Language: fi\n"
@@ -18,571 +18,577 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
-#: motioneye/static/js/main.js:610
+#: motioneye/static/js/main.js:611
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "erikoismerkkejä ei sallita salasanassa"
 
-#: motioneye/static/js/main.js:617 motioneye/static/js/main.js:628
-#: motioneye/static/js/main.js:687 motioneye/static/js/ui.js:362
-#: motioneye/static/js/ui.js:419 motioneye/static/js/ui.js:687
+#: motioneye/static/js/main.js:618
+#, fuzzy
+msgid "use of colon (:) is not allowed in video streaming username"
+msgstr "inch (:) on muistiinpano, joka on videon suoratoistokäyttäjänimessä"
+
+#: motioneye/static/js/main.js:629
+#, fuzzy
+msgid "video streaming authentication mode must be Basic or Digest when admin-only access is enabled"
+msgstr "videon suoratoistoharmonikan on oltava perus- tai Digest, kun järjestelmänvalvoja on käytössä"
+
+#: motioneye/static/js/main.js:636 motioneye/static/js/main.js:647
+#: motioneye/static/js/main.js:706 motioneye/static/js/ui.js:397
 msgid "Ĉi tiu kampo estas deviga"
 msgstr "Tämä kenttä vaaditaan"
 
-#: motioneye/static/js/main.js:621
+#: motioneye/static/js/main.js:640
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
 msgstr "erikoismerkit eivät ole sallittuja kameran nimessä"
 
-#: motioneye/static/js/main.js:633
+#: motioneye/static/js/main.js:652
 msgid "valoro devas esti multoblo de 8"
 msgstr "arvon on oltava 8:n kerrannainen"
 
-#: motioneye/static/js/main.js:640
+#: motioneye/static/js/main.js:659
 msgid "specialaj signoj ne rajtas en radika voja nomo"
 msgstr "erikoismerkit eivät ole sallittuja juurihakemiston nimessä"
 
-#: motioneye/static/js/main.js:643
+#: motioneye/static/js/main.js:662
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
 msgstr "tiedostoja ei voi luoda suoraan järjestelmän juureen"
 
-#: motioneye/static/js/main.js:650
+#: motioneye/static/js/main.js:669
 msgid "enigu validan retpoŝtadreson"
 msgstr "syötä voimassa oleva sähköpostiosoite"
 
-#: motioneye/static/js/main.js:657
+#: motioneye/static/js/main.js:676
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
 msgstr "kirjoita pilkuilla eroteltu luettelo kelvollisista sähköpostiosoitteista"
 
-#: motioneye/static/js/main.js:664
+#: motioneye/static/js/main.js:683
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "erikoismerkit eivät ole sallittuja tiedoston nimessä"
 
-#: motioneye/static/js/main.js:691
+#: motioneye/static/js/main.js:710
 msgid "enigu validan valoron"
 msgstr "syötä kelvollinen arvo"
 
-#: motioneye/static/js/main.js:845
+#: motioneye/static/js/main.js:872
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
 msgstr "Tämä poistaa rekursiivisesti kaikki pilvikansiossa olevat tiedostot ”"
 
-#: motioneye/static/js/main.js:846
+#: motioneye/static/js/main.js:873
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
 msgstr "\", ei pelkästään motionEyen lataamat!"
 
-#: motioneye/static/js/main.js:927
+#: motioneye/static/js/main.js:954
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
 msgstr "Tämä poistaa rekursiivisesti kaikki vanhat mediatiedostot kansiosta \""
 
-#: motioneye/static/js/main.js:928
+#: motioneye/static/js/main.js:955
 msgid "\", ne nur tiuj kreitaj de motionEye!"
 msgstr "\", ei vain motionEyen luomat!"
 
-#: motioneye/static/js/main.js:994
+#: motioneye/static/js/main.js:1021
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
 msgstr "Maskia ei voida muokata ilman kelvollista kuvaa kameralta!"
 
-#: motioneye/static/js/main.js:2239
+#: motioneye/static/js/main.js:2275
 msgid "Propra"
 msgstr "Mukautettu"
 
-#: motioneye/static/js/main.js:2277
+#: motioneye/static/js/main.js:2313
 msgid "Propra dosierindiko"
 msgstr "Mukautettu palku"
 
-#: motioneye/static/js/main.js:2279
+#: motioneye/static/js/main.js:2315
 msgid "Retan kunlokon"
 msgstr "Verkkojako"
 
-#: motioneye/static/js/main.js:2639
+#: motioneye/static/js/main.js:2678
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
 msgstr "Selaimesi ei tue tätä toimintoa!"
 
-#: motioneye/static/js/main.js:2655
+#: motioneye/static/js/main.js:2694
 msgid "Apliki"
 msgstr "Käytä"
 
-#: motioneye/static/js/main.js:2682 motioneye/static/js/main.js:3043
-#: motioneye/static/js/main.js:3098 motioneye/static/js/main.js:3173
+#: motioneye/static/js/main.js:2721 motioneye/static/js/main.js:3083
+#: motioneye/static/js/main.js:3139 motioneye/static/js/main.js:3214
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
 msgstr "Varmista, että kaikki asetukset ovat kelvollisia!"
 
-#: motioneye/static/js/main.js:2784
+#: motioneye/static/js/main.js:2824
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
 msgstr "Tämä käynnistää järjestelmän uudelleen. Jatketaanko?"
 
-#: motioneye/static/js/main.js:2794
+#: motioneye/static/js/main.js:2834
 msgid "Vere fermiti sistemon?"
 msgstr "Haluatko varmasti sammuttaa?"
 
-#: motioneye/static/js/main.js:2806
+#: motioneye/static/js/main.js:2846
 msgid "Malŝaltita"
 msgstr "Sammutettu"
 
-#: motioneye/static/js/main.js:2821
+#: motioneye/static/js/main.js:2861
 msgid "Ĉu vere restartigi ?"
 msgstr "Haluatko varmasti käynnistää uudelleen?"
 
-#: motioneye/static/js/main.js:2835
+#: motioneye/static/js/main.js:2875
 msgid "La sistemo rekomencis!"
 msgstr "Järjestelmä on käynnistetty uudelleen!"
 
-#: motioneye/static/js/main.js:2855 motioneye/static/js/main.js:2888
-#: motioneye/static/js/main.js:3871
+#: motioneye/static/js/main.js:2895 motioneye/static/js/main.js:2928
+#: motioneye/static/js/main.js:3904
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
 msgstr "Ole hyvä, ja ota käyttöön mukautetut asetukset ensin!"
 
-#: motioneye/static/js/main.js:2860
+#: motioneye/static/js/main.js:2900
 msgid "Neniu fotilo por forigi!"
 msgstr "Ei kameraa poistettavaksi!"
 
-#: motioneye/static/js/main.js:2866
+#: motioneye/static/js/main.js:2906
 msgid "Ĉu forigi kameraon "
 msgstr "Poista kamera "
 
-#: motioneye/static/js/main.js:2894
+#: motioneye/static/js/main.js:2934
 msgid "motionEye estas ĝisdatigita (aktuala versio: "
 msgstr "motionEye on päivitetty (tämänhetkinen versio: "
 
-#: motioneye/static/js/main.js:2897
+#: motioneye/static/js/main.js:2937
 msgid "Nova versio havebla: "
 msgstr "Uusi versio saatavilla: "
 
-#: motioneye/static/js/main.js:2897
+#: motioneye/static/js/main.js:2937
 msgid ". Ĝisdatigi?"
 msgstr ". Päivitä?"
 
-#: motioneye/static/js/main.js:2905
+#: motioneye/static/js/main.js:2945
 msgid "motionEye estis sukcese ĝisdatigita!"
 msgstr "motionEye on päivitetty onnistuneesti!"
 
-#: motioneye/static/js/main.js:2915
+#: motioneye/static/js/main.js:2955
 msgid "Ĝisdatigo malsukcesis!"
 msgstr "Päivitys epäonnistui!"
 
-#: motioneye/static/js/main.js:2926
+#: motioneye/static/js/main.js:2966
 msgid "La ĝisdatiga procezo malsukcesis!"
 msgstr "Päivitysprosessi epäonnistui!"
 
-#: motioneye/static/js/main.js:2945
+#: motioneye/static/js/main.js:2985
 msgid "Rezerva dosiero"
 msgstr "Varmuuskopiotiedosto"
 
-#: motioneye/static/js/main.js:2947
+#: motioneye/static/js/main.js:2987
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
 msgstr "Varmuuskopiotiedosto, jonka latasit aiemmin."
 
-#: motioneye/static/js/main.js:2976
+#: motioneye/static/js/main.js:3016
 msgid "Restaŭrigi Agordon"
 msgstr "Palauta asetukset"
 
-#: motioneye/static/js/main.js:2988
+#: motioneye/static/js/main.js:3028
 msgid "Restaŭriganta agordon ..."
 msgstr "Palautetaan asetuksia ..."
 
-#: motioneye/static/js/main.js:2995
+#: motioneye/static/js/main.js:3035
 msgid "La agordo restaŭrigis!"
 msgstr "Asetukset on palautettu!"
 
-#: motioneye/static/js/main.js:3005 motioneye/static/js/main.js:3024
+#: motioneye/static/js/main.js:3045 motioneye/static/js/main.js:3064
 msgid "Malsukcesis restaŭri la agordon!"
 msgstr "Asetusten palauttaminen epäonnistui!"
 
-#: motioneye/static/js/main.js:3079
+#: motioneye/static/js/main.js:3120
 msgid "Aliri la alŝutan servon malsukcesis: "
 msgstr "Lähetyspalveluun pääsy epäonnistui: "
 
-#: motioneye/static/js/main.js:3082
+#: motioneye/static/js/main.js:3123
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "Latauspalveluun pääsy onnistui!"
 
-#: motioneye/static/js/main.js:3119
+#: motioneye/static/js/main.js:3160
 msgid "Sciiga retpoŝto fiaskis:"
 msgstr "Sähköposti-ilmoitus epäonnistui:"
 
-#: motioneye/static/js/main.js:3122
+#: motioneye/static/js/main.js:3163
 #, fuzzy
 msgid "Notification email succeeded!"
 msgstr "Sähköposti katsoo!"
 
-#: motioneye/static/js/main.js:3138
+#: motioneye/static/js/main.js:3179
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
 msgstr "Varmista, että kaikki asetukset ovat kelvollisia!"
 
-#: motioneye/static/js/main.js:3154
+#: motioneye/static/js/main.js:3195
 msgid "Sciiga Telegramo fiaskis:"
 msgstr "Telegram ilmoitus epäonnistui:"
 
-#: motioneye/static/js/main.js:3157
+#: motioneye/static/js/main.js:3198
 msgid "Sciiga Telegramo sukcesis!"
 msgstr "Telegram-ilmoitus onnistui!"
 
-#: motioneye/static/js/main.js:3193
+#: motioneye/static/js/main.js:3234
 msgid "Aliro al retdividado fiaskis: "
 msgstr "Verkkojakoon yhdistäminen epäonnistui: "
 
-#: motioneye/static/js/main.js:3196
+#: motioneye/static/js/main.js:3237
 msgid "Aliro al retdividado sukcesis!"
 msgstr "Verkkojakoon yhdistäminen onnistui!"
 
-#: motioneye/static/js/main.js:3220
+#: motioneye/static/js/main.js:3261
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
 msgstr "Haluatko varmasti poistaa tämän tiedoston?"
 
-#: motioneye/static/js/main.js:3244
+#: motioneye/static/js/main.js:3285
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
 msgstr "Haluatko varmasti poistaa kaikki kuvat \"%(ryhmästä/ryhmistä)\"?"
 
-#: motioneye/static/js/main.js:3247
+#: motioneye/static/js/main.js:3288
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
 msgstr "Haluatko varmasti poistaa kaikki videot \"%(ryhmästä/ryhmistä)\"?"
 
-#: motioneye/static/js/main.js:3252
+#: motioneye/static/js/main.js:3293
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
 msgstr "Haluatko varmasti poistaa kaikki ryhmiin kuulumattomat kuvat?"
 
-#: motioneye/static/js/main.js:3255
+#: motioneye/static/js/main.js:3296
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
 msgstr "Haluatko varmasti poistaa kaikki ryhmiin kuulumattomat videot?"
 
-#: motioneye/static/js/main.js:3369
+#: motioneye/static/js/main.js:3402
 msgid "aldonadi kameraon..."
 msgstr "lisää kamera..."
 
-#: motioneye/static/js/main.js:3594 motioneye/static/js/main.js:3893
+#: motioneye/static/js/main.js:3627 motioneye/static/js/main.js:3926
 msgid "Uzantnomo"
 msgstr "Käyttäjänimi"
 
-#: motioneye/static/js/main.js:3599 motioneye/static/js/main.js:3898
+#: motioneye/static/js/main.js:3632 motioneye/static/js/main.js:3931
 msgid "Pasvorto"
 msgstr "Salasana"
 
-#: motioneye/static/js/main.js:3605
+#: motioneye/static/js/main.js:3638
 msgid "Memoru min"
 msgstr "Muista minut"
 
-#: motioneye/static/js/main.js:3623 motioneye/static/js/main.js:3629
+#: motioneye/static/js/main.js:3656 motioneye/static/js/main.js:3662
 msgid "Ensaluti"
 msgstr "Kirjaudu sisään"
 
-#: motioneye/static/js/main.js:3626 motioneye/static/js/ui.js:1023
-#: motioneye/static/js/ui.js:1030
+#: motioneye/static/js/main.js:3659 motioneye/static/js/ui.js:736
+#: motioneye/static/js/ui.js:743
 msgid "Nuligi"
 msgstr "Peruuta"
 
-#: motioneye/static/js/main.js:3668
+#: motioneye/static/js/main.js:3701
 msgid "Vi abortis la filmeton."
 msgstr "Keskeytit videon."
 
-#: motioneye/static/js/main.js:3671
+#: motioneye/static/js/main.js:3704
 msgid "Reto eraro okazis."
 msgstr "Tapahtui verkkovirhe."
 
-#: motioneye/static/js/main.js:3674
+#: motioneye/static/js/main.js:3707
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
 msgstr "Median purkuvirhe tai ei-tuettu mediaominaisuus."
 
-#: motioneye/static/js/main.js:3677
+#: motioneye/static/js/main.js:3710
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
 msgstr "Formaattia ei tueta tai se ei ole saavutettavissa / sovellu toistettavaksi."
 
-#: motioneye/static/js/main.js:3680
+#: motioneye/static/js/main.js:3713
 msgid "Nekonata eraro okazis."
 msgstr "Tapahtui tuntematon virhe."
 
-#: motioneye/static/js/main.js:3683
+#: motioneye/static/js/main.js:3716
 msgid "Eraro : "
 msgstr "Virhe : "
 
-#: motioneye/static/js/main.js:3688
+#: motioneye/static/js/main.js:3721
 msgid "antaŭa bildo"
 msgstr "edellinen kuva"
 
-#: motioneye/static/js/main.js:3693
+#: motioneye/static/js/main.js:3726
 msgid "ludi"
 msgstr "toista"
 
-#: motioneye/static/js/main.js:3696
+#: motioneye/static/js/main.js:3729
 msgid "ludi * 5 kaj enĉenigi"
 msgstr "toista * 5 ja ketju"
 
-#: motioneye/static/js/main.js:3701
+#: motioneye/static/js/main.js:3734
 msgid "sekva bildo"
 msgstr "seuraava kuva"
 
-#: motioneye/static/js/main.js:3824
+#: motioneye/static/js/main.js:3857
 msgid "Fermi"
 msgstr "Sulje"
 
-#: motioneye/static/js/main.js:3825 motioneye/static/js/main.js:4386
+#: motioneye/static/js/main.js:3858 motioneye/static/js/main.js:4417
 msgid "Elŝuti"
 msgstr "Lataa"
 
-#: motioneye/static/js/main.js:3833 motioneye/static/js/main.js:4389
+#: motioneye/static/js/main.js:3866 motioneye/static/js/main.js:4420
 msgid "Forigi"
 msgstr "Poista"
 
-#: motioneye/static/js/main.js:3877
+#: motioneye/static/js/main.js:3910
 msgid "Kamerao tipo"
 msgstr "Kameran tyyppi"
 
-#: motioneye/static/js/main.js:3879
+#: motioneye/static/js/main.js:3912
 msgid "Loka V4L2-kamerao"
 msgstr "Paikallinen V4L2-kamera"
 
-#: motioneye/static/js/main.js:3880
+#: motioneye/static/js/main.js:3913
 msgid "Loka MMAL-kamerao"
 msgstr "Paikallinen MMAL-kamera"
 
-#: motioneye/static/js/main.js:3881
+#: motioneye/static/js/main.js:3914
 msgid "Reta kamerao"
 msgstr "Verkkokamera"
 
-#: motioneye/static/js/main.js:3882
+#: motioneye/static/js/main.js:3915
 msgid "Fora motionEye kamerao"
 msgstr "Etäkamera motionEye"
 
-#: motioneye/static/js/main.js:3883
+#: motioneye/static/js/main.js:3916
 msgid "Simpla MJPEG-kamerao"
 msgstr "Yksinkertainen MJPEG-kamera"
 
-#: motioneye/static/js/main.js:3885
+#: motioneye/static/js/main.js:3918
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "lisättävän kameran tyyppi"
 
-#: motioneye/static/js/main.js:3888
+#: motioneye/static/js/main.js:3921
 msgid "URL"
 msgstr "URL"
 
-#: motioneye/static/js/main.js:3889
+#: motioneye/static/js/main.js:3922
 msgid "http://ekzemplo.com:8765/cams/..."
 msgstr "http://esimerkki.com:8765/kamerat/..."
 
-#: motioneye/static/js/main.js:3890
+#: motioneye/static/js/main.js:3923
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
 msgstr "kameran URL (esim. http://example.com:8080/kamera/)"
 
-#: motioneye/static/js/main.js:3894
+#: motioneye/static/js/main.js:3927
 msgid "uzantnomo..."
 msgstr "käyttäjänimi ..."
 
-#: motioneye/static/js/main.js:3895
+#: motioneye/static/js/main.js:3928
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
 msgstr "URL-osoitteen käyttäjätunnus tarvittaessa (esim. ylläpitäjä)"
 
-#: motioneye/static/js/main.js:3899
+#: motioneye/static/js/main.js:3932
 msgid "pasvorto..."
 msgstr "salasana..."
 
-#: motioneye/static/js/main.js:3900
+#: motioneye/static/js/main.js:3933
 msgid "la pasvorto por la URL, se bezonata"
 msgstr "URL-osoitteen salasana tarvittaessa"
 
-#: motioneye/static/js/main.js:3903
+#: motioneye/static/js/main.js:3936
 msgid "Kamerao"
 msgstr "Kamera"
 
-#: motioneye/static/js/main.js:3905
+#: motioneye/static/js/main.js:3938
 msgid "la kameraon, kiun vi volas aldoni"
 msgstr "kamera, jonka haluat lisätä"
 
-#: motioneye/static/js/main.js:3941
+#: motioneye/static/js/main.js:3972
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr "Etä-motionEye-kamera, joka on asennettu toisen MotionEye-palvelimen taakse. Niiden lisääminen antaa sinun katsoa ja hallita niitä etänä."
 
-#: motioneye/static/js/main.js:3956
+#: motioneye/static/js/main.js:3987
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr "Verkkokamerat (tai IP-kamerat) ovat laitteita, jotka tukevat RTSP/RTMP- tai MJPEG-videoita tai yksinkertaisia JPEG-kuvia. Selvitä oikea RTSP, RTMP, MJPEG tai JPEG URL laitteesi käsikirjasta."
 
-#: motioneye/static/js/main.js:3961
+#: motioneye/static/js/main.js:3992
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr "Paikalliset MMAL-kamerat ovat laitteita, jotka on liitetty suoraan motionEye-järjestelmään. Nämä ovat yleensä piirilevykohtiasia kameroita."
 
-#: motioneye/static/js/main.js:3976
+#: motioneye/static/js/main.js:4007
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr "Laitteen lisääminen pelkäksi MJPEG-kameraksi verkkokameran sijaan parantaa päivitysnopeutta, mutta siihen ei ole saatavilla liikkeen tunnistusta, kuvan tallentamista tai videon tallennusta. Kameran on oltava palvelimen ja selaimesi käytettävissä. Tämä kamera ei ole yhteensopiva Internet Explorerin kanssa."
 
-#: motioneye/static/js/main.js:3981
+#: motioneye/static/js/main.js:4012
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr "Paikalliset V4L2-kamerat ovat kameralaitteita, jotka on kytketty suoraan motionEye-järjestelmään, yleensä USB:n kautta."
 
-#: motioneye/static/js/main.js:4132
+#: motioneye/static/js/main.js:4163
 msgid "Aldonadi kameraon..."
 msgstr "Lisää kamera..."
 
-#: motioneye/static/js/main.js:4204
+#: motioneye/static/js/main.js:4235
 msgid "Grupo"
 msgstr "Ryhmä"
 
-#: motioneye/static/js/main.js:4208
+#: motioneye/static/js/main.js:4239
 msgid "Inkluzivi foton prenitan ĉiun"
 msgstr "Sisällytä kuva, joka on otettu joka"
 
-#: motioneye/static/js/main.js:4211
+#: motioneye/static/js/main.js:4242
 msgid "sekundo"
 msgstr "sekunti"
 
-#: motioneye/static/js/main.js:4212
+#: motioneye/static/js/main.js:4243
 msgid "5 sekundoj"
 msgstr "5 sekuntia"
 
-#: motioneye/static/js/main.js:4213
+#: motioneye/static/js/main.js:4244
 msgid "10 sekundoj"
 msgstr "10 sekuntia"
 
-#: motioneye/static/js/main.js:4214
+#: motioneye/static/js/main.js:4245
 msgid "30 sekundoj"
 msgstr "30 sekuntia"
 
-#: motioneye/static/js/main.js:4215
+#: motioneye/static/js/main.js:4246
 msgid "minuto"
 msgstr "minuuttia"
 
-#: motioneye/static/js/main.js:4216
+#: motioneye/static/js/main.js:4247
 msgid "5 minutoj"
 msgstr "5 minuuttia"
 
-#: motioneye/static/js/main.js:4217
+#: motioneye/static/js/main.js:4248
 msgid "10 minutoj"
 msgstr "10 minuuttia"
 
-#: motioneye/static/js/main.js:4218
+#: motioneye/static/js/main.js:4249
 msgid "30 minutoj"
 msgstr "30 minuuttia"
 
-#: motioneye/static/js/main.js:4219
+#: motioneye/static/js/main.js:4250
 msgid "horo"
 msgstr "tunti"
 
-#: motioneye/static/js/main.js:4222
+#: motioneye/static/js/main.js:4253
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
 msgstr "valitse aikaväli kahden valitun kuvan välillä."
 
-#: motioneye/static/js/main.js:4225
+#: motioneye/static/js/main.js:4256
 msgid "Filmo framfrekvenco"
 msgstr "Videon kuvataajuus"
 
-#: motioneye/static/js/main.js:4227
+#: motioneye/static/js/main.js:4258
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr "Valitse miten nopea haluat intervallivideon olevan."
 
-#: motioneye/static/js/main.js:4236
+#: motioneye/static/js/main.js:4267
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr "Huomioiden suuren kuvien määrän, intervallivideon luominen saattaa kestää jonkin aikaa!"
 
-#: motioneye/static/js/main.js:4253
+#: motioneye/static/js/main.js:4284
 msgid "Krei akselita video"
 msgstr "Luo intervallivideo"
 
-#: motioneye/static/js/main.js:4262
+#: motioneye/static/js/main.js:4293
 msgid "Filmo kreanta en progreso..."
 msgstr "Luodaan intervallivideota..."
 
-#: motioneye/static/js/main.js:4513
+#: motioneye/static/js/main.js:4544
 msgid "Zipitaj"
 msgstr "Pakattu"
 
-#: motioneye/static/js/main.js:4522
+#: motioneye/static/js/main.js:4553
 msgid "Akselita video"
 msgstr "Ajastettu kuvaus"
 
-#: motioneye/static/js/main.js:4533
+#: motioneye/static/js/main.js:4564
 msgid "Forigi ĉiujn"
 msgstr "Poista kaikki"
 
-#: motioneye/static/js/main.js:4675
+#: motioneye/static/js/main.js:4706
 msgid "Bildoj prenitaj de "
 msgstr "Kuvat, jotka on ottanut "
 
-#: motioneye/static/js/main.js:4678
+#: motioneye/static/js/main.js:4709
 msgid "Filmoj registritaj de "
 msgstr "Videot, jotka on ottanut "
 
-#: motioneye/static/js/main.js:4746
+#: motioneye/static/js/main.js:4777
 msgid "montru ĉi tiun fotilon plenekranan"
 msgstr "Näytä tämä kamera koko ruudun tilassa"
 
-#: motioneye/static/js/main.js:4747
+#: motioneye/static/js/main.js:4778
 msgid "montri ĉiujn fotilojn"
 msgstr "Näytä kaikki kamerat"
 
-#: motioneye/static/js/main.js:4748
+#: motioneye/static/js/main.js:4779
 msgid "montru nur ĉi tiun fotilon"
 msgstr "Näytä vain tämä kamera"
 
-#: motioneye/static/js/main.js:4749
+#: motioneye/static/js/main.js:4780
 msgid "malfermaj bildoj retumilo"
 msgstr "avaa kuvaselain"
 
-#: motioneye/static/js/main.js:4750
+#: motioneye/static/js/main.js:4781
 msgid "malferma videoj retumilo"
 msgstr "avaa videoselain"
 
-#: motioneye/static/js/main.js:4751
+#: motioneye/static/js/main.js:4782
 msgid "agordi ĉi tiun kameraon"
 msgstr "konfiguroi tämä kamera"
 
-#: motioneye/static/js/main.js:4767
+#: motioneye/static/js/main.js:4798
 msgid "preni instantaron"
 msgstr "ota kuvakaappaus"
 
-#: motioneye/static/js/main.js:5160
+#: motioneye/static/js/main.js:5191
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "Et ole konfiguroinut vielä yhtään kameraa. Paina tästä lisätäksesi..."
 
-#: motioneye/static/js/ui.js:503
-msgid "enigu pozitivan nombron"
-msgstr "syötä positiivinen luku"
+#: motioneye/static/js/ui.js:361
+#, fuzzy
+msgid "enter a valid value"
+msgstr "hautaa kelvollinen arvo"
 
-#: motioneye/static/js/ui.js:505
-msgid "enigu pozitivan entjeran nombron"
-msgstr "syötä positiivinen muuttuja"
-
-#: motioneye/static/js/ui.js:507
+#: motioneye/static/js/ui.js:420
 msgid "enigu nombron"
 msgstr "syötä numero"
 
-#: motioneye/static/js/ui.js:509
+#: motioneye/static/js/ui.js:423
 msgid "enigu entjeran nombron"
 msgstr "syötä muuttuja"
 
-#: motioneye/static/js/ui.js:512
+#: motioneye/static/js/ui.js:427
 msgid " inter "
 msgstr " välissä "
 
-#: motioneye/static/js/ui.js:512
+#: motioneye/static/js/ui.js:427
 msgid " kaj "
 msgstr " ja "
 
-#: motioneye/static/js/ui.js:515
+#: motioneye/static/js/ui.js:430
 msgid " pli ol "
 msgstr " suurempi kuin "
 
-#: motioneye/static/js/ui.js:520
+#: motioneye/static/js/ui.js:435
 msgid " malpli ol "
 msgstr " pienempi kuin "
 
-#: motioneye/static/js/ui.js:573
+#: motioneye/static/js/ui.js:479
 msgid "enigu validan tempon en la sekva formato: HH:MM"
 msgstr "syötä aika muodossa: HH:MM"
 
-#: motioneye/static/js/ui.js:630
+#: motioneye/static/js/ui.js:488
 msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
 msgstr "syötä kelvollinen URL (esim. http://example.com:8080/kamerat/)"
 
-#: motioneye/static/js/ui.js:971
+#: motioneye/static/js/ui.js:684
 msgid "fermi"
 msgstr "sulje"
 
-#: motioneye/static/js/ui.js:1017 motioneye/static/js/ui.js:1024
+#: motioneye/static/js/ui.js:730 motioneye/static/js/ui.js:737
 msgid "Ne"
 msgstr "Ei"
 
-#: motioneye/static/js/ui.js:1018 motioneye/static/js/ui.js:1025
+#: motioneye/static/js/ui.js:731 motioneye/static/js/ui.js:738
 msgid "Jes"
 msgstr "Kyllä"
 
-#: motioneye/static/js/ui.js:1031 motioneye/static/js/ui.js:1036
+#: motioneye/static/js/ui.js:744 motioneye/static/js/ui.js:749
 msgid "Bone"
 msgstr "OK"
 
@@ -677,3 +683,9 @@ msgstr "Automaattinen valkotasapaino"
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
 msgstr "Absoluuttinen zoomaus"
+
+#~ msgid "enigu pozitivan nombron"
+#~ msgstr "syötä positiivinen luku"
+
+#~ msgid "enigu pozitivan entjeran nombron"
+#~ msgstr "syötä positiivinen muuttuja"

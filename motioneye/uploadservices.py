@@ -23,7 +23,8 @@ import mimetypes
 import os
 import os.path
 import time
-from base64 import b64encode
+from base64 import b64decode, b64encode
+from hashlib import md5
 from urllib.error import HTTPError
 from urllib.parse import quote, urlencode
 from urllib.request import Request
@@ -61,10 +62,7 @@ class UploadService:
         if target_dir:
             target_dir = os.path.realpath(target_dir)
             rel_filename = os.path.realpath(filename)
-            rel_filename = rel_filename[len(target_dir) :]
-
-            while rel_filename.startswith('/'):
-                rel_filename = rel_filename[1:]
+            rel_filename = rel_filename[len(target_dir) :].lstrip('/')
 
             self.debug(f'uploading file "{target_dir}/{rel_filename}" to {self}')
 
@@ -1192,6 +1190,7 @@ class S3(UploadService):
         self._access_key = None
         self._secret_key = None
         self._bucket = None
+        self._sse_c_key = None
         UploadService.__init__(self, camera_id)
 
     def dump(self):
@@ -1200,6 +1199,7 @@ class S3(UploadService):
             'access_key': self._access_key,
             'secret_key': self._secret_key,
             'bucket': self._bucket,
+            'sse_c_key': self._sse_c_key,
         }
 
     def load(self, data):
@@ -1211,6 +1211,8 @@ class S3(UploadService):
             self._secret_key = data['secret_key']
         if data.get('bucket') is not None:
             self._bucket = data['bucket']
+        if data.get('sse_c_key') is not None:
+            self._sse_c_key = data['sse_c_key']
 
     def upload_file(self, target_dir, filename, camera_name):
         # Create an S3 client
@@ -1221,10 +1223,32 @@ class S3(UploadService):
             aws_secret_access_key=self._secret_key,
         )
 
+        if target_dir:
+            target_dir = os.path.realpath(target_dir)
+            rel_filename = os.path.realpath(filename)
+            rel_filename = rel_filename[len(target_dir) :].lstrip('/')
+
+        else:
+            rel_filename = os.path.basename(filename)
+
+        if self._sse_c_key:
+            sse_key_md5 = b64encode(
+                md5(b64decode(self._sse_c_key)).digest()  # nosec B324
+            ).decode()
+            extra_args = {
+                'SSECustomerAlgorithm': 'AES256',
+                'SSECustomerKey': self._sse_c_key,
+                'SSECustomerKeyMD5': sse_key_md5,
+            }
+        else:
+            extra_args = None
+
         # Uploads the given file using a managed uploader, which will split up
         # large files automatically and upload parts in parallel.
-        self.debug(f'uploading file "{filename}" to S3 bucket "{self._bucket}"')
-        s3.upload_file(filename, self._bucket, filename[len(target_dir) :])
+        self.debug(
+            f'uploading file "{filename}" to S3 bucket "{self._bucket}" path "{rel_filename}"'
+        )
+        s3.upload_file(filename, self._bucket, rel_filename, ExtraArgs=extra_args)
 
     def test_access(self):
         try:

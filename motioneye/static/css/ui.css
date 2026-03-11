@@ -1,15 +1,11 @@
 
     /* general */
 
-::selection,
-::-moz-selection,
-::-webkit-selection {
+::selection {
     background: #3498db;
 }
 
-option::selection,
-option::-moz-selection,
-option::-webkit-selection {
+option::selection {
     background: transparent;
 }
 
@@ -33,7 +29,6 @@ a:ACTIVE {
 
 div.button {
     -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
     cursor: pointer;
     display: inline-block;
@@ -87,7 +82,6 @@ div.check-box {
     vertical-align: middle;
     cursor: pointer;
     -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
     margin: 2px;
     transition: all 0.2s ease;
@@ -132,6 +126,7 @@ div.check-box.on:HOVER div.check-box-button {
 
 input[type=password].styled,
 input[type=text].styled,
+input[type=time].styled,
 textarea.styled {
     width: 90%;
     border: 1px solid #317CAD;
@@ -154,6 +149,7 @@ textarea.styled {
 
 input[type=password].styled:FOCUS,
 input[type=text].styled:FOCUS,
+input[type=time].styled:FOCUS,
 textarea.styled:FOCUS {
     background-color: #414141;
 }
@@ -162,6 +158,8 @@ input[type=password].styled:HOVER,
 input[type=password].styled:FOCUS,
 input[type=text].styled:HOVER,
 input[type=text].styled:FOCUS,
+input[type=time].styled:HOVER,
+input[type=time].styled:FOCUS,
 textarea.styled:HOVER,
 textarea.styled:FOCUS {
     border-color: #3498db;
@@ -174,6 +172,7 @@ input[type=text].number {
 
 input[type=text].error,
 input[type=password].error,
+input[type=time].error,
 input[type=file].error,
 select.error {
     background-image: url(../img/validation-error.svg) !important;
@@ -181,8 +180,8 @@ select.error {
     background-repeat: no-repeat;
 }
 
-input[type=text].time {
-    width: 3.5em;
+input[type=time].working-schedule {
+    width: auto;
 }
 
 input[readonly] {
@@ -193,7 +192,6 @@ input[readonly] {
     /* combo box */
 
 select.styled {
-    -webkit-appearance: none;
     appearance: none;
     width: 90%;
     border: 1px solid #317CAD;
@@ -213,18 +211,12 @@ select.styled {
 
 select.styled:FOCUS {
     background-color: #414141;
-    appearance: auto;
 }
 
 select.styled:HOVER,
 select.styled:FOCUS {
     border-color: #3498db;
     color: white;
-}
-
-.ff select.styled {
-    background-image: none;
-    padding-right: 1px;
 }
 
 
@@ -393,7 +385,6 @@ table.modal-buttons-container {
     text-align: center;
     table-layout: fixed;
     -webkit-user-select: none;
-    -moz-user-select: none;
     user-select: none;
 }
 

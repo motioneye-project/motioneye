@@ -20,7 +20,7 @@ import logging
 import os
 import re
 
-from tornado.ioloop import IOLoop
+from tornado import gen
 from tornado.web import HTTPError
 
 from motioneye import (
@@ -43,10 +43,31 @@ class PictureHandler(BaseHandler):
         return None
 
     async def get(self, camera_id, op, filename=None, group=None):
+        if filename is not None and '..' in filename.split('/'):
+            raise HTTPError(
+                403, 'Path traversal detected', reason='Path traversal detected'
+            )
+
+        if group is not None and '..' in group.split('/'):
+            raise HTTPError(
+                403, 'Path traversal detected', reason='Path traversal detected'
+            )
+
         if camera_id is not None:
             camera_id = int(camera_id)
             if camera_id not in config.get_camera_ids():
                 raise HTTPError(404, 'no such camera')
+            # block access to admin-only cameras for non-admin users
+            camera_config = config.get_camera(camera_id)
+            if (
+                camera_config
+                and camera_config.get('@admin_only')
+                and self.current_user != 'admin'
+            ):
+                raise HTTPError(
+                    403,
+                    f'GET access denied to admin-only camera "{camera_id}" for operation "{op}"',
+                )
 
         if op == 'current':
             await self.current(camera_id)
@@ -73,6 +94,20 @@ class PictureHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     async def post(self, camera_id, op, filename=None, group=None):
+        if filename is not None and '..' in filename.split('/'):
+            raise HTTPError(
+                403,
+                f'Path traversal detected in filename "{filename}"',
+                reason='Path traversal detected',
+            )
+
+        if group is not None and '..' in group.split('/'):
+            raise HTTPError(
+                403,
+                f'Path traversal detected in group "{group}"',
+                reason='Path traversal detected',
+            )
+
         if group == '/':  # ungrouped
             group = ''
 
@@ -80,6 +115,17 @@ class PictureHandler(BaseHandler):
             camera_id = int(camera_id)
             if camera_id not in config.get_camera_ids():
                 raise HTTPError(404, 'no such camera')
+            # block access to admin-only cameras for non-admin users
+            camera_config = config.get_camera(camera_id)
+            if (
+                camera_config
+                and camera_config.get('@admin_only')
+                and self.current_user != 'admin'
+            ):
+                raise HTTPError(
+                    403,
+                    f'POST access denied to admin-only camera "{camera_id}" for operation "{op}"',
+                )
 
         if op == 'delete':
             await self.delete(camera_id, filename)
@@ -115,12 +161,8 @@ class PictureHandler(BaseHandler):
             # get_current_picture() will make sure to start a client, but a jpeg frame is not available right away;
             # wait at most 5 seconds and retry every 200 ms.
             if not picture and retry < 25:
-                return IOLoop.current().add_timeout(
-                    datetime.timedelta(seconds=0.2),
-                    self.current,
-                    camera_id=camera_id,
-                    retry=retry + 1,
-                )
+                await gen.sleep(0.2)
+                return await self.current(camera_id=camera_id, retry=retry + 1)
 
             self.set_cookie(
                 'motion_detected_' + camera_id_str,
@@ -223,6 +265,11 @@ class PictureHandler(BaseHandler):
                     camera_id=camera_id,
                     camera_config=camera_config,
                     title=self.get_argument('title', ''),
+                )
+            # block access to admin-only cameras for non-admin users
+            if camera_config.get('admin_only') and self.current_user != 'admin':
+                raise HTTPError(
+                    403, f'access denied to admin-only camera frame "{camera_id}"'
                 )
 
             # issue a fake motion_camera_ui_to_dict() call to transform

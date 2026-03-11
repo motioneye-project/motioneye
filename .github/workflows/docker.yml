@@ -18,40 +18,44 @@ jobs:
       packages: write
 
     steps:
-      - uses: docker/metadata-action@v5
+      - uses: docker/metadata-action@v6
         id: meta
         with:
           images: |
             motioneyeproject/motioneye
             ghcr.io/${{ github.repository_owner }}/motioneye
+          flavor: latest=false
           tags: |
             type=edge,branch=dev
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=semver,pattern={{major}}
+            type=match,pattern=\d+\.\d+\.\d+b\d+
+            type=raw,value=beta,enable=${{ github.ref_type == 'tag' && contains(github.ref_name, 'b') && contains(github.ref_name, '.') && !startsWith(github.ref_name, 'v') && !contains(github.ref_name, '-') }}
+            type=raw,value=latest,enable=${{ github.ref_type == 'tag' && !contains(github.ref_name, 'b') && contains(github.ref_name, '.') && !startsWith(github.ref_name, 'v')  && !contains(github.ref_name, '-') }}
 
-      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-qemu-action@v4
         with:
           cache-image: false
 
-      - uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v4
 
       - name: Login to Docker Hub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         if: github.event_name == 'push' && github.repository == 'motioneye-project/motioneye' && steps.meta.outputs.tags != null
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         if: github.event_name == 'push' && github.repository == 'motioneye-project/motioneye' && steps.meta.outputs.tags != null
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-      - uses: docker/build-push-action@v6
+      - uses: docker/build-push-action@v7
         with:
           file: ./docker/Dockerfile
           platforms: linux/amd64,linux/arm64/v8,linux/arm/v7,linux/riscv64

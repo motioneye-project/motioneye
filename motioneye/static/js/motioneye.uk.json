@@ -1,5 +1,7 @@
 {"":{"language":"uk","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "Спеціальні символи заборонені у паролі"
+,"use of colon (:) is not allowed in video streaming username": "використання дюйма (:) є заміткою, яка перебуває в потоковому відео імені користувача"
+,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": "увімкнено режим потокового відео гармоніки Basic або Дайджест, коли ввімкнено підхід адміністратора"
 ,"Ĉi tiu kampo estas deviga": "Це поле є обов'язковим"
 ,"specialaj signoj ne rajtas en la nomo de kamerao": "Спеціальні символи заборонені від імені камери"
 ,"valoro devas esti multoblo de 8": "Значення повинно бути кратним 8"
@@ -125,8 +127,7 @@
 ,"agordi ĉi tiun kameraon": "Встановіть цю камеру"
 ,"preni instantaron": "прийняти миттєво"
 ,"Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...": "Ви ще не встановили жодної камери. Клацніть тут, щоб додати один ..."
-,"enigu pozitivan nombron": "Введіть додатковий номер"
-,"enigu pozitivan entjeran nombron": "Введіть позитивне ціле число"
+,"enter a valid value": "берігає дійсне значення"
 ,"enigu nombron": "Введіть номер"
 ,"enigu entjeran nombron": "Введіть цілий номер"
 ," inter ": " між "

@@ -21,6 +21,7 @@ from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
 
+from motioneye import mediafiles
 from motioneye.mediafiles import _list_media_files
 
 
@@ -279,6 +280,124 @@ class TestMediaFiles(unittest.TestCase):
             ]
         )
         self.assertEqual(result_paths, expected_files)
+
+
+class TestMediaFilesPathTraversal(unittest.TestCase):
+    """Tests verifying that path traversal elements are rejected in mediafiles functions."""
+
+    _CAMERA_CONFIG = {'target_dir': '/run/cam', 'framerate': 2, 'pre_capture': 2}
+
+    # Traversal inputs to test: each contains '..' as a path component.
+    _FILENAME_TRAVERSALS = [
+        '../etc/passwd',
+        '../../etc/passwd',
+        'subdir/../../../etc/passwd',
+        '../secret.jpg',
+    ]
+    _GROUP_TRAVERSALS = [
+        '..',
+        '../group',
+        'subdir/..',
+        'subdir/../../other',
+    ]
+    _PREFIX_TRAVERSALS = [
+        '..',
+        '../prefix',
+        'prefix/../..',
+    ]
+
+    def _assert_raises_path_traversal(self, fn, *args, **kwargs):
+        with self.assertRaises(Exception) as ctx:
+            fn(*args, **kwargs)
+        self.assertIn('Path traversal', str(ctx.exception))
+
+    def test_make_movie_preview_rejects_traversal(self):
+        for full_path in self._FILENAME_TRAVERSALS:
+            with self.subTest(full_path=full_path):
+                self._assert_raises_path_traversal(
+                    mediafiles.make_movie_preview, self._CAMERA_CONFIG, full_path
+                )
+
+    def test_list_media_rejects_prefix_traversal(self):
+        for prefix in self._PREFIX_TRAVERSALS:
+            with self.subTest(prefix=prefix):
+                # list_media returns an Awaitable; the check runs before scheduling.
+                self._assert_raises_path_traversal(
+                    mediafiles.list_media,
+                    self._CAMERA_CONFIG,
+                    'picture',
+                    prefix=prefix,
+                )
+
+    def test_get_media_path_rejects_traversal(self):
+        for path in self._FILENAME_TRAVERSALS:
+            with self.subTest(path=path):
+                self._assert_raises_path_traversal(
+                    mediafiles.get_media_path, self._CAMERA_CONFIG, path, 'picture'
+                )
+
+    def test_get_media_content_rejects_traversal(self):
+        for path in self._FILENAME_TRAVERSALS:
+            with self.subTest(path=path):
+                self._assert_raises_path_traversal(
+                    mediafiles.get_media_content,
+                    self._CAMERA_CONFIG,
+                    path,
+                    'picture',
+                )
+
+    def test_get_zipped_content_rejects_group_traversal(self):
+        for group in self._GROUP_TRAVERSALS:
+            with self.subTest(group=group):
+                self._assert_raises_path_traversal(
+                    mediafiles.get_zipped_content,
+                    self._CAMERA_CONFIG,
+                    'picture',
+                    group,
+                )
+
+    def test_make_timelapse_movie_rejects_group_traversal(self):
+        for group in self._GROUP_TRAVERSALS:
+            with self.subTest(group=group):
+                self._assert_raises_path_traversal(
+                    mediafiles.make_timelapse_movie,
+                    self._CAMERA_CONFIG,
+                    2,
+                    1,
+                    group,
+                )
+
+    def test_get_media_preview_rejects_traversal(self):
+        for path in self._FILENAME_TRAVERSALS:
+            with self.subTest(path=path):
+                self._assert_raises_path_traversal(
+                    mediafiles.get_media_preview,
+                    self._CAMERA_CONFIG,
+                    path,
+                    'picture',
+                    None,
+                    None,
+                )
+
+    def test_del_media_content_rejects_traversal(self):
+        for path in self._FILENAME_TRAVERSALS:
+            with self.subTest(path=path):
+                self._assert_raises_path_traversal(
+                    mediafiles.del_media_content,
+                    self._CAMERA_CONFIG,
+                    path,
+                    'picture',
+                )
+
+    def test_del_media_group_rejects_traversal(self):
+        for group in self._GROUP_TRAVERSALS:
+            with self.subTest(group=group):
+                self._assert_raises_path_traversal(
+                    mediafiles.del_media_group,
+                    self._CAMERA_CONFIG,
+                    group,
+                    'picture',
+                )
 
 
 if __name__ == '__main__':

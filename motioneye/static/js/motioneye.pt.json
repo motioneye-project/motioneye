@@ -1,5 +1,7 @@
 {"":{"language":"pt","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "caracteres especiais não são permitidos na senha"
+,"use of colon (:) is not allowed in video streaming username": "use of inch (:) é uma nota que está em usuário de streaming de vídeo"
+,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": "modo de harmônica de streaming de vídeo deve ser Basic ou Digest quando uma abordagem somente de admin é ativada"
 ,"Ĉi tiu kampo estas deviga": "Este campo é obrigatório"
 ,"specialaj signoj ne rajtas en la nomo de kamerao": "caracteres especiais não são permitidos no nome de câmera"
 ,"valoro devas esti multoblo de 8": "o valor deve ser um múltiplo de 8"
@@ -125,8 +127,7 @@
 ,"agordi ĉi tiun kameraon": "Configurar esta câmera"
 ,"preni instantaron": "Tirar uma foto"
 ,"Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...": "Você ainda não configurou nenhuma câmera. Clique aqui para adicionar uma ..."
-,"enigu pozitivan nombron": "insira um número positivo"
-,"enigu pozitivan entjeran nombron": "insira um número inteiro positivo"
+,"enter a valid value": "enterrar um valor válido"
 ,"enigu nombron": "insira um número"
 ,"enigu entjeran nombron": "insira um número inteiro"
 ," inter ": " entre "

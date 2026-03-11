@@ -81,8 +81,8 @@ class GetCurrentPictureResponse:
 
 @dataclass
 class ListMediaResponse:
-    media_list: list = None
-    error: str = None
+    media_list: list | None = None
+    error: str | None = None
 
 
 @dataclass
@@ -118,13 +118,17 @@ def pretty_size(size):
 
 
 def pretty_http_error(response):
-    if response.code == 401 or response.error == 'Authentication Error':
+    if response.code == 401:
         return 'authentication failed'
 
-    if not response.error:
+    if response.error is None:
         return 'ok'
 
     msg = str(response.error)
+
+    if msg == 'Authentication Error':
+        return 'authentication failed'
+
     if msg.startswith('HTTP '):
         msg = msg.split(':', 1)[-1].strip()
 
@@ -235,9 +239,9 @@ def compute_signature(method, path, body: bytes, key):
     query.sort(key=lambda q: q[0])
     # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
     query = [(n, urllib.parse.quote(v, safe="!'()*~")) for (n, v) in query]
-    query = '&'.join([(q[0] + '=' + q[1]) for q in query])
+    joined_query = '&'.join([(q[0] + '=' + q[1]) for q in query])
     parts[0] = parts[1] = ''
-    parts[3] = query
+    parts[3] = joined_query
     path = urllib.parse.urlunsplit(parts)
     path = _SIGNATURE_REGEX.sub('-', path)
     key = _SIGNATURE_REGEX.sub('-', key)
@@ -261,13 +265,13 @@ def compute_signature(method, path, body: bytes, key):
     )
 
 
-def parse_cookies(cookies_headers):
-    parsed = {}
+def parse_cookies(cookies_headers: list[str]) -> dict[str, str]:
+    parsed: dict[str, str] = {}
 
     for cookie in cookies_headers:
-        cookie = cookie.split(';')
-        for c in cookie:
-            (name, value) = c.split('=', 1)
+        parts = cookie.split(';')
+        for c in parts:
+            name, value = c.split('=', 1)
             name = name.strip()
             value = value.strip()
 
@@ -279,7 +283,7 @@ def parse_cookies(cookies_headers):
     return parsed
 
 
-def build_basic_header(username, password):
+def build_basic_header(username: str, password: str) -> str:
     return 'Basic %s' % base64.b64encode(f'{username}:{password}'.encode()).decode()
 
 
@@ -294,7 +298,7 @@ def parse_basic_header(header):
     encoded = parts[1]
 
     try:
-        decoded = base64.decodebytes(encoded)
+        decoded = base64.b64decode(encoded).decode()
 
     except:
         return None

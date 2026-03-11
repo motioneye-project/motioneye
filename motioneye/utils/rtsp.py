@@ -38,13 +38,14 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
 
     called = [False]
     send_auth = [False]
-    timeout = [None]
-    stream = None
+    timeout: list[object | None] = [None]
+    stream: IOStream | None = None
 
     io_loop = IOLoop.current()
-    future = Future()
+    future: Future = Future()
 
-    def connect():
+    def connect() -> None:
+        nonlocal stream
         if send_auth[0]:
             logging.debug(
                 'testing rtsp netcam at %s (this time with credentials)' % url
@@ -52,6 +53,12 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
 
         else:
             logging.debug('testing rtsp netcam at %s' % url)
+
+        if stream is not None:
+            try:
+                stream.close()
+            except Exception:
+                pass
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
@@ -64,8 +71,6 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
             functools.partial(on_connect, _timeout=True),
         )
-
-        return stream
 
     def on_connect(f: Future, _timeout: bool = False) -> None:
         try:
@@ -103,6 +108,9 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             if check_error():
                 return
         else:
+            if stream is None:
+                return handle_error('connection closed')
+
             r_future = cast_future(stream.read_until_regex(br'RTSP/1.0 \d+ '))
             r_future.add_done_callback(on_rtsp)
             timeout[0] = io_loop.add_timeout(
@@ -251,5 +259,5 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
 
         return False
 
-    stream = connect()
+    connect()
     return future

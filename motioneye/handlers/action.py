@@ -36,6 +36,16 @@ class ActionHandler(BaseHandler):
             raise HTTPError(404, 'no such camera')
 
         local_config = config.get_camera(camera_id)
+        # block access to admin-only cameras for non-admin users
+        if (
+            local_config
+            and local_config.get('@admin_only')
+            and self.current_user != 'admin'
+        ):
+            raise HTTPError(
+                403,
+                f'access denied to admin-only camera "{camera_id}" for action "{action}"',
+            )
         if utils.is_remote_camera(local_config):
             resp = await remote.exec_action(local_config, action)
             if resp.error:

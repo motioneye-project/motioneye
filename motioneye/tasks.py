@@ -34,8 +34,15 @@ _MAX_TASKS = 100
 # TODO replace the pool with one simple thread
 _POOL_SIZE = 1
 
-_tasks = []
+_tasks: list[tuple] = []
 _pool = None
+
+
+def _init_pool_process():
+    import signal
+
+    signal.signal(signal.SIGINT, signal.SIG_IGN)
+    signal.signal(signal.SIGTERM, signal.SIG_IGN)
 
 
 def start():
@@ -44,14 +51,8 @@ def start():
     io_loop = IOLoop.current()
     io_loop.add_timeout(datetime.timedelta(seconds=_INTERVAL), _check_tasks)
 
-    def init_pool_process():
-        import signal
-
-        signal.signal(signal.SIGINT, signal.SIG_IGN)
-        signal.signal(signal.SIGTERM, signal.SIG_IGN)
-
     _load()
-    _pool = multiprocessing.Pool(_POOL_SIZE, initializer=init_pool_process)
+    _pool = multiprocessing.Pool(_POOL_SIZE, initializer=_init_pool_process)
 
 
 def stop():
@@ -94,7 +95,7 @@ def _check_tasks():
     now = time.time()
     changed = False
     while _tasks and _tasks[0][0] <= now:
-        (when, func, tag, callback, params) = _tasks.pop(0)  # @UnusedVariable
+        when, func, tag, callback, params = _tasks.pop(0)  # @UnusedVariable
 
         logging.debug('executing task "%s"' % tag or func.__name__)
         _pool.apply_async(

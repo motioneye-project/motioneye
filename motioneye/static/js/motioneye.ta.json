@@ -1,5 +1,7 @@
 {"":{"language":"ta","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "கடவுச்சொல்லில் சிறப்பு எழுத்துக்கள் அனுமதிக்கப்படவில்லை"
+,"use of colon (:) is not allowed in video streaming username": ""
+,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": ""
 ,"Ĉi tiu kampo estas deviga": "இந்த புலம் கட்டாயமாகும்"
 ,"specialaj signoj ne rajtas en la nomo de kamerao": "கேமராவின் பெயரில் சிறப்பு எழுத்துக்கள் அனுமதிக்கப்படவில்லை"
 ,"valoro devas esti multoblo de 8": "மதிப்பு 8 இன் பெருக்கமாக இருக்க வேண்டும்"
@@ -125,8 +127,7 @@
 ,"agordi ĉi tiun kameraon": "இந்த கேமராவை அமைக்கவும்"
 ,"preni instantaron": "ஒரு உடனடி எடுக்க"
 ,"Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...": "நீங்கள் இதுவரை எந்த கேமராவையும் அமைக்கவில்லை. ஒன்றைச் சேர்க்க இங்கே சொடுக்கு செய்க ..."
-,"enigu pozitivan nombron": "நேர்மறை எண்ணை உள்ளிடவும்"
-,"enigu pozitivan entjeran nombron": "நேர்மறை முழு எண் எண்ணை உள்ளிடவும்"
+,"enter a valid value": ""
 ,"enigu nombron": "ஒரு எண்ணை உள்ளிடவும்"
 ,"enigu entjeran nombron": "ஒரு முழு எண் எண்ணை உள்ளிடவும்"
 ," inter ": " இடை "

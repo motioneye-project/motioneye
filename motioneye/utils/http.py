@@ -27,7 +27,7 @@ class StreamUrl:
         )
 
     @classmethod
-    def _get_dict_field_val(cls, k: Union[str, Hashable], v: Any) -> Any:
+    def _get_dict_field_val(cls, k: str, v: Any) -> Any:
         try:
             return v or getattr(cls, k)
         except AttributeError:

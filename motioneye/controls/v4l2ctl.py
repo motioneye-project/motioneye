@@ -190,7 +190,7 @@ def list_ctrls(device):
         if not match:
             continue
 
-        (control, _, properties) = match.groups()
+        control, _, properties = match.groups()
         properties = dict(
             [v.split('=', 1) for v in properties.split(' ') if v.count('=')]
         )

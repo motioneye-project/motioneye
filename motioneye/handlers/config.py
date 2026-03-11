@@ -164,6 +164,8 @@ class ConfigHandler(BaseHandler):
             elif utils.is_remote_camera(local_config):
                 # update the camera locally
                 local_config['@enabled'] = ui_config['enabled']
+                if ui_config.get('admin_only') is not None:
+                    local_config['@admin_only'] = bool(ui_config.get('admin_only'))
                 config.set_camera(camera_id, local_config)
 
                 if 'name' in ui_config:
@@ -172,6 +174,9 @@ class ConfigHandler(BaseHandler):
                         return on_finish(e, False)
 
                     ui_config['enabled'] = True  # never disable the camera remotely
+                    ui_config.pop(
+                        'admin_only', None
+                    )  # local-only setting do not send to remote
                     result = await remote.set_config(local_config, ui_config)
                     return on_finish(result, False)
 
@@ -240,24 +245,7 @@ class ConfigHandler(BaseHandler):
                 reload = True
 
             if normal_username != old_normal_username or normal_password is not None:
-                logging.debug(
-                    'surveillance credentials changed, all camera configs must be updated'
-                )
-
-                # reconfigure all local cameras to update the stream authentication options
-                for camera_id in config.get_camera_ids():
-                    local_config = config.get_camera(camera_id)
-                    if not utils.is_local_motion_camera(local_config):
-                        continue
-
-                    ui_config = config.motion_camera_dict_to_ui(local_config)
-                    local_config = config.motion_camera_ui_to_dict(
-                        ui_config, local_config
-                    )
-
-                    config.set_camera(camera_id, local_config)
-
-                    restart = True
+                logging.debug('surveillance credentials changed')
 
             if reboot and settings.ENABLE_REBOOT:
                 logging.debug('system settings changed, reboot needed')
@@ -394,6 +382,16 @@ class ConfigHandler(BaseHandler):
         else:
             resp.remote_ui_config['id'] = camera_id
 
+            # admin_only is a local-only flag and is never synced from the remote
+            local_config.setdefault('@admin_only', False)
+            admin_only = bool(local_config.get('@admin_only', False))
+
+            # do not add this camera to the list if admin-only, but reduce the async counter so listing can finish
+            if admin_only and self.current_user != 'admin':
+                length[0] -= 1
+                self.check_finished(cameras, length)
+                return
+
             if not resp.remote_ui_config['enabled'] and local_config['@enabled']:
                 # if a remote camera is disabled, make sure it's disabled locally as well
                 local_config['@enabled'] = False
@@ -408,7 +406,7 @@ class ConfigHandler(BaseHandler):
 
             cameras.append(resp.remote_ui_config)
 
-        return self.check_finished(cameras, length)
+        self.check_finished(cameras, length)
 
     @BaseHandler.auth()
     async def list(self):
@@ -489,6 +487,13 @@ class ConfigHandler(BaseHandler):
             for camera_id in camera_ids:
                 local_config = config.get_camera(camera_id)
                 if local_config is None:
+                    continue
+                # hide admin-only cameras from non-admin users (local cameras only; remote handled after sync)
+                if (
+                    local_config.get('@admin_only')
+                    and self.current_user != 'admin'
+                    and not utils.is_remote_camera(local_config)
+                ):
                     continue
 
                 if utils.is_local_motion_camera(local_config):
@@ -620,7 +625,7 @@ class ConfigHandler(BaseHandler):
         if not upload_service_test_info:
             return logging.warning('no pending upload service test request')
 
-        (request_handler, service_name) = upload_service_test_info
+        request_handler, service_name = upload_service_test_info
 
         if result is True:
             logging.info(f'accessing {service_name} succeeded.result {result}')

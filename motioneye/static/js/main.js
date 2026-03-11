@@ -7,6 +7,7 @@ var pushConfigs = {};
 var pushConfigReboot = false;
 var adminPasswordChanged = {};
 var normalPasswordChanged = {};
+var streamingPasswordChanged = {};
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var singleViewCameraId = null;
 var fullScreenMode = false;
@@ -589,10 +590,6 @@ function initUI() {
     /* progress bars */
     makeProgressBar($('div.progress-bar'));
 
-    /* text validators */
-    makeTextValidator($('tr[required=true] input[type=text]'), true);
-    makeTextValidator($('tr[required=true] input[type=password]'), true);
-
     /* number validators */
     $('input[type=text].number').each(function () {
         var $this = $(this);
@@ -601,13 +598,35 @@ function initUI() {
                 Boolean($tr.attr('floating')), Boolean($tr.attr('sign')), Boolean($tr.attr('required')));
     });
 
+    /* required input validators */
+    makeRequiredValidator($('tr[required=true] input[type=text]:not(.number)'));
+    makeRequiredValidator($('tr[required=true] input[type=password]'));
+
     /* time validators */
-    makeTimeValidator($('input[type=text].time'));
+    makeTimeValidator($('input[type=time]'));
 
     /* custom validators */
-    makeCustomValidator($('#adminPasswordEntry, #normalPasswordEntry'), function (value) {
+    makeCustomValidator($('#adminPasswordEntry, #normalPasswordEntry, #streamingPasswordEntry'), function (value) {
         if (!value.toLowerCase().match(new RegExp('^[\x21-\x7F]*$'))) {
             return i18n.gettext("specialaj signoj ne rajtas en pasvorto");
+        }
+
+        return true;
+    }, '');
+    makeCustomValidator($('#streamingUsernameEntry'), function (value) {
+        if (String(value).indexOf(':') >= 0) {
+            return i18n.gettext("use of colon (:) is not allowed in video streaming username");
+        }
+
+        return true;
+    }, '');
+    makeCustomValidator($('#streamingAuthModeSelect'), function (value) {
+        if (!$('#adminOnlySwitch')[0].checked) {
+            return true;
+        }
+
+        if (value != 'basic' && value != 'digest') {
+            return i18n.gettext("video streaming authentication mode must be Basic or Digest when admin-only access is enabled");
         }
 
         return true;
@@ -713,46 +732,54 @@ function initUI() {
     }
 
     /* update password changed flags */
-    $('#adminPasswordEntry').keydown(function () {
+    $('#adminPasswordEntry').on('keydown', function () {
         adminPasswordChanged.keydown = true;
     });
-    $('#adminPasswordEntry').change(function () {
+    $('#adminPasswordEntry').on('change', function () {
         adminPasswordChanged.change = true;
     });
-    $('#normalPasswordEntry').keydown(function () {
+    $('#normalPasswordEntry').on('keydown', function () {
         normalPasswordChanged.keydown = true;
     });
-    $('#normalPasswordEntry').change(function () {
+    $('#normalPasswordEntry').on('change', function () {
         normalPasswordChanged.change = true;
+    });
+    $('#streamingPasswordEntry').on('keydown', function () {
+        streamingPasswordChanged.keydown = true;
+    });
+    $('#streamingPasswordEntry').on('change', function () {
+        streamingPasswordChanged.change = true;
     });
 
     /* ui elements that enable/disable other ui elements */
-    $('#storageDeviceSelect').change(updateConfigUI);
-    $('#resolutionSelect').change(updateConfigUI);
-    $('#leftTextTypeSelect').change(updateConfigUI);
-    $('#rightTextTypeSelect').change(updateConfigUI);
-    $('#captureModeSelect').change(updateConfigUI);
-    $('#autoNoiseDetectSwitch').change(updateConfigUI);
-    $('#autoThresholdTuningSwitch').change(updateConfigUI);
-    $('#videoDeviceEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#textOverlayEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#videoStreamingEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#streamingServerResizeSwitch').change(updateConfigUI);
-    $('#stillImagesEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#preservePicturesSelect').change(updateConfigUI);
-    $('#moviesEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#motionDetectionEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#preserveMoviesSelect').change(updateConfigUI);
-    $('#moviePassthroughSwitch').change(updateConfigUI);
-    $('#workingScheduleEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#storageDeviceSelect').on('change', updateConfigUI);
+    $('#resolutionSelect').on('change', updateConfigUI);
+    $('#adminOnlySwitch').on('change', updateConfigUI);
+    $('#leftTextTypeSelect').on('change', updateConfigUI);
+    $('#rightTextTypeSelect').on('change', updateConfigUI);
+    $('#captureModeSelect').on('change', updateConfigUI);
+    $('#autoNoiseDetectSwitch').on('change', updateConfigUI);
+    $('#autoThresholdTuningSwitch').on('change', updateConfigUI);
+    $('#videoDeviceEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#textOverlayEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#videoStreamingEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#streamingAuthModeSelect').on('change', updateConfigUI);
+    $('#streamingServerResizeSwitch').on('change', updateConfigUI);
+    $('#stillImagesEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#preservePicturesSelect').on('change', updateConfigUI);
+    $('#moviesEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#motionDetectionEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#preserveMoviesSelect').on('change', updateConfigUI);
+    $('#moviePassthroughSwitch').on('change', updateConfigUI);
+    $('#workingScheduleEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
 
-    $('#mondayEnabledSwitch').change(updateConfigUI);
-    $('#tuesdayEnabledSwitch').change(updateConfigUI);
-    $('#wednesdayEnabledSwitch').change(updateConfigUI);
-    $('#thursdayEnabledSwitch').change(updateConfigUI);
-    $('#fridayEnabledSwitch').change(updateConfigUI);
-    $('#saturdayEnabledSwitch').change(updateConfigUI);
-    $('#sundayEnabledSwitch').change(updateConfigUI);
+    $('#mondayEnabledSwitch').on('change', updateConfigUI);
+    $('#tuesdayEnabledSwitch').on('change', updateConfigUI);
+    $('#wednesdayEnabledSwitch').on('change', updateConfigUI);
+    $('#thursdayEnabledSwitch').on('change', updateConfigUI);
+    $('#fridayEnabledSwitch').on('change', updateConfigUI);
+    $('#saturdayEnabledSwitch').on('change', updateConfigUI);
+    $('#sundayEnabledSwitch').on('change', updateConfigUI);
 
     /* minimizable sections */
     $('span.minimize').on('click', function () {
@@ -767,7 +794,7 @@ function initUI() {
                 !sectionSwitchDiv[0]._hideNull && !sectionDiv.attr('minimize-switch-independent')) {
 
                 sectionSwitch[0].checked = true;
-                sectionSwitch.change();
+                sectionSwitch.trigger('change');
             }
         }
 
@@ -794,50 +821,50 @@ function initUI() {
             seenDependNames[depend] = true;
 
             var control = $('#' + depend + 'Entry, #' + depend + 'Select, #' + depend + 'Slider, #' + depend + 'Switch');
-            control.change(updateConfigUI);
+            control.on('change', updateConfigUI);
         });
     });
 
     /* prefs change handlers */
-    $('#layoutColumnsSlider').change(function () {
+    $('#layoutColumnsSlider').on('change', function () {
         var columns = parseInt(this.value);
         setLayoutColumns(columns);
         savePrefs();
     });
-    $('#fitFramesVerticallySwitch').change(function () {
+    $('#fitFramesVerticallySwitch').on('change', function () {
         fitFramesVertically = this.checked;
         updateLayout();
         savePrefs();
     });
-    $('#layoutRowsSlider').change(function () {
+    $('#layoutRowsSlider').on('change', function () {
         layoutRows = parseInt(this.value);
         updateLayout();
         savePrefs();
     });
-    $('#framerateDimmerSlider').change(function () {
+    $('#framerateDimmerSlider').on('change', function () {
         framerateFactor = parseInt(this.value) / 100;
         savePrefs();
     });
-    $('#resolutionDimmerSlider').change(function () {
+    $('#resolutionDimmerSlider').on('change', function () {
         resolutionFactor = parseInt(this.value) / 100;
         savePrefs();
     });
 
     /* various change handlers */
-    $('#storageDeviceSelect').change(function () {
+    $('#storageDeviceSelect').on('change', function () {
         $('#rootDirectoryEntry').val('/');
     });
 
-    $('#rootDirectoryEntry').change(function () {
+    $('#rootDirectoryEntry').on('change', function () {
         this.value = this.value.trim();
     });
 
-    $('#rootDirectoryEntry').change(function () {
+    $('#rootDirectoryEntry').on('change', function () {
         if (this.value.charAt(0) !== '/') {
             this.value = '/' + this.value;
         }
     });
-    $('#cleanCloudEnabledSwitch').change(function () {
+    $('#cleanCloudEnabledSwitch').on('change', function () {
         var enabled = this.checked;
         var folder = $('#uploadLocationEntry').val();
         console.log('cleanCloudEnabled', enabled, folder);
@@ -848,7 +875,7 @@ function initUI() {
     });
 
     /* streaming framerate must be >= device framerate + a margin */
-    $('#framerateSlider').change(function () {
+    $('#framerateSlider').on('change', function () {
         var value = Number($('#framerateSlider').val());
         var streamingValue = Number($('#streamingFramerateSlider').val());
 
@@ -856,13 +883,13 @@ function initUI() {
         value = Math.min(value, 30); /* don't go above 30 fps */
 
         if (streamingValue < value) {
-            $('#streamingFramerateSlider').val(value).change();
+            $('#streamingFramerateSlider').val(value).trigger('change');
         }
     });
 
     /* capture mode and recording mode are not completely independent:
      * all-frames capture mode implies continuous recording (and vice-versa) */
-    $('#captureModeSelect').change(function (val) {
+    $('#captureModeSelect').on('change', function (val) {
         if ($('#captureModeSelect').val() == 'all-frames') {
             $('#recordingModeSelect').val('continuous');
         }
@@ -874,7 +901,7 @@ function initUI() {
 
         updateConfigUI();
     });
-    $('#recordingModeSelect').change(function (val) {
+    $('#recordingModeSelect').on('change', function (val) {
         if ($('#recordingModeSelect').val() == 'continuous') {
             $('#captureModeSelect').val('all-frames');
         }
@@ -888,11 +915,11 @@ function initUI() {
     });
 
     /* fetch & push handlers */
-    $('#cameraSelect').focus(function () {
+    $('#cameraSelect').on('focus', function () {
         /* remember the previously selected index */
         this._prevSelectedIndex = this.selectedIndex;
 
-    }).change(function () {
+    }).on('change', function () {
         if ($('#cameraSelect').val() === 'add') {
             runAddCameraDialog();
             this.selectedIndex = this._prevSelectedIndex;
@@ -904,23 +931,23 @@ function initUI() {
             disableMaskEdit();
         }
     });
-    $('input.main-config, select.main-config, textarea.main-config').change(function () {
+    $('input.main-config, select.main-config, textarea.main-config').on('change', function () {
         pushMainConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
     });
-    $('input.camera-config, select.camera-config, textarea.camera-config').change(function () {
+    $('input.camera-config, select.camera-config, textarea.camera-config').on('change', function () {
         pushCameraConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
     });
 
     /* whenever the window is resized,
      * if a modal dialog is visible, it should be repositioned */
-    $(window).resize(updateModalDialogPosition);
+    $(window).on('resize', updateModalDialogPosition);
 
     /* show a warning when enabling media files removal */
     var preserveSelects = $('#preservePicturesSelect, #preserveMoviesSelect');
     var rootDirectoryEntry = $('#rootDirectoryEntry');
-    preserveSelects.focus(function () {
+    preserveSelects.on('focus', function () {
         this._prevValue = $(this).val();
-    }).change(function () {
+    }).on('change', function () {
         var value = $(this).val();
         if (value != '0' && this._prevValue == '0') {
             var rootDir = rootDirectoryEntry.val();
@@ -930,19 +957,19 @@ function initUI() {
     });
 
     /* disable corresponding mask editor when the mask gets disabled */
-    $('#motionMaskSwitch').change(function () {
+    $('#motionMaskSwitch').on('change', function () {
        if (!this.checked) {
             disableMaskEdit('motion');
        }
     });
-    $('#privacyMaskSwitch').change(function () {
+    $('#privacyMaskSwitch').on('change', function () {
         if (!this.checked) {
              disableMaskEdit('privacy');
         }
      });
 
     /* disable motion detection mask editor when mask type is no longer editable */
-    $('#motionMaskTypeSelect').change(function () {
+    $('#motionMaskTypeSelect').on('change', function () {
         if ($(this).val() != 'editable') {
             disableMaskEdit('motion');
         }
@@ -1275,12 +1302,12 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
             maskLines.push(line);
         }
 
-        $('#'+maskClass+'MaskLinesEntry').val(maskLines.join(',')).change();
+        $('#'+maskClass+'MaskLinesEntry').val(maskLines.join(',')).trigger('change');
     }
 
     function handleMouseUp() {
         mouseDown = false;
-        $('html').unbind('mouseup', handleMouseUp);
+        $('html').off('mouseup', handleMouseUp);
         matrixToMaskLines();
     }
 
@@ -1305,14 +1332,14 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
 
         elementsMatrix[y][x] = el;
 
-        el.mousedown(function () {
+        el.on('mousedown', function () {
             mouseDown = true;
             el.toggleClass('on');
             currentState = el.hasClass('on');
-            $('html').mouseup(handleMouseUp);
+            $('html').on('mouseup', handleMouseUp);
         });
 
-        el.mouseenter(function () {
+        el.on('mouseenter', function () {
             if (!mouseDown) {
                 return;
             }
@@ -1419,7 +1446,7 @@ function disableMaskOverlay() {
 
         overlayDiv.removeClass('mask-edit');
         maskDiv.html('');
-        maskDiv.unbind('click');
+        maskDiv.off('click');
     });
 }
 
@@ -1436,7 +1463,7 @@ function clearMask(cameraId) {
 
 function openSettings(cameraId) {
     if (cameraId != null) {
-        $('#cameraSelect').val(cameraId).change();
+        $('#cameraSelect').val(cameraId).trigger('change');
     }
 
     $('div.settings').addClass('open').removeClass('closed');
@@ -1699,12 +1726,13 @@ function updateConfigUI() {
 
     var weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     weekDays.forEach(function (weekDay) {
-        var check = $('#' + weekDay + 'EnabledSwitch');
-        if (check.get(0).checked) {
-            check.parent().find('.time').show();
+        var check = document.getElementById(weekDay + 'EnabledSwitch');
+        var timeInputs = document.getElementById(weekDay + 'TimeInputs');
+        if (check.checked) {
+            timeInputs.style.removeProperty('display');
         }
         else {
-            check.parent().find('.time').hide();
+            timeInputs.style.display = 'none';
         }
     });
 
@@ -1928,6 +1956,7 @@ function cameraUi2Dict() {
     var dict = {
         'enabled': $('#videoDeviceEnabledSwitch')[0].checked,
         'name': $('#deviceNameEntry').val(),
+        'admin_only': $('#adminOnlySwitch')[0].checked,
         'proto': $('#deviceTypeEntry')[0].proto,
 
         /* video device */
@@ -1982,6 +2011,7 @@ function cameraUi2Dict() {
         'upload_access_key': $('#uploadAccessKeyEntry').val(),
         'upload_secret_key': $('#uploadSecretKeyEntry').val(),
         'upload_bucket': $('#uploadBucketEntry').val(),
+        'upload_sse_c_key': $('#uploadSseCKeyEntry').val(),
         'clean_cloud_enabled': $('#cleanCloudEnabledSwitch')[0].checked,
         'web_hook_storage_enabled': $('#webHookStorageEnabledSwitch')[0].checked,
         'web_hook_storage_url': $('#webHookStorageUrlEntry').val(),
@@ -2005,6 +2035,7 @@ function cameraUi2Dict() {
         'streaming_server_resize': $('#streamingServerResizeSwitch')[0].checked,
         'streaming_port': $('#streamingPortEntry').val(),
         'streaming_auth_mode': $('#streamingAuthModeSelect').val() || 'disabled', /* compatibility with old motion */
+        'streaming_username': $('#streamingUsernameEntry').val(),
         'streaming_motion': $('#streamingMotion')[0].checked,
 
         /* still images */
@@ -2089,6 +2120,10 @@ function cameraUi2Dict() {
         'sunday_to': $('#sundayEnabledSwitch')[0].checked ? $('#sundayToEntry').val() : '',
         'working_schedule_type': $('#workingScheduleTypeSelect').val()
     };
+
+    if (streamingPasswordChanged.change && streamingPasswordChanged.keydown && $('#streamingPasswordEntry').val() !== '*****') {
+        dict['streaming_password'] = $('#streamingPasswordEntry').val();
+    }
 
     /* video controls */
     var videoControls = {};
@@ -2229,6 +2264,7 @@ function dict2CameraUi(dict) {
     $('#deviceUrlEntry').val(dict['device_url']); markHideIfNull('device_url', 'deviceUrlEntry');
     $('#deviceTypeEntry').val(prettyType); markHideIfNull(!prettyType, 'deviceTypeEntry');
     $('#deviceTypeEntry')[0].proto = dict['proto'];
+    $('#adminOnlySwitch')[0].checked = dict['admin_only']; markHideIfNull('admin_only', 'adminOnlySwitch');
     $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness']; markHideIfNull('auto_brightness', 'autoBrightnessSwitch');
 
     $('#resolutionSelect').html('');
@@ -2318,6 +2354,7 @@ function dict2CameraUi(dict) {
     $('#uploadAccessKeyEntry').val(dict['upload_access_key']); markHideIfNull('upload_access_key', 'uploadAccessKeyEntry');
     $('#uploadSecretKeyEntry').val(dict['upload_secret_key']); markHideIfNull('upload_secret_key', 'uploadSecretKeyEntry');
     $('#uploadBucketEntry').val(dict['upload_bucket']); markHideIfNull('upload_bucket', 'uploadBucketEntry');
+    $('#uploadSseCKeyEntry').val(dict['upload_sse_c_key']); markHideIfNull('upload_sse_c_key', 'uploadSseCKeyEntry');
     $('#cleanCloudEnabledSwitch')[0].checked = dict['clean_cloud_enabled']; markHideIfNull('clean_cloud_enabled', 'cleanCloudEnabledSwitch');
 
     $('#webHookStorageEnabledSwitch')[0].checked = dict['web_hook_storage_enabled']; markHideIfNull('web_hook_storage_enabled', 'webHookStorageEnabledSwitch');
@@ -2343,6 +2380,8 @@ function dict2CameraUi(dict) {
     $('#streamingServerResizeSwitch')[0].checked = dict['streaming_server_resize']; markHideIfNull('streaming_server_resize', 'streamingServerResizeSwitch');
     $('#streamingPortEntry').val(dict['streaming_port']); markHideIfNull('streaming_port', 'streamingPortEntry');
     $('#streamingAuthModeSelect').val(dict['streaming_auth_mode']); markHideIfNull('streaming_auth_mode', 'streamingAuthModeSelect');
+    $('#streamingUsernameEntry').val(dict['streaming_username']); markHideIfNull('streaming_username', 'streamingUsernameEntry');
+    $('#streamingPasswordEntry').val(dict['streaming_password']); markHideIfNull('streaming_password', 'streamingPasswordEntry');
     $('#streamingMotion')[0].checked = dict['streaming_motion']; markHideIfNull('streaming_motion', 'streamingMotion');
 
     var cameraUrl = location.protocol + '//' + location.host + basePath + 'picture/' + dict.id + '/';
@@ -2508,7 +2547,7 @@ function dict2CameraUi(dict) {
             var controlInput = addVideoControl(c.name, c.min, c.max, c.step);
             controlInput.val(c.value);
             controlInput[0].checked = Boolean(c.value);
-            controlInput.change(function () {
+            controlInput.on('change', function () {
                 pushCameraConfig(/* reboot = */ false);
             });
         });
@@ -2732,6 +2771,7 @@ function doApply() {
             /* reset password change flags */
             adminPasswordChanged = {};
             normalPasswordChanged = {};
+            streamingPasswordChanged = {};
 
             if (data.reboot) {
                 var count = 0;
@@ -2952,7 +2992,7 @@ function doRestore() {
     var fileInput = content.find('#fileInput');
 
     /* make validators */
-    makeFileValidator(fileInput, true);
+    makeRequiredValidator(fileInput);
 
     function uiValid() {
         /* re-validate all the validators */
@@ -3059,7 +3099,8 @@ function doTestUpload() {
         endpoint_url: $('#uploadEndpointUrlEntry').val(),
         access_key: $('#uploadAccessKeyEntry').val(),
         secret_key: $('#uploadSecretKeyEntry').val(),
-        bucket: $('#uploadBucketEntry').val()
+        bucket: $('#uploadBucketEntry').val(),
+        sse_c_key: $('#uploadSseCKeyEntry').val()
     };
 
     var cameraId = $('#cameraSelect').val();
@@ -3296,19 +3337,11 @@ function showUrl(url) {
     span.html(url);
     runAlertDialog(span);
 
-    var range, selection;
-    if (window.getSelection && document.createRange) {
-        selection = window.getSelection();
-        range = document.createRange();
-        range.selectNodeContents(span[0]);
-        selection.removeAllRanges();
-        selection.addRange(range);
-    }
-    else if (document.selection && document.body.createTextRange) {
-        range = document.body.createTextRange();
-        range.moveToElementText(span[0]);
-        range.select();
-    }
+    var selection = window.getSelection();
+    var range = document.createRange();
+    range.selectNodeContents(span[0]);
+    selection.removeAllRanges();
+    selection.addRange(range);
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -3636,7 +3669,7 @@ function runLoginDialog(retry) {
                     setCookie(PASSWORD_COOKIE, window.passwordHash, /* days = */ 3650);
                 }
 
-                form.submit();
+                form.trigger('submit');
                 setTimeout(function () {
                     tempFrame.remove();
                 }, 5000);
@@ -3924,10 +3957,8 @@ function runAddCameraDialog() {
     var isProgress = false;
 
     /* make validators */
-    makeUrlValidator(urlEntry, true);
-    makeTextValidator(usernameEntry, false);
-    makeTextValidator(typeSelect, false);
-    makeComboValidator(addCameraSelect, true);
+    makeUrlValidator(urlEntry);
+    makeRequiredValidator(addCameraSelect);
 
     /* ui interaction */
     function updateUi() {
@@ -4119,14 +4150,14 @@ function runAddCameraDialog() {
         });
     }
 
-    typeSelect.change(function () {
+    typeSelect.on('change', function () {
         addCameraSelect.html('');
     });
 
-    typeSelect.change(updateUi);
-    urlEntry.change(updateUi);
-    usernameEntry.change(updateUi);
-    passwordEntry.change(updateUi);
+    typeSelect.on('change', updateUi);
+    urlEntry.on('change', updateUi);
+    usernameEntry.on('change', updateUi);
+    passwordEntry.on('change', updateUi);
 
     runModalDialog({
         title: i18n.gettext('Aldonadi kameraon...'),
@@ -4187,7 +4218,7 @@ function runAddCameraDialog() {
 
                 var cameraOption = $('#cameraSelect').find('option[value=add]');
                 cameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
-                $('#cameraSelect').val(data.id).change();
+                $('#cameraSelect').val(data.id).trigger('change');
                 recreateCameraFrames();
             });
         }
@@ -4599,7 +4630,7 @@ function runMediaDialog(cameraId, mediaType) {
         updateModalDialogPosition();
     }
 
-    $(window).resize(onResize);
+    $(window).on('resize', onResize);
 
     updateDialogSize();
 
@@ -4690,7 +4721,7 @@ function runMediaDialog(cameraId, mediaType) {
                 }
             },
             onClose: function () {
-                $(window).unbind('resize', onResize);
+                $(window).off('resize', onResize);
             }
         });
     });
@@ -4863,8 +4894,8 @@ function addCameraFrameUi(cameraConfig) {
 
     /* insert the new camera frame at the right position,
      * with respect to the camera id */
-    var cameraFrames = getPageContainer().find('div.camera-frame');
-    var cameraIds = cameraFrames.map(function () {return parseInt(this.id.substring(6));});
+    var cameraFrames = getPageContainer()[0].querySelectorAll('div.camera-frame');
+    var cameraIds = Array.from(cameraFrames).map(function (frame) {return parseInt(frame.id.substring(6));});
     cameraIds.sort();
 
     var index = 0; /* find the first position that is greater than the current camera id */
@@ -5472,7 +5503,7 @@ function checkCameraErrors() {
 
     cameraImgs.each(function () {
         if (this.complete === true && this.naturalWidth === 0 && !this.error && this.src) {
-            $(this).error();
+            $(this).trigger('error');
         }
 
         /* fps timeout */
@@ -5536,7 +5567,7 @@ $(document).ready(function () {
     refreshCameraFrames();
     checkCameraErrors();
 
-    $(window).resize(function () {
+    $(window).on('resize', function () {
         updateLayout();
     });
 

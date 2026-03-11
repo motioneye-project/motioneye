@@ -1,5 +1,7 @@
 {"":{"language":"cs","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "V heslech nejsou povoleny speciální znaky"
+,"use of colon (:) is not allowed in video streaming username": "použití inch (:) je poznámka, která je v uživatelském rozhraní pro streamování videa"
+,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": "video streaming harmonica režim musí být základní nebo Digest, když je povolen přístup správce"
 ,"Ĉi tiu kampo estas deviga": "Toto pole je povinné"
 ,"specialaj signoj ne rajtas en la nomo de kamerao": "Speciální znaky nejsou povoleny ve jménu kamery"
 ,"valoro devas esti multoblo de 8": "Hodnota musí být násobek 8"
@@ -125,8 +127,7 @@
 ,"agordi ĉi tiun kameraon": "Nastavte tuto kameru"
 ,"preni instantaron": "Udělejte si okamžik"
 ,"Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...": "Ještě jste nenastavili žádnou kameru. Kliknutím sem přidáte jednu ..."
-,"enigu pozitivan nombron": "Zadejte kladné číslo"
-,"enigu pozitivan entjeran nombron": "Zadejte pozitivní celé číslo"
+,"enter a valid value": "pohřbí platnou hodnotu"
 ,"enigu nombron": "Zadejte číslo"
 ,"enigu entjeran nombron": "Zadejte celé číslo"
 ," inter ": " mezi "

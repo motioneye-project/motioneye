@@ -1,5 +1,7 @@
 {"":{"language":"fi","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "erikoismerkkejä ei sallita salasanassa"
+,"use of colon (:) is not allowed in video streaming username": "inch (:) on muistiinpano, joka on videon suoratoistokäyttäjänimessä"
+,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": "videon suoratoistoharmonikan on oltava perus- tai Digest, kun järjestelmänvalvoja on käytössä"
 ,"Ĉi tiu kampo estas deviga": "Tämä kenttä vaaditaan"
 ,"specialaj signoj ne rajtas en la nomo de kamerao": "erikoismerkit eivät ole sallittuja kameran nimessä"
 ,"valoro devas esti multoblo de 8": "arvon on oltava 8:n kerrannainen"
@@ -125,8 +127,7 @@
 ,"agordi ĉi tiun kameraon": "konfiguroi tämä kamera"
 ,"preni instantaron": "ota kuvakaappaus"
 ,"Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...": "Et ole konfiguroinut vielä yhtään kameraa. Paina tästä lisätäksesi..."
-,"enigu pozitivan nombron": "syötä positiivinen luku"
-,"enigu pozitivan entjeran nombron": "syötä positiivinen muuttuja"
+,"enter a valid value": "hautaa kelvollinen arvo"
 ,"enigu nombron": "syötä numero"
 ,"enigu entjeran nombron": "syötä muuttuja"
 ," inter ": " välissä "
