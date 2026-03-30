@@ -11,20 +11,21 @@
 # Edgar Fabela <cocotugo@gmail.com>, 2025.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
 # MichaIng <micha@dietpi.com>, 2025.
+# Manuel Garrido Fernández <mgarridof@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-02-21 11:10+0000\n"
-"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-03-30 10:09+0000\n"
+"Last-Translator: Manuel Garrido Fernández <mgarridof@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/es/>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: motioneye/static/js/main.js:611
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -36,9 +37,8 @@ msgid "use of colon (:) is not allowed in video streaming username"
 msgstr "uso de pulgada (:) es una nota que está en vídeo streaming de nombre de usuario"
 
 #: motioneye/static/js/main.js:629
-#, fuzzy
 msgid "video streaming authentication mode must be Basic or Digest when admin-only access is enabled"
-msgstr "modo armónica de transmisión de vídeo debe ser Básico o Digesto cuando un enfoque solo de administración está habilitado"
+msgstr "Cuando está activo el acceso sólo administrador, el modo de transmisión de vídeo debe ser básico (Basic) o resumido (Digest)"
 
 #: motioneye/static/js/main.js:636 motioneye/static/js/main.js:647
 #: motioneye/static/js/main.js:706 motioneye/static/js/ui.js:397
@@ -216,9 +216,8 @@ msgid "Sciiga retpoŝto fiaskis:"
 msgstr "La notificación por correo ha fallado:"
 
 #: motioneye/static/js/main.js:3163
-#, fuzzy
 msgid "Notification email succeeded!"
-msgstr "¡El email está mirando!"
+msgstr "¡Notificación por correo electrónico enviada satisfactoriamente!"
 
 #: motioneye/static/js/main.js:3179
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
@@ -546,9 +545,8 @@ msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "Aún no has configurado ninguna cámara. Haga clic aquí para añadir una..."
 
 #: motioneye/static/js/ui.js:361
-#, fuzzy
 msgid "enter a valid value"
-msgstr "enterrar un valor válido"
+msgstr "Introduzca un valor válido"
 
 #: motioneye/static/js/ui.js:420
 msgid "enigu nombron"

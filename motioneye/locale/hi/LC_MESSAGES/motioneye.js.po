@@ -5,25 +5,25 @@
 #
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
 # MichaIng <micha@dietpi.com>, 2025.
+# Siddharth S <siddharth.sadhana@proton.me>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-02-21 11:10+0000\n"
-"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-03-24 01:09+0000\n"
+"Last-Translator: Siddharth S <siddharth.sadhana@proton.me>\n"
 "Language-Team: Hindi <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/hi/>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: motioneye/static/js/main.js:611
-#, fuzzy
 msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr "पासवर्ड में विशेष संकेत की अनुमति नहीं दी जा सकती है"
+msgstr "पासवर्ड में विशेष चिन्हों के उपयोग की अनुमति नहीं है"
 
 #: motioneye/static/js/main.js:618
 #, fuzzy
@@ -31,65 +31,53 @@ msgid "use of colon (:) is not allowed in video streaming username"
 msgstr "इंच (:) का उपयोग एक नोट है जो वीडियो स्ट्रीमिंग यूजरनेम में है"
 
 #: motioneye/static/js/main.js:629
-#, fuzzy
 msgid "video streaming authentication mode must be Basic or Digest when admin-only access is enabled"
-msgstr "जब एक व्यवस्थापक-केवल दृष्टिकोण सक्षम होता है तो वीडियो स्ट्रीमिंग हार्मोनिका मोड बेसिक या डिजेस्ट होना चाहिए"
+msgstr "जब केवल-एडमिन एक्सेस सक्रिय हो तब वीडियो स्ट्रीमिंग प्रमाणीकरण मोड बेसिक या डाइजेस्ट होना चाहिए"
 
 #: motioneye/static/js/main.js:636 motioneye/static/js/main.js:647
 #: motioneye/static/js/main.js:706 motioneye/static/js/ui.js:397
-#, fuzzy
 msgid "Ĉi tiu kampo estas deviga"
-msgstr "यह क्षेत्र अनिवार्य है"
+msgstr "यह जानकारी भरना अनिवार्य है"
 
 #: motioneye/static/js/main.js:640
-#, fuzzy
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr "एक कैमरा के नाम पर विशेष संकेत की अनुमति नहीं है"
+msgstr "कैमरे के नाम में विशेष वर्णों की अनुमति नहीं है"
 
 #: motioneye/static/js/main.js:652
-#, fuzzy
 msgid "valoro devas esti multoblo de 8"
-msgstr "मूल्य 8 के एकाधिक होना चाहिए"
+msgstr "संख्या 8 का गुणज होनी चाहिए"
 
 #: motioneye/static/js/main.js:659
-#, fuzzy
 msgid "specialaj signoj ne rajtas en radika voja nomo"
-msgstr "रूट रोड नाम में विशेष संकेत की अनुमति नहीं है"
+msgstr "रूट डायरेक्टरी के नाम में विशेष वर्णों की अनुमति नहीं है"
 
 #: motioneye/static/js/main.js:662
-#, fuzzy
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr "फ़ाइलों को सीधे अपने सिस्टम की जड़ में नहीं बनाया जा सकता है"
+msgstr "आपके सिस्टम के रूट फोल्डर में सीधे फ़ाइलें नहीं बनाई जा सकतीं हैं"
 
 #: motioneye/static/js/main.js:669
-#, fuzzy
 msgid "enigu validan retpoŝtadreson"
-msgstr "एक वैध ईमेल पते में शामिल हों"
+msgstr "एक मान्य ईमेल एड्रेस दर्ज करें"
 
 #: motioneye/static/js/main.js:676
-#, fuzzy
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr "अल्पविराम द्वारा अलग किए गए मान्य ईमेल पतों की सूची दर्ज करें"
+msgstr "अल्पविराम से अलग किए गए मान्य ईमेल एड्रेसेस की एक सूची दर्ज करें"
 
 #: motioneye/static/js/main.js:683
-#, fuzzy
 msgid "specialaj signoj ne rajtas en dosiernomo"
 msgstr "फ़ाइल नाम में विशेष वर्णों की अनुमति नहीं है"
 
 #: motioneye/static/js/main.js:710
-#, fuzzy
 msgid "enigu validan valoron"
-msgstr "एक मान्य मान दर्ज करें"
+msgstr "एक वैध मान दर्ज करें"
 
 #: motioneye/static/js/main.js:872
-#, fuzzy
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr "यह पुन: क्लाउड फ़ोल्डर में सभी फ़ाइलों को हटा देगा \""
+msgstr "सभी फ़ाइलें क्रमिक रूप से हटा दी जाएँगी, इस क्लाउड फ़ोल्डर से \""
 
 #: motioneye/static/js/main.js:873
-#, fuzzy
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
-msgstr "\", न केवल प्रस्ताव द्वारा अपलोड किए गए!"
+msgstr "\", न कि केवल वो जो मोशनआई द्वारा अपलोड की गई थीं!"
 
 #: motioneye/static/js/main.js:954
 #, fuzzy

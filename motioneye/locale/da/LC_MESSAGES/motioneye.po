@@ -5,164 +5,138 @@
 # Tbnilen <tbn@kse.dk>, 2025.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
 # MichaIng <micha@dietpi.com>, 2025.
+# SimonHanel <simon@hanel.dk>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-02-15 09:09+0000\n"
-"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-03-20 10:09+0000\n"
+"Last-Translator: SimonHanel <simon@hanel.dk>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 "Generated-By: Babel 2.17.0\n"
 
 #: motioneye/config.py:905
-#, fuzzy
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
-msgstr "Enheder er kun tilgængelige for alfanumeriske tegn, bindestreg, understregning, plus + og rum"
+msgstr "Enhedsnavne må kun indeholde alfanumeriske tegn, bindestreg -, understregning _, plus +, og mellemrum"
 
 #: motioneye/config.py:909
-#, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
-msgstr "Filnavne må kun indeholde alfanumeriske tegn, parenteser (), skråstreg /, prik ., understregning _, bindestreg -, mellemrum og en delmængde af bevægelseskonverteringsspecifikatorer: %C %Y %m %d %H %M %S %q %v"
+msgstr "Filnavne må kun indeholde alfanumeriske tegn, parenteser (), skråstreg /, punktum ., understregning _, bindestreg -, mellemrum og en delmængde af motion konverteringsspecifikatorer: %C %Y %m %d %H %M %S %q %v"
 
 #: motioneye/config.py:914
-#, fuzzy
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
-msgstr "Oversættelsesnavne svarer kun til alfanumeriske tegn, rumligt, forældrehesis (), fremad/, dot., understreg og bindestreg –"
+msgstr "Mappenavne må kun indeholde alfanumeriske tegn, mellemrum, parenteser (), skråstreg /, punktummer ., understregning _, og bindestreg –"
 
 #: motioneye/config.py:919
-#, fuzzy
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
-msgstr "E-mail-protokollen er kun en guide til alfanumeriske tegn, understregning, plus +, dot., på @, caret^, tilde ~, Engelske nouner < >, hyphen – og kan være en fin ved kommuna og rumligt"
+msgstr "E-mail adresser må kun indeholde alfanumeriske tegn, understregning _, plus +, punktum ., snabel-A @, cirkumfleks ^, tilde ~, mindre- & større-end tegn < >, bindestreg –, og kan adskilles med komma og mellemrum"
 
 #: motioneye/config.py:924
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
-msgstr "URL'er må ikke indeholde caret ^, semikolon ; eller apostrof '"
+msgstr "URL'er må ikke indeholde cirkumfleks ^, semikolon ; eller apostroffer '"
 
 #: motioneye/server.py:233
-#, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "et forstyrrende signal modtaget, lukket …"
+msgstr "Modtaget signal om afbrydelse, lukker ned …"
 
 #: motioneye/server.py:277
-#, fuzzy
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr "smb-akter kræver rodrettigheder"
+msgstr "SMB delte mapper kræver root-rettigheder"
 
 #: motioneye/server.py:284
-#, fuzzy
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr "installer venligst en tornado version 3.1 eller mere"
+msgstr "Installér venligst Tornado version 3.1 eller nyere"
 
 #: motioneye/server.py:291
-#, fuzzy
 msgid "bonvolu instali jinja2"
-msgstr "installer venligst jinja2"
+msgstr "Installér venligst jinja2"
 
 #: motioneye/server.py:298
-#, fuzzy
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr "installer venligst en pude eller PIL"
+msgstr "Installer venligst pillow eller PIL"
 
 #: motioneye/server.py:305
-#, fuzzy
 msgid "bonvolu instali pycurl"
-msgstr "installer venligst pycurl"
+msgstr "Installer venligst pycurl"
 
 #: motioneye/server.py:423
-#, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "hej! Dette er en bevægelse Eye server "
+msgstr "Hej! Dette er en motionEye server "
 
 #: motioneye/server.py:438
-#, fuzzy
 msgid "purigado komenciĝis"
-msgstr "rengøring begyndte"
+msgstr "Rensning påbegyndt"
 
 #: motioneye/server.py:440
-#, fuzzy
 msgid "wsswitch komenciĝis"
-msgstr "wsswitch begyndte"
+msgstr "wsswitch påbegyndt"
 
 #: motioneye/server.py:443
-#, fuzzy
 msgid "taskoj komenciĝis"
-msgstr "opgaver begyndte"
+msgstr "Opgaver startet"
 
 #: motioneye/server.py:447
-#, fuzzy
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr "mjpg kundeaffaldssamler begyndte"
+msgstr "mjpg kunde-affaldssamler begyndte"
 
 #: motioneye/server.py:465
-#, fuzzy
 msgid "servilo komenciĝis"
-msgstr "serveren begyndte"
+msgstr "Server startet"
 
 #: motioneye/server.py:471
-#, fuzzy
 msgid "servilo haltis"
-msgstr "serveren stoppede"
+msgstr "Serveren er stoppet"
 
 #: motioneye/server.py:473
-#, fuzzy
 msgid "taskoj haltis"
-msgstr "opgaverne stoppede"
+msgstr "Opgaverne stoppede"
 
 #: motioneye/server.py:481
-#, fuzzy
 msgid "motion haltis"
-msgstr "bevægelse standset"
+msgstr "Motion stoppede"
 
 #: motioneye/server.py:486
-#, fuzzy
 msgid "adiaŭ!"
-msgstr "farewell!"
+msgstr "På gensyn!"
 
 #: motioneye/templates/main.html:104
-#, fuzzy
 msgid "agordojn"
-msgstr "konfigurationer"
+msgstr "Indstillinger"
 
 #: motioneye/templates/main.html:105
-#, fuzzy
 msgid "ŝanĝi uzanton"
-msgstr "ændre en bruger"
+msgstr "Skift bruger"
 
 #: motioneye/templates/main.html:107
-#, fuzzy
 msgid "forigi kameraon"
-msgstr "fjern kameraet"
+msgstr "Fjern kameraet"
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
-msgstr "Anvende"
+msgstr "Anvend"
 
 #: motioneye/templates/main.html:127
-#, fuzzy
 msgid "preferoj de uzanto"
-msgstr "præferencer for brugeren"
+msgstr "Præferencer for brugeren"
 
 #: motioneye/templates/main.html:128
-#, fuzzy
 msgid "Preferoj"
-msgstr "Foretrækker"
+msgstr "Bruger-præferencer"
 
 #: motioneye/templates/main.html:133
-#, fuzzy
 msgid "Aranĝo Kolumnoj"
-msgstr "Arrangementer af kolonner"
+msgstr "Arrangér kolonner"
 
 #: motioneye/templates/main.html:135
-#, fuzzy
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr "antallet af kolonner, der bruges til at udføre kameraer"
+msgstr "Indstiller antallet af kolonner, der bruges til at arrangere kameraer"
 
 #: motioneye/templates/main.html:138
 #, fuzzy
@@ -215,65 +189,53 @@ msgid "Ĝeneralaj Agordoj"
 msgstr "Generelle handlinger"
 
 #: motioneye/templates/main.html:167
-#, fuzzy
 msgid "Lingvo"
-msgstr "Sprogsprog sprog"
+msgstr "Sprog"
 
 #: motioneye/templates/main.html:173
-#, fuzzy
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr "grænsefladens sprog (to bogstaver)"
+msgstr "Grænsefladens sprog"
 
 #: motioneye/templates/main.html:176
-#, fuzzy
 msgid "Administranto"
 msgstr "Administrator"
 
 #: motioneye/templates/main.html:178
-#, fuzzy
 msgid "la uzantnomo uzata por agordi la sistemon"
-msgstr "brugernavnet brugt til at kombinere systemet"
+msgstr "Brugernavnet tiltænkt konfiguration af systemet"
 
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:526 motioneye/templates/main.html:714
-#, fuzzy
 msgid "Pasvorto"
-msgstr "Adgangskode nulstilling"
+msgstr "Adgangskode"
 
 #: motioneye/templates/main.html:183
-#, fuzzy
 msgid "pasvorto de administranto"
-msgstr "adgangskode af administrator"
+msgstr "Administratorens adgangskode"
 
 #: motioneye/templates/main.html:186
-#, fuzzy
 msgid "Observanto"
-msgstr "Observer"
+msgstr "Overvåger"
 
 #: motioneye/templates/main.html:188
-#, fuzzy
 msgid "la uzantnomo por uzi por la monitorado"
-msgstr "brugernavnet til brug for overvågning"
+msgstr "Brugernavnet tiltænkt overvågning"
 
 #: motioneye/templates/main.html:193
-#, fuzzy
 msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "brugerens adgangskode for overvågning (let hvid til overvågning uden adgangskode)"
+msgstr "Brugerens adgangskode for overvågning (efterlad tom for overvågning uden adgangskode)"
 
 #: motioneye/templates/main.html:202
-#, fuzzy
 msgid "motionEye Versio"
-msgstr "bevægelsesbevægelse Øjenversion"
+msgstr "MotionEye version"
 
 #: motioneye/templates/main.html:206
-#, fuzzy
 msgid "Motion Versio"
-msgstr "Bevægelsesversion"
+msgstr "Motion version"
 
 #: motioneye/templates/main.html:210
-#, fuzzy
 msgid "Operaciumo Versio"
-msgstr "Betjeningsversion"
+msgstr "Operativsystem version"
 
 #: motioneye/templates/main.html:215
 #, fuzzy
@@ -281,49 +243,40 @@ msgid "Programara Ĝisdatigo"
 msgstr "Softwareopdatering"
 
 #: motioneye/templates/main.html:217
-#, fuzzy
 msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
-msgstr "tjek nye versioner og opfylde opdateringer"
+msgstr "Tjekker for nye versioner og installerer opdateringer"
 
 #: motioneye/templates/main.html:221
-#, fuzzy
 msgid "Nutro"
-msgstr "Såak"
+msgstr "Tænd/Sluk"
 
 #: motioneye/templates/main.html:222
-#, fuzzy
 msgid "Fermu"
-msgstr "Tæt på Tæt på"
+msgstr "Sluk"
 
 #: motioneye/templates/main.html:223
-#, fuzzy
 msgid "malŝaltas la sistemon"
-msgstr "lys systemet"
+msgstr "Slukker systemet"
 
 #: motioneye/templates/main.html:227
-#, fuzzy
 msgid "Rekomencu"
-msgstr "Anbefalet anbefalet"
+msgstr "Genstart"
 
 #: motioneye/templates/main.html:228
-#, fuzzy
 msgid "rekomencas la sistemon"
-msgstr "genstarter systemet"
+msgstr "Genstarter systemet"
 
 #: motioneye/templates/main.html:234
-#, fuzzy
 msgid "Agordo"
-msgstr "Lovordre"
+msgstr "Konfiguration"
 
 #: motioneye/templates/main.html:235
-#, fuzzy
 msgid "Sekurkopio"
-msgstr "Sikker kopi"
+msgstr "Sikkerhedskopiér"
 
 #: motioneye/templates/main.html:236
-#, fuzzy
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
-msgstr "opret en fil med den aktuelle konfiguration for at holde den på stedet"
+msgstr "Opretter en fil med den aktuelle konfiguration til opbevaring lokalt"
 
 #: motioneye/templates/main.html:240
 #, fuzzy
@@ -331,14 +284,12 @@ msgid "Restaŭri"
 msgstr "Systemgendannelse"
 
 #: motioneye/templates/main.html:241
-#, fuzzy
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
-msgstr "genopretter konfigurationen af en tidligere bevaret reservefil"
+msgstr "Gendanner konfigurationen ud fra en sikkerhedskopieret fil"
 
 #: motioneye/templates/main.html:265
-#, fuzzy
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
-msgstr "gør dette, hvis du vil bruge dette kamera"
+msgstr "Tænd for dette, hvis du vil bruge dette kamera"
 
 #: motioneye/templates/main.html:266
 #, fuzzy
@@ -347,24 +298,20 @@ msgstr "Videoenhed"
 
 #: motioneye/templates/main.html:271 motioneye/templates/main.html:624
 #: motioneye/templates/main.html:641
-#, fuzzy
 msgid "Kamerao Nomo"
-msgstr "Afdelingsnavn"
+msgstr "Kameranavn"
 
 #: motioneye/templates/main.html:272
-#, fuzzy
 msgid "kameraa nomo…"
-msgstr "kameraets navn…"
+msgstr "Kameraets navn…"
 
 #: motioneye/templates/main.html:273
-#, fuzzy
 msgid "alias pri ĉi tiu kamera aparato"
-msgstr "andre på denne kamera enhed"
+msgstr "Et alias på denne kamera enhed"
 
 #: motioneye/templates/main.html:276
-#, fuzzy
 msgid "Kamerao ID"
-msgstr "Afdelings-id"
+msgstr "Kamera ID"
 
 #: motioneye/templates/main.html:278
 #, fuzzy
@@ -1214,7 +1161,7 @@ msgstr "For nogensinde"
 
 #: motioneye/templates/main.html:807 motioneye/templates/main.html:920
 msgid "Propra"
-msgstr "Egen"
+msgstr "Brugertilpasset"
 
 #: motioneye/templates/main.html:810
 #, fuzzy
