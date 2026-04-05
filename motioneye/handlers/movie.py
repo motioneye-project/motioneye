@@ -27,14 +27,11 @@ __all__ = ('MovieHandler',)
 
 
 class MovieHandler(BaseHandler):
-    async def get(self, camera_id, op, filename=None):
-        if filename is not None and '..' in filename.split('/'):
-            raise HTTPError(
-                403, 'Path traversal detected', reason='Path traversal detected'
-            )
+    async def get(self, camera_id: str, op, filename: str | None = None):
+        utils.validate_paths(filename, camera_id=camera_id)
 
         if camera_id is not None:
-            camera_id = int(camera_id)
+            camera_id = int(camera_id)  # type: ignore[assignment]
             if camera_id not in config.get_camera_ids():
                 raise HTTPError(404, 'no such camera')
             # block access to admin-only cameras for non-admin users
@@ -60,26 +57,16 @@ class MovieHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
 
-    async def post(self, camera_id, op, filename=None, group=None):
-        if filename is not None and '..' in filename.split('/'):
-            raise HTTPError(
-                403,
-                f'Path traversal detected in filename "{filename}"',
-                reason='Path traversal detected',
-            )
-
-        if group is not None and '..' in group.split('/'):
-            raise HTTPError(
-                403,
-                f'Path traversal detected in group "{group}"',
-                reason='Path traversal detected',
-            )
-
+    async def post(
+        self, camera_id: str, op, filename: str | None = None, group: str | None = None
+    ):
         if group == '/':  # ungrouped
             group = ''
 
+        utils.validate_paths(filename, group, camera_id=camera_id)
+
         if camera_id is not None:
-            camera_id = int(camera_id)
+            camera_id = int(camera_id)  # type: ignore[assignment]
             if camera_id not in config.get_camera_ids():
                 raise HTTPError(404, 'no such camera')
 
@@ -111,7 +98,7 @@ class MovieHandler(BaseHandler):
                 with_stat=with_stat,
             )
             if media_list is None:
-                self.finish_json({'error': 'Failed to get movies list.'})
+                return self.finish_json({'error': 'Failed to get movies list.'})
 
             return self.finish_json(
                 {'mediaList': media_list, 'cameraName': camera_config['camera_name']}

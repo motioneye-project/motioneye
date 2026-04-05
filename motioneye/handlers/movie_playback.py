@@ -35,11 +35,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
         os.mkdir(tmpdir)
 
     @BaseHandler.auth()
-    async def get(self, camera_id, filename=None, include_body=True):
-        if filename is not None and '..' in filename.split('/'):
-            raise HTTPError(
-                403, 'Path traversal detected', reason='Path traversal detected'
-            )
+    async def get(self, camera_id: str, filename: str, include_body=True):
+        utils.validate_paths(filename, camera_id=camera_id)
 
         logging.debug(
             'downloading movie {filename} of camera {id}'.format(
@@ -50,7 +47,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
         self.pretty_filename = os.path.basename(filename)
 
         if camera_id is not None:
-            camera_id = int(camera_id)
+            camera_id = int(camera_id)  # type: ignore[assignment]
             if camera_id not in config.get_camera_ids():
                 raise HTTPError(404, 'no such camera')
 

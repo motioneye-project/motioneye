@@ -312,7 +312,8 @@ class TestMediaFilesPathTraversal(unittest.TestCase):
         self.assertIn('Path traversal', str(ctx.exception))
 
     def test_make_movie_preview_rejects_traversal(self):
-        for full_path in self._FILENAME_TRAVERSALS:
+        for path in self._FILENAME_TRAVERSALS:
+            full_path = os.path.join(self._CAMERA_CONFIG['target_dir'], path)
             with self.subTest(full_path=full_path):
                 self._assert_raises_path_traversal(
                     mediafiles.make_movie_preview, self._CAMERA_CONFIG, full_path

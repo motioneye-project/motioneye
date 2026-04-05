@@ -395,8 +395,7 @@ async def get_current_picture(
 async def list_media(
     local_config, media_type, prefix: str | None = None
 ) -> utils.ListMediaResponse:
-    if prefix is not None and '..' in prefix.split('/'):
-        raise Exception(f'Path traversal detected in prefix "{prefix}"')
+    utils.validate_paths(prefix)
 
     scheme, host, port, username, password, path, camera_id = _remote_params(
         local_config
@@ -454,8 +453,7 @@ async def list_media(
 async def get_media_content(
     local_config, filename: str, media_type
 ) -> utils.CommonExternalResponse:
-    if '..' in filename.split('/'):
-        raise Exception(f'Path traversal detected in filename "{filename}"')
+    utils.validate_paths(filename)
 
     scheme, host, port, username, password, path, camera_id = _remote_params(
         local_config
@@ -500,8 +498,7 @@ async def get_media_content(
 async def make_zipped_content(
     local_config, media_type, group: str
 ) -> utils.CommonExternalResponse:
-    if '..' in group.split('/'):
-        raise Exception(f'Path traversal detected in group "{group}"')
+    utils.validate_paths(group)
 
     scheme, host, port, username, password, path, camera_id = _remote_params(
         local_config
@@ -564,8 +561,7 @@ async def make_zipped_content(
 async def get_zipped_content(
     local_config, media_type, key, group: str
 ) -> utils.CommonExternalResponse:
-    if '..' in group.split('/'):
-        raise Exception(f'Path traversal detected in group "{group}"')
+    utils.validate_paths(group)
 
     scheme, host, port, username, password, path, camera_id = _remote_params(
         local_config
@@ -614,8 +610,7 @@ async def get_zipped_content(
 async def make_timelapse_movie(
     local_config, framerate, interval, group: str
 ) -> utils.CommonExternalResponse:
-    if '..' in group.split('/'):
-        raise Exception(f'Path traversal detected in group "{group}"')
+    utils.validate_paths(group)
 
     scheme, host, port, username, password, path, camera_id = _remote_params(
         local_config
@@ -688,8 +683,7 @@ async def make_timelapse_movie(
 async def check_timelapse_movie(
     local_config, group: str
 ) -> utils.CommonExternalResponse:
-    if '..' in group.split('/'):
-        raise Exception(f'Path traversal detected in group "{group}"')
+    utils.validate_paths(group)
 
     scheme, host, port, username, password, path, camera_id = _remote_params(
         local_config
@@ -737,8 +731,7 @@ async def check_timelapse_movie(
 async def get_timelapse_movie(
     local_config, key, group: str
 ) -> utils.CommonExternalResponse:
-    if '..' in group.split('/'):
-        raise Exception(f'Path traversal detected in group "{group}"')
+    utils.validate_paths(group)
 
     scheme, host, port, username, password, path, camera_id = _remote_params(
         local_config
@@ -787,8 +780,7 @@ async def get_timelapse_movie(
 async def get_media_preview(
     local_config, filename: str, media_type, width, height
 ) -> utils.CommonExternalResponse:
-    if '..' in filename.split('/'):
-        raise Exception(f'Path traversal detected in filename "{filename}"')
+    utils.validate_paths(filename)
 
     scheme, host, port, username, password, path, camera_id = _remote_params(
         local_config
@@ -832,8 +824,7 @@ async def get_media_preview(
 async def del_media_content(
     local_config, filename: str, media_type
 ) -> utils.CommonExternalResponse:
-    if '..' in filename.split('/'):
-        raise Exception(f'Path traversal detected in filename "{filename}"')
+    utils.validate_paths(filename)
 
     scheme, host, port, username, password, path, camera_id = _remote_params(
         local_config

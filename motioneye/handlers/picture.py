@@ -42,19 +42,16 @@ class PictureHandler(BaseHandler):
     def compute_etag(self):
         return None
 
-    async def get(self, camera_id, op, filename=None, group=None):
-        if filename is not None and '..' in filename.split('/'):
-            raise HTTPError(
-                403, 'Path traversal detected', reason='Path traversal detected'
-            )
+    async def get(
+        self, camera_id: str, op, filename: str | None = None, group: str | None = None
+    ):
+        if group == '/':  # ungrouped
+            group = ''
 
-        if group is not None and '..' in group.split('/'):
-            raise HTTPError(
-                403, 'Path traversal detected', reason='Path traversal detected'
-            )
+        utils.validate_paths(filename, group, camera_id=camera_id)
 
         if camera_id is not None:
-            camera_id = int(camera_id)
+            camera_id = int(camera_id)  # type: ignore[assignment]
             if camera_id not in config.get_camera_ids():
                 raise HTTPError(404, 'no such camera')
             # block access to admin-only cameras for non-admin users
@@ -93,26 +90,16 @@ class PictureHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
 
-    async def post(self, camera_id, op, filename=None, group=None):
-        if filename is not None and '..' in filename.split('/'):
-            raise HTTPError(
-                403,
-                f'Path traversal detected in filename "{filename}"',
-                reason='Path traversal detected',
-            )
-
-        if group is not None and '..' in group.split('/'):
-            raise HTTPError(
-                403,
-                f'Path traversal detected in group "{group}"',
-                reason='Path traversal detected',
-            )
-
+    async def post(
+        self, camera_id: str, op, filename: str | None = None, group: str | None = None
+    ):
         if group == '/':  # ungrouped
             group = ''
 
+        utils.validate_paths(filename, group, camera_id=camera_id)
+
         if camera_id is not None:
-            camera_id = int(camera_id)
+            camera_id = int(camera_id)  # type: ignore[assignment]
             if camera_id not in config.get_camera_ids():
                 raise HTTPError(404, 'no such camera')
             # block access to admin-only cameras for non-admin users
@@ -212,7 +199,7 @@ class PictureHandler(BaseHandler):
                 with_stat=with_stat,
             )
             if media_list is None:
-                self.finish_json({'error': 'Failed to get movies list.'})
+                return self.finish_json({'error': 'Failed to get movies list.'})
 
             return self.finish_json(
                 {'mediaList': media_list, 'cameraName': camera_config['camera_name']}
@@ -494,7 +481,7 @@ class PictureHandler(BaseHandler):
                         group=group or 'ungrouped', id=camera_id, key=key
                     )
                 )
-                self.finish_json({'key': key})
+                return self.finish_json({'key': key})
 
             elif utils.is_remote_camera(camera_config):
                 resp = await remote.make_zipped_content(
@@ -607,10 +594,10 @@ class PictureHandler(BaseHandler):
                     return self.finish_json({'error': msg})
 
                 if resp.result['progress'] == -1 and resp.result.get('key'):
-                    self.finish_json({'key': resp.result['key'], 'progress': -1})
+                    return self.finish_json({'key': resp.result['key'], 'progress': -1})
 
                 else:
-                    self.finish_json(resp.result)
+                    return self.finish_json(resp.result)
 
             else:  # assuming simple mjpeg camera
                 raise HTTPError(400, 'unknown operation')
