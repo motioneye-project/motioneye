@@ -32,6 +32,7 @@ from dataclasses import dataclass
 
 from PIL import Image, ImageDraw
 from tornado.concurrent import Future
+from tornado.httputil import parse_cookie
 from tornado.ioloop import IOLoop
 
 from motioneye import settings
@@ -269,15 +270,9 @@ def parse_cookies(cookies_headers: list[str]) -> dict[str, str]:
     parsed: dict[str, str] = {}
 
     for cookie in cookies_headers:
-        parts = cookie.split(';')
-        for c in parts:
-            name, value = c.split('=', 1)
-            name = name.strip()
-            value = value.strip()
-
+        for name, value in parse_cookie(cookie).items():
             if name.lower() in _SPECIAL_COOKIE_NAMES:
                 continue
-
             parsed[name] = value
 
     return parsed
