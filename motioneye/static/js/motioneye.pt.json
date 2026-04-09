@@ -1,6 +1,6 @@
 {"":{"language":"pt","plural-forms":"nplurals=2; plural=(n > 1);"}
 ,"specialaj signoj ne rajtas en pasvorto": "caracteres especiais não são permitidos na senha"
-,"use of colon (:) is not allowed in video streaming username": "use of inch (:) é uma nota que está em usuário de streaming de vídeo"
+,"use of colon (:) is not allowed in video streaming username": "uso de dois pontos (:) é uma anotação do nome de usuário no streaming de vídeo"
 ,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": "modo de harmônica de streaming de vídeo deve ser Basic ou Digest quando uma abordagem somente de admin é ativada"
 ,"Ĉi tiu kampo estas deviga": "Este campo é obrigatório"
 ,"specialaj signoj ne rajtas en la nomo de kamerao": "caracteres especiais não são permitidos no nome de câmera"
@@ -45,7 +45,7 @@
 ,"Aliri la alŝutan servon malsukcesis: ": "O acesso ao serviço de upload falhou: "
 ,"Aliri la alŝutan servon sukcesis!": "O acesso ao serviço de upload foi bem-sucedido!"
 ,"Sciiga retpoŝto fiaskis:": "E-mail de notificação falhou:"
-,"Notification email succeeded!": "O e-mail está assistindo!"
+,"Notification email succeeded!": "E-mail notificado com sucesso!"
 ,"Certiĝu, ke ĉiuj agordaj opcioj estas validaj!": "Verifique, se todas as opções de configuração são válidas!"
 ,"Sciiga Telegramo fiaskis:": "O telegrama de notificação falhou:"
 ,"Sciiga Telegramo sukcesis!": "O telegrama de notificação foi bem sucedido!"
