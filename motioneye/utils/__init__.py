@@ -677,6 +677,7 @@ def validate_paths(
     *paths: str | None, camera_id: str | None = None, target_dir: str | None = None
 ):
     # Obtain camera dir from optional named arguments
+    camera_dir: str | None = None
     if target_dir is not None:
         camera_dir = os.path.realpath(target_dir) + os.sep
 
