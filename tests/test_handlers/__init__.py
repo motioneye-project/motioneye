@@ -1,4 +1,6 @@
+import atexit
 import os
+from shutil import rmtree
 from tempfile import mkdtemp
 from typing import Generic, Type, TypeVar
 from unittest.mock import MagicMock, patch
@@ -21,6 +23,8 @@ _FAKE_TARGET_DIR = mkdtemp()
 _FAKE_OUTSIDE_DIR = mkdtemp()
 _FAKE_ESCAPE_LINK = 'escape'
 os.symlink(_FAKE_OUTSIDE_DIR, os.path.join(_FAKE_TARGET_DIR, _FAKE_ESCAPE_LINK))
+atexit.register(rmtree, _FAKE_TARGET_DIR, True)
+atexit.register(rmtree, _FAKE_OUTSIDE_DIR, True)
 
 _FAKE_CAMERA_CONFIG = {
     '@id': _FAKE_CAMERA_ID,
