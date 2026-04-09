@@ -1,3 +1,4 @@
+import os
 from tempfile import mkdtemp
 from typing import Generic, Type, TypeVar
 from unittest.mock import MagicMock, patch
@@ -14,6 +15,13 @@ T = TypeVar('T', bound=RequestHandler)
 # Minimal camera config used across all handler tests.
 _FAKE_CAMERA_ID = 1
 _FAKE_TARGET_DIR = mkdtemp()
+
+# Create a symlink inside _FAKE_TARGET_DIR that points outside,
+# used by path validation tests to verify camera directory escape detection.
+_FAKE_OUTSIDE_DIR = mkdtemp()
+_FAKE_ESCAPE_LINK = 'escape'
+os.symlink(_FAKE_OUTSIDE_DIR, os.path.join(_FAKE_TARGET_DIR, _FAKE_ESCAPE_LINK))
+
 _FAKE_CAMERA_CONFIG = {
     '@id': _FAKE_CAMERA_ID,
     '@enabled': True,
