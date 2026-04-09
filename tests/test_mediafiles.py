@@ -308,27 +308,20 @@ class TestMediaFilesPathValidation(unittest.TestCase):
         'subdir/../../../etc/passwd',
         '../secret.jpg',
     ]
-    _GROUP_TRAVERSALS = [
+    _SUBDIR_TRAVERSALS = [
         '..',
         '../group',
         'subdir/..',
         'subdir/../../other',
     ]
-    _PREFIX_TRAVERSALS = [
-        '..',
-        '../prefix',
-        'prefix/../..',
-    ]
 
     # Absolute path inputs: each starts with '/'.
-    _FILENAME_ABSOLUTES = ['/etc/passwd', '/tmp/secret.jpg']
-    _GROUP_ABSOLUTES = ['/etc', '/tmp']
-    _PREFIX_ABSOLUTES = ['/etc', '/tmp']
+    _FILENAME_ABSOLUTES = ['/etc/passwd', '/mnt/secret.jpg']
+    _SUBDIR_ABSOLUTES = ['/etc', '/root/.ssh', '/var/log']
 
     # Camera dir escape inputs: use the 'escape' symlink.
     _FILENAME_ESCAPES = ['escape/secret.jpg', 'escape/subdir/file.mp4']
-    _GROUP_ESCAPES = ['escape', 'escape/subdir']
-    _PREFIX_ESCAPES = ['escape', 'escape/subdir']
+    _SUBDIR_ESCAPES = ['escape', 'escape/subdir']
 
     def _assert_raises_traversal(self, fn, *args, **kwargs):
         with self.assertRaises(Exception) as ctx:
@@ -373,7 +366,7 @@ class TestMediaFilesPathValidation(unittest.TestCase):
     # --- list_media ---
 
     def test_list_media_rejects_traversal(self):
-        for prefix in self._PREFIX_TRAVERSALS:
+        for prefix in self._SUBDIR_TRAVERSALS:
             with self.subTest(prefix=prefix):
                 self._assert_raises_traversal(
                     mediafiles.list_media,
@@ -383,7 +376,7 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                 )
 
     def test_list_media_rejects_absolute_path(self):
-        for prefix in self._PREFIX_ABSOLUTES:
+        for prefix in self._SUBDIR_ABSOLUTES:
             with self.subTest(prefix=prefix):
                 self._assert_raises_absolute_path(
                     mediafiles.list_media,
@@ -393,7 +386,7 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                 )
 
     def test_list_media_rejects_dir_escape(self):
-        for prefix in self._PREFIX_ESCAPES:
+        for prefix in self._SUBDIR_ESCAPES:
             with self.subTest(prefix=prefix):
                 self._assert_raises_dir_escape(
                     mediafiles.list_media,
@@ -460,7 +453,7 @@ class TestMediaFilesPathValidation(unittest.TestCase):
     # --- get_zipped_content ---
 
     def test_get_zipped_content_rejects_traversal(self):
-        for group in self._GROUP_TRAVERSALS:
+        for group in self._SUBDIR_TRAVERSALS:
             with self.subTest(group=group):
                 self._assert_raises_traversal(
                     mediafiles.get_zipped_content,
@@ -470,7 +463,7 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                 )
 
     def test_get_zipped_content_rejects_absolute_path(self):
-        for group in self._GROUP_ABSOLUTES:
+        for group in self._SUBDIR_ABSOLUTES:
             with self.subTest(group=group):
                 self._assert_raises_absolute_path(
                     mediafiles.get_zipped_content,
@@ -480,7 +473,7 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                 )
 
     def test_get_zipped_content_rejects_dir_escape(self):
-        for group in self._GROUP_ESCAPES:
+        for group in self._SUBDIR_ESCAPES:
             with self.subTest(group=group):
                 self._assert_raises_dir_escape(
                     mediafiles.get_zipped_content,
@@ -492,7 +485,7 @@ class TestMediaFilesPathValidation(unittest.TestCase):
     # --- make_timelapse_movie ---
 
     def test_make_timelapse_movie_rejects_traversal(self):
-        for group in self._GROUP_TRAVERSALS:
+        for group in self._SUBDIR_TRAVERSALS:
             with self.subTest(group=group):
                 self._assert_raises_traversal(
                     mediafiles.make_timelapse_movie,
@@ -503,7 +496,7 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                 )
 
     def test_make_timelapse_movie_rejects_absolute_path(self):
-        for group in self._GROUP_ABSOLUTES:
+        for group in self._SUBDIR_ABSOLUTES:
             with self.subTest(group=group):
                 self._assert_raises_absolute_path(
                     mediafiles.make_timelapse_movie,
@@ -514,7 +507,7 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                 )
 
     def test_make_timelapse_movie_rejects_dir_escape(self):
-        for group in self._GROUP_ESCAPES:
+        for group in self._SUBDIR_ESCAPES:
             with self.subTest(group=group):
                 self._assert_raises_dir_escape(
                     mediafiles.make_timelapse_movie,
@@ -597,7 +590,7 @@ class TestMediaFilesPathValidation(unittest.TestCase):
     # --- del_media_group ---
 
     def test_del_media_group_rejects_traversal(self):
-        for group in self._GROUP_TRAVERSALS:
+        for group in self._SUBDIR_TRAVERSALS:
             with self.subTest(group=group):
                 self._assert_raises_traversal(
                     mediafiles.del_media_group,
@@ -607,7 +600,7 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                 )
 
     def test_del_media_group_rejects_absolute_path(self):
-        for group in self._GROUP_ABSOLUTES:
+        for group in self._SUBDIR_ABSOLUTES:
             with self.subTest(group=group):
                 self._assert_raises_absolute_path(
                     mediafiles.del_media_group,
@@ -617,7 +610,7 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                 )
 
     def test_del_media_group_rejects_dir_escape(self):
-        for group in self._GROUP_ESCAPES:
+        for group in self._SUBDIR_ESCAPES:
             with self.subTest(group=group):
                 self._assert_raises_dir_escape(
                     mediafiles.del_media_group,

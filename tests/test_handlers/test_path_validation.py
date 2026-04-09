@@ -22,7 +22,7 @@ import tornado.testing
 
 from motioneye.handlers.movie import MovieHandler
 from motioneye.handlers.picture import PictureHandler
-from tests.test_handlers import HandlerTestCase, _FAKE_ESCAPE_LINK
+from tests.test_handlers import _FAKE_ESCAPE_LINK, HandlerTestCase
 
 
 def _assert_traversal_403(test_case, response):
@@ -63,14 +63,10 @@ class PictureHandlerPathValidationTest(HandlerTestCase):
 
     def test_get_download_rejects_traversal(self):
         _assert_traversal_403(self, self.fetch('/picture/1/download/../../etc/passwd'))
-        _assert_traversal_403(
-            self, self.fetch('/picture/1/download/%2e%2e/etc/passwd')
-        )
+        _assert_traversal_403(self, self.fetch('/picture/1/download/%2e%2e/etc/passwd'))
 
     def test_get_download_rejects_absolute_path(self):
-        _assert_absolute_path_403(
-            self, self.fetch('/picture/1/download/%2fetc/passwd')
-        )
+        _assert_absolute_path_403(self, self.fetch('/picture/1/download/%2fetc/passwd'))
 
     def test_get_download_rejects_dir_escape(self):
         _assert_dir_escape_403(
@@ -81,14 +77,10 @@ class PictureHandlerPathValidationTest(HandlerTestCase):
 
     def test_get_preview_rejects_traversal(self):
         _assert_traversal_403(self, self.fetch('/picture/1/preview/../secret.jpg'))
-        _assert_traversal_403(
-            self, self.fetch('/picture/1/preview/%2E%2E/secret.jpg')
-        )
+        _assert_traversal_403(self, self.fetch('/picture/1/preview/%2E%2E/secret.jpg'))
 
     def test_get_preview_rejects_absolute_path(self):
-        _assert_absolute_path_403(
-            self, self.fetch('/picture/1/preview/%2fsecret.jpg')
-        )
+        _assert_absolute_path_403(self, self.fetch('/picture/1/preview/%2fsecret.jpg'))
 
     def test_get_preview_rejects_dir_escape(self):
         _assert_dir_escape_403(
@@ -187,9 +179,7 @@ class MovieHandlerPathValidationTest(HandlerTestCase):
         _assert_traversal_403(self, self.fetch('/movie/1/preview/%2E%2E/secret.mp4'))
 
     def test_get_preview_rejects_absolute_path(self):
-        _assert_absolute_path_403(
-            self, self.fetch('/movie/1/preview/%2fsecret.mp4')
-        )
+        _assert_absolute_path_403(self, self.fetch('/movie/1/preview/%2fsecret.mp4'))
 
     def test_get_preview_rejects_dir_escape(self):
         _assert_dir_escape_403(
