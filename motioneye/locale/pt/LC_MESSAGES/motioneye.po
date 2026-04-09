@@ -13,20 +13,21 @@
 # Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2025.
 # MichaIng <micha@dietpi.com>, 2025.
 # Isaki23 <isaquefonseca230706@gmail.com>, 2026.
+# Saulo Barbosa Oliveira <neosoyo@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-02-15 09:10+0000\n"
-"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-03-18 01:09+0000\n"
+"Last-Translator: Saulo Barbosa Oliveira <neosoyo@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/config.py:905
@@ -42,14 +43,12 @@ msgid "Directory names are only allowed to contain alphanumerical characters, sp
 msgstr "Os nomes dos diretórios são equivalentes apenas a caracteres alfanuméricos, espacialmente, parênteses(), barra/, ponto., sublinhado _ e hífen—"
 
 #: motioneye/config.py:919
-#, fuzzy
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
-msgstr "Protocolo de e-mail é apenas um guia para caracteres alfanuméricos, underscore, plus +, dot., em @, caret^, tilde ~, Inglês < > , hífen –, e pode ser uma multa por vírgula e espacialmente"
+msgstr "Endereço de e-mail só pode conter caracteres alfanuméricos, símbolos (_ + . @ ^ ~ < > –), e pode ser separado por vírgula ou espaço"
 
 #: motioneye/config.py:924
-#, fuzzy
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
-msgstr "URLs não são conhecidas como \"Complier\" , semicolon;, ou apostrophe '"
+msgstr "URLs que contenham os símbolos ( ^ ; ' ) não são permitidas"
 
 #: motioneye/server.py:233
 msgid "interrompa signalo ricevita, fermanta …"
@@ -331,18 +330,16 @@ msgid "Admin-only access"
 msgstr "Acesso apenas de administrador"
 
 #: motioneye/templates/main.html:292
-#, fuzzy
 msgid "If enabled only the admin user can access this camera"
-msgstr "Se apenas o usuário admirador puder acessar esta câmera"
+msgstr "Se habilitado, somente o administrador consegue acessar esta camera"
 
 #: motioneye/templates/main.html:298
 msgid "Aŭtomata Brilo"
 msgstr "Brilho automático"
 
 #: motioneye/templates/main.html:300
-#, fuzzy
 msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
-msgstr "permite o brilho automático do software (comendado apenas para câmeras sem brilho automático)"
+msgstr "Habilita ajuste de brilho automático por software (somente recomendado em camera sem auto-brilho)"
 
 #: motioneye/templates/main.html:306
 msgid "Video-rezolucio"
@@ -357,9 +354,8 @@ msgid "Larĝeco"
 msgstr "Largura"
 
 #: motioneye/templates/main.html:316
-#, fuzzy
 msgid "enigu kutiman rezolucian larĝon"
-msgstr "junte-se a uma largura de resolução habitual"
+msgstr "Forneça a resolução de largura customizada"
 
 #: motioneye/templates/main.html:319
 msgid "Alteco"
@@ -390,9 +386,8 @@ msgid "Privateca masko"
 msgstr "Máscara de privacidade"
 
 #: motioneye/templates/main.html:346
-#, fuzzy
 msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
-msgstr "permite masquerade de imagens para evitar gravar quaisquer áreas pictóricas para proteger a privacidade"
+msgstr "Habilita mascaramento para prevenir gravação de áreas privadas da imagem"
 
 #: motioneye/templates/main.html:351 motioneye/templates/main.html:1027
 msgid "Redakti maskon"
@@ -403,23 +398,20 @@ msgid "Konservi maskon"
 msgstr "Mantenha uma máscara"
 
 #: motioneye/templates/main.html:355
-#, fuzzy
 msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
-msgstr "clique neste botão para ativar/recuperar o editor de máscara"
+msgstr "clique neste botão para ativar/desativar o editor de máscara"
 
 #: motioneye/templates/main.html:366
-#, fuzzy
 msgid "Ekstraj Elektoj"
-msgstr "Escolhas extra"
+msgstr "Opções extras"
 
 #: motioneye/templates/main.html:368
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
 msgstr "Você pode adicionar quaisquer opções adicionais aqui para o demônio \"movimento\" (use o formato \"Nome Value\", uma opção por linha)"
 
 #: motioneye/templates/main.html:377
-#, fuzzy
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
-msgstr "escolha onde e como seus meios de comunicação são mantidos"
+msgstr "escolha onde e como seus arquivos são mantidos"
 
 #: motioneye/templates/main.html:378
 #, fuzzy
@@ -431,27 +423,24 @@ msgid "Stokada Aparato"
 msgstr "Dispositivo de armazenamento"
 
 #: motioneye/templates/main.html:388
-#, fuzzy
 msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
-msgstr "indica o dispositivo de armazenamento, onde os arquivos de imagem e vídeo serão mantidos"
+msgstr "indica o dispositivo de armazenamento, onde os arquivos de imagem e vídeo serão salvos"
 
 #: motioneye/templates/main.html:391
 msgid "Retservilo"
 msgstr "Servidor web"
 
 #: motioneye/templates/main.html:393
-#, fuzzy
 msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
-msgstr "o endereço do servidor de Internet (endereço IP ou nome)"
+msgstr "o endereço do servidor na rede (endereço IP ou hostname)"
 
 #: motioneye/templates/main.html:396
 msgid "SMB Protokolo-Versio"
 msgstr "Versão do protocolo SMB"
 
 #: motioneye/templates/main.html:406
-#, fuzzy
 msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
-msgstr "escolha a versão SMB que você pode usar (teste as diferentes opções e veja qual funciona melhor com seu NAS)"
+msgstr "escolha a versão SMB que a ser usada (teste as diferentes opções e veja qual funciona melhor com seu NAS)"
 
 #: motioneye/templates/main.html:409
 #, fuzzy
@@ -459,9 +448,8 @@ msgid "Kunhava nomo"
 msgstr "Um nome compartilhado"
 
 #: motioneye/templates/main.html:411
-#, fuzzy
 msgid "la nomo de la interŝanĝa reto"
-msgstr "o nome da rede de intercâmbio"
+msgstr "o nome da rede de compartilhamento"
 
 #: motioneye/templates/main.html:414 motioneye/templates/main.html:521
 #: motioneye/templates/main.html:709

@@ -4,34 +4,33 @@
 # Tbnilen <tbn@kse.dk>, 2025.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
 # MichaIng <micha@dietpi.com>, 2025.
+# SimonHanel <simon@hanel.dk>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-02-21 11:09+0000\n"
-"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-03-20 10:09+0000\n"
+"Last-Translator: SimonHanel <simon@hanel.dk>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: motioneye/static/js/main.js:611
 msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr "Specialtegn er ikke tilladt i adgangskoden"
+msgstr "Specialtegn i adgangskoden er ikke tilladt"
 
 #: motioneye/static/js/main.js:618
-#, fuzzy
 msgid "use of colon (:) is not allowed in video streaming username"
-msgstr "brug af tomme (:) er en note, der er i video streaming brugernavn"
+msgstr "Brug af kolonner (:) er ikke tilladt i video streaming brugernavnet"
 
 #: motioneye/static/js/main.js:629
-#, fuzzy
 msgid "video streaming authentication mode must be Basic or Digest when admin-only access is enabled"
-msgstr "videostreaming harmonika mode skal være Basic eller Digest, når en administrator-kun tilgang er aktiveret"
+msgstr "Videostreaming godkendelsestilstand skal være Basic eller Digest, når administrator-adgang er aktiveret"
 
 #: motioneye/static/js/main.js:636 motioneye/static/js/main.js:647
 #: motioneye/static/js/main.js:706 motioneye/static/js/ui.js:397
@@ -40,7 +39,7 @@ msgstr "Dette felt er obligatorisk"
 
 #: motioneye/static/js/main.js:640
 msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr "Specieltegn er ikke tilladt i kamera navnet"
+msgstr "Specialtegn er ikke tilladt i kameraets navn"
 
 #: motioneye/static/js/main.js:652
 msgid "valoro devas esti multoblo de 8"
@@ -48,11 +47,11 @@ msgstr "Værdien skal være et multiplum af 8"
 
 #: motioneye/static/js/main.js:659
 msgid "specialaj signoj ne rajtas en radika voja nomo"
-msgstr "Specieltegn er ikke tilladt i rodstiens navn"
+msgstr "Specialtegn er ikke tilladt i rodstiens navn"
 
 #: motioneye/static/js/main.js:662
 msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr "Filer kan ikke oprettes direkte i roden på dit system"
+msgstr "Filer kan ikke oprettes direkte i roden af dit system"
 
 #: motioneye/static/js/main.js:669
 msgid "enigu validan retpoŝtadreson"
@@ -60,7 +59,7 @@ msgstr "Indtast en gyldig e-mail adresse"
 
 #: motioneye/static/js/main.js:676
 msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr "Indtast en kommaseparet liste over gyldige e-mail adresser"
+msgstr "Indtast en komma-separeret liste over gyldige e-mail adresser"
 
 #: motioneye/static/js/main.js:683
 msgid "specialaj signoj ne rajtas en dosiernomo"
@@ -76,39 +75,39 @@ msgstr "Det vil rekursivt slette alle filer i Cloud-mappen"
 
 #: motioneye/static/js/main.js:873
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
-msgstr "“,ikke kun dem der er uploader af MotionEye!"
+msgstr "“, ikke kun dem der er uploadet af MotionEye!"
 
 #: motioneye/static/js/main.js:954
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
-msgstr "Det vil rekursivt slette alle filer i mappen"
+msgstr "Dette vil rekursivt slette alle filer i mappen"
 
 #: motioneye/static/js/main.js:955
 msgid "\", ne nur tiuj kreitaj de motionEye!"
-msgstr "“,ikke kun dem, der er skabt af MotionEye!"
+msgstr "“, ikke kun dem, der er skabt af MotionEye!"
 
 #: motioneye/static/js/main.js:1021
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
-msgstr "Det er ikke muligt at redigerer masken uden et gyldigt kamerabillede!"
+msgstr "Det er ikke muligt at redigere masken uden et gyldigt kamerabillede!"
 
 #: motioneye/static/js/main.js:2275
 msgid "Propra"
-msgstr "Egen"
+msgstr "Brugertilpasset"
 
 #: motioneye/static/js/main.js:2313
 msgid "Propra dosierindiko"
-msgstr "Brugerdefineret fil pointer"
+msgstr "Brugerdefineret filsti"
 
 #: motioneye/static/js/main.js:2315
 msgid "Retan kunlokon"
-msgstr "Online colocation"
+msgstr "Netværksdelte mapper"
 
 #: motioneye/static/js/main.js:2678
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
-msgstr "Din browser implementerer ikke denne funktion!"
+msgstr "Din browser understøtter ikke denne funktion!"
 
 #: motioneye/static/js/main.js:2694
 msgid "Apliki"
-msgstr "Anvende"
+msgstr "Anvend"
 
 #: motioneye/static/js/main.js:2721 motioneye/static/js/main.js:3083
 #: motioneye/static/js/main.js:3139 motioneye/static/js/main.js:3214
@@ -117,7 +116,7 @@ msgstr "Sørg for at alle konfigurationsmuligheder er gyldige!"
 
 #: motioneye/static/js/main.js:2824
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
-msgstr "Dette vil genstarte systemet, vil du fortsætte?"
+msgstr "Dette vil genstarte systemet. Vil du fortsætte?"
 
 #: motioneye/static/js/main.js:2834
 msgid "Vere fermiti sistemon?"
@@ -273,9 +272,8 @@ msgid "Uzantnomo"
 msgstr "Brugernavn brugernavn"
 
 #: motioneye/static/js/main.js:3632 motioneye/static/js/main.js:3931
-#, fuzzy
 msgid "Pasvorto"
-msgstr "Adgangskode nulstilling"
+msgstr "Adgangskode"
 
 #: motioneye/static/js/main.js:3638
 #, fuzzy

@@ -5,29 +5,29 @@
 #
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
 # MichaIng <micha@dietpi.com>, 2025.
+# Saulo Barbosa Oliveira <neosoyo@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-02-21 11:10+0000\n"
-"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-03-18 01:09+0000\n"
+"Last-Translator: Saulo Barbosa Oliveira <neosoyo@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: motioneye/static/js/main.js:611
 msgid "specialaj signoj ne rajtas en pasvorto"
 msgstr "caracteres especiais não são permitidos na senha"
 
 #: motioneye/static/js/main.js:618
-#, fuzzy
 msgid "use of colon (:) is not allowed in video streaming username"
-msgstr "use of inch (:) é uma nota que está em usuário de streaming de vídeo"
+msgstr "uso de dois pontos (:) é uma anotação do nome de usuário no streaming de vídeo"
 
 #: motioneye/static/js/main.js:629
 #, fuzzy
@@ -210,9 +210,8 @@ msgid "Sciiga retpoŝto fiaskis:"
 msgstr "E-mail de notificação falhou:"
 
 #: motioneye/static/js/main.js:3163
-#, fuzzy
 msgid "Notification email succeeded!"
-msgstr "O e-mail está assistindo!"
+msgstr "E-mail notificado com sucesso!"
 
 #: motioneye/static/js/main.js:3179
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"

@@ -8,20 +8,21 @@
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
 # Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2025.
 # MichaIng <micha@dietpi.com>, 2025.
+# Siddharth S <siddharth.sadhana@proton.me>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-02-15 09:09+0000\n"
-"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-03-24 01:09+0000\n"
+"Last-Translator: Siddharth S <siddharth.sadhana@proton.me>\n"
 "Language-Team: Hindi <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/hi/>\n"
 "Language: hi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/config.py:905
@@ -30,29 +31,24 @@ msgid "Device names are only allowed to contain alphanumerical characters, hyphe
 msgstr "उपकरण केवल अल्फ़ान्यूमेरिक वर्णों, हाइफेन, अंडरस्कोर, प्लस + और स्थानिक के लिए उपलब्ध हैं"
 
 #: motioneye/config.py:909
-#, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
-msgstr "फ़ाइल केवल अल्फ़ान्यूमेरिकल अक्षरों, पैरेंटहेसिस (), फॉरवर्ड्स /, डॉट, अंडरस्कोर, हाइफेन-, स्थानिक रूप से, और निर्दिष्ट गति विशेषताओं की एक सबसेट के बराबर हैं: %C %Y %m %d %H %M %S %q %v"
+msgstr "फ़ाइल के नामों में केवल अल्फ़ान्यूमेरिक वर्ण, कोष्ठक (), फ़ॉरवर्ड स्लैश /, बिंदु ., अंडरस्कोर _, हाइफ़न -, स्पेस, और मोशन के रूपांतरण विनिर्दिष्टकों का एक उपसमूह (%C %Y %m %d %H %M %S %q %v) ही शामिल करने की अनुमति है"
 
 #: motioneye/config.py:914
-#, fuzzy
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
-msgstr "निर्देशिका नाम केवल अल्फ़ान्यूमेरिकल अक्षरों के बराबर हैं, स्थानिक रूप से, पैरेंटहेसिस (), फॉरवर्ड्स /, डॉट, अंडरस्कोर और हाइफेन-"
+msgstr "डायरेक्टरी के नामों में केवल अल्फ़ान्यूमेरिक वर्ण, स्पेस, कोष्ठक (), फॉरवर्ड स्लैश /, बिंदु ., अंडरस्कोर _ और हाइफ़न - की अनुमति है"
 
 #: motioneye/config.py:919
-#, fuzzy
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
-msgstr "ईमेल प्रोटोकॉल केवल अल्फ़ान्यूमेरिक वर्णों, अंडरस्कोर, प्लस + डॉट के लिए एक गाइड है। English nouns < >, hyphen -, और अल्पविराम से ठीक हो सकता है, और स्थानिक रूप से"
+msgstr "ईमेल एड्रेस्सेस में केवल अल्फ़ान्यूमेरिक वर्ण, अंडरस्कोर _, प्लस +, डॉट ., एट @, कैरेट ^, टिल्ड ~, एंगल ब्रैकेट <>, और हाइफ़न - को ही शामिल करने की अनुमति, और इन्हें कॉमा या स्पेस से अलग किया जा सकता है"
 
 #: motioneye/config.py:924
-#, fuzzy
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
-msgstr "यूआरएल को \"Complier\", सेमीकोलॉन के रूप में नहीं जाना जाता है; या apostrophe '"
+msgstr "URL में कैरेट ^, अर्द्धविराम ;, या अपोस्ट्रॉफ़ी ' शामिल करने की अनुमति नहीं है"
 
 #: motioneye/server.py:233
-#, fuzzy
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "एक निष्क्रिय संकेत प्राप्त, समापन …"
+msgstr "एक रुकावट का संकेत प्राप्त हुआ है, बंद किया जा रहा है…"
 
 #: motioneye/server.py:277
 #, fuzzy
@@ -60,44 +56,36 @@ msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr "smb शेयरों की आवश्यकता रूट विशेषाधिकार"
 
 #: motioneye/server.py:284
-#, fuzzy
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr "कृपया एक tornado संस्करण 3.1 या अधिक स्थापित करें"
+msgstr "कृपया टोरनेडो का 3.1 या उससे उच्च वर्ज़न इंस्टॉल करें"
 
 #: motioneye/server.py:291
-#, fuzzy
 msgid "bonvolu instali jinja2"
-msgstr "कृपया jinja2 स्थापित करें"
+msgstr "कृपया jinja2 इंस्टॉल करें"
 
 #: motioneye/server.py:298
-#, fuzzy
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr "कृपया एक तकिया या पाल स्थापित करें"
+msgstr "कृपया pillow या PIL इंस्टॉल करें"
 
 #: motioneye/server.py:305
-#, fuzzy
 msgid "bonvolu instali pycurl"
-msgstr "कृपया pycurl स्थापित करें"
+msgstr "कृपया pycurl इंस्टॉल करें"
 
 #: motioneye/server.py:423
-#, fuzzy
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "नमस्कार! यह एक मोशन आई सर्वर है "
+msgstr "नमस्ते! यह मोशन आई सर्वर है "
 
 #: motioneye/server.py:438
-#, fuzzy
 msgid "purigado komenciĝis"
-msgstr "सफाई शुरू हुई"
+msgstr "सफ़ाई शुरू हो गई है"
 
 #: motioneye/server.py:440
-#, fuzzy
 msgid "wsswitch komenciĝis"
-msgstr "wsswitch शुरू"
+msgstr "wsswitch शुरू हो चुका है"
 
 #: motioneye/server.py:443
-#, fuzzy
 msgid "taskoj komenciĝis"
-msgstr "कार्य शुरू"
+msgstr "कार्य शुरू हो गए हैं"
 
 #: motioneye/server.py:447
 #, fuzzy
