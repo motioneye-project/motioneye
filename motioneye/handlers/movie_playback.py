@@ -36,32 +36,24 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
     @BaseHandler.auth()
     async def get(self, camera_id: str, filename: str, include_body=True):
-        utils.validate_paths(filename, camera_id=camera_id)
+        camera_id = int(camera_id)  # type: ignore[assignment]
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
 
-        logging.debug(
-            'downloading movie {filename} of camera {id}'.format(
-                filename=filename, id=camera_id
-            )
-        )
+        camera_config: dict = config.get_camera(camera_id)
+        target_dir: str = camera_config['target_dir']
+        utils.validate_paths(filename, target_dir=target_dir)
 
-        self.pretty_filename = os.path.basename(filename)
-
-        if camera_id is not None:
-            camera_id = int(camera_id)  # type: ignore[assignment]
-            if camera_id not in config.get_camera_ids():
-                raise HTTPError(404, 'no such camera')
-
-        camera_config = config.get_camera(camera_id)
         # block access to admin-only cameras for non-admin users
-        if (
-            camera_config
-            and camera_config.get('@admin_only')
-            and self.current_user != 'admin'
-        ):
+        if camera_config.get('@admin_only') and self.current_user != 'admin':
             raise HTTPError(
                 403,
-                f'access denied to admin-only camera "{camera_id}" for movie download "{filename}"',
+                f'GET access denied to admin-only camera "{camera_id}" for movie download "{filename}"',
             )
+
+        logging.debug(f'downloading movie {filename} of camera {camera_id}')
+
+        self.pretty_filename = os.path.basename(filename)
 
         if utils.is_local_motion_camera(camera_config):
             filename = mediafiles.get_media_path(camera_config, filename, 'movie')

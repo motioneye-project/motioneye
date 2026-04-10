@@ -33,23 +33,19 @@ class RelayEventHandler(BaseHandler):
         camera_id = motionctl.motion_camera_id_to_camera_id(motion_camera_id)
         if camera_id is None:
             logging.debug(
-                'ignoring event for unknown motion camera id %s' % motion_camera_id
+                f'ignoring event for unknown motion camera id {motion_camera_id}'
             )
             self.finish_json()
             return
 
         else:
             logging.debug(
-                'received relayed event {event} for motion camera id {id} (camera id {cid})'.format(
-                    event=event, id=motion_camera_id, cid=camera_id
-                )
+                f'received relayed event {event} for motion camera id {motion_camera_id} (camera id {camera_id})'
             )
 
-        camera_config = config.get_camera(camera_id)
+        camera_config: dict = config.get_camera(camera_id)
         if not utils.is_local_motion_camera(camera_config):
-            logging.warning(
-                'ignoring event for non-local camera with id %s' % camera_id
-            )
+            logging.warning(f'ignoring event for non-local camera with id {camera_id}')
             self.finish_json()
             return
 
@@ -64,8 +60,7 @@ class RelayEventHandler(BaseHandler):
         if event == 'start':
             if not camera_config['@motion_detection']:
                 logging.debug(
-                    'ignoring start event for camera with id %s and motion detection disabled'
-                    % camera_id
+                    f'ignoring start event for camera with id {camera_id} and motion detection disabled'
                 )
                 self.finish_json()
                 return
@@ -95,7 +90,7 @@ class RelayEventHandler(BaseHandler):
                 self.upload_media_file(filename, camera_id, camera_config)
 
         else:
-            logging.warning('unknown event %s' % event)
+            logging.warning(f'unknown event {event}')
 
         self.finish_json()
 
