@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-import os
+from os.path import join
 
 from tornado.web import HTTPError
 
@@ -153,7 +153,7 @@ class MovieHandler(BaseHandler):
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
                 content = open(
-                    os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')
+                    join(settings.STATIC_PATH, 'img', 'no-preview.svg')
                 ).read()
 
             return self.finish(content)
@@ -174,7 +174,7 @@ class MovieHandler(BaseHandler):
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
                 content = open(
-                    os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')
+                    join(settings.STATIC_PATH, 'img', 'no-preview.svg')
                 ).read()
 
             return self.finish(content)

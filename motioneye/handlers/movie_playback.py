@@ -17,8 +17,8 @@
 
 import logging
 import os
-import tempfile
-import time
+from tempfile import gettempdir
+from time import time
 
 from tornado.web import HTTPError, StaticFileHandler
 
@@ -30,7 +30,7 @@ __all__ = ('MoviePlaybackHandler', 'MovieDownloadHandler')
 
 # support fetching movies with authentication
 class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
-    tmpdir = tempfile.gettempdir() + '/MotionEye'
+    tmpdir = gettempdir() + '/MotionEye'
     if not os.path.exists(tmpdir):
         os.mkdir(tmpdir)
 
@@ -69,10 +69,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
             tmpfile = self.tmpdir + '/' + self.pretty_filename
             if os.path.isfile(tmpfile):
                 # have a cached copy, update the timestamp so it's not flushed
-                import time
-
                 mtime = os.stat(tmpfile).st_mtime
-                os.utime(tmpfile, (time.time(), mtime))
+                os.utime(tmpfile, (time(), mtime))
                 await StaticFileHandler.get(self, tmpfile, include_body=include_body)
                 return
 
@@ -102,7 +100,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
     def on_finish(self):
         # delete any cached file older than an hour
-        stale_time = time.time() - (60 * 60)
+        stale_time = time() - (60 * 60)
         try:
             for f in os.listdir(self.tmpdir):
                 f = os.path.join(self.tmpdir, f)

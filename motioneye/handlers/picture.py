@@ -15,10 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
 import logging
-import os
-import re
+from os.path import basename, join
+from re import sub
 
 from tornado import gen
 from tornado.web import HTTPError
@@ -57,7 +56,12 @@ class PictureHandler(BaseHandler):
         utils.validate_paths(filename, group, target_dir=target_dir)
 
         # block access to admin-only cameras for non-admin users
-        if camera_config.get('@admin_only') and self.current_user != 'admin':
+        if (
+            camera_config.get('@admin_only')
+            and self.current_user != 'admin'
+            # except local camera frames which imply a login prompt and own admin-only check
+            and not (op == 'frame' and utils.is_local_motion_camera(camera_config))
+        ):
             raise HTTPError(
                 403,
                 f'GET access denied to admin-only camera "{camera_id}" for operation "{op}"',
@@ -247,11 +251,6 @@ class PictureHandler(BaseHandler):
                     camera_config=camera_config,
                     title=self.get_argument('title', ''),
                 )
-            # block access to admin-only cameras for non-admin users
-            if camera_config.get('admin_only') and self.current_user != 'admin':
-                raise HTTPError(
-                    403, f'access denied to admin-only camera frame "{camera_id}"'
-                )
 
             # issue a fake motion_camera_ui_to_dict() call to transform
             # the remote UI values into motion config directives
@@ -278,9 +277,7 @@ class PictureHandler(BaseHandler):
         if utils.is_local_motion_camera(camera_config):
             content = mediafiles.get_media_content(camera_config, filename, 'picture')
 
-            pretty_filename = (
-                camera_config['camera_name'] + '_' + os.path.basename(filename)
-            )
+            pretty_filename = camera_config['camera_name'] + '_' + basename(filename)
             self.set_header('Content-Type', 'image/jpeg')
             self.set_header(
                 'Content-Disposition', 'attachment; filename=' + pretty_filename + ';'
@@ -301,7 +298,7 @@ class PictureHandler(BaseHandler):
                     }
                 )
 
-            pretty_filename = os.path.basename(
+            pretty_filename = basename(
                 filename
             )  # no camera name available w/o additional request
             self.set_header('Content-Type', 'image/jpeg')
@@ -338,7 +335,7 @@ class PictureHandler(BaseHandler):
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
                 content = open(
-                    os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg'), 'rb'
+                    join(settings.STATIC_PATH, 'img', 'no-preview.svg'), 'rb'
                 ).read()
 
             return self.finish(content)
@@ -358,7 +355,7 @@ class PictureHandler(BaseHandler):
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
                 content = open(
-                    os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')
+                    join(settings.STATIC_PATH, 'img', 'no-preview.svg')
                 ).read()
 
             return self.finish(content)
@@ -423,7 +420,7 @@ class PictureHandler(BaseHandler):
                     raise HTTPError(404, 'no such key')
 
                 pretty_filename = camera_config['camera_name'] + '_' + group
-                pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
+                pretty_filename = sub('[^a-zA-Z0-9]', '_', pretty_filename)
 
                 self.set_header('Content-Type', 'application/zip')
                 self.set_header(
@@ -519,7 +516,7 @@ class PictureHandler(BaseHandler):
                     raise HTTPError(404, 'no such key')
 
                 pretty_filename = camera_config['camera_name'] + '_' + group
-                pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
+                pretty_filename = sub('[^a-zA-Z0-9]', '_', pretty_filename)
                 filename_ext = mediafiles.FFMPEG_EXT_MAPPING.get(
                     camera_config['movie_codec'], 'avi'
                 )
