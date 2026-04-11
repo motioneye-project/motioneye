@@ -17,8 +17,8 @@
 
 import logging
 import os
-import tempfile
-import time
+from tempfile import gettempdir
+from time import time
 
 from tornado.web import HTTPError, StaticFileHandler
 
@@ -30,41 +30,36 @@ __all__ = ('MoviePlaybackHandler', 'MovieDownloadHandler')
 
 # support fetching movies with authentication
 class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
-    tmpdir = tempfile.gettempdir() + '/MotionEye'
+    tmpdir = gettempdir() + '/MotionEye'
     if not os.path.exists(tmpdir):
         os.mkdir(tmpdir)
 
     @BaseHandler.auth()
-    async def get(self, camera_id, filename=None, include_body=True):
-        if filename is not None and '..' in filename.split('/'):
-            raise HTTPError(
-                403, 'Path traversal detected', reason='Path traversal detected'
-            )
+    async def get(self, camera_id: str, filename: str, include_body=True):
+        camera_id = int(camera_id)  # type: ignore[assignment]
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
 
-        logging.debug(
-            'downloading movie {filename} of camera {id}'.format(
-                filename=filename, id=camera_id
-            )
+        camera_config: dict = config.get_camera(camera_id)
+        utils.validate_paths(
+            filename,
+            target_dir=(
+                camera_config['target_dir']
+                if utils.is_local_motion_camera(camera_config)
+                else None
+            ),
         )
 
-        self.pretty_filename = os.path.basename(filename)
-
-        if camera_id is not None:
-            camera_id = int(camera_id)
-            if camera_id not in config.get_camera_ids():
-                raise HTTPError(404, 'no such camera')
-
-        camera_config = config.get_camera(camera_id)
         # block access to admin-only cameras for non-admin users
-        if (
-            camera_config
-            and camera_config.get('@admin_only')
-            and self.current_user != 'admin'
-        ):
+        if camera_config.get('@admin_only') and self.current_user != 'admin':
             raise HTTPError(
                 403,
-                f'access denied to admin-only camera "{camera_id}" for movie download "{filename}"',
+                f'GET access denied to admin-only camera "{camera_id}" for movie download "{filename}"',
             )
+
+        logging.debug(f'downloading movie {filename} of camera {camera_id}')
+
+        self.pretty_filename = os.path.basename(filename)
 
         if utils.is_local_motion_camera(camera_config):
             filename = mediafiles.get_media_path(camera_config, filename, 'movie')
@@ -80,10 +75,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
             tmpfile = self.tmpdir + '/' + self.pretty_filename
             if os.path.isfile(tmpfile):
                 # have a cached copy, update the timestamp so it's not flushed
-                import time
-
                 mtime = os.stat(tmpfile).st_mtime
-                os.utime(tmpfile, (time.time(), mtime))
+                os.utime(tmpfile, (time(), mtime))
                 await StaticFileHandler.get(self, tmpfile, include_body=include_body)
                 return
 
@@ -113,7 +106,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
     def on_finish(self):
         # delete any cached file older than an hour
-        stale_time = time.time() - (60 * 60)
+        stale_time = time() - (60 * 60)
         try:
             for f in os.listdir(self.tmpdir):
                 f = os.path.join(self.tmpdir, f)

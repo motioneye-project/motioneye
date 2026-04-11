@@ -5,7 +5,7 @@ import tornado.testing
 
 from motioneye import config, settings, utils
 from motioneye.handlers.picture import PictureHandler
-from tests.test_handlers import HandlerTestCase
+from tests.test_handlers import _FAKE_CAMERA_CONFIG, HandlerTestCase
 
 
 class AdminOnlyPictureHandlerTest(HandlerTestCase):
@@ -18,8 +18,6 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
         super().setUp()
         # Backup caches
         self._main_config_cache = config._main_config_cache
-        self._camera_config_cache = dict(config._camera_config_cache)
-        self._camera_ids_cache = config._camera_ids_cache
 
         # Prepare test configuration
         self.admin_user = 'superadmin'
@@ -32,25 +30,14 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
             '@normal_username': self.normal_user,
             '@normal_password': self.normal_pass,
         }
-        config._camera_ids_cache = [1]
-        config._camera_config_cache = {
-            1: {'@proto': 'mjpeg', '@id': 1, '@enabled': True, '@admin_only': False}
-        }
 
     def tearDown(self):
+        _FAKE_CAMERA_CONFIG['@admin_only'] = False
         config._main_config_cache = self._main_config_cache
-        config._camera_config_cache = self._camera_config_cache
-        config._camera_ids_cache = self._camera_ids_cache
         super().tearDown()
 
-    def _set_admin_only(self, value: bool):
-        config._camera_config_cache[1]['@admin_only'] = value
-
-    def _admin_signature(self, path: str) -> str:
-        return utils.compute_signature('GET', path, b'', self.admin_pass)
-
     def test_normal_user_allowed_when_not_admin_only(self):
-        self._set_admin_only(False)
+        _FAKE_CAMERA_CONFIG['@admin_only'] = False
         with patch.object(
             PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current
         ):
@@ -59,16 +46,16 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
         self.assertEqual({'ok': True}, loads(response.body))
 
     def test_normal_user_denied_when_admin_only(self):
-        self._set_admin_only(True)
+        _FAKE_CAMERA_CONFIG['@admin_only'] = True
         response = self.fetch('/picture/1/current')
         self.assertEqual(403, response.code)
         body = loads(response.body)
         self.assertIn('admin-only', body.get('error', ''))
 
     def test_admin_allowed_when_admin_only(self):
-        self._set_admin_only(True)
+        _FAKE_CAMERA_CONFIG['@admin_only'] = True
         path = f'/picture/1/current?_username={self.admin_user}'
-        signature = self._admin_signature(path)
+        signature = utils.compute_signature('GET', path, b'', self.admin_pass)
         url = f'{path}&_signature={signature}'
         with patch.object(
             PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current
@@ -78,7 +65,7 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
         self.assertEqual({'ok': True}, loads(response.body))
 
     def test_admin_allowed_when_admin_only_with_basic_auth(self):
-        self._set_admin_only(True)
+        _FAKE_CAMERA_CONFIG['@admin_only'] = True
         auth_header = utils.build_basic_header(self.admin_user, self.admin_pass)
         with patch.object(settings, 'HTTP_BASIC_AUTH', True):
             with patch.object(

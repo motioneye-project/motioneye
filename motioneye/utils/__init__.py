@@ -34,8 +34,9 @@ from PIL import Image, ImageDraw
 from tornado.concurrent import Future
 from tornado.httputil import parse_cookie
 from tornado.ioloop import IOLoop
+from tornado.web import HTTPError
 
-from motioneye import settings
+from motioneye.settings import CONF_PATH, VALIDATE_CERTS
 
 _SIGNATURE_REGEX = re.compile(r'[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
@@ -406,7 +407,7 @@ def build_digest_header(method, url, username, password, state):
 
 
 def urlopen(*args, **kwargs):
-    if sys.version_info >= (2, 7, 9) and not settings.VALIDATE_CERTS:
+    if sys.version_info >= (2, 7, 9) and not VALIDATE_CERTS:
         # ssl certs are not verified by default
         # in versions prior to 2.7.9
 
@@ -496,7 +497,7 @@ def build_editable_mask_file(
         if rx and line & 1:
             dr.rectangle((nx * rw, ny * rh, nx * rw + rx - 1, ny * rh + ry - 1), fill=0)
 
-    #    file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
+    #    file_name = os.path.join(CONF_PATH, 'mask_%s.pgm' % camera_id)
     file_name = build_mask_file_name(camera_id, mask_class)
 
     # resize the image if necessary
@@ -519,7 +520,7 @@ def build_mask_file_name(camera_id, mask_class):
         if mask_class == 'motion'
         else f'mask_{camera_id}_{mask_class}.pgm'
     )
-    full_path = os.path.join(settings.CONF_PATH, file_name)
+    full_path = os.path.join(CONF_PATH, file_name)
 
     return full_path
 
@@ -670,3 +671,46 @@ def call_subprocess(
         text=text,
         env=env,
     ).stdout.strip()
+
+
+def validate_paths(
+    *paths: str | None, camera_id: str | None = None, target_dir: str | None = None
+) -> None:
+    # Obtain camera dir from optional named arguments
+    camera_dir: str | None = None
+    if target_dir is not None:
+        camera_dir = os.path.realpath(target_dir) + os.sep
+
+    elif camera_id is not None:
+        from motioneye.config import get_camera
+
+        camera_config: dict = get_camera(int(camera_id))
+        if is_local_motion_camera(camera_config):
+            camera_dir = os.path.realpath(camera_config['target_dir']) + os.sep
+
+    # Check paths which are not None or empty
+    for path in paths:
+        if path:
+            if path.startswith('/'):
+                raise HTTPError(
+                    403,
+                    f'Absolute path "{path}" detected',
+                    reason='Absolute path detected',
+                )
+
+            if '..' in path.split('/'):
+                raise HTTPError(
+                    403,
+                    f'Path traversal detected in "{path}"',
+                    reason='Path traversal detected',
+                )
+
+            if camera_dir is not None:
+                if not os.path.realpath(os.path.join(camera_dir, path)).startswith(
+                    camera_dir
+                ):
+                    raise HTTPError(
+                        403,
+                        f'Path "{path}" escapes camera directory "{camera_dir}"',
+                        reason='Path escapes camera directory',
+                    )

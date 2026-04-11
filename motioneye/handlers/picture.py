@@ -15,10 +15,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
 import logging
-import os
-import re
+from os.path import basename, join
+from re import sub
 
 from tornado import gen
 from tornado.web import HTTPError
@@ -42,32 +41,38 @@ class PictureHandler(BaseHandler):
     def compute_etag(self):
         return None
 
-    async def get(self, camera_id, op, filename=None, group=None):
-        if filename is not None and '..' in filename.split('/'):
-            raise HTTPError(
-                403, 'Path traversal detected', reason='Path traversal detected'
-            )
+    async def get(
+        self, camera_id: str, op, filename: str | None = None, group: str | None = None
+    ):
+        camera_id = int(camera_id)  # type: ignore[assignment]
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
 
-        if group is not None and '..' in group.split('/'):
-            raise HTTPError(
-                403, 'Path traversal detected', reason='Path traversal detected'
-            )
+        if group == '/':  # ungrouped
+            group = ''
 
-        if camera_id is not None:
-            camera_id = int(camera_id)
-            if camera_id not in config.get_camera_ids():
-                raise HTTPError(404, 'no such camera')
-            # block access to admin-only cameras for non-admin users
-            camera_config = config.get_camera(camera_id)
-            if (
-                camera_config
-                and camera_config.get('@admin_only')
-                and self.current_user != 'admin'
-            ):
-                raise HTTPError(
-                    403,
-                    f'GET access denied to admin-only camera "{camera_id}" for operation "{op}"',
-                )
+        camera_config: dict = config.get_camera(camera_id)
+        utils.validate_paths(
+            filename,
+            group,
+            target_dir=(
+                camera_config['target_dir']
+                if utils.is_local_motion_camera(camera_config)
+                else None
+            ),
+        )
+
+        # block access to admin-only cameras for non-admin users
+        if (
+            camera_config.get('@admin_only')
+            and self.current_user != 'admin'
+            # except local camera frames which imply a login prompt and own admin-only check
+            and not (op == 'frame' and utils.is_local_motion_camera(camera_config))
+        ):
+            raise HTTPError(
+                403,
+                f'GET access denied to admin-only camera "{camera_id}" for operation "{op}"',
+            )
 
         if op == 'current':
             await self.current(camera_id)
@@ -93,39 +98,33 @@ class PictureHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
 
-    async def post(self, camera_id, op, filename=None, group=None):
-        if filename is not None and '..' in filename.split('/'):
-            raise HTTPError(
-                403,
-                f'Path traversal detected in filename "{filename}"',
-                reason='Path traversal detected',
-            )
-
-        if group is not None and '..' in group.split('/'):
-            raise HTTPError(
-                403,
-                f'Path traversal detected in group "{group}"',
-                reason='Path traversal detected',
-            )
+    async def post(
+        self, camera_id: str, op, filename: str | None = None, group: str | None = None
+    ):
+        camera_id = int(camera_id)  # type: ignore[assignment]
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
 
         if group == '/':  # ungrouped
             group = ''
 
-        if camera_id is not None:
-            camera_id = int(camera_id)
-            if camera_id not in config.get_camera_ids():
-                raise HTTPError(404, 'no such camera')
-            # block access to admin-only cameras for non-admin users
-            camera_config = config.get_camera(camera_id)
-            if (
-                camera_config
-                and camera_config.get('@admin_only')
-                and self.current_user != 'admin'
-            ):
-                raise HTTPError(
-                    403,
-                    f'POST access denied to admin-only camera "{camera_id}" for operation "{op}"',
-                )
+        camera_config: dict = config.get_camera(camera_id)
+        utils.validate_paths(
+            filename,
+            group,
+            target_dir=(
+                camera_config['target_dir']
+                if utils.is_local_motion_camera(camera_config)
+                else None
+            ),
+        )
+
+        # block access to admin-only cameras for non-admin users
+        if camera_config.get('@admin_only') and self.current_user != 'admin':
+            raise HTTPError(
+                403,
+                f'POST access denied to admin-only camera "{camera_id}" for operation "{op}"',
+            )
 
         if op == 'delete':
             await self.delete(camera_id, filename)
@@ -212,7 +211,7 @@ class PictureHandler(BaseHandler):
                 with_stat=with_stat,
             )
             if media_list is None:
-                self.finish_json({'error': 'Failed to get movies list.'})
+                return self.finish_json({'error': 'Failed to get movies list.'})
 
             return self.finish_json(
                 {'mediaList': media_list, 'cameraName': camera_config['camera_name']}
@@ -266,11 +265,6 @@ class PictureHandler(BaseHandler):
                     camera_config=camera_config,
                     title=self.get_argument('title', ''),
                 )
-            # block access to admin-only cameras for non-admin users
-            if camera_config.get('admin_only') and self.current_user != 'admin':
-                raise HTTPError(
-                    403, f'access denied to admin-only camera frame "{camera_id}"'
-                )
 
             # issue a fake motion_camera_ui_to_dict() call to transform
             # the remote UI values into motion config directives
@@ -297,9 +291,7 @@ class PictureHandler(BaseHandler):
         if utils.is_local_motion_camera(camera_config):
             content = mediafiles.get_media_content(camera_config, filename, 'picture')
 
-            pretty_filename = (
-                camera_config['camera_name'] + '_' + os.path.basename(filename)
-            )
+            pretty_filename = camera_config['camera_name'] + '_' + basename(filename)
             self.set_header('Content-Type', 'image/jpeg')
             self.set_header(
                 'Content-Disposition', 'attachment; filename=' + pretty_filename + ';'
@@ -320,7 +312,7 @@ class PictureHandler(BaseHandler):
                     }
                 )
 
-            pretty_filename = os.path.basename(
+            pretty_filename = basename(
                 filename
             )  # no camera name available w/o additional request
             self.set_header('Content-Type', 'image/jpeg')
@@ -357,7 +349,7 @@ class PictureHandler(BaseHandler):
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
                 content = open(
-                    os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg'), 'rb'
+                    join(settings.STATIC_PATH, 'img', 'no-preview.svg'), 'rb'
                 ).read()
 
             return self.finish(content)
@@ -377,7 +369,7 @@ class PictureHandler(BaseHandler):
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
                 content = open(
-                    os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')
+                    join(settings.STATIC_PATH, 'img', 'no-preview.svg')
                 ).read()
 
             return self.finish(content)
@@ -442,7 +434,7 @@ class PictureHandler(BaseHandler):
                     raise HTTPError(404, 'no such key')
 
                 pretty_filename = camera_config['camera_name'] + '_' + group
-                pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
+                pretty_filename = sub('[^a-zA-Z0-9]', '_', pretty_filename)
 
                 self.set_header('Content-Type', 'application/zip')
                 self.set_header(
@@ -494,7 +486,7 @@ class PictureHandler(BaseHandler):
                         group=group or 'ungrouped', id=camera_id, key=key
                     )
                 )
-                self.finish_json({'key': key})
+                return self.finish_json({'key': key})
 
             elif utils.is_remote_camera(camera_config):
                 resp = await remote.make_zipped_content(
@@ -538,7 +530,7 @@ class PictureHandler(BaseHandler):
                     raise HTTPError(404, 'no such key')
 
                 pretty_filename = camera_config['camera_name'] + '_' + group
-                pretty_filename = re.sub('[^a-zA-Z0-9]', '_', pretty_filename)
+                pretty_filename = sub('[^a-zA-Z0-9]', '_', pretty_filename)
                 filename_ext = mediafiles.FFMPEG_EXT_MAPPING.get(
                     camera_config['movie_codec'], 'avi'
                 )
@@ -607,10 +599,10 @@ class PictureHandler(BaseHandler):
                     return self.finish_json({'error': msg})
 
                 if resp.result['progress'] == -1 and resp.result.get('key'):
-                    self.finish_json({'key': resp.result['key'], 'progress': -1})
+                    return self.finish_json({'key': resp.result['key'], 'progress': -1})
 
                 else:
-                    self.finish_json(resp.result)
+                    return self.finish_json(resp.result)
 
             else:  # assuming simple mjpeg camera
                 raise HTTPError(400, 'unknown operation')
