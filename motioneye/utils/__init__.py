@@ -675,7 +675,7 @@ def call_subprocess(
 
 def validate_paths(
     *paths: str | None, camera_id: str | None = None, target_dir: str | None = None
-):
+) -> None:
     # Obtain camera dir from optional named arguments
     camera_dir: str | None = None
     if target_dir is not None:
@@ -684,11 +684,11 @@ def validate_paths(
     elif camera_id is not None:
         from motioneye.config import get_camera
 
-        camera_config = get_camera(int(camera_id))
+        camera_config: dict = get_camera(int(camera_id))
         if is_local_motion_camera(camera_config):
-            camera_dir = os.path.realpath(camera_config.get('target_dir')) + os.sep
+            camera_dir = os.path.realpath(camera_config['target_dir']) + os.sep
 
-    # Check paths with are not None or empty
+    # Check paths which are not None or empty
     for path in paths:
         if path:
             if path.startswith('/'):

@@ -41,8 +41,14 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
             raise HTTPError(404, 'no such camera')
 
         camera_config: dict = config.get_camera(camera_id)
-        target_dir: str = camera_config['target_dir']
-        utils.validate_paths(filename, target_dir=target_dir)
+        utils.validate_paths(
+            filename,
+            target_dir=(
+                camera_config['target_dir']
+                if utils.is_local_motion_camera(camera_config)
+                else None
+            ),
+        )
 
         # block access to admin-only cameras for non-admin users
         if camera_config.get('@admin_only') and self.current_user != 'admin':
