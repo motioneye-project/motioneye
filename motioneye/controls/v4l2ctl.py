@@ -25,9 +25,9 @@ from shlex import quote
 
 from motioneye import utils
 
-_resolutions_cache = {}
-_ctrls_cache = {}
-_ctrl_values_cache = {}
+_resolutions_cache: dict = {}
+_ctrls_cache: dict = {}
+_ctrl_values_cache: dict = {}
 
 _DEV_V4L_BY_ID = '/dev/v4l/by-id/'
 _V4L2_TIMEOUT = 10
