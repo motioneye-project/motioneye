@@ -63,10 +63,10 @@ _ACTIONS = [
 _main_config_cache = None
 _camera_config_cache: dict = {}
 _camera_ids_cache = None
-_additional_section_funcs = []
-_additional_config_funcs = []
-_additional_structure_cache = {}
-_monitor_command_cache = {}
+_additional_section_funcs: list = []
+_additional_config_funcs: list = []
+_additional_structure_cache: dict = {}
+_monitor_command_cache: dict = {}
 
 _USED_MOTION_OPTIONS = {
     'auto_brightness',
