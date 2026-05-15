@@ -44,7 +44,9 @@ class BaseHandlerTest(HandlerTestCase):
     #  HMAC peer-authentication tests                                      #
     # ------------------------------------------------------------------ #
 
-    def _make_hmac_request(self, secret, method, uri, body=b'', *, nonce=None, timestamp=None):
+    def _make_hmac_request(
+        self, secret, method, uri, body=b'', *, nonce=None, timestamp=None
+    ):
         """Return a MagicMock request whose headers carry a valid HMAC signature."""
         ts = str(int(timestamp if timestamp is not None else time()))
         nc = nonce or token_hex(16)
