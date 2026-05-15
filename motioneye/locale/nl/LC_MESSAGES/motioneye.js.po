@@ -4,12 +4,13 @@
 # Marijn <168113859+Marijn0@users.noreply.github.com>, 2025, 2026.
 # MichaIng <micha@dietpi.com>, 2025, 2026.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2026.
+# Gabriel <bloxgabriel18@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-02-21 11:09+0000\n"
+"PO-Revision-Date: 2026-05-12 08:11+0000\n"
 "Last-Translator: Marijn <168113859+Marijn0@users.noreply.github.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/nl/>\n"
 "Language: nl\n"
@@ -17,11 +18,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 2026.5-dev\n"
 
 #: motioneye/static/js/main.js:611
 msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr "het wachtwoord mag geen speciale tekens bevatten"
+msgstr "Speciale tekens zijn niet toegestaan in wachtwoorden"
 
 #: motioneye/static/js/main.js:618
 msgid "use of colon (:) is not allowed in video streaming username"
@@ -321,7 +322,7 @@ msgstr "Sluiten"
 
 #: motioneye/static/js/main.js:3858 motioneye/static/js/main.js:4417
 msgid "Elŝuti"
-msgstr "Ophalen"
+msgstr "Download"
 
 #: motioneye/static/js/main.js:3866 motioneye/static/js/main.js:4420
 msgid "Forigi"

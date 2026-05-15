@@ -12,20 +12,21 @@
 # Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2025.
 # MichaIng <micha@dietpi.com>, 2025, 2026.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2026.
+# Gabriel <bloxgabriel18@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-02-20 21:12+0000\n"
-"Last-Translator: MichaIng <micha@dietpi.com>\n"
+"PO-Revision-Date: 2026-05-11 09:11+0000\n"
+"Last-Translator: Gabriel <bloxgabriel18@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 2026.5-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/config.py:905
@@ -323,14 +324,12 @@ msgid "Kamerao Tipo"
 msgstr "Тип камери"
 
 #: motioneye/templates/main.html:290
-#, fuzzy
 msgid "Admin-only access"
-msgstr "Доступ до адміністратора"
+msgstr "Доступ лише для адміністратора"
 
 #: motioneye/templates/main.html:292
-#, fuzzy
 msgid "If enabled only the admin user can access this camera"
-msgstr "Якщо користувач може отримати доступ до цієї камери"
+msgstr "Якщо ввімкнено, доступ до цієї камери матиме лише адміністратор"
 
 #: motioneye/templates/main.html:298
 msgid "Aŭtomata Brilo"
@@ -598,9 +597,8 @@ msgid "Purigi la nubon"
 msgstr "Для очищення хмари"
 
 #: motioneye/templates/main.html:518
-#, fuzzy
 msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
-msgstr "Увімкніть це видаляти медіа -файли, завантажені в хмару, також при видаленні локальних медіа відповідно до конфігурації визначення файлу. В даний час цей варіант доступний лише для Google Drive."
+msgstr "Увімкніть цю опцію, щоб видаляти завантажені медіафайли з хмари, а також локальні медіафайли, видалені відповідно до налаштувань збереження файлів. Наразі ця опція доступна лише для gdrive."
 
 #: motioneye/templates/main.html:523
 msgid "la uzantnomo por la alŝuta servo-konto"
@@ -651,19 +649,16 @@ msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr "Назва S3 SELLE для служби завантаження (зазвичай вимагається лише під час конфігурації)"
 
 #: motioneye/templates/main.html:560
-#, fuzzy
 msgid "Encryption key"
 msgstr "Ключ шифрування"
 
 #: motioneye/templates/main.html:561
-#, fuzzy
 msgid "optional base64-encoded SSE-C encryption key"
-msgstr "підтримка SSE-C ключ шифрування"
+msgstr "додатковий ключ шифрування SSE-C з кодуванням base64"
 
 #: motioneye/templates/main.html:562
-#, fuzzy
 msgid "Add an encryption key if you want to use server-side encryption (SSE-C). The key must be a base64-encoded string with a length of 32 bytes. This key will be needed by every client to access the encrypted files. You can generate a key using the following command: openssl rand 32 | base64"
-msgstr "Додайте ключ шифрування, якщо ви хочете використовувати резервне шифрування (SSE-C). Ключ повинен бути базовим64-адресований протяг з кроком 32 байтів. Цей ключ буде необхідний кожному клієнту для доступу до зашифрованих файлів. Ви можете довіряти ключу за допомогою рішення: комплексний пороговий ліміт 32 базовий64"
+msgstr "Додайте ключ шифрування, якщо ви хочете використовувати шифрування на стороні сервера (SSE-C). Ключ має бути рядком у кодуванні base64 довжиною 32 байти. Цей ключ знадобиться кожному клієнту для доступу до зашифрованих файлів. Ви можете згенерувати ключ за допомогою такої команди: openssl rand 32 | base64"
 
 #: motioneye/templates/main.html:566
 msgid "Testi la servon"
@@ -837,14 +832,12 @@ msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Dige
 msgstr "Метод аутентифікації, що використовується потоком (виберіть \"BASIC\" замість \"Дайджест\", якщо ви стикаєтесь з проблемами з третімпартійними програмами); Будуть використані елементи керування акредитаціями"
 
 #: motioneye/templates/main.html:711
-#, fuzzy
 msgid "username used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."
-msgstr "ім'я користувача, що використовується для ідентифікації потокового відео. При ввімкненому доступі адміністратора використовуйте облікові дані, які відрізняються від користувача Surveillance."
+msgstr "ім’я користувача, яке використовується для автентифікації потокового відео. Якщо ввімкнено доступ лише для адміністратора, використовуйте облікові дані, відмінні від облікових даних користувача відеоспостереження."
 
 #: motioneye/templates/main.html:716
-#, fuzzy
 msgid "password used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."
-msgstr "телефон, який використовується для потокового відео. При ввімкненому доступі адміністратора використовуйте облікові дані, які відрізняються від користувача Surveillance."
+msgstr "пароль, що використовується для автентифікації потокового відео. Якщо ввімкнено доступ лише для адміністратора, використовуйте облікові дані, відмінні від облікових даних користувача відеоспостереження."
 
 #: motioneye/templates/main.html:719
 msgid "Movado-Optimigo"
