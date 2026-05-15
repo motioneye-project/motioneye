@@ -6,8 +6,8 @@ from time import time
 
 # Replay cache: stores (nonce, timestamp) pairs to prevent replay attacks
 # Format: nonce -> timestamp
-_replay_cache = {}
-_replay_cache_max_age = 3600  # 1 hour
+_replay_cache: dict = {}
+_replay_cache_max_age: int = 3600  # 1 hour
 
 
 def _cleanup_replay_cache():

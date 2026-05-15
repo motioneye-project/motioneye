@@ -426,7 +426,8 @@ class ConfigHandler(BaseHandler):
         discovery_in_query = bool(proto and 'proto' in self.request.query_arguments)
         if discovery_in_query:
             logging.warning(
-                'camera discovery via query string is not recommended because it may expose credentials; use POST body instead'
+                'camera discovery via query string is not recommended because it may expose credentials; '
+                'use POST body instead'
             )
 
         if proto and self.current_user != 'admin':

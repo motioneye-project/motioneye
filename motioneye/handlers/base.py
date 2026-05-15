@@ -28,11 +28,11 @@ from motioneye.utils.authstate import verify_hmac_signature
 __all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')
 
 # Session expiry: 24 hours
-_SESSION_EXPIRY_SECONDS = 86400
+_SESSION_EXPIRY_SECONDS: int = 86400
 
 # In-memory session store for browser session authentication
 # Format: session_id -> {'user': role, 'expires': timestamp}
-_session_store = {}
+_session_store: dict = {}
 
 
 def create_session(user_type):
