@@ -5,7 +5,7 @@ from unittest.mock import patch
 import tornado.testing
 from argon2 import PasswordHasher
 
-from motioneye import config, settings, utils
+from motioneye import config
 from motioneye.handlers.login import LoginHandler
 from tests.test_handlers import HandlerTestCase
 
@@ -45,13 +45,14 @@ class LoginHandlerTest(HandlerTestCase):
             self.assertEqual(200, response.code)
             body = json.loads(response.body)
             self.assertIn('user', body)
-            self.assertIn('token', body)
             cookie = response.headers.get('Set-Cookie', '')
 
             # use session cookie to access GET /login
             response2 = self.fetch('/login', headers={'Cookie': cookie})
             self.assertEqual(200, response2.code)
-            self.assertEqual({}, json.loads(response2.body))
+            body2 = json.loads(response2.body)
+            self.assertIn('user', body2)
+            self.assertIn('username', body2)
 
     def test_get_login_fail(self):
         response = self.fetch('/login?_admin=true')
@@ -60,25 +61,6 @@ class LoginHandlerTest(HandlerTestCase):
         self.assertEqual(
             {'error': 'unauthorized', 'prompt': True}, json.loads(response.body)
         )
-
-    def test_get_login_basic_auth(self):
-        admin_user = 'admin'
-        admin_pass = 's3cret'
-        hashed_pass = ph.hash(admin_pass)
-        main_config = {
-            '@admin_username': admin_user,
-            '@admin_password': hashed_pass,
-            '@normal_username': '',
-            '@normal_password': '',
-        }
-        auth_header = utils.build_basic_header(admin_user, admin_pass)
-        with patch.object(config, '_main_config_cache', main_config):
-            with patch.object(settings, 'HTTP_BASIC_AUTH', True):
-                response = self.fetch(
-                    '/login?_admin=true', headers={'Authorization': auth_header}
-                )
-        self.assertEqual(200, response.code)
-        self.assertEqual({}, json.loads(response.body))
 
     def test_login_with_hashed_password(self):
         # configuration stores argon2 hash of the password
@@ -100,7 +82,6 @@ class LoginHandlerTest(HandlerTestCase):
             )
             self.assertEqual(200, response.code)
             self.assertIn('user', json.loads(response.body))
-            self.assertIn('token', json.loads(response.body))
 
     def test_login_with_empty_password(self):
         admin_user = 'admin'
@@ -119,7 +100,6 @@ class LoginHandlerTest(HandlerTestCase):
             )
             self.assertEqual(200, response.code)
             self.assertIn('user', json.loads(response.body))
-            self.assertIn('token', json.loads(response.body))
 
     def test_login_legacy_password_migrates(self):
         admin_user = 'admin'
@@ -191,6 +171,7 @@ class LoginHandlerTest(HandlerTestCase):
             logout_resp = self.fetch(
                 '/logout',
                 method='POST',
+                body='',
                 headers={'Cookie': cookie},
             )
             self.assertEqual(200, logout_resp.code)

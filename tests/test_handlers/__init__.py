@@ -1,13 +1,16 @@
 import atexit
 import os
+from secrets import token_hex
 from shutil import rmtree
 from tempfile import mkdtemp
+from time import time
 from typing import Generic, Type, TypeVar
 from unittest.mock import MagicMock, patch
 
 from tornado.testing import AsyncHTTPTestCase
-from tornado.web import Application, RequestHandler
+from tornado.web import Application, RequestHandler, create_signed_value
 
+from motioneye.handlers.base import _SESSION_EXPIRY_SECONDS, _session_store
 from motioneye.server import make_app
 
 __all__ = ('HandlerTestCase',)
@@ -61,13 +64,36 @@ class HandlerTestCase(AsyncHTTPTestCase, Generic[T]):
         ]
         for p in self._patches:
             p.start()
+        self._test_session_ids: list[str] = []
         super().setUp()
 
     def tearDown(self):
         super().tearDown()
         for p in self._patches:
             p.stop()
+        # Clean up any sessions created via make_session_cookie
+        for sid in self._test_session_ids:
+            _session_store.pop(sid, None)
 
     def get_handler(self, request: MagicMock | None = None) -> T:
         req = request or MagicMock()
         return self.handler_cls(self.app, req)
+
+    def make_session_cookie(self, user_type: str) -> str:
+        """Insert a session into _session_store and return a matching Cookie header value.
+
+        This bypasses the login flow so handler tests can authenticate directly
+        without repeating the credential round-trip that is already covered by
+        the dedicated login tests.
+        """
+        _SESSION_ID_BYTES = 32  # matches token_hex(32) used in create_session()
+        session_id = token_hex(_SESSION_ID_BYTES)
+        _session_store[session_id] = {
+            'user': user_type,
+            'expires': time() + _SESSION_EXPIRY_SECONDS,
+        }
+        self._test_session_ids.append(session_id)
+        signed = create_signed_value(
+            self.app.settings['cookie_secret'], 'user', session_id
+        )
+        return 'user=' + signed.decode()
