@@ -65,7 +65,7 @@ class PictureHandler(BaseHandler):
         # block access to admin-only cameras for non-admin users
         if (
             camera_config.get('@admin_only')
-            and self.current_user != 'admin'
+            and self.current_user not in ['admin', 'peer']
             # except local camera frames which imply a login prompt and own admin-only check
             and not (op == 'frame' and utils.is_local_motion_camera(camera_config))
         ):
@@ -120,7 +120,10 @@ class PictureHandler(BaseHandler):
         )
 
         # block access to admin-only cameras for non-admin users
-        if camera_config.get('@admin_only') and self.current_user != 'admin':
+        if camera_config.get('@admin_only') and self.current_user not in [
+            'admin',
+            'peer',
+        ]:
             raise HTTPError(
                 403,
                 f'POST access denied to admin-only camera "{camera_id}" for operation "{op}"',
@@ -136,6 +139,7 @@ class PictureHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth(prompt=False)
+    @BaseHandler.peer_allowed()
     async def current(self, camera_id, retry=0):
         self.set_header('Content-Type', 'image/jpeg')
         self.set_header('Cache-Control', 'no-store, must-revalidate')
@@ -195,6 +199,7 @@ class PictureHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
+    @BaseHandler.peer_allowed()
     async def list(self, camera_id):
         logging.debug(f'listing pictures for camera {camera_id}')
 
@@ -280,6 +285,7 @@ class PictureHandler(BaseHandler):
             )
 
     @BaseHandler.auth()
+    @BaseHandler.peer_allowed()
     async def download(self, camera_id, filename):
         logging.debug(
             'downloading picture {filename} of camera {id}'.format(
@@ -326,6 +332,7 @@ class PictureHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
+    @BaseHandler.peer_allowed()
     async def preview(self, camera_id, filename):
         logging.debug(
             'previewing picture {filename} of camera {id}'.format(
@@ -378,6 +385,7 @@ class PictureHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth(admin=True)
+    @BaseHandler.peer_allowed()
     async def delete(self, camera_id, filename):
         logging.debug(
             'deleting picture {filename} of camera {id}'.format(
@@ -413,6 +421,7 @@ class PictureHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
+    @BaseHandler.peer_allowed()
     async def zipped(self, camera_id, group):
         key = self.get_argument('key', None)
         camera_config = config.get_camera(camera_id)
@@ -508,6 +517,7 @@ class PictureHandler(BaseHandler):
                 raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
+    @BaseHandler.peer_allowed()
     async def timelapse(self, camera_id, group):
         key = self.get_argument('key', None)
         check = self.get_argument('check', False)
@@ -671,6 +681,7 @@ class PictureHandler(BaseHandler):
                 raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth(admin=True)
+    @BaseHandler.peer_allowed()
     async def delete_all(self, camera_id, group):
         logging.debug(
             'deleting picture group "{group}" of camera {id}'.format(

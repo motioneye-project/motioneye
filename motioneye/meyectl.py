@@ -333,6 +333,17 @@ def main():
 
     if command in ('startserver', 'stopserver'):
         from motioneye import server
+        from motioneye.utils.authstate import (
+            build_password_hash_state,
+            set_password_hash_state,
+            validate_password_hash_state,
+        )
+
+        if command == "startserver":
+            main_config = config.get_main()
+            state = build_password_hash_state(main_config)
+            validate_password_hash_state(state)
+            set_password_hash_state(state)
 
         server.main(arg_parser, sys.argv[2:], command[:-6])
 

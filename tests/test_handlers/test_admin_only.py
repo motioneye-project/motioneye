@@ -54,13 +54,18 @@ class AdminOnlyPictureHandlerTest(HandlerTestCase):
 
     def test_admin_allowed_when_admin_only(self):
         _FAKE_CAMERA_CONFIG['@admin_only'] = True
-        path = f'/picture/1/current?_username={self.admin_user}'
-        signature = utils.compute_signature('GET', path, b'', self.admin_pass)
-        url = f'{path}&_signature={signature}'
+        # perform login to get session cookie
+        response = self.fetch(
+            '/login',
+            method='POST',
+            body=f'username={self.admin_user}&password={self.admin_pass}',
+            headers={'Content-Type': 'application/x-www-form-urlencoded'},
+        )
+        cookie = response.headers.get('Set-Cookie', '')
         with patch.object(
             PictureHandler, 'current', new=AdminOnlyPictureHandlerTest._stub_current
         ):
-            response = self.fetch(url)
+            response = self.fetch('/picture/1/current', headers={'Cookie': cookie})
         self.assertEqual(200, response.code)
         self.assertEqual({'ok': True}, loads(response.body))
 

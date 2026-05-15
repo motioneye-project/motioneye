@@ -43,7 +43,10 @@ class MovieHandler(BaseHandler):
         )
 
         # block access to admin-only cameras for non-admin users
-        if camera_config.get('@admin_only') and self.current_user != 'admin':
+        if camera_config.get('@admin_only') and self.current_user not in [
+            'admin',
+            'peer',
+        ]:
             raise HTTPError(
                 403,
                 f'GET access denied to admin-only camera "{camera_id}" for operation "{op}"',
@@ -82,7 +85,10 @@ class MovieHandler(BaseHandler):
         )
 
         # block access to admin-only cameras for non-admin users
-        if camera_config.get('@admin_only') and self.current_user != 'admin':
+        if camera_config.get('@admin_only') and self.current_user not in [
+            'admin',
+            'peer',
+        ]:
             raise HTTPError(
                 403,
                 f'POST access denied to admin-only camera "{camera_id}" for operation "{op}"',
@@ -100,6 +106,7 @@ class MovieHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
+    @BaseHandler.peer_allowed()
     async def list(self, camera_id):
         logging.debug(f'listing movies for camera {camera_id}')
 
@@ -143,6 +150,7 @@ class MovieHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
+    @BaseHandler.peer_allowed()
     async def preview(self, camera_id, filename):
         logging.debug(
             'previewing movie {filename} of camera {id}'.format(
@@ -196,6 +204,7 @@ class MovieHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth(admin=True)
+    @BaseHandler.peer_allowed()
     async def delete(self, camera_id, filename):
         logging.debug(
             'deleting movie {filename} of camera {id}'.format(
@@ -231,6 +240,7 @@ class MovieHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth(admin=True)
+    @BaseHandler.peer_allowed()
     async def delete_all(self, camera_id, group):
         logging.debug(
             'deleting movie group "{group}" of camera {id}'.format(

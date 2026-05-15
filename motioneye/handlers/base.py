@@ -15,15 +15,58 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import hashlib
 import json
 import logging
+from secrets import token_hex
+from time import time
 
 from tornado.web import HTTPError, RequestHandler
 
 from motioneye import config, prefs, settings, template, utils
+from motioneye.utils.authstate import verify_hmac_signature
 
 __all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')
+
+# Session expiry: 24 hours
+_SESSION_EXPIRY_SECONDS = 86400
+
+# In-memory session store for browser session authentication
+# Format: session_id -> {'user': role, 'expires': timestamp}
+_session_store = {}
+
+
+def create_session(user_type):
+    """Create a secure session id with expiry."""
+    session_id = token_hex(32)
+    _session_store[session_id] = {
+        'user': user_type,
+        'expires': time() + _SESSION_EXPIRY_SECONDS,
+    }
+    return session_id
+
+
+def validate_session(session_id):
+    """Validate a session id and return associated user type."""
+    entry = _session_store.get(session_id)
+    if not entry:
+        return None
+    if time() > entry['expires']:
+        del _session_store[session_id]
+        return None
+    return entry['user']
+
+
+def invalidate_session(session_id):
+    """Invalidate a specific session."""
+    if session_id in _session_store:
+        del _session_store[session_id]
+
+
+def invalidate_user_sessions(user_type):
+    """Invalidate all sessions for a user type."""
+    to_delete = [sid for sid, v in _session_store.items() if v.get('user') == user_type]
+    for sid in to_delete:
+        del _session_store[sid]
 
 
 class BaseHandler(RequestHandler):
@@ -100,73 +143,51 @@ class BaseHandler(RequestHandler):
         return self.finish(json.dumps(data))
 
     def get_current_user(self):
-        main_config = config.get_main()
+        # Check for session-based authentication (via secure cookie)
+        session_id = self.get_secure_cookie('user')
+        if session_id:
+            try:
+                session_id = (
+                    session_id.decode() if isinstance(session_id, bytes) else session_id
+                )
+            except Exception:
+                session_id = None
 
-        username = self.get_argument('_username', None)
-        signature = self.get_argument('_signature', None)
-        login = self.get_argument('_login', None) == 'true'
+            if session_id:
+                session_user = validate_session(session_id)
+                if session_user in ['admin', 'normal']:
+                    return session_user
 
-        admin_username = main_config.get('@admin_username')
-        normal_username = main_config.get('@normal_username')
+        # Check for HMAC-based authentication (for remote requests)
+        hmac_signature = self.request.headers.get('X-HMAC-Signature')
+        timestamp = self.request.headers.get('X-Timestamp')
+        nonce = self.request.headers.get('X-Nonce')
 
-        admin_password = main_config.get('@admin_password')
-        normal_password = main_config.get('@normal_password')
+        if hmac_signature and timestamp and nonce:
+            try:
+                timestamp_int = int(timestamp)
+                # Check timestamp is within 10 minutes
+                if abs(time() - timestamp_int) > 600:  # 10 minutes
+                    return None
 
-        admin_hash = hashlib.sha1(
-            main_config['@admin_password'].encode('utf-8')
-        ).hexdigest()
-        normal_hash = hashlib.sha1(
-            main_config['@normal_password'].encode('utf-8')
-        ).hexdigest()
+                main_config = config.get_main()
+                client_secret = main_config.get('@client_secret')
+                if not client_secret:
+                    return None
 
-        if settings.HTTP_BASIC_AUTH and 'Authorization' in self.request.headers:
-            up = utils.parse_basic_header(self.request.headers['Authorization'])
-            if up:
-                if up['username'] == admin_username and admin_password in (
-                    up['password'],
-                    hashlib.sha1(up['password'].encode('utf-8')).hexdigest(),
+                # Reconstruct the request for signature verification
+                method = self.request.method
+                uri = self.request.uri
+                body = self.request.body if self.request.body else None
+
+                if verify_hmac_signature(
+                    client_secret, method, uri, timestamp, nonce, hmac_signature, body
                 ):
-                    return 'admin'
+                    # HMAC auth is stateless - return 'peer' user type with no session
+                    return 'peer'
 
-                if up['username'] == normal_username and normal_password in (
-                    up['password'],
-                    hashlib.sha1(up['password'].encode('utf-8')).hexdigest(),
-                ):
-                    return 'normal'
-
-        if username == admin_username and (
-            signature
-            == utils.compute_signature(
-                self.request.method, self.request.uri, self.request.body, admin_password
-            )
-            or signature
-            == utils.compute_signature(
-                self.request.method, self.request.uri, self.request.body, admin_hash
-            )
-        ):
-            return 'admin'
-
-        # no authentication required for normal user
-        if not username and not normal_password:
-            return 'normal'
-
-        if username == normal_username and (
-            signature
-            == utils.compute_signature(
-                self.request.method,
-                self.request.uri,
-                self.request.body,
-                normal_password,
-            )
-            or signature
-            == utils.compute_signature(
-                self.request.method, self.request.uri, self.request.body, normal_hash
-            )
-        ):
-            return 'normal'
-
-        if username and username != '_' and login:
-            logging.error(f'authentication failed for user {username}')
+            except (ValueError, TypeError):
+                return None
 
         return None
 
@@ -198,12 +219,28 @@ class BaseHandler(RequestHandler):
             pass  # nevermind
 
     @staticmethod
+    def peer_allowed():
+        def decorator(func):
+            func._peer_allowed = True
+            return func
+
+        return decorator
+
+    @staticmethod
     def auth(admin=False, prompt=True):
         def decorator(func):
             def wrapper(self, *args, **kwargs):
                 _admin = self.get_argument('_admin', None) == 'true'
 
                 user = self.current_user
+
+                if user == 'peer':
+                    if not getattr(func, '_peer_allowed', False):
+                        self.set_header('Content-Type', 'application/json')
+                        self.set_status(403)
+                        return self.finish_json({'error': 'unauthorized'})
+                    return func(self, *args, **kwargs)
+
                 if (user is None) or (user != 'admin' and (admin or _admin)):
                     self.set_header('Content-Type', 'application/json')
                     self.set_status(403)

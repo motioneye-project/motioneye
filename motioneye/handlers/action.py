@@ -30,6 +30,8 @@ __all__ = ('ActionHandler',)
 
 
 class ActionHandler(BaseHandler):
+    @BaseHandler.auth()
+    @BaseHandler.peer_allowed()
     async def post(self, camera_id, action):
         camera_id = int(camera_id)
         if camera_id not in config.get_camera_ids():
@@ -40,7 +42,7 @@ class ActionHandler(BaseHandler):
         if (
             local_config
             and local_config.get('@admin_only')
-            and self.current_user != 'admin'
+            and self.current_user not in ['admin', 'peer']
         ):
             raise HTTPError(
                 403,

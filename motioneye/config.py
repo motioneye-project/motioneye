@@ -17,23 +17,25 @@
 import collections
 import datetime
 import glob
-import hashlib
 import logging
 import os.path
 import subprocess
 from errno import EEXIST, ENOENT
 from os import stat
 from re import match, sub
+from secrets import token_hex
 from shlex import split
 from stat import S_IMODE
 from urllib.parse import quote, urlunparse
 
+from argon2 import PasswordHasher
 from tornado.ioloop import IOLoop
 
 from motioneye import meyectl, motionctl, settings, tasks, uploadservices, utils
 from motioneye.controls import diskctl, smbctl, v4l2ctl
 from motioneye.controls.powerctl import PowerControl
 
+ph = PasswordHasher()
 _CAMERA_CONFIG_FILE_NAME = 'camera-%(id)s.conf'
 _MAIN_CONFIG_FILE_NAME = 'motion.conf'
 _ACTIONS = [
@@ -298,7 +300,6 @@ def get_main(as_lines=False):
 
         else:
             logging.error(f'could not open main config file {config_file_path}: {e}')
-
             raise
 
     if f and S_IMODE(stat(config_file_path).st_mode) != 0o600:
@@ -336,8 +337,33 @@ def get_main(as_lines=False):
             '@admin_password',
             '@normal_username',
             '@normal_password',
+            '@relay_secret',
+            '@client_secret',
         ],
     )
+
+    # Generate relay secret if it doesn't exist (for Motion daemon relay event authentication)
+    save_needed = False
+    relay_secret = main_config.get('@relay_secret')
+    if not relay_secret:
+        logging.info('Generating new relay secret for Motion daemon authentication')
+        relay_secret = token_hex(32)  # 64-character hex string
+        main_config['@relay_secret'] = relay_secret
+        save_needed = True
+
+    # Generate client secret if it doesn't exist (for HMAC authentication from remote instances)
+    client_secret = main_config.get('@client_secret')
+    if not client_secret:
+        logging.info('Generating new client secret for remote HMAC authentication')
+        client_secret = token_hex(32)  # 64-character hex string
+        main_config['@client_secret'] = client_secret
+        save_needed = True
+
+    if save_needed:
+        logging.info('Saving migrated passwords and secrets to config file')
+        # Cache must be set before calling set_main to avoid AttributeError
+        _main_config_cache = main_config
+        set_main(main_config)
 
     # adapt directives for motion versions < 4.2 and > 4.3
     adapt_config_directives(main_config, _MOTION_41_TO_43_OPTIONS_MAPPING)
@@ -455,6 +481,12 @@ def get_enabled_local_motion_cameras():
     return [c for c in cameras if c.get('@enabled') and utils.is_local_motion_camera(c)]
 
 
+def get_relay_secret():
+    """Get the relay event secret for Motion daemon authentication."""
+    main_config = get_main()
+    return main_config.get('@relay_secret', '')
+
+
 def get_network_shares():
     if not get_main().get('@enabled'):
         return []
@@ -541,6 +573,7 @@ def get_camera(camera_id, as_lines=False):
             '@upload_secret_key',
             '@upload_bucket',
             '@upload_sse_c_key',
+            '@remote_secret',
             'camera_name',
         ],
     )
@@ -698,9 +731,9 @@ def add_camera(device_details):
         camera_config['@host'] = device_details['host']
         camera_config['@port'] = device_details['port']
         camera_config['@path'] = device_details['path']
-        camera_config['@username'] = device_details['username']
-        camera_config['@password'] = device_details['password']
         camera_config['@remote_camera_id'] = device_details['remote_camera_id']
+        if device_details.get('remote_secret'):
+            camera_config['@remote_secret'] = device_details['remote_secret']
 
     elif proto == 'mmal':
         camera_config['mmalcam_name'] = device_details['path']
@@ -824,17 +857,17 @@ def main_ui_to_dict(ui):
 
     if ui.get('admin_password') is not None:
         if ui['admin_password']:
-            data['@admin_password'] = hashlib.sha1(
-                ui['admin_password'].encode('utf-8')
-            ).hexdigest()
-
+            data['@admin_password'] = ph.hash(ui['admin_password'])
         else:
             data['@admin_password'] = ''
 
         call_hook(ui['admin_username'], ui['admin_password'])
 
     if ui.get('normal_password') is not None:
-        data['@normal_password'] = ui['normal_password']
+        if ui['normal_password']:
+            data['@normal_password'] = ph.hash(ui['normal_password'])
+        else:
+            data['@normal_password'] = ''
 
         call_hook(ui['normal_username'], ui['normal_password'])
 
@@ -873,6 +906,8 @@ def main_dict_to_ui(data):
 
     else:
         ui['normal_password'] = ''
+
+    ui['_client_secret'] = data.get('@client_secret', '')
 
     # additional configs
     for name, value in list(data.items()):
@@ -2579,3 +2614,21 @@ def _set_additional_config(data, camera_id=None):
 
     for func, value in list(set_func_values.items()):
         func(*(args + [value]))
+
+
+def set_admin_password(password):
+    main_config = get_main()
+    if password:
+        main_config['@admin_password'] = ph.hash(password)
+    else:
+        main_config['@admin_password'] = ''
+    set_main(main_config)
+
+
+def set_normal_password(password):
+    main_config = get_main()
+    if password:
+        main_config['@normal_password'] = ph.hash(password)
+    else:
+        main_config['@normal_password'] = ''
+    set_main(main_config)
