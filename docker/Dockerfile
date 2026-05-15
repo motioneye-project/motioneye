@@ -12,7 +12,7 @@ COPY docker/entrypoint.sh /entrypoint.sh
 # - armhf/riscv64: Python headers, C compiler and libjpeg for Pillow: https://pypi.org/project/pillow/#files, libcurl and libssl for pycurl: https://pypi.org/project/pycurl/#files
 RUN printf '%b' '[global]\nbreak-system-packages=true\n' > /etc/pip.conf && \
     case "$(dpkg --print-architecture)" in \
-      'armhf'|'riscv64') PACKAGES='python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev';; \
+      'armhf'|'riscv64') PACKAGES='python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev libffi-dev';; \
       *) PACKAGES='';; \
     esac && \
     apt-get -q update && \
