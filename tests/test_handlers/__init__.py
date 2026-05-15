@@ -64,16 +64,14 @@ class HandlerTestCase(AsyncHTTPTestCase, Generic[T]):
         ]
         for p in self._patches:
             p.start()
-        self._test_session_ids: list[str] = []
         super().setUp()
 
     def tearDown(self):
         super().tearDown()
         for p in self._patches:
             p.stop()
-        # Clean up any sessions created via make_session_cookie
-        for sid in self._test_session_ids:
-            _session_store.pop(sid, None)
+        # Wipe any sessions left over from this test so the next test starts clean.
+        _session_store.clear()
 
     def get_handler(self, request: MagicMock | None = None) -> T:
         req = request or MagicMock()
@@ -86,13 +84,11 @@ class HandlerTestCase(AsyncHTTPTestCase, Generic[T]):
         without repeating the credential round-trip that is already covered by
         the dedicated login tests.
         """
-        _SESSION_ID_BYTES = 32  # matches token_hex(32) used in create_session()
-        session_id = token_hex(_SESSION_ID_BYTES)
+        session_id = token_hex(32)
         _session_store[session_id] = {
             'user': user_type,
             'expires': time() + _SESSION_EXPIRY_SECONDS,
         }
-        self._test_session_ids.append(session_id)
         signed = create_signed_value(
             self.app.settings['cookie_secret'], 'user', session_id
         )

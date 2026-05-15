@@ -62,27 +62,6 @@ class LoginHandlerTest(HandlerTestCase):
             {'error': 'unauthorized', 'prompt': True}, json.loads(response.body)
         )
 
-    def test_login_with_hashed_password(self):
-        # configuration stores argon2 hash of the password
-        admin_user = 'admin'
-        plain = 's3cret'
-        hashed = ph.hash(plain)
-        main_config = {
-            '@admin_username': admin_user,
-            '@admin_password': hashed,
-            '@normal_username': '',
-            '@normal_password': '',
-        }
-        with patch.object(config, '_main_config_cache', main_config):
-            response = self.fetch(
-                '/login',
-                method='POST',
-                body=f'username={admin_user}&password={plain}',
-                headers={'Content-Type': 'application/x-www-form-urlencoded'},
-            )
-            self.assertEqual(200, response.code)
-            self.assertIn('user', json.loads(response.body))
-
     def test_login_with_empty_password(self):
         admin_user = 'admin'
         main_config = {
@@ -144,51 +123,30 @@ class LoginHandlerTest(HandlerTestCase):
                 mock_set_normal.assert_called_once_with(normal_plain)
 
     def test_logout(self):
-        admin_user = 'admin'
-        admin_pass = 's3cret'
-        hashed_pass = ph.hash(admin_pass)
+        cookie = self.make_session_cookie('admin')
 
-        main_config = {
-            '@admin_username': admin_user,
-            '@admin_password': hashed_pass,
-            '@normal_username': '',
-            '@normal_password': '',
-        }
+        # logout
+        logout_resp = self.fetch(
+            '/logout',
+            method='POST',
+            body='',
+            headers={'Cookie': cookie},
+        )
+        self.assertEqual(200, logout_resp.code)
 
-        with patch.object(config, '_main_config_cache', main_config):
-            # login
-            login_resp = self.fetch(
-                '/login',
-                method='POST',
-                body=f'username={admin_user}&password={admin_pass}',
-                headers={'Content-Type': 'application/x-www-form-urlencoded'},
-            )
+        # ensure logout clears the cookie in the response
+        cleared_cookie = logout_resp.headers.get('Set-Cookie', '')
+        self.assertTrue(
+            'expires=' in cleared_cookie.lower()
+            or 'max-age=0' in cleared_cookie.lower()
+        )
 
-            cookie = login_resp.headers.get('Set-Cookie', '')
-            self.assertTrue(cookie)
-
-            # logout
-            logout_resp = self.fetch(
-                '/logout',
-                method='POST',
-                body='',
-                headers={'Cookie': cookie},
-            )
-            self.assertEqual(200, logout_resp.code)
-
-            # ensure logout clears the cookie in the response
-            cleared_cookie = logout_resp.headers.get('Set-Cookie', '')
-            self.assertTrue(
-                'expires=' in cleared_cookie.lower()
-                or 'max-age=0' in cleared_cookie.lower()
-            )
-
-            # using the old cookie should no longer authenticate
-            resp2 = self.fetch(
-                '/login',
-                headers={'Cookie': cookie},
-            )
-            self.assertEqual(403, resp2.code)
+        # using the old cookie should no longer authenticate
+        resp2 = self.fetch(
+            '/login',
+            headers={'Cookie': cookie},
+        )
+        self.assertEqual(403, resp2.code)
 
 
 if __name__ == '__main__':

@@ -96,10 +96,9 @@ class BaseHandlerTest(HandlerTestCase):
     def test_get_current_user_peer_expired_timestamp(self):
         """A request whose timestamp is older than 10 minutes is rejected."""
         secret = 'unit-test-secret-' + token_hex(8)
-        _HMAC_WINDOW = 600  # matches the 600 s window checked in get_current_user
-        old_ts = time() - (_HMAC_WINDOW + 100)  # clearly outside the allowed window
+        # timestamp=700 is 700 seconds since the Unix epoch – clearly outside the 10-minute window
         request = self._make_hmac_request(
-            secret, 'GET', '/api/config/main/get', timestamp=old_ts
+            secret, 'GET', '/api/config/main/get', timestamp=700
         )
 
         with patch.object(config, '_main_config_cache', {'@client_secret': secret}):
