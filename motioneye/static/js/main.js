@@ -346,17 +346,16 @@ function ajax(method, url, data, callback, error, timeout) {
         contentType: json ? 'application/json' : false,
         processData: processData,
         error: error || function (request, options, error) {
-            if (request.status == 401 || request.status == 403) {
+            if (request.status == 403) {
                 /* Proxies may respond with custom non-JSON 403 documents,
                  * so that request.responseJSON causes an error.
                  * We hence respond with the hardcoded JSON here. */
                 return onResponse({prompt: true, error: "unauthorized"});
             }
-            else if (request.status == 400) {
-                return onResponse({prompt: true, error: i18n.gettext("Username and password are required.")});
-            }
-            else {
-                return onResponse({error: i18n.gettext("An error occurred (status %(status)s). Please try again.").format({status: request.status})});
+
+            showErrorMessage();
+            if (callback) {
+                callback();
             }
         }
     };
