@@ -7,26 +7,26 @@
 # Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2025.
 # MichaIng <micha@dietpi.com>, 2025.
 # Ziteng <765484893@qq.com>, 2025.
+# MarkZ <daqinit@qq.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-02-15 09:10+0000\n"
-"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-04-13 20:09+0000\n"
+"Last-Translator: MarkZ <daqinit@qq.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/zh_Hans/>\n"
 "Language: zh\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/config.py:905
-#, fuzzy
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
-msgstr "只向甲型数字特性、hy、强调、+和空间提供装置"
+msgstr "给设备起名时，只能用字母、数字、连字符-、下划线_、加号+ 和空格"
 
 #: motioneye/config.py:909
 #, fuzzy
@@ -39,14 +39,12 @@ msgid "Directory names are only allowed to contain alphanumerical characters, sp
 msgstr "目录名称仅允许包含字母数字字符、空格、圆括号 ()、正斜杠 /、点 .、下划线 _ 以及连字符 -"
 
 #: motioneye/config.py:919
-#, fuzzy
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
-msgstr "电子邮件程序只是字母数字特性的指南,强调,+,t., at @, caret^, tilde ~, 英语区系<>,hy子-,可按 com子和空间分类"
+msgstr "电子邮件地址仅允许包含字母数字字符、下划线 _、加号 +、点号 .、@符号 @、脱字符 ^、波浪号 ~、尖括号 <>、连字符 -，多个邮箱地址之间可用逗号,和空格分隔"
 
 #: motioneye/config.py:924
-#, fuzzy
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
-msgstr "URLs不称为“Complier”、半colon;或 页: 1"
+msgstr "URL（网址）中不允许包含以下三个字符：脱字符^、分号;、单引号'"
 
 #: motioneye/server.py:233
 msgid "interrompa signalo ricevita, fermanta …"
@@ -323,14 +321,12 @@ msgid "Kamerao Tipo"
 msgstr "摄像头类型"
 
 #: motioneye/templates/main.html:290
-#, fuzzy
 msgid "Admin-only access"
-msgstr "只允许特别接触"
+msgstr "仅限管理员访问"
 
 #: motioneye/templates/main.html:292
-#, fuzzy
 msgid "If enabled only the admin user can access this camera"
-msgstr "如果只有委托用户能够使用这种照相机"
+msgstr "如果启用此功能，则只有管理员用户能够访问这台摄像头"
 
 #: motioneye/templates/main.html:298
 msgid "Aŭtomata Brilo"
@@ -650,19 +646,16 @@ msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr "用于上传服务的S3存储桶的名称（通常仅用于配置过程）"
 
 #: motioneye/templates/main.html:560
-#, fuzzy
 msgid "Encryption key"
-msgstr "加密钥匙"
+msgstr "加密密钥"
 
 #: motioneye/templates/main.html:561
-#, fuzzy
 msgid "optional base64-encoded SSE-C encryption key"
-msgstr "支持的SSE-C加密关键"
+msgstr "一个可选的、经 Base64 编码的 SSE-C 加密密钥"
 
 #: motioneye/templates/main.html:562
-#, fuzzy
 msgid "Add an encryption key if you want to use server-side encryption (SSE-C). The key must be a base64-encoded string with a length of 32 bytes. This key will be needed by every client to access the encrypted files. You can generate a key using the following command: openssl rand 32 | base64"
-msgstr "如果你想要使用支持方加密(SSE-C),添加加密钥匙。 关键必须是基64的加权,分到32个 by。 每个客户都需要这一关键内容才能查阅加密档案。 您可以信任使用决定的关键:全面门槛限制32 ±64"
+msgstr "如果你想使用服务器端加密（SSE-C），需要添加一个加密密钥，密钥必须是 base64 编码 的字符串，原始长度为 32 字节（编码后约 44 字符），每个客户端 都需要这个密钥才能访问加密文件（密钥需安全分发），可用此命令生成密钥：openssl rand 32 生成 32 字节随机数，再用 base64 编码"
 
 #: motioneye/templates/main.html:566
 msgid "Testi la servon"
@@ -768,9 +761,8 @@ msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dek
 msgstr "设置在视频和图像右下角显示的文本"
 
 #: motioneye/templates/main.html:652
-#, fuzzy
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio"
-msgstr "定义右侧文本的格式；接受以下特殊标记：%Y = 年份，%m = 月份，%d = 日期，%H = 小时，%M = 分钟，%S = 秒，%q = 帧号，%v = 事件编号，%T = HH:MM:SS，\\n = 新行"
+msgstr "设置自定义的右侧文本，可用特殊占位符：%Y=年份、%m=月份、%d=日期、%H=小时、%M=分钟、%S=秒、%q=帧编号、%v=事件序号、%T=时间格式 HH:MM:SS、\\n=换行"
 
 #: motioneye/templates/main.html:655
 msgid "Teksta Skalo"
@@ -837,14 +829,12 @@ msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Dige
 msgstr "流使用的身份验证方法（如果遇到第三方程序问题，则选择基础模式而不是消费模式）。监控认证将会被使用"
 
 #: motioneye/templates/main.html:711
-#, fuzzy
 msgid "username used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."
-msgstr "用户名称用于录像传送认证。 如果只允许接触,则使用与监视用户不同的证书."
+msgstr "该用户名用于视频流的身份验证（即登录查看实时/录像视频时用的账号），当系统启用了\"仅管理员访问\"模式时，必须使用与\"监控用户\"不同的凭据（用户名/密码）。"
 
 #: motioneye/templates/main.html:716
-#, fuzzy
 msgid "password used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."
-msgstr "该电话用于录像流。 如果只允许接触,则使用与监视用户不同的证书."
+msgstr "该密码用于视频流的身份验证（即观看实时视频时需要输入的密码），当启用了仅管理员访问模式时，必须使用与\"监控用户\"不同的凭据（用户名/密码）。"
 
 #: motioneye/templates/main.html:719
 msgid "Movado-Optimigo"

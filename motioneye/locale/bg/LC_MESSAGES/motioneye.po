@@ -1,1583 +1,1572 @@
-# Translations template for PROJECT.
-# Copyright (C) 2022 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
-# piet <piet@users.noreply.hosted.weblate.org>, 2024.
-# Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024, 2025.
-# Marijn <168113859+Marijn0@users.noreply.github.com>, 2025, 2026.
-# Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2025.
-# MichaIng <micha@dietpi.com>, 2025, 2026.
-# LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2026.
-# Gabriel <bloxgabriel18@gmail.com>, 2026.
+# Dimitar Kalinov <dkalinoff@gmail.com>, 2026.
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
-"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-05-11 09:11+0000\n"
-"Last-Translator: Gabriel <bloxgabriel18@gmail.com>\n"
-"Language-Team: Dutch <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/nl/>\n"
-"Language: nl\n"
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-04-17 14:44+0200\n"
+"PO-Revision-Date: 2026-04-18 01:09+0000\n"
+"Last-Translator: Dimitar Kalinov <dkalinoff@gmail.com>\n"
+"Language-Team: Bulgarian <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/bg/>\n"
+"Language: bg\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.5-dev\n"
-"Generated-By: Babel 2.6.0\n"
+"X-Generator: Weblate 5.17.1-dev\n"
 
 #: motioneye/config.py:905
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
-msgstr "Apparaatnamen mogen alleen alfanumerieke tekens, koppelteken -, underscore _, plusteken + en spaties bevatten"
+msgstr "Имената на устройствата могат да съдържат само букви, цифри, тире -, долна черта _, плюс + и интервал."
 
 #: motioneye/config.py:909
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
-msgstr "Bestandsnamen mogen alleen alfanumerieke tekens bevatten, haakjes (), schuine streep /, punt ., underscore _, koppelteken -, spatie en een beperkte set motion-conversiespecificaties: %C %Y %m %d %H %M %S %q %v"
+msgstr ""
 
 #: motioneye/config.py:914
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
-msgstr "Mapnamen mogen alleen alfanumerieke tekens bevatten, spaties, haakjes (), schuine strepen /, punten ., underscores _ en koppeltekens -"
+msgstr ""
 
 #: motioneye/config.py:919
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
-msgstr "E-mailadressen mogen alleen alfanumerieke tekens bevatten, underscores _, plustekens +, punten ., apenstaartjes @, dakjes ^, tildes ~, punthaken <>, koppeltekens - en mogen worden gescheiden door komma’s en spaties"
+msgstr ""
 
 #: motioneye/config.py:924
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
-msgstr "URL's mogen geen dakje ^, puntkomma ; of apostrof ' bevatten"
+msgstr ""
 
 #: motioneye/server.py:233
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "Een interruptsignaal ontvangen, sluiten…"
+msgstr ""
 
 #: motioneye/server.py:277
 msgid "smb-akcioj postulas radikajn privilegiojn"
-msgstr "SMB gedeelde mappen vereisen root-toegang"
+msgstr ""
 
 #: motioneye/server.py:284
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
-msgstr "installeer alstublieft tornado versie 3.1 of hoger"
+msgstr ""
 
 #: motioneye/server.py:291
 msgid "bonvolu instali jinja2"
-msgstr "installeer alstublieft jinja2"
+msgstr ""
 
 #: motioneye/server.py:298
 msgid "bonvolu instali pillow aŭ PIL"
-msgstr "installeer alstublieft pillow of PIL"
+msgstr ""
 
 #: motioneye/server.py:305
 msgid "bonvolu instali pycurl"
-msgstr "installeer alstublieft pycurl"
+msgstr ""
 
 #: motioneye/server.py:423
 msgid "saluton! ĉi tio estas motionEye-servilo "
-msgstr "Hallo! Dit is motionEye server "
+msgstr ""
 
 #: motioneye/server.py:438
 msgid "purigado komenciĝis"
-msgstr "gestart met opschonen"
+msgstr ""
 
 #: motioneye/server.py:440
 msgid "wsswitch komenciĝis"
-msgstr "wsswitch is gestart"
+msgstr ""
 
 #: motioneye/server.py:443
 msgid "taskoj komenciĝis"
-msgstr "taken zijn gestart"
+msgstr ""
 
 #: motioneye/server.py:447
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr "mjpg client geheugenopschoning is gestart"
+msgstr ""
 
 #: motioneye/server.py:465
 msgid "servilo komenciĝis"
-msgstr "server is gestart"
+msgstr ""
 
 #: motioneye/server.py:471
 msgid "servilo haltis"
-msgstr "server is gestopt"
+msgstr ""
 
 #: motioneye/server.py:473
 msgid "taskoj haltis"
-msgstr "taken zijn gestopt"
+msgstr ""
 
 #: motioneye/server.py:481
 msgid "motion haltis"
-msgstr "motion is gestopt"
+msgstr ""
 
 #: motioneye/server.py:486
 msgid "adiaŭ!"
-msgstr "vaarwel!"
+msgstr ""
 
 #: motioneye/templates/main.html:104
 msgid "agordojn"
-msgstr "instellingen"
+msgstr ""
 
 #: motioneye/templates/main.html:105
 msgid "ŝanĝi uzanton"
-msgstr "andere gebruiker"
+msgstr ""
 
 #: motioneye/templates/main.html:107
 msgid "forigi kameraon"
-msgstr "verwijder camera"
+msgstr ""
 
 #: motioneye/templates/main.html:108
 msgid "Apliki"
-msgstr "Toepassen"
+msgstr ""
 
 #: motioneye/templates/main.html:127
 msgid "preferoj de uzanto"
-msgstr "gebruikersvoorkeuren"
+msgstr ""
 
 #: motioneye/templates/main.html:128
 msgid "Preferoj"
-msgstr "Voorkeuren"
+msgstr ""
 
 #: motioneye/templates/main.html:133
 msgid "Aranĝo Kolumnoj"
-msgstr "Kolomindeling"
+msgstr ""
 
 #: motioneye/templates/main.html:135
 msgid "agordas la nombron da kolumnoj uzataj por aranĝi la fotilojn"
-msgstr "geeft aan hoeveel kolomen gebruikt worden om de verschillende camera's te tonen"
+msgstr ""
 
 #: motioneye/templates/main.html:138
 msgid "Fiksi Kadrojn Vertikale"
-msgstr "Beelden verticaal passend maken"
+msgstr ""
 
 #: motioneye/templates/main.html:140
 msgid "kontrolas ĉu framfojoj povas esti reduktitaj por vertikale konveni al la fenestro aŭ ne"
-msgstr "geeft aan of beelden kleiner gemaakt mogen worden om verticaal in het scherm te passen, of niet"
+msgstr ""
 
 #: motioneye/templates/main.html:143
 msgid "Aranĝo linioj"
-msgstr "Rij-indeling"
+msgstr ""
 
 #: motioneye/templates/main.html:145
 msgid "agordas la nombron da linioj uzataj por aranĝi la fotilojn"
-msgstr "geeft aan hoeveel rijen gebruikt worden om de verschillende camera's te tonen"
+msgstr ""
 
 #: motioneye/templates/main.html:148
 msgid "kadro-variatoro"
-msgstr "Beperken verversingssnelheid"
+msgstr ""
 
 #: motioneye/templates/main.html:150
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
-msgstr "verlaagt de beeldverversingsnelheid om netwerkbandbreedte en verkeer te besparen (werkt niet voor simpele MJPEG-camera's)"
+msgstr ""
 
 #: motioneye/templates/main.html:153
 msgid "Rezolucio-variatoro"
-msgstr "Beeldresolutie beperken"
+msgstr ""
 
 #: motioneye/templates/main.html:155
 msgid "reduktas la efektivan rezolucion de ĉiuj fotiloj por ŝpari retan larĝan bandon kaj trafikon (ne funkcias en simplaj MJPEG-fotiloj)"
-msgstr "beperkt de beeldresolutie van alle camera's om netwerkbandbreedte en verkeer te besparen (werkt niet voor simpele MJPEG-camera's)"
+msgstr ""
 
 #: motioneye/templates/main.html:161
 msgid "ĝeneralaj parametroj, komunaj al ĉiuj fotiloj"
-msgstr "algemene instellingen, niet gerelateerd aan één specifieke camera"
+msgstr ""
 
 #: motioneye/templates/main.html:162
 msgid "Ĝeneralaj Agordoj"
-msgstr "Algemene instellingen"
+msgstr ""
 
 #: motioneye/templates/main.html:167
 msgid "Lingvo"
-msgstr "Taal"
+msgstr ""
 
 #: motioneye/templates/main.html:173
 msgid "la lingvo de la interfaco (du literoj)"
-msgstr "de taal van de gebruikersinterface"
+msgstr ""
 
 #: motioneye/templates/main.html:176
 msgid "Administranto"
-msgstr "Gebruikersnaam beheerder"
+msgstr ""
 
 #: motioneye/templates/main.html:178
 msgid "la uzantnomo uzata por agordi la sistemon"
-msgstr "de gebruikersnaam die gebruikt kan worden om het systeem te beheren"
+msgstr ""
 
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
 #: motioneye/templates/main.html:526 motioneye/templates/main.html:714
 msgid "Pasvorto"
-msgstr "Wachtwoord"
+msgstr ""
 
 #: motioneye/templates/main.html:183
 msgid "pasvorto de administranto"
-msgstr "Wachtwoord beheerder"
+msgstr ""
 
 #: motioneye/templates/main.html:186
 msgid "Observanto"
-msgstr "Gebruikersnaam toezichthouder"
+msgstr ""
 
 #: motioneye/templates/main.html:188
 msgid "la uzantnomo por uzi por la monitorado"
-msgstr "de gebruikersnaam voor video toezicht"
+msgstr ""
 
 #: motioneye/templates/main.html:193
 msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "het wachtwoord voor de video toezichthouder (leeg laten om toezicht houden zonder wachtwoord mogelijk te maken)"
+msgstr ""
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"
-msgstr "motionEye-versie"
+msgstr ""
 
 #: motioneye/templates/main.html:206
 msgid "Motion Versio"
-msgstr "Motion-versie"
+msgstr ""
 
 #: motioneye/templates/main.html:210
 msgid "Operaciumo Versio"
-msgstr "OS-versie"
+msgstr ""
 
 #: motioneye/templates/main.html:215
 msgid "Programara Ĝisdatigo"
-msgstr "Software bijwerken"
+msgstr ""
 
 #: motioneye/templates/main.html:217
 msgid "kontrolas novajn versiojn kaj plenumas ĝisdatigojn"
-msgstr "controleert of nieuwe versies beschikbaar zijn en voert updates uit"
+msgstr ""
 
 #: motioneye/templates/main.html:221
 msgid "Nutro"
-msgstr "Aan/uit"
+msgstr ""
 
 #: motioneye/templates/main.html:222
 msgid "Fermu"
-msgstr "Afsluiten"
+msgstr ""
 
 #: motioneye/templates/main.html:223
 msgid "malŝaltas la sistemon"
-msgstr "schakelt het systeem uit"
+msgstr ""
 
 #: motioneye/templates/main.html:227
 msgid "Rekomencu"
-msgstr "Herstarten"
+msgstr ""
 
 #: motioneye/templates/main.html:228
 msgid "rekomencas la sistemon"
-msgstr "Herstart het systeem"
+msgstr ""
 
 #: motioneye/templates/main.html:234
 msgid "Agordo"
-msgstr "Configuratie"
+msgstr ""
 
 #: motioneye/templates/main.html:235
 msgid "Sekurkopio"
-msgstr "Herstelkopie maken"
+msgstr ""
 
 #: motioneye/templates/main.html:236
 msgid "kreas dosieron kun la nuna agordo por ke vi konservu ĝin surloke"
-msgstr "maakt een bestand met de huidige configuratie om lokaal te bewaren"
+msgstr ""
 
 #: motioneye/templates/main.html:240
 msgid "Restaŭri"
-msgstr "Herstellen"
+msgstr ""
 
 #: motioneye/templates/main.html:241
 msgid "restarigas la agordon el antaŭe konservita rezerva dosiero"
-msgstr "herstelt de configuratie naar de waarden uit een eerdere herstelkopie"
+msgstr ""
 
 #: motioneye/templates/main.html:265
 msgid "aktivigu ĉi tion, se vi volas uzi ĉi tiun kameraon"
-msgstr "inschakelen om deze camera te gebruiken"
+msgstr ""
 
 #: motioneye/templates/main.html:266
 msgid "Video-Aparato"
-msgstr "Video-apparaat"
+msgstr ""
 
 #: motioneye/templates/main.html:271 motioneye/templates/main.html:624
 #: motioneye/templates/main.html:641
 msgid "Kamerao Nomo"
-msgstr "Cameranaam"
+msgstr ""
 
 #: motioneye/templates/main.html:272
 msgid "kameraa nomo…"
-msgstr "Cameranaam…"
+msgstr ""
 
 #: motioneye/templates/main.html:273
 msgid "alias pri ĉi tiu kamera aparato"
-msgstr "een alias voor dit video-apparaat"
+msgstr ""
 
 #: motioneye/templates/main.html:276
 msgid "Kamerao ID"
-msgstr "Camera-ID"
+msgstr ""
 
 #: motioneye/templates/main.html:278
 msgid "la kamerao identiga numero"
-msgstr "het unieke nummer van deze camera"
+msgstr ""
 
 #: motioneye/templates/main.html:281
 msgid "Kamerao aparato"
-msgstr "Camera-apparaat"
+msgstr ""
 
 #: motioneye/templates/main.html:283
 msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
-msgstr "Invoer-apparaat (bijv. /dev/video) of URL (bijv. rtsp://192.168.1.1/stream)"
+msgstr ""
 
 #: motioneye/templates/main.html:286
 msgid "Kamerao Tipo"
-msgstr "Apparaattype"
+msgstr ""
 
 #: motioneye/templates/main.html:290
 msgid "Admin-only access"
-msgstr "Alleen beheerderstoegang"
+msgstr ""
 
 #: motioneye/templates/main.html:292
 msgid "If enabled only the admin user can access this camera"
-msgstr "Indien ingeschakeld heeft alleen de beheerder toegang tot deze camera"
+msgstr ""
 
 #: motioneye/templates/main.html:298
 msgid "Aŭtomata Brilo"
-msgstr "Automatische helderheid"
+msgstr ""
 
 #: motioneye/templates/main.html:300
 msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
-msgstr "schakelt softwarematige automatische helderheid in (alleen aanbevolen als de camera zelf geen automatische helderheid heeft)"
+msgstr ""
 
 #: motioneye/templates/main.html:306
 msgid "Video-rezolucio"
-msgstr "Videoresolutie"
+msgstr ""
 
 #: motioneye/templates/main.html:311
 msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
-msgstr "de videoresolutie (hogere waarden zorgen voor beter beeld maar vereisen meer CPU-kracht, meer opslag en netwerkbandbreedte)"
+msgstr ""
 
 #: motioneye/templates/main.html:314
 msgid "Larĝeco"
-msgstr "Breedte"
+msgstr ""
 
 #: motioneye/templates/main.html:316
 msgid "enigu kutiman rezolucian larĝon"
-msgstr "voer een aangepaste video breedte in"
+msgstr ""
 
 #: motioneye/templates/main.html:319
 msgid "Alteco"
-msgstr "Hoogte"
+msgstr ""
 
 #: motioneye/templates/main.html:321
 msgid "enigu kutiman rezolucian altecon"
-msgstr "voer een aangepaste video hoogte in"
+msgstr ""
 
 #: motioneye/templates/main.html:324
 msgid "Video-Rotacio"
-msgstr "Beelddraaiing"
+msgstr ""
 
 #: motioneye/templates/main.html:333
 msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
-msgstr "Gebruik dit om het videobeeld te draaien als uw camera niet correct is gepositioneerd"
+msgstr ""
 
 #: motioneye/templates/main.html:336
 msgid "Kadrofrekvenco"
-msgstr "Beeldverversingssnelheid"
+msgstr ""
 
 #: motioneye/templates/main.html:338
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
-msgstr "geeft aan hoeveel beelden per seconde van de camera opgenomen moeten worden (hogere waarden produceren vloeiender videobeeld maar vereisen meer CPU-kracht, meer opslag en netwerkbandbreedte)"
+msgstr ""
 
 #: motioneye/templates/main.html:344
 msgid "Privateca masko"
-msgstr "Privacymasker"
+msgstr ""
 
 #: motioneye/templates/main.html:346
 msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
-msgstr "maskeert een deel van het beeld om privacy in bepaalde gebieden te beschermen"
+msgstr ""
 
 #: motioneye/templates/main.html:351 motioneye/templates/main.html:1027
 msgid "Redakti maskon"
-msgstr "Bewerk maskering"
+msgstr ""
 
 #: motioneye/templates/main.html:352 motioneye/templates/main.html:1028
 msgid "Konservi maskon"
-msgstr "Bewaar maskering"
+msgstr ""
 
 #: motioneye/templates/main.html:355
 msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
-msgstr "druk op deze knop om de maskeringbewerktool in/uit te schakelen"
+msgstr ""
 
 #: motioneye/templates/main.html:366
 msgid "Ekstraj Elektoj"
-msgstr "Extra opties"
+msgstr ""
 
 #: motioneye/templates/main.html:368
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
-msgstr "hier kan je extra opties voor het \"motion\" achtergrondproces opgeven (gebruik het «naam waarde» formaat, een optie per regel"
+msgstr ""
 
 #: motioneye/templates/main.html:377
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
-msgstr "kies waar en hoe je media-bestanden opgeslagen worden"
+msgstr ""
 
 #: motioneye/templates/main.html:378
 msgid "Stokado de dosieroj"
-msgstr "Bestandsopslag"
+msgstr ""
 
 #: motioneye/templates/main.html:383
 msgid "Stokada Aparato"
-msgstr "Opslagapparaat"
+msgstr ""
 
 #: motioneye/templates/main.html:388
 msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
-msgstr "geeft aan welke opslagapparaat gebruikt wordt voor het bewaren van video's en afbeeldingen"
+msgstr ""
 
 #: motioneye/templates/main.html:391
 msgid "Retservilo"
-msgstr "Netwerkserver"
+msgstr ""
 
 #: motioneye/templates/main.html:393
 msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
-msgstr "het adres van de netwerkserver (IP-adres of computernaam)"
+msgstr ""
 
 #: motioneye/templates/main.html:396
 msgid "SMB Protokolo-Versio"
-msgstr "SMB-protocol versie"
+msgstr ""
 
 #: motioneye/templates/main.html:406
 msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
-msgstr "selecteer welke SMB-versie gebruikt moet worden (probeer de verschillende opties uit en kijk welke optie het beste werkt met uw netwerkopslag)"
+msgstr ""
 
 #: motioneye/templates/main.html:409
 msgid "Kunhava nomo"
-msgstr "Naam gedeelde map"
+msgstr ""
 
 #: motioneye/templates/main.html:411
 msgid "la nomo de la interŝanĝa reto"
-msgstr "de naam van de gedeelde map"
+msgstr ""
 
 #: motioneye/templates/main.html:414 motioneye/templates/main.html:521
 #: motioneye/templates/main.html:709
 msgid "Uzantnomo"
-msgstr "Gebruikersnaam"
+msgstr ""
 
 #: motioneye/templates/main.html:416
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
-msgstr "de gebruikersnaam die meegegeven moet worden bij het benaderen van de gedeelde map (laat leeg als geen gebruikersnaam vereist is)"
+msgstr ""
 
 #: motioneye/templates/main.html:419
 msgid "Pasvorton"
-msgstr "Wachtwoord"
+msgstr ""
 
 #: motioneye/templates/main.html:421
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
-msgstr "het wachtwoord dat meegegeven moet worden bij het benaderen van de gedeelde map (laat leeg als geen wachtwoord vereist is)"
+msgstr ""
 
 #: motioneye/templates/main.html:424
 msgid "Radika dosierujo"
-msgstr "Hoofdmap"
+msgstr ""
 
 #: motioneye/templates/main.html:426
 msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
-msgstr "het pad naar de map (op het aangegeven opslagapparaat) waar de mediabestanden opgeslagen dienen te worden"
+msgstr ""
 
 #: motioneye/templates/main.html:430
 msgid "Testi la reton dosierujon"
-msgstr "Test verbinding"
+msgstr ""
 
 #: motioneye/templates/main.html:431
 msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
-msgstr "druk op deze knop om de verbinding met de gedeelde map te controleren na het invullen van de benodigde gegevens"
+msgstr ""
 
 #: motioneye/templates/main.html:437
 msgid "Uzado de Disko"
-msgstr "Schijfgebruik"
+msgstr ""
 
 #: motioneye/templates/main.html:441
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
-msgstr "hoeveel van de opslagruimte van het opslagapparaat al gebruikt is"
+msgstr ""
 
 #: motioneye/templates/main.html:447
 msgid "Alŝutu Mediajn Dosierojn"
-msgstr "Upload mediabestanden"
+msgstr ""
 
 #: motioneye/templates/main.html:449
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
-msgstr "schakel dit in als u de mediabestanden wilt uploaden naar een externe dienst"
+msgstr ""
 
 #: motioneye/templates/main.html:452
 msgid "Alŝutu Bildojn"
-msgstr "Upload afbeeldingen"
+msgstr ""
 
 #: motioneye/templates/main.html:454
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
-msgstr "schakel dit in als u de gemaakte afbeeldingen wilt uploaden naar een externe dienst"
+msgstr ""
 
 #: motioneye/templates/main.html:457
 msgid "Alŝutu Filmojn"
-msgstr "Upload video's"
+msgstr ""
 
 #: motioneye/templates/main.html:459
 msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
-msgstr "schakel dit in als u de gemaakte video's wilt uploaden naar een externe dienst"
+msgstr ""
 
 #: motioneye/templates/main.html:462
 msgid "Alŝuta Servo"
-msgstr "Upload naar dienst"
+msgstr ""
 
 #: motioneye/templates/main.html:465
 msgid "Servilo FTP"
-msgstr "FTP-server"
+msgstr ""
 
 #: motioneye/templates/main.html:466
 msgid "Servilo SFTP"
-msgstr "SFTP-server"
+msgstr ""
 
 #: motioneye/templates/main.html:467
 msgid "Servilo HTTP"
-msgstr "HTTP-server"
+msgstr ""
 
 #: motioneye/templates/main.html:468
 msgid "Servilo HTTPS"
-msgstr "HTTPS-server"
+msgstr ""
 
 #: motioneye/templates/main.html:476
 msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
-msgstr "kies naar welke dienst de mediabestanden geüpload moeten worden"
+msgstr ""
 
 #: motioneye/templates/main.html:479
 msgid "Servila Adreso"
-msgstr "Serveradres"
+msgstr ""
 
 #: motioneye/templates/main.html:481
 msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
-msgstr "de domeinnaam of het IP-adres van de server (bijv. ftp.voorbeeld.nl of 192.168.1.3)"
+msgstr ""
 
 #: motioneye/templates/main.html:484
 msgid "Servila haveno"
-msgstr "Serverpoort"
+msgstr ""
 
 #: motioneye/templates/main.html:486
 msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
-msgstr "de netwerkpoort die gebruikt moet worden bij het verbinden met de dienst (laat leeg om de standaardwaarde te gebruiken)"
+msgstr ""
 
 #: motioneye/templates/main.html:489
 msgid "Metodo"
-msgstr "Methode"
+msgstr ""
 
 #: motioneye/templates/main.html:496
 msgid "la HTTP-metodo uzi por alŝuti dosierojn"
-msgstr "de HTTP-methode om te gebruiken bij het uploaden van bestanden"
+msgstr ""
 
 #: motioneye/templates/main.html:499
 msgid "Finpunkto URL"
-msgstr "Eindpunt URL"
+msgstr ""
 
 #: motioneye/templates/main.html:501
 msgid "La kompleta URL al la alŝuta servila finpunkto:"
-msgstr "De complete URL naar het uploadeindpunt op de server:"
+msgstr ""
 
 #: motioneye/templates/main.html:502
 msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
-msgstr "Voor S3: bijv. http://my.minio:9000. Laat dit veld leeg voor AWS!"
+msgstr ""
 
 #: motioneye/templates/main.html:503
 msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
-msgstr "Voor WebDAV: bijv. https://my.cloud/remote.php/dav/files/Me"
+msgstr ""
 
 #: motioneye/templates/main.html:506
 msgid "Loko"
-msgstr "Locatie"
+msgstr ""
 
 #: motioneye/templates/main.html:508
 msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
-msgstr "de locatie (hoofdmap) waar mediabestanden geüpload moeten worden (bijv. /files/cam1/)"
+msgstr ""
 
 #: motioneye/templates/main.html:511
 msgid "Inkluzivi Subdosierujojn"
-msgstr "Neem sub-mappen mee"
+msgstr ""
 
 #: motioneye/templates/main.html:513
 msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
-msgstr "schakel dit in om mediabestanden samen met hun sub-mappen te uploaden, in plaats van ze direct in de hoofdmap te plaatsen"
+msgstr ""
 
 #: motioneye/templates/main.html:516
 msgid "Purigi la nubon"
-msgstr "Cloudopslag opruimen"
+msgstr ""
 
 #: motioneye/templates/main.html:518
 msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
-msgstr "schakel dit in om bestanden te verwijderen van de cloudopslag als ze verwijderd worden door de automatische opruiming, momenteel alleen beschikbaar voor Google Drive."
+msgstr ""
 
 #: motioneye/templates/main.html:523
 msgid "la uzantnomo por la alŝuta servo-konto"
-msgstr "de gebruikersnaam voor de uploaddienst"
+msgstr ""
 
 #: motioneye/templates/main.html:528
 msgid "la pasvorto por la alŝuta servo-konto"
-msgstr "het wachtwoord voor de uploaddienst"
+msgstr ""
 
 #: motioneye/templates/main.html:531
 msgid "Rajtiga ŝlosilo"
-msgstr "Toegangssleutel"
+msgstr ""
 
 #: motioneye/templates/main.html:533
 msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "de sleutel die gebruikt zal worden om verbinden te maken met de uploaddienst (normaal alleen vereist tijdens het instellen)"
+msgstr ""
 
 #: motioneye/templates/main.html:539
 msgid "Akiri ŝlosilon"
-msgstr "Verkrijg sleutel"
+msgstr ""
 
 #: motioneye/templates/main.html:542
 msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
-msgstr "klik hier om de toegangssleutel op te halen"
+msgstr ""
 
 #: motioneye/templates/main.html:545
 msgid "Access Key"
-msgstr "Toegangssleutel"
+msgstr ""
 
 #: motioneye/templates/main.html:547
 msgid "The AWS access key used to authenticate with the upload service"
-msgstr "De AWS-toegangssleutel die gebruikt zal worden voor de uploaddienst"
+msgstr ""
 
 #: motioneye/templates/main.html:550
 msgid "Sekreta Alira Ŝlosilo"
-msgstr "Geheime toegangssleutel"
+msgstr ""
 
 #: motioneye/templates/main.html:552
 msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "de geheime AWS-toegangssleutel die gebruikt zal worden voor de uploaddienst"
+msgstr ""
 
 #: motioneye/templates/main.html:555
 msgid "Sitelo"
-msgstr "S3-Bucket"
+msgstr ""
 
 #: motioneye/templates/main.html:557
 msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
-msgstr "de naam van de S3-Bucket waarin de bestanden geüpload moeten worden (normaal alleen nodig tijdens het instellen)"
+msgstr ""
 
 #: motioneye/templates/main.html:560
 msgid "Encryption key"
-msgstr "Encryptie sleutel"
+msgstr ""
 
 #: motioneye/templates/main.html:561
 msgid "optional base64-encoded SSE-C encryption key"
-msgstr "optionele met Base64 gecodeerde SSE-C versleutelingssleutel"
+msgstr ""
 
 #: motioneye/templates/main.html:562
 msgid "Add an encryption key if you want to use server-side encryption (SSE-C). The key must be a base64-encoded string with a length of 32 bytes. This key will be needed by every client to access the encrypted files. You can generate a key using the following command: openssl rand 32 | base64"
-msgstr "Voeg een encryptiesleutel toe als u server-side encryptie (SSE-C) wilt gebruiken. De sleutel moet een met Base64 gecodeerde tekenreeks zijn met een lengte van 32 bytes. Deze sleutel is nodig voor elke client om toegang te krijgen tot de versleutelde bestanden. U kunt een sleutel genereren met de volgende command: openssl rand 32 | base64"
+msgstr ""
 
 #: motioneye/templates/main.html:566
 msgid "Testi la servon"
-msgstr "Test uploaddienst"
+msgstr ""
 
 #: motioneye/templates/main.html:567
 msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
-msgstr "druk op deze knop om de uploaddienst te testen na het invullen van de benodigde gegevens"
+msgstr ""
 
 #: motioneye/templates/main.html:573
 msgid "alvoki URL"
-msgstr "Roep een webhook aan"
+msgstr ""
 
 #: motioneye/templates/main.html:575
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
-msgstr "schakel dit in als je een webhook aan wilt roepen nadat een mediabestand aangemaakt is"
+msgstr ""
 
 #: motioneye/templates/main.html:578 motioneye/templates/main.html:1156
 #: motioneye/templates/main.html:1201
 msgid "Reteja URL"
-msgstr "Webhook url"
+msgstr ""
 
 #: motioneye/templates/main.html:579
 msgid "ekz. http://example.com/notify/"
-msgstr "bijv. https://voorbeeld.nl/notificeer/"
+msgstr ""
 
 #: motioneye/templates/main.html:580
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%f = dosiera vojo"
-msgstr "een URL die aangeroepen moet worden als een mediabestand aangemaakt wordt; de volgende speciale tekenreeksen kunnen gebruikt worden: %Y = jaar, %m = maand, %d = dag, %H = uur, %M = minuut, %q = framenummer, %v = gebeurtenisnummer, %f = bestandspad"
+msgstr ""
 
 #: motioneye/templates/main.html:583 motioneye/templates/main.html:1161
 #: motioneye/templates/main.html:1206
 msgid "Metodo HTTP"
-msgstr "HTTP-methode"
+msgstr ""
 
 #: motioneye/templates/main.html:592
 msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
-msgstr "de HTTP-methode die gebruikt moet worden voor het aanroepen van de webhook url (de opgegeven URL-gecodeerde parameters zullen verstuurd worden zoals hier opgegeven)"
+msgstr ""
 
 #: motioneye/templates/main.html:598
 msgid "Kuri Komando"
-msgstr "Voer een shellopdracht uit"
+msgstr ""
 
 #: motioneye/templates/main.html:600
 msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
-msgstr "schakel dit in als je een shellopdracht wilt uitvoeren nadat een mediabestand aangemaakt is"
+msgstr ""
 
 #: motioneye/templates/main.html:603
 msgid "Ordono"
-msgstr "Shellopdracht"
+msgstr ""
 
 #: motioneye/templates/main.html:604
 msgid "ordono…"
-msgstr "Volgorde…"
+msgstr ""
 
 #: motioneye/templates/main.html:605
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadra numero , %v = okaza numero, %f = dosiera vojo"
-msgstr "De shellopdrachtregel die uitgevoerd moet worden als een mediabestand aangemaakt wordt; de volgende speciale tekenreeksen kunnen gebruikt worden: %Y = jaar, %m = maand, %d = dag, %H = uur, %M = minuut, %q = framenummer, %v = gebeurtenisnummer, %f = bestandspad"
+msgstr ""
 
 #: motioneye/templates/main.html:615
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
-msgstr "kies welke informatie toegevoegd wordt aan de verwerkte videobeelden"
+msgstr ""
 
 #: motioneye/templates/main.html:616
 msgid "Teksto Superkovrita"
-msgstr "Tekst"
+msgstr ""
 
 #: motioneye/templates/main.html:621
 msgid "Maldekstra Teksto"
-msgstr "Tekst linksonder"
+msgstr ""
 
 #: motioneye/templates/main.html:625 motioneye/templates/main.html:642
 msgid "Tempostampo"
-msgstr "Tijdstempel"
+msgstr ""
 
 #: motioneye/templates/main.html:626 motioneye/templates/main.html:643
 msgid "Propra Teksto"
-msgstr "Aangepaste tekst"
+msgstr ""
 
 #: motioneye/templates/main.html:627 motioneye/templates/main.html:644
 #: motioneye/templates/main.html:701
 msgid "Malebligita"
-msgstr "Uitgeschakeld"
+msgstr ""
 
 #: motioneye/templates/main.html:630
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
-msgstr "kies welke tekst getoond wordt in de linkeronderhoek van verwerkte videobeelden"
+msgstr ""
 
 #: motioneye/templates/main.html:634 motioneye/templates/main.html:651
 msgid "propra teksto…"
-msgstr "Aangepaste tekst…"
+msgstr ""
 
 #: motioneye/templates/main.html:635
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio"
-msgstr "stel een aangepaste tekst in voor linksonder in het beeld; de volgende speciale tekenreeksen kunnen gebruikt worden: %Y = jaar, %m = maand, %d = dag, %H = uur, %M = minuut, %S = seconde, %q = framenummer, %v = gebeurtenisnummer, %T = tijd als HH:MM:SS, \\n = een nieuwe regel"
+msgstr ""
 
 #: motioneye/templates/main.html:638
 msgid "Dekstra Teksto"
-msgstr "Tekst rechtsonder"
+msgstr ""
 
 #: motioneye/templates/main.html:647
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
-msgstr "kies welke tekst getoond wordt in de rechteronderhoek van verwerkte videobeelden"
+msgstr ""
 
 #: motioneye/templates/main.html:652
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio"
-msgstr "stel een aangepaste tekst in voor rechtsonder in het beeld; de volgende speciale tekenreeksen kunnen gebruikt worden: %Y = jaar, %m = maand, %d = dag, %H = uur, %M = minuut, %S = seconde, %q = framenummer, %v = gebeurtenisnummer, %T = tijd als HH:MM:SS, \\n = een nieuwe regel"
+msgstr ""
 
 #: motioneye/templates/main.html:655
 msgid "Teksta Skalo"
-msgstr "Tekstgrootte"
+msgstr ""
 
 #: motioneye/templates/main.html:657
 msgid "Difinas la grandecon de la superkovrita teksto"
-msgstr "stelt in hoe groot de toegevoegde tekst getoond moet worden"
+msgstr ""
 
 #: motioneye/templates/main.html:667
 msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
-msgstr "schakel dit in als u het streamen van de camerabeelden wilt inschakelen"
+msgstr ""
 
 #: motioneye/templates/main.html:668
 msgid "Videofluo"
-msgstr "Videobeelden streamen"
+msgstr ""
 
 #: motioneye/templates/main.html:673
 msgid "Framo frekvencon"
-msgstr "Beeldverversingssnelheid videostream"
+msgstr ""
 
 #: motioneye/templates/main.html:675
 msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
-msgstr "stelt in hoeveel beelden per seconden verstuurd worden voor het live-streamen van de camerabeelden."
+msgstr ""
 
 #: motioneye/templates/main.html:678
 msgid "Flua Kvalito"
-msgstr "Stream kwaliteit"
+msgstr ""
 
 #: motioneye/templates/main.html:680
 msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
-msgstr "stelt de kwaliteit van de livestream in (hogere waarden zorgen voor hogere beeldkwaliteit, maar vereisen meer bandbreedte)."
+msgstr ""
 
 #: motioneye/templates/main.html:683
 msgid "Bilda Redimensionado"
-msgstr "Livestreambeelden verkleinen"
+msgstr ""
 
 #: motioneye/templates/main.html:685
 msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
-msgstr "als dit ingeschakeld wordt zullen de beelden verkleind worden voor ze naar de browser verstuurd worden (niet inschakelen op een zwakke CPU)."
+msgstr ""
 
 #: motioneye/templates/main.html:688
 msgid "Flua rezolucio"
-msgstr "Livestream resolutie"
+msgstr ""
 
 #: motioneye/templates/main.html:690
 msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
-msgstr "de livestreamresolutie als percentage van de bronresolutie (hogere waarden geven betere kwaliteit maar vereisen ook meer bandbreedte)"
+msgstr ""
 
 #: motioneye/templates/main.html:693
 msgid "Flua haveno"
-msgstr "Livestream netwerkpoort"
+msgstr ""
 
 #: motioneye/templates/main.html:695
 msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
-msgstr "stelt in welke TCP-poort gebruikt zal worden voor de livestreamserver"
+msgstr ""
 
 #: motioneye/templates/main.html:698
 msgid "Aŭtentiga reĝimo"
-msgstr "Authenticatie-methode"
+msgstr ""
 
 #: motioneye/templates/main.html:706
 msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "de HTTP authenticatiemethode die gebruikt zal worden voor het afschermen van de livestream (kies voor Basic in plaasts van Digest als je problemen met externe applicaties ervaart); de toezichthoudersgegevens zullen gebruikt worden voor het afschermen van de livestream"
+msgstr ""
 
 #: motioneye/templates/main.html:711
 msgid "username used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."
-msgstr "Gebruikersnaam die wordt gebruikt voor videostreaming-authenticatie. Wanneer alleen-beheerderstoegang is ingeschakeld, gebruik dan andere inloggegevens dan die van de toezichthouder."
+msgstr ""
 
 #: motioneye/templates/main.html:716
 msgid "password used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."
-msgstr "Wachtwoord dat wordt gebruikt voor videostreaming-authenticatie. Wanneer alleen-beheerderstoegang is ingeschakeld, gebruik dan andere inloggegevens dan die van de toezichthouder."
+msgstr ""
 
 #: motioneye/templates/main.html:719
 msgid "Movado-Optimigo"
-msgstr "Optimaliseer voor beweging"
+msgstr ""
 
 #: motioneye/templates/main.html:721
 msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
-msgstr "schakel dit in als de verversingssnelheid verlaag moet worden als er geen beweging gedetecteerd wordt"
+msgstr ""
 
 #: motioneye/templates/main.html:727
 msgid "Utilaj URLoj"
-msgstr "Handige URL's"
+msgstr ""
 
 #: motioneye/templates/main.html:730
 msgid "Instantara URL"
-msgstr "Momentopname URL"
+msgstr ""
 
 #: motioneye/templates/main.html:733
 msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
-msgstr "deze URL verwijst naar een JPEG-afbeelding met de laatste momentopname van het videoapparaat"
+msgstr ""
 
 #: motioneye/templates/main.html:739
 msgid "Flua URL"
-msgstr "Livestream URL"
+msgstr ""
 
 #: motioneye/templates/main.html:742
 msgid "URL kiu provizas MJPEG-fluon de la kamerao"
-msgstr "deze URL verwijst naar de MJPEG livestream van het apparaat"
+msgstr ""
 
 #: motioneye/templates/main.html:748
 msgid "Enigita URL"
-msgstr "Insluit URL"
+msgstr ""
 
 #: motioneye/templates/main.html:751
 msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
-msgstr "deze URL kunt u gebruiken om een liveviewer in te sluiten op uw eigen webpagina, gebruik hiervoor een iframe"
+msgstr ""
 
 #: motioneye/templates/main.html:761
 msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
-msgstr "schakel dit in als u regelmatig afbeeldingen wilt maken."
+msgstr ""
 
 #: motioneye/templates/main.html:762
 msgid "Kaptitaj Bildoj"
-msgstr "Afbeeldingen vastleggen"
+msgstr ""
 
 #: motioneye/templates/main.html:767
 msgid "Nomo Bildo-Dosiero"
-msgstr "Bestandsnaam"
+msgstr ""
 
 #: motioneye/templates/main.html:768 motioneye/templates/main.html:837
 msgid "dosiernomo ŝablono…"
-msgstr "Bestandsnaamsjabloon…"
+msgstr ""
 
 #: motioneye/templates/main.html:769
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero, / = subdosierujo."
-msgstr "stelt het bestandsnaamsjabloon in dat gebruikt zal worden om de bestandsnaam van de (JPEG) afbeeldingen te bepalen; de volgende speciale tekenreeksen kunnen gebruikt worden: %Y = jaar, %m = maand, %d = dag, %H = uur, %M = minuut, %q = framenummer, %v = gebeurtenisnummer, / = submap."
+msgstr ""
 
 #: motioneye/templates/main.html:772
 msgid "Bildkvalito"
-msgstr "Afbeeldingskwaliteit"
+msgstr ""
 
 #: motioneye/templates/main.html:774
 msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
-msgstr "stelt de JPEG afbeeldingskwaliteit in (hogere waarden zorgen voor een beter beeld, maar gebruiken ook meer opslagruimte)"
+msgstr ""
 
 #: motioneye/templates/main.html:777
 msgid "Kaptila reĝimo"
-msgstr "Opnamemodus"
+msgstr ""
 
 #: motioneye/templates/main.html:780 motioneye/templates/main.html:900
 msgid "Moviĝa deĉenigo"
-msgstr "Getriggerd door beweging"
+msgstr ""
 
 #: motioneye/templates/main.html:781
 msgid "Moviĝa deĉenigo (Unu bildo)"
-msgstr "Getriggerd door beweging (één afbeelding)"
+msgstr ""
 
 #: motioneye/templates/main.html:782
 msgid "Intertempe"
-msgstr "Vaste interval"
+msgstr ""
 
 #: motioneye/templates/main.html:783
 msgid "Ĉiuj bildoj"
-msgstr "Alle beelden"
+msgstr ""
 
 #: motioneye/templates/main.html:784
 msgid "Mane"
-msgstr "Handmatig"
+msgstr ""
 
 #: motioneye/templates/main.html:787
 msgid "Difinas la kapta reĝimon:"
-msgstr "stelt de beeldopnamemodus in:"
+msgstr ""
 
 #: motioneye/templates/main.html:788
 msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
-msgstr "Getriggerd door beweging = een momentopname wordt gemaakt als er beweging gedetecteerd wordt"
+msgstr ""
 
 #: motioneye/templates/main.html:789
 msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
-msgstr "Vaste interval = een momentopname wordt om het aangegeven aantal seconden gemaakt"
+msgstr ""
 
 #: motioneye/templates/main.html:790
 msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
-msgstr "Alle beelden = alle beelden vanuit het apparaat worden opgeslagen als afbeelding"
+msgstr ""
 
 #: motioneye/templates/main.html:791
 msgid "Mane = mana kapto kun dediĉita butono."
-msgstr "Handmatig = momentopnamen worden alleen gemaakt als op de momentopname knop gedrukt wordt."
+msgstr ""
 
 #: motioneye/templates/main.html:794
 msgid "Interkapto-Intervalo"
-msgstr "Interval"
+msgstr ""
 
 #: motioneye/templates/main.html:795 motioneye/templates/main.html:908
 #: motioneye/templates/main.html:983 motioneye/templates/main.html:1112
 #: motioneye/utils/dtconv.py:154 motioneye/utils/dtconv.py:157
 msgid "sekundoj"
-msgstr "seconden"
+msgstr ""
 
 #: motioneye/templates/main.html:796
 msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
-msgstr "geeft aan hoeveel seconden tussen momentopnamen moeten zitten"
+msgstr ""
 
 #: motioneye/templates/main.html:799
 msgid "Konservi bildojn"
-msgstr "Bewaar afbeeldingen"
+msgstr ""
 
 #: motioneye/templates/main.html:802 motioneye/templates/main.html:915
 msgid "Dum unu tago"
-msgstr "Eén dag"
+msgstr ""
 
 #: motioneye/templates/main.html:803 motioneye/templates/main.html:916
 msgid "Dum unu semajno"
-msgstr "Eén week"
+msgstr ""
 
 #: motioneye/templates/main.html:804 motioneye/templates/main.html:917
 msgid "Dum unu monato"
-msgstr "Eén maand"
+msgstr ""
 
 #: motioneye/templates/main.html:805 motioneye/templates/main.html:918
 msgid "Dum unu jaro"
-msgstr "Eén jaar"
+msgstr ""
 
 #: motioneye/templates/main.html:806 motioneye/templates/main.html:919
 msgid "Porĉiame"
-msgstr "Voor altijd"
+msgstr ""
 
 #: motioneye/templates/main.html:807 motioneye/templates/main.html:920
 msgid "Propra"
-msgstr "Aangepast"
+msgstr ""
 
 #: motioneye/templates/main.html:810
 msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
-msgstr "Afbeeldingen ouder dan de aangegeven tijdsduur zullen automatisch verwijderd worden om opslagruimte te besparen."
+msgstr ""
 
 #: motioneye/templates/main.html:813
 msgid "Bildaj Vivdaŭro"
-msgstr "Afbeelding bewaartijd"
+msgstr ""
 
 #: motioneye/templates/main.html:815
 msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
-msgstr "Geeft aan na hoeveel dagen afbeeldingen automatisch verwijderd zullen worden."
+msgstr ""
 
 #: motioneye/templates/main.html:818
 msgid "Ebligu manaj kaptoj"
-msgstr "Schakel handmatige momentopnamen in"
+msgstr ""
 
 #: motioneye/templates/main.html:820
 msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
-msgstr "Als dit ingeschakeld is zal een knop in het camerabeeld het mogelijk maken om een momentopname te maken."
+msgstr ""
 
 #: motioneye/templates/main.html:830
 msgid "ebligu ĉi tion, se vi volas registri filmojn"
-msgstr "Schakel dit in als je video's wilt opnemen"
+msgstr ""
 
 #: motioneye/templates/main.html:831
 msgid "Filmoj"
-msgstr "Video's"
+msgstr ""
 
 #: motioneye/templates/main.html:836
 msgid "Filma Dosiernomo"
-msgstr "Bestandsnaam"
+msgstr ""
 
 #: motioneye/templates/main.html:838
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero, / = subdosierujo."
-msgstr "stelt het bestandsnaamsjabloon in dat gebruikt zal worden om de bestandsnaam van de videobestanden te bepalen; de volgende speciale tekenreeksen kunnen gebruikt worden: %Y = jaar, %m = maand, %d = dag, %H = uur, %M = minuut, %q = framenummer, %v = gebeurtenisnummer, / = submap."
+msgstr ""
 
 #: motioneye/templates/main.html:841
 msgid "Rekta kopia filmeto"
-msgstr "Videobeeld rechtstreeks gebruiken"
+msgstr ""
 
 #: motioneye/templates/main.html:843
 msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
-msgstr "Maak video-opnamen rechtstreeks van de beelden die vanuit het videoapparaat komen. Deze optie verlaagt CPU-gebruik significant maar verhoogt geheugen gebruik. Indien ingeschakeld worden beelden niet bewerkt dus toegevoegde teksten, privacy maskers etc. zullen niet in de video-opname verwerkt worden."
+msgstr ""
 
 #: motioneye/templates/main.html:846
 msgid "Filmformato"
-msgstr "Videoformaat"
+msgstr ""
 
 #: motioneye/templates/main.html:889
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
-msgstr "Stelt het te gebruiken videoformaat in. Niet alle formaten zullen op ieder systeem werken, bij twijfel probeer ieder formaat en kijk wat het beste werkt."
+msgstr ""
 
 #: motioneye/templates/main.html:892
 msgid "Filma Kvalito"
-msgstr "Beeldkwaliteit"
+msgstr ""
 
 #: motioneye/templates/main.html:894
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
-msgstr "Stelt de MPEG videokwaliteit in (hogere waarden zorgen voor beter beeld, maar vereisen ook meer opslagruimte)."
+msgstr ""
 
 #: motioneye/templates/main.html:897
 msgid "Rekorda reĝimo"
-msgstr "Opnamemodus"
+msgstr ""
 
 #: motioneye/templates/main.html:901
 msgid "Kontinua registrado"
-msgstr "Continu opnemen"
+msgstr ""
 
 #: motioneye/templates/main.html:904
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
-msgstr "Stelt de opnamemodus in: Getriggerd door beweging = een nieuwe video wordt gemaakt als er beweging gedetecteerd wordt, Continu opnemen maakt één groot videobestand."
+msgstr ""
 
 #: motioneye/templates/main.html:907
 msgid "Maksimuma filma daŭro"
-msgstr "Maximale video lengte"
+msgstr ""
 
 #: motioneye/templates/main.html:909
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
-msgstr "Stelt de maximale videolengte in seconden in. Als een bewegingsgebeurtenis langer duurt zullen meerdere bestanden aangemaakt worden. Gebruik 0 voor onbeperkte videolengte."
+msgstr ""
 
 #: motioneye/templates/main.html:912
 msgid "Konservi filmojn"
-msgstr "Bewaar video's"
+msgstr ""
 
 #: motioneye/templates/main.html:923
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
-msgstr "Video's ouder dan de opgegeven tijdsduur zullen verwijderd worden om opslagruimte te besparen."
+msgstr ""
 
 #: motioneye/templates/main.html:926
 msgid "Filmoj Vivdaŭro"
-msgstr "Video bewaartijd"
+msgstr ""
 
 #: motioneye/templates/main.html:927 motioneye/utils/dtconv.py:133
 msgid "tagoj"
-msgstr "dagen"
+msgstr ""
 
 #: motioneye/templates/main.html:928
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
-msgstr "stelt het aantal dagen in waarna video's verwijderd zullen worden."
+msgstr ""
 
 #: motioneye/templates/main.html:938
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
-msgstr "Schakel dit in om bewegingsdetectie te gebruiken."
+msgstr ""
 
 #: motioneye/templates/main.html:939
 msgid "Movado-Detekto"
-msgstr "Bewegingsdetectie"
+msgstr ""
 
 #: motioneye/templates/main.html:944
 msgid "Kadra ŝanĝo sojlo"
-msgstr "Drempelwaarde beeldveranderingen"
+msgstr ""
 
 #: motioneye/templates/main.html:946
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
-msgstr "geeft aan hoeveel procent van het beeld veranderd moet zijn tussen twee opnames om als beweging geregistreerd te worden (kleinere waarden zorgen voor gevoeligere detectie maar zorgen ook eerder voor valse registraties)."
+msgstr ""
 
 #: motioneye/templates/main.html:949
 msgid "Maksimuma ŝanĝo sojlo"
-msgstr "Drempelwaardegrens beeldwijziging"
+msgstr ""
 
 #: motioneye/templates/main.html:951
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
-msgstr "stelt in hoeveel pixels maximaal mogen wijzigen om nog als beweging geregistreerd te worden."
+msgstr ""
 
 #: motioneye/templates/main.html:954
 msgid "Aŭtomata sojla agordo"
-msgstr "Automatische drempelwaarden"
+msgstr ""
 
 #: motioneye/templates/main.html:956
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
-msgstr "Schakel dit in om automatisch de drempelwaarden af te stellen."
+msgstr ""
 
 #: motioneye/templates/main.html:959
 msgid "Aŭtomata bruo-detekto"
-msgstr "Automatische ruisdetectie"
+msgstr ""
 
 #: motioneye/templates/main.html:961
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
-msgstr "Schakel dit in om automatisch de het ruisniveau af te stellen."
+msgstr ""
 
 #: motioneye/templates/main.html:964
 msgid "Bruo-nivelo"
-msgstr "Ruisniveau"
+msgstr ""
 
 #: motioneye/templates/main.html:966
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
-msgstr "Zet het ruisniveau op een vaste waarde."
+msgstr ""
 
 #: motioneye/templates/main.html:969
 msgid "Detekto de lumaj ŝanĝoj"
-msgstr "Detectie van lichtomschakelmomenten"
+msgstr ""
 
 #: motioneye/templates/main.html:971
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
-msgstr "Definieert het percentage van het beeld dat moet worden gewijzigd zodat de gebeurtenis wordt behandeld als een plotselinge lichtverandering in plaats van beweging (0% schakelt de functie uit)."
+msgstr ""
 
 #: motioneye/templates/main.html:974
 msgid "Makula filtrilo"
-msgstr "Ontspikkelfilter"
+msgstr ""
 
 #: motioneye/templates/main.html:976
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
-msgstr "Schakel dit in om een ontspikkelfilter toe te passen op beelden voordat beweging wordt gedetecteerd."
+msgstr ""
 
 #: motioneye/templates/main.html:982
 msgid "Senmovada daŭro"
-msgstr "Statische duur"
+msgstr ""
 
 #: motioneye/templates/main.html:984
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
-msgstr "Stelt het aantal seconden stilte in (dwz geen beweging) die het einde van een bewegingsgebeurtenis markeren."
+msgstr ""
 
 #: motioneye/templates/main.html:987
 msgid "Kaptita Antaŭe"
-msgstr "Eerder vastgelegd"
+msgstr ""
 
 #: motioneye/templates/main.html:988 motioneye/templates/main.html:993
 #: motioneye/templates/main.html:998
 msgid "kadroj"
-msgstr "frames"
+msgstr ""
 
 #: motioneye/templates/main.html:989
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
-msgstr "Stelt het aantal frames in dat wordt vastgelegd (en in de film wordt opgenomen) voordat een bewegingsgebeurtenis wordt gedetecteerd."
+msgstr ""
 
 #: motioneye/templates/main.html:992
 msgid "Kaptita Post"
-msgstr "Vastgelegd na"
+msgstr ""
 
 #: motioneye/templates/main.html:994
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
-msgstr "Stelt het aantal frames in dat moet worden vastgelegd (en in de film moet worden opgenomen) na het einde van een bewegingsgebeurtenis."
+msgstr ""
 
 #: motioneye/templates/main.html:997
 msgid "Minimumaj movaj kadroj"
-msgstr "Minimale bewegingsframes"
+msgstr ""
 
 #: motioneye/templates/main.html:999
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
-msgstr "Stelt het minimum aantal verdere bewegingsframes in dat nodig is om een bewegingsgebeurtenis te starten."
+msgstr ""
 
 #: motioneye/templates/main.html:1005
 msgid "Masko"
-msgstr "Masker"
+msgstr ""
 
 #: motioneye/templates/main.html:1007
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
-msgstr "Maakt beeldmaskering mogelijk voor selectievere en nauwkeurigere bewegingsdetectie."
+msgstr ""
 
 #: motioneye/templates/main.html:1010
 msgid "Tipo de masko"
-msgstr "Type masker"
+msgstr ""
 
 #: motioneye/templates/main.html:1013
 msgid "Inteligenta"
-msgstr "Intelligent"
+msgstr ""
 
 #: motioneye/templates/main.html:1014
 msgid "Redaktebla"
-msgstr "Bewerkbaar"
+msgstr ""
 
 #: motioneye/templates/main.html:1017
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
-msgstr "De Smart-optie detecteert automatisch regio's met regelmatige beweging en creëert dynamisch een binnenmasker, terwijl u met de bewerkbare optie het zelf handmatig kunt maken."
+msgstr ""
 
 #: motioneye/templates/main.html:1020
 msgid "Inteligenta-maska Malrapideco"
-msgstr "Smart-mask traagheid"
+msgstr ""
 
 #: motioneye/templates/main.html:1022
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
-msgstr "Hogere waarden geven een duurzamer masker met een langzamer bouwproces."
+msgstr ""
 
 #: motioneye/templates/main.html:1031
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
-msgstr "Druk op deze knop om de maskeringbewerktool in/uit te schakelen."
+msgstr ""
 
 #: motioneye/templates/main.html:1035
 msgid "Purigi maskon"
-msgstr "Masker verwijderen"
+msgstr ""
 
 #: motioneye/templates/main.html:1036
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
-msgstr "Klik op deze knop om het huidige masker te verwijderen."
+msgstr ""
 
 #: motioneye/templates/main.html:1042
 msgid "Montri Kadro-Ŝanĝojn"
-msgstr "Framewijzigingen weergeven"
+msgstr ""
 
 #: motioneye/templates/main.html:1044
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
-msgstr "Als dit actief is, worden de beeldveranderingen (aantal pixels en het gewijzigde gebied) in de video getoond; schakel dit tijdelijk in om de instellingen voor bewegingsdetectie aan te passen."
+msgstr ""
 
 #: motioneye/templates/main.html:1047
 msgid "Krei debug media files"
-msgstr "Mediabestanden voor foutopsporing maken"
+msgstr ""
 
 #: motioneye/templates/main.html:1049
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
-msgstr "Indien ingeschakeld, worden speciale films en afbeeldingen gemaakt die helpen bij het oplossen van problemen met bewegingsdetectie."
+msgstr ""
 
 #: motioneye/templates/main.html:1058
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
-msgstr "Schakel dit in als u een melding wilt ontvangen wanneer er beweging wordt gedetecteerd."
+msgstr ""
 
 #: motioneye/templates/main.html:1059
 msgid "Moviĝaj sciigoj"
-msgstr "Bewegingsmeldingen"
+msgstr ""
 
 #: motioneye/templates/main.html:1071
 msgid "Sendi retpoŝton"
-msgstr "Stuur een email"
+msgstr ""
 
 #: motioneye/templates/main.html:1073
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
-msgstr "Activeer deze optie als u een e-mail wilt ontvangen telkens wanneer een bewegingsgebeurtenis wordt gedetecteerd."
+msgstr ""
 
 #: motioneye/templates/main.html:1076
 msgid "Retpoŝtadresoj"
-msgstr "E-mailadressen"
+msgstr ""
 
 #: motioneye/templates/main.html:1077
 msgid "retpoŝtadresoj…"
-msgstr "E-mailadressen…"
+msgstr ""
 
 #: motioneye/templates/main.html:1078
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
-msgstr "E-mailadressen (gescheiden door komma's) die hier worden toegevoegd, ontvangen meldingen wanneer een bewegingsgebeurtenis wordt gedetecteerd."
+msgstr ""
 
 #: motioneye/templates/main.html:1081
 msgid "Servilo SMTP"
-msgstr "SMTP-server"
+msgstr ""
 
 #: motioneye/templates/main.html:1082
 msgid "ekz. smtp.gmail.com"
-msgstr "bijv. smtp.gmail.com"
+msgstr ""
 
 #: motioneye/templates/main.html:1083
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
-msgstr "Voer de hostnaam of het IP-adres van uw SMTP-server in (voor het gebruik van Gmail smtp.gmail.com)."
+msgstr ""
 
 #: motioneye/templates/main.html:1086
 msgid "SMTP Haveno"
-msgstr "SMTP-poort"
+msgstr ""
 
 #: motioneye/templates/main.html:1087
 msgid "ekz. 587"
-msgstr "bijv. 587"
+msgstr ""
 
 #: motioneye/templates/main.html:1088
 msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
-msgstr "Voer de poort in die door uw SMTP-server wordt gebruikt (meestal 465 voor niet-TLS-verbindingen en 587 voor TLS-verbindingen)."
+msgstr ""
 
 #: motioneye/templates/main.html:1091
 msgid "SMTP-Konto"
-msgstr "SMTP-account"
+msgstr ""
 
 #: motioneye/templates/main.html:1092
 msgid "konto@gmail.com…"
-msgstr "account@gmail.com…"
+msgstr ""
 
 #: motioneye/templates/main.html:1093
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
-msgstr "Voer uw SMTP-account in (meestal uw e-mailadres)."
+msgstr ""
 
 #: motioneye/templates/main.html:1096
 msgid "SMTP Pasvorto"
-msgstr "SMTP-wachtwoord"
+msgstr ""
 
 #: motioneye/templates/main.html:1098
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
-msgstr "Voer uw SMTP-wachtwoord in (gebruik voor Gmail uw Google-wachtwoord of een app-specifiek gegenereerd wachtwoord)."
+msgstr ""
 
 #: motioneye/templates/main.html:1101
 msgid "De adreso"
-msgstr "Van adres"
+msgstr ""
 
 #: motioneye/templates/main.html:1102
 msgid "retpoŝta adreso…"
-msgstr "e-mailadres…"
+msgstr ""
 
 #: motioneye/templates/main.html:1103
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
-msgstr "Stel een aangepast Van-adres in als uw SMTP-service dit vereist (het eerste bestemmings-e-mailadres wordt gebruikt als dit leeg wordt gelaten)."
+msgstr ""
 
 #: motioneye/templates/main.html:1106
 msgid "Uzi TLS"
-msgstr "TLS gebruiken"
+msgstr ""
 
 #: motioneye/templates/main.html:1108
 msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
-msgstr "Schakel dit in als uw SMTP-server TLS vereist (voor Gmail is het nodig om dit in te schakelen)."
+msgstr ""
 
 #: motioneye/templates/main.html:1111
 msgid "Aldonitaj bildoj tempo-intervalo"
-msgstr "Time-lapse afbeeldingen toegevoegd"
+msgstr ""
 
 #: motioneye/templates/main.html:1113
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
-msgstr "Definieert het zoektijdinterval dat moet worden gebruikt bij het maken van e-maillinks (hogere waarden genereren e-mails met meer afbeeldingen ten koste van een langere meldingsvertraging); stel in op 0 om toegevoegde afbeeldingen uit te schakelen; je moet ook «Afbeeldingen vastleggen» inschakelen om dit te laten werken."
+msgstr ""
 
 #: motioneye/templates/main.html:1117
 msgid "Testi retpoŝto"
-msgstr "Test e-mail"
+msgstr ""
 
 #: motioneye/templates/main.html:1118
 msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
-msgstr "Klik op deze knop om e-mailmeldingen te testen nadat u de benodigde gegevens hebt ingevuld."
+msgstr ""
 
 #: motioneye/templates/main.html:1124
 msgid "Sendu Telegraman Sciigon"
-msgstr "Telegram-melding verzenden"
+msgstr ""
 
 #: motioneye/templates/main.html:1126
 msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
-msgstr "schakel dit in als u een telegrambericht wilt ontvangen wanneer een bewegingsgebeurtenis wordt gedetecteerd"
+msgstr ""
 
 #: motioneye/templates/main.html:1129
 msgid "HTTP API ĵetono"
-msgstr "HTTP API-token"
+msgstr ""
 
 #: motioneye/templates/main.html:1130
 msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
-msgstr "Voorbeeld: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
+msgstr ""
 
 #: motioneye/templates/main.html:1131
 msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
-msgstr "Bij het maken van de telegrambot-chat ontvangt u een API-token, die u hier moet invoeren. Klik op de API-knop hieronder voor een stapsgewijze handleiding voor het verkrijgen van uw API-token. Zorg er ook voor dat u met uw nieuw gemaakte «bot» chat nadat uw sleutel is gegenereerd, om er zeker van te zijn dat u berichten ontvangt."
+msgstr ""
 
 #: motioneye/templates/main.html:1134
 msgid "Babileja ID"
-msgstr "Chat-ID"
+msgstr ""
 
 #: motioneye/templates/main.html:1135
 msgid "Ekzemplo: 938272312"
-msgstr "Voorbeeld: 938272312"
+msgstr ""
 
 #: motioneye/templates/main.html:1136
 msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
-msgstr "Maak een nieuwe chat aan voor id_chatbot (@id_chatbot) en selecteer start. De chat retourneert het benodigde nummer voor dit veld."
+msgstr ""
 
 #: motioneye/templates/main.html:1139
 msgid "Alkroĉitaj Bildoj Tempo"
-msgstr "Tijd bijgevoegde afbeeldingen"
+msgstr ""
 
 #: motioneye/templates/main.html:1141
 msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
-msgstr "definieert het tijdsinterval voor het zoeken naar afbeeldingen voor het maken van telegrambijlagen (hogere waarden genereren meer afbeeldingen ten koste van een langere meldingsvertraging); stel in op 0 om afbeeldingsbijlagen uit te schakelen; je moet ook stilstaande beelden inschakelen om dit te laten werken; je zult met dit nummer willen spelen totdat een foto is verzonden. Een goed startgetal is 30 als u stilstaande beelden instelt op één geactiveerde beeldbeweging. Stel dit veel lager in voor standaardbewegingen die worden geactiveerd."
+msgstr ""
 
 #: motioneye/templates/main.html:1144
 msgid "API-Informoj"
-msgstr "API-informatie"
+msgstr ""
 
 #: motioneye/templates/main.html:1145
 msgid "Testo"
-msgstr "Testen"
+msgstr ""
 
 #: motioneye/templates/main.html:1151 motioneye/templates/main.html:1196
 msgid "Alvoki URL"
-msgstr "Webhook URL"
+msgstr ""
 
 #: motioneye/templates/main.html:1153
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
-msgstr "Schakel dit in als u wilt dat een URL wordt gevraagd wanneer een bewegingsgebeurtenis wordt gedetecteerd."
+msgstr ""
 
 #: motioneye/templates/main.html:1157
 msgid "ekz. http://ekzemplo.com/sciigi/"
-msgstr "bijv. http://voorbeeld.com/sciigi/"
+msgstr ""
 
 #: motioneye/templates/main.html:1158
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadro-numero, %v = okaza numero"
-msgstr "URL die moet worden opgevraagd wanneer beweging wordt gedetecteerd; de volgende speciale sneltoetsen worden geaccepteerd: %Y = jaar, %m = maand, %d = dag, %H = uur, %M = minuut, %S = seconde, %q = framenummer, %v = gebeurtenisnummer"
+msgstr ""
 
 #: motioneye/templates/main.html:1170 motioneye/templates/main.html:1215
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
-msgstr "De HTTP-methode die moet worden gebruikt bij het aanvragen van een URL (de opgegeven URL-parameters worden doorgegeven zoals hier aangegeven)."
+msgstr ""
 
 #: motioneye/templates/main.html:1176 motioneye/templates/main.html:1221
 msgid "Lanĉi komando"
-msgstr "Opdracht starten"
+msgstr ""
 
 #: motioneye/templates/main.html:1178
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
-msgstr "Schakel dit in als u een opdracht wilt uitvoeren telkens wanneer een bewegingsgebeurtenis wordt gedetecteerd."
+msgstr ""
 
 #: motioneye/templates/main.html:1181 motioneye/templates/main.html:1226
 msgid "Komando"
-msgstr "Opdracht"
+msgstr ""
 
 #: motioneye/templates/main.html:1182 motioneye/templates/main.html:1227
 msgid "komando…"
-msgstr "opdracht…"
+msgstr ""
 
 #: motioneye/templates/main.html:1183
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadro-numero, %v = okaza numero"
-msgstr "Commando dat moet worden gestart wanneer beweging wordt gedetecteerd; meerdere opdrachten kunnen worden gescheiden door een dubbele punt; gebruik geen puntkomma's bij opdrachten; de volgende speciale tokens worden geaccepteerd: %Y = jaar, %m = maand, %d = dag, %H = uur, %M = minuut, %S = seconde, %q = framenummer, %v = gebeurtenisnummer"
+msgstr ""
 
 #: motioneye/templates/main.html:1223
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
-msgstr "Schakel dit in als u een opdracht wilt uitvoeren telkens wanneer een bewegingsgebeurtenis is gedetecteerd."
+msgstr ""
 
 #: motioneye/templates/main.html:1228
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = dato, %H = horo, %M = minuto, %S = sekundo, %q = kadra nombro."
-msgstr "Opdracht die moet worden gestart wanneer de bewegingsgebeurtenis eindigt; meerdere opdrachten kunnen worden gescheiden door een puntkomma; gebruik geen puntkomma's binnen de opdrachten zelf; de volgende speciale tokens worden geaccepteerd: %Y = jaar, %m = maand, %d = datum, %H = uur, %M = minuut, %S = seconde, %q = framenummer."
+msgstr ""
 
 #: motioneye/templates/main.html:1238
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
-msgstr "Schakel dit in als u een weekschema voor bewegingsdetectie wilt definiëren."
+msgstr ""
 
 #: motioneye/templates/main.html:1239
 msgid "Laboranta horaro"
-msgstr "Werkschema"
+msgstr ""
 
 #: motioneye/templates/main.html:1244
 msgid "Lundo"
-msgstr "Maandag"
+msgstr ""
 
 #: motioneye/templates/main.html:1247
 msgid "de"
-msgstr "van"
+msgstr ""
 
 #: motioneye/templates/main.html:1248
 msgid "ĝis"
-msgstr "tot"
+msgstr ""
 
 #: motioneye/templates/main.html:1250
 msgid "Fiksas la labortagan tempintervalon por lundoj."
-msgstr "Stelt het tijdbereik voor maandagen in."
+msgstr ""
 
 #: motioneye/templates/main.html:1253
 msgid "Mardo"
-msgstr "dinsdag"
+msgstr ""
 
 #: motioneye/templates/main.html:1259
 msgid "Fiksas la labortagan tempintervalon por mardoj."
-msgstr "Stelt het tijdbereik voor dinsdagen in."
+msgstr ""
 
 #: motioneye/templates/main.html:1262
 msgid "Merkredo"
-msgstr "Woensdag"
+msgstr ""
 
 #: motioneye/templates/main.html:1268
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
-msgstr "Stelt het tijdbereik voor woensdagen in."
+msgstr ""
 
 #: motioneye/templates/main.html:1271
 msgid "Ĵaŭdo"
-msgstr "Donderdag"
+msgstr ""
 
 #: motioneye/templates/main.html:1277
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
-msgstr "Stelt het tijdbereik voor donderdagen in."
+msgstr ""
 
 #: motioneye/templates/main.html:1280
 msgid "Vendredo"
-msgstr "Vrijdag"
+msgstr ""
 
 #: motioneye/templates/main.html:1286
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
-msgstr "Stelt het tijdbereik voor vrijdagen in."
+msgstr ""
 
 #: motioneye/templates/main.html:1289
 msgid "Sabato"
-msgstr "Zaterdag"
+msgstr ""
 
 #: motioneye/templates/main.html:1295
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
-msgstr "Stelt het tijdbereik voor zaterdagen in."
+msgstr ""
 
 #: motioneye/templates/main.html:1298
 msgid "Dimanĉo"
-msgstr "Zondag"
+msgstr ""
 
 #: motioneye/templates/main.html:1304
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
-msgstr "Stelt het tijdbereik voor zondagen in."
+msgstr ""
 
 #: motioneye/templates/main.html:1307
 msgid "Detekti movadon"
-msgstr "Beweging detecteren"
+msgstr ""
 
 #: motioneye/templates/main.html:1310
 msgid "Dum laborista horaro"
-msgstr "Tijdens werkuren"
+msgstr ""
 
 #: motioneye/templates/main.html:1311
 msgid "Ekster laborista horaro"
-msgstr "Buiten werkuren"
+msgstr ""
 
 #: motioneye/templates/main.html:1314
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
-msgstr "Definieert of bewegingsdetectie actief moet zijn binnen of buiten werkuren."
+msgstr ""
 
 #: motioneye/utils/dtconv.py:34 motioneye/utils/dtconv.py:73
 msgid "neniam"
-msgstr "nooit"
+msgstr ""
 
 #: motioneye/utils/dtconv.py:121
 msgid "tago"
-msgstr "dag"
+msgstr ""
 
 #: motioneye/utils/dtconv.py:124
 msgid "semajno"
-msgstr "week"
+msgstr ""
 
 #: motioneye/utils/dtconv.py:127
 msgid "monato"
-msgstr "maand"
+msgstr ""
 
 #: motioneye/utils/dtconv.py:130
 msgid "jaro"
-msgstr "jaar"
+msgstr ""
 
 #: motioneye/utils/dtconv.py:137
 msgid "horo"
-msgstr "1 uur"
+msgstr ""
 
 #: motioneye/utils/dtconv.py:140
 msgid "horoj"
-msgstr "uur"
+msgstr ""
 
 #: motioneye/utils/dtconv.py:144
 msgid "minuto"
-msgstr "1 minuut"
+msgstr ""
 
 #: motioneye/utils/dtconv.py:147
 msgid "minutoj"
-msgstr "minuut"
+msgstr ""
 
 #: motioneye/utils/dtconv.py:151
 msgid "sekundo"
-msgstr "1 seconde"
+msgstr ""
 
 #: motioneye/utils/dtconv.py:161
 msgid "minus"
-msgstr "minus"
+msgstr ""

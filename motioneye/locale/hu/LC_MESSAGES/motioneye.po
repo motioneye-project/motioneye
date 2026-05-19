@@ -8,20 +8,21 @@
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # MichaIng <micha@dietpi.com>, 2025.
+# Hosted Weblate user 148881 <kovacsgyugyu@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-02-15 09:10+0000\n"
-"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-05-04 02:09+0000\n"
+"Last-Translator: Hosted Weblate user 148881 <kovacsgyugyu@gmail.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.17.1\n"
 "Generated-By: Babel 2.12.1\n"
 
 #: motioneye/config.py:905
@@ -51,7 +52,7 @@ msgstr "Az URL-ek nem tartalmazhatnak karét ^, pontosvesszőt ; vagy aposztróf
 
 #: motioneye/server.py:233
 msgid "interrompa signalo ricevita, fermanta …"
-msgstr "megszakítási jel vétele, zárás …"
+msgstr "Megszakítási jel érzékelve, bezárás …"
 
 #: motioneye/server.py:277
 msgid "smb-akcioj postulas radikajn privilegiojn"
@@ -91,7 +92,7 @@ msgstr "feladat elindítva"
 
 #: motioneye/server.py:447
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
-msgstr "mjpg felhasználói szemétgűjtő elindult"
+msgstr "mjpg felhasználói szemétgyűjtő elindult"
 
 #: motioneye/server.py:465
 msgid "servilo komenciĝis"
@@ -107,7 +108,7 @@ msgstr "feladat leállt"
 
 #: motioneye/server.py:481
 msgid "motion haltis"
-msgstr "motion leállt"
+msgstr "Mozgás leállt"
 
 #: motioneye/server.py:486
 msgid "adiaŭ!"
@@ -163,7 +164,7 @@ msgstr "beállítja a kamera keretek elrendezéséhez használt sorok számát"
 
 #: motioneye/templates/main.html:148
 msgid "kadro-variatoro"
-msgstr "képkockasebesség szabályzó"
+msgstr "Képkockasebesség szabályzó"
 
 #: motioneye/templates/main.html:150
 msgid "reduktas framfrekvencon por ŝpari retan larĝan bandon kaj trafikon (ne funkcias kun simplaj MJPEG-fotiloj)"
@@ -317,114 +318,92 @@ msgid "Kamerao aparato"
 msgstr "Kamera eszköz"
 
 #: motioneye/templates/main.html:283
-#, fuzzy
 msgid "Eniga aparato (ekz. : /dev/video) or URL (ekz. : rtsp://192.168.1.1/stream)"
-msgstr "Eszköz (pl.: /dev/video) vagy URL (pl.: rtsp/192.168.1.1/stream)"
+msgstr "Bemeneti eszköz (pl.: /dev/video) vagy URL (pl.: rtsp/192.168.1.1/stream)"
 
 #: motioneye/templates/main.html:286
-#, fuzzy
 msgid "Kamerao Tipo"
-msgstr "A kamra típusa"
+msgstr "Kamera típusa"
 
 #: motioneye/templates/main.html:290
-#, fuzzy
 msgid "Admin-only access"
-msgstr "Admin-csak hozzáférés"
+msgstr "Csak Admin hozzáférés"
 
 #: motioneye/templates/main.html:292
-#, fuzzy
 msgid "If enabled only the admin user can access this camera"
-msgstr "Ha csak a csodáló felhasználó hozzáférhet ehhez a kamerához"
+msgstr "Ha engedélyezve van, csak az adminisztrátor férhet hozzá ehhez a kamerához"
 
 #: motioneye/templates/main.html:298
-#, fuzzy
 msgid "Aŭtomata Brilo"
-msgstr "Automata Brilo"
+msgstr "Automata fényesség"
 
 #: motioneye/templates/main.html:300
-#, fuzzy
 msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
-msgstr "lehetővé teszi a szoftver automatikus fényerejét (csak a kamerák automatikus fények nélkül ajánlott)"
+msgstr "Engedélyezi a szoftveres automatikus fényerőállítást (csak automatikus fényerő nélküli fényképezőgépekhez ajánlott)"
 
 #: motioneye/templates/main.html:306
-#, fuzzy
 msgid "Video-rezolucio"
-msgstr "Videó állásfoglalás"
+msgstr "Videó felbontás"
 
 #: motioneye/templates/main.html:311
-#, fuzzy
 msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
-msgstr "a videomegoldás (nagyobb értékek jobb minőséget hoznak létre, de több CPU-erőt, nagyobb tárolást és szélességet igényel)"
+msgstr "Video felbontás (nagyobb érték jobb minőség, de több CPU teljesítményt, nagyobb tárolást és sávszélességet igényel)"
 
 #: motioneye/templates/main.html:314
-#, fuzzy
 msgid "Larĝeco"
-msgstr "Largin"
+msgstr "Szélesség"
 
 #: motioneye/templates/main.html:316
-#, fuzzy
 msgid "enigu kutiman rezolucian larĝon"
-msgstr "csatlakozzon a szokásos állásfoglalás szélességéhez"
+msgstr "Adjon meg egy egyéni felbontási szélességet"
 
 #: motioneye/templates/main.html:319
-#, fuzzy
 msgid "Alteco"
-msgstr "Alkalmazás"
+msgstr "Magasság"
 
 #: motioneye/templates/main.html:321
-#, fuzzy
 msgid "enigu kutiman rezolucian altecon"
-msgstr "csatlakozzon a rendszeres állásfoglalási magassághoz"
+msgstr "adjon meg egy egyéni felbontási magasságot"
 
 #: motioneye/templates/main.html:324
-#, fuzzy
 msgid "Video-Rotacio"
-msgstr "Videó-Rotration"
+msgstr "Videó Elfordítás"
 
 #: motioneye/templates/main.html:333
-#, fuzzy
 msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
-msgstr "használja ezt a rögzített kép megfordítására, ha a fényképezőgép nem helyezi megfelelően"
+msgstr "használja ezt a rögzített kép megfordítására, ha a fényképezőgép nem helyezi el megfelelően"
 
 #: motioneye/templates/main.html:336
-#, fuzzy
 msgid "Kadrofrekvenco"
-msgstr "Kereti frekvencia"
+msgstr "Képkockasebesség"
 
 #: motioneye/templates/main.html:338
-#, fuzzy
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
-msgstr "egyesíti a fényképezőgép által rögzített keretek számát minden másodpercben (a magas értékek enyhítő videókat készítenek, de több CPU-erőt, nagyobb tárolást és széles sávot igényelnek)"
+msgstr "Beállítja a kamera által másodpercenként rögzített képkockák számát (nagyobb értékek simább videókat eredményeznek, de nagyobb processzorteljesítményt, nagyobb tárhelyet és sávszélességet igényelnek)"
 
 #: motioneye/templates/main.html:344
-#, fuzzy
 msgid "Privateca masko"
-msgstr "Magánélet"
+msgstr "Adatvédelmi maszkolás"
 
 #: motioneye/templates/main.html:346
-#, fuzzy
 msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
-msgstr "lehetővé teszi a képek maszkrádját, hogy elkerüljék a csekély területek felvételét a magánélet védelme érdekében"
+msgstr "Engedélyezi a képmaszkolást, hogy megakadályozza bizonyos képterületek rögzítését a magánélet védelme érdekében"
 
 #: motioneye/templates/main.html:351 motioneye/templates/main.html:1027
-#, fuzzy
 msgid "Redakti maskon"
-msgstr "Edited egy maszkot"
+msgstr "Maszkolás szerkesztése"
 
 #: motioneye/templates/main.html:352 motioneye/templates/main.html:1028
-#, fuzzy
 msgid "Konservi maskon"
-msgstr "Tartsa a maszkot"
+msgstr "Maszkolás mentése"
 
 #: motioneye/templates/main.html:355
-#, fuzzy
 msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
-msgstr "kattintson erre a gombra, hogy lehetővé tegye / helyreállítsa a maszk szerkesztőt"
+msgstr "kattintson erre a gombra, hogy be/ki kapcsolja a maszkolás szerkesztőt"
 
 #: motioneye/templates/main.html:366
-#, fuzzy
 msgid "Ekstraj Elektoj"
-msgstr "Extra választások"
+msgstr "Extra szolgáltatások"
 
 #: motioneye/templates/main.html:368
 #, fuzzy
