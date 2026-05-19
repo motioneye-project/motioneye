@@ -220,8 +220,8 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "il nome utente da utilizzare per la video-sorveglianza"
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "la password dell'utente di monitoraggio (lasciare vuoto per monitoraggio senza password)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "la password dell'utente di monitoraggio"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"

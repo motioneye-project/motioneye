@@ -219,8 +219,8 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "Ім'я користувача для використання для моніторингу"
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "Пароль користувача моніторингу (залиште білим для моніторингу без пароля)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "Пароль користувача моніторингу"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"

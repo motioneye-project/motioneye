@@ -204,7 +204,7 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr ""
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
+msgid "la pasvorto de la uzanto de monitorado"
 msgstr ""
 
 #: motioneye/templates/main.html:202

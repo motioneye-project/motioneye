@@ -219,8 +219,8 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "meno používateľa pre videodohľad"
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "heslo používateľa vykonávajúceho dohľad (ponechajte prázdne pre účet bez hesla)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "heslo používateľa vykonávajúceho dohľad"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"

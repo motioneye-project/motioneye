@@ -230,8 +230,8 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "käyttäjätunnus, jota käytetään videovalvontaan"
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "valvontakäyttäjän salasana (jätä tyhjäksi valvontaan ilman salasanaa)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "valvontakäyttäjän salasana"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"
