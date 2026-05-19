@@ -1344,8 +1344,8 @@ function closeSettings() {
     $('div.settings-top-bar').removeClass('open').addClass('closed');
 
     if (isSingleView()) {
-	    pageContainer.removeClass('single-cam-edit');
-	    $('div.header').addClass('single-cam');
+        pageContainer.removeClass('single-cam-edit');
+        $('div.header').addClass('single-cam');
     }
 
     updateLayout();
@@ -3479,12 +3479,12 @@ function runLoginDialog(retry) {
                 '</tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'
-			+i18n.gettext("Uzantnomo") + '</span></td>' +
+                        +i18n.gettext("Uzantnomo") + '</span></td>' +
                     '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry" autofocus></td>' +
                 '</tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'
-			+i18n.gettext("Pasvorto") + '</span></td>' +
+                        +i18n.gettext("Pasvorto") + '</span></td>' +
                     '<td class="dialog-item-value"><input type="password" name="password" class="styled" id="passwordEntry"></td>' +
                 '</tr>' +
             '</table></form>');
@@ -3503,75 +3503,75 @@ function runLoginDialog(retry) {
         title: i18n.gettext('Ensaluti'),
         content: form,
         buttons: [
-            {caption: i18n.gettext('Nuligi'), isCancel: true, click: function () {
-            }},
+            {caption: i18n.gettext('Nuligi'), isCancel: true},
             {caption: i18n.gettext('Ensaluti'), isDefault: true, click: function () {
                 var username = usernameEntry.val();
                 var password = passwordEntry.val();
 
-            $.ajax({
-                url: basePath + 'login/',
-                type: 'POST',
-                data: {
-                    username: username,
-                    password: password
-                },
-                success: function(data) {
-                    if (data.error) {
+                $.ajax({
+                    url: basePath + 'login/',
+                    type: 'POST',
+                    data: {
+                        username: username,
+                        password: password
+                    },
+                    success: function(data) {
+                        if (data.error) {
+                            errorTd.css('display', 'table-cell');
+                            errorTd.html(data.error);
+                            return false;
+                        }
+
+                        window.userType = data.user;
+                        hideModalDialog();
+                        window._loginRetry = false;
+
+                        if (data.force_password_change) {
+                            forcePasswordChange = true;
+
+                            if (data.user === 'normal') {
+                                runAlertDialog(
+                                    i18n.gettext('Your account requires a password to be set. Please contact the administrator to set a password for your account.'),
+                                    function () {
+                                        doLogout();
+                                    }
+                                );
+                                return;
+                            }
+                            else {
+                                if (retry) {
+                                    retry();
+                                }
+
+                                runAlertDialog(
+                                    i18n.gettext('Please set a password for your account.'),
+                                    function () {
+                                        openSettings();
+                                        setTimeout(function () {
+                                            $('#adminPasswordEntry').focus();
+                                        }, 500);
+                                    }
+                                );
+                                return;
+                            }
+                        }
+
+                        if (retry) {
+                            retry();
+                        }
+                    },
+                    error: function(xhr) {
+                        var message = i18n.gettext('Login failed.');
+
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            message = xhr.responseJSON.error;
+                        }
+
                         errorTd.css('display', 'table-cell');
-                        errorTd.html(data.error);
+                        errorTd.html(message);
                         return false;
                     }
-
-                    window.userType = data.user;
-                    hideModalDialog();
-                    window._loginRetry = false;
-
-                    if (data.force_password_change) {
-                        forcePasswordChange = true;
-
-                        if (data.user === 'normal') {
-                            runAlertDialog(
-                                i18n.gettext('Your account requires a password to be set. Please contact the administrator to set a password for your account.'),
-                                function () {
-                                    doLogout();
-                                }
-                            );
-                            return;
-                        } else {
-                            if (retry) {
-                                retry();
-                            }
-
-                            runAlertDialog(
-                                i18n.gettext('Please set a password for your account.'),
-                                function () {
-                                    openSettings();
-                                    setTimeout(function () {
-                                        $('#adminPasswordEntry').focus();
-                                    }, 500);
-                                }
-                            );
-                            return;
-                        }
-                    }
-
-                    if (retry) {
-                        retry();
-                    }
-                },
-                error: function(xhr) {
-                    var message = i18n.gettext('Login failed.');
-
-                    if (xhr.responseJSON && xhr.responseJSON.error) {
-                        message = xhr.responseJSON.error;
-                    }
-
-                    errorTd.css('display', 'table-cell');
-                    errorTd.html(message);
-                    return false;
-                }
-            });
+                });
 
                 return false; // Prevent auto-closing by modal wrapper
             }}
@@ -3871,7 +3871,7 @@ function runAddCameraDialog() {
         if (typeSelect.val() == 'motioneye') {
             content.find('tr.motioneye').css('display', 'table-row');
             addCameraInfo.html(
-                    i18n.gettext("Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."));
+                i18n.gettext("Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."));
         }
         else if (typeSelect.val() == 'netcam') {
             /* make sure there is one trailing slash
@@ -3884,12 +3884,12 @@ function runAddCameraDialog() {
 
             content.find('tr.netcam').css('display', 'table-row');
             addCameraInfo.html(
-		i18n.gettext("Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."));
+                i18n.gettext("Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."));
         }
         else if (typeSelect.val() == 'mmal') {
             content.find('tr.mmal').css('display', 'table-row');
             addCameraInfo.html(
-		i18n.gettext("Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."));
+                i18n.gettext("Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."));
         }
         else if (typeSelect.val() == 'mjpeg') {
             /* make sure there is one trailing slash
@@ -3902,12 +3902,12 @@ function runAddCameraDialog() {
 
             content.find('tr.mjpeg').css('display', 'table-row');
             addCameraInfo.html(
-		i18n.gettext("Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."));
+                i18n.gettext("Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."));
         }
         else { /* assuming v4l2 */
             content.find('tr.v4l2').css('display', 'table-row');
             addCameraInfo.html(
-                    i18n.gettext("Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."));
+                i18n.gettext("Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."));
         }
 
         updateModalDialogPosition();
