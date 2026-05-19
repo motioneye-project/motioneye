@@ -71,75 +71,51 @@ class LoginHandler(BaseHandler):
             self.finish_json({'error': 'not authenticated'})
 
     def post(self):
-        username = self.get_argument('username', None)
-        password = self.get_argument('password', None)
-
         body = self.get_json() or {}
-        if not username:
-            username = body.get('username')
-        if not password:
-            password = body.get('password')
+        username: str = self.get_argument('username', body.get('username') or '')
+        password: str = self.get_argument('password', body.get('password') or '')
 
-        main_config = config.get_main()
-
-        # Always rebuild from current config so hash state is not stale
-        hash_state = build_password_hash_state(main_config)
-        set_password_hash_state(hash_state)
-
-        admin_username = main_config.get('@admin_username')
-        normal_username = main_config.get('@normal_username')
-        admin_password = main_config.get('@admin_password')
-        normal_password = main_config.get('@normal_password')
-
-        if not username:
+        if username == '':
             self.set_status(400)
             return self.finish_json({'error': 'username is required'})
 
-        if username == admin_username and admin_password and not password:
-            self.set_status(400)
-            return self.finish_json({'error': 'invalid credentials'})
-        else:
-            pass
+        main_config: dict = config.get_main()
 
-        user_type = None
-        stored_hash = None
-        user_state = None
+        # Always rebuild from current config so hash state is not stale
+        hash_state: str = build_password_hash_state(main_config)
+        set_password_hash_state(hash_state)
 
-        if username == admin_username:
+        user_type: str
+        stored_hash: str
+        hash_type: str
+
+        if username == main_config.get('@admin_username'):
             user_type = 'admin'
-            stored_hash = admin_password
-            user_state = hash_state.admin
+            stored_hash = main_config.get('@admin_password') or ''
+            hash_type = hash_state.admin.hash_type
 
-        elif username == normal_username:
+        elif username == main_config.get('@normal_username'):
             user_type = 'normal'
-            stored_hash = normal_password
-            user_state = hash_state.normal
-        else:
-            self.set_status(401)
-            return self.finish_json({'error': 'invalid credentials'})
+            stored_hash = main_config.get('@normal_password') or ''
+            hash_type = hash_state.normal.hash_type
 
-        if stored_hash is None:
+        else:
             self.set_status(401)
             return self.finish_json({'error': 'invalid credentials'})
 
         try:
-            if user_state.hash_type == 'argon2':
+            if hash_type == 'argon2':
                 if not verify_argon2_password(stored_hash, password):
                     self.set_status(401)
                     return self.finish_json({'error': 'invalid credentials'})
 
-            elif user_state.hash_type == 'legacy':
-                if (
-                    user_type == 'admin'
-                    and admin_password
-                    and not verify_legacy_sha1_password(stored_hash, password)
+            elif hash_type == 'legacy':
+                if password != stored_hash and not verify_legacy_sha1_password(
+                    stored_hash, password
                 ):
                     self.set_status(401)
                     return self.finish_json({'error': 'invalid credentials'})
-                elif user_type == 'normal':
-                    if password != stored_hash:
-                        self.set_status(401)
-                        return self.finish_json({'error': 'invalid credentials'})
+
                 if user_type == 'admin':
                     config.set_admin_password(password)
                 else:
@@ -147,10 +123,11 @@ class LoginHandler(BaseHandler):
 
                 mark_user_migrated(user_type)
 
-            elif user_state.hash_type == 'missing':
-                if password not in (None, ''):
+            elif hash_type == 'missing':
+                if password != '':
                     self.set_status(401)
                     return self.finish_json({'error': 'invalid credentials'})
+
             else:
                 self.set_status(401)
                 return self.finish_json({'error': 'invalid credentials'})
@@ -162,17 +139,17 @@ class LoginHandler(BaseHandler):
 
         session_id = create_session(user_type)
         self.set_secure_cookie(
-            "user",
+            'user',
             session_id,
             expires_days=1,
             httponly=True,
             secure=should_use_secure_cookie(self),
-            samesite="Strict",
+            samesite='Strict',
         )
 
         response = {'user': user_type}
 
-        if user_state.hash_type == 'missing':
+        if hash_type == 'missing':
             response['force_password_change'] = True
 
         self.finish_json(response)
