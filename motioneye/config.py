@@ -837,6 +837,8 @@ def rem_camera(camera_id):
 
 
 def main_ui_to_dict(ui):
+    from motioneye.handlers.base import invalidate_user_sessions
+
     data = {
         '@admin_username': ui['admin_username'],
         '@normal_username': ui['normal_username'],
@@ -858,6 +860,7 @@ def main_ui_to_dict(ui):
     if ui.get('admin_password') is not None:
         if ui['admin_password']:
             data['@admin_password'] = ph.hash(ui['admin_password'])
+            invalidate_user_sessions('admin')
         else:
             data['@admin_password'] = ''
 
@@ -866,6 +869,7 @@ def main_ui_to_dict(ui):
     if ui.get('normal_password') is not None:
         if ui['normal_password']:
             data['@normal_password'] = ph.hash(ui['normal_password'])
+            invalidate_user_sessions('normal')
         else:
             data['@normal_password'] = ''
 
