@@ -51,91 +51,58 @@ class PasswordHashState:
     normal: UserHashState
 
 
-_password_hash_state = None
+_password_hash_state: PasswordHashState | None = None
 
 
-def set_password_hash_state(state):
+def set_password_hash_state(state: PasswordHashState) -> None:
     global _password_hash_state
     _password_hash_state = state
 
 
-def get_password_hash_state():
+def get_password_hash_state() -> PasswordHashState:
+    if _password_hash_state is None:
+        raise RuntimeError('_password_hash_state has not been assigned yet')
     return _password_hash_state
 
 
-def looks_like_argon2_hash(value):
-    return isinstance(value, str) and value.startswith('$argon2')
+def _build_user_hash_state(hash: str | None) -> UserHashState:
+    hash_type: str = 'legacy'
+    if not hash:
+        hash_type = 'missing'
 
+    elif hash.startswith('$argon2'):
+        hash_type = 'argon2'
 
-def looks_like_normal_plaintext(value):
-    return (
-        isinstance(value, str)
-        and value
-        and not looks_like_argon2_hash(value)
-        and not looks_like_legacy_sha1_hash(value)
+    return UserHashState(
+        hash_type=hash_type,
+        needs_migration=(hash_type == 'legacy'),
     )
 
 
-def looks_like_legacy_sha1_hash(value):
-    return (
-        isinstance(value, str)
-        and len(value) == 40
-        and all(c in '0123456789abcdefABCDEF' for c in value)
-    )
-
-
-def detect_hash_type(value):
-    if not value or not isinstance(value, str):
-        return 'missing'
-
-    if looks_like_argon2_hash(value):
-        return 'argon2'
-
-    if looks_like_normal_plaintext(value):
-        return 'legacy'
-
-    if looks_like_legacy_sha1_hash(value):
-        return 'legacy'
-
-    return 'invalid'
-
-
-def build_password_hash_state(main_config):
-    admin_type = detect_hash_type(main_config.get('@admin_password'))
-    normal_type = detect_hash_type(main_config.get('@normal_password'))
-
+def build_password_hash_state(main_config: dict) -> PasswordHashState:
     return PasswordHashState(
-        admin=UserHashState(
-            hash_type=admin_type,
-            needs_migration=(admin_type in ('legacy')),
-        ),
-        normal=UserHashState(
-            hash_type=normal_type,
-            needs_migration=(normal_type in ('legacy')),
-        ),
+        admin=_build_user_hash_state(main_config.get("@admin_password")),
+        normal=_build_user_hash_state(main_config.get("@normal_password")),
     )
 
 
-def validate_password_hash_state(state):
-    bad_states = {'invalid'}
+def validate_password_hash_state(state: PasswordHashState) -> bool:
+    if state.admin.hash_type == 'missing' or state.normal.hash_type == 'missing':
+        return False
 
-    if state.admin.hash_type in bad_states or state.normal.hash_type in bad_states:
-        raise RuntimeError(
-            'password configuration is incomplete or invalid; '
-            'run "sudo appname_init" to set or repair passwords'
-        )
+    return True
 
 
-def mark_user_migrated(username):
-    state = get_password_hash_state()
-    if username == 'admin':
+def mark_user_migrated(user_type: str) -> None:
+    state: PasswordHashState = get_password_hash_state()
+    if user_type == 'admin':
         state.admin.hash_type = 'argon2'
         state.admin.needs_migration = False
-    elif username == 'normal':
+    elif user_type == 'normal':
         state.normal.hash_type = 'argon2'
         state.normal.needs_migration = False
     else:
-        raise ValueError('unknown user: %s' % username)
+        raise ValueError(f'unknown user type: {user_type}')
 
 
 def generate_hmac_signature(secret, method, path, timestamp, nonce, body=None):
