@@ -1,5 +1,5 @@
 {"":{"language":"nl","plural-forms":"nplurals=2; plural=(n > 1);"}
-,"specialaj signoj ne rajtas en pasvorto": "het wachtwoord mag geen speciale tekens bevatten"
+,"specialaj signoj ne rajtas en pasvorto": "Speciale tekens zijn niet toegestaan in wachtwoorden"
 ,"use of colon (:) is not allowed in video streaming username": "Gebruik van een dubbele punt (:) is niet toegestaan in de gebruikersnaam"
 ,"video streaming authentication mode must be Basic or Digest when admin-only access is enabled": "De Authenticatie-methode voor videostreaming moet Basic of Digest zijn wanneer alleen-beheerderstoegang is ingeschakeld"
 ,"Ĉi tiu kampo estas deviga": "Dit veld is verplicht"
@@ -73,7 +73,7 @@
 ,"ludi * 5 kaj enĉenigi": "speel 5 keer sneller af"
 ,"sekva bildo": "volgende foto"
 ,"Fermi": "Sluiten"
-,"Elŝuti": "Ophalen"
+,"Elŝuti": "Download"
 ,"Forigi": "Verwijderen"
 ,"Kamerao tipo": "Cameratype"
 ,"Loka V4L2-kamerao": "Lokale V4L2-camera"
