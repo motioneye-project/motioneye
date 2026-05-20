@@ -41,7 +41,3 @@ class LogoutHandler(BaseHandler):
                 else session_id
             )
             invalidate_session(session_id)
-
-        # Invalidate all sessions for the current user (all sessions)
-        if user in ['admin', 'normal']:
-            invalidate_user_sessions(user)
