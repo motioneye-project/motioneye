@@ -256,7 +256,7 @@ class PictureHandler(BaseHandler):
                 camera_id=camera_id,
                 camera_config=camera_config,
                 title=self.get_argument('title', camera_config.get('camera_name', '')),
-                admin_username=config.get_main().get('@admin_username'),
+                current_user=self.current_user,
                 static_path='../../../static/',
             )
 
@@ -269,6 +269,7 @@ class PictureHandler(BaseHandler):
                     camera_id=camera_id,
                     camera_config=camera_config,
                     title=self.get_argument('title', ''),
+                    current_user=self.current_user,
                 )
 
             # issue a fake motion_camera_ui_to_dict() call to transform
@@ -281,7 +282,7 @@ class PictureHandler(BaseHandler):
                 camera_id=camera_id,
                 camera_config=remote_config,
                 title=self.get_argument('title', remote_config['camera_name']),
-                admin_username=config.get_main().get('@admin_username'),
+                current_user=self.current_user,
             )
 
     @BaseHandler.auth()
