@@ -2617,9 +2617,11 @@ function doApply() {
             }
 
             /* The backend invalidates the admin session if the admin password is updated.
-             * It sends data.reload in that case, hence no window.location.reload() needed here. */
+             * It sends data.reload in that case, hence window.location.reload() would not be needed here.
+             * But the dialog is not blocking the automatic reload, hence we do it here on Ok and return. */
             if (adminPasswordChanged.change && adminPasswordChanged.keydown) {
-                runAlertDialog(i18n.gettext('Admin password updated. Please log in again.'));
+                runAlertDialog(i18n.gettext('Admin password updated. Please log in again.'), () => window.location.reload());
+                return;
             }
 
             /* reset password change flags */
