@@ -218,8 +218,8 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "கண்காணிப்புக்கு பயன்படுத்த பயனர்பெயர்"
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "கண்காணிப்பு பயனரின் கடவுச்சொல் (கடவுச்சொல் இல்லாமல் கண்காணிக்க வெறுமையாக விடுங்கள்)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "கண்காணிப்பு பயனரின் கடவுச்சொல்"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"

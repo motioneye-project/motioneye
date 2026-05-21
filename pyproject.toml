@@ -12,6 +12,7 @@ dependencies = [
   "pycurl",
   "babel",
   "boto3",
+  "argon2-cffi",
 ]
 requires-python = ">=3.7"
 authors = [

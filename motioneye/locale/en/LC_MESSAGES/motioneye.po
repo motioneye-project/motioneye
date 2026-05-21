@@ -214,8 +214,8 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "the username to be used for video surveillance"
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "the password for the surveillance user (leave empty for passwordless surveillance)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "the password for the surveillance user"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"

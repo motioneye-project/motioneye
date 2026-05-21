@@ -216,8 +216,8 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "Uživatelské jméno k použití pro monitorování"
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "Heslo pro monitorování uživatele (ponechte bílou pro monitorování bez hesla)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "Heslo pro monitorování uživatele"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"

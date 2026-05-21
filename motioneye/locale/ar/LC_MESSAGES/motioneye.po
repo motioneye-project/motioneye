@@ -262,8 +262,8 @@ msgstr "اسم المستخدم الذي يستخدم للرصد"
 
 #: motioneye/templates/main.html:193
 #, fuzzy
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "كلمة المرور للمستعمل من الرصد (دع أبيض للرصد بدون كلمة سر)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "كلمة المرور للمستعمل من الرصد"
 
 #: motioneye/templates/main.html:202
 #, fuzzy

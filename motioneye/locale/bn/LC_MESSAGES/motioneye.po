@@ -260,8 +260,8 @@ msgstr "নিরীক্ষণের জন্য ব্যবহার কর
 
 #: motioneye/templates/main.html:193
 #, fuzzy
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "নিরীক্ষণ ব্যবহারকারীর পাসওয়ার্ড (একটি পাসওয়ার্ড ছাড়া নিরীক্ষণের জন্য ফাঁকা ছেড়ে দিন)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "নিরীক্ষণ ব্যবহারকারীর পাসওয়ার্ড"
 
 #: motioneye/templates/main.html:202
 #, fuzzy

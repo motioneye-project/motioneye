@@ -221,8 +221,8 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "el nombre de usuario a usar para monitorear"
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "la contraseña del usuario de monitoreo (déjelo en blanco para monitorear sin contraseña)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "la contraseña del usuario de monitoreo"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"

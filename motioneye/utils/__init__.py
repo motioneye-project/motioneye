@@ -38,12 +38,11 @@ from tornado.web import HTTPError
 
 from motioneye.settings import CONF_PATH, VALIDATE_CERTS
 
-_SIGNATURE_REGEX = re.compile(r'[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
 MASK_WIDTH = 32
 
-DEV_NULL = open('/dev/null', 'w')
+DEV_NULL = open(os.devnull, 'w')
 
 COMMON_RESOLUTIONS = [
     (320, 200),
@@ -231,42 +230,6 @@ def is_simple_mjpeg_camera(config):
     return bool(config.get('@proto') == 'mjpeg')
 
 
-def compute_signature(method, path, body: bytes, key):
-    parts = list(urllib.parse.urlsplit(path))
-    query = [
-        q
-        for q in urllib.parse.parse_qsl(parts[3], keep_blank_values=True)
-        if (q[0] != '_signature')
-    ]
-    query.sort(key=lambda q: q[0])
-    # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
-    query = [(n, urllib.parse.quote(v, safe="!'()*~")) for (n, v) in query]
-    joined_query = '&'.join([(q[0] + '=' + q[1]) for q in query])
-    parts[0] = parts[1] = ''
-    parts[3] = joined_query
-    path = urllib.parse.urlunsplit(parts)
-    path = _SIGNATURE_REGEX.sub('-', path)
-    key = _SIGNATURE_REGEX.sub('-', key)
-
-    try:
-        body_str = body.decode('utf-8')
-    except:
-        body_str = None
-
-    if body_str and body_str.startswith('---'):
-        body_str = None  # file attachment
-
-    body_str = body_str and _SIGNATURE_REGEX.sub('-', body_str)
-
-    return (
-        hashlib.sha1(
-            ('{}:{}:{}:{}'.format(method, path, body_str or '', key)).encode('utf-8')
-        )
-        .hexdigest()
-        .lower()
-    )
-
-
 def parse_cookies(cookies_headers: list[str]) -> dict[str, str]:
     parsed: dict[str, str] = {}
 
@@ -281,29 +244,6 @@ def parse_cookies(cookies_headers: list[str]) -> dict[str, str]:
 
 def build_basic_header(username: str, password: str) -> str:
     return 'Basic %s' % base64.b64encode(f'{username}:{password}'.encode()).decode()
-
-
-def parse_basic_header(header):
-    parts = header.split(' ', 1)
-    if len(parts) < 2:
-        return None
-
-    if parts[0].lower() != 'basic':
-        return None
-
-    encoded = parts[1]
-
-    try:
-        decoded = base64.b64decode(encoded).decode()
-
-    except:
-        return None
-
-    parts = decoded.split(':', 1)
-    if len(parts) < 2:
-        return None
-
-    return {'username': parts[0], 'password': parts[1]}
 
 
 def build_digest_header(method, url, username, password, state):

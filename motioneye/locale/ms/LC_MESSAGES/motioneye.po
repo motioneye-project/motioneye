@@ -260,8 +260,8 @@ msgstr "nama pengguna untuk digunakan untuk pemantauan"
 
 #: motioneye/templates/main.html:193
 #, fuzzy
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "kata laluan pengguna pemantauan (kosongkan untuk pemantauan tanpa kata laluan)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "kata laluan pengguna pemantauan"
 
 #: motioneye/templates/main.html:202
 #, fuzzy

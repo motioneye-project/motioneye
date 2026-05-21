@@ -216,8 +216,8 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "Numele de utilizator folosit pentru monitorizare"
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "Parola utilizatorului de monitorizare (lăsați necompletat pentru monitorizare fără parolă)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "Parola utilizatorului de monitorizare"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"

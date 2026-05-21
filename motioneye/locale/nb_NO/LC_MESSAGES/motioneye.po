@@ -218,8 +218,8 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "brukernavnet som skal brukes til video observasjon"
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "passord for observasjonsbruker (la være hvitt for overvåking uten passord)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "passord for observasjonsbruker"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"

@@ -220,8 +220,8 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "a megfigyeléshez használt felhasználónév"
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "a megfigyeléshez használt felhasználónév jelszava (hagyja üresen, ha nem akar jelszót használni)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "a megfigyeléshez használt felhasználónév jelszava"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"

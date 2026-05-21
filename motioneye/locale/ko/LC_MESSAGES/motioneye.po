@@ -218,8 +218,8 @@ msgid "la uzantnomo por uzi por la monitorado"
 msgstr "모니터링에 사용할 사용자 이름입니다"
 
 #: motioneye/templates/main.html:193
-msgid "la pasvorto de la uzanto de monitorado (lasu blankan por monitorado sen pasvorto)"
-msgstr "모니터링 사용자의 비밀번호 (비밀번호없이 모니터링을 위해 흰색을 남겨 두십시오)"
+msgid "la pasvorto de la uzanto de monitorado"
+msgstr "모니터링 사용자의 비밀번호"
 
 #: motioneye/templates/main.html:202
 msgid "motionEye Versio"

@@ -35,6 +35,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
         os.mkdir(tmpdir)
 
     @BaseHandler.auth()
+    @BaseHandler.peer_allowed()
     async def get(self, camera_id: str, filename: str, include_body=True):
         camera_id = int(camera_id)  # type: ignore[assignment]
         if camera_id not in config.get_camera_ids():
@@ -51,7 +52,10 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
         )
 
         # block access to admin-only cameras for non-admin users
-        if camera_config.get('@admin_only') and self.current_user != 'admin':
+        if camera_config.get('@admin_only') and self.current_user not in [
+            'admin',
+            'peer',
+        ]:
             raise HTTPError(
                 403,
                 f'GET access denied to admin-only camera "{camera_id}" for movie download "{filename}"',

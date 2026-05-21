@@ -18,8 +18,6 @@ class TestRTSP(unittest.TestCase):
             'username': user,
             'password': password,
             'proto': 'netcam',
-            '_username': 'admin',
-            '_signature': 'e06ef15af4e73086df6bfa90da0312641a5a2b10',
         }
         url_obj = RtspUrl.from_dict(test_data)
         self.assertEqual(host, url_obj.host)
