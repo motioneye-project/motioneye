@@ -2102,7 +2102,7 @@ def backup() -> bytes | None:
 
     files = [
         f
-        for p in ('motion.conf', 'camera-*.conf', 'prefs.json')
+        for p in ('motion.conf', 'camera-*.conf', 'mask_*.pgm', 'prefs.json')
         for f in glob(os.path.join(settings.CONF_PATH, p))
     ]
 
@@ -2125,7 +2125,7 @@ def backup() -> bytes | None:
 def restore(content: bytes) -> dict | None:
     logging.info('restoring config from backup file')
 
-    patterns = ['motion.conf', 'camera-*.conf', 'prefs.json']
+    patterns = ['motion.conf', 'camera-*.conf', 'mask_*.pgm', 'prefs.json']
 
     try:
         with tarfile.open(fileobj=BytesIO(content)) as tf:

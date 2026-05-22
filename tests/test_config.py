@@ -71,6 +71,16 @@ class TestBackup(unittest.TestCase):
         self.assertIn('camera-1.conf', names)
         self.assertIn('camera-2.conf', names)
 
+    def test_backup_includes_mask_files(self):
+        self._write('mask_1.pgm', b'P5\n')
+        self._write('mask_2.pgm', b'P5\n')
+
+        data = config.backup()
+        self.assertIsNotNone(data)
+        names = self._get_tarball_names(data)
+        self.assertIn('mask_1.pgm', names)
+        self.assertIn('mask_2.pgm', names)
+
     def test_backup_includes_prefs_json(self):
         self._write('prefs.json', b'{}')
 
@@ -90,6 +100,15 @@ class TestBackup(unittest.TestCase):
         self.assertNotIn('uploadservices.json', names)
         self.assertNotIn('secrets.json', names)
         self.assertNotIn('motioneye.conf', names)
+
+    def test_backup_omits_missing_mask_files(self):
+        self._write('motion.conf', b'[motion]\n')
+        # mask_*.pgm intentionally not created
+
+        data = config.backup()
+        self.assertIsNotNone(data)
+        names = self._get_tarball_names(data)
+        self.assertFalse(any(n.startswith('mask_') for n in names))
 
     def test_backup_omits_missing_prefs_json(self):
         self._write('motion.conf', b'[motion]\n')
@@ -162,6 +181,18 @@ class TestRestore(unittest.TestCase):
         files = os.listdir(self.conf_dir)
         self.assertIn('camera-1.conf', files)
         self.assertIn('camera-42.conf', files)
+
+    def test_restore_extracts_mask_files(self):
+        tarball = self._make_tarball({
+            'mask_1.pgm': b'P5\n',
+            'mask_2.pgm': b'P5\n',
+        })
+
+        result = config.restore(tarball)
+        self.assertIsNotNone(result)
+        files = os.listdir(self.conf_dir)
+        self.assertIn('mask_1.pgm', files)
+        self.assertIn('mask_2.pgm', files)
 
     def test_restore_extracts_prefs_json(self):
         tarball = self._make_tarball({'prefs.json': b'{}'})
