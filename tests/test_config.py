@@ -20,7 +20,6 @@ import unittest
 from io import BytesIO
 from shutil import rmtree
 from tempfile import mkdtemp
-from unittest import mock
 
 from motioneye import config, settings
 
@@ -126,11 +125,6 @@ class TestRestore(unittest.TestCase):
         # Clean the config dir before each test
         for name in os.listdir(self.conf_dir):
             os.remove(os.path.join(self.conf_dir, name))
-        self._invalidate_patch = mock.patch('motioneye.config.invalidate')
-        self._invalidate_patch.start()
-
-    def tearDown(self):
-        self._invalidate_patch.stop()
 
     def _make_tarball(self, files: dict) -> bytes:
         """Create an in-memory .tar.gz with the given filename->content mapping."""
