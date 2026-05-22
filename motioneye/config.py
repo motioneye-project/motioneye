@@ -14,13 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import collections
-import datetime
-import glob
 import logging
 import os.path
 import subprocess
+import tarfile
+from collections import OrderedDict
+from datetime import timedelta
 from errno import EEXIST, ENOENT
+from fnmatch import fnmatch
+from glob import glob
+from io import BytesIO
 from os import stat
 from re import match, sub
 from secrets import token_hex
@@ -2094,64 +2097,44 @@ def invalidate_monitor_commands():
     _monitor_command_cache.clear()
 
 
-def backup():
+def backup() -> bytes | None:
     logging.debug('generating config backup file')
 
-    if len(os.listdir(settings.CONF_PATH)) > 100:
-        logging.debug(
-            f'config path "{settings.CONF_PATH}" appears to be a system-wide config directory, performing a selective backup'
-        )
-
-        cmd = ['tar', 'zc', 'motion.conf']
-        cmd += list(
-            map(
-                os.path.basename,
-                glob.glob(os.path.join(settings.CONF_PATH, 'camera-*.conf')),
-            )
-        )
-        try:
-            content = utils.call_subprocess(cmd, cwd=settings.CONF_PATH, encoding=None)
-            logging.debug(f'backup file created ({len(content)} bytes)')
-
-            return content
-
-        except Exception as e:
-            logging.error(f'backup failed: {e}', exc_info=True)
-
-            return None
-
-    else:
-        logging.debug(
-            f'config path "{settings.CONF_PATH}" appears to be a motion-specific config directory, performing a full backup'
-        )
-
-        try:
-            content = utils.call_subprocess(
-                ['tar', 'zc', '.'], cwd=settings.CONF_PATH, encoding=None
-            )
-            logging.debug(f'backup file created ({len(content)} bytes)')
-
-            return content
-
-        except Exception as e:
-            logging.error(f'backup failed: {e}', exc_info=True)
-
-            return None
-
-
-def restore(content):
-    logging.info('restoring config from backup file')
-
-    cmd = ['tar', 'zxC', settings.CONF_PATH]
+    files = [
+        f
+        for p in ('motion.conf', 'camera-*.conf', 'mask_*.pgm', 'prefs.json')
+        for f in glob(os.path.join(settings.CONF_PATH, p))
+    ]
 
     try:
-        p = subprocess.Popen(
-            cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-        )
-        msg = p.communicate(content)[0]
-        if msg:
-            logging.error(f'failed to restore configuration: {msg}')
-            return False
+        buf = BytesIO()
+        with tarfile.open(fileobj=buf, mode='w:gz') as tf:
+            for f in files:
+                tf.add(f, arcname=os.path.basename(f))
+
+        logging.debug(f'backup file created ({buf.tell()} bytes)')
+
+        return buf.getvalue()
+
+    except Exception as e:
+        logging.error(f'backup failed: {e}', exc_info=True)
+
+        return None
+
+
+def restore(content: bytes) -> dict | None:
+    logging.info('restoring config from backup file')
+
+    patterns = ['motion.conf', 'camera-*.conf', 'mask_*.pgm', 'prefs.json']
+
+    try:
+        with tarfile.open(fileobj=BytesIO(content)) as tf:
+            members = [
+                m
+                for m in tf.getmembers()
+                if any(fnmatch(m.name.lstrip('./'), p) for p in patterns)
+            ]
+            tf.extractall(settings.CONF_PATH, members=members)  # nosec B202
 
         logging.debug('configuration restored successfully')
 
@@ -2161,7 +2144,7 @@ def restore(content):
                 PowerControl.reboot()
 
             io_loop = IOLoop.current()
-            io_loop.add_timeout(datetime.timedelta(seconds=2), later)
+            io_loop.add_timeout(timedelta(seconds=2), later)
 
         else:
             invalidate()
@@ -2227,7 +2210,7 @@ def _conf_to_dict(lines, list_names=None, no_convert=None):
     if no_convert is None:
         no_convert = []
 
-    data = collections.OrderedDict()
+    data = OrderedDict()
 
     for line in lines:
         line = line.strip()
@@ -2267,7 +2250,7 @@ def _dict_to_conf(lines, data, list_names=None):
         list_names = []
 
     conf_lines = []
-    remaining = collections.OrderedDict(data)
+    remaining = OrderedDict(data)
     processed = set()
 
     # parse existing lines and replace the values
@@ -2511,7 +2494,7 @@ def get_additional_structure(camera, separators=False):
         )
 
         # gather sections
-        sections = collections.OrderedDict()
+        sections = OrderedDict()
         for func in _additional_section_funcs:
             result = func()
             if not result:
@@ -2528,7 +2511,7 @@ def get_additional_structure(camera, separators=False):
 
             logging.debug(f"additional config section: {result['name']}")
 
-        configs = collections.OrderedDict()
+        configs = OrderedDict()
         for func in _additional_config_funcs:
             result = func()
             if not result:
@@ -2561,7 +2544,7 @@ def _get_additional_config(data, camera_id=None):
 
     sections, configs = get_additional_structure(camera=bool(camera_id))
     get_funcs = {c.get('get') for c in list(configs.values()) if c.get('get')}
-    get_func_values = collections.OrderedDict((f, f(*args)) for f in get_funcs)
+    get_func_values = OrderedDict((f, f(*args)) for f in get_funcs)
 
     for name, section in list(sections.items()):
         if not section.get('get'):
@@ -2589,7 +2572,7 @@ def _set_additional_config(data, camera_id=None):
 
     sections, configs = get_additional_structure(camera=bool(camera_id))
 
-    set_func_values = collections.OrderedDict()
+    set_func_values = OrderedDict()
     for name, section in list(sections.items()):
         if not section.get('set'):
             continue
