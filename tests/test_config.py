@@ -31,9 +31,12 @@ class TestBackup(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.conf_dir = mkdtemp()
+        cls._orig_conf_path = settings.CONF_PATH
+        settings.CONF_PATH = cls.conf_dir
 
     @classmethod
     def tearDownClass(cls):
+        settings.CONF_PATH = cls._orig_conf_path
         rmtree(cls.conf_dir)
 
     def setUp(self):
@@ -50,20 +53,14 @@ class TestBackup(unittest.TestCase):
         with tarfile.open(fileobj=BytesIO(data)) as tf:
             return tf.getnames()
 
-    @mock.patch.object(settings, 'CONF_PATH')
-    def test_backup_includes_motion_conf(self, mock_conf_path):
-        mock_conf_path.__str__ = lambda _: self.conf_dir
-        settings.CONF_PATH = self.conf_dir
+    def test_backup_includes_motion_conf(self):
         self._write('motion.conf', b'[motion]\n')
 
         data = config.backup()
         self.assertIsNotNone(data)
         self.assertIn('motion.conf', self._get_tarball_names(data))
 
-    @mock.patch.object(settings, 'CONF_PATH')
-    def test_backup_includes_camera_confs(self, mock_conf_path):
-        mock_conf_path.__str__ = lambda _: self.conf_dir
-        settings.CONF_PATH = self.conf_dir
+    def test_backup_includes_camera_confs(self):
         self._write('camera-1.conf', b'camera 1\n')
         self._write('camera-2.conf', b'camera 2\n')
 
@@ -73,20 +70,14 @@ class TestBackup(unittest.TestCase):
         self.assertIn('camera-1.conf', names)
         self.assertIn('camera-2.conf', names)
 
-    @mock.patch.object(settings, 'CONF_PATH')
-    def test_backup_includes_prefs_json(self, mock_conf_path):
-        mock_conf_path.__str__ = lambda _: self.conf_dir
-        settings.CONF_PATH = self.conf_dir
+    def test_backup_includes_prefs_json(self):
         self._write('prefs.json', b'{}')
 
         data = config.backup()
         self.assertIsNotNone(data)
         self.assertIn('prefs.json', self._get_tarball_names(data))
 
-    @mock.patch.object(settings, 'CONF_PATH')
-    def test_backup_excludes_other_files(self, mock_conf_path):
-        mock_conf_path.__str__ = lambda _: self.conf_dir
-        settings.CONF_PATH = self.conf_dir
+    def test_backup_excludes_other_files(self):
         self._write('motion.conf', b'[motion]\n')
         self._write('uploadservices.json', b'{}')
         self._write('secrets.json', b'{}')
@@ -99,10 +90,7 @@ class TestBackup(unittest.TestCase):
         self.assertNotIn('secrets.json', names)
         self.assertNotIn('motioneye.conf', names)
 
-    @mock.patch.object(settings, 'CONF_PATH')
-    def test_backup_omits_missing_prefs_json(self, mock_conf_path):
-        mock_conf_path.__str__ = lambda _: self.conf_dir
-        settings.CONF_PATH = self.conf_dir
+    def test_backup_omits_missing_prefs_json(self):
         self._write('motion.conf', b'[motion]\n')
         # prefs.json intentionally not created
 
@@ -111,11 +99,7 @@ class TestBackup(unittest.TestCase):
         names = self._get_tarball_names(data)
         self.assertNotIn('prefs.json', names)
 
-    @mock.patch.object(settings, 'CONF_PATH')
-    def test_backup_empty_dir_returns_empty_tarball(self, mock_conf_path):
-        mock_conf_path.__str__ = lambda _: self.conf_dir
-        settings.CONF_PATH = self.conf_dir
-
+    def test_backup_empty_dir_returns_empty_tarball(self):
         data = config.backup()
         self.assertIsNotNone(data)
         self.assertEqual(self._get_tarball_names(data), [])
@@ -127,15 +111,26 @@ class TestRestore(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.conf_dir = mkdtemp()
+        cls._orig_conf_path = settings.CONF_PATH
+        cls._orig_enable_reboot = settings.ENABLE_REBOOT
+        settings.CONF_PATH = cls.conf_dir
+        settings.ENABLE_REBOOT = False
 
     @classmethod
     def tearDownClass(cls):
+        settings.CONF_PATH = cls._orig_conf_path
+        settings.ENABLE_REBOOT = cls._orig_enable_reboot
         rmtree(cls.conf_dir)
 
     def setUp(self):
         # Clean the config dir before each test
         for name in os.listdir(self.conf_dir):
             os.remove(os.path.join(self.conf_dir, name))
+        self._invalidate_patch = mock.patch('motioneye.config.invalidate')
+        self._invalidate_patch.start()
+
+    def tearDown(self):
+        self._invalidate_patch.stop()
 
     def _make_tarball(self, files: dict) -> bytes:
         """Create an in-memory .tar.gz with the given filename->content mapping."""
@@ -151,12 +146,7 @@ class TestRestore(unittest.TestCase):
     def _conf_files(self) -> list:
         return os.listdir(self.conf_dir)
 
-    @mock.patch('motioneye.config.invalidate')
-    @mock.patch.object(settings, 'ENABLE_REBOOT', False)
-    @mock.patch.object(settings, 'CONF_PATH')
-    def test_restore_extracts_motion_conf(self, mock_conf_path, mock_invalidate):
-        mock_conf_path.__str__ = lambda _: self.conf_dir
-        settings.CONF_PATH = self.conf_dir
+    def test_restore_extracts_motion_conf(self):
         content = b'[motion]\ndaemon = on\n'
         tarball = self._make_tarball({'motion.conf': content})
 
@@ -166,12 +156,7 @@ class TestRestore(unittest.TestCase):
         with open(os.path.join(self.conf_dir, 'motion.conf'), 'rb') as f:
             self.assertEqual(f.read(), content)
 
-    @mock.patch('motioneye.config.invalidate')
-    @mock.patch.object(settings, 'ENABLE_REBOOT', False)
-    @mock.patch.object(settings, 'CONF_PATH')
-    def test_restore_extracts_camera_confs(self, mock_conf_path, mock_invalidate):
-        mock_conf_path.__str__ = lambda _: self.conf_dir
-        settings.CONF_PATH = self.conf_dir
+    def test_restore_extracts_camera_confs(self):
         tarball = self._make_tarball({
             'camera-1.conf': b'camera 1',
             'camera-42.conf': b'camera 42',
@@ -183,24 +168,14 @@ class TestRestore(unittest.TestCase):
         self.assertIn('camera-1.conf', files)
         self.assertIn('camera-42.conf', files)
 
-    @mock.patch('motioneye.config.invalidate')
-    @mock.patch.object(settings, 'ENABLE_REBOOT', False)
-    @mock.patch.object(settings, 'CONF_PATH')
-    def test_restore_extracts_prefs_json(self, mock_conf_path, mock_invalidate):
-        mock_conf_path.__str__ = lambda _: self.conf_dir
-        settings.CONF_PATH = self.conf_dir
+    def test_restore_extracts_prefs_json(self):
         tarball = self._make_tarball({'prefs.json': b'{}'})
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
         self.assertIn('prefs.json', self._conf_files())
 
-    @mock.patch('motioneye.config.invalidate')
-    @mock.patch.object(settings, 'ENABLE_REBOOT', False)
-    @mock.patch.object(settings, 'CONF_PATH')
-    def test_restore_ignores_non_matching_files(self, mock_conf_path, mock_invalidate):
-        mock_conf_path.__str__ = lambda _: self.conf_dir
-        settings.CONF_PATH = self.conf_dir
+    def test_restore_ignores_non_matching_files(self):
         tarball = self._make_tarball({
             'motion.conf': b'[motion]\n',
             'uploadservices.json': b'{}',
@@ -216,25 +191,15 @@ class TestRestore(unittest.TestCase):
         self.assertNotIn('secrets.json', files)
         self.assertNotIn('motioneye.conf', files)
 
-    @mock.patch('motioneye.config.invalidate')
-    @mock.patch.object(settings, 'ENABLE_REBOOT', False)
-    @mock.patch.object(settings, 'CONF_PATH')
-    def test_restore_accepts_dot_slash_prefix(self, mock_conf_path, mock_invalidate):
+    def test_restore_accepts_dot_slash_prefix(self):
         """Tarball entries prefixed with ./ (e.g. from GNU tar) should still be accepted."""
-        mock_conf_path.__str__ = lambda _: self.conf_dir
-        settings.CONF_PATH = self.conf_dir
         tarball = self._make_tarball({'./motion.conf': b'[motion]\n'})
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
         self.assertIn('motion.conf', self._conf_files())
 
-    @mock.patch('motioneye.config.invalidate')
-    @mock.patch.object(settings, 'ENABLE_REBOOT', False)
-    @mock.patch.object(settings, 'CONF_PATH')
-    def test_restore_returns_reboot_false(self, mock_conf_path, mock_invalidate):
-        mock_conf_path.__str__ = lambda _: self.conf_dir
-        settings.CONF_PATH = self.conf_dir
+    def test_restore_returns_reboot_false(self):
         tarball = self._make_tarball({'motion.conf': b'[motion]\n'})
 
         result = config.restore(tarball)
