@@ -27,6 +27,8 @@ from motioneye import config, settings
 class TestBackup(unittest.TestCase):
     """Tests for config.backup()."""
 
+    conf_dir: str
+
     @classmethod
     def setUpClass(cls):
         cls.conf_dir = mkdtemp()
@@ -107,6 +109,8 @@ class TestBackup(unittest.TestCase):
 class TestRestore(unittest.TestCase):
     """Tests for config.restore()."""
 
+    conf_dir: str
+
     @classmethod
     def setUpClass(cls):
         cls.conf_dir = mkdtemp()
@@ -137,16 +141,13 @@ class TestRestore(unittest.TestCase):
                 tf.addfile(info, BytesIO(data))
         return buf.getvalue()
 
-    def _conf_files(self) -> list:
-        return os.listdir(self.conf_dir)
-
     def test_restore_extracts_motion_conf(self):
         content = b'[motion]\ndaemon = on\n'
         tarball = self._make_tarball({'motion.conf': content})
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        self.assertIn('motion.conf', self._conf_files())
+        self.assertIn('motion.conf', os.listdir(self.conf_dir))
         with open(os.path.join(self.conf_dir, 'motion.conf'), 'rb') as f:
             self.assertEqual(f.read(), content)
 
@@ -158,7 +159,7 @@ class TestRestore(unittest.TestCase):
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        files = self._conf_files()
+        files = os.listdir(self.conf_dir)
         self.assertIn('camera-1.conf', files)
         self.assertIn('camera-42.conf', files)
 
@@ -167,7 +168,7 @@ class TestRestore(unittest.TestCase):
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        self.assertIn('prefs.json', self._conf_files())
+        self.assertIn('prefs.json', os.listdir(self.conf_dir))
 
     def test_restore_ignores_non_matching_files(self):
         tarball = self._make_tarball({
@@ -179,7 +180,7 @@ class TestRestore(unittest.TestCase):
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        files = self._conf_files()
+        files = os.listdir(self.conf_dir)
         self.assertIn('motion.conf', files)
         self.assertNotIn('uploadservices.json', files)
         self.assertNotIn('secrets.json', files)
@@ -191,7 +192,7 @@ class TestRestore(unittest.TestCase):
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        self.assertIn('motion.conf', self._conf_files())
+        self.assertIn('motion.conf', os.listdir(self.conf_dir))
 
     def test_restore_returns_reboot_false(self):
         tarball = self._make_tarball({'motion.conf': b'[motion]\n'})
