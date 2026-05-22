@@ -171,10 +171,12 @@ class TestRestore(unittest.TestCase):
             self.assertEqual(f.read(), content)
 
     def test_restore_extracts_camera_confs(self):
-        tarball = self._make_tarball({
-            'camera-1.conf': b'camera 1',
-            'camera-42.conf': b'camera 42',
-        })
+        tarball = self._make_tarball(
+            {
+                'camera-1.conf': b'camera 1',
+                'camera-42.conf': b'camera 42',
+            }
+        )
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
@@ -183,10 +185,12 @@ class TestRestore(unittest.TestCase):
         self.assertIn('camera-42.conf', files)
 
     def test_restore_extracts_mask_files(self):
-        tarball = self._make_tarball({
-            'mask_1.pgm': b'P5\n',
-            'mask_2.pgm': b'P5\n',
-        })
+        tarball = self._make_tarball(
+            {
+                'mask_1.pgm': b'P5\n',
+                'mask_2.pgm': b'P5\n',
+            }
+        )
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
@@ -202,12 +206,14 @@ class TestRestore(unittest.TestCase):
         self.assertIn('prefs.json', os.listdir(self.conf_dir))
 
     def test_restore_ignores_non_matching_files(self):
-        tarball = self._make_tarball({
-            'motion.conf': b'[motion]\n',
-            'uploadservices.json': b'{}',
-            'secrets.json': b'{}',
-            'motioneye.conf': b'secret=password\n',
-        })
+        tarball = self._make_tarball(
+            {
+                'motion.conf': b'[motion]\n',
+                'uploadservices.json': b'{}',
+                'secrets.json': b'{}',
+                'motioneye.conf': b'secret=password\n',
+            }
+        )
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
