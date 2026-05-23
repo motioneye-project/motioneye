@@ -425,15 +425,18 @@ def cleanup_media(media_type: str) -> None:
 
 
 def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str, None]:
-    if '..' in full_path.split('/'):
-        raise Exception(f'Path traversal detected in full_path "{full_path}"')
-
     framerate = camera_config['framerate']
     pre_capture = camera_config['pre_capture']
     offs = pre_capture / framerate
     offs = max(4, offs * 2)
     path = quote(full_path)
     thumb_path = full_path + '.thumb'
+
+    target_dir: str = camera_config['target_dir']
+    utils.validate_paths(
+        full_path.removeprefix(target_dir + os.sep),
+        target_dir=target_dir,
+    )
 
     logging.debug(
         f'creating movie preview for {full_path} with an offset of {offs} seconds...'
@@ -502,11 +505,8 @@ def list_media(
     prefix: str | None = None,
     with_stat: bool = True,
 ) -> typing.Awaitable:
-    if prefix is not None and '..' in prefix.split('/'):
-        raise Exception(f'Path traversal detected in prefix "{prefix}"')
-
-    fut: Future = Future()
     target_dir = camera_config.get('target_dir')
+    utils.validate_paths(prefix, target_dir=target_dir)
 
     if media_type == 'picture':
         exts = _PICTURE_EXTS
@@ -559,25 +559,21 @@ def list_media(
             logging.debug(f'media listing process has returned {len(media_list)} files')
             fut.set_result(media_list)
 
+    fut: Future = Future()
     poll_process()
     return fut
 
 
 def get_media_path(camera_config, path: str, media_type):
-    if '..' in path.split('/'):
-        raise Exception(f'Path traversal detected in path "{path}"')
-
     target_dir = camera_config.get('target_dir')
+    utils.validate_paths(path, target_dir=target_dir)
     full_path = os.path.join(target_dir, path)
     return full_path
 
 
 def get_media_content(camera_config, path: str, media_type):
-    if '..' in path.split('/'):
-        raise Exception(f'Path traversal detected in path "{path}"')
-
     target_dir = camera_config.get('target_dir')
-
+    utils.validate_paths(path, target_dir=target_dir)
     full_path = os.path.join(target_dir, path)
 
     try:
@@ -593,11 +589,8 @@ def get_media_content(camera_config, path: str, media_type):
 def get_zipped_content(
     camera_config: dict, media_type: str, group: str
 ) -> typing.Awaitable:
-    if '..' in group.split('/'):
-        raise Exception(f'Path traversal detected in group "{group}"')
-
-    fut: Future = Future()
     target_dir = camera_config.get('target_dir')
+    utils.validate_paths(group, target_dir=target_dir)
 
     if media_type == 'picture':
         exts = _PICTURE_EXTS
@@ -648,18 +641,17 @@ def get_zipped_content(
 
             fut.set_result(data)
 
+    fut: Future = Future()
     poll_process()
     return fut
 
 
 def make_timelapse_movie(camera_config, framerate, interval, group: str):
-    if '..' in group.split('/'):
-        raise Exception(f'Path traversal detected in group "{group}"')
-
     global _timelapse_process
     global _timelapse_data
 
     target_dir = camera_config.get('target_dir')
+    utils.validate_paths(group, target_dir=target_dir)
     # save movie_codec as a different variable so it doesn't get lost in the CODEC_MAPPING
     movie_codec = camera_config.get('movie_codec')
 
@@ -882,10 +874,8 @@ def check_timelapse_movie():
 
 
 def get_media_preview(camera_config, path: str, media_type, width, height):
-    if '..' in path.split('/'):
-        raise Exception(f'Path traversal detected in path "{path}"')
-
     target_dir = camera_config.get('target_dir')
+    utils.validate_paths(path, target_dir=target_dir)
     full_path = os.path.join(target_dir, path)
 
     if media_type == 'movie':
@@ -930,11 +920,8 @@ def get_media_preview(camera_config, path: str, media_type, width, height):
 
 
 def del_media_content(camera_config, path: str, media_type):
-    if '..' in path.split('/'):
-        raise Exception(f'Path traversal detected in path "{path}"')
-
     target_dir = camera_config.get('target_dir')
-
+    utils.validate_paths(path, target_dir=target_dir)
     full_path = os.path.join(target_dir, path)
 
     # create a sentinel file to make sure the target dir is never removed
@@ -971,17 +958,15 @@ def del_media_content(camera_config, path: str, media_type):
 
 
 def del_media_group(camera_config, group: str, media_type):
-    if '..' in group.split('/'):
-        raise Exception(f'Path traversal detected in group "{group}"')
+    target_dir = camera_config.get('target_dir')
+    utils.validate_paths(group, target_dir=target_dir)
+    full_path = os.path.join(target_dir, group)
 
     if media_type == 'picture':
         exts = _PICTURE_EXTS
 
     else:  # media_type == 'movie'
         exts = _MOVIE_EXTS + ['.thumb']
-
-    target_dir = camera_config.get('target_dir')
-    full_path = os.path.join(target_dir, group)
 
     # create a sentinel file to make sure the target dir is never removed
     open(os.path.join(target_dir, '.keep'), 'w').close()

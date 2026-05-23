@@ -15,12 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import builtins
 import datetime
 from typing import Union
 
 __all__ = ('pretty_date_time', 'pretty_date', 'pretty_duration', 'pretty_time')
 
-if '_' not in globals():
+if not hasattr(builtins, '_') and '_' not in globals():
     import gettext
     from typing import Callable
 

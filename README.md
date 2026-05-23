@@ -24,10 +24,10 @@ You can contribute to translations on [__Weblate__](https://hosted.weblate.org/p
     sudo apt --no-install-recommends install ca-certificates curl python3
     ```
 
-    On **ARMv6/ARMv7 (32-bit), RISC-V, and other rare CPU architectures** additional build dependencies may be required to compile the [Pillow](https://pypi.org/project/pillow/) and [PycURL](https://pypi.org/project/pycurl/) modules:
+    On **ARMv6/ARMv7 (32-bit), RISC-V, and other rare CPU architectures** additional build dependencies may be required to compile the [Pillow](https://pypi.org/project/pillow/), [PycURL](https://pypi.org/project/pycurl/), and [CFFI](https://github.com/python-cffi/cffi) modules:
 
     ```sh
-    sudo apt --no-install-recommends install python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev
+    sudo apt --no-install-recommends install python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev libffi-dev
     ```
 
 2. Install the Python package manager `pip`

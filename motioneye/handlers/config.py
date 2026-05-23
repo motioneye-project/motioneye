@@ -30,7 +30,6 @@ from motioneye import (
     motionctl,
     remote,
     settings,
-    tasks,
     template,
     uploadservices,
     utils,
@@ -64,7 +63,7 @@ class ConfigHandler(BaseHandler):
             return self.backup()
 
         elif op == 'authorize':
-            return self.authorize(camera_id)
+            return self.authorize()
 
         else:
             raise HTTPError(400, 'unknown operation')
@@ -87,6 +86,10 @@ class ConfigHandler(BaseHandler):
         elif op == 'restore':
             return self.restore()
 
+        elif op == 'list':
+            await self.list()
+            return
+
         elif op == 'test':
             await self.test(camera_id)
 
@@ -94,6 +97,7 @@ class ConfigHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth(admin=True)
+    @BaseHandler.peer_allowed()
     async def get_config(self, camera_id):
         if camera_id:
             logging.debug(f'getting config for camera {camera_id}')
@@ -116,6 +120,8 @@ class ConfigHandler(BaseHandler):
                     return self.finish_json_with_error(msg)
 
                 for key, value in list(local_config.items()):
+                    if key == '@remote_secret':
+                        continue
                     resp.remote_ui_config[key.replace('@', '')] = value
 
                 # replace the real device url with the remote camera path
@@ -136,6 +142,7 @@ class ConfigHandler(BaseHandler):
             return self.finish_json(ui_config)
 
     @BaseHandler.auth(admin=True)
+    @BaseHandler.peer_allowed()
     async def set_config(self, camera_id):
         try:
             ui_config = json.loads(self.request.body)
@@ -387,7 +394,7 @@ class ConfigHandler(BaseHandler):
             admin_only = bool(local_config.get('@admin_only', False))
 
             # do not add this camera to the list if admin-only, but reduce the async counter so listing can finish
-            if admin_only and self.current_user != 'admin':
+            if admin_only and self.current_user not in ['admin', 'peer']:
                 length[0] -= 1
                 self.check_finished(cameras, length)
                 return
@@ -402,6 +409,8 @@ class ConfigHandler(BaseHandler):
                 resp.remote_ui_config['enabled'] = False
 
             for key, value in list(local_config.items()):
+                if key == '@remote_secret':
+                    continue
                 resp.remote_ui_config[key.replace('@', '')] = value
 
             cameras.append(resp.remote_ui_config)
@@ -409,10 +418,22 @@ class ConfigHandler(BaseHandler):
         self.check_finished(cameras, length)
 
     @BaseHandler.auth()
+    @BaseHandler.peer_allowed()
     async def list(self):
         logging.debug('listing cameras')
 
-        proto = self.get_argument('proto')
+        proto = self.get_argument('proto', None)
+        discovery_in_query = bool(proto and 'proto' in self.request.query_arguments)
+        if discovery_in_query:
+            logging.warning(
+                'camera discovery via query string is not recommended because it may expose credentials; '
+                'use POST body instead'
+            )
+
+        if proto and self.current_user != 'admin':
+            self.set_status(403)
+            return self.finish_json({'error': 'unauthorized'})
+
         if proto == 'motioneye':  # remote listing
             return self._handle_list_cameras_response(
                 await remote.list_cameras(self.get_all_arguments())
@@ -491,7 +512,7 @@ class ConfigHandler(BaseHandler):
                 # hide admin-only cameras from non-admin users (local cameras only; remote handled after sync)
                 if (
                     local_config.get('@admin_only')
-                    and self.current_user != 'admin'
+                    and self.current_user not in ['admin', 'peer']
                     and not utils.is_remote_camera(local_config)
                 ):
                     continue
@@ -567,6 +588,8 @@ class ConfigHandler(BaseHandler):
                 return self.finish_json_with_error(resp.error)
 
             for key, value in list(camera_config.items()):
+                if key == '@remote_secret':
+                    continue
                 resp.remote_ui_config[key.replace('@', '')] = value
 
             return self.finish_json(resp.remote_ui_config)
@@ -636,6 +659,7 @@ class ConfigHandler(BaseHandler):
             return request_handler.finish_json({'error': result})
 
     @BaseHandler.auth(admin=True)
+    @BaseHandler.peer_allowed()
     async def test(self, camera_id):
         what = self.get_argument('what')
         data = self.get_all_arguments()
@@ -796,7 +820,7 @@ class ConfigHandler(BaseHandler):
             raise HTTPError(400, 'cannot test features on this type of camera')
 
     @BaseHandler.auth(admin=True)
-    def authorize(self, camera_id):
+    def authorize(self):
         service_name = self.get_argument('service')
         if not service_name:
             raise HTTPError(400, 'service_name required')

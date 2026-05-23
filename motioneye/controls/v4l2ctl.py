@@ -25,9 +25,8 @@ from shlex import quote
 
 from motioneye import utils
 
-_resolutions_cache = {}
-_ctrls_cache = {}
-_ctrl_values_cache = {}
+_resolutions_cache: dict = {}
+_ctrls_cache: dict = {}
 
 _DEV_V4L_BY_ID = '/dev/v4l/by-id/'
 _V4L2_TIMEOUT = 10
@@ -42,7 +41,7 @@ def find_v4l2_ctl():
 
 
 def list_devices():
-    global _resolutions_cache, _ctrls_cache, _ctrl_values_cache
+    global _resolutions_cache, _ctrls_cache
 
     logging.debug('listing V4L2 devices')
     output = b''
@@ -72,7 +71,6 @@ def list_devices():
     # clear the cache
     _resolutions_cache = {}
     _ctrls_cache = {}
-    _ctrl_values_cache = {}
 
     return devices
 

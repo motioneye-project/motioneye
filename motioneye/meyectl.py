@@ -125,7 +125,7 @@ def load_settings():
 
         parts = line.split(' ', 1)
         if len(parts) != 2:
-            raise Exception('invalid configuration line: %s' % line)
+            raise Exception(f'invalid configuration line: {line}')
 
         name, value = parts
         upper_name = name.upper().replace('-', '_')
@@ -167,7 +167,7 @@ def load_settings():
             setattr(settings, upper_name, value)
 
         else:
-            logging.warning('unknown configuration option: %s' % name)
+            logging.warning(f'unknown configuration option: {name}')
 
     if config_file:
         try:
@@ -221,7 +221,7 @@ def configure_logging(cmd, log_to_file=False):
         else:
             log_file = None
 
-        sys.stderr.write('configure logging to file: %s\n' % log_file)
+        sys.stderr.write(f'configure logging to file: {log_file}\n')
         logging.basicConfig(
             filename=log_file,
             level=settings.LOG_LEVEL,
@@ -230,7 +230,7 @@ def configure_logging(cmd, log_to_file=False):
         )
 
     except Exception as e:
-        sys.stderr.write('failed to configure logging: %s\n' % e)
+        sys.stderr.write(f'failed to configure logging: {e}\n')
         sys.exit(-1)
 
     logging.getLogger('tornado').setLevel(logging.WARN)
@@ -312,7 +312,7 @@ def print_usage_and_exit(code):
 def print_version_and_exit():
     import motioneye
 
-    sys.stderr.write('motionEye %s\n' % motioneye.VERSION)
+    sys.stderr.write(f'motionEye {motioneye.VERSION}\n')
     sys.exit()
 
 
@@ -333,6 +333,23 @@ def main():
 
     if command in ('startserver', 'stopserver'):
         from motioneye import server
+        from motioneye.utils.authstate import (
+            build_password_hash_state,
+            set_password_hash_state,
+            validate_password_hash_state,
+        )
+
+        if command == "startserver":
+            main_config = config.get_main()
+            state = build_password_hash_state(main_config)
+            set_password_hash_state(state)
+            if not validate_password_hash_state(state):
+                logging.warning(
+                    _(
+                        'The admin and/or surveillance user has no password assigned. '
+                        'Please login to the web interface to set both passwords.'
+                    )
+                )
 
         server.main(arg_parser, sys.argv[2:], command[:-6])
 
@@ -355,7 +372,7 @@ def main():
         shell.main(arg_parser, sys.argv[2:])
 
     else:
-        sys.stderr.write('unknown command "%s"\n\n' % command)
+        sys.stderr.write(f'unknown command "{command}"\n\n')
         print_usage_and_exit(-1)
 
 
