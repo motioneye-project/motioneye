@@ -176,13 +176,16 @@ class TestRestore(unittest.TestCase):
                 tf.addfile(info, BytesIO(data))
         return buf.getvalue()
 
+    def _assert_restored_files(self, expected: list[str]):
+        self.assertEqual(sorted(os.listdir(self.conf_dir)), sorted(expected))
+
     def test_restore_extracts_motion_conf(self):
         content = b'[motion]\ndaemon = on\n'
         tarball = self._make_tarball({'motion.conf': content})
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        self.assertIn('motion.conf', os.listdir(self.conf_dir))
+        self._assert_restored_files(['motion.conf'])
         with open(os.path.join(self.conf_dir, 'motion.conf'), 'rb') as f:
             self.assertEqual(f.read(), content)
 
@@ -196,9 +199,7 @@ class TestRestore(unittest.TestCase):
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        files = os.listdir(self.conf_dir)
-        self.assertIn('camera-1.conf', files)
-        self.assertIn('camera-42.conf', files)
+        self._assert_restored_files(['camera-1.conf', 'camera-42.conf'])
 
     def test_restore_extracts_mask_files(self):
         tarball = self._make_tarball(
@@ -210,16 +211,14 @@ class TestRestore(unittest.TestCase):
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        files = os.listdir(self.conf_dir)
-        self.assertIn('mask_1.pgm', files)
-        self.assertIn('mask_2.pgm', files)
+        self._assert_restored_files(['mask_1.pgm', 'mask_2.pgm'])
 
     def test_restore_extracts_prefs_json(self):
         tarball = self._make_tarball({'prefs.json': b'{}'})
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        self.assertIn('prefs.json', os.listdir(self.conf_dir))
+        self._assert_restored_files(['prefs.json'])
 
     def test_restore_ignores_non_matching_files(self):
         tarball = self._make_tarball(
@@ -233,11 +232,7 @@ class TestRestore(unittest.TestCase):
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        files = os.listdir(self.conf_dir)
-        self.assertIn('motion.conf', files)
-        self.assertNotIn('uploadservices.json', files)
-        self.assertNotIn('secrets.json', files)
-        self.assertNotIn('motioneye.conf', files)
+        self._assert_restored_files(['motion.conf'])
 
     def test_restore_ignores_non_regular_members(self):
         camera_symlink_info = tarfile.TarInfo(name='camera-9.conf')
@@ -258,10 +253,7 @@ class TestRestore(unittest.TestCase):
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        files = os.listdir(self.conf_dir)
-        self.assertIn('motion.conf', files)
-        self.assertNotIn('camera-9.conf', files)
-        self.assertNotIn('mask_9.pgm', files)
+        self._assert_restored_files(['motion.conf'])
 
     def test_restore_ignores_absolute_paths(self):
         tarball = self._make_tarball(
@@ -276,11 +268,7 @@ class TestRestore(unittest.TestCase):
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        files = os.listdir(self.conf_dir)
-        self.assertIn('motion.conf', files)
-        self.assertNotIn('camera-1.conf', files)
-        self.assertNotIn('mask_1.pgm', files)
-        self.assertNotIn('prefs.json', files)
+        self._assert_restored_files(['motion.conf'])
 
     def test_restore_ignores_pattern_matches_with_path_elements(self):
         tarball = self._make_tarball(
@@ -299,16 +287,7 @@ class TestRestore(unittest.TestCase):
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        files = os.listdir(self.conf_dir)
-        self.assertIn('camera-1.conf', files)
-        self.assertIn('mask_1.pgm', files)
-        self.assertNotIn('camera-2.conf', files)
-        self.assertNotIn('camera-3.conf', files)
-        self.assertNotIn('camera-4.conf', files)
-        self.assertNotIn('camera-5.conf', files)
-        self.assertNotIn('mask_2.pgm', files)
-        self.assertNotIn('mask_3.pgm', files)
-        self.assertNotIn('mask_4.pgm', files)
+        self._assert_restored_files(['camera-1.conf', 'mask_1.pgm'])
 
     def test_restore_accepts_dot_slash_prefix(self):
         """Tarball entries prefixed with ./ (e.g. from GNU tar) should still be accepted."""
@@ -316,7 +295,7 @@ class TestRestore(unittest.TestCase):
 
         result = config.restore(tarball)
         self.assertIsNotNone(result)
-        self.assertIn('motion.conf', os.listdir(self.conf_dir))
+        self._assert_restored_files(['motion.conf'])
 
     def test_restore_returns_reboot_false(self):
         tarball = self._make_tarball({'motion.conf': b'[motion]\n'})
