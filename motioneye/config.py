@@ -28,7 +28,6 @@ from os import stat
 from re import match, sub
 from secrets import token_hex
 from shlex import split
-from shutil import copyfileobj
 from stat import S_IMODE
 from urllib.parse import quote, urlunparse
 
@@ -2141,23 +2140,13 @@ def restore(content: bytes) -> dict | None:
                     name = name[2:]
 
                 # refuse any other directory structure, needed since fnmatchcase() * matches / as well
-                if '/' in name or '\\' in name:
+                if '/' in name:
                     continue
 
                 if any(fnmatchcase(name, p) for p in patterns):
-                    members.append((name, m))
+                    members.append(m)
 
-            for name, m in members:
-                source = tf.extractfile(m)
-                if source is None:
-                    logging.warning(
-                        f'skipping file with unreadable tar member: {m.name!r}'
-                    )
-                    continue
-                with source, open(
-                    os.path.join(settings.CONF_PATH, name), 'wb'
-                ) as target:
-                    copyfileobj(source, target)
+            tf.extractall(settings.CONF_PATH, members=members)  # nosec B202
 
         logging.debug('configuration restored successfully')
 
