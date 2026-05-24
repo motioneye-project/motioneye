@@ -21,7 +21,7 @@ import tarfile
 from collections import OrderedDict
 from datetime import timedelta
 from errno import EEXIST, ENOENT
-from fnmatch import fnmatch
+from fnmatch import fnmatchcase
 from glob import glob
 from io import BytesIO
 from os import stat
@@ -2129,11 +2129,23 @@ def restore(content: bytes) -> dict | None:
 
     try:
         with tarfile.open(fileobj=BytesIO(content)) as tf:
-            members = [
-                m
-                for m in tf.getmembers()
-                if any(fnmatch(m.name.lstrip('./'), p) for p in patterns)
-            ]
+            members = []
+            for m in tf.getmembers():  # use filter='data' once we require Python 3.12+
+                if not m.isfile():
+                    continue
+
+                # allow leading ./ to support full dir backups from v0.44.0b1 and earlier
+                name = m.name
+                while name.startswith('./'):
+                    name = name[2:]
+
+                # refuse any other directory structure, needed since fnmatchcase() * matches / as well
+                if '/' in name:
+                    continue
+
+                if any(fnmatchcase(name, p) for p in patterns):
+                    members.append(m)
+
             tf.extractall(settings.CONF_PATH, members=members)  # nosec B202
 
         logging.debug('configuration restored successfully')
