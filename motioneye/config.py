@@ -2150,6 +2150,9 @@ def restore(content: bytes) -> dict | None:
             for name, m in members:
                 source = tf.extractfile(m)
                 if source is None:
+                    logging.warning(
+                        f'skipping file with unreadable tar member: {m.name!r}'
+                    )
                     continue
                 with source, open(
                     os.path.join(settings.CONF_PATH, name), 'wb'

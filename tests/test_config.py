@@ -240,19 +240,19 @@ class TestRestore(unittest.TestCase):
         self.assertNotIn('motioneye.conf', files)
 
     def test_restore_ignores_non_regular_members(self):
-        camera_link = tarfile.TarInfo(name='camera-9.conf')
-        camera_link.type = tarfile.SYMTYPE
-        camera_link.linkname = 'motion.conf'
+        camera_symlink_info = tarfile.TarInfo(name='camera-9.conf')
+        camera_symlink_info.type = tarfile.SYMTYPE
+        camera_symlink_info.linkname = 'motion.conf'
 
-        mask_link = tarfile.TarInfo(name='mask_9.pgm')
-        mask_link.type = tarfile.LNKTYPE
-        mask_link.linkname = 'motion.conf'
+        mask_hardlink_info = tarfile.TarInfo(name='mask_9.pgm')
+        mask_hardlink_info.type = tarfile.LNKTYPE
+        mask_hardlink_info.linkname = 'motion.conf'
 
         tarball = self._make_tarball_members(
             [
                 (tarfile.TarInfo(name='motion.conf'), b'[motion]\n'),
-                (camera_link, None),
-                (mask_link, None),
+                (camera_symlink_info, None),
+                (mask_hardlink_info, None),
             ]
         )
 
