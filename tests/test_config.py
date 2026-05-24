@@ -54,12 +54,15 @@ class TestBackup(unittest.TestCase):
         with tarfile.open(fileobj=BytesIO(data)) as tf:
             return tf.getnames()
 
+    def _assert_tarball_members(self, data: bytes, expected: list[str]):
+        self.assertEqual(sorted(self._get_tarball_names(data)), sorted(expected))
+
     def test_backup_includes_motion_conf(self):
         self._write('motion.conf', b'[motion]\n')
 
         data = config.backup()
         self.assertIsNotNone(data)
-        self.assertIn('motion.conf', self._get_tarball_names(data))
+        self._assert_tarball_members(data, ['motion.conf'])
 
     def test_backup_includes_camera_confs(self):
         self._write('camera-1.conf', b'camera 1\n')
@@ -67,9 +70,7 @@ class TestBackup(unittest.TestCase):
 
         data = config.backup()
         self.assertIsNotNone(data)
-        names = self._get_tarball_names(data)
-        self.assertIn('camera-1.conf', names)
-        self.assertIn('camera-2.conf', names)
+        self._assert_tarball_members(data, ['camera-1.conf', 'camera-2.conf'])
 
     def test_backup_includes_mask_files(self):
         self._write('mask_1.pgm', b'P5\n')
@@ -77,16 +78,14 @@ class TestBackup(unittest.TestCase):
 
         data = config.backup()
         self.assertIsNotNone(data)
-        names = self._get_tarball_names(data)
-        self.assertIn('mask_1.pgm', names)
-        self.assertIn('mask_2.pgm', names)
+        self._assert_tarball_members(data, ['mask_1.pgm', 'mask_2.pgm'])
 
     def test_backup_includes_prefs_json(self):
         self._write('prefs.json', b'{}')
 
         data = config.backup()
         self.assertIsNotNone(data)
-        self.assertIn('prefs.json', self._get_tarball_names(data))
+        self._assert_tarball_members(data, ['prefs.json'])
 
     def test_backup_excludes_other_files(self):
         self._write('motion.conf', b'[motion]\n')
@@ -96,10 +95,7 @@ class TestBackup(unittest.TestCase):
 
         data = config.backup()
         self.assertIsNotNone(data)
-        names = self._get_tarball_names(data)
-        self.assertNotIn('uploadservices.json', names)
-        self.assertNotIn('secrets.json', names)
-        self.assertNotIn('motioneye.conf', names)
+        self._assert_tarball_members(data, ['motion.conf'])
 
     def test_backup_omits_missing_mask_files(self):
         self._write('motion.conf', b'[motion]\n')
@@ -107,8 +103,7 @@ class TestBackup(unittest.TestCase):
 
         data = config.backup()
         self.assertIsNotNone(data)
-        names = self._get_tarball_names(data)
-        self.assertFalse(any(n.startswith('mask_') for n in names))
+        self._assert_tarball_members(data, ['motion.conf'])
 
     def test_backup_omits_missing_prefs_json(self):
         self._write('motion.conf', b'[motion]\n')
@@ -116,13 +111,12 @@ class TestBackup(unittest.TestCase):
 
         data = config.backup()
         self.assertIsNotNone(data)
-        names = self._get_tarball_names(data)
-        self.assertNotIn('prefs.json', names)
+        self._assert_tarball_members(data, ['motion.conf'])
 
     def test_backup_empty_dir_returns_empty_tarball(self):
         data = config.backup()
         self.assertIsNotNone(data)
-        self.assertEqual(self._get_tarball_names(data), [])
+        self._assert_tarball_members(data, [])
 
 
 class TestRestore(unittest.TestCase):
