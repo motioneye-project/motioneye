@@ -1495,11 +1495,17 @@ msgstr "Orario di lavoro"
 msgid "Lundo"
 msgstr "Lunedi"
 
-#: motioneye/templates/main.html:1257
+#: motioneye/templates/main.html:1257 motioneye/templates/main.html:1266
+#: motioneye/templates/main.html:1275 motioneye/templates/main.html:1284
+#: motioneye/templates/main.html:1293 motioneye/templates/main.html:1302
+#: motioneye/templates/main.html:1311
 msgid "de"
 msgstr "da"
 
-#: motioneye/templates/main.html:1258
+#: motioneye/templates/main.html:1258 motioneye/templates/main.html:1267
+#: motioneye/templates/main.html:1276 motioneye/templates/main.html:1285
+#: motioneye/templates/main.html:1294 motioneye/templates/main.html:1303
+#: motioneye/templates/main.html:1312
 msgid "ĝis"
 msgstr "Fino a"
 
