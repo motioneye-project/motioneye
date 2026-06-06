@@ -3,9 +3,6 @@ var CAMERA_FRAMES_CACHE_LIFETIME = 1000;
 
 var pushConfigs = {};
 var pushConfigReboot = false;
-var adminPasswordChanged = {};
-var normalPasswordChanged = {};
-var streamingPasswordChanged = {};
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var singleViewCameraId = null;
 var fullScreenMode = false;
@@ -579,26 +576,6 @@ function initUI() {
             $minimizeSpan.removeClass('open');
         }
     }
-
-    /* update password changed flags */
-    $('#adminPasswordEntry').on('keydown', function () {
-        adminPasswordChanged.keydown = true;
-    });
-    $('#adminPasswordEntry').on('change', function () {
-        adminPasswordChanged.change = true;
-    });
-    $('#normalPasswordEntry').on('keydown', function () {
-        normalPasswordChanged.keydown = true;
-    });
-    $('#normalPasswordEntry').on('change', function () {
-        normalPasswordChanged.change = true;
-    });
-    $('#streamingPasswordEntry').on('keydown', function () {
-        streamingPasswordChanged.keydown = true;
-    });
-    $('#streamingPasswordEntry').on('change', function () {
-        streamingPasswordChanged.change = true;
-    });
 
     /* ui elements that enable/disable other ui elements */
     $('#storageDeviceSelect').on('change', updateConfigUI);
@@ -1678,10 +1655,10 @@ function mainUi2Dict() {
         'lang': $('#langSelect').val()
     };
 
-    if (adminPasswordChanged.change && adminPasswordChanged.keydown && $('#adminPasswordEntry').val() !== '*****') {
+    if ($('#adminPasswordEntry').val() !== '*****') {
         dict['admin_password'] = $('#adminPasswordEntry').val();
     }
-    if (normalPasswordChanged.change && normalPasswordChanged.keydown && $('#normalPasswordEntry').val() !== '*****') {
+    if ($('#normalPasswordEntry').val() !== '*****') {
         dict['normal_password'] = $('#normalPasswordEntry').val();
     }
 
@@ -1976,7 +1953,7 @@ function cameraUi2Dict() {
         'working_schedule_type': $('#workingScheduleTypeSelect').val()
     };
 
-    if (streamingPasswordChanged.change && streamingPasswordChanged.keydown && $('#streamingPasswordEntry').val() !== '*****') {
+    if ($('#streamingPasswordEntry').val() !== '*****') {
         dict['streaming_password'] = $('#streamingPasswordEntry').val();
     }
 
@@ -2619,15 +2596,11 @@ function doApply() {
             /* The backend invalidates the admin session if the admin password is updated.
              * It sends data.reload in that case, hence window.location.reload() would not be needed here.
              * But the dialog is not blocking the automatic reload, hence we do it here on Ok and return. */
-            if (adminPasswordChanged.change && adminPasswordChanged.keydown) {
+            if ($('#adminPasswordEntry').val() !== '*****') {
                 runAlertDialog(i18n.gettext('Admin password updated. Please log in again.'), () => window.location.reload());
                 return;
             }
 
-            /* reset password change flags */
-            adminPasswordChanged = {};
-            normalPasswordChanged = {};
-            streamingPasswordChanged = {};
             forcePasswordChange = false;
 
             if (data.reboot) {
