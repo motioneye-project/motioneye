@@ -32,16 +32,17 @@ from dataclasses import dataclass
 
 from PIL import Image, ImageDraw
 from tornado.concurrent import Future
+from tornado.httputil import parse_cookie
 from tornado.ioloop import IOLoop
+from tornado.web import HTTPError
 
-from motioneye import settings
+from motioneye.settings import CONF_PATH, VALIDATE_CERTS
 
-_SIGNATURE_REGEX = re.compile(r'[^a-zA-Z0-9/?_.=&{}\[\]":, -]')
 _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
 MASK_WIDTH = 32
 
-DEV_NULL = open('/dev/null', 'w')
+DEV_NULL = open(os.devnull, 'w')
 
 COMMON_RESOLUTIONS = [
     (320, 200),
@@ -229,55 +230,13 @@ def is_simple_mjpeg_camera(config):
     return bool(config.get('@proto') == 'mjpeg')
 
 
-def compute_signature(method, path, body: bytes, key):
-    parts = list(urllib.parse.urlsplit(path))
-    query = [
-        q
-        for q in urllib.parse.parse_qsl(parts[3], keep_blank_values=True)
-        if (q[0] != '_signature')
-    ]
-    query.sort(key=lambda q: q[0])
-    # "safe" characters here are set to match the encodeURIComponent JavaScript counterpart
-    query = [(n, urllib.parse.quote(v, safe="!'()*~")) for (n, v) in query]
-    joined_query = '&'.join([(q[0] + '=' + q[1]) for q in query])
-    parts[0] = parts[1] = ''
-    parts[3] = joined_query
-    path = urllib.parse.urlunsplit(parts)
-    path = _SIGNATURE_REGEX.sub('-', path)
-    key = _SIGNATURE_REGEX.sub('-', key)
-
-    try:
-        body_str = body.decode('utf-8')
-    except:
-        body_str = None
-
-    if body_str and body_str.startswith('---'):
-        body_str = None  # file attachment
-
-    body_str = body_str and _SIGNATURE_REGEX.sub('-', body_str)
-
-    return (
-        hashlib.sha1(
-            ('{}:{}:{}:{}'.format(method, path, body_str or '', key)).encode('utf-8')
-        )
-        .hexdigest()
-        .lower()
-    )
-
-
 def parse_cookies(cookies_headers: list[str]) -> dict[str, str]:
     parsed: dict[str, str] = {}
 
     for cookie in cookies_headers:
-        parts = cookie.split(';')
-        for c in parts:
-            name, value = c.split('=', 1)
-            name = name.strip()
-            value = value.strip()
-
+        for name, value in parse_cookie(cookie).items():
             if name.lower() in _SPECIAL_COOKIE_NAMES:
                 continue
-
             parsed[name] = value
 
     return parsed
@@ -285,29 +244,6 @@ def parse_cookies(cookies_headers: list[str]) -> dict[str, str]:
 
 def build_basic_header(username: str, password: str) -> str:
     return 'Basic %s' % base64.b64encode(f'{username}:{password}'.encode()).decode()
-
-
-def parse_basic_header(header):
-    parts = header.split(' ', 1)
-    if len(parts) < 2:
-        return None
-
-    if parts[0].lower() != 'basic':
-        return None
-
-    encoded = parts[1]
-
-    try:
-        decoded = base64.b64decode(encoded).decode()
-
-    except:
-        return None
-
-    parts = decoded.split(':', 1)
-    if len(parts) < 2:
-        return None
-
-    return {'username': parts[0], 'password': parts[1]}
 
 
 def build_digest_header(method, url, username, password, state):
@@ -411,7 +347,7 @@ def build_digest_header(method, url, username, password, state):
 
 
 def urlopen(*args, **kwargs):
-    if sys.version_info >= (2, 7, 9) and not settings.VALIDATE_CERTS:
+    if sys.version_info >= (2, 7, 9) and not VALIDATE_CERTS:
         # ssl certs are not verified by default
         # in versions prior to 2.7.9
 
@@ -501,7 +437,7 @@ def build_editable_mask_file(
         if rx and line & 1:
             dr.rectangle((nx * rw, ny * rh, nx * rw + rx - 1, ny * rh + ry - 1), fill=0)
 
-    #    file_name = os.path.join(settings.CONF_PATH, 'mask_%s.pgm' % camera_id)
+    #    file_name = os.path.join(CONF_PATH, 'mask_%s.pgm' % camera_id)
     file_name = build_mask_file_name(camera_id, mask_class)
 
     # resize the image if necessary
@@ -524,7 +460,7 @@ def build_mask_file_name(camera_id, mask_class):
         if mask_class == 'motion'
         else f'mask_{camera_id}_{mask_class}.pgm'
     )
-    full_path = os.path.join(settings.CONF_PATH, file_name)
+    full_path = os.path.join(CONF_PATH, file_name)
 
     return full_path
 
@@ -675,3 +611,46 @@ def call_subprocess(
         text=text,
         env=env,
     ).stdout.strip()
+
+
+def validate_paths(
+    *paths: str | None, camera_id: str | None = None, target_dir: str | None = None
+) -> None:
+    # Obtain camera dir from optional named arguments
+    camera_dir: str | None = None
+    if target_dir is not None:
+        camera_dir = os.path.realpath(target_dir) + os.sep
+
+    elif camera_id is not None:
+        from motioneye.config import get_camera
+
+        camera_config: dict = get_camera(int(camera_id))
+        if is_local_motion_camera(camera_config):
+            camera_dir = os.path.realpath(camera_config['target_dir']) + os.sep
+
+    # Check paths which are not None or empty
+    for path in paths:
+        if path:
+            if path.startswith('/'):
+                raise HTTPError(
+                    403,
+                    f'Absolute path "{path}" detected',
+                    reason='Absolute path detected',
+                )
+
+            if '..' in path.split('/'):
+                raise HTTPError(
+                    403,
+                    f'Path traversal detected in "{path}"',
+                    reason='Path traversal detected',
+                )
+
+            if camera_dir is not None:
+                if not os.path.realpath(os.path.join(camera_dir, path)).startswith(
+                    camera_dir
+                ):
+                    raise HTTPError(
+                        403,
+                        f'Path "{path}" escapes camera directory "{camera_dir}"',
+                        reason='Path escapes camera directory',
+                    )

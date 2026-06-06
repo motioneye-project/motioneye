@@ -40,7 +40,7 @@ jobs:
 
     - name: Generate frontend template
       run: |
-        find -name '*.js' ! -name '*.min.js' | xgettext --from-code=UTF-8 --no-wrap -o motioneye/locale/motioneye.js.pot -
+        find -name '*.js' ! -name '*.min.js' | xargs xgettext --from-code=UTF-8 --no-wrap -o motioneye/locale/motioneye.js.pot
         # Remove header: --omit-header enforces ASCII output, despite --from-code=UTF-8, breaking most of our Esperanto source language accent characters
         sed -i '/^# SOME DESCRIPTIVE TITLE.$/,/^$/d' motioneye/locale/motioneye.js.pot
 

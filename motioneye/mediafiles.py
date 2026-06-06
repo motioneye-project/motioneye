@@ -432,6 +432,12 @@ def make_movie_preview(camera_config: dict, full_path: str) -> typing.Union[str,
     path = quote(full_path)
     thumb_path = full_path + '.thumb'
 
+    target_dir: str = camera_config['target_dir']
+    utils.validate_paths(
+        full_path.removeprefix(target_dir + os.sep),
+        target_dir=target_dir,
+    )
+
     logging.debug(
         f'creating movie preview for {full_path} with an offset of {offs} seconds...'
     )
@@ -499,8 +505,8 @@ def list_media(
     prefix: str | None = None,
     with_stat: bool = True,
 ) -> typing.Awaitable:
-    fut: Future = Future()
     target_dir = camera_config.get('target_dir')
+    utils.validate_paths(prefix, target_dir=target_dir)
 
     if media_type == 'picture':
         exts = _PICTURE_EXTS
@@ -553,22 +559,21 @@ def list_media(
             logging.debug(f'media listing process has returned {len(media_list)} files')
             fut.set_result(media_list)
 
+    fut: Future = Future()
     poll_process()
     return fut
 
 
-def get_media_path(camera_config, path, media_type):
+def get_media_path(camera_config, path: str, media_type):
     target_dir = camera_config.get('target_dir')
+    utils.validate_paths(path, target_dir=target_dir)
     full_path = os.path.join(target_dir, path)
     return full_path
 
 
-def get_media_content(camera_config, path, media_type):
+def get_media_content(camera_config, path: str, media_type):
     target_dir = camera_config.get('target_dir')
-
-    if '..' in path:
-        raise Exception('invalid media path')
-
+    utils.validate_paths(path, target_dir=target_dir)
     full_path = os.path.join(target_dir, path)
 
     try:
@@ -584,8 +589,8 @@ def get_media_content(camera_config, path, media_type):
 def get_zipped_content(
     camera_config: dict, media_type: str, group: str
 ) -> typing.Awaitable:
-    fut: Future = Future()
     target_dir = camera_config.get('target_dir')
+    utils.validate_paths(group, target_dir=target_dir)
 
     if media_type == 'picture':
         exts = _PICTURE_EXTS
@@ -636,15 +641,17 @@ def get_zipped_content(
 
             fut.set_result(data)
 
+    fut: Future = Future()
     poll_process()
     return fut
 
 
-def make_timelapse_movie(camera_config, framerate, interval, group):
+def make_timelapse_movie(camera_config, framerate, interval, group: str):
     global _timelapse_process
     global _timelapse_data
 
     target_dir = camera_config.get('target_dir')
+    utils.validate_paths(group, target_dir=target_dir)
     # save movie_codec as a different variable so it doesn't get lost in the CODEC_MAPPING
     movie_codec = camera_config.get('movie_codec')
 
@@ -658,7 +665,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group):
     _timelapse_process = multiprocessing.Process(
         target=_do_list_pictures, args=(child_pipe, target_dir, group)
     )
-    _timelapse_process.progress = 0
+    setattr(_timelapse_process, 'progress', 0)
     _timelapse_process.start()
     _timelapse_data = None
 
@@ -866,8 +873,9 @@ def check_timelapse_movie():
         return {'progress': -1, 'data': _timelapse_data}
 
 
-def get_media_preview(camera_config, path, media_type, width, height):
+def get_media_preview(camera_config, path: str, media_type, width, height):
     target_dir = camera_config.get('target_dir')
+    utils.validate_paths(path, target_dir=target_dir)
     full_path = os.path.join(target_dir, path)
 
     if media_type == 'movie':
@@ -903,7 +911,7 @@ def get_media_preview(camera_config, path, media_type, width, height):
     width = width and int(float(width)) or image.size[0]
     height = height and int(float(height)) or image.size[1]
 
-    image.thumbnail((width, height), Image.BILINEAR)
+    image.thumbnail((width, height))
 
     bio = BytesIO()
     image.save(bio, format='JPEG')
@@ -911,9 +919,9 @@ def get_media_preview(camera_config, path, media_type, width, height):
     return bio.getvalue()
 
 
-def del_media_content(camera_config, path, media_type):
+def del_media_content(camera_config, path: str, media_type):
     target_dir = camera_config.get('target_dir')
-
+    utils.validate_paths(path, target_dir=target_dir)
     full_path = os.path.join(target_dir, path)
 
     # create a sentinel file to make sure the target dir is never removed
@@ -949,15 +957,16 @@ def del_media_content(camera_config, path, media_type):
         raise
 
 
-def del_media_group(camera_config, group, media_type):
+def del_media_group(camera_config, group: str, media_type):
+    target_dir = camera_config.get('target_dir')
+    utils.validate_paths(group, target_dir=target_dir)
+    full_path = os.path.join(target_dir, group)
+
     if media_type == 'picture':
         exts = _PICTURE_EXTS
 
     else:  # media_type == 'movie'
         exts = _MOVIE_EXTS + ['.thumb']
-
-    target_dir = camera_config.get('target_dir')
-    full_path = os.path.join(target_dir, group)
 
     # create a sentinel file to make sure the target dir is never removed
     open(os.path.join(target_dir, '.keep'), 'w').close()
@@ -1021,7 +1030,7 @@ def get_current_picture(camera_config, width, height):
     if width >= image.size[0] and height >= image.size[1]:
         return jpg  # no enlarging of the picture on the server side
 
-    image.thumbnail((width, height), Image.BICUBIC)
+    image.thumbnail((width, height))
 
     bio = BytesIO()
     image.save(bio, format='JPEG')

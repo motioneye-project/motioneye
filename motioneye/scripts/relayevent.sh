@@ -14,21 +14,19 @@ if [ -f "$motioneye_conf" ]; then
     if [ "$conf_path" ]; then
         motion_conf="$conf_path/motion.conf"
         if [ -r "$motion_conf" ]; then
-            username=$(grep 'admin_username' "$motion_conf" | cut -d ' ' -f 3)
-            password=$(grep 'admin_password' "$motion_conf" | cut -d ' ' -f 3 | sed -r 's/[^][a-zA-Z0-9/?_.=&{}":, _]/-/g')
+            relay_secret=$(awk '/^# @relay_secret/{print $3}' "$motion_conf")
         fi
     fi
 fi
 
 [ "$port" ] || port='8765'
-[ "$username" ] || username='admin'
 
 event=$2
 motion_camera_id=$3
 filename=$4
 
-uri="/_relay_event/?_username=$username&event=$event&motion_camera_id=$motion_camera_id"
+uri="/_relay_event/?event=$event&motion_camera_id=$motion_camera_id"
 data="{\"filename\": \"$filename\"}"
-signature=$(printf '%s' "POST:$uri:$data:$password" | sha1sum | cut -d ' ' -f 1)
 
-curl -sSfm "$timeout" -H 'Content-Type: application/json' -X POST "http://127.0.0.1:$port$uri&_signature=$signature" -d "$data" -o /dev/null
+# Call relay endpoint with secret header for authentication
+curl -sSfm "$timeout" -H 'Content-Type: application/json' -H "X-Relay-Secret: $relay_secret" -X POST "http://127.0.0.1:$port$uri" -d "$data" -o /dev/null

@@ -33,7 +33,7 @@ _MOTION_CONTROL_TIMEOUT = 5
 
 _started = False
 _motion_binary_cache = None
-_motion_detected = {}
+_motion_detected: dict = {}
 
 
 def find_motion():
