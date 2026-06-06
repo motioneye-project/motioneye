@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-05-21 22:28+0000\n"
-"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-05-28 08:11+0000\n"
+"Last-Translator: Marijn <168113859+Marijn0@users.noreply.github.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -46,9 +46,8 @@ msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "URL's mogen geen dakje ^, puntkomma ; of apostrof ' bevatten"
 
 #: motioneye/meyectl.py:349
-#, fuzzy
 msgid "The admin and/or surveillance user has no password assigned. Please login to the web interface to set both passwords."
-msgstr "De administratie en/of Windows heeft geen gebruiker. login alsjeblieft in de web interface om beide wachtwoorden uit te stellen."
+msgstr "Voor de beheerder en/of toezichthouder is geen wachtwoord ingesteld. Log in op de webinterface om beide wachtwoorden in te stellen."
 
 #: motioneye/server.py:236
 msgid "interrompa signalo ricevita, fermanta …"
@@ -224,19 +223,16 @@ msgid "la pasvorto de la uzanto de monitorado"
 msgstr "het wachtwoord voor de video toezichthouder"
 
 #: motioneye/templates/main.html:196
-#, fuzzy
 msgid "Client Secret"
-msgstr "Customer Secret"
+msgstr "Clientgeheim"
 
 #: motioneye/templates/main.html:200
-#, fuzzy
 msgid "Show/hide"
-msgstr "Show"
+msgstr "Tonen/verbergen"
 
 #: motioneye/templates/main.html:203
-#, fuzzy
 msgid "Auto-generated secret for this motionEye server. Copy this value into the Remote Secret field when adding this server as a remote camera on another motionEye server."
-msgstr "Autogenereerd geheim voor deze beweging Eye."
+msgstr "Automatisch gegenereerd geheim voor deze motionEye-server. Kopieer deze waarde naar het veld ‘Extern geheim’ wanneer u deze server toevoegt als externe camera op een andere motionEye-server."
 
 #: motioneye/templates/main.html:212
 msgid "motionEye Versio"
@@ -844,8 +840,8 @@ msgid "Aŭtentiga reĝimo"
 msgstr "Authenticatie-methode"
 
 #: motioneye/templates/main.html:716
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "de HTTP authenticatiemethode die gebruikt zal worden voor het afschermen van de livestream (kies voor Basic in plaasts van Digest als je problemen met externe applicaties ervaart); de toezichthoudersgegevens zullen gebruikt worden voor het afschermen van de livestream"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "de HTTP authenticatiemethode die gebruikt zal worden voor het afschermen van de livestream (kies voor 'Basic' in plaasts van 'Digest' als je problemen met externe applicaties ervaart)"
 
 #: motioneye/templates/main.html:721
 msgid "username used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."

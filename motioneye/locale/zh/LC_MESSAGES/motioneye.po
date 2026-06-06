@@ -845,8 +845,8 @@ msgid "Aŭtentiga reĝimo"
 msgstr "认证方式"
 
 #: motioneye/templates/main.html:716
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "流使用的身份验证方法（如果遇到第三方程序问题，则选择基础模式而不是消费模式）。监控认证将会被使用"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "流使用的身份验证方法（如果遇到第三方程序问题，则选择基础模式而不是消费模式）"
 
 #: motioneye/templates/main.html:721
 msgid "username used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."

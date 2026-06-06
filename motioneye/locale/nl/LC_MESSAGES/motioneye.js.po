@@ -10,8 +10,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-05-21 23:12+0000\n"
-"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
+"PO-Revision-Date: 2026-05-24 04:12+0000\n"
+"Last-Translator: Marijn <168113859+Marijn0@users.noreply.github.com>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/nl/>\n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
@@ -83,9 +83,8 @@ msgid "Bone"
 msgstr "OK"
 
 #: motioneye/static/js/main.js:389
-#, fuzzy
 msgid "An error occurred. Refreshing is recommended."
-msgstr "Annuendo. Verfrissende isctor."
+msgstr "Er is een fout opgetreden. Het wordt aanbevolen om de pagina te herladen."
 
 #: motioneye/static/js/main.js:460
 msgid "specialaj signoj ne rajtas en pasvorto"
@@ -177,9 +176,8 @@ msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
 msgstr "Zorg ervoor dat alle configuratie-instellingen geldig zijn!"
 
 #: motioneye/static/js/main.js:2623
-#, fuzzy
 msgid "Admin password updated. Please log in again."
-msgstr "Toegewezen. Blijf alsjeblieft weer binnen."
+msgstr "Het beheerderwachtwoord is gewijzigd. Log opnieuw in."
 
 #: motioneye/static/js/main.js:2681
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
@@ -331,28 +329,24 @@ msgid "Pasvorto"
 msgstr "Wachtwoord"
 
 #: motioneye/static/js/main.js:3501
-#, fuzzy
 msgid "Please login to continue."
-msgstr "Inloggen om verder te gaan."
+msgstr "Log in om door te gaan."
 
 #: motioneye/static/js/main.js:3505 motioneye/static/js/main.js:3509
 msgid "Ensaluti"
 msgstr "Aanmelden"
 
 #: motioneye/static/js/main.js:3536
-#, fuzzy
 msgid "Your account requires a password to be set. Please contact the administrator to set a password for your account."
-msgstr "Je rekening is een wachtwoord. Neem contact op met het spel voor je rekening."
+msgstr "Uw account vereist een wachtwoord. Neem contact op met de beheerder om een wachtwoord voor uw account in te stellen."
 
 #: motioneye/static/js/main.js:3549
-#, fuzzy
 msgid "Please set a password for your account."
-msgstr "Zet een wachtwoord op je rekening."
+msgstr "Stel een wachtwoord in voor uw account."
 
 #: motioneye/static/js/main.js:3566
-#, fuzzy
 msgid "Login failed."
-msgstr "Login."
+msgstr "Aanmelden mislukt."
 
 #: motioneye/static/js/main.js:3600
 msgid "Vi abortis la filmeton."
@@ -463,19 +457,16 @@ msgid "la pasvorto por la URL, se bezonata"
 msgstr "het wachtwoord voor de URL, indien nodig"
 
 #: motioneye/static/js/main.js:3835
-#, fuzzy
 msgid "Remote Secret"
-msgstr "Verwijder Geheim"
+msgstr "Extern geheim"
 
 #: motioneye/static/js/main.js:3836
-#, fuzzy
 msgid "remote secret..."
-msgstr "far secret..."
+msgstr "Extern geheim..."
 
 #: motioneye/static/js/main.js:3837
-#, fuzzy
 msgid "the client secret of the remote motionEye server. Find this value in the Client Secret field of the remote server's general settings."
-msgstr "het cliëntengeheim van de afstandsbediening Eye, vind deze waarde in het Cliënt Secret veld van het algemene domein op afstand."
+msgstr "Het clientgeheim van de externe motionEye-server. Deze waarde is te vinden in het veld ‘Clientgeheim’ in de algemene instellingen van de externe server."
 
 #: motioneye/static/js/main.js:3840
 msgid "Kamerao"

@@ -929,8 +929,8 @@ msgstr "Autentisk tilstand"
 
 #: motioneye/templates/main.html:716
 #, fuzzy
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "den godkendelsesmetode, der bruges af strømmen (elect 'Bazic' i stedet for 'Digest', hvis du opfylder problemer med tredjeparts programmer); akkreditering checks vil blive anvendt"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "den godkendelsesmetode, der bruges af strømmen (elect 'Bazic' i stedet for 'Digest', hvis du opfylder problemer med tredjeparts programmer)"
 
 #: motioneye/templates/main.html:721
 #, fuzzy

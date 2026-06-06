@@ -1041,8 +1041,8 @@ msgstr "وضع المصادقة"
 
 #: motioneye/templates/main.html:716
 #, fuzzy
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "طريقة المصادقة التي يستخدمها الدفق (اختر \"Bazic\" بدلاً من \"Digest\" إذا واجهت مشاكل مع برامج الجهات الخارجية) ؛ سيتم استخدام شيكات الاعتماد"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "طريقة المصادقة التي يستخدمها الدفق (اختر \"Bazic\" بدلاً من \"Digest\" إذا واجهت مشاكل مع برامج الجهات الخارجية)"
 
 #: motioneye/templates/main.html:721
 #, fuzzy
