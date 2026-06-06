@@ -30,8 +30,8 @@ msgstr "Enheter är endast tillgängliga för alfanumeriska tecken, hyphen, unde
 
 #: motioneye/config.py:951
 #, fuzzy
-msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
-msgstr "Filerna är endast likvärdiga med alfanumeriska tecken, parentes (), forwards/, dot., underscore, hyphen –, spatial och en delmängd av rörelseattributiker: %C %Y %m %d %H %M %S %q %v"
+msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
+msgstr "Filerna är endast likvärdiga med alfanumeriska tecken, parentes (), forwards/, dot., underscore, hyphen –, spatial och en delmängd av rörelseattributiker: %C %Y %m %d %H %M %S %q %v %$"
 
 #: motioneye/config.py:956
 #, fuzzy
