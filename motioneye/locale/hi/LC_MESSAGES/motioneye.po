@@ -31,8 +31,8 @@ msgid "Device names are only allowed to contain alphanumerical characters, hyphe
 msgstr "उपकरण केवल अल्फ़ान्यूमेरिक वर्णों, हाइफेन, अंडरस्कोर, प्लस + और स्थानिक के लिए उपलब्ध हैं"
 
 #: motioneye/config.py:951
-msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
-msgstr "फ़ाइल के नामों में केवल अल्फ़ान्यूमेरिक वर्ण, कोष्ठक (), फ़ॉरवर्ड स्लैश /, बिंदु ., अंडरस्कोर _, हाइफ़न -, स्पेस, और मोशन के रूपांतरण विनिर्दिष्टकों का एक उपसमूह (%C %Y %m %d %H %M %S %q %v) ही शामिल करने की अनुमति है"
+msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
+msgstr "फ़ाइल के नामों में केवल अल्फ़ान्यूमेरिक वर्ण, कोष्ठक (), फ़ॉरवर्ड स्लैश /, बिंदु ., अंडरस्कोर _, हाइफ़न -, स्पेस, और मोशन के रूपांतरण विनिर्दिष्टकों का एक उपसमूह (%C %Y %m %d %H %M %S %q %v %$) ही शामिल करने की अनुमति है"
 
 #: motioneye/config.py:956
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"

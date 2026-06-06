@@ -26,7 +26,7 @@ msgid "Device names are only allowed to contain alphanumerical characters, hyphe
 msgstr ""
 
 #: motioneye/config.py:951
-msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v"
+msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
 msgstr ""
 
 #: motioneye/config.py:956
