@@ -893,8 +893,8 @@ msgstr "Autentiseringsläge"
 
 #: motioneye/templates/main.html:716
 #, fuzzy
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "autentiseringsmetoden som används av strömmen (välj \"Bazic\" istället för \"Digest\" om du möter problem med tredjepartsprogram); ackrediteringskontroller kommer att användas"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "autentiseringsmetoden som används av strömmen (välj \"Bazic\" istället för \"Digest\" om du möter problem med tredjepartsprogram)"
 
 #: motioneye/templates/main.html:721
 #, fuzzy

@@ -1031,8 +1031,8 @@ msgstr "ਪ੍ਰਮਾਣਿਕਤਾ .ੰਗ"
 
 #: motioneye/templates/main.html:716
 #, fuzzy
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "ਸਟ੍ਰੀਮ ਦੁਆਰਾ ਪ੍ਰਮਾਣੀਕਰਨ methodੰਗ ਦੀ ਵਰਤੋਂ ਕੀਤੀ ਜਾਂਦੀ ਹੈ (ਜੇ ਤੁਹਾਨੂੰ ਤੀਜੀ ਧਿਰ ਪ੍ਰੋਗਰਾਮਾਂ ਨਾਲ ਮੁਸ਼ਕਲ ਆਉਂਦੀ ਹੈ ਤਾਂ 'ਡਾਈਜੈਸਟ' ਦੀ ਬਜਾਏ 'ਬਾਜਿਕ' ਚੁਣੋ); ਮਾਨਤਾ ਜਾਂਚਾਂ ਵਰਤੀਆਂ ਜਾਣਗੀਆਂ"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "ਸਟ੍ਰੀਮ ਦੁਆਰਾ ਪ੍ਰਮਾਣੀਕਰਨ methodੰਗ ਦੀ ਵਰਤੋਂ ਕੀਤੀ ਜਾਂਦੀ ਹੈ (ਜੇ ਤੁਹਾਨੂੰ ਤੀਜੀ ਧਿਰ ਪ੍ਰੋਗਰਾਮਾਂ ਨਾਲ ਮੁਸ਼ਕਲ ਆਉਂਦੀ ਹੈ ਤਾਂ 'ਡਾਈਜੈਸਟ' ਦੀ ਬਜਾਏ 'ਬਾਜਿਕ' ਚੁਣੋ)"
 
 #: motioneye/templates/main.html:721
 msgid "username used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."

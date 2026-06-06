@@ -856,8 +856,8 @@ msgid "Aŭtentiga reĝimo"
 msgstr "Tryb uwierzytelniania"
 
 #: motioneye/templates/main.html:716
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "metoda uwierzytelniania używana przez strumień (wybierz Basic zamiast Digest, jeśli napotkasz problemy z aplikacjami innych firm); będą używane poświadczenia nadzoru"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "metoda uwierzytelniania używana przez strumień (wybierz Basic zamiast Digest, jeśli napotkasz problemy z aplikacjami innych firm)"
 
 #: motioneye/templates/main.html:721
 #, fuzzy

@@ -854,8 +854,8 @@ msgid "Aŭtentiga reĝimo"
 msgstr "Modalità di autenticazione"
 
 #: motioneye/templates/main.html:716
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "Il metodo di autenticazione utilizzato dallo stream (seleziona 'Basic' invece di 'Digest' se riscontri problemi con app di terze parti); Verranno utilizzati i controlli delle credenziali"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "Il metodo di autenticazione utilizzato dallo stream (seleziona 'Basic' invece di 'Digest' se riscontri problemi con app di terze parti)"
 
 #: motioneye/templates/main.html:721
 #, fuzzy

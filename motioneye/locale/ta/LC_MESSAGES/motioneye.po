@@ -847,8 +847,8 @@ msgid "Aŭtentiga reĝimo"
 msgstr "அங்கீகார முறை"
 
 #: motioneye/templates/main.html:716
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "ச்ட்ரீம் பயன்படுத்தும் அங்கீகார முறை (மூன்றாவது -பார்ட்டி நிரல்களில் சிக்கல்களை எதிர்கொண்டால் 'டைசச்ட்' என்பதற்கு பதிலாக 'பாசிக்' என்பதைத் தேர்ந்தெடுக்கவும்); அங்கீகாரக் கட்டுப்பாடுகள் பயன்படுத்தப்படும்"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "ச்ட்ரீம் பயன்படுத்தும் அங்கீகார முறை (மூன்றாவது -பார்ட்டி நிரல்களில் சிக்கல்களை எதிர்கொண்டால் 'டைசச்ட்' என்பதற்கு பதிலாக 'பாசிக்' என்பதைத் தேர்ந்தெடுக்கவும்)"
 
 #: motioneye/templates/main.html:721
 msgid "username used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."

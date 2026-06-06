@@ -813,7 +813,7 @@ msgid "Aŭtentiga reĝimo"
 msgstr ""
 
 #: motioneye/templates/main.html:716
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
 msgstr ""
 
 #: motioneye/templates/main.html:721

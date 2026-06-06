@@ -853,8 +853,8 @@ msgid "Aŭtentiga reĝimo"
 msgstr "Režim overovania"
 
 #: motioneye/templates/main.html:716
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "metóda overovania použitá streamom (vyberte Basic namiesto Digest, ak narazíte na problémy s aplikáciami tretích strán); použijú sa prihlasovacie údaje účtu dohľadu"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "metóda overovania použitá streamom (vyberte Basic namiesto Digest, ak narazíte na problémy s aplikáciami tretích strán)"
 
 #: motioneye/templates/main.html:721
 #, fuzzy

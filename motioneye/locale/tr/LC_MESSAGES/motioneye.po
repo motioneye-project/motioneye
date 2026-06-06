@@ -854,8 +854,8 @@ msgid "Aŭtentiga reĝimo"
 msgstr "Kimlik Doğrulama Modu"
 
 #: motioneye/templates/main.html:716
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "akışın kullandığı kimlik doğrulama yöntemi (üçüncü taraf uygulamalarla sorunlarla karşılaşırsanız 'Özel' yerine 'Basit'i seçin); kimlik bilgileri kontrolleri kullanılacak"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "akışın kullandığı kimlik doğrulama yöntemi (üçüncü taraf uygulamalarla sorunlarla karşılaşırsanız 'Özel' yerine 'Basit'i seçin)"
 
 #: motioneye/templates/main.html:721
 #, fuzzy

@@ -1028,8 +1028,8 @@ msgstr "प्रमाणीकरण मोड"
 
 #: motioneye/templates/main.html:716
 #, fuzzy
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "स्ट्रीम द्वारा उपयोग की जाने वाली प्रमाणीकरण विधि ('डाइजेस्ट' के स्थान पर 'बैज़िक' चुनें, यदि आप तृतीय पक्ष कार्यक्रमों के साथ समस्याएँ उठाते हैं); मान्यता जाँच का उपयोग किया जाएगा"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "स्ट्रीम द्वारा उपयोग की जाने वाली प्रमाणीकरण विधि ('डाइजेस्ट' के स्थान पर 'बैज़िक' चुनें, यदि आप तृतीय पक्ष कार्यक्रमों के साथ समस्याएँ उठाते हैं)"
 
 #: motioneye/templates/main.html:721
 #, fuzzy

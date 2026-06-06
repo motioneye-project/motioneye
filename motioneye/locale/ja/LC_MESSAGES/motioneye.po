@@ -904,8 +904,8 @@ msgid "Aŭtentiga reĝimo"
 msgstr "認証モード"
 
 #: motioneye/templates/main.html:716
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "ストリームで使用される認証方法（サードパーティのプログラムで問題が発生した場合は、「ダイジェスト」ではなく「Basic」を選択してください）;監視資格情報が使用されます"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "ストリームで使用される認証方法（サードパーティのプログラムで問題が発生した場合は、「ダイジェスト」ではなく「Basic」を選択してください）"
 
 #: motioneye/templates/main.html:721
 #, fuzzy

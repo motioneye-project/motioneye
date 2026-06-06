@@ -956,8 +956,8 @@ msgstr "Autentikus mód"
 
 #: motioneye/templates/main.html:716
 #, fuzzy
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
-msgstr "a hitelesítési módszer, amelyet a stream használ (a \"Bazic\" helyett \"Digest\", ha megfelel a harmadik fél programjainak problémáinak); az akkreditációs ellenőrzéseket fogják használni"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
+msgstr "a hitelesítési módszer, amelyet a stream használ (a \"Bazic\" helyett \"Digest\", ha megfelel a harmadik fél programjainak problémáinak)"
 
 #: motioneye/templates/main.html:721
 #, fuzzy

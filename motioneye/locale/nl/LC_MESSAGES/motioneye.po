@@ -840,7 +840,7 @@ msgid "Aŭtentiga reĝimo"
 msgstr "Authenticatie-methode"
 
 #: motioneye/templates/main.html:716
-msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj"
+msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
 msgstr "de HTTP authenticatiemethode die gebruikt zal worden voor het afschermen van de livestream (kies voor 'Basic' in plaasts van 'Digest' als je problemen met externe applicaties ervaart)"
 
 #: motioneye/templates/main.html:721
