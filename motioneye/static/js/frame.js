@@ -123,7 +123,6 @@ function refreshCameraFrame() {
                 path += '&width=' + img.width;
             }
 
-            path = addAuthParams('GET', path);
             img.src = path;
             img.loading_count = 1;
 

@@ -5,12 +5,13 @@
 #
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
 # MichaIng <micha@dietpi.com>, 2025.
+# Siddharth S <siddharth.sadhana@proton.me>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-02-21 11:10+0000\n"
+"PO-Revision-Date: 2026-05-21 23:12+0000\n"
 "Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
 "Language-Team: Hindi <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/hi/>\n"
 "Language: hi\n"
@@ -18,656 +19,17 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
-
-#: motioneye/static/js/main.js:611
-#, fuzzy
-msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr "पासवर्ड में विशेष संकेत की अनुमति नहीं दी जा सकती है"
-
-#: motioneye/static/js/main.js:618
-#, fuzzy
-msgid "use of colon (:) is not allowed in video streaming username"
-msgstr "इंच (:) का उपयोग एक नोट है जो वीडियो स्ट्रीमिंग यूजरनेम में है"
-
-#: motioneye/static/js/main.js:629
-#, fuzzy
-msgid "video streaming authentication mode must be Basic or Digest when admin-only access is enabled"
-msgstr "जब एक व्यवस्थापक-केवल दृष्टिकोण सक्षम होता है तो वीडियो स्ट्रीमिंग हार्मोनिका मोड बेसिक या डिजेस्ट होना चाहिए"
-
-#: motioneye/static/js/main.js:636 motioneye/static/js/main.js:647
-#: motioneye/static/js/main.js:706 motioneye/static/js/ui.js:397
-#, fuzzy
-msgid "Ĉi tiu kampo estas deviga"
-msgstr "यह क्षेत्र अनिवार्य है"
-
-#: motioneye/static/js/main.js:640
-#, fuzzy
-msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr "एक कैमरा के नाम पर विशेष संकेत की अनुमति नहीं है"
-
-#: motioneye/static/js/main.js:652
-#, fuzzy
-msgid "valoro devas esti multoblo de 8"
-msgstr "मूल्य 8 के एकाधिक होना चाहिए"
-
-#: motioneye/static/js/main.js:659
-#, fuzzy
-msgid "specialaj signoj ne rajtas en radika voja nomo"
-msgstr "रूट रोड नाम में विशेष संकेत की अनुमति नहीं है"
-
-#: motioneye/static/js/main.js:662
-#, fuzzy
-msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr "फ़ाइलों को सीधे अपने सिस्टम की जड़ में नहीं बनाया जा सकता है"
-
-#: motioneye/static/js/main.js:669
-#, fuzzy
-msgid "enigu validan retpoŝtadreson"
-msgstr "एक वैध ईमेल पते में शामिल हों"
-
-#: motioneye/static/js/main.js:676
-#, fuzzy
-msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr "अल्पविराम द्वारा अलग किए गए मान्य ईमेल पतों की सूची दर्ज करें"
-
-#: motioneye/static/js/main.js:683
-#, fuzzy
-msgid "specialaj signoj ne rajtas en dosiernomo"
-msgstr "फ़ाइल नाम में विशेष वर्णों की अनुमति नहीं है"
-
-#: motioneye/static/js/main.js:710
-#, fuzzy
-msgid "enigu validan valoron"
-msgstr "एक मान्य मान दर्ज करें"
-
-#: motioneye/static/js/main.js:872
-#, fuzzy
-msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr "यह पुन: क्लाउड फ़ोल्डर में सभी फ़ाइलों को हटा देगा \""
-
-#: motioneye/static/js/main.js:873
-#, fuzzy
-msgid "\", ne nur tiuj alŝutitaj de motionEye!"
-msgstr "\", न केवल प्रस्ताव द्वारा अपलोड किए गए!"
-
-#: motioneye/static/js/main.js:954
-#, fuzzy
-msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
-msgstr "यह फ़ोल्डर में सभी पुरानी मीडिया फ़ाइलों को पुन: हटा देगा \""
-
-#: motioneye/static/js/main.js:955
-#, fuzzy
-msgid "\", ne nur tiuj kreitaj de motionEye!"
-msgstr "\", नहीं बस उन गति द्वारा बनाई गई!"
-
-#: motioneye/static/js/main.js:1021
-#, fuzzy
-msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
-msgstr "मान्य कैमरा छवि के बिना मास्क को संपादित नहीं किया जा सकता है!"
-
-#: motioneye/static/js/main.js:2275
-#, fuzzy
-msgid "Propra"
-msgstr "अनुकूलित"
-
-#: motioneye/static/js/main.js:2313
-#, fuzzy
-msgid "Propra dosierindiko"
-msgstr "व्यक्तिगत फ़ाइल कमेंटरी"
-
-#: motioneye/static/js/main.js:2315
-#, fuzzy
-msgid "Retan kunlokon"
-msgstr "ऑनलाइन बैठक"
-
-#: motioneye/static/js/main.js:2678
-#, fuzzy
-msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
-msgstr "आपका ब्राउज़र इस कार्य को लागू नहीं करता है।!"
-
-#: motioneye/static/js/main.js:2694
-#, fuzzy
-msgid "Apliki"
-msgstr "लागू करें"
-
-#: motioneye/static/js/main.js:2721 motioneye/static/js/main.js:3083
-#: motioneye/static/js/main.js:3139 motioneye/static/js/main.js:3214
-#, fuzzy
-msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
-msgstr "सुनिश्चित करें कि सभी कॉन्फ़िगरेशन विकल्प मान्य हैं!"
-
-#: motioneye/static/js/main.js:2824
-#, fuzzy
-msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
-msgstr "यह सिस्टम को पुनरारंभ करेगा। रहना चाहते हैं?"
-
-#: motioneye/static/js/main.js:2834
-#, fuzzy
-msgid "Vere fermiti sistemon?"
-msgstr "सच में सिस्टम बंद?"
-
-#: motioneye/static/js/main.js:2846
-#, fuzzy
-msgid "Malŝaltita"
-msgstr "विकलांग"
-
-#: motioneye/static/js/main.js:2861
-#, fuzzy
-msgid "Ĉu vere restartigi ?"
-msgstr "वास्तव में पुनः आरंभ?"
-
-#: motioneye/static/js/main.js:2875
-#, fuzzy
-msgid "La sistemo rekomencis!"
-msgstr "सिस्टम फिर से शुरू हुआ!"
-
-#: motioneye/static/js/main.js:2895 motioneye/static/js/main.js:2928
-#: motioneye/static/js/main.js:3904
-#, fuzzy
-msgid "Bonvolu apliki unue la modifitajn agordojn!"
-msgstr "कृपया संशोधित सेटिंग्स पहले लागू करें!"
-
-#: motioneye/static/js/main.js:2900
-#, fuzzy
-msgid "Neniu fotilo por forigi!"
-msgstr "हटाने के लिए कोई कैमरा नहीं!"
-
-#: motioneye/static/js/main.js:2906
-#, fuzzy
-msgid "Ĉu forigi kameraon "
-msgstr "कैमरा निकाल सकते हैं "
-
-#: motioneye/static/js/main.js:2934
-#, fuzzy
-msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr "गति नेत्र एक अद्यतन संस्करण है: "
-
-#: motioneye/static/js/main.js:2937
-#, fuzzy
-msgid "Nova versio havebla: "
-msgstr "एक नया संस्करण उपलब्ध: "
-
-#: motioneye/static/js/main.js:2937
-#, fuzzy
-msgid ". Ĝisdatigi?"
-msgstr "। अपडेट?"
-
-#: motioneye/static/js/main.js:2945
-#, fuzzy
-msgid "motionEye estis sukcese ĝisdatigita!"
-msgstr "गति नेत्र सफलतापूर्वक अद्यतन किया गया था!"
-
-#: motioneye/static/js/main.js:2955
-#, fuzzy
-msgid "Ĝisdatigo malsukcesis!"
-msgstr "अपडेट विफल रहा!"
-
-#: motioneye/static/js/main.js:2966
-#, fuzzy
-msgid "La ĝisdatiga procezo malsukcesis!"
-msgstr "अपग्रेड प्रक्रिया विफल हो गई!"
-
-#: motioneye/static/js/main.js:2985
-#, fuzzy
-msgid "Rezerva dosiero"
-msgstr "रिजर्व फाइल"
-
-#: motioneye/static/js/main.js:2987
-#, fuzzy
-msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
-msgstr "वह पुस्तक जिसे आपने पहले डाउनलोड किया था।।"
-
-#: motioneye/static/js/main.js:3016
-#, fuzzy
-msgid "Restaŭrigi Agordon"
-msgstr "एक अधिनियम आदेश बदलें"
-
-#: motioneye/static/js/main.js:3028
-#, fuzzy
-msgid "Restaŭriganta agordon ..."
-msgstr "सम्पर्क करने का विवरण।"
-
-#: motioneye/static/js/main.js:3035
-#, fuzzy
-msgid "La agordo restaŭrigis!"
-msgstr "विन्यास बहाल हो गया है!"
-
-#: motioneye/static/js/main.js:3045 motioneye/static/js/main.js:3064
-#, fuzzy
-msgid "Malsukcesis restaŭri la agordon!"
-msgstr "फिर मैं विन्यास को पुनर्स्थापित करने में विफल रहा!"
-
-#: motioneye/static/js/main.js:3120
-#, fuzzy
-msgid "Aliri la alŝutan servon malsukcesis: "
-msgstr "अपलोड सेवा का उपयोग विफल रहा: "
-
-#: motioneye/static/js/main.js:3123
-#, fuzzy
-msgid "Aliri la alŝutan servon sukcesis!"
-msgstr "अपलोड सेवा पूछो!"
-
-#: motioneye/static/js/main.js:3160
-#, fuzzy
-msgid "Sciiga retpoŝto fiaskis:"
-msgstr "ईमेल विफल रहा:"
-
-#: motioneye/static/js/main.js:3163
-#, fuzzy
-msgid "Notification email succeeded!"
-msgstr "ईमेल देख रहा है!"
-
-#: motioneye/static/js/main.js:3179
-#, fuzzy
-msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
-msgstr "सुनिश्चित करें कि सभी ट्यूनिंग विकल्प मान्य हैं!"
-
-#: motioneye/static/js/main.js:3195
-#, fuzzy
-msgid "Sciiga Telegramo fiaskis:"
-msgstr "एक ब्रांडिंग टेलीग्राम विफल रहा:"
-
-#: motioneye/static/js/main.js:3198
-#, fuzzy
-msgid "Sciiga Telegramo sukcesis!"
-msgstr "एक ब्रांडिंग टेलीग्राम सफल रहा!"
-
-#: motioneye/static/js/main.js:3234
-#, fuzzy
-msgid "Aliro al retdividado fiaskis: "
-msgstr "नेटवर्क साझा करने में असफलता: "
-
-#: motioneye/static/js/main.js:3237
-#, fuzzy
-msgid "Aliro al retdividado sukcesis!"
-msgstr "नेटवर्क साझा करने के लिए प्रवेश सफल रहा!"
-
-#: motioneye/static/js/main.js:3261
-#, fuzzy
-msgid "Ĉu vere forigi ĉi tiun dosieron?"
-msgstr "क्या आप वास्तव में इस फाइल को हटा सकते हैं?"
-
-#: motioneye/static/js/main.js:3285
-#, fuzzy
-msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
-msgstr "क्या आप वास्तव में % की सभी छवियों से छुटकारा पा सकते हैं?"
-
-#: motioneye/static/js/main.js:3288
-#, fuzzy
-msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
-msgstr "क्या आप वास्तव में % की सभी फिल्मों से छुटकारा पा सकते हैं?"
-
-#: motioneye/static/js/main.js:3293
-#, fuzzy
-msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
-msgstr "क्या आप वास्तव में सभी छवियों से छुटकारा पा सकते हैं?"
-
-#: motioneye/static/js/main.js:3296
-#, fuzzy
-msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
-msgstr "क्या आप वास्तव में सभी फिल्मों से छुटकारा पा सकते हैं?"
-
-#: motioneye/static/js/main.js:3402
-#, fuzzy
-msgid "aldonadi kameraon..."
-msgstr "एक कैमरा जोड़ना..।"
-
-#: motioneye/static/js/main.js:3627 motioneye/static/js/main.js:3926
-#, fuzzy
-msgid "Uzantnomo"
-msgstr "उपयोगकर्ता नाम"
-
-#: motioneye/static/js/main.js:3632 motioneye/static/js/main.js:3931
-#, fuzzy
-msgid "Pasvorto"
-msgstr "पासवर्ड"
-
-#: motioneye/static/js/main.js:3638
-#, fuzzy
-msgid "Memoru min"
-msgstr "मुझे याद रखें"
-
-#: motioneye/static/js/main.js:3656 motioneye/static/js/main.js:3662
-#, fuzzy
-msgid "Ensaluti"
-msgstr "लॉग इन"
-
-#: motioneye/static/js/main.js:3659 motioneye/static/js/ui.js:736
-#: motioneye/static/js/ui.js:743
-#, fuzzy
-msgid "Nuligi"
-msgstr "हिन्दी"
-
-#: motioneye/static/js/main.js:3701
-#, fuzzy
-msgid "Vi abortis la filmeton."
-msgstr "आपको फिल्म मिली।।"
-
-#: motioneye/static/js/main.js:3704
-#, fuzzy
-msgid "Reto eraro okazis."
-msgstr "एक गलती हुई।।"
-
-#: motioneye/static/js/main.js:3707
-#, fuzzy
-msgid "Malkodado-eraro aŭ neprogresinta funkcio."
-msgstr "डिकोडिंग त्रुटि या आक्रामक कार्य।।"
-
-#: motioneye/static/js/main.js:3710
-#, fuzzy
-msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
-msgstr "खेल के लिए फोरमेट समर्थित या अयोग्य नहीं है।।"
-
-#: motioneye/static/js/main.js:3713
-#, fuzzy
-msgid "Nekonata eraro okazis."
-msgstr "अज्ञात त्रुटि हुई है।।"
-
-#: motioneye/static/js/main.js:3716
-#, fuzzy
-msgid "Eraro : "
-msgstr "त्रुटि: "
-
-#: motioneye/static/js/main.js:3721
-#, fuzzy
-msgid "antaŭa bildo"
-msgstr "पिछली छवि"
-
-#: motioneye/static/js/main.js:3726
-#, fuzzy
-msgid "ludi"
-msgstr "खेलने के लिए"
-
-#: motioneye/static/js/main.js:3729
-#, fuzzy
-msgid "ludi * 5 kaj enĉenigi"
-msgstr "5 खेलें और प्रवेश करें"
-
-#: motioneye/static/js/main.js:3734
-#, fuzzy
-msgid "sekva bildo"
-msgstr "निम्नलिखित छवि"
-
-#: motioneye/static/js/main.js:3857
-#, fuzzy
-msgid "Fermi"
-msgstr "पास"
-
-#: motioneye/static/js/main.js:3858 motioneye/static/js/main.js:4417
-#, fuzzy
-msgid "Elŝuti"
-msgstr "डाउनलोड"
-
-#: motioneye/static/js/main.js:3866 motioneye/static/js/main.js:4420
-#, fuzzy
-msgid "Forigi"
-msgstr "निकालें"
-
-#: motioneye/static/js/main.js:3910
-#, fuzzy
-msgid "Kamerao tipo"
-msgstr "चैंबर प्रकार"
-
-#: motioneye/static/js/main.js:3912
-#, fuzzy
-msgid "Loka V4L2-kamerao"
-msgstr "स्थानीय V4L2 कैमरा"
-
-#: motioneye/static/js/main.js:3913
-#, fuzzy
-msgid "Loka MMAL-kamerao"
-msgstr "स्थानीय MMAL कैमरा"
-
-#: motioneye/static/js/main.js:3914
-#, fuzzy
-msgid "Reta kamerao"
-msgstr "नेटवर्क कैमरा"
-
-#: motioneye/static/js/main.js:3915
-#, fuzzy
-msgid "Fora motionEye kamerao"
-msgstr "मजबूत गति नेत्र कैमरा"
-
-#: motioneye/static/js/main.js:3916
-#, fuzzy
-msgid "Simpla MJPEG-kamerao"
-msgstr "सरल MJPEG कैमरा"
-
-#: motioneye/static/js/main.js:3918
-#, fuzzy
-msgid "la speco de kamerao, kiun vi volas aldoni"
-msgstr "जिस तरह का कैमरा आप जोड़ना चाहते हैं"
-
-#: motioneye/static/js/main.js:3921
-#, fuzzy
-msgid "URL"
-msgstr "यूआरएल"
-
-#: motioneye/static/js/main.js:3922
-#, fuzzy
-msgid "http://ekzemplo.com:8765/cams/..."
-msgstr "http://example.com:8765/cams/..।"
-
-#: motioneye/static/js/main.js:3923
-#, fuzzy
-msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
-msgstr "कैमरा यूआरएल (जैसे http:/example.com:80/cam/)"
-
-#: motioneye/static/js/main.js:3927
-#, fuzzy
-msgid "uzantnomo..."
-msgstr "उपयोगकर्ता नाम..।"
-
-#: motioneye/static/js/main.js:3928
-#, fuzzy
-msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
-msgstr "यदि आवश्यक हो तो उपयोगकर्ता नाम (उदाहरण के लिए प्रशासक)"
-
-#: motioneye/static/js/main.js:3932
-#, fuzzy
-msgid "pasvorto..."
-msgstr "पासवर्ड।"
-
-#: motioneye/static/js/main.js:3933
-#, fuzzy
-msgid "la pasvorto por la URL, se bezonata"
-msgstr "यदि आवश्यक हो तो यूआरएल के लिए पासवर्ड"
-
-#: motioneye/static/js/main.js:3936
-#, fuzzy
-msgid "Kamerao"
-msgstr "चैंबर"
-
-#: motioneye/static/js/main.js:3938
-#, fuzzy
-msgid "la kameraon, kiun vi volas aldoni"
-msgstr "कैमरा जिसे आप जोड़ना चाहते हैं"
-
-#: motioneye/static/js/main.js:3972
-#, fuzzy
-msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
-msgstr "मजबूत गति नेत्र कैमरा अन्य मोशनये सर्वर के पीछे स्थापित कैमरे हैं। उन्हें यहाँ जोड़ना आपको उन्हें दूर से देखने और प्रबंधित करने की अनुमति देगा।।"
-
-#: motioneye/static/js/main.js:3987
-#, fuzzy
-msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
-msgstr "ऑनलाइन कैमरे (या आईपी कैमरा) ऐसे उपकरण हैं जो RTSP / RTMP या MJPEG वीडियो या सरल JPEG छवियों में पैदा हुए हैं। सही URL RTSP, RTMP, MJPEG या JPEG का एहसास करने के लिए अपने डिवाइस के मैनुअल का परामर्श करें।।"
-
-#: motioneye/static/js/main.js:3992
-#, fuzzy
-msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr "स्थानीय एमएमएएल कैमरे सीधे आपके मोशन आई सिस्टम से जुड़े डिवाइस हैं। ये आमतौर पर कार-विशिष्ट कैमरे होते हैं।।"
-
-#: motioneye/static/js/main.js:4007
-#, fuzzy
-msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
-msgstr "वेब कैमरा के बजाय एक साधारण MJPEG कैमरे के रूप में अपने डिवाइस को जोड़ने से फोटोग्राफी में सुधार होगा, लेकिन इसके लिए कोई मोशन डिटेक्शन, इमेज कैप्चर या मूवी रिकॉर्डिंग उपलब्ध नहीं होगी। कैमरा आपके सर्वर और आपके ब्राउज़र के लिए सुलभ होना चाहिए। इस प्रकार का कैमरा इंटरनेट एक्सप्लोरर से मेल नहीं खाता है।"
-
-#: motioneye/static/js/main.js:4012
-#, fuzzy
-msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
-msgstr "स्थानीय V4L2 कैमरे आमतौर पर USB के माध्यम से सीधे आपके मोशन सिस्टम से जुड़े कैमरा डिवाइस होते हैं।"
-
-#: motioneye/static/js/main.js:4163
-#, fuzzy
-msgid "Aldonadi kameraon..."
-msgstr "कैमरा जोड़ें ..."
-
-#: motioneye/static/js/main.js:4235
-#, fuzzy
-msgid "Grupo"
-msgstr "समूह"
-
-#: motioneye/static/js/main.js:4239
-#, fuzzy
-msgid "Inkluzivi foton prenitan ĉiun"
-msgstr "प्रत्येक में एक फोटो लेना शामिल है"
-
-#: motioneye/static/js/main.js:4242
-#, fuzzy
-msgid "sekundo"
-msgstr "दूसरा"
-
-#: motioneye/static/js/main.js:4243
-#, fuzzy
-msgid "5 sekundoj"
-msgstr "5 सेकंड"
-
-#: motioneye/static/js/main.js:4244
-#, fuzzy
-msgid "10 sekundoj"
-msgstr "10 सेकंड"
-
-#: motioneye/static/js/main.js:4245
-#, fuzzy
-msgid "30 sekundoj"
-msgstr "30 सेकंड"
-
-#: motioneye/static/js/main.js:4246
-#, fuzzy
-msgid "minuto"
-msgstr "मिनट"
-
-#: motioneye/static/js/main.js:4247
-#, fuzzy
-msgid "5 minutoj"
-msgstr "5 मिनट"
-
-#: motioneye/static/js/main.js:4248
-#, fuzzy
-msgid "10 minutoj"
-msgstr "10 मिनट"
-
-#: motioneye/static/js/main.js:4249
-#, fuzzy
-msgid "30 minutoj"
-msgstr "30 मिनट"
-
-#: motioneye/static/js/main.js:4250
-#, fuzzy
-msgid "horo"
-msgstr "घंटा"
-
-#: motioneye/static/js/main.js:4253
-#, fuzzy
-msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
-msgstr "दो चयनित छवियों के बीच समय की सीमा चुनें।।"
-
-#: motioneye/static/js/main.js:4256
-#, fuzzy
-msgid "Filmo framfrekvenco"
-msgstr "फिल्म फ्रेम आवृत्ति"
-
-#: motioneye/static/js/main.js:4258
-#, fuzzy
-msgid "Elektu kiom rapide vi volas ke la akselita video estu."
-msgstr "चुनें कि आप कितनी तेजी से त्वरित वीडियो चाहते हैं।"
-
-#: motioneye/static/js/main.js:4267
-#, fuzzy
-msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr "बड़ी संख्या में छवियों को ध्यान में रखते हुए, आपके वीडियो को बनाने में कुछ समय लग सकता है!"
-
-#: motioneye/static/js/main.js:4284
-#, fuzzy
-msgid "Krei akselita video"
-msgstr "एक त्वरित वीडियो बनाएं"
-
-#: motioneye/static/js/main.js:4293
-#, fuzzy
-msgid "Filmo kreanta en progreso..."
-msgstr "एक फिल्म प्रगति पर है ..."
-
-#: motioneye/static/js/main.js:4544
-#, fuzzy
-msgid "Zipitaj"
-msgstr "ज़िपित"
-
-#: motioneye/static/js/main.js:4553
-#, fuzzy
-msgid "Akselita video"
-msgstr "संपादित वीडियो"
-
-#: motioneye/static/js/main.js:4564
-#, fuzzy
-msgid "Forigi ĉiujn"
-msgstr "सभी निकालें"
-
-#: motioneye/static/js/main.js:4706
-#, fuzzy
-msgid "Bildoj prenitaj de "
-msgstr "द्वारा लिए गए चित्र "
-
-#: motioneye/static/js/main.js:4709
-#, fuzzy
-msgid "Filmoj registritaj de "
-msgstr "द्वारा दर्ज की गई फिल्में "
-
-#: motioneye/static/js/main.js:4777
-#, fuzzy
-msgid "montru ĉi tiun fotilon plenekranan"
-msgstr "इस कैमरे को पूर्णकालिक दिखाएं"
-
-#: motioneye/static/js/main.js:4778
-#, fuzzy
-msgid "montri ĉiujn fotilojn"
-msgstr "सभी कैमरे दिखाएं"
-
-#: motioneye/static/js/main.js:4779
-#, fuzzy
-msgid "montru nur ĉi tiun fotilon"
-msgstr "केवल यह कैमरा दिखाएं"
-
-#: motioneye/static/js/main.js:4780
-#, fuzzy
-msgid "malfermaj bildoj retumilo"
-msgstr "खुले चित्र ब्राउज़र"
-
-#: motioneye/static/js/main.js:4781
-#, fuzzy
-msgid "malferma videoj retumilo"
-msgstr "खुले वीडियो ब्राउज़र"
-
-#: motioneye/static/js/main.js:4782
-#, fuzzy
-msgid "agordi ĉi tiun kameraon"
-msgstr "इस कैमरे को सेट करें"
-
-#: motioneye/static/js/main.js:4798
-#, fuzzy
-msgid "preni instantaron"
-msgstr "एक स्नैपशॉट ले लो"
-
-#: motioneye/static/js/main.js:5191
-#, fuzzy
-msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr "आपने अभी तक कोई कैमरा कॉन्फ़िगर नहीं किया है। एक जोड़ने के लिए यहां क्लिक करें ..."
+"X-Generator: Weblate 2026.6.dev0\n"
 
 #: motioneye/static/js/ui.js:361
 #, fuzzy
 msgid "enter a valid value"
 msgstr "एक मान्य मूल्य दफनाना"
+
+#: motioneye/static/js/ui.js:397 motioneye/static/js/main.js:482
+#: motioneye/static/js/main.js:493 motioneye/static/js/main.js:552
+msgid "Ĉi tiu kampo estas deviga"
+msgstr "यह जानकारी भरना अनिवार्य है"
 
 #: motioneye/static/js/ui.js:420
 #, fuzzy
@@ -724,10 +86,676 @@ msgstr "नहीं"
 msgid "Jes"
 msgstr "हां"
 
+#: motioneye/static/js/ui.js:736 motioneye/static/js/ui.js:743
+#: motioneye/static/js/main.js:3481
+#, fuzzy
+msgid "Nuligi"
+msgstr "हिन्दी"
+
 #: motioneye/static/js/ui.js:744 motioneye/static/js/ui.js:749
 #, fuzzy
 msgid "Bone"
 msgstr "अच्छी तरह से"
+
+#: motioneye/static/js/main.js:386
+#, fuzzy
+msgid "An error occurred. Refreshing is recommended."
+msgstr "Annuendo. ताज़ा अभिनेता।।"
+
+#: motioneye/static/js/main.js:457
+msgid "specialaj signoj ne rajtas en pasvorto"
+msgstr "पासवर्ड में विशेष चिन्हों के उपयोग की अनुमति नहीं है"
+
+#: motioneye/static/js/main.js:464
+#, fuzzy
+msgid "use of colon (:) is not allowed in video streaming username"
+msgstr "इंच (:) का उपयोग एक नोट है जो वीडियो स्ट्रीमिंग यूजरनेम में है"
+
+#: motioneye/static/js/main.js:475
+msgid "video streaming authentication mode must be Basic or Digest when admin-only access is enabled"
+msgstr "जब केवल-एडमिन एक्सेस सक्रिय हो तब वीडियो स्ट्रीमिंग प्रमाणीकरण मोड बेसिक या डाइजेस्ट होना चाहिए"
+
+#: motioneye/static/js/main.js:486
+msgid "specialaj signoj ne rajtas en la nomo de kamerao"
+msgstr "कैमरे के नाम में विशेष वर्णों की अनुमति नहीं है"
+
+#: motioneye/static/js/main.js:498
+msgid "valoro devas esti multoblo de 8"
+msgstr "संख्या 8 का गुणज होनी चाहिए"
+
+#: motioneye/static/js/main.js:505
+msgid "specialaj signoj ne rajtas en radika voja nomo"
+msgstr "रूट डायरेक्टरी के नाम में विशेष वर्णों की अनुमति नहीं है"
+
+#: motioneye/static/js/main.js:508
+msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
+msgstr "आपके सिस्टम के रूट फोल्डर में सीधे फ़ाइलें नहीं बनाई जा सकतीं हैं"
+
+#: motioneye/static/js/main.js:515
+msgid "enigu validan retpoŝtadreson"
+msgstr "एक मान्य ईमेल एड्रेस दर्ज करें"
+
+#: motioneye/static/js/main.js:522
+msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
+msgstr "अल्पविराम से अलग किए गए मान्य ईमेल एड्रेसेस की एक सूची दर्ज करें"
+
+#: motioneye/static/js/main.js:529
+msgid "specialaj signoj ne rajtas en dosiernomo"
+msgstr "फ़ाइल नाम में विशेष वर्णों की अनुमति नहीं है"
+
+#: motioneye/static/js/main.js:556
+msgid "enigu validan valoron"
+msgstr "एक वैध मान दर्ज करें"
+
+#: motioneye/static/js/main.js:698
+msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
+msgstr "सभी फ़ाइलें क्रमिक रूप से हटा दी जाएँगी, इस क्लाउड फ़ोल्डर से \""
+
+#: motioneye/static/js/main.js:699
+msgid "\", ne nur tiuj alŝutitaj de motionEye!"
+msgstr "\", न कि केवल वो जो मोशनआई द्वारा अपलोड की गई थीं!"
+
+#: motioneye/static/js/main.js:780
+#, fuzzy
+msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
+msgstr "यह फ़ोल्डर में सभी पुरानी मीडिया फ़ाइलों को पुन: हटा देगा \""
+
+#: motioneye/static/js/main.js:781
+#, fuzzy
+msgid "\", ne nur tiuj kreitaj de motionEye!"
+msgstr "\", नहीं बस उन गति द्वारा बनाई गई!"
+
+#: motioneye/static/js/main.js:847
+#, fuzzy
+msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
+msgstr "मान्य कैमरा छवि के बिना मास्क को संपादित नहीं किया जा सकता है!"
+
+#: motioneye/static/js/main.js:2107
+#, fuzzy
+msgid "Propra"
+msgstr "अनुकूलित"
+
+#: motioneye/static/js/main.js:2145
+#, fuzzy
+msgid "Propra dosierindiko"
+msgstr "व्यक्तिगत फ़ाइल कमेंटरी"
+
+#: motioneye/static/js/main.js:2147
+#, fuzzy
+msgid "Retan kunlokon"
+msgstr "ऑनलाइन बैठक"
+
+#: motioneye/static/js/main.js:2503
+#, fuzzy
+msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
+msgstr "आपका ब्राउज़र इस कार्य को लागू नहीं करता है।!"
+
+#: motioneye/static/js/main.js:2519
+#, fuzzy
+msgid "Apliki"
+msgstr "लागू करें"
+
+#: motioneye/static/js/main.js:2546 motioneye/static/js/main.js:2913
+#: motioneye/static/js/main.js:2969 motioneye/static/js/main.js:3044
+#, fuzzy
+msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
+msgstr "सुनिश्चित करें कि सभी कॉन्फ़िगरेशन विकल्प मान्य हैं!"
+
+#: motioneye/static/js/main.js:2600
+#, fuzzy
+msgid "Admin password updated. Please log in again."
+msgstr "प्रशासन फिर से रहना चाहिए।।"
+
+#: motioneye/static/js/main.js:2654
+#, fuzzy
+msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
+msgstr "यह सिस्टम को पुनरारंभ करेगा। रहना चाहते हैं?"
+
+#: motioneye/static/js/main.js:2664
+#, fuzzy
+msgid "Vere fermiti sistemon?"
+msgstr "सच में सिस्टम बंद?"
+
+#: motioneye/static/js/main.js:2676
+#, fuzzy
+msgid "Malŝaltita"
+msgstr "विकलांग"
+
+#: motioneye/static/js/main.js:2691
+#, fuzzy
+msgid "Ĉu vere restartigi ?"
+msgstr "वास्तव में पुनः आरंभ?"
+
+#: motioneye/static/js/main.js:2705
+#, fuzzy
+msgid "La sistemo rekomencis!"
+msgstr "सिस्टम फिर से शुरू हुआ!"
+
+#: motioneye/static/js/main.js:2725 motioneye/static/js/main.js:2758
+#: motioneye/static/js/main.js:3776
+#, fuzzy
+msgid "Bonvolu apliki unue la modifitajn agordojn!"
+msgstr "कृपया संशोधित सेटिंग्स पहले लागू करें!"
+
+#: motioneye/static/js/main.js:2730
+#, fuzzy
+msgid "Neniu fotilo por forigi!"
+msgstr "हटाने के लिए कोई कैमरा नहीं!"
+
+#: motioneye/static/js/main.js:2736
+#, fuzzy
+msgid "Ĉu forigi kameraon "
+msgstr "कैमरा निकाल सकते हैं "
+
+#: motioneye/static/js/main.js:2764
+#, fuzzy
+msgid "motionEye estas ĝisdatigita (aktuala versio: "
+msgstr "गति नेत्र एक अद्यतन संस्करण है: "
+
+#: motioneye/static/js/main.js:2767
+#, fuzzy
+msgid "Nova versio havebla: "
+msgstr "एक नया संस्करण उपलब्ध: "
+
+#: motioneye/static/js/main.js:2767
+#, fuzzy
+msgid ". Ĝisdatigi?"
+msgstr "। अपडेट?"
+
+#: motioneye/static/js/main.js:2775
+#, fuzzy
+msgid "motionEye estis sukcese ĝisdatigita!"
+msgstr "गति नेत्र सफलतापूर्वक अद्यतन किया गया था!"
+
+#: motioneye/static/js/main.js:2785
+#, fuzzy
+msgid "Ĝisdatigo malsukcesis!"
+msgstr "अपडेट विफल रहा!"
+
+#: motioneye/static/js/main.js:2796
+#, fuzzy
+msgid "La ĝisdatiga procezo malsukcesis!"
+msgstr "अपग्रेड प्रक्रिया विफल हो गई!"
+
+#: motioneye/static/js/main.js:2815
+#, fuzzy
+msgid "Rezerva dosiero"
+msgstr "रिजर्व फाइल"
+
+#: motioneye/static/js/main.js:2817
+#, fuzzy
+msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
+msgstr "वह पुस्तक जिसे आपने पहले डाउनलोड किया था।।"
+
+#: motioneye/static/js/main.js:2846
+#, fuzzy
+msgid "Restaŭrigi Agordon"
+msgstr "एक अधिनियम आदेश बदलें"
+
+#: motioneye/static/js/main.js:2858
+#, fuzzy
+msgid "Restaŭriganta agordon ..."
+msgstr "सम्पर्क करने का विवरण।"
+
+#: motioneye/static/js/main.js:2865
+#, fuzzy
+msgid "La agordo restaŭrigis!"
+msgstr "विन्यास बहाल हो गया है!"
+
+#: motioneye/static/js/main.js:2875 motioneye/static/js/main.js:2894
+#, fuzzy
+msgid "Malsukcesis restaŭri la agordon!"
+msgstr "फिर मैं विन्यास को पुनर्स्थापित करने में विफल रहा!"
+
+#: motioneye/static/js/main.js:2950
+#, fuzzy
+msgid "Aliri la alŝutan servon malsukcesis: "
+msgstr "अपलोड सेवा का उपयोग विफल रहा: "
+
+#: motioneye/static/js/main.js:2953
+#, fuzzy
+msgid "Aliri la alŝutan servon sukcesis!"
+msgstr "अपलोड सेवा पूछो!"
+
+#: motioneye/static/js/main.js:2990
+#, fuzzy
+msgid "Sciiga retpoŝto fiaskis:"
+msgstr "ईमेल विफल रहा:"
+
+#: motioneye/static/js/main.js:2993
+#, fuzzy
+msgid "Notification email succeeded!"
+msgstr "ईमेल देख रहा है!"
+
+#: motioneye/static/js/main.js:3009
+#, fuzzy
+msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
+msgstr "सुनिश्चित करें कि सभी ट्यूनिंग विकल्प मान्य हैं!"
+
+#: motioneye/static/js/main.js:3025
+#, fuzzy
+msgid "Sciiga Telegramo fiaskis:"
+msgstr "एक ब्रांडिंग टेलीग्राम विफल रहा:"
+
+#: motioneye/static/js/main.js:3028
+#, fuzzy
+msgid "Sciiga Telegramo sukcesis!"
+msgstr "एक ब्रांडिंग टेलीग्राम सफल रहा!"
+
+#: motioneye/static/js/main.js:3064
+#, fuzzy
+msgid "Aliro al retdividado fiaskis: "
+msgstr "नेटवर्क साझा करने में असफलता: "
+
+#: motioneye/static/js/main.js:3067
+#, fuzzy
+msgid "Aliro al retdividado sukcesis!"
+msgstr "नेटवर्क साझा करने के लिए प्रवेश सफल रहा!"
+
+#: motioneye/static/js/main.js:3091
+#, fuzzy
+msgid "Ĉu vere forigi ĉi tiun dosieron?"
+msgstr "क्या आप वास्तव में इस फाइल को हटा सकते हैं?"
+
+#: motioneye/static/js/main.js:3115
+#, fuzzy
+msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
+msgstr "क्या आप वास्तव में % की सभी छवियों से छुटकारा पा सकते हैं?"
+
+#: motioneye/static/js/main.js:3118
+#, fuzzy
+msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
+msgstr "क्या आप वास्तव में % की सभी फिल्मों से छुटकारा पा सकते हैं?"
+
+#: motioneye/static/js/main.js:3123
+#, fuzzy
+msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
+msgstr "क्या आप वास्तव में सभी छवियों से छुटकारा पा सकते हैं?"
+
+#: motioneye/static/js/main.js:3126
+#, fuzzy
+msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
+msgstr "क्या आप वास्तव में सभी फिल्मों से छुटकारा पा सकते हैं?"
+
+#: motioneye/static/js/main.js:3232
+#, fuzzy
+msgid "aldonadi kameraon..."
+msgstr "एक कैमरा जोड़ना..।"
+
+#: motioneye/static/js/main.js:3457 motioneye/static/js/main.js:3798
+#, fuzzy
+msgid "Uzantnomo"
+msgstr "उपयोगकर्ता नाम"
+
+#: motioneye/static/js/main.js:3462 motioneye/static/js/main.js:3803
+#, fuzzy
+msgid "Pasvorto"
+msgstr "पासवर्ड"
+
+#: motioneye/static/js/main.js:3474
+#, fuzzy
+msgid "Please login to continue."
+msgstr "जारी रखने के लिए कृपया लॉग इन करें।।"
+
+#: motioneye/static/js/main.js:3478 motioneye/static/js/main.js:3482
+#, fuzzy
+msgid "Ensaluti"
+msgstr "लॉग इन"
+
+#: motioneye/static/js/main.js:3509
+#, fuzzy
+msgid "Your account requires a password to be set. Please contact the administrator to set a password for your account."
+msgstr "आपका खाता स्थापित करने का पासवर्ड है। कृपया अपने खाते के लिए खेल से संपर्क करें।।"
+
+#: motioneye/static/js/main.js:3522
+#, fuzzy
+msgid "Please set a password for your account."
+msgstr "कृपया अपने खाते के लिए पासवर्ड सेट करें।।"
+
+#: motioneye/static/js/main.js:3539
+#, fuzzy
+msgid "Login failed."
+msgstr "लॉग इन।"
+
+#: motioneye/static/js/main.js:3573
+#, fuzzy
+msgid "Vi abortis la filmeton."
+msgstr "आपको फिल्म मिली।।"
+
+#: motioneye/static/js/main.js:3576
+#, fuzzy
+msgid "Reto eraro okazis."
+msgstr "एक गलती हुई।।"
+
+#: motioneye/static/js/main.js:3579
+#, fuzzy
+msgid "Malkodado-eraro aŭ neprogresinta funkcio."
+msgstr "डिकोडिंग त्रुटि या आक्रामक कार्य।।"
+
+#: motioneye/static/js/main.js:3582
+#, fuzzy
+msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
+msgstr "खेल के लिए फोरमेट समर्थित या अयोग्य नहीं है।।"
+
+#: motioneye/static/js/main.js:3585
+#, fuzzy
+msgid "Nekonata eraro okazis."
+msgstr "अज्ञात त्रुटि हुई है।।"
+
+#: motioneye/static/js/main.js:3588
+#, fuzzy
+msgid "Eraro : "
+msgstr "त्रुटि: "
+
+#: motioneye/static/js/main.js:3593
+#, fuzzy
+msgid "antaŭa bildo"
+msgstr "पिछली छवि"
+
+#: motioneye/static/js/main.js:3598
+#, fuzzy
+msgid "ludi"
+msgstr "खेलने के लिए"
+
+#: motioneye/static/js/main.js:3601
+#, fuzzy
+msgid "ludi * 5 kaj enĉenigi"
+msgstr "5 खेलें और प्रवेश करें"
+
+#: motioneye/static/js/main.js:3606
+#, fuzzy
+msgid "sekva bildo"
+msgstr "निम्नलिखित छवि"
+
+#: motioneye/static/js/main.js:3729
+#, fuzzy
+msgid "Fermi"
+msgstr "पास"
+
+#: motioneye/static/js/main.js:3730 motioneye/static/js/main.js:4291
+#, fuzzy
+msgid "Elŝuti"
+msgstr "डाउनलोड"
+
+#: motioneye/static/js/main.js:3738 motioneye/static/js/main.js:4294
+#, fuzzy
+msgid "Forigi"
+msgstr "निकालें"
+
+#: motioneye/static/js/main.js:3782
+#, fuzzy
+msgid "Kamerao tipo"
+msgstr "चैंबर प्रकार"
+
+#: motioneye/static/js/main.js:3784
+#, fuzzy
+msgid "Loka V4L2-kamerao"
+msgstr "स्थानीय V4L2 कैमरा"
+
+#: motioneye/static/js/main.js:3785
+#, fuzzy
+msgid "Loka MMAL-kamerao"
+msgstr "स्थानीय MMAL कैमरा"
+
+#: motioneye/static/js/main.js:3786
+#, fuzzy
+msgid "Reta kamerao"
+msgstr "नेटवर्क कैमरा"
+
+#: motioneye/static/js/main.js:3787
+#, fuzzy
+msgid "Fora motionEye kamerao"
+msgstr "मजबूत गति नेत्र कैमरा"
+
+#: motioneye/static/js/main.js:3788
+#, fuzzy
+msgid "Simpla MJPEG-kamerao"
+msgstr "सरल MJPEG कैमरा"
+
+#: motioneye/static/js/main.js:3790
+#, fuzzy
+msgid "la speco de kamerao, kiun vi volas aldoni"
+msgstr "जिस तरह का कैमरा आप जोड़ना चाहते हैं"
+
+#: motioneye/static/js/main.js:3793
+#, fuzzy
+msgid "URL"
+msgstr "यूआरएल"
+
+#: motioneye/static/js/main.js:3794
+#, fuzzy
+msgid "http://ekzemplo.com:8765/cams/..."
+msgstr "http://example.com:8765/cams/..।"
+
+#: motioneye/static/js/main.js:3795
+#, fuzzy
+msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
+msgstr "कैमरा यूआरएल (जैसे http:/example.com:80/cam/)"
+
+#: motioneye/static/js/main.js:3799
+#, fuzzy
+msgid "uzantnomo..."
+msgstr "उपयोगकर्ता नाम..।"
+
+#: motioneye/static/js/main.js:3800
+#, fuzzy
+msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
+msgstr "यदि आवश्यक हो तो उपयोगकर्ता नाम (उदाहरण के लिए प्रशासक)"
+
+#: motioneye/static/js/main.js:3804
+#, fuzzy
+msgid "pasvorto..."
+msgstr "पासवर्ड।"
+
+#: motioneye/static/js/main.js:3805
+#, fuzzy
+msgid "la pasvorto por la URL, se bezonata"
+msgstr "यदि आवश्यक हो तो यूआरएल के लिए पासवर्ड"
+
+#: motioneye/static/js/main.js:3808
+#, fuzzy
+msgid "Remote Secret"
+msgstr "दूरस्थ गुप्त"
+
+#: motioneye/static/js/main.js:3809
+#, fuzzy
+msgid "remote secret..."
+msgstr "सुदूर गुप्त..।"
+
+#: motioneye/static/js/main.js:3810
+#, fuzzy
+msgid "the client secret of the remote motionEye server. Find this value in the Client Secret field of the remote server's general settings."
+msgstr "रिमोट मोशन आई के क्लाइंट रहस्य। दूरस्थ रूप से मौजूदा डोमेन के क्लाइंट गुप्त क्षेत्र में इस मूल्य का पता लगाएं।।"
+
+#: motioneye/static/js/main.js:3813
+#, fuzzy
+msgid "Kamerao"
+msgstr "चैंबर"
+
+#: motioneye/static/js/main.js:3815
+#, fuzzy
+msgid "la kameraon, kiun vi volas aldoni"
+msgstr "कैमरा जिसे आप जोड़ना चाहते हैं"
+
+#: motioneye/static/js/main.js:3849
+#, fuzzy
+msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
+msgstr "मजबूत गति नेत्र कैमरा अन्य मोशनये सर्वर के पीछे स्थापित कैमरे हैं। उन्हें यहाँ जोड़ना आपको उन्हें दूर से देखने और प्रबंधित करने की अनुमति देगा।।"
+
+#: motioneye/static/js/main.js:3862
+#, fuzzy
+msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
+msgstr "ऑनलाइन कैमरे (या आईपी कैमरा) ऐसे उपकरण हैं जो RTSP / RTMP या MJPEG वीडियो या सरल JPEG छवियों में पैदा हुए हैं। सही URL RTSP, RTMP, MJPEG या JPEG का एहसास करने के लिए अपने डिवाइस के मैनुअल का परामर्श करें।।"
+
+#: motioneye/static/js/main.js:3867
+#, fuzzy
+msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
+msgstr "स्थानीय एमएमएएल कैमरे सीधे आपके मोशन आई सिस्टम से जुड़े डिवाइस हैं। ये आमतौर पर कार-विशिष्ट कैमरे होते हैं।।"
+
+#: motioneye/static/js/main.js:3880
+#, fuzzy
+msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
+msgstr "वेब कैमरा के बजाय एक साधारण MJPEG कैमरे के रूप में अपने डिवाइस को जोड़ने से फोटोग्राफी में सुधार होगा, लेकिन इसके लिए कोई मोशन डिटेक्शन, इमेज कैप्चर या मूवी रिकॉर्डिंग उपलब्ध नहीं होगी। कैमरा आपके सर्वर और आपके ब्राउज़र के लिए सुलभ होना चाहिए। इस प्रकार का कैमरा इंटरनेट एक्सप्लोरर से मेल नहीं खाता है।"
+
+#: motioneye/static/js/main.js:3885
+#, fuzzy
+msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
+msgstr "स्थानीय V4L2 कैमरे आमतौर पर USB के माध्यम से सीधे आपके मोशन सिस्टम से जुड़े कैमरा डिवाइस होते हैं।"
+
+#: motioneye/static/js/main.js:4038
+#, fuzzy
+msgid "Aldonadi kameraon..."
+msgstr "कैमरा जोड़ें ..."
+
+#: motioneye/static/js/main.js:4109
+#, fuzzy
+msgid "Grupo"
+msgstr "समूह"
+
+#: motioneye/static/js/main.js:4113
+#, fuzzy
+msgid "Inkluzivi foton prenitan ĉiun"
+msgstr "प्रत्येक में एक फोटो लेना शामिल है"
+
+#: motioneye/static/js/main.js:4116
+#, fuzzy
+msgid "sekundo"
+msgstr "दूसरा"
+
+#: motioneye/static/js/main.js:4117
+#, fuzzy
+msgid "5 sekundoj"
+msgstr "5 सेकंड"
+
+#: motioneye/static/js/main.js:4118
+#, fuzzy
+msgid "10 sekundoj"
+msgstr "10 सेकंड"
+
+#: motioneye/static/js/main.js:4119
+#, fuzzy
+msgid "30 sekundoj"
+msgstr "30 सेकंड"
+
+#: motioneye/static/js/main.js:4120
+#, fuzzy
+msgid "minuto"
+msgstr "मिनट"
+
+#: motioneye/static/js/main.js:4121
+#, fuzzy
+msgid "5 minutoj"
+msgstr "5 मिनट"
+
+#: motioneye/static/js/main.js:4122
+#, fuzzy
+msgid "10 minutoj"
+msgstr "10 मिनट"
+
+#: motioneye/static/js/main.js:4123
+#, fuzzy
+msgid "30 minutoj"
+msgstr "30 मिनट"
+
+#: motioneye/static/js/main.js:4124
+#, fuzzy
+msgid "horo"
+msgstr "घंटा"
+
+#: motioneye/static/js/main.js:4127
+#, fuzzy
+msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
+msgstr "दो चयनित छवियों के बीच समय की सीमा चुनें।।"
+
+#: motioneye/static/js/main.js:4130
+#, fuzzy
+msgid "Filmo framfrekvenco"
+msgstr "फिल्म फ्रेम आवृत्ति"
+
+#: motioneye/static/js/main.js:4132
+#, fuzzy
+msgid "Elektu kiom rapide vi volas ke la akselita video estu."
+msgstr "चुनें कि आप कितनी तेजी से त्वरित वीडियो चाहते हैं।"
+
+#: motioneye/static/js/main.js:4141
+#, fuzzy
+msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
+msgstr "बड़ी संख्या में छवियों को ध्यान में रखते हुए, आपके वीडियो को बनाने में कुछ समय लग सकता है!"
+
+#: motioneye/static/js/main.js:4158
+#, fuzzy
+msgid "Krei akselita video"
+msgstr "एक त्वरित वीडियो बनाएं"
+
+#: motioneye/static/js/main.js:4167
+#, fuzzy
+msgid "Filmo kreanta en progreso..."
+msgstr "एक फिल्म प्रगति पर है ..."
+
+#: motioneye/static/js/main.js:4418
+#, fuzzy
+msgid "Zipitaj"
+msgstr "ज़िपित"
+
+#: motioneye/static/js/main.js:4427
+#, fuzzy
+msgid "Akselita video"
+msgstr "संपादित वीडियो"
+
+#: motioneye/static/js/main.js:4438
+#, fuzzy
+msgid "Forigi ĉiujn"
+msgstr "सभी निकालें"
+
+#: motioneye/static/js/main.js:4580
+#, fuzzy
+msgid "Bildoj prenitaj de "
+msgstr "द्वारा लिए गए चित्र "
+
+#: motioneye/static/js/main.js:4583
+#, fuzzy
+msgid "Filmoj registritaj de "
+msgstr "द्वारा दर्ज की गई फिल्में "
+
+#: motioneye/static/js/main.js:4651
+#, fuzzy
+msgid "montru ĉi tiun fotilon plenekranan"
+msgstr "इस कैमरे को पूर्णकालिक दिखाएं"
+
+#: motioneye/static/js/main.js:4652
+#, fuzzy
+msgid "montri ĉiujn fotilojn"
+msgstr "सभी कैमरे दिखाएं"
+
+#: motioneye/static/js/main.js:4653
+#, fuzzy
+msgid "montru nur ĉi tiun fotilon"
+msgstr "केवल यह कैमरा दिखाएं"
+
+#: motioneye/static/js/main.js:4654
+#, fuzzy
+msgid "malfermaj bildoj retumilo"
+msgstr "खुले चित्र ब्राउज़र"
+
+#: motioneye/static/js/main.js:4655
+#, fuzzy
+msgid "malferma videoj retumilo"
+msgstr "खुले वीडियो ब्राउज़र"
+
+#: motioneye/static/js/main.js:4656
+#, fuzzy
+msgid "agordi ĉi tiun kameraon"
+msgstr "इस कैमरे को सेट करें"
+
+#: motioneye/static/js/main.js:4672
+#, fuzzy
+msgid "preni instantaron"
+msgstr "एक स्नैपशॉट ले लो"
+
+#: motioneye/static/js/main.js:5065
+#, fuzzy
+msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
+msgstr "आपने अभी तक कोई कैमरा कॉन्फ़िगर नहीं किया है। एक जोड़ने के लिए यहां क्लिक करें ..."
 
 #: l10n/v4l2.js:4
 #, fuzzy
@@ -843,6 +871,10 @@ msgstr "सफेद संतुलन तापमान ऑटो"
 #, fuzzy
 msgid "Zoom Absolute"
 msgstr "ज़ूम बिल्कुल"
+
+#, fuzzy
+#~ msgid "Memoru min"
+#~ msgstr "मुझे याद रखें"
 
 #, fuzzy
 #~ msgid "enigu pozitivan nombron"

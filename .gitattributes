@@ -1,0 +1,5 @@
+* text=auto
+*.sh text eol=lf
+linux_init text eol=lf
+po2json text eol=lf
+*.py text eol=lf

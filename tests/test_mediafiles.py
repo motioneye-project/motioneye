@@ -21,6 +21,7 @@ from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
 
+from motioneye import mediafiles
 from motioneye.mediafiles import _list_media_files
 
 
@@ -279,6 +280,344 @@ class TestMediaFiles(unittest.TestCase):
             ]
         )
         self.assertEqual(result_paths, expected_files)
+
+
+class TestMediaFilesPathValidation(unittest.TestCase):
+    """Tests verifying that path validation (traversal, absolute, dir escape) is enforced in mediafiles functions."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls._target_dir = mkdtemp()
+        cls._outside_dir = mkdtemp()
+        os.symlink(cls._outside_dir, os.path.join(cls._target_dir, 'escape'))
+        cls._camera_config = {
+            'target_dir': cls._target_dir,
+            'framerate': 2,
+            'pre_capture': 2,
+        }
+
+    @classmethod
+    def tearDownClass(cls):
+        rmtree(cls._target_dir, ignore_errors=True)
+        rmtree(cls._outside_dir, ignore_errors=True)
+
+    # Traversal inputs: each contains '..' as a path component.
+    _FILENAME_TRAVERSALS = [
+        '../etc/passwd',
+        '../../etc/passwd',
+        'subdir/../../../etc/passwd',
+        '../secret.jpg',
+    ]
+    _SUBDIR_TRAVERSALS = [
+        '..',
+        '../group',
+        'subdir/..',
+        'subdir/../../other',
+    ]
+
+    # Absolute path inputs: each starts with '/'.
+    _FILENAME_ABSOLUTES = ['/etc/passwd', '/mnt/secret.jpg']
+    _SUBDIR_ABSOLUTES = ['/etc', '/root/.ssh', '/var/log']
+
+    # Camera dir escape inputs: use the 'escape' symlink.
+    _FILENAME_ESCAPES = ['escape/secret.jpg', 'escape/subdir/file.mp4']
+    _SUBDIR_ESCAPES = ['escape', 'escape/subdir']
+
+    def _assert_raises_traversal(self, fn, *args, **kwargs):
+        with self.assertRaises(Exception) as ctx:
+            fn(*args, **kwargs)
+        self.assertIn('Path traversal', str(ctx.exception))
+
+    def _assert_raises_absolute_path(self, fn, *args, **kwargs):
+        with self.assertRaises(Exception) as ctx:
+            fn(*args, **kwargs)
+        self.assertIn('Absolute path', str(ctx.exception))
+
+    def _assert_raises_dir_escape(self, fn, *args, **kwargs):
+        with self.assertRaises(Exception) as ctx:
+            fn(*args, **kwargs)
+        self.assertIn('escapes camera directory', str(ctx.exception))
+
+    # --- make_movie_preview ---
+
+    def test_make_movie_preview_rejects_traversal(self):
+        for path in self._FILENAME_TRAVERSALS:
+            full_path = os.path.join(self._camera_config['target_dir'], path)
+            with self.subTest(full_path=full_path):
+                self._assert_raises_traversal(
+                    mediafiles.make_movie_preview, self._camera_config, full_path
+                )
+
+    def test_make_movie_preview_rejects_absolute_path(self):
+        for path in self._FILENAME_ABSOLUTES:
+            with self.subTest(path=path):
+                self._assert_raises_absolute_path(
+                    mediafiles.make_movie_preview, self._camera_config, path
+                )
+
+    def test_make_movie_preview_rejects_dir_escape(self):
+        for path in self._FILENAME_ESCAPES:
+            full_path = os.path.join(self._camera_config['target_dir'], path)
+            with self.subTest(full_path=full_path):
+                self._assert_raises_dir_escape(
+                    mediafiles.make_movie_preview, self._camera_config, full_path
+                )
+
+    # --- list_media ---
+
+    def test_list_media_rejects_traversal(self):
+        for prefix in self._SUBDIR_TRAVERSALS:
+            with self.subTest(prefix=prefix):
+                self._assert_raises_traversal(
+                    mediafiles.list_media,
+                    self._camera_config,
+                    'picture',
+                    prefix=prefix,
+                )
+
+    def test_list_media_rejects_absolute_path(self):
+        for prefix in self._SUBDIR_ABSOLUTES:
+            with self.subTest(prefix=prefix):
+                self._assert_raises_absolute_path(
+                    mediafiles.list_media,
+                    self._camera_config,
+                    'picture',
+                    prefix=prefix,
+                )
+
+    def test_list_media_rejects_dir_escape(self):
+        for prefix in self._SUBDIR_ESCAPES:
+            with self.subTest(prefix=prefix):
+                self._assert_raises_dir_escape(
+                    mediafiles.list_media,
+                    self._camera_config,
+                    'picture',
+                    prefix=prefix,
+                )
+
+    # --- get_media_path ---
+
+    def test_get_media_path_rejects_traversal(self):
+        for path in self._FILENAME_TRAVERSALS:
+            with self.subTest(path=path):
+                self._assert_raises_traversal(
+                    mediafiles.get_media_path, self._camera_config, path, 'picture'
+                )
+
+    def test_get_media_path_rejects_absolute_path(self):
+        for path in self._FILENAME_ABSOLUTES:
+            with self.subTest(path=path):
+                self._assert_raises_absolute_path(
+                    mediafiles.get_media_path, self._camera_config, path, 'picture'
+                )
+
+    def test_get_media_path_rejects_dir_escape(self):
+        for path in self._FILENAME_ESCAPES:
+            with self.subTest(path=path):
+                self._assert_raises_dir_escape(
+                    mediafiles.get_media_path, self._camera_config, path, 'picture'
+                )
+
+    # --- get_media_content ---
+
+    def test_get_media_content_rejects_traversal(self):
+        for path in self._FILENAME_TRAVERSALS:
+            with self.subTest(path=path):
+                self._assert_raises_traversal(
+                    mediafiles.get_media_content,
+                    self._camera_config,
+                    path,
+                    'picture',
+                )
+
+    def test_get_media_content_rejects_absolute_path(self):
+        for path in self._FILENAME_ABSOLUTES:
+            with self.subTest(path=path):
+                self._assert_raises_absolute_path(
+                    mediafiles.get_media_content,
+                    self._camera_config,
+                    path,
+                    'picture',
+                )
+
+    def test_get_media_content_rejects_dir_escape(self):
+        for path in self._FILENAME_ESCAPES:
+            with self.subTest(path=path):
+                self._assert_raises_dir_escape(
+                    mediafiles.get_media_content,
+                    self._camera_config,
+                    path,
+                    'picture',
+                )
+
+    # --- get_zipped_content ---
+
+    def test_get_zipped_content_rejects_traversal(self):
+        for group in self._SUBDIR_TRAVERSALS:
+            with self.subTest(group=group):
+                self._assert_raises_traversal(
+                    mediafiles.get_zipped_content,
+                    self._camera_config,
+                    'picture',
+                    group,
+                )
+
+    def test_get_zipped_content_rejects_absolute_path(self):
+        for group in self._SUBDIR_ABSOLUTES:
+            with self.subTest(group=group):
+                self._assert_raises_absolute_path(
+                    mediafiles.get_zipped_content,
+                    self._camera_config,
+                    'picture',
+                    group,
+                )
+
+    def test_get_zipped_content_rejects_dir_escape(self):
+        for group in self._SUBDIR_ESCAPES:
+            with self.subTest(group=group):
+                self._assert_raises_dir_escape(
+                    mediafiles.get_zipped_content,
+                    self._camera_config,
+                    'picture',
+                    group,
+                )
+
+    # --- make_timelapse_movie ---
+
+    def test_make_timelapse_movie_rejects_traversal(self):
+        for group in self._SUBDIR_TRAVERSALS:
+            with self.subTest(group=group):
+                self._assert_raises_traversal(
+                    mediafiles.make_timelapse_movie,
+                    self._camera_config,
+                    2,
+                    1,
+                    group,
+                )
+
+    def test_make_timelapse_movie_rejects_absolute_path(self):
+        for group in self._SUBDIR_ABSOLUTES:
+            with self.subTest(group=group):
+                self._assert_raises_absolute_path(
+                    mediafiles.make_timelapse_movie,
+                    self._camera_config,
+                    2,
+                    1,
+                    group,
+                )
+
+    def test_make_timelapse_movie_rejects_dir_escape(self):
+        for group in self._SUBDIR_ESCAPES:
+            with self.subTest(group=group):
+                self._assert_raises_dir_escape(
+                    mediafiles.make_timelapse_movie,
+                    self._camera_config,
+                    2,
+                    1,
+                    group,
+                )
+
+    # --- get_media_preview ---
+
+    def test_get_media_preview_rejects_traversal(self):
+        for path in self._FILENAME_TRAVERSALS:
+            with self.subTest(path=path):
+                self._assert_raises_traversal(
+                    mediafiles.get_media_preview,
+                    self._camera_config,
+                    path,
+                    'picture',
+                    None,
+                    None,
+                )
+
+    def test_get_media_preview_rejects_absolute_path(self):
+        for path in self._FILENAME_ABSOLUTES:
+            with self.subTest(path=path):
+                self._assert_raises_absolute_path(
+                    mediafiles.get_media_preview,
+                    self._camera_config,
+                    path,
+                    'picture',
+                    None,
+                    None,
+                )
+
+    def test_get_media_preview_rejects_dir_escape(self):
+        for path in self._FILENAME_ESCAPES:
+            with self.subTest(path=path):
+                self._assert_raises_dir_escape(
+                    mediafiles.get_media_preview,
+                    self._camera_config,
+                    path,
+                    'picture',
+                    None,
+                    None,
+                )
+
+    # --- del_media_content ---
+
+    def test_del_media_content_rejects_traversal(self):
+        for path in self._FILENAME_TRAVERSALS:
+            with self.subTest(path=path):
+                self._assert_raises_traversal(
+                    mediafiles.del_media_content,
+                    self._camera_config,
+                    path,
+                    'picture',
+                )
+
+    def test_del_media_content_rejects_absolute_path(self):
+        for path in self._FILENAME_ABSOLUTES:
+            with self.subTest(path=path):
+                self._assert_raises_absolute_path(
+                    mediafiles.del_media_content,
+                    self._camera_config,
+                    path,
+                    'picture',
+                )
+
+    def test_del_media_content_rejects_dir_escape(self):
+        for path in self._FILENAME_ESCAPES:
+            with self.subTest(path=path):
+                self._assert_raises_dir_escape(
+                    mediafiles.del_media_content,
+                    self._camera_config,
+                    path,
+                    'picture',
+                )
+
+    # --- del_media_group ---
+
+    def test_del_media_group_rejects_traversal(self):
+        for group in self._SUBDIR_TRAVERSALS:
+            with self.subTest(group=group):
+                self._assert_raises_traversal(
+                    mediafiles.del_media_group,
+                    self._camera_config,
+                    group,
+                    'picture',
+                )
+
+    def test_del_media_group_rejects_absolute_path(self):
+        for group in self._SUBDIR_ABSOLUTES:
+            with self.subTest(group=group):
+                self._assert_raises_absolute_path(
+                    mediafiles.del_media_group,
+                    self._camera_config,
+                    group,
+                    'picture',
+                )
+
+    def test_del_media_group_rejects_dir_escape(self):
+        for group in self._SUBDIR_ESCAPES:
+            with self.subTest(group=group):
+                self._assert_raises_dir_escape(
+                    mediafiles.del_media_group,
+                    self._camera_config,
+                    group,
+                    'picture',
+                )
 
 
 if __name__ == '__main__':

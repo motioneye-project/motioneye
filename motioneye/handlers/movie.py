@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-import os
+from os.path import join
 
 from tornado.web import HTTPError
 
@@ -27,22 +27,30 @@ __all__ = ('MovieHandler',)
 
 
 class MovieHandler(BaseHandler):
-    async def get(self, camera_id, op, filename=None):
-        if camera_id is not None:
-            camera_id = int(camera_id)
-            if camera_id not in config.get_camera_ids():
-                raise HTTPError(404, 'no such camera')
-            # block access to admin-only cameras for non-admin users
-            camera_config = config.get_camera(camera_id)
-            if (
-                camera_config
-                and camera_config.get('@admin_only')
-                and self.current_user != 'admin'
-            ):
-                raise HTTPError(
-                    403,
-                    f'access denied to admin-only camera "{camera_id}" for operation "{op}"',
-                )
+    async def get(self, camera_id: str, op, filename: str | None = None):
+        camera_id = int(camera_id)  # type: ignore[assignment]
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
+
+        camera_config: dict = config.get_camera(camera_id)
+        utils.validate_paths(
+            filename,
+            target_dir=(
+                camera_config['target_dir']
+                if utils.is_local_motion_camera(camera_config)
+                else None
+            ),
+        )
+
+        # block access to admin-only cameras for non-admin users
+        if camera_config.get('@admin_only') and self.current_user not in [
+            'admin',
+            'peer',
+        ]:
+            raise HTTPError(
+                403,
+                f'GET access denied to admin-only camera "{camera_id}" for operation "{op}"',
+            )
 
         if op == 'list':
             await self.list(camera_id)
@@ -55,14 +63,36 @@ class MovieHandler(BaseHandler):
         else:
             raise HTTPError(400, 'unknown operation')
 
-    async def post(self, camera_id, op, filename=None, group=None):
+    async def post(
+        self, camera_id: str, op, filename: str | None = None, group: str | None = None
+    ):
+        camera_id = int(camera_id)  # type: ignore[assignment]
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
+
         if group == '/':  # ungrouped
             group = ''
 
-        if camera_id is not None:
-            camera_id = int(camera_id)
-            if camera_id not in config.get_camera_ids():
-                raise HTTPError(404, 'no such camera')
+        camera_config: dict = config.get_camera(camera_id)
+        utils.validate_paths(
+            filename,
+            group,
+            target_dir=(
+                camera_config['target_dir']
+                if utils.is_local_motion_camera(camera_config)
+                else None
+            ),
+        )
+
+        # block access to admin-only cameras for non-admin users
+        if camera_config.get('@admin_only') and self.current_user not in [
+            'admin',
+            'peer',
+        ]:
+            raise HTTPError(
+                403,
+                f'POST access denied to admin-only camera "{camera_id}" for operation "{op}"',
+            )
 
         if op == 'delete':
             await self.delete(camera_id, filename)
@@ -76,6 +106,7 @@ class MovieHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
+    @BaseHandler.peer_allowed()
     async def list(self, camera_id):
         logging.debug(f'listing movies for camera {camera_id}')
 
@@ -92,7 +123,7 @@ class MovieHandler(BaseHandler):
                 with_stat=with_stat,
             )
             if media_list is None:
-                self.finish_json({'error': 'Failed to get movies list.'})
+                return self.finish_json({'error': 'Failed to get movies list.'})
 
             return self.finish_json(
                 {'mediaList': media_list, 'cameraName': camera_config['camera_name']}
@@ -119,6 +150,7 @@ class MovieHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth()
+    @BaseHandler.peer_allowed()
     async def preview(self, camera_id, filename):
         logging.debug(
             'previewing movie {filename} of camera {id}'.format(
@@ -142,7 +174,7 @@ class MovieHandler(BaseHandler):
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
                 content = open(
-                    os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')
+                    join(settings.STATIC_PATH, 'img', 'no-preview.svg')
                 ).read()
 
             return self.finish(content)
@@ -163,7 +195,7 @@ class MovieHandler(BaseHandler):
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
                 content = open(
-                    os.path.join(settings.STATIC_PATH, 'img', 'no-preview.svg')
+                    join(settings.STATIC_PATH, 'img', 'no-preview.svg')
                 ).read()
 
             return self.finish(content)
@@ -172,6 +204,7 @@ class MovieHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth(admin=True)
+    @BaseHandler.peer_allowed()
     async def delete(self, camera_id, filename):
         logging.debug(
             'deleting movie {filename} of camera {id}'.format(
@@ -207,6 +240,7 @@ class MovieHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     @BaseHandler.auth(admin=True)
+    @BaseHandler.peer_allowed()
     async def delete_all(self, camera_id, group):
         logging.debug(
             'deleting movie group "{group}" of camera {id}'.format(

@@ -26,12 +26,12 @@ repos:
         args:
           - --skip=B104,B105,B108,B110,B301,B310,B321,B324,B402,B403,B404,B602,B603,B604,B605,B607,B701
   - repo: https://github.com/python/black
-    rev: 26.1.0
+    rev: 26.5.1
     hooks:
       - id: black
         args: [--skip-string-normalization]
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.1
+    rev: v2.4.2
     hooks:
       - id: codespell
       # See args in setup.cfg
@@ -50,7 +50,7 @@ repos:
           - --show-source
           - --statistics
   - repo: https://github.com/timothycrosley/isort
-    rev: 8.0.1
+    rev: 9.0.0a3
     hooks:
       - id: isort
         args: ["--profile", "black", "--filter-files"]
