@@ -694,6 +694,28 @@ def set_camera(camera_id, camera_config):
         f.close()
 
 
+def make_netcam_userpass(url, raw_username, raw_password, camera_id):
+    raw_username = str(raw_username)
+    raw_password = str(raw_password)
+
+    # Motion's mjpeg/mjpg/jpeg/ftp auth handling expects plain userpass here.
+    if url.lower().startswith(('mjpeg', 'mjpg', 'jpeg', 'ftp')):
+        userpass = f'{raw_username}:{raw_password}'
+    else:
+        # For other protocols, credentials go to ffmpeg as URL userinfo,
+        # so reserved characters (e.g. "@", "#") must be percent-encoded.
+        username = quote(raw_username, safe='')
+        password = quote(raw_password, safe='')
+        userpass = f'{username}:{password}'
+
+        if username != raw_username or password != raw_password:
+            logging.debug(
+                f'credentials for camera {camera_id} have been percent-encoded'
+            )
+
+    return userpass
+
+
 def add_camera(device_details):
     global _camera_ids_cache
 
@@ -747,25 +769,12 @@ def add_camera(device_details):
         camera_config['netcam_url'] = device_details['url']
 
         if device_details['username']:
-            raw_username = str(device_details['username'])
-            raw_password = str(device_details['password'])
-
-            # Motion's mjpeg/mjpg/jpeg/ftp auth handling expects plain userpass here.
-            if camera_config['netcam_url'].startswith(('mjpeg', 'mjpg', 'jpeg', 'ftp')):
-                userpass = f"{raw_username}:{raw_password}"
-            else:
-                # For other protocols, credentials go to ffmpeg as URL userinfo,
-                # so reserved characters (e.g. "@", "#") must be percent-encoded.
-                username = quote(raw_username, safe='')
-                password = quote(raw_password, safe='')
-                userpass = f'{username}:{password}'
-
-                if username != raw_username or password != raw_password:
-                    logging.debug(
-                        f'credentials for camera {camera_id} have been percent-encoded'
-                    )
-
-            camera_config['netcam_userpass'] = userpass
+            camera_config['netcam_userpass'] = make_netcam_userpass(
+                camera_config['netcam_url'],
+                device_details['username'],
+                device_details['password'],
+                camera_id,
+            )
 
         camera_config['netcam_keepalive'] = device_details.get('keep_alive', False)
         camera_config['netcam_tolerant_check'] = True

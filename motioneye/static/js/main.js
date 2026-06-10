@@ -746,9 +746,19 @@ function initUI() {
         this._prevSelectedIndex = this.selectedIndex;
 
     }).on('change', function () {
+        var selectedOption = $(this).find('option:selected');
         if ($('#cameraSelect').val() === 'add') {
             runAddCameraDialog();
             this.selectedIndex = this._prevSelectedIndex;
+        }
+        else if (selectedOption.attr('data-connection-failed') == 'true') {
+            this._prevSelectedIndex = this.selectedIndex;
+            showErrorMessage(selectedOption.attr('data-connection-error'));
+            dict2CameraUi(null);
+            runEditCredentialsDialog($(this).val(), {
+                proto: 'motioneye',
+                url: selectedOption.attr('data-connection-url') || ''
+            });
         }
         else {
             this._prevSelectedIndex = this.selectedIndex;
@@ -822,6 +832,20 @@ function initUI() {
 
     /* remove camera button */
     $('div.button.rem-camera-button').on('click', doRemCamera);
+
+    /* edit camera credentials button */
+    $('div#editCredentialsButton').on('click', function () {
+        var cameraId = $('#cameraSelect').val();
+        var proto = $('#deviceTypeEntry')[0].proto;
+        var url = $('#deviceUrlEntry').val();
+
+        if (proto == 'mjpeg') {
+            var cameraFrame = getCameraFrame(cameraId);
+            url = cameraFrame.length ? cameraFrame[0].config.url : '';
+        }
+
+        runEditCredentialsDialog(cameraId, {proto: proto, url: url});
+    });
 
     /* logout button */
     $('div.button.logout-button').on('click', doLogout);
@@ -2096,6 +2120,7 @@ function dict2CameraUi(dict) {
     $('#deviceUrlEntry').val(dict['device_url']); markHideIfNull('device_url', 'deviceUrlEntry');
     $('#deviceTypeEntry').val(prettyType); markHideIfNull(!prettyType, 'deviceTypeEntry');
     $('#deviceTypeEntry')[0].proto = dict['proto'];
+    markHideIfNull(!['netcam', 'mjpeg'].includes(dict['proto']), 'editCredentialsButton');
     $('#adminOnlySwitch')[0].checked = dict['admin_only']; markHideIfNull('admin_only', 'adminOnlySwitch');
     $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness']; markHideIfNull('auto_brightness', 'autoBrightnessSwitch');
 
@@ -3225,7 +3250,13 @@ function fetchCurrentConfig(onFetch) {
                 cameraSelect.html('');
                 for (i = 0; i < cameras.length; i++) {
                     var camera = cameras[i];
-                    cameraSelect.append('<option value="' + camera['id'] + '">' + camera['name'] + '</option>');
+                    var option = $('<option>').val(camera.id).text(camera.name);
+                    if (camera['connection_failed']) {
+                        option.attr('data-connection-failed', 'true');
+                        option.attr('data-connection-error', camera['connection_error'] || '');
+                        option.attr('data-connection-url', camera['connection_url'] || '');
+                    }
+                    cameraSelect.append(option);
                 }
 
                 if (!query.camera_ids) {
@@ -3323,6 +3354,12 @@ function fetchCurrentCameraConfig(onFetch) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 dict2CameraUi(null);
+                if (data && data.connection_failed && isAdmin()) {
+                    runEditCredentialsDialog(cameraId, {
+                        proto: 'motioneye',
+                        url: data.connection_url || ''
+                    });
+                }
                 if (onFetch) {
                     onFetch(null);
                 }
@@ -4099,6 +4136,97 @@ function runAddCameraDialog() {
     });
 
     updateUi();
+}
+
+function runEditCredentialsDialog(cameraId, data) {
+    if (Object.keys(pushConfigs).length) {
+        return runAlertDialog(i18n.gettext("Bonvolu apliki unue la modifitajn agordojn!"));
+    }
+
+    var rows =
+        '<tr>' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("URL")+'</span></td>' +
+            '<td class="dialog-item-value"><input type="text" class="styled" id="urlEntry" placeholder="'+i18n.gettext("http://ekzemplo.com:8765/cams/...")+'"></td>' +
+            '<td><span class="help-mark" title="'+i18n.gettext("la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)")+'">?</span></td>' +
+        '</tr>';
+
+    if (data.proto == 'netcam') {
+        rows +=
+            '<tr>' +
+                '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Uzantnomo")+'</span></td>' +
+                '<td class="dialog-item-value"><input type="text" class="styled" id="usernameEntry" placeholder="'+i18n.gettext("uzantnomo...")+'"></td>' +
+                '<td><span class="help-mark" title="'+i18n.gettext("leave both empty to keep the current username and password")+'">?</span></td>' +
+            '</tr>' +
+            '<tr>' +
+                '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Pasvorto")+'</span></td>' +
+                '<td class="dialog-item-value"><input type="password" class="styled" id="passwordEntry" placeholder="'+i18n.gettext("pasvorto...")+'"></td>' +
+                '<td><span class="help-mark" title="'+i18n.gettext("leave both empty to keep the current username and password")+'">?</span></td>' +
+            '</tr>';
+    }
+    else if (data.proto == 'motioneye') {
+        rows +=
+            '<tr>' +
+                '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Remote Secret")+'</span></td>' +
+                '<td class="dialog-item-value"><input type="password" class="styled" id="remoteSecretDialogEntry" placeholder="'+i18n.gettext("remote secret...")+'"></td>' +
+                '<td><span class="help-mark" title="'+i18n.gettext("leave empty to keep the current remote secret")+'">?</span></td>' +
+            '</tr>';
+    }
+
+    var content = $('<table class="edit-credentials-dialog">' + rows + '</table>');
+    var urlEntry = content.find('#urlEntry');
+    var usernameEntry = content.find('#usernameEntry');
+    var passwordEntry = content.find('#passwordEntry');
+    var remoteSecretDialogEntry = content.find('#remoteSecretDialogEntry');
+
+    urlEntry.val(data.url || '');
+
+    makeUrlValidator(urlEntry);
+
+    runModalDialog({
+        title: i18n.gettext('Edit connection information'),
+        closeButton: true,
+        buttons: 'okcancel',
+        content: content,
+        onOk: function () {
+            if (!urlEntry[0].validate()) {
+                return false;
+            }
+
+            var payload = {url: urlEntry.val()};
+
+            if (data.proto == 'netcam') {
+                if (usernameEntry.val()) {
+                    payload.username = usernameEntry.val();
+                }
+                if (passwordEntry.val()) {
+                    payload.password = passwordEntry.val();
+                }
+            }
+            else if (data.proto == 'motioneye' && remoteSecretDialogEntry.val()) {
+                payload.remote_secret = remoteSecretDialogEntry.val();
+            }
+
+            beginProgress();
+            ajax('POST', basePath + 'config/' + cameraId + '/credentials/', payload, function (resp) {
+                endProgress();
+
+                if (resp == null || resp.error) {
+                    showErrorMessage(resp && resp.error);
+                    return;
+                }
+
+                if (data.proto == 'motioneye') {
+                    fetchCurrentConfig();
+                }
+                else if (data.proto == 'mjpeg') {
+                    recreateCameraFrames();
+                }
+                else {
+                    $('#cameraSelect').trigger('change');
+                }
+            });
+        }
+    });
 }
 
 function runTimelapseDialog(cameraId, groupKey, group) {

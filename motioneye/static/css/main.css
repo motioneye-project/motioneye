@@ -384,6 +384,7 @@ div.normal-button {
 div.update-button,
 div.backup-button,
 div.restore-button,
+div.edit-credentials-button,
 div.edit-mask-button,
 div.save-mask-button,
 div.clear-mask-button,
@@ -404,6 +405,7 @@ div.reboot-button {
 div.update-button:HOVER,
 div.backup-button:HOVER,
 div.restore-button:HOVER,
+div.edit-credentials-button:HOVER,
 div.edit-mask-button:HOVER,
 div.save-mask-button:HOVER,
 div.clear-mask-button:HOVER,
@@ -419,6 +421,7 @@ div.reboot-button:HOVER {
 div.update-button:ACTIVE,
 div.backup-button:ACTIVE,
 div.restore-button:ACTIVE,
+div.edit-credentials-button:ACTIVE,
 div.edit-mask-button:ACTIVE,
 div.save-mask-button:ACTIVE,
 div.clear-mask-button:ACTIVE,
@@ -522,13 +525,16 @@ table.login-dialog {
     font-size: 22px; /* always bigger, regardless of screen size */
 }
 
-table.add-camera-dialog {
+table.add-camera-dialog,
+table.edit-credentials-dialog {
     margin: auto;
 }
 
 table.add-camera-dialog select,
 table.add-camera-dialog input[type=text],
-table.add-camera-dialog input[type=password] {
+table.add-camera-dialog input[type=password],
+table.edit-credentials-dialog input[type=text],
+table.edit-credentials-dialog input[type=password] {
     width: 17em;
 }
 

@@ -189,7 +189,7 @@ handler_mapping: Sequence[Tuple] = [
     (r'^/manifest.json$', ManifestHandler),
     (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),
     (
-        r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize)/?$',
+        r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize|credentials)/?$',
         ConfigHandler,
     ),
     (r'^/config/(?P<op>add|list|backup|restore)/?$', ConfigHandler),

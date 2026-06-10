@@ -20,6 +20,7 @@ import json
 import logging
 import os
 import socket
+from urllib.parse import urlparse
 
 from tornado.ioloop import IOLoop
 from tornado.web import HTTPError
@@ -90,11 +91,65 @@ class ConfigHandler(BaseHandler):
             await self.list()
             return
 
+        elif op == 'credentials':
+            return await self.set_credentials(camera_id)
+
         elif op == 'test':
             await self.test(camera_id)
 
         else:
             raise HTTPError(400, 'unknown operation')
+
+    @BaseHandler.auth(admin=True)
+    async def set_credentials(self, camera_id):
+        if camera_id not in config.get_camera_ids():
+            raise HTTPError(404, 'no such camera')
+
+        try:
+            data = json.loads(self.request.body)
+        except Exception as e:
+            logging.error(f'could not decode json: {str(e)}')
+            raise HTTPError(400, 'invalid json body')
+
+        url = data.get('url')
+        if not url:
+            raise HTTPError(400, 'url is required')
+
+        local_config = config.get_camera(camera_id)
+
+        if utils.is_remote_camera(local_config):
+            parsed = urlparse(url)
+            local_config['@scheme'] = parsed.scheme or 'http'
+            local_config['@host'] = parsed.hostname or ''
+            local_config['@port'] = str(parsed.port) if parsed.port is not None else ''
+            local_config['@path'] = parsed.path or '/'
+            if data.get('remote_secret'):
+                local_config['@remote_secret'] = data['remote_secret']
+            config.set_camera(camera_id, local_config)
+            return self.finish_json()
+
+        elif utils.is_simple_mjpeg_camera(local_config):
+            local_config['@url'] = url
+            config.set_camera(camera_id, local_config)
+            return self.finish_json()
+
+        elif utils.is_net_camera(local_config):
+            local_config['netcam_url'] = url
+
+            username = data.get('username') or ''
+            password = data.get('password') or ''
+            if 'username' in data or 'password' in data:
+                local_config['netcam_userpass'] = config.make_netcam_userpass(
+                    url, username, password, camera_id
+                )
+
+            config.set_camera(camera_id, local_config)
+            motionctl.stop()
+            motionctl.start()
+            return self.finish_json()
+
+        else:
+            raise HTTPError(400, 'unsupported camera type for credential update')
 
     @BaseHandler.auth(admin=True)
     @BaseHandler.peer_allowed()
@@ -117,7 +172,15 @@ class ConfigHandler(BaseHandler):
                     msg = 'Failed to get remote camera configuration for {url}: {msg}.'.format(
                         url=remote.pretty_camera_url(local_config), msg=resp.error
                     )
-                    return self.finish_json_with_error(msg)
+                    return self.finish_json(
+                        {
+                            'error': msg,
+                            'connection_failed': True,
+                            'connection_url': remote.pretty_camera_url(
+                                local_config, camera=False
+                            ),
+                        }
+                    )
 
                 for key, value in list(local_config.items()):
                     if key == '@remote_secret':
@@ -376,11 +439,17 @@ class ConfigHandler(BaseHandler):
         length: list,
     ) -> None:
         if resp.error:
+            msg = f'Failed to get remote camera configuration for {remote.pretty_camera_url(local_config)}: {resp.error}.'
             cameras.append(
                 {
                     'id': camera_id,
-                    'name': '&lt;' + remote.pretty_camera_url(local_config) + '&gt;',
+                    'name': f'Camera {camera_id} - Connection failed',
                     'enabled': False,
+                    'connection_failed': True,
+                    'connection_error': msg,
+                    'connection_url': remote.pretty_camera_url(
+                        local_config, camera=False
+                    ),
                     'streaming_framerate': 1,
                     'framerate': 1,
                 }
