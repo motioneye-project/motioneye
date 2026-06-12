@@ -108,7 +108,7 @@ class ConfigHandler(BaseHandler):
         try:
             data = json.loads(self.request.body)
         except Exception as e:
-            logging.error(f'could not decode json: {str(e)}')
+            logging.error(f'could not decode json: {e}')
             raise HTTPError(400, 'invalid json body')
 
         url = data.get('url')
