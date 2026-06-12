@@ -1,63 +1,93 @@
-#: motioneye/static/js/ui.js:361
-msgid "enter a valid value"
+#: l10n/v4l2.js:4
+msgid "Auto Exposure"
 msgstr ""
 
-#: motioneye/static/js/ui.js:397 motioneye/static/js/main.js:482
-#: motioneye/static/js/main.js:493 motioneye/static/js/main.js:552
-msgid "Ĉi tiu kampo estas deviga"
+#: l10n/v4l2.js:5
+msgid "Backlight Compensation"
 msgstr ""
 
-#: motioneye/static/js/ui.js:420
-msgid "enigu nombron"
+#: l10n/v4l2.js:6
+msgid "Brightness"
 msgstr ""
 
-#: motioneye/static/js/ui.js:423
-msgid "enigu entjeran nombron"
+#: l10n/v4l2.js:7
+msgid "Contrast"
 msgstr ""
 
-#: motioneye/static/js/ui.js:427
-msgid " inter "
+#: l10n/v4l2.js:8
+msgid "Exposure Absolute"
 msgstr ""
 
-#: motioneye/static/js/ui.js:427
-msgid " kaj "
+#: l10n/v4l2.js:9
+msgid "Exposure Auto"
 msgstr ""
 
-#: motioneye/static/js/ui.js:430
-msgid " pli ol "
+#: l10n/v4l2.js:10
+msgid "Exposure Auto Priority"
 msgstr ""
 
-#: motioneye/static/js/ui.js:435
-msgid " malpli ol "
+#: l10n/v4l2.js:11
+msgid "Exposure Time Absolute"
 msgstr ""
 
-#: motioneye/static/js/ui.js:479
-msgid "enigu validan tempon en la sekva formato: HH:MM"
+#: l10n/v4l2.js:12
+msgid "Focus Absolute"
 msgstr ""
 
-#: motioneye/static/js/ui.js:488
-msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
+#: l10n/v4l2.js:13
+msgid "Focus Auto"
 msgstr ""
 
-#: motioneye/static/js/ui.js:684
-msgid "fermi"
+#: l10n/v4l2.js:14
+msgid "Gain"
 msgstr ""
 
-#: motioneye/static/js/ui.js:730 motioneye/static/js/ui.js:737
-msgid "Ne"
+#: l10n/v4l2.js:15
+msgid "Gamma"
 msgstr ""
 
-#: motioneye/static/js/ui.js:731 motioneye/static/js/ui.js:738
-msgid "Jes"
+#: l10n/v4l2.js:16
+msgid "Hue"
 msgstr ""
 
-#: motioneye/static/js/ui.js:736 motioneye/static/js/ui.js:743
-#: motioneye/static/js/main.js:3481
-msgid "Nuligi"
+#: l10n/v4l2.js:17
+msgid "Led1 Mode"
 msgstr ""
 
-#: motioneye/static/js/ui.js:744 motioneye/static/js/ui.js:749
-msgid "Bone"
+#: l10n/v4l2.js:18
+msgid "Led1 Frequency"
+msgstr ""
+
+#: l10n/v4l2.js:19
+msgid "Pan Absolute"
+msgstr ""
+
+#: l10n/v4l2.js:20
+msgid "Power Line Frequency"
+msgstr ""
+
+#: l10n/v4l2.js:21
+msgid "Saturation"
+msgstr ""
+
+#: l10n/v4l2.js:22
+msgid "Sharpness"
+msgstr ""
+
+#: l10n/v4l2.js:23
+msgid "Tilt Absolute"
+msgstr ""
+
+#: l10n/v4l2.js:24
+msgid "White Balance Temperature"
+msgstr ""
+
+#: l10n/v4l2.js:25
+msgid "White Balance Temperature Auto"
+msgstr ""
+
+#: l10n/v4l2.js:26
+msgid "Zoom Absolute"
 msgstr ""
 
 #: motioneye/static/js/main.js:386
@@ -74,6 +104,11 @@ msgstr ""
 
 #: motioneye/static/js/main.js:475
 msgid "video streaming authentication mode must be Basic or Digest when admin-only access is enabled"
+msgstr ""
+
+#: motioneye/static/js/main.js:482 motioneye/static/js/main.js:493
+#: motioneye/static/js/main.js:552 motioneye/static/js/ui.js:397
+msgid "Ĉi tiu kampo estas deviga"
 msgstr ""
 
 #: motioneye/static/js/main.js:486
@@ -312,6 +347,11 @@ msgstr ""
 
 #: motioneye/static/js/main.js:3478 motioneye/static/js/main.js:3482
 msgid "Ensaluti"
+msgstr ""
+
+#: motioneye/static/js/main.js:3481 motioneye/static/js/ui.js:736
+#: motioneye/static/js/ui.js:743
+msgid "Nuligi"
 msgstr ""
 
 #: motioneye/static/js/main.js:3509
@@ -598,94 +638,54 @@ msgstr ""
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr ""
 
-#: l10n/v4l2.js:4
-msgid "Auto Exposure"
+#: motioneye/static/js/ui.js:361
+msgid "enter a valid value"
 msgstr ""
 
-#: l10n/v4l2.js:5
-msgid "Backlight Compensation"
+#: motioneye/static/js/ui.js:420
+msgid "enigu nombron"
 msgstr ""
 
-#: l10n/v4l2.js:6
-msgid "Brightness"
+#: motioneye/static/js/ui.js:423
+msgid "enigu entjeran nombron"
 msgstr ""
 
-#: l10n/v4l2.js:7
-msgid "Contrast"
+#: motioneye/static/js/ui.js:427
+msgid " inter "
 msgstr ""
 
-#: l10n/v4l2.js:8
-msgid "Exposure Absolute"
+#: motioneye/static/js/ui.js:427
+msgid " kaj "
 msgstr ""
 
-#: l10n/v4l2.js:9
-msgid "Exposure Auto"
+#: motioneye/static/js/ui.js:430
+msgid " pli ol "
 msgstr ""
 
-#: l10n/v4l2.js:10
-msgid "Exposure Auto Priority"
+#: motioneye/static/js/ui.js:435
+msgid " malpli ol "
 msgstr ""
 
-#: l10n/v4l2.js:11
-msgid "Exposure Time Absolute"
+#: motioneye/static/js/ui.js:479
+msgid "enigu validan tempon en la sekva formato: HH:MM"
 msgstr ""
 
-#: l10n/v4l2.js:12
-msgid "Focus Absolute"
+#: motioneye/static/js/ui.js:488
+msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
 msgstr ""
 
-#: l10n/v4l2.js:13
-msgid "Focus Auto"
+#: motioneye/static/js/ui.js:684
+msgid "fermi"
 msgstr ""
 
-#: l10n/v4l2.js:14
-msgid "Gain"
+#: motioneye/static/js/ui.js:730 motioneye/static/js/ui.js:737
+msgid "Ne"
 msgstr ""
 
-#: l10n/v4l2.js:15
-msgid "Gamma"
+#: motioneye/static/js/ui.js:731 motioneye/static/js/ui.js:738
+msgid "Jes"
 msgstr ""
 
-#: l10n/v4l2.js:16
-msgid "Hue"
-msgstr ""
-
-#: l10n/v4l2.js:17
-msgid "Led1 Mode"
-msgstr ""
-
-#: l10n/v4l2.js:18
-msgid "Led1 Frequency"
-msgstr ""
-
-#: l10n/v4l2.js:19
-msgid "Pan Absolute"
-msgstr ""
-
-#: l10n/v4l2.js:20
-msgid "Power Line Frequency"
-msgstr ""
-
-#: l10n/v4l2.js:21
-msgid "Saturation"
-msgstr ""
-
-#: l10n/v4l2.js:22
-msgid "Sharpness"
-msgstr ""
-
-#: l10n/v4l2.js:23
-msgid "Tilt Absolute"
-msgstr ""
-
-#: l10n/v4l2.js:24
-msgid "White Balance Temperature"
-msgstr ""
-
-#: l10n/v4l2.js:25
-msgid "White Balance Temperature Auto"
-msgstr ""
-
-#: l10n/v4l2.js:26
-msgid "Zoom Absolute"
+#: motioneye/static/js/ui.js:744 motioneye/static/js/ui.js:749
+msgid "Bone"
 msgstr ""
