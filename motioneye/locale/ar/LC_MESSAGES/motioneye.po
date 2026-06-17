@@ -25,27 +25,27 @@ msgstr ""
 "X-Generator: Weblate 2026.6.dev0\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: motioneye/config.py:947
+#: motioneye/config.py:956
 #, fuzzy
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "النبائط متاحة فقط للخصائص البهائية والهيفين والتأكيد +"
 
-#: motioneye/config.py:951
+#: motioneye/config.py:960
 #, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
 msgstr "لا يُسمح أن تحتوي أسماء الملفات إلا على أحرف أبجدية رقمية وأقواس () وشرطة مائلة / ونقطة . وشرطة سفلية _ وشرطة - ومسافة ومجموعة فرعية من محددات تحويل الحركة: %C %Y %m %d %H %M %S %q %v %$"
 
-#: motioneye/config.py:956
+#: motioneye/config.py:965
 #, fuzzy
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "ولا تعادل الأسماء الدليلية سوى السمات الهجائية، المكانية، التركة الأبوية ()، الإمام/النقطة، والتأكيد، والهيفين -"
 
-#: motioneye/config.py:961
+#: motioneye/config.py:970
 #, fuzzy
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "لا يجوز أن تحتوي عناوين البريد الإلكتروني إلا على أحرف أبجدية رقمية وعلامة التسطير _ وعلامة الجمع + والنقطة . وعلامة البريد الإلكتروني @ وعلامة الإقحام ^ وعلامة التلوين ~ والأقواس الزاوية <> والواصلة -، ويجوز فصلها بفاصلة ومسافة"
 
-#: motioneye/config.py:966
+#: motioneye/config.py:975
 #, fuzzy
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "لا يُسمح أن تحتوي عناوين URL على علامة الإقحام ^ أو الفاصلة المنقوطة ؛ أو الفاصلة العليا '"
@@ -245,7 +245,7 @@ msgid "la uzantnomo uzata por agordi la sistemon"
 msgstr "الاسم المستخدم للجمع بين النظام"
 
 #: motioneye/templates/main.html:181 motioneye/templates/main.html:191
-#: motioneye/templates/main.html:536 motioneye/templates/main.html:724
+#: motioneye/templates/main.html:541 motioneye/templates/main.html:729
 #, fuzzy
 msgid "Pasvorto"
 msgstr "كلمة السر"
@@ -370,8 +370,8 @@ msgstr "إصنع هذا إذا أردت استخدام هذه الكاميرا"
 msgid "Video-Aparato"
 msgstr "جهاز الفيديو"
 
-#: motioneye/templates/main.html:281 motioneye/templates/main.html:634
-#: motioneye/templates/main.html:651
+#: motioneye/templates/main.html:281 motioneye/templates/main.html:639
+#: motioneye/templates/main.html:656
 #, fuzzy
 msgid "Kamerao Nomo"
 msgstr "الاسم"
@@ -412,1528 +412,1540 @@ msgid "Kamerao Tipo"
 msgstr "نوع الدائرة"
 
 #: motioneye/templates/main.html:300
+msgid "Connection"
+msgstr ""
+
+#: motioneye/templates/main.html:301
+msgid "Edit Credentials"
+msgstr ""
+
+#: motioneye/templates/main.html:302
+msgid "edit the camera URL and credentials"
+msgstr ""
+
+#: motioneye/templates/main.html:305
 #, fuzzy
 msgid "Admin-only access"
 msgstr "إمكانية الوصول فقط"
 
-#: motioneye/templates/main.html:302
+#: motioneye/templates/main.html:307
 #, fuzzy
 msgid "If enabled only the admin user can access this camera"
 msgstr "إذا فقط المستعمل المُثير يُمْكِنُ أَنْ يَدْخلَ هذه الكاميرا"
 
-#: motioneye/templates/main.html:308
+#: motioneye/templates/main.html:313
 #, fuzzy
 msgid "Aŭtomata Brilo"
 msgstr "Automatic Brilo"
 
-#: motioneye/templates/main.html:310
+#: motioneye/templates/main.html:315
 #, fuzzy
 msgid "ebligas aŭtomatan brilon de programaro (rekomendita nur por kameraoj sen aŭtomata brilo)"
 msgstr "يمكّن السطوع التلقائي للبرمجيات (الموصّلة فقط للكاميرات التي لا تحتوي على معالم آلية)"
 
-#: motioneye/templates/main.html:316
+#: motioneye/templates/main.html:321
 #, fuzzy
 msgid "Video-rezolucio"
 msgstr "دقة الفيديو"
 
-#: motioneye/templates/main.html:321
+#: motioneye/templates/main.html:326
 #, fuzzy
 msgid "la video-rezolucio (pli grandaj valoroj produktas pli bonan kvaliton, sed postulas pli da CPU-potenco, pli granda stokado kaj larĝa de bando)"
 msgstr "the video resolution (greater values produce a better quality, but requires more CPU power, greater storage and broad of a gang)"
 
-#: motioneye/templates/main.html:324
+#: motioneye/templates/main.html:329
 #, fuzzy
 msgid "Larĝeco"
 msgstr "Largin"
 
-#: motioneye/templates/main.html:326
+#: motioneye/templates/main.html:331
 #, fuzzy
 msgid "enigu kutiman rezolucian larĝon"
 msgstr "انضموا إلى الحل المعتاد"
 
-#: motioneye/templates/main.html:329
+#: motioneye/templates/main.html:334
 #, fuzzy
 msgid "Alteco"
 msgstr "القابلية للذوبان"
 
-#: motioneye/templates/main.html:331
+#: motioneye/templates/main.html:336
 #, fuzzy
 msgid "enigu kutiman rezolucian altecon"
 msgstr "انضموا إلى طول القرار العادي"
 
-#: motioneye/templates/main.html:334
+#: motioneye/templates/main.html:339
 #, fuzzy
 msgid "Video-Rotacio"
 msgstr "تدوير الفيديو"
 
-#: motioneye/templates/main.html:343
+#: motioneye/templates/main.html:348
 #, fuzzy
 msgid "uzu ĉi tion por turni la kaptitan bildon, se via kamerao ne estas poziciigita ĝuste"
 msgstr "استخدم هذا لقلب الصورة الملتقطة إذا لم توضع الكاميرا بشكل صحيح"
 
-#: motioneye/templates/main.html:346
+#: motioneye/templates/main.html:351
 #, fuzzy
 msgid "Kadrofrekvenco"
 msgstr "التواتر الإطاري"
 
-#: motioneye/templates/main.html:348
+#: motioneye/templates/main.html:353
 #, fuzzy
 msgid "agordas la nombron de kadroj kaptitaj de la kamerao ĉiun sekundon (pli altaj valoroj produktas pli mildajn filmetojn sed postulas pli da CPU-potenco, pli grandan stokadon kaj larĝan bandon)"
 msgstr "يجمع بين عدد الإطارات التي تلتقطها الكاميرا في كل ثانية (تنتج القيم المرتفعة أشرطة فيديو مبتسمة، ولكنها تتطلب المزيد من قوة وحدة مكافحة الفساد، وزيادة التخزين، والمجموعة الواسعة)"
 
-#: motioneye/templates/main.html:354
+#: motioneye/templates/main.html:359
 #, fuzzy
 msgid "Privateca masko"
 msgstr "خصوصية الخصوصية"
 
-#: motioneye/templates/main.html:356
+#: motioneye/templates/main.html:361
 #, fuzzy
 msgid "ebligas maskeradon de bildoj por eviti registradon de iuj bildaj areoj por protekti privatecon"
 msgstr "يمكّن من تزييف الصور لتجنب تسجيل أي مناطق نُظرية لحماية الخصوصية"
 
-#: motioneye/templates/main.html:361 motioneye/templates/main.html:1037
+#: motioneye/templates/main.html:366 motioneye/templates/main.html:1042
 #, fuzzy
 msgid "Redakti maskon"
 msgstr "حرر قناعا"
 
-#: motioneye/templates/main.html:362 motioneye/templates/main.html:1038
+#: motioneye/templates/main.html:367 motioneye/templates/main.html:1043
 #, fuzzy
 msgid "Konservi maskon"
 msgstr "أبق قناعاً"
 
-#: motioneye/templates/main.html:365
+#: motioneye/templates/main.html:370
 #, fuzzy
 msgid "alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon"
 msgstr "نقر على هذا الزر لتمكين/تغطية محرر القناع"
 
-#: motioneye/templates/main.html:376
+#: motioneye/templates/main.html:381
 #, fuzzy
 msgid "Ekstraj Elektoj"
 msgstr "خيارات إضافية"
 
-#: motioneye/templates/main.html:378
+#: motioneye/templates/main.html:383
 msgid "vi povas aldoni iujn ajn pliajn opciojn ĉi tie por la «motion» demono (uzu la «nomo valoro» formaton, unu opcion por linio)"
 msgstr "يمكنك إضافة أي خيارات إضافية هنا لشيطان \"الحركة\" (استخدم تنسيق \"قيمة الاسم\" ، خيار واحد لكل سطر)"
 
-#: motioneye/templates/main.html:387
+#: motioneye/templates/main.html:392
 #, fuzzy
 msgid "elektu kie kaj kiel viaj amaskomunikiloj estas konservitaj"
 msgstr "اختر أين وكيف يتم الحفاظ على وسائل الإعلام"
 
-#: motioneye/templates/main.html:388
+#: motioneye/templates/main.html:393
 #, fuzzy
 msgid "Stokado de dosieroj"
 msgstr "تخزين الملفات"
 
-#: motioneye/templates/main.html:393
+#: motioneye/templates/main.html:398
 #, fuzzy
 msgid "Stokada Aparato"
 msgstr "Stokada Device"
 
-#: motioneye/templates/main.html:398
+#: motioneye/templates/main.html:403
 #, fuzzy
 msgid "indikas la stokan aparaton, kie la bildo kaj video-dosieroj estos konservitaj"
 msgstr "يشير إلى جهاز التخزين، حيث سيتم حفظ الصور وملفات الفيديو"
 
-#: motioneye/templates/main.html:401
+#: motioneye/templates/main.html:406
 #, fuzzy
 msgid "Retservilo"
 msgstr "خدمة الإنترنت"
 
-#: motioneye/templates/main.html:403
+#: motioneye/templates/main.html:408
 #, fuzzy
 msgid "la adreso de la retservilo (IP-adreso aŭ nomo)"
 msgstr "عنوان خادم الإنترنت (عنوان أو اسم البرنامج)"
 
-#: motioneye/templates/main.html:406
+#: motioneye/templates/main.html:411
 #, fuzzy
 msgid "SMB Protokolo-Versio"
 msgstr "بروتوكول SMB"
 
-#: motioneye/templates/main.html:416
+#: motioneye/templates/main.html:421
 #, fuzzy
 msgid "elektu la SMB-version, kiun vi povas uzi (testu la malsamajn eblojn kaj vidu, kiu funkcias plej bone kun via NAS)"
 msgstr "اختر نسخة SMB التي يمكنك استخدامها (اختبار الخيارات المختلفة ونرى ما الذي يعمل على أفضل وجه مع الـ NAS الخاص بك)"
 
-#: motioneye/templates/main.html:419
+#: motioneye/templates/main.html:424
 #, fuzzy
 msgid "Kunhava nomo"
 msgstr "اسم مشترك"
 
-#: motioneye/templates/main.html:421
+#: motioneye/templates/main.html:426
 #, fuzzy
 msgid "la nomo de la interŝanĝa reto"
 msgstr "اسم شبكة التبادل"
 
-#: motioneye/templates/main.html:424 motioneye/templates/main.html:531
-#: motioneye/templates/main.html:719
+#: motioneye/templates/main.html:429 motioneye/templates/main.html:536
+#: motioneye/templates/main.html:724
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "المستعمل"
 
-#: motioneye/templates/main.html:426
+#: motioneye/templates/main.html:431
 #, fuzzy
 msgid "la uzantnomo kiu estu provizita kiam vi aliras la reton dosierujon (lasu malplena se neniu uzantnomo estas bezonata)"
 msgstr "اسم المستخدم الذي يُقدَّم عندما تَصِلُ إلى دليلِ الشبكةِ (إفرغْ إذا ما لم يكن هناك حاجة إلى اسم المستخدمِ)"
 
-#: motioneye/templates/main.html:429
+#: motioneye/templates/main.html:434
 #, fuzzy
 msgid "Pasvorton"
 msgstr "كلمة السر"
 
-#: motioneye/templates/main.html:431
+#: motioneye/templates/main.html:436
 #, fuzzy
 msgid "la pasvorto bezonata de la reto dosierujo (lasi malplena se neniu pasvorto estas bezonata)"
 msgstr "كلمة السر التي يحتاجها دليل الشبكة (أفرغ إذا لم تكن هناك حاجة إلى كلمة سر)"
 
-#: motioneye/templates/main.html:434
+#: motioneye/templates/main.html:439
 #, fuzzy
 msgid "Radika dosierujo"
 msgstr "دليل الروت"
 
-#: motioneye/templates/main.html:436
+#: motioneye/templates/main.html:441
 #, fuzzy
 msgid "la radika vojo (sur la elektita stokada aparato), kie la dosieroj estos konservitaj"
 msgstr "the root road (on the selected storage tool), where the files will be kept"
 
-#: motioneye/templates/main.html:440
+#: motioneye/templates/main.html:445
 #, fuzzy
 msgid "Testi la reton dosierujon"
 msgstr "اختبار دليل الشبكة"
 
-#: motioneye/templates/main.html:441
+#: motioneye/templates/main.html:446
 #, fuzzy
 msgid "alklaku ĉi tiun butonon por testi la retan kunlokon post kiam vi plenigis la postulatajn detalojn"
 msgstr "نقر على هذا الزر لاختبار الموقع بعد أن ملأت التفاصيل المطلوبة"
 
-#: motioneye/templates/main.html:447
+#: motioneye/templates/main.html:452
 #, fuzzy
 msgid "Uzado de Disko"
 msgstr "استخدام الأقراص"
 
-#: motioneye/templates/main.html:451
+#: motioneye/templates/main.html:456
 #, fuzzy
 msgid "la uzata/tuta grandeco de la disko, kie loĝas la radika dosierujo"
 msgstr "the used/whole size of the disc, where the root directory"
 
-#: motioneye/templates/main.html:457
+#: motioneye/templates/main.html:462
 #, fuzzy
 msgid "Alŝutu Mediajn Dosierojn"
 msgstr "أوقف الأفلام الإعلامية"
 
-#: motioneye/templates/main.html:459
+#: motioneye/templates/main.html:464
 #, fuzzy
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke viaj amaskomunikiloj estu alŝutitaj al ekstera servo"
 msgstr "تطبيق هذا الخيار إذا أردت أن يتم تحميل وسائل الإعلام الخاصة بك إلى خدمة خارجية"
 
-#: motioneye/templates/main.html:462
+#: motioneye/templates/main.html:467
 #, fuzzy
 msgid "Alŝutu Bildojn"
 msgstr "أوقف الصور"
 
-#: motioneye/templates/main.html:464
+#: motioneye/templates/main.html:469
 #, fuzzy
 msgid "aktivigu ĉi tiun opcion, se vi volas, ke la bildoj elŝutiĝu al ekstera servo"
 msgstr "تطبيق هذا الخيار إذا كنت تريد الصور للتنزيل إلى خدمة خارجية"
 
-#: motioneye/templates/main.html:467
+#: motioneye/templates/main.html:472
 #, fuzzy
 msgid "Alŝutu Filmojn"
 msgstr "أوقف الأفلام"
 
-#: motioneye/templates/main.html:469
+#: motioneye/templates/main.html:474
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas, ke filmetoj estu alŝutitaj al ekstera servo"
 msgstr "تطبيق هذا إذا كنت تريد أن يتم تحميل الفيديو إلى خدمة خارجية"
 
-#: motioneye/templates/main.html:472
+#: motioneye/templates/main.html:477
 #, fuzzy
 msgid "Alŝuta Servo"
 msgstr "خدمات الشراء"
 
-#: motioneye/templates/main.html:475
+#: motioneye/templates/main.html:480
 #, fuzzy
 msgid "Servilo FTP"
 msgstr "Server FTP"
 
-#: motioneye/templates/main.html:476
+#: motioneye/templates/main.html:481
 #, fuzzy
 msgid "Servilo SFTP"
 msgstr "Server SFTP"
 
-#: motioneye/templates/main.html:477
+#: motioneye/templates/main.html:482
 #, fuzzy
 msgid "Servilo HTTP"
 msgstr "Server HTTP"
 
-#: motioneye/templates/main.html:478
+#: motioneye/templates/main.html:483
 #, fuzzy
 msgid "Servilo HTTPS"
 msgstr "خادم HTTPS"
 
-#: motioneye/templates/main.html:486
+#: motioneye/templates/main.html:491
 #, fuzzy
 msgid "elektu servon, al kiu la mediadosieroj estu alŝutitaj"
 msgstr "اختر خدمة يتم تحميل ملفات الإعلام عليها"
 
-#: motioneye/templates/main.html:489
+#: motioneye/templates/main.html:494
 #, fuzzy
 msgid "Servila Adreso"
 msgstr "عنوان سيرفر"
 
-#: motioneye/templates/main.html:491
+#: motioneye/templates/main.html:496
 #, fuzzy
 msgid "la domajna nomo aŭ IP-adreso de la servilo (ekz. ftp.example.com aŭ 192.168.1.3)"
 msgstr "اسم المجال أو عنوان IP للخادم (مثل ftp.example.com أو 192.168.1.3)"
 
-#: motioneye/templates/main.html:494
+#: motioneye/templates/main.html:499
 #, fuzzy
 msgid "Servila haveno"
 msgstr "ميناء سيرفي"
 
-#: motioneye/templates/main.html:496
+#: motioneye/templates/main.html:501
 #, fuzzy
 msgid "la haveno por uzi konekti al la servo (lasu ĉi tiun kampon malplena por uzi la defaŭltan valoron)"
 msgstr "المرفأ الذي سيستخدم للربط بالخدمة (دع هذا الميدان خالياً لاستخدام القيمة الافتراضية)"
 
-#: motioneye/templates/main.html:499
+#: motioneye/templates/main.html:504
 #, fuzzy
 msgid "Metodo"
 msgstr "المنهجية"
 
-#: motioneye/templates/main.html:506
+#: motioneye/templates/main.html:511
 #, fuzzy
 msgid "la HTTP-metodo uzi por alŝuti dosierojn"
 msgstr "the HTTP method to use to upload files"
 
-#: motioneye/templates/main.html:509
+#: motioneye/templates/main.html:514
 #, fuzzy
 msgid "Finpunkto URL"
 msgstr "url نقطة النهاية"
 
-#: motioneye/templates/main.html:511
+#: motioneye/templates/main.html:516
 #, fuzzy
 msgid "La kompleta URL al la alŝuta servila finpunkto:"
 msgstr "عنوان URL الكامل إلى نقطة نهاية خادم التحميل:"
 
-#: motioneye/templates/main.html:512
+#: motioneye/templates/main.html:517
 #, fuzzy
 msgid "Por S3: ekz. http://my.minio:9000. Lasu ĝin malplena por AWS!"
 msgstr "لـ S3: على سبيل المثال http://my.minio:9000. اتركه فارغًا لـ AWS!"
 
-#: motioneye/templates/main.html:513
+#: motioneye/templates/main.html:518
 #, fuzzy
 msgid "Por WebDAV: ekz. https://my.cloud/remote.php/dav/files/Me/"
 msgstr "لـ WebDav: على سبيل المثال https://my.cloud/remote.php/dav/files/me/"
 
-#: motioneye/templates/main.html:516
+#: motioneye/templates/main.html:521
 #, fuzzy
 msgid "Loko"
 msgstr "الموقع"
 
-#: motioneye/templates/main.html:518
+#: motioneye/templates/main.html:523
 #, fuzzy
 msgid "la loko (radika vojo) kie amaskomunikiloj devas esti alŝutitaj (ekz. /files/cam1/)"
 msgstr "الموقع (الطريق السريع) حيث يجب تحميل وسائط الإعلام (مثلاً /الملفات/الكاميرات)"
 
-#: motioneye/templates/main.html:521
+#: motioneye/templates/main.html:526
 #, fuzzy
 msgid "Inkluzivi Subdosierujojn"
 msgstr "Includes Subdosiersions"
 
-#: motioneye/templates/main.html:523
+#: motioneye/templates/main.html:528
 #, fuzzy
 msgid "Aktivigu tion por elŝuti plurmediajn dosierojn kun siaj subdosierujoj, anstataŭ meti ilin rekte en la radikan lokon"
 msgstr "تفعيل هذا لتحميل الملفات المتشابكة مع مُساعديهم، بدلاً من وضعهم مباشرة في الموقع الجذري"
 
-#: motioneye/templates/main.html:526
+#: motioneye/templates/main.html:531
 #, fuzzy
 msgid "Purigi la nubon"
 msgstr "نظف السحابة"
 
-#: motioneye/templates/main.html:528
+#: motioneye/templates/main.html:533
 #, fuzzy
 msgid "ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo."
 msgstr "وتطبيق ذلك لإزالة ملفات وسائط الإعلام المحملة على السحابة وكذلك على وسائط الإعلام المحلية يتم إزالتها وفقا لتشكيل تحديد الملفات. هذا الخيار متاح فقط للحفل."
 
-#: motioneye/templates/main.html:533
+#: motioneye/templates/main.html:538
 #, fuzzy
 msgid "la uzantnomo por la alŝuta servo-konto"
 msgstr "اسم المستخدم لحساب خدمة التحميل"
 
-#: motioneye/templates/main.html:538
+#: motioneye/templates/main.html:543
 #, fuzzy
 msgid "la pasvorto por la alŝuta servo-konto"
 msgstr "كلمة السر لحساب خدمة تحميل"
 
-#: motioneye/templates/main.html:541
+#: motioneye/templates/main.html:546
 #, fuzzy
 msgid "Rajtiga ŝlosilo"
 msgstr "مفتاح التمكين"
 
-#: motioneye/templates/main.html:543
+#: motioneye/templates/main.html:548
 #, fuzzy
 msgid "la ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr "the key used to authenticate with the upload service (usually needed only when formation)"
 
-#: motioneye/templates/main.html:549
+#: motioneye/templates/main.html:554
 #, fuzzy
 msgid "Akiri ŝlosilon"
 msgstr "الحصول على مفتاح"
 
-#: motioneye/templates/main.html:552
+#: motioneye/templates/main.html:557
 #, fuzzy
 msgid "alklaku ĉi tie por akiri la ŝlosilan rajtigan servon"
 msgstr "انقر هنا للحصول على خدمات الترخيص الرئيسية"
 
-#: motioneye/templates/main.html:555
+#: motioneye/templates/main.html:560
 #, fuzzy
 msgid "Access Key"
 msgstr "الوصول الرئيسي"
 
-#: motioneye/templates/main.html:557
+#: motioneye/templates/main.html:562
 #, fuzzy
 msgid "The AWS access key used to authenticate with the upload service"
 msgstr "مفتاح الوصول إلى الأسلحة النووية المستخدم في التوثيق بخدمة التحميل"
 
-#: motioneye/templates/main.html:560
+#: motioneye/templates/main.html:565
 #, fuzzy
 msgid "Sekreta Alira Ŝlosilo"
 msgstr "Secret Alira Key"
 
-#: motioneye/templates/main.html:562
+#: motioneye/templates/main.html:567
 #, fuzzy
 msgid "la AWS-sekreta alira ŝlosilo uzata por aŭtentiĝi kun la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr "the AWS secret access key used to authenticate with the upload service (usually needed only when formation)"
 
-#: motioneye/templates/main.html:565
+#: motioneye/templates/main.html:570
 #, fuzzy
 msgid "Sitelo"
 msgstr "دلو"
 
-#: motioneye/templates/main.html:567
+#: motioneye/templates/main.html:572
 #, fuzzy
 msgid "la nomo S3-sitelo por la alŝuta servo (kutime bezonata nur dum agordo)"
 msgstr "الاسم S3 دلو لدائرة التحميل (عادة ما تكون مطلوبة فقط عند التشكيل)"
 
-#: motioneye/templates/main.html:570
+#: motioneye/templates/main.html:575
 #, fuzzy
 msgid "Encryption key"
 msgstr "مفتاح التشفير"
 
-#: motioneye/templates/main.html:571
+#: motioneye/templates/main.html:576
 #, fuzzy
 msgid "optional base64-encoded SSE-C encryption key"
 msgstr "مفتاح تشفير SSE-C"
 
-#: motioneye/templates/main.html:572
+#: motioneye/templates/main.html:577
 #, fuzzy
 msgid "Add an encryption key if you want to use server-side encryption (SSE-C). The key must be a base64-encoded string with a length of 32 bytes. This key will be needed by every client to access the encrypted files. You can generate a key using the following command: openssl rand 32 | base64"
 msgstr "أضف مفتاح التشفير إذا كنت تريد استخدام مشفرة جانبية للدعم المفتاح يجب أن يكون صفعة بـ 64 مضافة بخطوة 32 بوصة هذا المفتاح يحتاجه كل زبون للوصول إلى الملفات المشفرة يمكنك أن تثق بمفتاح باستخدام القرار: حد أقصى شامل 32 | أساسي 64"
 
-#: motioneye/templates/main.html:576
+#: motioneye/templates/main.html:581
 #, fuzzy
 msgid "Testi la servon"
 msgstr "اختبار الخدمة"
 
-#: motioneye/templates/main.html:577
+#: motioneye/templates/main.html:582
 #, fuzzy
 msgid "alklaku ĉi tiun butonon por provi la alŝutan servon post kiam vi plenigis la postulatajn detalojn"
 msgstr "انقر فوق هذا الزر لاختبار خدمة التحميل بعد ملء التفاصيل المطلوبة"
 
-#: motioneye/templates/main.html:583
+#: motioneye/templates/main.html:588
 #, fuzzy
 msgid "alvoki URL"
 msgstr "استدعاء URL"
 
-#: motioneye/templates/main.html:585
+#: motioneye/templates/main.html:590
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas, ke URL estu petata post kreado de amaskomunikila dosiero"
 msgstr "قم بتمكين هذا إذا كنت تريد طلب عنوان URL بعد إنشاء ملف وسائط"
 
-#: motioneye/templates/main.html:588 motioneye/templates/main.html:1166
-#: motioneye/templates/main.html:1211
+#: motioneye/templates/main.html:593 motioneye/templates/main.html:1171
+#: motioneye/templates/main.html:1216
 #, fuzzy
 msgid "Reteja URL"
 msgstr "URL الموقع"
 
-#: motioneye/templates/main.html:589
+#: motioneye/templates/main.html:594
 #, fuzzy
 msgid "ekz. http://example.com/notify/"
 msgstr "على سبيل المثال http://example.com/notify/"
 
-#: motioneye/templates/main.html:590
+#: motioneye/templates/main.html:595
 #, fuzzy
 msgid "URL por transdoni kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%f = dosiera vojo"
 msgstr "عنوان URL الذي يجب تمريره عند اكتشاف حركة؛ يتم قبول الاختصارات الخاصة التالية: %Y = السنة، %m = الشهر، %d = اليوم، %H = الساعة، %M = الدقيقة، %S = الثانية، %q = رقم الإطار، %v = رقم الحدث، %f = مسار الملف"
 
-#: motioneye/templates/main.html:593 motioneye/templates/main.html:1171
-#: motioneye/templates/main.html:1216
+#: motioneye/templates/main.html:598 motioneye/templates/main.html:1176
+#: motioneye/templates/main.html:1221
 #, fuzzy
 msgid "Metodo HTTP"
 msgstr "طريقة HTTP"
 
-#: motioneye/templates/main.html:602
+#: motioneye/templates/main.html:607
 #, fuzzy
 msgid "la HTTP-metodo por uzi kiam vi petas retan hoko-URL (la donitaj URL-koditaj parametroj fakte estos transdonitaj kiel indikite ĉi tie)"
 msgstr "طريقة HTTP التي يتم استخدامها عند طلب عنوان URL لربط الشبكة (سيتم تسليم المعلمات المرمزة ذات عنوان URL كما هو موضح هنا)"
 
-#: motioneye/templates/main.html:608
+#: motioneye/templates/main.html:613
 #, fuzzy
 msgid "Kuri Komando"
 msgstr "قم بتشغيل الأمر"
 
-#: motioneye/templates/main.html:610
+#: motioneye/templates/main.html:615
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas ekzekuti komandon post kiam media dosiero estas kreita"
 msgstr "قم بتمكين هذا إذا كنت تريد تنفيذ أمر بعد إنشاء ملف وسائط"
 
-#: motioneye/templates/main.html:613
+#: motioneye/templates/main.html:618
 #, fuzzy
 msgid "Ordono"
 msgstr "أجل"
 
-#: motioneye/templates/main.html:614
+#: motioneye/templates/main.html:619
 #, fuzzy
 msgid "ordono…"
 msgstr "طلب…"
 
-#: motioneye/templates/main.html:615
+#: motioneye/templates/main.html:620
 #, fuzzy
 msgid "Komando por esti plenumita post la kreo de plurmedia dosiero. Pluraj komandoj povas esti apartigitaj per punktoknomo; ne uzu punktoknomo en komandojn; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadra numero , %v = okaza numero, %f = dosiera vojo"
 msgstr "الأمر الذي سيتم تنفيذه بعد إنشاء ملف وسائط متعددة. يمكن فصل الأوامر المتعددة بفاصلة منقوطة؛ لا تستخدم الفواصل المنقوطة داخل الأوامر؛ يتم قبول الرموز الخاصة التالية: %Y = السنة، %m = الشهر، %d = اليوم، %H = الساعة، %M = الدقيقة، %S = الثانية، %q = رقم الإطار، %v = رقم الحدث، %f = مسار الملف"
 
-#: motioneye/templates/main.html:625
+#: motioneye/templates/main.html:630
 #, fuzzy
 msgid "elektu kiajn informojn montras sur la kaptitaj kadroj"
 msgstr "حدد المعلومات التي يتم عرضها على الإطارات الملتقطة"
 
-#: motioneye/templates/main.html:626
+#: motioneye/templates/main.html:631
 #, fuzzy
 msgid "Teksto Superkovrita"
 msgstr "تراكب النص"
 
-#: motioneye/templates/main.html:631
+#: motioneye/templates/main.html:636
 #, fuzzy
 msgid "Maldekstra Teksto"
 msgstr "النص الأيسر"
 
-#: motioneye/templates/main.html:635 motioneye/templates/main.html:652
+#: motioneye/templates/main.html:640 motioneye/templates/main.html:657
 #, fuzzy
 msgid "Tempostampo"
 msgstr "طابع زمني"
 
-#: motioneye/templates/main.html:636 motioneye/templates/main.html:653
+#: motioneye/templates/main.html:641 motioneye/templates/main.html:658
 #, fuzzy
 msgid "Propra Teksto"
 msgstr "نص مخصص"
 
-#: motioneye/templates/main.html:637 motioneye/templates/main.html:654
-#: motioneye/templates/main.html:711
+#: motioneye/templates/main.html:642 motioneye/templates/main.html:659
+#: motioneye/templates/main.html:716
 #, fuzzy
 msgid "Malebligita"
 msgstr "معطل"
 
-#: motioneye/templates/main.html:640
+#: motioneye/templates/main.html:645
 #, fuzzy
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra maldekstra angulo"
 msgstr "يضبط النص المعروض على الأفلام والصور ، في الزاوية السفلية اليسرى"
 
-#: motioneye/templates/main.html:644 motioneye/templates/main.html:661
+#: motioneye/templates/main.html:649 motioneye/templates/main.html:666
 #, fuzzy
 msgid "propra teksto…"
 msgstr "نص مخصص…"
 
-#: motioneye/templates/main.html:645
+#: motioneye/templates/main.html:650
 #, fuzzy
 msgid "Difinas kutimon maldekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio"
 msgstr "يحدد عرفًا للنص المحاذي لليسار؛ يتم قبول الرموز الخاصة التالية: %Y = السنة، %m = الشهر، %d = اليوم، %H = الساعة، %M = الدقيقة، %S = الثانية، %q = رقم الإطار، %v = رقم الحدث، %T = HH:MM:SS، \\n = سطر جديد"
 
-#: motioneye/templates/main.html:648
+#: motioneye/templates/main.html:653
 #, fuzzy
 msgid "Dekstra Teksto"
 msgstr "النص الأيمن"
 
-#: motioneye/templates/main.html:657
+#: motioneye/templates/main.html:662
 #, fuzzy
 msgid "Fiksas la tekston montritan sur la filmoj kaj bildoj, sur la malsupra dekstra angulo"
 msgstr "يضبط النص المعروض على الأفلام والصور ، في الزاوية اليمنى السفلى"
 
-#: motioneye/templates/main.html:662
+#: motioneye/templates/main.html:667
 #, fuzzy
 msgid "Difinas kutimon dekstran tekston; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero,%T = HH:MM:SS, \\n = nova linio"
 msgstr "يحدد تنسيق النص الأيمن؛ يتم قبول الرموز الخاصة التالية: %Y = السنة، %m = الشهر، %d = اليوم، %H = الساعة، %M = الدقيقة، %S = الثانية، %q = رقم الإطار، %v = رقم الحدث، %T = HH:MM:SS، \\n = سطر جديد"
 
-#: motioneye/templates/main.html:665
+#: motioneye/templates/main.html:670
 #, fuzzy
 msgid "Teksta Skalo"
 msgstr "مقياس النص"
 
-#: motioneye/templates/main.html:667
+#: motioneye/templates/main.html:672
 #, fuzzy
 msgid "Difinas la grandecon de la superkovrita teksto"
 msgstr "يحدد حجم نص التراكب"
 
-#: motioneye/templates/main.html:677
+#: motioneye/templates/main.html:682
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas videofluon por ĉi tiu fotilo"
 msgstr "قم بتمكين هذا إذا كنت تريد دفق فيديو لهذه الكاميرا"
 
-#: motioneye/templates/main.html:678
+#: motioneye/templates/main.html:683
 #, fuzzy
 msgid "Videofluo"
 msgstr "دفق الفيديو"
 
-#: motioneye/templates/main.html:683
+#: motioneye/templates/main.html:688
 #, fuzzy
 msgid "Framo frekvencon"
 msgstr "تردد الإطار"
 
-#: motioneye/templates/main.html:685
+#: motioneye/templates/main.html:690
 #, fuzzy
 msgid "Fiksas la nombron de kadroj transdonitaj ĉiun sekundon en la viva fluo."
 msgstr "يضبط عدد الإطارات المرسلة في الثانية في البث المباشر."
 
-#: motioneye/templates/main.html:688
+#: motioneye/templates/main.html:693
 #, fuzzy
 msgid "Flua Kvalito"
 msgstr "جودة التدفق"
 
-#: motioneye/templates/main.html:690
+#: motioneye/templates/main.html:695
 #, fuzzy
 msgid "Agordas la vivan fluan kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da larĝa bando)."
 msgstr "الاستماع إلى جودة البث المباشر (القيم الأعلى تنتج جودة فيديو أفضل ولكنها تتطلب المزيد من النطاق الترددي)."
 
-#: motioneye/templates/main.html:693
+#: motioneye/templates/main.html:698
 #, fuzzy
 msgid "Bilda Redimensionado"
 msgstr "تغيير حجم الصورة"
 
-#: motioneye/templates/main.html:695
+#: motioneye/templates/main.html:700
 #, fuzzy
 msgid "Kiam ĉi tio estas enŝaltita, la bildoj estas regrandigitaj antaŭ ol ili estas senditaj al la retumilo (malebligu dum funkciado sur malrapida CPU)."
 msgstr "عند تشغيل هذا ، يتم تغيير حجم الصور قبل إرسالها إلى المتصفح (تعطيل عند التشغيل على وحدة المعالجة المركزية البطيئة)."
 
-#: motioneye/templates/main.html:698
+#: motioneye/templates/main.html:703
 #, fuzzy
 msgid "Flua rezolucio"
 msgstr "قرار التدفق"
 
-#: motioneye/templates/main.html:700
+#: motioneye/templates/main.html:705
 #, fuzzy
 msgid "la rezolucio donita kiel procento de la rezolucio de la video-aparato (pli altaj valoroj produktas pli bonan videan kvaliton sed postulas pli da larĝa de bando)"
 msgstr "الدقة المقدمة كنسبة مئوية من دقة جهاز الفيديو (القيم الأعلى تنتج جودة فيديو أفضل ولكنها تتطلب المزيد من النطاق الترددي)"
 
-#: motioneye/templates/main.html:703
+#: motioneye/templates/main.html:708
 #, fuzzy
 msgid "Flua haveno"
 msgstr "منفذ التدفق"
 
-#: motioneye/templates/main.html:705
+#: motioneye/templates/main.html:710
 #, fuzzy
 msgid "starigas la TCP-havenon, sur kiu aŭskultas la ret-servila ret-servo"
 msgstr "إعداد منفذ TCP الذي يستمع إليه خادم الويب"
 
-#: motioneye/templates/main.html:708
+#: motioneye/templates/main.html:713
 #, fuzzy
 msgid "Aŭtentiga reĝimo"
 msgstr "وضع المصادقة"
 
-#: motioneye/templates/main.html:716
+#: motioneye/templates/main.html:721
 #, fuzzy
 msgid "la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)"
 msgstr "طريقة المصادقة التي يستخدمها الدفق (اختر \"Bazic\" بدلاً من \"Digest\" إذا واجهت مشاكل مع برامج الجهات الخارجية)"
 
-#: motioneye/templates/main.html:721
+#: motioneye/templates/main.html:726
 #, fuzzy
 msgid "username used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."
 msgstr "اسم المستخدم المستخدم المستخدم المستخدم في التوثيق بالفيديو وعندما يُمكّن من الوصول فقط، تستخدم وثائق التفويض تختلف عن مستعمل المراقبة."
 
-#: motioneye/templates/main.html:726
+#: motioneye/templates/main.html:731
 #, fuzzy
 msgid "password used for video streaming authentication. When Admin-only access is enabled, use credentials different from the Surveillance user."
 msgstr "الهاتف المستخدم لبث الفيديو وعندما يُمكّن من الوصول فقط، تستخدم وثائق التفويض تختلف عن مستعمل المراقبة."
 
-#: motioneye/templates/main.html:729
+#: motioneye/templates/main.html:734
 #, fuzzy
 msgid "Movado-Optimigo"
 msgstr "تحسين الحركة"
 
-#: motioneye/templates/main.html:731
+#: motioneye/templates/main.html:736
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas pli malaltan kadran indicon por la livera fluo kiam neniu movo estas detektita"
 msgstr "قم بتمكين هذا إذا كنت تريد معدل إطارات أقل لدفق التسليم عندما لا يتم الكشف عن أي حركة"
 
-#: motioneye/templates/main.html:737
+#: motioneye/templates/main.html:742
 #, fuzzy
 msgid "Utilaj URLoj"
 msgstr "عناوين URL مفيدة"
 
-#: motioneye/templates/main.html:740
+#: motioneye/templates/main.html:745
 #, fuzzy
 msgid "Instantara URL"
 msgstr "URL فوري"
 
-#: motioneye/templates/main.html:743
+#: motioneye/templates/main.html:748
 #, fuzzy
 msgid "URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao"
 msgstr "عنوان URL يوفر صورة JPEG مع أحدث التقاط للكاميرا"
 
-#: motioneye/templates/main.html:749
+#: motioneye/templates/main.html:754
 #, fuzzy
 msgid "Flua URL"
 msgstr "تدفق URL"
 
-#: motioneye/templates/main.html:752
+#: motioneye/templates/main.html:757
 #, fuzzy
 msgid "URL kiu provizas MJPEG-fluon de la kamerao"
 msgstr "عنوان URL يوفر تدفق MJPEG من الكاميرا"
 
-#: motioneye/templates/main.html:758
+#: motioneye/templates/main.html:763
 #, fuzzy
 msgid "Enigita URL"
 msgstr "إدخال عنوان URL"
 
-#: motioneye/templates/main.html:761
+#: motioneye/templates/main.html:766
 #, fuzzy
 msgid "URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita"
 msgstr "عنوان URL يوفر الحد الأدنى من مستند HTML الذي يحتوي على إطار الكاميرا ، وهو جاهز للتضمين"
 
-#: motioneye/templates/main.html:771
+#: motioneye/templates/main.html:776
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas kapti statika bildojn."
 msgstr "قم بتمكين هذا إذا كنت تريد التقاط صور ثابتة."
 
-#: motioneye/templates/main.html:772
+#: motioneye/templates/main.html:777
 #, fuzzy
 msgid "Kaptitaj Bildoj"
 msgstr "الصور الملتقطة"
 
-#: motioneye/templates/main.html:777
+#: motioneye/templates/main.html:782
 #, fuzzy
 msgid "Nomo Bildo-Dosiero"
 msgstr "اسم ملف الصورة"
 
-#: motioneye/templates/main.html:778 motioneye/templates/main.html:847
+#: motioneye/templates/main.html:783 motioneye/templates/main.html:852
 #, fuzzy
 msgid "dosiernomo ŝablono…"
 msgstr "قالب اسم الملف…"
 
-#: motioneye/templates/main.html:779
+#: motioneye/templates/main.html:784
 #, fuzzy
 msgid "Difinas la nomon ŝablonon por bilddosieroj (JPEG); la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero, / = subdosierujo."
 msgstr "يحدد نموذج تسمية ملفات الصور (JPEG)؛ يتم قبول الرموز الخاصة التالية: %Y = السنة، %m = الشهر، %d = اليوم، %H = الساعة، %M = الدقيقة، %S = الثانية، %q = رقم الإطار، %v = رقم الحدث، / = الدليل الفرعي."
 
-#: motioneye/templates/main.html:782
+#: motioneye/templates/main.html:787
 #, fuzzy
 msgid "Bildkvalito"
 msgstr "جودة الصورة"
 
-#: motioneye/templates/main.html:784
+#: motioneye/templates/main.html:789
 #, fuzzy
 msgid "agordas la JPEG-bildkvaliton (pli altaj valoroj produktas pli bonan bildan kvaliton sed postulas pli da stokado)"
 msgstr "يضبط جودة صورة JPEG (القيم الأعلى تنتج جودة صورة أفضل ولكنها تتطلب مساحة تخزين أكبر)"
 
-#: motioneye/templates/main.html:787
+#: motioneye/templates/main.html:792
 #, fuzzy
 msgid "Kaptila reĝimo"
 msgstr "وضع الالتقاط"
 
-#: motioneye/templates/main.html:790 motioneye/templates/main.html:910
+#: motioneye/templates/main.html:795 motioneye/templates/main.html:915
 #, fuzzy
 msgid "Moviĝa deĉenigo"
 msgstr "زناد الحركة"
 
-#: motioneye/templates/main.html:791
+#: motioneye/templates/main.html:796
 #, fuzzy
 msgid "Moviĝa deĉenigo (Unu bildo)"
 msgstr "مشغل الحركة (صورة واحدة)"
 
-#: motioneye/templates/main.html:792
+#: motioneye/templates/main.html:797
 #, fuzzy
 msgid "Intertempe"
 msgstr "في هذه الأثناء"
 
-#: motioneye/templates/main.html:793
+#: motioneye/templates/main.html:798
 #, fuzzy
 msgid "Ĉiuj bildoj"
 msgstr "جميع الصور"
 
-#: motioneye/templates/main.html:794
+#: motioneye/templates/main.html:799
 #, fuzzy
 msgid "Mane"
 msgstr "بدة"
 
-#: motioneye/templates/main.html:797
+#: motioneye/templates/main.html:802
 #, fuzzy
 msgid "Difinas la kapta reĝimon:"
 msgstr "يحدد وضع الالتقاط:"
 
-#: motioneye/templates/main.html:798
+#: motioneye/templates/main.html:803
 #, fuzzy
 msgid "Moviĝa deĉenigo = bildo kaptita ĉiufoje kiam moviĝo estas detektita,"
 msgstr "مشغل الحركة = الصورة الملتقطة في كل مرة يتم فيها الكشف عن الحركة ،"
 
-#: motioneye/templates/main.html:799
+#: motioneye/templates/main.html:804
 #, fuzzy
 msgid "Intertempe = bildo kaptita ĉiun x sekundojn,"
 msgstr "في هذه الأثناء = يتم التقاط الصورة كل x ثانية ،"
 
-#: motioneye/templates/main.html:800
+#: motioneye/templates/main.html:805
 #, fuzzy
 msgid "Ĉiuj bildoj = konservas ĉiun kadron en bildodosiero,"
 msgstr "جميع الصور = حفظ كل إطار في ملف صورة ،"
 
-#: motioneye/templates/main.html:801
+#: motioneye/templates/main.html:806
 #, fuzzy
 msgid "Mane = mana kapto kun dediĉita butono."
 msgstr "بدة = التقاط اليد مع زر مخصص."
 
-#: motioneye/templates/main.html:804
+#: motioneye/templates/main.html:809
 #, fuzzy
 msgid "Interkapto-Intervalo"
 msgstr "فاصل الاعتراض"
 
-#: motioneye/templates/main.html:805 motioneye/templates/main.html:918
-#: motioneye/templates/main.html:993 motioneye/templates/main.html:1122
+#: motioneye/templates/main.html:810 motioneye/templates/main.html:923
+#: motioneye/templates/main.html:998 motioneye/templates/main.html:1127
 #: motioneye/utils/dtconv.py:155 motioneye/utils/dtconv.py:158
 #, fuzzy
 msgid "sekundoj"
 msgstr "ثواني"
 
-#: motioneye/templates/main.html:806
+#: motioneye/templates/main.html:811
 #, fuzzy
 msgid "agordas la intervalon (en sekundoj) por la kaptiloj"
 msgstr "يضبط الفاصل الزمني (بالثواني) للقطات"
 
-#: motioneye/templates/main.html:809
+#: motioneye/templates/main.html:814
 #, fuzzy
 msgid "Konservi bildojn"
 msgstr "حفظ الصور"
 
-#: motioneye/templates/main.html:812 motioneye/templates/main.html:925
+#: motioneye/templates/main.html:817 motioneye/templates/main.html:930
 #, fuzzy
 msgid "Dum unu tago"
 msgstr "ليوم واحد"
 
-#: motioneye/templates/main.html:813 motioneye/templates/main.html:926
+#: motioneye/templates/main.html:818 motioneye/templates/main.html:931
 #, fuzzy
 msgid "Dum unu semajno"
 msgstr "لمدة أسبوع"
 
-#: motioneye/templates/main.html:814 motioneye/templates/main.html:927
+#: motioneye/templates/main.html:819 motioneye/templates/main.html:932
 #, fuzzy
 msgid "Dum unu monato"
 msgstr "لمدة شهر"
 
-#: motioneye/templates/main.html:815 motioneye/templates/main.html:928
+#: motioneye/templates/main.html:820 motioneye/templates/main.html:933
 #, fuzzy
 msgid "Dum unu jaro"
 msgstr "لمدة عام"
 
-#: motioneye/templates/main.html:816 motioneye/templates/main.html:929
+#: motioneye/templates/main.html:821 motioneye/templates/main.html:934
 #, fuzzy
 msgid "Porĉiame"
 msgstr "إلى الأبد"
 
-#: motioneye/templates/main.html:817 motioneye/templates/main.html:930
+#: motioneye/templates/main.html:822 motioneye/templates/main.html:935
 #, fuzzy
 msgid "Propra"
 msgstr "مخصص"
 
-#: motioneye/templates/main.html:820
+#: motioneye/templates/main.html:825
 #, fuzzy
 msgid "Bildoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadan spacon."
 msgstr "يتم حذف الصور الأقدم من المدة المحددة تلقائيًا لتوفير مساحة تخزين."
 
-#: motioneye/templates/main.html:823
+#: motioneye/templates/main.html:828
 #, fuzzy
 msgid "Bildaj Vivdaŭro"
 msgstr "عمر الصورة"
 
-#: motioneye/templates/main.html:825
+#: motioneye/templates/main.html:830
 #, fuzzy
 msgid "Difinas la nombron da tagoj post kiuj la bildoj estos forigitaj aŭtomate."
 msgstr "يحدد عدد الأيام التي سيتم بعدها حذف الصور تلقائيًا."
 
-#: motioneye/templates/main.html:828
+#: motioneye/templates/main.html:833
 #, fuzzy
 msgid "Ebligu manaj kaptoj"
 msgstr "تمكين المصيد اليدوي"
 
-#: motioneye/templates/main.html:830
+#: motioneye/templates/main.html:835
 #, fuzzy
 msgid "Kiam ĉi tio estas enŝaltita, butono sur la kameraa kadro permesos al vi permane preni kaptojn."
 msgstr "عند تشغيل هذا ، سيسمح لك زر على إطار الكاميرا بالتقاط اللقطات يدويًا."
 
-#: motioneye/templates/main.html:840
+#: motioneye/templates/main.html:845
 #, fuzzy
 msgid "ebligu ĉi tion, se vi volas registri filmojn"
 msgstr "قم بتمكين هذا إذا كنت تريد تسجيل الأفلام"
 
-#: motioneye/templates/main.html:841
+#: motioneye/templates/main.html:846
 #, fuzzy
 msgid "Filmoj"
 msgstr "أفلام"
 
-#: motioneye/templates/main.html:846
+#: motioneye/templates/main.html:851
 #, fuzzy
 msgid "Filma Dosiernomo"
 msgstr "اسم ملف الفيلم"
 
-#: motioneye/templates/main.html:848
+#: motioneye/templates/main.html:853
 #, fuzzy
 msgid "Difinas la nomon ŝablonon por por la filmdosieroj; la sekvaj specialaj tokensoj estas akceptitaj:%Y = jaro,%m = monato,%d = tago,%H = horo,%M = minuto,%S = sekundo,%q = kadro numero,%v = evento numero, / = subdosierujo."
 msgstr "يحدد نموذج تسمية ملفات الفيديو؛ يتم قبول الرموز الخاصة التالية: %Y = السنة، %m = الشهر، %d = اليوم، %H = الساعة، %M = الدقيقة، %S = الثانية، %q = رقم الإطار، %v = رقم الحدث، / = الدليل الفرعي."
 
-#: motioneye/templates/main.html:851
+#: motioneye/templates/main.html:856
 #, fuzzy
 msgid "Rekta kopia filmeto"
 msgstr "نسخ فيديو مباشر"
 
-#: motioneye/templates/main.html:853
+#: motioneye/templates/main.html:858
 #, fuzzy
 msgid "Kreu filmojn rekte de la kamerao. Ĉi tiu opcio devus redukti CPU-uzadon sed pliigi memorpostulojn. Neniu bilda prilaborado estas farita, do tekstoj interkovras, privatecaj maskoj ktp. ne estos sur la rezulta video."
 msgstr "قم بإنشاء أفلام مباشرة من الكاميرا. يجب أن يقلل هذا الخيار من استخدام وحدة المعالجة المركزية ولكنه يزيد من متطلبات الذاكرة. لا تتم معالجة الصور ، لذا تتداخل النصوص ، وأقنعة الخصوصية ، وما إلى ذلك. لن يكون على الفيديو الناتج."
 
-#: motioneye/templates/main.html:856
+#: motioneye/templates/main.html:861
 #, fuzzy
 msgid "Filmformato"
 msgstr "تنسيق الفيلم"
 
-#: motioneye/templates/main.html:899
+#: motioneye/templates/main.html:904
 #, fuzzy
 msgid "Agordas la filmdosieron; ne ĉiuj formatoj garantias funkcii en ĉiuj sistemoj; se vi dubas, testu ĉiun formaton kaj elektu tiun, kiu plej bone funkcias per via filmetilo."
 msgstr "تخصيص ملف الفيلم ؛ لا تضمن جميع التنسيقات العمل على جميع الأنظمة ؛ إذا كنت في شك ، فاختبر كل تنسيق واختر التنسيق الذي يعمل بشكل أفضل مع الفيديو الخاص بك."
 
-#: motioneye/templates/main.html:902
+#: motioneye/templates/main.html:907
 #, fuzzy
 msgid "Filma Kvalito"
 msgstr "جودة الفيلم"
 
-#: motioneye/templates/main.html:904
+#: motioneye/templates/main.html:909
 #, fuzzy
 msgid "Agordas la MPEG-video-kvaliton (pli altaj valoroj produktas pli bonan videokvaliton sed postulas pli da stokado)."
 msgstr "يضبط جودة فيديو MPEG (القيم الأعلى تنتج جودة فيديو أفضل ولكنها تتطلب مساحة تخزين أكبر)."
 
-#: motioneye/templates/main.html:907
+#: motioneye/templates/main.html:912
 #, fuzzy
 msgid "Rekorda reĝimo"
 msgstr "وضع التسجيل"
 
-#: motioneye/templates/main.html:911
+#: motioneye/templates/main.html:916
 #, fuzzy
 msgid "Kontinua registrado"
 msgstr "تسجيل مستمر"
 
-#: motioneye/templates/main.html:914
+#: motioneye/templates/main.html:919
 #, fuzzy
 msgid "Agordas la registradreĝimon: Moviĝa deĉenigo = nova filmo kreita kiam ajn moviĝo estas detektita, Kontinua Registrado = unu granda filma dosiero."
 msgstr "لتعيين وضع التسجيل: Motion Trigger = فيلم جديد تم إنشاؤه عند اكتشاف الحركة ، التسجيل المستمر = ملف فيلم كبير."
 
-#: motioneye/templates/main.html:917
+#: motioneye/templates/main.html:922
 #, fuzzy
 msgid "Maksimuma filma daŭro"
 msgstr "الحد الأقصى لمدة الفيلم"
 
-#: motioneye/templates/main.html:919
+#: motioneye/templates/main.html:924
 #, fuzzy
 msgid "Agordas la maksimuman longon de filmoj en sekundoj; se la movada evento daŭras pli longe, nova filmdosiero estas kreita; uzu 0 por senlima longo."
 msgstr "يضبط الحد الأقصى لطول الأفلام بالثواني ؛ إذا استمر حدث الحركة لفترة أطول ، يتم إنشاء ملف فيلم جديد ؛ استخدم 0 لطول غير محدود."
 
-#: motioneye/templates/main.html:922
+#: motioneye/templates/main.html:927
 #, fuzzy
 msgid "Konservi filmojn"
 msgstr "حفظ الأفلام"
 
-#: motioneye/templates/main.html:933
+#: motioneye/templates/main.html:938
 #, fuzzy
 msgid "Filmoj pli aĝaj ol la difinita daŭro estas aŭtomate forigitaj por liberigi stokadon."
 msgstr "يتم حذف الأفلام الأقدم من المدة المحددة تلقائيًا لتحرير السعة التخزينية."
 
-#: motioneye/templates/main.html:936
+#: motioneye/templates/main.html:941
 #, fuzzy
 msgid "Filmoj Vivdaŭro"
 msgstr "أفلام عمر"
 
-#: motioneye/templates/main.html:937 motioneye/utils/dtconv.py:134
+#: motioneye/templates/main.html:942 motioneye/utils/dtconv.py:134
 #, fuzzy
 msgid "tagoj"
 msgstr "أيام"
 
-#: motioneye/templates/main.html:938
+#: motioneye/templates/main.html:943
 #, fuzzy
 msgid "Agordas la nombron da tagoj post kiuj la filmoj estos forigitaj aŭtomate."
 msgstr "يضبط عدد الأيام التي سيتم بعدها حذف الأفلام تلقائيًا."
 
-#: motioneye/templates/main.html:948
+#: motioneye/templates/main.html:953
 #, fuzzy
 msgid "Aktivigu ĉi tion, por uzi kaj agordi la mekanismon por detekti movadon."
 msgstr "قم بتنشيط هذا لاستخدام وتكوين الجهاز لاكتشاف الحركة."
 
-#: motioneye/templates/main.html:949
+#: motioneye/templates/main.html:954
 #, fuzzy
 msgid "Movado-Detekto"
 msgstr "كشف الحركة"
 
-#: motioneye/templates/main.html:954
+#: motioneye/templates/main.html:959
 #, fuzzy
 msgid "Kadra ŝanĝo sojlo"
 msgstr "حد تغيير الإطار"
 
-#: motioneye/templates/main.html:956
+#: motioneye/templates/main.html:961
 #, fuzzy
 msgid "Indikas la minimuman procenton de la bildo, kiu devas ŝanĝi inter du pluaj kadroj por detekti movadon (pli malgrandaj valoroj donas pli sentivan detekton, sed inklinas al falsaj pozitivoj)."
 msgstr "يشير إلى الحد الأدنى للنسبة المئوية للصورة التي يجب أن تنتقل بين إطارين متتاليين لاكتشاف الحركة (القيم الأصغر تعطي كشفًا أكثر حساسية ، ولكنها تميل إلى نتائج إيجابية خاطئة)."
 
-#: motioneye/templates/main.html:959
+#: motioneye/templates/main.html:964
 #, fuzzy
 msgid "Maksimuma ŝanĝo sojlo"
 msgstr "الحد الأقصى للتغيير عتبة"
 
-#: motioneye/templates/main.html:961
+#: motioneye/templates/main.html:966
 #, fuzzy
 msgid "Starigas la nombron da rastrumeroj ŝanĝitaj inter kadroj super kiuj movo ne plu ekigas (0 malŝaltas la limon)."
 msgstr "يضبط عدد وحدات البكسل التي يتم تبديلها بين الإطارات التي لم يعد يتم تشغيل التمرير فوقها (0 يعطل الحد)."
 
-#: motioneye/templates/main.html:964
+#: motioneye/templates/main.html:969
 #, fuzzy
 msgid "Aŭtomata sojla agordo"
 msgstr "إعداد العتبة التلقائي"
 
-#: motioneye/templates/main.html:966
+#: motioneye/templates/main.html:971
 #, fuzzy
 msgid "Ebligu tion aŭtomate ĝustigi la sojlon."
 msgstr "قم بتمكين هذا لضبط العتبة تلقائيًا."
 
-#: motioneye/templates/main.html:969
+#: motioneye/templates/main.html:974
 #, fuzzy
 msgid "Aŭtomata bruo-detekto"
 msgstr "كشف ضوضاء تلقائي"
 
-#: motioneye/templates/main.html:971
+#: motioneye/templates/main.html:976
 #, fuzzy
 msgid "Ebligu tion por aŭtomate ĝustigi la nivelon de bruo."
 msgstr "قم بتمكين هذا لضبط مستوى الضوضاء تلقائيًا."
 
-#: motioneye/templates/main.html:974
+#: motioneye/templates/main.html:979
 #, fuzzy
 msgid "Bruo-nivelo"
 msgstr "مستوى الضجيج"
 
-#: motioneye/templates/main.html:976
+#: motioneye/templates/main.html:981
 #, fuzzy
 msgid "Permane agordas la bruan nivelon al fiksita valoro."
 msgstr "يضبط مستوى الضوضاء بشكل دائم على قيمة محددة."
 
-#: motioneye/templates/main.html:979
+#: motioneye/templates/main.html:984
 #, fuzzy
 msgid "Detekto de lumaj ŝanĝoj"
 msgstr "كشف تغيرات الضوء"
 
-#: motioneye/templates/main.html:981
+#: motioneye/templates/main.html:986
 #, fuzzy
 msgid "Difinas la procenton de la bildo, kiu bezonas ŝanĝi, por ke la evento estu traktata kiel subita luma ŝanĝo anstataŭ moviĝo (0% malebligas la funkcion)."
 msgstr "يحدد النسبة المئوية للصورة التي يجب تغييرها حتى يتم التعامل مع الحدث على أنه تغيير مفاجئ في السطوع وليس حركة (0٪ تعطل الميزة)."
 
-#: motioneye/templates/main.html:984
+#: motioneye/templates/main.html:989
 #, fuzzy
 msgid "Makula filtrilo"
 msgstr "مرشح للبقع"
 
-#: motioneye/templates/main.html:986
+#: motioneye/templates/main.html:991
 #, fuzzy
 msgid "Ebligu tion apliki makulan filtrilon al kadroj antaŭ ol detekti movadon."
 msgstr "قم بتمكين هذا عن طريق تطبيق مرشح موضعي على الإطارات قبل اكتشاف الحركة."
 
-#: motioneye/templates/main.html:992
+#: motioneye/templates/main.html:997
 #, fuzzy
 msgid "Senmovada daŭro"
 msgstr "حركة مستمرة"
 
-#: motioneye/templates/main.html:994
+#: motioneye/templates/main.html:999
 #, fuzzy
 msgid "Agordas la nombron da sekundoj da silento (t.e. neniu moviĝo), kiuj markas la finon de movada okazaĵo."
 msgstr "يضبط عدد ثواني الصمت (أي لا حركة) التي تحدد نهاية حدث الحركة."
 
-#: motioneye/templates/main.html:997
+#: motioneye/templates/main.html:1002
 #, fuzzy
 msgid "Kaptita Antaŭe"
 msgstr "اشتعلت من قبل"
 
-#: motioneye/templates/main.html:998 motioneye/templates/main.html:1003
-#: motioneye/templates/main.html:1008
+#: motioneye/templates/main.html:1003 motioneye/templates/main.html:1008
+#: motioneye/templates/main.html:1013
 #, fuzzy
 msgid "kadroj"
 msgstr "الإطارات"
 
-#: motioneye/templates/main.html:999
+#: motioneye/templates/main.html:1004
 #, fuzzy
 msgid "Starigas la nombron de kadroj kaptitaj (kaj inkluzivitaj en la filmo) antaŭ ol moviĝokazaĵo estas detektita."
 msgstr "يضبط عدد الإطارات الملتقطة (والمضمنة في الفيلم) قبل اكتشاف حادثة الحركة."
 
-#: motioneye/templates/main.html:1002
+#: motioneye/templates/main.html:1007
 #, fuzzy
 msgid "Kaptita Post"
 msgstr "اشتعلت بعد"
 
-#: motioneye/templates/main.html:1004
+#: motioneye/templates/main.html:1009
 #, fuzzy
 msgid "Starigas la nombron de kadroj kaptotaj (kaj inkluzivitaj en la filmo) post la fino de movada evento."
 msgstr "يضبط عدد الإطارات التي سيتم التقاطها (ويتم تضمينها في الفيلم) بعد نهاية حدث الحركة."
 
-#: motioneye/templates/main.html:1007
+#: motioneye/templates/main.html:1012
 #, fuzzy
 msgid "Minimumaj movaj kadroj"
 msgstr "إطارات الحركة الدنيا"
 
-#: motioneye/templates/main.html:1009
+#: motioneye/templates/main.html:1014
 #, fuzzy
 msgid "Fiksas la minimuman nombron da pluaj movaj kadroj necesaj por komenci moviĝan eventon."
 msgstr "يضبط الحد الأدنى لعدد إطارات الحركة المتتالية اللازمة لبدء حدث الحركة."
 
-#: motioneye/templates/main.html:1015
+#: motioneye/templates/main.html:1020
 #, fuzzy
 msgid "Masko"
 msgstr "قناع"
 
-#: motioneye/templates/main.html:1017
+#: motioneye/templates/main.html:1022
 #, fuzzy
 msgid "Ebligas bildigan maskeradon por pli selektema kaj preciza moviĝo-detekto."
 msgstr "يتيح إخفاء الصورة لاكتشاف حركة أكثر انتقائية ودقة."
 
-#: motioneye/templates/main.html:1020
+#: motioneye/templates/main.html:1025
 #, fuzzy
 msgid "Tipo de masko"
 msgstr "نوع القناع"
 
-#: motioneye/templates/main.html:1023
+#: motioneye/templates/main.html:1028
 #, fuzzy
 msgid "Inteligenta"
 msgstr "ذكي"
 
-#: motioneye/templates/main.html:1024
+#: motioneye/templates/main.html:1029
 #, fuzzy
 msgid "Redaktebla"
 msgstr "قابل للتعديل"
 
-#: motioneye/templates/main.html:1027
+#: motioneye/templates/main.html:1032
 #, fuzzy
 msgid "La Inteligenta opcio aŭtomate detektas regionojn per regula movado kaj dinamike kreas internan maskon, dum la Redaktebla opcio permesas permane konstrui ĝin mem."
 msgstr "يكتشف الخيار الذكي تلقائيًا المناطق ذات الحركة المنتظمة ويقوم بإنشاء قناع داخلي ديناميكيًا ، بينما يتيح لك الخيار القابل للتحرير إنشاءه يدويًا بنفسك."
 
-#: motioneye/templates/main.html:1030
+#: motioneye/templates/main.html:1035
 #, fuzzy
 msgid "Inteligenta-maska Malrapideco"
 msgstr "بطء القناع الذكي"
 
-#: motioneye/templates/main.html:1032
+#: motioneye/templates/main.html:1037
 #, fuzzy
 msgid "Pli altaj valoroj donas pli daŭran maskon kun pli malrapida konstruprocezo."
 msgstr "القيم الأعلى تعطي قناعًا أكثر متانة مع عملية بناء أبطأ."
 
-#: motioneye/templates/main.html:1041
+#: motioneye/templates/main.html:1046
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por ebligi/malebligi la maskan redaktilon."
 msgstr "انقر فوق هذا الزر لتمكين / تعطيل محرر القناع."
 
-#: motioneye/templates/main.html:1045
+#: motioneye/templates/main.html:1050
 #, fuzzy
 msgid "Purigi maskon"
 msgstr "قناع نظيف"
 
-#: motioneye/templates/main.html:1046
+#: motioneye/templates/main.html:1051
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por malplenigi la nunan maskon."
 msgstr "اضغط هذا الزر لإزالة القناع الحالي."
 
-#: motioneye/templates/main.html:1052
+#: motioneye/templates/main.html:1057
 #, fuzzy
 msgid "Montri Kadro-Ŝanĝojn"
 msgstr "إظهار تغييرات الإطار"
 
-#: motioneye/templates/main.html:1054
+#: motioneye/templates/main.html:1059
 #, fuzzy
 msgid "Se ĉi tio estas aktiva, la bilda ŝanĝojn (nombro de pikseloj kaj la modifita areo) estas montritaj en la video; provizore ebligigu ĉi tion por ĝustigi agordojn de moviĝo-detekto."
 msgstr "إذا كان هذا نشطًا ، تظهر تغييرات الصورة (عدد البكسل والمنطقة المعدلة) في الفيديو ؛ تمكين هذا مؤقتًا لضبط إعدادات الكشف عن الحركة."
 
-#: motioneye/templates/main.html:1057
+#: motioneye/templates/main.html:1062
 #, fuzzy
 msgid "Krei debug media files"
 msgstr "إنشاء ملفات وسائط التصحيح"
 
-#: motioneye/templates/main.html:1059
+#: motioneye/templates/main.html:1064
 #, fuzzy
 msgid "Kiam ebligite, kreas specialajn filmojn kaj bildojn, kiuj helpas elpurigi problemojn de moviĝo-detekto."
 msgstr "عند التمكين ، قم بإنشاء أفلام وصور خاصة تساعد على تصحيح مشاكل اكتشاف الحركة."
 
-#: motioneye/templates/main.html:1068
+#: motioneye/templates/main.html:1073
 #, fuzzy
 msgid "Ebligu tion se vi volas esti sciigita kiam moviĝo estas detektita."
 msgstr "قم بتمكين هذا إذا كنت تريد أن يتم إعلامك عند اكتشاف الحركة."
 
-#: motioneye/templates/main.html:1069
+#: motioneye/templates/main.html:1074
 #, fuzzy
 msgid "Moviĝaj sciigoj"
 msgstr "إخطارات الحركة"
 
-#: motioneye/templates/main.html:1081
+#: motioneye/templates/main.html:1086
 #, fuzzy
 msgid "Sendi retpoŝton"
 msgstr "إرسال بريد إلكتروني"
 
-#: motioneye/templates/main.html:1083
+#: motioneye/templates/main.html:1088
 #, fuzzy
 msgid "Aktivigu ĉi tiun opcion, se vi volas ricevi retpoŝton ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "قم بتنشيط هذا الخيار إذا كنت ترغب في تلقي بريد إلكتروني في كل مرة يتم فيها الكشف عن حادث حركة."
 
-#: motioneye/templates/main.html:1086
+#: motioneye/templates/main.html:1091
 #, fuzzy
 msgid "Retpoŝtadresoj"
 msgstr "عناوين البريد الإلكتروني"
 
-#: motioneye/templates/main.html:1087
+#: motioneye/templates/main.html:1092
 #, fuzzy
 msgid "retpoŝtadresoj…"
 msgstr "عناوين البريد الإلكتروني…"
 
-#: motioneye/templates/main.html:1088
+#: motioneye/templates/main.html:1093
 #, fuzzy
 msgid "Retpoŝtadresoj (apartigitaj per komo) aldonitaj ĉi tie ricevos sciigojn kiam ajn moviĝokazaĵo estas detektita."
 msgstr "عناوين البريد الإلكتروني (مفصولة بفواصل) المضافة هنا ستتلقى إشعارات كلما تم اكتشاف حادثة حركة."
 
-#: motioneye/templates/main.html:1091
+#: motioneye/templates/main.html:1096
 #, fuzzy
 msgid "Servilo SMTP"
 msgstr "خادم SMTP"
 
-#: motioneye/templates/main.html:1092
+#: motioneye/templates/main.html:1097
 #, fuzzy
 msgid "ekz. smtp.gmail.com"
 msgstr "على سبيل المثال smtp.gmail.com"
 
-#: motioneye/templates/main.html:1093
+#: motioneye/templates/main.html:1098
 #, fuzzy
 msgid "Enigu la hostname aŭ IP-adreson de via SMTP-servilo (por uzado de Gmail smtp.gmail.com)."
 msgstr "أدخل اسم المضيف أو عنوان IP لخادم SMTP (لاستخدام Gmail smtp.gmail.com)."
 
-#: motioneye/templates/main.html:1096
+#: motioneye/templates/main.html:1101
 #, fuzzy
 msgid "SMTP Haveno"
 msgstr "منفذ SMTP"
 
-#: motioneye/templates/main.html:1097
+#: motioneye/templates/main.html:1102
 #, fuzzy
 msgid "ekz. 587"
 msgstr "على سبيل المثال 587"
 
-#: motioneye/templates/main.html:1098
+#: motioneye/templates/main.html:1103
 #, fuzzy
 msgid "Eniru la havenon uzatan de via SMTP-servilo (kutime 465 por ne-TLS-ligoj kaj 587 por TLS-ligoj)."
 msgstr "أدخل المنفذ الذي يستخدمه خادم SMTP (عادةً 465 لاتصالات غير TLS و 587 لاتصالات TLS)."
 
-#: motioneye/templates/main.html:1101
+#: motioneye/templates/main.html:1106
 #, fuzzy
 msgid "SMTP-Konto"
 msgstr "حساب SMTP"
 
-#: motioneye/templates/main.html:1102
+#: motioneye/templates/main.html:1107
 #, fuzzy
 msgid "konto@gmail.com…"
 msgstr "account@gmail.com…"
 
-#: motioneye/templates/main.html:1103
+#: motioneye/templates/main.html:1108
 #, fuzzy
 msgid "Enigu vian SMTPan konton (kutime via retpoŝta adreso)."
 msgstr "أدخل حساب SMTP الخاص بك (عادة عنوان بريدك الإلكتروني)."
 
-#: motioneye/templates/main.html:1106
+#: motioneye/templates/main.html:1111
 #, fuzzy
 msgid "SMTP Pasvorto"
 msgstr "كلمة مرور SMTP"
 
-#: motioneye/templates/main.html:1108
+#: motioneye/templates/main.html:1113
 #, fuzzy
 msgid "Enigu vian SMTPan pasvorton (por Gmail uzu vian Google-pasvorton aŭ app-specifan generitan pasvorton)."
 msgstr "أدخل كلمة مرور SMTP (بالنسبة إلى Gmail ، استخدم كلمة مرور Google أو كلمة مرور تم إنشاؤها من قبل التطبيق)."
 
-#: motioneye/templates/main.html:1111
+#: motioneye/templates/main.html:1116
 #, fuzzy
 msgid "De adreso"
 msgstr "من العنوان"
 
-#: motioneye/templates/main.html:1112
+#: motioneye/templates/main.html:1117
 #, fuzzy
 msgid "retpoŝta adreso…"
 msgstr "عنوان بريد الكتروني…"
 
-#: motioneye/templates/main.html:1113
+#: motioneye/templates/main.html:1118
 #, fuzzy
 msgid "Agordi kutimon De adreso, se via SMTP-servo postulas unu (la unua destina retpoŝta adreso estos uzata se lasita malplena)."
 msgstr "تعيين عنوان \"من:\" مخصص إذا كانت خدمة SMTP تتطلب عنوانًا (سيتم استخدام أول عنوان بريد إلكتروني مقصود إذا ترك فارغًا)."
 
-#: motioneye/templates/main.html:1116
+#: motioneye/templates/main.html:1121
 #, fuzzy
 msgid "Uzi TLS"
 msgstr "استخدم TLS"
 
-#: motioneye/templates/main.html:1118
+#: motioneye/templates/main.html:1123
 #, fuzzy
 msgid "Ebligu tion, se via SMTP-servilo postulas TLS (Gmail bezonas ĉi tion por ebligi)."
 msgstr "قم بتمكين هذا إذا كان خادم SMTP يتطلب TLS (يتطلب Gmail تمكين هذا)."
 
-#: motioneye/templates/main.html:1121
+#: motioneye/templates/main.html:1126
 #, fuzzy
 msgid "Aldonitaj bildoj tempo-intervalo"
 msgstr "تمت إضافة الفاصل الزمني للصور"
 
-#: motioneye/templates/main.html:1123
+#: motioneye/templates/main.html:1128
 #, fuzzy
 msgid "Difinas la tempo-serĉan intervalon por uzi dum kreado de retpoŝtaj ligiloj (pli altaj valoroj generas retpoŝtojn kun pli da bildoj koste de pliigita prokrasta sciigo); agordi al 0 por malebligi aldonitabildojn; vi ankaŭ devas rajtigi «Kaptitaj bildoj» por ke ĉi tio funkciu."
 msgstr "يحدد الفترة الزمنية للبحث لاستخدامها عند إنشاء روابط البريد الإلكتروني (القيم الأعلى تولد رسائل البريد الإلكتروني مع المزيد من الصور على حساب زيادة إشعار التأجيل) ؛ تعيين إلى 0 لتعطيل الصور المضافة ؛ تحتاج أيضًا إلى تمكين \"التقاط الصور\" لجعل هذا العمل."
 
-#: motioneye/templates/main.html:1127
+#: motioneye/templates/main.html:1132
 #, fuzzy
 msgid "Testi retpoŝto"
 msgstr "اختبار البريد الإلكتروني"
 
-#: motioneye/templates/main.html:1128
+#: motioneye/templates/main.html:1133
 #, fuzzy
 msgid "Alklaku ĉi tiun butonon por testi retpoŝtajn sciigojn post kiam vi plenigis la postulatajn detalojn."
 msgstr "انقر فوق هذا الزر لاختبار إشعارات البريد الإلكتروني بعد ملء التفاصيل المطلوبة."
 
-#: motioneye/templates/main.html:1134
+#: motioneye/templates/main.html:1139
 #, fuzzy
 msgid "Sendu Telegraman Sciigon"
 msgstr "إرسال إشعار Telegram"
 
-#: motioneye/templates/main.html:1136
+#: motioneye/templates/main.html:1141
 #, fuzzy
 msgid "ebligu tion se vi volas ricevi telegraman mesaĝon kiam ajn moviĝa evento estas detektita"
 msgstr "قم بتمكين هذا إذا كنت ترغب في تلقي رسالة برقية كلما تم اكتشاف حدث متحرك"
 
-#: motioneye/templates/main.html:1139
+#: motioneye/templates/main.html:1144
 #, fuzzy
 msgid "HTTP API ĵetono"
 msgstr "رمز HTTP API"
 
-#: motioneye/templates/main.html:1140
+#: motioneye/templates/main.html:1145
 #, fuzzy
 msgid "Ekzemplo: 93847672:AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 msgstr "مثال: 93847672: AACdSn843hsjJsh32bSmdN3sHsh2bsh0xRs_32dbcr1W"
 
-#: motioneye/templates/main.html:1141
+#: motioneye/templates/main.html:1146
 #, fuzzy
 msgid "Kreante la telegram-bot-babilejon, vi ricevos API-ĵetonon, kiun vi devas enigi ĉi tie. Alklaku la API-butonon sube por paŝo-post-paŝa gvidilo pri kiel akiri vian API-ĵetonon. Ankaŭ nepre babili kun via lastatempe kreita «bot» post kiam via ŝlosilo estas generita, por certigi, ke vi ricevas mesaĝojn."
 msgstr "من خلال إنشاء دردشة Telegram-Bot ، ستحصل على رموز API تحتاج إلى الدخول هنا. انقر فوق الزر API أدناه للحصول على دليل خطوة بخطوة حول كيفية الحصول على رموز API الخاصة بك. تأكد أيضًا من الدردشة مع \"الروبوت\" الذي تم إنشاؤه حديثًا بعد إنشاء مفتاحك ، للتأكد من حصولك على الرسائل."
 
-#: motioneye/templates/main.html:1144
+#: motioneye/templates/main.html:1149
 #, fuzzy
 msgid "Babileja ID"
 msgstr "معرف الدردشة"
 
-#: motioneye/templates/main.html:1145
+#: motioneye/templates/main.html:1150
 #, fuzzy
 msgid "Ekzemplo: 938272312"
 msgstr "مثال: 938272312"
 
-#: motioneye/templates/main.html:1146
+#: motioneye/templates/main.html:1151
 #, fuzzy
 msgid "Kreu novan babilejon al id_chatbot (@id_chatbot) kaj elektu starti. La babilejo redonos la necesan numeron por ĉi tiu kampo."
 msgstr "أنشئ محادثة جديدة على id_chatbot (id_chatbot) واختر أن تبدأ. ستعيد الدردشة الرقم المطلوب لهذا الحقل."
 
-#: motioneye/templates/main.html:1149
+#: motioneye/templates/main.html:1154
 #, fuzzy
 msgid "Alkroĉitaj Bildoj Tempo"
 msgstr "وقت الصور المرفقة"
 
-#: motioneye/templates/main.html:1151
+#: motioneye/templates/main.html:1156
 #, fuzzy
 msgid "difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte."
 msgstr "يحدد الفاصل الزمني للبحث عن الصور لإنشاء مرفقات برقية (القيم الأعلى تولد المزيد من الصور بتكلفة تأخير الإخطار المتزايد) ؛ اضبط على 0 لتعطيل مرفقات الصور ؛ يجب عليك أيضًا تمكين الصور الثابتة حتى يعمل هذا ؛ سترغب في اللعب بهذا الرقم حتى يتم إرسال صورة. رقم البداية الجيد هو 30 إذا قمت بتعيين الصور الثابتة على حركة واحدة تم تشغيلها. بالنسبة لتحرك قياسي يتم تشغيله ، قم بتعيين هذا أقل من ذلك بكثير."
 
-#: motioneye/templates/main.html:1154
+#: motioneye/templates/main.html:1159
 #, fuzzy
 msgid "API-Informoj"
 msgstr "معلومات API"
 
-#: motioneye/templates/main.html:1155
+#: motioneye/templates/main.html:1160
 #, fuzzy
 msgid "Testo"
 msgstr "اختبار"
 
-#: motioneye/templates/main.html:1161 motioneye/templates/main.html:1206
+#: motioneye/templates/main.html:1166 motioneye/templates/main.html:1211
 #, fuzzy
 msgid "Alvoki URL"
 msgstr "استدعاء URL"
 
-#: motioneye/templates/main.html:1163
+#: motioneye/templates/main.html:1168
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas, ke URL estu petata kiam ajn moviĝokazaĵo estas detektita."
 msgstr "قم بتمكين هذا إذا كنت تريد طلب عنوان URL كلما تم الكشف عن حدث الحركة."
 
-#: motioneye/templates/main.html:1167
+#: motioneye/templates/main.html:1172
 #, fuzzy
 msgid "ekz. http://ekzemplo.com/sciigi/"
 msgstr "على سبيل المثال http://example.com/search/"
 
-#: motioneye/templates/main.html:1168
+#: motioneye/templates/main.html:1173
 #, fuzzy
 msgid "URL por esti petita kiam moviĝo estas detektita; la sekvaj specialaj ŝparvojoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadro-numero, %v = okaza numero"
 msgstr "عنوان URL المطلوب عند اكتشاف حركة؛ يتم قبول الاختصارات الخاصة التالية: %Y = السنة، %m = الشهر، %d = اليوم، %H = الساعة، %M = الدقيقة، %S = الثانية، %q = رقم الإطار، %v = رقم عشوائي"
 
-#: motioneye/templates/main.html:1180 motioneye/templates/main.html:1225
+#: motioneye/templates/main.html:1185 motioneye/templates/main.html:1230
 #, fuzzy
 msgid "La HTTP-metodo por uzi kiam vi petas URL (la donitaj URL-parametroj estos transdonitaj kiel indikite ĉi tie)."
 msgstr "طريقة HTTP المستخدمة عند طلب عنوان URL (سيتم تسليم معلمات عنوان URL المحددة كما هو موضح هنا)."
 
-#: motioneye/templates/main.html:1186 motioneye/templates/main.html:1231
+#: motioneye/templates/main.html:1191 motioneye/templates/main.html:1236
 #, fuzzy
 msgid "Lanĉi komando"
 msgstr "قم بتشغيل أمر"
 
-#: motioneye/templates/main.html:1188
+#: motioneye/templates/main.html:1193
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam moviĝokazaĵo estas detektita."
 msgstr "قم بتمكين هذا إذا كنت تريد تشغيل أمر في كل مرة يتم فيها اكتشاف حدث الحركة."
 
-#: motioneye/templates/main.html:1191 motioneye/templates/main.html:1236
+#: motioneye/templates/main.html:1196 motioneye/templates/main.html:1241
 #, fuzzy
 msgid "Komando"
 msgstr "أمر"
 
-#: motioneye/templates/main.html:1192 motioneye/templates/main.html:1237
+#: motioneye/templates/main.html:1197 motioneye/templates/main.html:1242
 #, fuzzy
 msgid "komando…"
 msgstr "أمر…"
 
-#: motioneye/templates/main.html:1193
+#: motioneye/templates/main.html:1198
 #, fuzzy
 msgid "Komando por esti lanĉa kiam moviĝo estas detektita; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokomojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = tago, %H = horo, %M = minuto, %S = sekundo, %q = kadro-numero, %v = okaza numero"
 msgstr "الأمر الذي سيتم تنفيذه عند اكتشاف حركة؛ يمكن فصل الأوامر المتعددة بفاصلة؛ لا تستخدم الفاصلة المنقوطة في الأوامر؛ يتم قبول الرموز الخاصة التالية: %Y = السنة، %m = الشهر، %d = اليوم، %H = الساعة، %M = الدقيقة، %S = الثانية، %q = رقم الإطار، %v = رقم عشوائي"
 
-#: motioneye/templates/main.html:1233
+#: motioneye/templates/main.html:1238
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas lanĉi komandon ĉiufoje kiam movada evento finiĝos."
 msgstr "قم بتمكين هذا إذا كنت تريد تشغيل أمر في كل مرة ينتهي فيها حدث نقل."
 
-#: motioneye/templates/main.html:1238
+#: motioneye/templates/main.html:1243
 #, fuzzy
 msgid "Komando por esti lanĉa kiam moviĝokazaĵo finiĝas; multnombraj komandoj povas esti apartigitaj per dupunkto; ne uzu punktokompojn per komandoj; la sekvaj specialaj tokensoj estas akceptitaj: %Y = jaro, %m = monato, %d = dato, %H = horo, %M = minuto, %S = sekundo, %q = kadra nombro."
 msgstr "الأمر الذي سيتم تشغيله عند انتهاء حدث الحركة؛ يمكن فصل الأوامر المتعددة بفاصلة منقوطة؛ لا تستخدم الفواصل في الأوامر؛ يتم قبول الرموز الخاصة التالية: %Y = السنة، %m = الشهر، %d = اليوم، %H = الساعة، %M = الدقيقة، %S = الثانية، %q = رقم الإطار."
 
-#: motioneye/templates/main.html:1248
+#: motioneye/templates/main.html:1253
 #, fuzzy
 msgid "Ebligu ĉi tion, se vi volas difini ĉiusemajnan horaron por detekto de moviĝo."
 msgstr "قم بتمكين هذا إذا كنت تريد تعيين جدول أسبوعي لاكتشاف الحركة."
 
-#: motioneye/templates/main.html:1249
+#: motioneye/templates/main.html:1254
 #, fuzzy
 msgid "Laboranta horaro"
 msgstr "جدول العمل"
 
-#: motioneye/templates/main.html:1254
+#: motioneye/templates/main.html:1259
 #, fuzzy
 msgid "Lundo"
 msgstr "الإثنين"
 
-#: motioneye/templates/main.html:1257 motioneye/templates/main.html:1266
-#: motioneye/templates/main.html:1275 motioneye/templates/main.html:1284
-#: motioneye/templates/main.html:1293 motioneye/templates/main.html:1302
-#: motioneye/templates/main.html:1311
+#: motioneye/templates/main.html:1262 motioneye/templates/main.html:1271
+#: motioneye/templates/main.html:1280 motioneye/templates/main.html:1289
+#: motioneye/templates/main.html:1298 motioneye/templates/main.html:1307
+#: motioneye/templates/main.html:1316
 #, fuzzy
 msgid "de"
 msgstr "من"
 
-#: motioneye/templates/main.html:1258 motioneye/templates/main.html:1267
-#: motioneye/templates/main.html:1276 motioneye/templates/main.html:1285
-#: motioneye/templates/main.html:1294 motioneye/templates/main.html:1303
-#: motioneye/templates/main.html:1312
+#: motioneye/templates/main.html:1263 motioneye/templates/main.html:1272
+#: motioneye/templates/main.html:1281 motioneye/templates/main.html:1290
+#: motioneye/templates/main.html:1299 motioneye/templates/main.html:1308
+#: motioneye/templates/main.html:1317
 #, fuzzy
 msgid "ĝis"
 msgstr "حتى"
 
-#: motioneye/templates/main.html:1260
+#: motioneye/templates/main.html:1265
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por lundoj."
 msgstr "يضبط النطاق الزمني ليوم العمل ليوم الاثنين."
 
-#: motioneye/templates/main.html:1263
+#: motioneye/templates/main.html:1268
 #, fuzzy
 msgid "Mardo"
 msgstr "الثلاثاء"
 
-#: motioneye/templates/main.html:1269
+#: motioneye/templates/main.html:1274
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por mardoj."
 msgstr "يضبط النطاق الزمني ليوم العمل ليوم الثلاثاء."
 
-#: motioneye/templates/main.html:1272
+#: motioneye/templates/main.html:1277
 #, fuzzy
 msgid "Merkredo"
 msgstr "الأربعاء"
 
-#: motioneye/templates/main.html:1278
+#: motioneye/templates/main.html:1283
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por merkredoj."
 msgstr "يضبط نطاق وقت العمل ليوم الأربعاء."
 
-#: motioneye/templates/main.html:1281
+#: motioneye/templates/main.html:1286
 #, fuzzy
 msgid "Ĵaŭdo"
 msgstr "الخميس"
 
-#: motioneye/templates/main.html:1287
+#: motioneye/templates/main.html:1292
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por ĵaŭdoj."
 msgstr "يضبط نطاق يوم العمل ليوم الخميس."
 
-#: motioneye/templates/main.html:1290
+#: motioneye/templates/main.html:1295
 #, fuzzy
 msgid "Vendredo"
 msgstr "الجمعة"
 
-#: motioneye/templates/main.html:1296
+#: motioneye/templates/main.html:1301
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por vendredoj."
 msgstr "يضبط النطاق الزمني ليوم العمل ليوم الجمعة."
 
-#: motioneye/templates/main.html:1299
+#: motioneye/templates/main.html:1304
 #, fuzzy
 msgid "Sabato"
 msgstr "السبت"
 
-#: motioneye/templates/main.html:1305
+#: motioneye/templates/main.html:1310
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por sabatoj."
 msgstr "يضبط النطاق الزمني ليوم العمل ليوم السبت."
 
-#: motioneye/templates/main.html:1308
+#: motioneye/templates/main.html:1313
 #, fuzzy
 msgid "Dimanĉo"
 msgstr "الأحد"
 
-#: motioneye/templates/main.html:1314
+#: motioneye/templates/main.html:1319
 #, fuzzy
 msgid "Fiksas la labortagan tempintervalon por dimanĉoj."
 msgstr "يضبط النطاق الزمني ليوم العمل أيام الأحد."
 
-#: motioneye/templates/main.html:1317
+#: motioneye/templates/main.html:1322
 #, fuzzy
 msgid "Detekti movadon"
 msgstr "كشف الحركة"
 
-#: motioneye/templates/main.html:1320
+#: motioneye/templates/main.html:1325
 #, fuzzy
 msgid "Dum laborista horaro"
 msgstr "خلال ساعات العمل"
 
-#: motioneye/templates/main.html:1321
+#: motioneye/templates/main.html:1326
 #, fuzzy
 msgid "Ekster laborista horaro"
 msgstr "خارج ساعات العمل"
 
-#: motioneye/templates/main.html:1324
+#: motioneye/templates/main.html:1329
 #, fuzzy
 msgid "Difinas, ĉu moviĝodetekto devas esti aktiva dum aŭ ekster la laborista horaro."
 msgstr "يحدد ما إذا كان الكشف عن الحركة يجب أن يكون نشطًا أثناء أو خارج ساعات العمل."
