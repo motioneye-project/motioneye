@@ -843,6 +843,9 @@ function initUI() {
             var cameraFrame = getCameraFrame(cameraId);
             url = cameraFrame.length ? cameraFrame[0].config.url : '';
         }
+        else if (proto == 'motioneye') {
+            url = url.replace(/config\/\d+$/, '');
+        }
 
         runEditCredentialsDialog(cameraId, {proto: proto, url: url});
     });
@@ -2120,7 +2123,7 @@ function dict2CameraUi(dict) {
     $('#deviceUrlEntry').val(dict['device_url']); markHideIfNull('device_url', 'deviceUrlEntry');
     $('#deviceTypeEntry').val(prettyType); markHideIfNull(!prettyType, 'deviceTypeEntry');
     $('#deviceTypeEntry')[0].proto = dict['proto'];
-    markHideIfNull(!['netcam', 'mjpeg'].includes(dict['proto']), 'editCredentialsButton');
+    markHideIfNull(!['netcam', 'mjpeg', 'motioneye'].includes(dict['proto']), 'editCredentialsButton');
     $('#adminOnlySwitch')[0].checked = dict['admin_only']; markHideIfNull('admin_only', 'adminOnlySwitch');
     $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness']; markHideIfNull('auto_brightness', 'autoBrightnessSwitch');
 
