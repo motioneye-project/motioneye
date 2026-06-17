@@ -1,8 +1,3 @@
-# To get started with Dependabot version updates, you'll need to specify which
-# package ecosystems to update and where the package manifests are located.
-# Please see the documentation for all configuration options:
-# https://help.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
-
 version: 2
 
 updates:
@@ -14,10 +9,11 @@ updates:
     labels:
     - "CI/CD"
 
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "daily"
-    target-branch: "dev"
-    labels:
-    - "dependencies"
+  # For Python dependencies, a PEP 751 pyproject.lock is needed, which we do not maintain, intentionally.
+  #- package-ecosystem: "pip"
+  #  directory: "/"
+  #  schedule:
+  #    interval: "daily"
+  #  target-branch: "dev"
+  #  labels:
+  #  - "dependencies"
