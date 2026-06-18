@@ -4,13 +4,13 @@
 # Marko Hinkkanen <hinkma@gmail.com>, 2024.
 # Sami Heino <sami.heino@iki.fi>, 2025.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
-# MichaIng <micha@dietpi.com>, 2025.
+# MichaIng <micha@dietpi.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-05-22 12:12+0000\n"
+"PO-Revision-Date: 2026-06-17 15:17+0000\n"
 "Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
 "Language-Team: Finnish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/fi/>\n"
 "Language: fi\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 
 #: l10n/v4l2.js:4
 msgid "Auto Exposure"
@@ -555,16 +555,19 @@ msgid "Aldonadi kameraon..."
 msgstr "Lisää kamera..."
 
 #: motioneye/static/js/main.js:4161 motioneye/static/js/main.js:4166
+#, fuzzy
 msgid "leave both empty to keep the current username and password"
-msgstr ""
+msgstr "jätä molemmat sivut käyttäjänimen ja salasanan säilyttämiseen"
 
 #: motioneye/static/js/main.js:4174
+#, fuzzy
 msgid "leave empty to keep the current remote secret"
-msgstr ""
+msgstr "pidä nykyinen salaisuus"
 
 #: motioneye/static/js/main.js:4189
+#, fuzzy
 msgid "Edit connection information"
-msgstr ""
+msgstr "Tietojen editointi"
 
 #: motioneye/static/js/main.js:4240
 msgid "Grupo"

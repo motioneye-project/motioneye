@@ -4,18 +4,18 @@
 # Automatically generated, 2020.
 #
 # piet <piet@users.noreply.hosted.weblate.org>, 2024.
-# Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024, 2025.
+# Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024, 2025, 2026.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
 # Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2025.
-# MichaIng <micha@dietpi.com>, 2025.
+# MichaIng <micha@dietpi.com>, 2025, 2026.
 # shdw <weblate@assez.biz>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-06-15 16:01+0000\n"
-"Last-Translator: shdw <weblate@assez.biz>\n"
+"PO-Revision-Date: 2026-06-18 04:01+0000\n"
+"Last-Translator: MichaIng <micha@dietpi.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -31,7 +31,7 @@ msgstr "Le nom des appareils doit seulement contenir des caractères alphanumér
 
 #: motioneye/config.py:960
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
-msgstr "Le nom des fichiers doit seulement contenir des caractères alphanumériques, parenthèses (), barres obliques /, point., trait souligné_,  espace, et un sous-ensemble de variables prédéfinies : %C %Y %m %d %H %M %S %q %v %$"
+msgstr "Le nom des fichiers doit seulement contenir des caractères alphanumériques, parenthèses (), barres obliques /, point., trait souligné_, espace, et un sous-ensemble de variables prédéfinies : %C %Y %m %d %H %M %S %q %v %$"
 
 #: motioneye/config.py:965
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
@@ -336,16 +336,19 @@ msgid "Kamerao Tipo"
 msgstr "Type de caméra"
 
 #: motioneye/templates/main.html:300
+#, fuzzy
 msgid "Connection"
-msgstr ""
+msgstr "Connexion"
 
 #: motioneye/templates/main.html:301
+#, fuzzy
 msgid "Edit Credentials"
-msgstr ""
+msgstr "Pouvoirs"
 
 #: motioneye/templates/main.html:302
+#, fuzzy
 msgid "edit the camera URL and credentials"
-msgstr ""
+msgstr "a modifié l'URL de la caméra et les pouvoirs"
 
 #: motioneye/templates/main.html:305
 msgid "Admin-only access"

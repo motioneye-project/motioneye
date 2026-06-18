@@ -1,9 +1,9 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Tbnilen <tbn@kse.dk>, 2025.
+# Tbnilen <tbn@kse.dk>, 2025, 2026.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
-# MichaIng <micha@dietpi.com>, 2025.
+# MichaIng <micha@dietpi.com>, 2025, 2026.
 # SimonHanel <simon@hanel.dk>, 2026.
 # "Tommy B.Nielsen" <4060dk@gmail.com>, 2026.
 msgid ""
@@ -11,15 +11,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-06-11 00:01+0000\n"
-"Last-Translator: SimonHanel <simon@hanel.dk>\n"
+"PO-Revision-Date: 2026-06-17 15:22+0000\n"
+"Last-Translator: Tbnilen <tbn@kse.dk>\n"
 "Language-Team: Danish <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 
 #: l10n/v4l2.js:4
 msgid "Auto Exposure"
@@ -544,16 +544,19 @@ msgid "Aldonadi kameraon..."
 msgstr "Tilføj et kamera ..."
 
 #: motioneye/static/js/main.js:4161 motioneye/static/js/main.js:4166
+#, fuzzy
 msgid "leave both empty to keep the current username and password"
-msgstr ""
+msgstr "efterlad begge sider for at holde brugernavn og adgangskode"
 
 #: motioneye/static/js/main.js:4174
+#, fuzzy
 msgid "leave empty to keep the current remote secret"
-msgstr ""
+msgstr "efterlad for at holde den nuværende fjern hemmelighed"
 
 #: motioneye/static/js/main.js:4189
+#, fuzzy
 msgid "Edit connection information"
-msgstr ""
+msgstr "Redigering af oplysninger"
 
 #: motioneye/static/js/main.js:4240
 msgid "Grupo"

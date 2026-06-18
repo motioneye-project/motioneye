@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # Automatically generated, 2020.
 #
-# Lorcan Lerouvillois <lorcan.lerouvillois@gmail.com>, 2025.
+# Lorcan Lerouvillois <lorcan.lerouvillois@gmail.com>, 2025, 2026.
 # MichaIng <micha@dietpi.com>, 2025, 2026.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2026.
 # shdw <weblate@assez.biz>, 2026.
@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-06-15 16:01+0000\n"
-"Last-Translator: shdw <weblate@assez.biz>\n"
+"PO-Revision-Date: 2026-06-17 15:25+0000\n"
+"Last-Translator: Lorcan Lerouvillois <lorcan.lerouvillois@gmail.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/fr/>\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -545,16 +545,19 @@ msgid "Aldonadi kameraon..."
 msgstr "Ajouter une caméra ..."
 
 #: motioneye/static/js/main.js:4161 motioneye/static/js/main.js:4166
+#, fuzzy
 msgid "leave both empty to keep the current username and password"
-msgstr ""
+msgstr "laissez les deux côtés pour garder le nom d'utilisateur et le mot de passe"
 
 #: motioneye/static/js/main.js:4174
+#, fuzzy
 msgid "leave empty to keep the current remote secret"
-msgstr ""
+msgstr "laisser garder le secret distant actuel"
 
 #: motioneye/static/js/main.js:4189
+#, fuzzy
 msgid "Edit connection information"
-msgstr ""
+msgstr "Modifier l ' information"
 
 #: motioneye/static/js/main.js:4240
 msgid "Grupo"
