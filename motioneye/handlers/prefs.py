@@ -18,15 +18,18 @@
 import json
 import logging
 
+from motioneye import prefs
 from motioneye.handlers.base import BaseHandler
 
 __all__ = ('PrefsHandler',)
 
 
 class PrefsHandler(BaseHandler):
+    @BaseHandler.auth()
     def get(self, key=None):
-        self.finish_json(self.get_pref(key))
+        self.finish_json(prefs.get(self.current_user, key))
 
+    @BaseHandler.auth()
     def post(self, key=None):
         try:
             value = json.loads(self.request.body)
@@ -36,4 +39,4 @@ class PrefsHandler(BaseHandler):
 
             raise
 
-        self.set_pref(key, value)
+        prefs.set(self.current_user, key, value)
