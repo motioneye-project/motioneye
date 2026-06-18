@@ -17,6 +17,7 @@
 
 import json
 import logging
+from typing import Dict, Union
 
 from motioneye import prefs
 from motioneye.handlers.base import BaseHandler
@@ -26,17 +27,20 @@ __all__ = ('PrefsHandler',)
 
 class PrefsHandler(BaseHandler):
     @BaseHandler.auth()
-    def get(self, key=None):
+    def get(self, key: Union[str, None] = None) -> None:
         self.finish_json(prefs.get(self.current_user, key))
 
     @BaseHandler.auth()
-    def post(self, key=None):
+    def post(self, key: Union[str, None] = None) -> None:
         try:
-            value = json.loads(self.request.body)
+            PrefsValue = Union[int, float, bool]
+            value: Union[Dict[str, PrefsValue], PrefsValue] = json.loads(
+                self.request.body
+            )
 
         except Exception as e:
-            logging.error('could not decode json: %s' % e)
+            logging.error(f'could not decode json: {e}')
 
             raise
 
-        prefs.set(self.current_user, key, value)
+        prefs.set(self.current_user, value, key)
