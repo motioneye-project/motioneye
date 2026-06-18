@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-05-21 23:12+0000\n"
+"PO-Revision-Date: 2026-06-18 04:01+0000\n"
 "Last-Translator: MichaIng <micha@dietpi.com>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/de/>\n"
 "Language: de\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 
 #: l10n/v4l2.js:4
 msgid "Auto Exposure"
@@ -546,15 +546,15 @@ msgstr "Kamera hinzufügen ..."
 
 #: motioneye/static/js/main.js:4161 motioneye/static/js/main.js:4166
 msgid "leave both empty to keep the current username and password"
-msgstr ""
+msgstr "lassen Sie beides leer um den aktuellen Nutzernamen und Passwort beizubehalten"
 
 #: motioneye/static/js/main.js:4174
 msgid "leave empty to keep the current remote secret"
-msgstr ""
+msgstr "lassen Sie das Feld leer um den aktuellen Schlüssel beizubehalten"
 
 #: motioneye/static/js/main.js:4189
 msgid "Edit connection information"
-msgstr ""
+msgstr "Verbindungsdetails bearbeiten"
 
 #: motioneye/static/js/main.js:4240
 msgid "Grupo"

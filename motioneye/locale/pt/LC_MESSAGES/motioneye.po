@@ -6,12 +6,12 @@
 # Felipe Nogueira <contato.fnog@gmail.com>, 2023.
 # Cleiton Carvalho <cleitonsilvacarvalho@gmail.com>, 2023.
 # piet <piet@users.noreply.hosted.weblate.org>, 2024.
-# Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024, 2025.
+# Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024, 2025, 2026.
 # João Antonio da Cruz Junior <joaoacj@gmail.com>, 2025.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2025, 2026.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
 # Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2025.
-# MichaIng <micha@dietpi.com>, 2025.
+# MichaIng <micha@dietpi.com>, 2025, 2026.
 # Isaki23 <isaquefonseca230706@gmail.com>, 2026.
 # Saulo Barbosa Oliveira <neosoyo@gmail.com>, 2026.
 # Gabriel <bloxgabriel18@gmail.com>, 2026.
@@ -21,15 +21,15 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-06-10 04:01+0000\n"
-"Last-Translator: Joaquim Fonseca <jjmf2300@gmail.com>\n"
+"PO-Revision-Date: 2026-06-17 15:24+0000\n"
+"Last-Translator: Isaki23 <isaquefonseca230706@gmail.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/pt/>\n"
 "Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/config.py:956
@@ -345,16 +345,19 @@ msgid "Kamerao Tipo"
 msgstr "Tipo de câmera"
 
 #: motioneye/templates/main.html:300
+#, fuzzy
 msgid "Connection"
-msgstr ""
+msgstr "Conexão de conexão"
 
 #: motioneye/templates/main.html:301
+#, fuzzy
 msgid "Edit Credentials"
-msgstr ""
+msgstr "Editar Credenciais"
 
 #: motioneye/templates/main.html:302
+#, fuzzy
 msgid "edit the camera URL and credentials"
-msgstr ""
+msgstr "editou a URL da câmera e as credenciais"
 
 #: motioneye/templates/main.html:305
 msgid "Admin-only access"

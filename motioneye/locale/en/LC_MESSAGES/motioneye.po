@@ -4,7 +4,7 @@
 # Automatically generated, 2020.
 #
 # piet <piet@users.noreply.hosted.weblate.org>, 2024.
-# Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024, 2025.
+# Zhang Wei <Zhang@users.noreply.hosted.weblate.org>, 2024, 2025, 2026.
 # MichaIng <micha@dietpi.com>, 2025, 2026.
 # Weblate Translation Memory <noreply-mt-weblate-translation-memory@weblate.org>, 2025.
 # LibreTranslate <noreply-mt-libretranslate@weblate.org>, 2026.
@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-05-21 23:12+0000\n"
+"PO-Revision-Date: 2026-06-18 04:01+0000\n"
 "Last-Translator: MichaIng <micha@dietpi.com>\n"
 "Language-Team: English <https://hosted.weblate.org/projects/motioneye-project/motioneye-python-texts/en/>\n"
 "Language: en\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2026.6.dev0\n"
+"X-Generator: Weblate 2026.7.dev0\n"
 "Generated-By: Babel 2.6.0\n"
 
 #: motioneye/config.py:956
@@ -336,15 +336,15 @@ msgstr "Camera Type"
 
 #: motioneye/templates/main.html:300
 msgid "Connection"
-msgstr ""
+msgstr "Connection"
 
 #: motioneye/templates/main.html:301
 msgid "Edit Credentials"
-msgstr ""
+msgstr "Edit Credentials"
 
 #: motioneye/templates/main.html:302
 msgid "edit the camera URL and credentials"
-msgstr ""
+msgstr "edit the camera URL and credentials"
 
 #: motioneye/templates/main.html:305
 msgid "Admin-only access"
