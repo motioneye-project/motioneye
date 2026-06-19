@@ -20,6 +20,7 @@ import functools
 import logging
 import re
 import socket
+from typing import List, Optional
 
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
@@ -38,8 +39,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
 
     called = [False]
     send_auth = [False]
-    timeout: list[object | None] = [None]
-    stream: IOStream | None = None
+    timeout: List[Optional[object]] = [None]
+    stream: Optional[IOStream] = None
 
     io_loop = IOLoop.current()
     future: Future = Future()
@@ -47,12 +48,10 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
     def connect() -> None:
         nonlocal stream
         if send_auth[0]:
-            logging.debug(
-                'testing rtsp netcam at %s (this time with credentials)' % url
-            )
+            logging.debug(f'testing rtsp netcam at {url} (this time with credentials)')
 
         else:
-            logging.debug('testing rtsp netcam at %s' % url)
+            logging.debug(f'testing rtsp netcam at {url}')
 
         if stream is not None:
             try:
@@ -87,7 +86,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         else:
             logging.debug('connected to rtsp netcam')
 
-            lines = ['OPTIONS %s RTSP/1.0' % url, 'CSeq: 1', 'User-Agent: motionEye']
+            lines = [f'OPTIONS {url} RTSP/1.0', 'CSeq: 1', 'User-Agent: motionEye']
 
             if url_obj.username and send_auth[0]:
                 auth_header = 'Authorization: ' + build_basic_header(
@@ -111,7 +110,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             if stream is None:
                 return handle_error('connection closed')
 
-            r_future = cast_future(stream.read_until_regex(br'RTSP/1.0 \d+ '))
+            r_future = cast_future(stream.read_until_regex(rb'RTSP/1.0 \d+ '))
             r_future.add_done_callback(on_rtsp)
             timeout[0] = io_loop.add_timeout(
                 datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
@@ -141,7 +140,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
                     seek_www_authenticate()
 
             else:
-                handle_error('rtsp netcam returned erroneous response: %s' % data)
+                handle_error(f'rtsp netcam returned erroneous response: {data}')
 
     def seek_server():
         if check_error():
@@ -160,7 +159,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         io_loop.remove_timeout(timeout[0])
         if data:
             identifier = re.findall('Server: (.*)', data.decode())[0].strip()
-            logging.debug('rtsp netcam identifier is "%s"' % identifier)
+            logging.debug(f'rtsp netcam identifier is "{identifier}"')
 
         else:
             identifier = None
@@ -190,8 +189,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             handle_error(f'{auth_timeout_msg}')
         else:
             if data:
-                scheme = re.findall(br'WWW-Authenticate: ([^\s]+)', data)[0].strip()
-                logging.debug('rtsp netcam auth scheme: %s' % scheme)
+                scheme = re.findall(rb'WWW-Authenticate: ([^\s]+)', data)[0].strip()
+                logging.debug(f'rtsp netcam auth scheme: {scheme}')
                 if scheme.lower() == 'basic':
                     send_auth[0] = True
                     connect()
@@ -225,8 +224,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         else:
             identifier = ''
 
-        cameras.append({'id': 'tcp', 'name': '%sRTSP/TCP Camera' % identifier})
-        cameras.append({'id': 'udp', 'name': '%sRTSP/UDP Camera' % identifier})
+        cameras.append({'id': 'tcp', 'name': f'{identifier}RTSP/TCP Camera'})
+        cameras.append({'id': 'udp', 'name': f'{identifier}RTSP/UDP Camera'})
 
         future.set_result(GetCamerasResponse(cameras, None))
 
@@ -235,7 +234,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             return
 
         called[0] = True
-        logging.error('rtsp client error: %s' % str(e))
+        logging.error(f'rtsp client error: {e}')
 
         try:
             stream.close()
@@ -243,7 +242,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
         except Exception:
             pass
 
-        future.set_result(GetCamerasResponse(None, error=str(e)))
+        future.set_result(GetCamerasResponse(None, error=e))
 
     def check_error():
         error = getattr(stream, 'error', None)

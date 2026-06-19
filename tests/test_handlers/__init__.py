@@ -4,7 +4,7 @@ from secrets import token_hex
 from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
-from typing import Generic, Type, TypeVar
+from typing import Generic, Optional, Type, TypeVar
 from unittest.mock import MagicMock, patch
 
 from tornado.testing import AsyncHTTPTestCase
@@ -73,7 +73,7 @@ class HandlerTestCase(AsyncHTTPTestCase, Generic[T]):
         # Wipe any sessions left over from this test so the next test starts clean.
         _session_store.clear()
 
-    def get_handler(self, request: MagicMock | None = None) -> T:
+    def get_handler(self, request: Optional[MagicMock] = None) -> T:
         req = request or MagicMock()
         return self.handler_cls(self.app, req)
 

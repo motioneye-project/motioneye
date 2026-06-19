@@ -48,7 +48,7 @@ def _get_time_zone_symlink():
 
     time_zone = f or None
     if time_zone:
-        logging.debug('found time zone by symlink method: %s' % time_zone)
+        logging.debug(f'found time zone by symlink method: {time_zone}')
 
     return time_zone
 
@@ -63,12 +63,12 @@ def _get_time_zone_md5():
         )
 
     except Exception as e:
-        logging.error('getting md5 of zoneinfo files failed: %s' % e)
+        logging.error(f'getting md5 of zoneinfo files failed: {e}')
 
         return None
 
-    lines = [l for l in output.split('\n') if l]
-    lines = [l.split(None, 1) for l in lines]
+    lines = [line for line in output.split('\n') if line]
+    lines = [line.split(None, 1) for line in lines]
     time_zone_by_md5 = dict(lines)
 
     try:
@@ -76,15 +76,15 @@ def _get_time_zone_md5():
             data = f.read()
 
     except Exception as e:
-        logging.error('failed to read local time file: %s' % e)
+        logging.error(f'failed to read local time file: {e}')
 
         return None
 
-    md5 = hashlib.md5(data).hexdigest()
+    md5 = hashlib.md5(data).hexdigest()  # nosec: B324
     time_zone = time_zone_by_md5.get(md5)
 
     if time_zone:
-        logging.debug('found time zone by md5 method: %s' % time_zone)
+        logging.debug(f'found time zone by md5 method: {time_zone}')
 
     return time_zone
 
@@ -94,7 +94,7 @@ def _set_time_zone(time_zone):
 
     zoneinfo_file = '/usr/share/zoneinfo/' + time_zone
     if not os.path.exists(zoneinfo_file):
-        logging.error('%s file does not exist' % zoneinfo_file)
+        logging.error(f'{zoneinfo_file} file does not exist')
 
         return False
 

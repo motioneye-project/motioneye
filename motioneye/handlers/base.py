@@ -22,7 +22,7 @@ from time import time
 
 from tornado.web import HTTPError, RequestHandler
 
-from motioneye import config, settings, template, utils
+from motioneye import config, template
 from motioneye.utils.authstate import verify_hmac_signature
 
 __all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')

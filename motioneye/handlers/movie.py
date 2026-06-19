@@ -17,6 +17,7 @@
 
 import logging
 from os.path import join
+from typing import Optional
 
 from tornado.web import HTTPError
 
@@ -27,7 +28,7 @@ __all__ = ('MovieHandler',)
 
 
 class MovieHandler(BaseHandler):
-    async def get(self, camera_id: str, op, filename: str | None = None):
+    async def get(self, camera_id: str, op, filename: Optional[str] = None):
         camera_id = int(camera_id)  # type: ignore[assignment]
         if camera_id not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
@@ -64,7 +65,11 @@ class MovieHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     async def post(
-        self, camera_id: str, op, filename: str | None = None, group: str | None = None
+        self,
+        camera_id: str,
+        op,
+        filename: Optional[str] = None,
+        group: Optional[str] = None,
     ):
         camera_id = int(camera_id)  # type: ignore[assignment]
         if camera_id not in config.get_camera_ids():

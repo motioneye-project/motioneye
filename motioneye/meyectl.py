@@ -209,7 +209,7 @@ def configure_logging(cmd, log_to_file=False):
         fmt = f'%(asctime)s: [{cmd}] %(levelname)8s: %(message)s'
 
     else:
-        fmt = f'%(levelname)8s: %(message)s'
+        fmt = '%(levelname)8s: %(message)s'
 
     for h in logging.getLogger().handlers:
         logging.getLogger().removeHandler(h)

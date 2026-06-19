@@ -20,6 +20,7 @@ import unittest
 from io import BytesIO
 from shutil import rmtree
 from tempfile import mkdtemp
+from typing import Optional
 
 from motioneye import config, settings
 
@@ -49,7 +50,9 @@ class TestBackup(unittest.TestCase):
         for name in names:
             open(os.path.join(self.conf_dir, name), 'a').close()
 
-    def _assert_tarball_members(self, data: bytes | None, expected: list[str]) -> None:
+    def _assert_tarball_members(
+        self, data: Optional[bytes], expected: list[str]
+    ) -> None:
         if data is None:
             self.fail('tarball data is None')
 

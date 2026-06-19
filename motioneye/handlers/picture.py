@@ -18,6 +18,7 @@
 import logging
 from os.path import basename, join
 from re import sub
+from typing import Optional
 
 from tornado import gen
 from tornado.web import HTTPError
@@ -42,7 +43,11 @@ class PictureHandler(BaseHandler):
         return None
 
     async def get(
-        self, camera_id: str, op, filename: str | None = None, group: str | None = None
+        self,
+        camera_id: str,
+        op,
+        filename: Optional[str] = None,
+        group: Optional[str] = None,
     ):
         camera_id = int(camera_id)  # type: ignore[assignment]
         if camera_id not in config.get_camera_ids():
@@ -99,7 +104,11 @@ class PictureHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     async def post(
-        self, camera_id: str, op, filename: str | None = None, group: str | None = None
+        self,
+        camera_id: str,
+        op,
+        filename: Optional[str] = None,
+        group: Optional[str] = None,
     ):
         camera_id = int(camera_id)  # type: ignore[assignment]
         if camera_id not in config.get_camera_ids():
