@@ -378,7 +378,9 @@ div.normal-button {
     font-size: 0.9em;
     border-radius: 3px;
     transition: all 0.1s linear;
-    width: 8em;
+    min-width: 7em;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
 }
 
 div.update-button,
