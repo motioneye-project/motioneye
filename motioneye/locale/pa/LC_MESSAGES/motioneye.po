@@ -23,27 +23,27 @@ msgstr ""
 "X-Generator: Weblate 2026.7.dev0\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: motioneye/config.py:956
+#: motioneye/config.py:957
 #, fuzzy
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "ਡਿਵਾਈਸ ਦੇ ਨਾਮਾਂ ਵਿੱਚ ਸਿਰਫ਼ ਅੱਖਰਾਂ ਅਤੇ ਅੰਕਾਂ, ਹਾਈਫਨ (-) , ਅੰਡਰਸਕੋਰ (_) , ਪਲੱਸ (+) ਅਤੇ ਸਪੇਸ ਸ਼ਾਮਲ ਹੋ ਸਕਦੇ ਹਨ"
 
-#: motioneye/config.py:960
+#: motioneye/config.py:961
 #, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
 msgstr "ਫਾਈਲ ਨਾਮਾਂ ਵਿੱਚ ਸਿਰਫ਼ ਅੱਖਰ-ਅੰਕ, ਕੋਸ਼ਿਕਾਵਾਂ (), ਅੱਗੇ ਵਾਲਾ ਸਲੈਸ਼ /, ਬਿੰਦੀ ., ਅੰਡਰਸਕੋਰ _, ਹਾਈਫਨ -, ਖਾਲੀ ਜਗ੍ਹਾ, ਅਤੇ ਮੋਸ਼ਨ ਕਨਵਰਜ਼ਨ ਸਪੈਸੀਫਾਇਰਾਂ ਦਾ ਇੱਕ ਉਪਸੈੱਟ ਸ਼ਾਮਿਲ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ: %C %Y %m %d %H %M %S %q %v %$"
 
-#: motioneye/config.py:965
+#: motioneye/config.py:966
 #, fuzzy
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "ਡਾਇਰੈਕਟਰੀ ਦੇ ਨਾਮਾਂ ਵਿੱਚ ਸਿਰਫ਼ ਅੱਖਰਾਂ ਅਤੇ ਅੰਕਾਂ, ਸਪੇਸ, ਕੋਸ਼ਿਕਾਵਾਂ (), ਅੱਗੇ ਵਾਲਾ ਸਲੈਸ਼ /, ਬਿੰਦੀ ., ਅੰਡਰਸਕੋਰ _, ਅਤੇ ਹਾਈਫਨ - ਹੀ ਹੋ ਸਕਦੇ ਹਨ"
 
-#: motioneye/config.py:970
+#: motioneye/config.py:971
 #, fuzzy
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "ਈਮੇਲ ਪਤੇ ਵਿੱਚ ਸਿਰਫ਼ ਅੱਖਰਾਂ ਅਤੇ ਅੰਕਾਂ, ਅੰਡਰਸਕੋਰ _, ਪਲੱਸ +, ਡੌਟ ., ਐਟ @, ਕੇਰਟ ^, ਟਿਲਡ ~, ਐਂਗਲ ਬ੍ਰੈਕਟ <>, ਹਾਈਫਨ - ਹੀ ਹੋ ਸਕਦੇ ਹਨ, ਅਤੇ ਇਹਨਾਂ ਨੂੰ ਕਾਮਾ ਅਤੇ ਸਪੇਸ ਨਾਲ ਵੱਖ ਕੀਤਾ ਜਾ ਸਕਦਾ ਹੈ"
 
-#: motioneye/config.py:975
+#: motioneye/config.py:976
 #, fuzzy
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "URLs ਵਿੱਚ ਕੇਅਰਟ ^, ਸੈਮੀਕੋਲਨ ;, ਜਾਂ ਐਪੋਸਟ੍ਰੋਫੀ ' ਸ਼ਾਮਲ ਕਰਨ ਦੀ ਆਗਿਆ ਨਹੀਂ ਹੈ"

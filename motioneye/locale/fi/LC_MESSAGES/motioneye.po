@@ -23,27 +23,27 @@ msgstr ""
 "X-Generator: Weblate 2026.7.dev0\n"
 "Generated-By: Babel 2.12.1\n"
 
-#: motioneye/config.py:956
+#: motioneye/config.py:957
 #, fuzzy
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "Laitteet ovat käytettävissä vain alfanumeeristen merkkien, hypenin, alipinnan, plus + ja paikkakunnille"
 
-#: motioneye/config.py:960
+#: motioneye/config.py:961
 #, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
 msgstr "Tiedostonimissä saa olla vain aakkosnumeerisia merkkejä, sulkeita (), kauttaviivaa /, pistettä ., alaviivaa _, tavuviivaa -, välilyöntiä ja osa liikkeen muunnosmääritteistä: %C %Y %m %d %H %M %S %q %v %$"
 
-#: motioneye/config.py:965
+#: motioneye/config.py:966
 #, fuzzy
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "Hakemistojen nimet vastaavat vain aakkosnumeerisia hahmoja, spatiaalisesti, vanhemmuus (), eteenpäin/, piste., aliarvostus ja hyphen-"
 
-#: motioneye/config.py:970
+#: motioneye/config.py:971
 #, fuzzy
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "Sähköpostiprotokolla on vain opas alfanumeerisiin merkkeihin, alipisteisiin, plus +, piste., at @, caret^, tilde ~ Englanninkieliset nounit < >, hyphen – ja se voi olla hieno tiivistelmällä ja spatiaalisesti"
 
-#: motioneye/config.py:975
+#: motioneye/config.py:976
 #, fuzzy
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "URL-osoitteita ei tunneta nimellä complier, semicolon tai apostrophe. \"\"\""
