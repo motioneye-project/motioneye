@@ -24,25 +24,25 @@ msgstr ""
 "X-Generator: Weblate 2026.7.dev0\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: motioneye/config.py:956
+#: motioneye/config.py:957
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "给设备起名时，只能用字母、数字、连字符-、下划线_、加号+ 和空格"
 
-#: motioneye/config.py:960
+#: motioneye/config.py:961
 #, fuzzy
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
 msgstr "文件名仅允许包含字母数字字符、圆括号 ()、正斜杠 /、点 .、下划线 _、连字符 -、空格，以及运动转换指定符的子集：%C %Y %m %d %H %M %S %q %v %$"
 
-#: motioneye/config.py:965
+#: motioneye/config.py:966
 #, fuzzy
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "目录名称仅允许包含字母数字字符、空格、圆括号 ()、正斜杠 /、点 .、下划线 _ 以及连字符 -"
 
-#: motioneye/config.py:970
+#: motioneye/config.py:971
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "电子邮件地址仅允许包含字母数字字符、下划线 _、加号 +、点号 .、@符号 @、脱字符 ^、波浪号 ~、尖括号 <>、连字符 -，多个邮箱地址之间可用逗号,和空格分隔"
 
-#: motioneye/config.py:975
+#: motioneye/config.py:976
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "URL（网址）中不允许包含以下三个字符：脱字符^、分号;、单引号'"
 

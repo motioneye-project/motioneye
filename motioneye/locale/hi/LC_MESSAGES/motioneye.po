@@ -25,24 +25,24 @@ msgstr ""
 "X-Generator: Weblate 2026.7.dev0\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: motioneye/config.py:956
+#: motioneye/config.py:957
 #, fuzzy
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "उपकरण केवल अल्फ़ान्यूमेरिक वर्णों, हाइफेन, अंडरस्कोर, प्लस + और स्थानिक के लिए उपलब्ध हैं"
 
-#: motioneye/config.py:960
+#: motioneye/config.py:961
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
 msgstr "फ़ाइल के नामों में केवल अल्फ़ान्यूमेरिक वर्ण, कोष्ठक (), फ़ॉरवर्ड स्लैश /, बिंदु ., अंडरस्कोर _, हाइफ़न -, स्पेस, और मोशन के रूपांतरण विनिर्दिष्टकों का एक उपसमूह (%C %Y %m %d %H %M %S %q %v %$) ही शामिल करने की अनुमति है"
 
-#: motioneye/config.py:965
+#: motioneye/config.py:966
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "डायरेक्टरी के नामों में केवल अल्फ़ान्यूमेरिक वर्ण, स्पेस, कोष्ठक (), फॉरवर्ड स्लैश /, बिंदु ., अंडरस्कोर _ और हाइफ़न - की अनुमति है"
 
-#: motioneye/config.py:970
+#: motioneye/config.py:971
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "ईमेल एड्रेस्सेस में केवल अल्फ़ान्यूमेरिक वर्ण, अंडरस्कोर _, प्लस +, डॉट ., एट @, कैरेट ^, टिल्ड ~, एंगल ब्रैकेट <>, और हाइफ़न - को ही शामिल करने की अनुमति, और इन्हें कॉमा या स्पेस से अलग किया जा सकता है"
 
-#: motioneye/config.py:975
+#: motioneye/config.py:976
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "URL में कैरेट ^, अर्द्धविराम ;, या अपोस्ट्रॉफ़ी ' शामिल करने की अनुमति नहीं है"
 

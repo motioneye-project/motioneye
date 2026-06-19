@@ -25,23 +25,23 @@ msgstr ""
 "X-Generator: Weblate 2026.7.dev0\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: motioneye/config.py:956
+#: motioneye/config.py:957
 msgid "Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space"
 msgstr "Le nom des appareils doit seulement contenir des caractères alphanumériques, tiret -, trait souligné _, plus +, et espace"
 
-#: motioneye/config.py:960
+#: motioneye/config.py:961
 msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
 msgstr "Le nom des fichiers doit seulement contenir des caractères alphanumériques, parenthèses (), barres obliques /, point., trait souligné_, espace, et un sous-ensemble de variables prédéfinies : %C %Y %m %d %H %M %S %q %v %$"
 
-#: motioneye/config.py:965
+#: motioneye/config.py:966
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"
 msgstr "Le nom des répertoires doit seulement contenir des caractères alphanumériques, espace, parenthèses (), barre oblique /, point., trait souligné_, et tiret -"
 
-#: motioneye/config.py:970
+#: motioneye/config.py:971
 msgid "Email addresses are only allowed to contain alphanumerical characters, underscore _, plus +, dot ., at @, caret ^, tilde ~, angle brackets <>, hyphen -, and may be separated by comma, and space"
 msgstr "Les adresses courriel doivent seulement contenir des caractères alphanumériques, trait souligné _, plus +, point ., arobas @, chapeau ^, tilde ~, crochets angulaires <>, tiret –, et peut être séparé par une virgule, et un espace"
 
-#: motioneye/config.py:975
+#: motioneye/config.py:976
 msgid "URLs are not allowed to contain caret ^, semicolon ;, or apostrophe '"
 msgstr "Les URL peuvent seulement contenir un chapeau ^, un point-virgule ;, ou un apostrophe '"
 
