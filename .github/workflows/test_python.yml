@@ -33,7 +33,7 @@ jobs:
       - run: sudo DEBIAN_FRONTEND='noninteractive' apt-get -qq autopurge python3-pip python3-setuptools python3-wheel
       - run: sudo apt-get -q update
       - run: sudo DEBIAN_FRONTEND='noninteractive' apt-get -qq --no-install-recommends install curl ffmpeg motion v4l-utils
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python }}
