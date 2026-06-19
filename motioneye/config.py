@@ -29,6 +29,7 @@ from re import match, sub
 from secrets import token_hex
 from shlex import split
 from stat import S_IMODE
+from typing import Optional
 from urllib.parse import quote, urlunparse
 
 from argon2 import PasswordHasher
@@ -193,7 +194,7 @@ _MOTION_43_TO_41_OPTIONS_MAPPING = {
 
 def netcam_keepalive_params(v, data):
     # value can be 'force' as well
-    v = 'on' if v == True else 'off' if v == False else v
+    v = 'on' if v == True else 'off' if v == False else v  # noqa: E712
 
     if 'netcam_params' in data and data['netcam_params']:
         return {'netcam_params': data['netcam_params'] + ',keepalive = ' + v}
@@ -2106,7 +2107,7 @@ def invalidate_monitor_commands():
     _monitor_command_cache.clear()
 
 
-def backup() -> bytes | None:
+def backup() -> Optional[bytes]:
     logging.debug('generating config backup file')
 
     files = [
@@ -2131,7 +2132,7 @@ def backup() -> bytes | None:
         return None
 
 
-def restore(content: bytes) -> dict | None:
+def restore(content: bytes) -> Optional[dict]:
     logging.info('restoring config from backup file')
 
     patterns = ['motion.conf', 'camera-*.conf', 'mask_*.pgm', 'prefs.json']

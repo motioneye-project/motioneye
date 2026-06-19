@@ -21,6 +21,7 @@ import multiprocessing
 import os
 import pickle
 import time
+from typing import List
 
 from tornado.ioloop import IOLoop
 
@@ -34,7 +35,7 @@ _MAX_TASKS = 100
 # TODO replace the pool with one simple thread
 _POOL_SIZE = 1
 
-_tasks: list[tuple] = []
+_tasks: List[tuple] = []
 _pool = None
 
 
@@ -64,7 +65,7 @@ def stop():
 def add(when, func, tag=None, callback=None, **params):
     if len(_tasks) >= _MAX_TASKS:
         return logging.error(
-            'the maximum number of tasks (%d) has been reached' % _MAX_TASKS
+            f'the maximum number of tasks ({_MAX_TASKS}) has been reached'
         )
 
     now = time.time()
@@ -82,7 +83,7 @@ def add(when, func, tag=None, callback=None, **params):
     while i < len(_tasks) and _tasks[i][0] <= when:
         i += 1
 
-    logging.debug('adding task "%s" in %d seconds' % (tag or func.__name__, when - now))
+    logging.debug(f'adding task "{tag or func.__name__}" in {when - now} seconds')
     _tasks.insert(i, (when, func, tag, callback, params))
 
     _save()
@@ -97,7 +98,7 @@ def _check_tasks():
     while _tasks and _tasks[0][0] <= now:
         when, func, tag, callback, params = _tasks.pop(0)  # @UnusedVariable
 
-        logging.debug('executing task "%s"' % tag or func.__name__)
+        logging.debug(f'executing task "{tag or func.__name__}"')
         _pool.apply_async(
             func, kwds=params, callback=callback if callable(callback) else None
         )
@@ -116,7 +117,7 @@ def _load():
     file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
 
     if os.path.exists(file_path):
-        logging.debug('loading tasks from "%s"...' % file_path)
+        logging.debug(f'loading tasks from "{file_path}"...')
 
         try:
             f = open(file_path, 'rb')
@@ -139,7 +140,7 @@ def _load():
 def _save():
     file_path = os.path.join(settings.CONF_PATH, _STATE_FILE_NAME)
 
-    logging.debug('saving tasks to "%s"...' % file_path)
+    logging.debug(f'saving tasks to "{file_path}"...')
 
     try:
         f = open(file_path, 'wb')

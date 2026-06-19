@@ -15,11 +15,17 @@ jobs:
     strategy:
       matrix:
         include:
+          # Tests with oldest Python version able to build the project on oldest available runner images
+          - { dist: 'ubuntu-22.04', python: '3.9' }
+          - { dist: 'ubuntu-22.04-arm', python: '3.9' }
           # https://packages.ubuntu.com/search?suite=all&arch=any&searchon=names&keywords=python3
           - { dist: 'ubuntu-22.04', python: '3.10.6' }
           - { dist: 'ubuntu-24.04', python: '3.12.3' }
+          # No Python 3.14 supported for ubuntu-26.04 runners yet: https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json
+          - { dist: 'ubuntu-24.04', python: '3.14.3' }
           - { dist: 'ubuntu-22.04-arm', python: '3.10.6' }
           - { dist: 'ubuntu-24.04-arm', python: '3.12.3' }
+          - { dist: 'ubuntu-24.04-arm', python: '3.14.3' }
       fail-fast: false
     runs-on: ${{ matrix.dist }}
     name: "Test on ${{ matrix.dist }}"

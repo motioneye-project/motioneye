@@ -20,7 +20,7 @@ from datetime import timedelta
 from errno import ECONNREFUSED
 from re import findall, match
 from time import time
-from typing import Any, Tuple
+from typing import Any, Optional, Tuple
 
 from tornado.concurrent import Future
 from tornado.ioloop import IOLoop
@@ -186,13 +186,13 @@ class MjpgClient(IOStream):
 
         self._seek_http()
 
-    def _seek_http(self, future: Future | None = None) -> None:
+    def _seek_http(self, future: Optional[Future] = None) -> None:
         result, _ = self._get_future_result(future) if future else (True, False)
 
         if not result or self._check_error():
             return
 
-        future = utils.cast_future(self.read_until_regex(br'HTTP/1.\d \d+ '))
+        future = utils.cast_future(self.read_until_regex(rb'HTTP/1.\d \d+ '))
         future.add_done_callback(self._on_http)
 
     def _on_http(self, future: Future) -> None:
@@ -225,7 +225,7 @@ class MjpgClient(IOStream):
 
         data = data.strip()
 
-        m = match(br'Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data)
+        m = match(rb'Basic\s*realm="([a-zA-Z0-9\-\s]+)"', data)
         if m:
             logging.debug('mjpg client using basic authentication')
 

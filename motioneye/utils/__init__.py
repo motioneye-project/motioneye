@@ -19,16 +19,15 @@ import base64
 import hashlib
 import logging
 import os
-import re
 import subprocess
 import sys
 import time
-import typing
 import urllib.error
 import urllib.parse
 import urllib.request
 from collections import namedtuple
 from dataclasses import dataclass
+from typing import Any, Awaitable, Callable, Dict, List, Optional, cast
 
 from PIL import Image, ImageDraw
 from tornado.concurrent import Future
@@ -74,30 +73,30 @@ GetMotionDetectionResult = namedtuple('GetMotionDetectionResult', ('enabled', 'e
 @dataclass
 class GetCurrentPictureResponse:
     motion_detected: bool = False
-    capture_fps: typing.Any = None
-    monitor_info: typing.Any = None
-    picture: typing.Any = None
-    error: typing.Any = None
+    capture_fps: Any = None
+    monitor_info: Any = None
+    picture: Any = None
+    error: Any = None
 
 
 @dataclass
 class ListMediaResponse:
-    media_list: list | None = None
-    error: str | None = None
+    media_list: Optional[list] = None
+    error: Optional[str] = None
 
 
 @dataclass
 class CommonExternalResponse:
-    result: typing.Any = None
-    error: typing.Any = None
+    result: Any = None
+    error: Any = None
 
 
-def cast_future(obj: typing.Awaitable[typing.Any]) -> Future:
-    return typing.cast(Future, obj)
+def cast_future(obj: Awaitable[Any]) -> Future:
+    return cast(Future, obj)
 
 
 def spawn_callback_timeout_wrapper(
-    callback: typing.Callable, *args: typing.Any, **kwargs: typing.Any
+    callback: Callable, *args: Any, **kwargs: Any
 ) -> None:
     IOLoop.current().spawn_callback(callback, *args, **kwargs)
 
@@ -230,8 +229,8 @@ def is_simple_mjpeg_camera(config):
     return bool(config.get('@proto') == 'mjpeg')
 
 
-def parse_cookies(cookies_headers: list[str]) -> dict[str, str]:
-    parsed: dict[str, str] = {}
+def parse_cookies(cookies_headers: List[str]) -> Dict[str, str]:
+    parsed: Dict[str, str] = {}
 
     for cookie in cookies_headers:
         for name, value in parse_cookie(cookie).items():
@@ -266,7 +265,7 @@ def build_digest_header(method, url, username, password, state):
         def md5_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
-            return hashlib.md5(x).hexdigest()
+            return hashlib.md5(x).hexdigest()  # nosec B324
 
         hash_utf8 = md5_utf8
 
@@ -275,11 +274,12 @@ def build_digest_header(method, url, username, password, state):
         def sha_utf8(x):
             if isinstance(x, str):
                 x = x.encode('utf-8')
-            return hashlib.sha1(x).hexdigest()
+            return hashlib.sha1(x).hexdigest()  # nosec B324
 
         hash_utf8 = sha_utf8
 
-    KD = lambda s, d: hash_utf8(f"{s}:{d}")
+    def KD(s, d):
+        return hash_utf8(f"{s}:{d}")
 
     if hash_utf8 is None:
         return None
@@ -308,7 +308,7 @@ def build_digest_header(method, url, username, password, state):
     s += time.ctime().encode('utf-8')
     s += os.urandom(8)
 
-    cnonce = hashlib.sha1(s).hexdigest()[:16]
+    cnonce = hashlib.sha1(s).hexdigest()[:16]  # nosec B324
     if _algorithm == 'MD5-SESS':
         HA1 = hash_utf8(f'{HA1}:{nonce}:{cnonce}')
 
@@ -324,7 +324,7 @@ def build_digest_header(method, url, username, password, state):
 
     last_nonce = nonce
 
-    base = 'username="%s", realm="%s", nonce="%s", uri="%s", ' 'response="%s"' % (
+    base = 'username="{}", realm="{}", nonce="{}", uri="{}", response="{}"'.format(
         username,
         realm,
         nonce,
@@ -404,10 +404,14 @@ def build_editable_mask_file(
     # scale the mask vertically in case the aspect ratio has changed
     # since the last time the mask has been generated
     if ny == len(mask_lines):
-        line_index_func = lambda y: y
+
+        def line_index_func(y):
+            return y
 
     else:
-        line_index_func = lambda y: (len(mask_lines) - 1) * y / ny
+
+        def line_index_func(y):
+            return (len(mask_lines) - 1) * y / ny
 
     rh = height / ny  # rectangle height
 
@@ -614,10 +618,12 @@ def call_subprocess(
 
 
 def validate_paths(
-    *paths: str | None, camera_id: str | None = None, target_dir: str | None = None
+    *paths: Optional[str],
+    camera_id: Optional[str] = None,
+    target_dir: Optional[str] = None,
 ) -> None:
     # Obtain camera dir from optional named arguments
-    camera_dir: str | None = None
+    camera_dir: Optional[str] = None
     if target_dir is not None:
         camera_dir = os.path.realpath(target_dir) + os.sep
 

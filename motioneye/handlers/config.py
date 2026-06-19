@@ -18,7 +18,6 @@
 import datetime
 import json
 import logging
-import os
 import socket
 from urllib.parse import urlparse
 
