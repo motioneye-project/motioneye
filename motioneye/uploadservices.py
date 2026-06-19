@@ -562,7 +562,6 @@ class GooglePhoto(UploadService, GoogleBase):
         return self._test_access()
 
     def upload_data(self, filename, mime_type, data, ctime, camera_name):
-        path = os.path.dirname(filename)
         filename = os.path.basename(filename)
         dayinfo = datetime.datetime.fromtimestamp(ctime).strftime('%Y-%m-%d')
         uploadname = dayinfo + '-' + filename
@@ -1048,12 +1047,12 @@ class FTP(UploadService):
         path = path.split('/')
         path = [p for p in path if p]
 
-        self.debug('ensuring path /%s' % '/'.join(path))
+        self.debug(f'ensuring path /{"/".join(path)}')
 
         conn.cwd('/')
         for p in path:
-            l = conn.nlst()
-            if p not in l:
+            ls = conn.nlst()
+            if p not in ls:
                 conn.mkd(p)
 
             conn.cwd(p)

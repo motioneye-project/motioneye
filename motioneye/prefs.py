@@ -17,11 +17,15 @@
 import json
 import logging
 import os.path
+from typing import Dict, Union, cast
 
 from motioneye import settings
 
-_PREFS_FILE_NAME = 'prefs.json'
-_DEFAULT_PREFS = {
+PrefsValue = Union[int, float, bool]
+PrefsDict = Dict[str, PrefsValue]
+
+_PREFS_FILE_NAME: str = 'prefs.json'
+_DEFAULT_PREFS: PrefsDict = {
     'layout_columns': 3,
     'fit_frames_vertically': True,
     'layout_rows': 1,
@@ -29,18 +33,16 @@ _DEFAULT_PREFS = {
     'resolution_factor': 1,
 }
 
-_prefs = None
+_prefs: Dict[str, PrefsDict] = {}
 
 
-def _load():
+def _load() -> None:
     global _prefs
 
-    _prefs = {}
-
-    file_path = os.path.join(settings.CONF_PATH, _PREFS_FILE_NAME)
+    file_path: str = os.path.join(settings.CONF_PATH, _PREFS_FILE_NAME)
 
     if os.path.exists(file_path):
-        logging.debug('loading preferences from "%s"...' % file_path)
+        logging.debug(f'loading preferences from "{file_path}"...')
 
         try:
             f = open(file_path)
@@ -61,15 +63,14 @@ def _load():
 
     else:
         logging.debug(
-            'preferences file "%s" does not exist, using default preferences'
-            % file_path
+            f'preferences file "{file_path}" does not exist, using default preferences'
         )
 
 
-def _save():
-    file_path = os.path.join(settings.CONF_PATH, _PREFS_FILE_NAME)
+def _save() -> None:
+    file_path: str = os.path.join(settings.CONF_PATH, _PREFS_FILE_NAME)
 
-    logging.debug('saving preferences to "%s"...' % file_path)
+    logging.debug(f'saving preferences to "{file_path}"...')
 
     try:
         f = open(file_path, 'w')
@@ -89,28 +90,29 @@ def _save():
         f.close()
 
 
-def get(username, key=None):
-    if _prefs is None:
+def get(
+    username: str, key: Union[str, None] = None
+) -> Union[PrefsDict, PrefsValue, None]:
+    if not _prefs:
         _load()
 
     if key:
-        prefs = _prefs.get(username, {}).get(key, _DEFAULT_PREFS.get(key))
+        return _prefs.get(username, {}).get(key, _DEFAULT_PREFS.get(key))
 
     else:
-        prefs = dict(_DEFAULT_PREFS)
-        prefs.update(_prefs.get(username, {}))
-
-    return prefs
+        return {**_DEFAULT_PREFS, **_prefs.get(username, {})}
 
 
-def set(username, key, value):
-    if _prefs is None:
+def set(
+    username: str, value: Union[PrefsDict, PrefsValue], key: Union[str, None] = None
+) -> None:
+    if not _prefs:
         _load()
 
     if key:
-        _prefs.setdefault(username, {})[key] = value
+        _prefs.setdefault(username, {})[key] = cast(PrefsValue, value)
 
     else:
-        _prefs[username] = value
+        _prefs[username] = cast(PrefsDict, value)
 
     _save()

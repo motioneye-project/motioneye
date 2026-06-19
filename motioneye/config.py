@@ -21,7 +21,7 @@ import tarfile
 from collections import OrderedDict
 from datetime import timedelta
 from errno import EEXIST, ENOENT
-from fnmatch import fnmatch
+from fnmatch import fnmatchcase
 from glob import glob
 from io import BytesIO
 from os import stat
@@ -29,6 +29,7 @@ from re import match, sub
 from secrets import token_hex
 from shlex import split
 from stat import S_IMODE
+from typing import Optional
 from urllib.parse import quote, urlunparse
 
 from argon2 import PasswordHasher
@@ -193,7 +194,7 @@ _MOTION_43_TO_41_OPTIONS_MAPPING = {
 
 def netcam_keepalive_params(v, data):
     # value can be 'force' as well
-    v = 'on' if v == True else 'off' if v == False else v
+    v = 'on' if v == True else 'off' if v == False else v  # noqa: E712
 
     if 'netcam_params' in data and data['netcam_params']:
         return {'netcam_params': data['netcam_params'] + ',keepalive = ' + v}
@@ -694,6 +695,28 @@ def set_camera(camera_id, camera_config):
         f.close()
 
 
+def make_netcam_userpass(url, raw_username, raw_password, camera_id):
+    raw_username = str(raw_username)
+    raw_password = str(raw_password)
+
+    # Motion's mjpeg/mjpg/jpeg/ftp auth handling expects plain userpass here.
+    if url.lower().startswith(('mjpeg', 'mjpg', 'jpeg', 'ftp')):
+        userpass = f'{raw_username}:{raw_password}'
+    else:
+        # For other protocols, credentials go to ffmpeg as URL userinfo,
+        # so reserved characters (e.g. "@", "#") must be percent-encoded.
+        username = quote(raw_username, safe='')
+        password = quote(raw_password, safe='')
+        userpass = f'{username}:{password}'
+
+        if username != raw_username or password != raw_password:
+            logging.debug(
+                f'credentials for camera {camera_id} have been percent-encoded'
+            )
+
+    return userpass
+
+
 def add_camera(device_details):
     global _camera_ids_cache
 
@@ -747,25 +770,12 @@ def add_camera(device_details):
         camera_config['netcam_url'] = device_details['url']
 
         if device_details['username']:
-            raw_username = str(device_details['username'])
-            raw_password = str(device_details['password'])
-
-            # Motion's mjpeg/mjpg/jpeg/ftp auth handling expects plain userpass here.
-            if camera_config['netcam_url'].startswith(('mjpeg', 'mjpg', 'jpeg', 'ftp')):
-                userpass = f"{raw_username}:{raw_password}"
-            else:
-                # For other protocols, credentials go to ffmpeg as URL userinfo,
-                # so reserved characters (e.g. "@", "#") must be percent-encoded.
-                username = quote(raw_username, safe='')
-                password = quote(raw_password, safe='')
-                userpass = f'{username}:{password}'
-
-                if username != raw_username or password != raw_password:
-                    logging.debug(
-                        f'credentials for camera {camera_id} have been percent-encoded'
-                    )
-
-            camera_config['netcam_userpass'] = userpass
+            camera_config['netcam_userpass'] = make_netcam_userpass(
+                camera_config['netcam_url'],
+                device_details['username'],
+                device_details['password'],
+                camera_id,
+            )
 
         camera_config['netcam_keepalive'] = device_details.get('keep_alive', False)
         camera_config['netcam_tolerant_check'] = True
@@ -946,10 +956,10 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     deviceNameFailMessage = _(
         'Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space'
     )
-    filenameValidRegExp = '^([A-Za-z0-9 ()/._-]|%[CYmdHMSqv])+$'
+    filenameValidRegExp = '^([A-Za-z0-9 ()/._-]|%[CYmdHMSqv$])+$'
     filenameFailMessage = _(
         'File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., '
-        'underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v'
+        'underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$'
     )
     dirnameValidRegExp = '^[A-Za-z0-9 ()/._-]+$'
     dirnameFailMessage = _(
@@ -2097,7 +2107,7 @@ def invalidate_monitor_commands():
     _monitor_command_cache.clear()
 
 
-def backup() -> bytes | None:
+def backup() -> Optional[bytes]:
     logging.debug('generating config backup file')
 
     files = [
@@ -2122,18 +2132,30 @@ def backup() -> bytes | None:
         return None
 
 
-def restore(content: bytes) -> dict | None:
+def restore(content: bytes) -> Optional[dict]:
     logging.info('restoring config from backup file')
 
     patterns = ['motion.conf', 'camera-*.conf', 'mask_*.pgm', 'prefs.json']
 
     try:
         with tarfile.open(fileobj=BytesIO(content)) as tf:
-            members = [
-                m
-                for m in tf.getmembers()
-                if any(fnmatch(m.name.lstrip('./'), p) for p in patterns)
-            ]
+            members = []
+            for m in tf.getmembers():  # use filter='data' once we require Python 3.12+
+                if not m.isfile():
+                    continue
+
+                # allow leading ./ to support full dir backups from v0.44.0b1 and earlier
+                name = m.name
+                while name.startswith('./'):
+                    name = name[2:]
+
+                # refuse any other directory structure, needed since fnmatchcase() * matches / as well
+                if '/' in name:
+                    continue
+
+                if any(fnmatchcase(name, p) for p in patterns):
+                    members.append(m)
+
             tf.extractall(settings.CONF_PATH, members=members)  # nosec B202
 
         logging.debug('configuration restored successfully')

@@ -18,7 +18,7 @@ import json
 import logging
 import re
 from time import time
-from typing import Union
+from typing import Optional
 from urllib.parse import urlencode
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest, HTTPResponse
@@ -86,7 +86,6 @@ async def _send_request(request: HTTPRequest) -> HTTPResponse:
         response = await AsyncHTTPClient().fetch(request, raise_error=False)
 
         if response.code != 200:
-
             decoded = json.loads(response.body)
             if decoded['error'] == 'unauthorized':
                 response.error = Exception('Authentication Error')
@@ -249,7 +248,7 @@ async def get_config(local_config) -> utils.GetConfigResponse:
         return utils.GetConfigResponse(remote_ui_config=response, error=None)
 
 
-async def set_config(local_config, ui_config) -> Union[str, None]:
+async def set_config(local_config, ui_config) -> Optional[str]:
     scheme = local_config.get('@scheme', local_config.get('scheme'))
     host = local_config.get('@host', local_config.get('host'))
     port = local_config.get('@port', local_config.get('port'))
@@ -388,7 +387,7 @@ async def get_current_picture(
 
 
 async def list_media(
-    local_config, media_type, prefix: str | None = None
+    local_config, media_type, prefix: Optional[str] = None
 ) -> utils.ListMediaResponse:
     utils.validate_paths(prefix)
 

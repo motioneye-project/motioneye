@@ -83,7 +83,7 @@ class LoginHandlerTest(HandlerTestCase):
     def test_login_legacy_password_migrates(self):
         admin_user = 'admin'
         plain = 's3cret'
-        legacy_hash = sha1(plain.encode()).hexdigest()
+        legacy_hash = sha1(plain.encode()).hexdigest()  # nosec B324
         main_config = {
             '@admin_username': admin_user,
             '@admin_password': legacy_hash,

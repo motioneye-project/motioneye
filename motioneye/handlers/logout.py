@@ -15,20 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-from motioneye.handlers.base import (
-    BaseHandler,
-    invalidate_session,
-    invalidate_user_sessions,
-)
+from motioneye.handlers.base import BaseHandler, invalidate_session
 
 __all__ = ('LogoutHandler',)
 
 
 class LogoutHandler(BaseHandler):
     def post(self):
-        # Get current user info
-        user = self.current_user
-
         # Clear the session cookie
         self.clear_cookie('user')
 

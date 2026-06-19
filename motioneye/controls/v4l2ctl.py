@@ -14,13 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import fcntl
 import logging
 import os.path
 import re
 import stat
 import subprocess
-import time
 from shlex import quote
 
 from motioneye import utils
@@ -87,7 +85,6 @@ def list_resolutions(device):
 
     resolutions = set()
     output = b''
-    started = time.time()
     cmd = f"v4l2-ctl -d {quote(device)} --list-formats-ext | grep -vi stepwise | grep -oE '[0-9]+x[0-9]+' || true"
     logging.debug(f'running command "{cmd}"')
 
@@ -168,7 +165,6 @@ def list_ctrls(device):
         return _ctrls_cache[device]
 
     output = b''
-    started = time.time()
     cmd = ['v4l2-ctl', '-d', device, '--list-ctrls']
     logging.debug(f'running command "{" ".join(cmd)}"')
 

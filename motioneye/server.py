@@ -189,7 +189,7 @@ handler_mapping: Sequence[Tuple] = [
     (r'^/manifest.json$', ManifestHandler),
     (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),
     (
-        r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize)/?$',
+        r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize|credentials)/?$',
         ConfigHandler,
     ),
     (r'^/config/(?P<op>add|list|backup|restore)/?$', ConfigHandler),
@@ -281,28 +281,28 @@ def test_requirements():
             sys.exit(-1)
 
     try:
-        import tornado  # @UnusedImport
+        import tornado  # noqa: F401
 
     except ImportError:
         logging.fatal(_('bonvolu instali tornado version 3.1 aŭ pli'))
         sys.exit(-1)
 
     try:
-        import jinja2  # @UnusedImport
+        import jinja2  # noqa: F401
 
     except ImportError:
         logging.fatal(_('bonvolu instali jinja2'))
         sys.exit(-1)
 
     try:
-        import PIL.Image  # @UnusedImport
+        import PIL.Image  # noqa: F401
 
     except ImportError:
         logging.fatal(_('bonvolu instali pillow aŭ PIL'))
         sys.exit(-1)
 
     try:
-        import pycurl  # @UnusedImport
+        import pycurl  # noqa: F401
 
     except ImportError:
         logging.fatal(_('bonvolu instali pycurl'))

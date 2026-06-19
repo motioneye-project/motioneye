@@ -174,7 +174,7 @@
                         </tr>
                         <tr class="settings-item" required="true" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Administranto") }}</span></td>
-                            <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled general main-config" id="adminUsernameEntry" readonly="readonly"></td>
+                            <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled general main-config" id="adminUsernameEntry"></td>
                             <td><span class="help-mark" title="{{ _("la uzantnomo uzata por agordi la sistemon") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" strip="true">
@@ -295,6 +295,11 @@
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Kamerao Tipo") }}</span></td>
                             <td class="settings-item-value"><input type="text" class="styled device camera-config" id="deviceTypeEntry" readonly="readonly"></td>
+                        </tr>
+                        <tr class="settings-item">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Connection") }}</span></td>
+                            <td class="settings-item-value"><div class="button normal-button edit-credentials-button" id="editCredentialsButton">{{ _("Edit Credentials") }}</div></td>
+                            <td><span class="help-mark" title="{{ _("edit the camera URL and credentials") }}">?</span></td>
                         </tr>
                         <tr class="settings-item">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Admin-only access") }}</span></td>
@@ -713,7 +718,7 @@
                                     <option value="digest">Digest</option>
                                 </select>
                             </td>
-                            <td><span class="help-mark" title="{{ _("la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj); akreditoj kontroloj estos uzataj") }}">?</span></td>
+                            <td><span class="help-mark" title="{{ _("la aŭtentiga metodo uzata de la rivereto (elektu 'Bazic' anstataŭ 'Digest' se vi renkontas problemojn kun triaj programoj)") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" strip="true" depends="videoStreamingEnabled streamingAuthMode=(basic|digest)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Uzantnomo") }}</span></td>
@@ -1263,8 +1268,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Mardo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="tuesdayEnabledSwitch">
-                                <span id="tuesdayTimeInputs"><span class="settings-item-unit">from</span><input type="time" class="styled working-schedule camera-config" id="tuesdayFromEntry">
-                                <span class="settings-item-unit">to</span><input type="time" class="styled working-schedule camera-config" id="tuesdayToEntry"></span>
+                                <span id="tuesdayTimeInputs"><span class="settings-item-unit">{{ _("de") }}</span><input type="time" class="styled working-schedule camera-config" id="tuesdayFromEntry">
+                                <span class="settings-item-unit">{{ _("ĝis") }}</span><input type="time" class="styled working-schedule camera-config" id="tuesdayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por mardoj.") }}">?</span></td>
                         </tr>
@@ -1272,8 +1277,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Merkredo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="wednesdayEnabledSwitch">
-                                <span id="wednesdayTimeInputs"><span class="settings-item-unit">from</span><input type="time" class="styled working-schedule camera-config" id="wednesdayFromEntry">
-                                <span class="settings-item-unit">to</span><input type="time" class="styled working-schedule camera-config" id="wednesdayToEntry"></span>
+                                <span id="wednesdayTimeInputs"><span class="settings-item-unit">{{ _("de") }}</span><input type="time" class="styled working-schedule camera-config" id="wednesdayFromEntry">
+                                <span class="settings-item-unit">{{ _("ĝis") }}</span><input type="time" class="styled working-schedule camera-config" id="wednesdayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por merkredoj.") }}">?</span></td>
                         </tr>
@@ -1281,8 +1286,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Ĵaŭdo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="thursdayEnabledSwitch">
-                                <span id="thursdayTimeInputs"><span class="settings-item-unit">from</span><input type="time" class="styled working-schedule camera-config" id="thursdayFromEntry">
-                                <span class="settings-item-unit">to</span><input type="time" class="styled working-schedule camera-config" id="thursdayToEntry"></span>
+                                <span id="thursdayTimeInputs"><span class="settings-item-unit">{{ _("de") }}</span><input type="time" class="styled working-schedule camera-config" id="thursdayFromEntry">
+                                <span class="settings-item-unit">{{ _("ĝis") }}</span><input type="time" class="styled working-schedule camera-config" id="thursdayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por ĵaŭdoj.") }}">?</span></td>
                         </tr>
@@ -1290,8 +1295,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Vendredo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="fridayEnabledSwitch">
-                                <span id="fridayTimeInputs"><span class="settings-item-unit">from</span><input type="time" class="styled working-schedule camera-config" id="fridayFromEntry">
-                                <span class="settings-item-unit">to</span><input type="time" class="styled working-schedule camera-config" id="fridayToEntry"></span>
+                                <span id="fridayTimeInputs"><span class="settings-item-unit">{{ _("de") }}</span><input type="time" class="styled working-schedule camera-config" id="fridayFromEntry">
+                                <span class="settings-item-unit">{{ _("ĝis") }}</span><input type="time" class="styled working-schedule camera-config" id="fridayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por vendredoj.") }}">?</span></td>
                         </tr>
@@ -1299,8 +1304,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Sabato") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="saturdayEnabledSwitch">
-                                <span id="saturdayTimeInputs"><span class="settings-item-unit">from</span><input type="time" class="styled working-schedule camera-config" id="saturdayFromEntry">
-                                <span class="settings-item-unit">to</span><input type="time" class="styled working-schedule camera-config" id="saturdayToEntry"></span>
+                                <span id="saturdayTimeInputs"><span class="settings-item-unit">{{ _("de") }}</span><input type="time" class="styled working-schedule camera-config" id="saturdayFromEntry">
+                                <span class="settings-item-unit">{{ _("ĝis") }}</span><input type="time" class="styled working-schedule camera-config" id="saturdayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por sabatoj.") }}">?</span></td>
                         </tr>
@@ -1308,8 +1313,8 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Dimanĉo") }}</span></td>
                             <td class="settings-item-value">
                                 <input type="checkbox" class="styled working-schedule camera-config" id="sundayEnabledSwitch">
-                                <span id="sundayTimeInputs"><span class="settings-item-unit">from</span><input type="time" class="styled working-schedule camera-config" id="sundayFromEntry">
-                                <span class="settings-item-unit">to</span><input type="time" class="styled working-schedule camera-config" id="sundayToEntry"></span>
+                                <span id="sundayTimeInputs"><span class="settings-item-unit">{{ _("de") }}</span><input type="time" class="styled working-schedule camera-config" id="sundayFromEntry">
+                                <span class="settings-item-unit">{{ _("ĝis") }}</span><input type="time" class="styled working-schedule camera-config" id="sundayToEntry"></span>
                             </td>
                             <td><span class="help-mark" title="{{ _("Fiksas la labortagan tempintervalon por dimanĉoj.") }}">?</span></td>
                         </tr>

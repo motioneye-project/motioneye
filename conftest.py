@@ -1,7 +1,5 @@
 """Pytest configuration."""
 
-import pytest
-
 
 def pytest_collection_modifyitems(config, items):
     """Modify collected test items to exclude non-test functions from source files."""

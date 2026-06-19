@@ -3,13 +3,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 # sangam paudel <sangampaudel530@gmail.com>, 2025.
 # Weblate <noreply-mt-weblate@weblate.org>, 2025.
-# MichaIng <micha@dietpi.com>, 2025.
+# MichaIng <micha@dietpi.com>, 2025, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2025-12-10 03:10+0000\n"
+"PO-Revision-Date: 2026-06-17 15:19+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Nepali <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/ne/>\n"
 "Language: ne\n"
@@ -17,609 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15-dev\n"
-
-#: motioneye/static/js/ui.js:361
-msgid "enter a valid value"
-msgstr ""
-
-#: motioneye/static/js/ui.js:397 motioneye/static/js/main.js:485
-#: motioneye/static/js/main.js:496 motioneye/static/js/main.js:555
-msgid "Ĉi tiu kampo estas deviga"
-msgstr "यो क्षेत्र आवश्यक छ"
-
-#: motioneye/static/js/ui.js:420
-msgid "enigu nombron"
-msgstr ""
-
-#: motioneye/static/js/ui.js:423
-msgid "enigu entjeran nombron"
-msgstr ""
-
-#: motioneye/static/js/ui.js:427
-msgid " inter "
-msgstr ""
-
-#: motioneye/static/js/ui.js:427
-msgid " kaj "
-msgstr ""
-
-#: motioneye/static/js/ui.js:430
-msgid " pli ol "
-msgstr ""
-
-#: motioneye/static/js/ui.js:435
-msgid " malpli ol "
-msgstr ""
-
-#: motioneye/static/js/ui.js:479
-msgid "enigu validan tempon en la sekva formato: HH:MM"
-msgstr ""
-
-#: motioneye/static/js/ui.js:488
-msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
-msgstr ""
-
-#: motioneye/static/js/ui.js:684
-msgid "fermi"
-msgstr ""
-
-#: motioneye/static/js/ui.js:730 motioneye/static/js/ui.js:737
-msgid "Ne"
-msgstr ""
-
-#: motioneye/static/js/ui.js:731 motioneye/static/js/ui.js:738
-msgid "Jes"
-msgstr ""
-
-#: motioneye/static/js/ui.js:736 motioneye/static/js/ui.js:743
-#: motioneye/static/js/main.js:3508
-msgid "Nuligi"
-msgstr ""
-
-#: motioneye/static/js/ui.js:744 motioneye/static/js/ui.js:749
-msgid "Bone"
-msgstr ""
-
-#: motioneye/static/js/main.js:389
-msgid "An error occurred. Refreshing is recommended."
-msgstr ""
-
-#: motioneye/static/js/main.js:460
-msgid "specialaj signoj ne rajtas en pasvorto"
-msgstr "पासवर्डमा विशेष वर्णहरू प्रयोग गर्न अनुमति छैन"
-
-#: motioneye/static/js/main.js:467
-msgid "use of colon (:) is not allowed in video streaming username"
-msgstr ""
-
-#: motioneye/static/js/main.js:478
-msgid "video streaming authentication mode must be Basic or Digest when admin-only access is enabled"
-msgstr ""
-
-#: motioneye/static/js/main.js:489
-msgid "specialaj signoj ne rajtas en la nomo de kamerao"
-msgstr "क्यामेराको नाममा विशेष वर्णहरू प्रयोग गर्न अनुमति छैन"
-
-#: motioneye/static/js/main.js:501
-msgid "valoro devas esti multoblo de 8"
-msgstr "मान ८ को गुणन हुनुपर्छ"
-
-#: motioneye/static/js/main.js:508
-msgid "specialaj signoj ne rajtas en radika voja nomo"
-msgstr "रूट मार्ग नाममा विशेष वर्णहरूलाई अनुमति छैन"
-
-#: motioneye/static/js/main.js:511
-msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
-msgstr "फाइलहरू तपाईंको प्रणालीको रूटमा सिधै सिर्जना गर्न सकिँदैन"
-
-#: motioneye/static/js/main.js:518
-msgid "enigu validan retpoŝtadreson"
-msgstr "मान्य इमेल ठेगाना प्रविष्ट गर्नुहोस्"
-
-#: motioneye/static/js/main.js:525
-msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
-msgstr "मान्य इमेल ठेगानाहरूको अल्पविराम विभाजित सूची प्रविष्ट गर्नुहोस्"
-
-#: motioneye/static/js/main.js:532
-msgid "specialaj signoj ne rajtas en dosiernomo"
-msgstr "फाइलनाममा विशेष वर्णहरू अनुमति छैन"
-
-#: motioneye/static/js/main.js:559
-msgid "enigu validan valoron"
-msgstr "मान्य मान प्रविष्ट गर्नुहोस्"
-
-#: motioneye/static/js/main.js:721
-msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
-msgstr "यसले क्लाउड फोल्डरमा रहेका सबै फाइलहरू पुनरावर्ती रूपमा मेटाउनेछ \""
-
-#: motioneye/static/js/main.js:722
-msgid "\", ne nur tiuj alŝutitaj de motionEye!"
-msgstr "\", केवल motionEye द्वारा अपलोड गरिएकाहरू मात्र होइन!"
-
-#: motioneye/static/js/main.js:803
-msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
-msgstr "यसले फोल्डरमा रहेका सबै पुराना मिडिया फाइलहरू पुनरावर्ती रूपमा मेटाउनेछ \""
-
-#: motioneye/static/js/main.js:804
-msgid "\", ne nur tiuj kreitaj de motionEye!"
-msgstr "\", केवल motionEye द्वारा सिर्जना गरिएकाहरू मात्र होइन!"
-
-#: motioneye/static/js/main.js:870
-msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
-msgstr "मान्य क्यामेरा छवि बिना मास्क सम्पादन गर्न सम्भव छैन!"
-
-#: motioneye/static/js/main.js:2130
-msgid "Propra"
-msgstr "आफ्नै"
-
-#: motioneye/static/js/main.js:2168
-msgid "Propra dosierindiko"
-msgstr "अनुकूलन फाइल अनुक्रमणिका"
-
-#: motioneye/static/js/main.js:2170
-msgid "Retan kunlokon"
-msgstr "अनलाइन सह-स्थान"
-
-#: motioneye/static/js/main.js:2526
-msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
-msgstr "तपाईंको ब्राउजरले यो सुविधा कार्यान्वयन गर्दैन!"
-
-#: motioneye/static/js/main.js:2542
-msgid "Apliki"
-msgstr "लागू गर्नुहोस्"
-
-#: motioneye/static/js/main.js:2569 motioneye/static/js/main.js:2940
-#: motioneye/static/js/main.js:2996 motioneye/static/js/main.js:3071
-msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
-msgstr "सबै कन्फिगरेसन विकल्पहरू मान्य छन् भनी सुनिश्चित गर्नुहोस्!"
-
-#: motioneye/static/js/main.js:2623
-msgid "Admin password updated. Please log in again."
-msgstr ""
-
-#: motioneye/static/js/main.js:2681
-msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
-msgstr "यसले प्रणाली पुन: सुरु गर्नेछ। जारी राख्ने हो?"
-
-#: motioneye/static/js/main.js:2691
-msgid "Vere fermiti sistemon?"
-msgstr "साँच्चै प्रणाली बन्द गर्ने?"
-
-#: motioneye/static/js/main.js:2703
-msgid "Malŝaltita"
-msgstr "बन्द"
-
-#: motioneye/static/js/main.js:2718
-msgid "Ĉu vere restartigi ?"
-msgstr ""
-
-#: motioneye/static/js/main.js:2732
-msgid "La sistemo rekomencis!"
-msgstr ""
-
-#: motioneye/static/js/main.js:2752 motioneye/static/js/main.js:2785
-#: motioneye/static/js/main.js:3803
-msgid "Bonvolu apliki unue la modifitajn agordojn!"
-msgstr ""
-
-#: motioneye/static/js/main.js:2757
-msgid "Neniu fotilo por forigi!"
-msgstr ""
-
-#: motioneye/static/js/main.js:2763
-#, fuzzy
-msgid "Ĉu forigi kameraon "
-msgstr "क्यामेरा हटाउनुहोस् "
-
-#: motioneye/static/js/main.js:2791
-msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr ""
-
-#: motioneye/static/js/main.js:2794
-msgid "Nova versio havebla: "
-msgstr ""
-
-#: motioneye/static/js/main.js:2794
-msgid ". Ĝisdatigi?"
-msgstr ""
-
-#: motioneye/static/js/main.js:2802
-msgid "motionEye estis sukcese ĝisdatigita!"
-msgstr ""
-
-#: motioneye/static/js/main.js:2812
-msgid "Ĝisdatigo malsukcesis!"
-msgstr ""
-
-#: motioneye/static/js/main.js:2823
-msgid "La ĝisdatiga procezo malsukcesis!"
-msgstr ""
-
-#: motioneye/static/js/main.js:2842
-msgid "Rezerva dosiero"
-msgstr ""
-
-#: motioneye/static/js/main.js:2844
-msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
-msgstr ""
-
-#: motioneye/static/js/main.js:2873
-msgid "Restaŭrigi Agordon"
-msgstr ""
-
-#: motioneye/static/js/main.js:2885
-msgid "Restaŭriganta agordon ..."
-msgstr ""
-
-#: motioneye/static/js/main.js:2892
-msgid "La agordo restaŭrigis!"
-msgstr ""
-
-#: motioneye/static/js/main.js:2902 motioneye/static/js/main.js:2921
-msgid "Malsukcesis restaŭri la agordon!"
-msgstr ""
-
-#: motioneye/static/js/main.js:2977
-msgid "Aliri la alŝutan servon malsukcesis: "
-msgstr ""
-
-#: motioneye/static/js/main.js:2980
-msgid "Aliri la alŝutan servon sukcesis!"
-msgstr ""
-
-#: motioneye/static/js/main.js:3017
-msgid "Sciiga retpoŝto fiaskis:"
-msgstr ""
-
-#: motioneye/static/js/main.js:3020
-msgid "Notification email succeeded!"
-msgstr ""
-
-#: motioneye/static/js/main.js:3036
-#, fuzzy
-msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
-msgstr "सबै कन्फिगरेसन विकल्पहरू मान्य छन् भनी सुनिश्चित गर्नुहोस्!"
-
-#: motioneye/static/js/main.js:3052
-msgid "Sciiga Telegramo fiaskis:"
-msgstr ""
-
-#: motioneye/static/js/main.js:3055
-msgid "Sciiga Telegramo sukcesis!"
-msgstr ""
-
-#: motioneye/static/js/main.js:3091
-msgid "Aliro al retdividado fiaskis: "
-msgstr ""
-
-#: motioneye/static/js/main.js:3094
-msgid "Aliro al retdividado sukcesis!"
-msgstr ""
-
-#: motioneye/static/js/main.js:3118
-msgid "Ĉu vere forigi ĉi tiun dosieron?"
-msgstr ""
-
-#: motioneye/static/js/main.js:3142
-msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
-msgstr ""
-
-#: motioneye/static/js/main.js:3145
-msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
-msgstr ""
-
-#: motioneye/static/js/main.js:3150
-msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
-msgstr ""
-
-#: motioneye/static/js/main.js:3153
-msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
-msgstr ""
-
-#: motioneye/static/js/main.js:3259
-msgid "aldonadi kameraon..."
-msgstr ""
-
-#: motioneye/static/js/main.js:3484 motioneye/static/js/main.js:3825
-msgid "Uzantnomo"
-msgstr ""
-
-#: motioneye/static/js/main.js:3489 motioneye/static/js/main.js:3830
-msgid "Pasvorto"
-msgstr ""
-
-#: motioneye/static/js/main.js:3501
-msgid "Please login to continue."
-msgstr ""
-
-#: motioneye/static/js/main.js:3505 motioneye/static/js/main.js:3509
-msgid "Ensaluti"
-msgstr ""
-
-#: motioneye/static/js/main.js:3536
-msgid "Your account requires a password to be set. Please contact the administrator to set a password for your account."
-msgstr ""
-
-#: motioneye/static/js/main.js:3549
-msgid "Please set a password for your account."
-msgstr ""
-
-#: motioneye/static/js/main.js:3566
-msgid "Login failed."
-msgstr ""
-
-#: motioneye/static/js/main.js:3600
-msgid "Vi abortis la filmeton."
-msgstr ""
-
-#: motioneye/static/js/main.js:3603
-msgid "Reto eraro okazis."
-msgstr ""
-
-#: motioneye/static/js/main.js:3606
-msgid "Malkodado-eraro aŭ neprogresinta funkcio."
-msgstr ""
-
-#: motioneye/static/js/main.js:3609
-msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
-msgstr ""
-
-#: motioneye/static/js/main.js:3612
-msgid "Nekonata eraro okazis."
-msgstr ""
-
-#: motioneye/static/js/main.js:3615
-msgid "Eraro : "
-msgstr ""
-
-#: motioneye/static/js/main.js:3620
-msgid "antaŭa bildo"
-msgstr ""
-
-#: motioneye/static/js/main.js:3625
-msgid "ludi"
-msgstr ""
-
-#: motioneye/static/js/main.js:3628
-msgid "ludi * 5 kaj enĉenigi"
-msgstr ""
-
-#: motioneye/static/js/main.js:3633
-msgid "sekva bildo"
-msgstr ""
-
-#: motioneye/static/js/main.js:3756
-msgid "Fermi"
-msgstr ""
-
-#: motioneye/static/js/main.js:3757 motioneye/static/js/main.js:4318
-msgid "Elŝuti"
-msgstr ""
-
-#: motioneye/static/js/main.js:3765 motioneye/static/js/main.js:4321
-msgid "Forigi"
-msgstr ""
-
-#: motioneye/static/js/main.js:3809
-msgid "Kamerao tipo"
-msgstr ""
-
-#: motioneye/static/js/main.js:3811
-msgid "Loka V4L2-kamerao"
-msgstr ""
-
-#: motioneye/static/js/main.js:3812
-msgid "Loka MMAL-kamerao"
-msgstr ""
-
-#: motioneye/static/js/main.js:3813
-msgid "Reta kamerao"
-msgstr ""
-
-#: motioneye/static/js/main.js:3814
-msgid "Fora motionEye kamerao"
-msgstr ""
-
-#: motioneye/static/js/main.js:3815
-msgid "Simpla MJPEG-kamerao"
-msgstr ""
-
-#: motioneye/static/js/main.js:3817
-msgid "la speco de kamerao, kiun vi volas aldoni"
-msgstr ""
-
-#: motioneye/static/js/main.js:3820
-msgid "URL"
-msgstr ""
-
-#: motioneye/static/js/main.js:3821
-msgid "http://ekzemplo.com:8765/cams/..."
-msgstr ""
-
-#: motioneye/static/js/main.js:3822
-msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
-msgstr ""
-
-#: motioneye/static/js/main.js:3826
-msgid "uzantnomo..."
-msgstr ""
-
-#: motioneye/static/js/main.js:3827
-msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
-msgstr ""
-
-#: motioneye/static/js/main.js:3831
-msgid "pasvorto..."
-msgstr ""
-
-#: motioneye/static/js/main.js:3832
-msgid "la pasvorto por la URL, se bezonata"
-msgstr ""
-
-#: motioneye/static/js/main.js:3835
-msgid "Remote Secret"
-msgstr ""
-
-#: motioneye/static/js/main.js:3836
-msgid "remote secret..."
-msgstr ""
-
-#: motioneye/static/js/main.js:3837
-msgid "the client secret of the remote motionEye server. Find this value in the Client Secret field of the remote server's general settings."
-msgstr ""
-
-#: motioneye/static/js/main.js:3840
-msgid "Kamerao"
-msgstr ""
-
-#: motioneye/static/js/main.js:3842
-msgid "la kameraon, kiun vi volas aldoni"
-msgstr ""
-
-#: motioneye/static/js/main.js:3876
-msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
-msgstr ""
-
-#: motioneye/static/js/main.js:3889
-msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
-msgstr ""
-
-#: motioneye/static/js/main.js:3894
-msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
-msgstr ""
-
-#: motioneye/static/js/main.js:3907
-msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
-msgstr ""
-
-#: motioneye/static/js/main.js:3912
-msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
-msgstr ""
-
-#: motioneye/static/js/main.js:4065
-msgid "Aldonadi kameraon..."
-msgstr ""
-
-#: motioneye/static/js/main.js:4136
-msgid "Grupo"
-msgstr ""
-
-#: motioneye/static/js/main.js:4140
-msgid "Inkluzivi foton prenitan ĉiun"
-msgstr ""
-
-#: motioneye/static/js/main.js:4143
-msgid "sekundo"
-msgstr ""
-
-#: motioneye/static/js/main.js:4144
-msgid "5 sekundoj"
-msgstr ""
-
-#: motioneye/static/js/main.js:4145
-msgid "10 sekundoj"
-msgstr ""
-
-#: motioneye/static/js/main.js:4146
-msgid "30 sekundoj"
-msgstr ""
-
-#: motioneye/static/js/main.js:4147
-msgid "minuto"
-msgstr ""
-
-#: motioneye/static/js/main.js:4148
-msgid "5 minutoj"
-msgstr ""
-
-#: motioneye/static/js/main.js:4149
-msgid "10 minutoj"
-msgstr ""
-
-#: motioneye/static/js/main.js:4150
-msgid "30 minutoj"
-msgstr ""
-
-#: motioneye/static/js/main.js:4151
-msgid "horo"
-msgstr ""
-
-#: motioneye/static/js/main.js:4154
-msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
-msgstr ""
-
-#: motioneye/static/js/main.js:4157
-msgid "Filmo framfrekvenco"
-msgstr ""
-
-#: motioneye/static/js/main.js:4159
-msgid "Elektu kiom rapide vi volas ke la akselita video estu."
-msgstr ""
-
-#: motioneye/static/js/main.js:4168
-msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
-msgstr ""
-
-#: motioneye/static/js/main.js:4185
-msgid "Krei akselita video"
-msgstr ""
-
-#: motioneye/static/js/main.js:4194
-msgid "Filmo kreanta en progreso..."
-msgstr ""
-
-#: motioneye/static/js/main.js:4445
-msgid "Zipitaj"
-msgstr ""
-
-#: motioneye/static/js/main.js:4454
-msgid "Akselita video"
-msgstr ""
-
-#: motioneye/static/js/main.js:4465
-msgid "Forigi ĉiujn"
-msgstr ""
-
-#: motioneye/static/js/main.js:4607
-msgid "Bildoj prenitaj de "
-msgstr ""
-
-#: motioneye/static/js/main.js:4610
-msgid "Filmoj registritaj de "
-msgstr ""
-
-#: motioneye/static/js/main.js:4678
-msgid "montru ĉi tiun fotilon plenekranan"
-msgstr ""
-
-#: motioneye/static/js/main.js:4679
-msgid "montri ĉiujn fotilojn"
-msgstr ""
-
-#: motioneye/static/js/main.js:4680
-msgid "montru nur ĉi tiun fotilon"
-msgstr ""
-
-#: motioneye/static/js/main.js:4681
-msgid "malfermaj bildoj retumilo"
-msgstr ""
-
-#: motioneye/static/js/main.js:4682
-msgid "malferma videoj retumilo"
-msgstr ""
-
-#: motioneye/static/js/main.js:4683
-msgid "agordi ĉi tiun kameraon"
-msgstr ""
-
-#: motioneye/static/js/main.js:4699
-msgid "preni instantaron"
-msgstr ""
-
-#: motioneye/static/js/main.js:5092
-msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
-msgstr ""
+"X-Generator: Weblate 2026.7.dev0\n"
 
 #: l10n/v4l2.js:4
 msgid "Auto Exposure"
@@ -711,4 +109,620 @@ msgstr ""
 
 #: l10n/v4l2.js:26
 msgid "Zoom Absolute"
+msgstr ""
+
+#: motioneye/static/js/main.js:386
+msgid "An error occurred. Refreshing is recommended."
+msgstr ""
+
+#: motioneye/static/js/main.js:457
+msgid "specialaj signoj ne rajtas en pasvorto"
+msgstr "पासवर्डमा विशेष वर्णहरू प्रयोग गर्न अनुमति छैन"
+
+#: motioneye/static/js/main.js:464
+msgid "use of colon (:) is not allowed in video streaming username"
+msgstr ""
+
+#: motioneye/static/js/main.js:475
+msgid "video streaming authentication mode must be Basic or Digest when admin-only access is enabled"
+msgstr ""
+
+#: motioneye/static/js/main.js:482 motioneye/static/js/main.js:493
+#: motioneye/static/js/main.js:552 motioneye/static/js/ui.js:397
+msgid "Ĉi tiu kampo estas deviga"
+msgstr "यो क्षेत्र आवश्यक छ"
+
+#: motioneye/static/js/main.js:486
+msgid "specialaj signoj ne rajtas en la nomo de kamerao"
+msgstr "क्यामेराको नाममा विशेष वर्णहरू प्रयोग गर्न अनुमति छैन"
+
+#: motioneye/static/js/main.js:498
+msgid "valoro devas esti multoblo de 8"
+msgstr "मान ८ को गुणन हुनुपर्छ"
+
+#: motioneye/static/js/main.js:505
+msgid "specialaj signoj ne rajtas en radika voja nomo"
+msgstr "रूट मार्ग नाममा विशेष वर्णहरूलाई अनुमति छैन"
+
+#: motioneye/static/js/main.js:508
+msgid "dosieroj ne povas esti kreitaj rekte en la radiko de via sistemo"
+msgstr "फाइलहरू तपाईंको प्रणालीको रूटमा सिधै सिर्जना गर्न सकिँदैन"
+
+#: motioneye/static/js/main.js:515
+msgid "enigu validan retpoŝtadreson"
+msgstr "मान्य इमेल ठेगाना प्रविष्ट गर्नुहोस्"
+
+#: motioneye/static/js/main.js:522
+msgid "enigu liston de koma apartaj validaj retpoŝtadresoj"
+msgstr "मान्य इमेल ठेगानाहरूको अल्पविराम विभाजित सूची प्रविष्ट गर्नुहोस्"
+
+#: motioneye/static/js/main.js:529
+msgid "specialaj signoj ne rajtas en dosiernomo"
+msgstr "फाइलनाममा विशेष वर्णहरू अनुमति छैन"
+
+#: motioneye/static/js/main.js:556
+msgid "enigu validan valoron"
+msgstr "मान्य मान प्रविष्ट गर्नुहोस्"
+
+#: motioneye/static/js/main.js:698
+msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
+msgstr "यसले क्लाउड फोल्डरमा रहेका सबै फाइलहरू पुनरावर्ती रूपमा मेटाउनेछ \""
+
+#: motioneye/static/js/main.js:699
+msgid "\", ne nur tiuj alŝutitaj de motionEye!"
+msgstr "\", केवल motionEye द्वारा अपलोड गरिएकाहरू मात्र होइन!"
+
+#: motioneye/static/js/main.js:790
+msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
+msgstr "यसले फोल्डरमा रहेका सबै पुराना मिडिया फाइलहरू पुनरावर्ती रूपमा मेटाउनेछ \""
+
+#: motioneye/static/js/main.js:791
+msgid "\", ne nur tiuj kreitaj de motionEye!"
+msgstr "\", केवल motionEye द्वारा सिर्जना गरिएकाहरू मात्र होइन!"
+
+#: motioneye/static/js/main.js:874
+msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
+msgstr "मान्य क्यामेरा छवि बिना मास्क सम्पादन गर्न सम्भव छैन!"
+
+#: motioneye/static/js/main.js:2135
+msgid "Propra"
+msgstr "आफ्नै"
+
+#: motioneye/static/js/main.js:2173
+msgid "Propra dosierindiko"
+msgstr "अनुकूलन फाइल अनुक्रमणिका"
+
+#: motioneye/static/js/main.js:2175
+msgid "Retan kunlokon"
+msgstr "अनलाइन सह-स्थान"
+
+#: motioneye/static/js/main.js:2531
+msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
+msgstr "तपाईंको ब्राउजरले यो सुविधा कार्यान्वयन गर्दैन!"
+
+#: motioneye/static/js/main.js:2547
+msgid "Apliki"
+msgstr "लागू गर्नुहोस्"
+
+#: motioneye/static/js/main.js:2574 motioneye/static/js/main.js:2941
+#: motioneye/static/js/main.js:2997 motioneye/static/js/main.js:3072
+msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
+msgstr "सबै कन्फिगरेसन विकल्पहरू मान्य छन् भनी सुनिश्चित गर्नुहोस्!"
+
+#: motioneye/static/js/main.js:2628
+msgid "Admin password updated. Please log in again."
+msgstr ""
+
+#: motioneye/static/js/main.js:2682
+msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
+msgstr "यसले प्रणाली पुन: सुरु गर्नेछ। जारी राख्ने हो?"
+
+#: motioneye/static/js/main.js:2692
+msgid "Vere fermiti sistemon?"
+msgstr "साँच्चै प्रणाली बन्द गर्ने?"
+
+#: motioneye/static/js/main.js:2704
+msgid "Malŝaltita"
+msgstr "बन्द"
+
+#: motioneye/static/js/main.js:2719
+msgid "Ĉu vere restartigi ?"
+msgstr ""
+
+#: motioneye/static/js/main.js:2733
+msgid "La sistemo rekomencis!"
+msgstr ""
+
+#: motioneye/static/js/main.js:2753 motioneye/static/js/main.js:2786
+#: motioneye/static/js/main.js:3816 motioneye/static/js/main.js:4146
+msgid "Bonvolu apliki unue la modifitajn agordojn!"
+msgstr ""
+
+#: motioneye/static/js/main.js:2758
+msgid "Neniu fotilo por forigi!"
+msgstr ""
+
+#: motioneye/static/js/main.js:2764
+#, fuzzy
+msgid "Ĉu forigi kameraon "
+msgstr "क्यामेरा हटाउनुहोस् "
+
+#: motioneye/static/js/main.js:2792
+msgid "motionEye estas ĝisdatigita (aktuala versio: "
+msgstr ""
+
+#: motioneye/static/js/main.js:2795
+msgid "Nova versio havebla: "
+msgstr ""
+
+#: motioneye/static/js/main.js:2795
+msgid ". Ĝisdatigi?"
+msgstr ""
+
+#: motioneye/static/js/main.js:2803
+msgid "motionEye estis sukcese ĝisdatigita!"
+msgstr ""
+
+#: motioneye/static/js/main.js:2813
+msgid "Ĝisdatigo malsukcesis!"
+msgstr ""
+
+#: motioneye/static/js/main.js:2824
+msgid "La ĝisdatiga procezo malsukcesis!"
+msgstr ""
+
+#: motioneye/static/js/main.js:2843
+msgid "Rezerva dosiero"
+msgstr ""
+
+#: motioneye/static/js/main.js:2845
+msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
+msgstr ""
+
+#: motioneye/static/js/main.js:2874
+msgid "Restaŭrigi Agordon"
+msgstr ""
+
+#: motioneye/static/js/main.js:2886
+msgid "Restaŭriganta agordon ..."
+msgstr ""
+
+#: motioneye/static/js/main.js:2893
+msgid "La agordo restaŭrigis!"
+msgstr ""
+
+#: motioneye/static/js/main.js:2903 motioneye/static/js/main.js:2922
+msgid "Malsukcesis restaŭri la agordon!"
+msgstr ""
+
+#: motioneye/static/js/main.js:2978
+msgid "Aliri la alŝutan servon malsukcesis: "
+msgstr ""
+
+#: motioneye/static/js/main.js:2981
+msgid "Aliri la alŝutan servon sukcesis!"
+msgstr ""
+
+#: motioneye/static/js/main.js:3018
+msgid "Sciiga retpoŝto fiaskis:"
+msgstr ""
+
+#: motioneye/static/js/main.js:3021
+msgid "Notification email succeeded!"
+msgstr ""
+
+#: motioneye/static/js/main.js:3037
+#, fuzzy
+msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
+msgstr "सबै कन्फिगरेसन विकल्पहरू मान्य छन् भनी सुनिश्चित गर्नुहोस्!"
+
+#: motioneye/static/js/main.js:3053
+msgid "Sciiga Telegramo fiaskis:"
+msgstr ""
+
+#: motioneye/static/js/main.js:3056
+msgid "Sciiga Telegramo sukcesis!"
+msgstr ""
+
+#: motioneye/static/js/main.js:3092
+msgid "Aliro al retdividado fiaskis: "
+msgstr ""
+
+#: motioneye/static/js/main.js:3095
+msgid "Aliro al retdividado sukcesis!"
+msgstr ""
+
+#: motioneye/static/js/main.js:3119
+msgid "Ĉu vere forigi ĉi tiun dosieron?"
+msgstr ""
+
+#: motioneye/static/js/main.js:3143
+msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
+msgstr ""
+
+#: motioneye/static/js/main.js:3146
+msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
+msgstr ""
+
+#: motioneye/static/js/main.js:3151
+msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
+msgstr ""
+
+#: motioneye/static/js/main.js:3154
+msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
+msgstr ""
+
+#: motioneye/static/js/main.js:3266
+msgid "aldonadi kameraon..."
+msgstr ""
+
+#: motioneye/static/js/main.js:3497 motioneye/static/js/main.js:3838
+#: motioneye/static/js/main.js:4159
+msgid "Uzantnomo"
+msgstr ""
+
+#: motioneye/static/js/main.js:3502 motioneye/static/js/main.js:3843
+#: motioneye/static/js/main.js:4164
+msgid "Pasvorto"
+msgstr ""
+
+#: motioneye/static/js/main.js:3514
+msgid "Please login to continue."
+msgstr ""
+
+#: motioneye/static/js/main.js:3518 motioneye/static/js/main.js:3522
+msgid "Ensaluti"
+msgstr ""
+
+#: motioneye/static/js/main.js:3521 motioneye/static/js/ui.js:736
+#: motioneye/static/js/ui.js:743
+msgid "Nuligi"
+msgstr ""
+
+#: motioneye/static/js/main.js:3549
+msgid "Your account requires a password to be set. Please contact the administrator to set a password for your account."
+msgstr ""
+
+#: motioneye/static/js/main.js:3562
+msgid "Please set a password for your account."
+msgstr ""
+
+#: motioneye/static/js/main.js:3579
+msgid "Login failed."
+msgstr ""
+
+#: motioneye/static/js/main.js:3613
+msgid "Vi abortis la filmeton."
+msgstr ""
+
+#: motioneye/static/js/main.js:3616
+msgid "Reto eraro okazis."
+msgstr ""
+
+#: motioneye/static/js/main.js:3619
+msgid "Malkodado-eraro aŭ neprogresinta funkcio."
+msgstr ""
+
+#: motioneye/static/js/main.js:3622
+msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
+msgstr ""
+
+#: motioneye/static/js/main.js:3625
+msgid "Nekonata eraro okazis."
+msgstr ""
+
+#: motioneye/static/js/main.js:3628
+msgid "Eraro : "
+msgstr ""
+
+#: motioneye/static/js/main.js:3633
+msgid "antaŭa bildo"
+msgstr ""
+
+#: motioneye/static/js/main.js:3638
+msgid "ludi"
+msgstr ""
+
+#: motioneye/static/js/main.js:3641
+msgid "ludi * 5 kaj enĉenigi"
+msgstr ""
+
+#: motioneye/static/js/main.js:3646
+msgid "sekva bildo"
+msgstr ""
+
+#: motioneye/static/js/main.js:3769
+msgid "Fermi"
+msgstr ""
+
+#: motioneye/static/js/main.js:3770 motioneye/static/js/main.js:4422
+msgid "Elŝuti"
+msgstr ""
+
+#: motioneye/static/js/main.js:3778 motioneye/static/js/main.js:4425
+msgid "Forigi"
+msgstr ""
+
+#: motioneye/static/js/main.js:3822
+msgid "Kamerao tipo"
+msgstr ""
+
+#: motioneye/static/js/main.js:3824
+msgid "Loka V4L2-kamerao"
+msgstr ""
+
+#: motioneye/static/js/main.js:3825
+msgid "Loka MMAL-kamerao"
+msgstr ""
+
+#: motioneye/static/js/main.js:3826
+msgid "Reta kamerao"
+msgstr ""
+
+#: motioneye/static/js/main.js:3827
+msgid "Fora motionEye kamerao"
+msgstr ""
+
+#: motioneye/static/js/main.js:3828
+msgid "Simpla MJPEG-kamerao"
+msgstr ""
+
+#: motioneye/static/js/main.js:3830
+msgid "la speco de kamerao, kiun vi volas aldoni"
+msgstr ""
+
+#: motioneye/static/js/main.js:3833 motioneye/static/js/main.js:4151
+msgid "URL"
+msgstr ""
+
+#: motioneye/static/js/main.js:3834 motioneye/static/js/main.js:4152
+msgid "http://ekzemplo.com:8765/cams/..."
+msgstr ""
+
+#: motioneye/static/js/main.js:3835 motioneye/static/js/main.js:4153
+msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
+msgstr ""
+
+#: motioneye/static/js/main.js:3839 motioneye/static/js/main.js:4160
+msgid "uzantnomo..."
+msgstr ""
+
+#: motioneye/static/js/main.js:3840
+msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
+msgstr ""
+
+#: motioneye/static/js/main.js:3844 motioneye/static/js/main.js:4165
+msgid "pasvorto..."
+msgstr ""
+
+#: motioneye/static/js/main.js:3845
+msgid "la pasvorto por la URL, se bezonata"
+msgstr ""
+
+#: motioneye/static/js/main.js:3848 motioneye/static/js/main.js:4172
+msgid "Remote Secret"
+msgstr ""
+
+#: motioneye/static/js/main.js:3849 motioneye/static/js/main.js:4173
+msgid "remote secret..."
+msgstr ""
+
+#: motioneye/static/js/main.js:3850
+msgid "the client secret of the remote motionEye server. Find this value in the Client Secret field of the remote server's general settings."
+msgstr ""
+
+#: motioneye/static/js/main.js:3853
+msgid "Kamerao"
+msgstr ""
+
+#: motioneye/static/js/main.js:3855
+msgid "la kameraon, kiun vi volas aldoni"
+msgstr ""
+
+#: motioneye/static/js/main.js:3889
+msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
+msgstr ""
+
+#: motioneye/static/js/main.js:3902
+msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
+msgstr ""
+
+#: motioneye/static/js/main.js:3907
+msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
+msgstr ""
+
+#: motioneye/static/js/main.js:3920
+msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
+msgstr ""
+
+#: motioneye/static/js/main.js:3925
+msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
+msgstr ""
+
+#: motioneye/static/js/main.js:4078
+msgid "Aldonadi kameraon..."
+msgstr ""
+
+#: motioneye/static/js/main.js:4161 motioneye/static/js/main.js:4166
+msgid "leave both empty to keep the current username and password"
+msgstr ""
+
+#: motioneye/static/js/main.js:4174
+msgid "leave empty to keep the current remote secret"
+msgstr ""
+
+#: motioneye/static/js/main.js:4189
+msgid "Edit connection information"
+msgstr ""
+
+#: motioneye/static/js/main.js:4240
+msgid "Grupo"
+msgstr ""
+
+#: motioneye/static/js/main.js:4244
+msgid "Inkluzivi foton prenitan ĉiun"
+msgstr ""
+
+#: motioneye/static/js/main.js:4247
+msgid "sekundo"
+msgstr ""
+
+#: motioneye/static/js/main.js:4248
+msgid "5 sekundoj"
+msgstr ""
+
+#: motioneye/static/js/main.js:4249
+msgid "10 sekundoj"
+msgstr ""
+
+#: motioneye/static/js/main.js:4250
+msgid "30 sekundoj"
+msgstr ""
+
+#: motioneye/static/js/main.js:4251
+msgid "minuto"
+msgstr ""
+
+#: motioneye/static/js/main.js:4252
+msgid "5 minutoj"
+msgstr ""
+
+#: motioneye/static/js/main.js:4253
+msgid "10 minutoj"
+msgstr ""
+
+#: motioneye/static/js/main.js:4254
+msgid "30 minutoj"
+msgstr ""
+
+#: motioneye/static/js/main.js:4255
+msgid "horo"
+msgstr ""
+
+#: motioneye/static/js/main.js:4258
+msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
+msgstr ""
+
+#: motioneye/static/js/main.js:4261
+msgid "Filmo framfrekvenco"
+msgstr ""
+
+#: motioneye/static/js/main.js:4263
+msgid "Elektu kiom rapide vi volas ke la akselita video estu."
+msgstr ""
+
+#: motioneye/static/js/main.js:4272
+msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
+msgstr ""
+
+#: motioneye/static/js/main.js:4289
+msgid "Krei akselita video"
+msgstr ""
+
+#: motioneye/static/js/main.js:4298
+msgid "Filmo kreanta en progreso..."
+msgstr ""
+
+#: motioneye/static/js/main.js:4549
+msgid "Zipitaj"
+msgstr ""
+
+#: motioneye/static/js/main.js:4558
+msgid "Akselita video"
+msgstr ""
+
+#: motioneye/static/js/main.js:4569
+msgid "Forigi ĉiujn"
+msgstr ""
+
+#: motioneye/static/js/main.js:4711
+msgid "Bildoj prenitaj de "
+msgstr ""
+
+#: motioneye/static/js/main.js:4714
+msgid "Filmoj registritaj de "
+msgstr ""
+
+#: motioneye/static/js/main.js:4782
+msgid "montru ĉi tiun fotilon plenekranan"
+msgstr ""
+
+#: motioneye/static/js/main.js:4783
+msgid "montri ĉiujn fotilojn"
+msgstr ""
+
+#: motioneye/static/js/main.js:4784
+msgid "montru nur ĉi tiun fotilon"
+msgstr ""
+
+#: motioneye/static/js/main.js:4785
+msgid "malfermaj bildoj retumilo"
+msgstr ""
+
+#: motioneye/static/js/main.js:4786
+msgid "malferma videoj retumilo"
+msgstr ""
+
+#: motioneye/static/js/main.js:4787
+msgid "agordi ĉi tiun kameraon"
+msgstr ""
+
+#: motioneye/static/js/main.js:4803
+msgid "preni instantaron"
+msgstr ""
+
+#: motioneye/static/js/main.js:5196
+msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
+msgstr ""
+
+#: motioneye/static/js/ui.js:361
+msgid "enter a valid value"
+msgstr ""
+
+#: motioneye/static/js/ui.js:420
+msgid "enigu nombron"
+msgstr ""
+
+#: motioneye/static/js/ui.js:423
+msgid "enigu entjeran nombron"
+msgstr ""
+
+#: motioneye/static/js/ui.js:427
+msgid " inter "
+msgstr ""
+
+#: motioneye/static/js/ui.js:427
+msgid " kaj "
+msgstr ""
+
+#: motioneye/static/js/ui.js:430
+msgid " pli ol "
+msgstr ""
+
+#: motioneye/static/js/ui.js:435
+msgid " malpli ol "
+msgstr ""
+
+#: motioneye/static/js/ui.js:479
+msgid "enigu validan tempon en la sekva formato: HH:MM"
+msgstr ""
+
+#: motioneye/static/js/ui.js:488
+msgid "enigu validan URL (ekz. http://ekzemplo.com:8080/cams/)"
+msgstr ""
+
+#: motioneye/static/js/ui.js:684
+msgid "fermi"
+msgstr ""
+
+#: motioneye/static/js/ui.js:730 motioneye/static/js/ui.js:737
+msgid "Ne"
+msgstr ""
+
+#: motioneye/static/js/ui.js:731 motioneye/static/js/ui.js:738
+msgid "Jes"
+msgstr ""
+
+#: motioneye/static/js/ui.js:744 motioneye/static/js/ui.js:749
+msgid "Bone"
 msgstr ""

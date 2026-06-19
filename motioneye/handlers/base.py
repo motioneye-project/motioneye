@@ -22,7 +22,7 @@ from time import time
 
 from tornado.web import HTTPError, RequestHandler
 
-from motioneye import config, prefs, settings, template, utils
+from motioneye import config, template
 from motioneye.utils.authstate import verify_hmac_signature
 
 __all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')
@@ -190,12 +190,6 @@ class BaseHandler(RequestHandler):
                 return None
 
         return None
-
-    def get_pref(self, key):
-        return prefs.get(self.current_user or 'anonymous', key)
-
-    def set_pref(self, key, value):
-        return prefs.set(self.current_user or 'anonymous', key, value)
 
     def _handle_request_exception(self, exception):
         try:

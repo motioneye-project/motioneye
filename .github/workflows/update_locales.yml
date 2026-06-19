@@ -26,7 +26,7 @@ jobs:
         sudo apt-get -q update
         sudo DEBIAN_FRONTEND='noninteractive' apt-get -qq --no-install-recommends install gettext
 
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
       with:
         ref: ${{ github.head_ref }}
         # https://github.com/peter-evans/create-pull-request/issues/48
@@ -40,7 +40,7 @@ jobs:
 
     - name: Generate frontend template
       run: |
-        find -name '*.js' ! -name '*.min.js' | xargs xgettext --from-code=UTF-8 --no-wrap -o motioneye/locale/motioneye.js.pot
+        find -name '*.js' ! -name '*.min.js' | sort | xargs xgettext --from-code=UTF-8 --no-wrap -o motioneye/locale/motioneye.js.pot
         # Remove header: --omit-header enforces ASCII output, despite --from-code=UTF-8, breaking most of our Esperanto source language accent characters
         sed -i '/^# SOME DESCRIPTIVE TITLE.$/,/^$/d' motioneye/locale/motioneye.js.pot
 

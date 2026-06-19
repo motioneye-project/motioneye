@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from hashlib import sha256
 from secrets import token_hex
 from time import time
+from typing import Optional
 
 # Replay cache: stores (nonce, timestamp) pairs to prevent replay attacks
 # Format: nonce -> timestamp
@@ -51,7 +52,7 @@ class PasswordHashState:
     normal: UserHashState
 
 
-_password_hash_state: PasswordHashState | None = None
+_password_hash_state: Optional[PasswordHashState] = None
 
 
 def set_password_hash_state(state: PasswordHashState) -> None:
@@ -65,7 +66,7 @@ def get_password_hash_state() -> PasswordHashState:
     return _password_hash_state
 
 
-def _build_user_hash_state(hash: str | None) -> UserHashState:
+def _build_user_hash_state(hash: Optional[str]) -> UserHashState:
     hash_type: str = 'legacy'
     if not hash:
         hash_type = 'missing'

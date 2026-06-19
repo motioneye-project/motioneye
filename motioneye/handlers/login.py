@@ -18,6 +18,7 @@
 import logging
 from hashlib import sha1
 from secrets import compare_digest
+from typing import Any, Dict
 
 from argon2 import PasswordHasher
 from argon2.exceptions import InvalidHash, VerificationError, VerifyMismatchError
@@ -25,6 +26,7 @@ from argon2.exceptions import InvalidHash, VerificationError, VerifyMismatchErro
 from motioneye import config
 from motioneye.handlers.base import BaseHandler, create_session
 from motioneye.utils.authstate import (
+    PasswordHashState,
     build_password_hash_state,
     mark_user_migrated,
     set_password_hash_state,
@@ -43,7 +45,7 @@ def verify_argon2_password(stored_hash, plaintext_password):
 
 
 def verify_legacy_sha1_password(stored_hash, plaintext_password):
-    candidate = sha1(plaintext_password.encode()).hexdigest()
+    candidate = sha1(plaintext_password.encode()).hexdigest()  # nosec B324
     return compare_digest(candidate, stored_hash)
 
 
@@ -56,7 +58,7 @@ def should_use_secure_cookie(handler):
 
 class LoginHandler(BaseHandler):
     @BaseHandler.auth()
-    def get(self):
+    def get(self) -> None:
         user = self.current_user
         if user:
             main_config = config.get_main()
@@ -70,7 +72,7 @@ class LoginHandler(BaseHandler):
             self.set_status(401)
             self.finish_json({'error': 'not authenticated'})
 
-    def post(self):
+    def post(self) -> None:
         body = self.get_json() or {}
         username: str = self.get_argument('username', body.get('username') or '')
         password: str = self.get_argument('password', body.get('password') or '')
@@ -82,7 +84,7 @@ class LoginHandler(BaseHandler):
         main_config: dict = config.get_main()
 
         # Always rebuild from current config so hash state is not stale
-        hash_state: str = build_password_hash_state(main_config)
+        hash_state: PasswordHashState = build_password_hash_state(main_config)
         set_password_hash_state(hash_state)
 
         user_type: str
@@ -147,7 +149,7 @@ class LoginHandler(BaseHandler):
             samesite='Strict',
         )
 
-        response = {'user': user_type}
+        response: Dict[str, Any] = {'user': user_type}
 
         if hash_type == 'missing':
             response['force_password_change'] = True

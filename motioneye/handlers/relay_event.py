@@ -17,6 +17,7 @@
 
 import logging
 from os import sep
+from typing import Optional
 
 from motioneye import config, mediafiles, motionctl, tasks, uploadservices, utils
 from motioneye.handlers.base import BaseHandler
@@ -69,7 +70,7 @@ class RelayEventHandler(BaseHandler):
             self.finish_json()
             return
 
-        filename: str | None = self.get_argument('filename')
+        filename: Optional[str] = self.get_argument('filename')
         if filename is not None:
             target_dir: str = camera_config['target_dir']
             utils.validate_paths(
