@@ -46,7 +46,6 @@ class MainHandler(BaseHandler):
             camera_sections=camera_sections,
             hostname=settings.SERVER_NAME,
             title=self.get_argument('title', None),
-            admin_username=config.get_main().get('@admin_username'),
             has_h264_omx_support=motionctl.has_h264_omx_support(),
             has_h264_v4l2m2m_support=motionctl.has_h264_v4l2m2m_support(),
             has_h264_nvenc_support=motionctl.has_h264_nvenc_support(),
@@ -57,4 +56,5 @@ class MainHandler(BaseHandler):
             has_hevc_qsv_support=motionctl.has_hevc_qsv_support(),
             has_motion=bool(motionctl.find_motion()[0]),
             mask_width=utils.MASK_WIDTH,
+            current_user=self.current_user,
         )

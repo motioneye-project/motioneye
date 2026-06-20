@@ -1,6 +1,6 @@
 import inspect
 from dataclasses import dataclass
-from typing import Any, Hashable, Union
+from typing import Any, Union
 
 __all__ = ('RtmpUrl', 'RtspUrl', 'MjpegUrl')
 
@@ -27,7 +27,7 @@ class StreamUrl:
         )
 
     @classmethod
-    def _get_dict_field_val(cls, k: Union[str, Hashable], v: Any) -> Any:
+    def _get_dict_field_val(cls, k: str, v: Any) -> Any:
         try:
             return v or getattr(cls, k)
         except AttributeError:

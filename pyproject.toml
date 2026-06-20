@@ -6,12 +6,13 @@ build-backend = "setuptools.build_meta"
 name = "motioneye"
 dynamic = ["version"]
 dependencies = [
-  "tornado>=6.5.0",
+  "tornado>=6.5.7",
   "jinja2",
   "pillow",
   "pycurl",
   "babel",
   "boto3",
+  "argon2-cffi",
 ]
 requires-python = ">=3.7"
 authors = [

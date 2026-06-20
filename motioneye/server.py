@@ -23,6 +23,8 @@ import re
 import signal
 import sys
 import time
+from secrets import token_bytes
+from typing import Sequence, Tuple
 
 from tornado.ioloop import IOLoop
 from tornado.web import Application
@@ -34,6 +36,7 @@ from motioneye.handlers.base import ManifestHandler, NotFoundHandler
 from motioneye.handlers.config import ConfigHandler
 from motioneye.handlers.log import LogHandler
 from motioneye.handlers.login import LoginHandler
+from motioneye.handlers.logout import LogoutHandler
 from motioneye.handlers.main import MainHandler
 from motioneye.handlers.movie import MovieHandler
 from motioneye.handlers.movie_playback import MovieDownloadHandler, MoviePlaybackHandler
@@ -76,12 +79,12 @@ class Daemon:
             sys.stderr.write('fork() failed: %s\n' % e.strerror)
             sys.exit(-1)
 
-            # redirect standard file descriptors
+        # redirect standard file descriptors
         sys.stdout.flush()
         sys.stderr.flush()
-        si = open('/dev/null')
-        so = open('/dev/null', 'a+')
-        se = open('/dev/null', 'a+')
+        si = open(os.devnull)
+        so = open(os.devnull, 'a+')
+        se = open(os.devnull, 'a+')
         os.dup2(si.fileno(), sys.stdin.fileno())
         os.dup2(so.fileno(), sys.stdout.fileno())
         os.dup2(se.fileno(), sys.stderr.fileno())
@@ -181,12 +184,12 @@ def _log_request(handler):
         )
 
 
-handler_mapping = [
+handler_mapping: Sequence[Tuple] = [
     (r'^/$', MainHandler),
     (r'^/manifest.json$', ManifestHandler),
     (r'^/config/main/(?P<op>set|get)/?$', ConfigHandler),
     (
-        r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize)/?$',
+        r'^/config/(?P<camera_id>\d+)/(?P<op>get|set|rem|test|authorize|credentials)/?$',
         ConfigHandler,
     ),
     (r'^/config/(?P<op>add|list|backup|restore)/?$', ConfigHandler),
@@ -223,6 +226,7 @@ handler_mapping = [
     (r'^/power/(?P<op>shutdown|reboot)/?$', PowerHandler),
     (r'^/version/?$', VersionHandler),
     (r'^/login/?$', LoginHandler),
+    (r'^/logout/?$', LogoutHandler),
     (r'^.*$', NotFoundHandler),
 ]
 
@@ -277,28 +281,28 @@ def test_requirements():
             sys.exit(-1)
 
     try:
-        import tornado  # @UnusedImport
+        import tornado  # noqa: F401
 
     except ImportError:
         logging.fatal(_('bonvolu instali tornado version 3.1 aŭ pli'))
         sys.exit(-1)
 
     try:
-        import jinja2  # @UnusedImport
+        import jinja2  # noqa: F401
 
     except ImportError:
         logging.fatal(_('bonvolu instali jinja2'))
         sys.exit(-1)
 
     try:
-        import PIL.Image  # @UnusedImport
+        import PIL.Image  # noqa: F401
 
     except ImportError:
         logging.fatal(_('bonvolu instali pillow aŭ PIL'))
         sys.exit(-1)
 
     try:
-        import pycurl  # @UnusedImport
+        import pycurl  # noqa: F401
 
     except ImportError:
         logging.fatal(_('bonvolu instali pycurl'))
@@ -410,6 +414,7 @@ def make_app(debug: bool = False) -> Application:
         log_function=_log_request,
         static_path=settings.STATIC_PATH,
         static_url_prefix='/static/',
+        cookie_secret=token_bytes(32),
     )
 
 
@@ -452,13 +457,8 @@ def run():
     template.add_context('static_path', 'static/')
     template.add_context('lingvo', settings.lingvo)
 
-    application = Application(
-        handler_mapping,
-        debug=False,
-        log_function=_log_request,
-        static_path=settings.STATIC_PATH,
-        static_url_prefix='/static/',
-    )
+    # Create the Tornado application with secure cookie settings
+    application = make_app(debug=False)
 
     application.listen(settings.PORT, settings.LISTEN)
     logging.info(_('servilo komenciĝis'))

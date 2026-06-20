@@ -37,7 +37,7 @@ class LogHandler(BaseHandler):
         if log is None:
             raise HTTPError(404, 'no such log')
 
-        (path, filename) = log
+        path, filename = log
 
         self.set_header('Content-Type', 'text/plain')
         self.set_header('Content-Disposition', 'attachment; filename=' + filename + ';')

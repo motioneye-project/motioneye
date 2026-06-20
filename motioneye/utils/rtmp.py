@@ -16,14 +16,11 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from motioneye.utils import GetCamerasResponse
-from motioneye.utils.http import RtmpUrl
 
 __all__ = ('test_rtmp_url',)
 
 
 def test_rtmp_url(data: dict) -> GetCamerasResponse:
-    url_obj = RtmpUrl.from_dict(data)
-
     # Since RTMP is a binary TCP stream its a little more work to do a proper test
     # For now lets just check if a TCP socket is open on the target IP:PORT
     # TODO: Actually do the TCP SYN/ACK check...

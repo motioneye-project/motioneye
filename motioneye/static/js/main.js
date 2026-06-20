@@ -1,12 +1,8 @@
 
-var USERNAME_COOKIE = 'meye_username';
-var PASSWORD_COOKIE = 'meye_password_hash';
 var CAMERA_FRAMES_CACHE_LIFETIME = 1000;
 
 var pushConfigs = {};
 var pushConfigReboot = false;
-var adminPasswordChanged = {};
-var normalPasswordChanged = {};
 var refreshDisabled = {}; /* dictionary indexed by cameraId, tells if refresh is disabled for a given camera */
 var singleViewCameraId = null;
 var fullScreenMode = false;
@@ -15,14 +11,11 @@ var inProgress = false;
 var refreshInterval = 15; /* milliseconds */
 var framerateFactor = 1;
 var resolutionFactor = 1;
-var username = '';
-var passwordHash = '';
 var basePath = null;
-var signatureRegExp = new RegExp('[^A-Za-z0-9/?_.=&{}\\[\\]":, -]', 'g');
 // regex definitions for input sanity checks in frontend
 // they must match the ones in motioneye/config.py
 var deviceNameValidRegExp = new RegExp('^[A-Za-z0-9\-\_\+\ ]+$');
-var filenameValidRegExp = new RegExp('^([A-Za-z0-9 \(\)/._-]|%[CYmdHMSqv])+$');
+var filenameValidRegExp = new RegExp('^([A-Za-z0-9 \(\)/._-]|%[CYmdHMSqv$])+$');
 var dirnameValidRegExp = new RegExp('^[A-Za-z0-9 \(\)/._-]+$');
 var emailValidRegExp = new RegExp('^[A-Za-z0-9 _+.@^~<>,-]+$');
 var webHookUrlValidRegExp = new RegExp('^[^;\']+$');
@@ -38,6 +31,7 @@ var cameraFramesCached = null;
 var cameraFramesTime = 0;
 var qualifyURLElement;
 var cameraFrameRatios = [];
+var forcePasswordChange = false; /* flag to track if user needs to set password */
 
 
     /* Object utilities */
@@ -233,86 +227,6 @@ String.prototype.format = function () {
 
     /* misc utilities */
 
-var sha1 = (function () {
-    var K = [0x5a827999, 0x6ed9eba1, 0x8f1bbcdc, 0xca62c1d6];
-    var P = Math.pow(2, 32);
-
-    function hash(msg) {
-        msg += String.fromCharCode(0x80);
-
-        var l = msg.length / 4 + 2;
-        var N = Math.ceil(l / 16);
-        var M = new Array(N);
-
-        for (var i = 0; i < N; i++) {
-            M[i] = new Array(16);
-            for (var j = 0; j < 16; j++) {
-                M[i][j] = (msg.charCodeAt(i * 64 + j * 4) << 24) | (msg.charCodeAt(i * 64 + j * 4 + 1) << 16) |
-                (msg.charCodeAt(i * 64 + j * 4 + 2) << 8) | (msg.charCodeAt(i * 64 + j * 4 + 3));
-            }
-        }
-        M[N - 1][14] = Math.floor(((msg.length - 1) * 8) / P);
-        M[N - 1][15] = ((msg.length - 1) * 8) & 0xffffffff;
-
-        var H0 = 0x67452301;
-        var H1 = 0xefcdab89;
-        var H2 = 0x98badcfe;
-        var H3 = 0x10325476;
-        var H4 = 0xc3d2e1f0;
-
-        var W = new Array(80);
-        var a, b, c, d, e;
-        for (i = 0; i < N; i++) {
-            for (var t = 0; t < 16; t++) W[t] = M[i][t];
-            for (t = 16; t < 80; t++) W[t] = ROTL(W[t-3] ^ W[t-8] ^ W[t-14] ^ W[t-16], 1);
-
-            a = H0; b = H1; c = H2; d = H3; e = H4;
-
-            for (var t = 0; t < 80; t++) {
-                var s = Math.floor(t / 20);
-                var T = (ROTL(a, 5) + f(s, b, c, d) + e + K[s] + W[t]) & 0xffffffff;
-                e = d;
-                d = c;
-                c = ROTL(b, 30);
-                b = a;
-                a = T;
-            }
-
-            H0 = (H0 + a) & 0xffffffff;
-            H1 = (H1 + b) & 0xffffffff;
-            H2 = (H2 + c) & 0xffffffff;
-            H3 = (H3 + d) & 0xffffffff;
-            H4 = (H4 + e) & 0xffffffff;
-        }
-
-        return toHexStr(H0) + toHexStr(H1) + toHexStr(H2) + toHexStr(H3) + toHexStr(H4);
-    }
-
-    function f(s, x, y, z)  {
-        switch (s) {
-            case 0: return (x & y) ^ (~x & z);
-            case 1: return x ^ y ^ z;
-            case 2: return (x & y) ^ (x & z) ^ (y & z);
-            case 3: return x ^ y ^ z;
-        }
-    }
-
-    function ROTL(x, n) {
-        return (x << n) | (x >>> (32 - n));
-    }
-
-    function toHexStr(n) {
-        var s = "", v;
-        for (var i = 7; i >= 0; i--) {
-            v = (n >>> (i * 4)) & 0xf;
-            s += v.toString(16);
-        }
-        return s;
-    }
-
-    return hash;
-}());
-
 function splitUrl(url) {
     if (!url) {
         url = window.location.href;
@@ -358,51 +272,12 @@ function qualifyPath(path) {
     return url.substring(pos);
 }
 
-function computeSignature(method, path, body) {
-    path = qualifyPath(path);
-
-    var parts = splitUrl(path);
-    var query = parts.params;
-    path = parts.baseUrl;
-    path = '/' + path.substring(basePath.length);
-
-    /* sort query arguments alphabetically */
-    query = Object.keys(query).map(function (key) {return {key: key, value: decodeURIComponent(query[key])};});
-    query = query.filter(function (q) {return q.key !== '_signature';});
-    query.sortKey(function (q) {return q.key;});
-    query = query.map(function (q) {return q.key + '=' + encodeURIComponent(q.value);}).join('&');
-    path = path + '?' + query;
-    path = path.replace(signatureRegExp, '-');
-    body = body && body.replace(signatureRegExp, '-');
-
-    return sha1(method + ':' + path + ':' + (body || '') + ':' + passwordHash).toLowerCase();
-}
-
-function addAuthParams(method, url, body) {
-    if (!window.username) {
-        return url;
-    }
-
-    if (url.indexOf('?') < 0) {
-        url += '?';
-    }
-    else {
-        url += '&';
-    }
-
-    url += '_username=' + window.username;
-    if (window._loginDialogSubmitted) {
-        url += '&_login=true';
-        window._loginDialogSubmitted = false;
-    }
-    var signature = computeSignature(method, url, body);
-    url += '&_signature=' + signature;
-
-    return url;
-}
-
 function isAdmin() {
-    return username === adminUsername;
+    return window.userType === 'admin';
+}
+
+function hasCurrentSession() {
+    return !!currentUser;
 }
 
 function ajax(method, url, data, callback, error, timeout) {
@@ -439,8 +314,6 @@ function ajax(method, url, data, callback, error, timeout) {
             data = null;
         }
     }
-
-    url = addAuthParams(method, url, processData ? data : null);
 
     function onResponse(data) {
         if (data && data.error == 'unauthorized') {
@@ -508,46 +381,22 @@ function getCookie(name) {
     return cookie.substring(start, end);
 }
 
-function setCookie(name, value, days) {
-    var date, expires;
-    if (days) {
-        date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        expires = 'expires=' + date.toGMTString();
-    }
-    else {
-        expires = '';
-    }
-
-    document.cookie = name + '=' + value + '; ' + expires + '; path=/';
-}
-
 function showErrorMessage(message) {
     if (message == null || message == true) {
-        message = 'An error occurred. Refreshing is recommended.';
+        message = i18n.gettext('An error occurred. Refreshing is recommended.');
     }
 
     showPopupMessage(message, 'error');
 }
 
 function doLogout() {
-    setCookie(USERNAME_COOKIE, '');
-    setCookie(PASSWORD_COOKIE, '');
-    window.location.reload(true);
-}
-
-function isAuthCookiesSet() {
-    var username = getCookie(USERNAME_COOKIE);
-    if(username == null || username == '') {
-        return false;
-    }
-
-    var password = getCookie(PASSWORD_COOKIE);
-    if(password == null || password == '') {
-        return false;
-    }
-
-    return true;
+    $.ajax({
+        url: basePath + 'logout/',
+        type: 'POST',
+        complete: function() {
+            window.location.reload(true);
+        }
+    });
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -555,8 +404,6 @@ function authorizeUpload() {
     var service = $('#uploadServiceSelect').val();
     var cameraId = $('#cameraSelect').val();
     var url = basePath + 'config/' + cameraId + '/authorize/?service=' + service;
-    url = addAuthParams('GET', url);
-
     window.open(url, '_blank');
 }
 
@@ -589,10 +436,6 @@ function initUI() {
     /* progress bars */
     makeProgressBar($('div.progress-bar'));
 
-    /* text validators */
-    makeTextValidator($('tr[required=true] input[type=text]'), true);
-    makeTextValidator($('tr[required=true] input[type=password]'), true);
-
     /* number validators */
     $('input[type=text].number').each(function () {
         var $this = $(this);
@@ -601,13 +444,35 @@ function initUI() {
                 Boolean($tr.attr('floating')), Boolean($tr.attr('sign')), Boolean($tr.attr('required')));
     });
 
+    /* required input validators */
+    makeRequiredValidator($('tr[required=true] input[type=text]:not(.number)'));
+    makeRequiredValidator($('tr[required=true] input[type=password]'));
+
     /* time validators */
-    makeTimeValidator($('input[type=text].time'));
+    makeTimeValidator($('input[type=time]'));
 
     /* custom validators */
-    makeCustomValidator($('#adminPasswordEntry, #normalPasswordEntry'), function (value) {
+    makeCustomValidator($('#adminPasswordEntry, #normalPasswordEntry, #streamingPasswordEntry'), function (value) {
         if (!value.toLowerCase().match(new RegExp('^[\x21-\x7F]*$'))) {
             return i18n.gettext("specialaj signoj ne rajtas en pasvorto");
+        }
+
+        return true;
+    }, '');
+    makeCustomValidator($('#streamingUsernameEntry'), function (value) {
+        if (String(value).indexOf(':') >= 0) {
+            return i18n.gettext("use of colon (:) is not allowed in video streaming username");
+        }
+
+        return true;
+    }, '');
+    makeCustomValidator($('#streamingAuthModeSelect'), function (value) {
+        if (!$('#adminOnlySwitch')[0].checked) {
+            return true;
+        }
+
+        if (value != 'basic' && value != 'digest') {
+            return i18n.gettext("video streaming authentication mode must be Basic or Digest when admin-only access is enabled");
         }
 
         return true;
@@ -712,47 +577,35 @@ function initUI() {
         }
     }
 
-    /* update password changed flags */
-    $('#adminPasswordEntry').keydown(function () {
-        adminPasswordChanged.keydown = true;
-    });
-    $('#adminPasswordEntry').change(function () {
-        adminPasswordChanged.change = true;
-    });
-    $('#normalPasswordEntry').keydown(function () {
-        normalPasswordChanged.keydown = true;
-    });
-    $('#normalPasswordEntry').change(function () {
-        normalPasswordChanged.change = true;
-    });
-
     /* ui elements that enable/disable other ui elements */
-    $('#storageDeviceSelect').change(updateConfigUI);
-    $('#resolutionSelect').change(updateConfigUI);
-    $('#leftTextTypeSelect').change(updateConfigUI);
-    $('#rightTextTypeSelect').change(updateConfigUI);
-    $('#captureModeSelect').change(updateConfigUI);
-    $('#autoNoiseDetectSwitch').change(updateConfigUI);
-    $('#autoThresholdTuningSwitch').change(updateConfigUI);
-    $('#videoDeviceEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#textOverlayEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#videoStreamingEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#streamingServerResizeSwitch').change(updateConfigUI);
-    $('#stillImagesEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#preservePicturesSelect').change(updateConfigUI);
-    $('#moviesEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#motionDetectionEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
-    $('#preserveMoviesSelect').change(updateConfigUI);
-    $('#moviePassthroughSwitch').change(updateConfigUI);
-    $('#workingScheduleEnabledSwitch').change(checkMinimizeSection).change(updateConfigUI);
+    $('#storageDeviceSelect').on('change', updateConfigUI);
+    $('#resolutionSelect').on('change', updateConfigUI);
+    $('#adminOnlySwitch').on('change', updateConfigUI);
+    $('#leftTextTypeSelect').on('change', updateConfigUI);
+    $('#rightTextTypeSelect').on('change', updateConfigUI);
+    $('#captureModeSelect').on('change', updateConfigUI);
+    $('#autoNoiseDetectSwitch').on('change', updateConfigUI);
+    $('#autoThresholdTuningSwitch').on('change', updateConfigUI);
+    $('#videoDeviceEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#textOverlayEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#videoStreamingEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#streamingAuthModeSelect').on('change', updateConfigUI);
+    $('#streamingServerResizeSwitch').on('change', updateConfigUI);
+    $('#stillImagesEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#preservePicturesSelect').on('change', updateConfigUI);
+    $('#moviesEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#motionDetectionEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
+    $('#preserveMoviesSelect').on('change', updateConfigUI);
+    $('#moviePassthroughSwitch').on('change', updateConfigUI);
+    $('#workingScheduleEnabledSwitch').on('change', checkMinimizeSection).on('change', updateConfigUI);
 
-    $('#mondayEnabledSwitch').change(updateConfigUI);
-    $('#tuesdayEnabledSwitch').change(updateConfigUI);
-    $('#wednesdayEnabledSwitch').change(updateConfigUI);
-    $('#thursdayEnabledSwitch').change(updateConfigUI);
-    $('#fridayEnabledSwitch').change(updateConfigUI);
-    $('#saturdayEnabledSwitch').change(updateConfigUI);
-    $('#sundayEnabledSwitch').change(updateConfigUI);
+    $('#mondayEnabledSwitch').on('change', updateConfigUI);
+    $('#tuesdayEnabledSwitch').on('change', updateConfigUI);
+    $('#wednesdayEnabledSwitch').on('change', updateConfigUI);
+    $('#thursdayEnabledSwitch').on('change', updateConfigUI);
+    $('#fridayEnabledSwitch').on('change', updateConfigUI);
+    $('#saturdayEnabledSwitch').on('change', updateConfigUI);
+    $('#sundayEnabledSwitch').on('change', updateConfigUI);
 
     /* minimizable sections */
     $('span.minimize').on('click', function () {
@@ -767,7 +620,7 @@ function initUI() {
                 !sectionSwitchDiv[0]._hideNull && !sectionDiv.attr('minimize-switch-independent')) {
 
                 sectionSwitch[0].checked = true;
-                sectionSwitch.change();
+                sectionSwitch.trigger('change');
             }
         }
 
@@ -794,50 +647,50 @@ function initUI() {
             seenDependNames[depend] = true;
 
             var control = $('#' + depend + 'Entry, #' + depend + 'Select, #' + depend + 'Slider, #' + depend + 'Switch');
-            control.change(updateConfigUI);
+            control.on('change', updateConfigUI);
         });
     });
 
     /* prefs change handlers */
-    $('#layoutColumnsSlider').change(function () {
+    $('#layoutColumnsSlider').on('change', function () {
         var columns = parseInt(this.value);
         setLayoutColumns(columns);
         savePrefs();
     });
-    $('#fitFramesVerticallySwitch').change(function () {
+    $('#fitFramesVerticallySwitch').on('change', function () {
         fitFramesVertically = this.checked;
         updateLayout();
         savePrefs();
     });
-    $('#layoutRowsSlider').change(function () {
+    $('#layoutRowsSlider').on('change', function () {
         layoutRows = parseInt(this.value);
         updateLayout();
         savePrefs();
     });
-    $('#framerateDimmerSlider').change(function () {
+    $('#framerateDimmerSlider').on('change', function () {
         framerateFactor = parseInt(this.value) / 100;
         savePrefs();
     });
-    $('#resolutionDimmerSlider').change(function () {
+    $('#resolutionDimmerSlider').on('change', function () {
         resolutionFactor = parseInt(this.value) / 100;
         savePrefs();
     });
 
     /* various change handlers */
-    $('#storageDeviceSelect').change(function () {
+    $('#storageDeviceSelect').on('change', function () {
         $('#rootDirectoryEntry').val('/');
     });
 
-    $('#rootDirectoryEntry').change(function () {
+    $('#rootDirectoryEntry').on('change', function () {
         this.value = this.value.trim();
     });
 
-    $('#rootDirectoryEntry').change(function () {
+    $('#rootDirectoryEntry').on('change', function () {
         if (this.value.charAt(0) !== '/') {
             this.value = '/' + this.value;
         }
     });
-    $('#cleanCloudEnabledSwitch').change(function () {
+    $('#cleanCloudEnabledSwitch').on('change', function () {
         var enabled = this.checked;
         var folder = $('#uploadLocationEntry').val();
         console.log('cleanCloudEnabled', enabled, folder);
@@ -848,7 +701,7 @@ function initUI() {
     });
 
     /* streaming framerate must be >= device framerate + a margin */
-    $('#framerateSlider').change(function () {
+    $('#framerateSlider').on('change', function () {
         var value = Number($('#framerateSlider').val());
         var streamingValue = Number($('#streamingFramerateSlider').val());
 
@@ -856,13 +709,13 @@ function initUI() {
         value = Math.min(value, 30); /* don't go above 30 fps */
 
         if (streamingValue < value) {
-            $('#streamingFramerateSlider').val(value).change();
+            $('#streamingFramerateSlider').val(value).trigger('change');
         }
     });
 
     /* capture mode and recording mode are not completely independent:
      * all-frames capture mode implies continuous recording (and vice-versa) */
-    $('#captureModeSelect').change(function (val) {
+    $('#captureModeSelect').on('change', function (val) {
         if ($('#captureModeSelect').val() == 'all-frames') {
             $('#recordingModeSelect').val('continuous');
         }
@@ -874,7 +727,7 @@ function initUI() {
 
         updateConfigUI();
     });
-    $('#recordingModeSelect').change(function (val) {
+    $('#recordingModeSelect').on('change', function (val) {
         if ($('#recordingModeSelect').val() == 'continuous') {
             $('#captureModeSelect').val('all-frames');
         }
@@ -888,14 +741,24 @@ function initUI() {
     });
 
     /* fetch & push handlers */
-    $('#cameraSelect').focus(function () {
+    $('#cameraSelect').on('focus', function () {
         /* remember the previously selected index */
         this._prevSelectedIndex = this.selectedIndex;
 
-    }).change(function () {
+    }).on('change', function () {
+        var selectedOption = $(this).find('option:selected');
         if ($('#cameraSelect').val() === 'add') {
             runAddCameraDialog();
             this.selectedIndex = this._prevSelectedIndex;
+        }
+        else if (selectedOption.attr('data-connection-failed') == 'true') {
+            this._prevSelectedIndex = this.selectedIndex;
+            showErrorMessage(selectedOption.attr('data-connection-error'));
+            dict2CameraUi(null);
+            runEditCredentialsDialog($(this).val(), {
+                proto: 'motioneye',
+                url: selectedOption.attr('data-connection-url') || ''
+            });
         }
         else {
             this._prevSelectedIndex = this.selectedIndex;
@@ -904,23 +767,23 @@ function initUI() {
             disableMaskEdit();
         }
     });
-    $('input.main-config, select.main-config, textarea.main-config').change(function () {
+    $('input.main-config, select.main-config, textarea.main-config').on('change', function () {
         pushMainConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
     });
-    $('input.camera-config, select.camera-config, textarea.camera-config').change(function () {
+    $('input.camera-config, select.camera-config, textarea.camera-config').on('change', function () {
         pushCameraConfig($(this).parents('tr:eq(0)').attr('reboot') == 'true');
     });
 
     /* whenever the window is resized,
      * if a modal dialog is visible, it should be repositioned */
-    $(window).resize(updateModalDialogPosition);
+    $(window).on('resize', updateModalDialogPosition);
 
     /* show a warning when enabling media files removal */
     var preserveSelects = $('#preservePicturesSelect, #preserveMoviesSelect');
     var rootDirectoryEntry = $('#rootDirectoryEntry');
-    preserveSelects.focus(function () {
+    preserveSelects.on('focus', function () {
         this._prevValue = $(this).val();
-    }).change(function () {
+    }).on('change', function () {
         var value = $(this).val();
         if (value != '0' && this._prevValue == '0') {
             var rootDir = rootDirectoryEntry.val();
@@ -930,19 +793,19 @@ function initUI() {
     });
 
     /* disable corresponding mask editor when the mask gets disabled */
-    $('#motionMaskSwitch').change(function () {
+    $('#motionMaskSwitch').on('change', function () {
        if (!this.checked) {
             disableMaskEdit('motion');
        }
     });
-    $('#privacyMaskSwitch').change(function () {
+    $('#privacyMaskSwitch').on('change', function () {
         if (!this.checked) {
              disableMaskEdit('privacy');
         }
      });
 
     /* disable motion detection mask editor when mask type is no longer editable */
-    $('#motionMaskTypeSelect').change(function () {
+    $('#motionMaskTypeSelect').on('change', function () {
         if ($(this).val() != 'editable') {
             disableMaskEdit('motion');
         }
@@ -969,6 +832,23 @@ function initUI() {
 
     /* remove camera button */
     $('div.button.rem-camera-button').on('click', doRemCamera);
+
+    /* edit camera credentials button */
+    $('div#editCredentialsButton').on('click', function () {
+        var cameraId = $('#cameraSelect').val();
+        var proto = $('#deviceTypeEntry')[0].proto;
+        var url = $('#deviceUrlEntry').val();
+
+        if (proto == 'mjpeg') {
+            var cameraFrame = getCameraFrame(cameraId);
+            url = cameraFrame.length ? cameraFrame[0].config.url : '';
+        }
+        else if (proto == 'motioneye') {
+            url = url.replace(/config\/\d+$/, '');
+        }
+
+        runEditCredentialsDialog(cameraId, {proto: proto, url: url});
+    });
 
     /* logout button */
     $('div.button.logout-button').on('click', doLogout);
@@ -1275,12 +1155,12 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
             maskLines.push(line);
         }
 
-        $('#'+maskClass+'MaskLinesEntry').val(maskLines.join(',')).change();
+        $('#'+maskClass+'MaskLinesEntry').val(maskLines.join(',')).trigger('change');
     }
 
     function handleMouseUp() {
         mouseDown = false;
-        $('html').unbind('mouseup', handleMouseUp);
+        $('html').off('mouseup', handleMouseUp);
         matrixToMaskLines();
     }
 
@@ -1305,14 +1185,14 @@ function enableMaskEdit(cameraId, maskClass, width, height) {
 
         elementsMatrix[y][x] = el;
 
-        el.mousedown(function () {
+        el.on('mousedown', function () {
             mouseDown = true;
             el.toggleClass('on');
             currentState = el.hasClass('on');
-            $('html').mouseup(handleMouseUp);
+            $('html').on('mouseup', handleMouseUp);
         });
 
-        el.mouseenter(function () {
+        el.on('mouseenter', function () {
             if (!mouseDown) {
                 return;
             }
@@ -1419,7 +1299,7 @@ function disableMaskOverlay() {
 
         overlayDiv.removeClass('mask-edit');
         maskDiv.html('');
-        maskDiv.unbind('click');
+        maskDiv.off('click');
     });
 }
 
@@ -1436,7 +1316,7 @@ function clearMask(cameraId) {
 
 function openSettings(cameraId) {
     if (cameraId != null) {
-        $('#cameraSelect').val(cameraId).change();
+        $('#cameraSelect').val(cameraId).trigger('change');
     }
 
     $('div.settings').addClass('open').removeClass('closed');
@@ -1468,8 +1348,8 @@ function closeSettings() {
     $('div.settings-top-bar').removeClass('open').addClass('closed');
 
     if (isSingleView()) {
-	    pageContainer.removeClass('single-cam-edit');
-	    $('div.header').addClass('single-cam');
+        pageContainer.removeClass('single-cam-edit');
+        $('div.header').addClass('single-cam');
     }
 
     updateLayout();
@@ -1699,12 +1579,13 @@ function updateConfigUI() {
 
     var weekDays = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday'];
     weekDays.forEach(function (weekDay) {
-        var check = $('#' + weekDay + 'EnabledSwitch');
-        if (check.get(0).checked) {
-            check.parent().find('.time').show();
+        var check = document.getElementById(weekDay + 'EnabledSwitch');
+        var timeInputs = document.getElementById(weekDay + 'TimeInputs');
+        if (check.checked) {
+            timeInputs.style.removeProperty('display');
         }
         else {
-            check.parent().find('.time').hide();
+            timeInputs.style.display = 'none';
         }
     });
 
@@ -1801,10 +1682,10 @@ function mainUi2Dict() {
         'lang': $('#langSelect').val()
     };
 
-    if (adminPasswordChanged.change && adminPasswordChanged.keydown && $('#adminPasswordEntry').val() !== '*****') {
+    if ($('#adminPasswordEntry').val() !== '*****') {
         dict['admin_password'] = $('#adminPasswordEntry').val();
     }
-    if (normalPasswordChanged.change && normalPasswordChanged.keydown && $('#normalPasswordEntry').val() !== '*****') {
+    if ($('#normalPasswordEntry').val() !== '*****') {
         dict['normal_password'] = $('#normalPasswordEntry').val();
     }
 
@@ -1829,6 +1710,9 @@ function mainUi2Dict() {
             value = control.val();
             if (control.hasClass('number')) {
                 value = Number(value);
+            }
+            if (control.attr('type') === 'password' && value === '*****') {
+                return;
             }
         }
         else if (id.endsWith('Select')) {
@@ -1872,6 +1756,9 @@ function dict2MainUi(dict) {
     $('#adminPasswordEntry').val(dict['admin_password']); markHideIfNull('admin_password', 'adminPasswordEntry');
     $('#normalUsernameEntry').val(dict['normal_username']); markHideIfNull('normal_username', 'normalUsernameEntry');
     $('#normalPasswordEntry').val(dict['normal_password']); markHideIfNull('normal_password', 'normalPasswordEntry');
+
+    $('#clientSecretEntry').val(dict['_client_secret'] || '');
+    markHideIfNull('_client_secret', 'clientSecretEntry');
 
     /* additional sections */
     $('input[type=checkbox].additional-section.main-config').each(function () {
@@ -1928,6 +1815,7 @@ function cameraUi2Dict() {
     var dict = {
         'enabled': $('#videoDeviceEnabledSwitch')[0].checked,
         'name': $('#deviceNameEntry').val(),
+        'admin_only': $('#adminOnlySwitch')[0].checked,
         'proto': $('#deviceTypeEntry')[0].proto,
 
         /* video device */
@@ -1982,6 +1870,7 @@ function cameraUi2Dict() {
         'upload_access_key': $('#uploadAccessKeyEntry').val(),
         'upload_secret_key': $('#uploadSecretKeyEntry').val(),
         'upload_bucket': $('#uploadBucketEntry').val(),
+        'upload_sse_c_key': $('#uploadSseCKeyEntry').val(),
         'clean_cloud_enabled': $('#cleanCloudEnabledSwitch')[0].checked,
         'web_hook_storage_enabled': $('#webHookStorageEnabledSwitch')[0].checked,
         'web_hook_storage_url': $('#webHookStorageUrlEntry').val(),
@@ -2005,6 +1894,7 @@ function cameraUi2Dict() {
         'streaming_server_resize': $('#streamingServerResizeSwitch')[0].checked,
         'streaming_port': $('#streamingPortEntry').val(),
         'streaming_auth_mode': $('#streamingAuthModeSelect').val() || 'disabled', /* compatibility with old motion */
+        'streaming_username': $('#streamingUsernameEntry').val(),
         'streaming_motion': $('#streamingMotion')[0].checked,
 
         /* still images */
@@ -2089,6 +1979,10 @@ function cameraUi2Dict() {
         'sunday_to': $('#sundayEnabledSwitch')[0].checked ? $('#sundayToEntry').val() : '',
         'working_schedule_type': $('#workingScheduleTypeSelect').val()
     };
+
+    if ($('#streamingPasswordEntry').val() !== '*****') {
+        dict['streaming_password'] = $('#streamingPasswordEntry').val();
+    }
 
     /* video controls */
     var videoControls = {};
@@ -2229,6 +2123,8 @@ function dict2CameraUi(dict) {
     $('#deviceUrlEntry').val(dict['device_url']); markHideIfNull('device_url', 'deviceUrlEntry');
     $('#deviceTypeEntry').val(prettyType); markHideIfNull(!prettyType, 'deviceTypeEntry');
     $('#deviceTypeEntry')[0].proto = dict['proto'];
+    markHideIfNull(!['netcam', 'mjpeg', 'motioneye'].includes(dict['proto']), 'editCredentialsButton');
+    $('#adminOnlySwitch')[0].checked = dict['admin_only']; markHideIfNull('admin_only', 'adminOnlySwitch');
     $('#autoBrightnessSwitch')[0].checked = dict['auto_brightness']; markHideIfNull('auto_brightness', 'autoBrightnessSwitch');
 
     $('#resolutionSelect').html('');
@@ -2318,6 +2214,7 @@ function dict2CameraUi(dict) {
     $('#uploadAccessKeyEntry').val(dict['upload_access_key']); markHideIfNull('upload_access_key', 'uploadAccessKeyEntry');
     $('#uploadSecretKeyEntry').val(dict['upload_secret_key']); markHideIfNull('upload_secret_key', 'uploadSecretKeyEntry');
     $('#uploadBucketEntry').val(dict['upload_bucket']); markHideIfNull('upload_bucket', 'uploadBucketEntry');
+    $('#uploadSseCKeyEntry').val(dict['upload_sse_c_key']); markHideIfNull('upload_sse_c_key', 'uploadSseCKeyEntry');
     $('#cleanCloudEnabledSwitch')[0].checked = dict['clean_cloud_enabled']; markHideIfNull('clean_cloud_enabled', 'cleanCloudEnabledSwitch');
 
     $('#webHookStorageEnabledSwitch')[0].checked = dict['web_hook_storage_enabled']; markHideIfNull('web_hook_storage_enabled', 'webHookStorageEnabledSwitch');
@@ -2343,6 +2240,8 @@ function dict2CameraUi(dict) {
     $('#streamingServerResizeSwitch')[0].checked = dict['streaming_server_resize']; markHideIfNull('streaming_server_resize', 'streamingServerResizeSwitch');
     $('#streamingPortEntry').val(dict['streaming_port']); markHideIfNull('streaming_port', 'streamingPortEntry');
     $('#streamingAuthModeSelect').val(dict['streaming_auth_mode']); markHideIfNull('streaming_auth_mode', 'streamingAuthModeSelect');
+    $('#streamingUsernameEntry').val(dict['streaming_username']); markHideIfNull('streaming_username', 'streamingUsernameEntry');
+    $('#streamingPasswordEntry').val(dict['streaming_password']); markHideIfNull('streaming_password', 'streamingPasswordEntry');
     $('#streamingMotion')[0].checked = dict['streaming_motion']; markHideIfNull('streaming_motion', 'streamingMotion');
 
     var cameraUrl = location.protocol + '//' + location.host + basePath + 'picture/' + dict.id + '/';
@@ -2367,11 +2266,6 @@ function dict2CameraUi(dict) {
         mjpgUrl = '';
     }
 
-    if ($('#normalPasswordEntry').val()) { /* anonymous access is disabled */
-        if (snapshotUrl) {
-            snapshotUrl = addAuthParams('GET', snapshotUrl);
-        }
-    }
 
     $('#streamingSnapshotUrlHtml').data('url', snapshotUrl); markHideIfNull(!snapshotUrl, 'streamingSnapshotUrlHtml');
     $('#streamingMjpgUrlHtml').data('url', mjpgUrl); markHideIfNull(!mjpgUrl, 'streamingMjpgUrlHtml');
@@ -2508,7 +2402,7 @@ function dict2CameraUi(dict) {
             var controlInput = addVideoControl(c.name, c.min, c.max, c.step);
             controlInput.val(c.value);
             controlInput[0].checked = Boolean(c.value);
-            controlInput.change(function () {
+            controlInput.on('change', function () {
                 pushCameraConfig(/* reboot = */ false);
             });
         });
@@ -2621,8 +2515,6 @@ function downloadFile(path) {
     var url = window.location.href;
     var parts = url.split('/');
     url = parts.slice(0, 3).join('/') + path;
-    url = addAuthParams('GET', url);
-
     /* download the file by creating a temporary iframe */
     var frame = $('<iframe style="display: none;"></iframe>');
     frame.attr('src', url);
@@ -2729,9 +2621,15 @@ function doApply() {
                 return;
             }
 
-            /* reset password change flags */
-            adminPasswordChanged = {};
-            normalPasswordChanged = {};
+            /* The backend invalidates the admin session if the admin password is updated.
+             * It sends data.reload in that case, hence window.location.reload() would not be needed here.
+             * But the dialog is not blocking the automatic reload, hence we do it here on Ok and return. */
+            if ($('#adminPasswordEntry').val() !== '*****') {
+                runAlertDialog(i18n.gettext('Admin password updated. Please log in again.'), () => window.location.reload());
+                return;
+            }
+
+            forcePasswordChange = false;
 
             if (data.reboot) {
                 var count = 0;
@@ -2952,7 +2850,7 @@ function doRestore() {
     var fileInput = content.find('#fileInput');
 
     /* make validators */
-    makeFileValidator(fileInput, true);
+    makeRequiredValidator(fileInput);
 
     function uiValid() {
         /* re-validate all the validators */
@@ -3059,7 +2957,8 @@ function doTestUpload() {
         endpoint_url: $('#uploadEndpointUrlEntry').val(),
         access_key: $('#uploadAccessKeyEntry').val(),
         secret_key: $('#uploadSecretKeyEntry').val(),
-        bucket: $('#uploadBucketEntry').val()
+        bucket: $('#uploadBucketEntry').val(),
+        sse_c_key: $('#uploadSseCKeyEntry').val()
     };
 
     var cameraId = $('#cameraSelect').val();
@@ -3296,19 +3195,11 @@ function showUrl(url) {
     span.html(url);
     runAlertDialog(span);
 
-    var range, selection;
-    if (window.getSelection && document.createRange) {
-        selection = window.getSelection();
-        range = document.createRange();
-        range.selectNodeContents(span[0]);
-        selection.removeAllRanges();
-        selection.addRange(range);
-    }
-    else if (document.selection && document.body.createTextRange) {
-        range = document.body.createTextRange();
-        range.moveToElementText(span[0]);
-        range.select();
-    }
+    var selection = window.getSelection();
+    var range = document.createRange();
+    range.selectNodeContents(span[0]);
+    selection.removeAllRanges();
+    selection.addRange(range);
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -3362,7 +3253,13 @@ function fetchCurrentConfig(onFetch) {
                 cameraSelect.html('');
                 for (i = 0; i < cameras.length; i++) {
                     var camera = cameras[i];
-                    cameraSelect.append('<option value="' + camera['id'] + '">' + camera['name'] + '</option>');
+                    var option = $('<option>').val(camera.id).text(camera.name);
+                    if (camera['connection_failed']) {
+                        option.attr('data-connection-failed', 'true');
+                        option.attr('data-connection-error', camera['connection_error'] || '');
+                        option.attr('data-connection-url', camera['connection_url'] || '');
+                    }
+                    cameraSelect.append(option);
                 }
 
                 if (!query.camera_ids) {
@@ -3389,9 +3286,13 @@ function fetchCurrentConfig(onFetch) {
                 updateConfigUI();
             }
             else { /* normal user */
-                if (!cameras.length) {
-                    /* normal user with no cameras doesn't make too much sense - force login */
+                var enabledCameras = cameras.filter(function (camera) {
+                    return camera.enabled;
+                });
+
+                if (!enabledCameras.length && !forcePasswordChange) {
                     doLogout();
+                    return;
                 }
 
                 $('#cameraSelect').hide();
@@ -3456,6 +3357,12 @@ function fetchCurrentCameraConfig(onFetch) {
             if (data == null || data.error) {
                 showErrorMessage(data && data.error);
                 dict2CameraUi(null);
+                if (data && data.connection_failed && isAdmin()) {
+                    runEditCredentialsDialog(cameraId, {
+                        proto: 'motioneye',
+                        url: data.connection_url || ''
+                    });
+                }
                 if (onFetch) {
                     onFetch(null);
                 }
@@ -3580,70 +3487,108 @@ function runConfirmDialog(message, onYes, options) {
 }
 
 function runLoginDialog(retry) {
-    /* a workaround so that browsers will remember the credentials */
-    var tempFrame = $('<iframe name="temp" id="temp" style="display: none;"></iframe>');
-    $('body').append(tempFrame);
-
     var form =
-            $('<form action="' + basePath + 'login/" target="temp" method="POST"><table class="login-dialog">' +
+            $('<form><table class="login-dialog">' +
                 '<tr>' +
                     '<td class="login-dialog-error" colspan="100"></td>' +
                 '</tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'
-			+i18n.gettext("Uzantnomo") + '</span></td>' +
+                        +i18n.gettext("Uzantnomo") + '</span></td>' +
                     '<td class="dialog-item-value"><input type="text" name="username" class="styled" id="usernameEntry" autofocus></td>' +
                 '</tr>' +
                 '<tr>' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'
-			+i18n.gettext("Pasvorto") + '</span></td>' +
+                        +i18n.gettext("Pasvorto") + '</span></td>' +
                     '<td class="dialog-item-value"><input type="password" name="password" class="styled" id="passwordEntry"></td>' +
-                    '<input type="submit" style="display: none;" name="login" value="login">' +
-                '</tr>' +
-                '<tr>' +
-                    '<td class="dialog-item-label"><span class="dialog-item-label">'
-			+i18n.gettext("Memoru min")+'</span></td>' +
-                    '<td class="dialog-item-value"><input type="checkbox" name="remember" class="styled" id="rememberCheck"></td>' +
                 '</tr>' +
             '</table></form>');
 
     var usernameEntry = form.find('#usernameEntry');
     var passwordEntry = form.find('#passwordEntry');
-    var rememberCheck = form.find('#rememberCheck');
     var errorTd = form.find('td.login-dialog-error');
 
-    makeCheckBox(rememberCheck);
-
+    // A failed session check should prompt login prompt.
     if (window._loginRetry) {
         errorTd.css('display', 'table-cell');
-        errorTd.html('Invalid credentials.');
+        errorTd.html(i18n.gettext('Please login to continue.'));
     }
 
     var params = {
         title: i18n.gettext('Ensaluti'),
         content: form,
         buttons: [
-            {caption: i18n.gettext('Nuligi'), isCancel: true, click: function () {
-                tempFrame.remove();
-            }},
+            {caption: i18n.gettext('Nuligi'), isCancel: true},
             {caption: i18n.gettext('Ensaluti'), isDefault: true, click: function () {
-                window.username = usernameEntry.val();
-                window.passwordHash = sha1(passwordEntry.val()).toLowerCase();
-                window._loginDialogSubmitted = true;
+                var username = usernameEntry.val();
+                var password = passwordEntry.val();
 
-                if (rememberCheck[0].checked) {
-                    setCookie(USERNAME_COOKIE, window.username, /* days = */ 3650);
-                    setCookie(PASSWORD_COOKIE, window.passwordHash, /* days = */ 3650);
-                }
+                $.ajax({
+                    url: basePath + 'login/',
+                    type: 'POST',
+                    data: {
+                        username: username,
+                        password: password
+                    },
+                    success: function(data) {
+                        if (data.error) {
+                            errorTd.css('display', 'table-cell');
+                            errorTd.html(data.error);
+                            return false;
+                        }
 
-                form.submit();
-                setTimeout(function () {
-                    tempFrame.remove();
-                }, 5000);
+                        window.userType = data.user;
+                        hideModalDialog();
+                        window._loginRetry = false;
 
-                if (retry) {
-                    retry();
-                }
+                        if (data.force_password_change) {
+                            forcePasswordChange = true;
+
+                            if (data.user === 'normal') {
+                                runAlertDialog(
+                                    i18n.gettext('Your account requires a password to be set. Please contact the administrator to set a password for your account.'),
+                                    function () {
+                                        doLogout();
+                                    }
+                                );
+                                return;
+                            }
+                            else {
+                                if (retry) {
+                                    retry();
+                                }
+
+                                runAlertDialog(
+                                    i18n.gettext('Please set a password for your account.'),
+                                    function () {
+                                        openSettings();
+                                        setTimeout(function () {
+                                            $('#adminPasswordEntry').focus();
+                                        }, 500);
+                                    }
+                                );
+                                return;
+                            }
+                        }
+
+                        if (retry) {
+                            retry();
+                        }
+                    },
+                    error: function(xhr) {
+                        var message = i18n.gettext('Login failed.');
+
+                        if (xhr.responseJSON && xhr.responseJSON.error) {
+                            message = xhr.responseJSON.error;
+                        }
+
+                        errorTd.css('display', 'table-cell');
+                        errorTd.html(message);
+                        return false;
+                    }
+                });
+
+                return false; // Prevent auto-closing by modal wrapper
             }}
         ]
     };
@@ -3726,12 +3671,12 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
         img.parent().append(progressImg);
         updateModalDialogPosition();
 
-        img.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/preview' + entry.path));
+        img.attr('src', basePath + mediaType + '/' + entry.cameraId + '/preview' + entry.path);
 
         if (playable) {
-            video_loader.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path));
+            video_loader.attr('src', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path);
             playButton.on('click', function() {
-                video_container.attr('src', addAuthParams('GET', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path));
+                video_container.attr('src', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path);
                 video_container.show();
                 video_container.get(0).load();  /* Must call load() after changing <video> source */
                 img.hide();
@@ -3889,15 +3834,20 @@ function runAddCameraDialog() {
                     '<td class="dialog-item-value"><input type="text" class="styled" id="urlEntry" placeholder="'+i18n.gettext("http://ekzemplo.com:8765/cams/...")+'"></td>' +
                     '<td><span class="help-mark" title="'+i18n.gettext("la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)")+'">?</span></td>' +
                 '</tr>' +
-                '<tr class="motioneye netcam mjpeg">' +
+                '<tr class="netcam mjpeg">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Uzantnomo")+'</span></td>' +
                     '<td class="dialog-item-value"><input type="text" class="styled" id="usernameEntry" placeholder="'+i18n.gettext("uzantnomo...")+'"></td>' +
                     '<td><span class="help-mark" title="'+i18n.gettext("la uzantnomo por la URL, se bezonata (ekz. administranto)")+'">?</span></td>' +
                 '</tr>' +
-                '<tr class="motioneye netcam mjpeg">' +
+                '<tr class="netcam mjpeg">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Pasvorto")+'</span></td>' +
                     '<td class="dialog-item-value"><input type="password" class="styled" id="passwordEntry" placeholder="'+i18n.gettext("pasvorto...")+'"></td>' +
                     '<td><span class="help-mark" title="'+i18n.gettext("la pasvorto por la URL, se bezonata")+'">?</span></td>' +
+                '</tr>' +
+                '<tr class="motioneye">' +
+                    '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Remote Secret")+'</span></td>' +
+                    '<td class="dialog-item-value"><input type="password" class="styled" id="remoteSecretDialogEntry" placeholder="'+i18n.gettext("remote secret...")+'"></td>' +
+                    '<td><span class="help-mark" title="'+i18n.gettext("the client secret of the remote motionEye server. Find this value in the Client Secret field of the remote server\'s general settings.")+'">?</span></td>' +
                 '</tr>' +
                 '<tr class="v4l2 motioneye netcam mjpeg mmal">' +
                     '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Kamerao")+'</span></td>' +
@@ -3920,14 +3870,14 @@ function runAddCameraDialog() {
     var addCameraSelect = content.find('#addCameraSelect');
     var addCameraInfo = content.find('#addCameraInfo');
     var cameraMsgLabel = content.find('#cameraMsgLabel');
+    var remoteSecretDialogEntry = content.find('#remoteSecretDialogEntry');
 
     var isProgress = false;
 
     /* make validators */
-    makeUrlValidator(urlEntry, true);
-    makeTextValidator(usernameEntry, false);
-    makeTextValidator(typeSelect, false);
-    makeComboValidator(addCameraSelect, true);
+    makeUrlValidator(urlEntry);
+    makeRequiredValidator(addCameraSelect);
+    makeRequiredValidator(remoteSecretDialogEntry);
 
     /* ui interaction */
     function updateUi() {
@@ -3935,14 +3885,10 @@ function runAddCameraDialog() {
 
         if (typeSelect.val() == 'motioneye') {
             content.find('tr.motioneye').css('display', 'table-row');
-            usernameEntry.val('admin');
-            usernameEntry.attr('readonly', 'readonly');
             addCameraInfo.html(
-                    i18n.gettext("Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."));
+                i18n.gettext("Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."));
         }
         else if (typeSelect.val() == 'netcam') {
-            usernameEntry.removeAttr('readonly');
-
             /* make sure there is one trailing slash
              * so that a path can be detected */
             var url = urlEntry.val().trim();
@@ -3953,16 +3899,14 @@ function runAddCameraDialog() {
 
             content.find('tr.netcam').css('display', 'table-row');
             addCameraInfo.html(
-		i18n.gettext("Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."));
+                i18n.gettext("Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."));
         }
         else if (typeSelect.val() == 'mmal') {
             content.find('tr.mmal').css('display', 'table-row');
             addCameraInfo.html(
-		i18n.gettext("Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."));
+                i18n.gettext("Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."));
         }
         else if (typeSelect.val() == 'mjpeg') {
-            usernameEntry.removeAttr('readonly');
-
             /* make sure there is one trailing slash
              * so that a path can be detected */
             var url = urlEntry.val().trim();
@@ -3973,12 +3917,12 @@ function runAddCameraDialog() {
 
             content.find('tr.mjpeg').css('display', 'table-row');
             addCameraInfo.html(
-		i18n.gettext("Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."));
+                i18n.gettext("Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."));
         }
         else { /* assuming v4l2 */
             content.find('tr.v4l2').css('display', 'table-row');
             addCameraInfo.html(
-                    i18n.gettext("Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."));
+                i18n.gettext("Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."));
         }
 
         updateModalDialogPosition();
@@ -4070,18 +4014,19 @@ function runAddCameraDialog() {
         if (urlEntry.is(':visible') && urlEntry.val()) {
             data = splitCameraUrl(urlEntry.val());
         }
-        data.username = usernameEntry.val();
-        data.password = passwordEntry.val();
         data.proto = typeSelect.val();
 
         if (data.proto == 'motioneye') {
-            data.password = sha1(data.password);
+            data.remote_secret = remoteSecretDialogEntry.val();
+        } else {
+            data.username = usernameEntry.val();
+            data.password = passwordEntry.val();
         }
 
         cameraMsgLabel.html('');
 
         isProgress = true;
-        ajax('GET', basePath + 'config/list/', data, function (data) {
+        ajax('POST', basePath + 'config/list/', data, function (data) {
             progress.remove();
             isProgress = false;
 
@@ -4119,14 +4064,15 @@ function runAddCameraDialog() {
         });
     }
 
-    typeSelect.change(function () {
+    typeSelect.on('change', function () {
         addCameraSelect.html('');
     });
 
-    typeSelect.change(updateUi);
-    urlEntry.change(updateUi);
-    usernameEntry.change(updateUi);
-    passwordEntry.change(updateUi);
+    typeSelect.on('change', updateUi);
+    urlEntry.on('change', updateUi);
+    usernameEntry.on('change', updateUi);
+    passwordEntry.on('change', updateUi);
+    remoteSecretDialogEntry.on('change', updateUi);
 
     runModalDialog({
         title: i18n.gettext('Aldonadi kameraon...'),
@@ -4143,8 +4089,7 @@ function runAddCameraDialog() {
             if (typeSelect.val() == 'motioneye') {
                 data = splitCameraUrl(urlEntry.val());
                 data.proto = 'motioneye';
-                data.username = usernameEntry.val();
-                data.password = sha1(passwordEntry.val());
+                data.remote_secret = remoteSecretDialogEntry.val();
                 data.remote_camera_id = addCameraSelect.val();
             }
             else if (typeSelect.val() == 'netcam') {
@@ -4187,13 +4132,104 @@ function runAddCameraDialog() {
 
                 var cameraOption = $('#cameraSelect').find('option[value=add]');
                 cameraOption.before('<option value="' + data.id + '">' + data.name + '</option>');
-                $('#cameraSelect').val(data.id).change();
+                $('#cameraSelect').val(data.id).trigger('change');
                 recreateCameraFrames();
             });
         }
     });
 
     updateUi();
+}
+
+function runEditCredentialsDialog(cameraId, data) {
+    if (Object.keys(pushConfigs).length) {
+        return runAlertDialog(i18n.gettext("Bonvolu apliki unue la modifitajn agordojn!"));
+    }
+
+    var rows =
+        '<tr>' +
+            '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("URL")+'</span></td>' +
+            '<td class="dialog-item-value"><input type="text" class="styled" id="urlEntry" placeholder="'+i18n.gettext("http://ekzemplo.com:8765/cams/...")+'"></td>' +
+            '<td><span class="help-mark" title="'+i18n.gettext("la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)")+'">?</span></td>' +
+        '</tr>';
+
+    if (data.proto == 'netcam') {
+        rows +=
+            '<tr>' +
+                '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Uzantnomo")+'</span></td>' +
+                '<td class="dialog-item-value"><input type="text" class="styled" id="usernameEntry" placeholder="'+i18n.gettext("uzantnomo...")+'"></td>' +
+                '<td><span class="help-mark" title="'+i18n.gettext("leave both empty to keep the current username and password")+'">?</span></td>' +
+            '</tr>' +
+            '<tr>' +
+                '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Pasvorto")+'</span></td>' +
+                '<td class="dialog-item-value"><input type="password" class="styled" id="passwordEntry" placeholder="'+i18n.gettext("pasvorto...")+'"></td>' +
+                '<td><span class="help-mark" title="'+i18n.gettext("leave both empty to keep the current username and password")+'">?</span></td>' +
+            '</tr>';
+    }
+    else if (data.proto == 'motioneye') {
+        rows +=
+            '<tr>' +
+                '<td class="dialog-item-label"><span class="dialog-item-label">'+i18n.gettext("Remote Secret")+'</span></td>' +
+                '<td class="dialog-item-value"><input type="password" class="styled" id="remoteSecretDialogEntry" placeholder="'+i18n.gettext("remote secret...")+'"></td>' +
+                '<td><span class="help-mark" title="'+i18n.gettext("leave empty to keep the current remote secret")+'">?</span></td>' +
+            '</tr>';
+    }
+
+    var content = $('<table class="edit-credentials-dialog">' + rows + '</table>');
+    var urlEntry = content.find('#urlEntry');
+    var usernameEntry = content.find('#usernameEntry');
+    var passwordEntry = content.find('#passwordEntry');
+    var remoteSecretDialogEntry = content.find('#remoteSecretDialogEntry');
+
+    urlEntry.val(data.url || '');
+
+    makeUrlValidator(urlEntry);
+
+    runModalDialog({
+        title: i18n.gettext('Edit connection information'),
+        closeButton: true,
+        buttons: 'okcancel',
+        content: content,
+        onOk: function () {
+            if (!urlEntry[0].validate()) {
+                return false;
+            }
+
+            var payload = {url: urlEntry.val()};
+
+            if (data.proto == 'netcam') {
+                if (usernameEntry.val()) {
+                    payload.username = usernameEntry.val();
+                }
+                if (passwordEntry.val()) {
+                    payload.password = passwordEntry.val();
+                }
+            }
+            else if (data.proto == 'motioneye' && remoteSecretDialogEntry.val()) {
+                payload.remote_secret = remoteSecretDialogEntry.val();
+            }
+
+            beginProgress();
+            ajax('POST', basePath + 'config/' + cameraId + '/credentials/', payload, function (resp) {
+                endProgress();
+
+                if (resp == null || resp.error) {
+                    showErrorMessage(resp && resp.error);
+                    return;
+                }
+
+                if (data.proto == 'motioneye') {
+                    fetchCurrentConfig();
+                }
+                else if (data.proto == 'mjpeg') {
+                    recreateCameraFrames();
+                }
+                else {
+                    $('#cameraSelect').trigger('change');
+                }
+            });
+        }
+    });
 }
 
 function runTimelapseDialog(cameraId, groupKey, group) {
@@ -4381,7 +4417,7 @@ function runMediaDialog(cameraId, mediaType) {
 
                     var previewImg = $('<img class="media-list-preview" src="' + staticPath + 'img/modal-progress.gif"/>');
                     entryDiv.append(previewImg);
-                    previewImg[0]._src = addAuthParams('GET', basePath + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height);
+                    previewImg[0]._src = basePath + mediaType + '/' + cameraId + '/preview' + entry.path + '?height=' + height;
 
                     var downloadButton = $('<div class="media-list-download-button button">'+i18n.gettext("Elŝuti")+'</div>');
                     entryDiv.append(downloadButton);
@@ -4599,7 +4635,7 @@ function runMediaDialog(cameraId, mediaType) {
         updateModalDialogPosition();
     }
 
-    $(window).resize(onResize);
+    $(window).on('resize', onResize);
 
     updateDialogSize();
 
@@ -4690,7 +4726,7 @@ function runMediaDialog(cameraId, mediaType) {
                 }
             },
             onClose: function () {
-                $(window).unbind('resize', onResize);
+                $(window).off('resize', onResize);
             }
         });
     });
@@ -4729,7 +4765,7 @@ function addCameraFrameUi(cameraConfig) {
     var cameraFrameDiv = $(
             '<div class="camera-frame">' +
                 '<div class="camera-container">' +
-                    '<div class="camera-placeholder"><img class="no-camera" src="' + staticPath + 'img/no-camera.svg" width=16 height=16></div>' +
+                    '<div class="camera-placeholder"><img class="no-camera" src="' + staticPath + 'img/no-camera.svg"></div>' +
                     '<img class="camera">' +
                     '<div class="camera-progress"><img class="camera-progress"></div>' +
                 '</div>' +
@@ -4863,8 +4899,8 @@ function addCameraFrameUi(cameraConfig) {
 
     /* insert the new camera frame at the right position,
      * with respect to the camera id */
-    var cameraFrames = getPageContainer().find('div.camera-frame');
-    var cameraIds = cameraFrames.map(function () {return parseInt(this.id.substring(6));});
+    var cameraFrames = getPageContainer()[0].querySelectorAll('div.camera-frame');
+    var cameraIds = Array.from(cameraFrames).map(function (frame) {return parseInt(frame.id.substring(6));});
     cameraIds.sort();
 
     var index = 0; /* find the first position that is greater than the current camera id */
@@ -5399,8 +5435,6 @@ function refreshCameraFrames() {
             path += '&width=' + img.width;
         }
 
-        path = addAuthParams('GET', path);
-
         img.src = path;
         img.loading_count = 1;
     }
@@ -5472,7 +5506,7 @@ function checkCameraErrors() {
 
     cameraImgs.each(function () {
         if (this.complete === true && this.naturalWidth === 0 && !this.error && this.src) {
-            $(this).error();
+            $(this).trigger('error');
         }
 
         /* fps timeout */
@@ -5485,15 +5519,41 @@ function checkCameraErrors() {
 }
 
 function doAuth() {
-    ajax('GET', basePath + "login/", null, function() {
-        if (!frame) {
-            fetchCurrentConfig(endProgress);
+    // Check whether the current secure-cookie session is valid.
+    $.ajax({
+        url: basePath + 'login/',
+        type: 'GET',
+        success: function(data) {
+            if (data.user) {
+                window.userType = data.user;
+                if (!frame) {
+                    fetchCurrentConfig(endProgress);
+                }
+            } else {
+                // Session invalid, show login dialog
+                runLoginDialog(function () {
+                    window._loginRetry = true;
+                    doAuth();
+                });
+            }
+        },
+        error: function() {
+            // Session invalid, show login dialog
+            runLoginDialog(function () {
+                window._loginRetry = true;
+                doAuth();
+            });
         }
     });
 }
 
-    /* startup function */
-
+/* startup function */
+$(document).on('click', '.secret-toggle', function () {
+    var input = $('#' + $(this).data('target'));
+    var isHidden = input.attr('type') === 'password';
+    input.attr('type', isHidden ? 'text' : 'password');
+    $(this).css('opacity', isHidden ? '1' : '0.6');
+});
 $(document).ready(function () {
     modalContainer = $('div.modal-container');
     qualifyURLElement = document.createElement('a');
@@ -5505,10 +5565,6 @@ $(document).ready(function () {
     }
     else {
         window.basePath = splitUrl(qualifyPath('')).baseUrl;
-
-        /* restore the username from cookie */
-        window.username = getCookie(USERNAME_COOKIE);
-        window.passwordHash = getCookie(PASSWORD_COOKIE);
     }
 
     /* open/close settings */
@@ -5524,7 +5580,7 @@ $(document).ready(function () {
     initUI();
     beginProgress();
 
-    if(isAuthCookiesSet()) {
+    if(hasCurrentSession()) {
         doAuth();
     } else {
         runLoginDialog(function () {
@@ -5536,7 +5592,7 @@ $(document).ready(function () {
     refreshCameraFrames();
     checkCameraErrors();
 
-    $(window).resize(function () {
+    $(window).on('resize', function () {
         updateLayout();
     });
 

@@ -141,8 +141,5 @@ VALIDATE_CERTS = True
 # the program will be invoked with environment variables MEYE_USERNAME and MEYE_PASSWORD
 PASSWORD_HOOK = None
 
-# enables HTTP basic authentication scheme (in addition to, not instead of the signature mechanism)
-HTTP_BASIC_AUTH = False
-
 # provides the possibility to override the hostname
 SERVER_NAME = socket.gethostname()

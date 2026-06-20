@@ -65,7 +65,6 @@ def make_message(message, camera_id, moment, timespan, callback):
 
     def on_media_files(media_files):
         io_loop.stop()
-        photos = []
 
         timestamp = time.mktime(moment.timetuple())
         if media_files:

@@ -15,10 +15,19 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+import builtins
 import datetime
 from typing import Union
 
 __all__ = ('pretty_date_time', 'pretty_date', 'pretty_duration', 'pretty_time')
+
+if not hasattr(builtins, '_') and '_' not in globals():
+    import gettext
+    from typing import Callable
+
+    from motioneye import settings
+
+    _: Callable[[str], str] = getattr(settings.traduction, 'gettext', gettext.gettext)
 
 
 def pretty_date_time(date_time, tzinfo=None, short=False):
