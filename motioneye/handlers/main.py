@@ -39,7 +39,6 @@ class MainHandler(BaseHandler):
             frame=False,
             motion_version=motion_info[1] if motion_info else '(none)',
             os_version=' '.join(os_version),
-            enable_update=settings.ENABLE_UPDATE,
             enable_reboot=settings.ENABLE_REBOOT,
             add_remove_cameras=settings.ADD_REMOVE_CAMERAS,
             main_sections=main_sections,

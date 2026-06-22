@@ -18,7 +18,7 @@ RUN printf '%s\n' '[global]' 'break-system-packages=true' > /etc/pip.conf && \
       *) PACKAGES='';; \
     esac && \
     apt-get -q update && \
-    DEBIAN_FRONTEND="noninteractive" apt-get -qq --option Dpkg::Options::="--force-confnew" --no-install-recommends install \
+    DEBIAN_FRONTEND='noninteractive' apt-get -qq --option 'Dpkg::Options::=--force-confnew' --no-install-recommends install \
       ca-certificates curl python3 fdisk $PACKAGES && \
     curl -sSfO 'https://bootstrap.pypa.io/get-pip.py' && \
     python3 get-pip.py && \
@@ -27,14 +27,14 @@ RUN printf '%s\n' '[global]' 'break-system-packages=true' > /etc/pip.conf && \
     motioneye_init --skip-systemd --skip-apt-update && \
     # Change uid/gid of user/group motion to match our desired IDs. This will
     # make it easier to use execute motion as our desired user later.
-    sed -i "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:\(.*\)/\1:${RUN_UID}:${RUN_GID}:\2/" /etc/passwd && \
-    sed -i "s/^\(motion:[^:]*\):[0-9]*:\(.*\)/\1:${RUN_GID}:\2/" /etc/group && \
+    sed -i "s/^\(motion:[^:]*\):[0-9]*:[0-9]*:/\1:${RUN_UID}:${RUN_GID}:/" /etc/passwd && \
+    sed -i "s/^\(motion:[^:]*\):[0-9]*:/\1:${RUN_GID}:/" /etc/group && \
     mv /etc/motioneye/motioneye.conf /etc/motioneye.conf.sample && \
     mkdir /var/log/motioneye /var/lib/motioneye && \
     chown motion:motion /var/log/motioneye /var/lib/motioneye && \
     # Cleanup
     python3 -m pip uninstall -y pip setuptools wheel && \
-    DEBIAN_FRONTEND="noninteractive" apt-get -qq autopurge $PACKAGES && \
+    DEBIAN_FRONTEND='noninteractive' apt-get -qq autopurge $PACKAGES && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists /var/cache/apt /tmp/motioneye get-pip.py /root/.cache /constraint.txt
 
