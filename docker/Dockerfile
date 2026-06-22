@@ -8,11 +8,13 @@ ARG RUN_GID=0
 COPY . /tmp/motioneye
 COPY docker/entrypoint.sh /entrypoint.sh
 
-# Build deps:
-# - armhf/riscv64: Python headers, C compiler and libjpeg for Pillow: https://pypi.org/project/pillow/#files, libcurl and libssl for pycurl: https://pypi.org/project/pycurl/#files
-RUN printf '%b' '[global]\nbreak-system-packages=true\n' > /etc/pip.conf && \
+RUN printf '%s\n' '[global]' 'break-system-packages=true' > /etc/pip.conf && \
     case "$(dpkg --print-architecture)" in \
-      'armhf'|'riscv64') PACKAGES='python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev libffi-dev';; \
+      'armhf'|'riscv64') \
+        PACKAGES='python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev libffi-dev' && \
+        printf '%s\n' 'vcs-versioning==2.0.0' > /constraint.txt && \
+        export PIP_CONSTRAINT='/constraint.txt' \
+      ;; \
       *) PACKAGES='';; \
     esac && \
     apt-get -q update && \
@@ -34,7 +36,7 @@ RUN printf '%b' '[global]\nbreak-system-packages=true\n' > /etc/pip.conf && \
     python3 -m pip uninstall -y pip setuptools wheel && \
     DEBIAN_FRONTEND="noninteractive" apt-get -qq autopurge $PACKAGES && \
     apt-get clean && \
-    rm -r /var/lib/apt/lists /var/cache/apt /tmp/motioneye get-pip.py /root/.cache
+    rm -rf /var/lib/apt/lists /var/cache/apt /tmp/motioneye get-pip.py /root/.cache /constraint.txt
 
 # R/W needed for motionEye to update configurations
 VOLUME /etc/motioneye
