@@ -14,29 +14,16 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import datetime
-import logging
-import re
+from re import sub
+from typing import List, Tuple
 
-from tornado import ioloop
-
-from motioneye import utils
+from motioneye.utils import call_subprocess
 
 
-def get_os_version():
+def get_os_version() -> Tuple[str, str]:
     try:
-        import platformupdate
-
-        return platformupdate.get_os_version()
-
-    except ImportError:
-        return _get_os_version_lsb_release()
-
-
-def _get_os_version_lsb_release():
-    try:
-        output = utils.call_subprocess('lsb_release -sri', shell=True)
-        lines = output.strip().split()
+        output: str = call_subprocess(['lsb_release', '-sri'])
+        lines: List[str] = output.strip().split()
         name, version = lines
         if version.lower() == 'rolling':
             version = ''
@@ -47,10 +34,10 @@ def _get_os_version_lsb_release():
         return _get_os_version_uname()
 
 
-def _get_os_version_uname():
+def _get_os_version_uname() -> Tuple[str, str]:
     try:
-        output = utils.call_subprocess('uname -rs', shell=True)
-        lines = output.strip().split()
+        output: str = call_subprocess(['uname', '-rs'])
+        lines: List[str] = output.strip().split()
         name, version = lines
 
         return name, version
@@ -59,9 +46,9 @@ def _get_os_version_uname():
         return 'Linux', ''  # most likely :)
 
 
-def compare_versions(version1, version2):
-    version1 = re.sub('[^0-9.]', '', version1)
-    version2 = re.sub('[^0-9.]', '', version2)
+def compare_versions(version1: str, version2: str) -> int:
+    version1 = sub('[^0-9.]', '', version1)
+    version2 = sub('[^0-9.]', '', version2)
 
     def int_or_0(n):
         try:
@@ -70,15 +57,15 @@ def compare_versions(version1, version2):
         except:
             return 0
 
-    version1 = [int_or_0(n) for n in version1.split('.')]
-    version2 = [int_or_0(n) for n in version2.split('.')]
+    version1_list: List[int] = [int_or_0(n) for n in version1.split('.')]
+    version2_list: List[int] = [int_or_0(n) for n in version2.split('.')]
 
-    len1 = len(version1)
-    len2 = len(version2)
-    length = min(len1, len2)
+    len1: int = len(version1_list)
+    len2: int = len(version2_list)
+    length: int = min(len1, len2)
     for i in range(length):
-        p1 = version1[i]
-        p2 = version2[i]
+        p1: int = version1_list[i]
+        p2: int = version2_list[i]
 
         if p1 < p2:
             return -1
@@ -94,31 +81,3 @@ def compare_versions(version1, version2):
 
     else:
         return 0
-
-
-def get_all_versions():
-    try:
-        import platformupdate
-
-    except ImportError:
-        return []
-
-    return platformupdate.get_all_versions()
-
-
-def perform_update(version):
-    logging.info(f'updating to version {version}...')
-
-    try:
-        import platformupdate
-
-    except ImportError:
-        logging.error('updating is not available on this platform')
-
-        raise Exception('updating is not available on this platform')
-
-    # schedule the actual update for two seconds later,
-    # since we want to be able to respond to the request right away
-    ioloop.IOLoop.current().add_timeout(
-        datetime.timedelta(seconds=2), platformupdate.perform_update, version=version
-    )

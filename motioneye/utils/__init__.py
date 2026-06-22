@@ -242,7 +242,7 @@ def parse_cookies(cookies_headers: List[str]) -> Dict[str, str]:
 
 
 def build_basic_header(username: str, password: str) -> str:
-    return 'Basic %s' % base64.b64encode(f'{username}:{password}'.encode()).decode()
+    return f'Basic {base64.b64encode(f"{username}:{password}".encode()).decode()}'
 
 
 def build_digest_header(method, url, username, password, state):
@@ -332,18 +332,18 @@ def build_digest_header(method, url, username, password, state):
         respdig,
     )
     if opaque:
-        base += ', opaque="%s"' % opaque
+        base += f', opaque="{opaque}"'
     if algorithm:
-        base += ', algorithm="%s"' % algorithm
+        base += f', algorithm="{algorithm}"'
     if entdig:
-        base += ', digest="%s"' % entdig
+        base += f', digest="{entdig}"'
     if qop:
         base += f', qop=auth, nc={ncvalue}, cnonce="{cnonce}"'
 
     state['last_nonce'] = last_nonce
     state['nonce_count'] = nonce_count
 
-    return 'Digest %s' % base
+    return f'Digest {base}'
 
 
 def urlopen(*args, **kwargs):
@@ -460,7 +460,7 @@ def build_editable_mask_file(
 
 def build_mask_file_name(camera_id, mask_class):
     file_name = (
-        'mask_%s.pgm' % (camera_id)
+        f'mask_{camera_id}.pgm'
         if mask_class == 'motion'
         else f'mask_{camera_id}_{mask_class}.pgm'
     )
@@ -496,8 +496,7 @@ def parse_editable_mask_file(
         # resize the image if necessary
         if im.size != (capture_width, capture_height):
             logging.debug(
-                'editable mask needs resizing from %sx%s to %sx%s'
-                % (im.size[0], im.size[1], capture_width, capture_height)
+                f'editable mask needs resizing from {im.size[0]}x{im.size[1]} to {capture_width}x{capture_height}'
             )
 
             im = im.resize((capture_width, capture_height))

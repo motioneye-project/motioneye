@@ -26,7 +26,7 @@ from shlex import quote
 
 import babel
 
-from motioneye import config, settings
+from motioneye import VERSION, config, settings
 
 # make sure motioneye is on python path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -310,9 +310,7 @@ def print_usage_and_exit(code):
 
 
 def print_version_and_exit():
-    import motioneye
-
-    sys.stderr.write(f'motionEye {motioneye.VERSION}\n')
+    sys.stderr.write(f'motionEye {VERSION}\n')
     sys.exit()
 
 

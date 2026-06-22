@@ -44,8 +44,6 @@ from motioneye.handlers.picture import PictureHandler
 from motioneye.handlers.power import PowerHandler
 from motioneye.handlers.prefs import PrefsHandler
 from motioneye.handlers.relay_event import RelayEventHandler
-from motioneye.handlers.update import UpdateHandler
-from motioneye.handlers.version import VersionHandler
 
 _PID_FILE = 'motioneye.pid'
 _CURRENT_PICTURE_REGEX = re.compile(r'^/picture/\d+/current')
@@ -63,7 +61,7 @@ class Daemon:
                 sys.exit(0)
 
         except OSError as e:
-            sys.stderr.write('fork() failed: %s\n' % e.strerror)
+            sys.stderr.write(f'fork() failed: {e.strerror}\n')
             sys.exit(-1)
 
         # separate from parent
@@ -76,7 +74,7 @@ class Daemon:
                 sys.exit(0)
 
         except OSError as e:
-            sys.stderr.write('fork() failed: %s\n' % e.strerror)
+            sys.stderr.write(f'fork() failed: {e.strerror}\n')
             sys.exit(-1)
 
         # redirect standard file descriptors
@@ -92,7 +90,7 @@ class Daemon:
         # pid file
         atexit.register(self.del_pid)
         with open(self.pid_file, 'w') as f:
-            f.write('%s\n' % os.getpid())
+            f.write(f'{os.getpid()}\n')
 
     def del_pid(self):
         try:
@@ -135,7 +133,7 @@ class Daemon:
             os.kill(pid, signal.SIGTERM)
 
         except Exception as e:
-            sys.stderr.write('failed to terminate server: %s\n' % e)
+            sys.stderr.write(f'failed to terminate server: {e}\n')
 
         for i in range(50):  # @UnusedVariable
             try:
@@ -149,7 +147,7 @@ class Daemon:
                     break
 
                 else:
-                    sys.stderr.write('failed to terminate server: %s\n' % e)
+                    sys.stderr.write(f'failed to terminate server: {e}\n')
                     sys.exit(-11)
 
         else:
@@ -222,9 +220,7 @@ handler_mapping: Sequence[Tuple] = [
     (r'^/prefs/(?P<key>\w+)?/?$', PrefsHandler),
     (r'^/_relay_event/?$', RelayEventHandler),
     (r'^/log/(?P<name>\w+)/?$', LogHandler),
-    (r'^/update/?$', UpdateHandler),
     (r'^/power/(?P<op>shutdown|reboot)/?$', PowerHandler),
-    (r'^/version/?$', VersionHandler),
     (r'^/login/?$', LoginHandler),
     (r'^/logout/?$', LogoutHandler),
     (r'^.*$', NotFoundHandler),
@@ -251,27 +247,25 @@ def configure_signals():
 def test_requirements():
     if not os.access(settings.CONF_PATH, os.W_OK):
         logging.fatal(
-            'config directory "%s" does not exist or is not writable'
-            % settings.CONF_PATH
+            f'config directory "{settings.CONF_PATH}" does not exist or is not writable'
         )
         sys.exit(-1)
 
     if not os.access(settings.RUN_PATH, os.W_OK):
         logging.fatal(
-            'pid directory "%s" does not exist or is not writable' % settings.RUN_PATH
+            f'pid directory "{settings.RUN_PATH}" does not exist or is not writable'
         )
         sys.exit(-1)
 
     if not os.access(settings.LOG_PATH, os.W_OK):
         logging.fatal(
-            'log directory "%s" does not exist or is not writable' % settings.LOG_PATH
+            f'log directory "{settings.LOG_PATH}" does not exist or is not writable'
         )
         sys.exit(-1)
 
     if not os.access(settings.MEDIA_PATH, os.W_OK):
         logging.fatal(
-            'media directory "%s" does not exist or is not writable'
-            % settings.MEDIA_PATH
+            f'media directory "{settings.MEDIA_PATH}" does not exist or is not writable'
         )
         sys.exit(-1)
 
@@ -419,12 +413,11 @@ def make_app(debug: bool = False) -> Application:
 
 
 def run():
-    import motioneye
-    from motioneye import cleanup, mjpgclient, motionctl, tasks, wsswitch
+    from motioneye import VERSION, cleanup, mjpgclient, motionctl, tasks, wsswitch
     from motioneye.controls import smbctl
 
     configure_signals()
-    logging.info(_('saluton! ĉi tio estas motionEye-servilo ') + motioneye.VERSION)
+    logging.info(_('saluton! ĉi tio estas motionEye-servilo ') + VERSION)
 
     test_requirements()
     make_media_folders()

@@ -22,7 +22,7 @@ from time import time
 
 from tornado.web import HTTPError, RequestHandler
 
-from motioneye import config, template
+from motioneye import VERSION, config, template
 from motioneye.utils.authstate import verify_hmac_signature
 
 __all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')
@@ -118,20 +118,14 @@ class BaseHandler(RequestHandler):
 
     def finish(self, chunk=None):
         if not self._finished:
-            import motioneye
-
-            self.set_header('Server', f'motionEye/{motioneye.VERSION}')
-
             return super().finish(chunk=chunk)
         else:
             logging.debug('Already finished')
 
     def render(self, template_name, content_type='text/html', **context):
-        import motioneye
-
         self.set_header('Content-Type', content_type)
 
-        context.setdefault('version', motioneye.VERSION)
+        context.setdefault('version', VERSION)
 
         content = template.render(template_name, **context)
         self.finish(content)
