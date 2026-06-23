@@ -10,11 +10,7 @@ COPY docker/entrypoint.sh /entrypoint.sh
 
 RUN printf '%s\n' '[global]' 'break-system-packages=true' > /etc/pip.conf && \
     case "$(dpkg --print-architecture)" in \
-      'armhf'|'riscv64') \
-        PACKAGES='python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev libffi-dev' && \
-        printf '%s\n' 'vcs-versioning==2.0.0' > /constraint.txt && \
-        export PIP_CONSTRAINT='/constraint.txt' \
-      ;; \
+      'armhf'|'riscv64') PACKAGES='python3-dev gcc libjpeg62-turbo-dev libcurl4-openssl-dev libssl-dev libffi-dev';; \
       *) PACKAGES='';; \
     esac && \
     apt-get -q update && \
@@ -36,7 +32,7 @@ RUN printf '%s\n' '[global]' 'break-system-packages=true' > /etc/pip.conf && \
     python3 -m pip uninstall -y pip setuptools wheel && \
     DEBIAN_FRONTEND='noninteractive' apt-get -qq autopurge $PACKAGES && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists /var/cache/apt /tmp/motioneye get-pip.py /root/.cache /constraint.txt
+    rm -r /var/lib/apt/lists /var/cache/apt /tmp/motioneye get-pip.py /root/.cache
 
 # R/W needed for motionEye to update configurations
 VOLUME /etc/motioneye
