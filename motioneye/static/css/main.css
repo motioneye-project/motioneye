@@ -383,7 +383,6 @@ div.normal-button {
     padding-right: 0.5em;
 }
 
-div.update-button,
 div.backup-button,
 div.restore-button,
 div.edit-credentials-button,
@@ -404,7 +403,6 @@ div.reboot-button {
     background: #c0392b;
 }
 
-div.update-button:HOVER,
 div.backup-button:HOVER,
 div.restore-button:HOVER,
 div.edit-credentials-button:HOVER,
@@ -420,7 +418,6 @@ div.reboot-button:HOVER {
     background: #D43F2F;
 }
 
-div.update-button:ACTIVE,
 div.backup-button:ACTIVE,
 div.restore-button:ACTIVE,
 div.edit-credentials-button:ACTIVE,

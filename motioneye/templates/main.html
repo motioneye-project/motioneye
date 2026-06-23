@@ -220,13 +220,6 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Operaciumo Versio") }}</span></td>
                             <td class="settings-item-value"><span class="settings-item-label">{{os_version}}</span></td>
                         </tr>
-                        {% if enable_update %}
-                        <tr class="settings-item">
-                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Programara Ĝisdatigo") }}</span></td>
-                            <td class="settings-item-value"><div class="button normal-button update-button" id="updateButton">Check</div></td>
-                            <td><span class="help-mark" title="{{ _("kontrolas novajn versiojn kaj plenumas ĝisdatigojn") }}">?</span></td>
-                        </tr>
-                        {% endif %}
                         <tr class="settings-item{% if not enable_reboot %} hidden{% endif %}">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Nutro") }}</span></td>
                             <td class="settings-item-value"><div class="button normal-button shut-down-button" id="shutDownButton">{{ _("Fermu") }}</div></td>

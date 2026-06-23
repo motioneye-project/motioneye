@@ -853,9 +853,6 @@ function initUI() {
     /* logout button */
     $('div.button.logout-button').on('click', doLogout);
 
-    /* software update button */
-    $('div#updateButton').on('click', doUpdate);
-
     /* backup/restore */
     $('div#backupButton').on('click', doBackup);
     $('div#restoreButton').on('click', doRestore);
@@ -2778,57 +2775,6 @@ function doRemCamera() {
 
             fetchCurrentConfig(endProgress);
         });
-    });
-}
-
-function doUpdate() {
-    if (Object.keys(pushConfigs).length) {
-        return runAlertDialog(i18n.gettext("Bonvolu apliki unue la modifitajn agordojn!"));
-    }
-
-    showModalDialog('<div class="modal-progress"></div>');
-    ajax('GET', basePath + 'update/', null, function (data) {
-        if (data.update_version == null) {
-            runAlertDialog(i18n.gettext("motionEye estas ĝisdatigita (aktuala versio: ") + data.current_version + ')');
-        }
-        else {
-            runConfirmDialog(i18n.gettext("Nova versio havebla: ") + data.update_version + i18n.gettext(". Ĝisdatigi?"), function () {
-                refreshInterval = 1000000;
-                showModalDialog('<div style="text-align: center;"><span>Updating. This may take a few minutes.</span><div class="modal-progress"></div></div>');
-                ajax('POST', basePath + 'update/?version=' + data.update_version, null, function () {
-                    var count = 0;
-                    function checkServer() {
-                        ajax('GET', basePath + 'config/0/get/', null,
-                            function () {
-                                runAlertDialog(i18n.gettext("motionEye estis sukcese ĝisdatigita!"), function () {
-                                    window.location.reload(true);
-                                });
-                            },
-                            function () {
-                                if (count < 60) {
-                                    count += 1;
-                                    setTimeout(checkServer, 5000);
-                                }
-                                else {
-                                    runAlertDialog(i18n.gettext("Ĝisdatigo malsukcesis!"), function () {
-                                        window.location.reload(true);
-                                    });
-                                }
-                            }
-                        );
-                    }
-
-                    setTimeout(checkServer, 15000);
-
-                }, function (e) { /* error */
-                    runAlertDialog(i18n.gettext("La ĝisdatiga procezo malsukcesis!"), function () {
-                        window.location.reload(true);
-                    });
-                });
-
-                return false; /* prevents hiding the modal container */
-            });
-        }
     });
 }
 
