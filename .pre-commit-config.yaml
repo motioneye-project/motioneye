@@ -25,7 +25,7 @@ repos:
       - id: bandit
         args: ["--skip=B104,B105,B108,B110,B301,B310,B321,B402,B403,B404,B602,B603,B604,B605,B607,B701"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.19
+    rev: v0.15.20
     hooks:
       - id: ruff-check
         args: [--target-version=py37, --ignore, E722, --config, "builtins = ['_']"]
