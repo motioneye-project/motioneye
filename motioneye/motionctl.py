@@ -134,7 +134,9 @@ def start(deferred=False):
     with open(motion_pid_path, 'w') as f:
         f.write(str(pid) + '\n')
 
-    IOLoop.current().spawn_callback(_disable_initial_motion_detection)
+    # disable motion detection if version < 4.4, otherwise the new "pause" setting does
+    if not is_motion_post43():
+        IOLoop.current().spawn_callback(_disable_initial_motion_detection)
 
     # if mjpg client idle timeout is disabled, create mjpg clients for all cameras by default
     if not settings.MJPG_CLIENT_IDLE_TIMEOUT:
@@ -372,8 +374,6 @@ def has_h264_omx_support():
     if not binary:
         return False
 
-    # TODO also check for motion codec parameter support
-
     return 'h264_omx' in codecs.get('h264', {}).get('encoders', set())
 
 
@@ -381,8 +381,6 @@ def has_h264_v4l2m2m_support():
     binary, version, codecs = mediafiles.find_ffmpeg()
     if not binary:
         return False
-
-    # TODO also check for motion codec parameter support
 
     return 'h264_v4l2m2m' in codecs.get('h264', {}).get('encoders', set())
 
@@ -436,7 +434,7 @@ def has_hevc_qsv_support():
 
 
 def resolution_is_valid(width, height):
-    # width & height must be be modulo 8
+    # width & height must be modulo 8
 
     if width % 8:
         return False
