@@ -14,14 +14,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import errno
 import logging
-import os.path
 import re
-import signal
-import subprocess
-import time
+from errno import ECHILD, ESRCH
+from os import WNOHANG, kill, waitpid
+from os.path import exists, join
 from shlex import quote
+from signal import SIGKILL, SIGTERM
+from subprocess import CalledProcessError, Popen
+from time import sleep
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
 from tornado.ioloop import IOLoop
@@ -43,7 +44,7 @@ def find_motion():
 
     # binary
     if settings.MOTION_BINARY:
-        if os.path.exists(settings.MOTION_BINARY):
+        if exists(settings.MOTION_BINARY):
             binary = settings.MOTION_BINARY
 
         else:
@@ -53,14 +54,14 @@ def find_motion():
         try:
             binary = utils.call_subprocess(['which', 'motion'])
 
-        except subprocess.CalledProcessError:  # not found
+        except CalledProcessError:  # not found
             return None, None
 
     # version
     try:
         output = utils.call_subprocess(quote(binary) + ' -h || true', shell=True)
 
-    except subprocess.CalledProcessError as e:  # not found as
+    except CalledProcessError as e:  # not found as
         logging.error(f'motion version could not be found: {e}')
         return None, None
 
@@ -97,9 +98,9 @@ def start(deferred=False):
 
     logging.debug(f'starting motion executable "{binary}" version "{version}"')
 
-    motion_cfg_path = os.path.join(settings.CONF_PATH, 'motion.conf')
-    motion_log_path = os.path.join(settings.LOG_PATH, 'motion.log')
-    motion_pid_path = os.path.join(settings.RUN_PATH, 'motion.pid')
+    motion_cfg_path = join(settings.CONF_PATH, 'motion.conf')
+    motion_log_path = join(settings.LOG_PATH, 'motion.log')
+    motion_pid_path = join(settings.RUN_PATH, 'motion.pid')
 
     args = [binary, '-n', '-c', motion_cfg_path, '-d']
 
@@ -117,13 +118,13 @@ def start(deferred=False):
 
     log_file = open(motion_log_path, 'w')
 
-    process = subprocess.Popen(
+    process = Popen(
         args, stdout=log_file, stderr=log_file, close_fds=True, cwd=settings.CONF_PATH
     )
 
     # wait 2 seconds to see that the process has successfully started
     for _ in range(20):
-        time.sleep(0.1)
+        sleep(0.1)
         exit_code = process.poll()
         if exit_code is not None and exit_code != 0:
             raise Exception(f'motion failed to start with exit code "{exit_code}"')
@@ -163,20 +164,20 @@ def stop(invalidate=False):
     if pid is not None:
         try:
             # send the TERM signal once
-            os.kill(pid, signal.SIGTERM)
+            kill(pid, SIGTERM)
 
             # wait 5 seconds for the process to exit
-            for i in range(50):  # @UnusedVariable
-                os.waitpid(pid, os.WNOHANG)
-                time.sleep(0.1)
+            for _ in range(50):
+                waitpid(pid, WNOHANG)
+                sleep(0.1)
 
             # send the KILL signal once
-            os.kill(pid, signal.SIGKILL)
+            kill(pid, SIGKILL)
 
             # wait 2 seconds for the process to exit
-            for i in range(20):  # @UnusedVariable
-                time.sleep(0.1)
-                os.waitpid(pid, os.WNOHANG)
+            for _ in range(20):
+                sleep(0.1)
+                waitpid(pid, WNOHANG)
 
             # the process still did not exit
             if settings.ENABLE_REBOOT:
@@ -187,7 +188,7 @@ def stop(invalidate=False):
                 raise Exception('could not terminate the motion process')
 
         except OSError as e:
-            if e.errno not in (errno.ESRCH, errno.ECHILD):
+            if e.errno not in (ESRCH, ECHILD):
                 raise
 
 
@@ -197,14 +198,14 @@ def running():
         return False
 
     try:
-        os.waitpid(pid, os.WNOHANG)
-        os.kill(pid, 0)
+        waitpid(pid, WNOHANG)
+        kill(pid, 0)
 
         # the process is running
         return True
 
     except OSError as e:
-        if e.errno not in (errno.ESRCH, errno.ECHILD):
+        if e.errno not in (ESRCH, ECHILD):
             raise
 
     return False
@@ -461,7 +462,7 @@ async def _disable_initial_motion_detection():
 
 
 def _get_pid():
-    motion_pid_path = os.path.join(settings.RUN_PATH, 'motion.pid')
+    motion_pid_path = join(settings.RUN_PATH, 'motion.pid')
 
     # read the pid from file
     try:

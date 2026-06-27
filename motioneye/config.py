@@ -16,7 +16,6 @@
 
 import logging
 import os.path
-import subprocess
 import tarfile
 from collections import OrderedDict
 from datetime import timedelta
@@ -29,6 +28,7 @@ from re import match, sub
 from secrets import token_hex
 from shlex import split
 from stat import S_IMODE
+from subprocess import STDOUT
 from typing import Optional
 from urllib.parse import quote, urlunparse
 
@@ -864,9 +864,7 @@ def main_ui_to_dict(ui):
             env = {'MEYE_USERNAME': u, 'MEYE_PASSWORD': p}
 
             try:
-                utils.call_subprocess(
-                    settings.PASSWORD_HOOK, env=env, stderr=subprocess.STDOUT
-                )
+                utils.call_subprocess(settings.PASSWORD_HOOK, env=env, stderr=STDOUT)
                 logging.debug('password hook exec succeeded')
 
             except Exception as e:
