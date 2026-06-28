@@ -217,11 +217,21 @@ def _mount(server, share, smb_ver, username, password):
     if username:
         opts = f'username={username},password={password}'
         # Let the kernel negotiate its default first (None), then try the
-        # security modes from strongest to weakest. The legacy NTLMv1 'ntlm'
-        # mode is kept last as a fallback for very old servers: since a working
-        # modern mode is found first, recent kernels (which removed 'ntlm') no
-        # longer reach it and stop logging "bad security option: ntlm" (#3013).
-        sec_types = [None, 'ntlmsspi', 'ntlmssp', 'ntlmv2i', 'ntlmv2', 'ntlm', 'none']
+        # security modes from strongest to weakest, each signed ('*i') variant
+        # before its unsigned counterpart. The legacy NTLMv1 'ntlm' mode is
+        # kept last as a fallback for very old servers: since a working modern
+        # mode is found first, recent kernels (which removed 'ntlm') no longer
+        # reach it and stop logging "bad security option: ntlm" (#3013).
+        sec_types = [
+            None,
+            'ntlmsspi',
+            'ntlmssp',
+            'ntlmv2i',
+            'ntlmv2',
+            'ntlmi',
+            'ntlm',
+            'none',
+        ]
 
     else:
         opts = 'guest'
