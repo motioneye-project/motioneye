@@ -216,11 +216,18 @@ def _mount(server, share, smb_ver, username, password):
 
     if username:
         opts = f'username={username},password={password}'
-        sec_types = [None, 'ntlm', 'ntlmv2', 'ntlmv2i', 'ntlmsspi', 'none']
+        # Let the kernel negotiate its default first (None), then try the
+        # security modes from strongest to weakest. The legacy NTLMv1 'ntlm'
+        # mode is kept last as a fallback for very old servers: since a working
+        # modern mode is found first, recent kernels (which removed 'ntlm') no
+        # longer reach it and stop logging "bad security option: ntlm" (#3013).
+        sec_types = [None, 'ntlmsspi', 'ntlmssp', 'ntlmv2i', 'ntlmv2', 'ntlm', 'none']
 
     else:
         opts = 'guest'
-        sec_types = [None, 'none', 'ntlm', 'ntlmv2', 'ntlmv2i', 'ntlmsspi']
+        # Without credentials only a null-user session is meaningful; the
+        # password-hashing modes do not apply.
+        sec_types = [None, 'none']
 
     opts += ',vers=%s' % smb_ver
 
