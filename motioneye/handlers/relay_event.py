@@ -103,19 +103,19 @@ class RelayEventHandler(BaseHandler):
 
             # upload to external service
             if camera_config['@upload_enabled'] and camera_config['@upload_movie']:
-                self.upload_media_file(filename, camera_id, camera_config)
+                self.upload_media_file(filename, camera_id, camera_config, 'movie')
 
         elif event == 'picture_save':
             # upload to external service
             if camera_config['@upload_enabled'] and camera_config['@upload_picture']:
-                self.upload_media_file(filename, camera_id, camera_config)
+                self.upload_media_file(filename, camera_id, camera_config, 'picture')
 
         else:
             logging.warning(f'unknown event {event}')
 
         self.finish_json()
 
-    def upload_media_file(self, filename, camera_id, camera_config):
+    def upload_media_file(self, filename, camera_id, camera_config, media_type):
         service_name = camera_config['@upload_service']
 
         tasks.add(
@@ -128,4 +128,6 @@ class RelayEventHandler(BaseHandler):
             target_dir=camera_config['@upload_subfolders']
             and camera_config['target_dir'],
             filename=filename,
+            media_type=media_type,
+            clean_uploaded=camera_config['@clean_uploaded'],
         )

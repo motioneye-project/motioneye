@@ -403,6 +403,10 @@ def cleanup_media(media_type: str) -> None:
         if (
             cloud_enabled
             and clean_cloud_enabled
+            # when files are removed right after upload, the local folders are
+            # the source of truth no longer, so cloud cleanup must be skipped to
+            # avoid deleting the just-uploaded copies (see #3089)
+            and not camera_config.get('@clean_uploaded')
             and camera_id
             and service_name
             and cloud_dir
