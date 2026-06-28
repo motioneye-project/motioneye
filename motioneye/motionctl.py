@@ -194,15 +194,26 @@ def running():
     if pid is None:
         return False
 
+    # Best-effort reap: if motion is our child and has already exited, collect
+    # it so a dead process is not later reported as running. ECHILD here only
+    # means motion is not a direct child of this process (e.g. when launched by
+    # a process supervisor such as s6 in the Home Assistant add-on) and must NOT
+    # be treated as "not running" -- doing so triggers an endless restart loop.
     try:
         os.waitpid(pid, os.WNOHANG)
+    except OSError as e:
+        if e.errno not in (errno.ESRCH, errno.ECHILD):
+            raise
+
+    # The actual liveness check. Only ESRCH means the process is gone.
+    try:
         os.kill(pid, 0)
 
         # the process is running
         return True
 
     except OSError as e:
-        if e.errno not in (errno.ESRCH, errno.ECHILD):
+        if e.errno != errno.ESRCH:
             raise
 
     return False
