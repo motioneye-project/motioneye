@@ -705,7 +705,9 @@ class Dropbox(UploadService):
             'include_deleted': False,
         }
 
-        body = json.dumps(body)
+        # the body must be bytes: urllib's Request rejects a str POST body
+        # with "POST data should be bytes ... not str" (#2828)
+        body = json.dumps(body).encode()
         headers = {'Content-Type': 'application/json'}
 
         try:
