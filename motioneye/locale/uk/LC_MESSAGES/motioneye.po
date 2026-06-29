@@ -35,8 +35,8 @@ msgid "Device names are only allowed to contain alphanumerical characters, hyphe
 msgstr "Назви пристроїв можуть містити лише буквено-цифрові символи, дефіс -, символ підкреслення _, символ + та пробіл"
 
 #: motioneye/config.py:961
-msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
-msgstr "Імена файлів можуть містити лише буквено-цифрові символи, круглі дужки (), скісну риску /, крапку ., символ підкреслення _, дефіс -, пробіл та підмножину специфікаторів перетворення руху: %C %Y %m %d %H %M %S %q %v %$"
+msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
+msgstr "Імена файлів можуть містити лише буквено-цифрові символи, круглі дужки (), скісну риску /, крапку ., символ підкреслення _, дефіс -, пробіл та підмножину специфікаторів перетворення руху: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 
 #: motioneye/config.py:966
 msgid "Directory names are only allowed to contain alphanumerical characters, space, parenthesis (), forward slash /, dot ., underscore _, and hyphen -"

@@ -32,8 +32,8 @@ msgstr "Els dispositius només estan disponibles per a caràcters alfanumèrics,
 
 #: motioneye/config.py:961
 #, fuzzy
-msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
-msgstr "Els fitxers només són equivalents a caràcters alfanumèrics, parèntesis (), cap endavant/, punt., subratllat , hiphen-, espacialment i un conjunt d'atributs de moviment especificats: %C %Y %m %d %H %M %S %q %v %$"
+msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
+msgstr "Els fitxers només són equivalents a caràcters alfanumèrics, parèntesis (), cap endavant/, punt., subratllat , hiphen-, espacialment i un conjunt d'atributs de moviment especificats: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 
 #: motioneye/config.py:966
 #, fuzzy
