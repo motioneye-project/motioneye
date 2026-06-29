@@ -42,7 +42,8 @@ def main(parser, args):
     logging.debug('method = %s' % options.method)
     logging.debug('url = %s' % options.url)
 
-    headers = {}
+    # some endpoints reject requests without a User-Agent with HTTP 403
+    headers = {'User-Agent': 'motionEye'}
     parts = urllib.parse.urlparse(options.url)
     url = options.url
     data = None
