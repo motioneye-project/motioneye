@@ -32,8 +32,8 @@ msgstr "Az eszköznevek csak alfanumerikus karaktereket, kötőjelet (-), aláh�
 
 #: motioneye/config.py:961
 #, fuzzy
-msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
-msgstr "A fájlnevek csak alfanumerikus karaktereket, zárójeleket (), perjeleket /, pontokat ., aláhúzásjeleket _, kötőjeleket -, szóközöket és a mozgáskonverziós specifikátorok egy részhalmazát tartalmazhatnak: %C %Y %m %d %H %M %S %q %v %$"
+msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
+msgstr "A fájlnevek csak alfanumerikus karaktereket, zárójeleket (), perjeleket /, pontokat ., aláhúzásjeleket _, kötőjeleket -, szóközöket és a mozgáskonverziós specifikátorok egy részhalmazát tartalmazhatnak: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 
 #: motioneye/config.py:966
 #, fuzzy

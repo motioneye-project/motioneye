@@ -956,10 +956,10 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     deviceNameFailMessage = _(
         'Device names are only allowed to contain alphanumerical characters, hyphen -, underscore _, plus +, and space'
     )
-    filenameValidRegExp = '^([A-Za-z0-9 ()/._-]|%[CYmdHMSqv$])+$'
+    filenameValidRegExp = '^([A-Za-z0-9 ()/._-]|%[CYmdHMSIplqv$])+$'
     filenameFailMessage = _(
         'File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., '
-        'underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$'
+        'underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$'
     )
     dirnameValidRegExp = '^[A-Za-z0-9 ()/._-]+$'
     dirnameFailMessage = _(

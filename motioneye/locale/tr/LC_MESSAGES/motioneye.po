@@ -32,8 +32,8 @@ msgstr "Cihazlar sadece alfanumeric karakterler, hipnoz, alt işaret, artı + ve
 
 #: motioneye/config.py:961
 #, fuzzy
-msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %q %v %$"
-msgstr "Dosyalar sadece alfanumerical karakterlere eşdeğerdir, ebeveynlik (), forwards/, dot., alt çizer, hipn-, uzaysal olarak ve alt hareket özellikleri belirtilmişler: %C %Y %m %d %H %M %S %q %v %$"
+msgid "File names are only allowed to contain alphanumerical characters, parenthesis (), forward slash /, dot ., underscore _, hyphen -, space, and a subset of motion conversion specifiers: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
+msgstr "Dosyalar sadece alfanumerical karakterlere eşdeğerdir, ebeveynlik (), forwards/, dot., alt çizer, hipn-, uzaysal olarak ve alt hareket özellikleri belirtilmişler: %C %Y %m %d %H %M %S %I %p %l %q %v %$"
 
 #: motioneye/config.py:966
 #, fuzzy
