@@ -1356,7 +1356,7 @@ def upload_media_file(
         from motioneye import config, mediafiles
 
         camera_config = config.get_camera(camera_id)
-        rel = filename.removeprefix(camera_config['target_dir'] + os.sep)
+        rel = utils.remove_prefix(filename, camera_config['target_dir'] + os.sep)
         mediafiles.del_media_content(camera_config, rel, media_type)
         logging.debug(f'removed local file "{filename}" after successful upload')
 

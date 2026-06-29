@@ -74,7 +74,7 @@ class RelayEventHandler(BaseHandler):
         if filename is not None:
             target_dir: str = camera_config['target_dir']
             utils.validate_paths(
-                filename.removeprefix(target_dir + sep),
+                utils.remove_prefix(filename, target_dir + sep),
                 target_dir=target_dir,
             )
 

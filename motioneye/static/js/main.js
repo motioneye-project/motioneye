@@ -695,8 +695,9 @@ function initUI() {
         var folder = $('#uploadLocationEntry').val();
         console.log('cleanCloudEnabled', enabled, folder);
         if (enabled) {
-            /* mutually exclusive with "remove files after upload" */
-            $('#cleanUploadedSwitch')[0].checked = false;
+            /* mutually exclusive with "remove files after upload"; trigger
+             * change so the styled switch updates visually, not just .checked */
+            $('#cleanUploadedSwitch').prop('checked', false).trigger('change');
             runAlertDialog(( i18n.gettext('Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo "') + folder +
                     i18n.gettext('", ne nur tiuj alŝutitaj de motionEye!')));
         }
@@ -704,8 +705,9 @@ function initUI() {
     $('#cleanUploadedSwitch').on('change', function () {
         if (this.checked && $('#cleanCloudEnabledSwitch')[0].checked) {
             /* mutually exclusive with cloud cleanup, which would delete the
-             * just-uploaded copies once the local files are gone */
-            $('#cleanCloudEnabledSwitch')[0].checked = false;
+             * just-uploaded copies once the local files are gone; trigger
+             * change so the styled switch updates visually, not just .checked */
+            $('#cleanCloudEnabledSwitch').prop('checked', false).trigger('change');
             runAlertDialog(i18n.gettext('"Purigi la nubon" estis malŝaltita ĉar ĝi konfliktas kun "Forigi Dosierojn Post Alŝuto".'));
         }
     });

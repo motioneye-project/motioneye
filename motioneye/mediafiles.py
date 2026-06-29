@@ -464,7 +464,7 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
 
     target_dir: str = camera_config['target_dir']
     utils.validate_paths(
-        full_path.removeprefix(target_dir + os.sep),
+        utils.remove_prefix(full_path, target_dir + os.sep),
         target_dir=target_dir,
     )
 
