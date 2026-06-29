@@ -525,6 +525,11 @@
                             <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="cleanCloudEnabledSwitch"></td>
                             <td><span class="help-mark" title="{{ _("ebligu ĉi tion forigi amaskomunikilaĵojn dosierojn alŝutitajn al la nubo ankaŭ kiam loka amaskomunikilaro estas forigita konforme al la agordo de persistemo de dosieroj. Nuntempe ĉi tiu opcio nur haveblas por gdrivo.") }}">?</span></td>
                         </tr>
+                        <tr class="settings-item" depends="uploadEnabled">
+                            <td class="settings-item-label"><span class="settings-item-label">{{ _("Forigi Dosierojn Post Alŝuto") }}</span></td>
+                            <td class="settings-item-value"><input type="checkbox" class="styled storage camera-config" id="cleanUploadedSwitch"></td>
+                            <td><span class="help-mark" title="{{ _("ebligu ĉi tion por forigi la lokan plurmedian dosieron tuj post kiam ĝi estis sukcese alŝutita al la ekstera servo (utila por liberigi malgrandajn SD-kartojn)") }}">?</span></td>
+                        </tr>
                         <tr class="settings-item" depends="uploadEnabled uploadService=(ftp|sftp|http|https|webdav)">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Uzantnomo") }}</span></td>
                             <td class="settings-item-value"><input type="text" autocapitalize="none" class="styled storage camera-config" id="uploadUsernameEntry"></td>

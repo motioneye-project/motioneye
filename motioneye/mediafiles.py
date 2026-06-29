@@ -403,6 +403,10 @@ def cleanup_media(media_type: str) -> None:
         if (
             cloud_enabled
             and clean_cloud_enabled
+            # when files are removed right after upload, the local folders are
+            # the source of truth no longer, so cloud cleanup must be skipped to
+            # avoid deleting the just-uploaded copies (see #3089)
+            and not camera_config.get('@clean_uploaded')
             and camera_id
             and service_name
             and cloud_dir
@@ -460,7 +464,7 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
 
     target_dir: str = camera_config['target_dir']
     utils.validate_paths(
-        full_path.removeprefix(target_dir + os.sep),
+        utils.remove_prefix(full_path, target_dir + os.sep),
         target_dir=target_dir,
     )
 

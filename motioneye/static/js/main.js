@@ -695,8 +695,20 @@ function initUI() {
         var folder = $('#uploadLocationEntry').val();
         console.log('cleanCloudEnabled', enabled, folder);
         if (enabled) {
+            /* mutually exclusive with "remove files after upload"; trigger
+             * change so the styled switch updates visually, not just .checked */
+            $('#cleanUploadedSwitch').prop('checked', false).trigger('change');
             runAlertDialog(( i18n.gettext('Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo "') + folder +
                     i18n.gettext('", ne nur tiuj alŝutitaj de motionEye!')));
+        }
+    });
+    $('#cleanUploadedSwitch').on('change', function () {
+        if (this.checked && $('#cleanCloudEnabledSwitch')[0].checked) {
+            /* mutually exclusive with cloud cleanup, which would delete the
+             * just-uploaded copies once the local files are gone; trigger
+             * change so the styled switch updates visually, not just .checked */
+            $('#cleanCloudEnabledSwitch').prop('checked', false).trigger('change');
+            runAlertDialog(i18n.gettext('"Purigi la nubon" estis malŝaltita ĉar ĝi konfliktas kun "Forigi Dosierojn Post Alŝuto".'));
         }
     });
 
@@ -1869,6 +1881,7 @@ function cameraUi2Dict() {
         'upload_bucket': $('#uploadBucketEntry').val(),
         'upload_sse_c_key': $('#uploadSseCKeyEntry').val(),
         'clean_cloud_enabled': $('#cleanCloudEnabledSwitch')[0].checked,
+        'clean_uploaded': $('#cleanUploadedSwitch')[0].checked,
         'web_hook_storage_enabled': $('#webHookStorageEnabledSwitch')[0].checked,
         'web_hook_storage_url': $('#webHookStorageUrlEntry').val(),
         'web_hook_storage_http_method': $('#webHookStorageHttpMethodSelect').val(),
@@ -2213,6 +2226,7 @@ function dict2CameraUi(dict) {
     $('#uploadBucketEntry').val(dict['upload_bucket']); markHideIfNull('upload_bucket', 'uploadBucketEntry');
     $('#uploadSseCKeyEntry').val(dict['upload_sse_c_key']); markHideIfNull('upload_sse_c_key', 'uploadSseCKeyEntry');
     $('#cleanCloudEnabledSwitch')[0].checked = dict['clean_cloud_enabled']; markHideIfNull('clean_cloud_enabled', 'cleanCloudEnabledSwitch');
+    $('#cleanUploadedSwitch')[0].checked = dict['clean_uploaded']; markHideIfNull('clean_uploaded', 'cleanUploadedSwitch');
 
     $('#webHookStorageEnabledSwitch')[0].checked = dict['web_hook_storage_enabled']; markHideIfNull('web_hook_storage_enabled', 'webHookStorageEnabledSwitch');
     $('#webHookStorageUrlEntry').val(dict['web_hook_storage_url']);

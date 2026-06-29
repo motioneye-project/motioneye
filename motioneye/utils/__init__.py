@@ -616,6 +616,14 @@ def call_subprocess(
     ).stdout.strip()
 
 
+def remove_prefix(s: str, prefix: str) -> str:
+    # str.removeprefix backport for Python < 3.9 (motionEye targets 3.7).
+    # Like str.removeprefix, the string is returned unchanged when it does not
+    # start with prefix - which is what lets validate_paths() still reject an
+    # absolute/foreign path that is not under target_dir.
+    return s[len(prefix) :] if s.startswith(prefix) else s
+
+
 def validate_paths(
     *paths: Optional[str],
     camera_id: Optional[str] = None,

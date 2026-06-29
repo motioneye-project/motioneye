@@ -1321,7 +1321,15 @@ def update(camera_id, service_name, settings):
     service.save()
 
 
-def upload_media_file(camera_id, camera_name, target_dir, service_name, filename):
+def upload_media_file(
+    camera_id,
+    camera_name,
+    target_dir,
+    service_name,
+    filename,
+    media_type=None,
+    clean_uploaded=False,
+):
     service = get(camera_id, service_name)
     if not service:
         return logging.error(
@@ -1334,6 +1342,30 @@ def upload_media_file(camera_id, camera_name, target_dir, service_name, filename
     except Exception as e:
         logging.error(
             f'failed to upload file "{filename}" with service {service}: {e}',
+            exc_info=True,
+        )
+        return  # upload failed: keep the local file
+
+    # the caller passes clean_uploaded so we can skip the camera config lookup
+    # and the mediafiles import entirely on the common path (feature disabled)
+    if not clean_uploaded:
+        return
+
+    # upload succeeded and the camera removes its local copy after upload
+    try:
+        # local imports to avoid the config/mediafiles <-> uploadservices
+        # circular imports (both modules import uploadservices at module level)
+        from motioneye import config, mediafiles
+
+        camera_config = config.get_camera(camera_id)
+        rel = utils.remove_prefix(filename, camera_config['target_dir'] + os.sep)
+        mediafiles.del_media_content(camera_config, rel, media_type)
+        logging.debug(f'removed local file "{filename}" after successful upload')
+
+    except Exception as e:
+        # never let a cleanup error affect the (already successful) upload
+        logging.error(
+            f'failed to remove local file "{filename}" after upload: {e}',
             exc_info=True,
         )
 

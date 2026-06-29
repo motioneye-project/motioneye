@@ -1011,6 +1011,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         '@upload_bucket': ui['upload_bucket'],
         '@upload_sse_c_key': ui['upload_sse_c_key'],
         '@clean_cloud_enabled': ui['clean_cloud_enabled'],
+        '@clean_uploaded': ui['clean_uploaded'],
         # text overlay
         'text_left': '',
         'text_right': '',
@@ -1547,6 +1548,7 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
         'upload_bucket': data['@upload_bucket'],
         'upload_sse_c_key': data['@upload_sse_c_key'],
         'clean_cloud_enabled': data['@clean_cloud_enabled'],
+        'clean_uploaded': data['@clean_uploaded'],
         'web_hook_storage_enabled': False,
         'command_storage_enabled': False,
         # text overlay
@@ -2426,6 +2428,7 @@ def _set_default_motion_camera(camera_id, data):
     data.setdefault('@upload_bucket', '')
     data.setdefault('@upload_sse_c_key', '')
     data.setdefault('@clean_cloud_enabled', False)
+    data.setdefault('@clean_uploaded', False)
 
     data.setdefault('stream_localhost', True)
     data.setdefault('stream_port', 9080 + camera_id)
