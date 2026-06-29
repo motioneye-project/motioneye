@@ -72,7 +72,15 @@ def send_mail(server, port, account, password, tls, _from, to, subject, message,
 
     logging.debug('sending email message')
     conn.sendmail(_from, to, email.as_string())
-    conn.quit()
+
+    try:
+        conn.quit()
+
+    except (smtplib.SMTPException, OSError) as e:
+        # the message was already accepted by the server above; some servers
+        # (e.g. Gmail) drop the connection right after, so quit() fails - that
+        # must not be reported as a send failure (#3125)
+        logging.warning(f'failed to cleanly close the SMTP connection: {e}')
 
 
 def make_message(subject, message, camera_id, moment, timespan, callback):
