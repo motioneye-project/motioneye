@@ -38,6 +38,8 @@ class ListMountsTest(unittest.TestCase):
         targets = [m['target'] for m in mounts]
         self.assertIn('/dev/sda1', targets)
         self.assertIn('/dev/sdb1', targets)
+        # ... but each is flagged as not writable so the UI can warn (#3024)
+        self.assertTrue(all(m['writable'] is False for m in mounts))
 
     def test_deduplicates_bind_mounts(self):
         with patch(
@@ -48,6 +50,7 @@ class ListMountsTest(unittest.TestCase):
         # the second /dev/sdb1 entry (a bind mount) is collapsed
         self.assertEqual([m['target'] for m in mounts].count('/dev/sdb1'), 1)
         self.assertEqual(len(mounts), 2)
+        self.assertTrue(all(m['writable'] is True for m in mounts))
 
 
 if __name__ == '__main__':
