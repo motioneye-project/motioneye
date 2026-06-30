@@ -223,16 +223,18 @@ def netcam_use_tcp_params(v: bool, data: dict) -> dict:
 def netcam_params(v: str, data: dict) -> dict:
     params: dict = {}
     for param in v.split(','):
-        param = [x.strip() for x in param.split('=')]
-        if param[0] == 'keepalive':
+        split = [x.strip() for x in param.split('=')]
+        if split[0] == 'keepalive':
             # value can be 'force' as well
-            params['netcam_keepalive'] = True if param[1] == 'on' else 'force' if param[1] == 'force' else False
+            params['netcam_keepalive'] = (
+                True if split[1] == 'on' else 'force' if split[1] == 'force' else False
+            )
 
-        elif param[0] == 'tolerant_check':
-            params['netcam_tolerant_check'] = True if param[1] == 'on' else False
+        elif split[0] == 'tolerant_check':
+            params['netcam_tolerant_check'] = True if split[1] == 'on' else False
 
-        elif param[0] == 'rtsp_transport':
-            params['netcam_use_tcp'] = False if param[1] == 'udp' else True
+        elif split[0] == 'rtsp_transport':
+            params['netcam_use_tcp'] = False if split[1] == 'udp' else True
 
     return params
 
