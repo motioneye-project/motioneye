@@ -428,36 +428,10 @@ def cleanup_media(media_type: str) -> None:
         )
 
 
-def get_movie_duration_seconds(path: str) -> int:
-    cmd = [
-        'ffprobe',
-        '-v',
-        'error',
-        '-show_entries',
-        'format=duration',
-        '-of',
-        'default=noprint_wrappers=1:nokey=1',
-        path,
-    ]
-
-    try:
-        result = utils.call_subprocess(cmd, stderr=None)
-        duration_seconds = int(float(result))
-        return duration_seconds
-
-    except Exception as e:
-        logging.error(f'failed to determine duration of {path}: {e}')
-        return 0
-
-
 def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
     framerate = camera_config['framerate']
     pre_capture = camera_config['pre_capture']
     offs = pre_capture / framerate
-    movie_duration = get_movie_duration_seconds(full_path)
-    offs = max(
-        (x for x in {offs * 2, offs} if x <= movie_duration), default=movie_duration / 2
-    )
 
     path = quote(full_path)
     thumb_path = full_path + '.thumb'

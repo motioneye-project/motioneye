@@ -20,6 +20,7 @@ from pathlib import Path
 from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
+from unittest.mock import patch
 
 from motioneye import mediafiles
 from motioneye.mediafiles import _list_media_files
@@ -362,6 +363,25 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                 self._assert_raises_dir_escape(
                     mediafiles.make_movie_preview, self._camera_config, full_path
                 )
+
+    @patch('motioneye.mediafiles.utils.call_subprocess')
+    def test_make_movie_preview_uses_pre_capture_offset(self, mock_call_subprocess):
+        full_path = os.path.join(self._target_dir, 'movie.mp4')
+        thumb_path = full_path + '.thumb'
+        Path(full_path).touch()
+        Path(thumb_path).write_bytes(b'thumb')
+
+        camera_config = {
+            'target_dir': self._target_dir,
+            'framerate': 10,
+            'pre_capture': 40,
+        }
+
+        result = mediafiles.make_movie_preview(camera_config, full_path)
+
+        self.assertEqual(result, thumb_path)
+        command = mock_call_subprocess.call_args[0][0]
+        self.assertEqual(command[command.index('-ss') + 1], '4.0')
 
     # --- list_media ---
 
