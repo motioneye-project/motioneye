@@ -107,6 +107,7 @@ _USED_MOTION_OPTIONS = {
     'on_event_start',
     'on_movie_end',
     'on_picture_save',
+    'pause',
     'picture_filename',
     'picture_output_motion',
     'picture_output',
