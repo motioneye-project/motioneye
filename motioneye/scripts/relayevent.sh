@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 if [ -z "$3" ]; then
-    echo "Usage: $0 <motioneye.conf> <event> <motion_camera_id> [filename]"
+    echo "Usage: $0 <motioneye.conf> <event> <motion_camera_id> [filename] [camera_dir]"
     exit 1
 fi
 
@@ -24,6 +24,15 @@ fi
 event=$2
 motion_camera_id=$3
 filename=$4
+camera_dir=$5
+
+# send the API a path relative to the camera dir (POSIX prefix strip). Guard
+# against an empty camera_dir - e.g. an old motion config calling a newer
+# script - so we never strip a bare leading "/". If the prefix does not match,
+# the filename is left unchanged and the API still validates it.
+if [ -n "$camera_dir" ]; then
+    filename=${filename#"$camera_dir"/}
+fi
 
 uri="/_relay_event/?event=$event&motion_camera_id=$motion_camera_id"
 data="{\"filename\": \"$filename\"}"

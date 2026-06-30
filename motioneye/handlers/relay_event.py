@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import logging
-from os import sep
+import os
 from typing import Optional
 
 from motioneye import config, mediafiles, motionctl, tasks, uploadservices, utils
@@ -73,10 +73,11 @@ class RelayEventHandler(BaseHandler):
         filename: Optional[str] = self.get_argument('filename')
         if filename is not None:
             target_dir: str = camera_config['target_dir']
-            utils.validate_paths(
-                utils.remove_prefix(filename, target_dir + sep),
-                target_dir=target_dir,
-            )
+            # the relay script sends a path relative to the camera dir;
+            # remove_prefix also tolerates a legacy absolute path coming from an
+            # un-regenerated motion config
+            filename = utils.remove_prefix(filename, target_dir + os.sep)
+            utils.validate_paths(filename, target_dir=target_dir)
 
         if event == 'start':
             if not camera_config['@motion_detection']:
@@ -98,7 +99,7 @@ class RelayEventHandler(BaseHandler):
                 mediafiles.make_movie_preview,
                 tag='make_movie_preview(%s)' % filename,
                 camera_config=camera_config,
-                full_path=filename,
+                rel_path=filename,
             )
 
             # upload to external service
@@ -127,7 +128,8 @@ class RelayEventHandler(BaseHandler):
             camera_name=camera_config['camera_name'],
             target_dir=camera_config['@upload_subfolders']
             and camera_config['target_dir'],
-            filename=filename,
+            # the upload subsystem still works with the absolute path
+            filename=os.path.join(camera_config['target_dir'], filename),
             media_type=media_type,
             clean_uploaded=camera_config['@clean_uploaded'],
         )

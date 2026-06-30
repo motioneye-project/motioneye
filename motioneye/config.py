@@ -1447,7 +1447,10 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     data['on_event_end'] = '; '.join(on_event_end)
 
     # movie end
-    on_movie_end = [f"{meyectl.find_command('relayevent')} movie_end %t %f"]
+    # the trailing target_dir lets relayevent.sh send a path relative to it
+    on_movie_end = [
+        f"{meyectl.find_command('relayevent')} movie_end %t %f '{data['target_dir']}'"
+    ]
 
     if ui['web_hook_storage_enabled']:
         url = sub('\\s', '+', ui['web_hook_storage_url'])
@@ -1466,7 +1469,10 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
     data['on_movie_end'] = '; '.join(on_movie_end)
 
     # picture save
-    on_picture_save = [f"{meyectl.find_command('relayevent')} picture_save %t %f"]
+    # the trailing target_dir lets relayevent.sh send a path relative to it
+    on_picture_save = [
+        f"{meyectl.find_command('relayevent')} picture_save %t %f '{data['target_dir']}'"
+    ]
 
     if ui['web_hook_storage_enabled']:
         url = sub('\\s', '+', ui['web_hook_storage_url'])

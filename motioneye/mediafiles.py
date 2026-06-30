@@ -450,7 +450,11 @@ def get_movie_duration_seconds(path: str) -> int:
         return 0
 
 
-def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
+def make_movie_preview(camera_config: dict, rel_path: str) -> Optional[str]:
+    target_dir: str = camera_config['target_dir']
+    utils.validate_paths(rel_path, target_dir=target_dir)
+    full_path = os.path.join(target_dir, rel_path)
+
     framerate = camera_config['framerate']
     pre_capture = camera_config['pre_capture']
     offs = pre_capture / framerate
@@ -461,12 +465,6 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
 
     path = quote(full_path)
     thumb_path = full_path + '.thumb'
-
-    target_dir: str = camera_config['target_dir']
-    utils.validate_paths(
-        utils.remove_prefix(full_path, target_dir + os.sep),
-        target_dir=target_dir,
-    )
 
     logging.debug(
         f'creating movie preview for {full_path} with an offset of {offs} seconds...'
@@ -912,7 +910,7 @@ def get_media_preview(camera_config, path: str, media_type, width, height):
             # have already been created by the thumbnailer task;
             # if, for some reason that's not the case,
             # we create it right away
-            if not make_movie_preview(camera_config, full_path):
+            if not make_movie_preview(camera_config, path):
                 return None
 
         full_path += '.thumb'
