@@ -29,7 +29,7 @@ from secrets import token_hex
 from shlex import split
 from stat import S_IMODE
 from subprocess import STDOUT
-from typing import Optional
+from typing import Optional, Union
 from urllib.parse import quote, urlunparse
 
 from argon2 import PasswordHasher
@@ -192,50 +192,47 @@ _MOTION_43_TO_41_OPTIONS_MAPPING = {
 }
 
 
-def netcam_keepalive_params(v, data):
+def netcam_keepalive_params(v: Union[bool, str], data: dict) -> dict:
     # value can be 'force' as well
-    v = 'on' if v == True else 'off' if v == False else v  # noqa: E712
+    value: str = 'on' if v == True else 'force' if v == 'force' else 'off'
 
     if 'netcam_params' in data and data['netcam_params']:
-        return {'netcam_params': data['netcam_params'] + ',keepalive = ' + v}
+        return {'netcam_params': data['netcam_params'] + ',keepalive = ' + value}
 
-    return {'netcam_params': 'keepalive = ' + v}
-
-
-def netcam_tolerant_check_params(v, data):
-    v = 'on' if v else 'off'
-
-    if 'netcam_params' in data and data['netcam_params']:
-        return {'netcam_params': data['netcam_params'] + ',tolerant_check = ' + v}
-
-    return {'netcam_params': 'tolerant_check = ' + v}
+    return {'netcam_params': 'keepalive = ' + value}
 
 
-def netcam_use_tcp_params(v, data):
-    v = 'tcp' if v else 'udp'
+def netcam_tolerant_check_params(v: bool, data: dict) -> dict:
+    value: str = 'on' if v else 'off'
 
     if 'netcam_params' in data and data['netcam_params']:
-        return {'netcam_params': data['netcam_params'] + ',rtsp_transport = ' + v}
+        return {'netcam_params': data['netcam_params'] + ',tolerant_check = ' + value}
 
-    return {'netcam_params': 'rtsp_transport = ' + v}
+    return {'netcam_params': 'tolerant_check = ' + value}
 
 
-def netcam_params(v, data):
-    params = {}
+def netcam_use_tcp_params(v: bool, data: dict) -> dict:
+    value: str = 'tcp' if v else 'udp'
+
+    if 'netcam_params' in data and data['netcam_params']:
+        return {'netcam_params': data['netcam_params'] + ',rtsp_transport = ' + value}
+
+    return {'netcam_params': 'rtsp_transport = ' + value}
+
+
+def netcam_params(v: str, data: dict) -> dict:
+    params: dict = {}
     for param in v.split(','):
         param = [x.strip() for x in param.split('=')]
         if param[0] == 'keepalive':
-            params['netcam_keepalive'] = param[1]
+            # value can be 'force' as well
+            params['netcam_keepalive'] = True if param[1] == 'on' else 'force' if param[1] == 'force' else False
 
         elif param[0] == 'tolerant_check':
-            params['netcam_tolerant_check'] = param[1]
+            params['netcam_tolerant_check'] = True if param[1] == 'on' else False
 
         elif param[0] == 'rtsp_transport':
-            if param[1] == 'udp':
-                params['netcam_use_tcp'] = False
-
-            else:
-                params['netcam_use_tcp'] = True
+            params['netcam_use_tcp'] = False if param[1] == 'udp' else True
 
     return params
 
