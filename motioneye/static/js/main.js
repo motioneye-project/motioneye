@@ -4882,6 +4882,12 @@ function addCameraFrameUi(cameraConfig) {
         picturesButton.hide();
         moviesButton.hide();
     }
+    else if (!cameraConfig['still_images']) {
+        picturesButton.hide();
+    }
+    if (cameraConfig['proto'] != 'mjpeg' && !cameraConfig['movies']) {
+        moviesButton.hide();
+    }
 
     cameraFrameDiv.attr('id', 'camera' + cameraId);
     cameraFrameDiv[0].refreshDivider = 0;
