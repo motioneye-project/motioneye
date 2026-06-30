@@ -2174,6 +2174,11 @@ function dict2CameraUi(dict) {
                 label += '/part' + partition.part_no;
             }
             label += ' (' + partition.target + ')';
+            if (partition.writable === false) {
+                /* warn that the motion user cannot write here, so users do not
+                 * pick it and then wonder why no media is stored (#3024) */
+                label += ' [' + i18n.gettext('ne skribebla') + ']';
+            }
 
             storageDeviceOptions[option] = true;
 
