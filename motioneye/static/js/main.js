@@ -4719,6 +4719,17 @@ function runMediaDialog(cameraId, mediaType) {
 
     /* camera frames */
 
+function hideMediaButtonIfEmpty(cameraId, mediaType, button) {
+    /* the list endpoint returns {mediaList: [...]} (empty when there are no
+     * files); with_stat=false keeps the request cheap. On error the button is
+     * left visible (safe default - don't hide when we are unsure). */
+    ajax('GET', basePath + mediaType + '/' + cameraId + '/list/?with_stat=false', null, function (data) {
+        if (data && data.mediaList && !data.mediaList.length) {
+            button.hide();
+        }
+    });
+}
+
 function addCameraFrameUi(cameraConfig) {
     var cameraId = cameraConfig.id;
 
@@ -4835,11 +4846,16 @@ function addCameraFrameUi(cameraConfig) {
         picturesButton.hide();
         moviesButton.hide();
     }
-    else if (!cameraConfig['still_images']) {
-        picturesButton.hide();
-    }
-    if (cameraConfig['proto'] != 'mjpeg' && !cameraConfig['movies']) {
-        moviesButton.hide();
+    else {
+        /* when a capture mode is disabled, only hide its media-browser button
+         * if there are no existing files left to browse, so media recorded
+         * before disabling capture stays accessible (#2731) */
+        if (!cameraConfig['still_images']) {
+            hideMediaButtonIfEmpty(cameraId, 'picture', picturesButton);
+        }
+        if (!cameraConfig['movies']) {
+            hideMediaButtonIfEmpty(cameraId, 'movie', moviesButton);
+        }
     }
 
     cameraFrameDiv.attr('id', 'camera' + cameraId);
