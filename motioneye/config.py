@@ -193,8 +193,7 @@ _MOTION_43_TO_41_OPTIONS_MAPPING = {
 
 
 def netcam_keepalive_params(v: Union[bool, str], data: dict) -> dict:
-    # value can be 'force' as well
-    value: str = 'on' if v == True else 'force' if v == 'force' else 'off'
+    value: str = 'on' if v == True else 'force' if v == 'force' else 'off'  # noqa: E712
 
     if 'netcam_params' in data and data['netcam_params']:
         return {'netcam_params': data['netcam_params'] + ',keepalive = ' + value}
@@ -225,7 +224,6 @@ def netcam_params(v: str, data: dict) -> dict:
     for param in v.split(','):
         split = [x.strip() for x in param.split('=')]
         if split[0] == 'keepalive':
-            # value can be 'force' as well
             params['netcam_keepalive'] = (
                 True if split[1] == 'on' else 'force' if split[1] == 'force' else False
             )
