@@ -3635,22 +3635,22 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
 
         if (playable) {
             video_loader.attr('src', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path);
-            playButton.on('click', function() {
+            playButton.off('click.pictureDialog').on('click.pictureDialog', function() {
                 video_container.attr('src', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path);
                 video_container.show();
                 video_container.get(0).load();  /* Must call load() after changing <video> source */
                 img.hide();
                 playButton.hide();
                 timelapseButton.hide();
-                video_container.on('canplay', function() {
+                video_container.off('canplay.pictureDialog').one('canplay.pictureDialog', function() {
                    video_container.get(0).play();  /* Automatically play the video once the browser is ready */
                 });
             });
 
-            timelapseButton.on('click', function() {
+            timelapseButton.off('click.pictureDialog').on('click.pictureDialog', function() {
                 playButton.trigger('click');
                 mPlayer.playbackRate = 5;
-                video_container.on('ended', function() {
+                video_container.off('ended.pictureDialog').on('ended.pictureDialog', function() {
                     if( pos > 0 ) {
                         nextArrow.trigger('click');
                         playButton.trigger('click');
