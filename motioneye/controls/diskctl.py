@@ -41,9 +41,6 @@ def _list_mounts():
             fstype = parts[2]
             opts = parts[3]
 
-            if not os.access(mount_point, os.W_OK):
-                continue
-
             if target in seen_targets:
                 continue  # probably a bind mount
 
@@ -60,6 +57,8 @@ def _list_mounts():
                     'mount_point': mount_point,
                     'fstype': fstype,
                     'opts': opts,
+                    # Used by the UI to mark unwritable mounts.
+                    'writable': os.access(mount_point, os.W_OK),
                 }
             )
 

@@ -2174,10 +2174,21 @@ function dict2CameraUi(dict) {
                 label += '/part' + partition.part_no;
             }
             label += ' (' + partition.target + ')';
+            if (partition.writable === false) {
+                label += ' [' + i18n.gettext('No write access') + ']';
+            }
 
-            storageDeviceOptions[option] = true;
+            // Show unwritable mounts, but prevent selecting them.
+            $('#storageDeviceSelect').append(
+                $('<option></option>')
+                    .val(option)
+                    .text(label)
+                    .prop('disabled', partition.writable === false)
+            );
 
-            $('#storageDeviceSelect').append('<option value="' + option + '">' + label + '</option>');
+            if (partition.writable !== false) {
+                storageDeviceOptions[option] = true;
+            }
         });
     });
     $('#storageDeviceSelect').append('<option value="custom-path">'+i18n.gettext("Propra dosierindiko")+'</option>');
