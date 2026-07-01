@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-02-17 02:12+0000\n"
-"PO-Revision-Date: 2026-06-17 15:22+0000\n"
-"Last-Translator: Robert Brutoczki <robibrutoczki@googlemail.com>\n"
+"PO-Revision-Date: 2026-07-01 06:02+0000\n"
+"Last-Translator: LibreTranslate <noreply-mt-libretranslate@weblate.org>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/motioneye-project/motioneye-javascript/hu/>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
@@ -195,573 +195,554 @@ msgstr "speciális karakterek használata nem engedélyezett a fájlnevekben"
 msgid "enigu validan valoron"
 msgstr "írj be egy valós értéket"
 
-#: motioneye/static/js/main.js:698
+#: motioneye/static/js/main.js:701
 msgid "Ĉi rekursie forigos ĉiujn dosierojn ĉeestantajn en la nuba dosierujo \""
 msgstr "Ez a művelet minden kapcsolódó, jelenleg a felhőben tárolt fájlt el fog távolítani \""
 
-#: motioneye/static/js/main.js:699
+#: motioneye/static/js/main.js:702
 msgid "\", ne nur tiuj alŝutitaj de motionEye!"
 msgstr "\", nem csak azokat, amiket a motionEye hozott létre, vagy töltött fel!"
 
-#: motioneye/static/js/main.js:790
+#: motioneye/static/js/main.js:711
+#, fuzzy
+msgid "\"Purigi la nubon\" estis malŝaltita ĉar ĝi konfliktas kun \"Forigi Dosierojn Post Alŝuto\"."
+msgstr "\"Purize the Cloud\" kikapcsolódott, mert ellentmond a \"Fájlok frissítése után\"."
+
+#: motioneye/static/js/main.js:802
 msgid "Ĉi rekursie forigos ĉiujn malnovajn amaskomunikilajn dosierojn en la dosierujo \""
 msgstr "Ez a művelet minden kapcsolódó régi fájlt el fog távolítani a mappából \""
 
-#: motioneye/static/js/main.js:791
+#: motioneye/static/js/main.js:803
 msgid "\", ne nur tiuj kreitaj de motionEye!"
 msgstr "\", nem csak azokat, amiket a motionEye hozott létre!"
 
-#: motioneye/static/js/main.js:874
+#: motioneye/static/js/main.js:883
 msgid "Ne eblas redakti la maskon sen valida kameraa bildo!"
 msgstr "Kamerakép nélkül nem szerkeszthető a maszk!"
 
-#: motioneye/static/js/main.js:2135
+#: motioneye/static/js/main.js:2145
 msgid "Propra"
 msgstr "Egyéni"
 
-#: motioneye/static/js/main.js:2173
+#: motioneye/static/js/main.js:2183
 msgid "Propra dosierindiko"
 msgstr "Egyéni útvonal"
 
-#: motioneye/static/js/main.js:2175
+#: motioneye/static/js/main.js:2185
 msgid "Retan kunlokon"
 msgstr "Hálózati megosztás"
 
-#: motioneye/static/js/main.js:2531
+#: motioneye/static/js/main.js:2542
 msgid "Via retumilo ne efektivigas ĉi tiun funkcion!"
 msgstr "A böngésződ nem támogatja a funkciót!"
 
-#: motioneye/static/js/main.js:2547
+#: motioneye/static/js/main.js:2558
 msgid "Apliki"
 msgstr "Alkalmaz"
 
-#: motioneye/static/js/main.js:2574 motioneye/static/js/main.js:2941
-#: motioneye/static/js/main.js:2997 motioneye/static/js/main.js:3072
+#: motioneye/static/js/main.js:2585 motioneye/static/js/main.js:2901
+#: motioneye/static/js/main.js:2957 motioneye/static/js/main.js:3032
 msgid "Certigu, ke ĉiuj agordaj opcioj validas!"
 msgstr "Győződj meg róla, hogy minden opciót rendben találsz!"
 
-#: motioneye/static/js/main.js:2628
+#: motioneye/static/js/main.js:2639
 #, fuzzy
 msgid "Admin password updated. Please log in again."
 msgstr "Adminisztráció. Kérjük, maradjon újra."
 
-#: motioneye/static/js/main.js:2682
+#: motioneye/static/js/main.js:2693
 msgid "Ĉi tio rekomencos la sistemon. Daŭrigi?"
 msgstr "A rendszer újra fog indulni. Folytatod?"
 
-#: motioneye/static/js/main.js:2692
+#: motioneye/static/js/main.js:2703
 msgid "Vere fermiti sistemon?"
 msgstr "Biztosan le akarod állítani?"
 
-#: motioneye/static/js/main.js:2704
+#: motioneye/static/js/main.js:2715
 msgid "Malŝaltita"
 msgstr "Kikapcsolás"
 
-#: motioneye/static/js/main.js:2719
+#: motioneye/static/js/main.js:2730
 msgid "Ĉu vere restartigi ?"
 msgstr "Biztosan újraindítod?"
 
-#: motioneye/static/js/main.js:2733
+#: motioneye/static/js/main.js:2744
 msgid "La sistemo rekomencis!"
 msgstr "A rendszer újraindult!"
 
-#: motioneye/static/js/main.js:2753 motioneye/static/js/main.js:2786
-#: motioneye/static/js/main.js:3816 motioneye/static/js/main.js:4146
+#: motioneye/static/js/main.js:2764 motioneye/static/js/main.js:3776
+#: motioneye/static/js/main.js:4106
 msgid "Bonvolu apliki unue la modifitajn agordojn!"
 msgstr "Előbb alkalmazd a módosított beállításokat!"
 
-#: motioneye/static/js/main.js:2758
+#: motioneye/static/js/main.js:2769
 msgid "Neniu fotilo por forigi!"
 msgstr "Nincs eltávolítható kamera!"
 
-#: motioneye/static/js/main.js:2764
+#: motioneye/static/js/main.js:2775
 msgid "Ĉu forigi kameraon "
 msgstr "Kamera törlése: "
 
-#: motioneye/static/js/main.js:2792
-msgid "motionEye estas ĝisdatigita (aktuala versio: "
-msgstr "A motionEye aktuális (jelenlegi verzió: "
-
-#: motioneye/static/js/main.js:2795
-msgid "Nova versio havebla: "
-msgstr "Új verzió elérhető: "
-
-#: motioneye/static/js/main.js:2795
-msgid ". Ĝisdatigi?"
-msgstr ". Frissíted?"
-
 #: motioneye/static/js/main.js:2803
-msgid "motionEye estis sukcese ĝisdatigita!"
-msgstr "A motionEye frissítése sikeres volt!"
-
-#: motioneye/static/js/main.js:2813
-msgid "Ĝisdatigo malsukcesis!"
-msgstr "Frissítési hiba!"
-
-#: motioneye/static/js/main.js:2824
-msgid "La ĝisdatiga procezo malsukcesis!"
-msgstr "A frissítés nem sikerült!"
-
-#: motioneye/static/js/main.js:2843
 msgid "Rezerva dosiero"
 msgstr "Biztonsági mentés"
 
-#: motioneye/static/js/main.js:2845
+#: motioneye/static/js/main.js:2805
 msgid "La rezervan dosieron, kiun vi antaŭe elŝutis."
 msgstr "a korábban letöltött biztonsági fájl."
 
-#: motioneye/static/js/main.js:2874
+#: motioneye/static/js/main.js:2834
 msgid "Restaŭrigi Agordon"
 msgstr "Beállítások visszaállítása"
 
-#: motioneye/static/js/main.js:2886
+#: motioneye/static/js/main.js:2846
 msgid "Restaŭriganta agordon ..."
 msgstr "Beállítások visszaállítása ..."
 
-#: motioneye/static/js/main.js:2893
+#: motioneye/static/js/main.js:2853
 msgid "La agordo restaŭrigis!"
 msgstr "Sikerült a beállítások visszaállítása!"
 
-#: motioneye/static/js/main.js:2903 motioneye/static/js/main.js:2922
+#: motioneye/static/js/main.js:2863 motioneye/static/js/main.js:2882
 msgid "Malsukcesis restaŭri la agordon!"
 msgstr "Nem sikerült visszaállítani a beállításokat!"
 
-#: motioneye/static/js/main.js:2978
+#: motioneye/static/js/main.js:2938
 msgid "Aliri la alŝutan servon malsukcesis: "
 msgstr "Nem sikerült elérni a feltöltési szolgáltatást: "
 
-#: motioneye/static/js/main.js:2981
+#: motioneye/static/js/main.js:2941
 msgid "Aliri la alŝutan servon sukcesis!"
 msgstr "Sikerült elérni a feltöltési szolgáltatást!"
 
-#: motioneye/static/js/main.js:3018
+#: motioneye/static/js/main.js:2978
 msgid "Sciiga retpoŝto fiaskis:"
 msgstr "Sikertelen értesítő e-mail:"
 
-#: motioneye/static/js/main.js:3021
+#: motioneye/static/js/main.js:2981
 msgid "Notification email succeeded!"
 msgstr "Értesítő email sikeres !"
 
-#: motioneye/static/js/main.js:3037
+#: motioneye/static/js/main.js:2997
 msgid "Certiĝu, ke ĉiuj agordaj opcioj estas validaj!"
 msgstr "Győződjön meg arról, hogy minden konfigurációs opció megfelelő!"
 
-#: motioneye/static/js/main.js:3053
+#: motioneye/static/js/main.js:3013
 #, fuzzy
 msgid "Sciiga Telegramo fiaskis:"
 msgstr "Telegram értesítés hiba:"
 
-#: motioneye/static/js/main.js:3056
+#: motioneye/static/js/main.js:3016
 #, fuzzy
 msgid "Sciiga Telegramo sukcesis!"
 msgstr "Telegram értesítés sikerült!"
 
-#: motioneye/static/js/main.js:3092
+#: motioneye/static/js/main.js:3052
 msgid "Aliro al retdividado fiaskis: "
 msgstr "Hálózati megosztáshoz való hozzáférés hiba. "
 
-#: motioneye/static/js/main.js:3095
+#: motioneye/static/js/main.js:3055
 #, fuzzy
 msgid "Aliro al retdividado sukcesis!"
 msgstr "A hálózati megosztáshoz való hozzáférés sikeres volt!"
 
-#: motioneye/static/js/main.js:3119
+#: motioneye/static/js/main.js:3079
 msgid "Ĉu vere forigi ĉi tiun dosieron?"
 msgstr "Tényleg töröljem ezt a fájlt?"
 
-#: motioneye/static/js/main.js:3143
+#: motioneye/static/js/main.js:3103
 #, fuzzy
 msgid "Ĉu vere forigi ĉiujn bildojn de \"%(group)s\"?"
 msgstr "Tényleg töröljem a \"% csoport\" összes képét?"
 
-#: motioneye/static/js/main.js:3146
+#: motioneye/static/js/main.js:3106
 msgid "Ĉu vere forigi ĉiujn filmojn de \"%(group)s\"?"
 msgstr "Tényleg eltávolítsam az összes filmet ettől a \"% csoport\"-ból?"
 
-#: motioneye/static/js/main.js:3151
+#: motioneye/static/js/main.js:3111
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn bildojn?"
 msgstr "Tényleg töröljem az összes képet?"
 
-#: motioneye/static/js/main.js:3154
+#: motioneye/static/js/main.js:3114
 msgid "Ĉu vere forigi ĉiujn ne grupigitajn filmojn?"
 msgstr "Tényleg töröljem az összes filmet?"
 
-#: motioneye/static/js/main.js:3266
+#: motioneye/static/js/main.js:3226
 #, fuzzy
 msgid "aldonadi kameraon..."
 msgstr "kamera hozzáadása..."
 
-#: motioneye/static/js/main.js:3497 motioneye/static/js/main.js:3838
-#: motioneye/static/js/main.js:4159
+#: motioneye/static/js/main.js:3457 motioneye/static/js/main.js:3798
+#: motioneye/static/js/main.js:4119
 #, fuzzy
 msgid "Uzantnomo"
 msgstr "Felhasználónév"
 
-#: motioneye/static/js/main.js:3502 motioneye/static/js/main.js:3843
-#: motioneye/static/js/main.js:4164
+#: motioneye/static/js/main.js:3462 motioneye/static/js/main.js:3803
+#: motioneye/static/js/main.js:4124
 msgid "Pasvorto"
 msgstr "Jelszó"
 
-#: motioneye/static/js/main.js:3514
+#: motioneye/static/js/main.js:3474
 #, fuzzy
 msgid "Please login to continue."
 msgstr "Kérjük, jelentkezzen be a folytatáshoz."
 
-#: motioneye/static/js/main.js:3518 motioneye/static/js/main.js:3522
+#: motioneye/static/js/main.js:3478 motioneye/static/js/main.js:3482
 #, fuzzy
 msgid "Ensaluti"
 msgstr "Bejelentkezés"
 
-#: motioneye/static/js/main.js:3521 motioneye/static/js/ui.js:736
+#: motioneye/static/js/main.js:3481 motioneye/static/js/ui.js:736
 #: motioneye/static/js/ui.js:743
 msgid "Nuligi"
 msgstr "Mégse"
 
-#: motioneye/static/js/main.js:3549
+#: motioneye/static/js/main.js:3509
 #, fuzzy
 msgid "Your account requires a password to be set. Please contact the administrator to set a password for your account."
 msgstr "A fiókja egy jelszó, amelyet létrehozni kell. Kérjük, vegye fel a kapcsolatot a játék a fiókot."
 
-#: motioneye/static/js/main.js:3562
+#: motioneye/static/js/main.js:3522
 #, fuzzy
 msgid "Please set a password for your account."
 msgstr "Kérjük, állítson be egy jelszót a fiókjához."
 
-#: motioneye/static/js/main.js:3579
+#: motioneye/static/js/main.js:3539
 #, fuzzy
 msgid "Login failed."
 msgstr "Login."
 
-#: motioneye/static/js/main.js:3613
+#: motioneye/static/js/main.js:3573
 msgid "Vi abortis la filmeton."
 msgstr "A filmet leállítottad."
 
-#: motioneye/static/js/main.js:3616
+#: motioneye/static/js/main.js:3576
 msgid "Reto eraro okazis."
 msgstr "Hálózati hiba történt."
 
-#: motioneye/static/js/main.js:3619
+#: motioneye/static/js/main.js:3579
 msgid "Malkodado-eraro aŭ neprogresinta funkcio."
 msgstr "Média dekódolás hiba vagy nem támogatott média jellemző."
 
-#: motioneye/static/js/main.js:3622
+#: motioneye/static/js/main.js:3582
 msgid "Formato ne subtenata aŭ neatingebla/netaŭga por ludado."
 msgstr "A formátum nem támogatott vagy alkalmatlan a lejátszáshoz."
 
-#: motioneye/static/js/main.js:3625
+#: motioneye/static/js/main.js:3585
 #, fuzzy
 msgid "Nekonata eraro okazis."
 msgstr "Ismeretlen hiba történt."
 
-#: motioneye/static/js/main.js:3628
+#: motioneye/static/js/main.js:3588
 #, fuzzy
 msgid "Eraro : "
 msgstr "Hiba: "
 
-#: motioneye/static/js/main.js:3633
+#: motioneye/static/js/main.js:3593
 #, fuzzy
 msgid "antaŭa bildo"
 msgstr "előző kép"
 
-#: motioneye/static/js/main.js:3638
+#: motioneye/static/js/main.js:3598
 msgid "ludi"
 msgstr "lejátszás"
 
-#: motioneye/static/js/main.js:3641
+#: motioneye/static/js/main.js:3601
 msgid "ludi * 5 kaj enĉenigi"
 msgstr "Lejátszás * 5 és lépj be"
 
-#: motioneye/static/js/main.js:3646
+#: motioneye/static/js/main.js:3606
 msgid "sekva bildo"
 msgstr "következő kép"
 
-#: motioneye/static/js/main.js:3769
+#: motioneye/static/js/main.js:3729
 msgid "Fermi"
 msgstr "Becsuk"
 
-#: motioneye/static/js/main.js:3770 motioneye/static/js/main.js:4422
+#: motioneye/static/js/main.js:3730 motioneye/static/js/main.js:4382
 #, fuzzy
 msgid "Elŝuti"
 msgstr "Letöltés"
 
-#: motioneye/static/js/main.js:3778 motioneye/static/js/main.js:4425
+#: motioneye/static/js/main.js:3738 motioneye/static/js/main.js:4385
 msgid "Forigi"
 msgstr "Eltávolítás"
 
-#: motioneye/static/js/main.js:3822
+#: motioneye/static/js/main.js:3782
 #, fuzzy
 msgid "Kamerao tipo"
 msgstr "Kamara típus"
 
-#: motioneye/static/js/main.js:3824
+#: motioneye/static/js/main.js:3784
 #, fuzzy
 msgid "Loka V4L2-kamerao"
 msgstr "Helyi V4L2 kamera"
 
-#: motioneye/static/js/main.js:3825
+#: motioneye/static/js/main.js:3785
 msgid "Loka MMAL-kamerao"
 msgstr "Helyi MMAL kamera"
 
-#: motioneye/static/js/main.js:3826
+#: motioneye/static/js/main.js:3786
 msgid "Reta kamerao"
 msgstr "Hálózati kamera"
 
-#: motioneye/static/js/main.js:3827
+#: motioneye/static/js/main.js:3787
 msgid "Fora motionEye kamerao"
 msgstr "Távoli motionEye kamera"
 
-#: motioneye/static/js/main.js:3828
+#: motioneye/static/js/main.js:3788
 msgid "Simpla MJPEG-kamerao"
 msgstr "Egyszerű MJPEG kamera"
 
-#: motioneye/static/js/main.js:3830
+#: motioneye/static/js/main.js:3790
 msgid "la speco de kamerao, kiun vi volas aldoni"
 msgstr "A kamera típusa, amit hozzá akar adni"
 
-#: motioneye/static/js/main.js:3833 motioneye/static/js/main.js:4151
+#: motioneye/static/js/main.js:3793 motioneye/static/js/main.js:4111
 #, fuzzy
 msgid "URL"
 msgstr "URL"
 
-#: motioneye/static/js/main.js:3834 motioneye/static/js/main.js:4152
+#: motioneye/static/js/main.js:3794 motioneye/static/js/main.js:4112
 msgid "http://ekzemplo.com:8765/cams/..."
 msgstr "http://example.com:8765/cams/..."
 
-#: motioneye/static/js/main.js:3835 motioneye/static/js/main.js:4153
+#: motioneye/static/js/main.js:3795 motioneye/static/js/main.js:4113
 msgid "la kameraa URL (ekz. http://ekzemplo.com:8080/cam/)"
 msgstr "a kamera URL (pl. http://example.com:80/cam/)"
 
-#: motioneye/static/js/main.js:3839 motioneye/static/js/main.js:4160
+#: motioneye/static/js/main.js:3799 motioneye/static/js/main.js:4120
 msgid "uzantnomo..."
 msgstr "felhasználónév ..."
 
-#: motioneye/static/js/main.js:3840
+#: motioneye/static/js/main.js:3800
 msgid "la uzantnomo por la URL, se bezonata (ekz. administranto)"
 msgstr "az URL felhasználónévje, ha szükséges (pl. admin)"
 
-#: motioneye/static/js/main.js:3844 motioneye/static/js/main.js:4165
+#: motioneye/static/js/main.js:3804 motioneye/static/js/main.js:4125
 #, fuzzy
 msgid "pasvorto..."
 msgstr "jelszó..."
 
-#: motioneye/static/js/main.js:3845
+#: motioneye/static/js/main.js:3805
 #, fuzzy
 msgid "la pasvorto por la URL, se bezonata"
 msgstr "szükség esetén az URL jelszója"
 
-#: motioneye/static/js/main.js:3848 motioneye/static/js/main.js:4172
+#: motioneye/static/js/main.js:3808 motioneye/static/js/main.js:4132
 #, fuzzy
 msgid "Remote Secret"
 msgstr "Távoli titkos"
 
-#: motioneye/static/js/main.js:3849 motioneye/static/js/main.js:4173
+#: motioneye/static/js/main.js:3809 motioneye/static/js/main.js:4133
 #, fuzzy
 msgid "remote secret..."
 msgstr "távoli titk..."
 
-#: motioneye/static/js/main.js:3850
+#: motioneye/static/js/main.js:3810
 #, fuzzy
 msgid "the client secret of the remote motionEye server. Find this value in the Client Secret field of the remote server's general settings."
 msgstr "az ügyfél titka a távoli mozgás Eye. Keresse meg ezt az értéket a távoli létező általános domain ügyfél titkos területén."
 
-#: motioneye/static/js/main.js:3853
+#: motioneye/static/js/main.js:3813
 msgid "Kamerao"
 msgstr "Kamera"
 
-#: motioneye/static/js/main.js:3855
+#: motioneye/static/js/main.js:3815
 #, fuzzy
 msgid "la kameraon, kiun vi volas aldoni"
 msgstr "a kamera, amit hozzá akar adni"
 
-#: motioneye/static/js/main.js:3889
+#: motioneye/static/js/main.js:3849
 msgid "Fora motionEye kamerao estas kameraoj instalitaj malantaŭ alia servilo de MotionEye. Aldonante ilin ĉi tie permesos vin rigardi kaj administri ilin de malproksime."
 msgstr "A távoli motionEye kamerák egy másik motionEye szerver mögé telepített kamerák. Ha itt hozzáadja őket, akkor távolról megtekintheti és kezelheti őket."
 
-#: motioneye/static/js/main.js:3902
+#: motioneye/static/js/main.js:3862
 msgid "Retaj kameraoj (aŭ IP-kameraoj) estas aparatoj, kiuj denaske fluas RTSP/RTMP aŭ MJPEG-filmetojn aŭ simplajn JPEG-bildojn. Konsultu la manlibron de via aparato por ekscii la ĝustan URL RTSP, RTMP, MJPEG aŭ JPEG."
 msgstr "Hálózati kamerák (vagy IP kamerák) olyan eszközök, amelyek RTSP / RTMP vagy MJPEG videókat vagy egyszerű JPEG képeket küldenek. Használja eszközének kézikönyvét a megfelelő RTSP, RTMP, MJPEG vagy JPEG URL beállításokhoz."
 
-#: motioneye/static/js/main.js:3907
+#: motioneye/static/js/main.js:3867
 #, fuzzy
 msgid "Lokaj MMAL-kameraoj estas aparatoj konektitaj rekte al via motionEye-sistemo. Ĉi tiuj estas kutime kart-specifaj kameraoj."
 msgstr "A helyi MMAL kamerák olyan eszközök, amelyek közvetlenül kapcsolódnak a mozgás Eye rendszeréhez. Ezek általában autóspecifikus kamerák."
 
-#: motioneye/static/js/main.js:3920
+#: motioneye/static/js/main.js:3880
 #, fuzzy
 msgid "Aldonante vian aparaton kiel simplan MJPEG-kameraon anstataŭ kiel retan kameraon plibonigos la fotografaĵon, sed neniu moviĝo-detekto, bilda kaptado aŭ registrado de filmoj estos disponebla por ĝi. La kamerao devas esti alirebla por via servilo kaj via retumilo. Ĉi tiu tipo de kamerao ne kongruas kun Internet Explorer."
 msgstr "A készülék hozzáadása egyszerű MJPEG fényképezőgépként, ahelyett, hogy egy online fényképezőgép javítaná a fényképet, de nem lesz mozgásérzékelés, kép rögzítése vagy felvétele a filmek lesz elérhető. A kamerának elérhetőnek kell lennie a szerveréhez és a böngészőjéhez. Ez a fajta kamera nem egyezik az Internet Explorerrel."
 
-#: motioneye/static/js/main.js:3925
+#: motioneye/static/js/main.js:3885
 #, fuzzy
 msgid "Lokaj V4L2-kameraoj estas kameraaj aparatoj konektitaj rekte al via motionEye-sistemo, kutime per USB."
 msgstr "A helyi V4L2 fényképezőgépek közvetlenül a mozgás Eye rendszeréhez kapcsolódnak, általában az USB."
 
-#: motioneye/static/js/main.js:4078
+#: motioneye/static/js/main.js:4038
 #, fuzzy
 msgid "Aldonadi kameraon..."
 msgstr "Kamera hozzáadása..."
 
-#: motioneye/static/js/main.js:4161 motioneye/static/js/main.js:4166
+#: motioneye/static/js/main.js:4121 motioneye/static/js/main.js:4126
 #, fuzzy
 msgid "leave both empty to keep the current username and password"
 msgstr "hagyja mindkét oldalt, hogy megtartsa a felhasználónevet és a jelszót"
 
-#: motioneye/static/js/main.js:4174
+#: motioneye/static/js/main.js:4134
 #, fuzzy
 msgid "leave empty to keep the current remote secret"
 msgstr "hagyja megtartani a jelenlegi távoli titkot"
 
-#: motioneye/static/js/main.js:4189
+#: motioneye/static/js/main.js:4149
 #, fuzzy
 msgid "Edit connection information"
 msgstr "Információ szerkesztése"
 
-#: motioneye/static/js/main.js:4240
+#: motioneye/static/js/main.js:4200
 #, fuzzy
 msgid "Grupo"
 msgstr "Csoport"
 
-#: motioneye/static/js/main.js:4244
+#: motioneye/static/js/main.js:4204
 #, fuzzy
 msgid "Inkluzivi foton prenitan ĉiun"
 msgstr "Tartalmaz egy fényképet, amelyet mindegyik"
 
-#: motioneye/static/js/main.js:4247
+#: motioneye/static/js/main.js:4207
 #, fuzzy
 msgid "sekundo"
 msgstr "második"
 
-#: motioneye/static/js/main.js:4248
+#: motioneye/static/js/main.js:4208
 #, fuzzy
 msgid "5 sekundoj"
 msgstr "5 másodperc"
 
-#: motioneye/static/js/main.js:4249
+#: motioneye/static/js/main.js:4209
 #, fuzzy
 msgid "10 sekundoj"
 msgstr "10 másodperc"
 
-#: motioneye/static/js/main.js:4250
+#: motioneye/static/js/main.js:4210
 #, fuzzy
 msgid "30 sekundoj"
 msgstr "30 másodperc"
 
-#: motioneye/static/js/main.js:4251
+#: motioneye/static/js/main.js:4211
 #, fuzzy
 msgid "minuto"
 msgstr "perc"
 
-#: motioneye/static/js/main.js:4252
+#: motioneye/static/js/main.js:4212
 #, fuzzy
 msgid "5 minutoj"
 msgstr "5 perc"
 
-#: motioneye/static/js/main.js:4253
+#: motioneye/static/js/main.js:4213
 #, fuzzy
 msgid "10 minutoj"
 msgstr "10 perc"
 
-#: motioneye/static/js/main.js:4254
+#: motioneye/static/js/main.js:4214
 #, fuzzy
 msgid "30 minutoj"
 msgstr "30 perc"
 
-#: motioneye/static/js/main.js:4255
+#: motioneye/static/js/main.js:4215
 #, fuzzy
 msgid "horo"
 msgstr "óra órája"
 
-#: motioneye/static/js/main.js:4258
+#: motioneye/static/js/main.js:4218
 #, fuzzy
 msgid "Elektu la intervalon de tempo inter du elektitaj bildoj."
 msgstr "Válassza ki a két kiválasztott kép közötti időt."
 
-#: motioneye/static/js/main.js:4261
+#: motioneye/static/js/main.js:4221
 #, fuzzy
 msgid "Filmo framfrekvenco"
 msgstr "Filmkeret frekvenciája"
 
-#: motioneye/static/js/main.js:4263
+#: motioneye/static/js/main.js:4223
 #, fuzzy
 msgid "Elektu kiom rapide vi volas ke la akselita video estu."
 msgstr "Válassza ki, milyen gyorsan akarja a digitális videót."
 
-#: motioneye/static/js/main.js:4272
+#: motioneye/static/js/main.js:4232
 #, fuzzy
 msgid "Konsiderante la grandan nombron da bildoj, krei vian video povus daŭri iom da tempo!"
 msgstr "Figyelembe véve a nagyszámú képeket, a videó létrehozása egy kis ideig tarthat!"
 
-#: motioneye/static/js/main.js:4289
+#: motioneye/static/js/main.js:4249
 #, fuzzy
 msgid "Krei akselita video"
 msgstr "Készítsen egy approsite videót"
 
-#: motioneye/static/js/main.js:4298
+#: motioneye/static/js/main.js:4258
 #, fuzzy
 msgid "Filmo kreanta en progreso..."
 msgstr "Film létrehozása előrehaladás..."
 
-#: motioneye/static/js/main.js:4549
+#: motioneye/static/js/main.js:4509
 #, fuzzy
 msgid "Zipitaj"
 msgstr "Ziped"
 
-#: motioneye/static/js/main.js:4558
+#: motioneye/static/js/main.js:4518
 #, fuzzy
 msgid "Akselita video"
 msgstr "Edited videó"
 
-#: motioneye/static/js/main.js:4569
+#: motioneye/static/js/main.js:4529
 #, fuzzy
 msgid "Forigi ĉiujn"
 msgstr "Távolítsa el mindenkit"
 
-#: motioneye/static/js/main.js:4711
+#: motioneye/static/js/main.js:4671
 #, fuzzy
 msgid "Bildoj prenitaj de "
 msgstr "Képek készültek "
 
-#: motioneye/static/js/main.js:4714
+#: motioneye/static/js/main.js:4674
 #, fuzzy
 msgid "Filmoj registritaj de "
 msgstr "Filmek által rögzített "
 
-#: motioneye/static/js/main.js:4782
+#: motioneye/static/js/main.js:4742
 #, fuzzy
 msgid "montru ĉi tiun fotilon plenekranan"
 msgstr "mutasd meg ezt a fényképezőgépet teljes képernyő"
 
-#: motioneye/static/js/main.js:4783
+#: motioneye/static/js/main.js:4743
 #, fuzzy
 msgid "montri ĉiujn fotilojn"
 msgstr "mutasd meg az összes kamerát"
 
-#: motioneye/static/js/main.js:4784
+#: motioneye/static/js/main.js:4744
 #, fuzzy
 msgid "montru nur ĉi tiun fotilon"
 msgstr "mutassa csak ezt a fényképezőgépet"
 
-#: motioneye/static/js/main.js:4785
+#: motioneye/static/js/main.js:4745
 #, fuzzy
 msgid "malfermaj bildoj retumilo"
 msgstr "nyílt képek böngésző"
 
-#: motioneye/static/js/main.js:4786
+#: motioneye/static/js/main.js:4746
 #, fuzzy
 msgid "malferma videoj retumilo"
 msgstr "nyílt videó böngészők"
 
-#: motioneye/static/js/main.js:4787
+#: motioneye/static/js/main.js:4747
 #, fuzzy
 msgid "agordi ĉi tiun kameraon"
 msgstr "tedd ezt a fényképezőgépet"
 
-#: motioneye/static/js/main.js:4803
+#: motioneye/static/js/main.js:4763
 #, fuzzy
 msgid "preni instantaron"
 msgstr "vessen egy pillanatot"
 
-#: motioneye/static/js/main.js:5196
+#: motioneye/static/js/main.js:5156
 #, fuzzy
 msgid "Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ..."
 msgstr "Még nem is készítettél fényképezőgépet. Kattintson ide, hogy hozzáadjon egyet..."
@@ -830,6 +811,24 @@ msgstr "Igen, igen"
 #, fuzzy
 msgid "Bone"
 msgstr "Jó jól"
+
+#~ msgid "motionEye estas ĝisdatigita (aktuala versio: "
+#~ msgstr "A motionEye aktuális (jelenlegi verzió: "
+
+#~ msgid "Nova versio havebla: "
+#~ msgstr "Új verzió elérhető: "
+
+#~ msgid ". Ĝisdatigi?"
+#~ msgstr ". Frissíted?"
+
+#~ msgid "motionEye estis sukcese ĝisdatigita!"
+#~ msgstr "A motionEye frissítése sikeres volt!"
+
+#~ msgid "Ĝisdatigo malsukcesis!"
+#~ msgstr "Frissítési hiba!"
+
+#~ msgid "La ĝisdatiga procezo malsukcesis!"
+#~ msgstr "A frissítés nem sikerült!"
 
 #~ msgid "Memoru min"
 #~ msgstr "Emlékezz rám"
