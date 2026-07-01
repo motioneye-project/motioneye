@@ -41,9 +41,6 @@ def _list_mounts():
             fstype = parts[2]
             opts = parts[3]
 
-            # a mounted drive the motion user cannot (yet) write to is still
-            # offered as a storage device; it used to be filtered out here on a
-            # missing os.W_OK, so the drive looked unrecognised (#3024)
 
             if target in seen_targets:
                 continue  # probably a bind mount
