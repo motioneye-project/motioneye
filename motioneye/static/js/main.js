@@ -2175,18 +2175,10 @@ function dict2CameraUi(dict) {
             }
             label += ' (' + partition.target + ')';
             if (partition.writable === false) {
-                /* warn that the motion user cannot write here, so users do not
-                 * pick it and then wonder why no media is stored (#3024) */
-                label += ' [' + i18n.gettext('ne skribebla') + ']';
-            }
-
-            storageDeviceOptions[option] = true;
-
-            if (partition.writable === false) {
                 label += ' [' + i18n.gettext('No write access') + ']';
             }
 
-            // Show unwritable mounts, but prevent selecting them.            
+            // Show unwritable mounts, but prevent selecting them.
             $('#storageDeviceSelect').append(
                 $('<option></option>')
                     .val(option)
