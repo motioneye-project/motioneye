@@ -41,7 +41,6 @@ def _list_mounts():
             fstype = parts[2]
             opts = parts[3]
 
-
             if target in seen_targets:
                 continue  # probably a bind mount
 
