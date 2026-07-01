@@ -442,21 +442,17 @@ async def list_media(
 
 
 async def get_media_content(
-    local_config, filename: str, media_type
+    local_config: dict, filename: str, media_type: str
 ) -> utils.CommonExternalResponse:
     utils.validate_paths(filename)
 
     scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
 
     logging.debug(
-        'downloading file {filename} of remote camera {id} on {url}'.format(
-            filename=filename, id=camera_id, url=pretty_camera_url(local_config)
-        )
+        f'downloading file {filename} of remote camera {camera_id} on {pretty_camera_url(local_config)}'
     )
 
-    path += '/{media_type}/{id}/download/{filename}'.format(
-        media_type=media_type, id=camera_id, filename=filename
-    )
+    path += f'/{media_type}/{camera_id}/download/{filename}'
 
     # timeout here is 10 times larger than usual - we expect a big delay when fetching the media list
     request = _make_request(
@@ -752,7 +748,11 @@ async def get_timelapse_movie(
 
 
 async def get_media_preview(
-    local_config, filename: str, media_type, width, height
+    local_config: dict,
+    filename: str,
+    media_type: str,
+    width: Optional[str] = None,
+    height: Optional[str] = None,
 ) -> utils.CommonExternalResponse:
     utils.validate_paths(filename)
 
@@ -794,21 +794,17 @@ async def get_media_preview(
 
 
 async def del_media_content(
-    local_config, filename: str, media_type
+    local_config: dict, filename: str, media_type: str
 ) -> utils.CommonExternalResponse:
     utils.validate_paths(filename)
 
     scheme, host, port, remote_secret, path, camera_id = _remote_params(local_config)
 
     logging.debug(
-        'deleting file {filename} of remote camera {id} on {url}'.format(
-            filename=filename, id=camera_id, url=pretty_camera_url(local_config)
-        )
+        f'deleting file {filename} of remote camera {camera_id} on {pretty_camera_url(local_config)}'
     )
 
-    path += '/{media_type}/{id}/delete/{filename}'.format(
-        media_type=media_type, id=camera_id, filename=filename
-    )
+    path += f'/{media_type}/{camera_id}/delete/{filename}'
 
     request = _make_request(
         scheme,

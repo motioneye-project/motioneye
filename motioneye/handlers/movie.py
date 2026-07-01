@@ -157,11 +157,7 @@ class MovieHandler(BaseHandler):
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
     async def preview(self, camera_id, filename):
-        logging.debug(
-            'previewing movie {filename} of camera {id}'.format(
-                filename=filename, id=camera_id
-            )
-        )
+        logging.debug(f'previewing movie {filename} of camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
@@ -186,8 +182,8 @@ class MovieHandler(BaseHandler):
         elif utils.is_remote_camera(camera_config):
             resp = await remote.get_media_preview(
                 camera_config,
-                filename=filename,
-                media_type='movie',
+                filename,
+                'movie',
                 width=self.get_argument('width', None),
                 height=self.get_argument('height', None),
             )
@@ -218,7 +214,7 @@ class MovieHandler(BaseHandler):
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
             try:
-                mediafiles.del_media_content(camera_config, filename, 'movie')
+                mediafiles.del_media_content(camera_config, filename)
                 return self.finish_json()
 
             except Exception as e:

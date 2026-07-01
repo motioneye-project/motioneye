@@ -307,7 +307,7 @@ class PictureHandler(BaseHandler):
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
-            content = mediafiles.get_media_content(camera_config, filename, 'picture')
+            content = mediafiles.get_media_content(camera_config, filename)
 
             pretty_filename = camera_config['camera_name'] + '_' + basename(filename)
             self.set_header('Content-Type', 'image/jpeg')
@@ -377,8 +377,8 @@ class PictureHandler(BaseHandler):
         elif utils.is_remote_camera(camera_config):
             resp = await remote.get_media_preview(
                 camera_config,
-                filename=filename,
-                media_type='picture',
+                filename,
+                'picture',
                 width=self.get_argument('width', None),
                 height=self.get_argument('height', None),
             )
@@ -399,16 +399,12 @@ class PictureHandler(BaseHandler):
     @BaseHandler.auth(admin=True)
     @BaseHandler.peer_allowed()
     async def delete(self, camera_id, filename):
-        logging.debug(
-            'deleting picture {filename} of camera {id}'.format(
-                filename=filename, id=camera_id
-            )
-        )
+        logging.debug(f'deleting picture {filename} of camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
             try:
-                mediafiles.del_media_content(camera_config, filename, 'picture')
+                mediafiles.del_media_content(camera_config, filename)
                 return self.finish_json()
 
             except Exception as e:

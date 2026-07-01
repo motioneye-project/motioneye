@@ -401,21 +401,21 @@ class TestMediaFilesPathValidation(unittest.TestCase):
         for path in self._FILENAME_TRAVERSALS:
             with self.subTest(path=path):
                 self._assert_raises_traversal(
-                    mediafiles.get_media_path, self._camera_config, path, 'picture'
+                    mediafiles.get_media_path, self._camera_config, path
                 )
 
     def test_get_media_path_rejects_absolute_path(self):
         for path in self._FILENAME_ABSOLUTES:
             with self.subTest(path=path):
                 self._assert_raises_absolute_path(
-                    mediafiles.get_media_path, self._camera_config, path, 'picture'
+                    mediafiles.get_media_path, self._camera_config, path
                 )
 
     def test_get_media_path_rejects_dir_escape(self):
         for path in self._FILENAME_ESCAPES:
             with self.subTest(path=path):
                 self._assert_raises_dir_escape(
-                    mediafiles.get_media_path, self._camera_config, path, 'picture'
+                    mediafiles.get_media_path, self._camera_config, path
                 )
 
     # --- get_media_content ---
@@ -427,7 +427,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.get_media_content,
                     self._camera_config,
                     path,
-                    'picture',
                 )
 
     def test_get_media_content_rejects_absolute_path(self):
@@ -437,7 +436,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.get_media_content,
                     self._camera_config,
                     path,
-                    'picture',
                 )
 
     def test_get_media_content_rejects_dir_escape(self):
@@ -447,7 +445,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.get_media_content,
                     self._camera_config,
                     path,
-                    'picture',
                 )
 
     # --- get_zipped_content ---
@@ -564,7 +561,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.del_media_content,
                     self._camera_config,
                     path,
-                    'picture',
                 )
 
     def test_del_media_content_rejects_absolute_path(self):
@@ -574,7 +570,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.del_media_content,
                     self._camera_config,
                     path,
-                    'picture',
                 )
 
     def test_del_media_content_rejects_dir_escape(self):
@@ -584,7 +579,6 @@ class TestMediaFilesPathValidation(unittest.TestCase):
                     mediafiles.del_media_content,
                     self._camera_config,
                     path,
-                    'picture',
                 )
 
     # --- del_media_group ---
