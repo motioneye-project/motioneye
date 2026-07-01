@@ -58,8 +58,7 @@ def _list_mounts():
                     'mount_point': mount_point,
                     'fstype': fstype,
                     'opts': opts,
-                    # surfaced in the UI so a drive the motion user cannot write
-                    # to is flagged instead of silently failing to store media
+                    # Used by the UI to mark unwritable mounts.
                     'writable': os.access(mount_point, os.W_OK),
                 }
             )
