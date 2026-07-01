@@ -4721,9 +4721,11 @@ function runMediaDialog(cameraId, mediaType) {
 
 function hideMediaButtonIfEmpty(cameraId, mediaType, button) {
     /* the list endpoint returns {mediaList: [...]} (empty when there are no
-     * files); with_stat=false keeps the request cheap. On error the button is
-     * left visible (safe default - don't hide when we are unsure). */
-    ajax('GET', basePath + mediaType + '/' + cameraId + '/list/?with_stat=false', null, function (data) {
+     * files); limit=1 makes the server stop walking the media directory at the
+     * first file found, so this stays cheap even with many stored files. On
+     * error the button is left visible (safe default - don't hide when we are
+     * unsure). */
+    ajax('GET', basePath + mediaType + '/' + cameraId + '/list/?with_stat=false&limit=1', null, function (data) {
         if (data && data.mediaList && !data.mediaList.length) {
             button.hide();
         }
