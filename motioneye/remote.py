@@ -379,7 +379,11 @@ async def get_current_picture(
 
 
 async def list_media(
-    local_config, media_type, prefix: str | None = None
+    local_config,
+    media_type,
+    prefix: str | None = None,
+    with_stat: bool = True,
+    limit: int | None = None,
 ) -> utils.ListMediaResponse:
     utils.validate_paths(prefix)
 
@@ -392,6 +396,13 @@ async def list_media(
     query = {}
     if prefix is not None:
         query['prefix'] = prefix
+
+    # older remote motionEye versions simply ignore these parameters
+    if not with_stat:
+        query['with_stat'] = 'false'
+
+    if limit is not None:
+        query['limit'] = str(limit)
 
     # timeout here is 10 times larger than usual - we expect a big delay when fetching the media list
     p = path + f'/{media_type}/{camera_id}/list/'
