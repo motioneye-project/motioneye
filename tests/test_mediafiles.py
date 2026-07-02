@@ -20,6 +20,7 @@ from pathlib import Path
 from shutil import rmtree
 from tempfile import mkdtemp
 from time import time
+from unittest.mock import patch
 
 from motioneye import mediafiles
 from motioneye.mediafiles import _list_media_files
@@ -241,6 +242,121 @@ class TestMediaFiles(unittest.TestCase):
         for path, st in result_no_stat:
             self.assertIsNone(st)
 
+    def test_list_media_files_limit_one_stops_early(self):
+        """Test that limit=1 returns a single entry (cheap existence check)."""
+        movie_exts = ['.mp4', '.avi', '.mkv']
+        result = _list_media_files(self.test_dir, movie_exts, with_stat=False, limit=1)
+
+        self.assertEqual(len(result), 1)
+        # the returned entry is one of the actual movie files
+        self.assertIn(result[0][0], self.movie_files)
+
+    def test_list_media_files_limit_spans_recursion(self):
+        """Test that limit is honored across subdirectory recursion."""
+        movie_exts = ['.mp4', '.avi', '.mkv']
+        # only 2 movies live in the root dir, so a limit of 5 must also count
+        # files collected while recursing into subdirectories
+        result = _list_media_files(self.test_dir, movie_exts, limit=5)
+
+        self.assertEqual(len(result), 5)
+        for path, st in result:
+            self.assertIn(path, self.movie_files)
+
+    def test_list_media_files_limit_above_total_returns_all(self):
+        """Test that a limit larger than the number of files returns everything."""
+        movie_exts = ['.mp4', '.avi', '.mkv']
+        result = _list_media_files(self.test_dir, movie_exts, limit=100)
+
+        result_paths = sorted([path for path, st in result])
+        self.assertEqual(result_paths, sorted(self.movie_files))
+
+    def test_list_media_files_limit_with_sub_path(self):
+        """Test that limit also applies when listing a sub_path."""
+        movie_exts = ['.mp4', '.avi', '.mkv']
+        # 2024-01-01 contains two movie files
+        result = _list_media_files(
+            self.test_dir, movie_exts, sub_path='2024-01-01', limit=1
+        )
+
+        self.assertEqual(len(result), 1)
+        self.assertIn('2024-01-01', result[0][0])
+
+    def test_list_media_files_limit_stops_scanning_early(self):
+        """Test that limit=1 stops consuming directory entries at the first
+        match instead of walking everything and truncating afterwards."""
+        flat_dir = mkdtemp()
+        try:
+            num_files = 1000
+            for i in range(num_files):
+                Path(os.path.join(flat_dir, f'movie{i}.mp4')).touch()
+
+            consumed = []
+            real_scandir = os.scandir
+
+            class CountingScandir:
+                def __init__(self, path):
+                    self._it = real_scandir(path)
+
+                def __enter__(self):
+                    return self
+
+                def __exit__(self, *exc_info):
+                    return self._it.__exit__(*exc_info)
+
+                def __iter__(self):
+                    for entry in self._it:
+                        consumed.append(entry.name)
+                        yield entry
+
+            with patch('motioneye.mediafiles.os.scandir', CountingScandir):
+                result = _list_media_files(flat_dir, ['.mp4'], with_stat=False, limit=1)
+
+            self.assertEqual(len(result), 1)
+            # every entry matches, so the walk must stop right after the
+            # first one instead of scanning all 1000 files
+            self.assertLessEqual(len(consumed), 2)
+        finally:
+            rmtree(flat_dir)
+
+    def test_list_media_files_limit_counts_matches_not_scanned_entries(self):
+        """Test that limit counts collected media files rather than examined
+        directory entries, whatever the scan order."""
+        mixed_dir = mkdtemp()
+        try:
+            # many non-media files and exactly one movie: with limit=1 the
+            # movie must be found no matter in which order entries are scanned
+            for i in range(50):
+                Path(os.path.join(mixed_dir, f'note{i}.txt')).touch()
+            movie = os.path.join(mixed_dir, 'only_movie.mp4')
+            Path(movie).touch()
+
+            result = _list_media_files(mixed_dir, ['.mp4'], with_stat=False, limit=1)
+            self.assertEqual([path for path, st in result], [movie])
+
+            # and nothing is returned when no entry matches at all
+            result = _list_media_files(mixed_dir, ['.avi'], with_stat=False, limit=1)
+            self.assertEqual(result, [])
+        finally:
+            rmtree(mixed_dir)
+
+    def test_list_media_files_limit_remaining_budget_in_recursion(self):
+        """Test that recursion only receives the remaining budget: with more
+        files per subdirectory than budget left, the total must still not
+        exceed the limit, whatever the scan order."""
+        tree_dir = mkdtemp()
+        try:
+            # two subdirectories with 3 movies each; whichever is scanned
+            # first leaves only one slot of the limit=4 budget for the other
+            for sub in ('cam1', 'cam2'):
+                os.makedirs(os.path.join(tree_dir, sub))
+                for i in range(3):
+                    Path(os.path.join(tree_dir, sub, f'movie{i}.mp4')).touch()
+
+            result = _list_media_files(tree_dir, ['.mp4'], with_stat=False, limit=4)
+            self.assertEqual(len(result), 4)
+        finally:
+            rmtree(tree_dir)
+
     def test_list_media_files_no_recursion_with_sub_path_filter(self):
         """Test that _list_media_files does not recurse when sub_path is provided."""
         # List files in level1_dir with sub_path filter (should not recurse into level2_dir)
@@ -280,6 +396,51 @@ class TestMediaFiles(unittest.TestCase):
             ]
         )
         self.assertEqual(result_paths, expected_files)
+
+
+class TestDoListMedia(unittest.TestCase):
+    """Tests for the _do_list_media subprocess entry point, using a fake pipe
+    so no multiprocessing is involved."""
+
+    class _FakePipe:
+        def __init__(self):
+            self.sent = []
+            self.closed = False
+
+        def send(self, obj):
+            self.sent.append(obj)
+
+        def close(self):
+            self.closed = True
+
+    def setUp(self):
+        self.target_dir = mkdtemp()
+        for i in range(3):
+            Path(os.path.join(self.target_dir, f'movie{i}.mp4')).touch()
+
+    def tearDown(self):
+        rmtree(self.target_dir)
+
+    def test_do_list_media_respects_limit(self):
+        pipe = self._FakePipe()
+        mediafiles._do_list_media(pipe, self.target_dir, ['.mp4'], None, False, 2)
+
+        self.assertEqual(len(pipe.sent), 2)
+        self.assertTrue(pipe.closed)
+        for entry in pipe.sent:
+            # without stat, only the path is sent
+            self.assertEqual(list(entry.keys()), ['path'])
+            self.assertTrue(entry['path'].startswith('/'))
+
+    def test_do_list_media_defaults_list_everything_with_stat(self):
+        pipe = self._FakePipe()
+        mediafiles._do_list_media(pipe, self.target_dir, ['.mp4'], None, True)
+
+        self.assertEqual(len(pipe.sent), 3)
+        self.assertTrue(pipe.closed)
+        for entry in pipe.sent:
+            self.assertIn('mimeType', entry)
+            self.assertIn('timestamp', entry)
 
 
 class TestMediaFilesPathValidation(unittest.TestCase):

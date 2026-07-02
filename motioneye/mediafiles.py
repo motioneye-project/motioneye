@@ -109,6 +109,7 @@ def _list_media_files(
     exts: List[str],
     sub_path: Optional[str] = None,
     with_stat: bool = True,
+    limit: Optional[int] = None,
 ) -> List[tuple]:
     # Determine scan path based on sub_path parameter
     if sub_path is not None:
@@ -121,33 +122,46 @@ def _list_media_files(
     else:
         scan_path = base_path
 
-    media_files = []
-    for entry in os.scandir(scan_path):
-        # ignore hidden files/dirs and other unwanted files
-        if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
-            continue
+    media_files: List[tuple] = []
+    # the context manager closes the scandir iterator even when the limit
+    # below breaks out of the loop early
+    with os.scandir(scan_path) as entries:
+        for entry in entries:
+            # stop walking early once enough files have been collected; with
+            # limit=1 this turns the listing into a cheap existence check
+            if limit is not None and len(media_files) >= limit:
+                break
 
-        # check if it's a file first (most common case)
-        if entry.is_file(follow_symlinks=False):
-            # filter by extension before calling stat
-            if not any(entry.path.lower().endswith(e) for e in exts):
+            # ignore hidden files/dirs and other unwanted files
+            if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
                 continue
 
-            # If stat is not needed, use None as placeholder
-            st = None
-            if with_stat:
-                # stat call may fail due to race conditions or permission issues
-                try:
-                    st = entry.stat(follow_symlinks=False)
-                except Exception as e:
-                    logging.error(f'stat failed: {e}')
+            # check if it's a file first (most common case)
+            if entry.is_file(follow_symlinks=False):
+                # filter by extension before calling stat
+                if not any(entry.path.lower().endswith(e) for e in exts):
                     continue
 
-            media_files.append((entry.path, st))
+                # If stat is not needed, use None as placeholder
+                st = None
+                if with_stat:
+                    # stat call may fail due to race conditions or permission issues
+                    try:
+                        st = entry.stat(follow_symlinks=False)
+                    except Exception as e:
+                        logging.error(f'stat failed: {e}')
+                        continue
 
-        # recurse into subdirectories only when no sub_path filter is set
-        elif sub_path is None and entry.is_dir(follow_symlinks=False):
-            media_files.extend(_list_media_files(entry.path, exts, with_stat=with_stat))
+                media_files.append((entry.path, st))
+
+            # recurse into subdirectories only when no sub_path filter is set
+            elif sub_path is None and entry.is_dir(follow_symlinks=False):
+                remaining = limit - len(media_files) if limit is not None else None
+                media_files.extend(
+                    _list_media_files(
+                        entry.path, exts, with_stat=with_stat, limit=remaining
+                    )
+                )
 
     return media_files
 
@@ -206,10 +220,10 @@ def _remove_older_files(
         uploadservices.clean_cloud(directory, {}, clean_cloud_info)
 
 
-def _do_list_media(pipe, target_dir, exts, sub_path, with_stat):
+def _do_list_media(pipe, target_dir, exts, sub_path, with_stat, limit=None):
     from mimetypes import guess_type
 
-    mf = _list_media_files(target_dir, exts, sub_path, with_stat)
+    mf = _list_media_files(target_dir, exts, sub_path, with_stat, limit)
     for p, st in mf:
         path = p[len(target_dir) :]
         if not path.startswith('/'):
@@ -534,6 +548,7 @@ def list_media(
     media_type: str,
     prefix: Optional[str] = None,
     with_stat: bool = True,
+    limit: Optional[int] = None,
 ) -> Awaitable:
     target_dir = camera_config.get('target_dir')
     utils.validate_paths(prefix, target_dir=target_dir)
@@ -548,7 +563,8 @@ def list_media(
 
     parent_pipe, child_pipe = multiprocessing.Pipe(duplex=False)
     process = multiprocessing.Process(
-        target=_do_list_media, args=(child_pipe, target_dir, exts, prefix, with_stat)
+        target=_do_list_media,
+        args=(child_pipe, target_dir, exts, prefix, with_stat, limit),
     )
     process.start()
     child_pipe.close()
