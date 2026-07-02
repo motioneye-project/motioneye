@@ -464,20 +464,18 @@ class ConfigHandler(BaseHandler):
         if resp.error:
             msg = f'Failed to get remote camera configuration for {remote.pretty_camera_url(local_config)}: {resp.error}.'
             cameras.append(
-                self._sanitize_camera_on_usertype(
-                    {
-                        'id': camera_id,
-                        'name': f'Camera {camera_id} - Connection failed',
-                        'enabled': False,
-                        'connection_failed': True,
-                        'connection_error': msg,
-                        'connection_url': remote.pretty_camera_url(
-                            local_config, camera=False
-                        ),
-                        'streaming_framerate': 1,
-                        'framerate': 1,
-                    }
-                )
+                {
+                    'id': camera_id,
+                    'name': f'Camera {camera_id} - Connection failed',
+                    'enabled': False,
+                    'connection_failed': True,
+                    'connection_error': msg,
+                    'connection_url': remote.pretty_camera_url(
+                        local_config, camera=False
+                    ),
+                    'streaming_framerate': 1,
+                    'framerate': 1,
+                }
             )
 
         else:
