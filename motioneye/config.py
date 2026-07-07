@@ -1120,9 +1120,12 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         threshold = int(float(ui['frame_change_threshold']) * width * height / 100)
 
         if proto == 'v4l2':
-            # video controls
+            # video controls, control_id is the ID Motion actually matches against (see v4l2-ctl --list-ctrls)
+            video_controls = v4l2ctl.list_ctrls(prev_config.get('videodevice', ''))
             vid_control_params = (
-                ('{}={}'.format(n, c['value']))
+                '{}={}'.format(
+                    video_controls.get(n, {}).get('control_id', n), c['value']
+                )
                 for n, c in list(ui['video_controls'].items())
             )
             data['vid_control_params'] = ','.join(vid_control_params)
@@ -1682,6 +1685,12 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
         ui['resolution'] = str(data['width']) + 'x' + str(data['height'])
 
         video_controls = v4l2ctl.list_ctrls(data['videodevice'])
+
+        # video_params is keyed by control_id, map it back to our UI name
+        name_by_control_id = {
+            c.get('control_id', n): n for n, c in video_controls.items()
+        }
+
         video_controls = [
             (n, c)
             for (n, c) in list(video_controls.items())
@@ -1701,6 +1710,7 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
             else:
                 continue  # ignore any other kind of param
 
+            name = name_by_control_id.get(name, name)
             vid_control_values[name] = value
 
         ui['video_controls'] = {
