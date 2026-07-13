@@ -45,6 +45,30 @@ __all__ = ('ConfigHandler',)
 
 
 class ConfigHandler(BaseHandler):
+    # fields visible to the normal/surveillance user
+    _NON_ADMIN_CAMERA_FIELDS = frozenset(
+        {
+            'id',
+            'name',
+            'enabled',
+            'proto',
+            'actions',
+            'streaming_framerate',
+            'streaming_server_resize',
+            'url',  # only for simple mjpeg cameras
+        }
+    )
+
+    def _sanitize_camera_on_usertype(self, camera: dict) -> dict:
+        if self.current_user in ['admin', 'peer']:
+            return camera
+
+        return {
+            key: value
+            for key, value in camera.items()
+            if key in self._NON_ADMIN_CAMERA_FIELDS
+        }
+
     async def get(self, camera_id=None, op=None):
         config.invalidate_monitor_commands()
 
@@ -481,7 +505,7 @@ class ConfigHandler(BaseHandler):
                     continue
                 resp.remote_ui_config[key.replace('@', '')] = value
 
-            cameras.append(resp.remote_ui_config)
+            cameras.append(self._sanitize_camera_on_usertype(resp.remote_ui_config))
 
         self.check_finished(cameras, length)
 
@@ -587,7 +611,7 @@ class ConfigHandler(BaseHandler):
 
                 if utils.is_local_motion_camera(local_config):
                     ui_config = config.motion_camera_dict_to_ui(local_config)
-                    cameras.append(ui_config)
+                    cameras.append(self._sanitize_camera_on_usertype(ui_config))
                     if self.check_finished(cameras, length):
                         return
 
@@ -614,7 +638,7 @@ class ConfigHandler(BaseHandler):
 
                 else:  # assuming simple mjpeg camera
                     ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
-                    cameras.append(ui_config)
+                    cameras.append(self._sanitize_camera_on_usertype(ui_config))
                     if self.check_finished(cameras, length):
                         return
 
