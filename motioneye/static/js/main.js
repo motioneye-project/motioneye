@@ -2186,9 +2186,7 @@ function dict2CameraUi(dict) {
                     .prop('disabled', partition.writable === false)
             );
 
-            if (partition.writable !== false) {
-                storageDeviceOptions[option] = true;
-            }
+            storageDeviceOptions[option] = true;
         });
     });
     $('#storageDeviceSelect').append('<option value="custom-path">'+i18n.gettext("Propra dosierindiko")+'</option>');
