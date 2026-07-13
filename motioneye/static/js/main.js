@@ -510,6 +510,13 @@ function initUI() {
 
         return true;
     }, '');
+    makeCustomValidator($('#storageDeviceSelect'), function (value) {
+        if ($('#storageDeviceSelect option:selected').prop('disabled')) {
+            return i18n.gettext('The configured storage device is not writable. Recordings cannot be saved until write access is restored.');
+        }
+
+        return true;
+    }, true);
     makeCustomValidator($('#emailFromEntry'), function (value) {
         if (value && !value.match(emailValidRegExp)) {
             return i18n.gettext("enigu validan retpoŝtadreson");
