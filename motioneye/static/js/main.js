@@ -3686,7 +3686,7 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
         playButton.trigger('click');
         video_container.get(0).playbackRate = 5;
         video_container.off('ended.pictureDialog').on('ended.pictureDialog', function() {
-            if( pos > 0 ) {
+            if (pos > 0) {
                 nextArrow.trigger('click');
                 playButton.trigger('click');
                 video_container.get(0).playbackRate = 5;
