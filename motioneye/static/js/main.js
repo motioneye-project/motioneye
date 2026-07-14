@@ -510,6 +510,13 @@ function initUI() {
 
         return true;
     }, '');
+    makeCustomValidator($('#storageDeviceSelect'), function (value) {
+        if ($('#storageDeviceSelect option:selected').prop('disabled')) {
+            return i18n.gettext('The configured storage device is not writable. Recordings cannot be saved until write access is restored.');
+        }
+
+        return true;
+    }, true);
     makeCustomValidator($('#emailFromEntry'), function (value) {
         if (value && !value.match(emailValidRegExp)) {
             return i18n.gettext("enigu validan retpoŝtadreson");
@@ -2174,10 +2181,19 @@ function dict2CameraUi(dict) {
                 label += '/part' + partition.part_no;
             }
             label += ' (' + partition.target + ')';
+            if (partition.writable === false) {
+                label += ' [' + i18n.gettext('No write access') + ']';
+            }
+
+            // Show unwritable mounts, but prevent selecting them.
+            $('#storageDeviceSelect').append(
+                $('<option></option>')
+                    .val(option)
+                    .text(label)
+                    .prop('disabled', partition.writable === false)
+            );
 
             storageDeviceOptions[option] = true;
-
-            $('#storageDeviceSelect').append('<option value="' + option + '">' + label + '</option>');
         });
     });
     $('#storageDeviceSelect').append('<option value="custom-path">'+i18n.gettext("Propra dosierindiko")+'</option>');

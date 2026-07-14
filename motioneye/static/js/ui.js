@@ -339,7 +339,7 @@ function makeProgressBar($div) {
 
     /* validators */
 
-function makeCustomValidator($input, isValidFunc) {
+function makeCustomValidator($input, isValidFunc, ignoreVisibility) {
     $input.each(function () {
         var element = this;
 
@@ -353,8 +353,8 @@ function makeCustomValidator($input, isValidFunc) {
         function validate() {
             var strVal = element.value || '';
 
-            /* An invisible element is considered always valid */
-            var valid = !isVisible(element) || isValidFunc(strVal);
+            /* An invisible element is considered always valid, unless ignoreVisibility is set */
+            var valid = (!ignoreVisibility && !isVisible(element)) || isValidFunc(strVal);
 
             /* Handle validators that return error messages or true */
             var isValidResult = (valid === true);
