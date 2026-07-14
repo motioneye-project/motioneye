@@ -3621,7 +3621,6 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
         prevArrow.css('display', 'none');
         nextArrow.css('display', 'none');
 
-        var mPlayer = document.getElementById('mPlayer');
         var playable = video_container.get(0).canPlayType(entry.mimeType) != '';
         timelapseButton.hide();
         playButton.hide();
@@ -3635,30 +3634,6 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
 
         if (playable) {
             video_loader.attr('src', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path);
-            playButton.on('click', function() {
-                video_container.attr('src', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path);
-                video_container.show();
-                video_container.get(0).load();  /* Must call load() after changing <video> source */
-                img.hide();
-                playButton.hide();
-                timelapseButton.hide();
-                video_container.on('canplay', function() {
-                   video_container.get(0).play();  /* Automatically play the video once the browser is ready */
-                });
-            });
-
-            timelapseButton.on('click', function() {
-                playButton.trigger('click');
-                mPlayer.playbackRate = 5;
-                video_container.on('ended', function() {
-                    if( pos > 0 ) {
-                        nextArrow.trigger('click');
-                        playButton.trigger('click');
-                        mPlayer.playbackRate = 5;
-                    }
-                });
-            });
-
             playButton.show();
             timelapseButton.show();
         }
@@ -3688,6 +3663,36 @@ function runPictureDialog(entries, pos, mediaType, onDelete) {
         modalContainer.find('span.modal-title:last').html(entry.name);
         updateModalDialogPosition();
     }
+
+    /* the handlers are registered once per dialog and read entries[pos] at
+     * click time, so they always act on the currently displayed file */
+    playButton.on('click', function() {
+        var entry = entries[pos];
+        if (video_container.get(0).canPlayType(entry.mimeType) == '') {
+            return;  /* the timelapse chain may trigger this on a non-playable entry */
+        }
+        video_container.attr('src', basePath + mediaType + '/' + entry.cameraId + '/playback' + entry.path);
+        video_container.show();
+        video_container.get(0).load();  /* Must call load() after changing <video> source */
+        img.hide();
+        playButton.hide();
+        timelapseButton.hide();
+        video_container.off('canplay.pictureDialog').one('canplay.pictureDialog', function() {
+           video_container.get(0).play();  /* Automatically play the video once the browser is ready */
+        });
+    });
+
+    timelapseButton.on('click', function() {
+        playButton.trigger('click');
+        video_container.get(0).playbackRate = 5;
+        video_container.off('ended.pictureDialog').on('ended.pictureDialog', function() {
+            if (pos > 0) {
+                nextArrow.trigger('click');
+                playButton.trigger('click');
+                video_container.get(0).playbackRate = 5;
+            }
+        });
+    });
 
     prevArrow.on('click', function () {
         if (pos < entries.length - 1) {
