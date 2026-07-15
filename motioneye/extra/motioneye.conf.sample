@@ -13,6 +13,11 @@ media_path /var/lib/motioneye
 # the log level (use quiet, error, warning, info or debug)
 log_level info
 
+# whether to write logs to files in log_path (motioneye.log, motion.log)
+# instead of standard error / standard output;
+# the log_path setting above only has an effect when this is enabled
+log_to_file false
+
 # the IP address to listen on
 # (0.0.0.0 for all interfaces, 127.0.0.1 for localhost)
 listen 0.0.0.0
