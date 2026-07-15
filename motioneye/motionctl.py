@@ -75,6 +75,17 @@ def find_motion():
     return _motion_binary_cache
 
 
+def _get_motion_log_file():
+    """
+    Open motion's log file, or return None to let motion
+    inherit motionEye's stdout/stderr.
+    """
+    if not settings.LOG_TO_FILE:
+        return None
+
+    return open(join(settings.LOG_PATH, 'motion.log'), 'w')
+
+
 def start(deferred=False):
     from motioneye import config, mjpgclient
 
@@ -99,7 +110,6 @@ def start(deferred=False):
     logging.debug(f'starting motion executable "{binary}" version "{version}"')
 
     motion_cfg_path = join(settings.CONF_PATH, 'motion.conf')
-    motion_log_path = join(settings.LOG_PATH, 'motion.log')
     motion_pid_path = join(settings.RUN_PATH, 'motion.pid')
 
     args = [binary, '-n', '-c', motion_cfg_path, '-d']
@@ -116,7 +126,7 @@ def start(deferred=False):
     else:  # fatal, quiet
         args.append('1')
 
-    log_file = open(motion_log_path, 'w')
+    log_file = _get_motion_log_file()
 
     process = Popen(
         args, stdout=log_file, stderr=log_file, close_fds=True, cwd=settings.CONF_PATH

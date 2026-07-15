@@ -200,7 +200,7 @@ def main(parser, args):
 
     options = parse_options(parser, args)
 
-    meyectl.configure_logging('sendmail', options.log_to_file)
+    meyectl.configure_logging('sendmail')
 
     logging.debug('hello!')
 

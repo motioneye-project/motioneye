@@ -483,7 +483,12 @@ def main(parser, args, command):
 
     options = parse_options(parser, args)
 
-    meyectl.configure_logging('motioneye', options.background or options.log_to_file)
+    # daemon mode redirects stdout/stderr to /dev/null,
+    # so logging to file is the only way to preserve any output
+    if options.background:
+        settings.LOG_TO_FILE = True
+
+    meyectl.configure_logging('motioneye')
     meyectl.configure_tornado()
 
     if command == 'start':
