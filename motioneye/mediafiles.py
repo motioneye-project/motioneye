@@ -521,8 +521,8 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
         try:
             os.remove(thumb_path)
 
-        except:
-            pass
+        except Exception:
+            pass  # nothing we can do about it
 
         return None
 
@@ -579,7 +579,7 @@ def list_media(
                 try:
                     os.kill(process.pid, SIGKILL)
 
-                except:
+                except Exception:
                     pass  # nevermind
 
                 fut.set_result(None)
@@ -654,7 +654,7 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> Awai
                 try:
                     os.kill(process.pid, SIGTERM)
 
-                except:
+                except Exception:
                     pass  # nevermind
 
                 fut.set_result(None)
@@ -664,7 +664,7 @@ def get_zipped_content(camera_config: dict, media_type: str, group: str) -> Awai
                 data = parent_pipe.recv()
                 logging.debug(f'zip process has returned {len(data)} bytes')
 
-            except:
+            except Exception:
                 data = None
 
             fut.set_result(data)
@@ -731,7 +731,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                 try:
                     os.kill(_timelapse_process.pid, SIGTERM)
 
-                except:
+                except Exception:
                     pass  # nevermind
 
                 _timelapse_process.progress = -1
@@ -854,8 +854,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                 try:
                     os.remove(tmp_filename)
 
-                except:
-                    pass
+                except Exception:
+                    pass  # nothing we can do about it
 
             else:
                 logging.debug(
@@ -879,8 +879,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
                     try:
                         os.remove(tmp_filename)
 
-                    except:
-                        pass
+                    except Exception:
+                        pass  # nothing we can do about it
 
     poll_media_list_process()
 
@@ -963,8 +963,8 @@ def del_media_content(camera_config, path: str, media_type):
         try:
             os.remove(full_path + '.thumb')
 
-        except:
-            pass
+        except Exception:
+            pass  # thumb file may not exist
 
         # remove the parent directories if empty or contains only thumb files
         dir_path = os.path.dirname(full_path)

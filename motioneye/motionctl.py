@@ -122,6 +122,8 @@ def start(deferred=False):
         args, stdout=log_file, stderr=log_file, close_fds=True, cwd=settings.CONF_PATH
     )
 
+    log_file.close()
+
     # wait 2 seconds to see that the process has successfully started
     for _ in range(20):
         sleep(0.1)
@@ -246,9 +248,11 @@ async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
 async def set_motion_detection(camera_id, enabled):
     motion_camera_id = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
-        return logging.error(
+        logging.error(
             f'could not find motion camera id for camera with id {camera_id}'
         )
+
+        return None
 
     if not enabled:
         _motion_detected[camera_id] = False
@@ -279,13 +283,17 @@ async def set_motion_detection(camera_id, enabled):
             f"successfully {['disabled', 'enabled'][enabled]} motion detection for camera with id {camera_id}"
         )
 
+    return None
+
 
 async def take_snapshot(camera_id):
     motion_camera_id = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
-        return logging.error(
+        logging.error(
             f'could not find motion camera id for camera with id {camera_id}'
         )
+
+        return None
 
     logging.debug(f'taking snapshot for camera with id {camera_id}')
 
@@ -304,6 +312,8 @@ async def take_snapshot(camera_id):
 
     else:
         logging.debug(f'successfully took snapshot for camera with id {camera_id}')
+
+    return None
 
 
 def is_motion_detected(camera_id):

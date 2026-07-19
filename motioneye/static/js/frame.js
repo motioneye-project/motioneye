@@ -5,7 +5,7 @@ var refreshDisabled = false;
     /* camera frame */
 
 function setupCameraFrame() {
-    var cameraFrameDiv = $('div.camera-frame')
+    var cameraFrameDiv = $('div.camera-frame');
     var cameraPlaceholder = cameraFrameDiv.find('div.camera-placeholder');
     var cameraProgress = cameraFrameDiv.find('div.camera-progress');
     var cameraImg = cameraFrameDiv.find('img.camera');

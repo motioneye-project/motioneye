@@ -88,6 +88,8 @@ class ActionHandler(BaseHandler):
         )
         self.run_command_bg(command)
 
+        return None
+
     def run_command_bg(self, command):
         self.p = subprocess.Popen(
             command, stderr=subprocess.STDOUT, stdout=subprocess.PIPE
@@ -125,6 +127,8 @@ class ActionHandler(BaseHandler):
             self.io_loop.add_timeout(
                 datetime.timedelta(milliseconds=100), self.check_command
             )
+
+            return None
 
     async def snapshot(self, camera_id):
         await motionctl.take_snapshot(camera_id)

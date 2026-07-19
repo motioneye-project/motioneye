@@ -146,11 +146,11 @@ def make_str(s):
     try:
         return str(s)
 
-    except:
+    except Exception:
         try:
             return str(s, encoding='utf8').encode('utf8')
 
-        except:
+        except Exception:
             return str(s).encode('utf8')
 
 
@@ -278,9 +278,6 @@ def build_digest_header(method, url, username, password, state):
 
     def KD(s, d):
         return hash_utf8(f"{s}:{d}")
-
-    if hash_utf8 is None:
-        return None
 
     entdig = None
     p_parsed = urllib.parse.urlparse(url)

@@ -36,8 +36,8 @@ def _get_wifi_settings():
 
         return {'wifiEnabled': False, 'wifiNetworkName': '', 'wifiNetworkKey': ''}
 
-    lines = conf_file.readlines()
-    conf_file.close()
+    with conf_file:
+        lines = conf_file.readlines()
 
     ssid = psk = ''
     in_section = False
@@ -50,7 +50,6 @@ def _get_wifi_settings():
             in_section = True
 
         elif line.startswith('}'):
-            in_section = False
             break
 
         elif in_section:
@@ -103,8 +102,8 @@ def _set_wifi_settings(s):
 
         return
 
-    lines = conf_file.readlines()
-    conf_file.close()
+    with conf_file:
+        lines = conf_file.readlines()
 
     in_section = False
     found_ssid = False
@@ -121,7 +120,6 @@ def _set_wifi_settings(s):
             in_section = True
 
         elif line.startswith('}'):
-            in_section = False
             if enabled and ssid and not found_ssid:
                 lines.insert(i, '    ssid="' + ssid + '"\n')
             if enabled and psk and not found_psk:
@@ -133,7 +131,7 @@ def _set_wifi_settings(s):
             if enabled and not found_key_mgmt and key_mgmt:
                 lines.insert(i, '    key_mgmt=' + key_mgmt + '\n')
 
-            found_psk = found_ssid = found_key_mgmt = True
+            found_ssid = True
 
             break
 
@@ -195,10 +193,9 @@ def _set_wifi_settings(s):
 
         return
 
-    for line in lines:
-        conf_file.write(line)
-
-    conf_file.close()
+    with conf_file:
+        for line in lines:
+            conf_file.write(line)
 
 
 @additional_section
@@ -209,7 +206,7 @@ def network():
 @additional_config
 def wifi_enabled():
     if not WPA_SUPPLICANT_CONF:
-        return
+        return None
 
     return {
         'label': 'Wireless Network',
@@ -226,7 +223,7 @@ def wifi_enabled():
 @additional_config
 def wifi_network_name():
     if not WPA_SUPPLICANT_CONF:
-        return
+        return None
 
     return {
         'label': 'Wireless Network Name',
@@ -245,7 +242,7 @@ def wifi_network_name():
 @additional_config
 def wifi_network_key():
     if not WPA_SUPPLICANT_CONF:
-        return
+        return None
 
     return {
         'label': 'Wireless Network Key',

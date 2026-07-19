@@ -144,7 +144,7 @@ class MjpgClient(IOStream):
             self.close()
 
         except Exception:
-            pass
+            pass  # already closed or closing failed, nothing we can do
 
     def _get_future_result(self, future: Future) -> Tuple[bool, Any]:
         try:

@@ -64,9 +64,11 @@ def stop():
 
 def add(when, func, tag=None, callback=None, **params):
     if len(_tasks) >= _MAX_TASKS:
-        return logging.error(
+        logging.error(
             f'the maximum number of tasks ({_MAX_TASKS}) has been reached'
         )
+
+        return None
 
     now = time.time()
 
@@ -87,6 +89,8 @@ def add(when, func, tag=None, callback=None, **params):
     _tasks.insert(i, (when, func, tag, callback, params))
 
     _save()
+
+    return None
 
 
 def _check_tasks():

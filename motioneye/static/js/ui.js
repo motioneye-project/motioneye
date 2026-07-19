@@ -117,10 +117,6 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             return pos;
         }
 
-        function getPos() {
-            return parseInt(cursor.position().left * 100 / bar.width());
-        }
-
         function valToPos(val) {
             return (val - minVal) * 100 / (maxVal - minVal);
         }

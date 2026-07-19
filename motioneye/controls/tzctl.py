@@ -103,7 +103,7 @@ def _set_time_zone(time_zone):
     try:
         os.remove(settings.LOCAL_TIME_FILE)
 
-    except:
+    except Exception:
         pass  # nevermind
 
     try:
@@ -122,7 +122,7 @@ def _set_time_zone(time_zone):
 @additional_config
 def timeZone():
     if not LOCAL_TIME_FILE:
-        return
+        return None
 
     import pytz
 

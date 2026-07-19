@@ -57,7 +57,7 @@ class RelayEventHandler(BaseHandler):
                 f'ignoring event for unknown motion camera id {motion_camera_id}'
             )
             self.finish_json()
-            return
+            return None
 
         else:
             logging.debug(
@@ -68,7 +68,7 @@ class RelayEventHandler(BaseHandler):
         if not utils.is_local_motion_camera(camera_config):
             logging.warning(f'ignoring event for non-local camera with id {camera_id}')
             self.finish_json()
-            return
+            return None
 
         filename: Optional[str] = self.get_argument('filename')
         if filename is not None:
@@ -84,7 +84,7 @@ class RelayEventHandler(BaseHandler):
                     f'ignoring start event for camera with id {camera_id} and motion detection disabled'
                 )
                 self.finish_json()
-                return
+                return None
 
             motionctl.set_motion_detected(camera_id, True)
 
@@ -114,6 +114,8 @@ class RelayEventHandler(BaseHandler):
             logging.warning(f'unknown event {event}')
 
         self.finish_json()
+
+        return None
 
     def upload_media_file(self, filename, camera_id, camera_config, media_type):
         service_name = camera_config['@upload_service']

@@ -99,7 +99,9 @@ def make_message(message, camera_id, moment, timespan, callback):
         callback(m, media_files)
 
     if not timespan:
-        return on_media_files([])
+        on_media_files([])
+
+        return None
 
     logging.debug(f'waiting {float(timespan)}s for pictures to be taken')
     time.sleep(float(timespan))  # give motion some time to create motion pictures
@@ -123,6 +125,8 @@ def make_message(message, camera_id, moment, timespan, callback):
     )
     fut.add_done_callback(on_media_files)
     io_loop.start()
+
+    return None
 
 
 def parse_options(parser, args):

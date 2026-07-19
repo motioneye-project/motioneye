@@ -97,7 +97,8 @@ class UploadService:
             self.error(msg)
             raise Exception(msg)
 
-        data = f.read()
+        with f:
+            data = f.read()
         self.debug(f'size of "{filename}" is {len(data) / 1024.0 / 1024:.3f}MB')
 
         mime_type = mimetypes.guess_type(filename)[0] or 'image/jpeg'
@@ -1332,9 +1333,11 @@ def upload_media_file(
 ):
     service = get(camera_id, service_name)
     if not service:
-        return logging.error(
+        logging.error(
             f'service "{service_name}" not initialized for camera with id {camera_id}'
         )
+
+        return None
 
     try:
         service.upload_file(target_dir, filename, camera_name)
@@ -1344,12 +1347,12 @@ def upload_media_file(
             f'failed to upload file "{filename}" with service {service}: {e}',
             exc_info=True,
         )
-        return  # upload failed: keep the local file
+        return None  # upload failed: keep the local file
 
     # the caller passes clean_uploaded so we can skip the camera config lookup
     # and the mediafiles import entirely on the common path (feature disabled)
     if not clean_uploaded:
-        return
+        return None
 
     # upload succeeded and the camera removes its local copy after upload
     try:
@@ -1368,6 +1371,8 @@ def upload_media_file(
             f'failed to remove local file "{filename}" after upload: {e}',
             exc_info=True,
         )
+
+    return None
 
 
 def _load():

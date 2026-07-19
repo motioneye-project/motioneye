@@ -269,7 +269,7 @@ class TestMediaFiles(unittest.TestCase):
         self.assertGreater(len(result_no_stat), 0)
         for path, st in result_no_stat:
             self.assertIsNone(st)
-            self.assertTrue('2024-01-01' in path)
+            self.assertIn('2024-01-01', path)
 
         # Should find only files directly in level1_dir, not in nested subdirectories
         expected_files = sorted(

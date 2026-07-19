@@ -458,14 +458,14 @@ function initUI() {
         }
 
         return true;
-    }, '');
+    });
     makeCustomValidator($('#streamingUsernameEntry'), function (value) {
         if (String(value).indexOf(':') >= 0) {
             return i18n.gettext("use of colon (:) is not allowed in video streaming username");
         }
 
         return true;
-    }, '');
+    });
     makeCustomValidator($('#streamingAuthModeSelect'), function (value) {
         if (!$('#adminOnlySwitch')[0].checked) {
             return true;
@@ -476,7 +476,7 @@ function initUI() {
         }
 
         return true;
-    }, '');
+    });
     makeCustomValidator($('#deviceNameEntry'), function (value) {
         if (!value) {
             return i18n.gettext("Ĉi tiu kampo estas deviga");
@@ -487,7 +487,7 @@ function initUI() {
         }
 
         return true;
-    }, '');
+    });
     makeCustomValidator($('#customWidthEntry, #customHeightEntry'), function (value) {
         if (!value) {
             return i18n.gettext("Ĉi tiu kampo estas deviga");
@@ -499,7 +499,7 @@ function initUI() {
         }
 
         return true;
-    }, '');
+    });
     makeCustomValidator($('#rootDirectoryEntry'), function (value) {
         if (!value.match(dirnameValidRegExp)) {
             return i18n.gettext("specialaj signoj ne rajtas en radika voja nomo");
@@ -509,35 +509,35 @@ function initUI() {
         }
 
         return true;
-    }, '');
+    });
     makeCustomValidator($('#emailFromEntry'), function (value) {
         if (value && !value.match(emailValidRegExp)) {
             return i18n.gettext("enigu validan retpoŝtadreson");
         }
 
         return true;
-    }, '');
+    });
     makeCustomValidator($('#emailAddressesEntry'), function (value) {
         if (!value.match(emailValidRegExp)) {
             return i18n.gettext("enigu liston de koma apartaj validaj retpoŝtadresoj");
         }
 
         return true;
-    }, '');
+    });
     makeCustomValidator($('#imageFileNameEntry, #movieFileNameEntry'), function (value) {
         if (!value.match(filenameValidRegExp)) {
             return i18n.gettext("specialaj signoj ne rajtas en dosiernomo");
         }
 
         return true;
-    }, '');
+    });
     makeCustomValidator($('#webHookNotificationsUrlEntry, #webHookEndNotificationsUrlEntry'), function (value) {
         if (!value.match(webHookUrlValidRegExp)) {
             return "use of semicolon (;) or single quote (') is not allowed in web hook URL";
         }
 
         return true;
-    }, '');
+    });
     $('tr[validate] input[type=text]').each(function () {
         var $this = $(this);
         var $tr = $this.parent().parent();
@@ -557,7 +557,7 @@ function initUI() {
             }
 
             return true;
-        }, '');
+        });
     });
 
     /* input value processors */
@@ -2836,7 +2836,7 @@ function doRestore() {
         buttons: 'okcancel',
         content: content,
         onOk: function () {
-            if (!uiValid(true)) {
+            if (!uiValid()) {
                 return false;
             }
 

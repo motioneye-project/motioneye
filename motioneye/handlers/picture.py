@@ -294,6 +294,8 @@ class PictureHandler(BaseHandler):
                 current_user=self.current_user,
             )
 
+        return None
+
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
     async def download(self, camera_id, filename):
@@ -365,9 +367,10 @@ class PictureHandler(BaseHandler):
 
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
-                content = open(
+                with open(
                     join(settings.STATIC_PATH, 'img', 'no-preview.svg'), 'rb'
-                ).read()
+                ) as f:
+                    content = f.read()
 
             return self.finish(content)
 
@@ -385,9 +388,10 @@ class PictureHandler(BaseHandler):
 
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
-                content = open(
+                with open(
                     join(settings.STATIC_PATH, 'img', 'no-preview.svg')
-                ).read()
+                ) as f:
+                    content = f.read()
 
             return self.finish(content)
 
@@ -732,3 +736,5 @@ class PictureHandler(BaseHandler):
 
         except OSError as e:
             logging.warning(f'could not write response: {str(e)}')
+
+            return None

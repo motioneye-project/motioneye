@@ -24,6 +24,8 @@ from motioneye.handlers.base import BaseHandler
 
 __all__ = ('PrefsHandler',)
 
+PrefsValue = Union[int, float, bool]
+
 
 class PrefsHandler(BaseHandler):
     @BaseHandler.auth()
@@ -33,7 +35,6 @@ class PrefsHandler(BaseHandler):
     @BaseHandler.auth()
     def post(self, key: Union[str, None] = None) -> None:
         try:
-            PrefsValue = Union[int, float, bool]
             value: Union[Dict[str, PrefsValue], PrefsValue] = json.loads(
                 self.request.body
             )

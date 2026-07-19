@@ -178,9 +178,10 @@ class MovieHandler(BaseHandler):
 
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
-                content = open(
+                with open(
                     join(settings.STATIC_PATH, 'img', 'no-preview.svg')
-                ).read()
+                ) as f:
+                    content = f.read()
 
             return self.finish(content)
 
@@ -199,9 +200,10 @@ class MovieHandler(BaseHandler):
 
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
-                content = open(
+                with open(
                     join(settings.STATIC_PATH, 'img', 'no-preview.svg')
-                ).read()
+                ) as f:
+                    content = f.read()
 
             return self.finish(content)
 

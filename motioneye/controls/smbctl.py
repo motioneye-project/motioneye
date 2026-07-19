@@ -194,16 +194,19 @@ def test_share(server, share, smb_ver, username, password, root_directory):
 
     path = os.path.join(mount_point, root_directory)
     if os.path.exists(path):
-        return maybe_umount()
+        maybe_umount()
+        return
 
     try:
         os.makedirs(path)
 
-    except:
+    except Exception:
         raise Exception('cannot create root directory')
 
     finally:
         maybe_umount()
+
+    return
 
 
 def _mount(server, share, smb_ver, username, password):
@@ -259,7 +262,7 @@ def _mount(server, share, smb_ver, username, password):
             break
 
         except subprocess.CalledProcessError:
-            pass
+            pass  # mount failed with these options, try the next ones
 
     else:
         logging.error(
@@ -274,7 +277,7 @@ def _mount(server, share, smb_ver, username, password):
         os.rmdir(path)
         logging.debug('directory at "%s" is writable' % mount_point)
 
-    except:
+    except Exception:
         logging.error('directory at "%s" is not writable' % mount_point)
 
         return None

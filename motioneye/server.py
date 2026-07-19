@@ -86,6 +86,9 @@ class Daemon:
         os.dup2(si.fileno(), sys.stdin.fileno())
         os.dup2(so.fileno(), sys.stdout.fileno())
         os.dup2(se.fileno(), sys.stderr.fileno())
+        si.close()
+        so.close()
+        se.close()
 
         # pid file
         atexit.register(self.del_pid)
@@ -96,7 +99,7 @@ class Daemon:
         try:
             os.remove(self.pid_file)
 
-        except:
+        except Exception:
             sys.stderr.write('failed to remove pid file.\n')
 
     def running(self):
@@ -104,14 +107,14 @@ class Daemon:
             with open(self.pid_file) as f:
                 pid = int(f.read().strip())
 
-        except:
+        except Exception:
             return None
 
         try:
             os.kill(pid, 0)
             return pid
 
-        except:
+        except Exception:
             return None
 
     def start(self):
@@ -155,7 +158,7 @@ class Daemon:
             try:
                 os.kill(pid, signal.SIGKILL)
 
-            except:
+            except Exception:
                 sys.stderr.write('failed to kill...\n')
 
 
