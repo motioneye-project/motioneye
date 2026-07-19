@@ -89,7 +89,7 @@ def list_resolutions(device):
     logging.debug(f'running command "{cmd}"')
 
     try:
-        output = utils.call_subprocess(cmd, shell=True, stderr=utils.DEV_NULL)
+        output = utils.call_subprocess(cmd, shell=True, stderr=subprocess.DEVNULL)
     except:
         logging.error(f'failed to list resolutions of device "{device}"')
 

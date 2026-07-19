@@ -41,8 +41,6 @@ _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
 MASK_WIDTH = 32
 
-DEV_NULL = open(os.devnull, 'w')
-
 COMMON_RESOLUTIONS = [
     (320, 200),
     (320, 240),
@@ -586,7 +584,7 @@ def call_subprocess(
     stdin=None,
     input=None,
     stdout=subprocess.PIPE,
-    stderr=DEV_NULL,
+    stderr=subprocess.DEVNULL,
     capture_output=False,
     shell=False,
     cwd=None,
