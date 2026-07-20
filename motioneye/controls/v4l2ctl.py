@@ -195,7 +195,13 @@ def list_ctrls(device):
         # Motion matches controls by ID. We use ID because the driver's raw
         # name doesn't always match the name v4l2-ctl gives (e.g. driver:
         # "White Balance, Automatic" vs. v4l2-ctl: "white_balance_automatic")
-        properties['control_id'] = f'ID{int(id_hex, 16):08d}'
+        if id_hex:
+            try:
+                properties['control_id'] = f'ID{int(id_hex, 16):08d}'
+            except ValueError:
+                logging.warning(
+                    f'could not parse v4l2 control id "{id_hex}" for "{control}"'
+                )
 
         controls[control] = properties
 

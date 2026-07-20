@@ -1122,13 +1122,14 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         if proto == 'v4l2':
             # video controls, control_id is the ID Motion actually matches against (see v4l2-ctl --list-ctrls)
             video_controls = v4l2ctl.list_ctrls(prev_config.get('videodevice', ''))
-            vid_control_params = (
-                '{}={}'.format(
-                    video_controls.get(n, {}).get('control_id', n), c['value']
+            if video_controls:
+                vid_control_params = (
+                    '{}={}'.format(
+                        video_controls.get(n, {}).get('control_id', n), c['value']
+                    )
+                    for n, c in list(ui['video_controls'].items())
                 )
-                for n, c in list(ui['video_controls'].items())
-            )
-            data['vid_control_params'] = ','.join(vid_control_params)
+                data['vid_control_params'] = ','.join(vid_control_params)
 
     else:  # assuming netcam
         if match(
