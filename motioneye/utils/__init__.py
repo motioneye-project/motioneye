@@ -279,7 +279,6 @@ def build_digest_header(method, url, username, password, state):
     def KD(s, d):
         return hash_utf8(f"{s}:{d}")
 
-    entdig = None
     p_parsed = urllib.parse.urlparse(url)
     path = p_parsed.path
     if p_parsed.query:
@@ -330,8 +329,6 @@ def build_digest_header(method, url, username, password, state):
         base += f', opaque="{opaque}"'
     if algorithm:
         base += f', algorithm="{algorithm}"'
-    if entdig:
-        base += f', digest="{entdig}"'
     if qop:
         base += f', qop=auth, nc={ncvalue}, cnonce="{cnonce}"'
 

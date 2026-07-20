@@ -32,12 +32,13 @@ __all__ = ('ActionHandler',)
 class ActionHandler(BaseHandler):
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
-    async def post(self, camera_id, action):
+    async def post(self, camera_id, action) -> None:
         camera_id = int(camera_id)
         if camera_id not in config.get_camera_ids():
             raise HTTPError(404, 'no such camera')
 
-        local_config = config.get_camera(camera_id)
+        local_config: dict = config.get_camera(camera_id)
+
         # block access to admin-only cameras for non-admin users
         if (
             local_config
@@ -48,35 +49,39 @@ class ActionHandler(BaseHandler):
                 403,
                 f'access denied to admin-only camera "{camera_id}" for action "{action}"',
             )
+
         if utils.is_remote_camera(local_config):
             resp = await remote.exec_action(local_config, action)
             if resp.error:
                 msg = (
-                    'Failed to execute action on remote camera at {url}: {msg}.'.format(
-                        url=remote.pretty_camera_url(local_config), msg=resp.error
-                    )
+                    'Failed to execute action on remote camera at '
+                    f'{remote.pretty_camera_url(local_config)}: {resp.error}.'
                 )
+                self.finish_json({'error': msg})
 
-                return self.finish_json({'error': msg})
+            else:
+                self.finish_json()
 
-            return self.finish_json()
+            return
 
         if action == 'snapshot':
-            logging.debug('executing snapshot action for camera with id %s' % camera_id)
+            logging.debug(f'executing snapshot action for camera with id {camera_id}')
             await self.snapshot(camera_id)
             return
 
         elif action == 'record_start':
             logging.debug(
-                'executing record_start action for camera with id %s' % camera_id
+                f'executing record_start action for camera with id {camera_id}'
             )
-            return self.record_start(camera_id)
+            self.record_start(camera_id)
+            return
 
         elif action == 'record_stop':
             logging.debug(
-                'executing record_stop action for camera with id %s' % camera_id
+                f'executing record_stop action for camera with id {camera_id}'
             )
-            return self.record_stop(camera_id)
+            self.record_stop(camera_id)
+            return
 
         action_commands = config.get_action_commands(local_config)
         command = action_commands.get(action)
@@ -87,8 +92,6 @@ class ActionHandler(BaseHandler):
             f'executing {action} action for camera with id {camera_id}: "{command}"'
         )
         self.run_command_bg(command)
-
-        return None
 
     def run_command_bg(self, command):
         self.p = subprocess.Popen(
