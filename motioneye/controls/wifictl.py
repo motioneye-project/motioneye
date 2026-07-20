@@ -32,7 +32,7 @@ def _get_wifi_settings():
         conf_file = open(WPA_SUPPLICANT_CONF)
 
     except Exception as e:
-        logging.error(f'could open wifi settings file {WPA_SUPPLICANT_CONF}: {e}')
+        logging.error(f'could not open wifi settings file {WPA_SUPPLICANT_CONF}: {e}')
 
         return {'wifiEnabled': False, 'wifiNetworkName': '', 'wifiNetworkKey': ''}
 
