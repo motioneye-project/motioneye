@@ -25,7 +25,7 @@ repos:
       - id: bandit
         args: ["--skip=B104,B105,B108,B110,B301,B310,B321,B402,B403,B404,B602,B603,B604,B605,B607,B701"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.20
+    rev: v0.15.22
     hooks:
       - id: ruff-check
         args: [--target-version=py37, --ignore, E722, --config, "builtins = ['_']"]
@@ -37,7 +37,7 @@ repos:
       - id: black
         args: [--skip-string-normalization, -t, py37, -t, py38, -t, py39, -t, py310, -t, py311, -t, py312, -t, py313, -t, py314]
   - repo: https://github.com/codespell-project/codespell
-    rev: v2.4.2
+    rev: v2.4.3
     hooks:
       - id: codespell
       # See args in setup.cfg
@@ -57,7 +57,7 @@ repos:
           - --show-source
           - --statistics
   - repo: https://github.com/timothycrosley/isort
-    rev: 9.0.0a3
+    rev: 9.0.0b1
     hooks:
       - id: isort
         args: [--profile, black, --filter-files]
