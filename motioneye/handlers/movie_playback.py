@@ -71,7 +71,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
                 camera_config['camera_name'] + '_' + self.pretty_filename
             )
             await StaticFileHandler.get(self, filename, include_body=include_body)
-            return
+            return None
 
         elif utils.is_remote_camera(camera_config):
             # we will cache the movie since it takes a while to fetch from the remote camera
@@ -82,7 +82,7 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
                 mtime = os.stat(tmpfile).st_mtime
                 os.utime(tmpfile, (time(), mtime))
                 await StaticFileHandler.get(self, tmpfile, include_body=include_body)
-                return
+                return None
 
             resp = await remote.get_media_content(
                 camera_config, filename, media_type='movie'
@@ -98,12 +98,11 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
 
             # check if the file has been created by another request while we were fetching the movie
             if not os.path.isfile(tmpfile):
-                tmp = open(tmpfile, 'wb')
-                tmp.write(resp.result)
-                tmp.close()
+                with open(tmpfile, 'wb') as tmp:
+                    tmp.write(resp.result)
 
             await StaticFileHandler.get(self, tmpfile, include_body=include_body)
-            return
+            return None
 
         else:  # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
@@ -116,9 +115,8 @@ class MoviePlaybackHandler(StaticFileHandler, BaseHandler):
                 f = os.path.join(self.tmpdir, f)
                 if os.path.isfile(f) and os.stat(f).st_atime <= stale_time:
                     os.remove(f)
-        except:
+        except Exception:
             logging.error('could not delete temp file', exc_info=True)
-            pass
 
     def get_absolute_path(self, root, path):
         return path

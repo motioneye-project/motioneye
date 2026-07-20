@@ -77,11 +77,11 @@ class ConfigHandler(BaseHandler):
 
         if op == 'get':
             await self.get_config(camera_id)
-            return
+            return None
 
         elif op == 'list':
             await self.list()
-            return
+            return None
 
         elif op == 'backup':
             return self.backup()
@@ -98,11 +98,11 @@ class ConfigHandler(BaseHandler):
 
         if op == 'set':
             await self.set_config(camera_id)
-            return
+            return None
 
         elif op == 'add':
             await self.add_camera()
-            return
+            return None
 
         elif op == 'rem':
             return self.rem_camera(camera_id)
@@ -112,13 +112,14 @@ class ConfigHandler(BaseHandler):
 
         elif op == 'list':
             await self.list()
-            return
+            return None
 
         elif op == 'credentials':
             return await self.set_credentials(camera_id)
 
         elif op == 'test':
             await self.test(camera_id)
+            return None
 
         else:
             raise HTTPError(400, 'unknown operation')
@@ -262,16 +263,12 @@ class ConfigHandler(BaseHandler):
                 config.set_camera(camera_id, local_config)
 
                 if 'name' in ui_config:
-
-                    def on_finish_wrapper(e=None):
-                        return on_finish(e, False)
-
                     ui_config['enabled'] = True  # never disable the camera remotely
                     ui_config.pop(
                         'admin_only', None
                     )  # local-only setting do not send to remote
                     result = await remote.set_config(local_config, ui_config)
-                    return on_finish(result, False)
+                    on_finish(result, False)
 
                 else:
                     # when the ui config supplied has only the enabled state
@@ -386,6 +383,8 @@ class ConfigHandler(BaseHandler):
 
             self.finish({'reload': reload, 'reboot': reboot[0], 'error': error[0]})
 
+            return None
+
         if camera_id is not None:
             if camera_id == 0:  # multiple camera configs
                 if len(ui_config) > 1:
@@ -435,6 +434,8 @@ class ConfigHandler(BaseHandler):
             reload = result['reload']
             reboot[0] = result['reboot']
             restart[0] = result['restart']
+
+        return None
 
     def _handle_list_cameras_response(self, resp: utils.GetCamerasResponse):
         if resp.error:
@@ -613,7 +614,7 @@ class ConfigHandler(BaseHandler):
                     ui_config = config.motion_camera_dict_to_ui(local_config)
                     cameras.append(self._sanitize_camera_on_usertype(ui_config))
                     if self.check_finished(cameras, length):
-                        return
+                        return None
 
                 elif utils.is_remote_camera(local_config):
                     if (
@@ -624,7 +625,7 @@ class ConfigHandler(BaseHandler):
                         if self._handle_get_config_response(
                             camera_id, local_config, resp, cameras, length
                         ):
-                            return
+                            return None
 
                     else:  # don't try to reach the remote of the camera is disabled
                         if self._handle_get_config_response(
@@ -634,13 +635,13 @@ class ConfigHandler(BaseHandler):
                             cameras,
                             length,
                         ):
-                            return
+                            return None
 
                 else:  # assuming simple mjpeg camera
                     ui_config = config.simple_mjpeg_camera_dict_to_ui(local_config)
                     cameras.append(self._sanitize_camera_on_usertype(ui_config))
                     if self.check_finished(cameras, length):
-                        return
+                        return None
 
             return self.finish_json({'cameras': cameras})
 
@@ -859,11 +860,12 @@ class ConfigHandler(BaseHandler):
                 except Exception as e:
                     msg = str(e)
 
-                    msg_lower = msg.lower()
                     logging.error(
-                        'telegram notification test failed: %s' % msg, exc_info=True
+                        f'telegram notification test failed: {msg}', exc_info=True
                     )
-                    self.finish_json({'error': str(msg)})
+                    self.finish_json({'error': msg})
+
+                return None
 
             elif what == 'network_share':
                 logging.debug(

@@ -30,7 +30,7 @@ def get_os_version() -> Tuple[str, str]:
 
         return name, version
 
-    except:
+    except Exception:
         return _get_os_version_uname()
 
 
@@ -42,7 +42,7 @@ def _get_os_version_uname() -> Tuple[str, str]:
 
         return name, version
 
-    except:
+    except Exception:
         return 'Linux', ''  # most likely :)
 
 
@@ -54,7 +54,7 @@ def compare_versions(version1: str, version2: str) -> int:
         try:
             return int(n)
 
-        except:
+        except Exception:
             return 0
 
     version1_list: List[int] = [int_or_0(n) for n in version1.split('.')]

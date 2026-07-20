@@ -41,8 +41,6 @@ _SPECIAL_COOKIE_NAMES = {'expires', 'domain', 'path', 'secure', 'httponly'}
 
 MASK_WIDTH = 32
 
-DEV_NULL = open(os.devnull, 'w')
-
 COMMON_RESOLUTIONS = [
     (320, 200),
     (320, 240),
@@ -148,11 +146,11 @@ def make_str(s):
     try:
         return str(s)
 
-    except:
+    except Exception:
         try:
             return str(s, encoding='utf8').encode('utf8')
 
-        except:
+        except Exception:
             return str(s).encode('utf8')
 
 
@@ -280,9 +278,6 @@ def build_digest_header(method, url, username, password, state):
 
     def KD(s, d):
         return hash_utf8(f"{s}:{d}")
-
-    if hash_utf8 is None:
-        return None
 
     entdig = None
     p_parsed = urllib.parse.urlparse(url)
@@ -586,7 +581,7 @@ def call_subprocess(
     stdin=None,
     input=None,
     stdout=subprocess.PIPE,
-    stderr=DEV_NULL,
+    stderr=subprocess.DEVNULL,
     capture_output=False,
     shell=False,
     cwd=None,

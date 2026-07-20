@@ -155,3 +155,5 @@ class LoginHandler(BaseHandler):
             response['force_password_change'] = True
 
         self.finish_json(response)
+
+        return None

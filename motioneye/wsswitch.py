@@ -79,11 +79,13 @@ async def _switch_motion_detection_status(
     motion_detection_resp: utils.GetMotionDetectionResult,
 ) -> None:
     if motion_detection_resp.error:  # could not detect current status
-        return logging.warning(
+        logging.warning(
             'skipping motion detection status update for camera with id {id}: {error}'.format(
                 id=camera_id, error=motion_detection_resp.error
             )
         )
+
+        return None
 
     if motion_detection_resp.enabled and not must_be_enabled:
         logging.debug(
@@ -102,6 +104,8 @@ async def _switch_motion_detection_status(
         )
 
         await motionctl.set_motion_detection(camera_id, True)
+
+    return None
 
 
 async def _check_ws() -> None:

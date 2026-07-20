@@ -272,9 +272,13 @@ def adapt_config_directives(data, mapping):
 def additional_section(func):
     _additional_section_funcs.append(func)
 
+    return func
+
 
 def additional_config(func):
     _additional_config_funcs.append(func)
+
+    return func
 
 
 def get_main(as_lines=False):

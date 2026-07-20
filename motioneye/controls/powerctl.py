@@ -63,8 +63,8 @@ class PowerControl:
                 return cls._exec_prog(prog, args)
             except subprocess.CalledProcessError:  # program not found
                 continue
-        else:
-            return False
+
+        return False
 
     @classmethod
     def shut_down(cls) -> bool:

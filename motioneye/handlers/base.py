@@ -119,8 +119,10 @@ class BaseHandler(RequestHandler):
     def finish(self, chunk=None):
         if not self._finished:
             return super().finish(chunk=chunk)
-        else:
-            logging.debug('Already finished')
+
+        logging.debug('Already finished')
+
+        return None
 
     def render(self, template_name, content_type='text/html', **context):
         self.set_header('Content-Type', content_type)

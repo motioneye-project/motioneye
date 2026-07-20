@@ -57,7 +57,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             try:
                 stream.close()
             except Exception:
-                pass
+                pass  # already closed or closing failed, nothing we can do
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
         s.settimeout(settings.MJPG_CLIENT_TIMEOUT)
@@ -99,13 +99,15 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             write_future = s.write('\r\n'.join(lines).encode('utf-8'))
             write_future.add_done_callback(seek_rtsp)
 
+            return None
+
     def seek_rtsp(f: Future):
         try:
             f.result()
         except Exception as e:
             logging.error(f'[SEEK_RTSP] Error occurred: {e}', exc_info=True)
             if check_error():
-                return
+                return None
         else:
             if stream is None:
                 return handle_error('connection closed')
@@ -116,6 +118,8 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
                 datetime.timedelta(seconds=settings.MJPG_CLIENT_TIMEOUT),
                 functools.partial(on_rtsp, r_future),
             )
+
+        return None
 
     def on_rtsp(f: Future):
         try:
@@ -240,7 +244,7 @@ def test_rtsp_url(data: dict) -> 'Future[GetCamerasResponse]':
             stream.close()
 
         except Exception:
-            pass
+            pass  # already closed or closing failed, nothing we can do
 
         future.set_result(GetCamerasResponse(None, error=e))
 

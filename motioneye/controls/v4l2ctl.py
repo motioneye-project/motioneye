@@ -27,7 +27,6 @@ _resolutions_cache: dict = {}
 _ctrls_cache: dict = {}
 
 _DEV_V4L_BY_ID = '/dev/v4l/by-id/'
-_V4L2_TIMEOUT = 10
 
 
 def find_v4l2_ctl():
@@ -49,7 +48,7 @@ def list_devices():
             ['v4l2-ctl', '--list-devices'], stderr=subprocess.STDOUT
         )
 
-    except:
+    except Exception:
         logging.debug(f'v4l2-ctl error: {output}')
 
     name = None
@@ -89,8 +88,8 @@ def list_resolutions(device):
     logging.debug(f'running command "{cmd}"')
 
     try:
-        output = utils.call_subprocess(cmd, shell=True, stderr=utils.DEV_NULL)
-    except:
+        output = utils.call_subprocess(cmd, shell=True, stderr=subprocess.DEVNULL)
+    except Exception:
         logging.error(f'failed to list resolutions of device "{device}"')
 
     output = utils.make_str(output)
@@ -137,7 +136,7 @@ def device_present(device):
         st = os.stat(device)
         return stat.S_ISCHR(st.st_mode)
 
-    except:
+    except Exception:
         return False
 
 
@@ -170,7 +169,7 @@ def list_ctrls(device):
 
     try:
         output = utils.call_subprocess(cmd, stderr=subprocess.STDOUT)
-    except:
+    except Exception:
         logging.error(f'failed to list controls of device "{device}"')
 
     controls = {}
