@@ -388,9 +388,7 @@ class PictureHandler(BaseHandler):
 
             else:
                 self.set_header('Content-Type', 'image/svg+xml')
-                with open(
-                    join(settings.STATIC_PATH, 'img', 'no-preview.svg')
-                ) as f:
+                with open(join(settings.STATIC_PATH, 'img', 'no-preview.svg')) as f:
                     content = f.read()
 
             return self.finish(content)

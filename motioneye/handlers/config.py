@@ -861,7 +861,7 @@ class ConfigHandler(BaseHandler):
                     msg = str(e)
 
                     logging.error(
-                        'telegram notification test failed: %s' % msg, exc_info=True
+                        f'telegram notification test failed: {msg}', exc_info=True
                     )
                     self.finish_json({'error': msg})
 

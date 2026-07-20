@@ -17,7 +17,7 @@
 import logging
 import os
 import re
-import subprocess
+from subprocess import DEVNULL
 
 from motioneye import utils
 
@@ -157,7 +157,7 @@ def _list_disks_dev_by_id():
 
 def _list_disks_fdisk():
     try:
-        output = utils.call_subprocess(['fdisk', '-l'], stderr=subprocess.DEVNULL)
+        output = utils.call_subprocess(['fdisk', '-l'], stderr=DEVNULL)
 
     except Exception as e:
         logging.error('failed to list disks using "fdisk -l": %s' % e, exc_info=True)

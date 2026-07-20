@@ -26,13 +26,13 @@ WPA_SUPPLICANT_CONF = settings.WPA_SUPPLICANT_CONF  # @UndefinedVariable
 def _get_wifi_settings():
     # will return the first configured network
 
-    logging.debug('reading wifi settings from %s' % WPA_SUPPLICANT_CONF)
+    logging.debug(f'reading wifi settings from {WPA_SUPPLICANT_CONF}')
 
     try:
         conf_file = open(WPA_SUPPLICANT_CONF)
 
     except Exception as e:
-        logging.error(f'could open wifi settings file {WPA_SUPPLICANT_CONF}: {str(e)}')
+        logging.error(f'could open wifi settings file {WPA_SUPPLICANT_CONF}: {e}')
 
         return {'wifiEnabled': False, 'wifiNetworkName': '', 'wifiNetworkKey': ''}
 
@@ -62,7 +62,7 @@ def _get_wifi_settings():
                 psk = m.group(1)
 
     if ssid:
-        logging.debug('wifi is enabled (ssid = "%s")' % ssid)
+        logging.debug(f'wifi is enabled (ssid = "{ssid}")')
 
         return {'wifiEnabled': True, 'wifiNetworkName': ssid, 'wifiNetworkKey': psk}
 
@@ -94,18 +94,14 @@ def _set_wifi_settings(s):
         conf_file = open(WPA_SUPPLICANT_CONF)
 
     except Exception as e:
-        logging.error(
-            'could open wifi settings file {path}: {msg}'.format(
-                path=WPA_SUPPLICANT_CONF, msg=str(e)
-            )
-        )
+        logging.error(f'could not open wifi settings file {WPA_SUPPLICANT_CONF}: {e}')
 
         return
 
     with conf_file:
         lines = conf_file.readlines()
 
-    in_section = False
+    found_section = False
     found_ssid = False
     found_psk = False
     found_key_mgmt = False
@@ -117,7 +113,7 @@ def _set_wifi_settings(s):
             continue
 
         if line.endswith('{'):
-            in_section = True
+            found_section = True
 
         elif line.startswith('}'):
             if enabled and ssid and not found_ssid:
@@ -131,11 +127,9 @@ def _set_wifi_settings(s):
             if enabled and not found_key_mgmt and key_mgmt:
                 lines.insert(i, '    key_mgmt=' + key_mgmt + '\n')
 
-            found_ssid = True
-
             break
 
-        elif in_section:
+        elif found_section:
             if enabled:
                 if re.match(r'ssid\s*=\s*".*?"', line):
                     lines[i] = '    ssid="' + ssid + '"\n'
@@ -168,7 +162,7 @@ def _set_wifi_settings(s):
 
         i += 1
 
-    if enabled and not found_ssid:
+    if enabled and not found_section:
         lines.append('network={\n')
         lines.append('    scan_ssid=1\n')
         lines.append('    ssid="' + ssid + '"\n')

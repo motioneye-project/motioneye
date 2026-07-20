@@ -248,9 +248,7 @@ async def get_motion_detection(camera_id) -> utils.GetMotionDetectionResult:
 async def set_motion_detection(camera_id, enabled):
     motion_camera_id = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
-        logging.error(
-            f'could not find motion camera id for camera with id {camera_id}'
-        )
+        logging.error(f'could not find motion camera id for camera with id {camera_id}')
 
         return None
 
@@ -289,9 +287,7 @@ async def set_motion_detection(camera_id, enabled):
 async def take_snapshot(camera_id):
     motion_camera_id = camera_id_to_motion_camera_id(camera_id)
     if motion_camera_id is None:
-        logging.error(
-            f'could not find motion camera id for camera with id {camera_id}'
-        )
+        logging.error(f'could not find motion camera id for camera with id {camera_id}')
 
         return None
 
