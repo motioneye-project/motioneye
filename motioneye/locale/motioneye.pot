@@ -22,67 +22,67 @@ msgstr ""
 msgid "The admin and/or surveillance user has no password assigned. Please login to the web interface to set both passwords."
 msgstr ""
 
-#: motioneye/server.py:235
+#: motioneye/server.py:232
 msgid "interrompa signalo ricevita, fermanta …"
 msgstr ""
 
-#: motioneye/server.py:277
+#: motioneye/server.py:274
 msgid "smb-akcioj postulas radikajn privilegiojn"
 msgstr ""
 
-#: motioneye/server.py:284
+#: motioneye/server.py:281
 msgid "bonvolu instali tornado version 3.1 aŭ pli"
 msgstr ""
 
-#: motioneye/server.py:291
+#: motioneye/server.py:288
 msgid "bonvolu instali jinja2"
 msgstr ""
 
-#: motioneye/server.py:298
+#: motioneye/server.py:295
 msgid "bonvolu instali pillow aŭ PIL"
 msgstr ""
 
-#: motioneye/server.py:305
+#: motioneye/server.py:302
 msgid "bonvolu instali pycurl"
 msgstr ""
 
-#: motioneye/server.py:423
+#: motioneye/server.py:420
 msgid "saluton! ĉi tio estas motionEye-servilo "
 msgstr ""
 
-#: motioneye/server.py:438
+#: motioneye/server.py:435
 msgid "purigado komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:440
+#: motioneye/server.py:437
 msgid "wsswitch komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:443
+#: motioneye/server.py:440
 msgid "taskoj komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:447
+#: motioneye/server.py:444
 msgid "mjpg klienta rubo-kolektanto komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:460
+#: motioneye/server.py:457
 msgid "servilo komenciĝis"
 msgstr ""
 
-#: motioneye/server.py:466
+#: motioneye/server.py:463
 msgid "servilo haltis"
 msgstr ""
 
-#: motioneye/server.py:468
+#: motioneye/server.py:465
 msgid "taskoj haltis"
 msgstr ""
 
-#: motioneye/server.py:476
+#: motioneye/server.py:473
 msgid "motion haltis"
 msgstr ""
 
-#: motioneye/server.py:481
+#: motioneye/server.py:478
 msgid "adiaŭ!"
 msgstr ""
 
