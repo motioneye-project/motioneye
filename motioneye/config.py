@@ -434,7 +434,7 @@ def set_main(main_config):
         f.close()
 
 
-def get_camera_ids(filter_valid=True):
+def get_camera_ids():
     global _camera_ids_cache
 
     if _camera_ids_cache is not None:
@@ -464,9 +464,6 @@ def get_camera_ids(filter_valid=True):
             camera_ids.append(camera_id)
 
     camera_ids.sort()
-
-    if not filter_valid:
-        return camera_ids
 
     filtered_camera_ids = []
     for camera_id in camera_ids:
