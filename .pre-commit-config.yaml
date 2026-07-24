@@ -25,7 +25,7 @@ repos:
       - id: bandit
         args: ["--skip=B104,B105,B108,B110,B301,B310,B321,B402,B403,B404,B602,B603,B604,B605,B607,B701"]
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.22
+    rev: v0.16.9
     hooks:
       - id: ruff-check
         args: [--target-version=py37, --ignore, E722, --config, "builtins = ['_']"]
@@ -42,7 +42,7 @@ repos:
       - id: codespell
       # See args in setup.cfg
   - repo: https://github.com/PyCQA/flake8
-    rev: 7.3.0
+    rev: 7.4.1
     hooks:
       - id: flake8
         # Skipped plugins which are currently not used by "--select": flake8-return, which does not support Python 3.14 yet: https://github.com/afonasev/flake8-return/pull/139
@@ -57,7 +57,7 @@ repos:
           - --show-source
           - --statistics
   - repo: https://github.com/timothycrosley/isort
-    rev: 9.0.0b1
+    rev: 9.0.1
     hooks:
       - id: isort
         args: [--profile, black, --filter-files]
