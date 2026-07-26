@@ -2676,10 +2676,10 @@ function doApply() {
             Object.keys(pushConfigs).forEach(function (key) {
                 var config = pushConfigs[key];
                 if (config.key !== 'main') {
-                    $('#cameraSelect').find('option[value=' + key + ']').html(config.name);
+                    $('#cameraSelect').find('option[value=' + key + ']').text(config.name);
                 }
 
-                $('#camera' + key).find('span.camera-name').html(config.name);
+                $('#camera' + key).find('span.camera-name').text(config.name);
             });
 
             pushConfigs = {};
@@ -4844,7 +4844,7 @@ function addCameraFrameUi(cameraConfig) {
     cameraFrameDiv.attr('id', 'camera' + cameraId);
     cameraFrameDiv[0].refreshDivider = 0;
     cameraFrameDiv[0].config = cameraConfig;
-    nameSpan.html(cameraConfig.name);
+    nameSpan.text(cameraConfig.name);
     progressImg.attr('src', staticPath + 'img/camera-progress.gif');
 
     cameraImg.on('click', function () {
