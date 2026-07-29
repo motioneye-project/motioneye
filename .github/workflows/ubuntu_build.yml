@@ -18,11 +18,6 @@ jobs:
     runs-on: ${{ matrix.dist }}
     name: "Test on ${{ matrix.dist }}"
     steps:
-      - name: Ubuntu Noble workarounds
-        if: matrix.dist == 'ubuntu-24.04' || matrix.dist == 'ubuntu-24.04-arm'
-        run: |
-          # error: externally-managed-environment
-          echo -e '[global]\nbreak-system-packages=true' | sudo tee /etc/pip.conf
       # ERROR: Cannot uninstall pip 24.0, RECORD file not found. Hint: The package was installed by debian.
       - run: sudo DEBIAN_FRONTEND="noninteractive" apt-get -qq autopurge python3-pip python3-setuptools python3-wheel python3-dev
       - run: sudo apt-get -q update
