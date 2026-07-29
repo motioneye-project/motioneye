@@ -19,5 +19,5 @@ jobs:
         with:
           python-version: 3.x
           check-latest: true
-          pip-install: pip-audit
+      - run: pip install -U pip-audit
       - run: pip-audit -Sv .
