@@ -252,6 +252,8 @@ class PictureHandler(BaseHandler):
             raise HTTPError(400, 'unknown operation')
 
     async def frame(self, camera_id):
+        self.set_header('Cache-Control', 'private, no-store, must-revalidate')
+
         camera_config = config.get_camera(camera_id)
 
         if (
