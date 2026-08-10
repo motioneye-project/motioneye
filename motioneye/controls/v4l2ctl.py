@@ -179,14 +179,30 @@ def list_ctrls(device):
         if not line:
             continue
 
-        match = re.match(r'^\s*(\w+)\s+([a-f0-9x\s]+)?\(\w+\)\s*:\s*(.+)\s*', line)
+        match = re.match(r'^\s*(\w+)\s+([a-f0-9x\s]+)?\((\w+)\)\s*:\s*(.+)\s*', line)
         if not match:
             continue
 
-        control, _, properties = match.groups()
+        control, id_hex, ctrl_type, properties = match.groups()
         properties = dict(
             [v.split('=', 1) for v in properties.split(' ') if v.count('=')]
         )
+        if ctrl_type == 'bool':
+            # v4l2-ctl --list-ctrls gives no min/max for bool controls, so set them here
+            properties.setdefault('min', '0')
+            properties.setdefault('max', '1')
+
+        # Motion matches controls by ID. We use ID because the driver's raw
+        # name doesn't always match the name v4l2-ctl gives (e.g. driver:
+        # "White Balance, Automatic" vs. v4l2-ctl: "white_balance_automatic")
+        if id_hex:
+            try:
+                properties['control_id'] = f'ID{int(id_hex, 16):08d}'
+            except ValueError:
+                logging.warning(
+                    f'could not parse v4l2 control id "{id_hex}" for "{control}"'
+                )
+
         controls[control] = properties
 
     _ctrls_cache[device] = controls
