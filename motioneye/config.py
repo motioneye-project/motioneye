@@ -1131,6 +1131,12 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
                 )
                 data['vid_control_params'] = ','.join(vid_control_params)
 
+            else:
+                logging.warning(
+                    f'camera {prev_config["@id"]} control listing failed, '
+                    'controls not updated'
+                )
+
     else:  # assuming netcam
         if match(
             r'^rtsp|^rtmp', data.get('netcam_url', prev_config.get('netcam_url', ''))
