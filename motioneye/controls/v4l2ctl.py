@@ -205,6 +205,8 @@ def list_ctrls(device):
 
         controls[control] = properties
 
-    _ctrls_cache[device] = controls
+    # don't cache an empty result, the cache has no expiry
+    if controls:
+        _ctrls_cache[device] = controls
 
     return controls
