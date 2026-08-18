@@ -1366,6 +1366,16 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             ),
         )
 
+        if ui['email_notifications_from'] != '':
+            email_from = input_sanity_check(
+                emailValidRegExp,
+                ui['email_notifications_from'],
+                'email_notifications_from',
+                emailFailMessage,
+            )
+        else:
+            email_from = ''
+
         line = (
             "%(script)s '%(server)s' '%(port)s' '%(account)s' '%(password)s' '%(tls)s' '%(from)s' '%(to)s' "
             "'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'"
@@ -1378,12 +1388,7 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
                 .replace(';', '\\;')
                 .replace('%', '%%'),
                 'tls': ui['email_notifications_smtp_tls'],
-                'from': input_sanity_check(
-                    emailValidRegExp,
-                    ui['email_notifications_from'],
-                    'email_notifications_from',
-                    emailFailMessage,
-                ),
+                'from': email_from,
                 'to': emails,
                 'timespan': ui['email_notifications_picture_time_span'],
             }
