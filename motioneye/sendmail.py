@@ -41,9 +41,10 @@ subjects = {'motion_start': 'motionEye: motion detected by "%(camera)s"'}
 
 
 def send_mail(server, port, account, password, tls, _from, to, subject, message, files):
-    conn = smtplib.SMTP(server, port, timeout=settings.SMTP_TIMEOUT)
     if tls:
-        conn.starttls()
+        conn = smtplib.SMTP_SSL(server, port, timeout=settings.SMTP_TIMEOUT)
+    else:
+        conn = smtplib.SMTP(server, port, timeout=settings.SMTP_TIMEOUT)
 
     if account and password:
         conn.login(account, password)
