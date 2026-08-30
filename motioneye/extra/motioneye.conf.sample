@@ -95,5 +95,5 @@ add_remove_cameras true
 # overrides the hostname (useful if motionEye runs behind a reverse proxy)
 #server_name motionEye
 
-# lifetime in hours of the session cookie for the normal (surveillance) user, minimum 1 hour (longer values increase risk if the cookie is stolen)
+# lifetime in hours of the session cookie for the normal (surveillance) user, minimum 1 hour (higher values increase risk if the cookie is stolen)
 normal_session_expiry_hours 720
