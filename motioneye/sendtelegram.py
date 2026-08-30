@@ -150,7 +150,7 @@ def main(parser, args):
     signal.signal(signal.SIGCHLD, signal.SIG_DFL)
 
     options = parse_options(parser, args)
-    meyectl.configure_logging('telegram', options.log_to_file)
+    meyectl.configure_logging('telegram')
     logging.debug(options)
     message = 'Motion has been detected by camera "%(camera)s/%(hostname)s" at %(moment)s (%(timezone)s).'
 

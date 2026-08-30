@@ -27,7 +27,7 @@ def main(parser, args):
 
     options = parse_options(parser, args)
 
-    meyectl.configure_logging('shell', options.log_to_file)
+    meyectl.configure_logging('shell')
     meyectl.configure_tornado()
 
     logging.debug('hello!')

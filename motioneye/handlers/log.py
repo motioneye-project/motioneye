@@ -39,6 +39,9 @@ class LogHandler(BaseHandler):
 
         path, filename = log
 
+        if path.startswith('/') and not os.path.exists(path):
+            raise HTTPError(404, 'log file not found')
+
         self.set_header('Content-Type', 'text/plain')
         self.set_header('Content-Disposition', 'attachment; filename=' + filename + ';')
 
