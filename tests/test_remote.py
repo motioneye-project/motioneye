@@ -17,6 +17,7 @@
 """Tests verifying that path traversal elements are rejected in remote module functions."""
 
 import unittest
+from unittest.mock import AsyncMock, MagicMock, patch
 
 from motioneye import remote
 
@@ -143,6 +144,45 @@ class TestRemotePathTraversal(unittest.IsolatedAsyncioTestCase):
                 with self.assertRaises(Exception) as ctx:
                     await remote.del_media_group(self._LOCAL_CONFIG, group, 'picture')
                 self._assert_raises_path_traversal(ctx.exception)
+
+
+class TestRemoteListMediaQuery(unittest.IsolatedAsyncioTestCase):
+    """Tests that list_media only forwards with_stat/limit query parameters
+    when they are explicitly set, so older remote motionEye versions keep
+    receiving the requests they already understand."""
+
+    _LOCAL_CONFIG = {
+        '@proto': 'mjpeg',
+        '@host': '127.0.0.1',
+        '@port': 8765,
+        '@username': '',
+        '@password': '',
+        '@path': '',
+        '@remote_camera_id': 1,
+    }
+
+    async def _get_query(self, **kwargs):
+        response = MagicMock()
+        response.error = None
+        response.body = '{"mediaList": []}'
+
+        with patch.object(remote, '_make_request') as make_request, patch.object(
+            remote, '_send_request', new=AsyncMock(return_value=response)
+        ):
+            resp = await remote.list_media(self._LOCAL_CONFIG, 'picture', **kwargs)
+
+        self.assertIsNone(resp.error)
+        return make_request.call_args.kwargs['query']
+
+    async def test_default_request_sends_no_extra_params(self):
+        query = await self._get_query()
+        self.assertNotIn('with_stat', query)
+        self.assertNotIn('limit', query)
+
+    async def test_with_stat_false_and_limit_are_forwarded(self):
+        query = await self._get_query(with_stat=False, limit=1)
+        self.assertEqual(query.get('with_stat'), 'false')
+        self.assertEqual(query.get('limit'), '1')
 
 
 if __name__ == '__main__':

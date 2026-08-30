@@ -116,16 +116,27 @@ class MovieHandler(BaseHandler):
         logging.debug(f'listing movies for camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
-        if utils.is_local_motion_camera(camera_config):
-            # Get with_stat parameter from query string, default to True
-            # Only 'false' is treated as false, everything else is true
-            with_stat = self.get_argument('with_stat', 'true').lower() != 'false'
 
+        # Get with_stat parameter from query string, default to True
+        # Only 'false' is treated as false, everything else is true
+        with_stat = self.get_argument('with_stat', 'true').lower() != 'false'
+
+        # An optional positive 'limit' makes the listing stop early once that
+        # many files were found, turning it into a cheap existence check
+        try:
+            limit = int(self.get_argument('limit', ''))
+        except ValueError:
+            limit = None
+        if limit is not None and limit <= 0:
+            limit = None
+
+        if utils.is_local_motion_camera(camera_config):
             media_list = await mediafiles.list_media(
                 camera_config,
                 media_type='movie',
                 prefix=self.get_argument('prefix', None),
                 with_stat=with_stat,
+                limit=limit,
             )
             if media_list is None:
                 return self.finish_json({'error': 'Failed to get movies list.'})
@@ -139,6 +150,8 @@ class MovieHandler(BaseHandler):
                 camera_config,
                 media_type='movie',
                 prefix=self.get_argument('prefix', None),
+                with_stat=with_stat,
+                limit=limit,
             )
             if resp.error:
                 return self.finish_json(
