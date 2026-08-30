@@ -22,7 +22,7 @@ from time import time
 
 from tornado.web import HTTPError, RequestHandler
 
-from motioneye import VERSION, config, template
+from motioneye import VERSION, config, settings, template
 from motioneye.utils.authstate import verify_hmac_signature
 
 __all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')
@@ -35,12 +35,18 @@ _SESSION_EXPIRY_SECONDS: int = 86400
 _session_store: dict = {}
 
 
+def session_expiry_seconds(user_type):
+    if user_type == 'normal':
+        return max(1, settings.NORMAL_SESSION_EXPIRY_HOURS) * 3600
+    return _SESSION_EXPIRY_SECONDS
+
+
 def create_session(user_type):
     """Create a secure session id with expiry."""
     session_id = token_hex(32)
     _session_store[session_id] = {
         'user': user_type,
-        'expires': time() + _SESSION_EXPIRY_SECONDS,
+        'expires': time() + session_expiry_seconds(user_type),
     }
     return session_id
 
