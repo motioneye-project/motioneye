@@ -147,7 +147,7 @@ class BaseHandler(RequestHandler):
 
     def get_current_user(self):
         # Check for session-based authentication (via secure cookie)
-        session_id = self.get_secure_cookie('user')
+        session_id = self.get_signed_cookie('user')
         if session_id:
             try:
                 session_id = (
