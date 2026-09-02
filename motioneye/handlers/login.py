@@ -140,7 +140,7 @@ class LoginHandler(BaseHandler):
             return self.finish_json({'error': 'invalid credentials'})
 
         session_id = create_session(user_type)
-        self.set_secure_cookie(
+        self.set_signed_cookie(
             'user',
             session_id,
             expires_days=session_expiry_seconds(user_type) / 86400,
