@@ -36,7 +36,7 @@ _SESSION_EXPIRY_SECONDS: int = 86400
 _session_store: dict = {}
 
 
-def session_expiry_seconds(user_type):
+def session_expiry_seconds(user_type: str) -> int:
     if user_type == 'normal':
         return max(1, settings.NORMAL_SESSION_EXPIRY_HOURS) * 3600
     return _SESSION_EXPIRY_SECONDS
