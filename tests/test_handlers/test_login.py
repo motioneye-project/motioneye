@@ -7,7 +7,8 @@ from unittest.mock import patch
 import tornado.testing
 from argon2 import PasswordHasher
 
-from motioneye import config, settings
+from motioneye import config
+from motioneye.handlers import base
 from motioneye.handlers.base import _session_store
 from motioneye.handlers.login import LoginHandler
 from tests.test_handlers import HandlerTestCase
@@ -153,7 +154,7 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_username': normal_user,
             '@normal_password': ph.hash(normal_pass),
         }
-        with patch.object(settings, 'NORMAL_SESSION_EXPIRY_HOURS', 5):
+        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 5):
             with patch.object(config, '_main_config_cache', main_config):
                 response = self.fetch(
                     '/login',
@@ -174,7 +175,7 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_password': '',
         }
         # even a large normal-user lifetime must not affect the admin cookie
-        with patch.object(settings, 'NORMAL_SESSION_EXPIRY_HOURS', 999):
+        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 999):
             with patch.object(config, '_main_config_cache', main_config):
                 response = self.fetch(
                     '/login',
@@ -194,7 +195,7 @@ class LoginHandlerTest(HandlerTestCase):
             '@normal_username': normal_user,
             '@normal_password': ph.hash(normal_pass),
         }
-        with patch.object(settings, 'NORMAL_SESSION_EXPIRY_HOURS', 0):
+        with patch.object(base, 'NORMAL_SESSION_EXPIRY_HOURS', 0):
             with patch.object(config, '_main_config_cache', main_config):
                 response = self.fetch(
                     '/login',
