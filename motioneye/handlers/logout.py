@@ -26,7 +26,7 @@ class LogoutHandler(BaseHandler):
         self.clear_cookie('user')
 
         # Invalidate the session id stored in the secure cookie
-        session_id = self.get_secure_cookie('user')
+        session_id = self.get_signed_cookie('user')
         if session_id:
             session_id = (
                 session_id.decode('utf-8')
