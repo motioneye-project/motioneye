@@ -22,7 +22,8 @@ from time import time
 
 from tornado.web import HTTPError, RequestHandler
 
-from motioneye import VERSION, config, settings, template
+from motioneye import VERSION, config, template
+from motioneye.settings import NORMAL_SESSION_EXPIRY_HOURS
 from motioneye.utils.authstate import verify_hmac_signature
 
 __all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')
