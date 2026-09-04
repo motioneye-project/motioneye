@@ -25,10 +25,9 @@ import subprocess
 from errno import EAGAIN, ENOENT
 from hashlib import sha1
 from io import BytesIO
-from shlex import quote
 from signal import SIGKILL, SIGTERM
 from time import time
-from typing import Awaitable, List, Optional
+from typing import Any, Awaitable, List, Optional
 from zipfile import ZipFile
 
 from PIL import Image
@@ -98,7 +97,7 @@ MOVIE_EXT_TYPE_MAPPING = {
 # a cache of prepared files (whose preparing time is significant)
 _prepared_files: dict = {}
 
-_timelapse_process = None
+_timelapse_process: Any = None
 _timelapse_data = None
 
 _ffmpeg_binary_cache = None
@@ -313,7 +312,7 @@ def find_ffmpeg() -> tuple:
 
     # version
     try:
-        output = utils.call_subprocess([quote(binary), '-version'])
+        output = utils.call_subprocess([binary, '-version'])
 
     except subprocess.CalledProcessError as e:
         logging.error(f'ffmpeg: could not find version: {e}')
@@ -324,7 +323,7 @@ def find_ffmpeg() -> tuple:
 
     # codecs
     try:
-        output = utils.call_subprocess(binary + ' -codecs -hide_banner', shell=True)
+        output = utils.call_subprocess([binary, '-codecs', '-hide_banner'])
 
     except subprocess.CalledProcessError as e:
         logging.error(f'ffmpeg: could not list supported codecs: {e}')
@@ -458,8 +457,6 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
     offs = max(
         (x for x in {offs * 2, offs} if x <= movie_duration), default=movie_duration / 2
     )
-
-    path = quote(full_path)
     thumb_path = full_path + '.thumb'
 
     target_dir: str = camera_config['target_dir']
@@ -472,11 +469,23 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
         f'creating movie preview for {full_path} with an offset of {offs} seconds...'
     )
 
-    cmd = f'ffmpeg -i {path} -f mjpeg -vframes 1 -ss {offs} -y {path}.thumb'
-    logging.debug(f'running command "{cmd}"')
+    cmd: list = [
+        'ffmpeg',
+        '-i',
+        full_path,
+        '-f',
+        'mjpeg',
+        '-vframes',
+        1,
+        '-ss',
+        offs,
+        '-y',
+        thumb_path,
+    ]
+    logging.debug(f'running command {cmd}')
 
     try:
-        utils.call_subprocess(cmd.split(), stderr=subprocess.STDOUT)
+        utils.call_subprocess(cmd, stderr=subprocess.STDOUT)
 
     except subprocess.CalledProcessError as e:
         logging.error(f'failed to create movie preview for {full_path}: {e}')
@@ -496,12 +505,24 @@ def make_movie_preview(camera_config: dict, full_path: str) -> Optional[str]:
             f'movie probably too short, grabbing first frame from {full_path}...'
         )
 
-        cmd = f'ffmpeg -i {path} -f mjpeg -vframes 1 -ss 0 -y {path}.thumb'
-        logging.debug(f'running command "{cmd}"')
+        cmd = [
+            'ffmpeg',
+            '-i',
+            full_path,
+            '-f',
+            'mjpeg',
+            '-vframes',
+            1,
+            '-ss',
+            0,
+            '-y',
+            thumb_path,
+        ]
+        logging.debug(f'running command {cmd}')
 
         # try again, this time grabbing the very first frame
         try:
-            utils.call_subprocess(cmd.split(), stderr=subprocess.STDOUT)
+            utils.call_subprocess(cmd, stderr=subprocess.STDOUT)
 
         except subprocess.CalledProcessError as e:
             logging.error(f'failed to create movie preview for {full_path}: {e}')
@@ -745,13 +766,13 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
 
                 return
 
-            pictures = select_pictures(media_list)
+            pictures: list = select_pictures(media_list)
             make_movie(pictures)
 
-    def select_pictures(media_list):
+    def select_pictures(media_list: list) -> list:
         media_list.sort(key=lambda e: e['timestamp'])
         start = media_list[0]['timestamp']
-        slices = {}
+        slices: dict = {}
         max_idx = 0
         for m in media_list:
             offs = m['timestamp'] - start
@@ -773,33 +794,45 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
 
         return selected
 
-    def make_movie(pictures):
+    def make_movie(pictures: list) -> None:
         global _timelapse_process
 
         # don't specify file format with -f, let ffmpeg work it out from the extension
-        cmd = 'rm -f %(tmp_filename)s;'
-        cmd += (
-            'cat %(jpegs)s | ffmpeg -framerate %(framerate)s -f image2pipe -vcodec mjpeg -i - -vcodec %(codec)s '
-            '-format %(format)s -b:v %(bitrate)s -qscale:v 0.1 %(tmp_filename)s'
-        )
+        cmd: list = [
+            'ffmpeg',
+            '-f',
+            'concat',
+            '-i',
+            '-',
+            '-y',
+            '-framerate',
+            framerate,
+            '-vcodec',
+            codec,
+            '-format',
+            fmt,
+            '-b:v',
+            9999999,
+            '-qscale:v',
+            '0.1',
+            tmp_filename,
+        ]
 
-        bitrate = 9999999
-
-        cmd = cmd % {
-            'tmp_filename': tmp_filename,
-            'jpegs': ' '.join(('"' + p['path'] + '"') for p in pictures),
-            'framerate': framerate,
-            'codec': codec,
-            'format': fmt,
-            'bitrate': bitrate,
-        }
-
-        logging.debug(f'executing "{cmd}"')
+        logging.debug(f'running command {cmd}')
 
         _timelapse_process = subprocess.Popen(
-            cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            stdin=subprocess.PIPE,
+            text=True,
         )
         _timelapse_process.progress = 0.01  # 1%
+
+        for p in pictures:
+            path: str = p['path'].replace("'", "'\\''")
+            _timelapse_process.stdin.write(f"file '{path}'\n")
+        _timelapse_process.stdin.close()
 
         # make subprocess stdout pipe non-blocking
         fd = _timelapse_process.stdout.fileno()
