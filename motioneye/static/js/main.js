@@ -5494,6 +5494,10 @@ function doAuth() {
                 if (!frame) {
                     fetchCurrentConfig(endProgress);
                 }
+                else if (!currentUser && $('div.camera-frame').attr('proto') == 'mjpeg') {
+                    /* for an mjpeg camera we reload after login, so the URL is fetched */
+                    window.location.reload();
+                }
             } else {
                 // Session invalid, show login dialog
                 runLoginDialog(function () {
