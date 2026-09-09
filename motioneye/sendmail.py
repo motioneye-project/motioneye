@@ -94,14 +94,21 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
 
         timestamp = time.mktime(moment.timetuple())
 
-        if media_files:
+        files = media_files.result() if hasattr(media_files, 'result') else media_files
+        if files is None:
+            logging.warning(
+                'picture listing timed out after %ss; sending notification '
+                'without pictures (consider raising list_media_timeout_email)',
+                settings.LIST_MEDIA_TIMEOUT,
+            )
+            files = []
+
+        if files:
             logging.debug('got media files')
 
             # filter out non-recent media files
             media_files = [
-                m
-                for m in media_files.result()
-                if abs(m['timestamp'] - timestamp) < timespan
+                m for m in files if abs(m['timestamp'] - timestamp) < timespan
             ]
             media_files.sort(key=lambda m: m['timestamp'], reverse=True)
             media_files = [

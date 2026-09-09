@@ -67,12 +67,19 @@ def make_message(message, camera_id, moment, timespan, callback):
         io_loop.stop()
 
         timestamp = time.mktime(moment.timetuple())
-        if media_files:
+        files = media_files.result() if hasattr(media_files, 'result') else media_files
+        if files is None:
+            logging.warning(
+                'picture listing timed out after %ss; sending notification '
+                'without pictures (consider raising list_media_timeout_telegram)',
+                settings.LIST_MEDIA_TIMEOUT,
+            )
+            files = []
+
+        if files:
             logging.debug('got media files')
             media_files = [
-                m
-                for m in media_files.result()
-                if abs(m['timestamp'] - timestamp) < float(timespan)
+                m for m in files if abs(m['timestamp'] - timestamp) < float(timespan)
             ]
             media_files.sort(key=lambda m: m['timestamp'], reverse=True)
             media_files = [
@@ -156,6 +163,11 @@ def main(parser, args):
 
     # do not wait too long for media list,
     # telegram notifications are critical
+    try:
+        options.timespan = int(options.timespan)
+    except (TypeError, ValueError):
+        options.timespan = 0
+
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_TELEGRAM
 
     camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
