@@ -27,6 +27,7 @@ from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formatdate, make_msgid
+from typing import Callable, Optional
 
 from tornado.ioloop import IOLoop
 
@@ -83,7 +84,14 @@ def send_mail(server, port, account, password, tls, _from, to, subject, message,
         logging.warning(f'failed to cleanly close the SMTP connection: {e}')
 
 
-def make_message(subject, message, camera_id, moment, timespan, callback):
+def make_message(
+    subject: str,
+    message: str,
+    camera_id: int,
+    moment: datetime.datetime,
+    timespan: int,
+    callback: Callable,
+) -> None:
     camera_config = config.get_camera(camera_id)
 
     # we must start the IO loop for the media list subprocess polling
@@ -94,12 +102,13 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
 
         timestamp = time.mktime(moment.timetuple())
 
-        files = media_files.result() if hasattr(media_files, 'result') else media_files
+        files: Optional[list] = (
+            media_files.result() if hasattr(media_files, 'result') else media_files
+        )
         if files is None:
             logging.warning(
-                'picture listing timed out after %ss; sending notification '
-                'without pictures (consider raising list_media_timeout_email)',
-                settings.LIST_MEDIA_TIMEOUT,
+                f'picture listing timed out after {settings.LIST_MEDIA_TIMEOUT}s; sending '
+                'notification without pictures; consider raising list_media_timeout_email'
             )
             files = []
 
@@ -107,16 +116,14 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
             logging.debug('got media files')
 
             # filter out non-recent media files
-            media_files = [
-                m for m in files if abs(m['timestamp'] - timestamp) < timespan
-            ]
-            media_files.sort(key=lambda m: m['timestamp'], reverse=True)
-            media_files = [
+            files = [m for m in files if abs(m['timestamp'] - timestamp) < timespan]
+            files.sort(key=lambda m: m['timestamp'], reverse=True)
+            files = [
                 os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path']))
-                for m in media_files
+                for m in files
             ]
 
-            logging.debug('selected %d pictures' % len(media_files))
+            logging.debug('selected %d pictures' % len(files))
 
         format_dict = {
             'camera': camera_config['camera_name'],
@@ -139,7 +146,7 @@ def make_message(subject, message, camera_id, moment, timespan, callback):
         m += '\n\n'
         m += 'motionEye.'
 
-        callback(s, m, media_files)
+        callback(s, m, files)
 
     if not timespan:
         on_media_files([])

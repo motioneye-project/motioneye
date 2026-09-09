@@ -21,6 +21,7 @@ import re
 import signal
 import socket
 import time
+from typing import Callable, Optional
 
 import pycurl
 from tornado.ioloop import IOLoop
@@ -57,7 +58,13 @@ def send_message(api_key, chat_id, message, files):
     logging.debug('sending telegram')
 
 
-def make_message(message, camera_id, moment, timespan, callback):
+def make_message(
+    message: str,
+    camera_id: int,
+    moment: datetime.datetime,
+    timespan: int,
+    callback: Callable,
+) -> None:
     camera_config = config.get_camera(camera_id)
 
     # we must start the IO loop for the media list subprocess polling
@@ -67,26 +74,25 @@ def make_message(message, camera_id, moment, timespan, callback):
         io_loop.stop()
 
         timestamp = time.mktime(moment.timetuple())
-        files = media_files.result() if hasattr(media_files, 'result') else media_files
+        files: Optional[list] = (
+            media_files.result() if hasattr(media_files, 'result') else media_files
+        )
         if files is None:
             logging.warning(
-                'picture listing timed out after %ss; sending notification '
-                'without pictures (consider raising list_media_timeout_telegram)',
-                settings.LIST_MEDIA_TIMEOUT,
+                f'picture listing timed out after {settings.LIST_MEDIA_TIMEOUT}s; sending '
+                'notification without pictures; consider raising list_media_timeout_telegram'
             )
             files = []
 
         if files:
             logging.debug('got media files')
-            media_files = [
-                m for m in files if abs(m['timestamp'] - timestamp) < float(timespan)
-            ]
-            media_files.sort(key=lambda m: m['timestamp'], reverse=True)
-            media_files = [
+            files = [m for m in files if abs(m['timestamp'] - timestamp) < timespan]
+            files.sort(key=lambda m: m['timestamp'], reverse=True)
+            files = [
                 os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path']))
-                for m in media_files
+                for m in files
             ]
-            logging.debug('selected %d pictures' % len(media_files))
+            logging.debug('selected %d pictures' % len(files))
 
         format_dict = {
             'camera': camera_config['camera_name'],
@@ -103,15 +109,15 @@ def make_message(message, camera_id, moment, timespan, callback):
 
         m = message % format_dict
 
-        callback(m, media_files)
+        callback(m, files)
 
     if not timespan:
         on_media_files([])
 
         return None
 
-    logging.debug(f'waiting {float(timespan)}s for pictures to be taken')
-    time.sleep(float(timespan))  # give motion some time to create motion pictures
+    logging.debug(f'waiting {timespan}s for pictures to be taken')
+    time.sleep(timespan)  # give motion some time to create motion pictures
 
     prefix = None
     picture_filename = camera_config.get('picture_filename')
