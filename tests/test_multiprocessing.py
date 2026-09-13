@@ -24,18 +24,11 @@ from tempfile import TemporaryDirectory
 
 import motioneye
 
-# Regression test for #3411. Our multiprocessing children (cleanup, media
-# listing, zip, task pool) rely on inheriting the parent's runtime state:
-# the settings loaded from the config file and the logging configuration.
-# Python 3.14 made 'forkserver' the default start method on POSIX, whose
-# children start from a fresh interpreter and only see import-time
-# defaults. meyectl.configure_multiprocessing() must keep 'fork'.
-#
-# The check runs in its own interpreter so the process-wide start method
-# cannot leak into the rest of the test run. The child function lives in
-# that script so both 'fork' and 'forkserver' can resolve it; the
-# __main__ guard keeps the forkserver from re-running the parent part
-# when it imports the script as __mp_main__.
+# Regression test for #3411: our multiprocessing children rely on inheriting
+# the parent's settings and logging, which Python 3.14's 'forkserver' default
+# breaks. The check runs in its own interpreter so the process-wide start
+# method cannot leak into the rest of the run; the __main__ guard keeps the
+# forkserver from re-running the parent part when it imports the script.
 _SCRIPT = '''
 import logging
 import multiprocessing
