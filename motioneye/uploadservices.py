@@ -1362,7 +1362,7 @@ def upload_media_file(
 
         camera_config = config.get_camera(camera_id)
         rel = utils.remove_prefix(filename, camera_config['target_dir'] + os.sep)
-        mediafiles.del_media_content(camera_config, rel, media_type)
+        mediafiles.del_media_content(camera_config, rel)
         logging.debug(f'removed local file "{filename}" after successful upload')
 
     except Exception as e:

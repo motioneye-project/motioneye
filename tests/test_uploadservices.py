@@ -54,7 +54,7 @@ class TestUploadMediaFileCleanup(unittest.TestCase):
             clean_uploaded=True,
         )
 
-        mock_del.assert_called_once_with(camera_config, self.expected_rel, 'movie')
+        mock_del.assert_called_once_with(camera_config, self.expected_rel)
 
     @patch('motioneye.mediafiles.del_media_content')
     @patch('motioneye.config.get_camera')
