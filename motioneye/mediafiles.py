@@ -52,7 +52,7 @@ FFMPEG_CODEC_MAPPING = {
     'mkv:h264_omx': 'h264_omx',
     'mp4:h264_v4l2m2m': 'h264_v4l2m2m',
     'mkv:h264_v4l2m2m': 'h264_v4l2m2m',
-    'hevc': 'h265',
+    'hevc': 'hevc',
 }
 
 FFMPEG_FORMAT_MAPPING = {
@@ -855,6 +855,10 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
             'ffmpeg',
             '-f',
             'concat',
+            '-protocol_whitelist',
+            'fd,file,pipe',
+            '-safe',
+            '0',
             '-i',
             '-',
             '-y',
@@ -883,7 +887,7 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
 
         for p in pictures:
             path: str = p['path'].replace("'", "'\\''")
-            _timelapse_process.stdin.write(f"file '{path}'\n".encode())
+            _timelapse_process.stdin.write(f"file 'file:{path}'\n".encode())
         _timelapse_process.stdin.close()
 
         # make subprocess stdout pipe non-blocking
