@@ -878,13 +878,12 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             stdin=subprocess.PIPE,
-            text=True,
         )
         _timelapse_process.progress = 0.01  # 1%
 
         for p in pictures:
             path: str = p['path'].replace("'", "'\\''")
-            _timelapse_process.stdin.write(f"file '{path}'\n")
+            _timelapse_process.stdin.write(f"file '{path}'\n".encode())
         _timelapse_process.stdin.close()
 
         # make subprocess stdout pipe non-blocking
@@ -892,49 +891,73 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
         fl = fcntl.fcntl(fd, fcntl.F_GETFL)
         fcntl.fcntl(fd, fcntl.F_SETFL, fl | os.O_NONBLOCK)
 
-        poll_movie_process(pictures)
+        _poll_movie_process(pictures, [])
 
-    def poll_movie_process(pictures):
+    def _poll_movie_process(pictures: list, output: list):
         global _timelapse_process
         global _timelapse_data
+        output_chunk: bytes = b''
 
         io_loop = IOLoop.current()
         if _timelapse_process.poll() is None:  # not finished yet
-            io_loop.add_timeout(
-                datetime.timedelta(seconds=0.5),
-                functools.partial(poll_movie_process, pictures),
-            )
-
+            # Read output chunk from process pipe
             try:
-                output = _timelapse_process.stdout.read()
-                if not output:
-                    return
+                output_chunk = os.read(_timelapse_process.stdout.fileno(), 65536)
 
             except OSError as e:
-                if e.errno == EAGAIN:
-                    return
+                if e.errno == EAGAIN:  # no data available right now
+                    output_chunk = b''
+                else:
+                    raise
 
-                raise
+            # Append output chunk to full output list and increment progress value
+            if output_chunk:
+                output.append(output_chunk)
 
-            frame_index = re.findall(rb'frame=\s*(\d+)', output)
-            try:
-                frame_index = int(frame_index[-1])
+                frames: list = re.findall(rb'frame=\s*(\d+)', output_chunk)
+                if frames:
+                    frame_index: int = int(frames[-1])
+                    _timelapse_process.progress = max(0.01, frame_index / len(pictures))
 
-            except (IndexError, ValueError):
-                return
+                    logging.debug(
+                        f'timelapse progress: {int(100 * _timelapse_process.progress)} %'
+                    )
 
-            _timelapse_process.progress = max(0.01, float(frame_index) / len(pictures))
-
-            logging.debug(
-                f'timelapse progress: {int(100 * _timelapse_process.progress)} %'
+            # Schedule next iteration
+            io_loop.add_timeout(
+                datetime.timedelta(seconds=0.5),
+                functools.partial(_poll_movie_process, pictures, output),
             )
 
         else:  # finished
             exit_code = _timelapse_process.poll()
-            _timelapse_process = None
+            # Read all remaining output from process pipe
+            try:
+                while True:
+                    try:
+                        output_chunk = os.read(
+                            _timelapse_process.stdout.fileno(), 65536
+                        )
+                        if not output_chunk:
+                            break
+
+                    except OSError as e:
+                        if e.errno == EAGAIN:
+                            break
+
+                        raise
+
+                    output.append(output_chunk)
+
+            finally:
+                _timelapse_process = None
 
             if exit_code != 0:
-                logging.error('ffmpeg process failed')
+                logging.error(
+                    'ffmpeg process failed (exit code %s):\n%s',
+                    exit_code,
+                    b''.join(output).decode(errors='replace'),
+                )
                 _timelapse_data = None
 
                 try:
