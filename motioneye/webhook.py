@@ -35,7 +35,7 @@ def main(parser, args):
 
     options = parse_options(parser, args)
 
-    meyectl.configure_logging('webhook', options.log_to_file)
+    meyectl.configure_logging('webhook')
     meyectl.configure_tornado()
 
     logging.debug('hello!')
