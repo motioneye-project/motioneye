@@ -24,7 +24,7 @@ from motioneye.handlers.base import BaseHandler
 
 __all__ = ('PrefsHandler',)
 
-PrefsValue = Union[int, float, bool]
+PrefsValue = Union[int, float, bool, Dict[str, int]]
 
 
 class PrefsHandler(BaseHandler):
