@@ -17,11 +17,11 @@
 import json
 import logging
 import os.path
-from typing import Dict, Union, cast
+from typing import Dict, List, Union, cast
 
 from motioneye import settings
 
-PrefsValue = Union[int, float, bool, Dict[str, int]]
+PrefsValue = Union[int, float, bool, List[int]]
 PrefsDict = Dict[str, PrefsValue]
 
 _PREFS_FILE_NAME: str = 'prefs.json'
@@ -31,7 +31,7 @@ _DEFAULT_PREFS: PrefsDict = {
     'layout_rows': 1,
     'framerate_factor': 1,
     'resolution_factor': 1,
-    'camera_positions': {},
+    'camera_order': [],
 }
 
 _prefs: Dict[str, PrefsDict] = {}
