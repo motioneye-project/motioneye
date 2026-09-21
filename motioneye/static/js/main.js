@@ -24,7 +24,7 @@ var pageContainer = null;
 var overlayVisible = false;
 var layoutColumns = 1;
 var fitFramesVertically = false;
-var cameraPositions = {}; /* maps camera IDs to layout positions */
+var cameraOrder = []; /* camera IDs in layout order */
 // Was removed 5 years ago, needs cleanup, a25dec205b70fbf0f75f8c2f424d4920a875f399
 // var layoutRows = 1;
 var modalContainer = null;
@@ -1658,7 +1658,7 @@ function prefsUi2Dict() {
         'layout_rows': parseInt($('#layoutRowsSlider').val()),
         'framerate_factor': $('#framerateDimmerSlider').val() / 100,
         'resolution_factor': $('#resolutionDimmerSlider').val() / 100,
-        'camera_positions': cameraPositions
+        'camera_order': cameraOrder
     };
 
     return dict;
@@ -1670,7 +1670,7 @@ function dict2PrefsUi(dict) {
     $('#layoutRowsSlider').val(dict['layout_rows']);
     $('#framerateDimmerSlider').val(dict['framerate_factor'] * 100);
     $('#resolutionDimmerSlider').val(dict['resolution_factor'] * 100);
-    cameraPositions = dict['camera_positions'] || {};
+    cameraOrder = dict['camera_order'] || [];
 
     updateConfigUI();
 }
@@ -3209,7 +3209,7 @@ function fetchCurrentConfig(onFetch) {
             initialConfigFetched = true;
 
             var i, cameras = data.cameras;
-            updateCameraPositions(cameras);
+            updateCameraOrder(cameras);
 
             /* filter shown cameras by query */
             var query = splitUrl().params;
@@ -3427,25 +3427,22 @@ function getCameraIds() {
     }).toArray();
 }
 
-/* update camera positions from the full list before filtering the view */
-function updateCameraPositions(cameras) {
+/* update the camera order from the full list before filtering the view */
+function updateCameraOrder(cameras) {
     if (!cameras.length) {
         return; /* nothing to position */
     }
 
     var ids = cameras.map(function (camera) {return camera.id;}).sort(function (a, b) {return a - b;});
-    var positions = {};
+    var known = cameraOrder.filter(function (id) {return ids.indexOf(id) >= 0;});
 
-    ids.forEach(function (id, index) {positions[id] = cameraPositions[id] || (ids.length + index + 1);});
-    ids.sort(function (a, b) {return (positions[a] - positions[b]) || (a - b);});
-    ids.forEach(function (id, index) {positions[id] = index + 1;});
-    cameraPositions = positions;
+    cameraOrder = known.concat(ids.filter(function (id) {return known.indexOf(id) < 0;}));
 }
 
 function reorderCameraFrames() {
     var frames = getPageContainer().children('div.camera-frame').get();
     getPageContainer().append(frames.sort(function (a, b) {
-        return cameraPositions[a.config.id] - cameraPositions[b.config.id];
+        return cameraOrder.indexOf(a.config.id) - cameraOrder.indexOf(b.config.id);
     }));
 
     cameraFramesCached = null; /* refresh the cached frame order */
@@ -4975,9 +4972,10 @@ function addCameraFrameUi(cameraConfig) {
 
                 /* clear the target after leaving it so re-entering swaps again */
                 if (hovered && hovered.config.id !== currentTargetId) {
-                    var sourcePosition = cameraPositions[sourceFrame.config.id]; /* dragged frame position */
-                    cameraPositions[sourceFrame.config.id] = cameraPositions[hovered.config.id];
-                    cameraPositions[hovered.config.id] = sourcePosition;
+                    var sourceIndex = cameraOrder.indexOf(sourceFrame.config.id); /* dragged frame position */
+                    var hoveredIndex = cameraOrder.indexOf(hovered.config.id);
+                    cameraOrder[sourceIndex] = hovered.config.id;
+                    cameraOrder[hoveredIndex] = sourceFrame.config.id;
                     reorderCameraFrames();
                     rebase();
                     moved = true;
@@ -5309,7 +5307,7 @@ function recreateCameraFrames(cameras) {
                 showErrorMessage(data && data.error);
                 return;
             }
-            updateCameraPositions(data.cameras);
+            updateCameraOrder(data.cameras);
             updateCameras(data.cameras);
         });
     }
