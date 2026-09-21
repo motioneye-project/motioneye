@@ -1118,6 +1118,31 @@ div.camera-top-button.multi-camera {
     background-position: -600% 0;
 }
 
+div.move-camera {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    width: 3em;
+    height: 3em;
+    background-color: rgba(0, 0, 0, 0.7);
+    background-size: cover;
+    border-radius: 50%;
+    background-image: url(../img/move-camera.svg);
+    cursor: grab;
+    touch-action: none;
+}
+
+div.camera-frame.dragging {
+    opacity: 0.85 !important;
+    z-index: 10;
+    transition: none;
+    pointer-events: none;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
 div.camera-overlay-bottom {
     bottom: 0;
     white-space: nowrap;
