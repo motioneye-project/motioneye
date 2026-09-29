@@ -23,7 +23,7 @@ from motioneye import sendmail, sendtelegram
 
 _CAMERA = {
     'camera_name': 'cam',
-    'target_dir': '/tmp',
+    'target_dir': '/var/lib/motioneye',
     'picture_filename': '%Y-%m-%d/%H-%M-%S',
     'snapshot_filename': '%Y-%m-%d/%H-%M-%S',
 }
