@@ -1,5 +1,6 @@
-from json import loads
-from unittest.mock import patch
+from json import dumps, loads
+from types import SimpleNamespace
+from unittest.mock import AsyncMock, patch
 
 import tornado.testing
 
@@ -108,6 +109,75 @@ class ConfigListHandlerTest(HandlerTestCase):
             self.assertNotIn(field, camera)
         for field in _PUBLIC_FIELDS:
             self.assertIn(field, camera)
+
+
+_LOCAL_CAMERA = {
+    '@id': 1,
+    '@enabled': True,
+    '@admin_only': False,
+    'camera_name': 'local',
+    'netcam_url': 'http://localhost/stream',
+}
+
+_REMOTE_CAMERA = {
+    '@id': 2,
+    '@enabled': True,
+    '@admin_only': False,
+    '@proto': 'motioneye',
+    '@host': 'hub.example',
+    '@port': 8765,
+    '@remote_camera_id': 2,
+}
+
+
+class ConfigListRemoteHubTest(HandlerTestCase):
+    """A camera behind a remote motionEye which cannot reach it."""
+
+    handler_cls = ConfigHandler
+
+    def setUp(self):
+        super().setUp()
+        cameras = {1: _LOCAL_CAMERA, 2: _REMOTE_CAMERA}
+        # answer of a remote motionEye which cannot reach its own camera
+        answer = SimpleNamespace(
+            error=None,
+            body=dumps(
+                {
+                    'error': 'Failed to connect to cam.example:8765',
+                    'connection_failed': True,
+                    'connection_url': 'http://cam.example:8765',
+                }
+            ).encode(),
+        )
+        self._extra_patches = [
+            patch('motioneye.config.get_main', return_value={'@enabled': True}),
+            patch('motioneye.config.get_camera_ids', return_value=list(cameras)),
+            patch('motioneye.config.get_camera', side_effect=cameras.get),
+            patch(
+                'motioneye.config.motion_camera_dict_to_ui',
+                return_value=dict(_FAKE_UI_CONFIG),
+            ),
+            patch('motioneye.remote._send_request', AsyncMock(return_value=answer)),
+        ]
+        for p in self._extra_patches:
+            p.start()
+
+    def tearDown(self):
+        for p in self._extra_patches:
+            p.stop()
+        super().tearDown()
+
+    def test_unreachable_camera_behind_remote_hub_does_not_break_the_list(self):
+        cookie = self.make_session_cookie('admin')
+        response = self.fetch('/config/list/', headers={'Cookie': cookie})
+        self.assertEqual(200, response.code)
+
+        cameras = {c['id']: c for c in loads(response.body)['cameras']}
+        self.assertEqual({1, 2}, set(cameras))
+        self.assertTrue(cameras[1]['enabled'])
+        self.assertFalse(cameras[2]['enabled'])
+        self.assertTrue(cameras[2]['connection_failed'])
+        self.assertIn('Failed to connect', cameras[2]['connection_error'])
 
 
 if __name__ == '__main__':
