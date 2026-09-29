@@ -577,6 +577,8 @@ def get_camera(camera_id, as_lines=False):
             '@upload_bucket',
             '@upload_sse_c_key',
             '@remote_secret',
+            '@email_notifications_smtp_password',
+            '@telegram_notifications_api',
             'camera_name',
         ],
     )
@@ -1354,6 +1356,9 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     # event start
     on_event_start = [f"{meyectl.find_command('relayevent')} start %t"]
+    # keep notification secrets off motion's command line (ps, motion log)
+    data['@email_notifications_smtp_password'] = ''
+    data['@telegram_notifications_api'] = ''
     if ui['email_notifications_enabled']:
         emails = sub(
             '\\s',
@@ -1376,17 +1381,16 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         else:
             email_from = ''
 
+        smtp_password = ui['email_notifications_smtp_password']
+        data['@email_notifications_smtp_password'] = smtp_password
         line = (
-            "%(script)s '%(server)s' '%(port)s' '%(account)s' '%(password)s' '%(tls)s' '%(from)s' '%(to)s' "
+            "%(script)s '%(server)s' '%(port)s' '%(account)s' '' '%(tls)s' '%(from)s' '%(to)s' "
             "'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'"
             % {
                 'script': meyectl.find_command('sendmail'),
                 'server': ui['email_notifications_smtp_server'],
                 'port': ui['email_notifications_smtp_port'],
                 'account': ui['email_notifications_smtp_account'],
-                'password': ui['email_notifications_smtp_password']
-                .replace(';', '\\;')
-                .replace('%', '%%'),
                 'tls': ui['email_notifications_smtp_tls'],
                 'from': email_from,
                 'to': emails,
@@ -1396,11 +1400,11 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
         on_event_start.append(line)
     if ui['telegram_notifications_enabled']:
+        data['@telegram_notifications_api'] = ui['telegram_notifications_api']
         line = (
-            "%(script)s '%(api)s' '%(chatid)s' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'"
+            "%(script)s '' '%(chatid)s' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'"
             % {
                 'script': meyectl.find_command('sendtelegram'),
-                'api': ui['telegram_notifications_api'],
                 'chatid': ui['telegram_notifications_chat_id'],
                 'timespan': ui['telegram_notifications_picture_time_span'],
             }
@@ -1921,9 +1925,9 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
             ui['email_notifications_smtp_server'] = e[-11]
             ui['email_notifications_smtp_port'] = e[-10]
             ui['email_notifications_smtp_account'] = e[-9]
-            ui['email_notifications_smtp_password'] = (
-                e[-8].replace('\\;', ';').replace('%%', '%')
-            )
+            ui['email_notifications_smtp_password'] = data.get(
+                '@email_notifications_smtp_password'
+            ) or e[-8].replace('\\;', ';').replace('%%', '%')
             ui['email_notifications_smtp_tls'] = e[-7].lower() == 'true'
             ui['email_notifications_from'] = e[-6]
             ui['email_notifications_addresses'] = e[-5]
@@ -1940,7 +1944,9 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
                 continue
 
             ui['telegram_notifications_enabled'] = True
-            ui['telegram_notifications_api'] = e[-5]
+            ui['telegram_notifications_api'] = (
+                data.get('@telegram_notifications_api') or e[-5]
+            )
             ui['telegram_notifications_chat_id'] = e[-4]
             try:
                 ui['telegram_notifications_picture_time_span'] = int(e[-1])

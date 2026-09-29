@@ -177,6 +177,9 @@ def main(parser, args):
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_TELEGRAM
 
     camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
+    if not options.api:
+        camera_config = config.get_camera(camera_id)
+        options.api = camera_config.get('@telegram_notifications_api', '')
 
     def on_message(message, files):
         try:

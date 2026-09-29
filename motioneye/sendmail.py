@@ -245,6 +245,10 @@ def main(parser, args):
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_EMAIL
 
     camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
+    if not options.password:
+        camera_config = config.get_camera(camera_id)
+        options.password = camera_config.get('@email_notifications_smtp_password', '')
+
     _from = getattr(options, 'from')
 
     logging.debug('server = %s' % options.server)
