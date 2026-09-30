@@ -710,15 +710,11 @@ def move_notification_secrets() -> None:
             if not _move_notification_secrets(camera_config):
                 continue
 
-            logging.info(
-                f'moving notification secrets of camera {camera_id} to its config'
-            )
+            logging.info(f'moving notification secrets of camera {camera_id}')
             set_camera(camera_id, camera_config)
 
         except Exception as e:
-            logging.error(
-                f'failed to move notification secrets of camera {camera_id}: {e}'
-            )
+            logging.error(f'failed to move secrets of camera {camera_id}: {e}')
 
 
 def _notification_secret(command: str) -> Optional[tuple]:
@@ -753,9 +749,8 @@ def _move_notification_secrets(camera_config: dict) -> bool:
         key, raw, secret = found
         quoted = f"'{raw}'"
         if raw != raw.strip() or command.count(quoted) != 1:
-            logging.warning(
-                f'could not move notification secret of camera {camera_config.get("@id")}'
-            )
+            camera_id = camera_config.get('@id')
+            logging.warning(f'could not move secrets of camera {camera_id}')
             continue
 
         camera_config[key] = secret
@@ -1996,9 +1991,9 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
             ui['email_notifications_smtp_port'] = e[-10]
             ui['email_notifications_smtp_account'] = e[-9]
             # like sendmail, prefer the command line over the stored password
-            ui['email_notifications_smtp_password'] = e[-8].replace('\\;', ';').replace(
-                '%%', '%'
-            ) or data.get('@email_notifications_smtp_password', '')
+            password = e[-8].replace('\\;', ';').replace('%%', '%')
+            stored = data.get('@email_notifications_smtp_password', '')
+            ui['email_notifications_smtp_password'] = password or stored
             ui['email_notifications_smtp_tls'] = e[-7].lower() == 'true'
             ui['email_notifications_from'] = e[-6]
             ui['email_notifications_addresses'] = e[-5]
@@ -2015,9 +2010,8 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
                 continue
 
             ui['telegram_notifications_enabled'] = True
-            ui['telegram_notifications_api'] = e[-5] or data.get(
-                '@telegram_notifications_api', ''
-            )
+            stored = data.get('@telegram_notifications_api', '')
+            ui['telegram_notifications_api'] = e[-5] or stored
             ui['telegram_notifications_chat_id'] = e[-4]
             try:
                 ui['telegram_notifications_picture_time_span'] = int(e[-1])

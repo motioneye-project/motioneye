@@ -354,6 +354,8 @@ def make_media_folders():
                         )
                     )
 
+    config.move_notification_secrets()  # before motion is started
+
 
 def start_motion():
     from motioneye import config, motionctl
@@ -413,15 +415,7 @@ def make_app(debug: bool = False) -> Application:
 
 
 def run():
-    from motioneye import (
-        VERSION,
-        cleanup,
-        config,
-        mjpgclient,
-        motionctl,
-        tasks,
-        wsswitch,
-    )
+    from motioneye import VERSION, cleanup, mjpgclient, motionctl, tasks, wsswitch
     from motioneye.controls import smbctl
 
     configure_signals()
@@ -429,7 +423,6 @@ def run():
 
     test_requirements()
     make_media_folders()
-    config.move_notification_secrets()
 
     if settings.SMB_SHARES:
         stop, start = smbctl.update_mounts()  # @UnusedVariable

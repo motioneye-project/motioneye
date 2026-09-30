@@ -223,10 +223,8 @@ def main(parser, args):
 
     options = parse_options(parser, args)
     if not getattr(options, 'from'):  # after parsing, the server options may shift args
-        _from = 'motionEye on {} <{}>'.format(
-            socket.gethostname(), options.to.split(',')[0]
-        )
-        setattr(options, 'from', _from)
+        address = options.to.split(',')[0]
+        setattr(options, 'from', f'motionEye on {socket.gethostname()} <{address}>')
 
     meyectl.configure_logging('sendmail', options.log_to_file)
 
