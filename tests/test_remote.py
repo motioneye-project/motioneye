@@ -191,6 +191,16 @@ class TestRemoteGetConfig(unittest.IsolatedAsyncioTestCase):
             resp.remote_ui_config,
         )
 
+    async def test_empty_error_is_not_an_error(self):
+        body = {'enabled': True, 'error': None}
+        with patch.object(
+            remote, '_send_request', AsyncMock(return_value=self._answer(body))
+        ):
+            resp = await remote.get_config(self._LOCAL_CONFIG)
+
+        self.assertIsNone(resp.error)
+        self.assertTrue(resp.remote_ui_config['enabled'])
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -179,6 +179,16 @@ class ConfigListRemoteHubTest(HandlerTestCase):
         self.assertTrue(cameras[2]['connection_failed'])
         self.assertIn('Failed to connect', cameras[2]['connection_error'])
 
+    def test_normal_user_does_not_see_unreachable_admin_only_camera(self):
+        remote_camera = dict(_REMOTE_CAMERA, **{'@admin_only': True})
+        cameras = {1: _LOCAL_CAMERA, 2: remote_camera}
+        cookie = self.make_session_cookie('normal')
+        with patch('motioneye.config.get_camera', side_effect=cameras.get):
+            response = self.fetch('/config/list/', headers={'Cookie': cookie})
+
+        self.assertEqual(200, response.code)
+        self.assertEqual([1], [c['id'] for c in loads(response.body)['cameras']])
+
 
 if __name__ == '__main__':
     tornado.testing.main()

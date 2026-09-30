@@ -243,7 +243,7 @@ async def get_config(local_config) -> utils.GetConfigResponse:
 
     else:
         # e.g. from a remote motionEye which cannot reach its own camera
-        if 'error' in response:
+        if response.get('error'):
             logging.error(
                 'failed to get config for remote camera {id} on {url}: {msg}'.format(
                     id=camera_id,
