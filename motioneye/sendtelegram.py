@@ -42,7 +42,7 @@ def send_message(api_key, chat_id, message, files):
         c.perform()
     else:
         logging.info('files present')
-        for f in files:
+        for f in reversed(files):
             c.setopt(c.URL, telegram_photo_url)
             # Send photos
             c.setopt(

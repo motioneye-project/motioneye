@@ -56,5 +56,17 @@ class PictureTimespanTest(unittest.TestCase):
         self._assert_timespan(list_media)
 
 
+class TelegramPhotoOrderTest(unittest.TestCase):
+    @patch('motioneye.sendtelegram.pycurl.Curl')
+    def test_photos_are_sent_oldest_first(self, curl):
+        newest_first = ['/pics/3.jpg', '/pics/2.jpg', '/pics/1.jpg']
+        sendtelegram.send_message('token', 'chat', 'message', newest_first)
+
+        c = curl.return_value
+        posts = [a.args[1] for a in c.setopt.call_args_list if a.args[0] is c.HTTPPOST]
+        sent = [dict(post)['photo'][1] for post in posts]
+        self.assertEqual(['/pics/1.jpg', '/pics/2.jpg', '/pics/3.jpg'], sent)
+
+
 if __name__ == '__main__':
     unittest.main()
