@@ -133,8 +133,16 @@ def make_message(
         prefix = moment.strftime('%Y-%m-%d')
         logging.debug('narrowing down still images path lookup to %s' % prefix)
 
+    # only pictures within +/- timespan are used, see on_media_files()
+    event_timestamp: float = time.mktime(moment.timetuple())
     fut = utils.cast_future(
-        mediafiles.list_media(camera_config, media_type='picture', prefix=prefix)
+        mediafiles.list_media(
+            camera_config,
+            media_type='picture',
+            prefix=prefix,
+            min_timestamp=event_timestamp - timespan,
+            max_timestamp=event_timestamp + timespan,
+        )
     )
     fut.add_done_callback(on_media_files)
     io_loop.start()
