@@ -20,12 +20,25 @@ from shutil import rmtree
 from tempfile import mkdtemp
 from unittest.mock import patch
 
-from motioneye import config, meyectl, sendmail, sendtelegram, settings
+from motioneye import config, meyectl, sendmail, sendtelegram, settings, webhook
 
 _TOKEN = '123456:telegram-token'
 _PASSWORD = '1234'  # must not be converted to a number
 _MOMENT = '2026-01-01T00:00:00'
+_HOOK = 'https://ha.example/api/webhook/hook-secret'
+_HOOKS = {
+    'web_hook_notifications_enabled': True,
+    'web_hook_notifications_http_method': 'POSTj',
+    'web_hook_notifications_url': _HOOK,
+    'web_hook_end_notifications_enabled': True,
+    'web_hook_end_notifications_http_method': 'GET',
+    'web_hook_end_notifications_url': f'{_HOOK}?at=%H:%M',
+    'web_hook_storage_enabled': True,
+    'web_hook_storage_http_method': 'POST',
+    'web_hook_storage_url': f'{_HOOK}?file=%f',
+}
 _NOTIFICATIONS = {
+    **_HOOKS,
     'email_notifications_enabled': True,
     'email_notifications_smtp_server': 'smtp.example',
     'email_notifications_smtp_port': '25',
@@ -42,6 +55,10 @@ _NOTIFICATIONS = {
 
 def _find_command(command):
     return f'/usr/bin/python3 meyectl.py {command} -c /etc/motioneye/motioneye.conf'
+
+
+def _find_with(options):
+    return lambda command: f'{_find_command(command)} {options}'.rstrip()
 
 
 @patch('builtins._', str, create=True)
@@ -88,6 +105,88 @@ class ConfigTest(unittest.TestCase):
 
         self.assertEqual(_PASSWORD, ui['email_notifications_smtp_password'])
         self.assertEqual(_TOKEN, ui['telegram_notifications_api'])
+        for name, value in _HOOKS.items():
+            self.assertEqual(value, ui[name], name)
+
+    def test_web_hook_urls_are_not_on_the_command_line(self):
+        data = self._save(**_HOOKS)
+        endings = {
+            'on_event_start': "-- 'POSTj' '' '1' 'notifications'",
+            'on_event_end': "-- 'GET' '%H:%M' '1' 'end_notifications'",
+            'on_movie_end': "-- 'POST' '%f' '1' 'storage'",
+            'on_picture_save': "-- 'POST' '%f' '1' 'storage'",
+        }
+        for option, ending in endings.items():
+            self.assertTrue(data[option].endswith(ending), option)
+            self.assertNotIn('hook-secret', data[option])
+
+        self.assertEqual(_HOOK, data['@web_hook_notifications_url'])
+        self.assertEqual(f'{_HOOK}?file=%f', data['@web_hook_storage_url'])
+
+    def test_existing_command_line_urls_are_still_read(self):
+        self.camera['on_event_end'] = f"{_find_command('webhook')} 'GET' '{_HOOK}?old'"
+        self.camera['@web_hook_end_notifications_url'] = 'https://stale.example/'
+        ui = config.motion_camera_dict_to_ui(self.camera)
+
+        self.assertEqual('GET', ui['web_hook_end_notifications_http_method'])
+        self.assertEqual(f'{_HOOK}?old', ui['web_hook_end_notifications_url'])
+
+    def _old_layout(self, data):
+        # what an older motionEye wrote for the same settings
+        camera = dict(data)
+        for option, kind in config._WEB_HOOKS.items():
+            method = _HOOKS[f'web_hook_{kind}_http_method']
+            url = _HOOKS[f'web_hook_{kind}_url']
+            new = config._web_hook_args(kind, method, url, 1)
+            camera[option] = data[option].replace(new, f"'{method}' '{url}'")
+            camera.pop(f'@web_hook_{kind}_url', None)
+
+        return camera
+
+    def test_web_hook_urls_are_moved(self):
+        for options in ('', '-l -d', '-dl'):
+            with self.subTest(options=options):
+                with patch('motioneye.meyectl.find_command', _find_with(options)):
+                    fresh = self._save(**_HOOKS)
+
+                fresh['on_event_start'] += "; echo 'a\\;b'"
+                camera = self._old_layout(fresh)
+                before = config.motion_camera_dict_to_ui(camera)
+
+                self.assertTrue(config._move_notification_secrets(camera))
+                for option in config._WEB_HOOKS:
+                    self.assertEqual(fresh[option], camera[option], option)
+
+                after = config.motion_camera_dict_to_ui(camera)
+                for key in before:
+                    if key.startswith('web_hook_'):
+                        self.assertEqual(before[key], after[key], key)
+
+                self.assertFalse(config._move_notification_secrets(camera))
+
+    def test_differing_storage_urls_are_left_alone(self):
+        camera = self._old_layout(self._save(**_HOOKS))
+        old, other = f"'POST' '{_HOOK}?file=%f'", "'POST' 'https://other.example/x'"
+        picture_save = camera['on_picture_save'].replace(old, other)
+        camera['on_picture_save'] = picture_save
+        for moved in (True, False):  # the second startup must not change anything
+            with self.assertLogs(level='WARNING'):
+                self.assertEqual(moved, config._move_notification_secrets(camera))
+
+            self.assertEqual(picture_save, camera['on_picture_save'])
+            self.assertEqual(f'{_HOOK}?file=%f', camera['@web_hook_storage_url'])
+
+    def test_foreign_webhook_commands_are_left_alone(self):
+        webhook_command = _find_command('webhook')
+        for command in (
+            f"mytool webhook 'GET' '{_HOOK}'",
+            f"{webhook_command} 'GET'",
+            f"{webhook_command} 'GET' '{_HOOK}",
+        ):
+            camera = {'on_event_start': command}
+            with self.subTest(command=command):
+                self.assertFalse(config._move_notification_secrets(camera))
+                self.assertEqual(command, camera['on_event_start'])
 
     def test_existing_command_line_secrets_are_still_read(self):
         self.camera['on_event_start'] = (
@@ -113,9 +212,11 @@ class ConfigTest(unittest.TestCase):
 
     def test_disabling_clears_the_stored_secret(self):
         self.camera['@telegram_notifications_api'] = _TOKEN
+        self.camera['@web_hook_storage_url'] = _HOOK
         data = self._save(telegram_notifications_enabled=False)
 
         self.assertEqual('', data['@telegram_notifications_api'])
+        self.assertEqual('', data['@web_hook_storage_url'])
 
     def _assert_moved(self, on_event_start):
         self.camera['on_event_start'] = on_event_start
@@ -263,6 +364,61 @@ class SenderTest(unittest.TestCase):
         on_message = make_message.call_args.args[-1]
         on_message('message', [])
         self.assertEqual(_TOKEN, send_message.call_args.args[0])
+
+
+@patch('motioneye.meyectl.configure_logging')
+@patch('motioneye.meyectl.configure_tornado')
+@patch(
+    'motioneye.config.get_camera',
+    return_value={'@web_hook_end_notifications_url': f'{_HOOK}?at=%H:%M'},
+)
+@patch('motioneye.utils.urlopen')
+class WebHookTest(unittest.TestCase):
+    def _call(self, *args):
+        webhook.main(
+            meyectl.make_arg_parser('webhook'), ['-c', 'motioneye.conf', *args]
+        )
+
+    def test_stored_url_is_used(self, urlopen, *_):
+        with self.assertLogs(level='DEBUG') as logs:
+            self._call('--', 'GET', '12:34', '1', 'end_notifications')
+
+        self.assertEqual(f'{_HOOK}?at=12:34', urlopen.call_args.args[0].full_url)
+        self.assertNotIn('hook-secret', '\n'.join(logs.output))
+        self.assertIn('https://ha.example', '\n'.join(logs.output))
+
+    def test_value_starting_with_a_dash(self, urlopen, *_):
+        self._call('-l', '-d', '--', 'POSTj', '-0500', '1', 'end_notifications')
+
+        request = urlopen.call_args.args[0]
+        self.assertEqual(_HOOK, request.full_url)
+        self.assertEqual(b'{"at": "-0500"}', request.data)
+
+    def test_existing_command_line(self, urlopen, get_camera, *_):
+        self._call('POSTf', 'https://x.example/p?a=1')
+
+        request = urlopen.call_args.args[0]
+        self.assertEqual('https://x.example/p', request.full_url)
+        self.assertEqual(b'a=1', request.data)
+        get_camera.assert_not_called()
+
+    def test_missing_stored_url(self, urlopen, get_camera, *_):
+        get_camera.return_value = {}
+        with self.assertLogs(level='ERROR'):
+            self._call('--', 'GET', '', '1', 'notifications')
+
+        urlopen.assert_not_called()
+        get_camera.assert_called_once_with(1)
+
+    def test_invalid_url_is_not_logged(self, urlopen, get_camera, *_):
+        get_camera.return_value = {
+            '@web_hook_notifications_url': 'ha.example/hook-secret'
+        }
+        with self.assertLogs(level='ERROR') as logs:
+            self._call('--', 'GET', '', '1', 'notifications')
+
+        urlopen.assert_not_called()
+        self.assertNotIn('hook-secret', '\n'.join(logs.output))
 
 
 if __name__ == '__main__':
