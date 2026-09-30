@@ -1360,7 +1360,7 @@
     {% else %}
         <div class="camera-frame" id="camera{{camera_id}}"
             streaming_framerate="{{camera_config['stream_maxrate']}}" streaming_server_resize="{{camera_config['@webcam_server_resize']|string|lower}}"
-            proto="{{camera_config['@proto']}}" url="{{camera_config['@url']}}">
+            proto="{{camera_config['@proto']}}" url="{% if current_user %}{{camera_config['@url']}}{% endif %}">
             <div class="camera-container">
                 <div class="camera-placeholder"><img class="no-camera" src="{{static_path}}img/no-camera.svg"></div>
                 <img class="camera">
