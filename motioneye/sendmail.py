@@ -221,12 +221,12 @@ def main(parser, args):
         )
         args = args[:7] + [_from] + args[7:]
 
-    if not args[7]:
-        args[7] = 'motionEye on {} <{}>'.format(
-            socket.gethostname(), args[8].split(',')[0]
-        )
-
     options = parse_options(parser, args)
+    if not getattr(options, 'from'):  # after parsing, the server options may shift args
+        _from = 'motionEye on {} <{}>'.format(
+            socket.gethostname(), options.to.split(',')[0]
+        )
+        setattr(options, 'from', _from)
 
     meyectl.configure_logging('sendmail', options.log_to_file)
 

@@ -73,7 +73,7 @@ class ConfigTest(unittest.TestCase):
         self.assertIn(' sendmail ', on_event_start)
         self.assertIn(' sendtelegram ', on_event_start)
         self.assertNotIn(_TOKEN, on_event_start)
-        self.assertNotIn(f"'{_PASSWORD}'", on_event_start)
+        self.assertNotIn(_PASSWORD, on_event_start)
 
     def test_secrets_round_trip_through_the_camera_file(self):
         lines = config._dict_to_conf([], self._save(**_NOTIFICATIONS))
@@ -101,11 +101,122 @@ class ConfigTest(unittest.TestCase):
         self.assertEqual('old;pw%', ui['email_notifications_smtp_password'])
         self.assertEqual('old-token', ui['telegram_notifications_api'])
 
+    def test_command_line_secret_is_preferred_like_the_sender_does(self):
+        self.camera['@telegram_notifications_api'] = 'stored-token'
+        self.camera['on_event_start'] = (
+            f"{_find_command('sendtelegram')} 'argv-token' '42' '%t' "
+            "'%Y-%m-%dT%H:%M:%S' '5'"
+        )
+        ui = config.motion_camera_dict_to_ui(self.camera)
+
+        self.assertEqual('argv-token', ui['telegram_notifications_api'])
+
     def test_disabling_clears_the_stored_secret(self):
         self.camera['@telegram_notifications_api'] = _TOKEN
         data = self._save(telegram_notifications_enabled=False)
 
         self.assertEqual('', data['@telegram_notifications_api'])
+
+    def _assert_moved(self, on_event_start):
+        self.camera['on_event_start'] = on_event_start
+        before = config.motion_camera_dict_to_ui(self.camera)
+
+        self.assertTrue(config._move_notification_secrets(self.camera))
+        self.assertNotIn('old-token', self.camera['on_event_start'])
+        self.assertNotIn('pw', self.camera['on_event_start'])
+        after = config.motion_camera_dict_to_ui(self.camera)
+        for key in before:
+            if key.startswith(('email_', 'telegram_', 'command_notifications')):
+                self.assertEqual(before[key], after[key], key)
+
+        self.assertEqual('old;pw%', after['email_notifications_smtp_password'])
+        self.assertFalse(config._move_notification_secrets(self.camera))
+
+    def test_command_line_secrets_are_moved(self):
+        self._assert_moved(
+            f"{_find_command('sendmail')} 'smtp.example' '25' 'me' 'old\\;pw%%' "
+            "'false' 'b@example' 'a@example' 'motion_start' '%t' "
+            "'%Y-%m-%dT%H:%M:%S' '5'; "
+            f"{_find_command('sendtelegram')} 'old-token' '42' '%t' "
+            "'%Y-%m-%dT%H:%M:%S' '5'; echo 'a\\;b'; echo 'c;d'"
+        )
+        self.assertTrue(
+            self.camera['on_event_start'].endswith("; echo 'a\\;b'; echo 'c;d'")
+        )
+
+    def test_command_line_secrets_are_moved_without_from(self):
+        self._assert_moved(
+            f"{_find_command('sendmail')} 'smtp.example' '25' 'me' 'old\\;pw%%' "
+            "'false' 'a@example' 'motion_start' '%t' '%Y-%m-%dT%H:%M:%S' '5'"
+        )
+
+    def test_command_line_secrets_are_moved_with_other_server_options(self):
+        for options in ('-l -d', '-dl'):
+            with self.subTest(options=options):
+                self._assert_moved(
+                    f"{_find_command('sendmail')} {options} 'smtp.example' '25' "
+                    "'me' 'old\\;pw%%' 'false' '' 'a@example' 'motion_start' '%t' "
+                    "'%Y-%m-%dT%H:%M:%S' '5'"
+                )
+
+    def test_only_the_secret_is_changed(self):
+        command = (
+            "PYTHONPATH='/opt/my libs' python3 meyectl.py sendmail 'smtp.example' "
+            "'25' 'me' 'pw' 'false' '' 'a@example' 'motion_start' '%t' "
+            "'%Y-%m-%dT%H:%M:%S' '5'"
+        )
+        camera = {'on_event_start': command}
+
+        self.assertTrue(config._move_notification_secrets(camera))
+        self.assertEqual('pw', camera['@email_notifications_smtp_password'])
+        self.assertEqual(command.replace("'pw'", "''"), camera['on_event_start'])
+
+    def test_ambiguous_or_padded_secret_is_left_alone(self):
+        for account, password in (('pw', 'pw'), ('me', ' pw ')):
+            command = (
+                f"{_find_command('sendmail')} 'smtp.example' '25' '{account}' "
+                f"'{password}' 'false' '' 'a@example' 'motion_start' '%t' "
+                "'%Y-%m-%dT%H:%M:%S' '5'"
+            )
+            camera = {'on_event_start': command}
+            with self.subTest(password=password), self.assertLogs(level='WARNING'):
+                self.assertFalse(config._move_notification_secrets(camera))
+
+            self.assertEqual(command, camera['on_event_start'])
+
+    def test_unparsable_command_is_skipped(self):
+        broken = f"{_find_command('sendmail')} 'x"
+        camera = {
+            'on_event_start': f"{broken}; {_find_command('sendtelegram')} "
+            "'old-token' '42' '%t' '%Y-%m-%dT%H:%M:%S' '5'"
+        }
+
+        self.assertTrue(config._move_notification_secrets(camera))
+        self.assertEqual('old-token', camera['@telegram_notifications_api'])
+        self.assertTrue(camera['on_event_start'].startswith(f'{broken};'))
+
+    def test_new_config_is_not_changed(self):
+        data = self._save(**_NOTIFICATIONS)
+
+        self.assertFalse(config._move_notification_secrets(data))
+
+    @patch('motioneye.config.set_camera')
+    @patch('motioneye.config.get_camera_ids', return_value=[1, 2, 3])
+    def test_startup_saves_only_changed_cameras(self, _, set_camera):
+        new = self._save(**_NOTIFICATIONS)
+        old = dict(new)
+        old['on_event_start'] = (
+            f"{_find_command('sendtelegram')} 'old-token' '42' '%t' "
+            "'%Y-%m-%dT%H:%M:%S' '5'"
+        )
+        cameras = {1: new, 2: old, 3: dict(old)}
+        set_camera.side_effect = [None, OSError('read-only')]
+
+        with patch('motioneye.config.get_camera', side_effect=cameras.get):
+            with self.assertLogs(level='ERROR'):
+                config.move_notification_secrets()
+
+        self.assertEqual([2, 3], [c.args[0] for c in set_camera.call_args_list])
 
 
 @patch('motioneye.settings.LIST_MEDIA_TIMEOUT', 120)
@@ -129,6 +240,19 @@ class SenderTest(unittest.TestCase):
         on_message = make_message.call_args.args[-1]
         on_message('subject', 'message', [])
         self.assertEqual(_PASSWORD, send_mail.call_args.args[3])
+
+    @patch('motioneye.sendmail.send_mail')
+    @patch('motioneye.sendmail.make_message')
+    def test_email_with_other_server_options(self, make_message, send_mail, *_):
+        smtp = ['smtp.example', '25', 'me', '', 'false', '', 'b@example']
+        options = ['-c', 'motioneye.conf', '-l', '-d']
+        args = [*options, *smtp, 'motion_start', '1', _MOMENT, '5']
+        sendmail.main(meyectl.make_arg_parser('sendmail'), args)
+
+        on_message = make_message.call_args.args[-1]
+        on_message('subject', 'message', [])
+        self.assertEqual(_PASSWORD, send_mail.call_args.args[3])
+        self.assertTrue(send_mail.call_args.args[5].endswith('<b@example>'))
 
     @patch('motioneye.sendtelegram.send_message')
     @patch('motioneye.sendtelegram.make_message')

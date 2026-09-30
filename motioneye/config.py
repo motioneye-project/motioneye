@@ -16,6 +16,7 @@
 
 import logging
 import os.path
+import re
 import tarfile
 from collections import OrderedDict
 from datetime import timedelta
@@ -696,6 +697,75 @@ def set_camera(camera_id, camera_config):
 
     finally:
         f.close()
+
+
+def move_notification_secrets() -> None:
+    # for configs saved while the secrets were still on motion's command line
+    for camera_id in get_camera_ids():
+        camera_config = dict(get_camera(camera_id))
+        if not utils.is_local_motion_camera(camera_config):
+            continue
+
+        try:
+            if not _move_notification_secrets(camera_config):
+                continue
+
+            logging.info(
+                f'moving notification secrets of camera {camera_id} to its config'
+            )
+            set_camera(camera_id, camera_config)
+
+        except Exception as e:
+            logging.error(
+                f'failed to move notification secrets of camera {camera_id}: {e}'
+            )
+
+
+def _notification_secret(command: str) -> Optional[tuple]:
+    # counted from the end like motion_camera_dict_to_ui(), so options don't matter
+    try:
+        args = split(command)
+
+    except ValueError:  # e.g. unbalanced quotes
+        return None
+
+    if 'sendtelegram' in args and len(args) >= 6 and args[-3] == '%t':
+        return '@telegram_notifications_api', args[-5], args[-5]
+
+    if 'sendmail' in args and len(args) >= 11 and args[-4:-2] == ['motion_start', '%t']:
+        for tls, secret in ((-6, -7), (-7, -8)):  # without and with "from"
+            if args[tls].lower() in ('true', 'false'):
+                password = args[secret].replace('\\;', ';').replace('%%', '%')
+                return '@email_notifications_smtp_password', args[secret], password
+
+    return None
+
+
+def _move_notification_secrets(camera_config: dict) -> bool:
+    # only the secret argument is replaced, everything else is kept as it is
+    commands = re.split(r'(?<!\\);', camera_config.get('on_event_start') or '')
+    moved = False
+    for i, command in enumerate(commands):
+        found = _notification_secret(command)
+        if not found or not found[1]:
+            continue
+
+        key, raw, secret = found
+        quoted = f"'{raw}'"
+        if raw != raw.strip() or command.count(quoted) != 1:
+            logging.warning(
+                f'could not move notification secret of camera {camera_config.get("@id")}'
+            )
+            continue
+
+        camera_config[key] = secret
+        commands[i] = command.replace(quoted, "''")
+        moved = True
+
+    if moved:
+        camera_config['on_event_start'] = ';'.join(commands)
+
+    return moved
 
 
 def make_netcam_userpass(url, raw_username, raw_password, camera_id):
@@ -1925,9 +1995,10 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
             ui['email_notifications_smtp_server'] = e[-11]
             ui['email_notifications_smtp_port'] = e[-10]
             ui['email_notifications_smtp_account'] = e[-9]
-            ui['email_notifications_smtp_password'] = data.get(
-                '@email_notifications_smtp_password'
-            ) or e[-8].replace('\\;', ';').replace('%%', '%')
+            # like sendmail, prefer the command line over the stored password
+            ui['email_notifications_smtp_password'] = e[-8].replace('\\;', ';').replace(
+                '%%', '%'
+            ) or data.get('@email_notifications_smtp_password', '')
             ui['email_notifications_smtp_tls'] = e[-7].lower() == 'true'
             ui['email_notifications_from'] = e[-6]
             ui['email_notifications_addresses'] = e[-5]
@@ -1944,8 +2015,8 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
                 continue
 
             ui['telegram_notifications_enabled'] = True
-            ui['telegram_notifications_api'] = (
-                data.get('@telegram_notifications_api') or e[-5]
+            ui['telegram_notifications_api'] = e[-5] or data.get(
+                '@telegram_notifications_api', ''
             )
             ui['telegram_notifications_chat_id'] = e[-4]
             try:
