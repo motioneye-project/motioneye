@@ -87,7 +87,7 @@ def make_message(
         if files:
             logging.debug('got media files')
             files = [m for m in files if abs(m['timestamp'] - timestamp) < timespan]
-            files.sort(key=lambda m: m['timestamp'], reverse=True)
+            files.sort(key=lambda m: m['timestamp'])
             files = [
                 os.path.join(camera_config['target_dir'], re.sub('^/', '', m['path']))
                 for m in files
