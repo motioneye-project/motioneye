@@ -17,7 +17,7 @@
 import datetime
 import time
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from motioneye import sendmail, sendtelegram
 
@@ -55,17 +55,20 @@ class PictureTimespanTest(unittest.TestCase):
         sendtelegram.make_message('message', 1, _MOMENT, _TIMESPAN, None)
         self._assert_timespan(list_media)
 
+    @patch('motioneye.sendtelegram.IOLoop')
+    def test_telegram_sends_pictures_oldest_first(
+        self, _loop, _sleep, list_media, _camera
+    ):
+        callback = Mock()
+        sendtelegram.make_message('message', 1, _MOMENT, _TIMESPAN, callback)
 
-class TelegramPhotoOrderTest(unittest.TestCase):
-    @patch('motioneye.sendtelegram.pycurl.Curl')
-    def test_photos_are_sent_oldest_first(self, curl):
-        newest_first = ['/pics/3.jpg', '/pics/2.jpg', '/pics/1.jpg']
-        sendtelegram.send_message('token', 'chat', 'message', newest_first)
-
-        c = curl.return_value
-        posts = [a.args[1] for a in c.setopt.call_args_list if a.args[0] is c.HTTPPOST]
-        sent = [dict(post)['photo'][1] for post in posts]
-        self.assertEqual(['/pics/1.jpg', '/pics/2.jpg', '/pics/3.jpg'], sent)
+        on_media_files = list_media.return_value.add_done_callback.call_args.args[0]
+        event = time.mktime(_MOMENT.timetuple())
+        on_media_files(
+            [{'path': f'/{s}.jpg', 'timestamp': event + s} for s in (2, 0, 1)]
+        )
+        paths = [f'/var/lib/motioneye/{s}.jpg' for s in (0, 1, 2)]
+        self.assertEqual(paths, callback.call_args.args[1])
 
 
 if __name__ == '__main__':
