@@ -462,6 +462,16 @@ class ConfigHandler(BaseHandler):
         cameras: list,
         length: list,
     ) -> None:
+        # admin_only is a local-only flag and is never synced from the remote
+        local_config.setdefault('@admin_only', False)
+        admin_only = bool(local_config.get('@admin_only', False))
+
+        # do not add this camera to the list if admin-only, but reduce the async counter so listing can finish
+        if admin_only and self.current_user not in ['admin', 'peer']:
+            length[0] -= 1
+            self.check_finished(cameras, length)
+            return
+
         if resp.error:
             msg = f'Failed to get remote camera configuration for {remote.pretty_camera_url(local_config)}: {resp.error}.'
             cameras.append(
@@ -481,16 +491,6 @@ class ConfigHandler(BaseHandler):
 
         else:
             resp.remote_ui_config['id'] = camera_id
-
-            # admin_only is a local-only flag and is never synced from the remote
-            local_config.setdefault('@admin_only', False)
-            admin_only = bool(local_config.get('@admin_only', False))
-
-            # do not add this camera to the list if admin-only, but reduce the async counter so listing can finish
-            if admin_only and self.current_user not in ['admin', 'peer']:
-                length[0] -= 1
-                self.check_finished(cameras, length)
-                return
 
             if not resp.remote_ui_config['enabled'] and local_config['@enabled']:
                 # if a remote camera is disabled, make sure it's disabled locally as well
