@@ -17,7 +17,7 @@
 import datetime
 import time
 import unittest
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from motioneye import sendmail, sendtelegram
 
@@ -54,6 +54,21 @@ class PictureTimespanTest(unittest.TestCase):
     ):
         sendtelegram.make_message('message', 1, _MOMENT, _TIMESPAN, None)
         self._assert_timespan(list_media)
+
+    @patch('motioneye.sendtelegram.IOLoop')
+    def test_telegram_sends_pictures_oldest_first(
+        self, _loop, _sleep, list_media, _camera
+    ):
+        callback = Mock()
+        sendtelegram.make_message('message', 1, _MOMENT, _TIMESPAN, callback)
+
+        on_media_files = list_media.return_value.add_done_callback.call_args.args[0]
+        event = time.mktime(_MOMENT.timetuple())
+        on_media_files(
+            [{'path': f'/{s}.jpg', 'timestamp': event + s} for s in (2, 0, 1)]
+        )
+        paths = [f'/var/lib/motioneye/{s}.jpg' for s in (0, 1, 2)]
+        self.assertEqual(paths, callback.call_args.args[1])
 
 
 if __name__ == '__main__':
