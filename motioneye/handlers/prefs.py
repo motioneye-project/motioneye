@@ -17,14 +17,14 @@
 
 import json
 import logging
-from typing import Dict, Union
+from typing import Dict, List, Union
 
 from motioneye import prefs
 from motioneye.handlers.base import BaseHandler
 
 __all__ = ('PrefsHandler',)
 
-PrefsValue = Union[int, float, bool]
+PrefsValue = Union[int, float, bool, List[int]]
 
 
 class PrefsHandler(BaseHandler):
