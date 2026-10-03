@@ -914,7 +914,7 @@ def _split_web_hook(command: str, data: dict) -> list:
 
 def _settings_to_ui(data: dict, keys: dict) -> dict:
     # typed as motion_camera_dict_to_ui() reads them from older command lines
-    ui = {key[1:]: str(data.get(key, '')) for key in keys.values()}
+    ui: dict = {key[1:]: str(data.get(key, '')) for key in keys.values()}
     for name, value in ui.items():
         if name.endswith('_tls'):
             ui[name] = value.lower() == 'true'
