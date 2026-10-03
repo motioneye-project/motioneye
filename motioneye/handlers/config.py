@@ -225,6 +225,9 @@ class ConfigHandler(BaseHandler):
         else:
             logging.debug('getting main config')
 
+            if self.current_user == 'peer':
+                raise HTTPError(403, 'peer access denied to read the main config')
+
             ui_config = config.main_dict_to_ui(config.get_main())
             return self.finish_json(ui_config)
 
@@ -287,6 +290,9 @@ class ConfigHandler(BaseHandler):
 
         def set_main_config(ui_config):
             logging.debug('setting main config...')
+
+            if self.current_user == 'peer':
+                raise HTTPError(403, 'peer access denied to write the main config')
 
             old_main_config = config.get_main()
             old_admin_username = old_main_config.get('@admin_username')
