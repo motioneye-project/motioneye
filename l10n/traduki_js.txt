@@ -1,20 +1,13 @@
 
 
 Ni uzas por ĉiu lingvo json-dosieron, kiu enhavas la tradukojn.
-Ni ŝarĝas ĉi tiun dosieron en "templates/main.html":
+meyectl.load_l10n() ŝarĝas ĉi tiun dosieron en settings.js_translations, kaj "templates/main.html" enmetas ĝin rekte en la paĝon:
 
     <script type="text/javascript" src="{{static_path}}js/gettext.min.js"></script>
     <script type="text/javascript">
-      function Get(yourUrl){
-          var Httpreq = new XMLHttpRequest(); // a new request
-          Httpreq.open("GET",yourUrl,false);
-          Httpreq.send(null);
-          return Httpreq.responseText;
-      }
       var i18n = window.i18n();
-      var i18njson=Get("{{static_path}}js/motioneye.{{lingvo}}.json");
-      i18n.loadJSON(i18njson, 'messages');
-      i18n.setLocale('{{lingvo}}');
+      i18n.loadJSON({{ settings.js_translations|tojson }}, 'messages');
+      i18n.setLocale('{{settings.lingvo}}');
     </script>
 
 Kaj ni uzas la funkcion i18n.gettext donitan de gettext.min.js por traduki, ekz. :

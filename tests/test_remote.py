@@ -14,9 +14,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Tests verifying that path traversal elements are rejected in remote module functions."""
+"""Tests for the remote module functions."""
 
+import json
 import unittest
+from types import SimpleNamespace
+from unittest.mock import AsyncMock, patch
 
 from motioneye import remote
 
@@ -143,6 +146,60 @@ class TestRemotePathTraversal(unittest.IsolatedAsyncioTestCase):
                 with self.assertRaises(Exception) as ctx:
                     await remote.del_media_group(self._LOCAL_CONFIG, group, 'picture')
                 self._assert_raises_path_traversal(ctx.exception)
+
+
+class TestRemoteGetConfig(unittest.IsolatedAsyncioTestCase):
+    """Tests for get_config() answers."""
+
+    _LOCAL_CONFIG = {
+        '@proto': 'motioneye',
+        '@host': 'hub.example',
+        '@port': 8765,
+        '@remote_camera_id': 2,
+    }
+
+    @staticmethod
+    def _answer(body):
+        return SimpleNamespace(error=None, body=json.dumps(body).encode())
+
+    async def test_error_payload_is_returned_as_error(self):
+        # answer of a remote motionEye which cannot reach its own camera
+        error = 'Failed to connect to cam.example:8765'
+        body = {
+            'error': error,
+            'connection_failed': True,
+            'connection_url': 'http://cam.example:8765',
+        }
+        with patch.object(
+            remote, '_send_request', AsyncMock(return_value=self._answer(body))
+        ):
+            resp = await remote.get_config(self._LOCAL_CONFIG)
+
+        self.assertIsNone(resp.remote_ui_config)
+        self.assertEqual(error, resp.error)
+
+    async def test_camera_config_is_returned_with_host_and_port(self):
+        body = {'enabled': True, 'name': 'cam'}
+        with patch.object(
+            remote, '_send_request', AsyncMock(return_value=self._answer(body))
+        ):
+            resp = await remote.get_config(self._LOCAL_CONFIG)
+
+        self.assertIsNone(resp.error)
+        self.assertEqual(
+            {'enabled': True, 'name': 'cam', 'host': 'hub.example', 'port': 8765},
+            resp.remote_ui_config,
+        )
+
+    async def test_empty_error_is_not_an_error(self):
+        body = {'enabled': True, 'error': None}
+        with patch.object(
+            remote, '_send_request', AsyncMock(return_value=self._answer(body))
+        ):
+            resp = await remote.get_config(self._LOCAL_CONFIG)
+
+        self.assertIsNone(resp.error)
+        self.assertTrue(resp.remote_ui_config['enabled'])
 
 
 if __name__ == '__main__':

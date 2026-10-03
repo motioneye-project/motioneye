@@ -223,6 +223,9 @@ class ConfigHandler(BaseHandler):
                 return self.finish_json(ui_config)
 
         else:
+            if self.current_user != 'admin':
+                raise HTTPError(403, 'access denied to read the main config')
+
             logging.debug('getting main config')
 
             ui_config = config.main_dict_to_ui(config.get_main())
@@ -286,6 +289,9 @@ class ConfigHandler(BaseHandler):
                 on_finish(None, False)  # (no error, motion doesn't need restart)
 
         def set_main_config(ui_config):
+            if self.current_user != 'admin':
+                raise HTTPError(403, 'access denied to write the main config')
+
             logging.debug('setting main config...')
 
             old_main_config = config.get_main()
@@ -462,6 +468,16 @@ class ConfigHandler(BaseHandler):
         cameras: list,
         length: list,
     ) -> None:
+        # admin_only is a local-only flag and is never synced from the remote
+        local_config.setdefault('@admin_only', False)
+        admin_only = bool(local_config.get('@admin_only', False))
+
+        # do not add this camera to the list if admin-only, but reduce the async counter so listing can finish
+        if admin_only and self.current_user not in ['admin', 'peer']:
+            length[0] -= 1
+            self.check_finished(cameras, length)
+            return
+
         if resp.error:
             msg = f'Failed to get remote camera configuration for {remote.pretty_camera_url(local_config)}: {resp.error}.'
             cameras.append(
@@ -481,16 +497,6 @@ class ConfigHandler(BaseHandler):
 
         else:
             resp.remote_ui_config['id'] = camera_id
-
-            # admin_only is a local-only flag and is never synced from the remote
-            local_config.setdefault('@admin_only', False)
-            admin_only = bool(local_config.get('@admin_only', False))
-
-            # do not add this camera to the list if admin-only, but reduce the async counter so listing can finish
-            if admin_only and self.current_user not in ['admin', 'peer']:
-                length[0] -= 1
-                self.check_finished(cameras, length)
-                return
 
             if not resp.remote_ui_config['enabled'] and local_config['@enabled']:
                 # if a remote camera is disabled, make sure it's disabled locally as well
