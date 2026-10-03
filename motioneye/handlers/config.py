@@ -223,6 +223,9 @@ class ConfigHandler(BaseHandler):
                 return self.finish_json(ui_config)
 
         else:
+            if self.current_user != 'admin':
+                raise HTTPError(403, 'access denied to read the main config')
+
             logging.debug('getting main config')
 
             ui_config = config.main_dict_to_ui(config.get_main())
@@ -286,6 +289,9 @@ class ConfigHandler(BaseHandler):
                 on_finish(None, False)  # (no error, motion doesn't need restart)
 
         def set_main_config(ui_config):
+            if self.current_user != 'admin':
+                raise HTTPError(403, 'access denied to write the main config')
+
             logging.debug('setting main config...')
 
             old_main_config = config.get_main()
