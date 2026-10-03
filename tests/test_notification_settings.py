@@ -893,7 +893,8 @@ class SenderTest(_ScriptCase):
             with self.assertRaises(SystemExit):
                 sendmail.main(parser, args)
 
-        self.assertIn('unrecognized arguments: 1', stderr.getvalue())
+        error = 'error: unrecognized arguments: [0-9]+\n'  # how many differs by Python
+        self.assertRegex(stderr.getvalue(), error)
         self.assertNotIn('SECRET', stderr.getvalue())
 
     def test_telegram_debug_log_has_no_token(self):
