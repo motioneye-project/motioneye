@@ -18,6 +18,7 @@
 
 import argparse
 import gettext
+import json
 import locale
 import logging
 import multiprocessing
@@ -79,6 +80,17 @@ def load_l10n():
     else:
         settings.traduction = gettext
         gettext.install('motioneye')
+
+    # embedded in the page, so the browser needs no extra request for them
+    settings.js_translations = None
+    if settings.lingvo != 'eo':
+        name = f'motioneye.{settings.lingvo}.json'
+        path = os.path.join(settings.STATIC_PATH, 'js', name)
+        try:
+            with open(path, encoding='utf-8') as f:
+                settings.js_translations = json.load(f)
+        except (OSError, ValueError) as e:
+            logging.error(f'failed to load {path}: {e}')
 
 
 def find_command(command):
