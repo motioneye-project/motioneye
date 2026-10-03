@@ -24,16 +24,15 @@ from motioneye import settings
 
 
 def parse_options(parser, args):
-    parser.add_argument('method', help='the HTTP method to use')
-    parser.add_argument('url', help='the URL, or only its end when kind is given')
-    parser.add_argument('camera_id', nargs='?', help='the motionEye camera id')
-    parser.add_argument('kind', nargs='?', help='the webhook whose stored URL to use')
+    from motioneye import meyectl
 
-    return parser.parse_args(args)
+    older = ('method', 'url')
+    short = ('motion_camera_id', 'kind', 'url')  # %t KIND -- URL_END
+    return meyectl.parse_positionals(parser, args, older, short)
 
 
 def main(parser, args):
-    from motioneye import config, meyectl, utils
+    from motioneye import config, meyectl, motionctl, utils
 
     options = parse_options(parser, args)
 
@@ -41,16 +40,19 @@ def main(parser, args):
     meyectl.configure_tornado()
 
     logging.debug('hello!')
-    logging.debug('method = %s' % options.method)
 
-    if options.kind:  # the URL up to its first % is in the camera config
-        camera_id = int(options.camera_id)
-        stored = config.get_camera(camera_id).get(f'@web_hook_{options.kind}_url', '')
+    if options.kind:  # the method and the URL up to its first % are stored
+        camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
+        keys = config.web_hook_keys(options.kind)
+        stored = config.get_notification_settings(camera_id, keys)
         if not stored:
-            logging.error(f'camera {camera_id} has no {options.kind} webhook URL')
+            logging.error(f'camera {camera_id} has no {options.kind} webhook')
             return
 
-        options.url = stored.partition('%')[0] + options.url
+        options.method = stored['method']
+        options.url = stored['url'].partition('%')[0] + options.url
+
+    logging.debug('method = %s' % options.method)
 
     # some endpoints reject requests without a User-Agent with HTTP 403
     headers = {'User-Agent': 'motionEye'}

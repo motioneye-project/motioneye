@@ -354,7 +354,7 @@ def make_media_folders():
                         )
                     )
 
-    config.move_notification_secrets()  # before motion is started
+    config.move_notification_settings()  # before motion is started
 
 
 def start_motion():

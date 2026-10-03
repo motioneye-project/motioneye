@@ -303,6 +303,24 @@ def make_arg_parser(command=None):
     return parser
 
 
+def parse_positionals(parser, args, *forms):
+    # several forms of positional arguments, told apart by their number
+    usage = '\n'.join(' '.join(form) for form in forms)
+    parser.add_argument('args', nargs='*', metavar='ARG', help=usage)
+    end = args.index('--') if '--' in args else len(args)
+    options = parser.parse_intermixed_args(args[:end])  # options may sit between
+    values = vars(options).pop('args') + args[end + 1 :]  # all after -- are values
+    names = next((form for form in forms if len(form) == len(values)), None)
+    if names is None:
+        parser.error(f'unexpected number of arguments: {len(values)}')
+
+    for form in forms:
+        vars(options).update(dict.fromkeys(form))
+
+    vars(options).update(zip(names, values))
+    return options
+
+
 def print_usage_and_exit(code):
     parser = make_arg_parser()
     parser.print_help(sys.stderr)
