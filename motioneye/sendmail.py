@@ -191,19 +191,14 @@ def make_message(
 
 
 def parse_options(parser, args):
-    parser.add_argument('server', help='address of the SMTP server')
-    parser.add_argument('port', help='port for the SMTP connection')
-    parser.add_argument('account', help='SMTP account name (username)')
-    parser.add_argument('password', help='SMTP account password')
-    parser.add_argument('tls', help='"true" to use TLS')
-    parser.add_argument('from', help='the email from field')
-    parser.add_argument('to', help='the email recipient(s)')
-    parser.add_argument('msg_id', help='the identifier of the message')
-    parser.add_argument('motion_camera_id', help='the id of the motion camera')
-    parser.add_argument('moment', help='the moment in ISO-8601 format')
-    parser.add_argument('timespan', help='picture collection time span')
+    from motioneye import meyectl
 
-    return parser.parse_args(args)
+    smtp = ('server', 'port', 'account', 'password', 'tls')
+    event = ('msg_id', 'motion_camera_id', 'moment', 'timespan')
+    short = ('motion_camera_id', 'moment')  # the rest is in the camera config
+    old = (*smtp, 'from', 'to', *event)
+    older = (*smtp, 'to', *event)  # before "from" was added
+    return meyectl.parse_positionals(parser, args, short, old, older)
 
 
 def main(parser, args):
@@ -214,23 +209,27 @@ def main(parser, args):
     # or otherwise media listing won't work
     signal.signal(signal.SIGCHLD, signal.SIG_DFL)
 
-    if len(args) == 12:
-        # backwards compatibility with older configs lacking "from" field
-        _from = 'motionEye on {} <{}>'.format(
-            socket.gethostname(), args[7].split(',')[0]
-        )
-        args = args[:7] + [_from] + args[7:]
-
-    if not args[7]:
-        args[7] = 'motionEye on {} <{}>'.format(
-            socket.gethostname(), args[8].split(',')[0]
-        )
-
     options = parse_options(parser, args)
 
     meyectl.configure_logging('sendmail', options.log_to_file)
 
     logging.debug('hello!')
+
+    camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
+    if options.server is None:  # the settings are in the camera config
+        stored = config.get_notification_settings(camera_id, config.SENDMAIL_KEYS)
+        if not stored:
+            logging.error(f'camera {camera_id} has no email settings')
+            return
+
+        vars(options).update(stored, msg_id='motion_start')
+
+    else:  # older configs and custom scripts
+        options.password = options.password.replace('\\;', ';')  # unescape password
+
+    if not getattr(options, 'from'):
+        address = options.to.split(',')[0]
+        setattr(options, 'from', f'motionEye on {socket.gethostname()} <{address}>')
 
     options.port = int(options.port)
     options.tls = options.tls.lower() == 'true'
@@ -238,13 +237,11 @@ def main(parser, args):
     message = messages.get(options.msg_id)
     subject = subjects.get(options.msg_id)
     options.moment = datetime.datetime.strptime(options.moment, '%Y-%m-%dT%H:%M:%S')
-    options.password = options.password.replace('\\;', ';')  # unescape password
 
     # do not wait too long for media list,
     # email notifications are critical
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_EMAIL
 
-    camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
     _from = getattr(options, 'from')
 
     logging.debug('server = %s' % options.server)

@@ -354,6 +354,8 @@ def make_media_folders():
                         )
                     )
 
+    config.move_notification_settings()  # before motion is started
+
 
 def start_motion():
     from motioneye import config, motionctl
