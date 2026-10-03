@@ -18,6 +18,7 @@ import io
 import json
 import os
 import re
+import shlex
 import socket
 import unittest
 from datetime import datetime
@@ -386,6 +387,29 @@ class ConfigTest(_ConfigCase):
         self.assertTrue(config._move_notification_settings(camera))
         self.assertEqual(movie_end, camera['on_movie_end'])
 
+    def test_apostrophe_in_a_url_is_quoted(self):
+        # the storage URL is not checked for quotes, sh must still get one value
+        url = "https://x.example/up?f=%f&note=it's"
+        storage = {
+            'web_hook_storage_enabled': True,
+            'web_hook_storage_http_method': 'POST',
+            'web_hook_storage_url': url,
+        }
+        data = self._save(**storage)
+
+        hook = f"{_find_command('webhook')} %t storage -- '%f&note=it'\\''s'"
+        self.assertEqual(f'{_RELAY} movie_end %t %f; {hook}', data['on_movie_end'])
+        self.assertEqual("%f&note=it's", shlex.split(data['on_movie_end'])[-1])
+        ui = config.motion_camera_dict_to_ui(data)
+        self.assertEqual(url, ui['web_hook_storage_url'])
+
+        escaped = url.replace("'", "'\\''")  # quoted by hand on an older line
+        old = f"{_RELAY} movie_end %t %f; {_find_command('webhook')} 'POST' '{escaped}'"
+        camera = {'@id': 1, 'on_movie_end': old}
+        self.assertTrue(config._move_notification_settings(camera))
+        self.assertEqual(data['on_movie_end'], camera['on_movie_end'])
+        self.assertEqual(url, camera['@web_hook_storage_url'])
+
     def test_disabled_notifications_keep_no_settings(self):
         self._write(1, self.camera)
         self._post(dict(self._get(), **_UI))
@@ -494,6 +518,7 @@ class ConversionTest(_ConfigCase):
         telegram = f"{_find_command('sendtelegram')} {_OLD_SENDTELEGRAM}"
         hook = _find_command('webhook')
         old_sendmail = '/usr/share/motioneye/sendmail.py "smtp.example" "25" "me"'
+        password = "'p\\;w%%d 1234'"
         both = ('on_event_start', 'on_event_end')
         ends = ('on_event_end', 'on_movie_end', 'on_picture_save')
         others = {
@@ -514,6 +539,11 @@ class ConversionTest(_ConfigCase):
             '4 values': (both, f"{hook} -- 'POSTj' '' '1' 'notifications'"),
             'sendmail not at event start': (ends, email),
             'sendtelegram not at event start': (ends, telegram),
+            'password -correct': (both, email.replace(password, "'-correct'")),
+            'password -dl': (both, email.replace(password, "'-dl'")),
+            'password -v': (both, email.replace(password, "'-v'")),
+            'shell expansion': (both, email.replace("'007'", '$(cat /x)')),
+            'double quotes': (both, email.replace("'007'", '"007"')),
         }
         for label, (options, command) in others.items():
             for option in options:
@@ -628,8 +658,7 @@ class ConversionTest(_ConfigCase):
         for camera_id in (1, 3, 4, 5):
             self.assertEqual(files[camera_id], self._read(camera_id))
 
-        self.assertNotIn(3, config._camera_config_cache)
-        shown = config.get_camera(3)  # what is on disk
+        shown = config._camera_config_cache[3]  # the copy from before, as on disk
         for option, line in _old_lines().items():
             self.assertEqual(line, shown[option])
 
@@ -664,7 +693,23 @@ class ConversionTest(_ConfigCase):
         error = 'ERROR:root:failed to move settings of camera 1: less than 1 MiB free'
         self.assertEqual([error], logs.output)
         self.assertEqual(text, self._read(1))
-        self.assertNotIn(1, config._camera_config_cache)
+        kept = config._camera_config_cache[1]['on_event_start']
+        self.assertEqual(_old_lines()['on_event_start'], kept)
+
+    def test_failed_write_keeps_the_complete_copy(self):
+        self._write(1, self._old_camera(self._save(**_UI)))
+
+        def truncate_then_fail(camera_id, camera_config):
+            self._write_text(camera_id, '')  # set_camera() truncates before writing
+            raise OSError('No space left on device')
+
+        self._patch('motioneye.config.set_camera', side_effect=truncate_then_fail)
+        with self.assertLogs(level='ERROR'):
+            config.move_notification_settings()
+
+        kept = config.get_camera(1)
+        for option, line in _old_lines().items():
+            self.assertEqual(line, kept[option])
 
     def test_server_startup_converts(self):
         # make_media_folders() runs before motion is started
@@ -839,6 +884,17 @@ class SenderTest(_ScriptCase):
 
         self.make_mail.assert_not_called()
         self.make_telegram.assert_not_called()
+
+    def test_errors_do_not_echo_values(self):
+        smtp = ['srv', '25', 'me', '-SECRET', 'False', 'f@x', 't@x']
+        args = ['-c', _CONF, *smtp, 'motion_start', '1', _EVENT, '5']
+        parser = meyectl.make_arg_parser('sendmail')
+        with patch('sys.stderr', io.StringIO()) as stderr:
+            with self.assertRaises(SystemExit):
+                sendmail.main(parser, args)
+
+        self.assertIn('unrecognized arguments: 1', stderr.getvalue())
+        self.assertNotIn('SECRET', stderr.getvalue())
 
     def test_telegram_debug_log_has_no_token(self):
         with self.assertLogs(level='DEBUG') as logs:

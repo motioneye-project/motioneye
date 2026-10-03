@@ -320,7 +320,10 @@ def parse_positionals(parser, args, *forms):
     usage = '\n'.join(' '.join(form) for form in forms)
     parser.add_argument('args', nargs='*', metavar='ARG', help=usage)
     end = args.index('--') if '--' in args else len(args)
-    options = parser.parse_intermixed_args(args[:end])  # options may sit between
+    options, unknown = parser.parse_known_intermixed_args(args[:end])
+    if unknown:  # without them, they may be secrets
+        parser.error(f'unrecognized arguments: {len(unknown)}')
+
     values = vars(options).pop('args') + args[end + 1 :]  # all after -- are values
     names = next((form for form in forms if len(form) == len(values)), None)
     if names is None:

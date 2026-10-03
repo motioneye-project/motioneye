@@ -19,11 +19,12 @@ import os.path
 import re
 import tarfile
 from collections import OrderedDict
+from contextlib import redirect_stderr, redirect_stdout
 from datetime import timedelta
 from errno import EEXIST, ENOENT
 from fnmatch import fnmatchcase
 from glob import glob
-from io import BytesIO
+from io import BytesIO, StringIO
 from os import stat
 from re import match, sub
 from secrets import token_hex
@@ -756,8 +757,10 @@ def get_notification_settings(camera_id: Optional[int], keys: dict) -> Optional[
 def move_notification_settings() -> None:
     # for configs saved while the settings were still on motion's command line
     for camera_id in get_camera_ids():
+        original = None
         try:
-            camera_config = dict(get_camera(camera_id))
+            original = get_camera(camera_id)
+            camera_config = dict(original)
             if not utils.is_local_motion_camera(camera_config):
                 continue
 
@@ -771,7 +774,10 @@ def move_notification_settings() -> None:
             set_camera(camera_id, camera_config)
 
         except Exception as e:
-            _camera_config_cache.pop(camera_id, None)  # back to what is on disk
+            _camera_config_cache.pop(camera_id, None)
+            if original:  # the file may be truncated, keep the complete copy
+                _camera_config_cache[camera_id] = original
+
             logging.error(f'failed to move settings of camera {camera_id}: {e}')
 
 
@@ -820,6 +826,9 @@ def _own_command(command: str, option: str) -> Optional[tuple]:
     # (name, values) of motionEye's own command, values None if already moved
     from motioneye import sendmail, sendtelegram, webhook
 
+    if _expanded_by_sh(command):
+        return None  # shlex would read it differently from sh
+
     try:
         args = split(command)
 
@@ -837,16 +846,39 @@ def _own_command(command: str, option: str) -> Optional[tuple]:
     if not script or (script is not webhook and option != 'on_event_start'):
         return None
 
+    parser = meyectl.make_arg_parser(args[1])
+    quiet = StringIO()  # argparse's errors may contain the values
     try:
-        options = script.parse_options(meyectl.make_arg_parser(args[1]), args[2:])
+        with redirect_stderr(quiet), redirect_stdout(quiet):
+            options = script.parse_options(parser, args[2:])
 
-    except SystemExit:  # the script itself cannot parse it either
+    except (SystemExit, Exception):  # the script itself cannot parse it either
         return None
 
     if script is webhook:
         return _old_web_hook(options, _WEB_HOOKS[option])
 
     return _old_sender(options, args[1])
+
+
+def _expanded_by_sh(command: str) -> bool:
+    # $, ` and " outside single quotes, which shlex keeps as they are
+    quoted = False
+    escaped = False
+    for char in command:
+        if escaped:
+            escaped = False
+
+        elif char == "'":
+            quoted = not quoted
+
+        elif char == '\\' and not quoted:
+            escaped = True
+
+        elif char in '$`"' and not quoted:
+            return True
+
+    return False
 
 
 def _old_web_hook(options, kind: str) -> Optional[tuple]:
@@ -871,6 +903,9 @@ def _old_sender(options, name: str) -> Optional[tuple]:
     if getattr(options, 'msg_id', 'motion_start') != 'motion_start':
         return None
 
+    if name == 'sendmail' and options.tls.lower() not in ('true', 'false'):
+        return None  # shifted, e.g. by a password that looks like an option
+
     values = {key: getattr(options, arg) or '' for arg, key in keys.items()}
     if name == 'sendmail':  # escaped like motion_camera_ui_to_dict() used to
         password = values[keys['password']]
@@ -892,6 +927,7 @@ def _notification_command(data: dict, name: str, values: dict) -> str:
         return f"{meyectl.find_command(name)} %t '{_MOMENT}'"
 
     tail = ''.join(values[f'@web_hook_{name}_url'].partition('%')[1:])
+    tail = tail.replace("'", "'\\''")  # inside sh's single quotes
     return f"{meyectl.find_command('webhook')} %t {name} -- '{tail}'"
 
 
