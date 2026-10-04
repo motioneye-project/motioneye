@@ -869,7 +869,7 @@ def main_ui_to_dict(ui):
             except Exception as e:
                 logging.error(f'password hook exec failed: {e}')
 
-    if ui.get('admin_password') is not None:
+    if ui.get('admin_password') not in (None, '*****'):  # ***** is the unchanged one
         if ui['admin_password']:
             data['@admin_password'] = ph.hash(ui['admin_password'])
             invalidate_user_sessions('admin')
@@ -878,7 +878,7 @@ def main_ui_to_dict(ui):
 
         call_hook(ui['admin_username'], ui['admin_password'])
 
-    if ui.get('normal_password') is not None:
+    if ui.get('normal_password') not in (None, '*****'):
         if ui['normal_password']:
             data['@normal_password'] = ph.hash(ui['normal_password'])
             invalidate_user_sessions('normal')
@@ -1086,8 +1086,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         if not streaming_username:
             streaming_username = prev_stream_username
 
-        # UI omits the password when unchanged.
-        if not streaming_password:
+        # UI omits the password when unchanged, API clients may send back the mask.
+        if not streaming_password or streaming_password == '*****':
             streaming_password = prev_stream_password
 
         # No hard fail: if still missing, keep stream_authentication empty.
