@@ -935,6 +935,17 @@ def main_dict_to_ui(data):
     return ui
 
 
+def _parsable(command: str) -> bool:
+    # e.g. a ' in an SMTP password leaves unbalanced quotes
+    try:
+        split(command)
+
+    except ValueError:
+        return False
+
+    return True
+
+
 def input_sanity_check(regex, value, key, msg):
     if match(regex, value):
         return value
@@ -1907,7 +1918,7 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
     ui['telegram_notifications_picture_time_span'] = 0
     command_notifications = []
     for e in on_event_start:
-        if ' sendmail ' in e:
+        if ' sendmail ' in e and _parsable(e):
             e = split(e)
 
             if len(e) < 10:
@@ -1933,7 +1944,7 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
             except (TypeError, ValueError):
                 ui['email_notifications_picture_time_span'] = 0
 
-        elif ' sendtelegram ' in e:
+        elif ' sendtelegram ' in e and _parsable(e):
             e = split(e)
 
             if len(e) < 6:
@@ -1948,7 +1959,7 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
             except (TypeError, ValueError):
                 ui['telegram_notifications_picture_time_span'] = 0
 
-        elif ' webhook ' in e:
+        elif ' webhook ' in e and _parsable(e):
             e = split(e)
 
             if len(e) < 3:
@@ -1975,7 +1986,7 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
 
     command_end_notifications = []
     for e in on_event_end:
-        if ' webhook ' in e:
+        if ' webhook ' in e and _parsable(e):
             e = split(e)
 
             if len(e) < 3:
@@ -2002,7 +2013,7 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
 
     command_storage = []
     for e in on_movie_end:
-        if ' webhook ' in e:
+        if ' webhook ' in e and _parsable(e):
             e = split(e)
 
             if len(e) < 3:
