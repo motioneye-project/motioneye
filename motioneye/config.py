@@ -901,11 +901,13 @@ def main_dict_to_ui(data):
     if data['@lang']:
         ui['lang'] = data['@lang']
 
-    # a set password is left out, the UI shows ***** for it
-    if not data['@admin_password']:
+    # Only transmit an empty string if no password is set, to show an empty
+    # input box in the frontend. If a password is set, transmit nothing, in
+    # which case the input box will show "*****".
+    if data['@admin_password'] == '':
         ui['admin_password'] = ''
 
-    if not data['@normal_password']:
+    if data['@normal_password'] == '':
         ui['normal_password'] = ''
 
     ui['_client_secret'] = data.get('@client_secret', '')
@@ -1566,8 +1568,6 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
         'streaming_auth_mode': {0: 'disabled', 1: 'basic', 2: 'digest'}.get(
             data.get('stream_auth_method'), 'disabled'
         ),
-        'streaming_username': '',
-        'streaming_password': '',
         'streaming_motion': int(data['stream_motion']),
         # still images
         'still_images': False,
@@ -1630,13 +1630,13 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
     }
 
     stream_authentication = data.get('stream_authentication') or ''
-    if stream_authentication:
-        parts = stream_authentication.split(':', 1)
-        streaming_username = parts[0]
-        streaming_password = parts[1] if len(parts) > 1 else ''
-        ui['streaming_username'] = streaming_username
-        if streaming_password:  # left out when set, the UI shows ***** for it
-            del ui['streaming_password']
+    streaming_username, _, streaming_password = stream_authentication.partition(':')
+    ui['streaming_username'] = streaming_username
+    # Only transmit an empty string if no password is set, to show an empty
+    # input box in the frontend. If a password is set, transmit nothing, in
+    # which case the input box will show "*****".
+    if streaming_password == '':
+        ui['streaming_password'] = ''
 
     if utils.is_net_camera(data):
         ui['device_url'] = data['netcam_url']

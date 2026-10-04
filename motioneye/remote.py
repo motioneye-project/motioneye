@@ -257,7 +257,9 @@ async def get_config(local_config) -> utils.GetConfigResponse:
         response['host'] = host
         response['port'] = port
 
-        # a set password is left out, older remotes send it masked
+        # Only forward an empty string, which indicates that no password is set.
+        # New backends send nothing if a password is set, but old backends send
+        # "*****" instead, which is unset here to align with new behavior.
         if response.get('streaming_password'):
             del response['streaming_password']
 

@@ -117,11 +117,14 @@ class StreamPasswordTest(_Case):
         self.assertEqual('viewer:s3cret', data['stream_authentication'])
 
     def test_unset_password_is_empty(self):
-        self.camera['stream_authentication'] = 'viewer:'
+        for value in ('', 'viewer:', 'viewer'):  # '' = no stream authentication
+            with self.subTest(value):
+                self.camera['stream_authentication'] = value
 
-        ui = config.motion_camera_dict_to_ui(self.camera)
+                ui = config.motion_camera_dict_to_ui(self.camera)
 
-        self.assertEqual('', ui['streaming_password'])
+                self.assertEqual('', ui['streaming_password'])
+                self.assertEqual(value.partition(':')[0], ui['streaming_username'])
 
     def test_new_or_left_out_password(self):
         self.assertEqual('viewer:n3w', self._post('n3w'))
