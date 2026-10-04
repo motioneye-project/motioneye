@@ -191,14 +191,17 @@ def make_message(
 
 
 def parse_options(parser, args):
-    from motioneye import meyectl
+    # the settings are in the camera config
+    parser.add_argument('motion_camera_id', help='the id of the motion camera')
+    parser.add_argument('moment', help='the moment in ISO-8601 format')
+    options, extra = parser.parse_known_args(args)
+    if extra:  # without their values, they may be secrets
+        parser.error(
+            f'{len(extra)} unexpected arguments, '
+            'motionEye converts its own older commands when it starts'
+        )
 
-    smtp = ('server', 'port', 'account', 'password', 'tls')
-    event = ('msg_id', 'motion_camera_id', 'moment', 'timespan')
-    short = ('motion_camera_id', 'moment')  # the rest is in the camera config
-    old = (*smtp, 'from', 'to', *event)
-    older = (*smtp, 'to', *event)  # before "from" was added
-    return meyectl.parse_positionals(parser, args, short, old, older)
+    return options
 
 
 def main(parser, args):
@@ -216,16 +219,12 @@ def main(parser, args):
     logging.debug('hello!')
 
     camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
-    if options.server is None:  # the settings are in the camera config
-        stored = config.get_notification_settings(camera_id, config.SENDMAIL_KEYS)
-        if not stored:
-            logging.error(f'camera {camera_id} has no email settings')
-            return
+    stored = config.get_notification_settings(camera_id, config.SENDMAIL_KEYS)
+    if not stored:
+        logging.error(f'motion camera {options.motion_camera_id} has no email settings')
+        return
 
-        vars(options).update(stored, msg_id='motion_start')
-
-    else:  # older configs and custom scripts
-        options.password = options.password.replace('\\;', ';')  # unescape password
+    vars(options).update(stored, msg_id='motion_start')
 
     if not getattr(options, 'from'):
         address = options.to.split(',')[0]

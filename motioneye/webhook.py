@@ -24,15 +24,14 @@ from motioneye import settings
 
 
 def parse_options(parser, args):
-    from motioneye import meyectl
+    parser.add_argument('method', help='the HTTP method to use')
+    parser.add_argument('url', help='the URL for the request')
 
-    older = ('method', 'url')
-    short = ('motion_camera_id', 'kind', 'url')  # %t KIND -- URL_END
-    return meyectl.parse_positionals(parser, args, older, short)
+    return parser.parse_args(args)
 
 
 def main(parser, args):
-    from motioneye import config, meyectl, motionctl, utils
+    from motioneye import meyectl, utils
 
     options = parse_options(parser, args)
 
@@ -40,24 +39,12 @@ def main(parser, args):
     meyectl.configure_tornado()
 
     logging.debug('hello!')
-
-    if options.kind:  # the method and the URL up to its first % are stored
-        camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
-        keys = config.web_hook_keys(options.kind)
-        stored = config.get_notification_settings(camera_id, keys)
-        if not stored:
-            logging.error(f'camera {camera_id} has no {options.kind} webhook')
-            return
-
-        options.method = stored['method']
-        options.url = stored['url'].partition('%')[0] + options.url
-
     logging.debug('method = %s' % options.method)
+    logging.debug('url = %s' % options.url)
 
     # some endpoints reject requests without a User-Agent with HTTP 403
     headers = {'User-Agent': 'motionEye'}
     parts = urllib.parse.urlparse(options.url)
-    logging.debug(f'url = {parts.scheme}://{parts.hostname}')  # the rest may be secret
     url = options.url
     data = None
 
@@ -80,15 +67,12 @@ def main(parser, args):
     else:  # GET
         pass
 
+    request = urllib.request.Request(url, data, headers=headers)
     try:
-        request = urllib.request.Request(url, data, headers=headers)
         utils.urlopen(request, timeout=settings.REMOTE_REQUEST_TIMEOUT)
         logging.debug('webhook successfully called')
 
-    except urllib.error.URLError as e:  # its message has no URL
+    except Exception as e:
         logging.error('failed to call webhook: %s' % e)
-
-    except Exception as e:  # e.g. an invalid URL, which its message would repeat
-        logging.error(f'failed to call webhook: {type(e).__name__}')
 
     logging.debug('bye!')

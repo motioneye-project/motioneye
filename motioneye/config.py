@@ -16,20 +16,17 @@
 
 import logging
 import os.path
-import re
 import tarfile
 from collections import OrderedDict
-from contextlib import redirect_stderr, redirect_stdout
 from datetime import timedelta
 from errno import EEXIST, ENOENT
 from fnmatch import fnmatchcase
 from glob import glob
-from io import BytesIO, StringIO
+from io import BytesIO
 from os import stat
 from re import match, sub
 from secrets import token_hex
 from shlex import split
-from shutil import disk_usage
 from stat import S_IMODE
 from subprocess import STDOUT
 from typing import Optional, Union
@@ -716,205 +713,20 @@ SENDTELEGRAM_KEYS = {
     'chatid': '@telegram_notifications_chat_id',
     'timespan': '@telegram_notifications_picture_time_span',
 }
-# the webhook that each of these motion commands calls, see webhook.py
-_WEB_HOOKS = {
-    'on_event_start': 'notifications',
-    'on_event_end': 'end_notifications',
-    'on_movie_end': 'storage',
-    'on_picture_save': 'storage',
-}
-_WEB_HOOK_KINDS = ('notifications', 'end_notifications', 'storage')
-_WEB_HOOK_METHODS = ('GET', 'POST', 'POSTf', 'POSTj')
 _NOTIFICATION_KEYS = [*SENDMAIL_KEYS.values(), *SENDTELEGRAM_KEYS.values()]
-_NOTIFICATION_KEYS += [f'@web_hook_{kind}_http_method' for kind in _WEB_HOOK_KINDS]
-_NOTIFICATION_KEYS += [f'@web_hook_{kind}_url' for kind in _WEB_HOOK_KINDS]
-_MOMENT = '%Y-%m-%dT%H:%M:%S'  # the event time, expanded by motion
-_MEYECTL = ('meyectl', 'meyectl.py', 'meyectl.pyc')  # see meyectl.find_command()
-
-
-def web_hook_keys(kind: str) -> dict:
-    return {'method': f'@web_hook_{kind}_http_method', 'url': f'@web_hook_{kind}_url'}
+MOMENT = '%Y-%m-%dT%H:%M:%S'  # the event time, expanded by motion
+_SHORT = f" %t '{MOMENT}'"
 
 
 def get_notification_settings(camera_id: Optional[int], keys: dict) -> Optional[dict]:
-    # read for every event, so without get_camera()'s defaults (ffmpeg probing)
-    if camera_id is None:  # e.g. an unknown motion camera id
-        return None
-
-    try:
-        lines = get_camera(camera_id, as_lines=True)
-
-    except Exception:  # logged by get_camera()
-        return None
-
-    stored = _conf_to_dict(lines, no_convert=_NOTIFICATION_KEYS)
-    if not all(key in stored for key in keys.values()):
+    camera_config = get_camera(camera_id) if camera_id is not None else None
+    if not camera_config or not all(key in camera_config for key in keys.values()):
         return None  # e.g. disabled since motion was started
 
-    return {name: stored[key] for name, key in keys.items()}
+    return {name: camera_config[key] for name, key in keys.items()}
 
 
-def move_notification_settings() -> None:
-    # for configs saved while the settings were still on motion's command line
-    for camera_id in get_camera_ids():
-        original = None
-        try:
-            original = get_camera(camera_id)
-            camera_config = dict(original)
-            if not utils.is_local_motion_camera(camera_config):
-                continue
-
-            if not _move_notification_settings(camera_config):
-                continue
-
-            if disk_usage(settings.CONF_PATH).free < 2**20:  # set_camera() truncates
-                raise OSError('less than 1 MiB free')
-
-            logging.info(f'moving notification settings of camera {camera_id}')
-            set_camera(camera_id, camera_config)
-
-        except Exception as e:
-            _camera_config_cache.pop(camera_id, None)
-            if original:  # the file may be truncated, keep the complete copy
-                _camera_config_cache[camera_id] = original
-
-            logging.error(f'failed to move settings of camera {camera_id}: {e}')
-
-
-def _move_notification_settings(camera_config: dict) -> bool:
-    # only motionEye's own commands are rewritten, everything else is kept as it is
-    commands = {}
-    found = []
-    for option in _WEB_HOOKS:
-        commands[option] = re.split(r'(?<!\\);', camera_config.get(option) or '')
-        for i, command in enumerate(commands[option]):
-            own = _own_command(command, option)
-            if own:
-                found.append((option, i, *own))
-
-    used = {}  # stored settings that are in use must not change
-    for option, i, name, values in found:
-        if values is None:  # already moved
-            used[name] = {key: camera_config.get(key) for key in _keys(name)}
-
-    moved = False
-    camera_id = camera_config.get('@id')
-    for option, i, name, values in found:
-        if values is None:
-            continue
-
-        padded = any(value != value.strip() for value in values.values())
-        if padded or used.setdefault(name, values) != values:  # e.g. two bots
-            logging.warning(f'could not move {name} settings of camera {camera_id}')
-            continue
-
-        command = commands[option][i]
-        new = _notification_command(camera_config, name, values)
-        commands[option][i] = command.replace(command.strip(), new, 1)
-        camera_config[option] = ';'.join(commands[option])
-        moved = True
-
-    return moved
-
-
-def _keys(name: str) -> list:
-    keys = {'sendmail': SENDMAIL_KEYS, 'sendtelegram': SENDTELEGRAM_KEYS}.get(name)
-    return list((keys or web_hook_keys(name)).values())
-
-
-def _own_command(command: str, option: str) -> Optional[tuple]:
-    # (name, values) of motionEye's own command, values None if already moved
-    from motioneye import sendmail, sendtelegram, webhook
-
-    if _expanded_by_sh(command):
-        return None  # shlex would read it differently from sh
-
-    try:
-        args = split(command)
-
-    except ValueError:  # e.g. unbalanced quotes
-        return None
-
-    if args and os.path.basename(args[0]).startswith('python'):
-        args = args[1:]  # see meyectl.find_command()
-
-    if len(args) < 2 or os.path.basename(args[0]) not in _MEYECTL:
-        return None  # someone else's command, e.g. a wrapper
-
-    scripts = {'sendmail': sendmail, 'sendtelegram': sendtelegram, 'webhook': webhook}
-    script = scripts.get(args[1])
-    if not script or (script is not webhook and option != 'on_event_start'):
-        return None
-
-    parser = meyectl.make_arg_parser(args[1])
-    quiet = StringIO()  # argparse's errors may contain the values
-    try:
-        with redirect_stderr(quiet), redirect_stdout(quiet):
-            options = script.parse_options(parser, args[2:])
-
-    except (SystemExit, Exception):  # the script itself cannot parse it either
-        return None
-
-    if script is webhook:
-        return _old_web_hook(options, _WEB_HOOKS[option])
-
-    return _old_sender(options, args[1])
-
-
-def _expanded_by_sh(command: str) -> bool:
-    # $, ` and " outside single quotes, which shlex keeps as they are
-    quoted = False
-    escaped = False
-    for char in command:
-        if escaped:
-            escaped = False
-
-        elif char == "'":
-            quoted = not quoted
-
-        elif char == '\\' and not quoted:
-            escaped = True
-
-        elif char in '$`"' and not quoted:
-            return True
-
-    return False
-
-
-def _old_web_hook(options, kind: str) -> Optional[tuple]:
-    if options.kind:
-        return (kind, None) if options.kind == kind else None
-
-    if options.method not in _WEB_HOOK_METHODS or not options.url:
-        return None  # e.g. someone else's method
-
-    keys = web_hook_keys(kind)
-    return kind, {keys['method']: options.method, keys['url']: options.url}
-
-
-def _old_sender(options, name: str) -> Optional[tuple]:
-    keys = SENDMAIL_KEYS if name == 'sendmail' else SENDTELEGRAM_KEYS
-    if options.motion_camera_id != '%t' or options.moment != _MOMENT:
-        return None  # e.g. a fixed camera id
-
-    if options.timespan is None:  # only %t MOMENT
-        return name, None
-
-    if getattr(options, 'msg_id', 'motion_start') != 'motion_start':
-        return None
-
-    if name == 'sendmail' and options.tls.lower() not in ('true', 'false'):
-        return None  # shifted, e.g. by a password that looks like an option
-
-    values = {key: getattr(options, arg) or '' for arg, key in keys.items()}
-    if name == 'sendmail':  # escaped like motion_camera_ui_to_dict() used to
-        password = values[keys['password']]
-        values[keys['password']] = password.replace('\\;', ';').replace('%%', '%')
-
-    return name, values
-
-
-def _notification_command(data: dict, name: str, values: dict) -> str:
+def notification_command(data: dict, name: str, values: dict) -> str:
     # the settings go to the camera config, only what motion expands stays on its line
     for key, value in values.items():
         value = str(value).strip()  # what a '# @key value' line can keep
@@ -923,33 +735,11 @@ def _notification_command(data: dict, name: str, values: dict) -> str:
 
         data[key] = value
 
-    if name in ('sendmail', 'sendtelegram'):
-        return f"{meyectl.find_command(name)} %t '{_MOMENT}'"
-
-    tail = ''.join(values[f'@web_hook_{name}_url'].partition('%')[1:])
-    tail = tail.replace("'", "'\\''")  # inside sh's single quotes
-    return f"{meyectl.find_command('webhook')} %t {name} -- '{tail}'"
-
-
-def _web_hook_command(data: dict, kind: str, method: str, url: str) -> str:
-    keys = web_hook_keys(kind)
-    return _notification_command(data, kind, {keys['method']: method, keys['url']: url})
-
-
-def _split_web_hook(command: str, data: dict) -> list:
-    # ends with METHOD URL in both layouts, the URL put together like webhook.py
-    args = split(command)
-    kind = args[-3] if len(args) > 3 else None
-    if args[-4:-3] != ['%t'] or kind not in _WEB_HOOK_KINDS or args[-2] != '--':
-        return args
-
-    keys = web_hook_keys(kind)
-    head = data.get(keys['url'], '').partition('%')[0]
-    return args[:-4] + [data.get(keys['method'], ''), head + args[-1]]
+    return meyectl.find_command(name) + _SHORT
 
 
 def _settings_to_ui(data: dict, keys: dict) -> dict:
-    # typed as motion_camera_dict_to_ui() reads them from older command lines
+    # typed as the UI expects them
     ui: dict = {key[1:]: str(data.get(key, '')) for key in keys.values()}
     for name, value in ui.items():
         if name.endswith('_tls'):
@@ -1647,11 +1437,11 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         values = {key: ui[key[1:]] for key in SENDMAIL_KEYS.values()}
         values['@email_notifications_addresses'] = emails
         values['@email_notifications_from'] = email_from
-        on_event_start.append(_notification_command(data, 'sendmail', values))
+        on_event_start.append(notification_command(data, 'sendmail', values))
 
     if ui['telegram_notifications_enabled']:
         values = {key: ui[key[1:]] for key in SENDTELEGRAM_KEYS.values()}
-        on_event_start.append(_notification_command(data, 'sendtelegram', values))
+        on_event_start.append(notification_command(data, 'sendtelegram', values))
 
     if ui['web_hook_notifications_enabled']:
         url = sub(
@@ -1665,9 +1455,13 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             ),
         )
 
-        method = ui['web_hook_notifications_http_method']
-        command = _web_hook_command(data, 'notifications', method, url)
-        on_event_start.append(command)
+        on_event_start.append(
+            "{script} '{method}' '{url}'".format(
+                script=meyectl.find_command('webhook'),
+                method=ui['web_hook_notifications_http_method'],
+                url=url,
+            )
+        )
 
     if ui['command_notifications_enabled']:
         on_event_start += utils.split_semicolon(ui['command_notifications_exec'])
@@ -1689,9 +1483,14 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
             ),
         )
 
-        method = ui['web_hook_end_notifications_http_method']
-        command = _web_hook_command(data, 'end_notifications', method, url)
-        on_event_end.append(command)
+        on_event_end.append(
+            "%(script)s '%(method)s' '%(url)s'"
+            % {
+                'script': meyectl.find_command('webhook'),
+                'method': ui['web_hook_end_notifications_http_method'],
+                'url': url,
+            }
+        )
 
     if ui['command_end_notifications_enabled']:
         on_event_end += utils.split_semicolon(ui['command_end_notifications_exec'])
@@ -1703,8 +1502,14 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     if ui['web_hook_storage_enabled']:
         url = sub('\\s', '+', ui['web_hook_storage_url'])
-        method = ui['web_hook_storage_http_method']
-        on_movie_end.append(_web_hook_command(data, 'storage', method, url))
+
+        on_movie_end.append(
+            "{script} '{method}' '{url}'".format(
+                script=meyectl.find_command('webhook'),
+                method=ui['web_hook_storage_http_method'],
+                url=url,
+            )
+        )
 
     if ui['command_storage_enabled']:
         on_movie_end += utils.split_semicolon(ui['command_storage_exec'])
@@ -1716,9 +1521,14 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     if ui['web_hook_storage_enabled']:
         url = sub('\\s', '+', ui['web_hook_storage_url'])
-        method = ui['web_hook_storage_http_method']
-        command = _web_hook_command(data, 'storage', method, url)
-        on_picture_save.append(command)
+
+        on_picture_save.append(
+            "{script} '{method}' '{url}'".format(
+                script=meyectl.find_command('webhook'),
+                method=ui['web_hook_storage_http_method'],
+                url=url,
+            )
+        )
 
     if ui['command_storage_enabled']:
         on_picture_save += utils.split_semicolon(ui['command_storage_exec'])
@@ -2132,59 +1942,16 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
     ui['telegram_notifications_picture_time_span'] = 0
     command_notifications = []
     for e in on_event_start:
-        if ' sendmail ' in e:
-            e = split(e)
-
-            if e[-2:] == ['%t', _MOMENT]:  # the settings are in the camera config
-                ui['email_notifications_enabled'] = True
-                ui.update(_settings_to_ui(data, SENDMAIL_KEYS))
-                continue
-
-            if len(e) < 10:
-                continue
-
-            if len(e) < 16:
-                # backwards compatibility with older configs lacking "from" field
-                e.insert(-5, '')
-
+        if ' sendmail ' in e and e.endswith(_SHORT):
             ui['email_notifications_enabled'] = True
-            ui['email_notifications_smtp_server'] = e[-11]
-            ui['email_notifications_smtp_port'] = e[-10]
-            ui['email_notifications_smtp_account'] = e[-9]
-            ui['email_notifications_smtp_password'] = (
-                e[-8].replace('\\;', ';').replace('%%', '%')
-            )
-            ui['email_notifications_smtp_tls'] = e[-7].lower() == 'true'
-            ui['email_notifications_from'] = e[-6]
-            ui['email_notifications_addresses'] = e[-5]
-            try:
-                ui['email_notifications_picture_time_span'] = int(e[-1])
+            ui.update(_settings_to_ui(data, SENDMAIL_KEYS))
 
-            except (TypeError, ValueError):
-                ui['email_notifications_picture_time_span'] = 0
-
-        elif ' sendtelegram ' in e:
-            e = split(e)
-
-            if e[-2:] == ['%t', _MOMENT]:  # the settings are in the camera config
-                ui['telegram_notifications_enabled'] = True
-                ui.update(_settings_to_ui(data, SENDTELEGRAM_KEYS))
-                continue
-
-            if len(e) < 6:
-                continue
-
+        elif ' sendtelegram ' in e and e.endswith(_SHORT):
             ui['telegram_notifications_enabled'] = True
-            ui['telegram_notifications_api'] = e[-5]
-            ui['telegram_notifications_chat_id'] = e[-4]
-            try:
-                ui['telegram_notifications_picture_time_span'] = int(e[-1])
-
-            except (TypeError, ValueError):
-                ui['telegram_notifications_picture_time_span'] = 0
+            ui.update(_settings_to_ui(data, SENDTELEGRAM_KEYS))
 
         elif ' webhook ' in e:
-            e = _split_web_hook(e, data)
+            e = split(e)
 
             if len(e) < 3:
                 continue
@@ -2211,7 +1978,7 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
     command_end_notifications = []
     for e in on_event_end:
         if ' webhook ' in e:
-            e = _split_web_hook(e, data)
+            e = split(e)
 
             if len(e) < 3:
                 continue
@@ -2238,7 +2005,7 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
     command_storage = []
     for e in on_movie_end:
         if ' webhook ' in e:
-            e = _split_web_hook(e, data)
+            e = split(e)
 
             if len(e) < 3:
                 continue
@@ -2428,7 +2195,6 @@ def restore(content: bytes) -> Optional[dict]:
 
         else:
             invalidate()
-            move_notification_settings()  # motion keeps running, reading these files
 
         return {'reboot': settings.ENABLE_REBOOT}
 
