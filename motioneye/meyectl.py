@@ -147,11 +147,18 @@ def load_settings():
             curr_value = getattr(settings, upper_name)
 
             if upper_name == 'LOG_LEVEL':
-                if value == 'quiet':
+                level = value.strip().lower()
+                if level == 'quiet':
                     value = 100
 
+                elif level.isdigit():
+                    value = int(level)
+
                 else:
-                    value = getattr(logging, value.upper(), logging.DEBUG)
+                    value = getattr(logging, level.upper(), None)
+                    if not isinstance(value, int):  # e.g. a typo, don't enable debug
+                        logging.warning(f'unknown log level: "{level}"')
+                        value = curr_value
 
             elif value.lower() == 'true':
                 value = True
