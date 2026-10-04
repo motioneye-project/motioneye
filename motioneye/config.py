@@ -869,22 +869,14 @@ def main_ui_to_dict(ui):
             except Exception as e:
                 logging.error(f'password hook exec failed: {e}')
 
-    if ui.get('admin_password') not in (None, '*****'):  # ***** is the unchanged one
-        if ui['admin_password']:
-            data['@admin_password'] = ph.hash(ui['admin_password'])
-            invalidate_user_sessions('admin')
-        else:
-            data['@admin_password'] = ''
-
+    if ui.get('admin_password'):  # left out or empty when unchanged
+        data['@admin_password'] = ph.hash(ui['admin_password'])
+        invalidate_user_sessions('admin')
         call_hook(ui['admin_username'], ui['admin_password'])
 
-    if ui.get('normal_password') not in (None, '*****'):
-        if ui['normal_password']:
-            data['@normal_password'] = ph.hash(ui['normal_password'])
-            invalidate_user_sessions('normal')
-        else:
-            data['@normal_password'] = ''
-
+    if ui.get('normal_password'):
+        data['@normal_password'] = ph.hash(ui['normal_password'])
+        invalidate_user_sessions('normal')
         call_hook(ui['normal_username'], ui['normal_password'])
 
     if ui.get('lang') is not None:
@@ -909,18 +901,11 @@ def main_dict_to_ui(data):
     if data['@lang']:
         ui['lang'] = data['@lang']
 
-    # don't transmit password (or its hash) to the client;
-    # instead transmit an indication of password being set
-    if data['@admin_password']:
-        ui['admin_password'] = '*****'
-
-    else:
+    # a set password is left out, the UI shows ***** for it
+    if not data['@admin_password']:
         ui['admin_password'] = ''
 
-    if data['@normal_password']:
-        ui['normal_password'] = '*****'
-
-    else:
+    if not data['@normal_password']:
         ui['normal_password'] = ''
 
     ui['_client_secret'] = data.get('@client_secret', '')
@@ -1086,8 +1071,8 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         if not streaming_username:
             streaming_username = prev_stream_username
 
-        # UI omits the password when unchanged, API clients may send back the mask.
-        if not streaming_password or streaming_password == '*****':
+        # UI omits the password when unchanged.
+        if not streaming_password:
             streaming_password = prev_stream_password
 
         # No hard fail: if still missing, keep stream_authentication empty.
@@ -1650,7 +1635,8 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
         streaming_username = parts[0]
         streaming_password = parts[1] if len(parts) > 1 else ''
         ui['streaming_username'] = streaming_username
-        ui['streaming_password'] = '*****' if streaming_password else ''
+        if streaming_password:  # left out when set, the UI shows ***** for it
+            del ui['streaming_password']
 
     if utils.is_net_camera(data):
         ui['device_url'] = data['netcam_url']

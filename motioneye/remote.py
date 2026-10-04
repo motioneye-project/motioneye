@@ -257,6 +257,10 @@ async def get_config(local_config) -> utils.GetConfigResponse:
         response['host'] = host
         response['port'] = port
 
+        # a set password is left out, older remotes send it masked
+        if response.get('streaming_password'):
+            del response['streaming_password']
+
         return utils.GetConfigResponse(remote_ui_config=response, error=None)
 
 

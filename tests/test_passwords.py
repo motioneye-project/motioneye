@@ -17,7 +17,7 @@
 import unittest
 from shutil import rmtree
 from tempfile import mkdtemp
-from unittest.mock import patch
+from unittest.mock import call, patch
 
 from motioneye import config
 
@@ -38,33 +38,43 @@ class _Case(unittest.TestCase):
 
 
 class MainPasswordsTest(_Case):
-    # API clients post back what they read: the passwords masked as *****
     def setUp(self):
         self.sessions = self._patch('motioneye.handlers.base.invalidate_user_sessions')
         self.hook = self._patch('motioneye.utils.call_subprocess')
         self._patch('motioneye.settings.PASSWORD_HOOK', 'hook')
 
-    def test_masked_passwords_are_kept(self):
+    def test_set_passwords_are_left_out_and_kept(self):
         ui = config.main_dict_to_ui(_MAIN)
-        self.assertEqual('*****', ui['admin_password'])
-        self.assertEqual('*****', ui['normal_password'])
+        self.assertNotIn('admin_password', ui)
+        self.assertNotIn('normal_password', ui)
 
-        data = config.main_ui_to_dict(ui)
+        data = config.main_ui_to_dict(ui)  # what API clients post back
+        ui.update({'admin_password': '', 'normal_password': ''})  # e.g. an older UI
+        data.update(config.main_ui_to_dict(ui))
 
-        self.assertNotIn('@admin_password', data)  # the stored hash stays
+        self.assertNotIn('@admin_password', data)  # the stored hashes stay
         self.assertNotIn('@normal_password', data)
         self.sessions.assert_not_called()
         self.hook.assert_not_called()
 
-    def test_new_and_empty_passwords_are_saved(self):
+    def test_unset_passwords_are_empty(self):
+        main = dict(_MAIN)
+        main.update({'@admin_password': '', '@normal_password': ''})
+
+        ui = config.main_dict_to_ui(main)
+
+        self.assertEqual('', ui['admin_password'])
+        self.assertEqual('', ui['normal_password'])
+
+    def test_new_passwords_are_saved(self):
         ui = config.main_dict_to_ui(_MAIN)
-        ui.update({'admin_password': 'n3w', 'normal_password': ''})
+        ui.update({'admin_password': 'n3w', 'normal_password': 'n3w2'})
 
         data = config.main_ui_to_dict(ui)
 
         self.assertTrue(config.ph.verify(data['@admin_password'], 'n3w'))
-        self.assertEqual('', data['@normal_password'])
-        self.sessions.assert_called_once_with('admin')
+        self.assertTrue(config.ph.verify(data['@normal_password'], 'n3w2'))
+        self.assertEqual([call('admin'), call('normal')], self.sessions.call_args_list)
         self.assertEqual(2, self.hook.call_count)
 
 
@@ -97,10 +107,21 @@ class StreamPasswordTest(_Case):
         ui['streaming_password'] = value
         return config.motion_camera_ui_to_dict(ui, self.camera)['stream_authentication']
 
-    def test_masked_password_is_kept(self):
+    def test_set_password_is_left_out_and_kept(self):
         ui = config.motion_camera_dict_to_ui(self.camera)
-        self.assertEqual('*****', ui['streaming_password'])
-        self.assertEqual('viewer:s3cret', self._post('*****'))
+        self.assertNotIn('streaming_password', ui)
+        self.assertEqual('viewer', ui['streaming_username'])
+
+        data = config.motion_camera_ui_to_dict(ui, self.camera)
+
+        self.assertEqual('viewer:s3cret', data['stream_authentication'])
+
+    def test_unset_password_is_empty(self):
+        self.camera['stream_authentication'] = 'viewer:'
+
+        ui = config.motion_camera_dict_to_ui(self.camera)
+
+        self.assertEqual('', ui['streaming_password'])
 
     def test_new_or_left_out_password(self):
         self.assertEqual('viewer:n3w', self._post('n3w'))

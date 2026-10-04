@@ -1762,9 +1762,9 @@ function dict2MainUi(dict) {
 
     $('#langSelect').val(dict['lang']);
     $('#adminUsernameEntry').val(dict['admin_username']); markHideIfNull('admin_username', 'adminUsernameEntry');
-    $('#adminPasswordEntry').val(dict['admin_password']); markHideIfNull('admin_password', 'adminPasswordEntry');
+    $('#adminPasswordEntry').val('admin_password' in dict ? dict['admin_password'] : '*****'); markHideIfNull('admin_username', 'adminPasswordEntry');
     $('#normalUsernameEntry').val(dict['normal_username']); markHideIfNull('normal_username', 'normalUsernameEntry');
-    $('#normalPasswordEntry').val(dict['normal_password']); markHideIfNull('normal_password', 'normalPasswordEntry');
+    $('#normalPasswordEntry').val('normal_password' in dict ? dict['normal_password'] : '*****'); markHideIfNull('normal_username', 'normalPasswordEntry');
 
     $('#clientSecretEntry').val(dict['_client_secret'] || '');
     markHideIfNull('_client_secret', 'clientSecretEntry');
@@ -2252,7 +2252,7 @@ function dict2CameraUi(dict) {
     $('#streamingPortEntry').val(dict['streaming_port']); markHideIfNull('streaming_port', 'streamingPortEntry');
     $('#streamingAuthModeSelect').val(dict['streaming_auth_mode']); markHideIfNull('streaming_auth_mode', 'streamingAuthModeSelect');
     $('#streamingUsernameEntry').val(dict['streaming_username']); markHideIfNull('streaming_username', 'streamingUsernameEntry');
-    $('#streamingPasswordEntry').val(dict['streaming_password']); markHideIfNull('streaming_password', 'streamingPasswordEntry');
+    $('#streamingPasswordEntry').val('streaming_password' in dict ? dict['streaming_password'] : '*****'); markHideIfNull('streaming_username', 'streamingPasswordEntry');
     $('#streamingMotion')[0].checked = dict['streaming_motion']; markHideIfNull('streaming_motion', 'streamingMotion');
 
     var cameraUrl = location.protocol + '//' + location.host + basePath + 'picture/' + dict.id + '/';
