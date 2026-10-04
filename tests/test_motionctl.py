@@ -18,35 +18,71 @@
 
 import os
 import unittest
+from contextlib import ExitStack
 from shutil import rmtree
 from tempfile import mkdtemp
 from unittest.mock import patch
 
-from motioneye import motionctl, settings
+from motioneye import config, motionctl, settings
 
 
 class MotionLogFileTest(unittest.TestCase):
     def setUp(self):
-        self.log_dir = mkdtemp()
+        self.tmp_dir = mkdtemp()
 
     def tearDown(self):
-        rmtree(self.log_dir)
+        rmtree(self.tmp_dir)
+
+    def _start(self, log_to_file):
+        with ExitStack() as stack:
+            stack.enter_context(
+                patch.multiple(
+                    settings,
+                    LOG_TO_FILE=log_to_file,
+                    LOG_PATH=self.tmp_dir,
+                    CONF_PATH=self.tmp_dir,
+                    RUN_PATH=self.tmp_dir,
+                    MJPG_CLIENT_IDLE_TIMEOUT=10,
+                )
+            )
+            stack.enter_context(
+                patch.object(
+                    config,
+                    'get_enabled_local_motion_cameras',
+                    return_value=[{'@id': 1}],
+                )
+            )
+            for name, value in (
+                ('running', False),
+                ('find_motion', ('motion', '4.7.0')),
+                ('is_motion_post43', True),
+                ('sleep', None),
+            ):
+                stack.enter_context(patch.object(motionctl, name, return_value=value))
+
+            popen = stack.enter_context(patch.object(motionctl, 'Popen'))
+            popen.return_value.poll.return_value = None
+            popen.return_value.pid = 1234
+            motionctl.start()
+
+        return popen.call_args.kwargs
 
     def test_no_log_file_when_log_to_file_disabled(self):
         # None makes Popen pass motionEye's own stdout/stderr on to motion
-        with patch.object(settings, 'LOG_TO_FILE', False):
-            self.assertIsNone(motionctl._get_motion_log_file())
+        kwargs = self._start(log_to_file=False)
+
+        self.assertIsNone(kwargs['stdout'])
+        self.assertIsNone(kwargs['stderr'])
+        self.assertFalse(os.path.exists(os.path.join(self.tmp_dir, 'motion.log')))
 
     def test_log_file_opened_when_log_to_file_enabled(self):
-        with patch.object(settings, 'LOG_TO_FILE', True), patch.object(
-            settings, 'LOG_PATH', self.log_dir
-        ):
-            log_file = motionctl._get_motion_log_file()
+        kwargs = self._start(log_to_file=True)
 
-        try:
-            self.assertEqual(os.path.join(self.log_dir, 'motion.log'), log_file.name)
-        finally:
-            log_file.close()
+        log_file = kwargs['stdout']
+        self.assertIs(log_file, kwargs['stderr'])
+        self.assertEqual(os.path.join(self.tmp_dir, 'motion.log'), log_file.name)
+        # motion holds its own copy of the file descriptor
+        self.assertTrue(log_file.closed)
 
 
 if __name__ == '__main__':

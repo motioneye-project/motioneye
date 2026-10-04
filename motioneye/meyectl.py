@@ -230,11 +230,8 @@ def load_settings():
         settings.LOG_TO_FILE = True
 
 
-def configure_logging(cmd, log_to_file=None):
-    if log_to_file is None:
-        log_to_file = settings.LOG_TO_FILE
-
-    if log_to_file or cmd != 'motioneye':
+def configure_logging(cmd):
+    if settings.LOG_TO_FILE or cmd != 'motioneye':
         fmt = f'%(asctime)s: [{cmd}] %(levelname)8s: %(message)s'
 
     else:
@@ -244,7 +241,7 @@ def configure_logging(cmd, log_to_file=None):
         logging.getLogger().removeHandler(h)
 
     try:
-        if log_to_file:
+        if settings.LOG_TO_FILE:
             log_file = os.path.join(settings.LOG_PATH, 'motioneye.log')
 
         else:

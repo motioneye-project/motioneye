@@ -35,12 +35,12 @@ class LogHandler(BaseHandler):
     def get(self, name):
         log = self.LOGS.get(name)
         if log is None:
-            raise HTTPError(404, 'no such log')
+            raise HTTPError(404, f'log file name "{name}" is undefined')
 
         path, filename = log
 
         if path.startswith('/') and not os.path.exists(path):
-            raise HTTPError(404, 'log file not found')
+            raise HTTPError(404, f'{name} log path "{path}" not found')
 
         self.set_header('Content-Type', 'text/plain')
         self.set_header('Content-Disposition', 'attachment; filename=' + filename + ';')
