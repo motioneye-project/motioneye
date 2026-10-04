@@ -178,17 +178,17 @@ class MigrationTest(_ConfigCase):
         with self.assertLogs(level='WARNING') as logs:
             self.assertTrue(self._move(camera))
 
-        warning = 'WARNING:root:could not read a command of camera 1'
-        self.assertEqual([warning], logs.output)  # once, for ours only
+        warning = 'WARNING:root:could not read on_event_start command of camera 1'
+        self.assertEqual([warning], logs.output)  # once per camera
         short = _short('sendtelegram')
         expected = f'{_RELAY} start %t; {custom}; {broken}; {short}'
         self.assertEqual(expected, camera['on_event_start'])
 
         camera = {'@id': 1, 'on_event_start': f'{_RELAY} start %t; {custom}; {short}'}
-        with patch('logging.warning') as warn:
+        with self.assertLogs(level='WARNING') as logs:
             self.assertFalse(self._move(camera))
 
-        warn.assert_not_called()  # nothing left to convert
+        self.assertEqual([warning], logs.output)  # a quoted ; is split there too
 
     def test_old_part_next_to_a_short_form_is_kept(self):
         # e.g. added by hand, the settings from the UI stay
@@ -257,7 +257,8 @@ class StartupTest(_ConfigCase):
         self.assertEqual([1, 3, 4], [c.args[0] for c in writes.call_args_list])
         output = '\n'.join(logs.output)
         self.assertNotIn('FAKE-', output)
-        self.assertIn('WARNING:root:could not read a command of camera 2', output)
+        warning = 'WARNING:root:could not read on_event_start command of camera 2'
+        self.assertIn(warning, output)
         error = 'ERROR:root:failed to migrate camera 3: read-only file system'
         self.assertIn(error, logs.output)
         for camera_id in (2, 3, 5):

@@ -22,8 +22,6 @@ from typing import Optional
 
 from motioneye import config, settings
 
-_EVENT = ['%t', config.MOMENT]  # how older versions ended these, before the time span
-
 
 def migrate_cameras() -> None:
     # camera configs of older versions, restored ones included; never raises
@@ -66,10 +64,10 @@ def _move_notification_settings(camera_id: int, camera_config: dict) -> bool:
             e = split(part)
 
         except ValueError:  # e.g. unbalanced quotes, kept as it is
-            unreadable = unreadable or 'meyectl' in part  # one of ours
+            unreadable = True
             continue
 
-        values = _OLD_SENDERS[name](e) if e[-3:-1] == _EVENT else None
+        values = _OLD_SENDERS[name](e) if e[-3:-1] == ['%t', config.MOMENT] else None
         if not values:
             continue
 
@@ -86,7 +84,7 @@ def _move_notification_settings(camera_id: int, camera_config: dict) -> bool:
         moved.append(name)
 
     if unreadable:
-        logging.warning(f'could not read a command of camera {camera_id}')
+        logging.warning(f'could not read on_event_start command of camera {camera_id}')
 
     if ';'.join(parts) == line:
         return False
@@ -110,7 +108,7 @@ def _old_sendmail(e: list) -> Optional[dict]:
         keys['account']: e[-9],
         keys['password']: e[-8].replace('\\;', ';').replace('%%', '%'),
         keys['tls']: e[-7].lower() == 'true',
-        keys['from']: e[-6],
+        keys['sender']: e[-6],
         keys['to']: e[-5],
         keys['timespan']: _time_span(e[-1]),
     }

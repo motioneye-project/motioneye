@@ -226,9 +226,9 @@ def main(parser, args):
 
     vars(options).update(stored, msg_id='motion_start')
 
-    if not getattr(options, 'from'):
+    if not options.sender:
         address = options.to.split(',')[0]
-        setattr(options, 'from', f'motionEye on {socket.gethostname()} <{address}>')
+        options.sender = f'motionEye on {socket.gethostname()} <{address}>'
 
     options.port = int(options.port)
     options.tls = options.tls.lower() == 'true'
@@ -241,7 +241,7 @@ def main(parser, args):
     # email notifications are critical
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_EMAIL
 
-    _from = getattr(options, 'from')
+    _from = options.sender
 
     logging.debug('server = %s' % options.server)
     logging.debug('port = %s' % options.port)

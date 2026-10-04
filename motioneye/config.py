@@ -704,7 +704,7 @@ SENDMAIL_KEYS = {
     'account': '@email_notifications_smtp_account',
     'password': '@email_notifications_smtp_password',
     'tls': '@email_notifications_smtp_tls',
-    'from': '@email_notifications_from',
+    'sender': '@email_notifications_from',
     'to': '@email_notifications_addresses',
     'timespan': '@email_notifications_picture_time_span',
 }
