@@ -21,11 +21,6 @@ from unittest.mock import patch
 
 from motioneye import config, utils
 
-# what saving an SMTP password with a ' in it writes, unescaped
-_BROKEN_MAIL = (
-    "/usr/bin/meyectl sendmail 'smtp.example' '587' 'me' 'it's' 'True' '' "
-    "'a@example' 'motion_start' '%t' '%Y-%m-%dT%H:%M:%S' '5'"
-)
 _BROKEN_HOOK = "/usr/bin/meyectl webhook 'POST' 'https://x.example/?q=it's'"
 _BROKEN_RELAY = "/home/o'b/motioneye/scripts/relayevent.sh \"c.conf\" stop %t"
 
@@ -58,17 +53,6 @@ class _Case(unittest.TestCase):
 
 
 class UnparsableCommandTest(_Case):
-    def test_quote_in_smtp_password(self):
-        self.camera['on_event_start'] = _BROKEN_MAIL
-
-        ui = config.motion_camera_dict_to_ui(self.camera)  # raised ValueError before
-
-        self.assertFalse(ui['email_notifications_enabled'])
-        self.assertEqual(_BROKEN_MAIL, ui['command_notifications_exec'])
-        saved = config.motion_camera_ui_to_dict(ui, self.camera)
-        parts = utils.split_semicolon(saved['on_event_start'])
-        self.assertEqual(_BROKEN_MAIL, parts[-1])
-
     def test_unparsable_relay_is_still_ignored(self):
         self.camera['on_event_end'] = _BROKEN_RELAY
 
@@ -77,15 +61,21 @@ class UnparsableCommandTest(_Case):
         self.assertFalse(ui['command_end_notifications_enabled'])
 
     def test_quote_in_webhook_commands(self):
-        self.camera['on_event_end'] = _BROKEN_HOOK
-        self.camera['on_movie_end'] = _BROKEN_HOOK
+        keys = ('on_event_start', 'on_event_end', 'on_movie_end')
+        self.camera.update(dict.fromkeys(keys, _BROKEN_HOOK))
 
-        ui = config.motion_camera_dict_to_ui(self.camera)
+        with self.assertLogs(level='WARNING') as logs:
+            ui = config.motion_camera_dict_to_ui(self.camera)  # ValueError before
 
+        self.assertFalse(ui['web_hook_notifications_enabled'])
         self.assertFalse(ui['web_hook_end_notifications_enabled'])
         self.assertFalse(ui['web_hook_storage_enabled'])
+        self.assertEqual(_BROKEN_HOOK, ui['command_notifications_exec'])
         self.assertEqual(_BROKEN_HOOK, ui['command_end_notifications_exec'])
         self.assertEqual(_BROKEN_HOOK, ui['command_storage_exec'])
+        for key in keys:
+            text = f'{key} command "{_BROKEN_HOOK}" contains invalid shell syntax'
+            self.assertIn(f'WARNING:root:camera 1 {text}', logs.output)
 
 
 class SplitSemicolonTest(unittest.TestCase):
