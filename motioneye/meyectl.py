@@ -145,7 +145,7 @@ def load_settings():
                 else:
                     value = getattr(logging, level.upper(), None)
                     if not isinstance(value, int):  # e.g. a typo, don't enable debug
-                        logging.warning(f'unknown log level: {level}')
+                        logging.warning(f'unknown log level: "{level}"')
                         value = curr_value
 
             elif value.lower() == 'true':

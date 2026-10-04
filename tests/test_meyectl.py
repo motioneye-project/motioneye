@@ -62,7 +62,7 @@ class LogLevelTest(unittest.TestCase):
         for name in ('debgu', 'basic_format', 'info # comment'):
             with self.subTest(log_level=name), self.assertLogs(level='WARNING') as logs:
                 self.assertEqual(logging.ERROR, self._load('error', name))
-                self.assertIn(f'unknown log level: {name}', '\n'.join(logs.output))
+                self.assertIn(f'unknown log level: "{name}"', '\n'.join(logs.output))
 
 
 if __name__ == '__main__':
