@@ -420,6 +420,9 @@ def run():
     configure_signals()
     logging.info(_('saluton! ĉi tio estas motionEye-servilo ') + VERSION)
 
+    test_requirements()
+    make_media_folders()
+
     state = authstate.build_password_hash_state(config.get_main())
     authstate.set_password_hash_state(state)
     if not authstate.validate_password_hash_state(state):
@@ -431,9 +434,6 @@ def run():
         )
 
     migration.migrate_cameras()  # before motion reads the camera configs
-
-    test_requirements()
-    make_media_folders()
 
     if settings.SMB_SHARES:
         stop, start = smbctl.update_mounts()  # @UnusedVariable

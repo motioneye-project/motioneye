@@ -310,14 +310,16 @@ class StartupTest(_ConfigCase):
         self._patch('motioneye.utils.authstate.set_password_hash_state')
         self._patch('motioneye.utils.authstate.validate_password_hash_state')
         self._patch('motioneye.migration.migrate_cameras', calls.migrate_cameras)
-        calls.test_requirements.side_effect = StopIteration  # before the media folders
         self._patch('motioneye.server.test_requirements', calls.test_requirements)
+        self._patch('motioneye.server.make_media_folders', calls.make_media_folders)
+        calls.start_motion.side_effect = StopIteration  # stop before motion starts
+        self._patch('motioneye.server.start_motion', calls.start_motion)
         with self.assertRaises(StopIteration):
             server.main(Mock(), [], 'start')
 
         names = [name for name, _, _ in calls.mock_calls]
-        expected = ['configure_logging', 'migrate_cameras', 'test_requirements']
-        self.assertEqual(expected, names)
+        expected = ['configure_logging', 'test_requirements', 'make_media_folders']
+        self.assertEqual(expected + ['migrate_cameras', 'start_motion'], names)
 
     def test_restore_converts_older_backups(self):
         self._write(1, self.old)
