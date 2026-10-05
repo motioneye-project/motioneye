@@ -158,8 +158,11 @@ def split_semicolon(s):
     parts = s.split(';')
     merged_parts = []
     for p in parts:
-        if merged_parts and merged_parts[-1][-1] == '\\':
+        if merged_parts and merged_parts[-1].endswith('\\'):  # also for empty parts
             merged_parts[-1] = merged_parts[-1][:-1] + ';' + p
+
+        elif merged_parts and not p:  # keep ;; as in case ... esac
+            merged_parts[-1] += ';'
 
         else:
             merged_parts.append(p)
