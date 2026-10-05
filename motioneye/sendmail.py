@@ -241,15 +241,13 @@ def main(parser, args):
     # email notifications are critical
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_EMAIL
 
-    _from = options.sender
-
     logging.debug('server = %s' % options.server)
     logging.debug('port = %s' % options.port)
     logging.debug('account = %s' % options.account)
     logging.debug('password = ******')
     logging.debug('server = %s' % options.server)
     logging.debug('tls = %s' % str(options.tls).lower())
-    logging.debug('from = %s' % _from)
+    logging.debug(f'from = {options.sender}')
     logging.debug('to = %s' % options.to)
     logging.debug('msg_id = %s' % options.msg_id)
     logging.debug('motion_camera_id = %s' % options.motion_camera_id)
@@ -270,7 +268,7 @@ def main(parser, args):
                 options.account,
                 options.password,
                 options.tls,
-                _from,
+                options.sender,
                 to,
                 subject,
                 message,
