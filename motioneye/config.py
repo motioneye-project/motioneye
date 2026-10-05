@@ -869,22 +869,14 @@ def main_ui_to_dict(ui):
             except Exception as e:
                 logging.error(f'password hook exec failed: {e}')
 
-    if ui.get('admin_password') is not None:
-        if ui['admin_password']:
-            data['@admin_password'] = ph.hash(ui['admin_password'])
-            invalidate_user_sessions('admin')
-        else:
-            data['@admin_password'] = ''
-
+    if ui.get('admin_password'):  # left out or empty when unchanged
+        data['@admin_password'] = ph.hash(ui['admin_password'])
+        invalidate_user_sessions('admin')
         call_hook(ui['admin_username'], ui['admin_password'])
 
-    if ui.get('normal_password') is not None:
-        if ui['normal_password']:
-            data['@normal_password'] = ph.hash(ui['normal_password'])
-            invalidate_user_sessions('normal')
-        else:
-            data['@normal_password'] = ''
-
+    if ui.get('normal_password'):
+        data['@normal_password'] = ph.hash(ui['normal_password'])
+        invalidate_user_sessions('normal')
         call_hook(ui['normal_username'], ui['normal_password'])
 
     if ui.get('lang') is not None:
@@ -909,18 +901,13 @@ def main_dict_to_ui(data):
     if data['@lang']:
         ui['lang'] = data['@lang']
 
-    # don't transmit password (or its hash) to the client;
-    # instead transmit an indication of password being set
-    if data['@admin_password']:
-        ui['admin_password'] = '*****'
-
-    else:
+    # Only transmit an empty string if no password is set, to show an empty
+    # input box in the frontend. If a password is set, transmit nothing, in
+    # which case the input box will show "*****".
+    if data['@admin_password'] == '':
         ui['admin_password'] = ''
 
-    if data['@normal_password']:
-        ui['normal_password'] = '*****'
-
-    else:
+    if data['@normal_password'] == '':
         ui['normal_password'] = ''
 
     ui['_client_secret'] = data.get('@client_secret', '')
@@ -1594,8 +1581,6 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
         'streaming_auth_mode': {0: 'disabled', 1: 'basic', 2: 'digest'}.get(
             data.get('stream_auth_method'), 'disabled'
         ),
-        'streaming_username': '',
-        'streaming_password': '',
         'streaming_motion': int(data['stream_motion']),
         # still images
         'still_images': False,
@@ -1658,12 +1643,13 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
     }
 
     stream_authentication = data.get('stream_authentication') or ''
-    if stream_authentication:
-        parts = stream_authentication.split(':', 1)
-        streaming_username = parts[0]
-        streaming_password = parts[1] if len(parts) > 1 else ''
-        ui['streaming_username'] = streaming_username
-        ui['streaming_password'] = '*****' if streaming_password else ''
+    streaming_username, _, streaming_password = stream_authentication.partition(':')
+    ui['streaming_username'] = streaming_username
+    # Only transmit an empty string if no password is set, to show an empty
+    # input box in the frontend. If a password is set, transmit nothing, in
+    # which case the input box will show "*****".
+    if streaming_password == '':
+        ui['streaming_password'] = ''
 
     if utils.is_net_camera(data):
         ui['device_url'] = data['netcam_url']

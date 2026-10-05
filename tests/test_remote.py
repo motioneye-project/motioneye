@@ -201,6 +201,18 @@ class TestRemoteGetConfig(unittest.IsolatedAsyncioTestCase):
         self.assertIsNone(resp.error)
         self.assertTrue(resp.remote_ui_config['enabled'])
 
+    async def test_set_streaming_password_is_left_out(self):
+        # older remotes send it masked, an unset one is empty
+        for sent, expected in (('*****', {}), ('', {'streaming_password': ''})):
+            body = {'streaming_username': 'viewer', 'streaming_password': sent}
+            with patch.object(
+                remote, '_send_request', AsyncMock(return_value=self._answer(body))
+            ):
+                resp = await remote.get_config(self._LOCAL_CONFIG)
+
+            expected.update(streaming_username='viewer', host='hub.example', port=8765)
+            self.assertEqual(expected, resp.remote_ui_config)
+
 
 if __name__ == '__main__':
     unittest.main()
