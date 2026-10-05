@@ -17,7 +17,7 @@
 import unittest
 from unittest.mock import Mock, patch
 
-from motioneye import config, meyectl, migration
+from motioneye import config, migration, server
 from motioneye.handlers.config import ConfigHandler
 from tests.test_notification_settings import (
     _CONF,
@@ -299,21 +299,24 @@ class StartupTest(_ConfigCase):
         kept = config.get_camera(1)['on_event_start']
         self.assertEqual(self.old['on_event_start'], kept)
 
-    def test_startserver_migrates_before_the_server_starts(self):
+    def test_startup_migrates_after_logging_is_configured(self):
         calls = Mock()
-        self._patch('sys.argv', ['meyectl', 'startserver', '-c', _CONF])
-        self._patch('motioneye.meyectl.configure_multiprocessing')
-        self._patch('motioneye.meyectl.load_settings', calls.load_settings)
-        self._patch('motioneye.meyectl.load_l10n', calls.load_l10n)
+        options = Mock(background=False, log_to_file=False)
+        self._patch('motioneye.server.parse_options', return_value=options)
+        self._patch('motioneye.meyectl.configure_logging', calls.configure_logging)
+        self._patch('motioneye.meyectl.configure_tornado')
+        self._patch('motioneye.server.configure_signals')
         self._patch('motioneye.utils.authstate.build_password_hash_state')
         self._patch('motioneye.utils.authstate.set_password_hash_state')
         self._patch('motioneye.utils.authstate.validate_password_hash_state')
         self._patch('motioneye.migration.migrate_cameras', calls.migrate_cameras)
-        self._patch('motioneye.server.main', calls.server_main)
-        meyectl.main()
+        calls.test_requirements.side_effect = StopIteration  # before the media folders
+        self._patch('motioneye.server.test_requirements', calls.test_requirements)
+        with self.assertRaises(StopIteration):
+            server.main(Mock(), [], 'start')
 
         names = [name for name, _, _ in calls.mock_calls]
-        expected = ['load_settings', 'load_l10n', 'migrate_cameras', 'server_main']
+        expected = ['configure_logging', 'migrate_cameras', 'test_requirements']
         self.assertEqual(expected, names)
 
     def test_restore_converts_older_backups(self):

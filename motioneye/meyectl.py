@@ -361,26 +361,7 @@ def main():
     load_l10n()
 
     if command in ('startserver', 'stopserver'):
-        from motioneye import migration, server
-        from motioneye.utils.authstate import (
-            build_password_hash_state,
-            set_password_hash_state,
-            validate_password_hash_state,
-        )
-
-        if command == "startserver":
-            main_config = config.get_main()
-            state = build_password_hash_state(main_config)
-            set_password_hash_state(state)
-            if not validate_password_hash_state(state):
-                logging.warning(
-                    _(
-                        'The admin and/or surveillance user has no password assigned. '
-                        'Please login to the web interface to set both passwords.'
-                    )
-                )
-
-            migration.migrate_cameras()  # before motion reads the camera configs
+        from motioneye import server
 
         server.main(arg_parser, sys.argv[2:], command[:-6])
 

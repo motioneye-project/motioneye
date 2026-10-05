@@ -29,7 +29,7 @@ from typing import Sequence, Tuple
 from tornado.ioloop import IOLoop
 from tornado.web import Application
 
-from motioneye import settings, template
+from motioneye import config, migration, settings, template
 from motioneye.controls import smbctl, v4l2ctl
 from motioneye.handlers.action import ActionHandler
 from motioneye.handlers.base import ManifestHandler, NotFoundHandler
@@ -44,6 +44,7 @@ from motioneye.handlers.picture import PictureHandler
 from motioneye.handlers.power import PowerHandler
 from motioneye.handlers.prefs import PrefsHandler
 from motioneye.handlers.relay_event import RelayEventHandler
+from motioneye.utils import authstate
 
 _PID_FILE = 'motioneye.pid'
 _CURRENT_PICTURE_REGEX = re.compile(r'^/picture/\d+/current')
@@ -418,6 +419,18 @@ def run():
 
     configure_signals()
     logging.info(_('saluton! ĉi tio estas motionEye-servilo ') + VERSION)
+
+    state = authstate.build_password_hash_state(config.get_main())
+    authstate.set_password_hash_state(state)
+    if not authstate.validate_password_hash_state(state):
+        logging.warning(
+            _(
+                'The admin and/or surveillance user has no password assigned. '
+                'Please login to the web interface to set both passwords.'
+            )
+        )
+
+    migration.migrate_cameras()  # before motion reads the camera configs
 
     test_requirements()
     make_media_folders()
