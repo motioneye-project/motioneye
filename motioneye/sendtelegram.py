@@ -151,17 +151,24 @@ def make_message(
 
 
 def parse_options(parser, args):
+    # the settings are in the camera config
     parser.description = 'Send Telegram using bot api'
-    parser.add_argument('api', help='telegram api key')
-    parser.add_argument('chatid', help='telegram chat room id')
     parser.add_argument('motion_camera_id', help='the id of the motion camera')
-    parser.add_argument(
-        'moment',
-        help='the moment in ISO-8601 format',
-        type=datetime.datetime.fromisoformat,
-    )
-    parser.add_argument('timespan', help='picture collection time span')
-    return parser.parse_args(args)
+    parser.add_argument('moment', help='the moment in ISO-8601 format')
+    options, extra = parser.parse_known_args(args)
+    if extra:  # without their values, they may be secrets
+        parser.error(
+            f'{len(extra)} unexpected arguments, '
+            'motionEye converts its own older commands when it starts'
+        )
+
+    try:  # not a type=, older commands have the chat id here
+        options.moment = datetime.datetime.fromisoformat(options.moment)
+
+    except ValueError:
+        parser.error('moment must be in ISO-8601 format')
+
+    return options
 
 
 def main(parser, args):
@@ -175,6 +182,16 @@ def main(parser, args):
     logging.debug(options)
     message = 'Motion has been detected by camera "%(camera)s/%(hostname)s" at %(moment)s (%(timezone)s).'
 
+    camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
+    stored = config.get_notification_settings(camera_id, config.SENDTELEGRAM_KEYS)
+    if not stored:
+        logging.error(
+            f'motion camera {options.motion_camera_id} has no Telegram settings'
+        )
+        return
+
+    vars(options).update(stored)
+
     # do not wait too long for media list,
     # telegram notifications are critical
     try:
@@ -183,8 +200,6 @@ def main(parser, args):
         options.timespan = 0
 
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_TELEGRAM
-
-    camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
 
     def on_message(message, files):
         try:

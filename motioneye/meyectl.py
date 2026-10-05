@@ -361,7 +361,7 @@ def main():
     load_l10n()
 
     if command in ('startserver', 'stopserver'):
-        from motioneye import server
+        from motioneye import migration, server
         from motioneye.utils.authstate import (
             build_password_hash_state,
             set_password_hash_state,
@@ -379,6 +379,8 @@ def main():
                         'Please login to the web interface to set both passwords.'
                     )
                 )
+
+            migration.migrate_cameras()  # before motion reads the camera configs
 
         server.main(arg_parser, sys.argv[2:], command[:-6])
 
