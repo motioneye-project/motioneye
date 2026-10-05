@@ -260,7 +260,10 @@ async def get_config(local_config) -> utils.GetConfigResponse:
         # Only forward an empty string, which indicates that no password is set.
         # New backends send nothing if a password is set, but old backends send
         # "*****" instead, which is unset here to align with new behavior.
-        if response.get('streaming_password') is not None and response['streaming_password'] != '':
+        if (
+            response.get('streaming_password') is not None
+            and response['streaming_password'] != ''
+        ):
             del response['streaming_password']
 
         return utils.GetConfigResponse(remote_ui_config=response, error=None)
