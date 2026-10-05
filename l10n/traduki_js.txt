@@ -1,14 +1,11 @@
 
 
 Ni uzas por ĉiu lingvo json-dosieron, kiu enhavas la tradukojn.
-meyectl.load_l10n() ŝarĝas ĉi tiun dosieron en settings.js_translations, kaj "templates/main.html" enmetas ĝin rekte en la paĝon:
+meyectl.load_l10n() ŝarĝas ĉi tiun dosieron en settings.js_translations, kaj "templates/main.html" enmetas ĝin en la JSON-blokon <script type="application/json" id="pageData">, kiun "static/js/main.js" legas:
 
-    <script type="text/javascript" src="{{static_path}}js/gettext.min.js"></script>
-    <script type="text/javascript">
       var i18n = window.i18n();
-      i18n.loadJSON({{ settings.js_translations|tojson }}, 'messages');
-      i18n.setLocale('{{settings.lingvo}}');
-    </script>
+      i18n.loadJSON(pageData.translations, 'messages');
+      i18n.setLocale(pageData.lingvo);
 
 Kaj ni uzas la funkcion i18n.gettext donitan de gettext.min.js por traduki, ekz. :
      return i18n.gettext("Ĉi tiu kampo estas deviga");

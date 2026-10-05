@@ -33,6 +33,20 @@ var qualifyURLElement;
 var cameraFrameRatios = [];
 var forcePasswordChange = false; /* flag to track if user needs to set password */
 
+/* page data and translations, see main.html */
+var pageData = JSON.parse(document.getElementById('pageData').textContent);
+var staticPath = pageData.staticPath;
+var frame = pageData.frame;
+var hasLocalCamSupport = pageData.hasMotion;
+var hasNetCamSupport = pageData.hasMotion;
+var maskWidth = pageData.maskWidth;
+var currentUser = pageData.currentUser;
+var i18n = window.i18n();
+if (pageData.translations) {
+    i18n.loadJSON(pageData.translations, 'messages');
+}
+i18n.setLocale(pageData.lingvo);
+
 
     /* Object utilities */
 
@@ -399,7 +413,6 @@ function doLogout() {
     });
 }
 
-// eslint-disable-next-line no-unused-vars
 function authorizeUpload() {
     var service = $('#uploadServiceSelect').val();
     var cameraId = $('#cameraSelect').val();
@@ -3162,24 +3175,6 @@ function showUrl(url) {
     selection.addRange(range);
 }
 
-// eslint-disable-next-line no-unused-vars
-function showSnapshotUrl() {
-    var url = $('#streamingSnapshotUrlHtml').data('url');
-    showUrl(url);
-}
-
-// eslint-disable-next-line no-unused-vars
-function showMjpgUrl() {
-    var url = $('#streamingMjpgUrlHtml').data('url');
-    showUrl(url);
-}
-
-// eslint-disable-next-line no-unused-vars
-function showEmbedUrl() {
-    var url = $('#streamingEmbedUrlHtml').data('url');
-    showUrl(url);
-}
-
 
     /* fetch & push */
 
@@ -5157,7 +5152,7 @@ function recreateCameraFrames(cameras) {
         if ($('#cameraSelect').find('option').length < 2 && isAdmin() && !query.camera_ids) {
             /* invite the user to add a camera */
             var addCameraLink = $('<div class="add-camera-message">' +
-                    '<a href="javascript:runAddCameraDialog()">' +
+                    '<a href="#">' +
                     i18n.gettext('Vi ankoraŭ ne agordis iun kameraon. Alklaku ĉi tie por aldoni unu ...') +
                     '</a></div>');
             getPageContainer().append(addCameraLink);
@@ -5522,6 +5517,24 @@ $(document).on('click', '.secret-toggle', function () {
     var isHidden = input.attr('type') === 'password';
     input.attr('type', isHidden ? 'text' : 'password');
     $(this).css('opacity', isHidden ? '1' : '0.6');
+});
+$(document).on('mouseenter mouseleave', '.secret-toggle', function (e) {
+    this.style.opacity = e.type === 'mouseenter' ? 1 : 0.6;
+});
+$(document).on('click', '#authorizeLinkHtml a', function () {
+    authorizeUpload();
+    return false;
+});
+$(document).on('click', '#streamingSnapshotUrlHtml a, #streamingMjpgUrlHtml a, #streamingEmbedUrlHtml a', function () {
+    showUrl($(this).parent().data('url'));
+    return false;
+});
+$(document).on('click', 'div.add-camera-message a', function () {
+    runAddCameraDialog();
+    return false;
+});
+$(document).on('mousedown', 'img.background-logo', function (e) {
+    e.preventDefault();
 });
 $(document).ready(function () {
     modalContainer = $('div.modal-container');
