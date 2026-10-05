@@ -56,7 +56,7 @@ MEDIA_PATH = '/var/lib/motioneye'
 LOG_LEVEL = logging.INFO
 
 # whether to write logs to files in log_path
-# instead of standard error / standard output
+# instead of standard error (motionEye) and syslog (motion)
 LOG_TO_FILE = False
 
 # the IP address to listen on

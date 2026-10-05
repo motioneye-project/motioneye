@@ -14,12 +14,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-"""Tests verifying where motion's output is sent, depending on log_to_file."""
+"""Tests verifying where motion logs to, depending on log_to_file."""
 
 import os
 import unittest
 from contextlib import ExitStack
 from shutil import rmtree
+from subprocess import DEVNULL
 from tempfile import mkdtemp
 from unittest.mock import patch
 
@@ -65,24 +66,26 @@ class MotionLogFileTest(unittest.TestCase):
             popen.return_value.pid = 1234
             motionctl.start()
 
-        return popen.call_args.kwargs
+        return popen.call_args
 
-    def test_no_log_file_when_log_to_file_disabled(self):
-        # None makes Popen pass motionEye's own stdout/stderr on to motion
-        kwargs = self._start(log_to_file=False)
+    def test_motion_logs_to_syslog_when_log_to_file_disabled(self):
+        args, kwargs = self._start(log_to_file=False)
 
-        self.assertIsNone(kwargs['stdout'])
-        self.assertIsNone(kwargs['stderr'])
-        self.assertFalse(os.path.exists(os.path.join(self.tmp_dir, 'motion.log')))
+        self.assertNotIn('-l', args[0])
+        # muted, as motion logs to syslog as well, which would duplicate lines
+        self.assertIs(DEVNULL, kwargs['stdout'])
+        self.assertIs(DEVNULL, kwargs['stderr'])
 
-    def test_log_file_opened_when_log_to_file_enabled(self):
-        kwargs = self._start(log_to_file=True)
+    def test_motion_logs_to_file_when_log_to_file_enabled(self):
+        args, kwargs = self._start(log_to_file=True)
 
-        log_file = kwargs['stdout']
-        self.assertIs(log_file, kwargs['stderr'])
-        self.assertEqual(os.path.join(self.tmp_dir, 'motion.log'), log_file.name)
-        # motion holds its own copy of the file descriptor
-        self.assertTrue(log_file.closed)
+        motion_args = args[0]
+        log_index = motion_args.index('-l')
+        self.assertEqual(
+            os.path.join(self.tmp_dir, 'motion.log'), motion_args[log_index + 1]
+        )
+        self.assertIs(DEVNULL, kwargs['stdout'])
+        self.assertIs(DEVNULL, kwargs['stderr'])
 
 
 if __name__ == '__main__':
