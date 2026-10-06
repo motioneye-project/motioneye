@@ -117,11 +117,17 @@ def start(deferred=False):
 
     # By default, motion logs to STDERR and syslog.
     # So we mute its STDOUT/STDERR, to let it log to file or syslog only.
+    # Without syslog, e.g. in a container, it inherits motionEye's instead.
     if settings.LOG_TO_FILE:
         args += ['-l', join(settings.LOG_PATH, 'motion.log')]
+        output = DEVNULL
+    elif exists('/dev/log'):
+        output = DEVNULL
+    else:
+        output = None
 
     process = Popen(
-        args, stdout=DEVNULL, stderr=DEVNULL, close_fds=True, cwd=settings.CONF_PATH
+        args, stdout=output, stderr=output, close_fds=True, cwd=settings.CONF_PATH
     )
 
     # wait 2 seconds to see that the process has successfully started

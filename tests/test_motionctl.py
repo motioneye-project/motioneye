@@ -34,7 +34,7 @@ class MotionLogFileTest(unittest.TestCase):
     def tearDown(self):
         rmtree(self.tmp_dir)
 
-    def _start(self, log_to_file):
+    def _start(self, log_to_file, syslog=True):
         with ExitStack() as stack:
             stack.enter_context(
                 patch.multiple(
@@ -61,6 +61,14 @@ class MotionLogFileTest(unittest.TestCase):
             ):
                 stack.enter_context(patch.object(motionctl, name, return_value=value))
 
+            stack.enter_context(
+                patch.object(
+                    motionctl,
+                    'exists',
+                    side_effect=lambda p: syslog and p == '/dev/log',
+                )
+            )
+
             popen = stack.enter_context(patch.object(motionctl, 'Popen'))
             popen.return_value.poll.return_value = None
             popen.return_value.pid = 1234
@@ -76,8 +84,18 @@ class MotionLogFileTest(unittest.TestCase):
         self.assertIs(DEVNULL, kwargs['stdout'])
         self.assertIs(DEVNULL, kwargs['stderr'])
 
+    def test_motion_logs_to_stderr_without_syslog(self):
+        # e.g. in a container, where nothing listens on /dev/log
+        args, kwargs = self._start(log_to_file=False, syslog=False)
+
+        self.assertNotIn('-l', args[0])
+        # None makes Popen pass motionEye's own stdout/stderr on to motion
+        self.assertIsNone(kwargs['stdout'])
+        self.assertIsNone(kwargs['stderr'])
+
     def test_motion_logs_to_file_when_log_to_file_enabled(self):
-        args, kwargs = self._start(log_to_file=True)
+        # muted even without syslog, as motion then logs to the file only
+        args, kwargs = self._start(log_to_file=True, syslog=False)
 
         motion_args = args[0]
         log_index = motion_args.index('-l')
