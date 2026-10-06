@@ -120,8 +120,8 @@ def start(deferred=False):
     # Without syslog, e.g. in a container, it inherits motionEye's instead.
     if settings.LOG_TO_FILE:
         args += ['-l', join(settings.LOG_PATH, 'motion.log')]
-        output = DEVNULL
-    elif exists('/dev/log'):
+
+    if exists('/dev/log'):
         output = DEVNULL
     else:
         output = None

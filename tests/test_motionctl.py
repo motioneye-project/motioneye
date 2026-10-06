@@ -93,17 +93,28 @@ class MotionLogFileTest(unittest.TestCase):
         self.assertIsNone(kwargs['stdout'])
         self.assertIsNone(kwargs['stderr'])
 
-    def test_motion_logs_to_file_when_log_to_file_enabled(self):
-        # muted even without syslog, as motion then logs to the file only
-        args, kwargs = self._start(log_to_file=True, syslog=False)
-
+    def _assert_log_file(self, args):
         motion_args = args[0]
         log_index = motion_args.index('-l')
         self.assertEqual(
             os.path.join(self.tmp_dir, 'motion.log'), motion_args[log_index + 1]
         )
+
+    def test_motion_logs_to_file_when_log_to_file_enabled(self):
+        args, kwargs = self._start(log_to_file=True)
+
+        self._assert_log_file(args)
+        # early startup logs go to syslog, until motion switches to the file
         self.assertIs(DEVNULL, kwargs['stdout'])
         self.assertIs(DEVNULL, kwargs['stderr'])
+
+    def test_motion_logs_to_file_and_stderr_without_syslog(self):
+        args, kwargs = self._start(log_to_file=True, syslog=False)
+
+        self._assert_log_file(args)
+        # keeps early startup logs, until motion switches to the file
+        self.assertIsNone(kwargs['stdout'])
+        self.assertIsNone(kwargs['stderr'])
 
 
 if __name__ == '__main__':
