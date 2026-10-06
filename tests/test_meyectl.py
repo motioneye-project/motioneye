@@ -65,5 +65,56 @@ class LogLevelTest(unittest.TestCase):
                 self.assertIn(f'unknown log level: "{name}"', '\n'.join(logs.output))
 
 
+class LoadSettingsLogToFileTest(unittest.TestCase):
+    # load_settings() assigns to these module globals directly, so patching
+    # cannot undo it; snapshot and restore them to keep other tests isolated
+    _SETTINGS = (
+        'CONF_PATH',
+        'RUN_PATH',
+        'LOG_PATH',
+        'MEDIA_PATH',
+        'LOG_LEVEL',
+        'LOG_TO_FILE',
+        'config_file',
+    )
+
+    def setUp(self):
+        self.conf_dir = mkdtemp()
+        self.saved = {name: getattr(settings, name) for name in self._SETTINGS}
+
+    def tearDown(self):
+        for name, value in self.saved.items():
+            setattr(settings, name, value)
+
+        rmtree(self.conf_dir)
+
+    def _load_settings(self, conf, argv=()):
+        conf_file = os.path.join(self.conf_dir, 'motioneye.conf')
+        with open(conf_file, 'w') as f:
+            f.write(conf)
+
+        with patch.object(
+            sys, 'argv', ['meyectl', 'startserver', '-c', conf_file, *argv]
+        ):
+            meyectl.load_settings()
+
+    def test_log_to_file_disabled_by_default(self):
+        self._load_settings('log_level info\n')
+        self.assertEqual(False, settings.LOG_TO_FILE)
+
+    def test_log_to_file_false_from_config(self):
+        # the string is parsed as a bool, not fed to int() (#3330)
+        self._load_settings('log_to_file false\n')
+        self.assertEqual(False, settings.LOG_TO_FILE)
+
+    def test_log_to_file_true_from_config(self):
+        self._load_settings('log_to_file true\n')
+        self.assertEqual(True, settings.LOG_TO_FILE)
+
+    def test_l_argument_overrides_config(self):
+        self._load_settings('log_to_file false\n', argv=('-l',))
+        self.assertEqual(True, settings.LOG_TO_FILE)
+
+
 if __name__ == '__main__':
     unittest.main()

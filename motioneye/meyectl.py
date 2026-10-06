@@ -114,6 +114,7 @@ def load_settings():
 
     config_file = None
     debug = False
+    log_to_file = False
 
     for i in range(1, len(sys.argv)):
         arg = sys.argv[i]
@@ -123,6 +124,9 @@ def load_settings():
 
         elif arg == '-d':
             debug = True
+
+        elif arg == '-l':
+            log_to_file = True
 
     conf_path_given = [False]
     run_path_given = [False]
@@ -222,10 +226,12 @@ def load_settings():
     if debug:
         settings.LOG_LEVEL = logging.DEBUG
 
+    if log_to_file:
+        settings.LOG_TO_FILE = True
 
-def configure_logging(cmd, log_to_file=False):
-    sys.stderr.write(f'configure_logging cmd {cmd}: {log_to_file}\n')
-    if log_to_file or cmd != 'motioneye':
+
+def configure_logging(cmd):
+    if settings.LOG_TO_FILE or cmd != 'motioneye':
         fmt = f'%(asctime)s: [{cmd}] %(levelname)8s: %(message)s'
 
     else:
@@ -235,13 +241,12 @@ def configure_logging(cmd, log_to_file=False):
         logging.getLogger().removeHandler(h)
 
     try:
-        if log_to_file:
+        if settings.LOG_TO_FILE:
             log_file = os.path.join(settings.LOG_PATH, 'motioneye.log')
 
         else:
             log_file = None
 
-        sys.stderr.write(f'configure logging to file: {log_file}\n')
         logging.basicConfig(
             filename=log_file,
             level=settings.LOG_LEVEL,
@@ -308,7 +313,7 @@ def make_arg_parser(command=None):
     )
     parser.add_argument(
         '-l',
-        help='log to file instead of standard error',
+        help='log to file instead of standard error, overriding the config file setting',
         action='store_true',
         dest='log_to_file',
     )

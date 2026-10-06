@@ -21,7 +21,7 @@ from os import WNOHANG, kill, waitpid
 from os.path import exists, join
 from shlex import quote
 from signal import SIGKILL, SIGTERM
-from subprocess import CalledProcessError, Popen
+from subprocess import DEVNULL, CalledProcessError, Popen
 from time import sleep
 
 from tornado.httpclient import AsyncHTTPClient, HTTPRequest
@@ -99,7 +99,6 @@ def start(deferred=False):
     logging.debug(f'starting motion executable "{binary}" version "{version}"')
 
     motion_cfg_path = join(settings.CONF_PATH, 'motion.conf')
-    motion_log_path = join(settings.LOG_PATH, 'motion.log')
     motion_pid_path = join(settings.RUN_PATH, 'motion.pid')
 
     args = [binary, '-n', '-c', motion_cfg_path, '-d']
@@ -116,13 +115,20 @@ def start(deferred=False):
     else:  # fatal, quiet
         args.append('1')
 
-    log_file = open(motion_log_path, 'w')
+    # By default, motion logs to STDERR and syslog.
+    # So we mute its STDOUT/STDERR, to let it log to file or syslog only.
+    # Without syslog, e.g. in a container, it inherits motionEye's instead.
+    if settings.LOG_TO_FILE:
+        args += ['-l', join(settings.LOG_PATH, 'motion.log')]
+
+    if exists('/dev/log'):
+        output = DEVNULL
+    else:
+        output = None
 
     process = Popen(
-        args, stdout=log_file, stderr=log_file, close_fds=True, cwd=settings.CONF_PATH
+        args, stdout=output, stderr=output, close_fds=True, cwd=settings.CONF_PATH
     )
-
-    log_file.close()
 
     # wait 2 seconds to see that the process has successfully started
     for _ in range(20):
