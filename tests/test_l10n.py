@@ -1,5 +1,6 @@
 import builtins
 import json
+import os
 import re
 import unittest
 from unittest.mock import patch
@@ -62,11 +63,17 @@ class L10nTest(unittest.TestCase):
         html = self.render('eo')
         self.assertIsNone(self.page_data(html)['translations'])
 
+    def test_scripts_add_no_inline_style(self):
+        for name in ('main.js', 'ui.js', 'frame.js'):
+            path = os.path.join(settings.STATIC_PATH, 'js', name)
+            with open(path, encoding='utf-8') as f:
+                self.assertEqual([], re.findall(r'.*style=.*', f.read()), name)
+
     def page_values(self, html):
         data = self.page_data(html)
         return tuple(data[k] for k in _PAGE_KEYS)
 
-    def test_pages_have_no_inline_script(self):
+    def test_pages_have_no_inline_script_or_style(self):
         main = self.render('en', has_motion=True, mask_width=32, current_user='admin')
         camera = {'stream_maxrate': 5, '@proto': 'mjpeg', '@url': 'http://cam/'}
         up = '../../../static/'
@@ -77,6 +84,7 @@ class L10nTest(unittest.TestCase):
                 self.assertRegex(attrs, r' src=|type="application/json"')
             self.assertIsNone(re.search(r'\son[a-z]+=', html))
             self.assertNotIn('javascript:', html)
+            self.assertIsNone(re.search(r'\sstyle=|<style', html))
 
         self.assertEqual(('static/', False, True, 32, 'admin'), self.page_values(main))
         self.assertEqual((up, True, False, None, ''), self.page_values(frame))

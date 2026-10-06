@@ -2540,7 +2540,7 @@ function downloadFile(path) {
     var parts = url.split('/');
     url = parts.slice(0, 3).join('/') + path;
     /* download the file by creating a temporary iframe */
-    var frame = $('<iframe style="display: none;"></iframe>');
+    var frame = $('<iframe hidden></iframe>');
     frame.attr('src', url);
     $('body').append(frame);
 }
@@ -2856,7 +2856,7 @@ function doRestore() {
             refreshInterval = 1000000;
 
             setTimeout(function () {
-                showModalDialog('<div style="text-align: center;"><span>'+i18n.gettext("Restaŭriganta agordon ...")+'</span><div class="modal-progress"></div></div>');
+                showModalDialog('<div class="restore-progress"><span>'+i18n.gettext("Restaŭriganta agordon ...")+'</span><div class="modal-progress"></div></div>');
                 uploadFile(basePath + 'config/restore/', fileInput, function (data) {
                     if (data && data.ok) {
                         var count = 0;
@@ -3963,7 +3963,7 @@ function runAddCameraDialog() {
     }
 
     function listCameras() {
-        var progress = $('<div style="text-align: center; margin: 2px;"><img src="' + staticPath + 'img/small-progress.gif"></div>');
+        var progress = $('<div class="add-camera-progress"><img src="' + staticPath + 'img/small-progress.gif"></div>');
 
         addCameraSelect.html('');
         addCameraSelect.hide();
@@ -4251,7 +4251,7 @@ function runTimelapseDialog(cameraId, groupKey, group) {
         buttons: 'okcancel',
         content: content,
         onOk: function () {
-            var progressBar = $('<div style=""></div>');
+            var progressBar = $('<div></div>');
             makeProgressBar(progressBar);
 
             runModalDialog({
@@ -4335,11 +4335,8 @@ function runMediaDialog(cameraId, mediaType) {
     dialogDiv.append(mediaListDiv);
     dialogDiv.append(buttonsDiv);
 
-    /* add a temporary div to compute 3em in px */
-    var tempDiv = $('<div style="width: 3em; height: 3em;"></div>');
-    modalContainer.append(tempDiv);
-    var height = tempDiv.height();
-    tempDiv.remove();
+    /* compute 3em in px */
+    var height = 3 * parseFloat(getComputedStyle(modalContainer[0]).fontSize);
 
     function showGroup(key) {
         groupKey = key;
@@ -4729,7 +4726,7 @@ function addCameraFrameUi(cameraConfig) {
                     '<img class="camera">' +
                     '<div class="camera-progress"><img class="camera-progress"></div>' +
                 '</div>' +
-                '<div class="camera-overlay" style="display: none;">' +
+                '<div class="camera-overlay">' +
                     '<div class="camera-overlay-top">' +
                         '<div class="camera-top-row">' +
                             '<div class="camera-info">' +
@@ -4856,6 +4853,7 @@ function addCameraFrameUi(cameraConfig) {
 
     cameraProgress.addClass('visible');
     cameraPlaceholder.css('opacity', '0');
+    cameraOverlay.css('display', 'none');
 
     /* insert the new camera frame at the right position,
      * with respect to the camera id */

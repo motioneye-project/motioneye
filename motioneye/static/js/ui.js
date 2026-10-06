@@ -13,12 +13,12 @@ function makeCheckBox($input) {
         var text = $('<span class="check-box-text"><span>');
 
         function setOn() {
-            text.html('<img src="' + staticPath + 'img/IEC5007_On_Symbol.svg" style="width:70%;height:70%;padding:12%">');
+            text.html('<img src="' + staticPath + 'img/IEC5007_On_Symbol.svg">');
             mainDiv.addClass('on');
         }
 
         function setOff() {
-            text.html('<img src="' + staticPath + 'img/IEC5008_Off_Symbol.svg" style="width:70%;height:70%;padding:12%">');
+            text.html('<img src="' + staticPath + 'img/IEC5008_Off_Symbol.svg">');
             mainDiv.removeClass('on');
         }
 
@@ -202,7 +202,7 @@ function makeSlider($input, minVal, maxVal, snapMode, ticks, ticksNumber, decima
             for (i = 0; i < ticks.length; i++) {
                 var tick = ticks[i];
                 var pos = valToPos(tick.value);
-                var span = $('<span class="slider-label" style="left: -9999px;">' + tick.label + '</span>');
+                var span = $('<span class="slider-label">' + tick.label + '</span>');
 
                 labels.append(span);
                 span.css('left', (pos - 10) + '%');
@@ -715,7 +715,7 @@ function runModalDialog(options) {
 
     /* add supplied content */
     if (options.content) {
-        var contentWrapper = $('<div style="padding: 10px;"></div>');
+        var contentWrapper = $('<div class="modal-content"></div>');
         contentWrapper.append(options.content);
         content.append(contentWrapper);
     }

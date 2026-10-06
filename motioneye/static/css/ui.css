@@ -110,6 +110,12 @@ span.check-box-text {
     vertical-align: top;
 }
 
+span.check-box-text img {
+    width: 70%;
+    height: 70%;
+    padding: 12%;
+}
+
 div.check-box.on div.check-box-button {
     left: 50%;
     background-color: #317CAD;
@@ -348,6 +354,10 @@ div.modal-container {
     opacity: 0;
     padding: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+div.modal-content {
+    padding: 10px;
 }
 
 div.modal-title-bar {

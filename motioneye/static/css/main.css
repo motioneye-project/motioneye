@@ -468,8 +468,27 @@ div.check-box.on.section:HOVER div.check-box-button {
 }
 
 div.hidden,
+select.hidden,
 tr.hidden {
     display: none !important;
+}
+
+div.secret-field {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+div.secret-field > input {
+    flex: 1;
+}
+
+span.secret-toggle {
+    cursor: pointer;
+    padding: 0 6px;
+    font-size: 15px;
+    user-select: none;
+    opacity: 0.6;
 }
 
 span.help-mark {
@@ -535,6 +554,15 @@ table.add-camera-dialog input[type=password],
 table.edit-credentials-dialog input[type=text],
 table.edit-credentials-dialog input[type=password] {
     width: 17em;
+}
+
+div.add-camera-progress {
+    text-align: center;
+    margin: 2px;
+}
+
+div.restore-progress {
+    text-align: center;
 }
 
 span#cameraMsgLabel {
