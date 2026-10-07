@@ -853,6 +853,8 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
         # don't specify file format with -f, let ffmpeg work it out from the extension
         cmd: list = [
             'ffmpeg',
+            '-r',
+            str(framerate),
             '-f',
             'concat',
             '-protocol_whitelist',
@@ -862,8 +864,6 @@ def make_timelapse_movie(camera_config, framerate, interval, group: str):
             '-i',
             '-',
             '-y',
-            '-framerate',
-            str(framerate),
             '-vcodec',
             codec,
             '-format',
