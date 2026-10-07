@@ -31,7 +31,10 @@ __all__ = ('BaseHandler', 'NotFoundHandler', 'ManifestHandler')
 # Session expiry: 24 hours
 _SESSION_EXPIRY_SECONDS: int = 86400
 
-_CSP = "default-src 'self'; img-src 'self' http: https:; object-src 'none'; base-uri 'none'"
+_CSP = (
+    "default-src 'self'; script-src 'self'; style-src 'self'; font-src 'self'; "
+    "img-src 'self' http: https:; object-src 'none'; base-uri 'none'"
+)
 
 # In-memory session store for browser session authentication
 # Format: session_id -> {'user': role, 'expires': timestamp}
