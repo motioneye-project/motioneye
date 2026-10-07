@@ -27,6 +27,7 @@ from tornado.web import HTTPError
 from motioneye import (
     config,
     meyectl,
+    migration,
     motionctl,
     remote,
     settings,
@@ -733,6 +734,9 @@ class ConfigHandler(BaseHandler):
             raise HTTPError(400, 'file attachment required')
 
         result = config.restore(content)
+        if result and not result['reboot']:  # a reboot converts them at startup
+            migration.migrate_cameras()
+
         if result:
             return self.finish_json({'ok': True, 'reboot': result['reboot']})
 

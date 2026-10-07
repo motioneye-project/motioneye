@@ -24,6 +24,7 @@ var pageContainer = null;
 var overlayVisible = false;
 var layoutColumns = 1;
 var fitFramesVertically = false;
+var cameraOrder = []; /* camera IDs in layout order */
 // Was removed 5 years ago, needs cleanup, a25dec205b70fbf0f75f8c2f424d4920a875f399
 // var layoutRows = 1;
 var modalContainer = null;
@@ -687,6 +688,10 @@ function initUI() {
     $('#resolutionDimmerSlider').on('change', function () {
         resolutionFactor = parseInt(this.value) / 100;
         savePrefs();
+    });
+    $('#cameraOrderControlsSwitch').on('change', function () {
+        var handles = getPageContainer().find('.move-camera');
+        handles.css('display', !this.checked || handles.length < 2 ? 'none' : 'block');
     });
 
     /* various change handlers */
@@ -1433,6 +1438,10 @@ function updateConfigUI() {
         $('#videoDeviceEnabledSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
 
+    if (getCameraIds().length < 2) { /* nothing to reorder with only one camera */
+        $('#cameraOrderControlsSwitch').closest('tr.settings-item').each(markHideLogic);
+    }
+
     if ($('#videoDeviceEnabledSwitch')[0].error) { /* config error */
         $('#videoDeviceEnabledSwitch').parent().nextAll('div.settings-section-title, table.settings').each(markHideLogic);
     }
@@ -1661,7 +1670,8 @@ function prefsUi2Dict() {
         'fit_frames_vertically': $('#fitFramesVerticallySwitch')[0].checked,
         'layout_rows': parseInt($('#layoutRowsSlider').val()),
         'framerate_factor': $('#framerateDimmerSlider').val() / 100,
-        'resolution_factor': $('#resolutionDimmerSlider').val() / 100
+        'resolution_factor': $('#resolutionDimmerSlider').val() / 100,
+        'camera_order': cameraOrder
     };
 
     return dict;
@@ -1673,6 +1683,7 @@ function dict2PrefsUi(dict) {
     $('#layoutRowsSlider').val(dict['layout_rows']);
     $('#framerateDimmerSlider').val(dict['framerate_factor'] * 100);
     $('#resolutionDimmerSlider').val(dict['resolution_factor'] * 100);
+    cameraOrder = dict['camera_order'] || [];
 
     updateConfigUI();
 }
@@ -1774,13 +1785,12 @@ function dict2MainUi(dict) {
     }
 
     $('#langSelect').val(dict['lang']);
-    $('#adminUsernameEntry').val(dict['admin_username']); markHideIfNull('admin_username', 'adminUsernameEntry');
-    $('#adminPasswordEntry').val(dict['admin_password']); markHideIfNull('admin_password', 'adminPasswordEntry');
-    $('#normalUsernameEntry').val(dict['normal_username']); markHideIfNull('normal_username', 'normalUsernameEntry');
-    $('#normalPasswordEntry').val(dict['normal_password']); markHideIfNull('normal_password', 'normalPasswordEntry');
+    $('#adminUsernameEntry').val(dict['admin_username']);
+    $('#adminPasswordEntry').val('admin_password' in dict ? dict['admin_password'] : '*****');
+    $('#normalUsernameEntry').val(dict['normal_username']);
+    $('#normalPasswordEntry').val('normal_password' in dict ? dict['normal_password'] : '*****');
 
     $('#clientSecretEntry').val(dict['_client_secret'] || '');
-    markHideIfNull('_client_secret', 'clientSecretEntry');
 
     /* additional sections */
     $('input[type=checkbox].additional-section.main-config').each(function () {
@@ -2265,7 +2275,8 @@ function dict2CameraUi(dict) {
     $('#streamingPortEntry').val(dict['streaming_port']); markHideIfNull('streaming_port', 'streamingPortEntry');
     $('#streamingAuthModeSelect').val(dict['streaming_auth_mode']); markHideIfNull('streaming_auth_mode', 'streamingAuthModeSelect');
     $('#streamingUsernameEntry').val(dict['streaming_username']); markHideIfNull('streaming_username', 'streamingUsernameEntry');
-    $('#streamingPasswordEntry').val(dict['streaming_password']); markHideIfNull('streaming_password', 'streamingPasswordEntry');
+    /* Hide if streaming_username is unset, since streaming_password is not passed if not an empty string */
+    $('#streamingPasswordEntry').val('streaming_password' in dict ? dict['streaming_password'] : '*****'); markHideIfNull('streaming_username', 'streamingPasswordEntry');
     $('#streamingMotion')[0].checked = dict['streaming_motion']; markHideIfNull('streaming_motion', 'streamingMotion');
 
     var cameraUrl = location.protocol + '//' + location.host + basePath + 'picture/' + dict.id + '/';
@@ -3193,6 +3204,7 @@ function fetchCurrentConfig(onFetch) {
             initialConfigFetched = true;
 
             var i, cameras = data.cameras;
+            updateCameraOrder(cameras);
 
             /* filter shown cameras by query */
             var query = splitUrl().params;
@@ -3408,6 +3420,27 @@ function getCameraIds() {
     return getCameraFrames().map(function () {
         return this.config.id;
     }).toArray();
+}
+
+/* update the camera order from the full list before filtering the view */
+function updateCameraOrder(cameras) {
+    if (!cameras.length) {
+        return; /* nothing to position */
+    }
+
+    var ids = cameras.map(function (camera) {return camera.id;}).sort(function (a, b) {return a - b;});
+    var known = cameraOrder.filter(function (id) {return ids.indexOf(id) >= 0;});
+
+    cameraOrder = known.concat(ids.filter(function (id) {return known.indexOf(id) < 0;}));
+}
+
+function reorderCameraFrames() {
+    var frames = getPageContainer().children('div.camera-frame').get();
+    getPageContainer().append(frames.sort(function (a, b) {
+        return cameraOrder.indexOf(a.config.id) - cameraOrder.indexOf(b.config.id);
+    }));
+
+    cameraFramesCached = null; /* refresh the cached frame order */
 }
 
 
@@ -4726,6 +4759,7 @@ function addCameraFrameUi(cameraConfig) {
                     '<img class="camera">' +
                     '<div class="camera-progress"><img class="camera-progress"></div>' +
                 '</div>' +
+                '<div class="button icon mouse-effect move-camera" title="' + i18n.gettext("drag to move around") + '"></div>' +
                 '<div class="camera-overlay">' +
                     '<div class="camera-overlay-top">' +
                         '<div class="camera-top-row">' +
@@ -4876,6 +4910,97 @@ function addCameraFrameUi(cameraConfig) {
 
     /* fade in */
     cameraFrameDiv.animate({'opacity': 1}, 100);
+
+    /* camera frame reordering by drag & drop */
+    cameraFrameDiv[0].querySelector('.move-camera').onpointerdown = function (e) {
+        if (!e.isPrimary || e.button !== 0) {
+            return;
+        }
+
+        var sourceFrame = this.parentElement; /* dragged camera frame */
+        var startRect = sourceFrame.getBoundingClientRect(); /* frame position at drag start */
+        var baseRect = startRect; /* current position without the drag transform */
+        var lastX = e.clientX; /* last pointer x position */
+        var lastY = e.clientY; /* last pointer y position */
+        var currentTargetId = null; /* ID of the frame currently under the pointer */
+        var moved = false; /* whether the order changed */
+        var pointerEvents = ['pointermove', 'pointerup', 'pointercancel'];
+        sourceFrame.classList.add('dragging');
+        e.preventDefault();
+
+        /* remeasure the frame after swapping or scrolling */
+        function rebase() {
+            sourceFrame.style.transform = 'none';
+            baseRect = sourceFrame.getBoundingClientRect();
+        }
+
+        /* move the dragged frame to follow the pointer */
+        function positionGhost() {
+            sourceFrame.style.transform = 'translate(' +
+                (startRect.left + (lastX - e.clientX) - baseRect.left) + 'px, ' +
+                (startRect.top + (lastY - e.clientY) - baseRect.top) + 'px)';
+        }
+
+        /* keep the dragged frame aligned after scrolling */
+        function onScroll() {
+            rebase();
+            positionGhost();
+        }
+
+        /* update or finish the active drag */
+        function onPointerEvent(event) {
+            if (event.pointerId !== e.pointerId) {
+                return;
+            }
+            if (event.type === 'pointermove' || event.type === 'pointerup') {
+                lastX = event.clientX;
+                lastY = event.clientY;
+
+                /* pointer-events: none lets elementFromPoint() find the frame underneath */
+                var hovered = document.elementFromPoint(event.clientX, event.clientY); /* frame under pointer */
+                hovered = hovered && hovered.closest('.camera-frame');
+                if (!hovered || hovered === sourceFrame || hovered.parentElement !== sourceFrame.parentElement) {
+                    hovered = null;
+                }
+
+                /* clear the target after leaving it so re-entering swaps again */
+                if (hovered && hovered.config.id !== currentTargetId) {
+                    var sourceIndex = cameraOrder.indexOf(sourceFrame.config.id); /* dragged frame position */
+                    var hoveredIndex = cameraOrder.indexOf(hovered.config.id);
+                    cameraOrder[sourceIndex] = hovered.config.id;
+                    cameraOrder[hoveredIndex] = sourceFrame.config.id;
+                    reorderCameraFrames();
+                    rebase();
+                    moved = true;
+                }
+                currentTargetId = hovered ? hovered.config.id : null;
+
+                positionGhost();
+            }
+            if (event.type === 'pointermove') {
+                return;
+            }
+
+            /* remove drag listeners and reset the frame's drag styling */
+            pointerEvents.forEach(function (type) {document.removeEventListener(type, onPointerEvent);});
+            window.removeEventListener('scroll', onScroll, true);
+            sourceFrame.classList.remove('dragging');
+            sourceFrame.style.transform = '';
+
+            if (moved) {
+                savePrefs();
+            }
+        }
+
+        /* document receives bubbled events after re-appending the dragged frame */
+        pointerEvents.forEach(function (type) {document.addEventListener(type, onPointerEvent);});
+        window.addEventListener('scroll', onScroll, true);
+    };
+
+    /* any top button exits reorder mode */
+    cameraFrameDiv.find('.camera-top-button').on('click', function () {
+        $('#cameraOrderControlsSwitch').prop('checked', false).trigger('change');
+    });
 
     /* add the top buttons handlers */
     configureButton.on('click', function () {
@@ -5146,6 +5271,11 @@ function recreateCameraFrames(cameras) {
             addCameraFrameUi(camera);
         }
 
+        reorderCameraFrames();
+
+        $('#cameraOrderControlsSwitch').prop('checked', false).trigger('change');
+        updateConfigUI();
+
         var query = splitUrl().params;
         if ($('#cameraSelect').find('option').length < 2 && isAdmin() && !query.camera_ids) {
             /* invite the user to add a camera */
@@ -5170,6 +5300,7 @@ function recreateCameraFrames(cameras) {
                 showErrorMessage(data && data.error);
                 return;
             }
+            updateCameraOrder(data.cameras);
             updateCameras(data.cameras);
         });
     }

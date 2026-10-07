@@ -577,6 +577,7 @@ def get_camera(camera_id, as_lines=False):
             '@upload_bucket',
             '@upload_sse_c_key',
             '@remote_secret',
+            *_NOTIFICATION_KEYS,
             'camera_name',
         ],
     )
@@ -694,6 +695,60 @@ def set_camera(camera_id, camera_config):
 
     finally:
         f.close()
+
+
+# what motionEye's own on_* commands read from the camera config, by argument name
+SENDMAIL_KEYS = {
+    'server': '@email_notifications_smtp_server',
+    'port': '@email_notifications_smtp_port',
+    'account': '@email_notifications_smtp_account',
+    'password': '@email_notifications_smtp_password',
+    'tls': '@email_notifications_smtp_tls',
+    'sender': '@email_notifications_from',
+    'to': '@email_notifications_addresses',
+    'timespan': '@email_notifications_picture_time_span',
+}
+SENDTELEGRAM_KEYS = {
+    'api': '@telegram_notifications_api',
+    'chatid': '@telegram_notifications_chat_id',
+    'timespan': '@telegram_notifications_picture_time_span',
+}
+_NOTIFICATION_KEYS = [*SENDMAIL_KEYS.values(), *SENDTELEGRAM_KEYS.values()]
+MOMENT = '%Y-%m-%dT%H:%M:%S'  # the event time, expanded by motion
+_SHORT = f" %t '{MOMENT}'"
+
+
+def get_notification_settings(camera_id: Optional[int], keys: dict) -> Optional[dict]:
+    camera_config = get_camera(camera_id) if camera_id is not None else None
+    if not camera_config or not all(key in camera_config for key in keys.values()):
+        return None  # e.g. disabled since motion was started
+
+    return {name: camera_config[key] for name, key in keys.items()}
+
+
+def notification_command(data: dict, name: str, values: dict) -> str:
+    # the settings go to the camera config, only what motion expands stays on its line
+    for key, value in values.items():
+        value = str(value).strip()  # what a '# @key value' line can keep
+        if '\r' in value or '\n' in value:  # would start a new line in camera-N.conf
+            raise ValueError(f'{key[1:]} must be a single line')
+
+        data[key] = value
+
+    return meyectl.find_command(name) + _SHORT
+
+
+def _settings_to_ui(data: dict, keys: dict) -> dict:
+    # typed as the UI expects them
+    ui: dict = {key[1:]: str(data.get(key, '')) for key in keys.values()}
+    for name, value in ui.items():
+        if name.endswith('_tls'):
+            ui[name] = value.lower() == 'true'
+
+        elif name.endswith('_time_span'):
+            ui[name] = int(value) if value.isdigit() else 0
+
+    return ui
 
 
 def make_netcam_userpass(url, raw_username, raw_password, camera_id):
@@ -869,22 +924,14 @@ def main_ui_to_dict(ui):
             except Exception as e:
                 logging.error(f'password hook exec failed: {e}')
 
-    if ui.get('admin_password') is not None:
-        if ui['admin_password']:
-            data['@admin_password'] = ph.hash(ui['admin_password'])
-            invalidate_user_sessions('admin')
-        else:
-            data['@admin_password'] = ''
-
+    if ui.get('admin_password'):  # left out or empty when unchanged
+        data['@admin_password'] = ph.hash(ui['admin_password'])
+        invalidate_user_sessions('admin')
         call_hook(ui['admin_username'], ui['admin_password'])
 
-    if ui.get('normal_password') is not None:
-        if ui['normal_password']:
-            data['@normal_password'] = ph.hash(ui['normal_password'])
-            invalidate_user_sessions('normal')
-        else:
-            data['@normal_password'] = ''
-
+    if ui.get('normal_password'):
+        data['@normal_password'] = ph.hash(ui['normal_password'])
+        invalidate_user_sessions('normal')
         call_hook(ui['normal_username'], ui['normal_password'])
 
     if ui.get('lang') is not None:
@@ -909,18 +956,13 @@ def main_dict_to_ui(data):
     if data['@lang']:
         ui['lang'] = data['@lang']
 
-    # don't transmit password (or its hash) to the client;
-    # instead transmit an indication of password being set
-    if data['@admin_password']:
-        ui['admin_password'] = '*****'
-
-    else:
+    # Only transmit an empty string if no password is set, to show an empty
+    # input box in the frontend. If a password is set, transmit nothing, in
+    # which case the input box will show "*****".
+    if data['@admin_password'] == '':
         ui['admin_password'] = ''
 
-    if data['@normal_password']:
-        ui['normal_password'] = '*****'
-
-    else:
+    if data['@normal_password'] == '':
         ui['normal_password'] = ''
 
     ui['_client_secret'] = data.get('@client_secret', '')
@@ -1367,6 +1409,9 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
 
     # event start
     on_event_start = [f"{meyectl.find_command('relayevent')} start %t"]
+    for key in _NOTIFICATION_KEYS:  # stored only while enabled
+        prev_config.pop(key, None)
+
     if ui['email_notifications_enabled']:
         emails = sub(
             '\\s',
@@ -1389,37 +1434,14 @@ def motion_camera_ui_to_dict(ui, prev_config=None):
         else:
             email_from = ''
 
-        line = (
-            "%(script)s '%(server)s' '%(port)s' '%(account)s' '%(password)s' '%(tls)s' '%(from)s' '%(to)s' "
-            "'motion_start' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'"
-            % {
-                'script': meyectl.find_command('sendmail'),
-                'server': ui['email_notifications_smtp_server'],
-                'port': ui['email_notifications_smtp_port'],
-                'account': ui['email_notifications_smtp_account'],
-                'password': ui['email_notifications_smtp_password']
-                .replace(';', '\\;')
-                .replace('%', '%%'),
-                'tls': ui['email_notifications_smtp_tls'],
-                'from': email_from,
-                'to': emails,
-                'timespan': ui['email_notifications_picture_time_span'],
-            }
-        )
+        values = {key: ui[key[1:]] for key in SENDMAIL_KEYS.values()}
+        values['@email_notifications_addresses'] = emails
+        values['@email_notifications_from'] = email_from
+        on_event_start.append(notification_command(data, 'sendmail', values))
 
-        on_event_start.append(line)
     if ui['telegram_notifications_enabled']:
-        line = (
-            "%(script)s '%(api)s' '%(chatid)s' '%%t' '%%Y-%%m-%%dT%%H:%%M:%%S' '%(timespan)s'"
-            % {
-                'script': meyectl.find_command('sendtelegram'),
-                'api': ui['telegram_notifications_api'],
-                'chatid': ui['telegram_notifications_chat_id'],
-                'timespan': ui['telegram_notifications_picture_time_span'],
-            }
-        )
-
-        on_event_start.append(line)
+        values = {key: ui[key[1:]] for key in SENDTELEGRAM_KEYS.values()}
+        on_event_start.append(notification_command(data, 'sendtelegram', values))
 
     if ui['web_hook_notifications_enabled']:
         url = sub(
@@ -1594,8 +1616,6 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
         'streaming_auth_mode': {0: 'disabled', 1: 'basic', 2: 'digest'}.get(
             data.get('stream_auth_method'), 'disabled'
         ),
-        'streaming_username': '',
-        'streaming_password': '',
         'streaming_motion': int(data['stream_motion']),
         # still images
         'still_images': False,
@@ -1658,12 +1678,13 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
     }
 
     stream_authentication = data.get('stream_authentication') or ''
-    if stream_authentication:
-        parts = stream_authentication.split(':', 1)
-        streaming_username = parts[0]
-        streaming_password = parts[1] if len(parts) > 1 else ''
-        ui['streaming_username'] = streaming_username
-        ui['streaming_password'] = '*****' if streaming_password else ''
+    streaming_username, _, streaming_password = stream_authentication.partition(':')
+    ui['streaming_username'] = streaming_username
+    # Only transmit an empty string if no password is set, to show an empty
+    # input box in the frontend. If a password is set, transmit nothing, in
+    # which case the input box will show "*****".
+    if streaming_password == '':
+        ui['streaming_password'] = ''
 
     if utils.is_net_camera(data):
         ui['device_url'] = data['netcam_url']
@@ -1920,46 +1941,13 @@ def motion_camera_dict_to_ui(data):  # noqa: C901
     ui['telegram_notifications_picture_time_span'] = 0
     command_notifications = []
     for e in on_event_start:
-        if ' sendmail ' in e:
-            e = split(e)
-
-            if len(e) < 10:
-                continue
-
-            if len(e) < 16:
-                # backwards compatibility with older configs lacking "from" field
-                e.insert(-5, '')
-
+        if ' sendmail ' in e and e.endswith(_SHORT):
             ui['email_notifications_enabled'] = True
-            ui['email_notifications_smtp_server'] = e[-11]
-            ui['email_notifications_smtp_port'] = e[-10]
-            ui['email_notifications_smtp_account'] = e[-9]
-            ui['email_notifications_smtp_password'] = (
-                e[-8].replace('\\;', ';').replace('%%', '%')
-            )
-            ui['email_notifications_smtp_tls'] = e[-7].lower() == 'true'
-            ui['email_notifications_from'] = e[-6]
-            ui['email_notifications_addresses'] = e[-5]
-            try:
-                ui['email_notifications_picture_time_span'] = int(e[-1])
+            ui.update(_settings_to_ui(data, SENDMAIL_KEYS))
 
-            except (TypeError, ValueError):
-                ui['email_notifications_picture_time_span'] = 0
-
-        elif ' sendtelegram ' in e:
-            e = split(e)
-
-            if len(e) < 6:
-                continue
-
+        elif ' sendtelegram ' in e and e.endswith(_SHORT):
             ui['telegram_notifications_enabled'] = True
-            ui['telegram_notifications_api'] = e[-5]
-            ui['telegram_notifications_chat_id'] = e[-4]
-            try:
-                ui['telegram_notifications_picture_time_span'] = int(e[-1])
-
-            except (TypeError, ValueError):
-                ui['telegram_notifications_picture_time_span'] = 0
+            ui.update(_settings_to_ui(data, SENDTELEGRAM_KEYS))
 
         elif ' webhook ' in e and _parsable(e, 'on_event_start', data['@id']):
             e = split(e)

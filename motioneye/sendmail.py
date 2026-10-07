@@ -191,19 +191,17 @@ def make_message(
 
 
 def parse_options(parser, args):
-    parser.add_argument('server', help='address of the SMTP server')
-    parser.add_argument('port', help='port for the SMTP connection')
-    parser.add_argument('account', help='SMTP account name (username)')
-    parser.add_argument('password', help='SMTP account password')
-    parser.add_argument('tls', help='"true" to use TLS')
-    parser.add_argument('from', help='the email from field')
-    parser.add_argument('to', help='the email recipient(s)')
-    parser.add_argument('msg_id', help='the identifier of the message')
+    # the settings are in the camera config
     parser.add_argument('motion_camera_id', help='the id of the motion camera')
     parser.add_argument('moment', help='the moment in ISO-8601 format')
-    parser.add_argument('timespan', help='picture collection time span')
+    options, extra = parser.parse_known_args(args)
+    if extra:  # without their values, they may be secrets
+        parser.error(
+            f'{len(extra)} unexpected arguments, '
+            'motionEye converts its own older commands when it starts'
+        )
 
-    return parser.parse_args(args)
+    return options
 
 
 def main(parser, args):
@@ -214,23 +212,23 @@ def main(parser, args):
     # or otherwise media listing won't work
     signal.signal(signal.SIGCHLD, signal.SIG_DFL)
 
-    if len(args) == 12:
-        # backwards compatibility with older configs lacking "from" field
-        _from = 'motionEye on {} <{}>'.format(
-            socket.gethostname(), args[7].split(',')[0]
-        )
-        args = args[:7] + [_from] + args[7:]
-
-    if not args[7]:
-        args[7] = 'motionEye on {} <{}>'.format(
-            socket.gethostname(), args[8].split(',')[0]
-        )
-
     options = parse_options(parser, args)
 
-    meyectl.configure_logging('sendmail', options.log_to_file)
+    meyectl.configure_logging('sendmail')
 
     logging.debug('hello!')
+
+    camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
+    stored = config.get_notification_settings(camera_id, config.SENDMAIL_KEYS)
+    if not stored:
+        logging.error(f'motion camera {options.motion_camera_id} has no email settings')
+        return
+
+    vars(options).update(stored, msg_id='motion_start')
+
+    if not options.sender:
+        address = options.to.split(',')[0]
+        options.sender = f'motionEye on {socket.gethostname()} <{address}>'
 
     options.port = int(options.port)
     options.tls = options.tls.lower() == 'true'
@@ -238,14 +236,10 @@ def main(parser, args):
     message = messages.get(options.msg_id)
     subject = subjects.get(options.msg_id)
     options.moment = datetime.datetime.strptime(options.moment, '%Y-%m-%dT%H:%M:%S')
-    options.password = options.password.replace('\\;', ';')  # unescape password
 
     # do not wait too long for media list,
     # email notifications are critical
     settings.LIST_MEDIA_TIMEOUT = settings.LIST_MEDIA_TIMEOUT_EMAIL
-
-    camera_id = motionctl.motion_camera_id_to_camera_id(options.motion_camera_id)
-    _from = getattr(options, 'from')
 
     logging.debug('server = %s' % options.server)
     logging.debug('port = %s' % options.port)
@@ -253,7 +247,7 @@ def main(parser, args):
     logging.debug('password = ******')
     logging.debug('server = %s' % options.server)
     logging.debug('tls = %s' % str(options.tls).lower())
-    logging.debug('from = %s' % _from)
+    logging.debug(f'from = {options.sender}')
     logging.debug('to = %s' % options.to)
     logging.debug('msg_id = %s' % options.msg_id)
     logging.debug('motion_camera_id = %s' % options.motion_camera_id)
@@ -274,7 +268,7 @@ def main(parser, args):
                 options.account,
                 options.password,
                 options.tls,
-                _from,
+                options.sender,
                 to,
                 subject,
                 message,
