@@ -70,23 +70,9 @@
 {% endblock %}
 
 {% block inline %}
-    {{super()}}
     <!-- gettext.js required for setting language -->
     <script src="{{static_path}}js/gettext.min.js"></script>
-    <script>
-        var i18n = window.i18n();
-      {% if settings.js_translations %}
-        // Set language for JavaScript
-        i18n.loadJSON({{ settings.js_translations|tojson }}, 'messages');
-      {% endif %}
-        i18n.setLocale('{{settings.lingvo}}');
-        // Pass variables to JavaScript
-        var frame = {% if frame %}true{% else %}false{% endif %};
-        var hasLocalCamSupport = {% if has_motion %}true{% else %}false{% endif %};
-        var hasNetCamSupport = {% if has_motion %}true{% else %}false{% endif %};
-        {% if mask_width %}var maskWidth = {{mask_width}};{% endif %}
-        var currentUser = '{{ current_user or "" }}';
-    </script>
+    <script type="application/json" id="pageData">{{ {'staticPath': static_path|default('static/'), 'lingvo': settings.lingvo, 'translations': settings.js_translations, 'frame': frame|default(false), 'hasMotion': has_motion|default(false), 'maskWidth': mask_width|default(none), 'currentUser': current_user or ''}|tojson }}</script>
 {% endblock %}
 
 {% block body %}
@@ -96,8 +82,8 @@
             <div class="settings-top-bar closed">
                 <div class="button icon settings-button mouse-effect" title="{{ _("agordojn")}}"></div>
                 <div class="button icon logout-button mouse-effect" title="{{ _("ŝanĝi uzanton")}}"></div>
-                <select class="styled" id="cameraSelect" {% if not add_remove_cameras %}style="display: none;"{% endif %}></select>
-                <div class="button icon rem-camera-button mouse-effect" id="remCameraButton" title="{{ _("forigi kameraon")}}" {% if not add_remove_cameras %}style="display: none;"{% endif %}></div>
+                <select class="styled{% if not add_remove_cameras %} hidden{% endif %}" id="cameraSelect"></select>
+                <div class="button icon rem-camera-button mouse-effect{% if not add_remove_cameras %} hidden{% endif %}" id="remCameraButton" title="{{ _("forigi kameraon")}}"></div>
                 <div class="button apply-button" id="applyButton">{{ _("Apliki")}}</div>
                 {% if hostname %}<div class="hostname">{{hostname}}</div>{% endif %}
             </div>
@@ -193,9 +179,9 @@
                         <tr class="settings-item" strip="true">
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Client Secret") }}</span></td>
                             <td class="settings-item-value">
-                                <div style="display:flex;align-items:center;gap:4px;">
-                                    <input type="password" class="styled general main-config" id="clientSecretEntry" readonly="readonly" style="flex:1;">
-                                    <span class="secret-toggle" data-target="clientSecretEntry" title="{{ _("Show/hide") }}" style="cursor:pointer;padding:0 6px;font-size:15px;user-select:none;opacity:0.6;" onmouseenter="this.style.opacity='1'" onmouseleave="this.style.opacity='0.6'">👁</span>
+                                <div class="secret-field">
+                                    <input type="password" class="styled general main-config" id="clientSecretEntry" readonly="readonly">
+                                    <span class="secret-toggle" data-target="clientSecretEntry" title="{{ _("Show/hide") }}">👁</span>
                                 </div>
                             </td>
                             <td><span class="help-mark" title="{{ _("Auto-generated secret for this motionEye server. Copy this value into the Remote Secret field when adding this server as a remote camera on another motionEye server.") }}">?</span></td>
@@ -547,7 +533,7 @@
                             <td class="settings-item-label"><span class="settings-item-label"></span></td>
                             <td class="settings-item-value">
                                 <div class="html styled storage camera-config" id="authorizeLinkHtml">
-                                    <a href="javascript:authorizeUpload()">{{ _("Akiri ŝlosilon") }}</a>
+                                    <a href="#">{{ _("Akiri ŝlosilon") }}</a>
                                 </div>
                             </td>
                             <td><span class="help-mark" title="{{ _("alklaku ĉi tie por akiri la ŝlosilan rajtigan servon") }}">?</span></td>
@@ -738,7 +724,7 @@
                             <td class="settings-item-label"><span class="settings-item-label">{{ _("Utilaj URLoj") }}</span></td>
                             <td class="settings-item-value">
                                 <div class="html styled streaming camera-config" id="streamingSnapshotUrlHtml">
-                                    <a href="javascript:showSnapshotUrl()">{{ _("Instantara URL") }}</a>
+                                    <a href="#">{{ _("Instantara URL") }}</a>
                                 </div>
                             </td>
                             <td><span class="help-mark" title="{{ _("URL kiu provizas JPEG-bildon kun la plej freŝa kaptaĵo de la kamerao") }}">?</span></td>
@@ -747,7 +733,7 @@
                             <td class="settings-item-label"></td>
                             <td class="settings-item-value">
                                 <div class="html styled streaming camera-config" id="streamingMjpgUrlHtml">
-                                    <a href="javascript:showMjpgUrl()">{{ _("Flua URL") }}</a>
+                                    <a href="#">{{ _("Flua URL") }}</a>
                                 </div>
                             </td>
                             <td><span class="help-mark" title="{{ _("URL kiu provizas MJPEG-fluon de la kamerao") }}">?</span></td>
@@ -756,7 +742,7 @@
                             <td class="settings-item-label"></td>
                             <td class="settings-item-value">
                                 <div class="html styled streaming camera-config" id="streamingEmbedUrlHtml">
-                                    <a href="javascript:showEmbedUrl()">{{ _("Enigita URL") }}</a>
+                                    <a href="#">{{ _("Enigita URL") }}</a>
                                 </div>
                             </td>
                             <td><span class="help-mark" title="{{ _("URL kiu provizas minimuman HTML-dokumenton enhavantan la kameraan kadron, preta por esti enigita") }}">?</span></td>
@@ -1152,8 +1138,8 @@
                             <td><span class="help-mark" title="{{ _("difinas la bildan serĉtempan intervalon por krei telegramajn aldonojn (pli altaj valoroj generas pli da bildoj koste de pliigita sciiga prokrasto); agordi al 0 por malebligi bildajn aldonaĵojn; vi devas ankaŭ ebligi Senmovajn Bildojn por ke ĉi tio funkciu; vi volos ludi per ĉi tiu numero ĝis bildo estos sendita. Bona komenca numero estas 30 se vi agordas senmovajn bildojn al unu bildmoviĝo ekigita. Por norma movado ekigita, starigu ĉi tion multe pli malalte.") }}">?</span></td>
                         </tr>
                         <tr class="settings-item" required="true" depends="telegramNotificationsEnabled motionDetectionEnabled" strip="true">
-                            <td class="settings-item-label"><a href="https://core.telegram.org/bots#6-botfather" target="_blank"><div class="button normal-button test-button" id="apiInstructionButton" style="opacity: 1; display: inline-block;">{{ _("API-Informoj") }}</div></a></td>
-                            <td class="settings-item-label"><div class="button normal-button test-button" id="telegramTestButton" style="opacity: 1; display: inline-block;">{{ _("Testo") }}</div></td>
+                            <td class="settings-item-label"><a href="https://core.telegram.org/bots#6-botfather" target="_blank"><div class="button normal-button test-button" id="apiInstructionButton">{{ _("API-Informoj") }}</div></a></td>
+                            <td class="settings-item-label"><div class="button normal-button test-button" id="telegramTestButton">{{ _("Testo") }}</div></td>
                         </tr>
                         <tr class="settings-item" depends="motionDetectionEnabled">
                             <td colspan="100"><div class="settings-item-separator"></div></td>
@@ -1349,7 +1335,7 @@
                 </form>
             </div>
         </div>
-        <img class="background-logo" src="{{static_path}}img/motioneye-logo.svg" onmousedown="return false;">
+        <img class="background-logo" src="{{static_path}}img/motioneye-logo.svg">
         <div class="page-container"></div>
         <div class="footer">
             <div class="copyright-note">copyright &copy; <a href="https://github.com/orgs/motioneye-project/people" target="_blank" rel="noopener">The motionEye Team</a></div>
