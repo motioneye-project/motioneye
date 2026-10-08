@@ -111,6 +111,7 @@ def _list_media_files(
     *,
     min_timestamp: Optional[float] = None,
     max_timestamp: Optional[float] = None,
+    limit: Optional[int] = None,
 ) -> List[tuple]:
     # Determine scan path based on sub_path parameter
     if sub_path is not None:
@@ -126,51 +127,61 @@ def _list_media_files(
     # loop-invariant: only compute the window flag once
     windowed: bool = min_timestamp is not None or max_timestamp is not None
 
-    media_files = []
-    for entry in os.scandir(scan_path):
-        # ignore hidden files/dirs and other unwanted files
-        if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
-            continue
+    media_files: List[tuple] = []
+    # the context manager closes the scandir iterator even when the limit
+    # below breaks out of the loop early
+    with os.scandir(scan_path) as entries:
+        for entry in entries:
+            # stop walking early once enough files have been collected; with
+            # limit=1 this turns the listing into a cheap existence check
+            if limit is not None and len(media_files) >= limit:
+                break
 
-        # check if it's a file first (most common case)
-        if entry.is_file(follow_symlinks=False):
-            # filter by extension before calling stat
-            if not any(entry.path.lower().endswith(e) for e in exts):
+            # ignore hidden files/dirs and other unwanted files
+            if entry.name.startswith('.') or entry.name == 'lastsnap.jpg':
                 continue
 
-            # If stat is not needed, use None as placeholder
-            st = None
-            if with_stat or windowed:
-                # stat call may fail due to race conditions or permission issues
-                try:
-                    st = entry.stat(follow_symlinks=False)
-                except Exception as e:
-                    logging.error(f'stat failed: {e}')
+            # check if it's a file first (most common case)
+            if entry.is_file(follow_symlinks=False):
+                # filter by extension before calling stat
+                if not any(entry.path.lower().endswith(e) for e in exts):
                     continue
 
-                # Skip files outside the caller's window before any of the
-                # expensive per-file work in _do_list_media. Bounds are
-                # inclusive, i.e. wider than any caller's own filter.
-                if windowed:
-                    mtime: float = st.st_mtime
-                    if min_timestamp is not None and mtime < min_timestamp:
-                        continue
-                    if max_timestamp is not None and mtime > max_timestamp:
+                # If stat is not needed, use None as placeholder
+                st = None
+                if with_stat or windowed:
+                    # stat call may fail due to race conditions or permission issues
+                    try:
+                        st = entry.stat(follow_symlinks=False)
+                    except Exception as e:
+                        logging.error(f'stat failed: {e}')
                         continue
 
-            media_files.append((entry.path, st if with_stat else None))
+                    # Skip files outside the caller's window before any of the
+                    # expensive per-file work in _do_list_media. Bounds are
+                    # inclusive, i.e. wider than any caller's own filter.
+                    if windowed:
+                        mtime: float = st.st_mtime
+                        if min_timestamp is not None and mtime < min_timestamp:
+                            continue
+                        if max_timestamp is not None and mtime > max_timestamp:
+                            continue
 
-        # recurse into subdirectories only when no sub_path filter is set
-        elif sub_path is None and entry.is_dir(follow_symlinks=False):
-            media_files.extend(
-                _list_media_files(
-                    entry.path,
-                    exts,
-                    with_stat=with_stat,
-                    min_timestamp=min_timestamp,
-                    max_timestamp=max_timestamp,
+                media_files.append((entry.path, st if with_stat else None))
+
+            # recurse into subdirectories only when no sub_path filter is set
+            elif sub_path is None and entry.is_dir(follow_symlinks=False):
+                remaining = limit - len(media_files) if limit is not None else None
+                media_files.extend(
+                    _list_media_files(
+                        entry.path,
+                        exts,
+                        with_stat=with_stat,
+                        min_timestamp=min_timestamp,
+                        max_timestamp=max_timestamp,
+                        limit=remaining,
+                    )
                 )
-            )
 
     return media_files
 
@@ -237,6 +248,7 @@ def _do_list_media(
     with_stat: bool = True,
     min_timestamp: Optional[float] = None,
     max_timestamp: Optional[float] = None,
+    limit: Optional[int] = None,
 ) -> None:
     from mimetypes import guess_type
 
@@ -247,6 +259,7 @@ def _do_list_media(
         with_stat,
         min_timestamp=min_timestamp,
         max_timestamp=max_timestamp,
+        limit=limit,
     )
     for p, st in mf:
         path = p[len(target_dir) :]
@@ -597,6 +610,7 @@ def list_media(
     *,
     min_timestamp: Optional[float] = None,
     max_timestamp: Optional[float] = None,
+    limit: Optional[int] = None,
 ) -> Awaitable:
     target_dir: str = camera_config['target_dir']
     utils.validate_paths(prefix, target_dir=target_dir)
@@ -620,6 +634,7 @@ def list_media(
             with_stat,
             min_timestamp,
             max_timestamp,
+            limit,
         ),
     )
     process.start()
