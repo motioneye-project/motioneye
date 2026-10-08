@@ -35,7 +35,7 @@ from motioneye import (
     uploadservices,
     utils,
 )
-from motioneye.controls import mmalctl, smbctl, tzctl, v4l2ctl
+from motioneye.controls import mmalctl, smbctl, v4l2ctl
 from motioneye.controls.powerctl import PowerControl
 from motioneye.handlers.base import BaseHandler
 from motioneye.utils.mjpeg import test_mjpeg_url
@@ -194,9 +194,7 @@ class ConfigHandler(BaseHandler):
             elif utils.is_remote_camera(local_config):
                 resp = await remote.get_config(local_config)
                 if resp.error:
-                    msg = 'Failed to get remote camera configuration for {url}: {msg}.'.format(
-                        url=remote.pretty_camera_url(local_config), msg=resp.error
-                    )
+                    msg = f'failed to get remote camera config for {remote.pretty_camera_url(local_config)}: {resp.error}'
                     return self.finish_json(
                         {
                             'error': msg,
@@ -239,7 +237,7 @@ class ConfigHandler(BaseHandler):
             ui_config = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error(f'could not decode json: {str(e)}')
+            logging.error(f'could not decode json: {e}')
 
             raise
 
@@ -380,7 +378,7 @@ class ConfigHandler(BaseHandler):
 
                 if settings.SMB_SHARES:
                     logging.debug('updating SMB mounts')
-                    stop, start = smbctl.update_mounts()  # @UnusedVariable
+                    _, start = smbctl.update_mounts()
 
                     if start:
                         motionctl.start()
@@ -660,7 +658,7 @@ class ConfigHandler(BaseHandler):
             device_details = json.loads(self.request.body)
 
         except Exception as e:
-            logging.error(f'could not decode json: {str(e)}')
+            logging.error(f'could not decode json: {e}')
 
             raise
 
@@ -670,7 +668,7 @@ class ConfigHandler(BaseHandler):
             motionctl.stop()
 
             if settings.SMB_SHARES:
-                stop, start = smbctl.update_mounts()  # @UnusedVariable
+                _, start = smbctl.update_mounts()
 
                 if start:
                     motionctl.start()
@@ -717,7 +715,7 @@ class ConfigHandler(BaseHandler):
         content = config.backup()
 
         if not content:
-            raise Exception('failed to create backup file')
+            raise RuntimeError('failed to create backup file')
 
         filename = 'motioneye-config.tar.gz'
         self.set_header('Content-Type', 'application/x-compressed')
@@ -794,16 +792,13 @@ class ConfigHandler(BaseHandler):
                 try:
                     subject = sendmail.subjects['motion_start']
                     message = sendmail.messages['motion_start']
+                    now = datetime.datetime.now().astimezone()
                     format_dict = {
                         'camera': camera_config['camera_name'],
                         'hostname': socket.gethostname(),
-                        'moment': datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+                        'moment': now.strftime('%Y-%m-%d %H:%M:%S'),
+                        'timezone': now.tzname() or 'local time',
                     }
-                    if settings.LOCAL_TIME_FILE:
-                        format_dict['timezone'] = tzctl.get_time_zone()
-
-                    else:
-                        format_dict['timezone'] = 'local time'
 
                     message = message % format_dict
                     subject = subject % format_dict
@@ -847,10 +842,8 @@ class ConfigHandler(BaseHandler):
                     elif msg_lower.count('connection refused'):
                         msg = 'check SMTP port'
 
-                    logging.error(
-                        'notification email test failed: %s' % msg, exc_info=True
-                    )
-                    return self.finish_json({'error': str(msg)})
+                    logging.exception(f'notification email test failed: {msg}')
+                    return self.finish_json({'error': msg})
 
             elif what == 'telegram':
                 from motioneye import sendtelegram
@@ -868,12 +861,8 @@ class ConfigHandler(BaseHandler):
                     logging.debug('telegram notification test succeeded')
 
                 except Exception as e:
-                    msg = str(e)
-
-                    logging.error(
-                        f'telegram notification test failed: {msg}', exc_info=True
-                    )
-                    self.finish_json({'error': msg})
+                    logging.exception('telegram notification test failed')
+                    self.finish_json({'error': str(e)})
 
                 return None
 
@@ -910,7 +899,7 @@ class ConfigHandler(BaseHandler):
                     return self.finish_json({'error': str(e)})
 
             else:
-                raise HTTPError(400, 'unknown test %s' % what)
+                raise HTTPError(400, f'unknown test {what}')
 
         elif utils.is_remote_camera(camera_config):
             resp = await remote.test(camera_config, data)
@@ -932,8 +921,8 @@ class ConfigHandler(BaseHandler):
         url = uploadservices.get_authorize_url(service_name)
         if not url:
             raise HTTPError(
-                400, 'no authorization url for upload service %s' % service_name
+                400, f'no authorization url for upload service {service_name}'
             )
 
-        logging.debug('redirected to authorization url %s' % url)
+        logging.debug(f'redirected to authorization url {url}')
         self.redirect(url)

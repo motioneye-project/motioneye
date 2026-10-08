@@ -17,7 +17,6 @@
 import logging
 import os
 import re
-from subprocess import DEVNULL
 
 from motioneye import utils
 
@@ -157,11 +156,10 @@ def _list_disks_dev_by_id():
 
 def _list_disks_fdisk():
     try:
-        output = utils.call_subprocess(['fdisk', '-l'], stderr=DEVNULL)
+        output = utils.call_subprocess(['fdisk', '-l'])
 
-    except Exception as e:
-        logging.error('failed to list disks using "fdisk -l": %s' % e, exc_info=True)
-
+    except Exception:
+        logging.exception('failed to list disks using "fdisk -l"')
         return []
 
     disks = []
@@ -169,20 +167,13 @@ def _list_disks_fdisk():
 
     def add_disk(d):
         logging.debug(
-            'found disk at "%s" on bus "%s": "%s %s"'
-            % (d['target'], d['bus'], d['vendor'], d['model'])
+            f'found disk at "{d["target"]}" on bus "{d["bus"]}": "{d["vendor"]} {d["model"]}"'
         )
 
         for part in d['partitions']:
             logging.debug(
-                'found partition "%s" at "%s" on bus "%s": "%s %s"'
-                % (
-                    part['part_no'],
-                    part['target'],
-                    part['bus'],
-                    part['vendor'],
-                    part['model'],
-                )
+                f'found partition "{part["part_no"]}" at "{part["target"]}" '
+                f'on bus "{part["bus"]}": "{part["vendor"]} {part["model"]}"'
             )
 
         disks.append(d)
@@ -250,8 +241,8 @@ def list_mounted_disks():
         # filter out unmounted disks
         mounted_disks = [d for d in disks if d['partitions']]
 
-    except Exception as e:
-        logging.error('failed to list mounted disks: %s' % e, exc_info=True)
+    except Exception:
+        logging.exception('failed to list mounted disks')
 
     return mounted_disks
 
@@ -270,7 +261,7 @@ def list_mounted_partitions():
                     partition.update(mount)
                     mounted_partitions[partition['target']] = partition
 
-    except Exception as e:
-        logging.error('failed to list mounted partitions: %s' % e, exc_info=True)
+    except Exception:
+        logging.exception('failed to list mounted partitions')
 
     return mounted_partitions

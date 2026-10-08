@@ -49,7 +49,7 @@ def stop():
         _process.join(timeout=10)
 
     if _process.is_alive():
-        logging.error('cleanup process did not finish in time, killing it...')
+        logging.error('cleanup process did not finish in time, killing it ...')
         os.kill(_process.pid, signal.SIGKILL)
 
     _process = None
@@ -70,7 +70,7 @@ def _run_process():
     )
 
     if not running():  # check that the previous process has finished
-        logging.debug('running cleanup process...')
+        logging.debug('running cleanup process ...')
 
         _process = multiprocessing.Process(target=_do_cleanup)
         _process.start()
@@ -88,5 +88,5 @@ def _do_cleanup():
         mediafiles.cleanup_media('movie')
         logging.debug('cleanup done')
 
-    except Exception as e:
-        logging.error(f'failed to cleanup media files: {str(e)}', exc_info=True)
+    except Exception:
+        logging.exception('failed to cleanup media files')

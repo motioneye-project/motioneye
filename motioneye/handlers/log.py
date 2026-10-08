@@ -17,6 +17,7 @@
 
 import logging
 import os
+from typing import ClassVar
 
 from tornado.web import HTTPError
 
@@ -27,7 +28,7 @@ __all__ = ('LogHandler',)
 
 
 class LogHandler(BaseHandler):
-    LOGS = {
+    LOGS: ClassVar[dict] = {
         'motion': (os.path.join(settings.LOG_PATH, 'motion.log'), 'motion.log'),
     }
 
@@ -58,6 +59,6 @@ class LogHandler(BaseHandler):
                 output = utils.call_subprocess(path.split())
 
             except Exception as e:
-                output = 'failed to execute command: %s' % e
+                output = f'failed to execute command: {e}'
 
             self.finish(output)

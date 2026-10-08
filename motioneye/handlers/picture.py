@@ -15,10 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import logging
+from asyncio import get_running_loop
 from os.path import basename, join
+from pathlib import Path
 from re import sub
-from typing import Optional
 
 from tornado import gen
 from tornado.web import HTTPError
@@ -46,8 +49,8 @@ class PictureHandler(BaseHandler):
         self,
         camera_id: str,
         op,
-        filename: Optional[str] = None,
-        group: Optional[str] = None,
+        filename: str | None = None,
+        group: str | None = None,
     ):
         camera_id = int(camera_id)  # type: ignore[assignment]
         if camera_id not in config.get_camera_ids():
@@ -107,8 +110,8 @@ class PictureHandler(BaseHandler):
         self,
         camera_id: str,
         op,
-        filename: Optional[str] = None,
-        group: Optional[str] = None,
+        filename: str | None = None,
+        group: str | None = None,
     ):
         camera_id = int(camera_id)  # type: ignore[assignment]
         if camera_id not in config.get_camera_ids():
@@ -181,7 +184,7 @@ class PictureHandler(BaseHandler):
                 str(motionctl.is_motion_detected(camera_id)).lower(),
             )
             self.set_cookie(
-                'capture_fps_' + camera_id_str, '%.1f' % mjpgclient.get_fps(camera_id)
+                'capture_fps_' + camera_id_str, f'{mjpgclient.get_fps(camera_id):.1f}'
             )
             self.set_cookie(
                 'monitor_info_' + camera_id_str, monitor.get_monitor_info(camera_id)
@@ -199,7 +202,7 @@ class PictureHandler(BaseHandler):
             self.set_cookie(
                 'motion_detected_' + camera_id_str, str(resp.motion_detected).lower()
             )
-            self.set_cookie('capture_fps_' + camera_id_str, '%.1f' % resp.capture_fps)
+            self.set_cookie('capture_fps_' + camera_id_str, f'{resp.capture_fps:.1f}')
             self.set_cookie('monitor_info_' + camera_id_str, resp.monitor_info or '')
 
             return self.try_finish(resp.picture)
@@ -225,7 +228,7 @@ class PictureHandler(BaseHandler):
                 with_stat=with_stat,
             )
             if media_list is None:
-                return self.finish_json({'error': 'Failed to get movies list.'})
+                return self.finish_json({'error': 'failed to get movies list'})
 
             return self.finish_json(
                 {'mediaList': media_list, 'cameraName': camera_config['camera_name']}
@@ -240,9 +243,7 @@ class PictureHandler(BaseHandler):
             if resp.error:
                 return self.finish_json(
                     {
-                        'error': 'Failed to get picture list for {url}: {msg}.'.format(
-                            url=remote.pretty_camera_url(camera_config), msg=resp.error
-                        )
+                        'error': f'failed to get picture list for {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
 
@@ -301,11 +302,7 @@ class PictureHandler(BaseHandler):
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
     async def download(self, camera_id, filename):
-        logging.debug(
-            'downloading picture {filename} of camera {id}'.format(
-                filename=filename, id=camera_id
-            )
-        )
+        logging.debug(f'downloading picture {filename} of camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
@@ -326,9 +323,7 @@ class PictureHandler(BaseHandler):
             if resp.error:
                 return self.finish_json(
                     {
-                        'error': 'Failed to download picture from {url}: {msg}.'.format(
-                            url=remote.pretty_camera_url(camera_config), msg=resp.error
-                        )
+                        'error': f'failed to download picture from {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
 
@@ -348,11 +343,7 @@ class PictureHandler(BaseHandler):
     @BaseHandler.auth()
     @BaseHandler.peer_allowed()
     async def preview(self, camera_id, filename):
-        logging.debug(
-            'previewing picture {filename} of camera {id}'.format(
-                filename=filename, id=camera_id
-            )
-        )
+        logging.debug(f'previewing picture {filename} of camera {camera_id}')
 
         camera_config = config.get_camera(camera_id)
         if utils.is_local_motion_camera(camera_config):
@@ -364,18 +355,6 @@ class PictureHandler(BaseHandler):
                 height=self.get_argument('height', None),
             )
 
-            if content:
-                self.set_header('Content-Type', 'image/jpeg')
-
-            else:
-                self.set_header('Content-Type', 'image/svg+xml')
-                with open(
-                    join(settings.STATIC_PATH, 'img', 'no-preview.svg'), 'rb'
-                ) as f:
-                    content = f.read()
-
-            return self.finish(content)
-
         elif utils.is_remote_camera(camera_config):
             resp = await remote.get_media_preview(
                 camera_config,
@@ -385,18 +364,21 @@ class PictureHandler(BaseHandler):
                 height=self.get_argument('height', None),
             )
             content = resp.result
-            if content:
-                self.set_header('Content-Type', 'image/jpeg')
-
-            else:
-                self.set_header('Content-Type', 'image/svg+xml')
-                with open(join(settings.STATIC_PATH, 'img', 'no-preview.svg')) as f:
-                    content = f.read()
-
-            return self.finish(content)
 
         else:  # assuming simple mjpeg camera
             raise HTTPError(400, 'unknown operation')
+
+        if content:
+            self.set_header('Content-Type', 'image/jpeg')
+
+        else:
+            self.set_header('Content-Type', 'image/svg+xml')
+            content = await get_running_loop().run_in_executor(
+                None,
+                Path(join(settings.STATIC_PATH, 'img', 'no-preview.svg')).read_bytes,
+            )
+
+        return self.finish(content)
 
     @BaseHandler.auth(admin=True)
     @BaseHandler.peer_allowed()
@@ -419,9 +401,7 @@ class PictureHandler(BaseHandler):
             if resp.error:
                 return self.finish_json(
                     {
-                        'error': 'Failed to delete picture from {url}: {msg}.'.format(
-                            url=remote.pretty_camera_url(camera_config), msg=resp.error
-                        )
+                        'error': f'failed to delete picture from {remote.pretty_camera_url(camera_config)}: {resp.error}'
                     }
                 )
 
@@ -438,18 +418,13 @@ class PictureHandler(BaseHandler):
 
         if key:
             logging.debug(
-                'serving zip file for group "{group}" of camera {id} with key {key}'.format(
-                    group=group or 'ungrouped', id=camera_id, key=key
-                )
+                f'serving zip file for group "{group}" of camera {camera_id} with key {key}'
             )
 
             if utils.is_local_motion_camera(camera_config):
                 data = mediafiles.get_prepared_cache(key)
                 if not data:
-                    logging.error(
-                        'prepared cache data for key "%s" does not exist' % key
-                    )
-
+                    logging.error(f'prepared cache data for key "{key}" does not exist')
                     raise HTTPError(404, 'no such key')
 
                 pretty_filename = camera_config['camera_name'] + '_' + group
@@ -467,14 +442,11 @@ class PictureHandler(BaseHandler):
                     camera_config, media_type='picture', key=key, group=group
                 )
                 if resp.error:
-                    return self.finish_json(
-                        {
-                            'error': 'Failed to download zip file from {url}: {msg}.'.format(
-                                url=remote.pretty_camera_url(camera_config),
-                                msg=resp.error,
-                            )
-                        }
+                    msg = (
+                        'failed to download zip file from '
+                        f'{remote.pretty_camera_url(camera_config)}: {resp.error}'
                     )
+                    return self.finish_json({'error': msg})
 
                 self.set_header('Content-Type', resp.result['content_type'])
                 self.set_header(
@@ -487,9 +459,7 @@ class PictureHandler(BaseHandler):
 
         else:  # prepare
             logging.debug(
-                'preparing zip file for group "{group}" of camera {id}'.format(
-                    group=group or 'ungrouped', id=camera_id
-                )
+                f'preparing zip file for group "{group}" of camera {camera_id}'
             )
 
             if utils.is_local_motion_camera(camera_config):
@@ -497,13 +467,11 @@ class PictureHandler(BaseHandler):
                     camera_config, media_type='picture', group=group
                 )
                 if data is None:
-                    return self.finish_json({'error': 'Failed to create zip file.'})
+                    return self.finish_json({'error': 'failed to create zip file'})
 
                 key = mediafiles.set_prepared_cache(data)
                 logging.debug(
-                    'prepared zip file for group "{group}" of camera {id} with key {key}'.format(
-                        group=group or 'ungrouped', id=camera_id, key=key
-                    )
+                    f'prepared zip file for group "{group or "ungrouped"}" of camera {camera_id} with key {key}'
                 )
                 return self.finish_json({'key': key})
 
@@ -514,10 +482,7 @@ class PictureHandler(BaseHandler):
                 if resp.error:
                     return self.finish_json(
                         {
-                            'error': 'Failed to make zip file at {url}: {msg}.'.format(
-                                url=remote.pretty_camera_url(camera_config),
-                                msg=resp.error,
-                            )
+                            'error': f'failed to make zip file at {remote.pretty_camera_url(camera_config)}: {resp.error}'
                         }
                     )
 
@@ -535,18 +500,13 @@ class PictureHandler(BaseHandler):
 
         if key:  # download
             logging.debug(
-                'serving timelapse movie for group "{group}" of camera {id} with key {key}'.format(
-                    group=group or 'ungrouped', id=camera_id, key=key
-                )
+                f'serving timelapse movie for group "{group or "ungrouped"}" of camera {camera_id} with key {key}'
             )
 
             if utils.is_local_motion_camera(camera_config):
                 data = mediafiles.get_prepared_cache(key)
                 if data is None:
-                    logging.error(
-                        'prepared cache data for key "%s" does not exist' % key
-                    )
-
+                    logging.error(f'prepared cache data for key "{key}" does not exist')
                     raise HTTPError(404, 'no such key')
 
                 pretty_filename = camera_config['camera_name'] + '_' + group
@@ -572,11 +532,9 @@ class PictureHandler(BaseHandler):
                 resp = await remote.get_timelapse_movie(camera_config, key, group=group)
                 if resp.error:
                     msg = (
-                        'Failed to download timelapse movie from {url}: {msg}.'.format(
-                            url=remote.pretty_camera_url(camera_config), msg=resp.error
-                        )
+                        'failed to download timelapse movie from '
+                        f'{remote.pretty_camera_url(camera_config)}: {resp.error}'
                     )
-
                     return self.finish_json({'error': msg})
 
                 self.set_header('Content-Type', resp.result['content_type'])
@@ -590,9 +548,7 @@ class PictureHandler(BaseHandler):
 
         elif check:
             logging.debug(
-                'checking timelapse movie status for group "{group}" of camera {id}'.format(
-                    group=group or 'ungrouped', id=camera_id
-                )
+                f'checking timelapse movie status for group "{group or "ungrouped"}" of camera {camera_id}'
             )
 
             if utils.is_local_motion_camera(camera_config):
@@ -600,9 +556,7 @@ class PictureHandler(BaseHandler):
                 if status['progress'] == -1 and status['data']:
                     key = mediafiles.set_prepared_cache(status['data'])
                     logging.debug(
-                        'prepared timelapse movie for group "{group}" of camera {id} with key {key}'.format(
-                            group=group or 'ungrouped', id=camera_id, key=key
-                        )
+                        f'prepared timelapse movie for group "{group or "ungrouped"}" of camera {camera_id} with key {key}'
                     )
                     return self.finish_json({'key': key, 'progress': -1})
 
@@ -612,10 +566,10 @@ class PictureHandler(BaseHandler):
             elif utils.is_remote_camera(camera_config):
                 resp = await remote.check_timelapse_movie(camera_config, group=group)
                 if resp.error:
-                    msg = 'Failed to check timelapse movie progress at {url}: {msg}.'.format(
-                        url=remote.pretty_camera_url(camera_config), msg=resp.error
+                    msg = (
+                        'failed to check timelapse movie progress at '
+                        f'{remote.pretty_camera_url(camera_config)}: {resp.error}'
                     )
-
                     return self.finish_json({'error': msg})
 
                 if resp.result['progress'] == -1 and resp.result.get('key'):
@@ -631,13 +585,10 @@ class PictureHandler(BaseHandler):
             interval = int(self.get_argument('interval'))
             framerate = int(self.get_argument('framerate'))
 
-            msg = 'preparing timelapse movie for group "{group}" of camera {id} with rate {framerate}/{int}'.format(
-                group=group or 'ungrouped',
-                id=camera_id,
-                framerate=framerate,
-                int=interval,
+            logging.debug(
+                f'preparing timelapse movie for group "{group or "ungrouped"}" '
+                f'of camera {camera_id} with rate {framerate}/{interval}'
             )
-            logging.debug(msg)
 
             if utils.is_local_motion_camera(camera_config):
                 status = mediafiles.check_timelapse_movie()
@@ -657,14 +608,11 @@ class PictureHandler(BaseHandler):
                     camera_config, group=group
                 )
                 if check_timelapse_resp.error:
-                    return self.finish_json(
-                        {
-                            'error': 'Failed to make timelapse movie at {url}: {msg}.'.format(
-                                url=remote.pretty_camera_url(camera_config),
-                                msg=check_timelapse_resp.error,
-                            )
-                        }
+                    msg = (
+                        'failed to make timelapse movie at '
+                        f'{remote.pretty_camera_url(camera_config)}: {check_timelapse_resp.error}'
                     )
+                    return self.finish_json({'error': msg})
 
                 if check_timelapse_resp.result['progress'] != -1:
                     # timelapse already active
@@ -676,14 +624,11 @@ class PictureHandler(BaseHandler):
                     camera_config, framerate, interval, group=group
                 )
                 if make_timelapse_resp.error:
-                    return self.finish_json(
-                        {
-                            'error': 'Failed to make timelapse movie at {url}: {msg}.'.format(
-                                url=remote.pretty_camera_url(camera_config),
-                                msg=make_timelapse_resp.error,
-                            )
-                        }
+                    msg = (
+                        'failed to make timelapse movie at '
+                        f'{remote.pretty_camera_url(camera_config)}: {make_timelapse_resp.error}'
                     )
+                    return self.finish_json({'error': msg})
 
                 return self.finish_json({'progress': -1})
 
@@ -694,9 +639,7 @@ class PictureHandler(BaseHandler):
     @BaseHandler.peer_allowed()
     async def delete_all(self, camera_id, group):
         logging.debug(
-            'deleting picture group "{group}" of camera {id}'.format(
-                group=group or 'ungrouped', id=camera_id
-            )
+            f'deleting picture group "{group or "ungrouped"}" of camera {camera_id}'
         )
 
         camera_config = config.get_camera(camera_id)
@@ -713,13 +656,11 @@ class PictureHandler(BaseHandler):
                 camera_config, group=group, media_type='picture'
             )
             if resp.error:
-                return self.finish_json(
-                    {
-                        'error': 'Failed to delete picture group at {url}: {msg}.'.format(
-                            url=remote.pretty_camera_url(camera_config), msg=resp.error
-                        )
-                    }
+                msg = (
+                    'failed to delete picture group at '
+                    f'{remote.pretty_camera_url(camera_config)}: {resp.error}'
                 )
+                return self.finish_json({'error': msg})
 
             return self.finish_json()
 
@@ -731,6 +672,6 @@ class PictureHandler(BaseHandler):
             return self.finish(content)
 
         except OSError as e:
-            logging.warning(f'could not write response: {str(e)}')
+            logging.warning(f'could not write response: {e}')
 
             return None

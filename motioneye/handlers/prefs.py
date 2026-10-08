@@ -15,9 +15,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import json
 import logging
-from typing import Dict, List, Union
+from typing import List, Union
 
 from motioneye import prefs
 from motioneye.handlers.base import BaseHandler
@@ -29,19 +31,16 @@ PrefsValue = Union[int, float, bool, List[int]]
 
 class PrefsHandler(BaseHandler):
     @BaseHandler.auth()
-    def get(self, key: Union[str, None] = None) -> None:
+    def get(self, key: str | None = None) -> None:
         self.finish_json(prefs.get(self.current_user, key))
 
     @BaseHandler.auth()
-    def post(self, key: Union[str, None] = None) -> None:
+    def post(self, key: str | None = None) -> None:
         try:
-            value: Union[Dict[str, PrefsValue], PrefsValue] = json.loads(
-                self.request.body
-            )
+            value: dict[str, PrefsValue] | PrefsValue = json.loads(self.request.body)
 
         except Exception as e:
             logging.error(f'could not decode json: {e}')
-
             raise
 
         prefs.set(self.current_user, value, key)

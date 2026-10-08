@@ -123,7 +123,7 @@ def list_resolutions(device):
         resolutions = utils.COMMON_RESOLUTIONS
         resolutions = [r for r in resolutions if motionctl.resolution_is_valid(*r)]
 
-    resolutions = list(sorted(resolutions, key=lambda r: (r[0], r[1])))
+    resolutions = sorted(resolutions, key=lambda r: (r[0], r[1]))
     _resolutions_cache[device] = resolutions
 
     return resolutions

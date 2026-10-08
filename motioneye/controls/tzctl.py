@@ -64,7 +64,6 @@ def _get_time_zone_md5():
 
     except Exception as e:
         logging.error(f'getting md5 of zoneinfo files failed: {e}')
-
         return None
 
     lines = [line for line in output.split('\n') if line]
@@ -77,7 +76,6 @@ def _get_time_zone_md5():
 
     except Exception as e:
         logging.error(f'failed to read local time file: {e}')
-
         return None
 
     md5 = hashlib.md5(data).hexdigest()  # nosec: B324
@@ -95,7 +93,6 @@ def _set_time_zone(time_zone):
     zoneinfo_file = '/usr/share/zoneinfo/' + time_zone
     if not os.path.exists(zoneinfo_file):
         logging.error(f'{zoneinfo_file} file does not exist')
-
         return False
 
     logging.debug(f'linking "{settings.LOCAL_TIME_FILE}" to "{zoneinfo_file}"')
@@ -103,19 +100,23 @@ def _set_time_zone(time_zone):
     try:
         os.remove(settings.LOCAL_TIME_FILE)
 
-    except Exception:
+    except FileNotFoundError:
         pass  # nevermind
+
+    except OSError as e:
+        logging.error(
+            f'failed to remove "{settings.LOCAL_TIME_FILE}" before creating symlink: {e}'
+        )
+        return False
 
     try:
         os.symlink(zoneinfo_file, settings.LOCAL_TIME_FILE)
-
         return True
 
     except Exception as e:
         logging.error(
             f'failed to link "{settings.LOCAL_TIME_FILE}" to "{zoneinfo_file}": {e}'
         )
-
         return False
 
 

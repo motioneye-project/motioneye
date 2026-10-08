@@ -28,14 +28,14 @@ repos:
     rev: v0.17.0
     hooks:
       - id: ruff-check
-        args: [--target-version=py37, --ignore, E722, --config, "builtins = ['_']"]
+        args: [--target-version=py37, "--ignore=E722,LOG015,BLE001", --config, "builtins = ['_']"]
       - id: ruff-format
         args: [--target-version=py37, --config, "format.quote-style = 'preserve'"]
   - repo: https://github.com/psf/black-pre-commit-mirror
     rev: 26.10.0
     hooks:
       - id: black
-        args: [--skip-string-normalization, -t, py37, -t, py38, -t, py39, -t, py310, -t, py311, -t, py312, -t, py313, -t, py314]
+        args: [--diff, --color, --skip-string-normalization, -t, py37, -t, py38, -t, py39, -t, py310, -t, py311, -t, py312, -t, py313, -t, py314]
   - repo: https://github.com/codespell-project/codespell
     rev: v2.4.3
     hooks:

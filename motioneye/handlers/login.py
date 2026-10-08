@@ -15,10 +15,12 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from __future__ import annotations
+
 import logging
 from hashlib import sha1
 from secrets import compare_digest
-from typing import Any, Dict
+from typing import Any
 
 from argon2 import PasswordHasher
 from argon2.exceptions import InvalidHash, VerificationError, VerifyMismatchError
@@ -149,7 +151,7 @@ class LoginHandler(BaseHandler):
             samesite='Strict',
         )
 
-        response: Dict[str, Any] = {'user': user_type}
+        response: dict[str, Any] = {'user': user_type}
 
         if hash_type == 'missing':
             response['force_password_change'] = True

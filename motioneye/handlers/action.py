@@ -120,7 +120,7 @@ class ActionHandler(BaseHandler):
                     logging.warning(f'{command}: {line}')
 
             else:
-                logging.debug('%s: command has finished' % command)
+                logging.debug(f'{command}: command has finished')
                 for line in lines:
                     logging.debug(f'{command}: {line}')
 
